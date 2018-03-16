@@ -7,18 +7,26 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class CharacterEditor extends Application {
 
+	private GridPane grid;
+	private Spinner<Integer> strengthSpinner, intelligenceSpinner, dexteritySpinner, healthSpinner;
+	private SpinnerValueFactory<Integer> attributeFactory;
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		attributeFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 10);
+
 		Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 		primaryStage.setTitle("Character Editor");
 
-		GridPane grid = new GridPane();
+		grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
@@ -36,24 +44,33 @@ public class CharacterEditor extends Application {
 		Label htLabel = new Label("HT");
 		grid.add(htLabel, 0, 3);
 
-		TextField stTextField = new TextField();
-		stTextField.setPrefColumnCount(2);
-		grid.add(stTextField, 1, 0);
+		Label characterPointsLabel = new Label("CP");
+		grid.add(characterPointsLabel, 0, 4);
 
-		TextField dxTextField = new TextField();
-		dxTextField.setPrefColumnCount(2);
-		grid.add(dxTextField, 1, 1);
-
-		TextField iqTextField = new TextField();
-		iqTextField.setPrefColumnCount(2);
-		grid.add(iqTextField, 1, 2);
-
-		TextField htTextField = new TextField();
-		htTextField.setPrefColumnCount(2);
-		grid.add(htTextField, 1, 3);
+		strengthSpinner = createSpinner(1, 0);
+		dexteritySpinner = createSpinner(1, 1);
+		intelligenceSpinner = createSpinner(1, 2);
+		healthSpinner = createSpinner(1, 3);
 
 		primaryStage.setScene(new Scene(grid, 300, 275));
 		primaryStage.show();
+	}
+
+	private Spinner<Integer> createSpinner(int columnIndex, int rowIndex) {
+		Spinner<Integer> spinner = new Spinner<>();
+		spinner.setValueFactory(attributeFactory);
+		spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+			readData();
+		});
+		grid.add(spinner, columnIndex, rowIndex);
+
+		return spinner;
+	}
+
+	private void readData() {
+		int strength = strengthSpinner.getValue();
+
+		System.out.printf("ST: %d", strength);
 	}
 
 
