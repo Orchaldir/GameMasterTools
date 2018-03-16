@@ -12,7 +12,7 @@ public class CostCalculator {
 		return value - ATTRIBUTE_DEFAULT_VALUE;
 	}
 
-	public int calculateCharacterPoints(Character charcater) {
+	public int calculate(Character charcater) {
 		int strengthCost = getAttributeModifier(charcater.getStrength()) * STRENGTH_COST;
 		int dexterityCost = getAttributeModifier(charcater.getDexterity()) * DEXTERITY_COST;
 		int intelligenceCost = getAttributeModifier(charcater.getIntelligence()) * INTELLIGENCE_COST;

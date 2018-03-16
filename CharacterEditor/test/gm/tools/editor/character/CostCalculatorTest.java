@@ -18,7 +18,7 @@ public class CostCalculatorTest {
 
 	@Test
 	public void calculateCharacterPoints() {
-		assertEquals(0, costCalculator.calculateCharacterPoints(template0));
-		assertEquals(150, costCalculator.calculateCharacterPoints(template1));
+		assertEquals(0, costCalculator.calculate(template0));
+		assertEquals(150, costCalculator.calculate(template1));
 	}
 }

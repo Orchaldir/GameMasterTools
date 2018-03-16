@@ -2,6 +2,7 @@ package gm.tools.editor;
 
 import gm.tools.editor.character.CharacterTemplate;
 import gm.tools.editor.character.CostCalculator;
+import gm.tools.editor.character.characteristcs.BasicLiftCalculator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -20,9 +21,10 @@ public class CharacterEditor extends Application {
 	private GridPane grid;
 	private TextField nameTextField;
 	private Spinner<Integer> strengthSpinner, intelligenceSpinner, dexteritySpinner, healthSpinner;
-	private Label characterPointsValueLabel;
+	private Label characterPointsValueLabel, basicLiftValueLabel;
 
 	private CostCalculator costCalculator = new CostCalculator();
+	private BasicLiftCalculator basicLiftCalculator = new BasicLiftCalculator();
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -53,6 +55,12 @@ public class CharacterEditor extends Application {
 		Label characterPointsLabel = new Label("CP");
 		grid.add(characterPointsLabel, 0, 5);
 
+		Label basicLiftLabel = new Label("BL");
+		grid.add(basicLiftLabel, 4, 1);
+
+		basicLiftValueLabel = new Label("0");
+		grid.add(basicLiftValueLabel, 5, 1);
+
 		characterPointsValueLabel = new Label("0");
 		grid.add(characterPointsValueLabel, 1, 5);
 
@@ -63,6 +71,8 @@ public class CharacterEditor extends Application {
 
 		primaryStage.setScene(new Scene(grid, 300, 275));
 		primaryStage.show();
+
+		readData();
 	}
 
 	private Spinner<Integer> createSpinner(int columnIndex, int rowIndex) {
@@ -83,7 +93,9 @@ public class CharacterEditor extends Application {
 
 		CharacterTemplate template = new CharacterTemplate(nameTextField.getText(), strengthSpinner.getValue(), dexteritySpinner.getValue(), intelligenceSpinner.getValue(), healthSpinner.getValue());
 
-		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculateCharacterPoints(template)));
+		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));
+
+		basicLiftValueLabel.setText(Integer.toString(basicLiftCalculator.calculate(template)));
 	}
 
 
