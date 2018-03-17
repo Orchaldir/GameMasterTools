@@ -3,16 +3,21 @@ package gm.tools.editor.character;
 public class CharacterTemplateBuilder {
 	private final String name;
 
+	// attributes
 	private int strength = 10;
 	private int dexterity = 10;
 	private int intelligence = 10;
 	private int health = 10;
 
+	// secondary characteristics
 	private int hitPointsModifier = 0;
+	private int willModifier = 0;
 
 	public CharacterTemplateBuilder(String name) {
 		this.name = name;
 	}
+
+	// attributes
 
 	public CharacterTemplateBuilder setAttributes(int strength, int dexterity, int intelligence, int health) {
 		this.strength = strength;
@@ -42,12 +47,19 @@ public class CharacterTemplateBuilder {
 		return this;
 	}
 
+	// secondary characteristics
+
 	public CharacterTemplateBuilder setHitPointsModifier(int hitPointsModifier) {
 		this.hitPointsModifier = hitPointsModifier;
 		return this;
 	}
 
+	public CharacterTemplateBuilder setWillModifier(int willModifier) {
+		this.willModifier = willModifier;
+		return this;
+	}
+
 	public CharacterTemplate createCharacterTemplate() {
-		return new CharacterTemplate(name, strength, dexterity, intelligence, health, hitPointsModifier);
+		return new CharacterTemplate(name, strength, dexterity, intelligence, health, hitPointsModifier, willModifier);
 	}
 }
