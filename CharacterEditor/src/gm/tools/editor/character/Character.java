@@ -14,4 +14,6 @@ public interface Character {
 	int getFatiguePointsModifier();
 
 	int getBasicSpeedModifier();
+
+	int getBasicMoveModifier();
 }

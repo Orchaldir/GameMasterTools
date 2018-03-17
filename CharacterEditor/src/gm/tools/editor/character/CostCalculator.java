@@ -15,6 +15,7 @@ public class CostCalculator {
 	public static final int PERCEPTION_COST = 5;
 	public static final int FATIGUE_POINTS_COST = 3;
 	public static final int BASIC_SPEED_COST = 5;
+	public static final int BASIC_MOVE_COST = 5;
 
 	public int getAttributeModifier(int value) {
 		return value - ATTRIBUTE_DEFAULT_VALUE;
@@ -35,8 +36,9 @@ public class CostCalculator {
 		int perceptionCost = character.getPerceptionModifier() * PERCEPTION_COST;
 		int fatiguePointsCost = character.getFatiguePointsModifier() * FATIGUE_POINTS_COST;
 		int basicSpeedCost = character.getBasicSpeedModifier() * BASIC_SPEED_COST;
+		int basicMoveCost = character.getBasicMoveModifier() * BASIC_MOVE_COST;
 
-		return hitPointsCost + willCost + perceptionCost + fatiguePointsCost + basicSpeedCost;
+		return hitPointsCost + willCost + perceptionCost + fatiguePointsCost + basicSpeedCost + basicMoveCost;
 	}
 
 	public int calculate(Character character) {

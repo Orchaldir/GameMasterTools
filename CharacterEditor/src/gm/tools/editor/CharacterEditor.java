@@ -41,6 +41,7 @@ public class CharacterEditor extends Application {
 
 	private BasicLiftCalculator basicLiftCalculator = new BasicLiftCalculator();
 	private BasicSpeedCalculator basicSpeedCalculator = new BasicSpeedCalculator();
+	private BasicMoveCalculator basicMoveCalculator = new BasicMoveCalculator(basicSpeedCalculator);
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -77,6 +78,7 @@ public class CharacterEditor extends Application {
 		createCharacteristic(SecondaryCharacteristic.FATIGUE_POINTS, "FP", 2, 4);
 
 		createCharacteristic(SecondaryCharacteristic.BASIC_SPEED, "BS", 5, 2);
+		createCharacteristic(SecondaryCharacteristic.BASIC_MOVE, "BM", 5, 3);
 
 		Label basicLiftLabel = new Label("BL");
 		grid.add(basicLiftLabel, 5, 1);
@@ -140,6 +142,7 @@ public class CharacterEditor extends Application {
 		int fatiguePoints = characteristicSpinnerMap.get(SecondaryCharacteristic.FATIGUE_POINTS).getValue();
 
 		int basicSpeed = characteristicSpinnerMap.get(SecondaryCharacteristic.BASIC_SPEED).getValue();
+		int basicMove = characteristicSpinnerMap.get(SecondaryCharacteristic.BASIC_MOVE).getValue();
 
 		CharacterTemplateBuilder builder = new CharacterTemplateBuilder(nameTextField.getText());
 		builder.setAttributes(strength, dexterity, intelligence, health);
@@ -148,6 +151,7 @@ public class CharacterEditor extends Application {
 		builder.setPerceptionModifier(perception);
 		builder.setFatiguePointsModifier(fatiguePoints);
 		builder.setBasicSpeedModifier(basicSpeed);
+		builder.setBasicMoveModifier(basicMove);
 		CharacterTemplate template = builder.createCharacterTemplate();
 
 		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));
@@ -158,7 +162,8 @@ public class CharacterEditor extends Application {
 		characteristicValueLabelMap.get(SecondaryCharacteristic.FATIGUE_POINTS).setText(Integer.toString(fatiguePointsCalculator.calculate(template)));
 
 		characteristicValueLabelMap.get(SecondaryCharacteristic.BASIC_LIFT).setText(Integer.toString(basicLiftCalculator.calculate(template)));
-		characteristicValueLabelMap.get(SecondaryCharacteristic.BASIC_SPEED).setText(Double.toString(basicSpeedCalculator.calculate(template)));
+		characteristicValueLabelMap.get(SecondaryCharacteristic.BASIC_SPEED).setText(String.format("%.2f", basicSpeedCalculator.calculate(template)));
+		characteristicValueLabelMap.get(SecondaryCharacteristic.BASIC_MOVE).setText(Integer.toString(basicMoveCalculator.calculate(template)));
 	}
 
 
