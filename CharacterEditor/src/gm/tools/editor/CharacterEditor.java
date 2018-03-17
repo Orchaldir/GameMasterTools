@@ -5,6 +5,7 @@ import gm.tools.editor.character.CharacterTemplateBuilder;
 import gm.tools.editor.character.CostCalculator;
 import gm.tools.editor.character.characteristcs.BasicLiftCalculator;
 import gm.tools.editor.character.characteristcs.HitPointsCalculator;
+import gm.tools.editor.character.characteristcs.WillCalculator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -22,12 +23,13 @@ public class CharacterEditor extends Application {
 
 	private GridPane grid;
 	private TextField nameTextField;
-	private Spinner<Integer> strengthSpinner, intelligenceSpinner, dexteritySpinner, healthSpinner, hitPointsSpinner;
-	private Label characterPointsValueLabel, basicLiftValueLabel, hitPointsValueLabel;
+	private Spinner<Integer> strengthSpinner, intelligenceSpinner, dexteritySpinner, healthSpinner, hitPointsSpinner, willSpinner;
+	private Label characterPointsValueLabel, basicLiftValueLabel, hitPointsValueLabel, willValueLabel;
 
 	private CostCalculator costCalculator = new CostCalculator();
 	private BasicLiftCalculator basicLiftCalculator = new BasicLiftCalculator();
 	private HitPointsCalculator hitPointsCalculator = new HitPointsCalculator();
+	private WillCalculator willCalculator = new WillCalculator();
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -78,6 +80,14 @@ public class CharacterEditor extends Application {
 		hitPointsValueLabel = new Label("0");
 		grid.add(hitPointsValueLabel, 4, 1);
 
+		Label willLabel = new Label("Will");
+		grid.add(willLabel, 2, 2);
+
+		willSpinner = createSpinner(3, 2, -10, +10, 0);
+
+		willValueLabel = new Label("0");
+		grid.add(willValueLabel, 4, 2);
+
 		Label basicLiftLabel = new Label("BL");
 		grid.add(basicLiftLabel, 5, 1);
 
@@ -115,11 +125,14 @@ public class CharacterEditor extends Application {
 		CharacterTemplateBuilder builder = new CharacterTemplateBuilder(nameTextField.getText());
 		builder.setAttributes(strengthSpinner.getValue(), dexteritySpinner.getValue(), intelligenceSpinner.getValue(), healthSpinner.getValue());
 		builder.setHitPointsModifier(hitPointsSpinner.getValue());
+		builder.setWillModifier(willSpinner.getValue());
 		CharacterTemplate template = builder.createCharacterTemplate();
 
 		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));
 
 		hitPointsValueLabel.setText(Integer.toString(hitPointsCalculator.calculate(template)));
+
+		willValueLabel.setText(Integer.toString(willCalculator.calculate(template)));
 
 		basicLiftValueLabel.setText(Integer.toString(basicLiftCalculator.calculate(template)));
 	}

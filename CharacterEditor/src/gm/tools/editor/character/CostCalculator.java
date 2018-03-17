@@ -3,30 +3,40 @@ package gm.tools.editor.character;
 public class CostCalculator {
 	public static final int ATTRIBUTE_DEFAULT_VALUE = 10;
 
+	// attributes
 	public static final int STRENGTH_COST = 10;
 	public static final int DEXTERITY_COST = 20;
 	public static final int INTELLIGENCE_COST = 20;
 	public static final int HEALTH_COST = 10;
 
+	// secondary characteristics
 	public static final int HIT_POINTS_COST = 2;
+	public static final int WILL_COST = 5;
 
 	public int getAttributeModifier(int value) {
 		return value - ATTRIBUTE_DEFAULT_VALUE;
 	}
 
-	public int calculateCostOfAttributes(Character charcater) {
-		int strengthCost = getAttributeModifier(charcater.getStrength()) * STRENGTH_COST;
-		int dexterityCost = getAttributeModifier(charcater.getDexterity()) * DEXTERITY_COST;
-		int intelligenceCost = getAttributeModifier(charcater.getIntelligence()) * INTELLIGENCE_COST;
-		int healthCost = getAttributeModifier(charcater.getHealth()) * HEALTH_COST;
+	public int calculateCostOfAttributes(Character character) {
+		int strengthCost = getAttributeModifier(character.getStrength()) * STRENGTH_COST;
+		int dexterityCost = getAttributeModifier(character.getDexterity()) * DEXTERITY_COST;
+		int intelligenceCost = getAttributeModifier(character.getIntelligence()) * INTELLIGENCE_COST;
+		int healthCost = getAttributeModifier(character.getHealth()) * HEALTH_COST;
 
 		return strengthCost + dexterityCost + intelligenceCost + healthCost;
 	}
 
-	public int calculate(Character charcater) {
-		int attributesCost = calculateCostOfAttributes(charcater);
-		int hitPointsCost = charcater.getHitPointsModifier() * HIT_POINTS_COST;
+	public int calculateCostOfSecondaryCharacteristics(Character character) {
+		int hitPointsCost = character.getHitPointsModifier() * HIT_POINTS_COST;
+		int willCost = character.getWillModifier() * WILL_COST;
 
-		return attributesCost + hitPointsCost;
+		return hitPointsCost + willCost;
+	}
+
+	public int calculate(Character character) {
+		int attributesCost = calculateCostOfAttributes(character);
+		int secondaryCharacteristicsCost = calculateCostOfSecondaryCharacteristics(character);
+
+		return attributesCost + secondaryCharacteristicsCost;
 	}
 }
