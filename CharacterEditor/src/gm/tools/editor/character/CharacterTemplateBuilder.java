@@ -12,6 +12,7 @@ public class CharacterTemplateBuilder {
 	// secondary characteristics
 	private int hitPointsModifier = 0;
 	private int willModifier = 0;
+	private int perceptionModifier = 0;
 
 	public CharacterTemplateBuilder(String name) {
 		this.name = name;
@@ -59,7 +60,12 @@ public class CharacterTemplateBuilder {
 		return this;
 	}
 
+	public CharacterTemplateBuilder setPerceptionModifier(int perceptionModifier) {
+		this.perceptionModifier = perceptionModifier;
+		return this;
+	}
+
 	public CharacterTemplate createCharacterTemplate() {
-		return new CharacterTemplate(name, strength, dexterity, intelligence, health, hitPointsModifier, willModifier);
+		return new CharacterTemplate(name, strength, dexterity, intelligence, health, hitPointsModifier, willModifier, perceptionModifier);
 	}
 }

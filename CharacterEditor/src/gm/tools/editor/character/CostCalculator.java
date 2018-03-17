@@ -12,6 +12,7 @@ public class CostCalculator {
 	// secondary characteristics
 	public static final int HIT_POINTS_COST = 2;
 	public static final int WILL_COST = 5;
+	public static final int PERCEPTION_COST = 5;
 
 	public int getAttributeModifier(int value) {
 		return value - ATTRIBUTE_DEFAULT_VALUE;
@@ -29,8 +30,9 @@ public class CostCalculator {
 	public int calculateCostOfSecondaryCharacteristics(Character character) {
 		int hitPointsCost = character.getHitPointsModifier() * HIT_POINTS_COST;
 		int willCost = character.getWillModifier() * WILL_COST;
+		int perceptionCost = character.getPerceptionModifier() * PERCEPTION_COST;
 
-		return hitPointsCost + willCost;
+		return hitPointsCost + willCost + perceptionCost;
 	}
 
 	public int calculate(Character character) {

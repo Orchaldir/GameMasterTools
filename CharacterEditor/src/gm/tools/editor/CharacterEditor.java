@@ -3,9 +3,7 @@ package gm.tools.editor;
 import gm.tools.editor.character.CharacterTemplate;
 import gm.tools.editor.character.CharacterTemplateBuilder;
 import gm.tools.editor.character.CostCalculator;
-import gm.tools.editor.character.characteristcs.BasicLiftCalculator;
-import gm.tools.editor.character.characteristcs.HitPointsCalculator;
-import gm.tools.editor.character.characteristcs.WillCalculator;
+import gm.tools.editor.character.characteristcs.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -19,17 +17,24 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CharacterEditor extends Application {
 
 	private GridPane grid;
 	private TextField nameTextField;
-	private Spinner<Integer> strengthSpinner, intelligenceSpinner, dexteritySpinner, healthSpinner, hitPointsSpinner, willSpinner;
-	private Label characterPointsValueLabel, basicLiftValueLabel, hitPointsValueLabel, willValueLabel;
+	private Map<Attribute, Spinner<Integer>> attributeSpinnerMap = new HashMap<>();
+	private Map<SecondaryCharacteristic, Spinner<Integer>> characteristicSpinnerMap = new HashMap<>();
+	private Map<SecondaryCharacteristic, Label> characteristicValueLabelMap = new HashMap<>();
+
+	private Label characterPointsValueLabel, basicLiftValueLabel;
 
 	private CostCalculator costCalculator = new CostCalculator();
 	private BasicLiftCalculator basicLiftCalculator = new BasicLiftCalculator();
 	private HitPointsCalculator hitPointsCalculator = new HitPointsCalculator();
 	private WillCalculator willCalculator = new WillCalculator();
+	private PerceptionCalculator perceptionCalculator = new PerceptionCalculator();
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -53,40 +58,16 @@ public class CharacterEditor extends Application {
 
 		// attributes
 
-		Label stLabel = new Label("ST");
-		grid.add(stLabel, 0, 1);
-
-		Label dxLabel = new Label("DX");
-		grid.add(dxLabel, 0, 2);
-
-		Label iqLabel = new Label("IQ");
-		grid.add(iqLabel, 0, 3);
-
-		Label htLabel = new Label("HT");
-		grid.add(htLabel, 0, 4);
-
-		strengthSpinner = createAttributeSpinner(1, 1);
-		dexteritySpinner = createAttributeSpinner(1, 2);
-		intelligenceSpinner = createAttributeSpinner(1, 3);
-		healthSpinner = createAttributeSpinner(1, 4);
+		createAttribute(Attribute.STRENGTH, "ST", 0, 1);
+		createAttribute(Attribute.DEXTERITY, "DX", 0, 2);
+		createAttribute(Attribute.INTELLIGENCE, "IQ", 0, 3);
+		createAttribute(Attribute.HEALTH, "HT", 0, 4);
 
 		// secondary characteristics
 
-		Label hitPointsLabel = new Label("HP");
-		grid.add(hitPointsLabel, 2, 1);
-
-		hitPointsSpinner = createSpinner(3, 1, -10, +10, 0);
-
-		hitPointsValueLabel = new Label("0");
-		grid.add(hitPointsValueLabel, 4, 1);
-
-		Label willLabel = new Label("Will");
-		grid.add(willLabel, 2, 2);
-
-		willSpinner = createSpinner(3, 2, -10, +10, 0);
-
-		willValueLabel = new Label("0");
-		grid.add(willValueLabel, 4, 2);
+		createCharacteristic(SecondaryCharacteristic.HIT_POINTS, "HP", 2, 1);
+		createCharacteristic(SecondaryCharacteristic.WILL, "Will", 2, 2);
+		createCharacteristic(SecondaryCharacteristic.PERCEPTION, "Per", 2, 3);
 
 		Label basicLiftLabel = new Label("BL");
 		grid.add(basicLiftLabel, 5, 1);
@@ -100,6 +81,24 @@ public class CharacterEditor extends Application {
 		primaryStage.show();
 
 		readData();
+	}
+
+	private void createAttribute(Attribute attribute, String text, int columnIndex, int rowIndex) {
+		Label label = new Label(text);
+		grid.add(label, columnIndex, rowIndex);
+
+		attributeSpinnerMap.put(attribute, createAttributeSpinner(columnIndex + 1, rowIndex));
+	}
+
+	private void createCharacteristic(SecondaryCharacteristic characteristic, String text, int columnIndex, int rowIndex) {
+		Label label = new Label(text);
+		grid.add(label, columnIndex, rowIndex);
+
+		characteristicSpinnerMap.put(characteristic, createSpinner(columnIndex + 1, rowIndex, -10, +10, 0));
+
+		Label valueLabel = new Label("0");
+		grid.add(valueLabel, columnIndex + 2, rowIndex);
+		characteristicValueLabelMap.put(characteristic, valueLabel);
 	}
 
 	private Spinner<Integer> createAttributeSpinner(int columnIndex, int rowIndex) {
@@ -120,19 +119,27 @@ public class CharacterEditor extends Application {
 	}
 
 	private void readData() {
-		int strength = strengthSpinner.getValue();
+		int strength = attributeSpinnerMap.get(Attribute.STRENGTH).getValue();
+		int dexterity = attributeSpinnerMap.get(Attribute.DEXTERITY).getValue();
+		int intelligence = attributeSpinnerMap.get(Attribute.INTELLIGENCE).getValue();
+		int health = attributeSpinnerMap.get(Attribute.HEALTH).getValue();
+
+		int hitPoints = characteristicSpinnerMap.get(SecondaryCharacteristic.HIT_POINTS).getValue();
+		int will = characteristicSpinnerMap.get(SecondaryCharacteristic.WILL).getValue();
+		int perception = characteristicSpinnerMap.get(SecondaryCharacteristic.PERCEPTION).getValue();
 
 		CharacterTemplateBuilder builder = new CharacterTemplateBuilder(nameTextField.getText());
-		builder.setAttributes(strengthSpinner.getValue(), dexteritySpinner.getValue(), intelligenceSpinner.getValue(), healthSpinner.getValue());
-		builder.setHitPointsModifier(hitPointsSpinner.getValue());
-		builder.setWillModifier(willSpinner.getValue());
+		builder.setAttributes(strength, dexterity, intelligence, health);
+		builder.setHitPointsModifier(hitPoints);
+		builder.setWillModifier(will);
+		builder.setPerceptionModifier(perception);
 		CharacterTemplate template = builder.createCharacterTemplate();
 
 		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));
 
-		hitPointsValueLabel.setText(Integer.toString(hitPointsCalculator.calculate(template)));
-
-		willValueLabel.setText(Integer.toString(willCalculator.calculate(template)));
+		characteristicValueLabelMap.get(SecondaryCharacteristic.HIT_POINTS).setText(Integer.toString(hitPointsCalculator.calculate(template)));
+		characteristicValueLabelMap.get(SecondaryCharacteristic.WILL).setText(Integer.toString(willCalculator.calculate(template)));
+		characteristicValueLabelMap.get(SecondaryCharacteristic.PERCEPTION).setText(Integer.toString(perceptionCalculator.calculate(template)));
 
 		basicLiftValueLabel.setText(Integer.toString(basicLiftCalculator.calculate(template)));
 	}

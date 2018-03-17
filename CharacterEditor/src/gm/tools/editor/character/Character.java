@@ -7,6 +7,7 @@ public interface Character {
 	int getHealth();
 
 	int getHitPointsModifier();
-
 	int getWillModifier();
+
+	int getPerceptionModifier();
 }
