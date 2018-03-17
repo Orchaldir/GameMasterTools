@@ -20,8 +20,8 @@ public class CharacterEditor extends Application {
 
 	private GridPane grid;
 	private TextField nameTextField;
-	private Spinner<Integer> strengthSpinner, intelligenceSpinner, dexteritySpinner, healthSpinner;
-	private Label characterPointsValueLabel, basicLiftValueLabel;
+	private Spinner<Integer> strengthSpinner, intelligenceSpinner, dexteritySpinner, healthSpinner, hitPointsSpinner;
+	private Label characterPointsValueLabel, basicLiftValueLabel, hitPointsValueLabel;
 
 	private CostCalculator costCalculator = new CostCalculator();
 	private BasicLiftCalculator basicLiftCalculator = new BasicLiftCalculator();
@@ -40,6 +40,14 @@ public class CharacterEditor extends Application {
 		nameTextField = new TextField("Character");
 		grid.add(nameTextField, 0, 0, 2, 1);
 
+		Label characterPointsLabel = new Label("CP");
+		grid.add(characterPointsLabel, 0, 5);
+
+		characterPointsValueLabel = new Label("0");
+		grid.add(characterPointsValueLabel, 1, 5);
+
+		// attributes
+
 		Label stLabel = new Label("ST");
 		grid.add(stLabel, 0, 1);
 
@@ -52,32 +60,42 @@ public class CharacterEditor extends Application {
 		Label htLabel = new Label("HT");
 		grid.add(htLabel, 0, 4);
 
-		Label characterPointsLabel = new Label("CP");
-		grid.add(characterPointsLabel, 0, 5);
+		strengthSpinner = createAttributeSpinner(1, 1);
+		dexteritySpinner = createAttributeSpinner(1, 2);
+		intelligenceSpinner = createAttributeSpinner(1, 3);
+		healthSpinner = createAttributeSpinner(1, 4);
+
+		// secondary characteristics
+
+		Label hitPointsLabel = new Label("HP");
+		grid.add(hitPointsLabel, 2, 1);
+
+		hitPointsSpinner = createSpinner(3, 1, -10, +10, 0);
+
+		hitPointsValueLabel = new Label("0");
+		grid.add(hitPointsValueLabel, 4, 1);
 
 		Label basicLiftLabel = new Label("BL");
-		grid.add(basicLiftLabel, 4, 1);
+		grid.add(basicLiftLabel, 5, 1);
 
 		basicLiftValueLabel = new Label("0");
-		grid.add(basicLiftValueLabel, 5, 1);
+		grid.add(basicLiftValueLabel, 6, 1);
 
-		characterPointsValueLabel = new Label("0");
-		grid.add(characterPointsValueLabel, 1, 5);
+		//
 
-		strengthSpinner = createSpinner(1, 1);
-		dexteritySpinner = createSpinner(1, 2);
-		intelligenceSpinner = createSpinner(1, 3);
-		healthSpinner = createSpinner(1, 4);
-
-		primaryStage.setScene(new Scene(grid, 300, 275));
+		primaryStage.setScene(new Scene(grid, 600, 275));
 		primaryStage.show();
 
 		readData();
 	}
 
-	private Spinner<Integer> createSpinner(int columnIndex, int rowIndex) {
+	private Spinner<Integer> createAttributeSpinner(int columnIndex, int rowIndex) {
+		return createSpinner(columnIndex, rowIndex, 1, 20, 10);
+	}
+
+	private Spinner<Integer> createSpinner(int columnIndex, int rowIndex, int min, int max, int defaultValue) {
 		Spinner<Integer> spinner = new Spinner<>();
-		spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 10));
+		spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, defaultValue));
 
 		spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
 			readData();
@@ -91,7 +109,7 @@ public class CharacterEditor extends Application {
 	private void readData() {
 		int strength = strengthSpinner.getValue();
 
-		CharacterTemplate template = new CharacterTemplate(nameTextField.getText(), strengthSpinner.getValue(), dexteritySpinner.getValue(), intelligenceSpinner.getValue(), healthSpinner.getValue());
+		CharacterTemplate template = new CharacterTemplate(nameTextField.getText(), strengthSpinner.getValue(), dexteritySpinner.getValue(), intelligenceSpinner.getValue(), healthSpinner.getValue(), 0);
 
 		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));
 

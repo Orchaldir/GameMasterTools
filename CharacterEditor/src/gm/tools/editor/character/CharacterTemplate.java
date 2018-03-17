@@ -5,13 +5,15 @@ public class CharacterTemplate implements Character {
 	private final String name;
 
 	private final int strength, dexterity, intelligence, health;
+	private final int hitPointsModifier;
 
-	public CharacterTemplate(String name, int strength, int dexterity, int intelligence, int health) {
+	public CharacterTemplate(String name, int strength, int dexterity, int intelligence, int health, int hitPointsModifier) {
 		this.name = name;
 		this.strength = strength;
 		this.dexterity = dexterity;
 		this.intelligence = intelligence;
 		this.health = health;
+		this.hitPointsModifier = hitPointsModifier;
 	}
 
 	public String getName() {
@@ -36,5 +38,10 @@ public class CharacterTemplate implements Character {
 	@Override
 	public int getHealth() {
 		return health;
+	}
+
+	@Override
+	public int getHitPointsModifier() {
+		return hitPointsModifier;
 	}
 }

@@ -7,8 +7,8 @@ import static org.junit.Assert.*;
 
 public class CostCalculatorTest {
 
-	private CharacterTemplate template0 = new CharacterTemplate("test1", 10, 10, 10, 10);
-	private CharacterTemplate template1 = new CharacterTemplate("test2", 11, 12, 13, 14);
+	private CharacterTemplate template0 = new CharacterTemplate("test1", 10, 10, 10, 10, 0);
+	private CharacterTemplate template1 = new CharacterTemplate("test2", 11, 12, 13, 14, 0);
 	private CostCalculator costCalculator;
 
 	@Before

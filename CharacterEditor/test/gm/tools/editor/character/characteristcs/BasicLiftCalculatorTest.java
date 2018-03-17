@@ -7,10 +7,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class BasicLiftCalculatorTest {
-	private CharacterTemplate template0 = new CharacterTemplate("test1", 10, 10, 10, 10);
-	private CharacterTemplate template1 = new CharacterTemplate("test2", 12, 10, 10, 10);
-	private CharacterTemplate template2 = new CharacterTemplate("test3", 15, 10, 10, 10);
-	private CharacterTemplate template3 = new CharacterTemplate("test4", 16, 10, 10, 10);
+	private CharacterTemplate template0 = new CharacterTemplate("test1", 10, 10, 10, 10, 0);
+	private CharacterTemplate template1 = new CharacterTemplate("test2", 12, 10, 10, 10, 0);
+	private CharacterTemplate template2 = new CharacterTemplate("test3", 15, 10, 10, 10, 0);
+	private CharacterTemplate template3 = new CharacterTemplate("test4", 16, 10, 10, 10, 0);
 	private BasicLiftCalculator calculator;
 
 	@Before
