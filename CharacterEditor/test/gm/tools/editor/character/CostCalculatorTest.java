@@ -7,8 +7,8 @@ import static org.junit.Assert.*;
 
 public class CostCalculatorTest {
 
-	private CharacterTemplate template0 = new CharacterTemplate("test1", 10, 10, 10, 10, 0);
-	private CharacterTemplate template1 = new CharacterTemplate("test2", 11, 12, 13, 14, 0);
+	private CharacterTemplate template0 = new CharacterTemplateBuilder("test1").createCharacterTemplate();
+	private CharacterTemplate template1 = new CharacterTemplateBuilder("test2").setStrength(11).setDexterity(12).setIntelligence(13).setHealth(14).setHitPointsModifier(-1).createCharacterTemplate();
 	private CostCalculator costCalculator;
 
 	@Before
@@ -19,6 +19,6 @@ public class CostCalculatorTest {
 	@Test
 	public void calculateCharacterPoints() {
 		assertEquals(0, costCalculator.calculate(template0));
-		assertEquals(150, costCalculator.calculate(template1));
+		assertEquals(148, costCalculator.calculate(template1));
 	}
 }

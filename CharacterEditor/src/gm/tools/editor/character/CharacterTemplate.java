@@ -2,12 +2,13 @@ package gm.tools.editor.character;
 
 
 public class CharacterTemplate implements Character {
+
 	private final String name;
 
 	private final int strength, dexterity, intelligence, health;
 	private final int hitPointsModifier;
 
-	public CharacterTemplate(String name, int strength, int dexterity, int intelligence, int health, int hitPointsModifier) {
+	protected CharacterTemplate(String name, int strength, int dexterity, int intelligence, int health, int hitPointsModifier) {
 		this.name = name;
 		this.strength = strength;
 		this.dexterity = dexterity;

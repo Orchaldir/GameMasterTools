@@ -1,6 +1,7 @@
 package gm.tools.editor;
 
 import gm.tools.editor.character.CharacterTemplate;
+import gm.tools.editor.character.CharacterTemplateBuilder;
 import gm.tools.editor.character.CostCalculator;
 import gm.tools.editor.character.characteristcs.BasicLiftCalculator;
 import gm.tools.editor.character.characteristcs.HitPointsCalculator;
@@ -111,9 +112,10 @@ public class CharacterEditor extends Application {
 	private void readData() {
 		int strength = strengthSpinner.getValue();
 
-		CharacterTemplate template = new CharacterTemplate(nameTextField.getText(),
-				strengthSpinner.getValue(), dexteritySpinner.getValue(), intelligenceSpinner.getValue(), healthSpinner.getValue(),
-				hitPointsSpinner.getValue());
+		CharacterTemplateBuilder builder = new CharacterTemplateBuilder(nameTextField.getText());
+		builder.setAttributes(strengthSpinner.getValue(), dexteritySpinner.getValue(), intelligenceSpinner.getValue(), healthSpinner.getValue());
+		builder.setHitPointsModifier(hitPointsSpinner.getValue());
+		CharacterTemplate template = builder.createCharacterTemplate();
 
 		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));
 

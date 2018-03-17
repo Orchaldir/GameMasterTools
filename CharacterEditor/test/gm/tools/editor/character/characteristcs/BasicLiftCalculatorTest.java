@@ -1,16 +1,17 @@
 package gm.tools.editor.character.characteristcs;
 
 import gm.tools.editor.character.CharacterTemplate;
+import gm.tools.editor.character.CharacterTemplateBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class BasicLiftCalculatorTest {
-	private CharacterTemplate template0 = new CharacterTemplate("test1", 10, 10, 10, 10, 0);
-	private CharacterTemplate template1 = new CharacterTemplate("test2", 12, 10, 10, 10, 0);
-	private CharacterTemplate template2 = new CharacterTemplate("test3", 15, 10, 10, 10, 0);
-	private CharacterTemplate template3 = new CharacterTemplate("test4", 16, 10, 10, 10, 0);
+	private CharacterTemplate template0 = new CharacterTemplateBuilder("test1").createCharacterTemplate();
+	private CharacterTemplate template1 = new CharacterTemplateBuilder("test2").setStrength(12).createCharacterTemplate();
+	private CharacterTemplate template2 = new CharacterTemplateBuilder("test3").setStrength(15).createCharacterTemplate();
+	private CharacterTemplate template3 = new CharacterTemplateBuilder("test4").setStrength(16).createCharacterTemplate();
 	private BasicLiftCalculator calculator;
 
 	@Before
