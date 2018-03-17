@@ -21,21 +21,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CharacterEditor extends Application {
+	// gui
 
 	private GridPane grid;
 	private TextField nameTextField;
 	private Map<Attribute, Spinner<Integer>> attributeSpinnerMap = new HashMap<>();
 	private Map<SecondaryCharacteristic, Spinner<Integer>> characteristicSpinnerMap = new HashMap<>();
 	private Map<SecondaryCharacteristic, Label> characteristicValueLabelMap = new HashMap<>();
+	private Label characterPointsValueLabel;
 
-	private Label characterPointsValueLabel, basicLiftValueLabel;
+	// calculators
 
 	private CostCalculator costCalculator = new CostCalculator();
-	private BasicLiftCalculator basicLiftCalculator = new BasicLiftCalculator();
+
 	private HitPointsCalculator hitPointsCalculator = new HitPointsCalculator();
 	private WillCalculator willCalculator = new WillCalculator();
 	private PerceptionCalculator perceptionCalculator = new PerceptionCalculator();
 	private FatiguePointsCalculator fatiguePointsCalculator = new FatiguePointsCalculator();
+
+	private BasicLiftCalculator basicLiftCalculator = new BasicLiftCalculator();
+	private BasicSpeedCalculator basicSpeedCalculator = new BasicSpeedCalculator();
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -71,15 +76,18 @@ public class CharacterEditor extends Application {
 		createCharacteristic(SecondaryCharacteristic.PERCEPTION, "Per", 2, 3);
 		createCharacteristic(SecondaryCharacteristic.FATIGUE_POINTS, "FP", 2, 4);
 
+		createCharacteristic(SecondaryCharacteristic.BASIC_SPEED, "BS", 5, 2);
+
 		Label basicLiftLabel = new Label("BL");
 		grid.add(basicLiftLabel, 5, 1);
 
-		basicLiftValueLabel = new Label("0");
+		Label basicLiftValueLabel = new Label("0");
 		grid.add(basicLiftValueLabel, 6, 1);
+		characteristicValueLabelMap.put(SecondaryCharacteristic.BASIC_LIFT, basicLiftValueLabel);
 
 		//
 
-		primaryStage.setScene(new Scene(grid, 600, 275));
+		primaryStage.setScene(new Scene(grid, 800, 275));
 		primaryStage.show();
 
 		readData();
@@ -131,12 +139,15 @@ public class CharacterEditor extends Application {
 		int perception = characteristicSpinnerMap.get(SecondaryCharacteristic.PERCEPTION).getValue();
 		int fatiguePoints = characteristicSpinnerMap.get(SecondaryCharacteristic.FATIGUE_POINTS).getValue();
 
+		int basicSpeed = characteristicSpinnerMap.get(SecondaryCharacteristic.BASIC_SPEED).getValue();
+
 		CharacterTemplateBuilder builder = new CharacterTemplateBuilder(nameTextField.getText());
 		builder.setAttributes(strength, dexterity, intelligence, health);
 		builder.setHitPointsModifier(hitPoints);
 		builder.setWillModifier(will);
 		builder.setPerceptionModifier(perception);
 		builder.setFatiguePointsModifier(fatiguePoints);
+		builder.setBasicSpeedModifier(basicSpeed);
 		CharacterTemplate template = builder.createCharacterTemplate();
 
 		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));
@@ -146,7 +157,8 @@ public class CharacterEditor extends Application {
 		characteristicValueLabelMap.get(SecondaryCharacteristic.PERCEPTION).setText(Integer.toString(perceptionCalculator.calculate(template)));
 		characteristicValueLabelMap.get(SecondaryCharacteristic.FATIGUE_POINTS).setText(Integer.toString(fatiguePointsCalculator.calculate(template)));
 
-		basicLiftValueLabel.setText(Integer.toString(basicLiftCalculator.calculate(template)));
+		characteristicValueLabelMap.get(SecondaryCharacteristic.BASIC_LIFT).setText(Integer.toString(basicLiftCalculator.calculate(template)));
+		characteristicValueLabelMap.get(SecondaryCharacteristic.BASIC_SPEED).setText(Double.toString(basicSpeedCalculator.calculate(template)));
 	}
 
 
