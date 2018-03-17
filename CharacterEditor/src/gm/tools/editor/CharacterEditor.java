@@ -72,13 +72,14 @@ public class CharacterEditor extends Application {
 
 		// secondary characteristics
 
-		createCharacteristic(SecondaryCharacteristic.HIT_POINTS, "HP", 2, 1);
-		createCharacteristic(SecondaryCharacteristic.WILL, "Will", 2, 2);
-		createCharacteristic(SecondaryCharacteristic.PERCEPTION, "Per", 2, 3);
-		createCharacteristic(SecondaryCharacteristic.FATIGUE_POINTS, "FP", 2, 4);
+		createCharacteristicWithValue(SecondaryCharacteristic.HIT_POINTS, "HP", 2, 1);
+		createCharacteristicWithValue(SecondaryCharacteristic.WILL, "Will", 2, 2);
+		createCharacteristicWithValue(SecondaryCharacteristic.PERCEPTION, "Per", 2, 3);
+		createCharacteristicWithValue(SecondaryCharacteristic.FATIGUE_POINTS, "FP", 2, 4);
 
-		createCharacteristic(SecondaryCharacteristic.BASIC_SPEED, "BS", 5, 2);
-		createCharacteristic(SecondaryCharacteristic.BASIC_MOVE, "BM", 5, 3);
+		createCharacteristicWithValue(SecondaryCharacteristic.BASIC_SPEED, "BS", 5, 2);
+		createCharacteristicWithValue(SecondaryCharacteristic.BASIC_MOVE, "BM", 5, 3);
+		createCharacteristic(SecondaryCharacteristic.SIZE_MODIFIER, "SM", 2, 0);
 
 		Label basicLiftLabel = new Label("BL");
 		grid.add(basicLiftLabel, 5, 1);
@@ -107,6 +108,10 @@ public class CharacterEditor extends Application {
 		grid.add(label, columnIndex, rowIndex);
 
 		characteristicSpinnerMap.put(characteristic, createSpinner(columnIndex + 1, rowIndex, -10, +10, 0));
+	}
+
+	private void createCharacteristicWithValue(SecondaryCharacteristic characteristic, String text, int columnIndex, int rowIndex) {
+		createCharacteristic(characteristic, text, columnIndex, rowIndex);
 
 		Label valueLabel = new Label("0");
 		grid.add(valueLabel, columnIndex + 2, rowIndex);
@@ -143,6 +148,7 @@ public class CharacterEditor extends Application {
 
 		int basicSpeed = characteristicSpinnerMap.get(SecondaryCharacteristic.BASIC_SPEED).getValue();
 		int basicMove = characteristicSpinnerMap.get(SecondaryCharacteristic.BASIC_MOVE).getValue();
+		int sizeModifier = characteristicSpinnerMap.get(SecondaryCharacteristic.SIZE_MODIFIER).getValue();
 
 		CharacterTemplateBuilder builder = new CharacterTemplateBuilder(nameTextField.getText());
 		builder.setAttributes(strength, dexterity, intelligence, health);
@@ -152,6 +158,7 @@ public class CharacterEditor extends Application {
 		builder.setFatiguePointsModifier(fatiguePoints);
 		builder.setBasicSpeedModifier(basicSpeed);
 		builder.setBasicMoveModifier(basicMove);
+		builder.setSizeModifier(sizeModifier);
 		CharacterTemplate template = builder.createCharacterTemplate();
 
 		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));

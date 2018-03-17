@@ -21,8 +21,33 @@ public class CostCalculator {
 		return value - ATTRIBUTE_DEFAULT_VALUE;
 	}
 
-	public int calculateCostOfAttributes(Character character) {
+	private int modifyCostWithSize(int cost, Character character) {
+		if (cost > 0) {
+			int sizeModifier = character.getSizeModifier();
+
+			if (sizeModifier > 0) {
+				double factor = Math.min(0.80, 0.1 * sizeModifier);
+				cost *= 1.0 - factor;
+			}
+		}
+
+		return cost;
+	}
+
+	public int calculateStrengthCost(Character character) {
 		int strengthCost = getAttributeModifier(character.getStrength()) * STRENGTH_COST;
+
+		return modifyCostWithSize(strengthCost, character);
+	}
+
+	public int calculateHitPointsCost(Character character) {
+		int hitPointsCost = character.getHitPointsModifier() * HIT_POINTS_COST;
+
+		return modifyCostWithSize(hitPointsCost, character);
+	}
+
+	public int calculateCostOfAttributes(Character character) {
+		int strengthCost = calculateStrengthCost(character);
 		int dexterityCost = getAttributeModifier(character.getDexterity()) * DEXTERITY_COST;
 		int intelligenceCost = getAttributeModifier(character.getIntelligence()) * INTELLIGENCE_COST;
 		int healthCost = getAttributeModifier(character.getHealth()) * HEALTH_COST;
@@ -31,7 +56,7 @@ public class CostCalculator {
 	}
 
 	public int calculateCostOfSecondaryCharacteristics(Character character) {
-		int hitPointsCost = character.getHitPointsModifier() * HIT_POINTS_COST;
+		int hitPointsCost = calculateHitPointsCost(character);
 		int willCost = character.getWillModifier() * WILL_COST;
 		int perceptionCost = character.getPerceptionModifier() * PERCEPTION_COST;
 		int fatiguePointsCost = character.getFatiguePointsModifier() * FATIGUE_POINTS_COST;

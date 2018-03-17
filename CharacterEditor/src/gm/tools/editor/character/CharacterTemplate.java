@@ -14,10 +14,11 @@ public class CharacterTemplate implements Character {
 	private final int fatiguePointsModifier;
 	private final int basicSpeedModifier;
 	private final int basicMoveModifier;
+	private final int sizeModifier;
 
 	protected CharacterTemplate(String name, int strength, int dexterity, int intelligence, int health,
 								int hitPointsModifier, int willModifier, int perceptionModifier, int fatiguePointsModifier,
-								int basicSpeedModifier, int basicMoveModifier) {
+								int basicSpeedModifier, int basicMoveModifier, int sizeModifier) {
 		this.name = name;
 		// attributes
 		this.strength = strength;
@@ -31,6 +32,7 @@ public class CharacterTemplate implements Character {
 		this.fatiguePointsModifier = fatiguePointsModifier;
 		this.basicSpeedModifier = basicSpeedModifier;
 		this.basicMoveModifier = basicMoveModifier;
+		this.sizeModifier = sizeModifier;
 	}
 
 	public String getName() {
@@ -85,5 +87,10 @@ public class CharacterTemplate implements Character {
 	@Override
 	public int getBasicMoveModifier() {
 		return basicMoveModifier;
+	}
+
+	@Override
+	public int getSizeModifier() {
+		return sizeModifier;
 	}
 }

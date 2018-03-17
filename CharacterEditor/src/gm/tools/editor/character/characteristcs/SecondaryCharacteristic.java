@@ -7,5 +7,6 @@ public enum SecondaryCharacteristic {
 	FATIGUE_POINTS,
 	HIT_POINTS,
 	PERCEPTION,
+	SIZE_MODIFIER,
 	WILL
 }

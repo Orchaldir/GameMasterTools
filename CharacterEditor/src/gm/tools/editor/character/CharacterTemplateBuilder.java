@@ -16,6 +16,7 @@ public class CharacterTemplateBuilder {
 	private int fatiguePointsModifier = 0;
 	private int basicSpeedModifier = 0;
 	private int basicMoveModifier = 0;
+	private int sizeModifier = 0;
 
 	public CharacterTemplateBuilder(String name) {
 		this.name = name;
@@ -83,10 +84,16 @@ public class CharacterTemplateBuilder {
 		return this;
 	}
 
+	public CharacterTemplateBuilder setSizeModifier(int sizeModifier) {
+		this.sizeModifier = sizeModifier;
+		return this;
+	}
+
 	//
 
 	public CharacterTemplate createCharacterTemplate() {
 		return new CharacterTemplate(name, strength, dexterity, intelligence, health, hitPointsModifier,
-				willModifier, perceptionModifier, fatiguePointsModifier, basicSpeedModifier, basicMoveModifier);
+				willModifier, perceptionModifier, fatiguePointsModifier,
+				basicSpeedModifier, basicMoveModifier, sizeModifier);
 	}
 }
