@@ -4,5 +4,6 @@ public enum SecondaryCharacteristic {
 	BASIC_LIFT,
 	HIT_POINTS,
 	PERCEPTION,
-	WILL
+	WILL,
+	FATIGUE_POINTS
 }

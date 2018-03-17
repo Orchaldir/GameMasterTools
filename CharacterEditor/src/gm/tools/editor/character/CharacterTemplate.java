@@ -11,16 +11,20 @@ public class CharacterTemplate implements Character {
 	private final int hitPointsModifier;
 	private final int willModifier;
 	private final int perceptionModifier;
+	private final int fatiguePointsModifier;
 
-	protected CharacterTemplate(String name, int strength, int dexterity, int intelligence, int health, int hitPointsModifier, int willModifier, int perceptionModifier) {
+	protected CharacterTemplate(String name, int strength, int dexterity, int intelligence, int health, int hitPointsModifier, int willModifier, int perceptionModifier, int fatiguePointsModifier) {
 		this.name = name;
+		// attributes
 		this.strength = strength;
 		this.dexterity = dexterity;
 		this.intelligence = intelligence;
 		this.health = health;
+		// secondary characteristics
 		this.hitPointsModifier = hitPointsModifier;
 		this.willModifier = willModifier;
 		this.perceptionModifier = perceptionModifier;
+		this.fatiguePointsModifier = fatiguePointsModifier;
 	}
 
 	public String getName() {
@@ -60,5 +64,10 @@ public class CharacterTemplate implements Character {
 	@Override
 	public int getPerceptionModifier() {
 		return perceptionModifier;
+	}
+
+	@Override
+	public int getFatiguePointsModifier() {
+		return fatiguePointsModifier;
 	}
 }

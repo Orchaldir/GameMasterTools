@@ -8,6 +8,7 @@ public interface Character {
 
 	int getHitPointsModifier();
 	int getWillModifier();
-
 	int getPerceptionModifier();
+
+	int getFatiguePointsModifier();
 }

@@ -35,6 +35,7 @@ public class CharacterEditor extends Application {
 	private HitPointsCalculator hitPointsCalculator = new HitPointsCalculator();
 	private WillCalculator willCalculator = new WillCalculator();
 	private PerceptionCalculator perceptionCalculator = new PerceptionCalculator();
+	private FatiguePointsCalculator fatiguePointsCalculator = new FatiguePointsCalculator();
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -68,6 +69,7 @@ public class CharacterEditor extends Application {
 		createCharacteristic(SecondaryCharacteristic.HIT_POINTS, "HP", 2, 1);
 		createCharacteristic(SecondaryCharacteristic.WILL, "Will", 2, 2);
 		createCharacteristic(SecondaryCharacteristic.PERCEPTION, "Per", 2, 3);
+		createCharacteristic(SecondaryCharacteristic.FATIGUE_POINTS, "FP", 2, 4);
 
 		Label basicLiftLabel = new Label("BL");
 		grid.add(basicLiftLabel, 5, 1);
@@ -127,12 +129,14 @@ public class CharacterEditor extends Application {
 		int hitPoints = characteristicSpinnerMap.get(SecondaryCharacteristic.HIT_POINTS).getValue();
 		int will = characteristicSpinnerMap.get(SecondaryCharacteristic.WILL).getValue();
 		int perception = characteristicSpinnerMap.get(SecondaryCharacteristic.PERCEPTION).getValue();
+		int fatiguePoints = characteristicSpinnerMap.get(SecondaryCharacteristic.FATIGUE_POINTS).getValue();
 
 		CharacterTemplateBuilder builder = new CharacterTemplateBuilder(nameTextField.getText());
 		builder.setAttributes(strength, dexterity, intelligence, health);
 		builder.setHitPointsModifier(hitPoints);
 		builder.setWillModifier(will);
 		builder.setPerceptionModifier(perception);
+		builder.setFatiguePointsModifier(fatiguePoints);
 		CharacterTemplate template = builder.createCharacterTemplate();
 
 		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));
@@ -140,6 +144,7 @@ public class CharacterEditor extends Application {
 		characteristicValueLabelMap.get(SecondaryCharacteristic.HIT_POINTS).setText(Integer.toString(hitPointsCalculator.calculate(template)));
 		characteristicValueLabelMap.get(SecondaryCharacteristic.WILL).setText(Integer.toString(willCalculator.calculate(template)));
 		characteristicValueLabelMap.get(SecondaryCharacteristic.PERCEPTION).setText(Integer.toString(perceptionCalculator.calculate(template)));
+		characteristicValueLabelMap.get(SecondaryCharacteristic.FATIGUE_POINTS).setText(Integer.toString(fatiguePointsCalculator.calculate(template)));
 
 		basicLiftValueLabel.setText(Integer.toString(basicLiftCalculator.calculate(template)));
 	}
