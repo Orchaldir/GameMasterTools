@@ -3,6 +3,7 @@ package gm.tools.editor;
 import gm.tools.editor.character.CharacterTemplate;
 import gm.tools.editor.character.CostCalculator;
 import gm.tools.editor.character.characteristcs.BasicLiftCalculator;
+import gm.tools.editor.character.characteristcs.HitPointsCalculator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -25,6 +26,7 @@ public class CharacterEditor extends Application {
 
 	private CostCalculator costCalculator = new CostCalculator();
 	private BasicLiftCalculator basicLiftCalculator = new BasicLiftCalculator();
+	private HitPointsCalculator hitPointsCalculator = new HitPointsCalculator();
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -109,9 +111,13 @@ public class CharacterEditor extends Application {
 	private void readData() {
 		int strength = strengthSpinner.getValue();
 
-		CharacterTemplate template = new CharacterTemplate(nameTextField.getText(), strengthSpinner.getValue(), dexteritySpinner.getValue(), intelligenceSpinner.getValue(), healthSpinner.getValue(), 0);
+		CharacterTemplate template = new CharacterTemplate(nameTextField.getText(),
+				strengthSpinner.getValue(), dexteritySpinner.getValue(), intelligenceSpinner.getValue(), healthSpinner.getValue(),
+				hitPointsSpinner.getValue());
 
 		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));
+
+		hitPointsValueLabel.setText(Integer.toString(hitPointsCalculator.calculate(template)));
 
 		basicLiftValueLabel.setText(Integer.toString(basicLiftCalculator.calculate(template)));
 	}
