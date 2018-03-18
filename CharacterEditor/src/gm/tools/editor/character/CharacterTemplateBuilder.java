@@ -1,5 +1,10 @@
 package gm.tools.editor.character;
 
+import gm.tools.editor.character.skill.Skill;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class CharacterTemplateBuilder {
 	private final String name;
 
@@ -17,6 +22,9 @@ public class CharacterTemplateBuilder {
 	private int basicSpeedModifier = 0;
 	private int basicMoveModifier = 0;
 	private int sizeModifier = 0;
+
+	// skills
+	private Map<Skill, Integer> skills = new HashMap<>();
 
 	public CharacterTemplateBuilder(String name) {
 		this.name = name;
@@ -89,11 +97,22 @@ public class CharacterTemplateBuilder {
 		return this;
 	}
 
+	// skills
+
+	public CharacterTemplateBuilder addSkill(Skill skill, int relativeLevel) {
+		if (relativeLevel < 1) {
+			throw new IllegalArgumentException(String.format("Relative level %d of skill %s is too low!", relativeLevel, skill.getName()));
+		}
+		this.skills.put(skill, relativeLevel);
+		return this;
+	}
+
 	//
 
 	public CharacterTemplate createCharacterTemplate() {
 		return new CharacterTemplate(name, strength, dexterity, intelligence, health, hitPointsModifier,
 				willModifier, perceptionModifier, fatiguePointsModifier,
-				basicSpeedModifier, basicMoveModifier, sizeModifier);
+				basicSpeedModifier, basicMoveModifier, sizeModifier,
+				skills);
 	}
 }

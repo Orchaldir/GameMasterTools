@@ -1,6 +1,13 @@
 package gm.tools.editor.character;
 
 
+import gm.tools.editor.character.skill.Skill;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class CharacterTemplate implements Character {
 
 	private final String name;
@@ -15,10 +22,13 @@ public class CharacterTemplate implements Character {
 	private final int basicSpeedModifier;
 	private final int basicMoveModifier;
 	private final int sizeModifier;
+	// skills
+	private final Map<Skill, Integer> skills;
 
 	protected CharacterTemplate(String name, int strength, int dexterity, int intelligence, int health,
 								int hitPointsModifier, int willModifier, int perceptionModifier, int fatiguePointsModifier,
-								int basicSpeedModifier, int basicMoveModifier, int sizeModifier) {
+								int basicSpeedModifier, int basicMoveModifier, int sizeModifier,
+								Map<Skill, Integer> skills) {
 		this.name = name;
 		// attributes
 		this.strength = strength;
@@ -33,11 +43,14 @@ public class CharacterTemplate implements Character {
 		this.basicSpeedModifier = basicSpeedModifier;
 		this.basicMoveModifier = basicMoveModifier;
 		this.sizeModifier = sizeModifier;
+		this.skills = skills;
 	}
 
 	public String getName() {
 		return name;
 	}
+
+	// attributes
 
 	@Override
 	public int getStrength() {
@@ -58,6 +71,8 @@ public class CharacterTemplate implements Character {
 	public int getHealth() {
 		return health;
 	}
+
+	// secondary characteristics
 
 	@Override
 	public int getHitPointsModifier() {
@@ -92,5 +107,17 @@ public class CharacterTemplate implements Character {
 	@Override
 	public int getSizeModifier() {
 		return sizeModifier;
+	}
+
+	// skill
+
+	@Override
+	public Set<Skill> getSkills() {
+		return skills.keySet();
+	}
+
+	@Override
+	public int getRelativeSkillLevel(Skill skill) {
+		return skills.getOrDefault(skill, -1);
 	}
 }
