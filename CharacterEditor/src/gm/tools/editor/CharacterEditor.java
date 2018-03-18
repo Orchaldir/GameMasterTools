@@ -3,7 +3,7 @@ package gm.tools.editor;
 import gm.tools.editor.character.CharacterTemplate;
 import gm.tools.editor.character.CharacterTemplateBuilder;
 import gm.tools.editor.character.CostCalculator;
-import gm.tools.editor.character.characteristcs.*;
+import gm.tools.editor.character.characteristic.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;

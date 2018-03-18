@@ -1,4 +1,4 @@
-package gm.tools.editor.character.characteristcs;
+package gm.tools.editor.character.characteristic;
 
 import gm.tools.editor.character.Character;
 

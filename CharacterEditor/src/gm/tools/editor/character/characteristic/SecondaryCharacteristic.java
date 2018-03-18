@@ -1,4 +1,4 @@
-package gm.tools.editor.character.characteristcs;
+package gm.tools.editor.character.characteristic;
 
 public enum SecondaryCharacteristic {
 	BASIC_LIFT,
