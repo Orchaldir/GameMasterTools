@@ -25,9 +25,8 @@ public class CharacterEditor extends Application {
 
 	private GridPane grid;
 	private TextField nameTextField;
-	private Map<Attribute, Spinner<Integer>> attributeSpinnerMap = new HashMap<>();
-	private Map<SecondaryCharacteristic, Spinner<Integer>> characteristicSpinnerMap = new HashMap<>();
-	private Map<SecondaryCharacteristic, Label> characteristicValueLabelMap = new HashMap<>();
+	private Map<Characteristic, Spinner<Integer>> characteristicSpinnerMap = new HashMap<>();
+	private Map<Characteristic, Label> characteristicValueLabelMap = new HashMap<>();
 	private Label characterPointsValueLabel;
 
 	// calculators
@@ -65,28 +64,28 @@ public class CharacterEditor extends Application {
 
 		// attributes
 
-		createAttribute(Attribute.STRENGTH, "ST", 0, 1);
-		createAttribute(Attribute.DEXTERITY, "DX", 0, 2);
-		createAttribute(Attribute.INTELLIGENCE, "IQ", 0, 3);
-		createAttribute(Attribute.HEALTH, "HT", 0, 4);
+		createAttribute(Characteristic.STRENGTH, "ST", 0, 1);
+		createAttribute(Characteristic.DEXTERITY, "DX", 0, 2);
+		createAttribute(Characteristic.INTELLIGENCE, "IQ", 0, 3);
+		createAttribute(Characteristic.HEALTH, "HT", 0, 4);
 
 		// secondary characteristics
 
-		createCharacteristicWithValue(SecondaryCharacteristic.HIT_POINTS, "HP", 2, 1);
-		createCharacteristicWithValue(SecondaryCharacteristic.WILL, "Will", 2, 2);
-		createCharacteristicWithValue(SecondaryCharacteristic.PERCEPTION, "Per", 2, 3);
-		createCharacteristicWithValue(SecondaryCharacteristic.FATIGUE_POINTS, "FP", 2, 4);
+		createCharacteristicWithValue(Characteristic.HIT_POINTS, "HP", 2, 1);
+		createCharacteristicWithValue(Characteristic.WILL, "Will", 2, 2);
+		createCharacteristicWithValue(Characteristic.PERCEPTION, "Per", 2, 3);
+		createCharacteristicWithValue(Characteristic.FATIGUE_POINTS, "FP", 2, 4);
 
-		createCharacteristicWithValue(SecondaryCharacteristic.BASIC_SPEED, "BS", 5, 2);
-		createCharacteristicWithValue(SecondaryCharacteristic.BASIC_MOVE, "BM", 5, 3);
-		createCharacteristic(SecondaryCharacteristic.SIZE_MODIFIER, "SM", 2, 0);
+		createCharacteristicWithValue(Characteristic.BASIC_SPEED, "BS", 5, 2);
+		createCharacteristicWithValue(Characteristic.BASIC_MOVE, "BM", 5, 3);
+		createCharacteristic(Characteristic.SIZE_MODIFIER, "SM", 2, 0);
 
 		Label basicLiftLabel = new Label("BL");
 		grid.add(basicLiftLabel, 5, 1);
 
 		Label basicLiftValueLabel = new Label("0");
 		grid.add(basicLiftValueLabel, 6, 1);
-		characteristicValueLabelMap.put(SecondaryCharacteristic.BASIC_LIFT, basicLiftValueLabel);
+		characteristicValueLabelMap.put(Characteristic.BASIC_LIFT, basicLiftValueLabel);
 
 		//
 
@@ -96,21 +95,22 @@ public class CharacterEditor extends Application {
 		readData();
 	}
 
-	private void createAttribute(Attribute attribute, String text, int columnIndex, int rowIndex) {
+	private void createAttribute(Characteristic characteristic, String text, int columnIndex, int rowIndex) {
+		createCharacteristic(characteristic, text, columnIndex, rowIndex, 1, 20, 10);
+	}
+
+	private void createCharacteristic(Characteristic characteristic, String text, int columnIndex, int rowIndex) {
+		createCharacteristic(characteristic, text, columnIndex, rowIndex, -10, +10, 0);
+	}
+
+	private void createCharacteristic(Characteristic characteristic, String text, int columnIndex, int rowIndex, int min, int max, int defaultValue) {
 		Label label = new Label(text);
 		grid.add(label, columnIndex, rowIndex);
 
-		attributeSpinnerMap.put(attribute, createAttributeSpinner(columnIndex + 1, rowIndex));
+		characteristicSpinnerMap.put(characteristic, createSpinner(columnIndex + 1, rowIndex, min, max, defaultValue));
 	}
 
-	private void createCharacteristic(SecondaryCharacteristic characteristic, String text, int columnIndex, int rowIndex) {
-		Label label = new Label(text);
-		grid.add(label, columnIndex, rowIndex);
-
-		characteristicSpinnerMap.put(characteristic, createSpinner(columnIndex + 1, rowIndex, -10, +10, 0));
-	}
-
-	private void createCharacteristicWithValue(SecondaryCharacteristic characteristic, String text, int columnIndex, int rowIndex) {
+	private void createCharacteristicWithValue(Characteristic characteristic, String text, int columnIndex, int rowIndex) {
 		createCharacteristic(characteristic, text, columnIndex, rowIndex);
 
 		Label valueLabel = new Label("0");
@@ -136,19 +136,19 @@ public class CharacterEditor extends Application {
 	}
 
 	private void readData() {
-		int strength = attributeSpinnerMap.get(Attribute.STRENGTH).getValue();
-		int dexterity = attributeSpinnerMap.get(Attribute.DEXTERITY).getValue();
-		int intelligence = attributeSpinnerMap.get(Attribute.INTELLIGENCE).getValue();
-		int health = attributeSpinnerMap.get(Attribute.HEALTH).getValue();
+		int strength = characteristicSpinnerMap.get(Characteristic.STRENGTH).getValue();
+		int dexterity = characteristicSpinnerMap.get(Characteristic.DEXTERITY).getValue();
+		int intelligence = characteristicSpinnerMap.get(Characteristic.INTELLIGENCE).getValue();
+		int health = characteristicSpinnerMap.get(Characteristic.HEALTH).getValue();
 
-		int hitPoints = characteristicSpinnerMap.get(SecondaryCharacteristic.HIT_POINTS).getValue();
-		int will = characteristicSpinnerMap.get(SecondaryCharacteristic.WILL).getValue();
-		int perception = characteristicSpinnerMap.get(SecondaryCharacteristic.PERCEPTION).getValue();
-		int fatiguePoints = characteristicSpinnerMap.get(SecondaryCharacteristic.FATIGUE_POINTS).getValue();
+		int hitPoints = characteristicSpinnerMap.get(Characteristic.HIT_POINTS).getValue();
+		int will = characteristicSpinnerMap.get(Characteristic.WILL).getValue();
+		int perception = characteristicSpinnerMap.get(Characteristic.PERCEPTION).getValue();
+		int fatiguePoints = characteristicSpinnerMap.get(Characteristic.FATIGUE_POINTS).getValue();
 
-		int basicSpeed = characteristicSpinnerMap.get(SecondaryCharacteristic.BASIC_SPEED).getValue();
-		int basicMove = characteristicSpinnerMap.get(SecondaryCharacteristic.BASIC_MOVE).getValue();
-		int sizeModifier = characteristicSpinnerMap.get(SecondaryCharacteristic.SIZE_MODIFIER).getValue();
+		int basicSpeed = characteristicSpinnerMap.get(Characteristic.BASIC_SPEED).getValue();
+		int basicMove = characteristicSpinnerMap.get(Characteristic.BASIC_MOVE).getValue();
+		int sizeModifier = characteristicSpinnerMap.get(Characteristic.SIZE_MODIFIER).getValue();
 
 		CharacterTemplateBuilder builder = new CharacterTemplateBuilder(nameTextField.getText());
 		builder.setAttributes(strength, dexterity, intelligence, health);
@@ -163,14 +163,14 @@ public class CharacterEditor extends Application {
 
 		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));
 
-		characteristicValueLabelMap.get(SecondaryCharacteristic.HIT_POINTS).setText(Integer.toString(hitPointsCalculator.calculate(template)));
-		characteristicValueLabelMap.get(SecondaryCharacteristic.WILL).setText(Integer.toString(willCalculator.calculate(template)));
-		characteristicValueLabelMap.get(SecondaryCharacteristic.PERCEPTION).setText(Integer.toString(perceptionCalculator.calculate(template)));
-		characteristicValueLabelMap.get(SecondaryCharacteristic.FATIGUE_POINTS).setText(Integer.toString(fatiguePointsCalculator.calculate(template)));
+		characteristicValueLabelMap.get(Characteristic.HIT_POINTS).setText(Integer.toString(hitPointsCalculator.calculate(template)));
+		characteristicValueLabelMap.get(Characteristic.WILL).setText(Integer.toString(willCalculator.calculate(template)));
+		characteristicValueLabelMap.get(Characteristic.PERCEPTION).setText(Integer.toString(perceptionCalculator.calculate(template)));
+		characteristicValueLabelMap.get(Characteristic.FATIGUE_POINTS).setText(Integer.toString(fatiguePointsCalculator.calculate(template)));
 
-		characteristicValueLabelMap.get(SecondaryCharacteristic.BASIC_LIFT).setText(Integer.toString(basicLiftCalculator.calculate(template)));
-		characteristicValueLabelMap.get(SecondaryCharacteristic.BASIC_SPEED).setText(String.format("%.2f", basicSpeedCalculator.calculate(template)));
-		characteristicValueLabelMap.get(SecondaryCharacteristic.BASIC_MOVE).setText(Integer.toString(basicMoveCalculator.calculate(template)));
+		characteristicValueLabelMap.get(Characteristic.BASIC_LIFT).setText(String.format("%d kg", basicLiftCalculator.calculate(template)));
+		characteristicValueLabelMap.get(Characteristic.BASIC_SPEED).setText(String.format("%.2f", basicSpeedCalculator.calculate(template)));
+		characteristicValueLabelMap.get(Characteristic.BASIC_MOVE).setText(String.format("%d m/s", basicMoveCalculator.calculate(template)));
 	}
 
 
