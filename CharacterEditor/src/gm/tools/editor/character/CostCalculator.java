@@ -1,5 +1,7 @@
 package gm.tools.editor.character;
 
+import gm.tools.editor.character.skill.Skill;
+
 public class CostCalculator {
 	public static final int ATTRIBUTE_DEFAULT_VALUE = 10;
 
@@ -66,10 +68,38 @@ public class CostCalculator {
 		return hitPointsCost + willCost + perceptionCost + fatiguePointsCost + basicSpeedCost + basicMoveCost;
 	}
 
+	public int calculateCostOfSkill(int level) {
+		int cost = 0;
+
+		if (level < 1) {
+			throw new IllegalArgumentException(String.format("Relative level %d of skill is too low!", level));
+		} else if (level == 1) {
+			return 1;
+		} else if (level == 2) {
+			return 2;
+		} else if (level == 3) {
+			return 4;
+		} else {
+			return (level - 2) * 4;
+		}
+	}
+
+	public int calculateCostOfSkills(Character character) {
+		int cost = 0;
+
+		for (Skill skill : character.getSkills()) {
+			int level = character.getRelativeSkillLevel(skill);
+			cost += calculateCostOfSkill(level);
+		}
+
+		return cost;
+	}
+
 	public int calculate(Character character) {
 		int attributesCost = calculateCostOfAttributes(character);
 		int secondaryCharacteristicsCost = calculateCostOfSecondaryCharacteristics(character);
+		int skillCost = calculateCostOfSkills(character);
 
-		return attributesCost + secondaryCharacteristicsCost;
+		return attributesCost + secondaryCharacteristicsCost + skillCost;
 	}
 }
