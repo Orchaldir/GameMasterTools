@@ -1,10 +1,7 @@
 package gm.tools.editor.character;
 
-
 import gm.tools.editor.character.skill.Skill;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

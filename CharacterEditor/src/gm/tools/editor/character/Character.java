@@ -2,7 +2,6 @@ package gm.tools.editor.character;
 
 import gm.tools.editor.character.skill.Skill;
 
-import java.util.List;
 import java.util.Set;
 
 public interface Character {
@@ -17,14 +16,11 @@ public interface Character {
 	int getWillModifier();
 	int getPerceptionModifier();
 	int getFatiguePointsModifier();
-
 	int getBasicSpeedModifier();
 	int getBasicMoveModifier();
-
 	int getSizeModifier();
 
 	// skills
 	Set<Skill> getSkills();
-
 	int getRelativeSkillLevel(Skill skill);
 }
