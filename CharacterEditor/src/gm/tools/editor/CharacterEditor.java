@@ -4,10 +4,16 @@ import gm.tools.editor.character.CharacterTemplate;
 import gm.tools.editor.character.CharacterTemplateBuilder;
 import gm.tools.editor.character.CostCalculator;
 import gm.tools.editor.character.characteristic.*;
+import gm.tools.editor.character.skill.Difficulty;
+import gm.tools.editor.character.skill.Skill;
+import gm.tools.editor.character.skill.SkillCalculator;
+import gm.tools.editor.character.skill.SkillManager;
 import gm.tools.editor.gui.SkillAndLevel;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,6 +26,7 @@ import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class CharacterEditor extends Application {
 	// gui
@@ -30,8 +37,11 @@ public class CharacterEditor extends Application {
 	private Map<Characteristic, Label> characteristicValueLabelMap = new HashMap<>();
 	private Label characterPointsValueLabel;
 	private TableView<SkillAndLevel> skillTable = new TableView<>();
+	private Map<Skill, SkillAndLevel> skillAndLevels = new HashMap<>();
 
 	// calculators
+
+	private SkillManager skillManager = new SkillManager();
 
 	private CostCalculator costCalculator = new CostCalculator();
 
@@ -43,6 +53,8 @@ public class CharacterEditor extends Application {
 	private BasicLiftCalculator basicLiftCalculator = new BasicLiftCalculator();
 	private BasicSpeedCalculator basicSpeedCalculator = new BasicSpeedCalculator();
 	private BasicMoveCalculator basicMoveCalculator = new BasicMoveCalculator(basicSpeedCalculator);
+
+	private SkillCalculator skillCalculator = new SkillCalculator(perceptionCalculator, willCalculator);
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -57,12 +69,6 @@ public class CharacterEditor extends Application {
 
 		nameTextField = new TextField("Character");
 		grid.add(nameTextField, 0, 0, 2, 1);
-
-		Label characterPointsLabel = new Label("CP");
-		grid.add(characterPointsLabel, 0, 6);
-
-		characterPointsValueLabel = new Label("0");
-		grid.add(characterPointsValueLabel, 1, 6);
 
 		// attributes
 
@@ -91,6 +97,10 @@ public class CharacterEditor extends Application {
 
 		// skills
 
+		skillManager.add(new Skill("Swords", Characteristic.DEXTERITY, Difficulty.VERY_HARD));
+		skillManager.add(new Skill("Magic", Characteristic.INTELLIGENCE, Difficulty.VERY_HARD));
+		skillManager.add(new Skill("Shooting", Characteristic.PERCEPTION, Difficulty.VERY_HARD));
+
 		TableColumn skillNameCol = new TableColumn("Skill");
 		skillNameCol.setMinWidth(100);
 		skillNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -103,13 +113,39 @@ public class CharacterEditor extends Application {
 		absoluteSkillLevelCol.setMinWidth(100);
 		absoluteSkillLevelCol.setCellValueFactory(new PropertyValueFactory<>("absoluteLevel"));
 
-		ObservableList<SkillAndLevel> personData = FXCollections.observableArrayList(new SkillAndLevel("sadaf", 1, 3), new SkillAndLevel("we23424", 2, 13));
-
 		skillTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-		skillTable.setItems(personData);
 		skillTable.getColumns().addAll(skillNameCol, relativeSkillLevelCol, absoluteSkillLevelCol);
 
-		grid.add(skillTable, 0, 5, 5, 1);
+		grid.add(skillTable, 0, 5, 5, 3);
+
+		ComboBox<String> skillComboBox = new ComboBox<>();
+		skillComboBox.setItems(FXCollections.observableArrayList(skillManager.getSkillNames()));
+
+		grid.add(skillComboBox, 6, 5);
+
+		Button addSkillButton = new Button("Add Skill");
+		addSkillButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				Optional<Skill> skill = skillManager.get(skillComboBox.getValue());
+
+				if (skill.isPresent() && !skillAndLevels.containsKey(skill.get())) {
+					SkillAndLevel skillAndLevel = new SkillAndLevel(skill.get(), 1, 1);
+					skillAndLevels.put(skill.get(), skillAndLevel);
+					readData();
+				}
+			}
+		});
+
+		grid.add(addSkillButton, 6, 6);
+
+		// character  points
+
+		Label characterPointsLabel = new Label("CP");
+		grid.add(characterPointsLabel, 0, 8);
+
+		characterPointsValueLabel = new Label("0");
+		grid.add(characterPointsValueLabel, 1, 8);
 
 		//
 
@@ -183,6 +219,11 @@ public class CharacterEditor extends Application {
 		builder.setBasicSpeedModifier(basicSpeed);
 		builder.setBasicMoveModifier(basicMove);
 		builder.setSizeModifier(sizeModifier);
+
+		for (SkillAndLevel skillAndLevel : skillAndLevels.values()) {
+			builder.addSkill(skillAndLevel.getSkill(), skillAndLevel.getRelativeLevel());
+		}
+
 		CharacterTemplate template = builder.createCharacterTemplate();
 
 		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));
@@ -197,6 +238,13 @@ public class CharacterEditor extends Application {
 		characteristicValueLabelMap.get(Characteristic.BASIC_MOVE).setText(String.format("%d m/s", basicMoveCalculator.calculate(template)));
 
 		// skills
+
+		for (SkillAndLevel skillAndLevel : skillAndLevels.values()) {
+			skillAndLevel.absoluteLevel = skillCalculator.calculateLevel(template, skillAndLevel.getSkill());
+		}
+
+		skillTable.getItems().clear();
+		skillTable.getItems().addAll(FXCollections.observableArrayList(skillAndLevels.values()));
 	}
 
 

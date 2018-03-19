@@ -1,18 +1,24 @@
 package gm.tools.editor.gui;
 
-public class SkillAndLevel {
-	public final String name;
-	public final int relativeLevel;
-	public final int absoluteLevel;
+import gm.tools.editor.character.skill.Skill;
 
-	public SkillAndLevel(String name, int relativeLevel, int absoluteLevel) {
-		this.name = name;
+public class SkillAndLevel {
+	private final Skill skill;
+	public int relativeLevel;
+	public int absoluteLevel;
+
+	public SkillAndLevel(Skill skill, int relativeLevel, int absoluteLevel) {
+		this.skill = skill;
 		this.relativeLevel = relativeLevel;
 		this.absoluteLevel = absoluteLevel;
 	}
 
+	public Skill getSkill() {
+		return skill;
+	}
+
 	public String getName() {
-		return name;
+		return skill.getName();
 	}
 
 	public int getRelativeLevel() {
