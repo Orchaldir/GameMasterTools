@@ -4,16 +4,17 @@ import gm.tools.editor.character.CharacterTemplate;
 import gm.tools.editor.character.CharacterTemplateBuilder;
 import gm.tools.editor.character.CostCalculator;
 import gm.tools.editor.character.characteristic.*;
+import gm.tools.editor.gui.SkillAndLevel;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -28,6 +29,7 @@ public class CharacterEditor extends Application {
 	private Map<Characteristic, Spinner<Integer>> characteristicSpinnerMap = new HashMap<>();
 	private Map<Characteristic, Label> characteristicValueLabelMap = new HashMap<>();
 	private Label characterPointsValueLabel;
+	private TableView<SkillAndLevel> skillTable = new TableView<>();
 
 	// calculators
 
@@ -57,10 +59,10 @@ public class CharacterEditor extends Application {
 		grid.add(nameTextField, 0, 0, 2, 1);
 
 		Label characterPointsLabel = new Label("CP");
-		grid.add(characterPointsLabel, 0, 5);
+		grid.add(characterPointsLabel, 0, 6);
 
 		characterPointsValueLabel = new Label("0");
-		grid.add(characterPointsValueLabel, 1, 5);
+		grid.add(characterPointsValueLabel, 1, 6);
 
 		// attributes
 
@@ -87,9 +89,31 @@ public class CharacterEditor extends Application {
 		grid.add(basicLiftValueLabel, 6, 1);
 		characteristicValueLabelMap.put(Characteristic.BASIC_LIFT, basicLiftValueLabel);
 
+		// skills
+
+		TableColumn skillNameCol = new TableColumn("Skill");
+		skillNameCol.setMinWidth(100);
+		skillNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+		TableColumn relativeSkillLevelCol = new TableColumn("Relative");
+		relativeSkillLevelCol.setMinWidth(100);
+		relativeSkillLevelCol.setCellValueFactory(new PropertyValueFactory<>("relativeLevel"));
+
+		TableColumn absoluteSkillLevelCol = new TableColumn("Absolute");
+		absoluteSkillLevelCol.setMinWidth(100);
+		absoluteSkillLevelCol.setCellValueFactory(new PropertyValueFactory<>("absoluteLevel"));
+
+		ObservableList<SkillAndLevel> personData = FXCollections.observableArrayList(new SkillAndLevel("sadaf", 1, 3), new SkillAndLevel("we23424", 2, 13));
+
+		skillTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		skillTable.setItems(personData);
+		skillTable.getColumns().addAll(skillNameCol, relativeSkillLevelCol, absoluteSkillLevelCol);
+
+		grid.add(skillTable, 0, 5, 5, 1);
+
 		//
 
-		primaryStage.setScene(new Scene(grid, 800, 275));
+		primaryStage.setScene(new Scene(grid, 800, 400));
 		primaryStage.show();
 
 		readData();
@@ -171,6 +195,8 @@ public class CharacterEditor extends Application {
 		characteristicValueLabelMap.get(Characteristic.BASIC_LIFT).setText(String.format("%d kg", basicLiftCalculator.calculate(template)));
 		characteristicValueLabelMap.get(Characteristic.BASIC_SPEED).setText(String.format("%.2f", basicSpeedCalculator.calculate(template)));
 		characteristicValueLabelMap.get(Characteristic.BASIC_MOVE).setText(String.format("%d m/s", basicMoveCalculator.calculate(template)));
+
+		// skills
 	}
 
 
