@@ -116,12 +116,17 @@ public class CharacterEditor extends Application {
 		skillTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		skillTable.getColumns().addAll(skillNameCol, relativeSkillLevelCol, absoluteSkillLevelCol);
 
-		grid.add(skillTable, 0, 5, 5, 3);
+		grid.add(skillTable, 0, 5, 5, 4);
 
 		ComboBox<String> skillComboBox = new ComboBox<>();
 		skillComboBox.setItems(FXCollections.observableArrayList(skillManager.getSkillNames()));
 
 		grid.add(skillComboBox, 6, 5);
+
+		Spinner<Integer> skillSpinner = new Spinner<>();
+		skillSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, 1));
+
+		grid.add(skillSpinner, 6, 6);
 
 		Button addSkillButton = new Button("Add Skill");
 		addSkillButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -129,23 +134,39 @@ public class CharacterEditor extends Application {
 			public void handle(ActionEvent e) {
 				Optional<Skill> skill = skillManager.get(skillComboBox.getValue());
 
-				if (skill.isPresent() && !skillAndLevels.containsKey(skill.get())) {
-					SkillAndLevel skillAndLevel = new SkillAndLevel(skill.get(), 1, 1);
+				if (skill.isPresent()) {
+					int relativeLevel = skillSpinner.getValue();
+					SkillAndLevel skillAndLevel = new SkillAndLevel(skill.get(), relativeLevel, 1);
 					skillAndLevels.put(skill.get(), skillAndLevel);
 					readData();
 				}
 			}
 		});
 
-		grid.add(addSkillButton, 6, 6);
+		grid.add(addSkillButton, 6, 7);
+
+		Button removeSkillButton = new Button("Remove Skill");
+		removeSkillButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				Optional<Skill> skill = skillManager.get(skillComboBox.getValue());
+
+				if (skill.isPresent()) {
+					skillAndLevels.remove(skill.get());
+					readData();
+				}
+			}
+		});
+
+		grid.add(removeSkillButton, 6, 8);
 
 		// character  points
 
 		Label characterPointsLabel = new Label("CP");
-		grid.add(characterPointsLabel, 0, 8);
+		grid.add(characterPointsLabel, 0, 9);
 
 		characterPointsValueLabel = new Label("0");
-		grid.add(characterPointsValueLabel, 1, 8);
+		grid.add(characterPointsValueLabel, 1, 9);
 
 		//
 
