@@ -16,4 +16,8 @@ public class Damage {
 	public int getModifier() {
 		return modifier;
 	}
+
+	public String toString() {
+		return String.format("%dd%+d", dice, modifier);
+	}
 }

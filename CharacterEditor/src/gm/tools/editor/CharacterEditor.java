@@ -4,6 +4,7 @@ import gm.tools.editor.character.CharacterTemplate;
 import gm.tools.editor.character.CharacterTemplateBuilder;
 import gm.tools.editor.character.CostCalculator;
 import gm.tools.editor.character.characteristic.*;
+import gm.tools.editor.character.damage.Damage;
 import gm.tools.editor.character.skill.Difficulty;
 import gm.tools.editor.character.skill.Skill;
 import gm.tools.editor.character.skill.SkillCalculator;
@@ -53,6 +54,7 @@ public class CharacterEditor extends Application {
 	private BasicLiftCalculator basicLiftCalculator = new BasicLiftCalculator();
 	private BasicSpeedCalculator basicSpeedCalculator = new BasicSpeedCalculator();
 	private BasicMoveCalculator basicMoveCalculator = new BasicMoveCalculator(basicSpeedCalculator);
+	private DamageCalculator damageCalculator = new DamageCalculator();
 
 	private SkillCalculator skillCalculator = new SkillCalculator(perceptionCalculator, willCalculator);
 
@@ -94,6 +96,13 @@ public class CharacterEditor extends Application {
 		Label basicLiftValueLabel = new Label("0");
 		grid.add(basicLiftValueLabel, 6, 1);
 		characteristicValueLabelMap.put(Characteristic.BASIC_LIFT, basicLiftValueLabel);
+
+		Label damageLabel = new Label("Damage");
+		grid.add(damageLabel, 5, 4);
+
+		Label damageValueLabel = new Label("0");
+		grid.add(damageValueLabel, 6, 4);
+		characteristicValueLabelMap.put(Characteristic.DAMAGE, damageValueLabel);
 
 		// skills
 
@@ -266,6 +275,13 @@ public class CharacterEditor extends Application {
 
 		skillTable.getItems().clear();
 		skillTable.getItems().addAll(FXCollections.observableArrayList(skillAndLevels.values()));
+
+		// damage
+
+		Damage thrustDamage = damageCalculator.calculateThrustDamage(template);
+		Damage swingDamage = damageCalculator.calculateSwingDamage(template);
+
+		characteristicValueLabelMap.get(Characteristic.DAMAGE).setText(String.format("%s/%s", thrustDamage.toString(), swingDamage.toString()));
 	}
 
 
