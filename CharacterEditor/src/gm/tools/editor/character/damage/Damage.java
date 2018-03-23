@@ -18,6 +18,16 @@ public class Damage {
 	}
 
 	public String toString() {
-		return String.format("%dd%+d", dice, modifier);
+		String string = "";
+
+		if (dice != 0) {
+			string += String.format("%dd", dice);
+		}
+
+		if (modifier != 0) {
+			string += String.format("%+d", modifier);
+		}
+
+		return string;
 	}
 }
