@@ -9,9 +9,9 @@ import static org.junit.Assert.*;
 
 public class BasicLiftCalculatorTest {
 	private CharacterTemplate template0 = new CharacterTemplateBuilder("test1").createCharacterTemplate();
-	private CharacterTemplate template1 = new CharacterTemplateBuilder("test2").setStrength(12).createCharacterTemplate();
-	private CharacterTemplate template2 = new CharacterTemplateBuilder("test3").setStrength(15).createCharacterTemplate();
-	private CharacterTemplate template3 = new CharacterTemplateBuilder("test4").setStrength(16).createCharacterTemplate();
+	private CharacterTemplate template1 = new CharacterTemplateBuilder("test2").setStrength(2).createCharacterTemplate();
+	private CharacterTemplate template2 = new CharacterTemplateBuilder("test3").setStrength(5).createCharacterTemplate();
+	private CharacterTemplate template3 = new CharacterTemplateBuilder("test4").setStrength(6).createCharacterTemplate();
 	private BasicLiftCalculator calculator;
 
 	@Before

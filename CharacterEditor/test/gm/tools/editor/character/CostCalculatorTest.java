@@ -13,9 +13,9 @@ public class CostCalculatorTest {
 	private Skill skill0 = new Skill("skill0", Attribute.DEXTERITY, Difficulty.VERY_HARD);
 	private Skill skill1 = new Skill("skill1", Attribute.INTELLIGENCE, Difficulty.VERY_HARD);
 	private CharacterTemplate template0 = new CharacterTemplateBuilder("test1").createCharacterTemplate();
-	private CharacterTemplate template1 = new CharacterTemplateBuilder("test2").setStrength(11).setDexterity(12).setIntelligence(13).setHealth(14).
+	private CharacterTemplate template1 = new CharacterTemplateBuilder("test2").setStrength(1).setDexterity(2).setIntelligence(3).setHealth(4).
 			setHitPointsModifier(-3).setWillModifier(1).setPerceptionModifier(-2).setFatiguePointsModifier(-1).createCharacterTemplate();
-	private CharacterTemplate template2 = new CharacterTemplateBuilder("test3").setStrength(11).setBasicSpeedModifier(-3).setBasicMoveModifier(-1).createCharacterTemplate();
+	private CharacterTemplate template2 = new CharacterTemplateBuilder("test3").setStrength(1).setBasicSpeedModifier(-3).setBasicMoveModifier(-1).createCharacterTemplate();
 	private CharacterTemplate template3;
 	private CostCalculator costCalculator;
 
@@ -24,7 +24,7 @@ public class CostCalculatorTest {
 		costCalculator = new CostCalculator();
 
 		CharacterTemplateBuilder builder = new CharacterTemplateBuilder("test");
-		builder.setStrength(11);
+		builder.setStrength(1);
 		builder.addSkill(skill0, 1);
 		builder.addSkill(skill1, 2);
 
@@ -35,25 +35,25 @@ public class CostCalculatorTest {
 
 	@Test
 	public void testLargeCharacterWithIncreasedStrength() {
-		CharacterTemplate template = new CharacterTemplateBuilder("test").setStrength(20).setSizeModifier(5).createCharacterTemplate();
+		CharacterTemplate template = new CharacterTemplateBuilder("test").setStrength(10).setSizeModifier(5).createCharacterTemplate();
 		assertEquals(50, costCalculator.calculate(template));
 	}
 
 	@Test
 	public void testLargeCharacterWithDecreasedStrength() {
-		CharacterTemplate template = new CharacterTemplateBuilder("test").setStrength(5).setSizeModifier(5).createCharacterTemplate();
+		CharacterTemplate template = new CharacterTemplateBuilder("test").setStrength(-5).setSizeModifier(5).createCharacterTemplate();
 		assertEquals(-50, costCalculator.calculate(template));
 	}
 
 	@Test
 	public void testSmallCharacterWithIncreasedStrength() {
-		CharacterTemplate template = new CharacterTemplateBuilder("test").setStrength(20).setSizeModifier(-5).createCharacterTemplate();
+		CharacterTemplate template = new CharacterTemplateBuilder("test").setStrength(10).setSizeModifier(-5).createCharacterTemplate();
 		assertEquals(100, costCalculator.calculate(template));
 	}
 
 	@Test
 	public void testSmallCharacterWithDecreasedStrength() {
-		CharacterTemplate template = new CharacterTemplateBuilder("test").setStrength(5).setSizeModifier(-5).createCharacterTemplate();
+		CharacterTemplate template = new CharacterTemplateBuilder("test").setStrength(-5).setSizeModifier(-5).createCharacterTemplate();
 		assertEquals(-50, costCalculator.calculate(template));
 	}
 

@@ -24,14 +24,14 @@ public class SkillCalculatorTest {
 	private final static int SKILL_LEVEL1 = 11;
 	private final static int SKILL_LEVEL2 = 14;
 	private final static int SKILL_LEVEL3 = 17;
-	private final static int SKILL_LEVEL4 = 16;
-	private final static int SKILL_LEVEL5 = 19;
+	private final static int SKILL_LEVEL4 = 13;
+	private final static int SKILL_LEVEL5 = 16;
 	private SkillCalculator calculator;
 
 	@Before
 	public void setUp() throws Exception {
 		CharacterTemplateBuilder builder = new CharacterTemplateBuilder("test");
-		builder.setAttributes(11, 12, 13, 14);
+		builder.setAttributes(1, 2, 3, 4);
 		builder.setPerceptionModifier(2);
 		builder.setWillModifier(3);
 		builder.addSkill(skill0, 1);

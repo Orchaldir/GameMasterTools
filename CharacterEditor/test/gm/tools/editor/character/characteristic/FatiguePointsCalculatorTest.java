@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class FatiguePointsCalculatorTest {
-	private CharacterTemplate template0 = new CharacterTemplateBuilder("test1").setHealth(16).setFatiguePointsModifier(3).createCharacterTemplate();
+	private CharacterTemplate template0 = new CharacterTemplateBuilder("test1").setHealth(6).setFatiguePointsModifier(3).createCharacterTemplate();
 	private FatiguePointsCalculator calculator;
 
 	@Before
