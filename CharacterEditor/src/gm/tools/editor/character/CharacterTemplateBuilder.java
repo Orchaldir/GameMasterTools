@@ -1,5 +1,7 @@
 package gm.tools.editor.character;
 
+import gm.tools.editor.character.characteristic.Attribute;
+import gm.tools.editor.character.characteristic.Characteristic;
 import gm.tools.editor.character.skill.Skill;
 
 import java.util.HashMap;
@@ -40,6 +42,24 @@ public class CharacterTemplateBuilder {
 		return this;
 	}
 
+	public CharacterTemplateBuilder setAttribute(Attribute attribute, int value) {
+		switch (attribute) {
+			case DEXTERITY:
+				this.dexterityModifier = value;
+			case HEALTH:
+				this.healthModifier = value;
+			case INTELLIGENCE:
+				this.intelligenceModifier = value;
+			case PERCEPTION:
+				this.perceptionModifier = value;
+			case STRENGTH:
+				this.strengthModifier = value;
+			case WILL:
+				this.willModifier = value;
+		}
+		return this;
+	}
+
 	public CharacterTemplateBuilder setStrength(int strengthModifier) {
 		this.strengthModifier = strengthModifier;
 		return this;
@@ -71,6 +91,28 @@ public class CharacterTemplateBuilder {
 	}
 
 	// secondary characteristics
+
+	public void setCharacteristicModifier(Characteristic characteristic, int value) {
+		switch (characteristic) {
+			case BASIC_MOVE:
+				basicMoveModifier = value;
+				return;
+			case BASIC_SPEED:
+				basicSpeedModifier = value;
+				return;
+			case FATIGUE_POINTS:
+				fatiguePointsModifier = value;
+				return;
+			case HIT_POINTS:
+				hitPointsModifier = value;
+				return;
+			case SIZE_MODIFIER:
+				sizeModifier = value;
+				return;
+		}
+
+		throw new IllegalArgumentException(String.format("Unsupported characteristic %s!", characteristic));
+	}
 
 	public CharacterTemplateBuilder setHitPointsModifier(int hitPointsModifier) {
 		this.hitPointsModifier = hitPointsModifier;
