@@ -1,20 +1,28 @@
 package gm.tools.editor.character;
 
+import gm.tools.editor.character.characteristic.Attribute;
 import gm.tools.editor.character.skill.Skill;
 
 import java.util.Set;
 
 public interface Character {
 	// attributes
-	int getStrength();
-	int getDexterity();
-	int getIntelligence();
-	int getHealth();
+	int getDexterityModifier();
+
+	int getHealthModifier();
+
+	int getIntelligenceModifier();
+
+	int getPerceptionModifier();
+
+	int getStrengthModifier();
+
+	int getWillModifier();
+
+	int getAttributeModifier(Attribute attribute);
 
 	// secondary characteristics
 	int getHitPointsModifier();
-	int getWillModifier();
-	int getPerceptionModifier();
 	int getFatiguePointsModifier();
 	int getBasicSpeedModifier();
 	int getBasicMoveModifier();

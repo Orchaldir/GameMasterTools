@@ -2,8 +2,11 @@ package gm.tools.editor.character.characteristic;
 
 import gm.tools.editor.character.Character;
 import gm.tools.editor.character.damage.Damage;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class DamageCalculator {
+	private final AttributeCalculator attributeCalculator;
 
 	public Damage calculateThrustDamage(int strength) {
 		int dice = 0;
@@ -22,7 +25,8 @@ public class DamageCalculator {
 	}
 
 	public Damage calculateThrustDamage(Character character) {
-		return calculateThrustDamage(character.getStrength());
+		int strength = attributeCalculator.calculate(character, Attribute.STRENGTH);
+		return calculateThrustDamage(strength);
 	}
 
 	public Damage calculateSwingDamage(int strength) {
@@ -42,6 +46,7 @@ public class DamageCalculator {
 	}
 
 	public Damage calculateSwingDamage(Character character) {
-		return calculateSwingDamage(character.getStrength());
+		int strength = attributeCalculator.calculate(character, Attribute.STRENGTH);
+		return calculateSwingDamage(strength);
 	}
 }

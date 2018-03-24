@@ -6,9 +6,13 @@ import lombok.Data;
 import lombok.Getter;
 
 @AllArgsConstructor
+@Data
 public class SkillAndLevel {
-	@Getter
 	private final Skill skill;
 	public int relativeLevel;
 	public int absoluteLevel;
+
+	public String getName() {
+		return skill.getName();
+	}
 }

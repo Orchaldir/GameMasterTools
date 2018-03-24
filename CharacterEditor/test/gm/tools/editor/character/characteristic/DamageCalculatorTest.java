@@ -17,7 +17,7 @@ public class DamageCalculatorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		calculator = new DamageCalculator();
+		calculator = new DamageCalculator(new AttributeCalculator());
 	}
 
 	private void assertThrustDamage(int strength, int dice, int modifier) {

@@ -1,10 +1,9 @@
 package gm.tools.editor.character;
 
+import gm.tools.editor.character.characteristic.Attribute;
 import gm.tools.editor.character.skill.Skill;
 
 public class CostCalculator {
-	public static final int ATTRIBUTE_DEFAULT_VALUE = 10;
-
 	// attributes
 	public static final int STRENGTH_COST = 10;
 	public static final int DEXTERITY_COST = 20;
@@ -18,10 +17,6 @@ public class CostCalculator {
 	public static final int FATIGUE_POINTS_COST = 3;
 	public static final int BASIC_SPEED_COST = 5;
 	public static final int BASIC_MOVE_COST = 5;
-
-	public int getAttributeModifier(int value) {
-		return value - ATTRIBUTE_DEFAULT_VALUE;
-	}
 
 	private int modifyCostWithSize(int cost, Character character) {
 		if (cost > 0) {
@@ -37,7 +32,7 @@ public class CostCalculator {
 	}
 
 	public int calculateStrengthCost(Character character) {
-		int strengthCost = getAttributeModifier(character.getStrength()) * STRENGTH_COST;
+		int strengthCost = character.getStrengthModifier() * STRENGTH_COST;
 
 		return modifyCostWithSize(strengthCost, character);
 	}
@@ -50,9 +45,9 @@ public class CostCalculator {
 
 	public int calculateCostOfAttributes(Character character) {
 		int strengthCost = calculateStrengthCost(character);
-		int dexterityCost = getAttributeModifier(character.getDexterity()) * DEXTERITY_COST;
-		int intelligenceCost = getAttributeModifier(character.getIntelligence()) * INTELLIGENCE_COST;
-		int healthCost = getAttributeModifier(character.getHealth()) * HEALTH_COST;
+		int dexterityCost = character.getDexterityModifier() * DEXTERITY_COST;
+		int intelligenceCost = character.getIntelligenceModifier() * INTELLIGENCE_COST;
+		int healthCost = character.getHealthModifier() * HEALTH_COST;
 
 		return strengthCost + dexterityCost + intelligenceCost + healthCost;
 	}

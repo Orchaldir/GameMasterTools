@@ -17,7 +17,7 @@ public class BasicSpeedCalculatorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		calculator = new BasicSpeedCalculator();
+		calculator = new BasicSpeedCalculator(new AttributeCalculator());
 	}
 
 	@Test

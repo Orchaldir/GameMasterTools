@@ -46,17 +46,16 @@ public class CharacterEditor extends Application {
 
 	private CostCalculator costCalculator = new CostCalculator();
 
-	private HitPointsCalculator hitPointsCalculator = new HitPointsCalculator();
-	private WillCalculator willCalculator = new WillCalculator();
-	private PerceptionCalculator perceptionCalculator = new PerceptionCalculator();
-	private FatiguePointsCalculator fatiguePointsCalculator = new FatiguePointsCalculator();
+	private AttributeCalculator attributeCalculator = new AttributeCalculator();
+	private HitPointsCalculator hitPointsCalculator = new HitPointsCalculator(attributeCalculator);
+	private FatiguePointsCalculator fatiguePointsCalculator = new FatiguePointsCalculator(attributeCalculator);
 
-	private BasicLiftCalculator basicLiftCalculator = new BasicLiftCalculator();
-	private BasicSpeedCalculator basicSpeedCalculator = new BasicSpeedCalculator();
+	private BasicLiftCalculator basicLiftCalculator = new BasicLiftCalculator(attributeCalculator);
+	private BasicSpeedCalculator basicSpeedCalculator = new BasicSpeedCalculator(attributeCalculator);
 	private BasicMoveCalculator basicMoveCalculator = new BasicMoveCalculator(basicSpeedCalculator);
-	private DamageCalculator damageCalculator = new DamageCalculator();
+	private DamageCalculator damageCalculator = new DamageCalculator(attributeCalculator);
 
-	private SkillCalculator skillCalculator = new SkillCalculator(perceptionCalculator, willCalculator);
+	private SkillCalculator skillCalculator = new SkillCalculator(attributeCalculator);
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -74,34 +73,34 @@ public class CharacterEditor extends Application {
 
 		// attributes
 
-		createAttribute(Attribute.STRENGTH, "ST", 0, 1);
-		createAttribute(Attribute.DEXTERITY, "DX", 0, 2);
-		createAttribute(Attribute.INTELLIGENCE, "IQ", 0, 3);
-		createAttribute(Attribute.HEALTH, "HT", 0, 4);
+		createCharacteristicWithValue(Attribute.STRENGTH, "ST", 0, 1);
+		createCharacteristicWithValue(Attribute.DEXTERITY, "DX", 0, 2);
+		createCharacteristicWithValue(Attribute.INTELLIGENCE, "IQ", 0, 3);
+		createCharacteristicWithValue(Attribute.HEALTH, "HT", 0, 4);
 
 		// secondary characteristics
 
-		createCharacteristicWithValue(Characteristic.HIT_POINTS, "HP", 2, 1);
-		createCharacteristicWithValue(Attribute.WILL, "Will", 2, 2);
-		createCharacteristicWithValue(Attribute.PERCEPTION, "Per", 2, 3);
-		createCharacteristicWithValue(Characteristic.FATIGUE_POINTS, "FP", 2, 4);
+		createCharacteristicWithValue(Characteristic.HIT_POINTS, "HP", 3, 1);
+		createCharacteristicWithValue(Attribute.WILL, "Will", 3, 2);
+		createCharacteristicWithValue(Attribute.PERCEPTION, "Per", 3, 3);
+		createCharacteristicWithValue(Characteristic.FATIGUE_POINTS, "FP", 3, 4);
 
-		createCharacteristicWithValue(Characteristic.BASIC_SPEED, "BS", 5, 2);
-		createCharacteristicWithValue(Characteristic.BASIC_MOVE, "BM", 5, 3);
-		createCharacteristic(Characteristic.SIZE_MODIFIER, "SM", 2, 0);
+		createCharacteristicWithValue(Characteristic.BASIC_SPEED, "BS", 6, 2);
+		createCharacteristicWithValue(Characteristic.BASIC_MOVE, "BM", 6, 3);
+		createCharacteristic(Characteristic.SIZE_MODIFIER, "SM", 3, 0);
 
 		Label basicLiftLabel = new Label("BL");
-		grid.add(basicLiftLabel, 5, 1);
+		grid.add(basicLiftLabel, 6, 1);
 
 		Label basicLiftValueLabel = new Label("0");
-		grid.add(basicLiftValueLabel, 6, 1);
+		grid.add(basicLiftValueLabel, 7, 1);
 		characteristicValueLabelMap.put(Characteristic.BASIC_LIFT, basicLiftValueLabel);
 
 		Label damageLabel = new Label("Damage");
-		grid.add(damageLabel, 5, 4);
+		grid.add(damageLabel, 6, 4);
 
 		Label damageValueLabel = new Label("0");
-		grid.add(damageValueLabel, 6, 4);
+		grid.add(damageValueLabel, 7, 4);
 		characteristicValueLabelMap.put(Characteristic.DAMAGE, damageValueLabel);
 
 		// skills
@@ -130,12 +129,12 @@ public class CharacterEditor extends Application {
 		ComboBox<String> skillComboBox = new ComboBox<>();
 		skillComboBox.setItems(FXCollections.observableArrayList(skillManager.getSkillNames()));
 
-		grid.add(skillComboBox, 6, 5);
+		grid.add(skillComboBox, 6, 5, 2, 1);
 
 		Spinner<Integer> skillSpinner = new Spinner<>();
 		skillSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, 1));
 
-		grid.add(skillSpinner, 6, 6);
+		grid.add(skillSpinner, 6, 6, 2, 1);
 
 		Button addSkillButton = new Button("Add Skill");
 		addSkillButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -152,7 +151,7 @@ public class CharacterEditor extends Application {
 			}
 		});
 
-		grid.add(addSkillButton, 6, 7);
+		grid.add(addSkillButton, 6, 7, 2, 1);
 
 		Button removeSkillButton = new Button("Remove Skill");
 		removeSkillButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -167,7 +166,7 @@ public class CharacterEditor extends Application {
 			}
 		});
 
-		grid.add(removeSkillButton, 6, 8);
+		grid.add(removeSkillButton, 6, 8, 2, 1);
 
 		// character  points
 
@@ -258,9 +257,14 @@ public class CharacterEditor extends Application {
 
 		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));
 
+		characteristicValueLabelMap.get(Attribute.STRENGTH).setText(Integer.toString(attributeCalculator.calculate(template, Attribute.STRENGTH)));
+		characteristicValueLabelMap.get(Attribute.DEXTERITY).setText(Integer.toString(attributeCalculator.calculate(template, Attribute.DEXTERITY)));
+		characteristicValueLabelMap.get(Attribute.INTELLIGENCE).setText(Integer.toString(attributeCalculator.calculate(template, Attribute.INTELLIGENCE)));
+		characteristicValueLabelMap.get(Attribute.HEALTH).setText(Integer.toString(attributeCalculator.calculate(template, Attribute.HEALTH)));
+
 		characteristicValueLabelMap.get(Characteristic.HIT_POINTS).setText(Integer.toString(hitPointsCalculator.calculate(template)));
-		characteristicValueLabelMap.get(Attribute.WILL).setText(Integer.toString(willCalculator.calculate(template)));
-		characteristicValueLabelMap.get(Attribute.PERCEPTION).setText(Integer.toString(perceptionCalculator.calculate(template)));
+		characteristicValueLabelMap.get(Attribute.WILL).setText(Integer.toString(attributeCalculator.calculate(template, Attribute.WILL)));
+		characteristicValueLabelMap.get(Attribute.PERCEPTION).setText(Integer.toString(attributeCalculator.calculate(template, Attribute.PERCEPTION)));
 		characteristicValueLabelMap.get(Characteristic.FATIGUE_POINTS).setText(Integer.toString(fatiguePointsCalculator.calculate(template)));
 
 		characteristicValueLabelMap.get(Characteristic.BASIC_LIFT).setText(String.format("%d kg", basicLiftCalculator.calculate(template)));

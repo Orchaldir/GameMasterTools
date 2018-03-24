@@ -16,7 +16,7 @@ public class BasicMoveCalculatorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		calculator = new BasicMoveCalculator(new BasicSpeedCalculator());
+		calculator = new BasicMoveCalculator(new BasicSpeedCalculator(new AttributeCalculator()));
 	}
 
 	@Test

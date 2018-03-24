@@ -9,15 +9,15 @@ public class CharacterTemplateBuilder {
 	private final String name;
 
 	// attributes
-	private int strength = 10;
-	private int dexterity = 10;
-	private int intelligence = 10;
-	private int health = 10;
+	private int dexterityModifier = 0;
+	private int healthModifier = 0;
+	private int intelligenceModifier = 0;
+	private int perceptionModifier = 0;
+	private int strengthModifier = 0;
+	private int willModifier = 0;
 
 	// secondary characteristics
 	private int hitPointsModifier = 0;
-	private int willModifier = 0;
-	private int perceptionModifier = 0;
 	private int fatiguePointsModifier = 0;
 	private int basicSpeedModifier = 0;
 	private int basicMoveModifier = 0;
@@ -33,37 +33,30 @@ public class CharacterTemplateBuilder {
 	// attributes
 
 	public CharacterTemplateBuilder setAttributes(int strength, int dexterity, int intelligence, int health) {
-		this.strength = strength;
-		this.dexterity = dexterity;
-		this.intelligence = intelligence;
-		this.health = health;
+		this.strengthModifier = strength;
+		this.dexterityModifier = dexterity;
+		this.intelligenceModifier = intelligence;
+		this.healthModifier = health;
 		return this;
 	}
 
-	public CharacterTemplateBuilder setStrength(int strength) {
-		this.strength = strength;
+	public CharacterTemplateBuilder setStrength(int strengthModifier) {
+		this.strengthModifier = strengthModifier;
 		return this;
 	}
 
-	public CharacterTemplateBuilder setDexterity(int dexterity) {
-		this.dexterity = dexterity;
+	public CharacterTemplateBuilder setDexterity(int dexterityModifier) {
+		this.dexterityModifier = dexterityModifier;
 		return this;
 	}
 
-	public CharacterTemplateBuilder setIntelligence(int intelligence) {
-		this.intelligence = intelligence;
+	public CharacterTemplateBuilder setIntelligence(int intelligenceModifier) {
+		this.intelligenceModifier = intelligenceModifier;
 		return this;
 	}
 
-	public CharacterTemplateBuilder setHealth(int health) {
-		this.health = health;
-		return this;
-	}
-
-	// secondary characteristics
-
-	public CharacterTemplateBuilder setHitPointsModifier(int hitPointsModifier) {
-		this.hitPointsModifier = hitPointsModifier;
+	public CharacterTemplateBuilder setHealth(int healthModifier) {
+		this.healthModifier = healthModifier;
 		return this;
 	}
 
@@ -74,6 +67,13 @@ public class CharacterTemplateBuilder {
 
 	public CharacterTemplateBuilder setPerceptionModifier(int perceptionModifier) {
 		this.perceptionModifier = perceptionModifier;
+		return this;
+	}
+
+	// secondary characteristics
+
+	public CharacterTemplateBuilder setHitPointsModifier(int hitPointsModifier) {
+		this.hitPointsModifier = hitPointsModifier;
 		return this;
 	}
 
@@ -110,8 +110,9 @@ public class CharacterTemplateBuilder {
 	//
 
 	public CharacterTemplate createCharacterTemplate() {
-		return new CharacterTemplate(name, strength, dexterity, intelligence, health, hitPointsModifier,
-				willModifier, perceptionModifier, fatiguePointsModifier,
+		return new CharacterTemplate(name,
+				dexterityModifier, healthModifier, intelligenceModifier, perceptionModifier, strengthModifier, willModifier,
+				hitPointsModifier, fatiguePointsModifier,
 				basicSpeedModifier, basicMoveModifier, sizeModifier,
 				skills);
 	}

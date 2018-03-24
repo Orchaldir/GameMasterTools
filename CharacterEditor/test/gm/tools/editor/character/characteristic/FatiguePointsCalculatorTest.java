@@ -13,7 +13,7 @@ public class FatiguePointsCalculatorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		calculator = new FatiguePointsCalculator();
+		calculator = new FatiguePointsCalculator(new AttributeCalculator());
 	}
 
 	@Test

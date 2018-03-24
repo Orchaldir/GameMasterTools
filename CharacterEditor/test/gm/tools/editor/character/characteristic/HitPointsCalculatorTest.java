@@ -13,7 +13,7 @@ public class HitPointsCalculatorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		calculator = new HitPointsCalculator();
+		calculator = new HitPointsCalculator(new AttributeCalculator());
 	}
 
 	@Test

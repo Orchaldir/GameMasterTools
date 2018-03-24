@@ -16,7 +16,7 @@ public class BasicLiftCalculatorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		calculator = new BasicLiftCalculator();
+		calculator = new BasicLiftCalculator(new AttributeCalculator());
 	}
 
 	@Test

@@ -3,8 +3,7 @@ package gm.tools.editor.character.skill;
 import gm.tools.editor.character.CharacterTemplate;
 import gm.tools.editor.character.CharacterTemplateBuilder;
 import gm.tools.editor.character.characteristic.Attribute;
-import gm.tools.editor.character.characteristic.PerceptionCalculator;
-import gm.tools.editor.character.characteristic.WillCalculator;
+import gm.tools.editor.character.characteristic.AttributeCalculator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,7 +42,7 @@ public class SkillCalculatorTest {
 		builder.addSkill(skill5, 6);
 
 		template = builder.createCharacterTemplate();
-		calculator = new SkillCalculator(new PerceptionCalculator(), new WillCalculator());
+		calculator = new SkillCalculator(new AttributeCalculator());
 	}
 
 	@Test
