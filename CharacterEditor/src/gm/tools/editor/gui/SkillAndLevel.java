@@ -5,10 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
-@Data
 @AllArgsConstructor
 public class SkillAndLevel {
+	@Getter
 	private final Skill skill;
-	public final int relativeLevel;
-	public final int absoluteLevel;
+	public int relativeLevel;
+	public int absoluteLevel;
 }

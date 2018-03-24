@@ -2,7 +2,7 @@ package gm.tools.editor.character.skill;
 
 import gm.tools.editor.character.CharacterTemplate;
 import gm.tools.editor.character.CharacterTemplateBuilder;
-import gm.tools.editor.character.characteristic.Characteristic;
+import gm.tools.editor.character.characteristic.Attribute;
 import gm.tools.editor.character.characteristic.PerceptionCalculator;
 import gm.tools.editor.character.characteristic.WillCalculator;
 import org.junit.Before;
@@ -15,12 +15,12 @@ import static org.junit.Assert.assertEquals;
 public class SkillCalculatorTest {
 
 	private CharacterTemplate template;
-	private Skill skill0 = new Skill("skill0", Characteristic.STRENGTH, Difficulty.VERY_HARD);
-	private Skill skill1 = new Skill("skill1", Characteristic.DEXTERITY, Difficulty.HARD);
-	private Skill skill2 = new Skill("skill2", Characteristic.INTELLIGENCE, Difficulty.AVERAGE);
-	private Skill skill3 = new Skill("skill3", Characteristic.HEALTH, Difficulty.EASY);
-	private Skill skill4 = new Skill("skill4", Characteristic.PERCEPTION, Difficulty.VERY_HARD);
-	private Skill skill5 = new Skill("skill5", Characteristic.WILL, Difficulty.HARD);
+	private Skill skill0 = new Skill("skill0", Attribute.DEXTERITY.STRENGTH, Difficulty.VERY_HARD);
+	private Skill skill1 = new Skill("skill1", Attribute.DEXTERITY, Difficulty.HARD);
+	private Skill skill2 = new Skill("skill2", Attribute.INTELLIGENCE, Difficulty.AVERAGE);
+	private Skill skill3 = new Skill("skill3", Attribute.HEALTH, Difficulty.EASY);
+	private Skill skill4 = new Skill("skill4", Attribute.PERCEPTION, Difficulty.VERY_HARD);
+	private Skill skill5 = new Skill("skill5", Attribute.WILL, Difficulty.HARD);
 	private final static int SKILL_LEVEL0 = 8;
 	private final static int SKILL_LEVEL1 = 11;
 	private final static int SKILL_LEVEL2 = 14;

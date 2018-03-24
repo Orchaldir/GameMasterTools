@@ -1,6 +1,6 @@
 package gm.tools.editor.character;
 
-import gm.tools.editor.character.characteristic.Characteristic;
+import gm.tools.editor.character.characteristic.Attribute;
 import gm.tools.editor.character.skill.Difficulty;
 import gm.tools.editor.character.skill.Skill;
 import org.junit.Before;
@@ -10,8 +10,8 @@ import static org.junit.Assert.*;
 
 public class CostCalculatorTest {
 
-	private Skill skill0 = new Skill("skill0", Characteristic.DEXTERITY, Difficulty.VERY_HARD);
-	private Skill skill1 = new Skill("skill1", Characteristic.INTELLIGENCE, Difficulty.VERY_HARD);
+	private Skill skill0 = new Skill("skill0", Attribute.DEXTERITY, Difficulty.VERY_HARD);
+	private Skill skill1 = new Skill("skill1", Attribute.INTELLIGENCE, Difficulty.VERY_HARD);
 	private CharacterTemplate template0 = new CharacterTemplateBuilder("test1").createCharacterTemplate();
 	private CharacterTemplate template1 = new CharacterTemplateBuilder("test2").setStrength(11).setDexterity(12).setIntelligence(13).setHealth(14).
 			setHitPointsModifier(-3).setWillModifier(1).setPerceptionModifier(-2).setFatiguePointsModifier(-1).createCharacterTemplate();

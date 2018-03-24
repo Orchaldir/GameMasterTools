@@ -34,8 +34,8 @@ public class CharacterEditor extends Application {
 
 	private GridPane grid;
 	private TextField nameTextField;
-	private Map<Characteristic, Spinner<Integer>> characteristicSpinnerMap = new HashMap<>();
-	private Map<Characteristic, Label> characteristicValueLabelMap = new HashMap<>();
+	private Map<Enum, Spinner<Integer>> characteristicSpinnerMap = new HashMap<>();
+	private Map<Enum, Label> characteristicValueLabelMap = new HashMap<>();
 	private Label characterPointsValueLabel;
 	private TableView<SkillAndLevel> skillTable = new TableView<>();
 	private Map<Skill, SkillAndLevel> skillAndLevels = new HashMap<>();
@@ -74,16 +74,16 @@ public class CharacterEditor extends Application {
 
 		// attributes
 
-		createAttribute(Characteristic.STRENGTH, "ST", 0, 1);
-		createAttribute(Characteristic.DEXTERITY, "DX", 0, 2);
-		createAttribute(Characteristic.INTELLIGENCE, "IQ", 0, 3);
-		createAttribute(Characteristic.HEALTH, "HT", 0, 4);
+		createAttribute(Attribute.STRENGTH, "ST", 0, 1);
+		createAttribute(Attribute.DEXTERITY, "DX", 0, 2);
+		createAttribute(Attribute.INTELLIGENCE, "IQ", 0, 3);
+		createAttribute(Attribute.HEALTH, "HT", 0, 4);
 
 		// secondary characteristics
 
 		createCharacteristicWithValue(Characteristic.HIT_POINTS, "HP", 2, 1);
-		createCharacteristicWithValue(Characteristic.WILL, "Will", 2, 2);
-		createCharacteristicWithValue(Characteristic.PERCEPTION, "Per", 2, 3);
+		createCharacteristicWithValue(Attribute.WILL, "Will", 2, 2);
+		createCharacteristicWithValue(Attribute.PERCEPTION, "Per", 2, 3);
 		createCharacteristicWithValue(Characteristic.FATIGUE_POINTS, "FP", 2, 4);
 
 		createCharacteristicWithValue(Characteristic.BASIC_SPEED, "BS", 5, 2);
@@ -106,9 +106,9 @@ public class CharacterEditor extends Application {
 
 		// skills
 
-		skillManager.add(new Skill("Swords", Characteristic.DEXTERITY, Difficulty.VERY_HARD));
-		skillManager.add(new Skill("Magic", Characteristic.INTELLIGENCE, Difficulty.VERY_HARD));
-		skillManager.add(new Skill("Shooting", Characteristic.PERCEPTION, Difficulty.VERY_HARD));
+		skillManager.add(new Skill("Swords", Attribute.DEXTERITY, Difficulty.VERY_HARD));
+		skillManager.add(new Skill("Magic", Attribute.INTELLIGENCE, Difficulty.VERY_HARD));
+		skillManager.add(new Skill("Shooting", Attribute.PERCEPTION, Difficulty.VERY_HARD));
 
 		TableColumn skillNameCol = new TableColumn("Skill");
 		skillNameCol.setMinWidth(100);
@@ -185,22 +185,22 @@ public class CharacterEditor extends Application {
 		readData();
 	}
 
-	private void createAttribute(Characteristic characteristic, String text, int columnIndex, int rowIndex) {
+	private void createAttribute(Enum characteristic, String text, int columnIndex, int rowIndex) {
 		createCharacteristic(characteristic, text, columnIndex, rowIndex, 1, 20, 10);
 	}
 
-	private void createCharacteristic(Characteristic characteristic, String text, int columnIndex, int rowIndex) {
+	private void createCharacteristic(Enum characteristic, String text, int columnIndex, int rowIndex) {
 		createCharacteristic(characteristic, text, columnIndex, rowIndex, -10, +10, 0);
 	}
 
-	private void createCharacteristic(Characteristic characteristic, String text, int columnIndex, int rowIndex, int min, int max, int defaultValue) {
+	private void createCharacteristic(Enum characteristic, String text, int columnIndex, int rowIndex, int min, int max, int defaultValue) {
 		Label label = new Label(text);
 		grid.add(label, columnIndex, rowIndex);
 
 		characteristicSpinnerMap.put(characteristic, createSpinner(columnIndex + 1, rowIndex, min, max, defaultValue));
 	}
 
-	private void createCharacteristicWithValue(Characteristic characteristic, String text, int columnIndex, int rowIndex) {
+	private void createCharacteristicWithValue(Enum characteristic, String text, int columnIndex, int rowIndex) {
 		createCharacteristic(characteristic, text, columnIndex, rowIndex);
 
 		Label valueLabel = new Label("0");
@@ -226,14 +226,14 @@ public class CharacterEditor extends Application {
 	}
 
 	private void readData() {
-		int strength = characteristicSpinnerMap.get(Characteristic.STRENGTH).getValue();
-		int dexterity = characteristicSpinnerMap.get(Characteristic.DEXTERITY).getValue();
-		int intelligence = characteristicSpinnerMap.get(Characteristic.INTELLIGENCE).getValue();
-		int health = characteristicSpinnerMap.get(Characteristic.HEALTH).getValue();
+		int strength = characteristicSpinnerMap.get(Attribute.STRENGTH).getValue();
+		int dexterity = characteristicSpinnerMap.get(Attribute.DEXTERITY).getValue();
+		int intelligence = characteristicSpinnerMap.get(Attribute.INTELLIGENCE).getValue();
+		int health = characteristicSpinnerMap.get(Attribute.HEALTH).getValue();
 
 		int hitPoints = characteristicSpinnerMap.get(Characteristic.HIT_POINTS).getValue();
-		int will = characteristicSpinnerMap.get(Characteristic.WILL).getValue();
-		int perception = characteristicSpinnerMap.get(Characteristic.PERCEPTION).getValue();
+		int will = characteristicSpinnerMap.get(Attribute.WILL).getValue();
+		int perception = characteristicSpinnerMap.get(Attribute.PERCEPTION).getValue();
 		int fatiguePoints = characteristicSpinnerMap.get(Characteristic.FATIGUE_POINTS).getValue();
 
 		int basicSpeed = characteristicSpinnerMap.get(Characteristic.BASIC_SPEED).getValue();
@@ -251,7 +251,7 @@ public class CharacterEditor extends Application {
 		builder.setSizeModifier(sizeModifier);
 
 		for (SkillAndLevel skillAndLevel : skillAndLevels.values()) {
-			builder.addSkill(skillAndLevel.getSkill(), skillAndLevel.getRelativeLevel());
+			builder.addSkill(skillAndLevel.getSkill(), skillAndLevel.relativeLevel);
 		}
 
 		CharacterTemplate template = builder.createCharacterTemplate();
@@ -259,8 +259,8 @@ public class CharacterEditor extends Application {
 		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));
 
 		characteristicValueLabelMap.get(Characteristic.HIT_POINTS).setText(Integer.toString(hitPointsCalculator.calculate(template)));
-		characteristicValueLabelMap.get(Characteristic.WILL).setText(Integer.toString(willCalculator.calculate(template)));
-		characteristicValueLabelMap.get(Characteristic.PERCEPTION).setText(Integer.toString(perceptionCalculator.calculate(template)));
+		characteristicValueLabelMap.get(Attribute.WILL).setText(Integer.toString(willCalculator.calculate(template)));
+		characteristicValueLabelMap.get(Attribute.PERCEPTION).setText(Integer.toString(perceptionCalculator.calculate(template)));
 		characteristicValueLabelMap.get(Characteristic.FATIGUE_POINTS).setText(Integer.toString(fatiguePointsCalculator.calculate(template)));
 
 		characteristicValueLabelMap.get(Characteristic.BASIC_LIFT).setText(String.format("%d kg", basicLiftCalculator.calculate(template)));
