@@ -1,6 +1,7 @@
 package gm.tools.editor.character;
 
 import gm.tools.editor.character.characteristic.Attribute;
+import gm.tools.editor.character.characteristic.Characteristic;
 import gm.tools.editor.character.skill.Skill;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -53,7 +54,27 @@ public class CharacterTemplate implements Character {
 				return willModifier;
 		}
 
-		throw new IllegalArgumentException(String.format("Unknown attribute %s!", attribute));
+		throw new IllegalArgumentException(String.format("Unsupported attribute %s!", attribute));
+	}
+
+	// characteristics
+
+	@Override
+	public int getCharacteristicModifier(Characteristic characteristic) {
+		switch (characteristic) {
+			case BASIC_MOVE:
+				return basicMoveModifier;
+			case BASIC_SPEED:
+				return basicSpeedModifier;
+			case FATIGUE_POINTS:
+				return fatiguePointsModifier;
+			case HIT_POINTS:
+				return hitPointsModifier;
+			case SIZE_MODIFIER:
+				return sizeModifier;
+		}
+
+		throw new IllegalArgumentException(String.format("Unsupported characteristic %s!", characteristic));
 	}
 
 	// skill
