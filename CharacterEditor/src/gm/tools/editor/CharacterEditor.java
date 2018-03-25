@@ -9,6 +9,7 @@ import gm.tools.editor.character.skill.Difficulty;
 import gm.tools.editor.character.skill.Skill;
 import gm.tools.editor.character.skill.SkillCalculator;
 import gm.tools.editor.character.skill.SkillManager;
+import gm.tools.editor.gui.DataTree;
 import gm.tools.editor.gui.SkillAndLevel;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -22,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -39,6 +41,7 @@ public class CharacterEditor extends Application {
 	private Label characterPointsValueLabel;
 	private TableView<SkillAndLevel> skillTable = new TableView<>();
 	private Map<Skill, SkillAndLevel> skillAndLevels = new HashMap<>();
+	private DataTree dataTree;
 
 	// calculators
 
@@ -62,11 +65,23 @@ public class CharacterEditor extends Application {
 		Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 		primaryStage.setTitle("Character Editor");
 
+		BorderPane border = new BorderPane();
+
+		// data tree
+
+		dataTree = new DataTree(skillManager);
+		border.setLeft(dataTree.getTreeView());
+
+		// character
+
 		grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
+		border.setCenter(grid);
+
+		// character
 
 		nameTextField = new TextField("Character");
 		grid.add(nameTextField, 0, 0, 2, 1);
@@ -178,7 +193,7 @@ public class CharacterEditor extends Application {
 
 		//
 
-		primaryStage.setScene(new Scene(grid, 800, 400));
+		primaryStage.setScene(new Scene(border, 1000, 400));
 		primaryStage.show();
 
 		readData();
@@ -286,6 +301,8 @@ public class CharacterEditor extends Application {
 		Damage swingDamage = damageCalculator.calculateSwingDamage(template);
 
 		characteristicValueLabelMap.get(Characteristic.DAMAGE).setText(String.format("%s/%s", thrustDamage.toString(), swingDamage.toString()));
+
+		dataTree.update();
 	}
 
 
