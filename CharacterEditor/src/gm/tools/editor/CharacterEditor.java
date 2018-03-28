@@ -75,9 +75,6 @@ public class CharacterEditor extends Application {
 
 		borderPane = new BorderPane();
 
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON", "*.json");
-		fileChooser.getExtensionFilters().add(extFilter);
-
 		createMenubar(primaryStage);
 
 		// character
@@ -250,6 +247,9 @@ public class CharacterEditor extends Application {
 	private void createMenubar(Stage stage) {
 		MenuBar menuBar = new MenuBar();
 
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON", "*.json");
+		fileChooser.getExtensionFilters().add(extFilter);
+
 		// File
 
 		Menu menuFile = new Menu("File");
@@ -263,7 +263,7 @@ public class CharacterEditor extends Application {
 
 		// File -> Load
 
-		MenuItem loadTemplateItem = new MenuItem("Load", new ImageView(new Image("/icons/save.png")));
+		MenuItem loadTemplateItem = new MenuItem("Load", new ImageView(new Image("/icons/load.png")));
 		loadTemplateItem.setOnAction(t -> loadTemplateFromFile(stage));
 		menuFile.getItems().addAll(loadTemplateItem);
 
@@ -297,29 +297,15 @@ public class CharacterEditor extends Application {
 	}
 
 	private CharacterTemplate createTemplateFromGui() {
-		int strength = characteristicSpinnerMap.get(Attribute.STRENGTH).getValue();
-		int dexterity = characteristicSpinnerMap.get(Attribute.DEXTERITY).getValue();
-		int intelligence = characteristicSpinnerMap.get(Attribute.INTELLIGENCE).getValue();
-		int health = characteristicSpinnerMap.get(Attribute.HEALTH).getValue();
-
-		int hitPoints = characteristicSpinnerMap.get(Characteristic.HIT_POINTS).getValue();
-		int will = characteristicSpinnerMap.get(Attribute.WILL).getValue();
-		int perception = characteristicSpinnerMap.get(Attribute.PERCEPTION).getValue();
-		int fatiguePoints = characteristicSpinnerMap.get(Characteristic.FATIGUE_POINTS).getValue();
-
-		int basicSpeed = characteristicSpinnerMap.get(Characteristic.BASIC_SPEED).getValue();
-		int basicMove = characteristicSpinnerMap.get(Characteristic.BASIC_MOVE).getValue();
-		int sizeModifier = characteristicSpinnerMap.get(Characteristic.SIZE_MODIFIER).getValue();
-
 		CharacterTemplateBuilder builder = new CharacterTemplateBuilder(nameTextField.getText());
-		builder.setAttributes(strength, dexterity, intelligence, health);
-		builder.setHitPointsModifier(hitPoints);
-		builder.setWillModifier(will);
-		builder.setPerceptionModifier(perception);
-		builder.setFatiguePointsModifier(fatiguePoints);
-		builder.setBasicSpeedModifier(basicSpeed);
-		builder.setBasicMoveModifier(basicMove);
-		builder.setSizeModifier(sizeModifier);
+
+		for (Attribute attribute : Attribute.values()) {
+			builder.setAttribute(attribute, characteristicSpinnerMap.get(attribute).getValue());
+		}
+
+		for (Characteristic characteristic : Characteristic.MODIFIERS) {
+			builder.setCharacteristicModifier(characteristic, characteristicSpinnerMap.get(characteristic).getValue());
+		}
 
 		for (SkillAndLevel skillAndLevel : skillAndLevels.values()) {
 			builder.addSkill(skillAndLevel.getSkill(), skillAndLevel.relativeLevel);
@@ -329,6 +315,8 @@ public class CharacterEditor extends Application {
 	}
 
 	private void setGuiToTemplate(CharacterTemplate template) {
+		nameTextField.setText(template.getName());
+
 		for (Attribute attribute : Attribute.values()) {
 			characteristicSpinnerMap.get(attribute).getValueFactory().setValue(template.getAttributeModifier(attribute));
 		}
@@ -352,14 +340,11 @@ public class CharacterEditor extends Application {
 	private void readData(CharacterTemplate template) {
 		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));
 
-		characteristicValueLabelMap.get(Attribute.STRENGTH).setText(Integer.toString(attributeCalculator.calculate(template, Attribute.STRENGTH)));
-		characteristicValueLabelMap.get(Attribute.DEXTERITY).setText(Integer.toString(attributeCalculator.calculate(template, Attribute.DEXTERITY)));
-		characteristicValueLabelMap.get(Attribute.INTELLIGENCE).setText(Integer.toString(attributeCalculator.calculate(template, Attribute.INTELLIGENCE)));
-		characteristicValueLabelMap.get(Attribute.HEALTH).setText(Integer.toString(attributeCalculator.calculate(template, Attribute.HEALTH)));
+		for (Attribute attribute : Attribute.values()) {
+			characteristicValueLabelMap.get(attribute).setText(Integer.toString(attributeCalculator.calculate(template, attribute)));
+		}
 
 		characteristicValueLabelMap.get(Characteristic.HIT_POINTS).setText(Integer.toString(hitPointsCalculator.calculate(template)));
-		characteristicValueLabelMap.get(Attribute.WILL).setText(Integer.toString(attributeCalculator.calculate(template, Attribute.WILL)));
-		characteristicValueLabelMap.get(Attribute.PERCEPTION).setText(Integer.toString(attributeCalculator.calculate(template, Attribute.PERCEPTION)));
 		characteristicValueLabelMap.get(Characteristic.FATIGUE_POINTS).setText(Integer.toString(fatiguePointsCalculator.calculate(template)));
 
 		characteristicValueLabelMap.get(Characteristic.BASIC_LIFT).setText(String.format("%d kg", basicLiftCalculator.calculate(template)));
