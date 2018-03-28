@@ -2,6 +2,7 @@ package gm.tools.editor;
 
 import gm.tools.editor.character.CharacterTemplate;
 import gm.tools.editor.character.CharacterTemplateBuilder;
+import gm.tools.editor.character.CharacterTemplateJson;
 import gm.tools.editor.character.CostCalculator;
 import gm.tools.editor.character.characteristic.*;
 import gm.tools.editor.character.damage.Damage;
@@ -9,11 +10,9 @@ import gm.tools.editor.character.skill.Difficulty;
 import gm.tools.editor.character.skill.Skill;
 import gm.tools.editor.character.skill.SkillCalculator;
 import gm.tools.editor.character.skill.SkillManager;
-import gm.tools.editor.gui.DataTree;
 import gm.tools.editor.gui.SkillAndLevel;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -23,10 +22,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -34,6 +39,7 @@ import java.util.Optional;
 public class CharacterEditor extends Application {
 	// gui
 
+	private BorderPane borderPane;
 	private GridPane grid;
 	private TextField nameTextField;
 	private Map<Enum, Spinner<Integer>> characteristicSpinnerMap = new HashMap<>();
@@ -41,7 +47,7 @@ public class CharacterEditor extends Application {
 	private Label characterPointsValueLabel;
 	private TableView<SkillAndLevel> skillTable = new TableView<>();
 	private Map<Skill, SkillAndLevel> skillAndLevels = new HashMap<>();
-	private DataTree dataTree;
+	private FileChooser fileChooser = new FileChooser();
 
 	// calculators
 
@@ -60,17 +66,19 @@ public class CharacterEditor extends Application {
 
 	private SkillCalculator skillCalculator = new SkillCalculator(attributeCalculator);
 
+	private CharacterTemplateJson characterTemplateJson = new CharacterTemplateJson(skillManager);
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 		primaryStage.setTitle("Character Editor");
 
-		BorderPane border = new BorderPane();
+		borderPane = new BorderPane();
 
-		// data tree
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON", "*.json");
+		fileChooser.getExtensionFilters().add(extFilter);
 
-		dataTree = new DataTree(skillManager);
-		border.setLeft(dataTree.getTreeView());
+		createMenubar(primaryStage);
 
 		// character
 
@@ -79,7 +87,7 @@ public class CharacterEditor extends Application {
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-		border.setCenter(grid);
+		borderPane.setCenter(grid);
 
 		// character
 
@@ -193,7 +201,7 @@ public class CharacterEditor extends Application {
 
 		//
 
-		primaryStage.setScene(new Scene(border, 1000, 400));
+		primaryStage.setScene(new Scene(borderPane, 1000, 400));
 		primaryStage.show();
 
 		readData();
@@ -239,7 +247,56 @@ public class CharacterEditor extends Application {
 		return spinner;
 	}
 
-	private void readData() {
+	private void createMenubar(Stage stage) {
+		MenuBar menuBar = new MenuBar();
+
+		// File
+
+		Menu menuFile = new Menu("File");
+		menuBar.getMenus().addAll(menuFile);
+
+		// File -> Save
+
+		MenuItem saveTemplateItem = new MenuItem("Save", new ImageView(new Image("/icons/save.png")));
+		saveTemplateItem.setOnAction(t -> saveTemplateToFile(stage));
+		menuFile.getItems().addAll(saveTemplateItem);
+
+		// File -> Load
+
+		MenuItem loadTemplateItem = new MenuItem("Load", new ImageView(new Image("/icons/save.png")));
+		loadTemplateItem.setOnAction(t -> loadTemplateFromFile(stage));
+		menuFile.getItems().addAll(loadTemplateItem);
+
+
+		borderPane.setTop(menuBar);
+	}
+
+	private void saveTemplateToFile(Stage stage) {
+		File file = fileChooser.showSaveDialog(stage);
+
+		if (file != null) {
+			try {
+				FileUtils.writeStringToFile(file, characterTemplateJson.saveToJason(createTemplateFromGui()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void loadTemplateFromFile(Stage stage) {
+		File file = fileChooser.showOpenDialog(stage);
+
+		if (file != null) {
+			try {
+				CharacterTemplate template = characterTemplateJson.loadFromJason(FileUtils.readFileToString(file));
+				setGuiToTemplate(template);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private CharacterTemplate createTemplateFromGui() {
 		int strength = characteristicSpinnerMap.get(Attribute.STRENGTH).getValue();
 		int dexterity = characteristicSpinnerMap.get(Attribute.DEXTERITY).getValue();
 		int intelligence = characteristicSpinnerMap.get(Attribute.INTELLIGENCE).getValue();
@@ -268,8 +325,31 @@ public class CharacterEditor extends Application {
 			builder.addSkill(skillAndLevel.getSkill(), skillAndLevel.relativeLevel);
 		}
 
-		CharacterTemplate template = builder.createCharacterTemplate();
+		return builder.createCharacterTemplate();
+	}
 
+	private void setGuiToTemplate(CharacterTemplate template) {
+		for (Attribute attribute : Attribute.values()) {
+			characteristicSpinnerMap.get(attribute).getValueFactory().setValue(template.getAttributeModifier(attribute));
+		}
+
+		for (Characteristic characteristic : Characteristic.MODIFIERS) {
+			characteristicSpinnerMap.get(characteristic).getValueFactory().setValue(template.getCharacteristicModifier(characteristic));
+		}
+
+		for (Skill skill : template.getSkills()) {
+			SkillAndLevel skillAndLevel = new SkillAndLevel(skill, template.getRelativeSkillLevel(skill), 1);
+			skillAndLevels.put(skill, skillAndLevel);
+		}
+
+		readData();
+	}
+
+	private void readData() {
+		readData(createTemplateFromGui());
+	}
+
+	private void readData(CharacterTemplate template) {
 		characterPointsValueLabel.setText(Integer.toString(costCalculator.calculate(template)));
 
 		characteristicValueLabelMap.get(Attribute.STRENGTH).setText(Integer.toString(attributeCalculator.calculate(template, Attribute.STRENGTH)));
@@ -301,8 +381,6 @@ public class CharacterEditor extends Application {
 		Damage swingDamage = damageCalculator.calculateSwingDamage(template);
 
 		characteristicValueLabelMap.get(Characteristic.DAMAGE).setText(String.format("%s/%s", thrustDamage.toString(), swingDamage.toString()));
-
-		dataTree.update();
 	}
 
 
