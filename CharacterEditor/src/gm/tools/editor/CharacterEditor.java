@@ -11,6 +11,8 @@ import gm.tools.editor.character.skill.Skill;
 import gm.tools.editor.character.skill.SkillCalculator;
 import gm.tools.editor.character.skill.SkillManager;
 import gm.tools.editor.gui.SkillAndLevel;
+import gm.tools.editor.gui.TraitTable;
+import gm.tools.editor.gui.TraitTableEntry;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -47,6 +49,7 @@ public class CharacterEditor extends Application {
 	private Label characterPointsValueLabel;
 	private TableView<SkillAndLevel> skillTable = new TableView<>();
 	private Map<Skill, SkillAndLevel> skillAndLevels = new HashMap<>();
+	private TraitTable traitTable = new TraitTable();
 	private FileChooser fileChooser = new FileChooser();
 
 	// calculators
@@ -75,7 +78,7 @@ public class CharacterEditor extends Application {
 
 		borderPane = new BorderPane();
 
-		createMenubar(primaryStage);
+		createMenuBar(primaryStage);
 
 		// character
 
@@ -188,17 +191,21 @@ public class CharacterEditor extends Application {
 
 		grid.add(removeSkillButton, 6, 8, 2, 1);
 
+		// traits
+
+		grid.add(traitTable.getTraitTable(), 0, 9, 5, 1);
+
 		// character  points
 
 		Label characterPointsLabel = new Label("CP");
-		grid.add(characterPointsLabel, 0, 9);
+		grid.add(characterPointsLabel, 0, 10);
 
 		characterPointsValueLabel = new Label("0");
-		grid.add(characterPointsValueLabel, 1, 9);
+		grid.add(characterPointsValueLabel, 1, 10);
 
 		//
 
-		primaryStage.setScene(new Scene(borderPane, 1000, 400));
+		primaryStage.setScene(new Scene(borderPane, 1000, 600));
 		primaryStage.show();
 
 		readData();
@@ -244,7 +251,7 @@ public class CharacterEditor extends Application {
 		return spinner;
 	}
 
-	private void createMenubar(Stage stage) {
+	private void createMenuBar(Stage stage) {
 		MenuBar menuBar = new MenuBar();
 
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON", "*.json");
@@ -309,6 +316,10 @@ public class CharacterEditor extends Application {
 
 		for (SkillAndLevel skillAndLevel : skillAndLevels.values()) {
 			builder.addSkill(skillAndLevel.getSkill(), skillAndLevel.relativeLevel);
+		}
+
+		for (TraitTableEntry entry : traitTable.getTraitTableEntries()) {
+
 		}
 
 		return builder.createCharacterTemplate();
