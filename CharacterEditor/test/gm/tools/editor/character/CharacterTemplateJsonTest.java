@@ -7,6 +7,7 @@ import gm.tools.editor.character.skill.SkillManager;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collection;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -43,7 +44,7 @@ public class CharacterTemplateJsonTest {
 		assertEquals(1, templateNew.getStrengthModifier());
 		assertEquals(3, templateNew.getBasicSpeedModifier());
 
-		Set<Skill> skills = templateNew.getSkills();
+		Collection<Skill> skills = templateNew.getSkills();
 
 		assertNotNull(skills);
 		assertEquals(1, skills.size());

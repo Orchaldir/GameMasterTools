@@ -10,6 +10,7 @@ import gm.tools.editor.character.skill.Difficulty;
 import gm.tools.editor.character.skill.Skill;
 import gm.tools.editor.character.skill.SkillCalculator;
 import gm.tools.editor.character.skill.SkillManager;
+import gm.tools.editor.character.trait.StringTrait;
 import gm.tools.editor.gui.SkillAndLevel;
 import gm.tools.editor.gui.TraitTable;
 import gm.tools.editor.gui.TraitTableEntry;
@@ -319,7 +320,7 @@ public class CharacterEditor extends Application {
 		}
 
 		for (TraitTableEntry entry : traitTable.getTraitTableEntries()) {
-
+			builder.addTrait(new StringTrait(entry.getName(), entry.getCost()));
 		}
 
 		return builder.createCharacterTemplate();

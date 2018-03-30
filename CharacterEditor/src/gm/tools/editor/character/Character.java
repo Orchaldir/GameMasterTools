@@ -3,8 +3,9 @@ package gm.tools.editor.character;
 import gm.tools.editor.character.characteristic.Attribute;
 import gm.tools.editor.character.characteristic.Characteristic;
 import gm.tools.editor.character.skill.Skill;
+import gm.tools.editor.character.trait.Trait;
 
-import java.util.Set;
+import java.util.Collection;
 
 public interface Character {
 	String getName();
@@ -28,6 +29,9 @@ public interface Character {
 	int getCharacteristicModifier(Characteristic characteristic);
 
 	// skills
-	Set<Skill> getSkills();
+	Collection<Skill> getSkills();
 	int getRelativeSkillLevel(Skill skill);
+
+	// traits
+	Collection<Trait> getTraits();
 }

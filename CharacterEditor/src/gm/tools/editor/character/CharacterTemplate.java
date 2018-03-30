@@ -3,11 +3,13 @@ package gm.tools.editor.character;
 import gm.tools.editor.character.characteristic.Attribute;
 import gm.tools.editor.character.characteristic.Characteristic;
 import gm.tools.editor.character.skill.Skill;
+import gm.tools.editor.character.trait.Trait;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,6 +36,10 @@ public class CharacterTemplate implements Character {
 	// skills
 	@Getter(AccessLevel.NONE)
 	private final Map<Skill, Integer> skills;
+
+	// traits
+	@Getter(AccessLevel.NONE)
+	private final Map<String, Trait> traits;
 
 	// attribute
 
@@ -80,12 +86,19 @@ public class CharacterTemplate implements Character {
 	// skill
 
 	@Override
-	public Set<Skill> getSkills() {
+	public Collection<Skill> getSkills() {
 		return skills.keySet();
 	}
 
 	@Override
 	public int getRelativeSkillLevel(Skill skill) {
 		return skills.getOrDefault(skill, -1);
+	}
+
+	// traits
+
+	@Override
+	public Collection<Trait> getTraits() {
+		return traits.values();
 	}
 }

@@ -48,7 +48,7 @@ public class TraitTable {
 					@Override
 					public void handle(TableColumn.CellEditEvent<TraitTableEntry, Integer> t) {
 						TraitTableEntry entry = t.getTableView().getItems().get(t.getTablePosition().getRow());
-						entry.setName(Integer.toString(t.getNewValue()));
+						entry.setCost(t.getNewValue());
 					}
 				}
 		);

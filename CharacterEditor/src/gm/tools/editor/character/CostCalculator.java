@@ -2,6 +2,7 @@ package gm.tools.editor.character;
 
 import gm.tools.editor.character.characteristic.Attribute;
 import gm.tools.editor.character.skill.Skill;
+import gm.tools.editor.character.trait.Trait;
 
 public class CostCalculator {
 	// attributes
@@ -90,11 +91,22 @@ public class CostCalculator {
 		return cost;
 	}
 
+	public int calculateCostOfTraits(Character character) {
+		int cost = 0;
+
+		for (Trait trait : character.getTraits()) {
+			cost += trait.getCost();
+		}
+
+		return cost;
+	}
+
 	public int calculate(Character character) {
 		int attributesCost = calculateCostOfAttributes(character);
 		int secondaryCharacteristicsCost = calculateCostOfSecondaryCharacteristics(character);
 		int skillCost = calculateCostOfSkills(character);
+		int traitCost = calculateCostOfTraits(character);
 
-		return attributesCost + secondaryCharacteristicsCost + skillCost;
+		return attributesCost + secondaryCharacteristicsCost + skillCost + traitCost;
 	}
 }
