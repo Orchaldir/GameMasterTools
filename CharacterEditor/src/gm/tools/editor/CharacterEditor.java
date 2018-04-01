@@ -148,7 +148,7 @@ public class CharacterEditor extends Application {
 		grid.add(skillTable, 0, 5, 5, 4);
 
 		ComboBox<String> skillComboBox = new ComboBox<>();
-		skillComboBox.setItems(FXCollections.observableArrayList(skillManager.getSkillNames()));
+		skillComboBox.setItems(FXCollections.observableArrayList(skillManager.getSortedSkillNames()));
 
 		grid.add(skillComboBox, 6, 5, 2, 1);
 

@@ -10,6 +10,8 @@ public interface SkillManager {
 
 	Collection<String> getSkillNames();
 
+	Collection<String> getSortedSkillNames();
+
 	void save(String filename) throws IOException;
 
 	void load(String filename) throws IOException;

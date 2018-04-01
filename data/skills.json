@@ -1,0 +1,267 @@
+[
+  {
+    "name": "Acrobatics",
+    "controllingAttribute": "DEXTERITY",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Acting",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Alchemy",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "VERY_HARD"
+  },
+  {
+    "name": "Animal Handling",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Architecture",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Area Knowledge(Aerenal)",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Area Knowledge(Khorvaire)",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Area Knowledge(Xendrik)",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Armory",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Artist",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Athletics",
+    "controllingAttribute": "HEALTH",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Cartography",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Detect Lies",
+    "controllingAttribute": "PERCEPTION",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Diplomacy",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Disguise",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Fast Draw",
+    "controllingAttribute": "DEXTERITY",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Fast Talk",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Fencing",
+    "controllingAttribute": "DEXTERITY",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Forging",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Gesture",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "EASY"
+  },
+  {
+    "name": "Heraldry",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Herb Lore",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Hidden Lore(Angels \u0026 Demons)",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Hidden Lore(Elder Things)",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Hidden Lore(Elementals)",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Hidden Lore(Faeries)",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Hidden Lore(Lost Civilizations)",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Hidden Lore(Undead)",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Impact Weapons",
+    "controllingAttribute": "DEXTERITY",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Intimidation",
+    "controllingAttribute": "WILL",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Lockpicking",
+    "controllingAttribute": "DEXTERITY",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Medicine",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "VERY_HARD"
+  },
+  {
+    "name": "Merchant",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Music",
+    "controllingAttribute": "PERCEPTION",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Navigation",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Observation",
+    "controllingAttribute": "PERCEPTION",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Pickpocketing",
+    "controllingAttribute": "DEXTERITY",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Piloting",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Polearms",
+    "controllingAttribute": "DEXTERITY",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Research",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Riding",
+    "controllingAttribute": "DEXTERITY",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Shield",
+    "controllingAttribute": "DEXTERITY",
+    "difficulty": "EASY"
+  },
+  {
+    "name": "Shooting",
+    "controllingAttribute": "PERCEPTION",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Smuggling",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Stealth",
+    "controllingAttribute": "DEXTERITY",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Survival",
+    "controllingAttribute": "PERCEPTION",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Swords",
+    "controllingAttribute": "DEXTERITY",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Thaumatology",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "VERY_HARD"
+  },
+  {
+    "name": "Theology",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "HARD"
+  },
+  {
+    "name": "Throwing",
+    "controllingAttribute": "PERCEPTION",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Tracking",
+    "controllingAttribute": "PERCEPTION",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Traps",
+    "controllingAttribute": "INTELLIGENCE",
+    "difficulty": "AVERAGE"
+  },
+  {
+    "name": "Unarmed",
+    "controllingAttribute": "DEXTERITY",
+    "difficulty": "HARD"
+  }
+]

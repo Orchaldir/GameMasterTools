@@ -36,8 +36,15 @@ public class SkillManagerWithJson implements SkillManager {
 	}
 
 	@Override
-	public Set<String> getSkillNames() {
+	public Collection<String> getSkillNames() {
 		return skills.keySet();
+	}
+
+	@Override
+	public Collection<String> getSortedSkillNames() {
+		List<String> list = new ArrayList<>(skills.keySet());
+		Collections.sort(list);
+		return list;
 	}
 
 	// saving
@@ -55,7 +62,9 @@ public class SkillManagerWithJson implements SkillManager {
 	}
 
 	public String saveToJson() {
-		return gson.toJson(skills.values());
+		List<Skill> list = new ArrayList<>(skills.values());
+		Collections.sort(list, Comparator.comparing(Skill::getName));
+		return gson.toJson(list);
 	}
 
 	// loading
