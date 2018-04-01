@@ -6,10 +6,7 @@ import gm.tools.editor.character.CharacterTemplateJson;
 import gm.tools.editor.character.CostCalculator;
 import gm.tools.editor.character.characteristic.*;
 import gm.tools.editor.character.damage.Damage;
-import gm.tools.editor.character.skill.Difficulty;
-import gm.tools.editor.character.skill.Skill;
-import gm.tools.editor.character.skill.SkillCalculator;
-import gm.tools.editor.character.skill.SkillManager;
+import gm.tools.editor.character.skill.*;
 import gm.tools.editor.character.trait.StringTrait;
 import gm.tools.editor.character.trait.Trait;
 import gm.tools.editor.gui.SkillAndLevel;
@@ -56,7 +53,8 @@ public class CharacterEditor extends Application {
 
 	// calculators
 
-	private SkillManager skillManager = new SkillManager();
+	private static final String SKILL_FILE = "data/skills.json";
+	private SkillManagerWithJson skillManager = new SkillManagerWithJson();
 
 	private CostCalculator costCalculator = new CostCalculator();
 
@@ -130,9 +128,7 @@ public class CharacterEditor extends Application {
 
 		// skills
 
-		skillManager.add(new Skill("Swords", Attribute.DEXTERITY, Difficulty.VERY_HARD));
-		skillManager.add(new Skill("Magic", Attribute.INTELLIGENCE, Difficulty.VERY_HARD));
-		skillManager.add(new Skill("Shooting", Attribute.PERCEPTION, Difficulty.VERY_HARD));
+		skillManager.load(SKILL_FILE);
 
 		TableColumn skillNameCol = new TableColumn("Skill");
 		skillNameCol.setMinWidth(100);
@@ -165,14 +161,12 @@ public class CharacterEditor extends Application {
 		addSkillButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				Optional<Skill> skill = skillManager.get(skillComboBox.getValue());
+				Skill skill = skillManager.get(skillComboBox.getValue());
 
-				if (skill.isPresent()) {
-					int relativeLevel = skillSpinner.getValue();
-					SkillAndLevel skillAndLevel = new SkillAndLevel(skill.get(), relativeLevel, 1);
-					skillAndLevels.put(skill.get(), skillAndLevel);
-					readData();
-				}
+				int relativeLevel = skillSpinner.getValue();
+				SkillAndLevel skillAndLevel = new SkillAndLevel(skill, relativeLevel, 1);
+				skillAndLevels.put(skill, skillAndLevel);
+				readData();
 			}
 		});
 
@@ -182,12 +176,9 @@ public class CharacterEditor extends Application {
 		removeSkillButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				Optional<Skill> skill = skillManager.get(skillComboBox.getValue());
-
-				if (skill.isPresent()) {
-					skillAndLevels.remove(skill.get());
-					readData();
-				}
+				Skill skill = skillManager.get(skillComboBox.getValue());
+				skillAndLevels.remove(skill);
+				readData();
 			}
 		});
 
@@ -285,7 +276,7 @@ public class CharacterEditor extends Application {
 
 		if (file != null) {
 			try {
-				FileUtils.writeStringToFile(file, characterTemplateJson.saveToJason(createTemplateFromGui()));
+				FileUtils.writeStringToFile(file, characterTemplateJson.saveToJson(createTemplateFromGui()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -297,7 +288,7 @@ public class CharacterEditor extends Application {
 
 		if (file != null) {
 			try {
-				CharacterTemplate template = characterTemplateJson.loadFromJason(FileUtils.readFileToString(file));
+				CharacterTemplate template = characterTemplateJson.loadFromJson(FileUtils.readFileToString(file));
 				setGuiToTemplate(template);
 			} catch (IOException e) {
 				e.printStackTrace();

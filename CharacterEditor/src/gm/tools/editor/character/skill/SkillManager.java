@@ -1,23 +1,16 @@
 package gm.tools.editor.character.skill;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.io.IOException;
+import java.util.Collection;
 
-public class SkillManager {
-	private final Map<String, Skill> skills = new HashMap<>();
+public interface SkillManager {
+	void add(Skill skill);
 
-	public void add(Skill skill) {
-		skills.put(skill.getName(), skill);
-	}
+	Skill get(String name);
 
-	public Optional<Skill> get(String name) {
-		return Optional.ofNullable(skills.get(name));
-	}
+	Collection<String> getSkillNames();
 
-	public Set<String> getSkillNames() {
-		return skills.keySet();
-	}
+	void save(String filename) throws IOException;
 
+	void load(String filename) throws IOException;
 }

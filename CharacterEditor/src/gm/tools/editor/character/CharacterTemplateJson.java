@@ -28,7 +28,7 @@ public class CharacterTemplateJson {
 
 	// save
 
-	public String saveToJason(Character template) {
+	public String saveToJson(Character template) {
 		JsonObject templateJson = new JsonObject();
 		templateJson.addProperty(NAME, template.getName());
 
@@ -83,7 +83,7 @@ public class CharacterTemplateJson {
 
 	// load
 
-	public CharacterTemplate loadFromJason(String json) {
+	public CharacterTemplate loadFromJson(String json) {
 		JsonElement element = parser.parse(json);
 
 		if (element.isJsonObject()) {
@@ -134,9 +134,9 @@ public class CharacterTemplateJson {
 		}
 
 		for (Map.Entry<String, JsonElement> entry : skillsJson.entrySet()) {
-			Optional<Skill> skill = skillManager.get(entry.getKey());
+			Skill skill = skillManager.get(entry.getKey());
 
-			skill.ifPresent(s -> builder.addSkill(s, entry.getValue().getAsInt()));
+			builder.addSkill(skill, entry.getValue().getAsInt());
 		}
 	}
 
