@@ -13,8 +13,6 @@ import javafx.util.converter.IntegerStringConverter;
 import lombok.Getter;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 public class TraitTable {
 	@Getter
@@ -110,4 +108,12 @@ public class TraitTable {
 		return traitTable.getItems();
 	}
 
+	public void clear() {
+		traitTable.getItems().clear();
+	}
+
+	public void add(String name, int cost) {
+		TraitTableEntry entry = new TraitTableEntry(name, cost);
+		traitTable.getItems().add(entry);
+	}
 }

@@ -11,6 +11,7 @@ import gm.tools.editor.character.skill.Skill;
 import gm.tools.editor.character.skill.SkillCalculator;
 import gm.tools.editor.character.skill.SkillManager;
 import gm.tools.editor.character.trait.StringTrait;
+import gm.tools.editor.character.trait.Trait;
 import gm.tools.editor.gui.SkillAndLevel;
 import gm.tools.editor.gui.TraitTable;
 import gm.tools.editor.gui.TraitTableEntry;
@@ -340,6 +341,12 @@ public class CharacterEditor extends Application {
 		for (Skill skill : template.getSkills()) {
 			SkillAndLevel skillAndLevel = new SkillAndLevel(skill, template.getRelativeSkillLevel(skill), 1);
 			skillAndLevels.put(skill, skillAndLevel);
+		}
+
+		traitTable.clear();
+
+		for (Trait trait : template.getTraits()) {
+			traitTable.add(trait.getName(), trait.getCost());
 		}
 
 		readData();

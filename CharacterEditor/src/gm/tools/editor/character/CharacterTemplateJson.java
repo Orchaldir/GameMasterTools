@@ -5,6 +5,8 @@ import gm.tools.editor.character.characteristic.Attribute;
 import gm.tools.editor.character.characteristic.Characteristic;
 import gm.tools.editor.character.skill.Skill;
 import gm.tools.editor.character.skill.SkillManager;
+import gm.tools.editor.character.trait.StringTrait;
+import gm.tools.editor.character.trait.Trait;
 import lombok.AllArgsConstructor;
 
 import java.util.Map;
@@ -22,6 +24,7 @@ public class CharacterTemplateJson {
 	private final static String ATTRIBUTES = "attributes";
 	private final static String CHARACTERISTICS = "characteristics";
 	private final static String SKILLS = "skills";
+	private final static String TRAITS = "traits";
 
 	// save
 
@@ -32,6 +35,7 @@ public class CharacterTemplateJson {
 		saveAttributesToJson(template, templateJson);
 		saveCharacteristicsToJson(template, templateJson);
 		saveSkillsToJson(template, templateJson);
+		saveTraitsToJson(template, templateJson);
 
 		return gson.toJson(templateJson);
 	}
@@ -67,6 +71,16 @@ public class CharacterTemplateJson {
 		templateJson.add(SKILLS, skillsJson);
 	}
 
+	private void saveTraitsToJson(Character template, JsonObject templateJson) {
+		JsonObject traitsJson = new JsonObject();
+
+		for (Trait trait : template.getTraits()) {
+			traitsJson.addProperty(trait.getName(), trait.getCost());
+		}
+
+		templateJson.add(TRAITS, traitsJson);
+	}
+
 	// load
 
 	public CharacterTemplate loadFromJason(String json) {
@@ -79,6 +93,7 @@ public class CharacterTemplateJson {
 			loadAttributesFromJson(builder, templateJson);
 			loadCharacteristicsFromJson(builder, templateJson);
 			loadSkillsFromJson(builder, templateJson);
+			loadTraitsFromJson(builder, templateJson);
 
 			return builder.createCharacterTemplate();
 		}
@@ -113,10 +128,28 @@ public class CharacterTemplateJson {
 	private void loadSkillsFromJson(CharacterTemplateBuilder builder, JsonObject templateJson) {
 		JsonObject skillsJson = templateJson.getAsJsonObject(SKILLS);
 
+		if (skillsJson == null) {
+			System.out.printf("loadSkillsFromJson(): Found no skills!");
+			return;
+		}
+
 		for (Map.Entry<String, JsonElement> entry : skillsJson.entrySet()) {
 			Optional<Skill> skill = skillManager.get(entry.getKey());
 
 			skill.ifPresent(s -> builder.addSkill(s, entry.getValue().getAsInt()));
+		}
+	}
+
+	private void loadTraitsFromJson(CharacterTemplateBuilder builder, JsonObject templateJson) {
+		JsonObject traitsJson = templateJson.getAsJsonObject(TRAITS);
+
+		if (traitsJson == null) {
+			System.out.printf("loadTraitsFromJson(): Found no traits!");
+			return;
+		}
+
+		for (Map.Entry<String, JsonElement> entry : traitsJson.entrySet()) {
+			builder.addTrait(new StringTrait(entry.getKey(), entry.getValue().getAsInt()));
 		}
 	}
 }
