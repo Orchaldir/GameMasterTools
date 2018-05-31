@@ -1,4 +1,4 @@
-package gm.tools.editor.character.damage;
+package gm.tools.editor.character.attack;
 
 import lombok.Getter;
 

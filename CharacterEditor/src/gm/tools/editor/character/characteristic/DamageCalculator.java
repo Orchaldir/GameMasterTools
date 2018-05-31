@@ -1,7 +1,7 @@
 package gm.tools.editor.character.characteristic;
 
 import gm.tools.editor.character.Character;
-import gm.tools.editor.character.damage.Damage;
+import gm.tools.editor.character.attack.Damage;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

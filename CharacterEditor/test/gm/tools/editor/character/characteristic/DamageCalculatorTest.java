@@ -2,7 +2,7 @@ package gm.tools.editor.character.characteristic;
 
 import gm.tools.editor.character.CharacterTemplate;
 import gm.tools.editor.character.CharacterTemplateBuilder;
-import gm.tools.editor.character.damage.Damage;
+import gm.tools.editor.character.attack.Damage;
 import org.junit.Before;
 import org.junit.Test;
 
