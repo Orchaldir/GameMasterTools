@@ -9,8 +9,10 @@ import gm.tools.editor.character.trait.StringTrait;
 import gm.tools.editor.character.trait.Trait;
 import lombok.AllArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @AllArgsConstructor
 public class CharacterTemplateJson {
@@ -62,8 +64,10 @@ public class CharacterTemplateJson {
 
 	private void saveSkillsToJson(Character template, JsonObject templateJson) {
 		JsonObject skillsJson = new JsonObject();
+		List<Skill> list = new ArrayList<>(template.getSkills());
+		list.sort(Comparator.comparing(Skill::getName));
 
-		for (Skill skill : template.getSkills()) {
+		for (Skill skill : list) {
 			int level = template.getRelativeSkillLevel(skill);
 			skillsJson.addProperty(skill.getName(), level);
 		}
@@ -73,8 +77,10 @@ public class CharacterTemplateJson {
 
 	private void saveTraitsToJson(Character template, JsonObject templateJson) {
 		JsonObject traitsJson = new JsonObject();
+		List<Trait> list = new ArrayList<>(template.getTraits());
+		list.sort(Comparator.comparing(Trait::getName));
 
-		for (Trait trait : template.getTraits()) {
+		for (Trait trait : list) {
 			traitsJson.addProperty(trait.getName(), trait.getCost());
 		}
 
@@ -129,7 +135,7 @@ public class CharacterTemplateJson {
 		JsonObject skillsJson = templateJson.getAsJsonObject(SKILLS);
 
 		if (skillsJson == null) {
-			System.out.printf("loadSkillsFromJson(): Found no skills!");
+			System.out.print("loadSkillsFromJson(): Found no skills!");
 			return;
 		}
 
@@ -144,7 +150,7 @@ public class CharacterTemplateJson {
 		JsonObject traitsJson = templateJson.getAsJsonObject(TRAITS);
 
 		if (traitsJson == null) {
-			System.out.printf("loadTraitsFromJson(): Found no traits!");
+			System.out.print("loadTraitsFromJson(): Found no traits!");
 			return;
 		}
 

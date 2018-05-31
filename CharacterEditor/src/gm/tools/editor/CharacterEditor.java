@@ -6,7 +6,9 @@ import gm.tools.editor.character.CharacterTemplateJson;
 import gm.tools.editor.character.CostCalculator;
 import gm.tools.editor.character.characteristic.*;
 import gm.tools.editor.character.damage.Damage;
-import gm.tools.editor.character.skill.*;
+import gm.tools.editor.character.skill.Skill;
+import gm.tools.editor.character.skill.SkillCalculator;
+import gm.tools.editor.character.skill.SkillManagerWithJson;
 import gm.tools.editor.character.trait.StringTrait;
 import gm.tools.editor.character.trait.Trait;
 import gm.tools.editor.gui.SkillAndLevel;
@@ -14,8 +16,6 @@ import gm.tools.editor.gui.TraitTable;
 import gm.tools.editor.gui.TraitTableEntry;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -35,7 +35,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class CharacterEditor extends Application {
 	// gui
@@ -96,43 +95,25 @@ public class CharacterEditor extends Application {
 
 		// attributes
 
-		createCharacteristicWithValue(Attribute.STRENGTH, "ST", 0, 1);
-		createCharacteristicWithValue(Attribute.DEXTERITY, "DX", 0, 2);
-		createCharacteristicWithValue(Attribute.INTELLIGENCE, "IQ", 0, 3);
-		createCharacteristicWithValue(Attribute.HEALTH, "HT", 0, 4);
+		createAttributes(0, 1);
 
 		// secondary characteristics
 
-		createCharacteristicWithValue(Characteristic.HIT_POINTS, "HP", 3, 1);
-		createCharacteristicWithValue(Attribute.WILL, "Will", 3, 2);
-		createCharacteristicWithValue(Attribute.PERCEPTION, "Per", 3, 3);
-		createCharacteristicWithValue(Characteristic.FATIGUE_POINTS, "FP", 3, 4);
-
-		createCharacteristicWithValue(Characteristic.BASIC_SPEED, "BS", 6, 2);
-		createCharacteristicWithValue(Characteristic.BASIC_MOVE, "BM", 6, 3);
-		createCharacteristic(Characteristic.SIZE_MODIFIER, "SM", 3, 0);
-
-		Label basicLiftLabel = new Label("BL");
-		grid.add(basicLiftLabel, 6, 1);
-
-		Label basicLiftValueLabel = new Label("0");
-		grid.add(basicLiftValueLabel, 7, 1);
-		characteristicValueLabelMap.put(Characteristic.BASIC_LIFT, basicLiftValueLabel);
-
-		Label damageLabel = new Label("Damage");
-		grid.add(damageLabel, 6, 4);
-
-		Label damageValueLabel = new Label("0");
-		grid.add(damageValueLabel, 7, 4);
-		characteristicValueLabelMap.put(Characteristic.DAMAGE, damageValueLabel);
+		createCharacteristic(Characteristic.SIZE_MODIFIER, "SM", 4, 0);
+		createSecondaryCharacteristics(4, 1);
+		createDerivedStats(8, 1);
 
 		// skills
 
 		skillManager.load(SKILL_FILE);
 
 		TableColumn skillNameCol = new TableColumn("Skill");
-		skillNameCol.setMinWidth(100);
+		skillNameCol.setMinWidth(200);
 		skillNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+		TableColumn attributeCol = new TableColumn("Attribute");
+		attributeCol.setMinWidth(100);
+		attributeCol.setCellValueFactory(new PropertyValueFactory<>("attributeText"));
 
 		TableColumn relativeSkillLevelCol = new TableColumn("Relative");
 		relativeSkillLevelCol.setMinWidth(100);
@@ -143,46 +124,11 @@ public class CharacterEditor extends Application {
 		absoluteSkillLevelCol.setCellValueFactory(new PropertyValueFactory<>("absoluteLevel"));
 
 		skillTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-		skillTable.getColumns().addAll(skillNameCol, relativeSkillLevelCol, absoluteSkillLevelCol);
+		skillTable.getColumns().addAll(skillNameCol, attributeCol, relativeSkillLevelCol, absoluteSkillLevelCol);
 
-		grid.add(skillTable, 0, 5, 5, 4);
+		grid.add(skillTable, 0, 5, 7, 4);
 
-		ComboBox<String> skillComboBox = new ComboBox<>();
-		skillComboBox.setItems(FXCollections.observableArrayList(skillManager.getSortedSkillNames()));
-
-		grid.add(skillComboBox, 6, 5, 2, 1);
-
-		Spinner<Integer> skillSpinner = new Spinner<>();
-		skillSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, 1));
-
-		grid.add(skillSpinner, 6, 6, 2, 1);
-
-		Button addSkillButton = new Button("Add Skill");
-		addSkillButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				Skill skill = skillManager.get(skillComboBox.getValue());
-
-				int relativeLevel = skillSpinner.getValue();
-				SkillAndLevel skillAndLevel = new SkillAndLevel(skill, relativeLevel, 1);
-				skillAndLevels.put(skill, skillAndLevel);
-				readData();
-			}
-		});
-
-		grid.add(addSkillButton, 6, 7, 2, 1);
-
-		Button removeSkillButton = new Button("Remove Skill");
-		removeSkillButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				Skill skill = skillManager.get(skillComboBox.getValue());
-				skillAndLevels.remove(skill);
-				readData();
-			}
-		});
-
-		grid.add(removeSkillButton, 6, 8, 2, 1);
+		createSkillControl(8, 5);
 
 		// traits
 
@@ -202,6 +148,77 @@ public class CharacterEditor extends Application {
 		primaryStage.show();
 
 		readData();
+	}
+
+	private void createAttributes(int columnIndex, int rowIndex) {
+		createCharacteristicWithValue(Attribute.STRENGTH, "ST", columnIndex, rowIndex);
+		createCharacteristicWithValue(Attribute.DEXTERITY, "DX", columnIndex, rowIndex + 1);
+		createCharacteristicWithValue(Attribute.INTELLIGENCE, "IQ", columnIndex, rowIndex + 2);
+		createCharacteristicWithValue(Attribute.HEALTH, "HT", columnIndex, rowIndex + 3);
+	}
+
+	private void createSecondaryCharacteristics(int columnIndex, int rowIndex) {
+		createCharacteristicWithValue(Characteristic.HIT_POINTS, "HP", columnIndex, rowIndex);
+		createCharacteristicWithValue(Attribute.WILL, "Will", columnIndex, rowIndex + 1);
+		createCharacteristicWithValue(Attribute.PERCEPTION, "Per", columnIndex, rowIndex + 2);
+		createCharacteristicWithValue(Characteristic.FATIGUE_POINTS, "FP", columnIndex, rowIndex + 3);
+	}
+
+	private void createDerivedStats(int columnIndex, int rowIndex) {
+		// BL
+		Label basicLiftLabel = new Label("BL");
+		grid.add(basicLiftLabel, columnIndex, rowIndex);
+
+		Label basicLiftValueLabel = new Label("0");
+		grid.add(basicLiftValueLabel, columnIndex + 1, rowIndex);
+		characteristicValueLabelMap.put(Characteristic.BASIC_LIFT, basicLiftValueLabel);
+
+		//
+
+		createCharacteristicWithValue(Characteristic.BASIC_SPEED, "BS", columnIndex, rowIndex + 1);
+		createCharacteristicWithValue(Characteristic.BASIC_MOVE, "BM", columnIndex, rowIndex + 2);
+
+		// damage
+
+		Label damageLabel = new Label("Damage");
+		grid.add(damageLabel, columnIndex, rowIndex + 3);
+
+		Label damageValueLabel = new Label("0");
+		grid.add(damageValueLabel, columnIndex + 1, rowIndex + 3);
+		characteristicValueLabelMap.put(Characteristic.DAMAGE, damageValueLabel);
+	}
+
+	private void createSkillControl(int columnIndex, int rowIndex) {
+		ComboBox<String> skillComboBox = new ComboBox<>();
+		skillComboBox.setItems(FXCollections.observableArrayList(skillManager.getSortedSkillNames()));
+
+		grid.add(skillComboBox, columnIndex, rowIndex, 2, 1);
+
+		Spinner<Integer> skillSpinner = new Spinner<>();
+		skillSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, 1));
+
+		grid.add(skillSpinner, columnIndex, rowIndex + 1, 2, 1);
+
+		Button addSkillButton = new Button("Add Skill");
+		addSkillButton.setOnAction(e -> {
+			Skill skill = skillManager.get(skillComboBox.getValue());
+
+			int relativeLevel = skillSpinner.getValue();
+			SkillAndLevel skillAndLevel = new SkillAndLevel(skill, relativeLevel, 1);
+			skillAndLevels.put(skill, skillAndLevel);
+			readData();
+		});
+
+		grid.add(addSkillButton, columnIndex, rowIndex + 2, 2, 1);
+
+		Button removeSkillButton = new Button("Remove Skill");
+		removeSkillButton.setOnAction(e -> {
+			Skill skill = skillManager.get(skillComboBox.getValue());
+			skillAndLevels.remove(skill);
+			readData();
+		});
+
+		grid.add(removeSkillButton, columnIndex, rowIndex + 3, 2, 1);
 	}
 
 	private void createAttribute(Enum characteristic, String text, int columnIndex, int rowIndex) {

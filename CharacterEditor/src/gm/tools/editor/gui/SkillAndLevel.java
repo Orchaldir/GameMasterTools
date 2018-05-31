@@ -3,7 +3,6 @@ package gm.tools.editor.gui;
 import gm.tools.editor.character.skill.Skill;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 
 @AllArgsConstructor
 @Data
@@ -14,5 +13,9 @@ public class SkillAndLevel {
 
 	public String getName() {
 		return skill.getName();
+	}
+
+	public String getAttributeText() {
+		return skill.getControllingAttribute().getText();
 	}
 }

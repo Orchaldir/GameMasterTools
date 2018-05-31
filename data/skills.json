@@ -75,6 +75,11 @@
     "difficulty": "AVERAGE"
   },
   {
+    "name": "Exorcism",
+    "controllingAttribute": "WILL",
+    "difficulty": "HARD"
+  },
+  {
     "name": "Fast Draw",
     "controllingAttribute": "DEXTERITY",
     "difficulty": "AVERAGE"
