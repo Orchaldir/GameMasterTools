@@ -34,6 +34,11 @@ public class ReachTest {
 	}
 
 	@Test
+	public void testFromEmptyString() {
+		assertFalse(Reach.fromString("").isPresent());
+	}
+
+	@Test
 	public void testFromStringSimple() {
 		Reach reach = Reach.fromString("2").get();
 		assertEquals(2, reach.getMinReach());

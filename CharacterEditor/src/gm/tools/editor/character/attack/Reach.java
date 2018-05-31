@@ -6,7 +6,7 @@ import java.util.Optional;
 
 @Data
 public class Reach {
-	private static final String AWKWARD = "*";
+	private static final String AWKWARD_SYMBOL = "*";
 	private static final String RANGE_SYMBOL = "-";
 
 	public Reach(int minReach, int maxReach, boolean isAwkward) {
@@ -35,6 +35,7 @@ public class Reach {
 		return distance >= minReach && distance <= maxReach;
 	}
 
+	@Override
 	public String toString() {
 		String string = "";
 
@@ -45,7 +46,7 @@ public class Reach {
 		}
 
 		if (isAwkward) {
-			string += AWKWARD;
+			string += AWKWARD_SYMBOL;
 		}
 
 		return string;
@@ -53,25 +54,29 @@ public class Reach {
 
 	public static Optional<Reach> fromString(String string) {
 		String withoutSpaces = string.replaceAll("\\s+", "");
-		boolean isAwkward = withoutSpaces.endsWith(AWKWARD);
+		boolean isAwkward = withoutSpaces.endsWith(AWKWARD_SYMBOL);
 
 		if (isAwkward) {
 			withoutSpaces = withoutSpaces.substring(0, withoutSpaces.length() - 1);
 		}
 
-		if (withoutSpaces.contains(RANGE_SYMBOL)) {
-			String[] parts = withoutSpaces.split(RANGE_SYMBOL);
+		try {
+			if (withoutSpaces.contains(RANGE_SYMBOL)) {
+				String[] parts = withoutSpaces.split(RANGE_SYMBOL);
 
-			if (parts.length == 2) {
-				int minReach = Integer.parseInt(parts[0]);
-				int maxReach = Integer.parseInt(parts[1]);
-				return Optional.of(new Reach(minReach, maxReach, isAwkward));
+				if (parts.length == 2) {
+					int minReach = Integer.parseInt(parts[0]);
+					int maxReach = Integer.parseInt(parts[1]);
+					return Optional.of(new Reach(minReach, maxReach, isAwkward));
+				}
 			} else {
-				return Optional.empty();
+				int reach = Integer.parseInt(withoutSpaces);
+				return Optional.of(new Reach(reach));
 			}
-		} else {
-			int reach = Integer.parseInt(withoutSpaces);
-			return Optional.of(new Reach(reach));
+		} catch (NumberFormatException e) {
+
 		}
+
+		return Optional.empty();
 	}
 }
