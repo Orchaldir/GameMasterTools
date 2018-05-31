@@ -1,5 +1,6 @@
 package gm.tools.editor.character;
 
+import gm.tools.editor.character.characteristic.Appearance;
 import gm.tools.editor.character.characteristic.Attribute;
 import gm.tools.editor.character.characteristic.Characteristic;
 import gm.tools.editor.character.skill.Skill;
@@ -11,12 +12,14 @@ import lombok.Getter;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 @AllArgsConstructor
 @Data
 public class CharacterTemplate implements Character {
 	private final String name;
+
+	//
+	private final Appearance appearance;
 
 	// attributes
 	private final int dexterityModifier;

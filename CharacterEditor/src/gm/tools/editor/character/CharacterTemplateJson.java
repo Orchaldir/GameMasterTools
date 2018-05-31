@@ -1,6 +1,7 @@
 package gm.tools.editor.character;
 
 import com.google.gson.*;
+import gm.tools.editor.character.characteristic.Appearance;
 import gm.tools.editor.character.characteristic.Attribute;
 import gm.tools.editor.character.characteristic.Characteristic;
 import gm.tools.editor.character.skill.Skill;
@@ -23,6 +24,7 @@ public class CharacterTemplateJson {
 
 	// properties
 	private final static String NAME = "name";
+	private final static String APPEARANCE = "appearance";
 	private final static String ATTRIBUTES = "attributes";
 	private final static String CHARACTERISTICS = "characteristics";
 	private final static String SKILLS = "skills";
@@ -33,6 +35,7 @@ public class CharacterTemplateJson {
 	public String saveToJson(Character template) {
 		JsonObject templateJson = new JsonObject();
 		templateJson.addProperty(NAME, template.getName());
+		templateJson.addProperty(APPEARANCE, template.getAppearance().toString());
 
 		saveAttributesToJson(template, templateJson);
 		saveCharacteristicsToJson(template, templateJson);
@@ -96,6 +99,7 @@ public class CharacterTemplateJson {
 			JsonObject templateJson = element.getAsJsonObject();
 			CharacterTemplateBuilder builder = new CharacterTemplateBuilder(templateJson.get(NAME).getAsString());
 
+			loadAppearanceFromJson(builder, templateJson);
 			loadAttributesFromJson(builder, templateJson);
 			loadCharacteristicsFromJson(builder, templateJson);
 			loadSkillsFromJson(builder, templateJson);
@@ -105,6 +109,14 @@ public class CharacterTemplateJson {
 		}
 
 		return null;
+	}
+
+	private void loadAppearanceFromJson(CharacterTemplateBuilder builder, JsonObject templateJson) {
+		JsonElement appearanceElement = templateJson.get(APPEARANCE);
+		if (appearanceElement != null) {
+			Appearance appearance = Appearance.valueOf(appearanceElement.getAsString());
+			builder.setAppearance(appearance);
+		}
 	}
 
 	private void loadAttributesFromJson(CharacterTemplateBuilder builder, JsonObject templateJson) {

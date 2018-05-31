@@ -1,5 +1,6 @@
 package gm.tools.editor.character;
 
+import gm.tools.editor.character.characteristic.Appearance;
 import gm.tools.editor.character.characteristic.Attribute;
 import gm.tools.editor.character.characteristic.Characteristic;
 import gm.tools.editor.character.skill.Skill;
@@ -10,6 +11,9 @@ import java.util.Map;
 
 public class CharacterTemplateBuilder {
 	private final String name;
+
+	//
+	private Appearance appearance = Appearance.AVERAGE;
 
 	// attributes
 	private int dexterityModifier = 0;
@@ -34,6 +38,13 @@ public class CharacterTemplateBuilder {
 
 	public CharacterTemplateBuilder(String name) {
 		this.name = name;
+	}
+
+	//
+
+	public CharacterTemplateBuilder setAppearance(Appearance appearance) {
+		this.appearance = appearance;
+		return this;
 	}
 
 	// attributes
@@ -164,6 +175,7 @@ public class CharacterTemplateBuilder {
 
 	public CharacterTemplate createCharacterTemplate() {
 		return new CharacterTemplate(name,
+				appearance,
 				dexterityModifier, healthModifier, intelligenceModifier, perceptionModifier, strengthModifier, willModifier,
 				hitPointsModifier, fatiguePointsModifier,
 				basicSpeedModifier, basicMoveModifier, sizeModifier,

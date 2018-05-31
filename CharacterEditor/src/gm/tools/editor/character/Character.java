@@ -1,5 +1,6 @@
 package gm.tools.editor.character;
 
+import gm.tools.editor.character.characteristic.Appearance;
 import gm.tools.editor.character.characteristic.Attribute;
 import gm.tools.editor.character.characteristic.Characteristic;
 import gm.tools.editor.character.skill.Skill;
@@ -9,6 +10,9 @@ import java.util.Collection;
 
 public interface Character {
 	String getName();
+
+	//
+	Appearance getAppearance();
 
 	// attributes
 	int getDexterityModifier();

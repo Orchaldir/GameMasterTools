@@ -42,6 +42,7 @@ public class CharacterEditor extends Application {
 	private BorderPane borderPane;
 	private GridPane grid;
 	private TextField nameTextField;
+	private ComboBox<Appearance> appearanceComboBox;
 	private Map<Enum, Spinner<Integer>> characteristicSpinnerMap = new HashMap<>();
 	private Map<Enum, Label> characteristicValueLabelMap = new HashMap<>();
 	private Label characterPointsValueLabel;
@@ -100,6 +101,7 @@ public class CharacterEditor extends Application {
 		// secondary characteristics
 
 		createCharacteristic(Characteristic.SIZE_MODIFIER, "SM", 4, 0);
+		createAppearance(8, 0);
 		createSecondaryCharacteristics(4, 1);
 		createDerivedStats(8, 1);
 
@@ -186,6 +188,17 @@ public class CharacterEditor extends Application {
 		Label damageValueLabel = new Label("0");
 		grid.add(damageValueLabel, columnIndex + 1, rowIndex + 3);
 		characteristicValueLabelMap.put(Characteristic.DAMAGE, damageValueLabel);
+	}
+
+	private void createAppearance(int columnIndex, int rowIndex) {
+		Label appearanceLabel = new Label("Appearance");
+		grid.add(appearanceLabel, columnIndex, rowIndex);
+
+		appearanceComboBox = new ComboBox<>();
+		appearanceComboBox.setItems(FXCollections.observableArrayList(Appearance.values()));
+		appearanceComboBox.setValue(Appearance.AVERAGE);
+
+		grid.add(appearanceComboBox, columnIndex + 1, rowIndex, 2, 1);
 	}
 
 	private void createSkillControl(int columnIndex, int rowIndex) {
@@ -316,6 +329,8 @@ public class CharacterEditor extends Application {
 	private CharacterTemplate createTemplateFromGui() {
 		CharacterTemplateBuilder builder = new CharacterTemplateBuilder(nameTextField.getText());
 
+		builder.setAppearance(appearanceComboBox.getValue());
+
 		for (Attribute attribute : Attribute.values()) {
 			builder.setAttribute(attribute, characteristicSpinnerMap.get(attribute).getValue());
 		}
@@ -337,6 +352,8 @@ public class CharacterEditor extends Application {
 
 	private void setGuiToTemplate(CharacterTemplate template) {
 		nameTextField.setText(template.getName());
+
+		appearanceComboBox.setValue(template.getAppearance());
 
 		for (Attribute attribute : Attribute.values()) {
 			characteristicSpinnerMap.get(attribute).getValueFactory().setValue(template.getAttributeModifier(attribute));

@@ -1,5 +1,6 @@
 package gm.tools.editor.character;
 
+import gm.tools.editor.character.characteristic.Appearance;
 import gm.tools.editor.character.characteristic.Attribute;
 import gm.tools.editor.character.skill.Difficulty;
 import gm.tools.editor.character.skill.Skill;
@@ -11,9 +12,7 @@ import org.junit.Test;
 
 import java.util.Collection;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class CharacterTemplateJsonTest {
 	private Skill skill0 = new Skill("skill0", Attribute.DEXTERITY, Difficulty.VERY_HARD);
@@ -28,6 +27,7 @@ public class CharacterTemplateJsonTest {
 		skillManager.add(skill0);
 
 		CharacterTemplateBuilder builder = new CharacterTemplateBuilder("test");
+		builder.setAppearance(Appearance.TRANSCENDENT);
 		builder.setStrength(1);
 		builder.setBasicSpeedModifier(3);
 		builder.addSkill(skill0, 2);
@@ -44,6 +44,7 @@ public class CharacterTemplateJsonTest {
 		CharacterTemplate templateNew = characterTemplateJson.loadFromJson(json);
 
 		assertEquals("test", templateNew.getName());
+		assertEquals(Appearance.TRANSCENDENT, templateNew.getAppearance());
 		assertEquals(1, templateNew.getStrengthModifier());
 		assertEquals(3, templateNew.getBasicSpeedModifier());
 
