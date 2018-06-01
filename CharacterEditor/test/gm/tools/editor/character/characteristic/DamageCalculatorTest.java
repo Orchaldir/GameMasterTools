@@ -2,7 +2,7 @@ package gm.tools.editor.character.characteristic;
 
 import gm.tools.editor.character.CharacterTemplate;
 import gm.tools.editor.character.CharacterTemplateBuilder;
-import gm.tools.editor.character.attack.Damage;
+import gm.tools.editor.character.attack.damage.IDamage;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,9 +21,9 @@ public class DamageCalculatorTest {
 	}
 
 	private void assertThrustDamage(int strength, int dice, int modifier) {
-		Damage damage = calculator.calculateThrustDamage(strength);
-		assertEquals(dice, damage.getDice());
-		assertEquals(modifier, damage.getModifier());
+		IDamage IDamage = calculator.calculateThrustDamage(strength);
+		assertEquals(dice, IDamage.getDice());
+		assertEquals(modifier, IDamage.getModifier());
 	}
 
 	@Test
@@ -52,9 +52,9 @@ public class DamageCalculatorTest {
 	}
 
 	private void assertSwingDamage(int strength, int dice, int modifier) {
-		Damage damage = calculator.calculateSwingDamage(strength);
-		assertEquals(dice, damage.getDice());
-		assertEquals(modifier, damage.getModifier());
+		IDamage IDamage = calculator.calculateSwingDamage(strength);
+		assertEquals(dice, IDamage.getDice());
+		assertEquals(modifier, IDamage.getModifier());
 	}
 
 	@Test

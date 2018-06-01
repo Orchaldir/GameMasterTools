@@ -4,7 +4,7 @@ import gm.tools.editor.character.CharacterTemplate;
 import gm.tools.editor.character.CharacterTemplateBuilder;
 import gm.tools.editor.character.CharacterTemplateJson;
 import gm.tools.editor.character.CostCalculator;
-import gm.tools.editor.character.attack.Damage;
+import gm.tools.editor.character.attack.damage.IDamage;
 import gm.tools.editor.character.characteristic.*;
 import gm.tools.editor.character.skill.Skill;
 import gm.tools.editor.character.skill.SkillCalculator;
@@ -406,8 +406,8 @@ public class CharacterEditor extends Application {
 
 		// damage
 
-		Damage thrustDamage = damageCalculator.calculateThrustDamage(template);
-		Damage swingDamage = damageCalculator.calculateSwingDamage(template);
+		IDamage thrustDamage = damageCalculator.calculateThrustDamage(template);
+		IDamage swingDamage = damageCalculator.calculateSwingDamage(template);
 
 		characteristicValueLabelMap.get(Characteristic.DAMAGE).setText(String.format("%s/%s", thrustDamage.toString(), swingDamage.toString()));
 	}
