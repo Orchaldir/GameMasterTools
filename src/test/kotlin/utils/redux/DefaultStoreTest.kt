@@ -26,7 +26,7 @@ class StoreTest {
     @Test
     fun `Dispatch action with follow ups`() {
         val store = DefaultStore<Int, Int>(10, { state, action ->
-            Pair(state + action, if (action > 1) listOf(action - 1) else emptyList())
+            Pair(state + action, createFollowUp(action))
         }, listOf())
 
         store.dispatch(3)
@@ -53,4 +53,6 @@ class StoreTest {
     }
 
     private fun createStore() = DefaultStore<Int, Int>(10, { state, action -> noFollowUps(state + action) })
+
+    private fun createFollowUp(action: Int) = if (action > 1) listOf(action - 1) else emptyList()
 }

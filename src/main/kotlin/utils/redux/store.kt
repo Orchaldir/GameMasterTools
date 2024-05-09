@@ -28,13 +28,13 @@ class DefaultStore<Action, State>(
         dispatcher = wrapped
     }
 
-    override fun getState(): State = state
+    override fun getState() = state
 
     override fun dispatch(action: Action) {
         dispatcher(action)
         subscribers.forEach { it(state) }
     }
 
-    override fun subscribe(subscriber: StoreSubscriber<State>): Boolean = subscribers.add(subscriber)
+    override fun subscribe(subscriber: StoreSubscriber<State>) = subscribers.add(subscriber)
 
 }
