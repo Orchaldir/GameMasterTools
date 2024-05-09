@@ -1,7 +1,5 @@
-package utils.redux
+package at.orchaldir.gm.utils.redux
 
-import at.orchaldir.gm.utils.redux.DefaultStore
-import at.orchaldir.gm.utils.redux.noFollowUps
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
