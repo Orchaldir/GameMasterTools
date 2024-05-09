@@ -1,7 +1,7 @@
 package utils.redux.middleware
 
 import at.orchaldir.gm.utils.redux.DefaultStore
-import at.orchaldir.gm.utils.redux.middleware.logAction
+import at.orchaldir.gm.utils.redux.middleware.LogAction
 import at.orchaldir.gm.utils.redux.noFollowUps
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -15,7 +15,7 @@ class LogActionMiddlewareTest {
                   action ->
                 noFollowUps(state + action)
             },
-            listOf(::logAction)
+            listOf(LogAction())
         )
 
         store.dispatch(3)

@@ -27,7 +27,7 @@ class StoreTest {
     fun `Dispatch action with follow ups`() {
         val store = DefaultStore<Int, Int>(10, { state, action ->
             Pair(state + action, createFollowUp(action))
-        }, listOf())
+        })
 
         store.dispatch(3)
 
@@ -46,6 +46,10 @@ class StoreTest {
         }
 
         store.dispatch(5)
+
+        assertEquals(1, calls)
+        assertEquals(listOf(15), stateList)
+
         store.dispatch(-1)
 
         assertEquals(2, calls)
