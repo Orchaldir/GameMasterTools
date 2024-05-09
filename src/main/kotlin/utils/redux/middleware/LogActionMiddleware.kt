@@ -1,8 +1,8 @@
 package at.orchaldir.gm.utils.redux.middleware
 
-import mu.KotlinLogging
 import at.orchaldir.gm.utils.redux.Dispatcher
 import at.orchaldir.gm.utils.redux.Middleware
+import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
