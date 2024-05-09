@@ -9,7 +9,10 @@ repositories {
     mavenCentral()
 }
 
+val loggingVersion = "3.0.5"
+
 dependencies {
+    implementation("io.github.microutils:kotlin-logging-jvm:$loggingVersion")
     testImplementation(kotlin("test"))
 }
 
