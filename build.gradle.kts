@@ -10,9 +10,11 @@ repositories {
 }
 
 val loggingVersion = "3.0.5"
+val logbackVersion = "1.5.6"
 
 dependencies {
     implementation("io.github.microutils:kotlin-logging-jvm:$loggingVersion")
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
     testImplementation(kotlin("test"))
 }
 
