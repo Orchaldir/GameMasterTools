@@ -4,10 +4,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.routing.*
-import kotlinx.html.body
-import kotlinx.html.h1
-import kotlinx.html.head
-import kotlinx.html.title
+import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -21,14 +18,11 @@ fun Application.configureRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 head {
-                    title {
-                        +TITLE
-                    }
+                    title { +TITLE }
                 }
                 body {
-                    h1 {
-                        +TITLE
-                    }
+                    h1 { +TITLE }
+                    p { +"Work in progress" }
                 }
             }
         }
