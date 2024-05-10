@@ -1,4 +1,4 @@
-package at.orchaldir.gm.model.character
+package at.orchaldir.gm.core.model.character
 
 @JvmInline
 value class CharacterId(private val id: Int)

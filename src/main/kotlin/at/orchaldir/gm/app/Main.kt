@@ -1,9 +1,9 @@
 package at.orchaldir.gm.app
 
-import at.orchaldir.gm.action.CharacterAction
-import at.orchaldir.gm.action.CreateCharacter
+import at.orchaldir.gm.core.action.CharacterAction
+import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.app.plugins.configureRouting
-import at.orchaldir.gm.model.State
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.utils.redux.DefaultStore
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.middleware.LogAction
