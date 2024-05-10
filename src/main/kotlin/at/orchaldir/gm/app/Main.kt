@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.plugins.configureRouting
 import at.orchaldir.gm.core.action.CharacterAction
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.reducer.character.CREATE_CHARACTER
 import at.orchaldir.gm.utils.redux.DefaultStore
 import at.orchaldir.gm.utils.redux.Reducer
@@ -42,6 +43,6 @@ fun initStore(): DefaultStore<CharacterAction, State> {
             is CreateCharacter -> CREATE_CHARACTER(state, action)
         }
     }
-    val state = State()
+    val state = State(mutableMapOf(CharacterId(0) to Character(CharacterId(0), "Test")))
     return DefaultStore(state, reduce, listOf(LogAction()))
 }

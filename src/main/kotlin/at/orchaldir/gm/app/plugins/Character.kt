@@ -41,7 +41,8 @@ fun Application.configureCharacterRouting() {
 }
 
 private fun HTML.showAllCharacters(call: ApplicationCall) {
-    val count = STORE.getState().characters.size
+    val characters = STORE.getState().characters
+    val count = characters.size
     val createLink: String = call.application.href(Characters.New(Characters()))
 
     head {
@@ -53,6 +54,11 @@ private fun HTML.showAllCharacters(call: ApplicationCall) {
         p {
             b { +"Count: " }
             +"$count"
+        }
+        ul {
+            characters.values.forEach { character ->
+                li { +character.name }
+            }
         }
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }
