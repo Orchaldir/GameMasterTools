@@ -43,7 +43,7 @@ private fun HTML.showAllCharacters() {
         h1 { +"Characters" }
         p {
             b { +"Count: " }
-            p { +"$count" }
+            +"$count"
         }
         p { a("/characters/new") { +"Add" } }
         p { a("/") { +"Back" } }
