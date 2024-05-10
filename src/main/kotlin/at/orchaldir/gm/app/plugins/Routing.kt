@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import io.ktor.http.*
+import io.ktor.server.resources.href
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.http.content.*
@@ -20,6 +21,7 @@ fun Application.configureRouting() {
         get("/") {
             logger.info { "Root" }
             val characterCount = STORE.getState().characters.size
+            val characterLink: String = call.application.href(Characters)
 
             call.respondHtml(HttpStatusCode.OK) {
                 head {
@@ -30,7 +32,7 @@ fun Application.configureRouting() {
                     h1 { +TITLE }
                     p {
                         b { +"Characters: " }
-                        a("/characters") { +"$characterCount" }
+                        a(characterLink) { +"$characterCount" }
                     }
                 }
             }
