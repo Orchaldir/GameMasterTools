@@ -3,21 +3,16 @@ package at.orchaldir.gm.app.plugins
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
-import io.ktor.server.http.content.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
-import java.io.File
 
 private val logger = KotlinLogging.logger {}
 
-public const val TITLE = "Orchaldir's Game Master Tools"
-
-fun Application.configureRouting() {
+fun Application.configureCharacterRouting() {
     routing {
-        staticFiles("/static", File("static"))
-        get("/") {
-            logger.info { "Root" }
+        get("/characters") {
+            logger.info { "Get all characters" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 head {
@@ -25,7 +20,7 @@ fun Application.configureRouting() {
                     link(rel = "stylesheet", href = "/static/style.css", type = "text/css")
                 }
                 body {
-                    h1 { +TITLE }
+                    h1 { +"Characters" }
                     p { +"Work in progress" }
                 }
             }
