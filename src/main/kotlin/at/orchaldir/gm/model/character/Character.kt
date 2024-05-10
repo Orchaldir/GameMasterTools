@@ -6,5 +6,5 @@ value class CharacterId(private val id: Int)
 data class Character(
     val id: CharacterId,
     val name: String,
-    val gender: Gender,
+    val gender: Gender = Gender.Genderless,
 )
