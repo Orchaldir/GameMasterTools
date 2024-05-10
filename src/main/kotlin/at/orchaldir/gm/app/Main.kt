@@ -12,6 +12,7 @@ import at.orchaldir.gm.utils.redux.middleware.LogAction
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import io.ktor.server.resources.*
 
 val STORE = initStore()
 
@@ -21,6 +22,7 @@ fun main() {
 }
 
 fun Application.module() {
+    install(Resources)
     configureRouting()
     configureCharacterRouting()
 }
