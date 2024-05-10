@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.plugins
 
+import at.orchaldir.gm.app.STORE
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -11,13 +12,14 @@ import java.io.File
 
 private val logger = KotlinLogging.logger {}
 
-public const val TITLE = "Orchaldir's Game Master Tools"
+const val TITLE = "Orchaldir's Game Master Tools"
 
 fun Application.configureRouting() {
     routing {
         staticFiles("/static", File("static"))
         get("/") {
             logger.info { "Root" }
+            val characterCount = STORE.getState().characters.size
 
             call.respondHtml(HttpStatusCode.OK) {
                 head {
@@ -26,7 +28,10 @@ fun Application.configureRouting() {
                 }
                 body {
                     h1 { +TITLE }
-                    p { +"Work in progress" }
+                    p {
+                        b { +"Characters: " }
+                        a("/characters") { +"$characterCount" }
+                    }
                 }
             }
         }

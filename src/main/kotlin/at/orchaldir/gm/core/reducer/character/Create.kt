@@ -5,6 +5,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
-val CREATE_CHARACTER: Reducer<CreateCharacter,State> = { state, _ ->
+val CREATE_CHARACTER: Reducer<CreateCharacter, State> = { state, _ ->
     noFollowUps(state)
 }
