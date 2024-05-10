@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.CharacterAction
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.app.plugins.configureRouting
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.reducer.character.CREATE_CHARACTER
 import at.orchaldir.gm.utils.redux.DefaultStore
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.middleware.LogAction
@@ -23,11 +24,11 @@ fun Application.module() {
 }
 
 fun initStore(): DefaultStore<CharacterAction, State> {
-    val state = State()
     val reduce: Reducer<CharacterAction, State> = { state, action ->
         when (action) {
-            CreateCharacter -> TODO()
+            is CreateCharacter -> CREATE_CHARACTER(state, action)
         }
     }
+    val state = State()
     return DefaultStore(state, reduce, listOf(LogAction()))
 }
