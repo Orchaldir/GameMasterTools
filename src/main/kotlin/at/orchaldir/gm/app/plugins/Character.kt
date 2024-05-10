@@ -25,7 +25,7 @@ fun Application.configureCharacterRouting() {
             logger.info { "Get all characters" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllCharacters()
+                showAllCharacters(call)
             }
         }
         get<Characters.New> {
@@ -34,14 +34,15 @@ fun Application.configureCharacterRouting() {
             STORE.dispatch(CreateCharacter)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllCharacters()
+                showAllCharacters(call)
             }
         }
     }
 }
 
-private fun HTML.showAllCharacters() {
+private fun HTML.showAllCharacters(call: ApplicationCall) {
     val count = STORE.getState().characters.size
+    val createLink: String = call.application.href(Characters.New(Characters()))
 
     head {
         title { +TITLE }
@@ -53,7 +54,7 @@ private fun HTML.showAllCharacters() {
             b { +"Count: " }
             +"$count"
         }
-        p { a("/characters/new") { +"Add" } }
+        p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }
     }
 }
