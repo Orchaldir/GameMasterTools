@@ -10,6 +10,10 @@ data class Storage<ID : Id<ID>, ELEMENT>(val elements: Map<ID, ELEMENT>, val nex
         return Storage(elements + mapOf(nextId to element), nextId.next())
     }
 
+    fun remove(id: ID): Storage<ID, ELEMENT> {
+        return Storage(elements - setOf(id), nextId)
+    }
+
     fun getAll() = elements.values
 
     fun getSize() = elements.size

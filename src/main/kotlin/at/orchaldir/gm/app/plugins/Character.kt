@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.core.action.CreateCharacter
+import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import io.ktor.http.*
@@ -22,6 +23,9 @@ class Characters {
 
     @Resource("new")
     class New(val parent: Characters = Characters())
+
+    @Resource("delete")
+    class Delete(val parent: Characters = Characters(), val id: CharacterId)
 }
 
 fun Application.configureCharacterRouting() {
@@ -55,6 +59,15 @@ fun Application.configureCharacterRouting() {
                 showAllCharacters(call)
             }
         }
+        get<Characters.Delete> { delete ->
+            logger.info { "Delete character ${delete.id.value}" }
+
+            STORE.dispatch(DeleteCharacter(delete.id))
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showAllCharacters(call)
+            }
+        }
     }
 }
 
@@ -83,10 +96,12 @@ private fun HTML.showCharacterDetails(
     character: Character
 ) {
     val backLink: String = call.application.href(Characters())
+    val deleteLink: String = call.application.href(Characters.Delete(Characters(), character.id))
 
     simpleHtml("Character: ${character.name}") {
         field("Id", character.id.value.toString())
         field("Gender", character.name)
+        p { a(deleteLink) { +"Delete" } }
         p { a(backLink) { +"Back" } }
     }
 }
