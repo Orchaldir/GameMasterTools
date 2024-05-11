@@ -9,8 +9,10 @@ import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
+import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.routing.*
+import io.ktor.server.routing.post
 import kotlinx.html.*
 import mu.KotlinLogging
 
@@ -69,7 +71,7 @@ fun Application.configureCharacterRouting() {
             }
         }
         get<Characters.Edit> { edit ->
-            logger.info { "get editor for character ${edit.id.value}" }
+            logger.info { "Get editor for character ${edit.id.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 val character = STORE.getState().characters.get(edit.id)
@@ -79,6 +81,15 @@ fun Application.configureCharacterRouting() {
                 } else {
                     showAllCharacters(call)
                 }
+            }
+        }
+        post<Characters.Update> {
+            val character = call.receive<Character>()
+
+            logger.info { "Update a character: $character" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showCharacterDetails(call, character)
             }
         }
     }
@@ -146,7 +157,9 @@ private fun HTML.showCharacterEditor(
         form(updateLink, method = FormMethod.post) {
             p {
                 b { +"Name: " }
-                textInput(name = "name")
+                textInput(name = "name") {
+                    value = character.name
+                }
             }
             p {
                 submitInput(name = "Update")
