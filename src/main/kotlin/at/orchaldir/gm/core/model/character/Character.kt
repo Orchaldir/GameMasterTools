@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -16,4 +17,8 @@ data class Character(
     val id: CharacterId,
     val name: String = "Character ${id.value}",
     val gender: Gender = Gender.Genderless,
-)
+) : Element<CharacterId> {
+
+    override fun id() = id
+
+}

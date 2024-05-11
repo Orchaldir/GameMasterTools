@@ -3,8 +3,10 @@ package at.orchaldir.gm.app.plugins
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
+import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.Gender
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -92,9 +94,9 @@ fun Application.configureCharacterRouting() {
 
             val formParameters = call.receiveParameters()
             val name = formParameters.getOrFail("name")
-            val gender = formParameters.getOrFail("gender")
+            val gender = Gender.valueOf(formParameters.getOrFail("gender"))
 
-            logger.info { "name=$name gender=$gender" }
+            STORE.dispatch(UpdateCharacter(update.id, name, gender))
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCharacterDetails(call, update.id)
