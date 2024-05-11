@@ -64,10 +64,7 @@ private fun HTML.showAllCharacters(call: ApplicationCall) {
     val createLink: String = call.application.href(Characters.New(Characters()))
 
     simpleHtml("Characters") {
-        p {
-            b { +"Count: " }
-            +"$count"
-        }
+        field("Count", count.toString())
         ul {
             characters.values.forEach { character ->
                 li {
@@ -88,14 +85,8 @@ private fun HTML.showCharacterDetails(
     val backLink: String = call.application.href(Characters())
 
     simpleHtml("Character: ${character.name}") {
-        p {
-            b { +"Id: " }
-            +"${character.id.value}"
-        }
-        p {
-            b { +"Gender: " }
-            +"${character.gender}"
-        }
+        field("Id", character.id.value.toString())
+        field("Gender", character.name)
         p { a(backLink) { +"Back" } }
     }
 }

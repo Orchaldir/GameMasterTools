@@ -15,3 +15,10 @@ fun HTML.simpleHtml(
         content()
     }
 }
+
+fun BODY.field(name: String, value: String) {
+    p {
+        b { +"$name: " }
+        +value
+    }
+}
