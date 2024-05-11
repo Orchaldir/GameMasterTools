@@ -62,7 +62,7 @@ fun Application.configureCharacterRouting() {
             STORE.dispatch(CreateCharacter)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showCharacterDetails(call, STORE.getState().characters.lastId)
+                showCharacterEditor(call, STORE.getState().characters.lastId)
             }
         }
         get<Characters.Delete> { delete ->
@@ -150,6 +150,19 @@ private fun HTML.showCharacterDetails(
         p { a(editLink) { +"Edit" } }
         p { a(deleteLink) { +"Delete" } }
         p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun HTML.showCharacterEditor(
+    call: ApplicationCall,
+    id: CharacterId,
+) {
+    val character = STORE.getState().characters.get(id)
+
+    if (character != null) {
+        showCharacterEditor(call, character)
+    } else {
+        showAllCharacters(call)
     }
 }
 
