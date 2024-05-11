@@ -40,14 +40,8 @@ fun Application.configureCharacterRouting() {
         get<Characters.Details> { details ->
             logger.info { "Get details of character ${details.id.value}" }
 
-            val character = STORE.getState().characters.get(details.id)
-
             call.respondHtml(HttpStatusCode.OK) {
-                if (character != null) {
-                    showCharacterDetails(call, character)
-                } else {
-                    showAllCharacters(call)
-                }
+                showCharacterDetails(call, details.id)
             }
         }
         get<Characters.New> {
@@ -56,7 +50,7 @@ fun Application.configureCharacterRouting() {
             STORE.dispatch(CreateCharacter)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllCharacters(call)
+                showCharacterDetails(call, STORE.getState().characters.lastId)
             }
         }
         get<Characters.Delete> { delete ->
@@ -93,7 +87,20 @@ private fun HTML.showAllCharacters(call: ApplicationCall) {
 
 private fun HTML.showCharacterDetails(
     call: ApplicationCall,
-    character: Character
+    id: CharacterId,
+) {
+    val character = STORE.getState().characters.get(id)
+
+    if (character != null) {
+        showCharacterDetails(call, character)
+    } else {
+        showAllCharacters(call)
+    }
+}
+
+private fun HTML.showCharacterDetails(
+    call: ApplicationCall,
+    character: Character,
 ) {
     val backLink: String = call.application.href(Characters())
     val deleteLink: String = call.application.href(Characters.Delete(Characters(), character.id))
