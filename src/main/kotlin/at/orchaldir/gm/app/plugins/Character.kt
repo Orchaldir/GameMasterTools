@@ -11,8 +11,8 @@ import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
+import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import io.ktor.server.routing.post
 import kotlinx.html.*
 import mu.KotlinLogging
 
@@ -84,6 +84,8 @@ fun Application.configureCharacterRouting() {
             }
         }
         post<Characters.Update> {
+            logger.info { "Update a character" }
+
             val character = call.receive<Character>()
 
             logger.info { "Update a character: $character" }
@@ -154,7 +156,7 @@ private fun HTML.showCharacterEditor(
 
     simpleHtml("Edit Character: ${character.name}") {
         field("Id", character.id.value.toString())
-        form(updateLink, method = FormMethod.post) {
+        form {
             p {
                 b { +"Name: " }
                 textInput(name = "name") {
@@ -162,7 +164,10 @@ private fun HTML.showCharacterEditor(
                 }
             }
             p {
-                submitInput(name = "Update")
+                submitInput {
+                    formAction = updateLink
+                    formMethod = InputFormMethod.post
+                }
             }
         }
         p { a(backLink) { +"Back" } }
