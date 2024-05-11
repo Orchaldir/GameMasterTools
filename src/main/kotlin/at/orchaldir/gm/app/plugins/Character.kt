@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.core.action.CreateCharacter
+import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -37,29 +38,10 @@ fun Application.configureCharacterRouting() {
 
             val character = STORE.getState().characters[details.id]
 
-            if (character != null) {
-                val backLink: String = call.application.href(Characters())
-
-                call.respondHtml(HttpStatusCode.OK) {
-                    head {
-                        title { +TITLE }
-                        link(rel = "stylesheet", href = "/static/style.css", type = "text/css")
-                    }
-                    body {
-                        h1 { +"Character: ${character.name}" }
-                        p {
-                            b { +"Id: " }
-                            +"${character.id.value}"
-                        }
-                        p {
-                            b { +"Gender: " }
-                            +"${character.gender}"
-                        }
-                        p { a(backLink) { +"Back" } }
-                    }
-                }
-            } else {
-                call.respondHtml(HttpStatusCode.OK) {
+            call.respondHtml(HttpStatusCode.OK) {
+                if (character != null) {
+                    showCharacterDetails(call, character)
+                } else {
                     showAllCharacters(call)
                 }
             }
@@ -101,5 +83,29 @@ private fun HTML.showAllCharacters(call: ApplicationCall) {
         }
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }
+    }
+}
+
+private fun HTML.showCharacterDetails(
+    call: ApplicationCall,
+    character: Character
+) {
+    val backLink: String = call.application.href(Characters())
+
+    head {
+        title { +TITLE }
+        link(rel = "stylesheet", href = "/static/style.css", type = "text/css")
+    }
+    body {
+        h1 { +"Character: ${character.name}" }
+        p {
+            b { +"Id: " }
+            +"${character.id.value}"
+        }
+        p {
+            b { +"Gender: " }
+            +"${character.gender}"
+        }
+        p { a(backLink) { +"Back" } }
     }
 }
