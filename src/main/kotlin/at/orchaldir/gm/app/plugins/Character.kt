@@ -26,6 +26,12 @@ class Characters {
 
     @Resource("delete")
     class Delete(val parent: Characters = Characters(), val id: CharacterId)
+
+    @Resource("edit")
+    class Edit(val parent: Characters = Characters(), val id: CharacterId)
+
+    @Resource("update")
+    class Update(val parent: Characters = Characters())
 }
 
 fun Application.configureCharacterRouting() {
@@ -60,6 +66,19 @@ fun Application.configureCharacterRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllCharacters(call)
+            }
+        }
+        get<Characters.Edit> { edit ->
+            logger.info { "get editor for character ${edit.id.value}" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                val character = STORE.getState().characters.get(edit.id)
+
+                if (character != null) {
+                    showCharacterEditor(call, character)
+                } else {
+                    showAllCharacters(call)
+                }
             }
         }
     }
@@ -104,11 +123,35 @@ private fun HTML.showCharacterDetails(
 ) {
     val backLink: String = call.application.href(Characters())
     val deleteLink: String = call.application.href(Characters.Delete(Characters(), character.id))
+    val editLink: String = call.application.href(Characters.Edit(Characters(), character.id))
 
     simpleHtml("Character: ${character.name}") {
         field("Id", character.id.value.toString())
         field("Gender", character.name)
+        p { a(editLink) { +"Edit" } }
         p { a(deleteLink) { +"Delete" } }
+        p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun HTML.showCharacterEditor(
+    call: ApplicationCall,
+    character: Character,
+) {
+    val backLink: String = call.application.href(Characters())
+    val updateLink: String = call.application.href(Characters.Update(Characters()))
+
+    simpleHtml("Edit Character: ${character.name}") {
+        field("Id", character.id.value.toString())
+        form(updateLink, method = FormMethod.post) {
+            p {
+                b { +"Name: " }
+                textInput(name = "name")
+            }
+            p {
+                submitInput(name = "Update")
+            }
+        }
         p { a(backLink) { +"Back" } }
     }
 }
