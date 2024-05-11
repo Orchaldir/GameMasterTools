@@ -92,12 +92,7 @@ private fun HTML.showCharacterDetails(
 ) {
     val backLink: String = call.application.href(Characters())
 
-    head {
-        title { +TITLE }
-        link(rel = "stylesheet", href = "/static/style.css", type = "text/css")
-    }
-    body {
-        h1 { +"Character: ${character.name}" }
+    simpleHtml("Character: ${character.name}") {
         p {
             b { +"Id: " }
             +"${character.id.value}"
@@ -107,5 +102,19 @@ private fun HTML.showCharacterDetails(
             +"${character.gender}"
         }
         p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun HTML.simpleHtml(
+    title: String,
+    content: BODY.() -> Unit
+) {
+    head {
+        title { +TITLE }
+        link(rel = "stylesheet", href = "/static/style.css", type = "text/css")
+    }
+    body {
+        h1 { +title }
+        content()
     }
 }
