@@ -63,12 +63,7 @@ private fun HTML.showAllCharacters(call: ApplicationCall) {
     val count = characters.size
     val createLink: String = call.application.href(Characters.New(Characters()))
 
-    head {
-        title { +TITLE }
-        link(rel = "stylesheet", href = "/static/style.css", type = "text/css")
-    }
-    body {
-        h1 { +"Characters" }
+    simpleHtml("Characters") {
         p {
             b { +"Count: " }
             +"$count"
