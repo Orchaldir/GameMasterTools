@@ -7,7 +7,9 @@ import io.ktor.server.html.*
 import io.ktor.server.http.content.*
 import io.ktor.server.resources.*
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.a
+import kotlinx.html.b
+import kotlinx.html.p
 import mu.KotlinLogging
 import java.io.File
 
@@ -24,12 +26,7 @@ fun Application.configureRouting() {
             val charactersLink: String = call.application.href(Characters())
 
             call.respondHtml(HttpStatusCode.OK) {
-                head {
-                    title { +TITLE }
-                    link(rel = "stylesheet", href = "/static/style.css", type = "text/css")
-                }
-                body {
-                    h1 { +TITLE }
+                simpleHtml(TITLE) {
                     p {
                         b { +"Characters: " }
                         a(charactersLink) { +"$characterCount" }
