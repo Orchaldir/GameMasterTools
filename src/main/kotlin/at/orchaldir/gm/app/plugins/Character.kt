@@ -13,6 +13,7 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
+import io.ktor.server.util.*
 import kotlinx.html.*
 import mu.KotlinLogging
 
@@ -33,7 +34,10 @@ class Characters {
     class Edit(val parent: Characters = Characters(), val id: CharacterId)
 
     @Resource("update")
-    class Update(val parent: Characters = Characters())
+    class Update(
+        val parent: Characters = Characters(),
+        val id: CharacterId,
+    )
 }
 
 fun Application.configureCharacterRouting() {
@@ -83,15 +87,17 @@ fun Application.configureCharacterRouting() {
                 }
             }
         }
-        post<Characters.Update> {
-            logger.info { "Update a character" }
+        post<Characters.Update> { update ->
+            logger.info { "Update character ${update.id.value}" }
 
-            val character = call.receive<Character>()
+            val formParameters = call.receiveParameters()
+            val name = formParameters.getOrFail("name")
+            val gender = formParameters.getOrFail("gender")
 
-            logger.info { "Update a character: $character" }
+            logger.info { "name=$name gender=$gender" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showCharacterDetails(call, character)
+                showCharacterDetails(call, update.id)
             }
         }
     }
@@ -152,7 +158,7 @@ private fun HTML.showCharacterEditor(
     character: Character,
 ) {
     val backLink: String = call.application.href(Characters())
-    val updateLink: String = call.application.href(Characters.Update(Characters()))
+    val updateLink: String = call.application.href(Characters.Update(Characters(), character.id))
 
     simpleHtml("Edit Character: ${character.name}") {
         field("Id", character.id.value.toString())
@@ -161,6 +167,13 @@ private fun HTML.showCharacterEditor(
                 b { +"Name: " }
                 textInput(name = "name") {
                     value = character.name
+                }
+            }
+            p {
+                b { +"Gender: " }
+                textInput(name = "gender") {
+                    value = character.gender.toString()
+                    disabled = true
                 }
             }
             p {
