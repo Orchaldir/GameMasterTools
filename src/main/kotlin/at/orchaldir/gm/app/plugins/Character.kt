@@ -17,7 +17,7 @@ private val logger = KotlinLogging.logger {}
 @Resource("/characters")
 class Characters {
     @Resource("details")
-    class Details(val parent: Characters = Characters(), val id: Int)
+    class Details(val parent: Characters = Characters(), val id: CharacterId)
 
     @Resource("new")
     class New(val parent: Characters = Characters())
@@ -33,9 +33,9 @@ fun Application.configureCharacterRouting() {
             }
         }
         get<Characters.Details> { details ->
-            logger.info { "Get details of character ${details.id}" }
+            logger.info { "Get details of character ${details.id.value}" }
 
-            val character = STORE.getState().characters[CharacterId(details.id)]
+            val character = STORE.getState().characters[details.id]
 
             if (character != null) {
                 val backLink: String = call.application.href(Characters())
@@ -49,7 +49,7 @@ fun Application.configureCharacterRouting() {
                         h1 { +"Character: ${character.name}" }
                         p {
                             b { +"Id: " }
-                            +"${character.id.id}"
+                            +"${character.id.value}"
                         }
                         p {
                             b { +"Gender: " }
@@ -94,7 +94,7 @@ private fun HTML.showAllCharacters(call: ApplicationCall) {
         ul {
             characters.values.forEach { character ->
                 li {
-                    val characterLink = call.application.href(Characters.Details(Characters(), character.id.id))
+                    val characterLink = call.application.href(Characters.Details(Characters(), character.id))
                     a(characterLink) { +character.name }
                 }
             }

@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @JvmInline
 @Serializable
-value class CharacterId(val id: Int)
+value class CharacterId(val value: Int)
 
 @Serializable
 data class Character(
