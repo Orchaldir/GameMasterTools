@@ -173,7 +173,6 @@ private fun HTML.showCharacterEditor(
                 b { +"Gender: " }
                 textInput(name = "gender") {
                     value = character.gender.toString()
-                    disabled = true
                 }
             }
             p {
