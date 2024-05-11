@@ -21,7 +21,7 @@ fun Application.configureRouting() {
         get("/") {
             logger.info { "Root" }
             val characterCount = STORE.getState().characters.size
-            val characterLink: String = call.application.href(Characters())
+            val charactersLink: String = call.application.href(Characters())
 
             call.respondHtml(HttpStatusCode.OK) {
                 head {
@@ -32,7 +32,7 @@ fun Application.configureRouting() {
                     h1 { +TITLE }
                     p {
                         b { +"Characters: " }
-                        a(characterLink) { +"$characterCount" }
+                        a(charactersLink) { +"$characterCount" }
                     }
                 }
             }
