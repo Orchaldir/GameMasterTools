@@ -22,7 +22,7 @@ fun Application.configureRouting() {
         staticFiles("/static", File("static"))
         get("/") {
             logger.info { "Root" }
-            val characterCount = STORE.getState().characters.size
+            val characterCount = STORE.getState().characters.getSize()
             val charactersLink: String = call.application.href(Characters())
 
             call.respondHtml(HttpStatusCode.OK) {

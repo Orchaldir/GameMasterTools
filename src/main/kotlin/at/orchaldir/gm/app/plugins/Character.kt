@@ -36,7 +36,7 @@ fun Application.configureCharacterRouting() {
         get<Characters.Details> { details ->
             logger.info { "Get details of character ${details.id.value}" }
 
-            val character = STORE.getState().characters[details.id]
+            val character = STORE.getState().characters.get(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 if (character != null) {
@@ -60,13 +60,13 @@ fun Application.configureCharacterRouting() {
 
 private fun HTML.showAllCharacters(call: ApplicationCall) {
     val characters = STORE.getState().characters
-    val count = characters.size
+    val count = characters.getSize()
     val createLink: String = call.application.href(Characters.New(Characters()))
 
     simpleHtml("Characters") {
         field("Count", count.toString())
         ul {
-            characters.values.forEach { character ->
+            characters.getAll().forEach { character ->
                 li {
                     val characterLink = call.application.href(Characters.Details(Characters(), character.id))
                     a(characterLink) { +character.name }
