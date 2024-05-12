@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app
 
 import at.orchaldir.gm.app.plugins.configureCharacterRouting
+import at.orchaldir.gm.app.plugins.configureCultureRouting
 import at.orchaldir.gm.app.plugins.configureRouting
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
@@ -29,6 +30,7 @@ fun Application.module() {
     configureSerialization()
     configureRouting()
     configureCharacterRouting()
+    configureCultureRouting()
 }
 
 fun Application.configureSerialization() {
