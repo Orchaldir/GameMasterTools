@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Gender
@@ -80,10 +81,11 @@ fun Application.configureCharacterRouting() {
             logger.info { "Get editor for character ${edit.id.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                val character = STORE.getState().characters.get(edit.id)
+                val state = STORE.getState()
+                val character = state.characters.get(edit.id)
 
                 if (character != null) {
-                    showCharacterEditor(call, character)
+                    showCharacterEditor(call, state, character)
                 } else {
                     showAllCharacters(call)
                 }
@@ -162,10 +164,11 @@ private fun HTML.showCharacterEditor(
     call: ApplicationCall,
     id: CharacterId,
 ) {
-    val character = STORE.getState().characters.get(id)
+    val state = STORE.getState()
+    val character = state.characters.get(id)
 
     if (character != null) {
-        showCharacterEditor(call, character)
+        showCharacterEditor(call, state, character)
     } else {
         showAllCharacters(call)
     }
@@ -173,6 +176,7 @@ private fun HTML.showCharacterEditor(
 
 private fun HTML.showCharacterEditor(
     call: ApplicationCall,
+    state: State,
     character: Character,
 ) {
     val backLink: String = call.application.href(Characters())
@@ -197,6 +201,20 @@ private fun HTML.showCharacterEditor(
                             label = gender.toString()
                             value = gender.toString()
                             selected = character.gender == gender
+                        }
+                    }
+                }
+            }
+            p {
+                b { +"Culture: " }
+                select {
+                    id = "culture"
+                    name = "culture"
+                    state.cultures.getAll().forEach { culture ->
+                        option {
+                            label = culture.name
+                            value = culture.id.value.toString()
+                            selected = culture.id == character.culture
                         }
                     }
                 }
