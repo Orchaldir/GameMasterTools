@@ -7,9 +7,6 @@ import io.ktor.server.html.*
 import io.ktor.server.http.content.*
 import io.ktor.server.resources.*
 import io.ktor.server.routing.*
-import kotlinx.html.a
-import kotlinx.html.b
-import kotlinx.html.p
 import mu.KotlinLogging
 import java.io.File
 
@@ -29,14 +26,8 @@ fun Application.configureRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 simpleHtml(TITLE) {
-                    p {
-                        b { +"Characters: " }
-                        a(charactersLink) { +"$characterCount" }
-                    }
-                    p {
-                        b { +"Cultures: " }
-                        a(culturesLink) { +"$cultureCount" }
-                    }
+                    fieldLink("Characters", charactersLink, "$characterCount")
+                    fieldLink("Cultures", culturesLink, "$cultureCount")
                 }
             }
         }

@@ -22,3 +22,10 @@ fun BODY.field(name: String, value: String) {
         +value
     }
 }
+
+fun BODY.fieldLink(label: String, link: String, text: String) {
+    p {
+        b { +"$label: " }
+        a(link) { +text }
+    }
+}

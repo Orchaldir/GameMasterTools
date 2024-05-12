@@ -159,7 +159,8 @@ private fun HTML.showCharacterDetails(
         field("Gender", character.gender.toString())
         if (character.culture != null) {
             val culture = state.cultures.get(character.culture)?.name ?: "Unknown"
-            field("Culture", culture)
+            val cultureLink: String = call.application.href(Cultures.Details(Cultures(), character.culture))
+            fieldLink("Culture", cultureLink, culture)
         }
         p { a(editLink) { +"Edit" } }
         p { a(deleteLink) { +"Delete" } }
