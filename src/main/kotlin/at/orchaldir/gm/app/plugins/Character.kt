@@ -149,6 +149,9 @@ private fun HTML.showCharacterDetails(
     simpleHtml("Character: ${character.name}") {
         field("Id", character.id.value.toString())
         field("Gender", character.gender.toString())
+        if (character.culture != null) {
+            field("Culture", character.culture.value.toString())
+        }
         p { a(editLink) { +"Edit" } }
         p { a(deleteLink) { +"Delete" } }
         p { a(backLink) { +"Back" } }

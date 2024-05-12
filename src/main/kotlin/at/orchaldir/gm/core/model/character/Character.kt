@@ -17,6 +17,7 @@ data class Character(
     val id: CharacterId,
     val name: String = "Character ${id.value}",
     val gender: Gender = Gender.Genderless,
+    val culture: CultureId? = null,
 ) : Element<CharacterId> {
 
     override fun id() = id

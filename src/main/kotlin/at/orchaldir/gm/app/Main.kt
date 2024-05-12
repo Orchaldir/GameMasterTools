@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.CultureId
 import at.orchaldir.gm.core.reducer.CREATE_CHARACTER
 import at.orchaldir.gm.core.reducer.DELETE_CHARACTER
 import at.orchaldir.gm.core.reducer.UPDATE_CHARACTER
@@ -50,6 +51,9 @@ fun initStore(): DefaultStore<CharacterAction, State> {
             is UpdateCharacter -> UPDATE_CHARACTER(state, action)
         }
     }
-    val state = State(Storage(mapOf(), CharacterId(0)))
+    val state = State(
+        Storage(mapOf(), CharacterId(0)),
+        Storage(mapOf(), CultureId(0))
+    )
     return DefaultStore(state, reduce, listOf(LogAction()))
 }
