@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.CultureId
 import at.orchaldir.gm.core.model.character.Gender
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -97,8 +98,11 @@ fun Application.configureCharacterRouting() {
             val formParameters = call.receiveParameters()
             val name = formParameters.getOrFail("name")
             val gender = Gender.valueOf(formParameters.getOrFail("gender"))
+            val culture = formParameters.getOrFail("culture")
+                .toIntOrNull()
+                ?.let { CultureId(it) }
 
-            STORE.dispatch(UpdateCharacter(update.id, name, gender))
+            STORE.dispatch(UpdateCharacter(update.id, name, gender, culture))
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCharacterDetails(call, update.id)
@@ -131,10 +135,11 @@ private fun HTML.showCharacterDetails(
     call: ApplicationCall,
     id: CharacterId,
 ) {
-    val character = STORE.getState().characters.get(id)
+    val state = STORE.getState()
+    val character = state.characters.get(id)
 
     if (character != null) {
-        showCharacterDetails(call, character)
+        showCharacterDetails(call, state, character)
     } else {
         showAllCharacters(call)
     }
@@ -142,6 +147,7 @@ private fun HTML.showCharacterDetails(
 
 private fun HTML.showCharacterDetails(
     call: ApplicationCall,
+    state: State,
     character: Character,
 ) {
     val backLink: String = call.application.href(Characters())
@@ -152,7 +158,8 @@ private fun HTML.showCharacterDetails(
         field("Id", character.id.value.toString())
         field("Gender", character.gender.toString())
         if (character.culture != null) {
-            field("Culture", character.culture.value.toString())
+            val culture = state.cultures.get(character.culture)?.name ?: "Unknown"
+            field("Culture", culture)
         }
         p { a(editLink) { +"Edit" } }
         p { a(deleteLink) { +"Delete" } }

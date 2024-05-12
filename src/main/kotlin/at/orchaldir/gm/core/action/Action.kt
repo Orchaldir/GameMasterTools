@@ -13,6 +13,7 @@ data class UpdateCharacter(
     val id: CharacterId,
     val name: String,
     val gender: Gender,
+    val culture: CultureId?,
 ) : Action()
 
 // culture actions
