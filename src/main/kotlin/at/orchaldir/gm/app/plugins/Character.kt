@@ -148,7 +148,7 @@ private fun HTML.showCharacterDetails(
 
     simpleHtml("Character: ${character.name}") {
         field("Id", character.id.value.toString())
-        field("Gender", character.name)
+        field("Gender", character.gender.toString())
         p { a(editLink) { +"Edit" } }
         p { a(deleteLink) { +"Delete" } }
         p { a(backLink) { +"Back" } }
@@ -186,8 +186,16 @@ private fun HTML.showCharacterEditor(
             }
             p {
                 b { +"Gender: " }
-                textInput(name = "gender") {
-                    value = character.gender.toString()
+                select {
+                    id = "gender"
+                    name = "gender"
+                    Gender.entries.forEach { gender ->
+                        option {
+                            label = gender.toString()
+                            value = gender.toString()
+                            selected = character.gender == gender
+                        }
+                    }
                 }
             }
             p {
