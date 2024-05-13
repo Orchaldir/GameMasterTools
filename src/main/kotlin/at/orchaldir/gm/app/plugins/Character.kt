@@ -4,8 +4,10 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.CultureId
 import at.orchaldir.gm.core.model.character.Gender
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -80,10 +82,11 @@ fun Application.configureCharacterRouting() {
             logger.info { "Get editor for character ${edit.id.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                val character = STORE.getState().characters.get(edit.id)
+                val state = STORE.getState()
+                val character = state.characters.get(edit.id)
 
                 if (character != null) {
-                    showCharacterEditor(call, character)
+                    showCharacterEditor(call, state, character)
                 } else {
                     showAllCharacters(call)
                 }
@@ -95,8 +98,11 @@ fun Application.configureCharacterRouting() {
             val formParameters = call.receiveParameters()
             val name = formParameters.getOrFail("name")
             val gender = Gender.valueOf(formParameters.getOrFail("gender"))
+            val culture = formParameters.getOrFail("culture")
+                .toIntOrNull()
+                ?.let { CultureId(it) }
 
-            STORE.dispatch(UpdateCharacter(update.id, name, gender))
+            STORE.dispatch(UpdateCharacter(update.id, name, gender, culture))
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCharacterDetails(call, update.id)
@@ -108,18 +114,11 @@ fun Application.configureCharacterRouting() {
 private fun HTML.showAllCharacters(call: ApplicationCall) {
     val characters = STORE.getState().characters
     val count = characters.getSize()
-    val createLink: String = call.application.href(Characters.New(Characters()))
+    val createLink = call.application.href(Characters.New(Characters()))
 
     simpleHtml("Characters") {
         field("Count", count.toString())
-        ul {
-            characters.getAll().forEach { character ->
-                li {
-                    val characterLink = call.application.href(Characters.Details(Characters(), character.id))
-                    a(characterLink) { +character.name }
-                }
-            }
-        }
+        characterList(call, characters.getAll())
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }
     }
@@ -129,10 +128,11 @@ private fun HTML.showCharacterDetails(
     call: ApplicationCall,
     id: CharacterId,
 ) {
-    val character = STORE.getState().characters.get(id)
+    val state = STORE.getState()
+    val character = state.characters.get(id)
 
     if (character != null) {
-        showCharacterDetails(call, character)
+        showCharacterDetails(call, state, character)
     } else {
         showAllCharacters(call)
     }
@@ -140,15 +140,21 @@ private fun HTML.showCharacterDetails(
 
 private fun HTML.showCharacterDetails(
     call: ApplicationCall,
+    state: State,
     character: Character,
 ) {
-    val backLink: String = call.application.href(Characters())
-    val deleteLink: String = call.application.href(Characters.Delete(Characters(), character.id))
-    val editLink: String = call.application.href(Characters.Edit(Characters(), character.id))
+    val backLink = call.application.href(Characters())
+    val deleteLink = call.application.href(Characters.Delete(Characters(), character.id))
+    val editLink = call.application.href(Characters.Edit(Characters(), character.id))
 
     simpleHtml("Character: ${character.name}") {
         field("Id", character.id.value.toString())
         field("Gender", character.gender.toString())
+        if (character.culture != null) {
+            val culture = state.cultures.get(character.culture)?.name ?: "Unknown"
+            val cultureLink = call.application.href(Cultures.Details(Cultures(), character.culture))
+            fieldLink("Culture", cultureLink, culture)
+        }
         p { a(editLink) { +"Edit" } }
         p { a(deleteLink) { +"Delete" } }
         p { a(backLink) { +"Back" } }
@@ -159,10 +165,11 @@ private fun HTML.showCharacterEditor(
     call: ApplicationCall,
     id: CharacterId,
 ) {
-    val character = STORE.getState().characters.get(id)
+    val state = STORE.getState()
+    val character = state.characters.get(id)
 
     if (character != null) {
-        showCharacterEditor(call, character)
+        showCharacterEditor(call, state, character)
     } else {
         showAllCharacters(call)
     }
@@ -170,10 +177,11 @@ private fun HTML.showCharacterEditor(
 
 private fun HTML.showCharacterEditor(
     call: ApplicationCall,
+    state: State,
     character: Character,
 ) {
-    val backLink: String = call.application.href(Characters())
-    val updateLink: String = call.application.href(Characters.Update(Characters(), character.id))
+    val backLink = call.application.href(Characters())
+    val updateLink = call.application.href(Characters.Update(Characters(), character.id))
 
     simpleHtml("Edit Character: ${character.name}") {
         field("Id", character.id.value.toString())
@@ -194,6 +202,25 @@ private fun HTML.showCharacterEditor(
                             label = gender.toString()
                             value = gender.toString()
                             selected = character.gender == gender
+                        }
+                    }
+                }
+            }
+            p {
+                b { +"Culture: " }
+                select {
+                    id = "culture"
+                    name = "culture"
+                    option {
+                        label = "No culture"
+                        value = ""
+                        selected = character.culture == null
+                    }
+                    state.cultures.getAll().forEach { culture ->
+                        option {
+                            label = culture.name
+                            value = culture.id.value.toString()
+                            selected = culture.id == character.culture
                         }
                     }
                 }

@@ -7,9 +7,6 @@ import io.ktor.server.html.*
 import io.ktor.server.http.content.*
 import io.ktor.server.resources.*
 import io.ktor.server.routing.*
-import kotlinx.html.a
-import kotlinx.html.b
-import kotlinx.html.p
 import mu.KotlinLogging
 import java.io.File
 
@@ -23,14 +20,14 @@ fun Application.configureRouting() {
         get("/") {
             logger.info { "Root" }
             val characterCount = STORE.getState().characters.getSize()
-            val charactersLink: String = call.application.href(Characters())
+            val cultureCount = STORE.getState().cultures.getSize()
+            val charactersLink = call.application.href(Characters())
+            val culturesLink = call.application.href(Cultures())
 
             call.respondHtml(HttpStatusCode.OK) {
                 simpleHtml(TITLE) {
-                    p {
-                        b { +"Characters: " }
-                        a(charactersLink) { +"$characterCount" }
-                    }
+                    fieldLink("Characters", charactersLink, "$characterCount")
+                    fieldLink("Cultures", culturesLink, "$cultureCount")
                 }
             }
         }
