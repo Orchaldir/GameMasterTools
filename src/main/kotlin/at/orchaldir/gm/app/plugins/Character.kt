@@ -211,6 +211,11 @@ private fun HTML.showCharacterEditor(
                 select {
                     id = "culture"
                     name = "culture"
+                    option {
+                        label = "No culture"
+                        value = ""
+                        selected = character.culture == null
+                    }
                     state.cultures.getAll().forEach { culture ->
                         option {
                             label = culture.name
