@@ -114,7 +114,7 @@ fun Application.configureCharacterRouting() {
 private fun HTML.showAllCharacters(call: ApplicationCall) {
     val characters = STORE.getState().characters
     val count = characters.getSize()
-    val createLink: String = call.application.href(Characters.New(Characters()))
+    val createLink = call.application.href(Characters.New(Characters()))
 
     simpleHtml("Characters") {
         field("Count", count.toString())
@@ -143,16 +143,16 @@ private fun HTML.showCharacterDetails(
     state: State,
     character: Character,
 ) {
-    val backLink: String = call.application.href(Characters())
-    val deleteLink: String = call.application.href(Characters.Delete(Characters(), character.id))
-    val editLink: String = call.application.href(Characters.Edit(Characters(), character.id))
+    val backLink = call.application.href(Characters())
+    val deleteLink = call.application.href(Characters.Delete(Characters(), character.id))
+    val editLink = call.application.href(Characters.Edit(Characters(), character.id))
 
     simpleHtml("Character: ${character.name}") {
         field("Id", character.id.value.toString())
         field("Gender", character.gender.toString())
         if (character.culture != null) {
             val culture = state.cultures.get(character.culture)?.name ?: "Unknown"
-            val cultureLink: String = call.application.href(Cultures.Details(Cultures(), character.culture))
+            val cultureLink = call.application.href(Cultures.Details(Cultures(), character.culture))
             fieldLink("Culture", cultureLink, culture)
         }
         p { a(editLink) { +"Edit" } }
@@ -180,8 +180,8 @@ private fun HTML.showCharacterEditor(
     state: State,
     character: Character,
 ) {
-    val backLink: String = call.application.href(Characters())
-    val updateLink: String = call.application.href(Characters.Update(Characters(), character.id))
+    val backLink = call.application.href(Characters())
+    val updateLink = call.application.href(Characters.Update(Characters(), character.id))
 
     simpleHtml("Edit Character: ${character.name}") {
         field("Id", character.id.value.toString())

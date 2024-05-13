@@ -21,8 +21,8 @@ fun Application.configureRouting() {
             logger.info { "Root" }
             val characterCount = STORE.getState().characters.getSize()
             val cultureCount = STORE.getState().cultures.getSize()
-            val charactersLink: String = call.application.href(Characters())
-            val culturesLink: String = call.application.href(Cultures())
+            val charactersLink = call.application.href(Characters())
+            val culturesLink = call.application.href(Cultures())
 
             call.respondHtml(HttpStatusCode.OK) {
                 simpleHtml(TITLE) {

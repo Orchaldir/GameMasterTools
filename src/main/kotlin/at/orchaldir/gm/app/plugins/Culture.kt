@@ -106,7 +106,7 @@ fun Application.configureCultureRouting() {
 private fun HTML.showAllCultures(call: ApplicationCall) {
     val cultures = STORE.getState().cultures
     val count = cultures.getSize()
-    val createLink: String = call.application.href(Cultures.New(Cultures()))
+    val createLink = call.application.href(Cultures.New(Cultures()))
 
     simpleHtml("Cultures") {
         field("Count", count.toString())
@@ -142,9 +142,9 @@ private fun HTML.showCultureDetails(
     state: State,
     culture: Culture,
 ) {
-    val backLink: String = call.application.href(Cultures())
-    val deleteLink: String = call.application.href(Cultures.Delete(Cultures(), culture.id))
-    val editLink: String = call.application.href(Cultures.Edit(Cultures(), culture.id))
+    val backLink = call.application.href(Cultures())
+    val deleteLink = call.application.href(Cultures.Delete(Cultures(), culture.id))
+    val editLink = call.application.href(Cultures.Edit(Cultures(), culture.id))
 
     simpleHtml("Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
@@ -180,8 +180,8 @@ private fun HTML.showCultureEditor(
     call: ApplicationCall,
     culture: Culture,
 ) {
-    val backLink: String = call.application.href(Cultures())
-    val updateLink: String = call.application.href(Cultures.Update(Cultures(), culture.id))
+    val backLink = call.application.href(Cultures())
+    val updateLink = call.application.href(Cultures.Update(Cultures(), culture.id))
 
     simpleHtml("Edit Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
