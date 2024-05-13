@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Culture
 import at.orchaldir.gm.core.model.character.CultureId
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -148,6 +149,17 @@ private fun HTML.showCultureDetails(
     simpleHtml("Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
         field("Name", culture.name)
+        p {
+            b { +"Characters: " }
+            ul {
+                state.getCharacters(culture.id).forEach { character ->
+                    li {
+                        val characterLink = call.application.href(Characters.Details(Characters(), character.id))
+                        a(characterLink) { +character.name }
+                    }
+                }
+            }
+        }
         p { a(editLink) { +"Edit" } }
 
         if (state.canDelete(culture.id)) {
