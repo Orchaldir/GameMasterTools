@@ -4,8 +4,10 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Culture
 import at.orchaldir.gm.core.model.character.CultureId
+import at.orchaldir.gm.core.selector.canDelete
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -124,10 +126,11 @@ private fun HTML.showCultureDetails(
     call: ApplicationCall,
     id: CultureId,
 ) {
-    val culture = STORE.getState().cultures.get(id)
+    val state = STORE.getState()
+    val culture = state.cultures.get(id)
 
     if (culture != null) {
-        showCultureDetails(call, culture)
+        showCultureDetails(call, state, culture)
     } else {
         showAllCultures(call)
     }
@@ -135,6 +138,7 @@ private fun HTML.showCultureDetails(
 
 private fun HTML.showCultureDetails(
     call: ApplicationCall,
+    state: State,
     culture: Culture,
 ) {
     val backLink: String = call.application.href(Cultures())
@@ -145,7 +149,11 @@ private fun HTML.showCultureDetails(
         field("Id", culture.id.value.toString())
         field("Name", culture.name)
         p { a(editLink) { +"Edit" } }
-        p { a(deleteLink) { +"Delete" } }
+
+        if (state.canDelete(culture.id)) {
+            p { a(deleteLink) { +"Delete" } }
+        }
+
         p { a(backLink) { +"Back" } }
     }
 }
