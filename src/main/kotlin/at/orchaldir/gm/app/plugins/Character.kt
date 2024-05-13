@@ -118,14 +118,7 @@ private fun HTML.showAllCharacters(call: ApplicationCall) {
 
     simpleHtml("Characters") {
         field("Count", count.toString())
-        ul {
-            characters.getAll().forEach { character ->
-                li {
-                    val characterLink = call.application.href(Characters.Details(Characters(), character.id))
-                    a(characterLink) { +character.name }
-                }
-            }
-        }
+        characterList(call, characters.getAll())
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }
     }

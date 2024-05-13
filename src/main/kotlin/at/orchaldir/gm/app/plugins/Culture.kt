@@ -151,14 +151,7 @@ private fun HTML.showCultureDetails(
         field("Name", culture.name)
         p {
             b { +"Characters: " }
-            ul {
-                state.getCharacters(culture.id).forEach { character ->
-                    li {
-                        val characterLink = call.application.href(Characters.Details(Characters(), character.id))
-                        a(characterLink) { +character.name }
-                    }
-                }
-            }
+            characterList(call, state.getCharacters(culture.id))
         }
         p { a(editLink) { +"Edit" } }
 
