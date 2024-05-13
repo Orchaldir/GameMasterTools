@@ -9,4 +9,7 @@ import at.orchaldir.gm.utils.Storage
 data class State(
     val characters: Storage<CharacterId, Character>,
     val cultures: Storage<CultureId, Culture>,
-)
+) {
+
+    fun getCharacters(culture: CultureId) = characters.getAll().filter { c -> c.culture == culture }
+}

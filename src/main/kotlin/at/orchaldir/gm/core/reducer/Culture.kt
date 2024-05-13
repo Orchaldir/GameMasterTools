@@ -15,6 +15,8 @@ val CREATE_CULTURE: Reducer<CreateCulture, State> = { state, _ ->
 }
 
 val DELETE_CULTURE: Reducer<DeleteCulture, State> = { state, action ->
+    require(state.getCharacters(action.id).isEmpty()) { "Culture ${action.id.value} is used by characters" }
+
     noFollowUps(state.copy(cultures = state.cultures.remove(action.id)))
 }
 
