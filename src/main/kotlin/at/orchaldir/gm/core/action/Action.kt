@@ -18,6 +18,14 @@ data class UpdateCharacter(
     val culture: CultureId?,
 ) : Action()
 
+// race actions
+data object CreateRace : Action()
+data class DeleteRace(val id: RaceId) : Action()
+data class UpdateRace(
+    val id: RaceId,
+    val name: String,
+) : Action()
+
 // culture actions
 data object CreateCulture : Action()
 data class DeleteCulture(val id: CultureId) : Action()
