@@ -5,10 +5,7 @@ import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.CultureId
-import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.character.*
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -102,7 +99,7 @@ fun Application.configureCharacterRouting() {
                 .toIntOrNull()
                 ?.let { CultureId(it) }
 
-            STORE.dispatch(UpdateCharacter(update.id, name, gender, culture))
+            STORE.dispatch(UpdateCharacter(update.id, name, RaceId(0), gender, culture))
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCharacterDetails(call, update.id)

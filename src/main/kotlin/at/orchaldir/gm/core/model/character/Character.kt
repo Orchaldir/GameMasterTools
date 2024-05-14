@@ -16,6 +16,7 @@ value class CharacterId(val value: Int) : Id<CharacterId> {
 data class Character(
     val id: CharacterId,
     val name: String = "Character ${id.value}",
+    val race: RaceId = RaceId(0),
     val gender: Gender = Gender.Genderless,
     val culture: CultureId? = null,
 ) : Element<CharacterId> {
