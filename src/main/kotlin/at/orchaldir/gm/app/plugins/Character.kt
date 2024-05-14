@@ -94,12 +94,13 @@ fun Application.configureCharacterRouting() {
 
             val formParameters = call.receiveParameters()
             val name = formParameters.getOrFail("name")
+            val race = RaceId(formParameters.getOrFail("race").toInt())
             val gender = Gender.valueOf(formParameters.getOrFail("gender"))
             val culture = formParameters.getOrFail("culture")
                 .toIntOrNull()
                 ?.let { CultureId(it) }
 
-            STORE.dispatch(UpdateCharacter(update.id, name, RaceId(0), gender, culture))
+            STORE.dispatch(UpdateCharacter(update.id, name, race, gender, culture))
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCharacterDetails(call, update.id)
@@ -190,6 +191,20 @@ private fun HTML.showCharacterEditor(
                 b { +"Name: " }
                 textInput(name = "name") {
                     value = character.name
+                }
+            }
+            p {
+                b { +"Race: " }
+                select {
+                    id = "race"
+                    name = "race"
+                    state.races.getAll().forEach { race ->
+                        option {
+                            label = race.name
+                            value = race.id.value.toString()
+                            selected = race.id == character.race
+                        }
+                    }
                 }
             }
             p {
