@@ -16,6 +16,7 @@ val CREATE_RACE: Reducer<CreateRace, State> = { state, _ ->
 }
 
 val DELETE_RACE: Reducer<DeleteRace, State> = { state, action ->
+    require(state.races.getSize() > 1) { "Cannot delete the last race" }
     require(state.getCharacters(action.id).isEmpty()) { "Race ${action.id.value} is used by characters" }
 
     noFollowUps(state.copy(races = state.races.remove(action.id)))
