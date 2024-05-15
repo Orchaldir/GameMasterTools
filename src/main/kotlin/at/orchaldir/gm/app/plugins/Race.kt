@@ -194,6 +194,7 @@ private fun HTML.showRaceEditor(
             }
             p {
                 submitInput {
+                    value = "Update"
                     formAction = updateLink
                     formMethod = InputFormMethod.post
                 }

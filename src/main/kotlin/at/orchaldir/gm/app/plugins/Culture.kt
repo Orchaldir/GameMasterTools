@@ -194,6 +194,7 @@ private fun HTML.showCultureEditor(
             }
             p {
                 submitInput {
+                    value = "Update"
                     formAction = updateLink
                     formMethod = InputFormMethod.post
                 }

@@ -242,6 +242,7 @@ private fun HTML.showCharacterEditor(
             }
             p {
                 submitInput {
+                    value = "Update"
                     formAction = updateLink
                     formMethod = InputFormMethod.post
                 }
