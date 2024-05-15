@@ -19,7 +19,7 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
 }
 
 val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
-    val character = Character(action.id, action.name, action.gender, action.culture)
+    val character = Character(action.id, action.name, action.race, action.gender, action.culture)
 
     noFollowUps(state.copy(characters = state.characters.update(character)))
 }

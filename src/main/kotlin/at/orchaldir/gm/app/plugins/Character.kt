@@ -5,10 +5,7 @@ import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.CultureId
-import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.character.*
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -97,12 +94,13 @@ fun Application.configureCharacterRouting() {
 
             val formParameters = call.receiveParameters()
             val name = formParameters.getOrFail("name")
+            val race = RaceId(formParameters.getOrFail("race").toInt())
             val gender = Gender.valueOf(formParameters.getOrFail("gender"))
             val culture = formParameters.getOrFail("culture")
                 .toIntOrNull()
                 ?.let { CultureId(it) }
 
-            STORE.dispatch(UpdateCharacter(update.id, name, gender, culture))
+            STORE.dispatch(UpdateCharacter(update.id, name, race, gender, culture))
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCharacterDetails(call, update.id)
@@ -146,9 +144,12 @@ private fun HTML.showCharacterDetails(
     val backLink = call.application.href(Characters())
     val deleteLink = call.application.href(Characters.Delete(Characters(), character.id))
     val editLink = call.application.href(Characters.Edit(Characters(), character.id))
+    val race = state.races.get(character.race)?.name ?: "Unknown"
+    val raceLink = call.application.href(Races.Details(Races(), character.race))
 
     simpleHtml("Character: ${character.name}") {
         field("Id", character.id.value.toString())
+        fieldLink("Race", raceLink, race)
         field("Gender", character.gender.toString())
         if (character.culture != null) {
             val culture = state.cultures.get(character.culture)?.name ?: "Unknown"
@@ -193,6 +194,20 @@ private fun HTML.showCharacterEditor(
                 }
             }
             p {
+                b { +"Race: " }
+                select {
+                    id = "race"
+                    name = "race"
+                    state.races.getAll().forEach { race ->
+                        option {
+                            label = race.name
+                            value = race.id.value.toString()
+                            selected = race.id == character.race
+                        }
+                    }
+                }
+            }
+            p {
                 b { +"Gender: " }
                 select {
                     id = "gender"
@@ -227,6 +242,7 @@ private fun HTML.showCharacterEditor(
             }
             p {
                 submitInput {
+                    value = "Update"
                     formAction = updateLink
                     formMethod = InputFormMethod.post
                 }

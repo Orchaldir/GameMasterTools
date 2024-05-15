@@ -13,6 +13,9 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
     val nextId: ID,
     val lastId: ID = nextId
 ) {
+    constructor(nextId: ID) : this(mapOf(), nextId)
+
+    constructor(elements: List<ELEMENT>) : this(elements.associateBy { it.id() }, elements.map { it.id() }.last())
 
     fun add(element: ELEMENT): Storage<ID, ELEMENT> {
         return Storage(elements + mapOf(nextId to element), nextId.next(), nextId)
