@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.*
+import at.orchaldir.gm.core.selector.getChildren
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -142,6 +143,7 @@ private fun HTML.showLanguageDetails(
     val backLink = call.application.href(Languages())
     val deleteLink = call.application.href(Languages.Delete(Languages(), language.id))
     val editLink = call.application.href(Languages.Edit(Languages(), language.id))
+    val children = state.getChildren(language.id)
 
     simpleHtml("Language: ${language.name}") {
         field("Id", language.id.value.toString())
@@ -163,6 +165,18 @@ private fun HTML.showLanguageDetails(
 
             OriginalLanguage -> {
                 field("Origin", "Original")
+            }
+        }
+        if (children.isNotEmpty()) {
+            field("Children") {
+                ul {
+                    children.forEach { language ->
+                        li {
+                            val languageLink = call.application.href(Languages.Details(Languages(), language.id))
+                            a(languageLink) { +language.name }
+                        }
+                    }
+                }
             }
         }
         p { a(editLink) { +"Edit" } }
