@@ -1,6 +1,8 @@
 package at.orchaldir.gm.app.plugins
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterId
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import kotlinx.html.*
@@ -33,6 +35,32 @@ fun BODY.fieldLink(label: String, link: String, text: String) {
     }
 }
 
+// links
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    state: State,
+    id: CharacterId,
+) {
+    link(call, id, state.characters.get(id)?.name ?: "Unknown")
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    character: Character
+) {
+    link(call, character.id, character.name)
+}
+
+private fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    id: CharacterId,
+    text: String
+) {
+    val characterLink = call.application.href(Characters.Details(Characters(), id))
+    a(characterLink) { +text }
+}
+
 // lists
 
 fun HtmlBlockTag.characterList(
@@ -42,8 +70,7 @@ fun HtmlBlockTag.characterList(
     ul {
         characters.forEach { character ->
             li {
-                val characterLink = call.application.href(Characters.Details(Characters(), character.id))
-                a(characterLink) { +character.name }
+                link(call, character)
             }
         }
     }

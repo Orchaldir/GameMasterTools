@@ -5,8 +5,7 @@ import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.language.Language
-import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.language.*
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -147,6 +146,18 @@ private fun HTML.showLanguageDetails(
     simpleHtml("Language: ${language.name}") {
         field("Id", language.id.value.toString())
         field("Name", language.name)
+        when (language.origin) {
+            is EvolvedLanguage -> {
+                field("Origin", "Evolved")
+            }
+            is InventedLanguage -> {
+                field("Origin", "Invented")
+                link(call, state, language.origin.inventor)
+            }
+            OriginalLanguage -> {
+                field("Origin", "Original")
+            }
+        }
         p { a(editLink) { +"Edit" } }
         p { a(deleteLink) { +"Delete" } }
         p { a(backLink) { +"Back" } }
