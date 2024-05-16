@@ -152,7 +152,9 @@ private fun HTML.showLanguageDetails(
             }
             is InventedLanguage -> {
                 field("Origin", "Invented")
-                link(call, state, language.origin.inventor)
+                field("Inventor") {
+                    link(call, state, language.origin.inventor)
+                }
             }
             OriginalLanguage -> {
                 field("Origin", "Original")

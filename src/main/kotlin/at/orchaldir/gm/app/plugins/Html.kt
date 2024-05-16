@@ -28,6 +28,13 @@ fun BODY.field(name: String, value: String) {
     }
 }
 
+fun BODY.field(name: String, content: P.() -> Unit) {
+    p {
+        b { +"$name: " }
+        content()
+    }
+}
+
 fun BODY.fieldLink(label: String, link: String, text: String) {
     p {
         b { +"$label: " }
@@ -47,7 +54,7 @@ fun HtmlBlockTag.link(
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
-    character: Character
+    character: Character,
 ) {
     link(call, character.id, character.name)
 }
