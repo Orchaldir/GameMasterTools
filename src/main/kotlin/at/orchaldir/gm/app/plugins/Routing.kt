@@ -21,15 +21,18 @@ fun Application.configureRouting() {
             logger.info { "Root" }
             val characterCount = STORE.getState().characters.getSize()
             val cultureCount = STORE.getState().cultures.getSize()
+            val languageCount = STORE.getState().languages.getSize()
             val racesCount = STORE.getState().races.getSize()
             val charactersLink = call.application.href(Characters())
             val culturesLink = call.application.href(Cultures())
+            val languagesLink = call.application.href(Languages())
             val racesLink = call.application.href(Races())
 
             call.respondHtml(HttpStatusCode.OK) {
                 simpleHtml(TITLE) {
                     fieldLink("Characters", charactersLink, "$characterCount")
                     fieldLink("Cultures", culturesLink, "$cultureCount")
+                    fieldLink("Languages", languagesLink, "$languageCount")
                     fieldLink("Races", racesLink, "$racesCount")
                 }
             }

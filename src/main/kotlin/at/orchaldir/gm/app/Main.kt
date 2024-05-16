@@ -1,15 +1,14 @@
 package at.orchaldir.gm.app
 
-import at.orchaldir.gm.app.plugins.configureCharacterRouting
-import at.orchaldir.gm.app.plugins.configureCultureRouting
-import at.orchaldir.gm.app.plugins.configureRaceRouting
-import at.orchaldir.gm.app.plugins.configureRouting
+import at.orchaldir.gm.app.plugins.*
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CultureId
 import at.orchaldir.gm.core.model.character.Race
 import at.orchaldir.gm.core.model.character.RaceId
+import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.redux.DefaultStore
@@ -34,6 +33,7 @@ fun Application.module() {
     configureRouting()
     configureCharacterRouting()
     configureCultureRouting()
+    configureLanguageRouting()
     configureRaceRouting()
 }
 
@@ -47,6 +47,7 @@ fun initStore(): DefaultStore<Action, State> {
     val state = State(
         Storage(CharacterId(0)),
         Storage(CultureId(0)),
+        Storage(listOf(Language(LanguageId(0), "Common"))),
         Storage(listOf(Race(RaceId(0), "Human"))),
     )
     return DefaultStore(state, REDUCER, listOf(LogAction()))
