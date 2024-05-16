@@ -16,6 +16,7 @@ value class LanguageId(val value: Int) : Id<LanguageId> {
 data class Language(
     val id: LanguageId,
     val name: String = "Language ${id.value}",
+    val origin: LanguageOrigin = OriginalLanguage
 ) : Element<LanguageId> {
 
     override fun id() = id
