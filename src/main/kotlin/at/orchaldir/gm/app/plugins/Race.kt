@@ -149,8 +149,7 @@ private fun HTML.showRaceDetails(
     simpleHtml("Race: ${race.name}") {
         field("Id", race.id.value.toString())
         field("Name", race.name)
-        p {
-            b { +"Characters: " }
+        field("Characters") {
             characterList(call, state.getCharacters(race.id))
         }
         p { a(editLink) { +"Edit" } }

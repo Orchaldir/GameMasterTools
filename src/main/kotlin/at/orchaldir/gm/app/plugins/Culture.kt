@@ -149,8 +149,7 @@ private fun HTML.showCultureDetails(
     simpleHtml("Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
         field("Name", culture.name)
-        p {
-            b { +"Characters: " }
+        field("Characters") {
             characterList(call, state.getCharacters(culture.id))
         }
         p { a(editLink) { +"Edit" } }
