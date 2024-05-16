@@ -149,13 +149,18 @@ private fun HTML.showLanguageDetails(
         when (language.origin) {
             is EvolvedLanguage -> {
                 field("Origin", "Evolved")
+                field("Parent") {
+                    link(call, state, language.origin.parent)
+                }
             }
+
             is InventedLanguage -> {
                 field("Origin", "Invented")
                 field("Inventor") {
                     link(call, state, language.origin.inventor)
                 }
             }
+
             OriginalLanguage -> {
                 field("Origin", "Original")
             }

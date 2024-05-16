@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.plugins
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.language.LanguageId
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import kotlinx.html.*
@@ -42,7 +43,7 @@ fun BODY.fieldLink(label: String, link: String, text: String) {
     }
 }
 
-// links
+// link character
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
@@ -65,6 +66,25 @@ private fun HtmlBlockTag.link(
     text: String
 ) {
     val characterLink = call.application.href(Characters.Details(Characters(), id))
+    a(characterLink) { +text }
+}
+
+// link language
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    state: State,
+    id: LanguageId,
+) {
+    link(call, id, state.languages.get(id)?.name ?: "Unknown")
+}
+
+private fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    id: LanguageId,
+    text: String
+) {
+    val characterLink = call.application.href(Languages.Details(Languages(), id))
     a(characterLink) { +text }
 }
 

@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CultureId
 import at.orchaldir.gm.core.model.character.Race
 import at.orchaldir.gm.core.model.character.RaceId
+import at.orchaldir.gm.core.model.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -47,7 +48,12 @@ fun initStore(): DefaultStore<Action, State> {
     val state = State(
         Storage(CharacterId(0)),
         Storage(CultureId(0)),
-        Storage(listOf(Language(LanguageId(0), "Common"))),
+        Storage(
+            listOf(
+                Language(LanguageId(0), "Old Common"),
+                Language(LanguageId(1), "Common", EvolvedLanguage(LanguageId(0)))
+            )
+        ),
         Storage(listOf(Race(RaceId(0), "Human"))),
     )
     return DefaultStore(state, REDUCER, listOf(LogAction()))
