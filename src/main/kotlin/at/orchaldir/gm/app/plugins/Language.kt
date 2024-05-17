@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.selector.getChildren
 import io.ktor.http.*
@@ -34,6 +35,9 @@ class Languages {
 
     @Resource("edit")
     class Edit(val parent: Languages = Languages(), val id: LanguageId)
+
+    @Resource("edit")
+    class Preview(val parent: Languages = Languages(), val id: LanguageId)
 
     @Resource("update")
     class Update(val parent: Languages = Languages(), val id: LanguageId)
@@ -88,6 +92,17 @@ fun Application.configureLanguageRouting() {
                 }
             }
         }
+        get<Languages.Preview> { edit ->
+            logger.info { "Preview changes to language ${edit.id.value}" }
+
+            val language = parseLanguage(edit.id, call.receiveParameters())
+
+            call.respondHtml(HttpStatusCode.OK) {
+                val state = STORE.getState()
+
+                showLanguageEditor(call, state, language)
+            }
+        }
         post<Languages.Update> { update ->
             logger.info { "Update language ${update.id.value}" }
 
@@ -101,6 +116,24 @@ fun Application.configureLanguageRouting() {
             }
         }
     }
+}
+
+private fun parseLanguage(id: LanguageId, parameters: Parameters): Language {
+    val name = parameters.getOrFail("name")
+    val origin = when (parameters["origin"]) {
+        "Invented" -> {
+            val inventor = CharacterId(parameters["inventor"]?.toInt() ?: 0)
+            InventedLanguage(inventor)
+        }
+
+        "Evolved" -> {
+            val parent = LanguageId(parameters["parent"]?.toInt() ?: 0)
+            EvolvedLanguage(parent)
+        }
+
+        else -> OriginalLanguage
+    }
+    return Language(id, name, origin)
 }
 
 private fun HTML.showAllLanguages(call: ApplicationCall) {
