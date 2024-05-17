@@ -105,9 +105,23 @@ fun HtmlBlockTag.characterList(
 
 // form
 
-fun FORM.label(name: String, content: P.() -> Unit) {
+fun FORM.label(label: String, content: P.() -> Unit) {
     p {
-        b { +"$name: " }
+        b { +"$label: " }
         content()
+    }
+}
+
+fun <T> FORM.selectEnum(label: String, selectId: String, values: List<T>, content: OPTION.(T) -> Unit) {
+    label(label) {
+        select {
+            id = selectId
+            name = selectId
+            values.forEach { gender ->
+                option {
+                    content(gender)
+                }
+            }
+        }
     }
 }

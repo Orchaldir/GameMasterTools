@@ -205,18 +205,10 @@ private fun HTML.showCharacterEditor(
                     }
                 }
             }
-            label("Gender") {
-                select {
-                    id = "gender"
-                    name = "gender"
-                    Gender.entries.forEach { gender ->
-                        option {
-                            label = gender.toString()
-                            value = gender.toString()
-                            selected = character.gender == gender
-                        }
-                    }
-                }
+            selectEnum("Gender", "gender", Gender.entries) { gender ->
+                label = gender.toString()
+                value = gender.toString()
+                selected = character.gender == gender
             }
             label("Culture") {
                 select {
