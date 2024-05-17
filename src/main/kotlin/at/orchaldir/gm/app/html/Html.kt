@@ -1,10 +1,8 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.plugins.TITLE
-import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
-import io.ktor.server.application.*
 import kotlinx.html.*
 
 fun HTML.simpleHtml(
@@ -47,19 +45,6 @@ fun BODY.fieldLink(label: String, link: String, text: String) {
 }
 
 // lists
-
-fun HtmlBlockTag.characterList(
-    call: ApplicationCall,
-    characters: Collection<Character>,
-) {
-    ul {
-        characters.forEach { character ->
-            li {
-                link(call, character)
-            }
-        }
-    }
-}
 
 fun <ID : Id<ID>, E : Element<ID>> HtmlBlockTag.listElements(
     elements: Collection<E>,

@@ -1,8 +1,11 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.label
+import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.listElements
+import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
@@ -147,7 +150,9 @@ private fun HTML.showRaceDetails(
         field("Id", race.id.value.toString())
         field("Name", race.name)
         field("Characters") {
-            characterList(call, state.getCharacters(race.id))
+            listElements(state.getCharacters(race.id)) { character ->
+                link(call, character)
+            }
         }
         p { a(editLink) { +"Edit" } }
 

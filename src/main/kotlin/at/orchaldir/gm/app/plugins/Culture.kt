@@ -1,8 +1,11 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.label
+import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.listElements
+import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
@@ -147,7 +150,9 @@ private fun HTML.showCultureDetails(
         field("Id", culture.id.value.toString())
         field("Name", culture.name)
         field("Characters") {
-            characterList(call, state.getCharacters(culture.id))
+            listElements(state.getCharacters(culture.id)) { character ->
+                link(call, character)
+            }
         }
         p { a(editLink) { +"Edit" } }
 

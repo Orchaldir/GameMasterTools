@@ -119,7 +119,9 @@ private fun HTML.showAllCharacters(call: ApplicationCall) {
 
     simpleHtml("Characters") {
         field("Count", count.toString())
-        characterList(call, characters.getAll())
+        listElements(characters.getAll()) { character ->
+            link(call, character)
+        }
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }
     }
