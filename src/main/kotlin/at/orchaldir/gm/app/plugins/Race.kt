@@ -185,8 +185,7 @@ private fun HTML.showRaceEditor(
     simpleHtml("Edit Race: ${race.name}") {
         field("Id", race.id.value.toString())
         form {
-            p {
-                b { +"Name: " }
+            label("Name") {
                 textInput(name = "name") {
                     value = race.name
                 }

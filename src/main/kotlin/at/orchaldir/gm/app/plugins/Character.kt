@@ -187,14 +187,12 @@ private fun HTML.showCharacterEditor(
     simpleHtml("Edit Character: ${character.name}") {
         field("Id", character.id.value.toString())
         form {
-            p {
-                b { +"Name: " }
+            label("Name") {
                 textInput(name = "name") {
                     value = character.name
                 }
             }
-            p {
-                b { +"Race: " }
+            label("Race") {
                 select {
                     id = "race"
                     name = "race"
@@ -207,8 +205,7 @@ private fun HTML.showCharacterEditor(
                     }
                 }
             }
-            p {
-                b { +"Gender: " }
+            label("Gender") {
                 select {
                     id = "gender"
                     name = "gender"
@@ -221,8 +218,7 @@ private fun HTML.showCharacterEditor(
                     }
                 }
             }
-            p {
-                b { +"Culture: " }
+            label("Culture") {
                 select {
                     id = "culture"
                     name = "culture"

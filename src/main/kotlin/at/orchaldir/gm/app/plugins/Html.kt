@@ -102,3 +102,12 @@ fun HtmlBlockTag.characterList(
         }
     }
 }
+
+// form
+
+fun FORM.label(name: String, content: P.() -> Unit) {
+    p {
+        b { +"$name: " }
+        content()
+    }
+}

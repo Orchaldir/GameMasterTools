@@ -185,8 +185,7 @@ private fun HTML.showCultureEditor(
     simpleHtml("Edit Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
         form {
-            p {
-                b { +"Name: " }
+            label("Name") {
                 textInput(name = "name") {
                     value = culture.name
                 }

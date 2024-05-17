@@ -208,7 +208,7 @@ private fun HTML.showLanguageEditor(
     simpleHtml("Edit Language: ${language.name}") {
         field("Id", language.id.value.toString())
         form {
-            p {
+            label("Name") {
                 b { +"Name: " }
                 textInput(name = "name") {
                     value = language.name
