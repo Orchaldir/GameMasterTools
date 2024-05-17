@@ -214,6 +214,27 @@ private fun HTML.showLanguageEditor(
                     value = language.name
                 }
             }
+            label("Origin") {
+                select {
+                    id = "origin"
+                    name = "origin"
+                    option {
+                        label = "Evolved"
+                        value = "Evolved"
+                        selected = language.origin is EvolvedLanguage
+                    }
+                    option {
+                        label = "Invented"
+                        value = "Invented"
+                        selected = language.origin is InventedLanguage
+                    }
+                    option {
+                        label = "Original"
+                        value = "Original"
+                        selected = language.origin is OriginalLanguage
+                    }
+                }
+            }
             p {
                 submitInput {
                     value = "Update"
