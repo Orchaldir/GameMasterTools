@@ -92,7 +92,7 @@ fun Application.configureLanguageRouting() {
                 }
             }
         }
-        get<Languages.Preview> { preview ->
+        post<Languages.Preview> { preview ->
             logger.info { "Preview changes to language ${preview.id.value}" }
 
             val language = parseLanguage(preview.id, call.receiveParameters())
@@ -240,12 +240,15 @@ private fun HTML.showLanguageEditor(
     language: Language,
 ) {
     val backLink = call.application.href(Languages())
+    val previewLink = call.application.href(Languages.Preview(Languages(), language.id))
     val updateLink = call.application.href(Languages.Update(Languages(), language.id))
 
     simpleHtml("Edit Language: ${language.name}") {
         field("Id", language.id.value.toString())
         form {
             id = "editor"
+            action = previewLink
+            method = FormMethod.post
             label("Name") {
                 b { +"Name: " }
                 textInput(name = "name") {
@@ -285,7 +288,8 @@ private fun HTML.showLanguageEditor(
                 is InventedLanguage -> selectEnum(
                     "Inventor",
                     "inventor",
-                    state.characters.getAll().filter { c -> c.id != language.origin.inventor }) { c ->
+                    state.characters.getAll()
+                ) { c ->
                     label = c.name
                     value = c.id.value.toString()
                     selected = language.origin.inventor == c.id

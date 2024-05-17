@@ -11,7 +11,7 @@ interface Element<ID> {
 data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
     val elements: Map<ID, ELEMENT>,
     val nextId: ID,
-    val lastId: ID = nextId
+    val lastId: ID = nextId,
 ) {
     constructor(nextId: ID) : this(mapOf(), nextId)
 

@@ -10,7 +10,7 @@ import kotlinx.html.*
 
 fun HTML.simpleHtml(
     title: String,
-    content: BODY.() -> Unit
+    content: BODY.() -> Unit,
 ) {
     head {
         title { +TITLE }
@@ -67,7 +67,7 @@ fun HtmlBlockTag.link(
 private fun HtmlBlockTag.link(
     call: ApplicationCall,
     id: CharacterId,
-    text: String
+    text: String,
 ) {
     val characterLink = call.application.href(Characters.Details(Characters(), id))
     a(characterLink) { +text }
@@ -86,7 +86,7 @@ fun HtmlBlockTag.link(
 private fun HtmlBlockTag.link(
     call: ApplicationCall,
     id: LanguageId,
-    text: String
+    text: String,
 ) {
     val characterLink = call.application.href(Languages.Details(Languages(), id))
     a(characterLink) { +text }
@@ -116,7 +116,7 @@ fun FORM.label(label: String, content: P.() -> Unit) {
     }
 }
 
-fun <T> FORM.selectEnum(label: String, selectId: String, values: List<T>, content: OPTION.(T) -> Unit) {
+fun <T> FORM.selectEnum(label: String, selectId: String, values: Collection<T>, content: OPTION.(T) -> Unit) {
     label(label) {
         select {
             id = selectId

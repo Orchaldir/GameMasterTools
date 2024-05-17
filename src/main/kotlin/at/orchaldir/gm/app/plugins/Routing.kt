@@ -8,7 +8,6 @@ import io.ktor.server.http.content.*
 import io.ktor.server.resources.*
 import io.ktor.server.routing.*
 import mu.KotlinLogging
-import java.io.File
 
 private val logger = KotlinLogging.logger {}
 
