@@ -15,6 +15,10 @@ fun HTML.simpleHtml(
     head {
         title { +TITLE }
         link(rel = "stylesheet", href = "/static/style.css", type = "text/css")
+        script(src = "/static/scripts.js") {
+            charset = "utf-8"
+            defer = true
+        }
     }
     body {
         h1 { +title }

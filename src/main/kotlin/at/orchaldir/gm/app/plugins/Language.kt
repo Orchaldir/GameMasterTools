@@ -36,7 +36,7 @@ class Languages {
     @Resource("edit")
     class Edit(val parent: Languages = Languages(), val id: LanguageId)
 
-    @Resource("edit")
+    @Resource("preview")
     class Preview(val parent: Languages = Languages(), val id: LanguageId)
 
     @Resource("update")
@@ -92,10 +92,10 @@ fun Application.configureLanguageRouting() {
                 }
             }
         }
-        get<Languages.Preview> { edit ->
-            logger.info { "Preview changes to language ${edit.id.value}" }
+        get<Languages.Preview> { preview ->
+            logger.info { "Preview changes to language ${preview.id.value}" }
 
-            val language = parseLanguage(edit.id, call.receiveParameters())
+            val language = parseLanguage(preview.id, call.receiveParameters())
 
             call.respondHtml(HttpStatusCode.OK) {
                 val state = STORE.getState()
@@ -245,6 +245,7 @@ private fun HTML.showLanguageEditor(
     simpleHtml("Edit Language: ${language.name}") {
         field("Id", language.id.value.toString())
         form {
+            id = "editor"
             label("Name") {
                 b { +"Name: " }
                 textInput(name = "name") {
@@ -255,6 +256,7 @@ private fun HTML.showLanguageEditor(
                 select {
                     id = "origin"
                     name = "origin"
+                    onChange = "updateEditor();"
                     option {
                         label = "Evolved"
                         value = "Evolved"
@@ -276,7 +278,7 @@ private fun HTML.showLanguageEditor(
                 is EvolvedLanguage ->
                     selectEnum("Parent", "parent", state.languages.getAll().filter { l -> l.id != language.id }) { l ->
                         label = l.name
-                        value = l.id.toString()
+                        value = l.id.value.toString()
                         selected = language.origin.parent == l.id
                     }
 
@@ -285,7 +287,7 @@ private fun HTML.showLanguageEditor(
                     "inventor",
                     state.characters.getAll().filter { c -> c.id != language.origin.inventor }) { c ->
                     label = c.name
-                    value = c.id.toString()
+                    value = c.id.value.toString()
                     selected = language.origin.inventor == c.id
                 }
 

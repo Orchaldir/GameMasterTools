@@ -16,7 +16,7 @@ const val TITLE = "Orchaldir's Game Master Tools"
 
 fun Application.configureRouting() {
     routing {
-        staticFiles("/static", File("static"))
+        staticResources("/static", "static")
         get("/") {
             logger.info { "Root" }
             val characterCount = STORE.getState().characters.getSize()
