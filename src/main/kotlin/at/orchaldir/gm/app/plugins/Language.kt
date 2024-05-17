@@ -61,7 +61,8 @@ fun Application.configureLanguageRouting() {
             STORE.dispatch(CreateLanguage)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showLanguageEditor(call, STORE.getState().languages.lastId)
+                val state = STORE.getState()
+                showLanguageEditor(call, state, state.languages.lastId)
             }
         }
         get<Languages.Delete> { delete ->
@@ -77,10 +78,11 @@ fun Application.configureLanguageRouting() {
             logger.info { "Get editor for language ${edit.id.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                val language = STORE.getState().languages.get(edit.id)
+                val state = STORE.getState()
+                val language = state.languages.get(edit.id)
 
                 if (language != null) {
-                    showLanguageEditor(call, language)
+                    showLanguageEditor(call, state, language)
                 } else {
                     showAllLanguages(call)
                 }
@@ -187,12 +189,13 @@ private fun HTML.showLanguageDetails(
 
 private fun HTML.showLanguageEditor(
     call: ApplicationCall,
+    state: State,
     id: LanguageId,
 ) {
     val language = STORE.getState().languages.get(id)
 
     if (language != null) {
-        showLanguageEditor(call, language)
+        showLanguageEditor(call, state, language)
     } else {
         showAllLanguages(call)
     }
@@ -200,6 +203,7 @@ private fun HTML.showLanguageEditor(
 
 private fun HTML.showLanguageEditor(
     call: ApplicationCall,
+    state: State,
     language: Language,
 ) {
     val backLink = call.application.href(Languages())
@@ -234,6 +238,25 @@ private fun HTML.showLanguageEditor(
                         selected = language.origin is OriginalLanguage
                     }
                 }
+            }
+            when (language.origin) {
+                is EvolvedLanguage ->
+                    selectEnum("Parent", "parent", state.languages.getAll().filter { l -> l.id != language.id }) { l ->
+                        label = l.name
+                        value = l.id.toString()
+                        selected = language.origin.parent == l.id
+                    }
+
+                is InventedLanguage -> selectEnum(
+                    "Inventor",
+                    "inventor",
+                    state.characters.getAll().filter { c -> c.id != language.origin.inventor }) { c ->
+                    label = c.name
+                    value = c.id.toString()
+                    selected = language.origin.inventor == c.id
+                }
+
+                else -> {}
             }
             p {
                 submitInput {
