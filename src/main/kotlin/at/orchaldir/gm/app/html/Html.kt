@@ -53,58 +53,6 @@ fun BODY.fieldLink(label: String, link: String, text: String) {
     }
 }
 
-// link character
-
-fun HtmlBlockTag.link(
-    call: ApplicationCall,
-    state: State,
-    id: CharacterId,
-) {
-    link(call, id, state.characters.get(id)?.name ?: "Unknown")
-}
-
-fun HtmlBlockTag.link(
-    call: ApplicationCall,
-    character: Character,
-) {
-    link(call, character.id, character.name)
-}
-
-private fun HtmlBlockTag.link(
-    call: ApplicationCall,
-    id: CharacterId,
-    text: String,
-) {
-    val characterLink = call.application.href(Characters.Details(Characters(), id))
-    a(characterLink) { +text }
-}
-
-// link language
-
-fun HtmlBlockTag.link(
-    call: ApplicationCall,
-    state: State,
-    id: LanguageId,
-) {
-    link(call, id, state.languages.get(id)?.name ?: "Unknown")
-}
-
-fun HtmlBlockTag.link(
-    call: ApplicationCall,
-    language: Language,
-) {
-    link(call, language.id, language.name)
-}
-
-private fun HtmlBlockTag.link(
-    call: ApplicationCall,
-    id: LanguageId,
-    text: String,
-) {
-    val characterLink = call.application.href(Languages.Details(Languages(), id))
-    a(characterLink) { +text }
-}
-
 // lists
 
 fun HtmlBlockTag.characterList(
