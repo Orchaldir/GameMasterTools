@@ -1,10 +1,8 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.characterList
-import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.label
-import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
@@ -114,13 +112,8 @@ private fun HTML.showAllRaces(call: ApplicationCall) {
 
     simpleHtml("Races") {
         field("Count", count.toString())
-        ul {
-            races.getAll().forEach { race ->
-                li {
-                    val raceLink = call.application.href(Races.Details(Races(), race.id))
-                    a(raceLink) { +race.name }
-                }
-            }
+        listElements(races.getAll()) { race ->
+            link(call, race)
         }
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }

@@ -1,11 +1,8 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.label
-import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.selectEnum
-import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
@@ -147,13 +144,8 @@ private fun HTML.showAllLanguages(call: ApplicationCall) {
 
     simpleHtml("Languages") {
         field("Count", count.toString())
-        ul {
-            languages.getAll().forEach { language ->
-                li {
-                    val languageLink = call.application.href(Languages.Details(Languages(), language.id))
-                    a(languageLink) { +language.name }
-                }
-            }
+        listElements(languages.getAll()) { language ->
+            link(call, language)
         }
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }
@@ -208,13 +200,8 @@ private fun HTML.showLanguageDetails(
         }
         if (children.isNotEmpty()) {
             field("Children") {
-                ul {
-                    children.forEach { language ->
-                        li {
-                            val languageLink = call.application.href(Languages.Details(Languages(), language.id))
-                            a(languageLink) { +language.name }
-                        }
-                    }
+                listElements(children) { language ->
+                    link(call, language)
                 }
             }
         }

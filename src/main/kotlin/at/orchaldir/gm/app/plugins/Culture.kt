@@ -1,10 +1,8 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.characterList
-import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.label
-import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
@@ -114,13 +112,8 @@ private fun HTML.showAllCultures(call: ApplicationCall) {
 
     simpleHtml("Cultures") {
         field("Count", count.toString())
-        ul {
-            cultures.getAll().forEach { culture ->
-                li {
-                    val cultureLink = call.application.href(Cultures.Details(Cultures(), culture.id))
-                    a(cultureLink) { +culture.name }
-                }
-            }
+        listElements(cultures.getAll()) { culture ->
+            link(call, culture)
         }
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }

@@ -147,18 +147,18 @@ private fun HTML.showCharacterDetails(
     val backLink = call.application.href(Characters())
     val deleteLink = call.application.href(Characters.Delete(Characters(), character.id))
     val editLink = call.application.href(Characters.Edit(Characters(), character.id))
-    val race = state.races.get(character.race)?.name ?: "Unknown"
-    val raceLink = call.application.href(Races.Details(Races(), character.race))
     val inventedLanguages = state.getInventedLanguages(character.id)
 
     simpleHtml("Character: ${character.name}") {
         field("Id", character.id.value.toString())
-        fieldLink("Race", raceLink, race)
+        field("Race") {
+            link(call, state, character.race)
+        }
         field("Gender", character.gender.toString())
         if (character.culture != null) {
-            val culture = state.cultures.get(character.culture)?.name ?: "Unknown"
-            val cultureLink = call.application.href(Cultures.Details(Cultures(), character.culture))
-            fieldLink("Culture", cultureLink, culture)
+            field("Culture") {
+                link(call, state, character.culture)
+            }
         }
         if (inventedLanguages.isNotEmpty()) {
             h2 { +"Languages" }

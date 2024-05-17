@@ -1,17 +1,10 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.plugins.Characters
-import at.orchaldir.gm.app.plugins.Languages
 import at.orchaldir.gm.app.plugins.TITLE
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.language.Language
-import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
-import io.ktor.server.resources.*
 import kotlinx.html.*
 
 fun HTML.simpleHtml(
