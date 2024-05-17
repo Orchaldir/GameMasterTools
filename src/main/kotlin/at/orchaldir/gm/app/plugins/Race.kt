@@ -1,6 +1,10 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.characterList
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.label
+import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace

@@ -1,6 +1,11 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.label
+import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.selectEnum
+import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage

@@ -1,5 +1,8 @@
-package at.orchaldir.gm.app.plugins
+package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.plugins.Characters
+import at.orchaldir.gm.app.plugins.Languages
+import at.orchaldir.gm.app.plugins.TITLE
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId

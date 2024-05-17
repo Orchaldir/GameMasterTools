@@ -1,6 +1,8 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.fieldLink
+import at.orchaldir.gm.app.html.simpleHtml
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
@@ -17,6 +18,7 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
 import kotlinx.html.*
+import kotlinx.html.label
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
