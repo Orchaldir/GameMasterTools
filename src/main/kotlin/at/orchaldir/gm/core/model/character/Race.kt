@@ -19,5 +19,6 @@ data class Race(
 ) : Element<RaceId> {
 
     override fun id() = id
+    override fun name() = name
 
 }

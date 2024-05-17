@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.selector.getInventedLanguages
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -146,6 +147,7 @@ private fun HTML.showCharacterDetails(
     val editLink = call.application.href(Characters.Edit(Characters(), character.id))
     val race = state.races.get(character.race)?.name ?: "Unknown"
     val raceLink = call.application.href(Races.Details(Races(), character.race))
+    val inventedLanguages = state.getInventedLanguages(character.id)
 
     simpleHtml("Character: ${character.name}") {
         field("Id", character.id.value.toString())
@@ -155,6 +157,14 @@ private fun HTML.showCharacterDetails(
             val culture = state.cultures.get(character.culture)?.name ?: "Unknown"
             val cultureLink = call.application.href(Cultures.Details(Cultures(), character.culture))
             fieldLink("Culture", cultureLink, culture)
+        }
+        if (inventedLanguages.isNotEmpty()) {
+            h2 { +"Languages" }
+            field("Invented") {
+                listElements(inventedLanguages) { language ->
+                    link(call, language)
+                }
+            }
         }
         p { a(editLink) { +"Edit" } }
         p { a(deleteLink) { +"Delete" } }

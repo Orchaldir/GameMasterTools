@@ -22,5 +22,6 @@ data class Character(
 ) : Element<CharacterId> {
 
     override fun id() = id
+    override fun name() = name
 
 }

@@ -3,7 +3,10 @@ package at.orchaldir.gm.app.plugins
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import kotlinx.html.*
@@ -83,6 +86,13 @@ fun HtmlBlockTag.link(
     link(call, id, state.languages.get(id)?.name ?: "Unknown")
 }
 
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    language: Language,
+) {
+    link(call, language.id, language.name)
+}
+
 private fun HtmlBlockTag.link(
     call: ApplicationCall,
     id: LanguageId,
@@ -102,6 +112,19 @@ fun HtmlBlockTag.characterList(
         characters.forEach { character ->
             li {
                 link(call, character)
+            }
+        }
+    }
+}
+
+fun <ID : Id<ID>, E : Element<ID>> HtmlBlockTag.listElements(
+    elements: Collection<E>,
+    content: LI.(E) -> Unit,
+) {
+    ul {
+        elements.forEach { element ->
+            li {
+                content(element)
             }
         }
     }

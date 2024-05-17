@@ -19,5 +19,9 @@ val DELETE_LANGUAGE: Reducer<DeleteLanguage, State> = { state, action ->
 }
 
 val UPDATE_LANGUAGE: Reducer<UpdateLanguage, State> = { state, action ->
+    // id exists
+    // no duplicate name
+    // parent/inventor exists
+    // no circle
     noFollowUps(state.copy(languages = state.languages.update(action.language)))
 }

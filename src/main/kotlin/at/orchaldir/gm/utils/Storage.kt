@@ -6,6 +6,7 @@ interface Id<ID> {
 
 interface Element<ID> {
     fun id(): ID
+    fun name(): String
 }
 
 data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
