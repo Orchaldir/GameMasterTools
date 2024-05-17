@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CultureId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.RaceId
+import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
 
 sealed class Action
@@ -30,10 +31,7 @@ data class UpdateCulture(
 // language actions
 data object CreateLanguage : Action()
 data class DeleteLanguage(val id: LanguageId) : Action()
-data class UpdateLanguage(
-    val id: LanguageId,
-    val name: String,
-) : Action()
+data class UpdateLanguage(val language: Language) : Action()
 
 // race actions
 data object CreateRace : Action()

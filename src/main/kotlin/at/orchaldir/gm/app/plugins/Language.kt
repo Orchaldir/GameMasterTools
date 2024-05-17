@@ -106,10 +106,9 @@ fun Application.configureLanguageRouting() {
         post<Languages.Update> { update ->
             logger.info { "Update language ${update.id.value}" }
 
-            val formParameters = call.receiveParameters()
-            val name = formParameters.getOrFail("name")
+            val language = parseLanguage(update.id, call.receiveParameters())
 
-            STORE.dispatch(UpdateLanguage(update.id, name))
+            STORE.dispatch(UpdateLanguage(language))
 
             call.respondHtml(HttpStatusCode.OK) {
                 showLanguageDetails(call, update.id)
