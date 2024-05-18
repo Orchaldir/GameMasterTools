@@ -19,6 +19,7 @@ import kotlin.test.assertTrue
 
 private val ID0 = LanguageId(0)
 private val ID1 = LanguageId(1)
+private val CHARACTER0 = CharacterId(0)
 
 class LanguageTest {
 
@@ -62,7 +63,7 @@ class LanguageTest {
         @Test
         fun `Inventor must exist`() {
             val state = CREATE_LANGUAGE.invoke(State(), CreateLanguage).first
-            val origin = InventedLanguage(CharacterId(0))
+            val origin = InventedLanguage(CHARACTER0)
             val action = UpdateLanguage(Language(ID0, origin = origin))
 
             assertFailsWith<IllegalArgumentException> { UPDATE_LANGUAGE.invoke(state, action) }
@@ -72,7 +73,7 @@ class LanguageTest {
         fun `Inventor exists`() {
             val state0 = CREATE_CHARACTER.invoke(State(), CreateCharacter).first
             val state1 = CREATE_LANGUAGE.invoke(state0, CreateLanguage).first
-            val origin = InventedLanguage(CharacterId(0))
+            val origin = InventedLanguage(CHARACTER0)
             val language = Language(ID0, origin = origin)
             val action = UpdateLanguage(language)
 
