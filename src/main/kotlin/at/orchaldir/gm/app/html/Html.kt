@@ -74,7 +74,7 @@ fun <K, V> HtmlBlockTag.showMap(
 
 // form
 
-fun FORM.label(label: String, content: P.() -> Unit) {
+fun FORM.field(label: String, content: P.() -> Unit) {
     p {
         b { +"$label: " }
         content()
@@ -82,7 +82,7 @@ fun FORM.label(label: String, content: P.() -> Unit) {
 }
 
 fun <T> FORM.selectEnum(label: String, selectId: String, values: Collection<T>, content: OPTION.(T) -> Unit) {
-    label(label) {
+    field(label) {
         select {
             id = selectId
             name = selectId

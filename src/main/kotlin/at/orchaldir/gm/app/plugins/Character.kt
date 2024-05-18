@@ -18,7 +18,6 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
 import kotlinx.html.*
-import kotlinx.html.label
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -208,12 +207,12 @@ private fun HTML.showCharacterEditor(
     simpleHtml("Edit Character: ${character.name}") {
         field("Id", character.id.value.toString())
         form {
-            label("Name") {
+            field("Name") {
                 textInput(name = "name") {
                     value = character.name
                 }
             }
-            label("Race") {
+            field("Race") {
                 select {
                     id = "race"
                     name = "race"
@@ -231,7 +230,7 @@ private fun HTML.showCharacterEditor(
                 value = gender.toString()
                 selected = character.gender == gender
             }
-            label("Culture") {
+            field("Culture") {
                 select {
                     id = "culture"
                     name = "culture"

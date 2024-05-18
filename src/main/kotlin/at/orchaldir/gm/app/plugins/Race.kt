@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.label
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.listElements
 import at.orchaldir.gm.app.html.simpleHtml
@@ -187,7 +186,7 @@ private fun HTML.showRaceEditor(
     simpleHtml("Edit Race: ${race.name}") {
         field("Id", race.id.value.toString())
         form {
-            label("Name") {
+            field("Name") {
                 textInput(name = "name") {
                     value = race.name
                 }
