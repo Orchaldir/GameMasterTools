@@ -35,4 +35,6 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
     fun getSize() = elements.size
 
     fun get(id: ID) = elements[id]
+
+    fun contains(id: ID) = elements.containsKey(id)
 }

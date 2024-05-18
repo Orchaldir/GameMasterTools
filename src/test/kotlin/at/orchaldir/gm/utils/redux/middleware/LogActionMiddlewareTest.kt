@@ -10,8 +10,11 @@ class LogActionMiddlewareTest {
     @Test
     fun `Logging of actions`() {
         val store = DefaultStore<Int, Int>(
-            10, { state,
-                  action ->
+            10,
+            {
+                    state,
+                    action,
+                ->
                 noFollowUps(state + action)
             },
             listOf(LogAction())

@@ -15,6 +15,8 @@ val CREATE_LANGUAGE: Reducer<CreateLanguage, State> = { state, _ ->
 }
 
 val DELETE_LANGUAGE: Reducer<DeleteLanguage, State> = { state, action ->
+    val contains = state.languages.contains(action.id)
+    require(contains) { "Cannot delete an unknown language" }
     noFollowUps(state.copy(languages = state.languages.remove(action.id)))
 }
 
