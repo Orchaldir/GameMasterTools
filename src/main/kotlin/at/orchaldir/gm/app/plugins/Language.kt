@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.language.*
+import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.getChildren
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -175,6 +176,7 @@ private fun HTML.showLanguageDetails(
     val deleteLink = call.application.href(Languages.Delete(Languages(), language.id))
     val editLink = call.application.href(Languages.Edit(Languages(), language.id))
     val children = state.getChildren(language.id)
+    val characters = state.getCharacters(language.id)
 
     simpleHtml("Language: ${language.name}") {
         field("Id", language.id.value.toString())
@@ -199,9 +201,16 @@ private fun HTML.showLanguageDetails(
             }
         }
         if (children.isNotEmpty()) {
-            field("Children") {
+            field("Child Languages") {
                 listElements(children) { language ->
                     link(call, language)
+                }
+            }
+        }
+        if (characters.isNotEmpty()) {
+            field("Characters") {
+                listElements(characters) { character ->
+                    link(call, character)
                 }
             }
         }
