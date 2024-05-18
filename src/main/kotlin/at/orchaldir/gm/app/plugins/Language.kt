@@ -27,22 +27,22 @@ private val logger = KotlinLogging.logger {}
 @Resource("/languages")
 class Languages {
     @Resource("details")
-    class Details(val parent: Languages = Languages(), val id: LanguageId)
+    class Details(val id: LanguageId, val parent: Languages = Languages())
 
     @Resource("new")
     class New(val parent: Languages = Languages())
 
     @Resource("delete")
-    class Delete(val parent: Languages = Languages(), val id: LanguageId)
+    class Delete(val id: LanguageId, val parent: Languages = Languages())
 
     @Resource("edit")
-    class Edit(val parent: Languages = Languages(), val id: LanguageId)
+    class Edit(val id: LanguageId, val parent: Languages = Languages())
 
     @Resource("preview")
-    class Preview(val parent: Languages = Languages(), val id: LanguageId)
+    class Preview(val id: LanguageId, val parent: Languages = Languages())
 
     @Resource("update")
-    class Update(val parent: Languages = Languages(), val id: LanguageId)
+    class Update(val id: LanguageId, val parent: Languages = Languages())
 }
 
 fun Application.configureLanguageRouting() {
@@ -172,8 +172,8 @@ private fun HTML.showLanguageDetails(
     language: Language,
 ) {
     val backLink = call.application.href(Languages())
-    val deleteLink = call.application.href(Languages.Delete(Languages(), language.id))
-    val editLink = call.application.href(Languages.Edit(Languages(), language.id))
+    val deleteLink = call.application.href(Languages.Delete(language.id))
+    val editLink = call.application.href(Languages.Edit(language.id))
     val children = state.getChildren(language.id)
     val characters = state.getCharacters(language.id)
 
@@ -183,7 +183,7 @@ private fun HTML.showLanguageDetails(
         when (language.origin) {
             is EvolvedLanguage -> {
                 field("Origin", "Evolved")
-                field("Parent") {
+                field("Parent Language") {
                     link(call, state, language.origin.parent)
                 }
             }
@@ -239,8 +239,8 @@ private fun HTML.showLanguageEditor(
     language: Language,
 ) {
     val backLink = call.application.href(Languages())
-    val previewLink = call.application.href(Languages.Preview(Languages(), language.id))
-    val updateLink = call.application.href(Languages.Update(Languages(), language.id))
+    val previewLink = call.application.href(Languages.Preview(language.id))
+    val updateLink = call.application.href(Languages.Update(language.id))
 
     simpleHtml("Edit Language: ${language.name}") {
         field("Id", language.id.value.toString())

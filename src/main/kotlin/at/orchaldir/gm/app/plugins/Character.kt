@@ -25,22 +25,19 @@ private val logger = KotlinLogging.logger {}
 @Resource("/characters")
 class Characters {
     @Resource("details")
-    class Details(val parent: Characters = Characters(), val id: CharacterId)
+    class Details(val id: CharacterId, val parent: Characters = Characters())
 
     @Resource("new")
     class New(val parent: Characters = Characters())
 
     @Resource("delete")
-    class Delete(val parent: Characters = Characters(), val id: CharacterId)
+    class Delete(val id: CharacterId, val parent: Characters = Characters())
 
     @Resource("edit")
-    class Edit(val parent: Characters = Characters(), val id: CharacterId)
+    class Edit(val id: CharacterId, val parent: Characters = Characters())
 
     @Resource("update")
-    class Update(
-        val parent: Characters = Characters(),
-        val id: CharacterId,
-    )
+    class Update(val id: CharacterId, val parent: Characters = Characters())
 }
 
 fun Application.configureCharacterRouting() {
@@ -146,8 +143,8 @@ private fun HTML.showCharacterDetails(
     character: Character,
 ) {
     val backLink = call.application.href(Characters())
-    val deleteLink = call.application.href(Characters.Delete(Characters(), character.id))
-    val editLink = call.application.href(Characters.Edit(Characters(), character.id))
+    val deleteLink = call.application.href(Characters.Delete(character.id))
+    val editLink = call.application.href(Characters.Edit(character.id))
     val inventedLanguages = state.getInventedLanguages(character.id)
 
     simpleHtml("Character: ${character.name}") {
@@ -202,7 +199,7 @@ private fun HTML.showCharacterEditor(
     character: Character,
 ) {
     val backLink = call.application.href(Characters())
-    val updateLink = call.application.href(Characters.Update(Characters(), character.id))
+    val updateLink = call.application.href(Characters.Update(character.id))
 
     simpleHtml("Edit Character: ${character.name}") {
         field("Id", character.id.value.toString())

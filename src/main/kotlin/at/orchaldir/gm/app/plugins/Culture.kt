@@ -30,19 +30,19 @@ private val logger = KotlinLogging.logger {}
 @Resource("/cultures")
 class Cultures {
     @Resource("details")
-    class Details(val parent: Cultures = Cultures(), val id: CultureId)
+    class Details(val id: CultureId, val parent: Cultures = Cultures())
 
     @Resource("new")
     class New(val parent: Cultures = Cultures())
 
     @Resource("delete")
-    class Delete(val parent: Cultures = Cultures(), val id: CultureId)
+    class Delete(val id: CultureId, val parent: Cultures = Cultures())
 
     @Resource("edit")
-    class Edit(val parent: Cultures = Cultures(), val id: CultureId)
+    class Edit(val id: CultureId, val parent: Cultures = Cultures())
 
     @Resource("update")
-    class Update(val parent: Cultures = Cultures(), val id: CultureId)
+    class Update(val id: CultureId, val parent: Cultures = Cultures())
 }
 
 fun Application.configureCultureRouting() {
@@ -142,8 +142,8 @@ private fun HTML.showCultureDetails(
     culture: Culture,
 ) {
     val backLink = call.application.href(Cultures())
-    val deleteLink = call.application.href(Cultures.Delete(Cultures(), culture.id))
-    val editLink = call.application.href(Cultures.Edit(Cultures(), culture.id))
+    val deleteLink = call.application.href(Cultures.Delete(culture.id))
+    val editLink = call.application.href(Cultures.Edit(culture.id))
 
     simpleHtml("Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
@@ -181,7 +181,7 @@ private fun HTML.showCultureEditor(
     culture: Culture,
 ) {
     val backLink = call.application.href(Cultures())
-    val updateLink = call.application.href(Cultures.Update(Cultures(), culture.id))
+    val updateLink = call.application.href(Cultures.Update(culture.id))
 
     simpleHtml("Edit Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())

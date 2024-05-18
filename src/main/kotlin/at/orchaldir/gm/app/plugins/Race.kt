@@ -30,19 +30,19 @@ private val logger = KotlinLogging.logger {}
 @Resource("/races")
 class Races {
     @Resource("details")
-    class Details(val parent: Races = Races(), val id: RaceId)
+    class Details(val id: RaceId, val parent: Races = Races())
 
     @Resource("new")
     class New(val parent: Races = Races())
 
     @Resource("delete")
-    class Delete(val parent: Races = Races(), val id: RaceId)
+    class Delete(val id: RaceId, val parent: Races = Races())
 
     @Resource("edit")
-    class Edit(val parent: Races = Races(), val id: RaceId)
+    class Edit(val id: RaceId, val parent: Races = Races())
 
     @Resource("update")
-    class Update(val parent: Races = Races(), val id: RaceId)
+    class Update(val id: RaceId, val parent: Races = Races())
 }
 
 fun Application.configureRaceRouting() {
@@ -142,8 +142,8 @@ private fun HTML.showRaceDetails(
     race: Race,
 ) {
     val backLink = call.application.href(Races())
-    val deleteLink = call.application.href(Races.Delete(Races(), race.id))
-    val editLink = call.application.href(Races.Edit(Races(), race.id))
+    val deleteLink = call.application.href(Races.Delete(race.id))
+    val editLink = call.application.href(Races.Edit(race.id))
 
     simpleHtml("Race: ${race.name}") {
         field("Id", race.id.value.toString())
@@ -181,7 +181,7 @@ private fun HTML.showRaceEditor(
     race: Race,
 ) {
     val backLink = call.application.href(Races())
-    val updateLink = call.application.href(Races.Update(Races(), race.id))
+    val updateLink = call.application.href(Races.Update(race.id))
 
     simpleHtml("Edit Race: ${race.name}") {
         field("Id", race.id.value.toString())
