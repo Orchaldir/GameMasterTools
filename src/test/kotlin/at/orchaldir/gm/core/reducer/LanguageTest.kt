@@ -2,7 +2,9 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
+import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
@@ -22,6 +24,13 @@ class LanguageTest {
         val action = DeleteLanguage(LanguageId(0))
 
         assertFailsWith<IllegalArgumentException> { DELETE_LANGUAGE.invoke(State(), action) }
+    }
+
+    @Test
+    fun `Cannot update unknown id`() {
+        val action = UpdateLanguage(Language(LanguageId(0)))
+
+        assertFailsWith<IllegalArgumentException> { UPDATE_LANGUAGE.invoke(State(), action) }
     }
 
 }

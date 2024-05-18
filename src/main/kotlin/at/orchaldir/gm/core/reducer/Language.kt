@@ -21,7 +21,8 @@ val DELETE_LANGUAGE: Reducer<DeleteLanguage, State> = { state, action ->
 }
 
 val UPDATE_LANGUAGE: Reducer<UpdateLanguage, State> = { state, action ->
-    // id exists
+    val contains = state.languages.contains(action.language.id)
+    require(contains) { "Cannot update an unknown language" }
     // no duplicate name
     // parent/inventor exists
     // no circle
