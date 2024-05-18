@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CultureId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.RaceId
+import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
 
@@ -18,6 +19,11 @@ data class UpdateCharacter(
     val race: RaceId,
     val gender: Gender,
     val culture: CultureId?,
+) : Action()
+data class AddLanguage(
+    val id: CharacterId,
+    val language: LanguageId,
+    val level: ComprehensionLevel,
 ) : Action()
 
 // culture actions

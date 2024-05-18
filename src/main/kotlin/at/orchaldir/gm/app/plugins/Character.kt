@@ -2,12 +2,14 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.core.action.AddLanguage
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
+import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.selector.getInventedLanguages
 import at.orchaldir.gm.core.selector.getPossibleLanguages
 import io.ktor.http.*
@@ -126,14 +128,14 @@ fun Application.configureCharacterRouting() {
             logger.info { "Update character ${update.id.value}'s languages" }
 
             val formParameters = call.receiveParameters()
-            val name = formParameters.getOrFail("name")
-            val race = RaceId(formParameters.getOrFail("race").toInt())
-            val gender = Gender.valueOf(formParameters.getOrFail("gender"))
-            val culture = formParameters.getOrFail("culture")
-                .toIntOrNull()
-                ?.let { CultureId(it) }
+            val languageParam = formParameters["language"]
 
-            STORE.dispatch(UpdateCharacter(update.id, name, race, gender, culture))
+            if (!languageParam.isNullOrEmpty()) {
+                val language = LanguageId(languageParam.toInt())
+                val level = ComprehensionLevel.valueOf(formParameters.getOrFail("level"))
+
+                STORE.dispatch(AddLanguage(update.id, language, level))
+            }
 
             call.respondRedirect(href(call, update.id))
         }
@@ -277,6 +279,11 @@ private fun HTML.showLanguageEditor(
                 select {
                     id = "language"
                     name = "language"
+                    option {
+                        label = ""
+                        value = ""
+                        selected = true
+                    }
                     state.getPossibleLanguages(character.id).forEach { language ->
                         option {
                             label = language.name
