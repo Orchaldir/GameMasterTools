@@ -7,7 +7,9 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.http.content.*
+import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.resources.*
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import mu.KotlinLogging
 
@@ -37,6 +39,13 @@ fun Application.configureRouting() {
                     fieldLink("Races", racesLink, "$racesCount")
                 }
             }
+        }
+    }
+}
+fun Application.configureStatusPages() {
+    install(StatusPages) {
+        exception<IllegalArgumentException> { call, cause ->
+            call.respond(HttpStatusCode.BadRequest, cause.message ?: "Unknown error")
         }
     }
 }

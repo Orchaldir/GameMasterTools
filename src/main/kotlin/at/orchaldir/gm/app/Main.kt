@@ -32,6 +32,7 @@ fun Application.module() {
     install(Resources)
     configureSerialization()
     configureRouting()
+    configureStatusPages()
     configureCharacterRouting()
     configureCultureRouting()
     configureLanguageRouting()
