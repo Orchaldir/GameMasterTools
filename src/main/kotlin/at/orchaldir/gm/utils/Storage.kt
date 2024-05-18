@@ -36,5 +36,7 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
 
     fun get(id: ID) = elements[id]
 
+    fun getOrThrow(id: ID) = elements[id] ?: throw IllegalArgumentException("Unknown element!")
+
     fun contains(id: ID) = elements.containsKey(id)
 }

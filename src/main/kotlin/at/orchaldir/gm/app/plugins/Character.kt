@@ -54,8 +54,7 @@ fun Application.configureCharacterRouting() {
             logger.info { "Get details of character ${details.id.value}" }
 
             val state = STORE.getState()
-            val character =
-                state.characters.get(details.id) ?: throw IllegalArgumentException("Unknown character ${details.id.value}")
+            val character = state.characters.getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCharacterDetails(call, state, character)
@@ -79,8 +78,7 @@ fun Application.configureCharacterRouting() {
             logger.info { "Get editor for character ${edit.id.value}" }
 
             val state = STORE.getState()
-            val character =
-                state.characters.get(edit.id) ?: throw IllegalArgumentException("Unknown character ${edit.id.value}")
+            val character = state.characters.getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCharacterEditor(call, state, character)
