@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.getChildren
+import at.orchaldir.gm.core.selector.getPossibleParents
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -278,7 +279,7 @@ private fun HTML.showLanguageEditor(
             }
             when (language.origin) {
                 is EvolvedLanguage ->
-                    selectEnum("Parent", "parent", state.languages.getAll().filter { l -> l.id != language.id }) { l ->
+                    selectEnum("Parent", "parent", state.getPossibleParents(language.id)) { l ->
                         label = l.name
                         value = l.id.value.toString()
                         selected = language.origin.parent == l.id

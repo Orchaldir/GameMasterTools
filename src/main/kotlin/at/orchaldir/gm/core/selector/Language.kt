@@ -13,6 +13,8 @@ fun State.getChildren(language: LanguageId) = languages.getAll().filter { l ->
     }
 }
 
+fun State.getPossibleParents(language: LanguageId) = languages.getAll().filter { l -> l.id != language }
+
 fun State.getInventedLanguages(inventor: CharacterId) = languages.getAll().filter { l ->
     when (l.origin) {
         is InventedLanguage -> l.origin.inventor == inventor

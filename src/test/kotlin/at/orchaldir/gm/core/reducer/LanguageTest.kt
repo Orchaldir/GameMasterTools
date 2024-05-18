@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -33,6 +34,14 @@ class LanguageTest {
         val action = DeleteLanguage(ID0)
 
         assertFailsWith<IllegalArgumentException> { DELETE_LANGUAGE.invoke(State(), action) }
+    }
+
+    @Test
+    fun `Can delete a language with children`() {
+        val state = State(languages = Storage(listOf(Language(ID0), Language(ID1, origin = EvolvedLanguage(ID0)))))
+        val action = DeleteLanguage(ID0)
+
+        assertFailsWith<IllegalArgumentException> { DELETE_LANGUAGE.invoke(state, action) }
     }
 
     @Test
@@ -67,6 +76,14 @@ class LanguageTest {
         val state = CREATE_LANGUAGE.invoke(State(), CreateLanguage).first
         val origin = EvolvedLanguage(ID1)
         val action = UpdateLanguage(Language(ID0, origin = origin))
+
+        assertFailsWith<IllegalArgumentException> { UPDATE_LANGUAGE.invoke(state, action) }
+    }
+
+    @Test
+    fun `A language cannot be its own parent`() {
+        val state = CREATE_LANGUAGE.invoke(State(), CreateLanguage).first
+        val action = UpdateLanguage(Language(ID0, origin = EvolvedLanguage(ID0)))
 
         assertFailsWith<IllegalArgumentException> { UPDATE_LANGUAGE.invoke(state, action) }
     }
