@@ -208,7 +208,7 @@ private fun HTML.showLanguageEditor(
     state: State,
     language: Language,
 ) {
-    val backLink = call.application.href(Languages())
+    val backLink = href(call, language.id)
     val previewLink = call.application.href(Languages.Preview(language.id))
     val updateLink = call.application.href(Languages.Update(language.id))
 

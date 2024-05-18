@@ -144,7 +144,7 @@ private fun HTML.showCultureEditor(
     call: ApplicationCall,
     culture: Culture,
 ) {
-    val backLink = call.application.href(Cultures())
+    val backLink = href(call, culture.id)
     val updateLink = call.application.href(Cultures.Update(culture.id))
 
     simpleHtml("Edit Culture: ${culture.name}") {

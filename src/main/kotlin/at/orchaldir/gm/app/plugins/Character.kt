@@ -7,7 +7,9 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.selector.getInventedLanguages
+import at.orchaldir.gm.core.selector.getPossibleLanguages
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -25,6 +27,7 @@ private val logger = KotlinLogging.logger {}
 
 @Resource("/characters")
 class Characters {
+
     @Resource("details")
     class Details(val id: CharacterId, val parent: Characters = Characters())
 
@@ -39,6 +42,16 @@ class Characters {
 
     @Resource("update")
     class Update(val id: CharacterId, val parent: Characters = Characters())
+
+    @Resource("/languages")
+    class Languages(val parent: Characters = Characters()) {
+
+        @Resource("edit")
+        class Edit(val id: CharacterId, val parent: Languages = Languages())
+
+        @Resource("update")
+        class Update(val id: CharacterId, val parent: Languages = Languages())
+    }
 }
 
 fun Application.configureCharacterRouting() {
@@ -99,6 +112,31 @@ fun Application.configureCharacterRouting() {
 
             call.respondRedirect(href(call, update.id))
         }
+        get<Characters.Languages.Edit> { edit ->
+            logger.info { "Get editor for character ${edit.id.value}'s languages" }
+
+            val state = STORE.getState()
+            val character = state.characters.getOrThrow(edit.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showLanguageEditor(call, state, character)
+            }
+        }
+        post<Characters.Languages.Update> { update ->
+            logger.info { "Update character ${update.id.value}'s languages" }
+
+            val formParameters = call.receiveParameters()
+            val name = formParameters.getOrFail("name")
+            val race = RaceId(formParameters.getOrFail("race").toInt())
+            val gender = Gender.valueOf(formParameters.getOrFail("gender"))
+            val culture = formParameters.getOrFail("culture")
+                .toIntOrNull()
+                ?.let { CultureId(it) }
+
+            STORE.dispatch(UpdateCharacter(update.id, name, race, gender, culture))
+
+            call.respondRedirect(href(call, update.id))
+        }
     }
 }
 
@@ -125,6 +163,7 @@ private fun HTML.showCharacterDetails(
     val backLink = call.application.href(Characters())
     val deleteLink = call.application.href(Characters.Delete(character.id))
     val editLink = call.application.href(Characters.Edit(character.id))
+    val editLanguagesLink = call.application.href(Characters.Languages.Edit(character.id))
     val inventedLanguages = state.getInventedLanguages(character.id)
 
     simpleHtml("Character: ${character.name}") {
@@ -154,6 +193,7 @@ private fun HTML.showCharacterDetails(
             }
         }
         p { a(editLink) { +"Edit" } }
+        p { a(editLanguagesLink) { +"Edit Languages" } }
         p { a(deleteLink) { +"Delete" } }
         p { a(backLink) { +"Back" } }
     }
@@ -164,7 +204,7 @@ private fun HTML.showCharacterEditor(
     state: State,
     character: Character,
 ) {
-    val backLink = call.application.href(Characters())
+    val backLink = href(call, character.id)
     val updateLink = call.application.href(Characters.Update(character.id))
 
     simpleHtml("Edit Character: ${character.name}") {
@@ -210,6 +250,45 @@ private fun HTML.showCharacterEditor(
                         }
                     }
                 }
+            }
+            p {
+                submitInput {
+                    value = "Update"
+                    formAction = updateLink
+                    formMethod = InputFormMethod.post
+                }
+            }
+        }
+        p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun HTML.showLanguageEditor(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    val backLink = href(call, character.id)
+    val updateLink = call.application.href(Characters.Languages.Update(character.id))
+
+    simpleHtml("Edit Languages: ${character.name}") {
+        form {
+            field("Language") {
+                select {
+                    id = "language"
+                    name = "language"
+                    state.getPossibleLanguages(character.id).forEach { language ->
+                        option {
+                            label = language.name
+                            value = language.id.value.toString()
+                        }
+                    }
+                }
+            }
+            selectEnum("Comprehension Level", "level", ComprehensionLevel.entries) { level ->
+                label = level.toString()
+                value = level.toString()
+                selected = level == ComprehensionLevel.Native
             }
             p {
                 submitInput {

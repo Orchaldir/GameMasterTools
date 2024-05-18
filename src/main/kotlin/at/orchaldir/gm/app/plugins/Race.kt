@@ -122,7 +122,7 @@ private fun HTML.showRaceDetails(
     state: State,
     race: Race,
 ) {
-    val backLink = call.application.href(Races())
+    val backLink = href(call, race.id)
     val deleteLink = call.application.href(Races.Delete(race.id))
     val editLink = call.application.href(Races.Edit(race.id))
 
