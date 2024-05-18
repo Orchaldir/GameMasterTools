@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.LanguageId
 
+fun State.canDelete(language: LanguageId) = getCharacters(language).isEmpty() && getChildren(language).isEmpty()
+
 fun State.getChildren(language: LanguageId) = languages.getAll().filter { l ->
     when (l.origin) {
         is EvolvedLanguage -> l.origin.parent == language

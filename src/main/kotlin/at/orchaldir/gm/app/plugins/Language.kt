@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.language.*
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getPossibleParents
@@ -215,7 +216,9 @@ private fun HTML.showLanguageDetails(
             }
         }
         p { a(editLink) { +"Edit" } }
-        p { a(deleteLink) { +"Delete" } }
+        if (state.canDelete(language.id)) {
+            p { a(deleteLink) { +"Delete" } }
+        }
         p { a(backLink) { +"Back" } }
     }
 }
