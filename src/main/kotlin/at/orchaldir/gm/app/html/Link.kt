@@ -34,10 +34,7 @@ private fun HtmlBlockTag.link(
     call: ApplicationCall,
     id: CharacterId,
     text: String,
-) {
-    val characterLink = href(call, id)
-    a(characterLink) { +text }
-}
+) = a(href(call, id)) { +text }
 
 fun href(
     call: ApplicationCall,
@@ -65,10 +62,12 @@ private fun HtmlBlockTag.link(
     call: ApplicationCall,
     id: CultureId,
     text: String,
-) {
-    val characterLink = call.application.href(Cultures.Details(id))
-    a(characterLink) { +text }
-}
+) = a(href(call, id)) { +text }
+
+fun href(
+    call: ApplicationCall,
+    id: CultureId,
+) = call.application.href(Cultures.Details(id))
 
 // language
 

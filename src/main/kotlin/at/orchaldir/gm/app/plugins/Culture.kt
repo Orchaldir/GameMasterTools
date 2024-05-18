@@ -1,10 +1,7 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.listElements
-import at.orchaldir.gm.app.html.simpleHtml
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
@@ -20,6 +17,7 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
 import kotlinx.html.*
@@ -57,8 +55,11 @@ fun Application.configureCultureRouting() {
         get<Cultures.Details> { details ->
             logger.info { "Get details of culture ${details.id.value}" }
 
+            val state = STORE.getState()
+            val culture = state.cultures.getOrThrow(details.id)
+
             call.respondHtml(HttpStatusCode.OK) {
-                showCultureDetails(call, details.id)
+                showCultureDetails(call, state, culture)
             }
         }
         get<Cultures.New> {
@@ -66,30 +67,22 @@ fun Application.configureCultureRouting() {
 
             STORE.dispatch(CreateCulture)
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showCultureEditor(call, STORE.getState().cultures.lastId)
-            }
+            call.respondRedirect(call.application.href(Cultures.Edit(STORE.getState().cultures.lastId)))
         }
         get<Cultures.Delete> { delete ->
             logger.info { "Delete culture ${delete.id.value}" }
 
             STORE.dispatch(DeleteCulture(delete.id))
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllCultures(call)
-            }
+            call.respondRedirect(call.application.href(Cultures()))
         }
         get<Cultures.Edit> { edit ->
             logger.info { "Get editor for culture ${edit.id.value}" }
 
-            call.respondHtml(HttpStatusCode.OK) {
-                val culture = STORE.getState().cultures.get(edit.id)
+            val culture = STORE.getState().cultures.getOrThrow(edit.id)
 
-                if (culture != null) {
-                    showCultureEditor(call, culture)
-                } else {
-                    showAllCultures(call)
-                }
+            call.respondHtml(HttpStatusCode.OK) {
+                showCultureEditor(call, culture)
             }
         }
         post<Cultures.Update> { update ->
@@ -100,9 +93,7 @@ fun Application.configureCultureRouting() {
 
             STORE.dispatch(UpdateCulture(update.id, name))
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showCultureDetails(call, update.id)
-            }
+            call.respondRedirect(href(call, STORE.getState().cultures.lastId))
         }
     }
 }
@@ -119,20 +110,6 @@ private fun HTML.showAllCultures(call: ApplicationCall) {
         }
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }
-    }
-}
-
-private fun HTML.showCultureDetails(
-    call: ApplicationCall,
-    id: CultureId,
-) {
-    val state = STORE.getState()
-    val culture = state.cultures.get(id)
-
-    if (culture != null) {
-        showCultureDetails(call, state, culture)
-    } else {
-        showAllCultures(call)
     }
 }
 
@@ -160,19 +137,6 @@ private fun HTML.showCultureDetails(
         }
 
         p { a(backLink) { +"Back" } }
-    }
-}
-
-private fun HTML.showCultureEditor(
-    call: ApplicationCall,
-    id: CultureId,
-) {
-    val culture = STORE.getState().cultures.get(id)
-
-    if (culture != null) {
-        showCultureEditor(call, culture)
-    } else {
-        showAllCultures(call)
     }
 }
 
