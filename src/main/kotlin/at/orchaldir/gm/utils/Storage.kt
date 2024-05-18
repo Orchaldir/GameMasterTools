@@ -6,12 +6,13 @@ interface Id<ID> {
 
 interface Element<ID> {
     fun id(): ID
+    fun name(): String
 }
 
 data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
     val elements: Map<ID, ELEMENT>,
     val nextId: ID,
-    val lastId: ID = nextId
+    val lastId: ID = nextId,
 ) {
     constructor(nextId: ID) : this(mapOf(), nextId)
 
@@ -34,4 +35,8 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
     fun getSize() = elements.size
 
     fun get(id: ID) = elements[id]
+
+    fun getOrThrow(id: ID) = elements[id] ?: throw IllegalArgumentException("Unknown element!")
+
+    fun contains(id: ID) = elements.containsKey(id)
 }

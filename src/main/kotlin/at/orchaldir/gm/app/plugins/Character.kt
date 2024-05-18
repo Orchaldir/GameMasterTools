@@ -1,11 +1,14 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.core.action.CreateCharacter
-import at.orchaldir.gm.core.action.DeleteCharacter
-import at.orchaldir.gm.core.action.UpdateCharacter
+import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.language.ComprehensionLevel
+import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.selector.getInventedLanguages
+import at.orchaldir.gm.core.selector.getPossibleLanguages
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -13,6 +16,7 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
 import kotlinx.html.*
@@ -22,23 +26,31 @@ private val logger = KotlinLogging.logger {}
 
 @Resource("/characters")
 class Characters {
+
     @Resource("details")
-    class Details(val parent: Characters = Characters(), val id: CharacterId)
+    class Details(val id: CharacterId, val parent: Characters = Characters())
 
     @Resource("new")
     class New(val parent: Characters = Characters())
 
     @Resource("delete")
-    class Delete(val parent: Characters = Characters(), val id: CharacterId)
+    class Delete(val id: CharacterId, val parent: Characters = Characters())
 
     @Resource("edit")
-    class Edit(val parent: Characters = Characters(), val id: CharacterId)
+    class Edit(val id: CharacterId, val parent: Characters = Characters())
 
     @Resource("update")
-    class Update(
-        val parent: Characters = Characters(),
-        val id: CharacterId,
-    )
+    class Update(val id: CharacterId, val parent: Characters = Characters())
+
+    @Resource("/languages")
+    class Languages(val parent: Characters = Characters()) {
+
+        @Resource("edit")
+        class Edit(val id: CharacterId, val parent: Languages = Languages())
+
+        @Resource("update")
+        class Update(val id: CharacterId, val parent: Languages = Languages())
+    }
 }
 
 fun Application.configureCharacterRouting() {
@@ -53,8 +65,11 @@ fun Application.configureCharacterRouting() {
         get<Characters.Details> { details ->
             logger.info { "Get details of character ${details.id.value}" }
 
+            val state = STORE.getState()
+            val character = state.characters.getOrThrow(details.id)
+
             call.respondHtml(HttpStatusCode.OK) {
-                showCharacterDetails(call, details.id)
+                showCharacterDetails(call, state, character)
             }
         }
         get<Characters.New> {
@@ -62,31 +77,23 @@ fun Application.configureCharacterRouting() {
 
             STORE.dispatch(CreateCharacter)
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showCharacterEditor(call, STORE.getState().characters.lastId)
-            }
+            call.respondRedirect(call.application.href(Characters.Edit(STORE.getState().characters.lastId)))
         }
         get<Characters.Delete> { delete ->
             logger.info { "Delete character ${delete.id.value}" }
 
             STORE.dispatch(DeleteCharacter(delete.id))
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllCharacters(call)
-            }
+            call.respondRedirect(call.application.href(Characters()))
         }
         get<Characters.Edit> { edit ->
             logger.info { "Get editor for character ${edit.id.value}" }
 
-            call.respondHtml(HttpStatusCode.OK) {
-                val state = STORE.getState()
-                val character = state.characters.get(edit.id)
+            val state = STORE.getState()
+            val character = state.characters.getOrThrow(edit.id)
 
-                if (character != null) {
-                    showCharacterEditor(call, state, character)
-                } else {
-                    showAllCharacters(call)
-                }
+            call.respondHtml(HttpStatusCode.OK) {
+                showCharacterEditor(call, state, character)
             }
         }
         post<Characters.Update> { update ->
@@ -102,9 +109,38 @@ fun Application.configureCharacterRouting() {
 
             STORE.dispatch(UpdateCharacter(update.id, name, race, gender, culture))
 
+            call.respondRedirect(href(call, update.id))
+        }
+        get<Characters.Languages.Edit> { edit ->
+            logger.info { "Get editor for character ${edit.id.value}'s languages" }
+
+            val state = STORE.getState()
+            val character = state.characters.getOrThrow(edit.id)
+
             call.respondHtml(HttpStatusCode.OK) {
-                showCharacterDetails(call, update.id)
+                showLanguageEditor(call, state, character)
             }
+        }
+        post<Characters.Languages.Update> { update ->
+            logger.info { "Update character ${update.id.value}'s languages" }
+
+            val formParameters = call.receiveParameters()
+            val languageParam = formParameters["language"]
+
+            if (!languageParam.isNullOrEmpty()) {
+                val language = LanguageId(languageParam.toInt())
+                val level = ComprehensionLevel.valueOf(formParameters.getOrFail("level"))
+
+                STORE.dispatch(AddLanguage(update.id, language, level))
+            }
+
+            val removeList = formParameters.getAll("remove")?.map { LanguageId(it.toInt()) }
+
+            if (removeList != null) {
+                STORE.dispatch(RemoveLanguages(update.id, removeList.toSet()))
+            }
+
+            call.respondRedirect(href(call, update.id))
         }
     }
 }
@@ -116,7 +152,9 @@ private fun HTML.showAllCharacters(call: ApplicationCall) {
 
     simpleHtml("Characters") {
         field("Count", count.toString())
-        characterList(call, characters.getAll())
+        listElements(characters.getAll()) { character ->
+            link(call, character)
+        }
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }
     }
@@ -124,39 +162,43 @@ private fun HTML.showAllCharacters(call: ApplicationCall) {
 
 private fun HTML.showCharacterDetails(
     call: ApplicationCall,
-    id: CharacterId,
-) {
-    val state = STORE.getState()
-    val character = state.characters.get(id)
-
-    if (character != null) {
-        showCharacterDetails(call, state, character)
-    } else {
-        showAllCharacters(call)
-    }
-}
-
-private fun HTML.showCharacterDetails(
-    call: ApplicationCall,
     state: State,
     character: Character,
 ) {
     val backLink = call.application.href(Characters())
-    val deleteLink = call.application.href(Characters.Delete(Characters(), character.id))
-    val editLink = call.application.href(Characters.Edit(Characters(), character.id))
-    val race = state.races.get(character.race)?.name ?: "Unknown"
-    val raceLink = call.application.href(Races.Details(Races(), character.race))
+    val deleteLink = call.application.href(Characters.Delete(character.id))
+    val editLink = call.application.href(Characters.Edit(character.id))
+    val editLanguagesLink = call.application.href(Characters.Languages.Edit(character.id))
+    val inventedLanguages = state.getInventedLanguages(character.id)
 
     simpleHtml("Character: ${character.name}") {
         field("Id", character.id.value.toString())
-        fieldLink("Race", raceLink, race)
+        field("Race") {
+            link(call, state, character.race)
+        }
         field("Gender", character.gender.toString())
         if (character.culture != null) {
-            val culture = state.cultures.get(character.culture)?.name ?: "Unknown"
-            val cultureLink = call.application.href(Cultures.Details(Cultures(), character.culture))
-            fieldLink("Culture", cultureLink, culture)
+            field("Culture") {
+                link(call, state, character.culture)
+            }
+        }
+        if (character.languages.isNotEmpty()) {
+            field("Known Languages") {
+                showMap(character.languages) { id, level ->
+                    link(call, state, id)
+                    +": $level"
+                }
+            }
+        }
+        if (inventedLanguages.isNotEmpty()) {
+            field("Invented Languages") {
+                listElements(inventedLanguages) { language ->
+                    link(call, language)
+                }
+            }
         }
         p { a(editLink) { +"Edit" } }
+        p { a(editLanguagesLink) { +"Edit Languages" } }
         p { a(deleteLink) { +"Delete" } }
         p { a(backLink) { +"Back" } }
     }
@@ -164,37 +206,21 @@ private fun HTML.showCharacterDetails(
 
 private fun HTML.showCharacterEditor(
     call: ApplicationCall,
-    id: CharacterId,
-) {
-    val state = STORE.getState()
-    val character = state.characters.get(id)
-
-    if (character != null) {
-        showCharacterEditor(call, state, character)
-    } else {
-        showAllCharacters(call)
-    }
-}
-
-private fun HTML.showCharacterEditor(
-    call: ApplicationCall,
     state: State,
     character: Character,
 ) {
-    val backLink = call.application.href(Characters())
-    val updateLink = call.application.href(Characters.Update(Characters(), character.id))
+    val backLink = href(call, character.id)
+    val updateLink = call.application.href(Characters.Update(character.id))
 
     simpleHtml("Edit Character: ${character.name}") {
         field("Id", character.id.value.toString())
         form {
-            p {
-                b { +"Name: " }
+            field("Name") {
                 textInput(name = "name") {
                     value = character.name
                 }
             }
-            p {
-                b { +"Race: " }
+            field("Race") {
                 select {
                     id = "race"
                     name = "race"
@@ -207,22 +233,12 @@ private fun HTML.showCharacterEditor(
                     }
                 }
             }
-            p {
-                b { +"Gender: " }
-                select {
-                    id = "gender"
-                    name = "gender"
-                    Gender.entries.forEach { gender ->
-                        option {
-                            label = gender.toString()
-                            value = gender.toString()
-                            selected = character.gender == gender
-                        }
-                    }
-                }
+            selectEnum("Gender", "gender", Gender.entries) { gender ->
+                label = gender.toString()
+                value = gender.toString()
+                selected = character.gender == gender
             }
-            p {
-                b { +"Culture: " }
+            field("Culture") {
                 select {
                     id = "culture"
                     name = "culture"
@@ -236,6 +252,62 @@ private fun HTML.showCharacterEditor(
                             label = culture.name
                             value = culture.id.value.toString()
                             selected = culture.id == character.culture
+                        }
+                    }
+                }
+            }
+            p {
+                submitInput {
+                    value = "Update"
+                    formAction = updateLink
+                    formMethod = InputFormMethod.post
+                }
+            }
+        }
+        p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun HTML.showLanguageEditor(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    val backLink = href(call, character.id)
+    val updateLink = call.application.href(Characters.Languages.Update(character.id))
+
+    simpleHtml("Edit Languages: ${character.name}") {
+        form {
+            field("Language") {
+                select {
+                    id = "language"
+                    name = "language"
+                    option {
+                        label = ""
+                        value = ""
+                        selected = true
+                    }
+                    state.getPossibleLanguages(character.id).forEach { language ->
+                        option {
+                            label = language.name
+                            value = language.id.value.toString()
+                        }
+                    }
+                }
+            }
+            selectEnum("Comprehension Level", "level", ComprehensionLevel.entries) { level ->
+                label = level.toString()
+                value = level.toString()
+                selected = level == ComprehensionLevel.Native
+            }
+            field("Languages to Remove") {
+                character.languages.keys.forEach { id ->
+                    val language = state.languages.getOrThrow(id)
+                    p {
+                        checkBoxInput {
+                            name = "remove"
+                            value = language.id.value.toString()
+                            +language.name
                         }
                     }
                 }

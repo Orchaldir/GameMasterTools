@@ -20,6 +20,7 @@ dependencies {
     implementation("io.ktor:ktor-server-html-builder:$ktorVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("io.ktor:ktor-server-resources:$ktorVersion")
+    implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
     implementation("io.github.microutils:kotlin-logging-jvm:$loggingVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")

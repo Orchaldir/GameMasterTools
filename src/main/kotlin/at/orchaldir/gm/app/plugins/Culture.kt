@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
@@ -16,6 +17,7 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
 import kotlinx.html.*
@@ -26,19 +28,19 @@ private val logger = KotlinLogging.logger {}
 @Resource("/cultures")
 class Cultures {
     @Resource("details")
-    class Details(val parent: Cultures = Cultures(), val id: CultureId)
+    class Details(val id: CultureId, val parent: Cultures = Cultures())
 
     @Resource("new")
     class New(val parent: Cultures = Cultures())
 
     @Resource("delete")
-    class Delete(val parent: Cultures = Cultures(), val id: CultureId)
+    class Delete(val id: CultureId, val parent: Cultures = Cultures())
 
     @Resource("edit")
-    class Edit(val parent: Cultures = Cultures(), val id: CultureId)
+    class Edit(val id: CultureId, val parent: Cultures = Cultures())
 
     @Resource("update")
-    class Update(val parent: Cultures = Cultures(), val id: CultureId)
+    class Update(val id: CultureId, val parent: Cultures = Cultures())
 }
 
 fun Application.configureCultureRouting() {
@@ -53,8 +55,11 @@ fun Application.configureCultureRouting() {
         get<Cultures.Details> { details ->
             logger.info { "Get details of culture ${details.id.value}" }
 
+            val state = STORE.getState()
+            val culture = state.cultures.getOrThrow(details.id)
+
             call.respondHtml(HttpStatusCode.OK) {
-                showCultureDetails(call, details.id)
+                showCultureDetails(call, state, culture)
             }
         }
         get<Cultures.New> {
@@ -62,30 +67,22 @@ fun Application.configureCultureRouting() {
 
             STORE.dispatch(CreateCulture)
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showCultureEditor(call, STORE.getState().cultures.lastId)
-            }
+            call.respondRedirect(call.application.href(Cultures.Edit(STORE.getState().cultures.lastId)))
         }
         get<Cultures.Delete> { delete ->
             logger.info { "Delete culture ${delete.id.value}" }
 
             STORE.dispatch(DeleteCulture(delete.id))
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllCultures(call)
-            }
+            call.respondRedirect(call.application.href(Cultures()))
         }
         get<Cultures.Edit> { edit ->
             logger.info { "Get editor for culture ${edit.id.value}" }
 
-            call.respondHtml(HttpStatusCode.OK) {
-                val culture = STORE.getState().cultures.get(edit.id)
+            val culture = STORE.getState().cultures.getOrThrow(edit.id)
 
-                if (culture != null) {
-                    showCultureEditor(call, culture)
-                } else {
-                    showAllCultures(call)
-                }
+            call.respondHtml(HttpStatusCode.OK) {
+                showCultureEditor(call, culture)
             }
         }
         post<Cultures.Update> { update ->
@@ -96,9 +93,7 @@ fun Application.configureCultureRouting() {
 
             STORE.dispatch(UpdateCulture(update.id, name))
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showCultureDetails(call, update.id)
-            }
+            call.respondRedirect(href(call, update.id))
         }
     }
 }
@@ -110,30 +105,11 @@ private fun HTML.showAllCultures(call: ApplicationCall) {
 
     simpleHtml("Cultures") {
         field("Count", count.toString())
-        ul {
-            cultures.getAll().forEach { culture ->
-                li {
-                    val cultureLink = call.application.href(Cultures.Details(Cultures(), culture.id))
-                    a(cultureLink) { +culture.name }
-                }
-            }
+        listElements(cultures.getAll()) { culture ->
+            link(call, culture)
         }
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }
-    }
-}
-
-private fun HTML.showCultureDetails(
-    call: ApplicationCall,
-    id: CultureId,
-) {
-    val state = STORE.getState()
-    val culture = state.cultures.get(id)
-
-    if (culture != null) {
-        showCultureDetails(call, state, culture)
-    } else {
-        showAllCultures(call)
     }
 }
 
@@ -143,15 +119,16 @@ private fun HTML.showCultureDetails(
     culture: Culture,
 ) {
     val backLink = call.application.href(Cultures())
-    val deleteLink = call.application.href(Cultures.Delete(Cultures(), culture.id))
-    val editLink = call.application.href(Cultures.Edit(Cultures(), culture.id))
+    val deleteLink = call.application.href(Cultures.Delete(culture.id))
+    val editLink = call.application.href(Cultures.Edit(culture.id))
 
     simpleHtml("Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
         field("Name", culture.name)
-        p {
-            b { +"Characters: " }
-            characterList(call, state.getCharacters(culture.id))
+        field("Characters") {
+            listElements(state.getCharacters(culture.id)) { character ->
+                link(call, character)
+            }
         }
         p { a(editLink) { +"Edit" } }
 
@@ -165,29 +142,15 @@ private fun HTML.showCultureDetails(
 
 private fun HTML.showCultureEditor(
     call: ApplicationCall,
-    id: CultureId,
-) {
-    val culture = STORE.getState().cultures.get(id)
-
-    if (culture != null) {
-        showCultureEditor(call, culture)
-    } else {
-        showAllCultures(call)
-    }
-}
-
-private fun HTML.showCultureEditor(
-    call: ApplicationCall,
     culture: Culture,
 ) {
-    val backLink = call.application.href(Cultures())
-    val updateLink = call.application.href(Cultures.Update(Cultures(), culture.id))
+    val backLink = href(call, culture.id)
+    val updateLink = call.application.href(Cultures.Update(culture.id))
 
     simpleHtml("Edit Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
         form {
-            p {
-                b { +"Name: " }
+            field("Name") {
                 textInput(name = "name") {
                     value = culture.name
                 }
