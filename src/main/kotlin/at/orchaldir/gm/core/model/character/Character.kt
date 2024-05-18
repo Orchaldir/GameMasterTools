@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.language.ComprehensionLevel
+import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -19,6 +21,7 @@ data class Character(
     val race: RaceId = RaceId(0),
     val gender: Gender = Gender.Genderless,
     val culture: CultureId? = null,
+    val languages: Map<LanguageId, ComprehensionLevel> = mapOf(),
 ) : Element<CharacterId> {
 
     override fun id() = id
