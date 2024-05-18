@@ -13,10 +13,16 @@ val CREATE_CHARACTER: Reducer<CreateCharacter, State> = { state, _ ->
 }
 
 val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
+    val contains = state.characters.contains(action.id)
+    require(contains) { "Cannot delete an unknown character ${action.id.value}" }
+
     noFollowUps(state.copy(characters = state.characters.remove(action.id)))
 }
 
 val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
+    val contains = state.characters.contains(action.id)
+    require(contains) { "Cannot delete an unknown character ${action.id.value}" }
+
     val character = Character(action.id, action.name, action.race, action.gender, action.culture)
 
     noFollowUps(state.copy(characters = state.characters.update(character)))
