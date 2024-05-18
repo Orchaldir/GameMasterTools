@@ -15,6 +15,7 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
 import kotlinx.html.*
@@ -52,8 +53,12 @@ fun Application.configureCharacterRouting() {
         get<Characters.Details> { details ->
             logger.info { "Get details of character ${details.id.value}" }
 
+            val state = STORE.getState()
+            val character =
+                state.characters.get(details.id) ?: throw IllegalArgumentException("Unknown character ${details.id}")
+
             call.respondHtml(HttpStatusCode.OK) {
-                showCharacterDetails(call, details.id)
+                showCharacterDetails(call, state, character)
             }
         }
         get<Characters.New> {
@@ -61,31 +66,24 @@ fun Application.configureCharacterRouting() {
 
             STORE.dispatch(CreateCharacter)
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showCharacterEditor(call, STORE.getState().characters.lastId)
-            }
+            call.respondRedirect(call.application.href(Characters.Edit(STORE.getState().characters.lastId)))
         }
         get<Characters.Delete> { delete ->
             logger.info { "Delete character ${delete.id.value}" }
 
             STORE.dispatch(DeleteCharacter(delete.id))
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllCharacters(call)
-            }
+            call.respondRedirect(call.application.href(Characters()))
         }
         get<Characters.Edit> { edit ->
             logger.info { "Get editor for character ${edit.id.value}" }
 
-            call.respondHtml(HttpStatusCode.OK) {
-                val state = STORE.getState()
-                val character = state.characters.get(edit.id)
+            val state = STORE.getState()
+            val character =
+                state.characters.get(edit.id) ?: throw IllegalArgumentException("Unknown character ${edit.id}")
 
-                if (character != null) {
-                    showCharacterEditor(call, state, character)
-                } else {
-                    showAllCharacters(call)
-                }
+            call.respondHtml(HttpStatusCode.OK) {
+                showCharacterEditor(call, state, character)
             }
         }
         post<Characters.Update> { update ->
@@ -101,9 +99,7 @@ fun Application.configureCharacterRouting() {
 
             STORE.dispatch(UpdateCharacter(update.id, name, race, gender, culture))
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showCharacterDetails(call, update.id)
-            }
+            call.respondRedirect(href(call, STORE.getState().characters.lastId))
         }
     }
 }
@@ -120,20 +116,6 @@ private fun HTML.showAllCharacters(call: ApplicationCall) {
         }
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }
-    }
-}
-
-private fun HTML.showCharacterDetails(
-    call: ApplicationCall,
-    id: CharacterId,
-) {
-    val state = STORE.getState()
-    val character = state.characters.get(id)
-
-    if (character != null) {
-        showCharacterDetails(call, state, character)
-    } else {
-        showAllCharacters(call)
     }
 }
 
@@ -176,20 +158,6 @@ private fun HTML.showCharacterDetails(
         p { a(editLink) { +"Edit" } }
         p { a(deleteLink) { +"Delete" } }
         p { a(backLink) { +"Back" } }
-    }
-}
-
-private fun HTML.showCharacterEditor(
-    call: ApplicationCall,
-    id: CharacterId,
-) {
-    val state = STORE.getState()
-    val character = state.characters.get(id)
-
-    if (character != null) {
-        showCharacterEditor(call, state, character)
-    } else {
-        showAllCharacters(call)
     }
 }
 

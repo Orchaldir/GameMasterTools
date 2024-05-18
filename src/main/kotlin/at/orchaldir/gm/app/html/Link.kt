@@ -35,9 +35,14 @@ private fun HtmlBlockTag.link(
     id: CharacterId,
     text: String,
 ) {
-    val characterLink = call.application.href(Characters.Details(id))
+    val characterLink = href(call, id)
     a(characterLink) { +text }
 }
+
+fun href(
+    call: ApplicationCall,
+    id: CharacterId,
+) = call.application.href(Characters.Details(id))
 
 // culture
 
