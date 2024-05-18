@@ -19,6 +19,7 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
 import kotlinx.html.*
@@ -59,8 +60,11 @@ fun Application.configureLanguageRouting() {
         get<Languages.Details> { details ->
             logger.info { "Get details of language ${details.id.value}" }
 
+            val state = STORE.getState()
+            val language = state.languages.getOrThrow(details.id)
+
             call.respondHtml(HttpStatusCode.OK) {
-                showLanguageDetails(call, details.id)
+                showLanguageDetails(call, state, language)
             }
         }
         get<Languages.New> {
@@ -68,32 +72,23 @@ fun Application.configureLanguageRouting() {
 
             STORE.dispatch(CreateLanguage)
 
-            call.respondHtml(HttpStatusCode.OK) {
-                val state = STORE.getState()
-                showLanguageEditor(call, state, state.languages.lastId)
-            }
+            call.respondRedirect(call.application.href(Languages.Edit(STORE.getState().languages.lastId)))
         }
         get<Languages.Delete> { delete ->
             logger.info { "Delete language ${delete.id.value}" }
 
             STORE.dispatch(DeleteLanguage(delete.id))
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllLanguages(call)
-            }
+            call.respondRedirect(call.application.href(Languages()))
         }
         get<Languages.Edit> { edit ->
             logger.info { "Get editor for language ${edit.id.value}" }
 
-            call.respondHtml(HttpStatusCode.OK) {
-                val state = STORE.getState()
-                val language = state.languages.get(edit.id)
+            val state = STORE.getState()
+            val language = state.languages.getOrThrow(edit.id)
 
-                if (language != null) {
-                    showLanguageEditor(call, state, language)
-                } else {
-                    showAllLanguages(call)
-                }
+            call.respondHtml(HttpStatusCode.OK) {
+                showLanguageEditor(call, state, language)
             }
         }
         post<Languages.Preview> { preview ->
@@ -114,9 +109,7 @@ fun Application.configureLanguageRouting() {
 
             STORE.dispatch(UpdateLanguage(language))
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showLanguageDetails(call, update.id)
-            }
+            call.respondRedirect(href(call, STORE.getState().languages.lastId))
         }
     }
 }
