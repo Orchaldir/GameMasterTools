@@ -1,9 +1,6 @@
 package at.orchaldir.gm.core.reducer
 
-import at.orchaldir.gm.core.action.AddLanguage
-import at.orchaldir.gm.core.action.CreateCharacter
-import at.orchaldir.gm.core.action.DeleteCharacter
-import at.orchaldir.gm.core.action.UpdateCharacter
+import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.utils.redux.Reducer
@@ -28,6 +25,13 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
 val ADD_LANGUAGE: Reducer<AddLanguage, State> = { state, action ->
     val character = state.characters.getOrThrow(action.id)
     val updated = character.copy(languages = character.languages + mapOf(action.language to action.level))
+
+    noFollowUps(state.copy(characters = state.characters.update(updated)))
+}
+
+val REMOVE_LANGUAGES: Reducer<RemoveLanguages, State> = { state, action ->
+    val character = state.characters.getOrThrow(action.id)
+    val updated = character.copy(languages = character.languages - action.languages)
 
     noFollowUps(state.copy(characters = state.characters.update(updated)))
 }

@@ -20,10 +20,16 @@ data class UpdateCharacter(
     val gender: Gender,
     val culture: CultureId?,
 ) : Action()
+
 data class AddLanguage(
     val id: CharacterId,
     val language: LanguageId,
     val level: ComprehensionLevel,
+) : Action()
+
+data class RemoveLanguages(
+    val id: CharacterId,
+    val languages: Set<LanguageId>,
 ) : Action()
 
 // culture actions

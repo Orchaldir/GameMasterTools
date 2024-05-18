@@ -2,10 +2,7 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.core.action.AddLanguage
-import at.orchaldir.gm.core.action.CreateCharacter
-import at.orchaldir.gm.core.action.DeleteCharacter
-import at.orchaldir.gm.core.action.UpdateCharacter
+import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
@@ -135,6 +132,12 @@ fun Application.configureCharacterRouting() {
                 val level = ComprehensionLevel.valueOf(formParameters.getOrFail("level"))
 
                 STORE.dispatch(AddLanguage(update.id, language, level))
+            }
+
+            val removeList = formParameters.getAll("remove")?.map { LanguageId(it.toInt()) }
+
+            if (removeList != null) {
+                STORE.dispatch(RemoveLanguages(update.id, removeList.toSet()))
             }
 
             call.respondRedirect(href(call, update.id))
@@ -296,6 +299,18 @@ private fun HTML.showLanguageEditor(
                 label = level.toString()
                 value = level.toString()
                 selected = level == ComprehensionLevel.Native
+            }
+            field("Languages to Remove") {
+                character.languages.keys.forEach { id ->
+                    val language = state.languages.getOrThrow(id)
+                    p {
+                        checkBoxInput {
+                            name = "remove"
+                            value = language.id.value.toString()
+                            +language.name
+                        }
+                    }
+                }
             }
             p {
                 submitInput {
