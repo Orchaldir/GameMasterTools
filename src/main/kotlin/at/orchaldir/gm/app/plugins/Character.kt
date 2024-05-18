@@ -97,7 +97,7 @@ fun Application.configureCharacterRouting() {
 
             STORE.dispatch(UpdateCharacter(update.id, name, race, gender, culture))
 
-            call.respondRedirect(href(call, STORE.getState().characters.lastId))
+            call.respondRedirect(href(call, update.id))
         }
     }
 }

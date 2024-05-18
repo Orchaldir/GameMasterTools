@@ -1,10 +1,7 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.listElements
-import at.orchaldir.gm.app.html.simpleHtml
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
@@ -20,6 +17,7 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
 import kotlinx.html.*
@@ -57,8 +55,11 @@ fun Application.configureRaceRouting() {
         get<Races.Details> { details ->
             logger.info { "Get details of race ${details.id.value}" }
 
+            val state = STORE.getState()
+            val race = state.races.getOrThrow(details.id)
+
             call.respondHtml(HttpStatusCode.OK) {
-                showRaceDetails(call, details.id)
+                showRaceDetails(call, state, race)
             }
         }
         get<Races.New> {
@@ -69,27 +70,23 @@ fun Application.configureRaceRouting() {
             call.respondHtml(HttpStatusCode.OK) {
                 showRaceEditor(call, STORE.getState().races.lastId)
             }
+
+            call.respondRedirect(call.application.href(Races.Edit(STORE.getState().races.lastId)))
         }
         get<Races.Delete> { delete ->
             logger.info { "Delete race ${delete.id.value}" }
 
             STORE.dispatch(DeleteRace(delete.id))
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllRaces(call)
-            }
+            call.respondRedirect(call.application.href(Races()))
         }
         get<Races.Edit> { edit ->
             logger.info { "Get editor for race ${edit.id.value}" }
 
-            call.respondHtml(HttpStatusCode.OK) {
-                val race = STORE.getState().races.get(edit.id)
+            val race = STORE.getState().races.getOrThrow(edit.id)
 
-                if (race != null) {
-                    showRaceEditor(call, race)
-                } else {
-                    showAllRaces(call)
-                }
+            call.respondHtml(HttpStatusCode.OK) {
+                showRaceEditor(call, race)
             }
         }
         post<Races.Update> { update ->
@@ -100,9 +97,7 @@ fun Application.configureRaceRouting() {
 
             STORE.dispatch(UpdateRace(update.id, name))
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showRaceDetails(call, update.id)
-            }
+            call.respondRedirect(href(call, update.id))
         }
     }
 }
@@ -119,20 +114,6 @@ private fun HTML.showAllRaces(call: ApplicationCall) {
         }
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }
-    }
-}
-
-private fun HTML.showRaceDetails(
-    call: ApplicationCall,
-    id: RaceId,
-) {
-    val state = STORE.getState()
-    val race = state.races.get(id)
-
-    if (race != null) {
-        showRaceDetails(call, state, race)
-    } else {
-        showAllRaces(call)
     }
 }
 

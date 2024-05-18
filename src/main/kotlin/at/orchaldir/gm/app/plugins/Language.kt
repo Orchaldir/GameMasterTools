@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getPossibleParents
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -109,7 +110,7 @@ fun Application.configureLanguageRouting() {
 
             STORE.dispatch(UpdateLanguage(language))
 
-            call.respondRedirect(href(call, STORE.getState().languages.lastId))
+            call.respondRedirect(href(call, update.id))
         }
     }
 }
@@ -144,20 +145,6 @@ private fun HTML.showAllLanguages(call: ApplicationCall) {
         }
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }
-    }
-}
-
-private fun HTML.showLanguageDetails(
-    call: ApplicationCall,
-    id: LanguageId,
-) {
-    val state = STORE.getState()
-    val language = state.languages.get(id)
-
-    if (language != null) {
-        showLanguageDetails(call, state, language)
-    } else {
-        showAllLanguages(call)
     }
 }
 
@@ -213,20 +200,6 @@ private fun HTML.showLanguageDetails(
             p { a(deleteLink) { +"Delete" } }
         }
         p { a(backLink) { +"Back" } }
-    }
-}
-
-private fun HTML.showLanguageEditor(
-    call: ApplicationCall,
-    state: State,
-    id: LanguageId,
-) {
-    val language = STORE.getState().languages.get(id)
-
-    if (language != null) {
-        showLanguageEditor(call, state, language)
-    } else {
-        showAllLanguages(call)
     }
 }
 
@@ -291,7 +264,7 @@ private fun HTML.showLanguageEditor(
                     selected = language.origin.inventor == c.id
                 }
 
-                else -> {}
+                else -> doNothing()
             }
             p {
                 submitInput {

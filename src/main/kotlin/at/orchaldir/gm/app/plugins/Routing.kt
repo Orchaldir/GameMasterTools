@@ -42,6 +42,7 @@ fun Application.configureRouting() {
         }
     }
 }
+
 fun Application.configureStatusPages() {
     install(StatusPages) {
         exception<IllegalArgumentException> { call, cause ->

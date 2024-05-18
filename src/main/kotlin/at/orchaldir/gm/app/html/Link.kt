@@ -120,7 +120,7 @@ private fun HtmlBlockTag.link(
     text: String,
 ) = a(href(call, id)) { +text }
 
-private fun href(
+fun href(
     call: ApplicationCall,
     id: RaceId,
 ) = call.application.href(Races.Details(id))

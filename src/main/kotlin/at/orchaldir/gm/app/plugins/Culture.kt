@@ -93,7 +93,7 @@ fun Application.configureCultureRouting() {
 
             STORE.dispatch(UpdateCulture(update.id, name))
 
-            call.respondRedirect(href(call, STORE.getState().cultures.lastId))
+            call.respondRedirect(href(call, update.id))
         }
     }
 }
