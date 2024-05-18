@@ -31,8 +31,8 @@ val UPDATE_LANGUAGE: Reducer<UpdateLanguage, State> = { state, action ->
     require(contains) { "Cannot update an unknown language ${language.id.value}" }
     checkOrigin(state, language.origin)
 
-    // no duplicate name
-    // no circle
+    // no duplicate name?
+    // no circle? (time travel?)
     noFollowUps(state.copy(languages = state.languages.update(language)))
 }
 

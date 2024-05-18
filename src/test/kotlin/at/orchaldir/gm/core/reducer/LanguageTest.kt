@@ -15,9 +15,10 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
+private val ID0 = LanguageId(0)
+private val ID1 = LanguageId(1)
+
 class LanguageTest {
-    private val ID0 = LanguageId(0)
-    private val ID1 = LanguageId(1)
 
     @Test
     fun `Can delete an existing language`() {
