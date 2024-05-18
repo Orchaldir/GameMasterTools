@@ -59,6 +59,19 @@ fun <ID : Id<ID>, E : Element<ID>> HtmlBlockTag.listElements(
     }
 }
 
+fun <K, V> HtmlBlockTag.showMap(
+    map: Map<K, V>,
+    content: LI.(K, V) -> Unit,
+) {
+    ul {
+        map.forEach { (key, value) ->
+            li {
+                content(key, value)
+            }
+        }
+    }
+}
+
 // form
 
 fun FORM.label(label: String, content: P.() -> Unit) {

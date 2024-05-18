@@ -162,9 +162,16 @@ private fun HTML.showCharacterDetails(
                 link(call, state, character.culture)
             }
         }
+        if (character.languages.isNotEmpty()) {
+            field("Known Languages") {
+                showMap(character.languages) { id, level ->
+                    link(call, state, id)
+                    +": $level"
+                }
+            }
+        }
         if (inventedLanguages.isNotEmpty()) {
-            h2 { +"Languages" }
-            field("Invented") {
+            field("Invented Languages") {
                 listElements(inventedLanguages) { language ->
                     link(call, language)
                 }
