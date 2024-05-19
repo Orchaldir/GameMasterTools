@@ -74,6 +74,7 @@ class LanguageTest {
             val action = UpdateLanguage(Language(ID0, origin = origin))
 
             assertFailsWith<IllegalArgumentException> { UPDATE_LANGUAGE.invoke(state, action) }
+            assertTrue(false)
         }
 
         @Test
