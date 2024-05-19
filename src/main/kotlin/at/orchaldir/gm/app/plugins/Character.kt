@@ -279,6 +279,7 @@ private fun HTML.showCharacterEditor(
                                 id = textId
                                 name = textId
                                 value = trait.id.value.toString()
+                                checked = character.personality.contains(trait.id)
                             }
                             label {
                                 htmlFor = textId
