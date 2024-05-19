@@ -82,7 +82,7 @@ class CharacterTest {
     }
 
     @Nested
-    inner class RemoveLanguagesTest {
+    inner class RemovePersonalityTest {
 
         private val action = RemoveLanguages(ID0, setOf(LANGUAGE0))
 

@@ -21,7 +21,6 @@ data class PersonalityTrait(
     val id: PersonalityTraitId,
     val name: String = "Personality Trait ${id.value}",
     val group: PersonalityTraitGroup? = null,
-    val description: String? = null,
 ) : Element<PersonalityTraitId> {
 
     override fun id() = id

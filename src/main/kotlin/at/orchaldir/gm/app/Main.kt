@@ -33,6 +33,7 @@ fun Application.module() {
     configureCharacterRouting()
     configureCultureRouting()
     configureLanguageRouting()
+    configurePersonalityRouting()
     configureRaceRouting()
 }
 

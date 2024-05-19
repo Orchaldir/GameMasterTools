@@ -1,9 +1,6 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.plugins.Characters
-import at.orchaldir.gm.app.plugins.Cultures
-import at.orchaldir.gm.app.plugins.Languages
-import at.orchaldir.gm.app.plugins.Races
+import at.orchaldir.gm.app.plugins.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.Language
@@ -96,6 +93,34 @@ fun href(
     call: ApplicationCall,
     id: LanguageId,
 ) = call.application.href(Languages.Details(id))
+
+// personality
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    state: State,
+    id: PersonalityTraitId,
+) {
+    link(call, id, state.personalityTraits.get(id)?.name ?: "Unknown")
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    trait: PersonalityTrait,
+) {
+    link(call, trait.id, trait.name)
+}
+
+private fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    id: PersonalityTraitId,
+    text: String,
+) = a(href(call, id)) { +text }
+
+fun href(
+    call: ApplicationCall,
+    id: PersonalityTraitId,
+) = call.application.href(Personality.Details(id))
 
 // race
 
