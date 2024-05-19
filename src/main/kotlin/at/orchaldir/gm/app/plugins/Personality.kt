@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.action.DeletePersonalityTrait
 import at.orchaldir.gm.core.action.UpdatePersonalityTrait
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.selector.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.getPersonalityTraits
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -150,6 +151,7 @@ private fun HTML.showPersonalityTraitEditor(
     state: State,
     trait: PersonalityTrait,
 ) {
+    val groups = state.getPersonalityTraitGroups()
     val backLink = href(call, trait.id)
     val updateLink = call.application.href(Personality.Update(trait.id))
 
@@ -160,6 +162,27 @@ private fun HTML.showPersonalityTraitEditor(
                 b { +"Name: " }
                 textInput(name = "name") {
                     value = trait.name
+                }
+            }
+            field("Group") {
+                select {
+                    id = "group"
+                    name = "group"
+                    option {
+                        label = "No group"
+                        value = ""
+                        selected = trait.group == null
+                    }
+                    groups.forEach { g ->
+                        option {
+                            label = state.getPersonalityTraits(g)
+                                .sortedBy { it.name }
+                                .map { it.name }
+                                .joinToString(separator = " VS ")
+                            value = g.value.toString()
+                            selected = g == trait.group
+                        }
+                    }
                 }
             }
             p {
