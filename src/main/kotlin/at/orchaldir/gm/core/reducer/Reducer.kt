@@ -12,7 +12,6 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateCharacter -> UPDATE_CHARACTER(state, action)
         is AddLanguage -> ADD_LANGUAGE(state, action)
         is RemoveLanguages -> REMOVE_LANGUAGES(state, action)
-        is UpdatePersonality -> UPDATE_PERSONALITY(state, action)
         // culture actions
         is CreateCulture -> CREATE_CULTURE(state, action)
         is DeleteCulture -> DELETE_CULTURE(state, action)

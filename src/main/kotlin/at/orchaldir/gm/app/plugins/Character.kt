@@ -25,6 +25,7 @@ import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
+private const val GROUP_PREFIX = "group_"
 
 @Resource("/characters")
 class Characters {
@@ -108,8 +109,12 @@ fun Application.configureCharacterRouting() {
             val culture = formParameters.getOrFail("culture")
                 .toIntOrNull()
                 ?.let { CultureId(it) }
+            val personality = formParameters.entries()
+                .filter { e -> e.key.startsWith(GROUP_PREFIX) }
+                .map { e -> PersonalityTraitId(e.value.first().toInt()) }
+                .toSet()
 
-            STORE.dispatch(UpdateCharacter(update.id, name, race, gender, culture))
+            STORE.dispatch(UpdateCharacter(update.id, name, race, gender, culture, personality))
 
             call.respondRedirect(href(call, update.id))
         }
@@ -269,7 +274,7 @@ private fun HTML.showCharacterEditor(
                 state.getPersonalityTraitGroups().forEach { group ->
                     p {
                         state.getPersonalityTraits(group).forEach { trait ->
-                            val textId = "group_${group.value}"
+                            val textId = "$GROUP_PREFIX${group.value}"
                             radioInput {
                                 id = textId
                                 name = textId
@@ -277,7 +282,7 @@ private fun HTML.showCharacterEditor(
                             }
                             label {
                                 htmlFor = textId
-                                +trait.name
+                                link(call, trait)
                             }
                         }
                     }

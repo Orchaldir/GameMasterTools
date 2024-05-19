@@ -16,6 +16,7 @@ data class UpdateCharacter(
     val race: RaceId,
     val gender: Gender,
     val culture: CultureId?,
+    val personality: Set<PersonalityTraitId>,
 ) : Action()
 
 data class AddLanguage(
@@ -27,11 +28,6 @@ data class AddLanguage(
 data class RemoveLanguages(
     val id: CharacterId,
     val languages: Set<LanguageId>,
-) : Action()
-
-data class UpdatePersonality(
-    val id: CharacterId,
-    val traits: Set<PersonalityTraitId>,
 ) : Action()
 
 // culture actions

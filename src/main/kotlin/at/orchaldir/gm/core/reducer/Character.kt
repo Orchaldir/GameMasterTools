@@ -26,8 +26,10 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
 val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     val contains = state.characters.contains(action.id)
     require(contains) { "Cannot delete an unknown character ${action.id.value}" }
+    val unknownTraits = action.personality.filter { !state.personalityTraits.contains(it) }
+    require(unknownTraits.isEmpty()) { "Cannot use unknown personality trait" }
 
-    val character = Character(action.id, action.name, action.race, action.gender, action.culture)
+    val character = Character(action.id, action.name, action.race, action.gender, action.culture, action.personality)
 
     noFollowUps(state.copy(characters = state.characters.update(character)))
 }
@@ -48,16 +50,6 @@ val REMOVE_LANGUAGES: Reducer<RemoveLanguages, State> = { state, action ->
 
     val character = state.characters.getOrThrow(action.id)
     val updated = character.copy(languages = character.languages - action.languages)
-
-    noFollowUps(state.copy(characters = state.characters.update(updated)))
-}
-
-val UPDATE_PERSONALITY: Reducer<UpdatePersonality, State> = { state, action ->
-    val unknownTraits = action.traits.filter { !state.personalityTraits.contains(it) }
-    require(unknownTraits.isEmpty()) { "Cannot use unknown personality trait" }
-
-    val character = state.characters.getOrThrow(action.id)
-    val updated = character.copy(personality = action.traits)
 
     noFollowUps(state.copy(characters = state.characters.update(updated)))
 }
