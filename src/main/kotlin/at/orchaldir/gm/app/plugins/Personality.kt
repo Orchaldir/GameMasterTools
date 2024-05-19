@@ -6,7 +6,9 @@ import at.orchaldir.gm.core.action.CreatePersonalityTrait
 import at.orchaldir.gm.core.action.DeletePersonalityTrait
 import at.orchaldir.gm.core.action.UpdatePersonalityTrait
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.PersonalityTrait
+import at.orchaldir.gm.core.model.character.PersonalityTraitGroup
+import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.selector.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.getPersonalityTraits
 import io.ktor.http.*
@@ -135,7 +137,8 @@ private fun HTML.showPersonalityTraitDetails(
         field("Name", trait.name)
         if (trait.group != null) {
             field("Group") {
-                showList(state.getPersonalityTraits(trait.group)) { t ->
+                showList(state.getPersonalityTraits(trait.group)
+                    .sortedBy { it.name }) { t ->
                     link(call, t)
                 }
             }
@@ -152,6 +155,7 @@ private fun HTML.showPersonalityTraitEditor(
     trait: PersonalityTrait,
 ) {
     val groups = state.getPersonalityTraitGroups()
+    val newGroup = groups.maxOfOrNull { it.value + 1 } ?: 0
     val backLink = href(call, trait.id)
     val updateLink = call.application.href(Personality.Update(trait.id))
 
@@ -177,11 +181,14 @@ private fun HTML.showPersonalityTraitEditor(
                         option {
                             label = state.getPersonalityTraits(g)
                                 .sortedBy { it.name }
-                                .map { it.name }
-                                .joinToString(separator = " VS ")
+                                .joinToString(separator = " VS ") { it.name }
                             value = g.value.toString()
                             selected = g == trait.group
                         }
+                    }
+                    option {
+                        label = "New group"
+                        value = newGroup.toString()
                     }
                 }
             }

@@ -1,8 +1,6 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.plugins.TITLE
-import at.orchaldir.gm.utils.Element
-import at.orchaldir.gm.utils.Id
 import kotlinx.html.*
 
 fun HTML.simpleHtml(
