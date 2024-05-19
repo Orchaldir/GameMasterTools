@@ -21,6 +21,7 @@ data class Character(
     val race: RaceId = RaceId(0),
     val gender: Gender = Gender.Genderless,
     val culture: CultureId? = null,
+    val personality: Set<PersonalityTraitId> = setOf(PersonalityTraitId(0)),
     val languages: Map<LanguageId, ComprehensionLevel> = mapOf(LanguageId(0) to ComprehensionLevel.Native),
 ) : Element<CharacterId> {
 

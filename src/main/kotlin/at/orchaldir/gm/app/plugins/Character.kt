@@ -182,6 +182,13 @@ private fun HTML.showCharacterDetails(
                 link(call, state, character.culture)
             }
         }
+        if (character.personality.isNotEmpty()) {
+            field("Personality") {
+                showList(character.personality) { t ->
+                    link(call, state, t)
+                }
+            }
+        }
         if (character.languages.isNotEmpty()) {
             field("Known Languages") {
                 showMap(character.languages) { id, level ->

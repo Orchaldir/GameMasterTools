@@ -137,8 +137,9 @@ private fun HTML.showPersonalityTraitDetails(
         field("Name", trait.name)
         if (trait.group != null) {
             field("Group") {
-                showList(state.getPersonalityTraits(trait.group)
-                    .sortedBy { it.name }) { t ->
+                val traits = state.getPersonalityTraits(trait.group)
+                    .sortedBy { it.name }
+                showList(traits) { t ->
                     link(call, t)
                 }
             }
