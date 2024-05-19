@@ -14,8 +14,7 @@ val CREATE_CHARACTER: Reducer<CreateCharacter, State> = { state, _ ->
 }
 
 val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
-    val contains = state.characters.contains(action.id)
-    require(contains) { "Cannot delete an unknown character ${action.id.value}" }
+    state.characters.require(action.id)
 
     val invented = state.getInventedLanguages(action.id)
     require(invented.isEmpty()) { "Cannot delete a character ${action.id.value}, because he is an language inventor" }
@@ -44,8 +43,7 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
 }
 
 val ADD_LANGUAGE: Reducer<AddLanguage, State> = { state, action ->
-    val contains = state.languages.contains(action.language)
-    require(contains) { "Cannot add an unknown language ${action.language.value}" }
+    state.languages.require(action.language)
 
     val character = state.characters.getOrThrow(action.id)
     val updated = character.copy(languages = character.languages + mapOf(action.language to action.level))
@@ -54,8 +52,7 @@ val ADD_LANGUAGE: Reducer<AddLanguage, State> = { state, action ->
 }
 
 val REMOVE_LANGUAGES: Reducer<RemoveLanguages, State> = { state, action ->
-    val unknownLanguages = action.languages.filter { !state.languages.contains(it) }
-    require(unknownLanguages.isEmpty()) { "Cannot remove unknown languages" }
+    action.languages.forEach { state.languages.require(it) }
 
     val character = state.characters.getOrThrow(action.id)
     val updated = character.copy(languages = character.languages - action.languages)

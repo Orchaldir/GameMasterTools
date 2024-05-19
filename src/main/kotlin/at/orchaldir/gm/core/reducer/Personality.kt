@@ -15,8 +15,7 @@ val CREATE_PERSONALITY_TRAIT: Reducer<CreatePersonalityTrait, State> = { state, 
 }
 
 val DELETE_PERSONALITY_TRAIT: Reducer<DeletePersonalityTrait, State> = { state, action ->
-    val contains = state.personalityTraits.contains(action.id)
-    require(contains) { "Cannot delete an unknown personality trait ${action.id.value}" }
+    state.personalityTraits.require(action.id)
 
     noFollowUps(state.copy(personalityTraits = state.personalityTraits.remove(action.id)))
 }
@@ -24,8 +23,7 @@ val DELETE_PERSONALITY_TRAIT: Reducer<DeletePersonalityTrait, State> = { state, 
 val UPDATE_PERSONALITY_TRAIT: Reducer<UpdatePersonalityTrait, State> = { state, action ->
     val trait = action.trait
 
-    val contains = state.personalityTraits.contains(trait.id)
-    require(contains) { "Cannot update an unknown personalityTrait ${trait.id.value}" }
+    state.personalityTraits.require(trait.id)
 
     noFollowUps(state.copy(personalityTraits = state.personalityTraits.update(trait)))
 }

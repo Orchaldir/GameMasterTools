@@ -10,19 +10,22 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_CULTURE: Reducer<CreateCulture, State> = { state, _ ->
-    val character = Culture(state.cultures.nextId)
+    val culture = Culture(state.cultures.nextId)
 
-    noFollowUps(state.copy(cultures = state.cultures.add(character)))
+    noFollowUps(state.copy(cultures = state.cultures.add(culture)))
 }
 
 val DELETE_CULTURE: Reducer<DeleteCulture, State> = { state, action ->
+    state.cultures.require(action.id)
     require(state.getCharacters(action.id).isEmpty()) { "Culture ${action.id.value} is used by characters" }
 
     noFollowUps(state.copy(cultures = state.cultures.remove(action.id)))
 }
 
 val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
-    val character = Culture(action.id, action.name)
+    state.cultures.require(action.id)
 
-    noFollowUps(state.copy(cultures = state.cultures.update(character)))
+    val culture = Culture(action.id, action.name)
+
+    noFollowUps(state.copy(cultures = state.cultures.update(culture)))
 }

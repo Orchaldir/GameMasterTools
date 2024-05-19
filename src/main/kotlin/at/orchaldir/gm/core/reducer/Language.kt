@@ -20,8 +20,7 @@ val CREATE_LANGUAGE: Reducer<CreateLanguage, State> = { state, _ ->
 }
 
 val DELETE_LANGUAGE: Reducer<DeleteLanguage, State> = { state, action ->
-    val contains = state.languages.contains(action.id)
-    require(contains) { "Cannot delete an unknown language ${action.id.value}" }
+    state.languages.require(action.id)
     require(state.getChildren(action.id).isEmpty()) { "Cannot delete language ${action.id.value} with children" }
     require(
         state.getCharacters(action.id).isEmpty()
@@ -32,9 +31,8 @@ val DELETE_LANGUAGE: Reducer<DeleteLanguage, State> = { state, action ->
 
 val UPDATE_LANGUAGE: Reducer<UpdateLanguage, State> = { state, action ->
     val language = action.language
-    val contains = state.languages.contains(language.id)
 
-    require(contains) { "Cannot update an unknown language ${language.id.value}" }
+    state.languages.require(language.id)
     checkOrigin(state, language)
 
     // no duplicate name?
