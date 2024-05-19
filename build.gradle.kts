@@ -1,6 +1,8 @@
 plugins {
     kotlin("jvm") version "1.9.23"
     kotlin("plugin.serialization") version "1.9.23"
+    id("org.sonarqube") version "4.0.0.2929"
+    id("jacoco")
 }
 
 group = "at.orchaldir.gm"
@@ -8,6 +10,7 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    gradlePluginPortal()
 }
 
 val ktorVersion = "2.3.10"
@@ -24,6 +27,7 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
     implementation("io.github.microutils:kotlin-logging-jvm:$loggingVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    implementation("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:4.0.0.2929")
 
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation(kotlin("test"))
@@ -34,7 +38,7 @@ tasks.test {
 }
 
 tasks.wrapper {
-    gradleVersion = "8.5"
+    gradleVersion = "8.0.2"
 }
 
 kotlin {
