@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
 value class CharacterId(val value: Int) : Id<CharacterId> {
 
     override fun next() = CharacterId(value + 1)
+    override fun value() = value
 
 }
 

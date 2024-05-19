@@ -24,12 +24,21 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
 }
 
 val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
-    val contains = state.characters.contains(action.id)
-    require(contains) { "Cannot delete an unknown character ${action.id.value}" }
-    val unknownTraits = action.personality.filter { !state.personalityTraits.contains(it) }
-    require(unknownTraits.isEmpty()) { "Cannot use unknown personality trait" }
+    val oldCharacter = state.characters.getOrThrow(action.id)
+    state.races.require(action.race)
+    action.personality.forEach { state.personalityTraits.require(it) }
 
-    val character = Character(action.id, action.name, action.race, action.gender, action.culture, action.personality)
+    if (action.culture != null) {
+        state.cultures.require(action.culture)
+    }
+
+    val character = oldCharacter.copy(
+        name = action.name,
+        race = action.race,
+        gender = action.gender,
+        culture = action.culture,
+        personality = action.personality
+    )
 
     noFollowUps(state.copy(characters = state.characters.update(character)))
 }

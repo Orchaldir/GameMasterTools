@@ -2,6 +2,7 @@ package at.orchaldir.gm.utils
 
 interface Id<ID> {
     fun next(): ID
+    fun value(): Int
 }
 
 interface Element<ID> {
@@ -41,7 +42,11 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
 
     fun get(id: ID) = elements[id]
 
-    fun getOrThrow(id: ID) = elements[id] ?: throw IllegalArgumentException("Unknown $name!")
+    fun getOrThrow(id: ID) = elements[id] ?: throw IllegalArgumentException("Unknown $name ${id.value()}!")
 
     fun contains(id: ID) = elements.containsKey(id)
+
+    fun require(id: ID) {
+        require(contains(id)) { "Requires unknown $name ${id.value()}!" }
+    }
 }

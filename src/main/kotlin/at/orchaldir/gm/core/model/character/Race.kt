@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 value class RaceId(val value: Int) : Id<RaceId> {
 
     override fun next() = RaceId(value + 1)
+    override fun value() = value
 
 }
 

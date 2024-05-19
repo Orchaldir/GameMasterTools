@@ -20,6 +20,7 @@ private val LANGUAGE0 = LanguageId(0)
 private val LANGUAGES = mapOf(LANGUAGE0 to ComprehensionLevel.Native)
 private val PERSONALITY0 = PersonalityTraitId(0)
 private val RACE0 = RaceId(0)
+private val RACE1 = RaceId(1)
 
 class CharacterTest {
 
@@ -54,6 +55,24 @@ class CharacterTest {
 
     @Nested
     inner class UpdateTest {
+
+        @Test
+        fun `Do not overwrite languages`() {
+            val state = State(
+                characters = Storage(listOf(Character(ID0, languages = LANGUAGES))),
+                languages = Storage(listOf(Language(LANGUAGE0))),
+                personalityTraits = Storage(listOf(PersonalityTrait(PERSONALITY0))),
+                races = Storage(listOf(Race(RACE0), Race(RACE1)))
+            )
+            val action = UpdateCharacter(ID0, "Test", RACE1, Gender.Male, null, setOf(PERSONALITY0))
+
+            val result = UPDATE_CHARACTER.invoke(state, action).first
+
+            assertEquals(
+                Character(ID0, "Test", RACE1, Gender.Male, null, setOf(PERSONALITY0), LANGUAGES),
+                result.characters.getOrThrow(ID0)
+            )
+        }
 
         @Test
         fun `Cannot update unknown character`() {

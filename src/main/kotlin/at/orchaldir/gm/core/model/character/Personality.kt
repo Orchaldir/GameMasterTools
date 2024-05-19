@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 value class PersonalityTraitId(val value: Int) : Id<PersonalityTraitId> {
 
     override fun next() = PersonalityTraitId(value + 1)
+    override fun value() = value
 
 }
 
