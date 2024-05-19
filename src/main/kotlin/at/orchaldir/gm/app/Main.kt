@@ -44,6 +44,8 @@ fun Application.configureSerialization() {
 }
 
 fun initStore(): DefaultStore<Action, State> {
+    val group0 = PersonalityTraitGroup(0)
+    val group1 = PersonalityTraitGroup(1)
     val state = State(
         Storage(CharacterId(0)),
         Storage(CultureId(0)),
@@ -53,7 +55,14 @@ fun initStore(): DefaultStore<Action, State> {
                 Language(LanguageId(1), "Common", EvolvedLanguage(LanguageId(0)))
             )
         ),
-        Storage(PersonalityTraitId(0)),
+        Storage(
+            listOf(
+                PersonalityTrait(PersonalityTraitId(0), "Honest", group0),
+                PersonalityTrait(PersonalityTraitId(1), "Deceitful", group0),
+                PersonalityTrait(PersonalityTraitId(2), "Chaste", group1),
+                PersonalityTrait(PersonalityTraitId(3), "Lustful", group1),
+            )
+        ),
         Storage(listOf(Race(RaceId(0), "Human"))),
     )
     return DefaultStore(state, REDUCER, listOf(LogAction()))

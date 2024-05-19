@@ -140,7 +140,7 @@ private fun HTML.showAllLanguages(call: ApplicationCall) {
 
     simpleHtml("Languages") {
         field("Count", count.toString())
-        listElements(languages.getAll()) { language ->
+        showList(languages.getAll()) { language ->
             link(call, language)
         }
         p { a(createLink) { +"Add" } }
@@ -183,14 +183,14 @@ private fun HTML.showLanguageDetails(
         }
         if (children.isNotEmpty()) {
             field("Child Languages") {
-                listElements(children) { language ->
+                showList(children) { language ->
                     link(call, language)
                 }
             }
         }
         if (characters.isNotEmpty()) {
             field("Characters") {
-                listElements(characters) { character ->
+                showList(characters) { character ->
                     link(call, character)
                 }
             }

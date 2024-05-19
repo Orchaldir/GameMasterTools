@@ -152,7 +152,7 @@ private fun HTML.showAllCharacters(call: ApplicationCall) {
 
     simpleHtml("Characters") {
         field("Count", count.toString())
-        listElements(characters.getAll()) { character ->
+        showList(characters.getAll()) { character ->
             link(call, character)
         }
         p { a(createLink) { +"Add" } }
@@ -192,7 +192,7 @@ private fun HTML.showCharacterDetails(
         }
         if (inventedLanguages.isNotEmpty()) {
             field("Invented Languages") {
-                listElements(inventedLanguages) { language ->
+                showList(inventedLanguages) { language ->
                     link(call, language)
                 }
             }

@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.action.DeletePersonalityTrait
 import at.orchaldir.gm.core.action.UpdatePersonalityTrait
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.selector.getPersonalityTraits
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -111,7 +112,7 @@ private fun HTML.showAllPersonalityTraits(call: ApplicationCall) {
 
     simpleHtml("Personality Traits") {
         field("Count", count.toString())
-        listElements(personalityTraits.getAll()) { personalityTrait ->
+        showList(personalityTraits.getAll()) { personalityTrait ->
             link(call, personalityTrait)
         }
         p { a(createLink) { +"Add" } }
@@ -131,6 +132,13 @@ private fun HTML.showPersonalityTraitDetails(
     simpleHtml("Personality Trait: ${trait.name}") {
         field("Id", trait.id.value.toString())
         field("Name", trait.name)
+        if (trait.group != null) {
+            field("Group") {
+                showList(state.getPersonalityTraits(trait.group)) { t ->
+                    link(call, t)
+                }
+            }
+        }
         p { a(editLink) { +"Edit" } }
         p { a(deleteLink) { +"Delete" } }
         p { a(backLink) { +"Back" } }

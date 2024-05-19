@@ -46,9 +46,9 @@ fun BODY.fieldLink(label: String, link: String, text: String) {
 
 // lists
 
-fun <ID : Id<ID>, E : Element<ID>> HtmlBlockTag.listElements(
-    elements: Collection<E>,
-    content: LI.(E) -> Unit,
+fun <T> HtmlBlockTag.showList(
+    elements: Collection<T>,
+    content: LI.(T) -> Unit,
 ) {
     ul {
         elements.forEach { element ->

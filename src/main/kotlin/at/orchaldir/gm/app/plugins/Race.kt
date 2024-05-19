@@ -109,7 +109,7 @@ private fun HTML.showAllRaces(call: ApplicationCall) {
 
     simpleHtml("Races") {
         field("Count", count.toString())
-        listElements(races.getAll()) { race ->
+        showList(races.getAll()) { race ->
             link(call, race)
         }
         p { a(createLink) { +"Add" } }
@@ -130,7 +130,7 @@ private fun HTML.showRaceDetails(
         field("Id", race.id.value.toString())
         field("Name", race.name)
         field("Characters") {
-            listElements(state.getCharacters(race.id)) { character ->
+            showList(state.getCharacters(race.id)) { character ->
                 link(call, character)
             }
         }
