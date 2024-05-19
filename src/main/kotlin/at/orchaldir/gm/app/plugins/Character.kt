@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.selector.getInventedLanguages
+import at.orchaldir.gm.core.selector.getPersonalityTraitGroups
+import at.orchaldir.gm.core.selector.getPersonalityTraits
 import at.orchaldir.gm.core.selector.getPossibleLanguages
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -259,6 +261,24 @@ private fun HTML.showCharacterEditor(
                             label = culture.name
                             value = culture.id.value.toString()
                             selected = culture.id == character.culture
+                        }
+                    }
+                }
+            }
+            field("Personality") {
+                state.getPersonalityTraitGroups().forEach { group ->
+                    p {
+                        state.getPersonalityTraits(group).forEach { trait ->
+                            val textId = "group_${group.value}"
+                            radioInput {
+                                id = textId
+                                name = textId
+                                value = trait.id.value.toString()
+                            }
+                            label {
+                                htmlFor = textId
+                                +trait.name
+                            }
                         }
                     }
                 }
