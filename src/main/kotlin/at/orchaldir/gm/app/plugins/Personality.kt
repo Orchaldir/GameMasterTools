@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.PersonalityTraitGroup
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
+import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.getPersonalityTraits
 import io.ktor.http.*
@@ -128,6 +129,7 @@ private fun HTML.showPersonalityTraitDetails(
     state: State,
     trait: PersonalityTrait,
 ) {
+    val characters = state.getCharacters(trait.id)
     val backLink = call.application.href(Personality())
     val deleteLink = call.application.href(Personality.Delete(trait.id))
     val editLink = call.application.href(Personality.Edit(trait.id))
@@ -141,6 +143,13 @@ private fun HTML.showPersonalityTraitDetails(
                     .sortedBy { it.name }
                 showList(traits) { t ->
                     link(call, t)
+                }
+            }
+        }
+        if (characters.isNotEmpty()) {
+            field("Characters") {
+                showList(characters) { character ->
+                    link(call, character)
                 }
             }
         }
