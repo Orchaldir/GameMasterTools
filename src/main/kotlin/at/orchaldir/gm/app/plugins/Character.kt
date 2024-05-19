@@ -26,6 +26,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 private const val GROUP_PREFIX = "group_"
+private const val NONE = "None"
 
 @Resource("/characters")
 class Characters {
@@ -110,8 +111,11 @@ fun Application.configureCharacterRouting() {
                 .toIntOrNull()
                 ?.let { CultureId(it) }
             val personality = formParameters.entries()
+                .asSequence()
                 .filter { e -> e.key.startsWith(GROUP_PREFIX) }
-                .map { e -> PersonalityTraitId(e.value.first().toInt()) }
+                .map { e -> e.value.first() }
+                .filter { it != NONE }
+                .map { PersonalityTraitId(it.toInt()) }
                 .toSet()
 
             STORE.dispatch(UpdateCharacter(update.id, name, race, gender, culture, personality))
@@ -272,19 +276,35 @@ private fun HTML.showCharacterEditor(
             }
             field("Personality") {
                 state.getPersonalityTraitGroups().forEach { group ->
+                    val textId = "$GROUP_PREFIX${group.value}"
+                    var isAnyCheck = false
+
                     p {
                         state.getPersonalityTraits(group).forEach { trait ->
-                            val textId = "$GROUP_PREFIX${group.value}"
+                            val isChecked = character.personality.contains(trait.id)
+                            isAnyCheck = isAnyCheck || isChecked
+
                             radioInput {
                                 id = textId
                                 name = textId
                                 value = trait.id.value.toString()
-                                checked = character.personality.contains(trait.id)
+                                checked = isChecked
                             }
                             label {
                                 htmlFor = textId
                                 link(call, trait)
                             }
+                        }
+
+                        radioInput {
+                            id = textId
+                            name = textId
+                            value = NONE
+                            checked = !isAnyCheck
+                        }
+                        label {
+                            htmlFor = textId
+                            +NONE
                         }
                     }
                 }
