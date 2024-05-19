@@ -44,8 +44,8 @@ fun Application.configureSerialization() {
 }
 
 fun initStore(): DefaultStore<Action, State> {
-    val group0 = PersonalityTraitGroup(0)
-    val group1 = PersonalityTraitGroup(1)
+    var t = 0
+
     val state = State(
         Storage(CharacterId(0)),
         Storage(CultureId(0)),
@@ -57,13 +57,45 @@ fun initStore(): DefaultStore<Action, State> {
         ),
         Storage(
             listOf(
-                PersonalityTrait(PersonalityTraitId(0), "Honest", group0),
-                PersonalityTrait(PersonalityTraitId(1), "Deceitful", group0),
-                PersonalityTrait(PersonalityTraitId(2), "Chaste", group1),
-                PersonalityTrait(PersonalityTraitId(3), "Lustful", group1),
+                create(t++, "Honest"),
+                create(t++, "Deceitful"),
+                create(t++, "Chaste"),
+                create(t++, "Lustful"),
+                create(t++, "Brave"),
+                create(t++, "Cowardly"),
+                create(t++, "Calm"),
+                create(t++, "Wrathful"),
+                create(t++, "Content"),
+                create(t++, "Ambitious"),
+                create(t++, "Diligent"),
+                create(t++, "Lazy"),
+                create(t++, "Forgiving"),
+                create(t++, "Vengeful"),
+                create(t++, "Generous"),
+                create(t++, "Greedy"),
+                create(t++, "Gregarious"),
+                create(t++, "Shy"),
+                create(t++, "Humble"),
+                create(t++, "Arrogant"),
+                create(t++, "Just"),
+                create(t++, "Arbitrary"),
+                create(t++, "Patient"),
+                create(t++, "Impatient"),
+                create(t++, "Temperate"),
+                create(t++, "Gluttonous"),
+                create(t++, "Trusting"),
+                create(t++, "Paranoid"),
+                create(t++, "Zealous"),
+                create(t++, "Cynical"),
+                create(t++, "Compassionate", 100),
+                create(t++, "Callous", 100),
+                create(t++, "Sadistic", 100),
             )
         ),
         Storage(listOf(Race(RaceId(0), "Human"))),
     )
     return DefaultStore(state, REDUCER, listOf(LogAction()))
 }
+
+private fun create(id: Int, name: String, group: Int = id / 2) =
+    PersonalityTrait(PersonalityTraitId(id), name, PersonalityTraitGroup(group))
