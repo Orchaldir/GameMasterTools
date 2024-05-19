@@ -47,7 +47,7 @@ tasks.jacocoTestReport {
 
 sonarqube {
     properties {
-        property("sonar.projectKey", "Orchaldir_ofws:" + project.name)
+        property("sonar.projectKey", "Orchaldir_GameMasterTools")
         property("sonar.organization", "orchaldir-github")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.language", "kotlin")
