@@ -25,10 +25,12 @@ fun Application.configureRouting() {
             val characterCount = STORE.getState().characters.getSize()
             val cultureCount = STORE.getState().cultures.getSize()
             val languageCount = STORE.getState().languages.getSize()
+            val personalityCount = STORE.getState().personalityTraits.getSize()
             val racesCount = STORE.getState().races.getSize()
             val charactersLink = call.application.href(Characters())
             val culturesLink = call.application.href(Cultures())
             val languagesLink = call.application.href(Languages())
+            val personalityLink = call.application.href(Personality())
             val racesLink = call.application.href(Races())
 
             call.respondHtml(HttpStatusCode.OK) {
@@ -36,6 +38,7 @@ fun Application.configureRouting() {
                     fieldLink("Characters", charactersLink, "$characterCount")
                     fieldLink("Cultures", culturesLink, "$cultureCount")
                     fieldLink("Languages", languagesLink, "$languageCount")
+                    fieldLink("Personality Traits", personalityLink, "$personalityCount")
                     fieldLink("Races", racesLink, "$racesCount")
                 }
             }

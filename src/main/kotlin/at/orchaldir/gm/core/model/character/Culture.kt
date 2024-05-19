@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 value class CultureId(val value: Int) : Id<CultureId> {
 
     override fun next() = CultureId(value + 1)
+    override fun value() = value
 
 }
 

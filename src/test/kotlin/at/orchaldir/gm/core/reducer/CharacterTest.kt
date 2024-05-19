@@ -18,7 +18,9 @@ private val ID0 = CharacterId(0)
 private val CULTURE0 = CultureId(0)
 private val LANGUAGE0 = LanguageId(0)
 private val LANGUAGES = mapOf(LANGUAGE0 to ComprehensionLevel.Native)
+private val PERSONALITY0 = PersonalityTraitId(0)
 private val RACE0 = RaceId(0)
+private val RACE1 = RaceId(1)
 
 class CharacterTest {
 
@@ -51,11 +53,58 @@ class CharacterTest {
         }
     }
 
-    @Test
-    fun `Cannot update unknown id`() {
-        val action = UpdateCharacter(ID0, "Test", RACE0, Gender.Male, CULTURE0)
+    @Nested
+    inner class UpdateTest {
 
-        assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(State(), action) }
+        @Test
+        fun `Do not overwrite languages`() {
+            val state = State(
+                characters = Storage(listOf(Character(ID0, languages = LANGUAGES))),
+                languages = Storage(listOf(Language(LANGUAGE0))),
+                personalityTraits = Storage(listOf(PersonalityTrait(PERSONALITY0))),
+                races = Storage(listOf(Race(RACE0), Race(RACE1)))
+            )
+            val action = UpdateCharacter(ID0, "Test", RACE1, Gender.Male, null, setOf(PERSONALITY0))
+
+            val result = UPDATE_CHARACTER.invoke(state, action).first
+
+            assertEquals(
+                Character(ID0, "Test", RACE1, Gender.Male, null, setOf(PERSONALITY0), LANGUAGES),
+                result.characters.getOrThrow(ID0)
+            )
+        }
+
+        @Test
+        fun `Cannot update unknown character`() {
+            val state = State(races = Storage(listOf(Race(RACE0))))
+            val action = UpdateCharacter(ID0, "Test", RACE0, Gender.Male, null, setOf())
+
+            assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use unknown culture`() {
+            val state = State(characters = Storage(listOf(Character(ID0))), races = Storage(listOf(Race(RACE0))))
+            val action = UpdateCharacter(ID0, "Test", RACE0, Gender.Male, CULTURE0, setOf())
+
+            assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use unknown personality trait`() {
+            val state = State(characters = Storage(listOf(Character(ID0))), races = Storage(listOf(Race(RACE0))))
+            val action = UpdateCharacter(ID0, "Test", RACE0, Gender.Male, null, setOf(PERSONALITY0))
+
+            assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use unknown race`() {
+            val state = State(characters = Storage(listOf(Character(ID0))))
+            val action = UpdateCharacter(ID0, "Test", RACE0, Gender.Male, null, setOf())
+
+            assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+        }
     }
 
     @Nested
@@ -65,10 +114,12 @@ class CharacterTest {
 
         @Test
         fun `Add a language`() {
-            val state0 = CREATE_CHARACTER.invoke(State(), CreateCharacter).first
-            val state1 = CREATE_LANGUAGE.invoke(state0, CreateLanguage).first
+            val state = State(
+                characters = Storage(listOf(Character(ID0))),
+                languages = Storage(listOf(Language(LANGUAGE0)))
+            )
 
-            val result = ADD_LANGUAGE.invoke(state1, action).first
+            val result = ADD_LANGUAGE.invoke(state, action).first
 
             assertEquals(LANGUAGES, result.characters.getOrThrow(ID0).languages)
         }
@@ -82,7 +133,7 @@ class CharacterTest {
     }
 
     @Nested
-    inner class RemoveLanguagesTest {
+    inner class RemovePersonalityTest {
 
         private val action = RemoveLanguages(ID0, setOf(LANGUAGE0))
 

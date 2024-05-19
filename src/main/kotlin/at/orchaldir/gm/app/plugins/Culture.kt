@@ -99,13 +99,13 @@ fun Application.configureCultureRouting() {
 }
 
 private fun HTML.showAllCultures(call: ApplicationCall) {
-    val cultures = STORE.getState().cultures
-    val count = cultures.getSize()
+    val cultures = STORE.getState().cultures.getAll().sortedBy { it.name }
+    val count = cultures.size
     val createLink = call.application.href(Cultures.New(Cultures()))
 
     simpleHtml("Cultures") {
         field("Count", count.toString())
-        listElements(cultures.getAll()) { culture ->
+        showList(cultures) { culture ->
             link(call, culture)
         }
         p { a(createLink) { +"Add" } }
@@ -126,7 +126,7 @@ private fun HTML.showCultureDetails(
         field("Id", culture.id.value.toString())
         field("Name", culture.name)
         field("Characters") {
-            listElements(state.getCharacters(culture.id)) { character ->
+            showList(state.getCharacters(culture.id)) { character ->
                 link(call, character)
             }
         }

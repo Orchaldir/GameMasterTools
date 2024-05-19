@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.selector.getInventedLanguages
+import at.orchaldir.gm.core.selector.getPersonalityTraitGroups
+import at.orchaldir.gm.core.selector.getPersonalityTraits
 import at.orchaldir.gm.core.selector.getPossibleLanguages
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -23,6 +25,8 @@ import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
+private const val GROUP_PREFIX = "group_"
+private const val NONE = "None"
 
 @Resource("/characters")
 class Characters {
@@ -106,8 +110,15 @@ fun Application.configureCharacterRouting() {
             val culture = formParameters.getOrFail("culture")
                 .toIntOrNull()
                 ?.let { CultureId(it) }
+            val personality = formParameters.entries()
+                .asSequence()
+                .filter { e -> e.key.startsWith(GROUP_PREFIX) }
+                .map { e -> e.value.first() }
+                .filter { it != NONE }
+                .map { PersonalityTraitId(it.toInt()) }
+                .toSet()
 
-            STORE.dispatch(UpdateCharacter(update.id, name, race, gender, culture))
+            STORE.dispatch(UpdateCharacter(update.id, name, race, gender, culture, personality))
 
             call.respondRedirect(href(call, update.id))
         }
@@ -146,13 +157,13 @@ fun Application.configureCharacterRouting() {
 }
 
 private fun HTML.showAllCharacters(call: ApplicationCall) {
-    val characters = STORE.getState().characters
-    val count = characters.getSize()
+    val characters = STORE.getState().characters.getAll().sortedBy { it.name }
+    val count = characters.size
     val createLink = call.application.href(Characters.New(Characters()))
 
     simpleHtml("Characters") {
         field("Count", count.toString())
-        listElements(characters.getAll()) { character ->
+        showList(characters) { character ->
             link(call, character)
         }
         p { a(createLink) { +"Add" } }
@@ -182,6 +193,13 @@ private fun HTML.showCharacterDetails(
                 link(call, state, character.culture)
             }
         }
+        if (character.personality.isNotEmpty()) {
+            field("Personality") {
+                showList(character.personality) { t ->
+                    link(call, state, t)
+                }
+            }
+        }
         if (character.languages.isNotEmpty()) {
             field("Known Languages") {
                 showMap(character.languages) { id, level ->
@@ -192,7 +210,7 @@ private fun HTML.showCharacterDetails(
         }
         if (inventedLanguages.isNotEmpty()) {
             field("Invented Languages") {
-                listElements(inventedLanguages) { language ->
+                showList(inventedLanguages) { language ->
                     link(call, language)
                 }
             }
@@ -252,6 +270,41 @@ private fun HTML.showCharacterEditor(
                             label = culture.name
                             value = culture.id.value.toString()
                             selected = culture.id == character.culture
+                        }
+                    }
+                }
+            }
+            field("Personality") {
+                state.getPersonalityTraitGroups().forEach { group ->
+                    val textId = "$GROUP_PREFIX${group.value}"
+                    var isAnyCheck = false
+
+                    p {
+                        state.getPersonalityTraits(group).forEach { trait ->
+                            val isChecked = character.personality.contains(trait.id)
+                            isAnyCheck = isAnyCheck || isChecked
+
+                            radioInput {
+                                id = textId
+                                name = textId
+                                value = trait.id.value.toString()
+                                checked = isChecked
+                            }
+                            label {
+                                htmlFor = textId
+                                link(call, trait)
+                            }
+                        }
+
+                        radioInput {
+                            id = textId
+                            name = textId
+                            value = NONE
+                            checked = !isAnyCheck
+                        }
+                        label {
+                            htmlFor = textId
+                            +NONE
                         }
                     }
                 }

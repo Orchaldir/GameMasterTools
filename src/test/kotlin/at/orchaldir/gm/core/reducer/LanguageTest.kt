@@ -5,11 +5,9 @@ import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.language.EvolvedLanguage
-import at.orchaldir.gm.core.model.language.InventedLanguage
-import at.orchaldir.gm.core.model.language.Language
-import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -44,6 +42,15 @@ class LanguageTest {
         @Test
         fun `Can delete a language with children`() {
             val state = State(languages = Storage(listOf(Language(ID0), Language(ID1, origin = EvolvedLanguage(ID0)))))
+            val action = DeleteLanguage(ID0)
+
+            assertFailsWith<IllegalArgumentException> { DELETE_LANGUAGE.invoke(state, action) }
+        }
+
+        @Test
+        fun `Can delete a language known by a character`() {
+            val character = Character(CHARACTER0, languages = mapOf(ID0 to ComprehensionLevel.Native))
+            val state = State(characters = Storage(listOf(character)), languages = Storage(listOf(Language(ID0))))
             val action = DeleteLanguage(ID0)
 
             assertFailsWith<IllegalArgumentException> { DELETE_LANGUAGE.invoke(state, action) }

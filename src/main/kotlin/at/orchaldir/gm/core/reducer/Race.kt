@@ -23,7 +23,9 @@ val DELETE_RACE: Reducer<DeleteRace, State> = { state, action ->
 }
 
 val UPDATE_RACE: Reducer<UpdateRace, State> = { state, action ->
-    val character = Race(action.id, action.name)
+    state.races.require(action.id)
 
-    noFollowUps(state.copy(races = state.races.update(character)))
+    val race = Race(action.id, action.name)
+
+    noFollowUps(state.copy(races = state.races.update(race)))
 }
