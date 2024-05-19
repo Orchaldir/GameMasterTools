@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -21,7 +22,10 @@ val CREATE_LANGUAGE: Reducer<CreateLanguage, State> = { state, _ ->
 val DELETE_LANGUAGE: Reducer<DeleteLanguage, State> = { state, action ->
     val contains = state.languages.contains(action.id)
     require(contains) { "Cannot delete an unknown language ${action.id.value}" }
-    require(state.getChildren(action.id).isEmpty()) { "Cannot delete  language ${action.id.value} with children" }
+    require(state.getChildren(action.id).isEmpty()) { "Cannot delete language ${action.id.value} with children" }
+    require(
+        state.getCharacters(action.id).isEmpty()
+    ) { "Cannot delete language ${action.id.value} that is known by characters" }
 
     noFollowUps(state.copy(languages = state.languages.remove(action.id)))
 }
