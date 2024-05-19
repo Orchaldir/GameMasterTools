@@ -47,13 +47,14 @@ fun initStore(): DefaultStore<Action, State> {
     var t = 0
 
     val state = State(
-        Storage(CharacterId(0)),
-        Storage(CultureId(0)),
+        Storage(CharacterId(0), "Character"),
+        Storage(CultureId(0), "Culture"),
         Storage(
             listOf(
                 Language(LanguageId(0), "Old Common"),
                 Language(LanguageId(1), "Common", EvolvedLanguage(LanguageId(0)))
-            )
+            ),
+            "Language",
         ),
         Storage(
             listOf(
@@ -99,9 +100,10 @@ fun initStore(): DefaultStore<Action, State> {
                 create(t++, "Generous", 103),
                 create(t++, "Frugal", 103),
                 create(t++, "Greedy", 103),
-            )
+            ),
+            "Personality Trait"
         ),
-        Storage(listOf(Race(RaceId(0), "Human"))),
+        Storage(listOf(Race(RaceId(0), "Human")), "Race"),
     )
     return DefaultStore(state, REDUCER, listOf(LogAction()))
 }
