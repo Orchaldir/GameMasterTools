@@ -21,9 +21,7 @@ val DELETE_PERSONALITY_TRAIT: Reducer<DeletePersonalityTrait, State> = { state, 
 }
 
 val UPDATE_PERSONALITY_TRAIT: Reducer<UpdatePersonalityTrait, State> = { state, action ->
-    val trait = action.trait
+    state.personalityTraits.require(action.trait.id)
 
-    state.personalityTraits.require(trait.id)
-
-    noFollowUps(state.copy(personalityTraits = state.personalityTraits.update(trait)))
+    noFollowUps(state.copy(personalityTraits = state.personalityTraits.update(action.trait)))
 }

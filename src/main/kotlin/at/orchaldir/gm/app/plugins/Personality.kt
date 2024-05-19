@@ -138,12 +138,15 @@ private fun HTML.showPersonalityTraitDetails(
         field("Id", trait.id.value.toString())
         field("Name", trait.name)
         if (trait.group != null) {
-            field("Conflicting") {
-                val traits = state.getPersonalityTraits(trait.group)
-                    .filter { it != trait }
-                    .sortedBy { it.name }
-                showList(traits) { t ->
-                    link(call, t)
+            val traits = state.getPersonalityTraits(trait.group)
+                .filter { it != trait }
+                .sortedBy { it.name }
+
+            if (traits.isNotEmpty()) {
+                field("Conflicting") {
+                    showList(traits) { t ->
+                        link(call, t)
+                    }
                 }
             }
         }
