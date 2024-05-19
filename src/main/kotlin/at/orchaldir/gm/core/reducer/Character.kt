@@ -51,3 +51,13 @@ val REMOVE_LANGUAGES: Reducer<RemoveLanguages, State> = { state, action ->
 
     noFollowUps(state.copy(characters = state.characters.update(updated)))
 }
+
+val UPDATE_PERSONALITY: Reducer<UpdatePersonality, State> = { state, action ->
+    val unknownTraits = action.traits.filter { !state.personalityTraits.contains(it) }
+    require(unknownTraits.isEmpty()) { "Cannot use unknown personality trait" }
+
+    val character = state.characters.getOrThrow(action.id)
+    val updated = character.copy(personality = action.traits)
+
+    noFollowUps(state.copy(characters = state.characters.update(updated)))
+}

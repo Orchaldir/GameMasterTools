@@ -29,6 +29,11 @@ data class RemoveLanguages(
     val languages: Set<LanguageId>,
 ) : Action()
 
+data class UpdatePersonality(
+    val id: CharacterId,
+    val traits: Set<PersonalityTraitId>,
+) : Action()
+
 // culture actions
 data object CreateCulture : Action()
 data class DeleteCulture(val id: CultureId) : Action()

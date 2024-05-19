@@ -7,6 +7,5 @@ fun State.getPersonalityTraits(group: PersonalityTraitGroup) = personalityTraits
     .filter { group == it.group }
 
 fun State.getPersonalityTraitGroups() = personalityTraits.getAll()
-    .map { it.group }
-    .filterNotNull()
+    .mapNotNull { it.group }
     .toSet()
