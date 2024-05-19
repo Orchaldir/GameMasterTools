@@ -3,10 +3,7 @@ package at.orchaldir.gm.app
 import at.orchaldir.gm.app.plugins.*
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.CultureId
-import at.orchaldir.gm.core.model.character.Race
-import at.orchaldir.gm.core.model.character.RaceId
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
@@ -55,6 +52,7 @@ fun initStore(): DefaultStore<Action, State> {
                 Language(LanguageId(1), "Common", EvolvedLanguage(LanguageId(0)))
             )
         ),
+        Storage(PersonalityTraitId(0)),
         Storage(listOf(Race(RaceId(0), "Human"))),
     )
     return DefaultStore(state, REDUCER, listOf(LogAction()))

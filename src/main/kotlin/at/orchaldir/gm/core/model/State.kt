@@ -9,5 +9,6 @@ data class State(
     val characters: Storage<CharacterId, Character> = Storage(CharacterId(0)),
     val cultures: Storage<CultureId, Culture> = Storage(CultureId(0)),
     val languages: Storage<LanguageId, Language> = Storage(LanguageId(0)),
+    val personalityTraits: Storage<PersonalityTraitId, PersonalityTrait> = Storage(PersonalityTraitId(0)),
     val races: Storage<RaceId, Race> = Storage(RaceId(0)),
 )
