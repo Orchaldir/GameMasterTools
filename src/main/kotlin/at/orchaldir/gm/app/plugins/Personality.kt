@@ -110,13 +110,13 @@ private fun parsePersonalityTrait(id: PersonalityTraitId, parameters: Parameters
 }
 
 private fun HTML.showAllPersonalityTraits(call: ApplicationCall) {
-    val personalityTraits = STORE.getState().personalityTraits
-    val count = personalityTraits.getSize()
+    val personalityTraits = STORE.getState().personalityTraits.getAll().sortedBy { it.name }
+    val count = personalityTraits.size
     val createLink = call.application.href(Personality.New(Personality()))
 
     simpleHtml("Personality Traits") {
         field("Count", count.toString())
-        showList(personalityTraits.getAll()) { personalityTrait ->
+        showList(personalityTraits) { personalityTrait ->
             link(call, personalityTrait)
         }
         p { a(createLink) { +"Add" } }
@@ -138,8 +138,9 @@ private fun HTML.showPersonalityTraitDetails(
         field("Id", trait.id.value.toString())
         field("Name", trait.name)
         if (trait.group != null) {
-            field("Group") {
+            field("Conflicting") {
                 val traits = state.getPersonalityTraits(trait.group)
+                    .filter { it != trait }
                     .sortedBy { it.name }
                 showList(traits) { t ->
                     link(call, t)

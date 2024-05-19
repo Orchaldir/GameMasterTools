@@ -153,13 +153,13 @@ fun Application.configureCharacterRouting() {
 }
 
 private fun HTML.showAllCharacters(call: ApplicationCall) {
-    val characters = STORE.getState().characters
-    val count = characters.getSize()
+    val characters = STORE.getState().characters.getAll().sortedBy { it.name }
+    val count = characters.size
     val createLink = call.application.href(Characters.New(Characters()))
 
     simpleHtml("Characters") {
         field("Count", count.toString())
-        showList(characters.getAll()) { character ->
+        showList(characters) { character ->
             link(call, character)
         }
         p { a(createLink) { +"Add" } }

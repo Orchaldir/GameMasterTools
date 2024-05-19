@@ -134,13 +134,13 @@ private fun parseLanguage(id: LanguageId, parameters: Parameters): Language {
 }
 
 private fun HTML.showAllLanguages(call: ApplicationCall) {
-    val languages = STORE.getState().languages
-    val count = languages.getSize()
+    val languages = STORE.getState().languages.getAll().sortedBy { it.name }
+    val count = languages.size
     val createLink = call.application.href(Languages.New(Languages()))
 
     simpleHtml("Languages") {
         field("Count", count.toString())
-        showList(languages.getAll()) { language ->
+        showList(languages) { language ->
             link(call, language)
         }
         p { a(createLink) { +"Add" } }
