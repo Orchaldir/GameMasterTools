@@ -35,6 +35,27 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required = true
+    }
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "Orchaldir_ofws:" + project.name)
+        property("sonar.organization", "orchaldir-github")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.language", "kotlin")
+        property("sonar.sources", "src/main/kotlin")
+        property("sonar.tests", "src/test/kotlin")
+        property("sonar.junit.reportPaths", "build/test-results/test/text.xml")
+        property("sonar.jacoco.reportPaths", "build/reports/jacoco/test")
+    }
 }
 
 tasks.wrapper {
