@@ -23,7 +23,7 @@ data class Character(
     val gender: Gender = Gender.Genderless,
     val origin: CharacterOrigin = UndefinedOrigin,
     val culture: CultureId? = null,
-    val personality: Set<PersonalityTraitId> = setOf(PersonalityTraitId(0)),
+    val personality: Set<PersonalityTraitId> = setOf(),
     val languages: Map<LanguageId, ComprehensionLevel> = mapOf(LanguageId(0) to ComprehensionLevel.Native),
 ) : Element<CharacterId> {
 

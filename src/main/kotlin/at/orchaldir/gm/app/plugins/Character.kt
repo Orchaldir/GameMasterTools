@@ -331,7 +331,7 @@ private fun HTML.showLanguageEditor(
 
     simpleHtml("Edit Languages: ${character.name}") {
         form {
-            field("Language") {
+            field("Language to Add") {
                 select {
                     id = "language"
                     name = "language"
