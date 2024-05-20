@@ -23,21 +23,15 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
 }
 
 val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
-    val oldCharacter = state.characters.getOrThrow(action.id)
-    state.races.require(action.race)
-    action.personality.forEach { state.personalityTraits.require(it) }
+    val character = action.character
 
-    if (action.culture != null) {
-        state.cultures.require(action.culture)
+    state.characters.require(character.id)
+    state.races.require(character.race)
+    character.personality.forEach { state.personalityTraits.require(it) }
+
+    if (character.culture != null) {
+        state.cultures.require(character.culture)
     }
-
-    val character = oldCharacter.copy(
-        name = action.name,
-        race = action.race,
-        gender = action.gender,
-        culture = action.culture,
-        personality = action.personality
-    )
 
     noFollowUps(state.copy(characters = state.characters.update(character)))
 }

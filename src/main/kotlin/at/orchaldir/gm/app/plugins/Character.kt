@@ -41,6 +41,9 @@ class Characters {
     @Resource("edit")
     class Edit(val id: CharacterId, val parent: Characters = Characters())
 
+    @Resource("preview")
+    class Preview(val id: CharacterId, val parent: Characters = Characters())
+
     @Resource("update")
     class Update(val id: CharacterId, val parent: Characters = Characters())
 
@@ -98,25 +101,23 @@ fun Application.configureCharacterRouting() {
                 showCharacterEditor(call, state, character)
             }
         }
+        post<Characters.Preview> { preview ->
+            logger.info { "Preview changes to character ${preview.id.value}" }
+
+            val state = STORE.getState()
+            val character = parseCharacter(state, preview.id, call.receiveParameters())
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showCharacterEditor(call, state, character)
+            }
+        }
         post<Characters.Update> { update ->
             logger.info { "Update character ${update.id.value}" }
 
-            val formParameters = call.receiveParameters()
-            val name = formParameters.getOrFail("name")
-            val race = RaceId(formParameters.getOrFail("race").toInt())
-            val gender = Gender.valueOf(formParameters.getOrFail("gender"))
-            val culture = formParameters.getOrFail("culture")
-                .toIntOrNull()
-                ?.let { CultureId(it) }
-            val personality = formParameters.entries()
-                .asSequence()
-                .filter { e -> e.key.startsWith(GROUP_PREFIX) }
-                .map { e -> e.value.first() }
-                .filter { it != NONE }
-                .map { PersonalityTraitId(it.toInt()) }
-                .toSet()
+            val state = STORE.getState()
+            val character = parseCharacter(state, update.id, call.receiveParameters())
 
-            STORE.dispatch(UpdateCharacter(update.id, name, race, gender, culture, personality))
+            STORE.dispatch(UpdateCharacter(character))
 
             call.respondRedirect(href(call, update.id))
         }
@@ -152,6 +153,43 @@ fun Application.configureCharacterRouting() {
             call.respondRedirect(href(call, update.id))
         }
     }
+}
+
+private fun parseCharacter(state: State, id: CharacterId, parameters: Parameters): Character {
+    val character = state.characters.getOrThrow(id)
+
+    val name = parameters.getOrFail("name")
+    val race = RaceId(parameters.getOrFail("race").toInt())
+    val gender = Gender.valueOf(parameters.getOrFail("gender"))
+    val culture = parameters.getOrFail("culture")
+        .toIntOrNull()
+        ?.let { CultureId(it) }
+    val personality = parameters.entries()
+        .asSequence()
+        .filter { e -> e.key.startsWith(GROUP_PREFIX) }
+        .map { e -> e.value.first() }
+        .filter { it != NONE }
+        .map { PersonalityTraitId(it.toInt()) }
+        .toSet()
+
+    val origin = when (parameters["origin"]) {
+        "Born" -> {
+            val father = CharacterId(parameters["father"]?.toInt() ?: 0)
+            val mother = CharacterId(parameters["father"]?.toInt() ?: 0)
+            Born(mother, father)
+        }
+
+        else -> UndefinedOrigin
+    }
+
+    return character.copy(
+        name = name,
+        race = race,
+        gender = gender,
+        origin = origin,
+        culture = culture,
+        personality = personality
+    )
 }
 
 private fun HTML.showAllCharacters(call: ApplicationCall) {
@@ -250,11 +288,15 @@ private fun HTML.showCharacterEditor(
     character: Character,
 ) {
     val backLink = href(call, character.id)
+    val previewLink = call.application.href(Characters.Preview(character.id))
     val updateLink = call.application.href(Characters.Update(character.id))
 
     simpleHtml("Edit Character: ${character.name}") {
         field("Id", character.id.value.toString())
         form {
+            id = "editor"
+            action = previewLink
+            method = FormMethod.post
             field("Name") {
                 textInput(name = "name") {
                     value = character.name
@@ -300,7 +342,7 @@ private fun HTML.showCharacterEditor(
                 select {
                     id = "origin"
                     name = "origin"
-                    //onChange = "updateEditor();"
+                    onChange = "updateEditor();"
                     option {
                         label = "Born"
                         value = "Born"

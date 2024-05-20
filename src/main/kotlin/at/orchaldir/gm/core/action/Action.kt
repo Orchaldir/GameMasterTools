@@ -10,14 +10,7 @@ sealed class Action
 // character actions
 data object CreateCharacter : Action()
 data class DeleteCharacter(val id: CharacterId) : Action()
-data class UpdateCharacter(
-    val id: CharacterId,
-    val name: String,
-    val race: RaceId,
-    val gender: Gender,
-    val culture: CultureId?,
-    val personality: Set<PersonalityTraitId>,
-) : Action()
+data class UpdateCharacter(val character: Character) : Action()
 
 data class AddLanguage(
     val id: CharacterId,
