@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed class CharacterOrigin
-data class Born(val father: CharacterId?, val mother: CharacterId?) : CharacterOrigin()
+data class Born(val parents: Set<CharacterId>) : CharacterOrigin()
 data object UndefinedOrigin : CharacterOrigin()
