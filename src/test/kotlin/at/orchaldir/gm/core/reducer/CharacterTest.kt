@@ -69,7 +69,7 @@ class CharacterTest {
             val result = UPDATE_CHARACTER.invoke(state, action).first
 
             assertEquals(
-                Character(ID0, "Test", RACE1, Gender.Male, null, setOf(PERSONALITY0), LANGUAGES),
+                Character(ID0, "Test", RACE1, Gender.Male, UndefinedOrigin, null, setOf(PERSONALITY0), LANGUAGES),
                 result.characters.getOrThrow(ID0)
             )
         }
