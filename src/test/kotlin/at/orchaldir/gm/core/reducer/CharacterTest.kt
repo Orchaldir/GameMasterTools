@@ -15,6 +15,8 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 private val ID0 = CharacterId(0)
+private val ID1 = CharacterId(1)
+private val ID2 = CharacterId(2)
 private val CULTURE0 = CultureId(0)
 private val LANGUAGE0 = LanguageId(0)
 private val LANGUAGES = mapOf(LANGUAGE0 to ComprehensionLevel.Native)
@@ -64,7 +66,7 @@ class CharacterTest {
                 personalityTraits = Storage(listOf(PersonalityTrait(PERSONALITY0))),
                 races = Storage(listOf(Race(RACE0), Race(RACE1)))
             )
-            val action = UpdateCharacter(ID0, "Test", RACE1, Gender.Male, null, setOf(PERSONALITY0))
+            val action = UpdateCharacter(Character(ID0, "Test", RACE1, Gender.Male, personality = setOf(PERSONALITY0)))
 
             val result = UPDATE_CHARACTER.invoke(state, action).first
 
@@ -74,10 +76,53 @@ class CharacterTest {
             )
         }
 
+        @Nested
+        inner class UpdateTest {
+            private val UNKNOWN = CharacterId(3)
+
+            private val state = State(
+                characters = Storage(
+                    listOf(
+                        Character(ID0),
+                        Character(ID1, gender = Gender.Male),
+                        Character(ID2, gender = Gender.Female)
+                    )
+                ),
+                races = Storage(listOf(Race(RACE0)))
+            )
+
+            @Test
+            fun `Valid parents`() {
+                val character = Character(ID0, origin = Born(ID2, ID1))
+                val action = UpdateCharacter(character)
+
+                val result = UPDATE_CHARACTER.invoke(state, action).first
+
+                assertEquals(
+                    character,
+                    result.characters.getOrThrow(ID0)
+                )
+            }
+
+            @Test
+            fun `Unknown mother`() {
+                val action = UpdateCharacter(Character(ID0, origin = Born(UNKNOWN, ID1)))
+
+                assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Unknown father`() {
+                val action = UpdateCharacter(Character(ID0, origin = Born(ID2, UNKNOWN)))
+
+                assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+            }
+        }
+
         @Test
         fun `Cannot update unknown character`() {
             val state = State(races = Storage(listOf(Race(RACE0))))
-            val action = UpdateCharacter(ID0, "Test", RACE0, Gender.Male, null, setOf())
+            val action = UpdateCharacter(Character(ID0))
 
             assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
         }
@@ -85,7 +130,7 @@ class CharacterTest {
         @Test
         fun `Cannot use unknown culture`() {
             val state = State(characters = Storage(listOf(Character(ID0))), races = Storage(listOf(Race(RACE0))))
-            val action = UpdateCharacter(ID0, "Test", RACE0, Gender.Male, CULTURE0, setOf())
+            val action = UpdateCharacter(Character(ID0, culture = CULTURE0))
 
             assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
         }
@@ -93,7 +138,7 @@ class CharacterTest {
         @Test
         fun `Cannot use unknown personality trait`() {
             val state = State(characters = Storage(listOf(Character(ID0))), races = Storage(listOf(Race(RACE0))))
-            val action = UpdateCharacter(ID0, "Test", RACE0, Gender.Male, null, setOf(PERSONALITY0))
+            val action = UpdateCharacter(Character(ID0, personality = setOf(PERSONALITY0)))
 
             assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
         }
@@ -101,7 +146,7 @@ class CharacterTest {
         @Test
         fun `Cannot use unknown race`() {
             val state = State(characters = Storage(listOf(Character(ID0))))
-            val action = UpdateCharacter(ID0, "Test", RACE0, Gender.Male, null, setOf())
+            val action = UpdateCharacter(Character(ID0, race = RACE0))
 
             assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
         }

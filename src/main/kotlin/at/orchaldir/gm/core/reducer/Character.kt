@@ -2,8 +2,12 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Born
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.language.EvolvedLanguage
+import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.selector.getInventedLanguages
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -27,6 +31,7 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
 
     state.characters.require(character.id)
     state.races.require(character.race)
+    checkOrigin(state, character)
     character.personality.forEach { state.personalityTraits.require(it) }
 
     if (character.culture != null) {
@@ -34,6 +39,20 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     }
 
     noFollowUps(state.copy(characters = state.characters.update(character)))
+}
+
+private fun checkOrigin(
+    state: State,
+    character: Character,
+) {
+    when (val origin = character.origin) {
+        is Born -> {
+            require(state.characters.contains(origin.mother)) { "Cannot use an unknown mother ${origin.mother.value}" }
+            require(state.characters.contains(origin.father)) { "Cannot use an unknown father ${origin.father.value}" }
+        }
+
+        else -> doNothing()
+    }
 }
 
 val ADD_LANGUAGE: Reducer<AddLanguage, State> = { state, action ->
