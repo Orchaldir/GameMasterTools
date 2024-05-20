@@ -29,3 +29,12 @@ fun State.getChildren(id: CharacterId) = characters.getAll().filter {
         else -> false
     }
 }
+
+fun State.getSiblings(id: CharacterId): List<Character> {
+    val siblings = mutableSetOf<Character>()
+
+    getParents(id).forEach { siblings.addAll(getChildren(it.id)) }
+    siblings.removeIf { it.id == id }
+
+    return siblings.toList()
+}

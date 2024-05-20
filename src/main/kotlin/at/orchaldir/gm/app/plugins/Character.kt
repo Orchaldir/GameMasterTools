@@ -180,6 +180,7 @@ private fun HTML.showCharacterDetails(
     val inventedLanguages = state.getInventedLanguages(character.id)
     val parents = state.getParents(character.id)
     val children = state.getChildren(character.id)
+    val siblings = state.getSiblings(character.id)
 
     simpleHtml("Character: ${character.name}") {
         field("Id", character.id.value.toString())
@@ -203,6 +204,13 @@ private fun HTML.showCharacterDetails(
             field("Children") {
                 showList(children) { child ->
                     link(call, child)
+                }
+            }
+        }
+        if (siblings.isNotEmpty()) {
+            field("Siblings") {
+                showList(siblings) { sibling ->
+                    link(call, sibling)
                 }
             }
         }
