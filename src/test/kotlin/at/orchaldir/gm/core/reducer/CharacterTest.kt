@@ -26,6 +26,19 @@ private val RACE1 = RaceId(1)
 
 class CharacterTest {
 
+    @Test
+    fun `Create another character`() {
+        val character0 = Character(ID0)
+        val character1 = Character(ID1)
+        val state = State(characters = Storage(listOf(character0)))
+
+        val characters = CREATE_CHARACTER.invoke(state, CreateCharacter).first.characters
+
+        assertEquals(2, characters.getSize())
+        assertEquals(character0, characters.getOrThrow(ID0))
+        assertEquals(character1, characters.getOrThrow(ID1))
+    }
+
     @Nested
     inner class DeleteTest {
 
@@ -54,7 +67,7 @@ class CharacterTest {
         @Nested
         inner class DeleteFamilyMemberTest {
 
-            val state = State(
+            private val state = State(
                 characters = Storage(
                     listOf(
                         Character(ID0, origin = Born(ID1, ID2)),

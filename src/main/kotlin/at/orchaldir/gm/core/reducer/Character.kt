@@ -11,11 +11,16 @@ import at.orchaldir.gm.core.selector.getParents
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
+import mu.KotlinLogging
+
+private val logger = KotlinLogging.logger {}
 
 val CREATE_CHARACTER: Reducer<CreateCharacter, State> = { state, _ ->
     val character = Character(state.characters.nextId)
-
-    noFollowUps(state.copy(characters = state.characters.add(character)))
+    logger.info { "new character $character" }
+    val characters = state.characters.add(character)
+    logger.info { "new characters $characters" }
+    noFollowUps(state.copy(characters = characters))
 }
 
 val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->

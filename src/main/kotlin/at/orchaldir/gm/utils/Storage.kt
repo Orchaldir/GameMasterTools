@@ -21,7 +21,7 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
     constructor(elements: List<ELEMENT>, name: String = "Element") : this(
         name,
         elements.associateBy { it.id() },
-        elements.map { it.id() }.last()
+        elements.map { it.id() }.last().next()
     )
 
     fun add(element: ELEMENT): Storage<ID, ELEMENT> {
