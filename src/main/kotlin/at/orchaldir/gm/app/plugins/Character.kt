@@ -277,7 +277,9 @@ private fun HTML.showCharacterDetails(
         }
         p { a(editLink) { +"Edit" } }
         p { a(editLanguagesLink) { +"Edit Languages" } }
-        p { a(deleteLink) { +"Delete" } }
+        if (state.canDelete(character.id)) {
+            p { a(deleteLink) { +"Delete" } }
+        }
         p { a(backLink) { +"Back" } }
     }
 }

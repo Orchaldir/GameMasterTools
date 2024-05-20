@@ -4,6 +4,12 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.LanguageId
 
+fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty() &&
+        getParents(character).isEmpty() &&
+        getInventedLanguages(character).isEmpty()
+
+// get characters
+
 fun State.getCharacters(culture: CultureId) = characters.getAll().filter { c -> c.culture == culture }
 
 fun State.getCharacters(language: LanguageId) = characters.getAll().filter { c -> c.languages.containsKey(language) }
@@ -12,7 +18,7 @@ fun State.getCharacters(trait: PersonalityTraitId) = characters.getAll().filter 
 
 fun State.getCharacters(race: RaceId) = characters.getAll().filter { c -> c.race == race }
 
-// relatives
+// get relatives
 
 fun State.getParents(id: CharacterId): List<Character> {
     val character = characters.get(id) ?: return listOf()
