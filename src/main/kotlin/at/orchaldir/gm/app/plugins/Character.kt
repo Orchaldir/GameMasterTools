@@ -179,7 +179,7 @@ private fun parseCharacter(state: State, id: CharacterId, parameters: Parameters
             Born(mother, father)
         }
 
-        else -> UndefinedOrigin
+        else -> UndefinedCharacterOrigin
     }
 
     return character.copy(
@@ -351,7 +351,7 @@ private fun HTML.showCharacterEditor(
                     option {
                         label = "Undefined"
                         value = "Undefined"
-                        selected = character.origin is UndefinedOrigin
+                        selected = character.origin is UndefinedCharacterOrigin
                     }
                 }
             }

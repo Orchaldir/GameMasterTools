@@ -9,4 +9,4 @@ data class Born(val mother: CharacterId, val father: CharacterId) : CharacterOri
     fun isParent(id: CharacterId) = mother == id || father == id
 }
 
-data object UndefinedOrigin : CharacterOrigin()
+data object UndefinedCharacterOrigin : CharacterOrigin()
