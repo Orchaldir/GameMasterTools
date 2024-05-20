@@ -70,5 +70,21 @@ class CharacterTest {
         fun `No siblings`() {
             assertTrue(state.getSiblings(FATHER_ID).isEmpty())
         }
+
+        @Test
+        fun `Get possible fathers`() {
+            assertEquals(setOf(SON, FATHER), state.getPossibleFathers(DAUGHTER_ID).toSet())
+            assertEquals(setOf(FATHER), state.getPossibleFathers(SON_ID).toSet())
+            assertEquals(setOf(SON), state.getPossibleFathers(FATHER_ID).toSet())
+            assertEquals(setOf(FATHER, SON), state.getPossibleFathers(MOTHER_ID).toSet())
+        }
+
+        @Test
+        fun `Get possible mothers`() {
+            assertEquals(setOf(MOTHER), state.getPossibleMothers(DAUGHTER_ID).toSet())
+            assertEquals(setOf(DAUGHTER, MOTHER), state.getPossibleMothers(SON_ID).toSet())
+            assertEquals(setOf(DAUGHTER, MOTHER), state.getPossibleMothers(FATHER_ID).toSet())
+            assertEquals(setOf(DAUGHTER), state.getPossibleMothers(MOTHER_ID).toSet())
+        }
     }
 }
