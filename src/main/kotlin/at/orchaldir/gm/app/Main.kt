@@ -46,8 +46,9 @@ fun Application.configureSerialization() {
 fun initStore(): DefaultStore<Action, State> {
     var t = 0
 
+    val id0 = CharacterId(0)
     val state = State(
-        Storage(CharacterId(0), "Character"),
+        Storage(listOf(Character(id0), Character(CharacterId(1), origin = Born(setOf(id0)))), "Character"),
         Storage(CultureId(0), "Culture"),
         Storage(
             listOf(
@@ -105,6 +106,7 @@ fun initStore(): DefaultStore<Action, State> {
         ),
         Storage(listOf(Race(RaceId(0), "Human")), "Race"),
     )
+
     return DefaultStore(state, REDUCER, listOf(LogAction()))
 }
 

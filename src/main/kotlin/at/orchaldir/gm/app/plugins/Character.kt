@@ -7,10 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
-import at.orchaldir.gm.core.selector.getInventedLanguages
-import at.orchaldir.gm.core.selector.getPersonalityTraitGroups
-import at.orchaldir.gm.core.selector.getPersonalityTraits
-import at.orchaldir.gm.core.selector.getPossibleLanguages
+import at.orchaldir.gm.core.selector.*
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -181,6 +178,8 @@ private fun HTML.showCharacterDetails(
     val editLink = call.application.href(Characters.Edit(character.id))
     val editLanguagesLink = call.application.href(Characters.Languages.Edit(character.id))
     val inventedLanguages = state.getInventedLanguages(character.id)
+    val parents = state.getParents(character.id)
+    val children = state.getChildren(character.id)
 
     simpleHtml("Character: ${character.name}") {
         field("Id", character.id.value.toString())
@@ -191,6 +190,20 @@ private fun HTML.showCharacterDetails(
         if (character.culture != null) {
             field("Culture") {
                 link(call, state, character.culture)
+            }
+        }
+        if (parents.isNotEmpty()) {
+            field("Parents") {
+                showList(parents) { parent ->
+                    link(call, parent)
+                }
+            }
+        }
+        if (children.isNotEmpty()) {
+            field("Children") {
+                showList(children) { child ->
+                    link(call, child)
+                }
             }
         }
         if (character.personality.isNotEmpty()) {
