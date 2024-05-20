@@ -77,7 +77,7 @@ class CharacterTest {
         }
 
         @Nested
-        inner class UpdateTest {
+        inner class BornTest {
             private val UNKNOWN = CharacterId(3)
 
             private val state = State(
