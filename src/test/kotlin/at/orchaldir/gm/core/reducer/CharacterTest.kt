@@ -112,11 +112,26 @@ class CharacterTest {
             }
 
             @Test
+            fun `Mother is not female`() {
+                val action = UpdateCharacter(Character(ID0, origin = Born(ID1, ID1)))
+
+                assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+            }
+
+            @Test
             fun `Unknown father`() {
                 val action = UpdateCharacter(Character(ID0, origin = Born(ID2, UNKNOWN)))
 
                 assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
             }
+
+            @Test
+            fun `Father is not male`() {
+                val action = UpdateCharacter(Character(ID0, origin = Born(ID2, ID2)))
+
+                assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+            }
+
         }
 
         @Test

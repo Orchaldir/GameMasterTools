@@ -4,8 +4,7 @@ import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Born
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.language.EvolvedLanguage
-import at.orchaldir.gm.core.model.language.InventedLanguage
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.selector.getInventedLanguages
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -47,8 +46,10 @@ private fun checkOrigin(
 ) {
     when (val origin = character.origin) {
         is Born -> {
-            require(state.characters.contains(origin.mother)) { "Cannot use an unknown mother ${origin.mother.value}" }
-            require(state.characters.contains(origin.father)) { "Cannot use an unknown father ${origin.father.value}" }
+            require(state.characters.contains(origin.mother)) { "Cannot use an unknown mother ${origin.mother.value}!" }
+            require(state.characters.getOrThrow(origin.mother).gender == Gender.Female) { "Mother ${origin.mother.value} is not female!" }
+            require(state.characters.contains(origin.father)) { "Cannot use an unknown father ${origin.father.value}!" }
+            require(state.characters.getOrThrow(origin.father).gender == Gender.Male) { "Father ${origin.father.value} is not male!" }
         }
 
         else -> doNothing()
