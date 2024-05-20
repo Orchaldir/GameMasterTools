@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -294,6 +295,39 @@ private fun HTML.showCharacterEditor(
                         }
                     }
                 }
+            }
+            field("Origin") {
+                select {
+                    id = "origin"
+                    name = "origin"
+                    //onChange = "updateEditor();"
+                    option {
+                        label = "Born"
+                        value = "Born"
+                        selected = character.origin is Born
+                    }
+                    option {
+                        label = "Undefined"
+                        value = "Undefined"
+                        selected = character.origin is UndefinedOrigin
+                    }
+                }
+            }
+            when (character.origin) {
+                is Born -> {
+                    selectEnum("Father", "father", state.getPossibleFathers(character.id)) { c ->
+                        label = c.name
+                        value = c.id.value.toString()
+                        selected = character.origin.father == c.id
+                    }
+                    selectEnum("Mother", "mother", state.getPossibleMothers(character.id)) { c ->
+                        label = c.name
+                        value = c.id.value.toString()
+                        selected = character.origin.mother == c.id
+                    }
+                }
+
+                else -> doNothing()
             }
             field("Personality") {
                 state.getPersonalityTraitGroups().forEach { group ->

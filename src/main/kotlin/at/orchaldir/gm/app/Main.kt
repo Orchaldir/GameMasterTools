@@ -47,12 +47,14 @@ fun initStore(): DefaultStore<Action, State> {
     var t = 0
 
     val id0 = CharacterId(0)
+    val id1 = CharacterId(1)
     val state = State(
         Storage(
             listOf(
-                Character(id0),
-                Character(CharacterId(1), origin = Born(setOf(id0))),
-                Character(CharacterId(2), origin = Born(setOf(id0))),
+                Character(id0, gender = Gender.Male),
+                Character(id1, gender = Gender.Female),
+                Character(CharacterId(2), origin = Born(id1, id0)),
+                Character(CharacterId(3), origin = Born(id1, id0)),
             ), "Character"
         ),
         Storage(CultureId(0), "Culture"),

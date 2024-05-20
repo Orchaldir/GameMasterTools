@@ -18,14 +18,22 @@ fun State.getParents(id: CharacterId): List<Character> {
     val character = characters.get(id) ?: return listOf()
 
     return when (character.origin) {
-        is Born -> character.origin.parents.map { characters.getOrThrow(it) }
+        is Born -> listOf(character.origin.father, character.origin.mother).map { characters.getOrThrow(it) }
         else -> listOf()
     }
 }
 
+fun State.getPossibleFathers(id: CharacterId) = characters.getAll()
+    .filter { it.gender == Gender.Male }
+    .filter { it.id != id }
+
+fun State.getPossibleMothers(id: CharacterId) = characters.getAll()
+    .filter { it.gender == Gender.Female }
+    .filter { it.id != id }
+
 fun State.getChildren(id: CharacterId) = characters.getAll().filter {
     when (it.origin) {
-        is Born -> it.origin.parents.contains(id)
+        is Born -> it.origin.isParent(id)
         else -> false
     }
 }
