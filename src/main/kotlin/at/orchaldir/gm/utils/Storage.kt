@@ -11,8 +11,8 @@ interface Element<ID> {
 }
 
 data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
-    val name: String,
-    val elements: Map<ID, ELEMENT>,
+    private val name: String,
+    private val elements: Map<ID, ELEMENT>,
     val nextId: ID,
     val lastId: ID = nextId,
 ) {

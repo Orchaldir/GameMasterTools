@@ -5,7 +5,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Born
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getInventedLanguages
+import at.orchaldir.gm.core.selector.getParents
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -20,7 +22,11 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
     state.characters.require(action.id)
 
     val invented = state.getInventedLanguages(action.id)
-    require(invented.isEmpty()) { "Cannot delete a character ${action.id.value}, because he is an language inventor" }
+    require(invented.isEmpty()) { "Cannot delete character ${action.id.value}, because he is an language inventor" }
+    val parents = state.getParents(action.id)
+    require(parents.isEmpty()) { "Cannot delete character ${action.id.value}, because he has parents" }
+    val children = state.getChildren(action.id)
+    require(children.isEmpty()) { "Cannot delete character ${action.id.value}, because he has children" }
 
     noFollowUps(state.copy(characters = state.characters.remove(action.id)))
 }

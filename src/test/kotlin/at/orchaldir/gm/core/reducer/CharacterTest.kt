@@ -32,10 +32,12 @@ class CharacterTest {
         private val action = DeleteCharacter(ID0)
 
         @Test
-        fun `Can delete an existing language`() {
-            val state = CREATE_CHARACTER.invoke(State(), CreateCharacter).first
+        fun `Can delete an existing character`() {
+            val state = State(
+                characters = Storage(listOf(Character(ID0))),
+            )
 
-            assertTrue(DELETE_CHARACTER.invoke(state, action).first.languages.elements.isEmpty())
+            assertEquals(0, DELETE_CHARACTER.invoke(state, action).first.characters.getSize())
         }
 
         @Test
@@ -47,6 +49,35 @@ class CharacterTest {
             )
 
             assertFailsWith<IllegalArgumentException> { DELETE_CHARACTER.invoke(state, action) }
+        }
+
+        @Nested
+        inner class DeleteFamilyMemberTest {
+
+            val state = State(
+                characters = Storage(
+                    listOf(
+                        Character(ID0, origin = Born(ID1, ID2)),
+                        Character(ID1),
+                        Character(ID2)
+                    )
+                ),
+            )
+
+            @Test
+            fun `Cannot delete a character with parents`() {
+                assertFailsWith<IllegalArgumentException> { DELETE_CHARACTER.invoke(state, DeleteCharacter(ID0)) }
+            }
+
+            @Test
+            fun `Cannot delete a father`() {
+                assertFailsWith<IllegalArgumentException> { DELETE_CHARACTER.invoke(state, DeleteCharacter(ID2)) }
+            }
+
+            @Test
+            fun `Cannot delete a mother`() {
+                assertFailsWith<IllegalArgumentException> { DELETE_CHARACTER.invoke(state, DeleteCharacter(ID1)) }
+            }
         }
 
         @Test
