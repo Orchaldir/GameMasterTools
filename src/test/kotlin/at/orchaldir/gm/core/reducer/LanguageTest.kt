@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertTrue
 
 private val ID0 = LanguageId(0)
 private val ID1 = LanguageId(1)
@@ -29,7 +28,7 @@ class LanguageTest {
             val state = CREATE_LANGUAGE.invoke(State(), CreateLanguage).first
             val action = DeleteLanguage(ID0)
 
-            assertTrue(DELETE_LANGUAGE.invoke(state, action).first.languages.elements.isEmpty())
+            assertEquals(0, DELETE_LANGUAGE.invoke(state, action).first.languages.getSize())
         }
 
         @Test
