@@ -123,6 +123,7 @@ class CharacterTest {
                     UndefinedCharacterOrigin,
                     null,
                     setOf(PERSONALITY0),
+                    mapOf(),
                     LANGUAGES
                 ),
                 result.characters.getOrThrow(ID0)
