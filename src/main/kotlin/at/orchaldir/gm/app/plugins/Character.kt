@@ -216,10 +216,6 @@ private fun HTML.showCharacterDetails(
     val deleteLink = call.application.href(Characters.Delete(character.id))
     val editLink = call.application.href(Characters.Edit(character.id))
     val editLanguagesLink = call.application.href(Characters.Languages.Edit(character.id))
-    val inventedLanguages = state.getInventedLanguages(character.id)
-    val parents = state.getParents(character.id)
-    val children = state.getChildren(character.id)
-    val siblings = state.getSiblings(character.id)
 
     simpleHtml("Character: ${character.name}") {
         field("Id", character.id.value.toString())
@@ -227,32 +223,15 @@ private fun HTML.showCharacterDetails(
             link(call, state, character.race)
         }
         field("Gender", character.gender.toString())
+
         if (character.culture != null) {
             field("Culture") {
                 link(call, state, character.culture)
             }
         }
-        if (parents.isNotEmpty()) {
-            field("Parents") {
-                showList(parents) { parent ->
-                    link(call, parent)
-                }
-            }
-        }
-        if (children.isNotEmpty()) {
-            field("Children") {
-                showList(children) { child ->
-                    link(call, child)
-                }
-            }
-        }
-        if (siblings.isNotEmpty()) {
-            field("Siblings") {
-                showList(siblings) { sibling ->
-                    link(call, sibling)
-                }
-            }
-        }
+
+        showFamily(call, state, character)
+
         if (character.personality.isNotEmpty()) {
             field("Personality") {
                 showList(character.personality) { t ->
@@ -260,27 +239,72 @@ private fun HTML.showCharacterDetails(
                 }
             }
         }
-        if (character.languages.isNotEmpty()) {
-            field("Known Languages") {
-                showMap(character.languages) { id, level ->
-                    link(call, state, id)
-                    +": $level"
-                }
-            }
-        }
-        if (inventedLanguages.isNotEmpty()) {
-            field("Invented Languages") {
-                showList(inventedLanguages) { language ->
-                    link(call, language)
-                }
-            }
-        }
+
+        showLanguages(call, state, character)
+
         p { a(editLink) { +"Edit" } }
         p { a(editLanguagesLink) { +"Edit Languages" } }
         if (state.canDelete(character.id)) {
             p { a(deleteLink) { +"Delete" } }
         }
         p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun BODY.showFamily(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    val parents = state.getParents(character.id)
+    val children = state.getChildren(character.id)
+    val siblings = state.getSiblings(character.id)
+
+    if (parents.isNotEmpty()) {
+        field("Parents") {
+            showList(parents) { parent ->
+                link(call, parent)
+            }
+        }
+    }
+    if (children.isNotEmpty()) {
+        field("Children") {
+            showList(children) { child ->
+                link(call, child)
+            }
+        }
+    }
+    if (siblings.isNotEmpty()) {
+        field("Siblings") {
+            showList(siblings) { sibling ->
+                link(call, sibling)
+            }
+        }
+    }
+}
+
+private fun BODY.showLanguages(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    val inventedLanguages = state.getInventedLanguages(character.id)
+
+    if (character.languages.isNotEmpty()) {
+        field("Known Languages") {
+            showMap(character.languages) { id, level ->
+                link(call, state, id)
+                +": $level"
+            }
+        }
+    }
+
+    if (inventedLanguages.isNotEmpty()) {
+        field("Invented Languages") {
+            showList(inventedLanguages) { language ->
+                link(call, language)
+            }
+        }
     }
 }
 
