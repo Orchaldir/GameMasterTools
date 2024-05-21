@@ -240,6 +240,15 @@ private fun HTML.showCharacterDetails(
             }
         }
 
+        if (character.relationships.isNotEmpty()) {
+            field("Relationships") {
+                showMap(character.relationships) { other, relationships ->
+                    link(call, state, other)
+                    +": ${relationships.joinToString { it.toString() }}"
+                }
+            }
+        }
+
         showLanguages(call, state, character)
 
         p { a(editLink) { +"Edit" } }

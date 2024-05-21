@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.InterpersonalRelationship.Friend
+import at.orchaldir.gm.core.model.character.InterpersonalRelationship.Rival
 import at.orchaldir.gm.core.model.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
@@ -56,7 +57,7 @@ fun initStore(): DefaultStore<Action, State> {
                 Character(id0, gender = Gender.Male),
                 Character(id1, gender = Gender.Female),
                 Character(id2, origin = Born(id1, id0)),
-                Character(CharacterId(3), relationships = mapOf(id2 to setOf(Friend))),
+                Character(CharacterId(3), relationships = mapOf(id2 to setOf(Friend, Rival))),
             ), "Character"
         ),
         Storage(CultureId(0), "Culture"),
