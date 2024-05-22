@@ -172,6 +172,22 @@ fun Application.configureCharacterRouting() {
                 showRelationshipEditor(call, state, character)
             }
         }
+        post<Characters.Relationships.Update> { update ->
+            logger.info { "Update character ${update.id.value}'s relationships" }
+
+            val formParameters = call.receiveParameters()
+            val otherParam = formParameters["other"]
+
+            if (!otherParam.isNullOrEmpty()) {
+                val other = CharacterId(otherParam.toInt())
+                val relationship = InterpersonalRelationship
+                    .valueOf(formParameters.getOrFail("relationship"))
+
+                STORE.dispatch(AddRelationship(update.id, other, relationship))
+            }
+
+            call.respondRedirect(href(call, update.id))
+        }
     }
 }
 
@@ -538,7 +554,7 @@ private fun HTML.showRelationshipEditor(
     character: Character,
 ) {
     val backLink = href(call, character.id)
-    val updateLink = call.application.href(Characters.Languages.Update(character.id))
+    val updateLink = call.application.href(Characters.Relationships.Update(character.id))
 
     simpleHtml("Edit Relationships: ${character.name}") {
         form {
