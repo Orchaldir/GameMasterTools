@@ -12,6 +12,8 @@ data object CreateCharacter : Action()
 data class DeleteCharacter(val id: CharacterId) : Action()
 data class UpdateCharacter(val character: Character) : Action()
 
+// character's languages actions
+
 data class AddLanguage(
     val id: CharacterId,
     val language: LanguageId,

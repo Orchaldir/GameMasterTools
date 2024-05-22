@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.reducer.character.*
 import at.orchaldir.gm.utils.redux.Reducer
 
 val REDUCER: Reducer<Action, State> = { state, action ->
@@ -10,6 +11,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateCharacter -> CREATE_CHARACTER(state, action)
         is DeleteCharacter -> DELETE_CHARACTER(state, action)
         is UpdateCharacter -> UPDATE_CHARACTER(state, action)
+        // character's languages actions
         is AddLanguage -> ADD_LANGUAGE(state, action)
         is RemoveLanguages -> REMOVE_LANGUAGES(state, action)
         // culture actions
