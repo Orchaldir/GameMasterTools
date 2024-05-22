@@ -575,9 +575,21 @@ private fun HTML.showRelationshipEditor(
                     }
                 }
             }
-            selectEnum("Relationship", "relationship", InterpersonalRelationship.entries) { level ->
+            selectEnum("Relationship to Add", "relationship", InterpersonalRelationship.entries) { level ->
                 label = level.toString()
                 value = level.toString()
+            }
+            field("Relationships to Remove") {
+                showMap(character.relationships) { otherId, relationships ->
+                    link(call, state, otherId)
+                    showList(relationships) { relationship ->
+                        checkBoxInput {
+                            name = "remove"
+                            value = "${otherId.value}_$relationship"
+                            +relationship.toString()
+                        }
+                    }
+                }
             }
             p {
                 submitInput {
