@@ -186,6 +186,19 @@ fun Application.configureCharacterRouting() {
                 STORE.dispatch(AddRelationship(update.id, other, relationship))
             }
 
+            val removeList = mutableMapOf<CharacterId, Set<InterpersonalRelationship>>()
+            formParameters.getAll("remove")?.forEach {
+                val parts = it.split('_')
+                val other = CharacterId(parts[0].toInt())
+                val relationship = InterpersonalRelationship.valueOf(parts[1])
+                val set = removeList[other] ?: setOf()
+                removeList[other] = set + relationship
+            }
+
+            if (removeList.isNotEmpty()) {
+                STORE.dispatch(RemoveRelationships(update.id, removeList))
+            }
+
             call.respondRedirect(href(call, update.id))
         }
     }
