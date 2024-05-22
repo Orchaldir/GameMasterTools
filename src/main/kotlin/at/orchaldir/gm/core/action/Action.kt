@@ -25,6 +25,19 @@ data class RemoveLanguages(
     val languages: Set<LanguageId>,
 ) : Action()
 
+// character's relationship actions
+
+data class AddRelationship(
+    val id: CharacterId,
+    val other: CharacterId,
+    val relationship: InterpersonalRelationship,
+) : Action()
+
+data class RemoveRelationships(
+    val id: CharacterId,
+    val removed: Map<CharacterId, Set<InterpersonalRelationship>>,
+) : Action()
+
 // culture actions
 data object CreateCulture : Action()
 data class DeleteCulture(val id: CultureId) : Action()
