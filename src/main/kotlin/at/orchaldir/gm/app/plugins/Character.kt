@@ -56,6 +56,16 @@ class Characters {
         @Resource("update")
         class Update(val id: CharacterId, val parent: Languages = Languages())
     }
+
+    @Resource("/relationships")
+    class Relationships(val parent: Characters = Characters()) {
+
+        @Resource("edit")
+        class Edit(val id: CharacterId, val parent: Relationships = Relationships())
+
+        @Resource("update")
+        class Update(val id: CharacterId, val parent: Relationships = Relationships())
+    }
 }
 
 fun Application.configureCharacterRouting() {
@@ -152,6 +162,16 @@ fun Application.configureCharacterRouting() {
 
             call.respondRedirect(href(call, update.id))
         }
+        get<Characters.Relationships.Edit> { edit ->
+            logger.info { "Get editor for character ${edit.id.value}'s relationships" }
+
+            val state = STORE.getState()
+            val character = state.characters.getOrThrow(edit.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showRelationshipEditor(call, state, character)
+            }
+        }
     }
 }
 
@@ -216,6 +236,7 @@ private fun HTML.showCharacterDetails(
     val deleteLink = call.application.href(Characters.Delete(character.id))
     val editLink = call.application.href(Characters.Edit(character.id))
     val editLanguagesLink = call.application.href(Characters.Languages.Edit(character.id))
+    val editRelationshipsLink = call.application.href(Characters.Relationships.Edit(character.id))
 
     simpleHtml("Character: ${character.name}") {
         field("Id", character.id.value.toString())
@@ -253,6 +274,7 @@ private fun HTML.showCharacterDetails(
 
         p { a(editLink) { +"Edit" } }
         p { a(editLanguagesLink) { +"Edit Languages" } }
+        p { a(editRelationshipsLink) { +"Edit Relationships" } }
         if (state.canDelete(character.id)) {
             p { a(deleteLink) { +"Delete" } }
         }
@@ -496,6 +518,50 @@ private fun HTML.showLanguageEditor(
                         }
                     }
                 }
+            }
+            p {
+                submitInput {
+                    value = "Update"
+                    formAction = updateLink
+                    formMethod = InputFormMethod.post
+                }
+            }
+        }
+        p { a(backLink) { +"Back" } }
+    }
+}
+
+
+private fun HTML.showRelationshipEditor(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    val backLink = href(call, character.id)
+    val updateLink = call.application.href(Characters.Languages.Update(character.id))
+
+    simpleHtml("Edit Relationships: ${character.name}") {
+        form {
+            field("Target of Relationship") {
+                select {
+                    id = "other"
+                    name = "other"
+                    option {
+                        label = ""
+                        value = ""
+                        selected = true
+                    }
+                    state.getOthers(character.id).forEach { other ->
+                        option {
+                            label = other.name
+                            value = other.id.value.toString()
+                        }
+                    }
+                }
+            }
+            selectEnum("Relationship", "relationship", InterpersonalRelationship.entries) { level ->
+                label = level.toString()
+                value = level.toString()
             }
             p {
                 submitInput {

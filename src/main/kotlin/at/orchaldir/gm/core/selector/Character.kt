@@ -18,6 +18,8 @@ fun State.getCharacters(trait: PersonalityTraitId) = characters.getAll().filter 
 
 fun State.getCharacters(race: RaceId) = characters.getAll().filter { c -> c.race == race }
 
+fun State.getOthers(id: CharacterId) = characters.getAll().filter { c -> c.id != id }
+
 // get relatives
 
 fun State.getParents(id: CharacterId): List<Character> {

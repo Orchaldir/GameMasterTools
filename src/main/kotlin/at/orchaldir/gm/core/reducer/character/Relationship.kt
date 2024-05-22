@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.reducer.character
 
-import at.orchaldir.gm.core.action.*
+import at.orchaldir.gm.core.action.AddRelationship
+import at.orchaldir.gm.core.action.RemoveRelationships
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.reducer.character
 
-import at.orchaldir.gm.core.action.*
+import at.orchaldir.gm.core.action.AddLanguage
+import at.orchaldir.gm.core.action.RemoveLanguages
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps

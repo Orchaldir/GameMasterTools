@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.reducer.character
 
-import at.orchaldir.gm.core.action.*
+import at.orchaldir.gm.core.action.CreateCharacter
+import at.orchaldir.gm.core.action.DeleteCharacter
+import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Born
 import at.orchaldir.gm.core.model.character.Character
