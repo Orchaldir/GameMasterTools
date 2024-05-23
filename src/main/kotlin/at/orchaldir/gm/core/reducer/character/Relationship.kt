@@ -10,6 +10,8 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val ADD_RELATIONSHIP: Reducer<AddRelationship, State> = { state, action ->
+    require(action.id != action.other) { "Relationships must be between 2 different characters!" }
+
     val character = addRelationship(state, action.id, action.other, action.relationship)
     val other = addRelationship(state, action.other, action.id, action.relationship)
 

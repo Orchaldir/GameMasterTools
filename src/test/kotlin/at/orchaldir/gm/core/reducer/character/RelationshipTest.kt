@@ -46,6 +46,18 @@ class RelationshipTest {
 
             assertFailsWith<IllegalArgumentException> { ADD_RELATIONSHIP.invoke(state, action) }
         }
+
+        @Test
+        fun `Cannot add relationship to the same character`() {
+            val state = State(characters = Storage(listOf(Character(ID0))))
+
+            assertFailsWith<IllegalArgumentException> {
+                ADD_RELATIONSHIP.invoke(
+                    state,
+                    AddRelationship(ID0, ID0, Friend)
+                )
+            }
+        }
     }
 
 }
