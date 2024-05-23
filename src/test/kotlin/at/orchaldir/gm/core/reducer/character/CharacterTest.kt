@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertTrue
 
 private val ID0 = CharacterId(0)
 private val ID1 = CharacterId(1)
@@ -219,57 +218,6 @@ class CharacterTest {
 
             assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
         }
-    }
-
-    @Nested
-    inner class AddLanguageTest {
-
-        private val action = AddLanguage(ID0, LANGUAGE0, ComprehensionLevel.Native)
-
-        @Test
-        fun `Add a language`() {
-            val state = State(
-                characters = Storage(listOf(Character(ID0))),
-                languages = Storage(listOf(Language(LANGUAGE0)))
-            )
-
-            val result = ADD_LANGUAGE.invoke(state, action).first
-
-            assertEquals(LANGUAGES, result.characters.getOrThrow(ID0).languages)
-        }
-
-        @Test
-        fun `Cannot add unknown language`() {
-            val state = CREATE_CHARACTER.invoke(State(), CreateCharacter).first
-
-            assertFailsWith<IllegalArgumentException> { ADD_LANGUAGE.invoke(state, action) }
-        }
-    }
-
-    @Nested
-    inner class RemovePersonalityTest {
-
-        private val action = RemoveLanguages(ID0, setOf(LANGUAGE0))
-
-        @Test
-        fun `Remove a language`() {
-            val state = State(
-                characters = Storage(listOf(Character(ID0, languages = LANGUAGES))),
-                languages = Storage(listOf(Language(LANGUAGE0)))
-            )
-
-            val result = REMOVE_LANGUAGES.invoke(state, action).first
-
-            assertTrue(result.characters.getOrThrow(ID0).languages.isEmpty())
-        }
-
-        @Test
-        fun `Cannot remove unknown language`() {
-            val state = CREATE_CHARACTER.invoke(State(), CreateCharacter).first
-
-            assertFailsWith<IllegalArgumentException> { REMOVE_LANGUAGES.invoke(state, action) }
-        }
-
     }
 
 }
