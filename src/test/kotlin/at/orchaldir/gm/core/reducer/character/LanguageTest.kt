@@ -38,7 +38,7 @@ class LanguageTest {
 
         @Test
         fun `Cannot add unknown language`() {
-            val state = CREATE_CHARACTER.invoke(State(), CreateCharacter).first
+            val state = State(characters = Storage(listOf(Character(ID0))))
 
             assertFailsWith<IllegalArgumentException> { ADD_LANGUAGE.invoke(state, action) }
         }
@@ -63,7 +63,7 @@ class LanguageTest {
 
         @Test
         fun `Cannot remove unknown language`() {
-            val state = CREATE_CHARACTER.invoke(State(), CreateCharacter).first
+            val state = State(characters = Storage(listOf(Character(ID0))))
 
             assertFailsWith<IllegalArgumentException> { REMOVE_LANGUAGES.invoke(state, action) }
         }
