@@ -65,6 +65,8 @@ class RelationshipTest {
     @Nested
     inner class RemoveRelationshipTest {
 
+        private val action = RemoveRelationships(ID0, mapOf(ID1 to setOf(Friend)))
+
         @Test
         fun `Remove a relationship`() {
             val relationships = setOf(Friend, Enemy)
@@ -76,12 +78,43 @@ class RelationshipTest {
                     )
                 )
             )
-            val action = RemoveRelationships(ID0, mapOf(ID1 to setOf(Friend)))
 
             val result = REMOVE_RELATIONSHIPS.invoke(state, action).first
 
             assertEquals(mapOf(ID1 to setOf(Enemy)), result.characters.getOrThrow(ID0).relationships)
             assertEquals(mapOf(ID0 to setOf(Enemy)), result.characters.getOrThrow(ID1).relationships)
+        }
+
+        @Test
+        fun `Remove last relationship`() {
+            val relationships = setOf(Friend)
+            val state = State(
+                characters = Storage(
+                    listOf(
+                        Character(ID0, relationships = mapOf(ID1 to relationships)),
+                        Character(ID1, relationships = mapOf(ID0 to relationships)),
+                    )
+                )
+            )
+
+            val result = REMOVE_RELATIONSHIPS.invoke(state, action).first
+
+            assertEquals(mapOf(), result.characters.getOrThrow(ID0).relationships)
+            assertEquals(mapOf(), result.characters.getOrThrow(ID1).relationships)
+        }
+
+        @Test
+        fun `Cannot remove relationship from unknown character`() {
+            val state = State(characters = Storage(listOf(Character(ID1))))
+
+            assertFailsWith<IllegalArgumentException> { REMOVE_RELATIONSHIPS.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot remove relationship from unknown other`() {
+            val state = State(characters = Storage(listOf(Character(ID0))))
+
+            assertFailsWith<IllegalArgumentException> { REMOVE_RELATIONSHIPS.invoke(state, action) }
         }
     }
 

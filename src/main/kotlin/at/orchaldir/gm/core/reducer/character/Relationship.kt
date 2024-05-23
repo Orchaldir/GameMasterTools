@@ -55,5 +55,9 @@ private fun removeRelationships(
     val relationshipSet = character.relationships[other] ?: return character
     val newRelationshipSet = relationshipSet - relationships
 
+    if (newRelationshipSet.isEmpty()) {
+        return character.copy(relationships = character.relationships - other)
+    }
+
     return character.copy(relationships = character.relationships + mapOf(other to newRelationshipSet))
 }
