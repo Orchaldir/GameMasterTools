@@ -34,9 +34,9 @@ class RelationshipTest {
     @Test
     fun `Update relationships`() {
         val state = createStateWithExistingRelationships(setOf(Friend))
-
         val new = setOf(Friend, Lover)
         val action = UpdateRelationships(ID0, mapOf(ID1 to new))
+
         val result = UPDATE_RELATIONSHIPS.invoke(state, action).first
 
         assertEquals(mapOf(ID1 to new), result.characters.getOrThrow(ID0).relationships)
@@ -46,13 +46,24 @@ class RelationshipTest {
     @Test
     fun `Remove relationships`() {
         val state = createStateWithExistingRelationships(setOf(Friend, Lover))
-
         val new = setOf(Friend)
         val action = UpdateRelationships(ID0, mapOf(ID1 to new))
+
         val result = UPDATE_RELATIONSHIPS.invoke(state, action).first
 
         assertEquals(mapOf(ID1 to new), result.characters.getOrThrow(ID0).relationships)
         assertEquals(mapOf(ID0 to new), result.characters.getOrThrow(ID1).relationships)
+    }
+
+    @Test
+    fun `Update with empty set of relationship`() {
+        val state = createStateWithExistingRelationships(setOf(Friend))
+        val action = UpdateRelationships(ID0, mapOf(ID1 to setOf()))
+
+        val result = UPDATE_RELATIONSHIPS.invoke(state, action).first
+
+        assertEquals(mapOf(), result.characters.getOrThrow(ID0).relationships)
+        assertEquals(mapOf(), result.characters.getOrThrow(ID1).relationships)
     }
 
     @Test
