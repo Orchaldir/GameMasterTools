@@ -1,14 +1,11 @@
 package at.orchaldir.gm.core.reducer
 
-import at.orchaldir.gm.core.action.CreateCharacter
-import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.language.*
-import at.orchaldir.gm.core.reducer.character.CREATE_CHARACTER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -26,7 +23,7 @@ class LanguageTest {
 
         @Test
         fun `Can delete an existing language`() {
-            val state = REDUCER.invoke(State(), CreateLanguage).first
+            val state = State(languages = Storage(listOf(Language(ID0))))
             val action = DeleteLanguage(ID0)
 
             assertEquals(0, REDUCER.invoke(state, action).first.languages.getSize())
@@ -69,7 +66,7 @@ class LanguageTest {
 
         @Test
         fun `Inventor must exist`() {
-            val state = REDUCER.invoke(State(), CreateLanguage).first
+            val state = State(languages = Storage(listOf(Language(ID0))))
             val origin = InventedLanguage(CHARACTER0)
             val action = UpdateLanguage(Language(ID0, origin = origin))
 
@@ -78,18 +75,20 @@ class LanguageTest {
 
         @Test
         fun `Inventor exists`() {
-            val state0 = CREATE_CHARACTER.invoke(State(), CreateCharacter).first
-            val state1 = REDUCER.invoke(state0, CreateLanguage).first
+            val state = State(
+                characters = Storage(listOf(Character(CHARACTER0))),
+                languages = Storage(listOf(Language(ID0)))
+            )
             val origin = InventedLanguage(CHARACTER0)
             val language = Language(ID0, origin = origin)
             val action = UpdateLanguage(language)
 
-            assertEquals(language, REDUCER.invoke(state1, action).first.languages.get(ID0))
+            assertEquals(language, REDUCER.invoke(state, action).first.languages.get(ID0))
         }
 
         @Test
         fun `Parent language must exist`() {
-            val state = REDUCER.invoke(State(), CreateLanguage).first
+            val state = State(languages = Storage(listOf(Language(ID0))))
             val origin = EvolvedLanguage(ID1)
             val action = UpdateLanguage(Language(ID0, origin = origin))
 
@@ -98,7 +97,7 @@ class LanguageTest {
 
         @Test
         fun `A language cannot be its own parent`() {
-            val state = REDUCER.invoke(State(), CreateLanguage).first
+            val state = State(languages = Storage(listOf(Language(ID0))))
             val action = UpdateLanguage(Language(ID0, origin = EvolvedLanguage(ID0)))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -106,12 +105,11 @@ class LanguageTest {
 
         @Test
         fun `Parent language exist`() {
-            val state0 = REDUCER.invoke(State(), CreateLanguage).first
-            val state1 = REDUCER.invoke(state0, CreateLanguage).first
+            val state = State(languages = Storage(listOf(Language(ID0), Language(ID1))))
             val language = Language(ID0, origin = EvolvedLanguage(ID1))
             val action = UpdateLanguage(language)
 
-            assertEquals(language, REDUCER.invoke(state1, action).first.languages.get(ID0))
+            assertEquals(language, REDUCER.invoke(state, action).first.languages.get(ID0))
         }
     }
 
