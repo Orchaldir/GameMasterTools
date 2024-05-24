@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.action
 
-import at.orchaldir.gm.app.plugins.Characters
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language

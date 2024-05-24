@@ -54,3 +54,9 @@ fun State.getSiblings(id: CharacterId): Set<Character> {
 
     return siblings
 }
+
+// relationships
+
+fun State.getOthersWithoutRelationship(character: Character) = characters.getAll()
+    .filter { c -> c.id != character.id }
+    .filter { c -> !character.relationships.containsKey(c.id) }

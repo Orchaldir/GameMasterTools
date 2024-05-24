@@ -177,8 +177,8 @@ fun Application.configureCharacterRouting() {
                 showRelationshipEditor(call, state, character)
             }
         }
-        get<Characters.Relationships.Preview> { edit ->
-            logger.info { "Get editor for character ${edit.id.value}'s relationships" }
+        post<Characters.Relationships.Preview> { edit ->
+            logger.info { "Get preview for character ${edit.id.value}'s relationships" }
 
             val state = STORE.getState()
             val character = state.characters.getOrThrow(edit.id)
@@ -604,7 +604,7 @@ private fun HTML.showRelationshipEditor(
                         value = ""
                         selected = true
                     }
-                    state.getOthers(character.id).forEach { other ->
+                    state.getOthersWithoutRelationship(character).forEach { other ->
                         option {
                             label = other.name
                             value = other.id.value.toString()
