@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.InterpersonalRelationship
 import at.orchaldir.gm.core.model.character.InterpersonalRelationship.Friend
 import at.orchaldir.gm.core.model.character.InterpersonalRelationship.Lover
+import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -25,7 +26,7 @@ class RelationshipTest {
             characters = Storage(listOf(Character(ID0), Character(ID1))),
         )
 
-        val result = UPDATE_RELATIONSHIPS.invoke(state, action).first
+        val result = REDUCER.invoke(state, action).first
 
         assertEquals(mapOf(ID1 to setOf(Friend)), result.characters.getOrThrow(ID0).relationships)
         assertEquals(mapOf(ID0 to setOf(Friend)), result.characters.getOrThrow(ID1).relationships)
@@ -37,7 +38,7 @@ class RelationshipTest {
         val new = setOf(Friend, Lover)
         val action = UpdateRelationships(ID0, mapOf(ID1 to new))
 
-        val result = UPDATE_RELATIONSHIPS.invoke(state, action).first
+        val result = REDUCER.invoke(state, action).first
 
         assertEquals(mapOf(ID1 to new), result.characters.getOrThrow(ID0).relationships)
         assertEquals(mapOf(ID0 to new), result.characters.getOrThrow(ID1).relationships)
@@ -49,7 +50,7 @@ class RelationshipTest {
         val new = setOf(Friend)
         val action = UpdateRelationships(ID0, mapOf(ID1 to new))
 
-        val result = UPDATE_RELATIONSHIPS.invoke(state, action).first
+        val result = REDUCER.invoke(state, action).first
 
         assertEquals(mapOf(ID1 to new), result.characters.getOrThrow(ID0).relationships)
         assertEquals(mapOf(ID0 to new), result.characters.getOrThrow(ID1).relationships)
@@ -60,7 +61,7 @@ class RelationshipTest {
         val state = createStateWithExistingRelationships(setOf(Friend))
         val action = UpdateRelationships(ID0, mapOf(ID1 to setOf()))
 
-        val result = UPDATE_RELATIONSHIPS.invoke(state, action).first
+        val result = REDUCER.invoke(state, action).first
 
         assertEquals(mapOf(), result.characters.getOrThrow(ID0).relationships)
         assertEquals(mapOf(), result.characters.getOrThrow(ID1).relationships)
@@ -71,7 +72,7 @@ class RelationshipTest {
         val state = createStateWithExistingRelationships(setOf(Friend))
         val action = UpdateRelationships(ID0, mapOf())
 
-        val result = UPDATE_RELATIONSHIPS.invoke(state, action).first
+        val result = REDUCER.invoke(state, action).first
 
         assertEquals(mapOf(), result.characters.getOrThrow(ID0).relationships)
         assertEquals(mapOf(), result.characters.getOrThrow(ID1).relationships)
@@ -81,14 +82,14 @@ class RelationshipTest {
     fun `Cannot add relationship to unknown character`() {
         val state = State(characters = Storage(listOf(Character(ID1))))
 
-        assertFailsWith<IllegalArgumentException> { UPDATE_RELATIONSHIPS.invoke(state, action) }
+        assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
     }
 
     @Test
     fun `Cannot add relationship to unknown other`() {
         val state = State(characters = Storage(listOf(Character(ID0))))
 
-        assertFailsWith<IllegalArgumentException> { UPDATE_RELATIONSHIPS.invoke(state, action) }
+        assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
     }
 
     @Test
@@ -96,7 +97,7 @@ class RelationshipTest {
         val state = State(characters = Storage(listOf(Character(ID0))))
 
         assertFailsWith<IllegalArgumentException> {
-            UPDATE_RELATIONSHIPS.invoke(
+            REDUCER.invoke(
                 state,
                 UpdateRelationships(ID0, mapOf(ID0 to setOf(Friend)))
             )

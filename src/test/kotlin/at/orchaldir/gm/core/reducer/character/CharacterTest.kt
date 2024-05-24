@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -33,7 +34,7 @@ class CharacterTest {
         val character1 = Character(ID1)
         val state = State(characters = Storage(listOf(character0)))
 
-        val characters = CREATE_CHARACTER.invoke(state, CreateCharacter).first.characters
+        val characters = REDUCER.invoke(state, CreateCharacter).first.characters
 
         assertEquals(2, characters.getSize())
         assertEquals(character0, characters.getOrThrow(ID0))
@@ -51,7 +52,7 @@ class CharacterTest {
                 characters = Storage(listOf(Character(ID0))),
             )
 
-            assertEquals(0, DELETE_CHARACTER.invoke(state, action).first.characters.getSize())
+            assertEquals(0, REDUCER.invoke(state, action).first.characters.getSize())
         }
 
         @Test
@@ -62,7 +63,7 @@ class CharacterTest {
                 languages = Storage(listOf(Language(LANGUAGE0, origin = origin)))
             )
 
-            assertFailsWith<IllegalArgumentException> { DELETE_CHARACTER.invoke(state, action) }
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
 
         @Nested
@@ -80,23 +81,23 @@ class CharacterTest {
 
             @Test
             fun `Cannot delete a character with parents`() {
-                assertFailsWith<IllegalArgumentException> { DELETE_CHARACTER.invoke(state, DeleteCharacter(ID0)) }
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, DeleteCharacter(ID0)) }
             }
 
             @Test
             fun `Cannot delete a father`() {
-                assertFailsWith<IllegalArgumentException> { DELETE_CHARACTER.invoke(state, DeleteCharacter(ID2)) }
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, DeleteCharacter(ID2)) }
             }
 
             @Test
             fun `Cannot delete a mother`() {
-                assertFailsWith<IllegalArgumentException> { DELETE_CHARACTER.invoke(state, DeleteCharacter(ID1)) }
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, DeleteCharacter(ID1)) }
             }
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            assertFailsWith<IllegalArgumentException> { DELETE_CHARACTER.invoke(State(), action) }
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
     }
 
@@ -113,7 +114,7 @@ class CharacterTest {
             )
             val action = UpdateCharacter(Character(ID0, "Test", RACE1, Gender.Male, personality = setOf(PERSONALITY0)))
 
-            val result = UPDATE_CHARACTER.invoke(state, action).first
+            val result = REDUCER.invoke(state, action).first
 
             assertEquals(
                 Character(
@@ -151,7 +152,7 @@ class CharacterTest {
                 val character = Character(ID0, origin = Born(ID2, ID1))
                 val action = UpdateCharacter(character)
 
-                val result = UPDATE_CHARACTER.invoke(state, action).first
+                val result = REDUCER.invoke(state, action).first
 
                 assertEquals(
                     character,
@@ -163,28 +164,28 @@ class CharacterTest {
             fun `Unknown mother`() {
                 val action = UpdateCharacter(Character(ID0, origin = Born(UNKNOWN, ID1)))
 
-                assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
             }
 
             @Test
             fun `Mother is not female`() {
                 val action = UpdateCharacter(Character(ID0, origin = Born(ID1, ID1)))
 
-                assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
             }
 
             @Test
             fun `Unknown father`() {
                 val action = UpdateCharacter(Character(ID0, origin = Born(ID2, UNKNOWN)))
 
-                assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
             }
 
             @Test
             fun `Father is not male`() {
                 val action = UpdateCharacter(Character(ID0, origin = Born(ID2, ID2)))
 
-                assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
             }
 
         }
@@ -194,7 +195,7 @@ class CharacterTest {
             val state = State(races = Storage(listOf(Race(RACE0))))
             val action = UpdateCharacter(Character(ID0))
 
-            assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -202,7 +203,7 @@ class CharacterTest {
             val state = State(characters = Storage(listOf(Character(ID0))), races = Storage(listOf(Race(RACE0))))
             val action = UpdateCharacter(Character(ID0, culture = CULTURE0))
 
-            assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -210,7 +211,7 @@ class CharacterTest {
             val state = State(characters = Storage(listOf(Character(ID0))), races = Storage(listOf(Race(RACE0))))
             val action = UpdateCharacter(Character(ID0, personality = setOf(PERSONALITY0)))
 
-            assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -218,7 +219,7 @@ class CharacterTest {
             val state = State(characters = Storage(listOf(Character(ID0))))
             val action = UpdateCharacter(Character(ID0, race = RACE0))
 
-            assertFailsWith<IllegalArgumentException> { UPDATE_CHARACTER.invoke(state, action) }
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
     }
 
