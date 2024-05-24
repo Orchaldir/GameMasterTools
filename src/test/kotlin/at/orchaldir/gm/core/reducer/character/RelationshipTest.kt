@@ -67,6 +67,17 @@ class RelationshipTest {
     }
 
     @Test
+    fun `Remove last relationship`() {
+        val state = createStateWithExistingRelationships(setOf(Friend))
+        val action = UpdateRelationships(ID0, mapOf())
+
+        val result = UPDATE_RELATIONSHIPS.invoke(state, action).first
+
+        assertEquals(mapOf(), result.characters.getOrThrow(ID0).relationships)
+        assertEquals(mapOf(), result.characters.getOrThrow(ID1).relationships)
+    }
+
+    @Test
     fun `Cannot add relationship to unknown character`() {
         val state = State(characters = Storage(listOf(Character(ID1))))
 

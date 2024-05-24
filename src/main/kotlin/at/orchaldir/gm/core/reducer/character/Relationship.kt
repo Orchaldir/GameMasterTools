@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.redux.noFollowUps
 
 val UPDATE_RELATIONSHIPS: Reducer<UpdateRelationships, State> = { state, action ->
     var character = state.characters.getOrThrow(action.id)
+    val removedOthers = character.relationships.keys - action.relationships.keys
     val updated = mutableListOf<Character>()
 
     action.relationships.forEach { (otherId, relationships) ->
@@ -18,6 +19,13 @@ val UPDATE_RELATIONSHIPS: Reducer<UpdateRelationships, State> = { state, action 
 
         val other = state.characters.getOrThrow(otherId)
         updated.add(updateRelationships(other, character.id, relationships))
+    }
+
+    removedOthers.forEach { otherId ->
+        character = updateRelationships(character, otherId, setOf())
+
+        val other = state.characters.getOrThrow(otherId)
+        updated.add(updateRelationships(other, character.id, setOf()))
     }
 
     updated.add(character)
