@@ -38,10 +38,10 @@ class CharacterTest {
 
     @Test
     fun `Get others`() {
-        assertEquals(setOf(FATHER, MOTHER, SON), FAMILY_STATE.getOthers(DAUGHTER_ID).toSet())
-        assertEquals(setOf(FATHER, DAUGHTER, SON), FAMILY_STATE.getOthers(MOTHER_ID).toSet())
-        assertEquals(setOf(DAUGHTER, MOTHER, SON), FAMILY_STATE.getOthers(FATHER_ID).toSet())
-        assertEquals(setOf(FATHER, DAUGHTER, MOTHER), FAMILY_STATE.getOthers(SON_ID).toSet())
+        assertOthers(DAUGHTER_ID, setOf(FATHER, MOTHER, SON))
+        assertOthers(MOTHER_ID, setOf(FATHER, DAUGHTER, SON))
+        assertOthers(FATHER_ID, setOf(DAUGHTER, MOTHER, SON))
+        assertOthers(SON_ID, setOf(FATHER, DAUGHTER, MOTHER))
     }
 
     @Nested
@@ -86,26 +86,42 @@ class CharacterTest {
 
         @Test
         fun `Get possible fathers`() {
-            assertEquals(setOf(SON, FATHER), FAMILY_STATE.getPossibleFathers(DAUGHTER_ID).toSet())
-            assertEquals(setOf(FATHER), FAMILY_STATE.getPossibleFathers(SON_ID).toSet())
-            assertEquals(setOf(SON), FAMILY_STATE.getPossibleFathers(FATHER_ID).toSet())
-            assertEquals(setOf(FATHER, SON), FAMILY_STATE.getPossibleFathers(MOTHER_ID).toSet())
+            assertPossibleFathers(DAUGHTER_ID, setOf(SON, FATHER))
+            assertPossibleFathers(SON_ID, setOf(FATHER))
+            assertPossibleFathers(FATHER_ID, setOf(SON))
+            assertPossibleFathers(MOTHER_ID, setOf(FATHER, SON))
         }
 
         @Test
         fun `Get possible mothers`() {
-            assertEquals(setOf(MOTHER), FAMILY_STATE.getPossibleMothers(DAUGHTER_ID).toSet())
-            assertEquals(setOf(DAUGHTER, MOTHER), FAMILY_STATE.getPossibleMothers(SON_ID).toSet())
-            assertEquals(setOf(DAUGHTER, MOTHER), FAMILY_STATE.getPossibleMothers(FATHER_ID).toSet())
-            assertEquals(setOf(DAUGHTER), FAMILY_STATE.getPossibleMothers(MOTHER_ID).toSet())
+            assertPossibleMothers(DAUGHTER_ID, setOf(MOTHER))
+            assertPossibleMothers(SON_ID, setOf(DAUGHTER, MOTHER))
+            assertPossibleMothers(FATHER_ID, setOf(DAUGHTER, MOTHER))
+            assertPossibleMothers(MOTHER_ID, setOf(DAUGHTER))
+        }
+
+        private fun assertPossibleFathers(id: CharacterId, others: Set<Character>) {
+            assertEquals(others, FAMILY_STATE.getPossibleFathers(id).toSet())
+        }
+
+        private fun assertPossibleMothers(id: CharacterId, others: Set<Character>) {
+            assertEquals(others, FAMILY_STATE.getPossibleMothers(id).toSet())
         }
     }
 
     @Test
     fun `Get others without relationships`() {
-        assertEquals(setOf(FATHER, MOTHER), FAMILY_STATE.getOthersWithoutRelationship(DAUGHTER).toSet())
-        assertEquals(setOf(FATHER, DAUGHTER, SON), FAMILY_STATE.getOthersWithoutRelationship(MOTHER).toSet())
-        assertEquals(setOf(DAUGHTER, MOTHER, SON), FAMILY_STATE.getOthersWithoutRelationship(FATHER).toSet())
-        assertEquals(setOf(FATHER, DAUGHTER, MOTHER), FAMILY_STATE.getOthersWithoutRelationship(SON).toSet())
+        assertOthersWithoutRelationship(DAUGHTER, setOf(FATHER, MOTHER))
+        assertOthersWithoutRelationship(MOTHER, setOf(FATHER, DAUGHTER, SON))
+        assertOthersWithoutRelationship(FATHER, setOf(DAUGHTER, MOTHER, SON))
+        assertOthersWithoutRelationship(SON, setOf(FATHER, DAUGHTER, MOTHER))
+    }
+
+    private fun assertOthers(id: CharacterId, others: Set<Character>) {
+        assertEquals(others, FAMILY_STATE.getOthers(id).toSet())
+    }
+
+    private fun assertOthersWithoutRelationship(character: Character, others: Set<Character>) {
+        assertEquals(others, FAMILY_STATE.getOthersWithoutRelationship(character).toSet())
     }
 }
