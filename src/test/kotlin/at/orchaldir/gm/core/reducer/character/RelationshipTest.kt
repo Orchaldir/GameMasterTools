@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.UpdateRelationships
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.InterpersonalRelationship
 import at.orchaldir.gm.core.model.character.InterpersonalRelationship.Friend
 import at.orchaldir.gm.core.model.character.InterpersonalRelationship.Lover
 import at.orchaldir.gm.utils.Storage
@@ -32,17 +33,21 @@ class RelationshipTest {
 
     @Test
     fun `Update relationships`() {
-        val relationships = setOf(Friend)
-        val state = State(
-            characters = Storage(
-                listOf(
-                    Character(ID0, relationships = mapOf(ID1 to relationships)),
-                    Character(ID1, relationships = mapOf(ID0 to relationships)),
-                )
-            )
-        )
+        val state = createStateWithExistingRelationships(setOf(Friend))
 
         val new = setOf(Friend, Lover)
+        val action = UpdateRelationships(ID0, mapOf(ID1 to new))
+        val result = UPDATE_RELATIONSHIPS.invoke(state, action).first
+
+        assertEquals(mapOf(ID1 to new), result.characters.getOrThrow(ID0).relationships)
+        assertEquals(mapOf(ID0 to new), result.characters.getOrThrow(ID1).relationships)
+    }
+
+    @Test
+    fun `Remove relationships`() {
+        val state = createStateWithExistingRelationships(setOf(Friend, Lover))
+
+        val new = setOf(Friend)
         val action = UpdateRelationships(ID0, mapOf(ID1 to new))
         val result = UPDATE_RELATIONSHIPS.invoke(state, action).first
 
@@ -74,6 +79,18 @@ class RelationshipTest {
                 UpdateRelationships(ID0, mapOf(ID0 to setOf(Friend)))
             )
         }
+    }
+
+    private fun createStateWithExistingRelationships(relationships: Set<InterpersonalRelationship>): State {
+        val state = State(
+            characters = Storage(
+                listOf(
+                    Character(ID0, relationships = mapOf(ID1 to relationships)),
+                    Character(ID1, relationships = mapOf(ID0 to relationships)),
+                )
+            )
+        )
+        return state
     }
 
 }
