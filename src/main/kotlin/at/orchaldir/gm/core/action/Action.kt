@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.action
 
+import at.orchaldir.gm.app.plugins.Characters
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
@@ -27,15 +28,9 @@ data class RemoveLanguages(
 
 // character's relationship actions
 
-data class AddRelationship(
+data class UpdateRelationships(
     val id: CharacterId,
-    val other: CharacterId,
-    val relationship: InterpersonalRelationship,
-) : Action()
-
-data class RemoveRelationships(
-    val id: CharacterId,
-    val removed: Map<CharacterId, Set<InterpersonalRelationship>>,
+    val relationships: Map<CharacterId, Set<InterpersonalRelationship>>,
 ) : Action()
 
 // culture actions

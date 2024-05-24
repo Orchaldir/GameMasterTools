@@ -228,7 +228,7 @@ private fun HTML.showLanguageEditor(
                 select {
                     id = "origin"
                     name = "origin"
-                    onChange = "updateEditor();"
+                    onChange = ON_CHANGE_SCRIPT
                     option {
                         label = "Evolved"
                         value = "Evolved"

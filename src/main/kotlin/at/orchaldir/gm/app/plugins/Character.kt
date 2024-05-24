@@ -23,6 +23,8 @@ import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
+
+private const val RELATIONSHIP_PARAM = "r"
 private const val GROUP_PREFIX = "group_"
 private const val NONE = "None"
 
@@ -62,6 +64,9 @@ class Characters {
 
         @Resource("edit")
         class Edit(val id: CharacterId, val parent: Relationships = Relationships())
+
+        @Resource("preview")
+        class Preview(val id: CharacterId, val parent: Relationships = Relationships())
 
         @Resource("update")
         class Update(val id: CharacterId, val parent: Relationships = Relationships())
@@ -172,32 +177,34 @@ fun Application.configureCharacterRouting() {
                 showRelationshipEditor(call, state, character)
             }
         }
-        post<Characters.Relationships.Update> { update ->
-            logger.info { "Update character ${update.id.value}'s relationships" }
+        get<Characters.Relationships.Preview> { edit ->
+            logger.info { "Get editor for character ${edit.id.value}'s relationships" }
 
+            val state = STORE.getState()
+            val character = state.characters.getOrThrow(edit.id)
             val formParameters = call.receiveParameters()
+            val relationships = parseRelationships(formParameters)
+
             val otherParam = formParameters["other"]
 
             if (!otherParam.isNullOrEmpty()) {
                 val other = CharacterId(otherParam.toInt())
-                val relationship = InterpersonalRelationship
-                    .valueOf(formParameters.getOrFail("relationship"))
-
-                STORE.dispatch(AddRelationship(update.id, other, relationship))
+                relationships.computeIfAbsent(other) { setOf() }
             }
 
-            val removeList = mutableMapOf<CharacterId, Set<InterpersonalRelationship>>()
-            formParameters.getAll("remove")?.forEach {
-                val parts = it.split('_')
-                val other = CharacterId(parts[0].toInt())
-                val relationship = InterpersonalRelationship.valueOf(parts[1])
-                val set = removeList[other] ?: setOf()
-                removeList[other] = set + relationship
-            }
+            val newCharacter = character.copy(relationships = relationships)
 
-            if (removeList.isNotEmpty()) {
-                STORE.dispatch(RemoveRelationships(update.id, removeList))
+            call.respondHtml(HttpStatusCode.OK) {
+                showRelationshipEditor(call, state, newCharacter)
             }
+        }
+        post<Characters.Relationships.Update> { update ->
+            logger.info { "Update character ${update.id.value}'s relationships" }
+
+            val formParameters = call.receiveParameters()
+            val relationships = parseRelationships(formParameters)
+
+            STORE.dispatch(UpdateRelationships(update.id, relationships))
 
             call.respondRedirect(href(call, update.id))
         }
@@ -239,6 +246,19 @@ private fun parseCharacter(state: State, id: CharacterId, parameters: Parameters
         culture = culture,
         personality = personality
     )
+}
+
+private fun parseRelationships(parameters: Parameters): MutableMap<CharacterId, Set<InterpersonalRelationship>> {
+    val relationships = mutableMapOf<CharacterId, Set<InterpersonalRelationship>>()
+
+    parameters.getAll(RELATIONSHIP_PARAM)?.forEach {
+        val parts = it.split('_')
+        val other = CharacterId(parts[0].toInt())
+        val relationship = InterpersonalRelationship.valueOf(parts[1])
+        val set = relationships[other] ?: setOf()
+        relationships[other] = set + relationship
+    }
+    return relationships
 }
 
 private fun HTML.showAllCharacters(call: ApplicationCall) {
@@ -428,7 +448,7 @@ private fun HTML.showCharacterEditor(
                 select {
                     id = "origin"
                     name = "origin"
-                    onChange = "updateEditor();"
+                    onChange = ON_CHANGE_SCRIPT
                     option {
                         label = "Born"
                         value = "Born"
@@ -560,21 +580,25 @@ private fun HTML.showLanguageEditor(
     }
 }
 
-
 private fun HTML.showRelationshipEditor(
     call: ApplicationCall,
     state: State,
     character: Character,
 ) {
     val backLink = href(call, character.id)
+    val previewLink = call.application.href(Characters.Relationships.Preview(character.id))
     val updateLink = call.application.href(Characters.Relationships.Update(character.id))
 
     simpleHtml("Edit Relationships: ${character.name}") {
         form {
-            field("Target of Relationship") {
+            id = "editor"
+            action = previewLink
+            method = FormMethod.post
+            field("New Target of Relationship") {
                 select {
                     id = "other"
                     name = "other"
+                    onChange = ON_CHANGE_SCRIPT
                     option {
                         label = ""
                         value = ""
@@ -588,17 +612,14 @@ private fun HTML.showRelationshipEditor(
                     }
                 }
             }
-            selectEnum("Relationship to Add", "relationship", InterpersonalRelationship.entries) { level ->
-                label = level.toString()
-                value = level.toString()
-            }
-            field("Relationships to Remove") {
+            field("Relationships") {
                 showMap(character.relationships) { otherId, relationships ->
                     link(call, state, otherId)
-                    showList(relationships) { relationship ->
+                    showList(InterpersonalRelationship.entries) { relationship ->
                         checkBoxInput {
-                            name = "remove"
+                            name = RELATIONSHIP_PARAM
                             value = "${otherId.value}_$relationship"
+                            checked = relationships.contains(relationship)
                             +relationship.toString()
                         }
                     }
