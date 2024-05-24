@@ -13,6 +13,7 @@ val UPDATE_RELATIONSHIPS: Reducer<UpdateRelationships, State> = { state, action 
     val updated = mutableListOf<Character>()
 
     action.relationships.forEach { (otherId, relationships) ->
+        require(action.id != otherId) { "Relationships must be between 2 different characters!" }
         character = updateRelationships(character, otherId, relationships)
 
         val other = state.characters.getOrThrow(otherId)
