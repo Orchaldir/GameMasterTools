@@ -92,3 +92,5 @@ fun <T> FORM.selectEnum(label: String, selectId: String, values: Collection<T>, 
         }
     }
 }
+
+const val ON_CHANGE_SCRIPT = "updateEditor();"

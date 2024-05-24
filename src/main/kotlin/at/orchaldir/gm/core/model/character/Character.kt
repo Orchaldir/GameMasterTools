@@ -24,6 +24,7 @@ data class Character(
     val origin: CharacterOrigin = UndefinedCharacterOrigin,
     val culture: CultureId? = null,
     val personality: Set<PersonalityTraitId> = setOf(),
+    val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
     val languages: Map<LanguageId, ComprehensionLevel> = mapOf(LanguageId(0) to ComprehensionLevel.Native),
 ) : Element<CharacterId> {
 

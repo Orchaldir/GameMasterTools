@@ -4,6 +4,8 @@ import at.orchaldir.gm.app.plugins.*
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.InterpersonalRelationship.Friend
+import at.orchaldir.gm.core.model.character.InterpersonalRelationship.Rival
 import at.orchaldir.gm.core.model.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
@@ -48,13 +50,14 @@ fun initStore(): DefaultStore<Action, State> {
 
     val id0 = CharacterId(0)
     val id1 = CharacterId(1)
+    val id2 = CharacterId(2)
     val state = State(
         Storage(
             listOf(
                 Character(id0, gender = Gender.Male),
                 Character(id1, gender = Gender.Female),
-                Character(CharacterId(2), origin = Born(id1, id0)),
-                Character(CharacterId(3), origin = Born(id1, id0)),
+                Character(id2, origin = Born(id1, id0)),
+                Character(CharacterId(3), relationships = mapOf(id2 to setOf(Friend, Rival))),
             ), "Character"
         ),
         Storage(CultureId(0), "Culture"),

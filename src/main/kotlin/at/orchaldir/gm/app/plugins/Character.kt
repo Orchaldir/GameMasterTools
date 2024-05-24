@@ -23,6 +23,8 @@ import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
+
+private const val RELATIONSHIP_PARAM = "r"
 private const val GROUP_PREFIX = "group_"
 private const val NONE = "None"
 
@@ -55,6 +57,19 @@ class Characters {
 
         @Resource("update")
         class Update(val id: CharacterId, val parent: Languages = Languages())
+    }
+
+    @Resource("/relationships")
+    class Relationships(val parent: Characters = Characters()) {
+
+        @Resource("edit")
+        class Edit(val id: CharacterId, val parent: Relationships = Relationships())
+
+        @Resource("preview")
+        class Preview(val id: CharacterId, val parent: Relationships = Relationships())
+
+        @Resource("update")
+        class Update(val id: CharacterId, val parent: Relationships = Relationships())
     }
 }
 
@@ -152,6 +167,47 @@ fun Application.configureCharacterRouting() {
 
             call.respondRedirect(href(call, update.id))
         }
+        get<Characters.Relationships.Edit> { edit ->
+            logger.info { "Get editor for character ${edit.id.value}'s relationships" }
+
+            val state = STORE.getState()
+            val character = state.characters.getOrThrow(edit.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showRelationshipEditor(call, state, character)
+            }
+        }
+        post<Characters.Relationships.Preview> { edit ->
+            logger.info { "Get preview for character ${edit.id.value}'s relationships" }
+
+            val state = STORE.getState()
+            val character = state.characters.getOrThrow(edit.id)
+            val formParameters = call.receiveParameters()
+            val relationships = parseRelationships(formParameters)
+
+            val otherParam = formParameters["other"]
+
+            if (!otherParam.isNullOrEmpty()) {
+                val other = CharacterId(otherParam.toInt())
+                relationships.computeIfAbsent(other) { setOf() }
+            }
+
+            val newCharacter = character.copy(relationships = relationships)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showRelationshipEditor(call, state, newCharacter)
+            }
+        }
+        post<Characters.Relationships.Update> { update ->
+            logger.info { "Update character ${update.id.value}'s relationships" }
+
+            val formParameters = call.receiveParameters()
+            val relationships = parseRelationships(formParameters)
+
+            STORE.dispatch(UpdateRelationships(update.id, relationships))
+
+            call.respondRedirect(href(call, update.id))
+        }
     }
 }
 
@@ -192,6 +248,19 @@ private fun parseCharacter(state: State, id: CharacterId, parameters: Parameters
     )
 }
 
+private fun parseRelationships(parameters: Parameters): MutableMap<CharacterId, Set<InterpersonalRelationship>> {
+    val relationships = mutableMapOf<CharacterId, Set<InterpersonalRelationship>>()
+
+    parameters.getAll(RELATIONSHIP_PARAM)?.forEach {
+        val parts = it.split('_')
+        val other = CharacterId(parts[0].toInt())
+        val relationship = InterpersonalRelationship.valueOf(parts[1])
+        val set = relationships[other] ?: setOf()
+        relationships[other] = set + relationship
+    }
+    return relationships
+}
+
 private fun HTML.showAllCharacters(call: ApplicationCall) {
     val characters = STORE.getState().characters.getAll().sortedBy { it.name }
     val count = characters.size
@@ -216,10 +285,7 @@ private fun HTML.showCharacterDetails(
     val deleteLink = call.application.href(Characters.Delete(character.id))
     val editLink = call.application.href(Characters.Edit(character.id))
     val editLanguagesLink = call.application.href(Characters.Languages.Edit(character.id))
-    val inventedLanguages = state.getInventedLanguages(character.id)
-    val parents = state.getParents(character.id)
-    val children = state.getChildren(character.id)
-    val siblings = state.getSiblings(character.id)
+    val editRelationshipsLink = call.application.href(Characters.Relationships.Edit(character.id))
 
     simpleHtml("Character: ${character.name}") {
         field("Id", character.id.value.toString())
@@ -227,32 +293,15 @@ private fun HTML.showCharacterDetails(
             link(call, state, character.race)
         }
         field("Gender", character.gender.toString())
+
         if (character.culture != null) {
             field("Culture") {
                 link(call, state, character.culture)
             }
         }
-        if (parents.isNotEmpty()) {
-            field("Parents") {
-                showList(parents) { parent ->
-                    link(call, parent)
-                }
-            }
-        }
-        if (children.isNotEmpty()) {
-            field("Children") {
-                showList(children) { child ->
-                    link(call, child)
-                }
-            }
-        }
-        if (siblings.isNotEmpty()) {
-            field("Siblings") {
-                showList(siblings) { sibling ->
-                    link(call, sibling)
-                }
-            }
-        }
+
+        showFamily(call, state, character)
+
         if (character.personality.isNotEmpty()) {
             field("Personality") {
                 showList(character.personality) { t ->
@@ -260,27 +309,82 @@ private fun HTML.showCharacterDetails(
                 }
             }
         }
-        if (character.languages.isNotEmpty()) {
-            field("Known Languages") {
-                showMap(character.languages) { id, level ->
-                    link(call, state, id)
-                    +": $level"
+
+        if (character.relationships.isNotEmpty()) {
+            field("Relationships") {
+                showMap(character.relationships) { other, relationships ->
+                    link(call, state, other)
+                    +": ${relationships.joinToString { it.toString() }}"
                 }
             }
         }
-        if (inventedLanguages.isNotEmpty()) {
-            field("Invented Languages") {
-                showList(inventedLanguages) { language ->
-                    link(call, language)
-                }
-            }
-        }
+
+        showLanguages(call, state, character)
+
         p { a(editLink) { +"Edit" } }
         p { a(editLanguagesLink) { +"Edit Languages" } }
+        p { a(editRelationshipsLink) { +"Edit Relationships" } }
         if (state.canDelete(character.id)) {
             p { a(deleteLink) { +"Delete" } }
         }
         p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun BODY.showFamily(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    val parents = state.getParents(character.id)
+    val children = state.getChildren(character.id)
+    val siblings = state.getSiblings(character.id)
+
+    if (parents.isNotEmpty()) {
+        field("Parents") {
+            showList(parents) { parent ->
+                link(call, parent)
+            }
+        }
+    }
+    if (children.isNotEmpty()) {
+        field("Children") {
+            showList(children) { child ->
+                link(call, child)
+            }
+        }
+    }
+    if (siblings.isNotEmpty()) {
+        field("Siblings") {
+            showList(siblings) { sibling ->
+                link(call, sibling)
+            }
+        }
+    }
+}
+
+private fun BODY.showLanguages(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    val inventedLanguages = state.getInventedLanguages(character.id)
+
+    if (character.languages.isNotEmpty()) {
+        field("Known Languages") {
+            showMap(character.languages) { id, level ->
+                link(call, state, id)
+                +": $level"
+            }
+        }
+    }
+
+    if (inventedLanguages.isNotEmpty()) {
+        field("Invented Languages") {
+            showList(inventedLanguages) { language ->
+                link(call, language)
+            }
+        }
     }
 }
 
@@ -344,7 +448,7 @@ private fun HTML.showCharacterEditor(
                 select {
                     id = "origin"
                     name = "origin"
-                    onChange = "updateEditor();"
+                    onChange = ON_CHANGE_SCRIPT
                     option {
                         label = "Born"
                         value = "Born"
@@ -460,6 +564,63 @@ private fun HTML.showLanguageEditor(
                             name = "remove"
                             value = language.id.value.toString()
                             +language.name
+                        }
+                    }
+                }
+            }
+            p {
+                submitInput {
+                    value = "Update"
+                    formAction = updateLink
+                    formMethod = InputFormMethod.post
+                }
+            }
+        }
+        p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun HTML.showRelationshipEditor(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    val backLink = href(call, character.id)
+    val previewLink = call.application.href(Characters.Relationships.Preview(character.id))
+    val updateLink = call.application.href(Characters.Relationships.Update(character.id))
+
+    simpleHtml("Edit Relationships: ${character.name}") {
+        form {
+            id = "editor"
+            action = previewLink
+            method = FormMethod.post
+            field("New Target of Relationship") {
+                select {
+                    id = "other"
+                    name = "other"
+                    onChange = ON_CHANGE_SCRIPT
+                    option {
+                        label = ""
+                        value = ""
+                        selected = true
+                    }
+                    state.getOthersWithoutRelationship(character).forEach { other ->
+                        option {
+                            label = other.name
+                            value = other.id.value.toString()
+                        }
+                    }
+                }
+            }
+            field("Relationships") {
+                showMap(character.relationships) { otherId, relationships ->
+                    link(call, state, otherId)
+                    showList(InterpersonalRelationship.entries) { relationship ->
+                        checkBoxInput {
+                            name = RELATIONSHIP_PARAM
+                            value = "${otherId.value}_$relationship"
+                            checked = relationships.contains(relationship)
+                            +relationship.toString()
                         }
                     }
                 }

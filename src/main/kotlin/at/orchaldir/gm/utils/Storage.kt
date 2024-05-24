@@ -28,13 +28,11 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
         return Storage(name, elements + mapOf(nextId to element), nextId.next(), nextId)
     }
 
-    fun remove(id: ID): Storage<ID, ELEMENT> {
-        return copy(elements = elements - setOf(id))
-    }
+    fun remove(id: ID) = copy(elements = elements - setOf(id))
 
-    fun update(element: ELEMENT): Storage<ID, ELEMENT> {
-        return copy(elements = elements + mapOf(element.id() to element))
-    }
+    fun update(element: ELEMENT) = copy(elements = elements + mapOf(element.id() to element))
+
+    fun update(updated: List<ELEMENT>) = copy(elements = elements + updated.associateBy { it.id() })
 
     fun getAll() = elements.values
 
