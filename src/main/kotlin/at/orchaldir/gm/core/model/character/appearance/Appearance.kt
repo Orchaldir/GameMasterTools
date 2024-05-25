@@ -4,5 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Appearance(
+    val head: Head,
     val skin: Skin,
 )
