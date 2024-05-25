@@ -2,10 +2,10 @@ package at.orchaldir.gm.app.plugins.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.InterpersonalRelationship
-import at.orchaldir.gm.core.selector.getOthersWithoutRelationship
+import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -16,8 +16,6 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-private const val RELATIONSHIP_PARAM = "r"
-
 fun Application.configureAppearanceRouting() {
     routing {
         get<Characters.Appearance.Edit> { edit ->
@@ -27,7 +25,7 @@ fun Application.configureAppearanceRouting() {
             val character = state.characters.getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAppearanceEditor(call, state, character)
+                showAppearanceEditor(call, character)
             }
         }
     }
@@ -35,7 +33,6 @@ fun Application.configureAppearanceRouting() {
 
 private fun HTML.showAppearanceEditor(
     call: ApplicationCall,
-    state: State,
     character: Character,
 ) {
     val backLink = href(call, character.id)
@@ -47,6 +44,55 @@ private fun HTML.showAppearanceEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
+            field("Skin") {
+                select {
+                    id = "skin"
+                    name = "skin"
+                    onChange = ON_CHANGE_SCRIPT
+                    option {
+                        label = "Scales"
+                        value = "Scales"
+                        selected = character.appearance?.skin is Scales
+                    }
+                    option {
+                        label = "Normal Skin"
+                        value = "Normal"
+                        selected = character.appearance?.skin is NormalSkin
+                    }
+                    option {
+                        label = "Exotic Skin"
+                        value = "Exotic"
+                        selected = character.appearance?.skin is ExoticSkin
+                    }
+                }
+            }
+            when (character.appearance?.skin) {
+                is Scales -> {
+                    selectEnum("Scale Color", "skin_color", Color.entries) { c ->
+                        label = c.name
+                        value = c.toString()
+                        selected = character.appearance?.skin.color == c
+                    }
+                }
+
+                is ExoticSkin -> {
+                    selectEnum("Skin Color", "skin_color", Color.entries) { c ->
+                        label = c.name
+                        value = c.toString()
+                        selected = character.appearance?.skin.color == c
+                    }
+                }
+
+                is NormalSkin -> {
+                    selectEnum("Skin Color", "skin_color", SkinColor.entries) { c ->
+                        label = c.name
+                        value = c.toString()
+                        selected = character.appearance?.skin.color == c
+                    }
+                }
+
+                else -> doNothing()
+            }
             p {
                 submitInput {
                     value = "Update"
