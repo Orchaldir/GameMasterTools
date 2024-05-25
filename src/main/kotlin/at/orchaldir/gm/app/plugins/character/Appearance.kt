@@ -4,8 +4,10 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -28,6 +30,15 @@ private const val EXOTIC = "exotic"
 private const val EXOTIC_COLOR = "exotic_color"
 private const val SKIN_COLOR = "skin_color"
 private const val EAR_TYPE = "ear_type"
+private const val EYES_TYPE = "eyes"
+private const val NO_EYES = "no"
+private const val ONE_EYE = "one"
+private const val TOW_EYES = "two"
+private const val EYE_SIZE = "eye_size"
+private const val EYE_SHAPE = "eye_shape"
+private const val PUPIL_SHAPE = "pupil_shape"
+private const val PUPIL_COLOR = "pupil_color"
+private const val SCLERA_COLOR = "sclera_color"
 
 fun Application.configureAppearanceRouting() {
     routing {
@@ -105,6 +116,7 @@ private fun HTML.showAppearanceEditor(
                     value = type.toString()
                     selected = appearance.head.earType == type
                 }
+                showEyesEditor(appearance.head.eyes)
             }
             p {
                 submitInput {
@@ -170,11 +182,80 @@ private fun FORM.showSkinEditor(
     }
 }
 
+private fun FORM.showEyesEditor(
+    eyes: Eyes,
+) {
+    field("Eyes") {
+        select {
+            id = EYES_TYPE
+            name = EYES_TYPE
+            onChange = ON_CHANGE_SCRIPT
+            option {
+                label = "No Eyes"
+                value = NO_EYES
+                selected = eyes is NoEyes
+            }
+            option {
+                label = "One Eye"
+                value = ONE_EYE
+                selected = eyes is OneEye
+            }
+            option {
+                label = "Two Eyes"
+                value = TOW_EYES
+                selected = eyes is TwoEyes
+            }
+        }
+    }
+    when (eyes) {
+        is OneEye -> {
+            showEyeEditor(eyes.eye)
+            selectEnum("Eye Size", EYE_SIZE, Size.entries) { c ->
+                label = c.name
+                value = c.toString()
+                selected = eyes.size == c
+            }
+        }
+
+        is TwoEyes -> {
+            showEyeEditor(eyes.eye)
+        }
+
+        else -> doNothing()
+    }
+}
+
+private fun FORM.showEyeEditor(
+    eye: Eye,
+) {
+    selectEnum("Eye Shape", EYE_SHAPE, EyeShape.entries) { shape ->
+        label = shape.name
+        value = shape.toString()
+        selected = eye.eyeShape == shape
+    }
+    selectEnum("Pupil Shape", PUPIL_SHAPE, PupilShape.entries) { shape ->
+        label = shape.name
+        value = shape.toString()
+        selected = eye.pupilShape == shape
+    }
+    selectEnum("Pupil Color", PUPIL_COLOR, Color.entries) { color ->
+        label = color.name
+        value = color.toString()
+        selected = eye.pupilColor == color
+    }
+    selectEnum("Sclera Color", SCLERA_COLOR, Color.entries) { color ->
+        label = color.name
+        value = color.toString()
+        selected = eye.scleraColor == color
+    }
+}
+
 private fun parseAppearance(parameters: Parameters): Appearance {
     return when (parameters[TYPE]) {
         HEAD -> {
-            val earType = parameters[EAR_TYPE]?.let { EarType.valueOf(it) } ?: EarType.Round
-            val head = Head(earType, NoEyes, NoMouth)
+            val earType = parse(parameters, EAR_TYPE, EarType.Round)
+            val eyes = parseEyes(parameters)
+            val head = Head(earType, eyes, NoMouth)
             val skin = parseSkin(parameters)
             return HeadOnly(head, skin)
         }
@@ -182,6 +263,30 @@ private fun parseAppearance(parameters: Parameters): Appearance {
         else -> UndefinedAppearance
     }
 }
+
+private fun parseEyes(parameters: Parameters): Eyes {
+    return when (parameters[EYES_TYPE]) {
+        ONE_EYE -> {
+            val eye = parseEye(parameters)
+            val size = parse(parameters, EYE_SIZE, Size.Medium)
+            return OneEye(eye, size)
+        }
+
+        TOW_EYES -> {
+            val eye = parseEye(parameters)
+            return TwoEyes(eye)
+        }
+
+        else -> NoEyes
+    }
+}
+
+private fun parseEye(parameters: Parameters) = Eye(
+    parse(parameters, EYE_SHAPE, EyeShape.Ellipse),
+    parse(parameters, PUPIL_SHAPE, PupilShape.Circle),
+    parse(parameters, PUPIL_COLOR, Color.Green),
+    parse(parameters, SCLERA_COLOR, Color.White),
+)
 
 private fun parseSkin(parameters: Parameters): Skin {
     return when (parameters[SKIN_TYPE]) {
@@ -194,7 +299,7 @@ private fun parseSkin(parameters: Parameters): Skin {
         }
 
         NORMAL -> {
-            val color = parameters[SKIN_COLOR]?.let { SkinColor.valueOf(it) } ?: SkinColor.Medium
+            val color = parse(parameters, SKIN_COLOR, SkinColor.Medium)
             return NormalSkin(color)
         }
 
@@ -203,4 +308,7 @@ private fun parseSkin(parameters: Parameters): Skin {
 }
 
 private fun parseExoticColor(parameters: Parameters) =
-    parameters[EXOTIC_COLOR]?.let { Color.valueOf(it) } ?: Color.Red
+    parse(parameters, EXOTIC_COLOR, Color.Red)
+
+private inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String, default: T): T =
+    parameters[param]?.let { java.lang.Enum.valueOf(T::class.java, it) } ?: default

@@ -23,7 +23,7 @@ data class Eye(
     val eyeShape: EyeShape,
     val pupilShape: PupilShape,
     val pupilColor: Color,
-    val backgroundColor: Color,
+    val scleraColor: Color,
 )
 
 @Serializable
