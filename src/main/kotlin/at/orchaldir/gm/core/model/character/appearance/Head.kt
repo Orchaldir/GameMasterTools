@@ -6,4 +6,5 @@ import kotlinx.serialization.Serializable
 data class Head(
     val earType: EarType,
     val eyes: Eyes,
+    val mouth: Mouth,
 )
