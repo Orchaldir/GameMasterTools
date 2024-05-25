@@ -99,7 +99,7 @@ private fun HTML.showAppearanceEditor(
                 }
             }
             if (appearance is HeadOnly) {
-                showSkinEditor(appearance)
+                showSkinEditor(appearance.skin)
                 selectEnum("Ear Type", EAR_TYPE, EarType.entries) { type ->
                     label = type.name
                     value = type.toString()
@@ -119,7 +119,7 @@ private fun HTML.showAppearanceEditor(
 }
 
 private fun FORM.showSkinEditor(
-    appearance: HeadOnly,
+    skin: Skin,
 ) {
     field("Skin") {
         select {
@@ -129,26 +129,26 @@ private fun FORM.showSkinEditor(
             option {
                 label = "Scales"
                 value = SCALES
-                selected = appearance.skin is Scales
+                selected = skin is Scales
             }
             option {
                 label = "Normal Skin"
                 value = NORMAL
-                selected = appearance.skin is NormalSkin
+                selected = skin is NormalSkin
             }
             option {
                 label = "Exotic Skin"
                 value = EXOTIC
-                selected = appearance.skin is ExoticSkin
+                selected = skin is ExoticSkin
             }
         }
     }
-    when (appearance.skin) {
+    when (skin) {
         is Scales -> {
             selectEnum("Scale Color", EXOTIC_COLOR, Color.entries) { c ->
                 label = c.name
                 value = c.toString()
-                selected = appearance.skin.color == c
+                selected = skin.color == c
             }
         }
 
@@ -156,7 +156,7 @@ private fun FORM.showSkinEditor(
             selectEnum("Skin Color", EXOTIC_COLOR, Color.entries) { c ->
                 label = c.name
                 value = c.toString()
-                selected = appearance.skin.color == c
+                selected = skin.color == c
             }
         }
 
@@ -164,7 +164,7 @@ private fun FORM.showSkinEditor(
             selectEnum("Skin Color", SKIN_COLOR, SkinColor.entries) { c ->
                 label = c.name
                 value = c.toString()
-                selected = appearance.skin.color == c
+                selected = skin.color == c
             }
         }
     }
