@@ -111,11 +111,7 @@ private fun HTML.showAppearanceEditor(
             }
             if (appearance is HeadOnly) {
                 showSkinEditor(appearance.skin)
-                selectEnum("Ear Type", EAR_TYPE, EarType.entries) { type ->
-                    label = type.name
-                    value = type.toString()
-                    selected = appearance.head.earType == type
-                }
+                showEarsEditor(appearance.head)
                 showEyesEditor(appearance.head.eyes)
             }
             p {
@@ -130,10 +126,20 @@ private fun HTML.showAppearanceEditor(
     }
 }
 
+private fun FORM.showEarsEditor(head: Head) {
+    h2 { +"Ears" }
+    selectEnum("Type", EAR_TYPE, EarType.entries) { type ->
+        label = type.name
+        value = type.toString()
+        selected = head.earType == type
+    }
+}
+
 private fun FORM.showSkinEditor(
     skin: Skin,
 ) {
-    field("Skin") {
+    h2 { +"Skin" }
+    field("Type") {
         select {
             id = SKIN_TYPE
             name = SKIN_TYPE
@@ -156,24 +162,10 @@ private fun FORM.showSkinEditor(
         }
     }
     when (skin) {
-        is Scales -> {
-            selectEnum("Scale Color", EXOTIC_COLOR, Color.entries) { c ->
-                label = c.name
-                value = c.toString()
-                selected = skin.color == c
-            }
-        }
-
-        is ExoticSkin -> {
-            selectEnum("Skin Color", EXOTIC_COLOR, Color.entries) { c ->
-                label = c.name
-                value = c.toString()
-                selected = skin.color == c
-            }
-        }
-
+        is Scales -> selectSkinColor(skin.color)
+        is ExoticSkin -> selectSkinColor(skin.color)
         is NormalSkin -> {
-            selectEnum("Skin Color", SKIN_COLOR, SkinColor.entries) { c ->
+            selectEnum("Color", SKIN_COLOR, SkinColor.entries) { c ->
                 label = c.name
                 value = c.toString()
                 selected = skin.color == c
@@ -182,10 +174,19 @@ private fun FORM.showSkinEditor(
     }
 }
 
+private fun FORM.selectSkinColor(color: Color) {
+    selectEnum("Color", EXOTIC_COLOR, Color.entries) { c ->
+        label = c.name
+        value = c.toString()
+        selected = color == c
+    }
+}
+
 private fun FORM.showEyesEditor(
     eyes: Eyes,
 ) {
-    field("Eyes") {
+    h2 { +"Eyes" }
+    field("Type") {
         select {
             id = EYES_TYPE
             name = EYES_TYPE
