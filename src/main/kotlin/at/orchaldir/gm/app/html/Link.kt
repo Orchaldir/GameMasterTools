@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.plugins.*
+import at.orchaldir.gm.app.plugins.character.Characters
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.Language
