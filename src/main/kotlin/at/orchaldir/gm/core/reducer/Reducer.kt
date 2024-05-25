@@ -11,11 +11,12 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateCharacter -> CREATE_CHARACTER(state, action)
         is DeleteCharacter -> DELETE_CHARACTER(state, action)
         is UpdateCharacter -> UPDATE_CHARACTER(state, action)
+        is UpdateAppearance -> UPDATE_APPEARANCE(state, action)
+        is UpdateRelationships -> UPDATE_RELATIONSHIPS(state, action)
         // character's languages actions
         is AddLanguage -> ADD_LANGUAGE(state, action)
         is RemoveLanguages -> REMOVE_LANGUAGES(state, action)
         // character's relationship actions
-        is UpdateRelationships -> UPDATE_RELATIONSHIPS(state, action)
         // culture actions
         is CreateCulture -> CREATE_CULTURE(state, action)
         is DeleteCulture -> DELETE_CULTURE(state, action)

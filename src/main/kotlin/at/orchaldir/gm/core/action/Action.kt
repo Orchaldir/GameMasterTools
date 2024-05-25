@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.action
 
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
@@ -11,6 +12,15 @@ sealed class Action
 data object CreateCharacter : Action()
 data class DeleteCharacter(val id: CharacterId) : Action()
 data class UpdateCharacter(val character: Character) : Action()
+data class UpdateAppearance(
+    val id: CharacterId,
+    val appearance: Appearance,
+) : Action()
+
+data class UpdateRelationships(
+    val id: CharacterId,
+    val relationships: Map<CharacterId, Set<InterpersonalRelationship>>,
+) : Action()
 
 // character's languages actions
 
@@ -23,13 +33,6 @@ data class AddLanguage(
 data class RemoveLanguages(
     val id: CharacterId,
     val languages: Set<LanguageId>,
-) : Action()
-
-// character's relationship actions
-
-data class UpdateRelationships(
-    val id: CharacterId,
-    val relationships: Map<CharacterId, Set<InterpersonalRelationship>>,
 ) : Action()
 
 // culture actions

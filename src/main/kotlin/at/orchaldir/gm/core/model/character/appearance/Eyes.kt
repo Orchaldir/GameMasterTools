@@ -33,5 +33,6 @@ data class OneEye(
     val eye: Eye,
     val size: Size,
 ) : Eyes()
+
 data class TwoEyes(val eye: Eye) : Eyes()
 

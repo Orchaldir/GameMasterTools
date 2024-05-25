@@ -2,8 +2,9 @@ package at.orchaldir.gm.app.plugins.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -11,6 +12,7 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -40,7 +42,7 @@ fun Application.configureAppearanceRouting() {
             }
         }
         post<Characters.Appearance.Preview> { edit ->
-            logger.info { "Get preview for character ${edit.id.value}'s relationships" }
+            logger.info { "Get preview for character ${edit.id.value}'s appearance" }
 
             val state = STORE.getState()
             val character = state.characters.getOrThrow(edit.id)
@@ -51,6 +53,16 @@ fun Application.configureAppearanceRouting() {
             call.respondHtml(HttpStatusCode.OK) {
                 showAppearanceEditor(call, updatedCharacter)
             }
+        }
+        post<Characters.Appearance.Update> { update ->
+            logger.info { "Update character ${update.id.value}'s appearance" }
+
+            val formParameters = call.receiveParameters()
+            val appearance = parseAppearance(formParameters)
+
+            STORE.dispatch(UpdateAppearance(update.id, appearance))
+
+            call.respondRedirect(href(call, update.id))
         }
     }
 }
@@ -161,7 +173,8 @@ private fun FORM.showSkinEditor(
 private fun parseAppearance(parameters: Parameters): Appearance {
     return when (parameters[TYPE]) {
         HEAD -> {
-            val head = Head(EarType.Round, NoEyes, NoMouth)
+            val earType = parameters[EAR_TYPE]?.let { EarType.valueOf(it) } ?: EarType.Round
+            val head = Head(earType, NoEyes, NoMouth)
             val skin = parseSkin(parameters)
             return HeadOnly(head, skin)
         }
