@@ -1,6 +1,8 @@
 package at.orchaldir.gm.app
 
 import at.orchaldir.gm.app.plugins.*
+import at.orchaldir.gm.app.plugins.character.configureCharacterLanguageRouting
+import at.orchaldir.gm.app.plugins.character.configureCharacterRelationshipRouting
 import at.orchaldir.gm.app.plugins.character.configureCharacterRouting
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
@@ -34,6 +36,8 @@ fun Application.module() {
     configureRouting()
     configureStatusPages()
     configureCharacterRouting()
+    configureCharacterLanguageRouting()
+    configureCharacterRelationshipRouting()
     configureCultureRouting()
     configureLanguageRouting()
     configurePersonalityRouting()
