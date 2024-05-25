@@ -80,53 +80,7 @@ private fun HTML.showAppearanceEditor(
                 }
             }
             if (appearance is HeadOnly) {
-                field("Skin") {
-                    select {
-                        id = "skin"
-                        name = "skin"
-                        onChange = ON_CHANGE_SCRIPT
-                        option {
-                            label = "Scales"
-                            value = "Scales"
-                            selected = appearance.skin is Scales
-                        }
-                        option {
-                            label = "Normal Skin"
-                            value = "Normal"
-                            selected = appearance.skin is NormalSkin
-                        }
-                        option {
-                            label = "Exotic Skin"
-                            value = "Exotic"
-                            selected = appearance.skin is ExoticSkin
-                        }
-                    }
-                }
-                when (appearance.skin) {
-                    is Scales -> {
-                        selectEnum("Scale Color", EXOTIC_COLOR, Color.entries) { c ->
-                            label = c.name
-                            value = c.toString()
-                            selected = appearance.skin.color == c
-                        }
-                    }
-
-                    is ExoticSkin -> {
-                        selectEnum("Skin Color", EXOTIC_COLOR, Color.entries) { c ->
-                            label = c.name
-                            value = c.toString()
-                            selected = appearance.skin.color == c
-                        }
-                    }
-
-                    is NormalSkin -> {
-                        selectEnum("Skin Color", SKIN_COLOR, SkinColor.entries) { c ->
-                            label = c.name
-                            value = c.toString()
-                            selected = appearance.skin.color == c
-                        }
-                    }
-                }
+                showSkinEditor(appearance)
             }
             p {
                 submitInput {
@@ -137,6 +91,58 @@ private fun HTML.showAppearanceEditor(
             }
         }
         p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun FORM.showSkinEditor(
+    appearance: HeadOnly,
+) {
+    field("Skin") {
+        select {
+            id = "skin"
+            name = "skin"
+            onChange = ON_CHANGE_SCRIPT
+            option {
+                label = "Scales"
+                value = "Scales"
+                selected = appearance.skin is Scales
+            }
+            option {
+                label = "Normal Skin"
+                value = "Normal"
+                selected = appearance.skin is NormalSkin
+            }
+            option {
+                label = "Exotic Skin"
+                value = "Exotic"
+                selected = appearance.skin is ExoticSkin
+            }
+        }
+    }
+    when (appearance.skin) {
+        is Scales -> {
+            selectEnum("Scale Color", EXOTIC_COLOR, Color.entries) { c ->
+                label = c.name
+                value = c.toString()
+                selected = appearance.skin.color == c
+            }
+        }
+
+        is ExoticSkin -> {
+            selectEnum("Skin Color", EXOTIC_COLOR, Color.entries) { c ->
+                label = c.name
+                value = c.toString()
+                selected = appearance.skin.color == c
+            }
+        }
+
+        is NormalSkin -> {
+            selectEnum("Skin Color", SKIN_COLOR, SkinColor.entries) { c ->
+                label = c.name
+                value = c.toString()
+                selected = appearance.skin.color == c
+            }
+        }
     }
 }
 
