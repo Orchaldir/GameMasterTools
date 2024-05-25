@@ -50,10 +50,10 @@ fun Application.configureCharacterRelationshipRouting() {
                 relationships.computeIfAbsent(other) { setOf() }
             }
 
-            val newCharacter = character.copy(relationships = relationships)
+            val updatedCharacter = character.copy(relationships = relationships)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showRelationshipEditor(call, state, newCharacter)
+                showRelationshipEditor(call, state, updatedCharacter)
             }
         }
         post<Characters.Relationships.Update> { update ->

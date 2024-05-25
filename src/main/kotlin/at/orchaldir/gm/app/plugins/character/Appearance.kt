@@ -3,12 +3,14 @@ package at.orchaldir.gm.app.plugins.character
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
+import io.ktor.server.request.*
 import io.ktor.server.resources.*
+import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -25,6 +27,19 @@ fun Application.configureAppearanceRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAppearanceEditor(call, character)
+            }
+        }
+        post<Characters.Appearance.Preview> { edit ->
+            logger.info { "Get preview for character ${edit.id.value}'s relationships" }
+
+            val state = STORE.getState()
+            val character = state.characters.getOrThrow(edit.id)
+            val formParameters = call.receiveParameters()
+            val appearance = parseAppearance(formParameters)
+            val updatedCharacter = character.copy(appearance = appearance)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showAppearanceEditor(call, updatedCharacter)
             }
         }
     }
@@ -119,5 +134,17 @@ private fun HTML.showAppearanceEditor(
             }
         }
         p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun parseAppearance(parameters: Parameters): Appearance {
+    return when (parameters["type"]) {
+        "Head" -> {
+            val head = Head(EarType.Round, NoEyes, NoMouth)
+            val skin = NormalSkin(SkinColor.Medium)
+            return HeadOnly(head, skin)
+        }
+
+        else -> UndefinedAppearance
     }
 }
