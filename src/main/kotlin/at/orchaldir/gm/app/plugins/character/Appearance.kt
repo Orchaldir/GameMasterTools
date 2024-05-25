@@ -17,6 +17,8 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
+private const val SKIN_COLOR = "skin_color"
+
 fun Application.configureAppearanceRouting() {
     routing {
         get<Characters.Appearance.Edit> { edit ->
@@ -101,7 +103,7 @@ private fun HTML.showAppearanceEditor(
                 }
                 when (appearance.skin) {
                     is Scales -> {
-                        selectEnum("Scale Color", "skin_color", Color.entries) { c ->
+                        selectEnum("Scale Color", SKIN_COLOR, Color.entries) { c ->
                             label = c.name
                             value = c.toString()
                             selected = appearance.skin.color == c
@@ -109,7 +111,7 @@ private fun HTML.showAppearanceEditor(
                     }
 
                     is ExoticSkin -> {
-                        selectEnum("Skin Color", "skin_color", Color.entries) { c ->
+                        selectEnum("Skin Color", SKIN_COLOR, Color.entries) { c ->
                             label = c.name
                             value = c.toString()
                             selected = appearance.skin.color == c
@@ -117,7 +119,7 @@ private fun HTML.showAppearanceEditor(
                     }
 
                     is NormalSkin -> {
-                        selectEnum("Skin Color", "skin_color", SkinColor.entries) { c ->
+                        selectEnum("Skin Color", SKIN_COLOR, SkinColor.entries) { c ->
                             label = c.name
                             value = c.toString()
                             selected = appearance.skin.color == c
@@ -141,10 +143,31 @@ private fun parseAppearance(parameters: Parameters): Appearance {
     return when (parameters["type"]) {
         "Head" -> {
             val head = Head(EarType.Round, NoEyes, NoMouth)
-            val skin = NormalSkin(SkinColor.Medium)
+            val skin = parseSkin(parameters)
             return HeadOnly(head, skin)
         }
 
         else -> UndefinedAppearance
+    }
+}
+
+private fun parseSkin(parameters: Parameters): Skin {
+    return when (parameters["skin"]) {
+        "Scales" -> {
+            val color = parameters[SKIN_COLOR]?.let { Color.valueOf(it) } ?: Color.Red
+            return Scales(color)
+        }
+
+        "Exotic" -> {
+            val color = parameters[SKIN_COLOR]?.let { Color.valueOf(it) } ?: Color.Red
+            return ExoticSkin(color)
+        }
+
+        "Normal" -> {
+            val color = parameters[SKIN_COLOR]?.let { SkinColor.valueOf(it) } ?: SkinColor.Medium
+            return NormalSkin(color)
+        }
+
+        else -> NormalSkin(SkinColor.Medium)
     }
 }
