@@ -17,8 +17,15 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
+private const val TYPE = "type"
+private const val HEAD = "head"
+private const val SKIN_TYPE = "skin"
+private const val SCALES = "scales"
+private const val NORMAL = "normal"
+private const val EXOTIC = "exotic"
 private const val EXOTIC_COLOR = "exotic_color"
 private const val SKIN_COLOR = "skin_color"
+private const val EAR_TYPE = "ear_type"
 
 fun Application.configureAppearanceRouting() {
     routing {
@@ -64,8 +71,8 @@ private fun HTML.showAppearanceEditor(
             method = FormMethod.post
             field("Appearance Type") {
                 select {
-                    id = "type"
-                    name = "type"
+                    id = TYPE
+                    name = TYPE
                     onChange = ON_CHANGE_SCRIPT
                     option {
                         label = "Undefined"
@@ -74,13 +81,18 @@ private fun HTML.showAppearanceEditor(
                     }
                     option {
                         label = "Head Only"
-                        value = "Head"
+                        value = HEAD
                         selected = appearance is HeadOnly
                     }
                 }
             }
             if (appearance is HeadOnly) {
                 showSkinEditor(appearance)
+                selectEnum("Ear Type", EAR_TYPE, EarType.entries) { type ->
+                    label = type.name
+                    value = type.toString()
+                    selected = appearance.head.earType == type
+                }
             }
             p {
                 submitInput {
@@ -99,22 +111,22 @@ private fun FORM.showSkinEditor(
 ) {
     field("Skin") {
         select {
-            id = "skin"
-            name = "skin"
+            id = SKIN_TYPE
+            name = SKIN_TYPE
             onChange = ON_CHANGE_SCRIPT
             option {
                 label = "Scales"
-                value = "Scales"
+                value = SCALES
                 selected = appearance.skin is Scales
             }
             option {
                 label = "Normal Skin"
-                value = "Normal"
+                value = NORMAL
                 selected = appearance.skin is NormalSkin
             }
             option {
                 label = "Exotic Skin"
-                value = "Exotic"
+                value = EXOTIC
                 selected = appearance.skin is ExoticSkin
             }
         }
@@ -147,8 +159,8 @@ private fun FORM.showSkinEditor(
 }
 
 private fun parseAppearance(parameters: Parameters): Appearance {
-    return when (parameters["type"]) {
-        "Head" -> {
+    return when (parameters[TYPE]) {
+        HEAD -> {
             val head = Head(EarType.Round, NoEyes, NoMouth)
             val skin = parseSkin(parameters)
             return HeadOnly(head, skin)
@@ -159,16 +171,16 @@ private fun parseAppearance(parameters: Parameters): Appearance {
 }
 
 private fun parseSkin(parameters: Parameters): Skin {
-    return when (parameters["skin"]) {
-        "Scales" -> {
+    return when (parameters[SKIN_TYPE]) {
+        SCALES -> {
             return Scales(parseExoticColor(parameters))
         }
 
-        "Exotic" -> {
+        EXOTIC -> {
             return ExoticSkin(parseExoticColor(parameters))
         }
 
-        "Normal" -> {
+        NORMAL -> {
             val color = parameters[SKIN_COLOR]?.let { SkinColor.valueOf(it) } ?: SkinColor.Medium
             return NormalSkin(color)
         }
