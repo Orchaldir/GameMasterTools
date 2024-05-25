@@ -92,43 +92,6 @@ fun Application.configureCharacterRouting() {
     }
 }
 
-private fun parseCharacter(state: State, id: CharacterId, parameters: Parameters): Character {
-    val character = state.characters.getOrThrow(id)
-
-    val name = parameters.getOrFail("name")
-    val race = RaceId(parameters.getOrFail("race").toInt())
-    val gender = Gender.valueOf(parameters.getOrFail("gender"))
-    val culture = parameters.getOrFail("culture")
-        .toIntOrNull()
-        ?.let { CultureId(it) }
-    val personality = parameters.entries()
-        .asSequence()
-        .filter { e -> e.key.startsWith(GROUP_PREFIX) }
-        .map { e -> e.value.first() }
-        .filter { it != NONE }
-        .map { PersonalityTraitId(it.toInt()) }
-        .toSet()
-
-    val origin = when (parameters["origin"]) {
-        "Born" -> {
-            val father = CharacterId(parameters["father"]?.toInt() ?: 0)
-            val mother = CharacterId(parameters["father"]?.toInt() ?: 0)
-            Born(mother, father)
-        }
-
-        else -> UndefinedCharacterOrigin
-    }
-
-    return character.copy(
-        name = name,
-        race = race,
-        gender = gender,
-        origin = origin,
-        culture = culture,
-        personality = personality
-    )
-}
-
 private fun HTML.showAllCharacters(call: ApplicationCall) {
     val characters = STORE.getState().characters.getAll().sortedBy { it.name }
     val count = characters.size
@@ -152,6 +115,7 @@ private fun HTML.showCharacterDetails(
     val backLink = call.application.href(Characters())
     val deleteLink = call.application.href(Characters.Delete(character.id))
     val editLink = call.application.href(Characters.Edit(character.id))
+    val editAppearanceLink = call.application.href(Characters.Appearance.Edit(character.id))
     val editLanguagesLink = call.application.href(Characters.Languages.Edit(character.id))
     val editRelationshipsLink = call.application.href(Characters.Relationships.Edit(character.id))
 
@@ -190,6 +154,7 @@ private fun HTML.showCharacterDetails(
         showLanguages(call, state, character)
 
         p { a(editLink) { +"Edit" } }
+        p { a(editAppearanceLink) { +"Edit Appearance" } }
         p { a(editLanguagesLink) { +"Edit Languages" } }
         p { a(editRelationshipsLink) { +"Edit Relationships" } }
         if (state.canDelete(character.id)) {
@@ -390,4 +355,41 @@ private fun HTML.showCharacterEditor(
         }
         p { a(backLink) { +"Back" } }
     }
+}
+
+private fun parseCharacter(state: State, id: CharacterId, parameters: Parameters): Character {
+    val character = state.characters.getOrThrow(id)
+
+    val name = parameters.getOrFail("name")
+    val race = RaceId(parameters.getOrFail("race").toInt())
+    val gender = Gender.valueOf(parameters.getOrFail("gender"))
+    val culture = parameters.getOrFail("culture")
+        .toIntOrNull()
+        ?.let { CultureId(it) }
+    val personality = parameters.entries()
+        .asSequence()
+        .filter { e -> e.key.startsWith(GROUP_PREFIX) }
+        .map { e -> e.value.first() }
+        .filter { it != NONE }
+        .map { PersonalityTraitId(it.toInt()) }
+        .toSet()
+
+    val origin = when (parameters["origin"]) {
+        "Born" -> {
+            val father = CharacterId(parameters["father"]?.toInt() ?: 0)
+            val mother = CharacterId(parameters["father"]?.toInt() ?: 0)
+            Born(mother, father)
+        }
+
+        else -> UndefinedCharacterOrigin
+    }
+
+    return character.copy(
+        name = name,
+        race = race,
+        gender = gender,
+        origin = origin,
+        culture = culture,
+        personality = personality
+    )
 }

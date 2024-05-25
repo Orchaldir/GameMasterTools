@@ -34,7 +34,7 @@ class Characters {
         class Update(val id: CharacterId, val parent: Languages = Languages())
     }
 
-    @Resource("/relationships")
+    @Resource("/relationship")
     class Relationships(val parent: Characters = Characters()) {
 
         @Resource("edit")
@@ -45,5 +45,18 @@ class Characters {
 
         @Resource("update")
         class Update(val id: CharacterId, val parent: Relationships = Relationships())
+    }
+
+    @Resource("/appearance")
+    class Appearance(val parent: Characters = Characters()) {
+
+        @Resource("edit")
+        class Edit(val id: CharacterId, val parent: Appearance = Appearance())
+
+        @Resource("preview")
+        class Preview(val id: CharacterId, val parent: Appearance = Appearance())
+
+        @Resource("update")
+        class Update(val id: CharacterId, val parent: Appearance = Appearance())
     }
 }
