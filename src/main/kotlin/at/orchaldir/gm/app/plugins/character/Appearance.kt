@@ -17,6 +17,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
+private const val EXOTIC_COLOR = "exotic_color"
 private const val SKIN_COLOR = "skin_color"
 
 fun Application.configureAppearanceRouting() {
@@ -103,7 +104,7 @@ private fun HTML.showAppearanceEditor(
                 }
                 when (appearance.skin) {
                     is Scales -> {
-                        selectEnum("Scale Color", SKIN_COLOR, Color.entries) { c ->
+                        selectEnum("Scale Color", EXOTIC_COLOR, Color.entries) { c ->
                             label = c.name
                             value = c.toString()
                             selected = appearance.skin.color == c
@@ -111,7 +112,7 @@ private fun HTML.showAppearanceEditor(
                     }
 
                     is ExoticSkin -> {
-                        selectEnum("Skin Color", SKIN_COLOR, Color.entries) { c ->
+                        selectEnum("Skin Color", EXOTIC_COLOR, Color.entries) { c ->
                             label = c.name
                             value = c.toString()
                             selected = appearance.skin.color == c
@@ -154,13 +155,11 @@ private fun parseAppearance(parameters: Parameters): Appearance {
 private fun parseSkin(parameters: Parameters): Skin {
     return when (parameters["skin"]) {
         "Scales" -> {
-            val color = parameters[SKIN_COLOR]?.let { Color.valueOf(it) } ?: Color.Red
-            return Scales(color)
+            return Scales(parseExoticColor(parameters))
         }
 
         "Exotic" -> {
-            val color = parameters[SKIN_COLOR]?.let { Color.valueOf(it) } ?: Color.Red
-            return ExoticSkin(color)
+            return ExoticSkin(parseExoticColor(parameters))
         }
 
         "Normal" -> {
@@ -171,3 +170,6 @@ private fun parseSkin(parameters: Parameters): Skin {
         else -> NormalSkin(SkinColor.Medium)
     }
 }
+
+private fun parseExoticColor(parameters: Parameters) =
+    parameters[EXOTIC_COLOR]?.let { Color.valueOf(it) } ?: Color.Red
