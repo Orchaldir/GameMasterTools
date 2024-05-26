@@ -15,6 +15,6 @@ enum class SkinColor {
 
 @Serializable
 sealed class Skin
-data class Scales(val color: Color) : Skin()
-data class NormalSkin(val color: SkinColor) : Skin()
-data class ExoticSkin(val color: Color) : Skin()
+data class Scales(val color: Color = Color.Red) : Skin()
+data class NormalSkin(val color: SkinColor = SkinColor.Medium) : Skin()
+data class ExoticSkin(val color: Color = Color.Red) : Skin()
