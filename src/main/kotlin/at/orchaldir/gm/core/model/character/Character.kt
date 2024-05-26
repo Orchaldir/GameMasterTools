@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.character.appearance.Appearance
+import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.utils.Element
@@ -26,6 +28,7 @@ data class Character(
     val personality: Set<PersonalityTraitId> = setOf(),
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
     val languages: Map<LanguageId, ComprehensionLevel> = mapOf(LanguageId(0) to ComprehensionLevel.Native),
+    val appearance: Appearance = UndefinedAppearance,
 ) : Element<CharacterId> {
 
     override fun id() = id

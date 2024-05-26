@@ -1,16 +1,15 @@
-package at.orchaldir.gm.app.plugins
+package at.orchaldir.gm.app.plugins.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.core.action.*
+import at.orchaldir.gm.core.action.CreateCharacter
+import at.orchaldir.gm.core.action.DeleteCharacter
+import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.model.language.ComprehensionLevel
-import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
-import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.request.*
@@ -24,54 +23,8 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-private const val RELATIONSHIP_PARAM = "r"
 private const val GROUP_PREFIX = "group_"
 private const val NONE = "None"
-
-@Resource("/characters")
-class Characters {
-
-    @Resource("details")
-    class Details(val id: CharacterId, val parent: Characters = Characters())
-
-    @Resource("new")
-    class New(val parent: Characters = Characters())
-
-    @Resource("delete")
-    class Delete(val id: CharacterId, val parent: Characters = Characters())
-
-    @Resource("edit")
-    class Edit(val id: CharacterId, val parent: Characters = Characters())
-
-    @Resource("preview")
-    class Preview(val id: CharacterId, val parent: Characters = Characters())
-
-    @Resource("update")
-    class Update(val id: CharacterId, val parent: Characters = Characters())
-
-    @Resource("/languages")
-    class Languages(val parent: Characters = Characters()) {
-
-        @Resource("edit")
-        class Edit(val id: CharacterId, val parent: Languages = Languages())
-
-        @Resource("update")
-        class Update(val id: CharacterId, val parent: Languages = Languages())
-    }
-
-    @Resource("/relationships")
-    class Relationships(val parent: Characters = Characters()) {
-
-        @Resource("edit")
-        class Edit(val id: CharacterId, val parent: Relationships = Relationships())
-
-        @Resource("preview")
-        class Preview(val id: CharacterId, val parent: Relationships = Relationships())
-
-        @Resource("update")
-        class Update(val id: CharacterId, val parent: Relationships = Relationships())
-    }
-}
 
 fun Application.configureCharacterRouting() {
     routing {
@@ -136,129 +89,7 @@ fun Application.configureCharacterRouting() {
 
             call.respondRedirect(href(call, update.id))
         }
-        get<Characters.Languages.Edit> { edit ->
-            logger.info { "Get editor for character ${edit.id.value}'s languages" }
-
-            val state = STORE.getState()
-            val character = state.characters.getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showLanguageEditor(call, state, character)
-            }
-        }
-        post<Characters.Languages.Update> { update ->
-            logger.info { "Update character ${update.id.value}'s languages" }
-
-            val formParameters = call.receiveParameters()
-            val languageParam = formParameters["language"]
-
-            if (!languageParam.isNullOrEmpty()) {
-                val language = LanguageId(languageParam.toInt())
-                val level = ComprehensionLevel.valueOf(formParameters.getOrFail("level"))
-
-                STORE.dispatch(AddLanguage(update.id, language, level))
-            }
-
-            val removeList = formParameters.getAll("remove")?.map { LanguageId(it.toInt()) }
-
-            if (removeList != null) {
-                STORE.dispatch(RemoveLanguages(update.id, removeList.toSet()))
-            }
-
-            call.respondRedirect(href(call, update.id))
-        }
-        get<Characters.Relationships.Edit> { edit ->
-            logger.info { "Get editor for character ${edit.id.value}'s relationships" }
-
-            val state = STORE.getState()
-            val character = state.characters.getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showRelationshipEditor(call, state, character)
-            }
-        }
-        post<Characters.Relationships.Preview> { edit ->
-            logger.info { "Get preview for character ${edit.id.value}'s relationships" }
-
-            val state = STORE.getState()
-            val character = state.characters.getOrThrow(edit.id)
-            val formParameters = call.receiveParameters()
-            val relationships = parseRelationships(formParameters)
-
-            val otherParam = formParameters["other"]
-
-            if (!otherParam.isNullOrEmpty()) {
-                val other = CharacterId(otherParam.toInt())
-                relationships.computeIfAbsent(other) { setOf() }
-            }
-
-            val newCharacter = character.copy(relationships = relationships)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showRelationshipEditor(call, state, newCharacter)
-            }
-        }
-        post<Characters.Relationships.Update> { update ->
-            logger.info { "Update character ${update.id.value}'s relationships" }
-
-            val formParameters = call.receiveParameters()
-            val relationships = parseRelationships(formParameters)
-
-            STORE.dispatch(UpdateRelationships(update.id, relationships))
-
-            call.respondRedirect(href(call, update.id))
-        }
     }
-}
-
-private fun parseCharacter(state: State, id: CharacterId, parameters: Parameters): Character {
-    val character = state.characters.getOrThrow(id)
-
-    val name = parameters.getOrFail("name")
-    val race = RaceId(parameters.getOrFail("race").toInt())
-    val gender = Gender.valueOf(parameters.getOrFail("gender"))
-    val culture = parameters.getOrFail("culture")
-        .toIntOrNull()
-        ?.let { CultureId(it) }
-    val personality = parameters.entries()
-        .asSequence()
-        .filter { e -> e.key.startsWith(GROUP_PREFIX) }
-        .map { e -> e.value.first() }
-        .filter { it != NONE }
-        .map { PersonalityTraitId(it.toInt()) }
-        .toSet()
-
-    val origin = when (parameters["origin"]) {
-        "Born" -> {
-            val father = CharacterId(parameters["father"]?.toInt() ?: 0)
-            val mother = CharacterId(parameters["father"]?.toInt() ?: 0)
-            Born(mother, father)
-        }
-
-        else -> UndefinedCharacterOrigin
-    }
-
-    return character.copy(
-        name = name,
-        race = race,
-        gender = gender,
-        origin = origin,
-        culture = culture,
-        personality = personality
-    )
-}
-
-private fun parseRelationships(parameters: Parameters): MutableMap<CharacterId, Set<InterpersonalRelationship>> {
-    val relationships = mutableMapOf<CharacterId, Set<InterpersonalRelationship>>()
-
-    parameters.getAll(RELATIONSHIP_PARAM)?.forEach {
-        val parts = it.split('_')
-        val other = CharacterId(parts[0].toInt())
-        val relationship = InterpersonalRelationship.valueOf(parts[1])
-        val set = relationships[other] ?: setOf()
-        relationships[other] = set + relationship
-    }
-    return relationships
 }
 
 private fun HTML.showAllCharacters(call: ApplicationCall) {
@@ -284,6 +115,7 @@ private fun HTML.showCharacterDetails(
     val backLink = call.application.href(Characters())
     val deleteLink = call.application.href(Characters.Delete(character.id))
     val editLink = call.application.href(Characters.Edit(character.id))
+    val editAppearanceLink = call.application.href(Characters.Appearance.Edit(character.id))
     val editLanguagesLink = call.application.href(Characters.Languages.Edit(character.id))
     val editRelationshipsLink = call.application.href(Characters.Relationships.Edit(character.id))
 
@@ -322,6 +154,7 @@ private fun HTML.showCharacterDetails(
         showLanguages(call, state, character)
 
         p { a(editLink) { +"Edit" } }
+        p { a(editAppearanceLink) { +"Edit Appearance" } }
         p { a(editLanguagesLink) { +"Edit Languages" } }
         p { a(editRelationshipsLink) { +"Edit Relationships" } }
         if (state.canDelete(character.id)) {
@@ -524,115 +357,39 @@ private fun HTML.showCharacterEditor(
     }
 }
 
-private fun HTML.showLanguageEditor(
-    call: ApplicationCall,
-    state: State,
-    character: Character,
-) {
-    val backLink = href(call, character.id)
-    val updateLink = call.application.href(Characters.Languages.Update(character.id))
+private fun parseCharacter(state: State, id: CharacterId, parameters: Parameters): Character {
+    val character = state.characters.getOrThrow(id)
 
-    simpleHtml("Edit Languages: ${character.name}") {
-        form {
-            field("Language to Add") {
-                select {
-                    id = "language"
-                    name = "language"
-                    option {
-                        label = ""
-                        value = ""
-                        selected = true
-                    }
-                    state.getPossibleLanguages(character.id).forEach { language ->
-                        option {
-                            label = language.name
-                            value = language.id.value.toString()
-                        }
-                    }
-                }
-            }
-            selectEnum("Comprehension Level", "level", ComprehensionLevel.entries) { level ->
-                label = level.toString()
-                value = level.toString()
-                selected = level == ComprehensionLevel.Native
-            }
-            field("Languages to Remove") {
-                character.languages.keys.forEach { id ->
-                    val language = state.languages.getOrThrow(id)
-                    p {
-                        checkBoxInput {
-                            name = "remove"
-                            value = language.id.value.toString()
-                            +language.name
-                        }
-                    }
-                }
-            }
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+    val name = parameters.getOrFail("name")
+    val race = RaceId(parameters.getOrFail("race").toInt())
+    val gender = Gender.valueOf(parameters.getOrFail("gender"))
+    val culture = parameters.getOrFail("culture")
+        .toIntOrNull()
+        ?.let { CultureId(it) }
+    val personality = parameters.entries()
+        .asSequence()
+        .filter { e -> e.key.startsWith(GROUP_PREFIX) }
+        .map { e -> e.value.first() }
+        .filter { it != NONE }
+        .map { PersonalityTraitId(it.toInt()) }
+        .toSet()
+
+    val origin = when (parameters["origin"]) {
+        "Born" -> {
+            val father = CharacterId(parameters["father"]?.toInt() ?: 0)
+            val mother = CharacterId(parameters["father"]?.toInt() ?: 0)
+            Born(mother, father)
         }
-        p { a(backLink) { +"Back" } }
-    }
-}
 
-private fun HTML.showRelationshipEditor(
-    call: ApplicationCall,
-    state: State,
-    character: Character,
-) {
-    val backLink = href(call, character.id)
-    val previewLink = call.application.href(Characters.Relationships.Preview(character.id))
-    val updateLink = call.application.href(Characters.Relationships.Update(character.id))
-
-    simpleHtml("Edit Relationships: ${character.name}") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-            field("New Target of Relationship") {
-                select {
-                    id = "other"
-                    name = "other"
-                    onChange = ON_CHANGE_SCRIPT
-                    option {
-                        label = ""
-                        value = ""
-                        selected = true
-                    }
-                    state.getOthersWithoutRelationship(character).forEach { other ->
-                        option {
-                            label = other.name
-                            value = other.id.value.toString()
-                        }
-                    }
-                }
-            }
-            field("Relationships") {
-                showMap(character.relationships) { otherId, relationships ->
-                    link(call, state, otherId)
-                    showList(InterpersonalRelationship.entries) { relationship ->
-                        checkBoxInput {
-                            name = RELATIONSHIP_PARAM
-                            value = "${otherId.value}_$relationship"
-                            checked = relationships.contains(relationship)
-                            +relationship.toString()
-                        }
-                    }
-                }
-            }
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
-        }
-        p { a(backLink) { +"Back" } }
+        else -> UndefinedCharacterOrigin
     }
+
+    return character.copy(
+        name = name,
+        race = race,
+        gender = gender,
+        origin = origin,
+        culture = culture,
+        personality = personality
+    )
 }
