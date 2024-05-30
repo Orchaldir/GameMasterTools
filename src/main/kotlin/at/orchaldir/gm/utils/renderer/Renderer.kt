@@ -4,6 +4,6 @@ import at.orchaldir.gm.utils.math.Point2d
 
 interface Renderer {
 
-    fun renderCircle(center: Point2d, options: RenderOptions)
+    fun renderCircle(center: Point2d, radius: UInt, options: RenderOptions)
 
 }

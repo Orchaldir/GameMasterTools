@@ -8,7 +8,7 @@ data class FillAndBorder(
     val fill: RenderColor,
     val border: RenderColor,
     val lineWidth: UInt,
-) : RenderColor()
+) : RenderOptions()
 
-data class NoBorder(val fill: RenderColor) : RenderColor()
-data class BorderOnly(val border: RenderColor, val lineWidth: UInt) : RenderColor()
+data class NoBorder(val fill: RenderColor) : RenderOptions()
+data class BorderOnly(val border: RenderColor, val lineWidth: UInt) : RenderOptions()
