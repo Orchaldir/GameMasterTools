@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.appearance
 
+import at.orchaldir.gm.utils.renderer.NamedColor
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -21,5 +22,7 @@ enum class Color {
     Silver,
     Teal,
     White,
-    Yellow,
+    Yellow;
+
+    fun toRender() = NamedColor(name)
 }

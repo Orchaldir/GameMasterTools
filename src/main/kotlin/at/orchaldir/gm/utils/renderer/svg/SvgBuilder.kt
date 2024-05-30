@@ -4,7 +4,7 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.*
 
-class SvgBuilder private constructor(var lines: MutableList<String> = mutableListOf()) : Renderer {
+class SvgBuilder private constructor(private var lines: MutableList<String> = mutableListOf()) : Renderer {
 
     companion object {
         fun create(size: Size2d): SvgBuilder {
@@ -28,7 +28,7 @@ class SvgBuilder private constructor(var lines: MutableList<String> = mutableLis
                 "  <circle cx=\"%d\" cy=\"%d\" r=\"%d\" style=\"%s\"/>",
                 center.x,
                 center.y,
-                radius,
+                radius.toInt(),
                 toSvg(options),
             )
         )
@@ -39,20 +39,20 @@ class SvgBuilder private constructor(var lines: MutableList<String> = mutableLis
 fun toSvg(options: RenderOptions): String {
     return when (options) {
         is FillAndBorder -> String.format(
-            "fill:%s;stroke=%s;stroke-width:%d",
+            "fill:%s;stroke:%s;stroke-width:%d",
             toSvg(options.fill),
             toSvg(options.border),
-            options.lineWidth
+            options.lineWidth.toInt()
         )
 
-        is BorderOnly -> String.format("stroke=%s;stroke-width:%d", toSvg(options.border), options.lineWidth)
+        is BorderOnly -> String.format("stroke:%s;stroke-width:%d", toSvg(options.border), options.lineWidth)
         is NoBorder -> String.format("fill:%s", toSvg(options.fill))
     }
 }
 
 fun toSvg(color: RenderColor): String {
     return when (color) {
-        is NamedColor -> color.color
+        is NamedColor -> color.color.lowercase()
         is RGB -> color.toHexCode()
     }
 }
