@@ -10,4 +10,6 @@ interface Renderer {
     fun renderCircle(aabb: AABB, options: RenderOptions) =
         renderCircle(aabb.getCenter(), aabb.getInnerRadius(), options)
 
+    fun renderRectangle(aabb: AABB, options: RenderOptions)
+
 }

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils.renderer.svg
 
+import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.*
@@ -29,6 +30,19 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
                 center.x,
                 center.y,
                 radius.toInt(),
+                toSvg(options),
+            )
+        )
+    }
+
+    override fun renderRectangle(aabb: AABB, options: RenderOptions) {
+        lines.add(
+            String.format(
+                "  <rect x=\"%d\" y=\"%d\" width=\"%d\" height=\"%d\" style=\"%s\"/>",
+                aabb.start.x,
+                aabb.start.y,
+                aabb.size.width,
+                aabb.size.height,
                 toSvg(options),
             )
         )

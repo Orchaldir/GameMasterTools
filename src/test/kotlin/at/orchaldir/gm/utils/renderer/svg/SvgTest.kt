@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test
 
 class SvgTest {
 
+    private val options = FillAndBorder(Blue.toRender(), Red.toRender(), 5u)
+
     @Test
     fun `Test empty svg`() {
         val builder = SvgBuilder.create(Size2d(100, 150))
@@ -23,12 +25,26 @@ class SvgTest {
         )
     }
 
+    @Test
+    fun `Render a rectangle`() {
+        val aabb = AABB(Point2d(100, 200), Size2d(20, 40))
+        val builder = SvgBuilder.create(Size2d(100, 150))
+        builder.renderRectangle(aabb, options)
+        val svg = builder.finish()
+
+        assertEquals(
+            """<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
+  <rect x="100" y="200" width="20" height="40" style="fill:blue;stroke:red;stroke-width:5"/>
+</svg>""",
+            svg.export()
+        )
+    }
+
     @Nested
     inner class DeleteTest {
-        private val options = FillAndBorder(Blue.toRender(), Red.toRender(), 5u)
 
         @Test
-        fun `Test a circle`() {
+        fun `Render a circle`() {
             val builder = SvgBuilder.create(Size2d(100, 150))
             builder.renderCircle(Point2d(110, 220), 10u, options)
 
@@ -36,7 +52,7 @@ class SvgTest {
         }
 
         @Test
-        fun `Test aabb as a circle`() {
+        fun `Render an aabb as a circle`() {
             val aabb = AABB(Point2d(100, 200), Size2d(20, 40))
             val builder = SvgBuilder.create(Size2d(100, 150))
             builder.renderCircle(aabb, options)
