@@ -6,13 +6,14 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.FillAndBorder
+import at.orchaldir.gm.utils.renderer.LineOptions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class SvgTest {
 
-    private val options = FillAndBorder(Blue.toRender(), Red.toRender(), 5u)
+    private val options = FillAndBorder(Blue.toRender(), LineOptions(Red.toRender(), 5u))
 
     @Test
     fun `Test empty svg`() {
