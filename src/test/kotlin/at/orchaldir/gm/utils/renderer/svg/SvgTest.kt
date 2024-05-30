@@ -1,10 +1,10 @@
 package at.orchaldir.gm.utils.renderer.svg
 
-import at.orchaldir.gm.core.model.appearance.Color.Blue
-import at.orchaldir.gm.core.model.appearance.Color.Red
+import at.orchaldir.gm.core.model.appearance.Color.*
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.renderer.BorderOnly
 import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.utils.renderer.LineOptions
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class SvgTest {
-
-    private val options = FillAndBorder(Blue.toRender(), LineOptions(Red.toRender(), 5u))
 
     @Test
     fun `Test empty svg`() {
@@ -28,6 +26,7 @@ class SvgTest {
 
     @Test
     fun `Render a rectangle`() {
+        val options = BorderOnly(LineOptions(Green.toRender(), 10u))
         val aabb = AABB(Point2d(100, 200), Size2d(20, 40))
         val builder = SvgBuilder.create(Size2d(100, 150))
         builder.renderRectangle(aabb, options)
@@ -35,7 +34,7 @@ class SvgTest {
 
         assertEquals(
             """<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
-  <rect x="100" y="200" width="20" height="40" style="fill:blue;stroke:red;stroke-width:5"/>
+  <rect x="100" y="200" width="20" height="40" style="fill:none;stroke:green;stroke-width:10"/>
 </svg>""",
             svg.export()
         )
@@ -43,6 +42,8 @@ class SvgTest {
 
     @Nested
     inner class DeleteTest {
+
+        private val options = FillAndBorder(Blue.toRender(), LineOptions(Red.toRender(), 5u))
 
         @Test
         fun `Render a circle`() {

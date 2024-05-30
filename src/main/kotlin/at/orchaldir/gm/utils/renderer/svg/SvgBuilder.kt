@@ -53,15 +53,18 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
 fun toSvg(options: RenderOptions): String {
     return when (options) {
         is FillAndBorder -> String.format(
-            "fill:%s;stroke:%s;stroke-width:%d",
+            "fill:%s;%s",
             toSvg(options.fill),
-            toSvg(options.border),
-            options.lineWidth.toInt()
+            toSvg(options.border)
         )
 
-        is BorderOnly -> String.format("stroke:%s;stroke-width:%d", toSvg(options.border), options.lineWidth)
+        is BorderOnly -> String.format("fill:none;%s", toSvg(options.border))
         is NoBorder -> String.format("fill:%s", toSvg(options.fill))
     }
+}
+
+fun toSvg(line: LineOptions): String {
+    return String.format("stroke:%s;stroke-width:%d", toSvg(line.color), line.width.toInt())
 }
 
 fun toSvg(color: RenderColor): String {
@@ -70,4 +73,3 @@ fun toSvg(color: RenderColor): String {
         is RGB -> color.toHexCode()
     }
 }
-
