@@ -53,7 +53,7 @@ fun toSvg(options: RenderOptions): String {
 fun toSvg(color: RenderColor): String {
     return when (color) {
         is NamedColor -> color.color
-        is RGB -> String.format("#%02x%02x%02x", color.red, color.green, color.blue)
+        is RGB -> color.toHexCode()
     }
 }
 
