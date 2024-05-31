@@ -3,7 +3,7 @@ package at.orchaldir.gm.utils.math
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Point2d(val x: Float, val y: Float) {
+data class Point2d(val x: Float = 0.0f, val y: Float = 0.0f) {
 
     operator fun plus(distance: Distance) = Point2d(x + distance.value, y + distance.value)
     operator fun plus(other: Point2d) = Point2d(x + other.x, y + other.y)
