@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Head(
-    val earType: EarType = EarType.Round,
+    val ears: Ears = NoEars,
     val eyes: Eyes = NoEyes,
     val mouth: Mouth = NoMouth,
 )

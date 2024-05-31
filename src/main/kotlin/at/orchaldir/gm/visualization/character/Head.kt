@@ -9,6 +9,7 @@ import at.orchaldir.gm.visualization.RenderConfig
 
 data class HeadConfig(
     val eyes: EyesConfig,
+    val earY: Factor,
     val eyeY: Factor,
 )
 

@@ -33,6 +33,10 @@ private const val EXOTIC = "exotic"
 private const val EXOTIC_COLOR = "exotic_color"
 private const val SKIN_COLOR = "skin_color"
 private const val EAR_TYPE = "ear_type"
+private const val NO_EARS = "no"
+private const val NORMAL_EARS = "normal"
+private const val EAR_SHAPE = "ear_shape"
+private const val EAR_SIZE = "ear_size"
 private const val EYES_TYPE = "eyes"
 private const val NO_EYES = "no"
 private const val ONE_EYE = "one"
@@ -122,7 +126,7 @@ private fun HTML.showAppearanceEditor(
             }
             if (appearance is HeadOnly) {
                 showSkinEditor(appearance.skin)
-                showEarsEditor(appearance.head)
+                showEarsEditor(appearance.head.ears)
                 showEyesEditor(appearance.head.eyes)
                 showMouthEditor(appearance.head.mouth)
             }
@@ -138,12 +142,40 @@ private fun HTML.showAppearanceEditor(
     }
 }
 
-private fun FORM.showEarsEditor(head: Head) {
+private fun FORM.showEarsEditor(ears: Ears) {
     h2 { +"Ears" }
-    selectEnum("Type", EAR_TYPE, EarType.entries, true) { type ->
-        label = type.name
-        value = type.toString()
-        selected = head.earType == type
+    field("Type") {
+        select {
+            id = EAR_TYPE
+            name = EAR_TYPE
+            onChange = ON_CHANGE_SCRIPT
+            option {
+                label = "No Ears"
+                value = NO_EARS
+                selected = ears is NoEars
+            }
+            option {
+                label = "Normal Ears"
+                value = NORMAL_EARS
+                selected = ears is NormalEars
+            }
+        }
+    }
+    when (ears) {
+        is NormalEars -> {
+            selectEnum("Ear Shape", EAR_SHAPE, EarShape.entries, true) { shape ->
+                label = shape.name
+                value = shape.toString()
+                selected = ears.shape == shape
+            }
+            selectEnum("Ear Size", EAR_SIZE, Size.entries, true) { size ->
+                label = size.name
+                value = size.toString()
+                selected = ears.size == size
+            }
+        }
+
+        else -> doNothing()
     }
 }
 
@@ -310,15 +342,27 @@ private fun FORM.showMouthEditor(
 private fun parseAppearance(parameters: Parameters): Appearance {
     return when (parameters[TYPE]) {
         HEAD -> {
-            val earType = parse(parameters, EAR_TYPE, EarType.Round)
+            val ears = parseEars(parameters)
             val eyes = parseEyes(parameters)
             val mouth = parseMouth(parameters)
-            val head = Head(earType, eyes, mouth)
+            val head = Head(ears, eyes, mouth)
             val skin = parseSkin(parameters)
             return HeadOnly(head, skin, Distance(0.2f))
         }
 
         else -> UndefinedAppearance
+    }
+}
+
+private fun parseEars(parameters: Parameters): Ears {
+    return when (parameters[EAR_TYPE]) {
+        NORMAL_EARS -> {
+            val shape = parse(parameters, EAR_SHAPE, EarShape.Round)
+            val size = parse(parameters, EAR_SIZE, Size.Medium)
+            return NormalEars(shape, size)
+        }
+
+        else -> NoEars
     }
 }
 
