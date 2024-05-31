@@ -65,7 +65,7 @@ fun toSvg(options: RenderOptions): String {
 }
 
 fun toSvg(line: LineOptions): String {
-    return String.format("stroke:%s;stroke-width:%.3f", toSvg(line.color), line.width)
+    return String.format("stroke:%s;stroke-width:%.3f", toSvg(line.color), line.width.value)
 }
 
 fun toSvg(color: RenderColor): String {

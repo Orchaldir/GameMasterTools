@@ -1,5 +1,8 @@
 package at.orchaldir.gm.utils.math
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Point2d(val x: Float, val y: Float) {
 
     operator fun plus(other: Point2d) = Point2d(x + other.x, y + other.y)

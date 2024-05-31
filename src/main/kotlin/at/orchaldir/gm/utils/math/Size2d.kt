@@ -1,5 +1,8 @@
 package at.orchaldir.gm.utils.math
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Size2d(val width: Float, val height: Float) {
 
     init {
