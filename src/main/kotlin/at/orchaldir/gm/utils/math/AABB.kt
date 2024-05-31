@@ -13,4 +13,6 @@ data class AABB(val start: Point2d, val size: Size2d) {
     fun getCenter() = start + size / 2.0f
 
     fun getInnerRadius() = Distance(minOf(size.width, size.height) / 2.0f)
+
+    fun shrink(border: Distance) = AABB(start + border, size - border * 2.0f)
 }

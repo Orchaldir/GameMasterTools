@@ -16,6 +16,7 @@ data class Size2d(val width: Float, val height: Float) {
         fun square(distance: Distance) = square(distance.value)
     }
 
+    operator fun minus(distance: Distance) = Size2d(width - distance.value, height - distance.value)
     operator fun div(value: Float) = Size2d(width / value, height / value)
 
 }
