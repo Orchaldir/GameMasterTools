@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.*
@@ -10,7 +11,7 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
     companion object {
         fun create(size: Size2d): SvgBuilder {
             val start = String.format(
-                "<svg viewBox=\"0 0 %d %d\" xmlns=\"http://www.w3.org/2000/svg\">",
+                "<svg viewBox=\"0 0 %.3f %.3f\" xmlns=\"http://www.w3.org/2000/svg\">",
                 size.width,
                 size.height
             )
@@ -23,13 +24,13 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
         return Svg(lines)
     }
 
-    override fun renderCircle(center: Point2d, radius: UInt, options: RenderOptions) {
+    override fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions) {
         lines.add(
             String.format(
-                "  <circle cx=\"%d\" cy=\"%d\" r=\"%d\" style=\"%s\"/>",
+                "  <circle cx=\"%.3f\" cy=\"%.3f\" r=\"%.3f\" style=\"%s\"/>",
                 center.x,
                 center.y,
-                radius.toInt(),
+                radius.value,
                 toSvg(options),
             )
         )
@@ -38,7 +39,7 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
     override fun renderRectangle(aabb: AABB, options: RenderOptions) {
         lines.add(
             String.format(
-                "  <rect x=\"%d\" y=\"%d\" width=\"%d\" height=\"%d\" style=\"%s\"/>",
+                "  <rect x=\"%.3f\" y=\"%.3f\" width=\"%.3f\" height=\"%.3f\" style=\"%s\"/>",
                 aabb.start.x,
                 aabb.start.y,
                 aabb.size.width,
@@ -64,7 +65,7 @@ fun toSvg(options: RenderOptions): String {
 }
 
 fun toSvg(line: LineOptions): String {
-    return String.format("stroke:%s;stroke-width:%d", toSvg(line.color), line.width.toInt())
+    return String.format("stroke:%s;stroke-width:%.3f", toSvg(line.color), line.width)
 }
 
 fun toSvg(color: RenderColor): String {

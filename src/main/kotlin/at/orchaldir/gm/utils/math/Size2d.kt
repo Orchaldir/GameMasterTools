@@ -1,9 +1,12 @@
 package at.orchaldir.gm.utils.math
 
-import kotlin.math.roundToInt
+data class Size2d(val width: Float, val height: Float) {
 
-data class Size2d(val width: Int, val height: Int) {
+    init {
+        require(width > 0.0) { "Width muster be greater 0!" }
+        require(height > 0.0) { "Height muster be greater 0!" }
+    }
 
-    operator fun div(value: Float) = Size2d((width / value).roundToInt(), (height / value).roundToInt())
+    operator fun div(value: Float) = Size2d(width / value, height / value)
 
 }
