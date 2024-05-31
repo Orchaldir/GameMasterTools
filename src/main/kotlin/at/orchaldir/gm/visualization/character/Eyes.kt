@@ -17,11 +17,18 @@ import at.orchaldir.gm.visualization.SizeConfig
 data class EyesConfig(
     private val diameter: SizeConfig,
     private val distanceBetweenEyes: SizeConfig,
+    private val almondHeight: Factor,
+    private val ellipseHeight: Factor,
 ) {
 
-    fun getEyeSize(aabb: AABB, size: Size = Size.Small): Size2d {
-        val height = aabb.size.height
-        return square(height * diameter.convert(size))
+    fun getEyeSize(aabb: AABB, shape: EyeShape, size: Size = Size.Small): Size2d {
+        val diameter = aabb.size.height * diameter.convert(size)
+
+        return when (shape) {
+            EyeShape.Almond -> Size2d(diameter, diameter * almondHeight.value)
+            EyeShape.Circle -> square(diameter)
+            EyeShape.Ellipse -> Size2d(diameter, diameter * ellipseHeight.value)
+        }
     }
 
     fun getDistanceBetweenEyes(size: Size = Size.Medium): Factor {
@@ -34,13 +41,13 @@ fun visualizeEyes(renderer: Renderer, config: RenderConfig, aabb: AABB, head: He
         NoEyes -> doNothing()
         is OneEye -> {
             val center = aabb.getPoint(Factor(0.5f), config.head.eyeY)
-            val size = config.head.eyes.getEyeSize(aabb, head.eyes.size)
+            val size = config.head.eyes.getEyeSize(aabb, head.eyes.eye.eyeShape, head.eyes.size)
 
             visualizeEye(renderer, config, center, size, head.eyes.eye)
         }
 
         is TwoEyes -> {
-            val size = config.head.eyes.getEyeSize(aabb, Size.Small)
+            val size = config.head.eyes.getEyeSize(aabb, head.eyes.eye.eyeShape, Size.Small)
             val distance = config.head.eyes.getDistanceBetweenEyes()
             val (left, right) = aabb.getMirroredPoints(distance, config.head.eyeY)
 

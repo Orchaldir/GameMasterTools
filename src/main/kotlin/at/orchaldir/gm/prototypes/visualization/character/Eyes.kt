@@ -17,9 +17,17 @@ import java.io.File
 fun main() {
     val config = RenderConfig(
         Distance(0.2f), LineOptions(Color.Black.toRender(), Distance(0.005f)),
-        HeadConfig(EyesConfig(SizeConfig(0.2f, 0.3f, 0.4f), SizeConfig(0.3f, 0.45f, 0.5f)), Factor(0.4f))
+        HeadConfig(
+            EyesConfig(
+                SizeConfig(0.2f, 0.3f, 0.4f),
+                SizeConfig(0.3f, 0.45f, 0.5f),
+                Factor(0.7f),
+                Factor(0.75f)
+            ),
+            Factor(0.4f)
+        )
     )
-    val appearances = listOf(createRow(Eye()))
+    val appearances = EyeShape.entries.map { createRow(Eye(eyeShape = it)) }
     val size = calculateSize(config, appearances[0][0])
     val maxColumns = appearances.maxOf { it.size }
     val totalSize = Size2d(size.width * maxColumns, size.height * appearances.size)
