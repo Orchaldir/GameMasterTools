@@ -1,34 +1,18 @@
 package at.orchaldir.gm.prototypes.visualization.character
 
-import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.LineOptions
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.RenderConfig
-import at.orchaldir.gm.visualization.SizeConfig
-import at.orchaldir.gm.visualization.character.EyesConfig
-import at.orchaldir.gm.visualization.character.HeadConfig
 import at.orchaldir.gm.visualization.character.calculateSize
 import at.orchaldir.gm.visualization.character.visualizeAppearance
 import java.io.File
 
 fun main() {
-    val config = RenderConfig(
-        Distance(0.2f), LineOptions(Color.Black.toRender(), Distance(0.005f)),
-        HeadConfig(
-            EyesConfig(
-                SizeConfig(0.2f, 0.3f, 0.4f),
-                SizeConfig(0.3f, 0.45f, 0.5f),
-                Factor(0.7f),
-                Factor(0.75f),
-                Factor(0.5f),
-                Factor(0.2f),
-            ),
-            Factor(0.4f)
-        )
-    )
+    val config = RENDER_CONFIG
     val appearances = mutableListOf<List<Appearance>>()
     PupilShape.entries.forEach { pupilShape ->
         EyeShape.entries.forEach { eyeShape ->

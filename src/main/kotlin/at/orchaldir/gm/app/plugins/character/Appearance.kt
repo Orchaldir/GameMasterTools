@@ -7,8 +7,10 @@ import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -93,8 +95,13 @@ private fun HTML.showAppearanceEditor(
     val backLink = href(call, character.id)
     val previewLink = call.application.href(Characters.Appearance.Preview(character.id))
     val updateLink = call.application.href(Characters.Appearance.Update(character.id))
+    val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance)
 
     simpleHtml("Edit Appearance: ${character.name}") {
+        div {
+            style = "width:20%"
+            unsafe { +frontSvg.export() }
+        }
         form {
             id = "editor"
             action = previewLink
