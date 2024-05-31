@@ -28,7 +28,20 @@ data class AABB(val start: Point2d, val size: Size2d) {
         start.y + size.height * vertical,
     )
 
+    fun getMirroredPoints(width: Float, vertical: Float): Pair<Point2d, Point2d> {
+        return Pair(
+            getPoint(getStartX(width), vertical),
+            getPoint(getEndX(width), vertical)
+        )
+    }
+
     operator fun plus(offset: Point2d) = AABB(start + offset, size)
 
     fun shrink(border: Distance) = AABB(start + border, size - border * 2.0f)
 }
+
+/// Returns the start x coordinated, if the width is centered.
+fun getStartX(width: Float) = 0.5f - width / 2.0f
+
+/// Returns the start x coordinated, if the width is centered.
+fun getEndX(width: Float) = 0.5f + width / 2.0f
