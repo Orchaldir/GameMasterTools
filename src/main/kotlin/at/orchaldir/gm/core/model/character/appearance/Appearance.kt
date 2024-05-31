@@ -8,6 +8,5 @@ sealed class Appearance
 data object UndefinedAppearance : Appearance()
 data class HeadOnly(
     val head: Head,
-    val skin: Skin,
     val height: Distance,
 ) : Appearance()

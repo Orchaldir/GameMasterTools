@@ -33,7 +33,7 @@ fun visualizeAppearance(
     renderer.renderRectangle(aabb, BorderOnly(config.line))
 
     when (appearance) {
-        is HeadOnly -> visualizeHead(renderer, config, inner, appearance.head, appearance.skin)
+        is HeadOnly -> visualizeHead(renderer, config, inner, appearance.head)
         UndefinedAppearance -> doNothing()
     }
 }

@@ -125,7 +125,7 @@ private fun HTML.showAppearanceEditor(
                 }
             }
             if (appearance is HeadOnly) {
-                showSkinEditor(appearance.skin)
+                showSkinEditor(appearance.head.skin)
                 showEarsEditor(appearance.head.ears)
                 showEyesEditor(appearance.head.eyes)
                 showMouthEditor(appearance.head.mouth)
@@ -345,9 +345,9 @@ private fun parseAppearance(parameters: Parameters): Appearance {
             val ears = parseEars(parameters)
             val eyes = parseEyes(parameters)
             val mouth = parseMouth(parameters)
-            val head = Head(ears, eyes, mouth)
             val skin = parseSkin(parameters)
-            return HeadOnly(head, skin, Distance(0.2f))
+            val head = Head(ears, eyes, mouth, skin)
+            return HeadOnly(head, Distance(0.2f))
         }
 
         else -> UndefinedAppearance

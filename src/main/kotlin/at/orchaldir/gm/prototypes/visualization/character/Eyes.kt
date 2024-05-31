@@ -44,7 +44,7 @@ fun main() {
     File("eyes.svg").writeText(builder.finish().export())
 }
 
-private fun createAppearance(eyes: Eyes) = HeadOnly(Head(eyes = eyes), ExoticSkin(), Distance(0.2f))
+private fun createAppearance(eyes: Eyes) = HeadOnly(Head(eyes = eyes, skin = ExoticSkin()), Distance(0.2f))
 
 private fun createRow(eye: Eye) =
     listOf(OneEye(eye, Size.Small), OneEye(eye, Size.Medium), OneEye(eye, Size.Large), TwoEyes(eye))
