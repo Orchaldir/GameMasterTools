@@ -1,15 +1,15 @@
 package at.orchaldir.gm.utils.renderer.svg
 
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.*
 import java.lang.Float.min
 import java.util.*
 import kotlin.math.pow
 
 private val LOCALE = Locale.US
+private val START = Factor(0.0f)
+private val CENTER = Factor(0.5f)
+private val END = Factor(1.0f)
 
 class SvgBuilder private constructor(private var lines: MutableList<String> = mutableListOf()) : Renderer {
 
@@ -61,14 +61,14 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
         val radius = (radiusX.value.pow(2.0f) + radiusY.value.pow(2.0f)) / (2.0f * min(radiusX.value, radiusY.value))
         val aabb = AABB.fromRadii(center, radiusX, radiusY)
         val left = if (radiusX.value > radiusY.value) {
-            aabb.getPoint(0.0f, 0.5f)
+            aabb.getPoint(START, CENTER)
         } else {
-            aabb.getPoint(0.5f, 0.0f)
+            aabb.getPoint(CENTER, START)
         }
         val right = if (radiusX.value > radiusY.value) {
-            aabb.getPoint(1.0f, 0.5f)
+            aabb.getPoint(END, CENTER)
         } else {
-            aabb.getPoint(0.5f, 1.0f)
+            aabb.getPoint(CENTER, END)
         }
 
         renderPath(

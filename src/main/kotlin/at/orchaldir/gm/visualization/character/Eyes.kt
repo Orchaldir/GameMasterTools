@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
@@ -14,8 +15,8 @@ import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.SizeConfig
 
 data class EyesConfig(
-    val diameter: SizeConfig,
-    val distanceBetweenEyes: SizeConfig,
+    private val diameter: SizeConfig,
+    private val distanceBetweenEyes: SizeConfig,
 ) {
 
     fun getEyeSize(aabb: AABB, size: Size = Size.Small): Size2d {
@@ -23,8 +24,8 @@ data class EyesConfig(
         return square(height * diameter.convert(size))
     }
 
-    fun getDistanceBetweenEyes(size: Size = Size.Medium): Float {
-        return distanceBetweenEyes.convert(size)
+    fun getDistanceBetweenEyes(size: Size = Size.Medium): Factor {
+        return Factor(distanceBetweenEyes.convert(size))
     }
 }
 
@@ -32,7 +33,7 @@ fun visualizeEyes(renderer: Renderer, config: RenderConfig, aabb: AABB, head: He
     when (head.eyes) {
         NoEyes -> doNothing()
         is OneEye -> {
-            val center = aabb.getPoint(0.5f, config.head.eyeY)
+            val center = aabb.getPoint(Factor(0.5f), config.head.eyeY)
             val size = config.head.eyes.getEyeSize(aabb, head.eyes.size)
 
             visualizeEye(renderer, config, center, size, head.eyes.eye)

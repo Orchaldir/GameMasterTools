@@ -23,12 +23,12 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     fun getInnerRadius() = Distance(minOf(size.width, size.height) / 2.0f)
 
-    fun getPoint(horizontal: Float, vertical: Float) = Point2d(
-        start.x + size.width * horizontal,
-        start.y + size.height * vertical,
+    fun getPoint(horizontal: Factor, vertical: Factor) = Point2d(
+        start.x + size.width * horizontal.value,
+        start.y + size.height * vertical.value,
     )
 
-    fun getMirroredPoints(width: Float, vertical: Float): Pair<Point2d, Point2d> {
+    fun getMirroredPoints(width: Factor, vertical: Factor): Pair<Point2d, Point2d> {
         return Pair(
             getPoint(getStartX(width), vertical),
             getPoint(getEndX(width), vertical)
@@ -40,8 +40,12 @@ data class AABB(val start: Point2d, val size: Size2d) {
     fun shrink(border: Distance) = AABB(start + border, size - border * 2.0f)
 }
 
-/// Returns the start x coordinated, if the width is centered.
-fun getStartX(width: Float) = 0.5f - width / 2.0f
+/**
+ * Returns the start x coordinated, if the width is centered.
+ */
+fun getStartX(width: Factor) = Factor(0.5f - width.value / 2.0f)
 
-/// Returns the start x coordinated, if the width is centered.
-fun getEndX(width: Float) = 0.5f + width / 2.0f
+/**
+ * Returns the start x coordinated, if the width is centered.
+ */
+fun getEndX(width: Factor) = Factor(0.5f + width.value / 2.0f)
