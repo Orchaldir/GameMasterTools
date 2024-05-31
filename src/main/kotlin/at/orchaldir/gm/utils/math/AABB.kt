@@ -28,5 +28,7 @@ data class AABB(val start: Point2d, val size: Size2d) {
         start.y + size.height * vertical,
     )
 
+    operator fun plus(offset: Point2d) = AABB(start + offset, size)
+
     fun shrink(border: Distance) = AABB(start + border, size - border * 2.0f)
 }

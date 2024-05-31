@@ -34,5 +34,5 @@ data class OneEye(
     val size: Size = Size.Medium,
 ) : Eyes()
 
-data class TwoEyes(val eye: Eye) : Eyes()
+data class TwoEyes(val eye: Eye = Eye()) : Eyes()
 

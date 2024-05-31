@@ -7,6 +7,7 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.renderer.BorderOnly
+import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.RenderConfig
@@ -14,17 +15,27 @@ import at.orchaldir.gm.visualization.RenderConfig
 fun visualizeCharacter(config: RenderConfig, appearance: Appearance): Svg {
     val size = calculateSize(config, appearance)
     val aabb = AABB(size)
-    val inner = aabb.shrink(config.padding)
     val builder = SvgBuilder.create(size)
 
-    builder.renderRectangle(aabb, BorderOnly(config.line))
-
-    when (appearance) {
-        is HeadOnly -> visualizeHead(builder, config, inner, appearance.head, appearance.skin)
-        UndefinedAppearance -> doNothing()
-    }
+    visualizeAppearance(builder, config, aabb, appearance)
 
     return builder.finish()
+}
+
+fun visualizeAppearance(
+    renderer: Renderer,
+    config: RenderConfig,
+    aabb: AABB,
+    appearance: Appearance,
+) {
+    val inner = aabb.shrink(config.padding)
+
+    renderer.renderRectangle(aabb, BorderOnly(config.line))
+
+    when (appearance) {
+        is HeadOnly -> visualizeHead(renderer, config, inner, appearance.head, appearance.skin)
+        UndefinedAppearance -> doNothing()
+    }
 }
 
 fun calculateSize(config: RenderConfig, appearance: Appearance) = when (appearance) {
