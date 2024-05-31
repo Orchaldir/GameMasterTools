@@ -22,12 +22,19 @@ fun main() {
                 SizeConfig(0.2f, 0.3f, 0.4f),
                 SizeConfig(0.3f, 0.45f, 0.5f),
                 Factor(0.7f),
-                Factor(0.75f)
+                Factor(0.75f),
+                Factor(0.5f),
+                Factor(0.2f),
             ),
             Factor(0.4f)
         )
     )
-    val appearances = EyeShape.entries.map { createRow(Eye(eyeShape = it)) }
+    val appearances = mutableListOf<List<Appearance>>()
+    PupilShape.entries.forEach { pupilShape ->
+        EyeShape.entries.forEach { eyeShape ->
+            appearances.add(createRow(Eye(eyeShape, pupilShape)))
+        }
+    }
     val size = calculateSize(config, appearances[0][0])
     val maxColumns = appearances.maxOf { it.size }
     val totalSize = Size2d(size.width * maxColumns, size.height * appearances.size)
@@ -56,5 +63,5 @@ fun main() {
 private fun createAppearance(eyes: Eyes) = HeadOnly(Head(eyes = eyes), ExoticSkin(), Distance(0.2f))
 
 private fun createRow(eye: Eye) =
-    listOf(NoEyes, OneEye(eye, Size.Small), OneEye(eye, Size.Medium), OneEye(eye, Size.Large), TwoEyes(eye))
+    listOf(OneEye(eye, Size.Small), OneEye(eye, Size.Medium), OneEye(eye, Size.Large), TwoEyes(eye))
         .map { createAppearance(it) }

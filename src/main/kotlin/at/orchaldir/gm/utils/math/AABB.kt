@@ -2,6 +2,8 @@ package at.orchaldir.gm.utils.math
 
 import kotlinx.serialization.Serializable
 
+private val TWO = Factor(2.0f)
+
 /**
  * An axis aligned bounding box.
  */
@@ -12,14 +14,14 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     companion object {
         fun fromCenter(center: Point2d, size: Size2d) = AABB(
-            center - size / 2.0f, size
+            center - size / TWO, size
         )
 
         fun fromRadii(center: Point2d, radiusX: Distance, radiusY: Distance) =
             fromCenter(center, Size2d(radiusX.value * 2.0f, radiusY.value * 2.0f))
     }
 
-    fun getCenter() = start + size / 2.0f
+    fun getCenter() = start + size / TWO
 
     fun getInnerRadius() = Distance(minOf(size.width, size.height) / 2.0f)
 
@@ -38,6 +40,11 @@ data class AABB(val start: Point2d, val size: Size2d) {
     operator fun plus(offset: Point2d) = AABB(start + offset, size)
 
     fun shrink(border: Distance) = AABB(start + border, size - border * 2.0f)
+
+    fun shrink(factor: Factor): AABB {
+        val border = size * (factor * 0.5f)
+        return AABB(start + border, size * factor)
+    }
 }
 
 /**

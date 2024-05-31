@@ -19,6 +19,8 @@ data class EyesConfig(
     private val distanceBetweenEyes: SizeConfig,
     private val almondHeight: Factor,
     private val ellipseHeight: Factor,
+    val pupilFactor: Factor,
+    val slitFactor: Factor,
 ) {
 
     fun getEyeSize(aabb: AABB, shape: EyeShape, size: Size = Size.Small): Size2d {
@@ -65,6 +67,7 @@ fun visualizeEye(renderer: Renderer, config: RenderConfig, center: Point2d, size
 
 fun visualizeEye(renderer: Renderer, config: RenderConfig, aabb: AABB, eye: Eye) {
     visualizeEyeShape(renderer, config, aabb, eye.eyeShape, eye.scleraColor)
+    visualizePupil(renderer, config, aabb, eye.pupilShape, eye.pupilColor)
 }
 
 fun visualizeEyeShape(renderer: Renderer, config: RenderConfig, aabb: AABB, eyeShape: EyeShape, color: Color) {
@@ -74,5 +77,23 @@ fun visualizeEyeShape(renderer: Renderer, config: RenderConfig, aabb: AABB, eyeS
         EyeShape.Almond -> renderer.renderPointedOval(aabb, options)
         EyeShape.Circle -> renderer.renderCircle(aabb, options)
         EyeShape.Ellipse -> renderer.renderEllipse(aabb, options)
+    }
+}
+
+fun visualizePupil(renderer: Renderer, config: RenderConfig, aabb: AABB, pupilShape: PupilShape, color: Color) {
+    val options = NoBorder(color.toRender())
+    val slitWidth = aabb.size.width * config.head.eyes.slitFactor.value
+
+    when (pupilShape) {
+        PupilShape.Circle -> renderer.renderCircle(aabb.shrink(config.head.eyes.pupilFactor), options)
+        PupilShape.HorizontalSlit -> {
+            val slitAABB = AABB.fromCenter(aabb.getCenter(), Size2d(aabb.size.width, slitWidth))
+            renderer.renderPointedOval(slitAABB, options)
+        }
+
+        PupilShape.VerticalSlit -> {
+            val slitAABB = AABB.fromCenter(aabb.getCenter(), Size2d(slitWidth, aabb.size.height))
+            renderer.renderPointedOval(slitAABB, options)
+        }
     }
 }
