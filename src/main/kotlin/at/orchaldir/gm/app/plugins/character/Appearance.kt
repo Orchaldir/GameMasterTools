@@ -98,10 +98,7 @@ private fun HTML.showAppearanceEditor(
     val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance)
 
     simpleHtml("Edit Appearance: ${character.name}") {
-        div {
-            style = "width:20%"
-            unsafe { +frontSvg.export() }
-        }
+        svg(frontSvg, 20)
         form {
             id = "editor"
             action = previewLink
@@ -143,7 +140,7 @@ private fun HTML.showAppearanceEditor(
 
 private fun FORM.showEarsEditor(head: Head) {
     h2 { +"Ears" }
-    selectEnum("Type", EAR_TYPE, EarType.entries) { type ->
+    selectEnum("Type", EAR_TYPE, EarType.entries, true) { type ->
         label = type.name
         value = type.toString()
         selected = head.earType == type
@@ -180,7 +177,7 @@ private fun FORM.showSkinEditor(
         is Scales -> selectSkinColor(skin.color)
         is ExoticSkin -> selectSkinColor(skin.color)
         is NormalSkin -> {
-            selectEnum("Color", SKIN_COLOR, SkinColor.entries) { c ->
+            selectEnum("Color", SKIN_COLOR, SkinColor.entries, true) { c ->
                 label = c.name
                 value = c.toString()
                 selected = skin.color == c
@@ -190,7 +187,7 @@ private fun FORM.showSkinEditor(
 }
 
 private fun FORM.selectSkinColor(color: Color) {
-    selectEnum("Color", EXOTIC_COLOR, Color.entries) { c ->
+    selectEnum("Color", EXOTIC_COLOR, Color.entries, true) { c ->
         label = c.name
         value = c.toString()
         selected = color == c
@@ -226,7 +223,7 @@ private fun FORM.showEyesEditor(
     when (eyes) {
         is OneEye -> {
             showEyeEditor(eyes.eye)
-            selectEnum("Eye Size", EYE_SIZE, Size.entries) { c ->
+            selectEnum("Eye Size", EYE_SIZE, Size.entries, true) { c ->
                 label = c.name
                 value = c.toString()
                 selected = eyes.size == c
@@ -244,22 +241,22 @@ private fun FORM.showEyesEditor(
 private fun FORM.showEyeEditor(
     eye: Eye,
 ) {
-    selectEnum("Eye Shape", EYE_SHAPE, EyeShape.entries) { shape ->
+    selectEnum("Eye Shape", EYE_SHAPE, EyeShape.entries, true) { shape ->
         label = shape.name
         value = shape.toString()
         selected = eye.eyeShape == shape
     }
-    selectEnum("Pupil Shape", PUPIL_SHAPE, PupilShape.entries) { shape ->
+    selectEnum("Pupil Shape", PUPIL_SHAPE, PupilShape.entries, true) { shape ->
         label = shape.name
         value = shape.toString()
         selected = eye.pupilShape == shape
     }
-    selectEnum("Pupil Color", PUPIL_COLOR, Color.entries) { color ->
+    selectEnum("Pupil Color", PUPIL_COLOR, Color.entries, true) { color ->
         label = color.name
         value = color.toString()
         selected = eye.pupilColor == color
     }
-    selectEnum("Sclera Color", SCLERA_COLOR, Color.entries) { color ->
+    selectEnum("Sclera Color", SCLERA_COLOR, Color.entries, true) { color ->
         label = color.name
         value = color.toString()
         selected = eye.scleraColor == color
@@ -289,17 +286,17 @@ private fun FORM.showMouthEditor(
     }
     when (mouth) {
         is SimpleMouth -> {
-            selectEnum("Width", MOUTH_WIDTH, Size.entries) { width ->
+            selectEnum("Width", MOUTH_WIDTH, Size.entries, true) { width ->
                 label = width.name
                 value = width.toString()
                 selected = mouth.width == width
             }
-            selectEnum("Teeth Color", TEETH_COLOR, TeethColor.entries) { color ->
+            selectEnum("Teeth Color", TEETH_COLOR, TeethColor.entries, true) { color ->
                 label = color.name
                 value = color.toString()
                 selected = mouth.teethColor == color
             }
-            selectEnum("Fangs", FANG_TYPE, FangType.entries) { type ->
+            selectEnum("Fangs", FANG_TYPE, FangType.entries, true) { type ->
                 label = type.name
                 value = type.toString()
                 selected = mouth.fangType == type

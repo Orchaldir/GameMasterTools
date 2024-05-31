@@ -10,7 +10,7 @@ import at.orchaldir.gm.visualization.character.EyesConfig
 import at.orchaldir.gm.visualization.character.HeadConfig
 
 val RENDER_CONFIG = RenderConfig(
-    Distance(0.1f), LineOptions(Color.Black.toRender(), Distance(0.005f)),
+    Distance(0.05f), LineOptions(Color.Black.toRender(), Distance(0.005f)),
     HeadConfig(
         EyesConfig(
             SizeConfig(0.2f, 0.3f, 0.4f),
