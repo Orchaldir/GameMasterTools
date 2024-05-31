@@ -6,6 +6,12 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
 
+data class HeadConfig(
+    val eyes: EyesConfig,
+    val eyeY: Float,
+)
+
 fun visualizeHead(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head, skin: Skin) {
     renderer.renderRectangle(aabb, config.getOptions(skin))
+    visualizeEyes(renderer, config, aabb, head)
 }
