@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.Distance
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -15,7 +16,7 @@ private val ID0 = CharacterId(0)
 
 class AppearanceTest {
 
-    private val appearance = HeadOnly(Head(EarType.Round, NoEyes, NoMouth), NormalSkin())
+    private val appearance = HeadOnly(Head(EarType.Round, NoEyes, NoMouth), NormalSkin(), Distance(0.5f))
     private val action = UpdateAppearance(ID0, appearance)
 
     @Test

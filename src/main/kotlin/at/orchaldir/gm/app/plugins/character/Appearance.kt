@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Distance
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -310,7 +311,7 @@ private fun parseAppearance(parameters: Parameters): Appearance {
             val mouth = parseMouth(parameters)
             val head = Head(earType, eyes, mouth)
             val skin = parseSkin(parameters)
-            return HeadOnly(head, skin)
+            return HeadOnly(head, skin, Distance(0.2f))
         }
 
         else -> UndefinedAppearance

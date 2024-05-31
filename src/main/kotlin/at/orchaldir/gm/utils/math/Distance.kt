@@ -9,4 +9,7 @@ data class Distance(val value: Float) {
         require(value > 0.0) { "Distance muster be greater 0!" }
     }
 
+    operator fun plus(other: Distance) = Distance(value + other.value)
+    operator fun times(other: Float) = Distance(value * other)
+
 }

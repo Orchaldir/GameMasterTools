@@ -10,6 +10,12 @@ data class Size2d(val width: Float, val height: Float) {
         require(height > 0.0) { "Height muster be greater 0!" }
     }
 
+    companion object {
+        fun square(size: Float) = Size2d(size, size)
+
+        fun square(distance: Distance) = square(distance.value)
+    }
+
     operator fun div(value: Float) = Size2d(width / value, height / value)
 
 }
