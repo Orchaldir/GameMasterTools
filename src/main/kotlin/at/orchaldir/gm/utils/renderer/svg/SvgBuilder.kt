@@ -5,12 +5,16 @@ import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.*
+import java.util.*
+
+private val LOCALE = Locale.US
 
 class SvgBuilder private constructor(private var lines: MutableList<String> = mutableListOf()) : Renderer {
 
     companion object {
         fun create(size: Size2d): SvgBuilder {
             val start = String.format(
+                LOCALE,
                 "<svg viewBox=\"0 0 %.3f %.3f\" xmlns=\"http://www.w3.org/2000/svg\">",
                 size.width,
                 size.height
@@ -27,6 +31,7 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
     override fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions) {
         lines.add(
             String.format(
+                LOCALE,
                 "  <circle cx=\"%.3f\" cy=\"%.3f\" r=\"%.3f\" style=\"%s\"/>",
                 center.x,
                 center.y,
@@ -39,6 +44,7 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
     override fun renderRectangle(aabb: AABB, options: RenderOptions) {
         lines.add(
             String.format(
+                LOCALE,
                 "  <rect x=\"%.3f\" y=\"%.3f\" width=\"%.3f\" height=\"%.3f\" style=\"%s\"/>",
                 aabb.start.x,
                 aabb.start.y,
@@ -65,7 +71,9 @@ fun toSvg(options: RenderOptions): String {
 }
 
 fun toSvg(line: LineOptions): String {
-    return String.format("stroke:%s;stroke-width:%.3f", toSvg(line.color), line.width.value)
+    return String.format(
+        LOCALE, "stroke:%s;stroke-width:%.3f", toSvg(line.color), line.width.value
+    )
 }
 
 fun toSvg(color: RenderColor): String {
