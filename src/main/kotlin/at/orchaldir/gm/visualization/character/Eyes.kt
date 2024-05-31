@@ -50,7 +50,7 @@ fun visualizeEyeShape(renderer: Renderer, config: RenderConfig, aabb: AABB, eyeS
     val options = NoBorder(color.toRender())
 
     when (eyeShape) {
-        EyeShape.Almond -> TODO()
+        EyeShape.Almond -> renderer.renderPointedOval(aabb, options)
         EyeShape.Circle -> renderer.renderCircle(aabb, options)
         EyeShape.Ellipse -> renderer.renderEllipse(aabb, options)
     }

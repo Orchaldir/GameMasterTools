@@ -5,7 +5,9 @@ import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.*
+import java.lang.Float.min
 import java.util.*
+import kotlin.math.pow
 
 private val LOCALE = Locale.US
 
@@ -55,6 +57,29 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
         )
     }
 
+    override fun renderPointedOval(center: Point2d, radiusX: Distance, radiusY: Distance, options: RenderOptions) {
+        val radius = (radiusX.value.pow(2.0f) + radiusY.value.pow(2.0f)) / (2.0f * min(radiusX.value, radiusY.value))
+        val aabb = AABB.fromRadii(center, radiusX, radiusY)
+        val left = if (radiusX.value > radiusY.value) {
+            aabb.getPoint(0.0f, 0.5f)
+        } else {
+            aabb.getPoint(0.5f, 0.0f)
+        }
+        val right = if (radiusX.value > radiusY.value) {
+            aabb.getPoint(1.0f, 0.5f)
+        } else {
+            aabb.getPoint(0.5f, 1.0f)
+        }
+
+        renderPath(
+            String.format(
+                LOCALE,
+                "M %.3f %.3f A %.3f %.3f, 0, 0, 0, %.3f %.3f A %.3f %.3f, 0, 0, 0, %.3f %.3f Z",
+                left.x, left.y, radius, radius, right.x, right.y, radius, radius, left.x, left.y,
+            ), options
+        )
+    }
+
     override fun renderRectangle(aabb: AABB, options: RenderOptions) {
         lines.add(
             String.format(
@@ -64,6 +89,16 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
                 aabb.start.y,
                 aabb.size.width,
                 aabb.size.height,
+                toSvg(options),
+            )
+        )
+    }
+
+    private fun renderPath(path: String, options: RenderOptions) {
+        lines.add(
+            String.format(
+                "  <path  d=\"%s\" style=\"%s\"/>",
+                path,
                 toSvg(options),
             )
         )
