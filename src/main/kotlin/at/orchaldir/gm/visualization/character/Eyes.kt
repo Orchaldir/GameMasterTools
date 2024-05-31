@@ -52,6 +52,6 @@ fun visualizeEyeShape(renderer: Renderer, config: RenderConfig, aabb: AABB, eyeS
     when (eyeShape) {
         EyeShape.Almond -> TODO()
         EyeShape.Circle -> renderer.renderCircle(aabb, options)
-        EyeShape.Ellipse -> TODO()
+        EyeShape.Ellipse -> renderer.renderEllipse(aabb, options)
     }
 }

@@ -11,6 +11,11 @@ interface Renderer {
     fun renderCircle(aabb: AABB, options: RenderOptions) =
         renderCircle(aabb.getCenter(), aabb.getInnerRadius(), options)
 
+    fun renderEllipse(center: Point2d, radiusX: Distance, radiusY: Distance, options: RenderOptions)
+
+    fun renderEllipse(aabb: AABB, options: RenderOptions) =
+        renderEllipse(aabb.getCenter(), Distance(aabb.size.width / 2.0f), Distance(aabb.size.height / 2.0f), options)
+
     fun renderRectangle(aabb: AABB, options: RenderOptions)
 
 }

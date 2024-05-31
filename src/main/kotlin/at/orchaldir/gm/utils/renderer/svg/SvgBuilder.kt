@@ -41,6 +41,20 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
         )
     }
 
+    override fun renderEllipse(center: Point2d, radiusX: Distance, radiusY: Distance, options: RenderOptions) {
+        lines.add(
+            String.format(
+                LOCALE,
+                "  <ellipse cx=\"%.3f\" cy=\"%.3f\" rx=\"%.3f\" ry=\"%.3f\" style=\"%s\"/>",
+                center.x,
+                center.y,
+                radiusX.value,
+                radiusY.value,
+                toSvg(options),
+            )
+        )
+    }
+
     override fun renderRectangle(aabb: AABB, options: RenderOptions) {
         lines.add(
             String.format(
