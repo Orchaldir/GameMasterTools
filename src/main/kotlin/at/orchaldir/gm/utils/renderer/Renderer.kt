@@ -3,6 +3,7 @@ package at.orchaldir.gm.utils.renderer
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Polygon2d
 
 interface Renderer {
 
@@ -25,6 +26,8 @@ interface Renderer {
             Distance(aabb.size.height / 2.0f),
             options
         )
+
+    fun renderPolygon(polygon: Polygon2d, options: RenderOptions)
 
     fun renderRectangle(aabb: AABB, options: RenderOptions)
 

@@ -80,6 +80,10 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
         )
     }
 
+    override fun renderPolygon(polygon: Polygon2d, options: RenderOptions) {
+        renderPath(convertPolygonToPath(polygon), options)
+    }
+
     override fun renderRectangle(aabb: AABB, options: RenderOptions) {
         lines.add(
             String.format(
