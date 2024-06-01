@@ -66,11 +66,11 @@ private fun visualizeEye(renderer: Renderer, config: RenderConfig, center: Point
 }
 
 private fun visualizeEye(renderer: Renderer, config: RenderConfig, aabb: AABB, eye: Eye) {
-    visualizeEyeShape(renderer, config, aabb, eye.eyeShape, eye.scleraColor)
+    visualizeEyeShape(renderer, aabb, eye.eyeShape, eye.scleraColor)
     visualizePupil(renderer, config, aabb, eye.pupilShape, eye.pupilColor)
 }
 
-private fun visualizeEyeShape(renderer: Renderer, config: RenderConfig, aabb: AABB, eyeShape: EyeShape, color: Color) {
+private fun visualizeEyeShape(renderer: Renderer, aabb: AABB, eyeShape: EyeShape, color: Color) {
     val options = NoBorder(color.toRender())
 
     when (eyeShape) {
