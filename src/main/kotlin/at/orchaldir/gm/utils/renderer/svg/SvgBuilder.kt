@@ -2,14 +2,9 @@ package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.*
-import java.lang.Float.min
 import java.util.*
-import kotlin.math.pow
 
-private val LOCALE = Locale.US
-private val START = Factor(0.0f)
-private val CENTER = Factor(0.5f)
-private val END = Factor(1.0f)
+val LOCALE = Locale.US
 
 class SvgBuilder private constructor(private var lines: MutableList<String> = mutableListOf()) : Renderer {
 
@@ -62,26 +57,7 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
     }
 
     override fun renderPointedOval(center: Point2d, radiusX: Distance, radiusY: Distance, options: RenderOptions) {
-        val radius = (radiusX.value.pow(2.0f) + radiusY.value.pow(2.0f)) / (2.0f * min(radiusX.value, radiusY.value))
-        val aabb = AABB.fromRadii(center, radiusX, radiusY)
-        val left = if (radiusX.value > radiusY.value) {
-            aabb.getPoint(START, CENTER)
-        } else {
-            aabb.getPoint(CENTER, START)
-        }
-        val right = if (radiusX.value > radiusY.value) {
-            aabb.getPoint(END, CENTER)
-        } else {
-            aabb.getPoint(CENTER, END)
-        }
-
-        renderPath(
-            String.format(
-                LOCALE,
-                "M %.3f %.3f A %.3f %.3f, 0, 0, 0, %.3f %.3f A %.3f %.3f, 0, 0, 0, %.3f %.3f Z",
-                left.x, left.y, radius, radius, right.x, right.y, radius, radius, left.x, left.y,
-            ), toSvg(options)
-        )
+        renderPath(convertPointedOvalToPath(center, radiusX, radiusY), toSvg(options))
     }
 
     override fun renderPolygon(polygon: Polygon2d, options: RenderOptions) {
