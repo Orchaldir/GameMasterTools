@@ -49,9 +49,10 @@ private const val SCLERA_COLOR = "sclera_color"
 private const val MOUTH_TYPE = "mouth"
 private const val NO_MOUTH = "no"
 private const val SIMPLE_MOUTH = "simple"
+private const val FEMALE_MOUTH = "female"
 private const val MOUTH_WIDTH = "mouth_width"
 private const val TEETH_COLOR = "teeth_color"
-private const val FANG_TYPE = "fang_type"
+private const val LIP_COLOR = "lip_color"
 
 fun Application.configureAppearanceRouting() {
     routing {
@@ -314,28 +315,41 @@ private fun FORM.showMouthEditor(
                 value = SIMPLE_MOUTH
                 selected = mouth is SimpleMouth
             }
+            option {
+                label = "Female Mouth"
+                value = FEMALE_MOUTH
+                selected = mouth is FemaleMouth
+            }
         }
     }
     when (mouth) {
         is SimpleMouth -> {
-            selectEnum("Width", MOUTH_WIDTH, Size.entries, true) { width ->
-                label = width.name
-                value = width.toString()
-                selected = mouth.width == width
-            }
-            selectEnum("Teeth Color", TEETH_COLOR, TeethColor.entries, true) { color ->
+            showSimpleMouthEditor(mouth.width, mouth.teethColor)
+        }
+
+        is FemaleMouth -> {
+            showSimpleMouthEditor(mouth.width, mouth.teethColor)
+            selectEnum("Lip Color", LIP_COLOR, Color.entries, true) { color ->
                 label = color.name
                 value = color.toString()
-                selected = mouth.teethColor == color
-            }
-            selectEnum("Fangs", FANG_TYPE, FangType.entries, true) { type ->
-                label = type.name
-                value = type.toString()
-                selected = mouth.fangType == type
+                selected = mouth.color == color
             }
         }
 
         else -> doNothing()
+    }
+}
+
+private fun FORM.showSimpleMouthEditor(size: Size, teethColor: TeethColor) {
+    selectEnum("Width", MOUTH_WIDTH, Size.entries, true) { width ->
+        label = width.name
+        value = width.toString()
+        selected = size == width
+    }
+    selectEnum("Teeth Color", TEETH_COLOR, TeethColor.entries, true) { color ->
+        label = color.name
+        value = color.toString()
+        selected = teethColor == color
     }
 }
 
@@ -396,7 +410,13 @@ private fun parseMouth(parameters: Parameters): Mouth {
             return SimpleMouth(
                 parse(parameters, MOUTH_WIDTH, Size.Medium),
                 parse(parameters, TEETH_COLOR, TeethColor.White),
-                parse(parameters, FANG_TYPE, FangType.None),
+            )
+        }
+        FEMALE_MOUTH -> {
+            return FemaleMouth(
+                parse(parameters, MOUTH_WIDTH, Size.Medium),
+                parse(parameters, LIP_COLOR, Color.Red),
+                parse(parameters, TEETH_COLOR, TeethColor.White),
             )
         }
 
