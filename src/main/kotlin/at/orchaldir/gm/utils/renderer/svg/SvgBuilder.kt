@@ -119,7 +119,7 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
     private fun renderPath(path: String, style: String) {
         lines.add(
             String.format(
-                "  <path  d=\"%s\" style=\"%s\"/>",
+                "  <path d=\"%s\" style=\"%s\"/>",
                 path,
                 style,
             )

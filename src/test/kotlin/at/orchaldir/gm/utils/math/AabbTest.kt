@@ -10,6 +10,11 @@ class AabbTest {
     private val size = Size2d(30.0f, 60.0f)
 
     @Test
+    fun `Create with size`() {
+        assertEquals(AABB(Point2d(), size), AABB(size))
+    }
+
+    @Test
     fun `Create with center & size`() {
         assertEquals(aabb, AABB.fromCenter(center, size))
     }
