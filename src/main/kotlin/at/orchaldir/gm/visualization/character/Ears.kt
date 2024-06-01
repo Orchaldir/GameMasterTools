@@ -66,11 +66,8 @@ private fun visualizePointedSideways(
     val top = center - offset
     val bottom = center + offset
     val tip = top + Point2d(radius.value * 3.0f, 0.0f)
-    val polygon = Polygon2d(listOf(top, bottom, tip))
-    val mirror = aabb.mirror(polygon)
 
-    renderer.renderPolygon(polygon, option)
-    renderer.renderPolygon(mirror, option)
+    visualizeCorners(renderer, aabb, listOf(top, bottom, tip), option)
 }
 
 private fun visualizePointedUpwards(
@@ -87,7 +84,17 @@ private fun visualizePointedUpwards(
     val bottom = center + offset
     val outerTop = top + Point2d(radius.value, -3.0f * radius.value)
     val outerBottom = bottom + Point2d(radius.value, -radius.value)
-    val polygon = Polygon2d(listOf(top, bottom, outerBottom, outerTop))
+
+    visualizeCorners(renderer, aabb, listOf(top, bottom, outerBottom, outerTop), option)
+}
+
+private fun visualizeCorners(
+    renderer: Renderer,
+    aabb: AABB,
+    corners: List<Point2d>,
+    option: RenderOptions,
+) {
+    val polygon = Polygon2d(corners)
     val mirror = aabb.mirror(polygon)
 
     renderer.renderPolygon(polygon, option)
