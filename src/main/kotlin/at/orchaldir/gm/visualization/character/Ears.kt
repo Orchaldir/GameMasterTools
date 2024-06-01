@@ -11,6 +11,7 @@ import at.orchaldir.gm.visualization.SizeConfig
 
 data class EarConfig(
     private val roundRadius: SizeConfig,
+    val pointedLength: Factor,
 ) {
     fun getRoundRadius(aabb: AABB, size: Size) = Distance(aabb.size.height * roundRadius.convert(size))
 }
@@ -65,7 +66,8 @@ private fun visualizePointedSideways(
     val offset = Point2d(0.0f, radius.value)
     val top = center - offset
     val bottom = center + offset
-    val tip = top + Point2d(radius.value * 3.0f, 0.0f)
+    val length = radius.value * config.head.ears.pointedLength.value
+    val tip = top + Point2d(length, 0.0f)
 
     visualizeCorners(renderer, aabb, listOf(top, bottom, tip), option)
 }
@@ -82,7 +84,8 @@ private fun visualizePointedUpwards(
     val offset = Point2d(0.0f, radius.value)
     val top = center - offset
     val bottom = center + offset
-    val outerTop = top + Point2d(radius.value, -3.0f * radius.value)
+    val length = radius.value * config.head.ears.pointedLength.value
+    val outerTop = top + Point2d(radius.value, -length)
     val outerBottom = bottom + Point2d(radius.value, -radius.value)
 
     visualizeCorners(renderer, aabb, listOf(top, bottom, outerBottom, outerTop), option)
