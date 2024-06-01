@@ -37,6 +37,12 @@ data class AABB(val start: Point2d, val size: Size2d) {
         )
     }
 
+    fun mirror(polygon: Polygon2d): Polygon2d {
+        val mirrorX = start.x + size.width / 2.0f
+
+        return Polygon2d(polygon.corners.map { Point2d(2.0f * mirrorX - it.x, it.y) })
+    }
+
     operator fun plus(offset: Point2d) = AABB(start + offset, size)
 
     fun shrink(border: Distance) = AABB(start + border, size - border * 2.0f)

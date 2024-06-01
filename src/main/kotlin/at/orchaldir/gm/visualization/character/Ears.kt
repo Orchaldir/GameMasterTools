@@ -67,6 +67,8 @@ private fun visualizePointedSideways(
     val bottom = center + offset
     val tip = top + Point2d(radius.value * 3.0f, 0.0f)
     val polygon = Polygon2d(listOf(top, bottom, tip))
+    val mirror = aabb.mirror(polygon)
 
     renderer.renderPolygon(polygon, option)
+    renderer.renderPolygon(mirror, option)
 }
