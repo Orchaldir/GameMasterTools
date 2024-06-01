@@ -17,6 +17,8 @@ interface Renderer {
     fun renderEllipse(aabb: AABB, options: RenderOptions) =
         renderEllipse(aabb.getCenter(), Distance(aabb.size.width / 2.0f), Distance(aabb.size.height / 2.0f), options)
 
+    fun renderLine(line: List<Point2d>, options: LineOptions)
+
     fun renderPointedOval(center: Point2d, radiusX: Distance, radiusY: Distance, options: RenderOptions)
 
     fun renderPointedOval(aabb: AABB, options: RenderOptions) =

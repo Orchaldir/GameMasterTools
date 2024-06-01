@@ -8,13 +8,16 @@ import at.orchaldir.gm.visualization.RenderConfig
 
 data class HeadConfig(
     val ears: EarConfig,
-    val eyes: EyesConfig,
     val earY: Factor,
+    val eyes: EyesConfig,
     val eyeY: Factor,
+    val mouth: MouthConfig,
+    val mouthY: Factor,
 )
 
 fun visualizeHead(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
     visualizeEars(renderer, config, aabb, head)
     renderer.renderRectangle(aabb, config.getOptions(head.skin))
     visualizeEyes(renderer, config, aabb, head)
+    visualizeMouth(renderer, config, aabb, head)
 }

@@ -57,6 +57,10 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
         )
     }
 
+    override fun renderLine(line: List<Point2d>, options: LineOptions) {
+        renderPath(convertLineToPath(line), toSvg(options))
+    }
+
     override fun renderPointedOval(center: Point2d, radiusX: Distance, radiusY: Distance, options: RenderOptions) {
         val radius = (radiusX.value.pow(2.0f) + radiusY.value.pow(2.0f)) / (2.0f * min(radiusX.value, radiusY.value))
         val aabb = AABB.fromRadii(center, radiusX, radiusY)
@@ -76,12 +80,12 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
                 LOCALE,
                 "M %.3f %.3f A %.3f %.3f, 0, 0, 0, %.3f %.3f A %.3f %.3f, 0, 0, 0, %.3f %.3f Z",
                 left.x, left.y, radius, radius, right.x, right.y, radius, radius, left.x, left.y,
-            ), options
+            ), toSvg(options)
         )
     }
 
     override fun renderPolygon(polygon: Polygon2d, options: RenderOptions) {
-        renderPath(convertPolygonToPath(polygon), options)
+        renderPath(convertPolygonToPath(polygon), toSvg(options))
     }
 
     override fun renderRectangle(aabb: AABB, options: RenderOptions) {
@@ -98,12 +102,12 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
         )
     }
 
-    private fun renderPath(path: String, options: RenderOptions) {
+    private fun renderPath(path: String, style: String) {
         lines.add(
             String.format(
                 "  <path  d=\"%s\" style=\"%s\"/>",
                 path,
-                toSvg(options),
+                style,
             )
         )
     }

@@ -3,6 +3,12 @@ package at.orchaldir.gm.utils.renderer.svg
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
 
+fun convertLineToPath(line: List<Point2d>): String {
+    val path = convertCornersToPath(line);
+
+    return path.toString()
+}
+
 fun convertPolygonToPath(polygon: Polygon2d): String {
     val path = convertCornersToPath(polygon.corners);
 
