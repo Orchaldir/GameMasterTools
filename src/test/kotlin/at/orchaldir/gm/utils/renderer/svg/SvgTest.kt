@@ -20,7 +20,7 @@ class SvgTest {
         val svg = builder.finish()
 
         assertEquals(
-            "<svg viewBox=\"0 0 100,000 150,000\" xmlns=\"http://www.w3.org/2000/svg\">\n</svg>",
+            "<svg viewBox=\"0 0 100.000 150.000\" xmlns=\"http://www.w3.org/2000/svg\">\n</svg>",
             svg.export()
         )
     }
@@ -34,8 +34,8 @@ class SvgTest {
         val svg = builder.finish()
 
         assertEquals(
-            """<svg viewBox="0 0 100,000 150,000" xmlns="http://www.w3.org/2000/svg">
-  <rect x="100,000" y="200,000" width="20,000" height="40,000" style="fill:none;stroke:green;stroke-width:10,000"/>
+            """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
+  <rect x="100.000" y="200.000" width="20.000" height="40.000" style="fill:none;stroke:green;stroke-width:10.000"/>
 </svg>""",
             svg.export()
         )
@@ -67,8 +67,8 @@ class SvgTest {
             val svg = builder.finish()
 
             assertEquals(
-                """<svg viewBox="0 0 100,000 150,000" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="110,000" cy="220,000" r="10,000" style="fill:blue;stroke:red;stroke-width:5,000"/>
+                """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="110.000" cy="220.000" r="10.000" style="fill:blue;stroke:red;stroke-width:5.000"/>
 </svg>""",
                 svg.export()
             )
