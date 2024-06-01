@@ -1,4 +1,4 @@
-package at.orchaldir.gm.prototypes.visualization.character
+package at.orchaldir.gm.prototypes.visualization
 
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.utils.math.Distance

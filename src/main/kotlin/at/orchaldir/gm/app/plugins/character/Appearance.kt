@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.visualization.character.visualizeCharacter

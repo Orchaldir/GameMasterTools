@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.selector.*
-import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*

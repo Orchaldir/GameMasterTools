@@ -8,31 +8,28 @@ import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.character.calculateSize
+import at.orchaldir.gm.visualization.character.calculateSizeFromHeight
 import at.orchaldir.gm.visualization.character.visualizeAppearance
 import java.io.File
 
 fun main() {
     val config = RENDER_CONFIG
-    val appearances = mutableListOf<List<Appearance>>()
-    PupilShape.entries.forEach { pupilShape ->
-        EyeShape.entries.forEach { eyeShape ->
-            appearances.add(createRow(Eye(eyeShape, pupilShape)))
-        }
-    }
-    val size = calculateSize(config, appearances[0][0])
-    val maxColumns = appearances.maxOf { it.size }
-    val totalSize = Size2d(size.width * maxColumns, size.height * appearances.size)
+    val columns: List<Size> = Size.entries
+    val rows: List<EarShape> = EarShape.entries
+    val height = Distance(0.2f)
+    val size = calculateSizeFromHeight(config, height)
+    val totalSize = Size2d(size.width * columns.size, size.height * rows.size)
     val builder = SvgBuilder.create(totalSize)
     val columnStep = Point2d(size.width, 0.0f)
     val rowStep = Point2d(0.0f, size.height)
     var startOfRow = Point2d()
 
-    appearances.forEach { row ->
+    rows.forEach { row ->
         var start = startOfRow.copy()
 
-        row.forEach { appearance ->
+        columns.forEach { column ->
             val aabb = AABB(start, size)
+            val appearance = createAppearance(height, row, column)
 
             visualizeAppearance(builder, config, aabb, appearance)
 
@@ -42,11 +39,8 @@ fun main() {
         startOfRow += rowStep
     }
 
-    File("eyes.svg").writeText(builder.finish().export())
+    File("ears.svg").writeText(builder.finish().export())
 }
 
-private fun createAppearance(eyes: Eyes) = HeadOnly(Head(eyes = eyes, skin = ExoticSkin()), Distance(0.2f))
-
-private fun createRow(eye: Eye) =
-    listOf(OneEye(eye, Size.Small), OneEye(eye, Size.Medium), OneEye(eye, Size.Large), TwoEyes(eye))
-        .map { createAppearance(it) }
+private fun createAppearance(height: Distance, earShape: EarShape, size: Size) =
+    HeadOnly(Head(NormalEars(earShape, size), eyes = TwoEyes(), skin = ExoticSkin()), height)
