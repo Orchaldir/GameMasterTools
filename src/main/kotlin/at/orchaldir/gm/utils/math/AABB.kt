@@ -11,6 +11,7 @@ private val TWO = Factor(2.0f)
 data class AABB(val start: Point2d, val size: Size2d) {
 
     constructor(size: Size2d) : this(Point2d(0.0f, 0.0f), size)
+    constructor(x: Float, y: Float, width: Float, height: Float) : this(Point2d(x, y), Size2d(width, height))
 
     companion object {
         fun fromCenter(center: Point2d, size: Size2d) = AABB(
@@ -45,8 +46,14 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     operator fun plus(offset: Point2d) = AABB(start + offset, size)
 
+    /**
+     * Move the border inward by a certain distance.
+     */
     fun shrink(border: Distance) = AABB(start + border, size - border * 2.0f)
 
+    /**
+     * Shrink the area around the center by a certain percentage.
+     */
     fun shrink(factor: Factor): AABB {
         val border = size * (factor * 0.5f)
         return AABB(start + border, size * factor)
