@@ -18,6 +18,7 @@ data class SimpleMouth(
     val width: Size,
     val teethColor: TeethColor,
 ) : Mouth()
+
 data class FemaleMouth(
     val width: Size,
     val color: Color,

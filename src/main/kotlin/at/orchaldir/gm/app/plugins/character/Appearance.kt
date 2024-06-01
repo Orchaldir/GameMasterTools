@@ -412,6 +412,7 @@ private fun parseMouth(parameters: Parameters): Mouth {
                 parse(parameters, TEETH_COLOR, TeethColor.White),
             )
         }
+
         FEMALE_MOUTH -> {
             return FemaleMouth(
                 parse(parameters, MOUTH_WIDTH, Size.Medium),

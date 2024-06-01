@@ -25,7 +25,7 @@ val RENDER_CONFIG = RenderConfig(
             Factor(0.2f),
         ),
         Factor(0.4f),
-        MouthConfig(SizeConfig(0.3f, 0.35f, 0.4f)),
-        Factor(0.8f),
+        MouthConfig(SizeConfig(0.3f, 0.35f, 0.4f), Factor(0.1f)),
+        Factor(0.75f),
     )
 )

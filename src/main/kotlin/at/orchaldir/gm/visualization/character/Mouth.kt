@@ -1,9 +1,14 @@
 package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.appearance.Size
-import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.FemaleMouth
+import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.character.appearance.NoMouth
+import at.orchaldir.gm.core.model.character.appearance.SimpleMouth
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.renderer.NoBorder
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
@@ -11,6 +16,7 @@ import at.orchaldir.gm.visualization.SizeConfig
 
 data class MouthConfig(
     private val simpleWidth: SizeConfig,
+    val mouthHeight: Factor,
 ) {
     fun getSimpleWidth(size: Size) = Factor(simpleWidth.convert(size))
 }
@@ -37,7 +43,7 @@ private fun visualizeFemaleMouth(
 ) {
     val options = NoBorder(mouth.color.toRender())
     val width = config.head.mouth.getSimpleWidth(mouth.width)
-    val halfHeight = Factor(0.04f)
+    val halfHeight = config.head.mouth.mouthHeight * 0.5f
     val (left, right) = aabb.getMirroredPoints(width, config.head.mouthY)
     val (topLeft, topRight) =
         aabb.getMirroredPoints(width * 0.5f, config.head.mouthY - halfHeight)
