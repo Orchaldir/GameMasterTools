@@ -33,4 +33,6 @@ interface Renderer {
 
     fun renderRectangle(aabb: AABB, options: RenderOptions)
 
+    fun renderText(text: String, center: Point2d, options: TextOptions)
+
 }

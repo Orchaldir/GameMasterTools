@@ -4,13 +4,13 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
 
 fun convertLineToPath(line: List<Point2d>): String {
-    val path = convertCornersToPath(line);
+    val path = convertCornersToPath(line)
 
     return path.toString()
 }
 
 fun convertPolygonToPath(polygon: Polygon2d): String {
-    val path = convertCornersToPath(polygon.corners);
+    val path = convertCornersToPath(polygon.corners)
 
     close(path)
 
@@ -20,7 +20,7 @@ fun convertPolygonToPath(polygon: Polygon2d): String {
 fun convertCornersToPath(corners: List<Point2d>): StringBuilder {
     val path = StringBuilder()
 
-    moveTo(path, corners[0]);
+    moveTo(path, corners[0])
 
     corners.stream()
         .skip(1)

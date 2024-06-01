@@ -102,6 +102,20 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
         )
     }
 
+    override fun renderText(text: String, center: Point2d, options: TextOptions) {
+        lines.add(
+            String.format(
+                LOCALE,
+                "  <text x=\"%.3f\" y=\"%.3f\" fill=\"%s\" font-size=\"%.3fpx\" text-anchor=\"middle\">%s</text>",
+                center.x,
+                center.y,
+                toSvg(options.color),
+                options.size,
+                text,
+            )
+        )
+    }
+
     private fun renderPath(path: String, style: String) {
         lines.add(
             String.format(
