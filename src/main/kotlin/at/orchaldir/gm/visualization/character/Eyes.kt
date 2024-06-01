@@ -59,18 +59,18 @@ fun visualizeEyes(renderer: Renderer, config: RenderConfig, aabb: AABB, head: He
     }
 }
 
-fun visualizeEye(renderer: Renderer, config: RenderConfig, center: Point2d, size: Size2d, eye: Eye) {
+private fun visualizeEye(renderer: Renderer, config: RenderConfig, center: Point2d, size: Size2d, eye: Eye) {
     val eyeAabb = AABB.fromCenter(center, size)
 
     visualizeEye(renderer, config, eyeAabb, eye)
 }
 
-fun visualizeEye(renderer: Renderer, config: RenderConfig, aabb: AABB, eye: Eye) {
+private fun visualizeEye(renderer: Renderer, config: RenderConfig, aabb: AABB, eye: Eye) {
     visualizeEyeShape(renderer, config, aabb, eye.eyeShape, eye.scleraColor)
     visualizePupil(renderer, config, aabb, eye.pupilShape, eye.pupilColor)
 }
 
-fun visualizeEyeShape(renderer: Renderer, config: RenderConfig, aabb: AABB, eyeShape: EyeShape, color: Color) {
+private fun visualizeEyeShape(renderer: Renderer, config: RenderConfig, aabb: AABB, eyeShape: EyeShape, color: Color) {
     val options = NoBorder(color.toRender())
 
     when (eyeShape) {
@@ -80,7 +80,7 @@ fun visualizeEyeShape(renderer: Renderer, config: RenderConfig, aabb: AABB, eyeS
     }
 }
 
-fun visualizePupil(renderer: Renderer, config: RenderConfig, aabb: AABB, pupilShape: PupilShape, color: Color) {
+private fun visualizePupil(renderer: Renderer, config: RenderConfig, aabb: AABB, pupilShape: PupilShape, color: Color) {
     val options = NoBorder(color.toRender())
     val slitWidth = aabb.size.width * config.head.eyes.slitFactor.value
 

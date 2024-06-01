@@ -3,10 +3,7 @@ package at.orchaldir.gm.visualization
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.renderer.FillAndBorder
-import at.orchaldir.gm.utils.renderer.LineOptions
-import at.orchaldir.gm.utils.renderer.RGB
-import at.orchaldir.gm.utils.renderer.RenderColor
+import at.orchaldir.gm.utils.renderer.*
 import at.orchaldir.gm.visualization.character.HeadConfig
 
 data class RenderConfig(
@@ -23,7 +20,7 @@ data class RenderConfig(
     ),
 ) {
 
-    fun getOptions(skin: Skin) = FillAndBorder(
+    fun getOptions(skin: Skin): RenderOptions = FillAndBorder(
         when (skin) {
             is ExoticSkin -> skin.color.toRender()
             is NormalSkin -> skinColors[skin.color] ?: Color.Purple.toRender()

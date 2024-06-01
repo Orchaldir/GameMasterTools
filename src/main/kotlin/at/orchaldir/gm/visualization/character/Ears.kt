@@ -6,8 +6,8 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.Size2d.Companion.square
+import at.orchaldir.gm.utils.renderer.FillAndBorder
+import at.orchaldir.gm.utils.renderer.RenderOptions
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.SizeConfig
@@ -25,18 +25,33 @@ fun visualizeEars(renderer: Renderer, config: RenderConfig, aabb: AABB, head: He
     }
 }
 
-fun visualizeNormalEars(renderer: Renderer, config: RenderConfig, aabb: AABB, shape: EarShape, size: Size, skin: Skin) {
+private fun visualizeNormalEars(
+    renderer: Renderer,
+    config: RenderConfig,
+    aabb: AABB,
+    shape: EarShape,
+    size: Size,
+    skin: Skin,
+) {
     val option = config.getOptions(skin)
 
     when (shape) {
         EarShape.PointedSideways -> TODO()
         EarShape.PointedUpwards -> TODO()
-        EarShape.Round -> {
-            val (left, right) = aabb.getMirroredPoints(Factor(1.0f), config.head.earY)
-            val radius = config.head.ears.getRoundRadius(aabb, size)
-
-            renderer.renderCircle(left, radius, option)
-            renderer.renderCircle(right, radius, option)
-        }
+        EarShape.Round -> visualizeRoundEars(config, renderer, aabb, size, option)
     }
+}
+
+private fun visualizeRoundEars(
+    config: RenderConfig,
+    renderer: Renderer,
+    aabb: AABB,
+    size: Size,
+    option: RenderOptions,
+) {
+    val (left, right) = aabb.getMirroredPoints(Factor(1.0f), config.head.earY)
+    val radius = config.head.ears.getRoundRadius(aabb, size)
+
+    renderer.renderCircle(left, radius, option)
+    renderer.renderCircle(right, radius, option)
 }
