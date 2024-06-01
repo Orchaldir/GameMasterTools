@@ -34,7 +34,7 @@ private fun visualizeNormalEars(
 
     when (shape) {
         EarShape.PointedSideways -> visualizePointedSideways(config, renderer, aabb, size, option)
-        EarShape.PointedUpwards -> TODO()
+        EarShape.PointedUpwards -> visualizePointedUpwards(config, renderer, aabb, size, option)
         EarShape.Round -> visualizeRoundEars(config, renderer, aabb, size, option)
     }
 }
@@ -67,6 +67,27 @@ private fun visualizePointedSideways(
     val bottom = center + offset
     val tip = top + Point2d(radius.value * 3.0f, 0.0f)
     val polygon = Polygon2d(listOf(top, bottom, tip))
+    val mirror = aabb.mirror(polygon)
+
+    renderer.renderPolygon(polygon, option)
+    renderer.renderPolygon(mirror, option)
+}
+
+private fun visualizePointedUpwards(
+    config: RenderConfig,
+    renderer: Renderer,
+    aabb: AABB,
+    size: Size,
+    option: RenderOptions,
+) {
+    val center = aabb.getPoint(Factor(1.0f), config.head.earY)
+    val radius = config.head.ears.getRoundRadius(aabb, size)
+    val offset = Point2d(0.0f, radius.value)
+    val top = center - offset
+    val bottom = center + offset
+    val outerTop = top + Point2d(radius.value, -3.0f * radius.value)
+    val outerBottom = bottom + Point2d(radius.value, -radius.value)
+    val polygon = Polygon2d(listOf(top, bottom, outerBottom, outerTop))
     val mirror = aabb.mirror(polygon)
 
     renderer.renderPolygon(polygon, option)
