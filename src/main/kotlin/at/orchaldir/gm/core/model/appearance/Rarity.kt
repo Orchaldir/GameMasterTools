@@ -4,5 +4,6 @@ enum class Rarity {
     Common,
     Uncommon,
     Rare,
-    VeryRare
+    VeryRare,
+    Unavailable,
 }

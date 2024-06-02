@@ -1,6 +1,8 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.plugins.TITLE
+import at.orchaldir.gm.core.model.appearance.EnumRarity
+import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import kotlinx.html.*
 
@@ -80,14 +82,14 @@ fun <K, V> HtmlBlockTag.showMap(
 
 // form
 
-fun FORM.field(label: String, content: P.() -> Unit) {
+fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
     p {
         b { +"$label: " }
         content()
     }
 }
 
-fun <T> FORM.selectEnum(
+fun <T> HtmlBlockTag.selectEnum(
     label: String,
     selectId: String,
     values: Collection<T>,
@@ -105,6 +107,22 @@ fun <T> FORM.selectEnum(
                 option {
                     content(gender)
                 }
+            }
+        }
+    }
+}
+
+fun <T> FORM.selectEnumRarity(
+    enum: String,
+    selectId: String,
+    values: EnumRarity<T>,
+) {
+    field(enum) {
+        showMap(values.map) { currentValue, currentRarity ->
+            selectEnum(currentValue.toString(), "$selectId-$currentValue", Rarity.entries) { rarity ->
+                label = rarity.toString()
+                value = rarity.toString()
+                selected = rarity == currentRarity
             }
         }
     }

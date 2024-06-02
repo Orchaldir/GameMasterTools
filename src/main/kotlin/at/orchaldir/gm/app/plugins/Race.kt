@@ -171,6 +171,10 @@ private fun HTML.showRaceEditor(
                     value = race.name
                 }
             }
+            h2 { +"Appearance Options" }
+            selectEnumRarity("Scale Colors", "scale_color", race.appearanceOptions.scalesColors)
+            selectEnumRarity("Normal Skin Colors", "normal_skin_color", race.appearanceOptions.normalSkinColors)
+            selectEnumRarity("Exotic Skin Colors", "exotic_skin_color", race.appearanceOptions.exoticSkinColors)
             p {
                 submitInput {
                     value = "Update"
