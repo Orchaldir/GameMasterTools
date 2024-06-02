@@ -117,7 +117,8 @@ fun <T> FORM.selectEnumRarity(
     selectId: String,
     values: EnumRarity<T>,
 ) {
-    field(enum) {
+    details {
+        summary { +enum }
         showMap(values.map) { currentValue, currentRarity ->
             selectEnum(currentValue.toString(), "$selectId-$currentValue", Rarity.entries) { rarity ->
                 label = rarity.toString()
