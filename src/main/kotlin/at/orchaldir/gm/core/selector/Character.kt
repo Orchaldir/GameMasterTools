@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.race.RaceId
 
 fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty() &&
         getParents(character).isEmpty() &&

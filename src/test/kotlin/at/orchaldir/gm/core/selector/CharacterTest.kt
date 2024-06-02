@@ -3,6 +3,8 @@ package at.orchaldir.gm.core.selector
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.InterpersonalRelationship.Friend
+import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue

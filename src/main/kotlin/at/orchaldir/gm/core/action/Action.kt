@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.race.RaceId
 
 sealed class Action
 
