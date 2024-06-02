@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Size2d(val width: Float, val height: Float) {
 
+    constructor(width: Distance, height: Distance) : this(width.value, height.value)
+
     init {
         require(width > 0.0) { "Width muster be greater 0!" }
         require(height > 0.0) { "Height muster be greater 0!" }

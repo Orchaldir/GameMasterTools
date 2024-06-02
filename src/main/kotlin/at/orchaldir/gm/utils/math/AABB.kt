@@ -19,7 +19,7 @@ data class AABB(val start: Point2d, val size: Size2d) {
         )
 
         fun fromRadii(center: Point2d, radiusX: Distance, radiusY: Distance) =
-            fromCenter(center, Size2d(radiusX.value * 2.0f, radiusY.value * 2.0f))
+            fromCenter(center, Size2d(radiusX * 2.0f, radiusY * 2.0f))
     }
 
     fun getCenter() = start + size / TWO
