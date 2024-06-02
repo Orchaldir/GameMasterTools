@@ -92,10 +92,9 @@ fun Application.configureRaceRouting() {
         post<Races.Update> { update ->
             logger.info { "Update race ${update.id.value}" }
 
-            val formParameters = call.receiveParameters()
-            val name = formParameters.getOrFail("name")
+            val race = parseRace(update.id, call.receiveParameters())
 
-            STORE.dispatch(UpdateRace(update.id, name))
+            STORE.dispatch(UpdateRace(race))
 
             call.respondRedirect(href(call, update.id))
         }
@@ -182,4 +181,9 @@ private fun HTML.showRaceEditor(
         }
         p { a(backLink) { +"Back" } }
     }
+}
+
+private fun parseRace(id: RaceId, parameters: Parameters): Race {
+    val name = parameters.getOrFail("name")
+    return Race(id, name)
 }

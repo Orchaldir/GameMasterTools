@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 
 sealed class Action
@@ -57,7 +58,4 @@ data class UpdatePersonalityTrait(val trait: PersonalityTrait) : Action()
 // race actions
 data object CreateRace : Action()
 data class DeleteRace(val id: RaceId) : Action()
-data class UpdateRace(
-    val id: RaceId,
-    val name: String,
-) : Action()
+data class UpdateRace(val race: Race) : Action()
