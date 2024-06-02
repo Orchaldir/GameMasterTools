@@ -8,7 +8,9 @@ import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -118,8 +120,10 @@ private fun HTML.showCharacterDetails(
     val editAppearanceLink = call.application.href(Characters.Appearance.Edit(character.id))
     val editLanguagesLink = call.application.href(Characters.Languages.Edit(character.id))
     val editRelationshipsLink = call.application.href(Characters.Relationships.Edit(character.id))
+    val frontSvg = visualizeCharacter(RENDER_CONFIG, character.appearance)
 
     simpleHtml("Character: ${character.name}") {
+        svg(frontSvg, 20)
         field("Id", character.id.value.toString())
         field("Race") {
             link(call, state, character.race)

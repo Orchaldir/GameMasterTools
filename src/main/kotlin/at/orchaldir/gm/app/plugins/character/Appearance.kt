@@ -7,7 +7,10 @@ import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -30,6 +33,10 @@ private const val EXOTIC = "exotic"
 private const val EXOTIC_COLOR = "exotic_color"
 private const val SKIN_COLOR = "skin_color"
 private const val EAR_TYPE = "ear_type"
+private const val NO_EARS = "no"
+private const val NORMAL_EARS = "normal"
+private const val EAR_SHAPE = "ear_shape"
+private const val EAR_SIZE = "ear_size"
 private const val EYES_TYPE = "eyes"
 private const val NO_EYES = "no"
 private const val ONE_EYE = "one"
@@ -42,9 +49,10 @@ private const val SCLERA_COLOR = "sclera_color"
 private const val MOUTH_TYPE = "mouth"
 private const val NO_MOUTH = "no"
 private const val SIMPLE_MOUTH = "simple"
+private const val FEMALE_MOUTH = "female"
 private const val MOUTH_WIDTH = "mouth_width"
 private const val TEETH_COLOR = "teeth_color"
-private const val FANG_TYPE = "fang_type"
+private const val LIP_COLOR = "lip_color"
 
 fun Application.configureAppearanceRouting() {
     routing {
@@ -92,8 +100,10 @@ private fun HTML.showAppearanceEditor(
     val backLink = href(call, character.id)
     val previewLink = call.application.href(Characters.Appearance.Preview(character.id))
     val updateLink = call.application.href(Characters.Appearance.Update(character.id))
+    val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance)
 
     simpleHtml("Edit Appearance: ${character.name}") {
+        svg(frontSvg, 20)
         form {
             id = "editor"
             action = previewLink
@@ -116,8 +126,8 @@ private fun HTML.showAppearanceEditor(
                 }
             }
             if (appearance is HeadOnly) {
-                showSkinEditor(appearance.skin)
-                showEarsEditor(appearance.head)
+                showSkinEditor(appearance.head.skin)
+                showEarsEditor(appearance.head.ears)
                 showEyesEditor(appearance.head.eyes)
                 showMouthEditor(appearance.head.mouth)
             }
@@ -133,12 +143,40 @@ private fun HTML.showAppearanceEditor(
     }
 }
 
-private fun FORM.showEarsEditor(head: Head) {
+private fun FORM.showEarsEditor(ears: Ears) {
     h2 { +"Ears" }
-    selectEnum("Type", EAR_TYPE, EarType.entries) { type ->
-        label = type.name
-        value = type.toString()
-        selected = head.earType == type
+    field("Type") {
+        select {
+            id = EAR_TYPE
+            name = EAR_TYPE
+            onChange = ON_CHANGE_SCRIPT
+            option {
+                label = "No Ears"
+                value = NO_EARS
+                selected = ears is NoEars
+            }
+            option {
+                label = "Normal Ears"
+                value = NORMAL_EARS
+                selected = ears is NormalEars
+            }
+        }
+    }
+    when (ears) {
+        is NormalEars -> {
+            selectEnum("Ear Shape", EAR_SHAPE, EarShape.entries, true) { shape ->
+                label = shape.name
+                value = shape.toString()
+                selected = ears.shape == shape
+            }
+            selectEnum("Ear Size", EAR_SIZE, Size.entries, true) { size ->
+                label = size.name
+                value = size.toString()
+                selected = ears.size == size
+            }
+        }
+
+        else -> doNothing()
     }
 }
 
@@ -172,7 +210,7 @@ private fun FORM.showSkinEditor(
         is Scales -> selectSkinColor(skin.color)
         is ExoticSkin -> selectSkinColor(skin.color)
         is NormalSkin -> {
-            selectEnum("Color", SKIN_COLOR, SkinColor.entries) { c ->
+            selectEnum("Color", SKIN_COLOR, SkinColor.entries, true) { c ->
                 label = c.name
                 value = c.toString()
                 selected = skin.color == c
@@ -182,7 +220,7 @@ private fun FORM.showSkinEditor(
 }
 
 private fun FORM.selectSkinColor(color: Color) {
-    selectEnum("Color", EXOTIC_COLOR, Color.entries) { c ->
+    selectEnum("Color", EXOTIC_COLOR, Color.entries, true) { c ->
         label = c.name
         value = c.toString()
         selected = color == c
@@ -218,7 +256,7 @@ private fun FORM.showEyesEditor(
     when (eyes) {
         is OneEye -> {
             showEyeEditor(eyes.eye)
-            selectEnum("Eye Size", EYE_SIZE, Size.entries) { c ->
+            selectEnum("Eye Size", EYE_SIZE, Size.entries, true) { c ->
                 label = c.name
                 value = c.toString()
                 selected = eyes.size == c
@@ -236,22 +274,22 @@ private fun FORM.showEyesEditor(
 private fun FORM.showEyeEditor(
     eye: Eye,
 ) {
-    selectEnum("Eye Shape", EYE_SHAPE, EyeShape.entries) { shape ->
+    selectEnum("Eye Shape", EYE_SHAPE, EyeShape.entries, true) { shape ->
         label = shape.name
         value = shape.toString()
         selected = eye.eyeShape == shape
     }
-    selectEnum("Pupil Shape", PUPIL_SHAPE, PupilShape.entries) { shape ->
+    selectEnum("Pupil Shape", PUPIL_SHAPE, PupilShape.entries, true) { shape ->
         label = shape.name
         value = shape.toString()
         selected = eye.pupilShape == shape
     }
-    selectEnum("Pupil Color", PUPIL_COLOR, Color.entries) { color ->
+    selectEnum("Pupil Color", PUPIL_COLOR, Color.entries, true) { color ->
         label = color.name
         value = color.toString()
         selected = eye.pupilColor == color
     }
-    selectEnum("Sclera Color", SCLERA_COLOR, Color.entries) { color ->
+    selectEnum("Sclera Color", SCLERA_COLOR, Color.entries, true) { color ->
         label = color.name
         value = color.toString()
         selected = eye.scleraColor == color
@@ -277,24 +315,24 @@ private fun FORM.showMouthEditor(
                 value = SIMPLE_MOUTH
                 selected = mouth is SimpleMouth
             }
+            option {
+                label = "Female Mouth"
+                value = FEMALE_MOUTH
+                selected = mouth is FemaleMouth
+            }
         }
     }
     when (mouth) {
         is SimpleMouth -> {
-            selectEnum("Width", MOUTH_WIDTH, Size.entries) { width ->
-                label = width.name
-                value = width.toString()
-                selected = mouth.width == width
-            }
-            selectEnum("Teeth Color", TEETH_COLOR, TeethColor.entries) { color ->
+            showSimpleMouthEditor(mouth.width, mouth.teethColor)
+        }
+
+        is FemaleMouth -> {
+            showSimpleMouthEditor(mouth.width, mouth.teethColor)
+            selectEnum("Lip Color", LIP_COLOR, Color.entries, true) { color ->
                 label = color.name
                 value = color.toString()
-                selected = mouth.teethColor == color
-            }
-            selectEnum("Fangs", FANG_TYPE, FangType.entries) { type ->
-                label = type.name
-                value = type.toString()
-                selected = mouth.fangType == type
+                selected = mouth.color == color
             }
         }
 
@@ -302,18 +340,43 @@ private fun FORM.showMouthEditor(
     }
 }
 
+private fun FORM.showSimpleMouthEditor(size: Size, teethColor: TeethColor) {
+    selectEnum("Width", MOUTH_WIDTH, Size.entries, true) { width ->
+        label = width.name
+        value = width.toString()
+        selected = size == width
+    }
+    selectEnum("Teeth Color", TEETH_COLOR, TeethColor.entries, true) { color ->
+        label = color.name
+        value = color.toString()
+        selected = teethColor == color
+    }
+}
+
 private fun parseAppearance(parameters: Parameters): Appearance {
     return when (parameters[TYPE]) {
         HEAD -> {
-            val earType = parse(parameters, EAR_TYPE, EarType.Round)
+            val ears = parseEars(parameters)
             val eyes = parseEyes(parameters)
             val mouth = parseMouth(parameters)
-            val head = Head(earType, eyes, mouth)
             val skin = parseSkin(parameters)
-            return HeadOnly(head, skin)
+            val head = Head(ears, eyes, mouth, skin)
+            return HeadOnly(head, Distance(0.2f))
         }
 
         else -> UndefinedAppearance
+    }
+}
+
+private fun parseEars(parameters: Parameters): Ears {
+    return when (parameters[EAR_TYPE]) {
+        NORMAL_EARS -> {
+            val shape = parse(parameters, EAR_SHAPE, EarShape.Round)
+            val size = parse(parameters, EAR_SIZE, Size.Medium)
+            return NormalEars(shape, size)
+        }
+
+        else -> NoEars
     }
 }
 
@@ -347,7 +410,14 @@ private fun parseMouth(parameters: Parameters): Mouth {
             return SimpleMouth(
                 parse(parameters, MOUTH_WIDTH, Size.Medium),
                 parse(parameters, TEETH_COLOR, TeethColor.White),
-                parse(parameters, FANG_TYPE, FangType.None),
+            )
+        }
+
+        FEMALE_MOUTH -> {
+            return FemaleMouth(
+                parse(parameters, MOUTH_WIDTH, Size.Medium),
+                parse(parameters, LIP_COLOR, Color.Red),
+                parse(parameters, TEETH_COLOR, TeethColor.White),
             )
         }
 

@@ -20,19 +20,19 @@ enum class PupilShape {
 
 @Serializable
 data class Eye(
-    val eyeShape: EyeShape,
-    val pupilShape: PupilShape,
-    val pupilColor: Color,
-    val scleraColor: Color,
+    val eyeShape: EyeShape = EyeShape.Circle,
+    val pupilShape: PupilShape = PupilShape.Circle,
+    val pupilColor: Color = Color.Green,
+    val scleraColor: Color = Color.White,
 )
 
 @Serializable
 sealed class Eyes
 data object NoEyes : Eyes()
 data class OneEye(
-    val eye: Eye,
-    val size: Size,
+    val eye: Eye = Eye(),
+    val size: Size = Size.Medium,
 ) : Eyes()
 
-data class TwoEyes(val eye: Eye) : Eyes()
+data class TwoEyes(val eye: Eye = Eye()) : Eyes()
 

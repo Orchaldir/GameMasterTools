@@ -54,7 +54,7 @@ sonarqube {
         property("sonar.language", "kotlin")
         property("sonar.sources", "src/main/kotlin")
         property("sonar.tests", "src/test/kotlin")
-        property("sonar.exclusions", "**/at/orchaldir/gm/app/**")
+        property("sonar.exclusions", "**/at/orchaldir/gm/app/**,**/at/orchaldir/gm/prototypes/**")
         property("sonar.junit.reportPaths", "build/test-results/test/text.xml")
         property("sonar.jacoco.reportPaths", "build/reports/jacoco/test")
     }

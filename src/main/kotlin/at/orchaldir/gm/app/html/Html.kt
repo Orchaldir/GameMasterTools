@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.plugins.TITLE
+import at.orchaldir.gm.utils.renderer.svg.Svg
 import kotlinx.html.*
 
 fun HTML.simpleHtml(
@@ -42,6 +43,13 @@ fun BODY.fieldLink(label: String, link: String, text: String) {
     }
 }
 
+fun BODY.svg(svg: Svg, width: Int) {
+    div {
+        style = "width:$width%"
+        unsafe { +svg.export() }
+    }
+}
+
 // lists
 
 fun <T> HtmlBlockTag.showList(
@@ -79,11 +87,20 @@ fun FORM.field(label: String, content: P.() -> Unit) {
     }
 }
 
-fun <T> FORM.selectEnum(label: String, selectId: String, values: Collection<T>, content: OPTION.(T) -> Unit) {
+fun <T> FORM.selectEnum(
+    label: String,
+    selectId: String,
+    values: Collection<T>,
+    update: Boolean = false,
+    content: OPTION.(T) -> Unit,
+) {
     field(label) {
         select {
             id = selectId
             name = selectId
+            if (update) {
+                onChange = ON_CHANGE_SCRIPT
+            }
             values.forEach { gender ->
                 option {
                     content(gender)
