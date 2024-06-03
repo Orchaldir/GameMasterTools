@@ -213,25 +213,28 @@ private fun FORM.showSkinEditor(
         }
     }
     when (skin) {
-        is Scales -> selectSkinColor(skin.color, race.appearanceOptions.scalesColors)
-        is ExoticSkin -> selectSkinColor(skin.color, race.appearanceOptions.exoticSkinColors)
+        is Scales -> selectSkinColor(race.appearanceOptions.scalesColors, skin.color)
+        is ExoticSkin -> selectSkinColor(race.appearanceOptions.exoticSkinColors, skin.color)
         is NormalSkin -> {
-            selectEnum("Color", SKIN_COLOR, SkinColor.entries, true) { c ->
-                label = c.name
-                value = c.toString()
-                selected = skin.color == c
+            selectEnumRarity("Color", SKIN_COLOR, race.appearanceOptions.normalSkinColors, true) { skinColor ->
+                label = skinColor.name
+                value = skinColor.toString()
+                selected = skin.color == skinColor
+                val bgColor = RENDER_CONFIG.skinColors[skinColor]?.toHexCode() ?: "Pink"
+                style = "background-color:${bgColor}"
             }
         }
     }
 }
 
 private fun FORM.selectSkinColor(
-    current: Color, colorRarity: EnumRarity<Color>,
+    colorRarity: EnumRarity<Color>, current: Color,
 ) {
     selectEnumRarity("Color", EXOTIC_COLOR, colorRarity, true) { c ->
         label = c.name
         value = c.toString()
         selected = current == c
+        style = "background-color:$c"
     }
 }
 
