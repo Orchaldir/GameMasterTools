@@ -103,11 +103,43 @@ fun <T> HtmlBlockTag.selectEnum(
             if (update) {
                 onChange = ON_CHANGE_SCRIPT
             }
-            values.forEach { gender ->
+            values.forEach { value ->
                 option {
-                    content(gender)
+                    content(value)
                 }
             }
+        }
+    }
+}
+
+fun <T> HtmlBlockTag.selectEnumRarity(
+    label: String,
+    selectId: String,
+    values: EnumRarity<T>,
+    update: Boolean = false,
+    content: OPTION.(T) -> Unit,
+) {
+    field(label) {
+        select {
+            id = selectId
+            name = selectId
+            if (update) {
+                onChange = ON_CHANGE_SCRIPT
+            }
+            values.map
+                .filterValues { it != Rarity.Unavailable }
+                .toList()
+                .groupBy { p -> p.second }
+                .mapValues { p -> p.value.map { it.first } }
+                .forEach() { (rarity, values) ->
+                    optGroup(rarity.toString()) {
+                        values.forEach { value ->
+                            option {
+                                content(value)
+                            }
+                        }
+                    }
+                }
         }
     }
 }

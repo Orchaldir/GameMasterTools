@@ -3,10 +3,13 @@ package at.orchaldir.gm.app.plugins.character
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.UpdateAppearance
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.appearance.EnumRarity
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
@@ -63,7 +66,7 @@ fun Application.configureAppearanceRouting() {
             val character = state.characters.getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAppearanceEditor(call, character)
+                showAppearanceEditor(call, state, character)
             }
         }
         post<Characters.Appearance.Preview> { edit ->
@@ -76,7 +79,7 @@ fun Application.configureAppearanceRouting() {
             val updatedCharacter = character.copy(appearance = appearance)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAppearanceEditor(call, updatedCharacter)
+                showAppearanceEditor(call, state, updatedCharacter)
             }
         }
         post<Characters.Appearance.Update> { update ->
@@ -94,9 +97,11 @@ fun Application.configureAppearanceRouting() {
 
 private fun HTML.showAppearanceEditor(
     call: ApplicationCall,
+    state: State,
     character: Character,
 ) {
     val appearance = character.appearance
+    val race = state.races.getOrThrow(character.race)
     val backLink = href(call, character.id)
     val previewLink = call.application.href(Characters.Appearance.Preview(character.id))
     val updateLink = call.application.href(Characters.Appearance.Update(character.id))
@@ -126,7 +131,7 @@ private fun HTML.showAppearanceEditor(
                 }
             }
             if (appearance is HeadOnly) {
-                showSkinEditor(appearance.head.skin)
+                showSkinEditor(appearance.head.skin, race)
                 showEarsEditor(appearance.head.ears)
                 showEyesEditor(appearance.head.eyes)
                 showMouthEditor(appearance.head.mouth)
@@ -182,6 +187,7 @@ private fun FORM.showEarsEditor(ears: Ears) {
 
 private fun FORM.showSkinEditor(
     skin: Skin,
+    race: Race,
 ) {
     h2 { +"Skin" }
     field("Type") {
@@ -207,8 +213,8 @@ private fun FORM.showSkinEditor(
         }
     }
     when (skin) {
-        is Scales -> selectSkinColor(skin.color)
-        is ExoticSkin -> selectSkinColor(skin.color)
+        is Scales -> selectSkinColor(skin.color, race.appearanceOptions.scalesColors)
+        is ExoticSkin -> selectSkinColor(skin.color, race.appearanceOptions.exoticSkinColors)
         is NormalSkin -> {
             selectEnum("Color", SKIN_COLOR, SkinColor.entries, true) { c ->
                 label = c.name
@@ -219,11 +225,13 @@ private fun FORM.showSkinEditor(
     }
 }
 
-private fun FORM.selectSkinColor(color: Color) {
-    selectEnum("Color", EXOTIC_COLOR, Color.entries, true) { c ->
+private fun FORM.selectSkinColor(
+    current: Color, colorRarity: EnumRarity<Color>,
+) {
+    selectEnumRarity("Color", EXOTIC_COLOR, colorRarity, true) { c ->
         label = c.name
         value = c.toString()
-        selected = color == c
+        selected = current == c
     }
 }
 
