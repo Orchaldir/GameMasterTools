@@ -179,16 +179,16 @@ private fun HTML.showRaceEditor(
                 }
             }
             h2 { +"Appearance Options" }
-            selectRaritiesForEnumRarity("Scale Colors", SCALE_COLOR, race.appearanceOptions.scalesColors)
+            selectRaritiesForEnumRarity("Scale Colors", SCALE_COLOR, race.appearance.scalesColors)
             selectRaritiesForEnumRarity(
                 "Normal Skin Colors",
                 NORMAL_SKIN_COLOR,
-                race.appearanceOptions.normalSkinColors
+                race.appearance.normalSkinColors
             )
             selectRaritiesForEnumRarity(
                 "Exotic Skin Colors",
                 EXOTIC_SKIN_COLOR,
-                race.appearanceOptions.exoticSkinColors
+                race.appearance.exoticSkinColors
             )
             p {
                 submitInput {

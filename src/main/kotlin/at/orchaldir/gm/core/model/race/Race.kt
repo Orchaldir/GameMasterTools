@@ -17,7 +17,7 @@ value class RaceId(val value: Int) : Id<RaceId> {
 data class Race(
     val id: RaceId,
     val name: String = "Race ${id.value}",
-    val appearanceOptions: AppearanceOptions = AppearanceOptions(),
+    val appearance: AppearanceOptions = AppearanceOptions(),
 ) : Element<RaceId> {
 
     override fun id() = id

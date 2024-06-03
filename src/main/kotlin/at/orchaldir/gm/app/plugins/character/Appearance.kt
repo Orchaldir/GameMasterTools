@@ -213,10 +213,10 @@ private fun FORM.showSkinEditor(
         }
     }
     when (skin) {
-        is Scales -> selectSkinColor(race.appearanceOptions.scalesColors, skin.color)
-        is ExoticSkin -> selectSkinColor(race.appearanceOptions.exoticSkinColors, skin.color)
+        is Scales -> selectSkinColor(race.appearance.scalesColors, skin.color)
+        is ExoticSkin -> selectSkinColor(race.appearance.exoticSkinColors, skin.color)
         is NormalSkin -> {
-            selectEnumRarity("Color", SKIN_COLOR, race.appearanceOptions.normalSkinColors, true) { skinColor ->
+            selectEnumRarity("Color", SKIN_COLOR, race.appearance.normalSkinColors, true) { skinColor ->
                 label = skinColor.name
                 value = skinColor.toString()
                 selected = skin.color == skinColor
