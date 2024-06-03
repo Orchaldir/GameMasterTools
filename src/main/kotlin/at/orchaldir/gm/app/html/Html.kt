@@ -120,9 +120,9 @@ fun <T> FORM.selectEnumRarity(
     details {
         summary { +enum }
         showMap(values.map) { currentValue, currentRarity ->
-            selectEnum(currentValue.toString(), "$selectId-$currentValue", Rarity.entries) { rarity ->
+            selectEnum(currentValue.toString(), selectId, Rarity.entries) { rarity ->
                 label = rarity.toString()
-                value = rarity.toString()
+                value = "$currentValue-$rarity"
                 selected = rarity == currentRarity
             }
         }

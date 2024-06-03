@@ -6,6 +6,9 @@ import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.character.appearance.SkinColor
+import at.orchaldir.gm.core.model.race.AppearanceOptions
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.selector.canDelete
@@ -24,6 +27,10 @@ import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
+
+private const val SCALE_COLOR = "scale_color"
+private const val NORMAL_SKIN_COLOR = "normal_skin_color"
+private const val EXOTIC_SKIN_COLOR = "exotic_skin_color"
 
 @Resource("/races")
 class Races {
@@ -172,9 +179,9 @@ private fun HTML.showRaceEditor(
                 }
             }
             h2 { +"Appearance Options" }
-            selectEnumRarity("Scale Colors", "scale_color", race.appearanceOptions.scalesColors)
-            selectEnumRarity("Normal Skin Colors", "normal_skin_color", race.appearanceOptions.normalSkinColors)
-            selectEnumRarity("Exotic Skin Colors", "exotic_skin_color", race.appearanceOptions.exoticSkinColors)
+            selectEnumRarity("Scale Colors", SCALE_COLOR, race.appearanceOptions.scalesColors)
+            selectEnumRarity("Normal Skin Colors", NORMAL_SKIN_COLOR, race.appearanceOptions.normalSkinColors)
+            selectEnumRarity("Exotic Skin Colors", EXOTIC_SKIN_COLOR, race.appearanceOptions.exoticSkinColors)
             p {
                 submitInput {
                     value = "Update"
@@ -189,5 +196,13 @@ private fun HTML.showRaceEditor(
 
 private fun parseRace(id: RaceId, parameters: Parameters): Race {
     val name = parameters.getOrFail("name")
-    return Race(id, name)
+    return Race(id, name, parseAppearanceOptions(parameters))
+}
+
+private fun parseAppearanceOptions(parameters: Parameters): AppearanceOptions {
+    val scalesColors = parseEnumRarity(parameters, SCALE_COLOR, Color::valueOf)
+    val normalSkinColors = parseEnumRarity(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf)
+    val exoticSkinColors = parseEnumRarity(parameters, EXOTIC_SKIN_COLOR, Color::valueOf)
+
+    return AppearanceOptions(scalesColors, normalSkinColors, exoticSkinColors)
 }
