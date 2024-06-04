@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.race
 
+import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable

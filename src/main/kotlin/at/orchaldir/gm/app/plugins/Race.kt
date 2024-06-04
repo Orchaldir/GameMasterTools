@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.character.appearance.EarShape
 import at.orchaldir.gm.core.model.character.appearance.SkinColor
-import at.orchaldir.gm.core.model.race.AppearanceOptions
+import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.selector.canDelete

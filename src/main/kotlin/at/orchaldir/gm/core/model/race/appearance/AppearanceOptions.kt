@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.race
+package at.orchaldir.gm.core.model.race.appearance
 
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.EnumRarity
