@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.character.appearance.EarShape
 import at.orchaldir.gm.core.model.character.appearance.SkinColor
 import at.orchaldir.gm.core.model.race.AppearanceOptions
 import at.orchaldir.gm.core.model.race.Race
@@ -28,6 +29,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
+private const val EAR_SHAPE = "ear_shape"
 private const val SCALE_COLOR = "scale_color"
 private const val NORMAL_SKIN_COLOR = "normal_skin_color"
 private const val EXOTIC_SKIN_COLOR = "exotic_skin_color"
@@ -179,6 +181,7 @@ private fun HTML.showRaceEditor(
                 }
             }
             h2 { +"Appearance Options" }
+            h3 { +"Skin" }
             selectRaritiesForEnumRarity("Scale Colors", SCALE_COLOR, race.appearance.scalesColors)
             selectRaritiesForEnumRarity(
                 "Normal Skin Colors",
@@ -190,6 +193,8 @@ private fun HTML.showRaceEditor(
                 EXOTIC_SKIN_COLOR,
                 race.appearance.exoticSkinColors
             )
+            h3 { +"Ears" }
+            selectRaritiesForEnumRarity("Ear Shapes", EAR_SHAPE, race.appearance.earShapes)
             p {
                 submitInput {
                     value = "Update"
@@ -211,6 +216,7 @@ private fun parseAppearanceOptions(parameters: Parameters): AppearanceOptions {
     val scalesColors = parseEnumRarity(parameters, SCALE_COLOR, Color::valueOf)
     val normalSkinColors = parseEnumRarity(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf)
     val exoticSkinColors = parseEnumRarity(parameters, EXOTIC_SKIN_COLOR, Color::valueOf)
+    val earShapes = parseEnumRarity(parameters, EAR_SHAPE, EarShape::valueOf)
 
-    return AppearanceOptions(scalesColors, normalSkinColors, exoticSkinColors)
+    return AppearanceOptions(scalesColors, normalSkinColors, exoticSkinColors, earShapes)
 }

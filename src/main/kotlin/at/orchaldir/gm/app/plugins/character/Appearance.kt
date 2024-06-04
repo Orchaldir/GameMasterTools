@@ -131,8 +131,8 @@ private fun HTML.showAppearanceEditor(
                 }
             }
             if (appearance is HeadOnly) {
-                showSkinEditor(appearance.head.skin, race)
-                showEarsEditor(appearance.head.ears)
+                showSkinEditor(race, appearance.head.skin)
+                showEarsEditor(race, appearance.head.ears)
                 showEyesEditor(appearance.head.eyes)
                 showMouthEditor(appearance.head.mouth)
             }
@@ -148,7 +148,7 @@ private fun HTML.showAppearanceEditor(
     }
 }
 
-private fun FORM.showEarsEditor(ears: Ears) {
+private fun FORM.showEarsEditor(race: Race, ears: Ears) {
     h2 { +"Ears" }
     field("Type") {
         select {
@@ -169,7 +169,7 @@ private fun FORM.showEarsEditor(ears: Ears) {
     }
     when (ears) {
         is NormalEars -> {
-            selectEnum("Ear Shape", EAR_SHAPE, EarShape.entries, true) { shape ->
+            selectEnumRarity("Ear Shape", EAR_SHAPE, race.appearance.earShapes, true) { shape ->
                 label = shape.name
                 value = shape.toString()
                 selected = ears.shape == shape
@@ -186,8 +186,8 @@ private fun FORM.showEarsEditor(ears: Ears) {
 }
 
 private fun FORM.showSkinEditor(
-    skin: Skin,
     race: Race,
+    skin: Skin,
 ) {
     h2 { +"Skin" }
     field("Type") {
