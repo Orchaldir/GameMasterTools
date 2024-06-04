@@ -199,16 +199,19 @@ private fun FORM.showSkinEditor(
                 label = "Scales"
                 value = SCALES
                 selected = skin is Scales
+                disabled = !race.appearance.scalesColors.hasValidValues()
             }
             option {
                 label = "Normal Skin"
                 value = NORMAL
                 selected = skin is NormalSkin
+                disabled = !race.appearance.normalSkinColors.hasValidValues()
             }
             option {
                 label = "Exotic Skin"
                 value = EXOTIC
                 selected = skin is ExoticSkin
+                disabled = !race.appearance.exoticSkinColors.hasValidValues()
             }
         }
     }
