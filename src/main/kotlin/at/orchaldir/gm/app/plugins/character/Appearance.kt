@@ -159,11 +159,13 @@ private fun FORM.showEarsEditor(race: Race, ears: Ears) {
                 label = "No Ears"
                 value = NO_EARS
                 selected = ears is NoEars
+                disabled = race.appearance.earShapes.hasValidValues()
             }
             option {
                 label = "Normal Ears"
                 value = NORMAL_EARS
                 selected = ears is NormalEars
+                disabled = !race.appearance.earShapes.hasValidValues()
             }
         }
     }

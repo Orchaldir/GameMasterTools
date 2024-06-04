@@ -131,6 +131,7 @@ fun <T> HtmlBlockTag.selectEnumRarity(
                 .toList()
                 .groupBy { p -> p.second }
                 .mapValues { p -> p.value.map { it.first } }
+                .toSortedMap()
                 .forEach() { (rarity, values) ->
                     optGroup(rarity.toString()) {
                         values.forEach { value ->
