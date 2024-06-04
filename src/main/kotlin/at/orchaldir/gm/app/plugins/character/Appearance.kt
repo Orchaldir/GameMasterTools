@@ -10,6 +10,8 @@ import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.appearance.EyeOptions
+import at.orchaldir.gm.core.model.race.appearance.EyesOptions
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
@@ -41,9 +43,6 @@ private const val NORMAL_EARS = "normal"
 private const val EAR_SHAPE = "ear_shape"
 private const val EAR_SIZE = "ear_size"
 private const val EYES_TYPE = "eyes"
-private const val NO_EYES = "no"
-private const val ONE_EYE = "one"
-private const val TOW_EYES = "two"
 private const val EYE_SIZE = "eye_size"
 private const val EYE_SHAPE = "eye_shape"
 private const val PUPIL_SHAPE = "pupil_shape"
@@ -133,7 +132,7 @@ private fun HTML.showAppearanceEditor(
             if (appearance is HeadOnly) {
                 showSkinEditor(race, appearance.head.skin)
                 showEarsEditor(race, appearance.head.ears)
-                showEyesEditor(appearance.head.eyes)
+                showEyesEditor(race, appearance.head.eyes)
                 showMouthEditor(appearance.head.mouth)
             }
             p {
@@ -218,8 +217,8 @@ private fun FORM.showSkinEditor(
         }
     }
     when (skin) {
-        is Scales -> selectSkinColor(race.appearance.scalesColors, skin.color)
-        is ExoticSkin -> selectSkinColor(race.appearance.exoticSkinColors, skin.color)
+        is Scales -> selectSkinColor("Color", EXOTIC_COLOR, race.appearance.scalesColors, skin.color)
+        is ExoticSkin -> selectSkinColor("Color", EXOTIC_COLOR, race.appearance.exoticSkinColors, skin.color)
         is NormalSkin -> {
             selectEnumRarity("Color", SKIN_COLOR, race.appearance.normalSkinColors, true) { skinColor ->
                 label = skinColor.name
@@ -233,9 +232,9 @@ private fun FORM.showSkinEditor(
 }
 
 private fun FORM.selectSkinColor(
-    colorRarity: EnumRarity<Color>, current: Color,
+    labelText: String, selectId: String, colorRarity: EnumRarity<Color>, current: Color,
 ) {
-    selectEnumRarity("Color", EXOTIC_COLOR, colorRarity, true) { c ->
+    selectEnumRarity(labelText, selectId, colorRarity, true) { c ->
         label = c.name
         value = c.toString()
         selected = current == c
@@ -244,34 +243,22 @@ private fun FORM.selectSkinColor(
 }
 
 private fun FORM.showEyesEditor(
+    race: Race,
     eyes: Eyes,
 ) {
     h2 { +"Eyes" }
-    field("Type") {
-        select {
-            id = EYES_TYPE
-            name = EYES_TYPE
-            onChange = ON_CHANGE_SCRIPT
-            option {
-                label = "No Eyes"
-                value = NO_EYES
-                selected = eyes is NoEyes
-            }
-            option {
-                label = "One Eye"
-                value = ONE_EYE
-                selected = eyes is OneEye
-            }
-            option {
-                label = "Two Eyes"
-                value = TOW_EYES
-                selected = eyes is TwoEyes
-            }
+    selectEnumRarity("Type", EYES_TYPE, race.appearance.eyesOptions, true) { option ->
+        label = option.name
+        value = option.toString()
+        selected = when (option) {
+            EyesOptions.NoEyes -> eyes is NoEyes
+            EyesOptions.OneEye -> eyes is OneEye
+            EyesOptions.TwoEyes -> eyes is TwoEyes
         }
     }
     when (eyes) {
         is OneEye -> {
-            showEyeEditor(eyes.eye)
+            showEyeEditor(race.appearance.eyeOptions, eyes.eye)
             selectEnum("Eye Size", EYE_SIZE, Size.entries, true) { c ->
                 label = c.name
                 value = c.toString()
@@ -280,7 +267,7 @@ private fun FORM.showEyesEditor(
         }
 
         is TwoEyes -> {
-            showEyeEditor(eyes.eye)
+            showEyeEditor(race.appearance.eyeOptions, eyes.eye)
         }
 
         else -> doNothing()
@@ -288,28 +275,21 @@ private fun FORM.showEyesEditor(
 }
 
 private fun FORM.showEyeEditor(
+    eyeOptions: EyeOptions,
     eye: Eye,
 ) {
-    selectEnum("Eye Shape", EYE_SHAPE, EyeShape.entries, true) { shape ->
+    selectEnumRarity("Eye Shape", EYE_SHAPE, eyeOptions.eyeShapes, true) { shape ->
         label = shape.name
         value = shape.toString()
         selected = eye.eyeShape == shape
     }
-    selectEnum("Pupil Shape", PUPIL_SHAPE, PupilShape.entries, true) { shape ->
+    selectEnumRarity("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, true) { shape ->
         label = shape.name
         value = shape.toString()
         selected = eye.pupilShape == shape
     }
-    selectEnum("Pupil Color", PUPIL_COLOR, Color.entries, true) { color ->
-        label = color.name
-        value = color.toString()
-        selected = eye.pupilColor == color
-    }
-    selectEnum("Sclera Color", SCLERA_COLOR, Color.entries, true) { color ->
-        label = color.name
-        value = color.toString()
-        selected = eye.scleraColor == color
-    }
+    selectSkinColor("Pupil Color", PUPIL_COLOR, eyeOptions.pupilColors, eye.pupilColor)
+    selectSkinColor("Sclera Color", SCLERA_COLOR, eyeOptions.scleraColors, eye.scleraColor)
 }
 
 private fun FORM.showMouthEditor(
@@ -398,13 +378,13 @@ private fun parseEars(parameters: Parameters): Ears {
 
 private fun parseEyes(parameters: Parameters): Eyes {
     return when (parameters[EYES_TYPE]) {
-        ONE_EYE -> {
+        EyesOptions.OneEye.toString() -> {
             val eye = parseEye(parameters)
             val size = parse(parameters, EYE_SIZE, Size.Medium)
             return OneEye(eye, size)
         }
 
-        TOW_EYES -> {
+        EyesOptions.TwoEyes.toString() -> {
             val eye = parseEye(parameters)
             return TwoEyes(eye)
         }

@@ -8,10 +8,14 @@ import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.character.appearance.EarShape
+import at.orchaldir.gm.core.model.character.appearance.EyeShape
+import at.orchaldir.gm.core.model.character.appearance.PupilShape
 import at.orchaldir.gm.core.model.character.appearance.SkinColor
-import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
+import at.orchaldir.gm.core.model.race.appearance.EyeOptions
+import at.orchaldir.gm.core.model.race.appearance.EyesOptions
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
@@ -29,10 +33,15 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-private const val EAR_SHAPE = "ear_shape"
 private const val SCALE_COLOR = "scale_color"
 private const val NORMAL_SKIN_COLOR = "normal_skin_color"
 private const val EXOTIC_SKIN_COLOR = "exotic_skin_color"
+private const val EAR_SHAPE = "ear_shape"
+private const val EYES_OPTIONS = "eyes_option"
+private const val EYE_SHAPE = "eye_shape"
+private const val PUPIL_SHAPE = "pupil_shape"
+private const val PUPIL_COLOR = "pupil_color"
+private const val SCLERA_COLOR = "sclera_color"
 
 @Resource("/races")
 class Races {
@@ -169,6 +178,8 @@ private fun HTML.showRaceEditor(
     call: ApplicationCall,
     race: Race,
 ) {
+    val appearance = race.appearance
+    val eyeOptions = appearance.eyeOptions
     val backLink = call.application.href(Races())
     val updateLink = call.application.href(Races.Update(race.id))
 
@@ -182,19 +193,25 @@ private fun HTML.showRaceEditor(
             }
             h2 { +"Appearance Options" }
             h3 { +"Skin" }
-            selectRaritiesForEnumRarity("Scale Colors", SCALE_COLOR, race.appearance.scalesColors)
+            selectRaritiesForEnumRarity("Scale Colors", SCALE_COLOR, appearance.scalesColors)
             selectRaritiesForEnumRarity(
                 "Normal Skin Colors",
                 NORMAL_SKIN_COLOR,
-                race.appearance.normalSkinColors
+                appearance.normalSkinColors
             )
             selectRaritiesForEnumRarity(
                 "Exotic Skin Colors",
                 EXOTIC_SKIN_COLOR,
-                race.appearance.exoticSkinColors
+                appearance.exoticSkinColors
             )
             h3 { +"Ears" }
-            selectRaritiesForEnumRarity("Ear Shapes", EAR_SHAPE, race.appearance.earShapes)
+            selectRaritiesForEnumRarity("Ear Shapes", EAR_SHAPE, appearance.earShapes)
+            h3 { +"Eyes" }
+            selectRaritiesForEnumRarity("Options", EYES_OPTIONS, appearance.eyesOptions)
+            selectRaritiesForEnumRarity("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes)
+            selectRaritiesForEnumRarity("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes)
+            selectRaritiesForEnumRarity("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors)
+            selectRaritiesForEnumRarity("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors)
             p {
                 submitInput {
                     value = "Update"
@@ -217,6 +234,17 @@ private fun parseAppearanceOptions(parameters: Parameters): AppearanceOptions {
     val normalSkinColors = parseEnumRarity(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf)
     val exoticSkinColors = parseEnumRarity(parameters, EXOTIC_SKIN_COLOR, Color::valueOf)
     val earShapes = parseEnumRarity(parameters, EAR_SHAPE, EarShape::valueOf)
+    val eyesOptions = parseEnumRarity(parameters, EYES_OPTIONS, EyesOptions::valueOf)
+    val eyeOptions = parseEyeOptions(parameters)
 
-    return AppearanceOptions(scalesColors, normalSkinColors, exoticSkinColors, earShapes)
+    return AppearanceOptions(scalesColors, normalSkinColors, exoticSkinColors, earShapes, eyesOptions, eyeOptions)
+}
+
+private fun parseEyeOptions(parameters: Parameters): EyeOptions {
+    val eyeShapes = parseEnumRarity(parameters, EYE_SHAPE, EyeShape::valueOf)
+    val pupilShapes = parseEnumRarity(parameters, PUPIL_SHAPE, PupilShape::valueOf)
+    val pupilColors = parseEnumRarity(parameters, PUPIL_COLOR, Color::valueOf)
+    val scleraColors = parseEnumRarity(parameters, SCLERA_COLOR, Color::valueOf)
+
+    return EyeOptions(eyeShapes, pupilShapes, pupilColors, scleraColors)
 }

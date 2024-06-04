@@ -8,4 +8,6 @@ data class EnumRarity<T>(val map: Map<T, Rarity>) {
 
     fun hasValidValues() = map.values.any { it != Rarity.Unavailable }
 
+    fun isAvailable(value: T) = (map[value] ?: Rarity.Unavailable) != Rarity.Unavailable
+
 }

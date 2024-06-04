@@ -12,4 +12,6 @@ data class AppearanceOptions(
     val normalSkinColors: EnumRarity<SkinColor> = EnumRarity(SkinColor.entries),
     val exoticSkinColors: EnumRarity<Color> = EnumRarity(Color.entries),
     val earShapes: EnumRarity<EarShape> = EnumRarity(EarShape.entries),
+    val eyesOptions: EnumRarity<EyesOptions> = EnumRarity(EyesOptions.entries),
+    val eyeOptions: EyeOptions = EyeOptions(),
 )
