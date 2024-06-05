@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.EyesOptions
+import at.orchaldir.gm.core.model.race.appearance.MouthOption
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
@@ -49,9 +50,6 @@ private const val PUPIL_SHAPE = "pupil_shape"
 private const val PUPIL_COLOR = "pupil_color"
 private const val SCLERA_COLOR = "sclera_color"
 private const val MOUTH_TYPE = "mouth"
-private const val NO_MOUTH = "no"
-private const val SIMPLE_MOUTH = "simple"
-private const val FEMALE_MOUTH = "female"
 private const val MOUTH_WIDTH = "mouth_width"
 private const val TEETH_COLOR = "teeth_color"
 private const val LIP_COLOR = "lip_color"
@@ -133,7 +131,7 @@ private fun HTML.showAppearanceEditor(
                 showSkinEditor(race, appearance.head.skin)
                 showEarsEditor(race, appearance.head.ears)
                 showEyesEditor(race, appearance.head.eyes)
-                showMouthEditor(appearance.head.mouth)
+                showMouthEditor(race, appearance.head.mouth)
             }
             p {
                 submitInput {
@@ -293,29 +291,17 @@ private fun FORM.showEyeEditor(
 }
 
 private fun FORM.showMouthEditor(
+    race: Race,
     mouth: Mouth,
 ) {
     h2 { +"Mouth" }
-    field("Type") {
-        select {
-            id = MOUTH_TYPE
-            name = MOUTH_TYPE
-            onChange = ON_CHANGE_SCRIPT
-            option {
-                label = "No Mouth"
-                value = NO_MOUTH
-                selected = mouth is NoMouth
-            }
-            option {
-                label = "Simple Mouth"
-                value = SIMPLE_MOUTH
-                selected = mouth is SimpleMouth
-            }
-            option {
-                label = "Female Mouth"
-                value = FEMALE_MOUTH
-                selected = mouth is FemaleMouth
-            }
+    selectEnumRarity("Type", MOUTH_TYPE, race.appearance.mouthOptions, true) { option ->
+        label = option.name
+        value = option.toString()
+        selected = when (option) {
+            MouthOption.NoMouth -> mouth is NoMouth
+            MouthOption.SimpleMouth -> mouth is SimpleMouth
+            MouthOption.FemaleMouth -> mouth is FemaleMouth
         }
     }
     when (mouth) {
@@ -402,14 +388,14 @@ private fun parseEye(parameters: Parameters) = Eye(
 
 private fun parseMouth(parameters: Parameters): Mouth {
     return when (parameters[MOUTH_TYPE]) {
-        SIMPLE_MOUTH -> {
+        MouthOption.SimpleMouth.toString() -> {
             return SimpleMouth(
                 parse(parameters, MOUTH_WIDTH, Size.Medium),
                 parse(parameters, TEETH_COLOR, TeethColor.White),
             )
         }
 
-        FEMALE_MOUTH -> {
+        MouthOption.FemaleMouth.toString() -> {
             return FemaleMouth(
                 parse(parameters, MOUTH_WIDTH, Size.Medium),
                 parse(parameters, LIP_COLOR, Color.Red),

@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.EyesOptions
+import at.orchaldir.gm.core.model.race.appearance.MouthOption
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
@@ -42,6 +43,7 @@ private const val EYE_SHAPE = "eye_shape"
 private const val PUPIL_SHAPE = "pupil_shape"
 private const val PUPIL_COLOR = "pupil_color"
 private const val SCLERA_COLOR = "sclera_color"
+private const val MOUTH_OPTIONS = "mouth_option"
 
 @Resource("/races")
 class Races {
@@ -212,6 +214,8 @@ private fun HTML.showRaceEditor(
             selectRaritiesForEnumRarity("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes)
             selectRaritiesForEnumRarity("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors)
             selectRaritiesForEnumRarity("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors)
+            h3 { +"Mouth" }
+            selectRaritiesForEnumRarity("Options", MOUTH_OPTIONS, appearance.mouthOptions)
             p {
                 submitInput {
                     value = "Update"
@@ -229,16 +233,15 @@ private fun parseRace(id: RaceId, parameters: Parameters): Race {
     return Race(id, name, parseAppearanceOptions(parameters))
 }
 
-private fun parseAppearanceOptions(parameters: Parameters): AppearanceOptions {
-    val scalesColors = parseEnumRarity(parameters, SCALE_COLOR, Color::valueOf)
-    val normalSkinColors = parseEnumRarity(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf)
-    val exoticSkinColors = parseEnumRarity(parameters, EXOTIC_SKIN_COLOR, Color::valueOf)
-    val earShapes = parseEnumRarity(parameters, EAR_SHAPE, EarShape::valueOf)
-    val eyesOptions = parseEnumRarity(parameters, EYES_OPTIONS, EyesOptions::valueOf)
-    val eyeOptions = parseEyeOptions(parameters)
-
-    return AppearanceOptions(scalesColors, normalSkinColors, exoticSkinColors, earShapes, eyesOptions, eyeOptions)
-}
+private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
+    parseEnumRarity(parameters, SCALE_COLOR, Color::valueOf),
+    parseEnumRarity(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf),
+    parseEnumRarity(parameters, EXOTIC_SKIN_COLOR, Color::valueOf),
+    parseEnumRarity(parameters, EAR_SHAPE, EarShape::valueOf),
+    parseEnumRarity(parameters, EYES_OPTIONS, EyesOptions::valueOf),
+    parseEyeOptions(parameters),
+    parseEnumRarity(parameters, MOUTH_OPTIONS, MouthOption::valueOf),
+)
 
 private fun parseEyeOptions(parameters: Parameters): EyeOptions {
     val eyeShapes = parseEnumRarity(parameters, EYE_SHAPE, EyeShape::valueOf)

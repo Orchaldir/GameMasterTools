@@ -14,4 +14,5 @@ data class AppearanceOptions(
     val earShapes: EnumRarity<EarShape> = EnumRarity(EarShape.entries),
     val eyesOptions: EnumRarity<EyesOptions> = EnumRarity(EyesOptions.entries),
     val eyeOptions: EyeOptions = EyeOptions(),
+    val mouthOptions: EnumRarity<MouthOption> = EnumRarity(MouthOption.entries),
 )
