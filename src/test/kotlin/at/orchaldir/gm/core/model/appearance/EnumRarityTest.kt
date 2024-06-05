@@ -10,6 +10,33 @@ import org.junit.jupiter.api.Test
 class EnumRarityTest {
 
     @Nested
+    inner class HasValidValuesTest {
+
+        @Test
+        fun `An empty map is not valid`() {
+            assertFalse(EnumRarity<Size>(setOf()).hasValidValues())
+        }
+
+        @Test
+        fun `Unavailable is not available`() {
+            val enumRarity = EnumRarity(mapOf(Small to Unavailable))
+
+            assertFalse(enumRarity.hasValidValues())
+        }
+
+        @Test
+        fun `Other rarities are available`() {
+            Rarity.entries
+                .filter { it != Unavailable }
+                .forEach {
+                    val enumRarity = EnumRarity(mapOf(Small to it))
+
+                    assertTrue(enumRarity.hasValidValues())
+                }
+        }
+    }
+
+    @Nested
     inner class IsValidTest {
 
         @Test
