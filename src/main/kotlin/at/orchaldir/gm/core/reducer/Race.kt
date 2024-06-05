@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Race
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -23,9 +23,7 @@ val DELETE_RACE: Reducer<DeleteRace, State> = { state, action ->
 }
 
 val UPDATE_RACE: Reducer<UpdateRace, State> = { state, action ->
-    state.races.require(action.id)
+    state.races.require(action.race.id)
 
-    val race = Race(action.id, action.name)
-
-    noFollowUps(state.copy(races = state.races.update(race)))
+    noFollowUps(state.copy(races = state.races.update(action.race)))
 }

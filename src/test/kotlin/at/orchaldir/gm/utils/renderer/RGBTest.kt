@@ -12,7 +12,7 @@ class RGBTest {
 
     @Test
     fun `Test the color's hex code`() {
-        assertEquals("#ff8000", RGB(255, 128, 0).toHexCode())
+        assertEquals("#ff8000", RGB(255, 128, 0).toCode())
     }
 
 }

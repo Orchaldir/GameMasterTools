@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
@@ -315,36 +316,38 @@ private fun HTML.showCharacterEditor(
                 else -> doNothing()
             }
             field("Personality") {
-                state.getPersonalityTraitGroups().forEach { group ->
-                    val textId = "$GROUP_PREFIX${group.value}"
-                    var isAnyCheck = false
+                details {
+                    state.getPersonalityTraitGroups().forEach { group ->
+                        val textId = "$GROUP_PREFIX${group.value}"
+                        var isAnyCheck = false
 
-                    p {
-                        state.getPersonalityTraits(group).forEach { trait ->
-                            val isChecked = character.personality.contains(trait.id)
-                            isAnyCheck = isAnyCheck || isChecked
+                        p {
+                            state.getPersonalityTraits(group).forEach { trait ->
+                                val isChecked = character.personality.contains(trait.id)
+                                isAnyCheck = isAnyCheck || isChecked
+
+                                radioInput {
+                                    id = textId
+                                    name = textId
+                                    value = trait.id.value.toString()
+                                    checked = isChecked
+                                }
+                                label {
+                                    htmlFor = textId
+                                    link(call, trait)
+                                }
+                            }
 
                             radioInput {
                                 id = textId
                                 name = textId
-                                value = trait.id.value.toString()
-                                checked = isChecked
+                                value = NONE
+                                checked = !isAnyCheck
                             }
                             label {
                                 htmlFor = textId
-                                link(call, trait)
+                                +NONE
                             }
-                        }
-
-                        radioInput {
-                            id = textId
-                            name = textId
-                            value = NONE
-                            checked = !isAnyCheck
-                        }
-                        label {
-                            htmlFor = textId
-                            +NONE
                         }
                     }
                 }

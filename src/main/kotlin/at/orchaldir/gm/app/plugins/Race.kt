@@ -6,8 +6,17 @@ import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Race
-import at.orchaldir.gm.core.model.character.RaceId
+import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.character.appearance.EarShape
+import at.orchaldir.gm.core.model.character.appearance.EyeShape
+import at.orchaldir.gm.core.model.character.appearance.PupilShape
+import at.orchaldir.gm.core.model.character.appearance.SkinColor
+import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
+import at.orchaldir.gm.core.model.race.appearance.EyeOptions
+import at.orchaldir.gm.core.model.race.appearance.EyesLayout
+import at.orchaldir.gm.core.model.race.appearance.MouthType
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
@@ -24,6 +33,17 @@ import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
+
+private const val SCALE_COLOR = "scale_color"
+private const val NORMAL_SKIN_COLOR = "normal_skin_color"
+private const val EXOTIC_SKIN_COLOR = "exotic_skin_color"
+private const val EAR_SHAPE = "ear_shape"
+private const val EYES_LAYOUT = "eyes_layout"
+private const val EYE_SHAPE = "eye_shape"
+private const val PUPIL_SHAPE = "pupil_shape"
+private const val PUPIL_COLOR = "pupil_color"
+private const val SCLERA_COLOR = "sclera_color"
+private const val MOUTH_TYPE = "mouth_type"
 
 @Resource("/races")
 class Races {
@@ -92,10 +112,9 @@ fun Application.configureRaceRouting() {
         post<Races.Update> { update ->
             logger.info { "Update race ${update.id.value}" }
 
-            val formParameters = call.receiveParameters()
-            val name = formParameters.getOrFail("name")
+            val race = parseRace(update.id, call.receiveParameters())
 
-            STORE.dispatch(UpdateRace(update.id, name))
+            STORE.dispatch(UpdateRace(race))
 
             call.respondRedirect(href(call, update.id))
         }
@@ -122,17 +141,33 @@ private fun HTML.showRaceDetails(
     state: State,
     race: Race,
 ) {
-    val backLink = href(call, race.id)
+    val appearance = race.appearance
+    val eyeOptions = appearance.eyeOptions
+    val backLink = call.application.href(Races())
     val deleteLink = call.application.href(Races.Delete(race.id))
     val editLink = call.application.href(Races.Edit(race.id))
 
     simpleHtml("Race: ${race.name}") {
         field("Id", race.id.value.toString())
         field("Name", race.name)
-        field("Characters") {
-            showList(state.getCharacters(race.id)) { character ->
-                link(call, character)
-            }
+        h2 { +"Appearance Options" }
+        h3 { +"Skin" }
+        showRarityMap("Scale Colors", appearance.scalesColors)
+        showRarityMap("Normal Skin Colors", appearance.normalSkinColors)
+        showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
+        h3 { +"Ears" }
+        showRarityMap("Ear Shapes", appearance.earShapes)
+        h3 { +"Eyes" }
+        showRarityMap("Layout", appearance.eyesLayout)
+        showRarityMap("Eye Shapes", eyeOptions.eyeShapes)
+        showRarityMap("Pupil Shape", eyeOptions.pupilShapes)
+        showRarityMap("Pupil Colors", eyeOptions.pupilColors)
+        showRarityMap("Sclera Colors", eyeOptions.scleraColors)
+        h3 { +"Mouth" }
+        showRarityMap("Types", appearance.mouthTypes)
+        h2 { +"Characters" }
+        showList(state.getCharacters(race.id)) { character ->
+            link(call, character)
         }
         p { a(editLink) { +"Edit" } }
 
@@ -161,7 +196,9 @@ private fun HTML.showRaceEditor(
     call: ApplicationCall,
     race: Race,
 ) {
-    val backLink = call.application.href(Races())
+    val appearance = race.appearance
+    val eyeOptions = appearance.eyeOptions
+    val backLink = call.application.href(Races.Details(race.id))
     val updateLink = call.application.href(Races.Update(race.id))
 
     simpleHtml("Edit Race: ${race.name}") {
@@ -172,6 +209,29 @@ private fun HTML.showRaceEditor(
                     value = race.name
                 }
             }
+            h2 { +"Appearance Options" }
+            h3 { +"Skin" }
+            selectRarityMap("Scale Colors", SCALE_COLOR, appearance.scalesColors)
+            selectRarityMap(
+                "Normal Skin Colors",
+                NORMAL_SKIN_COLOR,
+                appearance.normalSkinColors
+            )
+            selectRarityMap(
+                "Exotic Skin Colors",
+                EXOTIC_SKIN_COLOR,
+                appearance.exoticSkinColors
+            )
+            h3 { +"Ears" }
+            selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes)
+            h3 { +"Eyes" }
+            selectRarityMap("Layout", EYES_LAYOUT, appearance.eyesLayout)
+            selectRarityMap("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes)
+            selectRarityMap("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes)
+            selectRarityMap("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors)
+            selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors)
+            h3 { +"Mouth" }
+            selectRarityMap("Types", MOUTH_TYPE, appearance.mouthTypes)
             p {
                 submitInput {
                     value = "Update"
@@ -182,4 +242,28 @@ private fun HTML.showRaceEditor(
         }
         p { a(backLink) { +"Back" } }
     }
+}
+
+private fun parseRace(id: RaceId, parameters: Parameters): Race {
+    val name = parameters.getOrFail("name")
+    return Race(id, name, parseAppearanceOptions(parameters))
+}
+
+private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
+    parseRarityMap(parameters, SCALE_COLOR, Color::valueOf),
+    parseRarityMap(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf),
+    parseRarityMap(parameters, EXOTIC_SKIN_COLOR, Color::valueOf),
+    parseRarityMap(parameters, EAR_SHAPE, EarShape::valueOf),
+    parseRarityMap(parameters, EYES_LAYOUT, EyesLayout::valueOf),
+    parseEyeOptions(parameters),
+    parseRarityMap(parameters, MOUTH_TYPE, MouthType::valueOf),
+)
+
+private fun parseEyeOptions(parameters: Parameters): EyeOptions {
+    val eyeShapes = parseRarityMap(parameters, EYE_SHAPE, EyeShape::valueOf)
+    val pupilShapes = parseRarityMap(parameters, PUPIL_SHAPE, PupilShape::valueOf)
+    val pupilColors = parseRarityMap(parameters, PUPIL_COLOR, Color::valueOf)
+    val scleraColors = parseRarityMap(parameters, SCLERA_COLOR, Color::valueOf)
+
+    return EyeOptions(eyeShapes, pupilShapes, pupilColors, scleraColors)
 }

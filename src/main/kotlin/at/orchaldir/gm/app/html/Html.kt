@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.plugins.TITLE
+import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.appearance.Rarity
+import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import kotlinx.html.*
 
@@ -22,7 +25,7 @@ fun HTML.simpleHtml(
     }
 }
 
-fun BODY.field(name: String, value: String) {
+fun HtmlBlockTag.field(name: String, value: String) {
     p {
         b { +"$name: " }
         +value
@@ -78,16 +81,34 @@ fun <K, V> HtmlBlockTag.showMap(
     }
 }
 
+fun <T> HtmlBlockTag.showRarityMap(
+    enum: String,
+    values: RarityMap<T>,
+) {
+    val sortedMap = values.map
+        .toList()
+        .groupBy { p -> p.second }
+        .mapValues { p -> p.value.map { it.first } }
+        .toSortedMap()
+
+    details {
+        summary { +enum }
+        showMap(sortedMap) { rarity, values ->
+            field(rarity.toString(), values.joinToString())
+        }
+    }
+}
+
 // form
 
-fun FORM.field(label: String, content: P.() -> Unit) {
+fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
     p {
         b { +"$label: " }
         content()
     }
 }
 
-fun <T> FORM.selectEnum(
+fun <T> HtmlBlockTag.selectEnum(
     label: String,
     selectId: String,
     values: Collection<T>,
@@ -101,10 +122,71 @@ fun <T> FORM.selectEnum(
             if (update) {
                 onChange = ON_CHANGE_SCRIPT
             }
-            values.forEach { gender ->
+            values.forEach { value ->
                 option {
-                    content(gender)
+                    content(value)
                 }
+            }
+        }
+    }
+}
+
+fun <T> HtmlBlockTag.selectEnum(
+    label: String,
+    selectId: String,
+    values: RarityMap<T>,
+    update: Boolean = false,
+    content: OPTION.(T) -> Unit,
+) {
+    field(label) {
+        select {
+            id = selectId
+            name = selectId
+            if (update) {
+                onChange = ON_CHANGE_SCRIPT
+            }
+            values.map
+                .filterValues { it != Rarity.Unavailable }
+                .toList()
+                .groupBy { p -> p.second }
+                .mapValues { p -> p.value.map { it.first } }
+                .toSortedMap()
+                .forEach { (rarity, values) ->
+                    optGroup(rarity.toString()) {
+                        values.forEach { value ->
+                            option {
+                                content(value)
+                            }
+                        }
+                    }
+                }
+        }
+    }
+}
+
+fun FORM.selectColor(
+    labelText: String, selectId: String, rarityMap: RarityMap<Color>, current: Color,
+) {
+    selectEnum(labelText, selectId, rarityMap, true) { c ->
+        label = c.name
+        value = c.toString()
+        selected = current == c
+        style = "background-color:$c"
+    }
+}
+
+fun <T> FORM.selectRarityMap(
+    enum: String,
+    selectId: String,
+    values: RarityMap<T>,
+) {
+    details {
+        summary { +enum }
+        showMap(values.map) { currentValue, currentRarity ->
+            selectEnum(currentValue.toString(), selectId, Rarity.entries) { rarity ->
+                label = rarity.toString()
+                value = "$currentValue-$rarity"
+                selected = rarity == currentRarity
             }
         }
     }

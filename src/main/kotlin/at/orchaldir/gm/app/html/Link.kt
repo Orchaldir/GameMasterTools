@@ -9,6 +9,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.RaceId
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import kotlinx.html.HtmlBlockTag

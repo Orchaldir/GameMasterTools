@@ -1,5 +1,6 @@
-package at.orchaldir.gm.core.model.character
+package at.orchaldir.gm.core.model.race
 
+import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -17,6 +18,7 @@ value class RaceId(val value: Int) : Id<RaceId> {
 data class Race(
     val id: RaceId,
     val name: String = "Race ${id.value}",
+    val appearance: AppearanceOptions = AppearanceOptions(),
 ) : Element<RaceId> {
 
     override fun id() = id

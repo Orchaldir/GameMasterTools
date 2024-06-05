@@ -3,6 +3,8 @@ package at.orchaldir.gm.core.model
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.utils.Storage
 
 data class State(

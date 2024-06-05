@@ -123,9 +123,4 @@ fun toSvg(line: LineOptions): String {
     )
 }
 
-fun toSvg(color: RenderColor): String {
-    return when (color) {
-        is NamedColor -> color.color.lowercase()
-        is RGB -> color.toHexCode()
-    }
-}
+fun toSvg(color: RenderColor) = color.toCode()
