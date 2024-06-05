@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
-import at.orchaldir.gm.core.model.race.appearance.EyesOptions
+import at.orchaldir.gm.core.model.race.appearance.EyesLayout
 import at.orchaldir.gm.core.model.race.appearance.MouthType
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
@@ -43,7 +43,7 @@ private const val NO_EARS = "no"
 private const val NORMAL_EARS = "normal"
 private const val EAR_SHAPE = "ear_shape"
 private const val EAR_SIZE = "ear_size"
-private const val EYES_TYPE = "eyes"
+private const val EYES_LAYOUT = "eyes_layout"
 private const val EYE_SIZE = "eye_size"
 private const val EYE_SHAPE = "eye_shape"
 private const val PUPIL_SHAPE = "pupil_shape"
@@ -245,13 +245,13 @@ private fun FORM.showEyesEditor(
     eyes: Eyes,
 ) {
     h2 { +"Eyes" }
-    selectEnum("Type", EYES_TYPE, race.appearance.eyesOptions, true) { option ->
+    selectEnum("Layout", EYES_LAYOUT, race.appearance.eyesLayout, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {
-            EyesOptions.NoEyes -> eyes is NoEyes
-            EyesOptions.OneEye -> eyes is OneEye
-            EyesOptions.TwoEyes -> eyes is TwoEyes
+            EyesLayout.NoEyes -> eyes is NoEyes
+            EyesLayout.OneEye -> eyes is OneEye
+            EyesLayout.TwoEyes -> eyes is TwoEyes
         }
     }
     when (eyes) {
@@ -363,14 +363,14 @@ private fun parseEars(parameters: Parameters): Ears {
 }
 
 private fun parseEyes(parameters: Parameters): Eyes {
-    return when (parameters[EYES_TYPE]) {
-        EyesOptions.OneEye.toString() -> {
+    return when (parameters[EYES_LAYOUT]) {
+        EyesLayout.OneEye.toString() -> {
             val eye = parseEye(parameters)
             val size = parse(parameters, EYE_SIZE, Size.Medium)
             return OneEye(eye, size)
         }
 
-        EyesOptions.TwoEyes.toString() -> {
+        EyesLayout.TwoEyes.toString() -> {
             val eye = parseEye(parameters)
             return TwoEyes(eye)
         }

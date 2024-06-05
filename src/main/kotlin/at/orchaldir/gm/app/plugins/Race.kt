@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
-import at.orchaldir.gm.core.model.race.appearance.EyesOptions
+import at.orchaldir.gm.core.model.race.appearance.EyesLayout
 import at.orchaldir.gm.core.model.race.appearance.MouthType
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
@@ -38,7 +38,7 @@ private const val SCALE_COLOR = "scale_color"
 private const val NORMAL_SKIN_COLOR = "normal_skin_color"
 private const val EXOTIC_SKIN_COLOR = "exotic_skin_color"
 private const val EAR_SHAPE = "ear_shape"
-private const val EYES_OPTIONS = "eyes_option"
+private const val EYES_LAYOUT = "eyes_layout"
 private const val EYE_SHAPE = "eye_shape"
 private const val PUPIL_SHAPE = "pupil_shape"
 private const val PUPIL_COLOR = "pupil_color"
@@ -209,7 +209,7 @@ private fun HTML.showRaceEditor(
             h3 { +"Ears" }
             selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes)
             h3 { +"Eyes" }
-            selectRarityMap("Options", EYES_OPTIONS, appearance.eyesOptions)
+            selectRarityMap("Layout", EYES_LAYOUT, appearance.eyesLayout)
             selectRarityMap("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes)
             selectRarityMap("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes)
             selectRarityMap("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors)
@@ -238,7 +238,7 @@ private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
     parseRarityMap(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf),
     parseRarityMap(parameters, EXOTIC_SKIN_COLOR, Color::valueOf),
     parseRarityMap(parameters, EAR_SHAPE, EarShape::valueOf),
-    parseRarityMap(parameters, EYES_OPTIONS, EyesOptions::valueOf),
+    parseRarityMap(parameters, EYES_LAYOUT, EyesLayout::valueOf),
     parseEyeOptions(parameters),
     parseRarityMap(parameters, MOUTH_TYPE, MouthType::valueOf),
 )
