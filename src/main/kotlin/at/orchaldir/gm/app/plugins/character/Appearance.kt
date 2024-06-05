@@ -5,7 +5,6 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
@@ -215,8 +214,8 @@ private fun FORM.showSkinEditor(
         }
     }
     when (skin) {
-        is Scales -> selectSkinColor("Color", EXOTIC_COLOR, race.appearance.scalesColors, skin.color)
-        is ExoticSkin -> selectSkinColor("Color", EXOTIC_COLOR, race.appearance.exoticSkinColors, skin.color)
+        is Scales -> selectColor("Color", EXOTIC_COLOR, race.appearance.scalesColors, skin.color)
+        is ExoticSkin -> selectColor("Color", EXOTIC_COLOR, race.appearance.exoticSkinColors, skin.color)
         is NormalSkin -> {
             selectEnum("Color", SKIN_COLOR, race.appearance.normalSkinColors, true) { skinColor ->
                 label = skinColor.name
@@ -226,17 +225,6 @@ private fun FORM.showSkinEditor(
                 style = "background-color:${bgColor}"
             }
         }
-    }
-}
-
-private fun FORM.selectSkinColor(
-    labelText: String, selectId: String, rarityMap: RarityMap<Color>, current: Color,
-) {
-    selectEnum(labelText, selectId, rarityMap, true) { c ->
-        label = c.name
-        value = c.toString()
-        selected = current == c
-        style = "background-color:$c"
     }
 }
 
@@ -286,8 +274,8 @@ private fun FORM.showEyeEditor(
         value = shape.toString()
         selected = eye.pupilShape == shape
     }
-    selectSkinColor("Pupil Color", PUPIL_COLOR, eyeOptions.pupilColors, eye.pupilColor)
-    selectSkinColor("Sclera Color", SCLERA_COLOR, eyeOptions.scleraColors, eye.scleraColor)
+    selectColor("Pupil Color", PUPIL_COLOR, eyeOptions.pupilColors, eye.pupilColor)
+    selectColor("Sclera Color", SCLERA_COLOR, eyeOptions.scleraColors, eye.scleraColor)
 }
 
 private fun FORM.showMouthEditor(

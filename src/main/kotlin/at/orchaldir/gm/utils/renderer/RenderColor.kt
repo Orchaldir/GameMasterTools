@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class RenderColor {
 
-    abstract fun toCode(): String;
+    abstract fun toCode(): String
 }
 
 data class NamedColor(val color: String) : RenderColor() {

@@ -1,8 +1,9 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.plugins.TITLE
-import at.orchaldir.gm.core.model.appearance.RarityMap
+import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Rarity
+import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import kotlinx.html.*
 
@@ -142,6 +143,17 @@ fun <T> HtmlBlockTag.selectEnum(
                     }
                 }
         }
+    }
+}
+
+fun FORM.selectColor(
+    labelText: String, selectId: String, rarityMap: RarityMap<Color>, current: Color,
+) {
+    selectEnum(labelText, selectId, rarityMap, true) { c ->
+        label = c.name
+        value = c.toString()
+        selected = current == c
+        style = "background-color:$c"
     }
 }
 
