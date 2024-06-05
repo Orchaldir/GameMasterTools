@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.plugins.TITLE
-import at.orchaldir.gm.core.model.appearance.EnumRarity
+import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import kotlinx.html.*
@@ -115,7 +115,7 @@ fun <T> HtmlBlockTag.selectEnum(
 fun <T> HtmlBlockTag.selectEnum(
     label: String,
     selectId: String,
-    values: EnumRarity<T>,
+    values: RarityMap<T>,
     update: Boolean = false,
     content: OPTION.(T) -> Unit,
 ) {
@@ -145,10 +145,10 @@ fun <T> HtmlBlockTag.selectEnum(
     }
 }
 
-fun <T> FORM.selectRarityForEachEnumValue(
+fun <T> FORM.selectRarityMap(
     enum: String,
     selectId: String,
-    values: EnumRarity<T>,
+    values: RarityMap<T>,
 ) {
     details {
         summary { +enum }

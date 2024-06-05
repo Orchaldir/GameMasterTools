@@ -195,27 +195,27 @@ private fun HTML.showRaceEditor(
             }
             h2 { +"Appearance Options" }
             h3 { +"Skin" }
-            selectRarityForEachEnumValue("Scale Colors", SCALE_COLOR, appearance.scalesColors)
-            selectRarityForEachEnumValue(
+            selectRarityMap("Scale Colors", SCALE_COLOR, appearance.scalesColors)
+            selectRarityMap(
                 "Normal Skin Colors",
                 NORMAL_SKIN_COLOR,
                 appearance.normalSkinColors
             )
-            selectRarityForEachEnumValue(
+            selectRarityMap(
                 "Exotic Skin Colors",
                 EXOTIC_SKIN_COLOR,
                 appearance.exoticSkinColors
             )
             h3 { +"Ears" }
-            selectRarityForEachEnumValue("Ear Shapes", EAR_SHAPE, appearance.earShapes)
+            selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes)
             h3 { +"Eyes" }
-            selectRarityForEachEnumValue("Options", EYES_OPTIONS, appearance.eyesOptions)
-            selectRarityForEachEnumValue("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes)
-            selectRarityForEachEnumValue("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes)
-            selectRarityForEachEnumValue("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors)
-            selectRarityForEachEnumValue("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors)
+            selectRarityMap("Options", EYES_OPTIONS, appearance.eyesOptions)
+            selectRarityMap("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes)
+            selectRarityMap("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes)
+            selectRarityMap("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors)
+            selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors)
             h3 { +"Mouth" }
-            selectRarityForEachEnumValue("Options", MOUTH_OPTIONS, appearance.mouthOptions)
+            selectRarityMap("Options", MOUTH_OPTIONS, appearance.mouthOptions)
             p {
                 submitInput {
                     value = "Update"
@@ -234,20 +234,20 @@ private fun parseRace(id: RaceId, parameters: Parameters): Race {
 }
 
 private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
-    parseEnumRarity(parameters, SCALE_COLOR, Color::valueOf),
-    parseEnumRarity(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf),
-    parseEnumRarity(parameters, EXOTIC_SKIN_COLOR, Color::valueOf),
-    parseEnumRarity(parameters, EAR_SHAPE, EarShape::valueOf),
-    parseEnumRarity(parameters, EYES_OPTIONS, EyesOptions::valueOf),
+    parseRarityMap(parameters, SCALE_COLOR, Color::valueOf),
+    parseRarityMap(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf),
+    parseRarityMap(parameters, EXOTIC_SKIN_COLOR, Color::valueOf),
+    parseRarityMap(parameters, EAR_SHAPE, EarShape::valueOf),
+    parseRarityMap(parameters, EYES_OPTIONS, EyesOptions::valueOf),
     parseEyeOptions(parameters),
-    parseEnumRarity(parameters, MOUTH_OPTIONS, MouthOption::valueOf),
+    parseRarityMap(parameters, MOUTH_OPTIONS, MouthOption::valueOf),
 )
 
 private fun parseEyeOptions(parameters: Parameters): EyeOptions {
-    val eyeShapes = parseEnumRarity(parameters, EYE_SHAPE, EyeShape::valueOf)
-    val pupilShapes = parseEnumRarity(parameters, PUPIL_SHAPE, PupilShape::valueOf)
-    val pupilColors = parseEnumRarity(parameters, PUPIL_COLOR, Color::valueOf)
-    val scleraColors = parseEnumRarity(parameters, SCLERA_COLOR, Color::valueOf)
+    val eyeShapes = parseRarityMap(parameters, EYE_SHAPE, EyeShape::valueOf)
+    val pupilShapes = parseRarityMap(parameters, PUPIL_SHAPE, PupilShape::valueOf)
+    val pupilColors = parseRarityMap(parameters, PUPIL_COLOR, Color::valueOf)
+    val scleraColors = parseRarityMap(parameters, SCLERA_COLOR, Color::valueOf)
 
     return EyeOptions(eyeShapes, pupilShapes, pupilColors, scleraColors)
 }

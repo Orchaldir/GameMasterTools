@@ -1,15 +1,16 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.core.model.appearance.EnumRarity
+import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.core.model.appearance.Rarity
 import io.ktor.http.*
 
 
-fun <T> parseEnumRarity(
+fun <T> parseRarityMap(
     parameters: Parameters,
     selectId: String,
     converter: (String) -> T,
-) = EnumRarity(parameters.getAll(selectId)
+) = RarityMap(
+    parameters.getAll(selectId)
     ?.associate {
         val parts = it.split('-')
         val value = converter(parts[0])

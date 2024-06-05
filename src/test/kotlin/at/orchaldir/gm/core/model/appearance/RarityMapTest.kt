@@ -7,22 +7,22 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class EnumRarityTest {
+class RarityMapTest {
 
-    private val emptyEnumRarity = EnumRarity<Size>(setOf())
-    private val unavailableEnumRarity = EnumRarity(mapOf(Small to Unavailable))
+    private val emptyRarityMap = RarityMap<Size>(setOf())
+    private val unavailableRarityMap = RarityMap(mapOf(Small to Unavailable))
 
     @Nested
     inner class HasValidValuesTest {
 
         @Test
         fun `An empty map is not valid`() {
-            assertFalse(emptyEnumRarity.hasValidValues())
+            assertFalse(emptyRarityMap.hasValidValues())
         }
 
         @Test
         fun `Unavailable is not available`() {
-            assertFalse(unavailableEnumRarity.hasValidValues())
+            assertFalse(unavailableRarityMap.hasValidValues())
         }
 
         @Test
@@ -30,9 +30,9 @@ class EnumRarityTest {
             Rarity.entries
                 .filter { it != Unavailable }
                 .forEach {
-                    val enumRarity = EnumRarity(mapOf(Small to it))
+                    val rarityMap = RarityMap(mapOf(Small to it))
 
-                    assertTrue(enumRarity.hasValidValues())
+                    assertTrue(rarityMap.hasValidValues())
                 }
         }
     }
@@ -42,12 +42,12 @@ class EnumRarityTest {
 
         @Test
         fun `Value not in map is invalid`() {
-            assertFalse(emptyEnumRarity.isAvailable(Small))
+            assertFalse(emptyRarityMap.isAvailable(Small))
         }
 
         @Test
         fun `Unavailable is not available`() {
-            assertFalse(unavailableEnumRarity.isAvailable(Small))
+            assertFalse(unavailableRarityMap.isAvailable(Small))
         }
 
         @Test
@@ -55,9 +55,9 @@ class EnumRarityTest {
             Rarity.entries
                 .filter { it != Unavailable }
                 .forEach {
-                    val enumRarity = EnumRarity(mapOf(Small to it))
+                    val rarityMap = RarityMap(mapOf(Small to it))
 
-                    assertTrue(enumRarity.isAvailable(Small))
+                    assertTrue(rarityMap.isAvailable(Small))
                 }
         }
     }

@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.appearance.EnumRarity
+import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
@@ -230,9 +230,9 @@ private fun FORM.showSkinEditor(
 }
 
 private fun FORM.selectSkinColor(
-    labelText: String, selectId: String, colorRarity: EnumRarity<Color>, current: Color,
+    labelText: String, selectId: String, rarityMap: RarityMap<Color>, current: Color,
 ) {
-    selectEnum(labelText, selectId, colorRarity, true) { c ->
+    selectEnum(labelText, selectId, rarityMap, true) { c ->
         label = c.name
         value = c.toString()
         selected = current == c
