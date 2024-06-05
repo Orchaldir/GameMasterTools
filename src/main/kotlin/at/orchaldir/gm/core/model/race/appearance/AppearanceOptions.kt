@@ -14,5 +14,5 @@ data class AppearanceOptions(
     val earShapes: RarityMap<EarShape> = RarityMap(EarShape.entries),
     val eyesOptions: RarityMap<EyesOptions> = RarityMap(EyesOptions.entries),
     val eyeOptions: EyeOptions = EyeOptions(),
-    val mouthOptions: RarityMap<MouthOption> = RarityMap(MouthOption.entries),
+    val mouthTypes: RarityMap<MouthType> = RarityMap(MouthType.entries),
 )

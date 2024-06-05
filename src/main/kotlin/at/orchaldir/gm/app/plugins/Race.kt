@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.EyesOptions
-import at.orchaldir.gm.core.model.race.appearance.MouthOption
+import at.orchaldir.gm.core.model.race.appearance.MouthType
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
@@ -43,7 +43,7 @@ private const val EYE_SHAPE = "eye_shape"
 private const val PUPIL_SHAPE = "pupil_shape"
 private const val PUPIL_COLOR = "pupil_color"
 private const val SCLERA_COLOR = "sclera_color"
-private const val MOUTH_OPTIONS = "mouth_option"
+private const val MOUTH_TYPE = "mouth_type"
 
 @Resource("/races")
 class Races {
@@ -215,7 +215,7 @@ private fun HTML.showRaceEditor(
             selectRarityMap("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors)
             selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors)
             h3 { +"Mouth" }
-            selectRarityMap("Options", MOUTH_OPTIONS, appearance.mouthOptions)
+            selectRarityMap("Types", MOUTH_TYPE, appearance.mouthTypes)
             p {
                 submitInput {
                     value = "Update"
@@ -240,7 +240,7 @@ private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
     parseRarityMap(parameters, EAR_SHAPE, EarShape::valueOf),
     parseRarityMap(parameters, EYES_OPTIONS, EyesOptions::valueOf),
     parseEyeOptions(parameters),
-    parseRarityMap(parameters, MOUTH_OPTIONS, MouthOption::valueOf),
+    parseRarityMap(parameters, MOUTH_TYPE, MouthType::valueOf),
 )
 
 private fun parseEyeOptions(parameters: Parameters): EyeOptions {

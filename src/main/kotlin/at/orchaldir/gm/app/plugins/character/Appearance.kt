@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.EyesOptions
-import at.orchaldir.gm.core.model.race.appearance.MouthOption
+import at.orchaldir.gm.core.model.race.appearance.MouthType
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
@@ -295,13 +295,13 @@ private fun FORM.showMouthEditor(
     mouth: Mouth,
 ) {
     h2 { +"Mouth" }
-    selectEnum("Type", MOUTH_TYPE, race.appearance.mouthOptions, true) { option ->
+    selectEnum("Type", MOUTH_TYPE, race.appearance.mouthTypes, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {
-            MouthOption.NoMouth -> mouth is NoMouth
-            MouthOption.SimpleMouth -> mouth is SimpleMouth
-            MouthOption.FemaleMouth -> mouth is FemaleMouth
+            MouthType.NoMouth -> mouth is NoMouth
+            MouthType.SimpleMouth -> mouth is SimpleMouth
+            MouthType.FemaleMouth -> mouth is FemaleMouth
         }
     }
     when (mouth) {
@@ -388,14 +388,14 @@ private fun parseEye(parameters: Parameters) = Eye(
 
 private fun parseMouth(parameters: Parameters): Mouth {
     return when (parameters[MOUTH_TYPE]) {
-        MouthOption.SimpleMouth.toString() -> {
+        MouthType.SimpleMouth.toString() -> {
             return SimpleMouth(
                 parse(parameters, MOUTH_WIDTH, Size.Medium),
                 parse(parameters, TEETH_COLOR, TeethColor.White),
             )
         }
 
-        MouthOption.FemaleMouth.toString() -> {
+        MouthType.FemaleMouth.toString() -> {
             return FemaleMouth(
                 parse(parameters, MOUTH_WIDTH, Size.Medium),
                 parse(parameters, LIP_COLOR, Color.Red),
