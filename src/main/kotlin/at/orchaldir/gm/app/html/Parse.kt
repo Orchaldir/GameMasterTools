@@ -4,6 +4,8 @@ import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.RarityMap
 import io.ktor.http.*
 
+inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String, default: T): T =
+    parameters[param]?.let { java.lang.Enum.valueOf(T::class.java, it) } ?: default
 
 fun <T> parseRarityMap(
     parameters: Parameters,

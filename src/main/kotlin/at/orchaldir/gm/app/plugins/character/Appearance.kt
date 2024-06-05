@@ -416,6 +416,3 @@ private fun parseSkin(parameters: Parameters): Skin {
 
 private fun parseExoticColor(parameters: Parameters) =
     parse(parameters, EXOTIC_COLOR, Color.Red)
-
-private inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String, default: T): T =
-    parameters[param]?.let { java.lang.Enum.valueOf(T::class.java, it) } ?: default
