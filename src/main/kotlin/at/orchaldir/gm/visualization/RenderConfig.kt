@@ -13,7 +13,7 @@ data class RenderConfig(
     val padding: Distance,
     val line: LineOptions,
     val head: HeadConfig,
-    val skinColors: Map<SkinColor, RGB> = mapOf(
+    private val skinColors: Map<SkinColor, RGB> = mapOf(
         SkinColor.Fair to RGB(254, 228, 208),
         SkinColor.Light to RGB(232, 198, 175),
         SkinColor.Medium to RGB(175, 118, 88),
@@ -30,4 +30,6 @@ data class RenderConfig(
             is Scales -> skin.color.toRender()
         }, line
     )
+
+    fun getSkinColor(skinColor: SkinColor) = skinColors[skinColor] ?: Color.Purple.toRender()
 }

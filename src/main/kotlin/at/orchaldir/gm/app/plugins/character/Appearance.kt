@@ -222,7 +222,7 @@ private fun FORM.showSkinEditor(
                 label = skinColor.name
                 value = skinColor.toString()
                 selected = skin.color == skinColor
-                val bgColor = RENDER_CONFIG.skinColors[skinColor]?.toHexCode() ?: "Pink"
+                val bgColor = RENDER_CONFIG.getSkinColor(skinColor).toCode()
                 style = "background-color:${bgColor}"
             }
         }
