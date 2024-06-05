@@ -168,7 +168,7 @@ private fun FORM.showEarsEditor(race: Race, ears: Ears) {
     }
     when (ears) {
         is NormalEars -> {
-            selectEnumRarity("Ear Shape", EAR_SHAPE, race.appearance.earShapes, true) { shape ->
+            selectEnum("Ear Shape", EAR_SHAPE, race.appearance.earShapes, true) { shape ->
                 label = shape.name
                 value = shape.toString()
                 selected = ears.shape == shape
@@ -218,7 +218,7 @@ private fun FORM.showSkinEditor(
         is Scales -> selectSkinColor("Color", EXOTIC_COLOR, race.appearance.scalesColors, skin.color)
         is ExoticSkin -> selectSkinColor("Color", EXOTIC_COLOR, race.appearance.exoticSkinColors, skin.color)
         is NormalSkin -> {
-            selectEnumRarity("Color", SKIN_COLOR, race.appearance.normalSkinColors, true) { skinColor ->
+            selectEnum("Color", SKIN_COLOR, race.appearance.normalSkinColors, true) { skinColor ->
                 label = skinColor.name
                 value = skinColor.toString()
                 selected = skin.color == skinColor
@@ -232,7 +232,7 @@ private fun FORM.showSkinEditor(
 private fun FORM.selectSkinColor(
     labelText: String, selectId: String, colorRarity: EnumRarity<Color>, current: Color,
 ) {
-    selectEnumRarity(labelText, selectId, colorRarity, true) { c ->
+    selectEnum(labelText, selectId, colorRarity, true) { c ->
         label = c.name
         value = c.toString()
         selected = current == c
@@ -245,7 +245,7 @@ private fun FORM.showEyesEditor(
     eyes: Eyes,
 ) {
     h2 { +"Eyes" }
-    selectEnumRarity("Type", EYES_TYPE, race.appearance.eyesOptions, true) { option ->
+    selectEnum("Type", EYES_TYPE, race.appearance.eyesOptions, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {
@@ -276,12 +276,12 @@ private fun FORM.showEyeEditor(
     eyeOptions: EyeOptions,
     eye: Eye,
 ) {
-    selectEnumRarity("Eye Shape", EYE_SHAPE, eyeOptions.eyeShapes, true) { shape ->
+    selectEnum("Eye Shape", EYE_SHAPE, eyeOptions.eyeShapes, true) { shape ->
         label = shape.name
         value = shape.toString()
         selected = eye.eyeShape == shape
     }
-    selectEnumRarity("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, true) { shape ->
+    selectEnum("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, true) { shape ->
         label = shape.name
         value = shape.toString()
         selected = eye.pupilShape == shape
@@ -295,7 +295,7 @@ private fun FORM.showMouthEditor(
     mouth: Mouth,
 ) {
     h2 { +"Mouth" }
-    selectEnumRarity("Type", MOUTH_TYPE, race.appearance.mouthOptions, true) { option ->
+    selectEnum("Type", MOUTH_TYPE, race.appearance.mouthOptions, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {

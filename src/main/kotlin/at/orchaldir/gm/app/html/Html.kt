@@ -112,7 +112,7 @@ fun <T> HtmlBlockTag.selectEnum(
     }
 }
 
-fun <T> HtmlBlockTag.selectEnumRarity(
+fun <T> HtmlBlockTag.selectEnum(
     label: String,
     selectId: String,
     values: EnumRarity<T>,
@@ -145,7 +145,7 @@ fun <T> HtmlBlockTag.selectEnumRarity(
     }
 }
 
-fun <T> FORM.selectRaritiesForEnumRarity(
+fun <T> FORM.selectRarityForEachEnumValue(
     enum: String,
     selectId: String,
     values: EnumRarity<T>,

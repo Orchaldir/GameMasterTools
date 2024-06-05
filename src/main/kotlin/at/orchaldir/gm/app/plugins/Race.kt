@@ -195,27 +195,27 @@ private fun HTML.showRaceEditor(
             }
             h2 { +"Appearance Options" }
             h3 { +"Skin" }
-            selectRaritiesForEnumRarity("Scale Colors", SCALE_COLOR, appearance.scalesColors)
-            selectRaritiesForEnumRarity(
+            selectRarityForEachEnumValue("Scale Colors", SCALE_COLOR, appearance.scalesColors)
+            selectRarityForEachEnumValue(
                 "Normal Skin Colors",
                 NORMAL_SKIN_COLOR,
                 appearance.normalSkinColors
             )
-            selectRaritiesForEnumRarity(
+            selectRarityForEachEnumValue(
                 "Exotic Skin Colors",
                 EXOTIC_SKIN_COLOR,
                 appearance.exoticSkinColors
             )
             h3 { +"Ears" }
-            selectRaritiesForEnumRarity("Ear Shapes", EAR_SHAPE, appearance.earShapes)
+            selectRarityForEachEnumValue("Ear Shapes", EAR_SHAPE, appearance.earShapes)
             h3 { +"Eyes" }
-            selectRaritiesForEnumRarity("Options", EYES_OPTIONS, appearance.eyesOptions)
-            selectRaritiesForEnumRarity("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes)
-            selectRaritiesForEnumRarity("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes)
-            selectRaritiesForEnumRarity("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors)
-            selectRaritiesForEnumRarity("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors)
+            selectRarityForEachEnumValue("Options", EYES_OPTIONS, appearance.eyesOptions)
+            selectRarityForEachEnumValue("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes)
+            selectRarityForEachEnumValue("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes)
+            selectRarityForEachEnumValue("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors)
+            selectRarityForEachEnumValue("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors)
             h3 { +"Mouth" }
-            selectRaritiesForEnumRarity("Options", MOUTH_OPTIONS, appearance.mouthOptions)
+            selectRarityForEachEnumValue("Options", MOUTH_OPTIONS, appearance.mouthOptions)
             p {
                 submitInput {
                     value = "Update"
