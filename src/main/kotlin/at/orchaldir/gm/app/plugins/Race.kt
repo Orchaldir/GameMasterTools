@@ -182,7 +182,7 @@ private fun HTML.showRaceEditor(
 ) {
     val appearance = race.appearance
     val eyeOptions = appearance.eyeOptions
-    val backLink = call.application.href(Races())
+    val backLink = call.application.href(Races.Details(race.id))
     val updateLink = call.application.href(Races.Update(race.id))
 
     simpleHtml("Edit Race: ${race.name}") {
