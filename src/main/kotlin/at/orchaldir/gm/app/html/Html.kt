@@ -85,10 +85,16 @@ fun <T> HtmlBlockTag.showRarityMap(
     enum: String,
     values: RarityMap<T>,
 ) {
+    val sortedMap = values.map
+        .toList()
+        .groupBy { p -> p.second }
+        .mapValues { p -> p.value.map { it.first } }
+        .toSortedMap()
+
     details {
         summary { +enum }
-        showMap(values.map) { value, rarity ->
-            field(value.toString(), rarity.toString())
+        showMap(sortedMap) { rarity, values ->
+            field(rarity.toString(), values.joinToString())
         }
     }
 }
