@@ -141,6 +141,8 @@ private fun HTML.showRaceDetails(
     state: State,
     race: Race,
 ) {
+    val appearance = race.appearance
+    val eyeOptions = appearance.eyeOptions
     val backLink = call.application.href(Races())
     val deleteLink = call.application.href(Races.Delete(race.id))
     val editLink = call.application.href(Races.Edit(race.id))
@@ -148,10 +150,24 @@ private fun HTML.showRaceDetails(
     simpleHtml("Race: ${race.name}") {
         field("Id", race.id.value.toString())
         field("Name", race.name)
-        field("Characters") {
-            showList(state.getCharacters(race.id)) { character ->
-                link(call, character)
-            }
+        h2 { +"Appearance Options" }
+        h3 { +"Skin" }
+        showRarityMap("Scale Colors", appearance.scalesColors)
+        showRarityMap("Normal Skin Colors", appearance.normalSkinColors)
+        showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
+        h3 { +"Ears" }
+        showRarityMap("Ear Shapes", appearance.earShapes)
+        h3 { +"Eyes" }
+        showRarityMap("Layout", appearance.eyesLayout)
+        showRarityMap("Eye Shapes", eyeOptions.eyeShapes)
+        showRarityMap("Pupil Shape", eyeOptions.pupilShapes)
+        showRarityMap("Pupil Colors", eyeOptions.pupilColors)
+        showRarityMap("Sclera Colors", eyeOptions.scleraColors)
+        h3 { +"Mouth" }
+        showRarityMap("Types", appearance.mouthTypes)
+        h2 { +"Characters" }
+        showList(state.getCharacters(race.id)) { character ->
+            link(call, character)
         }
         p { a(editLink) { +"Edit" } }
 

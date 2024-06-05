@@ -25,7 +25,7 @@ fun HTML.simpleHtml(
     }
 }
 
-fun BODY.field(name: String, value: String) {
+fun HtmlBlockTag.field(name: String, value: String) {
     p {
         b { +"$name: " }
         +value
@@ -77,6 +77,18 @@ fun <K, V> HtmlBlockTag.showMap(
             li {
                 content(key, value)
             }
+        }
+    }
+}
+
+fun <T> HtmlBlockTag.showRarityMap(
+    enum: String,
+    values: RarityMap<T>,
+) {
+    details {
+        summary { +enum }
+        showMap(values.map) { value, rarity ->
+            field(value.toString(), rarity.toString())
         }
     }
 }
