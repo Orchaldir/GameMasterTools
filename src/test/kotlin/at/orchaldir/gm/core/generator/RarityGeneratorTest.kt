@@ -15,28 +15,26 @@ class RarityGeneratorTest {
     @Test
     fun `Empty values map`() {
         val generator = RarityGenerator(mapOf())
-        val fixedNumber = Counter()
+        val counter = Counter()
 
-        assertNull(generator.generate(rarityMap, fixedNumber))
+        assertNull(generator.generate(rarityMap, counter))
     }
 
     @Test
     fun `Value for every rarity`() {
         var value = 0u
         val generator = RarityGenerator(Rarity.entries.toList().reversed().associateWith { value++ })
-        val fixedNumber = Counter()
+        val counter = Counter()
 
-        assertEquals(Common, generator.generate(rarityMap, fixedNumber))
-        assertEquals(Common, generator.generate(rarityMap, fixedNumber))
-        assertEquals(Common, generator.generate(rarityMap, fixedNumber))
-        assertEquals(Common, generator.generate(rarityMap, fixedNumber))
-        assertEquals(Uncommon, generator.generate(rarityMap, fixedNumber))
-        assertEquals(Uncommon, generator.generate(rarityMap, fixedNumber))
-        assertEquals(Uncommon, generator.generate(rarityMap, fixedNumber))
-        assertEquals(Rare, generator.generate(rarityMap, fixedNumber))
-        assertEquals(Rare, generator.generate(rarityMap, fixedNumber))
-        assertEquals(VeryRare, generator.generate(rarityMap, fixedNumber))
-        assertEquals(Common, generator.generate(rarityMap, fixedNumber))
+        assertNumbers(
+            generator,
+            counter,
+            listOf(Common, Common, Common, Common, Uncommon, Uncommon, Uncommon, Rare, Rare, VeryRare, Common)
+        )
+    }
+
+    private fun assertNumbers(generator: RarityGenerator, counter: Counter, results: List<Rarity>) {
+        results.forEach { assertEquals(it, generator.generate(rarityMap, counter)) }
     }
 
 }
