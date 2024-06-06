@@ -13,21 +13,18 @@ class NumberGeneratorTest {
         fun `Start at index 0 by default`() {
             val generator = FixedNumberGenerator(listOf(9u, 3u, 5u))
 
-            assertEquals(9u, generator.getNumber())
-            assertEquals(3u, generator.getNumber())
-            assertEquals(5u, generator.getNumber())
-            assertEquals(9u, generator.getNumber())
+            assertNumbers(generator, listOf(9u, 3u, 5u, 9u))
         }
 
         @Test
         fun `Start at any index`() {
             val generator = FixedNumberGenerator(listOf(9u, 3u, 5u), 2)
 
-            assertEquals(5u, generator.getNumber())
-            assertEquals(9u, generator.getNumber())
-            assertEquals(3u, generator.getNumber())
-            assertEquals(5u, generator.getNumber())
-            assertEquals(9u, generator.getNumber())
+            assertNumbers(generator, listOf(5u, 9u, 3u, 5u, 9u))
+        }
+
+        private fun assertNumbers(generator: NumberGenerator, numbers: List<UInt>) {
+            numbers.forEach { assertEquals(it, generator.getNumber()) }
         }
     }
 
