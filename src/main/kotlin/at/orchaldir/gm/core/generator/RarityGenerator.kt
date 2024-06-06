@@ -8,11 +8,17 @@ data class RarityGenerator(val values: Map<Rarity, UInt>) {
 
     fun <T> generate(map: RarityMap<T>, numberGenerator: NumberGenerator): T? {
         var threshold = 0u
-        val lookup: List<Pair<UInt, T>> = map.map.entries.map {
+        val lookup: List<Pair<UInt, T>> = map.map.entries
+            .filter { it.value != Rarity.Unavailable }
+            .map {
             val value = values[it.value] ?: 0u
             threshold += value
             Pair(threshold, it.key)
         }.toList()
+
+        if (threshold == 0u) {
+            return null
+        }
 
         val index = numberGenerator.getNumber() % threshold
 

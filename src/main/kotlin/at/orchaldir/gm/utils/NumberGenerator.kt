@@ -16,3 +16,7 @@ data class RandomNumberGenerator(val random: Random) : NumberGenerator() {
 data class FixedNumberGenerator(val numbers: List<UInt>, var index: Int = 0) : NumberGenerator() {
     override fun getNumber() = numbers[index++ % numbers.size]
 }
+
+data class Counter(var index: UInt = 0u) : NumberGenerator() {
+    override fun getNumber() = index++
+}
