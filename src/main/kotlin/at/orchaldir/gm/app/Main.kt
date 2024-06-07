@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.core.save
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.redux.DefaultStore
 import at.orchaldir.gm.utils.redux.middleware.LogAction
@@ -126,6 +127,8 @@ fun initStore(): DefaultStore<Action, State> {
         ),
         Storage(listOf(Race(RaceId(0), "Human")), "Race"),
     )
+
+    save(state.characters)
 
     return DefaultStore(state, REDUCER, listOf(LogAction()))
 }

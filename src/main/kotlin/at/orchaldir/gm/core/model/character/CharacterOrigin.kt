@@ -4,9 +4,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed class CharacterOrigin
+
+@Serializable
 data class Born(val mother: CharacterId, val father: CharacterId) : CharacterOrigin() {
 
     fun isParent(id: CharacterId) = mother == id || father == id
 }
 
+@Serializable
 data object UndefinedCharacterOrigin : CharacterOrigin()
