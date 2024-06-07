@@ -9,7 +9,7 @@ private val logger = KotlinLogging.logger {}
 
 @Serializable
 sealed class NumberGenerator {
-    abstract fun getNumber(): UInt;
+    abstract fun getNumber(): UInt
 
     fun <T> select(list: List<T>) = list[(getNumber() % list.size.toUInt()).toInt()]
 }

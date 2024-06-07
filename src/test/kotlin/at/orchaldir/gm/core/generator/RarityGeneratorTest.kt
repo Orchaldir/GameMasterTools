@@ -3,10 +3,8 @@ package at.orchaldir.gm.core.generator
 import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.Rarity.*
 import at.orchaldir.gm.core.model.appearance.RarityMap
-import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Counter
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
 
