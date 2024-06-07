@@ -327,8 +327,8 @@ private fun parseAppearance(parameters: Parameters, config: AppearanceGeneratorC
 private fun parseEars(parameters: Parameters, config: AppearanceGeneratorConfig): Ears {
     return when (parameters[EAR_TYPE]) {
         EarsLayout.NormalEars.toString() -> {
-            val shape = parseOr(parameters, EAR_SHAPE, EarShape.Round)
-            val size = parseOr(parameters, EAR_SIZE, Size.Medium)
+            val shape = parse(parameters, EAR_SHAPE, EarShape.Round)
+            val size = parse(parameters, EAR_SIZE, Size.Medium)
             return NormalEars(shape, size)
         }
 
@@ -340,7 +340,7 @@ private fun parseEyes(parameters: Parameters, config: AppearanceGeneratorConfig)
     return when (parameters[EYES_LAYOUT]) {
         EyesLayout.OneEye.toString() -> {
             val eye = parseEye(parameters)
-            val size = parseOr(parameters, EYE_SIZE, Size.Medium)
+            val size = parse(parameters, EYE_SIZE, Size.Medium)
             return OneEye(eye, size)
         }
 
@@ -354,26 +354,26 @@ private fun parseEyes(parameters: Parameters, config: AppearanceGeneratorConfig)
 }
 
 private fun parseEye(parameters: Parameters) = Eye(
-    parseOr(parameters, EYE_SHAPE, EyeShape.Ellipse),
-    parseOr(parameters, PUPIL_SHAPE, PupilShape.Circle),
-    parseOr(parameters, PUPIL_COLOR, Color.Green),
-    parseOr(parameters, SCLERA_COLOR, Color.White),
+    parse(parameters, EYE_SHAPE, EyeShape.Ellipse),
+    parse(parameters, PUPIL_SHAPE, PupilShape.Circle),
+    parse(parameters, PUPIL_COLOR, Color.Green),
+    parse(parameters, SCLERA_COLOR, Color.White),
 )
 
 private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig): Mouth {
     return when (parameters[MOUTH_TYPE]) {
         MouthType.SimpleMouth.toString() -> {
             return SimpleMouth(
-                parseOr(parameters, MOUTH_WIDTH, Size.Medium),
-                parseOr(parameters, TEETH_COLOR, TeethColor.White),
+                parse(parameters, MOUTH_WIDTH, Size.Medium),
+                parse(parameters, TEETH_COLOR, TeethColor.White),
             )
         }
 
         MouthType.FemaleMouth.toString() -> {
             return FemaleMouth(
-                parseOr(parameters, MOUTH_WIDTH, Size.Medium),
-                parseOr(parameters, LIP_COLOR, Color.Red),
-                parseOr(parameters, TEETH_COLOR, TeethColor.White),
+                parse(parameters, MOUTH_WIDTH, Size.Medium),
+                parse(parameters, LIP_COLOR, Color.Red),
+                parse(parameters, TEETH_COLOR, TeethColor.White),
             )
         }
 
@@ -392,7 +392,7 @@ private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig)
         }
 
         SkinType.Normal.toString() -> {
-            val color = parseOr(parameters, SKIN_COLOR, SkinColor.Medium)
+            val color = parse(parameters, SKIN_COLOR, SkinColor.Medium)
             return NormalSkin(color)
         }
 
@@ -401,4 +401,4 @@ private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig)
 }
 
 private fun parseExoticColor(parameters: Parameters) =
-    parseOr(parameters, EXOTIC_COLOR, Color.Red)
+    parse(parameters, EXOTIC_COLOR, Color.Red)
