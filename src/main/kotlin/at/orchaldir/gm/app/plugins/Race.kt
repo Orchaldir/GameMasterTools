@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.EarShape
 import at.orchaldir.gm.core.model.character.appearance.EyeShape
 import at.orchaldir.gm.core.model.character.appearance.PupilShape
@@ -31,6 +32,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
+private const val GENDER = "gender"
 private const val SKIN_TYPE = "skin"
 private const val SCALE_COLOR = "scale_color"
 private const val NORMAL_SKIN_COLOR = "normal_skin_color"
@@ -149,6 +151,7 @@ private fun HTML.showRaceDetails(
     simpleHtml("Race: ${race.name}") {
         field("Id", race.id.value.toString())
         field("Name", race.name)
+        showRarityMap("Gender", race.genders)
         h2 { +"Appearance Options" }
         h3 { +"Skin" }
         showRarityMap("Type", appearance.skinTypes)
@@ -210,6 +213,7 @@ private fun HTML.showRaceEditor(
                     value = race.name
                 }
             }
+            selectRarityMap("Gender", GENDER, race.genders)
             h2 { +"Appearance Options" }
             h3 { +"Skin" }
             selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes)
@@ -249,7 +253,11 @@ private fun HTML.showRaceEditor(
 
 private fun parseRace(id: RaceId, parameters: Parameters): Race {
     val name = parameters.getOrFail("name")
-    return Race(id, name, parseAppearanceOptions(parameters))
+    return Race(
+        id, name,
+        parseRarityMap(parameters, GENDER, Gender::valueOf),
+        parseAppearanceOptions(parameters)
+    )
 }
 
 private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(

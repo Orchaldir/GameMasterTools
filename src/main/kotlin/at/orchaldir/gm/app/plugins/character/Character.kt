@@ -26,6 +26,13 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
+private const val NAME = "name"
+private const val RACE = "race"
+private const val GENDER = "gender"
+private const val CULTURE = "culture"
+private const val ORIGIN = "origin"
+private const val FATHER = "father"
+private const val MOTHER = "mother"
 private const val GROUP_PREFIX = "group_"
 private const val NONE = "None"
 
@@ -231,6 +238,7 @@ private fun HTML.showCharacterEditor(
     state: State,
     character: Character,
 ) {
+    val race = state.races.getOrThrow(character.race)
     val backLink = href(call, character.id)
     val previewLink = call.application.href(Characters.Preview(character.id))
     val updateLink = call.application.href(Characters.Update(character.id))
@@ -242,14 +250,14 @@ private fun HTML.showCharacterEditor(
             action = previewLink
             method = FormMethod.post
             field("Name") {
-                textInput(name = "name") {
+                textInput(name = NAME) {
                     value = character.name
                 }
             }
             field("Race") {
                 select {
-                    id = "race"
-                    name = "race"
+                    id = RACE
+                    name = RACE
                     state.races.getAll().forEach { race ->
                         option {
                             label = race.name
@@ -259,15 +267,15 @@ private fun HTML.showCharacterEditor(
                     }
                 }
             }
-            selectEnum("Gender", "gender", Gender.entries) { gender ->
+            selectEnum("Gender", GENDER, race.genders) { gender ->
                 label = gender.toString()
                 value = gender.toString()
                 selected = character.gender == gender
             }
             field("Culture") {
                 select {
-                    id = "culture"
-                    name = "culture"
+                    id = CULTURE
+                    name = CULTURE
                     option {
                         label = "No culture"
                         value = ""
@@ -284,8 +292,8 @@ private fun HTML.showCharacterEditor(
             }
             field("Origin") {
                 select {
-                    id = "origin"
-                    name = "origin"
+                    id = ORIGIN
+                    name = ORIGIN
                     onChange = ON_CHANGE_SCRIPT
                     option {
                         label = "Born"
@@ -301,12 +309,12 @@ private fun HTML.showCharacterEditor(
             }
             when (character.origin) {
                 is Born -> {
-                    selectEnum("Father", "father", state.getPossibleFathers(character.id)) { c ->
+                    selectEnum("Father", FATHER, state.getPossibleFathers(character.id)) { c ->
                         label = c.name
                         value = c.id.value.toString()
                         selected = character.origin.father == c.id
                     }
-                    selectEnum("Mother", "mother", state.getPossibleMothers(character.id)) { c ->
+                    selectEnum("Mother", MOTHER, state.getPossibleMothers(character.id)) { c ->
                         label = c.name
                         value = c.id.value.toString()
                         selected = character.origin.mother == c.id
@@ -367,10 +375,10 @@ private fun HTML.showCharacterEditor(
 private fun parseCharacter(state: State, id: CharacterId, parameters: Parameters): Character {
     val character = state.characters.getOrThrow(id)
 
-    val name = parameters.getOrFail("name")
-    val race = RaceId(parameters.getOrFail("race").toInt())
-    val gender = Gender.valueOf(parameters.getOrFail("gender"))
-    val culture = parameters.getOrFail("culture")
+    val name = parameters.getOrFail(NAME)
+    val race = RaceId(parameters.getOrFail(RACE).toInt())
+    val gender = Gender.valueOf(parameters.getOrFail(GENDER))
+    val culture = parameters.getOrFail(CULTURE)
         .toIntOrNull()
         ?.let { CultureId(it) }
     val personality = parameters.entries()
@@ -381,10 +389,10 @@ private fun parseCharacter(state: State, id: CharacterId, parameters: Parameters
         .map { PersonalityTraitId(it.toInt()) }
         .toSet()
 
-    val origin = when (parameters["origin"]) {
+    val origin = when (parameters[ORIGIN]) {
         "Born" -> {
-            val father = CharacterId(parameters["father"]?.toInt() ?: 0)
-            val mother = CharacterId(parameters["father"]?.toInt() ?: 0)
+            val father = CharacterId(parameters[FATHER]?.toInt() ?: 0)
+            val mother = CharacterId(parameters[MOTHER]?.toInt() ?: 0)
             Born(mother, father)
         }
 
