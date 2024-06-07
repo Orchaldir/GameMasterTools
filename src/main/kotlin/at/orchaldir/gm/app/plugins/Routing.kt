@@ -23,11 +23,12 @@ fun Application.configureRouting() {
         staticResources("/static", "static")
         get("/") {
             logger.info { "Root" }
-            val characterCount = STORE.getState().characters.getSize()
-            val cultureCount = STORE.getState().cultures.getSize()
-            val languageCount = STORE.getState().languages.getSize()
-            val personalityCount = STORE.getState().personalityTraits.getSize()
-            val racesCount = STORE.getState().races.getSize()
+            val state = STORE.getState()
+            val characterCount = state.characters.getSize()
+            val cultureCount = state.cultures.getSize()
+            val languageCount = state.languages.getSize()
+            val personalityCount = state.personalityTraits.getSize()
+            val racesCount = state.races.getSize()
             val charactersLink = call.application.href(Characters())
             val culturesLink = call.application.href(Cultures())
             val languagesLink = call.application.href(Languages())
