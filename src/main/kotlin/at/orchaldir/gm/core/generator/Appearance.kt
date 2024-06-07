@@ -15,32 +15,30 @@ data class AppearanceGeneratorConfig(
 
     fun <T> generate(map: RarityMap<T>) = rarityGenerator.generate(map, numberGenerator)
 
+    fun <T> select(list: List<T>) = numberGenerator.select(list)
+
 }
 
 fun generateEars(config: AppearanceGeneratorConfig): Ears {
-    val generator = config.rarityGenerator
-    val numbers = config.numberGenerator
     val options = config.options
 
-    return when (generator.generate(options.earsLayout, numbers)) {
+    return when (config.generate(options.earsLayout)) {
         EarsLayout.NoEars -> NoEars
         EarsLayout.NormalEars -> NormalEars(
-            generator.generate(options.earShapes, numbers),
-            numbers.select(Size.entries),
+            config.generate(options.earShapes),
+            config.select(Size.entries),
         )
     }
 }
 
 fun generateEyes(config: AppearanceGeneratorConfig): Eyes {
-    val generator = config.rarityGenerator
-    val numbers = config.numberGenerator
     val options = config.options
 
-    return when (generator.generate(options.eyesLayout, numbers)) {
+    return when (config.generate(options.eyesLayout)) {
         EyesLayout.NoEyes -> NoEyes
         EyesLayout.OneEye -> OneEye(
             generateEye(config),
-            numbers.select(Size.entries),
+            config.select(Size.entries),
         )
 
         EyesLayout.TwoEyes -> TwoEyes(generateEye(config))
@@ -48,47 +46,41 @@ fun generateEyes(config: AppearanceGeneratorConfig): Eyes {
 }
 
 fun generateEye(config: AppearanceGeneratorConfig): Eye {
-    val generator = config.rarityGenerator
-    val numbers = config.numberGenerator
     val options = config.options.eyeOptions
 
     return Eye(
-        generator.generate(options.eyeShapes, numbers),
-        generator.generate(options.pupilShapes, numbers),
-        generator.generate(options.pupilColors, numbers),
-        generator.generate(options.scleraColors, numbers),
+        config.generate(options.eyeShapes),
+        config.generate(options.pupilShapes),
+        config.generate(options.pupilColors),
+        config.generate(options.scleraColors),
     )
 }
 
 fun generateMouth(config: AppearanceGeneratorConfig): Mouth {
-    val generator = config.rarityGenerator
-    val numbers = config.numberGenerator
     val options = config.options
 
-    return when (generator.generate(options.mouthTypes, numbers)) {
+    return when (config.generate(options.mouthTypes)) {
         MouthType.NoMouth -> NoMouth
         MouthType.SimpleMouth -> SimpleMouth(
-            numbers.select(Size.entries),
-            numbers.select(TeethColor.entries),
+            config.select(Size.entries),
+            config.select(TeethColor.entries),
         )
 
         MouthType.FemaleMouth -> FemaleMouth(
-            numbers.select(Size.entries),
-            numbers.select(Color.entries),
-            numbers.select(TeethColor.entries),
+            config.select(Size.entries),
+            config.select(Color.entries),
+            config.select(TeethColor.entries),
         )
     }
 }
 
 
 fun generateSkin(config: AppearanceGeneratorConfig): Skin {
-    val generator = config.rarityGenerator
-    val numbers = config.numberGenerator
     val options = config.options
 
-    return when (generator.generate(options.skinTypes, numbers)) {
-        SkinType.Scales -> Scales(generator.generate(options.scalesColors, numbers))
-        SkinType.Normal -> NormalSkin(generator.generate(options.normalSkinColors, numbers))
-        SkinType.Exotic -> ExoticSkin(generator.generate(options.exoticSkinColors, numbers))
+    return when (config.generate(options.skinTypes)) {
+        SkinType.Scales -> Scales(config.generate(options.scalesColors))
+        SkinType.Normal -> NormalSkin(config.generate(options.normalSkinColors))
+        SkinType.Exotic -> ExoticSkin(config.generate(options.exoticSkinColors))
     }
 }
