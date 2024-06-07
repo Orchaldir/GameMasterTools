@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.generator.generateSkin
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
@@ -331,7 +332,7 @@ private fun parseAppearance(parameters: Parameters, config: AppearanceGeneratorC
         HEAD -> {
             val ears = parseEars(parameters)
             val eyes = parseEyes(parameters)
-            val mouth = parseMouth(parameters)
+            val mouth = parseMouth(parameters, config)
             val skin = parseSkin(parameters, config)
             val head = Head(ears, eyes, mouth, skin)
             return HeadOnly(head, Distance(0.2f))
@@ -344,8 +345,8 @@ private fun parseAppearance(parameters: Parameters, config: AppearanceGeneratorC
 private fun parseEars(parameters: Parameters): Ears {
     return when (parameters[EAR_TYPE]) {
         NORMAL_EARS -> {
-            val shape = parse(parameters, EAR_SHAPE, EarShape.Round)
-            val size = parse(parameters, EAR_SIZE, Size.Medium)
+            val shape = parseOr(parameters, EAR_SHAPE, EarShape.Round)
+            val size = parseOr(parameters, EAR_SIZE, Size.Medium)
             return NormalEars(shape, size)
         }
 
@@ -357,7 +358,7 @@ private fun parseEyes(parameters: Parameters): Eyes {
     return when (parameters[EYES_LAYOUT]) {
         EyesLayout.OneEye.toString() -> {
             val eye = parseEye(parameters)
-            val size = parse(parameters, EYE_SIZE, Size.Medium)
+            val size = parseOr(parameters, EYE_SIZE, Size.Medium)
             return OneEye(eye, size)
         }
 
@@ -371,26 +372,26 @@ private fun parseEyes(parameters: Parameters): Eyes {
 }
 
 private fun parseEye(parameters: Parameters) = Eye(
-    parse(parameters, EYE_SHAPE, EyeShape.Ellipse),
-    parse(parameters, PUPIL_SHAPE, PupilShape.Circle),
-    parse(parameters, PUPIL_COLOR, Color.Green),
-    parse(parameters, SCLERA_COLOR, Color.White),
+    parseOr(parameters, EYE_SHAPE, EyeShape.Ellipse),
+    parseOr(parameters, PUPIL_SHAPE, PupilShape.Circle),
+    parseOr(parameters, PUPIL_COLOR, Color.Green),
+    parseOr(parameters, SCLERA_COLOR, Color.White),
 )
 
-private fun parseMouth(parameters: Parameters): Mouth {
+private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig): Mouth {
     return when (parameters[MOUTH_TYPE]) {
         MouthType.SimpleMouth.toString() -> {
             return SimpleMouth(
-                parse(parameters, MOUTH_WIDTH, Size.Medium),
-                parse(parameters, TEETH_COLOR, TeethColor.White),
+                parseOr(parameters, MOUTH_WIDTH, Size.Medium),
+                parseOr(parameters, TEETH_COLOR, TeethColor.White),
             )
         }
 
         MouthType.FemaleMouth.toString() -> {
             return FemaleMouth(
-                parse(parameters, MOUTH_WIDTH, Size.Medium),
-                parse(parameters, LIP_COLOR, Color.Red),
-                parse(parameters, TEETH_COLOR, TeethColor.White),
+                parseOr(parameters, MOUTH_WIDTH, Size.Medium),
+                parseOr(parameters, LIP_COLOR, Color.Red),
+                parseOr(parameters, TEETH_COLOR, TeethColor.White),
             )
         }
 
@@ -401,15 +402,15 @@ private fun parseMouth(parameters: Parameters): Mouth {
 private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig): Skin {
     return when (parameters[SKIN_TYPE]) {
         SkinType.Scales.toString() -> {
-            return Scales(parseExoticColor(parameters))
+            return Scales(parseExoticColor(parameters, config, config.options.scalesColors))
         }
 
         SkinType.Exotic.toString() -> {
-            return ExoticSkin(parseExoticColor(parameters))
+            return ExoticSkin(parseExoticColor(parameters, config, config.options.exoticSkinColors))
         }
 
         SkinType.Normal.toString() -> {
-            val color = parse(parameters, SKIN_COLOR, SkinColor.Medium)
+            val color = parse(parameters, SKIN_COLOR) ?: config.generate(config.options.normalSkinColors)
             return NormalSkin(color)
         }
 
@@ -417,5 +418,5 @@ private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig)
     }
 }
 
-private fun parseExoticColor(parameters: Parameters) =
-    parse(parameters, EXOTIC_COLOR, Color.Red)
+private fun parseExoticColor(parameters: Parameters, config: AppearanceGeneratorConfig, map: RarityMap<Color>) =
+    parseOr(parameters, EXOTIC_COLOR, Color.Red) ?: config.generate(map)

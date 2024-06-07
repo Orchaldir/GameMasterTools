@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.generator
 
+import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.core.model.character.appearance.ExoticSkin
 import at.orchaldir.gm.core.model.character.appearance.NormalSkin
 import at.orchaldir.gm.core.model.character.appearance.Scales
@@ -12,7 +13,11 @@ data class AppearanceGeneratorConfig(
     val numberGenerator: NumberGenerator,
     val rarityGenerator: RarityGenerator,
     val options: AppearanceOptions,
-)
+) {
+
+    fun <T> generate(map: RarityMap<T>) = rarityGenerator.generate(map, numberGenerator)
+
+}
 
 
 fun generateSkin(config: AppearanceGeneratorConfig): Skin {
