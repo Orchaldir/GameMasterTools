@@ -3,10 +3,7 @@ package at.orchaldir.gm.app.plugins.character
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.UpdateAppearance
-import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
-import at.orchaldir.gm.core.generator.generateEyes
-import at.orchaldir.gm.core.generator.generateMouth
-import at.orchaldir.gm.core.generator.generateSkin
+import at.orchaldir.gm.core.generator.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.RarityMap
@@ -16,10 +13,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.appearance.EyeOptions
-import at.orchaldir.gm.core.model.race.appearance.EyesLayout
-import at.orchaldir.gm.core.model.race.appearance.MouthType
-import at.orchaldir.gm.core.model.race.appearance.SkinType
+import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
@@ -45,8 +39,6 @@ private const val SKIN_TYPE = "skin"
 private const val EXOTIC_COLOR = "exotic_color"
 private const val SKIN_COLOR = "skin_color"
 private const val EAR_TYPE = "ear_type"
-private const val NO_EARS = "no"
-private const val NORMAL_EARS = "normal"
 private const val EAR_SHAPE = "ear_shape"
 private const val EAR_SIZE = "ear_size"
 private const val EYES_LAYOUT = "eyes_layout"
@@ -156,23 +148,12 @@ private fun HTML.showAppearanceEditor(
 
 private fun FORM.showEarsEditor(race: Race, ears: Ears) {
     h2 { +"Ears" }
-    field("Type") {
-        select {
-            id = EAR_TYPE
-            name = EAR_TYPE
-            onChange = ON_CHANGE_SCRIPT
-            option {
-                label = "No Ears"
-                value = NO_EARS
-                selected = ears is NoEars
-                disabled = race.appearance.earShapes.hasValidValues()
-            }
-            option {
-                label = "Normal Ears"
-                value = NORMAL_EARS
-                selected = ears is NormalEars
-                disabled = !race.appearance.earShapes.hasValidValues()
-            }
+    selectEnum("Type", EAR_TYPE, race.appearance.earsLayout, true) { type ->
+        label = type.name
+        value = type.toString()
+        selected = when (type) {
+            EarsLayout.NoEars -> ears is NoEars
+            EarsLayout.NormalEars -> ears is NormalEars
         }
     }
     when (ears) {
@@ -332,7 +313,7 @@ private fun FORM.showSimpleMouthEditor(size: Size, teethColor: TeethColor) {
 private fun parseAppearance(parameters: Parameters, config: AppearanceGeneratorConfig): Appearance {
     return when (parameters[TYPE]) {
         HEAD -> {
-            val ears = parseEars(parameters)
+            val ears = parseEars(parameters, config)
             val eyes = parseEyes(parameters, config)
             val mouth = parseMouth(parameters, config)
             val skin = parseSkin(parameters, config)
@@ -344,15 +325,15 @@ private fun parseAppearance(parameters: Parameters, config: AppearanceGeneratorC
     }
 }
 
-private fun parseEars(parameters: Parameters): Ears {
+private fun parseEars(parameters: Parameters, config: AppearanceGeneratorConfig): Ears {
     return when (parameters[EAR_TYPE]) {
-        NORMAL_EARS -> {
+        EarsLayout.NormalEars.toString() -> {
             val shape = parseOr(parameters, EAR_SHAPE, EarShape.Round)
             val size = parseOr(parameters, EAR_SIZE, Size.Medium)
             return NormalEars(shape, size)
         }
 
-        else -> NoEars
+        else -> generateEars(config)
     }
 }
 

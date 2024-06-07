@@ -4,10 +4,7 @@ import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
-import at.orchaldir.gm.core.model.race.appearance.EyesLayout
-import at.orchaldir.gm.core.model.race.appearance.MouthType
-import at.orchaldir.gm.core.model.race.appearance.SkinType
+import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.utils.NumberGenerator
 
 data class AppearanceGeneratorConfig(
@@ -20,6 +17,20 @@ data class AppearanceGeneratorConfig(
 
 }
 
+fun generateEars(config: AppearanceGeneratorConfig): Ears {
+    val generator = config.rarityGenerator
+    val numbers = config.numberGenerator
+    val options = config.options
+
+    return when (generator.generate(options.earsLayout, numbers)) {
+        EarsLayout.NoEars -> NoEars
+        EarsLayout.NormalEars -> NormalEars(
+            generator.generate(options.earShapes, numbers),
+            numbers.select(Size.entries),
+        )
+    }
+}
+
 fun generateEyes(config: AppearanceGeneratorConfig): Eyes {
     val generator = config.rarityGenerator
     val numbers = config.numberGenerator
@@ -27,7 +38,10 @@ fun generateEyes(config: AppearanceGeneratorConfig): Eyes {
 
     return when (generator.generate(options.eyesLayout, numbers)) {
         EyesLayout.NoEyes -> NoEyes
-        EyesLayout.OneEye -> OneEye(generateEye(config))
+        EyesLayout.OneEye -> OneEye(
+            generateEye(config),
+            numbers.select(Size.entries),
+        )
         EyesLayout.TwoEyes -> TwoEyes(generateEye(config))
     }
 }

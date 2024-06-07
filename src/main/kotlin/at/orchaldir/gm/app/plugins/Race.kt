@@ -35,6 +35,7 @@ private const val SKIN_TYPE = "skin"
 private const val SCALE_COLOR = "scale_color"
 private const val NORMAL_SKIN_COLOR = "normal_skin_color"
 private const val EXOTIC_SKIN_COLOR = "exotic_skin_color"
+private const val EARS_LAYOUT = "ears_layout"
 private const val EAR_SHAPE = "ear_shape"
 private const val EYES_LAYOUT = "eyes_layout"
 private const val EYE_SHAPE = "eye_shape"
@@ -155,6 +156,7 @@ private fun HTML.showRaceDetails(
         showRarityMap("Normal Skin Colors", appearance.normalSkinColors)
         showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
         h3 { +"Ears" }
+        showRarityMap("Layout", appearance.earsLayout)
         showRarityMap("Ear Shapes", appearance.earShapes)
         h3 { +"Eyes" }
         showRarityMap("Layout", appearance.eyesLayout)
@@ -223,6 +225,7 @@ private fun HTML.showRaceEditor(
                 appearance.exoticSkinColors
             )
             h3 { +"Ears" }
+            selectRarityMap("Layout", EARS_LAYOUT, appearance.earsLayout)
             selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes)
             h3 { +"Eyes" }
             selectRarityMap("Layout", EYES_LAYOUT, appearance.eyesLayout)
@@ -254,6 +257,7 @@ private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
     parseRarityMap(parameters, SCALE_COLOR, Color::valueOf),
     parseRarityMap(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf),
     parseRarityMap(parameters, EXOTIC_SKIN_COLOR, Color::valueOf),
+    parseRarityMap(parameters, EARS_LAYOUT, EarsLayout::valueOf),
     parseRarityMap(parameters, EAR_SHAPE, EarShape::valueOf),
     parseRarityMap(parameters, EYES_LAYOUT, EyesLayout::valueOf),
     parseEyeOptions(parameters),
