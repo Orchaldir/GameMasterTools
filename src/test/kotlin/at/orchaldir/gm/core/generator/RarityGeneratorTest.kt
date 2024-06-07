@@ -22,8 +22,7 @@ class RarityGeneratorTest {
 
     @Test
     fun `Value for every rarity`() {
-        var value = 0u
-        val generator = RarityGenerator(Rarity.entries.toList().reversed().associateWith { value++ })
+        val generator = RarityGenerator.empty()
         val counter = Counter()
 
         assertNumbers(

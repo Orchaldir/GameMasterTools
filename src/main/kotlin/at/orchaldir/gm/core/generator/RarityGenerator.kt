@@ -6,14 +6,31 @@ import at.orchaldir.gm.utils.NumberGenerator
 
 data class RarityGenerator(val values: Map<Rarity, UInt>) {
 
-    fun <T> generate(map: RarityMap<T>, numberGenerator: NumberGenerator): T? {
+    companion object {
+
+        fun empty(): RarityGenerator {
+            var value = 0u
+            return RarityGenerator(Rarity.entries.toList().reversed().associateWith { value++ })
+        }
+
+    }
+
+    init {
+        Rarity.entries.filter { it != Rarity.Unavailable }
+            .forEach {
+                val value = values[it]
+                require(value != null && value > 0u) { "Rarity $it has no valid value!" }
+            }
+    }
+
+    fun <T> generate(map: RarityMap<T>, numberGenerator: NumberGenerator): T {
         val pair = calculateLookupMap(map)
         val threshold = pair.first
 
         return select(threshold, pair.second, numberGenerator)
     }
 
-    fun select(maps: List<RarityMap<*>>, numberGenerator: NumberGenerator): UInt? {
+    fun select(maps: List<RarityMap<*>>, numberGenerator: NumberGenerator): UInt {
         val thresholds = maps.map { calculateLookupMap(it) }
             .mapIndexed { index, pair -> Pair(index.toUInt(), pair.first) }
         val total = thresholds.sumOf { it.second }
@@ -25,11 +42,7 @@ data class RarityGenerator(val values: Map<Rarity, UInt>) {
         threshold: UInt,
         lookup: List<Pair<UInt, T>>,
         numberGenerator: NumberGenerator,
-    ): T? {
-        if (threshold == 0u) {
-            return null
-        }
-
+    ): T {
         val index = numberGenerator.getNumber() % threshold
 
         lookup.forEach {
@@ -38,7 +51,7 @@ data class RarityGenerator(val values: Map<Rarity, UInt>) {
             }
         }
 
-        return null
+        error("There should always be a valid value!")
     }
 
     private fun <T> calculateLookupMap(map: RarityMap<T>): Pair<UInt, List<Pair<UInt, T>>> {

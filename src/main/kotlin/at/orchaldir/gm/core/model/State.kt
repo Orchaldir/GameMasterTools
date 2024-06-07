@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model
 
+import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
@@ -16,4 +17,5 @@ data class State(
         "Personality Trait"
     ),
     val races: Storage<RaceId, Race> = Storage(RaceId(0), "Race"),
+    val rarityGenerator: RarityGenerator = RarityGenerator.empty(),
 )
