@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AppearanceOptions(
+    val skinTypes: RarityMap<SkinType> = RarityMap(SkinType.entries),
     val scalesColors: RarityMap<Color> = RarityMap(Color.entries),
     val normalSkinColors: RarityMap<SkinColor> = RarityMap(SkinColor.entries),
     val exoticSkinColors: RarityMap<Color> = RarityMap(Color.entries),

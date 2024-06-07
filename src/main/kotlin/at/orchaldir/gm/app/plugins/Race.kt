@@ -13,10 +13,7 @@ import at.orchaldir.gm.core.model.character.appearance.PupilShape
 import at.orchaldir.gm.core.model.character.appearance.SkinColor
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
-import at.orchaldir.gm.core.model.race.appearance.EyeOptions
-import at.orchaldir.gm.core.model.race.appearance.EyesLayout
-import at.orchaldir.gm.core.model.race.appearance.MouthType
+import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
@@ -34,6 +31,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
+private const val SKIN_TYPE = "skin"
 private const val SCALE_COLOR = "scale_color"
 private const val NORMAL_SKIN_COLOR = "normal_skin_color"
 private const val EXOTIC_SKIN_COLOR = "exotic_skin_color"
@@ -152,6 +150,7 @@ private fun HTML.showRaceDetails(
         field("Name", race.name)
         h2 { +"Appearance Options" }
         h3 { +"Skin" }
+        showRarityMap("Type", appearance.skinTypes)
         showRarityMap("Scale Colors", appearance.scalesColors)
         showRarityMap("Normal Skin Colors", appearance.normalSkinColors)
         showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
@@ -211,6 +210,7 @@ private fun HTML.showRaceEditor(
             }
             h2 { +"Appearance Options" }
             h3 { +"Skin" }
+            selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes)
             selectRarityMap("Scale Colors", SCALE_COLOR, appearance.scalesColors)
             selectRarityMap(
                 "Normal Skin Colors",
@@ -250,6 +250,7 @@ private fun parseRace(id: RaceId, parameters: Parameters): Race {
 }
 
 private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
+    parseRarityMap(parameters, SKIN_TYPE, SkinType::valueOf),
     parseRarityMap(parameters, SCALE_COLOR, Color::valueOf),
     parseRarityMap(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf),
     parseRarityMap(parameters, EXOTIC_SKIN_COLOR, Color::valueOf),

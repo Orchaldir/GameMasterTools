@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.EyesLayout
 import at.orchaldir.gm.core.model.race.appearance.MouthType
+import at.orchaldir.gm.core.model.race.appearance.SkinType
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
@@ -32,9 +33,6 @@ private val logger = KotlinLogging.logger {}
 private const val TYPE = "type"
 private const val HEAD = "head"
 private const val SKIN_TYPE = "skin"
-private const val SCALES = "scales"
-private const val NORMAL = "normal"
-private const val EXOTIC = "exotic"
 private const val EXOTIC_COLOR = "exotic_color"
 private const val SKIN_COLOR = "skin_color"
 private const val EAR_TYPE = "ear_type"
@@ -188,29 +186,13 @@ private fun FORM.showSkinEditor(
     skin: Skin,
 ) {
     h2 { +"Skin" }
-    field("Type") {
-        select {
-            id = SKIN_TYPE
-            name = SKIN_TYPE
-            onChange = ON_CHANGE_SCRIPT
-            option {
-                label = "Scales"
-                value = SCALES
-                selected = skin is Scales
-                disabled = !race.appearance.scalesColors.hasValidValues()
-            }
-            option {
-                label = "Normal Skin"
-                value = NORMAL
-                selected = skin is NormalSkin
-                disabled = !race.appearance.normalSkinColors.hasValidValues()
-            }
-            option {
-                label = "Exotic Skin"
-                value = EXOTIC
-                selected = skin is ExoticSkin
-                disabled = !race.appearance.exoticSkinColors.hasValidValues()
-            }
+    selectEnum("Type", SKIN_TYPE, race.appearance.skinTypes, true) { type ->
+        label = type.name
+        value = type.toString()
+        selected = when (type) {
+            SkinType.Scales -> skin is Scales
+            SkinType.Normal -> skin is NormalSkin
+            SkinType.Exotic -> skin is ExoticSkin
         }
     }
     when (skin) {
@@ -397,15 +379,15 @@ private fun parseMouth(parameters: Parameters): Mouth {
 
 private fun parseSkin(parameters: Parameters): Skin {
     return when (parameters[SKIN_TYPE]) {
-        SCALES -> {
+        SkinType.Scales.toString() -> {
             return Scales(parseExoticColor(parameters))
         }
 
-        EXOTIC -> {
+        SkinType.Exotic.toString() -> {
             return ExoticSkin(parseExoticColor(parameters))
         }
 
-        NORMAL -> {
+        SkinType.Normal.toString() -> {
             val color = parse(parameters, SKIN_COLOR, SkinColor.Medium)
             return NormalSkin(color)
         }
