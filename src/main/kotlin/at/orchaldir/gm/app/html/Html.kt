@@ -4,7 +4,10 @@ import at.orchaldir.gm.app.plugins.TITLE
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.RarityMap
+import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.renderer.svg.Svg
+import io.ktor.server.application.*
+import io.ktor.server.resources.*
 import kotlinx.html.*
 
 fun HTML.simpleHtml(
@@ -43,6 +46,13 @@ fun BODY.fieldLink(label: String, link: String, text: String) {
     p {
         b { +"$label: " }
         a(link) { +text }
+    }
+}
+
+inline fun <reified T : kotlin.Any> BODY.fieldStorageLink(call: ApplicationCall, storage: Storage<*, *>, link: T) {
+    p {
+        b { +"${storage.name}s: " }
+        a(call.application.href(link)) { +"${storage.getSize()}" }
     }
 }
 
