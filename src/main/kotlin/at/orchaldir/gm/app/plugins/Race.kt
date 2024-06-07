@@ -7,16 +7,14 @@ import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.EarShape
 import at.orchaldir.gm.core.model.character.appearance.EyeShape
 import at.orchaldir.gm.core.model.character.appearance.PupilShape
 import at.orchaldir.gm.core.model.character.appearance.SkinColor
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
-import at.orchaldir.gm.core.model.race.appearance.EyeOptions
-import at.orchaldir.gm.core.model.race.appearance.EyesLayout
-import at.orchaldir.gm.core.model.race.appearance.MouthType
+import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
@@ -34,9 +32,12 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
+private const val GENDER = "gender"
+private const val SKIN_TYPE = "skin"
 private const val SCALE_COLOR = "scale_color"
 private const val NORMAL_SKIN_COLOR = "normal_skin_color"
 private const val EXOTIC_SKIN_COLOR = "exotic_skin_color"
+private const val EARS_LAYOUT = "ears_layout"
 private const val EAR_SHAPE = "ear_shape"
 private const val EYES_LAYOUT = "eyes_layout"
 private const val EYE_SHAPE = "eye_shape"
@@ -150,12 +151,15 @@ private fun HTML.showRaceDetails(
     simpleHtml("Race: ${race.name}") {
         field("Id", race.id.value.toString())
         field("Name", race.name)
+        showRarityMap("Gender", race.genders)
         h2 { +"Appearance Options" }
         h3 { +"Skin" }
+        showRarityMap("Type", appearance.skinTypes)
         showRarityMap("Scale Colors", appearance.scalesColors)
         showRarityMap("Normal Skin Colors", appearance.normalSkinColors)
         showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
         h3 { +"Ears" }
+        showRarityMap("Layout", appearance.earsLayout)
         showRarityMap("Ear Shapes", appearance.earShapes)
         h3 { +"Eyes" }
         showRarityMap("Layout", appearance.eyesLayout)
@@ -209,8 +213,10 @@ private fun HTML.showRaceEditor(
                     value = race.name
                 }
             }
+            selectRarityMap("Gender", GENDER, race.genders)
             h2 { +"Appearance Options" }
             h3 { +"Skin" }
+            selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes)
             selectRarityMap("Scale Colors", SCALE_COLOR, appearance.scalesColors)
             selectRarityMap(
                 "Normal Skin Colors",
@@ -223,6 +229,7 @@ private fun HTML.showRaceEditor(
                 appearance.exoticSkinColors
             )
             h3 { +"Ears" }
+            selectRarityMap("Layout", EARS_LAYOUT, appearance.earsLayout)
             selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes)
             h3 { +"Eyes" }
             selectRarityMap("Layout", EYES_LAYOUT, appearance.eyesLayout)
@@ -246,13 +253,19 @@ private fun HTML.showRaceEditor(
 
 private fun parseRace(id: RaceId, parameters: Parameters): Race {
     val name = parameters.getOrFail("name")
-    return Race(id, name, parseAppearanceOptions(parameters))
+    return Race(
+        id, name,
+        parseRarityMap(parameters, GENDER, Gender::valueOf),
+        parseAppearanceOptions(parameters)
+    )
 }
 
 private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
+    parseRarityMap(parameters, SKIN_TYPE, SkinType::valueOf),
     parseRarityMap(parameters, SCALE_COLOR, Color::valueOf),
     parseRarityMap(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf),
     parseRarityMap(parameters, EXOTIC_SKIN_COLOR, Color::valueOf),
+    parseRarityMap(parameters, EARS_LAYOUT, EarsLayout::valueOf),
     parseRarityMap(parameters, EAR_SHAPE, EarShape::valueOf),
     parseRarityMap(parameters, EYES_LAYOUT, EyesLayout::valueOf),
     parseEyeOptions(parameters),

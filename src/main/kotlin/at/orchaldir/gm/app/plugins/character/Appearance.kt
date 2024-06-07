@@ -3,16 +3,18 @@ package at.orchaldir.gm.app.plugins.character
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.UpdateAppearance
+import at.orchaldir.gm.core.generator.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.appearance.EyeOptions
-import at.orchaldir.gm.core.model.race.appearance.EyesLayout
-import at.orchaldir.gm.core.model.race.appearance.MouthType
+import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
+import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.visualization.character.visualizeCharacter
@@ -26,20 +28,16 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
+import kotlin.random.Random
 
 private val logger = KotlinLogging.logger {}
 
 private const val TYPE = "type"
 private const val HEAD = "head"
 private const val SKIN_TYPE = "skin"
-private const val SCALES = "scales"
-private const val NORMAL = "normal"
-private const val EXOTIC = "exotic"
 private const val EXOTIC_COLOR = "exotic_color"
 private const val SKIN_COLOR = "skin_color"
 private const val EAR_TYPE = "ear_type"
-private const val NO_EARS = "no"
-private const val NORMAL_EARS = "normal"
 private const val EAR_SHAPE = "ear_shape"
 private const val EAR_SIZE = "ear_size"
 private const val EYES_LAYOUT = "eyes_layout"
@@ -71,7 +69,8 @@ fun Application.configureAppearanceRouting() {
             val state = STORE.getState()
             val character = state.characters.getOrThrow(edit.id)
             val formParameters = call.receiveParameters()
-            val appearance = parseAppearance(formParameters)
+            val config = createGenerationConfig(state, character.race)
+            val appearance = parseAppearance(formParameters, config)
             val updatedCharacter = character.copy(appearance = appearance)
 
             call.respondHtml(HttpStatusCode.OK) {
@@ -81,12 +80,28 @@ fun Application.configureAppearanceRouting() {
         post<Characters.Appearance.Update> { update ->
             logger.info { "Update character ${update.id.value}'s appearance" }
 
+            val state = STORE.getState()
             val formParameters = call.receiveParameters()
-            val appearance = parseAppearance(formParameters)
+            val config = createGenerationConfig(state, update.id)
+            val appearance = parseAppearance(formParameters, config)
 
             STORE.dispatch(UpdateAppearance(update.id, appearance))
 
             call.respondRedirect(href(call, update.id))
+        }
+        post<Characters.Appearance.Generate> { update ->
+            logger.info { "Generate character ${update.id.value}'s appearance" }
+
+            val state = STORE.getState()
+            val character = state.characters.getOrThrow(update.id)
+            val config = createGenerationConfig(state, character.race)
+            val newParameters = parametersOf(TYPE, HEAD)
+            val appearance = parseAppearance(newParameters, config)
+            val updatedCharacter = character.copy(appearance = appearance)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showAppearanceEditor(call, state, updatedCharacter)
+            }
         }
     }
 }
@@ -101,6 +116,7 @@ private fun HTML.showAppearanceEditor(
     val backLink = href(call, character.id)
     val previewLink = call.application.href(Characters.Appearance.Preview(character.id))
     val updateLink = call.application.href(Characters.Appearance.Update(character.id))
+    val generateLink = call.application.href(Characters.Appearance.Generate(character.id))
     val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance)
 
     simpleHtml("Edit Appearance: ${character.name}") {
@@ -109,6 +125,13 @@ private fun HTML.showAppearanceEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
+            p {
+                submitInput {
+                    value = "Random"
+                    formAction = generateLink
+                    formMethod = InputFormMethod.post
+                }
+            }
             field("Appearance Type") {
                 select {
                     id = TYPE
@@ -146,23 +169,12 @@ private fun HTML.showAppearanceEditor(
 
 private fun FORM.showEarsEditor(race: Race, ears: Ears) {
     h2 { +"Ears" }
-    field("Type") {
-        select {
-            id = EAR_TYPE
-            name = EAR_TYPE
-            onChange = ON_CHANGE_SCRIPT
-            option {
-                label = "No Ears"
-                value = NO_EARS
-                selected = ears is NoEars
-                disabled = race.appearance.earShapes.hasValidValues()
-            }
-            option {
-                label = "Normal Ears"
-                value = NORMAL_EARS
-                selected = ears is NormalEars
-                disabled = !race.appearance.earShapes.hasValidValues()
-            }
+    selectEnum("Type", EAR_TYPE, race.appearance.earsLayout, true) { type ->
+        label = type.name
+        value = type.toString()
+        selected = when (type) {
+            EarsLayout.NoEars -> ears is NoEars
+            EarsLayout.NormalEars -> ears is NormalEars
         }
     }
     when (ears) {
@@ -188,29 +200,13 @@ private fun FORM.showSkinEditor(
     skin: Skin,
 ) {
     h2 { +"Skin" }
-    field("Type") {
-        select {
-            id = SKIN_TYPE
-            name = SKIN_TYPE
-            onChange = ON_CHANGE_SCRIPT
-            option {
-                label = "Scales"
-                value = SCALES
-                selected = skin is Scales
-                disabled = !race.appearance.scalesColors.hasValidValues()
-            }
-            option {
-                label = "Normal Skin"
-                value = NORMAL
-                selected = skin is NormalSkin
-                disabled = !race.appearance.normalSkinColors.hasValidValues()
-            }
-            option {
-                label = "Exotic Skin"
-                value = EXOTIC
-                selected = skin is ExoticSkin
-                disabled = !race.appearance.exoticSkinColors.hasValidValues()
-            }
+    selectEnum("Type", SKIN_TYPE, race.appearance.skinTypes, true) { type ->
+        label = type.name
+        value = type.toString()
+        selected = when (type) {
+            SkinType.Scales -> skin is Scales
+            SkinType.Normal -> skin is NormalSkin
+            SkinType.Exotic -> skin is ExoticSkin
         }
     }
     when (skin) {
@@ -310,6 +306,18 @@ private fun FORM.showMouthEditor(
     }
 }
 
+private fun createGenerationConfig(state: State, characterId: CharacterId): AppearanceGeneratorConfig {
+    val character = state.characters.getOrThrow(characterId)
+
+    return createGenerationConfig(state, character.race)
+}
+
+private fun createGenerationConfig(state: State, raceId: RaceId): AppearanceGeneratorConfig {
+    val race = state.races.getOrThrow(raceId)
+
+    return AppearanceGeneratorConfig(RandomNumberGenerator(Random), state.rarityGenerator, race.appearance)
+}
+
 private fun FORM.showSimpleMouthEditor(size: Size, teethColor: TeethColor) {
     selectEnum("Width", MOUTH_WIDTH, Size.entries, true) { width ->
         label = width.name
@@ -323,13 +331,13 @@ private fun FORM.showSimpleMouthEditor(size: Size, teethColor: TeethColor) {
     }
 }
 
-private fun parseAppearance(parameters: Parameters): Appearance {
+private fun parseAppearance(parameters: Parameters, config: AppearanceGeneratorConfig): Appearance {
     return when (parameters[TYPE]) {
         HEAD -> {
-            val ears = parseEars(parameters)
-            val eyes = parseEyes(parameters)
-            val mouth = parseMouth(parameters)
-            val skin = parseSkin(parameters)
+            val ears = parseEars(parameters, config)
+            val eyes = parseEyes(parameters, config)
+            val mouth = parseMouth(parameters, config)
+            val skin = parseSkin(parameters, config)
             val head = Head(ears, eyes, mouth, skin)
             return HeadOnly(head, Distance(0.2f))
         }
@@ -338,19 +346,19 @@ private fun parseAppearance(parameters: Parameters): Appearance {
     }
 }
 
-private fun parseEars(parameters: Parameters): Ears {
+private fun parseEars(parameters: Parameters, config: AppearanceGeneratorConfig): Ears {
     return when (parameters[EAR_TYPE]) {
-        NORMAL_EARS -> {
+        EarsLayout.NormalEars.toString() -> {
             val shape = parse(parameters, EAR_SHAPE, EarShape.Round)
             val size = parse(parameters, EAR_SIZE, Size.Medium)
             return NormalEars(shape, size)
         }
 
-        else -> NoEars
+        else -> generateEars(config)
     }
 }
 
-private fun parseEyes(parameters: Parameters): Eyes {
+private fun parseEyes(parameters: Parameters, config: AppearanceGeneratorConfig): Eyes {
     return when (parameters[EYES_LAYOUT]) {
         EyesLayout.OneEye.toString() -> {
             val eye = parseEye(parameters)
@@ -363,7 +371,7 @@ private fun parseEyes(parameters: Parameters): Eyes {
             return TwoEyes(eye)
         }
 
-        else -> NoEyes
+        else -> generateEyes(config)
     }
 }
 
@@ -374,7 +382,7 @@ private fun parseEye(parameters: Parameters) = Eye(
     parse(parameters, SCLERA_COLOR, Color.White),
 )
 
-private fun parseMouth(parameters: Parameters): Mouth {
+private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig): Mouth {
     return when (parameters[MOUTH_TYPE]) {
         MouthType.SimpleMouth.toString() -> {
             return SimpleMouth(
@@ -391,26 +399,26 @@ private fun parseMouth(parameters: Parameters): Mouth {
             )
         }
 
-        else -> NoMouth
+        else -> generateMouth(config)
     }
 }
 
-private fun parseSkin(parameters: Parameters): Skin {
+private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig): Skin {
     return when (parameters[SKIN_TYPE]) {
-        SCALES -> {
+        SkinType.Scales.toString() -> {
             return Scales(parseExoticColor(parameters))
         }
 
-        EXOTIC -> {
+        SkinType.Exotic.toString() -> {
             return ExoticSkin(parseExoticColor(parameters))
         }
 
-        NORMAL -> {
+        SkinType.Normal.toString() -> {
             val color = parse(parameters, SKIN_COLOR, SkinColor.Medium)
             return NormalSkin(color)
         }
 
-        else -> NormalSkin(SkinColor.Medium)
+        else -> generateSkin(config)
     }
 }
 
