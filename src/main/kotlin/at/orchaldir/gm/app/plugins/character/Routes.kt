@@ -58,5 +58,8 @@ class Characters {
 
         @Resource("update")
         class Update(val id: CharacterId, val parent: Appearance = Appearance())
+
+        @Resource("generate")
+        class Generate(val id: CharacterId, val parent: Appearance = Appearance())
     }
 }

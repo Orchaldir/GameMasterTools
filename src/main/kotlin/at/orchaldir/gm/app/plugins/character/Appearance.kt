@@ -89,6 +89,20 @@ fun Application.configureAppearanceRouting() {
 
             call.respondRedirect(href(call, update.id))
         }
+        post<Characters.Appearance.Generate> { update ->
+            logger.info { "Generate character ${update.id.value}'s appearance" }
+
+            val state = STORE.getState()
+            val character = state.characters.getOrThrow(update.id)
+            val config = createGenerationConfig(state, character.race)
+            val newParameters = parametersOf(TYPE, HEAD)
+            val appearance = parseAppearance(newParameters, config)
+            val updatedCharacter = character.copy(appearance = appearance)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showAppearanceEditor(call, state, updatedCharacter)
+            }
+        }
     }
 }
 
@@ -102,6 +116,7 @@ private fun HTML.showAppearanceEditor(
     val backLink = href(call, character.id)
     val previewLink = call.application.href(Characters.Appearance.Preview(character.id))
     val updateLink = call.application.href(Characters.Appearance.Update(character.id))
+    val generateLink = call.application.href(Characters.Appearance.Generate(character.id))
     val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance)
 
     simpleHtml("Edit Appearance: ${character.name}") {
@@ -110,6 +125,13 @@ private fun HTML.showAppearanceEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
+            p {
+                submitInput {
+                    value = "Random"
+                    formAction = generateLink
+                    formMethod = InputFormMethod.post
+                }
+            }
             field("Appearance Type") {
                 select {
                     id = TYPE
