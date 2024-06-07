@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
+import at.orchaldir.gm.core.generator.generateEyes
 import at.orchaldir.gm.core.generator.generateMouth
 import at.orchaldir.gm.core.generator.generateSkin
 import at.orchaldir.gm.core.model.State
@@ -332,7 +333,7 @@ private fun parseAppearance(parameters: Parameters, config: AppearanceGeneratorC
     return when (parameters[TYPE]) {
         HEAD -> {
             val ears = parseEars(parameters)
-            val eyes = parseEyes(parameters)
+            val eyes = parseEyes(parameters, config)
             val mouth = parseMouth(parameters, config)
             val skin = parseSkin(parameters, config)
             val head = Head(ears, eyes, mouth, skin)
@@ -355,7 +356,7 @@ private fun parseEars(parameters: Parameters): Ears {
     }
 }
 
-private fun parseEyes(parameters: Parameters): Eyes {
+private fun parseEyes(parameters: Parameters, config: AppearanceGeneratorConfig): Eyes {
     return when (parameters[EYES_LAYOUT]) {
         EyesLayout.OneEye.toString() -> {
             val eye = parseEye(parameters)
@@ -368,7 +369,7 @@ private fun parseEyes(parameters: Parameters): Eyes {
             return TwoEyes(eye)
         }
 
-        else -> NoEyes
+        else -> generateEyes(config)
     }
 }
 
