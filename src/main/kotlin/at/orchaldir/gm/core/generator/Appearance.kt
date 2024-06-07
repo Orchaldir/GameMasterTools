@@ -42,6 +42,7 @@ fun generateEyes(config: AppearanceGeneratorConfig): Eyes {
             generateEye(config),
             numbers.select(Size.entries),
         )
+
         EyesLayout.TwoEyes -> TwoEyes(generateEye(config))
     }
 }

@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.generator.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
@@ -385,15 +384,15 @@ private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig
 private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig): Skin {
     return when (parameters[SKIN_TYPE]) {
         SkinType.Scales.toString() -> {
-            return Scales(parseExoticColor(parameters, config, config.options.scalesColors))
+            return Scales(parseExoticColor(parameters))
         }
 
         SkinType.Exotic.toString() -> {
-            return ExoticSkin(parseExoticColor(parameters, config, config.options.exoticSkinColors))
+            return ExoticSkin(parseExoticColor(parameters))
         }
 
         SkinType.Normal.toString() -> {
-            val color = parse(parameters, SKIN_COLOR) ?: config.generate(config.options.normalSkinColors)
+            val color = parseOr(parameters, SKIN_COLOR, SkinColor.Medium)
             return NormalSkin(color)
         }
 
@@ -401,5 +400,5 @@ private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig)
     }
 }
 
-private fun parseExoticColor(parameters: Parameters, config: AppearanceGeneratorConfig, map: RarityMap<Color>) =
-    parse(parameters, EXOTIC_COLOR) ?: config.generate(map)
+private fun parseExoticColor(parameters: Parameters) =
+    parseOr(parameters, EXOTIC_COLOR, Color.Red)
