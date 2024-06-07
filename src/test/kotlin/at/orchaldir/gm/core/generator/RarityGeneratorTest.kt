@@ -3,21 +3,25 @@ package at.orchaldir.gm.core.generator
 import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.Rarity.*
 import at.orchaldir.gm.core.model.appearance.RarityMap
+import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Counter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFailsWith
 
 class RarityGeneratorTest {
 
     private val rarityMap = RarityMap(Rarity.entries.associateBy { it })
 
     @Test
-    fun `Empty values map`() {
-        val generator = RarityGenerator(mapOf())
-        val counter = Counter()
+    fun `Empty map is invalid`() {
+        assertFailsWith<IllegalArgumentException> { RarityGenerator(mapOf()) }
+    }
 
-        assertNull(generator.generate(rarityMap, counter))
+    @Test
+    fun `Requires one rarity that is not unavailable`() {
+        assertFailsWith<IllegalArgumentException> { RarityGenerator(mapOf(Unavailable to 7u)) }
     }
 
     @Test
