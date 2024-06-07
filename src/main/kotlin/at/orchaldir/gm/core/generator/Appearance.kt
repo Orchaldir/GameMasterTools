@@ -1,11 +1,11 @@
 package at.orchaldir.gm.core.generator
 
+import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.RarityMap
-import at.orchaldir.gm.core.model.character.appearance.ExoticSkin
-import at.orchaldir.gm.core.model.character.appearance.NormalSkin
-import at.orchaldir.gm.core.model.character.appearance.Scales
-import at.orchaldir.gm.core.model.character.appearance.Skin
+import at.orchaldir.gm.core.model.appearance.Size
+import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
+import at.orchaldir.gm.core.model.race.appearance.MouthType
 import at.orchaldir.gm.core.model.race.appearance.SkinType
 import at.orchaldir.gm.utils.NumberGenerator
 
@@ -17,6 +17,26 @@ data class AppearanceGeneratorConfig(
 
     fun <T> generate(map: RarityMap<T>) = rarityGenerator.generate(map, numberGenerator)
 
+}
+
+fun generateMouth(config: AppearanceGeneratorConfig): Mouth {
+    val generator = config.rarityGenerator
+    val numbers = config.numberGenerator
+    val options = config.options
+
+    return when (generator.generate(options.mouthTypes, numbers)) {
+        MouthType.NoMouth -> NoMouth
+        MouthType.SimpleMouth -> SimpleMouth(
+            numbers.select(Size.entries),
+            numbers.select(TeethColor.entries),
+        )
+
+        MouthType.FemaleMouth -> FemaleMouth(
+            numbers.select(Size.entries),
+            numbers.select(Color.entries),
+            numbers.select(TeethColor.entries),
+        )
+    }
 }
 
 

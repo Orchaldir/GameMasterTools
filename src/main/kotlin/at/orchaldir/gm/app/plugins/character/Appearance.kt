@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
+import at.orchaldir.gm.core.generator.generateMouth
 import at.orchaldir.gm.core.generator.generateSkin
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
@@ -395,7 +396,7 @@ private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig
             )
         }
 
-        else -> NoMouth
+        else -> generateMouth(config)
     }
 }
 
@@ -419,4 +420,4 @@ private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig)
 }
 
 private fun parseExoticColor(parameters: Parameters, config: AppearanceGeneratorConfig, map: RarityMap<Color>) =
-    parseOr(parameters, EXOTIC_COLOR, Color.Red) ?: config.generate(map)
+    parse(parameters, EXOTIC_COLOR) ?: config.generate(map)

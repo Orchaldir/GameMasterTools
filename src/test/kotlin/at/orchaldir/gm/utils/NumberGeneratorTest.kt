@@ -7,6 +7,22 @@ import org.junit.jupiter.api.Test
 class NumberGeneratorTest {
 
     @Nested
+    inner class SelectTest {
+
+        @Test
+        fun `Select a random element from a list`() {
+            val generator = Counter()
+            val list = listOf(10, 11, 12)
+
+            assertEquals(10, generator.select(list))
+            assertEquals(11, generator.select(list))
+            assertEquals(12, generator.select(list))
+            assertEquals(10, generator.select(list))
+        }
+
+    }
+
+    @Nested
     inner class FixedNumberGeneratorTest {
 
         @Test
