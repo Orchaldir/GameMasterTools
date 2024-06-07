@@ -11,5 +11,10 @@ val logger = KotlinLogging.logger {}
 
 inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> save(storage: Storage<ID, ELEMENT>) {
     logger.info { "save(): " }
-    logger.info { Json.encodeToString(storage) }
+    val prettyJson = Json { // this returns the JsonBuilder
+        prettyPrint = true
+        // optional: specify indent
+        prettyPrintIndent = " "
+    }
+    logger.info { prettyJson.encodeToString(storage) }
 }
