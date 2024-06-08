@@ -4,7 +4,11 @@ import at.orchaldir.gm.app.plugins.TITLE
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.RarityMap
+import at.orchaldir.gm.core.model.appearance.reverseAndSort
+import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.renderer.svg.Svg
+import io.ktor.server.application.*
+import io.ktor.server.resources.*
 import kotlinx.html.*
 
 fun HTML.simpleHtml(
@@ -46,6 +50,10 @@ fun BODY.fieldLink(label: String, link: String, text: String) {
     }
 }
 
+inline fun <reified T : Any> BODY.fieldStorageLink(call: ApplicationCall, storage: Storage<*, *>, link: T) {
+    fieldLink("${storage.name}s", call.application.href(link), "${storage.getSize()}")
+}
+
 fun BODY.svg(svg: Svg, width: Int) {
     div {
         style = "width:$width%"
@@ -81,15 +89,11 @@ fun <K, V> HtmlBlockTag.showMap(
     }
 }
 
-fun <T> HtmlBlockTag.showRarityMap(
+inline fun <reified T : Enum<T>> HtmlBlockTag.showRarityMap(
     enum: String,
     values: RarityMap<T>,
 ) {
-    val sortedMap = values.map
-        .toList()
-        .groupBy { p -> p.second }
-        .mapValues { p -> p.value.map { it.first } }
-        .toSortedMap()
+    val sortedMap = reverseAndSort(values.getRarityFor(enumValues<T>().toSet()))
 
     details {
         summary { +enum }
@@ -145,12 +149,7 @@ fun <T> HtmlBlockTag.selectEnum(
             if (update) {
                 onChange = ON_CHANGE_SCRIPT
             }
-            values.map
-                .filterValues { it != Rarity.Unavailable }
-                .toList()
-                .groupBy { p -> p.second }
-                .mapValues { p -> p.value.map { it.first } }
-                .toSortedMap()
+            reverseAndSort(values.getValidValues())
                 .forEach { (rarity, values) ->
                     optGroup(rarity.toString()) {
                         values.forEach { value ->
@@ -175,14 +174,14 @@ fun FORM.selectColor(
     }
 }
 
-fun <T> FORM.selectRarityMap(
+inline fun <reified T : Enum<T>> FORM.selectRarityMap(
     enum: String,
     selectId: String,
     values: RarityMap<T>,
 ) {
     details {
         summary { +enum }
-        showMap(values.map) { currentValue, currentRarity ->
+        showMap(values.getRarityFor(enumValues<T>().toSet())) { currentValue, currentRarity ->
             selectEnum(currentValue.toString(), selectId, Rarity.entries) { rarity ->
                 label = rarity.toString()
                 value = "$currentValue-$rarity"

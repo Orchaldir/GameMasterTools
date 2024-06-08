@@ -1,0 +1,150 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Human",
+   "genders": {
+    "map": {
+     "Female": "Common",
+     "Male": "Common"
+    }
+   },
+   "appearance": {
+    "skinTypes": {
+     "map": {
+      "Normal": "Common"
+     }
+    },
+    "earsLayout": {
+     "map": {
+      "NormalEars": "Common"
+     }
+    },
+    "earShapes": {
+     "map": {
+      "Round": "Common"
+     }
+    },
+    "eyesLayout": {
+     "map": {
+      "TwoEyes": "Common"
+     }
+    },
+    "eyeOptions": {
+     "pupilShapes": {
+      "map": {
+       "Circle": "Common"
+      }
+     },
+     "pupilColors": {
+      "map": {
+       "Aqua": "Common",
+       "Blue": "Common",
+       "Gray": "Rare",
+       "Green": "Common",
+       "Navy": "Common",
+       "Olive": "Common",
+       "Purple": "VeryRare",
+       "Red": "VeryRare",
+       "SaddleBrown": "Common",
+       "Silver": "Common",
+       "Teal": "Common"
+      }
+     },
+     "scleraColors": {
+      "map": {
+       "White": "Common"
+      }
+     }
+    },
+    "mouthTypes": {
+     "map": {
+      "SimpleMouth": "Common",
+      "FemaleMouth": "Common"
+     }
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Elf",
+   "genders": {
+    "map": {
+     "Female": "Common",
+     "Male": "Common"
+    }
+   },
+   "appearance": {
+    "skinTypes": {
+     "map": {
+      "Normal": "Common",
+      "Exotic": "Rare"
+     }
+    },
+    "exoticSkinColors": {
+     "map": {
+      "Gray": "Common",
+      "Green": "Common",
+      "Purple": "Common"
+     }
+    },
+    "earsLayout": {
+     "map": {
+      "NormalEars": "Common"
+     }
+    },
+    "earShapes": {
+     "map": {
+      "PointedSideways": "Common",
+      "PointedUpwards": "Common"
+     }
+    },
+    "eyesLayout": {
+     "map": {
+      "TwoEyes": "Common"
+     }
+    },
+    "eyeOptions": {
+     "pupilShapes": {
+      "map": {
+       "Circle": "Common"
+      }
+     },
+     "pupilColors": {
+      "map": {
+       "Aqua": "Common",
+       "Black": "Common",
+       "Blue": "Common",
+       "Fuchsia": "Common",
+       "Gray": "Common",
+       "Green": "Common",
+       "Lime": "Common",
+       "Maroon": "Common",
+       "Navy": "Common",
+       "Olive": "Common",
+       "Orange": "Common",
+       "Purple": "Common",
+       "Red": "Common",
+       "SaddleBrown": "Common",
+       "Silver": "Common",
+       "Teal": "Common",
+       "Yellow": "Common"
+      }
+     },
+     "scleraColors": {
+      "map": {
+       "White": "Common"
+      }
+     }
+    },
+    "mouthTypes": {
+     "map": {
+      "SimpleMouth": "Common",
+      "FemaleMouth": "Common"
+     }
+    }
+   }
+  }
+ }
+}

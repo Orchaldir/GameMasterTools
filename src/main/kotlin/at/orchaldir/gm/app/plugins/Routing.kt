@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.fieldLink
+import at.orchaldir.gm.app.html.fieldStorageLink
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.plugins.character.Characters
 import io.ktor.http.*
@@ -9,7 +9,6 @@ import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.http.content.*
 import io.ktor.server.plugins.statuspages.*
-import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import mu.KotlinLogging
@@ -23,24 +22,15 @@ fun Application.configureRouting() {
         staticResources("/static", "static")
         get("/") {
             logger.info { "Root" }
-            val characterCount = STORE.getState().characters.getSize()
-            val cultureCount = STORE.getState().cultures.getSize()
-            val languageCount = STORE.getState().languages.getSize()
-            val personalityCount = STORE.getState().personalityTraits.getSize()
-            val racesCount = STORE.getState().races.getSize()
-            val charactersLink = call.application.href(Characters())
-            val culturesLink = call.application.href(Cultures())
-            val languagesLink = call.application.href(Languages())
-            val personalityLink = call.application.href(Personality())
-            val racesLink = call.application.href(Races())
+            val state = STORE.getState()
 
             call.respondHtml(HttpStatusCode.OK) {
                 simpleHtml(TITLE) {
-                    fieldLink("Characters", charactersLink, "$characterCount")
-                    fieldLink("Cultures", culturesLink, "$cultureCount")
-                    fieldLink("Languages", languagesLink, "$languageCount")
-                    fieldLink("Personality Traits", personalityLink, "$personalityCount")
-                    fieldLink("Races", racesLink, "$racesCount")
+                    fieldStorageLink(call, state.characters, Characters())
+                    fieldStorageLink(call, state.cultures, Cultures())
+                    fieldStorageLink(call, state.languages, Languages())
+                    fieldStorageLink(call, state.personalityTraits, Personality())
+                    fieldStorageLink(call, state.races, Races())
                 }
             }
         }

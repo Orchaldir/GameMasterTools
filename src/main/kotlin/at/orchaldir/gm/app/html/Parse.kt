@@ -11,7 +11,7 @@ fun <T> parseRarityMap(
     parameters: Parameters,
     selectId: String,
     converter: (String) -> T,
-) = RarityMap(
+) = RarityMap.init(
     parameters.getAll(selectId)
         ?.associate {
             val parts = it.split('-')

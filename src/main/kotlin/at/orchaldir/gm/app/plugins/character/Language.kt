@@ -58,6 +58,8 @@ fun Application.configureCharacterLanguageRouting() {
             }
 
             call.respondRedirect(href(call, update.id))
+
+            STORE.getState().save()
         }
     }
 }

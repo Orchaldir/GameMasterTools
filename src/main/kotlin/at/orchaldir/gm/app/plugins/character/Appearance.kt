@@ -88,6 +88,8 @@ fun Application.configureAppearanceRouting() {
             STORE.dispatch(UpdateAppearance(update.id, appearance))
 
             call.respondRedirect(href(call, update.id))
+
+            STORE.getState().save()
         }
         post<Characters.Appearance.Generate> { update ->
             logger.info { "Generate character ${update.id.value}'s appearance" }

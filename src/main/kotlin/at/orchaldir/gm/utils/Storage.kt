@@ -1,5 +1,7 @@
 package at.orchaldir.gm.utils
 
+import kotlinx.serialization.Serializable
+
 interface Id<ID> {
     fun next(): ID
     fun value(): Int
@@ -10,8 +12,9 @@ interface Element<ID> {
     fun name(): String
 }
 
+@Serializable
 data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
-    private val name: String,
+    val name: String,
     private val elements: Map<ID, ELEMENT>,
     val nextId: ID,
     val lastId: ID = nextId,

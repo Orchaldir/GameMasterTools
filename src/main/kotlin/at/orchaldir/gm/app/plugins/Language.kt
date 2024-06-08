@@ -74,6 +74,8 @@ fun Application.configureLanguageRouting() {
             STORE.dispatch(CreateLanguage)
 
             call.respondRedirect(call.application.href(Languages.Edit(STORE.getState().languages.lastId)))
+
+            STORE.getState().save()
         }
         get<Languages.Delete> { delete ->
             logger.info { "Delete language ${delete.id.value}" }
@@ -81,6 +83,8 @@ fun Application.configureLanguageRouting() {
             STORE.dispatch(DeleteLanguage(delete.id))
 
             call.respondRedirect(call.application.href(Languages()))
+
+            STORE.getState().save()
         }
         get<Languages.Edit> { edit ->
             logger.info { "Get editor for language ${edit.id.value}" }
@@ -111,6 +115,8 @@ fun Application.configureLanguageRouting() {
             STORE.dispatch(UpdateLanguage(language))
 
             call.respondRedirect(href(call, update.id))
+
+            STORE.getState().save()
         }
     }
 }
