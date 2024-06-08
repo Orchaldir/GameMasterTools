@@ -56,8 +56,8 @@ data class RarityGenerator(val values: Map<Rarity, UInt>) {
 
     private fun <T> calculateLookupMap(map: RarityMap<T>): Pair<UInt, List<Pair<UInt, T>>> {
         var threshold = 0u
-        val lookup: List<Pair<UInt, T>> = map.map.entries
-            .filter { it.value != Rarity.Unavailable }
+        val lookup: List<Pair<UInt, T>> = map.getValidValues()
+            .entries
             .map {
                 val value = values[it.value] ?: 0u
                 threshold += value

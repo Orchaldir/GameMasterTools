@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.plugins.TITLE
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.RarityMap
+import at.orchaldir.gm.core.model.appearance.reverse
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.server.application.*
@@ -88,15 +89,11 @@ fun <K, V> HtmlBlockTag.showMap(
     }
 }
 
-fun <T> HtmlBlockTag.showRarityMap(
+inline fun <reified T : Enum<T>> HtmlBlockTag.showRarityMap(
     enum: String,
     values: RarityMap<T>,
 ) {
-    val sortedMap = values.map
-        .toList()
-        .groupBy { p -> p.second }
-        .mapValues { p -> p.value.map { it.first } }
-        .toSortedMap()
+    val sortedMap = reverse(values.getRarityFor(enumValues<T>().toSet()))
 
     details {
         summary { +enum }
@@ -152,12 +149,7 @@ fun <T> HtmlBlockTag.selectEnum(
             if (update) {
                 onChange = ON_CHANGE_SCRIPT
             }
-            values.map
-                .filterValues { it != Rarity.Unavailable }
-                .toList()
-                .groupBy { p -> p.second }
-                .mapValues { p -> p.value.map { it.first } }
-                .toSortedMap()
+            reverse(values.getValidValues())
                 .forEach { (rarity, values) ->
                     optGroup(rarity.toString()) {
                         values.forEach { value ->
@@ -182,14 +174,14 @@ fun FORM.selectColor(
     }
 }
 
-fun <T> FORM.selectRarityMap(
+inline fun <reified T : Enum<T>> FORM.selectRarityMap(
     enum: String,
     selectId: String,
     values: RarityMap<T>,
 ) {
     details {
         summary { +enum }
-        showMap(values.map) { currentValue, currentRarity ->
+        showMap(values.getRarityFor(enumValues<T>().toSet())) { currentValue, currentRarity ->
             selectEnum(currentValue.toString(), selectId, Rarity.entries) { rarity ->
                 label = rarity.toString()
                 value = "$currentValue-$rarity"
