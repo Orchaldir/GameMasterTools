@@ -1,11 +1,14 @@
 package at.orchaldir.gm.core.model.character.appearance
 
+import at.orchaldir.gm.core.model.character.appearance.hair.Hair
+import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Head(
     val ears: Ears = NoEars,
     val eyes: Eyes = NoEyes,
+    val hair: Hair = NoHair,
     val mouth: Mouth = NoMouth,
-    val skin: Skin,
+    val skin: Skin = NormalSkin(),
 )
