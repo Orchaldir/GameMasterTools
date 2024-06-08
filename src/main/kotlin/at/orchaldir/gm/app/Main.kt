@@ -7,9 +7,6 @@ import at.orchaldir.gm.app.plugins.character.configureCharacterRelationshipRouti
 import at.orchaldir.gm.app.plugins.character.configureCharacterRouting
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.PersonalityTrait
-import at.orchaldir.gm.core.model.character.PersonalityTraitGroup
-import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.redux.DefaultStore
 import at.orchaldir.gm.utils.redux.middleware.LogAction
@@ -53,6 +50,3 @@ fun initStore(): DefaultStore<Action, State> {
 
     return DefaultStore(state, REDUCER, listOf(LogAction()))
 }
-
-private fun create(id: Int, name: String, group: Int = id / 2) =
-    PersonalityTrait(PersonalityTraitId(id), name, PersonalityTraitGroup(group))
