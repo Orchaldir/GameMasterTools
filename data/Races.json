@@ -1,18 +1,98 @@
 {
-  "version": 1,
-  "elements": {
-    "0": {
-      "id": 0,
-      "name": "Human",
-      "appearance": {
-        "skinTypes": {
-          "map": {
-            "Scales": "Unavailable",
-            "Normal": "Common",
-            "Exotic": "VeryRare"
-          }
-        }
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Human",
+   "appearance": {
+    "skinTypes": {
+     "map": {
+      "Scales": "Unavailable",
+      "Normal": "Common",
+      "Exotic": "Unavailable"
+     }
+    },
+    "earsLayout": {
+     "map": {
+      "NoEars": "Unavailable",
+      "NormalEars": "Common"
+     }
+    },
+    "earShapes": {
+     "map": {
+      "PointedSideways": "Unavailable",
+      "PointedUpwards": "Unavailable",
+      "Round": "Common"
+     }
+    },
+    "eyesLayout": {
+     "map": {
+      "NoEyes": "Unavailable",
+      "OneEye": "Unavailable",
+      "TwoEyes": "Common"
+     }
+    },
+    "eyeOptions": {
+     "pupilShapes": {
+      "map": {
+       "Circle": "Common",
+       "HorizontalSlit": "Unavailable",
+       "VerticalSlit": "Unavailable"
       }
+     },
+     "pupilColors": {
+      "map": {
+       "Aqua": "Common",
+       "Black": "Unavailable",
+       "Blue": "Common",
+       "Fuchsia": "Unavailable",
+       "Gray": "Rare",
+       "Green": "Common",
+       "Lime": "Unavailable",
+       "Maroon": "Unavailable",
+       "Navy": "Common",
+       "Olive": "Common",
+       "Orange": "Unavailable",
+       "Purple": "VeryRare",
+       "Red": "VeryRare",
+       "SaddleBrown": "Common",
+       "Silver": "Common",
+       "Teal": "Common",
+       "White": "Unavailable",
+       "Yellow": "Unavailable"
+      }
+     },
+     "scleraColors": {
+      "map": {
+       "Aqua": "Unavailable",
+       "Black": "Unavailable",
+       "Blue": "Unavailable",
+       "Fuchsia": "Unavailable",
+       "Gray": "Unavailable",
+       "Green": "Unavailable",
+       "Lime": "Unavailable",
+       "Maroon": "Unavailable",
+       "Navy": "Unavailable",
+       "Olive": "Unavailable",
+       "Orange": "Unavailable",
+       "Purple": "Unavailable",
+       "Red": "Unavailable",
+       "SaddleBrown": "Unavailable",
+       "Silver": "Unavailable",
+       "Teal": "Unavailable",
+       "White": "Common",
+       "Yellow": "Unavailable"
+      }
+     }
+    },
+    "mouthTypes": {
+     "map": {
+      "NoMouth": "Unavailable",
+      "SimpleMouth": "Common",
+      "FemaleMouth": "Common"
+     }
     }
+   }
   }
+ }
 }
