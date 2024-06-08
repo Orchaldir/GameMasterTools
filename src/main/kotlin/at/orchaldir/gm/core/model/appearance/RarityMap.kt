@@ -10,6 +10,12 @@ data class RarityMap<T>(val map: Map<T, Rarity>) {
         require(hasValidValues()) { "RarityMap has no valid value!" }
     }
 
+    companion object {
+
+        fun <T> init(map: Map<T, Rarity>) = RarityMap(map.filterValues { it != Rarity.Unavailable })
+
+    }
+
     fun hasValidValues() = map.values.any { it != Rarity.Unavailable }
 
     fun isAvailable(value: T) = (map[value] ?: Rarity.Unavailable) != Rarity.Unavailable
