@@ -93,6 +93,128 @@
      }
     }
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Elf",
+   "genders": {
+    "map": {
+     "Female": "Common",
+     "Genderless": "Unavailable",
+     "Male": "Common"
+    }
+   },
+   "appearance": {
+    "skinTypes": {
+     "map": {
+      "Scales": "Unavailable",
+      "Normal": "Common",
+      "Exotic": "Rare"
+     }
+    },
+    "exoticSkinColors": {
+     "map": {
+      "Aqua": "Unavailable",
+      "Black": "Unavailable",
+      "Blue": "Unavailable",
+      "Fuchsia": "Unavailable",
+      "Gray": "Common",
+      "Green": "Common",
+      "Lime": "Unavailable",
+      "Maroon": "Unavailable",
+      "Navy": "Unavailable",
+      "Olive": "Unavailable",
+      "Orange": "Unavailable",
+      "Purple": "Common",
+      "Red": "Unavailable",
+      "SaddleBrown": "Unavailable",
+      "Silver": "Unavailable",
+      "Teal": "Unavailable",
+      "White": "Unavailable",
+      "Yellow": "Unavailable"
+     }
+    },
+    "earsLayout": {
+     "map": {
+      "NoEars": "Unavailable",
+      "NormalEars": "Common"
+     }
+    },
+    "earShapes": {
+     "map": {
+      "PointedSideways": "Common",
+      "PointedUpwards": "Common",
+      "Round": "Unavailable"
+     }
+    },
+    "eyesLayout": {
+     "map": {
+      "NoEyes": "Unavailable",
+      "OneEye": "Unavailable",
+      "TwoEyes": "Common"
+     }
+    },
+    "eyeOptions": {
+     "pupilShapes": {
+      "map": {
+       "Circle": "Common",
+       "HorizontalSlit": "Unavailable",
+       "VerticalSlit": "Unavailable"
+      }
+     },
+     "pupilColors": {
+      "map": {
+       "Aqua": "Common",
+       "Black": "Common",
+       "Blue": "Common",
+       "Fuchsia": "Common",
+       "Gray": "Common",
+       "Green": "Common",
+       "Lime": "Common",
+       "Maroon": "Common",
+       "Navy": "Common",
+       "Olive": "Common",
+       "Orange": "Common",
+       "Purple": "Common",
+       "Red": "Common",
+       "SaddleBrown": "Common",
+       "Silver": "Common",
+       "Teal": "Common",
+       "White": "Unavailable",
+       "Yellow": "Common"
+      }
+     },
+     "scleraColors": {
+      "map": {
+       "Aqua": "Unavailable",
+       "Black": "Unavailable",
+       "Blue": "Unavailable",
+       "Fuchsia": "Unavailable",
+       "Gray": "Unavailable",
+       "Green": "Unavailable",
+       "Lime": "Unavailable",
+       "Maroon": "Unavailable",
+       "Navy": "Unavailable",
+       "Olive": "Unavailable",
+       "Orange": "Unavailable",
+       "Purple": "Unavailable",
+       "Red": "Unavailable",
+       "SaddleBrown": "Unavailable",
+       "Silver": "Unavailable",
+       "Teal": "Unavailable",
+       "White": "Common",
+       "Yellow": "Unavailable"
+      }
+     }
+    },
+    "mouthTypes": {
+     "map": {
+      "NoMouth": "Unavailable",
+      "SimpleMouth": "Common",
+      "FemaleMouth": "Common"
+     }
+    }
+   }
   }
  }
 }
