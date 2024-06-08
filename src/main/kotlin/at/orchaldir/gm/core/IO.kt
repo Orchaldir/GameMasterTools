@@ -11,6 +11,7 @@ import mu.KotlinLogging
 import java.io.File
 
 val logger = KotlinLogging.logger {}
+
 @OptIn(ExperimentalSerializationApi::class)
 val prettyJson = Json {
     prettyPrint = true
