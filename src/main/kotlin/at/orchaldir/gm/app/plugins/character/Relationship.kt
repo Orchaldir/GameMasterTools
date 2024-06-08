@@ -65,6 +65,8 @@ fun Application.configureCharacterRelationshipRouting() {
             STORE.dispatch(UpdateRelationships(update.id, relationships))
 
             call.respondRedirect(href(call, update.id))
+
+            STORE.getState().save()
         }
     }
 }

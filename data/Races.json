@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "elements": {
+    "0": {
+      "id": 0,
+      "name": "Human",
+      "appearance": {
+        "skinTypes": {
+          "map": {
+            "Scales": "Unavailable",
+            "Normal": "Common",
+            "Exotic": "VeryRare"
+          }
+        }
+      }
+    }
+  }
+}

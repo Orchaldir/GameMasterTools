@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "elements": {
+    "0": {
+      "id": 0,
+      "gender": "Male"
+    },
+    "1": {
+      "id": 1,
+      "gender": "Female"
+    },
+    "2": {
+      "id": 2,
+      "origin": {
+        "type": "Born",
+        "mother": 1,
+        "father": 0
+      }
+    },
+    "3": {
+      "id": 3,
+      "relationships": {
+        "2": [
+          "Friend",
+          "Rival"
+        ]
+      }
+    }
+  }
+}

@@ -61,6 +61,8 @@ fun Application.configureCharacterRouting() {
             STORE.dispatch(CreateCharacter)
 
             call.respondRedirect(call.application.href(Characters.Edit(STORE.getState().characters.lastId)))
+
+            STORE.getState().save()
         }
         get<Characters.Delete> { delete ->
             logger.info { "Delete character ${delete.id.value}" }
@@ -68,6 +70,8 @@ fun Application.configureCharacterRouting() {
             STORE.dispatch(DeleteCharacter(delete.id))
 
             call.respondRedirect(call.application.href(Characters()))
+
+            STORE.getState().save()
         }
         get<Characters.Edit> { edit ->
             logger.info { "Get editor for character ${edit.id.value}" }
@@ -98,6 +102,8 @@ fun Application.configureCharacterRouting() {
             STORE.dispatch(UpdateCharacter(character))
 
             call.respondRedirect(href(call, update.id))
+
+            STORE.getState().save()
         }
     }
 }

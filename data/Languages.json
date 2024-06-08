@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "elements": {
+    "0": {
+      "id": 0,
+      "name": "Old Common"
+    },
+    "1": {
+      "id": 1,
+      "name": "Common",
+      "origin": {
+        "type": "at.orchaldir.gm.core.model.language.EvolvedLanguage",
+        "parent": 0
+      }
+    }
+  }
+}

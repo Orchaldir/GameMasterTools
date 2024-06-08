@@ -88,11 +88,9 @@ fun Application.configureRaceRouting() {
 
             STORE.dispatch(CreateRace)
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showRaceEditor(call, STORE.getState().races.lastId)
-            }
-
             call.respondRedirect(call.application.href(Races.Edit(STORE.getState().races.lastId)))
+
+            STORE.getState().save()
         }
         get<Races.Delete> { delete ->
             logger.info { "Delete race ${delete.id.value}" }
@@ -100,6 +98,8 @@ fun Application.configureRaceRouting() {
             STORE.dispatch(DeleteRace(delete.id))
 
             call.respondRedirect(call.application.href(Races()))
+
+            STORE.getState().save()
         }
         get<Races.Edit> { edit ->
             logger.info { "Get editor for race ${edit.id.value}" }
@@ -118,6 +118,8 @@ fun Application.configureRaceRouting() {
             STORE.dispatch(UpdateRace(race))
 
             call.respondRedirect(href(call, update.id))
+
+            STORE.getState().save()
         }
     }
 }

@@ -70,6 +70,8 @@ fun Application.configurePersonalityRouting() {
             STORE.dispatch(CreatePersonalityTrait)
 
             call.respondRedirect(call.application.href(Personality.Edit(STORE.getState().personalityTraits.lastId)))
+
+            STORE.getState().save()
         }
         get<Personality.Delete> { delete ->
             logger.info { "Delete personality trait ${delete.id.value}" }
@@ -77,6 +79,8 @@ fun Application.configurePersonalityRouting() {
             STORE.dispatch(DeletePersonalityTrait(delete.id))
 
             call.respondRedirect(call.application.href(Personality()))
+
+            STORE.getState().save()
         }
         get<Personality.Edit> { edit ->
             logger.info { "Get editor for personality trait ${edit.id.value}" }
@@ -96,6 +100,8 @@ fun Application.configurePersonalityRouting() {
             STORE.dispatch(UpdatePersonalityTrait(trait))
 
             call.respondRedirect(href(call, update.id))
+
+            STORE.getState().save()
         }
     }
 }

@@ -68,6 +68,8 @@ fun Application.configureCultureRouting() {
             STORE.dispatch(CreateCulture)
 
             call.respondRedirect(call.application.href(Cultures.Edit(STORE.getState().cultures.lastId)))
+
+            STORE.getState().save()
         }
         get<Cultures.Delete> { delete ->
             logger.info { "Delete culture ${delete.id.value}" }
@@ -75,6 +77,8 @@ fun Application.configureCultureRouting() {
             STORE.dispatch(DeleteCulture(delete.id))
 
             call.respondRedirect(call.application.href(Cultures()))
+
+            STORE.getState().save()
         }
         get<Cultures.Edit> { edit ->
             logger.info { "Get editor for culture ${edit.id.value}" }
@@ -94,6 +98,8 @@ fun Application.configureCultureRouting() {
             STORE.dispatch(UpdateCulture(update.id, name))
 
             call.respondRedirect(href(call, update.id))
+
+            STORE.getState().save()
         }
     }
 }
