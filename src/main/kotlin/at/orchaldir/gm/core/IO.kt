@@ -31,3 +31,15 @@ inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> saveStorage(
 
     File("$path/${storage.name}s.json").writeText(prettyJson.encodeToString(data))
 }
+
+inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> loadStorage(
+    path: String,
+    type: String,
+): Storage<ID, ELEMENT> {
+    logger.info { "load(): ${type}s" }
+
+    val string = File("$path/${type}s.json").readText()
+    val data = prettyJson.decodeFromString<Data<ID, ELEMENT>>(string)
+
+    return Storage(data.elements.values.toList(), type)
+}
