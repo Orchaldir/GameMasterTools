@@ -26,7 +26,7 @@ data class RarityMap<T>(private val map: Map<T, Rarity>) {
 
 }
 
-fun <T> reverse(map: Map<T, Rarity>) =
+fun <T> reverseAndSort(map: Map<T, Rarity>) =
     map
         .toList()
         .groupBy { p -> p.second }

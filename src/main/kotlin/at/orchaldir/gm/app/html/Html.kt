@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.plugins.TITLE
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.RarityMap
-import at.orchaldir.gm.core.model.appearance.reverse
+import at.orchaldir.gm.core.model.appearance.reverseAndSort
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.server.application.*
@@ -93,7 +93,7 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.showRarityMap(
     enum: String,
     values: RarityMap<T>,
 ) {
-    val sortedMap = reverse(values.getRarityFor(enumValues<T>().toSet()))
+    val sortedMap = reverseAndSort(values.getRarityFor(enumValues<T>().toSet()))
 
     details {
         summary { +enum }
@@ -149,7 +149,7 @@ fun <T> HtmlBlockTag.selectEnum(
             if (update) {
                 onChange = ON_CHANGE_SCRIPT
             }
-            reverse(values.getValidValues())
+            reverseAndSort(values.getValidValues())
                 .forEach { (rarity, values) ->
                     optGroup(rarity.toString()) {
                         values.forEach { value ->

@@ -261,10 +261,10 @@ private fun HTML.showCharacterEditor(
                 }
             }
             field("Race") {
-                onChange = ON_CHANGE_SCRIPT
                 select {
                     id = RACE
                     name = RACE
+                    onChange = ON_CHANGE_SCRIPT
                     state.races.getAll().forEach { race ->
                         option {
                             label = race.name
