@@ -6,7 +6,6 @@ import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.math.Distance
 
 fun main() {
-    val config = RENDER_CONFIG
     val appearances = mutableListOf<List<Appearance>>()
     PupilShape.entries.forEach { pupilShape ->
         EyeShape.entries.forEach { eyeShape ->
@@ -14,7 +13,7 @@ fun main() {
         }
     }
 
-    renderTable("eyes.svg", config, appearances)
+    renderTable("eyes.svg", RENDER_CONFIG, appearances)
 }
 
 private fun createAppearance(eyes: Eyes) = HeadOnly(Head(eyes = eyes, skin = ExoticSkin()), Distance(0.2f))

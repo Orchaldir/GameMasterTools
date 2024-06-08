@@ -15,5 +15,5 @@ data object NoHair : Hair()
 @SerialName("Short")
 data class ShortHair(
     val style: ShortHairStyle,
-    val color: Color,
+    val color: Color = Color.Yellow,
 ) : Hair()
