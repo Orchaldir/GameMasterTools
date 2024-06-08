@@ -261,6 +261,7 @@ private fun HTML.showCharacterEditor(
                 }
             }
             field("Race") {
+                onChange = ON_CHANGE_SCRIPT
                 select {
                     id = RACE
                     name = RACE
