@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
+import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.character.calculateSize
 import at.orchaldir.gm.visualization.character.visualizeAppearance
 import java.io.File
@@ -20,6 +21,14 @@ fun main() {
             appearances.add(createRow(Eye(eyeShape, pupilShape)))
         }
     }
+    renderTable("eyes.svg", config, appearances)
+}
+
+private fun renderTable(
+    filename: String,
+    config: RenderConfig,
+    appearances: List<List<Appearance>>,
+) {
     val size = calculateSize(config, appearances[0][0])
     val maxColumns = appearances.maxOf { it.size }
     val totalSize = Size2d(size.width * maxColumns, size.height * appearances.size)
@@ -42,7 +51,7 @@ fun main() {
         startOfRow += rowStep
     }
 
-    File("eyes.svg").writeText(builder.finish().export())
+    File(filename).writeText(builder.finish().export())
 }
 
 private fun createAppearance(eyes: Eyes) = HeadOnly(Head(eyes = eyes, skin = ExoticSkin()), Distance(0.2f))
