@@ -128,7 +128,7 @@ fun initStore(): DefaultStore<Action, State> {
         Storage(listOf(Race(RaceId(0), "Human")), "Race"),
     )
 
-    save(state.races)
+    save("data", state.races)
 
     return DefaultStore(state, REDUCER, listOf(LogAction()))
 }

@@ -21,10 +21,10 @@ const val VERSION = 1
 @Serializable
 data class Data<I, E>(val version: Int, val elements: Map<I, E>)
 
-inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> save(storage: Storage<ID, ELEMENT>) {
+inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> save(path: String, storage: Storage<ID, ELEMENT>) {
     logger.info { "save(): ${storage.name}s" }
 
     val data = Data(VERSION, storage.getAll().associateBy { it.id() })
 
-    File("data/${storage.name}s.json").writeText(prettyJson.encodeToString(data))
+    File("$path/${storage.name}s.json").writeText(prettyJson.encodeToString(data))
 }
