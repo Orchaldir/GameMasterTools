@@ -31,11 +31,11 @@ data class State(
     companion object {
         fun load(path: String) = State(
             path,
-            loadStorage(path, CHARACTER),
-            loadStorage(path, CULTURE),
-            loadStorage(path, LANGUAGE),
-            loadStorage(path, PERSONALITY_TRAIT),
-            loadStorage(path, RACE),
+            loadStorage(path, CHARACTER, CharacterId(0)),
+            loadStorage(path, CULTURE, CultureId(0)),
+            loadStorage(path, LANGUAGE, LanguageId(0)),
+            loadStorage(path, PERSONALITY_TRAIT, PersonalityTraitId(0)),
+            loadStorage(path, RACE, RaceId(0)),
         )
     }
 
