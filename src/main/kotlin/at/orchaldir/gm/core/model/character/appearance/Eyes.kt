@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.character.appearance
 
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Size
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -28,11 +29,19 @@ data class Eye(
 
 @Serializable
 sealed class Eyes
+
+@Serializable
+@SerialName("NoEyes")
 data object NoEyes : Eyes()
+
+@Serializable
+@SerialName("OneEye")
 data class OneEye(
     val eye: Eye = Eye(),
     val size: Size = Size.Medium,
 ) : Eyes()
 
+@Serializable
+@SerialName("TwoEyes")
 data class TwoEyes(val eye: Eye = Eye()) : Eyes()
 
