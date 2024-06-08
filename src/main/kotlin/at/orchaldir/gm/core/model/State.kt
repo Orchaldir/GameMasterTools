@@ -17,7 +17,7 @@ private const val PERSONALITY_TRAIT = "Personality Trait"
 private const val RACE = "Race"
 
 data class State(
-    val path: String,
+    val path: String = "data",
     val characters: Storage<CharacterId, Character> = Storage(CharacterId(0), CHARACTER),
     val cultures: Storage<CultureId, Culture> = Storage(CultureId(0), CULTURE),
     val languages: Storage<LanguageId, Language> = Storage(LanguageId(0), LANGUAGE),
