@@ -6,9 +6,11 @@ import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.saveStorage
 import at.orchaldir.gm.utils.Storage
 
 data class State(
+    val path: String,
     val characters: Storage<CharacterId, Character> = Storage(CharacterId(0), "Character"),
     val cultures: Storage<CultureId, Culture> = Storage(CultureId(0), "Culture"),
     val languages: Storage<LanguageId, Language> = Storage(LanguageId(0), "Language"),
@@ -18,4 +20,12 @@ data class State(
     ),
     val races: Storage<RaceId, Race> = Storage(RaceId(0), "Race"),
     val rarityGenerator: RarityGenerator = RarityGenerator.empty(),
-)
+) {
+    fun save() {
+        saveStorage(path, characters)
+        saveStorage(path, cultures)
+        saveStorage(path, languages)
+        saveStorage(path, personalityTraits)
+        saveStorage(path, races)
+    }
+}
