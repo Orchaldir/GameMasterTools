@@ -5,6 +5,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed class LanguageOrigin
+
+@Serializable
 data class InventedLanguage(val inventor: CharacterId) : LanguageOrigin()
+
+@Serializable
 data class EvolvedLanguage(val parent: LanguageId) : LanguageOrigin()
+
+@Serializable
 data object OriginalLanguage : LanguageOrigin()
