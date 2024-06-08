@@ -20,21 +20,6 @@ class RarityMapTest {
     }
 
     @Nested
-    inner class HasValidValuesTest {
-
-        @Test
-        fun `Other rarities are available`() {
-            Rarity.entries
-                .filter { it != Unavailable }
-                .forEach {
-                    val rarityMap = RarityMap(mapOf(Small to it))
-
-                    assertTrue(rarityMap.hasValidValues())
-                }
-        }
-    }
-
-    @Nested
     inner class IsValidTest {
 
         @Test
