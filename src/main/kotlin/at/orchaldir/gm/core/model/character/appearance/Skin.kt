@@ -22,9 +22,9 @@ sealed class Skin
 data class Scales(val color: Color = Color.Red) : Skin()
 
 @Serializable
-@SerialName("NormalSkin")
+@SerialName("Normal")
 data class NormalSkin(val color: SkinColor = SkinColor.Medium) : Skin()
 
 @Serializable
-@SerialName("ExoticSkin")
+@SerialName("Exotic")
 data class ExoticSkin(val color: Color = Color.Red) : Skin()

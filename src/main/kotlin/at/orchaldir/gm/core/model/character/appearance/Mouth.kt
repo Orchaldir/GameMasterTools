@@ -16,18 +16,18 @@ enum class TeethColor {
 sealed class Mouth
 
 @Serializable
-@SerialName("NoMouth")
+@SerialName("None")
 data object NoMouth : Mouth()
 
 @Serializable
-@SerialName("SimpleMouth")
+@SerialName("Simple")
 data class SimpleMouth(
     val width: Size,
     val teethColor: TeethColor,
 ) : Mouth()
 
 @Serializable
-@SerialName("FemaleMouth")
+@SerialName("Female")
 data class FemaleMouth(
     val width: Size,
     val color: Color,

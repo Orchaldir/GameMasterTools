@@ -31,17 +31,17 @@ data class Eye(
 sealed class Eyes
 
 @Serializable
-@SerialName("NoEyes")
+@SerialName("None")
 data object NoEyes : Eyes()
 
 @Serializable
-@SerialName("OneEye")
+@SerialName("One")
 data class OneEye(
     val eye: Eye = Eye(),
     val size: Size = Size.Medium,
 ) : Eyes()
 
 @Serializable
-@SerialName("TwoEyes")
+@SerialName("Two")
 data class TwoEyes(val eye: Eye = Eye()) : Eyes()
 

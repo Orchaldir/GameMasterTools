@@ -15,11 +15,11 @@ enum class EarShape {
 sealed class Ears
 
 @Serializable
-@SerialName("NoEars")
+@SerialName("None")
 data object NoEars : Ears()
 
 @Serializable
-@SerialName("NormalEars")
+@SerialName("Normal")
 data class NormalEars(
     val shape: EarShape = EarShape.Round,
     val size: Size = Size.Medium,
