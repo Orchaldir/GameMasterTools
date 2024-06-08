@@ -4,6 +4,13 @@
   "0": {
    "id": 0,
    "name": "Human",
+   "genders": {
+    "map": {
+     "Female": "Common",
+     "Genderless": "Unavailable",
+     "Male": "Common"
+    }
+   },
    "appearance": {
     "skinTypes": {
      "map": {
