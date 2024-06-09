@@ -17,6 +17,7 @@ private val HEAD_WIDTH = Factor(1.0f)
 data class HairConfig(
     val afroDiameter: Factor,
     val flatTopY: Factor,
+    val sidePartX: Factor,
     val spikedY: Factor,
     val spikedHeight: Factor,
 )
@@ -45,9 +46,15 @@ fun visualizeShortHair(renderer: Renderer, config: RenderConfig, aabb: AABB, sho
         ShortHairStyle.FlatTop ->
             visualizeRectangleHair(renderer, config, options, aabb, HEAD_WIDTH, config.head.hair.flatTopY)
 
-        ShortHairStyle.MiddlePart -> visualizeMiddlePart(renderer, config, options, aabb)
-        ShortHairStyle.LeftSidePart -> doNothing()
-        ShortHairStyle.RightSidePart -> doNothing()
+        ShortHairStyle.MiddlePart -> visualizeMiddlePart(renderer, config, options, aabb, CENTER)
+        ShortHairStyle.LeftSidePart -> visualizeMiddlePart(renderer, config, options, aabb, config.head.hair.sidePartX)
+        ShortHairStyle.RightSidePart -> visualizeMiddlePart(
+            renderer,
+            config,
+            options,
+            aabb,
+            END - config.head.hair.sidePartX
+        )
         ShortHairStyle.Spiked -> visualizeSpikedHair(renderer, config, options, aabb)
     }
 }
@@ -57,11 +64,12 @@ private fun visualizeMiddlePart(
     config: RenderConfig,
     options: FillAndBorder,
     aabb: AABB,
+    x: Factor,
 ) {
     val (bottomLeft, bottomRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hairlineY)
     val (topLeft, topRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hair.spikedY)
-    val bottomCenter = aabb.getPoint(CENTER, config.head.hairlineY)
-    val topCenter = aabb.getPoint(CENTER, Factor(0.0f))
+    val bottomCenter = aabb.getPoint(x, config.head.hairlineY)
+    val topCenter = aabb.getPoint(x, Factor(0.0f))
 
     renderRoundedPolygon(
         renderer, options, listOf(

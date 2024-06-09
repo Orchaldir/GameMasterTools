@@ -25,6 +25,7 @@ val RENDER_CONFIG = RenderConfig(
         HairConfig(
             Factor(1.3f),
             Factor(-0.2f),
+            Factor(0.3f),
             Factor(-0.2f),
             Factor(0.15f),
         ),
