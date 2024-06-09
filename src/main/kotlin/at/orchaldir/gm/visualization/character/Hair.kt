@@ -42,7 +42,6 @@ fun visualizeShortHair(renderer: Renderer, config: RenderConfig, aabb: AABB, sho
         ShortHairStyle.BuzzCut ->
             visualizeRectangleHair(renderer, config, options, aabb, HEAD_WIDTH, Factor(0.0f))
 
-        ShortHairStyle.Curly -> doNothing()
         ShortHairStyle.FlatTop ->
             visualizeRectangleHair(renderer, config, options, aabb, HEAD_WIDTH, config.head.hair.flatTopY)
 
@@ -55,6 +54,7 @@ fun visualizeShortHair(renderer: Renderer, config: RenderConfig, aabb: AABB, sho
             aabb,
             END - config.head.hair.sidePartX
         )
+
         ShortHairStyle.Spiked -> visualizeSpikedHair(renderer, config, options, aabb)
     }
 }

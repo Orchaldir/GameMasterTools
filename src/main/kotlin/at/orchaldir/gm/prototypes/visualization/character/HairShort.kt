@@ -14,7 +14,7 @@ fun main() {
     ShortHairStyle.entries.forEach { style ->
         val row = mutableListOf<Appearance>()
 
-        Size.entries.forEach() {
+        Size.entries.forEach {
             row.add(createAppearance(style, OneEye(size = it)))
         }
         row.add(createAppearance(style, TwoEyes()))
