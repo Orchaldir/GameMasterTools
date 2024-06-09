@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.character
+package at.orchaldir.gm.core.model.culture
 
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
