@@ -5,10 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHair
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.splitLine
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
@@ -36,7 +33,7 @@ fun visualizeShortHair(renderer: Renderer, config: RenderConfig, aabb: AABB, sho
 
     when (shortHair.style) {
         ShortHairStyle.Afro -> {
-            val center = aabb.getPoint(Factor(0.5f), config.head.hairlineY)
+            val center = aabb.getPoint(CENTER, config.head.hairlineY)
             val radius = aabb.convertHeight(config.head.hair.afroDiameter * 0.5f)
             renderer.renderCircle(center, radius, options, BEHIND_LAYER)
         }
@@ -63,8 +60,8 @@ private fun visualizeMiddlePart(
 ) {
     val (bottomLeft, bottomRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hairlineY)
     val (topLeft, topRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hair.spikedY)
-    val bottomCenter = aabb.getPoint(Factor(0.5f), config.head.hairlineY)
-    val topCenter = aabb.getPoint(Factor(0.5f), Factor(0.0f))
+    val bottomCenter = aabb.getPoint(CENTER, config.head.hairlineY)
+    val topCenter = aabb.getPoint(CENTER, Factor(0.0f))
 
     renderRoundedPolygon(
         renderer, options, listOf(

@@ -4,10 +4,6 @@ import at.orchaldir.gm.utils.math.*
 import java.lang.Float.min
 import kotlin.math.pow
 
-private val START = Factor(0.0f)
-private val CENTER = Factor(0.5f)
-private val END = Factor(1.0f)
-
 fun convertLineToPath(line: List<Point2d>): String {
     val path = convertCornersToPath(line)
 
@@ -38,52 +34,52 @@ fun convertPointedOvalToPath(center: Point2d, radiusX: Distance, radiusY: Distan
 fun convertRoundedPolygonToPath(polygon: Polygon2d): String {
     val path = StringBuilder()
     var previous = polygon.corners[0]
-    var isStart = true;
-    var isSharp = false;
-    var firstMiddle: Point2d? = null;
+    var isStart = true
+    var isSharp = false
+    var firstMiddle: Point2d? = null
 
     for (i in 0..polygon.corners.size) {
         val index = (i + 1) % polygon.corners.size
         val corner = polygon.corners[index]
 
         if (previous.calculateDistance(corner) == 0.0f) {
-            isSharp = true;
+            isSharp = true
 
             if (!isStart) {
-                lineTo(path, previous);
+                lineTo(path, previous)
             }
 
-            continue;
+            continue
         }
 
         if (isStart) {
-            isStart = false;
-            val middle = (previous + corner) / 2.0f;
+            isStart = false
+            val middle = (previous + corner) / 2.0f
 
             if (isSharp) {
-                isSharp = false;
-                moveTo(path, previous);
-                lineTo(path, middle);
+                isSharp = false
+                moveTo(path, previous)
+                lineTo(path, middle)
             } else {
-                firstMiddle = middle;
-                moveTo(path, middle);
+                firstMiddle = middle
+                moveTo(path, middle)
             }
         } else if (isSharp) {
-            isSharp = false;
-            val middle = (previous + corner) / 2.0f;
-            lineTo(path, middle);
+            isSharp = false
+            val middle = (previous + corner) / 2.0f
+            lineTo(path, middle)
         } else {
-            val middle = (previous + corner) / 2.0f;
-            curveTo(path, previous, middle);
+            val middle = (previous + corner) / 2.0f
+            curveTo(path, previous, middle)
         }
 
-        previous = corner;
+        previous = corner
     }
 
     if (firstMiddle != null) {
-        curveTo(path, previous, firstMiddle);
+        curveTo(path, previous, firstMiddle)
     } else {
-        close(path);
+        close(path)
     }
 
     return path.toString()

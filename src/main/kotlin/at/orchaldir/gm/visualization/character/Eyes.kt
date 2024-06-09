@@ -4,10 +4,7 @@ import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.renderer.NoBorder
 import at.orchaldir.gm.utils.renderer.Renderer
@@ -42,7 +39,7 @@ fun visualizeEyes(renderer: Renderer, config: RenderConfig, aabb: AABB, head: He
     when (head.eyes) {
         NoEyes -> doNothing()
         is OneEye -> {
-            val center = aabb.getPoint(Factor(0.5f), config.head.eyeY)
+            val center = aabb.getPoint(CENTER, config.head.eyeY)
             val size = config.head.eyes.getEyeSize(aabb, head.eyes.eye.eyeShape, head.eyes.size)
 
             visualizeEye(renderer, config, center, size, head.eyes.eye)
