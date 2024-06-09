@@ -11,6 +11,7 @@ data class HeadConfig(
     val earY: Factor,
     val eyes: EyesConfig,
     val eyeY: Factor,
+    val hairlineY: Factor,
     val mouth: MouthConfig,
     val mouthY: Factor,
 )
@@ -20,4 +21,5 @@ fun visualizeHead(renderer: Renderer, config: RenderConfig, aabb: AABB, head: He
     renderer.renderRectangle(aabb, config.getOptions(head.skin))
     visualizeEyes(renderer, config, aabb, head)
     visualizeMouth(renderer, config, aabb, head)
+    visualizeHair(renderer, config, aabb, head)
 }
