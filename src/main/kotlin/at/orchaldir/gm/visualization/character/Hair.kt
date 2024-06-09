@@ -39,30 +39,7 @@ fun visualizeShortHair(renderer: Renderer, config: RenderConfig, aabb: AABB, sho
         ShortHairStyle.MiddlePart -> doNothing()
         ShortHairStyle.LeftSidePart -> doNothing()
         ShortHairStyle.RightSidePart -> doNothing()
-        ShortHairStyle.Spiked -> {
-            val (bottomLeft, bottomRight) = aabb.getMirroredPoints(Factor(1.0f), config.head.hairlineY)
-            val (topLeft, topRight) = aabb.getMirroredPoints(Factor(1.0f), Factor(-0.2f))
-            val points = mutableListOf<Point2d>()
-            val spikes = 8
-            val topPoints = splitLine(topLeft, topRight, spikes)
-            val down = Point2d(0.0f, aabb.convertHeight(Factor(0.15f)).value)
-
-            for (i in 0..spikes) {
-                val start = topPoints[i]
-                val end = topPoints[i + 1]
-                val middle = (start + end) / 2.0f
-                val bottom = middle + down
-
-                points.add(start)
-                points.add(bottom)
-            }
-
-            points.add(topRight)
-            points.add(bottomRight)
-            points.add(bottomLeft)
-
-            renderPolygon(renderer, options, points)
-        }
+        ShortHairStyle.Spiked -> visualizeSpikedHair(renderer, config, options, aabb)
     }
 }
 
@@ -77,4 +54,34 @@ private fun visualizeRectangleHair(
     val (topLeft, topRight) = aabb.getMirroredPoints(Factor(1.0f), topY)
 
     renderPolygon(renderer, options, listOf(bottomLeft, bottomRight, topRight, topLeft))
+}
+
+private fun visualizeSpikedHair(
+    renderer: Renderer,
+    config: RenderConfig,
+    options: FillAndBorder,
+    aabb: AABB,
+) {
+    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(Factor(1.0f), config.head.hairlineY)
+    val (topLeft, topRight) = aabb.getMirroredPoints(Factor(1.0f), Factor(-0.2f))
+    val points = mutableListOf<Point2d>()
+    val spikes = 8
+    val topPoints = splitLine(topLeft, topRight, spikes)
+    val down = Point2d(0.0f, aabb.convertHeight(Factor(0.15f)).value)
+
+    for (i in 0..spikes) {
+        val start = topPoints[i]
+        val end = topPoints[i + 1]
+        val middle = (start + end) / 2.0f
+        val bottom = middle + down
+
+        points.add(start)
+        points.add(bottom)
+    }
+
+    points.add(topRight)
+    points.add(bottomRight)
+    points.add(bottomLeft)
+
+    renderPolygon(renderer, options, points)
 }
