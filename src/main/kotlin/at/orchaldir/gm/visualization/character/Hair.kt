@@ -35,8 +35,11 @@ fun visualizeShortHair(renderer: Renderer, config: RenderConfig, aabb: AABB, sho
     val options = FillAndBorder(shortHair.color.toRender(), config.line)
 
     when (shortHair.style) {
-        ShortHairStyle.Afro ->
-            visualizeRectangleHair(renderer, config, options, aabb, config.head.hair.afroWidth, config.head.hair.afroY)
+        ShortHairStyle.Afro -> {
+            val center = aabb.getPoint(Factor(0.5f), Factor(0.0f))
+            val radius = aabb.convertHeight(Factor(0.75f))
+            renderer.renderCircle(center, radius, options, BEHIND_LAYER)
+        }
         ShortHairStyle.BuzzCut ->
             visualizeRectangleHair(renderer, config, options, aabb, HEAD_WIDTH, Factor(0.0f))
 
