@@ -6,10 +6,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.LineOptions
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.SizeConfig
-import at.orchaldir.gm.visualization.character.EarConfig
-import at.orchaldir.gm.visualization.character.EyesConfig
-import at.orchaldir.gm.visualization.character.HeadConfig
-import at.orchaldir.gm.visualization.character.MouthConfig
+import at.orchaldir.gm.visualization.character.*
 
 val RENDER_CONFIG = RenderConfig(
     Distance(0.1f), LineOptions(Color.Black.toRender(), Distance(0.005f)),
@@ -25,6 +22,7 @@ val RENDER_CONFIG = RenderConfig(
             Factor(0.2f),
         ),
         Factor(0.4f),
+        HairConfig(Factor(-0.2f)),
         Factor(0.2f),
         MouthConfig(SizeConfig(0.3f, 0.35f, 0.4f), Factor(0.1f)),
         Factor(0.75f),
