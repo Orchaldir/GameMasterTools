@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.race.appearance
+package at.orchaldir.gm.core.model.culture.style
 
 enum class HairStyleType {
     Afro,

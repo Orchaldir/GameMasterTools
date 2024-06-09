@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.culture
 
+import at.orchaldir.gm.core.model.culture.style.StyleOptions
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -17,6 +18,7 @@ value class CultureId(val value: Int) : Id<CultureId> {
 data class Culture(
     val id: CultureId,
     val name: String = "Culture ${id.value}",
+    val styleOptions: StyleOptions = StyleOptions(),
 ) : Element<CultureId> {
 
     override fun id() = id

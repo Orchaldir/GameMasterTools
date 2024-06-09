@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.appearance.Side
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.culture.style.HairStyleType
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.utils.NumberGenerator
 
