@@ -74,7 +74,7 @@ fun generateHair(config: AppearanceGeneratorConfig): Hair {
 }
 
 fun generateHairStyle(config: AppearanceGeneratorConfig): HairStyle {
-    return when (config.generate(config.styleOptions.hairStyle)) {
+    return when (config.generate(config.styleOptions.hairStyles)) {
         HairStyleType.Afro -> Afro
         HairStyleType.BuzzCut -> BuzzCut
         HairStyleType.FlatTop -> FlatTop

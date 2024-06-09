@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class StyleOptions(
-    val hairStyle: RarityMap<HairStyleType> = RarityMap(HairStyleType.entries),
+    val hairStyles: RarityMap<HairStyleType> = RarityMap(HairStyleType.entries),
 )

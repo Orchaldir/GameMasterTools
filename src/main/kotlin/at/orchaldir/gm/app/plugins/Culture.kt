@@ -137,7 +137,7 @@ private fun HTML.showCultureDetails(
         field("Id", culture.id.value.toString())
         field("Name", culture.name)
         h2 { +"Style Options" }
-        showRarityMap("Hair Styles", culture.styleOptions.hairStyle)
+        showRarityMap("Hair Styles", culture.styleOptions.hairStyles)
         h2 { +"Characters" }
         showList(state.getCharacters(culture.id)) { character ->
             link(call, character)
@@ -168,7 +168,7 @@ private fun HTML.showCultureEditor(
                 }
             }
             h2 { +"Style Options" }
-            selectRarityMap("Hair Styles", HAIR_STYLE, culture.styleOptions.hairStyle)
+            selectRarityMap("Hair Styles", HAIR_STYLE, culture.styleOptions.hairStyles)
             p {
                 submitInput {
                     value = "Update"

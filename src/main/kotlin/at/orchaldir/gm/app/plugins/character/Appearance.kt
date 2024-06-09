@@ -312,7 +312,7 @@ private fun FORM.showNormalHairEditor(
     culture: Culture,
     hair: NormalHair,
 ) {
-    selectEnum("Style", HAIR_STYLE, culture.styleOptions.hairStyle, true) { style ->
+    selectEnum("Style", HAIR_STYLE, culture.styleOptions.hairStyles, true) { style ->
         label = style.name
         value = style.toString()
         selected = when (style) {
