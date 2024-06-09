@@ -23,8 +23,7 @@ val RENDER_CONFIG = RenderConfig(
         ),
         Factor(0.45f),
         HairConfig(
-            Factor(-0.1f),
-            Factor(1.1f),
+            Factor(1.3f),
             Factor(-0.2f),
             Factor(-0.2f),
             Factor(0.15f),

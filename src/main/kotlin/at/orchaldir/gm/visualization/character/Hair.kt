@@ -17,8 +17,7 @@ import at.orchaldir.gm.visualization.renderPolygon
 private val HEAD_WIDTH = Factor(1.0f)
 
 data class HairConfig(
-    val afroY: Factor,
-    val afroWidth: Factor,
+    val afroDiameter: Factor,
     val flatTopY: Factor,
     val spikedY: Factor,
     val spikedHeight: Factor,
@@ -37,7 +36,7 @@ fun visualizeShortHair(renderer: Renderer, config: RenderConfig, aabb: AABB, sho
     when (shortHair.style) {
         ShortHairStyle.Afro -> {
             val center = aabb.getPoint(Factor(0.5f), Factor(0.0f))
-            val radius = aabb.convertHeight(Factor(0.75f))
+            val radius = aabb.convertHeight(config.head.hair.afroDiameter * 0.5f)
             renderer.renderCircle(center, radius, options, BEHIND_LAYER)
         }
         ShortHairStyle.BuzzCut ->
