@@ -18,7 +18,7 @@ fun renderTable(
     val size = calculateSize(config, appearances[0][0])
     val maxColumns = appearances.maxOf { it.size }
     val totalSize = Size2d(size.width * maxColumns, size.height * appearances.size)
-    val builder = SvgBuilder.create(totalSize)
+    val builder = SvgBuilder(totalSize)
     val columnStep = Point2d(size.width, 0.0f)
     val rowStep = Point2d(0.0f, size.height)
     var startOfRow = Point2d()

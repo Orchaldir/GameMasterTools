@@ -19,7 +19,7 @@ fun main() {
     val height = Distance(0.2f)
     val size = calculateSizeFromHeight(config, height)
     val totalSize = Size2d(size.width * columns.size, size.height * rows.size)
-    val builder = SvgBuilder.create(totalSize)
+    val builder = SvgBuilder(totalSize)
     val columnStep = Point2d(size.width, 0.0f)
     val rowStep = Point2d(0.0f, size.height)
     var startOfRow = Point2d()

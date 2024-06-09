@@ -4,29 +4,33 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.*
 import java.util.*
 
-val LOCALE = Locale.US
+val LOCALE: Locale = Locale.US
 
-class SvgBuilder private constructor(private var lines: MutableList<String> = mutableListOf()) : Renderer {
-
-    companion object {
-        fun create(size: Size2d): SvgBuilder {
-            val start = String.format(
-                LOCALE,
-                "<svg viewBox=\"0 0 %.3f %.3f\" xmlns=\"http://www.w3.org/2000/svg\">",
-                size.width,
-                size.height
-            )
-            return SvgBuilder(mutableListOf(start))
-        }
-    }
+class SvgBuilder(private val size: Size2d) : Renderer {
+    private val layers: MutableMap<Int, MutableList<String>> = mutableMapOf()
 
     fun finish(): Svg {
+        val lines: MutableList<String> = mutableListOf()
+        lines.add(getStartLine())
+
+        layers.toSortedMap()
+            .values.forEach { layer -> lines.addAll(layer) }
+
         lines.add("</svg>")
         return Svg(lines)
     }
 
-    override fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions) {
-        lines.add(
+    private fun getStartLine() = String.format(
+        LOCALE,
+        "<svg viewBox=\"0 0 %.3f %.3f\" xmlns=\"http://www.w3.org/2000/svg\">",
+        size.width,
+        size.height
+    )
+
+    override fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions, layer: Int) {
+        layers.computeIfAbsent(layer) {
+            mutableListOf()
+        }.add(
             String.format(
                 LOCALE,
                 "  <circle cx=\"%.3f\" cy=\"%.3f\" r=\"%.3f\" style=\"%s\"/>",
@@ -38,8 +42,16 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
         )
     }
 
-    override fun renderEllipse(center: Point2d, radiusX: Distance, radiusY: Distance, options: RenderOptions) {
-        lines.add(
+    override fun renderEllipse(
+        center: Point2d,
+        radiusX: Distance,
+        radiusY: Distance,
+        options: RenderOptions,
+        layer: Int,
+    ) {
+        layers.computeIfAbsent(layer) {
+            mutableListOf()
+        }.add(
             String.format(
                 LOCALE,
                 "  <ellipse cx=\"%.3f\" cy=\"%.3f\" rx=\"%.3f\" ry=\"%.3f\" style=\"%s\"/>",
@@ -52,20 +64,28 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
         )
     }
 
-    override fun renderLine(line: List<Point2d>, options: LineOptions) {
-        renderPath(convertLineToPath(line), toSvg(options))
+    override fun renderLine(line: List<Point2d>, options: LineOptions, layer: Int) {
+        renderPath(convertLineToPath(line), toSvg(options), layer)
     }
 
-    override fun renderPointedOval(center: Point2d, radiusX: Distance, radiusY: Distance, options: RenderOptions) {
-        renderPath(convertPointedOvalToPath(center, radiusX, radiusY), toSvg(options))
+    override fun renderPointedOval(
+        center: Point2d,
+        radiusX: Distance,
+        radiusY: Distance,
+        options: RenderOptions,
+        layer: Int,
+    ) {
+        renderPath(convertPointedOvalToPath(center, radiusX, radiusY), toSvg(options), layer)
     }
 
-    override fun renderPolygon(polygon: Polygon2d, options: RenderOptions) {
-        renderPath(convertPolygonToPath(polygon), toSvg(options))
+    override fun renderPolygon(polygon: Polygon2d, options: RenderOptions, layer: Int) {
+        renderPath(convertPolygonToPath(polygon), toSvg(options), layer)
     }
 
-    override fun renderRectangle(aabb: AABB, options: RenderOptions) {
-        lines.add(
+    override fun renderRectangle(aabb: AABB, options: RenderOptions, layer: Int) {
+        layers.computeIfAbsent(layer) {
+            mutableListOf()
+        }.add(
             String.format(
                 LOCALE,
                 "  <rect x=\"%.3f\" y=\"%.3f\" width=\"%.3f\" height=\"%.3f\" style=\"%s\"/>",
@@ -79,7 +99,9 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
     }
 
     override fun renderText(text: String, center: Point2d, options: TextOptions) {
-        lines.add(
+        layers.computeIfAbsent(0) {
+            mutableListOf()
+        }.add(
             String.format(
                 LOCALE,
                 "  <text x=\"%.3f\" y=\"%.3f\" fill=\"%s\" font-size=\"%.3fpx\" text-anchor=\"middle\">%s</text>",
@@ -92,8 +114,10 @@ class SvgBuilder private constructor(private var lines: MutableList<String> = mu
         )
     }
 
-    private fun renderPath(path: String, style: String) {
-        lines.add(
+    private fun renderPath(path: String, style: String, layer: Int) {
+        layers.computeIfAbsent(layer) {
+            mutableListOf()
+        }.add(
             String.format(
                 "  <path d=\"%s\" style=\"%s\"/>",
                 path,

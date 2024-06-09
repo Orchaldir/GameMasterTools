@@ -18,7 +18,7 @@ import at.orchaldir.gm.visualization.RenderConfig
 fun visualizeCharacter(config: RenderConfig, appearance: Appearance): Svg {
     val size = calculateSize(config, appearance)
     val aabb = AABB(size)
-    val builder = SvgBuilder.create(size)
+    val builder = SvgBuilder(size)
 
     visualizeAppearance(builder, config, aabb, appearance)
 
