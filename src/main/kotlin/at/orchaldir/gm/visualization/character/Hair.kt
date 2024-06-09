@@ -47,13 +47,20 @@ fun visualizeShortHair(renderer: Renderer, config: RenderConfig, aabb: AABB, sty
             visualizeRectangleHair(renderer, config, options, aabb, HEAD_WIDTH, config.head.hair.flatTopY)
 
         ShortHairStyle.MiddlePart -> visualizeMiddlePart(renderer, config, options, aabb, CENTER)
-        ShortHairStyle.LeftSidePart -> visualizeMiddlePart(renderer, config, options, aabb, config.head.hair.sidePartX)
-        ShortHairStyle.RightSidePart -> visualizeMiddlePart(
+        ShortHairStyle.LeftSidePart -> visualizeMiddlePart(
             renderer,
             config,
             options,
             aabb,
             END - config.head.hair.sidePartX
+        )
+
+        ShortHairStyle.RightSidePart -> visualizeMiddlePart(
+            renderer,
+            config,
+            options,
+            aabb,
+            config.head.hair.sidePartX
         )
 
         ShortHairStyle.Spiked -> visualizeSpikedHair(renderer, config, options, aabb)

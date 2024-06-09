@@ -433,10 +433,10 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
     return when (parameters[HAIR_TYPE]) {
         HairType.Normal.toString() -> {
             return NormalHair(
-                when (parameters[HAIR_STYLE]) {
-                    "Short" -> ShortHair(ShortHairStyle.BuzzCut)
-                    else -> ShortHair(ShortHairStyle.BuzzCut)
-                }
+                ShortHair(
+                    parse(parameters, HAIR_STYLE, ShortHairStyle.BuzzCut),
+                    parse(parameters, HAIR_COLOR, Color.Red),
+                )
             )
         }
 
