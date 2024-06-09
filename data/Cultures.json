@@ -5,7 +5,7 @@
    "id": 0,
    "name": "Waterdeep",
    "styleOptions": {
-    "hairStyle": {
+    "hairStyles": {
      "map": {
       "BuzzCut": "Common",
       "MiddlePart": "Common",
