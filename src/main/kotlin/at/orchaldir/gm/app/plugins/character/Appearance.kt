@@ -474,7 +474,7 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
 
         HairType.Fire.toString() -> NoHair
 
-        else -> NoHair
+        else -> generateHair(config)
     }
 }
 

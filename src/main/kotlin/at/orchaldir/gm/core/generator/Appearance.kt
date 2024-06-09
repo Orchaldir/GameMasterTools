@@ -2,8 +2,10 @@ package at.orchaldir.gm.core.generator
 
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.RarityMap
+import at.orchaldir.gm.core.model.appearance.Side
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.utils.NumberGenerator
 
@@ -55,6 +57,33 @@ fun generateEye(config: AppearanceGeneratorConfig): Eye {
         config.generate(options.scleraColors),
     )
 }
+
+fun generateHair(config: AppearanceGeneratorConfig): Hair {
+    val options = config.options
+
+    return when (config.generate(options.hairOptions.types)) {
+        HairType.None -> NoHair
+        HairType.Normal -> NormalHair(
+            generateHairStyle(config),
+            config.generate(options.hairOptions.colors),
+        )
+
+        HairType.Fire -> FireHair(Size.Medium)
+    }
+}
+
+fun generateHairStyle(config: AppearanceGeneratorConfig): HairStyle {
+    return when (config.select(HairStyleType.entries)) {
+        HairStyleType.Afro -> Afro
+        HairStyleType.BuzzCut -> BuzzCut
+        HairStyleType.FlatTop -> FlatTop
+        HairStyleType.MiddlePart -> MiddlePart
+        HairStyleType.Shaved -> Shaved
+        HairStyleType.SidePart -> SidePart(config.select(Side.entries))
+        HairStyleType.Spiked -> Spiked
+    }
+}
+
 
 fun generateMouth(config: AppearanceGeneratorConfig): Mouth {
     val options = config.options
