@@ -36,6 +36,8 @@ interface Renderer {
             layer,
         )
 
+    fun renderRoundedPolygon(polygon: Polygon2d, options: RenderOptions, layer: Int = 0)
+
     fun renderPolygon(polygon: Polygon2d, options: RenderOptions, layer: Int = 0)
 
     fun renderRectangle(aabb: AABB, options: RenderOptions, layer: Int = 0)

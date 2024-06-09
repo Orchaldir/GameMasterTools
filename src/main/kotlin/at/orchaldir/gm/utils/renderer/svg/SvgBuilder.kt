@@ -78,6 +78,10 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         renderPath(convertPointedOvalToPath(center, radiusX, radiusY), toSvg(options), layer)
     }
 
+    override fun renderRoundedPolygon(polygon: Polygon2d, options: RenderOptions, layer: Int) {
+        renderPath(convertRoundedPolygonToPath(polygon), toSvg(options), layer)
+    }
+
     override fun renderPolygon(polygon: Polygon2d, options: RenderOptions, layer: Int) {
         renderPath(convertPolygonToPath(polygon), toSvg(options), layer)
     }

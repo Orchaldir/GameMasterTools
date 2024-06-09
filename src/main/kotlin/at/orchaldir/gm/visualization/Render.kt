@@ -16,6 +16,16 @@ fun renderPolygon(
     renderer.renderPolygon(polygon, options)
 }
 
+fun renderRoundedPolygon(
+    renderer: Renderer,
+    options: RenderOptions,
+    corners: List<Point2d>,
+) {
+    val polygon = Polygon2d(corners)
+
+    renderer.renderRoundedPolygon(polygon, options)
+}
+
 fun renderMirroredPolygons(
     renderer: Renderer,
     options: RenderOptions,

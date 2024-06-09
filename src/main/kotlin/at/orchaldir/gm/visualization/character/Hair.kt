@@ -1,6 +1,6 @@
 package at.orchaldir.gm.visualization.character
 
-import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHair
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle
@@ -13,6 +13,7 @@ import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.renderPolygon
+import at.orchaldir.gm.visualization.renderRoundedPolygon
 
 private val HEAD_WIDTH = Factor(1.0f)
 
@@ -39,17 +40,47 @@ fun visualizeShortHair(renderer: Renderer, config: RenderConfig, aabb: AABB, sho
             val radius = aabb.convertHeight(config.head.hair.afroDiameter * 0.5f)
             renderer.renderCircle(center, radius, options, BEHIND_LAYER)
         }
+
         ShortHairStyle.BuzzCut ->
             visualizeRectangleHair(renderer, config, options, aabb, HEAD_WIDTH, Factor(0.0f))
 
         ShortHairStyle.Curly -> doNothing()
         ShortHairStyle.FlatTop ->
             visualizeRectangleHair(renderer, config, options, aabb, HEAD_WIDTH, config.head.hair.flatTopY)
-        ShortHairStyle.MiddlePart -> doNothing()
+
+        ShortHairStyle.MiddlePart -> visualizeMiddlePart(renderer, config, options, aabb)
         ShortHairStyle.LeftSidePart -> doNothing()
         ShortHairStyle.RightSidePart -> doNothing()
         ShortHairStyle.Spiked -> visualizeSpikedHair(renderer, config, options, aabb)
     }
+}
+
+private fun visualizeMiddlePart(
+    renderer: Renderer,
+    config: RenderConfig,
+    options: FillAndBorder,
+    aabb: AABB,
+) {
+    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hairlineY)
+    val (topLeft, topRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hair.spikedY)
+    val bottomCenter = aabb.getPoint(Factor(0.5f), config.head.hairlineY)
+    val topCenter = aabb.getPoint(Factor(0.5f), Factor(0.0f))
+
+    renderRoundedPolygon(
+        renderer, options, listOf(
+            topLeft,
+            topLeft,
+            bottomLeft,
+            bottomLeft,
+            bottomCenter,
+            topCenter,
+            bottomCenter,
+            bottomRight,
+            bottomRight,
+            topRight,
+            topRight,
+        )
+    )
 }
 
 private fun visualizeRectangleHair(
