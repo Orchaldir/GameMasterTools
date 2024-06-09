@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.style.HairStyleType
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
@@ -122,6 +123,7 @@ private fun HTML.showAppearanceEditor(
 ) {
     val appearance = character.appearance
     val race = state.races.getOrThrow(character.race)
+    val culture = state.cultures.getOrThrow(character.culture)
     val backLink = href(call, character.id)
     val previewLink = call.application.href(Characters.Appearance.Preview(character.id))
     val updateLink = call.application.href(Characters.Appearance.Update(character.id))
@@ -162,7 +164,7 @@ private fun HTML.showAppearanceEditor(
                 showSkinEditor(race, appearance.head.skin)
                 showEarsEditor(race, appearance.head.ears)
                 showEyesEditor(race, appearance.head.eyes)
-                showHairEditor(race, appearance.head.hair)
+                showHairEditor(race, culture, appearance.head.hair)
                 showMouthEditor(race, appearance.head.mouth)
             }
             p {
@@ -284,10 +286,9 @@ private fun FORM.showEyeEditor(
     selectColor("Sclera Color", SCLERA_COLOR, eyeOptions.scleraColors, eye.scleraColor)
 }
 
-private val noHair = NoHair
-
 private fun FORM.showHairEditor(
     race: Race,
+    culture: Culture,
     hair: Hair,
 ) {
     h2 { +"Hair" }
@@ -303,15 +304,16 @@ private fun FORM.showHairEditor(
     when (hair) {
         NoHair -> doNothing()
         is FireHair -> TODO()
-        is NormalHair -> showNormalHairEditor(race, hair)
+        is NormalHair -> showNormalHairEditor(race, culture, hair)
     }
 }
 
 private fun FORM.showNormalHairEditor(
     race: Race,
+    culture: Culture,
     hair: NormalHair,
 ) {
-    selectEnum("Style", HAIR_STYLE, HairStyleType.entries, true) { style ->
+    selectEnum("Style", HAIR_STYLE, culture.styleOptions.hairStyle, true) { style ->
         label = style.name
         value = style.toString()
         selected = when (style) {
