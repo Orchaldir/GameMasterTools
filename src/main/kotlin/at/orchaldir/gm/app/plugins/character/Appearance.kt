@@ -414,6 +414,7 @@ private fun parseAppearance(parameters: Parameters, config: AppearanceGeneratorC
 
 private fun parseEars(parameters: Parameters, config: AppearanceGeneratorConfig): Ears {
     return when (parameters[EAR_TYPE]) {
+        EarsLayout.NoEars.toString() -> NoEars
         EarsLayout.NormalEars.toString() -> {
             val shape = parse(parameters, EAR_SHAPE, EarShape.Round)
             val size = parse(parameters, EAR_SIZE, Size.Medium)
@@ -426,6 +427,8 @@ private fun parseEars(parameters: Parameters, config: AppearanceGeneratorConfig)
 
 private fun parseEyes(parameters: Parameters, config: AppearanceGeneratorConfig): Eyes {
     return when (parameters[EYES_LAYOUT]) {
+        EyesLayout.NoEyes.toString() -> NoEyes
+
         EyesLayout.OneEye.toString() -> {
             val eye = parseEye(parameters)
             val size = parse(parameters, EYE_SIZE, Size.Medium)
@@ -450,6 +453,7 @@ private fun parseEye(parameters: Parameters) = Eye(
 
 private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig): Hair {
     return when (parameters[HAIR_TYPE]) {
+        HairType.None.toString() -> NoHair
         HairType.Normal.toString() -> {
             return NormalHair(
                 when (parameters[HAIR_STYLE]) {
@@ -476,6 +480,7 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
 
 private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig): Mouth {
     return when (parameters[MOUTH_TYPE]) {
+        MouthType.NoMouth.toString() -> NoMouth
         MouthType.SimpleMouth.toString() -> {
             return SimpleMouth(
                 parse(parameters, MOUTH_WIDTH, Size.Medium),
