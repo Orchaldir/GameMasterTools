@@ -3,11 +3,15 @@ package at.orchaldir.gm.visualization.character
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.RenderOptions
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.SizeConfig
+import at.orchaldir.gm.visualization.renderMirroredPolygons
 
 data class EarConfig(
     private val roundRadius: SizeConfig,
@@ -69,7 +73,7 @@ private fun visualizePointedSideways(
     val length = radius.value * config.head.ears.pointedLength.value
     val tip = top + Point2d(length, 0.0f)
 
-    visualizeCorners(renderer, aabb, listOf(top, bottom, tip), option)
+    renderMirroredPolygons(renderer, option, aabb, listOf(top, bottom, tip))
 }
 
 private fun visualizePointedUpwards(
@@ -88,18 +92,5 @@ private fun visualizePointedUpwards(
     val outerTop = top + Point2d(radius.value, -length)
     val outerBottom = bottom + Point2d(radius.value, -radius.value)
 
-    visualizeCorners(renderer, aabb, listOf(top, bottom, outerBottom, outerTop), option)
-}
-
-private fun visualizeCorners(
-    renderer: Renderer,
-    aabb: AABB,
-    corners: List<Point2d>,
-    option: RenderOptions,
-) {
-    val polygon = Polygon2d(corners)
-    val mirror = aabb.mirror(polygon)
-
-    renderer.renderPolygon(polygon, option)
-    renderer.renderPolygon(mirror, option)
+    renderMirroredPolygons(renderer, option, aabb, listOf(top, bottom, outerBottom, outerTop))
 }

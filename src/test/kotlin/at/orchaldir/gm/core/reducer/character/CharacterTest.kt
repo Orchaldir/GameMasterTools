@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
@@ -110,6 +112,7 @@ class CharacterTest {
         fun `Do not overwrite languages`() {
             val state = State(
                 characters = Storage(listOf(Character(ID0, languages = LANGUAGES))),
+                cultures = Storage(listOf(Culture(CULTURE0))),
                 languages = Storage(listOf(Language(LANGUAGE0))),
                 personalityTraits = Storage(listOf(PersonalityTrait(PERSONALITY0))),
                 races = Storage(listOf(Race(RACE0), Race(RACE1)))
@@ -125,7 +128,7 @@ class CharacterTest {
                     RACE1,
                     Gender.Male,
                     UndefinedCharacterOrigin,
-                    null,
+                    CultureId(0),
                     setOf(PERSONALITY0),
                     mapOf(),
                     LANGUAGES
@@ -146,6 +149,7 @@ class CharacterTest {
                         Character(ID2, gender = Gender.Female)
                     )
                 ),
+                cultures = Storage(listOf(Culture(CULTURE0))),
                 races = Storage(listOf(Race(RACE0)))
             )
 

@@ -15,10 +15,13 @@ import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.RenderConfig
 
+const val MAIN_LAYER = 0
+const val BEHIND_LAYER = -1
+
 fun visualizeCharacter(config: RenderConfig, appearance: Appearance): Svg {
     val size = calculateSize(config, appearance)
     val aabb = AABB(size)
-    val builder = SvgBuilder.create(size)
+    val builder = SvgBuilder(size)
 
     visualizeAppearance(builder, config, aabb, appearance)
 

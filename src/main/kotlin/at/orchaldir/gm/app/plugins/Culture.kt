@@ -6,8 +6,10 @@ import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Culture
-import at.orchaldir.gm.core.model.character.CultureId
+import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.culture.style.HairStyleType
+import at.orchaldir.gm.core.model.culture.style.StyleOptions
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
@@ -24,6 +26,9 @@ import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
+
+private const val NAME = "name"
+private const val HAIR_STYLE = "hair_style"
 
 @Resource("/cultures")
 class Cultures {
@@ -93,9 +98,9 @@ fun Application.configureCultureRouting() {
             logger.info { "Update culture ${update.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val name = formParameters.getOrFail("name")
+            val culture = parseCulture(formParameters, update.id)
 
-            STORE.dispatch(UpdateCulture(update.id, name))
+            STORE.dispatch(UpdateCulture(culture))
 
             call.respondRedirect(href(call, update.id))
 
@@ -131,10 +136,11 @@ private fun HTML.showCultureDetails(
     simpleHtml("Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
         field("Name", culture.name)
-        field("Characters") {
-            showList(state.getCharacters(culture.id)) { character ->
-                link(call, character)
-            }
+        h2 { +"Style Options" }
+        showRarityMap("Hair Styles", culture.styleOptions.hairStyles)
+        h2 { +"Characters" }
+        showList(state.getCharacters(culture.id)) { character ->
+            link(call, character)
         }
         p { a(editLink) { +"Edit" } }
 
@@ -157,10 +163,12 @@ private fun HTML.showCultureEditor(
         field("Id", culture.id.value.toString())
         form {
             field("Name") {
-                textInput(name = "name") {
+                textInput(name = NAME) {
                     value = culture.name
                 }
             }
+            h2 { +"Style Options" }
+            selectRarityMap("Hair Styles", HAIR_STYLE, culture.styleOptions.hairStyles)
             p {
                 submitInput {
                     value = "Update"
@@ -171,4 +179,18 @@ private fun HTML.showCultureEditor(
         }
         p { a(backLink) { +"Back" } }
     }
+}
+
+fun parseCulture(
+    parameters: Parameters,
+    id: CultureId,
+): Culture {
+    val name = parameters.getOrFail(NAME)
+    val hairStyle = parseRarityMap(parameters, HAIR_STYLE, HairStyleType::valueOf)
+
+    return Culture(
+        id,
+        name,
+        StyleOptions(hairStyle),
+    )
 }

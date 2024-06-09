@@ -58,6 +58,26 @@
       }
      }
     },
+    "hairOptions": {
+     "types": {
+      "map": {
+       "Normal": "Common"
+      }
+     },
+     "colors": {
+      "map": {
+       "Black": "Common",
+       "Gray": "Common",
+       "Maroon": "Common",
+       "Orange": "Common",
+       "Red": "Common",
+       "SaddleBrown": "Common",
+       "Silver": "Common",
+       "White": "Common",
+       "Yellow": "Common"
+      }
+     }
+    },
     "mouthTypes": {
      "map": {
       "SimpleMouth": "Common",

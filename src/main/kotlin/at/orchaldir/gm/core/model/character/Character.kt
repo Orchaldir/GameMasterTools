@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.character
 
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
@@ -25,7 +26,7 @@ data class Character(
     val race: RaceId = RaceId(0),
     val gender: Gender = Gender.Genderless,
     val origin: CharacterOrigin = UndefinedCharacterOrigin,
-    val culture: CultureId? = null,
+    val culture: CultureId = CultureId(0),
     val personality: Set<PersonalityTraitId> = setOf(),
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
     val languages: Map<LanguageId, ComprehensionLevel> = mapOf(LanguageId(0) to ComprehensionLevel.Native),

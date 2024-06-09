@@ -2,6 +2,8 @@ package at.orchaldir.gm.core.action
 
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
+import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
@@ -40,10 +42,7 @@ data class RemoveLanguages(
 // culture actions
 data object CreateCulture : Action()
 data class DeleteCulture(val id: CultureId) : Action()
-data class UpdateCulture(
-    val id: CultureId,
-    val name: String,
-) : Action()
+data class UpdateCulture(val culture: Culture) : Action()
 
 // language actions
 data object CreateLanguage : Action()

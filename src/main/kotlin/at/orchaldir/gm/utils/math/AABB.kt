@@ -18,13 +18,25 @@ data class AABB(val start: Point2d, val size: Size2d) {
             center - size / TWO, size
         )
 
+        fun fromCorners(start: Point2d, end: Point2d): AABB {
+            val diff = end - start
+            return AABB(
+                start,
+                Size2d(diff.x, diff.y)
+            )
+        }
+
         fun fromRadii(center: Point2d, radiusX: Distance, radiusY: Distance) =
             fromCenter(center, Size2d(radiusX * 2.0f, radiusY * 2.0f))
     }
 
     fun getCenter() = start + size / TWO
 
+    fun getEnd() = start + size
+
     fun getInnerRadius() = Distance(minOf(size.width, size.height) / 2.0f)
+
+    fun convertHeight(factor: Factor) = Distance(size.height * factor.value)
 
     fun getPoint(horizontal: Factor, vertical: Factor) = Point2d(
         start.x + size.width * horizontal.value,

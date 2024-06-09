@@ -22,15 +22,15 @@ data object NoMouth : Mouth()
 @Serializable
 @SerialName("Simple")
 data class SimpleMouth(
-    val width: Size,
-    val teethColor: TeethColor,
+    val width: Size = Size.Medium,
+    val teethColor: TeethColor = TeethColor.White,
 ) : Mouth()
 
 @Serializable
 @SerialName("Female")
 data class FemaleMouth(
-    val width: Size,
-    val color: Color,
-    val teethColor: TeethColor,
+    val width: Size = Size.Medium,
+    val color: Color = Color.Red,
+    val teethColor: TeethColor = TeethColor.White,
 ) : Mouth()
 

@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Culture
+import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -23,9 +23,7 @@ val DELETE_CULTURE: Reducer<DeleteCulture, State> = { state, action ->
 }
 
 val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
-    state.cultures.require(action.id)
+    state.cultures.require(action.culture.id)
 
-    val culture = Culture(action.id, action.name)
-
-    noFollowUps(state.copy(cultures = state.cultures.update(culture)))
+    noFollowUps(state.copy(cultures = state.cultures.update(action.culture)))
 }

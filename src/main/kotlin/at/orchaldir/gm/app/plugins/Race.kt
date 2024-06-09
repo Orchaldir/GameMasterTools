@@ -45,6 +45,8 @@ private const val PUPIL_SHAPE = "pupil_shape"
 private const val PUPIL_COLOR = "pupil_color"
 private const val SCLERA_COLOR = "sclera_color"
 private const val MOUTH_TYPE = "mouth_type"
+private const val HAIR_TYPE = "hair"
+private const val HAIR_COLOR = "hair_color"
 
 @Resource("/races")
 class Races {
@@ -169,6 +171,9 @@ private fun HTML.showRaceDetails(
         showRarityMap("Pupil Shape", eyeOptions.pupilShapes)
         showRarityMap("Pupil Colors", eyeOptions.pupilColors)
         showRarityMap("Sclera Colors", eyeOptions.scleraColors)
+        h3 { +"Hair" }
+        showRarityMap("Types", appearance.hairOptions.types)
+        showRarityMap("Colors", appearance.hairOptions.colors)
         h3 { +"Mouth" }
         showRarityMap("Types", appearance.mouthTypes)
         h2 { +"Characters" }
@@ -182,19 +187,6 @@ private fun HTML.showRaceDetails(
         }
 
         p { a(backLink) { +"Back" } }
-    }
-}
-
-private fun HTML.showRaceEditor(
-    call: ApplicationCall,
-    id: RaceId,
-) {
-    val race = STORE.getState().races.get(id)
-
-    if (race != null) {
-        showRaceEditor(call, race)
-    } else {
-        showAllRaces(call)
     }
 }
 
@@ -239,6 +231,9 @@ private fun HTML.showRaceEditor(
             selectRarityMap("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes)
             selectRarityMap("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors)
             selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors)
+            h3 { +"Hair" }
+            selectRarityMap("Types", HAIR_TYPE, appearance.hairOptions.types)
+            selectRarityMap("Colors", HAIR_COLOR, appearance.hairOptions.colors)
             h3 { +"Mouth" }
             selectRarityMap("Types", MOUTH_TYPE, appearance.mouthTypes)
             p {
@@ -271,6 +266,7 @@ private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
     parseRarityMap(parameters, EAR_SHAPE, EarShape::valueOf),
     parseRarityMap(parameters, EYES_LAYOUT, EyesLayout::valueOf),
     parseEyeOptions(parameters),
+    parseHairOptions(parameters),
     parseRarityMap(parameters, MOUTH_TYPE, MouthType::valueOf),
 )
 
@@ -282,3 +278,8 @@ private fun parseEyeOptions(parameters: Parameters): EyeOptions {
 
     return EyeOptions(eyeShapes, pupilShapes, pupilColors, scleraColors)
 }
+
+private fun parseHairOptions(parameters: Parameters) = HairOptions(
+    parseRarityMap(parameters, HAIR_TYPE, HairType::valueOf),
+    parseRarityMap(parameters, HAIR_COLOR, Color::valueOf),
+)

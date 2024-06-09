@@ -7,31 +7,40 @@ import at.orchaldir.gm.utils.math.Polygon2d
 
 interface Renderer {
 
-    fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions)
+    fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions, layer: Int = 0)
 
-    fun renderCircle(aabb: AABB, options: RenderOptions) =
-        renderCircle(aabb.getCenter(), aabb.getInnerRadius(), options)
+    fun renderCircle(aabb: AABB, options: RenderOptions, layer: Int = 0) =
+        renderCircle(aabb.getCenter(), aabb.getInnerRadius(), options, layer)
 
-    fun renderEllipse(center: Point2d, radiusX: Distance, radiusY: Distance, options: RenderOptions)
+    fun renderEllipse(center: Point2d, radiusX: Distance, radiusY: Distance, options: RenderOptions, layer: Int = 0)
 
-    fun renderEllipse(aabb: AABB, options: RenderOptions) =
-        renderEllipse(aabb.getCenter(), Distance(aabb.size.width / 2.0f), Distance(aabb.size.height / 2.0f), options)
+    fun renderEllipse(aabb: AABB, options: RenderOptions, layer: Int = 0) =
+        renderEllipse(
+            aabb.getCenter(),
+            Distance(aabb.size.width / 2.0f),
+            Distance(aabb.size.height / 2.0f),
+            options,
+            layer
+        )
 
-    fun renderLine(line: List<Point2d>, options: LineOptions)
+    fun renderLine(line: List<Point2d>, options: LineOptions, layer: Int = 0)
 
-    fun renderPointedOval(center: Point2d, radiusX: Distance, radiusY: Distance, options: RenderOptions)
+    fun renderPointedOval(center: Point2d, radiusX: Distance, radiusY: Distance, options: RenderOptions, layer: Int = 0)
 
-    fun renderPointedOval(aabb: AABB, options: RenderOptions) =
+    fun renderPointedOval(aabb: AABB, options: RenderOptions, layer: Int = 0) =
         renderPointedOval(
             aabb.getCenter(),
             Distance(aabb.size.width / 2.0f),
             Distance(aabb.size.height / 2.0f),
-            options
+            options,
+            layer,
         )
 
-    fun renderPolygon(polygon: Polygon2d, options: RenderOptions)
+    fun renderRoundedPolygon(polygon: Polygon2d, options: RenderOptions, layer: Int = 0)
 
-    fun renderRectangle(aabb: AABB, options: RenderOptions)
+    fun renderPolygon(polygon: Polygon2d, options: RenderOptions, layer: Int = 0)
+
+    fun renderRectangle(aabb: AABB, options: RenderOptions, layer: Int = 0)
 
     fun renderText(text: String, center: Point2d, options: TextOptions)
 

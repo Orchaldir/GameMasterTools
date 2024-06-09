@@ -4,7 +4,9 @@ import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.character.appearance.HeadOnly
+import at.orchaldir.gm.core.model.character.appearance.NormalSkin
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Distance
@@ -16,7 +18,7 @@ private val ID0 = CharacterId(0)
 
 class AppearanceTest {
 
-    private val appearance = HeadOnly(Head(NoEars, NoEyes, NoMouth, NormalSkin()), Distance(0.5f))
+    private val appearance = HeadOnly(Head(skin = NormalSkin()), Distance(0.5f))
     private val action = UpdateAppearance(ID0, appearance)
 
     @Test

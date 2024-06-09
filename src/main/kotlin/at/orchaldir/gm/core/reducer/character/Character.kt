@@ -43,12 +43,9 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
 
     state.characters.require(character.id)
     state.races.require(character.race)
+    state.cultures.require(character.culture)
     checkOrigin(state, character)
     character.personality.forEach { state.personalityTraits.require(it) }
-
-    if (character.culture != null) {
-        state.cultures.require(character.culture)
-    }
 
     noFollowUps(state.copy(characters = state.characters.update(character)))
 }

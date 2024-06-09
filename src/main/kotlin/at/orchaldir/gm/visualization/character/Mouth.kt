@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.appearance.NoMouth
 import at.orchaldir.gm.core.model.character.appearance.SimpleMouth
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.renderer.NoBorder
@@ -49,7 +50,7 @@ private fun visualizeFemaleMouth(
         aabb.getMirroredPoints(width * 0.5f, config.head.mouthY - halfHeight)
     val (bottomLeft, bottomRight) =
         aabb.getMirroredPoints(width * 0.5f, config.head.mouthY + halfHeight)
-    val cupidsBow = aabb.getPoint(Factor(0.5f), config.head.mouthY - halfHeight * 0.5f)
+    val cupidsBow = aabb.getPoint(CENTER, config.head.mouthY - halfHeight * 0.5f)
 
     val polygon = Polygon2d(listOf(left, bottomLeft, bottomRight, right, topRight, cupidsBow, topLeft))
     renderer.renderPolygon(polygon, options)

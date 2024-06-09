@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
@@ -143,11 +144,8 @@ private fun HTML.showCharacterDetails(
             link(call, state, character.race)
         }
         field("Gender", character.gender.toString())
-
-        if (character.culture != null) {
-            field("Culture") {
-                link(call, state, character.culture)
-            }
+        field("Culture") {
+            link(call, state, character.culture)
         }
 
         showFamily(call, state, character)
@@ -283,11 +281,6 @@ private fun HTML.showCharacterEditor(
                 select {
                     id = CULTURE
                     name = CULTURE
-                    option {
-                        label = "No culture"
-                        value = ""
-                        selected = character.culture == null
-                    }
                     state.cultures.getAll().forEach { culture ->
                         option {
                             label = culture.name
@@ -385,9 +378,7 @@ private fun parseCharacter(state: State, id: CharacterId, parameters: Parameters
     val name = parameters.getOrFail(NAME)
     val race = RaceId(parameters.getOrFail(RACE).toInt())
     val gender = Gender.valueOf(parameters.getOrFail(GENDER))
-    val culture = parameters.getOrFail(CULTURE)
-        .toIntOrNull()
-        ?.let { CultureId(it) }
+    val culture = CultureId(parameters.getOrFail(CULTURE).toInt())
     val personality = parameters.entries()
         .asSequence()
         .filter { e -> e.key.startsWith(GROUP_PREFIX) }
