@@ -328,7 +328,7 @@ private fun FORM.showNormalHairEditor(
 
     when (hair.style) {
         is SidePart -> {
-            selectEnum("Side", HAIR_STYLE, Side.entries, true) { side ->
+            selectEnum("Side", SIDE_PART, Side.entries, true) { side ->
                 label = side.name
                 value = side.toString()
                 selected = hair.style.side == side
@@ -449,7 +449,6 @@ private fun parseEye(parameters: Parameters) = Eye(
 )
 
 private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig): Hair {
-
     return when (parameters[HAIR_TYPE]) {
         HairType.Normal.toString() -> {
             return NormalHair(
@@ -465,7 +464,7 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
                     HairStyleType.Spiked.toString() -> Spiked
                     else -> Shaved
                 },
-                    parse(parameters, HAIR_COLOR, Color.Red),
+                parse(parameters, HAIR_COLOR, Color.Red),
             )
         }
 
