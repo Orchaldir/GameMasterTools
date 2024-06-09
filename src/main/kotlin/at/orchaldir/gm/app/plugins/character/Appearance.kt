@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.generator.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.appearance.Side
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
@@ -14,6 +15,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.*
+import at.orchaldir.gm.core.model.race.appearance.HairStyleType
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
@@ -50,6 +52,7 @@ private const val SCLERA_COLOR = "sclera_color"
 private const val HAIR_TYPE = "hair"
 private const val HAIR_STYLE = "hair_style"
 private const val HAIR_COLOR = "hair_color"
+private const val SIDE_PART = "side_part"
 private const val MOUTH_TYPE = "mouth"
 private const val MOUTH_WIDTH = "mouth_width"
 private const val TEETH_COLOR = "teeth_color"
@@ -308,15 +311,31 @@ private fun FORM.showNormalHairEditor(
     race: Race,
     hair: NormalHair,
 ) {
-    when (hair.style) {
-        is ShortHair -> {
-            selectEnum("Style", HAIR_STYLE, ShortHairStyle.entries, true) { style ->
-                label = style.name
-                value = style.toString()
-                selected = hair.style.style == style
-            }
-            selectColor("Color", HAIR_COLOR, race.appearance.hairOptions.colors, hair.style.color)
+    selectEnum("Style", HAIR_STYLE, HairStyleType.entries, true) { style ->
+        label = style.name
+        value = style.toString()
+        selected = when (style) {
+            HairStyleType.Afro -> hair.style is Afro
+            HairStyleType.BuzzCut -> hair.style is BuzzCut
+            HairStyleType.FlatTop -> hair.style is FlatTop
+            HairStyleType.MiddlePart -> hair.style is MiddlePart
+            HairStyleType.Shaved -> hair.style is Shaved
+            HairStyleType.SidePart -> hair.style is SidePart
+            HairStyleType.Spiked -> hair.style is Spiked
         }
+    }
+    selectColor("Color", HAIR_COLOR, race.appearance.hairOptions.colors, hair.color)
+
+    when (hair.style) {
+        is SidePart -> {
+            selectEnum("Side", HAIR_STYLE, Side.entries, true) { side ->
+                label = side.name
+                value = side.toString()
+                selected = hair.style.side == side
+            }
+        }
+
+        else -> doNothing()
     }
 }
 
@@ -430,13 +449,23 @@ private fun parseEye(parameters: Parameters) = Eye(
 )
 
 private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig): Hair {
+
     return when (parameters[HAIR_TYPE]) {
         HairType.Normal.toString() -> {
             return NormalHair(
-                ShortHair(
-                    parse(parameters, HAIR_STYLE, ShortHairStyle.BuzzCut),
+                when (parameters[HAIR_STYLE]) {
+                    HairStyleType.Afro.toString() -> Afro
+                    HairStyleType.BuzzCut.toString() -> BuzzCut
+                    HairStyleType.FlatTop.toString() -> FlatTop
+                    HairStyleType.MiddlePart.toString() -> MiddlePart
+                    HairStyleType.SidePart.toString() -> SidePart(
+                        parse(parameters, SIDE_PART, Side.Left),
+                    )
+
+                    HairStyleType.Spiked.toString() -> Spiked
+                    else -> Shaved
+                },
                     parse(parameters, HAIR_COLOR, Color.Red),
-                )
             )
         }
 

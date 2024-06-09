@@ -22,5 +22,6 @@ data class FireHair(
 @SerialName("Normal")
 data class NormalHair(
     val style: HairStyle,
+    val color: Color,
 ) : Hair()
 

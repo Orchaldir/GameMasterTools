@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character
 
+import at.orchaldir.gm.core.model.appearance.Side
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.utils.doNothing
@@ -24,46 +25,49 @@ fun visualizeHair(renderer: Renderer, config: RenderConfig, aabb: AABB, head: He
     when (head.hair) {
         NoHair -> doNothing()
         is FireHair -> doNothing()
-        is NormalHair -> when (head.hair.style) {
-            is ShortHair -> visualizeShortHair(renderer, config, aabb, head.hair.style)
-        }
+        is NormalHair -> visualizeNormalHair(renderer, config, aabb, head.hair)
     }
 }
 
-fun visualizeShortHair(renderer: Renderer, config: RenderConfig, aabb: AABB, style: ShortHair) {
-    val options = FillAndBorder(style.color.toRender(), config.line)
+fun visualizeNormalHair(renderer: Renderer, config: RenderConfig, aabb: AABB, hair: NormalHair) {
+    val options = FillAndBorder(hair.color.toRender(), config.line)
 
-    when (style.style) {
-        ShortHairStyle.Afro -> {
+    when (hair.style) {
+        is Afro -> {
             val center = aabb.getPoint(CENTER, config.head.hairlineY)
             val radius = aabb.convertHeight(config.head.hair.afroDiameter * 0.5f)
             renderer.renderCircle(center, radius, options, BEHIND_LAYER)
         }
 
-        ShortHairStyle.BuzzCut ->
+        is BuzzCut ->
             visualizeRectangleHair(renderer, config, options, aabb, HEAD_WIDTH, Factor(0.0f))
 
-        ShortHairStyle.FlatTop ->
+        is FlatTop ->
             visualizeRectangleHair(renderer, config, options, aabb, HEAD_WIDTH, config.head.hair.flatTopY)
 
-        ShortHairStyle.MiddlePart -> visualizeMiddlePart(renderer, config, options, aabb, CENTER)
-        ShortHairStyle.LeftSidePart -> visualizeMiddlePart(
-            renderer,
-            config,
-            options,
-            aabb,
-            END - config.head.hair.sidePartX
-        )
+        is MiddlePart -> visualizeMiddlePart(renderer, config, options, aabb, CENTER)
 
-        ShortHairStyle.RightSidePart -> visualizeMiddlePart(
-            renderer,
-            config,
-            options,
-            aabb,
-            config.head.hair.sidePartX
-        )
+        Shaved -> doNothing()
 
-        ShortHairStyle.Spiked -> visualizeSpikedHair(renderer, config, options, aabb)
+        is SidePart -> when (hair.style.side) {
+            Side.Left -> visualizeMiddlePart(
+                renderer,
+                config,
+                options,
+                aabb,
+                END - config.head.hair.sidePartX
+            )
+
+            Side.Right -> visualizeMiddlePart(
+                renderer,
+                config,
+                options,
+                aabb,
+                config.head.hair.sidePartX
+            )
+        }
+
+        is Spiked -> visualizeSpikedHair(renderer, config, options, aabb)
     }
 }
 

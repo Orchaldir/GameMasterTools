@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.character.appearance.hair
 
-import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.appearance.Side
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -8,8 +8,29 @@ import kotlinx.serialization.Serializable
 sealed class HairStyle
 
 @Serializable
-@SerialName("Short")
-data class ShortHair(
-    val style: ShortHairStyle,
-    val color: Color = Color.Yellow,
-) : HairStyle()
+@SerialName("Afro")
+data object Afro : HairStyle()
+
+@Serializable
+@SerialName("BuzzCut")
+data object BuzzCut : HairStyle()
+
+@Serializable
+@SerialName("FlatTop")
+data object FlatTop : HairStyle()
+
+@Serializable
+@SerialName("MiddlePart")
+data object MiddlePart : HairStyle()
+
+@Serializable
+@SerialName("Shaved")
+data object Shaved : HairStyle()
+
+@Serializable
+@SerialName("SidePart")
+data class SidePart(val side: Side) : HairStyle()
+
+@Serializable
+@SerialName("Spiked")
+data object Spiked : HairStyle()
