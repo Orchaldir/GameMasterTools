@@ -3,7 +3,17 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Waterdeep"
+   "name": "Waterdeep",
+   "styleOptions": {
+    "hairStyle": {
+     "map": {
+      "BuzzCut": "Common",
+      "MiddlePart": "Common",
+      "Shaved": "Rare",
+      "SidePart": "Common"
+     }
+    }
+   }
   }
  }
 }

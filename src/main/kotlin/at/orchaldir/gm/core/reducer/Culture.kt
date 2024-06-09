@@ -23,9 +23,7 @@ val DELETE_CULTURE: Reducer<DeleteCulture, State> = { state, action ->
 }
 
 val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
-    state.cultures.require(action.id)
+    state.cultures.require(action.culture.id)
 
-    val culture = Culture(action.id, action.name)
-
-    noFollowUps(state.copy(cultures = state.cultures.update(culture)))
+    noFollowUps(state.copy(cultures = state.cultures.update(action.culture)))
 }
