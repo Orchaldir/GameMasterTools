@@ -24,7 +24,6 @@ data class HairConfig(
 fun visualizeHair(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
     when (head.hair) {
         NoHair -> doNothing()
-        is FireHair -> doNothing()
         is NormalHair -> visualizeNormalHair(renderer, config, aabb, head.hair)
     }
 }

@@ -13,12 +13,6 @@ sealed class Hair
 data object NoHair : Hair()
 
 @Serializable
-@SerialName("Fire")
-data class FireHair(
-    val size: Size,
-) : Hair()
-
-@Serializable
 @SerialName("Normal")
 data class NormalHair(
     val style: HairStyle,

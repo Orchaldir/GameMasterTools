@@ -68,8 +68,6 @@ fun generateHair(config: AppearanceGeneratorConfig): Hair {
             generateHairStyle(config),
             config.generate(options.hairOptions.colors),
         )
-
-        HairType.Fire -> FireHair(Size.Medium)
     }
 }
 

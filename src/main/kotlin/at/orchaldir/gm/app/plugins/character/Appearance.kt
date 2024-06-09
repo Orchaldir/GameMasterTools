@@ -297,13 +297,11 @@ private fun FORM.showHairEditor(
         value = option.toString()
         selected = when (option) {
             HairType.None -> hair is NoHair
-            HairType.Fire -> hair is FireHair
             HairType.Normal -> hair is NormalHair
         }
     }
     when (hair) {
         NoHair -> doNothing()
-        is FireHair -> TODO()
         is NormalHair -> showNormalHairEditor(race, culture, hair)
     }
 }
@@ -473,8 +471,6 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
                 parse(parameters, HAIR_COLOR, Color.Red),
             )
         }
-
-        HairType.Fire.toString() -> NoHair
 
         else -> generateHair(config)
     }
