@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
+import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.*
@@ -47,6 +47,9 @@ private const val EYE_SHAPE = "eye_shape"
 private const val PUPIL_SHAPE = "pupil_shape"
 private const val PUPIL_COLOR = "pupil_color"
 private const val SCLERA_COLOR = "sclera_color"
+private const val HAIR_TYPE = "hair"
+private const val HAIR_STYLE = "hair_style"
+private const val HAIR_COLOR = "hair_color"
 private const val MOUTH_TYPE = "mouth"
 private const val MOUTH_WIDTH = "mouth_width"
 private const val TEETH_COLOR = "teeth_color"
@@ -156,6 +159,7 @@ private fun HTML.showAppearanceEditor(
                 showSkinEditor(race, appearance.head.skin)
                 showEarsEditor(race, appearance.head.ears)
                 showEyesEditor(race, appearance.head.eyes)
+                showHairEditor(race, appearance.head.hair)
                 showMouthEditor(race, appearance.head.mouth)
             }
             p {
@@ -277,6 +281,45 @@ private fun FORM.showEyeEditor(
     selectColor("Sclera Color", SCLERA_COLOR, eyeOptions.scleraColors, eye.scleraColor)
 }
 
+private val noHair = NoHair
+
+private fun FORM.showHairEditor(
+    race: Race,
+    hair: Hair,
+) {
+    h2 { +"Hair" }
+    selectEnum("Type", HAIR_TYPE, race.appearance.hairOptions.types, true) { option ->
+        label = option.name
+        value = option.toString()
+        selected = when (option) {
+            HairType.None -> hair is NoHair
+            HairType.Fire -> hair is FireHair
+            HairType.Normal -> hair is NormalHair
+        }
+    }
+    when (hair) {
+        NoHair -> doNothing()
+        is FireHair -> TODO()
+        is NormalHair -> showNormalHairEditor(race, hair)
+    }
+}
+
+private fun FORM.showNormalHairEditor(
+    race: Race,
+    hair: NormalHair,
+) {
+    when (hair.style) {
+        is ShortHair -> {
+            selectEnum("Style", HAIR_STYLE, ShortHairStyle.entries, true) { style ->
+                label = style.name
+                value = style.toString()
+                selected = hair.style.style == style
+            }
+            selectColor("Color", HAIR_COLOR, race.appearance.hairOptions.colors, hair.style.color)
+        }
+    }
+}
+
 private fun FORM.showMouthEditor(
     race: Race,
     mouth: Mouth,
@@ -339,9 +382,10 @@ private fun parseAppearance(parameters: Parameters, config: AppearanceGeneratorC
         HEAD -> {
             val ears = parseEars(parameters, config)
             val eyes = parseEyes(parameters, config)
+            val hair = parseHair(parameters, config)
             val mouth = parseMouth(parameters, config)
             val skin = parseSkin(parameters, config)
-            val head = Head(ears, eyes, NoHair, mouth, skin)
+            val head = Head(ears, eyes, hair, mouth, skin)
             return HeadOnly(head, Distance(0.2f))
         }
 
@@ -384,6 +428,23 @@ private fun parseEye(parameters: Parameters) = Eye(
     parse(parameters, PUPIL_COLOR, Color.Green),
     parse(parameters, SCLERA_COLOR, Color.White),
 )
+
+private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig): Hair {
+    return when (parameters[HAIR_TYPE]) {
+        HairType.Normal.toString() -> {
+            return NormalHair(
+                when (parameters[HAIR_STYLE]) {
+                    "Short" -> ShortHair(ShortHairStyle.BuzzCut)
+                    else -> ShortHair(ShortHairStyle.BuzzCut)
+                }
+            )
+        }
+
+        HairType.Fire.toString() -> NoHair
+
+        else -> NoHair
+    }
+}
 
 private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig): Mouth {
     return when (parameters[MOUTH_TYPE]) {

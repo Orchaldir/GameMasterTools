@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHair
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle
 import at.orchaldir.gm.utils.math.AABB
@@ -28,7 +29,7 @@ fun visualizeHead(renderer: Renderer, config: RenderConfig, aabb: AABB, head: He
 }
 
 fun visualizeHeadShape(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
-    if (head.hair is ShortHair && head.hair.style == ShortHairStyle.Afro) {
+    if (head.hair is NormalHair && head.hair.style is ShortHair && head.hair.style.style == ShortHairStyle.Afro) {
         val newAABB = AABB.fromCorners(
             aabb.getPoint(Factor(0.0f), config.head.hairlineY),
             aabb.getEnd()

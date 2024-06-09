@@ -1,9 +1,7 @@
 package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
-import at.orchaldir.gm.core.model.character.appearance.hair.ShortHair
-import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle
+import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.FillAndBorder
@@ -25,14 +23,17 @@ data class HairConfig(
 fun visualizeHair(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
     when (head.hair) {
         NoHair -> doNothing()
-        is ShortHair -> visualizeShortHair(renderer, config, aabb, head.hair)
+        is FireHair -> doNothing()
+        is NormalHair -> when (head.hair.style) {
+            is ShortHair -> visualizeShortHair(renderer, config, aabb, head.hair.style)
+        }
     }
 }
 
-fun visualizeShortHair(renderer: Renderer, config: RenderConfig, aabb: AABB, shortHair: ShortHair) {
-    val options = FillAndBorder(shortHair.color.toRender(), config.line)
+fun visualizeShortHair(renderer: Renderer, config: RenderConfig, aabb: AABB, style: ShortHair) {
+    val options = FillAndBorder(style.color.toRender(), config.line)
 
-    when (shortHair.style) {
+    when (style.style) {
         ShortHairStyle.Afro -> {
             val center = aabb.getPoint(CENTER, config.head.hairlineY)
             val radius = aabb.convertHeight(config.head.hair.afroDiameter * 0.5f)

@@ -3,6 +3,7 @@ package at.orchaldir.gm.prototypes.visualization.character
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHair
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
@@ -26,4 +27,4 @@ fun main() {
 }
 
 private fun createAppearance(style: ShortHairStyle, eyes: Eyes) =
-    HeadOnly(Head(NormalEars(), eyes, ShortHair(style, Color.SaddleBrown), SimpleMouth()), Distance(0.2f))
+    HeadOnly(Head(NormalEars(), eyes, NormalHair(ShortHair(style, Color.SaddleBrown)), SimpleMouth()), Distance(0.2f))
