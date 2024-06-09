@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.style.HairStyleType
+import at.orchaldir.gm.core.model.culture.style.StyleOptions
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.utils.NumberGenerator
 
@@ -14,6 +15,7 @@ data class AppearanceGeneratorConfig(
     val numberGenerator: NumberGenerator,
     val rarityGenerator: RarityGenerator,
     val options: AppearanceOptions,
+    val styleOptions: StyleOptions,
 ) {
 
     fun <T> generate(map: RarityMap<T>) = rarityGenerator.generate(map, numberGenerator)
@@ -72,7 +74,7 @@ fun generateHair(config: AppearanceGeneratorConfig): Hair {
 }
 
 fun generateHairStyle(config: AppearanceGeneratorConfig): HairStyle {
-    return when (config.select(HairStyleType.entries)) {
+    return when (config.generate(config.styleOptions.hairStyle)) {
         HairStyleType.Afro -> Afro
         HairStyleType.BuzzCut -> BuzzCut
         HairStyleType.FlatTop -> FlatTop

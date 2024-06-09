@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.style.HairStyleType
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
@@ -77,7 +78,7 @@ fun Application.configureAppearanceRouting() {
             val state = STORE.getState()
             val character = state.characters.getOrThrow(edit.id)
             val formParameters = call.receiveParameters()
-            val config = createGenerationConfig(state, character.race)
+            val config = createGenerationConfig(state, character)
             val appearance = parseAppearance(formParameters, config)
             val updatedCharacter = character.copy(appearance = appearance)
 
@@ -104,7 +105,7 @@ fun Application.configureAppearanceRouting() {
 
             val state = STORE.getState()
             val character = state.characters.getOrThrow(update.id)
-            val config = createGenerationConfig(state, character.race)
+            val config = createGenerationConfig(state, character)
             val newParameters = parametersOf(TYPE, HEAD)
             val appearance = parseAppearance(newParameters, config)
             val updatedCharacter = character.copy(appearance = appearance)
@@ -371,16 +372,22 @@ private fun FORM.showMouthEditor(
     }
 }
 
-private fun createGenerationConfig(state: State, characterId: CharacterId): AppearanceGeneratorConfig {
-    val character = state.characters.getOrThrow(characterId)
+private fun createGenerationConfig(state: State, characterId: CharacterId) =
+    createGenerationConfig(state, state.characters.getOrThrow(characterId))
 
-    return createGenerationConfig(state, character.race)
-}
+private fun createGenerationConfig(state: State, character: Character) =
+    createGenerationConfig(state, character.race, character.culture)
 
-private fun createGenerationConfig(state: State, raceId: RaceId): AppearanceGeneratorConfig {
+private fun createGenerationConfig(state: State, raceId: RaceId, cultureId: CultureId): AppearanceGeneratorConfig {
     val race = state.races.getOrThrow(raceId)
+    val culture = state.cultures.getOrThrow(cultureId)
 
-    return AppearanceGeneratorConfig(RandomNumberGenerator(Random), state.rarityGenerator, race.appearance)
+    return AppearanceGeneratorConfig(
+        RandomNumberGenerator(Random),
+        state.rarityGenerator,
+        race.appearance,
+        culture.styleOptions
+    )
 }
 
 private fun FORM.showSimpleMouthEditor(size: Size, teethColor: TeethColor) {
