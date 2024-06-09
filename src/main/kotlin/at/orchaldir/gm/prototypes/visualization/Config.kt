@@ -22,7 +22,11 @@ val RENDER_CONFIG = RenderConfig(
             Factor(0.2f),
         ),
         Factor(0.45f),
-        HairConfig(Factor(-0.2f)),
+        HairConfig(
+            Factor(-0.2f),
+            Factor(-0.2f),
+            Factor(0.15f),
+        ),
         Factor(0.25f),
         MouthConfig(SizeConfig(0.3f, 0.35f, 0.4f), Factor(0.1f)),
         Factor(0.75f),

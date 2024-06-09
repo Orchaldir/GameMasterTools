@@ -14,8 +14,12 @@ import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.renderPolygon
 
+private val HEAD_WIDTH = Factor(1.0f)
+
 data class HairConfig(
     val flatTopY: Factor,
+    val spikedY: Factor,
+    val spikedHeight: Factor,
 )
 
 fun visualizeHair(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
@@ -50,8 +54,8 @@ private fun visualizeRectangleHair(
     aabb: AABB,
     topY: Factor,
 ) {
-    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(Factor(1.0f), config.head.hairlineY)
-    val (topLeft, topRight) = aabb.getMirroredPoints(Factor(1.0f), topY)
+    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hairlineY)
+    val (topLeft, topRight) = aabb.getMirroredPoints(HEAD_WIDTH, topY)
 
     renderPolygon(renderer, options, listOf(bottomLeft, bottomRight, topRight, topLeft))
 }
@@ -62,21 +66,21 @@ private fun visualizeSpikedHair(
     options: FillAndBorder,
     aabb: AABB,
 ) {
-    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(Factor(1.0f), config.head.hairlineY)
-    val (topLeft, topRight) = aabb.getMirroredPoints(Factor(1.0f), Factor(-0.2f))
+    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hairlineY)
+    val (topLeft, topRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hair.spikedY)
     val points = mutableListOf<Point2d>()
     val spikes = 8
     val topPoints = splitLine(topLeft, topRight, spikes)
-    val down = Point2d(0.0f, aabb.convertHeight(Factor(0.15f)).value)
+    val down = Point2d(0.0f, aabb.convertHeight(config.head.hair.spikedHeight).value)
 
     for (i in 0..spikes) {
-        val start = topPoints[i]
-        val end = topPoints[i + 1]
-        val middle = (start + end) / 2.0f
-        val bottom = middle + down
+        val spike = topPoints[i]
+        val nextSpike = topPoints[i + 1]
+        val middle = (spike + nextSpike) / 2.0f
+        val bottomBetweenSpikes = middle + down
 
-        points.add(start)
-        points.add(bottom)
+        points.add(spike)
+        points.add(bottomBetweenSpikes)
     }
 
     points.add(topRight)
