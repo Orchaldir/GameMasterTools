@@ -35,7 +35,7 @@ fun visualizeShortHair(renderer: Renderer, config: RenderConfig, aabb: AABB, sho
 
     when (shortHair.style) {
         ShortHairStyle.Afro -> {
-            val center = aabb.getPoint(Factor(0.5f), Factor(0.0f))
+            val center = aabb.getPoint(Factor(0.5f), config.head.hairlineY)
             val radius = aabb.convertHeight(config.head.hair.afroDiameter * 0.5f)
             renderer.renderCircle(center, radius, options, BEHIND_LAYER)
         }
