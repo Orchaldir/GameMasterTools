@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.splitLine
 import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
@@ -37,7 +39,30 @@ fun visualizeShortHair(renderer: Renderer, config: RenderConfig, aabb: AABB, sho
         ShortHairStyle.MiddlePart -> doNothing()
         ShortHairStyle.LeftSidePart -> doNothing()
         ShortHairStyle.RightSidePart -> doNothing()
-        ShortHairStyle.Spiked -> doNothing()
+        ShortHairStyle.Spiked -> {
+            val (bottomLeft, bottomRight) = aabb.getMirroredPoints(Factor(1.0f), config.head.hairlineY)
+            val (topLeft, topRight) = aabb.getMirroredPoints(Factor(1.0f), Factor(-0.2f))
+            val points = mutableListOf<Point2d>()
+            val spikes = 8
+            val topPoints = splitLine(topLeft, topRight, spikes)
+            val down = Point2d(0.0f, aabb.convertHeight(Factor(0.15f)).value)
+
+            for (i in 0..spikes) {
+                val start = topPoints[i]
+                val end = topPoints[i + 1]
+                val middle = (start + end) / 2.0f
+                val bottom = middle + down
+
+                points.add(start)
+                points.add(bottom)
+            }
+
+            points.add(topRight)
+            points.add(bottomRight)
+            points.add(bottomLeft)
+
+            renderPolygon(renderer, options, points)
+        }
     }
 }
 

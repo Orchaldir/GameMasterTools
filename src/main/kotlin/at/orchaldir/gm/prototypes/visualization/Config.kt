@@ -12,7 +12,7 @@ val RENDER_CONFIG = RenderConfig(
     Distance(0.1f), LineOptions(Color.Black.toRender(), Distance(0.005f)),
     HeadConfig(
         EarConfig(SizeConfig(0.1f, 0.125f, 0.15f), Factor(3.0f)),
-        Factor(0.4f),
+        Factor(0.45f),
         EyesConfig(
             SizeConfig(0.2f, 0.3f, 0.4f),
             SizeConfig(0.3f, 0.45f, 0.5f),
@@ -21,9 +21,9 @@ val RENDER_CONFIG = RenderConfig(
             Factor(0.5f),
             Factor(0.2f),
         ),
-        Factor(0.4f),
+        Factor(0.45f),
         HairConfig(Factor(-0.2f)),
-        Factor(0.2f),
+        Factor(0.25f),
         MouthConfig(SizeConfig(0.3f, 0.35f, 0.4f), Factor(0.1f)),
         Factor(0.75f),
     )

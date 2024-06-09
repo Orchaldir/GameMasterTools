@@ -26,6 +26,8 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     fun getInnerRadius() = Distance(minOf(size.width, size.height) / 2.0f)
 
+    fun convertHeight(factor: Factor) = Distance(size.height * factor.value)
+
     fun getPoint(horizontal: Factor, vertical: Factor) = Point2d(
         start.x + size.width * horizontal.value,
         start.y + size.height * vertical.value,
