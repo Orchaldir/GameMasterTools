@@ -17,6 +17,8 @@ import at.orchaldir.gm.visualization.renderPolygon
 private val HEAD_WIDTH = Factor(1.0f)
 
 data class HairConfig(
+    val afroY: Factor,
+    val afroWidth: Factor,
     val flatTopY: Factor,
     val spikedY: Factor,
     val spikedHeight: Factor,
@@ -33,13 +35,14 @@ fun visualizeShortHair(renderer: Renderer, config: RenderConfig, aabb: AABB, sho
     val options = FillAndBorder(shortHair.color.toRender(), config.line)
 
     when (shortHair.style) {
-        ShortHairStyle.Afro -> doNothing()
+        ShortHairStyle.Afro ->
+            visualizeRectangleHair(renderer, config, options, aabb, config.head.hair.afroWidth, config.head.hair.afroY)
         ShortHairStyle.BuzzCut ->
-            visualizeRectangleHair(renderer, config, options, aabb, Factor(0.0f))
+            visualizeRectangleHair(renderer, config, options, aabb, HEAD_WIDTH, Factor(0.0f))
 
         ShortHairStyle.Curly -> doNothing()
         ShortHairStyle.FlatTop ->
-            visualizeRectangleHair(renderer, config, options, aabb, config.head.hair.flatTopY)
+            visualizeRectangleHair(renderer, config, options, aabb, HEAD_WIDTH, config.head.hair.flatTopY)
         ShortHairStyle.MiddlePart -> doNothing()
         ShortHairStyle.LeftSidePart -> doNothing()
         ShortHairStyle.RightSidePart -> doNothing()
@@ -52,10 +55,11 @@ private fun visualizeRectangleHair(
     config: RenderConfig,
     options: FillAndBorder,
     aabb: AABB,
+    width: Factor,
     topY: Factor,
 ) {
-    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hairlineY)
-    val (topLeft, topRight) = aabb.getMirroredPoints(HEAD_WIDTH, topY)
+    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(width, config.head.hairlineY)
+    val (topLeft, topRight) = aabb.getMirroredPoints(width, topY)
 
     renderPolygon(renderer, options, listOf(bottomLeft, bottomRight, topRight, topLeft))
 }
