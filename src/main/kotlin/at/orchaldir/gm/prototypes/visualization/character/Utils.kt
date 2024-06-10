@@ -48,7 +48,7 @@ fun <C, R> renderTable(
     columns: List<C>,
     create: (Distance, C, R) -> Appearance,
 ) {
-    val height = Distance(1.0f)
+    val height = Distance(0.2f)
     val size = config.calculateSize(height)
     val totalSize = Size2d(size.width * columns.size, size.height * rows.size)
     val builder = SvgBuilder(totalSize)
