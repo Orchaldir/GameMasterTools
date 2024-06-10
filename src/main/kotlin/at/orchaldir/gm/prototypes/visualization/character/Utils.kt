@@ -3,10 +3,7 @@ package at.orchaldir.gm.prototypes.visualization.character
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.TextOptions
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.RenderConfig
@@ -60,7 +57,9 @@ fun <C, R> renderTable(
     var startOfRow = Point2d()
     val textSize = size.width / 10.0f
     val textOptions = TextOptions(Color.Black.toRender(), textSize)
-    val columnTextOffset = Point2d(size.width / 2.0f, textSize);
+    val columnTextOffset = Point2d(size.width / 2.0f, textSize)
+    val columnOrientation = Orientation.zero()
+    val rowOrientation = Orientation.fromDegree(270.0f)
 
     rows.forEach { (rowName, row) ->
         var start = startOfRow.copy()
@@ -72,10 +71,13 @@ fun <C, R> renderTable(
             visualizeAppearance(builder, config, aabb, appearance)
 
             val textCenter = start + columnTextOffset
-            builder.renderText(columnName, textCenter, textOptions)
+            builder.renderText(columnName, textCenter, columnOrientation, textOptions)
 
             start += columnStep
         }
+
+        val textCenter = Point2d(textSize, start.y + size.height / 2.0f)
+        builder.renderText(rowName, textCenter, rowOrientation, textOptions)
 
 
         startOfRow += rowStep

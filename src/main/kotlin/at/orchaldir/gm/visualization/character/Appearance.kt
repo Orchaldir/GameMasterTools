@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.renderer.BorderOnly
@@ -44,7 +45,7 @@ fun visualizeAppearance(
             val geight = config.padding.value * 1.5f
             val options = TextOptions(Black.toRender(), 2.0f * geight)
             val center = aabb.getCenter() + Point2d(0.0f, geight * 0.5f)
-            renderer.renderText("?", center, options)
+            renderer.renderText("?", center, Orientation.zero(), options)
         }
     }
 }
