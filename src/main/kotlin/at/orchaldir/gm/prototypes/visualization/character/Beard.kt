@@ -23,8 +23,13 @@ fun main() {
     }
     eyes.add(TwoEyes())
 
-    renderTable("beard.svg", RENDER_CONFIG, beards, eyes) { distance, beardStyle, eyes ->
-        createAppearance(distance, beardStyle, eyes)
+    renderTable(
+        "beard.svg",
+        RENDER_CONFIG,
+        addNamesToBeardStyle(beards),
+        addNamesToEyes(eyes)
+    ) { distance, eyes, beard ->
+        createAppearance(distance, eyes, beard)
     }
 }
 
