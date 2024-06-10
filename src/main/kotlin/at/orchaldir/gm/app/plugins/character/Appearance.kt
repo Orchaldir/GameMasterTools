@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -411,7 +412,7 @@ private fun parseAppearance(parameters: Parameters, config: AppearanceGeneratorC
             val hair = parseHair(parameters, config)
             val mouth = parseMouth(parameters, config)
             val skin = parseSkin(parameters, config)
-            val head = Head(ears, eyes, hair, mouth, skin)
+            val head = Head(NoBeard, ears, eyes, hair, mouth, skin)
             return HeadOnly(head, Distance(0.2f))
         }
 
