@@ -5,32 +5,30 @@ import at.orchaldir.gm.core.model.appearance.Side
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
-import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
+import at.orchaldir.gm.core.model.character.appearance.hair.SidePart
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.math.Distance
 
 fun main() {
-    val appearances = mutableListOf<List<Appearance>>()
-    val styles = mutableListOf<BeardStyle>()
+    val beards = mutableListOf<BeardStyle>()
 
-    MoustacheStyle.entries.forEach { styles.add(Moustache(it)) }
-    GoateeStyle.entries.forEach { styles.add(Goatee(it)) }
+    MoustacheStyle.entries.forEach { beards.add(Moustache(it)) }
+    GoateeStyle.entries.forEach { beards.add(Goatee(it)) }
 
-    styles.forEach { style ->
-        val row = mutableListOf<Appearance>()
+    val eyes = mutableListOf<Eyes>()
 
-        Size.entries.forEach {
-            row.add(createAppearance(style, OneEye(size = it)))
-        }
-        row.add(createAppearance(style, TwoEyes()))
-
-        appearances.add(row)
+    Size.entries.forEach {
+        eyes.add(OneEye(size = it))
     }
+    eyes.add(TwoEyes())
 
-    renderTable("beard.svg", RENDER_CONFIG, appearances)
+    renderTable("beard.svg", RENDER_CONFIG, beards, eyes) { distance, beardStyle, eyes ->
+        createAppearance(distance, beardStyle, eyes)
+    }
 }
 
-private fun createAppearance(style: BeardStyle, eyes: Eyes) =
+private fun createAppearance(distance: Distance, eyes: Eyes, style: BeardStyle) =
     HeadOnly(
         Head(
             NormalBeard(style, Color.SaddleBrown),
@@ -38,5 +36,6 @@ private fun createAppearance(style: BeardStyle, eyes: Eyes) =
             eyes,
             NormalHair(SidePart(Side.Left), Color.SaddleBrown),
             SimpleMouth()
-        ), Distance(0.2f)
+        ),
+        distance,
     )
