@@ -58,7 +58,9 @@ fun <C, R> renderTable(
     val columnStep = Point2d(size.width, 0.0f)
     val rowStep = Point2d(0.0f, size.height)
     var startOfRow = Point2d()
-    val textOptions = TextOptions(Color.Black.toRender(), size.width / 15.0f)
+    val textSize = size.width / 10.0f
+    val textOptions = TextOptions(Color.Black.toRender(), textSize)
+    val columnTextOffset = Point2d(size.width / 2.0f, textSize);
 
     rows.forEach { (rowName, row) ->
         var start = startOfRow.copy()
@@ -69,7 +71,7 @@ fun <C, R> renderTable(
 
             visualizeAppearance(builder, config, aabb, appearance)
 
-            val textCenter = start
+            val textCenter = start + columnTextOffset
             builder.renderText(columnName, textCenter, textOptions)
 
             start += columnStep
