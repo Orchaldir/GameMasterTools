@@ -48,7 +48,7 @@ private fun visualizeGoatee(
     val options = NoBorder(color.toRender())
     val polygon = when (goatee) {
         GoateeStyle.GoatPatch -> getGoatPatch(config, aabb, head)
-        GoateeStyle.Goatee -> return
+        GoateeStyle.Goatee -> getGoatee(config, aabb, head)
         GoateeStyle.SoulPatch -> return
         GoateeStyle.VanDyke -> return
     }

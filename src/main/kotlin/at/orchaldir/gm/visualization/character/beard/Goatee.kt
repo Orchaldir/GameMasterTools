@@ -14,7 +14,12 @@ fun getGoatPatch(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     return builder.build()
 }
 
-fun fromMouthAndBottom(
+fun getGoatee(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
+    val width = config.head.mouth.getWidth(head.mouth) * 0.8f
+    return fromTopAndBottom(aabb, Factor(0.95f), Factor(1.1f), width, width).build()
+}
+
+private fun fromMouthAndBottom(
     config: RenderConfig,
     aabb: AABB,
     bottomY: Factor,
@@ -22,7 +27,7 @@ fun fromMouthAndBottom(
     bottomWidth: Factor,
 ) = fromTopAndBottom(aabb, config.head.mouthY, bottomY, topWidth, bottomWidth)
 
-fun fromTopAndBottom(
+private fun fromTopAndBottom(
     aabb: AABB,
     topY: Factor,
     bottomY: Factor,
