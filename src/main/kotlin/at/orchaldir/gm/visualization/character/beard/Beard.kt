@@ -49,8 +49,8 @@ private fun visualizeGoatee(
     val polygon = when (goatee) {
         GoateeStyle.GoatPatch -> getGoatPatch(config, aabb, head)
         GoateeStyle.Goatee -> getGoatee(config, aabb, head)
-        GoateeStyle.SoulPatch -> return
-        GoateeStyle.VanDyke -> return
+        GoateeStyle.SoulPatch -> getSoulPatch(config, aabb, head)
+        GoateeStyle.VanDyke -> getVanDyke(config, aabb)
     }
 
     renderer.renderRoundedPolygon(polygon, options, BEARD_LAYER)
