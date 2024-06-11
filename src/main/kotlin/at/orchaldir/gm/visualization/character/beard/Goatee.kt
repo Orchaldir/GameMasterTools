@@ -14,7 +14,7 @@ fun getGoatee(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     return fromTopAndBottom(aabb, Factor(0.95f), Factor(1.1f), width, width).build()
 }
 
-fun getSoulPatch(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
+fun getSoulPatch(config: RenderConfig, aabb: AABB): Polygon2d {
     val height = Factor(0.1f)
     return fromMouthAndBottom(config, aabb, config.head.mouthY + height, height, height).build()
 }

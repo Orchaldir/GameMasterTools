@@ -11,8 +11,6 @@ import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.character.BEARD_LAYER
 
-private val HEAD_WIDTH = Factor(1.0f)
-
 data class BeardConfig(
     val afroDiameter: Factor,
     val flatTopY: Factor,
@@ -49,7 +47,7 @@ private fun visualizeGoatee(
     val polygon = when (goatee) {
         GoateeStyle.GoatPatch -> getGoatPatch(config, aabb, head)
         GoateeStyle.Goatee -> getGoatee(config, aabb, head)
-        GoateeStyle.SoulPatch -> getSoulPatch(config, aabb, head)
+        GoateeStyle.SoulPatch -> getSoulPatch(config, aabb)
         GoateeStyle.VanDyke -> getVanDyke(config, aabb)
     }
 
