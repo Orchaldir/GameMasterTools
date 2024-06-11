@@ -28,7 +28,7 @@ fun visualizeHair(renderer: Renderer, config: RenderConfig, aabb: AABB, head: He
     }
 }
 
-fun visualizeNormalHair(renderer: Renderer, config: RenderConfig, aabb: AABB, hair: NormalHair) {
+private fun visualizeNormalHair(renderer: Renderer, config: RenderConfig, aabb: AABB, hair: NormalHair) {
     val options = FillAndBorder(hair.color.toRender(), config.line)
 
     when (hair.style) {

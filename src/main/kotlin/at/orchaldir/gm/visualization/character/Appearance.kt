@@ -16,6 +16,8 @@ import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.RenderConfig
 
+const val BEARD_LAYER = 2
+const val BEARD_BG_LAYER = 2
 const val MAIN_LAYER = 0
 const val BEHIND_LAYER = -1
 
