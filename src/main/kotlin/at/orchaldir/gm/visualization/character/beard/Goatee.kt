@@ -1,20 +1,17 @@
 package at.orchaldir.gm.visualization.character.beard
 
 import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Polygon2d
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.RenderConfig
 
 fun getGoatPatch(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val width = config.head.mouth.getWidth(head.mouth) * 0.8f
-    val polygon = fromMouthAndBottom(config, aabb, Factor(1.05f), width, width)
+    val builder = fromMouthAndBottom(config, aabb, Factor(1.05f), width, width)
 
-    //polygon.create_sharp_corner(0)
-    //polygon.create_sharp_corner(4)
+    builder.createSharpCorner(0)
+    builder.createSharpCorner(4)
 
-    return Polygon2d(polygon)
+    return builder.build()
 }
 
 fun fromMouthAndBottom(
@@ -31,9 +28,9 @@ fun fromTopAndBottom(
     bottomY: Factor,
     topWidth: Factor,
     bottomWidth: Factor,
-): MutableList<Point2d> {
+): Polygon2dBuilder {
     val (topLeft, topRight) = aabb.getMirroredPoints(topWidth, topY)
     val (bottomLeft, bottomRight) = aabb.getMirroredPoints(bottomWidth, bottomY)
 
-    return mutableListOf(topLeft, bottomLeft, bottomRight, topRight)
+    return Polygon2dBuilder(mutableListOf(topLeft, bottomLeft, bottomRight, topRight))
 }
