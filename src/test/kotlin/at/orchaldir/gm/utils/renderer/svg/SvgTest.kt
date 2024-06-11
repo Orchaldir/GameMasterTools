@@ -2,6 +2,7 @@ package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.core.model.appearance.Color.*
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.renderer.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -121,11 +122,11 @@ class SvgTest {
     fun `Render a text`() {
         val builder = SvgBuilder(Size2d(100.0f, 150.0f))
 
-        builder.renderText("test", Point2d(1.0f, 2.0f), TextOptions(Blue.toRender(), 0.3f))
+        builder.renderText("test", Point2d(1.0f, 2.0f), zero(), TextOptions(Blue.toRender(), 0.3f))
 
         assertEquals(
             """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
-  <text x="1.000" y="2.000" fill="blue" font-size="0.300px" text-anchor="middle">test</text>
+  <text x="1.000" y="2.000" transform="rotate(0.000,1.000,2.000)" fill="blue" font-size="0.300px" text-anchor="middle">test</text>
 </svg>""",
             builder.finish().export()
         )

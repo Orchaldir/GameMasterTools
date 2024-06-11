@@ -1,10 +1,7 @@
 package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.appearance.Size
-import at.orchaldir.gm.core.model.character.appearance.FemaleMouth
-import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.NoMouth
-import at.orchaldir.gm.core.model.character.appearance.SimpleMouth
+import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.CENTER
@@ -20,6 +17,16 @@ data class MouthConfig(
     val mouthHeight: Factor,
 ) {
     fun getSimpleWidth(size: Size) = Factor(simpleWidth.convert(size))
+
+    fun getWidth(mouth: Mouth): Factor {
+        val width = when (mouth) {
+            is FemaleMouth -> mouth.width
+            NoMouth -> Size.Medium
+            is SimpleMouth -> mouth.width
+        }
+
+        return getSimpleWidth(width)
+    }
 }
 
 fun visualizeMouth(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
