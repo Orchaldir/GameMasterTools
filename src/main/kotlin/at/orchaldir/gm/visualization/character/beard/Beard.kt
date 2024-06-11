@@ -51,5 +51,9 @@ private fun visualizeGoatee(
         GoateeStyle.VanDyke -> getVanDyke(config, aabb)
     }
 
-    renderer.renderRoundedPolygon(polygon, options, BEARD_LAYER)
+    if (goatee == GoateeStyle.SoulPatch) {
+        renderer.renderPolygon(polygon, options, BEARD_LAYER)
+    } else {
+        renderer.renderRoundedPolygon(polygon, options, BEARD_LAYER)
+    }
 }

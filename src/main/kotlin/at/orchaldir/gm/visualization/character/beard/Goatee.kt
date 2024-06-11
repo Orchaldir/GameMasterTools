@@ -11,7 +11,13 @@ fun getGoatPatch(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
 
 fun getGoatee(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val width = config.head.mouth.getWidth(head.mouth) * 0.8f
-    return fromTopAndBottom(aabb, Factor(0.95f), Factor(1.1f), width, width).build()
+    val bottomY = Factor(1.1f)
+    val builder = fromTopAndBottom(aabb, Factor(0.95f), bottomY, width, width)
+
+    builder.createSharpCorner(0)
+    builder.createSharpCorner(4)
+
+    return builder.build()
 }
 
 fun getSoulPatch(config: RenderConfig, aabb: AABB): Polygon2d {
