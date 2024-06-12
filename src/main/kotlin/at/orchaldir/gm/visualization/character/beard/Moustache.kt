@@ -4,6 +4,32 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.RenderConfig
 
+fun getFuManchu(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
+    val thickness = Factor(0.05f)
+    val mouthWidth = config.head.mouth.getWidth(head.mouth)
+    val deltaY = Factor(0.02f)
+    val outerWidth = mouthWidth + thickness * 2.0f
+    val topY = config.head.mouthY - thickness - deltaY
+    val bottomY = Factor(1.1f)
+    val (topLeft, topRight) = aabb.getMirroredPoints(outerWidth, topY)
+    val (mouthLeft, mouthRight) =
+        aabb.getMirroredPoints(mouthWidth, config.head.mouthY - deltaY)
+    val (outerLeft, outerRight) = aabb.getMirroredPoints(outerWidth, bottomY)
+    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(mouthWidth, bottomY)
+    val corners = listOf(
+        topLeft,
+        outerLeft,
+        bottomLeft,
+        mouthLeft,
+        mouthRight,
+        bottomRight,
+        outerRight,
+        topRight,
+    )
+
+    return Polygon2d(corners)
+}
+
 fun getHandlebar(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val thickness = Factor(0.05f)
     val mouthWidth = config.head.mouth.getWidth(head.mouth)
