@@ -16,6 +16,28 @@
       "Normal": "Common"
      }
     },
+     "beardOptions": {
+       "colors": {
+         "map": {
+           "Black": "Common",
+           "Fuchsia": "Common",
+           "Gray": "Common",
+           "Green": "Common",
+           "Lime": "Common",
+           "Maroon": "Common",
+           "Navy": "Common",
+           "Olive": "Common",
+           "Orange": "Common",
+           "Purple": "Common",
+           "Red": "Common",
+           "SaddleBrown": "Common",
+           "Silver": "Common",
+           "Teal": "Common",
+           "White": "Common",
+           "Yellow": "Common"
+         }
+       }
+     },
     "earsLayout": {
      "map": {
       "NormalEars": "Common"

@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
+import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -60,6 +60,11 @@ private const val MOUTH_TYPE = "mouth"
 private const val MOUTH_WIDTH = "mouth_width"
 private const val TEETH_COLOR = "teeth_color"
 private const val LIP_COLOR = "lip_color"
+private const val BEARD_TYPE = "beard"
+private const val BEARD_STYLE = "beard_style"
+private const val BEARD_COLOR = "beard_color"
+private const val GOATEE_STYLE = "goatee"
+private const val MOUSTACHE_STYLE = "moustache"
 
 fun Application.configureAppearanceRouting() {
     routing {
@@ -163,11 +168,12 @@ private fun HTML.showAppearanceEditor(
                 }
             }
             if (appearance is HeadOnly) {
-                showSkinEditor(race, appearance.head.skin)
+                showBeardEditor(race, culture, appearance.head.beard)
                 showEarsEditor(race, appearance.head.ears)
                 showEyesEditor(race, appearance.head.eyes)
                 showHairEditor(race, culture, appearance.head.hair)
                 showMouthEditor(race, appearance.head.mouth)
+                showSkinEditor(race, appearance.head.skin)
             }
             p {
                 submitInput {
@@ -235,6 +241,75 @@ private fun FORM.showSkinEditor(
                 style = "background-color:${bgColor}"
             }
         }
+    }
+}
+
+private fun FORM.showBeardEditor(
+    race: Race,
+    culture: Culture,
+    beard: Beard,
+) {
+    h2 { +"Beard" }
+    selectEnum("Type", BEARD_TYPE, race.appearance.beardOptions.types, true) { option ->
+        label = option.name
+        value = option.toString()
+        selected = when (option) {
+            BeardType.None -> beard is NoBeard
+            BeardType.Normal -> beard is NormalBeard
+        }
+    }
+    when (beard) {
+        NoBeard -> TODO()
+        is NormalBeard -> showNormalBeardEditor(race, culture, beard)
+    }
+}
+
+private fun FORM.showNormalBeardEditor(
+    race: Race,
+    culture: Culture,
+    beard: NormalBeard,
+) {
+    selectEnum("Style", BEARD_STYLE, BeardStyleType.entries, true) { style ->
+        label = style.name
+        value = style.toString()
+        selected = when (style) {
+            BeardStyleType.Goatee -> beard.style is Goatee
+            BeardStyleType.GoateeAndMoustache -> beard.style is GoateeAndMoustache
+            BeardStyleType.Moustache -> beard.style is Moustache
+        }
+    }
+    selectColor("Color", BEARD_COLOR, race.appearance.beardOptions.colors, beard.color)
+
+    when (beard.style) {
+        is Goatee -> selectGoateeStyle(culture, beard.style.goateeStyle)
+        is GoateeAndMoustache -> {
+            selectGoateeStyle(culture, beard.style.goateeStyle)
+            selectMoustacheStyle(culture, beard.style.moustacheStyle)
+        }
+
+        is Moustache -> selectMoustacheStyle(culture, beard.style.moustacheStyle)
+    }
+}
+
+private fun HtmlBlockTag.selectGoateeStyle(
+    culture: Culture,
+    goateeStyle: GoateeStyle,
+) {
+    selectEnum("Goatee", GOATEE_STYLE, GoateeStyle.entries, true) { style ->
+        label = style.name
+        value = style.toString()
+        selected = style == goateeStyle
+    }
+}
+
+private fun HtmlBlockTag.selectMoustacheStyle(
+    culture: Culture,
+    moustacheStyle: MoustacheStyle,
+) {
+    selectEnum("Moustache", MOUSTACHE_STYLE, MoustacheStyle.entries, true) { style ->
+        label = style.name
+        value = style.toString()
+        selected = style == moustacheStyle
     }
 }
 
@@ -407,16 +482,46 @@ private fun FORM.showSimpleMouthEditor(size: Size, teethColor: TeethColor) {
 private fun parseAppearance(parameters: Parameters, config: AppearanceGeneratorConfig): Appearance {
     return when (parameters[TYPE]) {
         HEAD -> {
+            val beard = parseBeard(parameters, config)
             val ears = parseEars(parameters, config)
             val eyes = parseEyes(parameters, config)
             val hair = parseHair(parameters, config)
             val mouth = parseMouth(parameters, config)
             val skin = parseSkin(parameters, config)
-            val head = Head(NoBeard, ears, eyes, hair, mouth, skin)
+            val head = Head(beard, ears, eyes, hair, mouth, skin)
             return HeadOnly(head, Distance(0.2f))
         }
 
         else -> UndefinedAppearance
+    }
+}
+
+private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig): Beard {
+    return when (parameters[BEARD_TYPE]) {
+        BeardType.None.toString() -> NoBeard
+        BeardType.Normal.toString() -> {
+            return NormalBeard(
+                when (parameters[BEARD_STYLE]) {
+                    BeardStyleType.Goatee.toString() -> Goatee(
+                        parse(parameters, GOATEE_STYLE, GoateeStyle.Goatee),
+                    )
+
+                    BeardStyleType.GoateeAndMoustache.toString() -> GoateeAndMoustache(
+                        parse(parameters, MOUSTACHE_STYLE, MoustacheStyle.Handlebar),
+                        parse(parameters, GOATEE_STYLE, GoateeStyle.Goatee),
+                    )
+
+                    BeardStyleType.Moustache.toString() -> Moustache(
+                        parse(parameters, MOUSTACHE_STYLE, MoustacheStyle.Handlebar),
+                    )
+
+                    else -> Goatee(GoateeStyle.Goatee)
+                },
+                parse(parameters, BEARD_COLOR, Color.Red),
+            )
+        }
+
+        else -> generateBeard(config)
     }
 }
 

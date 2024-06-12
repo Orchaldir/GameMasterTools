@@ -35,7 +35,6 @@ private fun visualizeNormalBeard(renderer: Renderer, config: RenderConfig, aabb:
         }
 
         is Moustache -> visualizeMoustache(renderer, config, aabb, head, beard.style.moustacheStyle, beard.color)
-        Stubble -> doNothing()
     }
 }
 

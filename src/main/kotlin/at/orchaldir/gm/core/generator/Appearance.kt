@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.core.model.appearance.Side
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.style.HairStyleType
 import at.orchaldir.gm.core.model.culture.style.StyleOptions
@@ -22,6 +23,26 @@ data class AppearanceGeneratorConfig(
 
     fun <T> select(list: List<T>) = numberGenerator.select(list)
 
+}
+
+fun generateBeard(config: AppearanceGeneratorConfig): Beard {
+    val options = config.appearanceOptions
+
+    return when (config.generate(options.beardOptions.types)) {
+        BeardType.None -> NoBeard
+        BeardType.Normal -> NormalBeard(
+            when (config.select(BeardStyleType.entries)) {
+                BeardStyleType.Goatee -> Goatee(config.select(GoateeStyle.entries))
+                BeardStyleType.GoateeAndMoustache -> GoateeAndMoustache(
+                    config.select(MoustacheStyle.entries),
+                    config.select(GoateeStyle.entries),
+                )
+
+                BeardStyleType.Moustache -> Moustache(config.select(MoustacheStyle.entries))
+            },
+            config.generate(options.beardOptions.colors),
+        )
+    }
 }
 
 fun generateEars(config: AppearanceGeneratorConfig): Ears {
