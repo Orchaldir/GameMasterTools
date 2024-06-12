@@ -73,9 +73,9 @@ private fun visualizeMoustache(
     val polygon = when (moustache) {
         MoustacheStyle.FuManchu -> return
         MoustacheStyle.Handlebar -> return
-        MoustacheStyle.Pencil -> return
-        MoustacheStyle.Pyramid -> return
-        MoustacheStyle.Toothbrush -> return
+        MoustacheStyle.Pencil -> getPencil(config, aabb, head)
+        MoustacheStyle.Pyramid -> getPyramid(config, aabb, head)
+        MoustacheStyle.Toothbrush -> getToothbrush(config, aabb)
         MoustacheStyle.Walrus -> getWalrus(config, aabb, head)
     }
 
