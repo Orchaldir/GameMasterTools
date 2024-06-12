@@ -259,7 +259,7 @@ private fun FORM.showBeardEditor(
         }
     }
     when (beard) {
-        NoBeard -> TODO()
+        NoBeard -> doNothing()
         is NormalBeard -> showNormalBeardEditor(race, culture, beard)
     }
 }
