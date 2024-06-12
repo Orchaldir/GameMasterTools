@@ -29,8 +29,12 @@ fun visualizeBeard(renderer: Renderer, config: RenderConfig, aabb: AABB, head: H
 private fun visualizeNormalBeard(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head, beard: NormalBeard) {
     when (beard.style) {
         is Goatee -> visualizeGoatee(renderer, config, aabb, head, beard.style.goateeStyle, beard.color)
-        is GoateeAndMoustache -> visualizeGoatee(renderer, config, aabb, head, beard.style.goateeStyle, beard.color)
-        is Moustache -> doNothing()
+        is GoateeAndMoustache -> {
+            visualizeGoatee(renderer, config, aabb, head, beard.style.goateeStyle, beard.color)
+            visualizeMoustache(renderer, config, aabb, head, beard.style.moustacheStyle, beard.color)
+        }
+
+        is Moustache -> visualizeMoustache(renderer, config, aabb, head, beard.style.moustacheStyle, beard.color)
         Stubble -> doNothing()
     }
 }
@@ -52,6 +56,27 @@ private fun visualizeGoatee(
             return
         }
         GoateeStyle.VanDyke -> getVanDyke(config, aabb)
+    }
+
+    renderer.renderRoundedPolygon(polygon, options, BEARD_LAYER)
+}
+
+private fun visualizeMoustache(
+    renderer: Renderer,
+    config: RenderConfig,
+    aabb: AABB,
+    head: Head,
+    moustache: MoustacheStyle,
+    color: Color,
+) {
+    val options = NoBorder(color.toRender())
+    val polygon = when (moustache) {
+        MoustacheStyle.FuManchu -> return
+        MoustacheStyle.Handlebar -> return
+        MoustacheStyle.Pencil -> return
+        MoustacheStyle.Pyramid -> return
+        MoustacheStyle.Toothbrush -> return
+        MoustacheStyle.Walrus -> getWalrus(config, aabb, head)
     }
 
     renderer.renderRoundedPolygon(polygon, options, BEARD_LAYER)
