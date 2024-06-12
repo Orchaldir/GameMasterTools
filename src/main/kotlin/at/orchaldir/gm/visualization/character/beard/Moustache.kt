@@ -4,6 +4,33 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.RenderConfig
 
+fun getHandlebar(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
+    val thickness = Factor(0.05f)
+    val mouthWidth = config.head.mouth.getWidth(head.mouth)
+    val width = mouthWidth + thickness * 2.0f
+    val centerY = config.head.mouthY - thickness
+    val bottomY = config.head.mouthY + thickness
+    val innerY = bottomY - thickness
+    val topY = innerY - Factor(0.1f)
+    val bottom = aabb.getPoint(CENTER, centerY)
+    val top = aabb.getPoint(CENTER, centerY - thickness)
+    val (topLeft, topRight) = aabb.getMirroredPoints(width, topY)
+    val (innerLeft, innerRight) = aabb.getMirroredPoints(mouthWidth, innerY)
+    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(width, bottomY)
+    val corners = listOf(
+        top,
+        innerLeft,
+        topLeft,
+        bottomLeft,
+        bottom,
+        bottomRight,
+        topRight,
+        innerRight,
+    )
+
+    return Polygon2d(corners)
+}
+
 fun getPencil(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val height = Factor(0.03f)
     val width = config.head.mouth.getWidth(head.mouth)

@@ -72,7 +72,7 @@ private fun visualizeMoustache(
     val options = NoBorder(color.toRender())
     val polygon = when (moustache) {
         MoustacheStyle.FuManchu -> return
-        MoustacheStyle.Handlebar -> return
+        MoustacheStyle.Handlebar -> getHandlebar(config, aabb, head)
         MoustacheStyle.Pencil -> getPencil(config, aabb, head)
         MoustacheStyle.Pyramid -> getPyramid(config, aabb, head)
         MoustacheStyle.Toothbrush -> getToothbrush(config, aabb)
