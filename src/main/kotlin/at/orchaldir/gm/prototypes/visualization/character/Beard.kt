@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.model.appearance.Side
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
+import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle.VanDyke
+import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle.Handlebar
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.SidePart
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
@@ -15,6 +17,7 @@ fun main() {
 
     MoustacheStyle.entries.forEach { beards.add(Moustache(it)) }
     GoateeStyle.entries.forEach { beards.add(Goatee(it)) }
+    beards.add(GoateeAndMoustache(Handlebar, VanDyke))
 
     val eyes = mutableListOf<Eyes>()
 
