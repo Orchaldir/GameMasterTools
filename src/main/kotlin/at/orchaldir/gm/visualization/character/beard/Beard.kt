@@ -19,10 +19,10 @@ data class BeardConfig(
     val spikedHeight: Factor,
 )
 
-fun visualizeBeard(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
-    when (head.beard) {
+fun visualizeBeard(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head, beard: Beard) {
+    when (beard) {
         NoBeard -> doNothing()
-        is NormalBeard -> visualizeNormalBeard(renderer, config, aabb, head, head.beard)
+        is NormalBeard -> visualizeNormalBeard(renderer, config, aabb, head, beard)
     }
 }
 

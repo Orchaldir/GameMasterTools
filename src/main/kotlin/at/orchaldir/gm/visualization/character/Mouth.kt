@@ -11,6 +11,7 @@ import at.orchaldir.gm.utils.renderer.NoBorder
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.SizeConfig
+import at.orchaldir.gm.visualization.character.beard.visualizeBeard
 
 data class MouthConfig(
     private val simpleWidth: SizeConfig,
@@ -43,6 +44,7 @@ fun visualizeMouth(renderer: Renderer, config: RenderConfig, aabb: AABB, head: H
             val (left, right) = aabb.getMirroredPoints(width, config.head.mouthY)
 
             renderer.renderLine(listOf(left, right), config.line)
+            visualizeBeard(renderer, config, aabb, head, head.mouth.beard)
         }
 
         is FemaleMouth -> visualizeFemaleMouth(renderer, config, aabb, head.mouth)

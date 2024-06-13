@@ -8,7 +8,6 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
-import at.orchaldir.gm.visualization.character.beard.visualizeBeard
 
 data class HeadConfig(
     val ears: EarConfig,
@@ -33,7 +32,6 @@ fun visualizeHead(renderer: Renderer, config: RenderConfig, aabb: AABB, head: He
     visualizeEyes(renderer, config, aabb, head)
     visualizeMouth(renderer, config, aabb, head)
     visualizeHair(renderer, config, aabb, head)
-    visualizeBeard(renderer, config, aabb, head)
 }
 
 fun visualizeHeadShape(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {

@@ -39,11 +39,10 @@ fun main() {
 private fun createAppearance(distance: Distance, eyes: Eyes, style: BeardStyle) =
     HeadOnly(
         Head(
-            NormalBeard(style, Color.SaddleBrown),
             NormalEars(),
             eyes,
             NormalHair(SidePart(Side.Left), Color.SaddleBrown),
-            SimpleMouth()
+            SimpleMouth(NormalBeard(style, Color.SaddleBrown))
         ),
         distance,
     )

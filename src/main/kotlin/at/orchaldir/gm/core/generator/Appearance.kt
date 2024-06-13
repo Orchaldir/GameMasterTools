@@ -112,6 +112,7 @@ fun generateMouth(config: AppearanceGeneratorConfig): Mouth {
     return when (config.generate(options.mouthTypes)) {
         MouthType.NoMouth -> NoMouth
         MouthType.SimpleMouth -> SimpleMouth(
+            generateBeard(config),
             config.select(Size.entries),
             config.select(TeethColor.entries),
         )

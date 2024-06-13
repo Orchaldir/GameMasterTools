@@ -168,11 +168,10 @@ private fun HTML.showAppearanceEditor(
                 }
             }
             if (appearance is HeadOnly) {
-                showBeardEditor(race, culture, appearance.head.beard)
                 showEarsEditor(race, appearance.head.ears)
                 showEyesEditor(race, appearance.head.eyes)
                 showHairEditor(race, culture, appearance.head.hair)
-                showMouthEditor(race, appearance.head.mouth)
+                showMouthEditor(race, culture, appearance.head.mouth)
                 showSkinEditor(race, appearance.head.skin)
             }
             p {
@@ -418,6 +417,7 @@ private fun FORM.showNormalHairEditor(
 
 private fun FORM.showMouthEditor(
     race: Race,
+    culture: Culture,
     mouth: Mouth,
 ) {
     h2 { +"Mouth" }
@@ -433,6 +433,7 @@ private fun FORM.showMouthEditor(
     when (mouth) {
         is SimpleMouth -> {
             showSimpleMouthEditor(mouth.width, mouth.teethColor)
+            showBeardEditor(race, culture, mouth.beard)
         }
 
         is FemaleMouth -> {
@@ -482,13 +483,12 @@ private fun FORM.showSimpleMouthEditor(size: Size, teethColor: TeethColor) {
 private fun parseAppearance(parameters: Parameters, config: AppearanceGeneratorConfig): Appearance {
     return when (parameters[TYPE]) {
         HEAD -> {
-            val beard = parseBeard(parameters, config)
             val ears = parseEars(parameters, config)
             val eyes = parseEyes(parameters, config)
             val hair = parseHair(parameters, config)
             val mouth = parseMouth(parameters, config)
             val skin = parseSkin(parameters, config)
-            val head = Head(beard, ears, eyes, hair, mouth, skin)
+            val head = Head(ears, eyes, hair, mouth, skin)
             return HeadOnly(head, Distance(0.2f))
         }
 
@@ -594,6 +594,7 @@ private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig
         MouthType.NoMouth.toString() -> NoMouth
         MouthType.SimpleMouth.toString() -> {
             return SimpleMouth(
+                parseBeard(parameters, config),
                 parse(parameters, MOUTH_WIDTH, Size.Medium),
                 parse(parameters, TEETH_COLOR, TeethColor.White),
             )
