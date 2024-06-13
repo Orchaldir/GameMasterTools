@@ -75,7 +75,7 @@ private fun visualizeMoustache(
         MoustacheStyle.Handlebar -> getHandlebar(config, aabb, head)
         MoustacheStyle.Pencil -> getPencil(config, aabb, head)
         MoustacheStyle.Pyramid -> getPyramid(config, aabb, head)
-        MoustacheStyle.Toothbrush -> getToothbrush(config, aabb)
+        MoustacheStyle.Toothbrush -> getToothbrush(config, aabb, head)
         MoustacheStyle.Walrus -> getWalrus(config, aabb, head)
     }
 

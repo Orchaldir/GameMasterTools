@@ -23,6 +23,8 @@ data class HeadConfig(
 
     fun getMouthBottomY(mouth: Mouth) = mouthY + mouthConfig.getHeight(mouth) * 0.5f
 
+    fun getMouthTopY(mouth: Mouth) = mouthY - mouthConfig.getHeight(mouth) * 0.5f
+
 }
 
 fun visualizeHead(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
