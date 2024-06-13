@@ -6,7 +6,7 @@ import at.orchaldir.gm.visualization.RenderConfig
 
 fun getFuManchu(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val thickness = Factor(0.05f)
-    val mouthWidth = config.head.mouth.getWidth(head.mouth)
+    val mouthWidth = config.head.mouthConfig.getWidth(head.mouth)
     val deltaY = Factor(0.02f)
     val outerWidth = mouthWidth + thickness * 2.0f
     val topY = config.head.mouthY - thickness - deltaY
@@ -32,7 +32,7 @@ fun getFuManchu(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
 
 fun getHandlebar(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val thickness = Factor(0.05f)
-    val mouthWidth = config.head.mouth.getWidth(head.mouth)
+    val mouthWidth = config.head.mouthConfig.getWidth(head.mouth)
     val width = mouthWidth + thickness * 2.0f
     val centerY = config.head.mouthY - thickness
     val bottomY = config.head.mouthY + thickness
@@ -59,13 +59,13 @@ fun getHandlebar(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
 
 fun getPencil(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val height = Factor(0.03f)
-    val width = config.head.mouth.getWidth(head.mouth)
+    val width = config.head.mouthConfig.getWidth(head.mouth)
     return getSimple(config, aabb, height, height, width, width).build()
 }
 
 fun getPyramid(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val height = Factor(0.08f)
-    val width = config.head.mouth.getWidth(head.mouth)
+    val width = config.head.mouthConfig.getWidth(head.mouth)
     return getSimple(config, aabb, height, Factor(0.01f), height, width).build()
 }
 
@@ -76,7 +76,7 @@ fun getToothbrush(config: RenderConfig, aabb: AABB): Polygon2d {
 
 fun getWalrus(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val height = Factor(0.1f)
-    val width = config.head.mouth.getWidth(head.mouth) + height
+    val width = config.head.mouthConfig.getWidth(head.mouth) + height
     val polygon = getSimple(config, aabb, height, Factor(0.01f), width, width)
 
     polygon.createSharpCorner(1)

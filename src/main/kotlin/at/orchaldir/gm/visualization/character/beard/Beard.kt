@@ -51,10 +51,11 @@ private fun visualizeGoatee(
         GoateeStyle.GoatPatch -> getGoatPatch(config, aabb, head)
         GoateeStyle.Goatee -> getGoatee(config, aabb, head)
         GoateeStyle.SoulPatch -> {
-            renderer.renderPolygon(getSoulPatch(config, aabb), options, BEARD_LAYER)
+            renderer.renderPolygon(getSoulPatch(config, aabb, head), options, BEARD_LAYER)
             return
         }
-        GoateeStyle.VanDyke -> getVanDyke(config, aabb)
+
+        GoateeStyle.VanDyke -> getVanDyke(config, aabb, head)
     }
 
     renderer.renderRoundedPolygon(polygon, options, BEARD_LAYER)

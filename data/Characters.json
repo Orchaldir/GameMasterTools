@@ -1,5 +1,51 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "gender": "Female",
+   "appearance": {
+    "type": "HeadOnly",
+    "head": {
+     "beard": {
+      "type": "Normal",
+      "style": {
+       "type": "GoateeAndMoustache",
+       "moustacheStyle": "Handlebar",
+       "goateeStyle": "VanDyke"
+      },
+      "color": "SaddleBrown"
+     },
+     "ears": {
+      "type": "Normal"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "pupilColor": "Navy"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "MiddlePart"
+      },
+      "color": "SaddleBrown"
+     },
+     "mouth": {
+      "type": "Female",
+      "width": "Small",
+      "teethColor": "Brown"
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "VeryDark"
+     }
+    },
+    "height": {
+     "value": 0.2
+    }
+   }
+  }
  }
 }

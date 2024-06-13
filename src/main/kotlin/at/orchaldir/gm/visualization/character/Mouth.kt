@@ -27,13 +27,19 @@ data class MouthConfig(
 
         return getSimpleWidth(width)
     }
+
+    fun getHeight(mouth: Mouth) = when (mouth) {
+        is FemaleMouth -> mouthHeight
+        NoMouth -> Factor(0.0f)
+        is SimpleMouth -> mouthHeight * 0.1f
+    }
 }
 
 fun visualizeMouth(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
     when (head.mouth) {
         NoMouth -> doNothing()
         is SimpleMouth -> {
-            val width = config.head.mouth.getSimpleWidth(head.mouth.width)
+            val width = config.head.mouthConfig.getSimpleWidth(head.mouth.width)
             val (left, right) = aabb.getMirroredPoints(width, config.head.mouthY)
 
             renderer.renderLine(listOf(left, right), config.line)
@@ -50,8 +56,8 @@ private fun visualizeFemaleMouth(
     mouth: FemaleMouth,
 ) {
     val options = NoBorder(mouth.color.toRender())
-    val width = config.head.mouth.getSimpleWidth(mouth.width)
-    val halfHeight = config.head.mouth.mouthHeight * 0.5f
+    val width = config.head.mouthConfig.getSimpleWidth(mouth.width)
+    val halfHeight = config.head.mouthConfig.mouthHeight * 0.5f
     val (left, right) = aabb.getMirroredPoints(width, config.head.mouthY)
     val (topLeft, topRight) =
         aabb.getMirroredPoints(width * 0.5f, config.head.mouthY - halfHeight)

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.character.appearance.Mouth
 import at.orchaldir.gm.core.model.character.appearance.hair.Afro
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.utils.math.AABB
@@ -16,9 +17,13 @@ data class HeadConfig(
     val eyeY: Factor,
     val hair: HairConfig,
     val hairlineY: Factor,
-    val mouth: MouthConfig,
+    val mouthConfig: MouthConfig,
     val mouthY: Factor,
-)
+) {
+
+    fun getMouthBottomY(mouth: Mouth) = mouthY + mouthConfig.getHeight(mouth) * 0.5f
+
+}
 
 fun visualizeHead(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
     visualizeEars(renderer, config, aabb, head)
