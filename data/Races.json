@@ -17,6 +17,11 @@
      }
     },
     "beardOptions": {
+     "types": {
+      "map": {
+       "Normal": "Common"
+      }
+     },
      "colors": {
       "map": {
        "Black": "Common",
