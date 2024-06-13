@@ -275,6 +275,7 @@ private fun FORM.showNormalBeardEditor(
             BeardStyleType.Goatee -> beard.style is Goatee
             BeardStyleType.GoateeAndMoustache -> beard.style is GoateeAndMoustache
             BeardStyleType.Moustache -> beard.style is Moustache
+            BeardStyleType.Shaved -> beard.style is ShavedBeard
         }
     }
     selectColor("Color", BEARD_COLOR, race.appearance.beardOptions.colors, beard.color)
@@ -287,6 +288,7 @@ private fun FORM.showNormalBeardEditor(
         }
 
         is Moustache -> selectMoustacheStyle(culture, beard.style.moustacheStyle)
+        ShavedBeard -> doNothing()
     }
 }
 
@@ -395,7 +397,7 @@ private fun FORM.showNormalHairEditor(
             HairStyleType.BuzzCut -> hair.style is BuzzCut
             HairStyleType.FlatTop -> hair.style is FlatTop
             HairStyleType.MiddlePart -> hair.style is MiddlePart
-            HairStyleType.Shaved -> hair.style is Shaved
+            HairStyleType.Shaved -> hair.style is ShavedHair
             HairStyleType.SidePart -> hair.style is SidePart
             HairStyleType.Spiked -> hair.style is Spiked
         }
@@ -514,6 +516,7 @@ private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig
                     BeardStyleType.Moustache.toString() -> Moustache(
                         parse(parameters, MOUSTACHE_STYLE, MoustacheStyle.Handlebar),
                     )
+                    BeardStyleType.Shaved.toString() -> ShavedBeard
 
                     else -> Goatee(GoateeStyle.Goatee)
                 },
@@ -579,7 +582,7 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
                     )
 
                     HairStyleType.Spiked.toString() -> Spiked
-                    else -> Shaved
+                    else -> ShavedHair
                 },
                 parse(parameters, HAIR_COLOR, Color.Red),
             )

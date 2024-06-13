@@ -92,6 +92,7 @@ fun addNamesToBeardStyle(values: List<BeardStyle>) = values.map {
             is Goatee -> it.goateeStyle.name
             is GoateeAndMoustache -> "${it.goateeStyle.name} + ${it.moustacheStyle.name}"
             is Moustache -> "${it.moustacheStyle.name} Moustache"
+            ShavedBeard -> "Shaved"
         }, it
     )
 }

@@ -46,7 +46,7 @@ private fun visualizeNormalHair(renderer: Renderer, config: RenderConfig, aabb: 
 
         is MiddlePart -> visualizeMiddlePart(renderer, config, options, aabb, CENTER)
 
-        Shaved -> doNothing()
+        ShavedHair -> doNothing()
 
         is SidePart -> when (hair.style.side) {
             Side.Left -> visualizeMiddlePart(

@@ -4,4 +4,5 @@ enum class BeardStyleType {
     Goatee,
     GoateeAndMoustache,
     Moustache,
+    Shaved,
 }

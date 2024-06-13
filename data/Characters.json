@@ -8,14 +8,12 @@
     "type": "HeadOnly",
     "head": {
      "ears": {
-      "type": "Normal",
-      "size": "Small"
+       "type": "Normal"
      },
      "eyes": {
       "type": "Two",
       "eye": {
-       "eyeShape": "Ellipse",
-       "pupilColor": "Aqua"
+        "pupilColor": "Teal"
       }
      },
      "hair": {
@@ -24,25 +22,21 @@
        "type": "SidePart",
        "side": "Right"
       },
-      "color": "Black"
+       "color": "Yellow"
      },
      "mouth": {
       "type": "Simple",
       "beard": {
        "type": "Normal",
        "style": {
-        "type": "GoateeAndMoustache",
-        "moustacheStyle": "Handlebar",
-        "goateeStyle": "VanDyke"
+         "type": "Shaved"
        },
-       "color": "Red"
-      },
-      "width": "Small",
-      "teethColor": "Brown"
+        "color": "Black"
+      }
      },
      "skin": {
       "type": "Normal",
-      "color": "Fair"
+       "color": "VeryDark"
      }
     },
     "height": {

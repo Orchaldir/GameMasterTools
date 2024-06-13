@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Side
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.math.Distance
@@ -16,7 +15,7 @@ fun main() {
         BuzzCut,
         FlatTop,
         MiddlePart,
-        Shaved,
+        ShavedHair,
         SidePart(Side.Left),
         SidePart(Side.Right),
         Spiked,

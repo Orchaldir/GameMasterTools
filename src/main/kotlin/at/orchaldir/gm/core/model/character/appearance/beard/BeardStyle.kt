@@ -7,6 +7,10 @@ import kotlinx.serialization.Serializable
 sealed class BeardStyle
 
 @Serializable
+@SerialName("Shaved")
+data object ShavedBeard : BeardStyle()
+
+@Serializable
 @SerialName("Moustache")
 data class Moustache(
     val moustacheStyle: MoustacheStyle,

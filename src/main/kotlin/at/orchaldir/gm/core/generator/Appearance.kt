@@ -39,6 +39,7 @@ fun generateBeard(config: AppearanceGeneratorConfig): Beard {
                 )
 
                 BeardStyleType.Moustache -> Moustache(config.select(MoustacheStyle.entries))
+                BeardStyleType.Shaved -> ShavedBeard
             },
             config.generate(options.beardOptions.colors),
         )
@@ -100,7 +101,7 @@ fun generateHairStyle(config: AppearanceGeneratorConfig): HairStyle {
         HairStyleType.BuzzCut -> BuzzCut
         HairStyleType.FlatTop -> FlatTop
         HairStyleType.MiddlePart -> MiddlePart
-        HairStyleType.Shaved -> Shaved
+        HairStyleType.Shaved -> ShavedHair
         HairStyleType.SidePart -> SidePart(config.select(Side.entries))
         HairStyleType.Spiked -> Spiked
     }
