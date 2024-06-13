@@ -427,11 +427,11 @@ private fun FORM.showMouthEditor(
         value = option.toString()
         selected = when (option) {
             MouthType.NoMouth -> mouth is NoMouth
-            MouthType.SimpleMouth -> mouth is SimpleMouth || mouth is FemaleMouth
+            MouthType.NormalMouth -> mouth is NormalMouth || mouth is FemaleMouth
         }
     }
     when (mouth) {
-        is SimpleMouth -> {
+        is NormalMouth -> {
             showSimpleMouthEditor(mouth.width, mouth.teethColor)
             showBeardEditor(race, culture, mouth.beard)
         }
@@ -592,7 +592,7 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
 private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig, character: Character): Mouth {
     return when (parameters[MOUTH_TYPE]) {
         MouthType.NoMouth.toString() -> NoMouth
-        MouthType.SimpleMouth.toString() -> {
+        MouthType.NormalMouth.toString() -> {
             if (character.gender == Gender.Female) {
                 return FemaleMouth(
                     parse(parameters, MOUTH_WIDTH, Size.Medium),
@@ -600,7 +600,7 @@ private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig
                     parse(parameters, TEETH_COLOR, TeethColor.White),
                 )
             }
-            return SimpleMouth(
+            return NormalMouth(
                 parseBeard(parameters, config),
                 parse(parameters, MOUTH_WIDTH, Size.Medium),
                 parse(parameters, TEETH_COLOR, TeethColor.White),

@@ -115,7 +115,7 @@ fun generateMouth(config: AppearanceGeneratorConfig): Mouth {
 
     return when (config.generate(options.mouthTypes)) {
         MouthType.NoMouth -> NoMouth
-        MouthType.SimpleMouth -> {
+        MouthType.NormalMouth -> {
             if (config.character.gender == Gender.Female) {
                 return FemaleMouth(
                     config.select(Size.entries),
@@ -123,7 +123,7 @@ fun generateMouth(config: AppearanceGeneratorConfig): Mouth {
                     config.select(TeethColor.entries),
                 )
             }
-            SimpleMouth(
+            NormalMouth(
                 generateBeard(config),
                 config.select(Size.entries),
                 config.select(TeethColor.entries),

@@ -3,46 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "gender": "Male",
-   "appearance": {
-    "type": "HeadOnly",
-    "head": {
-     "ears": {
-       "type": "Normal"
-     },
-     "eyes": {
-      "type": "Two",
-      "eye": {
-        "pupilColor": "Teal"
-      }
-     },
-     "hair": {
-      "type": "Normal",
-      "style": {
-       "type": "SidePart",
-       "side": "Right"
-      },
-       "color": "Yellow"
-     },
-     "mouth": {
-      "type": "Simple",
-      "beard": {
-       "type": "Normal",
-       "style": {
-         "type": "Shaved"
-       },
-        "color": "Black"
-      }
-     },
-     "skin": {
-      "type": "Normal",
-       "color": "VeryDark"
-     }
-    },
-    "height": {
-     "value": 0.2
-    }
-   }
+   "gender": "Female"
   }
  }
 }

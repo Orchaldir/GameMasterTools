@@ -100,7 +100,7 @@
     },
     "mouthTypes": {
      "map": {
-      "SimpleMouth": "Common"
+      "NormalMouth": "Common"
      }
     }
    }
@@ -186,7 +186,7 @@
     },
     "mouthTypes": {
      "map": {
-      "SimpleMouth": "Common"
+      "NormalMouth": "Common"
      }
     }
    }

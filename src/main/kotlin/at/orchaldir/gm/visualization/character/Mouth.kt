@@ -22,7 +22,7 @@ data class MouthConfig(
         val width = when (mouth) {
             is FemaleMouth -> mouth.width
             NoMouth -> Size.Medium
-            is SimpleMouth -> mouth.width
+            is NormalMouth -> mouth.width
         }
 
         return getSimpleWidth(width)
@@ -31,14 +31,14 @@ data class MouthConfig(
     fun getHeight(mouth: Mouth) = when (mouth) {
         is FemaleMouth -> femaleHeight
         NoMouth -> Factor(0.0f)
-        is SimpleMouth -> simpleHeight
+        is NormalMouth -> simpleHeight
     }
 }
 
 fun visualizeMouth(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
     when (head.mouth) {
         NoMouth -> doNothing()
-        is SimpleMouth -> {
+        is NormalMouth -> {
             val center = aabb.getPoint(CENTER, config.head.mouthY)
             val width = aabb.convertWidth(config.head.mouthConfig.getSimpleWidth(head.mouth.width))
             val height = aabb.convertHeight(config.head.mouthConfig.getHeight(head.mouth))

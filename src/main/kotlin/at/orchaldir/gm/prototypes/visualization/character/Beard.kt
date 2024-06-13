@@ -42,7 +42,7 @@ private fun createAppearance(distance: Distance, eyes: Eyes, style: BeardStyle) 
             NormalEars(),
             eyes,
             NormalHair(SidePart(Side.Left), Color.SaddleBrown),
-            SimpleMouth(NormalBeard(style, Color.SaddleBrown))
+            NormalMouth(NormalBeard(style, Color.SaddleBrown))
         ),
         distance,
     )

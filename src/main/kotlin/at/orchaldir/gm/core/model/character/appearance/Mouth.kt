@@ -22,8 +22,8 @@ sealed class Mouth
 data object NoMouth : Mouth()
 
 @Serializable
-@SerialName("Simple")
-data class SimpleMouth(
+@SerialName("Normal")
+data class NormalMouth(
     val beard: Beard = NoBeard,
     val width: Size = Size.Medium,
     val teethColor: TeethColor = TeethColor.White,
