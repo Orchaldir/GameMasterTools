@@ -9,15 +9,13 @@ import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Side
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.style.HairStyleType
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
@@ -85,7 +83,7 @@ fun Application.configureAppearanceRouting() {
             val character = state.characters.getOrThrow(edit.id)
             val formParameters = call.receiveParameters()
             val config = createGenerationConfig(state, character)
-            val appearance = parseAppearance(formParameters, config)
+            val appearance = parseAppearance(formParameters, config, character)
             val updatedCharacter = character.copy(appearance = appearance)
 
             call.respondHtml(HttpStatusCode.OK) {
@@ -96,9 +94,10 @@ fun Application.configureAppearanceRouting() {
             logger.info { "Update character ${update.id.value}'s appearance" }
 
             val state = STORE.getState()
+            val character = state.characters.getOrThrow(update.id)
             val formParameters = call.receiveParameters()
-            val config = createGenerationConfig(state, update.id)
-            val appearance = parseAppearance(formParameters, config)
+            val config = createGenerationConfig(state, character)
+            val appearance = parseAppearance(formParameters, config, character)
 
             STORE.dispatch(UpdateAppearance(update.id, appearance))
 
@@ -113,7 +112,7 @@ fun Application.configureAppearanceRouting() {
             val character = state.characters.getOrThrow(update.id)
             val config = createGenerationConfig(state, character)
             val newParameters = parametersOf(TYPE, HEAD)
-            val appearance = parseAppearance(newParameters, config)
+            val appearance = parseAppearance(newParameters, config, character)
             val updatedCharacter = character.copy(appearance = appearance)
 
             call.respondHtml(HttpStatusCode.OK) {
@@ -428,8 +427,7 @@ private fun FORM.showMouthEditor(
         value = option.toString()
         selected = when (option) {
             MouthType.NoMouth -> mouth is NoMouth
-            MouthType.SimpleMouth -> mouth is SimpleMouth
-            MouthType.FemaleMouth -> mouth is FemaleMouth
+            MouthType.SimpleMouth -> mouth is SimpleMouth || mouth is FemaleMouth
         }
     }
     when (mouth) {
@@ -451,19 +449,14 @@ private fun FORM.showMouthEditor(
     }
 }
 
-private fun createGenerationConfig(state: State, characterId: CharacterId) =
-    createGenerationConfig(state, state.characters.getOrThrow(characterId))
-
-private fun createGenerationConfig(state: State, character: Character) =
-    createGenerationConfig(state, character.race, character.culture)
-
-private fun createGenerationConfig(state: State, raceId: RaceId, cultureId: CultureId): AppearanceGeneratorConfig {
-    val race = state.races.getOrThrow(raceId)
-    val culture = state.cultures.getOrThrow(cultureId)
+private fun createGenerationConfig(state: State, character: Character): AppearanceGeneratorConfig {
+    val race = state.races.getOrThrow(character.race)
+    val culture = state.cultures.getOrThrow(character.culture)
 
     return AppearanceGeneratorConfig(
         RandomNumberGenerator(Random),
         state.rarityGenerator,
+        character,
         race.appearance,
         culture.styleOptions
     )
@@ -482,13 +475,17 @@ private fun FORM.showSimpleMouthEditor(size: Size, teethColor: TeethColor) {
     }
 }
 
-private fun parseAppearance(parameters: Parameters, config: AppearanceGeneratorConfig): Appearance {
+private fun parseAppearance(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+    character: Character,
+): Appearance {
     return when (parameters[TYPE]) {
         HEAD -> {
             val ears = parseEars(parameters, config)
             val eyes = parseEyes(parameters, config)
             val hair = parseHair(parameters, config)
-            val mouth = parseMouth(parameters, config)
+            val mouth = parseMouth(parameters, config, character)
             val skin = parseSkin(parameters, config)
             val head = Head(ears, eyes, hair, mouth, skin)
             return HeadOnly(head, Distance(0.2f))
@@ -592,21 +589,20 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
     }
 }
 
-private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig): Mouth {
+private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig, character: Character): Mouth {
     return when (parameters[MOUTH_TYPE]) {
         MouthType.NoMouth.toString() -> NoMouth
         MouthType.SimpleMouth.toString() -> {
+            if (character.gender == Gender.Female) {
+                return FemaleMouth(
+                    parse(parameters, MOUTH_WIDTH, Size.Medium),
+                    parse(parameters, LIP_COLOR, Color.Red),
+                    parse(parameters, TEETH_COLOR, TeethColor.White),
+                )
+            }
             return SimpleMouth(
                 parseBeard(parameters, config),
                 parse(parameters, MOUTH_WIDTH, Size.Medium),
-                parse(parameters, TEETH_COLOR, TeethColor.White),
-            )
-        }
-
-        MouthType.FemaleMouth.toString() -> {
-            return FemaleMouth(
-                parse(parameters, MOUTH_WIDTH, Size.Medium),
-                parse(parameters, LIP_COLOR, Color.Red),
                 parse(parameters, TEETH_COLOR, TeethColor.White),
             )
         }

@@ -100,8 +100,7 @@
     },
     "mouthTypes": {
      "map": {
-      "SimpleMouth": "Common",
-      "FemaleMouth": "Common"
+      "SimpleMouth": "Common"
      }
     }
    }
@@ -187,8 +186,7 @@
     },
     "mouthTypes": {
      "map": {
-      "SimpleMouth": "Common",
-      "FemaleMouth": "Common"
+      "SimpleMouth": "Common"
      }
     }
    }

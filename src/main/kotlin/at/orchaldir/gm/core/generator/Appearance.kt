@@ -4,6 +4,8 @@ import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.core.model.appearance.Side
 import at.orchaldir.gm.core.model.appearance.Size
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
@@ -15,6 +17,7 @@ import at.orchaldir.gm.utils.NumberGenerator
 data class AppearanceGeneratorConfig(
     val numberGenerator: NumberGenerator,
     val rarityGenerator: RarityGenerator,
+    val character: Character,
     val appearanceOptions: AppearanceOptions,
     val styleOptions: StyleOptions,
 ) {
@@ -112,17 +115,20 @@ fun generateMouth(config: AppearanceGeneratorConfig): Mouth {
 
     return when (config.generate(options.mouthTypes)) {
         MouthType.NoMouth -> NoMouth
-        MouthType.SimpleMouth -> SimpleMouth(
-            generateBeard(config),
-            config.select(Size.entries),
-            config.select(TeethColor.entries),
-        )
-
-        MouthType.FemaleMouth -> FemaleMouth(
-            config.select(Size.entries),
-            config.select(Color.entries),
-            config.select(TeethColor.entries),
-        )
+        MouthType.SimpleMouth -> {
+            if (config.character.gender == Gender.Female) {
+                return FemaleMouth(
+                    config.select(Size.entries),
+                    config.select(Color.entries),
+                    config.select(TeethColor.entries),
+                )
+            }
+            SimpleMouth(
+                generateBeard(config),
+                config.select(Size.entries),
+                config.select(TeethColor.entries),
+            )
+        }
     }
 }
 
