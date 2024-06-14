@@ -6,7 +6,7 @@ import at.orchaldir.gm.visualization.RenderConfig
 
 fun getFuManchu(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val mouthTopY = config.head.getMouthTopY(head.mouth)
-    val thickness = config.head.beard.thinWidth
+    val thickness = config.head.beard.mediumThickness
     val mouthWidth = config.head.mouthConfig.getWidth(head.mouth)
     val deltaY = Factor(0.02f)
     val outerWidth = mouthWidth + thickness * 2.0f
@@ -33,7 +33,7 @@ fun getFuManchu(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
 
 fun getHandlebar(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val mouthTopY = config.head.getMouthTopY(head.mouth)
-    val thickness = config.head.beard.handlebarWidth
+    val thickness = config.head.beard.smallThickness
     val mouthWidth = config.head.mouthConfig.getWidth(head.mouth)
     val width = mouthWidth + thickness * 2.0f
     val centerY = mouthTopY - thickness
@@ -60,24 +60,24 @@ fun getHandlebar(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
 }
 
 fun getPencil(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val height = config.head.beard.handlebarWidth
+    val height = config.head.beard.smallThickness
     val width = config.head.mouthConfig.getWidth(head.mouth)
     return getSimple(config, aabb, head, height, width, width).build()
 }
 
 fun getPyramid(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val height = config.head.beard.thinWidth
+    val height = config.head.beard.mediumThickness
     val width = config.head.mouthConfig.getWidth(head.mouth)
     return getSimple(config, aabb, head, height, height, width).build()
 }
 
 fun getToothbrush(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val height = config.head.beard.thinWidth
+    val height = config.head.beard.mediumThickness
     return getSimple(config, aabb, head, height, height, height).build()
 }
 
 fun getWalrus(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val height = config.head.beard.thinWidth
+    val height = config.head.beard.mediumThickness
     val width = config.head.mouthConfig.getWidth(head.mouth) + height
     val polygon = getSimple(config, aabb, head, height, width, width)
 

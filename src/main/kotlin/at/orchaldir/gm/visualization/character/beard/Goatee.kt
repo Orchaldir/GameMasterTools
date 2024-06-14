@@ -25,12 +25,12 @@ fun getLandingStrip(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
 
 fun getSoulPatch(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val topY = config.head.getMouthBottomY(head.mouth)
-    val size = config.head.beard.thinWidth
+    val size = config.head.beard.mediumThickness
     return fromTopAndBottom(aabb, topY, topY + size, size, size).build()
 }
 
 fun getVanDyke(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val size = config.head.beard.thinWidth
+    val size = config.head.beard.mediumThickness
     return getSharpMouthAndBottom(config, aabb, head.mouth, size, config.head.getGoateeBottomY())
 }
 

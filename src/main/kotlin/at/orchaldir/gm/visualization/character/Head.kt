@@ -22,7 +22,7 @@ data class HeadConfig(
     val mouthConfig: MouthConfig,
     val mouthY: Factor,
 ) {
-    fun getGoateeBottomY() = END + beard.thinWidth
+    fun getGoateeBottomY() = END + beard.mediumThickness
 
     fun getGoateeWidth(mouth: Mouth) = mouthConfig.getWidth(mouth) * beard.goateeWidth
 

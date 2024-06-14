@@ -13,8 +13,8 @@ import at.orchaldir.gm.visualization.character.BEARD_LAYER
 
 data class BeardConfig(
     val goateeWidth: Factor,
-    val handlebarWidth: Factor,
-    val thinWidth: Factor,
+    val smallThickness: Factor,
+    val mediumThickness: Factor,
     val moustacheOffset: Factor,
 )
 
