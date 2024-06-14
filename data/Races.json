@@ -16,26 +16,6 @@
       "Normal": "Common"
      }
     },
-    "beardOptions": {
-     "types": {
-      "map": {
-       "Normal": "Common"
-      }
-     },
-     "colors": {
-      "map": {
-       "Black": "Common",
-       "Gray": "Common",
-       "Maroon": "Common",
-       "Orange": "Common",
-       "Red": "Common",
-       "SaddleBrown": "Common",
-       "Silver": "Common",
-       "White": "Common",
-       "Yellow": "Common"
-      }
-     }
-    },
     "earsLayout": {
      "map": {
       "NormalEars": "Common"
@@ -79,7 +59,12 @@
      }
     },
     "hairOptions": {
-     "types": {
+     "beardTypes": {
+      "map": {
+       "Normal": "Common"
+      }
+     },
+     "hairTypes": {
       "map": {
        "Normal": "Common"
       }
@@ -119,13 +104,6 @@
      "map": {
       "Normal": "Common",
       "Exotic": "Rare"
-     }
-    },
-    "beardOptions": {
-     "types": {
-      "map": {
-       "None": "Common"
-      }
      }
     },
     "exoticSkinColors": {
@@ -181,6 +159,18 @@
      "scleraColors": {
       "map": {
        "White": "Common"
+      }
+     }
+    },
+    "hairOptions": {
+     "beardTypes": {
+      "map": {
+       "None": "Common"
+      }
+     },
+     "hairTypes": {
+      "map": {
+       "Normal": "Common"
       }
      }
     },

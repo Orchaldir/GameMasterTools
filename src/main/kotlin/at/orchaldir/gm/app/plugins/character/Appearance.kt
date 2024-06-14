@@ -248,7 +248,7 @@ private fun FORM.showBeardEditor(
     beard: Beard,
 ) {
     h2 { +"Beard" }
-    selectEnum("Type", BEARD_TYPE, race.appearance.beardOptions.types, true) { option ->
+    selectEnum("Type", BEARD_TYPE, race.appearance.hairOptions.beardTypes, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {
@@ -277,7 +277,7 @@ private fun FORM.showNormalBeardEditor(
             BeardStyleType.Shaved -> beard.style is ShavedBeard
         }
     }
-    selectColor("Color", BEARD_COLOR, race.appearance.beardOptions.colors, beard.color)
+    selectColor("Color", BEARD_COLOR, race.appearance.hairOptions.colors, beard.color)
 
     when (beard.style) {
         is Goatee -> selectGoateeStyle(culture, beard.style.goateeStyle)
@@ -369,7 +369,7 @@ private fun FORM.showHairEditor(
     hair: Hair,
 ) {
     h2 { +"Hair" }
-    selectEnum("Type", HAIR_TYPE, race.appearance.hairOptions.types, true) { option ->
+    selectEnum("Type", HAIR_TYPE, race.appearance.hairOptions.hairTypes, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {

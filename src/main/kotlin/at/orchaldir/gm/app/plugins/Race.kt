@@ -48,7 +48,6 @@ private const val MOUTH_TYPE = "mouth_type"
 private const val HAIR_TYPE = "hair"
 private const val HAIR_COLOR = "hair_color"
 private const val BEARD_TYPE = "beard"
-private const val BEARD_COLOR = "beard_color"
 
 @Resource("/races")
 class Races {
@@ -164,9 +163,6 @@ private fun HTML.showRaceDetails(
         showRarityMap("Scale Colors", appearance.scalesColors)
         showRarityMap("Normal Skin Colors", appearance.normalSkinColors)
         showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
-        h3 { +"Beard" }
-        showRarityMap("Types", appearance.beardOptions.types)
-        showRarityMap("Colors", appearance.beardOptions.colors)
         h3 { +"Ears" }
         showRarityMap("Layout", appearance.earsLayout)
         showRarityMap("Ear Shapes", appearance.earShapes)
@@ -177,7 +173,8 @@ private fun HTML.showRaceDetails(
         showRarityMap("Pupil Colors", eyeOptions.pupilColors)
         showRarityMap("Sclera Colors", eyeOptions.scleraColors)
         h3 { +"Hair" }
-        showRarityMap("Types", appearance.hairOptions.types)
+        showRarityMap("Beard", appearance.hairOptions.beardTypes)
+        showRarityMap("Hair", appearance.hairOptions.hairTypes)
         showRarityMap("Colors", appearance.hairOptions.colors)
         h3 { +"Mouth" }
         showRarityMap("Types", appearance.mouthTypes)
@@ -227,9 +224,6 @@ private fun HTML.showRaceEditor(
                 EXOTIC_SKIN_COLOR,
                 appearance.exoticSkinColors
             )
-            h3 { +"Beard" }
-            selectRarityMap("Types", BEARD_TYPE, appearance.beardOptions.types)
-            selectRarityMap("Colors", BEARD_COLOR, appearance.beardOptions.colors)
             h3 { +"Ears" }
             selectRarityMap("Layout", EARS_LAYOUT, appearance.earsLayout)
             selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes)
@@ -240,7 +234,8 @@ private fun HTML.showRaceEditor(
             selectRarityMap("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors)
             selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors)
             h3 { +"Hair" }
-            selectRarityMap("Types", HAIR_TYPE, appearance.hairOptions.types)
+            selectRarityMap("Beard", BEARD_TYPE, appearance.hairOptions.beardTypes)
+            selectRarityMap("Hair", HAIR_TYPE, appearance.hairOptions.hairTypes)
             selectRarityMap("Colors", HAIR_COLOR, appearance.hairOptions.colors)
             h3 { +"Mouth" }
             selectRarityMap("Types", MOUTH_TYPE, appearance.mouthTypes)
@@ -269,7 +264,6 @@ private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
     parseRarityMap(parameters, SKIN_TYPE, SkinType::valueOf),
     parseRarityMap(parameters, SCALE_COLOR, Color::valueOf),
     parseRarityMap(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf),
-    parseBeardOptions(parameters),
     parseRarityMap(parameters, EXOTIC_SKIN_COLOR, Color::valueOf),
     parseRarityMap(parameters, EARS_LAYOUT, EarsLayout::valueOf),
     parseRarityMap(parameters, EAR_SHAPE, EarShape::valueOf),
@@ -277,11 +271,6 @@ private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
     parseEyeOptions(parameters),
     parseHairOptions(parameters),
     parseRarityMap(parameters, MOUTH_TYPE, MouthType::valueOf),
-)
-
-private fun parseBeardOptions(parameters: Parameters) = BeardOptions(
-    parseRarityMap(parameters, BEARD_TYPE, BeardType::valueOf),
-    parseRarityMap(parameters, BEARD_COLOR, Color::valueOf),
 )
 
 private fun parseEyeOptions(parameters: Parameters): EyeOptions {
@@ -294,6 +283,7 @@ private fun parseEyeOptions(parameters: Parameters): EyeOptions {
 }
 
 private fun parseHairOptions(parameters: Parameters) = HairOptions(
+    parseRarityMap(parameters, BEARD_TYPE, BeardType::valueOf),
     parseRarityMap(parameters, HAIR_TYPE, HairType::valueOf),
     parseRarityMap(parameters, HAIR_COLOR, Color::valueOf),
 )

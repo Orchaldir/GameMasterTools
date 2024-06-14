@@ -11,7 +11,6 @@ data class AppearanceOptions(
     val skinTypes: RarityMap<SkinType> = RarityMap(SkinType.entries),
     val scalesColors: RarityMap<Color> = RarityMap(Color.entries),
     val normalSkinColors: RarityMap<SkinColor> = RarityMap(SkinColor.entries),
-    val beardOptions: BeardOptions = BeardOptions(),
     val exoticSkinColors: RarityMap<Color> = RarityMap(Color.entries),
     val earsLayout: RarityMap<EarsLayout> = RarityMap(EarsLayout.entries),
     val earShapes: RarityMap<EarShape> = RarityMap(EarShape.entries),
