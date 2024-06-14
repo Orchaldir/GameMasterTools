@@ -29,6 +29,13 @@
       "Shaved": "Rare",
       "SidePart": "Common"
      }
+    },
+     "lipColors": {
+       "map": {
+         "Fuchsia": "Uncommon",
+         "Maroon": "Uncommon",
+         "Red": "Common"
+       }
     }
    }
   }

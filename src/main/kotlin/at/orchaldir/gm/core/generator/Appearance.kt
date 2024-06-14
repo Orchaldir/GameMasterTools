@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.generator
 
-import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.core.model.appearance.Side
 import at.orchaldir.gm.core.model.appearance.Size
@@ -120,7 +119,7 @@ fun generateMouth(config: AppearanceGeneratorConfig): Mouth {
             if (config.character.gender == Gender.Female) {
                 return FemaleMouth(
                     config.select(Size.entries),
-                    config.select(Color.entries),
+                    config.generate(config.styleOptions.lipColors),
                     config.select(TeethColor.entries),
                 )
             }

@@ -438,11 +438,7 @@ private fun FORM.showMouthEditor(
 
         is FemaleMouth -> {
             showSimpleMouthEditor(mouth.width, mouth.teethColor)
-            selectEnum("Lip Color", LIP_COLOR, Color.entries, true) { color ->
-                label = color.name
-                value = color.toString()
-                selected = mouth.color == color
-            }
+            selectColor("Lip Color", LIP_COLOR, culture.styleOptions.lipColors, mouth.color)
         }
 
         else -> doNothing()

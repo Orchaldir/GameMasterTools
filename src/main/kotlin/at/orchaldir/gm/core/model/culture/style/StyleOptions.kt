@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.culture.style
 
+import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle
@@ -12,4 +13,5 @@ data class StyleOptions(
     val goateeStyles: RarityMap<GoateeStyle> = RarityMap(GoateeStyle.entries),
     val moustacheStyle: RarityMap<MoustacheStyle> = RarityMap(MoustacheStyle.entries),
     val hairStyles: RarityMap<HairStyleType> = RarityMap(HairStyleType.entries),
+    val lipColors: RarityMap<Color> = RarityMap(Color.entries),
 )

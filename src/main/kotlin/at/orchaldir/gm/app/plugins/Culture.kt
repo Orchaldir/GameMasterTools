@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle
 import at.orchaldir.gm.core.model.culture.Culture
@@ -35,6 +36,7 @@ private const val HAIR_STYLE = "hair"
 private const val BEARD_STYLE = "beard"
 private const val GOATEE_STYLE = "goatee"
 private const val MOUSTACHE_STYLE = "moustache"
+private const val LIP_COLORS = "lip_colors"
 
 @Resource("/cultures")
 class Cultures {
@@ -147,6 +149,7 @@ private fun HTML.showCultureDetails(
         showRarityMap("Goatee Styles", culture.styleOptions.goateeStyles)
         showRarityMap("Moustache Styles", culture.styleOptions.moustacheStyle)
         showRarityMap("Hair Styles", culture.styleOptions.hairStyles)
+        showRarityMap("Lip Colors", culture.styleOptions.lipColors)
         h2 { +"Characters" }
         showList(state.getCharacters(culture.id)) { character ->
             link(call, character)
@@ -181,6 +184,7 @@ private fun HTML.showCultureEditor(
             selectRarityMap("Goatee Styles", GOATEE_STYLE, culture.styleOptions.goateeStyles)
             selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, culture.styleOptions.moustacheStyle)
             selectRarityMap("Hair Styles", HAIR_STYLE, culture.styleOptions.hairStyles)
+            selectRarityMap("Lip Colors", LIP_COLORS, culture.styleOptions.lipColors)
             p {
                 submitInput {
                     value = "Update"
@@ -207,6 +211,7 @@ fun parseCulture(
             parseRarityMap(parameters, GOATEE_STYLE, GoateeStyle::valueOf),
             parseRarityMap(parameters, MOUSTACHE_STYLE, MoustacheStyle::valueOf),
             parseRarityMap(parameters, HAIR_STYLE, HairStyleType::valueOf),
+            parseRarityMap(parameters, LIP_COLORS, Color::valueOf),
         ),
     )
 }
