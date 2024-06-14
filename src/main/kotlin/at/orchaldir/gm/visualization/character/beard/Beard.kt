@@ -15,6 +15,7 @@ data class BeardConfig(
     val goateeWidth: Factor,
     val handlebarWidth: Factor,
     val thinWidth: Factor,
+    val moustacheOffset: Factor,
 )
 
 fun visualizeBeard(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head, beard: Beard) {

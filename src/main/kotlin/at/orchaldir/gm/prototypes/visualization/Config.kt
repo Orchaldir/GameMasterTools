@@ -12,7 +12,7 @@ import at.orchaldir.gm.visualization.character.beard.BeardConfig
 val RENDER_CONFIG = RenderConfig(
     Distance(0.1f), LineOptions(Color.Black.toRender(), Distance(0.005f)),
     HeadConfig(
-        BeardConfig(Factor(0.8f), Factor(0.05f), Factor(0.1f)),
+        BeardConfig(Factor(0.8f), Factor(0.05f), Factor(0.1f), Factor(0.01f)),
         EarConfig(SizeConfig(0.1f, 0.125f, 0.15f), Factor(3.0f)),
         Factor(0.45f),
         EyesConfig(

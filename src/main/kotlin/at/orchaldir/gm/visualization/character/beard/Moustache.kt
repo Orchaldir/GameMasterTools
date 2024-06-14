@@ -62,24 +62,24 @@ fun getHandlebar(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
 fun getPencil(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val height = config.head.beard.handlebarWidth
     val width = config.head.mouthConfig.getWidth(head.mouth)
-    return getSimple(config, aabb, head, height, Factor(0.01f), width, width).build()
+    return getSimple(config, aabb, head, height, width, width).build()
 }
 
 fun getPyramid(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val height = Factor(0.08f)
     val width = config.head.mouthConfig.getWidth(head.mouth)
-    return getSimple(config, aabb, head, height, Factor(0.01f), height, width).build()
+    return getSimple(config, aabb, head, height, height, width).build()
 }
 
 fun getToothbrush(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val height = Factor(0.08f)
-    return getSimple(config, aabb, head, height, Factor(0.01f), height, height).build()
+    return getSimple(config, aabb, head, height, height, height).build()
 }
 
 fun getWalrus(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val height = Factor(0.1f)
     val width = config.head.mouthConfig.getWidth(head.mouth) + height
-    val polygon = getSimple(config, aabb, head, height, Factor(0.01f), width, width)
+    val polygon = getSimple(config, aabb, head, height, width, width)
 
     polygon.createSharpCorner(1)
     polygon.createSharpCorner(3)
@@ -92,12 +92,11 @@ private fun getSimple(
     aabb: AABB,
     head: Head,
     height: Factor,
-    offset: Factor,
     topWidth: Factor,
     bottomWidth: Factor,
 ): Polygon2dBuilder {
     val mouthTopY = config.head.getMouthTopY(head.mouth)
-    val bottomY = mouthTopY - offset
+    val bottomY = mouthTopY - config.head.beard.moustacheOffset
     val topY = bottomY - height
     val (topLeft, topRight) = aabb.getMirroredPoints(topWidth, topY)
     val (bottomLeft, bottomRight) = aabb.getMirroredPoints(bottomWidth, bottomY)
