@@ -5,6 +5,15 @@
    "id": 0,
    "name": "Waterdeep",
    "styleOptions": {
+     "moustacheStyle": {
+       "map": {
+         "Handlebar": "Common",
+         "Pencil": "Common",
+         "Pyramid": "Common",
+         "Toothbrush": "Common",
+         "Walrus": "Common"
+       }
+     },
     "hairStyles": {
      "map": {
       "BuzzCut": "Common",
