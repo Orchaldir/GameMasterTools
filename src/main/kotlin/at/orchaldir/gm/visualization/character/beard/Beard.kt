@@ -53,6 +53,7 @@ private fun visualizeGoatee(
             renderer.renderPolygon(getGoatee(config, aabb, head), options, BEARD_LAYER)
             return
         }
+
         GoateeStyle.LandingStrip -> getLandingStrip(config, aabb, head)
         GoateeStyle.SoulPatch -> {
             renderer.renderPolygon(getSoulPatch(config, aabb, head), options, BEARD_LAYER)

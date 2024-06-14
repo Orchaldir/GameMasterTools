@@ -509,6 +509,7 @@ private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig
                     BeardStyleType.Moustache.toString() -> Moustache(
                         parse(parameters, MOUSTACHE_STYLE, MoustacheStyle.Handlebar),
                     )
+
                     BeardStyleType.Shaved.toString() -> ShavedBeard
 
                     else -> Goatee(GoateeStyle.Goatee)

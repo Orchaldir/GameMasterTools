@@ -20,7 +20,7 @@ data class Polygon2dBuilder(val corners: MutableList<Point2d>) {
         if (corner != null) {
             corners.add(index, corner)
 
-            return true;
+            return true
         }
 
         return false
