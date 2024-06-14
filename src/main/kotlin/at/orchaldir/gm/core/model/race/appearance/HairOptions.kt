@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class HairOptions(
-    val types: RarityMap<HairType> = RarityMap(HairType.entries),
+    val beardTypes: RarityMap<BeardType> = RarityMap(BeardType.entries),
+    val hairTypes: RarityMap<HairType> = RarityMap(HairType.entries),
     val colors: RarityMap<Color> = RarityMap(Color.entries),
 )

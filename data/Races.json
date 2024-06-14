@@ -59,7 +59,12 @@
      }
     },
     "hairOptions": {
-     "types": {
+     "beardTypes": {
+      "map": {
+       "Normal": "Common"
+      }
+     },
+     "hairTypes": {
       "map": {
        "Normal": "Common"
       }
@@ -80,8 +85,7 @@
     },
     "mouthTypes": {
      "map": {
-      "SimpleMouth": "Common",
-      "FemaleMouth": "Common"
+      "NormalMouth": "Common"
      }
     }
    }
@@ -158,10 +162,21 @@
       }
      }
     },
+    "hairOptions": {
+     "beardTypes": {
+      "map": {
+       "None": "Common"
+      }
+     },
+     "hairTypes": {
+      "map": {
+       "Normal": "Common"
+      }
+     }
+    },
     "mouthTypes": {
      "map": {
-      "SimpleMouth": "Common",
-      "FemaleMouth": "Common"
+      "NormalMouth": "Common"
      }
     }
    }

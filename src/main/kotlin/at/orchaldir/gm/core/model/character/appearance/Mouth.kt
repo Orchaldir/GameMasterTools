@@ -2,6 +2,8 @@ package at.orchaldir.gm.core.model.character.appearance
 
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Size
+import at.orchaldir.gm.core.model.character.appearance.beard.Beard
+import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -20,8 +22,9 @@ sealed class Mouth
 data object NoMouth : Mouth()
 
 @Serializable
-@SerialName("Simple")
-data class SimpleMouth(
+@SerialName("Normal")
+data class NormalMouth(
+    val beard: Beard = NoBeard,
     val width: Size = Size.Medium,
     val teethColor: TeethColor = TeethColor.White,
 ) : Mouth()

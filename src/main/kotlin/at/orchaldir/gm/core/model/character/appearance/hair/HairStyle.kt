@@ -25,7 +25,7 @@ data object MiddlePart : HairStyle()
 
 @Serializable
 @SerialName("Shaved")
-data object Shaved : HairStyle()
+data object ShavedHair : HairStyle()
 
 @Serializable
 @SerialName("SidePart")

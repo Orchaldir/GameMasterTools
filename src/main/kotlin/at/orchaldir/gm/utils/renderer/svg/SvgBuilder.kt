@@ -102,13 +102,16 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         )
     }
 
-    override fun renderText(text: String, center: Point2d, options: TextOptions) {
+    override fun renderText(text: String, center: Point2d, orientation: Orientation, options: TextOptions) {
         layers.computeIfAbsent(0) {
             mutableListOf()
         }.add(
             String.format(
                 LOCALE,
-                "  <text x=\"%.3f\" y=\"%.3f\" fill=\"%s\" font-size=\"%.3fpx\" text-anchor=\"middle\">%s</text>",
+                "  <text x=\"%.3f\" y=\"%.3f\" transform=\"rotate(%.3f,%.3f,%.3f)\" fill=\"%s\" font-size=\"%.3fpx\" text-anchor=\"middle\">%s</text>",
+                center.x,
+                center.y,
+                orientation.toDegree(),
                 center.x,
                 center.y,
                 toSvg(options.color),

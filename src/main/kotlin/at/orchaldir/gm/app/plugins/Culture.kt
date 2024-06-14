@@ -6,10 +6,14 @@ import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle
+import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.style.HairStyleType
 import at.orchaldir.gm.core.model.culture.style.StyleOptions
+import at.orchaldir.gm.core.model.race.appearance.BeardStyleType
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
@@ -28,7 +32,11 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 private const val NAME = "name"
-private const val HAIR_STYLE = "hair_style"
+private const val HAIR_STYLE = "hair"
+private const val BEARD_STYLE = "beard"
+private const val GOATEE_STYLE = "goatee"
+private const val MOUSTACHE_STYLE = "moustache"
+private const val LIP_COLORS = "lip_colors"
 
 @Resource("/cultures")
 class Cultures {
@@ -137,7 +145,11 @@ private fun HTML.showCultureDetails(
         field("Id", culture.id.value.toString())
         field("Name", culture.name)
         h2 { +"Style Options" }
+        showRarityMap("Beard Styles", culture.styleOptions.beardStyles)
+        showRarityMap("Goatee Styles", culture.styleOptions.goateeStyles)
+        showRarityMap("Moustache Styles", culture.styleOptions.moustacheStyle)
         showRarityMap("Hair Styles", culture.styleOptions.hairStyles)
+        showRarityMap("Lip Colors", culture.styleOptions.lipColors)
         h2 { +"Characters" }
         showList(state.getCharacters(culture.id)) { character ->
             link(call, character)
@@ -168,7 +180,11 @@ private fun HTML.showCultureEditor(
                 }
             }
             h2 { +"Style Options" }
+            selectRarityMap("Beard Styles", BEARD_STYLE, culture.styleOptions.beardStyles)
+            selectRarityMap("Goatee Styles", GOATEE_STYLE, culture.styleOptions.goateeStyles)
+            selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, culture.styleOptions.moustacheStyle)
             selectRarityMap("Hair Styles", HAIR_STYLE, culture.styleOptions.hairStyles)
+            selectRarityMap("Lip Colors", LIP_COLORS, culture.styleOptions.lipColors)
             p {
                 submitInput {
                     value = "Update"
@@ -186,11 +202,16 @@ fun parseCulture(
     id: CultureId,
 ): Culture {
     val name = parameters.getOrFail(NAME)
-    val hairStyle = parseRarityMap(parameters, HAIR_STYLE, HairStyleType::valueOf)
 
     return Culture(
         id,
         name,
-        StyleOptions(hairStyle),
+        StyleOptions(
+            parseRarityMap(parameters, BEARD_STYLE, BeardStyleType::valueOf),
+            parseRarityMap(parameters, GOATEE_STYLE, GoateeStyle::valueOf),
+            parseRarityMap(parameters, MOUSTACHE_STYLE, MoustacheStyle::valueOf),
+            parseRarityMap(parameters, HAIR_STYLE, HairStyleType::valueOf),
+            parseRarityMap(parameters, LIP_COLORS, Color::valueOf),
+        ),
     )
 }

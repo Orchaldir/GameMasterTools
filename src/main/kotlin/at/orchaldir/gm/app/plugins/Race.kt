@@ -47,6 +47,7 @@ private const val SCLERA_COLOR = "sclera_color"
 private const val MOUTH_TYPE = "mouth_type"
 private const val HAIR_TYPE = "hair"
 private const val HAIR_COLOR = "hair_color"
+private const val BEARD_TYPE = "beard"
 
 @Resource("/races")
 class Races {
@@ -61,6 +62,9 @@ class Races {
 
     @Resource("edit")
     class Edit(val id: RaceId, val parent: Races = Races())
+
+    @Resource("preview")
+    class Preview(val id: RaceId, val parent: Races = Races())
 
     @Resource("update")
     class Update(val id: RaceId, val parent: Races = Races())
@@ -107,6 +111,15 @@ fun Application.configureRaceRouting() {
             logger.info { "Get editor for race ${edit.id.value}" }
 
             val race = STORE.getState().races.getOrThrow(edit.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showRaceEditor(call, race)
+            }
+        }
+        post<Races.Preview> { preview ->
+            logger.info { "Get preview for race ${preview.id.value}" }
+
+            val race = parseRace(preview.id, call.receiveParameters())
 
             call.respondHtml(HttpStatusCode.OK) {
                 showRaceEditor(call, race)
@@ -159,21 +172,34 @@ private fun HTML.showRaceDetails(
         h2 { +"Appearance Options" }
         h3 { +"Skin" }
         showRarityMap("Type", appearance.skinTypes)
-        showRarityMap("Scale Colors", appearance.scalesColors)
-        showRarityMap("Normal Skin Colors", appearance.normalSkinColors)
-        showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
+        if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
+            showRarityMap("Scale Colors", appearance.scalesColors)
+        }
+        if (appearance.skinTypes.isAvailable(SkinType.Normal)) {
+            showRarityMap("Normal Skin Colors", appearance.normalSkinColors)
+        }
+        if (appearance.skinTypes.isAvailable(SkinType.Exotic)) {
+            showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
+        }
         h3 { +"Ears" }
         showRarityMap("Layout", appearance.earsLayout)
-        showRarityMap("Ear Shapes", appearance.earShapes)
+        if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
+            showRarityMap("Ear Shapes", appearance.earShapes)
+        }
         h3 { +"Eyes" }
         showRarityMap("Layout", appearance.eyesLayout)
-        showRarityMap("Eye Shapes", eyeOptions.eyeShapes)
-        showRarityMap("Pupil Shape", eyeOptions.pupilShapes)
-        showRarityMap("Pupil Colors", eyeOptions.pupilColors)
-        showRarityMap("Sclera Colors", eyeOptions.scleraColors)
+        if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
+            showRarityMap("Eye Shapes", eyeOptions.eyeShapes)
+            showRarityMap("Pupil Shape", eyeOptions.pupilShapes)
+            showRarityMap("Pupil Colors", eyeOptions.pupilColors)
+            showRarityMap("Sclera Colors", eyeOptions.scleraColors)
+        }
         h3 { +"Hair" }
-        showRarityMap("Types", appearance.hairOptions.types)
-        showRarityMap("Colors", appearance.hairOptions.colors)
+        showRarityMap("Beard", appearance.hairOptions.beardTypes)
+        showRarityMap("Hair", appearance.hairOptions.hairTypes)
+        if (requiresHairColor(appearance)) {
+            showRarityMap("Colors", appearance.hairOptions.colors)
+        }
         h3 { +"Mouth" }
         showRarityMap("Types", appearance.mouthTypes)
         h2 { +"Characters" }
@@ -197,11 +223,15 @@ private fun HTML.showRaceEditor(
     val appearance = race.appearance
     val eyeOptions = appearance.eyeOptions
     val backLink = call.application.href(Races.Details(race.id))
+    val previewLink = call.application.href(Races.Preview(race.id))
     val updateLink = call.application.href(Races.Update(race.id))
 
     simpleHtml("Edit Race: ${race.name}") {
         field("Id", race.id.value.toString())
         form {
+            id = "editor"
+            action = previewLink
+            method = FormMethod.post
             field("Name") {
                 textInput(name = "name") {
                     value = race.name
@@ -210,30 +240,43 @@ private fun HTML.showRaceEditor(
             selectRarityMap("Gender", GENDER, race.genders)
             h2 { +"Appearance Options" }
             h3 { +"Skin" }
-            selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes)
-            selectRarityMap("Scale Colors", SCALE_COLOR, appearance.scalesColors)
-            selectRarityMap(
-                "Normal Skin Colors",
-                NORMAL_SKIN_COLOR,
-                appearance.normalSkinColors
-            )
-            selectRarityMap(
-                "Exotic Skin Colors",
-                EXOTIC_SKIN_COLOR,
-                appearance.exoticSkinColors
-            )
+            selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes, true)
+            if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
+                selectRarityMap("Scale Colors", SCALE_COLOR, appearance.scalesColors)
+            }
+            if (appearance.skinTypes.isAvailable(SkinType.Normal)) {
+                selectRarityMap(
+                    "Normal Skin Colors",
+                    NORMAL_SKIN_COLOR,
+                    appearance.normalSkinColors
+                )
+            }
+            if (appearance.skinTypes.isAvailable(SkinType.Exotic)) {
+                selectRarityMap(
+                    "Exotic Skin Colors",
+                    EXOTIC_SKIN_COLOR,
+                    appearance.exoticSkinColors
+                )
+            }
             h3 { +"Ears" }
-            selectRarityMap("Layout", EARS_LAYOUT, appearance.earsLayout)
-            selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes)
+            selectRarityMap("Layout", EARS_LAYOUT, appearance.earsLayout, true)
+            if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
+                selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes)
+            }
             h3 { +"Eyes" }
-            selectRarityMap("Layout", EYES_LAYOUT, appearance.eyesLayout)
-            selectRarityMap("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes)
-            selectRarityMap("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes)
-            selectRarityMap("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors)
-            selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors)
+            selectRarityMap("Layout", EYES_LAYOUT, appearance.eyesLayout, true)
+            if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
+                selectRarityMap("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes)
+                selectRarityMap("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes)
+                selectRarityMap("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors)
+                selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors)
+            }
             h3 { +"Hair" }
-            selectRarityMap("Types", HAIR_TYPE, appearance.hairOptions.types)
-            selectRarityMap("Colors", HAIR_COLOR, appearance.hairOptions.colors)
+            selectRarityMap("Beard", BEARD_TYPE, appearance.hairOptions.beardTypes, true)
+            selectRarityMap("Hair", HAIR_TYPE, appearance.hairOptions.hairTypes, true)
+            if (requiresHairColor(appearance)) {
+                selectRarityMap("Colors", HAIR_COLOR, appearance.hairOptions.colors)
+            }
             h3 { +"Mouth" }
             selectRarityMap("Types", MOUTH_TYPE, appearance.mouthTypes)
             p {
@@ -248,6 +291,10 @@ private fun HTML.showRaceEditor(
     }
 }
 
+private fun requiresHairColor(appearance: AppearanceOptions) =
+    appearance.hairOptions.beardTypes.isAvailable(BeardType.Normal) ||
+            appearance.hairOptions.hairTypes.isAvailable(HairType.Normal)
+
 private fun parseRace(id: RaceId, parameters: Parameters): Race {
     val name = parameters.getOrFail("name")
     return Race(
@@ -259,11 +306,11 @@ private fun parseRace(id: RaceId, parameters: Parameters): Race {
 
 private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
     parseRarityMap(parameters, SKIN_TYPE, SkinType::valueOf),
-    parseRarityMap(parameters, SCALE_COLOR, Color::valueOf),
-    parseRarityMap(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf),
-    parseRarityMap(parameters, EXOTIC_SKIN_COLOR, Color::valueOf),
+    parseRarityMap(parameters, SCALE_COLOR, Color::valueOf, Color.entries),
+    parseRarityMap(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf, SkinColor.entries),
+    parseRarityMap(parameters, EXOTIC_SKIN_COLOR, Color::valueOf, Color.entries),
     parseRarityMap(parameters, EARS_LAYOUT, EarsLayout::valueOf),
-    parseRarityMap(parameters, EAR_SHAPE, EarShape::valueOf),
+    parseRarityMap(parameters, EAR_SHAPE, EarShape::valueOf, EarShape.entries),
     parseRarityMap(parameters, EYES_LAYOUT, EyesLayout::valueOf),
     parseEyeOptions(parameters),
     parseHairOptions(parameters),
@@ -271,15 +318,16 @@ private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
 )
 
 private fun parseEyeOptions(parameters: Parameters): EyeOptions {
-    val eyeShapes = parseRarityMap(parameters, EYE_SHAPE, EyeShape::valueOf)
-    val pupilShapes = parseRarityMap(parameters, PUPIL_SHAPE, PupilShape::valueOf)
-    val pupilColors = parseRarityMap(parameters, PUPIL_COLOR, Color::valueOf)
-    val scleraColors = parseRarityMap(parameters, SCLERA_COLOR, Color::valueOf)
+    val eyeShapes = parseRarityMap(parameters, EYE_SHAPE, EyeShape::valueOf, EyeShape.entries)
+    val pupilShapes = parseRarityMap(parameters, PUPIL_SHAPE, PupilShape::valueOf, PupilShape.entries)
+    val pupilColors = parseRarityMap(parameters, PUPIL_COLOR, Color::valueOf, Color.entries)
+    val scleraColors = parseRarityMap(parameters, SCLERA_COLOR, Color::valueOf, Color.entries)
 
     return EyeOptions(eyeShapes, pupilShapes, pupilColors, scleraColors)
 }
 
 private fun parseHairOptions(parameters: Parameters) = HairOptions(
+    parseRarityMap(parameters, BEARD_TYPE, BeardType::valueOf),
     parseRarityMap(parameters, HAIR_TYPE, HairType::valueOf),
-    parseRarityMap(parameters, HAIR_COLOR, Color::valueOf),
+    parseRarityMap(parameters, HAIR_COLOR, Color::valueOf, Color.entries),
 )

@@ -1,35 +1,53 @@
 package at.orchaldir.gm.visualization.character
 
+import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Size
-import at.orchaldir.gm.core.model.character.appearance.FemaleMouth
-import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.NoMouth
-import at.orchaldir.gm.core.model.character.appearance.SimpleMouth
+import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.CENTER
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Polygon2d
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.NoBorder
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.SizeConfig
+import at.orchaldir.gm.visualization.character.beard.visualizeBeard
 
 data class MouthConfig(
     private val simpleWidth: SizeConfig,
-    val mouthHeight: Factor,
+    val simpleHeight: Factor,
+    val femaleHeight: Factor,
 ) {
     fun getSimpleWidth(size: Size) = Factor(simpleWidth.convert(size))
+
+    fun getWidth(mouth: Mouth): Factor {
+        val width = when (mouth) {
+            is FemaleMouth -> mouth.width
+            NoMouth -> Size.Medium
+            is NormalMouth -> mouth.width
+        }
+
+        return getSimpleWidth(width)
+    }
+
+    fun getHeight(mouth: Mouth) = when (mouth) {
+        is FemaleMouth -> femaleHeight
+        NoMouth -> Factor(0.0f)
+        is NormalMouth -> simpleHeight
+    }
 }
 
 fun visualizeMouth(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
     when (head.mouth) {
         NoMouth -> doNothing()
-        is SimpleMouth -> {
-            val width = config.head.mouth.getSimpleWidth(head.mouth.width)
-            val (left, right) = aabb.getMirroredPoints(width, config.head.mouthY)
+        is NormalMouth -> {
+            val center = aabb.getPoint(CENTER, config.head.mouthY)
+            val width = aabb.convertWidth(config.head.mouthConfig.getSimpleWidth(head.mouth.width))
+            val height = aabb.convertHeight(config.head.mouthConfig.getHeight(head.mouth))
+            val mouthAabb = AABB.fromCenter(center, Size2d(width, height))
+            val option = NoBorder(Color.Black.toRender())
 
-            renderer.renderLine(listOf(left, right), config.line)
+            renderer.renderRectangle(mouthAabb, option)
+
+            visualizeBeard(renderer, config, aabb, head, head.mouth.beard)
         }
 
         is FemaleMouth -> visualizeFemaleMouth(renderer, config, aabb, head.mouth)
@@ -43,8 +61,8 @@ private fun visualizeFemaleMouth(
     mouth: FemaleMouth,
 ) {
     val options = NoBorder(mouth.color.toRender())
-    val width = config.head.mouth.getSimpleWidth(mouth.width)
-    val halfHeight = config.head.mouth.mouthHeight * 0.5f
+    val width = config.head.mouthConfig.getSimpleWidth(mouth.width)
+    val halfHeight = config.head.mouthConfig.femaleHeight * 0.5f
     val (left, right) = aabb.getMirroredPoints(width, config.head.mouthY)
     val (topLeft, topRight) =
         aabb.getMirroredPoints(width * 0.5f, config.head.mouthY - halfHeight)

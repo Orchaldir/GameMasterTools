@@ -15,7 +15,7 @@ fun main() {
         BuzzCut,
         FlatTop,
         MiddlePart,
-        Shaved,
+        ShavedHair,
         SidePart(Side.Left),
         SidePart(Side.Right),
         Spiked,
@@ -32,8 +32,8 @@ fun main() {
         appearances.add(row)
     }
 
-    renderTable("hair_short.svg", RENDER_CONFIG, appearances)
+    renderTable("hair.svg", RENDER_CONFIG, appearances)
 }
 
 private fun createAppearance(style: HairStyle, eyes: Eyes) =
-    HeadOnly(Head(NormalEars(), eyes, NormalHair(style, Color.SaddleBrown), SimpleMouth()), Distance(0.2f))
+    HeadOnly(Head(NormalEars(), eyes, NormalHair(style, Color.SaddleBrown), NormalMouth()), Distance(0.2f))

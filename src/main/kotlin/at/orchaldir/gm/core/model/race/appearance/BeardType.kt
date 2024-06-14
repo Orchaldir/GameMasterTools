@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.race.appearance
 
-enum class MouthType {
-    NoMouth,
-    NormalMouth,
+enum class BeardType {
+    None,
+    Normal,
 }

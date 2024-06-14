@@ -1,9 +1,6 @@
 package at.orchaldir.gm.utils.renderer
 
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Polygon2d
+import at.orchaldir.gm.utils.math.*
 
 interface Renderer {
 
@@ -42,6 +39,6 @@ interface Renderer {
 
     fun renderRectangle(aabb: AABB, options: RenderOptions, layer: Int = 0)
 
-    fun renderText(text: String, center: Point2d, options: TextOptions)
+    fun renderText(text: String, center: Point2d, orientation: Orientation, options: TextOptions)
 
 }
