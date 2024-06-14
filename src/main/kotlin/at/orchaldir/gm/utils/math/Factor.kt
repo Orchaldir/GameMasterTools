@@ -14,6 +14,7 @@ data class Factor(val value: Float) {
 
     operator fun plus(other: Factor) = Factor(value + other.value)
     operator fun minus(other: Factor) = Factor(value - other.value)
+    operator fun times(other: Factor) = Factor(value * other.value)
     operator fun times(other: Float) = Factor(value * other)
 
 }

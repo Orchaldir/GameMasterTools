@@ -5,19 +5,16 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.NoBorder
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.character.BEARD_LAYER
 
-// TODO
 data class BeardConfig(
-    val afroDiameter: Factor,
-    val flatTopY: Factor,
-    val sidePartX: Factor,
-    val spikedY: Factor,
-    val spikedHeight: Factor,
+    val goateeWidth: Factor,
+    val thinWidth: Factor,
 )
 
 fun visualizeBeard(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head, beard: Beard) {

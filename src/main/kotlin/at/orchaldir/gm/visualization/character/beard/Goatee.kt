@@ -6,31 +6,32 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.RenderConfig
 
 fun getChinPuff(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val width = config.head.mouthConfig.getWidth(head.mouth) * 0.8f
-    return getSharpMouthAndBottom(config, aabb, head.mouth, width, Factor(1.05f))
+    val width = config.head.getGoateeWidth(head.mouth)
+    return getSharpMouthAndBottom(config, aabb, head.mouth, width, config.head.getGoateeBottomY())
 }
 
 fun getGoatee(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val width = config.head.mouthConfig.getWidth(head.mouth) * 0.8f
+    val width = config.head.getGoateeWidth(head.mouth)
     val (topLeft, topRight) = aabb.getMirroredPoints(width, Factor(0.95f))
-    val bottom = aabb.getPoint(CENTER, Factor(1.1f))
+    val bottom = aabb.getPoint(CENTER, config.head.getGoateeBottomY())
 
     return Polygon2d(listOf(topLeft, topRight, bottom))
 }
 
 fun getLandingStrip(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val width = config.head.mouthConfig.getWidth(head.mouth) * 0.8f
+    val width = config.head.getGoateeWidth(head.mouth)
     return getSharpMouthAndBottom(config, aabb, head.mouth, width, END)
 }
 
 fun getSoulPatch(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val topY = config.head.getMouthBottomY(head.mouth)
-    val height = Factor(0.1f)
-    return fromTopAndBottom(aabb, topY, topY + height, height, height).build()
+    val size = config.head.beard.thinWidth
+    return fromTopAndBottom(aabb, topY, topY + size, size, size).build()
 }
 
 fun getVanDyke(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    return getSharpMouthAndBottom(config, aabb, head.mouth, Factor(0.1f), Factor(1.05f))
+    val size = config.head.beard.thinWidth
+    return getSharpMouthAndBottom(config, aabb, head.mouth, size, config.head.getGoateeBottomY())
 }
 
 private fun getSharpMouthAndBottom(
