@@ -3,7 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "gender": "Female",
+    "gender": "Male",
    "appearance": {
     "type": "HeadOnly",
     "head": {

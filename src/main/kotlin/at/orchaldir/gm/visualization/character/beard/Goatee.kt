@@ -2,10 +2,7 @@ package at.orchaldir.gm.visualization.character.beard
 
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.Mouth
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Polygon2d
-import at.orchaldir.gm.utils.math.Polygon2dBuilder
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.RenderConfig
 
 fun getGoatPatch(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
@@ -15,13 +12,10 @@ fun getGoatPatch(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
 
 fun getGoatee(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val width = config.head.mouthConfig.getWidth(head.mouth) * 0.8f
-    val bottomY = Factor(1.1f)
-    val builder = fromTopAndBottom(aabb, Factor(0.95f), bottomY, width, width)
+    val (topLeft, topRight) = aabb.getMirroredPoints(width, Factor(0.95f))
+    val bottom = aabb.getPoint(CENTER, Factor(1.1f))
 
-    builder.createSharpCorner(0)
-    builder.createSharpCorner(4)
-
-    return builder.build()
+    return Polygon2d(listOf(topLeft, topRight, bottom))
 }
 
 fun getSoulPatch(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
