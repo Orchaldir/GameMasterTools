@@ -6,12 +6,12 @@ import at.orchaldir.gm.visualization.RenderConfig
 
 fun getFuManchu(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val mouthTopY = config.head.getMouthTopY(head.mouth)
-    val thickness = Factor(0.05f)
+    val thickness = config.head.beard.thinWidth
     val mouthWidth = config.head.mouthConfig.getWidth(head.mouth)
     val deltaY = Factor(0.02f)
     val outerWidth = mouthWidth + thickness * 2.0f
     val topY = mouthTopY - thickness - deltaY
-    val bottomY = Factor(1.1f)
+    val bottomY = config.head.getGoateeBottomY()
     val (topLeft, topRight) = aabb.getMirroredPoints(outerWidth, topY)
     val (mouthLeft, mouthRight) =
         aabb.getMirroredPoints(mouthWidth, mouthTopY - deltaY)
@@ -33,7 +33,7 @@ fun getFuManchu(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
 
 fun getHandlebar(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val mouthTopY = config.head.getMouthTopY(head.mouth)
-    val thickness = Factor(0.05f)
+    val thickness = config.head.beard.handlebarWidth
     val mouthWidth = config.head.mouthConfig.getWidth(head.mouth)
     val width = mouthWidth + thickness * 2.0f
     val centerY = mouthTopY - thickness
@@ -60,9 +60,9 @@ fun getHandlebar(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
 }
 
 fun getPencil(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val height = Factor(0.03f)
+    val height = config.head.beard.handlebarWidth
     val width = config.head.mouthConfig.getWidth(head.mouth)
-    return getSimple(config, aabb, head, height, height, width, width).build()
+    return getSimple(config, aabb, head, height, Factor(0.01f), width, width).build()
 }
 
 fun getPyramid(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {

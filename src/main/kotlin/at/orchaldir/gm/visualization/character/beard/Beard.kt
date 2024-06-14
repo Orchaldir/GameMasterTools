@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.NoBorder
 import at.orchaldir.gm.utils.renderer.Renderer
@@ -14,6 +13,7 @@ import at.orchaldir.gm.visualization.character.BEARD_LAYER
 
 data class BeardConfig(
     val goateeWidth: Factor,
+    val handlebarWidth: Factor,
     val thinWidth: Factor,
 )
 
