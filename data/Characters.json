@@ -1,43 +1,5 @@
 {
  "version": 1,
  "elements": {
-  "0": {
-   "id": 0,
-    "gender": "Male",
-   "appearance": {
-    "type": "HeadOnly",
-    "head": {
-     "ears": {
-      "type": "Normal"
-     },
-     "eyes": {
-      "type": "Two",
-      "eye": {
-       "eyeShape": "Almond",
-       "pupilColor": "Purple"
-      }
-     },
-     "hair": {
-      "type": "Normal",
-      "style": {
-       "type": "MiddlePart"
-      },
-      "color": "Silver"
-     },
-     "mouth": {
-      "type": "Female",
-      "color": "Orange",
-      "teethColor": "Brown"
-     },
-     "skin": {
-      "type": "Normal",
-      "color": "Tan"
-     }
-    },
-    "height": {
-     "value": 0.2
-    }
-   }
-  }
  }
 }
