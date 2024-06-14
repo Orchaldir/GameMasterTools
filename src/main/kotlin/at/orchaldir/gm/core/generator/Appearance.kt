@@ -30,18 +30,19 @@ data class AppearanceGeneratorConfig(
 
 fun generateBeard(config: AppearanceGeneratorConfig): Beard {
     val options = config.appearanceOptions
+    val styleOptions = config.styleOptions
 
     return when (config.generate(options.hairOptions.beardTypes)) {
         BeardType.None -> NoBeard
         BeardType.Normal -> NormalBeard(
             when (config.select(BeardStyleType.entries)) {
-                BeardStyleType.Goatee -> Goatee(config.select(GoateeStyle.entries))
+                BeardStyleType.Goatee -> Goatee(config.generate(styleOptions.goateeStyles))
                 BeardStyleType.GoateeAndMoustache -> GoateeAndMoustache(
-                    config.select(MoustacheStyle.entries),
-                    config.select(GoateeStyle.entries),
+                    config.generate(styleOptions.moustacheStyle),
+                    config.generate(styleOptions.goateeStyles),
                 )
 
-                BeardStyleType.Moustache -> Moustache(config.select(MoustacheStyle.entries))
+                BeardStyleType.Moustache -> Moustache(config.generate(styleOptions.moustacheStyle))
                 BeardStyleType.Shaved -> ShavedBeard
             },
             config.generate(options.hairOptions.colors),

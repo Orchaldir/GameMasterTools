@@ -5,15 +5,23 @@
    "id": 0,
    "name": "Waterdeep",
    "styleOptions": {
-     "moustacheStyle": {
-       "map": {
-         "Handlebar": "Common",
-         "Pencil": "Common",
-         "Pyramid": "Common",
-         "Toothbrush": "Common",
-         "Walrus": "Common"
-       }
-     },
+    "beardStyles": {
+     "map": {
+      "Goatee": "Uncommon",
+      "GoateeAndMoustache": "Rare",
+      "Moustache": "Common",
+      "Shaved": "Common"
+     }
+    },
+    "moustacheStyle": {
+     "map": {
+      "Handlebar": "Common",
+      "Pencil": "Common",
+      "Pyramid": "Common",
+      "Toothbrush": "Common",
+      "Walrus": "Common"
+     }
+    },
     "hairStyles": {
      "map": {
       "BuzzCut": "Common",

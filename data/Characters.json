@@ -3,7 +3,51 @@
  "elements": {
   "0": {
    "id": 0,
-   "gender": "Female"
+   "gender": "Male",
+   "appearance": {
+    "type": "HeadOnly",
+    "head": {
+     "ears": {
+      "type": "Normal",
+      "size": "Large"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "eyeShape": "Almond",
+       "pupilColor": "Teal"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "Shaved"
+      },
+      "color": "Yellow"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "GoateeAndMoustache",
+        "moustacheStyle": "Handlebar",
+        "goateeStyle": "VanDyke"
+       },
+       "color": "Silver"
+      },
+      "width": "Large",
+      "teethColor": "Brown"
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Dark"
+     }
+    },
+    "height": {
+     "value": 0.2
+    }
+   }
   }
  }
 }

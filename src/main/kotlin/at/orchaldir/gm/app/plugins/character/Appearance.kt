@@ -267,7 +267,7 @@ private fun FORM.showNormalBeardEditor(
     culture: Culture,
     beard: NormalBeard,
 ) {
-    selectEnum("Style", BEARD_STYLE, BeardStyleType.entries, true) { style ->
+    selectEnum("Style", BEARD_STYLE, culture.styleOptions.beardStyles, true) { style ->
         label = style.name
         value = style.toString()
         selected = when (style) {
@@ -295,7 +295,7 @@ private fun HtmlBlockTag.selectGoateeStyle(
     culture: Culture,
     goateeStyle: GoateeStyle,
 ) {
-    selectEnum("Goatee", GOATEE_STYLE, GoateeStyle.entries, true) { style ->
+    selectEnum("Goatee", GOATEE_STYLE, culture.styleOptions.goateeStyles, true) { style ->
         label = style.name
         value = style.toString()
         selected = style == goateeStyle
@@ -306,7 +306,7 @@ private fun HtmlBlockTag.selectMoustacheStyle(
     culture: Culture,
     moustacheStyle: MoustacheStyle,
 ) {
-    selectEnum("Moustache", MOUSTACHE_STYLE, MoustacheStyle.entries, true) { style ->
+    selectEnum("Moustache", MOUSTACHE_STYLE, culture.styleOptions.moustacheStyle, true) { style ->
         label = style.name
         value = style.toString()
         selected = style == moustacheStyle
