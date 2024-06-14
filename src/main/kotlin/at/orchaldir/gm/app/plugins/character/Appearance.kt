@@ -76,11 +76,11 @@ fun Application.configureAppearanceRouting() {
                 showAppearanceEditor(call, state, character)
             }
         }
-        post<Characters.Appearance.Preview> { edit ->
-            logger.info { "Get preview for character ${edit.id.value}'s appearance" }
+        post<Characters.Appearance.Preview> { preview ->
+            logger.info { "Get preview for character ${preview.id.value}'s appearance" }
 
             val state = STORE.getState()
-            val character = state.characters.getOrThrow(edit.id)
+            val character = state.characters.getOrThrow(preview.id)
             val formParameters = call.receiveParameters()
             val config = createGenerationConfig(state, character)
             val appearance = parseAppearance(formParameters, config, character)

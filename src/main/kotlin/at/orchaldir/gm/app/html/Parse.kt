@@ -11,11 +11,19 @@ fun <T> parseRarityMap(
     parameters: Parameters,
     selectId: String,
     converter: (String) -> T,
-) = RarityMap.init(
-    parameters.getAll(selectId)
+    default: Collection<T> = listOf(),
+): RarityMap<T> {
+    val map = parameters.getAll(selectId)
         ?.associate {
             val parts = it.split('-')
             val value = converter(parts[0])
             val rarity = Rarity.valueOf(parts[1])
             Pair(value, rarity)
-        } ?: mapOf())
+        }
+
+    if (map != null) {
+        return RarityMap.init(map)
+    }
+
+    return RarityMap(default)
+}

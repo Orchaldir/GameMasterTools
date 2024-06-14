@@ -30,12 +30,12 @@
       "SidePart": "Common"
      }
     },
-     "lipColors": {
-       "map": {
-         "Fuchsia": "Uncommon",
-         "Maroon": "Uncommon",
-         "Red": "Common"
-       }
+    "lipColors": {
+     "map": {
+      "Fuchsia": "Uncommon",
+      "Maroon": "Uncommon",
+      "Red": "Common"
+     }
     }
    }
   }
