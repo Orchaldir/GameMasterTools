@@ -66,18 +66,18 @@ fun getPencil(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
 }
 
 fun getPyramid(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val height = Factor(0.08f)
+    val height = config.head.beard.thinWidth
     val width = config.head.mouthConfig.getWidth(head.mouth)
     return getSimple(config, aabb, head, height, height, width).build()
 }
 
 fun getToothbrush(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val height = Factor(0.08f)
+    val height = config.head.beard.thinWidth
     return getSimple(config, aabb, head, height, height, height).build()
 }
 
 fun getWalrus(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val height = Factor(0.1f)
+    val height = config.head.beard.thinWidth
     val width = config.head.mouthConfig.getWidth(head.mouth) + height
     val polygon = getSimple(config, aabb, head, height, width, width)
 
