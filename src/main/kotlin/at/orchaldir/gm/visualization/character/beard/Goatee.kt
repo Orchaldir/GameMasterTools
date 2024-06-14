@@ -5,9 +5,9 @@ import at.orchaldir.gm.core.model.character.appearance.Mouth
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.RenderConfig
 
-fun getGoatPatch(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
+fun getChinPuff(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val width = config.head.mouthConfig.getWidth(head.mouth) * 0.8f
-    return getSharpMouthAndBottom(config, aabb, head.mouth, width)
+    return getSharpMouthAndBottom(config, aabb, head.mouth, width, Factor(1.05f))
 }
 
 fun getGoatee(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
@@ -18,6 +18,11 @@ fun getGoatee(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     return Polygon2d(listOf(topLeft, topRight, bottom))
 }
 
+fun getLandingStrip(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
+    val width = config.head.mouthConfig.getWidth(head.mouth) * 0.8f
+    return getSharpMouthAndBottom(config, aabb, head.mouth, width, END)
+}
+
 fun getSoulPatch(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val topY = config.head.getMouthBottomY(head.mouth)
     val height = Factor(0.1f)
@@ -25,7 +30,7 @@ fun getSoulPatch(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
 }
 
 fun getVanDyke(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    return getSharpMouthAndBottom(config, aabb, head.mouth, Factor(0.1f))
+    return getSharpMouthAndBottom(config, aabb, head.mouth, Factor(0.1f), Factor(1.05f))
 }
 
 private fun getSharpMouthAndBottom(
@@ -33,8 +38,9 @@ private fun getSharpMouthAndBottom(
     aabb: AABB,
     mouth: Mouth,
     width: Factor,
+    bottomY: Factor,
 ): Polygon2d {
-    val builder = fromMouthAndBottom(config, aabb, mouth, Factor(1.05f), width, width)
+    val builder = fromMouthAndBottom(config, aabb, mouth, bottomY, width, width)
 
     builder.createSharpCorner(0)
     builder.createSharpCorner(4)

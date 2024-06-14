@@ -50,11 +50,12 @@ private fun visualizeGoatee(
 ) {
     val options = NoBorder(color.toRender())
     val polygon = when (goatee) {
-        GoateeStyle.GoatPatch -> getGoatPatch(config, aabb, head)
+        GoateeStyle.ChinPuff -> getChinPuff(config, aabb, head)
         GoateeStyle.Goatee -> {
             renderer.renderPolygon(getGoatee(config, aabb, head), options, BEARD_LAYER)
             return
         }
+        GoateeStyle.LandingStrip -> getLandingStrip(config, aabb, head)
         GoateeStyle.SoulPatch -> {
             renderer.renderPolygon(getSoulPatch(config, aabb, head), options, BEARD_LAYER)
             return
