@@ -22,21 +22,17 @@ data class FamilyConvention(
     val nameOrder: NameOrder,
 ) : NamingConvention()
 
-@Serializable
-enum class LookupDistance {
-    OneGeneration,
-    TwoGenerations,
-}
-
 
 @Serializable
 @SerialName("Patronym")
 data class PatronymConvention(
-    val lookupDistance: LookupDistance,
+    val lookupDistance: GenonymicLookupDistance,
+    val style: GenonymicStyle,
 ) : NamingConvention()
 
 @Serializable
 @SerialName("Matronym")
 data class MatronymConvention(
-    val lookupDistance: LookupDistance,
+    val lookupDistance: GenonymicLookupDistance,
+    val style: GenonymicStyle,
 ) : NamingConvention()
