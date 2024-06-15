@@ -481,7 +481,7 @@ private fun parseAppearance(
             val ears = parseEars(parameters, config)
             val eyes = parseEyes(parameters, config)
             val hair = parseHair(parameters, config)
-            val mouth = parseMouth(parameters, config, character)
+            val mouth = parseMouth(parameters, config, character, hair)
             val skin = parseSkin(parameters, config)
             val head = Head(ears, eyes, hair, mouth, skin)
             return HeadOnly(head, Distance(0.2f))
@@ -491,7 +491,7 @@ private fun parseAppearance(
     }
 }
 
-private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig): Beard {
+private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig, hair: Hair): Beard {
     return when (parameters[BEARD_TYPE]) {
         BeardType.None.toString() -> NoBeard
         BeardType.Normal.toString() -> {
@@ -518,7 +518,7 @@ private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig
             )
         }
 
-        else -> generateBeard(config)
+        else -> generateBeard(config, hair)
     }
 }
 
@@ -586,7 +586,12 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
     }
 }
 
-private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig, character: Character): Mouth {
+private fun parseMouth(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+    character: Character,
+    hair: Hair,
+): Mouth {
     return when (parameters[MOUTH_TYPE]) {
         MouthType.NoMouth.toString() -> NoMouth
         MouthType.NormalMouth.toString() -> {
@@ -598,13 +603,13 @@ private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig
                 )
             }
             return NormalMouth(
-                parseBeard(parameters, config),
+                parseBeard(parameters, config, hair),
                 parse(parameters, MOUTH_WIDTH, Size.Medium),
                 parse(parameters, TEETH_COLOR, TeethColor.White),
             )
         }
 
-        else -> generateMouth(config)
+        else -> generateMouth(config, hair)
     }
 }
 
