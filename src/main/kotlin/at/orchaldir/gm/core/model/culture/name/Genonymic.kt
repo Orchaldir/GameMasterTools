@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.culture.name
 
+import at.orchaldir.gm.core.model.appearance.GenderMap
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -19,23 +20,17 @@ data object NamesOnlyStyle : GenonymicStyle()
 @Serializable
 @SerialName("Prefix")
 data class PrefixStyle(
-    val male: String,
-    val genderless: String,
-    val female: String,
+    val prefix: GenderMap<String>,
 ) : GenonymicStyle()
 
 @Serializable
 @SerialName("Suffix")
 data class SuffixStyle(
-    val male: String,
-    val genderless: String,
-    val female: String,
+    val suffix: GenderMap<String>,
 ) : GenonymicStyle()
 
 @Serializable
-@SerialName("Suffix")
+@SerialName("ChildOf")
 data class ChildOfStyle(
-    val male: String,
-    val genderless: String,
-    val female: String,
+    val words: GenderMap<String>,
 ) : GenonymicStyle()
