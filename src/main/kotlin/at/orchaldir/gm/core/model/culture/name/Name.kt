@@ -11,15 +11,10 @@ sealed class NamingConvention
 data class MononymConvention(val name: String) : NamingConvention()
 
 @Serializable
-enum class NameOrder {
-    GivenNameFirst,
-    FamilyNameFirst,
-}
-
-@Serializable
 @SerialName("Family")
 data class FamilyConvention(
     val nameOrder: NameOrder,
+    val middleNameOptions: MiddleNameOptions,
 ) : NamingConvention()
 
 
@@ -33,6 +28,16 @@ data class PatronymConvention(
 @Serializable
 @SerialName("Matronym")
 data class MatronymConvention(
+    val lookupDistance: GenonymicLookupDistance,
+    val style: GenonymicStyle,
+) : NamingConvention()
+
+/**
+ * Patronym or Matronym based on the own gender.
+ */
+@Serializable
+@SerialName("Genonym")
+data class GenonymConvention(
     val lookupDistance: GenonymicLookupDistance,
     val style: GenonymicStyle,
 ) : NamingConvention()
