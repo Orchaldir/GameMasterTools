@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.culture.name
 
+import at.orchaldir.gm.core.model.appearance.RarityMap
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -14,7 +15,7 @@ data class MononymConvention(val name: String) : NamingConvention()
 @SerialName("Family")
 data class FamilyConvention(
     val nameOrder: NameOrder,
-    val middleNameOptions: MiddleNameOptions,
+    val middleNameOptions: RarityMap<MiddleNameOption>,
 ) : NamingConvention()
 
 

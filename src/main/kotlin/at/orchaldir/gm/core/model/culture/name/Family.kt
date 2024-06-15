@@ -9,7 +9,7 @@ enum class NameOrder {
 }
 
 @Serializable
-enum class MiddleNameOptions {
+enum class MiddleNameOption {
     None,
     Random,
     Patronym,
