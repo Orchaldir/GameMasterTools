@@ -165,7 +165,7 @@ private fun HTML.showNameListEditor(
                 name = "names"
                 cols = "100"
                 rows = (nameList.name.length + 5).toString()
-                +"test"
+                +nameList.names.joinToString("\n")
             }
             p {
                 submitInput {

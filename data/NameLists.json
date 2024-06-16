@@ -2,7 +2,12 @@
   "version": 1,
   "elements": {
     "0": {
-      "id": 0
+      "id": 0,
+      "names": [
+        "A",
+        "B",
+        "C"
+      ]
     }
   }
 }
