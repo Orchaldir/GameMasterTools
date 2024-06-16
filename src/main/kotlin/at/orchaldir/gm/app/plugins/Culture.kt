@@ -216,26 +216,17 @@ private fun HTML.showCultureEditor(
                 }
             }
             when (culture.namingConvention) {
-                is FamilyConvention -> doNothing()
-                is GenonymConvention -> doNothing()
-                is MatronymConvention -> doNothing()
-                is MononymConvention -> selectGenderMap("Names", culture.namingConvention.names) { gender, nameListId ->
-                    val selectId = "$NAMES-$gender"
-                    select {
-                        id = selectId
-                        name = selectId
-                        state.nameLists.getAll().forEach { nameList ->
-                            option {
-                                label = nameList.name
-                                value = nameList.id.value.toString()
-                                selected = nameList.id == nameListId
-                            }
-                        }
-                    }
+                is FamilyConvention -> {
+                    selectNamesByGender(state, "Given Names", culture.namingConvention.givenNames)
+                    selectNamesByGender(state, "Family Names", culture.namingConvention.familyNames)
                 }
 
+                is GenonymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names)
+                is MatronymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names)
+                is MononymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names)
+
                 NoNamingConvention -> doNothing()
-                is PatronymConvention -> doNothing()
+                is PatronymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names)
             }
             h2 { +"Style Options" }
             selectRarityMap("Beard Styles", BEARD_STYLE, culture.styleOptions.beardStyles)
@@ -252,5 +243,26 @@ private fun HTML.showCultureEditor(
             }
         }
         p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun FORM.selectNamesByGender(
+    state: State,
+    fieldLabel: String,
+    namesByGender: GenderMap<NameListId>,
+) {
+    selectGenderMap(fieldLabel, namesByGender) { gender, nameListId ->
+        val selectId = "$NAMES-$gender"
+        select {
+            id = selectId
+            name = selectId
+            state.nameLists.getAll().forEach { nameList ->
+                option {
+                    label = nameList.name
+                    value = nameList.id.value.toString()
+                    selected = nameList.id == nameListId
+                }
+            }
+        }
     }
 }
