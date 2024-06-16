@@ -134,6 +134,23 @@ private fun HTML.showCultureDetails(
     simpleHtml("Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
         field("Name", culture.name)
+        h2 { +"Naming Convention" }
+        field("Type", culture.namingConvention.javaClass.simpleName)
+        when (culture.namingConvention) {
+            is FamilyConvention -> doNothing()
+            is GenonymConvention -> doNothing()
+            is MatronymConvention -> doNothing()
+            is MononymConvention -> field("Names") {
+                showGenderMap(culture.namingConvention.names) { gender, id ->
+                    field(gender.toString()) {
+                        link(call, state, id)
+                    }
+                }
+            }
+
+            NoNamingConvention -> doNothing()
+            is PatronymConvention -> doNothing()
+        }
         h2 { +"Style Options" }
         showRarityMap("Beard Styles", culture.styleOptions.beardStyles)
         showRarityMap("Goatee Styles", culture.styleOptions.goateeStyles)

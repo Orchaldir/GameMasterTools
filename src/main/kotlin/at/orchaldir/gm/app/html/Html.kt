@@ -61,6 +61,19 @@ fun BODY.svg(svg: Svg, width: Int) {
 
 // lists
 
+fun <T> HtmlBlockTag.showGenderMap(
+    map: GenderMap<T>,
+    content: LI.(Gender, T) -> Unit,
+) {
+    ul {
+        map.getMap().forEach { (key, value) ->
+            li {
+                content(key, value)
+            }
+        }
+    }
+}
+
 fun <T> HtmlBlockTag.showList(
     elements: Collection<T>,
     content: LI.(T) -> Unit,
