@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.parseRarityMap
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
