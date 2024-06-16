@@ -245,6 +245,7 @@ private fun HTML.showCultureEditor(
     state: State,
     culture: Culture,
 ) {
+    val namingConvention = culture.namingConvention
     val backLink = href(call, culture.id)
     val updateLink = call.application.href(Cultures.Update(culture.id))
 
@@ -261,32 +262,49 @@ private fun HTML.showCultureEditor(
                 label = type.toString()
                 value = type.toString()
                 selected = when (type) {
-                    NamingConventionType.None -> culture.namingConvention is NoNamingConvention
-                    NamingConventionType.Mononym -> culture.namingConvention is MononymConvention
-                    NamingConventionType.Family -> culture.namingConvention is FamilyConvention
-                    NamingConventionType.Patronym -> culture.namingConvention is PatronymConvention
-                    NamingConventionType.Matronym -> culture.namingConvention is MatronymConvention
-                    NamingConventionType.Genonym -> culture.namingConvention is GenonymConvention
+                    NamingConventionType.None -> namingConvention is NoNamingConvention
+                    NamingConventionType.Mononym -> namingConvention is MononymConvention
+                    NamingConventionType.Family -> namingConvention is FamilyConvention
+                    NamingConventionType.Patronym -> namingConvention is PatronymConvention
+                    NamingConventionType.Matronym -> namingConvention is MatronymConvention
+                    NamingConventionType.Genonym -> namingConvention is GenonymConvention
                 }
             }
-            when (culture.namingConvention) {
+            when (namingConvention) {
                 is FamilyConvention -> {
                     selectEnum("Name Order", NAME_ORDER, NameOrder.entries, true) { o ->
                         label = o.name
                         value = o.toString()
-                        selected = culture.namingConvention.nameOrder == o
+                        selected = namingConvention.nameOrder == o
                     }
-                    selectRarityMap("Middle Name Options", MIDDLE_NAME, culture.namingConvention.middleNameOptions)
-                    selectNamesByGender(state, "Given Names", culture.namingConvention.givenNames, NAMES)
-                    selectNamesByGender(state, "Family Names", culture.namingConvention.familyNames, FAMILY_NAMES)
+                    selectRarityMap("Middle Name Options", MIDDLE_NAME, namingConvention.middleNameOptions)
+                    selectNamesByGender(state, "Given Names", namingConvention.givenNames, NAMES)
+                    selectNamesByGender(state, "Family Names", namingConvention.familyNames, FAMILY_NAMES)
                 }
 
-                is GenonymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names, NAMES)
-                is MatronymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names, NAMES)
-                is MononymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names, NAMES)
+                is GenonymConvention -> selectGenonymConvention(
+                    state,
+                    namingConvention.lookupDistance,
+                    namingConvention.style,
+                    namingConvention.names
+                )
+
+                is MatronymConvention -> selectGenonymConvention(
+                    state,
+                    namingConvention.lookupDistance,
+                    namingConvention.style,
+                    namingConvention.names
+                )
+
+                is MononymConvention -> selectNamesByGender(state, "Names", namingConvention.names, NAMES)
 
                 NoNamingConvention -> doNothing()
-                is PatronymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names, NAMES)
+                is PatronymConvention -> selectGenonymConvention(
+                    state,
+                    namingConvention.lookupDistance,
+                    namingConvention.style,
+                    namingConvention.names
+                )
             }
             h2 { +"Style Options" }
             selectRarityMap("Beard Styles", BEARD_STYLE, culture.styleOptions.beardStyles)
@@ -304,6 +322,20 @@ private fun HTML.showCultureEditor(
         }
         p { a(backLink) { +"Back" } }
     }
+}
+
+private fun FORM.selectGenonymConvention(
+    state: State,
+    lookupDistance: GenonymicLookupDistance,
+    style: GenonymicStyle,
+    names: GenderMap<NameListId>,
+) {
+    selectEnum("Lookup Distance", LOOKUP_DISTANCE, GenonymicLookupDistance.entries, true) { distance ->
+        label = distance.name
+        value = distance.toString()
+        selected = lookupDistance == distance
+    }
+    selectNamesByGender(state, "Names", names, NAMES)
 }
 
 private fun FORM.selectNamesByGender(
