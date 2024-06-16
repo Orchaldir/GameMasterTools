@@ -18,6 +18,7 @@ import at.orchaldir.gm.utils.Storage
 private const val CHARACTER = "Character"
 private const val CULTURE = "Culture"
 private const val LANGUAGE = "Language"
+private const val NAME_LIST = "NameList"
 private const val PERSONALITY_TRAIT = "Personality Trait"
 private const val RACE = "Race"
 
@@ -26,6 +27,7 @@ data class State(
     val characters: Storage<CharacterId, Character> = Storage(CharacterId(0), CHARACTER),
     val cultures: Storage<CultureId, Culture> = Storage(CultureId(0), CULTURE),
     val languages: Storage<LanguageId, Language> = Storage(LanguageId(0), LANGUAGE),
+    val nameLists: Storage<NameListId, NameList> = Storage(NameListId(0), NAME_LIST),
     val personalityTraits: Storage<PersonalityTraitId, PersonalityTrait> = Storage(
         PersonalityTraitId(0),
         PERSONALITY_TRAIT
@@ -39,6 +41,7 @@ data class State(
             loadStorage(path, CHARACTER, CharacterId(0)),
             loadStorage(path, CULTURE, CultureId(0)),
             loadStorage(path, LANGUAGE, LanguageId(0)),
+            loadStorage(path, NAME_LIST, NameListId(0)),
             loadStorage(path, PERSONALITY_TRAIT, PersonalityTraitId(0)),
             loadStorage(path, RACE, RaceId(0)),
         )
@@ -48,6 +51,7 @@ data class State(
         saveStorage(path, characters)
         saveStorage(path, cultures)
         saveStorage(path, languages)
+        saveStorage(path, nameLists)
         saveStorage(path, personalityTraits)
         saveStorage(path, races)
     }
