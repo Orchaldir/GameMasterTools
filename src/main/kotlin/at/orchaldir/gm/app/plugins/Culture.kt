@@ -6,7 +6,9 @@ import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
+import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.appearance.GenderMap
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
@@ -137,19 +139,17 @@ private fun HTML.showCultureDetails(
         h2 { +"Naming Convention" }
         field("Type", culture.namingConvention.javaClass.simpleName)
         when (culture.namingConvention) {
-            is FamilyConvention -> doNothing()
-            is GenonymConvention -> doNothing()
-            is MatronymConvention -> doNothing()
-            is MononymConvention -> field("Names") {
-                showGenderMap(culture.namingConvention.names) { gender, id ->
-                    field(gender.toString()) {
-                        link(call, state, id)
-                    }
-                }
+            is FamilyConvention -> {
+                showNamesByGender(call, state, "Given Names", culture.namingConvention.givenNames)
+                showNamesByGender(call, state, "Family Names", culture.namingConvention.familyNames)
             }
 
+            is GenonymConvention -> showNamesByGender(call, state, "Names", culture.namingConvention.names)
+            is MatronymConvention -> showNamesByGender(call, state, "Names", culture.namingConvention.names)
+            is MononymConvention -> showNamesByGender(call, state, "Names", culture.namingConvention.names)
+
             NoNamingConvention -> doNothing()
-            is PatronymConvention -> doNothing()
+            is PatronymConvention -> showNamesByGender(call, state, "Names", culture.namingConvention.names)
         }
         h2 { +"Style Options" }
         showRarityMap("Beard Styles", culture.styleOptions.beardStyles)
@@ -168,6 +168,21 @@ private fun HTML.showCultureDetails(
         }
 
         p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun BODY.showNamesByGender(
+    call: ApplicationCall,
+    state: State,
+    label: String,
+    namesByGender: GenderMap<NameListId>,
+) {
+    field(label) {
+        showGenderMap(namesByGender) { gender, id ->
+            field(gender.toString()) {
+                link(call, state, id)
+            }
+        }
     }
 }
 
