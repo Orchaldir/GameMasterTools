@@ -5,40 +5,27 @@
    "id": 0,
    "name": "Human",
    "genders": {
-    "map": {
      "Female": "Common",
      "Male": "Common"
-    }
    },
    "appearance": {
     "skinTypes": {
-     "map": {
       "Normal": "Common"
-     }
     },
     "earsLayout": {
-     "map": {
       "NormalEars": "Common"
-     }
     },
     "earShapes": {
-     "map": {
       "Round": "Common"
-     }
     },
     "eyesLayout": {
-     "map": {
       "TwoEyes": "Common"
-     }
     },
     "eyeOptions": {
      "pupilShapes": {
-      "map": {
        "Circle": "Common"
-      }
      },
      "pupilColors": {
-      "map": {
        "Aqua": "Common",
        "Blue": "Common",
        "Gray": "Rare",
@@ -50,27 +37,19 @@
        "SaddleBrown": "Common",
        "Silver": "Common",
        "Teal": "Common"
-      }
      },
      "scleraColors": {
-      "map": {
        "White": "Common"
-      }
      }
     },
     "hairOptions": {
      "beardTypes": {
-      "map": {
        "Normal": "Common"
-      }
      },
      "hairTypes": {
-      "map": {
        "Normal": "Common"
-      }
      },
      "colors": {
-      "map": {
        "Black": "Common",
        "Gray": "Common",
        "Maroon": "Common",
@@ -80,13 +59,10 @@
        "Silver": "Common",
        "White": "Common",
        "Yellow": "Common"
-      }
      }
     },
     "mouthTypes": {
-     "map": {
       "NormalMouth": "Common"
-     }
     }
    }
   },
@@ -94,49 +70,34 @@
    "id": 1,
    "name": "Elf",
    "genders": {
-    "map": {
      "Female": "Common",
      "Male": "Common"
-    }
    },
    "appearance": {
     "skinTypes": {
-     "map": {
       "Normal": "Common",
       "Exotic": "Rare"
-     }
     },
     "exoticSkinColors": {
-     "map": {
       "Gray": "Common",
       "Green": "Common",
       "Purple": "Common"
-     }
     },
     "earsLayout": {
-     "map": {
       "NormalEars": "Common"
-     }
     },
     "earShapes": {
-     "map": {
       "PointedSideways": "Common",
       "PointedUpwards": "Common"
-     }
     },
     "eyesLayout": {
-     "map": {
       "TwoEyes": "Common"
-     }
     },
     "eyeOptions": {
      "pupilShapes": {
-      "map": {
        "Circle": "Common"
-      }
      },
      "pupilColors": {
-      "map": {
        "Aqua": "Common",
        "Black": "Common",
        "Blue": "Common",
@@ -154,30 +115,21 @@
        "Silver": "Common",
        "Teal": "Common",
        "Yellow": "Common"
-      }
      },
      "scleraColors": {
-      "map": {
        "White": "Common"
-      }
      }
     },
     "hairOptions": {
      "beardTypes": {
-      "map": {
        "None": "Common"
-      }
      },
      "hairTypes": {
-      "map": {
        "Normal": "Common"
-      }
      }
     },
     "mouthTypes": {
-     "map": {
       "NormalMouth": "Common"
-     }
     }
    }
   }
