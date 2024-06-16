@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.culture.name
 
+import at.orchaldir.gm.core.model.NameListId
+import at.orchaldir.gm.core.model.appearance.GenderMap
 import at.orchaldir.gm.core.model.appearance.RarityMap
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -8,14 +10,20 @@ import kotlinx.serialization.Serializable
 sealed class NamingConvention
 
 @Serializable
+@SerialName("None")
+data object NoNamingConvention : NamingConvention()
+
+@Serializable
 @SerialName("Mononym")
-data class MononymConvention(val name: String) : NamingConvention()
+data class MononymConvention(val names: GenderMap<NameListId>) : NamingConvention()
 
 @Serializable
 @SerialName("Family")
 data class FamilyConvention(
     val nameOrder: NameOrder,
     val middleNameOptions: RarityMap<MiddleNameOption>,
+    val givenNames: GenderMap<NameListId>,
+    val familyNames: GenderMap<NameListId>,
 ) : NamingConvention()
 
 
@@ -24,6 +32,7 @@ data class FamilyConvention(
 data class PatronymConvention(
     val lookupDistance: GenonymicLookupDistance,
     val style: GenonymicStyle,
+    val names: GenderMap<NameListId>,
 ) : NamingConvention()
 
 @Serializable
@@ -31,6 +40,7 @@ data class PatronymConvention(
 data class MatronymConvention(
     val lookupDistance: GenonymicLookupDistance,
     val style: GenonymicStyle,
+    val names: GenderMap<NameListId>,
 ) : NamingConvention()
 
 /**
@@ -41,4 +51,5 @@ data class MatronymConvention(
 data class GenonymConvention(
     val lookupDistance: GenonymicLookupDistance,
     val style: GenonymicStyle,
+    val names: GenderMap<NameListId>,
 ) : NamingConvention()

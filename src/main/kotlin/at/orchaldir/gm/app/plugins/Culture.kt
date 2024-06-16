@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
 import at.orchaldir.gm.core.model.culture.style.HairStyleType
 import at.orchaldir.gm.core.model.culture.style.StyleOptions
 import at.orchaldir.gm.core.model.race.appearance.BeardStyleType
@@ -206,6 +207,7 @@ fun parseCulture(
     return Culture(
         id,
         name,
+        NoNamingConvention,
         StyleOptions(
             parseRarityMap(parameters, BEARD_STYLE, BeardStyleType::valueOf),
             parseRarityMap(parameters, GOATEE_STYLE, GoateeStyle::valueOf),
