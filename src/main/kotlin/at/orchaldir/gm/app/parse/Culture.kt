@@ -50,7 +50,25 @@ fun parseNamingConvention(
             parseNamesByGender(parameters, FAMILY_NAMES)
         )
 
+        Patronym.toString() -> PatronymConvention(
+            parse(parameters, LOOKUP_DISTANCE, GenonymicLookupDistance.OneGeneration),
+            parseGenonymicStyle(parameters),
+            parseNamesByGender(parameters, NAMES),
+        )
+
         else -> NoNamingConvention
+    }
+}
+
+fun parseGenonymicStyle(
+    parameters: Parameters,
+): GenonymicStyle {
+    return when (parameters[GENONYMIC_STYLE]) {
+        GenonymicStyleType.ChildOf.toString() -> ChildOfStyle(parseWordsByGender(parameters, WORD))
+        GenonymicStyleType.Prefix.toString() -> PrefixStyle(parseWordsByGender(parameters, WORD))
+        GenonymicStyleType.Suffix.toString() -> SuffixStyle(parseWordsByGender(parameters, WORD))
+
+        else -> NamesOnlyStyle
     }
 }
 
@@ -58,15 +76,32 @@ fun parseNamesByGender(
     parameters: Parameters,
     param: String,
 ): GenderMap<NameListId> {
-    val female = parseNameLisId(parameters, param, Gender.Female)
-    val genderless = parseNameLisId(parameters, param, Gender.Genderless)
-    val male = parseNameLisId(parameters, param, Gender.Male)
+    val female = parseNameListId(parameters, param, Gender.Female)
+    val genderless = parseNameListId(parameters, param, Gender.Genderless)
+    val male = parseNameListId(parameters, param, Gender.Male)
 
     return GenderMap(female, genderless, male)
 }
 
-private fun parseNameLisId(
+private fun parseNameListId(
     parameters: Parameters,
     param: String,
     gender: Gender,
 ) = NameListId(parameters["$param-$gender"]?.toInt() ?: 0)
+
+fun parseWordsByGender(
+    parameters: Parameters,
+    param: String,
+): GenderMap<String> {
+    val female = parseWord(parameters, param, Gender.Female)
+    val genderless = parseWord(parameters, param, Gender.Genderless)
+    val male = parseWord(parameters, param, Gender.Male)
+
+    return GenderMap(female, genderless, male)
+}
+
+private fun parseWord(
+    parameters: Parameters,
+    param: String,
+    gender: Gender,
+) = parameters["$param-$gender"] ?: "Unknown"
