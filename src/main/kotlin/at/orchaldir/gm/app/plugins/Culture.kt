@@ -141,7 +141,7 @@ private fun HTML.showCultureDetails(
         when (culture.namingConvention) {
             is FamilyConvention -> {
                 field("Name Order", culture.namingConvention.nameOrder.toString())
-                showRarityMap("Middle Name", culture.namingConvention.middleNameOptions)
+                showRarityMap("Middle Name Options", culture.namingConvention.middleNameOptions)
                 showNamesByGender(call, state, "Given Names", culture.namingConvention.givenNames)
                 showNamesByGender(call, state, "Family Names", culture.namingConvention.familyNames)
             }
@@ -179,7 +179,8 @@ private fun BODY.showNamesByGender(
     label: String,
     namesByGender: GenderMap<NameListId>,
 ) {
-    field(label) {
+    details {
+        summary { +label }
         showGenderMap(namesByGender) { gender, id ->
             field(gender.toString()) {
                 link(call, state, id)
@@ -224,7 +225,7 @@ private fun HTML.showCultureEditor(
                         value = o.toString()
                         selected = culture.namingConvention.nameOrder == o
                     }
-                    selectRarityMap("Middle Name", MIDDLE_NAME, culture.namingConvention.middleNameOptions)
+                    selectRarityMap("Middle Name Options", MIDDLE_NAME, culture.namingConvention.middleNameOptions)
                     selectNamesByGender(state, "Given Names", culture.namingConvention.givenNames, NAMES)
                     selectNamesByGender(state, "Family Names", culture.namingConvention.familyNames, FAMILY_NAMES)
                 }
