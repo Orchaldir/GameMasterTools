@@ -66,7 +66,7 @@ fun Application.configureNameListRouting() {
             STORE.getState().save()
         }
         get<NameLists.Delete> { delete ->
-            logger.info { "Delete language ${delete.id.value}" }
+            logger.info { "Delete name list ${delete.id.value}" }
 
             STORE.dispatch(DeleteNameList(delete.id))
 
@@ -74,9 +74,8 @@ fun Application.configureNameListRouting() {
 
             STORE.getState().save()
         }
-        /*
         get<NameLists.Edit> { edit ->
-            logger.info { "Get editor for language ${edit.id.value}" }
+            logger.info { "Get editor for name list ${edit.id.value}" }
 
             val state = STORE.getState()
             val language = state.nameLists.getOrThrow(edit.id)
@@ -85,6 +84,7 @@ fun Application.configureNameListRouting() {
                 showNameListEditor(call, state, language)
             }
         }
+        /*
         post<NameLists.Update> { update ->
             logger.info { "Update language ${update.id.value}" }
 
@@ -138,6 +138,43 @@ private fun HTML.showNameListDetails(
             p { a(deleteLink) { +"Delete" } }
         }
         */
+        p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun HTML.showNameListEditor(
+    call: ApplicationCall,
+    state: State,
+    nameList: NameList,
+) {
+    val backLink = href(call, nameList.id)
+    val updateLink = call.application.href(NameLists.Update(nameList.id))
+
+    simpleHtml("Edit Name List: ${nameList.name}") {
+        field("Id", nameList.id.value.toString())
+        form {
+            field("Name") {
+                b { +"Name: " }
+                textInput(name = "name") {
+                    value = nameList.name
+                }
+            }
+            h2 { +"Names" }
+            textArea {
+                id = "names"
+                name = "names"
+                cols = "100"
+                rows = (nameList.name.length + 5).toString()
+                +"test"
+            }
+            p {
+                submitInput {
+                    value = "Update"
+                    formAction = updateLink
+                    formMethod = InputFormMethod.post
+                }
+            }
+        }
         p { a(backLink) { +"Back" } }
     }
 }
