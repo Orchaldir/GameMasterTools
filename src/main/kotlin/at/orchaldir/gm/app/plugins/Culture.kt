@@ -129,6 +129,7 @@ private fun HTML.showCultureDetails(
     state: State,
     culture: Culture,
 ) {
+    val namingConvention = culture.namingConvention
     val backLink = call.application.href(Cultures())
     val deleteLink = call.application.href(Cultures.Delete(culture.id))
     val editLink = call.application.href(Cultures.Edit(culture.id))
@@ -137,21 +138,41 @@ private fun HTML.showCultureDetails(
         field("Id", culture.id.value.toString())
         field("Name", culture.name)
         h2 { +"Naming Convention" }
-        field("Type", culture.namingConvention.javaClass.simpleName)
-        when (culture.namingConvention) {
+        field("Type", namingConvention.javaClass.simpleName)
+        when (namingConvention) {
             is FamilyConvention -> {
-                field("Name Order", culture.namingConvention.nameOrder.toString())
-                showRarityMap("Middle Name Options", culture.namingConvention.middleNameOptions)
-                showNamesByGender(call, state, "Given Names", culture.namingConvention.givenNames)
-                showNamesByGender(call, state, "Family Names", culture.namingConvention.familyNames)
+                field("Name Order", namingConvention.nameOrder.toString())
+                showRarityMap("Middle Name Options", namingConvention.middleNameOptions)
+                showNamesByGender(call, state, "Given Names", namingConvention.givenNames)
+                showNamesByGender(call, state, "Family Names", namingConvention.familyNames)
             }
 
-            is GenonymConvention -> showNamesByGender(call, state, "Names", culture.namingConvention.names)
-            is MatronymConvention -> showNamesByGender(call, state, "Names", culture.namingConvention.names)
-            is MononymConvention -> showNamesByGender(call, state, "Names", culture.namingConvention.names)
+            is GenonymConvention -> showGenonymConvention(
+                call,
+                state,
+                namingConvention.lookupDistance,
+                namingConvention.style,
+                namingConvention.names
+            )
+
+            is MatronymConvention -> showGenonymConvention(
+                call,
+                state,
+                namingConvention.lookupDistance,
+                namingConvention.style,
+                namingConvention.names
+            )
+
+            is MononymConvention -> showNamesByGender(call, state, "Names", namingConvention.names)
 
             NoNamingConvention -> doNothing()
-            is PatronymConvention -> showNamesByGender(call, state, "Names", culture.namingConvention.names)
+            is PatronymConvention -> showGenonymConvention(
+                call,
+                state,
+                namingConvention.lookupDistance,
+                namingConvention.style,
+                namingConvention.names
+            )
         }
         h2 { +"Style Options" }
         showRarityMap("Beard Styles", culture.styleOptions.beardStyles)
@@ -173,6 +194,24 @@ private fun HTML.showCultureDetails(
     }
 }
 
+private fun BODY.showGenonymConvention(
+    call: ApplicationCall,
+    state: State,
+    lookupDistance: GenonymicLookupDistance,
+    style: GenonymicStyle,
+    names: GenderMap<NameListId>,
+) {
+    field("Lookup Distance", lookupDistance.toString())
+    field("Genonymic Style", style.javaClass.simpleName)
+    when (style) {
+        is ChildOfStyle -> showStyleByGender("Words", style.words)
+        NamesOnlyStyle -> doNothing()
+        is PrefixStyle -> showStyleByGender("Prefix", style.prefix)
+        is SuffixStyle -> showStyleByGender("Suffix", style.suffix)
+    }
+    showNamesByGender(call, state, "Names", names)
+}
+
 private fun BODY.showNamesByGender(
     call: ApplicationCall,
     state: State,
@@ -185,6 +224,18 @@ private fun BODY.showNamesByGender(
             field(gender.toString()) {
                 link(call, state, id)
             }
+        }
+    }
+}
+
+private fun BODY.showStyleByGender(
+    label: String,
+    namesByGender: GenderMap<String>,
+) {
+    details {
+        summary { +label }
+        showGenderMap(namesByGender) { gender, text ->
+            field(gender.toString(), text)
         }
     }
 }
