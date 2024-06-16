@@ -8,10 +8,9 @@ import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.culture.name.MononymConvention
-import at.orchaldir.gm.core.model.culture.name.NamingConvention
-import at.orchaldir.gm.core.model.culture.name.NamingConventionType.Mononym
-import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
+import at.orchaldir.gm.core.model.culture.name.*
+import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
+import at.orchaldir.gm.core.model.culture.name.NamingConventionType.*
 import at.orchaldir.gm.core.model.culture.style.HairStyleType
 import at.orchaldir.gm.core.model.culture.style.StyleOptions
 import at.orchaldir.gm.core.model.race.appearance.BeardStyleType
@@ -42,10 +41,14 @@ fun parseNamingConvention(
     parameters: Parameters,
 ): NamingConvention {
     return when (parameters[NAMING_CONVENTION]) {
-        Mononym.toString() -> {
-            val names = parseNamesByGender(parameters, NAMES)
-            MononymConvention(names)
-        }
+        Mononym.toString() -> MononymConvention(parseNamesByGender(parameters, NAMES))
+
+        Family.toString() -> FamilyConvention(
+            parse(parameters, NAME_ORDER, GivenNameFirst),
+            parseRarityMap(parameters, MIDDLE_NAME, MiddleNameOption::valueOf, MiddleNameOption.entries),
+            parseNamesByGender(parameters, NAMES),
+            parseNamesByGender(parameters, FAMILY_NAMES)
+        )
 
         else -> NoNamingConvention
     }

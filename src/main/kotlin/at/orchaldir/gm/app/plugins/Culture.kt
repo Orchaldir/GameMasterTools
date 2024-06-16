@@ -140,6 +140,8 @@ private fun HTML.showCultureDetails(
         field("Type", culture.namingConvention.javaClass.simpleName)
         when (culture.namingConvention) {
             is FamilyConvention -> {
+                field("Name Order", culture.namingConvention.nameOrder.toString())
+                showRarityMap("Middle Name", culture.namingConvention.middleNameOptions)
                 showNamesByGender(call, state, "Given Names", culture.namingConvention.givenNames)
                 showNamesByGender(call, state, "Family Names", culture.namingConvention.familyNames)
             }
@@ -217,16 +219,22 @@ private fun HTML.showCultureEditor(
             }
             when (culture.namingConvention) {
                 is FamilyConvention -> {
-                    selectNamesByGender(state, "Given Names", culture.namingConvention.givenNames)
-                    selectNamesByGender(state, "Family Names", culture.namingConvention.familyNames)
+                    selectEnum("Name Order", NAME_ORDER, NameOrder.entries, true) { o ->
+                        label = o.name
+                        value = o.toString()
+                        selected = culture.namingConvention.nameOrder == o
+                    }
+                    selectRarityMap("Middle Name", MIDDLE_NAME, culture.namingConvention.middleNameOptions)
+                    selectNamesByGender(state, "Given Names", culture.namingConvention.givenNames, NAMES)
+                    selectNamesByGender(state, "Family Names", culture.namingConvention.familyNames, FAMILY_NAMES)
                 }
 
-                is GenonymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names)
-                is MatronymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names)
-                is MononymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names)
+                is GenonymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names, NAMES)
+                is MatronymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names, NAMES)
+                is MononymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names, NAMES)
 
                 NoNamingConvention -> doNothing()
-                is PatronymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names)
+                is PatronymConvention -> selectNamesByGender(state, "Names", culture.namingConvention.names, NAMES)
             }
             h2 { +"Style Options" }
             selectRarityMap("Beard Styles", BEARD_STYLE, culture.styleOptions.beardStyles)
@@ -250,9 +258,10 @@ private fun FORM.selectNamesByGender(
     state: State,
     fieldLabel: String,
     namesByGender: GenderMap<NameListId>,
+    param: String,
 ) {
     selectGenderMap(fieldLabel, namesByGender) { gender, nameListId ->
-        val selectId = "$NAMES-$gender"
+        val selectId = "$param-$gender"
         select {
             id = selectId
             name = selectId

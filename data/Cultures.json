@@ -5,11 +5,23 @@
    "id": 0,
    "name": "Waterdeep",
    "namingConvention": {
-    "type": "Mononym",
-    "names": {
+    "type": "Family",
+    "nameOrder": "FamilyNameFirst",
+    "middleNameOptions": {
+     "None": "Common",
+     "Random": "Uncommon",
+     "Patronym": "Rare",
+     "Matronym": "VeryRare"
+    },
+    "givenNames": {
      "female": 0,
      "genderless": 0,
      "male": 1
+    },
+    "familyNames": {
+     "female": 0,
+     "genderless": 0,
+     "male": 0
     }
    },
    "styleOptions": {
