@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.CreateNameList
 import at.orchaldir.gm.core.action.DeleteNameList
+import at.orchaldir.gm.core.action.UpdateNameList
 import at.orchaldir.gm.core.model.NameList
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
@@ -11,11 +12,14 @@ import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
+import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
+import io.ktor.server.resources.post
+import io.ktor.server.util.*
 
 private val logger = KotlinLogging.logger {}
 
@@ -84,19 +88,17 @@ fun Application.configureNameListRouting() {
                 showNameListEditor(call, state, language)
             }
         }
-        /*
         post<NameLists.Update> { update ->
-            logger.info { "Update language ${update.id.value}" }
+            logger.info { "Update name list ${update.id.value}" }
 
-            val language = parseNameList(update.id, call.receiveParameters())
+            val nameList = parseNameList(update.id, call.receiveParameters())
 
-            STORE.dispatch(UpdateNameList(language))
+            STORE.dispatch(UpdateNameList(nameList))
 
             call.respondRedirect(href(call, update.id))
 
             STORE.getState().save()
         }
-        */
     }
 }
 
@@ -163,7 +165,7 @@ private fun HTML.showNameListEditor(
             textArea {
                 id = "names"
                 name = "names"
-                cols = "100"
+                cols = "30"
                 rows = (nameList.name.length + 5).toString()
                 +nameList.names.joinToString("\n")
             }
@@ -177,4 +179,15 @@ private fun HTML.showNameListEditor(
         }
         p { a(backLink) { +"Back" } }
     }
+}
+
+private fun parseNameList(id: NameListId, parameters: Parameters): NameList {
+    val name = parameters.getOrFail("name")
+    val names = parameters.getOrFail("names")
+        .split('\n')
+        .map { it.trim() }
+        .filter { it.isNotEmpty() }
+        .sorted()
+
+    return NameList(id, name, names)
 }

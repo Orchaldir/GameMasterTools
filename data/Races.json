@@ -5,64 +5,64 @@
    "id": 0,
    "name": "Human",
    "genders": {
-     "Female": "Common",
-     "Male": "Common"
+    "Female": "Common",
+    "Male": "Common"
    },
    "appearance": {
     "skinTypes": {
-      "Normal": "Common"
+     "Normal": "Common"
     },
     "earsLayout": {
-      "NormalEars": "Common"
+     "NormalEars": "Common"
     },
     "earShapes": {
-      "Round": "Common"
+     "Round": "Common"
     },
     "eyesLayout": {
-      "TwoEyes": "Common"
+     "TwoEyes": "Common"
     },
     "eyeOptions": {
      "pupilShapes": {
-       "Circle": "Common"
+      "Circle": "Common"
      },
      "pupilColors": {
-       "Aqua": "Common",
-       "Blue": "Common",
-       "Gray": "Rare",
-       "Green": "Common",
-       "Navy": "Common",
-       "Olive": "Common",
-       "Purple": "VeryRare",
-       "Red": "VeryRare",
-       "SaddleBrown": "Common",
-       "Silver": "Common",
-       "Teal": "Common"
+      "Aqua": "Common",
+      "Blue": "Common",
+      "Gray": "Rare",
+      "Green": "Common",
+      "Navy": "Common",
+      "Olive": "Common",
+      "Purple": "VeryRare",
+      "Red": "VeryRare",
+      "SaddleBrown": "Common",
+      "Silver": "Common",
+      "Teal": "Common"
      },
      "scleraColors": {
-       "White": "Common"
+      "White": "Common"
      }
     },
     "hairOptions": {
      "beardTypes": {
-       "Normal": "Common"
+      "Normal": "Common"
      },
      "hairTypes": {
-       "Normal": "Common"
+      "Normal": "Common"
      },
      "colors": {
-       "Black": "Common",
-       "Gray": "Common",
-       "Maroon": "Common",
-       "Orange": "Common",
-       "Red": "Common",
-       "SaddleBrown": "Common",
-       "Silver": "Common",
-       "White": "Common",
-       "Yellow": "Common"
+      "Black": "Common",
+      "Gray": "Common",
+      "Maroon": "Common",
+      "Orange": "Common",
+      "Red": "Common",
+      "SaddleBrown": "Common",
+      "Silver": "Common",
+      "White": "Common",
+      "Yellow": "Common"
      }
     },
     "mouthTypes": {
-      "NormalMouth": "Common"
+     "NormalMouth": "Common"
     }
    }
   },
@@ -70,66 +70,66 @@
    "id": 1,
    "name": "Elf",
    "genders": {
-     "Female": "Common",
-     "Male": "Common"
+    "Female": "Common",
+    "Male": "Common"
    },
    "appearance": {
     "skinTypes": {
-      "Normal": "Common",
-      "Exotic": "Rare"
+     "Normal": "Common",
+     "Exotic": "Rare"
     },
     "exoticSkinColors": {
-      "Gray": "Common",
-      "Green": "Common",
-      "Purple": "Common"
+     "Gray": "Common",
+     "Green": "Common",
+     "Purple": "Common"
     },
     "earsLayout": {
-      "NormalEars": "Common"
+     "NormalEars": "Common"
     },
     "earShapes": {
-      "PointedSideways": "Common",
-      "PointedUpwards": "Common"
+     "PointedSideways": "Common",
+     "PointedUpwards": "Common"
     },
     "eyesLayout": {
-      "TwoEyes": "Common"
+     "TwoEyes": "Common"
     },
     "eyeOptions": {
      "pupilShapes": {
-       "Circle": "Common"
+      "Circle": "Common"
      },
      "pupilColors": {
-       "Aqua": "Common",
-       "Black": "Common",
-       "Blue": "Common",
-       "Fuchsia": "Common",
-       "Gray": "Common",
-       "Green": "Common",
-       "Lime": "Common",
-       "Maroon": "Common",
-       "Navy": "Common",
-       "Olive": "Common",
-       "Orange": "Common",
-       "Purple": "Common",
-       "Red": "Common",
-       "SaddleBrown": "Common",
-       "Silver": "Common",
-       "Teal": "Common",
-       "Yellow": "Common"
+      "Aqua": "Common",
+      "Black": "Common",
+      "Blue": "Common",
+      "Fuchsia": "Common",
+      "Gray": "Common",
+      "Green": "Common",
+      "Lime": "Common",
+      "Maroon": "Common",
+      "Navy": "Common",
+      "Olive": "Common",
+      "Orange": "Common",
+      "Purple": "Common",
+      "Red": "Common",
+      "SaddleBrown": "Common",
+      "Silver": "Common",
+      "Teal": "Common",
+      "Yellow": "Common"
      },
      "scleraColors": {
-       "White": "Common"
+      "White": "Common"
      }
     },
     "hairOptions": {
      "beardTypes": {
-       "None": "Common"
+      "None": "Common"
      },
      "hairTypes": {
-       "Normal": "Common"
+      "Normal": "Common"
      }
     },
     "mouthTypes": {
-      "NormalMouth": "Common"
+     "NormalMouth": "Common"
     }
    }
   }
