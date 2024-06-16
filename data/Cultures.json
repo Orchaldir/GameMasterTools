@@ -4,6 +4,14 @@
   "0": {
    "id": 0,
    "name": "Waterdeep",
+   "namingConvention": {
+    "type": "Mononym",
+    "names": {
+     "female": 0,
+     "genderless": 0,
+     "male": 1
+    }
+   },
    "styleOptions": {
     "beardStyles": {
      "Goatee": "Uncommon",

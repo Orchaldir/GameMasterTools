@@ -184,9 +184,9 @@ private fun HTML.showCultureEditor(
                 }
             }
             when (culture.namingConvention) {
-                is FamilyConvention -> TODO()
-                is GenonymConvention -> TODO()
-                is MatronymConvention -> TODO()
+                is FamilyConvention -> doNothing()
+                is GenonymConvention -> doNothing()
+                is MatronymConvention -> doNothing()
                 is MononymConvention -> selectGenderMap("Names", culture.namingConvention.names) { gender, nameListId ->
                     val selectId = "$NAMES-$gender"
                     select {
@@ -203,7 +203,7 @@ private fun HTML.showCultureEditor(
                 }
 
                 NoNamingConvention -> doNothing()
-                is PatronymConvention -> TODO()
+                is PatronymConvention -> doNothing()
             }
             h2 { +"Style Options" }
             selectRarityMap("Beard Styles", BEARD_STYLE, culture.styleOptions.beardStyles)

@@ -10,6 +10,8 @@ data class GenderMap<T>(
     val genderless: T,
     val male: T,
 ) {
+    constructor(value: T) : this(value, value, value)
+
     fun get(gender: Gender) = when (gender) {
         Female -> female
         Genderless -> genderless
