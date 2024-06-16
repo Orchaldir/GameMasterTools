@@ -9,6 +9,8 @@ import at.orchaldir.gm.core.action.UpdateNameList
 import at.orchaldir.gm.core.model.NameList
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.getCultures
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -20,7 +22,6 @@ import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
 import io.ktor.server.resources.post
-import io.ktor.server.util.*
 
 private val logger = KotlinLogging.logger {}
 
@@ -86,7 +87,7 @@ fun Application.configureNameListRouting() {
             val language = state.nameLists.getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showNameListEditor(call, state, language)
+                showNameListEditor(call, language)
             }
         }
         post<NameLists.Update> { update ->
@@ -135,19 +136,21 @@ private fun HTML.showNameListDetails(
                 +name
             }
         }
+        field("Cultures") {
+            showList(state.getCultures(nameList.id)) { culture ->
+                link(call, culture)
+            }
+        }
         p { a(editLink) { +"Edit" } }
-        /*
         if (state.canDelete(nameList.id)) {
             p { a(deleteLink) { +"Delete" } }
         }
-        */
         p { a(backLink) { +"Back" } }
     }
 }
 
 private fun HTML.showNameListEditor(
     call: ApplicationCall,
-    state: State,
     nameList: NameList,
 ) {
     val backLink = href(call, nameList.id)

@@ -19,4 +19,6 @@ data class GenderMap<T>(
     }
 
     fun getMap() = mutableMapOf(Female to female, Genderless to genderless, Male to male)
+
+    fun contains(value: T) = female == value || genderless == value || male == value
 }
