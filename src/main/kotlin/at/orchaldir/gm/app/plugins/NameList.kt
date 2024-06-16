@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.parseNameList
 import at.orchaldir.gm.core.action.CreateNameList
 import at.orchaldir.gm.core.action.DeleteNameList
 import at.orchaldir.gm.core.action.UpdateNameList
@@ -179,15 +180,4 @@ private fun HTML.showNameListEditor(
         }
         p { a(backLink) { +"Back" } }
     }
-}
-
-private fun parseNameList(id: NameListId, parameters: Parameters): NameList {
-    val name = parameters.getOrFail("name")
-    val names = parameters.getOrFail("names")
-        .split('\n')
-        .map { it.trim() }
-        .filter { it.isNotEmpty() }
-        .sorted()
-
-    return NameList(id, name, names)
 }
