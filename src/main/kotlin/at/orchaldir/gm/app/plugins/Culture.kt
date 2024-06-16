@@ -43,6 +43,9 @@ class Cultures {
     @Resource("edit")
     class Edit(val id: CultureId, val parent: Cultures = Cultures())
 
+    @Resource("preview")
+    class Preview(val id: CultureId, val parent: Cultures = Cultures())
+
     @Resource("update")
     class Update(val id: CultureId, val parent: Cultures = Cultures())
 }
@@ -92,6 +95,16 @@ fun Application.configureCultureRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCultureEditor(call, state, culture)
+            }
+        }
+        post<Cultures.Preview> { preview ->
+            logger.info { "Get preview for race ${preview.id.value}" }
+
+            val formParameters = call.receiveParameters()
+            val culture = parseCulture(formParameters, preview.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showCultureEditor(call, STORE.getState(), culture)
             }
         }
         post<Cultures.Update> { update ->
@@ -247,18 +260,22 @@ private fun HTML.showCultureEditor(
 ) {
     val namingConvention = culture.namingConvention
     val backLink = href(call, culture.id)
+    val previewLink = call.application.href(Cultures.Preview(culture.id))
     val updateLink = call.application.href(Cultures.Update(culture.id))
 
     simpleHtml("Edit Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
         form {
+            id = "editor"
+            action = previewLink
+            method = FormMethod.post
             field("Name") {
                 textInput(name = NAME) {
                     value = culture.name
                 }
             }
             h2 { +"Naming Convention" }
-            selectEnum("Type", NAMING_CONVENTION, NamingConventionType.entries) { type ->
+            selectEnum("Type", NAMING_CONVENTION, NamingConventionType.entries, true) { type ->
                 label = type.toString()
                 value = type.toString()
                 selected = when (type) {
@@ -330,7 +347,7 @@ private fun FORM.selectGenonymConvention(
     style: GenonymicStyle,
     names: GenderMap<NameListId>,
 ) {
-    selectEnum("Lookup Distance", LOOKUP_DISTANCE, GenonymicLookupDistance.entries, true) { distance ->
+    selectEnum("Lookup Distance", LOOKUP_DISTANCE, GenonymicLookupDistance.entries) { distance ->
         label = distance.name
         value = distance.toString()
         selected = lookupDistance == distance

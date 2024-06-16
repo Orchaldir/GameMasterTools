@@ -56,6 +56,18 @@ fun parseNamingConvention(
             parseNamesByGender(parameters, NAMES),
         )
 
+        Matronym.toString() -> MatronymConvention(
+            parse(parameters, LOOKUP_DISTANCE, GenonymicLookupDistance.OneGeneration),
+            parseGenonymicStyle(parameters),
+            parseNamesByGender(parameters, NAMES),
+        )
+
+        Genonym.toString() -> GenonymConvention(
+            parse(parameters, LOOKUP_DISTANCE, GenonymicLookupDistance.OneGeneration),
+            parseGenonymicStyle(parameters),
+            parseNamesByGender(parameters, NAMES),
+        )
+
         else -> NoNamingConvention
     }
 }
