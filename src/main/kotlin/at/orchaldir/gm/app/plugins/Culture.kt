@@ -9,8 +9,10 @@ import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -83,10 +85,11 @@ fun Application.configureCultureRouting() {
         get<Cultures.Edit> { edit ->
             logger.info { "Get editor for culture ${edit.id.value}" }
 
-            val culture = STORE.getState().cultures.getOrThrow(edit.id)
+            val state = STORE.getState()
+            val culture = state.cultures.getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showCultureEditor(call, culture)
+                showCultureEditor(call, state, culture)
             }
         }
         post<Cultures.Update> { update ->
@@ -153,6 +156,7 @@ private fun HTML.showCultureDetails(
 
 private fun HTML.showCultureEditor(
     call: ApplicationCall,
+    state: State,
     culture: Culture,
 ) {
     val backLink = href(call, culture.id)
@@ -165,6 +169,41 @@ private fun HTML.showCultureEditor(
                 textInput(name = NAME) {
                     value = culture.name
                 }
+            }
+            h2 { +"Naming Convention" }
+            selectEnum("Type", NAMING_CONVENTION, NamingConventionType.entries) { type ->
+                label = type.toString()
+                value = type.toString()
+                selected = when (type) {
+                    NamingConventionType.None -> culture.namingConvention is NoNamingConvention
+                    NamingConventionType.Mononym -> culture.namingConvention is MononymConvention
+                    NamingConventionType.Family -> culture.namingConvention is FamilyConvention
+                    NamingConventionType.Patronym -> culture.namingConvention is PatronymConvention
+                    NamingConventionType.Matronym -> culture.namingConvention is MatronymConvention
+                    NamingConventionType.Genonym -> culture.namingConvention is GenonymConvention
+                }
+            }
+            when (culture.namingConvention) {
+                is FamilyConvention -> TODO()
+                is GenonymConvention -> TODO()
+                is MatronymConvention -> TODO()
+                is MononymConvention -> selectGenderMap("Names", culture.namingConvention.names) { gender, nameListId ->
+                    val selectId = "$NAMES-$gender"
+                    select {
+                        id = selectId
+                        name = selectId
+                        state.nameLists.getAll().forEach { nameList ->
+                            option {
+                                label = nameList.name
+                                value = nameList.id.value.toString()
+                                selected = nameList.id == nameListId
+                            }
+                        }
+                    }
+                }
+
+                NoNamingConvention -> doNothing()
+                is PatronymConvention -> TODO()
             }
             h2 { +"Style Options" }
             selectRarityMap("Beard Styles", BEARD_STYLE, culture.styleOptions.beardStyles)

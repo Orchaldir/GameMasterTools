@@ -1,10 +1,8 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.plugins.TITLE
-import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.appearance.Rarity
-import at.orchaldir.gm.core.model.appearance.RarityMap
-import at.orchaldir.gm.core.model.appearance.reverseAndSort
+import at.orchaldir.gm.core.model.appearance.*
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.server.application.*
@@ -171,6 +169,21 @@ fun FORM.selectColor(
         value = c.toString()
         selected = current == c
         style = "background-color:$c"
+    }
+}
+
+fun <T> FORM.selectGenderMap(
+    text: String,
+    map: GenderMap<T>,
+    content: P.(Gender, T) -> Unit,
+) {
+    details {
+        summary { +text }
+        showMap(map.getMap()) { gender, value ->
+            field(gender.toString()) {
+                content(gender, value)
+            }
+        }
     }
 }
 

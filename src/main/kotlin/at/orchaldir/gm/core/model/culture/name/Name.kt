@@ -6,6 +6,15 @@ import at.orchaldir.gm.core.model.appearance.RarityMap
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class NamingConventionType {
+    None,
+    Mononym,
+    Family,
+    Patronym,
+    Matronym,
+    Genonym,
+}
+
 @Serializable
 sealed class NamingConvention
 

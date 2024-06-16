@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.appearance
 
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.character.Gender.*
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,8 +11,10 @@ data class GenderMap<T>(
     val male: T,
 ) {
     fun get(gender: Gender) = when (gender) {
-        Gender.Female -> female
-        Gender.Genderless -> genderless
-        Gender.Male -> male
+        Female -> female
+        Genderless -> genderless
+        Male -> male
     }
+
+    fun getMap() = mutableMapOf(Female to female, Genderless to genderless, Male to male)
 }
