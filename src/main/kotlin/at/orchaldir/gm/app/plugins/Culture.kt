@@ -335,6 +335,22 @@ private fun FORM.selectGenonymConvention(
         value = distance.toString()
         selected = lookupDistance == distance
     }
+    selectEnum("Genonymic Style", GENONYMIC_STYLE, GenonymicStyleType.entries, true) { type ->
+        label = type.name
+        value = type.toString()
+        selected = when (type) {
+            GenonymicStyleType.NamesOnly -> style is NamesOnlyStyle
+            GenonymicStyleType.Prefix -> style is PrefixStyle
+            GenonymicStyleType.Suffix -> style is SuffixStyle
+            GenonymicStyleType.ChildOf -> style is ChildOfStyle
+        }
+    }
+    when (style) {
+        is ChildOfStyle -> selectWordsByGender("Words", style.words, WORD)
+        NamesOnlyStyle -> doNothing()
+        is PrefixStyle -> selectWordsByGender("Prefix", style.prefix, WORD)
+        is SuffixStyle -> selectWordsByGender("Suffix", style.suffix, WORD)
+    }
     selectNamesByGender(state, "Names", names, NAMES)
 }
 
@@ -356,6 +372,14 @@ private fun FORM.selectNamesByGender(
                     selected = nameList.id == nameListId
                 }
             }
+        }
+    }
+}
+
+private fun FORM.selectWordsByGender(label: String, genderMap: GenderMap<String>, param: String) {
+    selectGenderMap(label, genderMap) { gender, word ->
+        textInput(name = "$param-$gender") {
+            value = word
         }
     }
 }

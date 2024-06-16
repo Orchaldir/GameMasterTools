@@ -13,6 +13,13 @@ enum class GenonymicLookupDistance {
     TwoGenerations,
 }
 
+enum class GenonymicStyleType {
+    NamesOnly,
+    Prefix,
+    Suffix,
+    ChildOf,
+}
+
 @Serializable
 sealed class GenonymicStyle
 
