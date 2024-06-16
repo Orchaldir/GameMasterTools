@@ -1,10 +1,9 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.plugins.Cultures
-import at.orchaldir.gm.app.plugins.Languages
-import at.orchaldir.gm.app.plugins.Personality
-import at.orchaldir.gm.app.plugins.Races
+import at.orchaldir.gm.app.plugins.*
 import at.orchaldir.gm.app.plugins.character.Characters
+import at.orchaldir.gm.core.model.NameList
+import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
@@ -104,6 +103,34 @@ fun href(
     call: ApplicationCall,
     id: LanguageId,
 ) = call.application.href(Languages.Details(id))
+
+// name list
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    state: State,
+    id: NameListId,
+) {
+    link(call, id, state.nameLists.get(id)?.name ?: "Unknown")
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    nameList: NameList,
+) {
+    link(call, nameList.id, nameList.name)
+}
+
+private fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    id: NameListId,
+    text: String,
+) = a(href(call, id)) { +text }
+
+fun href(
+    call: ApplicationCall,
+    id: NameListId,
+) = call.application.href(NameLists.Details(id))
 
 // personality
 

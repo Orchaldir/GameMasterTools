@@ -35,6 +35,7 @@ fun Application.module() {
     configureAppearanceRouting()
     configureCultureRouting()
     configureLanguageRouting()
+    configureNameListRouting()
     configurePersonalityRouting()
     configureRaceRouting()
 }

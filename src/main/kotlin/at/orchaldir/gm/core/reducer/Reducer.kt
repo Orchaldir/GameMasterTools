@@ -25,6 +25,10 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateLanguage -> CREATE_LANGUAGE(state, action)
         is DeleteLanguage -> DELETE_LANGUAGE(state, action)
         is UpdateLanguage -> UPDATE_LANGUAGE(state, action)
+        // language actions
+        is CreateNameList -> CREATE_NAME_LIST(state, action)
+        is DeleteNameList -> DELETE_NAME_LIST(state, action)
+        is UpdateNameList -> UPDATE_NAME_LIST(state, action)
         // personality actions
         is CreatePersonalityTrait -> CREATE_PERSONALITY_TRAIT(state, action)
         is DeletePersonalityTrait -> DELETE_PERSONALITY_TRAIT(state, action)

@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.action
 
+import at.orchaldir.gm.core.model.NameList
+import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.culture.Culture
@@ -48,6 +50,11 @@ data class UpdateCulture(val culture: Culture) : Action()
 data object CreateLanguage : Action()
 data class DeleteLanguage(val id: LanguageId) : Action()
 data class UpdateLanguage(val language: Language) : Action()
+
+// language actions
+data object CreateNameList : Action()
+data class DeleteNameList(val id: NameListId) : Action()
+data class UpdateNameList(val nameList: NameList) : Action()
 
 // personality actions
 data object CreatePersonalityTrait : Action()
