@@ -2,20 +2,13 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parseRarityMap
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle
-import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
-import at.orchaldir.gm.core.model.culture.style.HairStyleType
-import at.orchaldir.gm.core.model.culture.style.StyleOptions
-import at.orchaldir.gm.core.model.race.appearance.BeardStyleType
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
@@ -27,18 +20,10 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.util.*
 import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
-
-private const val NAME = "name"
-private const val HAIR_STYLE = "hair"
-private const val BEARD_STYLE = "beard"
-private const val GOATEE_STYLE = "goatee"
-private const val MOUSTACHE_STYLE = "moustache"
-private const val LIP_COLORS = "lip_colors"
 
 @Resource("/cultures")
 class Cultures {
@@ -197,24 +182,4 @@ private fun HTML.showCultureEditor(
         }
         p { a(backLink) { +"Back" } }
     }
-}
-
-fun parseCulture(
-    parameters: Parameters,
-    id: CultureId,
-): Culture {
-    val name = parameters.getOrFail(NAME)
-
-    return Culture(
-        id,
-        name,
-        NoNamingConvention,
-        StyleOptions(
-            parseRarityMap(parameters, BEARD_STYLE, BeardStyleType::valueOf),
-            parseRarityMap(parameters, GOATEE_STYLE, GoateeStyle::valueOf),
-            parseRarityMap(parameters, MOUSTACHE_STYLE, MoustacheStyle::valueOf),
-            parseRarityMap(parameters, HAIR_STYLE, HairStyleType::valueOf),
-            parseRarityMap(parameters, LIP_COLORS, Color::valueOf),
-        ),
-    )
 }

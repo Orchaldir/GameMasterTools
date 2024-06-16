@@ -7,8 +7,8 @@ import io.ktor.server.util.*
 
 
 fun parseNameList(id: NameListId, parameters: Parameters): NameList {
-    val name = parameters.getOrFail("name")
-    val names = parameters.getOrFail("names")
+    val name = parameters.getOrFail(NAME)
+    val names = parameters.getOrFail(NAMES)
         .split('\n')
         .map { it.trim() }
         .filter { it.isNotEmpty() }
