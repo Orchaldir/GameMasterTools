@@ -16,15 +16,26 @@ enum class NamingConventionType {
 }
 
 @Serializable
-sealed class NamingConvention
+sealed class NamingConvention {
+
+    abstract fun contains(id: NameListId): Boolean;
+
+}
 
 @Serializable
 @SerialName("None")
-data object NoNamingConvention : NamingConvention()
+data object NoNamingConvention : NamingConvention() {
+
+    override fun contains(id: NameListId) = false
+}
 
 @Serializable
 @SerialName("Mononym")
-data class MononymConvention(val names: GenderMap<NameListId>) : NamingConvention()
+data class MononymConvention(val names: GenderMap<NameListId>) : NamingConvention() {
+    constructor(id: NameListId) : this(GenderMap(id))
+
+    override fun contains(id: NameListId) = names.contains(id)
+}
 
 @Serializable
 @SerialName("Family")
@@ -33,7 +44,10 @@ data class FamilyConvention(
     val middleNameOptions: RarityMap<MiddleNameOption>,
     val givenNames: GenderMap<NameListId>,
     val familyNames: GenderMap<NameListId>,
-) : NamingConvention()
+) : NamingConvention() {
+
+    override fun contains(id: NameListId) = givenNames.contains(id) || familyNames.contains(id)
+}
 
 
 @Serializable
@@ -42,7 +56,10 @@ data class PatronymConvention(
     val lookupDistance: GenonymicLookupDistance,
     val style: GenonymicStyle,
     val names: GenderMap<NameListId>,
-) : NamingConvention()
+) : NamingConvention() {
+
+    override fun contains(id: NameListId) = names.contains(id)
+}
 
 @Serializable
 @SerialName("Matronym")
@@ -50,7 +67,10 @@ data class MatronymConvention(
     val lookupDistance: GenonymicLookupDistance,
     val style: GenonymicStyle,
     val names: GenderMap<NameListId>,
-) : NamingConvention()
+) : NamingConvention() {
+
+    override fun contains(id: NameListId) = names.contains(id)
+}
 
 /**
  * Patronym or Matronym based on the own gender.
@@ -61,4 +81,7 @@ data class GenonymConvention(
     val lookupDistance: GenonymicLookupDistance,
     val style: GenonymicStyle,
     val names: GenderMap<NameListId>,
-) : NamingConvention()
+) : NamingConvention() {
+
+    override fun contains(id: NameListId) = names.contains(id)
+}

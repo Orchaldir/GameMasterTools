@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.action.UpdateNameList
 import at.orchaldir.gm.core.model.NameList
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.GenderMap
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.MononymConvention
@@ -45,9 +44,7 @@ class NameListTest {
                 cultures = Storage(
                     listOf(
                         Culture(
-                            CultureId(0), namingConvention = MononymConvention(
-                                GenderMap(ID0, ID0, ID0)
-                            )
+                            CultureId(0), namingConvention = MononymConvention(ID0)
                         )
                     )
                 )

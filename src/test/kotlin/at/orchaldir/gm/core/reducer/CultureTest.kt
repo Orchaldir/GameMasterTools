@@ -1,11 +1,14 @@
 package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.core.action.DeleteCulture
+import at.orchaldir.gm.core.action.UpdateCulture
+import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.culture.name.MononymConvention
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -13,8 +16,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 private val ID0 = CultureId(0)
-private val ID1 = CultureId(1)
-private val CULTURE = Culture(ID0, "Test")
+private val NL0 = NameListId(0)
 private val STATE = State(cultures = Storage(listOf(Culture(ID0))))
 
 class CultureTest {
@@ -48,6 +50,24 @@ class CultureTest {
             )
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+    }
+
+    @Nested
+    inner class UpdateTest {
+
+        @Test
+        fun `Cannot update unknown id`() {
+            val action = UpdateCulture(Culture(ID0))
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Cannot update culture with unknown name list`() {
+            val action = UpdateCulture(Culture(ID0, namingConvention = MononymConvention(NL0)))
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(STATE, action) }
         }
     }
 
