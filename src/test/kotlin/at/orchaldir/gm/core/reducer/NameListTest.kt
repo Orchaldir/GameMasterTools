@@ -25,10 +25,10 @@ class NameListTest {
     inner class DeleteTest {
 
         @Test
-        fun `Can delete an existing language`() {
+        fun `Can delete an existing id`() {
             val action = DeleteNameList(ID0)
 
-            assertEquals(0, REDUCER.invoke(STATE, action).first.languages.getSize())
+            assertEquals(0, REDUCER.invoke(STATE, action).first.nameLists.getSize())
         }
 
         @Test
