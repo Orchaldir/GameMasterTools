@@ -25,5 +25,7 @@ val UPDATE_NAME_LIST: Reducer<UpdateNameList, State> = { state, action ->
 
     state.nameLists.require(nameList.id)
 
-    noFollowUps(state.copy(nameLists = state.nameLists.update(nameList)))
+    val cleaned = nameList.copy(names = nameList.names.sorted())
+
+    noFollowUps(state.copy(nameLists = state.nameLists.update(cleaned)))
 }
