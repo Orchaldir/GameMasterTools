@@ -486,6 +486,25 @@
     "Yrgnyn",
     "Yrych"
    ]
+  },
+   "16": {
+     "id": 16,
+     "name": "Changeling",
+     "names": [
+       "Bin",
+       "Dox",
+       "Fie",
+       "Hars",
+       "Jin",
+       "Lam",
+       "Nit",
+       "Ot",
+       "Paik",
+       "Ruz",
+       "Sim",
+       "Toox",
+       "Yug"
+     ]
   }
  }
 }
