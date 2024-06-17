@@ -51,6 +51,14 @@ class NameListTest {
             assertAction(state, action)
         }
 
+        @Test
+        fun `Filter empty names`() {
+            val state = State(nameLists = Storage(listOf(NameList(ID0))))
+            val action = UpdateNameList(NameList(ID0, "Test", listOf("A", "  ", "B")))
+
+            assertAction(state, action)
+        }
+
         private fun assertAction(state: State, action: UpdateNameList) {
             assertEquals(Storage(listOf(NAME_LIST)), REDUCER.invoke(state, action).first.nameLists)
         }
