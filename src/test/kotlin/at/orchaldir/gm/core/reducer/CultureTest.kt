@@ -1,12 +1,11 @@
 package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.core.action.DeleteCulture
-import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.GenderMap
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.culture.name.MononymConvention
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -35,6 +34,20 @@ class CultureTest {
             val action = DeleteCulture(ID0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Cannot delete, if used by a character`() {
+            val action = DeleteCulture(ID0)
+            val state = STATE.copy(
+                characters = Storage(
+                    listOf(
+                        Character(CharacterId(0), culture = ID0)
+                    )
+                )
+            )
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
     }
 
