@@ -398,6 +398,94 @@
     "Vanatar",
     "Vasiraghi"
    ]
+  },
+  "12": {
+   "id": 12,
+   "name": "Aereni Names - Male",
+   "names": [
+    "Aeren",
+    "Belaereth",
+    "Carden",
+    "Dalaer",
+    "Dayne",
+    "Helaeras",
+    "Jhalaer",
+    "Jhayne",
+    "Maeran",
+    "Mayne",
+    "Mazareth",
+    "Shaeras",
+    "Taen",
+    "Thaendyr",
+    "Tolan",
+    "Varaendyr",
+    "Varonen"
+   ]
+  },
+  "13": {
+   "id": 13,
+   "name": "Aereni Names - Female",
+   "names": [
+    "Aeren",
+    "Ashaelyn",
+    "Erandis",
+    "Etrigani",
+    "Heladaen",
+    "Jhalira",
+    "Laeren",
+    "Mazalira",
+    "Minaera",
+    "Serandis",
+    "Syraen",
+    "Taelira",
+    "Tazaera",
+    "Thaera",
+    "Vadallia",
+    "Vaeren"
+   ]
+  },
+  "14": {
+   "id": 14,
+   "name": "Aereni Familynames",
+   "names": [
+    "Alaraen",
+    "Alorenthi",
+    "Daelian",
+    "Dyraen",
+    "Halaen",
+    "Jholareth",
+    "Jholyr",
+    "Maloraen",
+    "Mendaen",
+    "Mol",
+    "Shialaen",
+    "Shol",
+    "Tolarenthi"
+   ]
+  },
+  "15": {
+   "id": 15,
+   "name": "Gnoll",
+   "names": [
+    "Dagnyr",
+    "Dhyrn",
+    "Ghyrryn",
+    "Gnasc",
+    "Gnoryc",
+    "Gnyrl",
+    "Gnyrn",
+    "Hyrn",
+    "Lhoryn",
+    "Lhyr",
+    "Lhyrl",
+    "Mognyr",
+    "Myrl",
+    "Sorgnyn",
+    "Thyrn",
+    "Toryc",
+    "Yrgnyn",
+    "Yrych"
+   ]
   }
  }
 }
