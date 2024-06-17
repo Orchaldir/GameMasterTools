@@ -10,9 +10,7 @@ fun parseNameList(id: NameListId, parameters: Parameters): NameList {
     val name = parameters.getOrFail(NAME)
     val names = parameters.getOrFail(NAMES)
         .split('\n')
-        .map { it.trim() }
-        .filter { it.isNotEmpty() }
-        .sorted()
+        .toList()
 
     return NameList(id, name, names)
 }
