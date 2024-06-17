@@ -28,6 +28,7 @@ val UPDATE_NAME_LIST: Reducer<UpdateNameList, State> = { state, action ->
     state.nameLists.require(nameList.id)
 
     val cleaned = nameList.copy(names = nameList.names
+        .flatMap { it.split(",", ".", ";") }
         .map { it.trim() }
         .filter { it.isNotEmpty() }
         .sorted())

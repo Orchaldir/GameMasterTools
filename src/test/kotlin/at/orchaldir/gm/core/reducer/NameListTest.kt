@@ -92,6 +92,34 @@ class NameListTest {
             assertAction(action)
         }
 
+        @Test
+        fun `Split at comma`() {
+            val action = UpdateNameList(NameList(ID0, "Test", listOf("A , B")))
+
+            assertAction(action)
+        }
+
+        @Test
+        fun `Split at dot`() {
+            val action = UpdateNameList(NameList(ID0, "Test", listOf(" A.B ")))
+
+            assertAction(action)
+        }
+
+        @Test
+        fun `Split at semicolon`() {
+            val action = UpdateNameList(NameList(ID0, "Test", listOf(" A;B ")))
+
+            assertAction(action)
+        }
+
+        @Test
+        fun `Filter after split`() {
+            val action = UpdateNameList(NameList(ID0, "Test", listOf("A", " , ", "B")))
+
+            assertAction(action)
+        }
+
         private fun assertAction(action: UpdateNameList) {
             assertEquals(Storage(listOf(NAME_LIST)), REDUCER.invoke(STATE, action).first.nameLists)
         }
