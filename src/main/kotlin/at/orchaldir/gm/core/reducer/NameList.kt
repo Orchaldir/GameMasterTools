@@ -9,9 +9,9 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_NAME_LIST: Reducer<CreateNameList, State> = { state, _ ->
-    val language = NameList(state.nameLists.nextId)
+    val nameList = NameList(state.nameLists.nextId)
 
-    noFollowUps(state.copy(nameLists = state.nameLists.add(language)))
+    noFollowUps(state.copy(nameLists = state.nameLists.add(nameList)))
 }
 
 val DELETE_NAME_LIST: Reducer<DeleteNameList, State> = { state, action ->
