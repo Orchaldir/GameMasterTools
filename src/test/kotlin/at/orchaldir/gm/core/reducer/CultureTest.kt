@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
+import at.orchaldir.gm.core.model.NameList
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -68,6 +69,15 @@ class CultureTest {
             val action = UpdateCulture(Culture(ID0, namingConvention = MononymConvention(NL0)))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Cant update culture with known name list`() {
+            val culture = Culture(ID0, namingConvention = MononymConvention(NL0))
+            val action = UpdateCulture(culture)
+            val state = STATE.copy(nameLists = Storage(listOf(NameList(NL0))))
+
+            assertEquals(Storage(listOf(culture)), REDUCER.invoke(state, action).first.cultures)
         }
     }
 

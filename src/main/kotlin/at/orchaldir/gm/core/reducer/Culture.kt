@@ -24,6 +24,8 @@ val DELETE_CULTURE: Reducer<DeleteCulture, State> = { state, action ->
 
 val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
     state.cultures.require(action.culture.id)
+    action.culture.namingConvention.getNameLists()
+        .forEach { state.nameLists.require(it) }
 
     noFollowUps(state.copy(cultures = state.cultures.update(action.culture)))
 }

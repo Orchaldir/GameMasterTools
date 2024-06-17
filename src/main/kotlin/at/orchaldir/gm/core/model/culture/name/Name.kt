@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.appearance.GenderMap
 import at.orchaldir.gm.core.model.appearance.RarityMap
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.util.Collections
 
 enum class NamingConventionType {
     None,
@@ -18,7 +19,9 @@ enum class NamingConventionType {
 @Serializable
 sealed class NamingConvention {
 
-    abstract fun contains(id: NameListId): Boolean;
+    abstract fun contains(id: NameListId): Boolean
+
+    abstract fun getNameLists(): Set<NameListId>
 
 }
 
@@ -27,6 +30,8 @@ sealed class NamingConvention {
 data object NoNamingConvention : NamingConvention() {
 
     override fun contains(id: NameListId) = false
+
+    override fun getNameLists() = setOf<NameListId>()
 }
 
 @Serializable
@@ -35,6 +40,8 @@ data class MononymConvention(val names: GenderMap<NameListId>) : NamingConventio
     constructor(id: NameListId) : this(GenderMap(id))
 
     override fun contains(id: NameListId) = names.contains(id)
+
+    override fun getNameLists() = names.getValues()
 }
 
 @Serializable
@@ -47,6 +54,8 @@ data class FamilyConvention(
 ) : NamingConvention() {
 
     override fun contains(id: NameListId) = givenNames.contains(id) || familyNames.contains(id)
+
+    override fun getNameLists() = givenNames.getValues() + familyNames.getValues()
 }
 
 
@@ -59,6 +68,8 @@ data class PatronymConvention(
 ) : NamingConvention() {
 
     override fun contains(id: NameListId) = names.contains(id)
+
+    override fun getNameLists() = names.getValues()
 }
 
 @Serializable
@@ -70,6 +81,8 @@ data class MatronymConvention(
 ) : NamingConvention() {
 
     override fun contains(id: NameListId) = names.contains(id)
+
+    override fun getNameLists() = names.getValues()
 }
 
 /**
@@ -84,4 +97,6 @@ data class GenonymConvention(
 ) : NamingConvention() {
 
     override fun contains(id: NameListId) = names.contains(id)
+
+    override fun getNameLists() = names.getValues()
 }
