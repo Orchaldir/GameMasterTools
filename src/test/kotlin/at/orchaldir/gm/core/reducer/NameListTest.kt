@@ -1,9 +1,12 @@
 package at.orchaldir.gm.core.reducer
 
+import at.orchaldir.gm.core.action.DeleteLanguage
+import at.orchaldir.gm.core.action.DeleteNameList
 import at.orchaldir.gm.core.action.UpdateNameList
 import at.orchaldir.gm.core.model.NameList
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -15,6 +18,24 @@ private val NAME_LIST = NameList(ID0, "Test", listOf("A", "B"))
 private val STATE = State(nameLists = Storage(listOf(NameList(ID0))))
 
 class NameListTest {
+
+    @Nested
+    inner class DeleteTest {
+
+        @Test
+        fun `Can delete an existing language`() {
+            val action = DeleteNameList(ID0)
+
+            assertEquals(0, REDUCER.invoke(STATE, action).first.languages.getSize())
+        }
+
+        @Test
+        fun `Cannot delete unknown id`() {
+            val action = DeleteNameList(ID0)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+        }
+    }
 
     @Nested
     inner class UpdateTest {
