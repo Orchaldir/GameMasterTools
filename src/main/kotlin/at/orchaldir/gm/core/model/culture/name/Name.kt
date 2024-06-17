@@ -50,12 +50,12 @@ data class FamilyConvention(
     val nameOrder: NameOrder,
     val middleNameOptions: RarityMap<MiddleNameOption>,
     val givenNames: GenderMap<NameListId>,
-    val familyNames: GenderMap<NameListId>,
+    val familyNames: NameListId,
 ) : NamingConvention() {
 
-    override fun contains(id: NameListId) = givenNames.contains(id) || familyNames.contains(id)
+    override fun contains(id: NameListId) = givenNames.contains(id) || familyNames == id
 
-    override fun getNameLists() = givenNames.getValues() + familyNames.getValues()
+    override fun getNameLists() = givenNames.getValues() + setOf(familyNames)
 }
 
 

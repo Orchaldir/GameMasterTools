@@ -3,23 +3,20 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Waterdeep",
+   "name": "Aundairian",
    "namingConvention": {
-    "type": "Patronym",
-    "lookupDistance": "OneGeneration",
-    "style": {
-     "type": "Suffix",
-     "suffix": {
-      "female": "Unknown",
-      "genderless": "Unknown",
-      "male": "Unknown"
-     }
+    "type": "Family",
+    "nameOrder": "GivenNameFirst",
+    "middleNameOptions": {
+     "None": "Common",
+     "Random": "Rare"
     },
-    "names": {
-     "female": 0,
+    "givenNames": {
+     "female": 1,
      "genderless": 0,
-     "male": 1
-    }
+     "male": 0
+    },
+    "familyNames": 2
    },
    "styleOptions": {
     "beardStyles": {

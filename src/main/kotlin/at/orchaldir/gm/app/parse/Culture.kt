@@ -47,7 +47,7 @@ fun parseNamingConvention(
             parse(parameters, NAME_ORDER, GivenNameFirst),
             parseRarityMap(parameters, MIDDLE_NAME, MiddleNameOption::valueOf, MiddleNameOption.entries),
             parseNamesByGender(parameters, NAMES),
-            parseNamesByGender(parameters, FAMILY_NAMES)
+            parseNameListId(parameters, FAMILY_NAMES)
         )
 
         Patronym.toString() -> PatronymConvention(
@@ -99,7 +99,12 @@ private fun parseNameListId(
     parameters: Parameters,
     param: String,
     gender: Gender,
-) = NameListId(parameters["$param-$gender"]?.toInt() ?: 0)
+) = parseNameListId(parameters, "$param-$gender")
+
+private fun parseNameListId(
+    parameters: Parameters,
+    param: String,
+) = NameListId(parameters[param]?.toInt() ?: 0)
 
 fun parseWordsByGender(
     parameters: Parameters,

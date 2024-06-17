@@ -157,7 +157,9 @@ private fun HTML.showCultureDetails(
                 field("Name Order", namingConvention.nameOrder.toString())
                 showRarityMap("Middle Name Options", namingConvention.middleNameOptions)
                 showNamesByGender(call, state, "Given Names", namingConvention.givenNames)
-                showNamesByGender(call, state, "Family Names", namingConvention.familyNames)
+                field("Family Names") {
+                    link(call, state, namingConvention.familyNames)
+                }
             }
 
             is GenonymConvention -> showGenonymConvention(
@@ -296,7 +298,9 @@ private fun HTML.showCultureEditor(
                     }
                     selectRarityMap("Middle Name Options", MIDDLE_NAME, namingConvention.middleNameOptions)
                     selectNamesByGender(state, "Given Names", namingConvention.givenNames, NAMES)
-                    selectNamesByGender(state, "Family Names", namingConvention.familyNames, FAMILY_NAMES)
+                    field("Family Names") {
+                        selectNameList(FAMILY_NAMES, state, namingConvention.familyNames)
+                    }
                 }
 
                 is GenonymConvention -> selectGenonymConvention(
@@ -379,15 +383,23 @@ private fun FORM.selectNamesByGender(
 ) {
     selectGenderMap(fieldLabel, namesByGender) { gender, nameListId ->
         val selectId = "$param-$gender"
-        select {
-            id = selectId
-            name = selectId
-            state.nameLists.getAll().forEach { nameList ->
-                option {
-                    label = nameList.name
-                    value = nameList.id.value.toString()
-                    selected = nameList.id == nameListId
-                }
+        selectNameList(selectId, state, nameListId)
+    }
+}
+
+private fun HtmlBlockTag.selectNameList(
+    selectId: String,
+    state: State,
+    nameListId: NameListId,
+) {
+    select {
+        id = selectId
+        name = selectId
+        state.nameLists.getAll().forEach { nameList ->
+            option {
+                label = nameList.name
+                value = nameList.id.value.toString()
+                selected = nameList.id == nameListId
             }
         }
     }
