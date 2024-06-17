@@ -3,7 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Aundairian Names - Male",
+   "name": "Aundairian - Male",
    "names": [
     "Ari",
     "Bokk",
@@ -33,7 +33,7 @@
   },
   "1": {
    "id": 1,
-   "name": "Aundairian Names - Female",
+   "name": "Aundairian - Female",
    "names": [
     "Aafki",
     "Agate",
@@ -57,7 +57,7 @@
   },
   "2": {
    "id": 2,
-   "name": "Aundairian Familyname",
+   "name": "Aundairian - Family",
    "names": [
     "Aarland",
     "Acker",
@@ -103,7 +103,7 @@
   },
   "3": {
    "id": 3,
-   "name": "Brelish Names - Male",
+   "name": "Brelish - Male",
    "names": [
     "Alain",
     "Beren",
@@ -140,7 +140,7 @@
   },
   "4": {
    "id": 4,
-   "name": "Brelish Names - Female",
+   "name": "Brelish - Female",
    "names": [
     "Aanna",
     "Alike",
@@ -176,7 +176,7 @@
   },
   "5": {
    "id": 5,
-   "name": "Brelish Familynames",
+   "name": "Brelish - Family",
    "names": [
     "Aggan",
     "Bakker",
@@ -205,7 +205,7 @@
   },
   "6": {
    "id": 6,
-   "name": "Karrnathi Names - Males",
+   "name": "Karrnathi - Male",
    "names": [
     "Adalstan",
     "Alarich",
@@ -236,7 +236,7 @@
   },
   "7": {
    "id": 7,
-   "name": "Karrnathi Names - Females",
+   "name": "Karrnathi - Female",
    "names": [
     "Adalgisa",
     "Alinda",
@@ -265,7 +265,7 @@
   },
   "8": {
    "id": 8,
-   "name": "Karrnathi Familynames",
+   "name": "Karrnathi - Family",
    "names": [
     "Altaner",
     "Argland",
@@ -305,7 +305,7 @@
   },
   "9": {
    "id": 9,
-   "name": "Thranish Names - Male",
+   "name": "Thranish - Male",
    "names": [
     "Alestair",
     "Andri",
@@ -339,7 +339,7 @@
   },
   "10": {
    "id": 10,
-   "name": "Thranish Names - Female",
+   "name": "Thranish - Female",
    "names": [
     "Avaliah",
     "Beref",
@@ -369,7 +369,7 @@
   },
   "11": {
    "id": 11,
-   "name": "Thranish Familynames",
+   "name": "Thranish - Family",
    "names": [
     "Aeyliros",
     "Askarda",
@@ -401,7 +401,7 @@
   },
   "12": {
    "id": 12,
-   "name": "Aereni Names - Male",
+   "name": "Aereni - Male",
    "names": [
     "Aeren",
     "Belaereth",
@@ -424,7 +424,7 @@
   },
   "13": {
    "id": 13,
-   "name": "Aereni Names - Female",
+   "name": "Aereni - Female",
    "names": [
     "Aeren",
     "Ashaelyn",
@@ -446,7 +446,7 @@
   },
   "14": {
    "id": 14,
-   "name": "Aereni Familynames",
+   "name": "Aereni - Family",
    "names": [
     "Alaraen",
     "Alorenthi",
