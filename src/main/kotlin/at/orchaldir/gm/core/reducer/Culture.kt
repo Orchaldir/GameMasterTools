@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -17,7 +17,7 @@ val CREATE_CULTURE: Reducer<CreateCulture, State> = { state, _ ->
 
 val DELETE_CULTURE: Reducer<DeleteCulture, State> = { state, action ->
     state.cultures.require(action.id)
-    require(state.getCharacters(action.id).isEmpty()) { "Culture ${action.id.value} is used by characters" }
+    require(state.canDelete(action.id)) { "Culture ${action.id.value} is used by characters" }
 
     noFollowUps(state.copy(cultures = state.cultures.remove(action.id)))
 }

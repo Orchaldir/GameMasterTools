@@ -1,12 +1,14 @@
 package at.orchaldir.gm.core.reducer
 
-import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.DeleteNameList
 import at.orchaldir.gm.core.action.UpdateNameList
 import at.orchaldir.gm.core.model.NameList
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.appearance.GenderMap
+import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.culture.name.MononymConvention
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -34,6 +36,24 @@ class NameListTest {
             val action = DeleteNameList(ID0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Cannot delete, if used by a culture`() {
+            val action = DeleteNameList(ID0)
+            val state = STATE.copy(
+                cultures = Storage(
+                    listOf(
+                        Culture(
+                            CultureId(0), namingConvention = MononymConvention(
+                                GenderMap(ID0, ID0, ID0)
+                            )
+                        )
+                    )
+                )
+            )
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
     }
 
