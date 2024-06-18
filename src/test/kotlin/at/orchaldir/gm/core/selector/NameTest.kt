@@ -1,10 +1,7 @@
 package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.FamilyName
-import at.orchaldir.gm.core.model.character.Mononym
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
@@ -81,6 +78,19 @@ class NameTest {
             cultures = Storage(listOf(Culture(CULTURE0, namingConvention = convention)))
         )
 
+    }
+
+    @Nested
+    inner class PatronymTest {
+        @Test
+        fun `Without a father`() {
+            val state = State(
+                characters = Storage(listOf(Character(ID0, Genonym("A")))),
+                cultures = Storage(listOf(Culture(CULTURE0, namingConvention = PatronymConvention())))
+            )
+
+            assertEquals("A", state.getName(ID0))
+        }
     }
 
 
