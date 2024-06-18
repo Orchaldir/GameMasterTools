@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.Gender.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
+import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.TwoGenerations
 import at.orchaldir.gm.core.model.culture.name.NameOrder.FamilyNameFirst
 import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
 import at.orchaldir.gm.utils.Storage
@@ -17,7 +18,8 @@ import kotlin.test.assertFailsWith
 
 private val ID0 = CharacterId(0)
 private val ID1 = CharacterId(1)
-private val OTHER = CharacterId(2)
+private val ID2 = CharacterId(2)
+private val OTHER = CharacterId(10)
 private val CULTURE0 = CultureId(0)
 private val GENDER_MAP = GenderMap("f", "g", "m")
 
@@ -174,6 +176,22 @@ class NameTest {
                     )
                 )
             )
+        }
+
+        @Test
+        fun `Two generations`() {
+            val state = State(
+                characters = Storage(
+                    listOf(
+                        Character(ID0, Genonym("Child"), origin = Born(OTHER, ID1)),
+                        Character(ID1, Genonym("Father"), origin = Born(OTHER, ID2)),
+                        Character(ID2, Genonym("Grandfather"))
+                    )
+                ),
+                cultures = Storage(listOf(Culture(CULTURE0, namingConvention = PatronymConvention(TwoGenerations))))
+            )
+
+            assertEquals("Child Father Grandfather", state.getName(ID0))
         }
     }
 
