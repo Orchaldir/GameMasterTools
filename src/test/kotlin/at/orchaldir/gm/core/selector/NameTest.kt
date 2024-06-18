@@ -3,8 +3,7 @@ package at.orchaldir.gm.core.selector
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.GenderMap
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.model.character.Gender.Female
-import at.orchaldir.gm.core.model.character.Gender.Male
+import at.orchaldir.gm.core.model.character.Gender.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
@@ -118,53 +117,42 @@ class NameTest {
 
             @Test
             fun `Prefix style for son`() {
-                val state = State(
-                    characters = Storage(
-                        listOf(
-                            Character(ID0, Genonym("Child"), gender = Male, origin = Born(OTHER, ID1)),
-                            Character(ID1, Genonym("Father"))
-                        )
-                    ),
-                    cultures = Storage(
-                        listOf(
-                            Culture(
-                                CULTURE0, namingConvention = PatronymConvention(
-                                    style = PrefixStyle(
-                                        GENDER_MAP
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
+                val state = init(Male)
 
                 assertEquals("Child mFather", state.getName(ID0))
             }
 
             @Test
             fun `Prefix style for daughter`() {
-                val state = State(
-                    characters = Storage(
-                        listOf(
-                            Character(ID0, Genonym("Child"), gender = Female, origin = Born(OTHER, ID1)),
-                            Character(ID1, Genonym("Father"))
-                        )
-                    ),
-                    cultures = Storage(
-                        listOf(
-                            Culture(
-                                CULTURE0, namingConvention = PatronymConvention(
-                                    style = PrefixStyle(
-                                        GENDER_MAP
-                                    )
-                                )
+                val state = init(Female)
+
+                assertEquals("Child fFather", state.getName(ID0))
+            }
+
+            @Test
+            fun `Prefix style for child`() {
+                val state = init(Genderless)
+
+                assertEquals("Child gFather", state.getName(ID0))
+            }
+
+            private fun init(gender: Gender) = State(
+                characters = Storage(
+                    listOf(
+                        Character(ID0, Genonym("Child"), gender = gender, origin = Born(OTHER, ID1)),
+                        Character(ID1, Genonym("Father"))
+                    )
+                ),
+                cultures = Storage(
+                    listOf(
+                        Culture(
+                            CULTURE0, namingConvention = PatronymConvention(
+                                style = PrefixStyle(GENDER_MAP)
                             )
                         )
                     )
                 )
-
-                assertEquals("Child fFather", state.getName(ID0))
-            }
+            )
         }
     }
 
