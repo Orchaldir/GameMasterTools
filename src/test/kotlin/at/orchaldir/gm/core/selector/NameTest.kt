@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.Gender.Male
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
@@ -14,6 +15,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 private val ID0 = CharacterId(0)
+private val ID1 = CharacterId(1)
+private val OTHER = CharacterId(2)
 private val CULTURE0 = CultureId(0)
 
 class NameTest {
@@ -82,6 +85,7 @@ class NameTest {
 
     @Nested
     inner class PatronymTest {
+
         @Test
         fun `Without a father`() {
             val state = State(
@@ -90,6 +94,24 @@ class NameTest {
             )
 
             assertEquals("A", state.getName(ID0))
+        }
+
+        @Nested
+        inner class OneGenerationTest {
+            @Test
+            fun `Names Only Style`() {
+                val state = State(
+                    characters = Storage(
+                        listOf(
+                            Character(ID0, Genonym("Child"), origin = Born(OTHER, ID1)),
+                            Character(ID1, Genonym("Father"))
+                        )
+                    ),
+                    cultures = Storage(listOf(Culture(CULTURE0, namingConvention = PatronymConvention())))
+                )
+
+                assertEquals("Child Father", state.getName(ID0))
+            }
         }
     }
 
