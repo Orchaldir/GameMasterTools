@@ -13,7 +13,22 @@ fun State.getName(character: Character): String {
 
     return when (name) {
         is FamilyName -> getFamilyName(culture.namingConvention, name)
-        is Genonym -> TODO()
+        is Genonym -> when (culture.namingConvention) {
+            is GenonymConvention -> TODO()
+            is MatronymConvention -> TODO()
+            is PatronymConvention -> {
+                val fatherId = getFather(character)
+
+                return if (fatherId != null) {
+                    val father = characters.getOrThrow(fatherId)
+                    getGenonymName(name.given, culture.namingConvention.style, father)
+                } else {
+                    name.given
+                }
+            }
+
+            else -> error("A genonym requires a genonym convention!")
+        }
         is Mononym -> name.name
     }
 }
@@ -45,4 +60,21 @@ private fun getFamilyName(first: String, middle: String?, last: String) = if (mi
     "$first $middle $last}"
 } else {
     "$first $last}"
+}
+
+private fun getGenonymName(first: String, style: GenonymicStyle, parent: Character): String {
+    val parentGiven = getGivenName(parent)
+
+    return when (style) {
+        is ChildOfStyle -> "$first ${style.words} $parentGiven"
+        NamesOnlyStyle -> "$first $parentGiven"
+        is PrefixStyle -> "$first ${style.prefix}$parentGiven"
+        is SuffixStyle -> "$first $parentGiven${style.suffix}"
+    }
+}
+
+private fun getGivenName(character: Character) = when (character.name) {
+    is FamilyName -> character.name.given
+    is Genonym -> character.name.given
+    is Mononym -> character.name.name
 }
