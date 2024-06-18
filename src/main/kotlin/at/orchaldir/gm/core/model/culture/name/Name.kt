@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.appearance.GenderMap
 import at.orchaldir.gm.core.model.appearance.RarityMap
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.util.Collections
 
 enum class NamingConventionType {
     None,

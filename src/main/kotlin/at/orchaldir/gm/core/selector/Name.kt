@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.appearance.GenderMap
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.TwoGenerations
@@ -22,14 +23,14 @@ fun State.getName(character: Character): String {
 
                 return if (fatherId != null) {
                     val father = characters.getOrThrow(fatherId)
-                    val result = getGenonymName(name.given, culture.namingConvention.style, father)
+                    val result = getGenonymName(name.given, character.gender, culture.namingConvention.style, father)
 
                     if (culture.namingConvention.lookupDistance == TwoGenerations) {
                         val grandfatherId = getFather(father)
 
                         if (grandfatherId != null) {
                             val grandfather = characters.getOrThrow(grandfatherId)
-                            return getGenonymName(result, culture.namingConvention.style, grandfather)
+                            return getGenonymName(result, father.gender, culture.namingConvention.style, grandfather)
                         }
                     }
 
@@ -75,15 +76,21 @@ private fun getFamilyName(first: String, middle: String?, last: String) = if (mi
     "$first $last}"
 }
 
-private fun getGenonymName(first: String, style: GenonymicStyle, parent: Character): String {
+private fun getGenonymName(first: String, gender: Gender, style: GenonymicStyle, parent: Character): String {
     val parentGiven = getGivenName(parent)
 
     return when (style) {
-        is ChildOfStyle -> "$first ${style.words} $parentGiven"
+        is ChildOfStyle -> getGenonymName("$first %s $parentGiven", style.words, gender)
         NamesOnlyStyle -> "$first $parentGiven"
-        is PrefixStyle -> "$first ${style.prefix}$parentGiven"
-        is SuffixStyle -> "$first $parentGiven${style.suffix}"
+        is PrefixStyle -> getGenonymName("$first %s$parentGiven", style.prefix, gender)
+        is SuffixStyle -> getGenonymName("$first $parentGiven%s", style.suffix, gender)
     }
+}
+
+private fun getGenonymName(format: String, map: GenderMap<String>, gender: Gender): String {
+    val insert = map.get(gender)
+
+    return String.format(format, insert)
 }
 
 private fun getGivenName(character: Character) = when (character.name) {
