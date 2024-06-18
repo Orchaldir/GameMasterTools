@@ -68,18 +68,17 @@ class NameTest {
                 MatronymConvention(),
                 GenonymConvention()
             ).forEach {
-                val state = State(
-                    characters = Storage(listOf(Character(ID0, FamilyName("Given", null, "Family")))),
-                    cultures = Storage(listOf(Culture(CULTURE0, namingConvention = it)))
-                )
+                val state = init(it, null)
 
                 assertFailsWith<IllegalStateException> { state.getName(ID0) }
             }
         }
 
-        private fun init(nameOrder: NameOrder, middle: String?) = State(
+        private fun init(nameOrder: NameOrder, middle: String?) = init(FamilyConvention(nameOrder), middle)
+
+        private fun init(convention: NamingConvention, middle: String?) = State(
             characters = Storage(listOf(Character(ID0, FamilyName("Given", middle, "Family")))),
-            cultures = Storage(listOf(Culture(CULTURE0, namingConvention = FamilyConvention(nameOrder))))
+            cultures = Storage(listOf(Culture(CULTURE0, namingConvention = convention)))
         )
 
     }
