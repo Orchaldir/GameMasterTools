@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.FamilyConvention
 import at.orchaldir.gm.core.model.culture.name.NameOrder
+import at.orchaldir.gm.core.model.culture.name.NameOrder.FamilyNameFirst
 import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -32,13 +33,36 @@ class NameTest {
 
         @Test
         fun `Given name first`() {
-            val state = State(
-                characters = Storage(listOf(Character(ID0, FamilyName("A", null, "B")))),
-                cultures = Storage(listOf(Culture(CULTURE0, namingConvention = FamilyConvention(GivenNameFirst))))
-            )
+            val state = init(GivenNameFirst, null)
 
-            assertEquals("A B", state.getName(ID0))
+            assertEquals("Given Family", state.getName(ID0))
         }
+
+        @Test
+        fun `Given name first with middle name`() {
+            val state = init(GivenNameFirst, "Middle")
+
+            assertEquals("Given Middle Family", state.getName(ID0))
+        }
+
+        @Test
+        fun `Family name first`() {
+            val state = init(FamilyNameFirst, null)
+
+            assertEquals("Family Given", state.getName(ID0))
+        }
+
+        @Test
+        fun `Family name first with middle name`() {
+            val state = init(FamilyNameFirst, "Middle")
+
+            assertEquals("Family Middle Given", state.getName(ID0))
+        }
+
+        private fun init(nameOrder: NameOrder, middle: String?) = State(
+            characters = Storage(listOf(Character(ID0, FamilyName("Given", middle, "Family")))),
+            cultures = Storage(listOf(Culture(CULTURE0, namingConvention = FamilyConvention(nameOrder))))
+        )
 
     }
 
