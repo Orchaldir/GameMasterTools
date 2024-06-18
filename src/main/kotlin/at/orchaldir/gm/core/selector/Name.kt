@@ -57,10 +57,23 @@ private fun State.getGenonymName(
 ): String {
     val culture = cultures.getOrThrow(character.culture)
 
-    return when (val namingConvention = culture.namingConvention) {
+    return when (val convention = culture.namingConvention) {
         is GenonymConvention -> TODO()
-        is MatronymConvention -> TODO()
-        is PatronymConvention -> getGenonymName(character, name, namingConvention, this::getFather)
+        is MatronymConvention -> getGenonymName(
+            character,
+            name,
+            convention.lookupDistance,
+            convention.style,
+            Character::getMother
+        )
+
+        is PatronymConvention -> getGenonymName(
+            character,
+            name,
+            convention.lookupDistance,
+            convention.style,
+            Character::getFather
+        )
 
         else -> error("A genonym requires a genonym convention!")
     }
@@ -69,7 +82,8 @@ private fun State.getGenonymName(
 private fun State.getGenonymName(
     character: Character,
     name: Genonym,
-    namingConvention: PatronymConvention,
+    lookupDistance: GenonymicLookupDistance,
+    style: GenonymicStyle,
     getParent: (Character) -> CharacterId?,
 ): String {
     val parentId = getParent(character)
@@ -77,9 +91,9 @@ private fun State.getGenonymName(
     return if (parentId != null) {
         val parent = characters.getOrThrow(parentId)
         val result =
-            getGenonymName(name.given, character.gender, namingConvention.style, parent)
+            getGenonymName(name.given, character.gender, style, parent)
 
-        if (namingConvention.lookupDistance == TwoGenerations) {
+        if (lookupDistance == TwoGenerations) {
             val grandparentId = getParent(parent)
 
             if (grandparentId != null) {
@@ -87,7 +101,7 @@ private fun State.getGenonymName(
                 return getGenonymName(
                     result,
                     parent.gender,
-                    namingConvention.style,
+                    style,
                     grandparent
                 )
             }

@@ -183,7 +183,7 @@ class NameTest {
             val state = State(
                 characters = Storage(
                     listOf(
-                        Character(ID0, Genonym("A"), gender = Male, origin = Born(OTHER, ID1)),
+                        Character(ID0, Genonym("A"), gender = Female, origin = Born(OTHER, ID1)),
                         Character(ID1, Genonym("B"), gender = Male, origin = Born(OTHER, ID2)),
                         Character(ID2, Genonym("C"))
                     )
@@ -201,8 +201,34 @@ class NameTest {
                 )
             )
 
-            assertEquals("A m B m C", state.getName(ID0))
+            assertEquals("A f B m C", state.getName(ID0))
         }
+    }
+
+    @Test
+    fun `Test Matronym`() {
+        val state = State(
+            characters = Storage(
+                listOf(
+                    Character(ID0, Genonym("A"), gender = Male, origin = Born(ID1, OTHER)),
+                    Character(ID1, Genonym("B"), gender = Female, origin = Born(ID2, OTHER)),
+                    Character(ID2, Genonym("C"))
+                )
+            ),
+            cultures = Storage(
+                listOf(
+                    Culture(
+                        CULTURE0, namingConvention = MatronymConvention(
+                            TwoGenerations, ChildOfStyle(
+                                GENDER_MAP
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+        assertEquals("A m B f C", state.getName(ID0))
     }
 
 

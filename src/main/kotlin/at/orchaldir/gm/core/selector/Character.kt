@@ -33,8 +33,13 @@ fun State.getParents(id: CharacterId): List<Character> {
     }
 }
 
-fun State.getFather(character: Character) = when (character.origin) {
-    is Born -> character.origin.father
+fun Character.getFather() = when (origin) {
+    is Born -> origin.father
+    UndefinedCharacterOrigin -> null
+}
+
+fun Character.getMother() = when (origin) {
+    is Born -> origin.mother
     UndefinedCharacterOrigin -> null
 }
 
