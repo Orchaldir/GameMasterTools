@@ -71,23 +71,23 @@ private fun State.getGenonymName(
     name: Genonym,
     namingConvention: PatronymConvention,
 ): String {
-    val fatherId = getFather(character)
+    val parentId = getFather(character)
 
-    return if (fatherId != null) {
-        val father = characters.getOrThrow(fatherId)
+    return if (parentId != null) {
+        val parent = characters.getOrThrow(parentId)
         val result =
-            getGenonymName(name.given, character.gender, namingConvention.style, father)
+            getGenonymName(name.given, character.gender, namingConvention.style, parent)
 
         if (namingConvention.lookupDistance == TwoGenerations) {
-            val grandfatherId = getFather(father)
+            val grandparentId = getFather(parent)
 
-            if (grandfatherId != null) {
-                val grandfather = characters.getOrThrow(grandfatherId)
+            if (grandparentId != null) {
+                val grandparent = characters.getOrThrow(grandparentId)
                 return getGenonymName(
                     result,
-                    father.gender,
+                    parent.gender,
                     namingConvention.style,
-                    grandfather
+                    grandparent
                 )
             }
         }
