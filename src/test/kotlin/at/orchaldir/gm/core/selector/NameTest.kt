@@ -183,15 +183,25 @@ class NameTest {
             val state = State(
                 characters = Storage(
                     listOf(
-                        Character(ID0, Genonym("Child"), origin = Born(OTHER, ID1)),
-                        Character(ID1, Genonym("Father"), origin = Born(OTHER, ID2)),
-                        Character(ID2, Genonym("Grandfather"))
+                        Character(ID0, Genonym("A"), gender = Male, origin = Born(OTHER, ID1)),
+                        Character(ID1, Genonym("B"), gender = Male, origin = Born(OTHER, ID2)),
+                        Character(ID2, Genonym("C"))
                     )
                 ),
-                cultures = Storage(listOf(Culture(CULTURE0, namingConvention = PatronymConvention(TwoGenerations))))
+                cultures = Storage(
+                    listOf(
+                        Culture(
+                            CULTURE0, namingConvention = PatronymConvention(
+                                TwoGenerations, ChildOfStyle(
+                                    GENDER_MAP
+                                )
+                            )
+                        )
+                    )
+                )
             )
 
-            assertEquals("Child Father Grandfather", state.getName(ID0))
+            assertEquals("A m B m C", state.getName(ID0))
         }
     }
 
