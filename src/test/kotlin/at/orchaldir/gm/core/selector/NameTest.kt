@@ -117,26 +117,47 @@ class NameTest {
 
             @Test
             fun `Prefix style for son`() {
-                val state = init(Male)
+                val state = init(Male, PrefixStyle(GENDER_MAP))
 
                 assertEquals("Child mFather", state.getName(ID0))
             }
 
             @Test
             fun `Prefix style for daughter`() {
-                val state = init(Female)
+                val state = init(Female, PrefixStyle(GENDER_MAP))
 
                 assertEquals("Child fFather", state.getName(ID0))
             }
 
             @Test
             fun `Prefix style for child`() {
-                val state = init(Genderless)
+                val state = init(Genderless, PrefixStyle(GENDER_MAP))
 
                 assertEquals("Child gFather", state.getName(ID0))
             }
 
-            private fun init(gender: Gender) = State(
+            @Test
+            fun `Suffix style for son`() {
+                val state = init(Male, SuffixStyle(GENDER_MAP))
+
+                assertEquals("Child Fatherm", state.getName(ID0))
+            }
+
+            @Test
+            fun `Suffix style for daughter`() {
+                val state = init(Female, SuffixStyle(GENDER_MAP))
+
+                assertEquals("Child Fatherf", state.getName(ID0))
+            }
+
+            @Test
+            fun `Suffix style for child`() {
+                val state = init(Genderless, SuffixStyle(GENDER_MAP))
+
+                assertEquals("Child Fatherg", state.getName(ID0))
+            }
+
+            private fun init(gender: Gender, style: GenonymicStyle) = State(
                 characters = Storage(
                     listOf(
                         Character(ID0, Genonym("Child"), gender = gender, origin = Born(OTHER, ID1)),
@@ -147,7 +168,7 @@ class NameTest {
                     listOf(
                         Culture(
                             CULTURE0, namingConvention = PatronymConvention(
-                                style = PrefixStyle(GENDER_MAP)
+                                style = style
                             )
                         )
                     )
