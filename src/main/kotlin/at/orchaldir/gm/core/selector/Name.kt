@@ -57,39 +57,45 @@ private fun State.getGenonymName(
 ): String {
     val culture = cultures.getOrThrow(character.culture)
 
-    when (val namingConvention = culture.namingConvention) {
+    return when (val namingConvention = culture.namingConvention) {
         is GenonymConvention -> TODO()
         is MatronymConvention -> TODO()
-        is PatronymConvention -> {
-            val fatherId = getFather(character)
+        is PatronymConvention -> getGenonymName(character, name, namingConvention)
 
-            return if (fatherId != null) {
-                val father = characters.getOrThrow(fatherId)
-                val result =
-                    getGenonymName(name.given, character.gender, namingConvention.style, father)
+        else -> error("A genonym requires a genonym convention!")
+    }
+}
 
-                if (namingConvention.lookupDistance == TwoGenerations) {
-                    val grandfatherId = getFather(father)
+private fun State.getGenonymName(
+    character: Character,
+    name: Genonym,
+    namingConvention: PatronymConvention,
+): String {
+    val fatherId = getFather(character)
 
-                    if (grandfatherId != null) {
-                        val grandfather = characters.getOrThrow(grandfatherId)
-                        return getGenonymName(
-                            result,
-                            father.gender,
-                            namingConvention.style,
-                            grandfather
-                        )
-                    }
-                }
+    return if (fatherId != null) {
+        val father = characters.getOrThrow(fatherId)
+        val result =
+            getGenonymName(name.given, character.gender, namingConvention.style, father)
 
-                return result
+        if (namingConvention.lookupDistance == TwoGenerations) {
+            val grandfatherId = getFather(father)
 
-            } else {
-                name.given
+            if (grandfatherId != null) {
+                val grandfather = characters.getOrThrow(grandfatherId)
+                return getGenonymName(
+                    result,
+                    father.gender,
+                    namingConvention.style,
+                    grandfather
+                )
             }
         }
 
-        else -> error("A genonym requires a genonym convention!")
+        return result
+
+    } else {
+        name.given
     }
 }
 
