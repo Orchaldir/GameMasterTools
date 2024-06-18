@@ -110,7 +110,7 @@ fun Application.configureCharacterRouting() {
 }
 
 private fun HTML.showAllCharacters(call: ApplicationCall) {
-    val characters = STORE.getState().characters.getAll().sortedBy { it.name }
+    val characters = STORE.getState().characters.getAll().sortedBy { it.name() }
     val count = characters.size
     val createLink = call.application.href(Characters.New(Characters()))
 
@@ -247,7 +247,7 @@ private fun HTML.showCharacterEditor(
     val previewLink = call.application.href(Characters.Preview(character.id))
     val updateLink = call.application.href(Characters.Update(character.id))
 
-    simpleHtml("Edit Character: ${character.name}") {
+    simpleHtml("Edit Character: ${character.name()}") {
         field("Id", character.id.value.toString())
         form {
             id = "editor"
@@ -255,7 +255,7 @@ private fun HTML.showCharacterEditor(
             method = FormMethod.post
             field("Name") {
                 textInput(name = NAME) {
-                    value = character.name
+                    value = character.name()
                 }
             }
             field("Race") {
@@ -310,12 +310,12 @@ private fun HTML.showCharacterEditor(
             when (character.origin) {
                 is Born -> {
                     selectEnum("Father", FATHER, state.getPossibleFathers(character.id)) { c ->
-                        label = c.name
+                        label = c.name()
                         value = c.id.value.toString()
                         selected = character.origin.father == c.id
                     }
                     selectEnum("Mother", MOTHER, state.getPossibleMothers(character.id)) { c ->
-                        label = c.name
+                        label = c.name()
                         value = c.id.value.toString()
                         selected = character.origin.mother == c.id
                     }
@@ -398,7 +398,7 @@ private fun parseCharacter(state: State, id: CharacterId, parameters: Parameters
     }
 
     return character.copy(
-        name = name,
+        name = Mononym(name),
         race = race,
         gender = gender,
         origin = origin,

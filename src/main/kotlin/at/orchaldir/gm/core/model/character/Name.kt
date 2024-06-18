@@ -19,13 +19,5 @@ data class FamilyName(
 ) : CharacterName()
 
 @Serializable
-@SerialName("Patronym")
-data class Patronym(val given: String) : CharacterName()
-
-@Serializable
-@SerialName("Matronym")
-data class Matronym(val given: String) : CharacterName()
-
-@Serializable
 @SerialName("Genonym")
 data class Genonym(val given: String) : CharacterName()

@@ -27,14 +27,14 @@ fun HtmlBlockTag.link(
     state: State,
     id: CharacterId,
 ) {
-    link(call, id, state.characters.get(id)?.name ?: "Unknown")
+    link(call, id, state.characters.get(id)?.name() ?: "Unknown")
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
     character: Character,
 ) {
-    link(call, character.id, character.name)
+    link(call, character.id, character.name())
 }
 
 private fun HtmlBlockTag.link(
