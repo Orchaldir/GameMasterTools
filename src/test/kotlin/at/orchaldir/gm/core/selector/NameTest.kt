@@ -15,15 +15,17 @@ private val CULTURE0 = CultureId(0)
 
 class NameTest {
 
+    @Test
+    fun `Get Mononym independent of culture`() {
+        val state = State(characters = Storage(listOf(Character(ID0, Mononym("Test")))))
+
+        assertEquals("Test", state.getName(ID0))
+    }
+
     @Nested
-    inner class MononymTest {
+    inner class FamilyNameTest {
 
-        @Test
-        fun `Get others`() {
-            val state = State(characters = Storage(listOf(Character(ID0, Mononym("Test")))))
 
-            assertEquals("Test", state.getName(ID0))
-        }
 
     }
 

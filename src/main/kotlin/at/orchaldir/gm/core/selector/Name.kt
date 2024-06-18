@@ -56,9 +56,8 @@ private fun State.getGenonymName(
     name: Genonym,
 ): String {
     val culture = cultures.getOrThrow(character.culture)
-    val namingConvention = culture.namingConvention
 
-    when (namingConvention) {
+    when (val namingConvention = culture.namingConvention) {
         is GenonymConvention -> TODO()
         is MatronymConvention -> TODO()
         is PatronymConvention -> {
