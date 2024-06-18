@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.name.*
+import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.TwoGenerations
 
 
 fun State.getName(character: CharacterId) = getName(characters.getOrThrow(character))
@@ -21,7 +22,19 @@ fun State.getName(character: Character): String {
 
                 return if (fatherId != null) {
                     val father = characters.getOrThrow(fatherId)
-                    getGenonymName(name.given, culture.namingConvention.style, father)
+                    val result = getGenonymName(name.given, culture.namingConvention.style, father)
+
+                    if (culture.namingConvention.lookupDistance == TwoGenerations) {
+                        val grandfatherId = getFather(father)
+
+                        if (grandfatherId != null) {
+                            val grandfather = characters.getOrThrow(grandfatherId)
+                            return getGenonymName(result, culture.namingConvention.style, grandfather)
+                        }
+                    }
+
+                    return result
+
                 } else {
                     name.given
                 }
