@@ -58,7 +58,13 @@ private fun State.getGenonymName(
     val culture = cultures.getOrThrow(character.culture)
 
     return when (val convention = culture.namingConvention) {
-        is GenonymConvention -> TODO()
+        is GenonymConvention -> getGenonymName(
+            character,
+            name,
+            convention.lookupDistance,
+            convention.style,
+            Character::getParentForGenonym
+        )
         is MatronymConvention -> getGenonymName(
             character,
             name,
@@ -77,6 +83,15 @@ private fun State.getGenonymName(
 
         else -> error("A genonym requires a genonym convention!")
     }
+}
+
+fun Character.getParentForGenonym() = when (origin) {
+    is Born -> when (gender) {
+        Gender.Female -> origin.mother
+        else -> origin.father
+    }
+
+    UndefinedCharacterOrigin -> null
 }
 
 private fun State.getGenonymName(

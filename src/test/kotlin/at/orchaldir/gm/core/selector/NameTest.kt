@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.Gender.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
+import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.OneGeneration
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.TwoGenerations
 import at.orchaldir.gm.core.model.culture.name.NameOrder.FamilyNameFirst
 import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
@@ -229,6 +230,32 @@ class NameTest {
         )
 
         assertEquals("A m B f C", state.getName(ID0))
+    }
+
+    @Test
+    fun `Test Genonym with male`() {
+        val state = State(
+            characters = Storage(
+                listOf(
+                    Character(ID0, Genonym("A"), gender = Male, origin = Born(ID1, ID2)),
+                    Character(ID1, Genonym("B"), gender = Female),
+                    Character(ID2, Genonym("C"), gender = Male)
+                )
+            ),
+            cultures = Storage(
+                listOf(
+                    Culture(
+                        CULTURE0, namingConvention = GenonymConvention(
+                            OneGeneration, ChildOfStyle(
+                                GENDER_MAP
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+        assertEquals("A m C", state.getName(ID0))
     }
 
 
