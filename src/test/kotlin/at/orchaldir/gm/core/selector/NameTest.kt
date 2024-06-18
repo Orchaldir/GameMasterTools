@@ -7,11 +7,9 @@ import at.orchaldir.gm.core.model.character.FamilyName
 import at.orchaldir.gm.core.model.character.Mononym
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.culture.name.FamilyConvention
-import at.orchaldir.gm.core.model.culture.name.NameOrder
+import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.culture.name.NameOrder.FamilyNameFirst
 import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
-import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -63,12 +61,20 @@ class NameTest {
 
         @Test
         fun `Family name is incompatible with other conventions`() {
-            val state = State(
-                characters = Storage(listOf(Character(ID0, FamilyName("Given", null, "Family")))),
-                cultures = Storage(listOf(Culture(CULTURE0, namingConvention = NoNamingConvention)))
-            )
+            listOf(
+                NoNamingConvention,
+                MononymConvention(),
+                PatronymConvention(),
+                MatronymConvention(),
+                GenonymConvention()
+            ).forEach {
+                val state = State(
+                    characters = Storage(listOf(Character(ID0, FamilyName("Given", null, "Family")))),
+                    cultures = Storage(listOf(Culture(CULTURE0, namingConvention = it)))
+                )
 
-            assertFailsWith<IllegalStateException> { state.getName(ID0) }
+                assertFailsWith<IllegalStateException> { state.getName(ID0) }
+            }
         }
 
         private fun init(nameOrder: NameOrder, middle: String?) = State(

@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.culture.name
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.appearance.GenderMap
 import at.orchaldir.gm.core.model.appearance.RarityMap
+import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.OneGeneration
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -35,7 +36,7 @@ data object NoNamingConvention : NamingConvention() {
 
 @Serializable
 @SerialName("Mononym")
-data class MononymConvention(val names: GenderMap<NameListId>) : NamingConvention() {
+data class MononymConvention(val names: GenderMap<NameListId> = GenderMap(NameListId(0))) : NamingConvention() {
     constructor(id: NameListId) : this(GenderMap(id))
 
     override fun contains(id: NameListId) = names.contains(id)
@@ -61,9 +62,9 @@ data class FamilyConvention(
 @Serializable
 @SerialName("Patronym")
 data class PatronymConvention(
-    val lookupDistance: GenonymicLookupDistance,
-    val style: GenonymicStyle,
-    val names: GenderMap<NameListId>,
+    val lookupDistance: GenonymicLookupDistance = OneGeneration,
+    val style: GenonymicStyle = NamesOnlyStyle,
+    val names: GenderMap<NameListId> = GenderMap(NameListId(0)),
 ) : NamingConvention() {
 
     override fun contains(id: NameListId) = names.contains(id)
@@ -74,9 +75,9 @@ data class PatronymConvention(
 @Serializable
 @SerialName("Matronym")
 data class MatronymConvention(
-    val lookupDistance: GenonymicLookupDistance,
-    val style: GenonymicStyle,
-    val names: GenderMap<NameListId>,
+    val lookupDistance: GenonymicLookupDistance = OneGeneration,
+    val style: GenonymicStyle = NamesOnlyStyle,
+    val names: GenderMap<NameListId> = GenderMap(NameListId(0)),
 ) : NamingConvention() {
 
     override fun contains(id: NameListId) = names.contains(id)
@@ -90,9 +91,9 @@ data class MatronymConvention(
 @Serializable
 @SerialName("Genonym")
 data class GenonymConvention(
-    val lookupDistance: GenonymicLookupDistance,
-    val style: GenonymicStyle,
-    val names: GenderMap<NameListId>,
+    val lookupDistance: GenonymicLookupDistance = OneGeneration,
+    val style: GenonymicStyle = NamesOnlyStyle,
+    val names: GenderMap<NameListId> = GenderMap(NameListId(0)),
 ) : NamingConvention() {
 
     override fun contains(id: NameListId) = names.contains(id)
