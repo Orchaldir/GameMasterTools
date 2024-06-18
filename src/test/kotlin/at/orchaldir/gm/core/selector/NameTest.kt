@@ -232,14 +232,29 @@ class NameTest {
         assertEquals("A m B f C", state.getName(ID0))
     }
 
-    @Test
-    fun `Test Genonym with male`() {
-        val state = State(
+    @Nested
+    inner class GenonymTest {
+
+        @Test
+        fun `Use father with male`() {
+            val state = init(Male)
+
+            assertEquals("A m C", state.getName(ID0))
+        }
+
+        @Test
+        fun `Use mother with female`() {
+            val state = init(Female)
+
+            assertEquals("A f B", state.getName(ID0))
+        }
+
+        private fun init(gender: Gender) = State(
             characters = Storage(
                 listOf(
-                    Character(ID0, Genonym("A"), gender = Male, origin = Born(ID1, ID2)),
+                    Character(ID0, Genonym("A"), gender = gender, origin = Born(ID1, ID2)),
                     Character(ID1, Genonym("B"), gender = Female),
-                    Character(ID2, Genonym("C"), gender = Male)
+                    Character(ID2, Genonym("C"), gender = gender)
                 )
             ),
             cultures = Storage(
@@ -254,9 +269,6 @@ class NameTest {
                 )
             )
         )
-
-        assertEquals("A m C", state.getName(ID0))
     }
-
 
 }
