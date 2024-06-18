@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.appearance.GenderMap
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.Gender.Male
 import at.orchaldir.gm.core.model.culture.Culture
@@ -18,6 +19,7 @@ private val ID0 = CharacterId(0)
 private val ID1 = CharacterId(1)
 private val OTHER = CharacterId(2)
 private val CULTURE0 = CultureId(0)
+private val GENDER_MAP = GenderMap("f", "g", "m")
 
 class NameTest {
 
@@ -99,7 +101,7 @@ class NameTest {
         @Nested
         inner class OneGenerationTest {
             @Test
-            fun `Names Only Style`() {
+            fun `Names Only style`() {
                 val state = State(
                     characters = Storage(
                         listOf(
@@ -111,6 +113,31 @@ class NameTest {
                 )
 
                 assertEquals("Child Father", state.getName(ID0))
+            }
+
+            @Test
+            fun `Prefix style for son`() {
+                val state = State(
+                    characters = Storage(
+                        listOf(
+                            Character(ID0, Genonym("Child"), gender = Male, origin = Born(OTHER, ID1)),
+                            Character(ID1, Genonym("Father"))
+                        )
+                    ),
+                    cultures = Storage(
+                        listOf(
+                            Culture(
+                                CULTURE0, namingConvention = PatronymConvention(
+                                    style = PrefixStyle(
+                                        GENDER_MAP
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+
+                assertEquals("Child mFather", state.getName(ID0))
             }
         }
     }
