@@ -487,24 +487,86 @@
     "Yrych"
    ]
   },
-   "16": {
-     "id": 16,
-     "name": "Changeling",
-     "names": [
-       "Bin",
-       "Dox",
-       "Fie",
-       "Hars",
-       "Jin",
-       "Lam",
-       "Nit",
-       "Ot",
-       "Paik",
-       "Ruz",
-       "Sim",
-       "Toox",
-       "Yug"
-     ]
+  "16": {
+   "id": 16,
+   "name": "Changeling",
+   "names": [
+    "Bin",
+    "Dox",
+    "Fie",
+    "Hars",
+    "Jin",
+    "Lam",
+    "Nit",
+    "Ot",
+    "Paik",
+    "Ruz",
+    "Sim",
+    "Toox",
+    "Yug"
+   ]
+  },
+  "17": {
+   "id": 17,
+   "name": "Goblinoid - Male",
+   "names": [
+    "Aruget",
+    "Chetiin",
+    "Daavn",
+    "Dabrak",
+    "Dagii",
+    "Drevduul",
+    "Duulan",
+    "Fenic",
+    "Gudruun",
+    "Haluun",
+    "Haruuc",
+    "Jhazaal",
+    "Kallaad",
+    "Krakuul",
+    "Krootad",
+    "Mazaan",
+    "Munta",
+    "Nasaar",
+    "Rakari",
+    "Reksiit",
+    "Tariic",
+    "Taruuzh",
+    "Thuun",
+    "Vanii",
+    "Vanon",
+    "Wuudaraj"
+   ]
+  },
+  "18": {
+   "id": 18,
+   "name": "Goblinoid - Female",
+   "names": [
+    "Aaspar",
+    "Aguus",
+    "Belaluur",
+    "Denaal",
+    "Draraar",
+    "Duusha",
+    "Ekhaas",
+    "Eluun",
+    "Gaduul",
+    "Graal",
+    "Hashak",
+    "Jheluum",
+    "Kelaal",
+    "Mulaan",
+    "Nasree",
+    "Raleen",
+    "Razu",
+    "Rekseen",
+    "Senen",
+    "Shedroor",
+    "Tajiin",
+    "Tuneer",
+    "Valii",
+    "Wuun"
+   ]
   }
  }
 }
