@@ -46,9 +46,9 @@ private fun getFamilyName(
 }
 
 private fun getFamilyName(first: String, middle: String?, last: String) = if (middle != null) {
-    "$first $middle $last}"
+    "$first $middle $last"
 } else {
-    "$first $last}"
+    "$first $last"
 }
 
 private fun State.getGenonymName(

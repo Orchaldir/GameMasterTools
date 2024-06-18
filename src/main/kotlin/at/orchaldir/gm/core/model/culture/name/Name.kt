@@ -47,9 +47,9 @@ data class MononymConvention(val names: GenderMap<NameListId>) : NamingConventio
 @SerialName("Family")
 data class FamilyConvention(
     val nameOrder: NameOrder,
-    val middleNameOptions: RarityMap<MiddleNameOption>,
-    val givenNames: GenderMap<NameListId>,
-    val familyNames: NameListId,
+    val middleNameOptions: RarityMap<MiddleNameOption> = RarityMap(MiddleNameOption.entries),
+    val givenNames: GenderMap<NameListId> = GenderMap(NameListId(0)),
+    val familyNames: NameListId = NameListId(0),
 ) : NamingConvention() {
 
     override fun contains(id: NameListId) = givenNames.contains(id) || familyNames == id

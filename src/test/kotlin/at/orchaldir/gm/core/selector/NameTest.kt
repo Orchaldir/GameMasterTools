@@ -3,8 +3,13 @@ package at.orchaldir.gm.core.selector
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.FamilyName
 import at.orchaldir.gm.core.model.character.Mononym
+import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.culture.name.FamilyConvention
+import at.orchaldir.gm.core.model.culture.name.NameOrder
+import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -25,7 +30,15 @@ class NameTest {
     @Nested
     inner class FamilyNameTest {
 
+        @Test
+        fun `Given name first`() {
+            val state = State(
+                characters = Storage(listOf(Character(ID0, FamilyName("A", null, "B")))),
+                cultures = Storage(listOf(Culture(CULTURE0, namingConvention = FamilyConvention(GivenNameFirst))))
+            )
 
+            assertEquals("A B", state.getName(ID0))
+        }
 
     }
 
