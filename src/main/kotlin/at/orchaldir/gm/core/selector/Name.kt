@@ -10,38 +10,49 @@ import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.TwoGenera
 fun State.getName(character: CharacterId) = getName(characters.getOrThrow(character))
 
 fun State.getName(character: Character): String {
-    val name = character.name
-    val culture = cultures.getOrThrow(character.culture)
+    return when (val name = character.name) {
+        is FamilyName -> {
+            val culture = cultures.getOrThrow(character.culture)
 
-    return when (name) {
-        is FamilyName -> getFamilyName(culture.namingConvention, name)
-        is Genonym -> when (culture.namingConvention) {
-            is GenonymConvention -> TODO()
-            is MatronymConvention -> TODO()
-            is PatronymConvention -> {
-                val fatherId = getFather(character)
+            getFamilyName(culture.namingConvention, name)
+        }
 
-                return if (fatherId != null) {
-                    val father = characters.getOrThrow(fatherId)
-                    val result = getGenonymName(name.given, character.gender, culture.namingConvention.style, father)
+        is Genonym -> {
+            val culture = cultures.getOrThrow(character.culture)
+            when (culture.namingConvention) {
+                is GenonymConvention -> TODO()
+                is MatronymConvention -> TODO()
+                is PatronymConvention -> {
+                    val fatherId = getFather(character)
 
-                    if (culture.namingConvention.lookupDistance == TwoGenerations) {
-                        val grandfatherId = getFather(father)
+                    return if (fatherId != null) {
+                        val father = characters.getOrThrow(fatherId)
+                        val result =
+                            getGenonymName(name.given, character.gender, culture.namingConvention.style, father)
 
-                        if (grandfatherId != null) {
-                            val grandfather = characters.getOrThrow(grandfatherId)
-                            return getGenonymName(result, father.gender, culture.namingConvention.style, grandfather)
+                        if (culture.namingConvention.lookupDistance == TwoGenerations) {
+                            val grandfatherId = getFather(father)
+
+                            if (grandfatherId != null) {
+                                val grandfather = characters.getOrThrow(grandfatherId)
+                                return getGenonymName(
+                                    result,
+                                    father.gender,
+                                    culture.namingConvention.style,
+                                    grandfather
+                                )
+                            }
                         }
+
+                        return result
+
+                    } else {
+                        name.given
                     }
-
-                    return result
-
-                } else {
-                    name.given
                 }
-            }
 
-            else -> error("A genonym requires a genonym convention!")
+                else -> error("A genonym requires a genonym convention!")
+            }
         }
         is Mononym -> name.name
     }

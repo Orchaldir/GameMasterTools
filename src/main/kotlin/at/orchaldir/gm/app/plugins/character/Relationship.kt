@@ -110,7 +110,7 @@ private fun HTML.showRelationshipEditor(
                     }
                     state.getOthersWithoutRelationship(character).forEach { other ->
                         option {
-                            label = other.name
+                            label = other.name()
                             value = other.id.value.toString()
                         }
                     }

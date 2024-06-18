@@ -117,14 +117,15 @@ class CharacterTest {
                 personalityTraits = Storage(listOf(PersonalityTrait(PERSONALITY0))),
                 races = Storage(listOf(Race(RACE0), Race(RACE1)))
             )
-            val action = UpdateCharacter(Character(ID0, "Test", RACE1, Gender.Male, personality = setOf(PERSONALITY0)))
+            val action =
+                UpdateCharacter(Character(ID0, Mononym("Test"), RACE1, Gender.Male, personality = setOf(PERSONALITY0)))
 
             val result = REDUCER.invoke(state, action).first
 
             assertEquals(
                 Character(
                     ID0,
-                    "Test",
+                    Mononym("Test"),
                     RACE1,
                     Gender.Male,
                     UndefinedCharacterOrigin,

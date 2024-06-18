@@ -265,7 +265,7 @@ private fun HTML.showLanguageEditor(
                     "inventor",
                     state.characters.getAll()
                 ) { c ->
-                    label = c.name
+                    label = c.name()
                     value = c.id.value.toString()
                     selected = language.origin.inventor == c.id
                 }
