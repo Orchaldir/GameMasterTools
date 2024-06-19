@@ -47,6 +47,16 @@ val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
                 cultures = state.cultures.update(action.culture)
             )
         )
+    } else if (requiresChangeToGenonym(action.culture, oldCulture)) {
+        val updatedCharacters = state.getCharacters(oldCulture.id)
+            .map { changeToGenonym(it) }
+
+        noFollowUps(
+            state.copy(
+                characters = state.characters.update(updatedCharacters),
+                cultures = state.cultures.update(action.culture)
+            )
+        )
     } else {
         noFollowUps(state.copy(cultures = state.cultures.update(action.culture)))
     }
@@ -62,10 +72,26 @@ private fun requiresChangeToMononym(new: Culture, old: Culture): Boolean {
     return false
 }
 
+private fun requiresChangeToGenonym(new: Culture, old: Culture): Boolean {
+    if (new.namingConvention.isAnyGenonym()) {
+        return !old.namingConvention.isAnyGenonym()
+    }
+
+    return false
+}
+
 private fun changeToMononym(character: Character): Character {
     return when (character.name) {
         is FamilyName -> character.copy(name = Mononym(character.name.given))
         is Genonym -> character.copy(name = Mononym(character.name.given))
         is Mononym -> character
+    }
+}
+
+private fun changeToGenonym(character: Character): Character {
+    return when (character.name) {
+        is FamilyName -> character.copy(name = Genonym(character.name.given))
+        is Genonym -> character
+        is Mononym -> character.copy(name = Genonym(character.name.name))
     }
 }

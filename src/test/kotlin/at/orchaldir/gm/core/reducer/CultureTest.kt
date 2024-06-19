@@ -16,6 +16,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 private val ID0 = CultureId(0)
+private val ID1 = CultureId(1)
 private val NL_ID0 = NameListId(0)
 private val C_ID0 = CharacterId(0)
 private val C_ID1 = CharacterId(1)
@@ -150,6 +151,11 @@ class CultureTest {
         inner class ChangingToFamilyConventionTest {
 
             @Test
+            fun `Keep Mononym`() {
+                changeToFamily(FamilyConvention(), Mononym("A"))
+            }
+
+            @Test
             fun `Keep family name`() {
                 val familyName = FamilyName("A", null, "B")
                 val convention = FamilyConvention()
@@ -176,12 +182,45 @@ class CultureTest {
                 changeConvention(old, FamilyConvention(), oldName, Mononym("A"))
         }
 
+
+        @Nested
+        inner class ChangingToPatronymConventionTest {
+
+            @Test
+            fun `Change mononym to genonym`() {
+                changeToPatronym(FamilyConvention(), Mononym("A"))
+            }
+
+            @Test
+            fun `Change family name to genonym`() {
+                changeToPatronym(FamilyConvention(), FamilyName("A", null, "B"))
+            }
+
+            @Test
+            fun `Keep for genonym`() {
+                changeToPatronym(GenonymConvention(), Genonym("A"))
+            }
+
+            @Test
+            fun `Keep for patronym`() {
+                changeToPatronym(PatronymConvention(), Genonym("A"))
+            }
+
+            @Test
+            fun `Keep for matronym`() {
+                changeToPatronym(MatronymConvention(), Genonym("A"))
+            }
+
+            private fun changeToPatronym(old: NamingConvention, oldName: CharacterName) =
+                changeConvention(old, PatronymConvention(), oldName, Genonym("A"))
+        }
+
         private fun changeConvention(
             old: NamingConvention, new: NamingConvention, oldName: CharacterName, newName: CharacterName,
         ) {
             val action = UpdateCulture(Culture(ID0, namingConvention = new))
             val character0 = Character(C_ID0, oldName, culture = ID0)
-            val character1 = Character(C_ID1, Mononym("Z"))
+            val character1 = Character(C_ID1, Mononym("Z"), culture = ID1)
             val result = Character(C_ID0, newName, culture = ID0)
             val state = State(
                 characters = Storage(listOf(character0, character1)),
