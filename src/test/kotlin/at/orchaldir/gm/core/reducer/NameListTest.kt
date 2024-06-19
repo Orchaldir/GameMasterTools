@@ -120,8 +120,17 @@ class NameListTest {
             assertAction(action)
         }
 
-        private fun assertAction(action: UpdateNameList) {
-            assertEquals(Storage(listOf(NAME_LIST)), REDUCER.invoke(STATE, action).first.nameLists)
+        @Test
+        fun `Capitalize the first letter`() {
+            val action = UpdateNameList(NameList(ID0, "Test", listOf("name")))
+
+            assertAction(action, NameList(ID0, "Test", listOf("Name")))
+        }
+
+        private fun assertAction(action: UpdateNameList) = assertAction(action, NAME_LIST)
+
+        private fun assertAction(action: UpdateNameList, result: NameList) {
+            assertEquals(Storage(listOf(result)), REDUCER.invoke(STATE, action).first.nameLists)
         }
     }
 

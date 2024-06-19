@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
+import at.orchaldir.gm.utils.titlecaseFirstChar
 
 val CREATE_NAME_LIST: Reducer<CreateNameList, State> = { state, _ ->
     val nameList = NameList(state.nameLists.nextId)
@@ -28,10 +29,13 @@ val UPDATE_NAME_LIST: Reducer<UpdateNameList, State> = { state, action ->
     state.nameLists.require(nameList.id)
 
     val cleaned = nameList.copy(names = nameList.names
+        .asSequence()
         .flatMap { it.split(",", ".", ";") }
         .map { it.trim() }
         .filter { it.isNotEmpty() }
-        .sorted())
+        .map { it.titlecaseFirstChar() }
+        .sorted()
+        .toList())
 
     noFollowUps(state.copy(nameLists = state.nameLists.update(cleaned)))
 }
