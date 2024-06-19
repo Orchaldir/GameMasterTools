@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.name.FamilyConvention
 import at.orchaldir.gm.core.model.culture.name.MononymConvention
 import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
+import at.orchaldir.gm.core.model.culture.name.isAnyGenonym
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.utils.redux.Reducer
@@ -53,7 +54,7 @@ val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
 
 private fun requiresChangeToMononym(new: Culture, old: Culture): Boolean {
     if (new.namingConvention is MononymConvention || new.namingConvention is NoNamingConvention) {
-        return old.namingConvention is FamilyConvention
+        return old.namingConvention is FamilyConvention || old.namingConvention.isAnyGenonym()
     }
 
     return false

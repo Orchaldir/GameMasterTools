@@ -100,3 +100,10 @@ data class GenonymConvention(
 
     override fun getNameLists() = names.getValues()
 }
+
+fun NamingConvention.isAnyGenonym() = when (this) {
+    is GenonymConvention -> true
+    is MatronymConvention -> true
+    is PatronymConvention -> true
+    else -> false
+}

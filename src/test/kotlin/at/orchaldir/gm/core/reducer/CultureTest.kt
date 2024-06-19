@@ -5,14 +5,10 @@ import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.NameList
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.FamilyName
-import at.orchaldir.gm.core.model.character.Mononym
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.culture.name.FamilyConvention
-import at.orchaldir.gm.core.model.culture.name.MononymConvention
+import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -91,13 +87,32 @@ class CultureTest {
 
             @Test
             fun `From family to no convention`() {
+                extracted(FamilyConvention(), FamilyName("A", null, "B"))
+            }
+
+            @Test
+            fun `From genonym to no convention`() {
+                extracted(GenonymConvention(), Genonym("A"))
+            }
+
+            @Test
+            fun `From patronym to no convention`() {
+                extracted(PatronymConvention(), Genonym("A"))
+            }
+
+            @Test
+            fun `From matronym to no convention`() {
+                extracted(MatronymConvention(), Genonym("A"))
+            }
+
+            private fun extracted(convention: NamingConvention, name: CharacterName) {
                 val action = UpdateCulture(Culture(ID0, namingConvention = MononymConvention(NL_ID0)))
-                val character0 = Character(C_ID0, FamilyName("A", null, "B"), culture = ID0)
+                val character0 = Character(C_ID0, name, culture = ID0)
                 val character1 = Character(C_ID1, Mononym("Z"))
                 val result = Character(C_ID0, Mononym("A"), culture = ID0)
                 val state = State(
                     characters = Storage(listOf(character0, character1)),
-                    cultures = Storage(listOf(Culture(ID0, namingConvention = FamilyConvention()))),
+                    cultures = Storage(listOf(Culture(ID0, namingConvention = convention))),
                     nameLists = Storage(listOf(NAMES0))
                 )
 
