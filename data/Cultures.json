@@ -44,6 +44,18 @@
      "Red": "Common"
     }
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Darguun",
+   "namingConvention": {
+    "type": "Mononym",
+    "names": {
+     "female": 17,
+     "genderless": 17,
+     "male": 18
+    }
+   }
   }
  }
 }

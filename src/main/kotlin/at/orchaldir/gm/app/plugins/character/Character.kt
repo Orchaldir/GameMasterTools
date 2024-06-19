@@ -273,11 +273,13 @@ private fun HTML.showCharacterEditor(
                         label = "FamilyName"
                         value = "FamilyName"
                         selected = character.name is FamilyName
+                        disabled = !state.canHaveFamilyName(character)
                     }
                     option {
                         label = "Genonym"
                         value = "Genonym"
                         selected = character.name is Genonym
+                        disabled = !state.canHaveGenonym(character)
                     }
                 }
             }

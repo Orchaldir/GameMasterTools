@@ -6,6 +6,17 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.TwoGenerations
 
+fun State.canHaveFamilyName(character: Character): Boolean {
+    val culture = cultures.getOrThrow(character.culture)
+
+    return culture.namingConvention is FamilyConvention
+}
+
+fun State.canHaveGenonym(character: Character): Boolean {
+    val convention = cultures.getOrThrow(character.culture).namingConvention
+
+    return convention is GenonymConvention || convention is PatronymConvention || convention is MatronymConvention
+}
 
 fun State.getName(character: CharacterId) = getName(characters.getOrThrow(character))
 
