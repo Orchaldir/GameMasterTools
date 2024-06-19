@@ -55,6 +55,8 @@ val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
 private fun requiresChangeToMononym(new: Culture, old: Culture): Boolean {
     if (new.namingConvention is MononymConvention || new.namingConvention is NoNamingConvention) {
         return old.namingConvention is FamilyConvention || old.namingConvention.isAnyGenonym()
+    } else if (new.namingConvention is FamilyConvention) {
+        return old.namingConvention.isAnyGenonym()
     }
 
     return false
