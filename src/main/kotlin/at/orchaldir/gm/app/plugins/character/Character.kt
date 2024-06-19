@@ -261,37 +261,20 @@ private fun HTML.showCharacterEditor(
                     value = name
                 }
             }
-            field("Race") {
-                select {
-                    id = RACE
-                    name = RACE
-                    onChange = ON_CHANGE_SCRIPT
-                    state.races.getAll().forEach { race ->
-                        option {
-                            label = race.name
-                            value = race.id.value.toString()
-                            selected = race.id == character.race
-                        }
-                    }
-                }
+            selectEnum("Race", RACE, state.races.getAll(), true) { r ->
+                label = r.name
+                value = r.id.value.toString()
+                selected = r.id == character.race
             }
             selectEnum("Gender", GENDER, race.genders) { gender ->
                 label = gender.toString()
                 value = gender.toString()
                 selected = character.gender == gender
             }
-            field("Culture") {
-                select {
-                    id = CULTURE
-                    name = CULTURE
-                    state.cultures.getAll().forEach { culture ->
-                        option {
-                            label = culture.name
-                            value = culture.id.value.toString()
-                            selected = culture.id == character.culture
-                        }
-                    }
-                }
+            selectEnum("Culture", CULTURE, state.cultures.getAll()) { culture ->
+                label = culture.name
+                value = culture.id.value.toString()
+                selected = culture.id == character.culture
             }
             field("Origin") {
                 select {
