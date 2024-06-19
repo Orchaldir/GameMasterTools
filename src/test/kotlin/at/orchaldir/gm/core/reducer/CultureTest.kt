@@ -7,8 +7,11 @@ import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.FamilyName
+import at.orchaldir.gm.core.model.character.Mononym
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.culture.name.FamilyConvention
 import at.orchaldir.gm.core.model.culture.name.MononymConvention
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -17,8 +20,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 private val ID0 = CultureId(0)
-private val NL0 = NameListId(0)
+private val NL_ID0 = NameListId(0)
+private val C_ID0 = CharacterId(0)
+private val NAMES0 = NameList(NL_ID0)
 private val STATE = State(cultures = Storage(listOf(Culture(ID0))))
+private val STATE_WITH_NAMES = STATE.copy(nameLists = Storage(listOf(NAMES0)))
 
 class CultureTest {
 
@@ -66,18 +72,35 @@ class CultureTest {
 
         @Test
         fun `Cannot update culture with unknown name list`() {
-            val action = UpdateCulture(Culture(ID0, namingConvention = MononymConvention(NL0)))
+            val action = UpdateCulture(Culture(ID0, namingConvention = MononymConvention(NL_ID0)))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(STATE, action) }
         }
 
         @Test
-        fun `Cant update culture with known name list`() {
-            val culture = Culture(ID0, namingConvention = MononymConvention(NL0))
+        fun `Can update culture with known name list`() {
+            val culture = Culture(ID0, namingConvention = MononymConvention(NL_ID0))
             val action = UpdateCulture(culture)
-            val state = STATE.copy(nameLists = Storage(listOf(NameList(NL0))))
 
-            assertEquals(Storage(listOf(culture)), REDUCER.invoke(state, action).first.cultures)
+            assertEquals(Storage(listOf(culture)), REDUCER.invoke(STATE_WITH_NAMES, action).first.cultures)
+        }
+
+        @Nested
+        inner class ChangingNameConventionTest {
+
+            @Test
+            fun `From family to no convention`() {
+                val action = UpdateCulture(Culture(ID0, namingConvention = MononymConvention(NL_ID0)))
+                val character = Character(C_ID0, FamilyName("A", null, "B"), culture = ID0)
+                val result = Character(C_ID0, Mononym("A"), culture = ID0)
+                val state = State(
+                    characters = Storage(listOf(character)),
+                    cultures = Storage(listOf(Culture(ID0, namingConvention = FamilyConvention()))),
+                    nameLists = Storage(listOf(NAMES0))
+                )
+
+                assertEquals(result, REDUCER.invoke(state, action).first.characters.getOrThrow(C_ID0))
+            }
         }
     }
 

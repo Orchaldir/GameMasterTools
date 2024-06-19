@@ -47,7 +47,7 @@ data class MononymConvention(val names: GenderMap<NameListId> = GenderMap(NameLi
 @Serializable
 @SerialName("Family")
 data class FamilyConvention(
-    val nameOrder: NameOrder,
+    val nameOrder: NameOrder = NameOrder.GivenNameFirst,
     val middleNameOptions: RarityMap<MiddleNameOption> = RarityMap(MiddleNameOption.entries),
     val givenNames: GenderMap<NameListId> = GenderMap(NameListId(0)),
     val familyNames: NameListId = NameListId(0),
