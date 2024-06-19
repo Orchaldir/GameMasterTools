@@ -434,7 +434,7 @@ private fun parseCharacterName(parameters: Parameters): CharacterName {
     val given = parameters.getOrFail(GIVEN_NAME)
 
     return when (parameters.getOrFail(NAME_TYPE)) {
-        "Family" -> {
+        "FamilyName" -> {
             var middle = parameters[MIDDLE_NAME]
 
             if (middle.isNullOrEmpty()) {
@@ -444,7 +444,7 @@ private fun parseCharacterName(parameters: Parameters): CharacterName {
             FamilyName(
                 given,
                 middle,
-                parameters.getOrFail(FAMILY_NAME)
+                parameters[FAMILY_NAME] ?: "Unknown"
             )
         }
 

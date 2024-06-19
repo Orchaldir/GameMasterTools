@@ -4,8 +4,10 @@
   "0": {
    "id": 0,
    "name": {
-    "type": "Mononym",
-    "name": "name"
+    "type": "Family",
+    "given": "Alex",
+    "middle": null,
+    "family": "Meisel"
    },
    "gender": "Female"
   }
