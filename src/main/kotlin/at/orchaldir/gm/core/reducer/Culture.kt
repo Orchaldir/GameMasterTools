@@ -38,28 +38,29 @@ val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
     val oldCulture = state.cultures.getOrThrow(action.culture.id)
 
     if (requiresChangeToMononym(action.culture, oldCulture)) {
-        val updatedCharacters = state.getCharacters(oldCulture.id)
-            .map { changeToMononym(it) }
-
-        noFollowUps(
-            state.copy(
-                characters = state.characters.update(updatedCharacters),
-                cultures = state.cultures.update(action.culture)
-            )
-        )
+        changeNames(state, oldCulture, action) { changeToMononym(it) }
     } else if (requiresChangeToGenonym(action.culture, oldCulture)) {
-        val updatedCharacters = state.getCharacters(oldCulture.id)
-            .map { changeToGenonym(it) }
-
-        noFollowUps(
-            state.copy(
-                characters = state.characters.update(updatedCharacters),
-                cultures = state.cultures.update(action.culture)
-            )
-        )
+        changeNames(state, oldCulture, action) { changeToGenonym(it) }
     } else {
         noFollowUps(state.copy(cultures = state.cultures.update(action.culture)))
     }
+}
+
+private fun changeNames(
+    state: State,
+    oldCulture: Culture,
+    action: UpdateCulture,
+    converter: (Character) -> Character,
+): Pair<State, List<UpdateCulture>> {
+    val updatedCharacters = state.getCharacters(oldCulture.id)
+        .map { converter(it) }
+
+    return noFollowUps(
+        state.copy(
+            characters = state.characters.update(updatedCharacters),
+            cultures = state.cultures.update(action.culture)
+        )
+    )
 }
 
 private fun requiresChangeToMononym(new: Culture, old: Culture): Boolean {
