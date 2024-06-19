@@ -83,44 +83,47 @@ class CultureTest {
         }
 
         @Nested
-        inner class ChangingNameConventionTest {
+        inner class ChangingToNoNameConventionTest {
 
             @Test
             fun `From family to no convention`() {
-                extracted(FamilyConvention(), FamilyName("A", null, "B"))
+                changeToNo(FamilyConvention(), FamilyName("A", null, "B"))
             }
 
             @Test
             fun `From genonym to no convention`() {
-                extracted(GenonymConvention(), Genonym("A"))
+                changeToNo(GenonymConvention(), Genonym("A"))
             }
 
             @Test
             fun `From patronym to no convention`() {
-                extracted(PatronymConvention(), Genonym("A"))
+                changeToNo(PatronymConvention(), Genonym("A"))
             }
 
             @Test
             fun `From matronym to no convention`() {
-                extracted(MatronymConvention(), Genonym("A"))
+                changeToNo(MatronymConvention(), Genonym("A"))
             }
 
-            private fun extracted(convention: NamingConvention, name: CharacterName) {
-                val action = UpdateCulture(Culture(ID0, namingConvention = MononymConvention(NL_ID0)))
-                val character0 = Character(C_ID0, name, culture = ID0)
-                val character1 = Character(C_ID1, Mononym("Z"))
-                val result = Character(C_ID0, Mononym("A"), culture = ID0)
-                val state = State(
-                    characters = Storage(listOf(character0, character1)),
-                    cultures = Storage(listOf(Culture(ID0, namingConvention = convention))),
-                    nameLists = Storage(listOf(NAMES0))
-                )
+            private fun changeToNo(old: NamingConvention, name: CharacterName) =
+                changeConvention(old, NoNamingConvention, name)
+        }
 
-                val newState = REDUCER.invoke(state, action)
+        private fun changeConvention(old: NamingConvention, new: NamingConvention, name: CharacterName) {
+            val action = UpdateCulture(Culture(ID0, namingConvention = new))
+            val character0 = Character(C_ID0, name, culture = ID0)
+            val character1 = Character(C_ID1, Mononym("Z"))
+            val result = Character(C_ID0, Mononym("A"), culture = ID0)
+            val state = State(
+                characters = Storage(listOf(character0, character1)),
+                cultures = Storage(listOf(Culture(ID0, namingConvention = old))),
+                nameLists = Storage(listOf(NAMES0))
+            )
 
-                assertEquals(result, newState.first.characters.getOrThrow(C_ID0))
-                assertEquals(character1, newState.first.characters.getOrThrow(C_ID1))
-            }
+            val newState = REDUCER.invoke(state, action)
+
+            assertEquals(result, newState.first.characters.getOrThrow(C_ID0))
+            assertEquals(character1, newState.first.characters.getOrThrow(C_ID1))
         }
     }
 
