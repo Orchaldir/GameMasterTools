@@ -130,7 +130,7 @@ private fun State.getGenonymName(
 }
 
 private fun getGenonymName(first: String, gender: Gender, style: GenonymicStyle, parent: Character): String {
-    val parentGiven = getGivenName(parent)
+    val parentGiven = parent.getGivenName()
 
     return when (style) {
         is ChildOfStyle -> getGenonymName("$first %s $parentGiven", style.words, gender)
@@ -146,8 +146,8 @@ private fun getGenonymName(format: String, map: GenderMap<String>, gender: Gende
     return String.format(format, insert)
 }
 
-private fun getGivenName(character: Character) = when (character.name) {
-    is FamilyName -> character.name.given
-    is Genonym -> character.name.given
-    is Mononym -> character.name.name
+fun Character.getGivenName() = when (name) {
+    is FamilyName -> name.given
+    is Genonym -> name.given
+    is Mononym -> name.name
 }

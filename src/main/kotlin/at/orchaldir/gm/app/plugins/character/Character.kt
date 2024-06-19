@@ -27,7 +27,10 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-private const val NAME = "name"
+private const val GIVEN_NAME = "given"
+private const val MIDDLE_NAME = "middle"
+private const val FAMILY_NAME = "family"
+private const val NAME_TYPE = "name_type"
 private const val RACE = "race"
 private const val GENDER = "gender"
 private const val CULTURE = "culture"
@@ -256,9 +259,43 @@ private fun HTML.showCharacterEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            field("Name") {
-                textInput(name = NAME) {
-                    value = name
+            field("Name Type") {
+                select {
+                    id = NAME_TYPE
+                    name = NAME_TYPE
+                    onChange = ON_CHANGE_SCRIPT
+                    option {
+                        label = "Mononym"
+                        value = "Mononym"
+                        selected = character.name is Mononym
+                    }
+                    option {
+                        label = "FamilyName"
+                        value = "FamilyName"
+                        selected = character.name is FamilyName
+                    }
+                    option {
+                        label = "Genonym"
+                        value = "Genonym"
+                        selected = character.name is Genonym
+                    }
+                }
+            }
+            field("Given Name") {
+                textInput(name = GIVEN_NAME) {
+                    value = character.getGivenName()
+                }
+            }
+            if (character.name is FamilyName) {
+                field("Middle Name") {
+                    textInput(name = MIDDLE_NAME) {
+                        value = character.name.middle ?: ""
+                    }
+                }
+                field("Family Name") {
+                    textInput(name = FAMILY_NAME) {
+                        value = character.name.family
+                    }
                 }
             }
             selectEnum("Race", RACE, state.races.getAll(), true) { r ->
@@ -361,7 +398,7 @@ private fun HTML.showCharacterEditor(
 private fun parseCharacter(state: State, id: CharacterId, parameters: Parameters): Character {
     val character = state.characters.getOrThrow(id)
 
-    val name = parameters.getOrFail(NAME)
+    val name = parseCharacterName(parameters)
     val race = RaceId(parameters.getOrFail(RACE).toInt())
     val gender = Gender.valueOf(parameters.getOrFail(GENDER))
     val culture = CultureId(parameters.getOrFail(CULTURE).toInt())
@@ -384,11 +421,34 @@ private fun parseCharacter(state: State, id: CharacterId, parameters: Parameters
     }
 
     return character.copy(
-        name = Mononym(name),
+        name = name,
         race = race,
         gender = gender,
         origin = origin,
         culture = culture,
         personality = personality
     )
+}
+
+private fun parseCharacterName(parameters: Parameters): CharacterName {
+    val given = parameters.getOrFail(GIVEN_NAME)
+
+    return when (parameters.getOrFail(NAME_TYPE)) {
+        "Family" -> {
+            var middle = parameters[MIDDLE_NAME]
+
+            if (middle.isNullOrEmpty()) {
+                middle = null
+            }
+
+            FamilyName(
+                given,
+                middle,
+                parameters.getOrFail(FAMILY_NAME)
+            )
+        }
+
+        "Genonym" -> Genonym(given)
+        else -> Mononym(given)
+    }
 }
