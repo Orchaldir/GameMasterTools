@@ -22,6 +22,7 @@ import kotlin.test.assertFailsWith
 private val ID0 = CultureId(0)
 private val NL_ID0 = NameListId(0)
 private val C_ID0 = CharacterId(0)
+private val C_ID1 = CharacterId(1)
 private val NAMES0 = NameList(NL_ID0)
 private val STATE = State(cultures = Storage(listOf(Culture(ID0))))
 private val STATE_WITH_NAMES = STATE.copy(nameLists = Storage(listOf(NAMES0)))
@@ -91,15 +92,19 @@ class CultureTest {
             @Test
             fun `From family to no convention`() {
                 val action = UpdateCulture(Culture(ID0, namingConvention = MononymConvention(NL_ID0)))
-                val character = Character(C_ID0, FamilyName("A", null, "B"), culture = ID0)
+                val character0 = Character(C_ID0, FamilyName("A", null, "B"), culture = ID0)
+                val character1 = Character(C_ID1, Mononym("Z"))
                 val result = Character(C_ID0, Mononym("A"), culture = ID0)
                 val state = State(
-                    characters = Storage(listOf(character)),
+                    characters = Storage(listOf(character0, character1)),
                     cultures = Storage(listOf(Culture(ID0, namingConvention = FamilyConvention()))),
                     nameLists = Storage(listOf(NAMES0))
                 )
 
-                assertEquals(result, REDUCER.invoke(state, action).first.characters.getOrThrow(C_ID0))
+                val newState = REDUCER.invoke(state, action)
+
+                assertEquals(result, newState.first.characters.getOrThrow(C_ID0))
+                assertEquals(character1, newState.first.characters.getOrThrow(C_ID1))
             }
         }
     }
