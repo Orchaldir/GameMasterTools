@@ -159,7 +159,7 @@ private fun HTML.showPersonalityTraitDetails(
         if (characters.isNotEmpty()) {
             field("Characters") {
                 showList(characters) { character ->
-                    link(call, character)
+                    link(call, state, character)
                 }
             }
         }

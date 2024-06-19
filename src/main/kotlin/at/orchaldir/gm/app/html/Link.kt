@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.selector.getName
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import kotlinx.html.HtmlBlockTag
@@ -27,17 +28,18 @@ fun HtmlBlockTag.link(
     state: State,
     id: CharacterId,
 ) {
-    link(call, id, state.characters.get(id)?.name() ?: "Unknown")
+    link(call, id, state.getName(id))
 }
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
+    state: State,
     character: Character,
 ) {
-    link(call, character.id, character.name())
+    link(call, character.id, state.getName(character))
 }
 
-private fun HtmlBlockTag.link(
+fun HtmlBlockTag.link(
     call: ApplicationCall,
     id: CharacterId,
     text: String,

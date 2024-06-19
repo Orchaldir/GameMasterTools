@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.InterpersonalRelationship
+import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.core.selector.getOthersWithoutRelationship
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -110,7 +111,7 @@ private fun HTML.showRelationshipEditor(
                     }
                     state.getOthersWithoutRelationship(character).forEach { other ->
                         option {
-                            label = other.name()
+                            label = state.getName(other)
                             value = other.id.value.toString()
                         }
                     }

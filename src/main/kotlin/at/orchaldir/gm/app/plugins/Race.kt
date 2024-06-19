@@ -205,7 +205,7 @@ private fun HTML.showRaceDetails(
         showRarityMap("Types", appearance.mouthTypes)
         h2 { +"Characters" }
         showList(state.getCharacters(race.id)) { character ->
-            link(call, character)
+            link(call, state, character)
         }
         p { a(editLink) { +"Edit" } }
 

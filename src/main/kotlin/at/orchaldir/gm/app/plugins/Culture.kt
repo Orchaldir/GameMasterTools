@@ -197,7 +197,7 @@ private fun HTML.showCultureDetails(
         showRarityMap("Lip Colors", culture.styleOptions.lipColors)
         h2 { +"Characters" }
         showList(state.getCharacters(culture.id)) { character ->
-            link(call, character)
+            link(call, state, character)
         }
         p { a(editLink) { +"Edit" } }
 

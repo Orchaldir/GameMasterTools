@@ -21,6 +21,5 @@ data class Language(
 ) : Element<LanguageId> {
 
     override fun id() = id
-    override fun name() = name
 
 }

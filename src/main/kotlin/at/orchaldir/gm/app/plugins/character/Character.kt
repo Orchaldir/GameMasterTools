@@ -43,7 +43,7 @@ fun Application.configureCharacterRouting() {
             logger.info { "Get all characters" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllCharacters(call)
+                showAllCharacters(call, STORE.getState())
             }
         }
         get<Characters.Details> { details ->
@@ -109,15 +109,17 @@ fun Application.configureCharacterRouting() {
     }
 }
 
-private fun HTML.showAllCharacters(call: ApplicationCall) {
-    val characters = STORE.getState().characters.getAll().sortedBy { it.name() }
+private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
+    val characters = STORE.getState().characters.getAll()
+        .map { Pair(it.id, state.getName(it)) }
+        .sortedBy { it.second }
     val count = characters.size
     val createLink = call.application.href(Characters.New(Characters()))
 
     simpleHtml("Characters") {
         field("Count", count.toString())
         showList(characters) { character ->
-            link(call, character)
+            link(call, character.first, character.second)
         }
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }
@@ -137,7 +139,7 @@ private fun HTML.showCharacterDetails(
     val editRelationshipsLink = call.application.href(Characters.Relationships.Edit(character.id))
     val frontSvg = visualizeCharacter(RENDER_CONFIG, character.appearance)
 
-    simpleHtml("Character: ${character.name}") {
+    simpleHtml("Character: ${state.getName(character)}") {
         svg(frontSvg, 20)
         field("Id", character.id.value.toString())
         field("Race") {
@@ -192,21 +194,21 @@ private fun BODY.showFamily(
     if (parents.isNotEmpty()) {
         field("Parents") {
             showList(parents) { parent ->
-                link(call, parent)
+                link(call, state, parent)
             }
         }
     }
     if (children.isNotEmpty()) {
         field("Children") {
             showList(children) { child ->
-                link(call, child)
+                link(call, state, child)
             }
         }
     }
     if (siblings.isNotEmpty()) {
         field("Siblings") {
             showList(siblings) { sibling ->
-                link(call, sibling)
+                link(call, state, sibling)
             }
         }
     }
@@ -242,12 +244,13 @@ private fun HTML.showCharacterEditor(
     state: State,
     character: Character,
 ) {
+    val characterName = state.getName(character)
     val race = state.races.getOrThrow(character.race)
     val backLink = href(call, character.id)
     val previewLink = call.application.href(Characters.Preview(character.id))
     val updateLink = call.application.href(Characters.Update(character.id))
 
-    simpleHtml("Edit Character: ${character.name()}") {
+    simpleHtml("Edit Character: $characterName") {
         field("Id", character.id.value.toString())
         form {
             id = "editor"
@@ -255,7 +258,7 @@ private fun HTML.showCharacterEditor(
             method = FormMethod.post
             field("Name") {
                 textInput(name = NAME) {
-                    value = character.name()
+                    value = name
                 }
             }
             field("Race") {
@@ -310,12 +313,12 @@ private fun HTML.showCharacterEditor(
             when (character.origin) {
                 is Born -> {
                     selectEnum("Father", FATHER, state.getPossibleFathers(character.id)) { c ->
-                        label = c.name()
+                        label = state.getName(c)
                         value = c.id.value.toString()
                         selected = character.origin.father == c.id
                     }
                     selectEnum("Mother", MOTHER, state.getPossibleMothers(character.id)) { c ->
-                        label = c.name()
+                        label = state.getName(c)
                         value = c.id.value.toString()
                         selected = character.origin.mother == c.id
                     }

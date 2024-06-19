@@ -21,6 +21,5 @@ data class NameList(
 ) : Element<NameListId> {
 
     override fun id() = id
-    override fun name() = name
 
 }
