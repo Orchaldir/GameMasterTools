@@ -86,6 +86,11 @@ class CultureTest {
         inner class ChangingToNoNameConventionTest {
 
             @Test
+            fun `Keep Mononym`() {
+                changeToNo(FamilyConvention(), Mononym("A"))
+            }
+
+            @Test
             fun `From family to no convention`() {
                 changeToNo(FamilyConvention(), FamilyName("A", null, "B"))
             }
@@ -111,6 +116,11 @@ class CultureTest {
 
         @Nested
         inner class ChangingToMononymNameConventionTest {
+
+            @Test
+            fun `Keep Mononym`() {
+                changeToMononym(FamilyConvention(), Mononym("A"))
+            }
 
             @Test
             fun `From family to no convention`() {
