@@ -17,6 +17,9 @@ import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
+import mu.KotlinLogging
+
+private val logger = KotlinLogging.logger {}
 
 val CREATE_CULTURE: Reducer<CreateCulture, State> = { state, _ ->
     val culture = Culture(state.cultures.nextId)
@@ -38,8 +41,10 @@ val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
     val oldCulture = state.cultures.getOrThrow(action.culture.id)
 
     if (requiresChangeToMononym(action.culture, oldCulture)) {
+        logger.info { "Change names to mononym for Culture ${oldCulture.id.value}" }
         changeNames(state, oldCulture, action) { changeToMononym(it) }
     } else if (requiresChangeToGenonym(action.culture, oldCulture)) {
+        logger.info { "Change names to genonym for Culture ${oldCulture.id.value}" }
         changeNames(state, oldCulture, action) { changeToGenonym(it) }
     } else {
         noFollowUps(state.copy(cultures = state.cultures.update(action.culture)))
