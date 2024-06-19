@@ -109,6 +109,33 @@ class CultureTest {
                 changeConvention(old, NoNamingConvention, name)
         }
 
+        @Nested
+        inner class ChangingToMononymNameConventionTest {
+
+            @Test
+            fun `From family to no convention`() {
+                changeToMononym(FamilyConvention(), FamilyName("A", null, "B"))
+            }
+
+            @Test
+            fun `From genonym to no convention`() {
+                changeToMononym(GenonymConvention(), Genonym("A"))
+            }
+
+            @Test
+            fun `From patronym to no convention`() {
+                changeToMononym(PatronymConvention(), Genonym("A"))
+            }
+
+            @Test
+            fun `From matronym to no convention`() {
+                changeToMononym(MatronymConvention(), Genonym("A"))
+            }
+
+            private fun changeToMononym(old: NamingConvention, name: CharacterName) =
+                changeConvention(old, MononymConvention(), name)
+        }
+
         private fun changeConvention(old: NamingConvention, new: NamingConvention, name: CharacterName) {
             val action = UpdateCulture(Culture(ID0, namingConvention = new))
             val character0 = Character(C_ID0, name, culture = ID0)
