@@ -76,6 +76,7 @@ private fun State.getGenonymName(
             convention.style,
             Character::getParentForGenonym
         )
+
         is MatronymConvention -> getGenonymName(
             character,
             name,
