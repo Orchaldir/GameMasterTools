@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.style.HairStyleType
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.appearance.*
+import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
@@ -137,7 +138,7 @@ private fun HTML.showAppearanceEditor(
     val generateLink = call.application.href(Characters.Appearance.Generate(character.id))
     val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance)
 
-    simpleHtml("Edit Appearance: ${character.name}") {
+    simpleHtml("Edit Appearance: ${state.getName(character)}") {
         svg(frontSvg, 20)
         form {
             id = "editor"

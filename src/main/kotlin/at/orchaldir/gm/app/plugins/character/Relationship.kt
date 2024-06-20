@@ -94,7 +94,7 @@ private fun HTML.showRelationshipEditor(
     val previewLink = call.application.href(Characters.Relationships.Preview(character.id))
     val updateLink = call.application.href(Characters.Relationships.Update(character.id))
 
-    simpleHtml("Edit Relationships: ${character.name}") {
+    simpleHtml("Edit Relationships: ${state.getName(character)}") {
         form {
             id = "editor"
             action = previewLink

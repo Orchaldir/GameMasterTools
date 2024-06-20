@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.core.selector.getPossibleLanguages
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -72,7 +73,7 @@ private fun HTML.showLanguageEditor(
     val backLink = href(call, character.id)
     val updateLink = call.application.href(Characters.Languages.Update(character.id))
 
-    simpleHtml("Edit Languages: ${character.name}") {
+    simpleHtml("Edit Languages: ${state.getName(character)}") {
         form {
             field("Language to Add") {
                 select {
