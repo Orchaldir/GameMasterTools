@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.parseRarityMap
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
@@ -204,7 +205,7 @@ private fun HTML.showRaceDetails(
         showRarityMap("Types", appearance.mouthTypes)
         h2 { +"Characters" }
         showList(state.getCharacters(race.id)) { character ->
-            link(call, character)
+            link(call, state, character)
         }
         p { a(editLink) { +"Edit" } }
 

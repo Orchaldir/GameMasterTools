@@ -8,10 +8,7 @@ import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.language.*
-import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getCharacters
-import at.orchaldir.gm.core.selector.getChildren
-import at.orchaldir.gm.core.selector.getPossibleParents
+import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -197,7 +194,7 @@ private fun HTML.showLanguageDetails(
         if (characters.isNotEmpty()) {
             field("Characters") {
                 showList(characters) { character ->
-                    link(call, character)
+                    link(call, state, character)
                 }
             }
         }
@@ -265,7 +262,7 @@ private fun HTML.showLanguageEditor(
                     "inventor",
                     state.characters.getAll()
                 ) { c ->
-                    label = c.name
+                    label = state.getName(c)
                     value = c.id.value.toString()
                     selected = language.origin.inventor == c.id
                 }

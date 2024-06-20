@@ -22,7 +22,7 @@ value class CharacterId(val value: Int) : Id<CharacterId> {
 @Serializable
 data class Character(
     val id: CharacterId,
-    val name: String = "Character ${id.value}",
+    val name: CharacterName = Mononym("Character ${id.value}"),
     val race: RaceId = RaceId(0),
     val gender: Gender = Gender.Genderless,
     val origin: CharacterOrigin = UndefinedCharacterOrigin,
@@ -34,6 +34,5 @@ data class Character(
 ) : Element<CharacterId> {
 
     override fun id() = id
-    override fun name() = name
 
 }

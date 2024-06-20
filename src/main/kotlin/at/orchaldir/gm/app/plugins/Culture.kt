@@ -2,20 +2,19 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
+import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle
-import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle
+import at.orchaldir.gm.core.model.appearance.GenderMap
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.culture.style.HairStyleType
-import at.orchaldir.gm.core.model.culture.style.StyleOptions
-import at.orchaldir.gm.core.model.race.appearance.BeardStyleType
+import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -25,18 +24,10 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.util.*
 import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
-
-private const val NAME = "name"
-private const val HAIR_STYLE = "hair"
-private const val BEARD_STYLE = "beard"
-private const val GOATEE_STYLE = "goatee"
-private const val MOUSTACHE_STYLE = "moustache"
-private const val LIP_COLORS = "lip_colors"
 
 @Resource("/cultures")
 class Cultures {
@@ -51,6 +42,9 @@ class Cultures {
 
     @Resource("edit")
     class Edit(val id: CultureId, val parent: Cultures = Cultures())
+
+    @Resource("preview")
+    class Preview(val id: CultureId, val parent: Cultures = Cultures())
 
     @Resource("update")
     class Update(val id: CultureId, val parent: Cultures = Cultures())
@@ -96,10 +90,21 @@ fun Application.configureCultureRouting() {
         get<Cultures.Edit> { edit ->
             logger.info { "Get editor for culture ${edit.id.value}" }
 
-            val culture = STORE.getState().cultures.getOrThrow(edit.id)
+            val state = STORE.getState()
+            val culture = state.cultures.getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showCultureEditor(call, culture)
+                showCultureEditor(call, state, culture)
+            }
+        }
+        post<Cultures.Preview> { preview ->
+            logger.info { "Get preview for race ${preview.id.value}" }
+
+            val formParameters = call.receiveParameters()
+            val culture = parseCulture(formParameters, preview.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showCultureEditor(call, STORE.getState(), culture)
             }
         }
         post<Cultures.Update> { update ->
@@ -137,6 +142,7 @@ private fun HTML.showCultureDetails(
     state: State,
     culture: Culture,
 ) {
+    val namingConvention = culture.namingConvention
     val backLink = call.application.href(Cultures())
     val deleteLink = call.application.href(Cultures.Delete(culture.id))
     val editLink = call.application.href(Cultures.Edit(culture.id))
@@ -144,6 +150,45 @@ private fun HTML.showCultureDetails(
     simpleHtml("Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
         field("Name", culture.name)
+        h2 { +"Naming Convention" }
+        field("Type", namingConvention.javaClass.simpleName)
+        when (namingConvention) {
+            is FamilyConvention -> {
+                field("Name Order", namingConvention.nameOrder.toString())
+                showRarityMap("Middle Name Options", namingConvention.middleNameOptions)
+                showNamesByGender(call, state, "Given Names", namingConvention.givenNames)
+                field("Family Names") {
+                    link(call, state, namingConvention.familyNames)
+                }
+            }
+
+            is GenonymConvention -> showGenonymConvention(
+                call,
+                state,
+                namingConvention.lookupDistance,
+                namingConvention.style,
+                namingConvention.names
+            )
+
+            is MatronymConvention -> showGenonymConvention(
+                call,
+                state,
+                namingConvention.lookupDistance,
+                namingConvention.style,
+                namingConvention.names
+            )
+
+            is MononymConvention -> showNamesByGender(call, state, "Names", namingConvention.names)
+
+            NoNamingConvention -> doNothing()
+            is PatronymConvention -> showGenonymConvention(
+                call,
+                state,
+                namingConvention.lookupDistance,
+                namingConvention.style,
+                namingConvention.names
+            )
+        }
         h2 { +"Style Options" }
         showRarityMap("Beard Styles", culture.styleOptions.beardStyles)
         showRarityMap("Goatee Styles", culture.styleOptions.goateeStyles)
@@ -152,7 +197,7 @@ private fun HTML.showCultureDetails(
         showRarityMap("Lip Colors", culture.styleOptions.lipColors)
         h2 { +"Characters" }
         showList(state.getCharacters(culture.id)) { character ->
-            link(call, character)
+            link(call, state, character)
         }
         p { a(editLink) { +"Edit" } }
 
@@ -164,20 +209,123 @@ private fun HTML.showCultureDetails(
     }
 }
 
+private fun BODY.showGenonymConvention(
+    call: ApplicationCall,
+    state: State,
+    lookupDistance: GenonymicLookupDistance,
+    style: GenonymicStyle,
+    names: GenderMap<NameListId>,
+) {
+    field("Lookup Distance", lookupDistance.toString())
+    field("Genonymic Style", style.javaClass.simpleName)
+    when (style) {
+        is ChildOfStyle -> showStyleByGender("Words", style.words)
+        NamesOnlyStyle -> doNothing()
+        is PrefixStyle -> showStyleByGender("Prefix", style.prefix)
+        is SuffixStyle -> showStyleByGender("Suffix", style.suffix)
+    }
+    showNamesByGender(call, state, "Names", names)
+}
+
+private fun BODY.showNamesByGender(
+    call: ApplicationCall,
+    state: State,
+    label: String,
+    namesByGender: GenderMap<NameListId>,
+) {
+    details {
+        summary { +label }
+        showGenderMap(namesByGender) { gender, id ->
+            field(gender.toString()) {
+                link(call, state, id)
+            }
+        }
+    }
+}
+
+private fun BODY.showStyleByGender(
+    label: String,
+    namesByGender: GenderMap<String>,
+) {
+    details {
+        summary { +label }
+        showGenderMap(namesByGender) { gender, text ->
+            field(gender.toString(), text)
+        }
+    }
+}
+
 private fun HTML.showCultureEditor(
     call: ApplicationCall,
+    state: State,
     culture: Culture,
 ) {
+    val namingConvention = culture.namingConvention
     val backLink = href(call, culture.id)
+    val previewLink = call.application.href(Cultures.Preview(culture.id))
     val updateLink = call.application.href(Cultures.Update(culture.id))
 
     simpleHtml("Edit Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
         form {
+            id = "editor"
+            action = previewLink
+            method = FormMethod.post
             field("Name") {
                 textInput(name = NAME) {
                     value = culture.name
                 }
+            }
+            h2 { +"Naming Convention" }
+            selectEnum("Type", NAMING_CONVENTION, NamingConventionType.entries, true) { type ->
+                label = type.toString()
+                value = type.toString()
+                selected = when (type) {
+                    NamingConventionType.None -> namingConvention is NoNamingConvention
+                    NamingConventionType.Mononym -> namingConvention is MononymConvention
+                    NamingConventionType.Family -> namingConvention is FamilyConvention
+                    NamingConventionType.Patronym -> namingConvention is PatronymConvention
+                    NamingConventionType.Matronym -> namingConvention is MatronymConvention
+                    NamingConventionType.Genonym -> namingConvention is GenonymConvention
+                }
+            }
+            when (namingConvention) {
+                is FamilyConvention -> {
+                    selectEnum("Name Order", NAME_ORDER, NameOrder.entries, true) { o ->
+                        label = o.name
+                        value = o.toString()
+                        selected = namingConvention.nameOrder == o
+                    }
+                    selectRarityMap("Middle Name Options", MIDDLE_NAME, namingConvention.middleNameOptions)
+                    selectNamesByGender(state, "Given Names", namingConvention.givenNames, NAMES)
+                    field("Family Names") {
+                        selectNameList(FAMILY_NAMES, state, namingConvention.familyNames)
+                    }
+                }
+
+                is GenonymConvention -> selectGenonymConvention(
+                    state,
+                    namingConvention.lookupDistance,
+                    namingConvention.style,
+                    namingConvention.names
+                )
+
+                is MatronymConvention -> selectGenonymConvention(
+                    state,
+                    namingConvention.lookupDistance,
+                    namingConvention.style,
+                    namingConvention.names
+                )
+
+                is MononymConvention -> selectNamesByGender(state, "Names", namingConvention.names, NAMES)
+
+                NoNamingConvention -> doNothing()
+                is PatronymConvention -> selectGenonymConvention(
+                    state,
+                    namingConvention.lookupDistance,
+                    namingConvention.style,
+                    namingConvention.names
+                )
             }
             h2 { +"Style Options" }
             selectRarityMap("Beard Styles", BEARD_STYLE, culture.styleOptions.beardStyles)
@@ -197,21 +345,70 @@ private fun HTML.showCultureEditor(
     }
 }
 
-fun parseCulture(
-    parameters: Parameters,
-    id: CultureId,
-): Culture {
-    val name = parameters.getOrFail(NAME)
+private fun FORM.selectGenonymConvention(
+    state: State,
+    lookupDistance: GenonymicLookupDistance,
+    style: GenonymicStyle,
+    names: GenderMap<NameListId>,
+) {
+    selectEnum("Lookup Distance", LOOKUP_DISTANCE, GenonymicLookupDistance.entries) { distance ->
+        label = distance.name
+        value = distance.toString()
+        selected = lookupDistance == distance
+    }
+    selectEnum("Genonymic Style", GENONYMIC_STYLE, GenonymicStyleType.entries, true) { type ->
+        label = type.name
+        value = type.toString()
+        selected = when (type) {
+            GenonymicStyleType.NamesOnly -> style is NamesOnlyStyle
+            GenonymicStyleType.Prefix -> style is PrefixStyle
+            GenonymicStyleType.Suffix -> style is SuffixStyle
+            GenonymicStyleType.ChildOf -> style is ChildOfStyle
+        }
+    }
+    when (style) {
+        is ChildOfStyle -> selectWordsByGender("Words", style.words, WORD)
+        NamesOnlyStyle -> doNothing()
+        is PrefixStyle -> selectWordsByGender("Prefix", style.prefix, WORD)
+        is SuffixStyle -> selectWordsByGender("Suffix", style.suffix, WORD)
+    }
+    selectNamesByGender(state, "Names", names, NAMES)
+}
 
-    return Culture(
-        id,
-        name,
-        StyleOptions(
-            parseRarityMap(parameters, BEARD_STYLE, BeardStyleType::valueOf),
-            parseRarityMap(parameters, GOATEE_STYLE, GoateeStyle::valueOf),
-            parseRarityMap(parameters, MOUSTACHE_STYLE, MoustacheStyle::valueOf),
-            parseRarityMap(parameters, HAIR_STYLE, HairStyleType::valueOf),
-            parseRarityMap(parameters, LIP_COLORS, Color::valueOf),
-        ),
-    )
+private fun FORM.selectNamesByGender(
+    state: State,
+    fieldLabel: String,
+    namesByGender: GenderMap<NameListId>,
+    param: String,
+) {
+    selectGenderMap(fieldLabel, namesByGender) { gender, nameListId ->
+        val selectId = "$param-$gender"
+        selectNameList(selectId, state, nameListId)
+    }
+}
+
+private fun HtmlBlockTag.selectNameList(
+    selectId: String,
+    state: State,
+    nameListId: NameListId,
+) {
+    select {
+        id = selectId
+        name = selectId
+        state.nameLists.getAll().forEach { nameList ->
+            option {
+                label = nameList.name
+                value = nameList.id.value.toString()
+                selected = nameList.id == nameListId
+            }
+        }
+    }
+}
+
+private fun FORM.selectWordsByGender(label: String, genderMap: GenderMap<String>, param: String) {
+    selectGenderMap(label, genderMap) { gender, word ->
+        textInput(name = "$param-$gender") {
+            value = word
+        }
+    }
 }

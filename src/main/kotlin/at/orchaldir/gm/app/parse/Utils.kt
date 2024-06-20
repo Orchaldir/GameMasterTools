@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html
+package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.RarityMap

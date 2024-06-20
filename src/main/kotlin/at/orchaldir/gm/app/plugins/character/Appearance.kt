@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.plugins.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.generator.*
 import at.orchaldir.gm.core.model.State
@@ -17,6 +18,7 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.style.HairStyleType
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.appearance.*
+import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
@@ -136,7 +138,7 @@ private fun HTML.showAppearanceEditor(
     val generateLink = call.application.href(Characters.Appearance.Generate(character.id))
     val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance)
 
-    simpleHtml("Edit Appearance: ${character.name}") {
+    simpleHtml("Edit Appearance: ${state.getName(character)}") {
         svg(frontSvg, 20)
         form {
             id = "editor"
@@ -481,7 +483,7 @@ private fun parseAppearance(
             val ears = parseEars(parameters, config)
             val eyes = parseEyes(parameters, config)
             val hair = parseHair(parameters, config)
-            val mouth = parseMouth(parameters, config, character)
+            val mouth = parseMouth(parameters, config, character, hair)
             val skin = parseSkin(parameters, config)
             val head = Head(ears, eyes, hair, mouth, skin)
             return HeadOnly(head, Distance(0.2f))
@@ -491,7 +493,7 @@ private fun parseAppearance(
     }
 }
 
-private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig): Beard {
+private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig, hair: Hair): Beard {
     return when (parameters[BEARD_TYPE]) {
         BeardType.None.toString() -> NoBeard
         BeardType.Normal.toString() -> {
@@ -518,7 +520,7 @@ private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig
             )
         }
 
-        else -> generateBeard(config)
+        else -> generateBeard(config, hair)
     }
 }
 
@@ -586,7 +588,12 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
     }
 }
 
-private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig, character: Character): Mouth {
+private fun parseMouth(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+    character: Character,
+    hair: Hair,
+): Mouth {
     return when (parameters[MOUTH_TYPE]) {
         MouthType.NoMouth.toString() -> NoMouth
         MouthType.NormalMouth.toString() -> {
@@ -598,13 +605,13 @@ private fun parseMouth(parameters: Parameters, config: AppearanceGeneratorConfig
                 )
             }
             return NormalMouth(
-                parseBeard(parameters, config),
+                parseBeard(parameters, config, hair),
                 parse(parameters, MOUTH_WIDTH, Size.Medium),
                 parse(parameters, TEETH_COLOR, TeethColor.White),
             )
         }
 
-        else -> generateMouth(config)
+        else -> generateMouth(config, hair)
     }
 }
 

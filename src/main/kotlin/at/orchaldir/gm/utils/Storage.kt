@@ -9,7 +9,6 @@ interface Id<ID> {
 
 interface Element<ID> {
     fun id(): ID
-    fun name(): String
 }
 
 @Serializable

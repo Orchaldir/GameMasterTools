@@ -2,8 +2,9 @@ package at.orchaldir.gm.core.model.appearance
 
 import kotlinx.serialization.Serializable
 
+@JvmInline
 @Serializable
-data class RarityMap<T>(private val map: Map<T, Rarity>) {
+value class RarityMap<T>(private val map: Map<T, Rarity>) {
     constructor(values: Collection<T>) : this(values.associateWith { Rarity.Common })
 
     init {

@@ -3,39 +3,56 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Waterdeep",
+   "name": "Aundairian",
+   "namingConvention": {
+    "type": "Family",
+    "middleNameOptions": {
+     "None": "Common",
+     "Random": "Rare"
+    },
+    "givenNames": {
+     "female": 1,
+     "genderless": 0,
+     "male": 0
+    },
+    "familyNames": 2
+   },
    "styleOptions": {
     "beardStyles": {
-     "map": {
-      "Goatee": "Uncommon",
-      "GoateeAndMoustache": "Rare",
-      "Moustache": "Common",
-      "Shaved": "Common"
-     }
+     "Goatee": "Uncommon",
+     "GoateeAndMoustache": "Rare",
+     "Moustache": "Common",
+     "Shaved": "Common"
     },
     "moustacheStyle": {
-     "map": {
-      "Handlebar": "Common",
-      "Pencil": "Common",
-      "Pyramid": "Common",
-      "Toothbrush": "Common",
-      "Walrus": "Common"
-     }
+     "Handlebar": "Common",
+     "Pencil": "Common",
+     "Pyramid": "Common",
+     "Toothbrush": "Common",
+     "Walrus": "Common"
     },
     "hairStyles": {
-     "map": {
-      "BuzzCut": "Common",
-      "MiddlePart": "Common",
-      "Shaved": "Rare",
-      "SidePart": "Common"
-     }
+     "BuzzCut": "Common",
+     "MiddlePart": "Common",
+     "Shaved": "Rare",
+     "SidePart": "Common"
     },
     "lipColors": {
-     "map": {
-      "Fuchsia": "Uncommon",
-      "Maroon": "Uncommon",
-      "Red": "Common"
-     }
+     "Fuchsia": "Uncommon",
+     "Maroon": "Uncommon",
+     "Red": "Common"
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Darguun",
+   "namingConvention": {
+    "type": "Mononym",
+    "names": {
+     "female": 18,
+     "genderless": 17,
+     "male": 17
     }
    }
   }
