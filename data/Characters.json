@@ -1,53 +1,5 @@
 {
  "version": 1,
  "elements": {
-   "0": {
-     "id": 0,
-     "name": {
-       "type": "Family",
-       "given": "Reng",
-       "middle": "Retief",
-       "family": "Arendt"
-     },
-     "gender": "Male",
-     "personality": [
-       0
-     ],
-     "appearance": {
-       "type": "HeadOnly",
-       "head": {
-         "ears": {
-           "type": "Normal"
-         },
-         "eyes": {
-           "type": "Two",
-           "eye": {
-             "pupilColor": "Purple"
-           }
-         },
-         "hair": {
-           "type": "Normal",
-           "style": {
-             "type": "MiddlePart"
-           },
-           "color": "White"
-         },
-         "mouth": {
-           "type": "Normal",
-           "beard": {
-             "type": "Normal",
-             "style": {
-               "type": "Shaved"
-             },
-             "color": "White"
-           },
-           "width": "Small"
-         }
-       },
-       "height": {
-         "value": 0.2
-       }
-     }
-   }
  }
 }
