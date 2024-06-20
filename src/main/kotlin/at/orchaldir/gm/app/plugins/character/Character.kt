@@ -2,14 +2,14 @@ package at.orchaldir.gm.app.plugins.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.parseCharacter
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.generator.NameGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
@@ -23,25 +23,11 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.util.*
 import kotlinx.html.*
 import mu.KotlinLogging
 import kotlin.random.Random
 
 private val logger = KotlinLogging.logger {}
-
-private const val GIVEN_NAME = "given"
-private const val MIDDLE_NAME = "middle"
-private const val FAMILY_NAME = "family"
-private const val NAME_TYPE = "name_type"
-private const val RACE = "race"
-private const val GENDER = "gender"
-private const val CULTURE = "culture"
-private const val ORIGIN = "origin"
-private const val FATHER = "father"
-private const val MOTHER = "mother"
-private const val GROUP_PREFIX = "group_"
-private const val NONE = "None"
 
 fun Application.configureCharacterRouting() {
     routing {
@@ -413,63 +399,5 @@ private fun HTML.showCharacterEditor(
             }
         }
         p { a(backLink) { +"Back" } }
-    }
-}
-
-private fun parseCharacter(state: State, id: CharacterId, parameters: Parameters): Character {
-    val character = state.characters.getOrThrow(id)
-
-    val name = parseCharacterName(parameters)
-    val race = RaceId(parameters.getOrFail(RACE).toInt())
-    val gender = Gender.valueOf(parameters.getOrFail(GENDER))
-    val culture = CultureId(parameters.getOrFail(CULTURE).toInt())
-    val personality = parameters.entries()
-        .asSequence()
-        .filter { e -> e.key.startsWith(GROUP_PREFIX) }
-        .map { e -> e.value.first() }
-        .filter { it != NONE }
-        .map { PersonalityTraitId(it.toInt()) }
-        .toSet()
-
-    val origin = when (parameters[ORIGIN]) {
-        "Born" -> {
-            val father = CharacterId(parameters[FATHER]?.toInt() ?: 0)
-            val mother = CharacterId(parameters[MOTHER]?.toInt() ?: 0)
-            Born(mother, father)
-        }
-
-        else -> UndefinedCharacterOrigin
-    }
-
-    return character.copy(
-        name = name,
-        race = race,
-        gender = gender,
-        origin = origin,
-        culture = culture,
-        personality = personality
-    )
-}
-
-private fun parseCharacterName(parameters: Parameters): CharacterName {
-    val given = parameters.getOrFail(GIVEN_NAME)
-
-    return when (parameters.getOrFail(NAME_TYPE)) {
-        "FamilyName" -> {
-            var middle = parameters[MIDDLE_NAME]
-
-            if (middle.isNullOrEmpty()) {
-                middle = null
-            }
-
-            FamilyName(
-                given,
-                middle,
-                parameters[FAMILY_NAME] ?: "Unknown"
-            )
-        }
-
-        "Genonym" -> Genonym(given)
-        else -> Mononym(given)
     }
 }
