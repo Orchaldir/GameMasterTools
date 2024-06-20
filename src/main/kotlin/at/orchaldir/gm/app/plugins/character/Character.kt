@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
-import at.orchaldir.gm.core.generator.generateName
+import at.orchaldir.gm.core.generator.NameGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -116,7 +116,9 @@ fun Application.configureCharacterRouting() {
             logger.info { "Random generate the name of character ${generate.id.value}" }
 
             val state = STORE.getState()
-            val character = generateName(RandomNumberGenerator(Random), state, generate.id)
+            val generator = NameGenerator(RandomNumberGenerator(Random), state, generate.id)
+            val name = generator.generate()
+            val character = state.characters.getOrThrow(generate.id).copy(name = name)
 
             STORE.dispatch(UpdateCharacter(character))
 

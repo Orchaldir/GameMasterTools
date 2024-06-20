@@ -7,54 +7,59 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.utils.NumberGenerator
 
+class NameGenerator(
+    private val numberGenerator: NumberGenerator,
+    private val state: State,
+    private val character: Character,
+) {
+    private val namingConvention: NamingConvention = state.cultures.getOrThrow(character.culture).namingConvention
 
-fun generateName(numberGenerator: NumberGenerator, state: State, id: CharacterId): Character {
-    val character = state.characters.getOrThrow(id)
-    val culture = state.cultures.getOrThrow(character.culture)
+    constructor(numberGenerator: NumberGenerator, state: State, id: CharacterId) :
+            this(numberGenerator, state, state.characters.getOrThrow(id))
 
-    val name = when (culture.namingConvention) {
-        is FamilyConvention -> generateFamilyName(character, state, numberGenerator, culture.namingConvention)
+    fun generate() = when (namingConvention) {
+        is FamilyConvention -> generateFamilyName(namingConvention)
         is GenonymConvention -> TODO()
         is MatronymConvention -> TODO()
-        is MononymConvention -> Mononym(generateName(state, numberGenerator, character, culture.namingConvention.names))
+        is MononymConvention -> Mononym(generateName(namingConvention.names))
         NoNamingConvention -> character.name
         is PatronymConvention -> TODO()
     }
 
-    return character.copy(name = name)
+    private fun generateFamilyName(convention: FamilyConvention): CharacterName = when (character.name) {
+        is FamilyName -> FamilyName(
+            generateName(convention.givenNames),
+            generateMiddleName(convention),
+            character.name.family,
+        )
+
+        else -> FamilyName(
+            generateName(convention.givenNames),
+            generateMiddleName(convention),
+            generateName(convention.familyNames),
+        )
+    }
+
+    private fun generateMiddleName(convention: FamilyConvention): String? {
+        val middleNameOption = state.rarityGenerator.generate(convention.middleNameOptions, numberGenerator)
+
+        return when (middleNameOption) {
+            MiddleNameOption.None -> null
+            MiddleNameOption.Random -> generateName(convention.givenNames)
+            MiddleNameOption.Patronym -> TODO()
+            MiddleNameOption.Matronym -> TODO()
+            MiddleNameOption.Genonym -> TODO()
+        }
+    }
+
+    private fun generateName(genderMap: GenderMap<NameListId>) =
+        generateName(genderMap.get(character.gender))
+
+    private fun generateName(nameListId: NameListId): String {
+        val nameList = state.nameLists.getOrThrow(nameListId)
+        return numberGenerator.select(nameList.names)
+    }
+
 }
 
-private fun generateFamilyName(
-    character: Character,
-    state: State,
-    numberGenerator: NumberGenerator,
-    namingConvention: FamilyConvention,
-): CharacterName = when (character.name) {
-    is FamilyName -> FamilyName(
-        generateName(state, numberGenerator, character, namingConvention.givenNames),
-        null,
-        character.name.family,
-    )
 
-    else -> FamilyName(
-        generateName(state, numberGenerator, character, namingConvention.givenNames),
-        null,
-        generateName(state, numberGenerator, namingConvention.familyNames),
-    )
-}
-
-private fun generateName(
-    state: State,
-    numberGenerator: NumberGenerator,
-    character: Character,
-    genderMap: GenderMap<NameListId>,
-) = generateName(state, numberGenerator, genderMap.get(character.gender))
-
-private fun generateName(
-    state: State,
-    numberGenerator: NumberGenerator,
-    nameListId: NameListId,
-): String {
-    val nameList = state.nameLists.getOrThrow(nameListId)
-    return numberGenerator.select(nameList.names)
-}
