@@ -1,15 +1,5 @@
 {
  "version": 1,
  "elements": {
-  "0": {
-   "id": 0,
-   "name": {
-    "type": "Family",
-    "given": "Gavrin",
-    "middle": "Retief",
-    "family": "Aarland"
-   },
-   "gender": "Male"
-  }
  }
 }

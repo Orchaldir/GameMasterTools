@@ -26,22 +26,15 @@ class NameGenerator(
         is PatronymConvention -> generateGenonym(namingConvention.names)
     }
 
-    private fun generateFamilyName(convention: FamilyConvention): CharacterName = when (character.name) {
-        is FamilyName -> FamilyName(
-            generateName(convention.givenNames),
-            generateMiddleName(convention),
-            when (character.origin) {
-                is Born -> character.name.family
-                UndefinedCharacterOrigin -> generateName(convention.familyNames)
-            }
-        )
-
-        else -> FamilyName(
-            generateName(convention.givenNames),
-            generateMiddleName(convention),
-            generateName(convention.familyNames),
-        )
-    }
+    private fun generateFamilyName(convention: FamilyConvention) = FamilyName(
+        generateName(convention.givenNames),
+        generateMiddleName(convention),
+        if (character.name is FamilyName && character.origin is Born) {
+            character.name.family
+        } else {
+            generateName(convention.familyNames)
+        }
+    )
 
     private fun generateGenonym(names: GenderMap<NameListId>) = Genonym(generateName(names))
 

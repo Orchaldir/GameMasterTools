@@ -50,9 +50,9 @@
    "namingConvention": {
     "type": "Mononym",
     "names": {
-     "female": 17,
+     "female": 18,
      "genderless": 17,
-     "male": 18
+     "male": 17
     }
    }
   }
