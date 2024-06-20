@@ -18,12 +18,12 @@ class NameGenerator(
             this(numberGenerator, state, state.characters.getOrThrow(id))
 
     fun generate() = when (namingConvention) {
-        is FamilyConvention -> generateFamilyName(namingConvention)
-        is GenonymConvention -> TODO()
-        is MatronymConvention -> TODO()
-        is MononymConvention -> Mononym(generateName(namingConvention.names))
         NoNamingConvention -> character.name
-        is PatronymConvention -> TODO()
+        is MononymConvention -> Mononym(generateName(namingConvention.names))
+        is FamilyConvention -> generateFamilyName(namingConvention)
+        is GenonymConvention -> generateGenonym(namingConvention.names)
+        is MatronymConvention -> generateGenonym(namingConvention.names)
+        is PatronymConvention -> generateGenonym(namingConvention.names)
     }
 
     private fun generateFamilyName(convention: FamilyConvention): CharacterName = when (character.name) {
@@ -40,15 +40,14 @@ class NameGenerator(
         )
     }
 
+    private fun generateGenonym(names: GenderMap<NameListId>) = Genonym(generateName(names))
+
     private fun generateMiddleName(convention: FamilyConvention): String? {
         val middleNameOption = state.rarityGenerator.generate(convention.middleNameOptions, numberGenerator)
 
         return when (middleNameOption) {
             MiddleNameOption.None -> null
             MiddleNameOption.Random -> generateName(convention.givenNames)
-            MiddleNameOption.Patronym -> TODO()
-            MiddleNameOption.Matronym -> TODO()
-            MiddleNameOption.Genonym -> TODO()
         }
     }
 

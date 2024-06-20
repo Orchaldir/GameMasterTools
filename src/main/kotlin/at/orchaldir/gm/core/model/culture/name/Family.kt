@@ -12,11 +12,4 @@ enum class NameOrder {
 enum class MiddleNameOption {
     None,
     Random,
-    Patronym,
-    Matronym,
-
-    /**
-     * Patronym or Matronym based on the own gender.
-     */
-    Genonym,
 }
