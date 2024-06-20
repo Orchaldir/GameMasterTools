@@ -6,7 +6,6 @@
    "name": "Aundairian",
    "namingConvention": {
     "type": "Family",
-    "nameOrder": "GivenNameFirst",
     "middleNameOptions": {
      "None": "Common",
      "Random": "Rare"

@@ -24,29 +24,6 @@ class Characters {
     @Resource("update")
     class Update(val id: CharacterId, val parent: Characters = Characters())
 
-    @Resource("/languages")
-    class Languages(val parent: Characters = Characters()) {
-
-        @Resource("edit")
-        class Edit(val id: CharacterId, val parent: Languages = Languages())
-
-        @Resource("update")
-        class Update(val id: CharacterId, val parent: Languages = Languages())
-    }
-
-    @Resource("/relationship")
-    class Relationships(val parent: Characters = Characters()) {
-
-        @Resource("edit")
-        class Edit(val id: CharacterId, val parent: Relationships = Relationships())
-
-        @Resource("preview")
-        class Preview(val id: CharacterId, val parent: Relationships = Relationships())
-
-        @Resource("update")
-        class Update(val id: CharacterId, val parent: Relationships = Relationships())
-    }
-
     @Resource("/appearance")
     class Appearance(val parent: Characters = Characters()) {
 
@@ -61,5 +38,35 @@ class Characters {
 
         @Resource("generate")
         class Generate(val id: CharacterId, val parent: Appearance = Appearance())
+    }
+
+    @Resource("/languages")
+    class Languages(val parent: Characters = Characters()) {
+
+        @Resource("edit")
+        class Edit(val id: CharacterId, val parent: Languages = Languages())
+
+        @Resource("update")
+        class Update(val id: CharacterId, val parent: Languages = Languages())
+    }
+
+    @Resource("/name")
+    class Name(val parent: Characters = Characters()) {
+
+        @Resource("generate")
+        class Generate(val id: CharacterId, val parent: Name = Name())
+    }
+
+    @Resource("/relationship")
+    class Relationships(val parent: Characters = Characters()) {
+
+        @Resource("edit")
+        class Edit(val id: CharacterId, val parent: Relationships = Relationships())
+
+        @Resource("preview")
+        class Preview(val id: CharacterId, val parent: Relationships = Relationships())
+
+        @Resource("update")
+        class Update(val id: CharacterId, val parent: Relationships = Relationships())
     }
 }

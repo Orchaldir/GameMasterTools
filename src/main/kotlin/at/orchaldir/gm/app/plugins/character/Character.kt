@@ -5,12 +5,14 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
+import at.orchaldir.gm.core.generator.generateName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
+import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
@@ -24,6 +26,7 @@ import io.ktor.server.routing.*
 import io.ktor.server.util.*
 import kotlinx.html.*
 import mu.KotlinLogging
+import kotlin.random.Random
 
 private val logger = KotlinLogging.logger {}
 
@@ -109,6 +112,18 @@ fun Application.configureCharacterRouting() {
 
             STORE.getState().save()
         }
+        get<Characters.Name.Generate> { generate ->
+            logger.info { "Random generate the name of character ${generate.id.value}" }
+
+            val state = STORE.getState()
+            val character = generateName(RandomNumberGenerator(Random), state, generate.id)
+
+            STORE.dispatch(UpdateCharacter(character))
+
+            call.respondRedirect(href(call, generate.id))
+
+            STORE.getState().save()
+        }
     }
 }
 
@@ -137,6 +152,7 @@ private fun HTML.showCharacterDetails(
     val backLink = call.application.href(Characters())
     val deleteLink = call.application.href(Characters.Delete(character.id))
     val editLink = call.application.href(Characters.Edit(character.id))
+    val generateNameLink = call.application.href(Characters.Name.Generate(character.id))
     val editAppearanceLink = call.application.href(Characters.Appearance.Edit(character.id))
     val editLanguagesLink = call.application.href(Characters.Languages.Edit(character.id))
     val editRelationshipsLink = call.application.href(Characters.Relationships.Edit(character.id))
@@ -175,6 +191,7 @@ private fun HTML.showCharacterDetails(
         showLanguages(call, state, character)
 
         p { a(editLink) { +"Edit" } }
+        p { a(generateNameLink) { +"Generate New Name" } }
         p { a(editAppearanceLink) { +"Edit Appearance" } }
         p { a(editLanguagesLink) { +"Edit Languages" } }
         p { a(editRelationshipsLink) { +"Edit Relationships" } }
