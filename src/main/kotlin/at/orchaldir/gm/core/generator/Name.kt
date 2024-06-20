@@ -30,7 +30,10 @@ class NameGenerator(
         is FamilyName -> FamilyName(
             generateName(convention.givenNames),
             generateMiddleName(convention),
-            character.name.family,
+            when (character.origin) {
+                is Born -> character.name.family
+                UndefinedCharacterOrigin -> generateName(convention.familyNames)
+            }
         )
 
         else -> FamilyName(

@@ -192,8 +192,8 @@ private fun HTML.showCharacterDetails(
 
         showLanguages(call, state, character)
 
-        p { a(editLink) { +"Edit" } }
         p { a(generateNameLink) { +"Generate New Name" } }
+        p { a(editLink) { +"Edit" } }
         p { a(editAppearanceLink) { +"Edit Appearance" } }
         p { a(editLanguagesLink) { +"Edit Languages" } }
         p { a(editRelationshipsLink) { +"Edit Relationships" } }
