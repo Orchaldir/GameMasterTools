@@ -11,12 +11,12 @@ class RarityMapTest {
 
     @Test
     fun `An empty map is not valid`() {
-        assertFailsWith<IllegalArgumentException> { RarityMap<Size>(setOf()) }
+        assertFailsWith<IllegalArgumentException> { OneOf<Size>(setOf()) }
     }
 
     @Test
     fun `Requires one rarity that is not unavailable`() {
-        assertFailsWith<IllegalArgumentException> { RarityMap(mapOf(Small to Unavailable)) }
+        assertFailsWith<IllegalArgumentException> { OneOf(mapOf(Small to Unavailable)) }
     }
 
     @Nested
@@ -27,7 +27,7 @@ class RarityMapTest {
             Rarity.entries
                 .filter { it != Unavailable }
                 .forEach {
-                    val rarityMap = RarityMap(mapOf(Small to it))
+                    val rarityMap = OneOf(mapOf(Small to it))
 
                     assertTrue(rarityMap.isAvailable(Small))
                 }

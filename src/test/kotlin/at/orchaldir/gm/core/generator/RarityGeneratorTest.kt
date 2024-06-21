@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.generator
 
+import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.Rarity.*
-import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.utils.Counter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -10,7 +10,7 @@ import kotlin.test.assertFailsWith
 
 class RarityGeneratorTest {
 
-    private val rarityMap = RarityMap(Rarity.entries.associateBy { it })
+    private val rarityMap = OneOf(Rarity.entries.associateBy { it })
 
     @Test
     fun `Empty map is invalid`() {
