@@ -82,6 +82,25 @@
      9
     ]
    }
+  },
+  "12": {
+   "id": 12,
+   "name": "Giant"
+  },
+  "13": {
+   "id": 13,
+   "name": "Elven"
+  },
+  "14": {
+   "id": 14,
+   "name": "Drow",
+   "origin": {
+    "type": "Combined",
+    "parents": [
+     12,
+     13
+    ]
+   }
   }
  }
 }

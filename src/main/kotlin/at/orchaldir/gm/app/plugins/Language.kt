@@ -240,7 +240,7 @@ private fun HTML.showLanguageEditor(
             }
             when (language.origin) {
                 is CombinedLanguage -> {
-                    possibleParents.forEach { l ->
+                    possibleParents.sortedBy { it.name }.forEach { l ->
                         p {
                             checkBoxInput {
                                 name = LANGUAGES
