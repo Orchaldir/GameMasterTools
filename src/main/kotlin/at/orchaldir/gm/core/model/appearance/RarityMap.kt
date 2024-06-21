@@ -56,7 +56,7 @@ value class SomeOf<T>(private val map: Map<T, Rarity>) : RarityMap<T> {
 
     companion object {
 
-        fun <T> init(map: Map<T, Rarity>) = OneOf(map.filterValues { it != Rarity.Unavailable })
+        fun <T> init(map: Map<T, Rarity>) = SomeOf(map.filterValues { it != Rarity.Unavailable })
 
     }
 
