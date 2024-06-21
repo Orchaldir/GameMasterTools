@@ -11,14 +11,19 @@ fun parseLanguageId(parameters: Parameters, param: String) = LanguageId(paramete
 fun parseLanguage(id: LanguageId, parameters: Parameters): Language {
     val name = parameters.getOrFail(NAME)
     val origin = when (parameters[ORIGIN]) {
-        "Invented" -> {
-            val inventor = parseCharacterId(parameters, INVENTOR)
-            InventedLanguage(inventor)
+        "Combined" -> {
+            val parents = parameters.getAll(LANGUAGES)?.map { LanguageId(it.toInt()) }?.toSet()
+            CombinedLanguage(parents ?: emptySet())
         }
 
         "Evolved" -> {
             val parent = parseLanguageId(parameters, LANGUAGES)
             EvolvedLanguage(parent)
+        }
+
+        "Invented" -> {
+            val inventor = parseCharacterId(parameters, INVENTOR)
+            InventedLanguage(inventor)
         }
 
         else -> OriginalLanguage

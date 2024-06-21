@@ -214,7 +214,7 @@ private fun HTML.showLanguageEditor(
                     option {
                         label = "Combined"
                         value = "Combined"
-                        selected = language.origin is EvolvedLanguage
+                        selected = language.origin is CombinedLanguage
                     }
                     option {
                         label = "Evolved"

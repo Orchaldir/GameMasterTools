@@ -9,7 +9,7 @@ sealed class LanguageOrigin
 
 @Serializable
 @SerialName("Combined")
-data class CombinedLanguage(val parents: List<LanguageId>) : LanguageOrigin()
+data class CombinedLanguage(val parents: Set<LanguageId>) : LanguageOrigin()
 
 @Serializable
 @SerialName("Invented")
