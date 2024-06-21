@@ -2,15 +2,13 @@ package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.language.EvolvedLanguage
-import at.orchaldir.gm.core.model.language.InventedLanguage
-import at.orchaldir.gm.core.model.language.Language
-import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.language.*
 
 fun State.canDelete(language: LanguageId) = getCharacters(language).isEmpty() && getChildren(language).isEmpty()
 
 fun State.getChildren(language: LanguageId) = languages.getAll().filter { l ->
     when (l.origin) {
+        is CombinedLanguage -> l.origin.parents.contains(language)
         is EvolvedLanguage -> l.origin.parent == language
         else -> false
     }
