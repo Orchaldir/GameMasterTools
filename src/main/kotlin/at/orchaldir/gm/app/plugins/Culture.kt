@@ -150,6 +150,9 @@ private fun HTML.showCultureDetails(
     simpleHtml("Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
         field("Name", culture.name)
+        showRarityMap("Languages", culture.languages) { l ->
+            link(call, state, l)
+        }
         h2 { +"Naming Convention" }
         field("Type", namingConvention.javaClass.simpleName)
         when (namingConvention) {
