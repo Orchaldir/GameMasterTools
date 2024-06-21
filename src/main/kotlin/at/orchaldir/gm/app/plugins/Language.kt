@@ -154,6 +154,7 @@ private fun HTML.showLanguageDetails(
                     link(call, state, id)
                 }
             }
+
             is EvolvedLanguage -> {
                 field("Origin", "Evolved")
                 field("Parent Language") {
@@ -255,6 +256,7 @@ private fun HTML.showLanguageEditor(
                         }
                     }
                 }
+
                 is EvolvedLanguage ->
                     selectEnum("Parent", LANGUAGES, possibleParents) { l ->
                         label = l.name
