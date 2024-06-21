@@ -221,7 +221,7 @@ private fun BODY.showFamily(
     }
 }
 
-private fun BODY.showLanguages(
+fun BODY.showLanguages(
     call: ApplicationCall,
     state: State,
     character: Character,
