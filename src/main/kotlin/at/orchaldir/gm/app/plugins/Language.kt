@@ -190,6 +190,8 @@ private fun HTML.showLanguageEditor(
     state: State,
     language: Language,
 ) {
+    val possibleInventors = state.characters.getAll()
+    val possibleParents = state.getPossibleParents(language.id)
     val backLink = href(call, language.id)
     val previewLink = call.application.href(Languages.Preview(language.id))
     val updateLink = call.application.href(Languages.Update(language.id))
@@ -214,16 +216,19 @@ private fun HTML.showLanguageEditor(
                     option {
                         label = "Combined"
                         value = "Combined"
+                        disabled = possibleParents.size < 2
                         selected = language.origin is CombinedLanguage
                     }
                     option {
                         label = "Evolved"
                         value = "Evolved"
+                        disabled = possibleParents.isEmpty()
                         selected = language.origin is EvolvedLanguage
                     }
                     option {
                         label = "Invented"
                         value = "Invented"
+                        disabled = possibleInventors.isEmpty()
                         selected = language.origin is InventedLanguage
                     }
                     option {
@@ -235,7 +240,7 @@ private fun HTML.showLanguageEditor(
             }
             when (language.origin) {
                 is CombinedLanguage -> {
-                    state.languages.getAll().forEach { l ->
+                    possibleParents.forEach { l ->
                         p {
                             checkBoxInput {
                                 name = LANGUAGES
@@ -247,20 +252,22 @@ private fun HTML.showLanguageEditor(
                     }
                 }
                 is EvolvedLanguage ->
-                    selectEnum("Parent", LANGUAGES, state.getPossibleParents(language.id)) { l ->
+                    selectEnum("Parent", LANGUAGES, possibleParents) { l ->
                         label = l.name
                         value = l.id.value.toString()
                         selected = language.origin.parent == l.id
                     }
 
-                is InventedLanguage -> selectEnum(
-                    "Inventor",
-                    INVENTOR,
-                    state.characters.getAll()
-                ) { c ->
-                    label = state.getName(c)
-                    value = c.id.value.toString()
-                    selected = language.origin.inventor == c.id
+                is InventedLanguage -> {
+                    selectEnum(
+                        "Inventor",
+                        INVENTOR,
+                        possibleInventors
+                    ) { c ->
+                        label = state.getName(c)
+                        value = c.id.value.toString()
+                        selected = language.origin.inventor == c.id
+                    }
                 }
 
                 else -> doNothing()
