@@ -5,7 +5,7 @@
    "id": 0,
    "name": "Aundairian",
    "languages": {
-    "0": "Rare",
+    "0": "VeryRare",
     "1": "Everyone"
    },
    "namingConvention": {
@@ -51,6 +51,11 @@
   "1": {
    "id": 1,
    "name": "Darguun",
+   "languages": {
+    "1": "Common",
+    "6": "VeryRare",
+    "7": "Everyone"
+   },
    "namingConvention": {
     "type": "Mononym",
     "names": {
