@@ -14,12 +14,6 @@ fun State.getChildren(language: LanguageId) = languages.getAll().filter { l ->
     }
 }
 
-fun State.getPossibleLanguages(id: CharacterId): List<Language> {
-    val known = characters.get(id)?.languages ?: return listOf()
-
-    return languages.getAll().filter { l -> !known.containsKey(l.id) }
-}
-
 fun State.getPossibleParents(language: LanguageId) = languages.getAll().filter { l -> l.id != language }
 
 fun State.getInventedLanguages(inventor: CharacterId) = languages.getAll().filter { l ->
