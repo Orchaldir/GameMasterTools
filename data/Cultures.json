@@ -4,6 +4,7 @@
   "0": {
    "id": 0,
    "name": "Aundairian",
+   "languages": {},
    "namingConvention": {
     "type": "Family",
     "middleNameOptions": {
@@ -47,6 +48,7 @@
   "1": {
    "id": 1,
    "name": "Darguun",
+   "languages": {},
    "namingConvention": {
     "type": "Mononym",
     "names": {

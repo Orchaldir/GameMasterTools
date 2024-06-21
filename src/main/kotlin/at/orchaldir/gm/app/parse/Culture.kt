@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.parse
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.GenderMap
+import at.orchaldir.gm.core.model.appearance.SomeOf
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle
@@ -26,6 +27,7 @@ fun parseCulture(
     return Culture(
         id,
         name,
+        SomeOf(emptyMap()),
         parseNamingConvention(parameters),
         StyleOptions(
             parseOneOf(parameters, BEARD_STYLE, BeardStyleType::valueOf),
