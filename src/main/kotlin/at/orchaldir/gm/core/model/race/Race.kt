@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.race
 
-import at.orchaldir.gm.core.model.appearance.RarityMap
+import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
 import at.orchaldir.gm.utils.Element
@@ -20,7 +20,7 @@ value class RaceId(val value: Int) : Id<RaceId> {
 data class Race(
     val id: RaceId,
     val name: String = "Race ${id.value}",
-    val genders: RarityMap<Gender> = RarityMap(Gender.entries),
+    val genders: OneOf<Gender> = OneOf(Gender.entries),
     val appearance: AppearanceOptions = AppearanceOptions(),
 ) : Element<RaceId> {
 

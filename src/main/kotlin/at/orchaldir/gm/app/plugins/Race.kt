@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parseRarityMap
+import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
@@ -300,35 +300,35 @@ private fun parseRace(id: RaceId, parameters: Parameters): Race {
     val name = parameters.getOrFail("name")
     return Race(
         id, name,
-        parseRarityMap(parameters, GENDER, Gender::valueOf),
+        parseOneOf(parameters, GENDER, Gender::valueOf),
         parseAppearanceOptions(parameters)
     )
 }
 
 private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
-    parseRarityMap(parameters, SKIN_TYPE, SkinType::valueOf),
-    parseRarityMap(parameters, SCALE_COLOR, Color::valueOf, Color.entries),
-    parseRarityMap(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf, SkinColor.entries),
-    parseRarityMap(parameters, EXOTIC_SKIN_COLOR, Color::valueOf, Color.entries),
-    parseRarityMap(parameters, EARS_LAYOUT, EarsLayout::valueOf),
-    parseRarityMap(parameters, EAR_SHAPE, EarShape::valueOf, EarShape.entries),
-    parseRarityMap(parameters, EYES_LAYOUT, EyesLayout::valueOf),
+    parseOneOf(parameters, SKIN_TYPE, SkinType::valueOf),
+    parseOneOf(parameters, SCALE_COLOR, Color::valueOf, Color.entries),
+    parseOneOf(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf, SkinColor.entries),
+    parseOneOf(parameters, EXOTIC_SKIN_COLOR, Color::valueOf, Color.entries),
+    parseOneOf(parameters, EARS_LAYOUT, EarsLayout::valueOf),
+    parseOneOf(parameters, EAR_SHAPE, EarShape::valueOf, EarShape.entries),
+    parseOneOf(parameters, EYES_LAYOUT, EyesLayout::valueOf),
     parseEyeOptions(parameters),
     parseHairOptions(parameters),
-    parseRarityMap(parameters, MOUTH_TYPE, MouthType::valueOf),
+    parseOneOf(parameters, MOUTH_TYPE, MouthType::valueOf),
 )
 
 private fun parseEyeOptions(parameters: Parameters): EyeOptions {
-    val eyeShapes = parseRarityMap(parameters, EYE_SHAPE, EyeShape::valueOf, EyeShape.entries)
-    val pupilShapes = parseRarityMap(parameters, PUPIL_SHAPE, PupilShape::valueOf, PupilShape.entries)
-    val pupilColors = parseRarityMap(parameters, PUPIL_COLOR, Color::valueOf, Color.entries)
-    val scleraColors = parseRarityMap(parameters, SCLERA_COLOR, Color::valueOf, Color.entries)
+    val eyeShapes = parseOneOf(parameters, EYE_SHAPE, EyeShape::valueOf, EyeShape.entries)
+    val pupilShapes = parseOneOf(parameters, PUPIL_SHAPE, PupilShape::valueOf, PupilShape.entries)
+    val pupilColors = parseOneOf(parameters, PUPIL_COLOR, Color::valueOf, Color.entries)
+    val scleraColors = parseOneOf(parameters, SCLERA_COLOR, Color::valueOf, Color.entries)
 
     return EyeOptions(eyeShapes, pupilShapes, pupilColors, scleraColors)
 }
 
 private fun parseHairOptions(parameters: Parameters) = HairOptions(
-    parseRarityMap(parameters, BEARD_TYPE, BeardType::valueOf),
-    parseRarityMap(parameters, HAIR_TYPE, HairType::valueOf),
-    parseRarityMap(parameters, HAIR_COLOR, Color::valueOf, Color.entries),
+    parseOneOf(parameters, BEARD_TYPE, BeardType::valueOf),
+    parseOneOf(parameters, HAIR_TYPE, HairType::valueOf),
+    parseOneOf(parameters, HAIR_COLOR, Color::valueOf, Color.entries),
 )

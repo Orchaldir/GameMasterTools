@@ -28,11 +28,11 @@ fun parseCulture(
         name,
         parseNamingConvention(parameters),
         StyleOptions(
-            parseRarityMap(parameters, BEARD_STYLE, BeardStyleType::valueOf),
-            parseRarityMap(parameters, GOATEE_STYLE, GoateeStyle::valueOf),
-            parseRarityMap(parameters, MOUSTACHE_STYLE, MoustacheStyle::valueOf),
-            parseRarityMap(parameters, HAIR_STYLE, HairStyleType::valueOf),
-            parseRarityMap(parameters, LIP_COLORS, Color::valueOf),
+            parseOneOf(parameters, BEARD_STYLE, BeardStyleType::valueOf),
+            parseOneOf(parameters, GOATEE_STYLE, GoateeStyle::valueOf),
+            parseOneOf(parameters, MOUSTACHE_STYLE, MoustacheStyle::valueOf),
+            parseOneOf(parameters, HAIR_STYLE, HairStyleType::valueOf),
+            parseOneOf(parameters, LIP_COLORS, Color::valueOf),
         ),
     )
 }
@@ -45,7 +45,7 @@ fun parseNamingConvention(
 
         Family.toString() -> FamilyConvention(
             parse(parameters, NAME_ORDER, GivenNameFirst),
-            parseRarityMap(parameters, MIDDLE_NAME, MiddleNameOption::valueOf, MiddleNameOption.entries),
+            parseOneOf(parameters, MIDDLE_NAME, MiddleNameOption::valueOf, MiddleNameOption.entries),
             parseNamesByGender(parameters, NAMES),
             parseNameListId(parameters, FAMILY_NAMES)
         )
