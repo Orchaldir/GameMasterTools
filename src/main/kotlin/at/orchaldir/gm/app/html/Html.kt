@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.plugins.TITLE
 import at.orchaldir.gm.core.model.appearance.*
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.server.application.*
@@ -75,6 +77,18 @@ fun <T> HtmlBlockTag.showGenderMap(
 }
 
 fun <T> HtmlBlockTag.showList(
+    label: String,
+    elements: Collection<T>,
+    content: LI.(T) -> Unit,
+) {
+    if (elements.isNotEmpty()) {
+        field(label) {
+            showList(elements, content)
+        }
+    }
+}
+
+fun <T> HtmlBlockTag.showList(
     elements: Collection<T>,
     content: LI.(T) -> Unit,
 ) {
@@ -114,6 +128,23 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.showRarityMap(
     }
 }
 
+fun <T> HtmlBlockTag.showRarityMap(
+    enum: String,
+    values: RarityMap<T>,
+    content: LI.(T) -> Unit,
+) {
+    val sortedMap = reverseAndSort(values.getValidValues())
+
+    details {
+        summary { +enum }
+        showMap(sortedMap) { rarity, values ->
+            showList(rarity.toString(), values) {
+                content(it)
+            }
+        }
+    }
+}
+
 // form
 
 fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
@@ -146,10 +177,10 @@ fun <T> HtmlBlockTag.selectEnum(
     }
 }
 
-fun <T> HtmlBlockTag.selectEnum(
+fun <T> HtmlBlockTag.selectOneOf(
     label: String,
     selectId: String,
-    values: RarityMap<T>,
+    values: OneOf<T>,
     update: Boolean = false,
     content: OPTION.(T) -> Unit,
 ) {
@@ -175,9 +206,9 @@ fun <T> HtmlBlockTag.selectEnum(
 }
 
 fun FORM.selectColor(
-    labelText: String, selectId: String, rarityMap: RarityMap<Color>, current: Color,
+    labelText: String, selectId: String, rarityMap: OneOf<Color>, current: Color,
 ) {
-    selectEnum(labelText, selectId, rarityMap, true) { c ->
+    selectOneOf(labelText, selectId, rarityMap, true) { c ->
         label = c.name
         value = c.toString()
         selected = current == c
@@ -209,9 +240,30 @@ inline fun <reified T : Enum<T>> FORM.selectRarityMap(
     details {
         summary { +enum }
         showMap(values.getRarityFor(enumValues<T>().toSet())) { currentValue, currentRarity ->
-            selectEnum(currentValue.toString(), selectId, Rarity.entries, update) { rarity ->
+            selectEnum(currentValue.toString(), selectId, values.getAvailableRarities(), update) { rarity ->
                 label = rarity.toString()
                 value = "$currentValue-$rarity"
+                selected = rarity == currentRarity
+            }
+        }
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> FORM.selectRarityMap(
+    enum: String,
+    selectId: String,
+    storage: Storage<ID, ELEMENT>,
+    rarityMap: RarityMap<ID>,
+    update: Boolean = false,
+    getName: (ELEMENT) -> String,
+) {
+    details {
+        summary { +enum }
+        showMap(rarityMap.getRarityFor(storage.getIds())) { id, currentRarity ->
+            val element = storage.getOrThrow(id)
+            selectEnum(getName(element), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
+                label = rarity.toString()
+                value = "${id.value()}-$rarity"
                 selected = rarity == currentRarity
             }
         }

@@ -40,14 +40,15 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
 
 val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     val character = action.character
+    val oldCharacter = state.characters.getOrThrow(character.id)
 
-    state.characters.require(character.id)
     state.races.require(character.race)
     state.cultures.require(character.culture)
     checkOrigin(state, character)
     character.personality.forEach { state.personalityTraits.require(it) }
+    val update = character.copy(languages = oldCharacter.languages)
 
-    noFollowUps(state.copy(characters = state.characters.update(character)))
+    noFollowUps(state.copy(characters = state.characters.update(update)))
 }
 
 private fun checkOrigin(

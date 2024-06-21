@@ -8,11 +8,11 @@ import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.core.action.AddLanguage
 import at.orchaldir.gm.core.action.RemoveLanguages
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.appearance.reverseAndSort
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.selector.getName
-import at.orchaldir.gm.core.selector.getPossibleLanguages
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -70,12 +70,14 @@ private fun HTML.showLanguageEditor(
     state: State,
     character: Character,
 ) {
+    val cultures = state.cultures.getOrThrow(character.culture)
     val backLink = href(call, character.id)
     val updateLink = call.application.href(Characters.Languages.Update(character.id))
 
     simpleHtml("Edit Languages: ${state.getName(character)}") {
+        showLanguages(call, state, character)
         form {
-            field("Language to Add") {
+            field("Language to Update") {
                 select {
                     id = "language"
                     name = "language"
@@ -84,12 +86,18 @@ private fun HTML.showLanguageEditor(
                         value = ""
                         selected = true
                     }
-                    state.getPossibleLanguages(character.id).forEach { language ->
-                        option {
-                            label = language.name
-                            value = language.id.value.toString()
+                    reverseAndSort(cultures.languages.getValidValues())
+                        .forEach { (rarity, values) ->
+                            optGroup(rarity.toString()) {
+                                values.forEach { languageId ->
+                                    val language = state.languages.getOrThrow(languageId)
+                                    option {
+                                        label = language.name
+                                        value = language.id.value.toString()
+                                    }
+                                }
+                            }
                         }
-                    }
                 }
             }
             selectEnum("Comprehension Level", "level", ComprehensionLevel.entries) { level ->

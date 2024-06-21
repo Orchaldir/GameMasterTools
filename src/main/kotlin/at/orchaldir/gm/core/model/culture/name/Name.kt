@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.culture.name
 
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.appearance.GenderMap
-import at.orchaldir.gm.core.model.appearance.RarityMap
+import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.OneGeneration
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -48,7 +48,7 @@ data class MononymConvention(val names: GenderMap<NameListId> = GenderMap(NameLi
 @SerialName("Family")
 data class FamilyConvention(
     val nameOrder: NameOrder = NameOrder.GivenNameFirst,
-    val middleNameOptions: RarityMap<MiddleNameOption> = RarityMap(MiddleNameOption.entries),
+    val middleNameOptions: OneOf<MiddleNameOption> = OneOf(MiddleNameOption.entries),
     val givenNames: GenderMap<NameListId> = GenderMap(NameListId(0)),
     val familyNames: NameListId = NameListId(0),
 ) : NamingConvention() {

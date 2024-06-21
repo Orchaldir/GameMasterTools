@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.generator
 
+import at.orchaldir.gm.core.model.appearance.ONE_OF_RARITIES
 import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.utils.NumberGenerator
@@ -10,13 +11,13 @@ data class RarityGenerator(val values: Map<Rarity, UInt>) {
 
         fun empty(): RarityGenerator {
             var value = 0u
-            return RarityGenerator(Rarity.entries.toList().reversed().associateWith { value++ })
+            return RarityGenerator(ONE_OF_RARITIES.toList().reversed().associateWith { value++ })
         }
 
     }
 
     init {
-        Rarity.entries.filter { it != Rarity.Unavailable }
+        ONE_OF_RARITIES.filter { it != Rarity.Unavailable }
             .forEach {
                 val value = values[it]
                 require(value != null && value > 0u) { "Rarity $it has no valid value!" }

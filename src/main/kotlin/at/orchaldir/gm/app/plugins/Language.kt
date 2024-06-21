@@ -2,11 +2,11 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.utils.doNothing
@@ -19,7 +19,6 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.util.*
 import kotlinx.html.*
 import mu.KotlinLogging
 
@@ -118,24 +117,6 @@ fun Application.configureLanguageRouting() {
     }
 }
 
-private fun parseLanguage(id: LanguageId, parameters: Parameters): Language {
-    val name = parameters.getOrFail("name")
-    val origin = when (parameters["origin"]) {
-        "Invented" -> {
-            val inventor = CharacterId(parameters["inventor"]?.toInt() ?: 0)
-            InventedLanguage(inventor)
-        }
-
-        "Evolved" -> {
-            val parent = LanguageId(parameters["parent"]?.toInt() ?: 0)
-            EvolvedLanguage(parent)
-        }
-
-        else -> OriginalLanguage
-    }
-    return Language(id, name, origin)
-}
-
 private fun HTML.showAllLanguages(call: ApplicationCall) {
     val languages = STORE.getState().languages.getAll().sortedBy { it.name }
     val count = languages.size
@@ -161,11 +142,19 @@ private fun HTML.showLanguageDetails(
     val editLink = call.application.href(Languages.Edit(language.id))
     val children = state.getChildren(language.id)
     val characters = state.getCharacters(language.id)
+    val cultures = state.getCultures(language.id)
 
     simpleHtml("Language: ${language.name}") {
         field("Id", language.id.value.toString())
         field("Name", language.name)
         when (language.origin) {
+            is CombinedLanguage -> {
+                field("Origin", "Combined")
+                showList("Parent Languages", language.origin.parents) { id ->
+                    link(call, state, id)
+                }
+            }
+
             is EvolvedLanguage -> {
                 field("Origin", "Evolved")
                 field("Parent Language") {
@@ -184,19 +173,14 @@ private fun HTML.showLanguageDetails(
                 field("Origin", "Original")
             }
         }
-        if (children.isNotEmpty()) {
-            field("Child Languages") {
-                showList(children) { language ->
-                    link(call, language)
-                }
-            }
+        showList("Child Languages", children) { language ->
+            link(call, language)
         }
-        if (characters.isNotEmpty()) {
-            field("Characters") {
-                showList(characters) { character ->
-                    link(call, state, character)
-                }
-            }
+        showList("Characters", characters) { character ->
+            link(call, state, character)
+        }
+        showList("Cultures", cultures) { culture ->
+            link(call, culture)
         }
         p { a(editLink) { +"Edit" } }
         if (state.canDelete(language.id)) {
@@ -211,6 +195,8 @@ private fun HTML.showLanguageEditor(
     state: State,
     language: Language,
 ) {
+    val possibleInventors = state.characters.getAll()
+    val possibleParents = state.getPossibleParents(language.id)
     val backLink = href(call, language.id)
     val previewLink = call.application.href(Languages.Preview(language.id))
     val updateLink = call.application.href(Languages.Update(language.id))
@@ -223,23 +209,31 @@ private fun HTML.showLanguageEditor(
             method = FormMethod.post
             field("Name") {
                 b { +"Name: " }
-                textInput(name = "name") {
+                textInput(name = NAME) {
                     value = language.name
                 }
             }
             field("Origin") {
                 select {
-                    id = "origin"
-                    name = "origin"
+                    id = ORIGIN
+                    name = ORIGIN
                     onChange = ON_CHANGE_SCRIPT
+                    option {
+                        label = "Combined"
+                        value = "Combined"
+                        disabled = possibleParents.size < 2
+                        selected = language.origin is CombinedLanguage
+                    }
                     option {
                         label = "Evolved"
                         value = "Evolved"
+                        disabled = possibleParents.isEmpty()
                         selected = language.origin is EvolvedLanguage
                     }
                     option {
                         label = "Invented"
                         value = "Invented"
+                        disabled = possibleInventors.isEmpty()
                         selected = language.origin is InventedLanguage
                     }
                     option {
@@ -250,21 +244,36 @@ private fun HTML.showLanguageEditor(
                 }
             }
             when (language.origin) {
+                is CombinedLanguage -> {
+                    possibleParents.sortedBy { it.name }.forEach { l ->
+                        p {
+                            checkBoxInput {
+                                name = LANGUAGES
+                                value = l.id.value.toString()
+                                checked = language.origin.parents.contains(l.id)
+                                +l.name
+                            }
+                        }
+                    }
+                }
+
                 is EvolvedLanguage ->
-                    selectEnum("Parent", "parent", state.getPossibleParents(language.id)) { l ->
+                    selectEnum("Parent", LANGUAGES, possibleParents) { l ->
                         label = l.name
                         value = l.id.value.toString()
                         selected = language.origin.parent == l.id
                     }
 
-                is InventedLanguage -> selectEnum(
-                    "Inventor",
-                    "inventor",
-                    state.characters.getAll()
-                ) { c ->
-                    label = state.getName(c)
-                    value = c.id.value.toString()
-                    selected = language.origin.inventor == c.id
+                is InventedLanguage -> {
+                    selectEnum(
+                        "Inventor",
+                        INVENTOR,
+                        possibleInventors
+                    ) { c ->
+                        label = state.getName(c)
+                        value = c.id.value.toString()
+                        selected = language.origin.inventor == c.id
+                    }
                 }
 
                 else -> doNothing()

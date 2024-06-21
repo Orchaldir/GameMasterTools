@@ -221,7 +221,7 @@ private fun BODY.showFamily(
     }
 }
 
-private fun BODY.showLanguages(
+fun BODY.showLanguages(
     call: ApplicationCall,
     state: State,
     character: Character,
@@ -309,7 +309,7 @@ private fun HTML.showCharacterEditor(
                 value = r.id.value.toString()
                 selected = r.id == character.race
             }
-            selectEnum("Gender", GENDER, race.genders) { gender ->
+            selectOneOf("Gender", GENDER, race.genders) { gender ->
                 label = gender.toString()
                 value = gender.toString()
                 selected = character.gender == gender
@@ -355,7 +355,7 @@ private fun HTML.showCharacterEditor(
             field("Personality") {
                 details {
                     state.getPersonalityTraitGroups().forEach { group ->
-                        val textId = "$GROUP_PREFIX${group.value}"
+                        val textId = "$PERSONALITY_PREFIX${group.value}"
                         var isAnyCheck = false
 
                         p {
