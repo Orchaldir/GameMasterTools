@@ -1,10 +1,11 @@
 package at.orchaldir.gm.core.model.appearance
 
-import at.orchaldir.gm.core.model.appearance.Rarity.Unavailable
+import at.orchaldir.gm.core.model.appearance.Rarity.*
 import at.orchaldir.gm.core.model.appearance.Size.Small
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class RarityMapTest {
@@ -65,6 +66,14 @@ class RarityMapTest {
                     }
             }
         }
+    }
+
+    @Test
+    fun `Reverse and sort, but not the value`() {
+        assertEquals(
+            sortedMapOf(Common to listOf(5, 2), Rare to listOf(1, 7)),
+            reverseAndSort(mapOf(1 to Rare, 5 to Common, 7 to Rare, 2 to Common))
+        )
     }
 
 }
