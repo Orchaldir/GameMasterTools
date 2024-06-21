@@ -29,7 +29,7 @@ data class Character(
     val culture: CultureId = CultureId(0),
     val personality: Set<PersonalityTraitId> = setOf(),
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
-    val languages: Map<LanguageId, ComprehensionLevel> = mapOf(LanguageId(0) to ComprehensionLevel.Native),
+    val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val appearance: Appearance = UndefinedAppearance,
 ) : Element<CharacterId> {
 

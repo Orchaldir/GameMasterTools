@@ -170,7 +170,7 @@ fun <T> HtmlBlockTag.selectEnum(
 fun <T> HtmlBlockTag.selectOneOf(
     label: String,
     selectId: String,
-    values: RarityMap<T>,
+    values: OneOf<T>,
     update: Boolean = false,
     content: OPTION.(T) -> Unit,
 ) {
@@ -196,7 +196,7 @@ fun <T> HtmlBlockTag.selectOneOf(
 }
 
 fun FORM.selectColor(
-    labelText: String, selectId: String, rarityMap: RarityMap<Color>, current: Color,
+    labelText: String, selectId: String, rarityMap: OneOf<Color>, current: Color,
 ) {
     selectOneOf(labelText, selectId, rarityMap, true) { c ->
         label = c.name

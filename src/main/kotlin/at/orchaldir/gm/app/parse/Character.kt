@@ -16,7 +16,7 @@ fun parseCharacter(state: State, id: CharacterId, parameters: Parameters): Chara
     val culture = CultureId(parameters.getOrFail(CULTURE).toInt())
     val personality = parameters.entries()
         .asSequence()
-        .filter { e -> e.key.startsWith(GROUP_PREFIX) }
+        .filter { e -> e.key.startsWith(PERSONALITY_PREFIX) }
         .map { e -> e.value.first() }
         .filter { it != NONE }
         .map { PersonalityTraitId(it.toInt()) }

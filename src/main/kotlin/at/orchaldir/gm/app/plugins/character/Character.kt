@@ -355,7 +355,7 @@ private fun HTML.showCharacterEditor(
             field("Personality") {
                 details {
                     state.getPersonalityTraitGroups().forEach { group ->
-                        val textId = "$GROUP_PREFIX${group.value}"
+                        val textId = "$PERSONALITY_PREFIX${group.value}"
                         var isAnyCheck = false
 
                         p {
