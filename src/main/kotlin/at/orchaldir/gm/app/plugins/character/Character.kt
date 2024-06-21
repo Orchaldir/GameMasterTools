@@ -309,7 +309,7 @@ private fun HTML.showCharacterEditor(
                 value = r.id.value.toString()
                 selected = r.id == character.race
             }
-            selectEnum("Gender", GENDER, race.genders) { gender ->
+            selectOneOf("Gender", GENDER, race.genders) { gender ->
                 label = gender.toString()
                 value = gender.toString()
                 selected = character.gender == gender

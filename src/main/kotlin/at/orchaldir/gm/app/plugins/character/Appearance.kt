@@ -189,7 +189,7 @@ private fun HTML.showAppearanceEditor(
 
 private fun FORM.showEarsEditor(race: Race, ears: Ears) {
     h2 { +"Ears" }
-    selectEnum("Type", EAR_TYPE, race.appearance.earsLayout, true) { type ->
+    selectOneOf("Type", EAR_TYPE, race.appearance.earsLayout, true) { type ->
         label = type.name
         value = type.toString()
         selected = when (type) {
@@ -199,7 +199,7 @@ private fun FORM.showEarsEditor(race: Race, ears: Ears) {
     }
     when (ears) {
         is NormalEars -> {
-            selectEnum("Ear Shape", EAR_SHAPE, race.appearance.earShapes, true) { shape ->
+            selectOneOf("Ear Shape", EAR_SHAPE, race.appearance.earShapes, true) { shape ->
                 label = shape.name
                 value = shape.toString()
                 selected = ears.shape == shape
@@ -220,7 +220,7 @@ private fun FORM.showSkinEditor(
     skin: Skin,
 ) {
     h2 { +"Skin" }
-    selectEnum("Type", SKIN_TYPE, race.appearance.skinTypes, true) { type ->
+    selectOneOf("Type", SKIN_TYPE, race.appearance.skinTypes, true) { type ->
         label = type.name
         value = type.toString()
         selected = when (type) {
@@ -233,7 +233,7 @@ private fun FORM.showSkinEditor(
         is Scales -> selectColor("Color", EXOTIC_COLOR, race.appearance.scalesColors, skin.color)
         is ExoticSkin -> selectColor("Color", EXOTIC_COLOR, race.appearance.exoticSkinColors, skin.color)
         is NormalSkin -> {
-            selectEnum("Color", SKIN_COLOR, race.appearance.normalSkinColors, true) { skinColor ->
+            selectOneOf("Color", SKIN_COLOR, race.appearance.normalSkinColors, true) { skinColor ->
                 label = skinColor.name
                 value = skinColor.toString()
                 selected = skin.color == skinColor
@@ -250,7 +250,7 @@ private fun FORM.showBeardEditor(
     beard: Beard,
 ) {
     h2 { +"Beard" }
-    selectEnum("Type", BEARD_TYPE, race.appearance.hairOptions.beardTypes, true) { option ->
+    selectOneOf("Type", BEARD_TYPE, race.appearance.hairOptions.beardTypes, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {
@@ -269,7 +269,7 @@ private fun FORM.showNormalBeardEditor(
     culture: Culture,
     beard: NormalBeard,
 ) {
-    selectEnum("Style", BEARD_STYLE, culture.styleOptions.beardStyles, true) { style ->
+    selectOneOf("Style", BEARD_STYLE, culture.styleOptions.beardStyles, true) { style ->
         label = style.name
         value = style.toString()
         selected = when (style) {
@@ -297,7 +297,7 @@ private fun HtmlBlockTag.selectGoateeStyle(
     culture: Culture,
     goateeStyle: GoateeStyle,
 ) {
-    selectEnum("Goatee", GOATEE_STYLE, culture.styleOptions.goateeStyles, true) { style ->
+    selectOneOf("Goatee", GOATEE_STYLE, culture.styleOptions.goateeStyles, true) { style ->
         label = style.name
         value = style.toString()
         selected = style == goateeStyle
@@ -308,7 +308,7 @@ private fun HtmlBlockTag.selectMoustacheStyle(
     culture: Culture,
     moustacheStyle: MoustacheStyle,
 ) {
-    selectEnum("Moustache", MOUSTACHE_STYLE, culture.styleOptions.moustacheStyle, true) { style ->
+    selectOneOf("Moustache", MOUSTACHE_STYLE, culture.styleOptions.moustacheStyle, true) { style ->
         label = style.name
         value = style.toString()
         selected = style == moustacheStyle
@@ -320,7 +320,7 @@ private fun FORM.showEyesEditor(
     eyes: Eyes,
 ) {
     h2 { +"Eyes" }
-    selectEnum("Layout", EYES_LAYOUT, race.appearance.eyesLayout, true) { option ->
+    selectOneOf("Layout", EYES_LAYOUT, race.appearance.eyesLayout, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {
@@ -351,12 +351,12 @@ private fun FORM.showEyeEditor(
     eyeOptions: EyeOptions,
     eye: Eye,
 ) {
-    selectEnum("Eye Shape", EYE_SHAPE, eyeOptions.eyeShapes, true) { shape ->
+    selectOneOf("Eye Shape", EYE_SHAPE, eyeOptions.eyeShapes, true) { shape ->
         label = shape.name
         value = shape.toString()
         selected = eye.eyeShape == shape
     }
-    selectEnum("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, true) { shape ->
+    selectOneOf("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, true) { shape ->
         label = shape.name
         value = shape.toString()
         selected = eye.pupilShape == shape
@@ -371,7 +371,7 @@ private fun FORM.showHairEditor(
     hair: Hair,
 ) {
     h2 { +"Hair" }
-    selectEnum("Type", HAIR_TYPE, race.appearance.hairOptions.hairTypes, true) { option ->
+    selectOneOf("Type", HAIR_TYPE, race.appearance.hairOptions.hairTypes, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {
@@ -390,7 +390,7 @@ private fun FORM.showNormalHairEditor(
     culture: Culture,
     hair: NormalHair,
 ) {
-    selectEnum("Style", HAIR_STYLE, culture.styleOptions.hairStyles, true) { style ->
+    selectOneOf("Style", HAIR_STYLE, culture.styleOptions.hairStyles, true) { style ->
         label = style.name
         value = style.toString()
         selected = when (style) {
@@ -424,7 +424,7 @@ private fun FORM.showMouthEditor(
     mouth: Mouth,
 ) {
     h2 { +"Mouth" }
-    selectEnum("Type", MOUTH_TYPE, race.appearance.mouthTypes, true) { option ->
+    selectOneOf("Type", MOUTH_TYPE, race.appearance.mouthTypes, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {

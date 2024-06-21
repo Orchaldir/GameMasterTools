@@ -146,7 +146,7 @@ fun <T> HtmlBlockTag.selectEnum(
     }
 }
 
-fun <T> HtmlBlockTag.selectEnum(
+fun <T> HtmlBlockTag.selectOneOf(
     label: String,
     selectId: String,
     values: RarityMap<T>,
@@ -177,7 +177,7 @@ fun <T> HtmlBlockTag.selectEnum(
 fun FORM.selectColor(
     labelText: String, selectId: String, rarityMap: RarityMap<Color>, current: Color,
 ) {
-    selectEnum(labelText, selectId, rarityMap, true) { c ->
+    selectOneOf(labelText, selectId, rarityMap, true) { c ->
         label = c.name
         value = c.toString()
         selected = current == c
@@ -209,7 +209,7 @@ inline fun <reified T : Enum<T>> FORM.selectRarityMap(
     details {
         summary { +enum }
         showMap(values.getRarityFor(enumValues<T>().toSet())) { currentValue, currentRarity ->
-            selectEnum(currentValue.toString(), selectId, Rarity.entries, update) { rarity ->
+            selectEnum(currentValue.toString(), selectId, values.getAvailableRarities(), update) { rarity ->
                 label = rarity.toString()
                 value = "$currentValue-$rarity"
                 selected = rarity == currentRarity
