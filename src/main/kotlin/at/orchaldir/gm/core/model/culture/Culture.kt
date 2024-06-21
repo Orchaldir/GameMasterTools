@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.culture
 
-import at.orchaldir.gm.app.plugins.Languages
 import at.orchaldir.gm.core.model.appearance.SomeOf
 import at.orchaldir.gm.core.model.culture.name.NamingConvention
 import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
