@@ -9,28 +9,61 @@ import kotlin.test.assertFailsWith
 
 class RarityMapTest {
 
-    @Test
-    fun `An empty map is not valid`() {
-        assertFailsWith<IllegalArgumentException> { OneOf<Size>(setOf()) }
-    }
+    @Nested
+    inner class OneOfTest {
 
-    @Test
-    fun `Requires one rarity that is not unavailable`() {
-        assertFailsWith<IllegalArgumentException> { OneOf(mapOf(Small to Unavailable)) }
+        @Test
+        fun `An empty map is not valid`() {
+            assertFailsWith<IllegalArgumentException> { OneOf<Size>(setOf()) }
+        }
+
+        @Test
+        fun `Requires one rarity that is not unavailable`() {
+            assertFailsWith<IllegalArgumentException> { OneOf(mapOf(Small to Unavailable)) }
+        }
+
+        @Nested
+        inner class IsValidTest {
+
+            @Test
+            fun `Other rarities are available`() {
+                Rarity.entries
+                    .filter { it != Unavailable }
+                    .forEach {
+                        val rarityMap = OneOf(mapOf(Small to it))
+
+                        assertTrue(rarityMap.isAvailable(Small))
+                    }
+            }
+        }
     }
 
     @Nested
-    inner class IsValidTest {
+    inner class SomeOfTest {
 
         @Test
-        fun `Other rarities are available`() {
-            Rarity.entries
-                .filter { it != Unavailable }
-                .forEach {
-                    val rarityMap = OneOf(mapOf(Small to it))
+        fun `An empty map is valid`() {
+            SomeOf<Size>(setOf())
+        }
 
-                    assertTrue(rarityMap.isAvailable(Small))
-                }
+        @Test
+        fun `Is fine with only unavailable`() {
+            SomeOf(mapOf(Small to Unavailable))
+        }
+
+        @Nested
+        inner class IsValidTest {
+
+            @Test
+            fun `Other rarities are available`() {
+                Rarity.entries
+                    .filter { it != Unavailable }
+                    .forEach {
+                        val rarityMap = SomeOf(mapOf(Small to it))
+
+                        assertTrue(rarityMap.isAvailable(Small))
+                    }
+            }
         }
     }
 

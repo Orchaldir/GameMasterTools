@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.appearance
 
 import kotlinx.serialization.Serializable
 
-public val ONE_OF_RARITIES = Rarity.entries.filter { it != Rarity.Everyone }.toSet()
+val ONE_OF_RARITIES = Rarity.entries.filter { it != Rarity.Everyone }.toSet()
 private val SOME_OF_RARITIES = Rarity.entries.toSet()
 
 interface RarityMap<T> {
