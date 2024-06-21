@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.race.RaceId
 import io.ktor.http.*
 import io.ktor.server.util.*
 
+fun parseCharacterId(parameters: Parameters, param: String) = CharacterId(parameters[param]?.toInt() ?: 0)
+
 fun parseCharacter(state: State, id: CharacterId, parameters: Parameters): Character {
     val character = state.characters.getOrThrow(id)
 
@@ -24,8 +26,8 @@ fun parseCharacter(state: State, id: CharacterId, parameters: Parameters): Chara
 
     val origin = when (parameters[ORIGIN]) {
         "Born" -> {
-            val father = CharacterId(parameters[FATHER]?.toInt() ?: 0)
-            val mother = CharacterId(parameters[MOTHER]?.toInt() ?: 0)
+            val father = parseCharacterId(parameters, FATHER)
+            val mother = parseCharacterId(parameters, MOTHER)
             Born(mother, father)
         }
 

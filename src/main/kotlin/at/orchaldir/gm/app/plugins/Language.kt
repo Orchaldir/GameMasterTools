@@ -2,11 +2,11 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.utils.doNothing
@@ -19,7 +19,6 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.util.*
 import kotlinx.html.*
 import mu.KotlinLogging
 
@@ -118,24 +117,6 @@ fun Application.configureLanguageRouting() {
     }
 }
 
-private fun parseLanguage(id: LanguageId, parameters: Parameters): Language {
-    val name = parameters.getOrFail("name")
-    val origin = when (parameters["origin"]) {
-        "Invented" -> {
-            val inventor = CharacterId(parameters["inventor"]?.toInt() ?: 0)
-            InventedLanguage(inventor)
-        }
-
-        "Evolved" -> {
-            val parent = LanguageId(parameters["parent"]?.toInt() ?: 0)
-            EvolvedLanguage(parent)
-        }
-
-        else -> OriginalLanguage
-    }
-    return Language(id, name, origin)
-}
-
 private fun HTML.showAllLanguages(call: ApplicationCall) {
     val languages = STORE.getState().languages.getAll().sortedBy { it.name }
     val count = languages.size
@@ -166,6 +147,12 @@ private fun HTML.showLanguageDetails(
         field("Id", language.id.value.toString())
         field("Name", language.name)
         when (language.origin) {
+            is CombinedLanguage -> {
+                field("Origin", "Combined")
+                showList("Parent Languages", language.origin.parents) { id ->
+                    link(call, state, id)
+                }
+            }
             is EvolvedLanguage -> {
                 field("Origin", "Evolved")
                 field("Parent Language") {
@@ -215,15 +202,20 @@ private fun HTML.showLanguageEditor(
             method = FormMethod.post
             field("Name") {
                 b { +"Name: " }
-                textInput(name = "name") {
+                textInput(name = NAME) {
                     value = language.name
                 }
             }
             field("Origin") {
                 select {
-                    id = "origin"
-                    name = "origin"
+                    id = ORIGIN
+                    name = ORIGIN
                     onChange = ON_CHANGE_SCRIPT
+                    option {
+                        label = "Combined"
+                        value = "Combined"
+                        selected = language.origin is EvolvedLanguage
+                    }
                     option {
                         label = "Evolved"
                         value = "Evolved"
@@ -242,8 +234,20 @@ private fun HTML.showLanguageEditor(
                 }
             }
             when (language.origin) {
+                is CombinedLanguage -> {
+                    state.languages.getAll().forEach { l ->
+                        p {
+                            checkBoxInput {
+                                name = LANGUAGES
+                                value = l.id.value.toString()
+                                checked = language.origin.parents.contains(l.id)
+                                +l.name
+                            }
+                        }
+                    }
+                }
                 is EvolvedLanguage ->
-                    selectEnum("Parent", "parent", state.getPossibleParents(language.id)) { l ->
+                    selectEnum("Parent", LANGUAGES, state.getPossibleParents(language.id)) { l ->
                         label = l.name
                         value = l.id.value.toString()
                         selected = language.origin.parent == l.id
@@ -251,7 +255,7 @@ private fun HTML.showLanguageEditor(
 
                 is InventedLanguage -> selectEnum(
                     "Inventor",
-                    "inventor",
+                    INVENTOR,
                     state.characters.getAll()
                 ) { c ->
                     label = state.getName(c)

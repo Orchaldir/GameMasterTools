@@ -8,6 +8,10 @@ import kotlinx.serialization.Serializable
 sealed class LanguageOrigin
 
 @Serializable
+@SerialName("Combined")
+data class CombinedLanguage(val parents: List<LanguageId>) : LanguageOrigin()
+
+@Serializable
 @SerialName("Invented")
 data class InventedLanguage(val inventor: CharacterId) : LanguageOrigin()
 
