@@ -142,6 +142,7 @@ private fun HTML.showLanguageDetails(
     val editLink = call.application.href(Languages.Edit(language.id))
     val children = state.getChildren(language.id)
     val characters = state.getCharacters(language.id)
+    val cultures = state.getCultures(language.id)
 
     simpleHtml("Language: ${language.name}") {
         field("Id", language.id.value.toString())
@@ -176,6 +177,9 @@ private fun HTML.showLanguageDetails(
         }
         showList("Characters", characters) { character ->
             link(call, state, character)
+        }
+        showList("Cultures", cultures) { culture ->
+            link(call, culture)
         }
         p { a(editLink) { +"Edit" } }
         if (state.canDelete(language.id)) {
