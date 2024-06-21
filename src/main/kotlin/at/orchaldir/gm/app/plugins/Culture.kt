@@ -279,6 +279,7 @@ private fun HTML.showCultureEditor(
                     value = culture.name
                 }
             }
+            selectRarityMap("Languages", LANGUAGES, state.languages, culture.languages) { it.name }
             h2 { +"Naming Convention" }
             selectEnum("Type", NAMING_CONVENTION, NamingConventionType.entries, true) { type ->
                 label = type.toString()

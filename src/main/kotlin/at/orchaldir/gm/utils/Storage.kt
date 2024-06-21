@@ -36,6 +36,8 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
 
     fun update(updated: List<ELEMENT>) = copy(elements = elements + updated.associateBy { it.id() })
 
+    fun getIds() = elements.keys
+
     fun getAll() = elements.values
 
     fun getSize() = elements.size
