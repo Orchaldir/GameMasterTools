@@ -4,7 +4,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.language.*
 
-fun State.canDelete(language: LanguageId) = getCharacters(language).isEmpty() && getChildren(language).isEmpty()
+fun State.canDelete(language: LanguageId) = getCharacters(language).isEmpty() &&
+        getChildren(language).isEmpty() &&
+        getCultures(language).isEmpty()
 
 fun State.getChildren(language: LanguageId) = languages.getAll().filter { l ->
     when (l.origin) {
