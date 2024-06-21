@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.selector.getName
-import at.orchaldir.gm.core.selector.getPossibleLanguages
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
