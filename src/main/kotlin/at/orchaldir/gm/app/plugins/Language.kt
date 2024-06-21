@@ -184,19 +184,11 @@ private fun HTML.showLanguageDetails(
                 field("Origin", "Original")
             }
         }
-        if (children.isNotEmpty()) {
-            field("Child Languages") {
-                showList(children) { language ->
-                    link(call, language)
-                }
-            }
+        showList("Child Languages", children) { language ->
+            link(call, language)
         }
-        if (characters.isNotEmpty()) {
-            field("Characters") {
-                showList(characters) { character ->
-                    link(call, state, character)
-                }
-            }
+        showList("Characters", characters) { character ->
+            link(call, state, character)
         }
         p { a(editLink) { +"Edit" } }
         if (state.canDelete(language.id)) {

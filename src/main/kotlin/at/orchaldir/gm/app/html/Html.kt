@@ -77,6 +77,18 @@ fun <T> HtmlBlockTag.showGenderMap(
 }
 
 fun <T> HtmlBlockTag.showList(
+    label: String,
+    elements: Collection<T>,
+    content: LI.(T) -> Unit,
+) {
+    if (elements.isNotEmpty()) {
+        field(label) {
+            showList(elements, content)
+        }
+    }
+}
+
+fun <T> HtmlBlockTag.showList(
     elements: Collection<T>,
     content: LI.(T) -> Unit,
 ) {
@@ -126,10 +138,8 @@ fun <T> HtmlBlockTag.showRarityMap(
     details {
         summary { +enum }
         showMap(sortedMap) { rarity, values ->
-            field(rarity.toString()) {
-                showList(values) {
-                    content(it)
-                }
+            showList(rarity.toString(), values) {
+                content(it)
             }
         }
     }

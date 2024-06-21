@@ -148,20 +148,12 @@ private fun HTML.showPersonalityTraitDetails(
                 .filter { it != trait }
                 .sortedBy { it.name }
 
-            if (traits.isNotEmpty()) {
-                field("Conflicting") {
-                    showList(traits) { t ->
-                        link(call, t)
-                    }
-                }
+            showList("Conflicting", traits) { t ->
+                link(call, t)
             }
         }
-        if (characters.isNotEmpty()) {
-            field("Characters") {
-                showList(characters) { character ->
-                    link(call, state, character)
-                }
-            }
+        showList("Characters", characters) { character ->
+            link(call, state, character)
         }
         p { a(editLink) { +"Edit" } }
         p { a(deleteLink) { +"Delete" } }

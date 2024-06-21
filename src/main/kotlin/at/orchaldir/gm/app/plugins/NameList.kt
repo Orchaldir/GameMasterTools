@@ -131,15 +131,11 @@ private fun HTML.showNameListDetails(
     simpleHtml("Name List: ${nameList.name}") {
         field("Id", nameList.id.value.toString())
         field("Name", nameList.name)
-        field("Names") {
-            showList(nameList.names) { name ->
-                +name
-            }
+        showList("Names", nameList.names) { name ->
+            +name
         }
-        field("Cultures") {
-            showList(state.getCultures(nameList.id)) { culture ->
-                link(call, culture)
-            }
+        showList("Cultures", state.getCultures(nameList.id)) { culture ->
+            link(call, culture)
         }
         p { a(editLink) { +"Edit" } }
         if (state.canDelete(nameList.id)) {
