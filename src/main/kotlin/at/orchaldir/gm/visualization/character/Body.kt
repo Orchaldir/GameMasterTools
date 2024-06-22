@@ -9,6 +9,7 @@ import at.orchaldir.gm.visualization.SizeConfig
 
 data class BodyConfig(
     val armWidth: Factor,
+    val handRadius: Factor,
     val headHeight: Factor,
     val footRadius: Factor,
     val legWidth: Factor,
@@ -34,6 +35,8 @@ data class BodyConfig(
     fun getArmSize(aabb: AABB, body: Body) = aabb.size.scale(getArmWidth(body), getArmHeight())
 
     fun getFootRadius(body: Body) = getBodyWidth(body) * footRadius
+
+    fun getHandRadius(body: Body) = getBodyWidth(body) * handRadius
 
     fun getLegWidth(body: Body) = getBodyWidth(body) * legWidth
 
@@ -77,6 +80,7 @@ data class BodyConfig(
 fun visualizeBody(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body) {
     val options = config.getOptions(body.skin)
     visualizeArms(renderer, config, aabb, body, options)
+    visualizeHands(renderer, config, aabb, body, options)
     visualizeLegs(renderer, config, aabb, body, options)
     visualizeFeet(renderer, config, aabb, body, options)
     visualizeTorso(renderer, config, aabb, body, options)
@@ -98,6 +102,14 @@ fun visualizeArms(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Bo
     renderer.renderRectangle(rightAabb, options)
 }
 
+fun visualizeHands(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
+    val (left, right) = config.body.getMirroredArmPoint(aabb, body, END)
+    val radius = aabb.convertHeight(config.body.getHandRadius(body))
+
+    renderer.renderCircle(left, radius, options)
+    renderer.renderCircle(right, radius, options)
+}
+
 fun visualizeLegs(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
     val size = config.body.getLegSize(aabb, body)
     val (left, right) = config.body.getMirroredLegPoint(aabb, body, CENTER)
@@ -110,11 +122,11 @@ fun visualizeLegs(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Bo
 
 fun visualizeFeet(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
     val (left, right) = config.body.getMirroredLegPoint(aabb, body, END)
-    val footRadius = aabb.convertHeight(config.body.getFootRadius(body))
+    val radius = aabb.convertHeight(config.body.getFootRadius(body))
     val offset = Orientation.fromDegree(0.0f)
     val angle = Orientation.fromDegree(180.0f)
 
-    renderer.renderCircleArc(left, footRadius, offset, angle, options)
-    renderer.renderCircleArc(right, footRadius, offset, angle, options)
+    renderer.renderCircleArc(left, radius, offset, angle, options)
+    renderer.renderCircleArc(right, radius, offset, angle, options)
 }
 
