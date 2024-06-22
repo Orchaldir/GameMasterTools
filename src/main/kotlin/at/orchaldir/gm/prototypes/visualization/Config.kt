@@ -14,8 +14,9 @@ val RENDER_CONFIG = RenderConfig(
     BodyConfig(
         Factor(0.25f),
         Factor(0.42f),
-        SizeConfig(0.8f, 0.9f, 1.0f),
+        Factor(0.35f),
         Factor(0.255f),
+        SizeConfig(0.8f, 1.0f, 1.2f),
     ),
     HeadConfig(
         BeardConfig(Factor(0.8f), Factor(0.05f), Factor(0.1f), Factor(0.01f)),

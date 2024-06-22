@@ -12,8 +12,9 @@ import at.orchaldir.gm.visualization.SizeConfig
 data class BodyConfig(
     val headSize: Factor,
     val torsoHeight: Factor,
-    val torsoWidth: SizeConfig,
+    val torsoWidth: Factor,
     val torsoY: Factor,
+    val width: SizeConfig,
 ) {
     fun getHeadAabb(aabb: AABB): AABB {
         val startX = getStartX(headSize)
@@ -24,7 +25,7 @@ data class BodyConfig(
     }
 
     fun getTorsoAabb(aabb: AABB, body: Body): AABB {
-        val width = Factor(torsoWidth.convert(body.width))
+        val width = Factor(width.convert(body.width)) * torsoWidth
         val startX = getStartX(width)
         val start = aabb.getPoint(startX, torsoY)
         val size = aabb.size.scale(width, torsoHeight)
