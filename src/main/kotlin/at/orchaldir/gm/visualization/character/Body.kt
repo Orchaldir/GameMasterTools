@@ -63,8 +63,8 @@ fun visualizeLegs(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Bo
     val size = config.body.getLegSize(aabb, body)
     val offset = Point2d(0.0f, size.height / 2.0f)
     val (left, right) = torso.getMirroredPoints(CENTER, END)
-    val leftAabb = AABB(left + offset, size)
-    val rightAabb = AABB(right + offset, size)
+    val leftAabb = AABB.fromCenter(left + offset, size)
+    val rightAabb = AABB.fromCenter(right + offset, size)
 
     renderer.renderRectangle(leftAabb, options)
     renderer.renderRectangle(rightAabb, options)
