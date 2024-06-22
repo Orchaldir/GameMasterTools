@@ -10,11 +10,36 @@ data class Polygon2d(val corners: List<Point2d>) {
     }
 }
 
-data class Polygon2dBuilder(val corners: MutableList<Point2d>) {
+data class Polygon2dBuilder(
+    private val leftCorners: MutableList<Point2d> = mutableListOf(),
+    private val rightCorners: MutableList<Point2d> = mutableListOf(),
+) {
 
-    fun build() = Polygon2d(corners)
+    fun addMirroredPoints(aabb: AABB, width: Factor, vertical: Factor, isSharp: Boolean) {
+        val (left, right) = aabb.getMirroredPoints(width, vertical)
 
-    fun createSharpCorner(index: Int): Boolean {
+        addPoints(left, right, isSharp)
+    }
+
+    fun addPoints(left: Point2d, right: Point2d, isSharp: Boolean) {
+        leftCorners.add(left)
+        rightCorners.add(right)
+
+        if (isSharp) {
+            leftCorners.add(left)
+            rightCorners.add(right)
+        }
+    }
+
+    fun createSharpCorners(index: Int): Boolean {
+        if (!createSharpCorner(leftCorners, index)) {
+            return false
+        }
+
+        return createSharpCorner(rightCorners, index)
+    }
+
+    private fun createSharpCorner(corners: MutableList<Point2d>, index: Int): Boolean {
         val corner = corners.getOrNull(index)
 
         if (corner != null) {
@@ -26,4 +51,5 @@ data class Polygon2dBuilder(val corners: MutableList<Point2d>) {
         return false
     }
 
+    fun build() = Polygon2d(leftCorners + rightCorners.reversed())
 }

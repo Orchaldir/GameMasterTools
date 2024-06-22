@@ -81,8 +81,7 @@ fun getWalrus(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     val width = config.head.mouthConfig.getWidth(head.mouth) + height
     val polygon = getSimple(config, aabb, head, height, width, width)
 
-    polygon.createSharpCorner(1)
-    polygon.createSharpCorner(3)
+    polygon.createSharpCorners(1)
 
     return polygon.build()
 }
@@ -98,9 +97,10 @@ private fun getSimple(
     val mouthTopY = config.head.getMouthTopY(head.mouth)
     val bottomY = mouthTopY - config.head.beard.moustacheOffset
     val topY = bottomY - height
-    val (topLeft, topRight) = aabb.getMirroredPoints(topWidth, topY)
-    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(bottomWidth, bottomY)
-    val corners = mutableListOf(topLeft, bottomLeft, bottomRight, topRight)
+    val builder = Polygon2dBuilder()
 
-    return Polygon2dBuilder(corners)
+    builder.addMirroredPoints(aabb, topWidth, topY, false)
+    builder.addMirroredPoints(aabb, bottomWidth, bottomY, false)
+
+    return builder
 }

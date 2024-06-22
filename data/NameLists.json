@@ -7,6 +7,7 @@
    "names": [
     "Ari",
     "Bokk",
+    "Boroman",
     "Breyten",
     "Daen",
     "Dover",
@@ -118,6 +119,7 @@
     "Kaine",
     "Kuven",
     "Laren",
+    "Larrian",
     "Lis",
     "Maal",
     "Minyu",
@@ -413,6 +415,7 @@
     "Creilath",
     "Dalaer",
     "Dayne",
+    "Halas",
     "Helaeras",
     "Jhalaer",
     "Jhayne",
@@ -605,14 +608,31 @@
    "id": 22,
    "name": "Halfling - Male",
    "names": [
-    "Corrash"
+    "Corrash",
+    "Uldop"
    ]
   },
   "23": {
    "id": 23,
    "name": "Gnomish - Female",
    "names": [
+    "Alina",
     "Vanira"
+   ]
+  },
+  "24": {
+   "id": 24,
+   "name": "Gnomish - Family",
+   "names": [
+    "Alrene",
+    "Alyre"
+   ]
+  },
+  "25": {
+   "id": 25,
+   "name": "Gnomish - Male",
+   "names": [
+    "Dorius"
    ]
   }
  }
