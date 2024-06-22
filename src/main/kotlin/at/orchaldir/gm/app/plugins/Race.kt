@@ -34,6 +34,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 private const val GENDER = "gender"
+private const val APPEARANCE_TYPE = "appearance"
 private const val SKIN_TYPE = "skin"
 private const val SCALE_COLOR = "scale_color"
 private const val NORMAL_SKIN_COLOR = "normal_skin_color"
@@ -171,6 +172,7 @@ private fun HTML.showRaceDetails(
         field("Name", race.name)
         showRarityMap("Gender", race.genders)
         h2 { +"Appearance Options" }
+        showRarityMap("Type", appearance.appearanceType)
         h3 { +"Skin" }
         showRarityMap("Type", appearance.skinTypes)
         if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
@@ -240,6 +242,7 @@ private fun HTML.showRaceEditor(
             }
             selectRarityMap("Gender", GENDER, race.genders)
             h2 { +"Appearance Options" }
+            selectRarityMap("Type", APPEARANCE_TYPE, appearance.appearanceType)
             h3 { +"Skin" }
             selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes, true)
             if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
@@ -306,6 +309,7 @@ private fun parseRace(id: RaceId, parameters: Parameters): Race {
 }
 
 private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
+    parseOneOf(parameters, APPEARANCE_TYPE, AppearanceType::valueOf),
     parseOneOf(parameters, SKIN_TYPE, SkinType::valueOf),
     parseOneOf(parameters, SCALE_COLOR, Color::valueOf, Color.entries),
     parseOneOf(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf, SkinColor.entries),

@@ -110,6 +110,7 @@
    "names": [
     "Alain",
     "Beren",
+    "Bonal",
     "Cord",
     "Curlot",
     "Destir",
@@ -188,6 +189,7 @@
     "Devir",
     "Ebinor",
     "Faldren",
+    "Geldem",
     "Graccen",
     "Helmworth",
     "Jonz",
@@ -541,6 +543,7 @@
     "Nasaar",
     "Rakari",
     "Reksiit",
+    "Skakan",
     "Tariic",
     "Taruuzh",
     "Thuun",
@@ -593,7 +596,9 @@
    "name": "Warforged",
    "names": [
     "Battering Ram",
-    "Relic"
+    "Cutter",
+    "Relic",
+    "Saber"
    ]
   },
   "21": {
