@@ -8,6 +8,7 @@ import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.SizeConfig
 
 data class BodyConfig(
+    val armWidth: Factor,
     val headHeight: Factor,
     val footRadius: Factor,
     val legWidth: Factor,
@@ -26,6 +27,12 @@ data class BodyConfig(
         return AABB(start, size)
     }
 
+    fun getArmWidth(body: Body) = getBodyWidth(body) * legWidth
+
+    fun getArmHeight() = torsoHeight
+
+    fun getArmSize(aabb: AABB, body: Body) = aabb.size.scale(getArmWidth(body), getArmHeight())
+
     fun getFootRadius(body: Body) = getBodyWidth(body) * footRadius
 
     fun getLegWidth(body: Body) = getBodyWidth(body) * legWidth
@@ -35,6 +42,15 @@ data class BodyConfig(
     fun getLegSize(aabb: AABB, body: Body) = aabb.size.scale(getLegWidth(body), getLegHeight())
 
     fun getLegY() = torsoY + torsoHeight
+
+    fun getMirroredArmPoint(aabb: AABB, body: Body, vertical: Factor): Pair<Point2d, Point2d> {
+        val torso = getTorsoAabb(aabb, body)
+        val size = getArmSize(aabb, body)
+        val offset = Point2d(size.width / 2.0f, 0.0f)
+        val (left, right) = torso.getMirroredPoints(FULL, vertical)
+
+        return Pair(left - offset, right + offset)
+    }
 
     fun getMirroredLegPoint(aabb: AABB, body: Body, vertical: Factor): Pair<Point2d, Point2d> {
         val torso = getTorsoAabb(aabb, body)
@@ -60,15 +76,26 @@ data class BodyConfig(
 
 fun visualizeBody(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body) {
     val options = config.getOptions(body.skin)
-    visualizeTorso(renderer, config, aabb, body, options)
+    visualizeArms(renderer, config, aabb, body, options)
     visualizeLegs(renderer, config, aabb, body, options)
     visualizeFeet(renderer, config, aabb, body, options)
+    visualizeTorso(renderer, config, aabb, body, options)
 }
 
 fun visualizeTorso(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
     val torso = config.body.getTorsoAabb(aabb, body)
 
     renderer.renderRectangle(torso, options)
+}
+
+fun visualizeArms(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
+    val size = config.body.getArmSize(aabb, body)
+    val (left, right) = config.body.getMirroredArmPoint(aabb, body, CENTER)
+    val leftAabb = AABB.fromCenter(left, size)
+    val rightAabb = AABB.fromCenter(right, size)
+
+    renderer.renderRectangle(leftAabb, options)
+    renderer.renderRectangle(rightAabb, options)
 }
 
 fun visualizeLegs(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {

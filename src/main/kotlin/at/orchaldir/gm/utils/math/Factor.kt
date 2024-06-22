@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 val START = Factor(0.0f)
 val CENTER = Factor(0.5f)
 val END = Factor(1.0f)
+val FULL = Factor(1.0f)
 
 /**
  * A distance relative to the parent AABB.
