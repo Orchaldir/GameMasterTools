@@ -13,13 +13,15 @@ val RENDER_CONFIG = RenderConfig(
     Distance(0.1f), LineOptions(Color.Black.toRender(), Distance(0.005f)),
     BodyConfig(
         Factor(0.1f),
+        Factor(0.09f),
         Factor(0.07f),
         Factor(0.25f),
-        Factor(0.09f),
+        Factor(0.8f),
         Factor(0.14f),
         Factor(0.42f),
         Factor(0.35f),
         Factor(0.255f),
+        Factor(1.2f),
         SizeConfig(0.8f, 1.0f, 1.2f),
     ),
     HeadConfig(
