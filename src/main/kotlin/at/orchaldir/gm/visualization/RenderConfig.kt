@@ -8,11 +8,13 @@ import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.utils.renderer.LineOptions
 import at.orchaldir.gm.utils.renderer.RGB
 import at.orchaldir.gm.utils.renderer.RenderOptions
+import at.orchaldir.gm.visualization.character.BodyConfig
 import at.orchaldir.gm.visualization.character.HeadConfig
 
 data class RenderConfig(
     val padding: Distance,
     val line: LineOptions,
+    val body: BodyConfig,
     val head: HeadConfig,
     private val skinColors: Map<SkinColor, RGB> = mapOf(
         SkinColor.Fair to RGB(254, 228, 208),

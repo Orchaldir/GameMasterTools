@@ -45,7 +45,10 @@ fun visualizeAppearance(
 
     when (appearance) {
         is HeadOnly -> visualizeHead(renderer, config, inner, appearance.head)
-        is HumanoidBody -> doNothing()
+        is HumanoidBody -> {
+            visualizeBody(renderer, config, inner, appearance.body)
+            visualizeHead(renderer, config, inner, appearance.head)
+        }
         UndefinedAppearance -> {
             val height = config.padding.value * 1.5f
             val options = TextOptions(Black.toRender(), 2.0f * height)
