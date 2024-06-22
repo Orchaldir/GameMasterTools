@@ -46,8 +46,9 @@ fun visualizeAppearance(
     when (appearance) {
         is HeadOnly -> visualizeHead(renderer, config, inner, appearance.head)
         is HumanoidBody -> {
+            val headAabb = config.body.getHeadAabb(inner)
             visualizeBody(renderer, config, inner, appearance.body)
-            visualizeHead(renderer, config, inner, appearance.head)
+            visualizeHead(renderer, config, headAabb, appearance.head)
         }
         UndefinedAppearance -> {
             val height = config.padding.value * 1.5f

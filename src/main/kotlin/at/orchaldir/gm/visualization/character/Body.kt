@@ -3,16 +3,26 @@ package at.orchaldir.gm.visualization.character
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.math.getStartX
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.SizeConfig
 
 data class BodyConfig(
+    val headSize: Factor,
     val torsoHeight: Factor,
     val torsoWidth: SizeConfig,
     val torsoY: Factor,
 ) {
+    fun getHeadAabb(aabb: AABB): AABB {
+        val startX = getStartX(headSize)
+        val start = aabb.getPoint(startX, START)
+        val size = aabb.size * headSize
+
+        return AABB(start, size)
+    }
+
     fun getTorsoAabb(aabb: AABB, body: Body): AABB {
         val width = Factor(torsoWidth.convert(body.width))
         val startX = getStartX(width)
