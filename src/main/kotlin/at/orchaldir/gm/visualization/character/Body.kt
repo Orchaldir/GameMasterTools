@@ -53,7 +53,8 @@ data class BodyConfig(
         val torso = getTorsoAabb(aabb, body)
         val size = getArmSize(aabb, body)
         val offset = Point2d(size.width / 2.0f, 0.0f)
-        val (left, right) = torso.getMirroredPoints(FULL, vertical)
+        val shoulderWidth = getShoulderWidth(body.bodyShape)
+        val (left, right) = torso.getMirroredPoints(shoulderWidth, vertical)
 
         return Pair(left - offset, right + offset)
     }
