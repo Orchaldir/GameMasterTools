@@ -22,5 +22,5 @@ value class Orientation private constructor(private val degree: Float) {
     fun cos() = cos(toRadians())
     fun sin() = sin(toRadians())
 
-    operator fun plus(other: Orientation) = Orientation(degree + other.degree)
+    operator fun plus(other: Orientation) = fromDegree(degree + other.degree)
 }

@@ -9,6 +9,7 @@ import at.orchaldir.gm.visualization.SizeConfig
 
 data class BodyConfig(
     val headHeight: Factor,
+    val footRadius: Factor,
     val legWidth: Factor,
     val torsoHeight: Factor,
     val torsoWidth: Factor,
@@ -25,6 +26,8 @@ data class BodyConfig(
         return AABB(start, size)
     }
 
+    fun getFootRadius(body: Body) = getBodyWidth(body) * footRadius
+
     fun getLegWidth(body: Body) = getBodyWidth(body) * legWidth
 
     fun getLegHeight() = END - getLegY()
@@ -32,6 +35,15 @@ data class BodyConfig(
     fun getLegSize(aabb: AABB, body: Body) = aabb.size.scale(getLegWidth(body), getLegHeight())
 
     fun getLegY() = torsoY + torsoHeight
+
+    fun getMirroredLegPoint(aabb: AABB, body: Body, vertical: Factor): Pair<Point2d, Point2d> {
+        val torso = getTorsoAabb(aabb, body)
+        val size = getLegSize(aabb, body)
+        val offset = Point2d(0.0f, size.height * vertical.value)
+        val (left, right) = torso.getMirroredPoints(CENTER, END)
+
+        return Pair(left + offset, right + offset)
+    }
 
     fun getTorsoAabb(aabb: AABB, body: Body): AABB {
         val width = getTorsoWidth(body)
@@ -50,6 +62,7 @@ fun visualizeBody(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Bo
     val options = config.getOptions(body.skin)
     visualizeTorso(renderer, config, aabb, body, options)
     visualizeLegs(renderer, config, aabb, body, options)
+    visualizeFeet(renderer, config, aabb, body, options)
 }
 
 fun visualizeTorso(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
@@ -59,14 +72,22 @@ fun visualizeTorso(renderer: Renderer, config: RenderConfig, aabb: AABB, body: B
 }
 
 fun visualizeLegs(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
-    val torso = config.body.getTorsoAabb(aabb, body)
     val size = config.body.getLegSize(aabb, body)
-    val offset = Point2d(0.0f, size.height / 2.0f)
-    val (left, right) = torso.getMirroredPoints(CENTER, END)
-    val leftAabb = AABB.fromCenter(left + offset, size)
-    val rightAabb = AABB.fromCenter(right + offset, size)
+    val (left, right) = config.body.getMirroredLegPoint(aabb, body, CENTER)
+    val leftAabb = AABB.fromCenter(left, size)
+    val rightAabb = AABB.fromCenter(right, size)
 
     renderer.renderRectangle(leftAabb, options)
     renderer.renderRectangle(rightAabb, options)
+}
+
+fun visualizeFeet(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
+    val (left, right) = config.body.getMirroredLegPoint(aabb, body, END)
+    val footRadius = aabb.convertHeight(config.body.getFootRadius(body))
+    val offset = Orientation.fromDegree(0.0f)
+    val angle = Orientation.fromDegree(180.0f)
+
+    renderer.renderCircleArc(left, footRadius, offset, angle, options)
+    renderer.renderCircleArc(right, footRadius, offset, angle, options)
 }
 

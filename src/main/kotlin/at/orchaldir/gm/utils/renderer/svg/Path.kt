@@ -14,8 +14,9 @@ fun convertCircleArcToPath(
     val end = center.calculatePolar(radius, offset + angle)
 
     return String.format(
+        LOCALE,
         "M %.3f %.3f A %.3f %.3f 0 0 0 %.3f %.3f Z",
-        start.x, start.y, radius, radius, end.x, end.y
+        start.x, start.y, radius.value, radius.value, end.x, end.y
     )
 }
 
