@@ -46,6 +46,7 @@
     "Gwen",
     "Hjeltia",
     "Juliona",
+    "Kasha",
     "Levini",
     "Margana",
     "Marloes",
@@ -363,6 +364,7 @@
     "Sede",
     "Suspiria",
     "Taris",
+    "Thiera",
     "Thradi",
     "Varikah"
    ]
@@ -502,6 +504,7 @@
     "Paik",
     "Ruz",
     "Sim",
+    "Tam",
     "Toox",
     "Yug"
    ]
@@ -566,6 +569,42 @@
     "Tuneer",
     "Valii",
     "Wuun"
+   ]
+  },
+  "19": {
+   "id": 19,
+   "name": "Orcish - Male",
+   "names": [
+    "Janar",
+    "Orbas"
+   ]
+  },
+  "20": {
+   "id": 20,
+   "name": "Warforged",
+   "names": [
+    "Relic"
+   ]
+  },
+  "21": {
+   "id": 21,
+   "name": "Dwarven - Male",
+   "names": [
+    "Thondred"
+   ]
+  },
+  "22": {
+   "id": 22,
+   "name": "Halfling - Male",
+   "names": [
+    "Corrash"
+   ]
+  },
+  "23": {
+   "id": 23,
+   "name": "Gnomish - Female",
+   "names": [
+    "Vanira"
    ]
   }
  }
