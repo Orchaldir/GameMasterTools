@@ -12,6 +12,7 @@
     "Dover",
     "Erben",
     "Fluin",
+    "Gathan",
     "Gavrin",
     "Hagro",
     "Herschem",
@@ -345,6 +346,7 @@
     "Avaliah",
     "Beref",
     "Chantalyn",
+    "Davienne",
     "Draci",
     "Ghanji",
     "Hariel",
@@ -408,6 +410,7 @@
     "Aeren",
     "Belaereth",
     "Carden",
+    "Creilath",
     "Dalaer",
     "Dayne",
     "Helaeras",
@@ -430,6 +433,7 @@
    "names": [
     "Aeren",
     "Ashaelyn",
+    "Ashaya",
     "Erandis",
     "Etrigani",
     "Heladaen",
@@ -502,6 +506,7 @@
     "Nit",
     "Ot",
     "Paik",
+    "Rous",
     "Ruz",
     "Sim",
     "Tam",
@@ -576,13 +581,15 @@
    "name": "Orcish - Male",
    "names": [
     "Janar",
-    "Orbas"
+    "Orbas",
+    "Urzat"
    ]
   },
   "20": {
    "id": 20,
    "name": "Warforged",
    "names": [
+    "Battering Ram",
     "Relic"
    ]
   },
@@ -590,6 +597,7 @@
    "id": 21,
    "name": "Dwarven - Male",
    "names": [
+    "Rurik",
     "Thondred"
    ]
   },
