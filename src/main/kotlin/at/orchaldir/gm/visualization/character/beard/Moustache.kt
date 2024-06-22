@@ -99,8 +99,8 @@ private fun getSimple(
     val topY = bottomY - height
     val builder = Polygon2dBuilder()
 
-    builder.addMirroredPoints(aabb, topWidth, topY, false)
-    builder.addMirroredPoints(aabb, bottomWidth, bottomY, false)
+    builder.addMirroredPoints(aabb, topWidth, topY)
+    builder.addMirroredPoints(aabb, bottomWidth, bottomY)
 
     return builder
 }

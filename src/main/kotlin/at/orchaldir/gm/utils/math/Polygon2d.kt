@@ -14,13 +14,13 @@ class Polygon2dBuilder {
     private val leftCorners: MutableList<Point2d> = mutableListOf()
     private val rightCorners: MutableList<Point2d> = mutableListOf()
 
-    fun addMirroredPoints(aabb: AABB, width: Factor, vertical: Factor, isSharp: Boolean) {
+    fun addMirroredPoints(aabb: AABB, width: Factor, vertical: Factor, isSharp: Boolean = false) {
         val (left, right) = aabb.getMirroredPoints(width, vertical)
 
         addPoints(left, right, isSharp)
     }
 
-    fun addPoints(left: Point2d, right: Point2d, isSharp: Boolean) {
+    fun addPoints(left: Point2d, right: Point2d, isSharp: Boolean = false) {
         leftCorners.add(left)
         rightCorners.add(right)
 
