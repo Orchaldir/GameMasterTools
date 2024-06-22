@@ -3,7 +3,9 @@ package at.orchaldir.gm.visualization.character
 import at.orchaldir.gm.core.model.appearance.Color.Black
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
+import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Orientation
@@ -43,17 +45,20 @@ fun visualizeAppearance(
 
     when (appearance) {
         is HeadOnly -> visualizeHead(renderer, config, inner, appearance.head)
+        is HumanoidBody -> doNothing()
         UndefinedAppearance -> {
-            val geight = config.padding.value * 1.5f
-            val options = TextOptions(Black.toRender(), 2.0f * geight)
-            val center = aabb.getCenter() + Point2d(0.0f, geight * 0.5f)
+            val height = config.padding.value * 1.5f
+            val options = TextOptions(Black.toRender(), 2.0f * height)
+            val center = aabb.getCenter() + Point2d(0.0f, height * 0.5f)
             renderer.renderText("?", center, Orientation.zero(), options)
         }
+
     }
 }
 
 fun calculateSize(config: RenderConfig, appearance: Appearance) = when (appearance) {
     is HeadOnly -> calculateSizeFromHeight(config, appearance.height)
+    is HumanoidBody -> calculateSizeFromHeight(config, appearance.height)
     UndefinedAppearance -> square(config.padding * 4.0f)
 }
 
