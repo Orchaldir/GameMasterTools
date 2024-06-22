@@ -4,6 +4,21 @@ import at.orchaldir.gm.utils.math.*
 import java.lang.Float.min
 import kotlin.math.pow
 
+fun convertCircleArcToPath(
+    center: Point2d,
+    radius: Distance,
+    offset: Orientation,
+    angle: Orientation,
+): String {
+    val start = center.calculatePolar(radius, offset)
+    val end = center.calculatePolar(radius, offset + angle)
+
+    return String.format(
+        "M %.3f %.3f A %.3f %.3f 0 0 0 %.3f %.3f Z",
+        start.x, start.y, radius, radius, end.x, end.y
+    )
+}
+
 fun convertLineToPath(line: List<Point2d>): String {
     val path = convertCornersToPath(line)
 
