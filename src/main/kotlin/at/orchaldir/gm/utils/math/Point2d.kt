@@ -6,6 +6,11 @@ import kotlin.math.hypot
 @Serializable
 data class Point2d(val x: Float = 0.0f, val y: Float = 0.0f) {
 
+    fun createPolar(distance: Distance, orientation: Orientation) = Point2d(
+        x + distance.value * orientation.cos(),
+        y + distance.value * orientation.sin(),
+    )
+
     fun length() = hypot(x, y)
     fun calculateDistance(other: Point2d) = minus(other).length()
 

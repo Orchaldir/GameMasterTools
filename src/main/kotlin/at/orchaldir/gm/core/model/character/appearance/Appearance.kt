@@ -17,3 +17,11 @@ data class HeadOnly(
     val head: Head,
     val height: Distance,
 ) : Appearance()
+
+@Serializable
+@SerialName("Humanoid")
+data class HumanoidBody(
+    val body: Body,
+    val head: Head,
+    val height: Distance,
+) : Appearance()

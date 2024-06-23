@@ -43,8 +43,7 @@ private fun getSharpMouthAndBottom(
 ): Polygon2d {
     val builder = fromMouthAndBottom(config, aabb, mouth, bottomY, width, width)
 
-    builder.createSharpCorner(0)
-    builder.createSharpCorner(4)
+    builder.createSharpCorners(0)
 
     return builder.build()
 }
@@ -65,8 +64,10 @@ private fun fromTopAndBottom(
     topWidth: Factor,
     bottomWidth: Factor,
 ): Polygon2dBuilder {
-    val (topLeft, topRight) = aabb.getMirroredPoints(topWidth, topY)
-    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(bottomWidth, bottomY)
+    val builder = Polygon2dBuilder()
 
-    return Polygon2dBuilder(mutableListOf(topLeft, bottomLeft, bottomRight, topRight))
+    builder.addMirroredPoints(aabb, topWidth, topY)
+    builder.addMirroredPoints(aabb, bottomWidth, bottomY)
+
+    return builder
 }

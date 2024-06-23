@@ -2,17 +2,11 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parseOneOf
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.character.appearance.EarShape
-import at.orchaldir.gm.core.model.character.appearance.EyeShape
-import at.orchaldir.gm.core.model.character.appearance.PupilShape
-import at.orchaldir.gm.core.model.character.appearance.SkinColor
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.*
@@ -27,28 +21,10 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.util.*
 import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
-
-private const val GENDER = "gender"
-private const val SKIN_TYPE = "skin"
-private const val SCALE_COLOR = "scale_color"
-private const val NORMAL_SKIN_COLOR = "normal_skin_color"
-private const val EXOTIC_SKIN_COLOR = "exotic_skin_color"
-private const val EARS_LAYOUT = "ears_layout"
-private const val EAR_SHAPE = "ear_shape"
-private const val EYES_LAYOUT = "eyes_layout"
-private const val EYE_SHAPE = "eye_shape"
-private const val PUPIL_SHAPE = "pupil_shape"
-private const val PUPIL_COLOR = "pupil_color"
-private const val SCLERA_COLOR = "sclera_color"
-private const val MOUTH_TYPE = "mouth_type"
-private const val HAIR_TYPE = "hair"
-private const val HAIR_COLOR = "hair_color"
-private const val BEARD_TYPE = "beard"
 
 @Resource("/races")
 class Races {
@@ -171,6 +147,7 @@ private fun HTML.showRaceDetails(
         field("Name", race.name)
         showRarityMap("Gender", race.genders)
         h2 { +"Appearance Options" }
+        showRarityMap("Type", appearance.appearanceType)
         h3 { +"Skin" }
         showRarityMap("Type", appearance.skinTypes)
         if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
@@ -240,6 +217,7 @@ private fun HTML.showRaceEditor(
             }
             selectRarityMap("Gender", GENDER, race.genders)
             h2 { +"Appearance Options" }
+            selectRarityMap("Type", APPEARANCE_TYPE, appearance.appearanceType)
             h3 { +"Skin" }
             selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes, true)
             if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
@@ -295,40 +273,3 @@ private fun HTML.showRaceEditor(
 private fun requiresHairColor(appearance: AppearanceOptions) =
     appearance.hairOptions.beardTypes.isAvailable(BeardType.Normal) ||
             appearance.hairOptions.hairTypes.isAvailable(HairType.Normal)
-
-private fun parseRace(id: RaceId, parameters: Parameters): Race {
-    val name = parameters.getOrFail("name")
-    return Race(
-        id, name,
-        parseOneOf(parameters, GENDER, Gender::valueOf),
-        parseAppearanceOptions(parameters)
-    )
-}
-
-private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
-    parseOneOf(parameters, SKIN_TYPE, SkinType::valueOf),
-    parseOneOf(parameters, SCALE_COLOR, Color::valueOf, Color.entries),
-    parseOneOf(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf, SkinColor.entries),
-    parseOneOf(parameters, EXOTIC_SKIN_COLOR, Color::valueOf, Color.entries),
-    parseOneOf(parameters, EARS_LAYOUT, EarsLayout::valueOf),
-    parseOneOf(parameters, EAR_SHAPE, EarShape::valueOf, EarShape.entries),
-    parseOneOf(parameters, EYES_LAYOUT, EyesLayout::valueOf),
-    parseEyeOptions(parameters),
-    parseHairOptions(parameters),
-    parseOneOf(parameters, MOUTH_TYPE, MouthType::valueOf),
-)
-
-private fun parseEyeOptions(parameters: Parameters): EyeOptions {
-    val eyeShapes = parseOneOf(parameters, EYE_SHAPE, EyeShape::valueOf, EyeShape.entries)
-    val pupilShapes = parseOneOf(parameters, PUPIL_SHAPE, PupilShape::valueOf, PupilShape.entries)
-    val pupilColors = parseOneOf(parameters, PUPIL_COLOR, Color::valueOf, Color.entries)
-    val scleraColors = parseOneOf(parameters, SCLERA_COLOR, Color::valueOf, Color.entries)
-
-    return EyeOptions(eyeShapes, pupilShapes, pupilColors, scleraColors)
-}
-
-private fun parseHairOptions(parameters: Parameters) = HairOptions(
-    parseOneOf(parameters, BEARD_TYPE, BeardType::valueOf),
-    parseOneOf(parameters, HAIR_TYPE, HairType::valueOf),
-    parseOneOf(parameters, HAIR_COLOR, Color::valueOf, Color.entries),
-)

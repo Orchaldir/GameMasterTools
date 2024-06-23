@@ -42,6 +42,17 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         )
     }
 
+    override fun renderCircleArc(
+        center: Point2d,
+        radius: Distance,
+        offset: Orientation,
+        angle: Orientation,
+        options: RenderOptions,
+        layer: Int,
+    ) {
+        renderPath(convertCircleArcToPath(center, radius, offset, angle), toSvg(options), layer)
+    }
+
     override fun renderEllipse(
         center: Point2d,
         radiusX: Distance,

@@ -27,6 +27,12 @@ data class AppearanceGeneratorConfig(
 
 }
 
+fun generateBody(config: AppearanceGeneratorConfig, skin: Skin) = Body(
+    config.select(getAvailableBodyShapes(config.character.gender)),
+    config.select(Size.entries),
+    skin,
+)
+
 fun generateBeard(config: AppearanceGeneratorConfig, hair: Hair): Beard {
     val options = config.appearanceOptions
     val styleOptions = config.styleOptions

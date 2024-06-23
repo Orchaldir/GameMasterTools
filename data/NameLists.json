@@ -7,11 +7,13 @@
    "names": [
     "Ari",
     "Bokk",
+    "Boroman",
     "Breyten",
     "Daen",
     "Dover",
     "Erben",
     "Fluin",
+    "Gathan",
     "Gavrin",
     "Hagro",
     "Herschem",
@@ -46,6 +48,7 @@
     "Gwen",
     "Hjeltia",
     "Juliona",
+    "Kasha",
     "Levini",
     "Margana",
     "Marloes",
@@ -107,6 +110,7 @@
    "names": [
     "Alain",
     "Beren",
+    "Bonal",
     "Cord",
     "Curlot",
     "Destir",
@@ -116,6 +120,7 @@
     "Kaine",
     "Kuven",
     "Laren",
+    "Larrian",
     "Lis",
     "Maal",
     "Minyu",
@@ -127,6 +132,7 @@
     "Rand",
     "Reesir",
     "Saal",
+     "Sadrian",
     "Stend",
     "Tars",
     "Teesen",
@@ -184,6 +190,7 @@
     "Devir",
     "Ebinor",
     "Faldren",
+    "Geldem",
     "Graccen",
     "Helmworth",
     "Jonz",
@@ -344,6 +351,7 @@
     "Avaliah",
     "Beref",
     "Chantalyn",
+    "Davienne",
     "Draci",
     "Ghanji",
     "Hariel",
@@ -363,6 +371,7 @@
     "Sede",
     "Suspiria",
     "Taris",
+    "Thiera",
     "Thradi",
     "Varikah"
    ]
@@ -406,8 +415,10 @@
     "Aeren",
     "Belaereth",
     "Carden",
+    "Creilath",
     "Dalaer",
     "Dayne",
+    "Halas",
     "Helaeras",
     "Jhalaer",
     "Jhayne",
@@ -428,6 +439,7 @@
    "names": [
     "Aeren",
     "Ashaelyn",
+    "Ashaya",
     "Erandis",
     "Etrigani",
     "Heladaen",
@@ -500,8 +512,10 @@
     "Nit",
     "Ot",
     "Paik",
+    "Rous",
     "Ruz",
     "Sim",
+    "Tam",
     "Toox",
     "Yug"
    ]
@@ -530,6 +544,7 @@
     "Nasaar",
     "Rakari",
     "Reksiit",
+    "Skakan",
     "Tariic",
     "Taruuzh",
     "Thuun",
@@ -566,6 +581,64 @@
     "Tuneer",
     "Valii",
     "Wuun"
+   ]
+  },
+  "19": {
+   "id": 19,
+   "name": "Orcish - Male",
+   "names": [
+    "Janar",
+    "Orbas",
+    "Urzat"
+   ]
+  },
+  "20": {
+   "id": 20,
+   "name": "Warforged",
+   "names": [
+    "Battering Ram",
+    "Cutter",
+    "Relic",
+    "Saber"
+   ]
+  },
+  "21": {
+   "id": 21,
+   "name": "Dwarven - Male",
+   "names": [
+    "Rurik",
+    "Thondred"
+   ]
+  },
+  "22": {
+   "id": 22,
+   "name": "Halfling - Male",
+   "names": [
+    "Corrash",
+    "Uldop"
+   ]
+  },
+  "23": {
+   "id": 23,
+   "name": "Gnomish - Female",
+   "names": [
+    "Alina",
+    "Vanira"
+   ]
+  },
+  "24": {
+   "id": 24,
+   "name": "Gnomish - Family",
+   "names": [
+    "Alrene",
+    "Alyre"
+   ]
+  },
+  "25": {
+   "id": 25,
+   "name": "Gnomish - Male",
+   "names": [
+    "Dorius"
    ]
   }
  }

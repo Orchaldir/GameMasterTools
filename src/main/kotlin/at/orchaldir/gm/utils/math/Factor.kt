@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 val START = Factor(0.0f)
 val CENTER = Factor(0.5f)
 val END = Factor(1.0f)
+val FULL = Factor(1.0f)
 
 /**
  * A distance relative to the parent AABB.
@@ -16,5 +17,7 @@ data class Factor(val value: Float) {
     operator fun minus(other: Factor) = Factor(value - other.value)
     operator fun times(other: Factor) = Factor(value * other.value)
     operator fun times(other: Float) = Factor(value * other)
+
+    fun interpolate(other: Factor, float: Float) = Factor(value * (1.0f - float) + other.value * float)
 
 }

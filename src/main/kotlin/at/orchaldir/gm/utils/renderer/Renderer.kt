@@ -9,6 +9,15 @@ interface Renderer {
     fun renderCircle(aabb: AABB, options: RenderOptions, layer: Int = 0) =
         renderCircle(aabb.getCenter(), aabb.getInnerRadius(), options, layer)
 
+    fun renderCircleArc(
+        center: Point2d,
+        radius: Distance,
+        offset: Orientation,
+        angle: Orientation,
+        options: RenderOptions,
+        layer: Int = 0,
+    )
+
     fun renderEllipse(center: Point2d, radiusX: Distance, radiusY: Distance, options: RenderOptions, layer: Int = 0)
 
     fun renderEllipse(aabb: AABB, options: RenderOptions, layer: Int = 0) =
