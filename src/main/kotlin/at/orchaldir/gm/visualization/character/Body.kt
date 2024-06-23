@@ -91,6 +91,7 @@ data class BodyConfig(
 
     fun getShoulderWidth(bodyShape: BodyShape) = when (bodyShape) {
         BodyShape.Muscular -> widerWidth
+        BodyShape.Rectangle -> FULL.interpolate(widerWidth, 0.33f)
         else -> FULL
     }
 
@@ -106,15 +107,9 @@ fun visualizeBody(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Bo
 }
 
 fun visualizeTorso(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
-    if (body.bodyShape == BodyShape.Rectangle) {
-        val torso = config.body.getTorsoAabb(aabb, body)
+    val polygon = createTorsoPolygon(config, aabb, body)
 
-        renderer.renderRectangle(torso, options)
-    } else {
-        val polygon = createTorsoPolygon(config, aabb, body)
-
-        renderer.renderPolygon(polygon, options)
-    }
+    renderer.renderPolygon(polygon, options)
 }
 
 fun createTorsoPolygon(config: RenderConfig, aabb: AABB, body: Body): Polygon2d {

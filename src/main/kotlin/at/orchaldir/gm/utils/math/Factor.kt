@@ -18,4 +18,6 @@ data class Factor(val value: Float) {
     operator fun times(other: Factor) = Factor(value * other.value)
     operator fun times(other: Float) = Factor(value * other)
 
+    fun interpolate(other: Factor, float: Float) = Factor(value * (1.0f - float) + other.value * float)
+
 }
