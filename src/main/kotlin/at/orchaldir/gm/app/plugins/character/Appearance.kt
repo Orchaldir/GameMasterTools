@@ -479,11 +479,13 @@ private fun parseAppearance(
     config: AppearanceGeneratorConfig,
     character: Character,
 ): Appearance {
+    val skin = parseSkin(parameters, config)
+
     return when (parameters[APPEARANCE_TYPE]) {
-        AppearanceType.HeadOnly.toString() -> HeadOnly(parseHead(parameters, config, character), Distance(0.2f))
+        AppearanceType.HeadOnly.toString() -> HeadOnly(parseHead(parameters, config, character, skin), Distance(0.2f))
         AppearanceType.Body.toString() -> HumanoidBody(
-            parseBody(parameters, config),
-            parseHead(parameters, config, character),
+            parseBody(parameters, config, skin),
+            parseHead(parameters, config, character, skin),
             Distance(1.8f)
         )
 
@@ -494,26 +496,23 @@ private fun parseAppearance(
 private fun parseBody(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
-): Body {
-    val skin = parseSkin(parameters, config)
-
-    return Body(
-        parse(parameters, BODY_SHAPE, BodyShape.Rectangle),
-        parse(parameters, BODY_WIDTH, Size.Medium),
-        skin,
-    )
-}
+    skin: Skin,
+) = Body(
+    parse(parameters, BODY_SHAPE, BodyShape.Rectangle),
+    parse(parameters, BODY_WIDTH, Size.Medium),
+    skin,
+)
 
 private fun parseHead(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     character: Character,
+    skin: Skin,
 ): Head {
     val ears = parseEars(parameters, config)
     val eyes = parseEyes(parameters, config)
     val hair = parseHair(parameters, config)
     val mouth = parseMouth(parameters, config, character, hair)
-    val skin = parseSkin(parameters, config)
 
     return Head(ears, eyes, hair, mouth, skin)
 }
