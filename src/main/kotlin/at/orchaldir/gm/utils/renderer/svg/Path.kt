@@ -10,8 +10,8 @@ fun convertCircleArcToPath(
     offset: Orientation,
     angle: Orientation,
 ): String {
-    val start = center.calculatePolar(radius, offset)
-    val end = center.calculatePolar(radius, offset + angle)
+    val start = center.createPolar(radius, offset)
+    val end = center.createPolar(radius, offset + angle)
 
     return String.format(
         LOCALE,
