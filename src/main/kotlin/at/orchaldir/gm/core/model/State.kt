@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.item.Item
+import at.orchaldir.gm.core.model.item.ItemId
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.Language
@@ -20,6 +22,7 @@ import at.orchaldir.gm.utils.Storage
 private const val CHARACTER = "Character"
 private const val CULTURE = "Culture"
 private const val ITEM_TEMPLATE = "Item Template"
+private const val ITEM = "Item"
 private const val LANGUAGE = "Language"
 private const val NAME_LIST = "NameList"
 private const val PERSONALITY_TRAIT = "Personality Trait"
@@ -30,6 +33,7 @@ data class State(
     val characters: Storage<CharacterId, Character> = Storage(CharacterId(0), CHARACTER),
     val cultures: Storage<CultureId, Culture> = Storage(CultureId(0), CULTURE),
     val itemTemplates: Storage<ItemTemplateId, ItemTemplate> = Storage(ItemTemplateId(0), ITEM_TEMPLATE),
+    val items: Storage<ItemId, Item> = Storage(ItemId(0), ITEM),
     val languages: Storage<LanguageId, Language> = Storage(LanguageId(0), LANGUAGE),
     val nameLists: Storage<NameListId, NameList> = Storage(NameListId(0), NAME_LIST),
     val personalityTraits: Storage<PersonalityTraitId, PersonalityTrait> = Storage(
@@ -45,6 +49,7 @@ data class State(
             loadStorage(path, CHARACTER, CharacterId(0)),
             loadStorage(path, CULTURE, CultureId(0)),
             loadStorage(path, ITEM_TEMPLATE, ItemTemplateId(0)),
+            loadStorage(path, ITEM, ItemId(0)),
             loadStorage(path, LANGUAGE, LanguageId(0)),
             loadStorage(path, NAME_LIST, NameListId(0)),
             loadStorage(path, PERSONALITY_TRAIT, PersonalityTraitId(0)),
