@@ -49,6 +49,7 @@ fun visualizeAppearance(
             visualizeBody(renderer, config, inner, appearance.body)
             visualizeHead(renderer, config, headAabb, appearance.head)
         }
+
         UndefinedAppearance -> {
             val height = config.padding.value * 1.5f
             val options = TextOptions(Black.toRender(), 2.0f * height)

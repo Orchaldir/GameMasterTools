@@ -2,7 +2,10 @@ package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.language.*
+import at.orchaldir.gm.core.model.language.CombinedLanguage
+import at.orchaldir.gm.core.model.language.EvolvedLanguage
+import at.orchaldir.gm.core.model.language.InventedLanguage
+import at.orchaldir.gm.core.model.language.LanguageId
 
 fun State.canDelete(language: LanguageId) = getCharacters(language).isEmpty() &&
         getChildren(language).isEmpty() &&
