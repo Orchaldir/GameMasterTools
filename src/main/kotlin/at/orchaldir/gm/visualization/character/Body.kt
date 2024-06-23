@@ -31,7 +31,7 @@ data class BodyConfig(
         return AABB(start, size)
     }
 
-    fun getArmWidth(body: Body) = getBodyWidth(body) * legWidth
+    fun getArmWidth(body: Body) = getBodyWidth(body) * armWidth
 
     fun getArmHeight() = torsoHeight
 
