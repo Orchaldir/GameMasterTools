@@ -61,6 +61,7 @@ data class State(
         saveStorage(path, characters)
         saveStorage(path, cultures)
         saveStorage(path, itemTemplates)
+        saveStorage(path, items)
         saveStorage(path, languages)
         saveStorage(path, nameLists)
         saveStorage(path, personalityTraits)
