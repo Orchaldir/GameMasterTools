@@ -132,7 +132,7 @@
     "Rand",
     "Reesir",
     "Saal",
-     "Sadrian",
+    "Sadrian",
     "Stend",
     "Tars",
     "Teesen",
@@ -631,14 +631,41 @@
    "name": "Gnomish - Family",
    "names": [
     "Alrene",
-    "Alyre"
+    "Alyre",
+    "Jen",
+    "Solan"
    ]
   },
   "25": {
    "id": 25,
    "name": "Gnomish - Male",
    "names": [
-    "Dorius"
+    "Dorius",
+    "Janius"
+   ]
+  },
+  "26": {
+   "id": 26,
+   "name": "Seren - Male",
+   "names": [
+    "Durshast",
+    "Kharizhak",
+    "Lhasharak",
+    "Nolashar",
+    "Solashan",
+    "Xaxhan"
+   ]
+  },
+  "27": {
+   "id": 27,
+   "name": "Seren - Female",
+   "names": [
+    "Aralithyr",
+    "Delhasha",
+    "Eshka",
+    "Freilashka",
+    "Hakalasha",
+    "Shaesthyr"
    ]
   }
  }
