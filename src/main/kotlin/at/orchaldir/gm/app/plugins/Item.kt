@@ -60,7 +60,7 @@ fun Application.configureItemRouting() {
 
             STORE.dispatch(CreateItem(new.template))
 
-            call.respondRedirect(call.application.href(Items.Edit(STORE.getState().items.lastId)))
+            call.respondRedirect(call.application.href(Items.Details(STORE.getState().items.lastId)))
 
             STORE.getState().save()
         }
@@ -102,7 +102,6 @@ private fun HTML.showItemDetails(
     state: State,
     item: Item,
 ) {
-    val backLink = call.application.href(Items())
     val deleteLink = call.application.href(Items.Delete(item.id))
     val editLink = call.application.href(Items.Edit(item.id))
 
@@ -115,7 +114,6 @@ private fun HTML.showItemDetails(
         if (state.canDelete(item.id)) {
             p { a(deleteLink) { +"Delete" } }
         }
-        p { a(backLink) { +"Back" } }
     }
 }
 
