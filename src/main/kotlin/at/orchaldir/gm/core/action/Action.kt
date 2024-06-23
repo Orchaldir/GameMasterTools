@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.item.ItemTemplate
+import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
@@ -50,6 +52,11 @@ data class UpdateCulture(val culture: Culture) : Action()
 data object CreateLanguage : Action()
 data class DeleteLanguage(val id: LanguageId) : Action()
 data class UpdateLanguage(val language: Language) : Action()
+
+// language actions
+data object CreateItemTemplate : Action()
+data class DeleteItemTemplate(val id: ItemTemplateId) : Action()
+data class UpdateItemTemplate(val itemTemplate: ItemTemplate) : Action()
 
 // language actions
 data object CreateNameList : Action()
