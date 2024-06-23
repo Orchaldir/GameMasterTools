@@ -28,7 +28,7 @@ data class AppearanceGeneratorConfig(
 }
 
 fun generateBody(config: AppearanceGeneratorConfig, skin: Skin) = Body(
-    config.select(BodyShape.entries),
+    config.select(getAvailableBodyShapes(config.character.gender)),
     config.select(Size.entries),
     skin,
 )
