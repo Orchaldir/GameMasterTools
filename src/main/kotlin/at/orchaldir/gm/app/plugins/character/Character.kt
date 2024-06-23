@@ -126,7 +126,9 @@ private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
         showList(characters) { character ->
             link(call, character.first, character.second)
         }
-        p { a(createLink) { +"Add" } }
+        if (state.canCreateCharacter()) {
+            p { a(createLink) { +"Add" } }
+        }
         p { a("/") { +"Back" } }
     }
 }
