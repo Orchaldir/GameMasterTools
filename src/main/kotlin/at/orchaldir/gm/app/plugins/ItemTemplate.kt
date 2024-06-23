@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.selector.canDelete
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -120,21 +121,19 @@ private fun HTML.showAllItemTemplates(call: ApplicationCall) {
 private fun HTML.showItemTemplateDetails(
     call: ApplicationCall,
     state: State,
-    nameList: ItemTemplate,
+    itemTemplate: ItemTemplate,
 ) {
     val backLink = call.application.href(ItemTemplates())
-    val deleteLink = call.application.href(ItemTemplates.Delete(nameList.id))
-    val editLink = call.application.href(ItemTemplates.Edit(nameList.id))
+    val deleteLink = call.application.href(ItemTemplates.Delete(itemTemplate.id))
+    val editLink = call.application.href(ItemTemplates.Edit(itemTemplate.id))
 
-    simpleHtml("Name List: ${nameList.name}") {
-        field("Id", nameList.id.value.toString())
-        field("Name", nameList.name)
+    simpleHtml("Name List: ${itemTemplate.name}") {
+        field("Id", itemTemplate.id.value.toString())
+        field("Name", itemTemplate.name)
         p { a(editLink) { +"Edit" } }
-        /*
-        if (state.canDelete(nameList.id)) {
+        if (state.canDelete(itemTemplate.id)) {
             p { a(deleteLink) { +"Delete" } }
         }
-        */
         p { a(backLink) { +"Back" } }
     }
 }
