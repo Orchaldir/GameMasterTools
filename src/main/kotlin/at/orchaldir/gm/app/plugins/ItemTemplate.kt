@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.getItems
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -123,13 +124,17 @@ private fun HTML.showItemTemplateDetails(
     state: State,
     itemTemplate: ItemTemplate,
 ) {
+    val items = state.getItems(itemTemplate.id)
     val backLink = call.application.href(ItemTemplates())
     val deleteLink = call.application.href(ItemTemplates.Delete(itemTemplate.id))
     val editLink = call.application.href(ItemTemplates.Edit(itemTemplate.id))
 
-    simpleHtml("Name List: ${itemTemplate.name}") {
+    simpleHtml("Item Template: ${itemTemplate.name}") {
         field("Id", itemTemplate.id.value.toString())
         field("Name", itemTemplate.name)
+        showList("Items", items) { item ->
+            link(call, item)
+        }
         p { a(editLink) { +"Edit" } }
         if (state.canDelete(itemTemplate.id)) {
             p { a(deleteLink) { +"Delete" } }
@@ -145,7 +150,7 @@ private fun HTML.showItemTemplateEditor(
     val backLink = href(call, nameList.id)
     val updateLink = call.application.href(ItemTemplates.Update(nameList.id))
 
-    simpleHtml("Edit Name List: ${nameList.name}") {
+    simpleHtml("Edit Item Template: ${nameList.name}") {
         field("Id", nameList.id.value.toString())
         form {
             field("Name") {

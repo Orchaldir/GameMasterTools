@@ -112,7 +112,7 @@ private fun HTML.showAllItems(
     val count = templates.size
     val createLink = call.application.href(Items.New(Items()))
 
-    simpleHtml("Item Templates") {
+    simpleHtml("Items") {
         field("Count", count.toString())
         showList(templates) { nameList ->
             link(call, nameList)
@@ -133,9 +133,12 @@ private fun HTML.showItemDetails(
     val deleteLink = call.application.href(Items.Delete(item.id))
     val editLink = call.application.href(Items.Edit(item.id))
 
-    simpleHtml("Name List: ${item.name}") {
+    simpleHtml("Item: ${item.name}") {
         field("Id", item.id.value.toString())
         field("Name", item.name)
+        field("Template") {
+            link(call, state, item.template)
+        }
         p { a(editLink) { +"Edit" } }
         if (state.canDelete(item.id)) {
             p { a(deleteLink) { +"Delete" } }
@@ -151,7 +154,7 @@ private fun HTML.showItemEditor(
     val backLink = href(call, nameList.id)
     val updateLink = call.application.href(Items.Update(nameList.id))
 
-    simpleHtml("Edit Name List: ${nameList.name}") {
+    simpleHtml("Edit Item: ${nameList.name}") {
         field("Id", nameList.id.value.toString())
         form {
             field("Name") {
