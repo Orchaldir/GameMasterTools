@@ -11,6 +11,8 @@ import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.item.Item
+import at.orchaldir.gm.core.model.item.ItemId
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.Language
@@ -80,7 +82,7 @@ fun href(
     id: CultureId,
 ) = call.application.href(Cultures.Details(id))
 
-// language
+// item template
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
@@ -107,6 +109,34 @@ fun href(
     call: ApplicationCall,
     id: ItemTemplateId,
 ) = call.application.href(ItemTemplates.Details(id))
+
+// item template
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    state: State,
+    id: ItemId,
+) {
+    link(call, id, state.items.get(id)?.name ?: "Unknown")
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    item: Item,
+) {
+    link(call, item.id, item.name)
+}
+
+private fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    id: ItemId,
+    text: String,
+) = a(href(call, id)) { +text }
+
+fun href(
+    call: ApplicationCall,
+    id: ItemId,
+) = call.application.href(Items.Details(id))
 
 // language
 
