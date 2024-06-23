@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.plugins.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.APPEARANCE_TYPE
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.generator.*
@@ -38,8 +39,6 @@ import kotlin.random.Random
 
 private val logger = KotlinLogging.logger {}
 
-private const val TYPE = "type"
-private const val HEAD = "head"
 private const val SKIN_TYPE = "skin"
 private const val EXOTIC_COLOR = "exotic_color"
 private const val SKIN_COLOR = "skin_color"
@@ -65,6 +64,8 @@ private const val BEARD_STYLE = "beard_style"
 private const val BEARD_COLOR = "beard_color"
 private const val GOATEE_STYLE = "goatee"
 private const val MOUSTACHE_STYLE = "moustache"
+private const val BODY_SHAPE = "body_shape"
+private const val BODY_WIDTH = "body_width"
 
 fun Application.configureAppearanceRouting() {
     routing {
@@ -113,8 +114,7 @@ fun Application.configureAppearanceRouting() {
             val state = STORE.getState()
             val character = state.characters.getOrThrow(update.id)
             val config = createGenerationConfig(state, character)
-            val newParameters = parametersOf(TYPE, HEAD)
-            val appearance = parseAppearance(newParameters, config, character)
+            val appearance = generateAppearance(config, character)
             val updatedCharacter = character.copy(appearance = appearance)
 
             call.respondHtml(HttpStatusCode.OK) {
@@ -151,21 +151,12 @@ private fun HTML.showAppearanceEditor(
                     formMethod = InputFormMethod.post
                 }
             }
-            field("Appearance Type") {
-                select {
-                    id = TYPE
-                    name = TYPE
-                    onChange = ON_CHANGE_SCRIPT
-                    option {
-                        label = "Undefined"
-                        value = "Undefined"
-                        selected = appearance is UndefinedAppearance
-                    }
-                    option {
-                        label = "Head Only"
-                        value = HEAD
-                        selected = appearance is HeadOnly
-                    }
+            selectOneOf("Appearance Type", APPEARANCE_TYPE, race.appearance.appearanceType, true) { type ->
+                label = type.name
+                value = type.toString()
+                selected = when (type) {
+                    AppearanceType.Body -> appearance is HumanoidBody
+                    AppearanceType.HeadOnly -> appearance is HeadOnly
                 }
             }
             if (appearance is HeadOnly) {
@@ -473,24 +464,58 @@ private fun FORM.showSimpleMouthEditor(size: Size, teethColor: TeethColor) {
     }
 }
 
+private fun generateAppearance(
+    config: AppearanceGeneratorConfig,
+    character: Character,
+): Appearance {
+    val type = config.generate(config.appearanceOptions.appearanceType)
+    val parameters = parametersOf(APPEARANCE_TYPE, type.toString())
+
+    return parseAppearance(parameters, config, character)
+}
+
 private fun parseAppearance(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     character: Character,
 ): Appearance {
-    return when (parameters[TYPE]) {
-        HEAD -> {
-            val ears = parseEars(parameters, config)
-            val eyes = parseEyes(parameters, config)
-            val hair = parseHair(parameters, config)
-            val mouth = parseMouth(parameters, config, character, hair)
-            val skin = parseSkin(parameters, config)
-            val head = Head(ears, eyes, hair, mouth, skin)
-            return HeadOnly(head, Distance(0.2f))
-        }
+    return when (parameters[APPEARANCE_TYPE]) {
+        AppearanceType.HeadOnly.toString() -> HeadOnly(parseHead(parameters, config, character), Distance(0.2f))
+        AppearanceType.Body.toString() -> HumanoidBody(
+            parseBody(parameters, config),
+            parseHead(parameters, config, character),
+            Distance(1.8f)
+        )
 
         else -> UndefinedAppearance
     }
+}
+
+private fun parseBody(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+): Body {
+    val skin = parseSkin(parameters, config)
+
+    return Body(
+        parse(parameters, BODY_SHAPE, BodyShape.Rectangle),
+        parse(parameters, BODY_WIDTH, Size.Medium),
+        skin,
+    )
+}
+
+private fun parseHead(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+    character: Character,
+): Head {
+    val ears = parseEars(parameters, config)
+    val eyes = parseEyes(parameters, config)
+    val hair = parseHair(parameters, config)
+    val mouth = parseMouth(parameters, config, character, hair)
+    val skin = parseSkin(parameters, config)
+
+    return Head(ears, eyes, hair, mouth, skin)
 }
 
 private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig, hair: Hair): Beard {
