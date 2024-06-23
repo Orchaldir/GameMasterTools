@@ -221,8 +221,8 @@ private fun FORM.showSkinEditor(
         }
     }
     when (skin) {
-        is Scales -> selectColor("Color", SKIN_COLOR, race.appearance.scalesColors, skin.color)
-        is ExoticSkin -> selectColor("Color", SKIN_COLOR, race.appearance.exoticSkinColors, skin.color)
+        is Scales -> selectColor("Color", SKIN_EXOTIC_COLOR, race.appearance.scalesColors, skin.color)
+        is ExoticSkin -> selectColor("Color", SKIN_EXOTIC_COLOR, race.appearance.exoticSkinColors, skin.color)
         is NormalSkin -> {
             selectOneOf("Color", SKIN_COLOR, race.appearance.normalSkinColors, true) { skinColor ->
                 label = skinColor.name

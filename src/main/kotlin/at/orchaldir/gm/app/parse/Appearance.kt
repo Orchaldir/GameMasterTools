@@ -231,4 +231,4 @@ private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig)
 }
 
 private fun parseExoticColor(parameters: Parameters) =
-    parse(parameters, SKIN_COLOR, Color.Red)
+    parse(parameters, SKIN_EXOTIC_COLOR, Color.Red)
