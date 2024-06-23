@@ -125,7 +125,7 @@ fun Application.configureCultureRouting() {
 private fun HTML.showAllCultures(call: ApplicationCall) {
     val cultures = STORE.getState().cultures.getAll().sortedBy { it.name }
     val count = cultures.size
-    val createLink = call.application.href(Cultures.New(Cultures()))
+    val createLink = call.application.href(Cultures.New())
 
     simpleHtml("Cultures") {
         field("Count", count.toString())

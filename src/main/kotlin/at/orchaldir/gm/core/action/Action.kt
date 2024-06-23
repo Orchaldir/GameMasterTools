@@ -61,7 +61,7 @@ data class DeleteItemTemplate(val id: ItemTemplateId) : Action()
 data class UpdateItemTemplate(val itemTemplate: ItemTemplate) : Action()
 
 // item actions
-data object CreateItem : Action()
+data class CreateItem(val template: ItemTemplateId) : Action()
 data class DeleteItem(val id: ItemId) : Action()
 data class UpdateItem(val item: Item) : Action()
 

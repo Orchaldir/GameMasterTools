@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.action.UpdateItem
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Item
 import at.orchaldir.gm.core.model.item.ItemId
-import at.orchaldir.gm.core.selector.canCreateItem
+import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.selector.canDelete
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -31,7 +31,7 @@ class Items {
     class Details(val id: ItemId, val parent: Items = Items())
 
     @Resource("new")
-    class New(val parent: Items = Items())
+    class New(val template: ItemTemplateId, val parent: Items = Items())
 
     @Resource("delete")
     class Delete(val id: ItemId, val parent: Items = Items())
@@ -45,13 +45,6 @@ class Items {
 
 fun Application.configureItemRouting() {
     routing {
-        get<Items> {
-            logger.info { "Get all items" }
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showAllItems(call, STORE.getState())
-            }
-        }
         get<Items.Details> { details ->
             logger.info { "Get details of item ${details.id.value}" }
 
@@ -62,10 +55,10 @@ fun Application.configureItemRouting() {
                 showItemDetails(call, state, item)
             }
         }
-        get<Items.New> {
+        get<Items.New> { new ->
             logger.info { "Add new item" }
 
-            STORE.dispatch(CreateItem)
+            STORE.dispatch(CreateItem(new.template))
 
             call.respondRedirect(call.application.href(Items.Edit(STORE.getState().items.lastId)))
 
@@ -84,10 +77,10 @@ fun Application.configureItemRouting() {
             logger.info { "Get editor for item ${edit.id.value}" }
 
             val state = STORE.getState()
-            val language = state.items.getOrThrow(edit.id)
+            val item = state.items.getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showItemEditor(call, language)
+                showItemEditor(call, item)
             }
         }
         post<Items.Update> { update ->
@@ -104,26 +97,6 @@ fun Application.configureItemRouting() {
     }
 }
 
-private fun HTML.showAllItems(
-    call: ApplicationCall,
-    state: State,
-) {
-    val templates = STORE.getState().items.getAll().sortedBy { it.name }
-    val count = templates.size
-    val createLink = call.application.href(Items.New(Items()))
-
-    simpleHtml("Items") {
-        field("Count", count.toString())
-        showList(templates) { nameList ->
-            link(call, nameList)
-        }
-        if (state.canCreateItem()) {
-            p { a(createLink) { +"Add" } }
-        }
-        p { a("/") { +"Back" } }
-    }
-}
-
 private fun HTML.showItemDetails(
     call: ApplicationCall,
     state: State,
@@ -133,9 +106,8 @@ private fun HTML.showItemDetails(
     val deleteLink = call.application.href(Items.Delete(item.id))
     val editLink = call.application.href(Items.Edit(item.id))
 
-    simpleHtml("Item: ${item.name}") {
+    simpleHtml("Item: ${item.id.value}") {
         field("Id", item.id.value.toString())
-        field("Name", item.name)
         field("Template") {
             link(call, state, item.template)
         }
@@ -154,15 +126,9 @@ private fun HTML.showItemEditor(
     val backLink = href(call, nameList.id)
     val updateLink = call.application.href(Items.Update(nameList.id))
 
-    simpleHtml("Edit Item: ${nameList.name}") {
+    simpleHtml("Edit Item: ${nameList.id.value}") {
         field("Id", nameList.id.value.toString())
         form {
-            field("Name") {
-                b { +"Name: " }
-                textInput(name = "name") {
-                    value = nameList.name
-                }
-            }
             p {
                 submitInput {
                     value = "Update"

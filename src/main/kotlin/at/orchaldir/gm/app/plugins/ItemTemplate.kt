@@ -107,7 +107,7 @@ fun Application.configureItemTemplateRouting() {
 private fun HTML.showAllItemTemplates(call: ApplicationCall) {
     val templates = STORE.getState().itemTemplates.getAll().sortedBy { it.name }
     val count = templates.size
-    val createLink = call.application.href(ItemTemplates.New(ItemTemplates()))
+    val createLink = call.application.href(ItemTemplates.New())
 
     simpleHtml("Item Templates") {
         field("Count", count.toString())
@@ -128,6 +128,7 @@ private fun HTML.showItemTemplateDetails(
     val backLink = call.application.href(ItemTemplates())
     val deleteLink = call.application.href(ItemTemplates.Delete(itemTemplate.id))
     val editLink = call.application.href(ItemTemplates.Edit(itemTemplate.id))
+    val createItemLink = call.application.href(Items.New(itemTemplate.id))
 
     simpleHtml("Item Template: ${itemTemplate.name}") {
         field("Id", itemTemplate.id.value.toString())
@@ -139,6 +140,7 @@ private fun HTML.showItemTemplateDetails(
         if (state.canDelete(itemTemplate.id)) {
             p { a(deleteLink) { +"Delete" } }
         }
+        p { a(createItemLink) { +"Create Instance" } }
         p { a(backLink) { +"Back" } }
     }
 }

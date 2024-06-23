@@ -114,24 +114,15 @@ fun href(
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
-    state: State,
-    id: ItemId,
-) {
-    link(call, id, state.items.get(id)?.name ?: "Unknown")
-}
-
-fun HtmlBlockTag.link(
-    call: ApplicationCall,
     item: Item,
 ) {
-    link(call, item.id, item.name)
+    link(call, item.id)
 }
 
 private fun HtmlBlockTag.link(
     call: ApplicationCall,
     id: ItemId,
-    text: String,
-) = a(href(call, id)) { +text }
+) = a(href(call, id)) { +"Item ${id.value}" }
 
 fun href(
     call: ApplicationCall,

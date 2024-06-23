@@ -119,7 +119,7 @@ private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
         .map { Pair(it.id, state.getName(it)) }
         .sortedBy { it.second }
     val count = characters.size
-    val createLink = call.application.href(Characters.New(Characters()))
+    val createLink = call.application.href(Characters.New())
 
     simpleHtml("Characters") {
         field("Count", count.toString())

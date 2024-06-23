@@ -118,7 +118,7 @@ private fun parsePersonalityTrait(id: PersonalityTraitId, parameters: Parameters
 private fun HTML.showAllPersonalityTraits(call: ApplicationCall) {
     val personalityTraits = STORE.getState().personalityTraits.getAll().sortedBy { it.name }
     val count = personalityTraits.size
-    val createLink = call.application.href(Personality.New(Personality()))
+    val createLink = call.application.href(Personality.New())
 
     simpleHtml("Personality Traits") {
         field("Count", count.toString())

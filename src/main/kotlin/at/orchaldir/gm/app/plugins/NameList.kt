@@ -107,7 +107,7 @@ fun Application.configureNameListRouting() {
 private fun HTML.showAllNameLists(call: ApplicationCall) {
     val nameLists = STORE.getState().nameLists.getAll().sortedBy { it.name }
     val count = nameLists.size
-    val createLink = call.application.href(NameLists.New(NameLists()))
+    val createLink = call.application.href(NameLists.New())
 
     simpleHtml("Name Lists") {
         field("Count", count.toString())
