@@ -159,12 +159,19 @@ private fun HTML.showAppearanceEditor(
                     AppearanceType.HeadOnly -> appearance is HeadOnly
                 }
             }
-            if (appearance is HeadOnly) {
-                showEarsEditor(race, appearance.head.ears)
-                showEyesEditor(race, appearance.head.eyes)
-                showHairEditor(race, culture, appearance.head.hair)
-                showMouthEditor(race, culture, appearance.head.mouth)
-                showSkinEditor(race, appearance.head.skin)
+            when (appearance) {
+                is HeadOnly -> {
+                    showHeadEditor(race, culture, appearance.head)
+                    showSkinEditor(race, appearance.head.skin)
+                }
+
+                is HumanoidBody -> {
+                    showBodyEditor(character, appearance.body)
+                    showHeadEditor(race, culture, appearance.head)
+                    showSkinEditor(race, appearance.head.skin)
+                }
+
+                UndefinedAppearance -> doNothing()
             }
             p {
                 submitInput {
@@ -176,6 +183,34 @@ private fun HTML.showAppearanceEditor(
         }
         p { a(backLink) { +"Back" } }
     }
+}
+
+private fun FORM.showBodyEditor(
+    character: Character,
+    body: Body,
+) {
+    h2 { +"Body" }
+    selectEnum("Shape", BODY_SHAPE, getAvailableBodyShapes(character.gender), true) { shape ->
+        label = shape.name
+        value = shape.toString()
+        selected = body.bodyShape == shape
+    }
+    selectEnum("Width", BODY_WIDTH, Size.entries, true) { width ->
+        label = width.name
+        value = width.toString()
+        selected = body.width == width
+    }
+}
+
+private fun FORM.showHeadEditor(
+    race: Race,
+    culture: Culture,
+    head: Head,
+) {
+    showEarsEditor(race, head.ears)
+    showEyesEditor(race, head.eyes)
+    showHairEditor(race, culture, head.hair)
+    showMouthEditor(race, culture, head.mouth)
 }
 
 private fun FORM.showEarsEditor(race: Race, ears: Ears) {
