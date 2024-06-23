@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ItemTemplate
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -16,7 +17,7 @@ val CREATE_ITEM_TEMPLATE: Reducer<CreateItemTemplate, State> = { state, _ ->
 
 val DELETE_ITEM_TEMPLATE: Reducer<DeleteItemTemplate, State> = { state, action ->
     state.itemTemplates.require(action.id)
-    //require(state.canDelete(action.id)) { "Name list ${action.id.value} is used" }
+    require(state.canDelete(action.id)) { "Item ${action.id.value} is used" }
 
     noFollowUps(state.copy(itemTemplates = state.itemTemplates.remove(action.id)))
 }
