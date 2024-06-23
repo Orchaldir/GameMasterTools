@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.action.UpdateItem
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Item
 import at.orchaldir.gm.core.model.item.ItemId
+import at.orchaldir.gm.core.selector.canCreateItem
 import at.orchaldir.gm.core.selector.canDelete
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -48,7 +49,7 @@ fun Application.configureItemRouting() {
             logger.info { "Get all items" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllItems(call)
+                showAllItems(call, STORE.getState())
             }
         }
         get<Items.Details> { details ->
@@ -103,7 +104,10 @@ fun Application.configureItemRouting() {
     }
 }
 
-private fun HTML.showAllItems(call: ApplicationCall) {
+private fun HTML.showAllItems(
+    call: ApplicationCall,
+    state: State,
+) {
     val templates = STORE.getState().items.getAll().sortedBy { it.name }
     val count = templates.size
     val createLink = call.application.href(Items.New(Items()))
@@ -113,7 +117,9 @@ private fun HTML.showAllItems(call: ApplicationCall) {
         showList(templates) { nameList ->
             link(call, nameList)
         }
-        p { a(createLink) { +"Add" } }
+        if (state.canCreateItem()) {
+            p { a(createLink) { +"Add" } }
+        }
         p { a("/") { +"Back" } }
     }
 }
