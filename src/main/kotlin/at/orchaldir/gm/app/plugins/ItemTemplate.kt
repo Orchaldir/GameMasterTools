@@ -132,9 +132,8 @@ private fun HTML.showItemTemplateDetails(
 
     simpleHtml("Item Template: ${itemTemplate.name}") {
         field("Id", itemTemplate.id.value.toString())
-        field("Name", itemTemplate.name)
-        showList("Items", items) { item ->
-            link(call, item)
+        showList("Instances", items) { item ->
+            link(call, state, item)
         }
         p { a(editLink) { +"Edit" } }
         if (state.canDelete(itemTemplate.id)) {

@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.item.Item
 import at.orchaldir.gm.core.model.item.ItemId
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.getName
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -80,7 +81,7 @@ fun Application.configureItemRouting() {
             val item = state.items.getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showItemEditor(call, item)
+                showItemEditor(call, state, item)
             }
         }
         post<Items.Update> { update ->
@@ -102,10 +103,11 @@ private fun HTML.showItemDetails(
     state: State,
     item: Item,
 ) {
+    val name = state.getName(item.id)
     val deleteLink = call.application.href(Items.Delete(item.id))
     val editLink = call.application.href(Items.Edit(item.id))
 
-    simpleHtml("Item: ${item.id.value}") {
+    simpleHtml("Item: $name") {
         field("Id", item.id.value.toString())
         field("Template") {
             link(call, state, item.template)
@@ -119,13 +121,15 @@ private fun HTML.showItemDetails(
 
 private fun HTML.showItemEditor(
     call: ApplicationCall,
-    nameList: Item,
+    state: State,
+    item: Item,
 ) {
-    val backLink = href(call, nameList.id)
-    val updateLink = call.application.href(Items.Update(nameList.id))
+    val name = state.getName(item.id)
+    val backLink = href(call, item.id)
+    val updateLink = call.application.href(Items.Update(item.id))
 
-    simpleHtml("Edit Item: ${nameList.id.value}") {
-        field("Id", nameList.id.value.toString())
+    simpleHtml("Edit Item: $name") {
+        field("Id", item.id.value.toString())
         form {
             p {
                 submitInput {

@@ -10,3 +10,15 @@ fun State.canDelete(item: ItemId) = true
 
 fun State.getItems(itemTemplate: ItemTemplateId) = items.getAll()
     .filter { it.template == itemTemplate }
+
+fun State.getName(itemId: ItemId): String {
+    val item = items.get(itemId)
+
+    if (item != null) {
+        val template = itemTemplates.getOrThrow(item.template)
+
+        return "${template.name} (${itemId.value})"
+    }
+
+    return "Unknown"
+}
