@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.action.UpdateItem
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Item
 import at.orchaldir.gm.core.model.item.ItemId
+import at.orchaldir.gm.core.selector.canDelete
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -130,11 +131,9 @@ private fun HTML.showItemDetails(
         field("Id", item.id.value.toString())
         field("Name", item.name)
         p { a(editLink) { +"Edit" } }
-        /*
         if (state.canDelete(item.id)) {
             p { a(deleteLink) { +"Delete" } }
         }
-        */
         p { a(backLink) { +"Back" } }
     }
 }
