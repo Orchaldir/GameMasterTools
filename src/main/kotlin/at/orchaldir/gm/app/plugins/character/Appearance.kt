@@ -497,11 +497,17 @@ private fun parseBody(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     skin: Skin,
-) = Body(
-    parse(parameters, BODY_SHAPE, BodyShape.Rectangle),
-    parse(parameters, BODY_WIDTH, Size.Medium),
-    skin,
-)
+): Body {
+    if (parameters.contains(BODY_SHAPE)) {
+        return Body(
+            parse(parameters, BODY_SHAPE, BodyShape.Rectangle),
+            parse(parameters, BODY_WIDTH, Size.Medium),
+            skin,
+        )
+    }
+
+    return generateBody(config, skin)
+}
 
 private fun parseHead(
     parameters: Parameters,
