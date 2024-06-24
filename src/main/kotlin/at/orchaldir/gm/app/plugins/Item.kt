@@ -70,7 +70,7 @@ fun Application.configureItemRouting() {
 
             STORE.dispatch(DeleteItem(delete.id))
 
-            call.respondRedirect(call.application.href(Items()))
+            call.respondRedirect("/")
 
             STORE.getState().save()
         }
