@@ -3,6 +3,12 @@
  "elements": {
   "0": {
    "id": 0,
+   "name": {
+    "type": "Family",
+    "given": "Marloes",
+    "middle": null,
+    "family": "Crudaker"
+   },
    "gender": "Female",
    "inventory": {
     "items": [
