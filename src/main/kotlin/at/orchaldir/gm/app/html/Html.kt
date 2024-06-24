@@ -102,6 +102,18 @@ fun <T> HtmlBlockTag.showList(
 }
 
 fun <K, V> HtmlBlockTag.showMap(
+    label: String,
+    map: Map<K, V>,
+    content: LI.(K, V) -> Unit,
+) {
+    if (map.isNotEmpty()) {
+        field(label) {
+            showMap(map, content)
+        }
+    }
+}
+
+fun <K, V> HtmlBlockTag.showMap(
     map: Map<K, V>,
     content: LI.(K, V) -> Unit,
 ) {

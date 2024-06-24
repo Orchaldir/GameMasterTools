@@ -199,13 +199,9 @@ private fun BODY.showSocial(
         link(call, state, t)
     }
 
-    if (character.relationships.isNotEmpty()) {
-        field("Relationships") {
-            showMap(character.relationships) { other, relationships ->
-                link(call, state, other)
-                +": ${relationships.joinToString { it.toString() }}"
-            }
-        }
+    showMap("Relationships", character.relationships) { other, relationships ->
+        link(call, state, other)
+        +": ${relationships.joinToString { it.toString() }}"
     }
 
     showLanguages(call, state, character)
@@ -241,13 +237,9 @@ fun BODY.showLanguages(
 ) {
     val inventedLanguages = state.getInventedLanguages(character.id)
 
-    if (character.languages.isNotEmpty()) {
-        field("Known Languages") {
-            showMap(character.languages) { id, level ->
-                link(call, state, id)
-                +": $level"
-            }
-        }
+    showMap("Known Languages", character.languages) { id, level ->
+        link(call, state, id)
+        +": $level"
     }
 
     showList("Invented Languages", inventedLanguages) { language ->
