@@ -160,12 +160,8 @@ private fun HTML.showCharacterDetails(
 
         showFamily(call, state, character)
 
-        if (character.personality.isNotEmpty()) {
-            field("Personality") {
-                showList(character.personality) { t ->
-                    link(call, state, t)
-                }
-            }
+        showList("Personality", character.personality) { t ->
+            link(call, state, t)
         }
 
         if (character.relationships.isNotEmpty()) {
@@ -178,6 +174,7 @@ private fun HTML.showCharacterDetails(
         }
 
         showLanguages(call, state, character)
+        showInventory(call, state, character)
 
         p { a(generateNameLink) { +"Generate New Name" } }
         p { a(editLink) { +"Edit" } }
@@ -200,26 +197,14 @@ private fun BODY.showFamily(
     val children = state.getChildren(character.id)
     val siblings = state.getSiblings(character.id)
 
-    if (parents.isNotEmpty()) {
-        field("Parents") {
-            showList(parents) { parent ->
-                link(call, state, parent)
-            }
-        }
+    showList("Parents", parents) { parent ->
+        link(call, state, parent)
     }
-    if (children.isNotEmpty()) {
-        field("Children") {
-            showList(children) { child ->
-                link(call, state, child)
-            }
-        }
+    showList("Children", children) { child ->
+        link(call, state, child)
     }
-    if (siblings.isNotEmpty()) {
-        field("Siblings") {
-            showList(siblings) { sibling ->
-                link(call, state, sibling)
-            }
-        }
+    showList("Siblings", siblings) { sibling ->
+        link(call, state, sibling)
     }
 }
 
@@ -239,12 +224,20 @@ fun BODY.showLanguages(
         }
     }
 
-    if (inventedLanguages.isNotEmpty()) {
-        field("Invented Languages") {
-            showList(inventedLanguages) { language ->
-                link(call, language)
-            }
-        }
+    showList("Invented Languages", inventedLanguages) { language ->
+        link(call, language)
+    }
+}
+
+fun BODY.showInventory(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    h2 { +"Inventory" }
+
+    showList("Items", character.inventory.items) { language ->
+        link(call, state, language)
     }
 }
 

@@ -120,7 +120,7 @@ fun HtmlBlockTag.link(
     link(call, state, item.id)
 }
 
-private fun HtmlBlockTag.link(
+fun HtmlBlockTag.link(
     call: ApplicationCall,
     state: State,
     id: ItemId,
