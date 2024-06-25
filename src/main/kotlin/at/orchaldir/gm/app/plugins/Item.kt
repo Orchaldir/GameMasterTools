@@ -7,11 +7,10 @@ import at.orchaldir.gm.core.action.CreateItem
 import at.orchaldir.gm.core.action.DeleteItem
 import at.orchaldir.gm.core.action.UpdateItem
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.Item
-import at.orchaldir.gm.core.model.item.ItemId
-import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getName
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -112,6 +111,16 @@ private fun HTML.showItemDetails(
         field("Template") {
             link(call, state, item.template)
         }
+        when (item.location) {
+            is InInventory -> {
+                field("In Inventory of") {
+                    link(call, state, item.location.character)
+                }
+            }
+
+            UndefinedItemLocation -> doNothing()
+        }
+
         p { a(editLink) { +"Edit" } }
         if (state.canDelete(item.id)) {
             p { a(deleteLink) { +"Delete" } }
