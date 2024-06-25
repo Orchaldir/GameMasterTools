@@ -17,6 +17,7 @@ value class ItemId(val value: Int) : Id<ItemId> {
 data class Item(
     val id: ItemId,
     val template: ItemTemplateId = ItemTemplateId(0),
+    val location: ItemLocation = UndefinedItemLocation,
 ) : Element<ItemId> {
 
     override fun id() = id
