@@ -40,6 +40,9 @@ class Items {
     @Resource("edit")
     class Edit(val id: ItemId, val parent: Items = Items())
 
+    @Resource("preview")
+    class Preview(val id: ItemId, val parent: Items = Items())
+
     @Resource("update")
     class Update(val id: ItemId, val parent: Items = Items())
 }
@@ -84,12 +87,23 @@ fun Application.configureItemRouting() {
                 showItemEditor(call, state, item)
             }
         }
+        post<Items.Preview> { preview ->
+            logger.info { "Preview changes to item ${preview.id.value}" }
+
+            val item = parseItem(preview.id, call.receiveParameters())
+
+            call.respondHtml(HttpStatusCode.OK) {
+                val state = STORE.getState()
+
+                showItemEditor(call, state, item)
+            }
+        }
         post<Items.Update> { update ->
             logger.info { "Update item ${update.id.value}" }
 
-            val nameList = parseItem(update.id, call.receiveParameters())
+            val item = parseItem(update.id, call.receiveParameters())
 
-            STORE.dispatch(UpdateItem(nameList))
+            STORE.dispatch(UpdateItem(item))
 
             call.respondRedirect(href(call, update.id))
 
@@ -134,12 +148,16 @@ private fun HTML.showItemEditor(
 ) {
     val name = state.getName(item.id)
     val backLink = href(call, item.id)
+    val previewLink = call.application.href(Items.Preview(item.id))
     val updateLink = call.application.href(Items.Update(item.id))
 
     simpleHtml("Edit Item: $name") {
         field("Id", item.id.value.toString())
         form {
-            selectEnum("Location", LOCATION, ItemLocationType.entries) { l ->
+            id = "editor"
+            action = previewLink
+            method = FormMethod.post
+            selectEnum("Location", LOCATION, ItemLocationType.entries, true) { l ->
                 label = l.name
                 value = l.name
                 selected = when (item.location) {
