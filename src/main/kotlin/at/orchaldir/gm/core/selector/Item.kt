@@ -7,10 +7,6 @@ import at.orchaldir.gm.core.model.item.ItemId
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.item.UndefinedItemLocation
 
-fun State.canCreateItem() = itemTemplates.getSize() > 0
-
-fun State.canDelete(item: ItemId) = true
-
 fun State.getInventory(character: CharacterId) = items.getAll()
     .filter {
         when (it.location) {
@@ -28,7 +24,7 @@ fun State.getName(itemId: ItemId): String {
     if (item != null) {
         val template = itemTemplates.getOrThrow(item.template)
 
-        return "${template.name} (${itemId.value})"
+        return template.name
     }
 
     return "Unknown"

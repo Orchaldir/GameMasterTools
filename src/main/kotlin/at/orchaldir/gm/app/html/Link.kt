@@ -115,16 +115,16 @@ fun href(
 fun HtmlBlockTag.link(
     call: ApplicationCall,
     state: State,
-    item: Item,
-) {
-    link(call, state, item.id)
-}
+    id: ItemId,
+) = link(call, state, state.items.getOrThrow(id))
 
 fun HtmlBlockTag.link(
     call: ApplicationCall,
     state: State,
-    id: ItemId,
-) = link(call, id, state.getName(id))
+    item: Item,
+) {
+    link(call, item.id, state.itemTemplates.get(item.template)?.name ?: "Unknown")
+}
 
 private fun HtmlBlockTag.link(
     call: ApplicationCall,
