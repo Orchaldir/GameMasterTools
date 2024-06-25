@@ -4,6 +4,11 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class ItemLocationType {
+    Inventory,
+    Undefined,
+}
+
 @Serializable
 sealed class ItemLocation
 

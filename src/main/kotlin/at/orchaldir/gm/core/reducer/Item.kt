@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.action.DeleteItem
 import at.orchaldir.gm.core.action.UpdateItem
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Item
-import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -18,7 +17,6 @@ val CREATE_ITEM: Reducer<CreateItem, State> = { state, _ ->
 
 val DELETE_ITEM: Reducer<DeleteItem, State> = { state, action ->
     state.items.require(action.id)
-    require(state.canDelete(action.id)) { "Item ${action.id.value} is used" }
 
     noFollowUps(state.copy(items = state.items.remove(action.id)))
 }

@@ -2,6 +2,8 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.INVENTORY
+import at.orchaldir.gm.app.parse.LOCATION
 import at.orchaldir.gm.app.parse.parseItem
 import at.orchaldir.gm.core.action.CreateItem
 import at.orchaldir.gm.core.action.DeleteItem
@@ -137,6 +139,23 @@ private fun HTML.showItemEditor(
     simpleHtml("Edit Item: $name") {
         field("Id", item.id.value.toString())
         form {
+            selectEnum("Location", LOCATION, ItemLocationType.entries) { l ->
+                label = l.name
+                value = l.name
+                selected = when (item.location) {
+                    is InInventory -> l == ItemLocationType.Inventory
+                    UndefinedItemLocation -> l == ItemLocationType.Undefined
+                }
+            }
+            when (item.location) {
+                is InInventory -> selectEnum("In Inventory of", INVENTORY, state.characters.getAll()) { c ->
+                    label = state.getName(c)
+                    value = c.id.value.toString()
+                    selected = item.location.character == c.id
+                }
+
+                UndefinedItemLocation -> doNothing()
+            }
             p {
                 submitInput {
                     value = "Update"
