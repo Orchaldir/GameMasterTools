@@ -2,7 +2,11 @@
  "version": 1,
  "elements": {
   "0": {
-   "id": 0
+   "id": 0,
+   "location": {
+    "type": "Inventory",
+    "character": 0
+   }
   },
   "1": {
    "id": 1

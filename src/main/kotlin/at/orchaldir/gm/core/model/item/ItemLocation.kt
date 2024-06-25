@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 sealed class ItemLocation
 
 @Serializable
-@SerialName("Born")
+@SerialName("Inventory")
 data class InInventory(val character: CharacterId) : ItemLocation()
 
 @Serializable

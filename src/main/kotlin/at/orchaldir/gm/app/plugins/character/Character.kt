@@ -252,9 +252,11 @@ fun BODY.showInventory(
     state: State,
     character: Character,
 ) {
+    val items = state.getInventory(character.id)
+
     h2 { +"Inventory" }
 
-    showList("Items", character.inventory.items) { language ->
+    showList("Items", items) { language ->
         link(call, state, language)
     }
 }
