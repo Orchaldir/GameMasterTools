@@ -7,10 +7,13 @@ import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.InInventory
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.item.UndefinedItemLocation
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getItems
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -111,8 +114,8 @@ private fun HTML.showAllItemTemplates(call: ApplicationCall) {
 
     simpleHtml("Item Templates") {
         field("Count", count.toString())
-        showList(templates) { nameList ->
-            link(call, nameList)
+        showList(templates) { item ->
+            link(call, item)
         }
         p { a(createLink) { +"Add" } }
         p { a("/") { +"Back" } }
@@ -134,6 +137,15 @@ private fun HTML.showItemTemplateDetails(
         field("Id", itemTemplate.id.value.toString())
         showList("Instances", items) { item ->
             link(call, state, item)
+            when (item.location) {
+                is InInventory -> {
+                    +" in "
+                    link(call, state, item.location.character)
+                    +"'s Inventory"
+                }
+
+                UndefinedItemLocation -> doNothing()
+            }
         }
         p { a(editLink) { +"Edit" } }
         if (state.canDelete(itemTemplate.id)) {
