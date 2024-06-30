@@ -63,7 +63,7 @@ class ItemTest {
     }
 
     @Test
-    fun `Getname of item`() {
+    fun `Get name of item`() {
         val state = State(
             itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0, "Test"))),
             items = Storage(listOf(Item(ID0, TEMPLATE0)))
