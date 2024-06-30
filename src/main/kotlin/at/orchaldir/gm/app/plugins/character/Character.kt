@@ -119,14 +119,16 @@ private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
         .map { Pair(it.id, state.getName(it)) }
         .sortedBy { it.second }
     val count = characters.size
-    val createLink = call.application.href(Characters.New(Characters()))
+    val createLink = call.application.href(Characters.New())
 
     simpleHtml("Characters") {
         field("Count", count.toString())
         showList(characters) { character ->
             link(call, character.first, character.second)
         }
-        p { a(createLink) { +"Add" } }
+        if (state.canCreateCharacter()) {
+            p { a(createLink) { +"Add" } }
+        }
         p { a("/") { +"Back" } }
     }
 }
@@ -137,56 +139,75 @@ private fun HTML.showCharacterDetails(
     character: Character,
 ) {
     val backLink = call.application.href(Characters())
-    val deleteLink = call.application.href(Characters.Delete(character.id))
-    val editLink = call.application.href(Characters.Edit(character.id))
-    val generateNameLink = call.application.href(Characters.Name.Generate(character.id))
     val editAppearanceLink = call.application.href(Characters.Appearance.Edit(character.id))
-    val editLanguagesLink = call.application.href(Characters.Languages.Edit(character.id))
-    val editRelationshipsLink = call.application.href(Characters.Relationships.Edit(character.id))
     val frontSvg = visualizeCharacter(RENDER_CONFIG, character.appearance)
 
     simpleHtml("Character: ${state.getName(character)}") {
         svg(frontSvg, 20)
-        field("Id", character.id.value.toString())
-        field("Race") {
-            link(call, state, character.race)
-        }
-        field("Gender", character.gender.toString())
-        field("Culture") {
-            link(call, state, character.culture)
-        }
 
-        showFamily(call, state, character)
-
-        if (character.personality.isNotEmpty()) {
-            field("Personality") {
-                showList(character.personality) { t ->
-                    link(call, state, t)
-                }
-            }
-        }
-
-        if (character.relationships.isNotEmpty()) {
-            field("Relationships") {
-                showMap(character.relationships) { other, relationships ->
-                    link(call, state, other)
-                    +": ${relationships.joinToString { it.toString() }}"
-                }
-            }
-        }
-
-        showLanguages(call, state, character)
-
-        p { a(generateNameLink) { +"Generate New Name" } }
-        p { a(editLink) { +"Edit" } }
         p { a(editAppearanceLink) { +"Edit Appearance" } }
-        p { a(editLanguagesLink) { +"Edit Languages" } }
-        p { a(editRelationshipsLink) { +"Edit Relationships" } }
-        if (state.canDelete(character.id)) {
-            p { a(deleteLink) { +"Delete" } }
-        }
+
+        showData(character, call, state)
+        showSocial(call, state, character)
+        showInventory(call, state, character)
+
         p { a(backLink) { +"Back" } }
     }
+}
+
+private fun BODY.showData(
+    character: Character,
+    call: ApplicationCall,
+    state: State,
+) {
+    val deleteLink = call.application.href(Characters.Delete(character.id))
+    val editLink = call.application.href(Characters.Edit(character.id))
+    val generateNameLink = call.application.href(Characters.Name.Generate(character.id))
+
+    h2 { +"Data" }
+
+    field("Id", character.id.value.toString())
+    field("Race") {
+        link(call, state, character.race)
+    }
+    field("Gender", character.gender.toString())
+
+    p { a(generateNameLink) { +"Generate New Name" } }
+    p { a(editLink) { +"Edit" } }
+    if (state.canDelete(character.id)) {
+        p { a(deleteLink) { +"Delete" } }
+    }
+}
+
+private fun BODY.showSocial(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    val editLanguagesLink = call.application.href(Characters.Languages.Edit(character.id))
+    val editRelationshipsLink = call.application.href(Characters.Relationships.Edit(character.id))
+
+    h2 { +"Social" }
+
+    field("Culture") {
+        link(call, state, character.culture)
+    }
+
+    showFamily(call, state, character)
+
+    showList("Personality", character.personality) { t ->
+        link(call, state, t)
+    }
+
+    showMap("Relationships", character.relationships) { other, relationships ->
+        link(call, state, other)
+        +": ${relationships.joinToString { it.toString() }}"
+    }
+
+    showLanguages(call, state, character)
+
+    p { a(editLanguagesLink) { +"Edit Languages" } }
+    p { a(editRelationshipsLink) { +"Edit Relationships" } }
 }
 
 private fun BODY.showFamily(
@@ -198,26 +219,14 @@ private fun BODY.showFamily(
     val children = state.getChildren(character.id)
     val siblings = state.getSiblings(character.id)
 
-    if (parents.isNotEmpty()) {
-        field("Parents") {
-            showList(parents) { parent ->
-                link(call, state, parent)
-            }
-        }
+    showList("Parents", parents) { parent ->
+        link(call, state, parent)
     }
-    if (children.isNotEmpty()) {
-        field("Children") {
-            showList(children) { child ->
-                link(call, state, child)
-            }
-        }
+    showList("Children", children) { child ->
+        link(call, state, child)
     }
-    if (siblings.isNotEmpty()) {
-        field("Siblings") {
-            showList(siblings) { sibling ->
-                link(call, state, sibling)
-            }
-        }
+    showList("Siblings", siblings) { sibling ->
+        link(call, state, sibling)
     }
 }
 
@@ -228,21 +237,27 @@ fun BODY.showLanguages(
 ) {
     val inventedLanguages = state.getInventedLanguages(character.id)
 
-    if (character.languages.isNotEmpty()) {
-        field("Known Languages") {
-            showMap(character.languages) { id, level ->
-                link(call, state, id)
-                +": $level"
-            }
-        }
+    showMap("Known Languages", character.languages) { id, level ->
+        link(call, state, id)
+        +": $level"
     }
 
-    if (inventedLanguages.isNotEmpty()) {
-        field("Invented Languages") {
-            showList(inventedLanguages) { language ->
-                link(call, language)
-            }
-        }
+    showList("Invented Languages", inventedLanguages) { language ->
+        link(call, language)
+    }
+}
+
+fun BODY.showInventory(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    val items = state.getInventory(character.id)
+
+    h2 { +"Inventory" }
+
+    showList("Items", items) { language ->
+        link(call, state, language)
     }
 }
 

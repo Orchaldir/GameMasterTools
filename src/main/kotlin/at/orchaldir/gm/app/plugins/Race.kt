@@ -119,7 +119,7 @@ fun Application.configureRaceRouting() {
 private fun HTML.showAllRaces(call: ApplicationCall) {
     val races = STORE.getState().races.getAll().sortedBy { it.name }
     val count = races.size
-    val createLink = call.application.href(Races.New(Races()))
+    val createLink = call.application.href(Races.New())
 
     simpleHtml("Races") {
         field("Count", count.toString())

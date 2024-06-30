@@ -132,7 +132,7 @@
     "Rand",
     "Reesir",
     "Saal",
-     "Sadrian",
+    "Sadrian",
     "Stend",
     "Tars",
     "Teesen",
@@ -416,6 +416,7 @@
     "Belaereth",
     "Carden",
     "Creilath",
+    "Daealyth",
     "Dalaer",
     "Dayne",
     "Halas",
@@ -440,6 +441,7 @@
     "Aeren",
     "Ashaelyn",
     "Ashaya",
+    "Caerys",
     "Erandis",
     "Etrigani",
     "Heladaen",
@@ -453,7 +455,8 @@
     "Tazaera",
     "Thaera",
     "Vadallia",
-    "Vaeren"
+    "Vaeren",
+    "Vamirese"
    ]
   },
   "14": {
@@ -470,8 +473,10 @@
     "Maloraen",
     "Mendaen",
     "Mol",
+    "Sarava",
     "Shialaen",
     "Shol",
+    "Taeri",
     "Tolarenthi"
    ]
   },
@@ -589,7 +594,9 @@
    "names": [
     "Janar",
     "Orbas",
-    "Urzat"
+    "Taarak",
+    "Urzat",
+    "Vurlaak"
    ]
   },
   "20": {
@@ -614,6 +621,7 @@
    "id": 22,
    "name": "Halfling - Male",
    "names": [
+    "Aldred",
     "Corrash",
     "Uldop"
    ]
@@ -623,6 +631,8 @@
    "name": "Gnomish - Female",
    "names": [
     "Alina",
+    "Harkra",
+    "Roywin",
     "Vanira"
    ]
   },
@@ -631,14 +641,55 @@
    "name": "Gnomish - Family",
    "names": [
     "Alrene",
-    "Alyre"
+    "Alyre",
+    "Dojurn",
+    "Garrick",
+    "Jen",
+    "Loivaerl",
+    "Lonadar",
+    "Lyrriman",
+    "Solan"
    ]
   },
   "25": {
    "id": 25,
    "name": "Gnomish - Male",
    "names": [
-    "Dorius"
+    "Aliwas",
+    "Byrnid",
+    "Dorius",
+    "Janius"
+   ]
+  },
+  "26": {
+   "id": 26,
+   "name": "Seren - Male",
+   "names": [
+    "Durshast",
+    "Kharizhak",
+    "Lhasharak",
+    "Nolashar",
+    "Solashan",
+    "Xaxhan"
+   ]
+  },
+  "27": {
+   "id": 27,
+   "name": "Seren - Female",
+   "names": [
+    "Aralithyr",
+    "Delhasha",
+    "Eshka",
+    "Freilashka",
+    "Hakalasha",
+    "Shaesthyr"
+   ]
+  },
+  "28": {
+   "id": 28,
+   "name": "Halfling - Female",
+   "names": [
+    "Akaana"
    ]
   }
  }

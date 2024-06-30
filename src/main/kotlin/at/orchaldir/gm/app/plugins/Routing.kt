@@ -28,6 +28,7 @@ fun Application.configureRouting() {
                 simpleHtml(TITLE) {
                     fieldStorageLink(call, state.characters, Characters())
                     fieldStorageLink(call, state.cultures, Cultures())
+                    fieldStorageLink(call, state.itemTemplates, ItemTemplates())
                     fieldStorageLink(call, state.languages, Languages())
                     fieldStorageLink(call, state.nameLists, NameLists())
                     fieldStorageLink(call, state.personalityTraits, Personality())

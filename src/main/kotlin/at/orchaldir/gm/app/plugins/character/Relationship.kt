@@ -117,16 +117,14 @@ private fun HTML.showRelationshipEditor(
                     }
                 }
             }
-            field("Relationships") {
-                showMap(character.relationships) { otherId, relationships ->
-                    link(call, state, otherId)
-                    showList(InterpersonalRelationship.entries) { relationship ->
-                        checkBoxInput {
-                            name = RELATIONSHIP_PARAM
-                            value = "${otherId.value}_$relationship"
-                            checked = relationships.contains(relationship)
-                            +relationship.toString()
-                        }
+            showMap("Relationships", character.relationships) { otherId, relationships ->
+                link(call, state, otherId)
+                showList(InterpersonalRelationship.entries) { relationship ->
+                    checkBoxInput {
+                        name = RELATIONSHIP_PARAM
+                        value = "${otherId.value}_$relationship"
+                        checked = relationships.contains(relationship)
+                        +relationship.toString()
                     }
                 }
             }

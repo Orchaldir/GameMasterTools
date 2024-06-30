@@ -34,6 +34,8 @@ fun Application.module() {
     configureCharacterRelationshipRouting()
     configureAppearanceRouting()
     configureCultureRouting()
+    configureItemTemplateRouting()
+    configureItemRouting()
     configureLanguageRouting()
     configureNameListRouting()
     configurePersonalityRouting()

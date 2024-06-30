@@ -120,7 +120,7 @@ fun Application.configureLanguageRouting() {
 private fun HTML.showAllLanguages(call: ApplicationCall) {
     val languages = STORE.getState().languages.getAll().sortedBy { it.name }
     val count = languages.size
-    val createLink = call.application.href(Languages.New(Languages()))
+    val createLink = call.application.href(Languages.New())
 
     simpleHtml("Languages") {
         field("Count", count.toString())

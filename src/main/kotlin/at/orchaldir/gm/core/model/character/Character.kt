@@ -27,7 +27,7 @@ data class Character(
     val gender: Gender = Gender.Genderless,
     val origin: CharacterOrigin = UndefinedCharacterOrigin,
     val culture: CultureId = CultureId(0),
-    val personality: Set<PersonalityTraitId> = setOf(),
+    val personality: Set<PersonalityTraitId> = emptySet(),
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val appearance: Appearance = UndefinedAppearance,

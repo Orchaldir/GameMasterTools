@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
 
+fun State.canCreateCharacter() = cultures.getSize() > 0 && races.getSize() > 0
+
 fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty() &&
         getParents(character).isEmpty() &&
         getInventedLanguages(character).isEmpty()
