@@ -1,10 +1,13 @@
 package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.core.action.CreateItem
+import at.orchaldir.gm.core.action.DeleteItem
+import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateItem
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.item.*
+import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -33,6 +36,24 @@ class ItemTest {
         @Test
         fun `Create an item from a template`() {
             val action = CreateItem(TEMPLATE0)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+        }
+    }
+
+    @Nested
+    inner class DeleteTest {
+
+        @Test
+        fun `Can delete an existing item`() {
+            val action = DeleteItem(ID0)
+
+            assertEquals(0, REDUCER.invoke(STATE, action).first.items.getSize())
+        }
+
+        @Test
+        fun `Cannot delete unknown id`() {
+            val action = DeleteItem(ID0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
