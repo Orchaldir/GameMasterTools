@@ -2,12 +2,10 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.core.action.CreateItem
 import at.orchaldir.gm.core.action.DeleteItem
-import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateItem
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.item.*
-import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
