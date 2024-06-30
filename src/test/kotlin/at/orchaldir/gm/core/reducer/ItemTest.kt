@@ -31,7 +31,7 @@ class ItemTest {
         }
 
         @Test
-        fun `Create an item from template`() {
+        fun `Create an item from a template`() {
             val action = CreateItem(TEMPLATE0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
