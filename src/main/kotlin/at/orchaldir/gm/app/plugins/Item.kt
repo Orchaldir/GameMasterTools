@@ -71,11 +71,17 @@ fun Application.configureItemRouting() {
         get<Items.Delete> { delete ->
             logger.info { "Delete item ${delete.id.value}" }
 
+            val templateId = STORE.getState().items.get(delete.id)?.template
+
             STORE.dispatch(DeleteItem(delete.id))
 
-            call.respondRedirect("/")
-
             STORE.getState().save()
+
+            if (templateId != null) {
+                call.respondRedirect(call.application.href(ItemTemplates.Details(templateId)))
+            } else {
+                call.respondRedirect("/")
+            }
         }
         get<Items.Edit> { edit ->
             logger.info { "Get editor for item ${edit.id.value}" }
