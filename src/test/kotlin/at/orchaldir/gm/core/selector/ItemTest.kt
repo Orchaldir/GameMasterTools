@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 
 private val ID0 = ItemId(0)
 private val CHARACTER0 = CharacterId(0)
+private val CHARACTER1 = CharacterId(1)
 
 class ItemTest {
 
@@ -24,6 +25,21 @@ class ItemTest {
             val state = State(items = Storage(listOf(item)))
 
             assertEquals(listOf(item), state.getInventory(CHARACTER0))
+        }
+
+        @Test
+        fun `Do not get the items in another character's inventory`() {
+            val state = State(items = Storage(listOf(Item(ID0, location = InInventory(CHARACTER0)))))
+
+            assertTrue(state.getInventory(CHARACTER1).isEmpty())
+        }
+
+        @Test
+        fun `Do not get the items not in an inventory`() {
+            val state = State(items = Storage(listOf(Item(ID0))))
+
+            assertTrue(state.getInventory(CHARACTER0).isEmpty())
+            assertTrue(state.getInventory(CHARACTER1).isEmpty())
         }
     }
 
