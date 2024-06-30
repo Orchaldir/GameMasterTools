@@ -19,13 +19,8 @@ fun State.getItems(itemTemplate: ItemTemplateId) = items.getAll()
     .filter { it.template == itemTemplate }
 
 fun State.getName(itemId: ItemId): String {
-    val item = items.get(itemId)
+    val item = items.getOrThrow(itemId)
+    val template = itemTemplates.getOrThrow(item.template)
 
-    if (item != null) {
-        val template = itemTemplates.getOrThrow(item.template)
-
-        return template.name
-    }
-
-    return "Unknown"
+    return template.name
 }
