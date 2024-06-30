@@ -455,7 +455,8 @@
     "Tazaera",
     "Thaera",
     "Vadallia",
-    "Vaeren"
+    "Vaeren",
+    "Vamirese"
    ]
   },
   "14": {
@@ -472,6 +473,7 @@
     "Maloraen",
     "Mendaen",
     "Mol",
+    "Sarava",
     "Shialaen",
     "Shol",
     "Taeri",
@@ -592,7 +594,9 @@
    "names": [
     "Janar",
     "Orbas",
-    "Urzat"
+    "Taarak",
+    "Urzat",
+    "Vurlaak"
    ]
   },
   "20": {
@@ -617,6 +621,7 @@
    "id": 22,
    "name": "Halfling - Male",
    "names": [
+    "Aldred",
     "Corrash",
     "Uldop"
    ]
@@ -626,6 +631,8 @@
    "name": "Gnomish - Female",
    "names": [
     "Alina",
+    "Harkra",
+    "Roywin",
     "Vanira"
    ]
   },
@@ -635,7 +642,12 @@
    "names": [
     "Alrene",
     "Alyre",
+    "Dojurn",
+    "Garrick",
     "Jen",
+    "Loivaerl",
+    "Lonadar",
+    "Lyrriman",
     "Solan"
    ]
   },
@@ -643,6 +655,8 @@
    "id": 25,
    "name": "Gnomish - Male",
    "names": [
+    "Aliwas",
+    "Byrnid",
     "Dorius",
     "Janius"
    ]
@@ -669,6 +683,13 @@
     "Freilashka",
     "Hakalasha",
     "Shaesthyr"
+   ]
+  },
+  "28": {
+   "id": 28,
+   "name": "Halfling - Female",
+   "names": [
+    "Akaana"
    ]
   }
  }
