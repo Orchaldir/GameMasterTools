@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.plugins
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.INVENTORY
+import at.orchaldir.gm.app.parse.ITEM_TEMPLATE
 import at.orchaldir.gm.app.parse.LOCATION
 import at.orchaldir.gm.app.parse.parseItem
 import at.orchaldir.gm.core.action.CreateItem
@@ -169,6 +170,11 @@ private fun HTML.showItemEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
+            selectEnum("Template", ITEM_TEMPLATE, state.itemTemplates.getAll()) { t ->
+                label = t.name
+                value = t.id.value.toString()
+                selected = item.template == t.id
+            }
             selectEnum("Location", LOCATION, ItemLocationType.entries, true) { l ->
                 label = l.name
                 value = l.name

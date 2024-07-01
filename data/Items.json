@@ -9,11 +9,12 @@
    }
   },
   "1": {
-    "id": 1,
-    "location": {
-      "type": "Equipped",
-      "character": 0
-    }
+   "id": 1,
+   "template": 1,
+   "location": {
+    "type": "Equipped",
+    "character": 0
+   }
   }
  }
 }
