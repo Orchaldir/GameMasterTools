@@ -8,9 +8,9 @@ import at.orchaldir.gm.core.model.item.Item
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
-val CREATE_ITEM: Reducer<CreateItem, State> = { state, _ ->
-    val item = Item(state.items.nextId)
-    state.itemTemplates.require(item.template)
+val CREATE_ITEM: Reducer<CreateItem, State> = { state, action ->
+    state.itemTemplates.require(action.template)
+    val item = Item(state.items.nextId, action.template)
 
     noFollowUps(state.copy(items = state.items.add(item)))
 }

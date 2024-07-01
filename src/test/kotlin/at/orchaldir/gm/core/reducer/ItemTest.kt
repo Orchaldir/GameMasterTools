@@ -33,9 +33,10 @@ class ItemTest {
 
         @Test
         fun `Create an item from a template`() {
-            val action = CreateItem(TEMPLATE0)
+            val action = CreateItem(TEMPLATE1)
+            val state = State(itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE1))))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertEquals(TEMPLATE1, REDUCER.invoke(state, action).first.items.get(ID0)?.template)
         }
     }
 
