@@ -149,7 +149,7 @@ private fun HTML.showCharacterDetails(
 
         showData(character, call, state)
         showSocial(call, state, character)
-        showInventory(call, state, character)
+        showItems(call, state, character)
 
         p { a(backLink) { +"Back" } }
     }
@@ -247,17 +247,22 @@ fun BODY.showLanguages(
     }
 }
 
-fun BODY.showInventory(
+fun BODY.showItems(
     call: ApplicationCall,
     state: State,
     character: Character,
 ) {
-    val items = state.getInventory(character.id)
+    val equipped = state.getEquippedItems(character.id)
+    val inventory = state.getInventory(character.id)
 
-    h2 { +"Inventory" }
+    h2 { +"Items" }
 
-    showList("Items", items) { language ->
-        link(call, state, language)
+    showList("Equipped", equipped) { item ->
+        link(call, state, item)
+    }
+
+    showList("Inventory", inventory) { item ->
+        link(call, state, item)
     }
 }
 

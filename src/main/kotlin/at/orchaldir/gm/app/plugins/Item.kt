@@ -133,6 +133,12 @@ private fun HTML.showItemDetails(
             link(call, state, item.template)
         }
         when (item.location) {
+            is EquippedItem -> {
+                field("Equipped by") {
+                    link(call, state, item.location.character)
+                }
+            }
+
             is InInventory -> {
                 field("In Inventory of") {
                     link(call, state, item.location.character)
@@ -167,11 +173,18 @@ private fun HTML.showItemEditor(
                 label = l.name
                 value = l.name
                 selected = when (item.location) {
+                    is EquippedItem -> l == ItemLocationType.Equipped
                     is InInventory -> l == ItemLocationType.Inventory
                     UndefinedItemLocation -> l == ItemLocationType.Undefined
                 }
             }
             when (item.location) {
+                is EquippedItem -> selectEnum("Equipped by", INVENTORY, state.characters.getAll()) { c ->
+                    label = state.getName(c)
+                    value = c.id.value.toString()
+                    selected = item.location.character == c.id
+                }
+
                 is InInventory -> selectEnum("In Inventory of", INVENTORY, state.characters.getAll()) { c ->
                     label = state.getName(c)
                     value = c.id.value.toString()

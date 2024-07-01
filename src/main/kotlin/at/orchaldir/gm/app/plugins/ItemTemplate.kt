@@ -7,10 +7,7 @@ import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.InInventory
-import at.orchaldir.gm.core.model.item.ItemTemplate
-import at.orchaldir.gm.core.model.item.ItemTemplateId
-import at.orchaldir.gm.core.model.item.UndefinedItemLocation
+import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getItems
 import at.orchaldir.gm.utils.doNothing
@@ -138,6 +135,11 @@ private fun HTML.showItemTemplateDetails(
         showList("Instances", items) { item ->
             link(call, state, item)
             when (item.location) {
+                is EquippedItem -> {
+                    +" equipped by "
+                    link(call, state, item.location.character)
+                }
+
                 is InInventory -> {
                     +" in "
                     link(call, state, item.location.character)
