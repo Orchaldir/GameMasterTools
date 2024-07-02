@@ -4,7 +4,7 @@
   "0": {
    "id": 0,
    "location": {
-     "type": "Equipped",
+    "type": "Inventory",
     "character": 0
    }
   },

@@ -177,20 +177,23 @@ private fun HTML.showItemEditor(
                 selected = item.template == t.id
             }
             selectEnum("Location", LOCATION, ItemLocationType.entries, true) { l ->
+                val canEquip = state.canEquip(item.id)
                 label = l.name
                 value = l.name
                 selected = when (item.location) {
-                    is EquippedItem -> l == ItemLocationType.Equipped
+                    is EquippedItem -> canEquip && l == ItemLocationType.Equipped
                     is InInventory -> l == ItemLocationType.Inventory
                     UndefinedItemLocation -> l == ItemLocationType.Undefined
                 }
+                disabled = l == ItemLocationType.Equipped && !canEquip
             }
             when (item.location) {
                 is EquippedItem -> selectEnum("Equipped by", INVENTORY, state.characters.getAll()) { c ->
+                    val canEquip = state.canEquip(c.id, item.id)
                     label = state.getName(c)
                     value = c.id.value.toString()
-                    selected = item.location.character == c.id
-                    disabled = !state.canEquip(c.id, item.id)
+                    selected = canEquip && item.location.character == c.id
+                    disabled = !canEquip
                 }
 
                 is InInventory -> selectEnum("In Inventory of", INVENTORY, state.characters.getAll()) { c ->

@@ -22,4 +22,6 @@ data class ItemTemplate(
 
     override fun id() = id
 
+    fun canEquip() = slots.isNotEmpty()
+
 }

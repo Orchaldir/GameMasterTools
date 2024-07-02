@@ -5,6 +5,12 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.appearance.getAvailableEquipmentSlots
 import at.orchaldir.gm.core.model.item.*
 
+fun State.canEquip(itemId: ItemId): Boolean {
+    val item = items.getOrThrow(itemId)
+
+    return itemTemplates.getOrThrow(item.template).canEquip()
+}
+
 fun State.canEquip(character: CharacterId, itemId: ItemId): Boolean {
     val item = items.getOrThrow(itemId)
 
@@ -19,7 +25,7 @@ fun State.canEquip(character: CharacterId, templateId: ItemTemplateId): Boolean 
     val template = itemTemplates.getOrThrow(templateId)
     val freeSlots = getFreeSlots(character)
 
-    return template.slots.isNotEmpty() && freeSlots.containsAll(template.slots)
+    return template.canEquip() && freeSlots.containsAll(template.slots)
 }
 
 fun State.getEquippedItems(character: CharacterId) = items.getAll()
