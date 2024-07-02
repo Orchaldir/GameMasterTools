@@ -2,18 +2,42 @@ package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.item.EquippedItem
-import at.orchaldir.gm.core.model.item.InInventory
-import at.orchaldir.gm.core.model.item.ItemId
-import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.character.appearance.getAvailableEquipmentSlots
+import at.orchaldir.gm.core.model.item.*
+
+fun State.canEquip(character: CharacterId, itemId: ItemId): Boolean {
+    val item = items.getOrThrow(itemId)
+
+    if (item.isEquippedBy(character)) {
+        return true
+    }
+
+    return canEquip(character, item.template)
+}
+
+fun State.canEquip(character: CharacterId, templateId: ItemTemplateId): Boolean {
+    val template = itemTemplates.getOrThrow(templateId)
+    val freeSlots = getFreeSlots(character)
+
+    return template.slots.isNotEmpty() && freeSlots.containsAll(template.slots)
+}
 
 fun State.getEquippedItems(character: CharacterId) = items.getAll()
-    .filter {
-        when (it.location) {
-            is EquippedItem -> it.location.character == character
-            else -> false
+    .filter { it.isEquippedBy(character) }
+
+fun State.getEquippedSlots(character: CharacterId) = items.getAll()
+    .flatMap {
+        if (it.isEquippedBy(character)) {
+            itemTemplates.getOrThrow(it.template).slots
+        } else {
+            emptySet()
         }
-    }
+    }.toSet()
+
+fun State.getFreeSlots(character: CharacterId): Set<EquipmentSlot> {
+    val availableSlots = characters.getOrThrow(character).appearance.getAvailableEquipmentSlots()
+    return availableSlots - getEquippedSlots(character)
+}
 
 fun State.getInventory(character: CharacterId) = items.getAll()
     .filter {

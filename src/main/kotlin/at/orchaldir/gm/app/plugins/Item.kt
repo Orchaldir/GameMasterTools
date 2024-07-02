@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.action.DeleteItem
 import at.orchaldir.gm.core.action.UpdateItem
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.*
+import at.orchaldir.gm.core.selector.canEquip
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -189,6 +190,7 @@ private fun HTML.showItemEditor(
                     label = state.getName(c)
                     value = c.id.value.toString()
                     selected = item.location.character == c.id
+                    disabled = !state.canEquip(c.id, item.id)
                 }
 
                 is InInventory -> selectEnum("In Inventory of", INVENTORY, state.characters.getAll()) { c ->
