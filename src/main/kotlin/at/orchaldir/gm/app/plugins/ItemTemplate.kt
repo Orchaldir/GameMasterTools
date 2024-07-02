@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.EQUIPMENT_SLOT
 import at.orchaldir.gm.app.parse.parseItemTemplate
 import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
@@ -133,7 +134,7 @@ private fun HTML.showItemTemplateDetails(
     simpleHtml("Item Template: ${itemTemplate.name}") {
         field("Id", itemTemplate.id.value.toString())
         showList("Equipment Slots", itemTemplate.slots) { slot ->
-            slot.toString()
+            +slot.toString()
         }
         showList("Instances", items) { item ->
             link(call, state, item)
@@ -163,18 +164,25 @@ private fun HTML.showItemTemplateDetails(
 
 private fun HTML.showItemTemplateEditor(
     call: ApplicationCall,
-    nameList: ItemTemplate,
+    template: ItemTemplate,
 ) {
-    val backLink = href(call, nameList.id)
-    val updateLink = call.application.href(ItemTemplates.Update(nameList.id))
+    val backLink = href(call, template.id)
+    val updateLink = call.application.href(ItemTemplates.Update(template.id))
 
-    simpleHtml("Edit Item Template: ${nameList.name}") {
-        field("Id", nameList.id.value.toString())
+    simpleHtml("Edit Item Template: ${template.name}") {
+        field("Id", template.id.value.toString())
         form {
             field("Name") {
-                b { +"Name: " }
                 textInput(name = "name") {
-                    value = nameList.name
+                    value = template.name
+                }
+            }
+            showList("Equipment Slots", EquipmentSlot.entries) { slot ->
+                checkBoxInput {
+                    name = EQUIPMENT_SLOT
+                    value = slot.toString()
+                    checked = template.slots.contains(slot)
+                    +slot.toString()
                 }
             }
             p {
