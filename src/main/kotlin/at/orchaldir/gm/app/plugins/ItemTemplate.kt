@@ -132,6 +132,9 @@ private fun HTML.showItemTemplateDetails(
 
     simpleHtml("Item Template: ${itemTemplate.name}") {
         field("Id", itemTemplate.id.value.toString())
+        showList("Equipment Slots", itemTemplate.slots) { slot ->
+            slot.toString()
+        }
         showList("Instances", items) { item ->
             link(call, state, item)
             when (item.location) {
