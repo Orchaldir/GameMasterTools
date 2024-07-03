@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.CreateItem
 import at.orchaldir.gm.core.action.DeleteItem
 import at.orchaldir.gm.core.action.UpdateItem
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.utils.Storage
@@ -96,7 +97,20 @@ class ItemTest {
         @Nested
         inner class EquipTest {
             @Test
-            fun `An unknown character cannot equip am item`() {
+            fun `Equip an item`() {
+                val item = Item(ID0, TEMPLATE0, EquippedItem(CHARACTER0))
+                val action = UpdateItem(item)
+                val state = State(
+                    characters = Storage(listOf(Character(CHARACTER0))),
+                    itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0))),
+                    items = Storage(listOf(Item(ID0, TEMPLATE0)))
+                )
+
+                assertEquals(item, REDUCER.invoke(state, action).first.items.get(ID0))
+            }
+
+            @Test
+            fun `An unknown character cannot equip an item`() {
                 val action = UpdateItem(Item(ID0, TEMPLATE0, EquippedItem(CHARACTER0)))
                 val state = State(
                     itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0))),
