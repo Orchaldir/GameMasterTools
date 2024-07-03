@@ -14,6 +14,10 @@ fun State.canEquip(itemId: ItemId): Boolean {
 fun State.canEquip(character: CharacterId, itemId: ItemId): Boolean {
     val item = items.getOrThrow(itemId)
 
+    return canEquip(character, item)
+}
+
+fun State.canEquip(character: CharacterId, item: Item): Boolean {
     if (item.isEquippedBy(character)) {
         return true
     }
