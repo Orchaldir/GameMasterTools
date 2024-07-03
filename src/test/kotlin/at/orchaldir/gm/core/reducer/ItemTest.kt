@@ -16,8 +16,8 @@ private val ID0 = ItemId(0)
 private val ID1 = ItemId(1)
 private val TEMPLATE0 = ItemTemplateId(0)
 private val TEMPLATE1 = ItemTemplateId(1)
-private val STATE =
-    State(itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0))), items = Storage(listOf(Item(ID0, TEMPLATE0))))
+private val CHARACTER0 = CharacterId(0)
+private val CHARACTER1 = CharacterId(1)
 
 class ItemTest {
 
@@ -46,8 +46,9 @@ class ItemTest {
         @Test
         fun `Can delete an existing item`() {
             val action = DeleteItem(ID0)
+            val state = State(items = Storage(listOf(Item(ID0, TEMPLATE0))))
 
-            assertEquals(0, REDUCER.invoke(STATE, action).first.items.getSize())
+            assertEquals(0, REDUCER.invoke(state, action).first.items.getSize())
         }
 
         @Test
@@ -64,23 +65,46 @@ class ItemTest {
         @Test
         fun `Cannot update unknown id`() {
             val action = UpdateItem(Item(ID1, TEMPLATE0))
+            val state = State(itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0))))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(STATE, action) }
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot update an item with an unknown template`() {
             val action = UpdateItem(Item(ID0, TEMPLATE1))
+            val state = State(
+                itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0))),
+                items = Storage(listOf(Item(ID0, TEMPLATE0)))
+            )
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(STATE, action) }
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Update an item`() {
             val item = Item(ID0, TEMPLATE0, InInventory(CharacterId(0)))
             val action = UpdateItem(item)
+            val state = State(
+                itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0))),
+                items = Storage(listOf(Item(ID0, TEMPLATE0)))
+            )
 
-            assertEquals(item, REDUCER.invoke(STATE, action).first.items.get(ID0))
+            assertEquals(item, REDUCER.invoke(state, action).first.items.get(ID0))
+        }
+
+        @Nested
+        inner class EquipTest {
+            @Test
+            fun `An unknown character cannot equip am item`() {
+                val action = UpdateItem(Item(ID0, TEMPLATE0, EquippedItem(CHARACTER0)))
+                val state = State(
+                    itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0))),
+                    items = Storage(listOf(Item(ID0, TEMPLATE0)))
+                )
+
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
         }
     }
 

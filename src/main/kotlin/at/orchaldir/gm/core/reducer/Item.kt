@@ -30,6 +30,8 @@ val UPDATE_ITEM: Reducer<UpdateItem, State> = { state, action ->
     state.itemTemplates.require(item.template)
     if (item.location is EquippedItem) {
         val character = item.location.character
+
+        state.characters.require(character)
         require(
             state.canEquip(
                 character,
