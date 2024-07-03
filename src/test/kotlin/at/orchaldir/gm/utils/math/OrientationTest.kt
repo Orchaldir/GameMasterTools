@@ -1,6 +1,6 @@
 package at.orchaldir.gm.utils.math
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import kotlin.math.PI
 
