@@ -18,35 +18,44 @@ fun State.canEquip(character: CharacterId, itemId: ItemId): Boolean {
 }
 
 fun State.canEquip(character: CharacterId, item: Item): Boolean {
-    if (item.isEquippedBy(character)) {
-        return true
+    val template = itemTemplates.getOrThrow(item.template)
+
+    if (!template.canEquip()) {
+        return false
     }
 
-    return canEquip(character, item.template)
+    val availableSlots = characters.getOrThrow(character).appearance.getAvailableEquipmentSlots()
+
+    if (!availableSlots.containsAll(template.slots)) {
+        return false
+    }
+
+    val slotToItemMap = getEquippedSlots(character)
+
+    return template.slots.none { slot -> canEquip(slotToItemMap, slot, item) }
 }
 
-fun State.canEquip(character: CharacterId, templateId: ItemTemplateId): Boolean {
-    val template = itemTemplates.getOrThrow(templateId)
-    val freeSlots = getFreeSlots(character)
+private fun canEquip(slotToItemMap: Map<EquipmentSlot, ItemId>, slot: EquipmentSlot, item: Item): Boolean {
+    val itemId = slotToItemMap[slot] ?: return true
 
-    return template.canEquip() && freeSlots.containsAll(template.slots)
+    return item.id == itemId
 }
 
 fun State.getEquippedItems(character: CharacterId) = items.getAll()
     .filter { it.isEquippedBy(character) }
 
-fun State.getEquippedSlots(character: CharacterId) = items.getAll()
-    .flatMap {
-        if (it.isEquippedBy(character)) {
-            itemTemplates.getOrThrow(it.template).slots
-        } else {
-            emptySet()
-        }
-    }.toSet()
+fun State.getEquippedSlots(character: CharacterId): Map<EquipmentSlot, ItemId> {
+    val map = mutableMapOf<EquipmentSlot, ItemId>()
 
-fun State.getFreeSlots(character: CharacterId): Set<EquipmentSlot> {
-    val availableSlots = characters.getOrThrow(character).appearance.getAvailableEquipmentSlots()
-    return availableSlots - getEquippedSlots(character)
+    items.getAll().forEach { item ->
+        if (item.isEquippedBy(character)) {
+            itemTemplates.getOrThrow(item.template)
+                .slots
+                .forEach { slot -> map[slot] = item.id }
+        }
+    }
+
+    return map
 }
 
 fun State.getInventory(character: CharacterId) = items.getAll()
