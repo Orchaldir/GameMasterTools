@@ -164,6 +164,8 @@ private fun HTML.showItemEditor(
     val backLink = href(call, item.id)
     val previewLink = call.application.href(Items.Preview(item.id))
     val updateLink = call.application.href(Items.Update(item.id))
+    val canEquipMap = state.characters.getAll().associate { Pair(it.id, state.canEquip(it.id, item.id)) }
+    val canBeEquippedByAnyone = canEquipMap.values.any { it }
 
     simpleHtml("Edit Item: $name") {
         field("Id", item.id.value.toString())
@@ -185,11 +187,11 @@ private fun HTML.showItemEditor(
                     is InInventory -> l == ItemLocationType.Inventory
                     UndefinedItemLocation -> l == ItemLocationType.Undefined
                 }
-                disabled = l == ItemLocationType.Equipped && !canEquip
+                disabled = l == ItemLocationType.Equipped && (!canEquip || !canBeEquippedByAnyone)
             }
             when (item.location) {
                 is EquippedItem -> selectEnum("Equipped by", INVENTORY, state.characters.getAll()) { c ->
-                    val canEquip = state.canEquip(c.id, item.id)
+                    val canEquip = canEquipMap[c.id] ?: false
                     label = state.getName(c)
                     value = c.id.value.toString()
                     selected = canEquip && item.location.character == c.id
