@@ -164,8 +164,12 @@ private fun HTML.showItemEditor(
     val backLink = href(call, item.id)
     val previewLink = call.application.href(Items.Preview(item.id))
     val updateLink = call.application.href(Items.Update(item.id))
-    val canEquipMap = state.characters.getAll().associate { Pair(it.id, state.canEquip(it.id, item.id)) }
-    val canBeEquippedByAnyone = canEquipMap.values.any { it }
+    val canEquipMap = if (state.canEquip(item.id)) {
+        state.characters.getAll().associate { Pair(it.id, state.canEquip(it.id, item.id)) }
+    } else {
+        emptyMap()
+    }
+    val canAnyoneEquip = canEquipMap.values.any { it }
 
     simpleHtml("Edit Item: $name") {
         field("Id", item.id.value.toString())
@@ -179,15 +183,14 @@ private fun HTML.showItemEditor(
                 selected = item.template == t.id
             }
             selectEnum("Location", LOCATION, ItemLocationType.entries, true) { l ->
-                val canEquip = state.canEquip(item.id)
                 label = l.name
                 value = l.name
                 selected = when (item.location) {
-                    is EquippedItem -> canEquip && l == ItemLocationType.Equipped
+                    is EquippedItem -> canAnyoneEquip && l == ItemLocationType.Equipped
                     is InInventory -> l == ItemLocationType.Inventory
                     UndefinedItemLocation -> l == ItemLocationType.Undefined
                 }
-                disabled = l == ItemLocationType.Equipped && (!canEquip || !canBeEquippedByAnyone)
+                disabled = l == ItemLocationType.Equipped && !canAnyoneEquip
             }
             when (item.location) {
                 is EquippedItem -> selectEnum("Equipped by", INVENTORY, state.characters.getAll()) { c ->
