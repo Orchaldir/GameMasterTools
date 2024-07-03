@@ -82,16 +82,31 @@ class ItemTest {
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
 
-        @Test
-        fun `Update an item`() {
-            val item = Item(ID0, TEMPLATE0, InInventory(CharacterId(0)))
-            val action = UpdateItem(item)
-            val state = State(
-                itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0))),
-                items = Storage(listOf(Item(ID0, TEMPLATE0)))
-            )
+        @Nested
+        inner class PutIntoInventoryTest {
+            @Test
+            fun `Put an item into an inventory`() {
+                val item = Item(ID0, TEMPLATE0, InInventory(CHARACTER0))
+                val action = UpdateItem(item)
+                val state = State(
+                    characters = Storage(listOf(Character(CHARACTER0))),
+                    itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0))),
+                    items = Storage(listOf(Item(ID0, TEMPLATE0)))
+                )
 
-            assertEquals(item, REDUCER.invoke(state, action).first.items.get(ID0))
+                assertEquals(item, REDUCER.invoke(state, action).first.items.get(ID0))
+            }
+
+            @Test
+            fun `Cannot put an item into an unknown inventory`() {
+                val action = UpdateItem(Item(ID0, TEMPLATE0, InInventory(CHARACTER0)))
+                val state = State(
+                    itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0))),
+                    items = Storage(listOf(Item(ID0, TEMPLATE0)))
+                )
+
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
         }
 
         @Nested
