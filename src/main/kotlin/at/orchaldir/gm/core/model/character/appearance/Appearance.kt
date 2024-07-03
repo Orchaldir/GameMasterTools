@@ -1,7 +1,5 @@
 package at.orchaldir.gm.core.model.character.appearance
 
-import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.item.EquipmentSlot
 import at.orchaldir.gm.utils.math.Distance
 import kotlinx.serialization.SerialName
