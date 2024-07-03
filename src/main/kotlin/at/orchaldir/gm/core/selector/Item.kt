@@ -32,7 +32,7 @@ fun State.canEquip(character: CharacterId, item: Item): Boolean {
 
     val slotToItemMap = getEquippedSlots(character)
 
-    return template.slots.none { slot -> canEquip(slotToItemMap, slot, item) }
+    return template.slots.all { slot -> canEquip(slotToItemMap, slot, item) }
 }
 
 private fun canEquip(slotToItemMap: Map<EquipmentSlot, ItemId>, slot: EquipmentSlot, item: Item): Boolean {
