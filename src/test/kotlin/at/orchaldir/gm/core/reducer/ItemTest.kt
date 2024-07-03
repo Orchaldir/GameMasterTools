@@ -20,6 +20,8 @@ private val TEMPLATE0 = ItemTemplateId(0)
 private val TEMPLATE1 = ItemTemplateId(1)
 private val CHARACTER0 = CharacterId(0)
 private val CHARACTER1 = CharacterId(1)
+private val WITH_SLOT0 = ItemTemplate(TEMPLATE0, slots = setOf(Top))
+private val EQUIPPED0 = Item(ID0, TEMPLATE0, EquippedItem(CHARACTER0))
 
 class ItemTest {
 
@@ -114,22 +116,33 @@ class ItemTest {
         inner class EquipTest {
             @Test
             fun `Equip an item`() {
-                val item = Item(ID0, TEMPLATE0, EquippedItem(CHARACTER0))
-                val action = UpdateItem(item)
+                val action = UpdateItem(EQUIPPED0)
                 val state = State(
                     characters = Storage(listOf(Character(CHARACTER0))),
-                    itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0, slots = setOf(Top)))),
+                    itemTemplates = Storage(listOf(WITH_SLOT0)),
                     items = Storage(listOf(Item(ID0, TEMPLATE0)))
                 )
 
-                assertEquals(item, REDUCER.invoke(state, action).first.items.get(ID0))
+                assertEquals(EQUIPPED0, REDUCER.invoke(state, action).first.items.get(ID0))
+            }
+
+            @Test
+            fun `Update equipped an item`() {
+                val action = UpdateItem(EQUIPPED0)
+                val state = State(
+                    characters = Storage(listOf(Character(CHARACTER0))),
+                    itemTemplates = Storage(listOf(WITH_SLOT0)),
+                    items = Storage(listOf(EQUIPPED0))
+                )
+
+                assertEquals(EQUIPPED0, REDUCER.invoke(state, action).first.items.get(ID0))
             }
 
             @Test
             fun `An unknown character cannot equip an item`() {
-                val action = UpdateItem(Item(ID0, TEMPLATE0, EquippedItem(CHARACTER0)))
+                val action = UpdateItem(EQUIPPED0)
                 val state = State(
-                    itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0, slots = setOf(Top)))),
+                    itemTemplates = Storage(listOf(WITH_SLOT0)),
                     items = Storage(listOf(Item(ID0, TEMPLATE0)))
                 )
 
@@ -138,11 +151,23 @@ class ItemTest {
 
             @Test
             fun `Cannot equip an item without equipment slots`() {
-                val action = UpdateItem(Item(ID0, TEMPLATE0, EquippedItem(CHARACTER0)))
+                val action = UpdateItem(EQUIPPED0)
                 val state = State(
                     characters = Storage(listOf(Character(CHARACTER0))),
                     itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0))),
                     items = Storage(listOf(Item(ID0, TEMPLATE0)))
+                )
+
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Cannot equip an item, if the equipment slots are occupied`() {
+                val action = UpdateItem(Item(ID1, TEMPLATE0, EquippedItem(CHARACTER0)))
+                val state = State(
+                    characters = Storage(listOf(Character(CHARACTER0))),
+                    itemTemplates = Storage(listOf(WITH_SLOT0)),
+                    items = Storage(listOf(EQUIPPED0, Item(ID1, TEMPLATE0)))
                 )
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
