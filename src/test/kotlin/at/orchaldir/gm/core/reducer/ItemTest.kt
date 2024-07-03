@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.item.*
+import at.orchaldir.gm.core.model.item.EquipmentSlot.Top
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -117,7 +118,7 @@ class ItemTest {
                 val action = UpdateItem(item)
                 val state = State(
                     characters = Storage(listOf(Character(CHARACTER0))),
-                    itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0))),
+                    itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0, slots = setOf(Top)))),
                     items = Storage(listOf(Item(ID0, TEMPLATE0)))
                 )
 
@@ -128,6 +129,18 @@ class ItemTest {
             fun `An unknown character cannot equip an item`() {
                 val action = UpdateItem(Item(ID0, TEMPLATE0, EquippedItem(CHARACTER0)))
                 val state = State(
+                    itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0, slots = setOf(Top)))),
+                    items = Storage(listOf(Item(ID0, TEMPLATE0)))
+                )
+
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Cannot equip an item without equipment slots`() {
+                val action = UpdateItem(Item(ID0, TEMPLATE0, EquippedItem(CHARACTER0)))
+                val state = State(
+                    characters = Storage(listOf(Character(CHARACTER0))),
                     itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0))),
                     items = Storage(listOf(Item(ID0, TEMPLATE0)))
                 )

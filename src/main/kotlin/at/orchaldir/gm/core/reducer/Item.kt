@@ -30,13 +30,14 @@ val UPDATE_ITEM: Reducer<UpdateItem, State> = { state, action ->
     val item = action.item
 
     state.items.require(item.id)
-    state.itemTemplates.require(item.template)
+    val template = state.itemTemplates.getOrThrow(item.template)
 
     when (item.location) {
         is EquippedItem -> {
             val character = item.location.character
 
             state.characters.require(character)
+            require(template.canEquip()) { "Item ${item.id.value()} has not slots to equip!" }
             require(
                 state.canEquip(
                     character,
