@@ -14,25 +14,30 @@ fun State.canEquip(itemId: ItemId): Boolean {
 fun State.canEquip(character: CharacterId, itemId: ItemId): Boolean {
     val item = items.getOrThrow(itemId)
 
-    return canEquip(character, item)
+    return canEquip(character, item) == null
 }
 
-fun State.canEquip(character: CharacterId, item: Item): Boolean {
-    val template = itemTemplates.getOrThrow(item.template)
+fun State.canEquip(character: CharacterId, item: Item): String? {
+    val template = itemTemplates.get(item.template) ?: return "Unknown template ${item.template.value}"
 
     if (!template.canEquip()) {
-        return false
+        return "Template cannot be equipped"
     }
 
-    val availableSlots = characters.getOrThrow(character).appearance.getAvailableEquipmentSlots()
+    val availableSlots = characters.get(character)?.appearance?.getAvailableEquipmentSlots()
+        ?: return "Unknown character ${character.value}"
 
     if (!availableSlots.containsAll(template.slots)) {
-        return false
+        return "Character doesn't have equipment slots"
     }
 
     val slotToItemMap = getEquippedSlots(character)
 
-    return template.slots.all { slot -> canEquip(slotToItemMap, slot, item) }
+    if (template.slots.all { slot -> canEquip(slotToItemMap, slot, item) }) {
+        return null
+    }
+
+    return "Character's equipment slots are full"
 }
 
 private fun canEquip(slotToItemMap: Map<EquipmentSlot, ItemId>, slot: EquipmentSlot, item: Item): Boolean {

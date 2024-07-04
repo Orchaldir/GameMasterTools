@@ -22,7 +22,6 @@ private val ID1 = ItemId(1)
 private val TEMPLATE0 = ItemTemplateId(0)
 private val TEMPLATE1 = ItemTemplateId(1)
 private val CHARACTER_ID0 = CharacterId(0)
-private val CHARACTER1 = CharacterId(1)
 private val WITH_SLOT0 = ItemTemplate(TEMPLATE0, slots = setOf(Headwear))
 private val EQUIPPED0 = Item(ID0, TEMPLATE0, EquippedItem(CHARACTER_ID0))
 private val CHARACTER0 = Character(CHARACTER_ID0, appearance = HeadOnly(Head(), Distance(1.0f)))
@@ -150,7 +149,7 @@ class ItemTest {
                     items = Storage(listOf(Item(ID0, TEMPLATE0)))
                 )
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertFailsWith<IllegalStateException> { REDUCER.invoke(state, action) }
             }
 
             @Test
@@ -162,7 +161,7 @@ class ItemTest {
                     items = Storage(listOf(Item(ID0, TEMPLATE0)))
                 )
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertFailsWith<IllegalStateException> { REDUCER.invoke(state, action) }
             }
 
             @Test
@@ -174,7 +173,7 @@ class ItemTest {
                     items = Storage(listOf(EQUIPPED0, Item(ID1, TEMPLATE0)))
                 )
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertFailsWith<IllegalStateException> { REDUCER.invoke(state, action) }
             }
 
             @Test
@@ -186,7 +185,7 @@ class ItemTest {
                     items = Storage(listOf(Item(ID0, TEMPLATE0)))
                 )
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertFailsWith<IllegalStateException> { REDUCER.invoke(state, action) }
             }
         }
     }
