@@ -176,6 +176,18 @@ class ItemTest {
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
             }
+
+            @Test
+            fun `Cannot equip item, if character is missing the slot`() {
+                val action = UpdateItem(EQUIPPED0)
+                val state = State(
+                    characters = Storage(listOf(Character(CHARACTER_ID0))),
+                    itemTemplates = Storage(listOf(WITH_SLOT0)),
+                    items = Storage(listOf(Item(ID0, TEMPLATE0)))
+                )
+
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
         }
     }
 
