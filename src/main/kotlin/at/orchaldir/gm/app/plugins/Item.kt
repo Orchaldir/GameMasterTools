@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.plugins
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.INVENTORY
+import at.orchaldir.gm.app.parse.ITEM_TEMPLATE
 import at.orchaldir.gm.app.parse.LOCATION
 import at.orchaldir.gm.app.parse.parseItem
 import at.orchaldir.gm.core.action.CreateItem
@@ -10,6 +11,7 @@ import at.orchaldir.gm.core.action.DeleteItem
 import at.orchaldir.gm.core.action.UpdateItem
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.*
+import at.orchaldir.gm.core.selector.canEquip
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -133,6 +135,12 @@ private fun HTML.showItemDetails(
             link(call, state, item.template)
         }
         when (item.location) {
+            is EquippedItem -> {
+                field("Equipped by") {
+                    link(call, state, item.location.character)
+                }
+            }
+
             is InInventory -> {
                 field("In Inventory of") {
                     link(call, state, item.location.character)
@@ -156,6 +164,12 @@ private fun HTML.showItemEditor(
     val backLink = href(call, item.id)
     val previewLink = call.application.href(Items.Preview(item.id))
     val updateLink = call.application.href(Items.Update(item.id))
+    val canEquipMap = if (state.canEquip(item.id)) {
+        state.characters.getAll().associate { Pair(it.id, state.canEquip(it.id, item.id)) }
+    } else {
+        emptyMap()
+    }
+    val canAnyoneEquip = canEquipMap.values.any { it }
 
     simpleHtml("Edit Item: $name") {
         field("Id", item.id.value.toString())
@@ -163,15 +177,30 @@ private fun HTML.showItemEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
+            selectEnum("Template", ITEM_TEMPLATE, state.itemTemplates.getAll()) { t ->
+                label = t.name
+                value = t.id.value.toString()
+                selected = item.template == t.id
+            }
             selectEnum("Location", LOCATION, ItemLocationType.entries, true) { l ->
                 label = l.name
                 value = l.name
                 selected = when (item.location) {
+                    is EquippedItem -> canAnyoneEquip && l == ItemLocationType.Equipped
                     is InInventory -> l == ItemLocationType.Inventory
                     UndefinedItemLocation -> l == ItemLocationType.Undefined
                 }
+                disabled = l == ItemLocationType.Equipped && !canAnyoneEquip
             }
             when (item.location) {
+                is EquippedItem -> selectEnum("Equipped by", INVENTORY, state.characters.getAll()) { c ->
+                    val canEquip = canEquipMap[c.id] ?: false
+                    label = state.getName(c)
+                    value = c.id.value.toString()
+                    selected = canEquip && item.location.character == c.id
+                    disabled = !canEquip
+                }
+
                 is InInventory -> selectEnum("In Inventory of", INVENTORY, state.characters.getAll()) { c ->
                     label = state.getName(c)
                     value = c.id.value.toString()

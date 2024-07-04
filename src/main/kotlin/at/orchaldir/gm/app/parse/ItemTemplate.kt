@@ -9,5 +9,6 @@ fun parseItemTemplateId(parameters: Parameters, param: String) = ItemTemplateId(
 
 fun parseItemTemplate(id: ItemTemplateId, parameters: Parameters): ItemTemplate {
     val name = parameters.getOrFail(NAME)
-    return ItemTemplate(id, name)
+
+    return ItemTemplate(id, name, parseSet(parameters, EQUIPMENT_SLOT))
 }

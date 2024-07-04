@@ -4,6 +4,13 @@
   "0": {
    "id": 0,
    "name": "Everbright Lantern"
+  },
+  "1": {
+   "id": 1,
+   "name": "Cannith Goggles",
+   "slots": [
+    "Headwear"
+   ]
   }
  }
 }

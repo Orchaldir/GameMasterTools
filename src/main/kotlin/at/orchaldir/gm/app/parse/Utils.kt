@@ -8,6 +8,9 @@ import io.ktor.http.*
 inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String, default: T): T =
     parameters[param]?.let { java.lang.Enum.valueOf(T::class.java, it) } ?: default
 
+inline fun <reified T : Enum<T>> parseSet(parameters: Parameters, param: String): Set<T> =
+    parameters.getAll(param)?.map { java.lang.Enum.valueOf(T::class.java, it) }?.toSet() ?: emptySet()
+
 fun <T> parseOneOf(
     parameters: Parameters,
     selectId: String,

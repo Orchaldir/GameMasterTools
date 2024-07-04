@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item
 
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -21,5 +22,7 @@ data class Item(
 ) : Element<ItemId> {
 
     override fun id() = id
+
+    fun isEquippedBy(character: CharacterId) = location is EquippedItem && location.character == character
 
 }

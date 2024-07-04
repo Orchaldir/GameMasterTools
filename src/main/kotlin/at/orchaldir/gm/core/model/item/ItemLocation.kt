@@ -5,12 +5,17 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class ItemLocationType {
+    Equipped,
     Inventory,
     Undefined,
 }
 
 @Serializable
 sealed class ItemLocation
+
+@Serializable
+@SerialName("Equipped")
+data class EquippedItem(val character: CharacterId) : ItemLocation()
 
 @Serializable
 @SerialName("Inventory")

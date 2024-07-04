@@ -10,6 +10,7 @@ fun parseItem(id: ItemId, parameters: Parameters) = Item(
 )
 
 private fun parseLocation(parameters: Parameters) = when (parse(parameters, LOCATION, ItemLocationType.Undefined)) {
+    ItemLocationType.Equipped -> EquippedItem(parseCharacterId(parameters, INVENTORY))
     ItemLocationType.Inventory -> InInventory(parseCharacterId(parameters, INVENTORY))
     ItemLocationType.Undefined -> UndefinedItemLocation
 }
