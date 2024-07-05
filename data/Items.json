@@ -12,7 +12,7 @@
    "id": 1,
    "template": 1,
    "location": {
-    "type": "Equipped",
+    "type": "Inventory",
     "character": 0
    }
   }
