@@ -27,13 +27,15 @@ fun State.canEquip(character: CharacterId, item: Item): String? {
     val availableSlots = characters.get(character)?.appearance?.getAvailableEquipmentSlots()
         ?: return "Unknown character ${character.value}"
 
-    if (!availableSlots.containsAll(template.slots)) {
+    val slots = template.slots()
+
+    if (!availableSlots.containsAll(slots)) {
         return "Character doesn't have equipment slots"
     }
 
     val slotToItemMap = getEquippedSlots(character)
 
-    if (template.slots.all { slot -> canEquip(slotToItemMap, slot, item) }) {
+    if (slots.all { slot -> canEquip(slotToItemMap, slot, item) }) {
         return null
     }
 
@@ -55,7 +57,7 @@ fun State.getEquippedSlots(character: CharacterId): Map<EquipmentSlot, ItemId> {
     items.getAll().forEach { item ->
         if (item.isEquippedBy(character)) {
             itemTemplates.getOrThrow(item.template)
-                .slots
+                .slots()
                 .forEach { slot -> map[slot] = item.id }
         }
     }

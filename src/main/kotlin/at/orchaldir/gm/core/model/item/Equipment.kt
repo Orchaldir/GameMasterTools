@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.item
 
 import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.item.EquipmentSlot.Bottom
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -13,7 +12,7 @@ enum class EquipmentType {
 
 @Serializable
 sealed class Equipment {
-    open fun getSlots(): Set<EquipmentSlot> = emptySet()
+    open fun slots(): Set<EquipmentSlot> = emptySet()
 }
 
 @Serializable
@@ -34,7 +33,7 @@ data class Pants(
     val color: Color = Color.SaddleBrown,
 ) : Equipment() {
 
-    override fun getSlots() = setOf(Bottom)
+    override fun slots() = setOf(Bottom)
 }
 
 
