@@ -2,12 +2,13 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.EQUIPMENT_SLOT
-import at.orchaldir.gm.app.parse.parseItemTemplate
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getItems
@@ -39,6 +40,9 @@ class ItemTemplates {
 
     @Resource("edit")
     class Edit(val id: ItemTemplateId, val parent: ItemTemplates = ItemTemplates())
+
+    @Resource("preview")
+    class Preview(val id: ItemTemplateId, val parent: ItemTemplates = ItemTemplates())
 
     @Resource("update")
     class Update(val id: ItemTemplateId, val parent: ItemTemplates = ItemTemplates())
@@ -85,18 +89,27 @@ fun Application.configureItemTemplateRouting() {
             logger.info { "Get editor for item template ${edit.id.value}" }
 
             val state = STORE.getState()
-            val language = state.itemTemplates.getOrThrow(edit.id)
+            val template = state.itemTemplates.getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showItemTemplateEditor(call, language)
+                showItemTemplateEditor(call, template)
+            }
+        }
+        post<ItemTemplates.Preview> { preview ->
+            logger.info { "Get preview for item template ${preview.id.value}" }
+
+            val template = parseItemTemplate(preview.id, call.receiveParameters())
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showItemTemplateEditor(call, template)
             }
         }
         post<ItemTemplates.Update> { update ->
             logger.info { "Update item template ${update.id.value}" }
 
-            val nameList = parseItemTemplate(update.id, call.receiveParameters())
+            val template = parseItemTemplate(update.id, call.receiveParameters())
 
-            STORE.dispatch(UpdateItemTemplate(nameList))
+            STORE.dispatch(UpdateItemTemplate(template))
 
             call.respondRedirect(href(call, update.id))
 
@@ -133,8 +146,13 @@ private fun HTML.showItemTemplateDetails(
 
     simpleHtml("Item Template: ${itemTemplate.name}") {
         field("Id", itemTemplate.id.value.toString())
-        showList("Equipment Slots", itemTemplate.slots) { slot ->
-            +slot.toString()
+        when (itemTemplate.equipment) {
+            NoEquipment -> doubleArrayOf()
+            is Pants -> {
+                field("Equipment", "Pants")
+                field("Style", itemTemplate.equipment.style.toString())
+                field("Color", itemTemplate.equipment.color.toString())
+            }
         }
         showList("Instances", items) { item ->
             link(call, state, item)
@@ -167,22 +185,37 @@ private fun HTML.showItemTemplateEditor(
     template: ItemTemplate,
 ) {
     val backLink = href(call, template.id)
+    val previewLink = call.application.href(ItemTemplates.Preview(template.id))
     val updateLink = call.application.href(ItemTemplates.Update(template.id))
 
     simpleHtml("Edit Item Template: ${template.name}") {
         field("Id", template.id.value.toString())
         form {
+            id = "editor"
+            action = previewLink
+            method = FormMethod.post
             field("Name") {
                 textInput(name = "name") {
                     value = template.name
                 }
             }
-            showList("Equipment Slots", EquipmentSlot.entries) { slot ->
-                checkBoxInput {
-                    name = EQUIPMENT_SLOT
-                    value = slot.toString()
-                    checked = template.slots.contains(slot)
-                    +slot.toString()
+            selectEnum("Equipment", EQUIPMENT_TYPE, EquipmentType.entries, true) { type ->
+                label = type.name
+                value = type.name
+                selected = when (template.equipment) {
+                    NoEquipment -> type == EquipmentType.None
+                    is Pants -> type == EquipmentType.Pants
+                }
+            }
+            when (template.equipment) {
+                NoEquipment -> doNothing()
+                is Pants -> {
+                    selectEnum("Style", EQUIPMENT_STYLE, PantsStyle.entries, false) { style ->
+                        label = style.name
+                        value = style.name
+                        selected = template.equipment.style == style
+                    }
+                    selectColor("Color", EQUIPMENT_COLOR, OneOf(Color.entries), template.equipment.color)
                 }
             }
             p {
