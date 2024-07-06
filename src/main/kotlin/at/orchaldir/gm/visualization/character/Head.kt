@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.Mouth
 import at.orchaldir.gm.core.model.character.appearance.hair.Afro
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
-import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.Factor
@@ -38,7 +37,6 @@ fun visualizeHead(
     config: RenderConfig,
     aabb: AABB,
     head: Head,
-    equipment: List<Equipment>,
 ) {
     visualizeEars(renderer, config, aabb, head)
     visualizeHeadShape(renderer, config, aabb, head)

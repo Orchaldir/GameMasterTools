@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.renderer.RenderOptions
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.SizeConfig
+import at.orchaldir.gm.visualization.equipment.visualizeBodyEquipment
 
 data class BodyConfig(
     val armWidth: Factor,
@@ -111,6 +112,7 @@ fun visualizeBody(
     visualizeLegs(renderer, config, aabb, body, options)
     visualizeFeet(renderer, config, aabb, body, options)
     visualizeTorso(renderer, config, aabb, body, options)
+    visualizeBodyEquipment(renderer, config, aabb, body, equipment)
 }
 
 fun visualizeTorso(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
