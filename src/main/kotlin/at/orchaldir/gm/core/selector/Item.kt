@@ -51,6 +51,9 @@ private fun canEquip(slotToItemMap: Map<EquipmentSlot, ItemId>, slot: EquipmentS
 fun State.getEquippedItems(character: CharacterId) = items.getAll()
     .filter { it.isEquippedBy(character) }
 
+fun State.getEquipment(character: CharacterId) = getEquippedItems(character)
+    .map { itemTemplates.getOrThrow(it.template).equipment }
+
 fun State.getEquippedSlots(character: CharacterId): Map<EquipmentSlot, ItemId> {
     val map = mutableMapOf<EquipmentSlot, ItemId>()
 

@@ -101,7 +101,7 @@ private fun HTML.showAppearanceEditor(
     val previewLink = call.application.href(Characters.Appearance.Preview(character.id))
     val updateLink = call.application.href(Characters.Appearance.Update(character.id))
     val generateLink = call.application.href(Characters.Appearance.Generate(character.id))
-    val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance)
+    val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance, emptyList())
 
     simpleHtml("Edit Appearance: ${state.getName(character)}") {
         svg(frontSvg, 20)

@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
+import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.RenderOptions
 import at.orchaldir.gm.utils.renderer.Renderer
@@ -97,7 +98,13 @@ data class BodyConfig(
 
 }
 
-fun visualizeBody(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body) {
+fun visualizeBody(
+    renderer: Renderer,
+    config: RenderConfig,
+    aabb: AABB,
+    body: Body,
+    equipment: List<Equipment>,
+) {
     val options = config.getOptions(body.skin)
     visualizeArms(renderer, config, aabb, body, options)
     visualizeHands(renderer, config, aabb, body, options)
