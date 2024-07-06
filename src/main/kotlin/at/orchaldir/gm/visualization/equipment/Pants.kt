@@ -51,8 +51,9 @@ private fun getPantsWithHeight(config: RenderConfig, aabb: AABB, body: Body, hei
 
 private fun getPants(config: RenderConfig, aabb: AABB, body: Body, bottomY: Factor): Polygon2d {
     val builder = getBase(config, aabb, body)
-    val pantsWidth = config.body.getLegsWidth(body)
-    val innerWidth = config.body.getLegsInnerWidth(body)
+    val padding = config.body.getLegsWidth(body) * config.equipment.pants.widthPadding
+    val pantsWidth = config.body.getLegsWidth(body) + padding
+    val innerWidth = config.body.getLegsInnerWidth(body) - padding
     val topY = config.body.getLegY()
     val midY = bottomY.interpolate(topY, CENTER)
     val centerY = midY.interpolate(topY, CENTER)

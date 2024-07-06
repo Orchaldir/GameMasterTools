@@ -8,6 +8,14 @@
   "1": {
    "id": 1,
    "name": "Cannith Goggles"
+  },
+  "2": {
+   "id": 2,
+   "name": "Blue Regular Pants",
+   "equipment": {
+    "type": "Pants",
+    "color": "Blue"
+   }
   }
  }
 }

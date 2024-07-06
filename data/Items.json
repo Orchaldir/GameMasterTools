@@ -15,6 +15,14 @@
     "type": "Inventory",
     "character": 0
    }
+  },
+  "2": {
+   "id": 2,
+   "template": 2,
+   "location": {
+    "type": "Equipped",
+    "character": 0
+   }
   }
  }
 }
