@@ -21,7 +21,7 @@ class ItemTest {
     @Nested
     inner class GetEquipmentTest {
         @Test
-        fun `Get equipment in a character`() {
+        fun `Get equipment of a character`() {
             val equipment = Pants(Shorts)
             val item = Item(ID0, TEMPLATE0, location = EquippedItem(CHARACTER0))
             val state = State(
@@ -40,7 +40,7 @@ class ItemTest {
         }
 
         @Test
-        fun `Do not get the items in an inventory`() {
+        fun `Do not get the equipment in an inventory`() {
             val equipment = Pants(Shorts)
             val item = Item(ID0, TEMPLATE0, location = InInventory(CHARACTER0))
             val state = State(
