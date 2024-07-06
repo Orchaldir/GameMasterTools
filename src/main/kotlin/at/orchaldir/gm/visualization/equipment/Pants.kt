@@ -39,7 +39,16 @@ private fun getRegularPants(config: RenderConfig, aabb: AABB, body: Body): Polyg
 
 private fun getPants(config: RenderConfig, aabb: AABB, body: Body, bottomY: Factor): Polygon2d {
     val builder = getBase(config, aabb, body)
-    val bottomY = config.body.getFootY(body)
+    val pantsWidth = config.body.getLegsWidth(body)
+    val innerWidth = config.body.getLegsInnerWidth(body)
+    val topY = config.body.getLegY()
+    val midY = bottomY.interpolate(topY, CENTER)
+    val centerY = midY.interpolate(topY, CENTER)
+
+    builder.addMirroredPoints(aabb, pantsWidth, midY)
+    builder.addMirroredPoints(aabb, pantsWidth, bottomY)
+    builder.addMirroredPoints(aabb, innerWidth, bottomY)
+    builder.addPoint(aabb, CENTER, centerY)
 
     return builder.build()
 }

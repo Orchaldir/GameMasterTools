@@ -48,6 +48,10 @@ data class BodyConfig(
 
     fun getLegWidth(body: Body) = getBodyWidth(body) * legWidth
 
+    fun getLegsWidth(body: Body) = getTorsoWidth(body) * HALF + getLegWidth(body)
+
+    fun getLegsInnerWidth(body: Body) = getTorsoWidth(body) * HALF - getLegWidth(body)
+
     fun getLegHeight() = END - getLegY()
 
     fun getLegSize(aabb: AABB, body: Body) = aabb.size.scale(getLegWidth(body), getLegHeight())
@@ -68,7 +72,7 @@ data class BodyConfig(
         val torso = getTorsoAabb(aabb, body)
         val size = getLegSize(aabb, body)
         val offset = Point2d(0.0f, size.height * vertical.value)
-        val (left, right) = torso.getMirroredPoints(CENTER, END)
+        val (left, right) = torso.getMirroredPoints(HALF, END)
 
         return Pair(left + offset, right + offset)
     }
@@ -96,7 +100,7 @@ data class BodyConfig(
 
     fun getShoulderWidth(bodyShape: BodyShape) = when (bodyShape) {
         BodyShape.Muscular -> widerWidth
-        BodyShape.Rectangle -> FULL.interpolate(widerWidth, 0.33f)
+        BodyShape.Rectangle -> FULL.interpolate(widerWidth, Factor(0.33f))
         else -> FULL
     }
 
