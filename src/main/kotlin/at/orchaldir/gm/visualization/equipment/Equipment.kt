@@ -9,6 +9,10 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
 
+data class EquipmentConfig(
+    val pants: PantsConfig,
+)
+
 fun visualizeBodyEquipment(
     renderer: Renderer,
     config: RenderConfig,

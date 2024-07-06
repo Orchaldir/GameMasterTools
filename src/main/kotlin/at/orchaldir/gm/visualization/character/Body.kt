@@ -15,6 +15,7 @@ data class BodyConfig(
     val footRadius: Factor,
     val handRadius: Factor,
     val headHeight: Factor,
+    val hipY: Factor,
     val hourglassWidth: Factor,
     val legWidth: Factor,
     val torsoHeight: Factor,
@@ -40,6 +41,8 @@ data class BodyConfig(
     fun getArmSize(aabb: AABB, body: Body) = aabb.size.scale(getArmWidth(body), getArmHeight())
 
     fun getFootRadius(body: Body) = getBodyWidth(body) * footRadius
+
+    fun getFootY(body: Body) = END - getFootRadius(body)
 
     fun getHandRadius(body: Body) = getBodyWidth(body) * handRadius
 
@@ -129,7 +132,7 @@ fun createTorsoPolygon(config: RenderConfig, aabb: AABB, body: Body): Polygon2d 
     val shoulderWidth = config.body.getShoulderWidth(body.bodyShape)
 
     builder.addMirroredPoints(torso, hipWidth, END)
-    builder.addMirroredPoints(torso, hipWidth, Factor(0.75f))
+    builder.addMirroredPoints(torso, hipWidth, config.body.hipY)
     builder.addMirroredPoints(torso, waistWidth, CENTER)
     builder.addMirroredPoints(torso, shoulderWidth, Factor(0.25f))
     builder.addMirroredPoints(torso, shoulderWidth, START)
