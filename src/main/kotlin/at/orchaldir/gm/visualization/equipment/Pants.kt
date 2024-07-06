@@ -27,10 +27,10 @@ fun visualizePants(
 ) {
     val options = FillAndBorder(pants.color.toRender(), config.line)
     val polygon = when (pants.style) {
-        PantsStyle.Bermuda -> getPants(config, aabb, body, config.equipment.pants.heightBermuda)
+        PantsStyle.Bermuda -> getPantsWithHeight(config, aabb, body, config.equipment.pants.heightBermuda)
         PantsStyle.HotPants -> getBase(config, aabb, body).build()
         PantsStyle.Regular -> getRegularPants(config, aabb, body)
-        PantsStyle.Shorts -> getPants(config, aabb, body, config.equipment.pants.heightShort)
+        PantsStyle.Shorts -> getPantsWithHeight(config, aabb, body, config.equipment.pants.heightShort)
     }
 
     renderer.renderPolygon(polygon, options, EQUIPMENT_LAYER)
@@ -38,6 +38,14 @@ fun visualizePants(
 
 private fun getRegularPants(config: RenderConfig, aabb: AABB, body: Body): Polygon2d {
     val bottomY = config.body.getFootY(body)
+    return getPants(config, aabb, body, bottomY)
+}
+
+private fun getPantsWithHeight(config: RenderConfig, aabb: AABB, body: Body, height: Factor): Polygon2d {
+    val fullBottomY = config.body.getFootY(body)
+    val topY = config.body.getLegY()
+    val fullHeight = fullBottomY - topY
+    val bottomY = fullBottomY - fullHeight * (FULL - height)
     return getPants(config, aabb, body, bottomY)
 }
 
