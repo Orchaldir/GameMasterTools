@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
+import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Orientation
@@ -22,12 +23,16 @@ const val BEARD_BG_LAYER = 2
 const val MAIN_LAYER = 0
 const val BEHIND_LAYER = -1
 
-fun visualizeCharacter(config: RenderConfig, appearance: Appearance): Svg {
+fun visualizeCharacter(
+    config: RenderConfig,
+    appearance: Appearance,
+    equipment: List<Equipment> = emptyList(),
+): Svg {
     val size = calculateSize(config, appearance)
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
 
-    visualizeAppearance(builder, config, aabb, appearance)
+    visualizeAppearance(builder, config, aabb, appearance, equipment)
 
     return builder.finish()
 }
@@ -37,6 +42,7 @@ fun visualizeAppearance(
     config: RenderConfig,
     aabb: AABB,
     appearance: Appearance,
+    equipment: List<Equipment> = emptyList(),
 ) {
     val inner = aabb.shrink(config.padding)
 

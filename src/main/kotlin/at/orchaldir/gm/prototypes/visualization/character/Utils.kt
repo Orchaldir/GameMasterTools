@@ -3,6 +3,7 @@ package at.orchaldir.gm.prototypes.visualization.character
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
+import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.TextOptions
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
@@ -30,7 +31,7 @@ fun renderTable(
         row.forEach { appearance ->
             val aabb = AABB(start, size)
 
-            visualizeAppearance(builder, config, aabb, appearance)
+            visualizeAppearance(builder, config, aabb, appearance, emptyList())
 
             start += columnStep
         }
@@ -46,7 +47,7 @@ fun <C, R> renderTable(
     config: RenderConfig,
     rows: List<Pair<String, R>>,
     columns: List<Pair<String, C>>,
-    create: (Distance, C, R) -> Appearance,
+    create: (Distance, C, R) -> Pair<Appearance, List<Equipment>>,
 ) {
     val height = Distance(0.2f)
     val size = config.calculateSize(height)
@@ -66,9 +67,9 @@ fun <C, R> renderTable(
 
         columns.forEach { (columnName, column) ->
             val aabb = AABB(start, size)
-            val appearance = create(height, column, row)
+            val (appearance, equipment) = create(height, column, row)
 
-            visualizeAppearance(builder, config, aabb, appearance)
+            visualizeAppearance(builder, config, aabb, appearance, equipment)
 
             val textCenter = start + columnTextOffset
             builder.renderText(columnName, textCenter, columnOrientation, textOptions)

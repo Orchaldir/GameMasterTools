@@ -15,7 +15,7 @@ fun main() {
         addNames(Size.entries),
         addNames(BodyShape.entries)
     ) { distance, shape, width ->
-        createAppearance(distance, shape, width)
+        Pair(createAppearance(distance, shape, width), emptyList())
     }
 }
 
