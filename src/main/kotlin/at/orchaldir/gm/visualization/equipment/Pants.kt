@@ -11,6 +11,8 @@ import at.orchaldir.gm.visualization.character.BodyConfig
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
 
 data class PantsConfig(
+    val heightBermuda: Factor,
+    val heightShort: Factor,
     val widthPadding: Factor,
 ) {
     fun getHipWidth(config: BodyConfig, body: Body) = config.getHipWidth(body.bodyShape) * (FULL + widthPadding)
@@ -25,8 +27,10 @@ fun visualizePants(
 ) {
     val options = FillAndBorder(pants.color.toRender(), config.line)
     val polygon = when (pants.style) {
+        PantsStyle.Bermuda -> getPants(config, aabb, body, config.equipment.pants.heightBermuda)
+        PantsStyle.HotPants -> getBase(config, aabb, body).build()
         PantsStyle.Regular -> getRegularPants(config, aabb, body)
-        else -> return
+        PantsStyle.Shorts -> getPants(config, aabb, body, config.equipment.pants.heightShort)
     }
 
     renderer.renderPolygon(polygon, options, EQUIPMENT_LAYER)

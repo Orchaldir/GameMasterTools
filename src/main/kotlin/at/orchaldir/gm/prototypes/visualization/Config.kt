@@ -29,6 +29,8 @@ val RENDER_CONFIG = RenderConfig(
     ),
     EquipmentConfig(
         PantsConfig(
+            Factor(0.5f),
+            Factor(0.3f),
             Factor(0.05f),
         )
     ),
