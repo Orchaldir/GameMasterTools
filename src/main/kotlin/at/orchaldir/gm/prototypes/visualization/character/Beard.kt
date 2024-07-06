@@ -32,7 +32,7 @@ fun main() {
         addNamesToBeardStyle(beards),
         addNamesToEyes(eyes)
     ) { distance, eyes, beard ->
-        createAppearance(distance, eyes, beard)
+        Pair(createAppearance(distance, eyes, beard), emptyList())
     }
 }
 

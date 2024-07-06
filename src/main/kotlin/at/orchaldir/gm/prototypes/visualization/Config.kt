@@ -8,6 +8,8 @@ import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.*
 import at.orchaldir.gm.visualization.character.beard.BeardConfig
+import at.orchaldir.gm.visualization.equipment.EquipmentConfig
+import at.orchaldir.gm.visualization.equipment.PantsConfig
 
 val RENDER_CONFIG = RenderConfig(
     Distance(0.1f), LineOptions(Color.Black.toRender(), Distance(0.005f)),
@@ -16,6 +18,7 @@ val RENDER_CONFIG = RenderConfig(
         Factor(0.09f),
         Factor(0.07f),
         Factor(0.25f),
+        Factor(0.75f),
         Factor(0.8f),
         Factor(0.14f),
         Factor(0.42f),
@@ -23,6 +26,13 @@ val RENDER_CONFIG = RenderConfig(
         Factor(0.255f),
         Factor(1.2f),
         SizeConfig(0.8f, 1.0f, 1.2f),
+    ),
+    EquipmentConfig(
+        PantsConfig(
+            Factor(0.5f),
+            Factor(0.3f),
+            Factor(0.05f),
+        )
     ),
     HeadConfig(
         BeardConfig(Factor(0.8f), Factor(0.05f), Factor(0.1f), Factor(0.01f)),

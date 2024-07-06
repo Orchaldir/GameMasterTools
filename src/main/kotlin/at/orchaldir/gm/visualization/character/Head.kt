@@ -32,7 +32,12 @@ data class HeadConfig(
 
 }
 
-fun visualizeHead(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
+fun visualizeHead(
+    renderer: Renderer,
+    config: RenderConfig,
+    aabb: AABB,
+    head: Head,
+) {
     visualizeEars(renderer, config, aabb, head)
     visualizeHeadShape(renderer, config, aabb, head)
     visualizeEyes(renderer, config, aabb, head)

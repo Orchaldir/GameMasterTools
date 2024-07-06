@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.item.*
+import at.orchaldir.gm.core.model.item.PantsStyle.Shorts
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -16,6 +17,41 @@ private val CHARACTER0 = CharacterId(0)
 private val CHARACTER1 = CharacterId(1)
 
 class ItemTest {
+
+    @Nested
+    inner class GetEquipmentTest {
+        @Test
+        fun `Get equipment of a character`() {
+            val equipment = Pants(Shorts)
+            val item = Item(ID0, TEMPLATE0, location = EquippedItem(CHARACTER0))
+            val state = State(
+                items = Storage(listOf(item)),
+                itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0, equipment = equipment)))
+            )
+
+            assertEquals(listOf(equipment), state.getEquipment(CHARACTER0))
+        }
+
+        @Test
+        fun `Do not get the equipment of another character`() {
+            val state = State(items = Storage(listOf(Item(ID0, location = EquippedItem(CHARACTER0)))))
+
+            assertTrue(state.getEquipment(CHARACTER1).isEmpty())
+        }
+
+        @Test
+        fun `Do not get the equipment in an inventory`() {
+            val equipment = Pants(Shorts)
+            val item = Item(ID0, TEMPLATE0, location = InInventory(CHARACTER0))
+            val state = State(
+                items = Storage(listOf(item)),
+                itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0, equipment = equipment)))
+            )
+
+            assertTrue(state.getEquipment(CHARACTER0).isEmpty())
+            assertTrue(state.getEquipment(CHARACTER1).isEmpty())
+        }
+    }
 
     @Nested
     inner class GetInventoryTest {
@@ -48,7 +84,7 @@ class ItemTest {
     inner class GetItemsOfTemplateTest {
 
         @Test
-        fun `Get items in a character's inventory`() {
+        fun `Get items of a template`() {
             val item = Item(ID0, TEMPLATE0)
             val state = State(items = Storage(listOf(item)))
 
@@ -56,7 +92,7 @@ class ItemTest {
         }
 
         @Test
-        fun `Do not get the items in another character's inventory`() {
+        fun `Do not get the items in another template`() {
             val state = State(items = Storage(listOf(Item(ID0, TEMPLATE0))))
 
             assertTrue(state.getItems(TEMPLATE1).isEmpty())

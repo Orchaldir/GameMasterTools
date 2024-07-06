@@ -17,11 +17,13 @@ value class ItemTemplateId(val value: Int) : Id<ItemTemplateId> {
 data class ItemTemplate(
     val id: ItemTemplateId,
     val name: String = "Item Template ${id.value}",
-    val slots: Set<EquipmentSlot> = emptySet(),
+    val equipment: Equipment = NoEquipment,
 ) : Element<ItemTemplateId> {
 
     override fun id() = id
 
-    fun canEquip() = slots.isNotEmpty()
+    fun slots() = equipment.slots()
+
+    fun canEquip() = equipment.slots().isNotEmpty()
 
 }

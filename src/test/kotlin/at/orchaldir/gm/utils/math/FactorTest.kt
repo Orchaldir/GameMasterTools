@@ -9,12 +9,12 @@ class FactorTest {
         val start = Factor(10.0f)
         val end = Factor(14.0f)
 
-        testInterpolate(start, end, 0.0f, 10.0f)
-        testInterpolate(start, end, 0.5f, 12.0f)
-        testInterpolate(start, end, 1.0f, 14.0f)
+        testInterpolate(start, end, START, 10.0f)
+        testInterpolate(start, end, CENTER, 12.0f)
+        testInterpolate(start, end, END, 14.0f)
     }
 
-    private fun testInterpolate(start: Factor, end: Factor, input: Float, result: Float) {
+    private fun testInterpolate(start: Factor, end: Factor, input: Factor, result: Float) {
         assertEquals(Factor(result), start.interpolate(end, input))
     }
 }

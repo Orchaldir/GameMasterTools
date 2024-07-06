@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.parse
 
-import at.orchaldir.gm.core.model.item.ItemTemplate
-import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.item.*
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -10,5 +10,13 @@ fun parseItemTemplateId(parameters: Parameters, param: String) = ItemTemplateId(
 fun parseItemTemplate(id: ItemTemplateId, parameters: Parameters): ItemTemplate {
     val name = parameters.getOrFail(NAME)
 
-    return ItemTemplate(id, name, parseSet(parameters, EQUIPMENT_SLOT))
+    return ItemTemplate(id, name, parseEquipment(parameters))
+}
+
+fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_TYPE, EquipmentType.None)) {
+    EquipmentType.None -> NoEquipment
+    EquipmentType.Pants -> Pants(
+        parse(parameters, EQUIPMENT_STYLE, PantsStyle.Regular),
+        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
+    )
 }

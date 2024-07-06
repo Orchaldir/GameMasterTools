@@ -138,9 +138,10 @@ private fun HTML.showCharacterDetails(
     state: State,
     character: Character,
 ) {
+    val equipment = state.getEquipment(character.id)
     val backLink = call.application.href(Characters())
     val editAppearanceLink = call.application.href(Characters.Appearance.Edit(character.id))
-    val frontSvg = visualizeCharacter(RENDER_CONFIG, character.appearance)
+    val frontSvg = visualizeCharacter(RENDER_CONFIG, character.appearance, equipment)
 
     simpleHtml("Character: ${state.getName(character)}") {
         svg(frontSvg, 20)

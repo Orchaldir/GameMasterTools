@@ -31,7 +31,7 @@ fun main() {
             val aabb = AABB(start, size)
             val appearance = createAppearance(height, row, column)
 
-            visualizeAppearance(builder, config, aabb, appearance)
+            visualizeAppearance(builder, config, aabb, appearance, emptyList())
 
             start += columnStep
         }

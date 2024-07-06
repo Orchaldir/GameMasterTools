@@ -2,17 +2,20 @@ package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
+import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.RenderOptions
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.SizeConfig
+import at.orchaldir.gm.visualization.equipment.visualizeBodyEquipment
 
 data class BodyConfig(
     val armWidth: Factor,
     val footRadius: Factor,
     val handRadius: Factor,
     val headHeight: Factor,
+    val hipY: Factor,
     val hourglassWidth: Factor,
     val legWidth: Factor,
     val torsoHeight: Factor,
@@ -39,9 +42,15 @@ data class BodyConfig(
 
     fun getFootRadius(body: Body) = getBodyWidth(body) * footRadius
 
+    fun getFootY(body: Body) = END - getFootRadius(body)
+
     fun getHandRadius(body: Body) = getBodyWidth(body) * handRadius
 
     fun getLegWidth(body: Body) = getBodyWidth(body) * legWidth
+
+    fun getLegsWidth(body: Body) = getTorsoWidth(body) * HALF + getLegWidth(body)
+
+    fun getLegsInnerWidth(body: Body) = getTorsoWidth(body) * HALF - getLegWidth(body)
 
     fun getLegHeight() = END - getLegY()
 
@@ -63,7 +72,7 @@ data class BodyConfig(
         val torso = getTorsoAabb(aabb, body)
         val size = getLegSize(aabb, body)
         val offset = Point2d(0.0f, size.height * vertical.value)
-        val (left, right) = torso.getMirroredPoints(CENTER, END)
+        val (left, right) = torso.getMirroredPoints(HALF, END)
 
         return Pair(left + offset, right + offset)
     }
@@ -91,19 +100,26 @@ data class BodyConfig(
 
     fun getShoulderWidth(bodyShape: BodyShape) = when (bodyShape) {
         BodyShape.Muscular -> widerWidth
-        BodyShape.Rectangle -> FULL.interpolate(widerWidth, 0.33f)
+        BodyShape.Rectangle -> FULL.interpolate(widerWidth, Factor(0.33f))
         else -> FULL
     }
 
 }
 
-fun visualizeBody(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body) {
+fun visualizeBody(
+    renderer: Renderer,
+    config: RenderConfig,
+    aabb: AABB,
+    body: Body,
+    equipment: List<Equipment>,
+) {
     val options = config.getOptions(body.skin)
     visualizeArms(renderer, config, aabb, body, options)
     visualizeHands(renderer, config, aabb, body, options)
     visualizeLegs(renderer, config, aabb, body, options)
     visualizeFeet(renderer, config, aabb, body, options)
     visualizeTorso(renderer, config, aabb, body, options)
+    visualizeBodyEquipment(renderer, config, aabb, body, equipment)
 }
 
 fun visualizeTorso(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
@@ -120,7 +136,7 @@ fun createTorsoPolygon(config: RenderConfig, aabb: AABB, body: Body): Polygon2d 
     val shoulderWidth = config.body.getShoulderWidth(body.bodyShape)
 
     builder.addMirroredPoints(torso, hipWidth, END)
-    builder.addMirroredPoints(torso, hipWidth, Factor(0.75f))
+    builder.addMirroredPoints(torso, hipWidth, config.body.hipY)
     builder.addMirroredPoints(torso, waistWidth, CENTER)
     builder.addMirroredPoints(torso, shoulderWidth, Factor(0.25f))
     builder.addMirroredPoints(torso, shoulderWidth, START)
