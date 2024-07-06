@@ -2,7 +2,10 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.EQUIPMENT_COLOR
+import at.orchaldir.gm.app.parse.EQUIPMENT_STYLE
+import at.orchaldir.gm.app.parse.EQUIPMENT_TYPE
+import at.orchaldir.gm.app.parse.parseItemTemplate
 import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate

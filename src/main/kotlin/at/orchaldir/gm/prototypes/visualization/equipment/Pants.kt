@@ -1,6 +1,5 @@
 package at.orchaldir.gm.prototypes.visualization.equipment
 
-import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.Color.Blue
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.Body
