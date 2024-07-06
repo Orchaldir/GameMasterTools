@@ -8,11 +8,12 @@ import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.character.BodyConfig
+import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
 
 data class PantsConfig(
     val widthPadding: Factor,
 ) {
-    fun getHipWidth(config: BodyConfig, body: Body) = config.getTorsoWidth(body) * (FULL + widthPadding)
+    fun getHipWidth(config: BodyConfig, body: Body) = config.getHipWidth(body.bodyShape) * (FULL + widthPadding)
 }
 
 fun visualizePants(
@@ -28,7 +29,7 @@ fun visualizePants(
         else -> return
     }
 
-    renderer.renderPolygon(polygon, options)
+    renderer.renderPolygon(polygon, options, EQUIPMENT_LAYER)
 }
 
 private fun getRegularPants(config: RenderConfig, aabb: AABB, body: Body): Polygon2d {

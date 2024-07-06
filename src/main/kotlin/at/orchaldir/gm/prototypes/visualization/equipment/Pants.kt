@@ -1,5 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.equipment
 
+import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.appearance.Color.Blue
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
@@ -14,12 +16,12 @@ import at.orchaldir.gm.utils.math.Distance
 
 fun main() {
     renderTable(
-        "body.svg",
+        "pants.svg",
         RENDER_CONFIG,
         addNames(PantsStyle.entries),
         addNames(BodyShape.entries)
     ) { distance, shape, style ->
-        Pair(createAppearance(distance, shape), listOf(Pants(style)))
+        Pair(createAppearance(distance, shape), listOf(Pants(style, Blue)))
     }
 }
 
