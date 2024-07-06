@@ -4,12 +4,13 @@ import at.orchaldir.gm.core.action.CreateItem
 import at.orchaldir.gm.core.action.DeleteItem
 import at.orchaldir.gm.core.action.UpdateItem
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.HeadOnly
+import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.*
-import at.orchaldir.gm.core.model.item.EquipmentSlot.Headwear
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Distance
 import org.junit.jupiter.api.Nested
@@ -22,9 +23,10 @@ private val ID1 = ItemId(1)
 private val TEMPLATE0 = ItemTemplateId(0)
 private val TEMPLATE1 = ItemTemplateId(1)
 private val CHARACTER_ID0 = CharacterId(0)
-private val WITH_SLOT0 = ItemTemplate(TEMPLATE0, slots = setOf(Headwear))
+private val WITH_SLOT0 = ItemTemplate(TEMPLATE0, equipment = Pants())
 private val EQUIPPED0 = Item(ID0, TEMPLATE0, EquippedItem(CHARACTER_ID0))
-private val CHARACTER0 = Character(CHARACTER_ID0, appearance = HeadOnly(Head(), Distance(1.0f)))
+private val CHARACTER0 =
+    Character(CHARACTER_ID0, appearance = HumanoidBody(Body(width = Size.Medium), Head(), Distance(1.0f)))
 
 class ItemTest {
 
