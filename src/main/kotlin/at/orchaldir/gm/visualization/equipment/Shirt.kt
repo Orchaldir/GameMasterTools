@@ -29,14 +29,18 @@ fun visualizeSleeves(
     color: Color,
 ) {
     val options = FillAndBorder(color.toRender(), config.line)
-    val start = config.body.getArmStart(aabb, body)
-    val size = config.body.getArmSize(aabb, body)
+    val (left, right) = config.body.getArmStarts(aabb, body)
+    val armSize = config.body.getArmSize(aabb, body)
 
-    val armAabb = when (style) {
-        SleeveStyle.Long -> AABB(start, size)
+    val sleeveSize = when (style) {
+        SleeveStyle.Long -> armSize
         SleeveStyle.None -> return
-        SleeveStyle.Short -> AABB(start, size.copy(height = size.height * 0.5f))
+        SleeveStyle.Short -> armSize.copy(height = armSize.height * 0.5f)
     }
 
-    renderer.renderRectangle(armAabb, options, EQUIPMENT_LAYER)
+    val leftAabb = AABB(left, sleeveSize)
+    val rightAabb = AABB(right, sleeveSize)
+
+    renderer.renderRectangle(leftAabb, options, EQUIPMENT_LAYER)
+    renderer.renderRectangle(rightAabb, options, EQUIPMENT_LAYER)
 }

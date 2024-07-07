@@ -34,10 +34,14 @@ data class BodyConfig(
         return AABB(start, size)
     }
 
-    fun getArmStart(aabb: AABB, body: Body): Point2d {
+    fun getArmStarts(aabb: AABB, body: Body): Pair<Point2d, Point2d> {
+        val armWidth = aabb.convertWidth(getArmWidth(body))
+        val offset = Point2d(armWidth.value, 0.0f)
+        val shoulderWidth = getShoulderWidth(body.bodyShape)
         val torso = getTorsoAabb(aabb, body)
+        val points = torso.getMirroredPoints(shoulderWidth, START)
 
-        return torso.getPoint(END, START)
+        return points.copy(first = points.first.copy() - offset)
     }
 
     fun getArmWidth(body: Body) = getBodyWidth(body) * getShoulderWidth(body.bodyShape) * armWidth
