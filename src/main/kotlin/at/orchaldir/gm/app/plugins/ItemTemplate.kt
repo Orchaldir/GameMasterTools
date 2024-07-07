@@ -2,10 +2,7 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.EQUIPMENT_COLOR
-import at.orchaldir.gm.app.parse.EQUIPMENT_STYLE
-import at.orchaldir.gm.app.parse.EQUIPMENT_TYPE
-import at.orchaldir.gm.app.parse.parseItemTemplate
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
@@ -156,6 +153,13 @@ private fun HTML.showItemTemplateDetails(
                 field("Style", itemTemplate.equipment.style.toString())
                 field("Color", itemTemplate.equipment.color.toString())
             }
+            is Shirt -> {
+                field("Equipment", "Shirt")
+                field("Neckline Style", itemTemplate.equipment.necklineStyle.toString())
+                field("Sleeve Style", itemTemplate.equipment.sleeveStyle.toString())
+                field("Color", itemTemplate.equipment.color.toString())
+            }
+
         }
         showList("Instances", items) { item ->
             link(call, state, item)
@@ -208,6 +212,7 @@ private fun HTML.showItemTemplateEditor(
                 selected = when (template.equipment) {
                     NoEquipment -> type == EquipmentType.None
                     is Pants -> type == EquipmentType.Pants
+                    is Shirt -> type == EquipmentType.Shirt
                 }
             }
             when (template.equipment) {
@@ -217,6 +222,20 @@ private fun HTML.showItemTemplateEditor(
                         label = style.name
                         value = style.name
                         selected = template.equipment.style == style
+                    }
+                    selectColor("Color", EQUIPMENT_COLOR, OneOf(Color.entries), template.equipment.color)
+                }
+
+                is Shirt -> {
+                    selectEnum("Neckline Style", NECKLINE_STYLE, NecklineStyle.entries, false) { style ->
+                        label = style.name
+                        value = style.name
+                        selected = template.equipment.necklineStyle == style
+                    }
+                    selectEnum("Sleeve Style", SLEEVE_STYLE, SleeveStyle.entries, false) { style ->
+                        label = style.name
+                        value = style.name
+                        selected = template.equipment.sleeveStyle == style
                     }
                     selectColor("Color", EQUIPMENT_COLOR, OneOf(Color.entries), template.equipment.color)
                 }
