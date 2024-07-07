@@ -45,7 +45,6 @@ enum class SleeveStyle {
 }
 
 enum class NecklineStyle {
-    Boat,
     Crew,
     None,
     V,

@@ -9,8 +9,10 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
+import at.orchaldir.gm.visualization.equipment.part.NecklineConfig
 
 data class EquipmentConfig(
+    val neckline: NecklineConfig,
     val pants: PantsConfig,
 )
 

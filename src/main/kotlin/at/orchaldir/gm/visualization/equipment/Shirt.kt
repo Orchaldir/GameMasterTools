@@ -11,6 +11,7 @@ import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.createTorso
+import at.orchaldir.gm.visualization.equipment.part.addNeckline
 
 fun visualizeShirt(
     renderer: Renderer,
@@ -58,6 +59,9 @@ private fun visualizeTorso(
 ) {
     val options = FillAndBorder(color.toRender(), config.line)
     val builder = createTorso(config, aabb, body)
+
+    addNeckline(builder, config, aabb, style)
+
     val polygon = builder.build()
 
     renderer.renderPolygon(polygon, options, EQUIPMENT_LAYER)
