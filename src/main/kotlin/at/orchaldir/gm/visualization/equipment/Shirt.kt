@@ -59,8 +59,9 @@ private fun visualizeTorso(
 ) {
     val options = FillAndBorder(color.toRender(), config.line)
     val builder = createTorso(config, aabb, body)
+    val torsoAabb = config.body.getTorsoAabb(aabb, body)
 
-    addNeckline(builder, config, aabb, style)
+    addNeckline(builder, config, torsoAabb, style)
 
     val polygon = builder.build()
 

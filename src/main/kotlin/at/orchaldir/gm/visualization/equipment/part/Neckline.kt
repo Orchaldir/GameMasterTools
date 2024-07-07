@@ -16,17 +16,17 @@ data class NecklineConfig(
 fun addNeckline(
     builder: Polygon2dBuilder,
     config: RenderConfig,
-    aabb: AABB,
+    torsoAabb: AABB,
     style: NecklineStyle,
 ) {
     val neckline = config.equipment.neckline
 
     when (style) {
-        NecklineStyle.Crew -> addRound(builder, aabb, neckline.widthCrew, neckline.heightCrew)
+        NecklineStyle.Crew -> addRound(builder, torsoAabb, neckline.widthCrew, neckline.heightCrew)
         NecklineStyle.None -> return
-        NecklineStyle.V -> addV(builder, aabb, neckline.widthV, neckline.heightV)
-        NecklineStyle.DeepV -> addV(builder, aabb, neckline.widthV, neckline.heightDeepV)
-        NecklineStyle.VeryDeepV -> addV(builder, aabb, neckline.widthV, neckline.heightVeryDeepV)
+        NecklineStyle.V -> addV(builder, torsoAabb, neckline.widthV, neckline.heightV)
+        NecklineStyle.DeepV -> addV(builder, torsoAabb, neckline.widthV, neckline.heightDeepV)
+        NecklineStyle.VeryDeepV -> addV(builder, torsoAabb, neckline.widthV, neckline.heightVeryDeepV)
     }
 }
 
