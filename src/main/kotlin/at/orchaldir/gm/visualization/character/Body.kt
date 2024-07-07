@@ -164,8 +164,8 @@ fun visualizeHands(renderer: Renderer, config: RenderConfig, aabb: AABB, body: B
     val (left, right) = config.body.getMirroredArmPoint(aabb, body, END)
     val radius = aabb.convertHeight(config.body.getHandRadius(body))
 
-    renderer.renderCircle(left, radius, options)
-    renderer.renderCircle(right, radius, options)
+    renderer.renderCircle(left, radius, options, ABOVE_EQUIPMENT_LAYER)
+    renderer.renderCircle(right, radius, options, ABOVE_EQUIPMENT_LAYER)
 }
 
 fun visualizeLegs(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {

@@ -9,7 +9,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.NoBorder
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
-import at.orchaldir.gm.visualization.character.BEARD_LAYER
+import at.orchaldir.gm.visualization.character.ABOVE_EQUIPMENT_LAYER
 
 data class BeardConfig(
     val goateeWidth: Factor,
@@ -50,20 +50,20 @@ private fun visualizeGoatee(
     val polygon = when (goatee) {
         GoateeStyle.ChinPuff -> getChinPuff(config, aabb, head)
         GoateeStyle.Goatee -> {
-            renderer.renderPolygon(getGoatee(config, aabb, head), options, BEARD_LAYER)
+            renderer.renderPolygon(getGoatee(config, aabb, head), options, ABOVE_EQUIPMENT_LAYER)
             return
         }
 
         GoateeStyle.LandingStrip -> getLandingStrip(config, aabb, head)
         GoateeStyle.SoulPatch -> {
-            renderer.renderPolygon(getSoulPatch(config, aabb, head), options, BEARD_LAYER)
+            renderer.renderPolygon(getSoulPatch(config, aabb, head), options, ABOVE_EQUIPMENT_LAYER)
             return
         }
 
         GoateeStyle.VanDyke -> getVanDyke(config, aabb, head)
     }
 
-    renderer.renderRoundedPolygon(polygon, options, BEARD_LAYER)
+    renderer.renderRoundedPolygon(polygon, options, ABOVE_EQUIPMENT_LAYER)
 }
 
 private fun visualizeMoustache(
@@ -84,5 +84,5 @@ private fun visualizeMoustache(
         MoustacheStyle.Walrus -> getWalrus(config, aabb, head)
     }
 
-    renderer.renderRoundedPolygon(polygon, options, BEARD_LAYER)
+    renderer.renderRoundedPolygon(polygon, options, ABOVE_EQUIPMENT_LAYER)
 }
