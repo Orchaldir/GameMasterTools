@@ -153,6 +153,7 @@ private fun HTML.showItemTemplateDetails(
                 field("Style", itemTemplate.equipment.style.toString())
                 field("Color", itemTemplate.equipment.color.toString())
             }
+
             is Shirt -> {
                 field("Equipment", "Shirt")
                 field("Neckline Style", itemTemplate.equipment.necklineStyle.toString())
