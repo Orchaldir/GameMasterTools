@@ -34,6 +34,12 @@ data class BodyConfig(
         return AABB(start, size)
     }
 
+    fun getArmStart(aabb: AABB, body: Body): Point2d {
+        val torso = getTorsoAabb(aabb, body)
+
+        return torso.getPoint(END, START)
+    }
+
     fun getArmWidth(body: Body) = getBodyWidth(body) * getShoulderWidth(body.bodyShape) * armWidth
 
     fun getArmHeight() = torsoHeight
