@@ -133,12 +133,12 @@ fun visualizeBody(
 }
 
 fun visualizeTorso(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
-    val polygon = createTorsoPolygon(config, aabb, body)
+    val polygon = createTorso(config, aabb, body).build()
 
     renderer.renderPolygon(polygon, options)
 }
 
-fun createTorsoPolygon(config: RenderConfig, aabb: AABB, body: Body): Polygon2d {
+fun createTorso(config: RenderConfig, aabb: AABB, body: Body): Polygon2dBuilder {
     val torso = config.body.getTorsoAabb(aabb, body)
     val builder = Polygon2dBuilder()
     val hipWidth = config.body.getHipWidth(body.bodyShape)
@@ -151,7 +151,7 @@ fun createTorsoPolygon(config: RenderConfig, aabb: AABB, body: Body): Polygon2d 
     builder.addMirroredPoints(torso, shoulderWidth, Factor(0.25f))
     builder.addMirroredPoints(torso, shoulderWidth, START)
 
-    return builder.build()
+    return builder
 }
 
 fun visualizeArms(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
