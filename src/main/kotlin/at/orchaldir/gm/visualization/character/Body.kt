@@ -34,6 +34,16 @@ data class BodyConfig(
         return AABB(start, size)
     }
 
+    fun getArmStarts(aabb: AABB, body: Body): Pair<Point2d, Point2d> {
+        val armWidth = aabb.convertWidth(getArmWidth(body))
+        val offset = Point2d(armWidth.value, 0.0f)
+        val shoulderWidth = getShoulderWidth(body.bodyShape)
+        val torso = getTorsoAabb(aabb, body)
+        val points = torso.getMirroredPoints(shoulderWidth, START)
+
+        return points.copy(first = points.first.copy() - offset)
+    }
+
     fun getArmWidth(body: Body) = getBodyWidth(body) * getShoulderWidth(body.bodyShape) * armWidth
 
     fun getArmHeight() = torsoHeight
@@ -123,12 +133,12 @@ fun visualizeBody(
 }
 
 fun visualizeTorso(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
-    val polygon = createTorsoPolygon(config, aabb, body)
+    val polygon = createTorso(config, aabb, body).build()
 
     renderer.renderPolygon(polygon, options)
 }
 
-fun createTorsoPolygon(config: RenderConfig, aabb: AABB, body: Body): Polygon2d {
+fun createTorso(config: RenderConfig, aabb: AABB, body: Body): Polygon2dBuilder {
     val torso = config.body.getTorsoAabb(aabb, body)
     val builder = Polygon2dBuilder()
     val hipWidth = config.body.getHipWidth(body.bodyShape)
@@ -141,7 +151,7 @@ fun createTorsoPolygon(config: RenderConfig, aabb: AABB, body: Body): Polygon2d 
     builder.addMirroredPoints(torso, shoulderWidth, Factor(0.25f))
     builder.addMirroredPoints(torso, shoulderWidth, START)
 
-    return builder.build()
+    return builder
 }
 
 fun visualizeArms(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
@@ -158,8 +168,8 @@ fun visualizeHands(renderer: Renderer, config: RenderConfig, aabb: AABB, body: B
     val (left, right) = config.body.getMirroredArmPoint(aabb, body, END)
     val radius = aabb.convertHeight(config.body.getHandRadius(body))
 
-    renderer.renderCircle(left, radius, options)
-    renderer.renderCircle(right, radius, options)
+    renderer.renderCircle(left, radius, options, ABOVE_EQUIPMENT_LAYER)
+    renderer.renderCircle(right, radius, options, ABOVE_EQUIPMENT_LAYER)
 }
 
 fun visualizeLegs(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
