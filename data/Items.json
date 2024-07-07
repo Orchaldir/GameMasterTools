@@ -23,6 +23,14 @@
     "type": "Equipped",
     "character": 0
    }
+  },
+  "3": {
+   "id": 3,
+   "template": 3,
+   "location": {
+    "type": "Equipped",
+    "character": 0
+   }
   }
  }
 }

@@ -16,6 +16,15 @@
     "type": "Pants",
     "color": "Blue"
    }
+  },
+  "3": {
+   "id": 3,
+   "name": "Blue Shirt",
+   "equipment": {
+    "type": "Shirt",
+    "necklineStyle": "Crew",
+    "color": "Blue"
+   }
   }
  }
 }
