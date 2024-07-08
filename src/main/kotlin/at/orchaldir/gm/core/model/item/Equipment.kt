@@ -15,6 +15,7 @@ enum class EquipmentType {
 
 @Serializable
 sealed class Equipment {
+    open fun contains(id: MaterialId) = false
     open fun slots(): Set<EquipmentSlot> = emptySet()
 }
 
@@ -36,6 +37,8 @@ data class Pants(
     val color: Color = Color.SaddleBrown,
     val material: MaterialId = MaterialId(0),
 ) : Equipment() {
+
+    override fun contains(id: MaterialId) = material == id
 
     override fun slots() = setOf(Bottom)
 }
@@ -62,6 +65,8 @@ data class Shirt(
     val color: Color = Color.SaddleBrown,
     val material: MaterialId = MaterialId(0),
 ) : Equipment() {
+
+    override fun contains(id: MaterialId) = material == id
 
     override fun slots() = setOf(Top)
 }

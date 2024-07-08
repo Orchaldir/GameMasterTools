@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.getItemTemplates
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -121,17 +122,21 @@ private fun HTML.showAllMaterials(call: ApplicationCall) {
 private fun HTML.showMaterialDetails(
     call: ApplicationCall,
     state: State,
-    nameList: Material,
+    material: Material,
 ) {
+    val templates = state.getItemTemplates(material.id)
     val backLink = call.application.href(Materials())
-    val deleteLink = call.application.href(Materials.Delete(nameList.id))
-    val editLink = call.application.href(Materials.Edit(nameList.id))
+    val deleteLink = call.application.href(Materials.Delete(material.id))
+    val editLink = call.application.href(Materials.Edit(material.id))
 
-    simpleHtml("Material: ${nameList.name}") {
-        field("Id", nameList.id.value.toString())
-        field("Name", nameList.name)
+    simpleHtml("Material: ${material.name}") {
+        field("Id", material.id.value.toString())
+        field("Name", material.name)
+        showList("Item templates", templates) { template ->
+            link(call, template)
+        }
         p { a(editLink) { +"Edit" } }
-        if (state.canDelete(nameList.id)) {
+        if (state.canDelete(material.id)) {
             p { a(deleteLink) { +"Delete" } }
         }
         p { a(backLink) { +"Back" } }
