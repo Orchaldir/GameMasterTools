@@ -136,29 +136,35 @@ private fun HTML.showAllItemTemplates(call: ApplicationCall) {
 private fun HTML.showItemTemplateDetails(
     call: ApplicationCall,
     state: State,
-    itemTemplate: ItemTemplate,
+    template: ItemTemplate,
 ) {
-    val items = state.getItems(itemTemplate.id)
+    val items = state.getItems(template.id)
     val backLink = call.application.href(ItemTemplates())
-    val deleteLink = call.application.href(ItemTemplates.Delete(itemTemplate.id))
-    val editLink = call.application.href(ItemTemplates.Edit(itemTemplate.id))
-    val createItemLink = call.application.href(Items.New(itemTemplate.id))
+    val deleteLink = call.application.href(ItemTemplates.Delete(template.id))
+    val editLink = call.application.href(ItemTemplates.Edit(template.id))
+    val createItemLink = call.application.href(Items.New(template.id))
 
-    simpleHtml("Item Template: ${itemTemplate.name}") {
-        field("Id", itemTemplate.id.value.toString())
-        when (itemTemplate.equipment) {
+    simpleHtml("Item Template: ${template.name}") {
+        field("Id", template.id.value.toString())
+        when (template.equipment) {
             NoEquipment -> doubleArrayOf()
             is Pants -> {
                 field("Equipment", "Pants")
-                field("Style", itemTemplate.equipment.style.toString())
-                field("Color", itemTemplate.equipment.color.toString())
+                field("Style", template.equipment.style.toString())
+                field("Color", template.equipment.color.toString())
+                field("Material") {
+                    link(call, state, template.equipment.material)
+                }
             }
 
             is Shirt -> {
                 field("Equipment", "Shirt")
-                field("Neckline Style", itemTemplate.equipment.necklineStyle.toString())
-                field("Sleeve Style", itemTemplate.equipment.sleeveStyle.toString())
-                field("Color", itemTemplate.equipment.color.toString())
+                field("Neckline Style", template.equipment.necklineStyle.toString())
+                field("Sleeve Style", template.equipment.sleeveStyle.toString())
+                field("Color", template.equipment.color.toString())
+                field("Material") {
+                    link(call, state, template.equipment.material)
+                }
             }
 
         }
@@ -180,7 +186,7 @@ private fun HTML.showItemTemplateDetails(
             }
         }
         p { a(editLink) { +"Edit" } }
-        if (state.canDelete(itemTemplate.id)) {
+        if (state.canDelete(template.id)) {
             p { a(deleteLink) { +"Delete" } }
         }
         p { a(createItemLink) { +"Create Instance" } }
