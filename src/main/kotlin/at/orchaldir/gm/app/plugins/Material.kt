@@ -24,7 +24,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/names")
+@Resource("/materials")
 class Materials {
     @Resource("details")
     class Details(val id: MaterialId, val parent: Materials = Materials())
@@ -108,7 +108,7 @@ private fun HTML.showAllMaterials(call: ApplicationCall) {
     val count = materials.size
     val createLink = call.application.href(Materials.New())
 
-    simpleHtml("Name Lists") {
+    simpleHtml("Materials") {
         field("Count", count.toString())
         showList(materials) { nameList ->
             link(call, nameList)
@@ -127,7 +127,7 @@ private fun HTML.showMaterialDetails(
     val deleteLink = call.application.href(Materials.Delete(nameList.id))
     val editLink = call.application.href(Materials.Edit(nameList.id))
 
-    simpleHtml("Name List: ${nameList.name}") {
+    simpleHtml("Material: ${nameList.name}") {
         field("Id", nameList.id.value.toString())
         field("Name", nameList.name)
         p { a(editLink) { +"Edit" } }
@@ -145,7 +145,7 @@ private fun HTML.showMaterialEditor(
     val backLink = href(call, nameList.id)
     val updateLink = call.application.href(Materials.Update(nameList.id))
 
-    simpleHtml("Edit Name List: ${nameList.name}") {
+    simpleHtml("Edit Material: ${nameList.name}") {
         field("Id", nameList.id.value.toString())
         form {
             field("Name") {
