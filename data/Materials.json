@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "elements": {
+    "0": {
+      "id": 0,
+      "name": "Cotton"
+    },
+    "1": {
+      "id": 1,
+      "name": "Wool"
+    },
+    "2": {
+      "id": 2,
+      "name": "Silk"
+    }
+  }
+}
