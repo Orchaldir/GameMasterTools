@@ -18,11 +18,13 @@ fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_T
     EquipmentType.Pants -> Pants(
         parse(parameters, EQUIPMENT_STYLE, PantsStyle.Regular),
         parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
+        parseMaterialId(parameters, MATERIAL),
     )
 
     EquipmentType.Shirt -> Shirt(
         parse(parameters, NECKLINE_STYLE, NecklineStyle.None),
         parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
         parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
+        parseMaterialId(parameters, MATERIAL),
     )
 }

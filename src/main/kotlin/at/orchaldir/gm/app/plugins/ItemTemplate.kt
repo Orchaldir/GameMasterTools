@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.item.*
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getItems
 import at.orchaldir.gm.utils.doNothing
@@ -92,7 +93,7 @@ fun Application.configureItemTemplateRouting() {
             val template = state.itemTemplates.getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showItemTemplateEditor(call, template)
+                showItemTemplateEditor(call, state, template)
             }
         }
         post<ItemTemplates.Preview> { preview ->
@@ -101,7 +102,7 @@ fun Application.configureItemTemplateRouting() {
             val template = parseItemTemplate(preview.id, call.receiveParameters())
 
             call.respondHtml(HttpStatusCode.OK) {
-                showItemTemplateEditor(call, template)
+                showItemTemplateEditor(call, STORE.getState(), template)
             }
         }
         post<ItemTemplates.Update> { update ->
@@ -196,6 +197,7 @@ private fun HTML.showItemTemplateDetails(
 
 private fun HTML.showItemTemplateEditor(
     call: ApplicationCall,
+    state: State,
     template: ItemTemplate,
 ) {
     val backLink = href(call, template.id)
@@ -230,7 +232,8 @@ private fun HTML.showItemTemplateEditor(
                         value = style.name
                         selected = template.equipment.style == style
                     }
-                    selectColor("Color", EQUIPMENT_COLOR, OneOf(Color.entries), template.equipment.color)
+                    selectColor(template.equipment.color)
+                    selectMaterial(state, template.equipment.material)
                 }
 
                 is Shirt -> {
@@ -244,7 +247,8 @@ private fun HTML.showItemTemplateEditor(
                         value = style.name
                         selected = template.equipment.sleeveStyle == style
                     }
-                    selectColor("Color", EQUIPMENT_COLOR, OneOf(Color.entries), template.equipment.color)
+                    selectColor(template.equipment.color)
+                    selectMaterial(state, template.equipment.material)
                 }
             }
             p {
@@ -257,4 +261,19 @@ private fun HTML.showItemTemplateEditor(
         }
         p { a(backLink) { +"Back" } }
     }
+}
+
+private fun FORM.selectMaterial(
+    state: State,
+    materialId: MaterialId,
+) {
+    selectEnum("Material", MATERIAL, state.materials.getAll()) { material ->
+        label = material.name
+        value = material.id.value.toString()
+        selected = materialId == material.id
+    }
+}
+
+private fun FORM.selectColor(color: Color) {
+    selectColor("Color", EQUIPMENT_COLOR, OneOf(Color.entries), color)
 }
