@@ -17,6 +17,8 @@ import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.material.Material
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.selector.getName
@@ -164,6 +166,34 @@ fun href(
     call: ApplicationCall,
     id: LanguageId,
 ) = call.application.href(Languages.Details(id))
+
+// material
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    state: State,
+    id: MaterialId,
+) {
+    link(call, id, state.materials.get(id)?.name ?: "Unknown")
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    material: Material,
+) {
+    link(call, material.id, material.name)
+}
+
+private fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    id: MaterialId,
+    text: String,
+) = a(href(call, id)) { +text }
+
+fun href(
+    call: ApplicationCall,
+    id: MaterialId,
+) = call.application.href(Materials.Details(id))
 
 // name list
 

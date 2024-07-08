@@ -30,6 +30,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.cultures, Cultures())
                     fieldStorageLink(call, state.itemTemplates, ItemTemplates())
                     fieldStorageLink(call, state.languages, Languages())
+                    fieldStorageLink(call, state.materials, Materials())
                     fieldStorageLink(call, state.nameLists, NameLists())
                     fieldStorageLink(call, state.personalityTraits, Personality())
                     fieldStorageLink(call, state.races, Races())

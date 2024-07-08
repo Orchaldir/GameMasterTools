@@ -84,10 +84,10 @@ fun Application.configureNameListRouting() {
             logger.info { "Get editor for name list ${edit.id.value}" }
 
             val state = STORE.getState()
-            val language = state.nameLists.getOrThrow(edit.id)
+            val nameList = state.nameLists.getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showNameListEditor(call, language)
+                showNameListEditor(call, nameList)
             }
         }
         post<NameLists.Update> { update ->
@@ -156,7 +156,6 @@ private fun HTML.showNameListEditor(
         field("Id", nameList.id.value.toString())
         form {
             field("Name") {
-                b { +"Name: " }
                 textInput(name = "name") {
                     value = nameList.name
                 }

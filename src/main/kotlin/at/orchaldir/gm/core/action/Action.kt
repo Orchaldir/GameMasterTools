@@ -13,6 +13,8 @@ import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.material.Material
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 
@@ -65,7 +67,12 @@ data class CreateItem(val template: ItemTemplateId) : Action()
 data class DeleteItem(val id: ItemId) : Action()
 data class UpdateItem(val item: Item) : Action()
 
-// language actions
+// material
+data object CreateMaterial : Action()
+data class DeleteMaterial(val id: MaterialId) : Action()
+data class UpdateMaterial(val material: Material) : Action()
+
+// name list
 data object CreateNameList : Action()
 data class DeleteNameList(val id: NameListId) : Action()
 data class UpdateNameList(val nameList: NameList) : Action()
