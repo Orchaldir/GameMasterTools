@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -12,8 +13,10 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
+private val CHARACTER0 = CharacterId(0)
 private val ID0 = ItemTemplateId(0)
 private val ITEM = ItemTemplate(ID0, "Test")
+private val ITEM_ID0 = ItemId(0)
 private val STATE = State(itemTemplates = Storage(listOf(ItemTemplate(ID0))))
 private val MATERIAL0 = MaterialId(0)
 
@@ -53,6 +56,20 @@ class ItemTemplateTest {
             val action = UpdateItemTemplate(ITEM)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Cannot update equipment while equipped`() {
+            val oldItem = ItemTemplate(ID0, equipment = Pants(material = MATERIAL0))
+            val newItem = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL0))
+            val state = State(
+                itemTemplates = Storage(listOf(oldItem)),
+                items = Storage(listOf(Item(ITEM_ID0, location = EquippedItem(CHARACTER0)))),
+                materials = Storage(listOf(Material(MATERIAL0)))
+            )
+            val action = UpdateItemTemplate(newItem)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
 
         @Test

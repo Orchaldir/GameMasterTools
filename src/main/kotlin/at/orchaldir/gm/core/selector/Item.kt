@@ -51,6 +51,9 @@ private fun canEquip(slotToItemMap: Map<EquipmentSlot, ItemId>, slot: EquipmentS
 fun State.getEquippedItems(character: CharacterId) = items.getAll()
     .filter { it.isEquippedBy(character) }
 
+fun State.getEquippedItems(itemTemplate: ItemTemplateId) = getItems(itemTemplate)
+    .filter { it.location is EquippedItem }
+
 fun State.getEquipment(character: CharacterId) = getEquippedItems(character)
     .map { itemTemplates.getOrThrow(it.template).equipment }
 
