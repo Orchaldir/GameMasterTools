@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.item
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.item.EquipmentSlot.Bottom
 import at.orchaldir.gm.core.model.item.EquipmentSlot.Top
+import at.orchaldir.gm.core.model.material.MaterialId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -14,12 +15,16 @@ enum class EquipmentType {
 
 @Serializable
 sealed class Equipment {
+    open fun contains(id: MaterialId) = false
+    abstract fun getMaterials(): Set<MaterialId>
     open fun slots(): Set<EquipmentSlot> = emptySet()
 }
 
 @Serializable
 @SerialName("None")
-data object NoEquipment : Equipment()
+data object NoEquipment : Equipment() {
+    override fun getMaterials() = emptySet<MaterialId>()
+}
 
 enum class PantsStyle {
     Bermuda,
@@ -33,7 +38,11 @@ enum class PantsStyle {
 data class Pants(
     val style: PantsStyle = PantsStyle.Regular,
     val color: Color = Color.SaddleBrown,
+    val material: MaterialId = MaterialId(0),
 ) : Equipment() {
+
+    override fun contains(id: MaterialId) = material == id
+    override fun getMaterials() = setOf(material)
 
     override fun slots() = setOf(Bottom)
 }
@@ -58,7 +67,11 @@ data class Shirt(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val color: Color = Color.SaddleBrown,
+    val material: MaterialId = MaterialId(0),
 ) : Equipment() {
+
+    override fun contains(id: MaterialId) = material == id
+    override fun getMaterials() = setOf(material)
 
     override fun slots() = setOf(Top)
 }

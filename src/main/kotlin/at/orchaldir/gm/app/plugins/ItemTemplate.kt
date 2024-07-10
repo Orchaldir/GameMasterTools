@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.item.*
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getItems
 import at.orchaldir.gm.utils.doNothing
@@ -92,7 +93,7 @@ fun Application.configureItemTemplateRouting() {
             val template = state.itemTemplates.getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showItemTemplateEditor(call, template)
+                showItemTemplateEditor(call, state, template)
             }
         }
         post<ItemTemplates.Preview> { preview ->
@@ -101,7 +102,7 @@ fun Application.configureItemTemplateRouting() {
             val template = parseItemTemplate(preview.id, call.receiveParameters())
 
             call.respondHtml(HttpStatusCode.OK) {
-                showItemTemplateEditor(call, template)
+                showItemTemplateEditor(call, STORE.getState(), template)
             }
         }
         post<ItemTemplates.Update> { update ->
@@ -136,29 +137,35 @@ private fun HTML.showAllItemTemplates(call: ApplicationCall) {
 private fun HTML.showItemTemplateDetails(
     call: ApplicationCall,
     state: State,
-    itemTemplate: ItemTemplate,
+    template: ItemTemplate,
 ) {
-    val items = state.getItems(itemTemplate.id)
+    val items = state.getItems(template.id)
     val backLink = call.application.href(ItemTemplates())
-    val deleteLink = call.application.href(ItemTemplates.Delete(itemTemplate.id))
-    val editLink = call.application.href(ItemTemplates.Edit(itemTemplate.id))
-    val createItemLink = call.application.href(Items.New(itemTemplate.id))
+    val deleteLink = call.application.href(ItemTemplates.Delete(template.id))
+    val editLink = call.application.href(ItemTemplates.Edit(template.id))
+    val createItemLink = call.application.href(Items.New(template.id))
 
-    simpleHtml("Item Template: ${itemTemplate.name}") {
-        field("Id", itemTemplate.id.value.toString())
-        when (itemTemplate.equipment) {
+    simpleHtml("Item Template: ${template.name}") {
+        field("Id", template.id.value.toString())
+        when (template.equipment) {
             NoEquipment -> doubleArrayOf()
             is Pants -> {
                 field("Equipment", "Pants")
-                field("Style", itemTemplate.equipment.style.toString())
-                field("Color", itemTemplate.equipment.color.toString())
+                field("Style", template.equipment.style.toString())
+                field("Color", template.equipment.color.toString())
+                field("Material") {
+                    link(call, state, template.equipment.material)
+                }
             }
 
             is Shirt -> {
                 field("Equipment", "Shirt")
-                field("Neckline Style", itemTemplate.equipment.necklineStyle.toString())
-                field("Sleeve Style", itemTemplate.equipment.sleeveStyle.toString())
-                field("Color", itemTemplate.equipment.color.toString())
+                field("Neckline Style", template.equipment.necklineStyle.toString())
+                field("Sleeve Style", template.equipment.sleeveStyle.toString())
+                field("Color", template.equipment.color.toString())
+                field("Material") {
+                    link(call, state, template.equipment.material)
+                }
             }
 
         }
@@ -180,7 +187,7 @@ private fun HTML.showItemTemplateDetails(
             }
         }
         p { a(editLink) { +"Edit" } }
-        if (state.canDelete(itemTemplate.id)) {
+        if (state.canDelete(template.id)) {
             p { a(deleteLink) { +"Delete" } }
         }
         p { a(createItemLink) { +"Create Instance" } }
@@ -190,6 +197,7 @@ private fun HTML.showItemTemplateDetails(
 
 private fun HTML.showItemTemplateEditor(
     call: ApplicationCall,
+    state: State,
     template: ItemTemplate,
 ) {
     val backLink = href(call, template.id)
@@ -224,7 +232,8 @@ private fun HTML.showItemTemplateEditor(
                         value = style.name
                         selected = template.equipment.style == style
                     }
-                    selectColor("Color", EQUIPMENT_COLOR, OneOf(Color.entries), template.equipment.color)
+                    selectColor(template.equipment.color)
+                    selectMaterial(state, template.equipment.material)
                 }
 
                 is Shirt -> {
@@ -238,7 +247,8 @@ private fun HTML.showItemTemplateEditor(
                         value = style.name
                         selected = template.equipment.sleeveStyle == style
                     }
-                    selectColor("Color", EQUIPMENT_COLOR, OneOf(Color.entries), template.equipment.color)
+                    selectColor(template.equipment.color)
+                    selectMaterial(state, template.equipment.material)
                 }
             }
             p {
@@ -251,4 +261,19 @@ private fun HTML.showItemTemplateEditor(
         }
         p { a(backLink) { +"Back" } }
     }
+}
+
+private fun FORM.selectMaterial(
+    state: State,
+    materialId: MaterialId,
+) {
+    selectEnum("Material", MATERIAL, state.materials.getAll()) { material ->
+        label = material.name
+        value = material.id.value.toString()
+        selected = materialId == material.id
+    }
+}
+
+private fun FORM.selectColor(color: Color) {
+    selectColor("Color", EQUIPMENT_COLOR, OneOf(Color.entries), color)
 }

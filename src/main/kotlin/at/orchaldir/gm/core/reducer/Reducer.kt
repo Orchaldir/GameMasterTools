@@ -7,41 +7,44 @@ import at.orchaldir.gm.utils.redux.Reducer
 
 val REDUCER: Reducer<Action, State> = { state, action ->
     when (action) {
-        // character actions
+        // character
         is CreateCharacter -> CREATE_CHARACTER(state, action)
         is DeleteCharacter -> DELETE_CHARACTER(state, action)
         is UpdateCharacter -> UPDATE_CHARACTER(state, action)
         is UpdateAppearance -> UPDATE_APPEARANCE(state, action)
         is UpdateRelationships -> UPDATE_RELATIONSHIPS(state, action)
-        // character's languages actions
+        // character's languages
         is AddLanguage -> ADD_LANGUAGE(state, action)
         is RemoveLanguages -> REMOVE_LANGUAGES(state, action)
-        // character's relationship actions
-        // culture actions
+        // culture
         is CreateCulture -> CREATE_CULTURE(state, action)
         is DeleteCulture -> DELETE_CULTURE(state, action)
         is UpdateCulture -> UPDATE_CULTURE(state, action)
-        // item template actions
+        // item template
         is CreateItemTemplate -> CREATE_ITEM_TEMPLATE(state, action)
         is DeleteItemTemplate -> DELETE_ITEM_TEMPLATE(state, action)
         is UpdateItemTemplate -> UPDATE_ITEM_TEMPLATE(state, action)
-        // item actions
+        // item
         is CreateItem -> CREATE_ITEM(state, action)
         is DeleteItem -> DELETE_ITEM(state, action)
         is UpdateItem -> UPDATE_ITEM(state, action)
-        // language actions
+        // language
         is CreateLanguage -> CREATE_LANGUAGE(state, action)
         is DeleteLanguage -> DELETE_LANGUAGE(state, action)
         is UpdateLanguage -> UPDATE_LANGUAGE(state, action)
-        // language actions
+        // material
+        is CreateMaterial -> CREATE_MATERIAL(state, action)
+        is DeleteMaterial -> DELETE_MATERIAL(state, action)
+        is UpdateMaterial -> UPDATE_MATERIAL(state, action)
+        // name list
         is CreateNameList -> CREATE_NAME_LIST(state, action)
         is DeleteNameList -> DELETE_NAME_LIST(state, action)
         is UpdateNameList -> UPDATE_NAME_LIST(state, action)
-        // personality actions
+        // personality
         is CreatePersonalityTrait -> CREATE_PERSONALITY_TRAIT(state, action)
         is DeletePersonalityTrait -> DELETE_PERSONALITY_TRAIT(state, action)
         is UpdatePersonalityTrait -> UPDATE_PERSONALITY_TRAIT(state, action)
-        // race actions
+        // race
         is CreateRace -> CREATE_RACE(state, action)
         is DeleteRace -> DELETE_RACE(state, action)
         is UpdateRace -> UPDATE_RACE(state, action)

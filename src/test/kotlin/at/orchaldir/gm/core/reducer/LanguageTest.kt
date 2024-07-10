@@ -37,7 +37,7 @@ class LanguageTest {
         }
 
         @Test
-        fun `Can delete a language with children`() {
+        fun `Cannot delete a language with children`() {
             val state = State(languages = Storage(listOf(Language(ID0), Language(ID1, origin = EvolvedLanguage(ID0)))))
             val action = DeleteLanguage(ID0)
 
@@ -45,7 +45,7 @@ class LanguageTest {
         }
 
         @Test
-        fun `Can delete a language known by a character`() {
+        fun `Cannot delete a language known by a character`() {
             val character = Character(CHARACTER0, languages = mapOf(ID0 to ComprehensionLevel.Native))
             val state = State(characters = Storage(listOf(character)), languages = Storage(listOf(Language(ID0))))
             val action = DeleteLanguage(ID0)

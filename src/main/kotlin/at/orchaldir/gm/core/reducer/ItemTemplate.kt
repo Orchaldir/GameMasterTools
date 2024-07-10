@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.getEquippedItems
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -23,9 +24,16 @@ val DELETE_ITEM_TEMPLATE: Reducer<DeleteItemTemplate, State> = { state, action -
 }
 
 val UPDATE_ITEM_TEMPLATE: Reducer<UpdateItemTemplate, State> = { state, action ->
-    val itemTemplate = action.itemTemplate
+    val template = action.itemTemplate
 
-    state.itemTemplates.require(itemTemplate.id)
+    val oldTemplate = state.itemTemplates.getOrThrow(template.id)
+    template.equipment.getMaterials().forEach { state.materials.require(it) }
 
-    noFollowUps(state.copy(itemTemplates = state.itemTemplates.update(itemTemplate)))
+    if (template.equipment.javaClass != oldTemplate.equipment.javaClass) {
+        require(
+            state.getEquippedItems(template.id).isEmpty()
+        ) { "Cannot change item template ${template.id.value} while it is equipped" }
+    }
+
+    noFollowUps(state.copy(itemTemplates = state.itemTemplates.update(template)))
 }
