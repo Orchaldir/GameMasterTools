@@ -3,10 +3,9 @@ package at.orchaldir.gm.core.reducer
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.Item
-import at.orchaldir.gm.core.model.item.ItemId
-import at.orchaldir.gm.core.model.item.ItemTemplate
-import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.item.*
+import at.orchaldir.gm.core.model.material.Material
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -16,6 +15,7 @@ import kotlin.test.assertFailsWith
 private val ID0 = ItemTemplateId(0)
 private val ITEM = ItemTemplate(ID0, "Test")
 private val STATE = State(itemTemplates = Storage(listOf(ItemTemplate(ID0))))
+private val MATERIAL0 = MaterialId(0)
 
 class ItemTemplateTest {
 
@@ -56,10 +56,30 @@ class ItemTemplateTest {
         }
 
         @Test
+        fun `Material must exist`() {
+            val item = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL0))
+            val action = UpdateItemTemplate(item)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Update template`() {
             val action = UpdateItemTemplate(ITEM)
 
             assertEquals(ITEM, REDUCER.invoke(STATE, action).first.itemTemplates.get(ID0))
+        }
+
+        @Test
+        fun `Update template with material`() {
+            val item = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL0))
+            val state = State(
+                itemTemplates = Storage(listOf(ITEM)),
+                materials = Storage(listOf(Material(MATERIAL0)))
+            )
+            val action = UpdateItemTemplate(item)
+
+            assertEquals(item, REDUCER.invoke(state, action).first.itemTemplates.get(ID0))
         }
     }
 

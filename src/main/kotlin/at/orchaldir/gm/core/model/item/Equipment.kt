@@ -16,12 +16,15 @@ enum class EquipmentType {
 @Serializable
 sealed class Equipment {
     open fun contains(id: MaterialId) = false
+    abstract fun getMaterials(): Set<MaterialId>
     open fun slots(): Set<EquipmentSlot> = emptySet()
 }
 
 @Serializable
 @SerialName("None")
-data object NoEquipment : Equipment()
+data object NoEquipment : Equipment() {
+    override fun getMaterials() = emptySet<MaterialId>()
+}
 
 enum class PantsStyle {
     Bermuda,
@@ -39,6 +42,7 @@ data class Pants(
 ) : Equipment() {
 
     override fun contains(id: MaterialId) = material == id
+    override fun getMaterials() = setOf(material)
 
     override fun slots() = setOf(Bottom)
 }
@@ -67,6 +71,7 @@ data class Shirt(
 ) : Equipment() {
 
     override fun contains(id: MaterialId) = material == id
+    override fun getMaterials() = setOf(material)
 
     override fun slots() = setOf(Top)
 }

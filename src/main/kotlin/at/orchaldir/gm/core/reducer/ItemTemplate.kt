@@ -26,6 +26,7 @@ val UPDATE_ITEM_TEMPLATE: Reducer<UpdateItemTemplate, State> = { state, action -
     val itemTemplate = action.itemTemplate
 
     state.itemTemplates.require(itemTemplate.id)
+    itemTemplate.equipment.getMaterials().forEach { state.materials.require(it) }
 
     noFollowUps(state.copy(itemTemplates = state.itemTemplates.update(itemTemplate)))
 }
