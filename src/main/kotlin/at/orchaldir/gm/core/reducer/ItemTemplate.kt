@@ -29,7 +29,7 @@ val UPDATE_ITEM_TEMPLATE: Reducer<UpdateItemTemplate, State> = { state, action -
     val oldTemplate = state.itemTemplates.getOrThrow(template.id)
     template.equipment.getMaterials().forEach { state.materials.require(it) }
 
-    if (template.equipment != oldTemplate.equipment) {
+    if (template.equipment.javaClass != oldTemplate.equipment.javaClass) {
         require(
             state.getEquippedItems(template.id).isEmpty()
         ) { "Cannot change item template ${template.id.value} while it is equipped" }

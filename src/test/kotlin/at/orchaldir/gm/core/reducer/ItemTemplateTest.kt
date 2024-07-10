@@ -19,6 +19,7 @@ private val ITEM = ItemTemplate(ID0, "Test")
 private val ITEM_ID0 = ItemId(0)
 private val STATE = State(itemTemplates = Storage(listOf(ItemTemplate(ID0))))
 private val MATERIAL0 = MaterialId(0)
+private val MATERIAL1 = MaterialId(1)
 
 class ItemTemplateTest {
 
@@ -59,7 +60,7 @@ class ItemTemplateTest {
         }
 
         @Test
-        fun `Cannot update equipment while equipped`() {
+        fun `Cannot change equipment type while equipped`() {
             val oldItem = ItemTemplate(ID0, equipment = Pants(material = MATERIAL0))
             val newItem = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL0))
             val state = State(
@@ -70,6 +71,20 @@ class ItemTemplateTest {
             val action = UpdateItemTemplate(newItem)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Can change equipment details while equipped`() {
+            val oldItem = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL0))
+            val newItem = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL1))
+            val state = State(
+                itemTemplates = Storage(listOf(oldItem)),
+                items = Storage(listOf(Item(ITEM_ID0, location = EquippedItem(CHARACTER0)))),
+                materials = Storage(listOf(Material(MATERIAL0), Material(MATERIAL1)))
+            )
+            val action = UpdateItemTemplate(newItem)
+
+            assertEquals(newItem, REDUCER.invoke(state, action).first.itemTemplates.get(ID0))
         }
 
         @Test
