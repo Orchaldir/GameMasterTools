@@ -1,8 +1,7 @@
 package at.orchaldir.gm.core.model.item
 
 import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.item.EquipmentSlot.Bottom
-import at.orchaldir.gm.core.model.item.EquipmentSlot.Top
+import at.orchaldir.gm.core.model.item.EquipmentSlot.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -24,6 +23,29 @@ sealed class Equipment {
 @SerialName("None")
 data object NoEquipment : Equipment() {
     override fun getMaterials() = emptySet<MaterialId>()
+}
+
+enum class FootwearStyle {
+    Boots,
+    KneeHighBoots,
+    Sandals,
+    Shoes,
+    Slippers,
+}
+
+@Serializable
+@SerialName("Footwear")
+data class Footwear(
+    val style: FootwearStyle = FootwearStyle.Shoes,
+    val color: Color = Color.SaddleBrown,
+    val sole: Color = Color.SaddleBrown,
+    val material: MaterialId = MaterialId(0),
+) : Equipment() {
+
+    override fun contains(id: MaterialId) = material == id
+    override fun getMaterials() = setOf(material)
+
+    override fun slots() = setOf(Foot)
 }
 
 enum class PantsStyle {
