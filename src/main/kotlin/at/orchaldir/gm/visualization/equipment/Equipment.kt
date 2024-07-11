@@ -1,10 +1,7 @@
 package at.orchaldir.gm.visualization.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.item.Equipment
-import at.orchaldir.gm.core.model.item.NoEquipment
-import at.orchaldir.gm.core.model.item.Pants
-import at.orchaldir.gm.core.model.item.Shirt
+import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.Renderer
@@ -26,6 +23,7 @@ fun visualizeBodyEquipment(
     equipment.forEach {
         when (it) {
             NoEquipment -> doNothing()
+            is Footwear -> doNothing()
             is Pants -> visualizePants(renderer, config, aabb, body, it)
             is Shirt -> visualizeShirt(renderer, config, aabb, body, it)
         }

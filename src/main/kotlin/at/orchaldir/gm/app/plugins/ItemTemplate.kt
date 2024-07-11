@@ -149,6 +149,16 @@ private fun HTML.showItemTemplateDetails(
         field("Id", template.id.value.toString())
         when (template.equipment) {
             NoEquipment -> doubleArrayOf()
+            is Footwear -> {
+                field("Equipment", "Footwear")
+                field("Style", template.equipment.style.toString())
+                field("Color", template.equipment.color.toString())
+                field("Sole Color", template.equipment.sole.toString())
+                field("Material") {
+                    link(call, state, template.equipment.material)
+                }
+            }
+
             is Pants -> {
                 field("Equipment", "Pants")
                 field("Style", template.equipment.style.toString())
@@ -220,12 +230,24 @@ private fun HTML.showItemTemplateEditor(
                 value = type.name
                 selected = when (template.equipment) {
                     NoEquipment -> type == EquipmentType.None
+                    is Footwear -> type == EquipmentType.Footwear
                     is Pants -> type == EquipmentType.Pants
                     is Shirt -> type == EquipmentType.Shirt
                 }
             }
             when (template.equipment) {
                 NoEquipment -> doNothing()
+                is Footwear -> {
+                    selectEnum("Style", EQUIPMENT_STYLE, FootwearStyle.entries, false) { style ->
+                        label = style.name
+                        value = style.name
+                        selected = template.equipment.style == style
+                    }
+                    selectColor(template.equipment.color)
+                    selectColor(template.equipment.sole, "Sole Color", SOLE_COLOR)
+                    selectMaterial(state, template.equipment.material)
+                }
+
                 is Pants -> {
                     selectEnum("Style", EQUIPMENT_STYLE, PantsStyle.entries, false) { style ->
                         label = style.name
@@ -274,6 +296,6 @@ private fun FORM.selectMaterial(
     }
 }
 
-private fun FORM.selectColor(color: Color) {
-    selectColor("Color", EQUIPMENT_COLOR, OneOf(Color.entries), color)
+private fun FORM.selectColor(color: Color, label: String = "Color", selectId: String = EQUIPMENT_COLOR) {
+    selectColor(label, selectId, OneOf(Color.entries), color)
 }

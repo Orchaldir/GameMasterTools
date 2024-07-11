@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 
 enum class EquipmentType {
     None,
+    Footwear,
     Pants,
     Shirt,
 }
