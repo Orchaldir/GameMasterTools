@@ -28,7 +28,11 @@ fun visualizeFootwear(
     val options = FillAndBorder(footwear.color.toRender(), config.line)
 
     visualizeBootShaft(renderer, config, aabb, body, footwear, options)
-    visualizeFeet(renderer, config, aabb, body, options, EQUIPMENT_LAYER)
+
+    if (footwear.style.isFootVisible(true)) {
+        visualizeFeet(renderer, config, aabb, body, options, EQUIPMENT_LAYER)
+    }
+
     visualizeSoles(renderer, config, aabb, body, footwear)
 }
 

@@ -31,7 +31,13 @@ enum class FootwearStyle {
     KneeHighBoots,
     Sandals,
     Shoes,
-    Slippers,
+    Slippers;
+
+    fun isFootVisible(fromFront: Boolean) = when (this) {
+        Sandals -> false
+        Slippers -> fromFront
+        else -> true
+    }
 }
 
 @Serializable
