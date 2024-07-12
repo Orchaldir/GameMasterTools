@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.item
 
 enum class EquipmentSlot {
     Bottom,
-    Footwear,
+    Foot,
     Handwear,
     Headwear,
     Outerwear,
