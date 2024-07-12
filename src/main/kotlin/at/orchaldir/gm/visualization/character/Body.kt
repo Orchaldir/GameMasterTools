@@ -64,7 +64,8 @@ data class BodyConfig(
 
     fun getLegHeight() = END - getLegY()
 
-    fun getLegSize(aabb: AABB, body: Body) = aabb.size.scale(getLegWidth(body), getLegHeight())
+    fun getLegSize(aabb: AABB, body: Body, scale: Factor = FULL) =
+        aabb.size.scale(getLegWidth(body), getLegHeight() * scale)
 
     fun getLegY() = torsoY + torsoHeight
 
@@ -182,13 +183,20 @@ fun visualizeLegs(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Bo
     renderer.renderRectangle(rightAabb, options)
 }
 
-fun visualizeFeet(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
+fun visualizeFeet(
+    renderer: Renderer,
+    config: RenderConfig,
+    aabb: AABB,
+    body: Body,
+    options: RenderOptions,
+    layer: Int = 0,
+) {
     val (left, right) = config.body.getMirroredLegPoint(aabb, body, END)
     val radius = aabb.convertHeight(config.body.getFootRadius(body))
     val offset = Orientation.fromDegree(0.0f)
     val angle = Orientation.fromDegree(180.0f)
 
-    renderer.renderCircleArc(left, radius, offset, angle, options)
-    renderer.renderCircleArc(right, radius, offset, angle, options)
+    renderer.renderCircleArc(left, radius, offset, angle, options, layer)
+    renderer.renderCircleArc(right, radius, offset, angle, options, layer)
 }
 

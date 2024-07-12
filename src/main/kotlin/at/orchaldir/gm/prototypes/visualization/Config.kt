@@ -31,8 +31,9 @@ val RENDER_CONFIG = RenderConfig(
     ),
     EquipmentConfig(
         FootwearConfig(
-            Factor(0.2f),
             Factor(0.5f),
+            Factor(0.7f),
+            Factor(0.025f),
         ),
         NecklineConfig(
             Factor(0.1f),
