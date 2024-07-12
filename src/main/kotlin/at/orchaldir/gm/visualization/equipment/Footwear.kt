@@ -15,6 +15,7 @@ data class FootwearConfig(
     val heightAnkle: Factor,
     val heightKnee: Factor,
     val heightSole: Factor,
+    val paddingShaft: Factor,
 )
 
 fun visualizeFootwear(
@@ -54,10 +55,12 @@ private fun visualizeBootShaft(
     aabb: AABB,
     body: Body,
     options: RenderOptions,
-    height: Factor,
+    scale: Factor,
 ) {
-    val size = config.body.getLegSize(aabb, body, height)
-    val (left, right) = config.body.getMirroredLegPoint(aabb, body, FULL - height * 0.5f)
+    val width = config.body.getLegWidth(body) + config.equipment.footwear.paddingShaft
+    val height = config.body.getLegHeight() * scale
+    val size = aabb.size.scale(width, height)
+    val (left, right) = config.body.getMirroredLegPoint(aabb, body, FULL - scale * 0.5f)
     val leftAabb = AABB.fromCenter(left, size)
     val rightAabb = AABB.fromCenter(right, size)
 

@@ -64,8 +64,8 @@ data class BodyConfig(
 
     fun getLegHeight() = END - getLegY()
 
-    fun getLegSize(aabb: AABB, body: Body, scale: Factor = FULL) =
-        aabb.size.scale(getLegWidth(body), getLegHeight() * scale)
+    fun getLegSize(aabb: AABB, body: Body) =
+        aabb.size.scale(getLegWidth(body), getLegHeight())
 
     fun getLegY() = torsoY + torsoHeight
 
