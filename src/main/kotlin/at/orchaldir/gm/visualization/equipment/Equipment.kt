@@ -9,6 +9,7 @@ import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.equipment.part.NecklineConfig
 
 data class EquipmentConfig(
+    val footwear: FootwearConfig,
     val neckline: NecklineConfig,
     val pants: PantsConfig,
 )
@@ -23,7 +24,7 @@ fun visualizeBodyEquipment(
     equipment.forEach {
         when (it) {
             NoEquipment -> doNothing()
-            is Footwear -> doNothing()
+            is Footwear -> visualizeFootwear(renderer, config, aabb, body, it)
             is Pants -> visualizePants(renderer, config, aabb, body, it)
             is Shirt -> visualizeShirt(renderer, config, aabb, body, it)
         }
