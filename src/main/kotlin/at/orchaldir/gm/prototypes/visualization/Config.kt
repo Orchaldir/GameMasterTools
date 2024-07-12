@@ -14,7 +14,7 @@ import at.orchaldir.gm.visualization.equipment.PantsConfig
 import at.orchaldir.gm.visualization.equipment.part.NecklineConfig
 
 val RENDER_CONFIG = RenderConfig(
-    Distance(0.1f), LineOptions(Color.Black.toRender(), Distance(0.005f)),
+    Distance(0.1f), LineOptions(Color.Black.toRender(), Distance(0.001f)),
     BodyConfig(
         Factor(0.1f),
         Factor(0.09f),

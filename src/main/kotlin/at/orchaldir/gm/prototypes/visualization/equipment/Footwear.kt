@@ -17,9 +17,9 @@ fun main() {
     renderTable(
         "footwear.svg",
         RENDER_CONFIG,
+        addNames(listOf(BodyShape.Rectangle)),
         addNames(FootwearStyle.entries),
-        addNames(BodyShape.entries)
-    ) { distance, shape, style ->
+    ) { distance, style, shape ->
         Pair(createAppearance(distance, shape), listOf(Footwear(style, Blue, Blue)))
     }
 }
