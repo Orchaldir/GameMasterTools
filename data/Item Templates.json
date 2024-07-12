@@ -25,6 +25,16 @@
     "necklineStyle": "Crew",
     "color": "Blue"
    }
+  },
+  "4": {
+   "id": 4,
+   "name": "Tribex Leather Boots",
+   "equipment": {
+    "type": "Footwear",
+    "style": "Boots",
+    "sole": "Gray",
+    "material": 3
+   }
   }
  }
 }

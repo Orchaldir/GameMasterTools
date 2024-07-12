@@ -31,6 +31,14 @@
     "type": "Equipped",
     "character": 0
    }
+  },
+  "4": {
+   "id": 4,
+   "template": 4,
+   "location": {
+    "type": "Equipped",
+    "character": 0
+   }
   }
  }
 }
