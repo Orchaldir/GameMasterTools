@@ -26,7 +26,7 @@ fun visualizeFootwear(
 
     visualizeBootShaft(state, body, footwear, options)
 
-    if (footwear.style.isFootVisible(true)) {
+    if (footwear.style.isFootVisible(state.renderFront)) {
         visualizeFeet(state, body, options, EQUIPMENT_LAYER)
     }
 
