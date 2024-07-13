@@ -7,8 +7,7 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.renderer.NoBorder
-import at.orchaldir.gm.utils.renderer.Renderer
-import at.orchaldir.gm.visualization.RenderConfig
+import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.SizeConfig
 
 data class EyesConfig(
@@ -35,14 +34,17 @@ data class EyesConfig(
     }
 }
 
-fun visualizeEyes(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
+fun visualizeEyes(state: RenderState, head: Head) {
+    val config = state.config
+    val aabb = state.aabb
+
     when (head.eyes) {
         NoEyes -> doNothing()
         is OneEye -> {
             val center = aabb.getPoint(CENTER, config.head.eyeY)
             val size = config.head.eyes.getEyeSize(aabb, head.eyes.eye.eyeShape, head.eyes.size)
 
-            visualizeEye(renderer, config, center, size, head.eyes.eye)
+            visualizeEye(state, center, size, head.eyes.eye)
         }
 
         is TwoEyes -> {
@@ -50,47 +52,48 @@ fun visualizeEyes(renderer: Renderer, config: RenderConfig, aabb: AABB, head: He
             val distance = config.head.eyes.getDistanceBetweenEyes()
             val (left, right) = aabb.getMirroredPoints(distance, config.head.eyeY)
 
-            visualizeEye(renderer, config, left, size, head.eyes.eye)
-            visualizeEye(renderer, config, right, size, head.eyes.eye)
+            visualizeEye(state, left, size, head.eyes.eye)
+            visualizeEye(state, right, size, head.eyes.eye)
         }
     }
 }
 
-private fun visualizeEye(renderer: Renderer, config: RenderConfig, center: Point2d, size: Size2d, eye: Eye) {
+private fun visualizeEye(state: RenderState, center: Point2d, size: Size2d, eye: Eye) {
     val eyeAabb = AABB.fromCenter(center, size)
 
-    visualizeEye(renderer, config, eyeAabb, eye)
+    visualizeEye(state.copy(aabb = eyeAabb), eye)
 }
 
-private fun visualizeEye(renderer: Renderer, config: RenderConfig, aabb: AABB, eye: Eye) {
-    visualizeEyeShape(renderer, aabb, eye.eyeShape, eye.scleraColor)
-    visualizePupil(renderer, config, aabb, eye.pupilShape, eye.pupilColor)
+private fun visualizeEye(state: RenderState, eye: Eye) {
+    visualizeEyeShape(state, eye.eyeShape, eye.scleraColor)
+    visualizePupil(state, eye.pupilShape, eye.pupilColor)
 }
 
-private fun visualizeEyeShape(renderer: Renderer, aabb: AABB, eyeShape: EyeShape, color: Color) {
+private fun visualizeEyeShape(state: RenderState, eyeShape: EyeShape, color: Color) {
     val options = NoBorder(color.toRender())
 
     when (eyeShape) {
-        EyeShape.Almond -> renderer.renderPointedOval(aabb, options)
-        EyeShape.Circle -> renderer.renderCircle(aabb, options)
-        EyeShape.Ellipse -> renderer.renderEllipse(aabb, options)
+        EyeShape.Almond -> state.renderer.renderPointedOval(state.aabb, options)
+        EyeShape.Circle -> state.renderer.renderCircle(state.aabb, options)
+        EyeShape.Ellipse -> state.renderer.renderEllipse(state.aabb, options)
     }
 }
 
-private fun visualizePupil(renderer: Renderer, config: RenderConfig, aabb: AABB, pupilShape: PupilShape, color: Color) {
+private fun visualizePupil(state: RenderState, pupilShape: PupilShape, color: Color) {
     val options = NoBorder(color.toRender())
-    val slitWidth = aabb.size.width * config.head.eyes.slitFactor.value
+    val aabb = state.aabb
+    val slitWidth = aabb.size.width * state.config.head.eyes.slitFactor.value
 
     when (pupilShape) {
-        PupilShape.Circle -> renderer.renderCircle(aabb.shrink(config.head.eyes.pupilFactor), options)
+        PupilShape.Circle -> state.renderer.renderCircle(aabb.shrink(state.config.head.eyes.pupilFactor), options)
         PupilShape.HorizontalSlit -> {
             val slitAABB = AABB.fromCenter(aabb.getCenter(), Size2d(aabb.size.width, slitWidth))
-            renderer.renderPointedOval(slitAABB, options)
+            state.renderer.renderPointedOval(slitAABB, options)
         }
 
         PupilShape.VerticalSlit -> {
             val slitAABB = AABB.fromCenter(aabb.getCenter(), Size2d(slitWidth, aabb.size.height))
-            renderer.renderPointedOval(slitAABB, options)
+            state.renderer.renderPointedOval(slitAABB, options)
         }
     }
 }

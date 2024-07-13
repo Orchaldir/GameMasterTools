@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.NoBorder
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
+import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.beard.visualizeBeard
 
@@ -35,7 +36,10 @@ data class MouthConfig(
     }
 }
 
-fun visualizeMouth(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
+fun visualizeMouth(state: RenderState, head: Head) {
+    val aabb = state.aabb
+    val config = state.config
+
     when (head.mouth) {
         NoMouth -> doNothing()
         is NormalMouth -> {
@@ -45,21 +49,21 @@ fun visualizeMouth(renderer: Renderer, config: RenderConfig, aabb: AABB, head: H
             val mouthAabb = AABB.fromCenter(center, Size2d(width, height))
             val option = NoBorder(Color.Black.toRender())
 
-            renderer.renderRectangle(mouthAabb, option)
+            state.renderer.renderRectangle(mouthAabb, option)
 
-            visualizeBeard(renderer, config, aabb, head, head.mouth.beard)
+            visualizeBeard(state, head, head.mouth.beard)
         }
 
-        is FemaleMouth -> visualizeFemaleMouth(renderer, config, aabb, head.mouth)
+        is FemaleMouth -> visualizeFemaleMouth(state, head.mouth)
     }
 }
 
 private fun visualizeFemaleMouth(
-    renderer: Renderer,
-    config: RenderConfig,
-    aabb: AABB,
+    state: RenderState,
     mouth: FemaleMouth,
 ) {
+    val aabb = state.aabb
+    val config = state.config
     val options = NoBorder(mouth.color.toRender())
     val width = config.head.mouthConfig.getSimpleWidth(mouth.width)
     val halfHeight = config.head.mouthConfig.femaleHeight * 0.5f
@@ -69,8 +73,8 @@ private fun visualizeFemaleMouth(
     val (bottomLeft, bottomRight) =
         aabb.getMirroredPoints(width * 0.5f, config.head.mouthY + halfHeight)
     val cupidsBow = aabb.getPoint(CENTER, config.head.mouthY - halfHeight * 0.5f)
-
     val polygon = Polygon2d(listOf(left, bottomLeft, bottomRight, right, topRight, cupidsBow, topLeft))
-    renderer.renderPolygon(polygon, options)
+
+    state.renderer.renderPolygon(polygon, options)
 }
 

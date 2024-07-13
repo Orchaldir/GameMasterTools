@@ -12,11 +12,11 @@ import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.renderer.BorderOnly
-import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.utils.renderer.TextOptions
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.RenderConfig
+import at.orchaldir.gm.visualization.RenderState
 
 const val ABOVE_EQUIPMENT_LAYER = 2
 const val BEARD_BG_LAYER = 2
@@ -32,36 +32,38 @@ fun visualizeCharacter(
     val size = calculateSize(config, appearance)
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
+    val state = RenderState(aabb, config, builder, true)
 
-    visualizeAppearance(builder, config, aabb, appearance, equipment)
+    visualizeAppearance(state, appearance, equipment)
 
     return builder.finish()
 }
 
 fun visualizeAppearance(
-    renderer: Renderer,
-    config: RenderConfig,
-    aabb: AABB,
+    state: RenderState,
     appearance: Appearance,
     equipment: List<Equipment>,
 ) {
-    val inner = aabb.shrink(config.padding)
+    val inner = state.aabb.shrink(state.config.padding)
+    val innerState = state.copy(aabb = inner)
 
-    renderer.renderRectangle(aabb, BorderOnly(config.line))
+    state.renderer.renderRectangle(state.aabb, BorderOnly(state.config.line))
 
     when (appearance) {
-        is HeadOnly -> visualizeHead(renderer, config, inner, appearance.head)
+        is HeadOnly -> visualizeHead(innerState, appearance.head)
         is HumanoidBody -> {
-            val headAabb = config.body.getHeadAabb(inner)
-            visualizeBody(renderer, config, inner, appearance.body, equipment)
-            visualizeHead(renderer, config, headAabb, appearance.head)
+            val headAabb = state.config.body.getHeadAabb(inner)
+            val headState = state.copy(aabb = headAabb)
+
+            visualizeBody(innerState, appearance.body, equipment)
+            visualizeHead(headState, appearance.head)
         }
 
         UndefinedAppearance -> {
-            val height = config.padding.value * 1.5f
+            val height = state.config.padding.value * 1.5f
             val options = TextOptions(Black.toRender(), 2.0f * height)
-            val center = aabb.getCenter() + Point2d(0.0f, height * 0.5f)
-            renderer.renderText("?", center, Orientation.zero(), options)
+            val center = state.aabb.getCenter() + Point2d(0.0f, height * 0.5f)
+            state.renderer.renderText("?", center, Orientation.zero(), options)
         }
 
     }

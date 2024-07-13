@@ -7,34 +7,29 @@ import at.orchaldir.gm.core.model.item.Shirt
 import at.orchaldir.gm.core.model.item.SleeveStyle
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.FillAndBorder
-import at.orchaldir.gm.utils.renderer.Renderer
-import at.orchaldir.gm.visualization.RenderConfig
+import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.createTorso
 import at.orchaldir.gm.visualization.equipment.part.addNeckline
 
 fun visualizeShirt(
-    renderer: Renderer,
-    config: RenderConfig,
-    aabb: AABB,
+    state: RenderState,
     body: Body,
     shirt: Shirt,
 ) {
-    visualizeSleeves(renderer, config, aabb, body, shirt.sleeveStyle, shirt.color)
-    visualizeTorso(renderer, config, aabb, body, shirt.necklineStyle, shirt.color)
+    visualizeSleeves(state, body, shirt.sleeveStyle, shirt.color)
+    visualizeTorso(state, body, shirt.necklineStyle, shirt.color)
 }
 
 private fun visualizeSleeves(
-    renderer: Renderer,
-    config: RenderConfig,
-    aabb: AABB,
+    state: RenderState,
     body: Body,
     style: SleeveStyle,
     color: Color,
 ) {
-    val options = FillAndBorder(color.toRender(), config.line)
-    val (left, right) = config.body.getArmStarts(aabb, body)
-    val armSize = config.body.getArmSize(aabb, body)
+    val options = FillAndBorder(color.toRender(), state.config.line)
+    val (left, right) = state.config.body.getArmStarts(state.aabb, body)
+    val armSize = state.config.body.getArmSize(state.aabb, body)
 
     val sleeveSize = when (style) {
         SleeveStyle.Long -> armSize
@@ -45,25 +40,23 @@ private fun visualizeSleeves(
     val leftAabb = AABB(left, sleeveSize)
     val rightAabb = AABB(right, sleeveSize)
 
-    renderer.renderRectangle(leftAabb, options, EQUIPMENT_LAYER)
-    renderer.renderRectangle(rightAabb, options, EQUIPMENT_LAYER)
+    state.renderer.renderRectangle(leftAabb, options, EQUIPMENT_LAYER)
+    state.renderer.renderRectangle(rightAabb, options, EQUIPMENT_LAYER)
 }
 
 private fun visualizeTorso(
-    renderer: Renderer,
-    config: RenderConfig,
-    aabb: AABB,
+    state: RenderState,
     body: Body,
     style: NecklineStyle,
     color: Color,
 ) {
-    val options = FillAndBorder(color.toRender(), config.line)
-    val builder = createTorso(config, aabb, body)
-    val torsoAabb = config.body.getTorsoAabb(aabb, body)
+    val options = FillAndBorder(color.toRender(), state.config.line)
+    val builder = createTorso(state.config, state.aabb, body)
+    val torsoAabb = state.config.body.getTorsoAabb(state.aabb, body)
 
-    addNeckline(builder, config, torsoAabb, style)
+    addNeckline(builder, state.config, torsoAabb, style)
 
     val polygon = builder.build()
 
-    renderer.renderPolygon(polygon, options, EQUIPMENT_LAYER)
+    state.renderer.renderPolygon(polygon, options, EQUIPMENT_LAYER)
 }

@@ -7,8 +7,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.renderer.Renderer
-import at.orchaldir.gm.visualization.RenderConfig
+import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.beard.BeardConfig
 
 data class HeadConfig(
@@ -33,26 +32,26 @@ data class HeadConfig(
 }
 
 fun visualizeHead(
-    renderer: Renderer,
-    config: RenderConfig,
-    aabb: AABB,
+    state: RenderState,
     head: Head,
 ) {
-    visualizeEars(renderer, config, aabb, head)
-    visualizeHeadShape(renderer, config, aabb, head)
-    visualizeEyes(renderer, config, aabb, head)
-    visualizeMouth(renderer, config, aabb, head)
-    visualizeHair(renderer, config, aabb, head)
+    visualizeEars(state, head)
+    visualizeHeadShape(state, head)
+    visualizeEyes(state, head)
+    visualizeMouth(state, head)
+    visualizeHair(state, head)
 }
 
-fun visualizeHeadShape(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
+fun visualizeHeadShape(state: RenderState, head: Head) {
+    val options = state.config.getOptions(head.skin)
+
     if (head.hair is NormalHair && head.hair.style is Afro) {
         val newAABB = AABB.fromCorners(
-            aabb.getPoint(Factor(0.0f), config.head.hairlineY),
-            aabb.getEnd()
+            state.aabb.getPoint(Factor(0.0f), state.config.head.hairlineY),
+            state.aabb.getEnd()
         )
-        renderer.renderRectangle(newAABB, config.getOptions(head.skin))
+        state.renderer.renderRectangle(newAABB, options)
     } else {
-        renderer.renderRectangle(aabb, config.getOptions(head.skin))
+        state.renderer.renderRectangle(state.aabb, options)
     }
 }

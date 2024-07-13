@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
+import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.calculateSizeFromHeight
 import at.orchaldir.gm.visualization.character.visualizeAppearance
 import java.io.File
@@ -29,9 +30,10 @@ fun main() {
 
         columns.forEach { column ->
             val aabb = AABB(start, size)
+            val state = RenderState(aabb, config, builder, true)
             val appearance = createAppearance(height, row, column)
 
-            visualizeAppearance(builder, config, aabb, appearance, emptyList())
+            visualizeAppearance(state, appearance, emptyList())
 
             start += columnStep
         }

@@ -6,8 +6,7 @@ import at.orchaldir.gm.core.model.item.FootwearStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.utils.renderer.RenderOptions
-import at.orchaldir.gm.utils.renderer.Renderer
-import at.orchaldir.gm.visualization.RenderConfig
+import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.visualizeFeet
 
@@ -19,76 +18,70 @@ data class FootwearConfig(
 )
 
 fun visualizeFootwear(
-    renderer: Renderer,
-    config: RenderConfig,
-    aabb: AABB,
+    state: RenderState,
     body: Body,
     footwear: Footwear,
 ) {
-    val options = FillAndBorder(footwear.color.toRender(), config.line)
+    val options = FillAndBorder(footwear.color.toRender(), state.config.line)
 
-    visualizeBootShaft(renderer, config, aabb, body, footwear, options)
+    visualizeBootShaft(state, body, footwear, options)
 
     if (footwear.style.isFootVisible(true)) {
-        visualizeFeet(renderer, config, aabb, body, options, EQUIPMENT_LAYER)
+        visualizeFeet(state, body, options, EQUIPMENT_LAYER)
     }
 
-    visualizeSoles(renderer, config, aabb, body, footwear)
+    visualizeSoles(state, body, footwear)
 }
 
 private fun visualizeBootShaft(
-    renderer: Renderer,
-    config: RenderConfig,
-    aabb: AABB,
+    state: RenderState,
     body: Body,
     footwear: Footwear,
     options: RenderOptions,
 ) {
     val height = when (footwear.style) {
-        FootwearStyle.Boots -> config.equipment.footwear.heightAnkle
-        FootwearStyle.KneeHighBoots -> config.equipment.footwear.heightKnee
+        FootwearStyle.Boots -> state.config.equipment.footwear.heightAnkle
+        FootwearStyle.KneeHighBoots -> state.config.equipment.footwear.heightKnee
         else -> return
     }
 
-    visualizeBootShaft(renderer, config, aabb, body, options, height)
+    visualizeBootShaft(state, body, options, height)
 }
 
 private fun visualizeBootShaft(
-    renderer: Renderer,
-    config: RenderConfig,
-    aabb: AABB,
+    state: RenderState,
     body: Body,
     options: RenderOptions,
     scale: Factor,
 ) {
+    val config = state.config
     val width = config.body.getLegWidth(body) + config.equipment.footwear.paddingShaft
     val height = config.body.getLegHeight() * scale
-    val size = aabb.size.scale(width, height)
-    val (left, right) = config.body.getMirroredLegPoint(aabb, body, FULL - scale * 0.5f)
+    val size = state.aabb.size.scale(width, height)
+    val (left, right) = config.body.getMirroredLegPoint(state.aabb, body, FULL - scale * 0.5f)
     val leftAabb = AABB.fromCenter(left, size)
     val rightAabb = AABB.fromCenter(right, size)
 
-    renderer.renderRectangle(leftAabb, options, EQUIPMENT_LAYER)
-    renderer.renderRectangle(rightAabb, options, EQUIPMENT_LAYER)
+    state.renderer.renderRectangle(leftAabb, options, EQUIPMENT_LAYER)
+    state.renderer.renderRectangle(rightAabb, options, EQUIPMENT_LAYER)
 }
 
 fun visualizeSoles(
-    renderer: Renderer,
-    config: RenderConfig,
-    aabb: AABB,
+    state: RenderState,
     body:
     Body,
     footwear: Footwear,
 ) {
+    val config = state.config
     val options = FillAndBorder(footwear.sole.toRender(), config.line)
-    val (left, right) = config.body.getMirroredLegPoint(aabb, body, END)
-    val width = aabb.convertHeight(config.body.getFootRadius(body) * 2.0f)
-    val height = aabb.convertHeight(config.equipment.footwear.heightSole)
+    val (left, right) = config.body.getMirroredLegPoint(state.aabb, body, END)
+    val width = state.aabb.convertHeight(config.body.getFootRadius(body) * 2.0f)
+    val height = state.aabb.convertHeight(config.equipment.footwear.heightSole)
     val size = Size2d(width, height)
     val offset = Point2d(0.0f, size.height / 2.0f)
     val leftAABB = AABB.fromCenter(left + offset, size)
     val rightAABB = AABB.fromCenter(right + offset, size)
 
-    renderer.renderRectangle(leftAABB, options, EQUIPMENT_LAYER)
-    renderer.renderRectangle(rightAABB, options, EQUIPMENT_LAYER)
+    state.renderer.renderRectangle(leftAABB, options, EQUIPMENT_LAYER)
+    state.renderer.renderRectangle(rightAABB, options, EQUIPMENT_LAYER)
 }
