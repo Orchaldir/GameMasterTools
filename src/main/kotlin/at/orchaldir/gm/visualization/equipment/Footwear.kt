@@ -7,6 +7,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.utils.renderer.RenderOptions
 import at.orchaldir.gm.visualization.RenderState
+import at.orchaldir.gm.visualization.character.BEHIND_LAYER
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.visualizeFeet
 
@@ -27,7 +28,12 @@ fun visualizeFootwear(
     visualizeBootShaft(state, body, footwear, options)
 
     if (footwear.style.isFootVisible(state.renderFront)) {
-        visualizeFeet(state, body, options, EQUIPMENT_LAYER)
+        val layer = if (state.renderFront) {
+            EQUIPMENT_LAYER
+        } else {
+            BEHIND_LAYER
+        }
+        visualizeFeet(state, body, options, layer)
     }
 
     visualizeSoles(state, body, footwear)

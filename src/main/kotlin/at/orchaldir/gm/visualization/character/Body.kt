@@ -185,7 +185,20 @@ fun visualizeFeet(
     state: RenderState,
     body: Body,
     options: RenderOptions,
-    layer: Int = 0,
+) {
+    val layer = if (state.renderFront) {
+        MAIN_LAYER
+    } else {
+        BEHIND_LAYER
+    }
+    visualizeFeet(state, body, options, layer)
+}
+
+fun visualizeFeet(
+    state: RenderState,
+    body: Body,
+    options: RenderOptions,
+    layer: Int,
 ) {
     val (left, right) = state.config.body.getMirroredLegPoint(state.aabb, body, END)
     val radius = state.aabb.convertHeight(state.config.body.getFootRadius(body))
