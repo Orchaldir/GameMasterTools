@@ -49,11 +49,17 @@ fun <C, R> renderTable(
     config: RenderConfig,
     rows: List<Pair<String, R>>,
     columns: List<Pair<String, C>>,
+    backToo: Boolean = false,
     create: (Distance, C, R) -> Pair<Appearance, List<Equipment>>,
 ) {
     val height = Distance(0.2f)
     val size = config.calculateSize(height)
-    val totalSize = Size2d(size.width * columns.size, size.height * rows.size)
+    val rowSize = if (backToo) {
+        2
+    } else {
+        1
+    }
+    val totalSize = Size2d(size.width * columns.size, size.height * rows.size * rowSize)
     val builder = SvgBuilder(totalSize)
     val columnStep = Point2d(size.width, 0.0f)
     val rowStep = Point2d(0.0f, size.height)
@@ -74,6 +80,14 @@ fun <C, R> renderTable(
 
             visualizeAppearance(state, appearance, equipment)
 
+            if (backToo) {
+                val startBack = start + rowStep
+                val aabbBack = AABB(startBack, size)
+                val stateBack = RenderState(aabbBack, config, builder, false)
+
+                visualizeAppearance(stateBack, appearance, equipment)
+            }
+
             val textCenter = start + columnTextOffset
             builder.renderText(columnName, textCenter, columnOrientation, textOptions)
 
@@ -83,8 +97,11 @@ fun <C, R> renderTable(
         val textCenter = Point2d(textSize, start.y + size.height / 2.0f)
         builder.renderText(rowName, textCenter, rowOrientation, textOptions)
 
+        if (backToo) {
+            builder.renderText("Back", textCenter + rowStep, rowOrientation, textOptions)
+        }
 
-        startOfRow += rowStep
+        startOfRow += rowStep * rowSize
     }
 
     File(filename).writeText(builder.finish().export())
