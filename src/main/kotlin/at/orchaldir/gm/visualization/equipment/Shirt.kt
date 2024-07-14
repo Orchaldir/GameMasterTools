@@ -54,7 +54,9 @@ private fun visualizeTorso(
     val builder = createTorso(state.config, state.aabb, body)
     val torsoAabb = state.config.body.getTorsoAabb(state.aabb, body)
 
-    addNeckline(builder, state.config, torsoAabb, style)
+    if (state.renderFront) {
+        addNeckline(builder, state.config, torsoAabb, style)
+    }
 
     val polygon = builder.build()
 
