@@ -21,6 +21,7 @@ fun visualizeBodyEquipment(
         when (it) {
             NoEquipment -> doNothing()
             is Footwear -> visualizeFootwear(state, body, it)
+            is Hat -> doNothing()
             is Pants -> visualizePants(state, body, it)
             is Shirt -> visualizeShirt(state, body, it)
         }

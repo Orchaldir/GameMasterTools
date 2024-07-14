@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 enum class EquipmentType {
     None,
     Footwear,
+    Hat,
     Pants,
     Shirt,
 }
@@ -53,6 +54,25 @@ data class Footwear(
     override fun getMaterials() = setOf(material)
 
     override fun slots() = setOf(Foot)
+}
+
+enum class HatStyle {
+    Beanie,
+    TopHat,
+}
+
+@Serializable
+@SerialName("Hat")
+data class Hat(
+    val style: HatStyle = HatStyle.TopHat,
+    val color: Color = Color.SaddleBrown,
+    val material: MaterialId = MaterialId(0),
+) : Equipment() {
+
+    override fun contains(id: MaterialId) = material == id
+    override fun getMaterials() = setOf(material)
+
+    override fun slots() = setOf(Headwear)
 }
 
 enum class PantsStyle {

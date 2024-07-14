@@ -22,6 +22,12 @@ fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_T
         parseMaterialId(parameters, MATERIAL),
     )
 
+    EquipmentType.Hat -> Hat(
+        parse(parameters, EQUIPMENT_STYLE, HatStyle.TopHat),
+        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
+        parseMaterialId(parameters, MATERIAL),
+    )
+
     EquipmentType.Pants -> Pants(
         parse(parameters, EQUIPMENT_STYLE, PantsStyle.Regular),
         parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
