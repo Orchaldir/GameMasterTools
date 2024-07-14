@@ -35,6 +35,10 @@ data class EyesConfig(
 }
 
 fun visualizeEyes(state: RenderState, head: Head) {
+    if (!state.renderFront) {
+        return
+    }
+
     val config = state.config
     val aabb = state.aabb
 

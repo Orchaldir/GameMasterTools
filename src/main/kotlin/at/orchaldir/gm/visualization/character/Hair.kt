@@ -23,14 +23,19 @@ data class HairConfig(
 fun visualizeHair(state: RenderState, head: Head) {
     when (head.hair) {
         NoHair -> doNothing()
-        is NormalHair -> visualizeNormalHair(state, head.hair)
+        is NormalHair -> visualizeNormalHair(state, head, head.hair)
     }
 }
 
-private fun visualizeNormalHair(state: RenderState, hair: NormalHair) {
+private fun visualizeNormalHair(state: RenderState, head: Head, hair: NormalHair) {
     val aabb = state.aabb
     val config = state.config
     val options = FillAndBorder(hair.color.toRender(), config.line)
+
+    if (!state.renderFront) {
+        state.renderer.renderRectangle(state.aabb, options)
+        return
+    }
 
     when (hair.style) {
         is Afro -> {

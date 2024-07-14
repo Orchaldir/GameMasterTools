@@ -30,7 +30,7 @@ fun main() {
         "beard.svg",
         RENDER_CONFIG,
         addNamesToBeardStyle(beards),
-        addNamesToEyes(eyes)
+        addNamesToEyes(eyes),
     ) { distance, eyes, beard ->
         Pair(createAppearance(distance, eyes, beard), emptyList())
     }
