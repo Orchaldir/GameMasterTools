@@ -1,10 +1,15 @@
 package at.orchaldir.gm.visualization.character.beard
 
 import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.visualization.RenderConfig
+import at.orchaldir.gm.utils.math.CENTER
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Polygon2d
+import at.orchaldir.gm.utils.math.Polygon2dBuilder
+import at.orchaldir.gm.visualization.RenderState
 
-fun getFuManchu(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
+fun getFuManchu(state: RenderState, head: Head): Polygon2d {
+    val aabb = state.aabb
+    val config = state.config
     val mouthTopY = config.head.getMouthTopY(head.mouth)
     val thickness = config.head.beard.mediumThickness
     val mouthWidth = config.head.mouthConfig.getWidth(head.mouth)
@@ -31,7 +36,9 @@ fun getFuManchu(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     return Polygon2d(corners)
 }
 
-fun getHandlebar(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
+fun getHandlebar(state: RenderState, head: Head): Polygon2d {
+    val aabb = state.aabb
+    val config = state.config
     val mouthTopY = config.head.getMouthTopY(head.mouth)
     val thickness = config.head.beard.smallThickness
     val mouthWidth = config.head.mouthConfig.getWidth(head.mouth)
@@ -59,27 +66,27 @@ fun getHandlebar(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
     return Polygon2d(corners)
 }
 
-fun getPencil(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val height = config.head.beard.smallThickness
-    val width = config.head.mouthConfig.getWidth(head.mouth)
-    return getSimple(config, aabb, head, height, width, width).build()
+fun getPencil(state: RenderState, head: Head): Polygon2d {
+    val height = state.config.head.beard.smallThickness
+    val width = state.config.head.mouthConfig.getWidth(head.mouth)
+    return getSimple(state, head, height, width, width).build()
 }
 
-fun getPyramid(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val height = config.head.beard.mediumThickness
-    val width = config.head.mouthConfig.getWidth(head.mouth)
-    return getSimple(config, aabb, head, height, height, width).build()
+fun getPyramid(state: RenderState, head: Head): Polygon2d {
+    val height = state.config.head.beard.mediumThickness
+    val width = state.config.head.mouthConfig.getWidth(head.mouth)
+    return getSimple(state, head, height, height, width).build()
 }
 
-fun getToothbrush(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val height = config.head.beard.mediumThickness
-    return getSimple(config, aabb, head, height, height, height).build()
+fun getToothbrush(state: RenderState, head: Head): Polygon2d {
+    val height = state.config.head.beard.mediumThickness
+    return getSimple(state, head, height, height, height).build()
 }
 
-fun getWalrus(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
-    val height = config.head.beard.mediumThickness
-    val width = config.head.mouthConfig.getWidth(head.mouth) + height
-    val polygon = getSimple(config, aabb, head, height, width, width)
+fun getWalrus(state: RenderState, head: Head): Polygon2d {
+    val height = state.config.head.beard.mediumThickness
+    val width = state.config.head.mouthConfig.getWidth(head.mouth) + height
+    val polygon = getSimple(state, head, height, width, width)
 
     polygon.createSharpCorners(1)
 
@@ -87,20 +94,19 @@ fun getWalrus(config: RenderConfig, aabb: AABB, head: Head): Polygon2d {
 }
 
 private fun getSimple(
-    config: RenderConfig,
-    aabb: AABB,
+    state: RenderState,
     head: Head,
     height: Factor,
     topWidth: Factor,
     bottomWidth: Factor,
 ): Polygon2dBuilder {
-    val mouthTopY = config.head.getMouthTopY(head.mouth)
-    val bottomY = mouthTopY - config.head.beard.moustacheOffset
+    val mouthTopY = state.config.head.getMouthTopY(head.mouth)
+    val bottomY = mouthTopY - state.config.head.beard.moustacheOffset
     val topY = bottomY - height
     val builder = Polygon2dBuilder()
 
-    builder.addMirroredPoints(aabb, topWidth, topY)
-    builder.addMirroredPoints(aabb, bottomWidth, bottomY)
+    builder.addMirroredPoints(state.aabb, topWidth, topY)
+    builder.addMirroredPoints(state.aabb, bottomWidth, bottomY)
 
     return builder
 }

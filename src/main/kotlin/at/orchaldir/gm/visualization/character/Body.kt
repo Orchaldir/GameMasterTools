@@ -5,8 +5,8 @@ import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.RenderOptions
-import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.RenderConfig
+import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.equipment.visualizeBodyEquipment
 
@@ -118,25 +118,23 @@ data class BodyConfig(
 }
 
 fun visualizeBody(
-    renderer: Renderer,
-    config: RenderConfig,
-    aabb: AABB,
+    state: RenderState,
     body: Body,
     equipment: List<Equipment>,
 ) {
-    val options = config.getOptions(body.skin)
-    visualizeArms(renderer, config, aabb, body, options)
-    visualizeHands(renderer, config, aabb, body, options)
-    visualizeLegs(renderer, config, aabb, body, options)
-    visualizeFeet(renderer, config, aabb, body, options)
-    visualizeTorso(renderer, config, aabb, body, options)
-    visualizeBodyEquipment(renderer, config, aabb, body, equipment)
+    val options = state.config.getOptions(body.skin)
+    visualizeArms(state, body, options)
+    visualizeHands(state, body, options)
+    visualizeLegs(state, body, options)
+    visualizeFeet(state, body, options)
+    visualizeTorso(state, body, options)
+    visualizeBodyEquipment(state, body, equipment)
 }
 
-fun visualizeTorso(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
-    val polygon = createTorso(config, aabb, body).build()
+fun visualizeTorso(state: RenderState, body: Body, options: RenderOptions) {
+    val polygon = createTorso(state.config, state.aabb, body).build()
 
-    renderer.renderPolygon(polygon, options)
+    state.renderer.renderPolygon(polygon, options)
 }
 
 fun createTorso(config: RenderConfig, aabb: AABB, body: Body): Polygon2dBuilder {
@@ -155,48 +153,59 @@ fun createTorso(config: RenderConfig, aabb: AABB, body: Body): Polygon2dBuilder 
     return builder
 }
 
-fun visualizeArms(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
-    val size = config.body.getArmSize(aabb, body)
-    val (left, right) = config.body.getMirroredArmPoint(aabb, body, CENTER)
+fun visualizeArms(state: RenderState, body: Body, options: RenderOptions) {
+    val size = state.config.body.getArmSize(state.aabb, body)
+    val (left, right) = state.config.body.getMirroredArmPoint(state.aabb, body, CENTER)
     val leftAabb = AABB.fromCenter(left, size)
     val rightAabb = AABB.fromCenter(right, size)
 
-    renderer.renderRectangle(leftAabb, options)
-    renderer.renderRectangle(rightAabb, options)
+    state.renderer.renderRectangle(leftAabb, options)
+    state.renderer.renderRectangle(rightAabb, options)
 }
 
-fun visualizeHands(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
-    val (left, right) = config.body.getMirroredArmPoint(aabb, body, END)
-    val radius = aabb.convertHeight(config.body.getHandRadius(body))
+fun visualizeHands(state: RenderState, body: Body, options: RenderOptions) {
+    val (left, right) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
+    val radius = state.aabb.convertHeight(state.config.body.getHandRadius(body))
 
-    renderer.renderCircle(left, radius, options, ABOVE_EQUIPMENT_LAYER)
-    renderer.renderCircle(right, radius, options, ABOVE_EQUIPMENT_LAYER)
+    state.renderer.renderCircle(left, radius, options, ABOVE_EQUIPMENT_LAYER)
+    state.renderer.renderCircle(right, radius, options, ABOVE_EQUIPMENT_LAYER)
 }
 
-fun visualizeLegs(renderer: Renderer, config: RenderConfig, aabb: AABB, body: Body, options: RenderOptions) {
-    val size = config.body.getLegSize(aabb, body)
-    val (left, right) = config.body.getMirroredLegPoint(aabb, body, CENTER)
+fun visualizeLegs(state: RenderState, body: Body, options: RenderOptions) {
+    val size = state.config.body.getLegSize(state.aabb, body)
+    val (left, right) = state.config.body.getMirroredLegPoint(state.aabb, body, CENTER)
     val leftAabb = AABB.fromCenter(left, size)
     val rightAabb = AABB.fromCenter(right, size)
 
-    renderer.renderRectangle(leftAabb, options)
-    renderer.renderRectangle(rightAabb, options)
+    state.renderer.renderRectangle(leftAabb, options)
+    state.renderer.renderRectangle(rightAabb, options)
 }
 
 fun visualizeFeet(
-    renderer: Renderer,
-    config: RenderConfig,
-    aabb: AABB,
+    state: RenderState,
     body: Body,
     options: RenderOptions,
-    layer: Int = 0,
 ) {
-    val (left, right) = config.body.getMirroredLegPoint(aabb, body, END)
-    val radius = aabb.convertHeight(config.body.getFootRadius(body))
+    val layer = if (state.renderFront) {
+        MAIN_LAYER
+    } else {
+        BEHIND_LAYER
+    }
+    visualizeFeet(state, body, options, layer)
+}
+
+fun visualizeFeet(
+    state: RenderState,
+    body: Body,
+    options: RenderOptions,
+    layer: Int,
+) {
+    val (left, right) = state.config.body.getMirroredLegPoint(state.aabb, body, END)
+    val radius = state.aabb.convertHeight(state.config.body.getFootRadius(body))
     val offset = Orientation.fromDegree(0.0f)
     val angle = Orientation.fromDegree(180.0f)
 
-    renderer.renderCircleArc(left, radius, offset, angle, options, layer)
-    renderer.renderCircleArc(right, radius, offset, angle, options, layer)
+    state.renderer.renderCircleArc(left, radius, offset, angle, options, layer)
+    state.renderer.renderCircleArc(right, radius, offset, angle, options, layer)
 }
 

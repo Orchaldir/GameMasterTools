@@ -5,8 +5,7 @@ import at.orchaldir.gm.core.model.item.Pants
 import at.orchaldir.gm.core.model.item.PantsStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.FillAndBorder
-import at.orchaldir.gm.utils.renderer.Renderer
-import at.orchaldir.gm.visualization.RenderConfig
+import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.BodyConfig
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
 
@@ -19,38 +18,37 @@ data class PantsConfig(
 }
 
 fun visualizePants(
-    renderer: Renderer,
-    config: RenderConfig,
-    aabb: AABB,
+    state: RenderState,
     body: Body,
     pants: Pants,
 ) {
-    val options = FillAndBorder(pants.color.toRender(), config.line)
+    val options = FillAndBorder(pants.color.toRender(), state.config.line)
     val polygon = when (pants.style) {
-        PantsStyle.Bermuda -> getPantsWithHeight(config, aabb, body, config.equipment.pants.heightBermuda)
-        PantsStyle.HotPants -> getBase(config, aabb, body).build()
-        PantsStyle.Regular -> getRegularPants(config, aabb, body)
-        PantsStyle.Shorts -> getPantsWithHeight(config, aabb, body, config.equipment.pants.heightShort)
+        PantsStyle.Bermuda -> getPantsWithHeight(state, body, state.config.equipment.pants.heightBermuda)
+        PantsStyle.HotPants -> getBase(state, body).build()
+        PantsStyle.Regular -> getRegularPants(state, body)
+        PantsStyle.Shorts -> getPantsWithHeight(state, body, state.config.equipment.pants.heightShort)
     }
 
-    renderer.renderPolygon(polygon, options, EQUIPMENT_LAYER)
+    state.renderer.renderPolygon(polygon, options, EQUIPMENT_LAYER)
 }
 
-private fun getRegularPants(config: RenderConfig, aabb: AABB, body: Body): Polygon2d {
-    val bottomY = config.body.getFootY(body)
-    return getPants(config, aabb, body, bottomY)
+private fun getRegularPants(state: RenderState, body: Body): Polygon2d {
+    val bottomY = state.config.body.getFootY(body)
+    return getPants(state, body, bottomY)
 }
 
-private fun getPantsWithHeight(config: RenderConfig, aabb: AABB, body: Body, height: Factor): Polygon2d {
-    val fullBottomY = config.body.getFootY(body)
-    val topY = config.body.getLegY()
+private fun getPantsWithHeight(state: RenderState, body: Body, height: Factor): Polygon2d {
+    val fullBottomY = state.config.body.getFootY(body)
+    val topY = state.config.body.getLegY()
     val fullHeight = fullBottomY - topY
     val bottomY = fullBottomY - fullHeight * (FULL - height)
-    return getPants(config, aabb, body, bottomY)
+    return getPants(state, body, bottomY)
 }
 
-private fun getPants(config: RenderConfig, aabb: AABB, body: Body, bottomY: Factor): Polygon2d {
-    val builder = getBase(config, aabb, body)
+private fun getPants(state: RenderState, body: Body, bottomY: Factor): Polygon2d {
+    val builder = getBase(state, body)
+    val config = state.config
     val padding = config.body.getLegsWidth(body) * config.equipment.pants.widthPadding
     val pantsWidth = config.body.getLegsWidth(body) + padding
     val innerWidth = config.body.getLegsInnerWidth(body) - padding
@@ -58,19 +56,20 @@ private fun getPants(config: RenderConfig, aabb: AABB, body: Body, bottomY: Fact
     val midY = bottomY.interpolate(topY, CENTER)
     val centerY = midY.interpolate(topY, CENTER)
 
-    builder.addMirroredPoints(aabb, pantsWidth, midY)
-    builder.addMirroredPoints(aabb, pantsWidth, bottomY)
-    builder.addMirroredPoints(aabb, innerWidth, bottomY)
-    builder.addPoint(aabb, CENTER, centerY)
+    builder.addMirroredPoints(state.aabb, pantsWidth, midY)
+    builder.addMirroredPoints(state.aabb, pantsWidth, bottomY)
+    builder.addMirroredPoints(state.aabb, innerWidth, bottomY)
+    builder.addPoint(state.aabb, CENTER, centerY)
 
     return builder.build()
 }
 
-private fun getBase(config: RenderConfig, aabb: AABB, body: Body): Polygon2dBuilder {
+private fun getBase(state: RenderState, body: Body): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
-    val torso = config.body.getTorsoAabb(aabb, body)
-    val topY = config.body.hipY
-    val hipWidth = config.equipment.pants.getHipWidth(config.body, body)
+    val bodyConfig = state.config.body
+    val torso = bodyConfig.getTorsoAabb(state.aabb, body)
+    val topY = bodyConfig.hipY
+    val hipWidth = state.config.equipment.pants.getHipWidth(bodyConfig, body)
 
     builder.addMirroredPoints(torso, hipWidth, topY)
     builder.addMirroredPoints(torso, hipWidth, END)

@@ -6,8 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.FillAndBorder
-import at.orchaldir.gm.utils.renderer.Renderer
-import at.orchaldir.gm.visualization.RenderConfig
+import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.renderPolygon
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 
@@ -21,69 +20,72 @@ data class HairConfig(
     val spikedHeight: Factor,
 )
 
-fun visualizeHair(renderer: Renderer, config: RenderConfig, aabb: AABB, head: Head) {
+fun visualizeHair(state: RenderState, head: Head) {
     when (head.hair) {
         NoHair -> doNothing()
-        is NormalHair -> visualizeNormalHair(renderer, config, aabb, head.hair)
+        is NormalHair -> visualizeNormalHair(state, head.hair)
     }
 }
 
-private fun visualizeNormalHair(renderer: Renderer, config: RenderConfig, aabb: AABB, hair: NormalHair) {
+private fun visualizeNormalHair(state: RenderState, hair: NormalHair) {
+    val aabb = state.aabb
+    val config = state.config
     val options = FillAndBorder(hair.color.toRender(), config.line)
+
+    if (!state.renderFront) {
+        state.renderer.renderRectangle(state.aabb, options)
+        return
+    }
 
     when (hair.style) {
         is Afro -> {
             val center = aabb.getPoint(CENTER, config.head.hairlineY)
             val radius = aabb.convertHeight(config.head.hair.afroDiameter * 0.5f)
-            renderer.renderCircle(center, radius, options, BEHIND_LAYER)
+            state.renderer.renderCircle(center, radius, options, BEHIND_LAYER)
         }
 
         is BuzzCut ->
-            visualizeRectangleHair(renderer, config, options, aabb, HEAD_WIDTH, Factor(0.0f))
+            visualizeRectangleHair(state, options, HEAD_WIDTH, Factor(0.0f))
 
         is FlatTop ->
-            visualizeRectangleHair(renderer, config, options, aabb, HEAD_WIDTH, config.head.hair.flatTopY)
+            visualizeRectangleHair(state, options, HEAD_WIDTH, config.head.hair.flatTopY, Factor(1.1f))
 
-        is MiddlePart -> visualizeMiddlePart(renderer, config, options, aabb, CENTER)
+        is MiddlePart -> visualizeMiddlePart(state, options, CENTER)
 
         ShavedHair -> doNothing()
 
         is SidePart -> when (hair.style.side) {
             Side.Left -> visualizeMiddlePart(
-                renderer,
-                config,
+                state,
                 options,
-                aabb,
                 END - config.head.hair.sidePartX
             )
 
             Side.Right -> visualizeMiddlePart(
-                renderer,
-                config,
+                state,
                 options,
-                aabb,
                 config.head.hair.sidePartX
             )
         }
 
-        is Spiked -> visualizeSpikedHair(renderer, config, options, aabb)
+        is Spiked -> visualizeSpikedHair(state, options)
     }
 }
 
 private fun visualizeMiddlePart(
-    renderer: Renderer,
-    config: RenderConfig,
+    state: RenderState,
     options: FillAndBorder,
-    aabb: AABB,
     x: Factor,
 ) {
+    val aabb = state.aabb
+    val config = state.config
     val (bottomLeft, bottomRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hairlineY)
     val (topLeft, topRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hair.spikedY)
     val bottomCenter = aabb.getPoint(x, config.head.hairlineY)
     val topCenter = aabb.getPoint(x, Factor(0.0f))
 
     renderRoundedPolygon(
-        renderer, options, listOf(
+        state.renderer, options, listOf(
             topLeft,
             topLeft,
             bottomLeft,
@@ -100,31 +102,28 @@ private fun visualizeMiddlePart(
 }
 
 private fun visualizeRectangleHair(
-    renderer: Renderer,
-    config: RenderConfig,
+    state: RenderState,
     options: FillAndBorder,
-    aabb: AABB,
     width: Factor,
     topY: Factor,
+    topWidth: Factor = FULL,
 ) {
-    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(width, config.head.hairlineY)
-    val (topLeft, topRight) = aabb.getMirroredPoints(width, topY)
+    val (bottomLeft, bottomRight) = state.aabb.getMirroredPoints(width, state.config.head.hairlineY)
+    val (topLeft, topRight) = state.aabb.getMirroredPoints(width * topWidth, topY)
 
-    renderPolygon(renderer, options, listOf(bottomLeft, bottomRight, topRight, topLeft))
+    renderPolygon(state.renderer, options, listOf(bottomLeft, bottomRight, topRight, topLeft))
 }
 
 private fun visualizeSpikedHair(
-    renderer: Renderer,
-    config: RenderConfig,
+    state: RenderState,
     options: FillAndBorder,
-    aabb: AABB,
 ) {
-    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hairlineY)
-    val (topLeft, topRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hair.spikedY)
+    val (bottomLeft, bottomRight) = state.aabb.getMirroredPoints(HEAD_WIDTH, state.config.head.hairlineY)
+    val (topLeft, topRight) = state.aabb.getMirroredPoints(HEAD_WIDTH, state.config.head.hair.spikedY)
     val points = mutableListOf<Point2d>()
     val spikes = 8
     val topPoints = splitLine(topLeft, topRight, spikes)
-    val down = Point2d(0.0f, aabb.convertHeight(config.head.hair.spikedHeight).value)
+    val down = Point2d(0.0f, state.aabb.convertHeight(state.config.head.hair.spikedHeight).value)
 
     for (i in 0..spikes) {
         val spike = topPoints[i]
@@ -140,5 +139,5 @@ private fun visualizeSpikedHair(
     points.add(bottomRight)
     points.add(bottomLeft)
 
-    renderPolygon(renderer, options, points)
+    renderPolygon(state.renderer, options, points)
 }

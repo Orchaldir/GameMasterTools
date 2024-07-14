@@ -20,6 +20,7 @@ fun main() {
         RENDER_CONFIG,
         addNames(listOf(BodyShape.Rectangle)),
         addNames(FootwearStyle.entries),
+        true,
     ) { distance, style, shape ->
         Pair(createAppearance(distance, shape), listOf(Footwear(style, SaddleBrown, Gray)))
     }

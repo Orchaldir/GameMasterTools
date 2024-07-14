@@ -56,7 +56,7 @@ inline fun <reified T : Any> BODY.fieldStorageLink(call: ApplicationCall, storag
 
 fun BODY.svg(svg: Svg, width: Int) {
     div {
-        style = "width:$width%"
+        style = "display: inline-block; width:$width%"
         unsafe { +svg.export() }
     }
 }
