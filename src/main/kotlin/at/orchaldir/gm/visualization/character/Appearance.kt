@@ -28,11 +28,12 @@ fun visualizeCharacter(
     config: RenderConfig,
     appearance: Appearance,
     equipment: List<Equipment>,
+    renderFront: Boolean = true,
 ): Svg {
     val size = calculateSize(config, appearance)
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
-    val state = RenderState(aabb, config, builder, true)
+    val state = RenderState(aabb, config, builder, renderFront)
 
     visualizeAppearance(state, appearance, equipment)
 
