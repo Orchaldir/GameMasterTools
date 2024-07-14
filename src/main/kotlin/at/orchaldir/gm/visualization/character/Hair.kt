@@ -23,11 +23,11 @@ data class HairConfig(
 fun visualizeHair(state: RenderState, head: Head) {
     when (head.hair) {
         NoHair -> doNothing()
-        is NormalHair -> visualizeNormalHair(state, head, head.hair)
+        is NormalHair -> visualizeNormalHair(state, head.hair)
     }
 }
 
-private fun visualizeNormalHair(state: RenderState, head: Head, hair: NormalHair) {
+private fun visualizeNormalHair(state: RenderState, hair: NormalHair) {
     val aabb = state.aabb
     val config = state.config
     val options = FillAndBorder(hair.color.toRender(), config.line)
@@ -48,7 +48,7 @@ private fun visualizeNormalHair(state: RenderState, head: Head, hair: NormalHair
             visualizeRectangleHair(state, options, HEAD_WIDTH, Factor(0.0f))
 
         is FlatTop ->
-            visualizeRectangleHair(state, options, HEAD_WIDTH, config.head.hair.flatTopY)
+            visualizeRectangleHair(state, options, HEAD_WIDTH, config.head.hair.flatTopY, Factor(1.1f))
 
         is MiddlePart -> visualizeMiddlePart(state, options, CENTER)
 
@@ -106,9 +106,10 @@ private fun visualizeRectangleHair(
     options: FillAndBorder,
     width: Factor,
     topY: Factor,
+    topWidth: Factor = FULL,
 ) {
     val (bottomLeft, bottomRight) = state.aabb.getMirroredPoints(width, state.config.head.hairlineY)
-    val (topLeft, topRight) = state.aabb.getMirroredPoints(width, topY)
+    val (topLeft, topRight) = state.aabb.getMirroredPoints(width * topWidth, topY)
 
     renderPolygon(state.renderer, options, listOf(bottomLeft, bottomRight, topRight, topLeft))
 }
