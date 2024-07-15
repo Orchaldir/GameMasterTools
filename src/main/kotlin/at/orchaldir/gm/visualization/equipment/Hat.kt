@@ -35,9 +35,14 @@ fun visualizeBeanie(
     hat: Hat,
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
+    val y = if (state.renderFront) {
+        state.config.head.hairlineY
+    } else {
+        FULL
+    }
 
     renderBuilder(state, buildCrown(state, Factor(0.0f), Factor(0.0f)), options, EQUIPMENT_LAYER)
-    renderBuilder(state, buildBrim(state, Factor(1.05f), Factor(0.1f)), options, EQUIPMENT_LAYER)
+    renderBuilder(state, buildBrim(state, Factor(1.05f), Factor(0.1f), y), options, EQUIPMENT_LAYER)
 }
 
 fun visualizeTopHat(
@@ -47,7 +52,12 @@ fun visualizeTopHat(
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
 
     renderBuilder(state, buildCrown(state, Factor(0.6f), Factor(0.1f)), options, EQUIPMENT_LAYER)
-    renderBuilder(state, buildBrim(state, Factor(1.5f), Factor(0.1f)), options, EQUIPMENT_LAYER)
+    renderBuilder(
+        state,
+        buildBrim(state, Factor(1.5f), Factor(0.1f), state.config.head.hairlineY),
+        options,
+        EQUIPMENT_LAYER
+    )
 }
 
 private fun buildCrown(state: RenderState, height: Factor, extraTopWidth: Factor): Polygon2dBuilder {
@@ -59,12 +69,12 @@ private fun buildCrown(state: RenderState, height: Factor, extraTopWidth: Factor
     return builder
 }
 
-private fun buildBrim(state: RenderState, width: Factor, height: Factor): Polygon2dBuilder {
+private fun buildBrim(state: RenderState, width: Factor, height: Factor, y: Factor): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
     val half = height * 0.5f
 
-    builder.addMirroredPoints(state.aabb, width, state.config.head.hairlineY + half)
-    builder.addMirroredPoints(state.aabb, width, state.config.head.hairlineY - half)
+    builder.addMirroredPoints(state.aabb, width, y + half)
+    builder.addMirroredPoints(state.aabb, width, y - half)
 
     return builder
 }
