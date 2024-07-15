@@ -165,7 +165,6 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
         HairType.Normal.toString() -> {
             return NormalHair(
                 when (parameters[HAIR_STYLE]) {
-                    HairStyleType.Afro.toString() -> Afro
                     HairStyleType.BuzzCut.toString() -> BuzzCut
                     HairStyleType.FlatTop.toString() -> FlatTop
                     HairStyleType.MiddlePart.toString() -> MiddlePart

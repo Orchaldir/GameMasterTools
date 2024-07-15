@@ -18,7 +18,7 @@ fun main() {
         RENDER_CONFIG,
         addNames(HEAR_STYLES),
         addNames(HatStyle.entries),
-        false,
+        true,
     ) { distance, style, shape ->
         Pair(createAppearance(distance, shape), listOf(Hat(style, SaddleBrown)))
     }

@@ -9,7 +9,6 @@ import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.math.Distance
 
 val HEAR_STYLES: List<HairStyle> = listOf(
-    Afro,
     BuzzCut,
     FlatTop,
     MiddlePart,

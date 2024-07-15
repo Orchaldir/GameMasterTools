@@ -28,7 +28,6 @@ fun visualizeHair(state: RenderState, head: Head) {
 }
 
 private fun visualizeNormalHair(state: RenderState, hair: NormalHair) {
-    val aabb = state.aabb
     val config = state.config
     val options = FillAndBorder(hair.color.toRender(), config.line)
 
@@ -38,12 +37,6 @@ private fun visualizeNormalHair(state: RenderState, hair: NormalHair) {
     }
 
     when (hair.style) {
-        is Afro -> {
-            val center = aabb.getPoint(CENTER, config.head.hairlineY)
-            val radius = aabb.convertHeight(config.head.hair.afroDiameter * 0.5f)
-            state.renderer.renderCircle(center, radius, options, BEHIND_LAYER)
-        }
-
         is BuzzCut ->
             visualizeRectangleHair(state, options, HEAD_WIDTH, Factor(0.0f))
 

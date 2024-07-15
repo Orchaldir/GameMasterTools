@@ -8,10 +8,6 @@ import kotlinx.serialization.Serializable
 sealed class HairStyle
 
 @Serializable
-@SerialName("Afro")
-data object Afro : HairStyle()
-
-@Serializable
 @SerialName("BuzzCut")
 data object BuzzCut : HairStyle()
 

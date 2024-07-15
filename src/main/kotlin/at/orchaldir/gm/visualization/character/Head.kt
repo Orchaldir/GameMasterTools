@@ -2,7 +2,6 @@ package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.Mouth
-import at.orchaldir.gm.core.model.character.appearance.hair.Afro
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.utils.math.AABB
@@ -50,13 +49,5 @@ fun visualizeHead(
 fun visualizeHeadShape(state: RenderState, head: Head) {
     val options = state.config.getOptions(head.skin)
 
-    if (head.hair is NormalHair && head.hair.style is Afro) {
-        val newAABB = AABB.fromCorners(
-            state.aabb.getPoint(Factor(0.0f), state.config.head.hairlineY),
-            state.aabb.getEnd()
-        )
-        state.renderer.renderRectangle(newAABB, options)
-    } else {
-        state.renderer.renderRectangle(state.aabb, options)
-    }
+    state.renderer.renderRectangle(state.aabb, options)
 }
