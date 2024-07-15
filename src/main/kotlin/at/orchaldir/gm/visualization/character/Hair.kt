@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.item.EquipmentSlot
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.FillAndBorder
+import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.renderPolygon
 import at.orchaldir.gm.visualization.renderRoundedPolygon
@@ -33,7 +34,14 @@ private fun visualizeNormalHair(state: RenderState, hair: NormalHair) {
     val options = FillAndBorder(hair.color.toRender(), config.line)
 
     if (!state.renderFront) {
-        state.renderer.renderRectangle(state.aabb, options)
+        when (hair.style) {
+            ShavedHair -> doNothing()
+            Spiked -> visualizeSpikedHair(state, options)
+            else -> {
+                state.renderer.renderRectangle(state.aabb, options)
+            }
+        }
+
         return
     }
 
@@ -41,8 +49,7 @@ private fun visualizeNormalHair(state: RenderState, hair: NormalHair) {
         is BuzzCut ->
             visualizeRectangleHair(state, options, HEAD_WIDTH, Factor(0.0f))
 
-        is FlatTop ->
-            visualizeRectangleHair(state, options, HEAD_WIDTH, config.head.hair.flatTopY, Factor(1.1f))
+        is FlatTop -> visualizeFlatTop(state, options, config)
 
         is MiddlePart -> visualizeMiddlePart(state, options, CENTER)
 
@@ -64,6 +71,18 @@ private fun visualizeNormalHair(state: RenderState, hair: NormalHair) {
 
         is Spiked -> visualizeSpikedHair(state, options)
     }
+}
+
+private fun visualizeFlatTop(
+    state: RenderState,
+    options: FillAndBorder,
+    config: RenderConfig,
+) {
+    if (state.hasEquipped(EquipmentSlot.Headwear)) {
+        return
+    }
+
+    visualizeRectangleHair(state, options, HEAD_WIDTH, config.head.hair.flatTopY, Factor(1.1f))
 }
 
 private fun visualizeMiddlePart(
@@ -102,10 +121,6 @@ private fun visualizeRectangleHair(
     topY: Factor,
     topWidth: Factor = FULL,
 ) {
-    if (state.hasEquipped(EquipmentSlot.Headwear)) {
-        return
-    }
-
     val (bottomLeft, bottomRight) = state.aabb.getMirroredPoints(width, state.config.head.hairlineY)
     val (topLeft, topRight) = state.aabb.getMirroredPoints(width * topWidth, topY)
 
