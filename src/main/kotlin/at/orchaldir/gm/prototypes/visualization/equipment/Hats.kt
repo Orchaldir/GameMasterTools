@@ -26,6 +26,6 @@ fun main() {
 
 private fun createAppearance(distance: Distance, style: HairStyle) =
     HeadOnly(
-        Head(hair = NormalHair(style, Yellow)),
+        Head(ears = NormalEars(), eyes = TwoEyes(), hair = NormalHair(style, Yellow)),
         distance,
     )
