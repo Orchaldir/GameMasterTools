@@ -36,7 +36,7 @@ private fun visualizeNormalHair(state: RenderState, hair: NormalHair) {
     if (!state.renderFront) {
         when (hair.style) {
             ShavedHair -> doNothing()
-            Spiked -> visualizeSpikedHair(state, options)
+            Spiked -> visualizeSpikedHair(state, options, FULL)
             else -> {
                 state.renderer.renderRectangle(state.aabb, options)
             }
@@ -69,7 +69,7 @@ private fun visualizeNormalHair(state: RenderState, hair: NormalHair) {
             )
         }
 
-        is Spiked -> visualizeSpikedHair(state, options)
+        is Spiked -> visualizeSpikedHair(state, options, state.config.head.hairlineY)
     }
 }
 
@@ -130,8 +130,9 @@ private fun visualizeRectangleHair(
 private fun visualizeSpikedHair(
     state: RenderState,
     options: FillAndBorder,
+    bottomY: Factor,
 ) {
-    val (bottomLeft, bottomRight) = state.aabb.getMirroredPoints(HEAD_WIDTH, state.config.head.hairlineY)
+    val (bottomLeft, bottomRight) = state.aabb.getMirroredPoints(HEAD_WIDTH, bottomY)
     val (topLeft, topRight) = state.aabb.getMirroredPoints(HEAD_WIDTH, state.config.head.hair.spikedY)
     val points = mutableListOf<Point2d>()
     val spikes = 8
