@@ -51,13 +51,13 @@ fun visualizeAppearance(
     state.renderer.renderRectangle(state.aabb, BorderOnly(state.config.line))
 
     when (appearance) {
-        is HeadOnly -> visualizeHead(innerState, appearance.head)
+        is HeadOnly -> visualizeHead(innerState, appearance.head, equipment)
         is HumanoidBody -> {
             val headAabb = state.config.body.getHeadAabb(inner)
             val headState = state.copy(aabb = headAabb)
 
             visualizeBody(innerState, appearance.body, equipment)
-            visualizeHead(headState, appearance.head)
+            visualizeHead(headState, appearance.head, equipment)
         }
 
         UndefinedAppearance -> {

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.visualization.RenderState
@@ -19,11 +20,23 @@ fun visualizeBodyEquipment(
 ) {
     equipment.forEach {
         when (it) {
-            NoEquipment -> doNothing()
             is Footwear -> visualizeFootwear(state, body, it)
-            is Hat -> doNothing()
             is Pants -> visualizePants(state, body, it)
             is Shirt -> visualizeShirt(state, body, it)
+            else -> doNothing()
+        }
+    }
+}
+
+fun visualizeHeadEquipment(
+    state: RenderState,
+    head: Head,
+    equipment: List<Equipment>,
+) {
+    equipment.forEach {
+        when (it) {
+            is Hat -> visualizeHat(state, head, it)
+            else -> doNothing()
         }
     }
 }
