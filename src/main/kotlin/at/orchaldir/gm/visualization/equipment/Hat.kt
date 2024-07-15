@@ -3,7 +3,6 @@ package at.orchaldir.gm.visualization.equipment
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.Hat
 import at.orchaldir.gm.core.model.item.HatStyle
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
@@ -26,35 +25,42 @@ fun visualizeHat(
     hat: Hat,
 ) {
     when (hat.style) {
-        HatStyle.Beanie -> doNothing()
-        HatStyle.TopHat -> visualizeTopHat(state, head, hat)
+        HatStyle.Beanie -> visualizeBeanie(state, hat)
+        HatStyle.TopHat -> visualizeTopHat(state, hat)
     }
 }
 
-fun visualizeTopHat(
+fun visualizeBeanie(
     state: RenderState,
-    head: Head,
     hat: Hat,
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
 
-    renderBuilder(state, buildTopHadCrown(state), options, EQUIPMENT_LAYER)
-    renderBuilder(state, buildTopHadBrim(state), options, EQUIPMENT_LAYER)
+    renderBuilder(state, buildCrown(state, Factor(0.0f), Factor(0.0f)), options, EQUIPMENT_LAYER)
+    renderBuilder(state, buildBrim(state, Factor(1.05f), Factor(0.1f)), options, EQUIPMENT_LAYER)
 }
 
-private fun buildTopHadCrown(state: RenderState): Polygon2dBuilder {
+fun visualizeTopHat(
+    state: RenderState,
+    hat: Hat,
+) {
+    val options = FillAndBorder(hat.color.toRender(), state.config.line)
+
+    renderBuilder(state, buildCrown(state, Factor(0.6f), Factor(0.1f)), options, EQUIPMENT_LAYER)
+    renderBuilder(state, buildBrim(state, Factor(1.5f), Factor(0.1f)), options, EQUIPMENT_LAYER)
+}
+
+private fun buildCrown(state: RenderState, height: Factor, extraTopWidth: Factor): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
 
     builder.addMirroredPoints(state.aabb, FULL, state.config.head.hairlineY)
-    builder.addMirroredPoints(state.aabb, FULL + Factor(0.1f), START - Factor(0.6f))
+    builder.addMirroredPoints(state.aabb, FULL + extraTopWidth, START - height)
 
     return builder
 }
 
-private fun buildTopHadBrim(state: RenderState): Polygon2dBuilder {
+private fun buildBrim(state: RenderState, width: Factor, height: Factor): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
-    val width = Factor(1.5f)
-    val height = Factor(0.1f)
     val half = height * 0.5f
 
     builder.addMirroredPoints(state.aabb, width, state.config.head.hairlineY + half)
