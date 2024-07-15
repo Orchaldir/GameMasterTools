@@ -35,6 +35,11 @@ fun visualizeTopHat(
     head: Head,
     hat: Hat,
 ) {
+    visualizeTopHadCrown(hat, state)
+    visualizeTopHadBrim(hat, state)
+}
+
+private fun visualizeTopHadCrown(hat: Hat, state: RenderState) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
 
     val builder = Polygon2dBuilder()
@@ -46,3 +51,20 @@ fun visualizeTopHat(
 
     state.renderer.renderPolygon(polygon, options, EQUIPMENT_LAYER)
 }
+
+private fun visualizeTopHadBrim(hat: Hat, state: RenderState) {
+    val options = FillAndBorder(hat.color.toRender(), state.config.line)
+
+    val builder = Polygon2dBuilder()
+    val width = Factor(1.5f)
+    val height = Factor(0.1f)
+    val half = height * 0.5f
+
+    builder.addMirroredPoints(state.aabb, width, state.config.head.hairlineY + half)
+    builder.addMirroredPoints(state.aabb, width, state.config.head.hairlineY - half)
+
+    val polygon = builder.build()
+
+    state.renderer.renderPolygon(polygon, options, EQUIPMENT_LAYER)
+}
+
