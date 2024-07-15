@@ -2,7 +2,6 @@ package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
-import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.RenderOptions
 import at.orchaldir.gm.visualization.RenderConfig
@@ -120,7 +119,6 @@ data class BodyConfig(
 fun visualizeBody(
     state: RenderState,
     body: Body,
-    equipment: List<Equipment>,
 ) {
     val options = state.config.getOptions(body.skin)
     visualizeArms(state, body, options)
@@ -128,7 +126,7 @@ fun visualizeBody(
     visualizeLegs(state, body, options)
     visualizeFeet(state, body, options)
     visualizeTorso(state, body, options)
-    visualizeBodyEquipment(state, body, equipment)
+    visualizeBodyEquipment(state, body)
 }
 
 fun visualizeTorso(state: RenderState, body: Body, options: RenderOptions) {

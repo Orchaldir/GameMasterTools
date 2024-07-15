@@ -30,10 +30,10 @@ fun main() {
 
         columns.forEach { column ->
             val aabb = AABB(start, size)
-            val state = RenderState(aabb, config, builder, true)
+            val state = RenderState(aabb, config, builder, true, emptyList())
             val appearance = createAppearance(height, row, column)
 
-            visualizeAppearance(state, appearance, emptyList())
+            visualizeAppearance(state, appearance)
 
             start += columnStep
         }

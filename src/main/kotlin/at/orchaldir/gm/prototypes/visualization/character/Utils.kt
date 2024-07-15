@@ -31,9 +31,9 @@ fun renderTable(
 
         row.forEach { appearance ->
             val aabb = AABB(start, size)
-            val state = RenderState(aabb, config, builder, true)
+            val state = RenderState(aabb, config, builder, true, emptyList())
 
-            visualizeAppearance(state, appearance, emptyList())
+            visualizeAppearance(state, appearance)
 
             start += columnStep
         }
@@ -75,17 +75,17 @@ fun <C, R> renderTable(
 
         columns.forEach { (columnName, column) ->
             val aabb = AABB(start, size)
-            val state = RenderState(aabb, config, builder, true)
             val (appearance, equipment) = create(height, column, row)
+            val state = RenderState(aabb, config, builder, true, equipment)
 
-            visualizeAppearance(state, appearance, equipment)
+            visualizeAppearance(state, appearance)
 
             if (backToo) {
                 val startBack = start + rowStep
                 val aabbBack = AABB(startBack, size)
-                val stateBack = RenderState(aabbBack, config, builder, false)
+                val stateBack = RenderState(aabbBack, config, builder, false, equipment)
 
-                visualizeAppearance(stateBack, appearance, equipment)
+                visualizeAppearance(stateBack, appearance)
             }
 
             val textCenter = start + columnTextOffset

@@ -16,9 +16,8 @@ data class EquipmentConfig(
 fun visualizeBodyEquipment(
     state: RenderState,
     body: Body,
-    equipment: List<Equipment>,
 ) {
-    equipment.forEach {
+    state.equipped.forEach {
         when (it) {
             is Footwear -> visualizeFootwear(state, body, it)
             is Pants -> visualizePants(state, body, it)
@@ -31,9 +30,8 @@ fun visualizeBodyEquipment(
 fun visualizeHeadEquipment(
     state: RenderState,
     head: Head,
-    equipment: List<Equipment>,
 ) {
-    equipment.forEach {
+    state.equipped.forEach {
         when (it) {
             is Hat -> visualizeHat(state, head, it)
             else -> doNothing()

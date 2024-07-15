@@ -27,15 +27,15 @@ const val BEHIND_LAYER = -1
 fun visualizeCharacter(
     config: RenderConfig,
     appearance: Appearance,
-    equipment: List<Equipment>,
+    equipped: List<Equipment>,
     renderFront: Boolean = true,
 ): Svg {
     val size = calculateSize(config, appearance)
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
-    val state = RenderState(aabb, config, builder, renderFront)
+    val state = RenderState(aabb, config, builder, renderFront, equipped)
 
-    visualizeAppearance(state, appearance, equipment)
+    visualizeAppearance(state, appearance)
 
     return builder.finish()
 }
@@ -43,7 +43,6 @@ fun visualizeCharacter(
 fun visualizeAppearance(
     state: RenderState,
     appearance: Appearance,
-    equipment: List<Equipment>,
 ) {
     val inner = state.aabb.shrink(state.config.padding)
     val innerState = state.copy(aabb = inner)
@@ -51,13 +50,13 @@ fun visualizeAppearance(
     state.renderer.renderRectangle(state.aabb, BorderOnly(state.config.line))
 
     when (appearance) {
-        is HeadOnly -> visualizeHead(innerState, appearance.head, equipment)
+        is HeadOnly -> visualizeHead(innerState, appearance.head)
         is HumanoidBody -> {
             val headAabb = state.config.body.getHeadAabb(inner)
             val headState = state.copy(aabb = headAabb)
 
-            visualizeBody(innerState, appearance.body, equipment)
-            visualizeHead(headState, appearance.head, equipment)
+            visualizeBody(innerState, appearance.body)
+            visualizeHead(headState, appearance.head)
         }
 
         UndefinedAppearance -> {

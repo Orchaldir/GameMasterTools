@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character
 import at.orchaldir.gm.core.model.appearance.Side
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.item.EquipmentSlot
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.FillAndBorder
@@ -101,6 +102,10 @@ private fun visualizeRectangleHair(
     topY: Factor,
     topWidth: Factor = FULL,
 ) {
+    if (state.hasEquipped(EquipmentSlot.Headwear)) {
+        return
+    }
+
     val (bottomLeft, bottomRight) = state.aabb.getMirroredPoints(width, state.config.head.hairlineY)
     val (topLeft, topRight) = state.aabb.getMirroredPoints(width * topWidth, topY)
 
