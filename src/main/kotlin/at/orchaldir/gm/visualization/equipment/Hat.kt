@@ -11,6 +11,7 @@ import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.renderBuilder
 
 data class HatConfig(
     val heightAnkle: Factor,
@@ -35,26 +36,22 @@ fun visualizeTopHat(
     head: Head,
     hat: Hat,
 ) {
-    visualizeTopHadCrown(hat, state)
-    visualizeTopHadBrim(hat, state)
-}
-
-private fun visualizeTopHadCrown(hat: Hat, state: RenderState) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
 
+    renderBuilder(state, buildTopHadCrown(state), options, EQUIPMENT_LAYER)
+    renderBuilder(state, buildTopHadBrim(state), options, EQUIPMENT_LAYER)
+}
+
+private fun buildTopHadCrown(state: RenderState): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
 
     builder.addMirroredPoints(state.aabb, FULL, state.config.head.hairlineY)
     builder.addMirroredPoints(state.aabb, FULL + Factor(0.1f), START - Factor(0.6f))
 
-    val polygon = builder.build()
-
-    state.renderer.renderPolygon(polygon, options, EQUIPMENT_LAYER)
+    return builder
 }
 
-private fun visualizeTopHadBrim(hat: Hat, state: RenderState) {
-    val options = FillAndBorder(hat.color.toRender(), state.config.line)
-
+private fun buildTopHadBrim(state: RenderState): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
     val width = Factor(1.5f)
     val height = Factor(0.1f)
@@ -63,8 +60,6 @@ private fun visualizeTopHadBrim(hat: Hat, state: RenderState) {
     builder.addMirroredPoints(state.aabb, width, state.config.head.hairlineY + half)
     builder.addMirroredPoints(state.aabb, width, state.config.head.hairlineY - half)
 
-    val polygon = builder.build()
-
-    state.renderer.renderPolygon(polygon, options, EQUIPMENT_LAYER)
+    return builder
 }
 
