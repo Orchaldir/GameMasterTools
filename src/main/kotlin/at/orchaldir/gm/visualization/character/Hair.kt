@@ -93,7 +93,7 @@ private fun visualizeMiddlePart(
     val aabb = state.aabb
     val config = state.config
     val (bottomLeft, bottomRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hairlineY)
-    val (topLeft, topRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hair.spikedY)
+    val (topLeft, topRight) = aabb.getMirroredPoints(HEAD_WIDTH, START)
     val bottomCenter = aabb.getPoint(x, config.head.hairlineY)
     val topCenter = aabb.getPoint(x, Factor(0.0f))
 
