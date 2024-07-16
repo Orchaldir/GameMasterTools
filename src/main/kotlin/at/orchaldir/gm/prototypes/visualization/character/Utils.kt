@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.renderer.TextOptions
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.RenderState
+import at.orchaldir.gm.visualization.character.TEXT_LAYER
 import at.orchaldir.gm.visualization.character.calculateSize
 import at.orchaldir.gm.visualization.character.visualizeAppearance
 import java.io.File
@@ -89,16 +90,16 @@ fun <C, R> renderTable(
             }
 
             val textCenter = start + columnTextOffset
-            builder.renderText(columnName, textCenter, columnOrientation, textOptions)
+            builder.renderText(columnName, textCenter, columnOrientation, textOptions, TEXT_LAYER)
 
             start += columnStep
         }
 
         val textCenter = Point2d(textSize, start.y + size.height / 2.0f)
-        builder.renderText(rowName, textCenter, rowOrientation, textOptions)
+        builder.renderText(rowName, textCenter, rowOrientation, textOptions, TEXT_LAYER)
 
         if (backToo) {
-            builder.renderText("Back", textCenter + rowStep, rowOrientation, textOptions)
+            builder.renderText("Back", textCenter + rowStep, rowOrientation, textOptions, TEXT_LAYER)
         }
 
         startOfRow += rowStep * rowSize
