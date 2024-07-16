@@ -13,6 +13,12 @@ fun renderBuilder(state: RenderState, builder: Polygon2dBuilder, options: Render
     state.renderer.renderPolygon(polygon, options, layer)
 }
 
+fun renderRoundedBuilder(state: RenderState, builder: Polygon2dBuilder, options: RenderOptions, layer: Int) {
+    val polygon = builder.build()
+
+    state.renderer.renderRoundedPolygon(polygon, options, layer)
+}
+
 fun renderPolygon(
     renderer: Renderer,
     options: RenderOptions,

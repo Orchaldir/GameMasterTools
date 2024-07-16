@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.renderBuilder
+import at.orchaldir.gm.visualization.renderRoundedBuilder
 
 data class HatConfig(
     val heightAnkle: Factor,
@@ -50,7 +51,10 @@ fun visualizeBowler(
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
     val y = state.config.head.hairlineY
 
-    renderBuilder(state, buildCrown(state, Factor(0.3f), ZERO, y), options, EQUIPMENT_LAYER)
+    val crown = buildCrown(state, Factor(0.4f), ZERO, y)
+    crown.createSharpCorners(0)
+
+    renderRoundedBuilder(state, crown, options, EQUIPMENT_LAYER)
     renderBuilder(state, buildBrim(state, Factor(1.3f), Factor(0.1f), y), options, EQUIPMENT_LAYER)
 }
 
