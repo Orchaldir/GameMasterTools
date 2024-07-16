@@ -27,6 +27,7 @@ fun visualizeHat(
         HatStyle.Coolie -> visualizeCoolie(state, hat)
         HatStyle.Cowboy -> visualizeCowboy(state, hat)
         HatStyle.Fez -> visualizeFez(state, hat)
+        HatStyle.Pillbox -> visualizePillbox(state, hat)
         HatStyle.TopHat -> visualizeTopHat(state, hat)
     }
 }
@@ -111,6 +112,16 @@ private fun visualizeFez(
     renderBuilder(state, buildCrown(state, Factor(0.6f), Factor(-0.05f), y), options, EQUIPMENT_LAYER)
 }
 
+private fun visualizePillbox(
+    state: RenderState,
+    hat: Hat,
+) {
+    val options = FillAndBorder(hat.color.toRender(), state.config.line)
+    val y = state.config.head.hairlineY
+
+    renderBuilder(state, buildCrown(state, Factor(0.4f), Factor(0.0f), y), options, EQUIPMENT_LAYER)
+}
+
 private fun visualizeTopHat(
     state: RenderState,
     hat: Hat,
@@ -124,9 +135,10 @@ private fun visualizeTopHat(
 
 private fun buildCrown(state: RenderState, height: Factor, extraTopWidth: Factor, y: Factor): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
+    val width = FULL + Factor(0.05f)
 
-    builder.addMirroredPoints(state.aabb, FULL + Factor(0.05f), y)
-    builder.addMirroredPoints(state.aabb, FULL + extraTopWidth, y - height)
+    builder.addMirroredPoints(state.aabb, width, y)
+    builder.addMirroredPoints(state.aabb, width + extraTopWidth, y - height)
 
     return builder
 }
