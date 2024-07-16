@@ -109,7 +109,7 @@ private fun visualizeFez(
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
     val y = state.config.head.hairlineY
 
-    renderBuilder(state, buildCrown(state, Factor(0.6f), Factor(-0.05f), y), options, EQUIPMENT_LAYER)
+    renderBuilder(state, buildCrown(state, Factor(0.6f), Factor(-0.08f), y), options, EQUIPMENT_LAYER)
 }
 
 private fun visualizePillbox(
