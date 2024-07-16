@@ -33,7 +33,7 @@ fun visualizeHeadEquipment(
 ) {
     state.equipped.forEach {
         when (it) {
-            is Hat -> visualizeHat(state, head, it)
+            is Hat -> visualizeHat(state, it)
             else -> doNothing()
         }
     }

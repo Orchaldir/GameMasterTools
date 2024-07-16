@@ -1,6 +1,5 @@
 package at.orchaldir.gm.visualization.equipment
 
-import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.Hat
 import at.orchaldir.gm.core.model.item.HatStyle
 import at.orchaldir.gm.utils.math.*
@@ -19,7 +18,6 @@ data class HatConfig(
 
 fun visualizeHat(
     state: RenderState,
-    head: Head,
     hat: Hat,
 ) {
     when (hat.style) {
@@ -33,7 +31,7 @@ fun visualizeHat(
     }
 }
 
-fun visualizeBeanie(
+private fun visualizeBeanie(
     state: RenderState,
     hat: Hat,
 ) {
@@ -48,7 +46,7 @@ fun visualizeBeanie(
     renderBuilder(state, buildBrim(state, Factor(1.05f), Factor(0.1f), y), options, EQUIPMENT_LAYER)
 }
 
-fun visualizeBoater(
+private fun visualizeBoater(
     state: RenderState,
     hat: Hat,
 ) {
@@ -59,7 +57,7 @@ fun visualizeBoater(
     renderBuilder(state, buildBrim(state, Factor(1.5f), Factor(0.1f), y), options, EQUIPMENT_LAYER)
 }
 
-fun visualizeBowler(
+private fun visualizeBowler(
     state: RenderState,
     hat: Hat,
 ) {
@@ -73,7 +71,7 @@ fun visualizeBowler(
     renderBuilder(state, buildBrim(state, Factor(1.3f), Factor(0.1f), y), options, EQUIPMENT_LAYER)
 }
 
-fun visualizeCoolie(
+private fun visualizeCoolie(
     state: RenderState,
     hat: Hat,
 ) {
@@ -88,7 +86,7 @@ fun visualizeCoolie(
     renderBuilder(state, builder, options, EQUIPMENT_LAYER)
 }
 
-fun visualizeCowboy(
+private fun visualizeCowboy(
     state: RenderState,
     hat: Hat,
 ) {
@@ -103,7 +101,7 @@ fun visualizeCowboy(
     renderBuilder(state, buildBrim(state, Factor(1.7f), Factor(0.1f), y), options, EQUIPMENT_LAYER)
 }
 
-fun visualizeFez(
+private fun visualizeFez(
     state: RenderState,
     hat: Hat,
 ) {
@@ -113,7 +111,7 @@ fun visualizeFez(
     renderBuilder(state, buildCrown(state, Factor(0.6f), Factor(-0.05f), y), options, EQUIPMENT_LAYER)
 }
 
-fun visualizeTopHat(
+private fun visualizeTopHat(
     state: RenderState,
     hat: Hat,
 ) {
