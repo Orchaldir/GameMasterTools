@@ -25,6 +25,7 @@ fun visualizeHat(
     when (hat.style) {
         HatStyle.Beanie -> visualizeBeanie(state, hat)
         HatStyle.Bowler -> visualizeBowler(state, hat)
+        HatStyle.Cowboy -> visualizeCowboy(state, hat)
         HatStyle.TopHat -> visualizeTopHat(state, hat)
     }
 }
@@ -56,6 +57,21 @@ fun visualizeBowler(
 
     renderRoundedBuilder(state, crown, options, EQUIPMENT_LAYER)
     renderBuilder(state, buildBrim(state, Factor(1.3f), Factor(0.1f), y), options, EQUIPMENT_LAYER)
+}
+
+fun visualizeCowboy(
+    state: RenderState,
+    hat: Hat,
+) {
+    val options = FillAndBorder(hat.color.toRender(), state.config.line)
+    val y = state.config.head.hairlineY
+
+    val crown = buildCrown(state, Factor(0.5f), ZERO, y)
+    crown.addPoint(state.aabb, HALF, Factor(-0.1f))
+    crown.createSharpCorners(0)
+
+    renderRoundedBuilder(state, crown, options, EQUIPMENT_LAYER)
+    renderBuilder(state, buildBrim(state, Factor(1.7f), Factor(0.1f), y), options, EQUIPMENT_LAYER)
 }
 
 fun visualizeTopHat(
