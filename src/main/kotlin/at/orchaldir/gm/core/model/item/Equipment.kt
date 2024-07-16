@@ -58,6 +58,7 @@ data class Footwear(
 
 enum class HatStyle {
     Beanie,
+    Bowler,
     TopHat,
 }
 
