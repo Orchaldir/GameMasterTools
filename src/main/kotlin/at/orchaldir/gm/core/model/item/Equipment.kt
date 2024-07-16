@@ -60,6 +60,7 @@ enum class HatStyle {
     Beanie,
     Boater,
     Bowler,
+    Coolie,
     Cowboy,
     TopHat,
 }

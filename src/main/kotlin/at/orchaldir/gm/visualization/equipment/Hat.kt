@@ -26,6 +26,7 @@ fun visualizeHat(
         HatStyle.Beanie -> visualizeBeanie(state, hat)
         HatStyle.Boater -> visualizeBoater(state, hat)
         HatStyle.Bowler -> visualizeBowler(state, hat)
+        HatStyle.Coolie -> visualizeCoolie(state, hat)
         HatStyle.Cowboy -> visualizeCowboy(state, hat)
         HatStyle.TopHat -> visualizeTopHat(state, hat)
     }
@@ -71,6 +72,21 @@ fun visualizeBowler(
     renderBuilder(state, buildBrim(state, Factor(1.3f), Factor(0.1f), y), options, EQUIPMENT_LAYER)
 }
 
+fun visualizeCoolie(
+    state: RenderState,
+    hat: Hat,
+) {
+    val options = FillAndBorder(hat.color.toRender(), state.config.line)
+    val y = state.config.head.hairlineY
+
+    val builder = Polygon2dBuilder()
+
+    builder.addMirroredPoints(state.aabb, Factor(1.7f), y)
+    builder.addPoint(state.aabb, CENTER, y - Factor(0.6f))
+
+    renderBuilder(state, builder, options, EQUIPMENT_LAYER)
+}
+
 fun visualizeCowboy(
     state: RenderState,
     hat: Hat,
@@ -79,7 +95,7 @@ fun visualizeCowboy(
     val y = state.config.head.hairlineY
 
     val crown = buildCrown(state, Factor(0.5f), ZERO, y)
-    crown.addPoint(state.aabb, HALF, Factor(-0.1f))
+    crown.addPoint(state.aabb, CENTER, Factor(-0.1f))
     crown.createSharpCorners(0)
 
     renderRoundedBuilder(state, crown, options, EQUIPMENT_LAYER)
