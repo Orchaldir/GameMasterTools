@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.math.Distance
 
-val HEAR_STYLES: List<HairStyle> = listOf(
+val HAIR_STYLES: List<HairStyle> = listOf(
     BuzzCut,
     FlatTop,
     MiddlePart,
@@ -21,7 +21,7 @@ val HEAR_STYLES: List<HairStyle> = listOf(
 fun main() {
     val appearances = mutableListOf<List<Appearance>>()
 
-    HEAR_STYLES.forEach { style ->
+    HAIR_STYLES.forEach { style ->
         val row = mutableListOf<Appearance>()
 
         Size.entries.forEach {
