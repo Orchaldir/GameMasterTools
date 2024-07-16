@@ -32,15 +32,19 @@ fun visualizeHair(state: RenderState, head: Head) {
 private fun visualizeNormalHair(state: RenderState, hair: NormalHair) {
     val config = state.config
     val options = FillAndBorder(hair.color.toRender(), config.line)
+    val hasHeadwear = state.hasEquipped(EquipmentSlot.Headwear)
 
     if (!state.renderFront) {
         when (hair.style) {
-            ShavedHair -> doNothing()
-            Spiked -> visualizeSpikedHair(state, options, FULL)
-            else -> {
-                state.renderer.renderRectangle(state.aabb, options)
+            ShavedHair -> return
+            Spiked -> if (!hasHeadwear) {
+                visualizeSpikedHair(state, options, FULL)
             }
+
+            else -> doNothing()
         }
+
+        state.renderer.renderRectangle(state.aabb, options)
 
         return
     }
@@ -69,7 +73,9 @@ private fun visualizeNormalHair(state: RenderState, hair: NormalHair) {
             )
         }
 
-        is Spiked -> visualizeSpikedHair(state, options, state.config.head.hairlineY)
+        is Spiked -> if (!hasHeadwear) {
+            visualizeSpikedHair(state, options, state.config.head.hairlineY)
+        }
     }
 }
 
