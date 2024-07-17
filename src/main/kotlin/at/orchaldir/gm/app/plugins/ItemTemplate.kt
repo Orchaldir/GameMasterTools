@@ -159,6 +159,15 @@ private fun HTML.showItemTemplateDetails(
                 }
             }
 
+            is Hat -> {
+                field("Equipment", "Hat")
+                field("Style", template.equipment.style.toString())
+                field("Color", template.equipment.color.toString())
+                field("Material") {
+                    link(call, state, template.equipment.material)
+                }
+            }
+
             is Pants -> {
                 field("Equipment", "Pants")
                 field("Style", template.equipment.style.toString())
@@ -231,6 +240,7 @@ private fun HTML.showItemTemplateEditor(
                 selected = when (template.equipment) {
                     NoEquipment -> type == EquipmentType.None
                     is Footwear -> type == EquipmentType.Footwear
+                    is Hat -> type == EquipmentType.Hat
                     is Pants -> type == EquipmentType.Pants
                     is Shirt -> type == EquipmentType.Shirt
                 }
@@ -245,6 +255,16 @@ private fun HTML.showItemTemplateEditor(
                     }
                     selectColor(template.equipment.color)
                     selectColor(template.equipment.sole, "Sole Color", SOLE_COLOR)
+                    selectMaterial(state, template.equipment.material)
+                }
+
+                is Hat -> {
+                    selectEnum("Style", EQUIPMENT_STYLE, HatStyle.entries, false) { style ->
+                        label = style.name
+                        value = style.name
+                        selected = template.equipment.style == style
+                    }
+                    selectColor(template.equipment.color)
                     selectMaterial(state, template.equipment.material)
                 }
 

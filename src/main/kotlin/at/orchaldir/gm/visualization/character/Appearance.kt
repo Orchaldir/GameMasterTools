@@ -18,6 +18,7 @@ import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.RenderState
 
+const val TEXT_LAYER = 100
 const val ABOVE_EQUIPMENT_LAYER = 2
 const val BEARD_BG_LAYER = 2
 const val EQUIPMENT_LAYER = 1
@@ -27,15 +28,15 @@ const val BEHIND_LAYER = -1
 fun visualizeCharacter(
     config: RenderConfig,
     appearance: Appearance,
-    equipment: List<Equipment>,
+    equipped: List<Equipment>,
     renderFront: Boolean = true,
 ): Svg {
     val size = calculateSize(config, appearance)
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
-    val state = RenderState(aabb, config, builder, renderFront)
+    val state = RenderState(aabb, config, builder, renderFront, equipped)
 
-    visualizeAppearance(state, appearance, equipment)
+    visualizeAppearance(state, appearance)
 
     return builder.finish()
 }
@@ -43,7 +44,6 @@ fun visualizeCharacter(
 fun visualizeAppearance(
     state: RenderState,
     appearance: Appearance,
-    equipment: List<Equipment>,
 ) {
     val inner = state.aabb.shrink(state.config.padding)
     val innerState = state.copy(aabb = inner)
@@ -56,7 +56,7 @@ fun visualizeAppearance(
             val headAabb = state.config.body.getHeadAabb(inner)
             val headState = state.copy(aabb = headAabb)
 
-            visualizeBody(innerState, appearance.body, equipment)
+            visualizeBody(innerState, appearance.body)
             visualizeHead(headState, appearance.head)
         }
 

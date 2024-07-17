@@ -1,5 +1,7 @@
 package at.orchaldir.gm.visualization
 
+import at.orchaldir.gm.core.model.item.Equipment
+import at.orchaldir.gm.core.model.item.EquipmentSlot
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.character.ABOVE_EQUIPMENT_LAYER
@@ -9,6 +11,7 @@ data class RenderState(
     val config: RenderConfig,
     val renderer: Renderer,
     val renderFront: Boolean,
+    val equipped: List<Equipment>,
 ) {
 
     fun getBeardLayer() = if (renderFront) {
@@ -16,4 +19,6 @@ data class RenderState(
     } else {
         -ABOVE_EQUIPMENT_LAYER
     }
+
+    fun hasEquipped(slot: EquipmentSlot) = equipped.any { it.slots().contains(slot) }
 }

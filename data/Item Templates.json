@@ -35,6 +35,16 @@
     "sole": "Gray",
     "material": 3
    }
+  },
+  "5": {
+   "id": 5,
+   "name": "Blue Pillbox",
+   "equipment": {
+    "type": "Hat",
+    "style": "Pillbox",
+    "color": "Blue",
+    "material": 1
+   }
   }
  }
 }

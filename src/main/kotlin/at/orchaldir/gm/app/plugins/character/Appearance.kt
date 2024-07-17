@@ -387,7 +387,6 @@ private fun FORM.showNormalHairEditor(
         label = style.name
         value = style.toString()
         selected = when (style) {
-            HairStyleType.Afro -> hair.style is Afro
             HairStyleType.BuzzCut -> hair.style is BuzzCut
             HairStyleType.FlatTop -> hair.style is FlatTop
             HairStyleType.MiddlePart -> hair.style is MiddlePart

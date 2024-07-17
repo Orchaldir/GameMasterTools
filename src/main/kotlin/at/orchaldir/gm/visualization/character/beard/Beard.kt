@@ -7,7 +7,6 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.NoBorder
 import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.character.ABOVE_EQUIPMENT_LAYER
 
 data class BeardConfig(
     val goateeWidth: Factor,

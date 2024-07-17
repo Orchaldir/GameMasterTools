@@ -113,8 +113,8 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         )
     }
 
-    override fun renderText(text: String, center: Point2d, orientation: Orientation, options: TextOptions) {
-        layers.computeIfAbsent(0) {
+    override fun renderText(text: String, center: Point2d, orientation: Orientation, options: TextOptions, layer: Int) {
+        layers.computeIfAbsent(layer) {
             mutableListOf()
         }.add(
             String.format(
