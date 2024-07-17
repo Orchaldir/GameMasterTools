@@ -41,6 +41,7 @@ val RENDER_CONFIG = RenderConfig(
             Factor(0.1f),
             Factor(0.4f),
             Factor(0.05f),
+            Factor(1.6f),
         ),
         NecklineConfig(
             Factor(0.1f),

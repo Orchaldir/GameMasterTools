@@ -10,9 +10,10 @@ import at.orchaldir.gm.visualization.renderBuilder
 import at.orchaldir.gm.visualization.renderRoundedBuilder
 
 data class HatConfig(
-    val heightBrim: Factor,
-    val heightCommon: Factor,
+    val heightBrimCommon: Factor,
+    val heightCrownCommon: Factor,
     val thickness: Factor,
+    val widthBrimWide: Factor,
 ) {
 
     fun getCommonWidth() = FULL + thickness
@@ -56,7 +57,7 @@ private fun visualizeBoater(
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
 
     renderBuilder(state, buildCrown(state), options, EQUIPMENT_LAYER)
-    renderBrim(state, options, Factor(1.5f))
+    renderBrim(state, options, state.config.equipment.hat.widthBrimWide)
 }
 
 private fun visualizeBowler(
@@ -98,7 +99,7 @@ private fun visualizeCowboy(
     crown.createSharpCorners(0)
 
     renderRoundedBuilder(state, crown, options, EQUIPMENT_LAYER)
-    renderBrim(state, options, Factor(1.7f))
+    renderBrim(state, options, state.config.equipment.hat.widthBrimWide)
 }
 
 private fun visualizeFez(
@@ -127,12 +128,12 @@ private fun visualizeTopHat(
     val y = state.config.head.hairlineY
 
     renderBuilder(state, buildCrown(state, Factor(0.6f), Factor(0.1f)), options, EQUIPMENT_LAYER)
-    renderBuilder(state, buildBrim(state, Factor(1.5f), Factor(0.1f), y), options, EQUIPMENT_LAYER)
+    renderBrim(state, options, state.config.equipment.hat.widthBrimWide)
 }
 
 private fun buildCrown(
     state: RenderState,
-    height: Factor = state.config.equipment.hat.heightCommon,
+    height: Factor = state.config.equipment.hat.heightCrownCommon,
     extraTopWidth: Factor = ZERO,
     y: Factor = state.config.head.hairlineY,
 ): Polygon2dBuilder {
@@ -163,7 +164,7 @@ private fun renderBrim(
 ) {
     renderBuilder(
         state,
-        buildBrim(state, width, state.config.equipment.hat.heightBrim, y),
+        buildBrim(state, width, state.config.equipment.hat.heightBrimCommon, y),
         options,
         EQUIPMENT_LAYER
     )
