@@ -13,6 +13,7 @@ data class HatConfig(
     val heightBrimCommon: Factor,
     val heightCrownCommon: Factor,
     val thickness: Factor,
+    val widthBrimBowler: Factor,
     val widthBrimWide: Factor,
 ) {
 
@@ -70,7 +71,7 @@ private fun visualizeBowler(
     crown.createSharpCorners(0)
 
     renderRoundedBuilder(state, crown, options, EQUIPMENT_LAYER)
-    renderBrim(state, options, Factor(1.3f))
+    renderBrim(state, options, state.config.equipment.hat.widthBrimBowler)
 }
 
 private fun visualizeCoolie(
