@@ -11,8 +11,8 @@ import at.orchaldir.gm.visualization.renderRoundedBuilder
 
 data class HatConfig(
     val heightBrimCommon: Factor,
-    val heightCoolie: Factor,
     val heightCrownCommon: Factor,
+    val heightCrownHigh: Factor,
     val thickness: Factor,
     val widthBrimBowler: Factor,
     val widthBrimWide: Factor,
@@ -86,7 +86,7 @@ private fun visualizeCoolie(
     val builder = Polygon2dBuilder()
 
     builder.addMirroredPoints(state.aabb, state.config.equipment.hat.widthCoolie, y)
-    builder.addPoint(state.aabb, CENTER, y - state.config.equipment.hat.heightCoolie)
+    builder.addPoint(state.aabb, CENTER, y - state.config.equipment.hat.heightCrownHigh)
 
     renderBuilder(state, builder, options, EQUIPMENT_LAYER)
 }
@@ -111,7 +111,12 @@ private fun visualizeFez(
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
 
-    renderBuilder(state, buildCrown(state, Factor(0.6f), Factor(-0.08f)), options, EQUIPMENT_LAYER)
+    renderBuilder(
+        state,
+        buildCrown(state, state.config.equipment.hat.heightCrownHigh, Factor(-0.08f)),
+        options,
+        EQUIPMENT_LAYER
+    )
 }
 
 private fun visualizePillbox(
@@ -128,9 +133,13 @@ private fun visualizeTopHat(
     hat: Hat,
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
-    val y = state.config.head.hairlineY
 
-    renderBuilder(state, buildCrown(state, Factor(0.6f), Factor(0.1f)), options, EQUIPMENT_LAYER)
+    renderBuilder(
+        state,
+        buildCrown(state, state.config.equipment.hat.heightCrownHigh, Factor(0.1f)),
+        options,
+        EQUIPMENT_LAYER
+    )
     renderBrim(state, options, state.config.equipment.hat.widthBrimWide)
 }
 
