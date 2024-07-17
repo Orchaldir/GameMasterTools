@@ -11,12 +11,11 @@ import at.orchaldir.gm.visualization.renderRoundedBuilder
 
 data class HatConfig(
     val heightBrimCommon: Factor,
-    val heightCrownCommon: Factor,
+    val heightCrownLow: Factor,
     val heightCrownHigh: Factor,
     val thickness: Factor,
-    val topOffsetFez: Factor,
-    val topOffsetTopHat: Factor,
-    val widthBrimBowler: Factor,
+    val topOffset: Factor,
+    val widthBrimNarrow: Factor,
     val widthBrimWide: Factor,
     val widthCoolie: Factor,
 ) {
@@ -75,7 +74,7 @@ private fun visualizeBowler(
     crown.createSharpCorners(0)
 
     renderRoundedBuilder(state, crown, options, EQUIPMENT_LAYER)
-    renderBrim(state, options, state.config.equipment.hat.widthBrimBowler)
+    renderBrim(state, options, state.config.equipment.hat.widthBrimNarrow)
 }
 
 private fun visualizeCoolie(
@@ -115,7 +114,7 @@ private fun visualizeFez(
 
     renderBuilder(
         state,
-        buildCrown(state, state.config.equipment.hat.heightCrownHigh, state.config.equipment.hat.topOffsetFez),
+        buildCrown(state, state.config.equipment.hat.heightCrownHigh, -state.config.equipment.hat.topOffset),
         options,
         EQUIPMENT_LAYER
     )
@@ -138,7 +137,7 @@ private fun visualizeTopHat(
 
     renderBuilder(
         state,
-        buildCrown(state, state.config.equipment.hat.heightCrownHigh, state.config.equipment.hat.topOffsetTopHat),
+        buildCrown(state, state.config.equipment.hat.heightCrownHigh, state.config.equipment.hat.topOffset),
         options,
         EQUIPMENT_LAYER
     )
@@ -147,7 +146,7 @@ private fun visualizeTopHat(
 
 private fun buildCrown(
     state: RenderState,
-    height: Factor = state.config.equipment.hat.heightCrownCommon,
+    height: Factor = state.config.equipment.hat.heightCrownLow,
     extraTopWidth: Factor = ZERO,
     y: Factor = state.config.head.hairlineY,
 ): Polygon2dBuilder {
