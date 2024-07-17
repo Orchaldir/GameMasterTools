@@ -45,7 +45,7 @@ private fun visualizeBeanie(
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
     val y = if (state.renderFront) {
-        state.config.head.hairlineY
+        state.config.head.hatY
     } else {
         state.config.head.mouthY
     }
@@ -82,7 +82,7 @@ private fun visualizeCoolie(
     hat: Hat,
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
-    val y = state.config.head.hairlineY
+    val y = state.config.head.hatY
 
     val builder = Polygon2dBuilder()
 
@@ -148,7 +148,7 @@ private fun buildCrown(
     state: RenderState,
     height: Factor = state.config.equipment.hat.heightCrownLow,
     extraTopWidth: Factor = ZERO,
-    y: Factor = state.config.head.hairlineY,
+    y: Factor = state.config.head.hatY,
 ): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
     val width = state.config.equipment.hat.getCommonWidth()
@@ -173,7 +173,7 @@ private fun renderBrim(
     state: RenderState,
     options: FillAndBorder,
     width: Factor,
-    y: Factor = state.config.head.hairlineY,
+    y: Factor = state.config.head.hatY,
 ) {
     renderBuilder(
         state,
