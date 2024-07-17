@@ -14,6 +14,8 @@ data class HatConfig(
     val heightCrownCommon: Factor,
     val heightCrownHigh: Factor,
     val thickness: Factor,
+    val topOffsetFez: Factor,
+    val topOffsetTopHat: Factor,
     val widthBrimBowler: Factor,
     val widthBrimWide: Factor,
     val widthCoolie: Factor,
@@ -113,7 +115,7 @@ private fun visualizeFez(
 
     renderBuilder(
         state,
-        buildCrown(state, state.config.equipment.hat.heightCrownHigh, Factor(-0.08f)),
+        buildCrown(state, state.config.equipment.hat.heightCrownHigh, state.config.equipment.hat.topOffsetFez),
         options,
         EQUIPMENT_LAYER
     )
@@ -136,7 +138,7 @@ private fun visualizeTopHat(
 
     renderBuilder(
         state,
-        buildCrown(state, state.config.equipment.hat.heightCrownHigh, Factor(0.1f)),
+        buildCrown(state, state.config.equipment.hat.heightCrownHigh, state.config.equipment.hat.topOffsetTopHat),
         options,
         EQUIPMENT_LAYER
     )

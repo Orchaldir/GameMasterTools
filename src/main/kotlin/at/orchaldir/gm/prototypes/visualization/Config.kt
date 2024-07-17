@@ -42,6 +42,8 @@ val RENDER_CONFIG = RenderConfig(
             Factor(0.4f),
             Factor(0.6f),
             Factor(0.05f),
+            Factor(-0.08f),
+            Factor(0.1f),
             Factor(1.3f),
             Factor(1.6f),
             Factor(1.7f),
