@@ -39,6 +39,7 @@ val RENDER_CONFIG = RenderConfig(
         ),
         HatConfig(
             Factor(0.1f),
+            Factor(0.4f),
         ),
         NecklineConfig(
             Factor(0.1f),

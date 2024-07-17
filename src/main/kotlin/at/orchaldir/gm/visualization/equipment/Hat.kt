@@ -11,6 +11,7 @@ import at.orchaldir.gm.visualization.renderRoundedBuilder
 
 data class HatConfig(
     val heightBrim: Factor,
+    val heightCommon: Factor,
 )
 
 fun visualizeHat(
@@ -40,8 +41,8 @@ private fun visualizeBeanie(
         state.config.head.mouthY
     }
 
-    renderBuilder(state, buildCrown(state, y, Factor(0.0f), y), options, EQUIPMENT_LAYER)
-    renderBrim(state, options, Factor(1.05f))
+    renderBuilder(state, buildCrown(state, state.config.equipment.hat.heightCommon, ZERO, y), options, EQUIPMENT_LAYER)
+    renderBrim(state, options, Factor(1.05f), y)
 }
 
 private fun visualizeBoater(
@@ -51,7 +52,7 @@ private fun visualizeBoater(
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
     val y = state.config.head.hairlineY
 
-    renderBuilder(state, buildCrown(state, Factor(0.4f), ZERO, y), options, EQUIPMENT_LAYER)
+    renderBuilder(state, buildCrown(state, state.config.equipment.hat.heightCommon, ZERO, y), options, EQUIPMENT_LAYER)
     renderBrim(state, options, Factor(1.5f))
 }
 
@@ -62,7 +63,7 @@ private fun visualizeBowler(
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
     val y = state.config.head.hairlineY
 
-    val crown = buildCrown(state, Factor(0.4f), ZERO, y)
+    val crown = buildCrown(state, state.config.equipment.hat.heightCommon, ZERO, y)
     crown.createSharpCorners(0)
 
     renderRoundedBuilder(state, crown, options, EQUIPMENT_LAYER)
@@ -91,7 +92,7 @@ private fun visualizeCowboy(
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
     val y = state.config.head.hairlineY
 
-    val crown = buildCrown(state, Factor(0.5f), ZERO, y)
+    val crown = buildCrown(state, state.config.equipment.hat.heightCommon, ZERO, y)
     crown.addPoint(state.aabb, CENTER, Factor(-0.1f))
     crown.createSharpCorners(0)
 
@@ -116,7 +117,7 @@ private fun visualizePillbox(
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
     val y = state.config.head.hairlineY
 
-    renderBuilder(state, buildCrown(state, Factor(0.4f), Factor(0.0f), y), options, EQUIPMENT_LAYER)
+    renderBuilder(state, buildCrown(state, state.config.equipment.hat.heightCommon, ZERO, y), options, EQUIPMENT_LAYER)
 }
 
 private fun visualizeTopHat(
@@ -154,10 +155,11 @@ private fun renderBrim(
     state: RenderState,
     options: FillAndBorder,
     width: Factor,
+    y: Factor = state.config.head.hairlineY,
 ) {
     renderBuilder(
         state,
-        buildBrim(state, width, state.config.equipment.hat.heightBrim, state.config.head.hairlineY),
+        buildBrim(state, width, state.config.equipment.hat.heightBrim, y),
         options,
         EQUIPMENT_LAYER
     )
