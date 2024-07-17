@@ -38,12 +38,12 @@
   },
   "5": {
    "id": 5,
-   "name": "Tophat",
+   "name": "Blue Pillbox",
    "equipment": {
     "type": "Hat",
     "style": "Pillbox",
     "color": "Blue",
-    "material": 3
+    "material": 1
    }
   }
  }
