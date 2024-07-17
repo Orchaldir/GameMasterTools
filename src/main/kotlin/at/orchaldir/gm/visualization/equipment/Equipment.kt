@@ -9,6 +9,7 @@ import at.orchaldir.gm.visualization.equipment.part.NecklineConfig
 
 data class EquipmentConfig(
     val footwear: FootwearConfig,
+    val hat: HatConfig,
     val neckline: NecklineConfig,
     val pants: PantsConfig,
 )

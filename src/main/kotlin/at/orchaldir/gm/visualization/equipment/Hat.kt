@@ -10,10 +10,7 @@ import at.orchaldir.gm.visualization.renderBuilder
 import at.orchaldir.gm.visualization.renderRoundedBuilder
 
 data class HatConfig(
-    val heightAnkle: Factor,
-    val heightKnee: Factor,
-    val heightSole: Factor,
-    val paddingShaft: Factor,
+    val heightBrim: Factor,
 )
 
 fun visualizeHat(
@@ -44,7 +41,7 @@ private fun visualizeBeanie(
     }
 
     renderBuilder(state, buildCrown(state, y, Factor(0.0f), y), options, EQUIPMENT_LAYER)
-    renderBuilder(state, buildBrim(state, Factor(1.05f), Factor(0.1f), y), options, EQUIPMENT_LAYER)
+    renderBrim(state, options, Factor(1.05f))
 }
 
 private fun visualizeBoater(
@@ -55,7 +52,7 @@ private fun visualizeBoater(
     val y = state.config.head.hairlineY
 
     renderBuilder(state, buildCrown(state, Factor(0.4f), ZERO, y), options, EQUIPMENT_LAYER)
-    renderBuilder(state, buildBrim(state, Factor(1.5f), Factor(0.1f), y), options, EQUIPMENT_LAYER)
+    renderBrim(state, options, Factor(1.5f))
 }
 
 private fun visualizeBowler(
@@ -69,7 +66,7 @@ private fun visualizeBowler(
     crown.createSharpCorners(0)
 
     renderRoundedBuilder(state, crown, options, EQUIPMENT_LAYER)
-    renderBuilder(state, buildBrim(state, Factor(1.3f), Factor(0.1f), y), options, EQUIPMENT_LAYER)
+    renderBrim(state, options, Factor(1.3f))
 }
 
 private fun visualizeCoolie(
@@ -99,7 +96,7 @@ private fun visualizeCowboy(
     crown.createSharpCorners(0)
 
     renderRoundedBuilder(state, crown, options, EQUIPMENT_LAYER)
-    renderBuilder(state, buildBrim(state, Factor(1.7f), Factor(0.1f), y), options, EQUIPMENT_LAYER)
+    renderBrim(state, options, Factor(1.7f))
 }
 
 private fun visualizeFez(
@@ -151,5 +148,18 @@ private fun buildBrim(state: RenderState, width: Factor, height: Factor, y: Fact
     builder.addMirroredPoints(state.aabb, width, y - half)
 
     return builder
+}
+
+private fun renderBrim(
+    state: RenderState,
+    options: FillAndBorder,
+    width: Factor,
+) {
+    renderBuilder(
+        state,
+        buildBrim(state, width, state.config.equipment.hat.heightBrim, state.config.head.hairlineY),
+        options,
+        EQUIPMENT_LAYER
+    )
 }
 
