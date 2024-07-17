@@ -12,7 +12,11 @@ import at.orchaldir.gm.visualization.renderRoundedBuilder
 data class HatConfig(
     val heightBrim: Factor,
     val heightCommon: Factor,
-)
+    val thickness: Factor,
+) {
+
+    fun getCommonWidth() = FULL + thickness
+}
 
 fun visualizeHat(
     state: RenderState,
@@ -42,7 +46,7 @@ private fun visualizeBeanie(
     }
 
     renderBuilder(state, buildCrown(state, y, ZERO, y), options, EQUIPMENT_LAYER)
-    renderBrim(state, options, Factor(1.05f), y)
+    renderBrim(state, options, state.config.equipment.hat.getCommonWidth(), y)
 }
 
 private fun visualizeBoater(
@@ -133,7 +137,7 @@ private fun buildCrown(
     y: Factor = state.config.head.hairlineY,
 ): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
-    val width = FULL + Factor(0.05f)
+    val width = state.config.equipment.hat.getCommonWidth()
 
     builder.addMirroredPoints(state.aabb, width, y)
     builder.addMirroredPoints(state.aabb, width + extraTopWidth, y - height)
