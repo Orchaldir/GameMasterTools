@@ -11,10 +11,12 @@ import at.orchaldir.gm.visualization.renderRoundedBuilder
 
 data class HatConfig(
     val heightBrimCommon: Factor,
+    val heightCoolie: Factor,
     val heightCrownCommon: Factor,
     val thickness: Factor,
     val widthBrimBowler: Factor,
     val widthBrimWide: Factor,
+    val widthCoolie: Factor,
 ) {
 
     fun getCommonWidth() = FULL + thickness
@@ -83,8 +85,8 @@ private fun visualizeCoolie(
 
     val builder = Polygon2dBuilder()
 
-    builder.addMirroredPoints(state.aabb, Factor(1.7f), y)
-    builder.addPoint(state.aabb, CENTER, y - Factor(0.6f))
+    builder.addMirroredPoints(state.aabb, state.config.equipment.hat.widthCoolie, y)
+    builder.addPoint(state.aabb, CENTER, y - state.config.equipment.hat.heightCoolie)
 
     renderBuilder(state, builder, options, EQUIPMENT_LAYER)
 }
