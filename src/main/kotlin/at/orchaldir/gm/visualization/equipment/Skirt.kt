@@ -33,11 +33,12 @@ private fun visualizeMini(
     options: RenderOptions,
 ) {
     val builder = Polygon2dBuilder()
-    val width = state.config.body.getLegsWidth(body)
+    val padding = Factor(0.05f)
+    val width = state.config.body.getLegsWidth(body) + padding
     val bottomY = state.config.body.getLegY(body, Factor(0.4f))
 
     builder.addMirroredPoints(state.aabb, width, bottomY)
-    addHip(state.config, builder, state.aabb, body)
+    addHip(state.config, builder, state.aabb, body, padding)
 
     renderBuilder(state, builder, options, EQUIPMENT_LAYER)
 }
