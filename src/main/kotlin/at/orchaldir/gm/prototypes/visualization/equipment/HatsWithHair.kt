@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.character.appearance.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.item.Hat
-import at.orchaldir.gm.core.model.item.HatStyle
+import at.orchaldir.gm.core.model.item.style.HatStyle
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.HAIR_STYLES
 import at.orchaldir.gm.prototypes.visualization.character.addNames
