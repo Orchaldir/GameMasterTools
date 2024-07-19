@@ -150,6 +150,16 @@ private fun HTML.showItemTemplateDetails(
         field("Id", template.id.value.toString())
         when (template.equipment) {
             NoEquipment -> doubleArrayOf()
+            is Dress -> {
+                field("Equipment", "Dress")
+                field("Neckline Style", template.equipment.necklineStyle.toString())
+                field("Skirt Style", template.equipment.skirtStyle.toString())
+                field("Sleeve Style", template.equipment.sleeveStyle.toString())
+                field("Color", template.equipment.color.toString())
+                field("Material") {
+                    link(call, state, template.equipment.material)
+                }
+            }
             is Footwear -> {
                 field("Equipment", "Footwear")
                 field("Style", template.equipment.style.toString())
@@ -187,7 +197,6 @@ private fun HTML.showItemTemplateDetails(
                     link(call, state, template.equipment.material)
                 }
             }
-
         }
         showList("Instances", items) { item ->
             link(call, state, item)
@@ -240,6 +249,7 @@ private fun HTML.showItemTemplateEditor(
                 value = type.name
                 selected = when (template.equipment) {
                     NoEquipment -> type == EquipmentType.None
+                    is Dress -> type == EquipmentType.Dress
                     is Footwear -> type == EquipmentType.Footwear
                     is Hat -> type == EquipmentType.Hat
                     is Pants -> type == EquipmentType.Pants
@@ -248,6 +258,26 @@ private fun HTML.showItemTemplateEditor(
             }
             when (template.equipment) {
                 NoEquipment -> doNothing()
+                is Dress -> {
+                    selectEnum("Neckline Style", NECKLINE_STYLE, NecklineStyle.entries, false) { style ->
+                        label = style.name
+                        value = style.name
+                        selected = template.equipment.necklineStyle == style
+                    }
+                    selectEnum("Skirt Style", SKIRT_STYLE, SkirtStyle.entries, false) { style ->
+                        label = style.name
+                        value = style.name
+                        selected = template.equipment.skirtStyle == style
+                    }
+                    selectEnum("Sleeve Style", SLEEVE_STYLE, SleeveStyle.entries, false) { style ->
+                        label = style.name
+                        value = style.name
+                        selected = template.equipment.sleeveStyle == style
+                    }
+                    selectColor(template.equipment.color)
+                    selectMaterial(state, template.equipment.material)
+                }
+
                 is Footwear -> {
                     selectEnum("Style", EQUIPMENT_STYLE, FootwearStyle.entries, false) { style ->
                         label = style.name

@@ -16,6 +16,14 @@ fun parseItemTemplate(id: ItemTemplateId, parameters: Parameters): ItemTemplate 
 
 fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_TYPE, EquipmentType.None)) {
     EquipmentType.None -> NoEquipment
+    EquipmentType.Dress -> Dress(
+        parse(parameters, NECKLINE_STYLE, NecklineStyle.None),
+        parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
+        parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
+        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
+        parseMaterialId(parameters, MATERIAL),
+    )
+
     EquipmentType.Footwear -> Footwear(
         parse(parameters, EQUIPMENT_STYLE, FootwearStyle.Shoes),
         parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
