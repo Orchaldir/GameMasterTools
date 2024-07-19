@@ -11,7 +11,6 @@ import at.orchaldir.gm.utils.renderer.RenderOptions
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.addHip
-import at.orchaldir.gm.visualization.character.createHip
 import at.orchaldir.gm.visualization.renderBuilder
 
 fun visualizeSkirt(
@@ -22,20 +21,21 @@ fun visualizeSkirt(
     val options = FillAndBorder(skirt.color.toRender(), state.config.line)
 
     when (skirt.style) {
-        SkirtStyle.Mini -> visualizeMini(state, body, options)
-        SkirtStyle.Sheath -> doNothing()
+        SkirtStyle.Mini -> visualizeSkirt(state, body, options, Factor(0.4f))
+        SkirtStyle.Sheath -> visualizeSkirt(state, body, options, Factor(0.9f))
     }
 }
 
-private fun visualizeMini(
+private fun visualizeSkirt(
     state: RenderState,
     body: Body,
     options: RenderOptions,
+    height: Factor,
 ) {
     val builder = Polygon2dBuilder()
-    val padding = Factor(0.05f)
-    val width = state.config.body.getLegsWidth(body) + padding
-    val bottomY = state.config.body.getLegY(body, Factor(0.4f))
+    val padding = Factor(1.05f)
+    val width = state.config.body.getLegsWidth(body) * padding
+    val bottomY = state.config.body.getLegY(body, height)
 
     builder.addMirroredPoints(state.aabb, width, bottomY)
     addHip(state.config, builder, state.aabb, body, padding)
