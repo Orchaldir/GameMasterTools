@@ -1,6 +1,6 @@
 package at.orchaldir.gm.visualization.equipment.part
 
-import at.orchaldir.gm.core.model.item.NecklineStyle
+import at.orchaldir.gm.core.model.item.style.NecklineStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.RenderConfig
 

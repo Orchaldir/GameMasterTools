@@ -2,9 +2,7 @@ package at.orchaldir.gm.core.model.item
 
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.item.EquipmentSlot.*
-import at.orchaldir.gm.core.model.item.style.FootwearStyle
-import at.orchaldir.gm.core.model.item.style.HatStyle
-import at.orchaldir.gm.core.model.item.style.PantsStyle
+import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -71,20 +69,6 @@ data class Pants(
     override fun getMaterials() = setOf(material)
 
     override fun slots() = setOf(Bottom)
-}
-
-enum class SleeveStyle {
-    Long,
-    None,
-    Short,
-}
-
-enum class NecklineStyle {
-    Crew,
-    None,
-    V,
-    DeepV,
-    VeryDeepV,
 }
 
 @Serializable

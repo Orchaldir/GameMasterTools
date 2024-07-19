@@ -2,9 +2,9 @@ package at.orchaldir.gm.visualization.equipment
 
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.item.NecklineStyle
+import at.orchaldir.gm.core.model.item.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.Shirt
-import at.orchaldir.gm.core.model.item.SleeveStyle
+import at.orchaldir.gm.core.model.item.style.SleeveStyle
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.visualization.RenderState
