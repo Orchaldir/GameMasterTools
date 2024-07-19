@@ -29,6 +29,22 @@ data object NoEquipment : Equipment() {
 }
 
 @Serializable
+@SerialName("Dress")
+data class Dress(
+    val necklineStyle: NecklineStyle = NecklineStyle.None,
+    val skirtStyle: SkirtStyle = SkirtStyle.Sheath,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Long,
+    val color: Color = Color.Red,
+    val material: MaterialId = MaterialId(0),
+) : Equipment() {
+
+    override fun contains(id: MaterialId) = material == id
+    override fun getMaterials() = setOf(material)
+
+    override fun slots() = setOf(Bottom, Top)
+}
+
+@Serializable
 @SerialName("Footwear")
 data class Footwear(
     val style: FootwearStyle = FootwearStyle.Shoes,
