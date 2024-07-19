@@ -49,4 +49,10 @@ fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_T
         parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
         parseMaterialId(parameters, MATERIAL),
     )
+
+    EquipmentType.Skirt -> Skirt(
+        parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
+        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
+        parseMaterialId(parameters, MATERIAL),
+    )
 }

@@ -14,6 +14,7 @@ enum class EquipmentType {
     Hat,
     Pants,
     Shirt,
+    Skirt,
 }
 
 @Serializable
@@ -103,4 +104,17 @@ data class Shirt(
     override fun slots() = setOf(Top)
 }
 
+@Serializable
+@SerialName("Skirt")
+data class Skirt(
+    val style: SkirtStyle = SkirtStyle.Sheath,
+    val color: Color = Color.Red,
+    val material: MaterialId = MaterialId(0),
+) : Equipment() {
+
+    override fun contains(id: MaterialId) = material == id
+    override fun getMaterials() = setOf(material)
+
+    override fun slots() = setOf(Bottom)
+}
 

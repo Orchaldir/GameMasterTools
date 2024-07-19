@@ -197,6 +197,15 @@ private fun HTML.showItemTemplateDetails(
                     link(call, state, template.equipment.material)
                 }
             }
+
+            is Skirt -> {
+                field("Equipment", "Skirt")
+                field("Style", template.equipment.style.toString())
+                field("Color", template.equipment.color.toString())
+                field("Material") {
+                    link(call, state, template.equipment.material)
+                }
+            }
         }
         showList("Instances", items) { item ->
             link(call, state, item)
@@ -254,6 +263,7 @@ private fun HTML.showItemTemplateEditor(
                     is Hat -> type == EquipmentType.Hat
                     is Pants -> type == EquipmentType.Pants
                     is Shirt -> type == EquipmentType.Shirt
+                    is Skirt -> type == EquipmentType.Skirt
                 }
             }
             when (template.equipment) {
@@ -319,6 +329,15 @@ private fun HTML.showItemTemplateEditor(
                         label = style.name
                         value = style.name
                         selected = template.equipment.sleeveStyle == style
+                    }
+                    selectColor(template.equipment.color)
+                    selectMaterial(state, template.equipment.material)
+                }
+                is Skirt -> {
+                    selectEnum("Style", SKIRT_STYLE, SkirtStyle.entries, false) { style ->
+                        label = style.name
+                        value = style.name
+                        selected = template.equipment.style == style
                     }
                     selectColor(template.equipment.color)
                     selectMaterial(state, template.equipment.material)
