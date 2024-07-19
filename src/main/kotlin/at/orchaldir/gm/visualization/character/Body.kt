@@ -68,6 +68,13 @@ data class BodyConfig(
 
     fun getLegY() = torsoY + torsoHeight
 
+    fun getLegY(body: Body, factor: Factor): Factor {
+        val topY = getLegY()
+        val fullBottomY = getFootY(body)
+        val fullHeight = fullBottomY - topY
+        return fullBottomY - fullHeight * (FULL - factor)
+    }
+
     fun getMirroredArmPoint(aabb: AABB, body: Body, vertical: Factor): Pair<Point2d, Point2d> {
         val torso = getTorsoAabb(aabb, body)
         val size = getArmSize(aabb, body)
@@ -149,14 +156,17 @@ fun createTorso(config: RenderConfig, aabb: AABB, body: Body): Polygon2dBuilder 
 }
 
 fun createHip(config: RenderConfig, aabb: AABB, body: Body): Polygon2dBuilder {
-    val torso = config.body.getTorsoAabb(aabb, body)
     val builder = Polygon2dBuilder()
+    addHip(config, builder, aabb, body)
+    return builder
+}
+
+fun addHip(config: RenderConfig, builder: Polygon2dBuilder, aabb: AABB, body: Body) {
+    val torso = config.body.getTorsoAabb(aabb, body)
     val hipWidth = config.body.getHipWidth(body.bodyShape)
 
     builder.addMirroredPoints(torso, hipWidth, END)
     builder.addMirroredPoints(torso, hipWidth, config.body.hipY)
-
-    return builder
 }
 
 fun visualizeArms(state: RenderState, body: Body, options: RenderOptions) {

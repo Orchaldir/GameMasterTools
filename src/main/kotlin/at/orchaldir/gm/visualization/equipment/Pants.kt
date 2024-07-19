@@ -39,10 +39,7 @@ private fun getRegularPants(state: RenderState, body: Body): Polygon2d {
 }
 
 private fun getPantsWithHeight(state: RenderState, body: Body, height: Factor): Polygon2d {
-    val fullBottomY = state.config.body.getFootY(body)
-    val topY = state.config.body.getLegY()
-    val fullHeight = fullBottomY - topY
-    val bottomY = fullBottomY - fullHeight * (FULL - height)
+    val bottomY = state.config.body.getLegY(body, height)
     return getPants(state, body, bottomY)
 }
 
