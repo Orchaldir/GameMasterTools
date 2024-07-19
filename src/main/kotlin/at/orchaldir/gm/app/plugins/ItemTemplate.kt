@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.model.item.style.FootwearStyle
 import at.orchaldir.gm.core.model.item.style.HatStyle
+import at.orchaldir.gm.core.model.item.style.PantsStyle
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getItems

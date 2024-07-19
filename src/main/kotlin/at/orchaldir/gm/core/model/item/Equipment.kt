@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.item.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.style.FootwearStyle
 import at.orchaldir.gm.core.model.item.style.HatStyle
+import at.orchaldir.gm.core.model.item.style.PantsStyle
 import at.orchaldir.gm.core.model.material.MaterialId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -56,13 +57,6 @@ data class Hat(
     override fun getMaterials() = setOf(material)
 
     override fun slots() = setOf(Headwear)
-}
-
-enum class PantsStyle {
-    Bermuda,
-    HotPants,
-    Regular,
-    Shorts,
 }
 
 @Serializable

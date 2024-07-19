@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.item.*
-import at.orchaldir.gm.core.model.item.PantsStyle.Shorts
+import at.orchaldir.gm.core.model.item.style.PantsStyle.Shorts
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue

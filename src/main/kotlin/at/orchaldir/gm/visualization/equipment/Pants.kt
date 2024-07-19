@@ -2,7 +2,7 @@ package at.orchaldir.gm.visualization.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.Pants
-import at.orchaldir.gm.core.model.item.PantsStyle
+import at.orchaldir.gm.core.model.item.style.PantsStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.visualization.RenderState
