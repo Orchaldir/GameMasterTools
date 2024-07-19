@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
+import at.orchaldir.gm.core.model.character.appearance.BodyShape.*
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.RenderOptions
 import at.orchaldir.gm.visualization.RenderConfig
@@ -106,18 +107,18 @@ data class BodyConfig(
     fun getTorsoWidth(body: Body) = getBodyWidth(body) * torsoWidth
 
     fun getHipWidth(bodyShape: BodyShape) = when (bodyShape) {
-        BodyShape.Fat -> widerWidth
+        Fat -> widerWidth
         else -> FULL
     }
 
     fun getWaistWidth(bodyShape: BodyShape) = when (bodyShape) {
-        BodyShape.Hourglass -> hourglassWidth
+        Hourglass -> hourglassWidth
         else -> FULL
     }
 
     fun getShoulderWidth(bodyShape: BodyShape) = when (bodyShape) {
-        BodyShape.Muscular -> widerWidth
-        BodyShape.Rectangle -> FULL.interpolate(widerWidth, Factor(0.33f))
+        Muscular -> widerWidth
+        Rectangle, Hourglass -> FULL.interpolate(widerWidth, Factor(0.33f))
         else -> FULL
     }
 
