@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.item.*
+import at.orchaldir.gm.core.model.item.style.FootwearStyle
 import io.ktor.http.*
 import io.ktor.server.util.*
 

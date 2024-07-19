@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.item
 
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.item.EquipmentSlot.*
+import at.orchaldir.gm.core.model.item.style.FootwearStyle
 import at.orchaldir.gm.core.model.material.MaterialId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -25,20 +26,6 @@ sealed class Equipment {
 @SerialName("None")
 data object NoEquipment : Equipment() {
     override fun getMaterials() = emptySet<MaterialId>()
-}
-
-enum class FootwearStyle {
-    Boots,
-    KneeHighBoots,
-    Sandals,
-    Shoes,
-    Slippers;
-
-    fun isFootVisible(fromFront: Boolean) = when (this) {
-        Sandals -> false
-        Slippers -> fromFront
-        else -> true
-    }
 }
 
 @Serializable
