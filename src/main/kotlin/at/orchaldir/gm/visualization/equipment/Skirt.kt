@@ -59,7 +59,7 @@ fun createSkirt(
         builder.addMirroredPoints(state.aabb, width, bottomY)
     }
 
-    addHip(state.config, builder, state.aabb, body, skirtConfig.getSkirtWidthFactor())
+    addHip(state.config, builder, state.aabb, body, skirtConfig.getSkirtWidthFactor(), skirtStyle != ALine)
 
     return builder
 }

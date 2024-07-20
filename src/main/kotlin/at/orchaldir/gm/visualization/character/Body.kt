@@ -170,11 +170,20 @@ fun createHip(config: RenderConfig, aabb: AABB, body: Body): Polygon2dBuilder {
     return builder
 }
 
-fun addHip(config: RenderConfig, builder: Polygon2dBuilder, aabb: AABB, body: Body, padding: Factor = FULL) {
+fun addHip(
+    config: RenderConfig,
+    builder: Polygon2dBuilder,
+    aabb: AABB,
+    body: Body,
+    padding: Factor = FULL,
+    renderBottom: Boolean = true,
+) {
     val torso = config.body.getTorsoAabb(aabb, body)
     val hipWidth = config.body.getHipWidth(body.bodyShape) * padding
 
-    builder.addMirroredPoints(torso, hipWidth, END)
+    if (renderBottom) {
+        builder.addMirroredPoints(torso, hipWidth, END)
+    }
     builder.addMirroredPoints(torso, hipWidth, config.body.hipY)
 }
 
