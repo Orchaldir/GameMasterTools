@@ -10,9 +10,10 @@ import at.orchaldir.gm.visualization.renderBuilder
 import at.orchaldir.gm.visualization.renderRoundedBuilder
 
 data class HatConfig(
-    val heightBrimCommon: Factor,
-    val heightCrownLow: Factor,
-    val heightCrownHigh: Factor,
+    val heightBrim: Factor,
+    val heightLow: Factor,
+    val heightHigh: Factor,
+    val heightVeryHigh: Factor,
     val thickness: Factor,
     val topOffset: Factor,
     val widthBrimNarrow: Factor,
@@ -88,7 +89,7 @@ private fun visualizeCoolie(
     val builder = Polygon2dBuilder()
 
     builder.addMirroredPoints(state.aabb, state.config.equipment.hat.widthCoolie, y)
-    builder.addPoint(state.aabb, CENTER, y - state.config.equipment.hat.heightCrownHigh)
+    builder.addPoint(state.aabb, CENTER, y - state.config.equipment.hat.heightHigh)
 
     renderBuilder(state, builder, options, EQUIPMENT_LAYER)
 }
@@ -115,7 +116,7 @@ private fun visualizeFez(
 
     renderBuilder(
         state,
-        buildCrown(state, state.config.equipment.hat.heightCrownHigh, -state.config.equipment.hat.topOffset),
+        buildCrown(state, state.config.equipment.hat.heightHigh, -state.config.equipment.hat.topOffset),
         options,
         EQUIPMENT_LAYER
     )
@@ -138,7 +139,7 @@ private fun visualizeTopHat(
 
     renderBuilder(
         state,
-        buildCrown(state, state.config.equipment.hat.heightCrownHigh, state.config.equipment.hat.topOffset),
+        buildCrown(state, state.config.equipment.hat.heightHigh, state.config.equipment.hat.topOffset),
         options,
         EQUIPMENT_LAYER
     )
@@ -149,16 +150,20 @@ private fun visualizeTurban(
     state: RenderState,
     hat: Hat,
 ) {
-    val options = FillAndBorder(hat.color.toRender(), state.config.line)
-
-    val turban =
-        buildCrown(state, state.config.equipment.hat.heightCrownHigh, Factor(0.1f), state.config.head.hairlineY)
+    val config = state.config
+    val options = FillAndBorder(hat.color.toRender(), config.line)
+    val y = if (state.renderFront) {
+        state.config.head.eyeY
+    } else {
+        state.config.head.mouthY
+    }
+    val height = config.equipment.hat.heightVeryHigh + y - state.config.head.eyeY
+    val turban = buildCrown(state, height, Factor(0.2f), y)
     turban.createSharpCorners(0)
 
     if (state.renderFront) {
         turban.reverse()
-        turban.addMirroredPoints(state.aabb, Factor(0.25f), state.config.head.hatY)
-        turban.addPoint(state.aabb, CENTER, ZERO, true)
+        turban.addMirroredPoints(state.aabb, HALF, config.head.hatY * 0.5f)
     }
 
     renderRoundedBuilder(state, turban, options, EQUIPMENT_LAYER)
@@ -167,7 +172,7 @@ private fun visualizeTurban(
 
 private fun buildCrown(
     state: RenderState,
-    height: Factor = state.config.equipment.hat.heightCrownLow,
+    height: Factor = state.config.equipment.hat.heightLow,
     extraTopWidth: Factor = ZERO,
     y: Factor = state.config.head.hatY,
 ): Polygon2dBuilder {
@@ -198,7 +203,7 @@ private fun renderBrim(
 ) {
     renderBuilder(
         state,
-        buildBrim(state, width, state.config.equipment.hat.heightBrimCommon, y),
+        buildBrim(state, width, state.config.equipment.hat.heightBrim, y),
         options,
         EQUIPMENT_LAYER
     )
