@@ -43,23 +43,28 @@ fun createSkirt(
 ): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
     val skirtConfig = state.config.equipment.skirt
-    val width = skirtConfig.getSkirtWidth(state.config.body, body) * when (skirtStyle) {
+    val bottomWidth = skirtConfig.getSkirtWidth(state.config.body, body) * when (skirtStyle) {
         ALine -> Factor(1.4f)
+        BallGown -> Factor(1.8f)
         else -> FULL
     }
+    val hipWidth: Factor = when (skirtStyle) {
+        BallGown -> bottomWidth
+        else -> skirtConfig.getSkirtWidthFactor()
+    }
     val height: Factor = when (skirtStyle) {
-        ALine, Asymmetrical, Sheath -> state.config.equipment.skirt.heightFull
         Mini -> state.config.equipment.skirt.heightMini
+        else -> state.config.equipment.skirt.heightFull
     }
     val bottomY = state.config.body.getLegY(body, height)
 
     if (skirtStyle == Asymmetrical) {
-        builder.addPoint(state.aabb, CENTER - width * 0.5f, bottomY)
+        builder.addPoint(state.aabb, CENTER - bottomWidth * 0.5f, bottomY)
     } else {
-        builder.addMirroredPoints(state.aabb, width, bottomY)
+        builder.addMirroredPoints(state.aabb, bottomWidth, bottomY)
     }
 
-    addHip(state.config, builder, state.aabb, body, skirtConfig.getSkirtWidthFactor(), skirtStyle != ALine)
+    addHip(state.config, builder, state.aabb, body, hipWidth, skirtStyle != ALine)
 
     return builder
 }
