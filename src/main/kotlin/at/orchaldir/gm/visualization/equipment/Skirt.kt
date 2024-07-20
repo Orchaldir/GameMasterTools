@@ -28,6 +28,11 @@ data class SkirtConfig(
         else -> FULL
     }
 
+    fun getSkirtHeight(style: SkirtStyle) = when (style) {
+        Mini -> heightMini
+        else -> heightFull
+    }
+
     fun getSkirtWidthFactor() = FULL + widthPadding
 }
 
@@ -50,10 +55,7 @@ fun createSkirt(
     val builder = Polygon2dBuilder()
     val skirtConfig = state.config.equipment.skirt
     val width = skirtConfig.getSkirtWidth(state.config.body, body, skirtStyle)
-    val height: Factor = when (skirtStyle) {
-        Mini -> skirtConfig.heightMini
-        else -> skirtConfig.heightFull
-    }
+    val height = skirtConfig.getSkirtHeight(skirtStyle)
     val bottomY = state.config.body.getLegY(body, height)
 
     if (skirtStyle == Asymmetrical) {
