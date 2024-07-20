@@ -21,7 +21,7 @@ fun addNeckline(
     builder: Polygon2dBuilder,
     style: NecklineStyle,
 ) {
-    if (!state.renderFront) {
+    if (!state.renderFront && !style.renderBack()) {
         return
     }
 
@@ -46,7 +46,8 @@ private fun addAsymmetrical(
     aabb: AABB,
 ) {
     val shoulderWidth = state.config.body.getShoulderWidth(body.bodyShape)
-    builder.addPoint(aabb, CENTER + shoulderWidth * 0.5f, START)
+    val offset = state.getSideOffset(shoulderWidth * 0.5f)
+    builder.addPoint(aabb, CENTER + offset, START)
 }
 
 private fun addHalter(

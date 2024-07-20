@@ -14,4 +14,6 @@ enum class NecklineStyle {
         Asymmetrical, Halter, Strapless -> false
         else -> true
     }
+
+    fun renderBack() = this == Asymmetrical
 }

@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization
 import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.core.model.item.EquipmentSlot
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.character.ABOVE_EQUIPMENT_LAYER
 
@@ -18,6 +19,12 @@ data class RenderState(
         ABOVE_EQUIPMENT_LAYER
     } else {
         -ABOVE_EQUIPMENT_LAYER
+    }
+
+    fun getSideOffset(offset: Factor) = if (renderFront) {
+        offset
+    } else {
+        -offset
     }
 
     fun hasEquipped(slot: EquipmentSlot) = equipped.any { it.slots().contains(slot) }
