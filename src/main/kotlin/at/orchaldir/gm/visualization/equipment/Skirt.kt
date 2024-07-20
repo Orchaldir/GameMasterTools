@@ -10,9 +10,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.character.BodyConfig
-import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.character.addHip
+import at.orchaldir.gm.visualization.character.*
 import at.orchaldir.gm.visualization.renderBuilder
 
 data class SkirtConfig(
@@ -57,7 +55,12 @@ fun createSkirt(
     val bottomY = state.config.body.getLegY(body, height)
 
     if (skirtStyle == Asymmetrical) {
-        builder.addPoint(state.aabb, CENTER - width * 0.5f, bottomY)
+        val offset = if (state.renderFront) {
+            -0.5f
+        } else {
+            0.5f
+        }
+        builder.addPoint(state.aabb, CENTER + width * offset, bottomY)
     } else {
         builder.addMirroredPoints(state.aabb, width, bottomY)
     }
