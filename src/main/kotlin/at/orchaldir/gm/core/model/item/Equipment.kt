@@ -2,16 +2,19 @@ package at.orchaldir.gm.core.model.item
 
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.item.EquipmentSlot.*
+import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class EquipmentType {
     None,
+    Dress,
     Footwear,
     Hat,
     Pants,
     Shirt,
+    Skirt,
 }
 
 @Serializable
@@ -27,18 +30,20 @@ data object NoEquipment : Equipment() {
     override fun getMaterials() = emptySet<MaterialId>()
 }
 
-enum class FootwearStyle {
-    Boots,
-    KneeHighBoots,
-    Sandals,
-    Shoes,
-    Slippers;
+@Serializable
+@SerialName("Dress")
+data class Dress(
+    val necklineStyle: NecklineStyle = NecklineStyle.None,
+    val skirtStyle: SkirtStyle = SkirtStyle.Sheath,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Long,
+    val color: Color = Color.Red,
+    val material: MaterialId = MaterialId(0),
+) : Equipment() {
 
-    fun isFootVisible(fromFront: Boolean) = when (this) {
-        Sandals -> false
-        Slippers -> fromFront
-        else -> true
-    }
+    override fun contains(id: MaterialId) = material == id
+    override fun getMaterials() = setOf(material)
+
+    override fun slots() = setOf(Bottom, Top)
 }
 
 @Serializable
@@ -56,17 +61,6 @@ data class Footwear(
     override fun slots() = setOf(Foot)
 }
 
-enum class HatStyle {
-    Beanie,
-    Boater,
-    Bowler,
-    Coolie,
-    Cowboy,
-    Fez,
-    Pillbox,
-    TopHat,
-}
-
 @Serializable
 @SerialName("Hat")
 data class Hat(
@@ -81,13 +75,6 @@ data class Hat(
     override fun slots() = setOf(Headwear)
 }
 
-enum class PantsStyle {
-    Bermuda,
-    HotPants,
-    Regular,
-    Shorts,
-}
-
 @Serializable
 @SerialName("Pants")
 data class Pants(
@@ -100,20 +87,6 @@ data class Pants(
     override fun getMaterials() = setOf(material)
 
     override fun slots() = setOf(Bottom)
-}
-
-enum class SleeveStyle {
-    Long,
-    None,
-    Short,
-}
-
-enum class NecklineStyle {
-    Crew,
-    None,
-    V,
-    DeepV,
-    VeryDeepV,
 }
 
 @Serializable
@@ -131,4 +104,17 @@ data class Shirt(
     override fun slots() = setOf(Top)
 }
 
+@Serializable
+@SerialName("Skirt")
+data class Skirt(
+    val style: SkirtStyle = SkirtStyle.Sheath,
+    val color: Color = Color.Red,
+    val material: MaterialId = MaterialId(0),
+) : Equipment() {
+
+    override fun contains(id: MaterialId) = material == id
+    override fun getMaterials() = setOf(material)
+
+    override fun slots() = setOf(Bottom)
+}
 

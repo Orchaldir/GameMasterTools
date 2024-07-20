@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.hair.MiddlePart
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.item.Hat
-import at.orchaldir.gm.core.model.item.HatStyle
+import at.orchaldir.gm.core.model.item.style.HatStyle
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.addNames
 import at.orchaldir.gm.prototypes.visualization.character.renderTable

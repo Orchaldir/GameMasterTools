@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.item.*
+import at.orchaldir.gm.core.model.item.style.*
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -15,6 +16,14 @@ fun parseItemTemplate(id: ItemTemplateId, parameters: Parameters): ItemTemplate 
 
 fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_TYPE, EquipmentType.None)) {
     EquipmentType.None -> NoEquipment
+    EquipmentType.Dress -> Dress(
+        parse(parameters, NECKLINE_STYLE, NecklineStyle.None),
+        parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
+        parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
+        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
+        parseMaterialId(parameters, MATERIAL),
+    )
+
     EquipmentType.Footwear -> Footwear(
         parse(parameters, EQUIPMENT_STYLE, FootwearStyle.Shoes),
         parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
@@ -37,6 +46,12 @@ fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_T
     EquipmentType.Shirt -> Shirt(
         parse(parameters, NECKLINE_STYLE, NecklineStyle.None),
         parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
+        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
+        parseMaterialId(parameters, MATERIAL),
+    )
+
+    EquipmentType.Skirt -> Skirt(
+        parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
         parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
         parseMaterialId(parameters, MATERIAL),
     )

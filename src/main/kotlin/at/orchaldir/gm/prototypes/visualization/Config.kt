@@ -8,10 +8,7 @@ import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.*
 import at.orchaldir.gm.visualization.character.beard.BeardConfig
-import at.orchaldir.gm.visualization.equipment.EquipmentConfig
-import at.orchaldir.gm.visualization.equipment.FootwearConfig
-import at.orchaldir.gm.visualization.equipment.HatConfig
-import at.orchaldir.gm.visualization.equipment.PantsConfig
+import at.orchaldir.gm.visualization.equipment.*
 import at.orchaldir.gm.visualization.equipment.part.NecklineConfig
 
 val RENDER_CONFIG = RenderConfig(
@@ -24,6 +21,7 @@ val RENDER_CONFIG = RenderConfig(
         Factor(0.75f),
         Factor(0.8f),
         Factor(0.14f),
+        Factor(0.25f),
         Factor(0.42f),
         Factor(0.35f),
         Factor(0.255f),
@@ -60,6 +58,13 @@ val RENDER_CONFIG = RenderConfig(
             Factor(0.3f),
             Factor(0.05f),
         ),
+        SkirtConfig(
+            Factor(0.4f),
+            Factor(0.9f),
+            Factor(1.4f),
+            Factor(1.8f),
+            Factor(0.05f),
+        )
     ),
     HeadConfig(
         BeardConfig(Factor(0.8f), Factor(0.05f), Factor(0.1f), Factor(0.01f)),

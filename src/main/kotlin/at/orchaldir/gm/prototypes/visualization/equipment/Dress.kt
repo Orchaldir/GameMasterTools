@@ -1,14 +1,14 @@
 package at.orchaldir.gm.prototypes.visualization.equipment
 
-import at.orchaldir.gm.core.model.appearance.Color.Blue
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
-import at.orchaldir.gm.core.model.item.Shirt
-import at.orchaldir.gm.core.model.item.style.NecklineStyle
-import at.orchaldir.gm.core.model.item.style.SleeveStyle.None
+import at.orchaldir.gm.core.model.item.Dress
+import at.orchaldir.gm.core.model.item.style.NecklineStyle.Strapless
+import at.orchaldir.gm.core.model.item.style.SkirtStyle
+import at.orchaldir.gm.core.model.item.style.SleeveStyle
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.addNames
 import at.orchaldir.gm.prototypes.visualization.character.renderTable
@@ -16,12 +16,13 @@ import at.orchaldir.gm.utils.math.Distance
 
 fun main() {
     renderTable(
-        "neckline.svg",
+        "dresses.svg",
         RENDER_CONFIG,
-        addNames(NecklineStyle.entries),
-        addNames(BodyShape.entries)
+        addNames(SkirtStyle.entries),
+        addNames(BodyShape.entries),
+        true,
     ) { distance, shape, style ->
-        Pair(createAppearance(distance, shape), listOf(Shirt(style, None, Blue)))
+        Pair(createAppearance(distance, shape), listOf(Dress(Strapless, style, SleeveStyle.None)))
     }
 }
 

@@ -2,10 +2,7 @@ package at.orchaldir.gm.visualization.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.item.Footwear
-import at.orchaldir.gm.core.model.item.Hat
-import at.orchaldir.gm.core.model.item.Pants
-import at.orchaldir.gm.core.model.item.Shirt
+import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.equipment.part.NecklineConfig
@@ -15,6 +12,7 @@ data class EquipmentConfig(
     val hat: HatConfig,
     val neckline: NecklineConfig,
     val pants: PantsConfig,
+    val skirt: SkirtConfig,
 )
 
 fun visualizeBodyEquipment(
@@ -23,9 +21,11 @@ fun visualizeBodyEquipment(
 ) {
     state.equipped.forEach {
         when (it) {
+            is Dress -> visualizeDress(state, body, it)
             is Footwear -> visualizeFootwear(state, body, it)
             is Pants -> visualizePants(state, body, it)
             is Shirt -> visualizeShirt(state, body, it)
+            is Skirt -> visualizeSkirt(state, body, it)
             else -> doNothing()
         }
     }

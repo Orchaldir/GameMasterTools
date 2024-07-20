@@ -38,12 +38,23 @@
   },
   "5": {
    "id": 5,
-   "name": "Blue Pillbox",
+   "name": "Red Pillbox",
    "equipment": {
     "type": "Hat",
     "style": "Pillbox",
-    "color": "Blue",
+    "color": "Red",
     "material": 1
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Red Dress",
+   "equipment": {
+    "type": "Dress",
+    "necklineStyle": "Asymmetrical",
+    "skirtStyle": "Asymmetrical",
+    "sleeveStyle": "None",
+    "material": 2
    }
   }
  }

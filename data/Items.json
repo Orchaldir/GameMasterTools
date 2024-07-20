@@ -18,19 +18,11 @@
   },
   "2": {
    "id": 2,
-   "template": 2,
-   "location": {
-    "type": "Equipped",
-    "character": 0
-   }
+    "template": 2
   },
   "3": {
    "id": 3,
-   "template": 3,
-   "location": {
-    "type": "Equipped",
-    "character": 0
-   }
+    "template": 3
   },
   "4": {
    "id": 4,
@@ -46,6 +38,14 @@
    "location": {
     "type": "Equipped",
     "character": 0
+   }
+  },
+   "6": {
+     "id": 6,
+     "template": 6,
+     "location": {
+       "type": "Equipped",
+       "character": 0
    }
   }
  }
