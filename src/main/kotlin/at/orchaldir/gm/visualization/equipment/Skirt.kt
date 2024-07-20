@@ -17,7 +17,7 @@ import at.orchaldir.gm.visualization.renderBuilder
 
 data class SkirtConfig(
     val heightMini: Factor,
-    val heightSheath: Factor,
+    val heightFull: Factor,
     val widthPadding: Factor,
 ) {
     fun getSkirtWidth(config: BodyConfig, body: Body) = config.getLegsWidth(body) * getSkirtWidthFactor()
@@ -43,10 +43,13 @@ fun createSkirt(
 ): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
     val skirtConfig = state.config.equipment.skirt
-    val width = skirtConfig.getSkirtWidth(state.config.body, body)
+    val width = skirtConfig.getSkirtWidth(state.config.body, body) * when (skirtStyle) {
+        ALine -> Factor(1.4f)
+        else -> FULL
+    }
     val height: Factor = when (skirtStyle) {
+        ALine, Asymmetrical, Sheath -> state.config.equipment.skirt.heightFull
         Mini -> state.config.equipment.skirt.heightMini
-        Asymmetrical, Sheath -> state.config.equipment.skirt.heightSheath
     }
     val bottomY = state.config.body.getLegY(body, height)
 
