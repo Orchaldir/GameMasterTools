@@ -3,7 +3,6 @@ package at.orchaldir.gm.visualization.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.Skirt
 import at.orchaldir.gm.core.model.item.style.SkirtStyle
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.FillAndBorder
