@@ -1,10 +1,13 @@
 package at.orchaldir.gm.prototypes.visualization.equipment
 
+import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.appearance.Color.White
 import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
+import at.orchaldir.gm.core.model.item.Shirt
 import at.orchaldir.gm.core.model.item.Skirt
 import at.orchaldir.gm.core.model.item.style.SkirtStyle
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
@@ -19,7 +22,7 @@ fun main() {
         addNames(SkirtStyle.entries),
         addNames(BodyShape.entries)
     ) { distance, shape, style ->
-        Pair(createAppearance(distance, shape), listOf(Skirt(style)))
+        Pair(createAppearance(distance, shape), listOf(Shirt(color = White), Skirt(style)))
     }
 }
 
