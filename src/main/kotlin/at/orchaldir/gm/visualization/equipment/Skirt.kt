@@ -3,14 +3,26 @@ package at.orchaldir.gm.visualization.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.Skirt
 import at.orchaldir.gm.core.model.item.style.SkirtStyle
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.utils.renderer.RenderOptions
 import at.orchaldir.gm.visualization.RenderState
+import at.orchaldir.gm.visualization.character.BodyConfig
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.addHip
 import at.orchaldir.gm.visualization.renderBuilder
+
+data class SkirtConfig(
+    val heightMini: Factor,
+    val heightSheath: Factor,
+    val widthPadding: Factor,
+) {
+    fun getSkirtWidth(config: BodyConfig, body: Body) = config.getLegsWidth(body) * getSkirtWidthFactor()
+
+    fun getSkirtWidthFactor() = FULL + widthPadding
+}
 
 fun visualizeSkirt(
     state: RenderState,
@@ -20,8 +32,8 @@ fun visualizeSkirt(
     val options = FillAndBorder(skirt.color.toRender(), state.config.line)
 
     when (skirt.style) {
-        SkirtStyle.Mini -> visualizeSkirt(state, body, options, Factor(0.4f))
-        SkirtStyle.Sheath -> visualizeSkirt(state, body, options, Factor(0.9f))
+        SkirtStyle.Mini -> visualizeSkirt(state, body, options, state.config.equipment.skirt.heightMini)
+        SkirtStyle.Sheath -> visualizeSkirt(state, body, options, state.config.equipment.skirt.heightSheath)
     }
 }
 
@@ -32,12 +44,12 @@ private fun visualizeSkirt(
     height: Factor,
 ) {
     val builder = Polygon2dBuilder()
-    val padding = Factor(1.05f)
-    val width = state.config.body.getLegsWidth(body) * padding
+    val skirt = state.config.equipment.skirt
+    val width = skirt.getSkirtWidth(state.config.body, body)
     val bottomY = state.config.body.getLegY(body, height)
 
     builder.addMirroredPoints(state.aabb, width, bottomY)
-    addHip(state.config, builder, state.aabb, body, padding)
+    addHip(state.config, builder, state.aabb, body, skirt.getSkirtWidthFactor())
 
     renderBuilder(state, builder, options, EQUIPMENT_LAYER)
 }

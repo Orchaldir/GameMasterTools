@@ -12,6 +12,7 @@ data class EquipmentConfig(
     val hat: HatConfig,
     val neckline: NecklineConfig,
     val pants: PantsConfig,
+    val skirt: SkirtConfig,
 )
 
 fun visualizeBodyEquipment(
