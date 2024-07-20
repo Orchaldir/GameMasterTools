@@ -7,7 +7,6 @@ import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.FillAndBorder
-import at.orchaldir.gm.utils.renderer.RenderOptions
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.BodyConfig
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
@@ -30,27 +29,27 @@ fun visualizeSkirt(
     skirt: Skirt,
 ) {
     val options = FillAndBorder(skirt.color.toRender(), state.config.line)
+    val builder = createSkirt(state, body, skirt)
 
-    when (skirt.style) {
-        SkirtStyle.Mini -> visualizeSkirt(state, body, options, state.config.equipment.skirt.heightMini)
-        SkirtStyle.Sheath -> visualizeSkirt(state, body, options, state.config.equipment.skirt.heightSheath)
-    }
+    renderBuilder(state, builder, options, EQUIPMENT_LAYER)
 }
 
-private fun visualizeSkirt(
+private fun createSkirt(
     state: RenderState,
     body: Body,
-    options: RenderOptions,
-    height: Factor,
-) {
+    skirt: Skirt,
+): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
-    val skirt = state.config.equipment.skirt
-    val width = skirt.getSkirtWidth(state.config.body, body)
+    val skirtConfig = state.config.equipment.skirt
+    val width = skirtConfig.getSkirtWidth(state.config.body, body)
+    val height: Factor = when (skirt.style) {
+        SkirtStyle.Mini -> state.config.equipment.skirt.heightMini
+        SkirtStyle.Sheath -> state.config.equipment.skirt.heightSheath
+    }
     val bottomY = state.config.body.getLegY(body, height)
 
     builder.addMirroredPoints(state.aabb, width, bottomY)
-    addHip(state.config, builder, state.aabb, body, skirt.getSkirtWidthFactor())
-
-    renderBuilder(state, builder, options, EQUIPMENT_LAYER)
+    addHip(state.config, builder, state.aabb, body, skirtConfig.getSkirtWidthFactor())
+    return builder
 }
 
