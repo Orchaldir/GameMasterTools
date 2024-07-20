@@ -18,7 +18,8 @@ fun main() {
         "dresses.svg",
         RENDER_CONFIG,
         addNames(SkirtStyle.entries),
-        addNames(BodyShape.entries)
+        addNames(BodyShape.entries),
+        true,
     ) { distance, shape, style ->
         Pair(createAppearance(distance, shape), listOf(Dress(DeepV, style)))
     }

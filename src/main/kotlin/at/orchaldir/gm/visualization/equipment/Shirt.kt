@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.utils.renderer.RenderOptions
 import at.orchaldir.gm.visualization.RenderState
+import at.orchaldir.gm.visualization.character.ARM_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.createTorso
 import at.orchaldir.gm.visualization.equipment.part.addNeckline
@@ -42,8 +43,8 @@ fun visualizeSleeves(
     val leftAabb = AABB(left, sleeveSize)
     val rightAabb = AABB(right, sleeveSize)
 
-    state.renderer.renderRectangle(leftAabb, options, EQUIPMENT_LAYER)
-    state.renderer.renderRectangle(rightAabb, options, EQUIPMENT_LAYER)
+    state.renderer.renderRectangle(leftAabb, options, ARM_EQUIPMENT_LAYER)
+    state.renderer.renderRectangle(rightAabb, options, ARM_EQUIPMENT_LAYER)
 }
 
 private fun visualizeTorso(

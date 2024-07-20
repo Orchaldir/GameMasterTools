@@ -19,8 +19,9 @@ import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.RenderState
 
 const val TEXT_LAYER = 100
-const val ABOVE_EQUIPMENT_LAYER = 2
-const val BEARD_BG_LAYER = 2
+const val ABOVE_EQUIPMENT_LAYER = 3
+const val BEARD_BG_LAYER = 3
+const val ARM_EQUIPMENT_LAYER = 2
 const val EQUIPMENT_LAYER = 1
 const val MAIN_LAYER = 0
 const val BEHIND_LAYER = -1
