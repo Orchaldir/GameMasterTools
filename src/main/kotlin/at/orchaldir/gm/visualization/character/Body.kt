@@ -18,6 +18,7 @@ data class BodyConfig(
     val hipY: Factor,
     val hourglassWidth: Factor,
     val legWidth: Factor,
+    val shoulderY: Factor,
     val torsoHeight: Factor,
     val torsoWidth: Factor,
     val torsoY: Factor,
@@ -160,12 +161,14 @@ fun addTorso(
     builder: Polygon2dBuilder,
     addTop: Boolean = true,
 ) {
-    val torso = state.config.body.getTorsoAabb(state.aabb, body)
-    val waistWidth = state.config.body.getWaistWidth(body.bodyShape)
-    val shoulderWidth = state.config.body.getShoulderWidth(body.bodyShape)
+    val config = state.config.body
+    val torso = config.getTorsoAabb(state.aabb, body)
+    val waistWidth = config.getWaistWidth(body.bodyShape)
+    val shoulderWidth = config.getShoulderWidth(body.bodyShape)
+    val shoulderHeight = config.shoulderY
 
     builder.addMirroredPoints(torso, waistWidth, CENTER)
-    builder.addMirroredPoints(torso, shoulderWidth, Factor(0.25f))
+    builder.addMirroredPoints(torso, shoulderWidth, shoulderHeight)
 
     if (addTop) {
         builder.addMirroredPoints(torso, shoulderWidth, START)

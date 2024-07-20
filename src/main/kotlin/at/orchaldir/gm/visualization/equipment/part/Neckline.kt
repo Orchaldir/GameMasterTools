@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.style.NecklineStyle.*
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.RenderState
 
 data class NecklineConfig(
@@ -32,6 +31,7 @@ fun addNeckline(
     when (style) {
         Asymmetrical -> addAsymmetrical(state, builder, body, torsoAabb)
         Crew -> addRound(builder, torsoAabb, neckline.widthCrew, neckline.heightCrew)
+        Halter -> addHalter(state, builder, body, torsoAabb)
         None, Strapless -> return
         V -> addV(builder, torsoAabb, neckline.widthV, neckline.heightV)
         DeepV -> addV(builder, torsoAabb, neckline.widthV, neckline.heightDeepV)
@@ -47,6 +47,17 @@ private fun addAsymmetrical(
 ) {
     val shoulderWidth = state.config.body.getShoulderWidth(body.bodyShape)
     builder.addPoint(aabb, CENTER + shoulderWidth * 0.5f, START)
+}
+
+private fun addHalter(
+    state: RenderState,
+    builder: Polygon2dBuilder,
+    body: Body,
+    aabb: AABB,
+) {
+    val shoulderWidth = state.config.body.getShoulderWidth(body.bodyShape)
+    builder.addMirroredPoints(aabb, shoulderWidth * 0.5f, START)
+    builder.addPoint(aabb, CENTER, state.config.body.shoulderY)
 }
 
 private fun addRound(

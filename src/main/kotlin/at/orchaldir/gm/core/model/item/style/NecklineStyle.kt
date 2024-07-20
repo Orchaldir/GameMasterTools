@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.item.style
 enum class NecklineStyle {
     Asymmetrical,
     Crew,
+    Halter,
     None,
     Strapless,
     V,
@@ -10,7 +11,7 @@ enum class NecklineStyle {
     VeryDeepV;
 
     fun addTop() = when (this) {
-        Asymmetrical, Strapless -> false
+        Asymmetrical, Halter, Strapless -> false
         else -> true
     }
 }
