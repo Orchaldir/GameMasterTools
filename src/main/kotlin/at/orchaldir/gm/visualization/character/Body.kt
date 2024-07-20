@@ -143,9 +143,13 @@ fun visualizeTorso(state: RenderState, body: Body, options: RenderOptions) {
     state.renderer.renderPolygon(polygon, options)
 }
 
-fun createTorso(state: RenderState, body: Body): Polygon2dBuilder {
+fun createTorso(
+    state: RenderState,
+    body: Body,
+    addTop: Boolean = true,
+): Polygon2dBuilder {
     val builder = createHip(state.config, state.aabb, body)
-    addTorso(state, body, builder)
+    addTorso(state, body, builder, addTop)
 
     return builder
 }
@@ -154,6 +158,7 @@ fun addTorso(
     state: RenderState,
     body: Body,
     builder: Polygon2dBuilder,
+    addTop: Boolean = true,
 ) {
     val torso = state.config.body.getTorsoAabb(state.aabb, body)
     val waistWidth = state.config.body.getWaistWidth(body.bodyShape)
@@ -161,7 +166,10 @@ fun addTorso(
 
     builder.addMirroredPoints(torso, waistWidth, CENTER)
     builder.addMirroredPoints(torso, shoulderWidth, Factor(0.25f))
-    builder.addMirroredPoints(torso, shoulderWidth, START)
+
+    if (addTop) {
+        builder.addMirroredPoints(torso, shoulderWidth, START)
+    }
 }
 
 fun createHip(config: RenderConfig, aabb: AABB, body: Body): Polygon2dBuilder {

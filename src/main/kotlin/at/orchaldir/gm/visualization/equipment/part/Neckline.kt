@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.equipment.part
 
 import at.orchaldir.gm.core.model.item.style.NecklineStyle
+import at.orchaldir.gm.core.model.item.style.NecklineStyle.*
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.RenderConfig
 
@@ -22,11 +23,11 @@ fun addNeckline(
     val neckline = config.equipment.neckline
 
     when (style) {
-        NecklineStyle.Crew -> addRound(builder, torsoAabb, neckline.widthCrew, neckline.heightCrew)
-        NecklineStyle.None -> return
-        NecklineStyle.V -> addV(builder, torsoAabb, neckline.widthV, neckline.heightV)
-        NecklineStyle.DeepV -> addV(builder, torsoAabb, neckline.widthV, neckline.heightDeepV)
-        NecklineStyle.VeryDeepV -> addV(builder, torsoAabb, neckline.widthV, neckline.heightVeryDeepV)
+        Crew -> addRound(builder, torsoAabb, neckline.widthCrew, neckline.heightCrew)
+        None, Strapless -> return
+        V -> addV(builder, torsoAabb, neckline.widthV, neckline.heightV)
+        DeepV -> addV(builder, torsoAabb, neckline.widthV, neckline.heightDeepV)
+        VeryDeepV -> addV(builder, torsoAabb, neckline.widthV, neckline.heightVeryDeepV)
     }
 }
 

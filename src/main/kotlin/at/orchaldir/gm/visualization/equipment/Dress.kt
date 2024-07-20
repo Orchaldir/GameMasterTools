@@ -26,7 +26,7 @@ private fun visualizeDressBody(
     dress: Dress,
 ) {
     val builder = createSkirt(state, body, dress.skirtStyle)
-    addTorso(state, body, builder)
+    addTorso(state, body, builder, dress.necklineStyle.addTop())
     addNeckline(state, body, dress.necklineStyle, builder)
 
     renderBuilder(state, builder, options, EQUIPMENT_LAYER)
