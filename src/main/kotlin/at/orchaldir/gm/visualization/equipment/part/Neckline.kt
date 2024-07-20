@@ -23,12 +23,20 @@ fun addNeckline(
     val neckline = config.equipment.neckline
 
     when (style) {
+        Asymmetrical -> addAsymmetrical(builder, torsoAabb)
         Crew -> addRound(builder, torsoAabb, neckline.widthCrew, neckline.heightCrew)
         None, Strapless -> return
         V -> addV(builder, torsoAabb, neckline.widthV, neckline.heightV)
         DeepV -> addV(builder, torsoAabb, neckline.widthV, neckline.heightDeepV)
         VeryDeepV -> addV(builder, torsoAabb, neckline.widthV, neckline.heightVeryDeepV)
     }
+}
+
+private fun addAsymmetrical(
+    builder: Polygon2dBuilder,
+    aabb: AABB,
+) {
+    builder.addPoint(aabb, FULL, START)
 }
 
 private fun addRound(
