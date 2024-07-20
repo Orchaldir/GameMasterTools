@@ -60,6 +60,8 @@ val RENDER_CONFIG = RenderConfig(
         SkirtConfig(
             Factor(0.4f),
             Factor(0.9f),
+            Factor(1.4f),
+            Factor(1.6f),
             Factor(0.05f),
         )
     ),

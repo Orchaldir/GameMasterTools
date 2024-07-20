@@ -18,6 +18,8 @@ import at.orchaldir.gm.visualization.renderBuilder
 data class SkirtConfig(
     val heightMini: Factor,
     val heightFull: Factor,
+    val widthAline: Factor,
+    val widthBallGown: Factor,
     val widthPadding: Factor,
 ) {
     fun getSkirtWidth(config: BodyConfig, body: Body) = config.getLegsWidth(body) * getSkirtWidthFactor()
@@ -43,28 +45,28 @@ fun createSkirt(
 ): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
     val skirtConfig = state.config.equipment.skirt
-    val bottomWidth = skirtConfig.getSkirtWidth(state.config.body, body) * when (skirtStyle) {
-        ALine -> Factor(1.4f)
-        BallGown -> Factor(1.8f)
+    val width = skirtConfig.getSkirtWidth(state.config.body, body) * when (skirtStyle) {
+        ALine -> skirtConfig.widthAline
+        BallGown -> skirtConfig.widthBallGown
         else -> FULL
     }
-    val hipWidth: Factor = when (skirtStyle) {
-        BallGown -> bottomWidth
-        else -> skirtConfig.getSkirtWidthFactor()
-    }
     val height: Factor = when (skirtStyle) {
-        Mini -> state.config.equipment.skirt.heightMini
-        else -> state.config.equipment.skirt.heightFull
+        Mini -> skirtConfig.heightMini
+        else -> skirtConfig.heightFull
     }
     val bottomY = state.config.body.getLegY(body, height)
 
     if (skirtStyle == Asymmetrical) {
-        builder.addPoint(state.aabb, CENTER - bottomWidth * 0.5f, bottomY)
+        builder.addPoint(state.aabb, CENTER - width * 0.5f, bottomY)
     } else {
-        builder.addMirroredPoints(state.aabb, bottomWidth, bottomY)
+        builder.addMirroredPoints(state.aabb, width, bottomY)
     }
 
-    addHip(state.config, builder, state.aabb, body, hipWidth, skirtStyle != ALine)
+    if (skirtStyle == BallGown) {
+        builder.addMirroredPoints(state.aabb, width, state.config.body.getLegY())
+    } else {
+        addHip(state.config, builder, state.aabb, body, skirtConfig.getSkirtWidthFactor(), skirtStyle != ALine)
+    }
 
     return builder
 }
