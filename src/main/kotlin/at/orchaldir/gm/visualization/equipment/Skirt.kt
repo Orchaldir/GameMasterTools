@@ -3,6 +3,8 @@ package at.orchaldir.gm.visualization.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.Skirt
 import at.orchaldir.gm.core.model.item.style.SkirtStyle
+import at.orchaldir.gm.core.model.item.style.SkirtStyle.*
+import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
@@ -43,13 +45,19 @@ fun createSkirt(
     val skirtConfig = state.config.equipment.skirt
     val width = skirtConfig.getSkirtWidth(state.config.body, body)
     val height: Factor = when (skirtStyle) {
-        SkirtStyle.Mini -> state.config.equipment.skirt.heightMini
-        SkirtStyle.Sheath -> state.config.equipment.skirt.heightSheath
+        Mini -> state.config.equipment.skirt.heightMini
+        Asymmetrical, Sheath -> state.config.equipment.skirt.heightSheath
     }
     val bottomY = state.config.body.getLegY(body, height)
 
-    builder.addMirroredPoints(state.aabb, width, bottomY)
+    if (skirtStyle == Asymmetrical) {
+        builder.addPoint(state.aabb, CENTER - width * 0.5f, bottomY)
+    } else {
+        builder.addMirroredPoints(state.aabb, width, bottomY)
+    }
+
     addHip(state.config, builder, state.aabb, body, skirtConfig.getSkirtWidthFactor())
+
     return builder
 }
 
