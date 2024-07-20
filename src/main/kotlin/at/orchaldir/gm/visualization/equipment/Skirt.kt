@@ -10,7 +10,9 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.character.*
+import at.orchaldir.gm.visualization.character.BodyConfig
+import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.addHip
 import at.orchaldir.gm.visualization.renderBuilder
 
 data class SkirtConfig(

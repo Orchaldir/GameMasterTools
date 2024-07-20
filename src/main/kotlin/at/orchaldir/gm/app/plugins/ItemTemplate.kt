@@ -160,6 +160,7 @@ private fun HTML.showItemTemplateDetails(
                     link(call, state, template.equipment.material)
                 }
             }
+
             is Footwear -> {
                 field("Equipment", "Footwear")
                 field("Style", template.equipment.style.toString())
@@ -333,6 +334,7 @@ private fun HTML.showItemTemplateEditor(
                     selectColor(template.equipment.color)
                     selectMaterial(state, template.equipment.material)
                 }
+
                 is Skirt -> {
                     selectEnum("Style", SKIRT_STYLE, SkirtStyle.entries, false) { style ->
                         label = style.name
