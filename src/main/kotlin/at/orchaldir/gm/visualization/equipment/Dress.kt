@@ -6,6 +6,7 @@ import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.addTorso
+import at.orchaldir.gm.visualization.equipment.part.addNeckline
 import at.orchaldir.gm.visualization.renderBuilder
 
 fun visualizeDress(
@@ -27,7 +28,7 @@ private fun visualizeDressBody(
 ) {
     val builder = createSkirt(state, body, dress.skirtStyle)
     addTorso(state, body, builder, dress.necklineStyle.addTop())
-    addNeckline(state, body, dress.necklineStyle, builder)
+    addNeckline(state, body, builder, dress.necklineStyle)
 
     renderBuilder(state, builder, options, EQUIPMENT_LAYER)
 }

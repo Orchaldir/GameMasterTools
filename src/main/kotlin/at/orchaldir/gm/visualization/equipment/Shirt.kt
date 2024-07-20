@@ -58,20 +58,7 @@ private fun visualizeTorso(
     style: NecklineStyle,
 ) {
     val builder = createTorso(state, body, style.addTop())
-    addNeckline(state, body, style, builder)
+    addNeckline(state, body, builder, style)
 
     renderBuilder(state, builder, options, EQUIPMENT_LAYER)
-}
-
-fun addNeckline(
-    state: RenderState,
-    body: Body,
-    style: NecklineStyle,
-    builder: Polygon2dBuilder,
-) {
-    val torsoAabb = state.config.body.getTorsoAabb(state.aabb, body)
-
-    if (state.renderFront) {
-        addNeckline(builder, state.config, torsoAabb, style)
-    }
 }

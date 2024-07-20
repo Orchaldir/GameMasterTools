@@ -1,9 +1,11 @@
 package at.orchaldir.gm.visualization.equipment.part
 
+import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.style.NecklineStyle.*
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.RenderConfig
+import at.orchaldir.gm.visualization.RenderState
 
 data class NecklineConfig(
     val heightCrew: Factor,
@@ -15,15 +17,20 @@ data class NecklineConfig(
 )
 
 fun addNeckline(
+    state: RenderState,
+    body: Body,
     builder: Polygon2dBuilder,
-    config: RenderConfig,
-    torsoAabb: AABB,
     style: NecklineStyle,
 ) {
-    val neckline = config.equipment.neckline
+    if (!state.renderFront) {
+        return
+    }
+
+    val torsoAabb = state.config.body.getTorsoAabb(state.aabb, body)
+    val neckline = state.config.equipment.neckline
 
     when (style) {
-        Asymmetrical -> addAsymmetrical(builder, torsoAabb)
+        Asymmetrical -> addAsymmetrical(state, builder, body, torsoAabb)
         Crew -> addRound(builder, torsoAabb, neckline.widthCrew, neckline.heightCrew)
         None, Strapless -> return
         V -> addV(builder, torsoAabb, neckline.widthV, neckline.heightV)
@@ -33,10 +40,13 @@ fun addNeckline(
 }
 
 private fun addAsymmetrical(
+    state: RenderState,
     builder: Polygon2dBuilder,
+    body: Body,
     aabb: AABB,
 ) {
-    builder.addPoint(aabb, FULL, START)
+    val shoulderWidth = state.config.body.getShoulderWidth(body.bodyShape)
+    builder.addPoint(aabb, CENTER + shoulderWidth * 0.5f, START)
 }
 
 private fun addRound(
