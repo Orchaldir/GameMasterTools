@@ -200,9 +200,14 @@ fun visualizeArms(state: RenderState, body: Body, options: RenderOptions) {
 fun visualizeHands(state: RenderState, body: Body, options: RenderOptions) {
     val (left, right) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
     val radius = state.aabb.convertHeight(state.config.body.getHandRadius(body))
+    val layer = if (state.renderFront) {
+        ABOVE_EQUIPMENT_LAYER
+    } else {
+        EQUIPMENT_LAYER
+    }
 
-    state.renderer.renderCircle(left, radius, options, ABOVE_EQUIPMENT_LAYER)
-    state.renderer.renderCircle(right, radius, options, ABOVE_EQUIPMENT_LAYER)
+    state.renderer.renderCircle(left, radius, options, layer)
+    state.renderer.renderCircle(right, radius, options, layer)
 }
 
 fun visualizeLegs(state: RenderState, body: Body, options: RenderOptions) {
