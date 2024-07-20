@@ -29,20 +29,20 @@ fun visualizeSkirt(
     skirt: Skirt,
 ) {
     val options = FillAndBorder(skirt.color.toRender(), state.config.line)
-    val builder = createSkirt(state, body, skirt)
+    val builder = createSkirt(state, body, skirt.style)
 
     renderBuilder(state, builder, options, EQUIPMENT_LAYER)
 }
 
-private fun createSkirt(
+fun createSkirt(
     state: RenderState,
     body: Body,
-    skirt: Skirt,
+    skirtStyle: SkirtStyle,
 ): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
     val skirtConfig = state.config.equipment.skirt
     val width = skirtConfig.getSkirtWidth(state.config.body, body)
-    val height: Factor = when (skirt.style) {
+    val height: Factor = when (skirtStyle) {
         SkirtStyle.Mini -> state.config.equipment.skirt.heightMini
         SkirtStyle.Sheath -> state.config.equipment.skirt.heightSheath
     }
