@@ -6,8 +6,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PantsAndShirtOptions(
-    val footwear: FootwearOptions = FootwearOptions(),
-    val hat: HatOptions = HatOptions(),
     val pantsColors: OneOf<Color> = OneOf(Color.entries),
     val shirtColors: OneOf<Color> = OneOf(Color.entries),
 )

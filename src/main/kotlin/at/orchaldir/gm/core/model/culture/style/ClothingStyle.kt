@@ -6,5 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ClothingStyle(
     val clothingSets: OneOf<ClothingSet> = OneOf(ClothingSet.entries),
+    val footwear: FootwearOptions = FootwearOptions(),
+    val hat: HatOptions = HatOptions(),
     val pantsAndShirt: PantsAndShirtOptions = PantsAndShirtOptions(),
 )
