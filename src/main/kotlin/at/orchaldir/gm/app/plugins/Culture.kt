@@ -276,17 +276,18 @@ private fun BODY.showAppearanceOptions(culture: Culture) {
 private fun BODY.showClothingOptions(culture: Culture) {
     h2 { +"Clothing Options" }
     culture.clothingStyles.getMap().forEach { (gender, style) ->
-        field("Gender", gender.toString())
-        h3 { +"$gender Clothing" }
-        showRarityMap("Clothing Sets", style.clothingSets)
-        h4 { +"Dress" }
-        showRarityMap("Colors", style.dress.colors)
-        showRarityMap("Skirt Styles", style.dress.skirtStyles)
-        showRarityMap("Neckline Styles", style.dress.necklineStyles)
-        showRarityMap("Sleeve Styles", style.dress.sleeveStyles)
-        h4 { +"Footwear" }
-        showRarityMap("Styles", style.footwear.styles)
-        //showRarityMap("Colors", style.footwear.colors)
+        details {
+            summary { +gender.toString() }
+            showRarityMap("Clothing Sets", style.clothingSets)
+            h3 { +"Dress" }
+            showRarityMap("Colors", style.dress.colors)
+            showRarityMap("Skirt Styles", style.dress.skirtStyles)
+            showRarityMap("Neckline Styles", style.dress.necklineStyles)
+            showRarityMap("Sleeve Styles", style.dress.sleeveStyles)
+            h3 { +"Footwear" }
+            showRarityMap("Styles", style.footwear.styles)
+            //showRarityMap("Colors", style.footwear.colors)
+        }
     }
 }
 
