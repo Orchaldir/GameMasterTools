@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle
+import at.orchaldir.gm.core.model.character.appearance.hair.HairStyleType
 import at.orchaldir.gm.core.model.race.appearance.BeardStyleType
 import kotlinx.serialization.Serializable
 

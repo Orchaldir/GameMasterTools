@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
-import at.orchaldir.gm.core.model.culture.style.HairStyleType
+import at.orchaldir.gm.core.model.character.appearance.hair.HairStyleType
 import at.orchaldir.gm.core.model.culture.style.StyleOptions
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.utils.NumberGenerator

@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
 import at.orchaldir.gm.core.model.culture.name.NamingConventionType.*
-import at.orchaldir.gm.core.model.culture.style.HairStyleType
+import at.orchaldir.gm.core.model.character.appearance.hair.HairStyleType
 import at.orchaldir.gm.core.model.culture.style.StyleOptions
 import at.orchaldir.gm.core.model.race.appearance.BeardStyleType
 import io.ktor.http.*
