@@ -47,21 +47,23 @@ fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_T
 }
 
 private fun parseDress(parameters: Parameters): Dress {
-    val necklineStyle = parse(parameters, NECKLINE_STYLE, NecklineStyle.None)
+    val neckline = parse(parameters, NECKLINE_STYLE, NecklineStyle.None)
+
     return Dress(
-        necklineStyle,
+        neckline,
         parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
-        parseSleeveStyle(parameters, necklineStyle),
+        parseSleeveStyle(parameters, neckline),
         parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
         parseMaterialId(parameters, MATERIAL),
     )
 }
 
 private fun parseShirt(parameters: Parameters): Shirt {
-    val necklineStyle = parse(parameters, NECKLINE_STYLE, NecklineStyle.None)
+    val neckline = parse(parameters, NECKLINE_STYLE, NecklineStyle.None)
+
     return Shirt(
-        necklineStyle,
-        parseSleeveStyle(parameters, necklineStyle),
+        neckline,
+        parseSleeveStyle(parameters, neckline),
         parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
         parseMaterialId(parameters, MATERIAL),
     )
@@ -69,8 +71,8 @@ private fun parseShirt(parameters: Parameters): Shirt {
 
 private fun parseSleeveStyle(
     parameters: Parameters,
-    necklineStyle: NecklineStyle,
-) = if (necklineStyle.supportsSleeves()) {
+    neckline: NecklineStyle,
+) = if (neckline.supportsSleeves()) {
     parse(parameters, SLEEVE_STYLE, SleeveStyle.None)
 } else {
     SleeveStyle.None
