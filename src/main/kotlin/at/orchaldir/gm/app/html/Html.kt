@@ -61,6 +61,16 @@ fun BODY.svg(svg: Svg, width: Int) {
     }
 }
 
+fun HtmlBlockTag.showDetails(
+    label: String,
+    content: DETAILS.() -> Unit,
+) {
+    details {
+        summary { +label }
+        content()
+    }
+}
+
 // lists
 
 fun <T> HtmlBlockTag.showGenderMap(
