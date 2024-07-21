@@ -193,11 +193,11 @@ private fun HTML.showCultureDetails(
             )
         }
         h2 { +"Style Options" }
-        showRarityMap("Beard Styles", culture.styleOptions.beardStyles)
-        showRarityMap("Goatee Styles", culture.styleOptions.goateeStyles)
-        showRarityMap("Moustache Styles", culture.styleOptions.moustacheStyle)
-        showRarityMap("Hair Styles", culture.styleOptions.hairStyles)
-        showRarityMap("Lip Colors", culture.styleOptions.lipColors)
+        showRarityMap("Beard Styles", culture.appearanceStyle.beardStyles)
+        showRarityMap("Goatee Styles", culture.appearanceStyle.goateeStyles)
+        showRarityMap("Moustache Styles", culture.appearanceStyle.moustacheStyle)
+        showRarityMap("Hair Styles", culture.appearanceStyle.hairStyles)
+        showRarityMap("Lip Colors", culture.appearanceStyle.lipColors)
         h2 { +"Characters" }
         showList(state.getCharacters(culture.id)) { character ->
             link(call, state, character)
@@ -332,11 +332,11 @@ private fun HTML.showCultureEditor(
                 )
             }
             h2 { +"Style Options" }
-            selectRarityMap("Beard Styles", BEARD_STYLE, culture.styleOptions.beardStyles)
-            selectRarityMap("Goatee Styles", GOATEE_STYLE, culture.styleOptions.goateeStyles)
-            selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, culture.styleOptions.moustacheStyle)
-            selectRarityMap("Hair Styles", HAIR_STYLE, culture.styleOptions.hairStyles)
-            selectRarityMap("Lip Colors", LIP_COLORS, culture.styleOptions.lipColors)
+            selectRarityMap("Beard Styles", BEARD_STYLE, culture.appearanceStyle.beardStyles)
+            selectRarityMap("Goatee Styles", GOATEE_STYLE, culture.appearanceStyle.goateeStyles)
+            selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyle)
+            selectRarityMap("Hair Styles", HAIR_STYLE, culture.appearanceStyle.hairStyles)
+            selectRarityMap("Lip Colors", LIP_COLORS, culture.appearanceStyle.lipColors)
             p {
                 submitInput {
                     value = "Update"

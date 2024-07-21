@@ -25,7 +25,7 @@ fun createGenerationConfig(state: State, character: Character): AppearanceGenera
         state.rarityGenerator,
         character,
         race.appearance,
-        culture.styleOptions
+        culture.appearanceStyle
     )
 }
 

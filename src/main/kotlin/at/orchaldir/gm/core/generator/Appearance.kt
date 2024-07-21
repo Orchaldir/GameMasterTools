@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.character.appearance.hair.HairStyleType
-import at.orchaldir.gm.core.model.culture.style.StyleOptions
+import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.utils.NumberGenerator
 
@@ -18,7 +18,7 @@ data class AppearanceGeneratorConfig(
     val rarityGenerator: RarityGenerator,
     val character: Character,
     val appearanceOptions: AppearanceOptions,
-    val styleOptions: StyleOptions,
+    val appearanceStyle: AppearanceStyle,
 ) {
 
     fun <T> generate(map: RarityMap<T>) = rarityGenerator.generate(map, numberGenerator)
@@ -35,7 +35,7 @@ fun generateBody(config: AppearanceGeneratorConfig, skin: Skin) = Body(
 
 fun generateBeard(config: AppearanceGeneratorConfig, hair: Hair): Beard {
     val options = config.appearanceOptions
-    val styleOptions = config.styleOptions
+    val styleOptions = config.appearanceStyle
 
     return when (config.generate(options.hairOptions.beardTypes)) {
         BeardType.None -> NoBeard
@@ -108,7 +108,7 @@ fun generateHair(config: AppearanceGeneratorConfig): Hair {
 }
 
 fun generateHairStyle(config: AppearanceGeneratorConfig): HairStyle {
-    return when (config.generate(config.styleOptions.hairStyles)) {
+    return when (config.generate(config.appearanceStyle.hairStyles)) {
         HairStyleType.BuzzCut -> BuzzCut
         HairStyleType.FlatTop -> FlatTop
         HairStyleType.MiddlePart -> MiddlePart
@@ -127,7 +127,7 @@ fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
             if (config.character.gender == Gender.Female) {
                 return FemaleMouth(
                     config.select(Size.entries),
-                    config.generate(config.styleOptions.lipColors),
+                    config.generate(config.appearanceStyle.lipColors),
                     config.select(TeethColor.entries),
                 )
             }

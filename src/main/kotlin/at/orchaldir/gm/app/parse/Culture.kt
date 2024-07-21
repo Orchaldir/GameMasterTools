@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
 import at.orchaldir.gm.core.model.culture.name.NamingConventionType.*
 import at.orchaldir.gm.core.model.character.appearance.hair.HairStyleType
-import at.orchaldir.gm.core.model.culture.style.StyleOptions
+import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import io.ktor.http.*
 import io.ktor.server.util.*
@@ -28,7 +28,7 @@ fun parseCulture(
         name,
         parseSomeOf(parameters, LANGUAGES, ::parseLanguageId),
         parseNamingConvention(parameters),
-        StyleOptions(
+        AppearanceStyle(
             parseOneOf(parameters, BEARD_STYLE, BeardStyleType::valueOf),
             parseOneOf(parameters, GOATEE_STYLE, GoateeStyle::valueOf),
             parseOneOf(parameters, MOUSTACHE_STYLE, MoustacheStyle::valueOf),

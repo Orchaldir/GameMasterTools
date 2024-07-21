@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class StyleOptions(
+data class AppearanceStyle(
     val beardStyles: OneOf<BeardStyleType> = OneOf(BeardStyleType.entries),
     val goateeStyles: OneOf<GoateeStyle> = OneOf(GoateeStyle.entries),
     val moustacheStyle: OneOf<MoustacheStyle> = OneOf(MoustacheStyle.entries),
