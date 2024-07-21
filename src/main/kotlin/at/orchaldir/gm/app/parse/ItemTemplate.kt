@@ -16,13 +16,7 @@ fun parseItemTemplate(id: ItemTemplateId, parameters: Parameters): ItemTemplate 
 
 fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_TYPE, EquipmentType.None)) {
     EquipmentType.None -> NoEquipment
-    EquipmentType.Dress -> Dress(
-        parse(parameters, NECKLINE_STYLE, NecklineStyle.None),
-        parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
-        parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
-        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
-        parseMaterialId(parameters, MATERIAL),
-    )
+    EquipmentType.Dress -> parseDress(parameters)
 
     EquipmentType.Footwear -> Footwear(
         parse(parameters, EQUIPMENT_STYLE, FootwearStyle.Shoes),
@@ -43,16 +37,41 @@ fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_T
         parseMaterialId(parameters, MATERIAL),
     )
 
-    EquipmentType.Shirt -> Shirt(
-        parse(parameters, NECKLINE_STYLE, NecklineStyle.None),
-        parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
-        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
-        parseMaterialId(parameters, MATERIAL),
-    )
+    EquipmentType.Shirt -> parseShirt(parameters)
 
     EquipmentType.Skirt -> Skirt(
         parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
         parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
         parseMaterialId(parameters, MATERIAL),
     )
+}
+
+private fun parseDress(parameters: Parameters): Dress {
+    val necklineStyle = parse(parameters, NECKLINE_STYLE, NecklineStyle.None)
+    return Dress(
+        necklineStyle,
+        parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
+        parseSleeveStyle(parameters, necklineStyle),
+        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
+        parseMaterialId(parameters, MATERIAL),
+    )
+}
+
+private fun parseShirt(parameters: Parameters): Shirt {
+    val necklineStyle = parse(parameters, NECKLINE_STYLE, NecklineStyle.None)
+    return Shirt(
+        necklineStyle,
+        parseSleeveStyle(parameters, necklineStyle),
+        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
+        parseMaterialId(parameters, MATERIAL),
+    )
+}
+
+private fun parseSleeveStyle(
+    parameters: Parameters,
+    necklineStyle: NecklineStyle,
+) = if (necklineStyle.supportsSleeves()) {
+    parse(parameters, SLEEVE_STYLE, SleeveStyle.None)
+} else {
+    SleeveStyle.None
 }
