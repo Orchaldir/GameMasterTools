@@ -270,7 +270,7 @@ private fun HTML.showItemTemplateEditor(
             when (template.equipment) {
                 NoEquipment -> doNothing()
                 is Dress -> {
-                    selectEnum("Neckline Style", NECKLINE_STYLE, NecklineStyle.entries, false) { style ->
+                    selectEnum("Neckline Style", NECKLINE_STYLE, NecklineStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.necklineStyle == style
@@ -280,7 +280,8 @@ private fun HTML.showItemTemplateEditor(
                         value = style.name
                         selected = template.equipment.skirtStyle == style
                     }
-                    selectEnum("Sleeve Style", SLEEVE_STYLE, SleeveStyle.entries, false) { style ->
+                    val sleevesStyles = template.equipment.necklineStyle.getSupportsSleevesStyles()
+                    selectEnum("Sleeve Style", SLEEVE_STYLE, sleevesStyles, false) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.sleeveStyle == style
@@ -326,7 +327,8 @@ private fun HTML.showItemTemplateEditor(
                         value = style.name
                         selected = template.equipment.necklineStyle == style
                     }
-                    selectEnum("Sleeve Style", SLEEVE_STYLE, SleeveStyle.entries, false) { style ->
+                    val sleevesStyles = template.equipment.necklineStyle.getSupportsSleevesStyles()
+                    selectEnum("Sleeve Style", SLEEVE_STYLE, sleevesStyles, false) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.sleeveStyle == style
