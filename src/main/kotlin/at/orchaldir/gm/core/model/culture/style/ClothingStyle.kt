@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ClothingStyle(
+    val clothingSets: OneOf<ClothingSet> = OneOf(ClothingSet.entries),
     val hatStyles: OneOf<HatStyle> = OneOf(HatStyle.entries),
     val hatColors: ValueMap<HatStyle, OneOf<Color>> = SharedValue(OneOf(Color.entries)),
 )
