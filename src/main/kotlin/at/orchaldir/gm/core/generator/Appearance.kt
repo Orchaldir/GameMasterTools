@@ -43,11 +43,11 @@ fun generateBeard(config: AppearanceGeneratorConfig, hair: Hair): Beard {
             when (config.generate(styleOptions.beardStyles)) {
                 BeardStyleType.Goatee -> Goatee(config.generate(styleOptions.goateeStyles))
                 BeardStyleType.GoateeAndMoustache -> GoateeAndMoustache(
-                    config.generate(styleOptions.moustacheStyle),
+                    config.generate(styleOptions.moustacheStyles),
                     config.generate(styleOptions.goateeStyles),
                 )
 
-                BeardStyleType.Moustache -> Moustache(config.generate(styleOptions.moustacheStyle))
+                BeardStyleType.Moustache -> Moustache(config.generate(styleOptions.moustacheStyles))
                 BeardStyleType.Shaved -> ShavedBeard
             },
             when (hair) {

@@ -195,7 +195,7 @@ private fun HTML.showCultureDetails(
         h2 { +"Style Options" }
         showRarityMap("Beard Styles", culture.appearanceStyle.beardStyles)
         showRarityMap("Goatee Styles", culture.appearanceStyle.goateeStyles)
-        showRarityMap("Moustache Styles", culture.appearanceStyle.moustacheStyle)
+        showRarityMap("Moustache Styles", culture.appearanceStyle.moustacheStyles)
         showRarityMap("Hair Styles", culture.appearanceStyle.hairStyles)
         showRarityMap("Lip Colors", culture.appearanceStyle.lipColors)
         h2 { +"Characters" }
@@ -334,7 +334,7 @@ private fun HTML.showCultureEditor(
             h2 { +"Style Options" }
             selectRarityMap("Beard Styles", BEARD_STYLE, culture.appearanceStyle.beardStyles)
             selectRarityMap("Goatee Styles", GOATEE_STYLE, culture.appearanceStyle.goateeStyles)
-            selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyle)
+            selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyles)
             selectRarityMap("Hair Styles", HAIR_STYLE, culture.appearanceStyle.hairStyles)
             selectRarityMap("Lip Colors", LIP_COLORS, culture.appearanceStyle.lipColors)
             p {

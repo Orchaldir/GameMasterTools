@@ -301,7 +301,7 @@ private fun HtmlBlockTag.selectMoustacheStyle(
     culture: Culture,
     moustacheStyle: MoustacheStyle,
 ) {
-    selectOneOf("Moustache", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyle, true) { style ->
+    selectOneOf("Moustache", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyles, true) { style ->
         label = style.name
         value = style.toString()
         selected = style == moustacheStyle
