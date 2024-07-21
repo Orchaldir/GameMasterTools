@@ -286,13 +286,26 @@ private fun BODY.showClothingOptions(culture: Culture) {
             }
             showDetails("Footwear") {
                 showRarityMap("Styles", style.footwear.styles)
-                showValueMap("Colors", style.footwear.colors) { key, colors ->
-                    if (key != null) {
-                        showRarityMap(key.name, colors)
-                    } else {
-                        showRarityMap("All", colors)
-                    }
-                }
+                showValueAndOneOf("Colors", style.footwear.colors)
+                showValueAndOneOf("Sole Colors", style.footwear.soles)
+            }
+            showDetails("Hat") {
+                showRarityMap("Styles", style.hat.styles)
+                showValueAndOneOf("Colors", style.hat.colors)
+            }
+            showDetails("Pants & Shirt") {
+                showRarityMap("Pants Colors", style.pantsAndShirt.pantsColors)
+                showRarityMap("Pants Styles", style.pantsAndShirt.pantsStyles)
+                showRarityMap("Neckline Styles", style.pantsAndShirt.necklineStyles)
+                showRarityMap("Shirt Colors", style.pantsAndShirt.shirtColors)
+                showRarityMap("Sleeve Styles", style.pantsAndShirt.sleeveStyles)
+            }
+            showDetails("Shirt & Skirt") {
+                showRarityMap("Skirt Colors", style.shirtAndSkirt.skirtColors)
+                showRarityMap("Skirt Styles", style.shirtAndSkirt.skirtStyles)
+                showRarityMap("Neckline Styles", style.shirtAndSkirt.necklineStyles)
+                showRarityMap("Shirt Colors", style.shirtAndSkirt.shirtColors)
+                showRarityMap("Sleeve Styles", style.shirtAndSkirt.sleeveStyles)
             }
         }
     }
