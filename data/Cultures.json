@@ -21,14 +21,14 @@
     },
     "familyNames": 2
    },
-   "styleOptions": {
+   "appearanceStyle": {
     "beardStyles": {
      "Goatee": "Uncommon",
      "GoateeAndMoustache": "Rare",
      "Moustache": "Common",
      "Shaved": "Common"
     },
-    "moustacheStyle": {
+    "moustacheStyles": {
      "Handlebar": "Common",
      "Pencil": "Common",
      "Pyramid": "Common",
