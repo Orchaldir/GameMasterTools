@@ -7,6 +7,10 @@ import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.appearance.EarsLayout
+import at.orchaldir.gm.core.model.character.appearance.EyesLayout
+import at.orchaldir.gm.core.model.character.appearance.SkinType
+import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
