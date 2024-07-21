@@ -40,7 +40,7 @@ fun generateBeard(config: AppearanceGeneratorConfig, hair: Hair): Beard {
     return when (config.generate(options.hairOptions.beardTypes)) {
         BeardType.None -> NoBeard
         BeardType.Normal -> NormalBeard(
-            when (config.select(BeardStyleType.entries)) {
+            when (config.generate(styleOptions.beardStyles)) {
                 BeardStyleType.Goatee -> Goatee(config.generate(styleOptions.goateeStyles))
                 BeardStyleType.GoateeAndMoustache -> GoateeAndMoustache(
                     config.generate(styleOptions.moustacheStyle),
