@@ -9,4 +9,5 @@ data class ClothingStyle(
     val footwear: FootwearOptions = FootwearOptions(),
     val hat: HatOptions = HatOptions(),
     val pantsAndShirt: PantsAndShirtOptions = PantsAndShirtOptions(),
+    val shirtAndSkirt: ShirtAndSkirtOptions = ShirtAndSkirtOptions(),
 )
