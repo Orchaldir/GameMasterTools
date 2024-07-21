@@ -153,51 +153,8 @@ private fun HTML.showCultureDetails(
         showRarityMap("Languages", culture.languages) { l ->
             link(call, state, l)
         }
-        h2 { +"Naming Convention" }
-        field("Type", namingConvention.javaClass.simpleName)
-        when (namingConvention) {
-            is FamilyConvention -> {
-                field("Name Order", namingConvention.nameOrder.toString())
-                showRarityMap("Middle Name Options", namingConvention.middleNameOptions)
-                showNamesByGender(call, state, "Given Names", namingConvention.givenNames)
-                field("Family Names") {
-                    link(call, state, namingConvention.familyNames)
-                }
-            }
-
-            is GenonymConvention -> showGenonymConvention(
-                call,
-                state,
-                namingConvention.lookupDistance,
-                namingConvention.style,
-                namingConvention.names
-            )
-
-            is MatronymConvention -> showGenonymConvention(
-                call,
-                state,
-                namingConvention.lookupDistance,
-                namingConvention.style,
-                namingConvention.names
-            )
-
-            is MononymConvention -> showNamesByGender(call, state, "Names", namingConvention.names)
-
-            NoNamingConvention -> doNothing()
-            is PatronymConvention -> showGenonymConvention(
-                call,
-                state,
-                namingConvention.lookupDistance,
-                namingConvention.style,
-                namingConvention.names
-            )
-        }
-        h2 { +"Style Options" }
-        showRarityMap("Beard Styles", culture.appearanceStyle.beardStyles)
-        showRarityMap("Goatee Styles", culture.appearanceStyle.goateeStyles)
-        showRarityMap("Moustache Styles", culture.appearanceStyle.moustacheStyles)
-        showRarityMap("Hair Styles", culture.appearanceStyle.hairStyles)
-        showRarityMap("Lip Colors", culture.appearanceStyle.lipColors)
+        showNamingConvention(namingConvention, call, state)
+        showAppearanceOptions(culture)
         h2 { +"Characters" }
         showList(state.getCharacters(culture.id)) { character ->
             link(call, state, character)
@@ -209,6 +166,52 @@ private fun HTML.showCultureDetails(
         }
 
         p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun BODY.showNamingConvention(
+    namingConvention: NamingConvention,
+    call: ApplicationCall,
+    state: State,
+) {
+    h2 { +"Naming Convention" }
+    field("Type", namingConvention.javaClass.simpleName)
+    when (namingConvention) {
+        is FamilyConvention -> {
+            field("Name Order", namingConvention.nameOrder.toString())
+            showRarityMap("Middle Name Options", namingConvention.middleNameOptions)
+            showNamesByGender(call, state, "Given Names", namingConvention.givenNames)
+            field("Family Names") {
+                link(call, state, namingConvention.familyNames)
+            }
+        }
+
+        is GenonymConvention -> showGenonymConvention(
+            call,
+            state,
+            namingConvention.lookupDistance,
+            namingConvention.style,
+            namingConvention.names
+        )
+
+        is MatronymConvention -> showGenonymConvention(
+            call,
+            state,
+            namingConvention.lookupDistance,
+            namingConvention.style,
+            namingConvention.names
+        )
+
+        is MononymConvention -> showNamesByGender(call, state, "Names", namingConvention.names)
+
+        NoNamingConvention -> doNothing()
+        is PatronymConvention -> showGenonymConvention(
+            call,
+            state,
+            namingConvention.lookupDistance,
+            namingConvention.style,
+            namingConvention.names
+        )
     }
 }
 
@@ -257,6 +260,16 @@ private fun BODY.showStyleByGender(
         }
     }
 }
+
+private fun BODY.showAppearanceOptions(culture: Culture) {
+    h2 { +"Appearance Options" }
+    showRarityMap("Beard Styles", culture.appearanceStyle.beardStyles)
+    showRarityMap("Goatee Styles", culture.appearanceStyle.goateeStyles)
+    showRarityMap("Moustache Styles", culture.appearanceStyle.moustacheStyles)
+    showRarityMap("Hair Styles", culture.appearanceStyle.hairStyles)
+    showRarityMap("Lip Colors", culture.appearanceStyle.lipColors)
+}
+
 
 private fun HTML.showCultureEditor(
     call: ApplicationCall,
