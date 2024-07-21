@@ -286,7 +286,13 @@ private fun BODY.showClothingOptions(culture: Culture) {
             }
             showDetails("Footwear") {
                 showRarityMap("Styles", style.footwear.styles)
-                //showRarityMap("Colors", style.footwear.colors)
+                showValueMap("Colors", style.footwear.colors) { key, colors ->
+                    if (key != null) {
+                        showRarityMap(key.name, colors)
+                    } else {
+                        showRarityMap("All", colors)
+                    }
+                }
             }
         }
     }

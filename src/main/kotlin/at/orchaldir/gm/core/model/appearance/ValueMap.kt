@@ -13,7 +13,7 @@ sealed class ValueMap<Key, Value> {
 @Serializable
 @SerialName("Shared")
 data class SharedValue<Key, Value>(
-    private val value: Value,
+    val value: Value,
 ) : ValueMap<Key, Value>() {
 
     override fun get(value: Key) = this.value
@@ -23,7 +23,7 @@ data class SharedValue<Key, Value>(
 @Serializable
 @SerialName("Individual")
 data class IndividualValues<Key, Value>(
-    private val values: Map<Key, Value>,
+    val values: Map<Key, Value>,
 ) : ValueMap<Key, Value>() {
 
     override fun get(value: Key) = values[value]

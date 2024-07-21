@@ -111,6 +111,8 @@ fun <T> HtmlBlockTag.showList(
     }
 }
 
+// maps
+
 fun <K, V> HtmlBlockTag.showMap(
     label: String,
     map: Map<K, V>,
@@ -163,6 +165,20 @@ fun <T> HtmlBlockTag.showRarityMap(
             showList(rarity.toString(), values) {
                 content(it)
             }
+        }
+    }
+}
+
+inline fun <reified Key : Enum<Key>, Value> HtmlBlockTag.showValueMap(
+    label: String,
+    valueMap: ValueMap<Key, Value>,
+    crossinline content: DETAILS.(Key?, Value) -> Unit,
+) {
+    details {
+        summary { +label }
+        when (valueMap) {
+            is IndividualValues -> valueMap.values.forEach { (key, value) -> content(key, value) }
+            is SharedValue -> content(null, valueMap.value)
         }
     }
 }
