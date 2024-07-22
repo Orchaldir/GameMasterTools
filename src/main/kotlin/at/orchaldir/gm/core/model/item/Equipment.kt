@@ -7,20 +7,23 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-enum class EquipmentType {
-    None,
-    Dress,
-    Footwear,
-    Hat,
-    Pants,
-    Shirt,
-    Skirt,
-}
-
 @Serializable
 sealed class Equipment {
     open fun contains(id: MaterialId) = false
     abstract fun getMaterials(): Set<MaterialId>
+
+    fun getType() = when (this) {
+        NoEquipment -> EquipmentType.None
+        is Dress -> EquipmentType.Dress
+        is Footwear -> EquipmentType.Footwear
+        is Hat -> EquipmentType.Hat
+        is Pants -> EquipmentType.Pants
+        is Shirt -> EquipmentType.Shirt
+        is Skirt -> EquipmentType.Skirt
+    }
+
+    fun isType(equipmentType: EquipmentType) = getType() == equipmentType
+
     open fun slots(): Set<EquipmentSlot> = emptySet()
 }
 

@@ -257,15 +257,7 @@ private fun HTML.showItemTemplateEditor(
             selectEnum("Equipment", EQUIPMENT_TYPE, EquipmentType.entries, true) { type ->
                 label = type.name
                 value = type.name
-                selected = when (template.equipment) {
-                    NoEquipment -> type == EquipmentType.None
-                    is Dress -> type == EquipmentType.Dress
-                    is Footwear -> type == EquipmentType.Footwear
-                    is Hat -> type == EquipmentType.Hat
-                    is Pants -> type == EquipmentType.Pants
-                    is Shirt -> type == EquipmentType.Shirt
-                    is Skirt -> type == EquipmentType.Skirt
-                }
+                selected = template.equipment.isType(type)
             }
             when (template.equipment) {
                 NoEquipment -> doNothing()

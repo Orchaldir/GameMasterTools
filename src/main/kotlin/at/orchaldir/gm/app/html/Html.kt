@@ -308,9 +308,21 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> FORM.selectRarityMap(
     update: Boolean = false,
     getName: (ELEMENT) -> String,
 ) {
+    selectRarityMap(enum, selectId, storage, storage.getIds(), rarityMap, update, getName)
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> FORM.selectRarityMap(
+    enum: String,
+    selectId: String,
+    storage: Storage<ID, ELEMENT>,
+    ids: Set<ID>,
+    rarityMap: RarityMap<ID>,
+    update: Boolean = false,
+    getName: (ELEMENT) -> String,
+) {
     details {
         summary { +enum }
-        showMap(rarityMap.getRarityFor(storage.getIds())) { id, currentRarity ->
+        showMap(rarityMap.getRarityFor(ids)) { id, currentRarity ->
             val element = storage.getOrThrow(id)
             selectEnum(getName(element), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
                 label = rarity.toString()
