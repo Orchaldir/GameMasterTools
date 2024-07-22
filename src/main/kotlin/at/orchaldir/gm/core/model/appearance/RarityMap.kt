@@ -23,10 +23,7 @@ interface RarityMap<T> {
 @Serializable
 value class OneOf<T>(private val map: Map<T, Rarity>) : RarityMap<T> {
     constructor(values: Collection<T>) : this(values.associateWith { Rarity.Common })
-
-    init {
-        require(hasValidValues()) { "RarityMap has no valid value!" }
-    }
+    constructor() : this(emptyMap())
 
     companion object {
 
@@ -41,8 +38,6 @@ value class OneOf<T>(private val map: Map<T, Rarity>) : RarityMap<T> {
     override fun getRarityFor(keys: Set<T>) = keys.associateWith { map[it] ?: Rarity.Unavailable }
 
     override fun isAvailable(value: T) = (map[value] ?: Rarity.Unavailable) != Rarity.Unavailable
-
-    private fun hasValidValues() = map.values.any { it != Rarity.Unavailable }
 
 }
 

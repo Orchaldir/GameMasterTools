@@ -155,7 +155,7 @@ private fun HTML.showCultureDetails(
         }
         showNamingConvention(namingConvention, call, state)
         showAppearanceOptions(culture)
-        showClothingOptions(culture)
+        showClothingOptions(call, state, culture)
         h2 { +"Characters" }
         showList(state.getCharacters(culture.id)) { character ->
             link(call, state, character)
@@ -273,39 +273,32 @@ private fun BODY.showAppearanceOptions(culture: Culture) {
     showRarityMap("Lip Colors", appearanceStyle.lipColors)
 }
 
-private fun BODY.showClothingOptions(culture: Culture) {
+private fun BODY.showClothingOptions(
+    call: ApplicationCall,
+    state: State,
+    culture: Culture,
+) {
     h2 { +"Clothing Options" }
     culture.clothingStyles.getMap().forEach { (gender, style) ->
         showDetails(gender.toString()) {
             showRarityMap("Clothing Sets", style.clothingSets)
-            showDetails("Dress") {
-                showRarityMap("Colors", style.dress.colors)
-                showRarityMap("Skirt Styles", style.dress.skirtStyles)
-                showRarityMap("Neckline Styles", style.dress.necklineStyles)
-                showRarityMap("Sleeve Styles", style.dress.sleeveStyles)
+            showRarityMap("Dresses", style.dresses) { id ->
+                link(call, state, id)
             }
-            showDetails("Footwear") {
-                showRarityMap("Styles", style.footwear.styles)
-                showValueAndOneOf("Colors", style.footwear.colors)
-                showValueAndOneOf("Sole Colors", style.footwear.soles)
+            showRarityMap("Footwear", style.footwear) { id ->
+                link(call, state, id)
             }
-            showDetails("Hat") {
-                showRarityMap("Styles", style.hat.styles)
-                showValueAndOneOf("Colors", style.hat.colors)
+            showRarityMap("Hats", style.hats) { id ->
+                link(call, state, id)
             }
-            showDetails("Pants & Shirt") {
-                showRarityMap("Pants Colors", style.pantsAndShirt.pantsColors)
-                showRarityMap("Pants Styles", style.pantsAndShirt.pantsStyles)
-                showRarityMap("Neckline Styles", style.pantsAndShirt.necklineStyles)
-                showRarityMap("Shirt Colors", style.pantsAndShirt.shirtColors)
-                showRarityMap("Sleeve Styles", style.pantsAndShirt.sleeveStyles)
+            showRarityMap("Pants", style.pants) { id ->
+                link(call, state, id)
             }
-            showDetails("Shirt & Skirt") {
-                showRarityMap("Skirt Colors", style.shirtAndSkirt.skirtColors)
-                showRarityMap("Skirt Styles", style.shirtAndSkirt.skirtStyles)
-                showRarityMap("Neckline Styles", style.shirtAndSkirt.necklineStyles)
-                showRarityMap("Shirt Colors", style.shirtAndSkirt.shirtColors)
-                showRarityMap("Sleeve Styles", style.shirtAndSkirt.sleeveStyles)
+            showRarityMap("Shirts", style.shirts) { id ->
+                link(call, state, id)
+            }
+            showRarityMap("Skirts", style.skirts) { id ->
+                link(call, state, id)
             }
         }
     }
