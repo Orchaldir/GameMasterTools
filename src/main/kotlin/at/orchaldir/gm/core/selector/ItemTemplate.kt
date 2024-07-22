@@ -9,3 +9,7 @@ fun State.canDelete(itemTemplate: ItemTemplateId) = getItems(itemTemplate).isEmp
 fun State.getItemTemplates(type: EquipmentType) = itemTemplates.getAll()
         .filter { it.equipment.isType(type) }
 
+fun State.getItemTemplatesId(type: EquipmentType) = getItemTemplates(type)
+        .map { it.id() }
+        .toSet()
+

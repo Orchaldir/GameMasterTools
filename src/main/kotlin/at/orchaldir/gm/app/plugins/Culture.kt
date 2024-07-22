@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
-import at.orchaldir.gm.core.selector.getItemTemplates
+import at.orchaldir.gm.core.selector.getItemTemplatesId
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -482,7 +482,7 @@ private fun FORM.editClothingOptions(
     state: State,
     culture: Culture,
 ) {
-    val dresses = state.getItemTemplates(EquipmentType.Dress).map { it.id() }.toSet()
+    val dresses = state.getItemTemplatesId(EquipmentType.Dress)
 
     h2 { +"Clothing Options" }
     culture.clothingStyles.getMap().forEach { (gender, style) ->
