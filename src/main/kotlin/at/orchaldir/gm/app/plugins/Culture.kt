@@ -304,7 +304,6 @@ private fun BODY.showClothingOptions(
     }
 }
 
-
 private fun HTML.showCultureEditor(
     call: ApplicationCall,
     state: State,
@@ -329,6 +328,7 @@ private fun HTML.showCultureEditor(
             selectRarityMap("Languages", LANGUAGES, state.languages, culture.languages) { it.name }
             editNamingConvention(namingConvention, state)
             editAppearanceOptions(culture)
+            editClothingOptions(call, state, culture)
             p {
                 submitInput {
                     value = "Update"
@@ -473,4 +473,32 @@ private fun FORM.editAppearanceOptions(culture: Culture) {
     selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyles)
     selectRarityMap("Hair Styles", HAIR_STYLE, culture.appearanceStyle.hairStyles)
     selectRarityMap("Lip Colors", LIP_COLORS, culture.appearanceStyle.lipColors)
+}
+
+private fun FORM.editClothingOptions(
+    call: ApplicationCall,
+    state: State,
+    culture: Culture,
+) {
+    h2 { +"Clothing Options" }
+    culture.clothingStyles.getMap().forEach { (gender, style) ->
+        h3 { +"$gender" }
+        selectRarityMap("Clothing Sets", CLOTHING_SETS, style.clothingSets)
+        selectRarityMap("Dresses", DRESS, state.itemTemplates, style.dresses) { it.name }
+        showRarityMap("Footwear", style.footwear) { id ->
+            link(call, state, id)
+        }
+        showRarityMap("Hats", style.hats) { id ->
+            link(call, state, id)
+        }
+        showRarityMap("Pants", style.pants) { id ->
+            link(call, state, id)
+        }
+        showRarityMap("Shirts", style.shirts) { id ->
+            link(call, state, id)
+        }
+        showRarityMap("Skirts", style.skirts) { id ->
+            link(call, state, id)
+        }
+    }
 }
