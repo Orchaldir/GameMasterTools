@@ -2,15 +2,17 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parseFashion
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
+import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCultures
+import at.orchaldir.gm.core.selector.getItemTemplatesId
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -87,7 +89,7 @@ fun Application.configureFashionRouting() {
             val fashion = state.fashion.getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showFashionEditor(call, fashion)
+                showFashionEditor(call, state, fashion)
             }
         }
         post<Fashions.Update> { update ->
@@ -163,8 +165,13 @@ private fun HTML.showFashionDetails(
 
 private fun HTML.showFashionEditor(
     call: ApplicationCall,
+    state: State,
     fashion: Fashion,
 ) {
+    val dresses = state.getItemTemplatesId(EquipmentType.Dress)
+    val footwear = state.getItemTemplatesId(EquipmentType.Footwear)
+    val hats = state.getItemTemplatesId(EquipmentType.Hat)
+    val pants = state.getItemTemplatesId(EquipmentType.Pants)
     val backLink = href(call, fashion.id)
     val updateLink = call.application.href(Fashions.Update(fashion.id))
 
@@ -176,6 +183,11 @@ private fun HTML.showFashionEditor(
                     value = fashion.name
                 }
             }
+            selectRarityMap("Clothing Sets", CLOTHING_SETS, fashion.clothingSets)
+            selectRarityMap("Dresses", DRESS, state.itemTemplates, dresses, fashion.dresses) { it.name }
+            selectRarityMap("Footwear", FOOTWEAR, state.itemTemplates, footwear, fashion.footwear) { it.name }
+            selectRarityMap("Hats", HAT, state.itemTemplates, hats, fashion.hats) { it.name }
+            selectRarityMap("Pants", PANTS, state.itemTemplates, pants, fashion.pants) { it.name }
 
             p {
                 submitInput {
