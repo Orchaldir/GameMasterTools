@@ -5,18 +5,19 @@ import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.fashion.Fashion
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_FASHION: Reducer<CreateFashion, State> = { state, _ ->
-    val nameList = Fashion(state.fashion.nextId)
+    val fashion = Fashion(state.fashion.nextId)
 
-    noFollowUps(state.copy(fashion = state.fashion.add(nameList)))
+    noFollowUps(state.copy(fashion = state.fashion.add(fashion)))
 }
 
 val DELETE_FASHION: Reducer<DeleteFashion, State> = { state, action ->
     state.fashion.require(action.id)
-    //require(state.canDelete(action.id)) { "Name list ${action.id.value} is used" }
+    require(state.canDelete(action.id)) { "Fashion ${action.id.value} is used" }
 
     noFollowUps(state.copy(fashion = state.fashion.remove(action.id)))
 }
