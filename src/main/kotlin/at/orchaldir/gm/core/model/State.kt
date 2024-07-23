@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.fashion.Fashion
+import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.item.Item
 import at.orchaldir.gm.core.model.item.ItemId
 import at.orchaldir.gm.core.model.item.ItemTemplate
@@ -23,6 +25,7 @@ import at.orchaldir.gm.utils.Storage
 
 private const val CHARACTER = "Character"
 private const val CULTURE = "Culture"
+private const val FASHION = "Fashion"
 private const val ITEM_TEMPLATE = "Item Template"
 private const val ITEM = "Item"
 private const val LANGUAGE = "Language"
@@ -35,6 +38,7 @@ data class State(
     val path: String = "data",
     val characters: Storage<CharacterId, Character> = Storage(CharacterId(0), CHARACTER),
     val cultures: Storage<CultureId, Culture> = Storage(CultureId(0), CULTURE),
+    val fashion: Storage<FashionId, Fashion> = Storage(FashionId(0), FASHION),
     val itemTemplates: Storage<ItemTemplateId, ItemTemplate> = Storage(ItemTemplateId(0), ITEM_TEMPLATE),
     val items: Storage<ItemId, Item> = Storage(ItemId(0), ITEM),
     val languages: Storage<LanguageId, Language> = Storage(LanguageId(0), LANGUAGE),
@@ -52,6 +56,7 @@ data class State(
             path,
             loadStorage(path, CHARACTER, CharacterId(0)),
             loadStorage(path, CULTURE, CultureId(0)),
+            loadStorage(path, FASHION, FashionId(0)),
             loadStorage(path, ITEM_TEMPLATE, ItemTemplateId(0)),
             loadStorage(path, ITEM, ItemId(0)),
             loadStorage(path, LANGUAGE, LanguageId(0)),
@@ -65,6 +70,7 @@ data class State(
     fun save() {
         saveStorage(path, characters)
         saveStorage(path, cultures)
+        saveStorage(path, fashion)
         saveStorage(path, itemTemplates)
         saveStorage(path, items)
         saveStorage(path, languages)

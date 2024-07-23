@@ -12,10 +12,8 @@ import at.orchaldir.gm.core.model.appearance.GenderMap
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
-import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
-import at.orchaldir.gm.core.selector.getItemTemplatesId
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -281,27 +279,9 @@ private fun BODY.showClothingOptions(
     culture: Culture,
 ) {
     h2 { +"Clothing Options" }
-    culture.clothingStyles.getMap().forEach { (gender, style) ->
-        showDetails(gender.toString()) {
-            showRarityMap("Clothing Sets", style.clothingSets)
-            showRarityMap("Dresses", style.dresses) { id ->
-                link(call, state, id)
-            }
-            showRarityMap("Footwear", style.footwear) { id ->
-                link(call, state, id)
-            }
-            showRarityMap("Hats", style.hats) { id ->
-                link(call, state, id)
-            }
-            showRarityMap("Pants", style.pants) { id ->
-                link(call, state, id)
-            }
-            showRarityMap("Shirts", style.shirts) { id ->
-                link(call, state, id)
-            }
-            showRarityMap("Skirts", style.skirts) { id ->
-                link(call, state, id)
-            }
+    showGenderMap(culture.clothingStyles) { gender, id ->
+        field(gender.toString()) {
+            link(call, state, id)
         }
     }
 }
@@ -330,7 +310,7 @@ private fun HTML.showCultureEditor(
             selectRarityMap("Languages", LANGUAGES, state.languages, culture.languages) { it.name }
             editNamingConvention(namingConvention, state)
             editAppearanceOptions(culture)
-            editClothingOptions(call, state, culture)
+            editClothingOptions(state, culture)
             p {
                 submitInput {
                     value = "Update"
@@ -478,31 +458,23 @@ private fun FORM.editAppearanceOptions(culture: Culture) {
 }
 
 private fun FORM.editClothingOptions(
-    call: ApplicationCall,
     state: State,
     culture: Culture,
 ) {
-    val dresses = state.getItemTemplatesId(EquipmentType.Dress)
-
     h2 { +"Clothing Options" }
-    culture.clothingStyles.getMap().forEach { (gender, style) ->
-        h3 { +"$gender" }
-        selectRarityMap("Clothing Sets", CLOTHING_SETS, style.clothingSets)
-        selectRarityMap("Dresses", DRESS, state.itemTemplates, dresses, style.dresses) { it.name }
-        showRarityMap("Footwear", style.footwear) { id ->
-            link(call, state, id)
-        }
-        showRarityMap("Hats", style.hats) { id ->
-            link(call, state, id)
-        }
-        showRarityMap("Pants", style.pants) { id ->
-            link(call, state, id)
-        }
-        showRarityMap("Shirts", style.shirts) { id ->
-            link(call, state, id)
-        }
-        showRarityMap("Skirts", style.skirts) { id ->
-            link(call, state, id)
+    selectGenderMap("Fashion", culture.clothingStyles) { gender, fashionId ->
+        val selectId = "$FASHION-$gender"
+        select {
+            id = selectId
+            name = selectId
+            state.fashion.getAll().forEach { fashion ->
+                option {
+                    label = fashion.name
+                    value = fashion.id.value.toString()
+                    selected = fashion.id == fashionId
+                }
+            }
         }
     }
 }
+

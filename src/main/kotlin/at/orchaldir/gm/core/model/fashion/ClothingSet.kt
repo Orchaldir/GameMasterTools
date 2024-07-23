@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.culture.style
+package at.orchaldir.gm.core.model.fashion
 
 enum class ClothingSet {
     Dress,
