@@ -5,6 +5,10 @@ import at.orchaldir.gm.core.model.fashion.FashionId
 import io.ktor.http.*
 import io.ktor.server.util.*
 
+fun parseFashionId(
+    parameters: Parameters,
+    param: String,
+) = FashionId(parameters[param]?.toInt() ?: 0)
 
 fun parseFashion(id: FashionId, parameters: Parameters): Fashion {
     val name = parameters.getOrFail(NAME)

@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.culture.name.NamingConventionType.*
 import at.orchaldir.gm.core.model.character.appearance.hair.HairStyleType
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
+import at.orchaldir.gm.core.model.fashion.FashionId
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -35,6 +36,7 @@ fun parseCulture(
             parseOneOf(parameters, HAIR_STYLE, HairStyleType::valueOf),
             parseOneOf(parameters, LIP_COLORS, Color::valueOf),
         ),
+        parseClothingStyles(parameters),
     )
 }
 
@@ -102,11 +104,6 @@ private fun parseNameListId(
     gender: Gender,
 ) = parseNameListId(parameters, "$param-$gender")
 
-private fun parseNameListId(
-    parameters: Parameters,
-    param: String,
-) = NameListId(parameters[param]?.toInt() ?: 0)
-
 fun parseWordsByGender(
     parameters: Parameters,
     param: String,
@@ -123,3 +120,18 @@ private fun parseWord(
     param: String,
     gender: Gender,
 ) = parameters["$param-$gender"] ?: "Unknown"
+
+fun parseClothingStyles(
+    parameters: Parameters,
+): GenderMap<FashionId> {
+    val female = parseFashionId(parameters, Gender.Female)
+    val genderless = parseFashionId(parameters, Gender.Genderless)
+    val male = parseFashionId(parameters, Gender.Male)
+
+    return GenderMap(female, genderless, male)
+}
+
+private fun parseFashionId(
+    parameters: Parameters,
+    gender: Gender,
+) = parseFashionId(parameters, "$FASHION-$gender")

@@ -5,6 +5,10 @@ import at.orchaldir.gm.core.model.NameListId
 import io.ktor.http.*
 import io.ktor.server.util.*
 
+fun parseNameListId(
+    parameters: Parameters,
+    param: String,
+) = NameListId(parameters[param]?.toInt() ?: 0)
 
 fun parseNameList(id: NameListId, parameters: Parameters): NameList {
     val name = parameters.getOrFail(NAME)
