@@ -112,7 +112,7 @@ private fun HtmlBlockTag.link(
 fun href(
     call: ApplicationCall,
     id: FashionId,
-) = call.application.href("")//Cultures.Details(id))
+) = call.application.href(Fashions.Details(id))
 
 // item template
 
