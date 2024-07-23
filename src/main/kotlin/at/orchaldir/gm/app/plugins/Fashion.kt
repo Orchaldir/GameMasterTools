@@ -131,7 +131,25 @@ private fun HTML.showFashionDetails(
     simpleHtml("Fashion: ${fashion.name}") {
         field("Id", fashion.id.value.toString())
         field("Name", fashion.name)
-
+        showRarityMap("Clothing Sets", fashion.clothingSets)
+        showRarityMap("Dresses", fashion.dresses) { id ->
+            link(call, state, id)
+        }
+        showRarityMap("Footwear", fashion.footwear) { id ->
+            link(call, state, id)
+        }
+        showRarityMap("Hats", fashion.hats) { id ->
+            link(call, state, id)
+        }
+        showRarityMap("Pants", fashion.pants) { id ->
+            link(call, state, id)
+        }
+        showRarityMap("Shirts", fashion.shirts) { id ->
+            link(call, state, id)
+        }
+        showRarityMap("Skirts", fashion.skirts) { id ->
+            link(call, state, id)
+        }
         showList("Cultures", state.getCultures(fashion.id)) { culture ->
             link(call, culture)
         }
