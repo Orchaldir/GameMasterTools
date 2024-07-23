@@ -7,9 +7,11 @@ import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.item.EquipmentType
+import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCultures
 import at.orchaldir.gm.core.selector.getItemTemplatesId
@@ -168,10 +170,6 @@ private fun HTML.showFashionEditor(
     state: State,
     fashion: Fashion,
 ) {
-    val dresses = state.getItemTemplatesId(EquipmentType.Dress)
-    val footwear = state.getItemTemplatesId(EquipmentType.Footwear)
-    val hats = state.getItemTemplatesId(EquipmentType.Hat)
-    val pants = state.getItemTemplatesId(EquipmentType.Pants)
     val backLink = href(call, fashion.id)
     val updateLink = call.application.href(Fashions.Update(fashion.id))
 
@@ -184,11 +182,12 @@ private fun HTML.showFashionEditor(
                 }
             }
             selectRarityMap("Clothing Sets", CLOTHING_SETS, fashion.clothingSets)
-            selectRarityMap("Dresses", DRESS, state.itemTemplates, dresses, fashion.dresses) { it.name }
-            selectRarityMap("Footwear", FOOTWEAR, state.itemTemplates, footwear, fashion.footwear) { it.name }
-            selectRarityMap("Hats", HAT, state.itemTemplates, hats, fashion.hats) { it.name }
-            selectRarityMap("Pants", PANTS, state.itemTemplates, pants, fashion.pants) { it.name }
-
+            selectEquipmentType(state, "Dresses", DRESS, fashion.footwear, EquipmentType.Dress)
+            selectEquipmentType(state, "Footwear", FOOTWEAR, fashion.footwear, EquipmentType.Footwear)
+            selectEquipmentType(state, "Hats", HAT, fashion.hats, EquipmentType.Hat)
+            selectEquipmentType(state, "Pants", PANTS, fashion.pants, EquipmentType.Pants)
+            selectEquipmentType(state, "Shirts", SHIRT, fashion.shirts, EquipmentType.Shirt)
+            selectEquipmentType(state, "Skirts", SKIRT, fashion.skirts, EquipmentType.Skirt)
             p {
                 submitInput {
                     value = "Update"
@@ -199,4 +198,15 @@ private fun HTML.showFashionEditor(
         }
         p { a(backLink) { +"Back" } }
     }
+}
+
+private fun FORM.selectEquipmentType(
+    state: State,
+    label: String,
+    param: String,
+    oneOf: OneOf<ItemTemplateId>,
+    type: EquipmentType,
+) {
+    val options = state.getItemTemplatesId(type)
+    selectRarityMap(label, param, state.itemTemplates, options, oneOf) { it.name }
 }
