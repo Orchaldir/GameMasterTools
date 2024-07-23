@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.fashion.Fashion
+import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.item.Item
 import at.orchaldir.gm.core.model.item.ItemId
 import at.orchaldir.gm.core.model.item.ItemTemplate
@@ -51,6 +53,11 @@ data class RemoveLanguages(
 data object CreateCulture : Action()
 data class DeleteCulture(val id: CultureId) : Action()
 data class UpdateCulture(val culture: Culture) : Action()
+
+// name list
+data object CreateFashion : Action()
+data class DeleteFashion(val id: FashionId) : Action()
+data class UpdateFashion(val nameList: Fashion) : Action()
 
 // language actions
 data object CreateLanguage : Action()

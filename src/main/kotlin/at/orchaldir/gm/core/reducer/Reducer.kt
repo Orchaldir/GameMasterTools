@@ -20,6 +20,10 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateCulture -> CREATE_CULTURE(state, action)
         is DeleteCulture -> DELETE_CULTURE(state, action)
         is UpdateCulture -> UPDATE_CULTURE(state, action)
+        // fashion
+        is CreateFashion -> CREATE_FASHION(state, action)
+        is DeleteFashion -> DELETE_FASHION(state, action)
+        is UpdateFashion -> UPDATE_FASHION(state, action)
         // item template
         is CreateItemTemplate -> CREATE_ITEM_TEMPLATE(state, action)
         is DeleteItemTemplate -> DELETE_ITEM_TEMPLATE(state, action)
