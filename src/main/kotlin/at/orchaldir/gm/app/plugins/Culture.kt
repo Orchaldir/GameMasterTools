@@ -462,16 +462,18 @@ private fun FORM.editClothingOptions(
     culture: Culture,
 ) {
     h2 { +"Clothing Options" }
-    selectGenderMap("Fashion", culture.clothingStyles) { gender, fashionId ->
-        val selectId = "$FASHION-$gender"
-        select {
-            id = selectId
-            name = selectId
-            state.fashion.getAll().forEach { fashion ->
-                option {
-                    label = fashion.name
-                    value = fashion.id.value.toString()
-                    selected = fashion.id == fashionId
+    showMap(culture.clothingStyles.getMap()) { gender, fashionId ->
+        field(gender.toString()) {
+            val selectId = "$FASHION-$gender"
+            select {
+                id = selectId
+                name = selectId
+                state.fashion.getAll().forEach { fashion ->
+                    option {
+                        label = fashion.name
+                        value = fashion.id.value.toString()
+                        selected = fashion.id == fashionId
+                    }
                 }
             }
         }

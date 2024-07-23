@@ -128,7 +128,7 @@ private fun HTML.showFashionDetails(
     val deleteLink = call.application.href(Fashions.Delete(fashion.id))
     val editLink = call.application.href(Fashions.Edit(fashion.id))
 
-    simpleHtml("Name List: ${fashion.name}") {
+    simpleHtml("Fashion: ${fashion.name}") {
         field("Id", fashion.id.value.toString())
         field("Name", fashion.name)
 
