@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.item.style.*
 import io.ktor.http.*
 import io.ktor.server.util.*
 
+fun parseItemTemplateId(value: String) = ItemTemplateId(value.toInt())
+
 fun parseItemTemplateId(parameters: Parameters, param: String) = ItemTemplateId(parameters[param]?.toInt() ?: 0)
 
 fun parseItemTemplate(id: ItemTemplateId, parameters: Parameters): ItemTemplate {

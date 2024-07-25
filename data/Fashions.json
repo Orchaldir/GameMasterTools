@@ -1,9 +1,15 @@
 {
-  "version": 1,
-  "elements": {
-    "0": {
-      "id": 0,
-      "name": "Aundairian"
-    }
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Aundairian",
+   "pants": {
+    "2": "Common"
+   },
+   "shirts": {
+    "3": "Uncommon"
+   }
   }
+ }
 }
