@@ -15,6 +15,11 @@
     "skinTypes": {
      "Normal": "Common"
     },
+    "normalSkinColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Uncommon"
+    },
     "earsLayout": {
      "NormalEars": "Common"
     },

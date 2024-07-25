@@ -30,7 +30,7 @@ private const val ITEM_TEMPLATE = "Item Template"
 private const val ITEM = "Item"
 private const val LANGUAGE = "Language"
 private const val MATERIAL = "Material"
-private const val NAME_LIST = "NameList"
+private const val NAME_LIST = "Name List"
 private const val PERSONALITY_TRAIT = "Personality Trait"
 private const val RACE = "Race"
 
