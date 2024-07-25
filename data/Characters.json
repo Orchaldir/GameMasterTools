@@ -1,49 +1,5 @@
 {
  "version": 1,
  "elements": {
-  "0": {
-   "id": 0,
-   "name": {
-    "type": "Family",
-    "given": "Marloes",
-    "middle": null,
-    "family": "Crudaker"
-   },
-   "gender": "Female",
-   "appearance": {
-    "type": "Humanoid",
-    "body": {
-     "bodyShape": "Hourglass",
-     "width": "Large"
-    },
-    "head": {
-     "ears": {
-      "type": "Normal"
-     },
-     "eyes": {
-      "type": "Two",
-      "eye": {
-       "eyeShape": "Almond",
-       "pupilColor": "Olive"
-      }
-     },
-     "hair": {
-      "type": "Normal",
-      "style": {
-       "type": "MiddlePart"
-      },
-      "color": "Orange"
-     },
-     "mouth": {
-      "type": "Female",
-      "width": "Large",
-      "teethColor": "Yellow"
-     }
-    },
-    "height": {
-     "value": 1.8
-    }
-   }
-  }
  }
 }
