@@ -40,6 +40,22 @@ class Characters {
         class Generate(val id: CharacterId, val parent: Appearance = Appearance())
     }
 
+    @Resource("/equipment")
+    class Equipment(val parent: Characters = Characters()) {
+
+        @Resource("edit")
+        class Edit(val id: CharacterId, val parent: Equipment = Equipment())
+
+        @Resource("preview")
+        class Preview(val id: CharacterId, val parent: Equipment = Equipment())
+
+        @Resource("update")
+        class Update(val id: CharacterId, val parent: Equipment = Equipment())
+
+        @Resource("generate")
+        class Generate(val id: CharacterId, val parent: Equipment = Equipment())
+    }
+
     @Resource("/languages")
     class Languages(val parent: Characters = Characters()) {
 

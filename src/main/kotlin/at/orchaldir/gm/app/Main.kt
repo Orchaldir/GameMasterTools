@@ -1,10 +1,7 @@
 package at.orchaldir.gm.app
 
 import at.orchaldir.gm.app.plugins.*
-import at.orchaldir.gm.app.plugins.character.configureAppearanceRouting
-import at.orchaldir.gm.app.plugins.character.configureCharacterLanguageRouting
-import at.orchaldir.gm.app.plugins.character.configureCharacterRelationshipRouting
-import at.orchaldir.gm.app.plugins.character.configureCharacterRouting
+import at.orchaldir.gm.app.plugins.character.*
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -34,6 +31,7 @@ fun Application.module() {
     configureCharacterRelationshipRouting()
     configureAppearanceRouting()
     configureCultureRouting()
+    configureEquipmentRouting()
     configureFashionRouting()
     configureItemTemplateRouting()
     configureItemRouting()

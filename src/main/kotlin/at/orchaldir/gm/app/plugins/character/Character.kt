@@ -255,10 +255,13 @@ fun BODY.showItems(
     state: State,
     character: Character,
 ) {
+    val editEquipmentLink = call.application.href(Characters.Equipment.Edit(character.id))
     val equipped = state.getEquippedItems(character.id)
     val inventory = state.getInventory(character.id)
 
     h2 { +"Items" }
+
+    p { a(editEquipmentLink) { +"Edit Equipment" } }
 
     showList("Equipped", equipped) { item ->
         link(call, state, item)
