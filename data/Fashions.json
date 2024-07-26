@@ -1,5 +1,31 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Arkham - Male",
+   "clothingSets": {
+    "PantsAndShirt": "Common"
+   },
+   "footwear": {
+    "0": "Common",
+    "1": "Uncommon"
+   },
+   "hats": {
+    "6": "Uncommon",
+    "7": "Common",
+    "8": "Common",
+    "9": "Uncommon"
+   },
+   "pants": {
+    "3": "Uncommon",
+    "4": "Common",
+    "5": "Uncommon",
+    "10": "Rare"
+   },
+   "shirts": {
+    "2": "Common"
+   }
+  }
  }
 }

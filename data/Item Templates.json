@@ -1,5 +1,106 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Black Leather Shoes",
+   "equipment": {
+    "type": "Footwear",
+    "color": "Black",
+    "sole": "Black"
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Brown Leather Shoes",
+   "equipment": {
+    "type": "Footwear",
+    "sole": "Black"
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "White Shirt",
+   "equipment": {
+    "type": "Shirt",
+    "color": "White",
+    "material": 3
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Navy Pants",
+   "equipment": {
+    "type": "Pants",
+    "color": "Navy",
+    "material": 3
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Gray Pants",
+   "equipment": {
+    "type": "Pants",
+    "color": "Gray",
+    "material": 3
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Black Pants",
+   "equipment": {
+    "type": "Pants",
+    "color": "Black",
+    "material": 3
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Top Hat",
+   "equipment": {
+    "type": "Hat",
+    "color": "Black",
+    "material": 2
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Boater",
+   "equipment": {
+    "type": "Hat",
+    "style": "Boater",
+    "color": "White",
+    "material": 3
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Black Bowler",
+   "equipment": {
+    "type": "Hat",
+    "style": "Bowler",
+    "color": "Black",
+    "material": 3
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Grey Bowler",
+   "equipment": {
+    "type": "Hat",
+    "style": "Bowler",
+    "color": "Gray",
+    "material": 3
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": "White Pants",
+   "equipment": {
+    "type": "Pants",
+    "color": "White",
+    "material": 3
+   }
+  }
  }
 }

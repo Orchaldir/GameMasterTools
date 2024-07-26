@@ -3,7 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Cotton"
+   "name": "Leather"
   },
   "1": {
    "id": 1,
@@ -12,6 +12,10 @@
   "2": {
    "id": 2,
    "name": "Silk"
+  },
+  "3": {
+   "id": 3,
+   "name": "Cotton"
   }
  }
 }
