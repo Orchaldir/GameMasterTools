@@ -3,22 +3,12 @@ package at.orchaldir.gm.app.plugins.character
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.*
-import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.Side
-import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.character.appearance.beard.*
-import at.orchaldir.gm.core.model.character.appearance.hair.*
-import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.character.appearance.hair.HairStyleType
-import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.appearance.*
+import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.core.selector.getEquipment
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -40,9 +30,10 @@ fun Application.configureEquipmentRouting() {
 
             val state = STORE.getState()
             val character = state.characters.getOrThrow(edit.id)
+            val equipment = state.getEquipment(character.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showEquipmentEditor(call, state, character)
+                showEquipmentEditor(call, state, character, equipment)
             }
         }
         post<Characters.Equipment.Preview> { preview ->
@@ -52,11 +43,10 @@ fun Application.configureEquipmentRouting() {
             val character = state.characters.getOrThrow(preview.id)
             val formParameters = call.receiveParameters()
             val config = createGenerationConfig(state, character)
-            val appearance = parseAppearance(formParameters, config, character)
-            val updatedCharacter = character.copy(appearance = appearance)
+            val equipment = parseEquipment(formParameters, config, character)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showEquipmentEditor(call, state, updatedCharacter)
+                showEquipmentEditor(call, state, character, equipment)
             }
         }
         post<Characters.Equipment.Update> { update ->
@@ -66,9 +56,9 @@ fun Application.configureEquipmentRouting() {
             val character = state.characters.getOrThrow(update.id)
             val formParameters = call.receiveParameters()
             val config = createGenerationConfig(state, character)
-            val appearance = parseAppearance(formParameters, config, character)
+            val equipment = parseEquipment(formParameters, config, character)
 
-            STORE.dispatch(UpdateAppearance(update.id, appearance))
+            //STORE.dispatch(UpdateAppearance(update.id, appearance))
 
             call.respondRedirect(href(call, update.id))
 
@@ -80,11 +70,10 @@ fun Application.configureEquipmentRouting() {
             val state = STORE.getState()
             val character = state.characters.getOrThrow(update.id)
             val config = createGenerationConfig(state, character)
-            val appearance = generateAppearance(config, character)
-            val updatedCharacter = character.copy(appearance = appearance)
+            val equipment = generateEquipment(config, character)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showEquipmentEditor(call, state, updatedCharacter)
+                showEquipmentEditor(call, state, character, equipment)
             }
         }
     }
@@ -94,15 +83,15 @@ private fun HTML.showEquipmentEditor(
     call: ApplicationCall,
     state: State,
     character: Character,
+    equipped: List<Equipment>,
 ) {
     val appearance = character.appearance
-    val equipment = state.getEquipment(character.id)
     val backLink = href(call, character.id)
     val previewLink = call.application.href(Characters.Equipment.Preview(character.id))
     val updateLink = call.application.href(Characters.Equipment.Update(character.id))
     val generateLink = call.application.href(Characters.Equipment.Generate(character.id))
-    val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance, equipment)
-    val backSvg = visualizeCharacter(RENDER_CONFIG, character.appearance, equipment, false)
+    val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance, equipped)
+    val backSvg = visualizeCharacter(RENDER_CONFIG, character.appearance, equipped, false)
 
     simpleHtml("Edit Equipment: ${state.getName(character)}") {
         svg(frontSvg, 20)
