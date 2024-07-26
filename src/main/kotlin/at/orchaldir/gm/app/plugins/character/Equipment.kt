@@ -74,7 +74,7 @@ fun Application.configureEquipmentRouting() {
             val state = STORE.getState()
             val character = state.characters.getOrThrow(update.id)
             val generator = EquipmentGenerator.create(state, character)
-            val equipment = generateEquipment(generator, character)
+            val equipment = generator.generate()
 
             call.respondHtml(HttpStatusCode.OK) {
                 showEquipmentEditor(call, state, character, equipment)
