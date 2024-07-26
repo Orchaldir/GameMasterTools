@@ -115,12 +115,7 @@ private fun HTML.showEquipmentEditor(
                 }
             }
 
-            selectEquipment(state, equipmentMap, fashion, EquipmentType.Dress)
-            selectEquipment(state, equipmentMap, fashion, EquipmentType.Footwear)
-            selectEquipment(state, equipmentMap, fashion, EquipmentType.Hat)
-            selectEquipment(state, equipmentMap, fashion, EquipmentType.Pants)
-            selectEquipment(state, equipmentMap, fashion, EquipmentType.Shirt)
-            selectEquipment(state, equipmentMap, fashion, EquipmentType.Skirt)
+            EquipmentType.entries.forEach { selectEquipment(state, equipmentMap, fashion, it) }
 
             p {
                 submitInput {
