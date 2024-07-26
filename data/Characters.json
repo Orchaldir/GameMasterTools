@@ -1,5 +1,62 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": {
+    "type": "Family",
+    "given": "Gordon",
+    "middle": null,
+    "family": "Walker"
+   },
+   "gender": "Male",
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "bodyShape": "Muscular",
+     "width": "Small",
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal",
+      "size": "Large"
+     },
+     "eyes": {
+      "type": "Two"
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "MiddlePart"
+      },
+      "color": "Black"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "Moustache",
+        "moustacheStyle": "Pyramid"
+       },
+       "color": "Black"
+      },
+      "width": "Small",
+      "teethColor": "Brown"
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "height": {
+     "value": 1.8
+    }
+   }
+  }
  }
 }

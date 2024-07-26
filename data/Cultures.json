@@ -22,16 +22,16 @@
    "appearanceStyle": {
     "beardStyles": {
      "Goatee": "VeryRare",
-     "GoateeAndMoustache": "Rare",
+     "GoateeAndMoustache": "VeryRare",
      "Moustache": "Uncommon",
      "Shaved": "Common"
     },
     "moustacheStyles": {
-     "Handlebar": "Common",
+     "Handlebar": "Rare",
      "Pencil": "Common",
      "Pyramid": "Common",
-     "Toothbrush": "Common",
-     "Walrus": "Common"
+     "Toothbrush": "VeryRare",
+     "Walrus": "Rare"
     },
     "hairStyles": {
      "BuzzCut": "Common",

@@ -59,13 +59,10 @@
      },
      "colors": {
       "Black": "Common",
-      "Gray": "Common",
-      "Maroon": "Common",
-      "Orange": "Common",
-      "Red": "Common",
+      "Maroon": "Rare",
+      "Orange": "Rare",
+      "Red": "Rare",
       "SaddleBrown": "Common",
-      "Silver": "Common",
-      "White": "Common",
       "Yellow": "Common"
      }
     },
