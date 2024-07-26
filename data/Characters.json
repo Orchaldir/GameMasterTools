@@ -56,6 +56,14 @@
     "height": {
      "value": 1.8
     }
+   },
+   "equipmentMap": {
+    "map": {
+     "Footwear": 0,
+     "Hat": 9,
+     "Pants": 4,
+     "Shirt": 2
+    }
    }
   }
  }

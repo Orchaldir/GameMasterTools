@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.selectOneOrNone
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.html.svg
 import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -58,12 +59,10 @@ fun Application.configureEquipmentRouting() {
         post<Characters.Equipment.Update> { update ->
             logger.info { "Update character ${update.id.value}'s equipment" }
 
-            val state = STORE.getState()
-            val character = state.characters.getOrThrow(update.id)
             val formParameters = call.receiveParameters()
-            val equipment = parseEquipmentMap(formParameters)
+            val equipmentMap = parseEquipmentMap(formParameters)
 
-            //STORE.dispatch(UpdateAppearance(update.id, appearance))
+            STORE.dispatch(UpdateEquipment(update.id, equipmentMap))
 
             call.respondRedirect(href(call, update.id))
 
