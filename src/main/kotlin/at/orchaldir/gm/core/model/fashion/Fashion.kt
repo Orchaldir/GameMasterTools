@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.fashion
 
 import at.orchaldir.gm.core.model.appearance.OneOf
+import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -29,5 +30,15 @@ data class Fashion(
 ) : Element<FashionId> {
 
     override fun id() = id
+
+    fun getOptions(type: EquipmentType) = when (type) {
+        EquipmentType.None -> OneOf()
+        EquipmentType.Dress -> dresses
+        EquipmentType.Footwear -> footwear
+        EquipmentType.Hat -> hats
+        EquipmentType.Pants -> pants
+        EquipmentType.Shirt -> shirts
+        EquipmentType.Skirt -> skirts
+    }
 
 }

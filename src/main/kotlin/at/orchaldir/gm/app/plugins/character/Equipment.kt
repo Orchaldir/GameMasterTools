@@ -8,11 +8,10 @@ import at.orchaldir.gm.app.html.svg
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.EquipmentMap
+import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.item.EquipmentType
-import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.selector.getEquipment2
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
@@ -116,12 +115,12 @@ private fun HTML.showEquipmentEditor(
                 }
             }
 
-            selectEquipment(state, "Dresses", DRESS, equipmentMap, fashion.dresses, EquipmentType.Dress)
-            selectEquipment(state, "Footwear", FOOTWEAR, equipmentMap, fashion.footwear, EquipmentType.Footwear)
-            selectEquipment(state, "Hats", HAT, equipmentMap, fashion.hats, EquipmentType.Hat)
-            selectEquipment(state, "Pants", PANTS, equipmentMap, fashion.pants, EquipmentType.Pants)
-            selectEquipment(state, "Shirts", SHIRT, equipmentMap, fashion.shirts, EquipmentType.Shirt)
-            selectEquipment(state, "Skirts", SKIRT, equipmentMap, fashion.skirts, EquipmentType.Skirt)
+            selectEquipment(state, equipmentMap, fashion, EquipmentType.Dress)
+            selectEquipment(state, equipmentMap, fashion, EquipmentType.Footwear)
+            selectEquipment(state, equipmentMap, fashion, EquipmentType.Hat)
+            selectEquipment(state, equipmentMap, fashion, EquipmentType.Pants)
+            selectEquipment(state, equipmentMap, fashion, EquipmentType.Shirt)
+            selectEquipment(state, equipmentMap, fashion, EquipmentType.Skirt)
 
             p {
                 submitInput {
@@ -137,18 +136,18 @@ private fun HTML.showEquipmentEditor(
 
 private fun FORM.selectEquipment(
     state: State,
-    typeLabel: String,
-    param: String,
     equipmentMap: EquipmentMap,
-    oneOf: OneOf<ItemTemplateId>,
+    fashion: Fashion,
     type: EquipmentType,
 ) {
-    if (oneOf.isEmpty()) {
+    val options = fashion.getOptions(type)
+
+    if (options.isEmpty()) {
         return
     }
 
     selectOneOrNone(
-        typeLabel, param, oneOf, equipmentMap.contains(type), true
+        type.name, type.name, options, equipmentMap.contains(type), true
     ) { id ->
         val itemTemplate = state.itemTemplates.getOrThrow(id)
         label = itemTemplate.name
