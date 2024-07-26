@@ -25,7 +25,7 @@ fun parseEquipmentMap(
 private fun tryParse(parameters: Parameters, map: MutableMap<EquipmentType, ItemTemplateId>, type: EquipmentType) {
     val value = parameters[type.name]
 
-    if (value != null) {
+    if (!value.isNullOrBlank()) {
         map[type] = ItemTemplateId(value.toInt())
     }
 }

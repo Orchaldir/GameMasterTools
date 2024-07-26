@@ -152,7 +152,7 @@ private fun FORM.selectEquipment(
     ) { id ->
         val itemTemplate = state.itemTemplates.getOrThrow(id)
         label = itemTemplate.name
-        value = id.toString()
+        value = id.value.toString()
         selected = equipmentMap.contains(id)
     }
 }
