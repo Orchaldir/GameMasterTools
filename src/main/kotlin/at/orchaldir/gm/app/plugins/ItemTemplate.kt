@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getEquippedBy
+import at.orchaldir.gm.core.selector.getFashions
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -141,6 +142,7 @@ private fun HTML.showItemTemplateDetails(
     template: ItemTemplate,
 ) {
     val characters = state.getEquippedBy(template.id)
+    val fashions = state.getFashions(template.id)
     val backLink = call.application.href(ItemTemplates())
     val deleteLink = call.application.href(ItemTemplates.Delete(template.id))
     val editLink = call.application.href(ItemTemplates.Edit(template.id))
@@ -209,6 +211,9 @@ private fun HTML.showItemTemplateDetails(
         }
         showList("Equipped By", characters) { item ->
             link(call, state, item)
+        }
+        showList("Part of Fashion", fashions) { item ->
+            link(call, item)
         }
         p { a(editLink) { +"Edit" } }
         if (state.canDelete(template.id)) {
