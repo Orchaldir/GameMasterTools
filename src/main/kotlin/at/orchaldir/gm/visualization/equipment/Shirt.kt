@@ -8,7 +8,6 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.utils.renderer.RenderOptions
 import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.HIGHER_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.LOWER_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.createTorso
@@ -59,5 +58,5 @@ private fun visualizeTorso(
     val builder = createTorso(state, body, style.addTop())
     addNeckline(state, body, builder, style)
 
-    renderBuilder(state, builder, options, EQUIPMENT_LAYER)
+    renderBuilder(state, builder, options, LOWER_EQUIPMENT_LAYER)
 }
