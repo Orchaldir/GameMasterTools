@@ -1,14 +1,19 @@
 package at.orchaldir.gm.app.plugins.character
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.href
+import at.orchaldir.gm.app.html.selectOneOf
+import at.orchaldir.gm.app.html.simpleHtml
+import at.orchaldir.gm.app.html.svg
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.fashion.ClothingSet
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.item.Equipment
-import at.orchaldir.gm.core.selector.getEquipment
+import at.orchaldir.gm.core.model.item.EquipmentType
+import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.selector.getEquipment2
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
@@ -88,6 +93,7 @@ private fun HTML.showEquipmentEditor(
     character: Character,
     equipped: List<Equipment>,
 ) {
+    val equipmentMap = character.equipmentMap
     val culture = state.cultures.getOrThrow(character.culture)
     val fashion = state.fashion.getOrThrow(culture.getFashion(character))
     val backLink = href(call, character.id)
@@ -111,17 +117,13 @@ private fun HTML.showEquipmentEditor(
                     formMethod = InputFormMethod.post
                 }
             }
-            /*
-                        selectOneOf("Clothing Set", CLOTHING_SETS, fashion.clothingSets, true) { type ->
-                            label = type.name
-                            value = type.toString()
-                            selected = when (type) {
-                                ClothingSet.Dress -> TODO()
-                                ClothingSet.PantsAndShirt -> TODO()
-                                ClothingSet.ShirtAndSkirt -> TODO()
-                            }
-                        }
-             */
+
+            selectEquipment(state, "Dresses", DRESS, equipmentMap, fashion.dresses, EquipmentType.Dress)
+            selectEquipment(state, "Footwear", FOOTWEAR, equipmentMap, fashion.footwear, EquipmentType.Footwear)
+            selectEquipment(state, "Hats", HAT, equipmentMap, fashion.hats, EquipmentType.Hat)
+            selectEquipment(state, "Pants", PANTS, equipmentMap, fashion.pants, EquipmentType.Pants)
+            selectEquipment(state, "Shirts", SHIRT, equipmentMap, fashion.shirts, EquipmentType.Shirt)
+            selectEquipment(state, "Skirts", SKIRT, equipmentMap, fashion.skirts, EquipmentType.Skirt)
 
             p {
                 submitInput {
@@ -132,5 +134,21 @@ private fun HTML.showEquipmentEditor(
             }
         }
         p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun FORM.selectEquipment(
+    state: State,
+    typeLabel: String,
+    param: String,
+    equipmentMap: EquipmentMap,
+    oneOf: OneOf<ItemTemplateId>,
+    type: EquipmentType,
+) {
+    selectOneOf(typeLabel, param, oneOf, true) { id ->
+        val itemTemplate = state.itemTemplates.getOrThrow(id)
+        label = itemTemplate.name
+        value = type.toString()
+        selected = equipmentMap.contains(id)
     }
 }
