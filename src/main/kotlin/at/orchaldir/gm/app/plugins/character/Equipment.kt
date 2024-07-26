@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.plugins.character
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.item.Equipment
@@ -42,8 +43,8 @@ fun Application.configureEquipmentRouting() {
             val state = STORE.getState()
             val character = state.characters.getOrThrow(preview.id)
             val formParameters = call.receiveParameters()
-            val config = createGenerationConfig(state, character)
-            val equipment = parseEquipment(formParameters, config, character)
+            val generator = EquipmentGenerator.create(state, character)
+            val equipment = parseEquipment(formParameters, generator, character)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showEquipmentEditor(call, state, character, equipment)
@@ -55,8 +56,8 @@ fun Application.configureEquipmentRouting() {
             val state = STORE.getState()
             val character = state.characters.getOrThrow(update.id)
             val formParameters = call.receiveParameters()
-            val config = createGenerationConfig(state, character)
-            val equipment = parseEquipment(formParameters, config, character)
+            val generator = EquipmentGenerator.create(state, character)
+            val equipment = parseEquipment(formParameters, generator, character)
 
             //STORE.dispatch(UpdateAppearance(update.id, appearance))
 
@@ -69,8 +70,8 @@ fun Application.configureEquipmentRouting() {
 
             val state = STORE.getState()
             val character = state.characters.getOrThrow(update.id)
-            val config = createGenerationConfig(state, character)
-            val equipment = generateEquipment(config, character)
+            val generator = EquipmentGenerator.create(state, character)
+            val equipment = generateEquipment(generator, character)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showEquipmentEditor(call, state, character, equipment)

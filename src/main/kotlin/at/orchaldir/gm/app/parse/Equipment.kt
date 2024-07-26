@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.Equipment
 import io.ktor.http.*
 
 fun generateEquipment(
-    config: AppearanceGeneratorConfig,
+    config: EquipmentGenerator,
     character: Character,
 ): List<Equipment> {
     val type = config.generate(config.appearanceOptions.appearanceType)
@@ -17,6 +17,6 @@ fun generateEquipment(
 
 fun parseEquipment(
     parameters: Parameters,
-    config: AppearanceGeneratorConfig,
+    config: EquipmentGenerator,
     character: Character,
 ): List<Equipment> = emptyList()
