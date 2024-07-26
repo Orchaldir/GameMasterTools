@@ -256,6 +256,40 @@ fun <T> HtmlBlockTag.selectOneOf(
     }
 }
 
+fun <T> HtmlBlockTag.selectOneOrNone(
+    selectLabel: String,
+    selectId: String,
+    values: OneOf<T>,
+    isUnselected: Boolean,
+    update: Boolean = false,
+    content: OPTION.(T) -> Unit,
+) {
+    field(selectLabel) {
+        select {
+            id = selectId
+            name = selectId
+            if (update) {
+                onChange = ON_CHANGE_SCRIPT
+            }
+            option {
+                label = "None"
+                value = ""
+                selected = isUnselected
+            }
+            reverseAndSort(values.getValidValues())
+                .forEach { (rarity, values) ->
+                    optGroup(rarity.toString()) {
+                        values.forEach { value ->
+                            option {
+                                content(value)
+                            }
+                        }
+                    }
+                }
+        }
+    }
+}
+
 fun FORM.selectColor(
     labelText: String, selectId: String, rarityMap: OneOf<Color>, current: Color,
 ) {

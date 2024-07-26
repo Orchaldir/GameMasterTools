@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.plugins.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.href
-import at.orchaldir.gm.app.html.selectOneOf
+import at.orchaldir.gm.app.html.selectOneOrNone
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.html.svg
 import at.orchaldir.gm.app.parse.*
@@ -149,10 +149,12 @@ private fun FORM.selectEquipment(
         return
     }
 
-    selectOneOf(typeLabel, param, oneOf, true) { id ->
+    selectOneOrNone(
+        typeLabel, param, oneOf, equipmentMap.contains(type), true
+    ) { id ->
         val itemTemplate = state.itemTemplates.getOrThrow(id)
         label = itemTemplate.name
-        value = type.toString()
+        value = id.toString()
         selected = equipmentMap.contains(id)
     }
 }
