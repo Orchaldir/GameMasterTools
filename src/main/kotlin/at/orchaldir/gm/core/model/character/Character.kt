@@ -31,6 +31,7 @@ data class Character(
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val appearance: Appearance = UndefinedAppearance,
+    val equipmentMap: EquipmentMap = EquipmentMap(emptyMap()),
 ) : Element<CharacterId> {
 
     override fun id() = id

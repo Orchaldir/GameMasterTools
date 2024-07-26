@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.core.selector.getEquipment
+import at.orchaldir.gm.core.selector.getEquipment2
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.visualization.character.visualizeCharacter
@@ -32,7 +33,7 @@ fun Application.configureEquipmentRouting() {
 
             val state = STORE.getState()
             val character = state.characters.getOrThrow(edit.id)
-            val equipment = state.getEquipment(character.id)
+            val equipment = state.getEquipment2(character)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showEquipmentEditor(call, state, character, equipment)
