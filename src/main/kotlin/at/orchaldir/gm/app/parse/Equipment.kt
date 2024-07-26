@@ -7,18 +7,26 @@ import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import io.ktor.http.*
+import mu.KotlinLogging
+
+private val logger = KotlinLogging.logger {}
 
 fun generateEquipment(
     config: EquipmentGenerator,
     character: Character,
-): List<Equipment> = emptyList()
+): EquipmentMap = EquipmentMap(emptyMap())
 
 fun parseEquipmentMap(
     parameters: Parameters,
 ): EquipmentMap {
     val map = mutableMapOf<EquipmentType, ItemTemplateId>()
 
+    logger.info { "params: $parameters" }
+
     EquipmentType.entries.forEach { tryParse(parameters, map, it) }
+
+    logger.info { "map: $map" }
+
     return EquipmentMap(map)
 }
 

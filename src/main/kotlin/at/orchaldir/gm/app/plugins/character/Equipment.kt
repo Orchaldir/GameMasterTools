@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.selector.getEquipment2
@@ -38,10 +37,9 @@ fun Application.configureEquipmentRouting() {
 
             val state = STORE.getState()
             val character = state.characters.getOrThrow(edit.id)
-            val equipment = state.getEquipment2(character)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showEquipmentEditor(call, state, character, equipment)
+                showEquipmentEditor(call, state, character, character.equipmentMap)
             }
         }
         post<Characters.Equipment.Preview> { preview ->
@@ -50,10 +48,12 @@ fun Application.configureEquipmentRouting() {
             val state = STORE.getState()
             val character = state.characters.getOrThrow(preview.id)
             val formParameters = call.receiveParameters()
-            val equipment = state.getEquipment2(parseEquipmentMap(formParameters))
+            val equipmentMap = parseEquipmentMap(formParameters)
+
+            logger.info { "equipment: $equipmentMap" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showEquipmentEditor(call, state, character, equipment)
+                showEquipmentEditor(call, state, character, equipmentMap)
             }
         }
         post<Characters.Equipment.Update> { update ->
@@ -89,9 +89,9 @@ private fun HTML.showEquipmentEditor(
     call: ApplicationCall,
     state: State,
     character: Character,
-    equipped: List<Equipment>,
+    equipmentMap: EquipmentMap,
 ) {
-    val equipmentMap = character.equipmentMap
+    val equipped = state.getEquipment2(equipmentMap)
     val culture = state.cultures.getOrThrow(character.culture)
     val fashion = state.fashion.getOrThrow(culture.getFashion(character))
     val backLink = href(call, character.id)
