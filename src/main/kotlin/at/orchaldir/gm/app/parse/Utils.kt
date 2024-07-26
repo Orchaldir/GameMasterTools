@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.core.model.appearance.OneOf
+import at.orchaldir.gm.core.model.appearance.OneOrNone
 import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.SomeOf
 import io.ktor.http.*
@@ -24,6 +25,21 @@ fun <T> parseOneOf(
     }
 
     return OneOf(default)
+}
+
+fun <T> parseOneOrNone(
+    parameters: Parameters,
+    selectId: String,
+    converter: (String) -> T,
+    default: Collection<T> = listOf(),
+): OneOrNone<T> {
+    val map = parseRarityMap(parameters, selectId, converter)
+
+    if (map != null) {
+        return OneOrNone.init(map)
+    }
+
+    return OneOrNone(default)
 }
 
 fun <T> parseSomeOf(

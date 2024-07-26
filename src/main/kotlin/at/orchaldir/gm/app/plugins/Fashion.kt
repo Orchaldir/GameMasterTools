@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.OneOf
+import at.orchaldir.gm.core.model.appearance.OneOrNone
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.item.EquipmentType
@@ -204,7 +205,7 @@ private fun FORM.selectEquipmentType(
     state: State,
     label: String,
     param: String,
-    oneOf: OneOf<ItemTemplateId>,
+    oneOf: OneOrNone<ItemTemplateId>,
     type: EquipmentType,
 ) {
     val options = state.getItemTemplatesId(type)

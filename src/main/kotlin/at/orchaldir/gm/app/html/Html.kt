@@ -259,7 +259,7 @@ fun <T> HtmlBlockTag.selectOneOf(
 fun <T> HtmlBlockTag.selectOneOrNone(
     selectLabel: String,
     selectId: String,
-    values: OneOf<T>,
+    values: OneOrNone<T>,
     isUnselected: Boolean,
     update: Boolean = false,
     content: OPTION.(T) -> Unit,

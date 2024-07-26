@@ -18,11 +18,11 @@ fun parseFashion(id: FashionId, parameters: Parameters): Fashion {
         id,
         name,
         parseOneOf(parameters, CLOTHING_SETS, ClothingSet::valueOf),
-        parseOneOf(parameters, DRESS, ::parseItemTemplateId),
-        parseOneOf(parameters, FOOTWEAR, ::parseItemTemplateId),
-        parseOneOf(parameters, HAT, ::parseItemTemplateId),
-        parseOneOf(parameters, PANTS, ::parseItemTemplateId),
-        parseOneOf(parameters, SHIRT, ::parseItemTemplateId),
-        parseOneOf(parameters, SKIRT, ::parseItemTemplateId),
+        parseOneOrNone(parameters, DRESS, ::parseItemTemplateId),
+        parseOneOrNone(parameters, FOOTWEAR, ::parseItemTemplateId),
+        parseOneOrNone(parameters, HAT, ::parseItemTemplateId),
+        parseOneOrNone(parameters, PANTS, ::parseItemTemplateId),
+        parseOneOrNone(parameters, SHIRT, ::parseItemTemplateId),
+        parseOneOrNone(parameters, SKIRT, ::parseItemTemplateId),
     )
 }

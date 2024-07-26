@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.fashion
 
 import at.orchaldir.gm.core.model.appearance.OneOf
+import at.orchaldir.gm.core.model.appearance.OneOrNone
 import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.utils.Element
@@ -21,18 +22,18 @@ data class Fashion(
     val id: FashionId,
     val name: String = "Fashion ${id.value}",
     val clothingSets: OneOf<ClothingSet> = OneOf(ClothingSet.entries),
-    val dresses: OneOf<ItemTemplateId> = OneOf(),
-    val footwear: OneOf<ItemTemplateId> = OneOf(),
-    val hats: OneOf<ItemTemplateId> = OneOf(),
-    val pants: OneOf<ItemTemplateId> = OneOf(),
-    val shirts: OneOf<ItemTemplateId> = OneOf(),
-    val skirts: OneOf<ItemTemplateId> = OneOf(),
+    val dresses: OneOrNone<ItemTemplateId> = OneOrNone(),
+    val footwear: OneOrNone<ItemTemplateId> = OneOrNone(),
+    val hats: OneOrNone<ItemTemplateId> = OneOrNone(),
+    val pants: OneOrNone<ItemTemplateId> = OneOrNone(),
+    val shirts: OneOrNone<ItemTemplateId> = OneOrNone(),
+    val skirts: OneOrNone<ItemTemplateId> = OneOrNone(),
 ) : Element<FashionId> {
 
     override fun id() = id
 
     fun getOptions(type: EquipmentType) = when (type) {
-        EquipmentType.None -> OneOf()
+        EquipmentType.None -> OneOrNone()
         EquipmentType.Dress -> dresses
         EquipmentType.Footwear -> footwear
         EquipmentType.Hat -> hats
