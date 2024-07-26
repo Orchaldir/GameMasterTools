@@ -14,6 +14,8 @@ interface RarityMap<T> {
     fun getRarityFor(keys: Set<T>): Map<T, Rarity>
 
     fun isAvailable(value: T): Boolean
+
+    fun isEmpty(): Boolean = getValidValues().isEmpty()
 }
 
 /**

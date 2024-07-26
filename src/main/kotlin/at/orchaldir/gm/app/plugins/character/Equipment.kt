@@ -145,6 +145,10 @@ private fun FORM.selectEquipment(
     oneOf: OneOf<ItemTemplateId>,
     type: EquipmentType,
 ) {
+    if (oneOf.isEmpty()) {
+        return
+    }
+
     selectOneOf(typeLabel, param, oneOf, true) { id ->
         val itemTemplate = state.itemTemplates.getOrThrow(id)
         label = itemTemplate.name
