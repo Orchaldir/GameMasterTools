@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getEquippedItems
+import at.orchaldir.gm.core.selector.getEquippedBy
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -31,7 +31,7 @@ val UPDATE_ITEM_TEMPLATE: Reducer<UpdateItemTemplate, State> = { state, action -
 
     if (template.equipment.javaClass != oldTemplate.equipment.javaClass) {
         require(
-            state.getEquippedItems(template.id).isEmpty()
+            state.getEquippedBy(template.id).isEmpty()
         ) { "Cannot change item template ${template.id.value} while it is equipped" }
     }
 

@@ -7,7 +7,8 @@ import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 
-fun State.canDelete(itemTemplate: ItemTemplateId) = getItems(itemTemplate).isEmpty()
+fun State.canDelete(itemTemplate: ItemTemplateId) = characters.getAll()
+        .none { it.equipmentMap.contains(itemTemplate) }
 
 fun State.getItemTemplates(type: EquipmentType) = itemTemplates.getAll()
         .filter { it.equipment.isType(type) }
@@ -25,4 +26,7 @@ fun State.getEquipment2(equipmentMap: EquipmentMap) = equipmentMap
         .map
         .values
         .map { itemTemplates.getOrThrow(it).equipment }
+
+fun State.getEquippedBy(itemTemplate: ItemTemplateId) = characters.getAll()
+        .filter { it.equipmentMap.contains(itemTemplate) }
 

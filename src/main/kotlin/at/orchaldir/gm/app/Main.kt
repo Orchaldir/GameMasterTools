@@ -34,7 +34,6 @@ fun Application.module() {
     configureEquipmentRouting()
     configureFashionRouting()
     configureItemTemplateRouting()
-    configureItemRouting()
     configureLanguageRouting()
     configureMaterialRouting()
     configureNameListRouting()

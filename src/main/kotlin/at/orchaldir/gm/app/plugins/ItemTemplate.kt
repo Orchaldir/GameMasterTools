@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getItems
+import at.orchaldir.gm.core.selector.getEquippedBy
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -140,11 +140,10 @@ private fun HTML.showItemTemplateDetails(
     state: State,
     template: ItemTemplate,
 ) {
-    val items = state.getItems(template.id)
+    val characters = state.getEquippedBy(template.id)
     val backLink = call.application.href(ItemTemplates())
     val deleteLink = call.application.href(ItemTemplates.Delete(template.id))
     val editLink = call.application.href(ItemTemplates.Edit(template.id))
-    val createItemLink = call.application.href(Items.New(template.id))
 
     simpleHtml("Item Template: ${template.name}") {
         field("Id", template.id.value.toString())
@@ -208,28 +207,13 @@ private fun HTML.showItemTemplateDetails(
                 }
             }
         }
-        showList("Instances", items) { item ->
+        showList("Equipped By", characters) { item ->
             link(call, state, item)
-            when (item.location) {
-                is EquippedItem -> {
-                    +" equipped by "
-                    link(call, state, item.location.character)
-                }
-
-                is InInventory -> {
-                    +" in "
-                    link(call, state, item.location.character)
-                    +"'s Inventory"
-                }
-
-                UndefinedItemLocation -> doNothing()
-            }
         }
         p { a(editLink) { +"Edit" } }
         if (state.canDelete(template.id)) {
             p { a(deleteLink) { +"Delete" } }
         }
-        p { a(createItemLink) { +"Create Instance" } }
         p { a(backLink) { +"Back" } }
     }
 }

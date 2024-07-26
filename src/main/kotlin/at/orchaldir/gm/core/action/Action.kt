@@ -8,8 +8,6 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
-import at.orchaldir.gm.core.model.item.Item
-import at.orchaldir.gm.core.model.item.ItemId
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
@@ -72,11 +70,6 @@ data class UpdateLanguage(val language: Language) : Action()
 data object CreateItemTemplate : Action()
 data class DeleteItemTemplate(val id: ItemTemplateId) : Action()
 data class UpdateItemTemplate(val itemTemplate: ItemTemplate) : Action()
-
-// item actions
-data class CreateItem(val template: ItemTemplateId) : Action()
-data class DeleteItem(val id: ItemId) : Action()
-data class UpdateItem(val item: Item) : Action()
 
 // material
 data object CreateMaterial : Action()

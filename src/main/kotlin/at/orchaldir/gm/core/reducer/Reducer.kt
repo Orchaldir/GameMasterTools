@@ -29,10 +29,6 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateItemTemplate -> CREATE_ITEM_TEMPLATE(state, action)
         is DeleteItemTemplate -> DELETE_ITEM_TEMPLATE(state, action)
         is UpdateItemTemplate -> UPDATE_ITEM_TEMPLATE(state, action)
-        // item
-        is CreateItem -> CREATE_ITEM(state, action)
-        is DeleteItem -> DELETE_ITEM(state, action)
-        is UpdateItem -> UPDATE_ITEM(state, action)
         // language
         is CreateLanguage -> CREATE_LANGUAGE(state, action)
         is DeleteLanguage -> DELETE_LANGUAGE(state, action)
