@@ -50,8 +50,7 @@ fun Application.configureEquipmentRouting() {
             val state = STORE.getState()
             val character = state.characters.getOrThrow(preview.id)
             val formParameters = call.receiveParameters()
-            val generator = EquipmentGenerator.create(state, character)
-            val equipment = parseEquipment(formParameters, generator, character)
+            val equipment = state.getEquipment2(parseEquipmentMap(formParameters))
 
             call.respondHtml(HttpStatusCode.OK) {
                 showEquipmentEditor(call, state, character, equipment)
@@ -63,8 +62,7 @@ fun Application.configureEquipmentRouting() {
             val state = STORE.getState()
             val character = state.characters.getOrThrow(update.id)
             val formParameters = call.receiveParameters()
-            val generator = EquipmentGenerator.create(state, character)
-            val equipment = parseEquipment(formParameters, generator, character)
+            val equipment = parseEquipmentMap(formParameters)
 
             //STORE.dispatch(UpdateAppearance(update.id, appearance))
 
