@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.core.selector.getEquipment
 import at.orchaldir.gm.core.selector.getName
@@ -86,12 +87,13 @@ private fun HTML.showEquipmentEditor(
     character: Character,
     equipped: List<Equipment>,
 ) {
-    val appearance = character.appearance
+    val culture = state.cultures.getOrThrow(character.culture)
+    val fashion = state.fashion.getOrThrow(culture.getFashion(character))
     val backLink = href(call, character.id)
     val previewLink = call.application.href(Characters.Equipment.Preview(character.id))
     val updateLink = call.application.href(Characters.Equipment.Update(character.id))
     val generateLink = call.application.href(Characters.Equipment.Generate(character.id))
-    val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance, equipped)
+    val frontSvg = visualizeCharacter(RENDER_CONFIG, character.appearance, equipped)
     val backSvg = visualizeCharacter(RENDER_CONFIG, character.appearance, equipped, false)
 
     simpleHtml("Edit Equipment: ${state.getName(character)}") {
@@ -108,6 +110,17 @@ private fun HTML.showEquipmentEditor(
                     formMethod = InputFormMethod.post
                 }
             }
+            /*
+                        selectOneOf("Clothing Set", CLOTHING_SETS, fashion.clothingSets, true) { type ->
+                            label = type.name
+                            value = type.toString()
+                            selected = when (type) {
+                                ClothingSet.Dress -> TODO()
+                                ClothingSet.PantsAndShirt -> TODO()
+                                ClothingSet.ShirtAndSkirt -> TODO()
+                            }
+                        }
+             */
 
             p {
                 submitInput {
