@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer
 
-import at.orchaldir.gm.app.parse.DRESS
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
