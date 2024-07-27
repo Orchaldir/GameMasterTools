@@ -173,6 +173,23 @@
   },
   "18": {
    "id": 18
+  },
+  "19": {
+   "id": 19,
+   "name": "Blue Skirt",
+   "equipment": {
+    "type": "Skirt",
+    "color": "Blue",
+    "material": 3
+   }
+  },
+  "20": {
+   "id": 20,
+   "name": "Red Skirt",
+   "equipment": {
+    "type": "Skirt",
+    "material": 3
+   }
   }
  }
 }
