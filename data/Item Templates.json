@@ -196,7 +196,7 @@
   },
   "21": {
    "id": 21,
-   "name": "Blue Shirt",
+   "name": "Sky Blue Shirt",
    "equipment": {
     "type": "Shirt",
     "color": "SkyBlue",
@@ -221,6 +221,26 @@
     "type": "Footwear",
     "style": "Pumps",
     "color": "Pink"
+   }
+  },
+  "24": {
+   "id": 24,
+   "name": "Sky Blue Dress",
+   "equipment": {
+    "type": "Dress",
+    "necklineStyle": "Crew",
+    "sleeveStyle": "Short",
+    "color": "SkyBlue",
+    "material": 3
+   }
+  },
+  "25": {
+   "id": 25,
+   "name": "White Pumps",
+   "equipment": {
+    "type": "Footwear",
+    "style": "Pumps",
+    "color": "White"
    }
   }
  }

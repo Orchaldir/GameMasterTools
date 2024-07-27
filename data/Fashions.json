@@ -39,13 +39,15 @@
     "13": "Common",
     "14": "Common",
     "15": "Common",
-    "22": "Uncommon"
+    "22": "Uncommon",
+    "24": "Common"
    },
    "footwear": {
     "11": "Common",
     "12": "Common",
     "18": "Common",
-    "23": "Uncommon"
+    "23": "Uncommon",
+    "25": "Common"
    },
    "hats": {
     "16": "Common",
