@@ -6,10 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.item.Equipment
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.math.Orientation
-import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.renderer.BorderOnly
 import at.orchaldir.gm.utils.renderer.TextOptions
@@ -46,7 +43,7 @@ fun visualizeAppearance(
     state: RenderState,
     appearance: Appearance,
 ) {
-    val inner = state.aabb.shrink(state.config.padding)
+    val inner = AABB.fromCenter(state.aabb.getCenter(), appearance.getSize())
     val innerState = state.copy(aabb = inner)
 
     state.renderer.renderRectangle(state.aabb, BorderOnly(state.config.line))
