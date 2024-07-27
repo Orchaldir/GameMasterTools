@@ -169,33 +169,6 @@ fun <T> HtmlBlockTag.showRarityMap(
     }
 }
 
-inline fun <reified Key : Enum<Key>, Value> HtmlBlockTag.showValueMap(
-    label: String,
-    valueMap: ValueMap<Key, Value>,
-    crossinline content: DETAILS.(Key?, Value) -> Unit,
-) {
-    details {
-        summary { +label }
-        when (valueMap) {
-            is IndividualValues -> valueMap.values.forEach { (key, value) -> content(key, value) }
-            is SharedValue -> content(null, valueMap.value)
-        }
-    }
-}
-
-inline fun <reified Key : Enum<Key>, reified Value : Enum<Value>> HtmlBlockTag.showValueAndOneOf(
-    label: String,
-    valueMap: ValueMap<Key, OneOf<Value>>,
-) {
-    details {
-        summary { +label }
-        when (valueMap) {
-            is IndividualValues -> valueMap.values.forEach { (key, value) -> showRarityMap(key.name, value) }
-            is SharedValue -> showRarityMap("All", valueMap.value)
-        }
-    }
-}
-
 // form
 
 fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
