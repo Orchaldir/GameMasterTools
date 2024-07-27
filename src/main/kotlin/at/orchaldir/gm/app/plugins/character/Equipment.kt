@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.item.EquipmentSlot
 import at.orchaldir.gm.core.model.item.EquipmentType
-import at.orchaldir.gm.core.selector.getEquipment2
+import at.orchaldir.gm.core.selector.getEquipment
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.visualization.character.visualizeCharacter
@@ -90,7 +90,7 @@ private fun HTML.showEquipmentEditor(
     character: Character,
     equipmentMap: EquipmentMap,
 ) {
-    val equipped = state.getEquipment2(equipmentMap)
+    val equipped = state.getEquipment(equipmentMap)
     val occupiedSlots = equipmentMap.getOccupiedSlots()
     val culture = state.cultures.getOrThrow(character.culture)
     val fashion = state.fashion.getOrThrow(culture.getFashion(character))

@@ -138,7 +138,7 @@ private fun HTML.showCharacterDetails(
     state: State,
     character: Character,
 ) {
-    val equipment = state.getEquipment2(character)
+    val equipment = state.getEquipment(character)
     val backLink = call.application.href(Characters())
     val editAppearanceLink = call.application.href(Characters.Appearance.Edit(character.id))
     val frontSvg = visualizeCharacter(RENDER_CONFIG, character.appearance, equipment)

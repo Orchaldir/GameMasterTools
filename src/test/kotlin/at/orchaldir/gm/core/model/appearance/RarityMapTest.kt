@@ -40,6 +40,35 @@ class RarityMapTest {
     }
 
     @Nested
+    inner class OneOrNoneTest {
+
+        @Test
+        fun `An empty map is valid`() {
+            OneOrNone<Size>(setOf())
+        }
+
+        @Test
+        fun `Is fine with only unavailable`() {
+            OneOrNone(mapOf(Small to Unavailable))
+        }
+
+        @Nested
+        inner class IsValidTest {
+
+            @Test
+            fun `Other rarities are available`() {
+                Rarity.entries
+                    .filter { it != Unavailable }
+                    .forEach {
+                        val rarityMap = OneOrNone(mapOf(Small to it))
+
+                        assertTrue(rarityMap.isAvailable(Small))
+                    }
+            }
+        }
+    }
+
+    @Nested
     inner class SomeOfTest {
 
         @Test

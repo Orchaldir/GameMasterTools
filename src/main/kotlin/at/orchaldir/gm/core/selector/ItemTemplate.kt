@@ -17,12 +17,12 @@ fun State.getItemTemplatesId(type: EquipmentType) = getItemTemplates(type)
         .map { it.id() }
         .toSet()
 
-fun State.getEquipment2(character: CharacterId) =
-        getEquipment2(characters.getOrThrow(character))
+fun State.getEquipment(character: CharacterId) =
+        getEquipment(characters.getOrThrow(character))
 
-fun State.getEquipment2(character: Character) = getEquipment2(character.equipmentMap)
+fun State.getEquipment(character: Character) = getEquipment(character.equipmentMap)
 
-fun State.getEquipment2(equipmentMap: EquipmentMap) = equipmentMap
+fun State.getEquipment(equipmentMap: EquipmentMap) = equipmentMap
         .map
         .values
         .map { itemTemplates.getOrThrow(it).equipment }
