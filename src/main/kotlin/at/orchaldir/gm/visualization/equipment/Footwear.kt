@@ -47,23 +47,24 @@ private fun visualizeBootShaft(
     footwear: Footwear,
     options: RenderOptions,
 ) {
+    val shoeHeight = getShoeHeight(state, body)
     val height = when (footwear.style) {
         FootwearStyle.Boots -> state.config.equipment.footwear.heightAnkle
         FootwearStyle.KneeHighBoots -> state.config.equipment.footwear.heightKnee
         FootwearStyle.Pumps -> if (state.renderFront) {
             return
         } else {
-            getShowHeight(state, body)
+            shoeHeight
         }
 
-        FootwearStyle.Shoes -> getShowHeight(state, body)
+        FootwearStyle.Shoes -> shoeHeight
         else -> return
     }
 
     visualizeBootShaft(state, body, options, height)
 }
 
-private fun getShowHeight(
+private fun getShoeHeight(
     state: RenderState,
     body: Body,
 ) = state.config.body.getFootRadius(body) / state.config.body.getLegHeight()

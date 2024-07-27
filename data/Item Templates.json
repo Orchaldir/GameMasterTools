@@ -107,6 +107,7 @@
    "name": "Red Plumps",
    "equipment": {
     "type": "Footwear",
+     "style": "Pumps",
     "color": "Red",
     "sole": "Red"
    }
@@ -116,6 +117,7 @@
    "name": "Black Plumps",
    "equipment": {
     "type": "Footwear",
+     "style": "Pumps",
     "color": "Black",
     "sole": "Black"
    }

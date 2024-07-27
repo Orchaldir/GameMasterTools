@@ -8,6 +8,10 @@ enum class FootwearStyle {
     Shoes,
     Slippers;
 
+    fun hasHeel() = this == Pumps
+
+    fun hasShaft() = this != Pumps
+
     fun hasSole() = this != Pumps
 
     fun isFootVisible(fromFront: Boolean) = when (this) {
