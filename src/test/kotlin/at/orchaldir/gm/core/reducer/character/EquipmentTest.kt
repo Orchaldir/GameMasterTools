@@ -5,9 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.item.EquipmentType
-import at.orchaldir.gm.core.model.item.ItemTemplate
-import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Test
@@ -26,7 +24,7 @@ class EquipmentTest {
     fun `Update equipment`() {
         val state = State(
             characters = Storage(listOf(Character(ID0))),
-            itemTemplates = Storage(listOf(ItemTemplate(ITEM0))),
+            itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Hat()))),
         )
 
         val result = REDUCER.invoke(state, action).first
@@ -44,6 +42,16 @@ class EquipmentTest {
     @Test
     fun `Cannot use unknown item template`() {
         val state = State(characters = Storage(listOf(Character(ID0))))
+
+        assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+    }
+
+    @Test
+    fun `Cannot use item template of wrong type`() {
+        val state = State(
+            characters = Storage(listOf(Character(ID0))),
+            itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Dress()))),
+        )
 
         assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
     }

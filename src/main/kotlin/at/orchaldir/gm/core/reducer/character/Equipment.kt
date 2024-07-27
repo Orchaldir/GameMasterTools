@@ -6,7 +6,10 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val UPDATE_EQUIPMENT: Reducer<UpdateEquipment, State> = { state, action ->
-    action.map.map.values.forEach { state.itemTemplates.require(it) }
+    action.map.map.forEach {
+        val template = state.itemTemplates.getOrThrow(it.value)
+        require(it.key == template.equipment.getType())
+    }
 
     val character = state.characters.getOrThrow(action.id)
     val updated = character.copy(equipmentMap = action.map)
