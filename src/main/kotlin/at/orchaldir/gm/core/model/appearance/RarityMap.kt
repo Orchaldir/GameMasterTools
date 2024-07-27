@@ -26,6 +26,7 @@ interface RarityMap<T> {
 @JvmInline
 @Serializable
 value class OneOf<T>(private val map: Map<T, Rarity>) : RarityMap<T> {
+    constructor(value: T) : this(setOf(value))
     constructor(values: Collection<T>) : this(values.associateWith { Rarity.Common })
     constructor() : this(emptyMap())
 
@@ -57,6 +58,7 @@ value class OneOf<T>(private val map: Map<T, Rarity>) : RarityMap<T> {
 @JvmInline
 @Serializable
 value class OneOrNone<T>(private val map: Map<T, Rarity>) : RarityMap<T> {
+    constructor(value: T) : this(setOf(value))
     constructor(values: Collection<T>) : this(values.associateWith { Rarity.Common })
     constructor() : this(emptyMap())
 
@@ -82,6 +84,7 @@ value class OneOrNone<T>(private val map: Map<T, Rarity>) : RarityMap<T> {
 @JvmInline
 @Serializable
 value class SomeOf<T>(private val map: Map<T, Rarity>) : RarityMap<T> {
+    constructor(value: T) : this(setOf(value))
     constructor(values: Collection<T>) : this(values.associateWith { Rarity.Common })
 
     companion object {
