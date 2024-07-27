@@ -119,9 +119,9 @@
    "equipmentMap": {
     "map": {
      "Footwear": 11,
-      "Hat": 16,
-      "Shirt": 2,
-      "Skirt": 20
+     "Hat": 16,
+     "Shirt": 2,
+     "Skirt": 20
     }
    }
   }

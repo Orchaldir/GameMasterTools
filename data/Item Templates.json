@@ -169,7 +169,13 @@
    }
   },
   "18": {
-   "id": 18
+   "id": 18,
+   "name": "Blue Pumps",
+   "equipment": {
+    "type": "Footwear",
+    "style": "Pumps",
+    "color": "Blue"
+   }
   },
   "19": {
    "id": 19,
