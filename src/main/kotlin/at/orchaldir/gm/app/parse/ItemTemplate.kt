@@ -1,6 +1,6 @@
 package at.orchaldir.gm.app.parse
 
-import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.appearance.*
 import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.model.item.style.*
 import io.ktor.http.*
@@ -22,20 +22,20 @@ fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_T
 
     EquipmentType.Footwear -> Footwear(
         parse(parameters, FOOTWEAR, FootwearStyle.Shoes),
-        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
-        parse(parameters, SOLE_COLOR, Color.SaddleBrown),
+        parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
+        parse(parameters, EQUIPMENT_COLOR_1, Color.SaddleBrown),
         parseMaterialId(parameters, MATERIAL),
     )
 
     EquipmentType.Hat -> Hat(
         parse(parameters, HAT, HatStyle.TopHat),
-        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
+        parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
         parseMaterialId(parameters, MATERIAL),
     )
 
     EquipmentType.Pants -> Pants(
         parse(parameters, PANTS, PantsStyle.Regular),
-        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
+        parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
         parseMaterialId(parameters, MATERIAL),
     )
 
@@ -43,7 +43,7 @@ fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_T
 
     EquipmentType.Skirt -> Skirt(
         parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
-        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
+        parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
         parseMaterialId(parameters, MATERIAL),
     )
 }
@@ -55,7 +55,7 @@ private fun parseDress(parameters: Parameters): Dress {
         neckline,
         parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
         parseSleeveStyle(parameters, neckline),
-        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
+        parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
         parseMaterialId(parameters, MATERIAL),
     )
 }
@@ -66,9 +66,22 @@ private fun parseShirt(parameters: Parameters): Shirt {
     return Shirt(
         neckline,
         parseSleeveStyle(parameters, neckline),
-        parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
+        parseFill(parameters),
         parseMaterialId(parameters, MATERIAL),
     )
+}
+
+private fun parseFill(parameters: Parameters): Fill<Color> {
+    val type = parse(parameters, FILL_TYPE, FillType.Solid)
+
+    return when (type) {
+        FillType.Solid -> Solid(parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown))
+        FillType.VerticalStripes -> VerticalStripes(
+            parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
+            parse(parameters, EQUIPMENT_COLOR_1, Color.SaddleBrown),
+            Size.Medium,
+        )
+    }
 }
 
 private fun parseSleeveStyle(

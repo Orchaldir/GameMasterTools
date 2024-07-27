@@ -7,8 +7,7 @@ import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.appearance.OneOf
+import at.orchaldir.gm.core.model.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
@@ -203,7 +202,7 @@ private fun HTML.showItemTemplateDetails(
                 field("Equipment", "Shirt")
                 field("Neckline Style", template.equipment.necklineStyle.toString())
                 field("Sleeve Style", template.equipment.sleeveStyle.toString())
-                field("Color", template.equipment.color.toString())
+                showFill(template.equipment.fill)
                 field("Material") {
                     link(call, state, template.equipment.material)
                 }
@@ -230,6 +229,16 @@ private fun HTML.showItemTemplateDetails(
         }
         p { a(backLink) { +"Back" } }
     }
+}
+
+private fun BODY.showFill(fill: Fill<Color>) {
+    when (fill) {
+        is Solid -> field("Color", fill.color.toString())
+        is VerticalStripes -> {
+            field("Vertical Stripes", "${fill.color0} & ${fill.color1}")
+        }
+    }
+
 }
 
 private fun HTML.showItemTemplateEditor(
@@ -289,7 +298,7 @@ private fun HTML.showItemTemplateEditor(
                     }
                     selectColor(template.equipment.color)
                     if (template.equipment.style.hasSole()) {
-                        selectColor(template.equipment.sole, "Sole Color", SOLE_COLOR)
+                        selectColor(template.equipment.sole, "Sole Color", EQUIPMENT_COLOR_1)
                     }
                     selectMaterial(state, template.equipment.material)
                 }
@@ -326,7 +335,7 @@ private fun HTML.showItemTemplateEditor(
                         value = style.name
                         selected = template.equipment.sleeveStyle == style
                     }
-                    selectColor(template.equipment.color)
+                    selectFill(template.equipment.fill)
                     selectMaterial(state, template.equipment.material)
                 }
 
@@ -352,6 +361,24 @@ private fun HTML.showItemTemplateEditor(
     }
 }
 
+private fun FORM.selectFill(fill: Fill<Color>) {
+    selectEnum("Fill Type", FILL_TYPE, FillType.entries, true) { type ->
+        label = type.name
+        value = type.name
+        selected = when (fill) {
+            is Solid -> type == FillType.Solid
+            is VerticalStripes -> type == FillType.VerticalStripes
+        }
+    }
+    when (fill) {
+        is Solid -> selectColor(fill.color)
+        is VerticalStripes -> {
+            selectColor(fill.color0, "1.Stripe Color")
+            selectColor(fill.color1, "2.Stripe Color", EQUIPMENT_COLOR_1)
+        }
+    }
+}
+
 private fun FORM.selectMaterial(
     state: State,
     materialId: MaterialId,
@@ -363,7 +390,7 @@ private fun FORM.selectMaterial(
     }
 }
 
-private fun FORM.selectColor(color: Color, label: String = "Color", selectId: String = EQUIPMENT_COLOR) {
+private fun FORM.selectColor(color: Color, label: String = "Color", selectId: String = EQUIPMENT_COLOR_0) {
     selectColor(label, selectId, OneOf(Color.entries), color)
 }
 

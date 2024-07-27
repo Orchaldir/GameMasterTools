@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.item
 
 import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.appearance.Fill
+import at.orchaldir.gm.core.model.appearance.Solid
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import kotlinx.serialization.SerialName
@@ -88,7 +90,7 @@ data class Pants(
 data class Shirt(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val color: Color = Color.SaddleBrown,
+    val fill: Fill<Color> = Solid(Color.SaddleBrown),
     val material: MaterialId = MaterialId(0),
 ) : Equipment() {
 
