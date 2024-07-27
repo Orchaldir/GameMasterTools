@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.item
 
 import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.item.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import kotlinx.serialization.SerialName
@@ -24,7 +23,7 @@ sealed class Equipment {
 
     fun isType(equipmentType: EquipmentType) = getType() == equipmentType
 
-    open fun slots(): Set<EquipmentSlot> = emptySet()
+    fun slots() = getType().slots()
 }
 
 @Serializable
@@ -45,8 +44,6 @@ data class Dress(
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
-
-    override fun slots() = setOf(Bottom, Top)
 }
 
 @Serializable
@@ -60,8 +57,6 @@ data class Footwear(
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
-
-    override fun slots() = setOf(Foot)
 }
 
 @Serializable
@@ -74,8 +69,6 @@ data class Hat(
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
-
-    override fun slots() = setOf(Headwear)
 }
 
 @Serializable
@@ -88,8 +81,6 @@ data class Pants(
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
-
-    override fun slots() = setOf(Bottom)
 }
 
 @Serializable
@@ -103,8 +94,6 @@ data class Shirt(
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
-
-    override fun slots() = setOf(Top)
 }
 
 @Serializable
@@ -117,7 +106,5 @@ data class Skirt(
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
-
-    override fun slots() = setOf(Bottom)
 }
 

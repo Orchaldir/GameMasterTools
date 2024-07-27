@@ -9,4 +9,8 @@ data class EquipmentMap(val map: Map<EquipmentType, ItemTemplateId>) {
 
     fun contains(itemTemplate: ItemTemplateId) = map.containsValue(itemTemplate)
     fun contains(type: EquipmentType) = map.containsKey(type)
+
+    fun getOccupiedSlots() = map.keys
+        .flatMap { it.slots() }
+        .toSet()
 }

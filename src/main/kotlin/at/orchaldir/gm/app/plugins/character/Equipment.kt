@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.fashion.Fashion
+import at.orchaldir.gm.core.model.item.EquipmentSlot
 import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.selector.getEquipment2
 import at.orchaldir.gm.core.selector.getName
@@ -90,6 +91,7 @@ private fun HTML.showEquipmentEditor(
     equipmentMap: EquipmentMap,
 ) {
     val equipped = state.getEquipment2(equipmentMap)
+    val occupiedSlots = equipmentMap.getOccupiedSlots()
     val culture = state.cultures.getOrThrow(character.culture)
     val fashion = state.fashion.getOrThrow(culture.getFashion(character))
     val backLink = href(call, character.id)
@@ -114,7 +116,7 @@ private fun HTML.showEquipmentEditor(
                 }
             }
 
-            EquipmentType.entries.forEach { selectEquipment(state, equipmentMap, fashion, it) }
+            EquipmentType.entries.forEach { selectEquipment(state, equipmentMap, occupiedSlots, fashion, it) }
 
             p {
                 submitInput {
@@ -131,6 +133,7 @@ private fun HTML.showEquipmentEditor(
 private fun FORM.selectEquipment(
     state: State,
     equipmentMap: EquipmentMap,
+    occupiedSlots: Set<EquipmentSlot>,
     fashion: Fashion,
     type: EquipmentType,
 ) {
@@ -140,12 +143,16 @@ private fun FORM.selectEquipment(
         return
     }
 
+    val isTypeEquipped = equipmentMap.contains(type)
+    val canSelect = isTypeEquipped || type.slots().none { occupiedSlots.contains(it) }
+
     selectOneOrNone(
-        type.name, type.name, options, equipmentMap.contains(type), true
+        type.name, type.name, options, !isTypeEquipped, true
     ) { id ->
         val itemTemplate = state.itemTemplates.getOrThrow(id)
         label = itemTemplate.name
         value = id.value.toString()
         selected = equipmentMap.contains(id)
+        disabled = !canSelect
     }
 }
