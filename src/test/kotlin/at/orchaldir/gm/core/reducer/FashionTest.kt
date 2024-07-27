@@ -54,19 +54,19 @@ class FashionTest {
     inner class UpdateTest {
 
         @Test
-        fun `Cannot update unknown id`() {
-            val action = UpdateFashion(Fashion(ID0))
-
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
-        }
-
-        @Test
-        fun `Fashion exists`() {
+        fun `Successfully update a fashion`() {
             val state = State(fashion = Storage(listOf(Fashion(ID0))))
             val fashion = Fashion(ID0, "Test")
             val action = UpdateFashion(fashion)
 
             assertEquals(fashion, REDUCER.invoke(state, action).first.fashion.get(ID0))
+        }
+
+        @Test
+        fun `Cannot update unknown fashion`() {
+            val action = UpdateFashion(Fashion(ID0))
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
     }
 

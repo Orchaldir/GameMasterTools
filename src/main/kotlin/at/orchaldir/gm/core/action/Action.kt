@@ -59,7 +59,7 @@ data class UpdateCulture(val culture: Culture) : Action()
 // name list
 data object CreateFashion : Action()
 data class DeleteFashion(val id: FashionId) : Action()
-data class UpdateFashion(val nameList: Fashion) : Action()
+data class UpdateFashion(val fashion: Fashion) : Action()
 
 // language actions
 data object CreateLanguage : Action()

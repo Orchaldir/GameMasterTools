@@ -23,7 +23,7 @@ val DELETE_FASHION: Reducer<DeleteFashion, State> = { state, action ->
 }
 
 val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
-    val fashion = action.nameList
+    val fashion = action.fashion
 
     state.fashion.require(fashion.id)
 
