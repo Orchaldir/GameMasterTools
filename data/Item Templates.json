@@ -248,6 +248,20 @@
     "style": "Pumps",
     "color": "White"
    }
+  },
+  "26": {
+   "id": 26,
+   "name": "White and Blue Striped Shirt",
+   "equipment": {
+    "type": "Shirt",
+    "fill": {
+     "type": "VerticalStripes",
+     "color0": "SkyBlue",
+     "color1": "White",
+     "width": "Medium"
+    },
+    "material": 3
+   }
   }
  }
 }
