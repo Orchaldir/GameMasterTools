@@ -22,6 +22,6 @@ fun getAvailableBodyShapes(gender: Gender) = if (gender == Gender.Male) {
 @Serializable
 data class Body(
     val bodyShape: BodyShape = BodyShape.Rectangle,
-    val width: Size,
+    val width: Size = Size.Medium,
     val skin: Skin = NormalSkin(),
 )

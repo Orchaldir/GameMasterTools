@@ -9,13 +9,19 @@ import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.OneOf
+import at.orchaldir.gm.core.model.character.appearance.Body
+import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getEquippedBy
 import at.orchaldir.gm.core.selector.getFashions
+import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -148,6 +154,7 @@ private fun HTML.showItemTemplateDetails(
     val editLink = call.application.href(ItemTemplates.Edit(template.id))
 
     simpleHtml("Item Template: ${template.name}") {
+        visualizeItem(template)
         field("Id", template.id.value.toString())
         when (template.equipment) {
             NoEquipment -> doubleArrayOf()
@@ -233,6 +240,7 @@ private fun HTML.showItemTemplateEditor(
     val updateLink = call.application.href(ItemTemplates.Update(template.id))
 
     simpleHtml("Edit Item Template: ${template.name}") {
+        visualizeItem(template)
         field("Id", template.id.value.toString())
         form {
             id = "editor"
@@ -353,4 +361,15 @@ private fun FORM.selectMaterial(
 
 private fun FORM.selectColor(color: Color, label: String = "Color", selectId: String = EQUIPMENT_COLOR) {
     selectColor(label, selectId, OneOf(Color.entries), color)
+}
+
+private fun BODY.visualizeItem(template: ItemTemplate) {
+    if (template.equipment.getType() != EquipmentType.None) {
+        val equipped = listOf(template.equipment)
+        val appearance = HumanoidBody(Body(), Head(), Distance(1.0f))
+        val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance, equipped)
+        val backSvg = visualizeCharacter(RENDER_CONFIG, appearance, equipped, false)
+        svg(frontSvg, 20)
+        svg(backSvg, 20)
+    }
 }
