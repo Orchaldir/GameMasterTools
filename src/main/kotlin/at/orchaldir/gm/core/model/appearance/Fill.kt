@@ -1,18 +1,17 @@
 package at.orchaldir.gm.core.model.appearance
 
-import at.orchaldir.gm.utils.math.Distance
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class Fill
+sealed class Fill<C>
 
-data class Solid(
-    val color: Color,
-) : Fill()
+data class Solid<C>(
+    val color: C,
+) : Fill<C>()
 
-data class VerticalStripes(
-    val color0: Color,
-    val color1: Color,
+data class VerticalStripes<C>(
+    val color0: C,
+    val color1: C,
     val width0: Size,
     val width1: Size,
-) : Fill()
+) : Fill<C>()

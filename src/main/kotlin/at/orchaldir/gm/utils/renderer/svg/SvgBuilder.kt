@@ -1,5 +1,8 @@
 package at.orchaldir.gm.utils.renderer.svg
 
+import at.orchaldir.gm.core.model.appearance.Fill
+import at.orchaldir.gm.core.model.appearance.Solid
+import at.orchaldir.gm.core.model.appearance.VerticalStripes
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.*
 import java.util.*
@@ -7,6 +10,7 @@ import java.util.*
 val LOCALE: Locale = Locale.US
 
 class SvgBuilder(private val size: Size2d) : Renderer {
+    private val patterns: MutableMap<Fill<RenderColor>, String> = mutableMapOf()
     private val layers: MutableMap<Int, MutableList<String>> = mutableMapOf()
 
     fun finish(): Svg {
@@ -163,6 +167,11 @@ fun toSvg(line: LineOptions): String {
     return String.format(
         LOCALE, "stroke:%s;stroke-width:%.3f", toSvg(line.color), line.width.value
     )
+}
+
+fun toSvg(fill: Fill<RenderColor>) = when (fill) {
+    is Solid -> toSvg(fill.color)
+    is VerticalStripes -> "pink"
 }
 
 fun toSvg(color: RenderColor) = color.toCode()
