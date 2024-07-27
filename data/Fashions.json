@@ -26,6 +26,26 @@
    "shirts": {
     "2": "Common"
    }
+  },
+   "1": {
+     "id": 1,
+     "name": "Arkham - Female",
+     "clothingSets": {
+       "Dress": "Common"
+     },
+     "dresses": {
+       "13": "Common",
+       "14": "Common",
+       "15": "Common"
+     },
+     "footwear": {
+       "11": "Common",
+       "12": "Common"
+     },
+     "hats": {
+       "16": "Common",
+       "17": "Common"
+     }
   }
  }
 }

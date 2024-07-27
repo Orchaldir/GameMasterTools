@@ -173,7 +173,9 @@ private fun HTML.showItemTemplateDetails(
                 field("Equipment", "Footwear")
                 field("Style", template.equipment.style.toString())
                 field("Color", template.equipment.color.toString())
-                field("Sole Color", template.equipment.sole.toString())
+                if (template.equipment.style.hasSole()) {
+                    field("Sole Color", template.equipment.sole.toString())
+                }
                 field("Material") {
                     link(call, state, template.equipment.material)
                 }
@@ -286,7 +288,9 @@ private fun HTML.showItemTemplateEditor(
                         selected = template.equipment.style == style
                     }
                     selectColor(template.equipment.color)
-                    selectColor(template.equipment.sole, "Sole Color", SOLE_COLOR)
+                    if (template.equipment.style.hasSole()) {
+                        selectColor(template.equipment.sole, "Sole Color", SOLE_COLOR)
+                    }
                     selectMaterial(state, template.equipment.material)
                 }
 
