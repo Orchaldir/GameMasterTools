@@ -65,6 +65,64 @@
      "Shirt": 2
     }
    }
+  },
+  "1": {
+   "id": 1,
+   "name": {
+    "type": "Family",
+    "given": "Nellie",
+    "middle": null,
+    "family": "Dangerfield"
+   },
+   "gender": "Female",
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "bodyShape": "Hourglass",
+     "skin": {
+      "type": "Normal",
+      "color": "Fair"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "eyeShape": "Almond",
+       "pupilColor": "Olive"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "MiddlePart"
+      },
+      "color": "Black"
+     },
+     "mouth": {
+      "type": "Female",
+      "width": "Large",
+      "teethColor": "Brown"
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Fair"
+     }
+    },
+    "height": {
+     "value": 1.8
+    }
+   },
+   "equipmentMap": {
+    "map": {
+     "Dress": 15,
+     "Footwear": 11,
+     "Hat": 16
+    }
+   }
   }
  }
 }

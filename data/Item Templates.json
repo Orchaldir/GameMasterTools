@@ -107,7 +107,7 @@
    "name": "Red Plumps",
    "equipment": {
     "type": "Footwear",
-     "style": "Pumps",
+    "style": "Pumps",
     "color": "Red",
     "sole": "Red"
    }
@@ -117,62 +117,62 @@
    "name": "Black Plumps",
    "equipment": {
     "type": "Footwear",
-     "style": "Pumps",
-     "color": "Black"
+    "style": "Pumps",
+    "color": "Black"
    }
   },
-   "13": {
-     "id": 13,
-     "name": "White Dress",
-     "equipment": {
-       "type": "Dress",
-       "necklineStyle": "Crew",
-       "sleeveStyle": "None",
-       "color": "White",
-       "material": 2
+  "13": {
+   "id": 13,
+   "name": "White Dress",
+   "equipment": {
+    "type": "Dress",
+    "necklineStyle": "Crew",
+    "sleeveStyle": "None",
+    "color": "White",
+    "material": 2
    }
-   },
-   "14": {
-     "id": 14,
-     "name": "Blue Dress",
-     "equipment": {
-       "type": "Dress",
-       "sleeveStyle": "None",
-       "color": "Blue",
-       "material": 2
-     }
-   },
-   "15": {
-     "id": 15,
-     "name": "Red Dress",
-     "equipment": {
-       "type": "Dress",
-       "sleeveStyle": "None",
-       "material": 2
-     }
-   },
-   "16": {
-     "id": 16,
-     "name": "Red Pillbox",
-     "equipment": {
-       "type": "Hat",
-       "style": "Pillbox",
-       "color": "Red",
-       "material": 3
-     }
-   },
-   "17": {
-     "id": 17,
-     "name": "Blue Pillbox",
-     "equipment": {
-       "type": "Hat",
-       "style": "Pillbox",
-       "color": "Blue",
-       "material": 3
-     }
-   },
-   "18": {
-     "id": 18
+  },
+  "14": {
+   "id": 14,
+   "name": "Blue Dress",
+   "equipment": {
+    "type": "Dress",
+    "sleeveStyle": "None",
+    "color": "Blue",
+    "material": 2
+   }
+  },
+  "15": {
+   "id": 15,
+   "name": "Red Dress",
+   "equipment": {
+    "type": "Dress",
+    "sleeveStyle": "None",
+    "material": 2
+   }
+  },
+  "16": {
+   "id": 16,
+   "name": "Red Pillbox",
+   "equipment": {
+    "type": "Hat",
+    "style": "Pillbox",
+    "color": "Red",
+    "material": 3
+   }
+  },
+  "17": {
+   "id": 17,
+   "name": "Blue Pillbox",
+   "equipment": {
+    "type": "Hat",
+    "style": "Pillbox",
+    "color": "Blue",
+    "material": 3
+   }
+  },
+  "18": {
+   "id": 18
   }
  }
 }
