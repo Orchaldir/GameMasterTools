@@ -32,6 +32,10 @@ data class Fashion(
 
     override fun id() = id
 
+    fun getAllItemTemplates() = EquipmentType.entries
+        .flatMap { getOptions(it).getValidValues().keys }
+        .toSet()
+
     fun getOptions(type: EquipmentType) = when (type) {
         EquipmentType.None -> OneOrNone()
         EquipmentType.Dress -> dresses

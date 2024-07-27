@@ -26,6 +26,7 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
     val fashion = action.fashion
 
     state.fashion.require(fashion.id)
+    fashion.getAllItemTemplates().forEach { state.itemTemplates.require(it) }
 
     noFollowUps(state.copy(fashion = state.fashion.update(fashion)))
 }
