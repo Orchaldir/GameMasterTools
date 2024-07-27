@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.parse
 import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
+import at.orchaldir.gm.core.model.item.EquipmentType
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -18,11 +19,14 @@ fun parseFashion(id: FashionId, parameters: Parameters): Fashion {
         id,
         name,
         parseOneOf(parameters, CLOTHING_SETS, ClothingSet::valueOf),
-        parseOneOrNone(parameters, DRESS, ::parseItemTemplateId),
-        parseOneOrNone(parameters, FOOTWEAR, ::parseItemTemplateId),
-        parseOneOrNone(parameters, HAT, ::parseItemTemplateId),
-        parseOneOrNone(parameters, PANTS, ::parseItemTemplateId),
-        parseOneOrNone(parameters, SHIRT, ::parseItemTemplateId),
-        parseOneOrNone(parameters, SKIRT, ::parseItemTemplateId),
+        parseItemTemplates(parameters, EquipmentType.Dress),
+        parseItemTemplates(parameters, EquipmentType.Footwear),
+        parseItemTemplates(parameters, EquipmentType.Hat),
+        parseItemTemplates(parameters, EquipmentType.Pants),
+        parseItemTemplates(parameters, EquipmentType.Shirt),
+        parseItemTemplates(parameters, EquipmentType.Skirt),
     )
 }
+
+private fun parseItemTemplates(parameters: Parameters, type: EquipmentType) =
+    parseOneOrNone(parameters, type.name, ::parseItemTemplateId)
