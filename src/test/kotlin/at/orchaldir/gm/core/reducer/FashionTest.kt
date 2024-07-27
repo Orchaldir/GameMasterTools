@@ -107,6 +107,42 @@ class FashionTest {
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
+
+        @Test
+        fun `Clothing set PantsAndShirt requires at least 1 shirt`() {
+            val state = State(
+                fashion = Storage(listOf(Fashion(ID0))),
+                itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Pants()))),
+            )
+            val fashion = Fashion(ID0, clothingSets = OneOf(ClothingSet.PantsAndShirt), pants = OneOrNone(ITEM0))
+            val action = UpdateFashion(fashion)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Clothing set ShirtAndSkirt requires at least 1 shirt`() {
+            val state = State(
+                fashion = Storage(listOf(Fashion(ID0))),
+                itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Skirt()))),
+            )
+            val fashion = Fashion(ID0, clothingSets = OneOf(ClothingSet.ShirtAndSkirt), skirts = OneOrNone(ITEM0))
+            val action = UpdateFashion(fashion)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Clothing set ShirtAndSkirt requires at least 1 skirt`() {
+            val state = State(
+                fashion = Storage(listOf(Fashion(ID0))),
+                itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Shirt()))),
+            )
+            val fashion = Fashion(ID0, clothingSets = OneOf(ClothingSet.ShirtAndSkirt), shirts = OneOrNone(ITEM0))
+            val action = UpdateFashion(fashion)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
     }
 
 }
