@@ -148,12 +148,14 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         when (fill) {
             is Solid -> error("Solid is not a pattern!")
             is VerticalStripes -> {
-                val size = 2
-                val half = size / 2
-                lines.add("    <pattern id=\"$name\" width=\"$size%\" height=\"$size%\" patternUnits=\"userSpaceOnUse\" patternContentUnits=\"userSpaceOnUse\">")
-                lines.add("      <rect x=\"0%\" y=\"0%\" width=\"$half%\" height=\"$size%\" fill=\"${toSvg(fill.color0)}\">")
-                lines.add("      <rect x=\"$half%\" y=\"0%\" width=\"$half%\" height=\"$size%\" fill=\"${toSvg(fill.color1)}\">")
-                lines.add("    </pattern>")
+                val color0 = toSvg(fill.color0)
+                val color1 = toSvg(fill.color1)
+                lines.add("    <linearGradient id=\"$name\" spreadMethod=\"repeat\" x2=\"2%\" gradientUnits=\"userSpaceOnUse\">")
+                lines.add("      <stop offset=\"0\" stop-color=\"$color0\"/>>")
+                lines.add("      <stop offset=\"0.5\" stop-color=\"$color0\"/>>")
+                lines.add("      <stop offset=\"0.5\" stop-color=\"$color1\"/>>")
+                lines.add("      <stop offset=\"1.0\" stop-color=\"$color1\"/>>")
+                lines.add("    </linearGradient>")
             }
         }
     }
