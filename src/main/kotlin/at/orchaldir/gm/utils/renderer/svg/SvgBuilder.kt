@@ -148,30 +148,30 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         )
     }
 
-}
+    private fun toSvg(options: RenderOptions): String {
+        return when (options) {
+            is FillAndBorder -> String.format(
+                "fill:%s;%s",
+                toSvg(options.fill),
+                toSvg(options.border)
+            )
 
-fun toSvg(options: RenderOptions): String {
-    return when (options) {
-        is FillAndBorder -> String.format(
-            "fill:%s;%s",
-            toSvg(options.fill),
-            toSvg(options.border)
-        )
-
-        is BorderOnly -> String.format("fill:none;%s", toSvg(options.border))
-        is NoBorder -> String.format("fill:%s", toSvg(options.fill))
+            is BorderOnly -> String.format("fill:none;%s", toSvg(options.border))
+            is NoBorder -> String.format("fill:%s", toSvg(options.fill))
+        }
     }
-}
 
-fun toSvg(line: LineOptions): String {
-    return String.format(
-        LOCALE, "stroke:%s;stroke-width:%.3f", toSvg(line.color), line.width.value
-    )
-}
+    private fun toSvg(line: LineOptions): String {
+        return String.format(
+            LOCALE, "stroke:%s;stroke-width:%.3f", toSvg(line.color), line.width.value
+        )
+    }
 
-fun toSvg(fill: Fill<RenderColor>) = when (fill) {
-    is Solid -> toSvg(fill.color)
-    is VerticalStripes -> "pink"
-}
+    private fun toSvg(fill: Fill<RenderColor>) = when (fill) {
+        is Solid -> toSvg(fill.color)
+        is VerticalStripes -> "pink"
+    }
 
-fun toSvg(color: RenderColor) = color.toCode()
+    private fun toSvg(color: RenderColor) = color.toCode()
+
+}
