@@ -37,7 +37,6 @@ fun visualizeHat(
         HatStyle.Fez -> visualizeFez(state, hat)
         HatStyle.Pillbox -> visualizePillbox(state, hat)
         HatStyle.TopHat -> visualizeTopHat(state, hat)
-        HatStyle.Turban -> visualizeTurban(state, hat)
     }
 }
 
@@ -145,30 +144,6 @@ private fun visualizeTopHat(
     )
     renderBrim(state, options, state.config.equipment.hat.widthBrimWide)
 }
-
-private fun visualizeTurban(
-    state: RenderState,
-    hat: Hat,
-) {
-    val config = state.config
-    val options = FillAndBorder(hat.color.toRender(), config.line)
-    val y = if (state.renderFront) {
-        state.config.head.eyeY
-    } else {
-        state.config.head.mouthY
-    }
-    val height = config.equipment.hat.heightVeryHigh + y - state.config.head.eyeY
-    val turban = buildCrown(state, height, Factor(0.2f), y)
-    turban.createSharpCorners(0)
-
-    if (state.renderFront) {
-        turban.reverse()
-        turban.addMirroredPoints(state.aabb, HALF, config.head.hatY * 0.5f)
-    }
-
-    renderRoundedBuilder(state, turban, options, EQUIPMENT_LAYER)
-}
-
 
 private fun buildCrown(
     state: RenderState,

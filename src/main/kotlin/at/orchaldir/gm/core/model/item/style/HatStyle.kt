@@ -9,5 +9,4 @@ enum class HatStyle {
     Fez,
     Pillbox,
     TopHat,
-    Turban,
 }
