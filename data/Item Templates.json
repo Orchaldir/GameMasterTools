@@ -23,7 +23,10 @@
    "name": "White Shirt",
    "equipment": {
     "type": "Shirt",
-    "color": "White",
+    "fill": {
+     "type": "Solid",
+     "color": "White"
+    },
     "material": 3
    }
   },
@@ -199,7 +202,10 @@
    "name": "Sky Blue Shirt",
    "equipment": {
     "type": "Shirt",
-    "color": "SkyBlue",
+    "fill": {
+     "type": "Solid",
+     "color": "SkyBlue"
+    },
     "material": 3
    }
   },
