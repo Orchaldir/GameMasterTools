@@ -14,6 +14,7 @@ import kotlin.test.assertFailsWith
 
 private val ID0 = CharacterId(0)
 private val ITEM0 = ItemTemplateId(0)
+private val ITEM1 = ItemTemplateId(1)
 
 class EquipmentTest {
 
@@ -52,6 +53,23 @@ class EquipmentTest {
             characters = Storage(listOf(Character(ID0))),
             itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Dress()))),
         )
+
+        assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+    }
+
+    @Test
+    fun `Cannot occupy equipment slot twice`() {
+        val state = State(
+            characters = Storage(listOf(Character(ID0))),
+            itemTemplates = Storage(
+                listOf(
+                    ItemTemplate(ITEM0, equipment = Dress()),
+                    ItemTemplate(ITEM1, equipment = Shirt())
+                )
+            ),
+        )
+        val equipmentMap = EquipmentMap(mapOf(EquipmentType.Dress to ITEM0, EquipmentType.Shirt to ITEM1))
+        val action = UpdateEquipment(ID0, equipmentMap)
 
         assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
     }
