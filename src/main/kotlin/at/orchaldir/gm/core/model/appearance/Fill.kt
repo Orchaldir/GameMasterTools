@@ -12,6 +12,5 @@ data class Solid<C>(
 data class VerticalStripes<C>(
     val color0: C,
     val color1: C,
-    val width0: Size,
-    val width1: Size,
+    val width: Size,
 ) : Fill<C>()
