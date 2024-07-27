@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.item.EquipmentType
+import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -23,7 +24,10 @@ class EquipmentTest {
 
     @Test
     fun `Update equipment`() {
-        val state = State(characters = Storage(listOf(Character(ID0))))
+        val state = State(
+            characters = Storage(listOf(Character(ID0))),
+            itemTemplates = Storage(listOf(ItemTemplate(ITEM0))),
+        )
 
         val result = REDUCER.invoke(state, action).first
 
@@ -33,6 +37,13 @@ class EquipmentTest {
     @Test
     fun `Cannot update unknown character`() {
         val state = State()
+
+        assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+    }
+
+    @Test
+    fun `Cannot use unknown item template`() {
+        val state = State(characters = Storage(listOf(Character(ID0))))
 
         assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
     }
