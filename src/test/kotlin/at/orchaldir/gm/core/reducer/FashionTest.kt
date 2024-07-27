@@ -1,14 +1,19 @@
 package at.orchaldir.gm.core.reducer
 
+import at.orchaldir.gm.app.parse.DRESS
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.GenderMap
+import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.appearance.OneOrNone
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
+import at.orchaldir.gm.core.model.item.Dress
+import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.utils.Storage
@@ -61,7 +66,7 @@ class FashionTest {
         fun `Successfully update a fashion`() {
             val state = State(
                 fashion = Storage(listOf(Fashion(ID0))),
-                itemTemplates = Storage(listOf(ItemTemplate(ITEM0))),
+                itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Dress()))),
             )
             val fashion = Fashion(ID0, dresses = OneOrNone(setOf(ITEM0)))
             val action = UpdateFashion(fashion)
@@ -80,6 +85,15 @@ class FashionTest {
         fun `Cannot use unknown item templates`() {
             val state = State(fashion = Storage(listOf(Fashion(ID0))))
             val fashion = Fashion(ID0, dresses = OneOrNone(setOf(ITEM0)))
+            val action = UpdateFashion(fashion)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Clothing set Dress requires at least 1 dress`() {
+            val state = State(fashion = Storage(listOf(Fashion(ID0))))
+            val fashion = Fashion(ID0, clothingSets = OneOf(setOf(ClothingSet.Dress)))
             val action = UpdateFashion(fashion)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }

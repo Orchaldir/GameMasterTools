@@ -16,6 +16,8 @@ interface RarityMap<T> {
     fun isAvailable(value: T): Boolean
 
     fun isEmpty(): Boolean = getValidValues().isEmpty()
+
+    fun isNotEmpty(): Boolean = !isEmpty()
 }
 
 /**

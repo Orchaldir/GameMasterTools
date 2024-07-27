@@ -4,6 +4,8 @@ import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.fashion.ClothingSet
+import at.orchaldir.gm.core.model.fashion.ClothingSet.*
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
@@ -27,6 +29,20 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
 
     state.fashion.require(fashion.id)
     fashion.getAllItemTemplates().forEach { state.itemTemplates.require(it) }
+
+    if (fashion.clothingSets.isAvailable(Dress)) {
+        require(fashion.dresses.isNotEmpty()) { "Clothing set Dress requires at least one dress!" }
+    }
+
+    if (fashion.clothingSets.isAvailable(PantsAndShirt)) {
+        require(fashion.pants.isNotEmpty()) { "Clothing set PantsAndShirt requires at least one pants!" }
+        require(fashion.shirts.isNotEmpty()) { "Clothing set PantsAndShirt requires at least one shirt!" }
+    }
+
+    if (fashion.clothingSets.isAvailable(ShirtAndSkirt)) {
+        require(fashion.shirts.isNotEmpty()) { "Clothing set ShirtAndSkirt requires at least one shirt!" }
+        require(fashion.skirts.isNotEmpty()) { "Clothing set ShirtAndSkirt requires at least one skirt!" }
+    }
 
     noFollowUps(state.copy(fashion = state.fashion.update(fashion)))
 }
