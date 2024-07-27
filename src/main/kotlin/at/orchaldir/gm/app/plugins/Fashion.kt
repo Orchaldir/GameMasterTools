@@ -182,7 +182,7 @@ private fun HTML.showFashionEditor(
                 }
             }
             selectRarityMap("Clothing Sets", CLOTHING_SETS, fashion.clothingSets)
-            selectEquipmentType(state, "Dresses", DRESS, fashion.footwear, EquipmentType.Dress)
+            selectEquipmentType(state, "Dresses", DRESS, fashion.dresses, EquipmentType.Dress)
             selectEquipmentType(state, "Footwear", FOOTWEAR, fashion.footwear, EquipmentType.Footwear)
             selectEquipmentType(state, "Hats", HAT, fashion.hats, EquipmentType.Hat)
             selectEquipmentType(state, "Pants", PANTS, fashion.pants, EquipmentType.Pants)
