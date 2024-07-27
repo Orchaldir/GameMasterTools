@@ -34,6 +34,11 @@
     "Dress": "Common",
     "ShirtAndSkirt": "Common"
    },
+   "dresses": {
+    "13": "Common",
+    "14": "Common",
+    "15": "Common"
+   },
    "footwear": {
     "11": "Common",
     "12": "Common"

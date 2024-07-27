@@ -127,7 +127,6 @@
    "equipment": {
     "type": "Dress",
     "necklineStyle": "Crew",
-    "sleeveStyle": "None",
     "color": "White",
     "material": 2
    }
@@ -137,7 +136,6 @@
    "name": "Blue Dress",
    "equipment": {
     "type": "Dress",
-    "sleeveStyle": "None",
     "color": "Blue",
     "material": 2
    }
@@ -147,7 +145,6 @@
    "name": "Red Dress",
    "equipment": {
     "type": "Dress",
-    "sleeveStyle": "None",
     "material": 2
    }
   },
