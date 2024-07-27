@@ -12,9 +12,8 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.style.HairStyleType
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.appearance.*
+import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
@@ -262,7 +261,7 @@ private fun FORM.showNormalBeardEditor(
     culture: Culture,
     beard: NormalBeard,
 ) {
-    selectOneOf("Style", BEARD_STYLE, culture.styleOptions.beardStyles, true) { style ->
+    selectOneOf("Style", BEARD_STYLE, culture.appearanceStyle.beardStyles, true) { style ->
         label = style.name
         value = style.toString()
         selected = when (style) {
@@ -290,7 +289,7 @@ private fun HtmlBlockTag.selectGoateeStyle(
     culture: Culture,
     goateeStyle: GoateeStyle,
 ) {
-    selectOneOf("Goatee", GOATEE_STYLE, culture.styleOptions.goateeStyles, true) { style ->
+    selectOneOf("Goatee", GOATEE_STYLE, culture.appearanceStyle.goateeStyles, true) { style ->
         label = style.name
         value = style.toString()
         selected = style == goateeStyle
@@ -301,7 +300,7 @@ private fun HtmlBlockTag.selectMoustacheStyle(
     culture: Culture,
     moustacheStyle: MoustacheStyle,
 ) {
-    selectOneOf("Moustache", MOUSTACHE_STYLE, culture.styleOptions.moustacheStyle, true) { style ->
+    selectOneOf("Moustache", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyles, true) { style ->
         label = style.name
         value = style.toString()
         selected = style == moustacheStyle
@@ -383,7 +382,7 @@ private fun FORM.showNormalHairEditor(
     culture: Culture,
     hair: NormalHair,
 ) {
-    selectOneOf("Style", HAIR_STYLE, culture.styleOptions.hairStyles, true) { style ->
+    selectOneOf("Style", HAIR_STYLE, culture.appearanceStyle.hairStyles, true) { style ->
         label = style.name
         value = style.toString()
         selected = when (style) {
@@ -432,7 +431,7 @@ private fun FORM.showMouthEditor(
 
         is FemaleMouth -> {
             showSimpleMouthEditor(mouth.width, mouth.teethColor)
-            selectColor("Lip Color", LIP_COLOR, culture.styleOptions.lipColors, mouth.color)
+            selectColor("Lip Color", LIP_COLOR, culture.appearanceStyle.lipColors, mouth.color)
         }
 
         else -> doNothing()

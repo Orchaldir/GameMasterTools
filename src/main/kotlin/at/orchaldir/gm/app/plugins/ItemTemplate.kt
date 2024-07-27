@@ -9,12 +9,19 @@ import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.OneOf
+import at.orchaldir.gm.core.model.character.appearance.Body
+import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getItems
+import at.orchaldir.gm.core.selector.getEquippedBy
+import at.orchaldir.gm.core.selector.getFashions
+import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -140,13 +147,14 @@ private fun HTML.showItemTemplateDetails(
     state: State,
     template: ItemTemplate,
 ) {
-    val items = state.getItems(template.id)
+    val characters = state.getEquippedBy(template.id)
+    val fashions = state.getFashions(template.id)
     val backLink = call.application.href(ItemTemplates())
     val deleteLink = call.application.href(ItemTemplates.Delete(template.id))
     val editLink = call.application.href(ItemTemplates.Edit(template.id))
-    val createItemLink = call.application.href(Items.New(template.id))
 
     simpleHtml("Item Template: ${template.name}") {
+        visualizeItem(template)
         field("Id", template.id.value.toString())
         when (template.equipment) {
             NoEquipment -> doubleArrayOf()
@@ -165,7 +173,9 @@ private fun HTML.showItemTemplateDetails(
                 field("Equipment", "Footwear")
                 field("Style", template.equipment.style.toString())
                 field("Color", template.equipment.color.toString())
-                field("Sole Color", template.equipment.sole.toString())
+                if (template.equipment.style.hasSole()) {
+                    field("Sole Color", template.equipment.sole.toString())
+                }
                 field("Material") {
                     link(call, state, template.equipment.material)
                 }
@@ -208,28 +218,16 @@ private fun HTML.showItemTemplateDetails(
                 }
             }
         }
-        showList("Instances", items) { item ->
+        showList("Equipped By", characters) { item ->
             link(call, state, item)
-            when (item.location) {
-                is EquippedItem -> {
-                    +" equipped by "
-                    link(call, state, item.location.character)
-                }
-
-                is InInventory -> {
-                    +" in "
-                    link(call, state, item.location.character)
-                    +"'s Inventory"
-                }
-
-                UndefinedItemLocation -> doNothing()
-            }
+        }
+        showList("Part of Fashion", fashions) { item ->
+            link(call, item)
         }
         p { a(editLink) { +"Edit" } }
         if (state.canDelete(template.id)) {
             p { a(deleteLink) { +"Delete" } }
         }
-        p { a(createItemLink) { +"Create Instance" } }
         p { a(backLink) { +"Back" } }
     }
 }
@@ -244,6 +242,7 @@ private fun HTML.showItemTemplateEditor(
     val updateLink = call.application.href(ItemTemplates.Update(template.id))
 
     simpleHtml("Edit Item Template: ${template.name}") {
+        visualizeItem(template)
         field("Id", template.id.value.toString())
         form {
             id = "editor"
@@ -257,30 +256,23 @@ private fun HTML.showItemTemplateEditor(
             selectEnum("Equipment", EQUIPMENT_TYPE, EquipmentType.entries, true) { type ->
                 label = type.name
                 value = type.name
-                selected = when (template.equipment) {
-                    NoEquipment -> type == EquipmentType.None
-                    is Dress -> type == EquipmentType.Dress
-                    is Footwear -> type == EquipmentType.Footwear
-                    is Hat -> type == EquipmentType.Hat
-                    is Pants -> type == EquipmentType.Pants
-                    is Shirt -> type == EquipmentType.Shirt
-                    is Skirt -> type == EquipmentType.Skirt
-                }
+                selected = template.equipment.isType(type)
             }
             when (template.equipment) {
                 NoEquipment -> doNothing()
                 is Dress -> {
-                    selectEnum("Neckline Style", NECKLINE_STYLE, NecklineStyle.entries, false) { style ->
+                    selectEnum("Neckline Style", NECKLINE_STYLE, NecklineStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.necklineStyle == style
                     }
-                    selectEnum("Skirt Style", SKIRT_STYLE, SkirtStyle.entries, false) { style ->
+                    selectEnum("Skirt Style", SKIRT_STYLE, SkirtStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.skirtStyle == style
                     }
-                    selectEnum("Sleeve Style", SLEEVE_STYLE, SleeveStyle.entries, false) { style ->
+                    val sleevesStyles = template.equipment.necklineStyle.getSupportsSleevesStyles()
+                    selectEnum("Sleeve Style", SLEEVE_STYLE, sleevesStyles, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.sleeveStyle == style
@@ -290,18 +282,20 @@ private fun HTML.showItemTemplateEditor(
                 }
 
                 is Footwear -> {
-                    selectEnum("Style", EQUIPMENT_STYLE, FootwearStyle.entries, false) { style ->
+                    selectEnum("Style", FOOTWEAR, FootwearStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.style == style
                     }
                     selectColor(template.equipment.color)
-                    selectColor(template.equipment.sole, "Sole Color", SOLE_COLOR)
+                    if (template.equipment.style.hasSole()) {
+                        selectColor(template.equipment.sole, "Sole Color", SOLE_COLOR)
+                    }
                     selectMaterial(state, template.equipment.material)
                 }
 
                 is Hat -> {
-                    selectEnum("Style", EQUIPMENT_STYLE, HatStyle.entries, false) { style ->
+                    selectEnum("Style", HAT, HatStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.style == style
@@ -311,7 +305,7 @@ private fun HTML.showItemTemplateEditor(
                 }
 
                 is Pants -> {
-                    selectEnum("Style", EQUIPMENT_STYLE, PantsStyle.entries, false) { style ->
+                    selectEnum("Style", PANTS, PantsStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.style == style
@@ -321,12 +315,13 @@ private fun HTML.showItemTemplateEditor(
                 }
 
                 is Shirt -> {
-                    selectEnum("Neckline Style", NECKLINE_STYLE, NecklineStyle.entries, false) { style ->
+                    selectEnum("Neckline Style", NECKLINE_STYLE, NecklineStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.necklineStyle == style
                     }
-                    selectEnum("Sleeve Style", SLEEVE_STYLE, SleeveStyle.entries, false) { style ->
+                    val sleevesStyles = template.equipment.necklineStyle.getSupportsSleevesStyles()
+                    selectEnum("Sleeve Style", SLEEVE_STYLE, sleevesStyles, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.sleeveStyle == style
@@ -336,7 +331,7 @@ private fun HTML.showItemTemplateEditor(
                 }
 
                 is Skirt -> {
-                    selectEnum("Style", SKIRT_STYLE, SkirtStyle.entries, false) { style ->
+                    selectEnum("Style", SKIRT_STYLE, SkirtStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.style == style
@@ -370,4 +365,15 @@ private fun FORM.selectMaterial(
 
 private fun FORM.selectColor(color: Color, label: String = "Color", selectId: String = EQUIPMENT_COLOR) {
     selectColor(label, selectId, OneOf(Color.entries), color)
+}
+
+private fun BODY.visualizeItem(template: ItemTemplate) {
+    if (template.equipment.getType() != EquipmentType.None) {
+        val equipped = listOf(template.equipment)
+        val appearance = HumanoidBody(Body(), Head(), Distance(1.0f))
+        val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance, equipped)
+        val backSvg = visualizeCharacter(RENDER_CONFIG, appearance, equipped, false)
+        svg(frontSvg, 20)
+        svg(backSvg, 20)
+    }
 }

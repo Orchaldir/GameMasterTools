@@ -10,8 +10,6 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
-import at.orchaldir.gm.core.model.culture.style.HairStyleType
-import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.math.Distance
 import io.ktor.http.*
@@ -26,7 +24,7 @@ fun createGenerationConfig(state: State, character: Character): AppearanceGenera
         state.rarityGenerator,
         character,
         race.appearance,
-        culture.styleOptions
+        culture.appearanceStyle
     )
 }
 

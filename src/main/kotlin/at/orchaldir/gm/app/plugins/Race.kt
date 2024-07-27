@@ -7,9 +7,14 @@ import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.appearance.EarsLayout
+import at.orchaldir.gm.core.model.character.appearance.EyesLayout
+import at.orchaldir.gm.core.model.character.appearance.SkinType
+import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
+import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.appearance.*
+import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*

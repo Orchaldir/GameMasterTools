@@ -12,6 +12,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is DeleteCharacter -> DELETE_CHARACTER(state, action)
         is UpdateCharacter -> UPDATE_CHARACTER(state, action)
         is UpdateAppearance -> UPDATE_APPEARANCE(state, action)
+        is UpdateEquipment -> UPDATE_EQUIPMENT(state, action)
         is UpdateRelationships -> UPDATE_RELATIONSHIPS(state, action)
         // character's languages
         is AddLanguage -> ADD_LANGUAGE(state, action)
@@ -20,14 +21,14 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateCulture -> CREATE_CULTURE(state, action)
         is DeleteCulture -> DELETE_CULTURE(state, action)
         is UpdateCulture -> UPDATE_CULTURE(state, action)
+        // fashion
+        is CreateFashion -> CREATE_FASHION(state, action)
+        is DeleteFashion -> DELETE_FASHION(state, action)
+        is UpdateFashion -> UPDATE_FASHION(state, action)
         // item template
         is CreateItemTemplate -> CREATE_ITEM_TEMPLATE(state, action)
         is DeleteItemTemplate -> DELETE_ITEM_TEMPLATE(state, action)
         is UpdateItemTemplate -> UPDATE_ITEM_TEMPLATE(state, action)
-        // item
-        is CreateItem -> CREATE_ITEM(state, action)
-        is DeleteItem -> DELETE_ITEM(state, action)
-        is UpdateItem -> UPDATE_ITEM(state, action)
         // language
         is CreateLanguage -> CREATE_LANGUAGE(state, action)
         is DeleteLanguage -> DELETE_LANGUAGE(state, action)

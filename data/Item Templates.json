@@ -3,58 +3,195 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Everbright Lantern"
+   "name": "Black Leather Shoes",
+   "equipment": {
+    "type": "Footwear",
+    "color": "Black",
+    "sole": "Black"
+   }
   },
   "1": {
    "id": 1,
-   "name": "Cannith Goggles"
+   "name": "Brown Leather Shoes",
+   "equipment": {
+    "type": "Footwear",
+    "sole": "Black"
+   }
   },
   "2": {
    "id": 2,
-   "name": "Blue Regular Pants",
+   "name": "White Shirt",
    "equipment": {
-    "type": "Pants",
-    "color": "Blue"
+    "type": "Shirt",
+    "color": "White",
+    "material": 3
    }
   },
   "3": {
    "id": 3,
-   "name": "Blue Shirt",
+   "name": "Navy Pants",
    "equipment": {
-    "type": "Shirt",
-    "necklineStyle": "Crew",
-    "color": "Blue"
+    "type": "Pants",
+    "color": "Navy",
+    "material": 3
    }
   },
   "4": {
    "id": 4,
-   "name": "Tribex Leather Boots",
+   "name": "Gray Pants",
    "equipment": {
-    "type": "Footwear",
-    "style": "Boots",
-    "sole": "Gray",
+    "type": "Pants",
+    "color": "Gray",
     "material": 3
    }
   },
   "5": {
    "id": 5,
+   "name": "Black Pants",
+   "equipment": {
+    "type": "Pants",
+    "color": "Black",
+    "material": 3
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Top Hat",
+   "equipment": {
+    "type": "Hat",
+    "color": "Black",
+    "material": 2
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Boater",
+   "equipment": {
+    "type": "Hat",
+    "style": "Boater",
+    "color": "White",
+    "material": 3
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Black Bowler",
+   "equipment": {
+    "type": "Hat",
+    "style": "Bowler",
+    "color": "Black",
+    "material": 3
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Grey Bowler",
+   "equipment": {
+    "type": "Hat",
+    "style": "Bowler",
+    "color": "Gray",
+    "material": 3
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": "White Pants",
+   "equipment": {
+    "type": "Pants",
+    "color": "White",
+    "material": 3
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": "Red Plumps",
+   "equipment": {
+    "type": "Footwear",
+    "style": "Pumps",
+    "color": "Red",
+    "sole": "Red"
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Black Plumps",
+   "equipment": {
+    "type": "Footwear",
+    "style": "Pumps",
+    "color": "Black"
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "White Dress",
+   "equipment": {
+    "type": "Dress",
+    "necklineStyle": "Crew",
+    "color": "White",
+    "material": 2
+   }
+  },
+  "14": {
+   "id": 14,
+   "name": "Blue Dress",
+   "equipment": {
+    "type": "Dress",
+    "color": "Blue",
+    "material": 2
+   }
+  },
+  "15": {
+   "id": 15,
+   "name": "Red Dress",
+   "equipment": {
+    "type": "Dress",
+    "material": 2
+   }
+  },
+  "16": {
+   "id": 16,
    "name": "Red Pillbox",
    "equipment": {
     "type": "Hat",
     "style": "Pillbox",
     "color": "Red",
-    "material": 1
+    "material": 3
    }
   },
-  "6": {
-   "id": 6,
-   "name": "Red Dress",
+  "17": {
+   "id": 17,
+   "name": "Blue Pillbox",
    "equipment": {
-    "type": "Dress",
-    "necklineStyle": "Asymmetrical",
-    "skirtStyle": "Asymmetrical",
-    "sleeveStyle": "None",
-    "material": 2
+    "type": "Hat",
+    "style": "Pillbox",
+    "color": "Blue",
+    "material": 3
+   }
+  },
+  "18": {
+   "id": 18,
+   "name": "Blue Pumps",
+   "equipment": {
+    "type": "Footwear",
+    "style": "Pumps",
+    "color": "Blue"
+   }
+  },
+  "19": {
+   "id": 19,
+   "name": "Blue Skirt",
+   "equipment": {
+    "type": "Skirt",
+    "color": "Blue",
+    "material": 3
+   }
+  },
+  "20": {
+   "id": 20,
+   "name": "Red Skirt",
+   "equipment": {
+    "type": "Skirt",
+    "material": 3
    }
   }
  }

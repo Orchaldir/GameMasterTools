@@ -11,8 +11,8 @@ import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.item.Item
-import at.orchaldir.gm.core.model.item.ItemId
+import at.orchaldir.gm.core.model.fashion.Fashion
+import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.Language
@@ -84,6 +84,34 @@ fun href(
     id: CultureId,
 ) = call.application.href(Cultures.Details(id))
 
+// fashion
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    state: State,
+    id: FashionId,
+) {
+    link(call, id, state.fashion.get(id)?.name ?: "Unknown")
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    fashion: Fashion,
+) {
+    link(call, fashion.id, fashion.name)
+}
+
+private fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    id: FashionId,
+    text: String,
+) = a(href(call, id)) { +text }
+
+fun href(
+    call: ApplicationCall,
+    id: FashionId,
+) = call.application.href(Fashions.Details(id))
+
 // item template
 
 fun HtmlBlockTag.link(
@@ -111,33 +139,6 @@ fun href(
     call: ApplicationCall,
     id: ItemTemplateId,
 ) = call.application.href(ItemTemplates.Details(id))
-
-// item template
-
-fun HtmlBlockTag.link(
-    call: ApplicationCall,
-    state: State,
-    id: ItemId,
-) = link(call, state, state.items.getOrThrow(id))
-
-fun HtmlBlockTag.link(
-    call: ApplicationCall,
-    state: State,
-    item: Item,
-) {
-    link(call, item.id, state.itemTemplates.get(item.template)?.name ?: "Unknown")
-}
-
-private fun HtmlBlockTag.link(
-    call: ApplicationCall,
-    id: ItemId,
-    text: String,
-) = a(href(call, id)) { +text }
-
-fun href(
-    call: ApplicationCall,
-    id: ItemId,
-) = call.application.href(Items.Details(id))
 
 // language
 

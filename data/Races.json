@@ -15,6 +15,11 @@
     "skinTypes": {
      "Normal": "Common"
     },
+    "normalSkinColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Uncommon"
+    },
     "earsLayout": {
      "NormalEars": "Common"
     },
@@ -54,84 +59,11 @@
      },
      "colors": {
       "Black": "Common",
-      "Gray": "Common",
-      "Maroon": "Common",
-      "Orange": "Common",
-      "Red": "Common",
+      "Maroon": "Rare",
+      "Orange": "Rare",
+      "Red": "Rare",
       "SaddleBrown": "Common",
-      "Silver": "Common",
-      "White": "Common",
       "Yellow": "Common"
-     }
-    },
-    "mouthTypes": {
-     "NormalMouth": "Common"
-    }
-   }
-  },
-  "1": {
-   "id": 1,
-   "name": "Elf",
-   "genders": {
-    "Female": "Common",
-    "Male": "Common"
-   },
-   "appearance": {
-    "appearanceType": {
-     "Body": "Common"
-    },
-    "skinTypes": {
-     "Normal": "Common",
-     "Exotic": "Rare"
-    },
-    "exoticSkinColors": {
-     "Gray": "Common",
-     "Green": "Common",
-     "Purple": "Common"
-    },
-    "earsLayout": {
-     "NormalEars": "Common"
-    },
-    "earShapes": {
-     "PointedSideways": "Common",
-     "PointedUpwards": "Common"
-    },
-    "eyesLayout": {
-     "TwoEyes": "Common"
-    },
-    "eyeOptions": {
-     "pupilShapes": {
-      "Circle": "Common"
-     },
-     "pupilColors": {
-      "Aqua": "Common",
-      "Black": "Common",
-      "Blue": "Common",
-      "Fuchsia": "Common",
-      "Gray": "Common",
-      "Green": "Common",
-      "Lime": "Common",
-      "Maroon": "Common",
-      "Navy": "Common",
-      "Olive": "Common",
-      "Orange": "Common",
-      "Purple": "Common",
-      "Red": "Common",
-      "SaddleBrown": "Common",
-      "Silver": "Common",
-      "Teal": "Common",
-      "Yellow": "Common"
-     },
-     "scleraColors": {
-      "White": "Common"
-     }
-    },
-    "hairOptions": {
-     "beardTypes": {
-      "None": "Common"
-     },
-     "hairTypes": {
-      "Normal": "Common"
      }
     },
     "mouthTypes": {

@@ -138,7 +138,7 @@ private fun HTML.showCharacterDetails(
     state: State,
     character: Character,
 ) {
-    val equipment = state.getEquipment(character.id)
+    val equipment = state.getEquipment(character)
     val backLink = call.application.href(Characters())
     val editAppearanceLink = call.application.href(Characters.Appearance.Edit(character.id))
     val frontSvg = visualizeCharacter(RENDER_CONFIG, character.appearance, equipment)
@@ -255,16 +255,13 @@ fun BODY.showItems(
     state: State,
     character: Character,
 ) {
-    val equipped = state.getEquippedItems(character.id)
-    val inventory = state.getInventory(character.id)
+    val editEquipmentLink = call.application.href(Characters.Equipment.Edit(character.id))
 
     h2 { +"Items" }
 
-    showList("Equipped", equipped) { item ->
-        link(call, state, item)
-    }
+    p { a(editEquipmentLink) { +"Edit Equipment" } }
 
-    showList("Inventory", inventory) { item ->
+    showList("Equipped", character.equipmentMap.map.values) { item ->
         link(call, state, item)
     }
 }

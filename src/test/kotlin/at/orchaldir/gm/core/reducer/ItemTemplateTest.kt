@@ -3,8 +3,14 @@ package at.orchaldir.gm.core.reducer
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.item.*
+import at.orchaldir.gm.core.model.character.EquipmentMap
+import at.orchaldir.gm.core.model.item.EquipmentType.Hat
+import at.orchaldir.gm.core.model.item.ItemTemplate
+import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.item.Pants
+import at.orchaldir.gm.core.model.item.Shirt
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.utils.Storage
@@ -16,10 +22,10 @@ import kotlin.test.assertFailsWith
 private val CHARACTER0 = CharacterId(0)
 private val ID0 = ItemTemplateId(0)
 private val ITEM = ItemTemplate(ID0, "Test")
-private val ITEM_ID0 = ItemId(0)
 private val STATE = State(itemTemplates = Storage(listOf(ItemTemplate(ID0))))
 private val MATERIAL0 = MaterialId(0)
 private val MATERIAL1 = MaterialId(1)
+private val EQUIPMENT_MAP = EquipmentMap(mapOf(Hat to ID0))
 
 class ItemTemplateTest {
 
@@ -43,7 +49,8 @@ class ItemTemplateTest {
         @Test
         fun `Cannot delete, if an instanced item exist`() {
             val action = DeleteItemTemplate(ID0)
-            val state = STATE.copy(items = Storage(listOf(Item(ItemId(0), ID0))))
+            val state =
+                STATE.copy(characters = Storage(listOf(Character(CharacterId(0), equipmentMap = EQUIPMENT_MAP))))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
@@ -65,7 +72,7 @@ class ItemTemplateTest {
             val newItem = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL0))
             val state = State(
                 itemTemplates = Storage(listOf(oldItem)),
-                items = Storage(listOf(Item(ITEM_ID0, location = EquippedItem(CHARACTER0)))),
+                characters = Storage(listOf(Character(CharacterId(0), equipmentMap = EQUIPMENT_MAP))),
                 materials = Storage(listOf(Material(MATERIAL0)))
             )
             val action = UpdateItemTemplate(newItem)
@@ -79,7 +86,7 @@ class ItemTemplateTest {
             val newItem = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL1))
             val state = State(
                 itemTemplates = Storage(listOf(oldItem)),
-                items = Storage(listOf(Item(ITEM_ID0, location = EquippedItem(CHARACTER0)))),
+                characters = Storage(listOf(Character(CharacterId(0), equipmentMap = EQUIPMENT_MAP))),
                 materials = Storage(listOf(Material(MATERIAL0), Material(MATERIAL1)))
             )
             val action = UpdateItemTemplate(newItem)

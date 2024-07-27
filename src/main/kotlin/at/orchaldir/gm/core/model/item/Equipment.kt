@@ -1,27 +1,29 @@
 package at.orchaldir.gm.core.model.item
 
 import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.item.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-enum class EquipmentType {
-    None,
-    Dress,
-    Footwear,
-    Hat,
-    Pants,
-    Shirt,
-    Skirt,
-}
-
 @Serializable
 sealed class Equipment {
     open fun contains(id: MaterialId) = false
     abstract fun getMaterials(): Set<MaterialId>
-    open fun slots(): Set<EquipmentSlot> = emptySet()
+
+    fun getType() = when (this) {
+        NoEquipment -> EquipmentType.None
+        is Dress -> EquipmentType.Dress
+        is Footwear -> EquipmentType.Footwear
+        is Hat -> EquipmentType.Hat
+        is Pants -> EquipmentType.Pants
+        is Shirt -> EquipmentType.Shirt
+        is Skirt -> EquipmentType.Skirt
+    }
+
+    fun isType(equipmentType: EquipmentType) = getType() == equipmentType
+
+    fun slots() = getType().slots()
 }
 
 @Serializable
@@ -42,8 +44,6 @@ data class Dress(
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
-
-    override fun slots() = setOf(Bottom, Top)
 }
 
 @Serializable
@@ -57,8 +57,6 @@ data class Footwear(
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
-
-    override fun slots() = setOf(Foot)
 }
 
 @Serializable
@@ -71,8 +69,6 @@ data class Hat(
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
-
-    override fun slots() = setOf(Headwear)
 }
 
 @Serializable
@@ -85,8 +81,6 @@ data class Pants(
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
-
-    override fun slots() = setOf(Bottom)
 }
 
 @Serializable
@@ -100,8 +94,6 @@ data class Shirt(
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
-
-    override fun slots() = setOf(Top)
 }
 
 @Serializable
@@ -114,7 +106,5 @@ data class Skirt(
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
-
-    override fun slots() = setOf(Bottom)
 }
 

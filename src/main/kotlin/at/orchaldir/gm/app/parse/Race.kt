@@ -2,13 +2,14 @@ package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.character.appearance.EarShape
-import at.orchaldir.gm.core.model.character.appearance.EyeShape
-import at.orchaldir.gm.core.model.character.appearance.PupilShape
-import at.orchaldir.gm.core.model.character.appearance.SkinColor
+import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
+import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.appearance.*
+import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
+import at.orchaldir.gm.core.model.race.appearance.EyeOptions
+import at.orchaldir.gm.core.model.race.appearance.HairOptions
 import io.ktor.http.*
 import io.ktor.server.util.*
 

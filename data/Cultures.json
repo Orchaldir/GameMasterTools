@@ -3,10 +3,9 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Aundairian",
+   "name": "Arkham",
    "languages": {
-    "0": "VeryRare",
-    "1": "Everyone"
+    "0": "Everyone"
    },
    "namingConvention": {
     "type": "Family",
@@ -15,54 +14,38 @@
      "Random": "Rare"
     },
     "givenNames": {
-     "female": 1,
-     "genderless": 0,
-     "male": 0
-    },
-    "familyNames": 2
+     "female": 2,
+     "genderless": 1,
+     "male": 1
+    }
    },
-   "styleOptions": {
+   "appearanceStyle": {
     "beardStyles": {
-     "Goatee": "Uncommon",
-     "GoateeAndMoustache": "Rare",
-     "Moustache": "Common",
+     "Goatee": "VeryRare",
+     "GoateeAndMoustache": "VeryRare",
+     "Moustache": "Uncommon",
      "Shaved": "Common"
     },
-    "moustacheStyle": {
-     "Handlebar": "Common",
+    "moustacheStyles": {
+     "Handlebar": "Rare",
      "Pencil": "Common",
      "Pyramid": "Common",
-     "Toothbrush": "Common",
-     "Walrus": "Common"
+     "Toothbrush": "VeryRare",
+     "Walrus": "Rare"
     },
     "hairStyles": {
      "BuzzCut": "Common",
      "MiddlePart": "Common",
-     "Shaved": "Rare",
      "SidePart": "Common"
     },
     "lipColors": {
-     "Fuchsia": "Uncommon",
-     "Maroon": "Uncommon",
      "Red": "Common"
     }
-   }
-  },
-  "1": {
-   "id": 1,
-   "name": "Darguun",
-   "languages": {
-    "1": "Common",
-    "6": "VeryRare",
-    "7": "Everyone"
    },
-   "namingConvention": {
-    "type": "Mononym",
-    "names": {
-     "female": 18,
-     "genderless": 17,
-     "male": 17
-    }
+   "clothingStyles": {
+    "female": 1,
+    "genderless": 0,
+    "male": 0
    }
   }
  }

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.race.appearance
+package at.orchaldir.gm.core.model.character.appearance
 
 enum class EyesLayout {
     NoEyes,

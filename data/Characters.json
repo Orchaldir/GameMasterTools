@@ -5,16 +5,84 @@
    "id": 0,
    "name": {
     "type": "Family",
-    "given": "Marloes",
+    "given": "Gordon",
     "middle": null,
-    "family": "Crudaker"
+    "family": "Walker"
+   },
+   "gender": "Male",
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "bodyShape": "Muscular",
+     "width": "Small",
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal",
+      "size": "Large"
+     },
+     "eyes": {
+      "type": "Two"
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "MiddlePart"
+      },
+      "color": "Black"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "Moustache",
+        "moustacheStyle": "Pyramid"
+       },
+       "color": "Black"
+      },
+      "width": "Small",
+      "teethColor": "Brown"
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "height": {
+     "value": 1.8
+    }
+   },
+   "equipmentMap": {
+    "map": {
+     "Footwear": 0,
+     "Hat": 9,
+     "Pants": 4,
+     "Shirt": 2
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": {
+    "type": "Family",
+    "given": "Nellie",
+    "middle": null,
+    "family": "Dangerfield"
    },
    "gender": "Female",
    "appearance": {
     "type": "Humanoid",
     "body": {
      "bodyShape": "Hourglass",
-     "width": "Large"
+     "skin": {
+      "type": "Normal",
+      "color": "Fair"
+     }
     },
     "head": {
      "ears": {
@@ -32,16 +100,28 @@
       "style": {
        "type": "MiddlePart"
       },
-      "color": "Orange"
+      "color": "Black"
      },
      "mouth": {
       "type": "Female",
       "width": "Large",
-      "teethColor": "Yellow"
+      "teethColor": "Brown"
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Fair"
      }
     },
     "height": {
      "value": 1.8
+    }
+   },
+   "equipmentMap": {
+    "map": {
+     "Footwear": 11,
+     "Hat": 16,
+     "Shirt": 2,
+     "Skirt": 20
     }
    }
   }
