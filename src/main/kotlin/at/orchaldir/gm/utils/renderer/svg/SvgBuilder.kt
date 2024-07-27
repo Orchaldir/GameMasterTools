@@ -17,19 +17,20 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         val lines: MutableList<String> = mutableListOf()
         lines.add(getStartLine())
 
+        if (patterns.isNotEmpty()) {
+            lines.add("  <defs>")
+
+            patterns.forEach { (fill, name) -> addPatternLines(lines, fill, name) }
+
+            lines.add("  </defs>")
+        }
+
         layers.toSortedMap()
             .values.forEach { layer -> lines.addAll(layer) }
 
         lines.add("</svg>")
         return Svg(lines)
     }
-
-    private fun getStartLine() = String.format(
-        LOCALE,
-        "<svg viewBox=\"0 0 %.3f %.3f\" xmlns=\"http://www.w3.org/2000/svg\">",
-        size.width,
-        size.height
-    )
 
     override fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions, layer: Int) {
         layers.computeIfAbsent(layer) {
@@ -136,6 +137,25 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         )
     }
 
+    private fun getStartLine() = String.format(
+        LOCALE,
+        "<svg viewBox=\"0 0 %.3f %.3f\" xmlns=\"http://www.w3.org/2000/svg\">",
+        size.width,
+        size.height
+    )
+
+    private fun addPatternLines(lines: MutableList<String>, fill: Fill<RenderColor>, name: String) {
+        when (fill) {
+            is Solid -> error("Solid is not a pattern!")
+            is VerticalStripes -> {
+                lines.add("    <pattern id=\"$name\" width=\"0.1\" height=\"0.1\">")
+                lines.add("      <rec x=\"0\" y=\"0\" width=\"0.05\" height=\"0.1\" fill=\"${toSvg(fill.color0)}\">")
+                lines.add("      <rec x=\"0.05\" y=\"0\" width=\"0.05\" height=\"0.1\" fill=\"${toSvg(fill.color1)}\">")
+                lines.add("    </pattern>")
+            }
+        }
+    }
+
     private fun renderPath(path: String, style: String, layer: Int) {
         layers.computeIfAbsent(layer) {
             mutableListOf()
@@ -169,7 +189,10 @@ class SvgBuilder(private val size: Size2d) : Renderer {
 
     private fun toSvg(fill: Fill<RenderColor>) = when (fill) {
         is Solid -> toSvg(fill.color)
-        is VerticalStripes -> "pink"
+        is VerticalStripes -> {
+            val name = patterns.computeIfAbsent(fill) { "pattern_${patterns.size}" }
+            "url(#$name)"
+        }
     }
 
     private fun toSvg(color: RenderColor) = color.toCode()
