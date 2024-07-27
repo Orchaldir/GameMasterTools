@@ -148,8 +148,9 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         when (fill) {
             is Solid -> error("Solid is not a pattern!")
             is VerticalStripes -> {
-                lines.add("    <pattern id=\"$name\" width=\"10%\" height=\"10%\" patternUnits=\"userSpaceOnUse\">")
-                lines.add("      <circle  cx=\"0.05\" cy=\"0.05\" r=\"0.05\" fill=\"${toSvg(fill.color0)}\">")
+                lines.add("    <pattern id=\"$name\" width=\"10%\" height=\"10%\" patternUnits=\"userSpaceOnUse\" patternContentUnits=\"userSpaceOnUse\">")
+                lines.add("      <rect x=\"0%\" y=\"0%\" width=\"5%\" height=\"10%\" fill=\"${toSvg(fill.color0)}\">")
+                lines.add("      <rect x=\"5%\" y=\"0%\" width=\"5%\" height=\"10%\" fill=\"${toSvg(fill.color1)}\">")
                 lines.add("    </pattern>")
             }
         }
