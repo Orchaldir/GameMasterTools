@@ -193,6 +193,15 @@
     "type": "Skirt",
     "material": 3
    }
+  },
+  "21": {
+   "id": 21,
+   "name": "Blue Shirt",
+   "equipment": {
+    "type": "Shirt",
+    "color": "SkyBlue",
+    "material": 3
+   }
   }
  }
 }

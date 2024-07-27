@@ -20,6 +20,7 @@ enum class Color {
     Red,
     SaddleBrown,
     Silver,
+    SkyBlue,
     Teal,
     White,
     Yellow;
