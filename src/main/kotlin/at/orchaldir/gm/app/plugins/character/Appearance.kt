@@ -12,9 +12,8 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.character.appearance.hair.HairStyleType
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.appearance.*
+import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing

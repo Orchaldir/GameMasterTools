@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.appearance.*
+import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*

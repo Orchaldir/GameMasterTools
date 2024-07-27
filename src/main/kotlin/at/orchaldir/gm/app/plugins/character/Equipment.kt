@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.href
 import at.orchaldir.gm.app.html.selectOneOrNone
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.html.svg
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.parseEquipmentMap
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State

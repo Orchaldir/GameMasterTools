@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.appearance.OneOrNone
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
