@@ -16,6 +16,7 @@ enum class Color {
     Navy,
     Olive,
     Orange,
+    Pink,
     Purple,
     Red,
     SaddleBrown,

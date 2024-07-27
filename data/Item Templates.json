@@ -202,6 +202,26 @@
     "color": "SkyBlue",
     "material": 3
    }
+  },
+  "22": {
+   "id": 22,
+   "name": "Pink Dress",
+   "equipment": {
+    "type": "Dress",
+    "necklineStyle": "Crew",
+    "sleeveStyle": "Short",
+    "color": "Pink",
+    "material": 3
+   }
+  },
+  "23": {
+   "id": 23,
+   "name": "Pink Pumps",
+   "equipment": {
+    "type": "Footwear",
+    "style": "Pumps",
+    "color": "Pink"
+   }
   }
  }
 }
