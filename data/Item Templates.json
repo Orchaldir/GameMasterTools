@@ -101,6 +101,24 @@
     "color": "White",
     "material": 3
    }
+  },
+  "11": {
+   "id": 11,
+   "name": "Red Plumps",
+   "equipment": {
+    "type": "Footwear",
+    "color": "Red",
+    "sole": "Red"
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Black Plumps",
+   "equipment": {
+    "type": "Footwear",
+    "color": "Black",
+    "sole": "Black"
+   }
   }
  }
 }

@@ -21,20 +21,20 @@ fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_T
     EquipmentType.Dress -> parseDress(parameters)
 
     EquipmentType.Footwear -> Footwear(
-        parse(parameters, EQUIPMENT_STYLE, FootwearStyle.Shoes),
+        parse(parameters, FOOTWEAR, FootwearStyle.Shoes),
         parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
         parse(parameters, SOLE_COLOR, Color.SaddleBrown),
         parseMaterialId(parameters, MATERIAL),
     )
 
     EquipmentType.Hat -> Hat(
-        parse(parameters, EQUIPMENT_STYLE, HatStyle.TopHat),
+        parse(parameters, HAT, HatStyle.TopHat),
         parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
         parseMaterialId(parameters, MATERIAL),
     )
 
     EquipmentType.Pants -> Pants(
-        parse(parameters, EQUIPMENT_STYLE, PantsStyle.Regular),
+        parse(parameters, PANTS, PantsStyle.Regular),
         parse(parameters, EQUIPMENT_COLOR, Color.SaddleBrown),
         parseMaterialId(parameters, MATERIAL),
     )
