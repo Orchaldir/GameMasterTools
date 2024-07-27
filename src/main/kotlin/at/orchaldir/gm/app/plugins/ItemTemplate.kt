@@ -231,7 +231,7 @@ private fun HTML.showItemTemplateDetails(
     }
 }
 
-private fun BODY.showFill(fill: Fill<Color>) {
+private fun BODY.showFill(fill: Fill) {
     when (fill) {
         is Solid -> field("Color", fill.color.toString())
         is VerticalStripes -> {
@@ -361,7 +361,7 @@ private fun HTML.showItemTemplateEditor(
     }
 }
 
-private fun FORM.selectFill(fill: Fill<Color>) {
+private fun FORM.selectFill(fill: Fill) {
     selectEnum("Fill Type", FILL_TYPE, FillType.entries, true) { type ->
         label = type.name
         value = type.name

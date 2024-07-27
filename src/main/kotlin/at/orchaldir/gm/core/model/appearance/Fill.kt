@@ -4,18 +4,18 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class Fill<C>
+sealed class Fill
 
 @Serializable
 @SerialName("Solid")
-data class Solid<C>(
-    val color: C,
-) : Fill<C>()
+data class Solid(
+    val color: Color,
+) : Fill()
 
 @Serializable
 @SerialName("VerticalStripes")
-data class VerticalStripes<C>(
-    val color0: C,
-    val color1: C,
+data class VerticalStripes(
+    val color0: Color,
+    val color1: Color,
     val width: Size,
-) : Fill<C>()
+) : Fill()

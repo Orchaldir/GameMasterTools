@@ -90,7 +90,7 @@ data class Pants(
 data class Shirt(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val fill: Fill<Color> = Solid(Color.SaddleBrown),
+    val fill: Fill = Solid(Color.SaddleBrown),
     val material: MaterialId = MaterialId(0),
 ) : Equipment() {
 

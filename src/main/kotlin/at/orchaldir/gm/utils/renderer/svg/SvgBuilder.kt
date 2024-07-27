@@ -1,8 +1,5 @@
 package at.orchaldir.gm.utils.renderer.svg
 
-import at.orchaldir.gm.core.model.appearance.Fill
-import at.orchaldir.gm.core.model.appearance.Solid
-import at.orchaldir.gm.core.model.appearance.VerticalStripes
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.*
 import java.util.*
@@ -10,7 +7,7 @@ import java.util.*
 val LOCALE: Locale = Locale.US
 
 class SvgBuilder(private val size: Size2d) : Renderer {
-    private val patterns: MutableMap<Fill<RenderColor>, String> = mutableMapOf()
+    private val patterns: MutableMap<RenderFill, String> = mutableMapOf()
     private val layers: MutableMap<Int, MutableList<String>> = mutableMapOf()
 
     fun finish(): Svg {
@@ -144,10 +141,10 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         size.height
     )
 
-    private fun addPatternLines(lines: MutableList<String>, fill: Fill<RenderColor>, name: String) {
+    private fun addPatternLines(lines: MutableList<String>, fill: RenderFill, name: String) {
         when (fill) {
-            is Solid -> error("Solid is not a pattern!")
-            is VerticalStripes -> {
+            is RenderSolid -> error("Solid is not a pattern!")
+            is RenderVerticalStripes -> {
                 val color0 = toSvg(fill.color0)
                 val color1 = toSvg(fill.color1)
                 lines.add("    <linearGradient id=\"$name\" spreadMethod=\"repeat\" x2=\"2%\" gradientUnits=\"userSpaceOnUse\">")
@@ -191,9 +188,9 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         )
     }
 
-    private fun toSvg(fill: Fill<RenderColor>) = when (fill) {
-        is Solid -> toSvg(fill.color)
-        is VerticalStripes -> {
+    private fun toSvg(fill: RenderFill) = when (fill) {
+        is RenderSolid -> toSvg(fill.color)
+        is RenderVerticalStripes -> {
             val name = patterns.computeIfAbsent(fill) { "pattern_${patterns.size}" }
             "url(#$name)"
         }

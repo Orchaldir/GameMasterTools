@@ -71,7 +71,7 @@ private fun parseShirt(parameters: Parameters): Shirt {
     )
 }
 
-private fun parseFill(parameters: Parameters): Fill<Color> {
+private fun parseFill(parameters: Parameters): Fill {
     val type = parse(parameters, FILL_TYPE, FillType.Solid)
 
     return when (type) {
