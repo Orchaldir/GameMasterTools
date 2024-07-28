@@ -35,7 +35,7 @@ fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_T
 
     EquipmentType.Pants -> Pants(
         parse(parameters, PANTS, PantsStyle.Regular),
-        parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
+        parseFill(parameters),
         parseMaterialId(parameters, MATERIAL),
     )
 
@@ -43,7 +43,7 @@ fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_T
 
     EquipmentType.Skirt -> Skirt(
         parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
-        parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
+        parseFill(parameters),
         parseMaterialId(parameters, MATERIAL),
     )
 }

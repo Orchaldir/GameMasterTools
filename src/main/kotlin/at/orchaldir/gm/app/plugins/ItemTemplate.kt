@@ -192,7 +192,7 @@ private fun HTML.showItemTemplateDetails(
             is Pants -> {
                 field("Equipment", "Pants")
                 field("Style", template.equipment.style.toString())
-                field("Color", template.equipment.color.toString())
+                showFill(template.equipment.fill)
                 field("Material") {
                     link(call, state, template.equipment.material)
                 }
@@ -211,7 +211,7 @@ private fun HTML.showItemTemplateDetails(
             is Skirt -> {
                 field("Equipment", "Skirt")
                 field("Style", template.equipment.style.toString())
-                field("Color", template.equipment.color.toString())
+                showFill(template.equipment.fill)
                 field("Material") {
                     link(call, state, template.equipment.material)
                 }
@@ -318,7 +318,7 @@ private fun HTML.showItemTemplateEditor(
                         value = style.name
                         selected = template.equipment.style == style
                     }
-                    selectColor(template.equipment.color)
+                    selectFill(template.equipment.fill)
                     selectMaterial(state, template.equipment.material)
                 }
 
@@ -344,7 +344,7 @@ private fun HTML.showItemTemplateEditor(
                         value = style.name
                         selected = template.equipment.style == style
                     }
-                    selectColor(template.equipment.color)
+                    selectFill(template.equipment.fill)
                     selectMaterial(state, template.equipment.material)
                 }
             }

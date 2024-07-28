@@ -77,7 +77,7 @@ data class Hat(
 @SerialName("Pants")
 data class Pants(
     val style: PantsStyle = PantsStyle.Regular,
-    val color: Color = Color.SaddleBrown,
+    val fill: Fill = Solid(Color.SaddleBrown),
     val material: MaterialId = MaterialId(0),
 ) : Equipment() {
 
@@ -102,7 +102,7 @@ data class Shirt(
 @SerialName("Skirt")
 data class Skirt(
     val style: SkirtStyle = SkirtStyle.Sheath,
-    val color: Color = Color.Red,
+    val fill: Fill = Solid(Color.SaddleBrown),
     val material: MaterialId = MaterialId(0),
 ) : Equipment() {
 

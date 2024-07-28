@@ -35,7 +35,10 @@
    "name": "Navy Pants",
    "equipment": {
     "type": "Pants",
-    "color": "Navy",
+    "fill": {
+     "type": "Solid",
+     "color": "Navy"
+    },
     "material": 3
    }
   },
@@ -44,7 +47,10 @@
    "name": "Gray Pants",
    "equipment": {
     "type": "Pants",
-    "color": "Gray",
+    "fill": {
+     "type": "Solid",
+     "color": "Gray"
+    },
     "material": 3
    }
   },
@@ -53,7 +59,10 @@
    "name": "Black Pants",
    "equipment": {
     "type": "Pants",
-    "color": "Black",
+    "fill": {
+     "type": "Solid",
+     "color": "Black"
+    },
     "material": 3
    }
   },
@@ -101,7 +110,10 @@
    "name": "White Pants",
    "equipment": {
     "type": "Pants",
-    "color": "White",
+    "fill": {
+     "type": "Solid",
+     "color": "White"
+    },
     "material": 3
    }
   },
@@ -195,7 +207,10 @@
    "name": "Blue Skirt",
    "equipment": {
     "type": "Skirt",
-    "color": "Blue",
+    "fill": {
+     "type": "Solid",
+     "color": "Blue"
+    },
     "material": 3
    }
   },
@@ -204,6 +219,10 @@
    "name": "Red Skirt",
    "equipment": {
     "type": "Skirt",
+    "fill": {
+     "type": "Solid",
+     "color": "Red"
+    },
     "material": 3
    }
   },
