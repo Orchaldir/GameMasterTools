@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.Dress
 import at.orchaldir.gm.utils.renderer.FillAndBorder
+import at.orchaldir.gm.utils.renderer.toRender
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.addTorso
@@ -14,7 +15,7 @@ fun visualizeDress(
     body: Body,
     dress: Dress,
 ) {
-    val options = FillAndBorder(dress.color.toRender(), state.config.line)
+    val options = FillAndBorder(dress.fill.toRender(), state.config.line)
 
     visualizeSleeves(state, options, body, dress.sleeveStyle)
     visualizeDressBody(state, options, body, dress)

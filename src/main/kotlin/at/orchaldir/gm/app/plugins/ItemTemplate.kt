@@ -162,7 +162,7 @@ private fun HTML.showItemTemplateDetails(
                 field("Neckline Style", template.equipment.necklineStyle.toString())
                 field("Skirt Style", template.equipment.skirtStyle.toString())
                 field("Sleeve Style", template.equipment.sleeveStyle.toString())
-                field("Color", template.equipment.color.toString())
+                showFill(template.equipment.fill)
                 field("Material") {
                     link(call, state, template.equipment.material)
                 }
@@ -285,7 +285,7 @@ private fun HTML.showItemTemplateEditor(
                         value = style.name
                         selected = template.equipment.sleeveStyle == style
                     }
-                    selectColor(template.equipment.color)
+                    selectFill(template.equipment.fill)
                     selectMaterial(state, template.equipment.material)
                 }
 

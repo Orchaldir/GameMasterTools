@@ -40,7 +40,7 @@ data class Dress(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val skirtStyle: SkirtStyle = SkirtStyle.Sheath,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val color: Color = Color.Red,
+    val fill: Fill = Solid(Color.SaddleBrown),
     val material: MaterialId = MaterialId(0),
 ) : Equipment() {
 

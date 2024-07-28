@@ -130,7 +130,10 @@
    "equipment": {
     "type": "Dress",
     "necklineStyle": "Crew",
-    "color": "White",
+    "fill": {
+     "type": "Solid",
+     "color": "White"
+    },
     "material": 2
    }
   },
@@ -139,7 +142,10 @@
    "name": "Blue Dress",
    "equipment": {
     "type": "Dress",
-    "color": "Blue",
+    "fill": {
+     "type": "Solid",
+     "color": "Blue"
+    },
     "material": 2
    }
   },
@@ -148,6 +154,10 @@
    "name": "Red Dress",
    "equipment": {
     "type": "Dress",
+    "fill": {
+     "type": "Solid",
+     "color": "Red"
+    },
     "material": 2
    }
   },
@@ -216,7 +226,10 @@
     "type": "Dress",
     "necklineStyle": "Crew",
     "sleeveStyle": "Short",
-    "color": "Pink",
+    "fill": {
+     "type": "Solid",
+     "color": "Pink"
+    },
     "material": 3
    }
   },
@@ -236,7 +249,10 @@
     "type": "Dress",
     "necklineStyle": "Crew",
     "sleeveStyle": "Short",
-    "color": "SkyBlue",
+    "fill": {
+     "type": "Solid",
+     "color": "SkyBlue"
+    },
     "material": 3
    }
   },

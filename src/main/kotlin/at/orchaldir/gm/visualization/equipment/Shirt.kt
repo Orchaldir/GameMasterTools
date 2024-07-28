@@ -21,6 +21,7 @@ fun visualizeShirt(
     shirt: Shirt,
 ) {
     val options = FillAndBorder(shirt.fill.toRender(), state.config.line)
+
     visualizeSleeves(state, options, body, shirt.sleeveStyle)
     visualizeTorso(state, options, body, shirt.necklineStyle)
 }

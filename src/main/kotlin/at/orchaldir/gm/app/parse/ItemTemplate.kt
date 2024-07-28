@@ -55,7 +55,7 @@ private fun parseDress(parameters: Parameters): Dress {
         neckline,
         parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
         parseSleeveStyle(parameters, neckline),
-        parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
+        parseFill(parameters),
         parseMaterialId(parameters, MATERIAL),
     )
 }
