@@ -378,8 +378,8 @@ private fun FORM.selectFill(fill: Fill) {
 }
 
 private fun FORM.selectStripes(color0: Color, color1: Color, width: UByte) {
-    selectColor(color0, "1.Stripe Color")
-    selectColor(color1, "2.Stripe Color", EQUIPMENT_COLOR_1)
+    selectColor(color0, "1.Stripe Color", colors = Color.entries - color1)
+    selectColor(color1, "2.Stripe Color", EQUIPMENT_COLOR_1, Color.entries - color0)
     field("Stripe Width") {
         numberInput(name = PATTERN_WIDTH) {
             min = "1"
@@ -401,8 +401,13 @@ private fun FORM.selectMaterial(
     }
 }
 
-private fun FORM.selectColor(color: Color, label: String = "Color", selectId: String = EQUIPMENT_COLOR_0) {
-    selectColor(label, selectId, OneOf(Color.entries), color)
+private fun FORM.selectColor(
+    color: Color,
+    label: String = "Color",
+    selectId: String = EQUIPMENT_COLOR_0,
+    colors: Collection<Color> = Color.entries,
+) {
+    selectColor(label, selectId, OneOf(colors), color)
 }
 
 private fun BODY.visualizeItem(template: ItemTemplate) {
