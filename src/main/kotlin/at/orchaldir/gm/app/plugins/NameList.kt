@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.NAME
 import at.orchaldir.gm.app.parse.parseNameList
 import at.orchaldir.gm.core.action.CreateNameList
 import at.orchaldir.gm.core.action.DeleteNameList
@@ -156,7 +157,7 @@ private fun HTML.showNameListEditor(
         field("Id", nameList.id.value.toString())
         form {
             field("Name") {
-                textInput(name = "name") {
+                textInput(name = NAME) {
                     value = nameList.name
                 }
             }

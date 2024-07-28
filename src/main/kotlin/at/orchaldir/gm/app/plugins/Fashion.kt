@@ -175,7 +175,7 @@ private fun HTML.showFashionEditor(
         field("Id", fashion.id.value.toString())
         form {
             field("Name") {
-                textInput(name = "name") {
+                textInput(name = NAME) {
                     value = fashion.name
                 }
             }

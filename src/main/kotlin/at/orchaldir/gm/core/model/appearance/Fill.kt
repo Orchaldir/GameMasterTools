@@ -17,5 +17,5 @@ data class Solid(
 data class VerticalStripes(
     val color0: Color,
     val color1: Color,
-    val width: Size,
+    val width: UByte = 1u,
 ) : Fill()

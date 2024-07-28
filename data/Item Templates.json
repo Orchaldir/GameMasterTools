@@ -257,8 +257,7 @@
     "fill": {
      "type": "VerticalStripes",
      "color0": "SkyBlue",
-     "color1": "White",
-     "width": "Medium"
+     "color1": "White"
     },
     "material": 3
    }

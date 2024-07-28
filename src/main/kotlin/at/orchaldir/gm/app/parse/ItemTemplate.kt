@@ -79,7 +79,7 @@ private fun parseFill(parameters: Parameters): Fill {
         FillType.VerticalStripes -> VerticalStripes(
             parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
             parse(parameters, EQUIPMENT_COLOR_1, Color.SaddleBrown),
-            Size.Medium,
+            parameters[PATTERN_WIDTH]?.toUByte() ?: 1u,
         )
     }
 }

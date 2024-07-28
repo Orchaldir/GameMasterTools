@@ -11,7 +11,7 @@ data class RenderSolid(
 data class RenderVerticalStripes(
     val color0: RenderColor,
     val color1: RenderColor,
-    val width: Size,
+    val width: UByte,
 ) : RenderFill()
 
 fun Fill.toRender(): RenderFill = when (this) {

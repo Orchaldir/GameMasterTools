@@ -258,7 +258,7 @@ private fun HTML.showItemTemplateEditor(
             action = previewLink
             method = FormMethod.post
             field("Name") {
-                textInput(name = "name") {
+                textInput(name = NAME) {
                     value = template.name
                 }
             }
@@ -375,6 +375,14 @@ private fun FORM.selectFill(fill: Fill) {
         is VerticalStripes -> {
             selectColor(fill.color0, "1.Stripe Color")
             selectColor(fill.color1, "2.Stripe Color", EQUIPMENT_COLOR_1)
+            field("Stripe Width") {
+                numberInput(name = PATTERN_WIDTH) {
+                    min = "1"
+                    max = "10"
+                    value = fill.width.toString()
+                    onChange = ON_CHANGE_SCRIPT
+                }
+            }
         }
     }
 }

@@ -216,7 +216,7 @@ private fun HTML.showRaceEditor(
             action = previewLink
             method = FormMethod.post
             field("Name") {
-                textInput(name = "name") {
+                textInput(name = NAME) {
                     value = race.name
                 }
             }
