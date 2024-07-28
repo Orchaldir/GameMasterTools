@@ -138,7 +138,7 @@ private fun HTML.showFashionDetails(
         field("Id", fashion.id.value.toString())
         field("Name", fashion.name)
         showRarityMap("Clothing Sets", fashion.clothingSets)
-        showRarityMap("Accessories", fashion.accessories)
+        showRarityMap("Accessories", fashion.accessories, ACCESSORIES)
         EquipmentType.entries.forEach {
             val options = fashion.getOptions(it)
 

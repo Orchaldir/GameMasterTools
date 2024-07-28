@@ -140,9 +140,10 @@ fun <K, V> HtmlBlockTag.showMap(
 
 inline fun <reified T : Enum<T>> HtmlBlockTag.showRarityMap(
     enum: String,
-    values: RarityMap<T>,
+    rarityMap: RarityMap<T>,
+    values: Set<T> = enumValues<T>().toSet(),
 ) {
-    val sortedMap = reverseAndSort(values.getRarityFor(enumValues<T>().toSet()))
+    val sortedMap = reverseAndSort(rarityMap.getRarityFor(values))
 
     details {
         summary { +enum }
