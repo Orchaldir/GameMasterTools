@@ -312,6 +312,19 @@
     },
     "material": 3
    }
+  },
+  "28": {
+   "id": 28,
+   "name": "Pinestrip Pants",
+   "equipment": {
+    "type": "Pants",
+    "fill": {
+     "type": "VerticalStripes",
+     "color0": "Black",
+     "color1": "Gray"
+    },
+    "material": 3
+   }
   }
  }
 }
