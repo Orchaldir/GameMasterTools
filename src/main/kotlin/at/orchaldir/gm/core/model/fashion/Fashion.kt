@@ -24,6 +24,7 @@ data class Fashion(
     val clothingSets: OneOf<ClothingSet> = OneOf(ClothingSet.entries),
     val dresses: OneOrNone<ItemTemplateId> = OneOrNone(),
     val footwear: OneOrNone<ItemTemplateId> = OneOrNone(),
+    val gloves: OneOrNone<ItemTemplateId> = OneOrNone(),
     val hats: OneOrNone<ItemTemplateId> = OneOrNone(),
     val pants: OneOrNone<ItemTemplateId> = OneOrNone(),
     val shirts: OneOrNone<ItemTemplateId> = OneOrNone(),
@@ -40,7 +41,7 @@ data class Fashion(
         EquipmentType.None -> OneOrNone()
         EquipmentType.Dress -> dresses
         EquipmentType.Footwear -> footwear
-        EquipmentType.Gloves -> OneOrNone()
+        EquipmentType.Gloves -> gloves
         EquipmentType.Hat -> hats
         EquipmentType.Pants -> pants
         EquipmentType.Shirt -> shirts

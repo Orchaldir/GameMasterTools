@@ -21,6 +21,7 @@ fun parseFashion(id: FashionId, parameters: Parameters): Fashion {
         parseOneOf(parameters, CLOTHING_SETS, ClothingSet::valueOf),
         parseItemTemplates(parameters, EquipmentType.Dress),
         parseItemTemplates(parameters, EquipmentType.Footwear),
+        parseItemTemplates(parameters, EquipmentType.Gloves),
         parseItemTemplates(parameters, EquipmentType.Hat),
         parseItemTemplates(parameters, EquipmentType.Pants),
         parseItemTemplates(parameters, EquipmentType.Shirt),
