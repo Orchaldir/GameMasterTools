@@ -75,16 +75,16 @@ private fun parseFill(parameters: Parameters): Fill {
     val type = parse(parameters, FILL_TYPE, FillType.Solid)
 
     return when (type) {
-        FillType.Solid -> Solid(parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown))
+        FillType.Solid -> Solid(parse(parameters, EQUIPMENT_COLOR_0, Color.SkyBlue))
         FillType.VerticalStripes -> VerticalStripes(
-            parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
-            parse(parameters, EQUIPMENT_COLOR_1, Color.SaddleBrown),
+            parse(parameters, EQUIPMENT_COLOR_0, Color.Black),
+            parse(parameters, EQUIPMENT_COLOR_1, Color.White),
             parseWidth(parameters),
         )
 
         FillType.HorizontalStripes -> HorizontalStripes(
-            parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
-            parse(parameters, EQUIPMENT_COLOR_1, Color.SaddleBrown),
+            parse(parameters, EQUIPMENT_COLOR_0, Color.Black),
+            parse(parameters, EQUIPMENT_COLOR_1, Color.White),
             parseWidth(parameters),
         )
     }
