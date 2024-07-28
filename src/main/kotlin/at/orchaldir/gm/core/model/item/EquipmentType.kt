@@ -6,6 +6,7 @@ enum class EquipmentType {
     None,
     Dress,
     Footwear,
+    Gloves,
     Hat,
     Pants,
     Shirt,
@@ -15,6 +16,7 @@ enum class EquipmentType {
         None -> emptySet()
         Dress -> setOf(Bottom, Top)
         Footwear -> setOf(Foot)
+        Gloves -> setOf(Headwear)
         Hat -> setOf(Headwear)
         Pants -> setOf(Bottom)
         Shirt -> setOf(Top)

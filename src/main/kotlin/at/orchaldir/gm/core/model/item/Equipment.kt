@@ -17,6 +17,7 @@ sealed class Equipment {
         NoEquipment -> EquipmentType.None
         is Dress -> EquipmentType.Dress
         is Footwear -> EquipmentType.Footwear
+        is Gloves -> EquipmentType.Gloves
         is Hat -> EquipmentType.Hat
         is Pants -> EquipmentType.Pants
         is Shirt -> EquipmentType.Shirt
@@ -54,6 +55,18 @@ data class Footwear(
     val style: FootwearStyle = FootwearStyle.Shoes,
     val color: Color = Color.SaddleBrown,
     val sole: Color = Color.SaddleBrown,
+    val material: MaterialId = MaterialId(0),
+) : Equipment() {
+
+    override fun contains(id: MaterialId) = material == id
+    override fun getMaterials() = setOf(material)
+}
+
+@Serializable
+@SerialName("Gloves")
+data class Gloves(
+    val style: GloveStyle = GloveStyle.Hand,
+    val color: Color = Color.SaddleBrown,
     val material: MaterialId = MaterialId(0),
 ) : Equipment() {
 
