@@ -7,6 +7,10 @@
    "clothingSets": {
     "PantsAndShirt": "Common"
    },
+   "accessories": {
+    "Footwear": "Everyone",
+    "Hat": "Common"
+   },
    "footwear": {
     "0": "Common",
     "1": "Uncommon"
@@ -36,6 +40,11 @@
    "clothingSets": {
     "Dress": "Common",
     "ShirtAndSkirt": "Common"
+   },
+   "accessories": {
+    "Footwear": "Everyone",
+    "Gloves": "Uncommon",
+    "Hat": "Common"
    },
    "dresses": {
     "13": "Common",

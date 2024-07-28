@@ -2,6 +2,8 @@ package at.orchaldir.gm.core.model.fashion
 
 import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.appearance.OneOrNone
+import at.orchaldir.gm.core.model.appearance.Rarity
+import at.orchaldir.gm.core.model.appearance.SomeOf
 import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.utils.Element
@@ -22,6 +24,7 @@ data class Fashion(
     val id: FashionId,
     val name: String = "Fashion ${id.value}",
     val clothingSets: OneOf<ClothingSet> = OneOf(ClothingSet.entries),
+    val accessories: SomeOf<EquipmentType> = SomeOf(emptySet()),
     val dresses: OneOrNone<ItemTemplateId> = OneOrNone(),
     val footwear: OneOrNone<ItemTemplateId> = OneOrNone(),
     val gloves: OneOrNone<ItemTemplateId> = OneOrNone(),

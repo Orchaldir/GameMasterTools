@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.ACCESSORY_RARITY
 import at.orchaldir.gm.app.parse.CLOTHING_SETS
 import at.orchaldir.gm.app.parse.NAME
 import at.orchaldir.gm.app.parse.parseFashion
@@ -11,6 +12,7 @@ import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
+import at.orchaldir.gm.core.model.item.ACCESSORIES
 import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCultures
@@ -136,6 +138,7 @@ private fun HTML.showFashionDetails(
         field("Id", fashion.id.value.toString())
         field("Name", fashion.name)
         showRarityMap("Clothing Sets", fashion.clothingSets)
+        showRarityMap("Accessories", fashion.accessories)
         EquipmentType.entries.forEach {
             val options = fashion.getOptions(it)
 
@@ -173,6 +176,7 @@ private fun HTML.showFashionEditor(
                 }
             }
             selectRarityMap("Clothing Sets", CLOTHING_SETS, fashion.clothingSets)
+            selectRarityMap("Accessories", ACCESSORY_RARITY, fashion.accessories, false, ACCESSORIES)
             EquipmentType.entries.forEach {
                 selectEquipmentType(state, fashion, it)
             }

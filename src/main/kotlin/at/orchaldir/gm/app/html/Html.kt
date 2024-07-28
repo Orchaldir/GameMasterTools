@@ -292,13 +292,14 @@ fun <T> FORM.selectGenderMap(
 inline fun <reified T : Enum<T>> FORM.selectRarityMap(
     enum: String,
     selectId: String,
-    values: RarityMap<T>,
+    rarityMap: RarityMap<T>,
     update: Boolean = false,
+    values: Set<T> = enumValues<T>().toSet(),
 ) {
     details {
         summary { +enum }
-        showMap(values.getRarityFor(enumValues<T>().toSet())) { currentValue, currentRarity ->
-            selectEnum(currentValue.toString(), selectId, values.getAvailableRarities(), update) { rarity ->
+        showMap(rarityMap.getRarityFor(values)) { currentValue, currentRarity ->
+            selectEnum(currentValue.toString(), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
                 label = rarity.toString()
                 value = "$currentValue-$rarity"
                 selected = rarity == currentRarity
