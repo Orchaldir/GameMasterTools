@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.FillAndBorder
+import at.orchaldir.gm.utils.renderer.toRender
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.BodyConfig
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
@@ -43,7 +44,7 @@ fun visualizeSkirt(
     body: Body,
     skirt: Skirt,
 ) {
-    val options = FillAndBorder(skirt.color.toRender(), state.config.line)
+    val options = FillAndBorder(skirt.fill.toRender(), state.config.line)
     val builder = createSkirt(state, body, skirt.style)
 
     renderBuilder(state, builder, options, EQUIPMENT_LAYER)

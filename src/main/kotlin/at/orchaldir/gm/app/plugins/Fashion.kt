@@ -2,16 +2,16 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.CLOTHING_SETS
+import at.orchaldir.gm.app.parse.NAME
+import at.orchaldir.gm.app.parse.parseFashion
 import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.OneOrNone
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.item.EquipmentType
-import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCultures
 import at.orchaldir.gm.core.selector.getItemTemplatesId
@@ -177,17 +177,17 @@ private fun HTML.showFashionEditor(
         field("Id", fashion.id.value.toString())
         form {
             field("Name") {
-                textInput(name = "name") {
+                textInput(name = NAME) {
                     value = fashion.name
                 }
             }
             selectRarityMap("Clothing Sets", CLOTHING_SETS, fashion.clothingSets)
-            selectEquipmentType(state, "Dresses", DRESS, fashion.footwear, EquipmentType.Dress)
-            selectEquipmentType(state, "Footwear", FOOTWEAR, fashion.footwear, EquipmentType.Footwear)
-            selectEquipmentType(state, "Hats", HAT, fashion.hats, EquipmentType.Hat)
-            selectEquipmentType(state, "Pants", PANTS, fashion.pants, EquipmentType.Pants)
-            selectEquipmentType(state, "Shirts", SHIRT, fashion.shirts, EquipmentType.Shirt)
-            selectEquipmentType(state, "Skirts", SKIRT, fashion.skirts, EquipmentType.Skirt)
+            selectEquipmentType(state, "Dresses", fashion, EquipmentType.Dress)
+            selectEquipmentType(state, "Footwear", fashion, EquipmentType.Footwear)
+            selectEquipmentType(state, "Hats", fashion, EquipmentType.Hat)
+            selectEquipmentType(state, "Pants", fashion, EquipmentType.Pants)
+            selectEquipmentType(state, "Shirts", fashion, EquipmentType.Shirt)
+            selectEquipmentType(state, "Skirts", fashion, EquipmentType.Skirt)
             p {
                 submitInput {
                     value = "Update"
@@ -203,10 +203,10 @@ private fun HTML.showFashionEditor(
 private fun FORM.selectEquipmentType(
     state: State,
     label: String,
-    param: String,
-    oneOf: OneOrNone<ItemTemplateId>,
+    fashion: Fashion,
     type: EquipmentType,
 ) {
+    val rarityMap = fashion.getOptions(type)
     val options = state.getItemTemplatesId(type)
-    selectRarityMap(label, param, state.itemTemplates, options, oneOf) { it.name }
+    selectRarityMap(label, type.name, state.itemTemplates, options, rarityMap) { it.name }
 }

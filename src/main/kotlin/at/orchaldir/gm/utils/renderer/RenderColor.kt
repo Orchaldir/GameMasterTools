@@ -1,8 +1,5 @@
 package at.orchaldir.gm.utils.renderer
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 sealed class RenderColor {
 
     abstract fun toCode(): String

@@ -7,8 +7,7 @@ import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.appearance.OneOf
+import at.orchaldir.gm.core.model.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
@@ -163,7 +162,7 @@ private fun HTML.showItemTemplateDetails(
                 field("Neckline Style", template.equipment.necklineStyle.toString())
                 field("Skirt Style", template.equipment.skirtStyle.toString())
                 field("Sleeve Style", template.equipment.sleeveStyle.toString())
-                field("Color", template.equipment.color.toString())
+                showFill(template.equipment.fill)
                 field("Material") {
                     link(call, state, template.equipment.material)
                 }
@@ -193,7 +192,7 @@ private fun HTML.showItemTemplateDetails(
             is Pants -> {
                 field("Equipment", "Pants")
                 field("Style", template.equipment.style.toString())
-                field("Color", template.equipment.color.toString())
+                showFill(template.equipment.fill)
                 field("Material") {
                     link(call, state, template.equipment.material)
                 }
@@ -203,7 +202,7 @@ private fun HTML.showItemTemplateDetails(
                 field("Equipment", "Shirt")
                 field("Neckline Style", template.equipment.necklineStyle.toString())
                 field("Sleeve Style", template.equipment.sleeveStyle.toString())
-                field("Color", template.equipment.color.toString())
+                showFill(template.equipment.fill)
                 field("Material") {
                     link(call, state, template.equipment.material)
                 }
@@ -212,7 +211,7 @@ private fun HTML.showItemTemplateDetails(
             is Skirt -> {
                 field("Equipment", "Skirt")
                 field("Style", template.equipment.style.toString())
-                field("Color", template.equipment.color.toString())
+                showFill(template.equipment.fill)
                 field("Material") {
                     link(call, state, template.equipment.material)
                 }
@@ -232,6 +231,15 @@ private fun HTML.showItemTemplateDetails(
     }
 }
 
+private fun BODY.showFill(fill: Fill) {
+    when (fill) {
+        is Solid -> field("Color", fill.color.toString())
+        is VerticalStripes -> field("Vertical Stripes", "${fill.color0} & ${fill.color1}")
+        is HorizontalStripes -> field("Horizontal Stripes", "${fill.color0} & ${fill.color1}")
+    }
+
+}
+
 private fun HTML.showItemTemplateEditor(
     call: ApplicationCall,
     state: State,
@@ -249,7 +257,7 @@ private fun HTML.showItemTemplateEditor(
             action = previewLink
             method = FormMethod.post
             field("Name") {
-                textInput(name = "name") {
+                textInput(name = NAME) {
                     value = template.name
                 }
             }
@@ -277,7 +285,7 @@ private fun HTML.showItemTemplateEditor(
                         value = style.name
                         selected = template.equipment.sleeveStyle == style
                     }
-                    selectColor(template.equipment.color)
+                    selectFill(template.equipment.fill)
                     selectMaterial(state, template.equipment.material)
                 }
 
@@ -289,7 +297,7 @@ private fun HTML.showItemTemplateEditor(
                     }
                     selectColor(template.equipment.color)
                     if (template.equipment.style.hasSole()) {
-                        selectColor(template.equipment.sole, "Sole Color", SOLE_COLOR)
+                        selectColor(template.equipment.sole, "Sole Color", EQUIPMENT_COLOR_1)
                     }
                     selectMaterial(state, template.equipment.material)
                 }
@@ -310,7 +318,7 @@ private fun HTML.showItemTemplateEditor(
                         value = style.name
                         selected = template.equipment.style == style
                     }
-                    selectColor(template.equipment.color)
+                    selectFill(template.equipment.fill)
                     selectMaterial(state, template.equipment.material)
                 }
 
@@ -326,7 +334,7 @@ private fun HTML.showItemTemplateEditor(
                         value = style.name
                         selected = template.equipment.sleeveStyle == style
                     }
-                    selectColor(template.equipment.color)
+                    selectFill(template.equipment.fill)
                     selectMaterial(state, template.equipment.material)
                 }
 
@@ -336,7 +344,7 @@ private fun HTML.showItemTemplateEditor(
                         value = style.name
                         selected = template.equipment.style == style
                     }
-                    selectColor(template.equipment.color)
+                    selectFill(template.equipment.fill)
                     selectMaterial(state, template.equipment.material)
                 }
             }
@@ -352,6 +360,36 @@ private fun HTML.showItemTemplateEditor(
     }
 }
 
+private fun FORM.selectFill(fill: Fill) {
+    selectEnum("Fill Type", FILL_TYPE, FillType.entries, true) { type ->
+        label = type.name
+        value = type.name
+        selected = when (fill) {
+            is Solid -> type == FillType.Solid
+            is VerticalStripes -> type == FillType.VerticalStripes
+            is HorizontalStripes -> type == FillType.HorizontalStripes
+        }
+    }
+    when (fill) {
+        is Solid -> selectColor(fill.color)
+        is VerticalStripes -> selectStripes(fill.color0, fill.color1, fill.width)
+        is HorizontalStripes -> selectStripes(fill.color0, fill.color1, fill.width)
+    }
+}
+
+private fun FORM.selectStripes(color0: Color, color1: Color, width: UByte) {
+    selectColor(color0, "1.Stripe Color", colors = Color.entries - color1)
+    selectColor(color1, "2.Stripe Color", EQUIPMENT_COLOR_1, Color.entries - color0)
+    field("Stripe Width") {
+        numberInput(name = PATTERN_WIDTH) {
+            min = "1"
+            max = "10"
+            value = width.toString()
+            onChange = ON_CHANGE_SCRIPT
+        }
+    }
+}
+
 private fun FORM.selectMaterial(
     state: State,
     materialId: MaterialId,
@@ -363,8 +401,13 @@ private fun FORM.selectMaterial(
     }
 }
 
-private fun FORM.selectColor(color: Color, label: String = "Color", selectId: String = EQUIPMENT_COLOR) {
-    selectColor(label, selectId, OneOf(Color.entries), color)
+private fun FORM.selectColor(
+    color: Color,
+    label: String = "Color",
+    selectId: String = EQUIPMENT_COLOR_0,
+    colors: Collection<Color> = Color.entries,
+) {
+    selectColor(label, selectId, OneOf(colors), color)
 }
 
 private fun BODY.visualizeItem(template: ItemTemplate) {

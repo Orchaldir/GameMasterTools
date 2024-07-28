@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.item
 
 import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.appearance.Fill
+import at.orchaldir.gm.core.model.appearance.Solid
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import kotlinx.serialization.SerialName
@@ -38,7 +40,7 @@ data class Dress(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val skirtStyle: SkirtStyle = SkirtStyle.Sheath,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val color: Color = Color.Red,
+    val fill: Fill = Solid(Color.SaddleBrown),
     val material: MaterialId = MaterialId(0),
 ) : Equipment() {
 
@@ -75,7 +77,7 @@ data class Hat(
 @SerialName("Pants")
 data class Pants(
     val style: PantsStyle = PantsStyle.Regular,
-    val color: Color = Color.SaddleBrown,
+    val fill: Fill = Solid(Color.SaddleBrown),
     val material: MaterialId = MaterialId(0),
 ) : Equipment() {
 
@@ -88,7 +90,7 @@ data class Pants(
 data class Shirt(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val color: Color = Color.SaddleBrown,
+    val fill: Fill = Solid(Color.SaddleBrown),
     val material: MaterialId = MaterialId(0),
 ) : Equipment() {
 
@@ -100,7 +102,7 @@ data class Shirt(
 @SerialName("Skirt")
 data class Skirt(
     val style: SkirtStyle = SkirtStyle.Sheath,
-    val color: Color = Color.Red,
+    val fill: Fill = Solid(Color.SaddleBrown),
     val material: MaterialId = MaterialId(0),
 ) : Equipment() {
 

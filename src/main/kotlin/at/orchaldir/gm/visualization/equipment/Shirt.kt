@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.item.style.SleeveStyle
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.utils.renderer.RenderOptions
+import at.orchaldir.gm.utils.renderer.toRender
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.HIGHER_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.LOWER_EQUIPMENT_LAYER
@@ -19,7 +20,8 @@ fun visualizeShirt(
     body: Body,
     shirt: Shirt,
 ) {
-    val options = FillAndBorder(shirt.color.toRender(), state.config.line)
+    val options = FillAndBorder(shirt.fill.toRender(), state.config.line)
+
     visualizeSleeves(state, options, body, shirt.sleeveStyle)
     visualizeTorso(state, options, body, shirt.necklineStyle)
 }

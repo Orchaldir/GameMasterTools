@@ -23,7 +23,10 @@
    "name": "White Shirt",
    "equipment": {
     "type": "Shirt",
-    "color": "White",
+    "fill": {
+     "type": "Solid",
+     "color": "White"
+    },
     "material": 3
    }
   },
@@ -32,7 +35,10 @@
    "name": "Navy Pants",
    "equipment": {
     "type": "Pants",
-    "color": "Navy",
+    "fill": {
+     "type": "Solid",
+     "color": "Navy"
+    },
     "material": 3
    }
   },
@@ -41,7 +47,10 @@
    "name": "Gray Pants",
    "equipment": {
     "type": "Pants",
-    "color": "Gray",
+    "fill": {
+     "type": "Solid",
+     "color": "Gray"
+    },
     "material": 3
    }
   },
@@ -50,7 +59,10 @@
    "name": "Black Pants",
    "equipment": {
     "type": "Pants",
-    "color": "Black",
+    "fill": {
+     "type": "Solid",
+     "color": "Black"
+    },
     "material": 3
    }
   },
@@ -98,7 +110,10 @@
    "name": "White Pants",
    "equipment": {
     "type": "Pants",
-    "color": "White",
+    "fill": {
+     "type": "Solid",
+     "color": "White"
+    },
     "material": 3
    }
   },
@@ -127,7 +142,10 @@
    "equipment": {
     "type": "Dress",
     "necklineStyle": "Crew",
-    "color": "White",
+    "fill": {
+     "type": "Solid",
+     "color": "White"
+    },
     "material": 2
    }
   },
@@ -136,7 +154,10 @@
    "name": "Blue Dress",
    "equipment": {
     "type": "Dress",
-    "color": "Blue",
+    "fill": {
+     "type": "Solid",
+     "color": "Blue"
+    },
     "material": 2
    }
   },
@@ -145,6 +166,10 @@
    "name": "Red Dress",
    "equipment": {
     "type": "Dress",
+    "fill": {
+     "type": "Solid",
+     "color": "Red"
+    },
     "material": 2
    }
   },
@@ -182,7 +207,10 @@
    "name": "Blue Skirt",
    "equipment": {
     "type": "Skirt",
-    "color": "Blue",
+    "fill": {
+     "type": "Solid",
+     "color": "Blue"
+    },
     "material": 3
    }
   },
@@ -191,6 +219,110 @@
    "name": "Red Skirt",
    "equipment": {
     "type": "Skirt",
+    "fill": {
+     "type": "Solid",
+     "color": "Red"
+    },
+    "material": 3
+   }
+  },
+  "21": {
+   "id": 21,
+   "name": "Sky Blue Shirt",
+   "equipment": {
+    "type": "Shirt",
+    "fill": {
+     "type": "Solid",
+     "color": "SkyBlue"
+    },
+    "material": 3
+   }
+  },
+  "22": {
+   "id": 22,
+   "name": "Pink Dress",
+   "equipment": {
+    "type": "Dress",
+    "necklineStyle": "Crew",
+    "sleeveStyle": "Short",
+    "fill": {
+     "type": "Solid",
+     "color": "Pink"
+    },
+    "material": 3
+   }
+  },
+  "23": {
+   "id": 23,
+   "name": "Pink Pumps",
+   "equipment": {
+    "type": "Footwear",
+    "style": "Pumps",
+    "color": "Pink"
+   }
+  },
+  "24": {
+   "id": 24,
+   "name": "Sky Blue Dress",
+   "equipment": {
+    "type": "Dress",
+    "necklineStyle": "Crew",
+    "sleeveStyle": "Short",
+    "fill": {
+     "type": "Solid",
+     "color": "SkyBlue"
+    },
+    "material": 3
+   }
+  },
+  "25": {
+   "id": 25,
+   "name": "White Pumps",
+   "equipment": {
+    "type": "Footwear",
+    "style": "Pumps",
+    "color": "White"
+   }
+  },
+  "26": {
+   "id": 26,
+   "name": "White & Blue Striped Shirt",
+   "equipment": {
+    "type": "Shirt",
+    "fill": {
+     "type": "VerticalStripes",
+     "color0": "SkyBlue",
+     "color1": "White"
+    },
+    "material": 3
+   }
+  },
+  "27": {
+   "id": 27,
+   "name": "Black & White Striped Dress",
+   "equipment": {
+    "type": "Dress",
+    "necklineStyle": "Crew",
+    "sleeveStyle": "None",
+    "fill": {
+     "type": "HorizontalStripes",
+     "color0": "Black",
+     "color1": "White",
+     "width": 2
+    },
+    "material": 3
+   }
+  },
+  "28": {
+   "id": 28,
+   "name": "Pinestrip Pants",
+   "equipment": {
+    "type": "Pants",
+    "fill": {
+     "type": "VerticalStripes",
+     "color0": "Black",
+     "color1": "Gray"
+    },
     "material": 3
    }
   }

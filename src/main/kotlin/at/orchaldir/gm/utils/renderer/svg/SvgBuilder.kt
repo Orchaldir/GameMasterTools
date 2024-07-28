@@ -7,11 +7,20 @@ import java.util.*
 val LOCALE: Locale = Locale.US
 
 class SvgBuilder(private val size: Size2d) : Renderer {
+    private val patterns: MutableMap<RenderFill, String> = mutableMapOf()
     private val layers: MutableMap<Int, MutableList<String>> = mutableMapOf()
 
     fun finish(): Svg {
         val lines: MutableList<String> = mutableListOf()
         lines.add(getStartLine())
+
+        if (patterns.isNotEmpty()) {
+            lines.add("  <defs>")
+
+            patterns.forEach { (fill, name) -> addPatternLines(lines, fill, name) }
+
+            lines.add("  </defs>")
+        }
 
         layers.toSortedMap()
             .values.forEach { layer -> lines.addAll(layer) }
@@ -19,13 +28,6 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         lines.add("</svg>")
         return Svg(lines)
     }
-
-    private fun getStartLine() = String.format(
-        LOCALE,
-        "<svg viewBox=\"0 0 %.3f %.3f\" xmlns=\"http://www.w3.org/2000/svg\">",
-        size.width,
-        size.height
-    )
 
     override fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions, layer: Int) {
         layers.computeIfAbsent(layer) {
@@ -132,6 +134,46 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         )
     }
 
+    private fun getStartLine() = String.format(
+        LOCALE,
+        "<svg viewBox=\"0 0 %.3f %.3f\" xmlns=\"http://www.w3.org/2000/svg\">",
+        size.width,
+        size.height
+    )
+
+    private fun addPatternLines(lines: MutableList<String>, fill: RenderFill, name: String) {
+        when (fill) {
+            is RenderSolid -> error("Solid is not a pattern!")
+            is RenderVerticalStripes -> addStripes(lines, name, fill.color0, fill.color1, fill.width)
+            is RenderHorizontalStripes -> addStripes(
+                lines,
+                name,
+                fill.color0,
+                fill.color1,
+                fill.width,
+                " gradientTransform=\"rotate(90)\""
+            )
+        }
+    }
+
+    private fun SvgBuilder.addStripes(
+        lines: MutableList<String>,
+        name: String,
+        color0: RenderColor,
+        color1: RenderColor,
+        width: UByte,
+        options: String = "",
+    ) {
+        val c0 = toSvg(color0)
+        val c1 = toSvg(color1)
+        lines.add("    <linearGradient id=\"$name\" spreadMethod=\"repeat\" x2=\"$width%\" gradientUnits=\"userSpaceOnUse\"$options>")
+        lines.add("      <stop offset=\"0\" stop-color=\"$c0\"/>>")
+        lines.add("      <stop offset=\"0.5\" stop-color=\"$c0\"/>>")
+        lines.add("      <stop offset=\"0.5\" stop-color=\"$c1\"/>>")
+        lines.add("      <stop offset=\"1.0\" stop-color=\"$c1\"/>>")
+        lines.add("    </linearGradient>")
+    }
+
     private fun renderPath(path: String, style: String, layer: Int) {
         layers.computeIfAbsent(layer) {
             mutableListOf()
@@ -144,25 +186,33 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         )
     }
 
-}
+    private fun toSvg(options: RenderOptions): String {
+        return when (options) {
+            is FillAndBorder -> String.format(
+                "fill:%s;%s",
+                toSvg(options.fill),
+                toSvg(options.border)
+            )
 
-fun toSvg(options: RenderOptions): String {
-    return when (options) {
-        is FillAndBorder -> String.format(
-            "fill:%s;%s",
-            toSvg(options.fill),
-            toSvg(options.border)
-        )
-
-        is BorderOnly -> String.format("fill:none;%s", toSvg(options.border))
-        is NoBorder -> String.format("fill:%s", toSvg(options.fill))
+            is BorderOnly -> String.format("fill:none;%s", toSvg(options.border))
+            is NoBorder -> String.format("fill:%s", toSvg(options.fill))
+        }
     }
-}
 
-fun toSvg(line: LineOptions): String {
-    return String.format(
-        LOCALE, "stroke:%s;stroke-width:%.3f", toSvg(line.color), line.width.value
-    )
-}
+    private fun toSvg(line: LineOptions): String {
+        return String.format(
+            LOCALE, "stroke:%s;stroke-width:%.3f", toSvg(line.color), line.width.value
+        )
+    }
 
-fun toSvg(color: RenderColor) = color.toCode()
+    private fun toSvg(fill: RenderFill) = when (fill) {
+        is RenderSolid -> toSvg(fill.color)
+        else -> {
+            val name = patterns.computeIfAbsent(fill) { "pattern_${patterns.size}" }
+            "url(#$name)"
+        }
+    }
+
+    private fun toSvg(color: RenderColor) = color.toCode()
+
+}

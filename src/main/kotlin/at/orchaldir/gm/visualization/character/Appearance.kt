@@ -46,7 +46,7 @@ fun visualizeAppearance(
     state: RenderState,
     appearance: Appearance,
 ) {
-    val inner = state.aabb.shrink(state.config.padding)
+    val inner = AABB.fromCenter(state.aabb.getCenter(), appearance.getSize())
     val innerState = state.copy(aabb = inner)
 
     state.renderer.renderRectangle(state.aabb, BorderOnly(state.config.line))
