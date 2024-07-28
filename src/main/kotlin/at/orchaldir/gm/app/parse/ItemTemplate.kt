@@ -79,10 +79,18 @@ private fun parseFill(parameters: Parameters): Fill {
         FillType.VerticalStripes -> VerticalStripes(
             parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
             parse(parameters, EQUIPMENT_COLOR_1, Color.SaddleBrown),
-            parameters[PATTERN_WIDTH]?.toUByte() ?: 1u,
+            parseWidth(parameters),
+        )
+
+        FillType.HorizontalStripes -> HorizontalStripes(
+            parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
+            parse(parameters, EQUIPMENT_COLOR_1, Color.SaddleBrown),
+            parseWidth(parameters),
         )
     }
 }
+
+private fun parseWidth(parameters: Parameters) = parameters[PATTERN_WIDTH]?.toUByte() ?: 1u
 
 private fun parseSleeveStyle(
     parameters: Parameters,

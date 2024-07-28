@@ -144,17 +144,26 @@ class SvgBuilder(private val size: Size2d) : Renderer {
     private fun addPatternLines(lines: MutableList<String>, fill: RenderFill, name: String) {
         when (fill) {
             is RenderSolid -> error("Solid is not a pattern!")
-            is RenderVerticalStripes -> {
-                val color0 = toSvg(fill.color0)
-                val color1 = toSvg(fill.color1)
-                lines.add("    <linearGradient id=\"$name\" spreadMethod=\"repeat\" x2=\"${fill.width}%\" gradientUnits=\"userSpaceOnUse\">")
-                lines.add("      <stop offset=\"0\" stop-color=\"$color0\"/>>")
-                lines.add("      <stop offset=\"0.5\" stop-color=\"$color0\"/>>")
-                lines.add("      <stop offset=\"0.5\" stop-color=\"$color1\"/>>")
-                lines.add("      <stop offset=\"1.0\" stop-color=\"$color1\"/>>")
-                lines.add("    </linearGradient>")
-            }
+            is RenderVerticalStripes -> addStripes(lines, name, fill.color0, fill.color1, fill.width)
+            is RenderHorizontalStripes -> addStripes(lines, name, fill.color0, fill.color1, fill.width)
         }
+    }
+
+    private fun SvgBuilder.addStripes(
+        lines: MutableList<String>,
+        name: String,
+        color0: RenderColor,
+        color1: RenderColor,
+        width: UByte,
+    ) {
+        val c0 = toSvg(color0)
+        val c1 = toSvg(color1)
+        lines.add("    <linearGradient id=\"$name\" spreadMethod=\"repeat\" x2=\"$width%\" gradientUnits=\"userSpaceOnUse\">")
+        lines.add("      <stop offset=\"0\" stop-color=\"$c0\"/>>")
+        lines.add("      <stop offset=\"0.5\" stop-color=\"$c0\"/>>")
+        lines.add("      <stop offset=\"0.5\" stop-color=\"$c1\"/>>")
+        lines.add("      <stop offset=\"1.0\" stop-color=\"$c1\"/>>")
+        lines.add("    </linearGradient>")
     }
 
     private fun renderPath(path: String, style: String, layer: Int) {
@@ -190,7 +199,7 @@ class SvgBuilder(private val size: Size2d) : Renderer {
 
     private fun toSvg(fill: RenderFill) = when (fill) {
         is RenderSolid -> toSvg(fill.color)
-        is RenderVerticalStripes -> {
+        else -> {
             val name = patterns.computeIfAbsent(fill) { "pattern_${patterns.size}" }
             "url(#$name)"
         }

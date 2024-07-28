@@ -234,9 +234,8 @@ private fun HTML.showItemTemplateDetails(
 private fun BODY.showFill(fill: Fill) {
     when (fill) {
         is Solid -> field("Color", fill.color.toString())
-        is VerticalStripes -> {
-            field("Vertical Stripes", "${fill.color0} & ${fill.color1}")
-        }
+        is VerticalStripes -> field("Vertical Stripes", "${fill.color0} & ${fill.color1}")
+        is HorizontalStripes -> field("Horizontal Stripes", "${fill.color0} & ${fill.color1}")
     }
 
 }
@@ -368,21 +367,25 @@ private fun FORM.selectFill(fill: Fill) {
         selected = when (fill) {
             is Solid -> type == FillType.Solid
             is VerticalStripes -> type == FillType.VerticalStripes
+            is HorizontalStripes -> type == FillType.HorizontalStripes
         }
     }
     when (fill) {
         is Solid -> selectColor(fill.color)
-        is VerticalStripes -> {
-            selectColor(fill.color0, "1.Stripe Color")
-            selectColor(fill.color1, "2.Stripe Color", EQUIPMENT_COLOR_1)
-            field("Stripe Width") {
-                numberInput(name = PATTERN_WIDTH) {
-                    min = "1"
-                    max = "10"
-                    value = fill.width.toString()
-                    onChange = ON_CHANGE_SCRIPT
-                }
-            }
+        is VerticalStripes -> selectStripes(fill.color0, fill.color1, fill.width)
+        is HorizontalStripes -> selectStripes(fill.color0, fill.color1, fill.width)
+    }
+}
+
+private fun FORM.selectStripes(color0: Color, color1: Color, width: UByte) {
+    selectColor(color0, "1.Stripe Color")
+    selectColor(color1, "2.Stripe Color", EQUIPMENT_COLOR_1)
+    field("Stripe Width") {
+        numberInput(name = PATTERN_WIDTH) {
+            min = "1"
+            max = "10"
+            value = width.toString()
+            onChange = ON_CHANGE_SCRIPT
         }
     }
 }
