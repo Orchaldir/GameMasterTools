@@ -40,6 +40,7 @@ data class Fashion(
         EquipmentType.None -> OneOrNone()
         EquipmentType.Dress -> dresses
         EquipmentType.Footwear -> footwear
+        EquipmentType.Gloves -> OneOrNone()
         EquipmentType.Hat -> hats
         EquipmentType.Pants -> pants
         EquipmentType.Shirt -> shirts

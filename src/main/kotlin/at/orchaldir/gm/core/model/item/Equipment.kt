@@ -66,7 +66,7 @@ data class Footwear(
 @SerialName("Gloves")
 data class Gloves(
     val style: GloveStyle = GloveStyle.Hand,
-    val color: Color = Color.SaddleBrown,
+    val fill: Fill = Solid(Color.Red),
     val material: MaterialId = MaterialId(0),
 ) : Equipment() {
 
