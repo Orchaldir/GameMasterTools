@@ -23,6 +23,7 @@ fun visualizeBodyEquipment(
         when (it) {
             is Dress -> visualizeDress(state, body, it)
             is Footwear -> visualizeFootwear(state, body, it)
+            is Gloves -> visualizeGloves(state, body, it)
             is Pants -> visualizePants(state, body, it)
             is Shirt -> visualizeShirt(state, body, it)
             is Skirt -> visualizeSkirt(state, body, it)

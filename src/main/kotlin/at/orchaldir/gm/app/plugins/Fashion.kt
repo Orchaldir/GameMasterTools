@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.ACCESSORY_RARITY
 import at.orchaldir.gm.app.parse.CLOTHING_SETS
 import at.orchaldir.gm.app.parse.NAME
 import at.orchaldir.gm.app.parse.parseFashion
@@ -11,6 +12,7 @@ import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
+import at.orchaldir.gm.core.model.item.ACCESSORIES
 import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCultures
@@ -136,23 +138,15 @@ private fun HTML.showFashionDetails(
         field("Id", fashion.id.value.toString())
         field("Name", fashion.name)
         showRarityMap("Clothing Sets", fashion.clothingSets)
-        showRarityMap("Dresses", fashion.dresses) { id ->
-            link(call, state, id)
-        }
-        showRarityMap("Footwear", fashion.footwear) { id ->
-            link(call, state, id)
-        }
-        showRarityMap("Hats", fashion.hats) { id ->
-            link(call, state, id)
-        }
-        showRarityMap("Pants", fashion.pants) { id ->
-            link(call, state, id)
-        }
-        showRarityMap("Shirts", fashion.shirts) { id ->
-            link(call, state, id)
-        }
-        showRarityMap("Skirts", fashion.skirts) { id ->
-            link(call, state, id)
+        showRarityMap("Accessories", fashion.accessories, ACCESSORIES)
+        EquipmentType.entries.forEach {
+            val options = fashion.getOptions(it)
+
+            if (options.isNotEmpty()) {
+                showRarityMap(it.name, options) { id ->
+                    link(call, state, id)
+                }
+            }
         }
         showList("Cultures", state.getCultures(fashion.id)) { culture ->
             link(call, culture)
@@ -182,12 +176,10 @@ private fun HTML.showFashionEditor(
                 }
             }
             selectRarityMap("Clothing Sets", CLOTHING_SETS, fashion.clothingSets)
-            selectEquipmentType(state, "Dresses", fashion, EquipmentType.Dress)
-            selectEquipmentType(state, "Footwear", fashion, EquipmentType.Footwear)
-            selectEquipmentType(state, "Hats", fashion, EquipmentType.Hat)
-            selectEquipmentType(state, "Pants", fashion, EquipmentType.Pants)
-            selectEquipmentType(state, "Shirts", fashion, EquipmentType.Shirt)
-            selectEquipmentType(state, "Skirts", fashion, EquipmentType.Skirt)
+            selectRarityMap("Accessories", ACCESSORY_RARITY, fashion.accessories, false, ACCESSORIES)
+            EquipmentType.entries.forEach {
+                selectEquipmentType(state, fashion, it)
+            }
             p {
                 submitInput {
                     value = "Update"
@@ -202,11 +194,13 @@ private fun HTML.showFashionEditor(
 
 private fun FORM.selectEquipmentType(
     state: State,
-    label: String,
     fashion: Fashion,
     type: EquipmentType,
 ) {
-    val rarityMap = fashion.getOptions(type)
-    val options = state.getItemTemplatesId(type)
-    selectRarityMap(label, type.name, state.itemTemplates, options, rarityMap) { it.name }
+    val items = state.getItemTemplatesId(type)
+
+    if (items.isNotEmpty()) {
+        val options = fashion.getOptions(type)
+        selectRarityMap(type.name, type.name, state.itemTemplates, items, options) { it.name }
+    }
 }

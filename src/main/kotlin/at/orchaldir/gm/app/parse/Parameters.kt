@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.parse
 
+const val ACCESSORY_RARITY = "accessories"
 const val APPEARANCE_TYPE = "appearance"
 const val BEARD_COLOR = "beard_color"
 const val BEARD_STYLE = "beard_style"
@@ -28,6 +29,7 @@ const val FOOTWEAR = "footwear"
 const val GENONYMIC_STYLE = "genonymic_style"
 const val GENDER = "gender"
 const val GIVEN_NAME = "given_name"
+const val GLOVES = "gloves"
 const val GOATEE_STYLE = "goatee_style"
 const val HAIR_COLOR = "hair_color"
 const val HAIR_STYLE = "hair_style"

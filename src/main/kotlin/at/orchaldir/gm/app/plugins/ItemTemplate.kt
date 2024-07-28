@@ -180,6 +180,15 @@ private fun HTML.showItemTemplateDetails(
                 }
             }
 
+            is Gloves -> {
+                field("Equipment", "Gloves")
+                field("Style", template.equipment.style.toString())
+                showFill(template.equipment.fill)
+                field("Material") {
+                    link(call, state, template.equipment.material)
+                }
+            }
+
             is Hat -> {
                 field("Equipment", "Hat")
                 field("Style", template.equipment.style.toString())
@@ -299,6 +308,16 @@ private fun HTML.showItemTemplateEditor(
                     if (template.equipment.style.hasSole()) {
                         selectColor(template.equipment.sole, "Sole Color", EQUIPMENT_COLOR_1)
                     }
+                    selectMaterial(state, template.equipment.material)
+                }
+
+                is Gloves -> {
+                    selectEnum("Style", GLOVES, GloveStyle.entries, true) { style ->
+                        label = style.name
+                        value = style.name
+                        selected = template.equipment.style == style
+                    }
+                    selectFill(template.equipment.fill)
                     selectMaterial(state, template.equipment.material)
                 }
 
