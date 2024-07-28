@@ -9,9 +9,13 @@ data class RarityGenerator(val values: Map<Rarity, UInt>) {
 
     companion object {
 
-        fun empty(): RarityGenerator {
+        fun empty(diff: UInt = 1u): RarityGenerator {
             var value = 0u
-            return RarityGenerator(ONE_OF_RARITIES.toList().reversed().associateWith { value++ })
+            return RarityGenerator(ONE_OF_RARITIES.toList().reversed().associateWith {
+                val current = value
+                value += diff
+                current
+            })
         }
 
     }

@@ -43,6 +43,7 @@ data class EquipmentGenerator(
         }
 
         generate(map, Footwear)
+        generate(map, Gloves)
         generate(map, Hat)
 
         return EquipmentMap(map)
