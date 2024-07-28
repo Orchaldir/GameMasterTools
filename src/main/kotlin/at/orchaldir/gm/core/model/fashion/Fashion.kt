@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.model.fashion
 
 import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.appearance.OneOrNone
-import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.SomeOf
 import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.model.item.ItemTemplateId
