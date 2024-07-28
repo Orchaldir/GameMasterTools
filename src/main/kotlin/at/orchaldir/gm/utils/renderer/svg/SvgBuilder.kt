@@ -145,7 +145,14 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         when (fill) {
             is RenderSolid -> error("Solid is not a pattern!")
             is RenderVerticalStripes -> addStripes(lines, name, fill.color0, fill.color1, fill.width)
-            is RenderHorizontalStripes -> addStripes(lines, name, fill.color0, fill.color1, fill.width)
+            is RenderHorizontalStripes -> addStripes(
+                lines,
+                name,
+                fill.color0,
+                fill.color1,
+                fill.width,
+                " gradientTransform=\"rotate(90)\""
+            )
         }
     }
 
@@ -155,10 +162,11 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         color0: RenderColor,
         color1: RenderColor,
         width: UByte,
+        options: String = "",
     ) {
         val c0 = toSvg(color0)
         val c1 = toSvg(color1)
-        lines.add("    <linearGradient id=\"$name\" spreadMethod=\"repeat\" x2=\"$width%\" gradientUnits=\"userSpaceOnUse\">")
+        lines.add("    <linearGradient id=\"$name\" spreadMethod=\"repeat\" x2=\"$width%\" gradientUnits=\"userSpaceOnUse\"$options>")
         lines.add("      <stop offset=\"0\" stop-color=\"$c0\"/>>")
         lines.add("      <stop offset=\"0.5\" stop-color=\"$c0\"/>>")
         lines.add("      <stop offset=\"0.5\" stop-color=\"$c1\"/>>")
