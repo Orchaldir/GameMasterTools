@@ -42,7 +42,7 @@ data class BodyConfig(
         val torso = getTorsoAabb(aabb, body)
         val points = torso.getMirroredPoints(shoulderWidth, START)
 
-        return points.copy(first = points.first.copy() - offset)
+        return points.copy(first = points.first - offset)
     }
 
     fun getArmWidth(body: Body) = getBodyWidth(body) * getShoulderWidth(body.bodyShape) * armWidth
