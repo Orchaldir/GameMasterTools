@@ -25,4 +25,5 @@ data class NoBorder(
     constructor(color: RenderColor) : this(RenderSolid(color))
 
 }
+
 data class BorderOnly(val border: LineOptions) : RenderOptions()

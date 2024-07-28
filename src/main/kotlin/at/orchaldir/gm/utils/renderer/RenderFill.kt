@@ -1,6 +1,9 @@
 package at.orchaldir.gm.utils.renderer
 
-import at.orchaldir.gm.core.model.appearance.*
+import at.orchaldir.gm.core.model.appearance.Fill
+import at.orchaldir.gm.core.model.appearance.HorizontalStripes
+import at.orchaldir.gm.core.model.appearance.Solid
+import at.orchaldir.gm.core.model.appearance.VerticalStripes
 
 sealed class RenderFill
 
