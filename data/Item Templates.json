@@ -267,13 +267,29 @@
   },
   "26": {
    "id": 26,
-   "name": "White and Blue Striped Shirt",
+   "name": "White & Blue Striped Shirt",
    "equipment": {
     "type": "Shirt",
     "fill": {
      "type": "VerticalStripes",
      "color0": "SkyBlue",
      "color1": "White"
+    },
+    "material": 3
+   }
+  },
+  "27": {
+   "id": 27,
+   "name": "Black & White Striped Dress",
+   "equipment": {
+    "type": "Dress",
+    "necklineStyle": "Crew",
+    "sleeveStyle": "None",
+    "fill": {
+     "type": "HorizontalStripes",
+     "color0": "Black",
+     "color1": "White",
+     "width": 2
     },
     "material": 3
    }
