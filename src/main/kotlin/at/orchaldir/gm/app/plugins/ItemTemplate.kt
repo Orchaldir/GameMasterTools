@@ -159,6 +159,7 @@ private fun HTML.showItemTemplateDetails(
             NoEquipment -> doubleArrayOf()
             is Coat -> {
                 field("Equipment", "Coat")
+                field("Length", template.equipment.length.toString())
                 field("Neckline Style", template.equipment.necklineStyle.toString())
                 field("Sleeve Style", template.equipment.sleeveStyle.toString())
                 showFill(template.equipment.fill)
@@ -288,6 +289,11 @@ private fun HTML.showItemTemplateEditor(
             when (template.equipment) {
                 NoEquipment -> doNothing()
                 is Coat -> {
+                    selectEnum("Length", LENGTH, OuterwearLength.entries, true) { length ->
+                        label = length.name
+                        value = length.name
+                        selected = template.equipment.length == length
+                    }
                     selectNecklineStyle(NECKLINES_WITH_SLEEVES, template.equipment.necklineStyle)
                     selectSleeveStyle(SleeveStyle.entries, template.equipment.sleeveStyle)
                     selectFill(template.equipment.fill)

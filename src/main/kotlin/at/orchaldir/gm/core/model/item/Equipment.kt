@@ -39,6 +39,7 @@ data object NoEquipment : Equipment() {
 @Serializable
 @SerialName("Coat")
 data class Coat(
+    val length: OuterwearLength = OuterwearLength.Hip,
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val openingStyle: OpeningStyle = SingleBreasted(),
