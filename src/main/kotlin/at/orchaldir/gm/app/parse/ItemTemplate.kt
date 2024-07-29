@@ -21,6 +21,7 @@ fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_T
     EquipmentType.Coat -> Coat(
         parse(parameters, NECKLINE_STYLE, NecklineStyle.DeepV),
         parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
+        parseOpeningStyle(parameters),
         parseFill(parameters),
         parseMaterialId(parameters, MATERIAL),
     )
@@ -82,6 +83,8 @@ private fun parseShirt(parameters: Parameters): Shirt {
         parseMaterialId(parameters, MATERIAL),
     )
 }
+
+private fun parseOpeningStyle(parameters: Parameters) = NoOpening
 
 private fun parseFill(parameters: Parameters): Fill {
     val type = parse(parameters, FILL_TYPE, FillType.Solid)

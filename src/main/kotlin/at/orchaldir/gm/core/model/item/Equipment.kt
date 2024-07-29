@@ -41,6 +41,7 @@ data object NoEquipment : Equipment() {
 data class Coat(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
+    val openingStyle: OpeningStyle = SingleBreasted(),
     val fill: Fill = Solid(Color.Black),
     val material: MaterialId = MaterialId(0),
 ) : Equipment() {
