@@ -288,38 +288,23 @@ private fun HTML.showItemTemplateEditor(
             when (template.equipment) {
                 NoEquipment -> doNothing()
                 is Coat -> {
-                    selectEnum("Neckline Style", NECKLINE_STYLE, NecklineStyle.entries, true) { style ->
-                        label = style.name
-                        value = style.name
-                        selected = template.equipment.necklineStyle == style
-                    }
-                    val sleevesStyles = template.equipment.necklineStyle.getSupportsSleevesStyles()
-                    selectEnum("Sleeve Style", SLEEVE_STYLE, sleevesStyles, true) { style ->
-                        label = style.name
-                        value = style.name
-                        selected = template.equipment.sleeveStyle == style
-                    }
+                    selectNecklineStyle(template.equipment.necklineStyle)
+                    selectSleeveStyle(SleeveStyle.entries, template.equipment.sleeveStyle)
                     selectFill(template.equipment.fill)
                     selectMaterial(state, template.equipment.material)
                 }
 
                 is Dress -> {
-                    selectEnum("Neckline Style", NECKLINE_STYLE, NecklineStyle.entries, true) { style ->
-                        label = style.name
-                        value = style.name
-                        selected = template.equipment.necklineStyle == style
-                    }
+                    selectNecklineStyle(template.equipment.necklineStyle)
                     selectEnum("Skirt Style", SKIRT_STYLE, SkirtStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.skirtStyle == style
                     }
-                    val sleevesStyles = template.equipment.necklineStyle.getSupportsSleevesStyles()
-                    selectEnum("Sleeve Style", SLEEVE_STYLE, sleevesStyles, true) { style ->
-                        label = style.name
-                        value = style.name
-                        selected = template.equipment.sleeveStyle == style
-                    }
+                    selectSleeveStyle(
+                        template.equipment.necklineStyle.getSupportsSleevesStyles(),
+                        template.equipment.sleeveStyle,
+                    )
                     selectFill(template.equipment.fill)
                     selectMaterial(state, template.equipment.material)
                 }
@@ -368,17 +353,11 @@ private fun HTML.showItemTemplateEditor(
                 }
 
                 is Shirt -> {
-                    selectEnum("Neckline Style", NECKLINE_STYLE, NecklineStyle.entries, true) { style ->
-                        label = style.name
-                        value = style.name
-                        selected = template.equipment.necklineStyle == style
-                    }
-                    val sleevesStyles = template.equipment.necklineStyle.getSupportsSleevesStyles()
-                    selectEnum("Sleeve Style", SLEEVE_STYLE, sleevesStyles, true) { style ->
-                        label = style.name
-                        value = style.name
-                        selected = template.equipment.sleeveStyle == style
-                    }
+                    selectNecklineStyle(template.equipment.necklineStyle)
+                    selectSleeveStyle(
+                        template.equipment.necklineStyle.getSupportsSleevesStyles(),
+                        template.equipment.sleeveStyle,
+                    )
                     selectFill(template.equipment.fill)
                     selectMaterial(state, template.equipment.material)
                 }
@@ -402,6 +381,22 @@ private fun HTML.showItemTemplateEditor(
             }
         }
         p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun FORM.selectNecklineStyle(necklineStyle: NecklineStyle) {
+    selectEnum("Neckline Style", NECKLINE_STYLE, NecklineStyle.entries, true) { style ->
+        label = style.name
+        value = style.name
+        selected = necklineStyle == style
+    }
+}
+
+private fun FORM.selectSleeveStyle(options: Collection<SleeveStyle>, current: SleeveStyle) {
+    selectEnum("Sleeve Style", SLEEVE_STYLE, options, true) { style ->
+        label = style.name
+        value = style.name
+        selected = current == style
     }
 }
 
