@@ -41,6 +41,7 @@ data class Fashion(
 
     fun getOptions(type: EquipmentType) = when (type) {
         EquipmentType.None -> OneOrNone()
+        EquipmentType.Coat -> OneOrNone()
         EquipmentType.Dress -> dresses
         EquipmentType.Footwear -> footwear
         EquipmentType.Gloves -> gloves

@@ -157,6 +157,16 @@ private fun HTML.showItemTemplateDetails(
         field("Id", template.id.value.toString())
         when (template.equipment) {
             NoEquipment -> doubleArrayOf()
+            is Coat -> {
+                field("Equipment", "Coat")
+                field("Neckline Style", template.equipment.necklineStyle.toString())
+                field("Sleeve Style", template.equipment.sleeveStyle.toString())
+                showFill(template.equipment.fill)
+                field("Material") {
+                    link(call, state, template.equipment.material)
+                }
+            }
+
             is Dress -> {
                 field("Equipment", "Dress")
                 field("Neckline Style", template.equipment.necklineStyle.toString())
@@ -277,6 +287,22 @@ private fun HTML.showItemTemplateEditor(
             }
             when (template.equipment) {
                 NoEquipment -> doNothing()
+                is Coat -> {
+                    selectEnum("Neckline Style", NECKLINE_STYLE, NecklineStyle.entries, true) { style ->
+                        label = style.name
+                        value = style.name
+                        selected = template.equipment.necklineStyle == style
+                    }
+                    val sleevesStyles = template.equipment.necklineStyle.getSupportsSleevesStyles()
+                    selectEnum("Sleeve Style", SLEEVE_STYLE, sleevesStyles, true) { style ->
+                        label = style.name
+                        value = style.name
+                        selected = template.equipment.sleeveStyle == style
+                    }
+                    selectFill(template.equipment.fill)
+                    selectMaterial(state, template.equipment.material)
+                }
+
                 is Dress -> {
                     selectEnum("Neckline Style", NECKLINE_STYLE, NecklineStyle.entries, true) { style ->
                         label = style.name

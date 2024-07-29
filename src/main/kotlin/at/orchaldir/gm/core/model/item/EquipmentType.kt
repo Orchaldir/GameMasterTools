@@ -9,6 +9,7 @@ val ACCESSORIES = setOf(Footwear, Gloves, Hat)
 
 enum class EquipmentType {
     None,
+    Coat,
     Dress,
     Footwear,
     Gloves,
@@ -19,6 +20,7 @@ enum class EquipmentType {
 
     fun slots(): Set<EquipmentSlot> = when (this) {
         None -> emptySet()
+        Coat -> setOf(Outerwear)
         Dress -> setOf(Bottom, Top)
         Footwear -> setOf(Foot)
         Gloves -> setOf(Headwear)
