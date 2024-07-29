@@ -288,14 +288,14 @@ private fun HTML.showItemTemplateEditor(
             when (template.equipment) {
                 NoEquipment -> doNothing()
                 is Coat -> {
-                    selectNecklineStyle(template.equipment.necklineStyle)
+                    selectNecklineStyle(NECKLINES_WITH_SLEEVES, template.equipment.necklineStyle)
                     selectSleeveStyle(SleeveStyle.entries, template.equipment.sleeveStyle)
                     selectFill(template.equipment.fill)
                     selectMaterial(state, template.equipment.material)
                 }
 
                 is Dress -> {
-                    selectNecklineStyle(template.equipment.necklineStyle)
+                    selectNecklineStyle(NecklineStyle.entries, template.equipment.necklineStyle)
                     selectEnum("Skirt Style", SKIRT_STYLE, SkirtStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
@@ -353,9 +353,9 @@ private fun HTML.showItemTemplateEditor(
                 }
 
                 is Shirt -> {
-                    selectNecklineStyle(template.equipment.necklineStyle)
+                    selectNecklineStyle(NECKLINES_WITH_SLEEVES, template.equipment.necklineStyle)
                     selectSleeveStyle(
-                        template.equipment.necklineStyle.getSupportsSleevesStyles(),
+                        SleeveStyle.entries,
                         template.equipment.sleeveStyle,
                     )
                     selectFill(template.equipment.fill)
@@ -384,11 +384,11 @@ private fun HTML.showItemTemplateEditor(
     }
 }
 
-private fun FORM.selectNecklineStyle(necklineStyle: NecklineStyle) {
-    selectEnum("Neckline Style", NECKLINE_STYLE, NecklineStyle.entries, true) { style ->
+private fun FORM.selectNecklineStyle(options: Collection<NecklineStyle>, current: NecklineStyle) {
+    selectEnum("Neckline Style", NECKLINE_STYLE, options, true) { style ->
         label = style.name
         value = style.name
-        selected = necklineStyle == style
+        selected = current == style
     }
 }
 
