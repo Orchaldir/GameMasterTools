@@ -15,6 +15,7 @@ import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.utils.renderer.LineOptions
 import at.orchaldir.gm.utils.renderer.toRender
 import at.orchaldir.gm.visualization.RenderState
+import at.orchaldir.gm.visualization.character.ABOVE_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.equipment.part.visualizeSleeves
 import at.orchaldir.gm.visualization.equipment.part.visualizeTorso
 
@@ -59,9 +60,9 @@ fun visualizeZipper(
     bottomY: Factor,
     zipper: Zipper,
 ) {
-    val options = LineOptions(zipper.color.toRender(), 0.5f)
+    val options = LineOptions(zipper.color.toRender(), 0.002f)
     val top = aabb.getPoint(x, topY)
     val bottom = aabb.getPoint(x, bottomY)
 
-    state.renderer.renderLine(listOf(top, bottom), options)
+    state.renderer.renderLine(listOf(top, bottom), options, ABOVE_EQUIPMENT_LAYER)
 }
