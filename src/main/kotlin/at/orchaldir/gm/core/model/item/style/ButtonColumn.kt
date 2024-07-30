@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ButtonColumn(
     val button: Button = Button(),
-    val count: UShort = 3u,
+    val count: UByte = 3u,
 )

@@ -179,6 +179,17 @@ fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
     }
 }
 
+fun FORM.selectNumber(label: String, number: Int, minNumber: Int, maxNumber: Int, param: String) {
+    field(label) {
+        numberInput(name = param) {
+            min = "$minNumber"
+            max = "$maxNumber"
+            value = number.toString()
+            onChange = ON_CHANGE_SCRIPT
+        }
+    }
+}
+
 fun <T> HtmlBlockTag.selectEnum(
     label: String,
     selectId: String,

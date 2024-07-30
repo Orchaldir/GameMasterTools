@@ -26,6 +26,7 @@ fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_T
         parseFill(parameters),
         parseMaterialId(parameters, MATERIAL),
     )
+
     EquipmentType.Dress -> parseDress(parameters)
 
     EquipmentType.Footwear -> Footwear(
@@ -85,7 +86,21 @@ private fun parseShirt(parameters: Parameters): Shirt {
     )
 }
 
-private fun parseOpeningStyle(parameters: Parameters) = NoOpening
+private fun parseOpeningStyle(parameters: Parameters): OpeningStyle {
+    val type = parse(parameters, OPENING_STYLE, OpeningType.NoOpening)
+
+    return when (type) {
+        OpeningType.NoOpening -> NoOpening
+        OpeningType.SingleBreasted -> SingleBreasted(parseButtonColumn(parameters))
+        OpeningType.DoubleBreasted -> DoubleBreasted(parseButtonColumn(parameters))
+        OpeningType.Zipper -> Zipper(parse(parameters, ZIPPER, Color.Silver))
+    }
+}
+
+private fun parseButtonColumn(parameters: Parameters) = ButtonColumn(
+    Button(parse(parameters, BUTTON_SIZE, Size.Medium), parse(parameters, BUTTON_COLOR, Color.Silver)),
+    parameters[BUTTON_COUNT]?.toUByte() ?: 1u,
+)
 
 private fun parseFill(parameters: Parameters): Fill {
     val type = parse(parameters, FILL_TYPE, FillType.Solid)

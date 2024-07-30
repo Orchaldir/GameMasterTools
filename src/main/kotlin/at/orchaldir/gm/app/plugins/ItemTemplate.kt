@@ -162,6 +162,7 @@ private fun HTML.showItemTemplateDetails(
                 field("Length", template.equipment.length.toString())
                 field("Neckline Style", template.equipment.necklineStyle.toString())
                 field("Sleeve Style", template.equipment.sleeveStyle.toString())
+                showOpeningStyle(template.equipment.openingStyle)
                 showFill(template.equipment.fill)
                 field("Material") {
                     link(call, state, template.equipment.material)
@@ -251,13 +252,30 @@ private fun HTML.showItemTemplateDetails(
     }
 }
 
+private fun BODY.showOpeningStyle(openingStyle: OpeningStyle) {
+    field("Opening Style", openingStyle.javaClass.simpleName)
+    when (openingStyle) {
+        NoOpening -> doNothing()
+        is DoubleBreasted -> showButtons(openingStyle.buttons)
+        is SingleBreasted -> showButtons(openingStyle.buttons)
+        is Zipper -> {
+            field("Zipper Color", openingStyle.color.toString())
+        }
+    }
+}
+
+private fun BODY.showButtons(buttonColumn: ButtonColumn) {
+    field("Button Count", buttonColumn.count.toString())
+    field("Button Color", buttonColumn.button.color.toString())
+    field("Button Size", buttonColumn.button.size.toString())
+}
+
 private fun BODY.showFill(fill: Fill) {
     when (fill) {
         is Solid -> field("Color", fill.color.toString())
         is VerticalStripes -> field("Vertical Stripes", "${fill.color0} & ${fill.color1}")
         is HorizontalStripes -> field("Horizontal Stripes", "${fill.color0} & ${fill.color1}")
     }
-
 }
 
 private fun HTML.showItemTemplateEditor(
@@ -296,6 +314,7 @@ private fun HTML.showItemTemplateEditor(
                     }
                     selectNecklineStyle(NECKLINES_WITH_SLEEVES, template.equipment.necklineStyle)
                     selectSleeveStyle(SleeveStyle.entries, template.equipment.sleeveStyle)
+                    selectOpeningStyle(template.equipment.openingStyle)
                     selectFill(template.equipment.fill)
                     selectMaterial(state, template.equipment.material)
                 }
@@ -398,6 +417,35 @@ private fun FORM.selectNecklineStyle(options: Collection<NecklineStyle>, current
     }
 }
 
+private fun FORM.selectOpeningStyle(openingStyle: OpeningStyle) {
+    selectEnum("Opening Style", OPENING_STYLE, OpeningType.entries, true) { type ->
+        label = type.name
+        value = type.name
+        selected = when (openingStyle) {
+            NoOpening -> type == OpeningType.NoOpening
+            is SingleBreasted -> type == OpeningType.SingleBreasted
+            is DoubleBreasted -> type == OpeningType.DoubleBreasted
+            is Zipper -> type == OpeningType.Zipper
+        }
+    }
+    when (openingStyle) {
+        NoOpening -> doNothing()
+        is DoubleBreasted -> selectButtons(openingStyle.buttons)
+        is SingleBreasted -> selectButtons(openingStyle.buttons)
+        is Zipper -> selectColor(openingStyle.color, "Zipper Color", ZIPPER)
+    }
+}
+
+private fun FORM.selectButtons(buttonColumn: ButtonColumn) {
+    selectNumber("Button Count", buttonColumn.count.toInt(), 1, 20, BUTTON_COUNT)
+    selectColor(buttonColumn.button.color, "Button Color", BUTTON_COLOR)
+    selectEnum("Button Size", BUTTON_SIZE, Size.entries, true) { type ->
+        label = type.name
+        value = type.name
+        selected = type == buttonColumn.button.size
+    }
+}
+
 private fun FORM.selectSleeveStyle(options: Collection<SleeveStyle>, current: SleeveStyle) {
     selectEnum("Sleeve Style", SLEEVE_STYLE, options, true) { style ->
         label = style.name
@@ -426,14 +474,7 @@ private fun FORM.selectFill(fill: Fill) {
 private fun FORM.selectStripes(color0: Color, color1: Color, width: UByte) {
     selectColor(color0, "1.Stripe Color", colors = Color.entries - color1)
     selectColor(color1, "2.Stripe Color", EQUIPMENT_COLOR_1, Color.entries - color0)
-    field("Stripe Width") {
-        numberInput(name = PATTERN_WIDTH) {
-            min = "1"
-            max = "10"
-            value = width.toString()
-            onChange = ON_CHANGE_SCRIPT
-        }
-    }
+    selectNumber("Stripe Width", width.toInt(), 1, 10, PATTERN_WIDTH)
 }
 
 private fun FORM.selectMaterial(
