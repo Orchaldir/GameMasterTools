@@ -21,6 +21,7 @@ fun visualizeBodyEquipment(
 ) {
     state.equipped.forEach {
         when (it) {
+            is Coat -> visualizeCoat(state, body, it)
             is Dress -> visualizeDress(state, body, it)
             is Footwear -> visualizeFootwear(state, body, it)
             is Gloves -> visualizeGloves(state, body, it)

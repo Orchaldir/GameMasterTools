@@ -8,6 +8,7 @@ import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.addTorso
 import at.orchaldir.gm.visualization.equipment.part.addNeckline
+import at.orchaldir.gm.visualization.equipment.part.visualizeSleeves
 import at.orchaldir.gm.visualization.renderBuilder
 
 fun visualizeDress(

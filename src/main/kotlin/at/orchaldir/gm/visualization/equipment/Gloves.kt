@@ -22,14 +22,14 @@ fun visualizeGloves(
 
     when (gloves.style) {
         GloveStyle.Hand -> doNothing()
-        GloveStyle.Half -> visualizeSleeves(state, options, body, HALF)
-        GloveStyle.Full -> visualizeSleeves(state, options, body, FULL)
+        GloveStyle.Half -> visualizeGloveSleeves(state, options, body, HALF)
+        GloveStyle.Full -> visualizeGloveSleeves(state, options, body, FULL)
     }
 
     visualizeHands(state, body, options)
 }
 
-private fun visualizeSleeves(
+private fun visualizeGloveSleeves(
     state: RenderState,
     options: RenderOptions,
     body: Body,
