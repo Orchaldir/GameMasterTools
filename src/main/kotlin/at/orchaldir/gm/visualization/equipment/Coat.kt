@@ -2,10 +2,7 @@ package at.orchaldir.gm.visualization.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.Coat
-import at.orchaldir.gm.core.model.item.style.DoubleBreasted
-import at.orchaldir.gm.core.model.item.style.NoOpening
-import at.orchaldir.gm.core.model.item.style.SingleBreasted
-import at.orchaldir.gm.core.model.item.style.Zipper
+import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.FULL
@@ -30,25 +27,25 @@ fun visualizeCoat(
     visualizeTorso(state, options, body, coat.necklineStyle)
 
     if (state.renderFront) {
-        visualizeOpening(state, body, coat)
+        val necklineHeight = state.config.equipment.neckline.getHeight(coat.necklineStyle)
+        val torsoAabb = state.config.body.getTorsoAabb(state.aabb, body)
+        visualizeOpening(state, torsoAabb, HALF, necklineHeight, FULL, coat.openingStyle)
     }
 }
 
 fun visualizeOpening(
     state: RenderState,
-    body: Body,
-    coat: Coat,
+    aabb: AABB,
+    x: Factor,
+    topY: Factor,
+    bottomY: Factor,
+    openingStyle: OpeningStyle,
 ) {
-    val necklineHeight = state.config.equipment.neckline.getHeight(coat.necklineStyle)
-    val topY = necklineHeight
-    val bottomY = FULL
-    val torsoAabb = state.config.body.getTorsoAabb(state.aabb, body)
-
-    when (coat.openingStyle) {
+    when (openingStyle) {
         NoOpening -> doNothing()
         is DoubleBreasted -> doNothing()
         is SingleBreasted -> doNothing()
-        is Zipper -> visualizeZipper(state, torsoAabb, HALF, topY, bottomY, coat.openingStyle)
+        is Zipper -> visualizeZipper(state, aabb, x, topY, bottomY, openingStyle)
     }
 }
 
