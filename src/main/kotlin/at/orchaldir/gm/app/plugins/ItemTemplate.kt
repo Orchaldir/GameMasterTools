@@ -256,8 +256,11 @@ private fun BODY.showOpeningStyle(openingStyle: OpeningStyle) {
     field("Opening Style", openingStyle.javaClass.simpleName)
     when (openingStyle) {
         NoOpening -> doNothing()
-        is DoubleBreasted -> showButtons(openingStyle.buttons)
         is SingleBreasted -> showButtons(openingStyle.buttons)
+        is DoubleBreasted -> {
+            showButtons(openingStyle.buttons)
+            field("Space between Columns", openingStyle.spaceBetweenColumns.toString())
+        }
         is Zipper -> {
             field("Zipper Color", openingStyle.color.toString())
         }
@@ -430,8 +433,15 @@ private fun FORM.selectOpeningStyle(openingStyle: OpeningStyle) {
     }
     when (openingStyle) {
         NoOpening -> doNothing()
-        is DoubleBreasted -> selectButtons(openingStyle.buttons)
         is SingleBreasted -> selectButtons(openingStyle.buttons)
+        is DoubleBreasted -> {
+            selectButtons(openingStyle.buttons)
+            selectEnum("Space between Columns", SPACE_BETWEEN_COLUMNS, Size.entries, true) { space ->
+                label = space.name
+                value = space.name
+                selected = space == openingStyle.spaceBetweenColumns
+            }
+        }
         is Zipper -> selectColor(openingStyle.color, "Zipper Color", ZIPPER)
     }
 }
@@ -439,10 +449,10 @@ private fun FORM.selectOpeningStyle(openingStyle: OpeningStyle) {
 private fun FORM.selectButtons(buttonColumn: ButtonColumn) {
     selectNumber("Button Count", buttonColumn.count.toInt(), 1, 20, BUTTON_COUNT)
     selectColor(buttonColumn.button.color, "Button Color", BUTTON_COLOR)
-    selectEnum("Button Size", BUTTON_SIZE, Size.entries, true) { type ->
-        label = type.name
-        value = type.name
-        selected = type == buttonColumn.button.size
+    selectEnum("Button Size", BUTTON_SIZE, Size.entries, true) { size ->
+        label = size.name
+        value = size.name
+        selected = size == buttonColumn.button.size
     }
 }
 

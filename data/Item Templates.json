@@ -350,6 +350,28 @@
     },
     "material": 2
    }
+  },
+  "31": {
+   "id": 31,
+   "name": "Gray Single Breasted Jacket",
+   "equipment": {
+    "type": "Coat",
+    "necklineStyle": "DeepV",
+    "openingStyle": {
+     "type": "SingleBreasted",
+     "buttons": {
+      "button": {
+       "color": "Black"
+      },
+      "count": 4
+     }
+    },
+    "fill": {
+     "type": "Solid",
+     "color": "Gray"
+    },
+    "material": 3
+   }
   }
  }
 }

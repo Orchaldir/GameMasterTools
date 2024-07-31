@@ -92,13 +92,19 @@ private fun parseOpeningStyle(parameters: Parameters): OpeningStyle {
     return when (type) {
         OpeningType.NoOpening -> NoOpening
         OpeningType.SingleBreasted -> SingleBreasted(parseButtonColumn(parameters))
-        OpeningType.DoubleBreasted -> DoubleBreasted(parseButtonColumn(parameters))
+        OpeningType.DoubleBreasted -> DoubleBreasted(
+            parseButtonColumn(parameters),
+            parse(parameters, SPACE_BETWEEN_COLUMNS, Size.Medium)
+        )
         OpeningType.Zipper -> Zipper(parse(parameters, ZIPPER, Color.Silver))
     }
 }
 
 private fun parseButtonColumn(parameters: Parameters) = ButtonColumn(
-    Button(parse(parameters, BUTTON_SIZE, Size.Medium), parse(parameters, BUTTON_COLOR, Color.Silver)),
+    Button(
+        parse(parameters, BUTTON_SIZE, Size.Medium),
+        parse(parameters, BUTTON_COLOR, Color.Silver)
+    ),
     parameters[BUTTON_COUNT]?.toUByte() ?: 1u,
 )
 
