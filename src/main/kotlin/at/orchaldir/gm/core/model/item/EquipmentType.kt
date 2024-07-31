@@ -23,7 +23,7 @@ enum class EquipmentType {
         Coat -> setOf(Outerwear)
         Dress -> setOf(Bottom, Top)
         Footwear -> setOf(Foot)
-        Gloves -> setOf(Headwear)
+        Gloves -> setOf(Handwear)
         Hat -> setOf(Headwear)
         Pants -> setOf(Bottom)
         Shirt -> setOf(Top)
