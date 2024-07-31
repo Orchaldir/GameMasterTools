@@ -27,8 +27,14 @@ fun visualizeCoat(
 
     if (state.renderFront) {
         val necklineHeight = state.config.equipment.neckline.getHeight(coat.necklineStyle)
-        val torsoAabb = state.config.body.getTorsoAabb(state.aabb, body)
-        visualizeOpening(state, torsoAabb, HALF, necklineHeight, FULL, coat.openingStyle)
+        val legLength = when (coat.length) {
+            OuterwearLength.Hip -> ZERO
+            OuterwearLength.Knee -> HALF
+            OuterwearLength.Ankle -> FULL
+        }
+        val topY = state.config.body.torsoY + state.config.body.torsoHeight * necklineHeight
+        val bottomY = state.config.body.getLegY(body, legLength)
+        visualizeOpening(state, state.aabb, HALF, topY, bottomY, coat.openingStyle)
     }
 }
 
