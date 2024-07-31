@@ -15,6 +15,12 @@ import at.orchaldir.gm.visualization.equipment.part.visualizeOpening
 import at.orchaldir.gm.visualization.equipment.part.visualizeSleeves
 import at.orchaldir.gm.visualization.renderBuilder
 
+private fun getBottomHeight(length: OuterwearLength) = when (length) {
+    OuterwearLength.Hip -> ZERO
+    OuterwearLength.Knee -> HALF
+    OuterwearLength.Ankle -> FULL
+}
+
 fun visualizeCoat(
     state: RenderState,
     body: Body,
@@ -27,14 +33,13 @@ fun visualizeCoat(
 
     if (state.renderFront) {
         val necklineHeight = state.config.equipment.neckline.getHeight(coat.necklineStyle)
-        val legLength = when (coat.length) {
-            OuterwearLength.Hip -> ZERO
-            OuterwearLength.Knee -> HALF
-            OuterwearLength.Ankle -> FULL
-        }
+        val legLength = getBottomHeight(coat.length)
         val topY = state.config.body.torsoY + state.config.body.torsoHeight * necklineHeight
         val bottomY = state.config.body.getLegY(body, legLength)
-        visualizeOpening(state, state.aabb, HALF, topY, bottomY, coat.openingStyle)
+        val torsoWidth = state.config.body.getTorsoWidth(body)
+        val size = state.aabb.size.scale(torsoWidth, FULL)
+        val aabb = AABB.fromCenter(state.aabb.getCenter(), size)
+        visualizeOpening(state, aabb, HALF, topY, bottomY, coat.openingStyle)
     }
 }
 
@@ -57,11 +62,7 @@ fun createCoatBottom(
     length: OuterwearLength,
 ): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
-    val height = when (length) {
-        OuterwearLength.Hip -> ZERO
-        OuterwearLength.Knee -> HALF
-        OuterwearLength.Ankle -> FULL
-    }
+    val height = getBottomHeight(length)
     val config = state.config.body
     val width = config.getTorsoWidth(body) * config.getHipWidth(body.bodyShape)
     val bottomY = config.getLegY(body, height)
