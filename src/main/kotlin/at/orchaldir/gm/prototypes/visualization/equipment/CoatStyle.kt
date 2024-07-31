@@ -16,19 +16,17 @@ import at.orchaldir.gm.prototypes.visualization.character.renderTable
 import at.orchaldir.gm.utils.math.Distance
 
 fun main() {
-    val small = createButton(Size.Small)
-    val medium = createButton(Size.Medium)
-    val large = createButton(Size.Large)
-
     renderTable(
         "coat-style.svg",
         RENDER_CONFIG,
         listOf(
             Pair("None", NoOpening),
-            Pair("SingleBreasted - Small", SingleBreasted(small)),
-            Pair("SingleBreasted - Medium", SingleBreasted(medium)),
-            Pair("SingleBreasted - Large", SingleBreasted(large)),
-            Pair("DoubleBreasted", DoubleBreasted()),
+            createSingle(Size.Small),
+            createSingle(Size.Medium),
+            createSingle(Size.Large),
+            createDouble(Size.Small),
+            createDouble(Size.Medium),
+            createDouble(Size.Large),
             Pair("Zipper", Zipper()),
         ),
         addNames(NECKLINES_WITH_SLEEVES)
@@ -38,6 +36,11 @@ fun main() {
 }
 
 private fun createButton(size: Size) = ButtonColumn(Button(size), 4u)
+
+private fun createSingle(size: Size) = Pair("SingleBreasted - $size", SingleBreasted(ButtonColumn(Button(size), 4u)))
+
+private fun createDouble(space: Size) =
+    Pair("DoubleBreasted - $space", DoubleBreasted(ButtonColumn(Button(), 4u), space))
 
 private fun createCoat(
     neckline: NecklineStyle,

@@ -27,7 +27,8 @@ fun visualizeOpening(
     when (openingStyle) {
         NoOpening -> doNothing()
         is DoubleBreasted -> {
-            val spaceBetweenColumns = state.config.equipment.opening.spaceBetweenColumns.convert(Size.Medium)
+            val spaceBetweenColumns = state.config.equipment.opening.spaceBetweenColumns
+                .convert(openingStyle.spaceBetweenColumns)
             val half = spaceBetweenColumns * 0.5f
 
             visualizeButtons(state, aabb, x - half, topY, bottomY, openingStyle.buttons)
