@@ -56,10 +56,12 @@ fun createCoatBottom(
         OuterwearLength.Knee -> HALF
         OuterwearLength.Ankle -> FULL
     }
-    val bottomY = state.config.body.getLegY(body, height)
+    val config = state.config.body
+    val width = config.getTorsoWidth(body) * config.getHipWidth(body.bodyShape)
+    val bottomY = config.getLegY(body, height)
 
     if (length != OuterwearLength.Hip) {
-        builder.addMirroredPoints(state.aabb, FULL, bottomY)
+        builder.addMirroredPoints(state.aabb, width, bottomY)
     }
 
     addHip(state.config, builder, state.aabb, body)
