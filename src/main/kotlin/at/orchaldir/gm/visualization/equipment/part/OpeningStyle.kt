@@ -1,15 +1,19 @@
 package at.orchaldir.gm.visualization.equipment.part
 
 import at.orchaldir.gm.core.model.item.style.*
+import at.orchaldir.gm.core.model.item.style.NecklineStyle.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LineOptions
 import at.orchaldir.gm.utils.renderer.NoBorder
 import at.orchaldir.gm.visualization.RenderState
+import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.ABOVE_EQUIPMENT_LAYER
+
+data class OpeningConfig(
+    val buttonRadius: SizeConfig<Factor>,
+    val zipperWidth: Factor,
+)
 
 fun visualizeOpening(
     state: RenderState,
@@ -55,7 +59,8 @@ fun visualizeZipper(
     bottomY: Factor,
     zipper: Zipper,
 ) {
-    val options = LineOptions(zipper.color.toRender(), 0.002f)
+    val width = aabb.convertHeight(state.config.equipment.opening.zipperWidth)
+    val options = LineOptions(zipper.color.toRender(), width)
     val top = aabb.getPoint(x, topY)
     val bottom = aabb.getPoint(x, bottomY)
 

@@ -6,11 +6,13 @@ import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.equipment.part.NecklineConfig
+import at.orchaldir.gm.visualization.equipment.part.OpeningConfig
 
 data class EquipmentConfig(
     val footwear: FootwearConfig,
     val hat: HatConfig,
     val neckline: NecklineConfig,
+    val opening: OpeningConfig,
     val pants: PantsConfig,
     val skirt: SkirtConfig,
 )

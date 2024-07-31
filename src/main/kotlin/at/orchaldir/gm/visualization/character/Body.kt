@@ -23,9 +23,9 @@ data class BodyConfig(
     val torsoWidth: Factor,
     val torsoY: Factor,
     val widerWidth: Factor,
-    val width: SizeConfig,
+    val width: SizeConfig<Factor>,
 ) {
-    fun getBodyWidth(body: Body) = Factor(width.convert(body.width))
+    fun getBodyWidth(body: Body) = width.convert(body.width)
 
     fun getHeadAabb(aabb: AABB): AABB {
         val startX = getStartX(headHeight)
