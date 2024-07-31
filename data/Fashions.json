@@ -13,7 +13,10 @@
     "Hat": "Common"
    },
    "coats": {
-    "31": "Common"
+    "31": "Common",
+    "32": "Common",
+    "33": "Uncommon",
+    "34": "Rare"
    },
    "footwear": {
     "0": "Common",
