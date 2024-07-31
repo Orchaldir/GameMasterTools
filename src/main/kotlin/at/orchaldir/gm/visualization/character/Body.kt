@@ -187,12 +187,12 @@ fun addHip(
     aabb: AABB,
     body: Body,
     padding: Factor = FULL,
-    renderBottom: Boolean = true,
+    addBottom: Boolean = true,
 ) {
     val torso = config.body.getTorsoAabb(aabb, body)
     val hipWidth = config.body.getHipWidth(body.bodyShape) * padding
 
-    if (renderBottom) {
+    if (addBottom) {
         builder.addMirroredPoints(torso, hipWidth, END)
     }
     builder.addMirroredPoints(torso, hipWidth, config.body.hipY)
