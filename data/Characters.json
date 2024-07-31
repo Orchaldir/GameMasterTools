@@ -59,6 +59,7 @@
    },
    "equipmentMap": {
     "map": {
+     "Coat": 31,
      "Footwear": 0,
      "Hat": 9,
      "Pants": 4,

@@ -42,6 +42,7 @@ data class EquipmentGenerator(
             ClothingSet.Dress -> generate(result, Dress)
             ClothingSet.PantsAndShirt -> generatePantsAndShirt(result)
             ClothingSet.ShirtAndSkirt -> generateShirtAndSkirt(result)
+            ClothingSet.Suit -> generateSuit(result)
         }
 
         generateAccessory(result, Footwear)
@@ -57,6 +58,12 @@ data class EquipmentGenerator(
     }
 
     private fun generateShirtAndSkirt(result: MutableMap<EquipmentType, ItemTemplateId>) {
+        generate(result, Shirt)
+        generate(result, Skirt)
+    }
+
+    private fun generateSuit(result: MutableMap<EquipmentType, ItemTemplateId>) {
+        generate(result, Coat)
         generate(result, Shirt)
         generate(result, Skirt)
     }

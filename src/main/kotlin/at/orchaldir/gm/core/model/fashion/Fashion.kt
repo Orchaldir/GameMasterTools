@@ -24,6 +24,7 @@ data class Fashion(
     val name: String = "Fashion ${id.value}",
     val clothingSets: OneOf<ClothingSet> = OneOf(ClothingSet.entries),
     val accessories: SomeOf<EquipmentType> = SomeOf(emptySet()),
+    val coats: OneOrNone<ItemTemplateId> = OneOrNone(),
     val dresses: OneOrNone<ItemTemplateId> = OneOrNone(),
     val footwear: OneOrNone<ItemTemplateId> = OneOrNone(),
     val gloves: OneOrNone<ItemTemplateId> = OneOrNone(),
@@ -41,7 +42,7 @@ data class Fashion(
 
     fun getOptions(type: EquipmentType) = when (type) {
         EquipmentType.None -> OneOrNone()
-        EquipmentType.Coat -> OneOrNone()
+        EquipmentType.Coat -> coats
         EquipmentType.Dress -> dresses
         EquipmentType.Footwear -> footwear
         EquipmentType.Gloves -> gloves

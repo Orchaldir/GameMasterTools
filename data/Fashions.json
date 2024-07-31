@@ -11,6 +11,9 @@
     "Footwear": "Everyone",
     "Hat": "Common"
    },
+   "coats": {
+    "31": "Common"
+   },
    "footwear": {
     "0": "Common",
     "1": "Uncommon"
