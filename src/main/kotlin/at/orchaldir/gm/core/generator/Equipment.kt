@@ -64,8 +64,8 @@ data class EquipmentGenerator(
 
     private fun generateSuit(result: MutableMap<EquipmentType, ItemTemplateId>) {
         generate(result, Coat)
+        generate(result, Pants)
         generate(result, Shirt)
-        generate(result, Skirt)
     }
 
     private fun generateAccessory(result: MutableMap<EquipmentType, ItemTemplateId>, type: EquipmentType) {
