@@ -7,9 +7,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.FillAndBorder
 import at.orchaldir.gm.utils.renderer.toRender
 import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.character.addHip
-import at.orchaldir.gm.visualization.character.addTorso
+import at.orchaldir.gm.visualization.character.*
 import at.orchaldir.gm.visualization.equipment.part.addNeckline
 import at.orchaldir.gm.visualization.equipment.part.visualizeOpening
 import at.orchaldir.gm.visualization.equipment.part.visualizeSleeves
@@ -37,7 +35,7 @@ fun visualizeCoat(
 ) {
     val options = FillAndBorder(coat.fill.toRender(), state.config.line)
 
-    visualizeSleeves(state, options, body, coat.sleeveStyle)
+    visualizeSleeves(state, options, body, coat.sleeveStyle, OUTERWEAR_LAYER)
     visualizeCoatBody(state, options, body, coat)
 
     if (state.renderFront) {
@@ -62,7 +60,7 @@ private fun visualizeCoatBody(
     addTorso(state, body, builder, coat.necklineStyle.addTop())
     addNeckline(state, body, builder, coat.necklineStyle)
 
-    renderBuilder(state, builder, options, EQUIPMENT_LAYER)
+    renderBuilder(state, builder, options, OUTERWEAR_LAYER)
 }
 
 fun createCoatBottom(
