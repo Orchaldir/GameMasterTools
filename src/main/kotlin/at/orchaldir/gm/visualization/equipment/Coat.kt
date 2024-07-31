@@ -35,7 +35,7 @@ fun visualizeCoat(
 ) {
     val options = FillAndBorder(coat.fill.toRender(), state.config.line)
 
-    visualizeSleeves(state, options, body, coat.sleeveStyle, OUTERWEAR_LAYER)
+    visualizeSleeves(state, options, body, coat.sleeveStyle, HIGHER_EQUIPMENT_LAYER)
     visualizeCoatBody(state, options, body, coat)
 
     if (state.renderFront) {

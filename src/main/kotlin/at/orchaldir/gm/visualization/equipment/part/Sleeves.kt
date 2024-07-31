@@ -5,15 +5,15 @@ import at.orchaldir.gm.core.model.item.style.SleeveStyle
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.RenderOptions
 import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.character.HIGHER_EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.character.LOWER_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.getArmLayer
 
 fun visualizeSleeves(
     state: RenderState,
     options: RenderOptions,
     body: Body,
     style: SleeveStyle,
-    layer: Int = HIGHER_EQUIPMENT_LAYER,
+    layer: Int = EQUIPMENT_LAYER,
 ) {
     val (left, right) = state.config.body.getArmStarts(state.aabb, body)
     val armSize = state.config.body.getArmSize(state.aabb, body)
@@ -24,11 +24,7 @@ fun visualizeSleeves(
     }
     val leftAabb = AABB(left, sleeveSize)
     val rightAabb = AABB(right, sleeveSize)
-    val l = if (state.renderFront) {
-        layer
-    } else {
-        LOWER_EQUIPMENT_LAYER
-    }
+    val l = getArmLayer(layer, state.renderFront)
 
     state.renderer.renderRectangle(leftAabb, options, l)
     state.renderer.renderRectangle(rightAabb, options, l)
