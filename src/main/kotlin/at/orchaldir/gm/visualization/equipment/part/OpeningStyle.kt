@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.equipment.part
 
+import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.item.style.*
-import at.orchaldir.gm.core.model.item.style.NecklineStyle.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LineOptions
@@ -12,6 +12,7 @@ import at.orchaldir.gm.visualization.character.ABOVE_EQUIPMENT_LAYER
 
 data class OpeningConfig(
     val buttonRadius: SizeConfig<Factor>,
+    val spaceBetweenColumns: SizeConfig<Factor>,
     val zipperWidth: Factor,
 )
 
@@ -25,7 +26,13 @@ fun visualizeOpening(
 ) {
     when (openingStyle) {
         NoOpening -> doNothing()
-        is DoubleBreasted -> doNothing()
+        is DoubleBreasted -> {
+            val spaceBetweenColumns = state.config.equipment.opening.spaceBetweenColumns.convert(Size.Medium)
+            val half = spaceBetweenColumns * 0.5f
+
+            visualizeButtons(state, aabb, x - half, topY, bottomY, openingStyle.buttons)
+            visualizeButtons(state, aabb, x + half, topY, bottomY, openingStyle.buttons)
+        }
         is SingleBreasted -> visualizeButtons(state, aabb, x, topY, bottomY, openingStyle.buttons)
         is Zipper -> visualizeZipper(state, aabb, x, topY, bottomY, openingStyle)
     }

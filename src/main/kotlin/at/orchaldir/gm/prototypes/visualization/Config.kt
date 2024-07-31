@@ -58,6 +58,7 @@ val RENDER_CONFIG = RenderConfig(
         ),
         OpeningConfig(
             withFactor(0.02f, 0.04f, 0.06f),
+            withFactor(0.2f, 0.3f, 0.4f),
             Factor(0.01f),
         ),
         PantsConfig(
