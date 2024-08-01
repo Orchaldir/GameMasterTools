@@ -158,7 +158,7 @@ fun <T> HtmlBlockTag.showRarityMap(
     values: RarityMap<T>,
     content: LI.(T) -> Unit,
 ) {
-    val sortedMap = reverseAndSort(values.getValidValues())
+    val sortedMap = reverseAndSort(values.getRarityMap())
 
     details {
         summary { +enum }
@@ -227,7 +227,7 @@ fun <T> HtmlBlockTag.selectOneOf(
             if (update) {
                 onChange = ON_CHANGE_SCRIPT
             }
-            reverseAndSort(values.getValidValues())
+            reverseAndSort(values.getRarityMap())
                 .forEach { (rarity, values) ->
                     optGroup(rarity.toString()) {
                         values.forEach { value ->
@@ -261,7 +261,7 @@ fun <T> HtmlBlockTag.selectOneOrNone(
                 value = ""
                 selected = isUnselected
             }
-            reverseAndSort(values.getValidValues())
+            reverseAndSort(values.getRarityMap())
                 .forEach { (rarity, values) ->
                     optGroup(rarity.toString()) {
                         values.forEach { value ->

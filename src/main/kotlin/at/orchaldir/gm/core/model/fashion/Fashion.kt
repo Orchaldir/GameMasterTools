@@ -37,7 +37,7 @@ data class Fashion(
     override fun id() = id
 
     fun getAllItemTemplates() = EquipmentType.entries
-        .flatMap { getOptions(it).getValidValues().keys }
+        .flatMap { getOptions(it).getRarityMap().keys }
         .toSet()
 
     fun getOptions(type: EquipmentType) = when (type) {
