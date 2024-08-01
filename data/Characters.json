@@ -41,12 +41,11 @@
        "type": "Normal",
        "style": {
         "type": "Moustache",
-        "moustacheStyle": "Pyramid"
+        "moustacheStyle": "Pencil"
        },
        "color": "Black"
       },
-      "width": "Small",
-      "teethColor": "Brown"
+      "width": "Small"
      },
      "skin": {
       "type": "Normal",

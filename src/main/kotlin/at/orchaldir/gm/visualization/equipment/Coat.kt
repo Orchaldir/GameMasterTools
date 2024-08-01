@@ -13,6 +13,15 @@ import at.orchaldir.gm.visualization.equipment.part.visualizeOpening
 import at.orchaldir.gm.visualization.equipment.part.visualizeSleeves
 import at.orchaldir.gm.visualization.renderBuilder
 
+data class CoatConfig(
+    val widthPadding: Factor,
+) {
+    fun getHipWidth(config: BodyConfig, body: Body) =
+        config.getTorsoWidth(body) * config.getHipWidth(body.bodyShape) * getPaddedWidth()
+
+    fun getPaddedWidth() = FULL + widthPadding
+}
+
 private fun getBottomHeight(length: OuterwearLength) = when (length) {
     OuterwearLength.Hip -> ZERO
     OuterwearLength.Knee -> HALF
@@ -56,8 +65,9 @@ private fun visualizeCoatBody(
     body: Body,
     coat: Coat,
 ) {
-    val builder = createCoatBottom(state, body, coat.length)
-    addTorso(state, body, builder, coat.necklineStyle.addTop())
+    val paddedWidth = state.config.equipment.coat.getPaddedWidth()
+    val builder = createCoatBottom(state, body, coat.length, paddedWidth)
+    addTorso(state, body, builder, coat.necklineStyle.addTop(), paddedWidth)
     addNeckline(state, body, builder, coat.necklineStyle)
 
     renderBuilder(state, builder, options, OUTERWEAR_LAYER)
@@ -67,18 +77,19 @@ fun createCoatBottom(
     state: RenderState,
     body: Body,
     length: OuterwearLength,
+    paddedWidth: Factor,
 ): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
 
     if (length != OuterwearLength.Hip) {
         val config = state.config.body
-        val width = config.getTorsoWidth(body) * config.getHipWidth(body.bodyShape)
+        val width = config.getTorsoWidth(body) * config.getHipWidth(body.bodyShape) * paddedWidth
         val bottomY = getBottomY(state, body, length)
 
         builder.addMirroredPoints(state.aabb, width, bottomY)
     }
 
-    addHip(state.config, builder, state.aabb, body)
+    addHip(state.config, builder, state.aabb, body, paddedWidth)
 
     return builder
 }

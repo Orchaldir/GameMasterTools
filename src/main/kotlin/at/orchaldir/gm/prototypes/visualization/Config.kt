@@ -31,6 +31,9 @@ val RENDER_CONFIG = RenderConfig(
         withFactor(0.8f, 1.0f, 1.2f),
     ),
     EquipmentConfig(
+        CoatConfig(
+            Factor(0.1f),
+        ),
         FootwearConfig(
             Factor(0.5f),
             Factor(0.7f),
