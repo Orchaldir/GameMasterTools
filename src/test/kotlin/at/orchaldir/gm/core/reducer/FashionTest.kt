@@ -165,20 +165,35 @@ class FashionTest {
         }
 
         @Test
-        fun `Clothing set Suit requires at least 1 coat`() {
+        fun `Clothing set Suit requires at least 1 Coat`() {
+            testSuit(EquipmentType.Pants, EquipmentType.Shirt, Pants(), Shirt())
+        }
+
+        @Test
+        fun `Clothing set Suit requires at least 1 Pants`() {
+            testSuit(EquipmentType.Coat, EquipmentType.Shirt, Coat(), Shirt())
+        }
+
+        @Test
+        fun `Clothing set Suit requires at least 1 Shirt`() {
+            testSuit(EquipmentType.Coat, EquipmentType.Pants, Coat(), Pants())
+        }
+
+
+        private fun testSuit(type0: EquipmentType, type1: EquipmentType, equipment0: Equipment, equipment1: Equipment) {
             val state = State(
                 fashion = Storage(listOf(Fashion(ID0))),
                 itemTemplates = Storage(
                     listOf(
-                        ItemTemplate(ITEM0, equipment = Coat()),
-                        ItemTemplate(ITEM1, equipment = Shirt())
+                        ItemTemplate(ITEM0, equipment = equipment0),
+                        ItemTemplate(ITEM1, equipment = equipment1)
                     )
                 ),
             )
             val fashion = Fashion(
                 ID0,
                 clothingSets = OneOf(ClothingSet.Suit),
-                itemRarityMap = mapOf(EquipmentType.Coat to OneOrNone(ITEM0), EquipmentType.Shirt to OneOrNone(ITEM1))
+                itemRarityMap = mapOf(type0 to OneOrNone(ITEM0), type1 to OneOrNone(ITEM1))
             )
             val action = UpdateFashion(fashion)
 
