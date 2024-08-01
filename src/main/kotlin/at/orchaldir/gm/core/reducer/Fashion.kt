@@ -44,7 +44,9 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
         }
     }
 
-    noFollowUps(state.copy(fashion = state.fashion.update(fashion)))
+    val clean = fashion.copy(itemRarityMap = fashion.itemRarityMap.filter { it.value.isNotEmpty() })
+
+    noFollowUps(state.copy(fashion = state.fashion.update(clean)))
 }
 
 private fun check(fashion: Fashion, set: ClothingSet, type: EquipmentType) {

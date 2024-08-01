@@ -68,11 +68,16 @@ class FashionTest {
             val fashion = Fashion(
                 ID0,
                 clothingSets = OneOf(ClothingSet.Dress),
+                itemRarityMap = mapOf(EquipmentType.Dress to OneOrNone(ITEM0), EquipmentType.Hat to OneOrNone())
+            )
+            val result = Fashion(
+                ID0,
+                clothingSets = OneOf(ClothingSet.Dress),
                 itemRarityMap = mapOf(EquipmentType.Dress to OneOrNone(ITEM0))
             )
             val action = UpdateFashion(fashion)
 
-            assertEquals(fashion, REDUCER.invoke(state, action).first.fashion.get(ID0))
+            assertEquals(result, REDUCER.invoke(state, action).first.fashion.get(ID0))
         }
 
         @Test
