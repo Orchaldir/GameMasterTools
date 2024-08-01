@@ -21,6 +21,7 @@ import kotlin.test.assertFailsWith
 private val ID0 = FashionId(0)
 private val CULTURE0 = CultureId(0)
 private val ITEM0 = ItemTemplateId(0)
+private val ITEM1 = ItemTemplateId(1)
 
 class FashionTest {
 
@@ -138,6 +139,28 @@ class FashionTest {
                 itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Shirt()))),
             )
             val fashion = Fashion(ID0, clothingSets = OneOf(ClothingSet.ShirtAndSkirt), shirts = OneOrNone(ITEM0))
+            val action = UpdateFashion(fashion)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Clothing set Suit requires at least 1 coat`() {
+            val state = State(
+                fashion = Storage(listOf(Fashion(ID0))),
+                itemTemplates = Storage(
+                    listOf(
+                        ItemTemplate(ITEM0, equipment = Coat()),
+                        ItemTemplate(ITEM1, equipment = Shirt())
+                    )
+                ),
+            )
+            val fashion = Fashion(
+                ID0,
+                clothingSets = OneOf(ClothingSet.Suit),
+                coats = OneOrNone(ITEM0),
+                shirts = OneOrNone(ITEM1)
+            )
             val action = UpdateFashion(fashion)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }

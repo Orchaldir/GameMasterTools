@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.ClothingSet.*
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.selector.canDelete
@@ -34,14 +35,28 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
     }
 
     if (fashion.clothingSets.isAvailable(PantsAndShirt)) {
-        require(fashion.pants.isNotEmpty()) { "Clothing set PantsAndShirt requires at least one pants!" }
-        require(fashion.shirts.isNotEmpty()) { "Clothing set PantsAndShirt requires at least one shirt!" }
+        checkPants(fashion, PantsAndShirt)
+        checkShirts(fashion, PantsAndShirt)
     }
 
     if (fashion.clothingSets.isAvailable(ShirtAndSkirt)) {
-        require(fashion.shirts.isNotEmpty()) { "Clothing set ShirtAndSkirt requires at least one shirt!" }
+        checkShirts(fashion, ShirtAndSkirt)
         require(fashion.skirts.isNotEmpty()) { "Clothing set ShirtAndSkirt requires at least one skirt!" }
     }
 
+    if (fashion.clothingSets.isAvailable(Suit)) {
+        require(fashion.coats.isNotEmpty()) { "Clothing set Suit requires at least one coat!" }
+        checkPants(fashion, Suit)
+        checkShirts(fashion, Suit)
+    }
+
     noFollowUps(state.copy(fashion = state.fashion.update(fashion)))
+}
+
+private fun checkPants(fashion: Fashion, set: ClothingSet) {
+    require(fashion.pants.isNotEmpty()) { "Clothing set $set requires at least one pants!" }
+}
+
+private fun checkShirts(fashion: Fashion, set: ClothingSet) {
+    require(fashion.shirts.isNotEmpty()) { "Clothing set $set requires at least one shirt!" }
 }
