@@ -5,8 +5,8 @@ import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.fashion.ClothingSet
-import at.orchaldir.gm.core.model.fashion.ClothingSet.*
 import at.orchaldir.gm.core.model.fashion.Fashion
+import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -30,33 +30,15 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
     state.fashion.require(fashion.id)
     fashion.getAllItemTemplates().forEach { state.itemTemplates.require(it) }
 
-    if (fashion.clothingSets.isAvailable(Dress)) {
-        require(fashion.dresses.isNotEmpty()) { "Clothing set Dress requires at least one dress!" }
-    }
-
-    if (fashion.clothingSets.isAvailable(PantsAndShirt)) {
-        checkPants(fashion, PantsAndShirt)
-        checkShirts(fashion, PantsAndShirt)
-    }
-
-    if (fashion.clothingSets.isAvailable(ShirtAndSkirt)) {
-        checkShirts(fashion, ShirtAndSkirt)
-        require(fashion.skirts.isNotEmpty()) { "Clothing set ShirtAndSkirt requires at least one skirt!" }
-    }
-
-    if (fashion.clothingSets.isAvailable(Suit)) {
-        require(fashion.coats.isNotEmpty()) { "Clothing set Suit requires at least one coat!" }
-        checkPants(fashion, Suit)
-        checkShirts(fashion, Suit)
+    fashion.clothingSets.getValidValues().forEach { set ->
+        set.getTypes().forEach { type ->
+            check(fashion, set, type)
+        }
     }
 
     noFollowUps(state.copy(fashion = state.fashion.update(fashion)))
 }
 
-private fun checkPants(fashion: Fashion, set: ClothingSet) {
-    require(fashion.pants.isNotEmpty()) { "Clothing set $set requires at least one pants!" }
-}
-
-private fun checkShirts(fashion: Fashion, set: ClothingSet) {
-    require(fashion.shirts.isNotEmpty()) { "Clothing set $set requires at least one shirt!" }
+private fun check(fashion: Fashion, set: ClothingSet, type: EquipmentType) {
+    require(fashion.getOptions(type).isNotEmpty()) { "Clothing set $set requires at least one $type!" }
 }

@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.item.EquipmentType.Gloves
 import at.orchaldir.gm.core.model.item.EquipmentType.Hat
 
 val ACCESSORIES = setOf(Footwear, Gloves, Hat)
+val NOT_NONE = EquipmentType.entries.toSet() - EquipmentType.None
 
 enum class EquipmentType {
     None,

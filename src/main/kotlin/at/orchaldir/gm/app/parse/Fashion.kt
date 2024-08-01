@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.item.EquipmentType
+import at.orchaldir.gm.core.model.item.NOT_NONE
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -14,20 +15,15 @@ fun parseFashionId(
 
 fun parseFashion(id: FashionId, parameters: Parameters): Fashion {
     val name = parameters.getOrFail(NAME)
+    val itemRarityMap = NOT_NONE
+        .associateWith { parseItemTemplates(parameters, it) }
 
     return Fashion(
         id,
         name,
         parseOneOf(parameters, CLOTHING_SETS, ClothingSet::valueOf),
         parseSomeOf(parameters, ACCESSORY_RARITY, EquipmentType::valueOf),
-        parseItemTemplates(parameters, EquipmentType.Coat),
-        parseItemTemplates(parameters, EquipmentType.Dress),
-        parseItemTemplates(parameters, EquipmentType.Footwear),
-        parseItemTemplates(parameters, EquipmentType.Gloves),
-        parseItemTemplates(parameters, EquipmentType.Hat),
-        parseItemTemplates(parameters, EquipmentType.Pants),
-        parseItemTemplates(parameters, EquipmentType.Shirt),
-        parseItemTemplates(parameters, EquipmentType.Skirt),
+        itemRarityMap,
     )
 }
 
