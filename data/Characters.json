@@ -104,8 +104,7 @@
      },
      "mouth": {
       "type": "Female",
-      "width": "Large",
-      "teethColor": "Brown"
+      "width": "Large"
      },
      "skin": {
       "type": "Normal",

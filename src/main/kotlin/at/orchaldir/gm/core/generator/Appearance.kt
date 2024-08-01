@@ -127,13 +127,13 @@ fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
                 return FemaleMouth(
                     config.select(Size.entries),
                     config.generate(config.appearanceStyle.lipColors),
-                    config.select(TeethColor.entries),
+                    TeethColor.White,
                 )
             }
             NormalMouth(
                 generateBeard(config, hair),
                 config.select(Size.entries),
-                config.select(TeethColor.entries),
+                TeethColor.White,
             )
         }
     }
