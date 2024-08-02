@@ -147,7 +147,7 @@ private fun HTML.showCalendarDetails(
         field("Name", calendar.name)
         when (calendar.origin) {
             is ImprovedCalendar -> {
-                field("Origin", "Evolved")
+                field("Origin", "Improved")
                 field("Parent Calendar") {
                     link(call, state, calendar.origin.parent)
                 }
