@@ -1,0 +1,15 @@
+package at.orchaldir.gm.core.selector
+
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.*
+
+fun State.canDelete(calendar: CalendarId) = getChildren(calendar).isEmpty()
+
+fun State.getChildren(calendar: CalendarId) = calendars.getAll().filter {
+    when (it.origin) {
+        is ImprovedCalendar -> it.id == calendar
+        OriginalCalendar -> false
+    }
+}
+
+fun State.getPossibleParents(calendar: CalendarId) = calendars.getAll().filter { it.id != calendar }
