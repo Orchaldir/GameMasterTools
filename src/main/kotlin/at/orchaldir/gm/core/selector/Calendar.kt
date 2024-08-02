@@ -7,7 +7,7 @@ fun State.canDelete(calendar: CalendarId) = getChildren(calendar).isEmpty()
 
 fun State.getChildren(calendar: CalendarId) = calendars.getAll().filter {
     when (it.origin) {
-        is ImprovedCalendar -> it.id == calendar
+        is ImprovedCalendar -> it.origin.parent == calendar
         OriginalCalendar -> false
     }
 }
