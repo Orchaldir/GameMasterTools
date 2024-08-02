@@ -158,7 +158,7 @@ fun <T> HtmlBlockTag.showRarityMap(
     values: RarityMap<T>,
     content: LI.(T) -> Unit,
 ) {
-    val sortedMap = reverseAndSort(values.getValidValues())
+    val sortedMap = reverseAndSort(values.getRarityMap())
 
     details {
         summary { +enum }
@@ -176,6 +176,17 @@ fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
     p {
         b { +"$label: " }
         content()
+    }
+}
+
+fun FORM.selectNumber(label: String, number: Int, minNumber: Int, maxNumber: Int, param: String) {
+    field(label) {
+        numberInput(name = param) {
+            min = "$minNumber"
+            max = "$maxNumber"
+            value = number.toString()
+            onChange = ON_CHANGE_SCRIPT
+        }
     }
 }
 
@@ -216,7 +227,7 @@ fun <T> HtmlBlockTag.selectOneOf(
             if (update) {
                 onChange = ON_CHANGE_SCRIPT
             }
-            reverseAndSort(values.getValidValues())
+            reverseAndSort(values.getRarityMap())
                 .forEach { (rarity, values) ->
                     optGroup(rarity.toString()) {
                         values.forEach { value ->
@@ -250,7 +261,7 @@ fun <T> HtmlBlockTag.selectOneOrNone(
                 value = ""
                 selected = isUnselected
             }
-            reverseAndSort(values.getValidValues())
+            reverseAndSort(values.getRarityMap())
                 .forEach { (rarity, values) ->
                     optGroup(rarity.toString()) {
                         values.forEach { value ->

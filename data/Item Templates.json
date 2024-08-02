@@ -350,6 +350,86 @@
     },
     "material": 2
    }
+  },
+  "31": {
+   "id": 31,
+   "name": "Gray Single Breasted Jacket",
+   "equipment": {
+    "type": "Coat",
+    "necklineStyle": "DeepV",
+    "openingStyle": {
+     "type": "SingleBreasted",
+     "buttons": {
+      "button": {
+       "color": "Black"
+      },
+      "count": 4
+     }
+    },
+    "fill": {
+     "type": "Solid",
+     "color": "Gray"
+    },
+    "material": 3
+   }
+  },
+  "32": {
+   "id": 32,
+   "name": "Pinestrip Jacket",
+   "equipment": {
+    "type": "Coat",
+    "necklineStyle": "DeepV",
+    "openingStyle": {
+     "type": "DoubleBreasted",
+     "buttons": {
+      "button": {
+       "color": "Black"
+      },
+      "count": 4
+     }
+    },
+    "fill": {
+     "type": "VerticalStripes",
+     "color0": "Gray",
+     "color1": "Black"
+    },
+    "material": 3
+   }
+  },
+  "33": {
+   "id": 33,
+   "name": "Navy Jacket",
+   "equipment": {
+    "type": "Coat",
+    "necklineStyle": "DeepV",
+    "openingStyle": {
+     "type": "SingleBreasted",
+     "buttons": {
+      "button": {
+       "color": "Gold"
+      },
+      "count": 4
+     }
+    },
+    "fill": {
+     "type": "Solid",
+     "color": "Navy"
+    },
+    "material": 3
+   }
+  },
+  "34": {
+   "id": 34,
+   "name": "White Jacket",
+   "equipment": {
+    "type": "Coat",
+    "necklineStyle": "DeepV",
+    "fill": {
+     "type": "Solid",
+     "color": "White"
+    },
+    "material": 3
+   }
   }
  }
 }

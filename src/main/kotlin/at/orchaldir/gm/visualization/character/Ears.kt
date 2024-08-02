@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.RenderOptions
@@ -13,10 +12,10 @@ import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.renderMirroredPolygons
 
 data class EarConfig(
-    private val roundRadius: SizeConfig,
+    private val roundRadius: SizeConfig<Factor>,
     val pointedLength: Factor,
 ) {
-    fun getRoundRadius(aabb: AABB, size: Size) = Distance(aabb.size.height * roundRadius.convert(size))
+    fun getRoundRadius(aabb: AABB, size: Size) = aabb.convertHeight(roundRadius.convert(size))
 }
 
 fun visualizeEars(state: RenderState, head: Head) {

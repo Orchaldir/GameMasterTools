@@ -10,7 +10,7 @@ import at.orchaldir.gm.utils.renderer.RenderOptions
 import at.orchaldir.gm.utils.renderer.toRender
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.HIGHER_EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.character.LOWER_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.getArmLayer
 import at.orchaldir.gm.visualization.character.visualizeHands
 
 fun visualizeGloves(
@@ -22,14 +22,14 @@ fun visualizeGloves(
 
     when (gloves.style) {
         GloveStyle.Hand -> doNothing()
-        GloveStyle.Half -> visualizeSleeves(state, options, body, HALF)
-        GloveStyle.Full -> visualizeSleeves(state, options, body, FULL)
+        GloveStyle.Half -> visualizeGloveSleeves(state, options, body, HALF)
+        GloveStyle.Full -> visualizeGloveSleeves(state, options, body, FULL)
     }
 
     visualizeHands(state, body, options)
 }
 
-private fun visualizeSleeves(
+private fun visualizeGloveSleeves(
     state: RenderState,
     options: RenderOptions,
     body: Body,
@@ -43,11 +43,7 @@ private fun visualizeSleeves(
     val centerRight = right + down
     val leftAabb = AABB(centerLeft, gloveSize)
     val rightAabb = AABB(centerRight, gloveSize)
-    val layer = if (state.renderFront) {
-        HIGHER_EQUIPMENT_LAYER
-    } else {
-        LOWER_EQUIPMENT_LAYER
-    }
+    val layer = getArmLayer(HIGHER_EQUIPMENT_LAYER, state.renderFront)
 
     state.renderer.renderRectangle(leftAabb, options, layer)
     state.renderer.renderRectangle(rightAabb, options, layer)

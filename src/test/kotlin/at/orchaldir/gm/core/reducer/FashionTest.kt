@@ -21,6 +21,7 @@ import kotlin.test.assertFailsWith
 private val ID0 = FashionId(0)
 private val CULTURE0 = CultureId(0)
 private val ITEM0 = ItemTemplateId(0)
+private val ITEM1 = ItemTemplateId(1)
 
 class FashionTest {
 
@@ -64,10 +65,19 @@ class FashionTest {
                 fashion = Storage(listOf(Fashion(ID0))),
                 itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Dress()))),
             )
-            val fashion = Fashion(ID0, clothingSets = OneOf(ClothingSet.Dress), dresses = OneOrNone(ITEM0))
+            val fashion = Fashion(
+                ID0,
+                clothingSets = OneOf(ClothingSet.Dress),
+                itemRarityMap = mapOf(EquipmentType.Dress to OneOrNone(ITEM0), EquipmentType.Hat to OneOrNone())
+            )
+            val result = Fashion(
+                ID0,
+                clothingSets = OneOf(ClothingSet.Dress),
+                itemRarityMap = mapOf(EquipmentType.Dress to OneOrNone(ITEM0))
+            )
             val action = UpdateFashion(fashion)
 
-            assertEquals(fashion, REDUCER.invoke(state, action).first.fashion.get(ID0))
+            assertEquals(result, REDUCER.invoke(state, action).first.fashion.get(ID0))
         }
 
         @Test
@@ -80,7 +90,7 @@ class FashionTest {
         @Test
         fun `Cannot use unknown item templates`() {
             val state = State(fashion = Storage(listOf(Fashion(ID0))))
-            val fashion = Fashion(ID0, dresses = OneOrNone(ITEM0))
+            val fashion = Fashion(ID0, itemRarityMap = mapOf(EquipmentType.Dress to OneOrNone(ITEM0)))
             val action = UpdateFashion(fashion)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -96,48 +106,86 @@ class FashionTest {
         }
 
         @Test
-        fun `Clothing set PantsAndShirt requires at least 1 pants`() {
+        fun `Equipment must have the correct type`() {
             val state = State(
                 fashion = Storage(listOf(Fashion(ID0))),
-                itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Shirt()))),
+                itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Hat()))),
             )
-            val fashion = Fashion(ID0, clothingSets = OneOf(ClothingSet.PantsAndShirt), shirts = OneOrNone(ITEM0))
+            val fashion = Fashion(
+                ID0,
+                clothingSets = OneOf(ClothingSet.Dress),
+                itemRarityMap = mapOf(EquipmentType.Dress to OneOrNone(ITEM0))
+            )
             val action = UpdateFashion(fashion)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Clothing set PantsAndShirt requires at least 1 pants`() {
+            testSetWith2Items(ClothingSet.PantsAndShirt, EquipmentType.Shirt, Shirt())
         }
 
         @Test
         fun `Clothing set PantsAndShirt requires at least 1 shirt`() {
-            val state = State(
-                fashion = Storage(listOf(Fashion(ID0))),
-                itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Pants()))),
-            )
-            val fashion = Fashion(ID0, clothingSets = OneOf(ClothingSet.PantsAndShirt), pants = OneOrNone(ITEM0))
-            val action = UpdateFashion(fashion)
-
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            testSetWith2Items(ClothingSet.PantsAndShirt, EquipmentType.Pants, Pants())
         }
 
         @Test
         fun `Clothing set ShirtAndSkirt requires at least 1 shirt`() {
+            testSetWith2Items(ClothingSet.ShirtAndSkirt, EquipmentType.Skirt, Skirt())
+        }
+
+        @Test
+        fun `Clothing set ShirtAndSkirt requires at least 1 skirt`() {
+            testSetWith2Items(ClothingSet.ShirtAndSkirt, EquipmentType.Shirt, Shirt())
+        }
+
+        @Test
+        fun `Clothing set Suit requires at least 1 Coat`() {
+            testSuit(EquipmentType.Pants, EquipmentType.Shirt, Pants(), Shirt())
+        }
+
+        @Test
+        fun `Clothing set Suit requires at least 1 Pants`() {
+            testSuit(EquipmentType.Coat, EquipmentType.Shirt, Coat(), Shirt())
+        }
+
+        @Test
+        fun `Clothing set Suit requires at least 1 Shirt`() {
+            testSuit(EquipmentType.Coat, EquipmentType.Pants, Coat(), Pants())
+        }
+
+        private fun testSetWith2Items(set: ClothingSet, type: EquipmentType, equipment: Equipment) {
             val state = State(
                 fashion = Storage(listOf(Fashion(ID0))),
-                itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Skirt()))),
+                itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = equipment))),
             )
-            val fashion = Fashion(ID0, clothingSets = OneOf(ClothingSet.ShirtAndSkirt), skirts = OneOrNone(ITEM0))
+            val fashion = Fashion(
+                ID0,
+                clothingSets = OneOf(set),
+                itemRarityMap = mapOf(type to OneOrNone(ITEM0))
+            )
             val action = UpdateFashion(fashion)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
 
-        @Test
-        fun `Clothing set ShirtAndSkirt requires at least 1 skirt`() {
+        private fun testSuit(type0: EquipmentType, type1: EquipmentType, equipment0: Equipment, equipment1: Equipment) {
             val state = State(
                 fashion = Storage(listOf(Fashion(ID0))),
-                itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Shirt()))),
+                itemTemplates = Storage(
+                    listOf(
+                        ItemTemplate(ITEM0, equipment = equipment0),
+                        ItemTemplate(ITEM1, equipment = equipment1)
+                    )
+                ),
             )
-            val fashion = Fashion(ID0, clothingSets = OneOf(ClothingSet.ShirtAndSkirt), shirts = OneOrNone(ITEM0))
+            val fashion = Fashion(
+                ID0,
+                clothingSets = OneOf(ClothingSet.Suit),
+                itemRarityMap = mapOf(type0 to OneOrNone(ITEM0), type1 to OneOrNone(ITEM1))
+            )
             val action = UpdateFashion(fashion)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }

@@ -86,7 +86,7 @@ private fun HTML.showLanguageEditor(
                         value = ""
                         selected = true
                     }
-                    reverseAndSort(cultures.languages.getValidValues())
+                    reverseAndSort(cultures.languages.getRarityMap())
                         .forEach { (rarity, values) ->
                             optGroup(rarity.toString()) {
                                 values.forEach { languageId ->

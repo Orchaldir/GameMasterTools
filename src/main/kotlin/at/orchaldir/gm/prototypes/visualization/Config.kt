@@ -5,11 +5,12 @@ import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.LineOptions
 import at.orchaldir.gm.visualization.RenderConfig
-import at.orchaldir.gm.visualization.SizeConfig
+import at.orchaldir.gm.visualization.SizeConfig.Companion.withFactor
 import at.orchaldir.gm.visualization.character.*
 import at.orchaldir.gm.visualization.character.beard.BeardConfig
 import at.orchaldir.gm.visualization.equipment.*
 import at.orchaldir.gm.visualization.equipment.part.NecklineConfig
+import at.orchaldir.gm.visualization.equipment.part.OpeningConfig
 
 val RENDER_CONFIG = RenderConfig(
     Distance(0.1f), LineOptions(Color.Black.toRender(), Distance(0.001f)),
@@ -26,9 +27,12 @@ val RENDER_CONFIG = RenderConfig(
         Factor(0.35f),
         Factor(0.255f),
         Factor(1.2f),
-        SizeConfig(0.8f, 1.0f, 1.2f),
+        withFactor(0.8f, 1.0f, 1.2f),
     ),
     EquipmentConfig(
+        CoatConfig(
+            Factor(0.1f),
+        ),
         FootwearConfig(
             Factor(0.5f),
             Factor(0.7f),
@@ -54,6 +58,11 @@ val RENDER_CONFIG = RenderConfig(
             Factor(0.3f),
             Factor(0.5f),
         ),
+        OpeningConfig(
+            withFactor(0.01f, 0.015f, 0.02f),
+            withFactor(0.2f, 0.3f, 0.4f),
+            Factor(0.01f),
+        ),
         PantsConfig(
             Factor(0.5f),
             Factor(0.3f),
@@ -69,11 +78,14 @@ val RENDER_CONFIG = RenderConfig(
     ),
     HeadConfig(
         BeardConfig(Factor(0.8f), Factor(0.05f), Factor(0.1f), Factor(0.01f)),
-        EarConfig(SizeConfig(0.1f, 0.125f, 0.15f), Factor(3.0f)),
+        EarConfig(
+            withFactor(0.1f, 0.125f, 0.15f),
+            Factor(3.0f),
+        ),
         Factor(0.45f),
         EyesConfig(
-            SizeConfig(0.2f, 0.3f, 0.4f),
-            SizeConfig(0.3f, 0.45f, 0.5f),
+            withFactor(0.2f, 0.3f, 0.4f),
+            withFactor(0.3f, 0.45f, 0.5f),
             Factor(0.7f),
             Factor(0.75f),
             Factor(0.5f),
@@ -89,7 +101,11 @@ val RENDER_CONFIG = RenderConfig(
         ),
         Factor(0.3f),
         Factor(0.25f),
-        MouthConfig(SizeConfig(0.3f, 0.35f, 0.4f), Factor(0.04f), Factor(0.1f)),
+        MouthConfig(
+            withFactor(0.3f, 0.35f, 0.4f),
+            Factor(0.04f),
+            Factor(0.1f),
+        ),
         Factor(0.75f),
     )
 )

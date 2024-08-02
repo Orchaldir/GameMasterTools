@@ -9,6 +9,8 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
+private val EMPTY = OneOrNone<ItemTemplateId>()
+
 @JvmInline
 @Serializable
 value class FashionId(val value: Int) : Id<FashionId> {
@@ -24,30 +26,16 @@ data class Fashion(
     val name: String = "Fashion ${id.value}",
     val clothingSets: OneOf<ClothingSet> = OneOf(ClothingSet.entries),
     val accessories: SomeOf<EquipmentType> = SomeOf(emptySet()),
-    val dresses: OneOrNone<ItemTemplateId> = OneOrNone(),
-    val footwear: OneOrNone<ItemTemplateId> = OneOrNone(),
-    val gloves: OneOrNone<ItemTemplateId> = OneOrNone(),
-    val hats: OneOrNone<ItemTemplateId> = OneOrNone(),
-    val pants: OneOrNone<ItemTemplateId> = OneOrNone(),
-    val shirts: OneOrNone<ItemTemplateId> = OneOrNone(),
-    val skirts: OneOrNone<ItemTemplateId> = OneOrNone(),
+    val itemRarityMap: Map<EquipmentType, OneOrNone<ItemTemplateId>> = emptyMap(),
 ) : Element<FashionId> {
 
     override fun id() = id
 
-    fun getAllItemTemplates() = EquipmentType.entries
-        .flatMap { getOptions(it).getValidValues().keys }
-        .toSet()
+    fun getAllItemTemplates() = itemRarityMap
+        .values
+        .flatMap { it.getValidValues() }
 
-    fun getOptions(type: EquipmentType) = when (type) {
-        EquipmentType.None -> OneOrNone()
-        EquipmentType.Dress -> dresses
-        EquipmentType.Footwear -> footwear
-        EquipmentType.Gloves -> gloves
-        EquipmentType.Hat -> hats
-        EquipmentType.Pants -> pants
-        EquipmentType.Shirt -> shirts
-        EquipmentType.Skirt -> skirts
-    }
+
+    fun getOptions(type: EquipmentType) = itemRarityMap[type] ?: EMPTY
 
 }

@@ -12,11 +12,11 @@ import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.beard.visualizeBeard
 
 data class MouthConfig(
-    private val simpleWidth: SizeConfig,
+    private val simpleWidth: SizeConfig<Factor>,
     val simpleHeight: Factor,
     val femaleHeight: Factor,
 ) {
-    fun getSimpleWidth(size: Size) = Factor(simpleWidth.convert(size))
+    fun getSimpleWidth(size: Size) = simpleWidth.convert(size)
 
     fun getWidth(mouth: Mouth): Factor {
         val width = when (mouth) {

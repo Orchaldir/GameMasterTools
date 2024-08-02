@@ -23,9 +23,9 @@ data class BodyConfig(
     val torsoWidth: Factor,
     val torsoY: Factor,
     val widerWidth: Factor,
-    val width: SizeConfig,
+    val width: SizeConfig<Factor>,
 ) {
-    fun getBodyWidth(body: Body) = Factor(width.convert(body.width))
+    fun getBodyWidth(body: Body) = width.convert(body.width)
 
     fun getHeadAabb(aabb: AABB): AABB {
         val startX = getStartX(headHeight)
@@ -160,10 +160,11 @@ fun addTorso(
     body: Body,
     builder: Polygon2dBuilder,
     addTop: Boolean = true,
+    paddedWidth: Factor = FULL,
 ) {
     val config = state.config.body
     val torso = config.getTorsoAabb(state.aabb, body)
-    val waistWidth = config.getWaistWidth(body.bodyShape)
+    val waistWidth = config.getWaistWidth(body.bodyShape) * paddedWidth
     val shoulderWidth = config.getShoulderWidth(body.bodyShape)
     val shoulderHeight = config.shoulderY
 
@@ -186,13 +187,13 @@ fun addHip(
     builder: Polygon2dBuilder,
     aabb: AABB,
     body: Body,
-    padding: Factor = FULL,
-    renderBottom: Boolean = true,
+    paddedWidth: Factor = FULL,
+    addBottom: Boolean = true,
 ) {
     val torso = config.body.getTorsoAabb(aabb, body)
-    val hipWidth = config.body.getHipWidth(body.bodyShape) * padding
+    val hipWidth = config.body.getHipWidth(body.bodyShape) * paddedWidth
 
-    if (renderBottom) {
+    if (addBottom) {
         builder.addMirroredPoints(torso, hipWidth, END)
     }
     builder.addMirroredPoints(torso, hipWidth, config.body.hipY)
@@ -203,19 +204,16 @@ fun visualizeArms(state: RenderState, body: Body, options: RenderOptions) {
     val (left, right) = state.config.body.getMirroredArmPoint(state.aabb, body, CENTER)
     val leftAabb = AABB.fromCenter(left, size)
     val rightAabb = AABB.fromCenter(right, size)
+    val layer = getArmLayer(MAIN_LAYER, state.renderFront)
 
-    state.renderer.renderRectangle(leftAabb, options)
-    state.renderer.renderRectangle(rightAabb, options)
+    state.renderer.renderRectangle(leftAabb, options, layer)
+    state.renderer.renderRectangle(rightAabb, options, layer)
 }
 
 fun visualizeHands(state: RenderState, body: Body, options: RenderOptions) {
     val (left, right) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
     val radius = state.aabb.convertHeight(state.config.body.getHandRadius(body))
-    val layer = if (state.renderFront) {
-        ABOVE_EQUIPMENT_LAYER
-    } else {
-        EQUIPMENT_LAYER
-    }
+    val layer = getArmLayer(ABOVE_EQUIPMENT_LAYER, state.renderFront)
 
     state.renderer.renderCircle(left, radius, options, layer)
     state.renderer.renderCircle(right, radius, options, layer)

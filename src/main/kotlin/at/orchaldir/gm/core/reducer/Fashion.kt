@@ -4,8 +4,10 @@ import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.fashion.ClothingSet.*
+import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
+import at.orchaldir.gm.core.model.item.EquipmentType
+import at.orchaldir.gm.core.model.item.NOT_NONE
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -29,19 +31,24 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
     state.fashion.require(fashion.id)
     fashion.getAllItemTemplates().forEach { state.itemTemplates.require(it) }
 
-    if (fashion.clothingSets.isAvailable(Dress)) {
-        require(fashion.dresses.isNotEmpty()) { "Clothing set Dress requires at least one dress!" }
+    fashion.clothingSets.getValidValues().forEach { set ->
+        set.getTypes().forEach { type ->
+            check(fashion, set, type)
+        }
     }
 
-    if (fashion.clothingSets.isAvailable(PantsAndShirt)) {
-        require(fashion.pants.isNotEmpty()) { "Clothing set PantsAndShirt requires at least one pants!" }
-        require(fashion.shirts.isNotEmpty()) { "Clothing set PantsAndShirt requires at least one shirt!" }
+    NOT_NONE.forEach { type ->
+        fashion.getOptions(type).getValidValues().forEach { id ->
+            val template = state.itemTemplates.getOrThrow(id)
+            require(template.equipment.isType(type)) { "Type $type has item ${id.value} of wrong type!" }
+        }
     }
 
-    if (fashion.clothingSets.isAvailable(ShirtAndSkirt)) {
-        require(fashion.shirts.isNotEmpty()) { "Clothing set ShirtAndSkirt requires at least one shirt!" }
-        require(fashion.skirts.isNotEmpty()) { "Clothing set ShirtAndSkirt requires at least one skirt!" }
-    }
+    val clean = fashion.copy(itemRarityMap = fashion.itemRarityMap.filter { it.value.isNotEmpty() })
 
-    noFollowUps(state.copy(fashion = state.fashion.update(fashion)))
+    noFollowUps(state.copy(fashion = state.fashion.update(clean)))
+}
+
+private fun check(fashion: Fashion, set: ClothingSet, type: EquipmentType) {
+    require(fashion.getOptions(type).isNotEmpty()) { "Clothing set $set requires at least one $type!" }
 }

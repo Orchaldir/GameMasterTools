@@ -18,6 +18,15 @@ fun parseItemTemplate(id: ItemTemplateId, parameters: Parameters): ItemTemplate 
 
 fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_TYPE, EquipmentType.None)) {
     EquipmentType.None -> NoEquipment
+    EquipmentType.Coat -> Coat(
+        parse(parameters, LENGTH, OuterwearLength.Hip),
+        parse(parameters, NECKLINE_STYLE, NecklineStyle.DeepV),
+        parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
+        parseOpeningStyle(parameters),
+        parseFill(parameters),
+        parseMaterialId(parameters, MATERIAL),
+    )
+
     EquipmentType.Dress -> parseDress(parameters)
 
     EquipmentType.Footwear -> Footwear(
@@ -77,6 +86,29 @@ private fun parseShirt(parameters: Parameters): Shirt {
     )
 }
 
+private fun parseOpeningStyle(parameters: Parameters): OpeningStyle {
+    val type = parse(parameters, OPENING_STYLE, OpeningType.NoOpening)
+
+    return when (type) {
+        OpeningType.NoOpening -> NoOpening
+        OpeningType.SingleBreasted -> SingleBreasted(parseButtonColumn(parameters))
+        OpeningType.DoubleBreasted -> DoubleBreasted(
+            parseButtonColumn(parameters),
+            parse(parameters, SPACE_BETWEEN_COLUMNS, Size.Medium)
+        )
+
+        OpeningType.Zipper -> Zipper(parse(parameters, ZIPPER, Color.Silver))
+    }
+}
+
+private fun parseButtonColumn(parameters: Parameters) = ButtonColumn(
+    Button(
+        parse(parameters, BUTTON_SIZE, Size.Medium),
+        parse(parameters, BUTTON_COLOR, Color.Silver)
+    ),
+    parameters[BUTTON_COUNT]?.toUByte() ?: 1u,
+)
+
 private fun parseFill(parameters: Parameters): Fill {
     val type = parse(parameters, FILL_TYPE, FillType.Solid)
 
@@ -102,7 +134,7 @@ private fun parseSleeveStyle(
     parameters: Parameters,
     neckline: NecklineStyle,
 ) = if (neckline.supportsSleeves()) {
-    parse(parameters, SLEEVE_STYLE, SleeveStyle.None)
+    parse(parameters, SLEEVE_STYLE, SleeveStyle.Long)
 } else {
     SleeveStyle.None
 }

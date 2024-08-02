@@ -129,6 +129,6 @@ fun addNamesToEyes(values: List<Eyes>) = values.map {
     )
 }
 
-fun <T> addNames(values: List<T>) = values.map {
+fun <T> addNames(values: Collection<T>) = values.map {
     Pair(it.toString(), it)
 }

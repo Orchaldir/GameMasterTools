@@ -9,7 +9,9 @@ interface RarityMap<T> {
 
     fun getAvailableRarities(): Set<Rarity>
 
-    fun getValidValues(): Map<T, Rarity>
+    fun getRarityMap(): Map<T, Rarity>
+
+    fun getValidValues() = getRarityMap().keys.toSet()
 
     fun getRarity(key: T): Rarity
 
@@ -17,7 +19,7 @@ interface RarityMap<T> {
 
     fun isAvailable(value: T): Boolean
 
-    fun isEmpty(): Boolean = getValidValues().isEmpty()
+    fun isEmpty(): Boolean = getRarityMap().isEmpty()
 
     fun isNotEmpty(): Boolean = !isEmpty()
 }
@@ -44,7 +46,7 @@ value class OneOf<T>(private val map: Map<T, Rarity>) : RarityMap<T> {
 
     override fun getAvailableRarities() = ONE_OF_RARITIES
 
-    override fun getValidValues() = map
+    override fun getRarityMap() = map
 
     override fun getRarity(key: T) = map[key] ?: Rarity.Unavailable
 
@@ -72,7 +74,7 @@ value class OneOrNone<T>(private val map: Map<T, Rarity>) : RarityMap<T> {
 
     override fun getAvailableRarities() = ONE_OF_RARITIES
 
-    override fun getValidValues() = map
+    override fun getRarityMap() = map
 
     override fun getRarity(key: T) = map[key] ?: Rarity.Unavailable
 
@@ -97,7 +99,7 @@ value class SomeOf<T>(private val map: Map<T, Rarity>) : RarityMap<T> {
 
     override fun getAvailableRarities() = SOME_OF_RARITIES
 
-    override fun getValidValues() = map
+    override fun getRarityMap() = map
 
     override fun getRarity(key: T) = map[key] ?: Rarity.Unavailable
 

@@ -11,8 +11,8 @@ import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.SizeConfig
 
 data class EyesConfig(
-    private val diameter: SizeConfig,
-    private val distanceBetweenEyes: SizeConfig,
+    private val diameter: SizeConfig<Factor>,
+    private val distanceBetweenEyes: SizeConfig<Factor>,
     private val almondHeight: Factor,
     private val ellipseHeight: Factor,
     val pupilFactor: Factor,
@@ -20,7 +20,7 @@ data class EyesConfig(
 ) {
 
     fun getEyeSize(aabb: AABB, shape: EyeShape, size: Size = Size.Small): Size2d {
-        val diameter = aabb.size.height * diameter.convert(size)
+        val diameter = aabb.convertWidth(diameter.convert(size))
 
         return when (shape) {
             EyeShape.Almond -> Size2d(diameter, diameter * almondHeight.value)
@@ -29,9 +29,7 @@ data class EyesConfig(
         }
     }
 
-    fun getDistanceBetweenEyes(size: Size = Size.Medium): Factor {
-        return Factor(distanceBetweenEyes.convert(size))
-    }
+    fun getDistanceBetweenEyes(size: Size = Size.Medium) = distanceBetweenEyes.convert(size)
 }
 
 fun visualizeEyes(state: RenderState, head: Head) {

@@ -13,7 +13,17 @@ data class NecklineConfig(
     val heightVeryDeepV: Factor,
     val widthCrew: Factor,
     val widthV: Factor,
-)
+) {
+    fun getHeight(style: NecklineStyle) = when (style) {
+        Crew -> heightCrew
+        Halter -> TODO()
+        Strapless -> TODO()
+        V -> heightV
+        DeepV -> heightDeepV
+        VeryDeepV -> heightVeryDeepV
+        else -> ZERO
+    }
+}
 
 fun addNeckline(
     state: RenderState,

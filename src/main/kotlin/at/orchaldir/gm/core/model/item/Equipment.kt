@@ -15,6 +15,7 @@ sealed class Equipment {
 
     fun getType() = when (this) {
         NoEquipment -> EquipmentType.None
+        is Coat -> EquipmentType.Coat
         is Dress -> EquipmentType.Dress
         is Footwear -> EquipmentType.Footwear
         is Gloves -> EquipmentType.Gloves
@@ -33,6 +34,21 @@ sealed class Equipment {
 @SerialName("None")
 data object NoEquipment : Equipment() {
     override fun getMaterials() = emptySet<MaterialId>()
+}
+
+@Serializable
+@SerialName("Coat")
+data class Coat(
+    val length: OuterwearLength = OuterwearLength.Hip,
+    val necklineStyle: NecklineStyle = NecklineStyle.None,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Long,
+    val openingStyle: OpeningStyle = SingleBreasted(),
+    val fill: Fill = Solid(Color.Black),
+    val material: MaterialId = MaterialId(0),
+) : Equipment() {
+
+    override fun contains(id: MaterialId) = material == id
+    override fun getMaterials() = setOf(material)
 }
 
 @Serializable

@@ -5,33 +5,41 @@
    "id": 0,
    "name": "Arkham - Male",
    "clothingSets": {
-    "PantsAndShirt": "Common"
+    "Suit": "Common"
    },
    "accessories": {
     "Footwear": "Everyone",
     "Hat": "Common"
    },
-   "footwear": {
-    "0": "Common",
-    "1": "Uncommon"
-   },
-   "hats": {
-    "6": "Uncommon",
-    "7": "Common",
-    "8": "Common",
-    "9": "Uncommon"
-   },
-   "pants": {
-    "3": "Uncommon",
-    "4": "Common",
-    "5": "Uncommon",
-    "10": "Rare",
-    "28": "Common"
-   },
-   "shirts": {
-    "2": "Common",
-    "21": "Uncommon",
-    "26": "Uncommon"
+   "itemRarityMap": {
+    "Coat": {
+     "31": "Common",
+     "32": "Common",
+     "33": "Uncommon",
+     "34": "Rare"
+    },
+    "Footwear": {
+     "0": "Common",
+     "1": "Uncommon"
+    },
+    "Hat": {
+     "6": "Uncommon",
+     "7": "Common",
+     "8": "Common",
+     "9": "Uncommon"
+    },
+    "Pants": {
+     "3": "Uncommon",
+     "4": "Common",
+     "5": "Uncommon",
+     "10": "Rare",
+     "28": "Common"
+    },
+    "Shirt": {
+     "2": "Common",
+     "21": "Uncommon",
+     "26": "Uncommon"
+    }
    }
   },
   "1": {
@@ -46,35 +54,37 @@
     "Gloves": "Uncommon",
     "Hat": "Common"
    },
-   "dresses": {
-    "13": "Common",
-    "14": "Common",
-    "15": "Common",
-    "22": "Uncommon",
-    "24": "Common",
-    "27": "Uncommon"
-   },
-   "footwear": {
-    "11": "Common",
-    "12": "Common",
-    "18": "Common",
-    "23": "Uncommon",
-    "25": "Common"
-   },
-   "gloves": {
-    "29": "Common",
-    "30": "Rare"
-   },
-   "hats": {
-    "16": "Common",
-    "17": "Common"
-   },
-   "shirts": {
-    "2": "Common"
-   },
-   "skirts": {
-    "19": "Common",
-    "20": "Common"
+   "itemRarityMap": {
+    "Dress": {
+     "13": "Common",
+     "14": "Common",
+     "15": "Common",
+     "22": "Uncommon",
+     "24": "Common",
+     "27": "Uncommon"
+    },
+    "Footwear": {
+     "11": "Common",
+     "12": "Common",
+     "18": "Common",
+     "23": "Uncommon",
+     "25": "Common"
+    },
+    "Gloves": {
+     "29": "Common",
+     "30": "Rare"
+    },
+    "Hat": {
+     "16": "Common",
+     "17": "Common"
+    },
+    "Shirt": {
+     "2": "Common"
+    },
+    "Skirt": {
+     "19": "Common",
+     "20": "Common"
+    }
    }
   }
  }

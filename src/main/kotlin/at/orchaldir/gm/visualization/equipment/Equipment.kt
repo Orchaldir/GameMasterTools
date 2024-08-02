@@ -6,11 +6,14 @@ import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.equipment.part.NecklineConfig
+import at.orchaldir.gm.visualization.equipment.part.OpeningConfig
 
 data class EquipmentConfig(
+    val coat: CoatConfig,
     val footwear: FootwearConfig,
     val hat: HatConfig,
     val neckline: NecklineConfig,
+    val opening: OpeningConfig,
     val pants: PantsConfig,
     val skirt: SkirtConfig,
 )
@@ -21,6 +24,7 @@ fun visualizeBodyEquipment(
 ) {
     state.equipped.forEach {
         when (it) {
+            is Coat -> visualizeCoat(state, body, it)
             is Dress -> visualizeDress(state, body, it)
             is Footwear -> visualizeFootwear(state, body, it)
             is Gloves -> visualizeGloves(state, body, it)
