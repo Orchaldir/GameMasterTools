@@ -20,6 +20,7 @@ data class Calendar(
     val name: String = "Calendar ${id.value}",
     val weekDays: List<WeekDay> = emptyList(),
     val months: List<Month> = emptyList(),
+    val origin: CalendarOrigin = OriginalCalendar,
 ) : Element<CalendarId> {
 
     override fun id() = id
