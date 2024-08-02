@@ -173,7 +173,6 @@ private fun HTML.showCalendarEditor(
     state: State,
     calendar: Calendar,
 ) {
-    val possibleParents = state.getPossibleParents(calendar.id)
     val backLink = href(call, calendar.id)
     val previewLink = call.application.href(Calendars.Preview(calendar.id))
     val updateLink = call.application.href(Calendars.Update(calendar.id))
@@ -190,34 +189,7 @@ private fun HTML.showCalendarEditor(
                     value = calendar.name
                 }
             }
-            field("Origin") {
-                select {
-                    id = ORIGIN
-                    name = ORIGIN
-                    onChange = ON_CHANGE_SCRIPT
-                    option {
-                        label = "Improved"
-                        value = "Improved"
-                        disabled = possibleParents.isEmpty()
-                        selected = calendar.origin is ImprovedCalendar
-                    }
-                    option {
-                        label = "Original"
-                        value = "Original"
-                        selected = calendar.origin is OriginalCalendar
-                    }
-                }
-            }
-            when (calendar.origin) {
-                is ImprovedCalendar ->
-                    selectEnum("Parent", CALENDAR, possibleParents) { c ->
-                        label = c.name
-                        value = c.id.value.toString()
-                        selected = calendar.origin.parent == c.id
-                    }
-
-                else -> doNothing()
-            }
+            editOrigin(state, calendar)
             p {
                 submitInput {
                     value = "Update"
@@ -227,5 +199,42 @@ private fun HTML.showCalendarEditor(
             }
         }
         p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun FORM.editOrigin(
+    state: State,
+    calendar: Calendar,
+) {
+    val origin = calendar.origin
+    val possibleParents = state.getPossibleParents(calendar.id)
+
+    field("Origin") {
+        select {
+            id = ORIGIN
+            name = ORIGIN
+            onChange = ON_CHANGE_SCRIPT
+            option {
+                label = "Improved"
+                value = "Improved"
+                disabled = possibleParents.isEmpty()
+                selected = origin is ImprovedCalendar
+            }
+            option {
+                label = "Original"
+                value = "Original"
+                selected = origin is OriginalCalendar
+            }
+        }
+    }
+    when (origin) {
+        is ImprovedCalendar ->
+            selectEnum("Parent", CALENDAR, possibleParents) { c ->
+                label = c.name
+                value = c.id.value.toString()
+                selected = origin.parent == c.id
+            }
+
+        else -> doNothing()
     }
 }
