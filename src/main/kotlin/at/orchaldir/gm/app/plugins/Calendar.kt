@@ -214,16 +214,19 @@ private fun FORM.editOrigin(
             id = ORIGIN
             name = ORIGIN
             onChange = ON_CHANGE_SCRIPT
-            option {
-                label = "Improved"
-                value = "Improved"
-                disabled = possibleParents.isEmpty()
-                selected = origin is ImprovedCalendar
-            }
-            option {
-                label = "Original"
-                value = "Original"
-                selected = origin is OriginalCalendar
+            CalendarOriginType.entries.forEach {
+                option {
+                    label = it.name
+                    value = it.name
+                    disabled = when (it) {
+                        CalendarOriginType.Improved -> possibleParents.isEmpty()
+                        CalendarOriginType.Original -> false
+                    }
+                    selected = when (it) {
+                        CalendarOriginType.Improved -> origin is ImprovedCalendar
+                        CalendarOriginType.Original -> origin is OriginalCalendar
+                    }
+                }
             }
         }
     }
