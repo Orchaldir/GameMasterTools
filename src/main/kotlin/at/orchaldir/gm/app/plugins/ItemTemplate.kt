@@ -261,6 +261,7 @@ private fun BODY.showOpeningStyle(openingStyle: OpeningStyle) {
             showButtons(openingStyle.buttons)
             field("Space between Columns", openingStyle.spaceBetweenColumns.toString())
         }
+
         is Zipper -> {
             field("Zipper Color", openingStyle.color.toString())
         }
@@ -442,6 +443,7 @@ private fun FORM.selectOpeningStyle(openingStyle: OpeningStyle) {
                 selected = space == openingStyle.spaceBetweenColumns
             }
         }
+
         is Zipper -> selectColor(openingStyle.color, "Zipper Color", ZIPPER)
     }
 }

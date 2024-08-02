@@ -96,6 +96,7 @@ private fun parseOpeningStyle(parameters: Parameters): OpeningStyle {
             parseButtonColumn(parameters),
             parse(parameters, SPACE_BETWEEN_COLUMNS, Size.Medium)
         )
+
         OpeningType.Zipper -> Zipper(parse(parameters, ZIPPER, Color.Silver))
     }
 }

@@ -1,9 +1,10 @@
 package at.orchaldir.gm.visualization.equipment.part
 
-import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.renderer.LineOptions
 import at.orchaldir.gm.utils.renderer.NoBorder
 import at.orchaldir.gm.visualization.RenderState
@@ -34,6 +35,7 @@ fun visualizeOpening(
             visualizeButtons(state, aabb, x - half, topY, bottomY, openingStyle.buttons)
             visualizeButtons(state, aabb, x + half, topY, bottomY, openingStyle.buttons)
         }
+
         is SingleBreasted -> visualizeButtons(state, aabb, x, topY, bottomY, openingStyle.buttons)
         is Zipper -> visualizeZipper(state, aabb, x, topY, bottomY, openingStyle)
     }
