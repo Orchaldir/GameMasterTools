@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.NameList
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.Calendar
+import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -18,10 +20,12 @@ import kotlin.test.assertFailsWith
 private val ID0 = CultureId(0)
 private val ID1 = CultureId(1)
 private val NL_ID0 = NameListId(0)
+private val CALENDAR0 = CalendarId(0)
+private val CALENDAR1 = CalendarId(1)
 private val C_ID0 = CharacterId(0)
 private val C_ID1 = CharacterId(1)
 private val NAMES0 = NameList(NL_ID0)
-private val STATE = State(cultures = Storage(listOf(Culture(ID0))))
+private val STATE = State(calendars = Storage(listOf(Calendar(CALENDAR0))), cultures = Storage(listOf(Culture(ID0))))
 private val STATE_WITH_NAMES = STATE.copy(nameLists = Storage(listOf(NAMES0)))
 
 class CultureTest {
@@ -66,6 +70,13 @@ class CultureTest {
             val action = UpdateCulture(Culture(ID0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Cannot update culture with unknown calendar`() {
+            val action = UpdateCulture(Culture(ID0, calendar = CALENDAR1))
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(STATE, action) }
         }
 
         @Test
@@ -223,6 +234,7 @@ class CultureTest {
             val character1 = Character(C_ID1, Mononym("Z"), culture = ID1)
             val result = Character(C_ID0, newName, culture = ID0)
             val state = State(
+                calendars = Storage(listOf(Calendar(CALENDAR0))),
                 characters = Storage(listOf(character0, character1)),
                 cultures = Storage(listOf(Culture(ID0, namingConvention = old))),
                 nameLists = Storage(listOf(NAMES0))

@@ -27,6 +27,7 @@ fun parseCulture(
     return Culture(
         id,
         name,
+        parseCalendarId(parameters, CALENDAR),
         parseSomeOf(parameters, LANGUAGES, ::parseLanguageId),
         parseNamingConvention(parameters),
         AppearanceStyle(
