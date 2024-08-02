@@ -218,28 +218,23 @@ private fun HTML.showLanguageEditor(
                     id = ORIGIN
                     name = ORIGIN
                     onChange = ON_CHANGE_SCRIPT
-                    option {
-                        label = "Combined"
-                        value = "Combined"
-                        disabled = possibleParents.size < 2
-                        selected = language.origin is CombinedLanguage
-                    }
-                    option {
-                        label = "Evolved"
-                        value = "Evolved"
-                        disabled = possibleParents.isEmpty()
-                        selected = language.origin is EvolvedLanguage
-                    }
-                    option {
-                        label = "Invented"
-                        value = "Invented"
-                        disabled = possibleInventors.isEmpty()
-                        selected = language.origin is InventedLanguage
-                    }
-                    option {
-                        label = "Original"
-                        value = "Original"
-                        selected = language.origin is OriginalLanguage
+                    LanguageOriginType.entries.forEach { origin ->
+                        option {
+                            label = origin.name
+                            value = origin.name
+                            disabled = when (origin) {
+                                LanguageOriginType.Combined -> possibleParents.size < 2
+                                LanguageOriginType.Evolved -> possibleParents.isEmpty()
+                                LanguageOriginType.Invented -> possibleInventors.isEmpty()
+                                LanguageOriginType.Original -> false
+                            }
+                            selected = when (origin) {
+                                LanguageOriginType.Combined -> language.origin is OriginalLanguage
+                                LanguageOriginType.Evolved -> language.origin is EvolvedLanguage
+                                LanguageOriginType.Invented -> language.origin is InventedLanguage
+                                LanguageOriginType.Original -> language.origin is CombinedLanguage
+                            }
+                        }
                     }
                 }
             }
