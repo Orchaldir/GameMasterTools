@@ -5,6 +5,8 @@ import at.orchaldir.gm.app.plugins.character.Characters
 import at.orchaldir.gm.core.model.NameList
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.Calendar
+import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.PersonalityTrait
@@ -55,6 +57,34 @@ fun href(
     call: ApplicationCall,
     id: CharacterId,
 ) = call.application.href(Characters.Details(id))
+
+// calendar
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    state: State,
+    id: CalendarId,
+) {
+    link(call, id, state.calendars.get(id)?.name ?: "Unknown")
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    calendar: Calendar,
+) {
+    link(call, calendar.id, calendar.name)
+}
+
+private fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    id: CalendarId,
+    text: String,
+) = a(href(call, id)) { +text }
+
+fun href(
+    call: ApplicationCall,
+    id: CalendarId,
+) = call.application.href(Calendars.Details(id))
 
 // culture
 

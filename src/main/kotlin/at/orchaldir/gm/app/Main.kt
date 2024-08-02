@@ -30,6 +30,7 @@ fun Application.module() {
     configureCharacterLanguageRouting()
     configureCharacterRelationshipRouting()
     configureAppearanceRouting()
+    configureCalendarRouting()
     configureCultureRouting()
     configureEquipmentRouting()
     configureFashionRouting()
