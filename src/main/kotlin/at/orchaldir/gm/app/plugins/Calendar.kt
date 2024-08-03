@@ -167,6 +167,7 @@ private fun HTML.showCalendarDetails(
         showList("Months", calendar.months) { month ->
             field(month.name, "${month.days} days")
         }
+        field("Days per Year", calendar.getDaysPerYear().toString())
         showList("Cultures", cultures) { culture ->
             link(call, culture)
         }
@@ -200,7 +201,7 @@ private fun HTML.showCalendarEditor(
                 }
             }
             editOrigin(state, calendar)
-            selectNumber("Weekdays", calendar.weekDays.size, 2, 100, WEEK_DAYS)
+            selectNumber("Weekdays", calendar.weekDays.size, 2, 100, WEEK_DAYS, true)
             calendar.weekDays.withIndex().forEach { (index, day) ->
                 p {
                     textInput(name = WEEK_DAY_PREFIX + index) {
@@ -209,7 +210,7 @@ private fun HTML.showCalendarEditor(
                     }
                 }
             }
-            selectNumber("Months", calendar.months.size, 2, 100, MONTHS)
+            selectNumber("Months", calendar.months.size, 2, 100, MONTHS, true)
             calendar.months.withIndex().forEach { (index, month) ->
                 p {
                     textInput(name = MONTH_NAME_PREFIX + index) {

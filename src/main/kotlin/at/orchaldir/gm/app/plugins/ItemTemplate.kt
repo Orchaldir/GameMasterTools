@@ -449,7 +449,7 @@ private fun FORM.selectOpeningStyle(openingStyle: OpeningStyle) {
 }
 
 private fun FORM.selectButtons(buttonColumn: ButtonColumn) {
-    selectNumber("Button Count", buttonColumn.count.toInt(), 1, 20, BUTTON_COUNT)
+    selectNumber("Button Count", buttonColumn.count.toInt(), 1, 20, BUTTON_COUNT, true)
     selectColor(buttonColumn.button.color, "Button Color", BUTTON_COLOR)
     selectEnum("Button Size", BUTTON_SIZE, Size.entries, true) { size ->
         label = size.name
@@ -486,7 +486,7 @@ private fun FORM.selectFill(fill: Fill) {
 private fun FORM.selectStripes(color0: Color, color1: Color, width: UByte) {
     selectColor(color0, "1.Stripe Color", colors = Color.entries - color1)
     selectColor(color1, "2.Stripe Color", EQUIPMENT_COLOR_1, Color.entries - color0)
-    selectNumber("Stripe Width", width.toInt(), 1, 10, PATTERN_WIDTH)
+    selectNumber("Stripe Width", width.toInt(), 1, 10, PATTERN_WIDTH, true)
 }
 
 private fun FORM.selectMaterial(
