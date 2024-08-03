@@ -5,7 +5,13 @@ import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
+import at.orchaldir.gm.core.model.calendar.ImprovedCalendar
+import at.orchaldir.gm.core.model.calendar.OriginalCalendar
+import at.orchaldir.gm.core.model.language.EvolvedLanguage
+import at.orchaldir.gm.core.model.language.InventedLanguage
+import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -26,6 +32,21 @@ val UPDATE_CALENDAR: Reducer<UpdateCalendar, State> = { state, action ->
     val calendar = action.calendar
 
     state.calendars.require(calendar.id)
+    checkOrigin(state, calendar)
 
     noFollowUps(state.copy(calendars = state.calendars.update(calendar)))
+}
+
+private fun checkOrigin(
+    state: State,
+    calendar: Calendar,
+) {
+    when (val origin = calendar.origin) {
+        is ImprovedCalendar -> {
+            require(state.calendars.contains(origin.parent)) { "Parent calendar must exist!" }
+            require(origin.parent != calendar.id) { "Calendar cannot be its own parent!" }
+        }
+
+        OriginalCalendar -> doNothing()
+    }
 }
