@@ -16,10 +16,15 @@ fun parseCalendar(
 
     return Calendar(
         id, name,
-        parseWeekdays(parameters),
+        parseDays(parameters),
         parseMonths(parameters),
         origin,
     )
+}
+
+private fun parseDays(parameters: Parameters) = when (parse(parameters, DAYS, DaysType.DayOfTheMonth)) {
+    DaysType.DayOfTheMonth -> DayOfTheMonth
+    DaysType.Weekdays -> Weekdays(parseWeekdays(parameters))
 }
 
 private fun parseWeekdays(parameters: Parameters): List<WeekDay> {

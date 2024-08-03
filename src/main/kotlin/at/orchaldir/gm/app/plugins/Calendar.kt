@@ -161,8 +161,13 @@ private fun HTML.showCalendarDetails(
         showList("Child Calendars", children) { child ->
             link(call, child)
         }
-        showList("Weekdays", calendar.weekDays) { day ->
-            +day.name
+        field("Days", calendar.days.getType().name)
+        when (calendar.days) {
+            is Weekdays -> showList("Weekdays", calendar.days.weekDays) { day ->
+                +day.name
+            }
+
+            DayOfTheMonth -> doNothing()
         }
         showList("Months", calendar.months) { month ->
             field(month.name, "${month.days} days")
@@ -201,15 +206,7 @@ private fun HTML.showCalendarEditor(
                 }
             }
             editOrigin(state, calendar)
-            selectNumber("Weekdays", calendar.weekDays.size, 2, 100, WEEK_DAYS, true)
-            calendar.weekDays.withIndex().forEach { (index, day) ->
-                p {
-                    textInput(name = WEEK_DAY_PREFIX + index) {
-                        minLength = "1"
-                        value = day.name
-                    }
-                }
-            }
+            editDays(calendar)
             selectNumber("Months", calendar.months.size, 2, 100, MONTHS, true)
             calendar.months.withIndex().forEach { (index, month) ->
                 p {
@@ -231,6 +228,41 @@ private fun HTML.showCalendarEditor(
             }
         }
         p { a(backLink) { +"Back" } }
+    }
+}
+
+private fun FORM.editDays(
+    calendar: Calendar,
+) {
+    val days = calendar.days
+
+    field("Days") {
+        select {
+            id = DAYS
+            name = DAYS
+            onChange = ON_CHANGE_SCRIPT
+            DaysType.entries.forEach {
+                option {
+                    label = it.name
+                    value = it.name
+                    selected = it == days.getType()
+                }
+            }
+        }
+    }
+    when (days) {
+        DayOfTheMonth -> doNothing()
+        is Weekdays -> {
+            selectNumber("Weekdays", days.weekDays.size, 2, 100, WEEK_DAYS, true)
+            days.weekDays.withIndex().forEach { (index, day) ->
+                p {
+                    textInput(name = WEEK_DAY_PREFIX + index) {
+                        minLength = "1"
+                        value = day.name
+                    }
+                }
+            }
+        }
     }
 }
 

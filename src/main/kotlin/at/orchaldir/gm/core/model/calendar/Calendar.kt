@@ -18,7 +18,7 @@ value class CalendarId(val value: Int) : Id<CalendarId> {
 data class Calendar(
     val id: CalendarId,
     val name: String = "Calendar ${id.value}",
-    val weekDays: List<WeekDay> = emptyList(),
+    val days: Days = DayOfTheMonth,
     val months: List<Month> = emptyList(),
     val origin: CalendarOrigin = OriginalCalendar,
 ) : Element<CalendarId> {
