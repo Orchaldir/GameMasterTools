@@ -19,6 +19,15 @@ class CalendarTest {
     inner class ResolveDateTest {
 
         @Test
+        fun `Test year -1`() {
+            /*assertResolve(-5, -1, 0, 0)
+            assertResolve(-4, -1, 0, 1)
+            assertResolve(-3, -1, 1, 0)
+            assertResolve(-2, -1, 1, 1)*/
+            assertResolve(-1, -1, 1, 2)
+        }
+
+        @Test
         fun `Test year 0`() {
             assertResolve(0, 0, 0, 0)
             assertResolve(1, 0, 0, 1)

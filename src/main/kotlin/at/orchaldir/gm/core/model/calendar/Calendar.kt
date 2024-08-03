@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.calendar.date.Date
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
+import kotlin.math.absoluteValue
 
 
 @JvmInline
@@ -47,7 +48,20 @@ data class Calendar(
             error("Unreachable")
         }
 
-        TODO()
+        val absoluteDate = date.day.absoluteValue
+        val year = -(1 + absoluteDate / daysPerYear);
+        var remainingDays = absoluteDate % daysPerYear;
+
+        for ((index, data) in months.withIndex()) {
+            if (remainingDays < data.days) {
+                val day = data.days - remainingDays - 1
+                return CalendarDay(year, index, day)
+            }
+
+            remainingDays -= data.days
+        }
+
+        error("Unreachable")
     }
 
 }
