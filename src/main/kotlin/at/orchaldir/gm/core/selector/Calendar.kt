@@ -1,7 +1,9 @@
 package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.*
+import at.orchaldir.gm.core.model.calendar.CalendarId
+import at.orchaldir.gm.core.model.calendar.ImprovedCalendar
+import at.orchaldir.gm.core.model.calendar.OriginalCalendar
 
 fun State.canDelete(calendar: CalendarId) = getChildren(calendar).isEmpty()
 
