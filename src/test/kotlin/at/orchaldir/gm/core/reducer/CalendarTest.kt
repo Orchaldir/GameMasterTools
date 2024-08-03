@@ -81,31 +81,69 @@ class CalendarTest {
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
 
-        @Test
-        fun `At least 2 months`() {
-            val state = State(calendars = Storage(listOf(Calendar(ID0))))
-            val calendar = Calendar(ID0, months = listOf(Month("a", 10)))
-            val action = UpdateCalendar(calendar)
+        @Nested
+        inner class WeekdaysTest {
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            @Test
+            fun `At least 2 months`() {
+                val state = State(calendars = Storage(listOf(Calendar(ID0))))
+                val weekdays = Weekdays(listOf(WeekDay("a")))
+                val calendar = Calendar(ID0, days = weekdays, months = VALID_MONTHS)
+                val action = UpdateCalendar(calendar)
+
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Months need unique names`() {
+                val state = State(calendars = Storage(listOf(Calendar(ID0))))
+                val weekdays = Weekdays(listOf(WeekDay("a"), WeekDay("a")))
+                val calendar = Calendar(ID0, days = weekdays, months = VALID_MONTHS)
+                val action = UpdateCalendar(calendar)
+
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Valid weekdays`() {
+                val state = State(calendars = Storage(listOf(Calendar(ID0))))
+                val weekdays = Weekdays(listOf(WeekDay("a"), WeekDay("b")))
+                val calendar = Calendar(ID0, days = weekdays, months = VALID_MONTHS)
+                val action = UpdateCalendar(calendar)
+
+                assertEquals(calendar, REDUCER.invoke(state, action).first.calendars.get(ID0))
+            }
         }
 
-        @Test
-        fun `At least 2 days per month`() {
-            val state = State(calendars = Storage(listOf(Calendar(ID0))))
-            val calendar = Calendar(ID0, months = listOf(Month("a", 1), Month("b", 1)))
-            val action = UpdateCalendar(calendar)
+        @Nested
+        inner class MonthsTest {
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
-        }
+            @Test
+            fun `At least 2 months`() {
+                val state = State(calendars = Storage(listOf(Calendar(ID0))))
+                val calendar = Calendar(ID0, months = listOf(Month("a", 10)))
+                val action = UpdateCalendar(calendar)
 
-        @Test
-        fun `Months need unique names`() {
-            val state = State(calendars = Storage(listOf(Calendar(ID0))))
-            val calendar = Calendar(ID0, months = listOf(Month("a", 10), Month("a", 10)))
-            val action = UpdateCalendar(calendar)
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            @Test
+            fun `At least 2 days per month`() {
+                val state = State(calendars = Storage(listOf(Calendar(ID0))))
+                val calendar = Calendar(ID0, months = listOf(Month("a", 1), Month("b", 1)))
+                val action = UpdateCalendar(calendar)
+
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Months need unique names`() {
+                val state = State(calendars = Storage(listOf(Calendar(ID0))))
+                val calendar = Calendar(ID0, months = listOf(Month("a", 10), Month("a", 10)))
+                val action = UpdateCalendar(calendar)
+
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
         }
 
         @Test

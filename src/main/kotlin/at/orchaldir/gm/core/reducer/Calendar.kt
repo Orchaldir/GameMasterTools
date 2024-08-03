@@ -4,9 +4,7 @@ import at.orchaldir.gm.core.action.CreateCalendar
 import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.ImprovedCalendar
-import at.orchaldir.gm.core.model.calendar.OriginalCalendar
+import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -29,10 +27,25 @@ val UPDATE_CALENDAR: Reducer<UpdateCalendar, State> = { state, action ->
     val calendar = action.calendar
 
     state.calendars.require(calendar.id)
+    checkDays(calendar)
     checkMonths(calendar)
     checkOrigin(state, calendar)
 
     noFollowUps(state.copy(calendars = state.calendars.update(calendar)))
+}
+
+private fun checkDays(
+    calendar: Calendar,
+) {
+    when (val days = calendar.days) {
+        DayOfTheMonth -> doNothing()
+        is Weekdays -> {
+            require(days.weekDays.size > 1) { "Requires at least 2 weekdays" }
+            require(days.weekDays.map { it.name }.toSet().size == days.weekDays.size) {
+                "The names of the weekdays need to be unique!"
+            }
+        }
+    }
 }
 
 private fun checkMonths(
