@@ -16,6 +16,29 @@
   "2": {
    "id": 2,
    "name": "Gregorian",
+   "weekDays": [
+    {
+     "name": "Monday"
+    },
+    {
+     "name": "Tuesday"
+    },
+    {
+     "name": "Wednesday"
+    },
+    {
+     "name": "Thursday"
+    },
+    {
+     "name": "Friday"
+    },
+    {
+     "name": "Saturday"
+    },
+    {
+     "name": "Sunday"
+    }
+   ],
    "origin": {
     "type": "Improved",
     "parent": 1

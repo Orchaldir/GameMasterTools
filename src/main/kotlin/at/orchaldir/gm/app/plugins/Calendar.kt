@@ -158,8 +158,14 @@ private fun HTML.showCalendarDetails(
                 field("Origin", "Original")
             }
         }
-        showList("Child Calendars", children) { calendar ->
-            link(call, calendar)
+        showList("Child Calendars", children) { child ->
+            link(call, child)
+        }
+        showList("Weekdays", calendar.weekDays) { day ->
+            +day.name
+        }
+        showList("Months", calendar.months) { month ->
+            field(month.name, "${month.days} days")
         }
         showList("Cultures", cultures) { culture ->
             link(call, culture)
@@ -194,6 +200,15 @@ private fun HTML.showCalendarEditor(
                 }
             }
             editOrigin(state, calendar)
+            selectNumber("Weekdays", calendar.weekDays.size, 2, 100, WEEK_DAYS)
+            calendar.weekDays.withIndex().forEach { (index, day) ->
+                p {
+                    textInput(name = WEEK_DAY_PREFIX + index) {
+                        minLength = "1"
+                        value = day.name
+                    }
+                }
+            }
             p {
                 submitInput {
                     value = "Update"
