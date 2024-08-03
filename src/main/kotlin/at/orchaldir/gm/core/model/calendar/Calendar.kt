@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.calendar
 
+import at.orchaldir.gm.core.model.calendar.date.CalendarDay
+import at.orchaldir.gm.core.model.calendar.date.Date
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -26,5 +28,26 @@ data class Calendar(
     override fun id() = id
 
     fun getDaysPerYear() = months.sumOf { it.days }
+
+    fun resolve(date: Date): CalendarDay {
+        val daysPerYear = getDaysPerYear()
+
+        if (date.day >= 0) {
+            val year = date.day / daysPerYear;
+            var remainingDays = date.day % daysPerYear;
+
+            for ((index, data) in months.withIndex()) {
+                if (remainingDays < data.days) {
+                    return CalendarDay(year, index, remainingDays)
+                }
+
+                remainingDays -= data.days
+            }
+
+            error("Unreachable")
+        }
+
+        TODO()
+    }
 
 }
