@@ -68,3 +68,13 @@ private fun <T> parseRarityMap(
         val rarity = Rarity.valueOf(parts[1])
         Pair(value, rarity)
     }
+
+fun parseName(parameters: Parameters, param: String): String? {
+    val name = parameters[param]?.trim() ?: return null
+
+    if (name.isEmpty()) {
+        return null
+    }
+
+    return name
+}

@@ -42,51 +42,47 @@
    "months": [
     {
      "name": "January",
-     "days": 2
+     "days": 31
     },
     {
-     "name": "2.Day",
-     "days": 2
+     "name": "February",
+     "days": 28
     },
     {
-     "name": "3.Month",
-     "days": 2
+     "name": "March",
+     "days": 31
     },
     {
-     "name": "4.Month",
-     "days": 2
+     "name": "April"
     },
     {
-     "name": "5.Month",
-     "days": 2
+     "name": "May",
+     "days": 31
     },
     {
-     "name": "6.Month",
-     "days": 2
+     "name": "June"
     },
     {
-     "name": "7.Month",
-     "days": 2
+     "name": "July",
+     "days": 31
     },
     {
-     "name": "8.Month",
-     "days": 2
+     "name": "August",
+     "days": 31
     },
     {
-     "name": "9.Month",
-     "days": 2
+     "name": "September"
     },
     {
-     "name": "10.Month",
-     "days": 2
+     "name": "October",
+     "days": 31
     },
     {
-     "name": "11.Month",
-     "days": 2
+     "name": "November"
     },
     {
-     "name": "12.Month",
-     "days": 2
+     "name": "December",
+     "days": 31
     }
    ],
    "origin": {
