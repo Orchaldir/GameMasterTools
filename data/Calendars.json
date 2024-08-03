@@ -3,11 +3,123 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Roman"
+   "name": "Roman Republican",
+   "weekDays": [
+    {
+     "name": "1.Day"
+    },
+    {
+     "name": "2.Day"
+    }
+   ],
+   "months": [
+    {
+     "name": "Ianuarius",
+     "days": 29
+    },
+    {
+     "name": "Februarius",
+     "days": 28
+    },
+    {
+     "name": "Martius",
+     "days": 31
+    },
+    {
+     "name": "Aprilis",
+     "days": 29
+    },
+    {
+     "name": "Maius",
+     "days": 31
+    },
+    {
+     "name": "Iunius",
+     "days": 29
+    },
+    {
+     "name": "Quintilis",
+     "days": 31
+    },
+    {
+     "name": "Sextilis",
+     "days": 29
+    },
+    {
+     "name": "September",
+     "days": 29
+    },
+    {
+     "name": "October",
+     "days": 31
+    },
+    {
+     "name": "November",
+     "days": 29
+    },
+    {
+     "name": "December",
+     "days": 29
+    }
+   ]
   },
   "1": {
    "id": 1,
    "name": "Julian",
+   "weekDays": [
+    {
+     "name": "1.Day"
+    },
+    {
+     "name": "2.Day"
+    }
+   ],
+   "months": [
+    {
+     "name": "Ianuarius",
+     "days": 31
+    },
+    {
+     "name": "Februarius",
+     "days": 28
+    },
+    {
+     "name": "Martius",
+     "days": 31
+    },
+    {
+     "name": "Aprilis"
+    },
+    {
+     "name": "Maius",
+     "days": 31
+    },
+    {
+     "name": "Iunius"
+    },
+    {
+     "name": "Iulius",
+     "days": 31
+    },
+    {
+     "name": "Augustus",
+     "days": 31
+    },
+    {
+     "name": "September"
+    },
+    {
+     "name": "October",
+     "days": 31
+    },
+    {
+     "name": "November"
+    },
+    {
+     "name": "December",
+     "days": 31
+    }
+   ],
    "origin": {
     "type": "Improved",
     "parent": 0
