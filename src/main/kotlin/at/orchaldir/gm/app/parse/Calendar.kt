@@ -17,7 +17,8 @@ fun parseCalendar(
     return Calendar(
         id, name,
         parseWeekdays(parameters),
-        origin = origin
+        parseMonths(parameters),
+        origin,
     )
 }
 
@@ -28,6 +29,18 @@ private fun parseWeekdays(parameters: Parameters): List<WeekDay> {
         .map { parameters[WEEK_DAY_PREFIX + it] ?: "${it + 1}.Day" }
         .map { WeekDay(it) }
 }
+
+private fun parseMonths(parameters: Parameters): List<Month> {
+    val count = parameters.getOrFail(MONTHS).toInt()
+
+    return (0..<count)
+        .map { parseMonth(parameters, it) }
+}
+
+private fun parseMonth(parameters: Parameters, it: Int) = Month(
+    parameters[MONTH_NAME_PREFIX + it] ?: "${it + 1}.Month",
+    parameters[MONTH_DAYS_PREFIX + it]?.toInt() ?: 2,
+)
 
 private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, Original)) {
     Improved -> {

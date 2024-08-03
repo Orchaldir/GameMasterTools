@@ -209,6 +209,18 @@ private fun HTML.showCalendarEditor(
                     }
                 }
             }
+            selectNumber("Months", calendar.months.size, 2, 100, MONTHS)
+            calendar.months.withIndex().forEach { (index, month) ->
+                p {
+                    textInput(name = MONTH_NAME_PREFIX + index) {
+                        minLength = "1"
+                        value = month.name
+                    }
+                    +": "
+                    selectNumber(month.days, 2, 100, MONTH_DAYS_PREFIX + index)
+                    +"days"
+                }
+            }
             p {
                 submitInput {
                     value = "Update"
