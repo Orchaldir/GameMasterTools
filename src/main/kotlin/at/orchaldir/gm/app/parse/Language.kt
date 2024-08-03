@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.core.model.language.*
+import at.orchaldir.gm.core.model.language.LanguageOriginType.*
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -10,23 +11,26 @@ fun parseLanguageId(parameters: Parameters, param: String) = LanguageId(paramete
 
 fun parseLanguage(id: LanguageId, parameters: Parameters): Language {
     val name = parameters.getOrFail(NAME)
-    val origin = when (parameters[ORIGIN]) {
-        "Combined" -> {
-            val parents = parameters.getAll(LANGUAGES)?.map { LanguageId(it.toInt()) }?.toSet()
-            CombinedLanguage(parents ?: emptySet())
-        }
+    val origin = parseOrigin(parameters)
 
-        "Evolved" -> {
-            val parent = parseLanguageId(parameters, LANGUAGES)
-            EvolvedLanguage(parent)
-        }
-
-        "Invented" -> {
-            val inventor = parseCharacterId(parameters, INVENTOR)
-            InventedLanguage(inventor)
-        }
-
-        else -> OriginalLanguage
-    }
     return Language(id, name, origin)
+}
+
+private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, Original)) {
+    Combined -> {
+        val parents = parameters.getAll(LANGUAGES)?.map { LanguageId(it.toInt()) }?.toSet()
+        CombinedLanguage(parents ?: emptySet())
+    }
+
+    Evolved -> {
+        val parent = parseLanguageId(parameters, LANGUAGES)
+        EvolvedLanguage(parent)
+    }
+
+    Invented -> {
+        val inventor = parseCharacterId(parameters, INVENTOR)
+        InventedLanguage(inventor)
+    }
+
+    Original -> OriginalLanguage
 }

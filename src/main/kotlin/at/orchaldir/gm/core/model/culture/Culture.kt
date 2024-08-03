@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.culture
 
 import at.orchaldir.gm.core.model.appearance.GenderMap
 import at.orchaldir.gm.core.model.appearance.SomeOf
+import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.name.NamingConvention
 import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
@@ -25,6 +26,7 @@ value class CultureId(val value: Int) : Id<CultureId> {
 data class Culture(
     val id: CultureId,
     val name: String = "Culture ${id.value}",
+    val calendar: CalendarId = CalendarId(0),
     val languages: SomeOf<LanguageId> = SomeOf(emptyMap()),
     val namingConvention: NamingConvention = NoNamingConvention,
     val appearanceStyle: AppearanceStyle = AppearanceStyle(),

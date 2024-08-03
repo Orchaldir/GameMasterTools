@@ -150,6 +150,9 @@ private fun HTML.showCultureDetails(
     simpleHtml("Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
         field("Name", culture.name)
+        field("Calendar") {
+            link(call, state, culture.calendar)
+        }
         showRarityMap("Languages", culture.languages) { l ->
             link(call, state, l)
         }
@@ -306,6 +309,11 @@ private fun HTML.showCultureEditor(
                 textInput(name = NAME) {
                     value = culture.name
                 }
+            }
+            selectEnum("Calendar", CALENDAR, state.calendars.getAll()) { c ->
+                label = c.name
+                value = c.id.value.toString()
+                selected = culture.calendar == c.id
             }
             selectRarityMap("Languages", LANGUAGES, state.languages, culture.languages) { it.name }
             editNamingConvention(namingConvention, state)

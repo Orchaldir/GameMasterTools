@@ -27,6 +27,7 @@ fun Application.configureRouting() {
             call.respondHtml(HttpStatusCode.OK) {
                 simpleHtml(TITLE) {
                     fieldStorageLink(call, state.characters, Characters())
+                    fieldStorageLink(call, state.calendars, Calendars())
                     fieldStorageLink(call, state.cultures, Cultures())
                     fieldStorageLink(call, state.fashion, Fashions())
                     fieldStorageLink(call, state.itemTemplates, ItemTemplates())

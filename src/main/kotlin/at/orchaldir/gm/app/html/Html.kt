@@ -179,12 +179,31 @@ fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
     }
 }
 
-fun FORM.selectNumber(label: String, number: Int, minNumber: Int, maxNumber: Int, param: String) {
+fun FORM.selectNumber(
+    label: String,
+    number: Int,
+    minNumber: Int,
+    maxNumber: Int,
+    param: String,
+    update: Boolean = false,
+) {
     field(label) {
-        numberInput(name = param) {
-            min = "$minNumber"
-            max = "$maxNumber"
-            value = number.toString()
+        selectNumber(number, minNumber, maxNumber, param, update)
+    }
+}
+
+fun HtmlBlockTag.selectNumber(
+    number: Int,
+    minNumber: Int,
+    maxNumber: Int,
+    param: String,
+    update: Boolean = false,
+) {
+    numberInput(name = param) {
+        min = "$minNumber"
+        max = "$maxNumber"
+        value = number.toString()
+        if (update) {
             onChange = ON_CHANGE_SCRIPT
         }
     }

@@ -17,6 +17,10 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         // character's languages
         is AddLanguage -> ADD_LANGUAGE(state, action)
         is RemoveLanguages -> REMOVE_LANGUAGES(state, action)
+        // calendar
+        is CreateCalendar -> CREATE_CALENDAR(state, action)
+        is DeleteCalendar -> DELETE_CALENDAR(state, action)
+        is UpdateCalendar -> UPDATE_CALENDAR(state, action)
         // culture
         is CreateCulture -> CREATE_CULTURE(state, action)
         is DeleteCulture -> DELETE_CULTURE(state, action)
