@@ -48,11 +48,11 @@ data class Calendar(
             error("Unreachable")
         }
 
-        val absoluteDate = date.day.absoluteValue
+        val absoluteDate = date.day.absoluteValue - 1
         val year = -(1 + absoluteDate / daysPerYear);
         var remainingDays = absoluteDate % daysPerYear;
 
-        for ((index, data) in months.withIndex()) {
+        for ((index, data) in months.withIndex().reversed()) {
             if (remainingDays < data.days) {
                 val day = data.days - remainingDays - 1
                 return CalendarDay(year, index, day)

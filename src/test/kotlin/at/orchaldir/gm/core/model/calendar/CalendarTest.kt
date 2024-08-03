@@ -20,10 +20,10 @@ class CalendarTest {
 
         @Test
         fun `Test year -1`() {
-            /*assertResolve(-5, -1, 0, 0)
+            assertResolve(-5, -1, 0, 0)
             assertResolve(-4, -1, 0, 1)
             assertResolve(-3, -1, 1, 0)
-            assertResolve(-2, -1, 1, 1)*/
+            assertResolve(-2, -1, 1, 1)
             assertResolve(-1, -1, 1, 2)
         }
 
