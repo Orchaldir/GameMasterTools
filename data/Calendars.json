@@ -4,14 +4,6 @@
   "0": {
    "id": 0,
    "name": "Roman Republican",
-   "weekDays": [
-    {
-     "name": "1.Day"
-    },
-    {
-     "name": "2.Day"
-    }
-   ],
    "months": [
     {
      "name": "Ianuarius",
@@ -66,14 +58,6 @@
   "1": {
    "id": 1,
    "name": "Julian",
-   "weekDays": [
-    {
-     "name": "1.Day"
-    },
-    {
-     "name": "2.Day"
-    }
-   ],
    "months": [
     {
      "name": "Ianuarius",
@@ -128,29 +112,32 @@
   "2": {
    "id": 2,
    "name": "Gregorian",
-   "weekDays": [
-    {
-     "name": "Monday"
-    },
-    {
-     "name": "Tuesday"
-    },
-    {
-     "name": "Wednesday"
-    },
-    {
-     "name": "Thursday"
-    },
-    {
-     "name": "Friday"
-    },
-    {
-     "name": "Saturday"
-    },
-    {
-     "name": "Sunday"
-    }
-   ],
+   "days": {
+    "type": "Weekdays",
+    "weekDays": [
+     {
+      "name": "Monday"
+     },
+     {
+      "name": "Tuesday"
+     },
+     {
+      "name": "Wednesday"
+     },
+     {
+      "name": "Thursday"
+     },
+     {
+      "name": "Friday"
+     },
+     {
+      "name": "Saturday"
+     },
+     {
+      "name": "Sunday"
+     }
+    ]
+   },
    "months": [
     {
      "name": "January",
