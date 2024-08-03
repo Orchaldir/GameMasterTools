@@ -7,9 +7,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.ImprovedCalendar
 import at.orchaldir.gm.core.model.calendar.OriginalCalendar
-import at.orchaldir.gm.core.model.language.EvolvedLanguage
-import at.orchaldir.gm.core.model.language.InventedLanguage
-import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -32,9 +29,20 @@ val UPDATE_CALENDAR: Reducer<UpdateCalendar, State> = { state, action ->
     val calendar = action.calendar
 
     state.calendars.require(calendar.id)
+    checkMonths(calendar)
     checkOrigin(state, calendar)
 
     noFollowUps(state.copy(calendars = state.calendars.update(calendar)))
+}
+
+private fun checkMonths(
+    calendar: Calendar,
+) {
+    require(calendar.months.size > 1) { "Requires at least 2 months" }
+    calendar.months.forEach { require(it.days > 1) { "Requires at least 2 days per month" } }
+    require(calendar.months.map { it.name }.toSet().size == calendar.months.size) {
+        "The names of the months need to be unique!"
+    }
 }
 
 private fun checkOrigin(

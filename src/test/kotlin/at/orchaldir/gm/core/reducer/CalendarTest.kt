@@ -3,8 +3,6 @@ package at.orchaldir.gm.core.reducer
 import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -17,6 +15,7 @@ import kotlin.test.assertFailsWith
 private val ID0 = CalendarId(0)
 private val ID1 = CalendarId(1)
 private val CULTURE0 = CultureId(1)
+private val VALID_MONTHS = listOf(Month("a", 10), Month("b", 10))
 
 class CalendarTest {
 
@@ -61,7 +60,7 @@ class CalendarTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateCalendar(Calendar(ID0))
+            val action = UpdateCalendar(Calendar(ID0, months = VALID_MONTHS))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
@@ -69,7 +68,7 @@ class CalendarTest {
         @Test
         fun `Parent calendar must exist`() {
             val state = State(calendars = Storage(listOf(Calendar(ID0))))
-            val action = UpdateCalendar(Calendar(ID0, origin = ImprovedCalendar(ID1)))
+            val action = UpdateCalendar(Calendar(ID0, months = VALID_MONTHS, origin = ImprovedCalendar(ID1)))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
@@ -77,7 +76,34 @@ class CalendarTest {
         @Test
         fun `A calendar cannot be its own parent`() {
             val state = State(calendars = Storage(listOf(Calendar(ID0))))
-            val action = UpdateCalendar(Calendar(ID0, origin = ImprovedCalendar(ID0)))
+            val action = UpdateCalendar(Calendar(ID0, months = VALID_MONTHS, origin = ImprovedCalendar(ID0)))
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `At least 2 months`() {
+            val state = State(calendars = Storage(listOf(Calendar(ID0))))
+            val calendar = Calendar(ID0, months = listOf(Month("a", 10)))
+            val action = UpdateCalendar(calendar)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `At least 2 days per month`() {
+            val state = State(calendars = Storage(listOf(Calendar(ID0))))
+            val calendar = Calendar(ID0, months = listOf(Month("a", 1), Month("b", 1)))
+            val action = UpdateCalendar(calendar)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Months need unique names`() {
+            val state = State(calendars = Storage(listOf(Calendar(ID0))))
+            val calendar = Calendar(ID0, months = listOf(Month("a", 10), Month("a", 10)))
+            val action = UpdateCalendar(calendar)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
@@ -85,7 +111,7 @@ class CalendarTest {
         @Test
         fun `Parent calendar exist`() {
             val state = State(calendars = Storage(listOf(Calendar(ID0), Calendar(ID1))))
-            val calendar = Calendar(ID0, origin = ImprovedCalendar(ID1))
+            val calendar = Calendar(ID0, months = VALID_MONTHS, origin = ImprovedCalendar(ID1))
             val action = UpdateCalendar(calendar)
 
             assertEquals(calendar, REDUCER.invoke(state, action).first.calendars.get(ID0))
