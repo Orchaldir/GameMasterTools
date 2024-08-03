@@ -20,7 +20,24 @@ class CalendarTest {
 
         @Test
         fun `Test year 0`() {
-            assertEquals(CalendarDay(0, 0, 0), CALENDAR.resolve(Date(0)))
+            assertResolve(0, 0, 0, 0)
+            assertResolve(1, 0, 0, 1)
+            assertResolve(2, 0, 1, 0)
+            assertResolve(3, 0, 1, 1)
+            assertResolve(4, 0, 1, 2)
+        }
+
+        @Test
+        fun `Test year 1`() {
+            assertResolve(5, 1, 0, 0)
+            assertResolve(6, 1, 0, 1)
+            assertResolve(7, 1, 1, 0)
+            assertResolve(8, 1, 1, 1)
+            assertResolve(9, 1, 1, 2)
+        }
+
+        private fun assertResolve(date: Int, year: Int, month: Int, day: Int) {
+            assertEquals(CalendarDay(year, month, day), CALENDAR.resolve(Date(date)))
         }
 
     }
