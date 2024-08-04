@@ -22,15 +22,20 @@ data class Calendar(
     val name: String = "Calendar ${id.value}",
     val days: Days = DayOfTheMonth,
     val months: List<Month> = emptyList(),
-    val offsetInDays: Int = 0,
+    val startDate: Date = Year(0),
     val eras: BeforeAndCurrent = BeforeAndCurrent("BC", true, "AD", false),
     val origin: CalendarOrigin = OriginalCalendar,
-    val creationDate: Date = Year(0),
+    val originDate: Date = Year(0),
 ) : Element<CalendarId> {
 
     override fun id() = id
 
     fun getDaysPerYear() = months.sumOf { it.days }
+
+    private fun getOffsetInDays() = when (startDate) {
+        is Day -> -startDate.day
+        is Year -> -startDate.year * getDaysPerYear()
+    }
 
     fun resolve(date: Date) = when (date) {
         is Day -> resolve(date)
@@ -39,7 +44,7 @@ data class Calendar(
 
     private fun resolve(date: Day): CalendarDay {
         val daysPerYear = getDaysPerYear()
-        val day = date.day + offsetInDays
+        val day = date.day + getOffsetInDays()
 
         if (day >= 0) {
             val year = day / daysPerYear
@@ -73,7 +78,7 @@ data class Calendar(
     }
 
     private fun resolve(date: Year): CalendarYear {
-        val offsetInYears = offsetInDays / getDaysPerYear()
+        val offsetInYears = getOffsetInDays() / getDaysPerYear()
         val year = date.year + offsetInYears
 
         return CalendarYear(year)
@@ -86,6 +91,7 @@ data class Calendar(
 
     private fun resolve(date: CalendarDay): Day {
         val daysPerYear = getDaysPerYear()
+        val offsetInDays = getOffsetInDays()
 
         if (date.yearIndex >= 0) {
             var day = date.yearIndex * daysPerYear + date.dayIndex - offsetInDays
@@ -107,7 +113,7 @@ data class Calendar(
     }
 
     fun resolve(date: CalendarYear): Year {
-        val offsetInYears = offsetInDays / getDaysPerYear()
+        val offsetInYears = getOffsetInDays() / getDaysPerYear()
         val year = date.year - offsetInYears
 
         return Year(year)

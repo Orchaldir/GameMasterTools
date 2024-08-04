@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.calendar
 
+import at.orchaldir.gm.core.model.calendar.date.CalendarDate
+import at.orchaldir.gm.core.model.calendar.date.CalendarDay
 import at.orchaldir.gm.core.model.calendar.date.CalendarYear
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
@@ -10,10 +12,12 @@ data class CalendarEra(
     val text: String,
     val isPrefix: Boolean,
 ) {
-    fun resolve(year: Int) = if (isPrefix) {
-        "$text $year"
+    fun resolve(year: Int) = resolve(year.toString())
+
+    fun resolve(date: String) = if (isPrefix) {
+        "$text $date"
     } else {
-        "$year $text"
+        "$date $text"
     }
 }
 
@@ -24,6 +28,21 @@ data class BeforeAndCurrent(
 ) {
     constructor(beforeText: String, beforeIsPrefix: Boolean, afterText: String, afterIsPrefix: Boolean) :
             this(CalendarEra(false, beforeText, beforeIsPrefix), CalendarEra(true, afterText, afterIsPrefix))
+
+    fun resolve(date: CalendarDate) = when (date) {
+        is CalendarDay -> resolve(date)
+        is CalendarYear -> resolve(date)
+    }
+
+    fun resolve(day: CalendarDay) = if (day.yearIndex >= 0) {
+        val year = day.yearIndex + 1
+        current.resolve(resolve(year, day.monthIndex, day.dayIndex))
+    } else {
+        val year = day.yearIndex.absoluteValue
+        before.resolve(resolve(year, day.monthIndex, day.dayIndex))
+    }
+
+    private fun resolve(year: Int, month: Int, day: Int) = "$day.$month.$year"
 
     fun resolve(year: CalendarYear) = if (year.year >= 0) {
         current.resolve(year.year + 1)

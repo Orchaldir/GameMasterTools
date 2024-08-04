@@ -27,7 +27,7 @@ class CalendarTest {
 
         @Test
         fun `Test with offset`() {
-            val calendar = CALENDAR.copy(offsetInDays = 12)
+            val calendar = CALENDAR.copy(startDate = Day(-12))
 
             assertResolve(calendar, -13, -1, 1, 2)
             assertResolve(calendar, -12, 0, 0, 0)
@@ -65,7 +65,7 @@ class CalendarTest {
 
         @Test
         fun `Test with positive offset`() {
-            val calendar = CALENDAR.copy(offsetInDays = 12)
+            val calendar = CALENDAR.copy(startDate = Day(-12))
             assertResolve(calendar, -4, -2)
             assertResolve(calendar, -3, -1)
             assertResolve(calendar, -2, 0)
@@ -76,7 +76,7 @@ class CalendarTest {
 
         @Test
         fun `Test with negative offset`() {
-            val calendar = CALENDAR.copy(offsetInDays = -5)
+            val calendar = CALENDAR.copy(startDate = Year(1))
             assertResolve(calendar, -2, -3)
             assertResolve(calendar, -1, -2)
             assertResolve(calendar, 0, -1)

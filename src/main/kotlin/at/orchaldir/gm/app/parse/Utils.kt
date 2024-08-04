@@ -6,6 +6,9 @@ import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.SomeOf
 import io.ktor.http.*
 
+fun combine(param0: String, param1: String) = "$param0-$param1"
+fun combine(param0: String, param1: Int) = combine(param0, param1.toString())
+
 inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String, default: T): T =
     parameters[param]?.let { java.lang.Enum.valueOf(T::class.java, it) } ?: default
 

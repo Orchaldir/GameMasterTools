@@ -164,6 +164,7 @@ private fun HTML.showCalendarDetails(
                 field("Origin", "Original")
             }
         }
+        field(state, "Origin Date", calendar.originDate)
         showList("Child Calendars", children) { child ->
             link(call, child)
         }
@@ -178,9 +179,9 @@ private fun HTML.showCalendarDetails(
         showList("Months", calendar.months) { month ->
             field(month.name, "${month.days} days")
         }
+        field(state, "Start Date", calendar.startDate)
         field("Before Era", calendar.eras.resolve(CalendarYear(-1)))
         field("Current Era", calendar.eras.resolve(CalendarYear(0)))
-        field(OFFSET_DESCRIPTION, calendar.offsetInDays.toString())
         field("Days per Year", calendar.getDaysPerYear().toString())
         showList("Cultures", cultures) { culture ->
             link(call, culture)
@@ -214,15 +215,15 @@ private fun HTML.showCalendarEditor(
             selectNumber("Months", calendar.months.size, 2, 100, MONTHS, true)
             calendar.months.withIndex().forEach { (index, month) ->
                 p {
-                    selectText(month.name, MONTH_NAME_PREFIX + index)
+                    selectText(month.name, MONTH_NAME + index)
                     +": "
-                    selectNumber(month.days, 2, 100, MONTH_DAYS_PREFIX + index)
+                    selectNumber(month.days, 2, 100, MONTH_DAYS + index)
                     +"days"
                 }
             }
-            editEra("Before", calendar.eras.before, BEFORE_PREFIX)
-            editEra("Current", calendar.eras.current, CURRENT_PREFIX)
-            selectNumber(OFFSET_DESCRIPTION, calendar.offsetInDays, Int.MIN_VALUE, Int.MAX_VALUE, OFFSET, false)
+            editEra("Before", calendar.eras.before, BEFORE)
+            editEra("Current", calendar.eras.current, CURRENT)
+            //selectNumber(OFFSET_DESCRIPTION, calendar.offsetInDays, Int.MIN_VALUE, Int.MAX_VALUE, OFFSET, false)
             p {
                 submitInput {
                     value = "Update"
@@ -260,7 +261,7 @@ private fun FORM.editDays(
             selectNumber("Weekdays", days.weekDays.size, 2, 100, WEEK_DAYS, true)
             days.weekDays.withIndex().forEach { (index, day) ->
                 p {
-                    selectText(day.name, WEEK_DAY_PREFIX + index)
+                    selectText(day.name, WEEK_DAY + index)
                 }
             }
         }
