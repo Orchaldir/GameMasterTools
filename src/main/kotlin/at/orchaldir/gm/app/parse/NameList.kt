@@ -8,7 +8,7 @@ import io.ktor.server.util.*
 fun parseNameListId(
     parameters: Parameters,
     param: String,
-) = NameListId(parameters[param]?.toInt() ?: 0)
+) = NameListId(parseInt(parameters, param))
 
 fun parseNameList(id: NameListId, parameters: Parameters): NameList {
     val name = parameters.getOrFail(NAME)

@@ -22,8 +22,8 @@ data class Calendar(
     val name: String = "Calendar ${id.value}",
     val days: Days = DayOfTheMonth,
     val months: List<Month> = emptyList(),
-    val origin: CalendarOrigin = OriginalCalendar,
     val offsetInDays: Int = 0,
+    val origin: CalendarOrigin = OriginalCalendar,
 ) : Element<CalendarId> {
 
     override fun id() = id

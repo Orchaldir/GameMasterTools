@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import io.ktor.http.*
 import io.ktor.server.util.*
 
-fun parseCharacterId(parameters: Parameters, param: String) = CharacterId(parameters[param]?.toInt() ?: 0)
+fun parseCharacterId(parameters: Parameters, param: String) = CharacterId(parseInt(parameters, param))
 
 fun parseCharacter(state: State, id: CharacterId, parameters: Parameters): Character {
     val character = state.characters.getOrThrow(id)

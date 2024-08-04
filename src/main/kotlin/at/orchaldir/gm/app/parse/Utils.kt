@@ -78,3 +78,5 @@ fun parseName(parameters: Parameters, param: String): String? {
 
     return name
 }
+
+fun parseInt(parameters: Parameters, param: String, default: Int = 0) = parameters[param]?.toInt() ?: default

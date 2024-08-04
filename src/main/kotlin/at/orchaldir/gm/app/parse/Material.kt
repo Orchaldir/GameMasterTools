@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import io.ktor.http.*
 import io.ktor.server.util.*
 
-fun parseMaterialId(parameters: Parameters, param: String) = MaterialId(parameters[param]?.toInt() ?: 0)
+fun parseMaterialId(parameters: Parameters, param: String) = MaterialId(parseInt(parameters, param))
 
 fun parseMaterial(id: MaterialId, parameters: Parameters): Material {
     val name = parameters.getOrFail(NAME)

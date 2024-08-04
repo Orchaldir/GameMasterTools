@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.calendar.CalendarOriginType.Original
 import io.ktor.http.*
 import io.ktor.server.util.*
 
-fun parseCalendarId(parameters: Parameters, param: String) = CalendarId(parameters[param]?.toInt() ?: 0)
+fun parseCalendarId(parameters: Parameters, param: String) = CalendarId(parseInt(parameters, param))
 
 fun parseCalendar(
     parameters: Parameters,
@@ -19,6 +19,7 @@ fun parseCalendar(
         id, name,
         parseDays(parameters),
         parseMonths(parameters),
+        parseInt(parameters, OFFSET),
         origin,
     )
 }
@@ -29,7 +30,7 @@ private fun parseDays(parameters: Parameters) = when (parse(parameters, DAYS, Da
 }
 
 private fun parseWeekdays(parameters: Parameters): List<WeekDay> {
-    val count = parameters[WEEK_DAYS]?.toInt() ?: 2
+    val count = parseInt(parameters, WEEK_DAYS, 2)
 
     return (0..<count)
         .map { parseName(parameters, WEEK_DAY_PREFIX + it) ?: "${it + 1}.Day" }
@@ -45,7 +46,7 @@ private fun parseMonths(parameters: Parameters): List<Month> {
 
 private fun parseMonth(parameters: Parameters, it: Int) = Month(
     parseName(parameters, MONTH_NAME_PREFIX + it) ?: "${it + 1}.Month",
-    parameters[MONTH_DAYS_PREFIX + it]?.toInt() ?: 2,
+    parseInt(parameters, MONTH_DAYS_PREFIX + it, 2)
 )
 
 private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, Original)) {
