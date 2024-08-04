@@ -77,4 +77,11 @@ data class Calendar(
         return CalendarYear(year)
     }
 
+
+    fun resolve(date: CalendarYear): Year {
+        val offsetInYears = offsetInDays / getDaysPerYear()
+        val year = date.year - offsetInYears
+
+        return Year(year)
+    }
 }
