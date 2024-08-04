@@ -313,8 +313,9 @@ private fun FORM.editEra(
 ) {
     selectText("$label Era - Name", era.text, param + NAME)
     field("$label Era - Is prefix") {
-        radioInput {
+        checkBoxInput {
             name = param + PREFIX
+            value = "true"
             checked = era.isPrefix
         }
     }
