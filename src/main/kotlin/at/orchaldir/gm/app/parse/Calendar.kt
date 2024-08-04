@@ -25,9 +25,9 @@ fun parseCalendar(
     )
 }
 
-private fun parseEras(parameters: Parameters) = BeforeAndNow(
+private fun parseEras(parameters: Parameters) = BeforeAndCurrent(
     parseEra(parameters, BEFORE_PREFIX, false),
-    parseEra(parameters, NOW_PREFIX, true),
+    parseEra(parameters, CURRENT_PREFIX, true),
 )
 
 private fun parseEra(parameters: Parameters, param: String, countFrom: Boolean) =
