@@ -23,6 +23,7 @@ data class Calendar(
     val days: Days = DayOfTheMonth,
     val months: List<Month> = emptyList(),
     val origin: CalendarOrigin = OriginalCalendar,
+    val offsetInDays: Int = 0,
 ) : Element<CalendarId> {
 
     override fun id() = id
@@ -68,10 +69,15 @@ data class Calendar(
         error("Unreachable")
     }
 
-    private fun resolve(date: Year) = if (date.year >= 0) {
-        CalendarYear(date.year + 1)
-    } else {
-        CalendarYear(date.year)
+    private fun resolve(date: Year): CalendarYear {
+        val offsetInYears = offsetInDays / getDaysPerYear()
+        val year = date.year + offsetInYears
+
+        return if (year >= 0) {
+            CalendarYear(year + 1)
+        } else {
+            CalendarYear(year)
+        }
     }
 
 }
