@@ -38,8 +38,8 @@ data class Calendar(
         val daysPerYear = getDaysPerYear()
 
         if (date.day >= 0) {
-            val year = (date.day / daysPerYear) + 1;
-            var remainingDays = date.day % daysPerYear;
+            val year = (date.day / daysPerYear) + 1
+            var remainingDays = date.day % daysPerYear
 
             for ((index, data) in months.withIndex()) {
                 if (remainingDays < data.days) {
@@ -53,8 +53,8 @@ data class Calendar(
         }
 
         val absoluteDate = date.day.absoluteValue - 1
-        val year = -(1 + absoluteDate / daysPerYear);
-        var remainingDays = absoluteDate % daysPerYear;
+        val year = -(1 + absoluteDate / daysPerYear)
+        var remainingDays = absoluteDate % daysPerYear
 
         for ((index, data) in months.withIndex().reversed()) {
             if (remainingDays < data.days) {
@@ -68,6 +68,10 @@ data class Calendar(
         error("Unreachable")
     }
 
-    private fun resolve(date: Year) = CalendarYear(date.year)
+    private fun resolve(date: Year) = if (date.year >= 0) {
+        CalendarYear(date.year + 1)
+    } else {
+        CalendarYear(date.year)
+    }
 
 }

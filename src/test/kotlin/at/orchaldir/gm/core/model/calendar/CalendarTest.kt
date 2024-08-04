@@ -1,8 +1,6 @@
 package at.orchaldir.gm.core.model.calendar
 
-import at.orchaldir.gm.core.model.calendar.date.CalendarDay
-import at.orchaldir.gm.core.model.calendar.date.Date
-import at.orchaldir.gm.core.model.calendar.date.Day
+import at.orchaldir.gm.core.model.calendar.date.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -51,6 +49,22 @@ class CalendarTest {
             assertEquals(CalendarDay(year, month, day), CALENDAR.resolve(Day(date)))
         }
 
+    }
+
+    @Nested
+    inner class ResolveYearTest {
+
+        @Test
+        fun `Test without offset`() {
+            assertResolve(-2, -2)
+            assertResolve(-1, -1)
+            assertResolve(0, 1)
+            assertResolve(1, 2)
+        }
+
+        private fun assertResolve(input: Int, output: Int) {
+            assertEquals(CalendarYear(output), CALENDAR.resolve(Year(input)))
+        }
     }
 
 }
