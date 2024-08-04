@@ -40,7 +40,7 @@ data class Calendar(
         val day = date.day + offsetInDays
 
         if (day >= 0) {
-            val year = (day / daysPerYear) + 1
+            val year = day / daysPerYear
             var remainingDays = day % daysPerYear
 
             for ((monthIndex, monthData) in months.withIndex()) {
@@ -74,11 +74,7 @@ data class Calendar(
         val offsetInYears = offsetInDays / getDaysPerYear()
         val year = date.year + offsetInYears
 
-        return if (year >= 0) {
-            CalendarYear(year + 1)
-        } else {
-            CalendarYear(year)
-        }
+        return CalendarYear(year)
     }
 
 }

@@ -21,8 +21,8 @@ class CalendarTest {
         fun `Test without offset`() {
             assertTest(-10, -2)
             assertTest(-5, -1)
-            assertTest(0, 1)
-            assertTest(5, 2)
+            assertTest(0, 0)
+            assertTest(5, 1)
         }
 
         @Test
@@ -30,8 +30,8 @@ class CalendarTest {
             val calendar = CALENDAR.copy(offsetInDays = 12)
 
             assertResolve(calendar, -13, -1, 1, 2)
-            assertResolve(calendar, -12, 1, 0, 0)
-            assertResolve(calendar, -11, 1, 0, 1)
+            assertResolve(calendar, -12, 0, 0, 0)
+            assertResolve(calendar, -11, 0, 0, 1)
         }
 
         private fun assertTest(startDate: Int, year: Int) {
@@ -55,8 +55,8 @@ class CalendarTest {
         fun `Test without offset`() {
             assertResolve(CALENDAR, -2, -2)
             assertResolve(CALENDAR, -1, -1)
-            assertResolve(CALENDAR, 0, 1)
-            assertResolve(CALENDAR, 1, 2)
+            assertResolve(CALENDAR, 0, 0)
+            assertResolve(CALENDAR, 1, 1)
         }
 
         @Test
@@ -64,10 +64,10 @@ class CalendarTest {
             val calendar = CALENDAR.copy(offsetInDays = 12)
             assertResolve(calendar, -4, -2)
             assertResolve(calendar, -3, -1)
-            assertResolve(calendar, -2, 1)
-            assertResolve(calendar, -1, 2)
-            assertResolve(calendar, 0, 3)
-            assertResolve(calendar, 1, 4)
+            assertResolve(calendar, -2, 0)
+            assertResolve(calendar, -1, 1)
+            assertResolve(calendar, 0, 2)
+            assertResolve(calendar, 1, 3)
         }
 
         @Test
@@ -76,7 +76,8 @@ class CalendarTest {
             assertResolve(calendar, -2, -3)
             assertResolve(calendar, -1, -2)
             assertResolve(calendar, 0, -1)
-            assertResolve(calendar, 1, 1)
+            assertResolve(calendar, 1, 0)
+            assertResolve(calendar, 2, 1)
         }
 
         private fun assertResolve(calendar: Calendar, input: Int, output: Int) {
