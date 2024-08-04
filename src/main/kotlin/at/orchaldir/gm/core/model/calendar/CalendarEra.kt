@@ -10,9 +10,9 @@ data class CalendarEra(
 )
 
 @Serializable
-data class BeforeAndAfter(
+data class BeforeAndNow(
     val before: CalendarEra,
-    val after: CalendarEra,
+    val now: CalendarEra,
 ) {
     constructor(beforeText: String, beforeIsPrefix: Boolean, afterText: String, afterIsPrefix: Boolean) :
             this(CalendarEra(false, beforeText, beforeIsPrefix), CalendarEra(true, afterText, afterIsPrefix))
