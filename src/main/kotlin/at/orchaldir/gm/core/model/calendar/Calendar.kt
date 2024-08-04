@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.calendar
 
 import at.orchaldir.gm.core.model.calendar.date.CalendarDay
 import at.orchaldir.gm.core.model.calendar.date.Date
+import at.orchaldir.gm.core.model.calendar.date.Day
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -30,7 +31,7 @@ data class Calendar(
 
     fun getDaysPerYear() = months.sumOf { it.days }
 
-    fun resolve(date: Date): CalendarDay {
+    fun resolve(date: Day): CalendarDay {
         val daysPerYear = getDaysPerYear()
 
         if (date.day >= 0) {
