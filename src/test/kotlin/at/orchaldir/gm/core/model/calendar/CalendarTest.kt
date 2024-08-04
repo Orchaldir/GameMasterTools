@@ -25,16 +25,25 @@ class CalendarTest {
             assertTest(5, 2)
         }
 
-        private fun assertTest(startDate: Int, year: Int) {
-            assertResolve(startDate, year, 0, 0)
-            assertResolve(startDate + 1, year, 0, 1)
-            assertResolve(startDate + 2, year, 1, 0)
-            assertResolve(startDate + 3, year, 1, 1)
-            assertResolve(startDate + 4, year, 1, 2)
+        @Test
+        fun `Test with offset`() {
+            val calendar = CALENDAR.copy(offsetInDays = 12)
+
+            assertResolve(calendar, -13, -1, 1, 2)
+            assertResolve(calendar, -12, 1, 0, 0)
+            assertResolve(calendar, -11, 1, 0, 1)
         }
 
-        private fun assertResolve(date: Int, year: Int, month: Int, day: Int) {
-            assertEquals(CalendarDay(year, month, day), CALENDAR.resolve(Day(date)))
+        private fun assertTest(startDate: Int, year: Int) {
+            assertResolve(CALENDAR, startDate, year, 0, 0)
+            assertResolve(CALENDAR, startDate + 1, year, 0, 1)
+            assertResolve(CALENDAR, startDate + 2, year, 1, 0)
+            assertResolve(CALENDAR, startDate + 3, year, 1, 1)
+            assertResolve(CALENDAR, startDate + 4, year, 1, 2)
+        }
+
+        private fun assertResolve(calendar: Calendar, date: Int, year: Int, month: Int, day: Int) {
+            assertEquals(CalendarDay(year, month, day), calendar.resolve(Day(date)))
         }
 
     }
