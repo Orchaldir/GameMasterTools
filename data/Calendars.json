@@ -53,7 +53,19 @@
      "name": "December",
      "days": 29
     }
-   ]
+   ],
+   "eras": {
+    "before": {
+     "countFrom": false,
+     "text": "?",
+     "isPrefix": false
+    },
+    "current": {
+     "countFrom": true,
+     "text": "AUC",
+     "isPrefix": false
+    }
+   }
   },
   "1": {
    "id": 1,

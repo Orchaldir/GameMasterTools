@@ -219,6 +219,8 @@ private fun HTML.showCalendarEditor(
                     +"days"
                 }
             }
+            editEra("Before", calendar.eras.before, BEFORE_PREFIX)
+            editEra("Current", calendar.eras.current, CURRENT_PREFIX)
             selectNumber(OFFSET_DESCRIPTION, calendar.offsetInDays, Int.MIN_VALUE, Int.MAX_VALUE, OFFSET, false)
             p {
                 submitInput {
@@ -301,5 +303,19 @@ private fun FORM.editOrigin(
             }
 
         else -> doNothing()
+    }
+}
+
+private fun FORM.editEra(
+    label: String,
+    era: CalendarEra,
+    param: String,
+) {
+    selectText("$label Era - Name", era.text, param + NAME)
+    field("$label Era - Is prefix") {
+        radioInput {
+            name = param + PREFIX
+            checked = era.isPrefix
+        }
     }
 }
