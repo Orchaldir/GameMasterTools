@@ -177,6 +177,8 @@ private fun HTML.showCalendarDetails(
         showList("Months", calendar.months) { month ->
             field(month.name, "${month.days} days")
         }
+        showEra("Before Era", calendar.eras.before)
+        showEra("Current Era", calendar.eras.current)
         field(OFFSET_DESCRIPTION, calendar.offsetInDays.toString())
         field("Days per Year", calendar.getDaysPerYear().toString())
         showList("Cultures", cultures) { culture ->
