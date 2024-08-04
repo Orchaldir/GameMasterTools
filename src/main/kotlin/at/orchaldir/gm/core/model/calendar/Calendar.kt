@@ -37,33 +37,34 @@ data class Calendar(
 
     private fun resolve(date: Day): CalendarDay {
         val daysPerYear = getDaysPerYear()
+        val day = date.day + offsetInDays
 
-        if (date.day >= 0) {
-            val year = (date.day / daysPerYear) + 1
-            var remainingDays = date.day % daysPerYear
+        if (day >= 0) {
+            val year = (day / daysPerYear) + 1
+            var remainingDays = day % daysPerYear
 
-            for ((index, data) in months.withIndex()) {
-                if (remainingDays < data.days) {
-                    return CalendarDay(year, index, remainingDays)
+            for ((monthIndex, monthData) in months.withIndex()) {
+                if (remainingDays < monthData.days) {
+                    return CalendarDay(year, monthIndex, remainingDays)
                 }
 
-                remainingDays -= data.days
+                remainingDays -= monthData.days
             }
 
             error("Unreachable")
         }
 
-        val absoluteDate = date.day.absoluteValue - 1
+        val absoluteDate = day.absoluteValue - 1
         val year = -(1 + absoluteDate / daysPerYear)
         var remainingDays = absoluteDate % daysPerYear
 
-        for ((index, data) in months.withIndex().reversed()) {
-            if (remainingDays < data.days) {
-                val day = data.days - remainingDays - 1
-                return CalendarDay(year, index, day)
+        for ((monthIndex, monthData) in months.withIndex().reversed()) {
+            if (remainingDays < monthData.days) {
+                val dayIndex = monthData.days - remainingDays - 1
+                return CalendarDay(year, monthIndex, dayIndex)
             }
 
-            remainingDays -= data.days
+            remainingDays -= monthData.days
         }
 
         error("Unreachable")
