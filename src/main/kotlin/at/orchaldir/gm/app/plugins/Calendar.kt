@@ -207,21 +207,13 @@ private fun HTML.showCalendarEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            field("Name") {
-                b { +"Name: " }
-                textInput(name = NAME) {
-                    value = calendar.name
-                }
-            }
+            selectText("Name", calendar.name, NAME)
             editOrigin(state, calendar)
             editDays(calendar)
             selectNumber("Months", calendar.months.size, 2, 100, MONTHS, true)
             calendar.months.withIndex().forEach { (index, month) ->
                 p {
-                    textInput(name = MONTH_NAME_PREFIX + index) {
-                        minLength = "1"
-                        value = month.name
-                    }
+                    selectText(month.name, MONTH_NAME_PREFIX + index)
                     +": "
                     selectNumber(month.days, 2, 100, MONTH_DAYS_PREFIX + index)
                     +"days"
@@ -265,10 +257,7 @@ private fun FORM.editDays(
             selectNumber("Weekdays", days.weekDays.size, 2, 100, WEEK_DAYS, true)
             days.weekDays.withIndex().forEach { (index, day) ->
                 p {
-                    textInput(name = WEEK_DAY_PREFIX + index) {
-                        minLength = "1"
-                        value = day.name
-                    }
+                    selectText(day.name, WEEK_DAY_PREFIX + index)
                 }
             }
         }

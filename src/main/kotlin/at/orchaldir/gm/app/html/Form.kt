@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.parse.NAME
 import at.orchaldir.gm.core.model.appearance.*
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.utils.Element
@@ -85,6 +86,28 @@ fun HtmlBlockTag.selectNumber(
         if (update) {
             onChange = ON_CHANGE_SCRIPT
         }
+    }
+}
+
+fun FORM.selectText(
+    label: String,
+    text: String,
+    param: String,
+    min: Int = 1,
+) {
+    field(label) {
+        selectText(text, param, min)
+    }
+}
+
+fun HtmlBlockTag.selectText(
+    text: String,
+    param: String,
+    min: Int = 1,
+) {
+    textInput(name = param) {
+        minLength = "$min"
+        value = text
     }
 }
 
