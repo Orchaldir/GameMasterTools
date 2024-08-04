@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
+import at.orchaldir.gm.core.model.calendar.date.CalendarYear
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getCultures
@@ -177,8 +178,8 @@ private fun HTML.showCalendarDetails(
         showList("Months", calendar.months) { month ->
             field(month.name, "${month.days} days")
         }
-        showEra("Before Era", calendar.eras.before)
-        showEra("Current Era", calendar.eras.current)
+        field("Before Era", calendar.eras.resolve(CalendarYear(-1)))
+        field("Current Era", calendar.eras.resolve(CalendarYear(0)))
         field(OFFSET_DESCRIPTION, calendar.offsetInDays.toString())
         field("Days per Year", calendar.getDaysPerYear().toString())
         showList("Cultures", cultures) { culture ->
