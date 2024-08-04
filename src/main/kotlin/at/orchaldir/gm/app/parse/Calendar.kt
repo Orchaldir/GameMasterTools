@@ -20,9 +20,23 @@ fun parseCalendar(
         parseDays(parameters),
         parseMonths(parameters),
         parseInt(parameters, OFFSET),
+        parseEras(parameters),
         origin,
     )
 }
+
+private fun parseEras(parameters: Parameters) = BeforeAndAfter(
+    parseEra(parameters, BEFORE_PREFIX, false),
+    parseEra(parameters, AFTER_PREFIX, true),
+)
+
+private fun parseEra(parameters: Parameters, param: String, countFrom: Boolean) =
+    CalendarEra(
+        countFrom,
+        parseName(parameters, param + NAME) ?: "?",
+        parseBool(parameters, param + PREFIX),
+    )
+
 
 private fun parseDays(parameters: Parameters) = when (parse(parameters, DAYS, DaysType.DayOfTheMonth)) {
     DaysType.DayOfTheMonth -> DayOfTheMonth

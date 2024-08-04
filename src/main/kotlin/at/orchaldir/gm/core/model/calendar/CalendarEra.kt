@@ -8,3 +8,12 @@ data class CalendarEra(
     val text: String,
     val isPrefix: Boolean,
 )
+
+@Serializable
+data class BeforeAndAfter(
+    val before: CalendarEra,
+    val after: CalendarEra,
+) {
+    constructor(beforeText: String, beforeIsPrefix: Boolean, afterText: String, afterIsPrefix: Boolean) :
+            this(CalendarEra(false, beforeText, beforeIsPrefix), CalendarEra(true, afterText, afterIsPrefix))
+}
