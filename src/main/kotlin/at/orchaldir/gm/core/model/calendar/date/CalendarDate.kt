@@ -6,6 +6,6 @@ data class CalendarDay(
     val year: Int,
     val month: Int,
     val day: Int,
-) : Date()
+) : CalendarDate()
 
-data class CalendarYear(val year: Int) : Date()
+data class CalendarYear(val year: Int) : CalendarDate()
