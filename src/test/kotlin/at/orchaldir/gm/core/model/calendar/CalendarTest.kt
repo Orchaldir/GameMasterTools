@@ -73,6 +73,15 @@ class CalendarTest {
             assertResolve(calendar, 1, 4)
         }
 
+        @Test
+        fun `Test with negative offset`() {
+            val calendar = CALENDAR.copy(offsetInDays = -5)
+            assertResolve(calendar, -2, -3)
+            assertResolve(calendar, -1, -2)
+            assertResolve(calendar, 0, -1)
+            assertResolve(calendar, 1, 1)
+        }
+
         private fun assertResolve(calendar: Calendar, input: Int, output: Int) {
             assertEquals(CalendarYear(output), calendar.resolve(Year(input)))
         }
