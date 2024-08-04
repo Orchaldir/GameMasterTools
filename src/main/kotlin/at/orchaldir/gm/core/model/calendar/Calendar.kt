@@ -86,7 +86,7 @@ data class Calendar(
         val daysPerYear = getDaysPerYear()
 
         if (date.yearIndex >= 0) {
-            var day = date.yearIndex * daysPerYear + date.dayIndex
+            var day = date.yearIndex * daysPerYear + date.dayIndex - offsetInDays
 
             (0..<date.monthIndex).map { months[it] }
                 .forEach { day += it.days }
@@ -94,7 +94,7 @@ data class Calendar(
             return Day(day)
         }
 
-        var day = (date.yearIndex + 1) * daysPerYear
+        var day = (date.yearIndex + 1) * daysPerYear - offsetInDays
 
         (date.monthIndex..<months.size).map { months[it] }
             .forEach { day -= it.days }
