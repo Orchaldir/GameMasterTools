@@ -34,7 +34,7 @@ data class Calendar(
         val daysPerYear = getDaysPerYear()
 
         if (date.day >= 0) {
-            val year = date.day / daysPerYear;
+            val year = (date.day / daysPerYear) + 1;
             var remainingDays = date.day % daysPerYear;
 
             for ((index, data) in months.withIndex()) {

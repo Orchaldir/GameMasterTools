@@ -29,13 +29,13 @@ class CalendarTest {
         }
 
         @Test
-        fun `Test year 0`() {
-            assertTest(0, 0)
+        fun `Test year 1`() {
+            assertTest(0, 1)
         }
 
         @Test
-        fun `Test year 1`() {
-            assertTest(5, 1)
+        fun `Test year 2`() {
+            assertTest(5, 2)
         }
 
         private fun assertTest(startDate: Int, year: Int) {
