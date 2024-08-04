@@ -57,12 +57,12 @@
    "eras": {
     "before": {
      "countFrom": false,
-     "text": "?",
+     "text": "ante urbe condita",
      "isPrefix": false
     },
     "current": {
      "countFrom": true,
-     "text": "AUC",
+     "text": "ab urbe condita",
      "isPrefix": false
     }
    }
