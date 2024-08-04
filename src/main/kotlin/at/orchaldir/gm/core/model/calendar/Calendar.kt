@@ -77,6 +77,32 @@ data class Calendar(
         return CalendarYear(year)
     }
 
+    fun resolve(date: CalendarDate) = when (date) {
+        is CalendarDay -> resolve(date)
+        is CalendarYear -> resolve(date)
+    }
+
+    private fun resolve(date: CalendarDay): Day {
+        val daysPerYear = getDaysPerYear()
+
+        if (date.yearIndex >= 0) {
+            var day = date.yearIndex * daysPerYear + date.dayIndex
+
+            (0..<date.monthIndex).map { months[it] }
+                .forEach { day += it.days }
+
+            return Day(day)
+        }
+
+        var day = (date.yearIndex + 1) * daysPerYear
+
+        (date.monthIndex..<months.size).map { months[it] }
+            .forEach { day -= it.days }
+
+        day += date.dayIndex
+
+        return Day(day)
+    }
 
     fun resolve(date: CalendarYear): Year {
         val offsetInYears = offsetInDays / getDaysPerYear()

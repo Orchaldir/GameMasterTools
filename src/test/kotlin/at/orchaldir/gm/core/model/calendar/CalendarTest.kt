@@ -42,8 +42,12 @@ class CalendarTest {
             assertResolve(CALENDAR, startDate + 4, year, 1, 2)
         }
 
-        private fun assertResolve(calendar: Calendar, date: Int, year: Int, month: Int, day: Int) {
-            assertEquals(CalendarDay(year, month, day), calendar.resolve(Day(date)))
+        private fun assertResolve(calendar: Calendar, date: Int, yearIndex: Int, monthIndex: Int, dayIndex: Int) {
+            val calendarDay = CalendarDay(yearIndex, monthIndex, dayIndex)
+            val day = Day(date)
+
+            assertEquals(calendarDay, calendar.resolve(day))
+            assertEquals(day, calendar.resolve(calendarDay))
         }
 
     }
@@ -81,44 +85,11 @@ class CalendarTest {
         }
 
         private fun assertResolve(calendar: Calendar, input: Int, output: Int) {
-            assertEquals(CalendarYear(output), calendar.resolve(Year(input)))
-        }
-    }
+            val calendarYear = CalendarYear(output)
+            val year = Year(input)
 
-    @Nested
-    inner class ResolveCalendarYearTest {
-
-        @Test
-        fun `Test without offset`() {
-            assertResolve(CALENDAR, -2, -2)
-            assertResolve(CALENDAR, -1, -1)
-            assertResolve(CALENDAR, 0, 0)
-            assertResolve(CALENDAR, 1, 1)
-        }
-
-        @Test
-        fun `Test with positive offset`() {
-            val calendar = CALENDAR.copy(offsetInDays = 12)
-            assertResolve(calendar, -2, -4)
-            assertResolve(calendar, -1, -3)
-            assertResolve(calendar, 0, -2)
-            assertResolve(calendar, 1, -1)
-            assertResolve(calendar, 2, 0)
-            assertResolve(calendar, 3, 1)
-        }
-
-        @Test
-        fun `Test with negative offset`() {
-            val calendar = CALENDAR.copy(offsetInDays = -5)
-            assertResolve(calendar, -3, -2)
-            assertResolve(calendar, -2, -1)
-            assertResolve(calendar, -1, 0)
-            assertResolve(calendar, 0, 1)
-            assertResolve(calendar, 1, 2)
-        }
-
-        private fun assertResolve(calendar: Calendar, input: Int, output: Int) {
-            assertEquals(Year(output), calendar.resolve(CalendarYear(input)))
+            assertEquals(calendarYear, calendar.resolve(year))
+            assertEquals(year, calendar.resolve(calendarYear))
         }
     }
 
