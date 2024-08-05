@@ -4,7 +4,14 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class Date
+sealed class Date {
+
+    fun getType() = when (this) {
+        is Day -> DateType.Day
+        is Year -> DateType.Year
+    }
+
+}
 
 @Serializable
 @SerialName("Day")

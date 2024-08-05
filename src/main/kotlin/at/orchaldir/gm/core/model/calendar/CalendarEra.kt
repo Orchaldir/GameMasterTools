@@ -29,6 +29,8 @@ data class BeforeAndCurrent(
     constructor(beforeText: String, beforeIsPrefix: Boolean, afterText: String, afterIsPrefix: Boolean) :
             this(CalendarEra(false, beforeText, beforeIsPrefix), CalendarEra(true, afterText, afterIsPrefix))
 
+    fun getAll() = listOf(before, current)
+
     fun resolve(date: CalendarDate) = when (date) {
         is CalendarDay -> resolve(date)
         is CalendarYear -> resolve(date)
