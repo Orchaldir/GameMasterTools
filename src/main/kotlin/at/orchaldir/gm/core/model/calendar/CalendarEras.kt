@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
 
 @Serializable
-data class BeforeAndCurrent(
+data class CalendarEras(
     val before: EraBeforeStart,
     val first: FirstEra,
     val eras: List<LaterEra> = emptyList(),

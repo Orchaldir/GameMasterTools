@@ -39,7 +39,7 @@ fun parseDate(parameters: Parameters, param: String): Date {
     }
 }
 
-private fun parseEras(parameters: Parameters) = BeforeAndCurrent(
+private fun parseEras(parameters: Parameters) = CalendarEras(
     parseBeforeStart(parameters),
     parseFirstEra(parameters),
 )
