@@ -45,13 +45,14 @@ private fun parseEras(parameters: Parameters) = BeforeAndCurrent(
 )
 
 private fun parseBeforeStart(parameters: Parameters) =
-    BeforeStart(
+    EraBeforeStart(
         parseEraName(parameters, BEFORE),
         parseIsPrefix(parameters, BEFORE),
     )
 
 private fun parseFirstEra(parameters: Parameters) =
     FirstEra(
+        Year(0),
         parseEraName(parameters, CURRENT),
         parseIsPrefix(parameters, CURRENT),
     )

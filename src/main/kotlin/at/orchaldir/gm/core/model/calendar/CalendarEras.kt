@@ -1,20 +1,26 @@
 package at.orchaldir.gm.core.model.calendar
 
-import at.orchaldir.gm.core.model.calendar.date.DisplayDate
-import at.orchaldir.gm.core.model.calendar.date.DisplayDay
-import at.orchaldir.gm.core.model.calendar.date.DisplayYear
+import at.orchaldir.gm.core.model.calendar.date.*
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
 
 @Serializable
 data class BeforeAndCurrent(
-    val before: BeforeStart,
+    val before: EraBeforeStart,
     val first: FirstEra,
+    val eras: List<LaterEra> = emptyList(),
 ) {
-    constructor(beforeText: String, beforeIsPrefix: Boolean, afterText: String, afterIsPrefix: Boolean) :
-            this(BeforeStart(beforeText, beforeIsPrefix), FirstEra(afterText, afterIsPrefix))
+    constructor(
+        beforeText: String,
+        beforeIsPrefix: Boolean,
+        start: Date,
+        afterText: String,
+        afterIsPrefix: Boolean,
+        eras: List<LaterEra> = emptyList(),
+    ) :
+            this(EraBeforeStart(beforeText, beforeIsPrefix), FirstEra(start, afterText, afterIsPrefix), eras)
 
-    fun getAll() = listOf(before, first)
+    fun getAll() = listOf(before) + eras
 
     fun resolve(date: DisplayDate) = when (date) {
         is DisplayDay -> resolve(date)
