@@ -40,16 +40,27 @@ fun parseDate(parameters: Parameters, param: String): Date {
 }
 
 private fun parseEras(parameters: Parameters) = BeforeAndCurrent(
-    parseEra(parameters, BEFORE, false),
-    parseEra(parameters, CURRENT, true),
+    parseBeforeStart(parameters),
+    parseFirstEra(parameters),
 )
 
-private fun parseEra(parameters: Parameters, param: String, countFrom: Boolean) =
-    CalendarEra(
-        countFrom,
-        parseName(parameters, combine(param, NAME)) ?: "?",
-        parseBool(parameters, combine(param, PREFIX)),
+private fun parseBeforeStart(parameters: Parameters) =
+    BeforeStart(
+        parseEraName(parameters, BEFORE),
+        parseIsPrefix(parameters, BEFORE),
     )
+
+private fun parseFirstEra(parameters: Parameters) =
+    FirstEra(
+        parseEraName(parameters, CURRENT),
+        parseIsPrefix(parameters, CURRENT),
+    )
+
+private fun parseIsPrefix(parameters: Parameters, param: String) =
+    parseBool(parameters, combine(param, PREFIX))
+
+private fun parseEraName(parameters: Parameters, param: String) =
+    parseName(parameters, combine(param, NAME)) ?: "?"
 
 private fun parseDays(parameters: Parameters) = when (parse(parameters, DAYS, DaysType.DayOfTheMonth)) {
     DaysType.DayOfTheMonth -> DayOfTheMonth

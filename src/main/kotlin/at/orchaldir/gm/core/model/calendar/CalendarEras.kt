@@ -8,13 +8,13 @@ import kotlin.math.absoluteValue
 
 @Serializable
 data class BeforeAndCurrent(
-    val before: CalendarEra,
-    val current: CalendarEra,
+    val before: BeforeStart,
+    val first: FirstEra,
 ) {
     constructor(beforeText: String, beforeIsPrefix: Boolean, afterText: String, afterIsPrefix: Boolean) :
-            this(CalendarEra(false, beforeText, beforeIsPrefix), CalendarEra(true, afterText, afterIsPrefix))
+            this(BeforeStart(beforeText, beforeIsPrefix), FirstEra(afterText, afterIsPrefix))
 
-    fun getAll() = listOf(before, current)
+    fun getAll() = listOf(before, first)
 
     fun resolve(date: DisplayDate) = when (date) {
         is DisplayDay -> resolve(date)
@@ -23,7 +23,7 @@ data class BeforeAndCurrent(
 
     fun resolve(day: DisplayDay) = if (day.yearIndex >= 0) {
         val year = day.yearIndex + 1
-        current.resolve(resolve(year, day.monthIndex, day.dayIndex))
+        first.resolve(resolve(year, day.monthIndex, day.dayIndex))
     } else {
         val year = day.yearIndex.absoluteValue
         before.resolve(resolve(year, day.monthIndex, day.dayIndex))
@@ -32,7 +32,7 @@ data class BeforeAndCurrent(
     private fun resolve(year: Int, month: Int, day: Int) = "$day.$month.$year"
 
     fun resolve(year: DisplayYear) = if (year.year >= 0) {
-        current.resolve(year.year + 1)
+        first.resolve(year.year + 1)
     } else {
         before.resolve(year.year.absoluteValue)
     }

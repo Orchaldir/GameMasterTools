@@ -56,12 +56,10 @@
    ],
    "eras": {
     "before": {
-     "countFrom": false,
      "text": "ante urbe condita",
      "isPrefix": false
     },
-    "current": {
-     "countFrom": true,
+    "first": {
      "text": "ab urbe condita",
      "isPrefix": false
     }

@@ -222,7 +222,7 @@ private fun HTML.showCalendarEditor(
                 }
             }
             editEra("Before", calendar.eras.before, BEFORE)
-            editEra("Current", calendar.eras.current, CURRENT)
+            editEra("Current", calendar.eras.first, CURRENT)
             //selectNumber(OFFSET_DESCRIPTION, calendar.offsetInDays, Int.MIN_VALUE, Int.MAX_VALUE, OFFSET, false)
             p {
                 submitInput {

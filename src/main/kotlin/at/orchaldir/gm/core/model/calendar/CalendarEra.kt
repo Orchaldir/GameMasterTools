@@ -1,13 +1,14 @@
 package at.orchaldir.gm.core.model.calendar
 
+import at.orchaldir.gm.core.model.calendar.date.Date
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CalendarEra(
-    val countFrom: Boolean,
-    val text: String,
-    val isPrefix: Boolean,
-) {
+sealed class CalendarEra {
+    abstract val text: String
+    abstract val isPrefix: Boolean
+
     fun resolve(year: Int) = resolve(year.toString())
 
     fun resolve(date: String) = if (isPrefix) {
@@ -16,3 +17,17 @@ data class CalendarEra(
         "$date $text"
     }
 }
+
+@Serializable
+@SerialName("BeforeStart")
+data class BeforeStart(
+    override val text: String,
+    override val isPrefix: Boolean,
+) : CalendarEra()
+
+@Serializable
+@SerialName("First")
+data class FirstEra(
+    override val text: String,
+    override val isPrefix: Boolean,
+) : CalendarEra()
