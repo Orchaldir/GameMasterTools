@@ -42,7 +42,7 @@ data class Calendar(
         is Year -> resolve(date)
     }
 
-    private fun resolve(date: Day): CalendarDay {
+    private fun resolve(date: Day): DisplayDay {
         val daysPerYear = getDaysPerYear()
         val day = date.day + getOffsetInDays()
 
@@ -52,7 +52,7 @@ data class Calendar(
 
             for ((monthIndex, monthData) in months.withIndex()) {
                 if (remainingDays < monthData.days) {
-                    return CalendarDay(year, monthIndex, remainingDays)
+                    return DisplayDay(year, monthIndex, remainingDays)
                 }
 
                 remainingDays -= monthData.days
@@ -68,7 +68,7 @@ data class Calendar(
         for ((monthIndex, monthData) in months.withIndex().reversed()) {
             if (remainingDays < monthData.days) {
                 val dayIndex = monthData.days - remainingDays - 1
-                return CalendarDay(year, monthIndex, dayIndex)
+                return DisplayDay(year, monthIndex, dayIndex)
             }
 
             remainingDays -= monthData.days
@@ -77,19 +77,19 @@ data class Calendar(
         error("Unreachable")
     }
 
-    private fun resolve(date: Year): CalendarYear {
+    private fun resolve(date: Year): DisplayYear {
         val offsetInYears = getOffsetInDays() / getDaysPerYear()
         val year = date.year + offsetInYears
 
-        return CalendarYear(year)
+        return DisplayYear(year)
     }
 
-    fun resolve(date: CalendarDate) = when (date) {
-        is CalendarDay -> resolve(date)
-        is CalendarYear -> resolve(date)
+    fun resolve(date: DisplayDate) = when (date) {
+        is DisplayDay -> resolve(date)
+        is DisplayYear -> resolve(date)
     }
 
-    private fun resolve(date: CalendarDay): Day {
+    private fun resolve(date: DisplayDay): Day {
         val daysPerYear = getDaysPerYear()
         val offsetInDays = getOffsetInDays()
 
@@ -112,7 +112,7 @@ data class Calendar(
         return Day(day)
     }
 
-    fun resolve(date: CalendarYear): Year {
+    fun resolve(date: DisplayYear): Year {
         val offsetInYears = getOffsetInDays() / getDaysPerYear()
         val year = date.year - offsetInYears
 

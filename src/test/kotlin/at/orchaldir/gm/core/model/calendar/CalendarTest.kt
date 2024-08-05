@@ -43,11 +43,11 @@ class CalendarTest {
         }
 
         private fun assertResolve(calendar: Calendar, date: Int, yearIndex: Int, monthIndex: Int, dayIndex: Int) {
-            val calendarDay = CalendarDay(yearIndex, monthIndex, dayIndex)
+            val displayDay = DisplayDay(yearIndex, monthIndex, dayIndex)
             val day = Day(date)
 
-            assertEquals(calendarDay, calendar.resolve(day))
-            assertEquals(day, calendar.resolve(calendarDay))
+            assertEquals(displayDay, calendar.resolve(day))
+            assertEquals(day, calendar.resolve(displayDay))
         }
 
     }
@@ -85,11 +85,11 @@ class CalendarTest {
         }
 
         private fun assertResolve(calendar: Calendar, input: Int, output: Int) {
-            val calendarYear = CalendarYear(output)
+            val displayYear = DisplayYear(output)
             val year = Year(input)
 
-            assertEquals(calendarYear, calendar.resolve(year))
-            assertEquals(year, calendar.resolve(calendarYear))
+            assertEquals(displayYear, calendar.resolve(year))
+            assertEquals(year, calendar.resolve(displayYear))
         }
     }
 

@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.calendar
 
-import at.orchaldir.gm.core.model.calendar.date.CalendarDate
-import at.orchaldir.gm.core.model.calendar.date.CalendarDay
-import at.orchaldir.gm.core.model.calendar.date.CalendarYear
+import at.orchaldir.gm.core.model.calendar.date.DisplayDate
+import at.orchaldir.gm.core.model.calendar.date.DisplayDay
+import at.orchaldir.gm.core.model.calendar.date.DisplayYear
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
 
@@ -31,12 +31,12 @@ data class BeforeAndCurrent(
 
     fun getAll() = listOf(before, current)
 
-    fun resolve(date: CalendarDate) = when (date) {
-        is CalendarDay -> resolve(date)
-        is CalendarYear -> resolve(date)
+    fun resolve(date: DisplayDate) = when (date) {
+        is DisplayDay -> resolve(date)
+        is DisplayYear -> resolve(date)
     }
 
-    fun resolve(day: CalendarDay) = if (day.yearIndex >= 0) {
+    fun resolve(day: DisplayDay) = if (day.yearIndex >= 0) {
         val year = day.yearIndex + 1
         current.resolve(resolve(year, day.monthIndex, day.dayIndex))
     } else {
@@ -46,7 +46,7 @@ data class BeforeAndCurrent(
 
     private fun resolve(year: Int, month: Int, day: Int) = "$day.$month.$year"
 
-    fun resolve(year: CalendarYear) = if (year.year >= 0) {
+    fun resolve(year: DisplayYear) = if (year.year >= 0) {
         current.resolve(year.year + 1)
     } else {
         before.resolve(year.year.absoluteValue)
