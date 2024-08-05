@@ -60,6 +60,10 @@
      "isPrefix": false
     },
     "first": {
+     "startDate": {
+      "type": "Year",
+      "year": 0
+     },
      "text": "ab urbe condita",
      "isPrefix": false
     }

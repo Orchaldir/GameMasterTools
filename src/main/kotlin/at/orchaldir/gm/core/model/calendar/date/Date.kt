@@ -18,5 +18,5 @@ sealed class Date {
 data class Day(val day: Int) : Date()
 
 @Serializable
-@SerialName("Original")
+@SerialName("Year")
 data class Year(val year: Int) : Date()
