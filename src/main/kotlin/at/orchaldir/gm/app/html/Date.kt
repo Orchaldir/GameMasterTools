@@ -14,7 +14,7 @@ fun HtmlBlockTag.field(label: String, calendar: Calendar, date: Date) {
     val calendarDate = calendar.resolve(date)
 
     field(label) {
-        +calendar.eras.resolve(calendarDate)
+        +calendar.eras.display(calendarDate)
     }
 }
 

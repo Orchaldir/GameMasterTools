@@ -9,9 +9,9 @@ sealed class CalendarEra {
     abstract val text: String
     abstract val isPrefix: Boolean
 
-    fun resolve(year: Int) = resolve(year.toString())
+    fun display(year: Int) = display(year.toString())
 
-    fun resolve(date: String) = if (isPrefix) {
+    fun display(date: String) = if (isPrefix) {
         "$text $date"
     } else {
         "$date $text"

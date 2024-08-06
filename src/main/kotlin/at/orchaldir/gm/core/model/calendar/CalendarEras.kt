@@ -20,24 +20,24 @@ data class CalendarEras(
 
     fun getAll() = listOf(before, first)
 
-    fun resolve(date: DisplayDate) = when (date) {
-        is DisplayDay -> resolve(date)
-        is DisplayYear -> resolve(date)
+    fun display(date: DisplayDate) = when (date) {
+        is DisplayDay -> display(date)
+        is DisplayYear -> display(date)
     }
 
-    fun resolve(day: DisplayDay) = if (day.yearIndex >= 0) {
+    fun display(day: DisplayDay) = if (day.yearIndex >= 0) {
         val year = day.yearIndex + 1
-        first.resolve(resolve(year, day.monthIndex, day.dayIndex))
+        first.display(display(year, day.monthIndex, day.dayIndex))
     } else {
         val year = day.yearIndex.absoluteValue
-        before.resolve(resolve(year, day.monthIndex, day.dayIndex))
+        before.display(display(year, day.monthIndex, day.dayIndex))
     }
 
-    private fun resolve(year: Int, month: Int, day: Int) = "$day.$month.$year"
+    private fun display(year: Int, month: Int, day: Int) = "$day.$month.$year"
 
-    fun resolve(year: DisplayYear) = if (year.year >= 0) {
-        first.resolve(year.year + 1)
+    fun display(year: DisplayYear) = if (year.year >= 0) {
+        first.display(year.year + 1)
     } else {
-        before.resolve(year.year.absoluteValue)
+        before.display(year.year.absoluteValue)
     }
 }

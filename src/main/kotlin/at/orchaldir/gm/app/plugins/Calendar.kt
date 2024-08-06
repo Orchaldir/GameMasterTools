@@ -180,8 +180,8 @@ private fun HTML.showCalendarDetails(
             field(month.name, "${month.days} days")
         }
         field(state, "Start Date", calendar.getStartDate())
-        field("Before Era", calendar.eras.resolve(DisplayYear(0, 0)))
-        field("Current Era", calendar.eras.resolve(DisplayYear(1, 0)))
+        field("Before Era", calendar.eras.display(DisplayYear(0, 0)))
+        field("Current Era", calendar.eras.display(DisplayYear(1, 0)))
         field("Days per Year", calendar.getDaysPerYear().toString())
         showList("Cultures", cultures) { culture ->
             link(call, culture)
