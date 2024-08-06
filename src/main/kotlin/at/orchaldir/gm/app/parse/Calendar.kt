@@ -51,7 +51,7 @@ private fun parseBeforeStart(parameters: Parameters) =
     )
 
 private fun parseFirstEra(parameters: Parameters) =
-    FirstEra(
+    LaterEra(
         Year(0),
         parseEraName(parameters, CURRENT),
         parseIsPrefix(parameters, CURRENT),

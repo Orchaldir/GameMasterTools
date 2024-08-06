@@ -7,8 +7,7 @@ import kotlin.math.absoluteValue
 @Serializable
 data class CalendarEras(
     val before: EraBeforeStart,
-    val first: FirstEra,
-    val eras: List<LaterEra> = emptyList(),
+    val first: LaterEra,
 ) {
     constructor(
         beforeText: String,
@@ -16,11 +15,10 @@ data class CalendarEras(
         start: Date,
         afterText: String,
         afterIsPrefix: Boolean,
-        eras: List<LaterEra> = emptyList(),
     ) :
-            this(EraBeforeStart(beforeText, beforeIsPrefix), FirstEra(start, afterText, afterIsPrefix), eras)
+            this(EraBeforeStart(beforeText, beforeIsPrefix), LaterEra(start, afterText, afterIsPrefix))
 
-    fun getAll() = listOf(before) + eras
+    fun getAll() = listOf(before, first)
 
     fun resolve(date: DisplayDate) = when (date) {
         is DisplayDay -> resolve(date)
