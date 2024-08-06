@@ -27,7 +27,7 @@ class CalendarTest {
 
         @Test
         fun `Test with offset`() {
-            val calendar = CALENDAR.copy(startDate = Day(-12))
+            val calendar = createCalendar(Day(-12))
 
             assertResolve(calendar, -13, -1, 1, 2)
             assertResolve(calendar, -12, 0, 0, 0)
@@ -54,7 +54,6 @@ class CalendarTest {
 
     @Nested
     inner class ResolveYearTest {
-
         @Test
         fun `Test without offset`() {
             assertResolve(CALENDAR, -2, -2)
@@ -65,7 +64,7 @@ class CalendarTest {
 
         @Test
         fun `Test with positive offset`() {
-            val calendar = CALENDAR.copy(startDate = Day(-12))
+            val calendar = createCalendar(Day(-12))
             assertResolve(calendar, -4, -2)
             assertResolve(calendar, -3, -1)
             assertResolve(calendar, -2, 0)
@@ -76,7 +75,7 @@ class CalendarTest {
 
         @Test
         fun `Test with negative offset`() {
-            val calendar = CALENDAR.copy(startDate = Year(1))
+            val calendar = createCalendar(Year(1))
             assertResolve(calendar, -2, -3)
             assertResolve(calendar, -1, -2)
             assertResolve(calendar, 0, -1)
@@ -93,4 +92,5 @@ class CalendarTest {
         }
     }
 
+    private fun createCalendar(date: Date) = CALENDAR.copy(eras = CalendarEras("BC", true, date, "AD", false))
 }
