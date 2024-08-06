@@ -179,7 +179,7 @@ private fun HTML.showCalendarDetails(
         showList("Months", calendar.months) { month ->
             field(month.name, "${month.days} days")
         }
-        field(state, "Start Date", calendar.startDate)
+        field(state, "Start Date", calendar.getStartDate())
         field("Before Era", calendar.eras.resolve(DisplayYear(-1)))
         field("Current Era", calendar.eras.resolve(DisplayYear(0)))
         field("Days per Year", calendar.getDaysPerYear().toString())

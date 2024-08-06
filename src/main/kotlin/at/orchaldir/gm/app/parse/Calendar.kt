@@ -23,7 +23,6 @@ fun parseCalendar(
         id, name,
         parseDays(parameters),
         parseMonths(parameters),
-        parseDate(parameters, START),
         parseEras(parameters),
         origin,
         parseDate(parameters, ORIGIN),

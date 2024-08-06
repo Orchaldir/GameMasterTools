@@ -22,7 +22,6 @@ data class Calendar(
     val name: String = "Calendar ${id.value}",
     val days: Days = DayOfTheMonth,
     val months: List<Month> = emptyList(),
-    val startDate: Date = Year(0),
     val eras: CalendarEras = CalendarEras("BC", true, Day(0), "AD", false),
     val origin: CalendarOrigin = OriginalCalendar,
     val originDate: Date = Year(0),
@@ -32,9 +31,11 @@ data class Calendar(
 
     fun getDaysPerYear() = months.sumOf { it.days }
 
-    private fun getOffsetInDays() = when (startDate) {
-        is Day -> -startDate.day
-        is Year -> -startDate.year * getDaysPerYear()
+    fun getStartDate() = eras.first.startDate
+
+    private fun getOffsetInDays() = when (eras.first.startDate) {
+        is Day -> -eras.first.startDate.day
+        is Year -> -eras.first.startDate.year * getDaysPerYear()
     }
 
     fun resolve(date: Date) = when (date) {
