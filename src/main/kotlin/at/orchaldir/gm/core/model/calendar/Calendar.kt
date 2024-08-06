@@ -53,7 +53,7 @@ data class Calendar(
 
             for ((monthIndex, monthData) in months.withIndex()) {
                 if (remainingDays < monthData.days) {
-                    return DisplayDay(year, monthIndex, remainingDays)
+                    return DisplayDay(1, year, monthIndex, remainingDays)
                 }
 
                 remainingDays -= monthData.days
@@ -69,7 +69,7 @@ data class Calendar(
         for ((monthIndex, monthData) in months.withIndex().reversed()) {
             if (remainingDays < monthData.days) {
                 val dayIndex = monthData.days - remainingDays - 1
-                return DisplayDay(year, monthIndex, dayIndex)
+                return DisplayDay(0, year, monthIndex, dayIndex)
             }
 
             remainingDays -= monthData.days
@@ -82,7 +82,11 @@ data class Calendar(
         val offsetInYears = getOffsetInDays() / getDaysPerYear()
         val year = date.year + offsetInYears
 
-        return DisplayYear(year)
+        if (year >= 0) {
+            return DisplayYear(1, year)
+        }
+
+        return DisplayYear(0, year)
     }
 
     fun resolve(date: DisplayDate) = when (date) {

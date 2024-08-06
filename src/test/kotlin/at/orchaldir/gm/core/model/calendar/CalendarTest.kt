@@ -19,31 +19,38 @@ class CalendarTest {
 
         @Test
         fun `Test without offset`() {
-            assertTest(-10, -2)
-            assertTest(-5, -1)
-            assertTest(0, 0)
-            assertTest(5, 1)
+            assertTest(-10, 0, -2)
+            assertTest(-5, 0, -1)
+            assertTest(0, 1, 0)
+            assertTest(5, 1, 1)
         }
 
         @Test
         fun `Test with offset`() {
             val calendar = createCalendar(Day(-12))
 
-            assertResolve(calendar, -13, -1, 1, 2)
-            assertResolve(calendar, -12, 0, 0, 0)
-            assertResolve(calendar, -11, 0, 0, 1)
+            assertResolve(calendar, -13, 0, -1, 1, 2)
+            assertResolve(calendar, -12, 1, 0, 0, 0)
+            assertResolve(calendar, -11, 1, 0, 0, 1)
         }
 
-        private fun assertTest(startDate: Int, year: Int) {
-            assertResolve(CALENDAR, startDate, year, 0, 0)
-            assertResolve(CALENDAR, startDate + 1, year, 0, 1)
-            assertResolve(CALENDAR, startDate + 2, year, 1, 0)
-            assertResolve(CALENDAR, startDate + 3, year, 1, 1)
-            assertResolve(CALENDAR, startDate + 4, year, 1, 2)
+        private fun assertTest(startDate: Int, era: Int, year: Int) {
+            assertResolve(CALENDAR, startDate, era, year, 0, 0)
+            assertResolve(CALENDAR, startDate + 1, era, year, 0, 1)
+            assertResolve(CALENDAR, startDate + 2, era, year, 1, 0)
+            assertResolve(CALENDAR, startDate + 3, era, year, 1, 1)
+            assertResolve(CALENDAR, startDate + 4, era, year, 1, 2)
         }
 
-        private fun assertResolve(calendar: Calendar, date: Int, yearIndex: Int, monthIndex: Int, dayIndex: Int) {
-            val displayDay = DisplayDay(yearIndex, monthIndex, dayIndex)
+        private fun assertResolve(
+            calendar: Calendar,
+            date: Int,
+            eraIndex: Int,
+            yearIndex: Int,
+            monthIndex: Int,
+            dayIndex: Int,
+        ) {
+            val displayDay = DisplayDay(eraIndex, yearIndex, monthIndex, dayIndex)
             val day = Day(date)
 
             assertEquals(displayDay, calendar.resolve(day))
@@ -56,35 +63,35 @@ class CalendarTest {
     inner class ResolveYearTest {
         @Test
         fun `Test without offset`() {
-            assertResolve(CALENDAR, -2, -2)
-            assertResolve(CALENDAR, -1, -1)
-            assertResolve(CALENDAR, 0, 0)
-            assertResolve(CALENDAR, 1, 1)
+            assertResolve(CALENDAR, -2, 0, -2)
+            assertResolve(CALENDAR, -1, 0, -1)
+            assertResolve(CALENDAR, 0, 1, 0)
+            assertResolve(CALENDAR, 1, 1, 1)
         }
 
         @Test
         fun `Test with positive offset`() {
             val calendar = createCalendar(Day(-12))
-            assertResolve(calendar, -4, -2)
-            assertResolve(calendar, -3, -1)
-            assertResolve(calendar, -2, 0)
-            assertResolve(calendar, -1, 1)
-            assertResolve(calendar, 0, 2)
-            assertResolve(calendar, 1, 3)
+            assertResolve(calendar, -4, 0, -2)
+            assertResolve(calendar, -3, 0, -1)
+            assertResolve(calendar, -2, 1, 0)
+            assertResolve(calendar, -1, 1, 1)
+            assertResolve(calendar, 0, 1, 2)
+            assertResolve(calendar, 1, 1, 3)
         }
 
         @Test
         fun `Test with negative offset`() {
             val calendar = createCalendar(Year(1))
-            assertResolve(calendar, -2, -3)
-            assertResolve(calendar, -1, -2)
-            assertResolve(calendar, 0, -1)
-            assertResolve(calendar, 1, 0)
-            assertResolve(calendar, 2, 1)
+            assertResolve(calendar, -2, 0, -3)
+            assertResolve(calendar, -1, 0, -2)
+            assertResolve(calendar, 0, 0, -1)
+            assertResolve(calendar, 1, 1, 0)
+            assertResolve(calendar, 2, 1, 1)
         }
 
-        private fun assertResolve(calendar: Calendar, input: Int, output: Int) {
-            val displayYear = DisplayYear(output)
+        private fun assertResolve(calendar: Calendar, input: Int, eraIndex: Int, yearIndex: Int) {
+            val displayYear = DisplayYear(eraIndex, yearIndex)
             val year = Year(input)
 
             assertEquals(displayYear, calendar.resolve(year))
