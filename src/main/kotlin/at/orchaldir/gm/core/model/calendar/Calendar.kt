@@ -63,7 +63,7 @@ data class Calendar(
         }
 
         val absoluteDate = day.absoluteValue - 1
-        val year = -(1 + absoluteDate / daysPerYear)
+        val year = absoluteDate / daysPerYear
         var remainingDays = absoluteDate % daysPerYear
 
         for ((monthIndex, monthData) in months.withIndex().reversed()) {
@@ -98,7 +98,7 @@ data class Calendar(
         val daysPerYear = getDaysPerYear()
         val offsetInDays = getOffsetInDays()
 
-        if (date.yearIndex >= 0) {
+        if (date.eraIndex == 1) {
             var day = date.yearIndex * daysPerYear + date.dayIndex - offsetInDays
 
             (0..<date.monthIndex).map { months[it] }
@@ -107,7 +107,7 @@ data class Calendar(
             return Day(day)
         }
 
-        var day = (date.yearIndex + 1) * daysPerYear - offsetInDays
+        var day = -date.yearIndex * daysPerYear - offsetInDays
 
         (date.monthIndex..<months.size).map { months[it] }
             .forEach { day -= it.days }

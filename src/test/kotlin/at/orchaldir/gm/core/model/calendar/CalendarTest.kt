@@ -19,8 +19,8 @@ class CalendarTest {
 
         @Test
         fun `Test without offset`() {
-            assertTest(-10, 0, -2)
-            assertTest(-5, 0, -1)
+            assertTest(-10, 0, 1)
+            assertTest(-5, 0, 0)
             assertTest(0, 1, 0)
             assertTest(5, 1, 1)
         }
@@ -29,7 +29,7 @@ class CalendarTest {
         fun `Test with offset`() {
             val calendar = createCalendar(Day(-12))
 
-            assertResolve(calendar, -13, 0, -1, 1, 2)
+            assertResolve(calendar, -13, 0, 0, 1, 2)
             assertResolve(calendar, -12, 1, 0, 0, 0)
             assertResolve(calendar, -11, 1, 0, 0, 1)
         }
