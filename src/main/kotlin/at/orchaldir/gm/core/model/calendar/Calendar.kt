@@ -86,7 +86,7 @@ data class Calendar(
             return DisplayYear(1, year)
         }
 
-        return DisplayYear(0, year)
+        return DisplayYear(0, -(year + 1))
     }
 
     fun resolve(date: DisplayDate) = when (date) {
@@ -119,7 +119,14 @@ data class Calendar(
 
     fun resolve(date: DisplayYear): Year {
         val offsetInYears = getOffsetInDays() / getDaysPerYear()
-        val year = date.year - offsetInYears
+
+        if (date.eraIndex == 1) {
+            val year = date.year - offsetInYears
+
+            return Year(year)
+        }
+
+        val year = -(date.year + 1) - offsetInYears
 
         return Year(year)
     }
