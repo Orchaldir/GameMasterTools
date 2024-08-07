@@ -25,8 +25,6 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-private const val OFFSET_DESCRIPTION = "Offset to default Calendar in Days"
-
 @Resource("/calendars")
 class Calendars {
     @Resource("details")
@@ -212,9 +210,9 @@ private fun HTML.showCalendarEditor(
             selectNumber("Months", calendar.months.size, 2, 100, MONTHS, true)
             calendar.months.withIndex().forEach { (index, month) ->
                 p {
-                    selectText(month.name, combine(MONTH_NAME, index))
+                    selectText(month.name, combine(MONTH, NAME, index))
                     +": "
-                    selectNumber(month.days, 2, 100, combine(MONTH_DAYS, index))
+                    selectNumber(month.days, 2, 100, combine(MONTH, DAYS, index))
                     +"days"
                 }
             }

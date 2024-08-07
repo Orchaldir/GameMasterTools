@@ -1,9 +1,6 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.parse.DATE
-import at.orchaldir.gm.app.parse.ERA
-import at.orchaldir.gm.app.parse.YEAR
-import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
@@ -59,6 +56,8 @@ fun FORM.selectDate(
             is DisplayDay -> {
                 selectEra(calendar, displayDate.eraIndex, param)
                 selectYear(yearParam, displayDate.yearIndex)
+                selectMonth(param, calendar, displayDate.monthIndex)
+                selectDay(param, calendar, displayDate.monthIndex, displayDate.dayIndex)
             }
 
             is DisplayYear -> {
@@ -67,13 +66,6 @@ fun FORM.selectDate(
             }
         }
     }
-}
-
-private fun P.selectYear(
-    yearParam: String,
-    yearIndex: Int,
-) {
-    selectNumber(yearIndex + 1, 1, Int.MAX_VALUE, yearParam, true)
 }
 
 private fun P.selectEra(
@@ -94,4 +86,41 @@ private fun P.selectEra(
             }
         }
     }
+}
+
+private fun P.selectYear(
+    yearParam: String,
+    yearIndex: Int,
+) {
+    selectNumber(yearIndex + 1, 1, Int.MAX_VALUE, yearParam, true)
+}
+
+private fun P.selectMonth(
+    param: String,
+    calendar: Calendar,
+    monthIndex: Int,
+) {
+    val monthParam = combine(param, MONTH)
+
+    select {
+        id = monthParam
+        name = monthParam
+        calendar.months.withIndex().forEach { (index, month) ->
+            option {
+                label = month.name
+                value = index.toString()
+                selected = index == monthIndex
+            }
+        }
+    }
+}
+
+private fun P.selectDay(
+    param: String,
+    calendar: Calendar,
+    monthIndex: Int,
+    dayIndex: Int,
+) {
+    val month = calendar.months[monthIndex]
+    selectNumber(dayIndex + 1, 1, month.days, combine(param, DAY), false)
 }

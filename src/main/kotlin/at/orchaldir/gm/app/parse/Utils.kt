@@ -7,11 +7,14 @@ import at.orchaldir.gm.core.model.appearance.SomeOf
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.date.Date
 import at.orchaldir.gm.core.model.calendar.date.DateType
+import at.orchaldir.gm.core.model.calendar.date.DisplayDay
 import at.orchaldir.gm.core.model.calendar.date.DisplayYear
 import io.ktor.http.*
 
 fun combine(param0: String, param1: String) = "$param0-$param1"
+fun combine(param0: String, param1: String, param2: String) = "$param0-$param1-$param2"
 fun combine(param: String, number: Int) = combine(param, number.toString())
+fun combine(param0: String, param1: String, number: Int) = combine(param0, param1, number.toString())
 
 inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String, default: T): T =
     parameters[param]?.let { java.lang.Enum.valueOf(T::class.java, it) } ?: default
@@ -24,12 +27,18 @@ fun parseDate(
     default: Calendar,
     param: String,
 ): Date {
-    val year = parseInt(parameters, combine(param, YEAR)) - 1
-    val era = parseInt(parameters, combine(param, ERA))
+    val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
+    val eraIndex = parseInt(parameters, combine(param, ERA))
 
     val calendarDate = when (parse(parameters, combine(param, DATE), DateType.Year)) {
-        DateType.Day -> TODO()
-        DateType.Year -> DisplayYear(era, year)
+        DateType.Day -> {
+            val monthIndex = parseInt(parameters, combine(param, MONTH))
+            val dayIndex = parseInt(parameters, combine(param, DAY), 1) - 1
+
+            DisplayDay(eraIndex, yearIndex, monthIndex, dayIndex)
+        }
+
+        DateType.Year -> DisplayYear(eraIndex, yearIndex)
     }
 
     return default.resolve(calendarDate)

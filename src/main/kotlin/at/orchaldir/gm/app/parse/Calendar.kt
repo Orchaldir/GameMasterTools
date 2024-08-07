@@ -71,8 +71,8 @@ private fun parseMonths(parameters: Parameters): List<Month> {
 }
 
 private fun parseMonth(parameters: Parameters, it: Int) = Month(
-    parseName(parameters, combine(MONTH_NAME, it)) ?: "${it + 1}.Month",
-    parseInt(parameters, combine(MONTH_DAYS, it), 2)
+    parseName(parameters, combine(MONTH, NAME, it)) ?: "${it + 1}.Month",
+    parseInt(parameters, combine(MONTH, DAYS, it), 2)
 )
 
 private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, Original)) {
