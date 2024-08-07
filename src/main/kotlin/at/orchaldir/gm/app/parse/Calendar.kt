@@ -3,10 +3,6 @@ package at.orchaldir.gm.app.parse
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.calendar.CalendarOriginType.Improved
 import at.orchaldir.gm.core.model.calendar.CalendarOriginType.Original
-import at.orchaldir.gm.core.model.calendar.date.Date
-import at.orchaldir.gm.core.model.calendar.date.DateType
-import at.orchaldir.gm.core.model.calendar.date.Day
-import at.orchaldir.gm.core.model.calendar.date.Year
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -26,7 +22,7 @@ fun parseCalendar(
         parseMonths(parameters),
         parseEras(parameters, default),
         origin,
-        parseDate(parameters, default, ORIGIN),
+        //parseDate(parameters, default, ORIGIN),
     )
 }
 

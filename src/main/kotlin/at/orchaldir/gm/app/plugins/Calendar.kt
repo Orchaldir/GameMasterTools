@@ -212,9 +212,9 @@ private fun HTML.showCalendarEditor(
             selectNumber("Months", calendar.months.size, 2, 100, MONTHS, true)
             calendar.months.withIndex().forEach { (index, month) ->
                 p {
-                    selectText(month.name, MONTH_NAME + index)
+                    selectText(month.name, combine(MONTH_NAME, index))
                     +": "
-                    selectNumber(month.days, 2, 100, MONTH_DAYS + index)
+                    selectNumber(month.days, 2, 100, combine(MONTH_DAYS, index))
                     +"days"
                 }
             }
@@ -310,10 +310,10 @@ private fun FORM.editEra(
     era: CalendarEra,
     param: String,
 ) {
-    selectText("$label Era - Name", era.text, param + NAME)
+    selectText("$label Era - Name", era.text, combine(param, NAME))
     field("$label Era - Is prefix") {
         checkBoxInput {
-            name = param + PREFIX
+            name = combine(param, PREFIX)
             value = "true"
             checked = era.isPrefix
         }
