@@ -14,6 +14,7 @@ fun parseCalendarId(parameters: Parameters, param: String) = CalendarId(parseInt
 
 fun parseCalendar(
     parameters: Parameters,
+    default: Calendar,
     id: CalendarId,
 ): Calendar {
     val name = parseName(parameters, NAME) ?: "Unknown"
@@ -23,24 +24,15 @@ fun parseCalendar(
         id, name,
         parseDays(parameters),
         parseMonths(parameters),
-        parseEras(parameters),
+        parseEras(parameters, default),
         origin,
-        parseDate(parameters, ORIGIN),
+        parseDate(parameters, default, ORIGIN),
     )
 }
 
-fun parseDate(parameters: Parameters, param: String): Date {
-    val value = parseInt(parameters, combine(param, DATE))
-
-    return when (parse(parameters, combine(param, TYPE), DateType.Year)) {
-        DateType.Day -> Day(value)
-        DateType.Year -> Year(value)
-    }
-}
-
-private fun parseEras(parameters: Parameters) = CalendarEras(
+private fun parseEras(parameters: Parameters, default: Calendar) = CalendarEras(
     parseBeforeStart(parameters),
-    parseFirstEra(parameters),
+    parseFirstEra(parameters, default),
 )
 
 private fun parseBeforeStart(parameters: Parameters) =
@@ -49,9 +41,9 @@ private fun parseBeforeStart(parameters: Parameters) =
         parseIsPrefix(parameters, BEFORE),
     )
 
-private fun parseFirstEra(parameters: Parameters) =
+private fun parseFirstEra(parameters: Parameters, default: Calendar) =
     LaterEra(
-        Year(0),
+        parseDate(parameters, default, CURRENT),
         parseEraName(parameters, CURRENT),
         parseIsPrefix(parameters, CURRENT),
     )

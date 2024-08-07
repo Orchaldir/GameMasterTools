@@ -9,10 +9,7 @@ import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.calendar.date.DisplayYear
-import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getChildren
-import at.orchaldir.gm.core.selector.getCultures
-import at.orchaldir.gm.core.selector.getPossibleParents
+import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -101,18 +98,18 @@ fun Application.configureCalendarRouting() {
         post<Calendars.Preview> { preview ->
             logger.info { "Preview changes to calendar ${preview.id.value}" }
 
-            val calendar = parseCalendar(call.receiveParameters(), preview.id)
+            val state = STORE.getState()
+            val calendar = parseCalendar(call.receiveParameters(), state.getDefaultCalendar(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                val state = STORE.getState()
-
                 showCalendarEditor(call, state, calendar)
             }
         }
         post<Calendars.Update> { update ->
             logger.info { "Update calendar ${update.id.value}" }
 
-            val calendar = parseCalendar(call.receiveParameters(), update.id)
+            val state = STORE.getState()
+            val calendar = parseCalendar(call.receiveParameters(), state.getDefaultCalendar(), update.id)
 
             STORE.dispatch(UpdateCalendar(calendar))
 
@@ -223,7 +220,7 @@ private fun HTML.showCalendarEditor(
             }
             editEra("Before", calendar.eras.before, BEFORE)
             editEra("Current", calendar.eras.first, CURRENT)
-            //selectNumber(OFFSET_DESCRIPTION, calendar.offsetInDays, Int.MIN_VALUE, Int.MAX_VALUE, OFFSET, false)
+            selectDate(state, "Start Date", calendar.getStartDate(), CURRENT)
             p {
                 submitInput {
                     value = "Update"

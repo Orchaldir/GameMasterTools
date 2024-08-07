@@ -36,5 +36,5 @@ data class CalendarEras(
     private fun display(year: Int, month: Int, day: Int) = "$day.$month.$year"
 
     fun display(year: DisplayYear) = getEar(year.eraIndex)
-        .display(year.year + 1)
+        .display(year.yearIndex + 1)
 }

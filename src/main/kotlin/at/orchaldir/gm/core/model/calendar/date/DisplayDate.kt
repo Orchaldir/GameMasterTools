@@ -11,5 +11,5 @@ data class DisplayDay(
 
 data class DisplayYear(
     val eraIndex: Int,
-    val year: Int,
+    val yearIndex: Int,
 ) : DisplayDate()

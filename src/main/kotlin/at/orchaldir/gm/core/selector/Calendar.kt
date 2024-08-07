@@ -15,4 +15,6 @@ fun State.getChildren(calendar: CalendarId) = calendars.getAll().filter {
     }
 }
 
+fun State.getDefaultCalendar() = calendars.getOrThrow(CalendarId(0))
+
 fun State.getPossibleParents(calendar: CalendarId) = calendars.getAll().filter { it.id != calendar }

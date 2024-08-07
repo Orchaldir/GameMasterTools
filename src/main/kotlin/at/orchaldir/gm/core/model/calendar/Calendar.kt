@@ -121,12 +121,12 @@ data class Calendar(
         val offsetInYears = getOffsetInDays() / getDaysPerYear()
 
         if (date.eraIndex == 1) {
-            val year = date.year - offsetInYears
+            val year = date.yearIndex - offsetInYears
 
             return Year(year)
         }
 
-        val year = -(date.year + 1) - offsetInYears
+        val year = -(date.yearIndex + 1) - offsetInYears
 
         return Year(year)
     }
