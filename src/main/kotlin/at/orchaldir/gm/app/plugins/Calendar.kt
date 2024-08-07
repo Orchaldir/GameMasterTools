@@ -206,6 +206,7 @@ private fun HTML.showCalendarEditor(
             method = FormMethod.post
             selectText("Name", calendar.name, NAME)
             editOrigin(state, calendar)
+            selectDate(state, "Origin Date", calendar.originDate, ORIGIN)
             editDays(calendar)
             selectNumber("Months", calendar.months.size, 2, 100, MONTHS, true)
             calendar.months.withIndex().forEach { (index, month) ->
