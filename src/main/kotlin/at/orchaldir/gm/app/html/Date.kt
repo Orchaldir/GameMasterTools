@@ -3,13 +3,12 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.calendar.date.*
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import kotlinx.html.*
 
 fun HtmlBlockTag.field(state: State, label: String, date: Date) {
-    field(label, state.calendars.getOrThrow(CalendarId(0)), date)
+    field(label, state.getDefaultCalendar(), date)
 }
 
 fun HtmlBlockTag.field(label: String, calendar: Calendar, date: Date) {
