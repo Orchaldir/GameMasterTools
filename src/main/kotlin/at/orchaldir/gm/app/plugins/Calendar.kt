@@ -258,7 +258,7 @@ private fun FORM.editDays(
             selectNumber("Weekdays", days.weekDays.size, 2, 100, WEEK_DAYS, true)
             days.weekDays.withIndex().forEach { (index, day) ->
                 p {
-                    selectText(day.name, WEEK_DAY + index)
+                    selectText(day.name, combine(WEEK_DAY, index))
                 }
             }
         }
