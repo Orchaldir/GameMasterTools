@@ -62,7 +62,7 @@ fun FORM.selectDate(
             }
 
             is DisplayYear -> {
-                selectEra(calendar, displayDate.yearIndex, param)
+                selectEra(calendar, displayDate.eraIndex, param)
                 selectYear(yearParam, displayDate.yearIndex)
             }
         }
