@@ -198,13 +198,23 @@
      "days": 31
     }
    ],
+   "eras": {
+    "before": {
+     "text": "BC",
+     "isPrefix": true
+    },
+    "first": {
+     "startDate": {
+      "type": "Year",
+      "year": 0
+     },
+     "text": "AD",
+     "isPrefix": false
+    }
+   },
    "origin": {
     "type": "Improved",
     "parent": 1
-   },
-   "originDate": {
-    "type": "Year",
-    "year": 1581
    }
   }
  }
