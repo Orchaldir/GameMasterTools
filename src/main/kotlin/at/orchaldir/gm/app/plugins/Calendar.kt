@@ -141,44 +141,19 @@ private fun HTML.showCalendarDetails(
     val backLink = call.application.href(Calendars())
     val deleteLink = call.application.href(Calendars.Delete(calendar.id))
     val editLink = call.application.href(Calendars.Edit(calendar.id))
-    val children = state.getChildren(calendar.id)
     val cultures = state.getCultures(calendar.id)
 
     simpleHtml("Calendar: ${calendar.name}") {
         field("Id", calendar.id.value.toString())
         field("Name", calendar.name)
-        when (calendar.origin) {
-            is ImprovedCalendar -> {
-                field("Origin", "Improved")
-                field("Parent Calendar") {
-                    link(call, state, calendar.origin.parent)
-                }
-            }
-
-            OriginalCalendar -> {
-                field("Origin", "Original")
-            }
-        }
-        field(state, "Origin Date", calendar.originDate)
-        showList("Child Calendars", children) { child ->
-            link(call, child)
-        }
-        field("Days", calendar.days.getType().name)
-        when (calendar.days) {
-            is Weekdays -> showList("Weekdays", calendar.days.weekDays) { day ->
-                +day.name
-            }
-
-            DayOfTheMonth -> doNothing()
-        }
-        showList("Months", calendar.months) { month ->
-            field(month.name, "${month.days} days")
-        }
-        field(state, "Start Date", calendar.getStartDate())
-        field("Before Era", calendar.eras.display(DisplayYear(0, 0)))
-        field("Current Era", calendar.eras.display(DisplayYear(1, 0)))
-        field("Days per Year", calendar.getDaysPerYear().toString())
-        showList("Cultures", cultures) { culture ->
+        showOrigin(call, state, calendar)
+        h2 { +"Parts" }
+        showDays(calendar)
+        showMonths(calendar)
+        h2 { +"Eras" }
+        showEras(state, calendar)
+        h2 { +"Cultures" }
+        showList(cultures) { culture ->
             link(call, culture)
         }
         p { a(editLink) { +"Edit" } }
@@ -187,6 +162,60 @@ private fun HTML.showCalendarDetails(
         }
         p { a(backLink) { +"Back" } }
     }
+}
+
+private fun BODY.showOrigin(
+    call: ApplicationCall,
+    state: State,
+    calendar: Calendar,
+) {
+    val children = state.getChildren(calendar.id)
+
+    when (calendar.origin) {
+        is ImprovedCalendar -> {
+            field("Origin", "Improved")
+            field("Parent Calendar") {
+                link(call, state, calendar.origin.parent)
+            }
+        }
+
+        OriginalCalendar -> {
+            field("Origin", "Original")
+        }
+    }
+    field(state, "Origin Date", calendar.originDate)
+    showList("Child Calendars", children) { child ->
+        link(call, child)
+    }
+}
+
+private fun BODY.showDays(
+    calendar: Calendar,
+) {
+    field("Days", calendar.days.getType().name)
+    when (calendar.days) {
+        is Weekdays -> showList("Weekdays", calendar.days.weekDays) { day ->
+            +day.name
+        }
+
+        DayOfTheMonth -> doNothing()
+    }
+}
+
+private fun BODY.showMonths(calendar: Calendar) {
+    showList("Months", calendar.months) { month ->
+        field(month.name, "${month.days} days")
+    }
+    field("Days per Year", calendar.getDaysPerYear().toString())
+}
+
+private fun BODY.showEras(
+    state: State,
+    calendar: Calendar,
+) {
+    field(state, "Start Date", calendar.getStartDate())
+    field("Before Era", calendar.eras.display(DisplayYear(0, 0)))
+    field("Current Era", calendar.eras.display(DisplayYear(1, 0)))
 }
 
 private fun HTML.showCalendarEditor(
@@ -206,20 +235,11 @@ private fun HTML.showCalendarEditor(
             method = FormMethod.post
             selectText("Name", calendar.name, NAME)
             editOrigin(state, calendar)
-            selectDate(state, "Origin Date", calendar.originDate, ORIGIN)
+            h2 { +"Parts" }
             editDays(calendar)
-            selectNumber("Months", calendar.months.size, 2, 100, MONTHS, true)
-            calendar.months.withIndex().forEach { (index, month) ->
-                p {
-                    selectText(month.name, combine(MONTH, NAME, index))
-                    +": "
-                    selectNumber(month.days, 2, 100, combine(MONTH, DAYS, index))
-                    +"days"
-                }
-            }
-            editEra("Before", calendar.eras.before, BEFORE)
-            editEra("Current", calendar.eras.first, CURRENT)
-            selectDate(state, "Start Date", calendar.getStartDate(), CURRENT)
+            editMonths(calendar)
+            h2 { +"Eras" }
+            editEras(calendar, state)
             p {
                 submitInput {
                     value = "Update"
@@ -264,6 +284,18 @@ private fun FORM.editDays(
     }
 }
 
+private fun FORM.editMonths(calendar: Calendar) {
+    selectNumber("Months", calendar.months.size, 2, 100, MONTHS, true)
+    calendar.months.withIndex().forEach { (index, month) ->
+        p {
+            selectText(month.name, combine(MONTH, NAME, index))
+            +": "
+            selectNumber(month.days, 2, 100, combine(MONTH, DAYS, index))
+            +"days"
+        }
+    }
+}
+
 private fun FORM.editOrigin(
     state: State,
     calendar: Calendar,
@@ -302,6 +334,16 @@ private fun FORM.editOrigin(
 
         else -> doNothing()
     }
+    selectDate(state, "Origin Date", calendar.originDate, ORIGIN)
+}
+
+private fun FORM.editEras(
+    calendar: Calendar,
+    state: State,
+) {
+    editEra("Before", calendar.eras.before, BEFORE)
+    editEra("Current", calendar.eras.first, CURRENT)
+    selectDate(state, "Start Date", calendar.getStartDate(), CURRENT)
 }
 
 private fun FORM.editEra(
