@@ -1,7 +1,9 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.plugins.TITLE
-import at.orchaldir.gm.core.model.appearance.*
+import at.orchaldir.gm.core.model.appearance.GenderMap
+import at.orchaldir.gm.core.model.appearance.RarityMap
+import at.orchaldir.gm.core.model.appearance.reverseAndSort
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.renderer.svg.Svg

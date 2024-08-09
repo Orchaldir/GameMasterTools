@@ -1,6 +1,9 @@
 package at.orchaldir.gm.core.model.calendar
 
-import at.orchaldir.gm.core.model.calendar.date.*
+import at.orchaldir.gm.core.model.calendar.date.Date
+import at.orchaldir.gm.core.model.calendar.date.DisplayDate
+import at.orchaldir.gm.core.model.calendar.date.DisplayDay
+import at.orchaldir.gm.core.model.calendar.date.DisplayYear
 import kotlinx.serialization.Serializable
 
 @Serializable

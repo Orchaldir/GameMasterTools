@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.calendar
 
 import at.orchaldir.gm.core.model.calendar.date.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
