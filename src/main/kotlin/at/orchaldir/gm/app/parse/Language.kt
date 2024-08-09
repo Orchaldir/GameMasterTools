@@ -7,7 +7,7 @@ import io.ktor.server.util.*
 
 fun parseLanguageId(value: String) = LanguageId(value.toInt())
 
-fun parseLanguageId(parameters: Parameters, param: String) = LanguageId(parameters[param]?.toInt() ?: 0)
+fun parseLanguageId(parameters: Parameters, param: String) = LanguageId(parseInt(parameters, param))
 
 fun parseLanguage(id: LanguageId, parameters: Parameters): Language {
     val name = parameters.getOrFail(NAME)

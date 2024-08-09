@@ -8,10 +8,8 @@ import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
-import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getChildren
-import at.orchaldir.gm.core.selector.getCultures
-import at.orchaldir.gm.core.selector.getPossibleParents
+import at.orchaldir.gm.core.model.calendar.date.DisplayYear
+import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -98,18 +96,18 @@ fun Application.configureCalendarRouting() {
         post<Calendars.Preview> { preview ->
             logger.info { "Preview changes to calendar ${preview.id.value}" }
 
-            val calendar = parseCalendar(call.receiveParameters(), preview.id)
+            val state = STORE.getState()
+            val calendar = parseCalendar(call.receiveParameters(), state.getDefaultCalendar(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                val state = STORE.getState()
-
                 showCalendarEditor(call, state, calendar)
             }
         }
         post<Calendars.Update> { update ->
             logger.info { "Update calendar ${update.id.value}" }
 
-            val calendar = parseCalendar(call.receiveParameters(), update.id)
+            val state = STORE.getState()
+            val calendar = parseCalendar(call.receiveParameters(), state.getDefaultCalendar(), update.id)
 
             STORE.dispatch(UpdateCalendar(calendar))
 
@@ -143,40 +141,19 @@ private fun HTML.showCalendarDetails(
     val backLink = call.application.href(Calendars())
     val deleteLink = call.application.href(Calendars.Delete(calendar.id))
     val editLink = call.application.href(Calendars.Edit(calendar.id))
-    val children = state.getChildren(calendar.id)
     val cultures = state.getCultures(calendar.id)
 
     simpleHtml("Calendar: ${calendar.name}") {
         field("Id", calendar.id.value.toString())
         field("Name", calendar.name)
-        when (calendar.origin) {
-            is ImprovedCalendar -> {
-                field("Origin", "Improved")
-                field("Parent Calendar") {
-                    link(call, state, calendar.origin.parent)
-                }
-            }
-
-            OriginalCalendar -> {
-                field("Origin", "Original")
-            }
-        }
-        showList("Child Calendars", children) { child ->
-            link(call, child)
-        }
-        field("Days", calendar.days.getType().name)
-        when (calendar.days) {
-            is Weekdays -> showList("Weekdays", calendar.days.weekDays) { day ->
-                +day.name
-            }
-
-            DayOfTheMonth -> doNothing()
-        }
-        showList("Months", calendar.months) { month ->
-            field(month.name, "${month.days} days")
-        }
-        field("Days per Year", calendar.getDaysPerYear().toString())
-        showList("Cultures", cultures) { culture ->
+        showOrigin(call, state, calendar)
+        h2 { +"Parts" }
+        showDays(calendar)
+        showMonths(calendar)
+        h2 { +"Eras" }
+        showEras(state, calendar)
+        h2 { +"Cultures" }
+        showList(cultures) { culture ->
             link(call, culture)
         }
         p { a(editLink) { +"Edit" } }
@@ -185,6 +162,59 @@ private fun HTML.showCalendarDetails(
         }
         p { a(backLink) { +"Back" } }
     }
+}
+
+private fun BODY.showOrigin(
+    call: ApplicationCall,
+    state: State,
+    calendar: Calendar,
+) {
+    val children = state.getChildren(calendar.id)
+
+    when (calendar.origin) {
+        is ImprovedCalendar -> {
+            field("Origin", "Improved")
+            field("Parent Calendar") {
+                link(call, state, calendar.origin.parent)
+            }
+        }
+
+        OriginalCalendar -> {
+            field("Origin", "Original")
+        }
+    }
+    showList("Child Calendars", children) { child ->
+        link(call, child)
+    }
+}
+
+private fun BODY.showDays(
+    calendar: Calendar,
+) {
+    field("Days", calendar.days.getType().name)
+    when (calendar.days) {
+        is Weekdays -> showList("Weekdays", calendar.days.weekDays) { day ->
+            +day.name
+        }
+
+        DayOfTheMonth -> doNothing()
+    }
+}
+
+private fun BODY.showMonths(calendar: Calendar) {
+    showList("Months", calendar.months) { month ->
+        field(month.name, "${month.days} days")
+    }
+    field("Days per Year", calendar.getDaysPerYear().toString())
+}
+
+private fun BODY.showEras(
+    state: State,
+    calendar: Calendar,
+) {
+    field(state, "Start Date", calendar.getStartDate())
+    field("Before Era", calendar.eras.display(DisplayYear(0, 0)))
+    field("Current Era", calendar.eras.display(DisplayYear(1, 0)))
 }
 
 private fun HTML.showCalendarEditor(
@@ -202,26 +232,13 @@ private fun HTML.showCalendarEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            field("Name") {
-                b { +"Name: " }
-                textInput(name = NAME) {
-                    value = calendar.name
-                }
-            }
+            selectText("Name", calendar.name, NAME)
             editOrigin(state, calendar)
+            h2 { +"Parts" }
             editDays(calendar)
-            selectNumber("Months", calendar.months.size, 2, 100, MONTHS, true)
-            calendar.months.withIndex().forEach { (index, month) ->
-                p {
-                    textInput(name = MONTH_NAME_PREFIX + index) {
-                        minLength = "1"
-                        value = month.name
-                    }
-                    +": "
-                    selectNumber(month.days, 2, 100, MONTH_DAYS_PREFIX + index)
-                    +"days"
-                }
-            }
+            editMonths(calendar)
+            h2 { +"Eras" }
+            editEras(calendar, state)
             p {
                 submitInput {
                     value = "Update"
@@ -259,12 +276,21 @@ private fun FORM.editDays(
             selectNumber("Weekdays", days.weekDays.size, 2, 100, WEEK_DAYS, true)
             days.weekDays.withIndex().forEach { (index, day) ->
                 p {
-                    textInput(name = WEEK_DAY_PREFIX + index) {
-                        minLength = "1"
-                        value = day.name
-                    }
+                    selectText(day.name, combine(WEEK_DAY, index))
                 }
             }
+        }
+    }
+}
+
+private fun FORM.editMonths(calendar: Calendar) {
+    selectNumber("Months", calendar.months.size, 2, 100, MONTHS, true)
+    calendar.months.withIndex().forEach { (index, month) ->
+        p {
+            selectText(month.name, combine(MONTH, NAME, index))
+            +": "
+            selectNumber(month.days, 2, 100, combine(MONTH, DAYS, index))
+            +"days"
         }
     }
 }
@@ -306,5 +332,29 @@ private fun FORM.editOrigin(
             }
 
         else -> doNothing()
+    }
+}
+
+private fun FORM.editEras(
+    calendar: Calendar,
+    state: State,
+) {
+    editEra("Before", calendar.eras.before, BEFORE)
+    editEra("Current", calendar.eras.first, CURRENT)
+    selectDate(state, "Start Date", calendar.getStartDate(), CURRENT)
+}
+
+private fun FORM.editEra(
+    label: String,
+    era: CalendarEra,
+    param: String,
+) {
+    selectText("$label Era - Name", era.text, combine(param, NAME))
+    field("$label Era - Is prefix") {
+        checkBoxInput {
+            name = combine(param, PREFIX)
+            value = "true"
+            checked = era.isPrefix
+        }
     }
 }

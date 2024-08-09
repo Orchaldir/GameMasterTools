@@ -4,13 +4,45 @@ import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.appearance.OneOrNone
 import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.SomeOf
+import at.orchaldir.gm.core.model.calendar.Calendar
+import at.orchaldir.gm.core.model.calendar.date.Date
+import at.orchaldir.gm.core.model.calendar.date.DateType
+import at.orchaldir.gm.core.model.calendar.date.DisplayDay
+import at.orchaldir.gm.core.model.calendar.date.DisplayYear
 import io.ktor.http.*
+
+fun combine(param0: String, param1: String) = "$param0-$param1"
+fun combine(param0: String, param1: String, param2: String) = "$param0-$param1-$param2"
+fun combine(param: String, number: Int) = combine(param, number.toString())
+fun combine(param0: String, param1: String, number: Int) = combine(param0, param1, number.toString())
 
 inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String, default: T): T =
     parameters[param]?.let { java.lang.Enum.valueOf(T::class.java, it) } ?: default
 
 inline fun <reified T : Enum<T>> parseSet(parameters: Parameters, param: String): Set<T> =
     parameters.getAll(param)?.map { java.lang.Enum.valueOf(T::class.java, it) }?.toSet() ?: emptySet()
+
+fun parseDate(
+    parameters: Parameters,
+    default: Calendar,
+    param: String,
+): Date {
+    val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
+    val eraIndex = parseInt(parameters, combine(param, ERA))
+
+    val calendarDate = when (parse(parameters, combine(param, DATE), DateType.Year)) {
+        DateType.Day -> {
+            val monthIndex = parseInt(parameters, combine(param, MONTH))
+            val dayIndex = parseInt(parameters, combine(param, DAY), 1) - 1
+
+            DisplayDay(eraIndex, yearIndex, monthIndex, dayIndex)
+        }
+
+        DateType.Year -> DisplayYear(eraIndex, yearIndex)
+    }
+
+    return default.resolve(calendarDate)
+}
 
 fun <T> parseOneOf(
     parameters: Parameters,
@@ -78,3 +110,8 @@ fun parseName(parameters: Parameters, param: String): String? {
 
     return name
 }
+
+fun parseBool(parameters: Parameters, param: String, default: Boolean = false) =
+    parameters[param]?.toBoolean() ?: default
+
+fun parseInt(parameters: Parameters, param: String, default: Int = 0) = parameters[param]?.toInt() ?: default
