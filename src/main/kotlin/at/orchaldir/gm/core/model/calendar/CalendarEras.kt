@@ -22,7 +22,7 @@ data class CalendarEras(
 
     fun getAll() = listOf(before, first)
 
-    fun getEar(eraIndex: Int) = if (eraIndex == 1) {
+    fun getEra(eraIndex: Int) = if (eraIndex == 1) {
         first
     } else {
         before
@@ -33,11 +33,11 @@ data class CalendarEras(
         is DisplayYear -> display(date)
     }
 
-    fun display(day: DisplayDay) = getEar(day.eraIndex)
+    fun display(day: DisplayDay) = getEra(day.eraIndex)
         .display(display(day.yearIndex + 1, day.monthIndex + 1, day.dayIndex + 1))
 
     private fun display(year: Int, month: Int, day: Int) = "$day.$month.$year"
 
-    fun display(year: DisplayYear) = getEar(year.eraIndex)
+    fun display(year: DisplayYear) = getEra(year.eraIndex)
         .display(year.yearIndex + 1)
 }
