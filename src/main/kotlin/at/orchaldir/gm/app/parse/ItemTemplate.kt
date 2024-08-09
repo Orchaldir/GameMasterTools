@@ -8,7 +8,7 @@ import io.ktor.server.util.*
 
 fun parseItemTemplateId(value: String) = ItemTemplateId(value.toInt())
 
-fun parseItemTemplateId(parameters: Parameters, param: String) = ItemTemplateId(parameters[param]?.toInt() ?: 0)
+fun parseItemTemplateId(parameters: Parameters, param: String) = ItemTemplateId(parseInt(parameters, param))
 
 fun parseItemTemplate(id: ItemTemplateId, parameters: Parameters): ItemTemplate {
     val name = parameters.getOrFail(NAME)
