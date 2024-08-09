@@ -215,10 +215,6 @@
    "origin": {
     "type": "Improved",
     "parent": 1
-   },
-   "originDate": {
-    "type": "Year",
-    "year": 1581
    }
   }
  }

@@ -183,7 +183,6 @@ private fun BODY.showOrigin(
             field("Origin", "Original")
         }
     }
-    field(state, "Origin Date", calendar.originDate)
     showList("Child Calendars", children) { child ->
         link(call, child)
     }
@@ -334,7 +333,6 @@ private fun FORM.editOrigin(
 
         else -> doNothing()
     }
-    selectDate(state, "Origin Date", calendar.originDate, ORIGIN)
 }
 
 private fun FORM.editEras(
