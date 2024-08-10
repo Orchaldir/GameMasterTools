@@ -40,6 +40,7 @@ fun Application.module() {
     configureNameListRouting()
     configurePersonalityRouting()
     configureRaceRouting()
+    configureTimeRouting()
 }
 
 fun Application.configureSerialization() {
