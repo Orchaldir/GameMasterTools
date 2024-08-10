@@ -53,5 +53,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateRace -> CREATE_RACE(state, action)
         is DeleteRace -> DELETE_RACE(state, action)
         is UpdateRace -> UPDATE_RACE(state, action)
+        // time
+        is UpdateTime -> UPDATE_TIME(state, action)
     }
 }
