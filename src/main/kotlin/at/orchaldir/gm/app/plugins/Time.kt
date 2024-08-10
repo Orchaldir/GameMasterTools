@@ -3,7 +3,8 @@ package at.orchaldir.gm.app.plugins
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.*
-import at.orchaldir.gm.core.action.UpdateLanguage
+import at.orchaldir.gm.core.action.UpdateTime
+import at.orchaldir.gm.core.selector.getDefaultCalendar
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -44,14 +45,14 @@ fun Application.configureTimeRouting() {
                 editTimeData(call)
             }
         }
-        post<Languages.Update> { update ->
+        post<TimeRoutes.Update> {
             logger.info { "Update time data" }
 
-            val language = parseLanguage(update.id, call.receiveParameters())
+            val time = parseTime(call.receiveParameters(), STORE.getState().getDefaultCalendar())
 
-            STORE.dispatch(UpdateLanguage(language))
+            STORE.dispatch(UpdateTime(time))
 
-            call.respondRedirect(href(call, update.id))
+            call.respondRedirect(call.application.href(TimeRoutes()))
 
             STORE.getState().save()
         }

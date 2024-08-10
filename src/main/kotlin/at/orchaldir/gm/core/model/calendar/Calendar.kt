@@ -93,7 +93,7 @@ data class Calendar(
         is DisplayYear -> resolve(date)
     }
 
-    private fun resolve(date: DisplayDay): Day {
+    fun resolve(date: DisplayDay): Day {
         val daysPerYear = getDaysPerYear()
         val offsetInDays = getOffsetInDays()
 
