@@ -50,6 +50,7 @@ data class State(
     ),
     val races: Storage<RaceId, Race> = Storage(RaceId(0), RACE),
     val rarityGenerator: RarityGenerator = RarityGenerator.empty(5u),
+    val time: Time = Time(),
 ) {
     companion object {
         fun load(path: String) = State(
