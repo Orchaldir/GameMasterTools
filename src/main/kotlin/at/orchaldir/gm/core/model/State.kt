@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.saveData
 import at.orchaldir.gm.core.saveStorage
 import at.orchaldir.gm.utils.Storage
 
@@ -79,5 +80,6 @@ data class State(
         saveStorage(path, nameLists)
         saveStorage(path, personalityTraits)
         saveStorage(path, races)
+        saveData(path, "time", time)
     }
 }

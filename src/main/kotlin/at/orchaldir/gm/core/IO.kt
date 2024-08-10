@@ -26,11 +26,19 @@ inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> saveStorage(
     path: String,
     storage: Storage<ID, ELEMENT>,
 ) {
-    logger.info { "save(): ${storage.name}s" }
-
     val data = Data(VERSION, storage.getAll().associateBy { it.id() })
 
-    File("$path/${storage.name}s.json").writeText(prettyJson.encodeToString(data))
+    saveData(path, storage.name + "s", data)
+}
+
+inline fun <reified T> saveData(
+    path: String,
+    name: String,
+    data: T,
+) {
+    logger.info { "save(): $name" }
+
+    File("$path/$name.json").writeText(prettyJson.encodeToString(data))
 }
 
 inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> loadStorage(
