@@ -46,14 +46,21 @@ inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> loadStorage(
     type: String,
     zero: ID,
 ): Storage<ID, ELEMENT> {
-    logger.info { "load(): ${type}s" }
-
-    val string = File("$path/${type}s.json").readText()
-    val data = prettyJson.decodeFromString<Data<ID, ELEMENT>>(string)
+    val data = loadData<Data<ID, ELEMENT>>(path, type + "s")
 
     if (data.elements.isEmpty()) {
         return Storage(zero, type)
     }
 
     return Storage(data.elements.values.toList(), type)
+}
+
+inline fun <reified T> loadData(
+    path: String,
+    name: String,
+): T {
+    logger.info { "load(): $name" }
+
+    val string = File("$path/$name.json").readText()
+    return prettyJson.decodeFromString<T>(string)
 }
