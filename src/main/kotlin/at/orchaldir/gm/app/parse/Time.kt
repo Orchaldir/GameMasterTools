@@ -1,6 +1,6 @@
 package at.orchaldir.gm.app.parse
 
-import at.orchaldir.gm.core.model.Time
+import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.calendar.*
 import io.ktor.http.*
 

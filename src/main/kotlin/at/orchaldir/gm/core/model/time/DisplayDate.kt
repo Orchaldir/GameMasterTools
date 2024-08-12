@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.calendar.date
+package at.orchaldir.gm.core.model.time
 
 sealed class DisplayDate
 

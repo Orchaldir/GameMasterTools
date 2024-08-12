@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.character
 
-import at.orchaldir.gm.core.model.calendar.date.Day
+import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.culture.CultureId

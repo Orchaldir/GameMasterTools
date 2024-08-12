@@ -187,6 +187,7 @@ private fun BODY.showData(
         UndefinedCharacterOrigin -> doNothing()
     }
     field(state, "Birthdate", character.birthDate)
+    field("Age", state.getAge(character).toString())
 
     p { a(generateNameLink) { +"Generate New Name" } }
     p { a(editLink) { +"Edit" } }

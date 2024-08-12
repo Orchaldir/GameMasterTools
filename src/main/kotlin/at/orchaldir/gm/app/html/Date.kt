@@ -3,10 +3,10 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.date.Date
-import at.orchaldir.gm.core.model.calendar.date.DateType
-import at.orchaldir.gm.core.model.calendar.date.DisplayDay
-import at.orchaldir.gm.core.model.calendar.date.DisplayYear
+import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.time.DateType
+import at.orchaldir.gm.core.model.time.DisplayDay
+import at.orchaldir.gm.core.model.time.DisplayYear
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import kotlinx.html.*
 

@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.appearance.OneOrNone
 import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.SomeOf
 import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.date.*
+import at.orchaldir.gm.core.model.time.*
 import io.ktor.http.*
 
 fun combine(param0: String, param1: String) = "$param0-$param1"
