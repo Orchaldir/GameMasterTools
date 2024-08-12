@@ -36,7 +36,6 @@ fun FORM.selectDate(
 ) {
     val displayDate = calendar.resolve(date)
     val dateTypeParam = combine(param, DATE)
-    val yearParam = combine(param, YEAR)
 
     field(fieldLabel) {
         select {
@@ -53,15 +52,15 @@ fun FORM.selectDate(
         }
         when (displayDate) {
             is DisplayDay -> {
-                selectEraIndex(calendar, displayDate.eraIndex, param)
-                selectYearIndex(yearParam, displayDate.yearIndex)
+                selectEraIndex(param, calendar, displayDate.eraIndex)
+                selectYearIndex(param, displayDate.yearIndex)
                 selectMonthIndex(param, calendar, displayDate.monthIndex)
                 selectDayIndex(param, calendar, displayDate.monthIndex, displayDate.dayIndex)
             }
 
             is DisplayYear -> {
-                selectEraIndex(calendar, displayDate.eraIndex, param)
-                selectYearIndex(yearParam, displayDate.yearIndex)
+                selectEraIndex(param, calendar, displayDate.eraIndex)
+                selectYearIndex(param, displayDate.yearIndex)
             }
         }
     }
@@ -83,20 +82,19 @@ fun FORM.selectDay(
     param: String,
 ) {
     val displayDate = calendar.resolve(day)
-    val yearParam = combine(param, YEAR)
 
     field(fieldLabel) {
-        selectEraIndex(calendar, displayDate.eraIndex, param)
-        selectYearIndex(yearParam, displayDate.yearIndex)
+        selectEraIndex(param, calendar, displayDate.eraIndex)
+        selectYearIndex(param, displayDate.yearIndex)
         selectMonthIndex(param, calendar, displayDate.monthIndex)
         selectDayIndex(param, calendar, displayDate.monthIndex, displayDate.dayIndex)
     }
 }
 
 private fun P.selectEraIndex(
+    param: String,
     calendar: Calendar,
     eraIndex: Int,
-    param: String,
 ) {
     val eraParam = combine(param, ERA)
 
@@ -114,9 +112,10 @@ private fun P.selectEraIndex(
 }
 
 private fun P.selectYearIndex(
-    yearParam: String,
+    param: String,
     yearIndex: Int,
 ) {
+    val yearParam = combine(param, YEAR)
     selectNumber(yearIndex + 1, 1, Int.MAX_VALUE, yearParam, true)
 }
 
