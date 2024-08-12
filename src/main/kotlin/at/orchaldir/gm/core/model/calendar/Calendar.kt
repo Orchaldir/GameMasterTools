@@ -47,7 +47,7 @@ data class Calendar(
         is Year -> resolve(date)
     }
 
-    private fun resolve(date: Day): DisplayDay {
+    fun resolve(date: Day): DisplayDay {
         val daysPerYear = getDaysPerYear()
         val day = date.day + getOffsetInDays()
 
@@ -82,7 +82,7 @@ data class Calendar(
         error("Unreachable")
     }
 
-    private fun resolve(date: Year): DisplayYear {
+    fun resolve(date: Year): DisplayYear {
         val offsetInYears = getOffsetInDays() / getDaysPerYear()
         val year = date.year + offsetInYears
 

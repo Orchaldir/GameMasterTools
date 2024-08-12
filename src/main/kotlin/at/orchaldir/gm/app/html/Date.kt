@@ -3,10 +3,7 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.time.DateType
-import at.orchaldir.gm.core.model.time.DisplayDay
-import at.orchaldir.gm.core.model.time.DisplayYear
+import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import kotlinx.html.*
 
@@ -56,21 +53,47 @@ fun FORM.selectDate(
         }
         when (displayDate) {
             is DisplayDay -> {
-                selectEra(calendar, displayDate.eraIndex, param)
-                selectYear(yearParam, displayDate.yearIndex)
-                selectMonth(param, calendar, displayDate.monthIndex)
-                selectDay(param, calendar, displayDate.monthIndex, displayDate.dayIndex)
+                selectEraIndex(calendar, displayDate.eraIndex, param)
+                selectYearIndex(yearParam, displayDate.yearIndex)
+                selectMonthIndex(param, calendar, displayDate.monthIndex)
+                selectDayIndex(param, calendar, displayDate.monthIndex, displayDate.dayIndex)
             }
 
             is DisplayYear -> {
-                selectEra(calendar, displayDate.eraIndex, param)
-                selectYear(yearParam, displayDate.yearIndex)
+                selectEraIndex(calendar, displayDate.eraIndex, param)
+                selectYearIndex(yearParam, displayDate.yearIndex)
             }
         }
     }
 }
 
-private fun P.selectEra(
+fun FORM.selectDay(
+    state: State,
+    fieldLabel: String,
+    day: Day,
+    param: String,
+) {
+    selectDay(fieldLabel, state.getDefaultCalendar(), day, param)
+}
+
+fun FORM.selectDay(
+    fieldLabel: String,
+    calendar: Calendar,
+    day: Day,
+    param: String,
+) {
+    val displayDate = calendar.resolve(day)
+    val yearParam = combine(param, YEAR)
+
+    field(fieldLabel) {
+        selectEraIndex(calendar, displayDate.eraIndex, param)
+        selectYearIndex(yearParam, displayDate.yearIndex)
+        selectMonthIndex(param, calendar, displayDate.monthIndex)
+        selectDayIndex(param, calendar, displayDate.monthIndex, displayDate.dayIndex)
+    }
+}
+
+private fun P.selectEraIndex(
     calendar: Calendar,
     eraIndex: Int,
     param: String,
@@ -90,14 +113,14 @@ private fun P.selectEra(
     }
 }
 
-private fun P.selectYear(
+private fun P.selectYearIndex(
     yearParam: String,
     yearIndex: Int,
 ) {
     selectNumber(yearIndex + 1, 1, Int.MAX_VALUE, yearParam, true)
 }
 
-private fun P.selectMonth(
+private fun P.selectMonthIndex(
     param: String,
     calendar: Calendar,
     monthIndex: Int,
@@ -117,7 +140,7 @@ private fun P.selectMonth(
     }
 }
 
-private fun P.selectDay(
+private fun P.selectDayIndex(
     param: String,
     calendar: Calendar,
     monthIndex: Int,

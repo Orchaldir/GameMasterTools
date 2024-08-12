@@ -387,7 +387,7 @@ private fun HTML.showCharacterEditor(
 
                 else -> doNothing()
             }
-            selectDate(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
+            selectDay(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
             field("Personality") {
                 details {
                     state.getPersonalityTraitGroups().forEach { group ->
