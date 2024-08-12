@@ -10,6 +10,9 @@
     "family": "Walker"
    },
    "gender": "Male",
+   "birthDate": {
+    "day": 689485
+   },
    "appearance": {
     "type": "Humanoid",
     "body": {
@@ -75,6 +78,9 @@
     "family": "Dangerfield"
    },
    "gender": "Female",
+   "birthDate": {
+    "day": 691310
+   },
    "appearance": {
     "type": "Humanoid",
     "body": {

@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.time.Duration
 
 fun State.canCreateCharacter() = cultures.getSize() > 0 && races.getSize() > 0
 
@@ -77,6 +78,6 @@ fun State.getOthersWithoutRelationship(character: Character) = characters.getAll
 
 // age
 
-fun State.getAge(id: CharacterId) = getAge(characters.getOrThrow(id))
+fun State.getAge(id: CharacterId): Duration = getAge(characters.getOrThrow(id))
 
-fun State.getAge(character: Character) = character.getAge(time.currentDate)
+fun State.getAge(character: Character): Duration = character.getAge(time.currentDate)
