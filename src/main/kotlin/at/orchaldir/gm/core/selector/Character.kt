@@ -74,3 +74,9 @@ fun State.getSiblings(id: CharacterId): Set<Character> {
 fun State.getOthersWithoutRelationship(character: Character) = characters.getAll()
     .filter { c -> c.id != character.id }
     .filter { c -> !character.relationships.containsKey(c.id) }
+
+// age
+
+fun State.getAge(id: CharacterId) = getAge(characters.getOrThrow(id))
+
+fun State.getAge(character: Character) = character.getAge(time.currentDate)

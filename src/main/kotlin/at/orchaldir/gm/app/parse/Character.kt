@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
@@ -39,7 +38,7 @@ fun parseCharacter(
 
         else -> UndefinedCharacterOrigin
     }
-    val birthDate = parseDate(parameters, state.getDefaultCalendar(), combine(ORIGIN, DATE))
+    val birthDate = parseDay(parameters, state.getDefaultCalendar(), combine(ORIGIN, DATE))
 
     return character.copy(
         name = name,
