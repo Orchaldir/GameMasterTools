@@ -10,6 +10,10 @@
     "family": "Walker"
    },
    "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 1889
+   },
    "appearance": {
     "type": "Humanoid",
     "body": {

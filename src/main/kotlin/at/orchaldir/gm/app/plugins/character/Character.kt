@@ -79,7 +79,7 @@ fun Application.configureCharacterRouting() {
             logger.info { "Preview changes to character ${preview.id.value}" }
 
             val state = STORE.getState()
-            val character = parseCharacter(state, preview.id, call.receiveParameters())
+            val character = parseCharacter(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCharacterEditor(call, state, character)
@@ -89,7 +89,7 @@ fun Application.configureCharacterRouting() {
             logger.info { "Update character ${update.id.value}" }
 
             val state = STORE.getState()
-            val character = parseCharacter(state, update.id, call.receiveParameters())
+            val character = parseCharacter(state, call.receiveParameters(), update.id)
 
             STORE.dispatch(UpdateCharacter(character))
 
@@ -385,6 +385,7 @@ private fun HTML.showCharacterEditor(
 
                 else -> doNothing()
             }
+            selectDate(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
             field("Personality") {
                 details {
                     state.getPersonalityTraitGroups().forEach { group ->

@@ -1,15 +1,21 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.selector.getDefaultCalendar
 import io.ktor.http.*
 import io.ktor.server.util.*
 
 fun parseCharacterId(parameters: Parameters, param: String) = CharacterId(parseInt(parameters, param))
 
-fun parseCharacter(state: State, id: CharacterId, parameters: Parameters): Character {
+fun parseCharacter(
+    state: State,
+    parameters: Parameters,
+    id: CharacterId,
+): Character {
     val character = state.characters.getOrThrow(id)
 
     val name = parseCharacterName(parameters)
@@ -33,12 +39,14 @@ fun parseCharacter(state: State, id: CharacterId, parameters: Parameters): Chara
 
         else -> UndefinedCharacterOrigin
     }
+    val birthDate = parseDate(parameters, state.getDefaultCalendar(), combine(ORIGIN, DATE))
 
     return character.copy(
         name = name,
         race = race,
         gender = gender,
         origin = origin,
+        birthDate = birthDate,
         culture = culture,
         personality = personality
     )
