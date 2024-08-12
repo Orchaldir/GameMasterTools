@@ -174,6 +174,19 @@ private fun BODY.showData(
         link(call, state, character.race)
     }
     field("Gender", character.gender.toString())
+    when (character.origin) {
+        is Born -> {
+            field("Origin") {
+                +"Born to "
+                link(call, state, character.origin.father)
+                +" & "
+                link(call, state, character.origin.mother)
+            }
+        }
+
+        UndefinedCharacterOrigin -> doNothing()
+    }
+    field(state, "Birthdate", character.birthDate)
 
     p { a(generateNameLink) { +"Generate New Name" } }
     p { a(editLink) { +"Edit" } }
