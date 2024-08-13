@@ -129,12 +129,8 @@ class CharacterTest {
                     Mononym("Test"),
                     RACE1,
                     Gender.Male,
-                    UndefinedCharacterOrigin,
-                    Day(0),
-                    CultureId(0),
-                    setOf(PERSONALITY0),
-                    mapOf(),
-                    LANGUAGES
+                    personality = setOf(PERSONALITY0),
+                    languages = LANGUAGES,
                 ),
                 result.characters.getOrThrow(ID0)
             )
