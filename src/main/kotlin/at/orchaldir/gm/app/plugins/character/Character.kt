@@ -354,21 +354,12 @@ private fun HTML.showCharacterEditor(
                 value = culture.id.value.toString()
                 selected = culture.id == character.culture
             }
-            field("Origin") {
-                select {
-                    id = ORIGIN
-                    name = ORIGIN
-                    onChange = ON_CHANGE_SCRIPT
-                    option {
-                        label = "Born"
-                        value = "Born"
-                        selected = character.origin is Born
-                    }
-                    option {
-                        label = "Undefined"
-                        value = "Undefined"
-                        selected = character.origin is UndefinedCharacterOrigin
-                    }
+            selectEnum("Origin", ORIGIN, CharacterOriginType.entries, true) { type ->
+                label = type.name
+                value = type.name
+                selected = when (type) {
+                    CharacterOriginType.Born -> character.origin is Born
+                    CharacterOriginType.Undefined -> character.origin is UndefinedCharacterOrigin
                 }
             }
             when (character.origin) {

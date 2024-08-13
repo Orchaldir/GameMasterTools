@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.CharacterOriginType.Undefined
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.selector.getDefaultCalendar
@@ -29,14 +30,14 @@ fun parseCharacter(
         .map { PersonalityTraitId(it.toInt()) }
         .toSet()
 
-    val origin = when (parameters[ORIGIN]) {
-        "Born" -> {
+    val origin = when (parse(parameters, ORIGIN, Undefined)) {
+        CharacterOriginType.Born -> {
             val father = parseCharacterId(parameters, FATHER)
             val mother = parseCharacterId(parameters, MOTHER)
             Born(mother, father)
         }
 
-        else -> UndefinedCharacterOrigin
+        Undefined -> UndefinedCharacterOrigin
     }
     val birthDate = parseDay(parameters, state.getDefaultCalendar(), combine(ORIGIN, DATE))
 
