@@ -425,6 +425,21 @@ private fun HTML.showCharacterEditor(
                 else -> doNothing()
             }
             selectDay(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
+            selectEnum("Cause of death", DEATH, CauseOfDeathType.entries, true) { type ->
+                label = type.name
+                value = type.name
+                selected = type == character.causeOfDeath.getType()
+            }
+            character.causeOfDeath.getDeathDate()?.let {
+                selectDay(state, "Date of Death", it, combine(DEATH, DATE))
+            }
+            if (character.causeOfDeath is Murder) {
+                selectEnum("Killer", KILLER, state.getOthers(character.id)) { c ->
+                    label = state.getName(c)
+                    value = c.id.value.toString()
+                    selected = character.causeOfDeath.killer == c.id
+                }
+            }
             showAge(state, character)
             field("Personality") {
                 details {

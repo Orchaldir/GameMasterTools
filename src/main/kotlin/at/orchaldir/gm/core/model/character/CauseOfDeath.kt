@@ -7,6 +7,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class CauseOfDeath {
     open fun getDeathDate(): Day? = null
+
+    fun getType() = when (this) {
+        is Accident -> CauseOfDeathType.Accident
+        Alive -> CauseOfDeathType.Alive
+        is Murder -> CauseOfDeathType.Murder
+        is OldAge -> CauseOfDeathType.OldAge
+    }
 }
 
 @Serializable
