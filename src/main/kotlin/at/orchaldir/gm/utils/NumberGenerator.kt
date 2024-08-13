@@ -2,23 +2,22 @@ package at.orchaldir.gm.utils
 
 import kotlinx.serialization.Serializable
 import kotlin.random.Random
-import kotlin.random.nextUInt
 
 @Serializable
 sealed class NumberGenerator {
-    abstract fun getNumber(): UInt
+    abstract fun getNumber(until: Int = Int.MAX_VALUE): Int
 
-    fun <T> select(list: List<T>) = list[(getNumber() % list.size.toUInt()).toInt()]
+    fun <T> select(list: List<T>) = list[getNumber(list.size)]
 }
 
 data class RandomNumberGenerator(val random: Random) : NumberGenerator() {
-    override fun getNumber() = random.nextUInt()
+    override fun getNumber(until: Int) = random.nextInt(0, until)
 }
 
-data class FixedNumberGenerator(val numbers: List<UInt>, var index: Int = 0) : NumberGenerator() {
-    override fun getNumber() = numbers[index++ % numbers.size]
+data class FixedNumberGenerator(val numbers: List<Int>, var index: Int = 0) : NumberGenerator() {
+    override fun getNumber(until: Int) = numbers[index++ % numbers.size] % until
 }
 
-data class Counter(var index: UInt = 0u) : NumberGenerator() {
-    override fun getNumber() = index++
+data class Counter(var index: Int = 0) : NumberGenerator() {
+    override fun getNumber(until: Int) = index++ % until
 }

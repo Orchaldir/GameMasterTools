@@ -27,14 +27,14 @@ class NumberGeneratorTest {
 
         @Test
         fun `Start at index 0 by default`() {
-            val generator = FixedNumberGenerator(listOf(9u, 3u, 5u))
+            val generator = FixedNumberGenerator(listOf(9, 3, 5))
 
             assertNumbers(generator, listOf(9u, 3u, 5u, 9u))
         }
 
         @Test
         fun `Start at any index`() {
-            val generator = FixedNumberGenerator(listOf(9u, 3u, 5u), 2)
+            val generator = FixedNumberGenerator(listOf(9, 3, 5), 2)
 
             assertNumbers(generator, listOf(5u, 9u, 3u, 5u, 9u))
         }
@@ -52,7 +52,7 @@ class NumberGeneratorTest {
 
         @Test
         fun `Start at any index`() {
-            val generator = Counter(5u)
+            val generator = Counter(5)
 
             assertNumbers(generator, listOf(5u, 6u, 7u, 8u))
         }
