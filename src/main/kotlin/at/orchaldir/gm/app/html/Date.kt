@@ -101,6 +101,7 @@ private fun P.selectEraIndex(
     select {
         id = eraParam
         name = eraParam
+        onChange = ON_CHANGE_SCRIPT
         calendar.eras.getAll().withIndex().forEach { (index, era) ->
             option {
                 label = era.text
@@ -129,6 +130,7 @@ private fun P.selectMonthIndex(
     select {
         id = monthParam
         name = monthParam
+        onChange = ON_CHANGE_SCRIPT
         calendar.months.withIndex().forEach { (index, month) ->
             option {
                 label = month.name
@@ -146,5 +148,5 @@ private fun P.selectDayIndex(
     dayIndex: Int,
 ) {
     val month = calendar.months[monthIndex]
-    selectNumber(dayIndex + 1, 1, month.days, combine(param, DAY), false)
+    selectNumber(dayIndex + 1, 1, month.days, combine(param, DAY), true)
 }

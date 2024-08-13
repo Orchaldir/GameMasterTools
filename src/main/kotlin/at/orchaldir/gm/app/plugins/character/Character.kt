@@ -163,7 +163,6 @@ private fun BODY.showData(
     call: ApplicationCall,
     state: State,
 ) {
-    val age = state.getAge(character)
     val deleteLink = call.application.href(Characters.Delete(character.id))
     val editLink = call.application.href(Characters.Edit(character.id))
     val generateNameLink = call.application.href(Characters.Name.Generate(character.id))
@@ -188,13 +187,21 @@ private fun BODY.showData(
         UndefinedCharacterOrigin -> doNothing()
     }
     field(state, "Birthdate", character.birthDate)
-    field("Age", state.getDefaultCalendar().display(age))
+    showAge(state, character)
 
     p { a(generateNameLink) { +"Generate New Name" } }
     p { a(editLink) { +"Edit" } }
     if (state.canDelete(character.id)) {
         p { a(deleteLink) { +"Delete" } }
     }
+}
+
+private fun HtmlBlockTag.showAge(
+    state: State,
+    character: Character,
+) {
+    val age = state.getAge(character)
+    field("Age", state.getDefaultCalendar().display(age))
 }
 
 private fun BODY.showSocial(
@@ -383,6 +390,7 @@ private fun HTML.showCharacterEditor(
                 else -> doNothing()
             }
             selectDay(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
+            showAge(state, character)
             field("Personality") {
                 details {
                     state.getPersonalityTraitGroups().forEach { group ->
