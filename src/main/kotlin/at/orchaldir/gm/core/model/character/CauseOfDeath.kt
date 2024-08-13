@@ -1,10 +1,13 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.time.Day
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class CauseOfDeath
+sealed class CauseOfDeath {
+    open fun getDeathDate(): Day? = null
+}
 
 @Serializable
 @SerialName("Alive")
@@ -12,13 +15,23 @@ data object Alive : CauseOfDeath()
 
 @Serializable
 @SerialName("Accident")
-data object Accident : CauseOfDeath()
+data class Accident(val deathDay: Day) : CauseOfDeath() {
+    override fun getDeathDate() = deathDay
+}
 
 @Serializable
 @SerialName("Murder")
-data class Murder(val killer: CharacterId) : CauseOfDeath()
+data class Murder(
+    val deathDay: Day,
+    val killer: CharacterId,
+) : CauseOfDeath() {
+    override fun getDeathDate() = deathDay
+}
 
 @Serializable
 @SerialName("OldAge")
-data object OldAge : CauseOfDeath()
+data class OldAge(val deathDay: Day) : CauseOfDeath() {
+    override fun getDeathDate() = deathDay
+}
+
 

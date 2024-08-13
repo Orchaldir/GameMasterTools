@@ -204,6 +204,19 @@ private fun BODY.showData(
         UndefinedCharacterOrigin -> doNothing()
     }
     field(state, "Birthdate", character.birthDate)
+    when (character.causeOfDeath) {
+        Alive -> doNothing()
+        is Accident -> showCauseOfDeath("Accident")
+        is Murder -> {
+            showCauseOfDeath("Murder")
+            field("Killer") {
+                link(call, state, character.causeOfDeath.killer)
+            }
+        }
+
+        is OldAge -> showCauseOfDeath("Old Age")
+    }
+    character.causeOfDeath.getDeathDate()?.let { field(state, "Date of Death", it) }
     showAge(state, character)
 
     p { a(generateNameLink) { +"Generate New Name" } }
@@ -212,6 +225,10 @@ private fun BODY.showData(
     if (state.canDelete(character.id)) {
         p { a(deleteLink) { +"Delete" } }
     }
+}
+
+private fun BODY.showCauseOfDeath(cause: String) {
+    field("Cause of Death", cause)
 }
 
 private fun HtmlBlockTag.showAge(
