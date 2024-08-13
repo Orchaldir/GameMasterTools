@@ -357,6 +357,10 @@ private fun HTML.showCharacterEditor(
             selectEnum("Origin", ORIGIN, CharacterOriginType.entries, true) { type ->
                 label = type.name
                 value = type.name
+                disabled = when (type) {
+                    CharacterOriginType.Born -> !state.hasPossibleParents(character.id)
+                    CharacterOriginType.Undefined -> false
+                }
                 selected = when (type) {
                     CharacterOriginType.Born -> character.origin is Born
                     CharacterOriginType.Undefined -> character.origin is UndefinedCharacterOrigin

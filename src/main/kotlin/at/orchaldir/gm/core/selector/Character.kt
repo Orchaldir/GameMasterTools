@@ -46,6 +46,9 @@ fun Character.getMother() = when (origin) {
     UndefinedCharacterOrigin -> null
 }
 
+fun State.hasPossibleParents(id: CharacterId) =
+    getPossibleFathers(id).isNotEmpty() && getPossibleMothers(id).isNotEmpty()
+
 fun State.getPossibleFathers(id: CharacterId) = characters.getAll()
     .filter { it.gender == Gender.Male }
     .filter { it.id != id }
