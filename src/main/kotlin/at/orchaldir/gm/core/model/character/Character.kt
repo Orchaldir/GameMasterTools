@@ -29,6 +29,7 @@ data class Character(
     val gender: Gender = Gender.Genderless,
     val origin: CharacterOrigin = UndefinedCharacterOrigin,
     val birthDate: Day = Day(0),
+    val causeOfDeath: CauseOfDeath = Alive,
     val culture: CultureId = CultureId(0),
     val personality: Set<PersonalityTraitId> = emptySet(),
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
