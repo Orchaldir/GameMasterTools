@@ -13,6 +13,9 @@
    "birthDate": {
     "day": 689485
    },
+   "languages": {
+    "0": "Native"
+   },
    "appearance": {
     "type": "Humanoid",
     "body": {
@@ -80,6 +83,9 @@
    "gender": "Female",
    "birthDate": {
     "day": 691310
+   },
+   "languages": {
+    "0": "Native"
    },
    "appearance": {
     "type": "Humanoid",
