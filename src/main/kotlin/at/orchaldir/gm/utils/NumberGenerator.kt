@@ -1,11 +1,8 @@
 package at.orchaldir.gm.utils
 
 import kotlinx.serialization.Serializable
-import mu.KotlinLogging
 import kotlin.random.Random
 import kotlin.random.nextUInt
-
-private val logger = KotlinLogging.logger {}
 
 @Serializable
 sealed class NumberGenerator {

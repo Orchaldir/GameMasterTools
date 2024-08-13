@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
+import at.orchaldir.gm.core.generator.DateGenerator
 import at.orchaldir.gm.core.generator.NameGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
@@ -97,8 +98,23 @@ fun Application.configureCharacterRouting() {
 
             STORE.getState().save()
         }
+        get<Characters.Birthday.Generate> { generate ->
+            logger.info { "Generate the birthday of character ${generate.id.value}" }
+
+            val state = STORE.getState()
+            val generator = DateGenerator(RandomNumberGenerator(Random), state, state.time.defaultCalendar)
+            val character = state.characters.getOrThrow(generate.id)
+            val birthDate = generator.generateMonthAndDay(character.birthDate)
+            val updated = character.copy(birthDate = birthDate)
+
+            STORE.dispatch(UpdateCharacter(updated))
+
+            call.respondRedirect(href(call, generate.id))
+
+            STORE.getState().save()
+        }
         get<Characters.Name.Generate> { generate ->
-            logger.info { "Random generate the name of character ${generate.id.value}" }
+            logger.info { "Generate the name of character ${generate.id.value}" }
 
             val state = STORE.getState()
             val generator = NameGenerator(RandomNumberGenerator(Random), state, generate.id)
@@ -166,6 +182,7 @@ private fun BODY.showData(
     val deleteLink = call.application.href(Characters.Delete(character.id))
     val editLink = call.application.href(Characters.Edit(character.id))
     val generateNameLink = call.application.href(Characters.Name.Generate(character.id))
+    val generateBirthdayLink = call.application.href(Characters.Birthday.Generate(character.id))
 
     h2 { +"Data" }
 
@@ -190,6 +207,7 @@ private fun BODY.showData(
     showAge(state, character)
 
     p { a(generateNameLink) { +"Generate New Name" } }
+    p { a(generateBirthdayLink) { +"Generate Birthday" } }
     p { a(editLink) { +"Edit" } }
     if (state.canDelete(character.id)) {
         p { a(deleteLink) { +"Delete" } }
