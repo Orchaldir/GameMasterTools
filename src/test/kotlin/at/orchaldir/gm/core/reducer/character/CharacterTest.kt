@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -129,6 +130,7 @@ class CharacterTest {
                     RACE1,
                     Gender.Male,
                     UndefinedCharacterOrigin,
+                    Day(0),
                     CultureId(0),
                     setOf(PERSONALITY0),
                     mapOf(),
