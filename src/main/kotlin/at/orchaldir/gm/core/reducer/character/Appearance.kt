@@ -9,5 +9,5 @@ val UPDATE_APPEARANCE: Reducer<UpdateAppearance, State> = { state, action ->
     val character = state.getCharacterStorage().getOrThrow(action.id)
     val updated = character.copy(appearance = action.appearance)
 
-    noFollowUps(state.copy(characters = state.getCharacterStorage().update(updated)))
+    noFollowUps(state.updateStorage(state.getCharacterStorage().update(updated)))
 }

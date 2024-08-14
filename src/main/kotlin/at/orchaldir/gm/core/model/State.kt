@@ -68,6 +68,16 @@ data class State(
         return copy(storageMap = newMap)
     }
 
+    fun updateStorage(storages: Collection<Storage<*, *>>): State {
+        val newMap = storageMap.toMutableMap()
+
+        storages.forEach {
+            newMap[it.getType()] = it
+        }
+
+        return copy(storageMap = newMap)
+    }
+
     companion object {
         fun load(path: String) = State(
             path,

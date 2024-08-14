@@ -51,7 +51,7 @@ fun BODY.fieldLink(label: String, link: String, text: String) {
 }
 
 inline fun <reified T : Any> BODY.fieldStorageLink(call: ApplicationCall, storage: Storage<*, *>, link: T) {
-    fieldLink("${storage.name}s", call.application.href(link), "${storage.getSize()}")
+    fieldLink("${storage.getType()}s", call.application.href(link), "${storage.getSize()}")
 }
 
 fun BODY.svg(svg: Svg, width: Int) {

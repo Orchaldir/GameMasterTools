@@ -23,7 +23,7 @@ val CREATE_CHARACTER: Reducer<CreateCharacter, State> = { state, _ ->
     logger.info { "new character $character" }
     val characters = state.getCharacterStorage().add(character)
     logger.info { "new characters $characters" }
-    noFollowUps(state.copy(characters = characters))
+    noFollowUps(state.updateStorage(characters))
 }
 
 val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
@@ -36,7 +36,7 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
     val children = state.getChildren(action.id)
     require(children.isEmpty()) { "Cannot delete character ${action.id.value}, because he has children" }
 
-    noFollowUps(state.copy(characters = state.getCharacterStorage().remove(action.id)))
+    noFollowUps(state.updateStorage(state.getCharacterStorage().remove(action.id)))
 }
 
 val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
@@ -50,7 +50,7 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     character.personality.forEach { state.getPersonalityTraitStorage().require(it) }
     val update = character.copy(languages = oldCharacter.languages)
 
-    noFollowUps(state.copy(characters = state.getCharacterStorage().update(update)))
+    noFollowUps(state.updateStorage(state.getCharacterStorage().update(update)))
 }
 
 private fun checkOrigin(

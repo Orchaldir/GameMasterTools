@@ -12,7 +12,7 @@ val ADD_LANGUAGE: Reducer<AddLanguage, State> = { state, action ->
     val character = state.getCharacterStorage().getOrThrow(action.id)
     val updated = character.copy(languages = character.languages + mapOf(action.language to action.level))
 
-    noFollowUps(state.copy(characters = state.getCharacterStorage().update(updated)))
+    noFollowUps(state.updateStorage(state.getCharacterStorage().update(updated)))
 }
 
 val REMOVE_LANGUAGES: Reducer<RemoveLanguages, State> = { state, action ->
@@ -21,5 +21,5 @@ val REMOVE_LANGUAGES: Reducer<RemoveLanguages, State> = { state, action ->
     val character = state.getCharacterStorage().getOrThrow(action.id)
     val updated = character.copy(languages = character.languages - action.languages)
 
-    noFollowUps(state.copy(characters = state.getCharacterStorage().update(updated)))
+    noFollowUps(state.updateStorage(state.getCharacterStorage().update(updated)))
 }

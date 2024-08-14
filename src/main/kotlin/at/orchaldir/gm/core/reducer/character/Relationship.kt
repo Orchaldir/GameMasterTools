@@ -30,7 +30,7 @@ val UPDATE_RELATIONSHIPS: Reducer<UpdateRelationships, State> = { state, action 
 
     updated.add(character)
 
-    noFollowUps(state.copy(characters = state.getCharacterStorage().update(updated)))
+    noFollowUps(state.updateStorage(state.getCharacterStorage().update(updated)))
 }
 
 private fun updateRelationships(

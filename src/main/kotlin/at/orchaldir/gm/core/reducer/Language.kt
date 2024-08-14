@@ -16,7 +16,7 @@ import at.orchaldir.gm.utils.redux.noFollowUps
 val CREATE_LANGUAGE: Reducer<CreateLanguage, State> = { state, _ ->
     val language = Language(state.getLanguageStorage().nextId)
 
-    noFollowUps(state.copy(languages = state.getLanguageStorage().add(language)))
+    noFollowUps(state.updateStorage(state.getLanguageStorage().add(language)))
 }
 
 val DELETE_LANGUAGE: Reducer<DeleteLanguage, State> = { state, action ->
@@ -26,7 +26,7 @@ val DELETE_LANGUAGE: Reducer<DeleteLanguage, State> = { state, action ->
         state.getCharacters(action.id).isEmpty()
     ) { "Cannot delete language ${action.id.value} that is known by characters" }
 
-    noFollowUps(state.copy(languages = state.getLanguageStorage().remove(action.id)))
+    noFollowUps(state.updateStorage(state.getLanguageStorage().remove(action.id)))
 }
 
 val UPDATE_LANGUAGE: Reducer<UpdateLanguage, State> = { state, action ->
@@ -37,7 +37,7 @@ val UPDATE_LANGUAGE: Reducer<UpdateLanguage, State> = { state, action ->
 
     // no duplicate name?
     // no circle? (time travel?)
-    noFollowUps(state.copy(languages = state.getLanguageStorage().update(language)))
+    noFollowUps(state.updateStorage(state.getLanguageStorage().update(language)))
 }
 
 private fun checkOrigin(

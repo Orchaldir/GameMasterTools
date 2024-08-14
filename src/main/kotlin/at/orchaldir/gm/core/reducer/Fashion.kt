@@ -15,14 +15,14 @@ import at.orchaldir.gm.utils.redux.noFollowUps
 val CREATE_FASHION: Reducer<CreateFashion, State> = { state, _ ->
     val fashion = Fashion(state.getFashionStorage().nextId)
 
-    noFollowUps(state.copy(fashion = state.getFashionStorage().add(fashion)))
+    noFollowUps(state.updateStorage(state.getFashionStorage().add(fashion)))
 }
 
 val DELETE_FASHION: Reducer<DeleteFashion, State> = { state, action ->
     state.getFashionStorage().require(action.id)
     require(state.canDelete(action.id)) { "Fashion ${action.id.value} is used" }
 
-    noFollowUps(state.copy(fashion = state.getFashionStorage().remove(action.id)))
+    noFollowUps(state.updateStorage(state.getFashionStorage().remove(action.id)))
 }
 
 val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
@@ -46,7 +46,7 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
 
     val clean = fashion.copy(itemRarityMap = fashion.itemRarityMap.filter { it.value.isNotEmpty() })
 
-    noFollowUps(state.copy(fashion = state.getFashionStorage().update(clean)))
+    noFollowUps(state.updateStorage(state.getFashionStorage().update(clean)))
 }
 
 private fun check(fashion: Fashion, set: ClothingSet, type: EquipmentType) {

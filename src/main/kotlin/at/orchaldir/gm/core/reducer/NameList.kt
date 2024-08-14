@@ -13,14 +13,14 @@ import at.orchaldir.gm.utils.titlecaseFirstChar
 val CREATE_NAME_LIST: Reducer<CreateNameList, State> = { state, _ ->
     val nameList = NameList(state.getNameListStorage().nextId)
 
-    noFollowUps(state.copy(nameLists = state.getNameListStorage().add(nameList)))
+    noFollowUps(state.updateStorage(state.getNameListStorage().add(nameList)))
 }
 
 val DELETE_NAME_LIST: Reducer<DeleteNameList, State> = { state, action ->
     state.getNameListStorage().require(action.id)
     require(state.canDelete(action.id)) { "Name list ${action.id.value} is used" }
 
-    noFollowUps(state.copy(nameLists = state.getNameListStorage().remove(action.id)))
+    noFollowUps(state.updateStorage(state.getNameListStorage().remove(action.id)))
 }
 
 val UPDATE_NAME_LIST: Reducer<UpdateNameList, State> = { state, action ->
@@ -37,5 +37,5 @@ val UPDATE_NAME_LIST: Reducer<UpdateNameList, State> = { state, action ->
         .sorted()
         .toList())
 
-    noFollowUps(state.copy(nameLists = state.getNameListStorage().update(cleaned)))
+    noFollowUps(state.updateStorage(state.getNameListStorage().update(cleaned)))
 }

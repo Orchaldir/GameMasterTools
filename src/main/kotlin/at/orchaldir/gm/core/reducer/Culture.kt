@@ -62,9 +62,11 @@ private fun changeNames(
         .map { converter(it) }
 
     return noFollowUps(
-        state.copy(
-            characters = state.getCharacterStorage().update(updatedCharacters),
-            cultures = state.getCultureStorage().update(action.culture)
+        state.updateStorage(
+            listOf(
+                state.getCharacterStorage().update(updatedCharacters),
+                state.getCultureStorage().update(action.culture),
+            )
         )
     )
 }

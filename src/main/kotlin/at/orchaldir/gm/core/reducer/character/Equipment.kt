@@ -23,5 +23,5 @@ val UPDATE_EQUIPMENT: Reducer<UpdateEquipment, State> = { state, action ->
     val character = state.getCharacterStorage().getOrThrow(action.id)
     val updated = character.copy(equipmentMap = action.map)
 
-    noFollowUps(state.copy(characters = state.getCharacterStorage().update(updated)))
+    noFollowUps(state.updateStorage(state.getCharacterStorage().update(updated)))
 }
