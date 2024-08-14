@@ -24,6 +24,8 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.saveData
 import at.orchaldir.gm.core.saveStorage
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 
 private const val CHARACTER = "Character"
@@ -53,9 +55,32 @@ data class State(
         PERSONALITY_TRAIT
     ),
     val races: Storage<RaceId, Race> = Storage(RaceId(0), RACE),
+    val storageMap: Map<ElementType, Storage<*, *>> = ElementType.entries.associateWith { it.createStorage() },
     val time: Time = Time(),
     val rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
 ) {
+    fun getCalendarStorage() = getStorage<CalendarId, Calendar>(ElementType.Calendar)
+    fun getCharacterStorage() = getStorage<CharacterId, Character>(ElementType.Character)
+    fun getCultureStorage() = getStorage<CultureId, Culture>(ElementType.Culture)
+    fun getFashionStorage() = getStorage<FashionId, Fashion>(ElementType.Fashion)
+    fun getItemTemplateStorage() = getStorage<ItemTemplateId, ItemTemplate>(ElementType.ItemTemplate)
+    fun getLanguageTemplateStorage() = getStorage<LanguageId, Language>(ElementType.Language)
+    fun getMaterialTemplateStorage() = getStorage<MaterialId, Material>(ElementType.Material)
+    fun getNameListStorage() = getStorage<NameListId, NameList>(ElementType.NameList)
+    fun getPersonalityTraitStorage() = getStorage<PersonalityTraitId, PersonalityTrait>(ElementType.PersonalityTrait)
+    fun getRaceStorage() = getStorage<RaceId, Race>(ElementType.Race)
+
+    private fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(type: ElementType): Storage<ID, ELEMENT> {
+        val storage = storageMap[type]
+
+        if (storage != null) {
+            @Suppress("UNCHECKED_CAST")
+            return storage as Storage<ID, ELEMENT>
+        }
+
+        error("fail")
+    }
+
     companion object {
         fun load(path: String) = State(
             path,
