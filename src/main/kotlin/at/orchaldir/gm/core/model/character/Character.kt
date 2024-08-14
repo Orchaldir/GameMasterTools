@@ -1,11 +1,13 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -26,6 +28,8 @@ data class Character(
     val race: RaceId = RaceId(0),
     val gender: Gender = Gender.Genderless,
     val origin: CharacterOrigin = UndefinedCharacterOrigin,
+    val birthDate: Day = Day(0),
+    val causeOfDeath: CauseOfDeath = Alive,
     val culture: CultureId = CultureId(0),
     val personality: Set<PersonalityTraitId> = emptySet(),
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
@@ -35,5 +39,19 @@ data class Character(
 ) : Element<CharacterId> {
 
     override fun id() = id
+
+    fun getAge(currentDay: Day): Duration {
+        if (birthDate >= currentDay) {
+            return Duration(0)
+        }
+
+        val deathDate = causeOfDeath.getDeathDate()
+
+        return if (deathDate != null && deathDate < currentDay) {
+            deathDate.getDurationBetween(birthDate)
+        } else {
+            currentDay.getDurationBetween(birthDate)
+        }
+    }
 
 }

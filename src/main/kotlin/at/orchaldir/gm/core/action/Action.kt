@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.action
 
 import at.orchaldir.gm.core.model.NameList
 import at.orchaldir.gm.core.model.NameListId
+import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.*
@@ -98,3 +99,6 @@ data class UpdatePersonalityTrait(val trait: PersonalityTrait) : Action()
 data object CreateRace : Action()
 data class DeleteRace(val id: RaceId) : Action()
 data class UpdateRace(val race: Race) : Action()
+
+// time
+data class UpdateTime(val time: Time) : Action()

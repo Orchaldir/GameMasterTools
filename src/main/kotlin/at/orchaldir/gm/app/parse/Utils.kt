@@ -5,10 +5,7 @@ import at.orchaldir.gm.core.model.appearance.OneOrNone
 import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.SomeOf
 import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.date.Date
-import at.orchaldir.gm.core.model.calendar.date.DateType
-import at.orchaldir.gm.core.model.calendar.date.DisplayDay
-import at.orchaldir.gm.core.model.calendar.date.DisplayYear
+import at.orchaldir.gm.core.model.time.*
 import io.ktor.http.*
 
 fun combine(param0: String, param1: String) = "$param0-$param1"
@@ -27,19 +24,35 @@ fun parseDate(
     default: Calendar,
     param: String,
 ): Date {
-    val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
-    val eraIndex = parseInt(parameters, combine(param, ERA))
+    return when (parse(parameters, combine(param, DATE), DateType.Year)) {
+        DateType.Day -> parseDay(parameters, default, param)
 
-    val calendarDate = when (parse(parameters, combine(param, DATE), DateType.Year)) {
-        DateType.Day -> {
-            val monthIndex = parseInt(parameters, combine(param, MONTH))
-            val dayIndex = parseInt(parameters, combine(param, DAY), 1) - 1
-
-            DisplayDay(eraIndex, yearIndex, monthIndex, dayIndex)
-        }
-
-        DateType.Year -> DisplayYear(eraIndex, yearIndex)
+        DateType.Year -> parseYear(parameters, default, param)
     }
+}
+
+fun parseDay(
+    parameters: Parameters,
+    default: Calendar,
+    param: String,
+): Day {
+    val eraIndex = parseInt(parameters, combine(param, ERA))
+    val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
+    val monthIndex = parseInt(parameters, combine(param, MONTH))
+    val dayIndex = parseInt(parameters, combine(param, DAY), 1) - 1
+    val calendarDate = DisplayDay(eraIndex, yearIndex, monthIndex, dayIndex)
+
+    return default.resolve(calendarDate)
+}
+
+fun parseYear(
+    parameters: Parameters,
+    default: Calendar,
+    param: String,
+): Year {
+    val eraIndex = parseInt(parameters, combine(param, ERA))
+    val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
+    val calendarDate = DisplayYear(eraIndex, yearIndex)
 
     return default.resolve(calendarDate)
 }

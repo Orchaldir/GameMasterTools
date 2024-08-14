@@ -3,10 +3,7 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.date.Date
-import at.orchaldir.gm.core.model.calendar.date.DateType
-import at.orchaldir.gm.core.model.calendar.date.DisplayDay
-import at.orchaldir.gm.core.model.calendar.date.DisplayYear
+import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import kotlinx.html.*
 
@@ -39,7 +36,6 @@ fun FORM.selectDate(
 ) {
     val displayDate = calendar.resolve(date)
     val dateTypeParam = combine(param, DATE)
-    val yearParam = combine(param, YEAR)
 
     field(fieldLabel) {
         select {
@@ -56,30 +52,56 @@ fun FORM.selectDate(
         }
         when (displayDate) {
             is DisplayDay -> {
-                selectEra(calendar, displayDate.eraIndex, param)
-                selectYear(yearParam, displayDate.yearIndex)
-                selectMonth(param, calendar, displayDate.monthIndex)
-                selectDay(param, calendar, displayDate.monthIndex, displayDate.dayIndex)
+                selectEraIndex(param, calendar, displayDate.eraIndex)
+                selectYearIndex(param, displayDate.yearIndex)
+                selectMonthIndex(param, calendar, displayDate.monthIndex)
+                selectDayIndex(param, calendar, displayDate.monthIndex, displayDate.dayIndex)
             }
 
             is DisplayYear -> {
-                selectEra(calendar, displayDate.eraIndex, param)
-                selectYear(yearParam, displayDate.yearIndex)
+                selectEraIndex(param, calendar, displayDate.eraIndex)
+                selectYearIndex(param, displayDate.yearIndex)
             }
         }
     }
 }
 
-private fun P.selectEra(
+fun FORM.selectDay(
+    state: State,
+    fieldLabel: String,
+    day: Day,
+    param: String,
+) {
+    selectDay(fieldLabel, state.getDefaultCalendar(), day, param)
+}
+
+fun FORM.selectDay(
+    fieldLabel: String,
+    calendar: Calendar,
+    day: Day,
+    param: String,
+) {
+    val displayDate = calendar.resolve(day)
+
+    field(fieldLabel) {
+        selectEraIndex(param, calendar, displayDate.eraIndex)
+        selectYearIndex(param, displayDate.yearIndex)
+        selectMonthIndex(param, calendar, displayDate.monthIndex)
+        selectDayIndex(param, calendar, displayDate.monthIndex, displayDate.dayIndex)
+    }
+}
+
+private fun P.selectEraIndex(
+    param: String,
     calendar: Calendar,
     eraIndex: Int,
-    param: String,
 ) {
     val eraParam = combine(param, ERA)
 
     select {
         id = eraParam
         name = eraParam
+        onChange = ON_CHANGE_SCRIPT
         calendar.eras.getAll().withIndex().forEach { (index, era) ->
             option {
                 label = era.text
@@ -90,14 +112,15 @@ private fun P.selectEra(
     }
 }
 
-private fun P.selectYear(
-    yearParam: String,
+private fun P.selectYearIndex(
+    param: String,
     yearIndex: Int,
 ) {
+    val yearParam = combine(param, YEAR)
     selectNumber(yearIndex + 1, 1, Int.MAX_VALUE, yearParam, true)
 }
 
-private fun P.selectMonth(
+private fun P.selectMonthIndex(
     param: String,
     calendar: Calendar,
     monthIndex: Int,
@@ -107,6 +130,7 @@ private fun P.selectMonth(
     select {
         id = monthParam
         name = monthParam
+        onChange = ON_CHANGE_SCRIPT
         calendar.months.withIndex().forEach { (index, month) ->
             option {
                 label = month.name
@@ -117,12 +141,12 @@ private fun P.selectMonth(
     }
 }
 
-private fun P.selectDay(
+private fun P.selectDayIndex(
     param: String,
     calendar: Calendar,
     monthIndex: Int,
     dayIndex: Int,
 ) {
     val month = calendar.months[monthIndex]
-    selectNumber(dayIndex + 1, 1, month.days, combine(param, DAY), false)
+    selectNumber(dayIndex + 1, 1, month.days, combine(param, DAY), true)
 }

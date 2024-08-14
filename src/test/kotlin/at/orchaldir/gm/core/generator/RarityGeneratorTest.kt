@@ -19,7 +19,7 @@ class RarityGeneratorTest {
 
     @Test
     fun `Requires one rarity that is not unavailable`() {
-        assertFailsWith<IllegalArgumentException> { RarityGenerator(mapOf(Unavailable to 7u)) }
+        assertFailsWith<IllegalArgumentException> { RarityGenerator(mapOf(Unavailable to 7)) }
     }
 
     @Test

@@ -13,6 +13,8 @@ import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -128,11 +130,8 @@ class CharacterTest {
                     Mononym("Test"),
                     RACE1,
                     Gender.Male,
-                    UndefinedCharacterOrigin,
-                    CultureId(0),
-                    setOf(PERSONALITY0),
-                    mapOf(),
-                    LANGUAGES
+                    personality = setOf(PERSONALITY0),
+                    languages = LANGUAGES,
                 ),
                 result.characters.getOrThrow(ID0)
             )
@@ -168,6 +167,13 @@ class CharacterTest {
             }
 
             @Test
+            fun `Cannot be born in the future`() {
+                val action = UpdateCharacter(Character(ID0, birthDate = Day(1)))
+
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
+
+            @Test
             fun `Unknown mother`() {
                 val action = UpdateCharacter(Character(ID0, origin = Born(UNKNOWN, ID1)))
 
@@ -195,6 +201,90 @@ class CharacterTest {
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
             }
 
+        }
+
+        @Nested
+        inner class CauseOfDeathTest {
+
+            private val state = State(
+                characters = Storage(
+                    listOf(
+                        Character(ID0),
+                        Character(ID1),
+                    )
+                ),
+                cultures = Storage(listOf(Culture(CULTURE0))),
+                races = Storage(listOf(Race(RACE0))),
+                time = Time(currentDate = Day(10)),
+            )
+
+            @Test
+            fun `Died from accident`() {
+                testDie(Accident(Day(5)))
+            }
+
+            @Test
+            fun `Cannot die from accident in the future`() {
+                testFailToDie(Accident(Day(11)))
+            }
+
+            @Test
+            fun `Cannot die from accident before its origin`() {
+                testFailToDie(Accident(Day(-1)))
+            }
+
+            @Test
+            fun `Died from murder`() {
+                testDie(Murder(Day(5), ID1))
+            }
+
+            @Test
+            fun `Cannot die from murder in the future`() {
+                testFailToDie(Murder(Day(11), ID1))
+            }
+
+            @Test
+            fun `Cannot die from murder before its origin`() {
+                testFailToDie(Murder(Day(-1), ID1))
+            }
+
+            @Test
+            fun `Killer doesn't exist`() {
+                testFailToDie(Murder(Day(5), ID2))
+            }
+
+            @Test
+            fun `Died from old age`() {
+                testDie(OldAge(Day(5)))
+            }
+
+            @Test
+            fun `Cannot die from old age in the future`() {
+                testFailToDie(OldAge(Day(11)))
+            }
+
+            @Test
+            fun `Cannot die from old age before its origin`() {
+                testFailToDie(OldAge(Day(-1)))
+            }
+
+            private fun testDie(causeOfDeath: CauseOfDeath) {
+                val character = Character(ID0, causeOfDeath = causeOfDeath)
+                val action = UpdateCharacter(character)
+
+                val result = REDUCER.invoke(state, action).first
+
+                assertEquals(
+                    character,
+                    result.characters.getOrThrow(ID0)
+                )
+            }
+
+            private fun testFailToDie(causeOfDeath: CauseOfDeath) {
+                val action = UpdateCharacter(Character(ID0, causeOfDeath = causeOfDeath))
+
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
         }
 
         @Test

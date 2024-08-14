@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Born
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.character.Murder
 import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getInventedLanguages
 import at.orchaldir.gm.core.selector.getParents
@@ -45,6 +46,7 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     state.races.require(character.race)
     state.cultures.require(character.culture)
     checkOrigin(state, character)
+    checkCauseOfDeath(state, character)
     character.personality.forEach { state.personalityTraits.require(it) }
     val update = character.copy(languages = oldCharacter.languages)
 
@@ -55,6 +57,8 @@ private fun checkOrigin(
     state: State,
     character: Character,
 ) {
+    require(character.birthDate <= state.time.currentDate) { "Character is born in the future!" }
+
     when (val origin = character.origin) {
         is Born -> {
             require(state.characters.contains(origin.mother)) { "Cannot use an unknown mother ${origin.mother.value}!" }
@@ -64,5 +68,19 @@ private fun checkOrigin(
         }
 
         else -> doNothing()
+    }
+}
+
+private fun checkCauseOfDeath(
+    state: State,
+    character: Character,
+) {
+    character.causeOfDeath.getDeathDate()?.let {
+        require(it <= state.time.currentDate) { "Character died in the future!" }
+        require(it >= character.birthDate) { "Character died before its origin!" }
+    }
+
+    if (character.causeOfDeath is Murder) {
+        require(state.characters.contains(character.causeOfDeath.killer)) { "Cannot use an unknown killer ${character.causeOfDeath.killer}!" }
     }
 }

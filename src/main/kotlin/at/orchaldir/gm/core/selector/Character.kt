@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.time.Duration
 
 fun State.canCreateCharacter() = cultures.getSize() > 0 && races.getSize() > 0
 
@@ -45,6 +46,9 @@ fun Character.getMother() = when (origin) {
     UndefinedCharacterOrigin -> null
 }
 
+fun State.hasPossibleParents(id: CharacterId) =
+    getPossibleFathers(id).isNotEmpty() && getPossibleMothers(id).isNotEmpty()
+
 fun State.getPossibleFathers(id: CharacterId) = characters.getAll()
     .filter { it.gender == Gender.Male }
     .filter { it.id != id }
@@ -74,3 +78,9 @@ fun State.getSiblings(id: CharacterId): Set<Character> {
 fun State.getOthersWithoutRelationship(character: Character) = characters.getAll()
     .filter { c -> c.id != character.id }
     .filter { c -> !character.relationships.containsKey(c.id) }
+
+// age
+
+fun State.getAge(id: CharacterId): Duration = getAge(characters.getOrThrow(id))
+
+fun State.getAge(character: Character): Duration = character.getAge(time.currentDate)

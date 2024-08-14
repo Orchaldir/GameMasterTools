@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model
 
 import at.orchaldir.gm.core.generator.RarityGenerator
+import at.orchaldir.gm.core.loadData
 import at.orchaldir.gm.core.loadStorage
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
@@ -20,6 +21,8 @@ import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.time.Time
+import at.orchaldir.gm.core.saveData
 import at.orchaldir.gm.core.saveStorage
 import at.orchaldir.gm.utils.Storage
 
@@ -33,6 +36,7 @@ private const val MATERIAL = "Material"
 private const val NAME_LIST = "Name List"
 private const val PERSONALITY_TRAIT = "Personality Trait"
 private const val RACE = "Race"
+private const val TIME = "Time"
 
 data class State(
     val path: String = "data",
@@ -49,7 +53,8 @@ data class State(
         PERSONALITY_TRAIT
     ),
     val races: Storage<RaceId, Race> = Storage(RaceId(0), RACE),
-    val rarityGenerator: RarityGenerator = RarityGenerator.empty(5u),
+    val time: Time = Time(),
+    val rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
 ) {
     companion object {
         fun load(path: String) = State(
@@ -64,6 +69,7 @@ data class State(
             loadStorage(path, NAME_LIST, NameListId(0)),
             loadStorage(path, PERSONALITY_TRAIT, PersonalityTraitId(0)),
             loadStorage(path, RACE, RaceId(0)),
+            loadData(path, TIME)
         )
     }
 
@@ -78,5 +84,6 @@ data class State(
         saveStorage(path, nameLists)
         saveStorage(path, personalityTraits)
         saveStorage(path, races)
+        saveData(path, TIME, time)
     }
 }

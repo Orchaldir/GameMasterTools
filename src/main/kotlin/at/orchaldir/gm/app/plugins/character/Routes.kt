@@ -40,6 +40,13 @@ class Characters {
         class Generate(val id: CharacterId, val parent: Appearance = Appearance())
     }
 
+    @Resource("/birthday")
+    class Birthday(val parent: Characters = Characters()) {
+
+        @Resource("generate")
+        class Generate(val id: CharacterId, val parent: Birthday = Birthday())
+    }
+
     @Resource("/equipment")
     class Equipment(val parent: Characters = Characters()) {
 

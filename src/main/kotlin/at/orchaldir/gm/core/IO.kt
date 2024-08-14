@@ -26,11 +26,19 @@ inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> saveStorage(
     path: String,
     storage: Storage<ID, ELEMENT>,
 ) {
-    logger.info { "save(): ${storage.name}s" }
-
     val data = Data(VERSION, storage.getAll().associateBy { it.id() })
 
-    File("$path/${storage.name}s.json").writeText(prettyJson.encodeToString(data))
+    saveData(path, storage.name + "s", data)
+}
+
+inline fun <reified T> saveData(
+    path: String,
+    name: String,
+    data: T,
+) {
+    logger.info { "save(): $name" }
+
+    File("$path/$name.json").writeText(prettyJson.encodeToString(data))
 }
 
 inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> loadStorage(
@@ -38,14 +46,21 @@ inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> loadStorage(
     type: String,
     zero: ID,
 ): Storage<ID, ELEMENT> {
-    logger.info { "load(): ${type}s" }
-
-    val string = File("$path/${type}s.json").readText()
-    val data = prettyJson.decodeFromString<Data<ID, ELEMENT>>(string)
+    val data = loadData<Data<ID, ELEMENT>>(path, type + "s")
 
     if (data.elements.isEmpty()) {
         return Storage(zero, type)
     }
 
     return Storage(data.elements.values.toList(), type)
+}
+
+inline fun <reified T> loadData(
+    path: String,
+    name: String,
+): T {
+    logger.info { "load(): $name" }
+
+    val string = File("$path/$name.json").readText()
+    return prettyJson.decodeFromString<T>(string)
 }

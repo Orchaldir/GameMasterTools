@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.calendar
 
-import at.orchaldir.gm.core.model.calendar.date.*
+import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -37,12 +37,17 @@ data class Calendar(
         is Year -> -eras.first.startDate.year * getDaysPerYear()
     }
 
+    fun display(duration: Duration): String {
+        val years = duration.day / getDaysPerYear()
+        return "$years years"
+    }
+
     fun resolve(date: Date) = when (date) {
         is Day -> resolve(date)
         is Year -> resolve(date)
     }
 
-    private fun resolve(date: Day): DisplayDay {
+    fun resolve(date: Day): DisplayDay {
         val daysPerYear = getDaysPerYear()
         val day = date.day + getOffsetInDays()
 
@@ -77,7 +82,7 @@ data class Calendar(
         error("Unreachable")
     }
 
-    private fun resolve(date: Year): DisplayYear {
+    fun resolve(date: Year): DisplayYear {
         val offsetInYears = getOffsetInDays() / getDaysPerYear()
         val year = date.year + offsetInYears
 
@@ -93,7 +98,7 @@ data class Calendar(
         is DisplayYear -> resolve(date)
     }
 
-    private fun resolve(date: DisplayDay): Day {
+    fun resolve(date: DisplayDay): Day {
         val daysPerYear = getDaysPerYear()
         val offsetInDays = getOffsetInDays()
 
