@@ -220,27 +220,26 @@ class CharacterTest {
 
             @Test
             fun `Died from accident`() {
-                val character = Character(ID0, causeOfDeath = Accident(Day(5)))
-                val action = UpdateCharacter(character)
-
-                val result = REDUCER.invoke(state, action).first
-
-                assertEquals(
-                    character,
-                    result.characters.getOrThrow(ID0)
-                )
+                testDie(Accident(Day(5)))
             }
 
             @Test
             fun `Cannot die from accident in the future`() {
-                val action = UpdateCharacter(Character(ID0, causeOfDeath = Accident(Day(11))))
-
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                testDieInTheFuture(Accident(Day(11)))
             }
 
             @Test
             fun `Died from old age`() {
-                val character = Character(ID0, causeOfDeath = OldAge(Day(5)))
+                testDie(OldAge(Day(5)))
+            }
+
+            @Test
+            fun `Cannot die from old age in the future`() {
+                testDieInTheFuture(OldAge(Day(11)))
+            }
+
+            private fun testDie(causeOfDeath: CauseOfDeath) {
+                val character = Character(ID0, causeOfDeath = causeOfDeath)
                 val action = UpdateCharacter(character)
 
                 val result = REDUCER.invoke(state, action).first
@@ -251,9 +250,8 @@ class CharacterTest {
                 )
             }
 
-            @Test
-            fun `Cannot die from old age in the future`() {
-                val action = UpdateCharacter(Character(ID0, causeOfDeath = OldAge(Day(11))))
+            private fun testDieInTheFuture(causeOfDeath: CauseOfDeath) {
+                val action = UpdateCharacter(Character(ID0, causeOfDeath = causeOfDeath))
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
             }
