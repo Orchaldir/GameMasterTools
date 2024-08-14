@@ -166,6 +166,13 @@ class CharacterTest {
             }
 
             @Test
+            fun `Born after current date`() {
+                val action = UpdateCharacter(Character(ID0, birthDate = Day(1)))
+
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
+
+            @Test
             fun `Unknown mother`() {
                 val action = UpdateCharacter(Character(ID0, origin = Born(UNKNOWN, ID1)))
 

@@ -55,6 +55,8 @@ private fun checkOrigin(
     state: State,
     character: Character,
 ) {
+    require(character.birthDate <= state.time.currentDate) { "Character is born in the future!" }
+
     when (val origin = character.origin) {
         is Born -> {
             require(state.characters.contains(origin.mother)) { "Cannot use an unknown mother ${origin.mother.value}!" }
