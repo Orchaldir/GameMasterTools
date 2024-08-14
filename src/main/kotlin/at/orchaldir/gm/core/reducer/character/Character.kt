@@ -45,6 +45,7 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     state.races.require(character.race)
     state.cultures.require(character.culture)
     checkOrigin(state, character)
+    checkCauseOfDeath(state, character)
     character.personality.forEach { state.personalityTraits.require(it) }
     val update = character.copy(languages = oldCharacter.languages)
 
@@ -66,5 +67,14 @@ private fun checkOrigin(
         }
 
         else -> doNothing()
+    }
+}
+
+private fun checkCauseOfDeath(
+    state: State,
+    character: Character,
+) {
+    character.causeOfDeath.getDeathDate()?.let {
+        require(it <= state.time.currentDate) { "Character died in the future!" }
     }
 }

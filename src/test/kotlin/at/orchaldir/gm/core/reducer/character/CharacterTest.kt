@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -166,7 +167,7 @@ class CharacterTest {
             }
 
             @Test
-            fun `Born after current date`() {
+            fun `Cannot be born in the future`() {
                 val action = UpdateCharacter(Character(ID0, birthDate = Day(1)))
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -200,6 +201,62 @@ class CharacterTest {
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
             }
 
+        }
+
+        @Nested
+        inner class CauseOfDeathTest {
+
+            private val state = State(
+                characters = Storage(
+                    listOf(
+                        Character(ID0),
+                        Character(ID1),
+                    )
+                ),
+                cultures = Storage(listOf(Culture(CULTURE0))),
+                races = Storage(listOf(Race(RACE0))),
+                time = Time(currentDate = Day(10)),
+            )
+
+            @Test
+            fun `Died from accident`() {
+                val character = Character(ID0, causeOfDeath = Accident(Day(5)))
+                val action = UpdateCharacter(character)
+
+                val result = REDUCER.invoke(state, action).first
+
+                assertEquals(
+                    character,
+                    result.characters.getOrThrow(ID0)
+                )
+            }
+
+            @Test
+            fun `Cannot die from accident in the future`() {
+                val action = UpdateCharacter(Character(ID0, causeOfDeath = Accident(Day(11))))
+
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Died from old age`() {
+                val character = Character(ID0, causeOfDeath = OldAge(Day(5)))
+                val action = UpdateCharacter(character)
+
+                val result = REDUCER.invoke(state, action).first
+
+                assertEquals(
+                    character,
+                    result.characters.getOrThrow(ID0)
+                )
+            }
+
+            @Test
+            fun `Cannot die from old age in the future`() {
+                val action = UpdateCharacter(Character(ID0, causeOfDeath = OldAge(Day(11))))
+
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
         }
 
         @Test
