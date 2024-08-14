@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.model
 
 import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.loadData
-import at.orchaldir.gm.core.loadStorage
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.Character
@@ -28,33 +27,10 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 
-private const val CHARACTER = "Character"
-private const val CALENDAR = "Calendar"
-private const val CULTURE = "Culture"
-private const val FASHION = "Fashion"
-private const val ITEM_TEMPLATE = "Item Template"
-private const val LANGUAGE = "Language"
-private const val MATERIAL = "Material"
-private const val NAME_LIST = "Name List"
-private const val PERSONALITY_TRAIT = "Personality Trait"
-private const val RACE = "Race"
 private const val TIME = "Time"
 
 data class State(
     val path: String = "data",
-    val characters: Storage<CharacterId, Character> = Storage(CharacterId(0), CHARACTER),
-    val calendars: Storage<CalendarId, Calendar> = Storage(CalendarId(0), CALENDAR),
-    val cultures: Storage<CultureId, Culture> = Storage(CultureId(0), CULTURE),
-    val fashion: Storage<FashionId, Fashion> = Storage(FashionId(0), FASHION),
-    val itemTemplates: Storage<ItemTemplateId, ItemTemplate> = Storage(ItemTemplateId(0), ITEM_TEMPLATE),
-    val languages: Storage<LanguageId, Language> = Storage(LanguageId(0), LANGUAGE),
-    val materials: Storage<MaterialId, Material> = Storage(MaterialId(0), MATERIAL),
-    val nameLists: Storage<NameListId, NameList> = Storage(NameListId(0), NAME_LIST),
-    val personalityTraits: Storage<PersonalityTraitId, PersonalityTrait> = Storage(
-        PersonalityTraitId(0),
-        PERSONALITY_TRAIT
-    ),
-    val races: Storage<RaceId, Race> = Storage(RaceId(0), RACE),
     val storageMap: Map<ElementType, Storage<*, *>> = ElementType.entries.associateWith { it.createStorage() },
     val time: Time = Time(),
     val rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
@@ -84,31 +60,15 @@ data class State(
     companion object {
         fun load(path: String) = State(
             path,
-            loadStorage(path, CHARACTER, CharacterId(0)),
-            loadStorage(path, CALENDAR, CalendarId(0)),
-            loadStorage(path, CULTURE, CultureId(0)),
-            loadStorage(path, FASHION, FashionId(0)),
-            loadStorage(path, ITEM_TEMPLATE, ItemTemplateId(0)),
-            loadStorage(path, LANGUAGE, LanguageId(0)),
-            loadStorage(path, MATERIAL, MaterialId(0)),
-            loadStorage(path, NAME_LIST, NameListId(0)),
-            loadStorage(path, PERSONALITY_TRAIT, PersonalityTraitId(0)),
-            loadStorage(path, RACE, RaceId(0)),
+            ElementType.entries.associateWith { it.loadStorage(path) },
             loadData(path, TIME)
         )
     }
 
     fun save() {
-        saveStorage(path, characters)
-        saveStorage(path, calendars)
-        saveStorage(path, cultures)
-        saveStorage(path, fashion)
-        saveStorage(path, itemTemplates)
-        saveStorage(path, languages)
-        saveStorage(path, materials)
-        saveStorage(path, nameLists)
-        saveStorage(path, personalityTraits)
-        saveStorage(path, races)
+        storageMap.values.forEach {
+            saveStorage(path, it)
+        }
         saveData(path, TIME, time)
     }
 }

@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.core.loadStorage
 
 enum class ElementType {
     Calendar,
@@ -34,5 +35,31 @@ enum class ElementType {
         NameList -> Storage(NameListId(0), name)
         PersonalityTrait -> Storage(PersonalityTraitId(0), name)
         Race -> Storage(RaceId(0), name)
+    }
+
+    fun loadStorage(path: String) = when (this) {
+        Calendar -> loadStorage(path, CalendarId(0), name)
+        Character -> loadStorage(path, CharacterId(0), name)
+        Culture -> loadStorage(path, CultureId(0), name)
+        Fashion -> loadStorage(path, FashionId(0), name)
+        ItemTemplate -> loadStorage(path, ItemTemplateId(0), name)
+        Language -> loadStorage(path, LanguageId(0), name)
+        Material -> loadStorage(path, MaterialId(0), name)
+        NameList -> loadStorage(path, NameListId(0), name)
+        PersonalityTrait -> loadStorage(path, PersonalityTraitId(0), name)
+        Race -> loadStorage(path, RaceId(0), name)
+    }
+
+    fun createId0() = when (this) {
+        Calendar -> CalendarId(0)
+        Character -> CharacterId(0)
+        Culture -> CultureId(0)
+        Fashion -> FashionId(0)
+        ItemTemplate -> ItemTemplateId(0)
+        Language -> LanguageId(0)
+        Material -> MaterialId(0)
+        NameList -> NameListId(0)
+        PersonalityTrait -> PersonalityTraitId(0)
+        Race -> RaceId(0)
     }
 }

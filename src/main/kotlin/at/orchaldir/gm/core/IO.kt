@@ -43,8 +43,8 @@ inline fun <reified T> saveData(
 
 inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> loadStorage(
     path: String,
-    type: String,
     zero: ID,
+    type: String,
 ): Storage<ID, ELEMENT> {
     val data = loadData<Data<ID, ELEMENT>>(path, type + "s")
 
