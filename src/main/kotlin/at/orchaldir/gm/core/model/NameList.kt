@@ -4,7 +4,7 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val NAME_LIST = "NameList"
+const val NAME_LIST = "Name List"
 
 @JvmInline
 @Serializable

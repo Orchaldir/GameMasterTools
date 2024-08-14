@@ -4,7 +4,7 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val PERSONALITY_TRAIT = "PersonalityTrait"
+const val PERSONALITY_TRAIT = "Personality Trait"
 
 @JvmInline
 @Serializable

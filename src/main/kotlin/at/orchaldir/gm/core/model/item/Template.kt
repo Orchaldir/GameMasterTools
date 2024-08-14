@@ -4,7 +4,7 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val ITEM_TEMPLATE = "ItemTemplate"
+const val ITEM_TEMPLATE = "Item Template"
 
 @JvmInline
 @Serializable
