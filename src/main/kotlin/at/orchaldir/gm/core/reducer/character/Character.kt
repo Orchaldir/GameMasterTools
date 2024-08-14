@@ -77,6 +77,7 @@ private fun checkCauseOfDeath(
 ) {
     character.causeOfDeath.getDeathDate()?.let {
         require(it <= state.time.currentDate) { "Character died in the future!" }
+        require(it >= character.birthDate) { "Character died before its origin!" }
     }
 
     if (character.causeOfDeath is Murder) {

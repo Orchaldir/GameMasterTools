@@ -229,6 +229,11 @@ class CharacterTest {
             }
 
             @Test
+            fun `Cannot die from accident before its origin`() {
+                testFailToDie(Accident(Day(-1)))
+            }
+
+            @Test
             fun `Died from murder`() {
                 testDie(Murder(Day(5), ID1))
             }
@@ -236,6 +241,11 @@ class CharacterTest {
             @Test
             fun `Cannot die from murder in the future`() {
                 testFailToDie(Murder(Day(11), ID1))
+            }
+
+            @Test
+            fun `Cannot die from murder before its origin`() {
+                testFailToDie(Murder(Day(-1), ID1))
             }
 
             @Test
@@ -251,6 +261,11 @@ class CharacterTest {
             @Test
             fun `Cannot die from old age in the future`() {
                 testFailToDie(OldAge(Day(11)))
+            }
+
+            @Test
+            fun `Cannot die from old age before its origin`() {
+                testFailToDie(OldAge(Day(-1)))
             }
 
             private fun testDie(causeOfDeath: CauseOfDeath) {
