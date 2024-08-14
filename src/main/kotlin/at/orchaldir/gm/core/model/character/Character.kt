@@ -40,10 +40,10 @@ data class Character(
 
     override fun id() = id
 
-    fun getAge(currentDay: Day) = if (birthDate.day >= currentDay.day) {
+    fun getAge(currentDay: Day) = if (birthDate >= currentDay) {
         Duration(0)
     } else {
-        Duration(currentDay.day - birthDate.day)
+        currentDay.getDurationBetween(birthDate)
     }
 
 }
