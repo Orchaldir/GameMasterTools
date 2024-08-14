@@ -44,15 +44,15 @@ fun createStorage(type: String) = when (type) {
 }
 
 fun loadStorage(path: String, type: String): Storage<*, *> = when (type) {
-    CALENDAR -> loadStorage<CalendarId, Calendar>(path, CalendarId(0), type)
-    CHARACTER -> loadStorage<CharacterId, Character>(path, CharacterId(0), type)
-    CULTURE -> loadStorage<CultureId, Culture>(path, CultureId(0), type)
-    FASHION -> loadStorage<FashionId, Fashion>(path, FashionId(0), type)
-    ITEM_TEMPLATE -> loadStorage<ItemTemplateId, ItemTemplate>(path, ItemTemplateId(0), type)
-    LANGUAGE -> loadStorage<LanguageId, Language>(path, LanguageId(0), type)
-    MATERIAL -> loadStorage<MaterialId, Material>(path, MaterialId(0), type)
-    NAME_LIST -> loadStorage<NameListId, NameList>(path, NameListId(0), type)
-    PERSONALITY_TRAIT -> loadStorage<PersonalityTraitId, PersonalityTrait>(path, PersonalityTraitId(0), type)
-    RACE -> loadStorage<RaceId, Race>(path, RaceId(0), type)
+    CALENDAR -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))
+    CHARACTER -> loadStorage<CharacterId, Character>(path, CharacterId(0))
+    CULTURE -> loadStorage<CultureId, Culture>(path, CultureId(0))
+    FASHION -> loadStorage<FashionId, Fashion>(path, FashionId(0))
+    ITEM_TEMPLATE -> loadStorage<ItemTemplateId, ItemTemplate>(path, ItemTemplateId(0))
+    LANGUAGE -> loadStorage<LanguageId, Language>(path, LanguageId(0))
+    MATERIAL -> loadStorage<MaterialId, Material>(path, MaterialId(0))
+    NAME_LIST -> loadStorage<NameListId, NameList>(path, NameListId(0))
+    PERSONALITY_TRAIT -> loadStorage<PersonalityTraitId, PersonalityTrait>(path, PersonalityTraitId(0))
+    RACE -> loadStorage<RaceId, Race>(path, RaceId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }

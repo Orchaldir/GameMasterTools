@@ -44,9 +44,8 @@ inline fun <reified T> saveData(
 inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> loadStorage(
     path: String,
     zero: ID,
-    type: String,
 ): Storage<ID, ELEMENT> {
-    val data = loadData<Data<ID, ELEMENT>>(path, type + "s")
+    val data = loadData<Data<ID, ELEMENT>>(path, zero.type() + "s")
 
     if (data.elements.isEmpty()) {
         return Storage(zero)
