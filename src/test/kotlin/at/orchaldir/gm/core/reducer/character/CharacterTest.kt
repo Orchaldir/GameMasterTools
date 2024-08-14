@@ -225,7 +225,22 @@ class CharacterTest {
 
             @Test
             fun `Cannot die from accident in the future`() {
-                testDieInTheFuture(Accident(Day(11)))
+                testFailToDie(Accident(Day(11)))
+            }
+
+            @Test
+            fun `Died from murder`() {
+                testDie(Murder(Day(5), ID1))
+            }
+
+            @Test
+            fun `Cannot die from murder in the future`() {
+                testFailToDie(Murder(Day(11), ID1))
+            }
+
+            @Test
+            fun `Killer doesn't exist`() {
+                testFailToDie(Murder(Day(5), ID2))
             }
 
             @Test
@@ -235,7 +250,7 @@ class CharacterTest {
 
             @Test
             fun `Cannot die from old age in the future`() {
-                testDieInTheFuture(OldAge(Day(11)))
+                testFailToDie(OldAge(Day(11)))
             }
 
             private fun testDie(causeOfDeath: CauseOfDeath) {
@@ -250,7 +265,7 @@ class CharacterTest {
                 )
             }
 
-            private fun testDieInTheFuture(causeOfDeath: CauseOfDeath) {
+            private fun testFailToDie(causeOfDeath: CauseOfDeath) {
                 val action = UpdateCharacter(Character(ID0, causeOfDeath = causeOfDeath))
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
