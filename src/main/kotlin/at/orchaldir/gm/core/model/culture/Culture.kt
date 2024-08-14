@@ -37,6 +37,7 @@ data class Culture(
 ) : Element<CultureId> {
 
     override fun id() = id
+    override fun name() = name
 
     fun getFashion(character: Character) = clothingStyles.get(character.gender)
 

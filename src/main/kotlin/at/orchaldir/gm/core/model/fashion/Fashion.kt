@@ -32,6 +32,7 @@ data class Fashion(
 ) : Element<FashionId> {
 
     override fun id() = id
+    override fun name() = name
 
     fun getAllItemTemplates() = itemRarityMap
         .values

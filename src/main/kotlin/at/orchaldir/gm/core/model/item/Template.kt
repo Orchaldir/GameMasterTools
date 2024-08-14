@@ -24,6 +24,7 @@ data class ItemTemplate(
 ) : Element<ItemTemplateId> {
 
     override fun id() = id
+    override fun name() = name
 
     fun slots() = equipment.slots()
 

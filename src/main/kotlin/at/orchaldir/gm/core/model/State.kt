@@ -61,6 +61,17 @@ data class State(
         error("fail")
     }
 
+    fun <ID : Id<ID>> getElementName(id: ID): String {
+        val storage = storageMap[id.type()]
+
+        if (storage != null) {
+            @Suppress("UNCHECKED_CAST")
+            return (storage as Storage<ID, Element<ID>>).get(id)?.name() ?: "Unknown"
+        }
+
+        error("fail")
+    }
+
     fun updateStorage(storage: Storage<*, *>): State {
         val newMap = storageMap.toMutableMap()
         newMap[storage.getType()] = storage

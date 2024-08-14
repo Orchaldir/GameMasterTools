@@ -28,5 +28,6 @@ data class PersonalityTrait(
 ) : Element<PersonalityTraitId> {
 
     override fun id() = id
+    override fun name() = name
 
 }

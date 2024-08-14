@@ -23,5 +23,6 @@ data class Material(
 ) : Element<MaterialId> {
 
     override fun id() = id
+    override fun name() = name
 
 }

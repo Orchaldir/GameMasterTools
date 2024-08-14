@@ -29,6 +29,7 @@ data class Calendar(
 ) : Element<CalendarId> {
 
     override fun id() = id
+    override fun name() = name
 
     fun getDaysPerYear() = months.sumOf { it.days }
 

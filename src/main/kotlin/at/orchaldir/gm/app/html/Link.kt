@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.plugins.character.Characters
 import at.orchaldir.gm.core.model.NameList
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.CALENDAR
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.Character
@@ -24,6 +25,7 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.selector.getName
+import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import kotlinx.html.HtmlBlockTag
@@ -60,12 +62,12 @@ fun href(
 
 // calendar
 
-fun HtmlBlockTag.link(
+fun <ID : Id<ID>> HtmlBlockTag.link(
     call: ApplicationCall,
     state: State,
-    id: CalendarId,
+    id: ID,
 ) {
-    link(call, id, state.getCalendarStorage().get(id)?.name ?: "Unknown")
+    link(call, id, state.getElementName(id))
 }
 
 fun HtmlBlockTag.link(
@@ -75,16 +77,19 @@ fun HtmlBlockTag.link(
     link(call, calendar.id, calendar.name)
 }
 
-private fun HtmlBlockTag.link(
+private fun <ID : Id<ID>> HtmlBlockTag.link(
     call: ApplicationCall,
-    id: CalendarId,
+    id: ID,
     text: String,
 ) = a(href(call, id)) { +text }
 
-fun href(
+fun <ID : Id<ID>> href(
     call: ApplicationCall,
-    id: CalendarId,
-) = call.application.href(Calendars.Details(id))
+    id: ID,
+) = when (id.type()) {
+    CALENDAR -> call.application.href(Calendars.Details(id as CalendarId))
+    else -> error("Cannot create link for unsupported type ${id.type()}!")
+}
 
 // culture
 
