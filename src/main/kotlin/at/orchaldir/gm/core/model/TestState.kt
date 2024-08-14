@@ -9,7 +9,7 @@ import at.orchaldir.gm.utils.Storage
 data class TestState(
     val map: Map<ElementType, Storage<*, *>> = ElementType.entries.associateWith { it.createStorage() },
 ) {
-    fun getCharacters() = getStorage<CharacterId, Character>(ElementType.Character)
+    fun getCharacters() = getStorage<CharacterId, Character>(ElementType.CHARACTER)
 
     private fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(type: ElementType): Storage<ID, ELEMENT> {
         val storage = map[type]

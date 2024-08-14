@@ -13,53 +13,53 @@ import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.core.loadStorage
 
 enum class ElementType {
-    Calendar,
-    Character,
-    Culture,
-    Fashion,
-    ItemTemplate,
-    Language,
-    Material,
-    NameList,
-    PersonalityTrait,
-    Race;
+    CALENDAR,
+    CHARACTER,
+    CULTURE,
+    FASHION,
+    ITEM_TEMPLATE,
+    LANGUAGE,
+    MATERIAL,
+    NAME_LIST,
+    PERSONALITY_TRAIT,
+    RACE;
 
     fun createStorage() = when (this) {
-        Calendar -> Storage(CalendarId(0), name)
-        Character -> Storage(CharacterId(0), name)
-        Culture -> Storage(CultureId(0), name)
-        Fashion -> Storage(FashionId(0), name)
-        ItemTemplate -> Storage(ItemTemplateId(0), name)
-        Language -> Storage(LanguageId(0), name)
-        Material -> Storage(MaterialId(0), name)
-        NameList -> Storage(NameListId(0), name)
-        PersonalityTrait -> Storage(PersonalityTraitId(0), name)
-        Race -> Storage(RaceId(0), name)
+        CALENDAR -> Storage(CalendarId(0), name)
+        CHARACTER -> Storage(CharacterId(0), name)
+        CULTURE -> Storage(CultureId(0), name)
+        FASHION -> Storage(FashionId(0), name)
+        ITEM_TEMPLATE -> Storage(ItemTemplateId(0), name)
+        LANGUAGE -> Storage(LanguageId(0), name)
+        MATERIAL -> Storage(MaterialId(0), name)
+        NAME_LIST -> Storage(NameListId(0), name)
+        PERSONALITY_TRAIT -> Storage(PersonalityTraitId(0), name)
+        RACE -> Storage(RaceId(0), name)
     }
 
     fun loadStorage(path: String) = when (this) {
-        Calendar -> loadStorage(path, CalendarId(0), name)
-        Character -> loadStorage(path, CharacterId(0), name)
-        Culture -> loadStorage(path, CultureId(0), name)
-        Fashion -> loadStorage(path, FashionId(0), name)
-        ItemTemplate -> loadStorage(path, ItemTemplateId(0), name)
-        Language -> loadStorage(path, LanguageId(0), name)
-        Material -> loadStorage(path, MaterialId(0), name)
-        NameList -> loadStorage(path, NameListId(0), name)
-        PersonalityTrait -> loadStorage(path, PersonalityTraitId(0), name)
-        Race -> loadStorage(path, RaceId(0), name)
+        CALENDAR -> loadStorage(path, CalendarId(0), name)
+        CHARACTER -> loadStorage(path, CharacterId(0), name)
+        CULTURE -> loadStorage(path, CultureId(0), name)
+        FASHION -> loadStorage(path, FashionId(0), name)
+        ITEM_TEMPLATE -> loadStorage(path, ItemTemplateId(0), name)
+        LANGUAGE -> loadStorage(path, LanguageId(0), name)
+        MATERIAL -> loadStorage(path, MaterialId(0), name)
+        NAME_LIST -> loadStorage(path, NameListId(0), name)
+        PERSONALITY_TRAIT -> loadStorage(path, PersonalityTraitId(0), name)
+        RACE -> loadStorage(path, RaceId(0), name)
     }
 
     fun createId0() = when (this) {
-        Calendar -> CalendarId(0)
-        Character -> CharacterId(0)
-        Culture -> CultureId(0)
-        Fashion -> FashionId(0)
-        ItemTemplate -> ItemTemplateId(0)
-        Language -> LanguageId(0)
-        Material -> MaterialId(0)
-        NameList -> NameListId(0)
-        PersonalityTrait -> PersonalityTraitId(0)
-        Race -> RaceId(0)
+        CALENDAR -> CalendarId(0)
+        CHARACTER -> CharacterId(0)
+        CULTURE -> CultureId(0)
+        FASHION -> FashionId(0)
+        ITEM_TEMPLATE -> ItemTemplateId(0)
+        LANGUAGE -> LanguageId(0)
+        MATERIAL -> MaterialId(0)
+        NAME_LIST -> NameListId(0)
+        PERSONALITY_TRAIT -> PersonalityTraitId(0)
+        RACE -> RaceId(0)
     }
 }

@@ -35,16 +35,16 @@ data class State(
     val time: Time = Time(),
     val rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
 ) {
-    fun getCalendarStorage() = getStorage<CalendarId, Calendar>(ElementType.Calendar)
-    fun getCharacterStorage() = getStorage<CharacterId, Character>(ElementType.Character)
-    fun getCultureStorage() = getStorage<CultureId, Culture>(ElementType.Culture)
-    fun getFashionStorage() = getStorage<FashionId, Fashion>(ElementType.Fashion)
-    fun getItemTemplateStorage() = getStorage<ItemTemplateId, ItemTemplate>(ElementType.ItemTemplate)
-    fun getLanguageStorage() = getStorage<LanguageId, Language>(ElementType.Language)
-    fun getMaterialStorage() = getStorage<MaterialId, Material>(ElementType.Material)
-    fun getNameListStorage() = getStorage<NameListId, NameList>(ElementType.NameList)
-    fun getPersonalityTraitStorage() = getStorage<PersonalityTraitId, PersonalityTrait>(ElementType.PersonalityTrait)
-    fun getRaceStorage() = getStorage<RaceId, Race>(ElementType.Race)
+    fun getCalendarStorage() = getStorage<CalendarId, Calendar>(ElementType.CALENDAR)
+    fun getCharacterStorage() = getStorage<CharacterId, Character>(ElementType.CHARACTER)
+    fun getCultureStorage() = getStorage<CultureId, Culture>(ElementType.CULTURE)
+    fun getFashionStorage() = getStorage<FashionId, Fashion>(ElementType.FASHION)
+    fun getItemTemplateStorage() = getStorage<ItemTemplateId, ItemTemplate>(ElementType.ITEM_TEMPLATE)
+    fun getLanguageStorage() = getStorage<LanguageId, Language>(ElementType.LANGUAGE)
+    fun getMaterialStorage() = getStorage<MaterialId, Material>(ElementType.MATERIAL)
+    fun getNameListStorage() = getStorage<NameListId, NameList>(ElementType.NAME_LIST)
+    fun getPersonalityTraitStorage() = getStorage<PersonalityTraitId, PersonalityTrait>(ElementType.PERSONALITY_TRAIT)
+    fun getRaceStorage() = getStorage<RaceId, Race>(ElementType.RACE)
 
     private fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(type: ElementType): Storage<ID, ELEMENT> {
         val storage = storageMap[type]
@@ -55,6 +55,13 @@ data class State(
         }
 
         error("fail")
+    }
+
+    fun updateStorage(type: ElementType, storage: Storage<*, *>): State {
+        val newMap = storageMap.toMutableMap()
+        newMap[type] = storage
+
+        return copy(storageMap = newMap)
     }
 
     companion object {
