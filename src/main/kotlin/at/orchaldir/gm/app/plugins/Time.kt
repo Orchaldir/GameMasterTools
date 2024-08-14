@@ -2,8 +2,10 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.CURRENT
+import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
+import at.orchaldir.gm.core.model.calendar.CALENDAR
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -16,7 +18,6 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
-import at.orchaldir.gm.core.model.calendar.CALENDAR
 
 private val logger = KotlinLogging.logger {}
 

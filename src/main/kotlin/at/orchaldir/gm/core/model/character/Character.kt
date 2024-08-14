@@ -1,12 +1,12 @@
 package at.orchaldir.gm.core.model.character
 
-import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
