@@ -36,7 +36,7 @@ private const val MATERIAL = "Material"
 private const val NAME_LIST = "Name List"
 private const val PERSONALITY_TRAIT = "Personality Trait"
 private const val RACE = "Race"
-private const val TIME = "time"
+private const val TIME = "Time"
 
 data class State(
     val path: String = "data",
