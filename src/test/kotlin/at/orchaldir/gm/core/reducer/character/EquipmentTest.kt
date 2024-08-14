@@ -24,13 +24,15 @@ class EquipmentTest {
     @Test
     fun `Update equipment`() {
         val state = State(
-            characters = Storage(listOf(Character(ID0))),
-            itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Hat()))),
+            listOf(
+                Storage(listOf(Character(ID0))),
+                Storage(listOf(ItemTemplate(ITEM0, equipment = Hat()))),
+            )
         )
 
         val result = REDUCER.invoke(state, action).first
 
-        assertEquals(equipmentMap, result.characters.getOrThrow(ID0).equipmentMap)
+        assertEquals(equipmentMap, result.getCharacterStorage().getOrThrow(ID0).equipmentMap)
     }
 
     @Test
@@ -42,7 +44,7 @@ class EquipmentTest {
 
     @Test
     fun `Cannot use unknown item template`() {
-        val state = State(characters = Storage(listOf(Character(ID0))))
+        val state = State(Storage(listOf(Character(ID0))))
 
         assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
     }
@@ -50,8 +52,10 @@ class EquipmentTest {
     @Test
     fun `Cannot use item template of wrong type`() {
         val state = State(
-            characters = Storage(listOf(Character(ID0))),
-            itemTemplates = Storage(listOf(ItemTemplate(ITEM0, equipment = Dress()))),
+            listOf(
+                Storage(listOf(Character(ID0))),
+                Storage(listOf(ItemTemplate(ITEM0, equipment = Dress()))),
+            )
         )
 
         assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -60,13 +64,15 @@ class EquipmentTest {
     @Test
     fun `Cannot occupy equipment slot twice`() {
         val state = State(
-            characters = Storage(listOf(Character(ID0))),
-            itemTemplates = Storage(
+            listOf(
+                Storage(listOf(Character(ID0))),
+                Storage(
                 listOf(
                     ItemTemplate(ITEM0, equipment = Dress()),
                     ItemTemplate(ITEM1, equipment = Shirt())
                 )
-            ),
+                ),
+            )
         )
         val equipmentMap = EquipmentMap(mapOf(EquipmentType.Dress to ITEM0, EquipmentType.Shirt to ITEM1))
         val action = UpdateEquipment(ID0, equipmentMap)

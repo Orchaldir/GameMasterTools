@@ -16,7 +16,7 @@ import kotlin.test.assertFailsWith
 
 private val ID0 = NameListId(0)
 private val NAME_LIST = NameList(ID0, "Test", listOf("A", "B"))
-private val STATE = State(nameLists = Storage(listOf(NameList(ID0))))
+private val STATE = State(Storage(listOf(NameList(ID0))))
 
 class NameListTest {
 
@@ -27,7 +27,7 @@ class NameListTest {
         fun `Can delete an existing id`() {
             val action = DeleteNameList(ID0)
 
-            assertEquals(0, REDUCER.invoke(STATE, action).first.nameLists.getSize())
+            assertEquals(0, REDUCER.invoke(STATE, action).first.getNameListStorage().getSize())
         }
 
         @Test
@@ -40,8 +40,8 @@ class NameListTest {
         @Test
         fun `Cannot delete, if used by a culture`() {
             val action = DeleteNameList(ID0)
-            val state = STATE.copy(
-                cultures = Storage(
+            val state = STATE.updateStorage(
+                Storage(
                     listOf(
                         Culture(
                             CultureId(0), namingConvention = MononymConvention(ID0)
@@ -130,7 +130,7 @@ class NameListTest {
         private fun assertAction(action: UpdateNameList) = assertAction(action, NAME_LIST)
 
         private fun assertAction(action: UpdateNameList, result: NameList) {
-            assertEquals(Storage(listOf(result)), REDUCER.invoke(STATE, action).first.nameLists)
+            assertEquals(Storage(listOf(result)), REDUCER.invoke(STATE, action).first.getNameListStorage())
         }
     }
 

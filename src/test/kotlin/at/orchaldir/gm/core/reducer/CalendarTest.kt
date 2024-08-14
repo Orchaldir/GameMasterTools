@@ -48,7 +48,7 @@ class CalendarTest {
         @Test
         fun `Cannot delete a calendar used by a culture`() {
             val culture = Culture(CULTURE0, calendar = ID0)
-            val state = State.init(listOf(Storage(listOf(culture)), Storage(listOf(Calendar(ID0)))))
+            val state = State(listOf(Storage(listOf(culture)), Storage(listOf(Calendar(ID0)))))
             val action = DeleteCalendar(ID0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }

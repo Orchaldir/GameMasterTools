@@ -28,7 +28,7 @@ class NameTest {
 
     @Test
     fun `Get Mononym independent of culture`() {
-        val state = State(characters = Storage(listOf(Character(ID0, Mononym("Test")))))
+        val state = State(Storage(listOf(Character(ID0, Mononym("Test")))))
 
         assertEquals("Test", state.getName(ID0))
     }
@@ -82,8 +82,10 @@ class NameTest {
         private fun init(nameOrder: NameOrder, middle: String?) = init(FamilyConvention(nameOrder), middle)
 
         private fun init(convention: NamingConvention, middle: String?) = State(
-            characters = Storage(listOf(Character(ID0, FamilyName("Given", middle, "Family")))),
-            cultures = Storage(listOf(Culture(CULTURE0, namingConvention = convention)))
+            listOf(
+                Storage(listOf(Character(ID0, FamilyName("Given", middle, "Family")))),
+                Storage(listOf(Culture(CULTURE0, namingConvention = convention))),
+            )
         )
 
     }
@@ -94,8 +96,10 @@ class NameTest {
         @Test
         fun `Without a father`() {
             val state = State(
-                characters = Storage(listOf(Character(ID0, Genonym("A")))),
-                cultures = Storage(listOf(Culture(CULTURE0, namingConvention = PatronymConvention())))
+                listOf(
+                    Storage(listOf(Character(ID0, Genonym("A")))),
+                    Storage(listOf(Culture(CULTURE0, namingConvention = PatronymConvention()))),
+                )
             )
 
             assertEquals("A", state.getName(ID0))
@@ -106,13 +110,15 @@ class NameTest {
             @Test
             fun `Names Only style`() {
                 val state = State(
-                    characters = Storage(
+                    listOf(
+                        Storage(
                         listOf(
                             Character(ID0, Genonym("Child"), origin = Born(OTHER, ID1)),
                             Character(ID1, Genonym("Father"))
                         )
                     ),
-                    cultures = Storage(listOf(Culture(CULTURE0, namingConvention = PatronymConvention())))
+                        Storage(listOf(Culture(CULTURE0, namingConvention = PatronymConvention()))),
+                    )
                 )
 
                 assertEquals("Child Father", state.getName(ID0))
@@ -161,19 +167,21 @@ class NameTest {
             }
 
             private fun init(gender: Gender, style: GenonymicStyle) = State(
-                characters = Storage(
+                listOf(
+                    Storage(
                     listOf(
                         Character(ID0, Genonym("Child"), gender = gender, origin = Born(OTHER, ID1)),
                         Character(ID1, Genonym("Father"))
                     )
                 ),
-                cultures = Storage(
+                    Storage(
                     listOf(
                         Culture(
                             CULTURE0, namingConvention = PatronymConvention(
                                 style = style
                             )
                         )
+                    )
                     )
                 )
             )
@@ -182,14 +190,15 @@ class NameTest {
         @Test
         fun `Two generations`() {
             val state = State(
-                characters = Storage(
+                listOf(
+                    Storage(
                     listOf(
                         Character(ID0, Genonym("A"), gender = Female, origin = Born(OTHER, ID1)),
                         Character(ID1, Genonym("B"), gender = Male, origin = Born(OTHER, ID2)),
                         Character(ID2, Genonym("C"))
                     )
                 ),
-                cultures = Storage(
+                    Storage(
                     listOf(
                         Culture(
                             CULTURE0, namingConvention = PatronymConvention(
@@ -200,6 +209,7 @@ class NameTest {
                         )
                     )
                 )
+                )
             )
 
             assertEquals("A f B m C", state.getName(ID0))
@@ -209,14 +219,15 @@ class NameTest {
     @Test
     fun `Test Matronym`() {
         val state = State(
-            characters = Storage(
+            listOf(
+                Storage(
                 listOf(
                     Character(ID0, Genonym("A"), gender = Male, origin = Born(ID1, OTHER)),
                     Character(ID1, Genonym("B"), gender = Female, origin = Born(ID2, OTHER)),
                     Character(ID2, Genonym("C"))
                 )
             ),
-            cultures = Storage(
+                Storage(
                 listOf(
                     Culture(
                         CULTURE0, namingConvention = MatronymConvention(
@@ -226,6 +237,7 @@ class NameTest {
                         )
                     )
                 )
+            )
             )
         )
 
@@ -250,14 +262,15 @@ class NameTest {
         }
 
         private fun init(gender: Gender) = State(
-            characters = Storage(
+            listOf(
+                Storage(
                 listOf(
                     Character(ID0, Genonym("A"), gender = gender, origin = Born(ID1, ID2)),
                     Character(ID1, Genonym("B"), gender = Female),
                     Character(ID2, Genonym("C"), gender = gender)
                 )
             ),
-            cultures = Storage(
+                Storage(
                 listOf(
                     Culture(
                         CULTURE0, namingConvention = GenonymConvention(
@@ -267,6 +280,7 @@ class NameTest {
                         )
                     )
                 )
+            )
             )
         )
     }

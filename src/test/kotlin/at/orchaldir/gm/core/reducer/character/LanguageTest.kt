@@ -30,18 +30,20 @@ class LanguageTest {
         @Test
         fun `Add a language`() {
             val state = State(
-                characters = Storage(listOf(Character(ID0))),
-                languages = Storage(listOf(Language(LANGUAGE0)))
+                listOf(
+                    Storage(listOf(Character(ID0))),
+                    Storage(listOf(Language(LANGUAGE0)))
+                )
             )
 
             val result = REDUCER.invoke(state, action).first
 
-            assertEquals(LANGUAGES, result.characters.getOrThrow(ID0).languages)
+            assertEquals(LANGUAGES, result.getCharacterStorage().getOrThrow(ID0).languages)
         }
 
         @Test
         fun `Cannot add unknown language`() {
-            val state = State(characters = Storage(listOf(Character(ID0))))
+            val state = State(Storage(listOf(Character(ID0))))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
@@ -55,18 +57,20 @@ class LanguageTest {
         @Test
         fun `Remove a language`() {
             val state = State(
-                characters = Storage(listOf(Character(ID0, languages = LANGUAGES))),
-                languages = Storage(listOf(Language(LANGUAGE0)))
+                listOf(
+                    Storage(listOf(Character(ID0, languages = LANGUAGES))),
+                    Storage(listOf(Language(LANGUAGE0)))
+                )
             )
 
             val result = REDUCER.invoke(state, action).first
 
-            assertTrue(result.characters.getOrThrow(ID0).languages.isEmpty())
+            assertTrue(result.getCharacterStorage().getOrThrow(ID0).languages.isEmpty())
         }
 
         @Test
         fun `Cannot remove unknown language`() {
-            val state = State(characters = Storage(listOf(Character(ID0))))
+            val state = State(Storage(listOf(Character(ID0))))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }

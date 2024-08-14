@@ -19,10 +19,9 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-private val CHARACTER0 = CharacterId(0)
 private val ID0 = ItemTemplateId(0)
 private val ITEM = ItemTemplate(ID0, "Test")
-private val STATE = State(itemTemplates = Storage(listOf(ItemTemplate(ID0))))
+private val STATE = State(Storage(listOf(ItemTemplate(ID0))))
 private val MATERIAL0 = MaterialId(0)
 private val MATERIAL1 = MaterialId(1)
 private val EQUIPMENT_MAP = EquipmentMap(mapOf(Hat to ID0))
@@ -36,7 +35,7 @@ class ItemTemplateTest {
         fun `Can delete an existing id`() {
             val action = DeleteItemTemplate(ID0)
 
-            assertEquals(0, REDUCER.invoke(STATE, action).first.itemTemplates.getSize())
+            assertEquals(0, REDUCER.invoke(STATE, action).first.getItemTemplateStorage().getSize())
         }
 
         @Test
@@ -50,7 +49,7 @@ class ItemTemplateTest {
         fun `Cannot delete, if an instanced item exist`() {
             val action = DeleteItemTemplate(ID0)
             val state =
-                STATE.copy(characters = Storage(listOf(Character(CharacterId(0), equipmentMap = EQUIPMENT_MAP))))
+                STATE.updateStorage(Storage(listOf(Character(CharacterId(0), equipmentMap = EQUIPMENT_MAP))))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
@@ -71,9 +70,11 @@ class ItemTemplateTest {
             val oldItem = ItemTemplate(ID0, equipment = Pants(material = MATERIAL0))
             val newItem = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL0))
             val state = State(
-                itemTemplates = Storage(listOf(oldItem)),
-                characters = Storage(listOf(Character(CharacterId(0), equipmentMap = EQUIPMENT_MAP))),
-                materials = Storage(listOf(Material(MATERIAL0)))
+                listOf(
+                    Storage(listOf(oldItem)),
+                    Storage(listOf(Character(CharacterId(0), equipmentMap = EQUIPMENT_MAP))),
+                    Storage(listOf(Material(MATERIAL0)))
+                )
             )
             val action = UpdateItemTemplate(newItem)
 
@@ -85,13 +86,15 @@ class ItemTemplateTest {
             val oldItem = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL0))
             val newItem = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL1))
             val state = State(
-                itemTemplates = Storage(listOf(oldItem)),
-                characters = Storage(listOf(Character(CharacterId(0), equipmentMap = EQUIPMENT_MAP))),
-                materials = Storage(listOf(Material(MATERIAL0), Material(MATERIAL1)))
+                listOf(
+                    Storage(listOf(oldItem)),
+                    Storage(listOf(Character(CharacterId(0), equipmentMap = EQUIPMENT_MAP))),
+                    Storage(listOf(Material(MATERIAL0), Material(MATERIAL1)))
+                )
             )
             val action = UpdateItemTemplate(newItem)
 
-            assertEquals(newItem, REDUCER.invoke(state, action).first.itemTemplates.get(ID0))
+            assertEquals(newItem, REDUCER.invoke(state, action).first.getItemTemplateStorage().get(ID0))
         }
 
         @Test
@@ -106,19 +109,21 @@ class ItemTemplateTest {
         fun `Update template`() {
             val action = UpdateItemTemplate(ITEM)
 
-            assertEquals(ITEM, REDUCER.invoke(STATE, action).first.itemTemplates.get(ID0))
+            assertEquals(ITEM, REDUCER.invoke(STATE, action).first.getItemTemplateStorage().get(ID0))
         }
 
         @Test
         fun `Update template with material`() {
             val item = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL0))
             val state = State(
-                itemTemplates = Storage(listOf(ITEM)),
-                materials = Storage(listOf(Material(MATERIAL0)))
+                listOf(
+                    Storage(listOf(ITEM)),
+                    Storage(listOf(Material(MATERIAL0)))
+                )
             )
             val action = UpdateItemTemplate(item)
 
-            assertEquals(item, REDUCER.invoke(state, action).first.itemTemplates.get(ID0))
+            assertEquals(item, REDUCER.invoke(state, action).first.getItemTemplateStorage().get(ID0))
         }
     }
 

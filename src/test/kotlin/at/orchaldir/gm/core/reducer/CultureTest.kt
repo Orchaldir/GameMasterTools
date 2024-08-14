@@ -25,8 +25,8 @@ private val CALENDAR1 = CalendarId(1)
 private val C_ID0 = CharacterId(0)
 private val C_ID1 = CharacterId(1)
 private val NAMES0 = NameList(NL_ID0)
-private val STATE = State(calendars = Storage(listOf(Calendar(CALENDAR0))), cultures = Storage(listOf(Culture(ID0))))
-private val STATE_WITH_NAMES = STATE.copy(nameLists = Storage(listOf(NAMES0)))
+private val STATE = State(listOf(Storage(listOf(Calendar(CALENDAR0))), Storage(listOf(Culture(ID0)))))
+private val STATE_WITH_NAMES = STATE.updateStorage(Storage(listOf(NAMES0)))
 
 class CultureTest {
 
@@ -37,7 +37,7 @@ class CultureTest {
         fun `Can delete an existing language`() {
             val action = DeleteCulture(ID0)
 
-            assertEquals(0, REDUCER.invoke(STATE, action).first.cultures.getSize())
+            assertEquals(0, REDUCER.invoke(STATE, action).first.getCultureStorage().getSize())
         }
 
         @Test
@@ -50,13 +50,7 @@ class CultureTest {
         @Test
         fun `Cannot delete, if used by a character`() {
             val action = DeleteCulture(ID0)
-            val state = STATE.copy(
-                characters = Storage(
-                    listOf(
-                        Character(CharacterId(0), culture = ID0)
-                    )
-                )
-            )
+            val state = STATE.updateStorage(Storage(listOf(Character(CharacterId(0), culture = ID0))))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
@@ -91,7 +85,7 @@ class CultureTest {
             val culture = Culture(ID0, namingConvention = MononymConvention(NL_ID0))
             val action = UpdateCulture(culture)
 
-            assertEquals(Storage(listOf(culture)), REDUCER.invoke(STATE_WITH_NAMES, action).first.cultures)
+            assertEquals(Storage(listOf(culture)), REDUCER.invoke(STATE_WITH_NAMES, action).first.getCultureStorage())
         }
 
         @Nested
@@ -234,16 +228,19 @@ class CultureTest {
             val character1 = Character(C_ID1, Mononym("Z"), culture = ID1)
             val result = Character(C_ID0, newName, culture = ID0)
             val state = State(
-                calendars = Storage(listOf(Calendar(CALENDAR0))),
-                characters = Storage(listOf(character0, character1)),
-                cultures = Storage(listOf(Culture(ID0, namingConvention = old))),
-                nameLists = Storage(listOf(NAMES0))
+                listOf(
+                    Storage(listOf(Calendar(CALENDAR0))),
+                    Storage(listOf(character0, character1)),
+                    Storage(listOf(Culture(ID0, namingConvention = old))),
+                    Storage(listOf(NAMES0))
+                )
             )
 
             val newState = REDUCER.invoke(state, action)
 
-            assertEquals(result, newState.first.characters.getOrThrow(C_ID0))
-            assertEquals(character1, newState.first.characters.getOrThrow(C_ID1))
+            val storage = newState.first.getCharacterStorage()
+            assertEquals(result, storage.getOrThrow(C_ID0))
+            assertEquals(character1, storage.getOrThrow(C_ID1))
         }
     }
 

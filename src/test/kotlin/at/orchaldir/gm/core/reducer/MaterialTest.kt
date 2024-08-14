@@ -24,10 +24,10 @@ class MaterialTest {
 
         @Test
         fun `Can delete an existing material`() {
-            val state = State(materials = Storage(listOf(Material(ID0))))
+            val state = State(Storage(listOf(Material(ID0))))
             val action = DeleteMaterial(ID0)
 
-            assertEquals(0, REDUCER.invoke(state, action).first.materials.getSize())
+            assertEquals(0, REDUCER.invoke(state, action).first.getMaterialStorage().getSize())
         }
 
         @Test
@@ -41,8 +41,10 @@ class MaterialTest {
         fun `Cannot delete a material used by an item template`() {
             val template = ItemTemplate(TEMPLATE0, equipment = Shirt(material = ID0))
             val state = State(
-                itemTemplates = Storage(listOf(template)),
-                materials = Storage(listOf(Material(ID0)))
+                listOf(
+                    Storage(listOf(template)),
+                    Storage(listOf(Material(ID0)))
+                )
             )
             val action = DeleteMaterial(ID0)
 
@@ -62,11 +64,11 @@ class MaterialTest {
 
         @Test
         fun `Material exists`() {
-            val state = State(materials = Storage(listOf(Material(ID0))))
+            val state = State(Storage(listOf(Material(ID0))))
             val material = Material(ID0, "Test")
             val action = UpdateMaterial(material)
 
-            assertEquals(material, REDUCER.invoke(state, action).first.materials.get(ID0))
+            assertEquals(material, REDUCER.invoke(state, action).first.getMaterialStorage().get(ID0))
         }
     }
 

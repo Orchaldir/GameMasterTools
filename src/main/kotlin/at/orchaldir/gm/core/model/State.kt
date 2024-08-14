@@ -46,6 +46,13 @@ data class State(
         rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
     ) : this(mapOf(storage.getType() to storage), path, time, rarityGenerator)
 
+    constructor(
+        storageList: List<Storage<*, *>>,
+        path: String = "data",
+        time: Time = Time(),
+        rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
+    ) : this(storageList.associateBy { it.getType() }, path, time, rarityGenerator)
+
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR)
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER)
     fun getCultureStorage() = getStorage<CultureId, Culture>(CULTURE)
@@ -97,12 +104,6 @@ data class State(
     }
 
     companion object {
-        fun init(
-            storageList: List<Storage<*, *>> = emptyList(),
-            path: String = "data",
-            time: Time = Time(),
-            rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
-        ) = State(storageList.associateBy { it.getType() }, path, time, rarityGenerator)
 
         fun init(
             storage: Storage<*, *>,

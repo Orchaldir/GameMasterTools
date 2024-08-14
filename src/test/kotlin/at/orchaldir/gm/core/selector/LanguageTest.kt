@@ -29,7 +29,7 @@ class LanguageTest {
 
         @Test
         fun `Can delete unconnected language`() {
-            val state = State(languages = Storage(listOf(Language(ID0), Language(ID1))))
+            val state = State(Storage(listOf(Language(ID0), Language(ID1))))
 
             assertTrue(state.canDelete(ID0))
             assertTrue(state.canDelete(ID1))
@@ -37,7 +37,7 @@ class LanguageTest {
 
         @Test
         fun `Cannot delete parent of evolved language`() {
-            val state = State(languages = Storage(listOf(Language(ID0), Language(ID1, origin = EvolvedLanguage(ID0)))))
+            val state = State(Storage(listOf(Language(ID0), Language(ID1, origin = EvolvedLanguage(ID0)))))
 
             assertFalse(state.canDelete(ID0))
             assertTrue(state.canDelete(ID1))
@@ -45,8 +45,7 @@ class LanguageTest {
 
         @Test
         fun `Cannot delete parent of combined language`() {
-            val state =
-                State(languages = Storage(listOf(Language(ID0), Language(ID1, origin = CombinedLanguage(setOf(ID0))))))
+            val state = State(Storage(listOf(Language(ID0), Language(ID1, origin = CombinedLanguage(setOf(ID0))))))
 
             assertFalse(state.canDelete(ID0))
             assertTrue(state.canDelete(ID1))
@@ -55,8 +54,10 @@ class LanguageTest {
         @Test
         fun `Cannot delete language used by character`() {
             val state = State(
-                characters = Storage(listOf(Character(CHARACTER0, languages = mapOf(ID0 to Native)))),
-                languages = Storage(listOf(Language(ID0), Language(ID1)))
+                listOf(
+                    Storage(listOf(Character(CHARACTER0, languages = mapOf(ID0 to Native)))),
+                    Storage(listOf(Language(ID0), Language(ID1)))
+                )
             )
 
             assertFalse(state.canDelete(ID0))
@@ -66,8 +67,10 @@ class LanguageTest {
         @Test
         fun `Cannot delete language used by culture`() {
             val state = State(
-                cultures = Storage(listOf(Culture(CULTURE0, languages = SomeOf(setOf(ID0))))),
-                languages = Storage(listOf(Language(ID0), Language(ID1)))
+                listOf(
+                    Storage(listOf(Culture(CULTURE0, languages = SomeOf(setOf(ID0))))),
+                    Storage(listOf(Language(ID0), Language(ID1)))
+                )
             )
 
             assertFalse(state.canDelete(ID0))

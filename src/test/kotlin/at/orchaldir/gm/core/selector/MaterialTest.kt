@@ -24,7 +24,7 @@ class MaterialTest {
 
         @Test
         fun `Can delete unused material`() {
-            val state = State(materials = Storage(listOf(Material(ID0), Material(ID1))))
+            val state = State(Storage(listOf(Material(ID0), Material(ID1))))
 
             assertTrue(state.canDelete(ID0))
             assertTrue(state.canDelete(ID1))
@@ -33,8 +33,10 @@ class MaterialTest {
         @Test
         fun `Cannot delete material used by item template`() {
             val state = State(
-                itemTemplates = Storage(listOf(ItemTemplate(TEMPLATE0, equipment = Shirt(material = ID0)))),
-                materials = Storage(listOf(Material(ID0), Material(ID1)))
+                listOf(
+                    Storage(listOf(ItemTemplate(TEMPLATE0, equipment = Shirt(material = ID0)))),
+                    Storage(listOf(Material(ID0), Material(ID1)))
+                )
             )
 
             assertFalse(state.canDelete(ID0))
@@ -47,11 +49,13 @@ class MaterialTest {
         val template0 = ItemTemplate(TEMPLATE0, equipment = Shirt(material = ID0))
         val template1 = ItemTemplate(TEMPLATE1, equipment = Shirt(material = ID0))
         val state = State(
-            itemTemplates = Storage(listOf(template0, template1)),
-            materials = Storage(listOf(Material(ID0), Material(ID1)))
+            listOf(
+                Storage(listOf(template0, template1)),
+                Storage(listOf(Material(ID0), Material(ID1)))
+            )
         )
 
-        assertEquals(listOf(template0, template1), state.getItemTemplates(ID0))
-        assertEquals(emptyList(), state.getItemTemplates(ID1))
+        assertEquals(listOf(template0, template1), state.getItemTemplatesOf(ID0))
+        assertEquals(emptyList(), state.getItemTemplatesOf(ID1))
     }
 }
