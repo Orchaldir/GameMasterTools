@@ -16,28 +16,38 @@ class CharacterTest {
         private val character = Character(CharacterId(0), birthDate = birthDate, causeOfDeath = Accident(deathDay))
 
         @Test
-        fun `Age is zero before birthdate`() {
-            assertEquals(Duration(0), character.getAge(Day(2)))
+        fun `Age is 0 before the day of birth`() {
+            assertGetAge(Day(2), 0)
         }
 
         @Test
-        fun `Age is zero on the birthdate`() {
-            assertEquals(Duration(0), character.getAge(birthDate))
+        fun `Age is 0 on the day of birth`() {
+            assertGetAge(birthDate, 0)
         }
 
         @Test
-        fun `Correct age whole while alive`() {
+        fun `Correct age while while alive`() {
+            val character = Character(CharacterId(0), birthDate = birthDate)
             assertEquals(Duration(5), character.getAge(Day(15)))
         }
 
         @Test
-        fun `Correct age on death date`() {
-            assertEquals(Duration(15), character.getAge(deathDay))
+        fun `Correct age before death date`() {
+            assertGetAge(Day(15), 5)
+        }
+
+        @Test
+        fun `Correct age on the day of death`() {
+            assertGetAge(deathDay, 15)
         }
 
         @Test
         fun `Age doesn't increase after dying`() {
-            assertEquals(Duration(15), character.getAge(Day(30)))
+            assertGetAge(Day(30), 15)
+        }
+
+        private fun assertGetAge(day: Day, duration: Int) {
+            assertEquals(Duration(duration), character.getAge(day))
         }
     }
 
