@@ -67,10 +67,10 @@ class EquipmentTest {
             listOf(
                 Storage(listOf(Character(ID0))),
                 Storage(
-                listOf(
-                    ItemTemplate(ITEM0, equipment = Dress()),
-                    ItemTemplate(ITEM1, equipment = Shirt())
-                )
+                    listOf(
+                        ItemTemplate(ITEM0, equipment = Dress()),
+                        ItemTemplate(ITEM1, equipment = Shirt())
+                    )
                 ),
             )
         )

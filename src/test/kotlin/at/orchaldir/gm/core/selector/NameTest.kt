@@ -112,11 +112,11 @@ class NameTest {
                 val state = State(
                     listOf(
                         Storage(
-                        listOf(
-                            Character(ID0, Genonym("Child"), origin = Born(OTHER, ID1)),
-                            Character(ID1, Genonym("Father"))
-                        )
-                    ),
+                            listOf(
+                                Character(ID0, Genonym("Child"), origin = Born(OTHER, ID1)),
+                                Character(ID1, Genonym("Father"))
+                            )
+                        ),
                         Storage(listOf(Culture(CULTURE0, namingConvention = PatronymConvention()))),
                     )
                 )
@@ -169,19 +169,19 @@ class NameTest {
             private fun init(gender: Gender, style: GenonymicStyle) = State(
                 listOf(
                     Storage(
-                    listOf(
-                        Character(ID0, Genonym("Child"), gender = gender, origin = Born(OTHER, ID1)),
-                        Character(ID1, Genonym("Father"))
-                    )
-                ),
+                        listOf(
+                            Character(ID0, Genonym("Child"), gender = gender, origin = Born(OTHER, ID1)),
+                            Character(ID1, Genonym("Father"))
+                        )
+                    ),
                     Storage(
-                    listOf(
-                        Culture(
-                            CULTURE0, namingConvention = PatronymConvention(
-                                style = style
+                        listOf(
+                            Culture(
+                                CULTURE0, namingConvention = PatronymConvention(
+                                    style = style
+                                )
                             )
                         )
-                    )
                     )
                 )
             )
@@ -192,23 +192,23 @@ class NameTest {
             val state = State(
                 listOf(
                     Storage(
-                    listOf(
-                        Character(ID0, Genonym("A"), gender = Female, origin = Born(OTHER, ID1)),
-                        Character(ID1, Genonym("B"), gender = Male, origin = Born(OTHER, ID2)),
-                        Character(ID2, Genonym("C"))
-                    )
-                ),
+                        listOf(
+                            Character(ID0, Genonym("A"), gender = Female, origin = Born(OTHER, ID1)),
+                            Character(ID1, Genonym("B"), gender = Male, origin = Born(OTHER, ID2)),
+                            Character(ID2, Genonym("C"))
+                        )
+                    ),
                     Storage(
-                    listOf(
-                        Culture(
-                            CULTURE0, namingConvention = PatronymConvention(
-                                TwoGenerations, ChildOfStyle(
-                                    GENDER_MAP
+                        listOf(
+                            Culture(
+                                CULTURE0, namingConvention = PatronymConvention(
+                                    TwoGenerations, ChildOfStyle(
+                                        GENDER_MAP
+                                    )
                                 )
                             )
                         )
                     )
-                )
                 )
             )
 
@@ -221,23 +221,23 @@ class NameTest {
         val state = State(
             listOf(
                 Storage(
-                listOf(
-                    Character(ID0, Genonym("A"), gender = Male, origin = Born(ID1, OTHER)),
-                    Character(ID1, Genonym("B"), gender = Female, origin = Born(ID2, OTHER)),
-                    Character(ID2, Genonym("C"))
-                )
-            ),
+                    listOf(
+                        Character(ID0, Genonym("A"), gender = Male, origin = Born(ID1, OTHER)),
+                        Character(ID1, Genonym("B"), gender = Female, origin = Born(ID2, OTHER)),
+                        Character(ID2, Genonym("C"))
+                    )
+                ),
                 Storage(
-                listOf(
-                    Culture(
-                        CULTURE0, namingConvention = MatronymConvention(
-                            TwoGenerations, ChildOfStyle(
-                                GENDER_MAP
+                    listOf(
+                        Culture(
+                            CULTURE0, namingConvention = MatronymConvention(
+                                TwoGenerations, ChildOfStyle(
+                                    GENDER_MAP
+                                )
                             )
                         )
                     )
                 )
-            )
             )
         )
 
@@ -264,23 +264,23 @@ class NameTest {
         private fun init(gender: Gender) = State(
             listOf(
                 Storage(
-                listOf(
-                    Character(ID0, Genonym("A"), gender = gender, origin = Born(ID1, ID2)),
-                    Character(ID1, Genonym("B"), gender = Female),
-                    Character(ID2, Genonym("C"), gender = gender)
-                )
-            ),
+                    listOf(
+                        Character(ID0, Genonym("A"), gender = gender, origin = Born(ID1, ID2)),
+                        Character(ID1, Genonym("B"), gender = Female),
+                        Character(ID2, Genonym("C"), gender = gender)
+                    )
+                ),
                 Storage(
-                listOf(
-                    Culture(
-                        CULTURE0, namingConvention = GenonymConvention(
-                            OneGeneration, ChildOfStyle(
-                                GENDER_MAP
+                    listOf(
+                        Culture(
+                            CULTURE0, namingConvention = GenonymConvention(
+                                OneGeneration, ChildOfStyle(
+                                    GENDER_MAP
+                                )
                             )
                         )
                     )
                 )
-            )
             )
         )
     }

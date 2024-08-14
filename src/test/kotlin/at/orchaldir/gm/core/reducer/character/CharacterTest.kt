@@ -146,12 +146,12 @@ class CharacterTest {
             private val state = State(
                 listOf(
                     Storage(
-                    listOf(
-                        Character(ID0),
-                        Character(ID1, gender = Gender.Male),
-                        Character(ID2, gender = Gender.Female)
-                    )
-                ),
+                        listOf(
+                            Character(ID0),
+                            Character(ID1, gender = Gender.Male),
+                            Character(ID2, gender = Gender.Female)
+                        )
+                    ),
                     Storage(listOf(Culture(CULTURE0))),
                     Storage(listOf(Race(RACE0)))
                 )
@@ -213,11 +213,11 @@ class CharacterTest {
             private val state = State(
                 listOf(
                     Storage(
-                    listOf(
-                        Character(ID0),
-                        Character(ID1),
-                    )
-                ),
+                        listOf(
+                            Character(ID0),
+                            Character(ID1),
+                        )
+                    ),
                     Storage(listOf(Culture(CULTURE0))),
                     Storage(listOf(Race(RACE0))),
                 ),

@@ -30,13 +30,13 @@ private val SON = Character(SON_ID, gender = Gender.Male, origin = Born(MOTHER_I
 private val FAMILY_STATE = State(
     listOf(
         Storage(
-        listOf(
-            DAUGHTER,
-            MOTHER,
-            FATHER,
-            SON,
-        )
-    ),
+            listOf(
+                DAUGHTER,
+                MOTHER,
+                FATHER,
+                SON,
+            )
+        ),
         Storage(listOf(Race(RACE0)))
     )
 )
