@@ -40,10 +40,18 @@ data class Character(
 
     override fun id() = id
 
-    fun getAge(currentDay: Day) = if (birthDate >= currentDay) {
-        Duration(0)
-    } else {
-        currentDay.getDurationBetween(birthDate)
+    fun getAge(currentDay: Day): Duration {
+        if (birthDate >= currentDay) {
+            return Duration(0)
+        }
+
+        val deathDate = causeOfDeath.getDeathDate()
+
+        return if (deathDate != null && deathDate < currentDay) {
+            deathDate.getDurationBetween(birthDate)
+        } else {
+            currentDay.getDurationBetween(birthDate)
+        }
     }
 
 }
