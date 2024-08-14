@@ -57,13 +57,13 @@ fun <ID : Id<ID>> HtmlBlockTag.link(
 fun <ID : Id<ID>> href(
     call: ApplicationCall,
     id: ID,
-) = when (id.type()) {
-    CALENDAR -> call.application.href(Calendars.Details(id as CalendarId))
-    CHARACTER -> call.application.href(Characters.Details(id as CharacterId))
-    CULTURE -> call.application.href(Cultures.Details(id as CultureId))
-    FASHION -> call.application.href(Fashions.Details(id as FashionId))
-    ITEM_TEMPLATE -> call.application.href(ItemTemplates.Details(id as ItemTemplateId))
-    LANGUAGE -> call.application.href(Languages.Details(id as LanguageId))
+) = when (id) {
+    is CalendarId -> call.application.href(Calendars.Details(id))
+    is CharacterId -> call.application.href(Characters.Details(id))
+    is CultureId -> call.application.href(Cultures.Details(id))
+    is FashionId -> call.application.href(Fashions.Details(id))
+    is ItemTemplateId -> call.application.href(ItemTemplates.Details(id))
+    is LanguageId -> call.application.href(Languages.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
 }
 
