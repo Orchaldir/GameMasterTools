@@ -72,7 +72,8 @@ data class State(
             return storage as Storage<ID, ELEMENT>
         }
 
-        error("fail")
+        @Suppress("UNCHECKED_CAST")
+        return createStorage(type) as Storage<ID, ELEMENT>
     }
 
     fun <ID : Id<ID>> getElementName(id: ID): String {
