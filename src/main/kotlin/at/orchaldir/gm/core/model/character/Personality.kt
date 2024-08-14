@@ -4,11 +4,14 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
+const val PERSONALITY_TRAIT = "PersonalityTrait"
+
 @JvmInline
 @Serializable
 value class PersonalityTraitId(val value: Int) : Id<PersonalityTraitId> {
 
     override fun next() = PersonalityTraitId(value + 1)
+    override fun type() = PERSONALITY_TRAIT
     override fun value() = value
 
 }

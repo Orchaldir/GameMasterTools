@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 interface Id<ID> {
     fun next(): ID
+    fun type(): String
     fun value(): Int
 }
 
@@ -13,21 +14,19 @@ interface Element<ID> {
 
 @Serializable
 data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
-    val name: String,
     private val elements: Map<ID, ELEMENT>,
     val nextId: ID,
     val lastId: ID = nextId,
 ) {
-    constructor(nextId: ID, name: String = "Element") : this(name, mapOf(), nextId)
+    constructor(nextId: ID) : this(mapOf(), nextId)
 
-    constructor(elements: List<ELEMENT>, name: String = "Element") : this(
-        name,
+    constructor(elements: List<ELEMENT>) : this(
         elements.associateBy { it.id() },
         elements.map { it.id() }.last().next()
     )
 
     fun add(element: ELEMENT): Storage<ID, ELEMENT> {
-        return Storage(name, elements + mapOf(nextId to element), nextId.next(), nextId)
+        return Storage(elements + mapOf(nextId to element), nextId.next(), nextId)
     }
 
     fun remove(id: ID) = copy(elements = elements - setOf(id))
@@ -42,13 +41,15 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
 
     fun getSize() = elements.size
 
+    fun getType() = nextId.type()
+
     fun get(id: ID) = elements[id]
 
-    fun getOrThrow(id: ID) = elements[id] ?: throw IllegalArgumentException("Unknown $name ${id.value()}!")
+    fun getOrThrow(id: ID) = elements[id] ?: throw IllegalArgumentException("Unknown ${getType()} ${id.value()}!")
 
     fun contains(id: ID) = elements.containsKey(id)
 
     fun require(id: ID) {
-        require(contains(id)) { "Requires unknown $name ${id.value()}!" }
+        require(contains(id)) { "Requires unknown ${getType()} ${id.value()}!" }
     }
 }

@@ -16,6 +16,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
+import at.orchaldir.gm.core.model.calendar.CALENDAR
 
 private val logger = KotlinLogging.logger {}
 

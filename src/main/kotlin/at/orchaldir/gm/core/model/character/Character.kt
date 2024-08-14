@@ -12,11 +12,14 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
+const val CHARACTER = "Character"
+
 @JvmInline
 @Serializable
 value class CharacterId(val value: Int) : Id<CharacterId> {
 
     override fun next() = CharacterId(value + 1)
+    override fun type() = CHARACTER
     override fun value() = value
 
 }

@@ -6,12 +6,14 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
 
+const val CALENDAR = "Calendar"
 
 @JvmInline
 @Serializable
 value class CalendarId(val value: Int) : Id<CalendarId> {
 
     override fun next() = CalendarId(value + 1)
+    override fun type() = CALENDAR
     override fun value() = value
 
 }

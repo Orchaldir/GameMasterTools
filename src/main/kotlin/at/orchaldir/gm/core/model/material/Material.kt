@@ -4,11 +4,14 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
+const val MATERIAL = "Material"
+
 @JvmInline
 @Serializable
 value class MaterialId(val value: Int) : Id<MaterialId> {
 
     override fun next() = MaterialId(value + 1)
+    override fun type() = MATERIAL
     override fun value() = value
 
 }

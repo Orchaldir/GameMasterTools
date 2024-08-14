@@ -3,8 +3,6 @@ package at.orchaldir.gm.core.reducer
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
-import at.orchaldir.gm.core.model.ElementType
-import at.orchaldir.gm.core.model.ElementType.CULTURE
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.FamilyName
@@ -26,14 +24,14 @@ private val logger = KotlinLogging.logger {}
 val CREATE_CULTURE: Reducer<CreateCulture, State> = { state, _ ->
     val culture = Culture(state.getCultureStorage().nextId)
 
-    noFollowUps(state.updateStorage(CULTURE, state.getCultureStorage().add(culture)))
+    noFollowUps(state.updateStorage(state.getCultureStorage().add(culture)))
 }
 
 val DELETE_CULTURE: Reducer<DeleteCulture, State> = { state, action ->
     state.getCultureStorage().require(action.id)
     require(state.canDelete(action.id)) { "Culture ${action.id.value} is used by characters" }
 
-    noFollowUps(state.updateStorage(CULTURE, state.getCultureStorage().remove(action.id)))
+    noFollowUps(state.updateStorage(state.getCultureStorage().remove(action.id)))
 }
 
 val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
@@ -50,7 +48,7 @@ val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
         logger.info { "Change names to genonym for Culture ${oldCulture.id.value}" }
         changeNames(state, oldCulture, action) { changeToGenonym(it) }
     } else {
-        noFollowUps(state.updateStorage(CULTURE, state.getCultureStorage().update(action.culture)))
+        noFollowUps(state.updateStorage(state.getCultureStorage().update(action.culture)))
     }
 }
 

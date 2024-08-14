@@ -4,11 +4,15 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
+const val NAME_LIST = "NameList"
+
 @JvmInline
 @Serializable
 value class NameListId(val value: Int) : Id<NameListId> {
 
     override fun next() = NameListId(value + 1)
+    override fun type() = NAME_LIST
+
     override fun value() = value
 
 }
