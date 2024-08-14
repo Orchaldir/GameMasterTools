@@ -59,7 +59,7 @@ fun Application.configureCalendarRouting() {
             logger.info { "Get details of calendar ${details.id.value}" }
 
             val state = STORE.getState()
-            val calendar = state.calendars.getOrThrow(details.id)
+            val calendar = state.getCalendarStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCalendarDetails(call, state, calendar)
@@ -70,7 +70,7 @@ fun Application.configureCalendarRouting() {
 
             STORE.dispatch(CreateCalendar)
 
-            call.respondRedirect(call.application.href(Calendars.Edit(STORE.getState().calendars.lastId)))
+            call.respondRedirect(call.application.href(Calendars.Edit(STORE.getState().getCalendarStorage().lastId)))
 
             STORE.getState().save()
         }
@@ -87,7 +87,7 @@ fun Application.configureCalendarRouting() {
             logger.info { "Get editor for calendar ${edit.id.value}" }
 
             val state = STORE.getState()
-            val calendar = state.calendars.getOrThrow(edit.id)
+            val calendar = state.getCalendarStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCalendarEditor(call, state, calendar)
@@ -119,7 +119,7 @@ fun Application.configureCalendarRouting() {
 }
 
 private fun HTML.showAllCalendars(call: ApplicationCall) {
-    val calendars = STORE.getState().calendars.getAll().sortedBy { it.name }
+    val calendars = STORE.getState().getCalendarStorage().getAll().sortedBy { it.name }
     val count = calendars.size
     val createLink = call.application.href(Calendars.New())
 

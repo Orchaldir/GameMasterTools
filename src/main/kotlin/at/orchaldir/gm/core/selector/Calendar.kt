@@ -8,13 +8,13 @@ import at.orchaldir.gm.core.model.calendar.OriginalCalendar
 fun State.canDelete(calendar: CalendarId) = getChildren(calendar).isEmpty() &&
         getCultures(calendar).isEmpty()
 
-fun State.getChildren(calendar: CalendarId) = calendars.getAll().filter {
+fun State.getChildren(calendar: CalendarId) = getCalendarStorage().getAll().filter {
     when (it.origin) {
         is ImprovedCalendar -> it.origin.parent == calendar
         OriginalCalendar -> false
     }
 }
 
-fun State.getDefaultCalendar() = calendars.getOrThrow(time.defaultCalendar)
+fun State.getDefaultCalendar() = getCalendarStorage().getOrThrow(time.defaultCalendar)
 
-fun State.getPossibleParents(calendar: CalendarId) = calendars.getAll().filter { it.id != calendar }
+fun State.getPossibleParents(calendar: CalendarId) = getCalendarStorage().getAll().filter { it.id != calendar }

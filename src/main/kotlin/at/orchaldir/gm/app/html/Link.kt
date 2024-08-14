@@ -65,7 +65,7 @@ fun HtmlBlockTag.link(
     state: State,
     id: CalendarId,
 ) {
-    link(call, id, state.calendars.get(id)?.name ?: "Unknown")
+    link(call, id, state.getCalendarStorage().get(id)?.name ?: "Unknown")
 }
 
 fun HtmlBlockTag.link(
@@ -93,7 +93,7 @@ fun HtmlBlockTag.link(
     state: State,
     id: CultureId,
 ) {
-    link(call, id, state.cultures.get(id)?.name ?: "Unknown")
+    link(call, id, state.getCultureStorage().get(id)?.name ?: "Unknown")
 }
 
 fun HtmlBlockTag.link(
@@ -121,7 +121,7 @@ fun HtmlBlockTag.link(
     state: State,
     id: FashionId,
 ) {
-    link(call, id, state.fashion.get(id)?.name ?: "Unknown")
+    link(call, id, state.getFashionStorage().get(id)?.name ?: "Unknown")
 }
 
 fun HtmlBlockTag.link(
@@ -149,7 +149,7 @@ fun HtmlBlockTag.link(
     state: State,
     id: ItemTemplateId,
 ) {
-    link(call, id, state.itemTemplates.get(id)?.name ?: "Unknown")
+    link(call, id, state.getItemTemplateStorage().get(id)?.name ?: "Unknown")
 }
 
 fun HtmlBlockTag.link(
@@ -177,7 +177,7 @@ fun HtmlBlockTag.link(
     state: State,
     id: LanguageId,
 ) {
-    link(call, id, state.languages.get(id)?.name ?: "Unknown")
+    link(call, id, state.getLanguageStorage().get(id)?.name ?: "Unknown")
 }
 
 fun HtmlBlockTag.link(
@@ -205,7 +205,7 @@ fun HtmlBlockTag.link(
     state: State,
     id: MaterialId,
 ) {
-    link(call, id, state.materials.get(id)?.name ?: "Unknown")
+    link(call, id, state.getMaterialStorage().get(id)?.name ?: "Unknown")
 }
 
 fun HtmlBlockTag.link(
@@ -233,7 +233,7 @@ fun HtmlBlockTag.link(
     state: State,
     id: NameListId,
 ) {
-    link(call, id, state.nameLists.get(id)?.name ?: "Unknown")
+    link(call, id, state.getNameListStorage().get(id)?.name ?: "Unknown")
 }
 
 fun HtmlBlockTag.link(
@@ -261,7 +261,7 @@ fun HtmlBlockTag.link(
     state: State,
     id: PersonalityTraitId,
 ) {
-    link(call, id, state.personalityTraits.get(id)?.name ?: "Unknown")
+    link(call, id, state.getPersonalityTraitStorage().get(id)?.name ?: "Unknown")
 }
 
 fun HtmlBlockTag.link(
@@ -289,7 +289,7 @@ fun HtmlBlockTag.link(
     state: State,
     id: RaceId,
 ) {
-    link(call, id, state.races.get(id)?.name ?: "Unknown")
+    link(call, id, state.getRaceStorage().get(id)?.name ?: "Unknown")
 }
 
 fun HtmlBlockTag.link(

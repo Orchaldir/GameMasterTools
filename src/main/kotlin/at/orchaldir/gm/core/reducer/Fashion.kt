@@ -13,23 +13,23 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_FASHION: Reducer<CreateFashion, State> = { state, _ ->
-    val fashion = Fashion(state.fashion.nextId)
+    val fashion = Fashion(state.getFashionStorage().nextId)
 
-    noFollowUps(state.copy(fashion = state.fashion.add(fashion)))
+    noFollowUps(state.copy(fashion = state.getFashionStorage().add(fashion)))
 }
 
 val DELETE_FASHION: Reducer<DeleteFashion, State> = { state, action ->
-    state.fashion.require(action.id)
+    state.getFashionStorage().require(action.id)
     require(state.canDelete(action.id)) { "Fashion ${action.id.value} is used" }
 
-    noFollowUps(state.copy(fashion = state.fashion.remove(action.id)))
+    noFollowUps(state.copy(fashion = state.getFashionStorage().remove(action.id)))
 }
 
 val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
     val fashion = action.fashion
 
-    state.fashion.require(fashion.id)
-    fashion.getAllItemTemplates().forEach { state.itemTemplates.require(it) }
+    state.getFashionStorage().require(fashion.id)
+    fashion.getAllItemTemplates().forEach { state.getItemTemplateStorage().require(it) }
 
     fashion.clothingSets.getValidValues().forEach { set ->
         set.getTypes().forEach { type ->
@@ -39,14 +39,14 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
 
     NOT_NONE.forEach { type ->
         fashion.getOptions(type).getValidValues().forEach { id ->
-            val template = state.itemTemplates.getOrThrow(id)
+            val template = state.getItemTemplateStorage().getOrThrow(id)
             require(template.equipment.isType(type)) { "Type $type has item ${id.value} of wrong type!" }
         }
     }
 
     val clean = fashion.copy(itemRarityMap = fashion.itemRarityMap.filter { it.value.isNotEmpty() })
 
-    noFollowUps(state.copy(fashion = state.fashion.update(clean)))
+    noFollowUps(state.copy(fashion = state.getFashionStorage().update(clean)))
 }
 
 private fun check(fashion: Fashion, set: ClothingSet, type: EquipmentType) {

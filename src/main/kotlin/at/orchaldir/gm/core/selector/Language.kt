@@ -11,7 +11,7 @@ fun State.canDelete(language: LanguageId) = getCharacters(language).isEmpty() &&
         getChildren(language).isEmpty() &&
         getCultures(language).isEmpty()
 
-fun State.getChildren(language: LanguageId) = languages.getAll().filter { l ->
+fun State.getChildren(language: LanguageId) = getLanguageStorage().getAll().filter { l ->
     when (l.origin) {
         is CombinedLanguage -> l.origin.parents.contains(language)
         is EvolvedLanguage -> l.origin.parent == language
@@ -19,9 +19,9 @@ fun State.getChildren(language: LanguageId) = languages.getAll().filter { l ->
     }
 }
 
-fun State.getPossibleParents(language: LanguageId) = languages.getAll().filter { l -> l.id != language }
+fun State.getPossibleParents(language: LanguageId) = getLanguageStorage().getAll().filter { l -> l.id != language }
 
-fun State.getInventedLanguages(inventor: CharacterId) = languages.getAll().filter { l ->
+fun State.getInventedLanguages(inventor: CharacterId) = getLanguageStorage().getAll().filter { l ->
     when (l.origin) {
         is InventedLanguage -> l.origin.inventor == inventor
         else -> false

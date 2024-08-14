@@ -6,8 +6,8 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val UPDATE_APPEARANCE: Reducer<UpdateAppearance, State> = { state, action ->
-    val character = state.characters.getOrThrow(action.id)
+    val character = state.getCharacterStorage().getOrThrow(action.id)
     val updated = character.copy(appearance = action.appearance)
 
-    noFollowUps(state.copy(characters = state.characters.update(updated)))
+    noFollowUps(state.copy(characters = state.getCharacterStorage().update(updated)))
 }

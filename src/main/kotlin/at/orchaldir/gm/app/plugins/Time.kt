@@ -82,7 +82,7 @@ private fun HTML.editTimeData(
 
     simpleHtml("Edit Time Data") {
         form {
-            selectEnum("Default Calendar", CALENDAR, state.calendars.getAll()) { calendar ->
+            selectEnum("Default Calendar", CALENDAR, state.getCalendarStorage().getAll()) { calendar ->
                 label = calendar.name
                 value = calendar.id.value.toString()
                 selected = calendar.id == state.time.defaultCalendar

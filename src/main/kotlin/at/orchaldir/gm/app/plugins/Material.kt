@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getItemTemplates
+import at.orchaldir.gm.core.selector.getItemTemplatesOf
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -57,7 +57,7 @@ fun Application.configureMaterialRouting() {
             logger.info { "Get details of material ${details.id.value}" }
 
             val state = STORE.getState()
-            val material = state.materials.getOrThrow(details.id)
+            val material = state.getMaterialStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showMaterialDetails(call, state, material)
@@ -68,7 +68,7 @@ fun Application.configureMaterialRouting() {
 
             STORE.dispatch(CreateMaterial)
 
-            call.respondRedirect(call.application.href(Materials.Edit(STORE.getState().materials.lastId)))
+            call.respondRedirect(call.application.href(Materials.Edit(STORE.getState().getMaterialStorage().lastId)))
 
             STORE.getState().save()
         }
@@ -85,7 +85,7 @@ fun Application.configureMaterialRouting() {
             logger.info { "Get editor for material ${edit.id.value}" }
 
             val state = STORE.getState()
-            val material = state.materials.getOrThrow(edit.id)
+            val material = state.getMaterialStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showMaterialEditor(call, material)
@@ -106,7 +106,7 @@ fun Application.configureMaterialRouting() {
 }
 
 private fun HTML.showAllMaterials(call: ApplicationCall) {
-    val materials = STORE.getState().materials.getAll().sortedBy { it.name }
+    val materials = STORE.getState().getMaterialStorage().getAll().sortedBy { it.name }
     val count = materials.size
     val createLink = call.application.href(Materials.New())
 
@@ -125,7 +125,7 @@ private fun HTML.showMaterialDetails(
     state: State,
     material: Material,
 ) {
-    val templates = state.getItemTemplates(material.id)
+    val templates = state.getItemTemplatesOf(material.id)
     val backLink = call.application.href(Materials())
     val deleteLink = call.application.href(Materials.Delete(material.id))
     val editLink = call.application.href(Materials.Edit(material.id))

@@ -59,7 +59,7 @@ fun Application.configurePersonalityRouting() {
             logger.info { "Get details of personality trait ${details.id.value}" }
 
             val state = STORE.getState()
-            val trait = state.personalityTraits.getOrThrow(details.id)
+            val trait = state.getPersonalityTraitStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showPersonalityTraitDetails(call, state, trait)
@@ -70,7 +70,8 @@ fun Application.configurePersonalityRouting() {
 
             STORE.dispatch(CreatePersonalityTrait)
 
-            call.respondRedirect(call.application.href(Personality.Edit(STORE.getState().personalityTraits.lastId)))
+            val state = STORE.getState()
+            call.respondRedirect(call.application.href(Personality.Edit(state.getPersonalityTraitStorage().lastId)))
 
             STORE.getState().save()
         }
@@ -87,7 +88,7 @@ fun Application.configurePersonalityRouting() {
             logger.info { "Get editor for personality trait ${edit.id.value}" }
 
             val state = STORE.getState()
-            val trait = state.personalityTraits.getOrThrow(edit.id)
+            val trait = state.getPersonalityTraitStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showPersonalityTraitEditor(call, state, trait)
@@ -117,7 +118,7 @@ private fun parsePersonalityTrait(id: PersonalityTraitId, parameters: Parameters
 }
 
 private fun HTML.showAllPersonalityTraits(call: ApplicationCall) {
-    val personalityTraits = STORE.getState().personalityTraits.getAll().sortedBy { it.name }
+    val personalityTraits = STORE.getState().getPersonalityTraitStorage().getAll().sortedBy { it.name }
     val count = personalityTraits.size
     val createLink = call.application.href(Personality.New())
 

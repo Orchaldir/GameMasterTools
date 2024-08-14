@@ -16,8 +16,8 @@ import io.ktor.http.*
 import kotlin.random.Random
 
 fun createGenerationConfig(state: State, character: Character): AppearanceGeneratorConfig {
-    val race = state.races.getOrThrow(character.race)
-    val culture = state.cultures.getOrThrow(character.culture)
+    val race = state.getRaceStorage().getOrThrow(character.race)
+    val culture = state.getCultureStorage().getOrThrow(character.culture)
 
     return AppearanceGeneratorConfig(
         RandomNumberGenerator(Random),

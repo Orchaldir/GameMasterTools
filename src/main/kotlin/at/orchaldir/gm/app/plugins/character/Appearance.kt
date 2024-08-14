@@ -37,7 +37,7 @@ fun Application.configureAppearanceRouting() {
             logger.info { "Get editor for character ${edit.id.value}'s appearance" }
 
             val state = STORE.getState()
-            val character = state.characters.getOrThrow(edit.id)
+            val character = state.getCharacterStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAppearanceEditor(call, state, character)
@@ -47,7 +47,7 @@ fun Application.configureAppearanceRouting() {
             logger.info { "Get preview for character ${preview.id.value}'s appearance" }
 
             val state = STORE.getState()
-            val character = state.characters.getOrThrow(preview.id)
+            val character = state.getCharacterStorage().getOrThrow(preview.id)
             val formParameters = call.receiveParameters()
             val config = createGenerationConfig(state, character)
             val appearance = parseAppearance(formParameters, config, character)
@@ -61,7 +61,7 @@ fun Application.configureAppearanceRouting() {
             logger.info { "Update character ${update.id.value}'s appearance" }
 
             val state = STORE.getState()
-            val character = state.characters.getOrThrow(update.id)
+            val character = state.getCharacterStorage().getOrThrow(update.id)
             val formParameters = call.receiveParameters()
             val config = createGenerationConfig(state, character)
             val appearance = parseAppearance(formParameters, config, character)
@@ -76,7 +76,7 @@ fun Application.configureAppearanceRouting() {
             logger.info { "Generate character ${update.id.value}'s appearance" }
 
             val state = STORE.getState()
-            val character = state.characters.getOrThrow(update.id)
+            val character = state.getCharacterStorage().getOrThrow(update.id)
             val config = createGenerationConfig(state, character)
             val appearance = generateAppearance(config, character)
             val updatedCharacter = character.copy(appearance = appearance)
@@ -94,8 +94,8 @@ private fun HTML.showAppearanceEditor(
     character: Character,
 ) {
     val appearance = character.appearance
-    val race = state.races.getOrThrow(character.race)
-    val culture = state.cultures.getOrThrow(character.culture)
+    val race = state.getRaceStorage().getOrThrow(character.race)
+    val culture = state.getCultureStorage().getOrThrow(character.culture)
     val backLink = href(call, character.id)
     val previewLink = call.application.href(Characters.Appearance.Preview(character.id))
     val updateLink = call.application.href(Characters.Appearance.Update(character.id))

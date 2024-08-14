@@ -37,7 +37,7 @@ fun Application.configureEquipmentRouting() {
             logger.info { "Get editor for character ${edit.id.value}'s equipment" }
 
             val state = STORE.getState()
-            val character = state.characters.getOrThrow(edit.id)
+            val character = state.getCharacterStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showEquipmentEditor(call, state, character, character.equipmentMap)
@@ -47,7 +47,7 @@ fun Application.configureEquipmentRouting() {
             logger.info { "Get preview for character ${preview.id.value}'s equipment" }
 
             val state = STORE.getState()
-            val character = state.characters.getOrThrow(preview.id)
+            val character = state.getCharacterStorage().getOrThrow(preview.id)
             val formParameters = call.receiveParameters()
             val equipmentMap = parseEquipmentMap(formParameters)
 
@@ -73,7 +73,7 @@ fun Application.configureEquipmentRouting() {
             logger.info { "Generate character ${update.id.value}'s equipment" }
 
             val state = STORE.getState()
-            val character = state.characters.getOrThrow(update.id)
+            val character = state.getCharacterStorage().getOrThrow(update.id)
             val generator = EquipmentGenerator.create(state, character)
             val equipment = generator.generate()
 
@@ -92,8 +92,8 @@ private fun HTML.showEquipmentEditor(
 ) {
     val equipped = state.getEquipment(equipmentMap)
     val occupiedSlots = equipmentMap.getOccupiedSlots()
-    val culture = state.cultures.getOrThrow(character.culture)
-    val fashion = state.fashion.getOrThrow(culture.getFashion(character))
+    val culture = state.getCultureStorage().getOrThrow(character.culture)
+    val fashion = state.getFashionStorage().getOrThrow(culture.getFashion(character))
     val backLink = href(call, character.id)
     val previewLink = call.application.href(Characters.Equipment.Preview(character.id))
     val updateLink = call.application.href(Characters.Equipment.Update(character.id))
@@ -149,7 +149,7 @@ private fun FORM.selectEquipment(
     selectOneOrNone(
         type.name, type.name, options, !isTypeEquipped, true
     ) { id ->
-        val itemTemplate = state.itemTemplates.getOrThrow(id)
+        val itemTemplate = state.getItemTemplateStorage().getOrThrow(id)
         label = itemTemplate.name
         value = id.value.toString()
         selected = equipmentMap.contains(id)

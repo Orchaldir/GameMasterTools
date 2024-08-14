@@ -65,7 +65,7 @@ fun Application.configureRaceRouting() {
             logger.info { "Get details of race ${details.id.value}" }
 
             val state = STORE.getState()
-            val race = state.races.getOrThrow(details.id)
+            val race = state.getRaceStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showRaceDetails(call, state, race)
@@ -76,7 +76,7 @@ fun Application.configureRaceRouting() {
 
             STORE.dispatch(CreateRace)
 
-            call.respondRedirect(call.application.href(Races.Edit(STORE.getState().races.lastId)))
+            call.respondRedirect(call.application.href(Races.Edit(STORE.getState().getRaceStorage().lastId)))
 
             STORE.getState().save()
         }
@@ -92,7 +92,7 @@ fun Application.configureRaceRouting() {
         get<Races.Edit> { edit ->
             logger.info { "Get editor for race ${edit.id.value}" }
 
-            val race = STORE.getState().races.getOrThrow(edit.id)
+            val race = STORE.getState().getRaceStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showRaceEditor(call, race)
@@ -122,7 +122,7 @@ fun Application.configureRaceRouting() {
 }
 
 private fun HTML.showAllRaces(call: ApplicationCall) {
-    val races = STORE.getState().races.getAll().sortedBy { it.name }
+    val races = STORE.getState().getRaceStorage().getAll().sortedBy { it.name }
     val count = races.size
     val createLink = call.application.href(Races.New())
 

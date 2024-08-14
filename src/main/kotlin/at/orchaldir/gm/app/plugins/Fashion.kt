@@ -62,7 +62,7 @@ fun Application.configureFashionRouting() {
             logger.info { "Get details of fashion ${details.id.value}" }
 
             val state = STORE.getState()
-            val fashion = state.fashion.getOrThrow(details.id)
+            val fashion = state.getFashionStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showFashionDetails(call, state, fashion)
@@ -73,7 +73,7 @@ fun Application.configureFashionRouting() {
 
             STORE.dispatch(CreateFashion)
 
-            call.respondRedirect(call.application.href(Fashions.Edit(STORE.getState().fashion.lastId)))
+            call.respondRedirect(call.application.href(Fashions.Edit(STORE.getState().getFashionStorage().lastId)))
 
             STORE.getState().save()
         }
@@ -90,7 +90,7 @@ fun Application.configureFashionRouting() {
             logger.info { "Get editor for fashion ${edit.id.value}" }
 
             val state = STORE.getState()
-            val fashion = state.fashion.getOrThrow(edit.id)
+            val fashion = state.getFashionStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showFashionEditor(call, state, fashion)
@@ -111,7 +111,7 @@ fun Application.configureFashionRouting() {
 }
 
 private fun HTML.showAllFashions(call: ApplicationCall) {
-    val fashion = STORE.getState().fashion.getAll().sortedBy { it.name }
+    val fashion = STORE.getState().getFashionStorage().getAll().sortedBy { it.name }
     val count = fashion.size
     val createLink = call.application.href(Fashions.New())
 
@@ -201,6 +201,6 @@ private fun FORM.selectEquipmentType(
 
     if (items.isNotEmpty()) {
         val options = fashion.getOptions(type)
-        selectRarityMap(type.name, type.name, state.itemTemplates, items, options) { it.name }
+        selectRarityMap(type.name, type.name, state.getItemTemplateStorage(), items, options) { it.name }
     }
 }

@@ -22,24 +22,24 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 val CREATE_CULTURE: Reducer<CreateCulture, State> = { state, _ ->
-    val culture = Culture(state.cultures.nextId)
+    val culture = Culture(state.getCultureStorage().nextId)
 
-    noFollowUps(state.copy(cultures = state.cultures.add(culture)))
+    noFollowUps(state.copy(cultures = state.getCultureStorage().add(culture)))
 }
 
 val DELETE_CULTURE: Reducer<DeleteCulture, State> = { state, action ->
-    state.cultures.require(action.id)
+    state.getCultureStorage().require(action.id)
     require(state.canDelete(action.id)) { "Culture ${action.id.value} is used by characters" }
 
-    noFollowUps(state.copy(cultures = state.cultures.remove(action.id)))
+    noFollowUps(state.copy(cultures = state.getCultureStorage().remove(action.id)))
 }
 
 val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
-    state.cultures.require(action.culture.id)
-    state.calendars.require(action.culture.calendar)
+    state.getCultureStorage().require(action.culture.id)
+    state.getCalendarStorage().require(action.culture.calendar)
     action.culture.namingConvention.getNameLists()
-        .forEach { state.nameLists.require(it) }
-    val oldCulture = state.cultures.getOrThrow(action.culture.id)
+        .forEach { state.getNameListStorage().require(it) }
+    val oldCulture = state.getCultureStorage().getOrThrow(action.culture.id)
 
     if (requiresChangeToMononym(action.culture, oldCulture)) {
         logger.info { "Change names to mononym for Culture ${oldCulture.id.value}" }
@@ -48,7 +48,7 @@ val UPDATE_CULTURE: Reducer<UpdateCulture, State> = { state, action ->
         logger.info { "Change names to genonym for Culture ${oldCulture.id.value}" }
         changeNames(state, oldCulture, action) { changeToGenonym(it) }
     } else {
-        noFollowUps(state.copy(cultures = state.cultures.update(action.culture)))
+        noFollowUps(state.copy(cultures = state.getCultureStorage().update(action.culture)))
     }
 }
 
@@ -63,8 +63,8 @@ private fun changeNames(
 
     return noFollowUps(
         state.copy(
-            characters = state.characters.update(updatedCharacters),
-            cultures = state.cultures.update(action.culture)
+            characters = state.getCharacterStorage().update(updatedCharacters),
+            cultures = state.getCultureStorage().update(action.culture)
         )
     )
 }

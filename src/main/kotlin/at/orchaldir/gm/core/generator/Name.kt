@@ -12,10 +12,11 @@ class NameGenerator(
     private val state: State,
     private val character: Character,
 ) {
-    private val namingConvention: NamingConvention = state.cultures.getOrThrow(character.culture).namingConvention
+    private val namingConvention: NamingConvention =
+        state.getCultureStorage().getOrThrow(character.culture).namingConvention
 
     constructor(numberGenerator: NumberGenerator, state: State, id: CharacterId) :
-            this(numberGenerator, state, state.characters.getOrThrow(id))
+            this(numberGenerator, state, state.getCharacterStorage().getOrThrow(id))
 
     fun generate() = when (namingConvention) {
         NoNamingConvention -> character.name
@@ -51,7 +52,7 @@ class NameGenerator(
         generateName(genderMap.get(character.gender))
 
     private fun generateName(nameListId: NameListId): String {
-        val nameList = state.nameLists.getOrThrow(nameListId)
+        val nameList = state.getNameListStorage().getOrThrow(nameListId)
         return numberGenerator.select(nameList.names)
     }
 

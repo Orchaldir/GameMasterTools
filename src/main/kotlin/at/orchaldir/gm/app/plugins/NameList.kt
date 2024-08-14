@@ -57,7 +57,7 @@ fun Application.configureNameListRouting() {
             logger.info { "Get details of name list ${details.id.value}" }
 
             val state = STORE.getState()
-            val nameList = state.nameLists.getOrThrow(details.id)
+            val nameList = state.getNameListStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showNameListDetails(call, state, nameList)
@@ -68,7 +68,7 @@ fun Application.configureNameListRouting() {
 
             STORE.dispatch(CreateNameList)
 
-            call.respondRedirect(call.application.href(NameLists.Edit(STORE.getState().nameLists.lastId)))
+            call.respondRedirect(call.application.href(NameLists.Edit(STORE.getState().getNameListStorage().lastId)))
 
             STORE.getState().save()
         }
@@ -85,7 +85,7 @@ fun Application.configureNameListRouting() {
             logger.info { "Get editor for name list ${edit.id.value}" }
 
             val state = STORE.getState()
-            val nameList = state.nameLists.getOrThrow(edit.id)
+            val nameList = state.getNameListStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showNameListEditor(call, nameList)
@@ -106,7 +106,7 @@ fun Application.configureNameListRouting() {
 }
 
 private fun HTML.showAllNameLists(call: ApplicationCall) {
-    val nameLists = STORE.getState().nameLists.getAll().sortedBy { it.name }
+    val nameLists = STORE.getState().getNameListStorage().getAll().sortedBy { it.name }
     val count = nameLists.size
     val createLink = call.application.href(NameLists.New())
 

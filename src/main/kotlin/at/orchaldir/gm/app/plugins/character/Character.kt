@@ -42,7 +42,7 @@ fun Application.configureCharacterRouting() {
             logger.info { "Get details of character ${details.id.value}" }
 
             val state = STORE.getState()
-            val character = state.characters.getOrThrow(details.id)
+            val character = state.getCharacterStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCharacterDetails(call, state, character)
@@ -53,7 +53,7 @@ fun Application.configureCharacterRouting() {
 
             STORE.dispatch(CreateCharacter)
 
-            call.respondRedirect(call.application.href(Characters.Edit(STORE.getState().characters.lastId)))
+            call.respondRedirect(call.application.href(Characters.Edit(STORE.getState().getCharacterStorage().lastId)))
 
             STORE.getState().save()
         }
@@ -70,7 +70,7 @@ fun Application.configureCharacterRouting() {
             logger.info { "Get editor for character ${edit.id.value}" }
 
             val state = STORE.getState()
-            val character = state.characters.getOrThrow(edit.id)
+            val character = state.getCharacterStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCharacterEditor(call, state, character)
@@ -103,7 +103,7 @@ fun Application.configureCharacterRouting() {
 
             val state = STORE.getState()
             val generator = DateGenerator(RandomNumberGenerator(Random), state, state.time.defaultCalendar)
-            val character = state.characters.getOrThrow(generate.id)
+            val character = state.getCharacterStorage().getOrThrow(generate.id)
             val birthDate = generator.generateMonthAndDay(character.birthDate)
             val updated = character.copy(birthDate = birthDate)
 
@@ -119,7 +119,7 @@ fun Application.configureCharacterRouting() {
             val state = STORE.getState()
             val generator = NameGenerator(RandomNumberGenerator(Random), state, generate.id)
             val name = generator.generate()
-            val character = state.characters.getOrThrow(generate.id).copy(name = name)
+            val character = state.getCharacterStorage().getOrThrow(generate.id).copy(name = name)
 
             STORE.dispatch(UpdateCharacter(character))
 
@@ -131,7 +131,7 @@ fun Application.configureCharacterRouting() {
 }
 
 private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
-    val characters = STORE.getState().characters.getAll()
+    val characters = STORE.getState().getCharacterStorage().getAll()
         .map { Pair(it.id, state.getName(it)) }
         .sortedBy { it.second }
     val count = characters.size
@@ -329,7 +329,7 @@ private fun HTML.showCharacterEditor(
     character: Character,
 ) {
     val characterName = state.getName(character)
-    val race = state.races.getOrThrow(character.race)
+    val race = state.getRaceStorage().getOrThrow(character.race)
     val backLink = href(call, character.id)
     val previewLink = call.application.href(Characters.Preview(character.id))
     val updateLink = call.application.href(Characters.Update(character.id))
@@ -381,7 +381,7 @@ private fun HTML.showCharacterEditor(
                     }
                 }
             }
-            selectEnum("Race", RACE, state.races.getAll(), true) { r ->
+            selectEnum("Race", RACE, state.getRaceStorage().getAll(), true) { r ->
                 label = r.name
                 value = r.id.value.toString()
                 selected = r.id == character.race
@@ -391,7 +391,7 @@ private fun HTML.showCharacterEditor(
                 value = gender.toString()
                 selected = character.gender == gender
             }
-            selectEnum("Culture", CULTURE, state.cultures.getAll()) { culture ->
+            selectEnum("Culture", CULTURE, state.getCultureStorage().getAll()) { culture ->
                 label = culture.name
                 value = culture.id.value.toString()
                 selected = culture.id == character.culture

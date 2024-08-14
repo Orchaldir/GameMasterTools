@@ -8,11 +8,11 @@ import at.orchaldir.gm.core.model.language.LanguageId
 
 fun State.canDelete(culture: CultureId) = getCharacters(culture).isEmpty()
 
-fun State.getCultures(fashion: FashionId) = cultures.getAll()
+fun State.getCultures(fashion: FashionId) = getCultureStorage().getAll()
     .filter { it.clothingStyles.contains(fashion) }
 
-fun State.getCultures(calendar: CalendarId) = cultures.getAll()
+fun State.getCultures(calendar: CalendarId) = getCultureStorage().getAll()
     .filter { it.calendar == calendar }
 
-fun State.getCultures(language: LanguageId) = cultures.getAll()
+fun State.getCultures(language: LanguageId) = getCultureStorage().getAll()
     .filter { it.languages.isAvailable(language) }
