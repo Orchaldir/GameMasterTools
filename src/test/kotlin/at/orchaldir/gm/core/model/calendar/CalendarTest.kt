@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-private val CALENDAR = Calendar(CalendarId(0), months = listOf(Month("a", 2), Month("b", 3)))
+private val CALENDAR0 = Calendar(CalendarId(0), months = listOf(MonthDefinition("a", 2), MonthDefinition("b", 3)))
 
 class CalendarTest {
 
     @Test
     fun `Test the number of days per year`() {
-        assertEquals(5, CALENDAR.getDaysPerYear())
+        assertEquals(5, CALENDAR0.getDaysPerYear())
     }
 
     @Nested
@@ -35,11 +35,11 @@ class CalendarTest {
         }
 
         private fun assertTest(startDate: Int, era: Int, year: Int) {
-            assertResolve(CALENDAR, startDate, era, year, 0, 0)
-            assertResolve(CALENDAR, startDate + 1, era, year, 0, 1)
-            assertResolve(CALENDAR, startDate + 2, era, year, 1, 0)
-            assertResolve(CALENDAR, startDate + 3, era, year, 1, 1)
-            assertResolve(CALENDAR, startDate + 4, era, year, 1, 2)
+            assertResolve(CALENDAR0, startDate, era, year, 0, 0)
+            assertResolve(CALENDAR0, startDate + 1, era, year, 0, 1)
+            assertResolve(CALENDAR0, startDate + 2, era, year, 1, 0)
+            assertResolve(CALENDAR0, startDate + 3, era, year, 1, 1)
+            assertResolve(CALENDAR0, startDate + 4, era, year, 1, 2)
         }
 
         private fun assertResolve(
@@ -63,10 +63,10 @@ class CalendarTest {
     inner class ResolveYearTest {
         @Test
         fun `Test without offset`() {
-            assertResolve(CALENDAR, -2, 0, 1)
-            assertResolve(CALENDAR, -1, 0, 0)
-            assertResolve(CALENDAR, 0, 1, 0)
-            assertResolve(CALENDAR, 1, 1, 1)
+            assertResolve(CALENDAR0, -2, 0, 1)
+            assertResolve(CALENDAR0, -1, 0, 0)
+            assertResolve(CALENDAR0, 0, 1, 0)
+            assertResolve(CALENDAR0, 1, 1, 1)
         }
 
         @Test
@@ -99,5 +99,5 @@ class CalendarTest {
         }
     }
 
-    private fun createCalendar(date: Date) = CALENDAR.copy(eras = CalendarEras("BC", true, date, "AD", false))
+    private fun createCalendar(date: Date) = CALENDAR0.copy(eras = CalendarEras("BC", true, date, "AD", false))
 }
