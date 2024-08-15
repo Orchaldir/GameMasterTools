@@ -82,9 +82,9 @@ private fun HTML.showTimeData(call: ApplicationCall) {
             link(call, state, state.time.defaultCalendar)
         }
         field(state, "Current Date", state.time.currentDate)
-        p { a(editLink) { +"Edit" } }
-        p { a(showMonthLink) { +"Show Month" } }
-        p { a("/") { +"Back" } }
+        action(editLink, "Edit")
+        action(showMonthLink, "Show Month")
+        action("/", "Back")
     }
 }
 
