@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.action
 
 import at.orchaldir.gm.core.model.NameList
 import at.orchaldir.gm.core.model.NameListId
-import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.*
@@ -20,6 +19,7 @@ import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.time.Time
 
 sealed class Action
 

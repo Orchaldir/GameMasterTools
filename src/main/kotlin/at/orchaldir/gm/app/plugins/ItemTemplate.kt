@@ -69,7 +69,7 @@ fun Application.configureItemTemplateRouting() {
             logger.info { "Get details of item template ${details.id.value}" }
 
             val state = STORE.getState()
-            val itemTemplate = state.itemTemplates.getOrThrow(details.id)
+            val itemTemplate = state.getItemTemplateStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showItemTemplateDetails(call, state, itemTemplate)
@@ -80,7 +80,13 @@ fun Application.configureItemTemplateRouting() {
 
             STORE.dispatch(CreateItemTemplate)
 
-            call.respondRedirect(call.application.href(ItemTemplates.Edit(STORE.getState().itemTemplates.lastId)))
+            call.respondRedirect(
+                call.application.href(
+                    ItemTemplates.Edit(
+                        STORE.getState().getItemTemplateStorage().lastId
+                    )
+                )
+            )
 
             STORE.getState().save()
         }
@@ -97,7 +103,7 @@ fun Application.configureItemTemplateRouting() {
             logger.info { "Get editor for item template ${edit.id.value}" }
 
             val state = STORE.getState()
-            val template = state.itemTemplates.getOrThrow(edit.id)
+            val template = state.getItemTemplateStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showItemTemplateEditor(call, state, template)
@@ -127,7 +133,7 @@ fun Application.configureItemTemplateRouting() {
 }
 
 private fun HTML.showAllItemTemplates(call: ApplicationCall) {
-    val templates = STORE.getState().itemTemplates.getAll().sortedBy { it.name }
+    val templates = STORE.getState().getItemTemplateStorage().getAll().sortedBy { it.name }
     val count = templates.size
     val createLink = call.application.href(ItemTemplates.New())
 
@@ -493,7 +499,7 @@ private fun FORM.selectMaterial(
     state: State,
     materialId: MaterialId,
 ) {
-    selectEnum("Material", MATERIAL, state.materials.getAll()) { material ->
+    selectEnum("Material", MATERIAL, state.getMaterialStorage().getAll()) { material ->
         label = material.name
         value = material.id.value.toString()
         selected = materialId == material.id

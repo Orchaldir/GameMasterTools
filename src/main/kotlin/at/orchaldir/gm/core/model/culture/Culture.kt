@@ -13,11 +13,14 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
+const val CULTURE = "Culture"
+
 @JvmInline
 @Serializable
 value class CultureId(val value: Int) : Id<CultureId> {
 
     override fun next() = CultureId(value + 1)
+    override fun type() = CULTURE
     override fun value() = value
 
 }
@@ -34,6 +37,7 @@ data class Culture(
 ) : Element<CultureId> {
 
     override fun id() = id
+    override fun name() = name
 
     fun getFashion(character: Character) = clothingStyles.get(character.gender)
 

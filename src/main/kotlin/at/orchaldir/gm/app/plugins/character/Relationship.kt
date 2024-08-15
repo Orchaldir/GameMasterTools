@@ -30,7 +30,7 @@ fun Application.configureCharacterRelationshipRouting() {
             logger.info { "Get editor for character ${edit.id.value}'s relationships" }
 
             val state = STORE.getState()
-            val character = state.characters.getOrThrow(edit.id)
+            val character = state.getCharacterStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showRelationshipEditor(call, state, character)
@@ -40,7 +40,7 @@ fun Application.configureCharacterRelationshipRouting() {
             logger.info { "Get preview for character ${edit.id.value}'s relationships" }
 
             val state = STORE.getState()
-            val character = state.characters.getOrThrow(edit.id)
+            val character = state.getCharacterStorage().getOrThrow(edit.id)
             val formParameters = call.receiveParameters()
             val relationships = parseRelationships(formParameters)
 

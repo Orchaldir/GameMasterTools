@@ -9,7 +9,7 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val UPDATE_RELATIONSHIPS: Reducer<UpdateRelationships, State> = { state, action ->
-    var character = state.characters.getOrThrow(action.id)
+    var character = state.getCharacterStorage().getOrThrow(action.id)
     val removedOthers = character.relationships.keys - action.relationships.keys
     val updated = mutableListOf<Character>()
 
@@ -17,20 +17,20 @@ val UPDATE_RELATIONSHIPS: Reducer<UpdateRelationships, State> = { state, action 
         require(action.id != otherId) { "Relationships must be between 2 different characters!" }
         character = updateRelationships(character, otherId, relationships)
 
-        val other = state.characters.getOrThrow(otherId)
+        val other = state.getCharacterStorage().getOrThrow(otherId)
         updated.add(updateRelationships(other, character.id, relationships))
     }
 
     removedOthers.forEach { otherId ->
         character = updateRelationships(character, otherId, setOf())
 
-        val other = state.characters.getOrThrow(otherId)
+        val other = state.getCharacterStorage().getOrThrow(otherId)
         updated.add(updateRelationships(other, character.id, setOf()))
     }
 
     updated.add(character)
 
-    noFollowUps(state.copy(characters = state.characters.update(updated)))
+    noFollowUps(state.updateStorage(state.getCharacterStorage().update(updated)))
 }
 
 private fun updateRelationships(

@@ -16,7 +16,7 @@ fun parseCharacter(
     parameters: Parameters,
     id: CharacterId,
 ): Character {
-    val character = state.characters.getOrThrow(id)
+    val character = state.getCharacterStorage().getOrThrow(id)
 
     val name = parseCharacterName(parameters)
     val race = RaceId(parameters.getOrFail(RACE).toInt())

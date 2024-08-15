@@ -12,12 +12,12 @@ class DateGenerator(
 ) {
 
     constructor(numberGenerator: NumberGenerator, state: State, id: CalendarId) :
-            this(numberGenerator, state.calendars.getOrThrow(id))
+            this(numberGenerator, state.getCalendarStorage().getOrThrow(id))
 
     fun generateMonthAndDay(day: Day): Day {
         val displayDay = calendar.resolve(day)
-        val monthIndex = numberGenerator.getNumber().toInt() % calendar.months.size
-        val dayIndex = numberGenerator.getNumber().toInt() % calendar.months[monthIndex].days
+        val monthIndex = numberGenerator.getNumber() % calendar.months.size
+        val dayIndex = numberGenerator.getNumber() % calendar.months[monthIndex].days
         val generatedDisplayDate = displayDay.copy(monthIndex = monthIndex, dayIndex = dayIndex)
         return calendar.resolve(generatedDisplayDate)
     }

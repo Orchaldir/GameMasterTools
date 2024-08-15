@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.GenderMap
+import at.orchaldir.gm.core.model.calendar.CALENDAR
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
@@ -63,7 +64,7 @@ fun Application.configureCultureRouting() {
             logger.info { "Get details of culture ${details.id.value}" }
 
             val state = STORE.getState()
-            val culture = state.cultures.getOrThrow(details.id)
+            val culture = state.getCultureStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCultureDetails(call, state, culture)
@@ -74,7 +75,7 @@ fun Application.configureCultureRouting() {
 
             STORE.dispatch(CreateCulture)
 
-            call.respondRedirect(call.application.href(Cultures.Edit(STORE.getState().cultures.lastId)))
+            call.respondRedirect(call.application.href(Cultures.Edit(STORE.getState().getCultureStorage().lastId)))
 
             STORE.getState().save()
         }
@@ -91,7 +92,7 @@ fun Application.configureCultureRouting() {
             logger.info { "Get editor for culture ${edit.id.value}" }
 
             val state = STORE.getState()
-            val culture = state.cultures.getOrThrow(edit.id)
+            val culture = state.getCultureStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showCultureEditor(call, state, culture)
@@ -123,7 +124,7 @@ fun Application.configureCultureRouting() {
 }
 
 private fun HTML.showAllCultures(call: ApplicationCall) {
-    val cultures = STORE.getState().cultures.getAll().sortedBy { it.name }
+    val cultures = STORE.getState().getCultureStorage().getAll().sortedBy { it.name }
     val count = cultures.size
     val createLink = call.application.href(Cultures.New())
 
@@ -310,12 +311,12 @@ private fun HTML.showCultureEditor(
                     value = culture.name
                 }
             }
-            selectEnum("Calendar", CALENDAR, state.calendars.getAll()) { c ->
+            selectEnum("Calendar", CALENDAR, state.getCalendarStorage().getAll()) { c ->
                 label = c.name
                 value = c.id.value.toString()
                 selected = culture.calendar == c.id
             }
-            selectRarityMap("Languages", LANGUAGES, state.languages, culture.languages) { it.name }
+            selectRarityMap("Languages", LANGUAGES, state.getLanguageStorage(), culture.languages) { it.name }
             editNamingConvention(namingConvention, state)
             editAppearanceOptions(culture)
             editClothingOptions(state, culture)
@@ -438,7 +439,7 @@ private fun HtmlBlockTag.selectNameList(
     select {
         id = selectId
         name = selectId
-        state.nameLists.getAll().forEach { nameList ->
+        state.getNameListStorage().getAll().forEach { nameList ->
             option {
                 label = nameList.name
                 value = nameList.id.value.toString()
@@ -477,7 +478,7 @@ private fun FORM.editClothingOptions(
             select {
                 id = selectId
                 name = selectId
-                state.fashion.getAll().forEach { fashion ->
+                state.getFashionStorage().getAll().forEach { fashion ->
                     option {
                         label = fashion.name
                         value = fashion.id.value.toString()

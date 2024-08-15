@@ -38,9 +38,9 @@ class CharacterTest {
     fun `Create another character`() {
         val character0 = Character(ID0)
         val character1 = Character(ID1)
-        val state = State(characters = Storage(listOf(character0)))
+        val state = State(Storage(listOf(character0)))
 
-        val characters = REDUCER.invoke(state, CreateCharacter).first.characters
+        val characters = REDUCER.invoke(state, CreateCharacter).first.getCharacterStorage()
 
         assertEquals(2, characters.getSize())
         assertEquals(character0, characters.getOrThrow(ID0))
@@ -54,19 +54,19 @@ class CharacterTest {
 
         @Test
         fun `Can delete an existing character`() {
-            val state = State(
-                characters = Storage(listOf(Character(ID0))),
-            )
+            val state = State(Storage(listOf(Character(ID0))))
 
-            assertEquals(0, REDUCER.invoke(state, action).first.characters.getSize())
+            assertEquals(0, REDUCER.invoke(state, action).first.getCharacterStorage().getSize())
         }
 
         @Test
         fun `Cannot delete an inventor`() {
             val origin = InventedLanguage(ID0)
             val state = State(
-                characters = Storage(listOf(Character(ID0))),
-                languages = Storage(listOf(Language(LANGUAGE0, origin = origin)))
+                listOf(
+                    Storage(listOf(Character(ID0))),
+                    Storage(listOf(Language(LANGUAGE0, origin = origin)))
+                )
             )
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -76,7 +76,7 @@ class CharacterTest {
         inner class DeleteFamilyMemberTest {
 
             private val state = State(
-                characters = Storage(
+                Storage(
                     listOf(
                         Character(ID0, origin = Born(ID1, ID2)),
                         Character(ID1),
@@ -113,11 +113,13 @@ class CharacterTest {
         @Test
         fun `Do not overwrite languages`() {
             val state = State(
-                characters = Storage(listOf(Character(ID0, languages = LANGUAGES))),
-                cultures = Storage(listOf(Culture(CULTURE0))),
-                languages = Storage(listOf(Language(LANGUAGE0))),
-                personalityTraits = Storage(listOf(PersonalityTrait(PERSONALITY0))),
-                races = Storage(listOf(Race(RACE0), Race(RACE1)))
+                listOf(
+                    Storage(listOf(Character(ID0, languages = LANGUAGES))),
+                    Storage(listOf(Culture(CULTURE0))),
+                    Storage(listOf(Language(LANGUAGE0))),
+                    Storage(listOf(PersonalityTrait(PERSONALITY0))),
+                    Storage(listOf(Race(RACE0), Race(RACE1)))
+                )
             )
             val action =
                 UpdateCharacter(Character(ID0, Mononym("Test"), RACE1, Gender.Male, personality = setOf(PERSONALITY0)))
@@ -133,7 +135,7 @@ class CharacterTest {
                     personality = setOf(PERSONALITY0),
                     languages = LANGUAGES,
                 ),
-                result.characters.getOrThrow(ID0)
+                result.getCharacterStorage().getOrThrow(ID0)
             )
         }
 
@@ -142,15 +144,17 @@ class CharacterTest {
             private val UNKNOWN = CharacterId(3)
 
             private val state = State(
-                characters = Storage(
-                    listOf(
-                        Character(ID0),
-                        Character(ID1, gender = Gender.Male),
-                        Character(ID2, gender = Gender.Female)
-                    )
-                ),
-                cultures = Storage(listOf(Culture(CULTURE0))),
-                races = Storage(listOf(Race(RACE0)))
+                listOf(
+                    Storage(
+                        listOf(
+                            Character(ID0),
+                            Character(ID1, gender = Gender.Male),
+                            Character(ID2, gender = Gender.Female)
+                        )
+                    ),
+                    Storage(listOf(Culture(CULTURE0))),
+                    Storage(listOf(Race(RACE0)))
+                )
             )
 
             @Test
@@ -162,7 +166,7 @@ class CharacterTest {
 
                 assertEquals(
                     character,
-                    result.characters.getOrThrow(ID0)
+                    result.getCharacterStorage().getOrThrow(ID0)
                 )
             }
 
@@ -207,14 +211,16 @@ class CharacterTest {
         inner class CauseOfDeathTest {
 
             private val state = State(
-                characters = Storage(
-                    listOf(
-                        Character(ID0),
-                        Character(ID1),
-                    )
+                listOf(
+                    Storage(
+                        listOf(
+                            Character(ID0),
+                            Character(ID1),
+                        )
+                    ),
+                    Storage(listOf(Culture(CULTURE0))),
+                    Storage(listOf(Race(RACE0))),
                 ),
-                cultures = Storage(listOf(Culture(CULTURE0))),
-                races = Storage(listOf(Race(RACE0))),
                 time = Time(currentDate = Day(10)),
             )
 
@@ -276,7 +282,7 @@ class CharacterTest {
 
                 assertEquals(
                     character,
-                    result.characters.getOrThrow(ID0)
+                    result.getCharacterStorage().getOrThrow(ID0)
                 )
             }
 
@@ -289,7 +295,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot update unknown character`() {
-            val state = State(races = Storage(listOf(Race(RACE0))))
+            val state = State(Storage(listOf(Race(RACE0))))
             val action = UpdateCharacter(Character(ID0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -297,7 +303,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot use unknown culture`() {
-            val state = State(characters = Storage(listOf(Character(ID0))), races = Storage(listOf(Race(RACE0))))
+            val state = State(listOf(Storage(listOf(Character(ID0))), Storage(listOf(Race(RACE0)))))
             val action = UpdateCharacter(Character(ID0, culture = CULTURE0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -305,7 +311,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot use unknown personality trait`() {
-            val state = State(characters = Storage(listOf(Character(ID0))), races = Storage(listOf(Race(RACE0))))
+            val state = State(listOf(Storage(listOf(Character(ID0))), Storage(listOf(Race(RACE0)))))
             val action = UpdateCharacter(Character(ID0, personality = setOf(PERSONALITY0)))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -313,7 +319,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot use unknown race`() {
-            val state = State(characters = Storage(listOf(Character(ID0))))
+            val state = State(Storage(listOf(Character(ID0))))
             val action = UpdateCharacter(Character(ID0, race = RACE0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }

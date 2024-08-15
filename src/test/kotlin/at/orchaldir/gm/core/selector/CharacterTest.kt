@@ -28,15 +28,17 @@ private val MOTHER = Character(MOTHER_ID, gender = Gender.Female)
 private val FATHER = Character(FATHER_ID, gender = Gender.Male)
 private val SON = Character(SON_ID, gender = Gender.Male, origin = Born(MOTHER_ID, FATHER_ID))
 private val FAMILY_STATE = State(
-    characters = Storage(
-        listOf(
-            DAUGHTER,
-            MOTHER,
-            FATHER,
-            SON,
-        )
-    ),
-    races = Storage(listOf(Race(RACE0)))
+    listOf(
+        Storage(
+            listOf(
+                DAUGHTER,
+                MOTHER,
+                FATHER,
+                SON,
+            )
+        ),
+        Storage(listOf(Race(RACE0)))
+    )
 )
 
 class CharacterTest {

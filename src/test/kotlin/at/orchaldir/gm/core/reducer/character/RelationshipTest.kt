@@ -22,14 +22,13 @@ class RelationshipTest {
 
     @Test
     fun `Set first relationships`() {
-        val state = State(
-            characters = Storage(listOf(Character(ID0), Character(ID1))),
-        )
+        val state = State(Storage(listOf(Character(ID0), Character(ID1))))
 
         val result = REDUCER.invoke(state, action).first
 
-        assertEquals(mapOf(ID1 to setOf(Friend)), result.characters.getOrThrow(ID0).relationships)
-        assertEquals(mapOf(ID0 to setOf(Friend)), result.characters.getOrThrow(ID1).relationships)
+        val storage = result.getCharacterStorage()
+        assertEquals(mapOf(ID1 to setOf(Friend)), storage.getOrThrow(ID0).relationships)
+        assertEquals(mapOf(ID0 to setOf(Friend)), storage.getOrThrow(ID1).relationships)
     }
 
     @Test
@@ -40,8 +39,9 @@ class RelationshipTest {
 
         val result = REDUCER.invoke(state, action).first
 
-        assertEquals(mapOf(ID1 to new), result.characters.getOrThrow(ID0).relationships)
-        assertEquals(mapOf(ID0 to new), result.characters.getOrThrow(ID1).relationships)
+        val storage = result.getCharacterStorage()
+        assertEquals(mapOf(ID1 to new), storage.getOrThrow(ID0).relationships)
+        assertEquals(mapOf(ID0 to new), storage.getOrThrow(ID1).relationships)
     }
 
     @Test
@@ -52,8 +52,9 @@ class RelationshipTest {
 
         val result = REDUCER.invoke(state, action).first
 
-        assertEquals(mapOf(ID1 to new), result.characters.getOrThrow(ID0).relationships)
-        assertEquals(mapOf(ID0 to new), result.characters.getOrThrow(ID1).relationships)
+        val storage = result.getCharacterStorage()
+        assertEquals(mapOf(ID1 to new), storage.getOrThrow(ID0).relationships)
+        assertEquals(mapOf(ID0 to new), storage.getOrThrow(ID1).relationships)
     }
 
     @Test
@@ -63,8 +64,9 @@ class RelationshipTest {
 
         val result = REDUCER.invoke(state, action).first
 
-        assertEquals(mapOf(), result.characters.getOrThrow(ID0).relationships)
-        assertEquals(mapOf(), result.characters.getOrThrow(ID1).relationships)
+        val storage = result.getCharacterStorage()
+        assertEquals(mapOf(), storage.getOrThrow(ID0).relationships)
+        assertEquals(mapOf(), storage.getOrThrow(ID1).relationships)
     }
 
     @Test
@@ -74,27 +76,28 @@ class RelationshipTest {
 
         val result = REDUCER.invoke(state, action).first
 
-        assertEquals(mapOf(), result.characters.getOrThrow(ID0).relationships)
-        assertEquals(mapOf(), result.characters.getOrThrow(ID1).relationships)
+        val storage = result.getCharacterStorage()
+        assertEquals(mapOf(), storage.getOrThrow(ID0).relationships)
+        assertEquals(mapOf(), storage.getOrThrow(ID1).relationships)
     }
 
     @Test
     fun `Cannot add relationship to unknown character`() {
-        val state = State(characters = Storage(listOf(Character(ID1))))
+        val state = State(Storage(listOf(Character(ID1))))
 
         assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
     }
 
     @Test
     fun `Cannot add relationship to unknown other`() {
-        val state = State(characters = Storage(listOf(Character(ID0))))
+        val state = State(Storage(listOf(Character(ID0))))
 
         assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
     }
 
     @Test
     fun `Cannot add relationship to the same character`() {
-        val state = State(characters = Storage(listOf(Character(ID0))))
+        val state = State(Storage(listOf(Character(ID0))))
 
         assertFailsWith<IllegalArgumentException> {
             REDUCER.invoke(
@@ -106,7 +109,7 @@ class RelationshipTest {
 
     private fun createStateWithExistingRelationships(relationships: Set<InterpersonalRelationship>): State {
         val state = State(
-            characters = Storage(
+            Storage(
                 listOf(
                     Character(ID0, relationships = mapOf(ID1 to relationships)),
                     Character(ID1, relationships = mapOf(ID0 to relationships)),

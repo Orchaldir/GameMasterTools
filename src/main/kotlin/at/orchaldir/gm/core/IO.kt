@@ -28,7 +28,7 @@ inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> saveStorage(
 ) {
     val data = Data(VERSION, storage.getAll().associateBy { it.id() })
 
-    saveData(path, storage.name + "s", data)
+    saveData(path, storage.getType() + "s", data)
 }
 
 inline fun <reified T> saveData(
@@ -43,16 +43,15 @@ inline fun <reified T> saveData(
 
 inline fun <reified ID : Id<ID>, reified ELEMENT : Element<ID>> loadStorage(
     path: String,
-    type: String,
     zero: ID,
 ): Storage<ID, ELEMENT> {
-    val data = loadData<Data<ID, ELEMENT>>(path, type + "s")
+    val data = loadData<Data<ID, ELEMENT>>(path, zero.type() + "s")
 
     if (data.elements.isEmpty()) {
-        return Storage(zero, type)
+        return Storage(zero)
     }
 
-    return Storage(data.elements.values.toList(), type)
+    return Storage(data.elements.values.toList())
 }
 
 inline fun <reified T> loadData(

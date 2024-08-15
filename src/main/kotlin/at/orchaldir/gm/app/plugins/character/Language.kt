@@ -33,7 +33,7 @@ fun Application.configureCharacterLanguageRouting() {
             logger.info { "Get editor for character ${edit.id.value}'s languages" }
 
             val state = STORE.getState()
-            val character = state.characters.getOrThrow(edit.id)
+            val character = state.getCharacterStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showLanguageEditor(call, state, character)
@@ -70,7 +70,7 @@ private fun HTML.showLanguageEditor(
     state: State,
     character: Character,
 ) {
-    val cultures = state.cultures.getOrThrow(character.culture)
+    val cultures = state.getCultureStorage().getOrThrow(character.culture)
     val backLink = href(call, character.id)
     val updateLink = call.application.href(Characters.Languages.Update(character.id))
 
@@ -90,7 +90,7 @@ private fun HTML.showLanguageEditor(
                         .forEach { (rarity, values) ->
                             optGroup(rarity.toString()) {
                                 values.forEach { languageId ->
-                                    val language = state.languages.getOrThrow(languageId)
+                                    val language = state.getLanguageStorage().getOrThrow(languageId)
                                     option {
                                         label = language.name
                                         value = language.id.value.toString()
@@ -107,7 +107,7 @@ private fun HTML.showLanguageEditor(
             }
             field("Languages to Remove") {
                 character.languages.keys.forEach { id ->
-                    val language = state.languages.getOrThrow(id)
+                    val language = state.getLanguageStorage().getOrThrow(id)
                     p {
                         checkBoxInput {
                             name = "remove"

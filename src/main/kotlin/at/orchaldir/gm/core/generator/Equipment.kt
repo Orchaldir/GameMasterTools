@@ -24,13 +24,13 @@ data class EquipmentGenerator(
 
     companion object {
         fun create(state: State, character: Character): EquipmentGenerator {
-            val culture = state.cultures.getOrThrow(character.culture)
+            val culture = state.getCultureStorage().getOrThrow(character.culture)
 
             return EquipmentGenerator(
                 RandomNumberGenerator(Random),
                 state.rarityGenerator,
                 character,
-                state.fashion.getOrThrow(culture.getFashion(character)),
+                state.getFashionStorage().getOrThrow(culture.getFashion(character)),
             )
         }
     }

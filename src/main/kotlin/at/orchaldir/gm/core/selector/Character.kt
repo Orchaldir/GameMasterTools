@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Duration
 
-fun State.canCreateCharacter() = cultures.getSize() > 0 && races.getSize() > 0
+fun State.canCreateCharacter() = getCultureStorage().getSize() > 0 && getCharacterStorage().getSize() > 0
 
 fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty() &&
         getParents(character).isEmpty() &&
@@ -15,23 +15,25 @@ fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty() &
 
 // get characters
 
-fun State.getCharacters(culture: CultureId) = characters.getAll().filter { c -> c.culture == culture }
+fun State.getCharacters(culture: CultureId) = getCharacterStorage().getAll().filter { c -> c.culture == culture }
 
-fun State.getCharacters(language: LanguageId) = characters.getAll().filter { c -> c.languages.containsKey(language) }
+fun State.getCharacters(language: LanguageId) =
+    getCharacterStorage().getAll().filter { c -> c.languages.containsKey(language) }
 
-fun State.getCharacters(trait: PersonalityTraitId) = characters.getAll().filter { c -> c.personality.contains(trait) }
+fun State.getCharacters(trait: PersonalityTraitId) =
+    getCharacterStorage().getAll().filter { c -> c.personality.contains(trait) }
 
-fun State.getCharacters(race: RaceId) = characters.getAll().filter { c -> c.race == race }
+fun State.getCharacters(race: RaceId) = getCharacterStorage().getAll().filter { c -> c.race == race }
 
-fun State.getOthers(id: CharacterId) = characters.getAll().filter { c -> c.id != id }
+fun State.getOthers(id: CharacterId) = getCharacterStorage().getAll().filter { c -> c.id != id }
 
 // get relatives
 
 fun State.getParents(id: CharacterId): List<Character> {
-    val character = characters.get(id) ?: return listOf()
+    val character = getCharacterStorage().get(id) ?: return listOf()
 
     return when (character.origin) {
-        is Born -> listOf(character.origin.father, character.origin.mother).map { characters.getOrThrow(it) }
+        is Born -> listOf(character.origin.father, character.origin.mother).map { getCharacterStorage().getOrThrow(it) }
         else -> listOf()
     }
 }
@@ -49,15 +51,15 @@ fun Character.getMother() = when (origin) {
 fun State.hasPossibleParents(id: CharacterId) =
     getPossibleFathers(id).isNotEmpty() && getPossibleMothers(id).isNotEmpty()
 
-fun State.getPossibleFathers(id: CharacterId) = characters.getAll()
+fun State.getPossibleFathers(id: CharacterId) = getCharacterStorage().getAll()
     .filter { it.gender == Gender.Male }
     .filter { it.id != id }
 
-fun State.getPossibleMothers(id: CharacterId) = characters.getAll()
+fun State.getPossibleMothers(id: CharacterId) = getCharacterStorage().getAll()
     .filter { it.gender == Gender.Female }
     .filter { it.id != id }
 
-fun State.getChildren(id: CharacterId) = characters.getAll().filter {
+fun State.getChildren(id: CharacterId) = getCharacterStorage().getAll().filter {
     when (it.origin) {
         is Born -> it.origin.isParent(id)
         else -> false
@@ -75,12 +77,12 @@ fun State.getSiblings(id: CharacterId): Set<Character> {
 
 // relationships
 
-fun State.getOthersWithoutRelationship(character: Character) = characters.getAll()
+fun State.getOthersWithoutRelationship(character: Character) = getCharacterStorage().getAll()
     .filter { c -> c.id != character.id }
     .filter { c -> !character.relationships.containsKey(c.id) }
 
 // age
 
-fun State.getAge(id: CharacterId): Duration = getAge(characters.getOrThrow(id))
+fun State.getAge(id: CharacterId): Duration = getAge(getCharacterStorage().getOrThrow(id))
 
 fun State.getAge(character: Character): Duration = character.getAge(time.currentDate)

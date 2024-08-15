@@ -6,7 +6,7 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val UPDATE_TIME: Reducer<UpdateTime, State> = { state, action ->
-    state.calendars.require(action.time.defaultCalendar)
+    state.getCalendarStorage().require(action.time.defaultCalendar)
 
     noFollowUps(state.copy(time = action.time))
 }

@@ -58,7 +58,7 @@ fun Application.configureLanguageRouting() {
             logger.info { "Get details of language ${details.id.value}" }
 
             val state = STORE.getState()
-            val language = state.languages.getOrThrow(details.id)
+            val language = state.getLanguageStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showLanguageDetails(call, state, language)
@@ -69,7 +69,7 @@ fun Application.configureLanguageRouting() {
 
             STORE.dispatch(CreateLanguage)
 
-            call.respondRedirect(call.application.href(Languages.Edit(STORE.getState().languages.lastId)))
+            call.respondRedirect(call.application.href(Languages.Edit(STORE.getState().getLanguageStorage().lastId)))
 
             STORE.getState().save()
         }
@@ -86,7 +86,7 @@ fun Application.configureLanguageRouting() {
             logger.info { "Get editor for language ${edit.id.value}" }
 
             val state = STORE.getState()
-            val language = state.languages.getOrThrow(edit.id)
+            val language = state.getLanguageStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showLanguageEditor(call, state, language)
@@ -118,7 +118,7 @@ fun Application.configureLanguageRouting() {
 }
 
 private fun HTML.showAllLanguages(call: ApplicationCall) {
-    val languages = STORE.getState().languages.getAll().sortedBy { it.name }
+    val languages = STORE.getState().getLanguageStorage().getAll().sortedBy { it.name }
     val count = languages.size
     val createLink = call.application.href(Languages.New())
 
@@ -195,7 +195,7 @@ private fun HTML.showLanguageEditor(
     state: State,
     language: Language,
 ) {
-    val possibleInventors = state.characters.getAll()
+    val possibleInventors = state.getCharacterStorage().getAll()
     val possibleParents = state.getPossibleParents(language.id)
     val backLink = href(call, language.id)
     val previewLink = call.application.href(Languages.Preview(language.id))

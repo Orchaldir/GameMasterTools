@@ -10,22 +10,22 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_MATERIAL: Reducer<CreateMaterial, State> = { state, _ ->
-    val material = Material(state.materials.nextId)
+    val material = Material(state.getMaterialStorage().nextId)
 
-    noFollowUps(state.copy(materials = state.materials.add(material)))
+    noFollowUps(state.updateStorage(state.getMaterialStorage().add(material)))
 }
 
 val DELETE_MATERIAL: Reducer<DeleteMaterial, State> = { state, action ->
-    state.materials.require(action.id)
+    state.getMaterialStorage().require(action.id)
     require(state.canDelete(action.id)) { "Material ${action.id.value} is used" }
 
-    noFollowUps(state.copy(materials = state.materials.remove(action.id)))
+    noFollowUps(state.updateStorage(state.getMaterialStorage().remove(action.id)))
 }
 
 val UPDATE_MATERIAL: Reducer<UpdateMaterial, State> = { state, action ->
     val material = action.material
 
-    state.materials.require(material.id)
+    state.getMaterialStorage().require(material.id)
 
-    noFollowUps(state.copy(materials = state.materials.update(material)))
+    noFollowUps(state.updateStorage(state.getMaterialStorage().update(material)))
 }

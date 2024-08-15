@@ -19,15 +19,15 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 val CREATE_CHARACTER: Reducer<CreateCharacter, State> = { state, _ ->
-    val character = Character(state.characters.nextId)
+    val character = Character(state.getCharacterStorage().nextId)
     logger.info { "new character $character" }
-    val characters = state.characters.add(character)
+    val characters = state.getCharacterStorage().add(character)
     logger.info { "new characters $characters" }
-    noFollowUps(state.copy(characters = characters))
+    noFollowUps(state.updateStorage(characters))
 }
 
 val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
-    state.characters.require(action.id)
+    state.getCharacterStorage().require(action.id)
 
     val invented = state.getInventedLanguages(action.id)
     require(invented.isEmpty()) { "Cannot delete character ${action.id.value}, because he is an language inventor" }
@@ -36,21 +36,21 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
     val children = state.getChildren(action.id)
     require(children.isEmpty()) { "Cannot delete character ${action.id.value}, because he has children" }
 
-    noFollowUps(state.copy(characters = state.characters.remove(action.id)))
+    noFollowUps(state.updateStorage(state.getCharacterStorage().remove(action.id)))
 }
 
 val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     val character = action.character
-    val oldCharacter = state.characters.getOrThrow(character.id)
+    val oldCharacter = state.getCharacterStorage().getOrThrow(character.id)
 
-    state.races.require(character.race)
-    state.cultures.require(character.culture)
+    state.getRaceStorage().require(character.race)
+    state.getCultureStorage().require(character.culture)
     checkOrigin(state, character)
     checkCauseOfDeath(state, character)
-    character.personality.forEach { state.personalityTraits.require(it) }
+    character.personality.forEach { state.getPersonalityTraitStorage().require(it) }
     val update = character.copy(languages = oldCharacter.languages)
 
-    noFollowUps(state.copy(characters = state.characters.update(update)))
+    noFollowUps(state.updateStorage(state.getCharacterStorage().update(update)))
 }
 
 private fun checkOrigin(
@@ -61,10 +61,18 @@ private fun checkOrigin(
 
     when (val origin = character.origin) {
         is Born -> {
-            require(state.characters.contains(origin.mother)) { "Cannot use an unknown mother ${origin.mother.value}!" }
-            require(state.characters.getOrThrow(origin.mother).gender == Gender.Female) { "Mother ${origin.mother.value} is not female!" }
-            require(state.characters.contains(origin.father)) { "Cannot use an unknown father ${origin.father.value}!" }
-            require(state.characters.getOrThrow(origin.father).gender == Gender.Male) { "Father ${origin.father.value} is not male!" }
+            require(
+                state.getCharacterStorage().contains(origin.mother)
+            ) { "Cannot use an unknown mother ${origin.mother.value}!" }
+            require(
+                state.getCharacterStorage().getOrThrow(origin.mother).gender == Gender.Female
+            ) { "Mother ${origin.mother.value} is not female!" }
+            require(
+                state.getCharacterStorage().contains(origin.father)
+            ) { "Cannot use an unknown father ${origin.father.value}!" }
+            require(
+                state.getCharacterStorage().getOrThrow(origin.father).gender == Gender.Male
+            ) { "Father ${origin.father.value} is not male!" }
         }
 
         else -> doNothing()
@@ -81,6 +89,8 @@ private fun checkCauseOfDeath(
     }
 
     if (character.causeOfDeath is Murder) {
-        require(state.characters.contains(character.causeOfDeath.killer)) { "Cannot use an unknown killer ${character.causeOfDeath.killer}!" }
+        require(
+            state.getCharacterStorage().contains(character.causeOfDeath.killer)
+        ) { "Cannot use an unknown killer ${character.causeOfDeath.killer}!" }
     }
 }

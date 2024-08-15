@@ -1,7 +1,8 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.fieldStorageLink
+import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.plugins.character.Characters
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -29,16 +30,16 @@ fun Application.configureRouting() {
             call.respondHtml(HttpStatusCode.OK) {
                 simpleHtml(TITLE) {
                     h2 { +"Elements" }
-                    fieldStorageLink(call, state.characters, Characters())
-                    fieldStorageLink(call, state.calendars, Calendars())
-                    fieldStorageLink(call, state.cultures, Cultures())
-                    fieldStorageLink(call, state.fashion, Fashions())
-                    fieldStorageLink(call, state.itemTemplates, ItemTemplates())
-                    fieldStorageLink(call, state.languages, Languages())
-                    fieldStorageLink(call, state.materials, Materials())
-                    fieldStorageLink(call, state.nameLists, NameLists())
-                    fieldStorageLink(call, state.personalityTraits, Personality())
-                    fieldStorageLink(call, state.races, Races())
+                    fieldStorageLink(call, state.getCharacterStorage(), Characters())
+                    fieldStorageLink(call, state.getCalendarStorage(), Calendars())
+                    fieldStorageLink(call, state.getCultureStorage(), Cultures())
+                    fieldStorageLink(call, state.getFashionStorage(), Fashions())
+                    fieldStorageLink(call, state.getItemTemplateStorage(), ItemTemplates())
+                    fieldStorageLink(call, state.getLanguageStorage(), Languages())
+                    fieldStorageLink(call, state.getMaterialStorage(), Materials())
+                    fieldStorageLink(call, state.getNameListStorage(), NameLists())
+                    fieldStorageLink(call, state.getPersonalityTraitStorage(), Personality())
+                    fieldStorageLink(call, state.getRaceStorage(), Races())
                     h2 { +"Data" }
                     ul {
                         li {

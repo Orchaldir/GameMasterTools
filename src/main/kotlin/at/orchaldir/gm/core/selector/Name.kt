@@ -7,23 +7,23 @@ import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.TwoGenerations
 
 fun State.canHaveFamilyName(character: Character): Boolean {
-    val culture = cultures.getOrThrow(character.culture)
+    val culture = getCultureStorage().getOrThrow(character.culture)
 
     return culture.namingConvention is FamilyConvention
 }
 
 fun State.canHaveGenonym(character: Character): Boolean {
-    val convention = cultures.getOrThrow(character.culture).namingConvention
+    val convention = getCultureStorage().getOrThrow(character.culture).namingConvention
 
     return convention is GenonymConvention || convention is PatronymConvention || convention is MatronymConvention
 }
 
-fun State.getName(character: CharacterId) = getName(characters.getOrThrow(character))
+fun State.getName(character: CharacterId) = getName(getCharacterStorage().getOrThrow(character))
 
 fun State.getName(character: Character): String {
     return when (val name = character.name) {
         is FamilyName -> {
-            val culture = cultures.getOrThrow(character.culture)
+            val culture = getCultureStorage().getOrThrow(character.culture)
 
             getFamilyName(culture.namingConvention, name)
         }
@@ -66,7 +66,7 @@ private fun State.getGenonymName(
     character: Character,
     name: Genonym,
 ): String {
-    val culture = cultures.getOrThrow(character.culture)
+    val culture = getCultureStorage().getOrThrow(character.culture)
 
     return when (val convention = culture.namingConvention) {
         is GenonymConvention -> getGenonymName(
@@ -116,7 +116,7 @@ private fun State.getGenonymName(
     val parentId = getParent(character)
 
     return if (parentId != null) {
-        val parent = characters.getOrThrow(parentId)
+        val parent = getCharacterStorage().getOrThrow(parentId)
         val result =
             getGenonymName(name.given, character.gender, style, parent)
 
@@ -124,7 +124,7 @@ private fun State.getGenonymName(
             val grandparentId = getParent(parent)
 
             if (grandparentId != null) {
-                val grandparent = characters.getOrThrow(grandparentId)
+                val grandparent = getCharacterStorage().getOrThrow(grandparentId)
                 return getGenonymName(
                     result,
                     parent.gender,

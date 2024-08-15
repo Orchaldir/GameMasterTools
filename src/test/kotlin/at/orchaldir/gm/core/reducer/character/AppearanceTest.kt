@@ -23,11 +23,11 @@ class AppearanceTest {
 
     @Test
     fun `Update appearance`() {
-        val state = State(characters = Storage(listOf(Character(ID0))))
+        val state = State(Storage(listOf(Character(ID0))))
 
         val result = REDUCER.invoke(state, action).first
 
-        assertEquals(appearance, result.characters.getOrThrow(ID0).appearance)
+        assertEquals(appearance, result.getCharacterStorage().getOrThrow(ID0).appearance)
     }
 
     @Test
