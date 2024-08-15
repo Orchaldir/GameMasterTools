@@ -86,7 +86,7 @@ data class State(
             return (storage as Storage<ID, Element<ID>>).get(id)?.name() ?: "Unknown"
         }
 
-        error("fail")
+        return "Unknown"
     }
 
     fun updateStorage(storage: Storage<*, *>): State {
