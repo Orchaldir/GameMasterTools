@@ -120,8 +120,8 @@ private fun HTML.showAllFashions(call: ApplicationCall) {
         showList(fashion) { fashion ->
             link(call, fashion)
         }
-        p { a(createLink) { +"Add" } }
-        p { a("/") { +"Back" } }
+        action(createLink, "Add")
+        back("/")
     }
 }
 
@@ -151,11 +151,11 @@ private fun HTML.showFashionDetails(
         showList("Cultures", state.getCultures(fashion.id)) { culture ->
             link(call, culture)
         }
-        p { a(editLink) { +"Edit" } }
+        action(editLink, "Edit")
         if (state.canDelete(fashion.id)) {
-            p { a(deleteLink) { +"Delete" } }
+            action(deleteLink, "Delete")
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 
@@ -188,7 +188,7 @@ private fun HTML.showFashionEditor(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 

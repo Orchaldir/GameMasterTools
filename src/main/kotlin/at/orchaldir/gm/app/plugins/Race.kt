@@ -131,8 +131,8 @@ private fun HTML.showAllRaces(call: ApplicationCall) {
         showList(races) { race ->
             link(call, race)
         }
-        p { a(createLink) { +"Add" } }
-        p { a("/") { +"Back" } }
+        action(createLink, "Add")
+        back("/")
     }
 }
 
@@ -189,13 +189,13 @@ private fun HTML.showRaceDetails(
         showList(state.getCharacters(race.id)) { character ->
             link(call, state, character)
         }
-        p { a(editLink) { +"Edit" } }
+        action(editLink, "Edit")
 
         if (state.canDelete(race.id)) {
-            p { a(deleteLink) { +"Delete" } }
+            action(deleteLink, "Delete")
         }
 
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 
@@ -271,7 +271,7 @@ private fun HTML.showRaceEditor(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 

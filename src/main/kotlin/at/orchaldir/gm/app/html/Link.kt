@@ -25,6 +25,8 @@ import kotlinx.html.p
 
 // generic
 
+fun HtmlBlockTag.back(href: String) = action(href, "Back")
+
 fun HtmlBlockTag.action(
     href: String,
     text: String,

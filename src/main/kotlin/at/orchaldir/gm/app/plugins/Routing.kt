@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.action
 import at.orchaldir.gm.app.html.fieldStorageLink
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.plugins.character.Characters
@@ -43,7 +44,7 @@ fun Application.configureRouting() {
                     h2 { +"Data" }
                     ul {
                         li {
-                            p { a(timeLink) { +"Time" } }
+                            action(timeLink, "Time")
                         }
                     }
                 }

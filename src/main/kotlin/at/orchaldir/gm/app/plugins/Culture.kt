@@ -133,8 +133,8 @@ private fun HTML.showAllCultures(call: ApplicationCall) {
         showList(cultures) { culture ->
             link(call, culture)
         }
-        p { a(createLink) { +"Add" } }
-        p { a("/") { +"Back" } }
+        action(createLink, "Add")
+        back("/")
     }
 }
 
@@ -164,13 +164,13 @@ private fun HTML.showCultureDetails(
         showList(state.getCharacters(culture.id)) { character ->
             link(call, state, character)
         }
-        p { a(editLink) { +"Edit" } }
+        action(editLink, "Edit")
 
         if (state.canDelete(culture.id)) {
-            p { a(deleteLink) { +"Delete" } }
+            action(deleteLink, "Delete")
         }
 
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 
@@ -328,7 +328,7 @@ private fun HTML.showCultureEditor(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 

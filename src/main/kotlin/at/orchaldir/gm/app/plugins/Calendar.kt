@@ -128,8 +128,8 @@ private fun HTML.showAllCalendars(call: ApplicationCall) {
         showList(calendars) { calendar ->
             link(call, calendar)
         }
-        p { a(createLink) { +"Add" } }
-        p { a("/") { +"Back" } }
+        action(createLink, "Add")
+        back("/")
     }
 }
 
@@ -156,11 +156,11 @@ private fun HTML.showCalendarDetails(
         showList(cultures) { culture ->
             link(call, culture)
         }
-        p { a(editLink) { +"Edit" } }
+        action(editLink, "Edit")
         if (state.canDelete(calendar.id)) {
-            p { a(deleteLink) { +"Delete" } }
+            action(deleteLink, "Delete")
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 
@@ -247,7 +247,7 @@ private fun HTML.showCalendarEditor(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 

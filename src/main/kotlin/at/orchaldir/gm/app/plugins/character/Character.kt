@@ -143,9 +143,9 @@ private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
             link(call, character.first, character.second)
         }
         if (state.canCreateCharacter()) {
-            p { a(createLink) { +"Add" } }
+            action(createLink, "Add")
         }
-        p { a("/") { +"Back" } }
+        back("/")
     }
 }
 
@@ -164,13 +164,13 @@ private fun HTML.showCharacterDetails(
         svg(frontSvg, 20)
         svg(backSvg, 20)
 
-        p { a(editAppearanceLink) { +"Edit Appearance" } }
+        action(editAppearanceLink, "Edit Appearance")
 
         showData(character, call, state)
         showSocial(call, state, character)
         showItems(call, state, character)
 
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 
@@ -219,11 +219,11 @@ private fun BODY.showData(
     }
     showAge(state, character)
 
-    p { a(generateNameLink) { +"Generate New Name" } }
-    p { a(generateBirthdayLink) { +"Generate Birthday" } }
-    p { a(editLink) { +"Edit" } }
+    action(generateNameLink, "Generate New Name")
+    action(generateBirthdayLink, "Generate Birthday")
+    action(editLink, "Edit")
     if (state.canDelete(character.id)) {
-        p { a(deleteLink) { +"Delete" } }
+        action(deleteLink, "Delete")
     }
 }
 
@@ -266,8 +266,8 @@ private fun BODY.showSocial(
 
     showLanguages(call, state, character)
 
-    p { a(editLanguagesLink) { +"Edit Languages" } }
-    p { a(editRelationshipsLink) { +"Edit Relationships" } }
+    action(editLanguagesLink, "Edit Languages")
+    action(editRelationshipsLink, "Edit Relationships")
 }
 
 private fun BODY.showFamily(
@@ -316,7 +316,7 @@ fun BODY.showItems(
 
     h2 { +"Items" }
 
-    p { a(editEquipmentLink) { +"Edit Equipment" } }
+    action(editEquipmentLink, "Edit Equipment")
 
     showList("Equipped", character.equipmentMap.map.values) { item ->
         link(call, state, item)
@@ -486,6 +486,6 @@ private fun HTML.showCharacterEditor(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }

@@ -147,7 +147,7 @@ private fun HTML.showAppearanceEditor(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 

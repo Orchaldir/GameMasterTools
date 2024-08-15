@@ -127,8 +127,8 @@ private fun HTML.showAllPersonalityTraits(call: ApplicationCall) {
         showList(personalityTraits) { personalityTrait ->
             link(call, personalityTrait)
         }
-        p { a(createLink) { +"Add" } }
-        p { a("/") { +"Back" } }
+        action(createLink, "Add")
+        back("/")
     }
 }
 
@@ -157,9 +157,9 @@ private fun HTML.showPersonalityTraitDetails(
         showList("Characters", characters) { character ->
             link(call, state, character)
         }
-        p { a(editLink) { +"Edit" } }
-        p { a(deleteLink) { +"Delete" } }
-        p { a(backLink) { +"Back" } }
+        action(editLink, "Edit")
+        action(deleteLink, "Delete")
+        back(backLink)
     }
 }
 
@@ -214,6 +214,6 @@ private fun HTML.showPersonalityTraitEditor(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }

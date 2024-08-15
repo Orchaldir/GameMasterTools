@@ -115,8 +115,8 @@ private fun HTML.showAllNameLists(call: ApplicationCall) {
         showList(nameLists) { nameList ->
             link(call, nameList)
         }
-        p { a(createLink) { +"Add" } }
-        p { a("/") { +"Back" } }
+        action(createLink, "Add")
+        back("/")
     }
 }
 
@@ -138,11 +138,11 @@ private fun HTML.showNameListDetails(
         showList("Cultures", state.getCultures(nameList.id)) { culture ->
             link(call, culture)
         }
-        p { a(editLink) { +"Edit" } }
+        action(editLink, "Edit")
         if (state.canDelete(nameList.id)) {
-            p { a(deleteLink) { +"Delete" } }
+            action(deleteLink, "Delete")
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 
@@ -177,6 +177,6 @@ private fun HTML.showNameListEditor(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }

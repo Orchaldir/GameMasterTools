@@ -142,8 +142,8 @@ private fun HTML.showAllItemTemplates(call: ApplicationCall) {
         showList(templates) { item ->
             link(call, item)
         }
-        p { a(createLink) { +"Add" } }
-        p { a("/") { +"Back" } }
+        action(createLink, "Add")
+        back("/")
     }
 }
 
@@ -250,11 +250,11 @@ private fun HTML.showItemTemplateDetails(
         showList("Part of Fashion", fashions) { item ->
             link(call, item)
         }
-        p { a(editLink) { +"Edit" } }
+        action(editLink, "Edit")
         if (state.canDelete(template.id)) {
-            p { a(deleteLink) { +"Delete" } }
+            action(deleteLink, "Delete")
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 
@@ -415,7 +415,7 @@ private fun HTML.showItemTemplateEditor(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 

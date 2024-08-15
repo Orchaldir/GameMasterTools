@@ -84,7 +84,7 @@ private fun HTML.showTimeData(call: ApplicationCall) {
         field(state, "Current Date", state.time.currentDate)
         action(editLink, "Edit")
         action(showMonthLink, "Show Month")
-        action("/", "Back")
+        back("/")
     }
 }
 
@@ -94,7 +94,7 @@ private fun HTML.showMonth(call: ApplicationCall, day: Day) {
 
     simpleHtml("Show Month") {
         field(state, "Date", day)
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 
@@ -121,6 +121,6 @@ private fun HTML.editTimeData(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
