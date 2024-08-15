@@ -31,6 +31,8 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 
+val ELEMENTS =
+    setOf(CALENDAR, CHARACTER, CULTURE, FASHION, ITEM_TEMPLATE, LANGUAGE, MATERIAL, NAME_LIST, PERSONALITY_TRAIT, RACE)
 private const val TIME = "Time"
 
 data class State(
@@ -106,13 +108,6 @@ data class State(
 
     companion object {
 
-        fun init(
-            storage: Storage<*, *>,
-            path: String = "data",
-            time: Time = Time(),
-            rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
-        ) = State(mapOf(storage.getType() to storage), path, time, rarityGenerator)
-
         fun load(path: String) = State(
             ELEMENTS.associateWith { loadStorage(path, it) },
             path,
@@ -126,4 +121,36 @@ data class State(
         }
         saveData(path, TIME, time)
     }
+}
+
+fun createStorage(type: String) = when (type) {
+    CALENDAR -> Storage(CalendarId(0))
+    CHARACTER -> Storage(CharacterId(0))
+    CULTURE -> Storage(CultureId(0))
+    FASHION -> Storage(FashionId(0))
+    ITEM_TEMPLATE -> Storage(ItemTemplateId(0))
+    LANGUAGE -> Storage(LanguageId(0))
+    MATERIAL -> Storage(MaterialId(0))
+    NAME_LIST -> Storage(NameListId(0))
+    PERSONALITY_TRAIT -> Storage(PersonalityTraitId(0))
+    RACE -> Storage(RaceId(0))
+    else -> throw IllegalArgumentException("Unknown type $type")
+}
+
+fun loadStorage(path: String, type: String): Storage<*, *> = when (type) {
+    CALENDAR -> at.orchaldir.gm.core.loadStorage<CalendarId, Calendar>(path, CalendarId(0))
+    CHARACTER -> at.orchaldir.gm.core.loadStorage<CharacterId, Character>(path, CharacterId(0))
+    CULTURE -> at.orchaldir.gm.core.loadStorage<CultureId, Culture>(path, CultureId(0))
+    FASHION -> at.orchaldir.gm.core.loadStorage<FashionId, Fashion>(path, FashionId(0))
+    ITEM_TEMPLATE -> at.orchaldir.gm.core.loadStorage<ItemTemplateId, ItemTemplate>(path, ItemTemplateId(0))
+    LANGUAGE -> at.orchaldir.gm.core.loadStorage<LanguageId, Language>(path, LanguageId(0))
+    MATERIAL -> at.orchaldir.gm.core.loadStorage<MaterialId, Material>(path, MaterialId(0))
+    NAME_LIST -> at.orchaldir.gm.core.loadStorage<NameListId, NameList>(path, NameListId(0))
+    PERSONALITY_TRAIT -> at.orchaldir.gm.core.loadStorage<PersonalityTraitId, PersonalityTrait>(
+        path,
+        PersonalityTraitId(0)
+    )
+
+    RACE -> at.orchaldir.gm.core.loadStorage<RaceId, Race>(path, RaceId(0))
+    else -> throw IllegalArgumentException("Unknown type $type")
 }
