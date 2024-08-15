@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.parse.CURRENT
 import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
 import at.orchaldir.gm.core.model.calendar.CALENDAR
+import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -24,11 +25,14 @@ private val logger = KotlinLogging.logger {}
 @Resource("/time")
 class TimeRoutes {
 
+    @Resource("month")
+    class ShowMonth(val day: Day, val parent: TimeRoutes = TimeRoutes())
+
     @Resource("edit")
-    class Edit(val parent: Languages = Languages())
+    class Edit(val parent: TimeRoutes = TimeRoutes())
 
     @Resource("update")
-    class Update(val parent: Languages = Languages())
+    class Update(val parent: TimeRoutes = TimeRoutes())
 }
 
 fun Application.configureTimeRouting() {
@@ -38,6 +42,13 @@ fun Application.configureTimeRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showTimeData(call)
+            }
+        }
+        get<TimeRoutes.ShowMonth> { data ->
+            logger.info { "Show month of day ${data.day.day}" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showMonth(call, data.day)
             }
         }
         get<TimeRoutes.Edit> {
@@ -64,6 +75,7 @@ fun Application.configureTimeRouting() {
 private fun HTML.showTimeData(call: ApplicationCall) {
     val state = STORE.getState()
     val editLink = call.application.href(TimeRoutes.Edit())
+    val showMonthLink = call.application.href(TimeRoutes.ShowMonth(state.time.currentDate))
 
     simpleHtml("Time Data") {
         field("Default Calendar") {
@@ -71,7 +83,18 @@ private fun HTML.showTimeData(call: ApplicationCall) {
         }
         field(state, "Current Date", state.time.currentDate)
         p { a(editLink) { +"Edit" } }
+        p { a(showMonthLink) { +"Show Month" } }
         p { a("/") { +"Back" } }
+    }
+}
+
+private fun HTML.showMonth(call: ApplicationCall, day: Day) {
+    val state = STORE.getState()
+    val backLink = call.application.href(TimeRoutes())
+
+    simpleHtml("Show Month") {
+        field(state, "Date", day)
+        p { a(backLink) { +"Back" } }
     }
 }
 
