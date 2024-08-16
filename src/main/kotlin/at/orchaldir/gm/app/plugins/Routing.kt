@@ -13,7 +13,9 @@ import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.h2
+import kotlinx.html.li
+import kotlinx.html.ul
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
