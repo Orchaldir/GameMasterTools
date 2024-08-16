@@ -5,11 +5,9 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.CURRENT
 import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
-import at.orchaldir.gm.core.model.calendar.CALENDAR
-import at.orchaldir.gm.core.model.calendar.CalendarId
-import at.orchaldir.gm.core.model.calendar.DayOfTheMonth
-import at.orchaldir.gm.core.model.calendar.Weekdays
+import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.DisplayDay
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.ceilDiv
@@ -107,45 +105,53 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
         }
         when (calendar.days) {
             DayOfTheMonth -> doNothing()
-            is Weekdays -> {
-                table {
-                    tr {
-                        th {
-                            colSpan = calendar.days.weekDays.size.toString()
-                            +month.name
-                        }
-                    }
-                    tr {
-                        calendar.days.weekDays.forEach {
-                            th {
-                                +it.name
-                            }
-                        }
-                    }
-                    val startIndex = calendar.getWeekDay(startOfMonth)
-                    var dayIndex = -startIndex
-                    val minDaysShown = startIndex + month.days
-                    val weeksShown = minDaysShown.ceilDiv(calendar.days.weekDays.size)
+            is Weekdays -> showMonthWithWeekDays(calendar.days, month, calendar, startOfMonth, displayDay)
+        }
+        back(backLink)
+    }
+}
 
-                    repeat(weeksShown) {
-                        tr {
-                            repeat(calendar.days.weekDays.size) {
-                                td {
-                                    if (month.isInside(dayIndex)) {
-                                        if (displayDay.dayIndex == dayIndex) {
-                                            style = "background-color:yellow"
-                                        }
-                                        +(dayIndex + 1).toString()
-                                    }
-                                    dayIndex++
-                                }
+private fun BODY.showMonthWithWeekDays(
+    days: Weekdays,
+    month: MonthDefinition,
+    calendar: Calendar,
+    startOfMonth: Day,
+    displayDay: DisplayDay,
+) {
+    table {
+        tr {
+            th {
+                colSpan = days.weekDays.size.toString()
+                +month.name
+            }
+        }
+        tr {
+            days.weekDays.forEach {
+                th {
+                    +it.name
+                }
+            }
+        }
+        val startIndex = calendar.getWeekDay(startOfMonth)
+        var dayIndex = -startIndex
+        val minDaysShown = startIndex + month.days
+        val weeksShown = minDaysShown.ceilDiv(days.weekDays.size)
+
+        repeat(weeksShown) {
+            tr {
+                repeat(days.weekDays.size) {
+                    td {
+                        if (month.isInside(dayIndex)) {
+                            if (displayDay.dayIndex == dayIndex) {
+                                style = "background-color:yellow"
                             }
+                            +(dayIndex + 1).toString()
                         }
+                        dayIndex++
                     }
                 }
             }
         }
-        back(backLink)
     }
 }
 
