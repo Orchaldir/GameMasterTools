@@ -203,8 +203,8 @@ private fun BODY.showData(
 
         UndefinedCharacterOrigin -> doNothing()
     }
-    field(state, "Birthdate", character.birthDate)
-    character.causeOfDeath.getDeathDate()?.let { field(state, "Date of Death", it) }
+    field(call, state, "Birthdate", character.birthDate)
+    character.causeOfDeath.getDeathDate()?.let { field(call, state, "Date of Death", it) }
     when (character.causeOfDeath) {
         Alive -> doNothing()
         is Accident -> showCauseOfDeath("Accident")

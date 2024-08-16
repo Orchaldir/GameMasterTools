@@ -151,7 +151,7 @@ private fun HTML.showCalendarDetails(
         showDays(calendar)
         showMonths(calendar)
         h2 { +"Eras" }
-        showEras(state, calendar)
+        showEras(call, state, calendar)
         h2 { +"Cultures" }
         showList(cultures) { culture ->
             link(call, culture)
@@ -209,10 +209,11 @@ private fun BODY.showMonths(calendar: Calendar) {
 }
 
 private fun BODY.showEras(
+    call: ApplicationCall,
     state: State,
     calendar: Calendar,
 ) {
-    field(state, "Start Date", calendar.getStartDate())
+    field(call, state, "Start Date", calendar.getStartDate())
     field("Before Era", calendar.eras.display(DisplayYear(0, 0)))
     field("Current Era", calendar.eras.display(DisplayYear(1, 0)))
 }

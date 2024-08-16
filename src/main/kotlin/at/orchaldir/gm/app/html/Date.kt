@@ -1,21 +1,30 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.plugins.TimeRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.selector.getDefaultCalendar
+import io.ktor.server.application.*
+import io.ktor.server.resources.*
 import kotlinx.html.*
 
-fun HtmlBlockTag.field(state: State, label: String, date: Date) {
-    field(label, state.getDefaultCalendar(), date)
+fun HtmlBlockTag.field(call: ApplicationCall, state: State, label: String, date: Date) {
+    field(call, label, state.getDefaultCalendar(), date)
 }
 
-fun HtmlBlockTag.field(label: String, calendar: Calendar, date: Date) {
+fun HtmlBlockTag.field(call: ApplicationCall, label: String, calendar: Calendar, date: Date) {
     val calendarDate = calendar.resolve(date)
 
     field(label) {
-        +calendar.display(calendarDate)
+        when (date) {
+            is Day -> {
+                link(call.application.href(TimeRoutes.ShowDate(date)), calendar.display(calendarDate))
+            }
+
+            is Year -> +calendar.display(calendarDate)
+        }
     }
 }
 

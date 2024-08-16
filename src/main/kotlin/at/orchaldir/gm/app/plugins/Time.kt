@@ -79,15 +79,13 @@ fun Application.configureTimeRouting() {
 private fun HTML.showTimeData(call: ApplicationCall) {
     val state = STORE.getState()
     val editLink = call.application.href(TimeRoutes.Edit())
-    val showDateLink = call.application.href(TimeRoutes.ShowDate(state.time.currentDate))
 
     simpleHtml("Time Data") {
         field("Default Calendar") {
             link(call, state, state.time.defaultCalendar)
         }
-        field(state, "Current Date", state.time.currentDate)
+        field(call, state, "Current Date", state.time.currentDate)
         action(editLink, "Edit")
-        action(showDateLink, "Show Date")
         back("/")
     }
 }
