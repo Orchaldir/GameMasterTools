@@ -95,6 +95,9 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
     val backLink = call.application.href(TimeRoutes())
 
     simpleHtml("Show Month") {
+        field("Calendar") {
+            link(call, calendar)
+        }
         field("Date", calendar, day)
         back(backLink)
     }
