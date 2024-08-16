@@ -95,15 +95,17 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayDay = calendar.resolve(day)
     val month = calendar.getMonth(day)
-    val startOfMonth = calendar.getStartOfMonthDate(day)
+    val startOfMonth = calendar.getStartOfMonth(day)
     val backLink = call.application.href(TimeRoutes())
-    val nextLink = call.application.href(TimeRoutes.ShowDate(calendar.getNextMonth(day)))
+    val nextLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfNextMonth(day)))
+    val previousLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfPreviousMonth(day)))
 
     simpleHtml("Date: " + calendar.display(displayDay)) {
         field("Calendar") {
             link(call, calendar)
         }
         action(nextLink, "Next Month")
+        action(previousLink, "Previous Month")
         when (calendar.days) {
             DayOfTheMonth -> doNothing()
             is Weekdays -> showMonthWithWeekDays(calendar.days, month, calendar, startOfMonth, displayDay)

@@ -37,19 +37,32 @@ data class Calendar(
 
     fun getMonth(day: DisplayDay) = months[day.monthIndex]
 
+    fun getLastMonthIndex() = months.size - 1
+
     fun getStartDate() = eras.first.startDate
 
-    fun getStartOfMonthDate(day: Day) = resolve(resolve(day).getStartOfMonth())
+    fun getStartOfMonth(day: Day) = resolve(resolve(day).getStartOfMonth())
 
-    fun getNextMonth(day: Day): Day {
+    fun getStartOfNextMonth(day: Day): Day {
         val displayDay = resolve(day)
-        val nextMonth = if (displayDay.monthIndex == months.size - 1) {
+        val nextMonth = if (displayDay.monthIndex == getLastMonthIndex()) {
             displayDay.copy(dayIndex = 0, monthIndex = 0, yearIndex = displayDay.yearIndex + 1)
         } else {
             displayDay.copy(dayIndex = 0, monthIndex = displayDay.monthIndex + 1)
         }
 
         return resolve(nextMonth)
+    }
+
+    fun getStartOfPreviousMonth(day: Day): Day {
+        val displayDay = resolve(day)
+        val previousMonth = if (displayDay.monthIndex == 0) {
+            displayDay.copy(dayIndex = 0, monthIndex = getLastMonthIndex(), yearIndex = displayDay.yearIndex - 1)
+        } else {
+            displayDay.copy(dayIndex = 0, monthIndex = displayDay.monthIndex - 1)
+        }
+
+        return resolve(previousMonth)
     }
 
     fun getWeekDay(date: Day) = when (days) {
