@@ -97,6 +97,7 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val month = calendar.getMonth(day)
+    val startOfMonth = calendar.getStartOfMonthDate(day)
     val backLink = call.application.href(TimeRoutes())
 
     simpleHtml("Show Month") {
@@ -116,7 +117,7 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
                             }
                         }
                     }
-                    val startIndex = calendar.getWeekDay(day)
+                    val startIndex = calendar.getWeekDay(startOfMonth)
                     var dayIndex = -startIndex
                     val minDaysShown = startIndex + month.days
                     val weeksShown = minDaysShown.ceilDiv(calendar.days.weekDays.size)

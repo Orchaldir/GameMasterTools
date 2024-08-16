@@ -39,6 +39,8 @@ data class Calendar(
 
     fun getStartDate() = eras.first.startDate
 
+    fun getStartOfMonthDate(day: Day) = resolve(resolve(day).getStartOfMonth())
+
     fun getWeekDay(date: Day) = when (days) {
         DayOfTheMonth -> 0
         is Weekdays -> {
