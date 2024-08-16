@@ -41,6 +41,17 @@ data class Calendar(
 
     fun getStartOfMonthDate(day: Day) = resolve(resolve(day).getStartOfMonth())
 
+    fun getNextMonth(day: Day): Day {
+        val displayDay = resolve(day)
+        val nextMonth = if (displayDay.monthIndex == months.size - 1) {
+            displayDay.copy(dayIndex = 0, monthIndex = 0, yearIndex = displayDay.yearIndex + 1)
+        } else {
+            displayDay.copy(dayIndex = 0, monthIndex = displayDay.monthIndex + 1)
+        }
+
+        return resolve(nextMonth)
+    }
+
     fun getWeekDay(date: Day) = when (days) {
         DayOfTheMonth -> 0
         is Weekdays -> {
