@@ -7,8 +7,11 @@ import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
 import at.orchaldir.gm.core.model.calendar.CALENDAR
 import at.orchaldir.gm.core.model.calendar.CalendarId
+import at.orchaldir.gm.core.model.calendar.DayOfTheMonth
+import at.orchaldir.gm.core.model.calendar.Weekdays
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.selector.getDefaultCalendar
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -99,6 +102,20 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
             link(call, calendar)
         }
         field("Date", calendar, day)
+        when (calendar.days) {
+            DayOfTheMonth -> doNothing()
+            is Weekdays -> {
+                table {
+                    tr {
+                        calendar.days.weekDays.forEach {
+                            th {
+                                +it.name
+                            }
+                        }
+                    }
+                }
+            }
+        }
         back(backLink)
     }
 }
