@@ -6,4 +6,7 @@ import kotlinx.serialization.Serializable
 data class MonthDefinition(
     val name: String,
     val days: Int = 30,
-)
+) {
+
+    fun isInside(dayIndex: Int) = dayIndex in 0..<days
+}

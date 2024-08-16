@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.calendar.Weekdays
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.ceilDiv
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -116,8 +117,22 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
                         }
                     }
                     val startIndex = calendar.getWeekDay(day)
-                    var weekDay = -startIndex % calendar.days.weekDays.size
-                    var dayIndex = 0
+                    var dayIndex = -startIndex
+                    val minDaysShown = startIndex + month.days
+                    val weeksShown = minDaysShown.ceilDiv(calendar.days.weekDays.size)
+
+                    repeat(weeksShown) {
+                        tr {
+                            repeat(calendar.days.weekDays.size) {
+                                td {
+                                    if (month.isInside(dayIndex)) {
+                                        +(dayIndex + 1).toString()
+                                    }
+                                    dayIndex++
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
