@@ -29,7 +29,7 @@ private val logger = KotlinLogging.logger {}
 class TimeRoutes {
 
     @Resource("month")
-    class ShowMonth(val calendar: CalendarId, val day: Day, val parent: TimeRoutes = TimeRoutes())
+    class ShowMonth(val day: Day, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
 
     @Resource("edit")
     class Edit(val parent: TimeRoutes = TimeRoutes())
@@ -48,10 +48,11 @@ fun Application.configureTimeRouting() {
             }
         }
         get<TimeRoutes.ShowMonth> { data ->
-            logger.info { "Show month of day ${data.day.day} for calendar ${data.calendar.value}" }
+            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
+            logger.info { "Show month of day ${data.day.day} for calendar ${calendarId.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showMonth(call, data.calendar, data.day)
+                showMonth(call, calendarId, data.day)
             }
         }
         get<TimeRoutes.Edit> {
@@ -78,7 +79,7 @@ fun Application.configureTimeRouting() {
 private fun HTML.showTimeData(call: ApplicationCall) {
     val state = STORE.getState()
     val editLink = call.application.href(TimeRoutes.Edit())
-    val showMonthLink = call.application.href(TimeRoutes.ShowMonth(state.time.defaultCalendar, state.time.currentDate))
+    val showMonthLink = call.application.href(TimeRoutes.ShowMonth(state.time.currentDate))
 
     simpleHtml("Time Data") {
         field("Default Calendar") {
