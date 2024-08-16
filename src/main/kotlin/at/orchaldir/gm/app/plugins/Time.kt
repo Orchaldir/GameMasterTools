@@ -133,7 +133,7 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
                                 td {
                                     if (month.isInside(dayIndex)) {
                                         if (displayDay.dayIndex == dayIndex) {
-                                            style = "color:red"
+                                            style = "background-color:yellow"
                                         }
                                         +(dayIndex + 1).toString()
                                     }
