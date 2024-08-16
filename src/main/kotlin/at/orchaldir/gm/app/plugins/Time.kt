@@ -95,6 +95,7 @@ private fun HTML.showTimeData(call: ApplicationCall) {
 private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: Day) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+    val month = calendar.getMonth(day)
     val backLink = call.application.href(TimeRoutes())
 
     simpleHtml("Show Month") {
@@ -102,6 +103,7 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
             link(call, calendar)
         }
         field("Date", calendar, day)
+        field("Month", month.name)
         when (calendar.days) {
             DayOfTheMonth -> doNothing()
             is Weekdays -> {
@@ -113,6 +115,9 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
                             }
                         }
                     }
+                    val startIndex = calendar.getWeekDay(day)
+                    var weekDay = -startIndex % calendar.days.weekDays.size
+                    var dayIndex = 0
                 }
             }
         }

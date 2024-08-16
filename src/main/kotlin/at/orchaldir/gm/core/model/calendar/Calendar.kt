@@ -33,7 +33,19 @@ data class Calendar(
 
     fun getDaysPerYear() = months.sumOf { it.days }
 
+    fun getMonth(day: Day) = getMonth(resolve(day))
+
+    fun getMonth(day: DisplayDay) = months[day.monthIndex]
+
     fun getStartDate() = eras.first.startDate
+
+    fun getWeekDay(date: Day) = when (days) {
+        DayOfTheMonth -> 0
+        is Weekdays -> {
+            val day = date.day + getOffsetInDays()
+            day % days.weekDays.size
+        }
+    }
 
     private fun getOffsetInDays() = when (eras.first.startDate) {
         is Day -> -eras.first.startDate.day
