@@ -105,11 +105,16 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
             link(call, calendar)
         }
         field("Date", calendar, day)
-        field("Month", month.name)
         when (calendar.days) {
             DayOfTheMonth -> doNothing()
             is Weekdays -> {
                 table {
+                    tr {
+                        th {
+                            colSpan = calendar.days.weekDays.size.toString()
+                            +month.name
+                        }
+                    }
                     tr {
                         calendar.days.weekDays.forEach {
                             th {
