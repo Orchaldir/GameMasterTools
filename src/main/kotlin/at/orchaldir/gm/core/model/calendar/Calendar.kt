@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.calendar
 import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
 
@@ -70,12 +71,7 @@ data class Calendar(
         is Weekdays -> {
             val day = date.day + getOffsetInDays()
 
-            if (day >= 0) {
-                day % days.weekDays.size
-            } else {
-                val modulo = (day + 1) % days.weekDays.size
-                days.weekDays.size + modulo - 1
-            }
+            day.modulo(days.weekDays.size)
         }
     }
 

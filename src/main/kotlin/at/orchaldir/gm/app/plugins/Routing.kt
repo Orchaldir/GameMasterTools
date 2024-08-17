@@ -40,6 +40,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getItemTemplateStorage(), ItemTemplates())
                     fieldStorageLink(call, state.getLanguageStorage(), Languages())
                     fieldStorageLink(call, state.getMaterialStorage(), Materials())
+                    fieldStorageLink(call, state.getMoonStorage(), Moons())
                     fieldStorageLink(call, state.getNameListStorage(), NameLists())
                     fieldStorageLink(call, state.getPersonalityTraitStorage(), Personality())
                     fieldStorageLink(call, state.getRaceStorage(), Races())

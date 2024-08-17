@@ -13,15 +13,14 @@ import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.moon.MoonId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.a
-import kotlinx.html.p
+import kotlinx.html.*
 
 // generic
 
@@ -35,7 +34,12 @@ fun HtmlBlockTag.action(
 fun HtmlBlockTag.link(
     href: String,
     text: String,
-) = a(href) { +text }
+) = link(href) { +text }
+
+fun HtmlBlockTag.link(
+    href: String,
+    content: A.() -> Unit,
+) = a(href) { content() }
 
 // element
 
@@ -60,6 +64,12 @@ fun <ID : Id<ID>> HtmlBlockTag.link(
     text: String,
 ) = link(href(call, id), text)
 
+fun <ID : Id<ID>> HtmlBlockTag.link(
+    call: ApplicationCall,
+    id: ID,
+    content: A.() -> Unit,
+) = link(href(call, id), content)
+
 fun <ID : Id<ID>> href(
     call: ApplicationCall,
     id: ID,
@@ -71,6 +81,7 @@ fun <ID : Id<ID>> href(
     is ItemTemplateId -> call.application.href(ItemTemplates.Details(id))
     is LanguageId -> call.application.href(Languages.Details(id))
     is MaterialId -> call.application.href(Materials.Details(id))
+    is MoonId -> call.application.href(Moons.Details(id))
     is NameListId -> call.application.href(NameLists.Details(id))
     is PersonalityTraitId -> call.application.href(Personality.Details(id))
     is RaceId -> call.application.href(Races.Details(id))

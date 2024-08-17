@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model
 
 import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.loadData
+import at.orchaldir.gm.core.loadStorage
 import at.orchaldir.gm.core.model.calendar.CALENDAR
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
@@ -18,9 +19,10 @@ import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.LANGUAGE
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
-import at.orchaldir.gm.core.model.material.MATERIAL
-import at.orchaldir.gm.core.model.material.Material
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.material.*
+import at.orchaldir.gm.core.model.moon.MOON
+import at.orchaldir.gm.core.model.moon.Moon
+import at.orchaldir.gm.core.model.moon.MoonId
 import at.orchaldir.gm.core.model.race.RACE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
@@ -32,7 +34,19 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 
 val ELEMENTS =
-    setOf(CALENDAR, CHARACTER, CULTURE, FASHION, ITEM_TEMPLATE, LANGUAGE, MATERIAL, NAME_LIST, PERSONALITY_TRAIT, RACE)
+    setOf(
+        CALENDAR,
+        CHARACTER,
+        CULTURE,
+        FASHION,
+        ITEM_TEMPLATE,
+        LANGUAGE,
+        MATERIAL,
+        MOON,
+        NAME_LIST,
+        PERSONALITY_TRAIT,
+        RACE
+    )
 private const val TIME = "Time"
 
 data class State(
@@ -62,6 +76,7 @@ data class State(
     fun getItemTemplateStorage() = getStorage<ItemTemplateId, ItemTemplate>(ITEM_TEMPLATE)
     fun getLanguageStorage() = getStorage<LanguageId, Language>(LANGUAGE)
     fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL)
+    fun getMoonStorage() = getStorage<MoonId, Moon>(MOON)
     fun getNameListStorage() = getStorage<NameListId, NameList>(NAME_LIST)
     fun getPersonalityTraitStorage() = getStorage<PersonalityTraitId, PersonalityTrait>(PERSONALITY_TRAIT)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE)
@@ -109,16 +124,24 @@ data class State(
     companion object {
 
         fun load(path: String) = State(
-            ELEMENTS.associateWith { loadStorage(path, it) },
+            ELEMENTS.associateWith { loadStorageForType(path, it) },
             path,
             loadData(path, TIME)
         )
     }
 
     fun save() {
-        storageMap.values.forEach {
-            saveStorage(path, it)
-        }
+        saveStorage(path, getCalendarStorage())
+        saveStorage(path, getCharacterStorage())
+        saveStorage(path, getCultureStorage())
+        saveStorage(path, getFashionStorage())
+        saveStorage(path, getItemTemplateStorage())
+        saveStorage(path, getLanguageStorage())
+        saveStorage(path, getMaterialStorage())
+        saveStorage(path, getMoonStorage())
+        saveStorage(path, getNameListStorage())
+        saveStorage(path, getPersonalityTraitStorage())
+        saveStorage(path, getRaceStorage())
         saveData(path, TIME, time)
     }
 }
@@ -131,26 +154,28 @@ fun createStorage(type: String) = when (type) {
     ITEM_TEMPLATE -> Storage(ItemTemplateId(0))
     LANGUAGE -> Storage(LanguageId(0))
     MATERIAL -> Storage(MaterialId(0))
+    MOON -> Storage(MoonId(0))
     NAME_LIST -> Storage(NameListId(0))
     PERSONALITY_TRAIT -> Storage(PersonalityTraitId(0))
     RACE -> Storage(RaceId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
 
-fun loadStorage(path: String, type: String): Storage<*, *> = when (type) {
-    CALENDAR -> at.orchaldir.gm.core.loadStorage<CalendarId, Calendar>(path, CalendarId(0))
-    CHARACTER -> at.orchaldir.gm.core.loadStorage<CharacterId, Character>(path, CharacterId(0))
-    CULTURE -> at.orchaldir.gm.core.loadStorage<CultureId, Culture>(path, CultureId(0))
-    FASHION -> at.orchaldir.gm.core.loadStorage<FashionId, Fashion>(path, FashionId(0))
-    ITEM_TEMPLATE -> at.orchaldir.gm.core.loadStorage<ItemTemplateId, ItemTemplate>(path, ItemTemplateId(0))
-    LANGUAGE -> at.orchaldir.gm.core.loadStorage<LanguageId, Language>(path, LanguageId(0))
-    MATERIAL -> at.orchaldir.gm.core.loadStorage<MaterialId, Material>(path, MaterialId(0))
-    NAME_LIST -> at.orchaldir.gm.core.loadStorage<NameListId, NameList>(path, NameListId(0))
-    PERSONALITY_TRAIT -> at.orchaldir.gm.core.loadStorage<PersonalityTraitId, PersonalityTrait>(
+fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) {
+    CALENDAR -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))
+    CHARACTER -> loadStorage<CharacterId, Character>(path, CharacterId(0))
+    CULTURE -> loadStorage<CultureId, Culture>(path, CultureId(0))
+    FASHION -> loadStorage<FashionId, Fashion>(path, FashionId(0))
+    ITEM_TEMPLATE -> loadStorage<ItemTemplateId, ItemTemplate>(path, ItemTemplateId(0))
+    LANGUAGE -> loadStorage<LanguageId, Language>(path, LanguageId(0))
+    MATERIAL -> loadStorage<MaterialId, Material>(path, MaterialId(0))
+    MOON -> loadStorage<MoonId, Moon>(path, MoonId(0))
+    NAME_LIST -> loadStorage<NameListId, NameList>(path, NameListId(0))
+    PERSONALITY_TRAIT -> loadStorage<PersonalityTraitId, PersonalityTrait>(
         path,
         PersonalityTraitId(0)
     )
 
-    RACE -> at.orchaldir.gm.core.loadStorage<RaceId, Race>(path, RaceId(0))
+    RACE -> loadStorage<RaceId, Race>(path, RaceId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }

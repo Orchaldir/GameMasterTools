@@ -41,6 +41,10 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateMaterial -> CREATE_MATERIAL(state, action)
         is DeleteMaterial -> DELETE_MATERIAL(state, action)
         is UpdateMaterial -> UPDATE_MATERIAL(state, action)
+        // moon
+        is CreateMoon -> CREATE_MOON(state, action)
+        is DeleteMoon -> DELETE_MOON(state, action)
+        is UpdateMoon -> UPDATE_MOON(state, action)
         // name list
         is CreateNameList -> CREATE_NAME_LIST(state, action)
         is DeleteNameList -> DELETE_NAME_LIST(state, action)
