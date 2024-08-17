@@ -6,6 +6,8 @@ import at.orchaldir.gm.app.parse.CURRENT
 import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
 import at.orchaldir.gm.core.model.calendar.*
+import at.orchaldir.gm.core.model.moon.Moon
+import at.orchaldir.gm.core.model.moon.MoonPhase
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.DisplayDay
 import at.orchaldir.gm.core.selector.getDefaultCalendar
@@ -92,6 +94,7 @@ private fun HTML.showTimeData(call: ApplicationCall) {
 
 private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: Day) {
     val state = STORE.getState()
+    val moons = state.getMoonStorage().getAll()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayDay = calendar.resolve(day)
     val month = calendar.getMonth(day)
@@ -108,7 +111,7 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
         action(previousLink, "Previous Month")
         when (calendar.days) {
             DayOfTheMonth -> doNothing()
-            is Weekdays -> showMonthWithWeekDays(calendar.days, month, calendar, startOfMonth, displayDay)
+            is Weekdays -> showMonthWithWeekDays(calendar.days, month, calendar, startOfMonth, displayDay, moons)
         }
         back(backLink)
     }
@@ -119,7 +122,8 @@ private fun BODY.showMonthWithWeekDays(
     month: MonthDefinition,
     calendar: Calendar,
     startOfMonth: Day,
-    displayDay: DisplayDay,
+    selectedDay: DisplayDay,
+    moons: Collection<Moon>,
 ) {
     table {
         tr {
@@ -145,10 +149,21 @@ private fun BODY.showMonthWithWeekDays(
                 repeat(days.weekDays.size) {
                     td {
                         if (month.isInside(dayIndex)) {
-                            if (displayDay.dayIndex == dayIndex) {
+                            val day = startOfMonth + dayIndex
+
+                            if (selectedDay.dayIndex == dayIndex) {
                                 style = "background-color:yellow"
                             }
+
                             +(dayIndex + 1).toString()
+
+                            moons.forEach {
+                                when (it.getPhase(day)) {
+                                    MoonPhase.NewMoon -> +" NM"
+                                    MoonPhase.FullMoon -> +" FM"
+                                    else -> doNothing()
+                                }
+                            }
                         }
                         dayIndex++
                     }
