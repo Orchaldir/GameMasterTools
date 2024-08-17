@@ -5,9 +5,47 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-private val CALENDAR0 = Calendar(CalendarId(0), months = listOf(MonthDefinition("a", 2), MonthDefinition("b", 3)))
+private val MONTH0 = MonthDefinition("a", 2)
+private val MONTH1 = MonthDefinition("b", 3)
+private val CALENDAR0 = Calendar(CalendarId(0), months = listOf(MONTH0, MONTH1))
 
 class CalendarTest {
+
+    @Nested
+    inner class GetMonthTest {
+
+        @Test
+        fun `Get months of negative days`() {
+            assertEquals(MONTH0, CALENDAR0.getMonth(Day(-5)))
+            assertEquals(MONTH0, CALENDAR0.getMonth(Day(-4)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(-3)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(-2)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(-1)))
+        }
+
+        @Test
+        fun `Get months of the first year`() {
+            assertEquals(MONTH0, CALENDAR0.getMonth(Day(0)))
+            assertEquals(MONTH0, CALENDAR0.getMonth(Day(1)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(2)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(3)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(4)))
+        }
+
+        @Test
+        fun `Get months of the second year`() {
+            assertEquals(MONTH0, CALENDAR0.getMonth(Day(5)))
+            assertEquals(MONTH0, CALENDAR0.getMonth(Day(6)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(7)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(8)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(9)))
+        }
+    }
+
+    @Test
+    fun `Get last month index`() {
+        assertEquals(1, CALENDAR0.getLastMonthIndex())
+    }
 
     @Test
     fun `Test the number of days per year`() {
