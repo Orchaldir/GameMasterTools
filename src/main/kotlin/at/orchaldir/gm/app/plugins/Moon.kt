@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.CreateMoon
 import at.orchaldir.gm.core.action.DeleteMoon
 import at.orchaldir.gm.core.action.UpdateMoon
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.moon.Moon
@@ -58,7 +59,7 @@ fun Application.configureMoonRouting() {
             val moon = state.getMoonStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showMoonDetails(call, moon)
+                showMoonDetails(call, state, moon)
             }
         }
         get<Moons.New> {
@@ -120,6 +121,7 @@ private fun HTML.showAllMoons(call: ApplicationCall) {
 
 private fun HTML.showMoonDetails(
     call: ApplicationCall,
+    state: State,
     moon: Moon,
 ) {
     val backLink = call.application.href(Moons())
@@ -131,6 +133,8 @@ private fun HTML.showMoonDetails(
         field("Name", moon.name)
         field("Cycle", moon.getCycle().toString() + " days")
         field("Color", moon.color.toString())
+        field(call, state, "Next New Moon", moon.getNextNewMoon(state.time.currentDate))
+        field(call, state, "Next Full Moon", moon.getNextFullMoon(state.time.currentDate))
 
         action(editLink, "Edit")
         action(deleteLink, "Delete")
