@@ -124,6 +124,8 @@ private fun HTML.showMoonDetails(
     state: State,
     moon: Moon,
 ) {
+    val nextNewMoon = moon.getNextNewMoon(state.time.currentDate)
+    val nextFullMoon = moon.getNextFullMoon(state.time.currentDate)
     val backLink = call.application.href(Moons())
     val deleteLink = call.application.href(Moons.Delete(moon.id))
     val editLink = call.application.href(Moons.Edit(moon.id))
@@ -133,8 +135,13 @@ private fun HTML.showMoonDetails(
         field("Name", moon.name)
         field("Cycle", moon.getCycle().toString() + " days")
         field("Color", moon.color.toString())
-        field(call, state, "Next New Moon", moon.getNextNewMoon(state.time.currentDate))
-        field(call, state, "Next Full Moon", moon.getNextFullMoon(state.time.currentDate))
+        if (nextNewMoon > nextFullMoon) {
+            field(call, state, "Next Full Moon", nextFullMoon)
+            field(call, state, "Next New Moon", nextNewMoon)
+        } else {
+            field(call, state, "Next New Moon", nextNewMoon)
+            field(call, state, "Next Full Moon", nextFullMoon)
+        }
 
         action(editLink, "Edit")
         action(deleteLink, "Delete")
