@@ -56,9 +56,16 @@ class MoonTest {
     inner class GetNextNewMoonTest {
 
         @Test
-        fun `First circle`() {
+        fun `Today is new moon`() {
             assertNext(0, 0)
-            assertNext(1, 12)
+            assertNext(12, 12)
+        }
+
+        @Test
+        fun `Any other day`() {
+            (1..11).forEach {
+                assertNext(it, 12)
+            }
         }
 
         private fun assertNext(day: Int, next: Int) {
