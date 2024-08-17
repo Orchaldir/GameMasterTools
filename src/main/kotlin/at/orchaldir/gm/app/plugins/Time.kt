@@ -159,8 +159,8 @@ private fun BODY.showMonthWithWeekDays(
 
                             moons.forEach {
                                 when (it.getPhase(day)) {
-                                    MoonPhase.NewMoon -> +" NM"
-                                    MoonPhase.FullMoon -> +" FM"
+                                    MoonPhase.NewMoon -> showIcon("New Moon", "new-moon.svg")
+                                    MoonPhase.FullMoon -> showIcon("Full Moon", "full-moon.svg")
                                     else -> doNothing()
                                 }
                             }
@@ -170,6 +170,14 @@ private fun BODY.showMonthWithWeekDays(
                 }
             }
         }
+    }
+}
+
+private fun TD.showIcon(text: String, filename: String) {
+    img {
+        alt = text
+        src = "/static/$filename"
+        width = "16p"
     }
 }
 
