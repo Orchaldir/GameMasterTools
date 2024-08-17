@@ -20,6 +20,9 @@ import at.orchaldir.gm.core.model.language.LANGUAGE
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.*
+import at.orchaldir.gm.core.model.moon.MOON
+import at.orchaldir.gm.core.model.moon.Moon
+import at.orchaldir.gm.core.model.moon.MoonId
 import at.orchaldir.gm.core.model.race.RACE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId

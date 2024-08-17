@@ -17,6 +17,8 @@ import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.moon.Moon
+import at.orchaldir.gm.core.model.moon.MoonId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Time
@@ -84,6 +86,11 @@ data class UpdateItemTemplate(val itemTemplate: ItemTemplate) : Action()
 data object CreateMaterial : Action()
 data class DeleteMaterial(val id: MaterialId) : Action()
 data class UpdateMaterial(val material: Material) : Action()
+
+// moon
+data object CreateMoon : Action()
+data class DeleteMoon(val id: MoonId) : Action()
+data class UpdateMoon(val moon: Moon) : Action()
 
 // name list
 data object CreateNameList : Action()
