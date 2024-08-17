@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="800px" height="800px" viewBox="0 0 108.336 108.336"
-     xml:space="preserve">
-<g>
-	<path d="M108.336,54.168c0,29.869-24.3,54.168-54.168,54.168S0,84.037,0,54.168C0,24.3,24.3,0,54.168,0
-		S108.336,24.3,108.336,54.168z"/>
-</g>
+	 xmlns:xlink="http://www.w3.org/1999/xlink"
+	 width="800px" height="800px" viewBox="0 0 800px 800px" xml:space="preserve">
+  <circle cx="400px" cy="400px" r="400px"/>
 </svg>
