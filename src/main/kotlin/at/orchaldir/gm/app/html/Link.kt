@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.moon.MoonId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.utils.Element
@@ -71,6 +72,7 @@ fun <ID : Id<ID>> href(
     is ItemTemplateId -> call.application.href(ItemTemplates.Details(id))
     is LanguageId -> call.application.href(Languages.Details(id))
     is MaterialId -> call.application.href(Materials.Details(id))
+    is MoonId -> call.application.href(Moons.Details(id))
     is NameListId -> call.application.href(NameLists.Details(id))
     is PersonalityTraitId -> call.application.href(Personality.Details(id))
     is RaceId -> call.application.href(Races.Details(id))

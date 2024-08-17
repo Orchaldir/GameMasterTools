@@ -146,17 +146,17 @@ private fun HTML.showMaterialDetails(
 
 private fun HTML.showMaterialEditor(
     call: ApplicationCall,
-    nameList: Material,
+    material: Material,
 ) {
-    val backLink = href(call, nameList.id)
-    val updateLink = call.application.href(Materials.Update(nameList.id))
+    val backLink = href(call, material.id)
+    val updateLink = call.application.href(Materials.Update(material.id))
 
-    simpleHtml("Edit Material: ${nameList.name}") {
-        field("Id", nameList.id.value.toString())
+    simpleHtml("Edit Material: ${material.name}") {
+        field("Id", material.id.value.toString())
         form {
             field("Name") {
                 textInput(name = NAME) {
-                    value = nameList.name
+                    value = material.name
                 }
             }
             p {

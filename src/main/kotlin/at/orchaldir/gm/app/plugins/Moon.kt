@@ -139,17 +139,17 @@ private fun HTML.showMoonDetails(
 
 private fun HTML.showMoonEditor(
     call: ApplicationCall,
-    nameList: Moon,
+    moon: Moon,
 ) {
-    val backLink = href(call, nameList.id)
-    val updateLink = call.application.href(Moons.Update(nameList.id))
+    val backLink = href(call, moon.id)
+    val updateLink = call.application.href(Moons.Update(moon.id))
 
-    simpleHtml("Edit Moon: ${nameList.name}") {
-        field("Id", nameList.id.value.toString())
+    simpleHtml("Edit Moon: ${moon.name}") {
+        field("Id", moon.id.value.toString())
         form {
             field("Name") {
                 textInput(name = NAME) {
-                    value = nameList.name
+                    value = moon.name
                 }
             }
             p {
