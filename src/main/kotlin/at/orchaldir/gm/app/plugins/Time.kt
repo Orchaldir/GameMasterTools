@@ -111,13 +111,14 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
         action(previousLink, "Previous Month")
         when (calendar.days) {
             DayOfTheMonth -> doNothing()
-            is Weekdays -> showMonthWithWeekDays(calendar.days, month, calendar, startOfMonth, displayDay, moons)
+            is Weekdays -> showMonthWithWeekDays(call, calendar.days, month, calendar, startOfMonth, displayDay, moons)
         }
         back(backLink)
     }
 }
 
 private fun BODY.showMonthWithWeekDays(
+    call: ApplicationCall,
     days: Weekdays,
     month: MonthDefinition,
     calendar: Calendar,
@@ -159,8 +160,8 @@ private fun BODY.showMonthWithWeekDays(
 
                             moons.forEach {
                                 when (it.getPhase(day)) {
-                                    MoonPhase.NewMoon -> showIcon("New Moon", "new-moon.svg")
-                                    MoonPhase.FullMoon -> showIcon("Full Moon", "full-moon.svg")
+                                    MoonPhase.NewMoon -> showIcon(call, it, "New Moon", "new-moon.svg")
+                                    MoonPhase.FullMoon -> showIcon(call, it, "Full Moon", "full-moon.svg")
                                     else -> doNothing()
                                 }
                             }
@@ -173,11 +174,18 @@ private fun BODY.showMonthWithWeekDays(
     }
 }
 
-private fun TD.showIcon(text: String, filename: String) {
-    img {
-        alt = text
-        src = "/static/$filename"
-        width = "16p"
+private fun TD.showIcon(
+    call: ApplicationCall,
+    moon: Moon,
+    text: String,
+    filename: String,
+) {
+    link(call, moon.id) {
+        img {
+            alt = text
+            src = "/static/$filename"
+            width = "16p"
+        }
     }
 }
 
