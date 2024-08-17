@@ -18,6 +18,11 @@ class MoonTest {
     inner class GetPhaseNameTest {
 
         @Test
+        fun `Negative days`() {
+            assertCircle(-12)
+        }
+
+        @Test
         fun `First Circle`() {
             assertCircle(0)
         }

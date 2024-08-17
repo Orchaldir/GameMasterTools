@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
 
 const val MOON = "Moon"
@@ -32,7 +33,7 @@ data class Moon(
     fun getCycle() = daysPerQuarter * 4
 
     fun getPhase(date: Day): MoonPhase {
-        val day = date.day % getCycle()
+        val day = date.day.modulo(getCycle())
         val twoQuarters = daysPerQuarter * 2
         val threeQuarters = daysPerQuarter * 3
 
