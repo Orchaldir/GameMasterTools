@@ -69,10 +69,26 @@ class CalendarTest {
         }
 
         @Test
-        fun `Get start of next year`() {
+        fun `In the next year`() {
             assertEquals(Day(5), CALENDAR0.getStartOfNextMonth(Day(2)))
             assertEquals(Day(5), CALENDAR0.getStartOfNextMonth(Day(3)))
             assertEquals(Day(5), CALENDAR0.getStartOfNextMonth(Day(4)))
+        }
+    }
+
+    @Nested
+    inner class GetStartOfPreviousMonthTest {
+        @Test
+        fun `Get start of previous month`() {
+            assertEquals(Day(-3), CALENDAR0.getStartOfPreviousMonth(Day(0)))
+            assertEquals(Day(-3), CALENDAR0.getStartOfPreviousMonth(Day(1)))
+        }
+
+        @Test
+        fun `In the next year`() {
+            assertEquals(Day(0), CALENDAR0.getStartOfPreviousMonth(Day(2)))
+            assertEquals(Day(0), CALENDAR0.getStartOfPreviousMonth(Day(3)))
+            assertEquals(Day(0), CALENDAR0.getStartOfPreviousMonth(Day(4)))
         }
     }
 
