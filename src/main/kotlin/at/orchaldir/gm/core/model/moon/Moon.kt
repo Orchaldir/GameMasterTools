@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.moon
 
 import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -29,5 +30,22 @@ data class Moon(
     override fun name() = name
 
     fun getCycle() = daysPerQuarter * 4
+
+    fun getPhase(date: Day): MoonPhase {
+        val day = date.day % getCycle()
+        val twoQuarters = daysPerQuarter * 2
+        val threeQuarters = daysPerQuarter * 3
+
+        return when {
+            day == 0 -> MoonPhase.NewMoon
+            day < daysPerQuarter -> MoonPhase.WaxingCrescent
+            day == daysPerQuarter -> MoonPhase.FirstQuarter
+            day < twoQuarters -> MoonPhase.WaxingGibbous
+            day == twoQuarters -> MoonPhase.FullMoon
+            day < threeQuarters -> MoonPhase.WaningGibbous
+            day == threeQuarters -> MoonPhase.LastQuarter
+            else -> MoonPhase.WaningCrescent
+        }
+    }
 
 }
