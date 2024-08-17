@@ -83,6 +83,38 @@ class MoonTest {
         private fun assertNext(day: Int, next: Int) {
             assertEquals(Day(next), moon.getNextNewMoon(Day(day)))
         }
+    }
 
+    @Nested
+    inner class GetNextFullMoonTest {
+
+        @Test
+        fun `New moon on a negative day`() {
+            assertNext(-6, -6)
+        }
+
+        @Test
+        fun `Today is new moon`() {
+            assertNext(6, 6)
+            assertNext(18, 18)
+        }
+
+        @Test
+        fun `Any other day`() {
+            (-5..5).forEach {
+                assertNext(it, 6)
+            }
+        }
+
+        @Test
+        fun `Second Full moon`() {
+            (7..17).forEach {
+                assertNext(it, 18)
+            }
+        }
+
+        private fun assertNext(day: Int, next: Int) {
+            assertEquals(Day(next), moon.getNextFullMoon(Day(day)))
+        }
     }
 }

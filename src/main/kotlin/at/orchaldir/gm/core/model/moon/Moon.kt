@@ -62,4 +62,24 @@ data class Moon(
         return date + diff
     }
 
+    fun getNextFullMoon(date: Day): Day {
+        val cycle = getCycle()
+        val day = date.day.modulo(cycle)
+        val twoQuarters = daysPerQuarter * 2
+
+        if (day == twoQuarters) {
+            return date
+        }
+
+        val target = if (day < twoQuarters) {
+            twoQuarters
+        } else {
+            cycle + twoQuarters
+        }
+
+        val diff = target - day
+
+        return date + diff
+    }
+
 }
