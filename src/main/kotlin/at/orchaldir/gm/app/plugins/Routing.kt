@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.action
 import at.orchaldir.gm.app.html.fieldStorageLink
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.plugins.character.Characters
@@ -12,7 +13,9 @@ import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.h2
+import kotlinx.html.li
+import kotlinx.html.ul
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -43,7 +46,7 @@ fun Application.configureRouting() {
                     h2 { +"Data" }
                     ul {
                         li {
-                            p { a(timeLink) { +"Time" } }
+                            action(timeLink, "Time")
                         }
                     }
                 }

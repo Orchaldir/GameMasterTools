@@ -115,8 +115,8 @@ private fun HTML.showAllMaterials(call: ApplicationCall) {
         showList(materials) { nameList ->
             link(call, nameList)
         }
-        p { a(createLink) { +"Add" } }
-        p { a("/") { +"Back" } }
+        action(createLink, "Add")
+        back("/")
     }
 }
 
@@ -136,11 +136,11 @@ private fun HTML.showMaterialDetails(
         showList("Item templates", templates) { template ->
             link(call, template)
         }
-        p { a(editLink) { +"Edit" } }
+        action(editLink, "Edit")
         if (state.canDelete(material.id)) {
-            p { a(deleteLink) { +"Delete" } }
+            action(deleteLink, "Delete")
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 
@@ -167,6 +167,6 @@ private fun HTML.showMaterialEditor(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }

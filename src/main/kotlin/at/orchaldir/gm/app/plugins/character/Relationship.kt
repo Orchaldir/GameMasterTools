@@ -136,6 +136,6 @@ private fun HTML.showRelationshipEditor(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }

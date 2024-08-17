@@ -5,8 +5,12 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.CURRENT
 import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
-import at.orchaldir.gm.core.model.calendar.CALENDAR
+import at.orchaldir.gm.core.model.calendar.*
+import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.DisplayDay
 import at.orchaldir.gm.core.selector.getDefaultCalendar
+import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.ceilDiv
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -24,11 +28,14 @@ private val logger = KotlinLogging.logger {}
 @Resource("/time")
 class TimeRoutes {
 
+    @Resource("show")
+    class ShowDate(val day: Day, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+
     @Resource("edit")
-    class Edit(val parent: Languages = Languages())
+    class Edit(val parent: TimeRoutes = TimeRoutes())
 
     @Resource("update")
-    class Update(val parent: Languages = Languages())
+    class Update(val parent: TimeRoutes = TimeRoutes())
 }
 
 fun Application.configureTimeRouting() {
@@ -38,6 +45,14 @@ fun Application.configureTimeRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showTimeData(call)
+            }
+        }
+        get<TimeRoutes.ShowDate> { data ->
+            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
+            logger.info { "Show month of day ${data.day.day} for calendar ${calendarId.value}" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showMonth(call, calendarId, data.day)
             }
         }
         get<TimeRoutes.Edit> {
@@ -69,9 +84,77 @@ private fun HTML.showTimeData(call: ApplicationCall) {
         field("Default Calendar") {
             link(call, state, state.time.defaultCalendar)
         }
-        field(state, "Current Date", state.time.currentDate)
-        p { a(editLink) { +"Edit" } }
-        p { a("/") { +"Back" } }
+        field(call, state, "Current Date", state.time.currentDate)
+        action(editLink, "Edit")
+        back("/")
+    }
+}
+
+private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: Day) {
+    val state = STORE.getState()
+    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+    val displayDay = calendar.resolve(day)
+    val month = calendar.getMonth(day)
+    val startOfMonth = calendar.getStartOfMonth(day)
+    val backLink = call.application.href(TimeRoutes())
+    val nextLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfNextMonth(day)))
+    val previousLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfPreviousMonth(day)))
+
+    simpleHtml("Date: " + calendar.display(displayDay)) {
+        field("Calendar") {
+            link(call, calendar)
+        }
+        action(nextLink, "Next Month")
+        action(previousLink, "Previous Month")
+        when (calendar.days) {
+            DayOfTheMonth -> doNothing()
+            is Weekdays -> showMonthWithWeekDays(calendar.days, month, calendar, startOfMonth, displayDay)
+        }
+        back(backLink)
+    }
+}
+
+private fun BODY.showMonthWithWeekDays(
+    days: Weekdays,
+    month: MonthDefinition,
+    calendar: Calendar,
+    startOfMonth: Day,
+    displayDay: DisplayDay,
+) {
+    table {
+        tr {
+            th {
+                colSpan = days.weekDays.size.toString()
+                +month.name
+            }
+        }
+        tr {
+            days.weekDays.forEach {
+                th {
+                    +it.name
+                }
+            }
+        }
+        val startIndex = calendar.getWeekDay(startOfMonth)
+        var dayIndex = -startIndex
+        val minDaysShown = startIndex + month.days
+        val weeksShown = minDaysShown.ceilDiv(days.weekDays.size)
+
+        repeat(weeksShown) {
+            tr {
+                repeat(days.weekDays.size) {
+                    td {
+                        if (month.isInside(dayIndex)) {
+                            if (displayDay.dayIndex == dayIndex) {
+                                style = "background-color:yellow"
+                            }
+                            +(dayIndex + 1).toString()
+                        }
+                        dayIndex++
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -98,6 +181,6 @@ private fun HTML.editTimeData(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }

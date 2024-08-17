@@ -1,10 +1,7 @@
 package at.orchaldir.gm.app.plugins.character
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.href
-import at.orchaldir.gm.app.html.selectEnum
-import at.orchaldir.gm.app.html.simpleHtml
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.AddLanguage
 import at.orchaldir.gm.core.action.RemoveLanguages
 import at.orchaldir.gm.core.model.State
@@ -125,6 +122,6 @@ private fun HTML.showLanguageEditor(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }

@@ -21,8 +21,23 @@ import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.a
+import kotlinx.html.p
 
 // generic
+
+fun HtmlBlockTag.back(href: String) = action(href, "Back")
+
+fun HtmlBlockTag.action(
+    href: String,
+    text: String,
+) = p { link(href, text) }
+
+fun HtmlBlockTag.link(
+    href: String,
+    text: String,
+) = a(href) { +text }
+
+// element
 
 fun <ID : Id<ID>> HtmlBlockTag.link(
     call: ApplicationCall,
@@ -43,7 +58,7 @@ fun <ID : Id<ID>> HtmlBlockTag.link(
     call: ApplicationCall,
     id: ID,
     text: String,
-) = a(href(call, id)) { +text }
+) = link(href(call, id), text)
 
 fun <ID : Id<ID>> href(
     call: ApplicationCall,

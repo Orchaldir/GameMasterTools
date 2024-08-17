@@ -1,10 +1,7 @@
 package at.orchaldir.gm.app.plugins.character
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.href
-import at.orchaldir.gm.app.html.selectOneOrNone
-import at.orchaldir.gm.app.html.simpleHtml
-import at.orchaldir.gm.app.html.svg
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseEquipmentMap
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.generator.EquipmentGenerator
@@ -126,7 +123,7 @@ private fun HTML.showEquipmentEditor(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 

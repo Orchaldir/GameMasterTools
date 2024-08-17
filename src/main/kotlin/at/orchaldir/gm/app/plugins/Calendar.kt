@@ -128,8 +128,8 @@ private fun HTML.showAllCalendars(call: ApplicationCall) {
         showList(calendars) { calendar ->
             link(call, calendar)
         }
-        p { a(createLink) { +"Add" } }
-        p { a("/") { +"Back" } }
+        action(createLink, "Add")
+        back("/")
     }
 }
 
@@ -151,16 +151,16 @@ private fun HTML.showCalendarDetails(
         showDays(calendar)
         showMonths(calendar)
         h2 { +"Eras" }
-        showEras(state, calendar)
+        showEras(call, state, calendar)
         h2 { +"Cultures" }
         showList(cultures) { culture ->
             link(call, culture)
         }
-        p { a(editLink) { +"Edit" } }
+        action(editLink, "Edit")
         if (state.canDelete(calendar.id)) {
-            p { a(deleteLink) { +"Delete" } }
+            action(deleteLink, "Delete")
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 
@@ -209,10 +209,11 @@ private fun BODY.showMonths(calendar: Calendar) {
 }
 
 private fun BODY.showEras(
+    call: ApplicationCall,
     state: State,
     calendar: Calendar,
 ) {
-    field(state, "Start Date", calendar.getStartDate())
+    field(call, state, "Start Date", calendar.getStartDate())
     field("Before Era", calendar.eras.display(DisplayYear(0, 0)))
     field("Current Era", calendar.eras.display(DisplayYear(1, 0)))
 }
@@ -247,7 +248,7 @@ private fun HTML.showCalendarEditor(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 

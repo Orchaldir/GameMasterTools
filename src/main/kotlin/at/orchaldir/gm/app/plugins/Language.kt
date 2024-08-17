@@ -127,8 +127,8 @@ private fun HTML.showAllLanguages(call: ApplicationCall) {
         showList(languages) { language ->
             link(call, language)
         }
-        p { a(createLink) { +"Add" } }
-        p { a("/") { +"Back" } }
+        action(createLink, "Add")
+        back("/")
     }
 }
 
@@ -182,11 +182,11 @@ private fun HTML.showLanguageDetails(
         showList("Cultures", cultures) { culture ->
             link(call, culture)
         }
-        p { a(editLink) { +"Edit" } }
+        action(editLink, "Edit")
         if (state.canDelete(language.id)) {
-            p { a(deleteLink) { +"Delete" } }
+            action(deleteLink, "Delete")
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }
 
@@ -281,6 +281,6 @@ private fun HTML.showLanguageEditor(
                 }
             }
         }
-        p { a(backLink) { +"Back" } }
+        back(backLink)
     }
 }

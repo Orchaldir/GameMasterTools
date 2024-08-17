@@ -5,13 +5,129 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-private val CALENDAR = Calendar(CalendarId(0), months = listOf(Month("a", 2), Month("b", 3)))
+private val MONTH0 = MonthDefinition("a", 2)
+private val MONTH1 = MonthDefinition("b", 3)
+private val CALENDAR0 = Calendar(CalendarId(0), months = listOf(MONTH0, MONTH1))
+private val CALENDAR1 = Calendar(CalendarId(1), days = Weekdays(listOf(WeekDay("D0"), WeekDay("D1"), WeekDay("D2"))))
 
 class CalendarTest {
 
+    @Nested
+    inner class GetMonthTest {
+
+        @Test
+        fun `Get months of negative days`() {
+            assertEquals(MONTH0, CALENDAR0.getMonth(Day(-5)))
+            assertEquals(MONTH0, CALENDAR0.getMonth(Day(-4)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(-3)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(-2)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(-1)))
+        }
+
+        @Test
+        fun `Get months of the first year`() {
+            assertEquals(MONTH0, CALENDAR0.getMonth(Day(0)))
+            assertEquals(MONTH0, CALENDAR0.getMonth(Day(1)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(2)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(3)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(4)))
+        }
+
+        @Test
+        fun `Get months of the second year`() {
+            assertEquals(MONTH0, CALENDAR0.getMonth(Day(5)))
+            assertEquals(MONTH0, CALENDAR0.getMonth(Day(6)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(7)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(8)))
+            assertEquals(MONTH1, CALENDAR0.getMonth(Day(9)))
+        }
+
+        @Test
+        fun `Test with offset`() {
+            val calendar = CALENDAR0.copy(eras = CalendarEras("BC", true, Day(1), "AD", false))
+
+            assertEquals(MONTH1, calendar.getMonth(Day(0)))
+            assertEquals(MONTH0, calendar.getMonth(Day(1)))
+        }
+    }
+
+    @Test
+    fun `Get last month index`() {
+        assertEquals(1, CALENDAR0.getLastMonthIndex())
+    }
+
+    @Test
+    fun `Get start of month`() {
+        assertEquals(Day(2), CALENDAR0.getStartOfMonth(Day(4)))
+    }
+
+    @Nested
+    inner class GetStartOfNextMonthTest {
+        @Test
+        fun `Get start of next month`() {
+            assertEquals(Day(2), CALENDAR0.getStartOfNextMonth(Day(0)))
+            assertEquals(Day(2), CALENDAR0.getStartOfNextMonth(Day(1)))
+        }
+
+        @Test
+        fun `In the next year`() {
+            assertEquals(Day(5), CALENDAR0.getStartOfNextMonth(Day(2)))
+            assertEquals(Day(5), CALENDAR0.getStartOfNextMonth(Day(3)))
+            assertEquals(Day(5), CALENDAR0.getStartOfNextMonth(Day(4)))
+        }
+    }
+
+    @Nested
+    inner class GetStartOfPreviousMonthTest {
+        @Test
+        fun `Get start of previous month`() {
+            assertEquals(Day(-3), CALENDAR0.getStartOfPreviousMonth(Day(0)))
+            assertEquals(Day(-3), CALENDAR0.getStartOfPreviousMonth(Day(1)))
+        }
+
+        @Test
+        fun `In the next year`() {
+            assertEquals(Day(0), CALENDAR0.getStartOfPreviousMonth(Day(2)))
+            assertEquals(Day(0), CALENDAR0.getStartOfPreviousMonth(Day(3)))
+            assertEquals(Day(0), CALENDAR0.getStartOfPreviousMonth(Day(4)))
+        }
+    }
+
+    @Nested
+    inner class GetWeekDayTest {
+
+        @Test
+        fun `Day of the month returns 0`() {
+            assertEquals(0, CALENDAR0.getWeekDay(Day(0)))
+            assertEquals(0, CALENDAR0.getWeekDay(Day(1)))
+        }
+
+        @Test
+        fun `First week`() {
+            assertEquals(0, CALENDAR1.getWeekDay(Day(0)))
+            assertEquals(1, CALENDAR1.getWeekDay(Day(1)))
+            assertEquals(2, CALENDAR1.getWeekDay(Day(2)))
+        }
+
+        @Test
+        fun `Second week`() {
+            assertEquals(0, CALENDAR1.getWeekDay(Day(3)))
+            assertEquals(1, CALENDAR1.getWeekDay(Day(4)))
+            assertEquals(2, CALENDAR1.getWeekDay(Day(5)))
+        }
+
+        @Test
+        fun `Negative days`() {
+            assertEquals(2, CALENDAR1.getWeekDay(Day(-4)))
+            assertEquals(0, CALENDAR1.getWeekDay(Day(-3)))
+            assertEquals(1, CALENDAR1.getWeekDay(Day(-2)))
+            assertEquals(2, CALENDAR1.getWeekDay(Day(-1)))
+        }
+    }
+
     @Test
     fun `Test the number of days per year`() {
-        assertEquals(5, CALENDAR.getDaysPerYear())
+        assertEquals(5, CALENDAR0.getDaysPerYear())
     }
 
     @Nested
@@ -35,11 +151,11 @@ class CalendarTest {
         }
 
         private fun assertTest(startDate: Int, era: Int, year: Int) {
-            assertResolve(CALENDAR, startDate, era, year, 0, 0)
-            assertResolve(CALENDAR, startDate + 1, era, year, 0, 1)
-            assertResolve(CALENDAR, startDate + 2, era, year, 1, 0)
-            assertResolve(CALENDAR, startDate + 3, era, year, 1, 1)
-            assertResolve(CALENDAR, startDate + 4, era, year, 1, 2)
+            assertResolve(CALENDAR0, startDate, era, year, 0, 0)
+            assertResolve(CALENDAR0, startDate + 1, era, year, 0, 1)
+            assertResolve(CALENDAR0, startDate + 2, era, year, 1, 0)
+            assertResolve(CALENDAR0, startDate + 3, era, year, 1, 1)
+            assertResolve(CALENDAR0, startDate + 4, era, year, 1, 2)
         }
 
         private fun assertResolve(
@@ -63,10 +179,10 @@ class CalendarTest {
     inner class ResolveYearTest {
         @Test
         fun `Test without offset`() {
-            assertResolve(CALENDAR, -2, 0, 1)
-            assertResolve(CALENDAR, -1, 0, 0)
-            assertResolve(CALENDAR, 0, 1, 0)
-            assertResolve(CALENDAR, 1, 1, 1)
+            assertResolve(CALENDAR0, -2, 0, 1)
+            assertResolve(CALENDAR0, -1, 0, 0)
+            assertResolve(CALENDAR0, 0, 1, 0)
+            assertResolve(CALENDAR0, 1, 1, 1)
         }
 
         @Test
@@ -99,5 +215,5 @@ class CalendarTest {
         }
     }
 
-    private fun createCalendar(date: Date) = CALENDAR.copy(eras = CalendarEras("BC", true, date, "AD", false))
+    private fun createCalendar(date: Date) = CALENDAR0.copy(eras = CalendarEras("BC", true, date, "AD", false))
 }

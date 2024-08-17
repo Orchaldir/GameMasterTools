@@ -23,7 +23,7 @@ data class Calendar(
     val id: CalendarId,
     val name: String = "Calendar ${id.value}",
     val days: Days = DayOfTheMonth,
-    val months: List<Month> = emptyList(),
+    val months: List<MonthDefinition> = emptyList(),
     val eras: CalendarEras = CalendarEras("BC", true, Day(0), "AD", false),
     val origin: CalendarOrigin = OriginalCalendar,
 ) : Element<CalendarId> {
@@ -33,12 +33,58 @@ data class Calendar(
 
     fun getDaysPerYear() = months.sumOf { it.days }
 
+    fun getMonth(day: Day) = getMonth(resolve(day))
+
+    fun getMonth(day: DisplayDay) = months[day.monthIndex]
+
+    fun getLastMonthIndex() = months.size - 1
+
     fun getStartDate() = eras.first.startDate
+
+    fun getStartOfMonth(day: Day) = resolve(resolve(day).getStartOfMonth())
+
+    fun getStartOfNextMonth(day: Day): Day {
+        val displayDay = resolve(day)
+        val nextMonth = if (displayDay.monthIndex == getLastMonthIndex()) {
+            displayDay.copy(dayIndex = 0, monthIndex = 0, yearIndex = displayDay.yearIndex + 1)
+        } else {
+            displayDay.copy(dayIndex = 0, monthIndex = displayDay.monthIndex + 1)
+        }
+
+        return resolve(nextMonth)
+    }
+
+    fun getStartOfPreviousMonth(day: Day): Day {
+        val displayDay = resolve(day)
+        val previousMonth = if (displayDay.monthIndex == 0) {
+            displayDay.copy(dayIndex = 0, monthIndex = getLastMonthIndex(), yearIndex = displayDay.yearIndex - 1)
+        } else {
+            displayDay.copy(dayIndex = 0, monthIndex = displayDay.monthIndex - 1)
+        }
+
+        return resolve(previousMonth)
+    }
+
+    fun getWeekDay(date: Day) = when (days) {
+        DayOfTheMonth -> 0
+        is Weekdays -> {
+            val day = date.day + getOffsetInDays()
+
+            if (day >= 0) {
+                day % days.weekDays.size
+            } else {
+                val modulo = (day + 1) % days.weekDays.size
+                days.weekDays.size + modulo - 1
+            }
+        }
+    }
 
     private fun getOffsetInDays() = when (eras.first.startDate) {
         is Day -> -eras.first.startDate.day
         is Year -> -eras.first.startDate.year * getDaysPerYear()
     }
+
+    fun display(date: DisplayDate) = eras.display(date)
 
     fun display(duration: Duration): String {
         val years = duration.day / getDaysPerYear()
