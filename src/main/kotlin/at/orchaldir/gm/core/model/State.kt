@@ -131,9 +131,17 @@ data class State(
     }
 
     fun save() {
-        storageMap.values.forEach {
-            saveStorage(path, it)
-        }
+        saveStorage(path, getCalendarStorage())
+        saveStorage(path, getCharacterStorage())
+        saveStorage(path, getCultureStorage())
+        saveStorage(path, getFashionStorage())
+        saveStorage(path, getItemTemplateStorage())
+        saveStorage(path, getLanguageStorage())
+        saveStorage(path, getMaterialStorage())
+        saveStorage(path, getMoonStorage())
+        saveStorage(path, getNameListStorage())
+        saveStorage(path, getPersonalityTraitStorage())
+        saveStorage(path, getRaceStorage())
         saveData(path, TIME, time)
     }
 }
