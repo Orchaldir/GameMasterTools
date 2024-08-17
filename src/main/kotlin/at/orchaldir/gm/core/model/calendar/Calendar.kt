@@ -69,7 +69,13 @@ data class Calendar(
         DayOfTheMonth -> 0
         is Weekdays -> {
             val day = date.day + getOffsetInDays()
-            day % days.weekDays.size
+
+            if (day >= 0) {
+                day % days.weekDays.size
+            } else {
+                val modulo = (day + 1) % days.weekDays.size
+                days.weekDays.size + modulo - 1
+            }
         }
     }
 

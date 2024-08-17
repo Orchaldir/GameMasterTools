@@ -118,6 +118,7 @@ class CalendarTest {
 
         @Test
         fun `Negative days`() {
+            assertEquals(2, CALENDAR1.getWeekDay(Day(-4)))
             assertEquals(0, CALENDAR1.getWeekDay(Day(-3)))
             assertEquals(1, CALENDAR1.getWeekDay(Day(-2)))
             assertEquals(2, CALENDAR1.getWeekDay(Day(-1)))
