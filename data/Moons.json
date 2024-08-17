@@ -3,7 +3,8 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Moon"
+   "name": "Moon",
+   "daysPerQuarter": 7
   }
  }
 }

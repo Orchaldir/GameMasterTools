@@ -2,12 +2,12 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.NAME
-import at.orchaldir.gm.app.parse.parseMoon
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.CreateMoon
 import at.orchaldir.gm.core.action.DeleteMoon
 import at.orchaldir.gm.core.action.UpdateMoon
-import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.moon.Moon
 import at.orchaldir.gm.core.model.moon.MoonId
 import io.ktor.http.*
@@ -58,7 +58,7 @@ fun Application.configureMoonRouting() {
             val moon = state.getMoonStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showMoonDetails(call, state, moon)
+                showMoonDetails(call, moon)
             }
         }
         get<Moons.New> {
@@ -120,7 +120,6 @@ private fun HTML.showAllMoons(call: ApplicationCall) {
 
 private fun HTML.showMoonDetails(
     call: ApplicationCall,
-    state: State,
     moon: Moon,
 ) {
     val backLink = call.application.href(Moons())
@@ -130,7 +129,7 @@ private fun HTML.showMoonDetails(
     simpleHtml("Moon: ${moon.name}") {
         field("Id", moon.id.value.toString())
         field("Name", moon.name)
-        field("Duration", (moon.daysPerQuarter * 4).toString())
+        field("Duration", moon.getCycle().toString())
         field("Color", moon.color.toString())
 
         action(editLink, "Edit")
@@ -154,6 +153,8 @@ private fun HTML.showMoonEditor(
                     value = moon.name
                 }
             }
+            selectNumber("Days per Quarter", moon.daysPerQuarter, 1, 100, LENGTH, false)
+            selectColor("Color", COLOR, OneOf(Color.entries), moon.color)
             p {
                 submitInput {
                     value = "Update"

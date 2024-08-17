@@ -28,4 +28,6 @@ data class Moon(
     override fun id() = id
     override fun name() = name
 
+    fun getCycle() = daysPerQuarter * 4
+
 }
