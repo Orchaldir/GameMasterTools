@@ -56,6 +56,18 @@ class MoonTest {
     inner class GetNextNewMoonTest {
 
         @Test
+        fun `New moon on a negative day`() {
+            assertNext(-12, -12)
+        }
+
+        @Test
+        fun `Any other negative day`() {
+            (-11..-1).forEach {
+                assertNext(it, 0)
+            }
+        }
+
+        @Test
         fun `Today is new moon`() {
             assertNext(0, 0)
             assertNext(12, 12)
