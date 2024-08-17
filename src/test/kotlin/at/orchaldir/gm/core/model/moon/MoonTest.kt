@@ -24,6 +24,13 @@ class MoonTest {
             assertPhase(2, WaxingCrescent)
             assertPhase(3, FirstQuarter)
             assertPhase(4, WaxingGibbous)
+            assertPhase(5, WaxingGibbous)
+            assertPhase(6, FullMoon)
+            assertPhase(7, WaningGibbous)
+            assertPhase(8, WaningGibbous)
+            assertPhase(9, LastQuarter)
+            assertPhase(10, WaningCrescent)
+            assertPhase(11, WaningCrescent)
         }
 
         private fun assertPhase(day: Int, phase: MoonPhase) {
