@@ -130,6 +130,8 @@ private fun HTML.showMoonDetails(
     simpleHtml("Moon: ${moon.name}") {
         field("Id", moon.id.value.toString())
         field("Name", moon.name)
+        field("Duration", (moon.daysPerQuarter * 4).toString())
+        field("Color", moon.color.toString())
 
         action(editLink, "Edit")
         action(deleteLink, "Delete")
