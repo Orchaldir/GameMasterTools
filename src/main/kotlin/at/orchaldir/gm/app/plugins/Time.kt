@@ -181,10 +181,12 @@ private fun TD.showIcon(
     filename: String,
 ) {
     link(call, moon.id) {
-        img {
-            alt = text
-            src = "/static/$filename"
-            width = "16p"
+        abbr {
+            title = text
+            img {
+                src = "/static/$filename"
+                width = "16p"
+            }
         }
     }
 }
