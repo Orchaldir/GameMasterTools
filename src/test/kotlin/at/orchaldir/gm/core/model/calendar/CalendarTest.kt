@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test
 private val MONTH0 = MonthDefinition("a", 2)
 private val MONTH1 = MonthDefinition("b", 3)
 private val CALENDAR0 = Calendar(CalendarId(0), months = listOf(MONTH0, MONTH1))
+private val CALENDAR1 = Calendar(CalendarId(1), days = Weekdays(listOf(WeekDay("D0"), WeekDay("D1"), WeekDay("D2"))))
 
 class CalendarTest {
 
@@ -89,6 +90,37 @@ class CalendarTest {
             assertEquals(Day(0), CALENDAR0.getStartOfPreviousMonth(Day(2)))
             assertEquals(Day(0), CALENDAR0.getStartOfPreviousMonth(Day(3)))
             assertEquals(Day(0), CALENDAR0.getStartOfPreviousMonth(Day(4)))
+        }
+    }
+
+    @Nested
+    inner class GetWeekDayTest {
+
+        @Test
+        fun `Day of the month returns 0`() {
+            assertEquals(0, CALENDAR0.getWeekDay(Day(0)))
+            assertEquals(0, CALENDAR0.getWeekDay(Day(1)))
+        }
+
+        @Test
+        fun `First week`() {
+            assertEquals(0, CALENDAR1.getWeekDay(Day(0)))
+            assertEquals(1, CALENDAR1.getWeekDay(Day(1)))
+            assertEquals(2, CALENDAR1.getWeekDay(Day(2)))
+        }
+
+        @Test
+        fun `Second week`() {
+            assertEquals(0, CALENDAR1.getWeekDay(Day(3)))
+            assertEquals(1, CALENDAR1.getWeekDay(Day(4)))
+            assertEquals(2, CALENDAR1.getWeekDay(Day(5)))
+        }
+
+        @Test
+        fun `Negative days`() {
+            assertEquals(0, CALENDAR1.getWeekDay(Day(-3)))
+            assertEquals(1, CALENDAR1.getWeekDay(Day(-2)))
+            assertEquals(2, CALENDAR1.getWeekDay(Day(-1)))
         }
     }
 
