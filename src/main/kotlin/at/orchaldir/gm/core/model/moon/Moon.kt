@@ -49,4 +49,17 @@ data class Moon(
         }
     }
 
+    fun getNextNewMoon(date: Day): Day {
+        val cycle = getCycle()
+        val day = date.day.modulo(cycle)
+
+        if (day == 0) {
+            return date
+        }
+
+        val diff = cycle - day
+
+        return date + diff
+    }
+
 }

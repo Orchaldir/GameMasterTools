@@ -15,7 +15,7 @@ class MoonTest {
     }
 
     @Nested
-    inner class GetPhaseNameTest {
+    inner class GetPhaseTest {
 
         @Test
         fun `Negative days`() {
@@ -50,5 +50,20 @@ class MoonTest {
         private fun assertPhase(day: Int, phase: MoonPhase) {
             assertEquals(phase, moon.getPhase(Day(day)))
         }
+    }
+
+    @Nested
+    inner class GetNextNewMoonTest {
+
+        @Test
+        fun `First circle`() {
+            assertNext(0, 0)
+            assertNext(1, 12)
+        }
+
+        private fun assertNext(day: Int, next: Int) {
+            assertEquals(Day(next), moon.getNextNewMoon(Day(day)))
+        }
+
     }
 }
