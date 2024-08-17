@@ -40,11 +40,24 @@ class CalendarTest {
             assertEquals(MONTH1, CALENDAR0.getMonth(Day(8)))
             assertEquals(MONTH1, CALENDAR0.getMonth(Day(9)))
         }
+
+        @Test
+        fun `Test with offset`() {
+            val calendar = CALENDAR0.copy(eras = CalendarEras("BC", true, Day(1), "AD", false))
+
+            assertEquals(MONTH1, calendar.getMonth(Day(0)))
+            assertEquals(MONTH0, calendar.getMonth(Day(1)))
+        }
     }
 
     @Test
     fun `Get last month index`() {
         assertEquals(1, CALENDAR0.getLastMonthIndex())
+    }
+
+    @Test
+    fun `Get start of month`() {
+        assertEquals(Day(2), CALENDAR0.getStartOfMonth(Day(4)))
     }
 
     @Test
