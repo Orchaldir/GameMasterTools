@@ -19,18 +19,27 @@ class MoonTest {
 
         @Test
         fun `First Circle`() {
-            assertPhase(0, NewMoon)
-            assertPhase(1, WaxingCrescent)
-            assertPhase(2, WaxingCrescent)
-            assertPhase(3, FirstQuarter)
-            assertPhase(4, WaxingGibbous)
-            assertPhase(5, WaxingGibbous)
-            assertPhase(6, FullMoon)
-            assertPhase(7, WaningGibbous)
-            assertPhase(8, WaningGibbous)
-            assertPhase(9, LastQuarter)
-            assertPhase(10, WaningCrescent)
-            assertPhase(11, WaningCrescent)
+            assertCircle(0)
+        }
+
+        @Test
+        fun `Second Circle`() {
+            assertCircle(12)
+        }
+
+        private fun assertCircle(start: Int) {
+            assertPhase(start + 0, NewMoon)
+            assertPhase(start + 1, WaxingCrescent)
+            assertPhase(start + 2, WaxingCrescent)
+            assertPhase(start + 3, FirstQuarter)
+            assertPhase(start + 4, WaxingGibbous)
+            assertPhase(start + 5, WaxingGibbous)
+            assertPhase(start + 6, FullMoon)
+            assertPhase(start + 7, WaningGibbous)
+            assertPhase(start + 8, WaningGibbous)
+            assertPhase(start + 9, LastQuarter)
+            assertPhase(start + 10, WaningCrescent)
+            assertPhase(start + 11, WaningCrescent)
         }
 
         private fun assertPhase(day: Int, phase: MoonPhase) {
