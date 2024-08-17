@@ -60,6 +60,22 @@ class CalendarTest {
         assertEquals(Day(2), CALENDAR0.getStartOfMonth(Day(4)))
     }
 
+    @Nested
+    inner class GetStartOfNextMonthTest {
+        @Test
+        fun `Get start of next month`() {
+            assertEquals(Day(2), CALENDAR0.getStartOfNextMonth(Day(0)))
+            assertEquals(Day(2), CALENDAR0.getStartOfNextMonth(Day(1)))
+        }
+
+        @Test
+        fun `Get start of next year`() {
+            assertEquals(Day(5), CALENDAR0.getStartOfNextMonth(Day(2)))
+            assertEquals(Day(5), CALENDAR0.getStartOfNextMonth(Day(3)))
+            assertEquals(Day(5), CALENDAR0.getStartOfNextMonth(Day(4)))
+        }
+    }
+
     @Test
     fun `Test the number of days per year`() {
         assertEquals(5, CALENDAR0.getDaysPerYear())
