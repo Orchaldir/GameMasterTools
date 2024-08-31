@@ -13,6 +13,9 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.fashion.FASHION
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
+import at.orchaldir.gm.core.model.holiday.HOLIDAY
+import at.orchaldir.gm.core.model.holiday.Holiday
+import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ITEM_TEMPLATE
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
@@ -39,6 +42,7 @@ val ELEMENTS =
         CHARACTER,
         CULTURE,
         FASHION,
+        HOLIDAY,
         ITEM_TEMPLATE,
         LANGUAGE,
         MATERIAL,
@@ -73,6 +77,7 @@ data class State(
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER)
     fun getCultureStorage() = getStorage<CultureId, Culture>(CULTURE)
     fun getFashionStorage() = getStorage<FashionId, Fashion>(FASHION)
+    fun getHolidayStorage() = getStorage<HolidayId, Holiday>(HOLIDAY)
     fun getItemTemplateStorage() = getStorage<ItemTemplateId, ItemTemplate>(ITEM_TEMPLATE)
     fun getLanguageStorage() = getStorage<LanguageId, Language>(LANGUAGE)
     fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL)
@@ -135,6 +140,7 @@ data class State(
         saveStorage(path, getCharacterStorage())
         saveStorage(path, getCultureStorage())
         saveStorage(path, getFashionStorage())
+        saveStorage(path, getHolidayStorage())
         saveStorage(path, getItemTemplateStorage())
         saveStorage(path, getLanguageStorage())
         saveStorage(path, getMaterialStorage())
@@ -151,6 +157,7 @@ fun createStorage(type: String) = when (type) {
     CHARACTER -> Storage(CharacterId(0))
     CULTURE -> Storage(CultureId(0))
     FASHION -> Storage(FashionId(0))
+    HOLIDAY -> Storage(HolidayId(0))
     ITEM_TEMPLATE -> Storage(ItemTemplateId(0))
     LANGUAGE -> Storage(LanguageId(0))
     MATERIAL -> Storage(MaterialId(0))
@@ -166,6 +173,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     CHARACTER -> loadStorage<CharacterId, Character>(path, CharacterId(0))
     CULTURE -> loadStorage<CultureId, Culture>(path, CultureId(0))
     FASHION -> loadStorage<FashionId, Fashion>(path, FashionId(0))
+    HOLIDAY -> loadStorage<HolidayId, Holiday>(path, HolidayId(0))
     ITEM_TEMPLATE -> loadStorage<ItemTemplateId, ItemTemplate>(path, ItemTemplateId(0))
     LANGUAGE -> loadStorage<LanguageId, Language>(path, LanguageId(0))
     MATERIAL -> loadStorage<MaterialId, Material>(path, MaterialId(0))
