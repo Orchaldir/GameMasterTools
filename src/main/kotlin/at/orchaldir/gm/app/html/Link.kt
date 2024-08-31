@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.fashion.FashionId
+import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -78,6 +79,7 @@ fun <ID : Id<ID>> href(
     is CharacterId -> call.application.href(Characters.Details(id))
     is CultureId -> call.application.href(Cultures.Details(id))
     is FashionId -> call.application.href(Fashions.Details(id))
+    is HolidayId -> call.application.href(Holidays.Details(id))
     is ItemTemplateId -> call.application.href(ItemTemplates.Details(id))
     is LanguageId -> call.application.href(Languages.Details(id))
     is MaterialId -> call.application.href(Materials.Details(id))
