@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.CreateHoliday
 import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.CALENDAR
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.selector.canDelete
@@ -131,6 +132,9 @@ private fun HTML.showHolidayDetails(
     simpleHtml("Holiday: ${holiday.name}") {
         field("Id", holiday.id.value.toString())
         field("Name", holiday.name)
+        field("Calendar") {
+            link(call, state, holiday.calendar)
+        }
         action(editLink, "Edit")
         if (state.canDelete(holiday.id)) {
             action(deleteLink, "Delete")
@@ -154,6 +158,11 @@ private fun HTML.showHolidayEditor(
                 textInput(name = NAME) {
                     value = holiday.name
                 }
+            }
+            selectEnum("Calendar", CALENDAR, state.getCalendarStorage().getAll()) { calendar ->
+                label = calendar.name
+                value = calendar.id.value.toString()
+                selected = calendar.id == holiday.calendar
             }
             p {
                 submitInput {

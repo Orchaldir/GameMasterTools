@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.holiday
 
+import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -20,6 +21,7 @@ value class HolidayId(val value: Int) : Id<HolidayId> {
 data class Holiday(
     val id: HolidayId,
     val name: String = "Holiday ${id.value}",
+    val calendar: CalendarId = CalendarId(0),
 ) : Element<HolidayId> {
 
     override fun id() = id
