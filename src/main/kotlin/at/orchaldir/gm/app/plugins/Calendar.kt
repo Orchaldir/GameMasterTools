@@ -142,6 +142,7 @@ private fun HTML.showCalendarDetails(
     val deleteLink = call.application.href(Calendars.Delete(calendar.id))
     val editLink = call.application.href(Calendars.Edit(calendar.id))
     val cultures = state.getCultures(calendar.id)
+    val holidays = state.getHolidays(calendar.id)
 
     simpleHtml("Calendar: ${calendar.name}") {
         field("Id", calendar.id.value.toString())
@@ -152,9 +153,12 @@ private fun HTML.showCalendarDetails(
         showMonths(calendar)
         h2 { +"Eras" }
         showEras(call, state, calendar)
-        h2 { +"Cultures" }
-        showList(cultures) { culture ->
+        h2 { +"Usage" }
+        showList("Cultures", cultures) { culture ->
             link(call, culture)
+        }
+        showList("Holidays", holidays) { holiday ->
+            link(call, holiday)
         }
         action(editLink, "Edit")
         if (state.canDelete(calendar.id)) {

@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.holiday.Holiday
+import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -15,6 +17,7 @@ import kotlin.test.assertFailsWith
 private val ID0 = CalendarId(0)
 private val ID1 = CalendarId(1)
 private val CULTURE0 = CultureId(1)
+private val HOLIDAY0 = HolidayId(2)
 private val VALID_MONTHS = listOf(MonthDefinition("a", 10), MonthDefinition("b", 10))
 
 class CalendarTest {
@@ -49,6 +52,15 @@ class CalendarTest {
         fun `Cannot delete a calendar used by a culture`() {
             val culture = Culture(CULTURE0, calendar = ID0)
             val state = State(listOf(Storage(listOf(culture)), Storage(listOf(Calendar(ID0)))))
+            val action = DeleteCalendar(ID0)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot delete a calendar used by a holiday`() {
+            val holiday = Holiday(HOLIDAY0, calendar = ID0)
+            val state = State(listOf(Storage(listOf(holiday)), Storage(listOf(Calendar(ID0)))))
             val action = DeleteCalendar(ID0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }

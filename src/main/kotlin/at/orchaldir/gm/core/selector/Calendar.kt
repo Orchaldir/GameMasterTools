@@ -6,7 +6,8 @@ import at.orchaldir.gm.core.model.calendar.ImprovedCalendar
 import at.orchaldir.gm.core.model.calendar.OriginalCalendar
 
 fun State.canDelete(calendar: CalendarId) = getChildren(calendar).isEmpty() &&
-        getCultures(calendar).isEmpty()
+        getCultures(calendar).isEmpty() &&
+        getHolidays(calendar).isEmpty()
 
 fun State.getChildren(calendar: CalendarId) = getCalendarStorage().getAll().filter {
     when (it.origin) {
