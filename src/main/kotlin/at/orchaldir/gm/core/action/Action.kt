@@ -10,6 +10,8 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
+import at.orchaldir.gm.core.model.holiday.Holiday
+import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
@@ -71,6 +73,11 @@ data class UpdateCulture(val culture: Culture) : Action()
 data object CreateFashion : Action()
 data class DeleteFashion(val id: FashionId) : Action()
 data class UpdateFashion(val fashion: Fashion) : Action()
+
+// holiday
+data object CreateHoliday : Action()
+data class DeleteHoliday(val id: HolidayId) : Action()
+data class UpdateHoliday(val holiday: Holiday) : Action()
 
 // language
 data object CreateLanguage : Action()
