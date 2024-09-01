@@ -165,13 +165,7 @@ private fun BODY.showMonthWithWeekDays(
 
                             +(dayIndex + 1).toString()
 
-                            moons.forEach {
-                                when (it.getPhase(day)) {
-                                    MoonPhase.NewMoon -> showIcon(call, it, "New Moon", "new-moon.svg")
-                                    MoonPhase.FullMoon -> showIcon(call, it, "Full Moon", "full-moon.svg")
-                                    else -> doNothing()
-                                }
-                            }
+                            showMoons(moons, day, call)
 
                             showList(state.getForHolidays(day)) { holiday ->
                                 link(call, holiday)
@@ -181,6 +175,20 @@ private fun BODY.showMonthWithWeekDays(
                     }
                 }
             }
+        }
+    }
+}
+
+private fun TD.showMoons(
+    moons: Collection<Moon>,
+    day: Day,
+    call: ApplicationCall,
+) {
+    moons.forEach {
+        when (it.getPhase(day)) {
+            MoonPhase.NewMoon -> showIcon(call, it, "New Moon", "new-moon.svg")
+            MoonPhase.FullMoon -> showIcon(call, it, "Full Moon", "full-moon.svg")
+            else -> doNothing()
         }
     }
 }
