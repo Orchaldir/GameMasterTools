@@ -153,7 +153,7 @@ private fun BODY.showMonthWithWeekDays(
                             val day = startOfMonth + dayIndex
 
                             if (selectedDay.dayIndex == dayIndex) {
-                                style = "background-color:yellow"
+                                style = "background-color:cyan"
                             }
 
                             +(dayIndex + 1).toString()
