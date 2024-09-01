@@ -9,6 +9,10 @@
     "dayIndex": 23,
     "monthIndex": 11
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "New Year"
   }
  }
 }
