@@ -96,11 +96,8 @@ private fun HTML.showTimeData(call: ApplicationCall) {
 
 private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: Day) {
     val state = STORE.getState()
-    val moons = state.getMoonStorage().getAll()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayDay = calendar.resolve(day)
-    val month = calendar.getMonth(day)
-    val startOfMonth = calendar.getStartOfMonth(day)
     val backLink = call.application.href(TimeRoutes())
     val nextLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfNextMonth(day)))
     val previousLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfPreviousMonth(day)))
@@ -116,12 +113,9 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
             is Weekdays -> showMonthWithWeekDays(
                 call,
                 state,
-                calendar.days,
-                month,
                 calendar,
-                startOfMonth,
                 displayDay,
-                moons
+                calendar.days,
             )
         }
         back(backLink)
@@ -131,13 +125,14 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
 private fun BODY.showMonthWithWeekDays(
     call: ApplicationCall,
     state: State,
-    days: Weekdays,
-    month: MonthDefinition,
     calendar: Calendar,
-    startOfMonth: Day,
     selectedDay: DisplayDay,
-    moons: Collection<Moon>,
+    days: Weekdays,
 ) {
+    val moons = state.getMoonStorage().getAll()
+    val month = calendar.getMonth(selectedDay)
+    val startOfMonth = calendar.getStartOfMonth(selectedDay)
+
     table {
         tr {
             th {

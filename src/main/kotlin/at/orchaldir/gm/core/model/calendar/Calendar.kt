@@ -54,6 +54,8 @@ data class Calendar(
 
     fun getStartOfMonth(day: Day) = resolve(resolve(day).getStartOfMonth())
 
+    fun getStartOfMonth(day: DisplayDay) = resolve(day.getStartOfMonth())
+
     fun getStartOfNextMonth(day: Day): Day {
         val displayDay = resolve(day)
         val nextMonth = if (displayDay.monthIndex == getLastMonthIndex()) {
