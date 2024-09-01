@@ -40,6 +40,9 @@ class Holidays {
     @Resource("edit")
     class Edit(val id: HolidayId, val parent: Holidays = Holidays())
 
+    @Resource("preview")
+    class Preview(val id: HolidayId, val parent: Holidays = Holidays())
+
     @Resource("update")
     class Update(val id: HolidayId, val parent: Holidays = Holidays())
 }
@@ -89,6 +92,15 @@ fun Application.configureHolidayRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showHolidayEditor(call, state, holiday)
+            }
+        }
+        post<Holidays.Preview> { preview ->
+            logger.info { "Get preview for holiday ${preview.id.value}" }
+
+            val holiday = parseHoliday(preview.id, call.receiveParameters())
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showHolidayEditor(call, STORE.getState(), holiday)
             }
         }
         post<Holidays.Update> { update ->
@@ -152,11 +164,15 @@ private fun HTML.showHolidayEditor(
 ) {
     val calendar = state.getCalendarStorage().getOrThrow(holiday.calendar)
     val backLink = href(call, holiday.id)
+    val previewLink = call.application.href(Holidays.Preview(holiday.id))
     val updateLink = call.application.href(Holidays.Update(holiday.id))
 
     simpleHtml("Edit Holiday: ${holiday.name}") {
         field("Id", holiday.id.value.toString())
         form {
+            id = "editor"
+            action = previewLink
+            method = FormMethod.post
             field("Name") {
                 textInput(name = NAME) {
                     value = holiday.name
