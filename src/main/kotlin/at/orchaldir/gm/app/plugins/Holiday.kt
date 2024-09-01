@@ -215,20 +215,22 @@ private fun FORM.selectRelativeDate(relativeDate: RelativeDate, calendar: Calend
         }
 
         is WeekdayInMonth -> {
-            selectWithIndex("Month", combine(DATE, MONTH), calendar.months, true) { index, month ->
+            selectWithIndex("Month", combine(DATE, MONTH), calendar.months) { index, month ->
                 label = month.name
                 value = index.toString()
                 selected = relativeDate.monthIndex == index
             }
             when (calendar.days) {
                 DayOfTheMonth -> error("WeekdayInMonth doesn't support DayOfTheMonth!")
-                is Weekdays -> selectNumber(
+                is Weekdays -> selectWithIndex(
                     "Weekday",
-                    relativeDate.weekdayIndex,
-                    0,
-                    calendar.days.weekDays.size - 1,
-                    combine(DATE, DAY)
-                )
+                    combine(DATE, DAY),
+                    calendar.days.weekDays
+                ) { index, weekday ->
+                    label = weekday.name
+                    value = index.toString()
+                    selected = relativeDate.weekdayIndex == index
+                }
             }
             selectNumber("Week", relativeDate.weekInMonthIndex, 0, 2, combine(DATE, WEEK))
         }
