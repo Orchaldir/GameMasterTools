@@ -184,7 +184,7 @@ private fun HTML.showHolidayEditor(
                 value = calendar.id.value.toString()
                 selected = calendar.id == holiday.calendar
             }
-            selectRelativeDate(holiday.relativeDate, calendar)
+            selectRelativeDate(DATE, holiday.relativeDate, calendar)
             p {
                 submitInput {
                     value = "Update"
@@ -197,30 +197,30 @@ private fun HTML.showHolidayEditor(
     }
 }
 
-private fun FORM.selectRelativeDate(relativeDate: RelativeDate, calendar: Calendar) {
-    selectEnum("Relative Date", combine(DATE, TYPE), RelativeDateType.entries, true) { type ->
+private fun FORM.selectRelativeDate(param: String, relativeDate: RelativeDate, calendar: Calendar) {
+    selectEnum("Relative Date", combine(param, TYPE), RelativeDateType.entries, true) { type ->
         label = type.name
         value = type.name
         selected = type == relativeDate.getType()
     }
     when (relativeDate) {
         is FixedDayInYear -> {
-            selectWithIndex("Month", combine(DATE, MONTH), calendar.months) { index, month ->
+            selectWithIndex("Month", combine(param, MONTH), calendar.months, true) { index, month ->
                 label = month.name
                 value = index.toString()
                 selected = relativeDate.monthIndex == index
             }
-            selectNumber(
+            selectDayIndex(
                 "Day",
+                param,
+                calendar,
+                relativeDate.monthIndex,
                 relativeDate.dayIndex,
-                0,
-                calendar.getDaysPerYear() - 1,
-                combine(DATE, DAY)
             )
         }
 
         is WeekdayInMonth -> {
-            selectWithIndex("Month", combine(DATE, MONTH), calendar.months) { index, month ->
+            selectWithIndex("Month", combine(param, MONTH), calendar.months) { index, month ->
                 label = month.name
                 value = index.toString()
                 selected = relativeDate.monthIndex == index
@@ -229,7 +229,7 @@ private fun FORM.selectRelativeDate(relativeDate: RelativeDate, calendar: Calend
                 DayOfTheMonth -> error("WeekdayInMonth doesn't support DayOfTheMonth!")
                 is Weekdays -> selectWithIndex(
                     "Weekday",
-                    combine(DATE, DAY),
+                    combine(param, DAY),
                     calendar.days.weekDays
                 ) { index, weekday ->
                     label = weekday.name
@@ -237,7 +237,7 @@ private fun FORM.selectRelativeDate(relativeDate: RelativeDate, calendar: Calend
                     selected = relativeDate.weekdayIndex == index
                 }
             }
-            selectNumber("Week", relativeDate.weekInMonthIndex, 0, 2, combine(DATE, WEEK))
+            selectNumber("Week", relativeDate.weekInMonthIndex, 0, 2, combine(param, WEEK))
         }
     }
 }

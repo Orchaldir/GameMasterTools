@@ -150,6 +150,18 @@ private fun P.selectMonthIndex(
     }
 }
 
+fun HtmlBlockTag.selectDayIndex(
+    label: String,
+    param: String,
+    calendar: Calendar,
+    monthIndex: Int,
+    dayIndex: Int,
+) {
+    field(label) {
+        selectDayIndex(param, calendar, monthIndex, dayIndex)
+    }
+}
+
 private fun P.selectDayIndex(
     param: String,
     calendar: Calendar,
