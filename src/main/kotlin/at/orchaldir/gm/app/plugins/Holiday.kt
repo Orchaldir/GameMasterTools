@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.CALENDAR
+import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.calendar.Weekdays
 import at.orchaldir.gm.core.model.holiday.*
@@ -183,43 +184,7 @@ private fun HTML.showHolidayEditor(
                 value = calendar.id.value.toString()
                 selected = calendar.id == holiday.calendar
             }
-            selectEnum("Relative Date", combine(DATE, TYPE), RelativeDateType.entries, true) { type ->
-                label = type.name
-                value = type.name
-                selected = type == holiday.relativeDate.getType()
-            }
-            when (holiday.relativeDate) {
-                is FixedDayInYear -> {
-                    selectNumber(
-                        "Day",
-                        holiday.relativeDate.dayIndex,
-                        0,
-                        calendar.getDaysPerYear() - 1,
-                        combine(DATE, DAY)
-                    )
-                }
-
-                is WeekdayInMonth -> {
-                    selectNumber(
-                        "Month",
-                        holiday.relativeDate.monthIndex,
-                        0,
-                        calendar.months.size - 1,
-                        combine(DATE, MONTH)
-                    )
-                    when (calendar.days) {
-                        DayOfTheMonth -> error("WeekdayInMonth doesn't support DayOfTheMonth!")
-                        is Weekdays -> selectNumber(
-                            "Weekday",
-                            holiday.relativeDate.weekdayIndex,
-                            0,
-                            calendar.days.weekDays.size - 1,
-                            combine(DATE, DAY)
-                        )
-                    }
-                    selectNumber("Week", holiday.relativeDate.monthIndex, 0, 2, combine(DATE, WEEK))
-                }
-            }
+            selectRelativeDate(holiday.relativeDate, calendar)
             p {
                 submitInput {
                     value = "Update"
@@ -229,5 +194,45 @@ private fun HTML.showHolidayEditor(
             }
         }
         back(backLink)
+    }
+}
+
+private fun FORM.selectRelativeDate(relativeDate: RelativeDate, calendar: Calendar) {
+    selectEnum("Relative Date", combine(DATE, TYPE), RelativeDateType.entries, true) { type ->
+        label = type.name
+        value = type.name
+        selected = type == relativeDate.getType()
+    }
+    when (relativeDate) {
+        is FixedDayInYear -> {
+            selectNumber(
+                "Day",
+                relativeDate.dayIndex,
+                0,
+                calendar.getDaysPerYear() - 1,
+                combine(DATE, DAY)
+            )
+        }
+
+        is WeekdayInMonth -> {
+            selectNumber(
+                "Month",
+                relativeDate.monthIndex,
+                0,
+                calendar.months.size - 1,
+                combine(DATE, MONTH)
+            )
+            when (calendar.days) {
+                DayOfTheMonth -> error("WeekdayInMonth doesn't support DayOfTheMonth!")
+                is Weekdays -> selectNumber(
+                    "Weekday",
+                    relativeDate.weekdayIndex,
+                    0,
+                    calendar.days.weekDays.size - 1,
+                    combine(DATE, DAY)
+                )
+            }
+            selectNumber("Week", relativeDate.monthIndex, 0, 2, combine(DATE, WEEK))
+        }
     }
 }
