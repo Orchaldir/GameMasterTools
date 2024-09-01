@@ -2,17 +2,15 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.NAME
-import at.orchaldir.gm.app.parse.parseHoliday
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.CreateHoliday
 import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.CALENDAR
-import at.orchaldir.gm.core.model.holiday.FixedDayInYear
-import at.orchaldir.gm.core.model.holiday.Holiday
-import at.orchaldir.gm.core.model.holiday.HolidayId
-import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
+import at.orchaldir.gm.core.model.calendar.DayOfTheMonth
+import at.orchaldir.gm.core.model.calendar.Weekdays
+import at.orchaldir.gm.core.model.holiday.*
 import at.orchaldir.gm.core.selector.canDelete
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -152,6 +150,7 @@ private fun HTML.showHolidayEditor(
     state: State,
     holiday: Holiday,
 ) {
+    val calendar = state.getCalendarStorage().getOrThrow(holiday.calendar)
     val backLink = href(call, holiday.id)
     val updateLink = call.application.href(Holidays.Update(holiday.id))
 
@@ -167,6 +166,43 @@ private fun HTML.showHolidayEditor(
                 label = calendar.name
                 value = calendar.id.value.toString()
                 selected = calendar.id == holiday.calendar
+            }
+            selectEnum("Relative Date", combine(DATE, TYPE), RelativeDateType.entries, true) { type ->
+                label = type.name
+                value = type.name
+                selected = type == holiday.relativeDate.getType()
+            }
+            when (holiday.relativeDate) {
+                is FixedDayInYear -> {
+                    selectNumber(
+                        "Day",
+                        holiday.relativeDate.dayIndex,
+                        0,
+                        calendar.getDaysPerYear() - 1,
+                        combine(DATE, DAY)
+                    )
+                }
+
+                is WeekdayInMonth -> {
+                    selectNumber(
+                        "Month",
+                        holiday.relativeDate.monthIndex,
+                        0,
+                        calendar.months.size - 1,
+                        combine(DATE, MONTH)
+                    )
+                    when (calendar.days) {
+                        DayOfTheMonth -> error("WeekdayInMonth doesn't support DayOfTheMonth!")
+                        is Weekdays -> selectNumber(
+                            "Weekday",
+                            holiday.relativeDate.weekdayIndex,
+                            0,
+                            calendar.days.weekDays.size - 1,
+                            combine(DATE, DAY)
+                        )
+                    }
+                    selectNumber("Week", holiday.relativeDate.monthIndex, 0, 2, combine(DATE, WEEK))
+                }
             }
             p {
                 submitInput {
