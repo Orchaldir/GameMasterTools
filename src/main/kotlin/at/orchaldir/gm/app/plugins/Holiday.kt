@@ -9,8 +9,10 @@ import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.CALENDAR
+import at.orchaldir.gm.core.model.holiday.FixedDayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
+import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
 import at.orchaldir.gm.core.selector.canDelete
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -125,6 +127,7 @@ private fun HTML.showHolidayDetails(
     state: State,
     holiday: Holiday,
 ) {
+    val calendar = state.getCalendarStorage().getOrThrow(holiday.calendar)
     val backLink = call.application.href(Holidays())
     val deleteLink = call.application.href(Holidays.Delete(holiday.id))
     val editLink = call.application.href(Holidays.Edit(holiday.id))
@@ -135,6 +138,7 @@ private fun HTML.showHolidayDetails(
         field("Calendar") {
             link(call, state, holiday.calendar)
         }
+        field("Relative Date", holiday.relativeDate.resolve(calendar))
         action(editLink, "Edit")
         if (state.canDelete(holiday.id)) {
             action(deleteLink, "Delete")

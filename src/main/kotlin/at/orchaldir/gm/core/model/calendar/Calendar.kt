@@ -98,17 +98,10 @@ data class Calendar(
 
         if (day >= 0) {
             val year = day / daysPerYear
-            var remainingDays = day % daysPerYear
+            val remainingDays = day % daysPerYear
+            val (monthIndex, dayIndex) = resolveDayAndMonth(remainingDays)
 
-            for ((monthIndex, monthData) in months.withIndex()) {
-                if (remainingDays < monthData.days) {
-                    return DisplayDay(1, year, monthIndex, remainingDays)
-                }
-
-                remainingDays -= monthData.days
-            }
-
-            error("Unreachable")
+            return DisplayDay(1, year, monthIndex, dayIndex)
         }
 
         val absoluteDate = day.absoluteValue - 1
@@ -119,6 +112,20 @@ data class Calendar(
             if (remainingDays < monthData.days) {
                 val dayIndex = monthData.days - remainingDays - 1
                 return DisplayDay(0, year, monthIndex, dayIndex)
+            }
+
+            remainingDays -= monthData.days
+        }
+
+        error("Unreachable")
+    }
+
+    fun resolveDayAndMonth(dayInYear: Int): Pair<Int, Int> {
+        var remainingDays = dayInYear
+
+        for ((monthIndex, monthData) in months.withIndex()) {
+            if (remainingDays < monthData.days) {
+                return Pair(monthIndex, remainingDays)
             }
 
             remainingDays -= monthData.days
