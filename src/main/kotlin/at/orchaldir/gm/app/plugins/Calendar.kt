@@ -278,10 +278,10 @@ private fun FORM.editDays(
     when (days) {
         DayOfTheMonth -> doNothing()
         is Weekdays -> {
-            selectNumber("Weekdays", days.weekDays.size, 2, 100, WEEK_DAYS, true)
+            selectNumber("Weekdays", days.weekDays.size, 2, 100, combine(WEEK, DAYS), true)
             days.weekDays.withIndex().forEach { (index, day) ->
                 p {
-                    selectText(day.name, combine(WEEK_DAY, index))
+                    selectText(day.name, combine(WEEK, DAY, index))
                 }
             }
         }

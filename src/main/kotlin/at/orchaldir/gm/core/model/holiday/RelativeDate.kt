@@ -3,6 +3,11 @@ package at.orchaldir.gm.core.model.holiday
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class RelativeDateType {
+    FixedDayInYear,
+    WeekdayInMonth,
+}
+
 @Serializable
 sealed class RelativeDate
 
