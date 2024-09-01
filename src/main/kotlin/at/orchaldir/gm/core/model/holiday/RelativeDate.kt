@@ -3,6 +3,8 @@ package at.orchaldir.gm.core.model.holiday
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.calendar.Weekdays
+import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.DisplayDay
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -20,6 +22,7 @@ sealed class RelativeDate {
     }
 
     abstract fun display(calendar: Calendar): String
+    abstract fun isOn(calendar: Calendar, day: Day, displayDay: DisplayDay): Boolean
 }
 
 @Serializable
@@ -31,6 +34,9 @@ data class FixedDayInYear(val dayIndex: Int, val monthIndex: Int) : RelativeDate
 
         return "${day}.${month.name}"
     }
+
+    override fun isOn(calendar: Calendar, day: Day, displayDay: DisplayDay) =
+        monthIndex == displayDay.monthIndex && dayIndex == displayDay.dayIndex
 }
 
 @Serializable
@@ -48,5 +54,22 @@ data class WeekdayInMonth(val weekdayIndex: Int, val weekInMonthIndex: Int, val 
             }
         }
 
+    }
+
+    override fun isOn(calendar: Calendar, day: Day, displayDay: DisplayDay): Boolean {
+        if (monthIndex != displayDay.monthIndex) {
+            return false
+        } else if (weekdayIndex != calendar.getWeekDay(day)) {
+            return false
+        }
+
+        return when (calendar.days) {
+            DayOfTheMonth -> error("WeekdayInMonth.isOn() doesn't support DayOfTheMonth!")
+            is Weekdays -> {
+                val displayWeekInMonthIndex = displayDay.dayIndex / calendar.days.weekDays.size
+
+                displayWeekInMonthIndex == weekInMonthIndex
+            }
+        }
     }
 }

@@ -5,12 +5,14 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.CURRENT
 import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.moon.Moon
 import at.orchaldir.gm.core.model.moon.MoonPhase
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.DisplayDay
 import at.orchaldir.gm.core.selector.getDefaultCalendar
+import at.orchaldir.gm.core.selector.getForHolidays
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.ceilDiv
 import io.ktor.http.*
@@ -111,7 +113,16 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
         action(previousLink, "Previous Month")
         when (calendar.days) {
             DayOfTheMonth -> doNothing()
-            is Weekdays -> showMonthWithWeekDays(call, calendar.days, month, calendar, startOfMonth, displayDay, moons)
+            is Weekdays -> showMonthWithWeekDays(
+                call,
+                state,
+                calendar.days,
+                month,
+                calendar,
+                startOfMonth,
+                displayDay,
+                moons
+            )
         }
         back(backLink)
     }
@@ -119,6 +130,7 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
 
 private fun BODY.showMonthWithWeekDays(
     call: ApplicationCall,
+    state: State,
     days: Weekdays,
     month: MonthDefinition,
     calendar: Calendar,
@@ -164,6 +176,10 @@ private fun BODY.showMonthWithWeekDays(
                                     MoonPhase.FullMoon -> showIcon(call, it, "Full Moon", "full-moon.svg")
                                     else -> doNothing()
                                 }
+                            }
+
+                            showList(state.getForHolidays(day)) { holiday ->
+                                link(call, holiday)
                             }
                         }
                         dayIndex++
