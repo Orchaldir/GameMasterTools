@@ -43,6 +43,29 @@ fun <T> HtmlBlockTag.selectEnum(
     }
 }
 
+fun <T> HtmlBlockTag.selectWithIndex(
+    label: String,
+    selectId: String,
+    values: Collection<T>,
+    update: Boolean = false,
+    content: OPTION.(Int, T) -> Unit,
+) {
+    field(label) {
+        select {
+            id = selectId
+            name = selectId
+            if (update) {
+                onChange = ON_CHANGE_SCRIPT
+            }
+            values.withIndex().forEach {
+                option {
+                    content(it.index, it.value)
+                }
+            }
+        }
+    }
+}
+
 fun <T> FORM.selectGenderMap(
     text: String,
     map: GenderMap<T>,
