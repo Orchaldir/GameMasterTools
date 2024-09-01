@@ -59,7 +59,11 @@ data class Calendar(
     fun getStartOfNextMonth(day: Day): Day {
         val displayDay = resolve(day)
         val nextMonth = if (displayDay.monthIndex == getLastMonthIndex()) {
-            displayDay.copy(dayIndex = 0, monthIndex = 0, yearIndex = displayDay.yearIndex + 1)
+            if (displayDay.eraIndex == 0 && displayDay.yearIndex == 0) {
+                DisplayDay(1, 0, 0, 0)
+            } else {
+                displayDay.copy(dayIndex = 0, monthIndex = 0, yearIndex = displayDay.yearIndex + 1)
+            }
         } else {
             displayDay.copy(dayIndex = 0, monthIndex = displayDay.monthIndex + 1)
         }

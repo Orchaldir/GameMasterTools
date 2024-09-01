@@ -64,6 +64,19 @@ class CalendarTest {
     @Nested
     inner class GetStartOfNextMonthTest {
         @Test
+        fun `Get start of next month in first era`() {
+            assertEquals(Day(-3), CALENDAR0.getStartOfNextMonth(Day(-5)))
+            assertEquals(Day(-3), CALENDAR0.getStartOfNextMonth(Day(-4)))
+        }
+
+        @Test
+        fun `Get start of next month across era`() {
+            assertEquals(Day(0), CALENDAR0.getStartOfNextMonth(Day(-3)))
+            assertEquals(Day(0), CALENDAR0.getStartOfNextMonth(Day(-2)))
+            assertEquals(Day(0), CALENDAR0.getStartOfNextMonth(Day(-1)))
+        }
+
+        @Test
         fun `Get start of next month`() {
             assertEquals(Day(2), CALENDAR0.getStartOfNextMonth(Day(0)))
             assertEquals(Day(2), CALENDAR0.getStartOfNextMonth(Day(1)))
