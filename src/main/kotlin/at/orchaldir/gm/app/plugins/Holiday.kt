@@ -205,11 +205,7 @@ private fun FORM.selectRelativeDate(param: String, relativeDate: RelativeDate, c
     }
     when (relativeDate) {
         is FixedDayInYear -> {
-            selectWithIndex("Month", combine(param, MONTH), calendar.months, true) { index, month ->
-                label = month.name
-                value = index.toString()
-                selected = relativeDate.monthIndex == index
-            }
+            selectMonthIndex("Month", param, calendar, relativeDate.monthIndex)
             selectDayIndex(
                 "Day",
                 param,
@@ -220,11 +216,7 @@ private fun FORM.selectRelativeDate(param: String, relativeDate: RelativeDate, c
         }
 
         is WeekdayInMonth -> {
-            selectWithIndex("Month", combine(param, MONTH), calendar.months) { index, month ->
-                label = month.name
-                value = index.toString()
-                selected = relativeDate.monthIndex == index
-            }
+            selectMonthIndex("Month", param, calendar, relativeDate.monthIndex)
             when (calendar.days) {
                 DayOfTheMonth -> error("WeekdayInMonth doesn't support DayOfTheMonth!")
                 is Weekdays -> selectWithIndex(

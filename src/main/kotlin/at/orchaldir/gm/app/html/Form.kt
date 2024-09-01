@@ -51,16 +51,25 @@ fun <T> HtmlBlockTag.selectWithIndex(
     content: OPTION.(Int, T) -> Unit,
 ) {
     field(label) {
-        select {
-            id = selectId
-            name = selectId
-            if (update) {
-                onChange = ON_CHANGE_SCRIPT
-            }
-            values.withIndex().forEach {
-                option {
-                    content(it.index, it.value)
-                }
+        selectWithIndex(selectId, values, update, content)
+    }
+}
+
+fun <T> HtmlBlockTag.selectWithIndex(
+    selectId: String,
+    values: Collection<T>,
+    update: Boolean = false,
+    content: OPTION.(Int, T) -> Unit,
+) {
+    select {
+        id = selectId
+        name = selectId
+        if (update) {
+            onChange = ON_CHANGE_SCRIPT
+        }
+        values.withIndex().forEach {
+            option {
+                content(it.index, it.value)
             }
         }
     }
