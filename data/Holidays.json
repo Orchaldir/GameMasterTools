@@ -3,7 +3,12 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Christmas"
+   "name": "Christmas",
+   "relativeDate": {
+    "type": "FixedDayInYear",
+    "dayIndex": 23,
+    "monthIndex": 11
+   }
   }
  }
 }
