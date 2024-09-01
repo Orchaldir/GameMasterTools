@@ -149,7 +149,7 @@ private fun HTML.showHolidayDetails(
         field("Calendar") {
             link(call, state, holiday.calendar)
         }
-        field("Relative Date", holiday.relativeDate.resolve(calendar))
+        field("Relative Date", holiday.relativeDate.display(calendar))
         action(editLink, "Edit")
         if (state.canDelete(holiday.id)) {
             action(deleteLink, "Delete")
@@ -205,6 +205,11 @@ private fun FORM.selectRelativeDate(relativeDate: RelativeDate, calendar: Calend
     }
     when (relativeDate) {
         is FixedDayInYear -> {
+            selectWithIndex("Month", combine(DATE, MONTH), calendar.months) { index, month ->
+                label = month.name
+                value = index.toString()
+                selected = relativeDate.monthIndex == index
+            }
             selectNumber(
                 "Day",
                 relativeDate.dayIndex,

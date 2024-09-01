@@ -23,7 +23,10 @@ fun parseHoliday(id: HolidayId, parameters: Parameters): Holiday {
 
 fun parseRelativeDate(parameters: Parameters, param: String): RelativeDate {
     return when (parse(parameters, combine(param, TYPE), RelativeDateType.FixedDayInYear)) {
-        RelativeDateType.FixedDayInYear -> FixedDayInYear(parseInt(parameters, combine(param, DAY)))
+        RelativeDateType.FixedDayInYear -> FixedDayInYear(
+            parseInt(parameters, combine(param, DAY)),
+            parseInt(parameters, combine(param, MONTH)),
+        )
         RelativeDateType.WeekdayInMonth -> WeekdayInMonth(
             parseInt(parameters, combine(param, DAY)),
             parseInt(parameters, combine(param, WEEK)),

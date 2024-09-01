@@ -19,14 +19,13 @@ sealed class RelativeDate {
         is WeekdayInMonth -> RelativeDateType.WeekdayInMonth
     }
 
-    abstract fun resolve(calendar: Calendar): String
+    abstract fun display(calendar: Calendar): String
 }
 
 @Serializable
 @SerialName("FixedDayInYear")
-data class FixedDayInYear(val dayIndex: Int) : RelativeDate() {
-    override fun resolve(calendar: Calendar): String {
-        val (monthIndex, dayIndex) = calendar.resolveDayAndMonth(dayIndex)
+data class FixedDayInYear(val dayIndex: Int, val monthIndex: Int) : RelativeDate() {
+    override fun display(calendar: Calendar): String {
         val month = calendar.months[monthIndex]
         val day = dayIndex + 1
 
@@ -37,7 +36,7 @@ data class FixedDayInYear(val dayIndex: Int) : RelativeDate() {
 @Serializable
 @SerialName("WeekdayInMonth")
 data class WeekdayInMonth(val weekdayIndex: Int, val weekInMonthIndex: Int, val monthIndex: Int) : RelativeDate() {
-    override fun resolve(calendar: Calendar): String {
+    override fun display(calendar: Calendar): String {
         when (calendar.days) {
             DayOfTheMonth -> error("WeekdayInMonth doesn't support DayOfTheMonth!")
             is Weekdays -> {
