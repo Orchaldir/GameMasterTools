@@ -159,6 +159,8 @@ private fun HTML.showCalendarDetails(
         }
         showList("Holidays", holidays) { holiday ->
             link(call, holiday)
+            +": "
+            +holiday.relativeDate.display(calendar)
         }
         action(editLink, "Edit")
         if (state.canDelete(calendar.id)) {
