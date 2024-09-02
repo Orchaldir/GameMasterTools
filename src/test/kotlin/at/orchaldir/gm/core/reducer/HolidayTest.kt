@@ -15,11 +15,9 @@ import kotlin.test.assertFailsWith
 private val ID0 = HolidayId(0)
 private val CALENDAR_ID0 = CalendarId(0)
 private val CALENDAR_ID1 = CalendarId(1)
-private val CALENDAR0 = Calendar(
-    CALENDAR_ID0, "C0", Weekdays(listOf(WeekDay("d0"), WeekDay("d1"))),
-    months = listOf(MonthDefinition("M0", 2), MonthDefinition("M1", 3))
-)
-private val CALENDAR1 = Calendar(CALENDAR_ID1)
+private val MONTHS = listOf(MonthDefinition("M0", 2), MonthDefinition("M1", 3))
+private val CALENDAR0 = Calendar(CALENDAR_ID0, "C0", Weekdays(listOf(WeekDay("d0"), WeekDay("d1"))), months = MONTHS)
+private val CALENDAR1 = Calendar(CALENDAR_ID1, months = MONTHS)
 
 class HolidayTest {
 
@@ -106,7 +104,6 @@ class HolidayTest {
             }
         }
 
-
         @Nested
         inner class WeekdayInMonthTest {
 
@@ -117,6 +114,15 @@ class HolidayTest {
                 val action = UpdateHoliday(holiday)
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Calendar without weekdays is unsupported`() {
+                val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR1)))
+                val holiday = Holiday(ID0, calendar = CALENDAR_ID1, relativeDate = WeekdayInMonth(0, 0, 0))
+                val action = UpdateHoliday(holiday)
+
+                assertFailsWith<IllegalStateException> { REDUCER.invoke(state, action) }
             }
 
         }
