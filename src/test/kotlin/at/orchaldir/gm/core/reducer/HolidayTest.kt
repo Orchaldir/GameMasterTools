@@ -65,7 +65,7 @@ class HolidayTest {
         }
 
         @Test
-        fun `Cannot update with unknown month`() {
+        fun `Fixed day in unknown month`() {
             val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
             val holiday = Holiday(ID0, relativeDate = FixedDayInYear(0, 2))
             val action = UpdateHoliday(holiday)
@@ -74,7 +74,25 @@ class HolidayTest {
         }
 
         @Test
-        fun `Update is valid`() {
+        fun `Fixed day is outside first month`() {
+            val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
+            val holiday = Holiday(ID0, relativeDate = FixedDayInYear(2, 0))
+            val action = UpdateHoliday(holiday)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Fixed day is outside second month`() {
+            val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
+            val holiday = Holiday(ID0, relativeDate = FixedDayInYear(3, 1))
+            val action = UpdateHoliday(holiday)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Valid fixed days`() {
             val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
             val holiday = Holiday(ID0, "Test")
             val action = UpdateHoliday(holiday)
