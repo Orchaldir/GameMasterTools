@@ -13,7 +13,12 @@ class LogAction<Action, State> : Middleware<Action, State> {
     ): Dispatcher<Action> {
         return { action ->
             logger.info("Dispatch $action")
-            dispatcher(action)
+            try {
+                dispatcher(action)
+            } catch (exception: Exception) {
+                logger.warn { "Dispatch failed with: ${exception.message}" }
+                throw exception
+            }
         }
     }
 }
