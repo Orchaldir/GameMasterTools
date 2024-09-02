@@ -3,6 +3,8 @@ package at.orchaldir.gm.core.reducer
 import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.*
+import at.orchaldir.gm.core.model.calendar.WeekDay
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.utils.Storage
@@ -12,6 +14,13 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 private val ID0 = HolidayId(0)
+private val CALENDAR_ID0 = CalendarId(0)
+private val CALENDAR_ID1 = CalendarId(1)
+private val CALENDAR0 = Calendar(
+    CALENDAR_ID0, "C0", Weekdays(listOf(WeekDay("d0"), WeekDay("d1"))),
+    months = listOf(MonthDefinition("M0", 2), MonthDefinition("M1", 3))
+)
+private val CALENDAR1 = Calendar(CALENDAR_ID1)
 
 class HolidayTest {
 
@@ -20,7 +29,7 @@ class HolidayTest {
 
         @Test
         fun `Can delete an existing holiday`() {
-            val state = State(Storage(listOf(Holiday(ID0))))
+            val state = State(Storage(Holiday(ID0)))
             val action = DeleteHoliday(ID0)
 
             assertEquals(0, REDUCER.invoke(state, action).first.getHolidayStorage().getSize())
@@ -45,8 +54,17 @@ class HolidayTest {
         }
 
         @Test
+        fun `Cannot update with unknown calendar`() {
+            val state = State(Storage(Holiday(ID0)))
+            val holiday = Holiday(ID0, "Test")
+            val action = UpdateHoliday(holiday)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
         fun `Update is valid`() {
-            val state = State(Storage(listOf(Holiday(ID0))))
+            val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
             val holiday = Holiday(ID0, "Test")
             val action = UpdateHoliday(holiday)
 
