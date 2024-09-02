@@ -35,12 +35,12 @@ val UPDATE_HOLIDAY: Reducer<UpdateHoliday, State> = { state, action ->
     state.getHolidayStorage().require(holiday.id)
     val calendar = state.getCalendarStorage().getOrThrow(holiday.calendar)
 
-    check(calendar, holiday.relativeDate)
+    checkRelativeDate(calendar, holiday.relativeDate)
 
     noFollowUps(state.updateStorage(state.getHolidayStorage().update(holiday)))
 }
 
-private fun check(calendar: Calendar, relativeDate: RelativeDate) {
+fun checkRelativeDate(calendar: Calendar, relativeDate: RelativeDate) {
     when (relativeDate) {
         is FixedDayInYear -> {
             val month = checkMonth(calendar, relativeDate.monthIndex)

@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -30,6 +31,7 @@ val UPDATE_CALENDAR: Reducer<UpdateCalendar, State> = { state, action ->
     checkDays(calendar)
     checkMonths(calendar)
     checkOrigin(state, calendar)
+    checkHolidays(state, calendar)
 
     noFollowUps(state.updateStorage(state.getCalendarStorage().update(calendar)))
 }
@@ -70,4 +72,11 @@ private fun checkOrigin(
 
         OriginalCalendar -> doNothing()
     }
+}
+
+private fun checkHolidays(
+    state: State,
+    calendar: Calendar,
+) {
+    state.getHolidays(calendar.id).forEach { checkRelativeDate(calendar, it.relativeDate) }
 }
