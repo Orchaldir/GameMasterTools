@@ -93,11 +93,16 @@ class HolidayTest {
 
         @Test
         fun `Valid fixed days`() {
-            val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
-            val holiday = Holiday(ID0, "Test")
-            val action = UpdateHoliday(holiday)
+            CALENDAR0.months.withIndex().forEach { month ->
+                repeat(month.value.days) { day ->
+                    val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
+                    val holiday = Holiday(ID0, relativeDate = FixedDayInYear(day, month.index))
+                    val action = UpdateHoliday(holiday)
 
-            assertEquals(holiday, REDUCER.invoke(state, action).first.getHolidayStorage().get(ID0))
+                    assertEquals(holiday, REDUCER.invoke(state, action).first.getHolidayStorage().get(ID0))
+                }
+
+            }
         }
     }
 
