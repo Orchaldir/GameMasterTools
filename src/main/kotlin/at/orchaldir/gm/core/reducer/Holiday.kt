@@ -5,12 +5,13 @@ import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.fashion.ClothingSet
-import at.orchaldir.gm.core.model.fashion.Fashion
+import at.orchaldir.gm.core.model.calendar.DayOfTheMonth
+import at.orchaldir.gm.core.model.calendar.MonthDefinition
+import at.orchaldir.gm.core.model.calendar.Weekdays
 import at.orchaldir.gm.core.model.holiday.FixedDayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
+import at.orchaldir.gm.core.model.holiday.RelativeDate
 import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
-import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -34,18 +35,32 @@ val UPDATE_HOLIDAY: Reducer<UpdateHoliday, State> = { state, action ->
     state.getHolidayStorage().require(holiday.id)
     val calendar = state.getCalendarStorage().getOrThrow(holiday.calendar)
 
-    check(holiday, calendar)
+    check(calendar, holiday.relativeDate)
 
     noFollowUps(state.updateStorage(state.getHolidayStorage().update(holiday)))
 }
 
-private fun check(holiday: Holiday, calendar: Calendar) {
-    when (holiday.relativeDate) {
+private fun check(calendar: Calendar, relativeDate: RelativeDate) {
+    when (relativeDate) {
         is FixedDayInYear -> {
-            require(holiday.relativeDate.monthIndex < calendar.months.size) { "Holiday in unknown month!" }
-            val month = calendar.months[holiday.relativeDate.monthIndex]
-            require(holiday.relativeDate.dayIndex < month.days) { "Holiday is outside the month!" }
+            val month = checkMonth(calendar, relativeDate.monthIndex)
+            require(relativeDate.dayIndex < month.days) { "Holiday is outside the month!" }
         }
-        is WeekdayInMonth -> TODO()
+
+        is WeekdayInMonth -> {
+            checkMonth(calendar, relativeDate.monthIndex)
+            when (calendar.days) {
+                DayOfTheMonth -> error("A holiday on a weekday requires a calendar with weekdays!")
+                is Weekdays -> require(relativeDate.weekdayIndex < calendar.days.weekDays.size) { "Holiday is on an unknown weekday!" }
+            }
+        }
     }
+}
+
+private fun checkMonth(
+    calendar: Calendar,
+    monthIndex: Int,
+): MonthDefinition {
+    require(monthIndex < calendar.months.size) { "Holiday is in an unknown month!" }
+    return calendar.months[monthIndex]
 }
