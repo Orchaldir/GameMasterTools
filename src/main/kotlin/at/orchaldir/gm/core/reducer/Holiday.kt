@@ -34,12 +34,18 @@ val UPDATE_HOLIDAY: Reducer<UpdateHoliday, State> = { state, action ->
     state.getHolidayStorage().require(holiday.id)
     val calendar = state.getCalendarStorage().getOrThrow(holiday.calendar)
 
+    check(holiday, calendar)
+
     noFollowUps(state.updateStorage(state.getHolidayStorage().update(holiday)))
 }
 
 private fun check(holiday: Holiday, calendar: Calendar) {
     when (holiday.relativeDate) {
-        is FixedDayInYear -> TODO()
+        is FixedDayInYear -> {
+            require(holiday.relativeDate.monthIndex < calendar.months.size) { "Holiday in unknown month!" }
+            val month = calendar.months[holiday.relativeDate.monthIndex]
+            require(holiday.relativeDate.dayIndex < month.days) { "Holiday is outside the month!" }
+        }
         is WeekdayInMonth -> TODO()
     }
 }

@@ -5,8 +5,10 @@ import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.calendar.WeekDay
+import at.orchaldir.gm.core.model.holiday.FixedDayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
+import at.orchaldir.gm.core.model.holiday.RelativeDateType
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -57,6 +59,15 @@ class HolidayTest {
         fun `Cannot update with unknown calendar`() {
             val state = State(Storage(Holiday(ID0)))
             val holiday = Holiday(ID0, "Test")
+            val action = UpdateHoliday(holiday)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot update with unknown month`() {
+            val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
+            val holiday = Holiday(ID0, relativeDate = FixedDayInYear(0, 2))
             val action = UpdateHoliday(holiday)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
