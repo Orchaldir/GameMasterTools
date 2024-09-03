@@ -42,9 +42,9 @@ class NameListTest {
             val action = DeleteNameList(ID0)
             val state = STATE.updateStorage(
                 Storage(
-                        Culture(
-                            CultureId(0), namingConvention = MononymConvention(ID0)
-                        )
+                    Culture(
+                        CultureId(0), namingConvention = MononymConvention(ID0)
+                    )
                 )
             )
 

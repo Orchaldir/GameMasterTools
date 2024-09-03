@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.moon
 
 import at.orchaldir.gm.core.model.moon.MoonPhase.*
 import at.orchaldir.gm.core.model.time.Day
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

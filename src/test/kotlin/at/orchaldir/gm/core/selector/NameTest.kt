@@ -175,11 +175,11 @@ class NameTest {
                         )
                     ),
                     Storage(
-                            Culture(
-                                CULTURE0, namingConvention = PatronymConvention(
-                                    style = style
-                                )
+                        Culture(
+                            CULTURE0, namingConvention = PatronymConvention(
+                                style = style
                             )
+                        )
                     )
                 )
             )
