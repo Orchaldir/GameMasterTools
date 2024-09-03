@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.model.holiday
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.calendar.Weekdays
-import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.DisplayDay
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -22,7 +21,7 @@ sealed class RelativeDate {
     }
 
     abstract fun display(calendar: Calendar): String
-    abstract fun isOn(calendar: Calendar, day: Day, displayDay: DisplayDay): Boolean
+    abstract fun isOn(calendar: Calendar, displayDay: DisplayDay): Boolean
 }
 
 @Serializable
@@ -35,7 +34,7 @@ data class FixedDayInYear(val dayIndex: Int, val monthIndex: Int) : RelativeDate
         return "${day}.${month.name}"
     }
 
-    override fun isOn(calendar: Calendar, day: Day, displayDay: DisplayDay) =
+    override fun isOn(calendar: Calendar, displayDay: DisplayDay) =
         monthIndex == displayDay.monthIndex && dayIndex == displayDay.dayIndex
 }
 
@@ -56,10 +55,10 @@ data class WeekdayInMonth(val weekdayIndex: Int, val weekInMonthIndex: Int, val 
 
     }
 
-    override fun isOn(calendar: Calendar, day: Day, displayDay: DisplayDay): Boolean {
+    override fun isOn(calendar: Calendar, displayDay: DisplayDay): Boolean {
         if (monthIndex != displayDay.monthIndex) {
             return false
-        } else if (weekdayIndex != calendar.getWeekDay(day)) {
+        } else if (weekdayIndex != displayDay.weekdayIndex) {
             return false
         }
 

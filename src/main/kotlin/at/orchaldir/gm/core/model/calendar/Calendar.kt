@@ -44,7 +44,7 @@ data class Calendar(
 
     fun getStartOfMonth(day: Day) = getStartOfMonth(resolve(day))
 
-    fun getStartOfMonth(day: DisplayDay) = resolve(day.getStartOfMonth())
+    fun getStartOfMonth(day: DisplayDay) = resolve(day.copy(dayIndex = 0))
 
     fun getStartOfNextMonth(day: Day): Day {
         val displayDay = resolve(day)
@@ -73,7 +73,7 @@ data class Calendar(
     }
 
     fun getWeekDay(date: Day) = when (days) {
-        DayOfTheMonth -> 0
+        DayOfTheMonth -> null
         is Weekdays -> {
             val day = date.day + getOffsetInDays()
 
@@ -101,13 +101,14 @@ data class Calendar(
     fun resolve(date: Day): DisplayDay {
         val daysPerYear = getDaysPerYear()
         val day = date.day + getOffsetInDays()
+        val weekdayIndex = getWeekDay(date)
 
         if (day >= 0) {
             val year = day / daysPerYear
             val remainingDays = day % daysPerYear
             val (monthIndex, dayIndex) = resolveDayAndMonth(remainingDays)
 
-            return DisplayDay(1, year, monthIndex, dayIndex)
+            return DisplayDay(1, year, monthIndex, dayIndex, weekdayIndex)
         }
 
         val absoluteDate = day.absoluteValue - 1
@@ -117,7 +118,7 @@ data class Calendar(
         for ((monthIndex, monthData) in months.withIndex().reversed()) {
             if (remainingDays < monthData.days) {
                 val dayIndex = monthData.days - remainingDays - 1
-                return DisplayDay(0, year, monthIndex, dayIndex)
+                return DisplayDay(0, year, monthIndex, dayIndex, weekdayIndex)
             }
 
             remainingDays -= monthData.days

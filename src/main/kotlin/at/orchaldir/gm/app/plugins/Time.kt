@@ -147,7 +147,7 @@ private fun BODY.showMonthWithWeekDays(
                 }
             }
         }
-        val startIndex = calendar.getWeekDay(startOfMonth)
+        val startIndex = calendar.getWeekDay(startOfMonth) ?: 0
         var dayIndex = -startIndex
         val minDaysShown = startIndex + month.days
         val weeksShown = minDaysShown.ceilDiv(days.weekDays.size)

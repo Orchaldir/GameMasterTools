@@ -14,5 +14,5 @@ fun State.getForHolidays(day: Day) = getHolidayStorage().getAll().filter { holid
     val calendar = getCalendarStorage().getOrThrow(holiday.calendar)
     val displayDay = calendar.resolve(day)
 
-    holiday.relativeDate.isOn(calendar, day, displayDay)
+    holiday.relativeDate.isOn(calendar, displayDay)
 }

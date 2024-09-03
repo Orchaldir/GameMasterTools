@@ -7,11 +7,8 @@ data class DisplayDay(
     val yearIndex: Int,
     val monthIndex: Int,
     val dayIndex: Int,
-) : DisplayDate() {
-
-    fun getStartOfMonth() = copy(dayIndex = 0)
-
-}
+    val weekdayIndex: Int? = null,
+) : DisplayDate()
 
 data class DisplayYear(
     val eraIndex: Int,

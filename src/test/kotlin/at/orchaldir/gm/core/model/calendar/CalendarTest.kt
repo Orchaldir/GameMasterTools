@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.time.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import kotlin.test.assertNull
 
 private val MONTH0 = MonthDefinition("a", 2)
 private val MONTH1 = MonthDefinition("b", 3)
@@ -118,8 +119,8 @@ class CalendarTest {
 
         @Test
         fun `Day of the month returns 0`() {
-            assertEquals(0, CALENDAR0.getWeekDay(Day(0)))
-            assertEquals(0, CALENDAR0.getWeekDay(Day(1)))
+            assertNull(CALENDAR0.getWeekDay(Day(0)))
+            assertNull(CALENDAR0.getWeekDay(Day(1)))
         }
 
         @Test
