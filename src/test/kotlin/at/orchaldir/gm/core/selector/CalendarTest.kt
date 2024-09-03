@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 private val ID0 = HolidayId(0)
 private val HOLIDAY0 = Holiday(ID0, relativeDate = FixedDayInYear(4, 2))
@@ -66,6 +68,25 @@ class CalendarTest {
         @Test
         fun `With WeekdayInMonth`() {
             assertEquals(3, getMinNumberOfWeekdays(listOf(HOLIDAY1)))
+        }
+    }
+
+    @Nested
+    inner class SupportsDayOfTheMonthTest {
+
+        @Test
+        fun `FixedDayInYear supports DayOfTheMonth`() {
+            assertTrue(supportsDayOfTheMonth(listOf(HOLIDAY0)))
+        }
+
+        @Test
+        fun `WeekdayInMonth doesn't support DayOfTheMonth`() {
+            assertFalse(supportsDayOfTheMonth(listOf(HOLIDAY1)))
+        }
+
+        @Test
+        fun `Mixed doesn't support DayOfTheMonth`() {
+            assertFalse(supportsDayOfTheMonth(listOf(HOLIDAY0, HOLIDAY1)))
         }
     }
 

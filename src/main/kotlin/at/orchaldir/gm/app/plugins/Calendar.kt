@@ -265,6 +265,7 @@ private fun FORM.editDays(
     holidays: List<Holiday>,
 ) {
     val days = calendar.days
+    val supportsDayOfTheMonth = supportsDayOfTheMonth(holidays)
 
     field("Days") {
         select {
@@ -275,6 +276,7 @@ private fun FORM.editDays(
                 option {
                     label = it.name
                     value = it.name
+                    disabled = it == DaysType.DayOfTheMonth && !supportsDayOfTheMonth
                     selected = it == days.getType()
                 }
             }

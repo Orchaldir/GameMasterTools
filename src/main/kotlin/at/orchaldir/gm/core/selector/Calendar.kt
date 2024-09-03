@@ -79,3 +79,11 @@ fun getMinNumberOfWeekdays(holidays: List<Holiday>): Int {
 
     return minNumber
 }
+
+fun supportsDayOfTheMonth(holidays: List<Holiday>) = holidays.none { holiday ->
+    when (holiday.relativeDate) {
+        is FixedDayInYear -> false
+        is WeekdayInMonth -> true
+    }
+}
+
