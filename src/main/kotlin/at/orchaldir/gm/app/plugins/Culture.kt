@@ -157,15 +157,17 @@ private fun HTML.showCultureDetails(
         showRarityMap("Languages", culture.languages) { l ->
             link(call, state, l)
         }
+        showDetails("Holidays") {
+            showList(culture.holidays) { holiday ->
+                link(call, state, holiday)
+            }
+        }
         showNamingConvention(namingConvention, call, state)
         showAppearanceOptions(culture)
         showClothingOptions(call, state, culture)
         h2 { +"Usage" }
         showList("Characters", state.getCharacters(culture.id)) { character ->
             link(call, state, character)
-        }
-        showList("Holidays", culture.holidays) { holiday ->
-            link(call, state, holiday)
         }
         action(editLink, "Edit")
 
@@ -342,7 +344,7 @@ private fun FORM.editHolidays(
         state.getHolidayStorage().getAll().forEach { holiday ->
             p {
                 checkBoxInput {
-                    name = "holiday"
+                    name = HOLIDAY
                     value = holiday.id.value.toString()
                     checked = culture.holidays.contains(holiday.id)
                     +holiday.name

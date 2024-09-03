@@ -24,6 +24,8 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
+private const val REMOVE = "remove"
+
 fun Application.configureCharacterLanguageRouting() {
     routing {
         get<Characters.Languages.Edit> { edit ->
@@ -49,7 +51,7 @@ fun Application.configureCharacterLanguageRouting() {
                 STORE.dispatch(AddLanguage(update.id, language, level))
             }
 
-            val removeList = formParameters.getAll("remove")?.map { LanguageId(it.toInt()) }
+            val removeList = formParameters.getAll(REMOVE)?.map { LanguageId(it.toInt()) }
 
             if (removeList != null) {
                 STORE.dispatch(RemoveLanguages(update.id, removeList.toSet()))
@@ -107,7 +109,7 @@ private fun HTML.showLanguageEditor(
                     val language = state.getLanguageStorage().getOrThrow(id)
                     p {
                         checkBoxInput {
-                            name = "remove"
+                            name = REMOVE
                             value = language.id.value.toString()
                             +language.name
                         }
