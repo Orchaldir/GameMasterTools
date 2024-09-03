@@ -42,7 +42,7 @@ data class Calendar(
 
     fun getStartDate() = eras.first.startDate
 
-    fun getStartOfMonth(day: Day) = resolve(resolve(day).getStartOfMonth())
+    fun getStartOfMonth(day: Day) = getStartOfMonth(resolve(day))
 
     fun getStartOfMonth(day: DisplayDay) = resolve(day.getStartOfMonth())
 
