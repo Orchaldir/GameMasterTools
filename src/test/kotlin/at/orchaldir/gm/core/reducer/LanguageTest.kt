@@ -23,7 +23,7 @@ class LanguageTest {
 
         @Test
         fun `Can delete an existing language`() {
-            val state = State(Storage(listOf(Language(ID0))))
+            val state = State(Storage(Language(ID0)))
             val action = DeleteLanguage(ID0)
 
             assertEquals(0, REDUCER.invoke(state, action).first.getLanguageStorage().getSize())
@@ -47,7 +47,7 @@ class LanguageTest {
         @Test
         fun `Cannot delete a language known by a character`() {
             val character = Character(CHARACTER0, languages = mapOf(ID0 to ComprehensionLevel.Native))
-            val state = State(listOf(Storage(listOf(character)), Storage(listOf(Language(ID0)))))
+            val state = State(listOf(Storage(character), Storage(Language(ID0))))
             val action = DeleteLanguage(ID0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -66,7 +66,7 @@ class LanguageTest {
 
         @Test
         fun `Inventor must exist`() {
-            val state = State(Storage(listOf(Language(ID0))))
+            val state = State(Storage(Language(ID0)))
             val origin = InventedLanguage(CHARACTER0)
             val action = UpdateLanguage(Language(ID0, origin = origin))
 
@@ -77,8 +77,8 @@ class LanguageTest {
         fun `Inventor exists`() {
             val state = State(
                 listOf(
-                    Storage(listOf(Character(CHARACTER0))),
-                    Storage(listOf(Language(ID0)))
+                    Storage(Character(CHARACTER0)),
+                    Storage(Language(ID0)),
                 )
             )
             val origin = InventedLanguage(CHARACTER0)
@@ -90,7 +90,7 @@ class LanguageTest {
 
         @Test
         fun `Parent language must exist`() {
-            val state = State(Storage(listOf(Language(ID0))))
+            val state = State(Storage(Language(ID0)))
             val origin = EvolvedLanguage(ID1)
             val action = UpdateLanguage(Language(ID0, origin = origin))
 
@@ -99,7 +99,7 @@ class LanguageTest {
 
         @Test
         fun `A language cannot be its own parent`() {
-            val state = State(Storage(listOf(Language(ID0))))
+            val state = State(Storage(Language(ID0)))
             val action = UpdateLanguage(Language(ID0, origin = EvolvedLanguage(ID0)))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }

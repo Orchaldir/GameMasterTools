@@ -34,8 +34,8 @@ class MaterialTest {
         fun `Cannot delete material used by item template`() {
             val state = State(
                 listOf(
-                    Storage(listOf(ItemTemplate(TEMPLATE0, equipment = Shirt(material = ID0)))),
-                    Storage(listOf(Material(ID0), Material(ID1)))
+                    Storage(ItemTemplate(TEMPLATE0, equipment = Shirt(material = ID0))),
+                    Storage(listOf(Material(ID0), Material(ID1))),
                 )
             )
 

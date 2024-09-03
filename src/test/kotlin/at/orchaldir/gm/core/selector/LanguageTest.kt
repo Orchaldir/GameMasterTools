@@ -55,8 +55,8 @@ class LanguageTest {
         fun `Cannot delete language used by character`() {
             val state = State(
                 listOf(
-                    Storage(listOf(Character(CHARACTER0, languages = mapOf(ID0 to Native)))),
-                    Storage(listOf(Language(ID0), Language(ID1)))
+                    Storage(Character(CHARACTER0, languages = mapOf(ID0 to Native))),
+                    Storage(listOf(Language(ID0), Language(ID1))),
                 )
             )
 
@@ -68,8 +68,8 @@ class LanguageTest {
         fun `Cannot delete language used by culture`() {
             val state = State(
                 listOf(
-                    Storage(listOf(Culture(CULTURE0, languages = SomeOf(setOf(ID0))))),
-                    Storage(listOf(Language(ID0), Language(ID1)))
+                    Storage(Culture(CULTURE0, languages = SomeOf(setOf(ID0)))),
+                    Storage(listOf(Language(ID0), Language(ID1))),
                 )
             )
 

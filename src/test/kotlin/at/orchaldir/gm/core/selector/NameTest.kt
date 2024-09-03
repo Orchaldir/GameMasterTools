@@ -28,7 +28,7 @@ class NameTest {
 
     @Test
     fun `Get Mononym independent of culture`() {
-        val state = State(Storage(listOf(Character(ID0, Mononym("Test")))))
+        val state = State(Storage(Character(ID0, Mononym("Test"))))
 
         assertEquals("Test", state.getName(ID0))
     }
@@ -83,8 +83,8 @@ class NameTest {
 
         private fun init(convention: NamingConvention, middle: String?) = State(
             listOf(
-                Storage(listOf(Character(ID0, FamilyName("Given", middle, "Family")))),
-                Storage(listOf(Culture(CULTURE0, namingConvention = convention))),
+                Storage(Character(ID0, FamilyName("Given", middle, "Family"))),
+                Storage(Culture(CULTURE0, namingConvention = convention)),
             )
         )
 
@@ -97,8 +97,8 @@ class NameTest {
         fun `Without a father`() {
             val state = State(
                 listOf(
-                    Storage(listOf(Character(ID0, Genonym("A")))),
-                    Storage(listOf(Culture(CULTURE0, namingConvention = PatronymConvention()))),
+                    Storage(Character(ID0, Genonym("A"))),
+                    Storage(Culture(CULTURE0, namingConvention = PatronymConvention())),
                 )
             )
 
@@ -117,7 +117,7 @@ class NameTest {
                                 Character(ID1, Genonym("Father"))
                             )
                         ),
-                        Storage(listOf(Culture(CULTURE0, namingConvention = PatronymConvention()))),
+                        Storage(Culture(CULTURE0, namingConvention = PatronymConvention())),
                     )
                 )
 
@@ -175,13 +175,11 @@ class NameTest {
                         )
                     ),
                     Storage(
-                        listOf(
                             Culture(
                                 CULTURE0, namingConvention = PatronymConvention(
                                     style = style
                                 )
                             )
-                        )
                     )
                 )
             )

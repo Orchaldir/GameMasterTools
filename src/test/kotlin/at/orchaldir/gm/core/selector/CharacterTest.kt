@@ -37,7 +37,7 @@ private val FAMILY_STATE = State(
                 SON,
             )
         ),
-        Storage(listOf(Race(RACE0)))
+        Storage(Race(RACE0)),
     )
 )
 

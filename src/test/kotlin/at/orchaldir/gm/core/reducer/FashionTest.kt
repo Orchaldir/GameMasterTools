@@ -30,7 +30,7 @@ class FashionTest {
 
         @Test
         fun `Can delete an existing fashion`() {
-            val state = State(Storage(listOf(Fashion(ID0))))
+            val state = State(Storage(Fashion(ID0)))
             val action = DeleteFashion(ID0)
 
             assertEquals(0, REDUCER.invoke(state, action).first.getFashionStorage().getSize())
@@ -46,7 +46,7 @@ class FashionTest {
         @Test
         fun `Cannot delete a fashion used by a culture`() {
             val culture = Culture(CULTURE0, clothingStyles = GenderMap(ID0))
-            val state = State(listOf(Storage(listOf(culture)), Storage(listOf(Fashion(ID0)))))
+            val state = State(listOf(Storage(culture), Storage(Fashion(ID0))))
             val action = DeleteFashion(ID0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -59,7 +59,7 @@ class FashionTest {
         @Test
         fun `Successfully update a fashion`() {
             val state =
-                State(listOf(Storage(listOf(Fashion(ID0))), Storage(listOf(ItemTemplate(ITEM0, equipment = Dress())))))
+                State(listOf(Storage(Fashion(ID0)), Storage(ItemTemplate(ITEM0, equipment = Dress()))))
             val fashion = Fashion(
                 ID0,
                 clothingSets = OneOf(ClothingSet.Dress),
@@ -84,7 +84,7 @@ class FashionTest {
 
         @Test
         fun `Cannot use unknown item templates`() {
-            val state = State(Storage(listOf(Fashion(ID0))))
+            val state = State(Storage(Fashion(ID0)))
             val fashion = Fashion(ID0, itemRarityMap = mapOf(EquipmentType.Dress to OneOrNone(ITEM0)))
             val action = UpdateFashion(fashion)
 
@@ -93,7 +93,7 @@ class FashionTest {
 
         @Test
         fun `Clothing set Dress requires at least 1 dress`() {
-            val state = State(Storage(listOf(Fashion(ID0))))
+            val state = State(Storage(Fashion(ID0)))
             val fashion = Fashion(ID0, clothingSets = OneOf(ClothingSet.Dress))
             val action = UpdateFashion(fashion)
 
@@ -103,7 +103,7 @@ class FashionTest {
         @Test
         fun `Equipment must have the correct type`() {
             val state =
-                State(listOf(Storage(listOf(Fashion(ID0))), Storage(listOf(ItemTemplate(ITEM0, equipment = Hat())))))
+                State(listOf(Storage(Fashion(ID0)), Storage(ItemTemplate(ITEM0, equipment = Hat()))))
             val fashion = Fashion(
                 ID0,
                 clothingSets = OneOf(ClothingSet.Dress),
@@ -152,8 +152,8 @@ class FashionTest {
         private fun testSetWith2Items(set: ClothingSet, type: EquipmentType, equipment: Equipment) {
             val state = State(
                 listOf(
-                    Storage(listOf(Fashion(ID0))),
-                    Storage(listOf(ItemTemplate(ITEM0, equipment = equipment)))
+                    Storage(Fashion(ID0)),
+                    Storage(ItemTemplate(ITEM0, equipment = equipment))
                 )
             )
             val fashion = Fashion(
@@ -169,7 +169,7 @@ class FashionTest {
         private fun testSuit(type0: EquipmentType, type1: EquipmentType, equipment0: Equipment, equipment1: Equipment) {
             val state = State(
                 listOf(
-                    Storage(listOf(Fashion(ID0))),
+                    Storage(Fashion(ID0)),
                     Storage(
                         listOf(
                             ItemTemplate(ITEM0, equipment = equipment0),
