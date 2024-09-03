@@ -38,16 +38,6 @@ data class Calendar(
 
     fun getMonth(day: DisplayDay) = months[day.monthIndex]
 
-    fun getMonthIndex(name: String): Int? {
-        months.withIndex().forEach {
-            if (it.value.name == name) {
-                return it.index
-            }
-        }
-
-        return null
-    }
-
     fun getLastMonthIndex() = months.size - 1
 
     fun getStartDate() = eras.first.startDate
