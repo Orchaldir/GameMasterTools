@@ -242,7 +242,7 @@ private fun HTML.showCalendarEditor(
             selectText("Name", calendar.name, NAME)
             editOrigin(state, calendar)
             h2 { +"Parts" }
-            editDays(calendar)
+            editDays(state, calendar)
             editMonths(calendar)
             h2 { +"Eras" }
             editEras(calendar, state)
@@ -259,6 +259,7 @@ private fun HTML.showCalendarEditor(
 }
 
 private fun FORM.editDays(
+    state: State,
     calendar: Calendar,
 ) {
     val days = calendar.days
@@ -280,7 +281,8 @@ private fun FORM.editDays(
     when (days) {
         DayOfTheMonth -> doNothing()
         is Weekdays -> {
-            selectNumber("Weekdays", days.weekDays.size, 2, 100, combine(WEEK, DAYS), true)
+            val minNumber = state.getMinNumberOfWeekdays(calendar.id)
+            selectNumber("Weekdays", days.weekDays.size, minNumber, 100, combine(WEEK, DAYS), true)
             days.weekDays.withIndex().forEach { (index, day) ->
                 p {
                     selectText(day.name, combine(WEEK, DAY, index))
