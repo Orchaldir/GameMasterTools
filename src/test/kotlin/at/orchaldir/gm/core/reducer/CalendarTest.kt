@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.holiday.FixedDayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.utils.Storage
@@ -27,7 +28,7 @@ class CalendarTest {
 
         @Test
         fun `Can delete an existing calendar`() {
-            val state = State(Storage(listOf(Calendar(ID0))))
+            val state = State(Storage(Calendar(ID0)))
             val action = DeleteCalendar(ID0)
 
             assertEquals(0, REDUCER.invoke(state, action).first.getCalendarStorage().getSize())
@@ -51,7 +52,7 @@ class CalendarTest {
         @Test
         fun `Cannot delete a calendar used by a culture`() {
             val culture = Culture(CULTURE0, calendar = ID0)
-            val state = State(listOf(Storage(listOf(culture)), Storage(listOf(Calendar(ID0)))))
+            val state = State(listOf(Storage(culture), Storage(Calendar(ID0))))
             val action = DeleteCalendar(ID0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -60,7 +61,7 @@ class CalendarTest {
         @Test
         fun `Cannot delete a calendar used by a holiday`() {
             val holiday = Holiday(HOLIDAY0, calendar = ID0)
-            val state = State(listOf(Storage(listOf(holiday)), Storage(listOf(Calendar(ID0)))))
+            val state = State(listOf(Storage(holiday), Storage(Calendar(ID0))))
             val action = DeleteCalendar(ID0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -79,7 +80,7 @@ class CalendarTest {
 
         @Test
         fun `Parent calendar must exist`() {
-            val state = State(Storage(listOf(Calendar(ID0))))
+            val state = State(Storage(Calendar(ID0)))
             val action = UpdateCalendar(Calendar(ID0, months = VALID_MONTHS, origin = ImprovedCalendar(ID1)))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -87,7 +88,7 @@ class CalendarTest {
 
         @Test
         fun `A calendar cannot be its own parent`() {
-            val state = State(Storage(listOf(Calendar(ID0))))
+            val state = State(Storage(Calendar(ID0)))
             val action = UpdateCalendar(Calendar(ID0, months = VALID_MONTHS, origin = ImprovedCalendar(ID0)))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -98,7 +99,7 @@ class CalendarTest {
 
             @Test
             fun `At least 2 months`() {
-                val state = State(Storage(listOf(Calendar(ID0))))
+                val state = State(Storage(Calendar(ID0)))
                 val weekdays = Weekdays(listOf(WeekDay("a")))
                 val calendar = Calendar(ID0, days = weekdays, months = VALID_MONTHS)
                 val action = UpdateCalendar(calendar)
@@ -108,7 +109,7 @@ class CalendarTest {
 
             @Test
             fun `Months need unique names`() {
-                val state = State(Storage(listOf(Calendar(ID0))))
+                val state = State(Storage(Calendar(ID0)))
                 val weekdays = Weekdays(listOf(WeekDay("a"), WeekDay("a")))
                 val calendar = Calendar(ID0, days = weekdays, months = VALID_MONTHS)
                 val action = UpdateCalendar(calendar)
@@ -118,7 +119,7 @@ class CalendarTest {
 
             @Test
             fun `Valid weekdays`() {
-                val state = State(Storage(listOf(Calendar(ID0))))
+                val state = State(Storage(Calendar(ID0)))
                 val weekdays = Weekdays(listOf(WeekDay("a"), WeekDay("b")))
                 val calendar = Calendar(ID0, days = weekdays, months = VALID_MONTHS)
                 val action = UpdateCalendar(calendar)
@@ -132,7 +133,7 @@ class CalendarTest {
 
             @Test
             fun `At least 2 months`() {
-                val state = State(Storage(listOf(Calendar(ID0))))
+                val state = State(Storage(Calendar(ID0)))
                 val calendar = Calendar(ID0, months = listOf(MonthDefinition("a", 10)))
                 val action = UpdateCalendar(calendar)
 
@@ -141,7 +142,7 @@ class CalendarTest {
 
             @Test
             fun `At least 2 days per month`() {
-                val state = State(Storage(listOf(Calendar(ID0))))
+                val state = State(Storage(Calendar(ID0)))
                 val calendar = Calendar(ID0, months = listOf(MonthDefinition("a", 1), MonthDefinition("b", 1)))
                 val action = UpdateCalendar(calendar)
 
@@ -150,7 +151,7 @@ class CalendarTest {
 
             @Test
             fun `Months need unique names`() {
-                val state = State(Storage(listOf(Calendar(ID0))))
+                val state = State(Storage(Calendar(ID0)))
                 val calendar = Calendar(ID0, months = listOf(MonthDefinition("a", 10), MonthDefinition("a", 10)))
                 val action = UpdateCalendar(calendar)
 
@@ -159,7 +160,27 @@ class CalendarTest {
         }
 
         @Test
-        fun `Parent calendar exist`() {
+        fun `Update would make holiday invalid`() {
+            val holiday = Holiday(HOLIDAY0, calendar = ID0, relativeDate = FixedDayInYear(0, 2))
+            val state = State(listOf(Storage(holiday), Storage(Calendar(ID0))))
+            val calendar = Calendar(ID0, months = VALID_MONTHS, origin = ImprovedCalendar(ID1))
+            val action = UpdateCalendar(calendar)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Successful update with a holiday`() {
+            val holiday = Holiday(HOLIDAY0, calendar = ID0, relativeDate = FixedDayInYear(0, 0))
+            val state = State(listOf(Storage(holiday), Storage(Calendar(ID0))))
+            val calendar = Calendar(ID0, months = VALID_MONTHS)
+            val action = UpdateCalendar(calendar)
+
+            assertEquals(calendar, REDUCER.invoke(state, action).first.getCalendarStorage().get(ID0))
+        }
+
+        @Test
+        fun `Successful update`() {
             val state = State(Storage(listOf(Calendar(ID0), Calendar(ID1))))
             val calendar = Calendar(ID0, months = VALID_MONTHS, origin = ImprovedCalendar(ID1))
             val action = UpdateCalendar(calendar)
