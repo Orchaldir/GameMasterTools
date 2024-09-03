@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.time.Day
 
-fun State.canDelete(holiday: HolidayId) = true
+fun State.canDelete(holiday: HolidayId) = getCultures(holiday).isEmpty()
 
 fun State.getHolidays(calendar: CalendarId) = getHolidayStorage().getAll()
     .filter { it.calendar == calendar }

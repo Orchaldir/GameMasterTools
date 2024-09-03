@@ -4,6 +4,8 @@ import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
+import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.holiday.FixedDayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
@@ -40,6 +42,14 @@ class HolidayTest {
             val action = DeleteHoliday(ID0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Cannot delete, if used by a culture`() {
+            val state = State(listOf(Storage(Holiday(ID0)), Storage(Culture(CultureId(0), holidays = setOf(ID0)))))
+            val action = DeleteHoliday(ID0)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
     }
 
