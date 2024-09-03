@@ -7,10 +7,7 @@ import at.orchaldir.gm.core.action.CreateHoliday
 import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.CALENDAR
-import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.DayOfTheMonth
-import at.orchaldir.gm.core.model.calendar.Weekdays
+import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.holiday.*
 import at.orchaldir.gm.core.selector.canDelete
 import io.ktor.http.*
@@ -179,7 +176,7 @@ private fun HTML.showHolidayEditor(
                     value = holiday.name
                 }
             }
-            selectEnum("Calendar", CALENDAR, state.getCalendarStorage().getAll()) { calendar ->
+            selectEnum("Calendar", CALENDAR, state.getCalendarStorage().getAll(), true) { calendar ->
                 label = calendar.name
                 value = calendar.id.value.toString()
                 selected = calendar.id == holiday.calendar
@@ -201,6 +198,10 @@ private fun FORM.selectRelativeDate(param: String, relativeDate: RelativeDate, c
     selectEnum("Relative Date", combine(param, TYPE), RelativeDateType.entries, true) { type ->
         label = type.name
         value = type.name
+        disabled = when (type) {
+            RelativeDateType.FixedDayInYear -> false
+            RelativeDateType.WeekdayInMonth -> calendar.days.getType() == DaysType.DayOfTheMonth
+        }
         selected = type == relativeDate.getType()
     }
     when (relativeDate) {
