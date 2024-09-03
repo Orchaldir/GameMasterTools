@@ -21,36 +21,40 @@ class HolidayTest {
 
         @Test
         fun `Year 0`() {
-            assertYear(relativeDate, 0)
+            assertYearForIsOn(relativeDate, 0, 3)
         }
 
         @Test
         fun `Year 1`() {
-            assertYear(relativeDate, 1)
-        }
-
-        private fun assertYear(relativeDate: FixedDayInYear, yearIndex: Int) {
-            val start = yearIndex * CALENDAR0.getDaysPerYear()
-            assertIsOn(relativeDate, start + 0, false)
-            assertIsOn(relativeDate, start + 1, false)
-            assertIsOn(relativeDate, start + 2, false)
-            assertIsOn(relativeDate, start + 3, true)
-            assertIsOn(relativeDate, start + 4, false)
+            assertYearForIsOn(relativeDate, 1, 3)
         }
     }
 
     @Nested
     inner class IsOnWeekdayTest {
 
-        private val relativeDate = WeekdayInMonth(0, 1, 1)
+        private val relativeDate = WeekdayInMonth(1, 0, 1)
 
         @Test
         fun `Year 0`() {
-            assertIsOn(relativeDate, 0, false)
-            assertIsOn(relativeDate, 1, false)
-            assertIsOn(relativeDate, 2, false)
-            assertIsOn(relativeDate, 3, false)
-            assertIsOn(relativeDate, 4, true)
+            assertYearForIsOn(relativeDate, 0, 3)
+        }
+
+        @Test
+        fun `Year 1`() {
+            assertYearForIsOn(relativeDate, 1, 2)
+        }
+
+        @Test
+        fun `Year 2`() {
+            assertYearForIsOn(relativeDate, 2, 3)
+        }
+    }
+
+    private fun assertYearForIsOn(relativeDate: RelativeDate, yearIndex: Int, holiday: Int) {
+        val start = yearIndex * CALENDAR0.getDaysPerYear()
+        repeat(start) { index ->
+            assertIsOn(relativeDate, start + index, index == holiday)
         }
     }
 
