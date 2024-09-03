@@ -24,6 +24,26 @@ fun State.getDefaultCalendar() = getCalendarStorage().getOrThrow(time.defaultCal
 
 fun State.getPossibleParents(calendar: CalendarId) = getCalendarStorage().getAll().filter { it.id != calendar }
 
+fun getMinNumberOfDays(holidays: List<Holiday>, monthIndex: Int): Int {
+    var minNumber = 2
+
+    holidays.forEach { holiday ->
+        when (holiday.relativeDate) {
+            is FixedDayInYear -> if (holiday.relativeDate.monthIndex == monthIndex) {
+                val requiredDays = holiday.relativeDate.dayIndex + 1
+
+                if (minNumber < requiredDays) {
+                    minNumber = requiredDays
+                }
+            }
+
+            is WeekdayInMonth -> doNothing()
+        }
+    }
+
+    return minNumber
+}
+
 fun getMinNumberOfMonths(holidays: List<Holiday>): Int {
     var minNumber = 2
 

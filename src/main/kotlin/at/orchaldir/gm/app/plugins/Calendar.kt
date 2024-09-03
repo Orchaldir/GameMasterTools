@@ -299,10 +299,11 @@ private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
     selectNumber("Months", calendar.months.size, minMonths, 100, MONTHS, true)
 
     calendar.months.withIndex().forEach { (index, month) ->
+        val minDays = getMinNumberOfDays(holidays, index)
         p {
             selectText(month.name, combine(MONTH, NAME, index))
             +": "
-            selectNumber(month.days, 2, 100, combine(MONTH, DAYS, index))
+            selectNumber(month.days, minDays, 100, combine(MONTH, DAYS, index))
             +"days"
         }
     }
