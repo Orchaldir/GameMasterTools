@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
+import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.time.DisplayYear
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.utils.doNothing
@@ -229,6 +230,7 @@ private fun HTML.showCalendarEditor(
     state: State,
     calendar: Calendar,
 ) {
+    val holidays = state.getHolidays(calendar.id)
     val backLink = href(call, calendar.id)
     val previewLink = call.application.href(Calendars.Preview(calendar.id))
     val updateLink = call.application.href(Calendars.Update(calendar.id))
@@ -242,8 +244,8 @@ private fun HTML.showCalendarEditor(
             selectText("Name", calendar.name, NAME)
             editOrigin(state, calendar)
             h2 { +"Parts" }
-            editDays(state, calendar)
-            editMonths(calendar)
+            editDays(calendar, holidays)
+            editMonths(calendar, holidays)
             h2 { +"Eras" }
             editEras(calendar, state)
             p {
@@ -259,8 +261,8 @@ private fun HTML.showCalendarEditor(
 }
 
 private fun FORM.editDays(
-    state: State,
     calendar: Calendar,
+    holidays: List<Holiday>,
 ) {
     val days = calendar.days
 
@@ -281,7 +283,7 @@ private fun FORM.editDays(
     when (days) {
         DayOfTheMonth -> doNothing()
         is Weekdays -> {
-            val minNumber = state.getMinNumberOfWeekdays(calendar.id)
+            val minNumber = getMinNumberOfWeekdays(holidays)
             selectNumber("Weekdays", days.weekDays.size, minNumber, 100, combine(WEEK, DAYS), true)
             days.weekDays.withIndex().forEach { (index, day) ->
                 p {
@@ -292,8 +294,10 @@ private fun FORM.editDays(
     }
 }
 
-private fun FORM.editMonths(calendar: Calendar) {
-    selectNumber("Months", calendar.months.size, 2, 100, MONTHS, true)
+private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
+    val minMonths = getMinNumberOfMonths(holidays)
+    selectNumber("Months", calendar.months.size, minMonths, 100, MONTHS, true)
+
     calendar.months.withIndex().forEach { (index, month) ->
         p {
             selectText(month.name, combine(MONTH, NAME, index))
