@@ -2,7 +2,10 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.COLOR
+import at.orchaldir.gm.app.parse.LENGTH
+import at.orchaldir.gm.app.parse.NAME
+import at.orchaldir.gm.app.parse.parseMoon
 import at.orchaldir.gm.core.action.CreateMoon
 import at.orchaldir.gm.core.action.DeleteMoon
 import at.orchaldir.gm.core.action.UpdateMoon

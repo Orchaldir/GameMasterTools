@@ -22,7 +22,9 @@ import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.LANGUAGE
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
-import at.orchaldir.gm.core.model.material.*
+import at.orchaldir.gm.core.model.material.MATERIAL
+import at.orchaldir.gm.core.model.material.Material
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.moon.MOON
 import at.orchaldir.gm.core.model.moon.Moon
 import at.orchaldir.gm.core.model.moon.MoonId

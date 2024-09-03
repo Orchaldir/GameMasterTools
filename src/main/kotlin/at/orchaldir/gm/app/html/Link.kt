@@ -21,7 +21,10 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
-import kotlinx.html.*
+import kotlinx.html.A
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.a
+import kotlinx.html.p
 
 // generic
 

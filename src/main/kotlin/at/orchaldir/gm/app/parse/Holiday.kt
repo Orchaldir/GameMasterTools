@@ -27,6 +27,7 @@ fun parseRelativeDate(parameters: Parameters, param: String): RelativeDate {
             parseDayIndex(parameters, param),
             parseInt(parameters, combine(param, MONTH)),
         )
+
         RelativeDateType.WeekdayInMonth -> WeekdayInMonth(
             parseInt(parameters, combine(param, DAY)),
             parseInt(parameters, combine(param, WEEK)),
