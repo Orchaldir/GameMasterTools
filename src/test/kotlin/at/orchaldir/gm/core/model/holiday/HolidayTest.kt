@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.holiday
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.DisplayDay
+import mu.KotlinLogging
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -52,8 +53,10 @@ class HolidayTest {
     }
 
     private fun assertYearForIsOn(relativeDate: RelativeDate, yearIndex: Int, holiday: Int) {
-        val start = yearIndex * CALENDAR0.getDaysPerYear()
-        repeat(start) { index ->
+        val daysPerYear = CALENDAR0.getDaysPerYear()
+        val start = yearIndex * daysPerYear
+
+        repeat(daysPerYear) { index ->
             assertIsOn(relativeDate, start + index, index == holiday)
         }
     }
