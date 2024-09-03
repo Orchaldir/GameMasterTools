@@ -11,8 +11,8 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 private val ID0 = HolidayId(0)
-private val HOLIDAY0 = Holiday(ID0, relativeDate = FixedDayInYear(4, 2))
-private val HOLIDAY1 = Holiday(ID0, relativeDate = WeekdayInMonth(2, 0, 3))
+private val FIXED_DAY_HOLIDAY = Holiday(ID0, relativeDate = FixedDayInYear(4, 2))
+private val WEEKDAY_HOLIDAY = Holiday(ID0, relativeDate = WeekdayInMonth(2, 0, 3))
 
 class CalendarTest {
 
@@ -21,25 +21,25 @@ class CalendarTest {
 
         @Test
         fun `Get default for FixedDayInYear with in month without holiday`() {
-            assertEquals(2, getMinNumberOfDays(listOf(HOLIDAY0), 0))
-            assertEquals(2, getMinNumberOfDays(listOf(HOLIDAY0), 1))
+            assertEquals(2, getMinNumberOfDays(listOf(FIXED_DAY_HOLIDAY), 0))
+            assertEquals(2, getMinNumberOfDays(listOf(FIXED_DAY_HOLIDAY), 1))
         }
 
         @Test
         fun `Get correct minimum for FixedDayInYear with in month with holiday`() {
-            assertEquals(5, getMinNumberOfDays(listOf(HOLIDAY0), 2))
+            assertEquals(5, getMinNumberOfDays(listOf(FIXED_DAY_HOLIDAY), 2))
         }
 
         @Test
         fun `Get default for WeekdayInMonth with in month without holiday`() {
-            assertEquals(2, getMinNumberOfDays(listOf(HOLIDAY1), 0))
-            assertEquals(2, getMinNumberOfDays(listOf(HOLIDAY1), 1))
-            assertEquals(2, getMinNumberOfDays(listOf(HOLIDAY1), 2))
+            assertEquals(2, getMinNumberOfDays(listOf(WEEKDAY_HOLIDAY), 0))
+            assertEquals(2, getMinNumberOfDays(listOf(WEEKDAY_HOLIDAY), 1))
+            assertEquals(2, getMinNumberOfDays(listOf(WEEKDAY_HOLIDAY), 2))
         }
 
         @Test
         fun `Get default for WeekdayInMonth with in month with holiday`() {
-            assertEquals(2, getMinNumberOfDays(listOf(HOLIDAY1), 3))
+            assertEquals(2, getMinNumberOfDays(listOf(WEEKDAY_HOLIDAY), 3))
         }
     }
 
@@ -48,12 +48,12 @@ class CalendarTest {
 
         @Test
         fun `With FixedDayInYear`() {
-            assertEquals(3, getMinNumberOfMonths(listOf(HOLIDAY0)))
+            assertEquals(3, getMinNumberOfMonths(listOf(FIXED_DAY_HOLIDAY)))
         }
 
         @Test
         fun `With WeekdayInMonth`() {
-            assertEquals(4, getMinNumberOfMonths(listOf(HOLIDAY1)))
+            assertEquals(4, getMinNumberOfMonths(listOf(WEEKDAY_HOLIDAY)))
         }
     }
 
@@ -62,12 +62,12 @@ class CalendarTest {
 
         @Test
         fun `With FixedDayInYear`() {
-            assertEquals(2, getMinNumberOfWeekdays(listOf(HOLIDAY0)))
+            assertEquals(2, getMinNumberOfWeekdays(listOf(FIXED_DAY_HOLIDAY)))
         }
 
         @Test
         fun `With WeekdayInMonth`() {
-            assertEquals(3, getMinNumberOfWeekdays(listOf(HOLIDAY1)))
+            assertEquals(3, getMinNumberOfWeekdays(listOf(WEEKDAY_HOLIDAY)))
         }
     }
 
@@ -76,17 +76,17 @@ class CalendarTest {
 
         @Test
         fun `FixedDayInYear supports DayOfTheMonth`() {
-            assertTrue(supportsDayOfTheMonth(listOf(HOLIDAY0)))
+            assertTrue(supportsDayOfTheMonth(listOf(FIXED_DAY_HOLIDAY)))
         }
 
         @Test
         fun `WeekdayInMonth doesn't support DayOfTheMonth`() {
-            assertFalse(supportsDayOfTheMonth(listOf(HOLIDAY1)))
+            assertFalse(supportsDayOfTheMonth(listOf(WEEKDAY_HOLIDAY)))
         }
 
         @Test
         fun `Mixed doesn't support DayOfTheMonth`() {
-            assertFalse(supportsDayOfTheMonth(listOf(HOLIDAY0, HOLIDAY1)))
+            assertFalse(supportsDayOfTheMonth(listOf(FIXED_DAY_HOLIDAY, WEEKDAY_HOLIDAY)))
         }
     }
 
