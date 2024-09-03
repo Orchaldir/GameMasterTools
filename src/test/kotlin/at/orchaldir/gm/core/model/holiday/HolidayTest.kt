@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.holiday
 
 import at.orchaldir.gm.core.model.calendar.*
+import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.DisplayDay
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -29,11 +30,12 @@ class HolidayTest {
         }
 
         private fun assertYear(relativeDate: FixedDayInYear, yearIndex: Int) {
-            assertIsOn(relativeDate, yearIndex, 0, 0, false)
-            assertIsOn(relativeDate, yearIndex, 0, 1, false)
-            assertIsOn(relativeDate, yearIndex, 1, 0, false)
-            assertIsOn(relativeDate, yearIndex, 1, 1, true)
-            assertIsOn(relativeDate, yearIndex, 1, 2, false)
+            val start = yearIndex * CALENDAR0.getDaysPerYear()
+            assertIsOn(relativeDate, start + 0, false)
+            assertIsOn(relativeDate, start + 1, false)
+            assertIsOn(relativeDate, start + 2, false)
+            assertIsOn(relativeDate, start + 3, true)
+            assertIsOn(relativeDate, start + 4, false)
         }
     }
 
@@ -44,22 +46,21 @@ class HolidayTest {
 
         @Test
         fun `Year 0`() {
-            assertIsOn(relativeDate, 0, 0, 0, false)
-            assertIsOn(relativeDate, 0, 0, 1, false)
-            assertIsOn(relativeDate, 0, 1, 0, false)
-            assertIsOn(relativeDate, 0, 1, 1, false)
-            assertIsOn(relativeDate, 0, 1, 2, true)
+            assertIsOn(relativeDate, 0, false)
+            assertIsOn(relativeDate, 1, false)
+            assertIsOn(relativeDate, 2, false)
+            assertIsOn(relativeDate, 3, false)
+            assertIsOn(relativeDate, 4, true)
         }
     }
 
     private fun assertIsOn(
         relativeDate: RelativeDate,
-        yearIndex: Int,
-        monthIndex: Int,
         dayIndex: Int,
         result: Boolean,
     ) {
-        assertEquals(result, relativeDate.isOn(CALENDAR0, DisplayDay(1, yearIndex, monthIndex, dayIndex)))
+        val displayDay = CALENDAR0.resolve(Day(dayIndex))
+        assertEquals(result, relativeDate.isOn(CALENDAR0, displayDay))
     }
 
 }
