@@ -157,11 +157,16 @@ private fun HTML.showCultureDetails(
         showRarityMap("Languages", culture.languages) { l ->
             link(call, state, l)
         }
+        showDetails("Holidays") {
+            showList(culture.holidays) { holiday ->
+                link(call, state, holiday)
+            }
+        }
         showNamingConvention(namingConvention, call, state)
         showAppearanceOptions(culture)
         showClothingOptions(call, state, culture)
-        h2 { +"Characters" }
-        showList(state.getCharacters(culture.id)) { character ->
+        h2 { +"Usage" }
+        showList("Characters", state.getCharacters(culture.id)) { character ->
             link(call, state, character)
         }
         action(editLink, "Edit")
@@ -244,8 +249,7 @@ private fun BODY.showNamesByGender(
     label: String,
     namesByGender: GenderMap<NameListId>,
 ) {
-    details {
-        summary { +label }
+    showDetails(label) {
         showGenderMap(namesByGender) { gender, id ->
             field(gender.toString()) {
                 link(call, state, id)
@@ -258,8 +262,7 @@ private fun BODY.showStyleByGender(
     label: String,
     namesByGender: GenderMap<String>,
 ) {
-    details {
-        summary { +label }
+    showDetails(label) {
         showGenderMap(namesByGender) { gender, text ->
             field(gender.toString(), text)
         }
@@ -317,6 +320,7 @@ private fun HTML.showCultureEditor(
                 selected = culture.calendar == c.id
             }
             selectRarityMap("Languages", LANGUAGES, state.getLanguageStorage(), culture.languages) { it.name }
+            editHolidays(state, culture)
             editNamingConvention(namingConvention, state)
             editAppearanceOptions(culture)
             editClothingOptions(state, culture)
@@ -329,6 +333,24 @@ private fun HTML.showCultureEditor(
             }
         }
         back(backLink)
+    }
+}
+
+private fun FORM.editHolidays(
+    state: State,
+    culture: Culture,
+) {
+    showDetails("Holidays") {
+        state.getHolidayStorage().getAll().forEach { holiday ->
+            p {
+                checkBoxInput {
+                    name = HOLIDAY
+                    value = holiday.id.value.toString()
+                    checked = culture.holidays.contains(holiday.id)
+                    +holiday.name
+                }
+            }
+        }
     }
 }
 

@@ -55,10 +55,10 @@ private fun parseDays(parameters: Parameters) = when (parse(parameters, DAYS, Da
 }
 
 private fun parseWeekdays(parameters: Parameters): List<WeekDay> {
-    val count = parseInt(parameters, WEEK_DAYS, 2)
+    val count = parseInt(parameters, combine(WEEK, DAYS), 2)
 
     return (0..<count)
-        .map { parseName(parameters, combine(WEEK_DAY, it)) ?: "${it + 1}.Day" }
+        .map { parseName(parameters, combine(WEEK, DAY, it)) ?: "${it + 1}.Day" }
         .map { WeekDay(it) }
 }
 

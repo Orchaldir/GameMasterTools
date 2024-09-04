@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
 import at.orchaldir.gm.core.model.culture.name.NamingConventionType.*
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.fashion.FashionId
+import at.orchaldir.gm.core.model.holiday.HolidayId
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -39,6 +40,7 @@ fun parseCulture(
             parseOneOf(parameters, LIP_COLORS, Color::valueOf),
         ),
         parseClothingStyles(parameters),
+        parameters.getAll(HOLIDAY)?.map { HolidayId(it.toInt()) }?.toSet() ?: emptySet()
     )
 }
 

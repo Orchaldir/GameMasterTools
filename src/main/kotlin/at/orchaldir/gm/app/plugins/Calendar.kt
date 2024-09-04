@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
+import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.time.DisplayYear
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.utils.doNothing
@@ -142,6 +143,7 @@ private fun HTML.showCalendarDetails(
     val deleteLink = call.application.href(Calendars.Delete(calendar.id))
     val editLink = call.application.href(Calendars.Edit(calendar.id))
     val cultures = state.getCultures(calendar.id)
+    val holidays = state.getHolidays(calendar.id)
 
     simpleHtml("Calendar: ${calendar.name}") {
         field("Id", calendar.id.value.toString())
@@ -152,9 +154,14 @@ private fun HTML.showCalendarDetails(
         showMonths(calendar)
         h2 { +"Eras" }
         showEras(call, state, calendar)
-        h2 { +"Cultures" }
-        showList(cultures) { culture ->
+        h2 { +"Usage" }
+        showList("Cultures", cultures) { culture ->
             link(call, culture)
+        }
+        showList("Holidays", holidays) { holiday ->
+            link(call, holiday)
+            +": "
+            +holiday.relativeDate.display(calendar)
         }
         action(editLink, "Edit")
         if (state.canDelete(calendar.id)) {
@@ -223,6 +230,7 @@ private fun HTML.showCalendarEditor(
     state: State,
     calendar: Calendar,
 ) {
+    val holidays = state.getHolidays(calendar.id)
     val backLink = href(call, calendar.id)
     val previewLink = call.application.href(Calendars.Preview(calendar.id))
     val updateLink = call.application.href(Calendars.Update(calendar.id))
@@ -236,8 +244,8 @@ private fun HTML.showCalendarEditor(
             selectText("Name", calendar.name, NAME)
             editOrigin(state, calendar)
             h2 { +"Parts" }
-            editDays(calendar)
-            editMonths(calendar)
+            editDays(calendar, holidays)
+            editMonths(calendar, holidays)
             h2 { +"Eras" }
             editEras(calendar, state)
             p {
@@ -254,8 +262,10 @@ private fun HTML.showCalendarEditor(
 
 private fun FORM.editDays(
     calendar: Calendar,
+    holidays: List<Holiday>,
 ) {
     val days = calendar.days
+    val supportsDayOfTheMonth = supportsDayOfTheMonth(holidays)
 
     field("Days") {
         select {
@@ -266,6 +276,7 @@ private fun FORM.editDays(
                 option {
                     label = it.name
                     value = it.name
+                    disabled = it == DaysType.DayOfTheMonth && !supportsDayOfTheMonth
                     selected = it == days.getType()
                 }
             }
@@ -274,23 +285,27 @@ private fun FORM.editDays(
     when (days) {
         DayOfTheMonth -> doNothing()
         is Weekdays -> {
-            selectNumber("Weekdays", days.weekDays.size, 2, 100, WEEK_DAYS, true)
+            val minNumber = getMinNumberOfWeekdays(holidays)
+            selectNumber("Weekdays", days.weekDays.size, minNumber, 100, combine(WEEK, DAYS), true)
             days.weekDays.withIndex().forEach { (index, day) ->
                 p {
-                    selectText(day.name, combine(WEEK_DAY, index))
+                    selectText(day.name, combine(WEEK, DAY, index))
                 }
             }
         }
     }
 }
 
-private fun FORM.editMonths(calendar: Calendar) {
-    selectNumber("Months", calendar.months.size, 2, 100, MONTHS, true)
+private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
+    val minMonths = getMinNumberOfMonths(holidays)
+    selectNumber("Months", calendar.months.size, minMonths, 100, MONTHS, true)
+
     calendar.months.withIndex().forEach { (index, month) ->
+        val minDays = getMinNumberOfDays(holidays, index)
         p {
             selectText(month.name, combine(MONTH, NAME, index))
             +": "
-            selectNumber(month.days, 2, 100, combine(MONTH, DAYS, index))
+            selectNumber(month.days, minDays, 100, combine(MONTH, DAYS, index))
             +"days"
         }
     }

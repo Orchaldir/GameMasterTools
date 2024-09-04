@@ -21,6 +21,8 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
 ) {
     constructor(nextId: ID) : this(mapOf(), nextId)
 
+    constructor(element: ELEMENT) : this(listOf(element))
+
     constructor(elements: List<ELEMENT>) : this(
         elements.associateBy { it.id() },
         elements.map { it.id() }.last().next()

@@ -25,8 +25,8 @@ private val CALENDAR1 = CalendarId(1)
 private val C_ID0 = CharacterId(0)
 private val C_ID1 = CharacterId(1)
 private val NAMES0 = NameList(NL_ID0)
-private val STATE = State(listOf(Storage(listOf(Calendar(CALENDAR0))), Storage(listOf(Culture(ID0)))))
-private val STATE_WITH_NAMES = STATE.updateStorage(Storage(listOf(NAMES0)))
+private val STATE = State(listOf(Storage(Calendar(CALENDAR0)), Storage(Culture(ID0))))
+private val STATE_WITH_NAMES = STATE.updateStorage(Storage(NAMES0))
 
 class CultureTest {
 
@@ -229,10 +229,10 @@ class CultureTest {
             val result = Character(C_ID0, newName, culture = ID0)
             val state = State(
                 listOf(
-                    Storage(listOf(Calendar(CALENDAR0))),
+                    Storage(Calendar(CALENDAR0)),
                     Storage(listOf(character0, character1)),
-                    Storage(listOf(Culture(ID0, namingConvention = old))),
-                    Storage(listOf(NAMES0))
+                    Storage(Culture(ID0, namingConvention = old)),
+                    Storage(NAMES0)
                 )
             )
 

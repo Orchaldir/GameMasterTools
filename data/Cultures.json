@@ -46,7 +46,11 @@
     "female": 1,
     "genderless": 0,
     "male": 0
-   }
+   },
+   "holidays": [
+    0,
+    1
+   ]
   }
  }
 }

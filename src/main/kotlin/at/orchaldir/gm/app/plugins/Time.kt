@@ -5,12 +5,14 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.CURRENT
 import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.moon.Moon
 import at.orchaldir.gm.core.model.moon.MoonPhase
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.DisplayDay
 import at.orchaldir.gm.core.selector.getDefaultCalendar
+import at.orchaldir.gm.core.selector.getForHolidays
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.ceilDiv
 import io.ktor.http.*
@@ -94,11 +96,8 @@ private fun HTML.showTimeData(call: ApplicationCall) {
 
 private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: Day) {
     val state = STORE.getState()
-    val moons = state.getMoonStorage().getAll()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayDay = calendar.resolve(day)
-    val month = calendar.getMonth(day)
-    val startOfMonth = calendar.getStartOfMonth(day)
     val backLink = call.application.href(TimeRoutes())
     val nextLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfNextMonth(day)))
     val previousLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfPreviousMonth(day)))
@@ -111,7 +110,13 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
         action(previousLink, "Previous Month")
         when (calendar.days) {
             DayOfTheMonth -> doNothing()
-            is Weekdays -> showMonthWithWeekDays(call, calendar.days, month, calendar, startOfMonth, displayDay, moons)
+            is Weekdays -> showMonthWithWeekDays(
+                call,
+                state,
+                calendar,
+                displayDay,
+                calendar.days,
+            )
         }
         back(backLink)
     }
@@ -119,13 +124,15 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
 
 private fun BODY.showMonthWithWeekDays(
     call: ApplicationCall,
-    days: Weekdays,
-    month: MonthDefinition,
+    state: State,
     calendar: Calendar,
-    startOfMonth: Day,
     selectedDay: DisplayDay,
-    moons: Collection<Moon>,
+    days: Weekdays,
 ) {
+    val moons = state.getMoonStorage().getAll()
+    val month = calendar.getMonth(selectedDay)
+    val startOfMonth = calendar.getStartOfMonth(selectedDay)
+
     table {
         tr {
             th {
@@ -140,7 +147,7 @@ private fun BODY.showMonthWithWeekDays(
                 }
             }
         }
-        val startIndex = calendar.getWeekDay(startOfMonth)
+        val startIndex = calendar.getWeekDay(startOfMonth) ?: 0
         var dayIndex = -startIndex
         val minDaysShown = startIndex + month.days
         val weeksShown = minDaysShown.ceilDiv(days.weekDays.size)
@@ -153,23 +160,35 @@ private fun BODY.showMonthWithWeekDays(
                             val day = startOfMonth + dayIndex
 
                             if (selectedDay.dayIndex == dayIndex) {
-                                style = "background-color:yellow"
+                                style = "background-color:cyan"
                             }
 
                             +(dayIndex + 1).toString()
 
-                            moons.forEach {
-                                when (it.getPhase(day)) {
-                                    MoonPhase.NewMoon -> showIcon(call, it, "New Moon", "new-moon.svg")
-                                    MoonPhase.FullMoon -> showIcon(call, it, "Full Moon", "full-moon.svg")
-                                    else -> doNothing()
-                                }
+                            showMoons(moons, day, call)
+
+                            showList(state.getForHolidays(day)) { holiday ->
+                                link(call, holiday)
                             }
                         }
                         dayIndex++
                     }
                 }
             }
+        }
+    }
+}
+
+private fun TD.showMoons(
+    moons: Collection<Moon>,
+    day: Day,
+    call: ApplicationCall,
+) {
+    moons.forEach {
+        when (it.getPhase(day)) {
+            MoonPhase.NewMoon -> showIcon(call, it, "New Moon", "new-moon.svg")
+            MoonPhase.FullMoon -> showIcon(call, it, "Full Moon", "full-moon.svg")
+            else -> doNothing()
         }
     }
 }

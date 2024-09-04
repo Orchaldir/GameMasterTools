@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.time.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import kotlin.test.assertNull
 
 private val MONTH0 = MonthDefinition("a", 2)
 private val MONTH1 = MonthDefinition("b", 3)
@@ -64,6 +65,19 @@ class CalendarTest {
     @Nested
     inner class GetStartOfNextMonthTest {
         @Test
+        fun `Get start of next month in first era`() {
+            assertEquals(Day(-3), CALENDAR0.getStartOfNextMonth(Day(-5)))
+            assertEquals(Day(-3), CALENDAR0.getStartOfNextMonth(Day(-4)))
+        }
+
+        @Test
+        fun `Get start of next month across era`() {
+            assertEquals(Day(0), CALENDAR0.getStartOfNextMonth(Day(-3)))
+            assertEquals(Day(0), CALENDAR0.getStartOfNextMonth(Day(-2)))
+            assertEquals(Day(0), CALENDAR0.getStartOfNextMonth(Day(-1)))
+        }
+
+        @Test
         fun `Get start of next month`() {
             assertEquals(Day(2), CALENDAR0.getStartOfNextMonth(Day(0)))
             assertEquals(Day(2), CALENDAR0.getStartOfNextMonth(Day(1)))
@@ -79,6 +93,13 @@ class CalendarTest {
 
     @Nested
     inner class GetStartOfPreviousMonthTest {
+        @Test
+        fun `Get start of previous month in first era`() {
+            assertEquals(Day(-5), CALENDAR0.getStartOfPreviousMonth(Day(-3)))
+            assertEquals(Day(-5), CALENDAR0.getStartOfPreviousMonth(Day(-2)))
+            assertEquals(Day(-5), CALENDAR0.getStartOfPreviousMonth(Day(-1)))
+        }
+
         @Test
         fun `Get start of previous month`() {
             assertEquals(Day(-3), CALENDAR0.getStartOfPreviousMonth(Day(0)))
@@ -98,8 +119,8 @@ class CalendarTest {
 
         @Test
         fun `Day of the month returns 0`() {
-            assertEquals(0, CALENDAR0.getWeekDay(Day(0)))
-            assertEquals(0, CALENDAR0.getWeekDay(Day(1)))
+            assertNull(CALENDAR0.getWeekDay(Day(0)))
+            assertNull(CALENDAR0.getWeekDay(Day(1)))
         }
 
         @Test

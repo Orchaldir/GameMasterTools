@@ -16,7 +16,7 @@ import kotlin.test.assertFailsWith
 
 private val ID0 = NameListId(0)
 private val NAME_LIST = NameList(ID0, "Test", listOf("A", "B"))
-private val STATE = State(Storage(listOf(NameList(ID0))))
+private val STATE = State(Storage(NameList(ID0)))
 
 class NameListTest {
 
@@ -42,10 +42,8 @@ class NameListTest {
             val action = DeleteNameList(ID0)
             val state = STATE.updateStorage(
                 Storage(
-                    listOf(
-                        Culture(
-                            CultureId(0), namingConvention = MononymConvention(ID0)
-                        )
+                    Culture(
+                        CultureId(0), namingConvention = MononymConvention(ID0)
                     )
                 )
             )
@@ -130,7 +128,7 @@ class NameListTest {
         private fun assertAction(action: UpdateNameList) = assertAction(action, NAME_LIST)
 
         private fun assertAction(action: UpdateNameList, result: NameList) {
-            assertEquals(Storage(listOf(result)), REDUCER.invoke(STATE, action).first.getNameListStorage())
+            assertEquals(Storage(result), REDUCER.invoke(STATE, action).first.getNameListStorage())
         }
     }
 

@@ -24,7 +24,7 @@ class MaterialTest {
 
         @Test
         fun `Can delete an existing material`() {
-            val state = State(Storage(listOf(Material(ID0))))
+            val state = State(Storage(Material(ID0)))
             val action = DeleteMaterial(ID0)
 
             assertEquals(0, REDUCER.invoke(state, action).first.getMaterialStorage().getSize())
@@ -42,8 +42,8 @@ class MaterialTest {
             val template = ItemTemplate(TEMPLATE0, equipment = Shirt(material = ID0))
             val state = State(
                 listOf(
-                    Storage(listOf(template)),
-                    Storage(listOf(Material(ID0)))
+                    Storage(template),
+                    Storage(Material(ID0)),
                 )
             )
             val action = DeleteMaterial(ID0)
@@ -64,7 +64,7 @@ class MaterialTest {
 
         @Test
         fun `Material exists`() {
-            val state = State(Storage(listOf(Material(ID0))))
+            val state = State(Storage(Material(ID0)))
             val material = Material(ID0, "Test")
             val action = UpdateMaterial(material)
 

@@ -129,24 +129,38 @@ private fun P.selectYearIndex(
     selectNumber(yearIndex + 1, 1, Int.MAX_VALUE, yearParam, true)
 }
 
+fun HtmlBlockTag.selectMonthIndex(
+    label: String,
+    param: String,
+    calendar: Calendar,
+    monthIndex: Int,
+) {
+    field(label) {
+        selectMonthIndex(param, calendar, monthIndex)
+    }
+}
+
 private fun P.selectMonthIndex(
     param: String,
     calendar: Calendar,
     monthIndex: Int,
 ) {
-    val monthParam = combine(param, MONTH)
+    selectWithIndex(combine(param, MONTH), calendar.months) { index, month ->
+        label = month.name
+        value = index.toString()
+        selected = monthIndex == index
+    }
+}
 
-    select {
-        id = monthParam
-        name = monthParam
-        onChange = ON_CHANGE_SCRIPT
-        calendar.months.withIndex().forEach { (index, month) ->
-            option {
-                label = month.name
-                value = index.toString()
-                selected = index == monthIndex
-            }
-        }
+fun HtmlBlockTag.selectDayIndex(
+    label: String,
+    param: String,
+    calendar: Calendar,
+    monthIndex: Int,
+    dayIndex: Int,
+) {
+    field(label) {
+        selectDayIndex(param, calendar, monthIndex, dayIndex)
     }
 }
 

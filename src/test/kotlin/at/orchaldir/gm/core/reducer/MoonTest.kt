@@ -20,7 +20,7 @@ class MoonTest {
 
         @Test
         fun `Can delete an existing moon`() {
-            val state = State(Storage(listOf(Moon(ID0))))
+            val state = State(Storage(Moon(ID0)))
             val action = DeleteMoon(ID0)
 
             assertEquals(0, REDUCER.invoke(state, action).first.getMoonStorage().getSize())
@@ -46,7 +46,7 @@ class MoonTest {
 
         @Test
         fun `Update is valid`() {
-            val state = State(Storage(listOf(Moon(ID0))))
+            val state = State(Storage(Moon(ID0)))
             val moon = Moon(ID0, "Test")
             val action = UpdateMoon(moon)
 
@@ -55,7 +55,7 @@ class MoonTest {
 
         @Test
         fun `Days per quarter is too small`() {
-            val state = State(Storage(listOf(Moon(ID0))))
+            val state = State(Storage(Moon(ID0)))
             val moon = Moon(ID0, "Test", daysPerQuarter = 0)
             val action = UpdateMoon(moon)
 

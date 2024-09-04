@@ -43,13 +43,44 @@ fun <T> HtmlBlockTag.selectEnum(
     }
 }
 
+fun <T> HtmlBlockTag.selectWithIndex(
+    label: String,
+    selectId: String,
+    values: Collection<T>,
+    update: Boolean = false,
+    content: OPTION.(Int, T) -> Unit,
+) {
+    field(label) {
+        selectWithIndex(selectId, values, update, content)
+    }
+}
+
+fun <T> HtmlBlockTag.selectWithIndex(
+    selectId: String,
+    values: Collection<T>,
+    update: Boolean = false,
+    content: OPTION.(Int, T) -> Unit,
+) {
+    select {
+        id = selectId
+        name = selectId
+        if (update) {
+            onChange = ON_CHANGE_SCRIPT
+        }
+        values.withIndex().forEach {
+            option {
+                content(it.index, it.value)
+            }
+        }
+    }
+}
+
 fun <T> FORM.selectGenderMap(
     text: String,
     map: GenderMap<T>,
     content: P.(Gender, T) -> Unit,
 ) {
-    details {
-        summary { +text }
+    showDetails(text) {
         showMap(map.getMap()) { gender, value ->
             field(gender.toString()) {
                 content(gender, value)
@@ -181,8 +212,7 @@ inline fun <reified T : Enum<T>> FORM.selectRarityMap(
     update: Boolean = false,
     values: Set<T> = enumValues<T>().toSet(),
 ) {
-    details {
-        summary { +enum }
+    showDetails(enum) {
         showMap(rarityMap.getRarityFor(values)) { currentValue, currentRarity ->
             selectEnum(currentValue.toString(), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
                 label = rarity.toString()
@@ -213,8 +243,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> FORM.selectRarityMap(
     update: Boolean = false,
     getName: (ELEMENT) -> String,
 ) {
-    details {
-        summary { +enum }
+    showDetails(enum) {
         showMap(rarityMap.getRarityFor(ids)) { id, currentRarity ->
             val element = storage.getOrThrow(id)
             selectEnum(getName(element), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
