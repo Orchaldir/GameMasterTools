@@ -1,11 +1,9 @@
 package at.orchaldir.gm.core.model.character
 
 enum class LifeStage {
-    Babe,
-    Toddler,
+    Baby,
     Child,
-    Teen,
-    YoungAdult,
+    Adolescent,
     Adult,
     Old,
     Elder,
