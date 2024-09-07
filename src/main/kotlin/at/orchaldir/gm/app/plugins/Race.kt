@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
+import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
@@ -151,40 +152,7 @@ private fun HTML.showRaceDetails(
         field("Id", race.id.value.toString())
         field("Name", race.name)
         showRarityMap("Gender", race.genders)
-        h2 { +"Appearance Options" }
-        showRarityMap("Type", appearance.appearanceType)
-        h3 { +"Skin" }
-        showRarityMap("Type", appearance.skinTypes)
-        if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
-            showRarityMap("Scale Colors", appearance.scalesColors)
-        }
-        if (appearance.skinTypes.isAvailable(SkinType.Normal)) {
-            showRarityMap("Normal Skin Colors", appearance.normalSkinColors)
-        }
-        if (appearance.skinTypes.isAvailable(SkinType.Exotic)) {
-            showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
-        }
-        h3 { +"Ears" }
-        showRarityMap("Layout", appearance.earsLayout)
-        if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
-            showRarityMap("Ear Shapes", appearance.earShapes)
-        }
-        h3 { +"Eyes" }
-        showRarityMap("Layout", appearance.eyesLayout)
-        if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
-            showRarityMap("Eye Shapes", eyeOptions.eyeShapes)
-            showRarityMap("Pupil Shape", eyeOptions.pupilShapes)
-            showRarityMap("Pupil Colors", eyeOptions.pupilColors)
-            showRarityMap("Sclera Colors", eyeOptions.scleraColors)
-        }
-        h3 { +"Hair" }
-        showRarityMap("Beard", appearance.hairOptions.beardTypes)
-        showRarityMap("Hair", appearance.hairOptions.hairTypes)
-        if (requiresHairColor(appearance)) {
-            showRarityMap("Colors", appearance.hairOptions.colors)
-        }
-        h3 { +"Mouth" }
-        showRarityMap("Types", appearance.mouthTypes)
+        showAppearanceOptions(appearance, eyeOptions)
         h2 { +"Characters" }
         showList(state.getCharacters(race.id)) { character ->
             link(call, state, character)
@@ -197,6 +165,46 @@ private fun HTML.showRaceDetails(
 
         back(backLink)
     }
+}
+
+private fun BODY.showAppearanceOptions(
+    appearance: AppearanceOptions,
+    eyeOptions: EyeOptions,
+) {
+    h2 { +"Appearance Options" }
+    showRarityMap("Type", appearance.appearanceType)
+    h3 { +"Skin" }
+    showRarityMap("Type", appearance.skinTypes)
+    if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
+        showRarityMap("Scale Colors", appearance.scalesColors)
+    }
+    if (appearance.skinTypes.isAvailable(SkinType.Normal)) {
+        showRarityMap("Normal Skin Colors", appearance.normalSkinColors)
+    }
+    if (appearance.skinTypes.isAvailable(SkinType.Exotic)) {
+        showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
+    }
+    h3 { +"Ears" }
+    showRarityMap("Layout", appearance.earsLayout)
+    if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
+        showRarityMap("Ear Shapes", appearance.earShapes)
+    }
+    h3 { +"Eyes" }
+    showRarityMap("Layout", appearance.eyesLayout)
+    if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
+        showRarityMap("Eye Shapes", eyeOptions.eyeShapes)
+        showRarityMap("Pupil Shape", eyeOptions.pupilShapes)
+        showRarityMap("Pupil Colors", eyeOptions.pupilColors)
+        showRarityMap("Sclera Colors", eyeOptions.scleraColors)
+    }
+    h3 { +"Hair" }
+    showRarityMap("Beard", appearance.hairOptions.beardTypes)
+    showRarityMap("Hair", appearance.hairOptions.hairTypes)
+    if (requiresHairColor(appearance)) {
+        showRarityMap("Colors", appearance.hairOptions.colors)
+    }
+    h3 { +"Mouth" }
+    showRarityMap("Types", appearance.mouthTypes)
 }
 
 private fun HTML.showRaceEditor(
