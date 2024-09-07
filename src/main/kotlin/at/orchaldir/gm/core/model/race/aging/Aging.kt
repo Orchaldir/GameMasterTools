@@ -36,3 +36,13 @@ data class ComplexAging(
         .firstOrNull { it.maxAge == null || age <= it.maxAge } ?: lifeStages.last()
 
 }
+
+@Serializable
+@SerialName("Immutable")
+data class ImmutableLifeStage(
+    val appearance: AppearanceOptions = AppearanceOptions(),
+) : Aging() {
+
+    override fun getAppearance(age: Int) = appearance
+
+}
