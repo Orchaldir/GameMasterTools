@@ -15,24 +15,24 @@ sealed class Aging {
 @SerialName("Simple")
 data class SimpleAging(
     val appearance: AppearanceOptions = AppearanceOptions(),
-    val ageCategory: List<SimpleAgeCategory>,
+    val lifeStages: List<SimpleLifeStage>,
 ) : Aging() {
 
     override fun getAppearance(age: Int) = appearance
 
-    fun getAgeCategory(age: Int) = ageCategory
-        .firstOrNull { it.maxAge == null || age <= it.maxAge } ?: ageCategory.last()
+    fun getLifeStage(age: Int) = lifeStages
+        .firstOrNull { it.maxAge == null || age <= it.maxAge } ?: lifeStages.last()
 
 }
 
 @Serializable
 @SerialName("Complex")
 data class ComplexAging(
-    val ageCategory: List<ComplexAgeCategory>,
+    val lifeStages: List<ComplexLifeStage>,
 ) : Aging() {
-    override fun getAppearance(age: Int) = getAgeCategory(age).appearance
+    override fun getAppearance(age: Int) = getLifeStage(age).appearance
 
-    fun getAgeCategory(age: Int) = ageCategory
-        .firstOrNull { it.maxAge == null || age <= it.maxAge } ?: ageCategory.last()
+    fun getLifeStage(age: Int) = lifeStages
+        .firstOrNull { it.maxAge == null || age <= it.maxAge } ?: lifeStages.last()
 
 }
