@@ -36,7 +36,13 @@ val UPDATE_RACE: Reducer<UpdateRace, State> = { state, action ->
 
 fun checkLifeStages(lifeStages: LifeStages) {
     when (lifeStages) {
-        is ComplexAging -> TODO()
+        is ComplexAging -> {
+            var lastMaxAge = 0
+            lifeStages.lifeStages.withIndex().forEach {
+                require(it.value.maxAge > lastMaxAge) { "Life Stage ${it.index}'s max age most be greater than the previous stage!" }
+                lastMaxAge = it.value.maxAge
+            }
+        }
         is SimpleAging -> {
             var lastMaxAge = 0
             lifeStages.lifeStages.withIndex().forEach {
