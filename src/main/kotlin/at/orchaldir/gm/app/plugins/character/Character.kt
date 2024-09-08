@@ -179,6 +179,7 @@ private fun BODY.showData(
     call: ApplicationCall,
     state: State,
 ) {
+    val race = state.getRaceStorage().getOrThrow(character.race)
     val deleteLink = call.application.href(Characters.Delete(character.id))
     val editLink = call.application.href(Characters.Edit(character.id))
     val generateNameLink = call.application.href(Characters.Name.Generate(character.id))
@@ -188,7 +189,7 @@ private fun BODY.showData(
 
     field("Id", character.id.value.toString())
     field("Race") {
-        link(call, state, character.race)
+        link(call, race)
     }
     field("Gender", character.gender.toString())
     when (character.origin) {
@@ -218,6 +219,9 @@ private fun BODY.showData(
         is OldAge -> showCauseOfDeath("Old Age")
     }
     showAge(state, character)
+    race.lifeStages.getLifeStageName(state.getAgeInYears(character))?.let {
+        field("Life Stage", it)
+    }
 
     action(generateNameLink, "Generate New Name")
     action(generateBirthdayLink, "Generate Birthday")

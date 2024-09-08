@@ -9,6 +9,7 @@ sealed class LifeStages {
 
     abstract fun contains(id: RaceAppearanceId): Boolean
     abstract fun getAppearance(age: Int): RaceAppearanceId
+    abstract fun getLifeStageName(age: Int): String?
 
 }
 
@@ -22,6 +23,8 @@ data class SimpleAging(
     override fun contains(id: RaceAppearanceId) = id == appearance
 
     override fun getAppearance(age: Int) = appearance
+
+    override fun getLifeStageName(age: Int) = getLifeStage(age).name
 
     fun getLifeStage(age: Int) = lifeStages
         .firstOrNull { it.maxAge == null || age <= it.maxAge } ?: lifeStages.last()
@@ -38,6 +41,8 @@ data class ComplexAging(
 
     override fun getAppearance(age: Int) = getLifeStage(age).appearance
 
+    override fun getLifeStageName(age: Int) = getLifeStage(age).name
+
     fun getLifeStage(age: Int) = lifeStages
         .firstOrNull { it.maxAge == null || age <= it.maxAge } ?: lifeStages.last()
 
@@ -52,5 +57,7 @@ data class ImmutableLifeStage(
     override fun contains(id: RaceAppearanceId) = id == appearance
 
     override fun getAppearance(age: Int) = appearance
+
+    override fun getLifeStageName(age: Int) = null
 
 }
