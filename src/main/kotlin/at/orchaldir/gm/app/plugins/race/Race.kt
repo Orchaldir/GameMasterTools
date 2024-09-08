@@ -10,6 +10,9 @@ import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.aging.ComplexAging
+import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
+import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
@@ -122,7 +125,7 @@ private fun HTML.showRaceDetails(
         field("Id", race.id.value.toString())
         field("Name", race.name)
         showRarityMap("Gender", race.genders)
-        showLifeStages(race)
+        showLifeStages(call, state, race)
         h2 { +"Characters" }
         showList(state.getCharacters(race.id)) { character ->
             link(call, state, character)
@@ -138,9 +141,49 @@ private fun HTML.showRaceDetails(
 }
 
 private fun BODY.showLifeStages(
+    call: ApplicationCall,
+    state: State,
     race: Race,
 ) {
+    val lifeStages = race.lifeStages
+
     h2 { +"Life Stages" }
+
+    when (lifeStages) {
+        is ImmutableLifeStage -> {
+            field("Appearance") {
+                link(call, state, lifeStages.appearance)
+            }
+        }
+
+        is SimpleAging -> {
+            field("Appearance") {
+                link(call, state, lifeStages.appearance)
+            }
+            showList(lifeStages.lifeStages) { stage ->
+                +stage.name
+                ul {
+                    li {
+                        field("Max Age", stage.maxAge?.toString() ?: "")
+                    }
+                }
+            }
+        }
+
+        is ComplexAging -> {
+            showList(lifeStages.lifeStages) { stage ->
+                +stage.name
+                ul {
+                    li {
+                        field("Max Age", stage.maxAge?.toString() ?: "")
+                        field("Appearance") {
+                            link(call, state, stage.appearance)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 private fun HTML.showRaceEditor(
