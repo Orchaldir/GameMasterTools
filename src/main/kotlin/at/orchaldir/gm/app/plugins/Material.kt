@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.NAME
 import at.orchaldir.gm.app.parse.parseMaterial
 import at.orchaldir.gm.core.action.CreateMaterial
 import at.orchaldir.gm.core.action.DeleteMaterial
@@ -154,11 +153,7 @@ private fun HTML.showMaterialEditor(
     simpleHtml("Edit Material: ${material.name}") {
         field("Id", material.id.value.toString())
         form {
-            field("Name") {
-                textInput(name = NAME) {
-                    value = material.name
-                }
-            }
+            selectName(material.name)
             p {
                 submitInput {
                     value = "Update"

@@ -309,11 +309,7 @@ private fun HTML.showCultureEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            field("Name") {
-                textInput(name = NAME) {
-                    value = culture.name
-                }
-            }
+            selectName(culture.name)
             selectEnum("Calendar", CALENDAR, state.getCalendarStorage().getAll()) { c ->
                 label = c.name
                 value = c.id.value.toString()

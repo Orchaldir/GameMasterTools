@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.NAME
 import at.orchaldir.gm.core.action.CreatePersonalityTrait
 import at.orchaldir.gm.core.action.DeletePersonalityTrait
 import at.orchaldir.gm.core.action.UpdatePersonalityTrait
@@ -176,12 +175,7 @@ private fun HTML.showPersonalityTraitEditor(
     simpleHtml("Edit PersonalityTrait: ${trait.name}") {
         field("Id", trait.id.value.toString())
         form {
-            field("Name") {
-                b { +"Name: " }
-                textInput(name = NAME) {
-                    value = trait.name
-                }
-            }
+            selectName(trait.name)
             field("Group") {
                 select {
                     id = "group"

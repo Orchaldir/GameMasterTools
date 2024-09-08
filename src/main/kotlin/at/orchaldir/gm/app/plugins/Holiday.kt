@@ -175,11 +175,7 @@ private fun HTML.showHolidayEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            field("Name") {
-                textInput(name = NAME) {
-                    value = holiday.name
-                }
-            }
+            selectName(holiday.name)
             selectEnum("Calendar", CALENDAR, state.getCalendarStorage().getAll(), true) { calendar ->
                 label = calendar.name
                 value = calendar.id.value.toString()

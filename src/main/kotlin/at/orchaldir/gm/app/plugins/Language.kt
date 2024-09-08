@@ -207,12 +207,7 @@ private fun HTML.showLanguageEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            field("Name") {
-                b { +"Name: " }
-                textInput(name = NAME) {
-                    value = language.name
-                }
-            }
+            selectName(language.name)
             field("Origin") {
                 select {
                     id = ORIGIN

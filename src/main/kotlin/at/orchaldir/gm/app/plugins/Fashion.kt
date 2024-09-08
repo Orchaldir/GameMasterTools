@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.ACCESSORY_RARITY
 import at.orchaldir.gm.app.parse.CLOTHING_SETS
-import at.orchaldir.gm.app.parse.NAME
 import at.orchaldir.gm.app.parse.parseFashion
 import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
@@ -170,11 +169,7 @@ private fun HTML.showFashionEditor(
     simpleHtml("Edit Fashion: ${fashion.name}") {
         field("Id", fashion.id.value.toString())
         form {
-            field("Name") {
-                textInput(name = NAME) {
-                    value = fashion.name
-                }
-            }
+            selectName(fashion.name)
             selectRarityMap("Clothing Sets", CLOTHING_SETS, fashion.clothingSets)
             selectRarityMap("Accessories", ACCESSORY_RARITY, fashion.accessories, false, ACCESSORIES)
             EquipmentType.entries.forEach {

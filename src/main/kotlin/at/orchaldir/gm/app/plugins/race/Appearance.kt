@@ -196,11 +196,7 @@ private fun HTML.showEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            field("Name") {
-                textInput(name = NAME) {
-                    value = appearance.name
-                }
-            }
+            selectName(appearance.name)
             selectRarityMap("Type", APPEARANCE, appearance.appearanceTypes)
             h3 { +"Skin" }
             selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes, true)

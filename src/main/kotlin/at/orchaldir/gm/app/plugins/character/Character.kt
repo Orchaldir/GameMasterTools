@@ -340,47 +340,7 @@ private fun HTML.showCharacterEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            field("Name Type") {
-                select {
-                    id = NAME_TYPE
-                    name = NAME_TYPE
-                    onChange = ON_CHANGE_SCRIPT
-                    option {
-                        label = "Mononym"
-                        value = "Mononym"
-                        selected = character.name is Mononym
-                    }
-                    option {
-                        label = "FamilyName"
-                        value = "FamilyName"
-                        selected = character.name is FamilyName
-                        disabled = !state.canHaveFamilyName(character)
-                    }
-                    option {
-                        label = "Genonym"
-                        value = "Genonym"
-                        selected = character.name is Genonym
-                        disabled = !state.canHaveGenonym(character)
-                    }
-                }
-            }
-            field("Given Name") {
-                textInput(name = GIVEN_NAME) {
-                    value = character.getGivenName()
-                }
-            }
-            if (character.name is FamilyName) {
-                field("Middle Name") {
-                    textInput(name = MIDDLE_NAME) {
-                        value = character.name.middle ?: ""
-                    }
-                }
-                field("Family Name") {
-                    textInput(name = FAMILY_NAME) {
-                        value = character.name.family
-                    }
-                }
-            }
+            selectName(state, character)
             selectEnum("Race", RACE, state.getRaceStorage().getAll(), true) { r ->
                 label = r.name
                 value = r.id.value.toString()
@@ -487,5 +447,52 @@ private fun HTML.showCharacterEditor(
             }
         }
         back(backLink)
+    }
+}
+
+private fun FORM.selectName(
+    state: State,
+    character: Character,
+) {
+    field("Name Type") {
+        select {
+            id = NAME_TYPE
+            name = NAME_TYPE
+            onChange = ON_CHANGE_SCRIPT
+            option {
+                label = "Mononym"
+                value = "Mononym"
+                selected = character.name is Mononym
+            }
+            option {
+                label = "FamilyName"
+                value = "FamilyName"
+                selected = character.name is FamilyName
+                disabled = !state.canHaveFamilyName(character)
+            }
+            option {
+                label = "Genonym"
+                value = "Genonym"
+                selected = character.name is Genonym
+                disabled = !state.canHaveGenonym(character)
+            }
+        }
+    }
+    field("Given Name") {
+        textInput(name = GIVEN_NAME) {
+            value = character.getGivenName()
+        }
+    }
+    if (character.name is FamilyName) {
+        field("Middle Name") {
+            textInput(name = MIDDLE_NAME) {
+                value = character.name.middle ?: ""
+            }
+        }
+        field("Family Name") {
+            textInput(name = FAMILY_NAME) {
+                value = character.name.family
+            }
+        }
     }
 }

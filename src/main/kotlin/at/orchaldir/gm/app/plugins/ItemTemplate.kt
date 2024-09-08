@@ -304,11 +304,7 @@ private fun HTML.showItemTemplateEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            field("Name") {
-                textInput(name = NAME) {
-                    value = template.name
-                }
-            }
+            selectName(template.name)
             selectEnum("Equipment", EQUIPMENT_TYPE, EquipmentType.entries, true) { type ->
                 label = type.name
                 value = type.name

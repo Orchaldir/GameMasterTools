@@ -207,9 +207,9 @@ private fun HTML.showRaceEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            selectText("Name", race.name, NAME, 1)
+            selectName(race.name)
             selectRarityMap("Gender", GENDER, race.genders)
-            editLifeStages(call, state, race)
+            editLifeStages(state, race)
             p {
                 submitInput {
                     value = "Update"
@@ -223,7 +223,6 @@ private fun HTML.showRaceEditor(
 }
 
 private fun FORM.editLifeStages(
-    call: ApplicationCall,
     state: State,
     race: Race,
 ) {
