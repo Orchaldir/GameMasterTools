@@ -26,8 +26,7 @@ data class SimpleAging(
 
     override fun getLifeStageName(age: Int) = getLifeStage(age).name
 
-    fun getLifeStage(age: Int) = lifeStages
-        .firstOrNull { age <= it.maxAge } ?: lifeStages.last()
+    fun getLifeStage(age: Int) = getLifeStage(age, lifeStages)
 
 }
 
@@ -43,8 +42,7 @@ data class ComplexAging(
 
     override fun getLifeStageName(age: Int) = getLifeStage(age).name
 
-    fun getLifeStage(age: Int) = lifeStages
-        .firstOrNull { age <= it.maxAge } ?: lifeStages.last()
+    fun getLifeStage(age: Int) = getLifeStage(age, lifeStages)
 
 }
 
@@ -61,3 +59,6 @@ data class ImmutableLifeStage(
     override fun getLifeStageName(age: Int) = null
 
 }
+
+private fun <T : LifeStage> getLifeStage(age: Int, lifeStages: List<T>) = lifeStages
+    .firstOrNull { age <= it.maxAge() } ?: lifeStages.last()

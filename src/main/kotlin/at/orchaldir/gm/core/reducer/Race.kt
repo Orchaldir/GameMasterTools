@@ -5,10 +5,7 @@ import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.aging.ComplexAging
-import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
-import at.orchaldir.gm.core.model.race.aging.LifeStages
-import at.orchaldir.gm.core.model.race.aging.SimpleAging
+import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -36,21 +33,17 @@ val UPDATE_RACE: Reducer<UpdateRace, State> = { state, action ->
 
 fun checkLifeStages(lifeStages: LifeStages) {
     when (lifeStages) {
-        is ComplexAging -> {
-            var lastMaxAge = 0
-            lifeStages.lifeStages.withIndex().forEach {
-                require(it.value.maxAge > lastMaxAge) { "Life Stage ${it.index}'s max age most be greater than the previous stage!" }
-                lastMaxAge = it.value.maxAge
-            }
-        }
-        is SimpleAging -> {
-            var lastMaxAge = 0
-            lifeStages.lifeStages.withIndex().forEach {
-                require(it.value.maxAge > lastMaxAge) { "Life Stage ${it.index}'s max age most be greater than the previous stage!" }
-                lastMaxAge = it.value.maxAge
-            }
-        }
+        is ComplexAging -> checkMaxAge(lifeStages.lifeStages)
+        is SimpleAging -> checkMaxAge(lifeStages.lifeStages)
 
         is ImmutableLifeStage -> doNothing()
+    }
+}
+
+private fun checkMaxAge(lifeStages: List<LifeStage>) {
+    var lastMaxAge = 0
+    lifeStages.withIndex().forEach {
+        require(it.value.maxAge() > lastMaxAge) { "Life Stage ${it.index}'s max age most be greater than the previous stage!" }
+        lastMaxAge = it.value.maxAge()
     }
 }

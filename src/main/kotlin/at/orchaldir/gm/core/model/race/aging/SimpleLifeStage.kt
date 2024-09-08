@@ -6,4 +6,7 @@ import kotlinx.serialization.Serializable
 data class SimpleLifeStage(
     val name: String,
     val maxAge: Int,
-)
+) : LifeStage {
+    override fun name() = name
+    override fun maxAge() = maxAge
+}
