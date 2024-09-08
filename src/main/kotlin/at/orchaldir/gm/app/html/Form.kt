@@ -89,7 +89,7 @@ fun <T> FORM.selectGenderMap(
     }
 }
 
-fun FORM.selectNumber(
+fun HtmlBlockTag.selectNumber(
     label: String,
     number: Int,
     minNumber: Int,
@@ -119,7 +119,7 @@ fun HtmlBlockTag.selectNumber(
     }
 }
 
-fun FORM.selectText(
+fun HtmlBlockTag.selectText(
     label: String,
     text: String,
     param: String,

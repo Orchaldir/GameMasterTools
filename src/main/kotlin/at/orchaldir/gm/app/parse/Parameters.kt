@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.parse
 
 const val ACCESSORY_RARITY = "accessories"
+const val AGE = "age"
 const val APPEARANCE = "appearance"
 const val BEARD_COLOR = "beard_color"
 const val BEARD_STYLE = "beard_style"
@@ -49,6 +50,7 @@ const val HAT = "hat"
 const val HOLIDAY = "holiday"
 const val LANGUAGES = "languages"
 const val LENGTH = "length"
+const val LIFE_STAGE = "life_stage"
 const val LIP_COLOR = "lip_color"
 const val LIP_COLORS = "lip_colors"
 const val LOOKUP_DISTANCE = "lookup_distance"

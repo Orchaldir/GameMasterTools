@@ -8,9 +8,7 @@ import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.aging.ComplexAging
-import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
-import at.orchaldir.gm.core.model.race.aging.SimpleAging
+import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
@@ -176,6 +174,8 @@ private fun BODY.showLifeStages(
                 ul {
                     li {
                         field("Max Age", stage.maxAge?.toString() ?: "")
+                    }
+                    li {
                         field("Appearance") {
                             link(call, state, stage.appearance)
                         }
@@ -201,11 +201,7 @@ private fun HTML.showRaceEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            field("Name") {
-                textInput(name = NAME) {
-                    value = race.name
-                }
-            }
+            selectText("Name", race.name, NAME, 1)
             selectRarityMap("Gender", GENDER, race.genders)
             editLifeStages(call, state, race)
             p {
@@ -229,6 +225,16 @@ private fun FORM.editLifeStages(
 
     h2 { +"Life Stages" }
 
+    selectEnum("Type", LIFE_STAGE, LifeStagesType.entries) { type ->
+        label = type.name
+        value = type.name
+        selected = when (lifeStages) {
+            is ComplexAging -> type == LifeStagesType.ComplexAging
+            is ImmutableLifeStage -> type == LifeStagesType.ImmutableLifeStage
+            is SimpleAging -> type == LifeStagesType.SimpleAging
+        }
+    }
+
     when (lifeStages) {
         is ImmutableLifeStage -> {
             selectRaceAppearance(state, combine(RACE, APPEARANCE), lifeStages.appearance)
@@ -236,33 +242,49 @@ private fun FORM.editLifeStages(
 
         is SimpleAging -> {
             selectRaceAppearance(state, combine(RACE, APPEARANCE), lifeStages.appearance)
-            showList(lifeStages.lifeStages) { stage ->
-                +stage.name
+            var minMaxAge = 1
+            showListWithIndex(lifeStages.lifeStages) { index, stage ->
+                selectText("Name", stage.name, combine(LIFE_STAGE, NAME, index), 1)
                 ul {
                     li {
-                        field("Max Age", stage.maxAge?.toString() ?: "")
+                        selectAge(minMaxAge, index, stage.maxAge)
                     }
+                }
+                if (stage.maxAge != null) {
+                    minMaxAge = stage.maxAge + 1
                 }
             }
         }
 
         is ComplexAging -> {
-            showList(lifeStages.lifeStages) { stage ->
-                +stage.name
+            var minMaxAge = 1
+            showListWithIndex(lifeStages.lifeStages) { index, stage ->
+                selectText("Name", stage.name, combine(LIFE_STAGE, NAME, index), 1)
                 ul {
                     li {
-                        field("Max Age", stage.maxAge?.toString() ?: "")
-                        field("Appearance") {
-                            link(call, state, stage.appearance)
-                        }
+                        selectAge(minMaxAge, index, stage.maxAge)
                     }
+                    li {
+                        selectRaceAppearance(state, combine(RACE, APPEARANCE, index), stage.appearance)
+                    }
+                }
+                if (stage.maxAge != null) {
+                    minMaxAge = stage.maxAge + 1
                 }
             }
         }
     }
 }
 
-private fun FORM.selectRaceAppearance(
+private fun LI.selectAge(
+    minMaxAge: Int,
+    index: Int,
+    maxAge: Int?,
+) {
+    selectNumber("Max Age", maxAge ?: 0, minMaxAge, 10000, combine(LIFE_STAGE, AGE, index))
+}
+
+private fun HtmlBlockTag.selectRaceAppearance(
     state: State,
     param: String,
     raceAppearanceId: RaceAppearanceId,

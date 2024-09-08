@@ -111,6 +111,19 @@ fun <T> HtmlBlockTag.showList(
     }
 }
 
+fun <T> HtmlBlockTag.showListWithIndex(
+    elements: Collection<T>,
+    content: LI.(Int, T) -> Unit,
+) {
+    ul {
+        elements.withIndex().forEach {
+            li {
+                content(it.index, it.value)
+            }
+        }
+    }
+}
+
 // maps
 
 fun <K, V> HtmlBlockTag.showMap(
