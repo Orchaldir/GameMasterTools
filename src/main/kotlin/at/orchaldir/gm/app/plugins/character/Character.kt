@@ -478,21 +478,9 @@ private fun FORM.selectName(
             }
         }
     }
-    field("Given Name") {
-        textInput(name = GIVEN_NAME) {
-            value = character.getGivenName()
-        }
-    }
+    selectText("Given Name", character.getGivenName(), GIVEN_NAME, 1)
     if (character.name is FamilyName) {
-        field("Middle Name") {
-            textInput(name = MIDDLE_NAME) {
-                value = character.name.middle ?: ""
-            }
-        }
-        field("Family Name") {
-            textInput(name = FAMILY_NAME) {
-                value = character.name.family
-            }
-        }
+        selectText("Middle Name", character.name.middle ?: "", MIDDLE_NAME, 1)
+        selectText("Family Name", character.name.family, FAMILY_NAME, 1)
     }
 }
