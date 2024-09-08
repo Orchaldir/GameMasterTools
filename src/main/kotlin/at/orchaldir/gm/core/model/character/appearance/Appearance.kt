@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.character.appearance
 
-import at.orchaldir.gm.core.model.item.EquipmentSlot
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Size2d
 import kotlinx.serialization.SerialName
@@ -36,9 +35,3 @@ data class HumanoidBody(
     val head: Head,
     val height: Distance,
 ) : Appearance()
-
-fun Appearance.getAvailableEquipmentSlots(): Set<EquipmentSlot> = when (this) {
-    is HeadOnly -> setOf(EquipmentSlot.Headwear)
-    is HumanoidBody -> EquipmentSlot.entries.toSet()
-    UndefinedAppearance -> emptySet()
-}
