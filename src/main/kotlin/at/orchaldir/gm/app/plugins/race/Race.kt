@@ -104,7 +104,7 @@ private fun HTML.showAllRaces(call: ApplicationCall) {
     val count = races.size
     val createLink = call.application.href(RaceRoutes.New())
 
-    simpleHtml("RaceRoutes") {
+    simpleHtml("Races") {
         field("Count", count.toString())
         showList(races) { race ->
             link(call, race)

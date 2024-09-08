@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.plugins.race
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.plugins.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
@@ -12,11 +13,9 @@ import at.orchaldir.gm.core.model.character.appearance.EyesLayout
 import at.orchaldir.gm.core.model.character.appearance.SkinType
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
-import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -32,60 +31,61 @@ private val logger = KotlinLogging.logger {}
 
 fun Application.configureRaceAppearanceRouting() {
     routing {
-        get<RaceRoutes> {
+        get<AppearanceRoutes> {
             logger.info { "Get all appearances of races" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllRaces(call)
+                showAll(call)
             }
         }
-        get<RaceRoutes.Details> { details ->
+        get<AppearanceRoutes.Details> { details ->
             logger.info { "Get details of race appearance ${details.id.value}" }
 
             val state = STORE.getState()
-            val race = state.getRaceStorage().getOrThrow(details.id)
+            val race = state.getRaceAppearanceStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showRaceDetails(call, state, race)
+                showDetails(call, state, race)
             }
         }
-        get<RaceRoutes.New> {
+        get<AppearanceRoutes.New> {
             logger.info { "Add new race appearance" }
 
             STORE.dispatch(CreateRace)
 
-            call.respondRedirect(call.application.href(RaceRoutes.Edit(STORE.getState().getRaceStorage().lastId)))
+            val id = STORE.getState().getRaceAppearanceStorage().lastId
+            call.respondRedirect(call.application.href(AppearanceRoutes.Edit(id)))
 
             STORE.getState().save()
         }
-        get<RaceRoutes.Delete> { delete ->
+        get<AppearanceRoutes.Delete> { delete ->
             logger.info { "Delete race appearance ${delete.id.value}" }
 
             STORE.dispatch(DeleteRace(delete.id))
 
-            call.respondRedirect(call.application.href(RaceRoutes()))
+            call.respondRedirect(call.application.href(AppearanceRoutes()))
 
             STORE.getState().save()
         }
-        get<RaceRoutes.Edit> { edit ->
+        get<AppearanceRoutes.Edit> { edit ->
             logger.info { "Get editor for race appearance ${edit.id.value}" }
 
-            val race = STORE.getState().getRaceStorage().getOrThrow(edit.id)
+            val race = STORE.getState().getRaceAppearanceStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showRaceEditor(call, race)
+                showEditor(call, race)
             }
         }
-        post<RaceRoutes.Preview> { preview ->
+        post<AppearanceRoutes.Preview> { preview ->
             logger.info { "Get preview for race appearance ${preview.id.value}" }
 
             val race = parseRace(preview.id, call.receiveParameters())
 
             call.respondHtml(HttpStatusCode.OK) {
-                showRaceEditor(call, race)
+                showEditor(call, race)
             }
         }
-        post<RaceRoutes.Update> { update ->
+        post<AppearanceRoutes.Update> { update ->
             logger.info { "Update race appearance ${update.id.value}" }
 
             val race = parseRace(update.id, call.receiveParameters())
@@ -99,44 +99,38 @@ fun Application.configureRaceAppearanceRouting() {
     }
 }
 
-private fun HTML.showAllRaces(call: ApplicationCall) {
-    val races = STORE.getState().getRaceStorage().getAll().sortedBy { it.name }
-    val count = races.size
-    val createLink = call.application.href(RaceRoutes.New())
+private fun HTML.showAll(call: ApplicationCall) {
+    val elements = STORE.getState().getRaceAppearanceStorage().getAll().sortedBy { it.name }
+    val count = elements.size
+    val createLink = call.application.href(AppearanceRoutes.New())
 
-    simpleHtml("RaceRoutes") {
+    simpleHtml("Race Appearances") {
         field("Count", count.toString())
-        showList(races) { race ->
-            link(call, race)
+        showList(elements) { element ->
+            link(call, element)
         }
         action(createLink, "Add")
         back("/")
     }
 }
 
-private fun HTML.showRaceDetails(
+private fun HTML.showDetails(
     call: ApplicationCall,
     state: State,
-    race: Race,
+    appearance: RaceAppearance,
 ) {
-    val appearance = race.appearance
     val eyeOptions = appearance.eyeOptions
-    val backLink = call.application.href(RaceRoutes())
-    val deleteLink = call.application.href(RaceRoutes.Delete(race.id))
-    val editLink = call.application.href(RaceRoutes.Edit(race.id))
+    val backLink = call.application.href(AppearanceRoutes())
+    val deleteLink = call.application.href(AppearanceRoutes.Delete(appearance.id))
+    val editLink = call.application.href(AppearanceRoutes.Edit(appearance.id))
 
-    simpleHtml("Race: ${race.name}") {
-        field("Id", race.id.value.toString())
-        field("Name", race.name)
-        showRarityMap("Gender", race.genders)
+    simpleHtml("Race: ${appearance.name}") {
+        field("Id", appearance.id.value.toString())
+        field("Name", appearance.name)
         showAppearanceOptions(appearance, eyeOptions)
-        h2 { +"Characters" }
-        showList(state.getCharacters(race.id)) { character ->
-            link(call, state, character)
-        }
         action(editLink, "Edit")
 
-        if (state.canDelete(race.id)) {
+        if (state.canDelete(appearance.id)) {
             action(deleteLink, "Delete")
         }
 
@@ -184,28 +178,26 @@ private fun BODY.showAppearanceOptions(
     showRarityMap("Types", appearance.mouthTypes)
 }
 
-private fun HTML.showRaceEditor(
+private fun HTML.showEditor(
     call: ApplicationCall,
-    race: Race,
+    appearance: RaceAppearance,
 ) {
-    val appearance = race.appearance
     val eyeOptions = appearance.eyeOptions
-    val backLink = call.application.href(RaceRoutes.Details(race.id))
-    val previewLink = call.application.href(RaceRoutes.Preview(race.id))
-    val updateLink = call.application.href(RaceRoutes.Update(race.id))
+    val backLink = call.application.href(AppearanceRoutes.Details(appearance.id))
+    val previewLink = call.application.href(AppearanceRoutes.Preview(appearance.id))
+    val updateLink = call.application.href(AppearanceRoutes.Update(appearance.id))
 
-    simpleHtml("Edit Race: ${race.name}") {
-        field("Id", race.id.value.toString())
+    simpleHtml("Edit Race: ${appearance.name}") {
+        field("Id", appearance.id.value.toString())
         form {
             id = "editor"
             action = previewLink
             method = FormMethod.post
             field("Name") {
                 textInput(name = NAME) {
-                    value = race.name
+                    value = appearance.name
                 }
             }
-            selectRarityMap("Gender", GENDER, race.genders)
             h2 { +"Appearance Options" }
             selectRarityMap("Type", APPEARANCE_TYPE, appearance.appearanceType)
             h3 { +"Skin" }
