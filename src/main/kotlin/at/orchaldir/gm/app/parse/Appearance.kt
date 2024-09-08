@@ -33,7 +33,7 @@ fun generateAppearance(
     character: Character,
 ): Appearance {
     val type = config.generate(config.appearanceOptions.appearanceTypes)
-    val parameters = parametersOf(APPEARANCE_TYPE, type.toString())
+    val parameters = parametersOf(APPEARANCE, type.toString())
 
     return parseAppearance(parameters, config, character)
 }
@@ -45,7 +45,7 @@ fun parseAppearance(
 ): Appearance {
     val skin = parseSkin(parameters, config)
 
-    return when (parameters[APPEARANCE_TYPE]) {
+    return when (parameters[APPEARANCE]) {
         AppearanceType.HeadOnly.toString() -> HeadOnly(parseHead(parameters, config, character, skin), Distance(0.2f))
         AppearanceType.Body.toString() -> HumanoidBody(
             parseBody(parameters, config, skin),

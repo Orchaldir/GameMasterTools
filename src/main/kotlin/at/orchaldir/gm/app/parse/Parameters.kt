@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.parse
 
 const val ACCESSORY_RARITY = "accessories"
-const val APPEARANCE_TYPE = "appearance"
+const val APPEARANCE = "appearance"
 const val BEARD_COLOR = "beard_color"
 const val BEARD_STYLE = "beard_style"
 const val BEARD_TYPE = "beard"

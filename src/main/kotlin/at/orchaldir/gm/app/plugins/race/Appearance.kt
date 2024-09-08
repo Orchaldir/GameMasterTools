@@ -201,7 +201,7 @@ private fun HTML.showEditor(
                     value = appearance.name
                 }
             }
-            selectRarityMap("Type", APPEARANCE_TYPE, appearance.appearanceTypes)
+            selectRarityMap("Type", APPEARANCE, appearance.appearanceTypes)
             h3 { +"Skin" }
             selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes, true)
             if (appearance.skinTypes.isAvailable(SkinType.Scales)) {

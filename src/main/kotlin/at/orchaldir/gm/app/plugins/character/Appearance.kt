@@ -118,7 +118,7 @@ private fun HTML.showAppearanceEditor(
                     formMethod = InputFormMethod.post
                 }
             }
-            selectOneOf("Appearance Type", APPEARANCE_TYPE, raceAppearance.appearanceTypes, true) { type ->
+            selectOneOf("Appearance Type", APPEARANCE, raceAppearance.appearanceTypes, true) { type ->
                 label = type.name
                 value = type.toString()
                 selected = when (type) {

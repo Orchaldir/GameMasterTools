@@ -2,9 +2,7 @@ package at.orchaldir.gm.app.plugins.race
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.GENDER
-import at.orchaldir.gm.app.parse.NAME
-import at.orchaldir.gm.app.parse.parseRace
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
@@ -13,6 +11,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.ComplexAging
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
@@ -68,10 +67,11 @@ fun Application.configureRaceRouting() {
         get<RaceRoutes.Edit> { edit ->
             logger.info { "Get editor for race ${edit.id.value}" }
 
-            val race = STORE.getState().getRaceStorage().getOrThrow(edit.id)
+            val state = STORE.getState()
+            val race = state.getRaceStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showRaceEditor(call, race)
+                showRaceEditor(call, state, race)
             }
         }
         post<RaceRoutes.Preview> { preview ->
@@ -80,7 +80,7 @@ fun Application.configureRaceRouting() {
             val race = parseRace(preview.id, call.receiveParameters())
 
             call.respondHtml(HttpStatusCode.OK) {
-                showRaceEditor(call, race)
+                showRaceEditor(call, STORE.getState(), race)
             }
         }
         post<RaceRoutes.Update> { update ->
@@ -188,6 +188,7 @@ private fun BODY.showLifeStages(
 
 private fun HTML.showRaceEditor(
     call: ApplicationCall,
+    state: State,
     race: Race,
 ) {
     val backLink = call.application.href(RaceRoutes.Details(race.id))
@@ -206,7 +207,7 @@ private fun HTML.showRaceEditor(
                 }
             }
             selectRarityMap("Gender", GENDER, race.genders)
-
+            editLifeStages(call, state, race)
             p {
                 submitInput {
                     value = "Update"
@@ -216,5 +217,59 @@ private fun HTML.showRaceEditor(
             }
         }
         back(backLink)
+    }
+}
+
+private fun FORM.editLifeStages(
+    call: ApplicationCall,
+    state: State,
+    race: Race,
+) {
+    val lifeStages = race.lifeStages
+
+    h2 { +"Life Stages" }
+
+    when (lifeStages) {
+        is ImmutableLifeStage -> {
+            selectRaceAppearance(state, combine(RACE, APPEARANCE), lifeStages.appearance)
+        }
+
+        is SimpleAging -> {
+            selectRaceAppearance(state, combine(RACE, APPEARANCE), lifeStages.appearance)
+            showList(lifeStages.lifeStages) { stage ->
+                +stage.name
+                ul {
+                    li {
+                        field("Max Age", stage.maxAge?.toString() ?: "")
+                    }
+                }
+            }
+        }
+
+        is ComplexAging -> {
+            showList(lifeStages.lifeStages) { stage ->
+                +stage.name
+                ul {
+                    li {
+                        field("Max Age", stage.maxAge?.toString() ?: "")
+                        field("Appearance") {
+                            link(call, state, stage.appearance)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+private fun FORM.selectRaceAppearance(
+    state: State,
+    param: String,
+    raceAppearanceId: RaceAppearanceId,
+) {
+    selectEnum("Race Appearance", param, state.getRaceAppearanceStorage().getAll()) { appearance ->
+        label = appearance.name
+        value = appearance.id.value.toString()
+        selected = appearance.id == raceAppearanceId
     }
 }
