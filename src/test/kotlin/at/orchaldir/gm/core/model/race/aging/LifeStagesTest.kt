@@ -35,4 +35,45 @@ class LifeStagesTest {
 
     }
 
+    @Nested
+    inner class ComplexAgingTest {
+        private val appearance0 = RaceAppearanceId(1)
+        private val appearance1 = RaceAppearanceId(2)
+        private val simpleAging = ComplexAging(
+            listOf(
+                ComplexLifeStage("A", 2, appearance0),
+                ComplexLifeStage("B", 4, appearance1)
+            ),
+        )
+
+        @Test
+        fun `Get appearance of life stages`() {
+            assertEquals(appearance0, simpleAging.getAppearance(0))
+            assertEquals(appearance0, simpleAging.getAppearance(1))
+            assertEquals(appearance0, simpleAging.getAppearance(2))
+            assertEquals(appearance1, simpleAging.getAppearance(3))
+            assertEquals(appearance1, simpleAging.getAppearance(4))
+        }
+
+        @Test
+        fun `Get appearance of last life stage if too old`() {
+            assertEquals(appearance1, simpleAging.getAppearance(5))
+        }
+
+        @Test
+        fun `Get name of life stages`() {
+            assertEquals("A", simpleAging.getLifeStageName(0))
+            assertEquals("A", simpleAging.getLifeStageName(1))
+            assertEquals("A", simpleAging.getLifeStageName(2))
+            assertEquals("B", simpleAging.getLifeStageName(3))
+            assertEquals("B", simpleAging.getLifeStageName(4))
+        }
+
+        @Test
+        fun `Get name of last life stage if too old`() {
+            assertEquals("B", simpleAging.getLifeStageName(5))
+        }
+
+    }
+
 }
