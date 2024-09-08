@@ -12,11 +12,35 @@
     "type": "Simple",
     "lifeStages": [
      {
+      "name": "Baby",
+      "maxAge": 2
+     },
+     {
+      "name": "Toddler",
+      "maxAge": 5
+     },
+     {
       "name": "Child",
+      "maxAge": 12
+     },
+     {
+      "name": "Teen",
       "maxAge": 18
      },
      {
       "name": "Adult",
+      "maxAge": 45
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 60
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 90
+     },
+     {
+      "name": "Venerable",
       "maxAge": 120
      }
     ]
