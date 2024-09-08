@@ -94,7 +94,7 @@ fun FORM.selectName(name: String) {
     selectText("Name", name, NAME, 1)
 }
 
-fun HtmlBlockTag.selectNumber(
+fun HtmlBlockTag.selectInt(
     label: String,
     number: Int,
     minNumber: Int,
@@ -103,11 +103,11 @@ fun HtmlBlockTag.selectNumber(
     update: Boolean = false,
 ) {
     field(label) {
-        selectNumber(number, minNumber, maxNumber, param, update)
+        selectInt(number, minNumber, maxNumber, param, update)
     }
 }
 
-fun HtmlBlockTag.selectNumber(
+fun HtmlBlockTag.selectInt(
     number: Int,
     minNumber: Int,
     maxNumber: Int,

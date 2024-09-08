@@ -294,7 +294,7 @@ private fun FORM.editLifeStages(
 }
 
 private fun FORM.selectNumberOfLifeStages(number: Int) {
-    selectNumber("Weekdays", number, 2, 100, LIFE_STAGE, true)
+    selectInt("Weekdays", number, 2, 100, LIFE_STAGE, true)
 }
 
 private fun LI.selectStageName(
@@ -309,7 +309,7 @@ private fun LI.selectAge(
     index: Int,
     maxAge: Int?,
 ) {
-    selectNumber("Max Age", maxAge ?: 0, minMaxAge, 10000, combine(LIFE_STAGE, AGE, index))
+    selectInt("Max Age", maxAge ?: 0, minMaxAge, 10000, combine(LIFE_STAGE, AGE, index))
 }
 
 private fun HtmlBlockTag.selectAppearance(

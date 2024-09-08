@@ -162,7 +162,7 @@ private fun HTML.showMoonEditor(
         field("Id", moon.id.value.toString())
         form {
             selectName(moon.name)
-            selectNumber("Days per Quarter", moon.daysPerQuarter, 1, 100, LENGTH, false)
+            selectInt("Days per Quarter", moon.daysPerQuarter, 1, 100, LENGTH, false)
             selectColor("Color", COLOR, OneOf(Color.entries), moon.color)
             p {
                 submitInput {
