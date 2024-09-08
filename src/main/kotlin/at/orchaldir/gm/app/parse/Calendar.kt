@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.calendar.CalendarOriginType.Improved
 import at.orchaldir.gm.core.model.calendar.CalendarOriginType.Original
 import io.ktor.http.*
-import io.ktor.server.util.*
 
 fun parseCalendarId(parameters: Parameters, param: String) = CalendarId(parseInt(parameters, param))
 
@@ -63,7 +62,7 @@ private fun parseWeekdays(parameters: Parameters): List<WeekDay> {
 }
 
 private fun parseMonths(parameters: Parameters): List<MonthDefinition> {
-    val count = parameters.getOrFail(MONTHS).toInt()
+    val count = parseInt(parameters, MONTHS, 2)
 
     return (0..<count)
         .map { parseMonth(parameters, it) }

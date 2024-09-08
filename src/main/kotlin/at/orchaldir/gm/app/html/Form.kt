@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.parse.NAME
 import at.orchaldir.gm.core.model.appearance.*
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.utils.Element
@@ -89,7 +90,11 @@ fun <T> FORM.selectGenderMap(
     }
 }
 
-fun FORM.selectNumber(
+fun FORM.selectName(name: String) {
+    selectText("Name", name, NAME, 1)
+}
+
+fun HtmlBlockTag.selectNumber(
     label: String,
     number: Int,
     minNumber: Int,
@@ -119,7 +124,7 @@ fun HtmlBlockTag.selectNumber(
     }
 }
 
-fun FORM.selectText(
+fun HtmlBlockTag.selectText(
     label: String,
     text: String,
     param: String,

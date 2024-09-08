@@ -10,20 +10,20 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.selector.getRaceAppearance
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.math.Distance
 import io.ktor.http.*
 import kotlin.random.Random
 
 fun createGenerationConfig(state: State, character: Character): AppearanceGeneratorConfig {
-    val race = state.getRaceStorage().getOrThrow(character.race)
     val culture = state.getCultureStorage().getOrThrow(character.culture)
 
     return AppearanceGeneratorConfig(
         RandomNumberGenerator(Random),
         state.rarityGenerator,
-        character,
-        race.appearance,
+        character.gender,
+        state.getRaceAppearance(character),
         culture.appearanceStyle
     )
 }
@@ -32,8 +32,8 @@ fun generateAppearance(
     config: AppearanceGeneratorConfig,
     character: Character,
 ): Appearance {
-    val type = config.generate(config.appearanceOptions.appearanceType)
-    val parameters = parametersOf(APPEARANCE_TYPE, type.toString())
+    val type = config.generate(config.appearanceOptions.appearanceTypes)
+    val parameters = parametersOf(APPEARANCE, type.toString())
 
     return parseAppearance(parameters, config, character)
 }
@@ -45,7 +45,7 @@ fun parseAppearance(
 ): Appearance {
     val skin = parseSkin(parameters, config)
 
-    return when (parameters[APPEARANCE_TYPE]) {
+    return when (parameters[APPEARANCE]) {
         AppearanceType.HeadOnly.toString() -> HeadOnly(parseHead(parameters, config, character, skin), Distance(0.2f))
         AppearanceType.Body.toString() -> HumanoidBody(
             parseBody(parameters, config, skin),

@@ -241,7 +241,7 @@ private fun HTML.showCalendarEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            selectText("Name", calendar.name, NAME)
+            selectName(calendar.name)
             editOrigin(state, calendar)
             h2 { +"Parts" }
             editDays(calendar, holidays)

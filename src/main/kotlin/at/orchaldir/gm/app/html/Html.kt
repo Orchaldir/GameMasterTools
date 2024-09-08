@@ -29,6 +29,17 @@ fun HTML.simpleHtml(
     }
 }
 
+fun HtmlBlockTag.split(left: DIV.() -> Unit, right: DIV.() -> Unit) {
+    div {
+        classes += "split"
+        left()
+    }
+    div {
+        classes += "split"
+        right()
+    }
+}
+
 fun HtmlBlockTag.field(name: String, value: String) {
     p {
         b { +"$name: " }
@@ -54,7 +65,7 @@ inline fun <reified T : Any> BODY.fieldStorageLink(call: ApplicationCall, storag
     fieldLink("${storage.getType()}s", call.application.href(link), "${storage.getSize()}")
 }
 
-fun BODY.svg(svg: Svg, width: Int) {
+fun HtmlBlockTag.svg(svg: Svg, width: Int) {
     div {
         style = "display: inline-block; width:$width%"
         unsafe { +svg.export() }
@@ -106,6 +117,19 @@ fun <T> HtmlBlockTag.showList(
         elements.forEach { element ->
             li {
                 content(element)
+            }
+        }
+    }
+}
+
+fun <T> HtmlBlockTag.showListWithIndex(
+    elements: Collection<T>,
+    content: LI.(Int, T) -> Unit,
+) {
+    ul {
+        elements.withIndex().forEach {
+            li {
+                content(it.index, it.value)
             }
         }
     }
@@ -167,3 +191,4 @@ fun <T> HtmlBlockTag.showRarityMap(
         }
     }
 }
+

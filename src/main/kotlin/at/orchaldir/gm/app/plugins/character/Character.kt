@@ -179,6 +179,7 @@ private fun BODY.showData(
     call: ApplicationCall,
     state: State,
 ) {
+    val race = state.getRaceStorage().getOrThrow(character.race)
     val deleteLink = call.application.href(Characters.Delete(character.id))
     val editLink = call.application.href(Characters.Edit(character.id))
     val generateNameLink = call.application.href(Characters.Name.Generate(character.id))
@@ -188,7 +189,7 @@ private fun BODY.showData(
 
     field("Id", character.id.value.toString())
     field("Race") {
-        link(call, state, character.race)
+        link(call, race)
     }
     field("Gender", character.gender.toString())
     when (character.origin) {
@@ -218,6 +219,9 @@ private fun BODY.showData(
         is OldAge -> showCauseOfDeath("Old Age")
     }
     showAge(state, character)
+    race.lifeStages.getLifeStageName(state.getAgeInYears(character))?.let {
+        field("Life Stage", it)
+    }
 
     action(generateNameLink, "Generate New Name")
     action(generateBirthdayLink, "Generate Birthday")
@@ -235,8 +239,8 @@ private fun HtmlBlockTag.showAge(
     state: State,
     character: Character,
 ) {
-    val age = state.getAge(character)
-    field("Age", state.getDefaultCalendar().display(age))
+    val age = state.getAgeInYears(character)
+    field("Age", "$age years")
 }
 
 private fun BODY.showSocial(
@@ -340,47 +344,7 @@ private fun HTML.showCharacterEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            field("Name Type") {
-                select {
-                    id = NAME_TYPE
-                    name = NAME_TYPE
-                    onChange = ON_CHANGE_SCRIPT
-                    option {
-                        label = "Mononym"
-                        value = "Mononym"
-                        selected = character.name is Mononym
-                    }
-                    option {
-                        label = "FamilyName"
-                        value = "FamilyName"
-                        selected = character.name is FamilyName
-                        disabled = !state.canHaveFamilyName(character)
-                    }
-                    option {
-                        label = "Genonym"
-                        value = "Genonym"
-                        selected = character.name is Genonym
-                        disabled = !state.canHaveGenonym(character)
-                    }
-                }
-            }
-            field("Given Name") {
-                textInput(name = GIVEN_NAME) {
-                    value = character.getGivenName()
-                }
-            }
-            if (character.name is FamilyName) {
-                field("Middle Name") {
-                    textInput(name = MIDDLE_NAME) {
-                        value = character.name.middle ?: ""
-                    }
-                }
-                field("Family Name") {
-                    textInput(name = FAMILY_NAME) {
-                        value = character.name.family
-                    }
-                }
-            }
+            selectName(state, character)
             selectEnum("Race", RACE, state.getRaceStorage().getAll(), true) { r ->
                 label = r.name
                 value = r.id.value.toString()
@@ -487,5 +451,40 @@ private fun HTML.showCharacterEditor(
             }
         }
         back(backLink)
+    }
+}
+
+private fun FORM.selectName(
+    state: State,
+    character: Character,
+) {
+    field("Name Type") {
+        select {
+            id = NAME_TYPE
+            name = NAME_TYPE
+            onChange = ON_CHANGE_SCRIPT
+            option {
+                label = "Mononym"
+                value = "Mononym"
+                selected = character.name is Mononym
+            }
+            option {
+                label = "FamilyName"
+                value = "FamilyName"
+                selected = character.name is FamilyName
+                disabled = !state.canHaveFamilyName(character)
+            }
+            option {
+                label = "Genonym"
+                value = "Genonym"
+                selected = character.name is Genonym
+                disabled = !state.canHaveGenonym(character)
+            }
+        }
+    }
+    selectText("Given Name", character.getGivenName(), GIVEN_NAME, 1)
+    if (character.name is FamilyName) {
+        selectText("Middle Name", character.name.middle ?: "", MIDDLE_NAME, 1)
+        selectText("Family Name", character.name.family, FAMILY_NAME, 1)
     }
 }

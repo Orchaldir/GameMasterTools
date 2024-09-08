@@ -3,22 +3,38 @@ package at.orchaldir.gm.core.generator
 import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.core.model.appearance.Side
 import at.orchaldir.gm.core.model.appearance.Size
-import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
-import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.utils.NumberGenerator
+import at.orchaldir.gm.utils.math.Distance
 
 data class AppearanceGeneratorConfig(
     val numberGenerator: NumberGenerator,
     val rarityGenerator: RarityGenerator,
-    val character: Character,
-    val appearanceOptions: AppearanceOptions,
+    val gender: Gender,
+    val appearanceOptions: RaceAppearance,
     val appearanceStyle: AppearanceStyle,
 ) {
+    fun generate(distance: Distance): Appearance {
+        val skin = generateSkin(this)
+
+        return when (generate(appearanceOptions.appearanceTypes)) {
+            AppearanceType.Body -> HumanoidBody(
+                generateBody(this, skin),
+                generateHead(this, skin),
+                distance,
+            )
+
+            AppearanceType.HeadOnly -> HeadOnly(
+                generateHead(this, skin),
+                distance,
+            )
+        }
+    }
 
     fun <T> generate(map: RarityMap<T>) = rarityGenerator.generate(map, numberGenerator)
 
@@ -27,10 +43,22 @@ data class AppearanceGeneratorConfig(
 }
 
 fun generateBody(config: AppearanceGeneratorConfig, skin: Skin) = Body(
-    config.select(getAvailableBodyShapes(config.character.gender)),
+    config.select(getAvailableBodyShapes(config.gender)),
     config.select(Size.entries),
     skin,
 )
+
+fun generateHead(config: AppearanceGeneratorConfig, skin: Skin): Head {
+    val hair = generateHair(config)
+
+    return Head(
+        generateEars(config),
+        generateEyes(config),
+        hair,
+        generateMouth(config, hair),
+        skin,
+    )
+}
 
 fun generateBeard(config: AppearanceGeneratorConfig, hair: Hair): Beard {
     val options = config.appearanceOptions
@@ -123,7 +151,7 @@ fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
     return when (config.generate(options.mouthTypes)) {
         MouthType.NoMouth -> NoMouth
         MouthType.NormalMouth -> {
-            if (config.character.gender == Gender.Female) {
+            if (config.gender == Gender.Female) {
                 return FemaleMouth(
                     config.select(Size.entries),
                     config.generate(config.appearanceStyle.lipColors),

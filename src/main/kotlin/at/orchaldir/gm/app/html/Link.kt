@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.plugins.*
 import at.orchaldir.gm.app.plugins.character.Characters
+import at.orchaldir.gm.app.plugins.race.RaceRoutes
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.CalendarId
@@ -16,6 +17,7 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.moon.MoonId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -89,7 +91,8 @@ fun <ID : Id<ID>> href(
     is MoonId -> call.application.href(Moons.Details(id))
     is NameListId -> call.application.href(NameLists.Details(id))
     is PersonalityTraitId -> call.application.href(Personality.Details(id))
-    is RaceId -> call.application.href(Races.Details(id))
+    is RaceId -> call.application.href(RaceRoutes.Details(id))
+    is RaceAppearanceId -> call.application.href(RaceRoutes.AppearanceRoutes.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
 }
 

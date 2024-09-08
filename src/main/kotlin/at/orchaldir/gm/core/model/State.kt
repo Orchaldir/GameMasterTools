@@ -31,6 +31,9 @@ import at.orchaldir.gm.core.model.moon.MoonId
 import at.orchaldir.gm.core.model.race.RACE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.saveData
 import at.orchaldir.gm.core.saveStorage
@@ -51,7 +54,8 @@ val ELEMENTS =
         MOON,
         NAME_LIST,
         PERSONALITY_TRAIT,
-        RACE
+        RACE,
+        RACE_APPEARANCE,
     )
 private const val TIME = "Time"
 
@@ -87,6 +91,7 @@ data class State(
     fun getNameListStorage() = getStorage<NameListId, NameList>(NAME_LIST)
     fun getPersonalityTraitStorage() = getStorage<PersonalityTraitId, PersonalityTrait>(PERSONALITY_TRAIT)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE)
+    fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE)
 
     private fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(type: String): Storage<ID, ELEMENT> {
         val storage = storageMap[type]
@@ -150,6 +155,7 @@ data class State(
         saveStorage(path, getNameListStorage())
         saveStorage(path, getPersonalityTraitStorage())
         saveStorage(path, getRaceStorage())
+        saveStorage(path, getRaceAppearanceStorage())
         saveData(path, TIME, time)
     }
 }
@@ -167,6 +173,7 @@ fun createStorage(type: String) = when (type) {
     NAME_LIST -> Storage(NameListId(0))
     PERSONALITY_TRAIT -> Storage(PersonalityTraitId(0))
     RACE -> Storage(RaceId(0))
+    RACE_APPEARANCE -> Storage(RaceAppearanceId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
 
@@ -187,5 +194,6 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     )
 
     RACE -> loadStorage<RaceId, Race>(path, RaceId(0))
+    RACE_APPEARANCE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }

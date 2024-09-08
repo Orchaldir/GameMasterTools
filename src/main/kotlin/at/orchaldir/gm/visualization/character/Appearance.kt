@@ -35,7 +35,7 @@ fun getArmLayer(layer: Int, isFront: Boolean) = if (isFront) {
 fun visualizeCharacter(
     config: RenderConfig,
     appearance: Appearance,
-    equipped: List<Equipment>,
+    equipped: List<Equipment> = emptyList(),
     renderFront: Boolean = true,
 ): Svg {
     val size = calculateSize(config, appearance)
