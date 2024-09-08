@@ -5,7 +5,12 @@ import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.aging.ComplexAging
+import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
+import at.orchaldir.gm.core.model.race.aging.LifeStages
+import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -24,6 +29,22 @@ val DELETE_RACE: Reducer<DeleteRace, State> = { state, action ->
 
 val UPDATE_RACE: Reducer<UpdateRace, State> = { state, action ->
     state.getRaceStorage().require(action.race.id)
+    checkLifeStages(action.race.lifeStages)
 
     noFollowUps(state.updateStorage(state.getRaceStorage().update(action.race)))
+}
+
+fun checkLifeStages(lifeStages: LifeStages) {
+    when (lifeStages) {
+        is ComplexAging -> TODO()
+        is SimpleAging -> {
+            var lastMaxAge = 0
+            lifeStages.lifeStages.withIndex().forEach {
+                require(it.value.maxAge > lastMaxAge) { "Life Stage ${it.index}'s max age most be greater than the previous stage!" }
+                lastMaxAge = it.value.maxAge
+            }
+        }
+
+        is ImmutableLifeStage -> doNothing()
+    }
 }

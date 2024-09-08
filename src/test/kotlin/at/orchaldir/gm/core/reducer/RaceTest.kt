@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.aging.SimpleAging
+import at.orchaldir.gm.core.model.race.aging.SimpleLifeStage
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -70,9 +72,34 @@ class RaceTest {
         }
 
         @Test
+        fun `Max age must be higher than the previous simple life stage`() {
+            (0..<5).forEach { maxAge ->
+                val state = State(Storage(Race(ID0)))
+                val race = Race(
+                    ID0, "Test", lifeStages = SimpleAging(
+                        lifeStages = listOf(
+                            SimpleLifeStage("A", 5),
+                            SimpleLifeStage("B", maxAge),
+                        )
+                    )
+                )
+                val action = UpdateRace(race)
+
+                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            }
+        }
+
+        @Test
         fun `Update is valid`() {
             val state = State(Storage(Race(ID0)))
-            val race = Race(ID0, "Test")
+            val race = Race(
+                ID0, "Test", lifeStages = SimpleAging(
+                    lifeStages = listOf(
+                        SimpleLifeStage("A", 10),
+                        SimpleLifeStage("B", 11),
+                    )
+                )
+            )
             val action = UpdateRace(race)
 
             assertEquals(race, REDUCER.invoke(state, action).first.getRaceStorage().get(ID0))
