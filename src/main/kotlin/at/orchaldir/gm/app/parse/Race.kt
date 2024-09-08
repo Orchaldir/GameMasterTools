@@ -46,6 +46,7 @@ private fun parseSimpleLifeStages(parameters: Parameters): List<SimpleLifeStage>
 private fun parseSimpleLifeStage(parameters: Parameters, index: Int) = SimpleLifeStage(
     parseName(parameters, combine(LIFE_STAGE, NAME, index)) ?: "${index + 1}.Life Stage",
     parseInt(parameters, combine(LIFE_STAGE, AGE, index), 2),
+    parseFactor(parameters, combine(LIFE_STAGE, HEIGHT, index)),
 )
 
 private fun parseComplexLifeStages(parameters: Parameters): List<ComplexLifeStage> {
@@ -58,6 +59,7 @@ private fun parseComplexLifeStages(parameters: Parameters): List<ComplexLifeStag
 private fun parseComplexLifeStage(parameters: Parameters, index: Int) = ComplexLifeStage(
     parseName(parameters, combine(LIFE_STAGE, NAME, index)) ?: "${index + 1}.Life Stage",
     parseInt(parameters, combine(LIFE_STAGE, AGE, index), 2),
+    parseFactor(parameters, combine(LIFE_STAGE, HEIGHT, index)),
     parseAppearanceId(parameters, index),
 )
 

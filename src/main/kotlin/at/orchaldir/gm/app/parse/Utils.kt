@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.SomeOf
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.time.*
+import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 
 fun combine(param0: String, param1: String) = "$param0-$param1"
@@ -131,3 +133,6 @@ fun parseBool(parameters: Parameters, param: String, default: Boolean = false) =
     parameters[param]?.toBoolean() ?: default
 
 fun parseInt(parameters: Parameters, param: String, default: Int = 0) = parameters[param]?.toInt() ?: default
+
+fun parseFactor(parameters: Parameters, param: String, default: Factor = FULL) =
+    parameters[param]?.toFloat()?.let { Factor(it) } ?: default
