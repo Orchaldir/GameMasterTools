@@ -29,6 +29,17 @@ fun HTML.simpleHtml(
     }
 }
 
+fun HtmlBlockTag.split(left: DIV.() -> Unit, right: DIV.() -> Unit) {
+    div {
+        classes += "split"
+        left()
+    }
+    div {
+        classes += "split"
+        right()
+    }
+}
+
 fun HtmlBlockTag.field(name: String, value: String) {
     p {
         b { +"$name: " }
@@ -180,3 +191,4 @@ fun <T> HtmlBlockTag.showRarityMap(
         }
     }
 }
+
