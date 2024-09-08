@@ -237,14 +237,14 @@ private fun FORM.editLifeStages(
 
     when (lifeStages) {
         is ImmutableLifeStage -> {
-            selectRaceAppearance(state, combine(RACE, APPEARANCE), lifeStages.appearance)
+            selectRaceAppearance(state, lifeStages.appearance, 0)
         }
 
         is SimpleAging -> {
-            selectRaceAppearance(state, combine(RACE, APPEARANCE), lifeStages.appearance)
+            selectRaceAppearance(state, lifeStages.appearance, 0)
             var minMaxAge = 1
             showListWithIndex(lifeStages.lifeStages) { index, stage ->
-                selectText("Name", stage.name, combine(LIFE_STAGE, NAME, index), 1)
+                selectStageName(index, stage.name)
                 ul {
                     li {
                         selectAge(minMaxAge, index, stage.maxAge)
@@ -259,13 +259,13 @@ private fun FORM.editLifeStages(
         is ComplexAging -> {
             var minMaxAge = 1
             showListWithIndex(lifeStages.lifeStages) { index, stage ->
-                selectText("Name", stage.name, combine(LIFE_STAGE, NAME, index), 1)
+                selectStageName(index, stage.name)
                 ul {
                     li {
                         selectAge(minMaxAge, index, stage.maxAge)
                     }
                     li {
-                        selectRaceAppearance(state, combine(RACE, APPEARANCE, index), stage.appearance)
+                        selectRaceAppearance(state, stage.appearance, index)
                     }
                 }
                 if (stage.maxAge != null) {
@@ -274,6 +274,13 @@ private fun FORM.editLifeStages(
             }
         }
     }
+}
+
+private fun LI.selectStageName(
+    index: Int,
+    name: String,
+) {
+    selectText("Name", name, combine(LIFE_STAGE, NAME, index), 1)
 }
 
 private fun LI.selectAge(
@@ -286,10 +293,14 @@ private fun LI.selectAge(
 
 private fun HtmlBlockTag.selectRaceAppearance(
     state: State,
-    param: String,
     raceAppearanceId: RaceAppearanceId,
+    index: Int,
 ) {
-    selectEnum("Race Appearance", param, state.getRaceAppearanceStorage().getAll()) { appearance ->
+    selectEnum(
+        "Race Appearance",
+        combine(RACE, APPEARANCE, index),
+        state.getRaceAppearanceStorage().getAll()
+    ) { appearance ->
         label = appearance.name
         value = appearance.id.value.toString()
         selected = appearance.id == raceAppearanceId
