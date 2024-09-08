@@ -116,11 +116,11 @@ class RaceTest {
 
         @Test
         fun `Complex aging is valid`() {
-            testIsValid(
-                { name, maxAge -> ComplexLifeStage(name, maxAge) },
-                { stages -> ComplexAging(lifeStages = stages) },
-            )
+            testIsValid(::createComplexLifeStage, ::createComplexAging)
         }
+
+        private fun createComplexLifeStage(name: String, maxAge: Int) = ComplexLifeStage(name, maxAge)
+        private fun createComplexAging(stages: List<ComplexLifeStage>) = ComplexAging(lifeStages = stages)
 
         private fun <T> testIsValid(createStage: (String, Int) -> T, createAging: (List<T>) -> LifeStages) {
             val state = State(Storage(Race(ID0)))
