@@ -126,6 +126,7 @@ private fun HTML.showDetails(
     simpleHtml("Race Appearance: ${appearance.name}") {
         field("Id", appearance.id.value.toString())
         field("Name", appearance.name)
+        h2 { +"Options" }
         showAppearanceOptions(appearance, eyeOptions)
         h2 { +"Races" }
         showList(state.getRaces(appearance.id)) { race ->
@@ -197,6 +198,7 @@ private fun HTML.showEditor(
             action = previewLink
             method = FormMethod.post
             selectName(appearance.name)
+            h2 { +"Options" }
             selectRarityMap("Type", APPEARANCE, appearance.appearanceTypes)
             h3 { +"Skin" }
             selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes, true)
