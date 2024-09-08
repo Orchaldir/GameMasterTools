@@ -2,8 +2,8 @@ package at.orchaldir.gm.core.model.race
 
 import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
+import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable

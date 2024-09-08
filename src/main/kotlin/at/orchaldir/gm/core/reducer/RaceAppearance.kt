@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.reducer
 
-import at.orchaldir.gm.core.action.*
+import at.orchaldir.gm.core.action.CreateRaceAppearance
+import at.orchaldir.gm.core.action.DeleteRaceAppearance
+import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.utils.redux.Reducer

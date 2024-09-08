@@ -2,7 +2,10 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.INVENTOR
+import at.orchaldir.gm.app.parse.LANGUAGES
+import at.orchaldir.gm.app.parse.ORIGIN
+import at.orchaldir.gm.app.parse.parseLanguage
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage

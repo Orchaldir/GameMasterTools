@@ -8,7 +8,10 @@ import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.aging.*
+import at.orchaldir.gm.core.model.race.aging.ComplexAging
+import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
+import at.orchaldir.gm.core.model.race.aging.LifeStagesType
+import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
