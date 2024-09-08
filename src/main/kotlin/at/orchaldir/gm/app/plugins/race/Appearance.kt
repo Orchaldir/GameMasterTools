@@ -5,16 +5,23 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.app.plugins.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.core.action.*
+import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.EarsLayout
 import at.orchaldir.gm.core.model.character.appearance.EyesLayout
 import at.orchaldir.gm.core.model.character.appearance.SkinType
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getRaces
+import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
+import at.orchaldir.gm.utils.RandomNumberGenerator
+import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -25,6 +32,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
+import kotlin.random.Random
 
 private val logger = KotlinLogging.logger {}
 
@@ -119,11 +127,14 @@ private fun HTML.showDetails(
     appearance: RaceAppearance,
 ) {
     val eyeOptions = appearance.eyeOptions
+    val generator = createGeneratorConfig(state, appearance, Gender.Male, CultureId(0))
+    val svg = visualizeCharacter(RENDER_CONFIG, generator.generate(Distance(1.8f)))
     val backLink = call.application.href(AppearanceRoutes())
     val deleteLink = call.application.href(AppearanceRoutes.Delete(appearance.id))
     val editLink = call.application.href(AppearanceRoutes.Edit(appearance.id))
 
     simpleHtml("Race Appearance: ${appearance.name}") {
+        svg(svg, 20)
         field("Id", appearance.id.value.toString())
         field("Name", appearance.name)
         h2 { +"Options" }
@@ -255,3 +266,20 @@ private fun HTML.showEditor(
 private fun requiresHairColor(appearance: RaceAppearance) =
     appearance.hairOptions.beardTypes.isAvailable(BeardType.Normal) ||
             appearance.hairOptions.hairTypes.isAvailable(HairType.Normal)
+
+fun createGeneratorConfig(
+    state: State,
+    appearance: RaceAppearance,
+    gender: Gender,
+    cultureId: CultureId,
+): AppearanceGeneratorConfig {
+    val culture = state.getCultureStorage().getOrThrow(cultureId)
+
+    return AppearanceGeneratorConfig(
+        RandomNumberGenerator(Random),
+        state.rarityGenerator,
+        gender,
+        appearance,
+        culture.appearanceStyle
+    )
+}
