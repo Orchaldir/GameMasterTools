@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class LifeStages {
 
+    abstract fun contains(id: RaceAppearanceId): Boolean
     abstract fun getAppearance(age: Int): RaceAppearanceId
 
 }
@@ -17,6 +18,8 @@ data class SimpleAging(
     val appearance: RaceAppearanceId = RaceAppearanceId(0),
     val lifeStages: List<SimpleLifeStage>,
 ) : LifeStages() {
+
+    override fun contains(id: RaceAppearanceId) = id == appearance
 
     override fun getAppearance(age: Int) = appearance
 
@@ -30,6 +33,9 @@ data class SimpleAging(
 data class ComplexAging(
     val lifeStages: List<ComplexLifeStage>,
 ) : LifeStages() {
+
+    override fun contains(id: RaceAppearanceId) = lifeStages.any { it.appearance == id }
+
     override fun getAppearance(age: Int) = getLifeStage(age).appearance
 
     fun getLifeStage(age: Int) = lifeStages
@@ -42,6 +48,8 @@ data class ComplexAging(
 data class ImmutableLifeStage(
     val appearance: RaceAppearanceId = RaceAppearanceId(0),
 ) : LifeStages() {
+
+    override fun contains(id: RaceAppearanceId) = id == appearance
 
     override fun getAppearance(age: Int) = appearance
 

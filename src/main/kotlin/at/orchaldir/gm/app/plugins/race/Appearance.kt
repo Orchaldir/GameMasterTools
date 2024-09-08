@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.getRaces
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -126,6 +127,11 @@ private fun HTML.showDetails(
         field("Id", appearance.id.value.toString())
         field("Name", appearance.name)
         showAppearanceOptions(appearance, eyeOptions)
+        h2 { +"Races" }
+        showList(state.getRaces(appearance.id)) { race ->
+            link(call, race)
+        }
+
         action(editLink, "Edit")
 
         if (state.canDelete(appearance.id)) {
