@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.moon.MoonId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -91,6 +92,7 @@ fun <ID : Id<ID>> href(
     is NameListId -> call.application.href(NameLists.Details(id))
     is PersonalityTraitId -> call.application.href(Personality.Details(id))
     is RaceId -> call.application.href(RaceRoutes.Details(id))
+    is RaceAppearanceId -> call.application.href(RaceRoutes.AppearanceRoutes.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
 }
 
