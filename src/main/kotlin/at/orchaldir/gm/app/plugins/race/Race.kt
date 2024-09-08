@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.plugins
+package at.orchaldir.gm.app.plugins.race
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*

@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.plugins.*
 import at.orchaldir.gm.app.plugins.character.Characters
+import at.orchaldir.gm.app.plugins.race.Races
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.CalendarId
@@ -16,7 +17,6 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.moon.MoonId
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id

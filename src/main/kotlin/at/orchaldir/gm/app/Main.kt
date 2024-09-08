@@ -2,6 +2,7 @@ package at.orchaldir.gm.app
 
 import at.orchaldir.gm.app.plugins.*
 import at.orchaldir.gm.app.plugins.character.*
+import at.orchaldir.gm.app.plugins.race.configureRaceRouting
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.REDUCER

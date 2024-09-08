@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.action
 import at.orchaldir.gm.app.html.fieldStorageLink
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.plugins.character.Characters
+import at.orchaldir.gm.app.plugins.race.Races
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
