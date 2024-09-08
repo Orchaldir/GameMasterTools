@@ -7,10 +7,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.aging.ComplexAging
-import at.orchaldir.gm.core.model.race.aging.ComplexLifeStage
-import at.orchaldir.gm.core.model.race.aging.SimpleAging
-import at.orchaldir.gm.core.model.race.aging.SimpleLifeStage
+import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -111,28 +108,27 @@ class RaceTest {
 
         @Test
         fun `Simple aging is valid`() {
-            val state = State(Storage(Race(ID0)))
-            val race = Race(
-                ID0, "Test", lifeStages = SimpleAging(
-                    lifeStages = listOf(
-                        SimpleLifeStage("A", 10),
-                        SimpleLifeStage("B", 11),
-                    )
-                )
+            testIsValid(
+                { name, maxAge -> SimpleLifeStage(name, maxAge) },
+                { stages -> SimpleAging(lifeStages = stages) },
             )
-            val action = UpdateRace(race)
-
-            assertEquals(race, REDUCER.invoke(state, action).first.getRaceStorage().get(ID0))
         }
 
         @Test
         fun `Complex aging is valid`() {
+            testIsValid(
+                { name, maxAge -> ComplexLifeStage(name, maxAge) },
+                { stages -> ComplexAging(lifeStages = stages) },
+            )
+        }
+
+        private fun <T> testIsValid(createStage: (String, Int) -> T, createAging: (List<T>) -> LifeStages) {
             val state = State(Storage(Race(ID0)))
             val race = Race(
-                ID0, "Test", lifeStages = ComplexAging(
-                    lifeStages = listOf(
-                        ComplexLifeStage("A", 6),
-                        ComplexLifeStage("B", 7),
+                ID0, "Test", lifeStages = createAging(
+                    listOf(
+                        createStage("A", 6),
+                        createStage("B", 7),
                     )
                 )
             )
