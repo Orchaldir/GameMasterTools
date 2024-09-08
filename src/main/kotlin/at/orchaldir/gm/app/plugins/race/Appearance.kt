@@ -4,9 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.app.plugins.race.RaceRoutes.AppearanceRoutes
-import at.orchaldir.gm.core.action.CreateRace
-import at.orchaldir.gm.core.action.DeleteRace
-import at.orchaldir.gm.core.action.UpdateRace
+import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.EarsLayout
 import at.orchaldir.gm.core.model.character.appearance.EyesLayout
@@ -51,7 +49,7 @@ fun Application.configureRaceAppearanceRouting() {
         get<AppearanceRoutes.New> {
             logger.info { "Add new race appearance" }
 
-            STORE.dispatch(CreateRace)
+            STORE.dispatch(CreateRaceAppearance)
 
             val id = STORE.getState().getRaceAppearanceStorage().lastId
             call.respondRedirect(call.application.href(AppearanceRoutes.Edit(id)))
@@ -61,7 +59,7 @@ fun Application.configureRaceAppearanceRouting() {
         get<AppearanceRoutes.Delete> { delete ->
             logger.info { "Delete race appearance ${delete.id.value}" }
 
-            STORE.dispatch(DeleteRace(delete.id))
+            STORE.dispatch(DeleteRaceAppearance(delete.id))
 
             call.respondRedirect(call.application.href(AppearanceRoutes()))
 
@@ -79,7 +77,7 @@ fun Application.configureRaceAppearanceRouting() {
         post<AppearanceRoutes.Preview> { preview ->
             logger.info { "Get preview for race appearance ${preview.id.value}" }
 
-            val race = parseRace(preview.id, call.receiveParameters())
+            val race = parseRaceAppearance(preview.id, call.receiveParameters())
 
             call.respondHtml(HttpStatusCode.OK) {
                 showEditor(call, race)
@@ -88,9 +86,9 @@ fun Application.configureRaceAppearanceRouting() {
         post<AppearanceRoutes.Update> { update ->
             logger.info { "Update race appearance ${update.id.value}" }
 
-            val race = parseRace(update.id, call.receiveParameters())
+            val race = parseRaceAppearance(update.id, call.receiveParameters())
 
-            STORE.dispatch(UpdateRace(race))
+            STORE.dispatch(UpdateRaceAppearance(race))
 
             call.respondRedirect(href(call, update.id))
 
@@ -124,7 +122,7 @@ private fun HTML.showDetails(
     val deleteLink = call.application.href(AppearanceRoutes.Delete(appearance.id))
     val editLink = call.application.href(AppearanceRoutes.Edit(appearance.id))
 
-    simpleHtml("Race: ${appearance.name}") {
+    simpleHtml("Race Appearance: ${appearance.name}") {
         field("Id", appearance.id.value.toString())
         field("Name", appearance.name)
         showAppearanceOptions(appearance, eyeOptions)
@@ -142,7 +140,6 @@ private fun BODY.showAppearanceOptions(
     appearance: RaceAppearance,
     eyeOptions: EyeOptions,
 ) {
-    h2 { +"Appearance Options" }
     showRarityMap("Type", appearance.appearanceType)
     h3 { +"Skin" }
     showRarityMap("Type", appearance.skinTypes)
@@ -187,7 +184,7 @@ private fun HTML.showEditor(
     val previewLink = call.application.href(AppearanceRoutes.Preview(appearance.id))
     val updateLink = call.application.href(AppearanceRoutes.Update(appearance.id))
 
-    simpleHtml("Edit Race: ${appearance.name}") {
+    simpleHtml("Edit Race Appearance: ${appearance.name}") {
         field("Id", appearance.id.value.toString())
         form {
             id = "editor"
@@ -198,7 +195,6 @@ private fun HTML.showEditor(
                     value = appearance.name
                 }
             }
-            h2 { +"Appearance Options" }
             selectRarityMap("Type", APPEARANCE_TYPE, appearance.appearanceType)
             h3 { +"Skin" }
             selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes, true)

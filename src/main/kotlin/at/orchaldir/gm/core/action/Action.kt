@@ -23,6 +23,8 @@ import at.orchaldir.gm.core.model.moon.Moon
 import at.orchaldir.gm.core.model.moon.MoonId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
 
 sealed class Action
@@ -113,6 +115,11 @@ data class UpdatePersonalityTrait(val trait: PersonalityTrait) : Action()
 data object CreateRace : Action()
 data class DeleteRace(val id: RaceId) : Action()
 data class UpdateRace(val race: Race) : Action()
+
+// race appearance
+data object CreateRaceAppearance : Action()
+data class DeleteRaceAppearance(val id: RaceAppearanceId) : Action()
+data class UpdateRaceAppearance(val race: RaceAppearance) : Action()
 
 // time
 data class UpdateTime(val time: Time) : Action()
