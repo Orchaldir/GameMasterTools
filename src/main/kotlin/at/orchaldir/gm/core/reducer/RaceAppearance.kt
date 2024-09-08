@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteRaceAppearance
 import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -15,8 +16,8 @@ val CREATE_RACE_APPEARANCE: Reducer<CreateRaceAppearance, State> = { state, _ ->
 }
 
 val DELETE_RACE_APPEARANCE: Reducer<DeleteRaceAppearance, State> = { state, action ->
-    require(state.getRaceAppearanceStorage().getSize() > 1) { "Cannot delete the last race appearance" }
-    //require(state.getCharacters(action.id).isEmpty()) { "Race ${action.id.value} is used by characters" }
+    state.getRaceAppearanceStorage().require(action.id)
+    require(state.canDelete(action.id)) { "Race Appearance ${action.id.value} cannot be deleted" }
 
     noFollowUps(state.updateStorage(state.getRaceAppearanceStorage().remove(action.id)))
 }
