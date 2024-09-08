@@ -231,7 +231,7 @@ private fun FORM.editLifeStages(
 
     h2 { +"Life Stages" }
 
-    selectEnum("Type", LIFE_STAGE, LifeStagesType.entries) { type ->
+    selectEnum("Type", combine(LIFE_STAGE, TYPE), LifeStagesType.entries) { type ->
         label = type.name
         value = type.name
         selected = when (lifeStages) {
@@ -248,6 +248,7 @@ private fun FORM.editLifeStages(
 
         is SimpleAging -> {
             selectRaceAppearance(state, lifeStages.appearance, 0)
+            selectNumberOfLifeStages(lifeStages.lifeStages.size)
             var minMaxAge = 1
             showListWithIndex(lifeStages.lifeStages) { index, stage ->
                 selectStageName(index, stage.name)
@@ -262,6 +263,7 @@ private fun FORM.editLifeStages(
 
         is ComplexAging -> {
             var minMaxAge = 1
+            selectNumberOfLifeStages(lifeStages.lifeStages.size)
             showListWithIndex(lifeStages.lifeStages) { index, stage ->
                 selectStageName(index, stage.name)
                 ul {
@@ -276,6 +278,10 @@ private fun FORM.editLifeStages(
             }
         }
     }
+}
+
+private fun FORM.selectNumberOfLifeStages(number: Int) {
+    selectNumber("Weekdays", number, 2, 100, LIFE_STAGE, true)
 }
 
 private fun LI.selectStageName(

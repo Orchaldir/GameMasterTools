@@ -63,7 +63,7 @@ private fun parseWeekdays(parameters: Parameters): List<WeekDay> {
 }
 
 private fun parseMonths(parameters: Parameters): List<MonthDefinition> {
-    val count = parameters.getOrFail(MONTHS).toInt()
+    val count = parseInt(parameters, MONTHS, 2)
 
     return (0..<count)
         .map { parseMonth(parameters, it) }
