@@ -251,47 +251,49 @@ private fun FORM.editAppearanceOptions(
     appearance: RaceAppearance,
     eyeOptions: EyeOptions,
 ) {
-    selectRarityMap("Type", APPEARANCE, appearance.appearanceTypes)
+    selectRarityMap("Type", APPEARANCE, appearance.appearanceTypes, true)
     h3 { +"Skin" }
     selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes, true)
     if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
-        selectRarityMap("Scale Colors", SCALE_COLOR, appearance.scalesColors)
+        selectRarityMap("Scale Colors", SCALE_COLOR, appearance.scalesColors, true)
     }
     if (appearance.skinTypes.isAvailable(SkinType.Normal)) {
         selectRarityMap(
             "Normal Skin Colors",
             NORMAL_SKIN_COLOR,
-            appearance.normalSkinColors
+            appearance.normalSkinColors,
+            true,
         )
     }
     if (appearance.skinTypes.isAvailable(SkinType.Exotic)) {
         selectRarityMap(
             "Exotic Skin Colors",
             EXOTIC_SKIN_COLOR,
-            appearance.exoticSkinColors
+            appearance.exoticSkinColors,
+            true,
         )
     }
     h3 { +"Ears" }
     selectRarityMap("Layout", EARS_LAYOUT, appearance.earsLayout, true)
     if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
-        selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes)
+        selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes, true)
     }
     h3 { +"Eyes" }
     selectRarityMap("Layout", EYES_LAYOUT, appearance.eyesLayout, true)
     if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
-        selectRarityMap("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes)
-        selectRarityMap("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes)
-        selectRarityMap("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors)
-        selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors)
+        selectRarityMap("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes, true)
+        selectRarityMap("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, true)
+        selectRarityMap("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors, true)
+        selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors, true)
     }
     h3 { +"Hair" }
     selectRarityMap("Beard", BEARD_TYPE, appearance.hairOptions.beardTypes, true)
     selectRarityMap("Hair", HAIR_TYPE, appearance.hairOptions.hairTypes, true)
     if (requiresHairColor(appearance)) {
-        selectRarityMap("Colors", HAIR_COLOR, appearance.hairOptions.colors)
+        selectRarityMap("Colors", HAIR_COLOR, appearance.hairOptions.colors, true)
     }
     h3 { +"Mouth" }
-    selectRarityMap("Types", MOUTH_TYPE, appearance.mouthTypes)
+    selectRarityMap("Types", MOUTH_TYPE, appearance.mouthTypes, true)
 }
 
 private fun requiresHairColor(appearance: RaceAppearance) =
