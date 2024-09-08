@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.action
 import at.orchaldir.gm.app.html.fieldStorageLink
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.plugins.character.Characters
-import at.orchaldir.gm.app.plugins.race.Races
+import at.orchaldir.gm.app.plugins.race.RaceRoutes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -45,7 +45,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getMoonStorage(), Moons())
                     fieldStorageLink(call, state.getNameListStorage(), NameLists())
                     fieldStorageLink(call, state.getPersonalityTraitStorage(), Personality())
-                    fieldStorageLink(call, state.getRaceStorage(), Races())
+                    fieldStorageLink(call, state.getRaceStorage(), RaceRoutes())
                     h2 { +"Data" }
                     ul {
                         li {

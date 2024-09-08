@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.plugins.*
 import at.orchaldir.gm.app.plugins.character.Characters
-import at.orchaldir.gm.app.plugins.race.Races
+import at.orchaldir.gm.app.plugins.race.RaceRoutes
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.CalendarId
@@ -90,7 +90,7 @@ fun <ID : Id<ID>> href(
     is MoonId -> call.application.href(Moons.Details(id))
     is NameListId -> call.application.href(NameLists.Details(id))
     is PersonalityTraitId -> call.application.href(Personality.Details(id))
-    is RaceId -> call.application.href(Races.Details(id))
+    is RaceId -> call.application.href(RaceRoutes.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
 }
 
