@@ -94,6 +94,39 @@ fun FORM.selectName(name: String) {
     selectText("Name", name, NAME, 1)
 }
 
+fun HtmlBlockTag.selectFloat(
+    label: String,
+    number: Float,
+    minNumber: Float,
+    maxNumber: Float,
+    step: Float,
+    param: String,
+    update: Boolean = false,
+) {
+    field(label) {
+        selectFloat(number, minNumber, maxNumber, step, param, update)
+    }
+}
+
+fun HtmlBlockTag.selectFloat(
+    number: Float,
+    minNumber: Float,
+    maxNumber: Float,
+    stepValue: Float,
+    param: String,
+    update: Boolean = false,
+) {
+    numberInput(name = param) {
+        min = "$minNumber"
+        max = "$maxNumber"
+        step = stepValue.toString()
+        value = number.toString()
+        if (update) {
+            onChange = ON_CHANGE_SCRIPT
+        }
+    }
+}
+
 fun HtmlBlockTag.selectInt(
     label: String,
     number: Int,

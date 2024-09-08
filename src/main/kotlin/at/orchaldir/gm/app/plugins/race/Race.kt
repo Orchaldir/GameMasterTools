@@ -267,7 +267,10 @@ private fun FORM.editLifeStages(
                 selectStageName(index, stage.name)
                 ul {
                     li {
-                        selectAge(minMaxAge, index, stage.maxAge)
+                        selectMaxAge(minMaxAge, index, stage.maxAge)
+                    }
+                    li {
+                        selectRelativeHeight(stage.relativeHeight, index)
                     }
                 }
                 minMaxAge = stage.maxAge + 1
@@ -281,7 +284,10 @@ private fun FORM.editLifeStages(
                 selectStageName(index, stage.name)
                 ul {
                     li {
-                        selectAge(minMaxAge, index, stage.maxAge)
+                        selectMaxAge(minMaxAge, index, stage.maxAge)
+                    }
+                    li {
+                        selectRelativeHeight(stage.relativeHeight, index)
                     }
                     li {
                         selectAppearance(state, stage.appearance, index)
@@ -304,12 +310,19 @@ private fun LI.selectStageName(
     selectText("Name", name, combine(LIFE_STAGE, NAME, index), 1)
 }
 
-private fun LI.selectAge(
+private fun LI.selectMaxAge(
     minMaxAge: Int,
     index: Int,
     maxAge: Int?,
 ) {
     selectInt("Max Age", maxAge ?: 0, minMaxAge, 10000, combine(LIFE_STAGE, AGE, index))
+}
+
+private fun LI.selectRelativeHeight(
+    height: Factor,
+    index: Int,
+) {
+    selectFloat("Relative Height", height.value, 0.0f, 1.0f, 0.01f, combine(LIFE_STAGE, HEIGHT, index))
 }
 
 private fun HtmlBlockTag.selectAppearance(
