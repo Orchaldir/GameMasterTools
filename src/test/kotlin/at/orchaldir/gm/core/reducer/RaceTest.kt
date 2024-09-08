@@ -72,31 +72,22 @@ class RaceTest {
 
         @Test
         fun `Max age must be higher than the previous simple life stage`() {
-            (0..5).forEach { maxAge ->
-                val state = State(Storage(Race(ID0)))
-                val race = Race(
-                    ID0, "Test", lifeStages = SimpleAging(
-                        lifeStages = listOf(
-                            SimpleLifeStage("A", 5),
-                            SimpleLifeStage("B", maxAge),
-                        )
-                    )
-                )
-                val action = UpdateRace(race)
-
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
-            }
+            testMinAgeTooLow(::createSimpleLifeStage, ::createSimpleAging)
         }
 
         @Test
         fun `Max age must be higher than the previous complex life stage`() {
+            testMinAgeTooLow(::createComplexLifeStage, ::createComplexAging)
+        }
+
+        private fun <T> testMinAgeTooLow(createStage: (String, Int) -> T, createAging: (List<T>) -> LifeStages) {
             (0..5).forEach { maxAge ->
                 val state = State(Storage(Race(ID0)))
                 val race = Race(
-                    ID0, "Test", lifeStages = ComplexAging(
-                        lifeStages = listOf(
-                            ComplexLifeStage("A", 5),
-                            ComplexLifeStage("B", maxAge),
+                    ID0, "Test", lifeStages = createAging(
+                        listOf(
+                            createStage("A", 5),
+                            createStage("B", maxAge),
                         )
                     )
                 )
@@ -108,10 +99,7 @@ class RaceTest {
 
         @Test
         fun `Simple aging is valid`() {
-            testIsValid(
-                { name, maxAge -> SimpleLifeStage(name, maxAge) },
-                { stages -> SimpleAging(lifeStages = stages) },
-            )
+            testIsValid(::createSimpleLifeStage, ::createSimpleAging)
         }
 
         @Test
@@ -119,7 +107,9 @@ class RaceTest {
             testIsValid(::createComplexLifeStage, ::createComplexAging)
         }
 
+        private fun createSimpleLifeStage(name: String, maxAge: Int) = SimpleLifeStage(name, maxAge)
         private fun createComplexLifeStage(name: String, maxAge: Int) = ComplexLifeStage(name, maxAge)
+        private fun createSimpleAging(stages: List<SimpleLifeStage>) = SimpleAging(lifeStages = stages)
         private fun createComplexAging(stages: List<ComplexLifeStage>) = ComplexAging(lifeStages = stages)
 
         private fun <T> testIsValid(createStage: (String, Int) -> T, createAging: (List<T>) -> LifeStages) {
