@@ -54,7 +54,7 @@ inline fun <reified T : Any> BODY.fieldStorageLink(call: ApplicationCall, storag
     fieldLink("${storage.getType()}s", call.application.href(link), "${storage.getSize()}")
 }
 
-fun BODY.svg(svg: Svg, width: Int) {
+fun HtmlBlockTag.svg(svg: Svg, width: Int) {
     div {
         style = "display: inline-block; width:$width%"
         unsafe { +svg.export() }

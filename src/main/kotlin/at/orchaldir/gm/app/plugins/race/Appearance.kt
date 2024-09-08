@@ -4,7 +4,9 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.app.plugins.race.RaceRoutes.AppearanceRoutes
-import at.orchaldir.gm.core.action.*
+import at.orchaldir.gm.core.action.CreateRaceAppearance
+import at.orchaldir.gm.core.action.DeleteRaceAppearance
+import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -127,14 +129,12 @@ private fun HTML.showDetails(
     appearance: RaceAppearance,
 ) {
     val eyeOptions = appearance.eyeOptions
-    val generator = createGeneratorConfig(state, appearance, Gender.Male, CultureId(0))
-    val svg = visualizeCharacter(RENDER_CONFIG, generator.generate(Distance(1.8f)))
     val backLink = call.application.href(AppearanceRoutes())
     val deleteLink = call.application.href(AppearanceRoutes.Delete(appearance.id))
     val editLink = call.application.href(AppearanceRoutes.Edit(appearance.id))
 
     simpleHtml("Race Appearance: ${appearance.name}") {
-        svg(svg, 20)
+        showRandomExamples(state, appearance, 20, 10)
         field("Id", appearance.id.value.toString())
         field("Name", appearance.name)
         h2 { +"Options" }
@@ -151,6 +151,21 @@ private fun HTML.showDetails(
         }
 
         back(backLink)
+    }
+}
+
+private fun HtmlBlockTag.showRandomExamples(
+    state: State,
+    appearance: RaceAppearance,
+    n: Int,
+    width: Int,
+) {
+    val generator = createGeneratorConfig(state, appearance, Gender.Male, CultureId(0))
+    val distance = Distance(1.8f)
+
+    repeat(n) {
+        val svg = visualizeCharacter(RENDER_CONFIG, generator.generate(distance))
+        svg(svg, width)
     }
 }
 
