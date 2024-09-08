@@ -148,21 +148,15 @@ private fun BODY.showLifeStages(
     h2 { +"Life Stages" }
 
     when (lifeStages) {
-        is ImmutableLifeStage -> {
-            field("Appearance") {
-                link(call, state, lifeStages.appearance)
-            }
-        }
+        is ImmutableLifeStage -> showAppearance(call, state, lifeStages.appearance)
 
         is SimpleAging -> {
-            field("Appearance") {
-                link(call, state, lifeStages.appearance)
-            }
+            showAppearance(call, state, lifeStages.appearance)
             showList(lifeStages.lifeStages) { stage ->
                 +stage.name
                 ul {
                     li {
-                        field("Max Age", stage.maxAge?.toString() ?: "")
+                        showMaxAge(stage.maxAge)
                     }
                 }
             }
@@ -173,17 +167,29 @@ private fun BODY.showLifeStages(
                 +stage.name
                 ul {
                     li {
-                        field("Max Age", stage.maxAge?.toString() ?: "")
+                        showMaxAge(stage.maxAge)
                     }
                     li {
-                        field("Appearance") {
-                            link(call, state, stage.appearance)
-                        }
+                        showAppearance(call, state, stage.appearance)
                     }
                 }
             }
         }
     }
+}
+
+private fun HtmlBlockTag.showAppearance(
+    call: ApplicationCall,
+    state: State,
+    id: RaceAppearanceId,
+) {
+    field("Appearance") {
+        link(call, state, id)
+    }
+}
+
+private fun HtmlBlockTag.showMaxAge(maxAge: Int) {
+    field("Max Age", maxAge.toString())
 }
 
 private fun HTML.showRaceEditor(
@@ -250,9 +256,7 @@ private fun FORM.editLifeStages(
                         selectAge(minMaxAge, index, stage.maxAge)
                     }
                 }
-                if (stage.maxAge != null) {
-                    minMaxAge = stage.maxAge + 1
-                }
+                minMaxAge = stage.maxAge + 1
             }
         }
 
@@ -268,9 +272,7 @@ private fun FORM.editLifeStages(
                         selectRaceAppearance(state, stage.appearance, index)
                     }
                 }
-                if (stage.maxAge != null) {
-                    minMaxAge = stage.maxAge + 1
-                }
+                minMaxAge = stage.maxAge + 1
             }
         }
     }

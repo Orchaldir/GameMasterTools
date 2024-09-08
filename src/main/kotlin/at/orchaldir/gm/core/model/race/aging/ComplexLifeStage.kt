@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ComplexLifeStage(
     val name: String,
-    val maxAge: Int?,
+    val maxAge: Int,
     val appearance: RaceAppearanceId = RaceAppearanceId(0),
 )
