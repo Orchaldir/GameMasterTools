@@ -14,8 +14,8 @@ import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
@@ -168,7 +168,7 @@ private fun HTML.showRaceDetails(
 }
 
 private fun BODY.showAppearanceOptions(
-    appearance: AppearanceOptions,
+    appearance: RaceAppearance,
     eyeOptions: EyeOptions,
 ) {
     h2 { +"Appearance Options" }
@@ -283,6 +283,6 @@ private fun HTML.showRaceEditor(
     }
 }
 
-private fun requiresHairColor(appearance: AppearanceOptions) =
+private fun requiresHairColor(appearance: RaceAppearance) =
     appearance.hairOptions.beardTypes.isAvailable(BeardType.Normal) ||
             appearance.hairOptions.hairTypes.isAvailable(HairType.Normal)

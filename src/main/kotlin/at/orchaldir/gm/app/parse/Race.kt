@@ -7,9 +7,10 @@ import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.appearance.AppearanceOptions
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.HairOptions
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -22,7 +23,9 @@ fun parseRace(id: RaceId, parameters: Parameters): Race {
     )
 }
 
-private fun parseAppearanceOptions(parameters: Parameters) = AppearanceOptions(
+private fun parseAppearanceOptions(parameters: Parameters) = RaceAppearance(
+    RaceAppearanceId(0),
+    "fsdf",
     parseOneOf(parameters, APPEARANCE_TYPE, AppearanceType::valueOf),
     parseOneOf(parameters, SKIN_TYPE, SkinType::valueOf),
     parseOneOf(parameters, SCALE_COLOR, Color::valueOf, Color.entries),
