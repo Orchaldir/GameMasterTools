@@ -15,7 +15,7 @@ import at.orchaldir.gm.utils.NumberGenerator
 data class AppearanceGeneratorConfig(
     val numberGenerator: NumberGenerator,
     val rarityGenerator: RarityGenerator,
-    val character: Character,
+    val gender: Gender,
     val appearanceOptions: RaceAppearance,
     val appearanceStyle: AppearanceStyle,
 ) {
@@ -27,7 +27,7 @@ data class AppearanceGeneratorConfig(
 }
 
 fun generateBody(config: AppearanceGeneratorConfig, skin: Skin) = Body(
-    config.select(getAvailableBodyShapes(config.character.gender)),
+    config.select(getAvailableBodyShapes(config.gender)),
     config.select(Size.entries),
     skin,
 )
@@ -123,7 +123,7 @@ fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
     return when (config.generate(options.mouthTypes)) {
         MouthType.NoMouth -> NoMouth
         MouthType.NormalMouth -> {
-            if (config.character.gender == Gender.Female) {
+            if (config.gender == Gender.Female) {
                 return FemaleMouth(
                     config.select(Size.entries),
                     config.generate(config.appearanceStyle.lipColors),

@@ -22,7 +22,7 @@ fun createGenerationConfig(state: State, character: Character): AppearanceGenera
     return AppearanceGeneratorConfig(
         RandomNumberGenerator(Random),
         state.rarityGenerator,
-        character,
+        character.gender,
         state.getRaceAppearance(character),
         culture.appearanceStyle
     )
