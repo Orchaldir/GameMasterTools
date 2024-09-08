@@ -11,6 +11,8 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import io.ktor.http.*
 import io.ktor.server.util.*
 
+fun parseRaceAppearanceId(parameters: Parameters, param: String) = RaceAppearanceId(parseInt(parameters, param))
+
 fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppearance {
     val name = parameters.getOrFail("name")
     return RaceAppearance(
