@@ -10,20 +10,20 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.selector.getRaceAppearance
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.math.Distance
 import io.ktor.http.*
 import kotlin.random.Random
 
 fun createGenerationConfig(state: State, character: Character): AppearanceGeneratorConfig {
-    val race = state.getRaceStorage().getOrThrow(character.race)
     val culture = state.getCultureStorage().getOrThrow(character.culture)
 
     return AppearanceGeneratorConfig(
         RandomNumberGenerator(Random),
         state.rarityGenerator,
         character,
-        race.appearance,
+        state.getRaceAppearance(character),
         culture.appearanceStyle
     )
 }
@@ -32,7 +32,7 @@ fun generateAppearance(
     config: AppearanceGeneratorConfig,
     character: Character,
 ): Appearance {
-    val type = config.generate(config.appearanceOptions.appearanceType)
+    val type = config.generate(config.appearanceOptions.appearanceTypes)
     val parameters = parametersOf(APPEARANCE_TYPE, type.toString())
 
     return parseAppearance(parameters, config, character)

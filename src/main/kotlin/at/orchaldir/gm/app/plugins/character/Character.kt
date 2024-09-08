@@ -235,8 +235,8 @@ private fun HtmlBlockTag.showAge(
     state: State,
     character: Character,
 ) {
-    val age = state.getAge(character)
-    field("Age", state.getDefaultCalendar().display(age))
+    val age = state.getAgeInYears(character)
+    field("Age", "$age years")
 }
 
 private fun BODY.showSocial(

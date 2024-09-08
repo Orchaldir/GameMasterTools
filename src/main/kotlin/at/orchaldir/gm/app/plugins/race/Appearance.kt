@@ -146,7 +146,7 @@ private fun BODY.showAppearanceOptions(
     appearance: RaceAppearance,
     eyeOptions: EyeOptions,
 ) {
-    showRarityMap("Type", appearance.appearanceType)
+    showRarityMap("Type", appearance.appearanceTypes)
     h3 { +"Skin" }
     showRarityMap("Type", appearance.skinTypes)
     if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
@@ -201,7 +201,7 @@ private fun HTML.showEditor(
                     value = appearance.name
                 }
             }
-            selectRarityMap("Type", APPEARANCE_TYPE, appearance.appearanceType)
+            selectRarityMap("Type", APPEARANCE_TYPE, appearance.appearanceTypes)
             h3 { +"Skin" }
             selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes, true)
             if (appearance.skinTypes.isAvailable(SkinType.Scales)) {

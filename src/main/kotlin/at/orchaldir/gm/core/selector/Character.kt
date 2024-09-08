@@ -86,3 +86,5 @@ fun State.getOthersWithoutRelationship(character: Character) = getCharacterStora
 fun State.getAge(id: CharacterId): Duration = getAge(getCharacterStorage().getOrThrow(id))
 
 fun State.getAge(character: Character): Duration = character.getAge(time.currentDate)
+
+fun State.getAgeInYears(character: Character) = getDefaultCalendar().getYears(getAge(character))

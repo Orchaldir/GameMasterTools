@@ -4,7 +4,7 @@
   "0": {
    "id": 0,
    "name": "Human",
-   "appearanceType": {
+   "appearanceTypes": {
     "Body": "Common"
    },
    "skinTypes": {

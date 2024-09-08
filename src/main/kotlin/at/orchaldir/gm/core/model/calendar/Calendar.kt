@@ -86,12 +86,9 @@ data class Calendar(
         is Year -> -eras.first.startDate.year * getDaysPerYear()
     }
 
-    fun display(date: DisplayDate) = eras.display(date)
+    fun getYears(duration: Duration) = duration.day / getDaysPerYear()
 
-    fun display(duration: Duration): String {
-        val years = duration.day / getDaysPerYear()
-        return "$years years"
-    }
+    fun display(date: DisplayDate) = eras.display(date)
 
     fun resolve(date: Date) = when (date) {
         is Day -> resolve(date)

@@ -12,9 +12,10 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.getName
+import at.orchaldir.gm.core.selector.getRaceAppearance
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.visualization.character.visualizeCharacter
@@ -94,7 +95,7 @@ private fun HTML.showAppearanceEditor(
     character: Character,
 ) {
     val appearance = character.appearance
-    val race = state.getRaceStorage().getOrThrow(character.race)
+    val raceAppearance = state.getRaceAppearance(character)
     val culture = state.getCultureStorage().getOrThrow(character.culture)
     val backLink = href(call, character.id)
     val previewLink = call.application.href(Characters.Appearance.Preview(character.id))
@@ -117,7 +118,7 @@ private fun HTML.showAppearanceEditor(
                     formMethod = InputFormMethod.post
                 }
             }
-            selectOneOf("Appearance Type", APPEARANCE_TYPE, race.appearance.appearanceType, true) { type ->
+            selectOneOf("Appearance Type", APPEARANCE_TYPE, raceAppearance.appearanceTypes, true) { type ->
                 label = type.name
                 value = type.toString()
                 selected = when (type) {
@@ -127,14 +128,14 @@ private fun HTML.showAppearanceEditor(
             }
             when (appearance) {
                 is HeadOnly -> {
-                    showHeadEditor(race, culture, appearance.head)
-                    showSkinEditor(race, appearance.head.skin)
+                    showHeadEditor(raceAppearance, culture, appearance.head)
+                    showSkinEditor(raceAppearance, appearance.head.skin)
                 }
 
                 is HumanoidBody -> {
                     showBodyEditor(character, appearance.body)
-                    showHeadEditor(race, culture, appearance.head)
-                    showSkinEditor(race, appearance.head.skin)
+                    showHeadEditor(raceAppearance, culture, appearance.head)
+                    showSkinEditor(raceAppearance, appearance.head.skin)
                 }
 
                 UndefinedAppearance -> doNothing()
@@ -169,19 +170,19 @@ private fun FORM.showBodyEditor(
 }
 
 private fun FORM.showHeadEditor(
-    race: Race,
+    raceAppearance: RaceAppearance,
     culture: Culture,
     head: Head,
 ) {
-    showEarsEditor(race, head.ears)
-    showEyesEditor(race, head.eyes)
-    showHairEditor(race, culture, head.hair)
-    showMouthEditor(race, culture, head.mouth)
+    showEarsEditor(raceAppearance, head.ears)
+    showEyesEditor(raceAppearance, head.eyes)
+    showHairEditor(raceAppearance, culture, head.hair)
+    showMouthEditor(raceAppearance, culture, head.mouth)
 }
 
-private fun FORM.showEarsEditor(race: Race, ears: Ears) {
+private fun FORM.showEarsEditor(raceAppearance: RaceAppearance, ears: Ears) {
     h2 { +"Ears" }
-    selectOneOf("Type", EAR_TYPE, race.appearance.earsLayout, true) { type ->
+    selectOneOf("Type", EAR_TYPE, raceAppearance.earsLayout, true) { type ->
         label = type.name
         value = type.toString()
         selected = when (type) {
@@ -191,7 +192,7 @@ private fun FORM.showEarsEditor(race: Race, ears: Ears) {
     }
     when (ears) {
         is NormalEars -> {
-            selectOneOf("Ear Shape", EAR_SHAPE, race.appearance.earShapes, true) { shape ->
+            selectOneOf("Ear Shape", EAR_SHAPE, raceAppearance.earShapes, true) { shape ->
                 label = shape.name
                 value = shape.toString()
                 selected = ears.shape == shape
@@ -208,11 +209,11 @@ private fun FORM.showEarsEditor(race: Race, ears: Ears) {
 }
 
 private fun FORM.showSkinEditor(
-    race: Race,
+    raceAppearance: RaceAppearance,
     skin: Skin,
 ) {
     h2 { +"Skin" }
-    selectOneOf("Type", SKIN_TYPE, race.appearance.skinTypes, true) { type ->
+    selectOneOf("Type", SKIN_TYPE, raceAppearance.skinTypes, true) { type ->
         label = type.name
         value = type.toString()
         selected = when (type) {
@@ -222,10 +223,10 @@ private fun FORM.showSkinEditor(
         }
     }
     when (skin) {
-        is Scales -> selectColor("Color", SKIN_EXOTIC_COLOR, race.appearance.scalesColors, skin.color)
-        is ExoticSkin -> selectColor("Color", SKIN_EXOTIC_COLOR, race.appearance.exoticSkinColors, skin.color)
+        is Scales -> selectColor("Color", SKIN_EXOTIC_COLOR, raceAppearance.scalesColors, skin.color)
+        is ExoticSkin -> selectColor("Color", SKIN_EXOTIC_COLOR, raceAppearance.exoticSkinColors, skin.color)
         is NormalSkin -> {
-            selectOneOf("Color", SKIN_COLOR, race.appearance.normalSkinColors, true) { skinColor ->
+            selectOneOf("Color", SKIN_COLOR, raceAppearance.normalSkinColors, true) { skinColor ->
                 label = skinColor.name
                 value = skinColor.toString()
                 selected = skin.color == skinColor
@@ -237,12 +238,12 @@ private fun FORM.showSkinEditor(
 }
 
 private fun FORM.showBeardEditor(
-    race: Race,
+    raceAppearance: RaceAppearance,
     culture: Culture,
     beard: Beard,
 ) {
     h2 { +"Beard" }
-    selectOneOf("Type", BEARD_TYPE, race.appearance.hairOptions.beardTypes, true) { option ->
+    selectOneOf("Type", BEARD_TYPE, raceAppearance.hairOptions.beardTypes, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {
@@ -252,12 +253,12 @@ private fun FORM.showBeardEditor(
     }
     when (beard) {
         NoBeard -> doNothing()
-        is NormalBeard -> showNormalBeardEditor(race, culture, beard)
+        is NormalBeard -> showNormalBeardEditor(raceAppearance, culture, beard)
     }
 }
 
 private fun FORM.showNormalBeardEditor(
-    race: Race,
+    raceAppearance: RaceAppearance,
     culture: Culture,
     beard: NormalBeard,
 ) {
@@ -271,7 +272,7 @@ private fun FORM.showNormalBeardEditor(
             BeardStyleType.Shaved -> beard.style is ShavedBeard
         }
     }
-    selectColor("Color", BEARD_COLOR, race.appearance.hairOptions.colors, beard.color)
+    selectColor("Color", BEARD_COLOR, raceAppearance.hairOptions.colors, beard.color)
 
     when (beard.style) {
         is Goatee -> selectGoateeStyle(culture, beard.style.goateeStyle)
@@ -308,11 +309,11 @@ private fun HtmlBlockTag.selectMoustacheStyle(
 }
 
 private fun FORM.showEyesEditor(
-    race: Race,
+    raceAppearance: RaceAppearance,
     eyes: Eyes,
 ) {
     h2 { +"Eyes" }
-    selectOneOf("Layout", EYES_LAYOUT, race.appearance.eyesLayout, true) { option ->
+    selectOneOf("Layout", EYES_LAYOUT, raceAppearance.eyesLayout, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {
@@ -323,7 +324,7 @@ private fun FORM.showEyesEditor(
     }
     when (eyes) {
         is OneEye -> {
-            showEyeEditor(race.appearance.eyeOptions, eyes.eye)
+            showEyeEditor(raceAppearance.eyeOptions, eyes.eye)
             selectEnum("Eye Size", EYE_SIZE, Size.entries, true) { c ->
                 label = c.name
                 value = c.toString()
@@ -332,7 +333,7 @@ private fun FORM.showEyesEditor(
         }
 
         is TwoEyes -> {
-            showEyeEditor(race.appearance.eyeOptions, eyes.eye)
+            showEyeEditor(raceAppearance.eyeOptions, eyes.eye)
         }
 
         else -> doNothing()
@@ -358,12 +359,12 @@ private fun FORM.showEyeEditor(
 }
 
 private fun FORM.showHairEditor(
-    race: Race,
+    raceAppearance: RaceAppearance,
     culture: Culture,
     hair: Hair,
 ) {
     h2 { +"Hair" }
-    selectOneOf("Type", HAIR_TYPE, race.appearance.hairOptions.hairTypes, true) { option ->
+    selectOneOf("Type", HAIR_TYPE, raceAppearance.hairOptions.hairTypes, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {
@@ -373,12 +374,12 @@ private fun FORM.showHairEditor(
     }
     when (hair) {
         NoHair -> doNothing()
-        is NormalHair -> showNormalHairEditor(race, culture, hair)
+        is NormalHair -> showNormalHairEditor(raceAppearance, culture, hair)
     }
 }
 
 private fun FORM.showNormalHairEditor(
-    race: Race,
+    raceAppearance: RaceAppearance,
     culture: Culture,
     hair: NormalHair,
 ) {
@@ -394,7 +395,7 @@ private fun FORM.showNormalHairEditor(
             HairStyleType.Spiked -> hair.style is Spiked
         }
     }
-    selectColor("Color", HAIR_COLOR, race.appearance.hairOptions.colors, hair.color)
+    selectColor("Color", HAIR_COLOR, raceAppearance.hairOptions.colors, hair.color)
 
     when (hair.style) {
         is SidePart -> {
@@ -410,12 +411,12 @@ private fun FORM.showNormalHairEditor(
 }
 
 private fun FORM.showMouthEditor(
-    race: Race,
+    raceAppearance: RaceAppearance,
     culture: Culture,
     mouth: Mouth,
 ) {
     h2 { +"Mouth" }
-    selectOneOf("Type", MOUTH_TYPE, race.appearance.mouthTypes, true) { option ->
+    selectOneOf("Type", MOUTH_TYPE, raceAppearance.mouthTypes, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {
@@ -426,7 +427,7 @@ private fun FORM.showMouthEditor(
     when (mouth) {
         is NormalMouth -> {
             showSimpleMouthEditor(mouth.width, mouth.teethColor)
-            showBeardEditor(race, culture, mouth.beard)
+            showBeardEditor(raceAppearance, culture, mouth.beard)
         }
 
         is FemaleMouth -> {
