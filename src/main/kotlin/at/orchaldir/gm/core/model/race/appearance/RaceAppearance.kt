@@ -21,7 +21,7 @@ value class RaceAppearanceId(val value: Int) : Id<RaceAppearanceId> {
 
 @Serializable
 data class RaceAppearance(
-    val id: RaceAppearanceId = RaceAppearanceId(0),
+    val id: RaceAppearanceId,
     val name: String = "RaceAppearance ${id.value}",
     val appearanceTypes: OneOf<AppearanceType> = OneOf(AppearanceType.entries),
     val skinTypes: OneOf<SkinType> = OneOf(SkinType.entries),

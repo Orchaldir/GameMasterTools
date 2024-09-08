@@ -1,18 +1,26 @@
 {
-  "version": 1,
-  "elements": {
-    "0": {
-      "id": 0,
-      "name": "Human",
-      "genders": {
-        "Female": "Common",
-        "Male": "Common"
-      },
-      "lifeStages": {
-        "type": "Simple",
-        "appearance": 0,
-        "lifeStages": []
-      }
-    }
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Human",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "lifeStages": [
+     {
+      "name": "Child",
+      "maxAge": 18
+     },
+     {
+      "name": "Adult",
+      "maxAge": 120
+     }
+    ]
+   }
   }
+ }
 }

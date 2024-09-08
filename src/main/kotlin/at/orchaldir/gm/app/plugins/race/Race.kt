@@ -231,7 +231,7 @@ private fun FORM.editLifeStages(
 
     h2 { +"Life Stages" }
 
-    selectEnum("Type", combine(LIFE_STAGE, TYPE), LifeStagesType.entries) { type ->
+    selectEnum("Type", combine(LIFE_STAGE, TYPE), LifeStagesType.entries, true) { type ->
         label = type.name
         value = type.name
         selected = when (lifeStages) {
@@ -243,11 +243,11 @@ private fun FORM.editLifeStages(
 
     when (lifeStages) {
         is ImmutableLifeStage -> {
-            selectRaceAppearance(state, lifeStages.appearance, 0)
+            selectAppearance(state, lifeStages.appearance, 0)
         }
 
         is SimpleAging -> {
-            selectRaceAppearance(state, lifeStages.appearance, 0)
+            selectAppearance(state, lifeStages.appearance, 0)
             selectNumberOfLifeStages(lifeStages.lifeStages.size)
             var minMaxAge = 1
             showListWithIndex(lifeStages.lifeStages) { index, stage ->
@@ -271,7 +271,7 @@ private fun FORM.editLifeStages(
                         selectAge(minMaxAge, index, stage.maxAge)
                     }
                     li {
-                        selectRaceAppearance(state, stage.appearance, index)
+                        selectAppearance(state, stage.appearance, index)
                     }
                 }
                 minMaxAge = stage.maxAge + 1
@@ -299,13 +299,13 @@ private fun LI.selectAge(
     selectNumber("Max Age", maxAge ?: 0, minMaxAge, 10000, combine(LIFE_STAGE, AGE, index))
 }
 
-private fun HtmlBlockTag.selectRaceAppearance(
+private fun HtmlBlockTag.selectAppearance(
     state: State,
     raceAppearanceId: RaceAppearanceId,
     index: Int,
 ) {
     selectEnum(
-        "Race Appearance",
+        "Appearance",
         combine(RACE, APPEARANCE, index),
         state.getRaceAppearanceStorage().getAll()
     ) { appearance ->
