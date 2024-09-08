@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -161,6 +162,9 @@ private fun BODY.showLifeStages(
                     li {
                         showMaxAge(stage.maxAge)
                     }
+                    li {
+                        showRelativeHeight(stage.relativeHeight)
+                    }
                 }
             }
         }
@@ -171,6 +175,9 @@ private fun BODY.showLifeStages(
                 ul {
                     li {
                         showMaxAge(stage.maxAge)
+                    }
+                    li {
+                        showRelativeHeight(stage.relativeHeight)
                     }
                     li {
                         showAppearance(call, state, stage.appearance)
@@ -193,6 +200,10 @@ private fun HtmlBlockTag.showAppearance(
 
 private fun HtmlBlockTag.showMaxAge(maxAge: Int) {
     field("Max Age", maxAge.toString())
+}
+
+private fun HtmlBlockTag.showRelativeHeight(height: Factor) {
+    field("Relative Height", height.value.toString())
 }
 
 private fun HTML.showRaceEditor(
