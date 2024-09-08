@@ -12,3 +12,13 @@ table, th, td {
 th {
   background-color: #BFC9CA;
 }
+
+.split {
+    max-width: 50%;
+    width: 50%;
+    float: left;
+    height: 100vh;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    overflow: scroll;
+}

@@ -134,23 +134,26 @@ private fun HTML.showDetails(
     val editLink = call.application.href(AppearanceRoutes.Edit(appearance.id))
 
     simpleHtml("Race Appearance: ${appearance.name}") {
-        showRandomExamples(state, appearance, 20, 10)
-        field("Id", appearance.id.value.toString())
-        field("Name", appearance.name)
-        h2 { +"Options" }
-        showAppearanceOptions(appearance, eyeOptions)
-        h2 { +"Races" }
-        showList(state.getRaces(appearance.id)) { race ->
-            link(call, race)
+        div {
+            classes += "split"
+            field("Id", appearance.id.value.toString())
+            field("Name", appearance.name)
+            h2 { +"Options" }
+            showAppearanceOptions(appearance, eyeOptions)
+            h2 { +"Races" }
+            showList(state.getRaces(appearance.id)) { race ->
+                link(call, race)
+            }
+
+            action(editLink, "Edit")
+
+            if (state.canDelete(appearance.id)) {
+                action(deleteLink, "Delete")
+            }
+
+            back(backLink)
         }
-
-        action(editLink, "Edit")
-
-        if (state.canDelete(appearance.id)) {
-            action(deleteLink, "Delete")
-        }
-
-        back(backLink)
+        showRandomExamples(state, appearance, 20, 20)
     }
 }
 
@@ -163,13 +166,17 @@ private fun HtmlBlockTag.showRandomExamples(
     val generator = createGeneratorConfig(state, appearance, Gender.Male, CultureId(0))
     val distance = Distance(1.8f)
 
-    repeat(n) {
-        val svg = visualizeCharacter(RENDER_CONFIG, generator.generate(distance))
-        svg(svg, width)
+    div {
+        classes += "split"
+
+        repeat(n) {
+            val svg = visualizeCharacter(RENDER_CONFIG, generator.generate(distance))
+            svg(svg, width)
+        }
     }
 }
 
-private fun BODY.showAppearanceOptions(
+private fun HtmlBlockTag.showAppearanceOptions(
     appearance: RaceAppearance,
     eyeOptions: EyeOptions,
 ) {
