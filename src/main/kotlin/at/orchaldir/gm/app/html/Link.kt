@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.moon.MoonId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id

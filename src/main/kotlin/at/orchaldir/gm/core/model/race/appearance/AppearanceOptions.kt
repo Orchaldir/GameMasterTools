@@ -3,18 +3,18 @@ package at.orchaldir.gm.core.model.race.appearance
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.race.RACE
+import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val RACE_APPEARANCE = "RaceAppearance"
+const val RACE_APPEARANCE = "Race Appearance"
 
 @JvmInline
 @Serializable
 value class RaceAppearanceId(val value: Int) : Id<RaceAppearanceId> {
 
     override fun next() = RaceAppearanceId(value + 1)
-    override fun type() = RACE
+    override fun type() = RACE_APPEARANCE
     override fun value() = value
 
 }
@@ -34,4 +34,9 @@ data class RaceAppearance(
     val eyeOptions: EyeOptions = EyeOptions(),
     val hairOptions: HairOptions = HairOptions(),
     val mouthTypes: OneOf<MouthType> = OneOf(MouthType.entries),
-)
+) : Element<RaceAppearanceId> {
+
+    override fun id() = id
+    override fun name() = name
+
+}
