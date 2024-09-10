@@ -11,7 +11,7 @@ sealed class LifeStages {
 
     abstract fun contains(id: RaceAppearanceId): Boolean
     abstract fun getAppearance(age: Int): RaceAppearanceId
-    abstract fun getLifeStageName(age: Int): String?
+    abstract fun getLifeStage(age: Int): LifeStage?
     abstract fun getRelativeSize(age: Int): Factor
 
 }
@@ -27,11 +27,9 @@ data class SimpleAging(
 
     override fun getAppearance(age: Int) = appearance
 
-    override fun getLifeStageName(age: Int) = getLifeStage(age).name
+    override fun getLifeStage(age: Int) = getLifeStage(age, lifeStages)
 
     override fun getRelativeSize(age: Int) = getRelativeSize(age, lifeStages)
-
-    fun getLifeStage(age: Int) = getLifeStage(age, lifeStages)
 
 }
 
@@ -45,11 +43,9 @@ data class ComplexAging(
 
     override fun getAppearance(age: Int) = getLifeStage(age).appearance
 
-    override fun getLifeStageName(age: Int) = getLifeStage(age).name
+    override fun getLifeStage(age: Int) = getLifeStage(age, lifeStages)
 
     override fun getRelativeSize(age: Int) = getRelativeSize(age, lifeStages)
-
-    fun getLifeStage(age: Int) = getLifeStage(age, lifeStages)
 
 }
 
@@ -63,7 +59,7 @@ data class ImmutableLifeStage(
 
     override fun getAppearance(age: Int) = appearance
 
-    override fun getLifeStageName(age: Int) = null
+    override fun getLifeStage(age: Int) = null
 
     override fun getRelativeSize(age: Int) = FULL
 }

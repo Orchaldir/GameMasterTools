@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.race.aging
 
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.utils.math.FULL
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -10,7 +11,9 @@ class LifeStagesTest {
     @Nested
     inner class SimpleAgingTest {
         private val appearance = RaceAppearanceId(3)
-        private val simpleAging = SimpleAging(appearance, listOf(SimpleLifeStage("A", 2), SimpleLifeStage("B", 4)))
+        val a = SimpleLifeStage("A", 2)
+        val b = SimpleLifeStage("B", 4)
+        private val simpleAging = SimpleAging(appearance, listOf(a, b))
 
         @Test
         fun `Always get the same appearance`() {
@@ -21,16 +24,16 @@ class LifeStagesTest {
 
         @Test
         fun `Get name of life stages`() {
-            assertEquals("A", simpleAging.getLifeStageName(0))
-            assertEquals("A", simpleAging.getLifeStageName(1))
-            assertEquals("A", simpleAging.getLifeStageName(2))
-            assertEquals("B", simpleAging.getLifeStageName(3))
-            assertEquals("B", simpleAging.getLifeStageName(4))
+            assertEquals(a, simpleAging.getLifeStage(0))
+            assertEquals(a, simpleAging.getLifeStage(1))
+            assertEquals(a, simpleAging.getLifeStage(2))
+            assertEquals(b, simpleAging.getLifeStage(3))
+            assertEquals(b, simpleAging.getLifeStage(4))
         }
 
         @Test
         fun `Get name of last life stage if too old`() {
-            assertEquals("B", simpleAging.getLifeStageName(5))
+            assertEquals(b, simpleAging.getLifeStage(5))
         }
 
     }
@@ -39,12 +42,9 @@ class LifeStagesTest {
     inner class ComplexAgingTest {
         private val appearance0 = RaceAppearanceId(1)
         private val appearance1 = RaceAppearanceId(2)
-        private val simpleAging = ComplexAging(
-            listOf(
-                ComplexLifeStage("A", 2, appearance0),
-                ComplexLifeStage("B", 4, appearance1)
-            ),
-        )
+        val a = ComplexLifeStage("A", 2, FULL, appearance0)
+        val b = ComplexLifeStage("B", 4, FULL, appearance1)
+        private val simpleAging = ComplexAging(listOf(a, b))
 
         @Test
         fun `Get appearance of life stages`() {
@@ -62,16 +62,16 @@ class LifeStagesTest {
 
         @Test
         fun `Get name of life stages`() {
-            assertEquals("A", simpleAging.getLifeStageName(0))
-            assertEquals("A", simpleAging.getLifeStageName(1))
-            assertEquals("A", simpleAging.getLifeStageName(2))
-            assertEquals("B", simpleAging.getLifeStageName(3))
-            assertEquals("B", simpleAging.getLifeStageName(4))
+            assertEquals(a, simpleAging.getLifeStage(0))
+            assertEquals(a, simpleAging.getLifeStage(1))
+            assertEquals(a, simpleAging.getLifeStage(2))
+            assertEquals(b, simpleAging.getLifeStage(3))
+            assertEquals(b, simpleAging.getLifeStage(4))
         }
 
         @Test
         fun `Get name of last life stage if too old`() {
-            assertEquals("B", simpleAging.getLifeStageName(5))
+            assertEquals(b, simpleAging.getLifeStage(5))
         }
 
     }
