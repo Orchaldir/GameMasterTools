@@ -163,7 +163,7 @@ private fun BODY.showLifeStages(
                         showMaxAge(stage.maxAge)
                     }
                     li {
-                        showRelativeHeight(stage.relativeHeight)
+                        showRelativeSize(stage.relativeSize)
                     }
                 }
             }
@@ -177,7 +177,7 @@ private fun BODY.showLifeStages(
                         showMaxAge(stage.maxAge)
                     }
                     li {
-                        showRelativeHeight(stage.relativeHeight)
+                        showRelativeSize(stage.relativeSize)
                     }
                     li {
                         showAppearance(call, state, stage.appearance)
@@ -202,8 +202,8 @@ private fun HtmlBlockTag.showMaxAge(maxAge: Int) {
     field("Max Age", maxAge.toString())
 }
 
-private fun HtmlBlockTag.showRelativeHeight(height: Factor) {
-    field("Relative Height", height.value.toString())
+private fun HtmlBlockTag.showRelativeSize(size: Factor) {
+    field("Relative Size", size.value.toString())
 }
 
 private fun HTML.showRaceEditor(
@@ -270,7 +270,7 @@ private fun FORM.editLifeStages(
                         selectMaxAge(minMaxAge, index, stage.maxAge)
                     }
                     li {
-                        selectRelativeHeight(stage.relativeHeight, index)
+                        selectRelativeSize(stage.relativeSize, index)
                     }
                 }
                 minMaxAge = stage.maxAge + 1
@@ -287,7 +287,7 @@ private fun FORM.editLifeStages(
                         selectMaxAge(minMaxAge, index, stage.maxAge)
                     }
                     li {
-                        selectRelativeHeight(stage.relativeHeight, index)
+                        selectRelativeSize(stage.relativeSize, index)
                     }
                     li {
                         selectAppearance(state, stage.appearance, index)
@@ -318,11 +318,11 @@ private fun LI.selectMaxAge(
     selectInt("Max Age", maxAge ?: 0, minMaxAge, 10000, combine(LIFE_STAGE, AGE, index))
 }
 
-private fun LI.selectRelativeHeight(
-    height: Factor,
+private fun LI.selectRelativeSize(
+    size: Factor,
     index: Int,
 ) {
-    selectFloat("Relative Height", height.value, 0.0f, 1.0f, 0.01f, combine(LIFE_STAGE, HEIGHT, index))
+    selectFloat("Relative Size", size.value, 0.0f, 1.0f, 0.01f, combine(LIFE_STAGE, SIZE, index))
 }
 
 private fun HtmlBlockTag.selectAppearance(

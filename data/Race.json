@@ -14,42 +14,42 @@
      {
       "name": "Baby",
       "maxAge": 2,
-      "relativeHeight": 0.1
+      "relativeSize": 0.1
      },
      {
       "name": "Toddler",
       "maxAge": 5,
-      "relativeHeight": 0.2
+      "relativeSize": 0.2
      },
      {
       "name": "Child",
       "maxAge": 12,
-      "relativeHeight": 0.6
+      "relativeSize": 0.6
      },
      {
       "name": "Teen",
       "maxAge": 18,
-      "relativeHeight": 1.0
+      "relativeSize": 1.0
      },
      {
       "name": "Adult",
       "maxAge": 45,
-      "relativeHeight": 1.0
+      "relativeSize": 1.0
      },
      {
       "name": "Middle Age",
       "maxAge": 60,
-      "relativeHeight": 1.0
+      "relativeSize": 1.0
      },
      {
       "name": "Old Age",
       "maxAge": 90,
-      "relativeHeight": 0.9
+      "relativeSize": 0.9
      },
      {
       "name": "Venerable",
       "maxAge": 120,
-      "relativeHeight": 0.8
+      "relativeSize": 0.8
      }
     ]
    }

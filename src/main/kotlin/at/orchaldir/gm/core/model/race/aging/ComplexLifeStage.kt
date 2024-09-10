@@ -8,10 +8,10 @@ import kotlinx.serialization.Serializable
 data class ComplexLifeStage(
     val name: String,
     val maxAge: Int,
-    val relativeHeight: Factor,
+    val relativeSize: Factor,
     val appearance: RaceAppearanceId = RaceAppearanceId(0),
 ) : LifeStage {
     override fun name() = name
     override fun maxAge() = maxAge
-    override fun relativeHeight() = relativeHeight
+    override fun relativeSize() = relativeSize
 }

@@ -7,9 +7,9 @@ import kotlinx.serialization.Serializable
 data class SimpleLifeStage(
     val name: String,
     val maxAge: Int,
-    val relativeHeight: Factor,
+    val relativeSize: Factor,
 ) : LifeStage {
     override fun name() = name
     override fun maxAge() = maxAge
-    override fun relativeHeight() = relativeHeight
+    override fun relativeSize() = relativeSize
 }
