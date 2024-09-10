@@ -12,6 +12,7 @@ sealed class LifeStages {
     abstract fun contains(id: RaceAppearanceId): Boolean
     abstract fun getAppearance(age: Int): RaceAppearanceId
     abstract fun getLifeStage(age: Int): LifeStage?
+    abstract fun getLifeStageStartAge(age: Int): Int
     abstract fun getRelativeSize(age: Int): Factor
 
 }
@@ -29,6 +30,8 @@ data class SimpleAging(
 
     override fun getLifeStage(age: Int) = getLifeStage(age, lifeStages)
 
+    override fun getLifeStageStartAge(age: Int) = getLifeStageStartAge(age, lifeStages)
+
     override fun getRelativeSize(age: Int) = getRelativeSize(age, lifeStages)
 
 }
@@ -44,6 +47,8 @@ data class ComplexAging(
     override fun getAppearance(age: Int) = getLifeStage(age).appearance
 
     override fun getLifeStage(age: Int) = getLifeStage(age, lifeStages)
+
+    override fun getLifeStageStartAge(age: Int) = getLifeStageStartAge(age, lifeStages)
 
     override fun getRelativeSize(age: Int) = getRelativeSize(age, lifeStages)
 
@@ -61,11 +66,16 @@ data class ImmutableLifeStage(
 
     override fun getLifeStage(age: Int) = null
 
+    override fun getLifeStageStartAge(age: Int) = 0
+
     override fun getRelativeSize(age: Int) = FULL
 }
 
 private fun <T : LifeStage> getLifeStage(age: Int, lifeStages: List<T>) = lifeStages
     .firstOrNull { age <= it.maxAge() } ?: lifeStages.last()
+
+private fun <T : LifeStage> getLifeStageStartAge(age: Int, lifeStages: List<T>) = lifeStages
+    .lastOrNull { age > it.maxAge() }?.maxAge() ?: 0
 
 private fun <T : LifeStage> getRelativeSize(age: Int, lifeStages: List<T>): Factor {
     var previousAge = 0
