@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.generator.DateGenerator
 import at.orchaldir.gm.core.generator.NameGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
@@ -218,10 +219,7 @@ private fun BODY.showData(
 
         is OldAge -> showCauseOfDeath("Old Age")
     }
-    showAge(state, character)
-    race.lifeStages.getLifeStageName(state.getAgeInYears(character))?.let {
-        field("Life Stage", it)
-    }
+    showAge(state, character, race)
 
     action(generateNameLink, "Generate New Name")
     action(generateBirthdayLink, "Generate Birthday")
@@ -238,9 +236,13 @@ private fun BODY.showCauseOfDeath(cause: String) {
 private fun HtmlBlockTag.showAge(
     state: State,
     character: Character,
+    race: Race,
 ) {
     val age = state.getAgeInYears(character)
     field("Age", "$age years")
+    race.lifeStages.getLifeStageName(age)?.let {
+        field("Life Stage", it)
+    }
 }
 
 private fun BODY.showSocial(
@@ -404,7 +406,7 @@ private fun HTML.showCharacterEditor(
                     selected = character.causeOfDeath.killer == c.id
                 }
             }
-            showAge(state, character)
+            showAge(state, character, race)
             field("Personality") {
                 details {
                     state.getPersonalityTraitGroups().forEach { group ->
