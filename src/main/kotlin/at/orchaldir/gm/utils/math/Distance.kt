@@ -12,5 +12,6 @@ data class Distance(val value: Float) {
     operator fun plus(other: Distance) = Distance(value + other.value)
     operator fun times(other: Float) = Distance(value * other)
     operator fun times(other: Factor) = Distance(value * other.value)
+    operator fun times(other: Int) = Distance(value * other)
 
 }
