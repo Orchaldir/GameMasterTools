@@ -74,8 +74,8 @@ data class ImmutableLifeStage(
 private fun <T : LifeStage> getLifeStage(age: Int, lifeStages: List<T>) = lifeStages
     .firstOrNull { age <= it.maxAge() } ?: lifeStages.last()
 
-private fun <T : LifeStage> getLifeStageStartAge(age: Int, lifeStages: List<T>) = lifeStages
-    .lastOrNull { age > it.maxAge() }?.maxAge() ?: 0
+private fun <T : LifeStage> getLifeStageStartAge(age: Int, lifeStages: List<T>) = 1 + (lifeStages
+    .lastOrNull { age > it.maxAge() }?.maxAge() ?: -1)
 
 private fun <T : LifeStage> getRelativeSize(age: Int, lifeStages: List<T>): Factor {
     var previousAge = 0
