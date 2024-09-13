@@ -160,9 +160,10 @@ private fun HtmlBlockTag.visualizeLifeStages(
     val raceAppearanceId = race.lifeStages.getRaceAppearance()
     val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(raceAppearanceId)
     val generator = createGeneratorConfig(state, raceAppearance, Gender.Male, CultureId(0))
+    val appearance = generator.generate()
 
     race.lifeStages.getAllLifeStages().forEach { stage ->
-        val character = Character(CharacterId(0), appearance = generator.generate(), race = race.id)
+        val character = Character(CharacterId(0), appearance = appearance, race = race.id)
         val svg = visualizeCharacter(RENDER_CONFIG, state, character)
         svg(svg, width)
     }
