@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.appearance.RarityMap
 import at.orchaldir.gm.core.model.appearance.reverseAndSort
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -80,6 +81,14 @@ fun HtmlBlockTag.showDetails(
         summary { +label }
         content()
     }
+}
+
+fun HtmlBlockTag.showDistribution(
+    label: String,
+    distribution: Distribution,
+    unit: String,
+) {
+    field(label, String.format("%.2f +- %.2f %s", distribution.center, distribution.offset, unit))
 }
 
 // lists
