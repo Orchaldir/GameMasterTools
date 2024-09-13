@@ -6,4 +6,8 @@ import kotlinx.serialization.Serializable
 data class Distribution(
     val center: Float,
     val offset: Float,
-)
+) {
+
+    fun getMin() = center - offset
+    fun getMax() = center + offset
+}

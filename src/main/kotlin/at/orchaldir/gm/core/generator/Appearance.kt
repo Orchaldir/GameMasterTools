@@ -8,14 +8,17 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.Distribution
 
 data class AppearanceGeneratorConfig(
     val numberGenerator: NumberGenerator,
     val rarityGenerator: RarityGenerator,
     val gender: Gender,
+    val height: Distribution,
     val appearanceOptions: RaceAppearance,
     val appearanceStyle: AppearanceStyle,
 ) {

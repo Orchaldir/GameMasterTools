@@ -19,11 +19,13 @@ import kotlin.random.Random
 
 fun createGenerationConfig(state: State, character: Character): AppearanceGeneratorConfig {
     val culture = state.getCultureStorage().getOrThrow(character.culture)
+    val race = state.getRaceStorage().getOrThrow(character.race)
 
     return AppearanceGeneratorConfig(
         RandomNumberGenerator(Random),
         state.rarityGenerator,
         character.gender,
+        race.height,
         state.getRaceAppearance(character),
         culture.appearanceStyle
     )
@@ -44,19 +46,25 @@ fun parseAppearance(
     config: AppearanceGeneratorConfig,
     character: Character,
 ): Appearance {
+    val height = parseHeight(parameters, config)
     val skin = parseSkin(parameters, config)
 
     return when (parameters[APPEARANCE]) {
-        AppearanceType.HeadOnly.toString() -> HeadOnly(parseHead(parameters, config, character, skin), Distance(0.2f))
+        AppearanceType.HeadOnly.toString() -> HeadOnly(parseHead(parameters, config, character, skin), height)
         AppearanceType.Body.toString() -> HumanoidBody(
             parseBody(parameters, config, skin),
             parseHead(parameters, config, character, skin),
-            Distance(1.8f)
+            height,
         )
 
         else -> UndefinedAppearance
     }
 }
+
+private fun parseHeight(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+) = Distance(parseFloat(parameters, HEIGHT, config.height.center))
 
 private fun parseBody(
     parameters: Parameters,

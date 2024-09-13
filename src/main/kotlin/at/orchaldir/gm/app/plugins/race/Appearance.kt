@@ -23,6 +23,7 @@ import at.orchaldir.gm.core.selector.getRaces
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -312,6 +313,7 @@ fun createGeneratorConfig(
         RandomNumberGenerator(Random),
         state.rarityGenerator,
         gender,
+        Distribution(1.0f, 0.0f),
         appearance,
         culture.appearanceStyle
     )

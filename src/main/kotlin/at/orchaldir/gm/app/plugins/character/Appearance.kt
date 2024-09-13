@@ -12,12 +12,14 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.core.selector.getRaceAppearance
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -95,6 +97,7 @@ private fun HTML.showAppearanceEditor(
     character: Character,
 ) {
     val appearance = character.appearance
+    val race = state.getRaceStorage().getOrThrow(character.race)
     val raceAppearance = state.getRaceAppearance(character)
     val culture = state.getCultureStorage().getOrThrow(character.culture)
     val backLink = href(call, character.id)
@@ -128,11 +131,13 @@ private fun HTML.showAppearanceEditor(
             }
             when (appearance) {
                 is HeadOnly -> {
+                    editHeight(race, appearance.height)
                     editHead(raceAppearance, culture, appearance.head)
                     editSkin(raceAppearance, appearance.head.skin)
                 }
 
                 is HumanoidBody -> {
+                    editHeight(race, appearance.height)
                     editBody(character, appearance.body)
                     editHead(raceAppearance, culture, appearance.head)
                     editSkin(raceAppearance, appearance.head.skin)
@@ -149,6 +154,16 @@ private fun HTML.showAppearanceEditor(
             }
         }
         back(backLink)
+    }
+}
+
+private fun FORM.editHeight(
+    race: Race,
+    height: Distance,
+) {
+    field("Max Height") {
+        selectFloat(height.value, race.height.getMin(), race.height.getMax(), 0.01f, HEIGHT)
+        +" m"
     }
 }
 
