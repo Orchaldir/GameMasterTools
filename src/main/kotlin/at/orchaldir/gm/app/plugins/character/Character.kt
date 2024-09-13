@@ -10,11 +10,15 @@ import at.orchaldir.gm.core.generator.DateGenerator
 import at.orchaldir.gm.core.generator.NameGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.appearance.HeadOnly
+import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
+import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -205,6 +209,11 @@ private fun BODY.showData(
 
         UndefinedCharacterOrigin -> doNothing()
     }
+    when (character.appearance) {
+        is HeadOnly -> showMaxHeight(character.appearance.height)
+        is HumanoidBody -> showMaxHeight(character.appearance.height)
+        UndefinedAppearance -> doNothing()
+    }
     field(call, state, "Birthdate", character.birthDate)
     character.causeOfDeath.getDeathDate()?.let { field(call, state, "Date of Death", it) }
     when (character.causeOfDeath) {
@@ -227,6 +236,10 @@ private fun BODY.showData(
     if (state.canDelete(character.id)) {
         action(deleteLink, "Delete")
     }
+}
+
+private fun BODY.showMaxHeight(height: Distance) {
+    field("Max Height", height.value.toString())
 }
 
 private fun BODY.showCauseOfDeath(cause: String) {

@@ -28,18 +28,15 @@
      },
      {
       "name": "Teen",
-      "maxAge": 18,
-      "relativeSize": 1.0
+      "maxAge": 18
      },
      {
       "name": "Adult",
-      "maxAge": 45,
-      "relativeSize": 1.0
+      "maxAge": 45
      },
      {
       "name": "Middle Age",
-      "maxAge": 60,
-      "relativeSize": 1.0
+      "maxAge": 60
      },
      {
       "name": "Old Age",
