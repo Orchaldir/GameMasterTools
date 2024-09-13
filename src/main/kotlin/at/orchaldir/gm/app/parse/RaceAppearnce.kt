@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.parse
 
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.core.model.appearance.Color
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType

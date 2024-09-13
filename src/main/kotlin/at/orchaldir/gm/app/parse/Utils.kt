@@ -1,11 +1,13 @@
 package at.orchaldir.gm.app.parse
 
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.appearance.OneOrNone
 import at.orchaldir.gm.core.model.appearance.Rarity
 import at.orchaldir.gm.core.model.appearance.SomeOf
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.time.*
+import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
@@ -20,6 +22,8 @@ inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String, de
 
 inline fun <reified T : Enum<T>> parseSet(parameters: Parameters, param: String): Set<T> =
     parameters.getAll(param)?.map { java.lang.Enum.valueOf(T::class.java, it) }?.toSet() ?: emptySet()
+
+// date
 
 fun parseDate(
     parameters: Parameters,
@@ -61,6 +65,7 @@ fun parseYear(
 
     return default.resolve(calendarDate)
 }
+// RarityMap
 
 fun <T> parseOneOf(
     parameters: Parameters,
@@ -119,6 +124,23 @@ private fun <T> parseRarityMap(
         Pair(value, rarity)
     }
 
+//
+
+fun parseDistribution(parameters: Parameters, param: String) = Distribution(
+    parseFloat(parameters, combine(param, CENTER)),
+    parseFloat(parameters, combine(param, OFFSET)),
+)
+
+fun parseBool(parameters: Parameters, param: String, default: Boolean = false) =
+    parameters[param]?.toBoolean() ?: default
+
+fun parseInt(parameters: Parameters, param: String, default: Int = 0) = parameters[param]?.toInt() ?: default
+
+fun parseFactor(parameters: Parameters, param: String, default: Factor = FULL) =
+    parameters[param]?.toFloat()?.let { Factor(it) } ?: default
+
+fun parseFloat(parameters: Parameters, param: String, default: Float = 0.0f) = parameters[param]?.toFloat() ?: default
+
 fun parseName(parameters: Parameters, param: String): String? {
     val name = parameters[param]?.trim() ?: return null
 
@@ -128,11 +150,3 @@ fun parseName(parameters: Parameters, param: String): String? {
 
     return name
 }
-
-fun parseBool(parameters: Parameters, param: String, default: Boolean = false) =
-    parameters[param]?.toBoolean() ?: default
-
-fun parseInt(parameters: Parameters, param: String, default: Int = 0) = parameters[param]?.toInt() ?: default
-
-fun parseFactor(parameters: Parameters, param: String, default: Factor = FULL) =
-    parameters[param]?.toFloat()?.let { Factor(it) } ?: default

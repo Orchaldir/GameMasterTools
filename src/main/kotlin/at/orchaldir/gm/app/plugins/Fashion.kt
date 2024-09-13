@@ -2,8 +2,8 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.ACCESSORY_RARITY
-import at.orchaldir.gm.app.parse.CLOTHING_SETS
+import at.orchaldir.gm.app.ACCESSORY_RARITY
+import at.orchaldir.gm.app.CLOTHING_SETS
 import at.orchaldir.gm.app.parse.parseFashion
 import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion

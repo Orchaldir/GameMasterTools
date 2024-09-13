@@ -1,5 +1,7 @@
 package at.orchaldir.gm.app.parse
 
+import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.NAMES
 import at.orchaldir.gm.core.model.NameList
 import at.orchaldir.gm.core.model.NameListId
 import io.ktor.http.*

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.parse
 
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
@@ -12,6 +13,7 @@ fun parseRace(id: RaceId, parameters: Parameters): Race {
     return Race(
         id, name,
         parseOneOf(parameters, GENDER, Gender::valueOf),
+        parseDistribution(parameters, HEIGHT),
         parseLifeStages(parameters),
     )
 }

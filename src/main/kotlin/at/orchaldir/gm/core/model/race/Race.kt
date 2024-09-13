@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.Distribution
 import kotlinx.serialization.Serializable
 
 const val RACE = "Race"
@@ -25,6 +27,7 @@ data class Race(
     val id: RaceId,
     val name: String = "Race ${id.value}",
     val genders: OneOf<Gender> = OneOf(Gender.entries),
+    val height: Distribution = Distribution(1.8f, 0.2f),
     val lifeStages: LifeStages = ImmutableLifeStage(),
 ) : Element<RaceId> {
 

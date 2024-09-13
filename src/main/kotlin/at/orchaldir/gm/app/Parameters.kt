@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.parse
+package at.orchaldir.gm.app
 
 const val ACCESSORY_RARITY = "accessories"
 const val AGE = "age"
@@ -12,6 +12,7 @@ const val BODY_WIDTH = "body_width"
 const val BUTTON_COLOR = "button_color"
 const val BUTTON_COUNT = "button_count"
 const val BUTTON_SIZE = "button_size"
+const val CENTER = "center"
 const val CLOTHING_SETS = "clothing_sets"
 const val COLOR = "color"
 const val CULTURE = "culture"
@@ -47,6 +48,7 @@ const val HAIR_COLOR = "hair_color"
 const val HAIR_STYLE = "hair_style"
 const val HAIR_TYPE = "hair"
 const val HAT = "hat"
+const val HEIGHT = "height"
 const val HOLIDAY = "holiday"
 const val LANGUAGES = "languages"
 const val LENGTH = "length"

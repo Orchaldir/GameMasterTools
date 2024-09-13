@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.parse
 
+import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import io.ktor.http.*

@@ -1,6 +1,6 @@
 package at.orchaldir.gm.app.plugins
 
-import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.CreateItemTemplate
