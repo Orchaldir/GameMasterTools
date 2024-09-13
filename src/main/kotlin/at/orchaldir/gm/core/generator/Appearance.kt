@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
-import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.math.Distance
@@ -18,23 +17,24 @@ data class AppearanceGeneratorConfig(
     val numberGenerator: NumberGenerator,
     val rarityGenerator: RarityGenerator,
     val gender: Gender,
-    val height: Distribution,
+    val heightDistribution: Distribution,
     val appearanceOptions: RaceAppearance,
     val appearanceStyle: AppearanceStyle,
 ) {
-    fun generate(distance: Distance): Appearance {
+    fun generate(): Appearance {
         val skin = generateSkin(this)
+        val height = Distance(heightDistribution.center)
 
         return when (generate(appearanceOptions.appearanceTypes)) {
             AppearanceType.Body -> HumanoidBody(
                 generateBody(this, skin),
                 generateHead(this, skin),
-                distance,
+                height,
             )
 
             AppearanceType.HeadOnly -> HeadOnly(
                 generateHead(this, skin),
-                distance,
+                height,
             )
         }
     }

@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
@@ -97,4 +98,9 @@ fun State.scaleHeightByAge(character: Character, height: Distance): Distance {
     val relativeSize = getRaceStorage().getOrThrow(character.race).lifeStages.getRelativeSize(age)
 
     return height * relativeSize
+}
+
+fun State.getAppearanceForAge(character: Character): Appearance {
+    val height = scaleHeightByAge(character, character.appearance.getSize())
+    return character.appearance.with(height)
 }

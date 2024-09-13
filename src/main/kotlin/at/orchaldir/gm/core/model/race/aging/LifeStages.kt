@@ -11,6 +11,7 @@ sealed class LifeStages {
 
     abstract fun contains(id: RaceAppearanceId): Boolean
     abstract fun getAppearance(age: Int): RaceAppearanceId
+    abstract fun getAllLifeStages(): List<LifeStage>
     abstract fun getLifeStage(age: Int): LifeStage?
     abstract fun getLifeStageStartAge(age: Int): Int
     abstract fun getRelativeSize(age: Int): Factor
@@ -27,6 +28,8 @@ data class SimpleAging(
     override fun contains(id: RaceAppearanceId) = id == appearance
 
     override fun getAppearance(age: Int) = appearance
+
+    override fun getAllLifeStages() = lifeStages
 
     override fun getLifeStage(age: Int) = getLifeStage(age, lifeStages)
 
@@ -46,6 +49,8 @@ data class ComplexAging(
 
     override fun getAppearance(age: Int) = getLifeStage(age).appearance
 
+    override fun getAllLifeStages() = lifeStages
+
     override fun getLifeStage(age: Int) = getLifeStage(age, lifeStages)
 
     override fun getLifeStageStartAge(age: Int) = getLifeStageStartAge(age, lifeStages)
@@ -63,6 +68,8 @@ data class ImmutableLifeStage(
     override fun contains(id: RaceAppearanceId) = id == appearance
 
     override fun getAppearance(age: Int) = appearance
+
+    override fun getAllLifeStages() = listOf(SimpleLifeStage("Immutable", Int.MAX_VALUE))
 
     override fun getLifeStage(age: Int) = null
 

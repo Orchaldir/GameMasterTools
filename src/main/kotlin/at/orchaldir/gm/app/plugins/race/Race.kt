@@ -7,6 +7,10 @@ import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.ComplexAging
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
@@ -15,7 +19,9 @@ import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -124,26 +130,45 @@ private fun HTML.showRaceDetails(
     val editLink = call.application.href(RaceRoutes.Edit(race.id))
 
     simpleHtml("Race: ${race.name}") {
-        field("Id", race.id.value.toString())
-        field("Name", race.name)
-        showRarityMap("Gender", race.genders)
-        showDistribution("Height", race.height, "m")
-        showLifeStages(call, state, race)
-        h2 { +"Characters" }
-        showList(state.getCharacters(race.id)) { character ->
-            link(call, state, character)
-        }
-        action(editLink, "Edit")
+        split({
+            field("Id", race.id.value.toString())
+            field("Name", race.name)
+            showRarityMap("Gender", race.genders)
+            showDistribution("Height", race.height, "m")
+            showLifeStages(call, state, race)
+            h2 { +"Characters" }
+            showList(state.getCharacters(race.id)) { character ->
+                link(call, state, character)
+            }
+            action(editLink, "Edit")
 
-        if (state.canDelete(race.id)) {
-            action(deleteLink, "Delete")
-        }
+            if (state.canDelete(race.id)) {
+                action(deleteLink, "Delete")
+            }
 
-        back(backLink)
+            back(backLink)
+        }, {
+            showRandomExamples(state, race, 20)
+        })
     }
 }
 
-private fun BODY.showLifeStages(
+private fun HtmlBlockTag.showRandomExamples(
+    state: State,
+    race: Race,
+    width: Int,
+) {
+    race.lifeStages.getAllLifeStages().forEach { stage ->
+        val raceAppearanceId = race.lifeStages.getAppearance(stage.maxAge())
+        val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(raceAppearanceId)
+        val generator = createGeneratorConfig(state, raceAppearance, Gender.Male, CultureId(0))
+        val character = Character(CharacterId(0), appearance = generator.generate(), race = race.id)
+        val svg = visualizeCharacter(RENDER_CONFIG, state, character)
+        svg(svg, width)
+    }
+}
+
+private fun HtmlBlockTag.showLifeStages(
     call: ApplicationCall,
     state: State,
     race: Race,

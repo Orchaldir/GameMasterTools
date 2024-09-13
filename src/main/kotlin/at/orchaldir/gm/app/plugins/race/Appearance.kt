@@ -166,10 +166,9 @@ private fun HtmlBlockTag.showRandomExamples(
     width: Int,
 ) {
     val generator = createGeneratorConfig(state, appearance, Gender.Male, CultureId(0))
-    val distance = Distance(1.8f)
 
     repeat(n) {
-        val svg = visualizeCharacter(RENDER_CONFIG, generator.generate(distance))
+        val svg = visualizeCharacter(RENDER_CONFIG, generator.generate())
         svg(svg, width)
     }
 }
