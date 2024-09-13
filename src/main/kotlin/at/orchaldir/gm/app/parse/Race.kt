@@ -29,10 +29,6 @@ private fun parseLifeStages(parameters: Parameters): LifeStages {
             parseSimpleLifeStages(parameters),
         )
 
-        LifeStagesType.ComplexAging.name -> ComplexAging(
-            parseComplexLifeStages(parameters),
-        )
-
         else -> error("Unsupported")
     }
 
@@ -49,20 +45,6 @@ private fun parseSimpleLifeStage(parameters: Parameters, index: Int) = SimpleLif
     parseName(parameters, combine(LIFE_STAGE, NAME, index)) ?: "${index + 1}.Life Stage",
     parseInt(parameters, combine(LIFE_STAGE, AGE, index), 2),
     parseFactor(parameters, combine(LIFE_STAGE, SIZE, index)),
-)
-
-private fun parseComplexLifeStages(parameters: Parameters): List<ComplexLifeStage> {
-    val count = parseInt(parameters, LIFE_STAGE, 2)
-
-    return (0..<count)
-        .map { parseComplexLifeStage(parameters, it) }
-}
-
-private fun parseComplexLifeStage(parameters: Parameters, index: Int) = ComplexLifeStage(
-    parseName(parameters, combine(LIFE_STAGE, NAME, index)) ?: "${index + 1}.Life Stage",
-    parseInt(parameters, combine(LIFE_STAGE, AGE, index), 2),
-    parseFactor(parameters, combine(LIFE_STAGE, SIZE, index)),
-    parseAppearanceId(parameters, index),
 )
 
 private fun parseAppearanceId(parameters: Parameters, index: Int) =

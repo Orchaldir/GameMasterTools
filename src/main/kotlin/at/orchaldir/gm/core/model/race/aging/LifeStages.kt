@@ -10,7 +10,12 @@ import kotlinx.serialization.Serializable
 sealed class LifeStages {
 
     abstract fun contains(id: RaceAppearanceId): Boolean
-    abstract fun getAppearance(age: Int): RaceAppearanceId
+
+    fun getRaceAppearance() = when (this) {
+        is ImmutableLifeStage -> this.appearance
+        is SimpleAging -> this.appearance
+    }
+
     abstract fun getAllLifeStages(): List<LifeStage>
     abstract fun getLifeStage(age: Int): LifeStage?
     abstract fun getLifeStageStartAge(age: Int): Int
@@ -26,28 +31,6 @@ data class SimpleAging(
 ) : LifeStages() {
 
     override fun contains(id: RaceAppearanceId) = id == appearance
-
-    override fun getAppearance(age: Int) = appearance
-
-    override fun getAllLifeStages() = lifeStages
-
-    override fun getLifeStage(age: Int) = getLifeStage(age, lifeStages)
-
-    override fun getLifeStageStartAge(age: Int) = getLifeStageStartAge(age, lifeStages)
-
-    override fun getRelativeSize(age: Int) = getRelativeSize(age, lifeStages)
-
-}
-
-@Serializable
-@SerialName("Complex")
-data class ComplexAging(
-    val lifeStages: List<ComplexLifeStage>,
-) : LifeStages() {
-
-    override fun contains(id: RaceAppearanceId) = lifeStages.any { it.appearance == id }
-
-    override fun getAppearance(age: Int) = getLifeStage(age).appearance
 
     override fun getAllLifeStages() = lifeStages
 
@@ -66,8 +49,6 @@ data class ImmutableLifeStage(
 ) : LifeStages() {
 
     override fun contains(id: RaceAppearanceId) = id == appearance
-
-    override fun getAppearance(age: Int) = appearance
 
     override fun getAllLifeStages() = listOf(SimpleLifeStage("Immutable", Int.MAX_VALUE))
 

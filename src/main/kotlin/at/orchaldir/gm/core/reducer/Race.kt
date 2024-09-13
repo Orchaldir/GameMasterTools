@@ -33,7 +33,6 @@ val UPDATE_RACE: Reducer<UpdateRace, State> = { state, action ->
 
 fun checkLifeStages(lifeStages: LifeStages) {
     when (lifeStages) {
-        is ComplexAging -> checkMaxAge(lifeStages.lifeStages)
         is SimpleAging -> checkMaxAge(lifeStages.lifeStages)
 
         is ImmutableLifeStage -> doNothing()

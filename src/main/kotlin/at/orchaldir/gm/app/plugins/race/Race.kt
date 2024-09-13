@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.aging.ComplexAging
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStagesType
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
@@ -158,10 +157,11 @@ private fun HtmlBlockTag.visualizeLifeStages(
     race: Race,
     width: Int,
 ) {
+    val raceAppearanceId = race.lifeStages.getRaceAppearance()
+    val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(raceAppearanceId)
+    val generator = createGeneratorConfig(state, raceAppearance, Gender.Male, CultureId(0))
+
     race.lifeStages.getAllLifeStages().forEach { stage ->
-        val raceAppearanceId = race.lifeStages.getAppearance(stage.maxAge())
-        val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(raceAppearanceId)
-        val generator = createGeneratorConfig(state, raceAppearance, Gender.Male, CultureId(0))
         val character = Character(CharacterId(0), appearance = generator.generate(), race = race.id)
         val svg = visualizeCharacter(RENDER_CONFIG, state, character)
         svg(svg, width)
@@ -190,23 +190,6 @@ private fun HtmlBlockTag.showLifeStages(
                     }
                     li {
                         showRelativeSize(stage.relativeSize)
-                    }
-                }
-            }
-        }
-
-        is ComplexAging -> {
-            showList(lifeStages.lifeStages) { stage ->
-                +stage.name
-                ul {
-                    li {
-                        showMaxAge(stage.maxAge)
-                    }
-                    li {
-                        showRelativeSize(stage.relativeSize)
-                    }
-                    li {
-                        showAppearance(call, state, stage.appearance)
                     }
                 }
             }
@@ -275,7 +258,6 @@ private fun FORM.editLifeStages(
         label = type.name
         value = type.name
         selected = when (lifeStages) {
-            is ComplexAging -> type == LifeStagesType.ComplexAging
             is ImmutableLifeStage -> type == LifeStagesType.ImmutableLifeStage
             is SimpleAging -> type == LifeStagesType.SimpleAging
         }
@@ -298,26 +280,6 @@ private fun FORM.editLifeStages(
                     }
                     li {
                         selectRelativeSize(stage.relativeSize, index)
-                    }
-                }
-                minMaxAge = stage.maxAge + 1
-            }
-        }
-
-        is ComplexAging -> {
-            var minMaxAge = 1
-            selectNumberOfLifeStages(lifeStages.lifeStages.size)
-            showListWithIndex(lifeStages.lifeStages) { index, stage ->
-                selectStageName(index, stage.name)
-                ul {
-                    li {
-                        selectMaxAge(minMaxAge, index, stage.maxAge)
-                    }
-                    li {
-                        selectRelativeSize(stage.relativeSize, index)
-                    }
-                    li {
-                        selectAppearance(state, stage.appearance, index)
                     }
                 }
                 minMaxAge = stage.maxAge + 1
