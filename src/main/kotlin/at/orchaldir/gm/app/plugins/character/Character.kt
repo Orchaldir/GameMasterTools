@@ -241,10 +241,11 @@ private fun BODY.showData(
 private fun BODY.showHeight(
     state: State,
     character: Character,
-    height: Distance,
+    maxHeight: Distance,
 ) {
-    field("Max Height", height.value.toString())
-    field("Current Height", state.scaleHeightByAge(character, height).value.toString())
+    val currentHeight = state.scaleHeightByAge(character, maxHeight)
+    field("Max Height", String.format("%.2f m", maxHeight.value))
+    field("Current Height", String.format("%.2f m", currentHeight.value))
 }
 
 private fun BODY.showCauseOfDeath(cause: String) {
