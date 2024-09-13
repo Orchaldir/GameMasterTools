@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.getName
@@ -97,7 +96,6 @@ private fun HTML.showAppearanceEditor(
     character: Character,
 ) {
     val appearance = character.appearance
-    val race = state.getRaceStorage().getOrThrow(character.race)
     val raceAppearance = state.getRaceAppearance(character)
     val culture = state.getCultureStorage().getOrThrow(character.culture)
     val backLink = href(call, character.id)
@@ -131,13 +129,13 @@ private fun HTML.showAppearanceEditor(
             }
             when (appearance) {
                 is HeadOnly -> {
-                    editHeight(race, appearance.height)
+                    editHeight(state, character, appearance.height)
                     editHead(raceAppearance, culture, appearance.head)
                     editSkin(raceAppearance, appearance.head.skin)
                 }
 
                 is HumanoidBody -> {
-                    editHeight(race, appearance.height)
+                    editHeight(state, character, appearance.height)
                     editBody(character, appearance.body)
                     editHead(raceAppearance, culture, appearance.head)
                     editSkin(raceAppearance, appearance.head.skin)
@@ -158,13 +156,16 @@ private fun HTML.showAppearanceEditor(
 }
 
 private fun FORM.editHeight(
-    race: Race,
-    height: Distance,
+    state: State,
+    character: Character,
+    maxHeight: Distance,
 ) {
+    val race = state.getRaceStorage().getOrThrow(character.race)
     field("Max Height") {
-        selectFloat(height.value, race.height.getMin(), race.height.getMax(), 0.01f, HEIGHT)
+        selectFloat(maxHeight.value, race.height.getMin(), race.height.getMax(), 0.01f, HEIGHT)
         +" m"
     }
+    showCurrentHeight(state, character, maxHeight)
 }
 
 private fun FORM.editBody(

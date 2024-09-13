@@ -243,8 +243,16 @@ private fun BODY.showHeight(
     character: Character,
     maxHeight: Distance,
 ) {
-    val currentHeight = state.scaleHeightByAge(character, maxHeight)
     field("Max Height", String.format("%.2f m", maxHeight.value))
+    showCurrentHeight(state, character, maxHeight)
+}
+
+fun HtmlBlockTag.showCurrentHeight(
+    state: State,
+    character: Character,
+    maxHeight: Distance,
+) {
+    val currentHeight = state.scaleHeightByAge(character, maxHeight)
     field("Current Height", String.format("%.2f m", currentHeight.value))
 }
 
