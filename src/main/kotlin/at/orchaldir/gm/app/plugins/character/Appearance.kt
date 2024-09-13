@@ -128,14 +128,14 @@ private fun HTML.showAppearanceEditor(
             }
             when (appearance) {
                 is HeadOnly -> {
-                    showHeadEditor(raceAppearance, culture, appearance.head)
-                    showSkinEditor(raceAppearance, appearance.head.skin)
+                    editHead(raceAppearance, culture, appearance.head)
+                    editSkin(raceAppearance, appearance.head.skin)
                 }
 
                 is HumanoidBody -> {
-                    showBodyEditor(character, appearance.body)
-                    showHeadEditor(raceAppearance, culture, appearance.head)
-                    showSkinEditor(raceAppearance, appearance.head.skin)
+                    editBody(character, appearance.body)
+                    editHead(raceAppearance, culture, appearance.head)
+                    editSkin(raceAppearance, appearance.head.skin)
                 }
 
                 UndefinedAppearance -> doNothing()
@@ -152,7 +152,7 @@ private fun HTML.showAppearanceEditor(
     }
 }
 
-private fun FORM.showBodyEditor(
+private fun FORM.editBody(
     character: Character,
     body: Body,
 ) {
@@ -169,18 +169,18 @@ private fun FORM.showBodyEditor(
     }
 }
 
-private fun FORM.showHeadEditor(
+private fun FORM.editHead(
     raceAppearance: RaceAppearance,
     culture: Culture,
     head: Head,
 ) {
-    showEarsEditor(raceAppearance, head.ears)
-    showEyesEditor(raceAppearance, head.eyes)
-    showHairEditor(raceAppearance, culture, head.hair)
-    showMouthEditor(raceAppearance, culture, head.mouth)
+    editEars(raceAppearance, head.ears)
+    editEyes(raceAppearance, head.eyes)
+    editHair(raceAppearance, culture, head.hair)
+    editMouth(raceAppearance, culture, head.mouth)
 }
 
-private fun FORM.showEarsEditor(raceAppearance: RaceAppearance, ears: Ears) {
+private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
     h2 { +"Ears" }
     selectOneOf("Type", EAR_TYPE, raceAppearance.earsLayout, true) { type ->
         label = type.name
@@ -208,7 +208,7 @@ private fun FORM.showEarsEditor(raceAppearance: RaceAppearance, ears: Ears) {
     }
 }
 
-private fun FORM.showSkinEditor(
+private fun FORM.editSkin(
     raceAppearance: RaceAppearance,
     skin: Skin,
 ) {
@@ -237,7 +237,7 @@ private fun FORM.showSkinEditor(
     }
 }
 
-private fun FORM.showBeardEditor(
+private fun FORM.editBeard(
     raceAppearance: RaceAppearance,
     culture: Culture,
     beard: Beard,
@@ -253,11 +253,11 @@ private fun FORM.showBeardEditor(
     }
     when (beard) {
         NoBeard -> doNothing()
-        is NormalBeard -> showNormalBeardEditor(raceAppearance, culture, beard)
+        is NormalBeard -> editNormalBeard(raceAppearance, culture, beard)
     }
 }
 
-private fun FORM.showNormalBeardEditor(
+private fun FORM.editNormalBeard(
     raceAppearance: RaceAppearance,
     culture: Culture,
     beard: NormalBeard,
@@ -308,7 +308,7 @@ private fun HtmlBlockTag.selectMoustacheStyle(
     }
 }
 
-private fun FORM.showEyesEditor(
+private fun FORM.editEyes(
     raceAppearance: RaceAppearance,
     eyes: Eyes,
 ) {
@@ -324,7 +324,7 @@ private fun FORM.showEyesEditor(
     }
     when (eyes) {
         is OneEye -> {
-            showEyeEditor(raceAppearance.eyeOptions, eyes.eye)
+            editEye(raceAppearance.eyeOptions, eyes.eye)
             selectEnum("Eye Size", EYE_SIZE, Size.entries, true) { c ->
                 label = c.name
                 value = c.toString()
@@ -333,14 +333,14 @@ private fun FORM.showEyesEditor(
         }
 
         is TwoEyes -> {
-            showEyeEditor(raceAppearance.eyeOptions, eyes.eye)
+            editEye(raceAppearance.eyeOptions, eyes.eye)
         }
 
         else -> doNothing()
     }
 }
 
-private fun FORM.showEyeEditor(
+private fun FORM.editEye(
     eyeOptions: EyeOptions,
     eye: Eye,
 ) {
@@ -358,7 +358,7 @@ private fun FORM.showEyeEditor(
     selectColor("Sclera Color", SCLERA_COLOR, eyeOptions.scleraColors, eye.scleraColor)
 }
 
-private fun FORM.showHairEditor(
+private fun FORM.editHair(
     raceAppearance: RaceAppearance,
     culture: Culture,
     hair: Hair,
@@ -374,11 +374,11 @@ private fun FORM.showHairEditor(
     }
     when (hair) {
         NoHair -> doNothing()
-        is NormalHair -> showNormalHairEditor(raceAppearance, culture, hair)
+        is NormalHair -> editNormalHair(raceAppearance, culture, hair)
     }
 }
 
-private fun FORM.showNormalHairEditor(
+private fun FORM.editNormalHair(
     raceAppearance: RaceAppearance,
     culture: Culture,
     hair: NormalHair,
@@ -410,7 +410,7 @@ private fun FORM.showNormalHairEditor(
     }
 }
 
-private fun FORM.showMouthEditor(
+private fun FORM.editMouth(
     raceAppearance: RaceAppearance,
     culture: Culture,
     mouth: Mouth,
@@ -426,12 +426,12 @@ private fun FORM.showMouthEditor(
     }
     when (mouth) {
         is NormalMouth -> {
-            showSimpleMouthEditor(mouth.width, mouth.teethColor)
-            showBeardEditor(raceAppearance, culture, mouth.beard)
+            editSimpleMouth(mouth.width, mouth.teethColor)
+            editBeard(raceAppearance, culture, mouth.beard)
         }
 
         is FemaleMouth -> {
-            showSimpleMouthEditor(mouth.width, mouth.teethColor)
+            editSimpleMouth(mouth.width, mouth.teethColor)
             selectColor("Lip Color", LIP_COLOR, culture.appearanceStyle.lipColors, mouth.color)
         }
 
@@ -439,7 +439,7 @@ private fun FORM.showMouthEditor(
     }
 }
 
-private fun FORM.showSimpleMouthEditor(size: Size, teethColor: TeethColor) {
+private fun FORM.editSimpleMouth(size: Size, teethColor: TeethColor) {
     selectEnum("Width", MOUTH_WIDTH, Size.entries, true) { width ->
         label = width.name
         value = width.toString()
