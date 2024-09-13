@@ -19,7 +19,6 @@ import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.visualization.character.visualizeCharacter
 import at.orchaldir.gm.visualization.character.visualizeGroup
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -147,7 +146,9 @@ private fun HTML.showRaceDetails(
 
             back(backLink)
         }, {
-            visualizeLifeStages(state, race, 120)
+            race.genders.getValidValues().forEach { gender ->
+                visualizeLifeStages(state, race, gender, 120)
+            }
         })
     }
 }
@@ -155,18 +156,21 @@ private fun HTML.showRaceDetails(
 private fun HtmlBlockTag.visualizeLifeStages(
     state: State,
     race: Race,
+    gender: Gender,
     width: Int,
 ) {
     val raceAppearanceId = race.lifeStages.getRaceAppearance()
     val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(raceAppearanceId)
-    val generator = createGeneratorConfig(state, raceAppearance, Gender.Male, CultureId(0))
+    val generator = createGeneratorConfig(state, raceAppearance, gender, CultureId(0))
     val appearance = generator.generate()
 
     val svg = visualizeGroup(RENDER_CONFIG, race.lifeStages.getAllLifeStages().map {
         getAppearanceForAge(race, appearance, it.maxAge())
     })
 
-    svg(svg, width)
+    p {
+        svg(svg, width)
+    }
 }
 
 private fun HtmlBlockTag.showLifeStages(
