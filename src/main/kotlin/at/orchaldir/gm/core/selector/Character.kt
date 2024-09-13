@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.utils.math.Distance
@@ -95,9 +96,20 @@ fun State.getAgeInYears(character: Character) = getDefaultCalendar().getYears(ge
 
 fun State.scaleHeightByAge(character: Character, height: Distance): Distance {
     val age = getAgeInYears(character)
-    val relativeSize = getRaceStorage().getOrThrow(character.race).lifeStages.getRelativeSize(age)
+    val race = getRaceStorage().getOrThrow(character.race)
+
+    return scaleHeightByAge(race, height, age)
+}
+
+fun scaleHeightByAge(race: Race, height: Distance, age: Int): Distance {
+    val relativeSize = race.lifeStages.getRelativeSize(age)
 
     return height * relativeSize
+}
+
+fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int): Appearance {
+    val height = scaleHeightByAge(race, appearance.getSize(), age)
+    return appearance.with(height)
 }
 
 fun State.getAppearanceForAge(character: Character): Appearance {

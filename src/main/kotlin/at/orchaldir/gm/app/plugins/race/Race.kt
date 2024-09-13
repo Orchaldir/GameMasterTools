@@ -7,8 +7,6 @@ import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.Race
@@ -17,6 +15,7 @@ import at.orchaldir.gm.core.model.race.aging.LifeStagesType
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.math.Factor
@@ -163,8 +162,8 @@ private fun HtmlBlockTag.visualizeLifeStages(
     val appearance = generator.generate()
 
     race.lifeStages.getAllLifeStages().forEach { stage ->
-        val character = Character(CharacterId(0), appearance = appearance, race = race.id)
-        val svg = visualizeCharacter(RENDER_CONFIG, state, character)
+        val currentAppearance = getAppearanceForAge(race, appearance, stage.maxAge())
+        val svg = visualizeCharacter(RENDER_CONFIG, currentAppearance)
         svg(svg, width)
     }
 }
