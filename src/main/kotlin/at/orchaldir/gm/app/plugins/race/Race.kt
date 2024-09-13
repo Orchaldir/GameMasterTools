@@ -230,24 +230,30 @@ private fun HTML.showRaceEditor(
     val updateLink = call.application.href(RaceRoutes.Update(race.id))
 
     simpleHtml("Edit Race: ${race.name}") {
-        field("Id", race.id.value.toString())
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-            selectName(race.name)
-            selectRarityMap("Gender", GENDER, race.genders)
-            selectDistribution("Height", HEIGHT, race.height, 0.1f, 5.0f, 1.0f, 0.01f, "m", true)
-            editLifeStages(state, race)
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
+        split({
+            field("Id", race.id.value.toString())
+            form {
+                id = "editor"
+                action = previewLink
+                method = FormMethod.post
+                selectName(race.name)
+                selectRarityMap("Gender", GENDER, race.genders)
+                selectDistribution("Height", HEIGHT, race.height, 0.1f, 5.0f, 1.0f, 0.01f, "m", true)
+                editLifeStages(state, race)
+                p {
+                    submitInput {
+                        value = "Update"
+                        formAction = updateLink
+                        formMethod = InputFormMethod.post
+                    }
                 }
             }
-        }
-        back(backLink)
+            back(backLink)
+        }, {
+            race.genders.getValidValues().forEach { gender ->
+                visualizeLifeStages(state, race, gender, 120)
+            }
+        })
     }
 }
 
@@ -316,7 +322,7 @@ private fun LI.selectRelativeSize(
     size: Factor,
     index: Int,
 ) {
-    selectFloat("Relative Size", size.value, 0.0f, 1.0f, 0.01f, combine(LIFE_STAGE, SIZE, index))
+    selectFloat("Relative Size", size.value, 0.0f, 1.0f, 0.01f, combine(LIFE_STAGE, SIZE, index), true)
 }
 
 private fun HtmlBlockTag.selectAppearance(
@@ -327,7 +333,8 @@ private fun HtmlBlockTag.selectAppearance(
     selectEnum(
         "Appearance",
         combine(RACE, APPEARANCE, index),
-        state.getRaceAppearanceStorage().getAll()
+        state.getRaceAppearanceStorage().getAll(),
+        true,
     ) { appearance ->
         label = appearance.name
         value = appearance.id.value.toString()

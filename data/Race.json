@@ -14,12 +14,12 @@
      {
       "name": "Baby",
       "maxAge": 2,
-      "relativeSize": 0.1
+      "relativeSize": 0.2
      },
      {
-      "name": "Toddler",
+      "name": "Young Child",
       "maxAge": 5,
-      "relativeSize": 0.2
+      "relativeSize": 0.4
      },
      {
       "name": "Child",
