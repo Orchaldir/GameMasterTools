@@ -148,12 +148,12 @@ private fun HTML.showRaceDetails(
 
             back(backLink)
         }, {
-            showRandomExamples(state, race, 20)
+            visualizeLifeStages(state, race, 20)
         })
     }
 }
 
-private fun HtmlBlockTag.showRandomExamples(
+private fun HtmlBlockTag.visualizeLifeStages(
     state: State,
     race: Race,
     width: Int,
