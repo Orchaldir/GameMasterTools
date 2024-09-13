@@ -8,13 +8,19 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class Appearance {
 
-    fun getSize() = Size2d.square(
-        when (this) {
-            is HeadOnly -> this.height
-            is HumanoidBody -> this.height
-            UndefinedAppearance -> Distance(1.0f)
-        }
-    )
+    fun getSize() = when (this) {
+        is HeadOnly -> this.height
+        is HumanoidBody -> this.height
+        UndefinedAppearance -> Distance(1.0f)
+    }
+
+    fun getSize2d() = Size2d.square(getSize())
+
+    fun with(size: Distance): Appearance = when (this) {
+        is HeadOnly -> this.copy(height = size)
+        is HumanoidBody -> this.copy(height = size)
+        UndefinedAppearance -> UndefinedAppearance
+    }
 }
 
 @Serializable

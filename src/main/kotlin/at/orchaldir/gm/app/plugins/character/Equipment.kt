@@ -95,8 +95,8 @@ private fun HTML.showEquipmentEditor(
     val previewLink = call.application.href(Characters.Equipment.Preview(character.id))
     val updateLink = call.application.href(Characters.Equipment.Update(character.id))
     val generateLink = call.application.href(Characters.Equipment.Generate(character.id))
-    val frontSvg = visualizeCharacter(RENDER_CONFIG, character.appearance, equipped)
-    val backSvg = visualizeCharacter(RENDER_CONFIG, character.appearance, equipped, false)
+    val frontSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipped)
+    val backSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipped, false)
 
     simpleHtml("Edit Equipment: ${state.getName(character)}") {
         svg(frontSvg, 20)
