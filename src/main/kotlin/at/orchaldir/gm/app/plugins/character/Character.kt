@@ -210,8 +210,8 @@ private fun BODY.showData(
         UndefinedCharacterOrigin -> doNothing()
     }
     when (character.appearance) {
-        is HeadOnly -> showMaxHeight(character.appearance.height)
-        is HumanoidBody -> showMaxHeight(character.appearance.height)
+        is HeadOnly -> showHeight(state, character, character.appearance.height)
+        is HumanoidBody -> showHeight(state, character, character.appearance.height)
         UndefinedAppearance -> doNothing()
     }
     field(call, state, "Birthdate", character.birthDate)
@@ -238,8 +238,13 @@ private fun BODY.showData(
     }
 }
 
-private fun BODY.showMaxHeight(height: Distance) {
+private fun BODY.showHeight(
+    state: State,
+    character: Character,
+    height: Distance,
+) {
     field("Max Height", height.value.toString())
+    field("Current Height", state.scaleHeightByAge(character, height).value.toString())
 }
 
 private fun BODY.showCauseOfDeath(cause: String) {

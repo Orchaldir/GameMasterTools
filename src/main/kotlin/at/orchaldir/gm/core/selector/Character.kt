@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Duration
+import at.orchaldir.gm.utils.math.Distance
 
 fun State.canCreateCharacter() = getCultureStorage().getSize() > 0 && getCharacterStorage().getSize() > 0
 
@@ -88,3 +89,12 @@ fun State.getAge(id: CharacterId): Duration = getAge(getCharacterStorage().getOr
 fun State.getAge(character: Character): Duration = character.getAge(time.currentDate)
 
 fun State.getAgeInYears(character: Character) = getDefaultCalendar().getYears(getAge(character))
+
+// height
+
+fun State.scaleHeightByAge(character: Character, height: Distance): Distance {
+    val age = getAgeInYears(character)
+    val relativeSize = getRaceStorage().getOrThrow(character.race).lifeStages.getRelativeSize(age)
+
+    return height * relativeSize
+}
