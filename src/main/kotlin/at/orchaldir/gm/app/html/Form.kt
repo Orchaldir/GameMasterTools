@@ -1,11 +1,15 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.CENTER
 import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.OFFSET
+import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.appearance.*
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.Distribution
 import kotlinx.html.*
 
 const val ON_CHANGE_SCRIPT = "updateEditor();"
@@ -18,6 +22,25 @@ fun FORM.selectColor(
         value = c.toString()
         selected = current == c
         style = "background-color:$c"
+    }
+}
+
+fun FORM.selectDistribution(
+    label: String,
+    param: String,
+    distribution: Distribution,
+    min: Float,
+    max: Float,
+    maxOffset: Float,
+    step: Float,
+    unit: String,
+    update: Boolean = false,
+) {
+    field(label) {
+        selectFloat(distribution.center, min, max, step, combine(param, CENTER), update)
+        +" +- "
+        selectFloat(distribution.offset, 0.0f, maxOffset, step, combine(param, OFFSET), update)
+        +" $unit"
     }
 }
 

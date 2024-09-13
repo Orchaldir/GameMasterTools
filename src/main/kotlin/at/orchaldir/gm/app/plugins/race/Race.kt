@@ -127,6 +127,7 @@ private fun HTML.showRaceDetails(
         field("Id", race.id.value.toString())
         field("Name", race.name)
         showRarityMap("Gender", race.genders)
+        field("Height", String.format("%.2f +- %.2f m", race.height.center, race.height.offset))
         showLifeStages(call, state, race)
         h2 { +"Characters" }
         showList(state.getCharacters(race.id)) { character ->
@@ -223,6 +224,7 @@ private fun HTML.showRaceEditor(
             method = FormMethod.post
             selectName(race.name)
             selectRarityMap("Gender", GENDER, race.genders)
+            selectDistribution("Height", HEIGHT, race.height, 0.1f, 5.0f, 1.0f, 0.01f, "m", true)
             editLifeStages(state, race)
             p {
                 submitInput {
