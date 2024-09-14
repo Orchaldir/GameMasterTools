@@ -27,7 +27,7 @@ sealed class LifeStages {
 @SerialName("Simple")
 data class SimpleAging(
     val appearance: RaceAppearanceId = RaceAppearanceId(0),
-    val lifeStages: List<SimpleLifeStage>,
+    val lifeStages: List<LifeStage>,
 ) : LifeStages() {
 
     override fun contains(id: RaceAppearanceId) = id == appearance
@@ -50,7 +50,7 @@ data class ImmutableLifeStage(
 
     override fun contains(id: RaceAppearanceId) = id == appearance
 
-    override fun getAllLifeStages() = listOf(SimpleLifeStage("Immutable", Int.MAX_VALUE))
+    override fun getAllLifeStages() = listOf(LifeStage("Immutable", Int.MAX_VALUE))
 
     override fun getLifeStage(age: Int) = null
 
@@ -59,27 +59,27 @@ data class ImmutableLifeStage(
     override fun getRelativeSize(age: Int) = FULL
 }
 
-private fun <T : LifeStage> getLifeStage(age: Int, lifeStages: List<T>) = lifeStages
-    .firstOrNull { age <= it.maxAge() } ?: lifeStages.last()
+private fun getLifeStage(age: Int, lifeStages: List<LifeStage>) = lifeStages
+    .firstOrNull { age <= it.maxAge } ?: lifeStages.last()
 
-private fun <T : LifeStage> getLifeStageStartAge(age: Int, lifeStages: List<T>) = 1 + (lifeStages
-    .lastOrNull { age > it.maxAge() }?.maxAge() ?: -1)
+private fun getLifeStageStartAge(age: Int, lifeStages: List<LifeStage>) = 1 + (lifeStages
+    .lastOrNull { age > it.maxAge }?.maxAge ?: -1)
 
-private fun <T : LifeStage> getRelativeSize(age: Int, lifeStages: List<T>): Factor {
+private fun getRelativeSize(age: Int, lifeStages: List<LifeStage>): Factor {
     var previousAge = 0
-    var previousHeight = lifeStages.first().relativeSize() * 0.5f
+    var previousHeight = lifeStages.first().relativeSize * 0.5f
 
     lifeStages.forEach { stage ->
-        if (age <= stage.maxAge()) {
+        if (age <= stage.maxAge) {
             val ageDiff = age - previousAge
-            val maxAgeDiff = stage.maxAge() - previousAge
+            val maxAgeDiff = stage.maxAge - previousAge
             val factor = Factor(ageDiff / maxAgeDiff.toFloat())
 
-            return previousHeight.interpolate(stage.relativeSize(), factor)
+            return previousHeight.interpolate(stage.relativeSize, factor)
         }
 
-        previousAge = stage.maxAge()
-        previousHeight = stage.relativeSize()
+        previousAge = stage.maxAge
+        previousHeight = stage.relativeSize
     }
 
     return previousHeight

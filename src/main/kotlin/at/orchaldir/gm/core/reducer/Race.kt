@@ -41,8 +41,9 @@ fun checkLifeStages(lifeStages: LifeStages) {
 
 private fun checkMaxAge(lifeStages: List<LifeStage>) {
     var lastMaxAge = 0
+
     lifeStages.withIndex().forEach {
-        require(it.value.maxAge() > lastMaxAge) { "Life Stage ${it.index}'s max age most be greater than the previous stage!" }
-        lastMaxAge = it.value.maxAge()
+        require(it.value.maxAge > lastMaxAge) { "Life Stage ${it.index}'s max age most be greater than the previous stage!" }
+        lastMaxAge = it.value.maxAge
     }
 }

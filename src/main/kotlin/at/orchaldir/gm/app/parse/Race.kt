@@ -34,14 +34,14 @@ private fun parseLifeStages(parameters: Parameters): LifeStages {
 
 }
 
-private fun parseSimpleLifeStages(parameters: Parameters): List<SimpleLifeStage> {
+private fun parseSimpleLifeStages(parameters: Parameters): List<LifeStage> {
     val count = parseInt(parameters, LIFE_STAGE, 2)
 
     return (0..<count)
         .map { parseSimpleLifeStage(parameters, it) }
 }
 
-private fun parseSimpleLifeStage(parameters: Parameters, index: Int) = SimpleLifeStage(
+private fun parseSimpleLifeStage(parameters: Parameters, index: Int) = LifeStage(
     parseName(parameters, combine(LIFE_STAGE, NAME, index)) ?: "${index + 1}.Life Stage",
     parseInt(parameters, combine(LIFE_STAGE, AGE, index), 2),
     parseFactor(parameters, combine(LIFE_STAGE, SIZE, index)),

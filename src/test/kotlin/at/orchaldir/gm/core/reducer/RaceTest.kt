@@ -75,11 +75,6 @@ class RaceTest {
             testMinAgeTooLow(::createSimpleLifeStage, ::createSimpleAging)
         }
 
-        @Test
-        fun `Max age must be higher than the previous complex life stage`() {
-            testMinAgeTooLow(::createComplexLifeStage, ::createComplexAging)
-        }
-
         private fun <T> testMinAgeTooLow(createStage: (String, Int) -> T, createAging: (List<T>) -> LifeStages) {
             (0..5).forEach { maxAge ->
                 val state = State(Storage(Race(ID0)))
@@ -102,15 +97,8 @@ class RaceTest {
             testIsValid(::createSimpleLifeStage, ::createSimpleAging)
         }
 
-        @Test
-        fun `Complex aging is valid`() {
-            testIsValid(::createComplexLifeStage, ::createComplexAging)
-        }
-
-        private fun createSimpleLifeStage(name: String, maxAge: Int) = SimpleLifeStage(name, maxAge)
-        private fun createComplexLifeStage(name: String, maxAge: Int) = ComplexLifeStage(name, maxAge)
-        private fun createSimpleAging(stages: List<SimpleLifeStage>) = SimpleAging(lifeStages = stages)
-        private fun createComplexAging(stages: List<ComplexLifeStage>) = ComplexAging(lifeStages = stages)
+        private fun createSimpleLifeStage(name: String, maxAge: Int) = LifeStage(name, maxAge)
+        private fun createSimpleAging(stages: List<LifeStage>) = SimpleAging(lifeStages = stages)
 
         private fun <T> testIsValid(createStage: (String, Int) -> T, createAging: (List<T>) -> LifeStages) {
             val state = State(Storage(Race(ID0)))

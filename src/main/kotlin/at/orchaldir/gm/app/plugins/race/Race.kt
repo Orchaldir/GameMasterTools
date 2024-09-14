@@ -165,7 +165,7 @@ private fun HtmlBlockTag.visualizeLifeStages(
     val appearance = generator.generate()
 
     val svg = visualizeGroup(RENDER_CONFIG, race.lifeStages.getAllLifeStages().map {
-        getAppearanceForAge(race, appearance, it.maxAge())
+        getAppearanceForAge(race, appearance, it.maxAge)
     })
 
     p {
