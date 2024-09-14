@@ -1,17 +1,53 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.parse.NAME
-import at.orchaldir.gm.core.model.appearance.*
+import at.orchaldir.gm.app.CENTER
+import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.OFFSET
+import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.Distribution
 import kotlinx.html.*
 
 const val ON_CHANGE_SCRIPT = "updateEditor();"
 
+fun HtmlBlockTag.selectBool(
+    label: String,
+    value: Boolean,
+    param: String,
+    isDisabled: Boolean = false,
+    update: Boolean = false,
+) {
+    field(label) {
+        selectBool(value, param, isDisabled, update)
+    }
+}
+
+fun HtmlBlockTag.selectBool(
+    isChecked: Boolean,
+    param: String,
+    isDisabled: Boolean = false,
+    update: Boolean = false,
+) {
+    checkBoxInput {
+        name = param
+        value = "true"
+        checked = isChecked
+        disabled = isDisabled
+        if (update) {
+            onChange = ON_CHANGE_SCRIPT
+        }
+    }
+}
+
 fun FORM.selectColor(
-    labelText: String, selectId: String, rarityMap: OneOf<Color>, current: Color,
+    labelText: String,
+    selectId: String,
+    rarityMap: OneOf<Color>,
+    current: Color,
 ) {
     selectOneOf(labelText, selectId, rarityMap, true) { c ->
         label = c.name
@@ -21,7 +57,76 @@ fun FORM.selectColor(
     }
 }
 
-fun <T> HtmlBlockTag.selectEnum(
+fun HtmlBlockTag.selectOptionalColor(
+    fieldLabel: String,
+    selectId: String,
+    selectedValue: Color?,
+    values: Collection<Color>,
+    update: Boolean = false,
+) {
+    selectOptionalValue(
+        fieldLabel,
+        selectId,
+        selectedValue,
+        values,
+        update,
+    ) { color ->
+        label = color.name
+        value = color.name
+        style = "background-color:$color"
+    }
+}
+
+fun FORM.selectDistribution(
+    label: String,
+    param: String,
+    distribution: Distribution,
+    min: Float,
+    max: Float,
+    maxOffset: Float,
+    step: Float,
+    unit: String,
+    update: Boolean = false,
+) {
+    field(label) {
+        selectFloat(distribution.center, min, max, step, combine(param, CENTER), update)
+        +" +- "
+        selectFloat(distribution.offset, 0.0f, maxOffset, step, combine(param, OFFSET), update)
+        +" $unit"
+    }
+}
+
+fun <T> HtmlBlockTag.selectOptionalValue(
+    fieldLabel: String,
+    selectId: String,
+    selectedValue: T?,
+    values: Collection<T>,
+    update: Boolean = false,
+    content: OPTION.(T) -> Unit,
+) {
+    field(fieldLabel) {
+        select {
+            id = selectId
+            name = selectId
+            if (update) {
+                onChange = ON_CHANGE_SCRIPT
+            }
+            option {
+                label = "None"
+                value = ""
+                selected = selectedValue == null
+            }
+            values.forEach { value ->
+                option {
+                    content(value)
+                    selected = selectedValue == value
+                }
+            }
+        }
+    }
+}
+
+fun <T> HtmlBlockTag.selectValue(
     label: String,
     selectId: String,
     values: Collection<T>,
@@ -94,7 +199,40 @@ fun FORM.selectName(name: String) {
     selectText("Name", name, NAME, 1)
 }
 
-fun HtmlBlockTag.selectNumber(
+fun HtmlBlockTag.selectFloat(
+    label: String,
+    number: Float,
+    minNumber: Float,
+    maxNumber: Float,
+    step: Float,
+    param: String,
+    update: Boolean = false,
+) {
+    field(label) {
+        selectFloat(number, minNumber, maxNumber, step, param, update)
+    }
+}
+
+fun HtmlBlockTag.selectFloat(
+    number: Float,
+    minNumber: Float,
+    maxNumber: Float,
+    stepValue: Float,
+    param: String,
+    update: Boolean = false,
+) {
+    numberInput(name = param) {
+        min = "$minNumber"
+        max = "$maxNumber"
+        step = stepValue.toString()
+        value = number.toString()
+        if (update) {
+            onChange = ON_CHANGE_SCRIPT
+        }
+    }
+}
+
+fun HtmlBlockTag.selectInt(
     label: String,
     number: Int,
     minNumber: Int,
@@ -103,11 +241,11 @@ fun HtmlBlockTag.selectNumber(
     update: Boolean = false,
 ) {
     field(label) {
-        selectNumber(number, minNumber, maxNumber, param, update)
+        selectInt(number, minNumber, maxNumber, param, update)
     }
 }
 
-fun HtmlBlockTag.selectNumber(
+fun HtmlBlockTag.selectInt(
     number: Int,
     minNumber: Int,
     maxNumber: Int,
@@ -219,7 +357,7 @@ inline fun <reified T : Enum<T>> FORM.selectRarityMap(
 ) {
     showDetails(enum) {
         showMap(rarityMap.getRarityFor(values)) { currentValue, currentRarity ->
-            selectEnum(currentValue.toString(), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
+            selectValue(currentValue.toString(), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
                 label = rarity.toString()
                 value = "$currentValue-$rarity"
                 selected = rarity == currentRarity
@@ -251,7 +389,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> FORM.selectRarityMap(
     showDetails(enum) {
         showMap(rarityMap.getRarityFor(ids)) { id, currentRarity ->
             val element = storage.getOrThrow(id)
-            selectEnum(getName(element), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
+            selectValue(getName(element), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
                 label = rarity.toString()
                 value = "${id.value()}-$rarity"
                 selected = rarity == currentRarity

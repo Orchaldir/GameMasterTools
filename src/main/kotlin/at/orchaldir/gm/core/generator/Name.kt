@@ -2,9 +2,9 @@ package at.orchaldir.gm.core.generator
 
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.GenderMap
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.name.*
+import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.utils.NumberGenerator
 
 class NameGenerator(

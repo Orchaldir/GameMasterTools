@@ -1,10 +1,10 @@
 package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.GenderMap
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.TwoGenerations
+import at.orchaldir.gm.core.model.util.GenderMap
 
 fun State.canHaveFamilyName(character: Character): Boolean {
     val culture = getCultureStorage().getOrThrow(character.culture)

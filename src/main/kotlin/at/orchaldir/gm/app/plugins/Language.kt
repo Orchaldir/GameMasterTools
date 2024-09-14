@@ -1,10 +1,10 @@
 package at.orchaldir.gm.app.plugins
 
+import at.orchaldir.gm.app.INVENTOR
+import at.orchaldir.gm.app.LANGUAGES
+import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.INVENTOR
-import at.orchaldir.gm.app.parse.LANGUAGES
-import at.orchaldir.gm.app.parse.ORIGIN
 import at.orchaldir.gm.app.parse.parseLanguage
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
@@ -251,14 +251,14 @@ private fun HTML.showLanguageEditor(
                 }
 
                 is EvolvedLanguage ->
-                    selectEnum("Parent", LANGUAGES, possibleParents) { l ->
+                    selectValue("Parent", LANGUAGES, possibleParents) { l ->
                         label = l.name
                         value = l.id.value.toString()
                         selected = language.origin.parent == l.id
                     }
 
                 is InventedLanguage -> {
-                    selectEnum(
+                    selectValue(
                         "Inventor",
                         INVENTOR,
                         possibleInventors

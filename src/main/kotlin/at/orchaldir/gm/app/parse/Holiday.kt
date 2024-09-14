@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.parse
 
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.core.model.calendar.CALENDAR
 import at.orchaldir.gm.core.model.holiday.*
 import io.ktor.http.*

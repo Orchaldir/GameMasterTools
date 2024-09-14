@@ -1,8 +1,9 @@
 package at.orchaldir.gm.app.plugins.character
 
-import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parseCharacter
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
@@ -10,10 +11,15 @@ import at.orchaldir.gm.core.generator.DateGenerator
 import at.orchaldir.gm.core.generator.NameGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.appearance.HeadOnly
+import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
+import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -157,8 +163,8 @@ private fun HTML.showCharacterDetails(
     val equipment = state.getEquipment(character)
     val backLink = call.application.href(Characters())
     val editAppearanceLink = call.application.href(Characters.Appearance.Edit(character.id))
-    val frontSvg = visualizeCharacter(RENDER_CONFIG, character.appearance, equipment)
-    val backSvg = visualizeCharacter(RENDER_CONFIG, character.appearance, equipment, false)
+    val frontSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipment)
+    val backSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipment, false)
 
     simpleHtml("Character: ${state.getName(character)}") {
         svg(frontSvg, 20)
@@ -204,6 +210,11 @@ private fun BODY.showData(
 
         UndefinedCharacterOrigin -> doNothing()
     }
+    when (character.appearance) {
+        is HeadOnly -> showHeight(state, character, character.appearance.height)
+        is HumanoidBody -> showHeight(state, character, character.appearance.height)
+        UndefinedAppearance -> doNothing()
+    }
     field(call, state, "Birthdate", character.birthDate)
     character.causeOfDeath.getDeathDate()?.let { field(call, state, "Date of Death", it) }
     when (character.causeOfDeath) {
@@ -218,10 +229,7 @@ private fun BODY.showData(
 
         is OldAge -> showCauseOfDeath("Old Age")
     }
-    showAge(state, character)
-    race.lifeStages.getLifeStageName(state.getAgeInYears(character))?.let {
-        field("Life Stage", it)
-    }
+    showAge(state, character, race)
 
     action(generateNameLink, "Generate New Name")
     action(generateBirthdayLink, "Generate Birthday")
@@ -231,6 +239,24 @@ private fun BODY.showData(
     }
 }
 
+private fun BODY.showHeight(
+    state: State,
+    character: Character,
+    maxHeight: Distance,
+) {
+    field("Max Height", String.format("%.2f m", maxHeight.value))
+    showCurrentHeight(state, character, maxHeight)
+}
+
+fun HtmlBlockTag.showCurrentHeight(
+    state: State,
+    character: Character,
+    maxHeight: Distance,
+) {
+    val currentHeight = state.scaleHeightByAge(character, maxHeight)
+    field("Current Height", String.format("%.2f m", currentHeight.value))
+}
+
 private fun BODY.showCauseOfDeath(cause: String) {
     field("Cause of Death", cause)
 }
@@ -238,9 +264,14 @@ private fun BODY.showCauseOfDeath(cause: String) {
 private fun HtmlBlockTag.showAge(
     state: State,
     character: Character,
+    race: Race,
 ) {
     val age = state.getAgeInYears(character)
     field("Age", "$age years")
+    race.lifeStages.getLifeStage(age)?.let {
+        val start = race.lifeStages.getLifeStageStartAge(age)
+        field("Life Stage", "${it.name} ($start-${it.maxAge} years)")
+    }
 }
 
 private fun BODY.showSocial(
@@ -345,7 +376,7 @@ private fun HTML.showCharacterEditor(
             action = previewLink
             method = FormMethod.post
             selectName(state, character)
-            selectEnum("Race", RACE, state.getRaceStorage().getAll(), true) { r ->
+            selectValue("Race", RACE, state.getRaceStorage().getAll(), true) { r ->
                 label = r.name
                 value = r.id.value.toString()
                 selected = r.id == character.race
@@ -355,12 +386,12 @@ private fun HTML.showCharacterEditor(
                 value = gender.toString()
                 selected = character.gender == gender
             }
-            selectEnum("Culture", CULTURE, state.getCultureStorage().getAll()) { culture ->
+            selectValue("Culture", CULTURE, state.getCultureStorage().getAll()) { culture ->
                 label = culture.name
                 value = culture.id.value.toString()
                 selected = culture.id == character.culture
             }
-            selectEnum("Origin", ORIGIN, CharacterOriginType.entries, true) { type ->
+            selectValue("Origin", ORIGIN, CharacterOriginType.entries, true) { type ->
                 label = type.name
                 value = type.name
                 disabled = when (type) {
@@ -374,12 +405,12 @@ private fun HTML.showCharacterEditor(
             }
             when (character.origin) {
                 is Born -> {
-                    selectEnum("Father", FATHER, state.getPossibleFathers(character.id)) { c ->
+                    selectValue("Father", FATHER, state.getPossibleFathers(character.id)) { c ->
                         label = state.getName(c)
                         value = c.id.value.toString()
                         selected = character.origin.father == c.id
                     }
-                    selectEnum("Mother", MOTHER, state.getPossibleMothers(character.id)) { c ->
+                    selectValue("Mother", MOTHER, state.getPossibleMothers(character.id)) { c ->
                         label = state.getName(c)
                         value = c.id.value.toString()
                         selected = character.origin.mother == c.id
@@ -389,7 +420,7 @@ private fun HTML.showCharacterEditor(
                 else -> doNothing()
             }
             selectDay(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
-            selectEnum("Cause of death", DEATH, CauseOfDeathType.entries, true) { type ->
+            selectValue("Cause of death", DEATH, CauseOfDeathType.entries, true) { type ->
                 label = type.name
                 value = type.name
                 selected = type == character.causeOfDeath.getType()
@@ -398,13 +429,13 @@ private fun HTML.showCharacterEditor(
                 selectDay(state, "Date of Death", it, combine(DEATH, DATE))
             }
             if (character.causeOfDeath is Murder) {
-                selectEnum("Killer", KILLER, state.getOthers(character.id)) { c ->
+                selectValue("Killer", KILLER, state.getOthers(character.id)) { c ->
                     label = state.getName(c)
                     value = c.id.value.toString()
                     selected = character.causeOfDeath.killer == c.id
                 }
             }
-            showAge(state, character)
+            showAge(state, character, race)
             field("Personality") {
                 details {
                     state.getPersonalityTraitGroups().forEach { group ->

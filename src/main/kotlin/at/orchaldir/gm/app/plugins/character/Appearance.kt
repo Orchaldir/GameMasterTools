@@ -1,12 +1,13 @@
 package at.orchaldir.gm.app.plugins.character
 
-import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.createGenerationConfig
+import at.orchaldir.gm.app.parse.generateAppearance
+import at.orchaldir.gm.app.parse.parseAppearance
 import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.Side
-import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
@@ -14,10 +15,13 @@ import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.model.util.Side
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.core.selector.getRaceAppearance
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -101,8 +105,8 @@ private fun HTML.showAppearanceEditor(
     val previewLink = call.application.href(Characters.Appearance.Preview(character.id))
     val updateLink = call.application.href(Characters.Appearance.Update(character.id))
     val generateLink = call.application.href(Characters.Appearance.Generate(character.id))
-    val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance)
-    val backSvg = visualizeCharacter(RENDER_CONFIG, appearance, renderFront = false)
+    val frontSvg = visualizeCharacter(RENDER_CONFIG, state, character)
+    val backSvg = visualizeCharacter(RENDER_CONFIG, state, character, renderFront = false)
 
     simpleHtml("Edit Appearance: ${state.getName(character)}") {
         svg(frontSvg, 20)
@@ -128,14 +132,16 @@ private fun HTML.showAppearanceEditor(
             }
             when (appearance) {
                 is HeadOnly -> {
-                    showHeadEditor(raceAppearance, culture, appearance.head)
-                    showSkinEditor(raceAppearance, appearance.head.skin)
+                    editHeight(state, character, appearance.height)
+                    editHead(raceAppearance, culture, appearance.head)
+                    editSkin(raceAppearance, appearance.head.skin)
                 }
 
                 is HumanoidBody -> {
-                    showBodyEditor(character, appearance.body)
-                    showHeadEditor(raceAppearance, culture, appearance.head)
-                    showSkinEditor(raceAppearance, appearance.head.skin)
+                    editHeight(state, character, appearance.height)
+                    editBody(character, appearance.body)
+                    editHead(raceAppearance, culture, appearance.head)
+                    editSkin(raceAppearance, appearance.head.skin)
                 }
 
                 UndefinedAppearance -> doNothing()
@@ -152,35 +158,48 @@ private fun HTML.showAppearanceEditor(
     }
 }
 
-private fun FORM.showBodyEditor(
+private fun FORM.editHeight(
+    state: State,
+    character: Character,
+    maxHeight: Distance,
+) {
+    val race = state.getRaceStorage().getOrThrow(character.race)
+    field("Max Height") {
+        selectFloat(maxHeight.value, race.height.getMin(), race.height.getMax(), 0.01f, HEIGHT)
+        +" m"
+    }
+    showCurrentHeight(state, character, maxHeight)
+}
+
+private fun FORM.editBody(
     character: Character,
     body: Body,
 ) {
     h2 { +"Body" }
-    selectEnum("Shape", BODY_SHAPE, getAvailableBodyShapes(character.gender), true) { shape ->
+    selectValue("Shape", BODY_SHAPE, getAvailableBodyShapes(character.gender), true) { shape ->
         label = shape.name
         value = shape.toString()
         selected = body.bodyShape == shape
     }
-    selectEnum("Width", BODY_WIDTH, Size.entries, true) { width ->
+    selectValue("Width", BODY_WIDTH, Size.entries, true) { width ->
         label = width.name
         value = width.toString()
         selected = body.width == width
     }
 }
 
-private fun FORM.showHeadEditor(
+private fun FORM.editHead(
     raceAppearance: RaceAppearance,
     culture: Culture,
     head: Head,
 ) {
-    showEarsEditor(raceAppearance, head.ears)
-    showEyesEditor(raceAppearance, head.eyes)
-    showHairEditor(raceAppearance, culture, head.hair)
-    showMouthEditor(raceAppearance, culture, head.mouth)
+    editEars(raceAppearance, head.ears)
+    editEyes(raceAppearance, head.eyes)
+    editHair(raceAppearance, culture, head.hair)
+    editMouth(raceAppearance, culture, head.mouth)
 }
 
-private fun FORM.showEarsEditor(raceAppearance: RaceAppearance, ears: Ears) {
+private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
     h2 { +"Ears" }
     selectOneOf("Type", EAR_TYPE, raceAppearance.earsLayout, true) { type ->
         label = type.name
@@ -197,7 +216,7 @@ private fun FORM.showEarsEditor(raceAppearance: RaceAppearance, ears: Ears) {
                 value = shape.toString()
                 selected = ears.shape == shape
             }
-            selectEnum("Ear Size", EAR_SIZE, Size.entries, true) { size ->
+            selectValue("Ear Size", EAR_SIZE, Size.entries, true) { size ->
                 label = size.name
                 value = size.toString()
                 selected = ears.size == size
@@ -208,7 +227,7 @@ private fun FORM.showEarsEditor(raceAppearance: RaceAppearance, ears: Ears) {
     }
 }
 
-private fun FORM.showSkinEditor(
+private fun FORM.editSkin(
     raceAppearance: RaceAppearance,
     skin: Skin,
 ) {
@@ -237,13 +256,13 @@ private fun FORM.showSkinEditor(
     }
 }
 
-private fun FORM.showBeardEditor(
+private fun FORM.editBeard(
     raceAppearance: RaceAppearance,
     culture: Culture,
     beard: Beard,
 ) {
     h2 { +"Beard" }
-    selectOneOf("Type", BEARD_TYPE, raceAppearance.hairOptions.beardTypes, true) { option ->
+    selectOneOf("Type", BEARD, raceAppearance.hairOptions.beardTypes, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {
@@ -253,16 +272,16 @@ private fun FORM.showBeardEditor(
     }
     when (beard) {
         NoBeard -> doNothing()
-        is NormalBeard -> showNormalBeardEditor(raceAppearance, culture, beard)
+        is NormalBeard -> editNormalBeard(raceAppearance, culture, beard)
     }
 }
 
-private fun FORM.showNormalBeardEditor(
+private fun FORM.editNormalBeard(
     raceAppearance: RaceAppearance,
     culture: Culture,
     beard: NormalBeard,
 ) {
-    selectOneOf("Style", BEARD_STYLE, culture.appearanceStyle.beardStyles, true) { style ->
+    selectOneOf("Style", combine(BEARD, STYLE), culture.appearanceStyle.beardStyles, true) { style ->
         label = style.name
         value = style.toString()
         selected = when (style) {
@@ -272,7 +291,7 @@ private fun FORM.showNormalBeardEditor(
             BeardStyleType.Shaved -> beard.style is ShavedBeard
         }
     }
-    selectColor("Color", BEARD_COLOR, raceAppearance.hairOptions.colors, beard.color)
+    selectColor("Color", combine(BEARD, COLOR), raceAppearance.hairOptions.colors, beard.color)
 
     when (beard.style) {
         is Goatee -> selectGoateeStyle(culture, beard.style.goateeStyle)
@@ -308,7 +327,7 @@ private fun HtmlBlockTag.selectMoustacheStyle(
     }
 }
 
-private fun FORM.showEyesEditor(
+private fun FORM.editEyes(
     raceAppearance: RaceAppearance,
     eyes: Eyes,
 ) {
@@ -324,8 +343,8 @@ private fun FORM.showEyesEditor(
     }
     when (eyes) {
         is OneEye -> {
-            showEyeEditor(raceAppearance.eyeOptions, eyes.eye)
-            selectEnum("Eye Size", EYE_SIZE, Size.entries, true) { c ->
+            editEye(raceAppearance.eyeOptions, eyes.eye)
+            selectValue("Eye Size", EYE_SIZE, Size.entries, true) { c ->
                 label = c.name
                 value = c.toString()
                 selected = eyes.size == c
@@ -333,14 +352,14 @@ private fun FORM.showEyesEditor(
         }
 
         is TwoEyes -> {
-            showEyeEditor(raceAppearance.eyeOptions, eyes.eye)
+            editEye(raceAppearance.eyeOptions, eyes.eye)
         }
 
         else -> doNothing()
     }
 }
 
-private fun FORM.showEyeEditor(
+private fun FORM.editEye(
     eyeOptions: EyeOptions,
     eye: Eye,
 ) {
@@ -358,7 +377,7 @@ private fun FORM.showEyeEditor(
     selectColor("Sclera Color", SCLERA_COLOR, eyeOptions.scleraColors, eye.scleraColor)
 }
 
-private fun FORM.showHairEditor(
+private fun FORM.editHair(
     raceAppearance: RaceAppearance,
     culture: Culture,
     hair: Hair,
@@ -374,11 +393,11 @@ private fun FORM.showHairEditor(
     }
     when (hair) {
         NoHair -> doNothing()
-        is NormalHair -> showNormalHairEditor(raceAppearance, culture, hair)
+        is NormalHair -> editNormalHair(raceAppearance, culture, hair)
     }
 }
 
-private fun FORM.showNormalHairEditor(
+private fun FORM.editNormalHair(
     raceAppearance: RaceAppearance,
     culture: Culture,
     hair: NormalHair,
@@ -399,7 +418,7 @@ private fun FORM.showNormalHairEditor(
 
     when (hair.style) {
         is SidePart -> {
-            selectEnum("Side", SIDE_PART, Side.entries, true) { side ->
+            selectValue("Side", SIDE_PART, Side.entries, true) { side ->
                 label = side.name
                 value = side.toString()
                 selected = hair.style.side == side
@@ -410,7 +429,7 @@ private fun FORM.showNormalHairEditor(
     }
 }
 
-private fun FORM.showMouthEditor(
+private fun FORM.editMouth(
     raceAppearance: RaceAppearance,
     culture: Culture,
     mouth: Mouth,
@@ -426,12 +445,12 @@ private fun FORM.showMouthEditor(
     }
     when (mouth) {
         is NormalMouth -> {
-            showSimpleMouthEditor(mouth.width, mouth.teethColor)
-            showBeardEditor(raceAppearance, culture, mouth.beard)
+            editSimpleMouth(mouth.width, mouth.teethColor)
+            editBeard(raceAppearance, culture, mouth.beard)
         }
 
         is FemaleMouth -> {
-            showSimpleMouthEditor(mouth.width, mouth.teethColor)
+            editSimpleMouth(mouth.width, mouth.teethColor)
             selectColor("Lip Color", LIP_COLOR, culture.appearanceStyle.lipColors, mouth.color)
         }
 
@@ -439,13 +458,13 @@ private fun FORM.showMouthEditor(
     }
 }
 
-private fun FORM.showSimpleMouthEditor(size: Size, teethColor: TeethColor) {
-    selectEnum("Width", MOUTH_WIDTH, Size.entries, true) { width ->
+private fun FORM.editSimpleMouth(size: Size, teethColor: TeethColor) {
+    selectValue("Width", MOUTH_WIDTH, Size.entries, true) { width ->
         label = width.name
         value = width.toString()
         selected = size == width
     }
-    selectEnum("Teeth Color", TEETH_COLOR, TeethColor.entries, true) { color ->
+    selectValue("Teeth Color", TEETH_COLOR, TeethColor.entries, true) { color ->
         label = color.name
         value = color.toString()
         selected = teethColor == color

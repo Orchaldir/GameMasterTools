@@ -1,8 +1,9 @@
 package at.orchaldir.gm.app.plugins
 
-import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parseHoliday
 import at.orchaldir.gm.core.action.CreateHoliday
 import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
@@ -176,7 +177,7 @@ private fun HTML.showHolidayEditor(
             action = previewLink
             method = FormMethod.post
             selectName(holiday.name)
-            selectEnum("Calendar", CALENDAR, state.getCalendarStorage().getAll(), true) { calendar ->
+            selectValue("Calendar", CALENDAR, state.getCalendarStorage().getAll(), true) { calendar ->
                 label = calendar.name
                 value = calendar.id.value.toString()
                 selected = calendar.id == holiday.calendar
@@ -195,7 +196,7 @@ private fun HTML.showHolidayEditor(
 }
 
 private fun FORM.selectRelativeDate(param: String, relativeDate: RelativeDate, calendar: Calendar) {
-    selectEnum("Relative Date", combine(param, TYPE), RelativeDateType.entries, true) { type ->
+    selectValue("Relative Date", combine(param, TYPE), RelativeDateType.entries, true) { type ->
         label = type.name
         value = type.name
         disabled = when (type) {
@@ -230,7 +231,7 @@ private fun FORM.selectRelativeDate(param: String, relativeDate: RelativeDate, c
                     selected = relativeDate.weekdayIndex == index
                 }
             }
-            selectNumber("Week", relativeDate.weekInMonthIndex, 0, 2, combine(param, WEEK))
+            selectInt("Week", relativeDate.weekInMonthIndex, 0, 2, combine(param, WEEK))
         }
     }
 }

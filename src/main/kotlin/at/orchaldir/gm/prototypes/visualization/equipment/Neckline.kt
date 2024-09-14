@@ -1,8 +1,5 @@
 package at.orchaldir.gm.prototypes.visualization.equipment
 
-import at.orchaldir.gm.core.model.appearance.Color.Blue
-import at.orchaldir.gm.core.model.appearance.Size
-import at.orchaldir.gm.core.model.appearance.Solid
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.Head
@@ -10,6 +7,9 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.Shirt
 import at.orchaldir.gm.core.model.item.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.style.SleeveStyle.None
+import at.orchaldir.gm.core.model.util.Color.Blue
+import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.Solid
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.addNames
 import at.orchaldir.gm.prototypes.visualization.character.renderTable

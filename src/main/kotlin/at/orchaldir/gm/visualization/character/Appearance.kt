@@ -1,11 +1,14 @@
 package at.orchaldir.gm.visualization.character
 
-import at.orchaldir.gm.core.model.appearance.Color.Black
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.item.Equipment
+import at.orchaldir.gm.core.model.util.Color.Black
+import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Orientation
@@ -18,18 +21,16 @@ import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.RenderState
 
-const val TEXT_LAYER = 100
-const val ABOVE_EQUIPMENT_LAYER = 5
-const val OUTERWEAR_LAYER = 4
-const val HIGHER_EQUIPMENT_LAYER = 3
-const val EQUIPMENT_LAYER = 2
-const val MAIN_LAYER = 0
-const val BEHIND_LAYER = -20
+fun visualizeCharacter(
+    config: RenderConfig,
+    state: State,
+    character: Character,
+    equipped: List<Equipment> = emptyList(),
+    renderFront: Boolean = true,
+): Svg {
+    val appearance = state.getAppearanceForAge(character)
 
-fun getArmLayer(layer: Int, isFront: Boolean) = if (isFront) {
-    layer
-} else {
-    layer - 10
+    return visualizeCharacter(config, appearance, equipped, renderFront)
 }
 
 fun visualizeCharacter(
@@ -52,7 +53,7 @@ fun visualizeAppearance(
     state: RenderState,
     appearance: Appearance,
 ) {
-    val inner = AABB.fromCenter(state.aabb.getCenter(), appearance.getSize())
+    val inner = AABB.fromCenter(state.aabb.getCenter(), appearance.getSize2d())
     val innerState = state.copy(aabb = inner)
 
     state.renderer.renderRectangle(state.aabb, BorderOnly(state.config.line))

@@ -9,7 +9,6 @@ fun State.canDelete(id: RaceAppearanceId) = getRaces(id).isEmpty()
 
 fun State.getRaceAppearance(character: Character): RaceAppearance {
     val race = getRaceStorage().getOrThrow(character.race)
-    val age = getAgeInYears(character)
 
-    return getRaceAppearanceStorage().getOrThrow(race.lifeStages.getAppearance(age))
+    return getRaceAppearanceStorage().getOrThrow(race.lifeStages.getRaceAppearance())
 }

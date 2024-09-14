@@ -1,6 +1,6 @@
 package at.orchaldir.gm.app.parse
 
-import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.HairOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.util.Color
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -42,7 +43,7 @@ private fun parseEyeOptions(parameters: Parameters): EyeOptions {
 }
 
 private fun parseHairOptions(parameters: Parameters) = HairOptions(
-    parseOneOf(parameters, BEARD_TYPE, BeardType::valueOf),
+    parseOneOf(parameters, BEARD, BeardType::valueOf),
     parseOneOf(parameters, HAIR_TYPE, HairType::valueOf),
     parseOneOf(parameters, HAIR_COLOR, Color::valueOf, Color.entries),
 )

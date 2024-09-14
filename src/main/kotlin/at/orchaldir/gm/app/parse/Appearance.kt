@@ -1,15 +1,16 @@
 package at.orchaldir.gm.app.parse
 
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.core.generator.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.appearance.Side
-import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.Side
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.getRaceAppearance
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.math.Distance
@@ -18,11 +19,13 @@ import kotlin.random.Random
 
 fun createGenerationConfig(state: State, character: Character): AppearanceGeneratorConfig {
     val culture = state.getCultureStorage().getOrThrow(character.culture)
+    val race = state.getRaceStorage().getOrThrow(character.race)
 
     return AppearanceGeneratorConfig(
         RandomNumberGenerator(Random),
         state.rarityGenerator,
         character.gender,
+        race.height,
         state.getRaceAppearance(character),
         culture.appearanceStyle
     )
@@ -43,19 +46,25 @@ fun parseAppearance(
     config: AppearanceGeneratorConfig,
     character: Character,
 ): Appearance {
+    val height = parseHeight(parameters, config)
     val skin = parseSkin(parameters, config)
 
     return when (parameters[APPEARANCE]) {
-        AppearanceType.HeadOnly.toString() -> HeadOnly(parseHead(parameters, config, character, skin), Distance(0.2f))
+        AppearanceType.HeadOnly.toString() -> HeadOnly(parseHead(parameters, config, character, skin), height)
         AppearanceType.Body.toString() -> HumanoidBody(
             parseBody(parameters, config, skin),
             parseHead(parameters, config, character, skin),
-            Distance(1.8f)
+            height,
         )
 
         else -> UndefinedAppearance
     }
 }
+
+private fun parseHeight(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+) = Distance(parseFloat(parameters, HEIGHT, config.heightDistribution.center))
 
 private fun parseBody(
     parameters: Parameters,
@@ -88,11 +97,11 @@ private fun parseHead(
 }
 
 private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig, hair: Hair): Beard {
-    return when (parameters[BEARD_TYPE]) {
+    return when (parameters[BEARD]) {
         BeardType.None.toString() -> NoBeard
         BeardType.Normal.toString() -> {
             return NormalBeard(
-                when (parameters[BEARD_STYLE]) {
+                when (parameters[combine(BEARD, STYLE)]) {
                     BeardStyleType.Goatee.toString() -> Goatee(
                         parse(parameters, GOATEE_STYLE, GoateeStyle.Goatee),
                     )
@@ -110,7 +119,7 @@ private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig
 
                     else -> Goatee(GoateeStyle.Goatee)
                 },
-                parse(parameters, BEARD_COLOR, Color.Red),
+                parse(parameters, combine(BEARD, COLOR), Color.Red),
             )
         }
 

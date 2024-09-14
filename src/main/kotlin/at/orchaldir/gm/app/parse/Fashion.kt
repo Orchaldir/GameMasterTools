@@ -1,5 +1,8 @@
 package at.orchaldir.gm.app.parse
 
+import at.orchaldir.gm.app.ACCESSORY_RARITY
+import at.orchaldir.gm.app.CLOTHING_SETS
+import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId

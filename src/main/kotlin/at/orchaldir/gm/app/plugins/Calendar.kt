@@ -1,8 +1,9 @@
 package at.orchaldir.gm.app.plugins
 
-import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parseCalendar
 import at.orchaldir.gm.core.action.CreateCalendar
 import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
@@ -286,7 +287,7 @@ private fun FORM.editDays(
         DayOfTheMonth -> doNothing()
         is Weekdays -> {
             val minNumber = getMinNumberOfWeekdays(holidays)
-            selectNumber("Weekdays", days.weekDays.size, minNumber, 100, combine(WEEK, DAYS), true)
+            selectInt("Weekdays", days.weekDays.size, minNumber, 100, combine(WEEK, DAYS), true)
             days.weekDays.withIndex().forEach { (index, day) ->
                 p {
                     selectText(day.name, combine(WEEK, DAY, index))
@@ -298,14 +299,14 @@ private fun FORM.editDays(
 
 private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
     val minMonths = getMinNumberOfMonths(holidays)
-    selectNumber("Months", calendar.months.size, minMonths, 100, MONTHS, true)
+    selectInt("Months", calendar.months.size, minMonths, 100, MONTHS, true)
 
     calendar.months.withIndex().forEach { (index, month) ->
         val minDays = getMinNumberOfDays(holidays, index)
         p {
             selectText(month.name, combine(MONTH, NAME, index))
             +": "
-            selectNumber(month.days, minDays, 100, combine(MONTH, DAYS, index))
+            selectInt(month.days, minDays, 100, combine(MONTH, DAYS, index))
             +"days"
         }
     }
@@ -341,7 +342,7 @@ private fun FORM.editOrigin(
     }
     when (origin) {
         is ImprovedCalendar ->
-            selectEnum("Parent", CALENDAR, possibleParents) { c ->
+            selectValue("Parent", CALENDAR, possibleParents) { c ->
                 label = c.name
                 value = c.id.value.toString()
                 selected = origin.parent == c.id
@@ -366,11 +367,5 @@ private fun FORM.editEra(
     param: String,
 ) {
     selectText("$label Era - Name", era.text, combine(param, NAME))
-    field("$label Era - Is prefix") {
-        checkBoxInput {
-            name = combine(param, PREFIX)
-            value = "true"
-            checked = era.isPrefix
-        }
-    }
+    selectBool("$label Era - Is prefix", era.isPrefix, combine(param, PREFIX))
 }

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.appearance
+package at.orchaldir.gm.core.model.util
 
 import at.orchaldir.gm.utils.renderer.NamedColor
 import kotlinx.serialization.Serializable

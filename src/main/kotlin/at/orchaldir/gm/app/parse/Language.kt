@@ -1,5 +1,9 @@
 package at.orchaldir.gm.app.parse
 
+import at.orchaldir.gm.app.INVENTOR
+import at.orchaldir.gm.app.LANGUAGES
+import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.model.language.LanguageOriginType.*
 import io.ktor.http.*

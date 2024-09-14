@@ -1,8 +1,8 @@
 package at.orchaldir.gm.app.plugins
 
+import at.orchaldir.gm.app.CURRENT
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.CURRENT
 import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
 import at.orchaldir.gm.core.model.State
@@ -219,7 +219,7 @@ private fun HTML.editTimeData(
 
     simpleHtml("Edit Time Data") {
         form {
-            selectEnum("Default Calendar", CALENDAR, state.getCalendarStorage().getAll()) { calendar ->
+            selectValue("Default Calendar", CALENDAR, state.getCalendarStorage().getAll()) { calendar ->
                 label = calendar.name
                 value = calendar.id.value.toString()
                 selected = calendar.id == state.time.defaultCalendar

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.plugins.TimeRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
@@ -126,7 +127,7 @@ private fun P.selectYearIndex(
     yearIndex: Int,
 ) {
     val yearParam = combine(param, YEAR)
-    selectNumber(yearIndex + 1, 1, Int.MAX_VALUE, yearParam, true)
+    selectInt(yearIndex + 1, 1, Int.MAX_VALUE, yearParam, true)
 }
 
 fun HtmlBlockTag.selectMonthIndex(
@@ -171,5 +172,5 @@ private fun P.selectDayIndex(
     dayIndex: Int,
 ) {
     val month = calendar.months[monthIndex]
-    selectNumber(dayIndex + 1, 1, month.days, combine(param, DAY), true)
+    selectInt(dayIndex + 1, 1, month.days, combine(param, DAY), true)
 }

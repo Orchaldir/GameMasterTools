@@ -1,20 +1,28 @@
 package at.orchaldir.gm.app.plugins.race
 
-import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parseRace
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.aging.ComplexAging
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStagesType
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.visualization.character.visualizeGroup
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -123,25 +131,52 @@ private fun HTML.showRaceDetails(
     val editLink = call.application.href(RaceRoutes.Edit(race.id))
 
     simpleHtml("Race: ${race.name}") {
-        field("Id", race.id.value.toString())
-        field("Name", race.name)
-        showRarityMap("Gender", race.genders)
-        showLifeStages(call, state, race)
-        h2 { +"Characters" }
-        showList(state.getCharacters(race.id)) { character ->
-            link(call, state, character)
-        }
-        action(editLink, "Edit")
+        split({
+            field("Id", race.id.value.toString())
+            field("Name", race.name)
+            showRarityMap("Gender", race.genders)
+            showDistribution("Height", race.height, "m")
+            showLifeStages(call, state, race)
+            h2 { +"Characters" }
+            showList(state.getCharacters(race.id)) { character ->
+                link(call, state, character)
+            }
+            action(editLink, "Edit")
 
-        if (state.canDelete(race.id)) {
-            action(deleteLink, "Delete")
-        }
+            if (state.canDelete(race.id)) {
+                action(deleteLink, "Delete")
+            }
 
-        back(backLink)
+            back(backLink)
+        }, {
+            race.genders.getValidValues().forEach { gender ->
+                visualizeLifeStages(state, race, gender, 120)
+            }
+        })
     }
 }
 
-private fun BODY.showLifeStages(
+private fun HtmlBlockTag.visualizeLifeStages(
+    state: State,
+    race: Race,
+    gender: Gender,
+    width: Int,
+) {
+    val raceAppearanceId = race.lifeStages.getRaceAppearance()
+    val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(raceAppearanceId)
+    val generator = createGeneratorConfig(state, raceAppearance, gender, CultureId(0))
+    val appearance = generator.generate()
+
+    val svg = visualizeGroup(RENDER_CONFIG, race.lifeStages.getAllLifeStages().map {
+        getAppearanceForAge(race, appearance, it.maxAge)
+    })
+
+    p {
+        svg(svg, width)
+    }
+}
+
+private fun HtmlBlockTag.showLifeStages(
     call: ApplicationCall,
     state: State,
     race: Race,
@@ -161,19 +196,20 @@ private fun BODY.showLifeStages(
                     li {
                         showMaxAge(stage.maxAge)
                     }
-                }
-            }
-        }
-
-        is ComplexAging -> {
-            showList(lifeStages.lifeStages) { stage ->
-                +stage.name
-                ul {
                     li {
-                        showMaxAge(stage.maxAge)
+                        showRelativeSize(stage.relativeSize)
                     }
-                    li {
-                        showAppearance(call, state, stage.appearance)
+                    if (stage.hasBeard) {
+                        li {
+                            p {
+                                b { +"Has Beard" }
+                            }
+                        }
+                    }
+                    if (stage.hairColor != null) {
+                        li {
+                            field("Hair Color", stage.hairColor.name)
+                        }
                     }
                 }
             }
@@ -195,6 +231,10 @@ private fun HtmlBlockTag.showMaxAge(maxAge: Int) {
     field("Max Age", maxAge.toString())
 }
 
+private fun HtmlBlockTag.showRelativeSize(size: Factor) {
+    field("Relative Size", size.value.toString())
+}
+
 private fun HTML.showRaceEditor(
     call: ApplicationCall,
     state: State,
@@ -205,23 +245,30 @@ private fun HTML.showRaceEditor(
     val updateLink = call.application.href(RaceRoutes.Update(race.id))
 
     simpleHtml("Edit Race: ${race.name}") {
-        field("Id", race.id.value.toString())
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-            selectName(race.name)
-            selectRarityMap("Gender", GENDER, race.genders)
-            editLifeStages(state, race)
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
+        split({
+            field("Id", race.id.value.toString())
+            form {
+                id = "editor"
+                action = previewLink
+                method = FormMethod.post
+                selectName(race.name)
+                selectRarityMap("Gender", GENDER, race.genders)
+                selectDistribution("Height", HEIGHT, race.height, 0.1f, 5.0f, 1.0f, 0.01f, "m", true)
+                editLifeStages(state, race)
+                p {
+                    submitInput {
+                        value = "Update"
+                        formAction = updateLink
+                        formMethod = InputFormMethod.post
+                    }
                 }
             }
-        }
-        back(backLink)
+            back(backLink)
+        }, {
+            race.genders.getValidValues().forEach { gender ->
+                visualizeLifeStages(state, race, gender, 120)
+            }
+        })
     }
 }
 
@@ -229,15 +276,16 @@ private fun FORM.editLifeStages(
     state: State,
     race: Race,
 ) {
+    val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(race.lifeStages.getRaceAppearance())
+    val canHaveBeard = raceAppearance.hairOptions.beardTypes.isAvailable(BeardType.Normal)
     val lifeStages = race.lifeStages
 
     h2 { +"Life Stages" }
 
-    selectEnum("Type", combine(LIFE_STAGE, TYPE), LifeStagesType.entries, true) { type ->
+    selectValue("Type", combine(LIFE_STAGE, TYPE), LifeStagesType.entries, true) { type ->
         label = type.name
         value = type.name
         selected = when (lifeStages) {
-            is ComplexAging -> type == LifeStagesType.ComplexAging
             is ImmutableLifeStage -> type == LifeStagesType.ImmutableLifeStage
             is SimpleAging -> type == LifeStagesType.SimpleAging
         }
@@ -256,24 +304,27 @@ private fun FORM.editLifeStages(
                 selectStageName(index, stage.name)
                 ul {
                     li {
-                        selectAge(minMaxAge, index, stage.maxAge)
-                    }
-                }
-                minMaxAge = stage.maxAge + 1
-            }
-        }
-
-        is ComplexAging -> {
-            var minMaxAge = 1
-            selectNumberOfLifeStages(lifeStages.lifeStages.size)
-            showListWithIndex(lifeStages.lifeStages) { index, stage ->
-                selectStageName(index, stage.name)
-                ul {
-                    li {
-                        selectAge(minMaxAge, index, stage.maxAge)
+                        selectMaxAge(minMaxAge, index, stage.maxAge)
                     }
                     li {
-                        selectAppearance(state, stage.appearance, index)
+                        selectRelativeSize(stage.relativeSize, index)
+                    }
+                    li {
+                        selectBool(
+                            "Has Beard",
+                            stage.hasBeard && canHaveBeard,
+                            combine(LIFE_STAGE, BEARD, index),
+                            !canHaveBeard
+                        )
+                    }
+                    li {
+                        selectOptionalColor(
+                            "Hair Color",
+                            combine(LIFE_STAGE, HAIR_COLOR, index),
+                            stage.hairColor,
+                            Color.entries,
+                            true
+                        )
                     }
                 }
                 minMaxAge = stage.maxAge + 1
@@ -283,7 +334,7 @@ private fun FORM.editLifeStages(
 }
 
 private fun FORM.selectNumberOfLifeStages(number: Int) {
-    selectNumber("Weekdays", number, 2, 100, LIFE_STAGE, true)
+    selectInt("Weekdays", number, 2, 100, LIFE_STAGE, true)
 }
 
 private fun LI.selectStageName(
@@ -293,12 +344,19 @@ private fun LI.selectStageName(
     selectText("Name", name, combine(LIFE_STAGE, NAME, index), 1)
 }
 
-private fun LI.selectAge(
+private fun LI.selectMaxAge(
     minMaxAge: Int,
     index: Int,
     maxAge: Int?,
 ) {
-    selectNumber("Max Age", maxAge ?: 0, minMaxAge, 10000, combine(LIFE_STAGE, AGE, index))
+    selectInt("Max Age", maxAge ?: 0, minMaxAge, 10000, combine(LIFE_STAGE, AGE, index))
+}
+
+private fun LI.selectRelativeSize(
+    size: Factor,
+    index: Int,
+) {
+    selectFloat("Relative Size", size.value, 0.01f, 1.0f, 0.01f, combine(LIFE_STAGE, SIZE, index), true)
 }
 
 private fun HtmlBlockTag.selectAppearance(
@@ -306,10 +364,11 @@ private fun HtmlBlockTag.selectAppearance(
     raceAppearanceId: RaceAppearanceId,
     index: Int,
 ) {
-    selectEnum(
+    selectValue(
         "Appearance",
         combine(RACE, APPEARANCE, index),
-        state.getRaceAppearanceStorage().getAll()
+        state.getRaceAppearanceStorage().getAll(),
+        true,
     ) { appearance ->
         label = appearance.name
         value = appearance.id.value.toString()

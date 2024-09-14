@@ -1,37 +1,40 @@
 package at.orchaldir.gm.core.generator
 
-import at.orchaldir.gm.core.model.appearance.RarityMap
-import at.orchaldir.gm.core.model.appearance.Side
-import at.orchaldir.gm.core.model.appearance.Size
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.model.util.RarityMap
+import at.orchaldir.gm.core.model.util.Side
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.Distribution
 
 data class AppearanceGeneratorConfig(
     val numberGenerator: NumberGenerator,
     val rarityGenerator: RarityGenerator,
     val gender: Gender,
+    val heightDistribution: Distribution,
     val appearanceOptions: RaceAppearance,
     val appearanceStyle: AppearanceStyle,
 ) {
-    fun generate(distance: Distance): Appearance {
+    fun generate(): Appearance {
         val skin = generateSkin(this)
+        val height = Distance(heightDistribution.center)
 
         return when (generate(appearanceOptions.appearanceTypes)) {
             AppearanceType.Body -> HumanoidBody(
                 generateBody(this, skin),
                 generateHead(this, skin),
-                distance,
+                height,
             )
 
             AppearanceType.HeadOnly -> HeadOnly(
                 generateHead(this, skin),
-                distance,
+                height,
             )
         }
     }

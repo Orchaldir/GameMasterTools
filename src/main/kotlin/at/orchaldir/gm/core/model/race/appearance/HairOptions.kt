@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.model.race.appearance
 
-import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.appearance.OneOf
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
+import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.OneOf
 import kotlinx.serialization.Serializable
 
 @Serializable

@@ -12,8 +12,9 @@ val FULL = Factor(1.0f)
 /**
  * A distance relative to the parent AABB.
  */
+@JvmInline
 @Serializable
-data class Factor(val value: Float) {
+value class Factor(val value: Float) {
 
     operator fun unaryMinus() = Factor(-value)
     operator fun plus(other: Factor) = Factor(value + other.value)

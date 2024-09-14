@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.appearance
+package at.orchaldir.gm.core.model.util
 
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.Gender.*

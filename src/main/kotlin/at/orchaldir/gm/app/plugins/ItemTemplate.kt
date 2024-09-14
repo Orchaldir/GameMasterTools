@@ -1,19 +1,19 @@
 package at.orchaldir.gm.app.plugins
 
-import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.parseItemTemplate
 import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getEquippedBy
 import at.orchaldir.gm.core.selector.getFashions
@@ -305,7 +305,7 @@ private fun HTML.showItemTemplateEditor(
             action = previewLink
             method = FormMethod.post
             selectName(template.name)
-            selectEnum("Equipment", EQUIPMENT_TYPE, EquipmentType.entries, true) { type ->
+            selectValue("Equipment", EQUIPMENT_TYPE, EquipmentType.entries, true) { type ->
                 label = type.name
                 value = type.name
                 selected = template.equipment.isType(type)
@@ -313,7 +313,7 @@ private fun HTML.showItemTemplateEditor(
             when (template.equipment) {
                 NoEquipment -> doNothing()
                 is Coat -> {
-                    selectEnum("Length", LENGTH, OuterwearLength.entries, true) { length ->
+                    selectValue("Length", LENGTH, OuterwearLength.entries, true) { length ->
                         label = length.name
                         value = length.name
                         selected = template.equipment.length == length
@@ -327,7 +327,7 @@ private fun HTML.showItemTemplateEditor(
 
                 is Dress -> {
                     selectNecklineStyle(NecklineStyle.entries, template.equipment.necklineStyle)
-                    selectEnum("Skirt Style", SKIRT_STYLE, SkirtStyle.entries, true) { style ->
+                    selectValue("Skirt Style", SKIRT_STYLE, SkirtStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.skirtStyle == style
@@ -341,7 +341,7 @@ private fun HTML.showItemTemplateEditor(
                 }
 
                 is Footwear -> {
-                    selectEnum("Style", FOOTWEAR, FootwearStyle.entries, true) { style ->
+                    selectValue("Style", FOOTWEAR, FootwearStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.style == style
@@ -354,7 +354,7 @@ private fun HTML.showItemTemplateEditor(
                 }
 
                 is Gloves -> {
-                    selectEnum("Style", GLOVES, GloveStyle.entries, true) { style ->
+                    selectValue("Style", GLOVES, GloveStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.style == style
@@ -364,7 +364,7 @@ private fun HTML.showItemTemplateEditor(
                 }
 
                 is Hat -> {
-                    selectEnum("Style", HAT, HatStyle.entries, true) { style ->
+                    selectValue("Style", HAT, HatStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.style == style
@@ -374,7 +374,7 @@ private fun HTML.showItemTemplateEditor(
                 }
 
                 is Pants -> {
-                    selectEnum("Style", PANTS, PantsStyle.entries, true) { style ->
+                    selectValue("Style", PANTS, PantsStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.style == style
@@ -394,7 +394,7 @@ private fun HTML.showItemTemplateEditor(
                 }
 
                 is Skirt -> {
-                    selectEnum("Style", SKIRT_STYLE, SkirtStyle.entries, true) { style ->
+                    selectValue("Style", SKIRT_STYLE, SkirtStyle.entries, true) { style ->
                         label = style.name
                         value = style.name
                         selected = template.equipment.style == style
@@ -416,7 +416,7 @@ private fun HTML.showItemTemplateEditor(
 }
 
 private fun FORM.selectNecklineStyle(options: Collection<NecklineStyle>, current: NecklineStyle) {
-    selectEnum("Neckline Style", NECKLINE_STYLE, options, true) { style ->
+    selectValue("Neckline Style", NECKLINE_STYLE, options, true) { style ->
         label = style.name
         value = style.name
         selected = current == style
@@ -424,7 +424,7 @@ private fun FORM.selectNecklineStyle(options: Collection<NecklineStyle>, current
 }
 
 private fun FORM.selectOpeningStyle(openingStyle: OpeningStyle) {
-    selectEnum("Opening Style", OPENING_STYLE, OpeningType.entries, true) { type ->
+    selectValue("Opening Style", OPENING_STYLE, OpeningType.entries, true) { type ->
         label = type.name
         value = type.name
         selected = when (openingStyle) {
@@ -439,7 +439,7 @@ private fun FORM.selectOpeningStyle(openingStyle: OpeningStyle) {
         is SingleBreasted -> selectButtons(openingStyle.buttons)
         is DoubleBreasted -> {
             selectButtons(openingStyle.buttons)
-            selectEnum("Space between Columns", SPACE_BETWEEN_COLUMNS, Size.entries, true) { space ->
+            selectValue("Space between Columns", SPACE_BETWEEN_COLUMNS, Size.entries, true) { space ->
                 label = space.name
                 value = space.name
                 selected = space == openingStyle.spaceBetweenColumns
@@ -451,9 +451,9 @@ private fun FORM.selectOpeningStyle(openingStyle: OpeningStyle) {
 }
 
 private fun FORM.selectButtons(buttonColumn: ButtonColumn) {
-    selectNumber("Button Count", buttonColumn.count.toInt(), 1, 20, BUTTON_COUNT, true)
+    selectInt("Button Count", buttonColumn.count.toInt(), 1, 20, BUTTON_COUNT, true)
     selectColor(buttonColumn.button.color, "Button Color", BUTTON_COLOR)
-    selectEnum("Button Size", BUTTON_SIZE, Size.entries, true) { size ->
+    selectValue("Button Size", BUTTON_SIZE, Size.entries, true) { size ->
         label = size.name
         value = size.name
         selected = size == buttonColumn.button.size
@@ -461,7 +461,7 @@ private fun FORM.selectButtons(buttonColumn: ButtonColumn) {
 }
 
 private fun FORM.selectSleeveStyle(options: Collection<SleeveStyle>, current: SleeveStyle) {
-    selectEnum("Sleeve Style", SLEEVE_STYLE, options, true) { style ->
+    selectValue("Sleeve Style", SLEEVE_STYLE, options, true) { style ->
         label = style.name
         value = style.name
         selected = current == style
@@ -469,7 +469,7 @@ private fun FORM.selectSleeveStyle(options: Collection<SleeveStyle>, current: Sl
 }
 
 private fun FORM.selectFill(fill: Fill) {
-    selectEnum("Fill Type", FILL_TYPE, FillType.entries, true) { type ->
+    selectValue("Fill Type", FILL_TYPE, FillType.entries, true) { type ->
         label = type.name
         value = type.name
         selected = when (fill) {
@@ -488,14 +488,14 @@ private fun FORM.selectFill(fill: Fill) {
 private fun FORM.selectStripes(color0: Color, color1: Color, width: UByte) {
     selectColor(color0, "1.Stripe Color", colors = Color.entries - color1)
     selectColor(color1, "2.Stripe Color", EQUIPMENT_COLOR_1, Color.entries - color0)
-    selectNumber("Stripe Width", width.toInt(), 1, 10, PATTERN_WIDTH, true)
+    selectInt("Stripe Width", width.toInt(), 1, 10, PATTERN_WIDTH, true)
 }
 
 private fun FORM.selectMaterial(
     state: State,
     materialId: MaterialId,
 ) {
-    selectEnum("Material", MATERIAL, state.getMaterialStorage().getAll()) { material ->
+    selectValue("Material", MATERIAL, state.getMaterialStorage().getAll()) { material ->
         label = material.name
         value = material.id.value.toString()
         selected = materialId == material.id
