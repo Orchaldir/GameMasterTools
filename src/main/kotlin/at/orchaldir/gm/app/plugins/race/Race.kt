@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
@@ -268,6 +269,8 @@ private fun FORM.editLifeStages(
     state: State,
     race: Race,
 ) {
+    val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(race.lifeStages.getRaceAppearance())
+    val canHaveBeard = raceAppearance.hairOptions.beardTypes.isAvailable(BeardType.Normal)
     val lifeStages = race.lifeStages
 
     h2 { +"Life Stages" }
@@ -300,7 +303,12 @@ private fun FORM.editLifeStages(
                         selectRelativeSize(stage.relativeSize, index)
                     }
                     li {
-                        selectBool("Has Beard", stage.hasBeard, combine(LIFE_STAGE, BEARD, index))
+                        selectBool(
+                            "Has Beard",
+                            stage.hasBeard && canHaveBeard,
+                            combine(LIFE_STAGE, BEARD, index),
+                            !canHaveBeard
+                        )
                     }
                 }
                 minMaxAge = stage.maxAge + 1

@@ -18,22 +18,25 @@ fun HtmlBlockTag.selectBool(
     label: String,
     value: Boolean,
     param: String,
+    isDisabled: Boolean = false,
     update: Boolean = false,
 ) {
     field(label) {
-        selectBool(value, param, update)
+        selectBool(value, param, isDisabled, update)
     }
 }
 
 fun HtmlBlockTag.selectBool(
     isChecked: Boolean,
     param: String,
+    isDisabled: Boolean = false,
     update: Boolean = false,
 ) {
     checkBoxInput {
         name = param
         value = "true"
         checked = isChecked
+        disabled = isDisabled
         if (update) {
             onChange = ON_CHANGE_SCRIPT
         }
