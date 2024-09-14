@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.generator
 
-import at.orchaldir.gm.core.model.appearance.ONE_OF_RARITIES
-import at.orchaldir.gm.core.model.appearance.Rarity
-import at.orchaldir.gm.core.model.appearance.RarityMap
+import at.orchaldir.gm.core.model.util.ONE_OF_RARITIES
+import at.orchaldir.gm.core.model.util.Rarity
+import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.utils.NumberGenerator
 
 data class RarityGenerator(val values: Map<Rarity, Int>) {

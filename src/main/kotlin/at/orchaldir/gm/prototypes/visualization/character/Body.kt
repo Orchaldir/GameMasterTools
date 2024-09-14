@@ -1,6 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character
 
-import at.orchaldir.gm.core.model.appearance.Size
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.Head

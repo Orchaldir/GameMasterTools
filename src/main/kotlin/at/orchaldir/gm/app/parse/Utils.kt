@@ -1,10 +1,10 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.core.model.appearance.OneOf
-import at.orchaldir.gm.core.model.appearance.OneOrNone
-import at.orchaldir.gm.core.model.appearance.Rarity
-import at.orchaldir.gm.core.model.appearance.SomeOf
+import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.model.util.OneOrNone
+import at.orchaldir.gm.core.model.util.Rarity
+import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.utils.math.Distribution

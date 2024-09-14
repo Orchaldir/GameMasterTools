@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.generator
 
-import at.orchaldir.gm.core.model.appearance.OneOf
-import at.orchaldir.gm.core.model.appearance.Rarity
-import at.orchaldir.gm.core.model.appearance.Rarity.*
+import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.model.util.Rarity
+import at.orchaldir.gm.core.model.util.Rarity.*
 import at.orchaldir.gm.utils.Counter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

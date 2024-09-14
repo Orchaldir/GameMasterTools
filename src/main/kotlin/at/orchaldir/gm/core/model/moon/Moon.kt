@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.moon
 
-import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id

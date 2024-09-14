@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.culture.style
 
-import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.appearance.OneOf
+import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle

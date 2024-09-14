@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.Side
-import at.orchaldir.gm.core.model.appearance.Size
+import at.orchaldir.gm.core.model.util.Side
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*

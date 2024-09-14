@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.SomeOf
+import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.culture.Culture

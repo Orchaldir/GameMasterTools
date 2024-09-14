@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.AddLanguage
 import at.orchaldir.gm.core.action.RemoveLanguages
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.reverseAndSort
+import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId

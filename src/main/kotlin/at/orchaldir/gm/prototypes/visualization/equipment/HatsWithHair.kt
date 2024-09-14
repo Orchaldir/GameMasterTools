@@ -1,7 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.equipment
 
-import at.orchaldir.gm.core.model.appearance.Color.SaddleBrown
-import at.orchaldir.gm.core.model.appearance.Color.Yellow
+import at.orchaldir.gm.core.model.util.Color.SaddleBrown
+import at.orchaldir.gm.core.model.util.Color.Yellow
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.NormalEars

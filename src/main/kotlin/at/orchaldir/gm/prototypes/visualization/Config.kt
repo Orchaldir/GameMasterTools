@@ -1,6 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization
 
-import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.LineOptions

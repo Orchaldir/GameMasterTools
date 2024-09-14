@@ -1,12 +1,11 @@
 package at.orchaldir.gm.core.model.race
 
-import at.orchaldir.gm.core.model.appearance.OneOf
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Distribution
 import kotlinx.serialization.Serializable
 

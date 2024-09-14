@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.culture.name
 
-import at.orchaldir.gm.core.model.appearance.GenderMap
+import at.orchaldir.gm.core.model.util.GenderMap
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

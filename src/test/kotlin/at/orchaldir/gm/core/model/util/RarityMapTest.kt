@@ -1,7 +1,7 @@
-package at.orchaldir.gm.core.model.appearance
+package at.orchaldir.gm.core.model.util
 
-import at.orchaldir.gm.core.model.appearance.Rarity.*
-import at.orchaldir.gm.core.model.appearance.Size.Small
+import at.orchaldir.gm.core.model.util.Rarity.*
+import at.orchaldir.gm.core.model.util.Size.Small
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

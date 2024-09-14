@@ -1,6 +1,6 @@
 package at.orchaldir.gm.visualization
 
-import at.orchaldir.gm.core.model.appearance.Size
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.Factor
 
 data class SizeConfig<T>(val small: T, val medium: T, val large: T) {

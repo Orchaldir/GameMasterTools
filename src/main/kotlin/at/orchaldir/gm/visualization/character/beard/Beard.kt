@@ -1,6 +1,6 @@
 package at.orchaldir.gm.visualization.character.beard
 
-import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.utils.doNothing

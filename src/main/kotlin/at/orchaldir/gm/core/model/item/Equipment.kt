@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.item
 
-import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.appearance.Fill
-import at.orchaldir.gm.core.model.appearance.Solid
+import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.Fill
+import at.orchaldir.gm.core.model.util.Solid
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import kotlinx.serialization.SerialName

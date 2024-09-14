@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.Color.Black
+import at.orchaldir.gm.core.model.util.Color.Black
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly

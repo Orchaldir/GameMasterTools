@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.*
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody

@@ -1,6 +1,6 @@
 package at.orchaldir.gm.visualization
 
-import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Size2d

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.appearance
+package at.orchaldir.gm.core.model.util
 
 enum class Rarity {
     Everyone,

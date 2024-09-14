@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.fashion
 
-import at.orchaldir.gm.core.model.appearance.OneOf
-import at.orchaldir.gm.core.model.appearance.OneOrNone
-import at.orchaldir.gm.core.model.appearance.SomeOf
+import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.model.util.OneOrNone
+import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.utils.Element

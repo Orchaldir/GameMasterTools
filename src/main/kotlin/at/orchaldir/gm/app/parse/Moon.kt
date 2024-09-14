@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.parse
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.LENGTH
 import at.orchaldir.gm.app.NAME
-import at.orchaldir.gm.core.model.appearance.Color
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.moon.Moon
 import at.orchaldir.gm.core.model.moon.MoonId
 import io.ktor.http.*

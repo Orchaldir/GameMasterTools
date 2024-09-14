@@ -3,9 +3,9 @@ package at.orchaldir.gm.app.parse
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.core.generator.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.appearance.Color
-import at.orchaldir.gm.core.model.appearance.Side
-import at.orchaldir.gm.core.model.appearance.Size
+import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.Side
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.*

@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.core.model.appearance.*
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.model.item.style.*
 import io.ktor.http.*

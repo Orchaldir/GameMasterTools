@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.culture
 
-import at.orchaldir.gm.core.model.appearance.GenderMap
-import at.orchaldir.gm.core.model.appearance.SomeOf
+import at.orchaldir.gm.core.model.util.GenderMap
+import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.name.NamingConvention

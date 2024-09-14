@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.generator
 
-import at.orchaldir.gm.core.model.appearance.RarityMap
-import at.orchaldir.gm.core.model.appearance.Side
-import at.orchaldir.gm.core.model.appearance.Size
+import at.orchaldir.gm.core.model.util.RarityMap
+import at.orchaldir.gm.core.model.util.Side
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
