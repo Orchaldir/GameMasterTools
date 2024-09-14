@@ -196,8 +196,12 @@ private fun HtmlBlockTag.showLifeStages(
                     li {
                         showRelativeSize(stage.relativeSize)
                     }
-                    li {
-                        field("Has Beard", stage.hasBeard.toString())
+                    if (stage.hasBeard) {
+                        li {
+                            p {
+                                b { +"Has Beard" }
+                            }
+                        }
                     }
                 }
             }
