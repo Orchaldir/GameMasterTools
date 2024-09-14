@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.Gender.*
 import at.orchaldir.gm.core.model.culture.Culture
@@ -11,6 +10,7 @@ import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.OneGenera
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.TwoGenerations
 import at.orchaldir.gm.core.model.culture.name.NameOrder.FamilyNameFirst
 import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
+import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
