@@ -20,34 +20,45 @@ class LifeStagesTest {
             assertEquals(appearance, simpleAging.getRaceAppearance())
         }
 
-        @Test
-        fun `Get life stage before being born`() {
-            assertEquals(a, simpleAging.getLifeStage(-1))
+        @Nested
+        inner class GetLifeStageTest {
+
+            @Test
+            fun `Get life stage before being born`() {
+                assertEquals(a, simpleAging.getLifeStage(-1))
+            }
+
+            @Test
+            fun `Get life stage`() {
+                assertEquals(a, simpleAging.getLifeStage(0))
+                assertEquals(a, simpleAging.getLifeStage(1))
+                assertEquals(a, simpleAging.getLifeStage(2))
+                assertEquals(b, simpleAging.getLifeStage(3))
+                assertEquals(b, simpleAging.getLifeStage(4))
+            }
+
+            @Test
+            fun `Get last life stage if too old`() {
+                assertEquals(b, simpleAging.getLifeStage(5))
+            }
         }
 
-        @Test
-        fun `Get life stage`() {
-            assertEquals(a, simpleAging.getLifeStage(0))
-            assertEquals(a, simpleAging.getLifeStage(1))
-            assertEquals(a, simpleAging.getLifeStage(2))
-            assertEquals(b, simpleAging.getLifeStage(3))
-            assertEquals(b, simpleAging.getLifeStage(4))
-        }
+        @Nested
+        inner class GetRelativeSizeTest {
 
-        @Test
-        fun `Get last life stage if too old`() {
-            assertEquals(b, simpleAging.getLifeStage(5))
-        }
+            @Test
+            fun `Get relative size`() {
+                assertRelativeSize(0, 5.0f)
+                assertRelativeSize(1, 7.5f)
+                assertRelativeSize(2, 10.0f)
+                assertRelativeSize(3, 15.0f)
+                assertRelativeSize(4, 20.0f)
+            }
 
-        @Test
-        fun `Get relative size`() {
-            assertRelativeSize(0, 5.0f)
-            assertRelativeSize(1, 7.5f)
-            assertRelativeSize(2, 10.0f)
-        }
+            private fun assertRelativeSize(age: Int, relativeSize: Float) {
+                assertEquals(Factor(relativeSize), simpleAging.getRelativeSize(age))
+            }
 
-        private fun assertRelativeSize(age: Int, relativeSize: Float) {
-            assertEquals(Factor(relativeSize), simpleAging.getRelativeSize(age))
         }
 
     }
