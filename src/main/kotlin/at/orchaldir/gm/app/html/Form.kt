@@ -1,13 +1,9 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.CENTER
-import at.orchaldir.gm.app.NAME
-import at.orchaldir.gm.app.OFFSET
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.core.model.calendar.DaysType
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.holiday.RelativeDateType
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -56,6 +52,26 @@ fun FORM.selectColor(
         value = c.toString()
         selected = current == c
         style = "background-color:$c"
+    }
+}
+
+fun HtmlBlockTag.selectOptionalColor(
+    fieldLabel: String,
+    selectId: String,
+    selectedValue: Color?,
+    values: Collection<Color>,
+    update: Boolean = false,
+) {
+    selectOptionalValue(
+        fieldLabel,
+        selectId,
+        selectedValue,
+        values,
+        update,
+    ) { color ->
+        label = color.name
+        value = color.name
+        style = "background-color:$color"
     }
 }
 

@@ -317,17 +317,13 @@ private fun FORM.editLifeStages(
                         )
                     }
                     li {
-                        selectOptionalValue(
+                        selectOptionalColor(
                             "Hair Color",
                             combine(LIFE_STAGE, HAIR_COLOR, index),
                             stage.hairColor,
                             Color.entries,
                             true
-                        ) { color ->
-                            label = color.name
-                            value = color.name
-                            style = "background-color:$color"
-                        }
+                        )
                     }
                 }
                 minMaxAge = stage.maxAge + 1
