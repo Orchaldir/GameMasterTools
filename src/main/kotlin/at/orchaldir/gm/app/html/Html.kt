@@ -1,10 +1,10 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.plugins.TITLE
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.reverseAndSort
-import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.utils.renderer.svg.Svg

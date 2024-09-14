@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.plugins.race
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.parseRaceAppearance
 import at.orchaldir.gm.app.plugins.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.core.action.CreateRaceAppearance
 import at.orchaldir.gm.core.action.DeleteRaceAppearance

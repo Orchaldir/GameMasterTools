@@ -1,10 +1,10 @@
 package at.orchaldir.gm.prototypes.visualization.character
 
+import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.math.Distance
 

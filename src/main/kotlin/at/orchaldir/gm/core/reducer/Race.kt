@@ -5,7 +5,10 @@ import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.aging.*
+import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
+import at.orchaldir.gm.core.model.race.aging.LifeStage
+import at.orchaldir.gm.core.model.race.aging.LifeStages
+import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer

@@ -2,11 +2,12 @@ package at.orchaldir.gm.app.plugins.character
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.createGenerationConfig
+import at.orchaldir.gm.app.parse.generateAppearance
+import at.orchaldir.gm.app.parse.parseAppearance
 import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.Side
-import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
@@ -14,6 +15,8 @@ import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.model.util.Side
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.core.selector.getRaceAppearance
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG

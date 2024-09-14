@@ -5,10 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.AddLanguage
 import at.orchaldir.gm.core.action.RemoveLanguages
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.core.selector.getName
 import io.ktor.http.*
 import io.ktor.server.application.*

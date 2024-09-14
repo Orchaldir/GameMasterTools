@@ -1,7 +1,5 @@
 package at.orchaldir.gm.core.model.culture
 
-import at.orchaldir.gm.core.model.util.GenderMap
-import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.name.NamingConvention
@@ -10,6 +8,8 @@ import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.util.GenderMap
+import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable

@@ -2,18 +2,18 @@ package at.orchaldir.gm.app.plugins
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.parseItemTemplate
 import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getEquippedBy
 import at.orchaldir.gm.core.selector.getFashions

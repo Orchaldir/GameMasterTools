@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.character
 
-import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor

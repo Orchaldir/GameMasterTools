@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.model.race.appearance
 
-import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.character.appearance.EyeShape
 import at.orchaldir.gm.core.model.character.appearance.PupilShape
+import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.OneOf
 import kotlinx.serialization.Serializable
 
 @Serializable

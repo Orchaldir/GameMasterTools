@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.character.appearance
 
-import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.Serializable
 
 private val MALE_SHAPES = listOf(BodyShape.Fat, BodyShape.Muscular, BodyShape.Rectangle)

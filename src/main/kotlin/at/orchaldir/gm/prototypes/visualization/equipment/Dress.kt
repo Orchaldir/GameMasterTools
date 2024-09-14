@@ -1,6 +1,5 @@
 package at.orchaldir.gm.prototypes.visualization.equipment
 
-import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.Head
@@ -9,6 +8,7 @@ import at.orchaldir.gm.core.model.item.Dress
 import at.orchaldir.gm.core.model.item.style.NecklineStyle.Strapless
 import at.orchaldir.gm.core.model.item.style.SkirtStyle
 import at.orchaldir.gm.core.model.item.style.SleeveStyle
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.addNames
 import at.orchaldir.gm.prototypes.visualization.character.renderTable

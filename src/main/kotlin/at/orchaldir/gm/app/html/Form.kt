@@ -1,9 +1,11 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.CENTER
+import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.OFFSET
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
