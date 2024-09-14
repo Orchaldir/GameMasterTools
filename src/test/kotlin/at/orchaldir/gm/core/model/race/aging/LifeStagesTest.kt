@@ -47,12 +47,22 @@ class LifeStagesTest {
         inner class GetRelativeSizeTest {
 
             @Test
+            fun `Get relative size before being born`() {
+                assertRelativeSize(-1, 5.0f)
+            }
+
+            @Test
             fun `Get relative size`() {
                 assertRelativeSize(0, 5.0f)
                 assertRelativeSize(1, 7.5f)
                 assertRelativeSize(2, 10.0f)
                 assertRelativeSize(3, 15.0f)
                 assertRelativeSize(4, 20.0f)
+            }
+
+            @Test
+            fun `Get relative size if too old`() {
+                assertRelativeSize(5, 20.0f)
             }
 
             private fun assertRelativeSize(age: Int, relativeSize: Float) {

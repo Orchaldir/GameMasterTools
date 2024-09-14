@@ -69,6 +69,10 @@ private fun getRelativeSize(age: Int, lifeStages: List<LifeStage>): Factor {
     var previousAge = 0
     var previousHeight = lifeStages.first().relativeSize * 0.5f
 
+    if (age <= previousAge) {
+        return previousHeight
+    }
+
     lifeStages.forEach { stage ->
         if (age <= stage.maxAge) {
             val ageDiff = age - previousAge
