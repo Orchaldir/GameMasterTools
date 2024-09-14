@@ -52,7 +52,8 @@
       "name": "Venerable",
       "maxAge": 120,
       "relativeSize": 0.9,
-      "hasBeard": true
+      "hasBeard": true,
+      "hairColor": "White"
      }
     ]
    }

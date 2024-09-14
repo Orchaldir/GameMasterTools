@@ -326,6 +326,7 @@ private fun FORM.editLifeStages(
                         ) { color ->
                             label = color.name
                             value = color.name
+                            style = "background-color:$color"
                         }
                     }
                 }
