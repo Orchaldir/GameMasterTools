@@ -34,7 +34,7 @@ fun parseCulture(
         parseSomeOf(parameters, LANGUAGES, ::parseLanguageId),
         parseNamingConvention(parameters),
         AppearanceStyle(
-            parseOneOf(parameters, BEARD_STYLE, BeardStyleType::valueOf),
+            parseOneOf(parameters, combine(BEARD, STYLE), BeardStyleType::valueOf),
             parseOneOf(parameters, GOATEE_STYLE, GoateeStyle::valueOf),
             parseOneOf(parameters, MOUSTACHE_STYLE, MoustacheStyle::valueOf),
             parseOneOf(parameters, HAIR_STYLE, HairStyleType::valueOf),

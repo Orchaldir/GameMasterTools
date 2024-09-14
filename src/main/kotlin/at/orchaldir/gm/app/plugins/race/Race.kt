@@ -196,6 +196,9 @@ private fun HtmlBlockTag.showLifeStages(
                     li {
                         showRelativeSize(stage.relativeSize)
                     }
+                    li {
+                        field("Has Beard", stage.hasBeard.toString())
+                    }
                 }
             }
         }
@@ -291,6 +294,9 @@ private fun FORM.editLifeStages(
                     }
                     li {
                         selectRelativeSize(stage.relativeSize, index)
+                    }
+                    li {
+                        selectBool("Has Beard", stage.hasBeard, combine(LIFE_STAGE, BEARD, index))
                     }
                 }
                 minMaxAge = stage.maxAge + 1

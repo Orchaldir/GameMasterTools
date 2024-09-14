@@ -259,7 +259,7 @@ private fun FORM.editBeard(
     beard: Beard,
 ) {
     h2 { +"Beard" }
-    selectOneOf("Type", BEARD_TYPE, raceAppearance.hairOptions.beardTypes, true) { option ->
+    selectOneOf("Type", BEARD, raceAppearance.hairOptions.beardTypes, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {
@@ -278,7 +278,7 @@ private fun FORM.editNormalBeard(
     culture: Culture,
     beard: NormalBeard,
 ) {
-    selectOneOf("Style", BEARD_STYLE, culture.appearanceStyle.beardStyles, true) { style ->
+    selectOneOf("Style", combine(BEARD, STYLE), culture.appearanceStyle.beardStyles, true) { style ->
         label = style.name
         value = style.toString()
         selected = when (style) {
@@ -288,7 +288,7 @@ private fun FORM.editNormalBeard(
             BeardStyleType.Shaved -> beard.style is ShavedBeard
         }
     }
-    selectColor("Color", BEARD_COLOR, raceAppearance.hairOptions.colors, beard.color)
+    selectColor("Color", combine(BEARD, COLOR), raceAppearance.hairOptions.colors, beard.color)
 
     when (beard.style) {
         is Goatee -> selectGoateeStyle(culture, beard.style.goateeStyle)

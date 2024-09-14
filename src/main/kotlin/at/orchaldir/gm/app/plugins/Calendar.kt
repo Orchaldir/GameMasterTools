@@ -366,11 +366,5 @@ private fun FORM.editEra(
     param: String,
 ) {
     selectText("$label Era - Name", era.text, combine(param, NAME))
-    field("$label Era - Is prefix") {
-        checkBoxInput {
-            name = combine(param, PREFIX)
-            value = "true"
-            checked = era.isPrefix
-        }
-    }
+    selectBool("$label Era - Is prefix", era.isPrefix, combine(param, PREFIX))
 }

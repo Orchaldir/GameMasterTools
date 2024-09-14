@@ -43,7 +43,7 @@ private fun parseEyeOptions(parameters: Parameters): EyeOptions {
 }
 
 private fun parseHairOptions(parameters: Parameters) = HairOptions(
-    parseOneOf(parameters, BEARD_TYPE, BeardType::valueOf),
+    parseOneOf(parameters, BEARD, BeardType::valueOf),
     parseOneOf(parameters, HAIR_TYPE, HairType::valueOf),
     parseOneOf(parameters, HAIR_COLOR, Color::valueOf, Color.entries),
 )

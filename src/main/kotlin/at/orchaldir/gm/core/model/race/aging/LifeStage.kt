@@ -9,4 +9,5 @@ data class LifeStage(
     val name: String,
     val maxAge: Int,
     val relativeSize: Factor = FULL,
+    val hasBeard: Boolean = false,
 )

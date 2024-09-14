@@ -477,7 +477,7 @@ private fun FORM.selectWordsByGender(label: String, genderMap: GenderMap<String>
 
 private fun FORM.editAppearanceOptions(culture: Culture) {
     h2 { +"Appearance Options" }
-    selectRarityMap("Beard Styles", BEARD_STYLE, culture.appearanceStyle.beardStyles)
+    selectRarityMap("Beard Styles", combine(BEARD, STYLE), culture.appearanceStyle.beardStyles)
     selectRarityMap("Goatee Styles", GOATEE_STYLE, culture.appearanceStyle.goateeStyles)
     selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyles)
     selectRarityMap("Hair Styles", HAIR_STYLE, culture.appearanceStyle.hairStyles)

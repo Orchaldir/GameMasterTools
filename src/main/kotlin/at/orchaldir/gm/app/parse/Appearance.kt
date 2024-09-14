@@ -97,11 +97,11 @@ private fun parseHead(
 }
 
 private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig, hair: Hair): Beard {
-    return when (parameters[BEARD_TYPE]) {
+    return when (parameters[BEARD]) {
         BeardType.None.toString() -> NoBeard
         BeardType.Normal.toString() -> {
             return NormalBeard(
-                when (parameters[BEARD_STYLE]) {
+                when (parameters[combine(BEARD, STYLE)]) {
                     BeardStyleType.Goatee.toString() -> Goatee(
                         parse(parameters, GOATEE_STYLE, GoateeStyle.Goatee),
                     )
@@ -119,7 +119,7 @@ private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig
 
                     else -> Goatee(GoateeStyle.Goatee)
                 },
-                parse(parameters, BEARD_COLOR, Color.Red),
+                parse(parameters, combine(BEARD, COLOR), Color.Red),
             )
         }
 

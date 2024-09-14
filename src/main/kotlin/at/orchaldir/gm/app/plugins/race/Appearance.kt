@@ -22,7 +22,6 @@ import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getRaces
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
-import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
@@ -287,7 +286,7 @@ private fun FORM.editAppearanceOptions(
         selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors, true)
     }
     h3 { +"Hair" }
-    selectRarityMap("Beard", BEARD_TYPE, appearance.hairOptions.beardTypes, true)
+    selectRarityMap("Beard", BEARD, appearance.hairOptions.beardTypes, true)
     selectRarityMap("Hair", HAIR_TYPE, appearance.hairOptions.hairTypes, true)
     if (requiresHairColor(appearance)) {
         selectRarityMap("Colors", HAIR_COLOR, appearance.hairOptions.colors, true)

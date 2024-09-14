@@ -14,6 +14,32 @@ import kotlinx.html.*
 
 const val ON_CHANGE_SCRIPT = "updateEditor();"
 
+fun HtmlBlockTag.selectBool(
+    label: String,
+    value: Boolean,
+    param: String,
+    update: Boolean = false,
+) {
+    field(label) {
+        selectBool(value, param, update)
+    }
+}
+
+fun HtmlBlockTag.selectBool(
+    isChecked: Boolean,
+    param: String,
+    update: Boolean = false,
+) {
+    checkBoxInput {
+        name = param
+        value = "true"
+        checked = isChecked
+        if (update) {
+            onChange = ON_CHANGE_SCRIPT
+        }
+    }
+}
+
 fun FORM.selectColor(
     labelText: String, selectId: String, rarityMap: OneOf<Color>, current: Color,
 ) {

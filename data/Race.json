@@ -33,21 +33,25 @@
      },
      {
       "name": "Adult",
-      "maxAge": 45
+      "maxAge": 45,
+      "hasBeard": true
      },
      {
       "name": "Middle Age",
-      "maxAge": 60
+      "maxAge": 60,
+      "hasBeard": true
      },
      {
       "name": "Old Age",
       "maxAge": 90,
-      "relativeSize": 0.95
+      "relativeSize": 0.95,
+      "hasBeard": true
      },
      {
       "name": "Venerable",
       "maxAge": 120,
-      "relativeSize": 0.9
+      "relativeSize": 0.9,
+      "hasBeard": true
      }
     ]
    }
