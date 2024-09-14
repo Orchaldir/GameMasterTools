@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.race.aging
 
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.utils.math.Factor
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -10,8 +11,8 @@ class LifeStagesTest {
     @Nested
     inner class SimpleAgingTest {
         private val appearance = RaceAppearanceId(3)
-        val a = LifeStage("A", 2)
-        val b = LifeStage("B", 4)
+        val a = LifeStage("A", 2, Factor(10.0f))
+        val b = LifeStage("B", 4, Factor(20.0f))
         private val simpleAging = SimpleAging(appearance, listOf(a, b))
 
         @Test
@@ -20,7 +21,12 @@ class LifeStagesTest {
         }
 
         @Test
-        fun `Get name of life stages`() {
+        fun `Get life stage before being born`() {
+            assertEquals(a, simpleAging.getLifeStage(-1))
+        }
+
+        @Test
+        fun `Get life stage`() {
             assertEquals(a, simpleAging.getLifeStage(0))
             assertEquals(a, simpleAging.getLifeStage(1))
             assertEquals(a, simpleAging.getLifeStage(2))
@@ -29,8 +35,13 @@ class LifeStagesTest {
         }
 
         @Test
-        fun `Get name of last life stage if too old`() {
+        fun `Get last life stage if too old`() {
             assertEquals(b, simpleAging.getLifeStage(5))
+        }
+
+        @Test
+        fun `Get relative size`() {
+            assertEquals(Factor(0.0f), simpleAging.getRelativeSize(0))
         }
 
     }
