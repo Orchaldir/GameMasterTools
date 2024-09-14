@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import at.orchaldir.gm.core.model.character.appearance.updateBeard
+import at.orchaldir.gm.core.model.character.appearance.updateHairColor
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
@@ -112,13 +113,19 @@ fun scaleHeightByAge(race: Race, height: Distance, age: Int): Distance {
 fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int): Appearance {
     val height = scaleHeightByAge(race, appearance.getSize(), age)
     val stage = race.lifeStages.getLifeStage(age)
-    val scaledAppearance = appearance.with(height)
+    var updatedAppearance = appearance.with(height)
 
-    if (stage?.hasBeard != true) {
-        return updateBeard(scaledAppearance, NoBeard)
+    if (stage != null) {
+        if (!stage.hasBeard) {
+            updatedAppearance = updateBeard(updatedAppearance, NoBeard)
+        }
+
+        if (stage.hairColor != null) {
+            updatedAppearance = updateHairColor(updatedAppearance, stage.hairColor)
+        }
     }
 
-    return scaledAppearance
+    return updatedAppearance
 }
 
 fun State.getAppearanceForAge(character: Character): Appearance {
