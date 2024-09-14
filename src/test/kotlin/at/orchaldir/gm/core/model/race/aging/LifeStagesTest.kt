@@ -41,7 +41,9 @@ class LifeStagesTest {
 
         @Test
         fun `Get relative size`() {
-            assertEquals(Factor(0.0f), simpleAging.getRelativeSize(0))
+            assertEquals(Factor(5.0f), simpleAging.getRelativeSize(0))
+            assertEquals(Factor(7.5f), simpleAging.getRelativeSize(1))
+            assertEquals(Factor(10.0f), simpleAging.getRelativeSize(2))
         }
 
     }
