@@ -7,7 +7,9 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.aging.*
+import at.orchaldir.gm.core.model.race.aging.LifeStage
+import at.orchaldir.gm.core.model.race.aging.LifeStages
+import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
