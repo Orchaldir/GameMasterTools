@@ -173,12 +173,12 @@ private fun FORM.editBody(
     body: Body,
 ) {
     h2 { +"Body" }
-    selectEnum("Shape", BODY_SHAPE, getAvailableBodyShapes(character.gender), true) { shape ->
+    selectValue("Shape", BODY_SHAPE, getAvailableBodyShapes(character.gender), true) { shape ->
         label = shape.name
         value = shape.toString()
         selected = body.bodyShape == shape
     }
-    selectEnum("Width", BODY_WIDTH, Size.entries, true) { width ->
+    selectValue("Width", BODY_WIDTH, Size.entries, true) { width ->
         label = width.name
         value = width.toString()
         selected = body.width == width
@@ -213,7 +213,7 @@ private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
                 value = shape.toString()
                 selected = ears.shape == shape
             }
-            selectEnum("Ear Size", EAR_SIZE, Size.entries, true) { size ->
+            selectValue("Ear Size", EAR_SIZE, Size.entries, true) { size ->
                 label = size.name
                 value = size.toString()
                 selected = ears.size == size
@@ -341,7 +341,7 @@ private fun FORM.editEyes(
     when (eyes) {
         is OneEye -> {
             editEye(raceAppearance.eyeOptions, eyes.eye)
-            selectEnum("Eye Size", EYE_SIZE, Size.entries, true) { c ->
+            selectValue("Eye Size", EYE_SIZE, Size.entries, true) { c ->
                 label = c.name
                 value = c.toString()
                 selected = eyes.size == c
@@ -415,7 +415,7 @@ private fun FORM.editNormalHair(
 
     when (hair.style) {
         is SidePart -> {
-            selectEnum("Side", SIDE_PART, Side.entries, true) { side ->
+            selectValue("Side", SIDE_PART, Side.entries, true) { side ->
                 label = side.name
                 value = side.toString()
                 selected = hair.style.side == side
@@ -456,12 +456,12 @@ private fun FORM.editMouth(
 }
 
 private fun FORM.editSimpleMouth(size: Size, teethColor: TeethColor) {
-    selectEnum("Width", MOUTH_WIDTH, Size.entries, true) { width ->
+    selectValue("Width", MOUTH_WIDTH, Size.entries, true) { width ->
         label = width.name
         value = width.toString()
         selected = size == width
     }
-    selectEnum("Teeth Color", TEETH_COLOR, TeethColor.entries, true) { color ->
+    selectValue("Teeth Color", TEETH_COLOR, TeethColor.entries, true) { color ->
         label = color.name
         value = color.toString()
         selected = teethColor == color

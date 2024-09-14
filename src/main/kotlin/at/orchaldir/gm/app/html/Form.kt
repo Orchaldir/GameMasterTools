@@ -4,8 +4,10 @@ import at.orchaldir.gm.app.CENTER
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.OFFSET
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.core.model.calendar.DaysType
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.holiday.RelativeDateType
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -44,7 +46,10 @@ fun HtmlBlockTag.selectBool(
 }
 
 fun FORM.selectColor(
-    labelText: String, selectId: String, rarityMap: OneOf<Color>, current: Color,
+    labelText: String,
+    selectId: String,
+    rarityMap: OneOf<Color>,
+    current: Color,
 ) {
     selectOneOf(labelText, selectId, rarityMap, true) { c ->
         label = c.name
@@ -73,7 +78,37 @@ fun FORM.selectDistribution(
     }
 }
 
-fun <T> HtmlBlockTag.selectEnum(
+fun <T> HtmlBlockTag.selectOptionalValue(
+    fieldLabel: String,
+    selectId: String,
+    selectedValue: T?,
+    values: Collection<T>,
+    update: Boolean = false,
+    content: OPTION.(T) -> Unit,
+) {
+    field(fieldLabel) {
+        select {
+            id = selectId
+            name = selectId
+            if (update) {
+                onChange = ON_CHANGE_SCRIPT
+            }
+            option {
+                label = "None"
+                value = ""
+                selected = selectedValue == null
+            }
+            values.forEach { value ->
+                option {
+                    content(value)
+                    selected = selectedValue == value
+                }
+            }
+        }
+    }
+}
+
+fun <T> HtmlBlockTag.selectValue(
     label: String,
     selectId: String,
     values: Collection<T>,
@@ -304,7 +339,7 @@ inline fun <reified T : Enum<T>> FORM.selectRarityMap(
 ) {
     showDetails(enum) {
         showMap(rarityMap.getRarityFor(values)) { currentValue, currentRarity ->
-            selectEnum(currentValue.toString(), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
+            selectValue(currentValue.toString(), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
                 label = rarity.toString()
                 value = "$currentValue-$rarity"
                 selected = rarity == currentRarity
@@ -336,7 +371,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> FORM.selectRarityMap(
     showDetails(enum) {
         showMap(rarityMap.getRarityFor(ids)) { id, currentRarity ->
             val element = storage.getOrThrow(id)
-            selectEnum(getName(element), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
+            selectValue(getName(element), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
                 label = rarity.toString()
                 value = "${id.value()}-$rarity"
                 selected = rarity == currentRarity

@@ -375,7 +375,7 @@ private fun HTML.showCharacterEditor(
             action = previewLink
             method = FormMethod.post
             selectName(state, character)
-            selectEnum("Race", RACE, state.getRaceStorage().getAll(), true) { r ->
+            selectValue("Race", RACE, state.getRaceStorage().getAll(), true) { r ->
                 label = r.name
                 value = r.id.value.toString()
                 selected = r.id == character.race
@@ -385,12 +385,12 @@ private fun HTML.showCharacterEditor(
                 value = gender.toString()
                 selected = character.gender == gender
             }
-            selectEnum("Culture", CULTURE, state.getCultureStorage().getAll()) { culture ->
+            selectValue("Culture", CULTURE, state.getCultureStorage().getAll()) { culture ->
                 label = culture.name
                 value = culture.id.value.toString()
                 selected = culture.id == character.culture
             }
-            selectEnum("Origin", ORIGIN, CharacterOriginType.entries, true) { type ->
+            selectValue("Origin", ORIGIN, CharacterOriginType.entries, true) { type ->
                 label = type.name
                 value = type.name
                 disabled = when (type) {
@@ -404,12 +404,12 @@ private fun HTML.showCharacterEditor(
             }
             when (character.origin) {
                 is Born -> {
-                    selectEnum("Father", FATHER, state.getPossibleFathers(character.id)) { c ->
+                    selectValue("Father", FATHER, state.getPossibleFathers(character.id)) { c ->
                         label = state.getName(c)
                         value = c.id.value.toString()
                         selected = character.origin.father == c.id
                     }
-                    selectEnum("Mother", MOTHER, state.getPossibleMothers(character.id)) { c ->
+                    selectValue("Mother", MOTHER, state.getPossibleMothers(character.id)) { c ->
                         label = state.getName(c)
                         value = c.id.value.toString()
                         selected = character.origin.mother == c.id
@@ -419,7 +419,7 @@ private fun HTML.showCharacterEditor(
                 else -> doNothing()
             }
             selectDay(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
-            selectEnum("Cause of death", DEATH, CauseOfDeathType.entries, true) { type ->
+            selectValue("Cause of death", DEATH, CauseOfDeathType.entries, true) { type ->
                 label = type.name
                 value = type.name
                 selected = type == character.causeOfDeath.getType()
@@ -428,7 +428,7 @@ private fun HTML.showCharacterEditor(
                 selectDay(state, "Date of Death", it, combine(DEATH, DATE))
             }
             if (character.causeOfDeath is Murder) {
-                selectEnum("Killer", KILLER, state.getOthers(character.id)) { c ->
+                selectValue("Killer", KILLER, state.getOthers(character.id)) { c ->
                     label = state.getName(c)
                     value = c.id.value.toString()
                     selected = character.causeOfDeath.killer == c.id

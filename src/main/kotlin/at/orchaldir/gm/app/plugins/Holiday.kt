@@ -176,7 +176,7 @@ private fun HTML.showHolidayEditor(
             action = previewLink
             method = FormMethod.post
             selectName(holiday.name)
-            selectEnum("Calendar", CALENDAR, state.getCalendarStorage().getAll(), true) { calendar ->
+            selectValue("Calendar", CALENDAR, state.getCalendarStorage().getAll(), true) { calendar ->
                 label = calendar.name
                 value = calendar.id.value.toString()
                 selected = calendar.id == holiday.calendar
@@ -195,7 +195,7 @@ private fun HTML.showHolidayEditor(
 }
 
 private fun FORM.selectRelativeDate(param: String, relativeDate: RelativeDate, calendar: Calendar) {
-    selectEnum("Relative Date", combine(param, TYPE), RelativeDateType.entries, true) { type ->
+    selectValue("Relative Date", combine(param, TYPE), RelativeDateType.entries, true) { type ->
         label = type.name
         value = type.name
         disabled = when (type) {

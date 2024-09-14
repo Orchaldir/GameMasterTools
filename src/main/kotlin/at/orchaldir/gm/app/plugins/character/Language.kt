@@ -99,7 +99,7 @@ private fun HTML.showLanguageEditor(
                         }
                 }
             }
-            selectEnum("Comprehension Level", "level", ComprehensionLevel.entries) { level ->
+            selectValue("Comprehension Level", "level", ComprehensionLevel.entries) { level ->
                 label = level.toString()
                 value = level.toString()
                 selected = level == ComprehensionLevel.Native

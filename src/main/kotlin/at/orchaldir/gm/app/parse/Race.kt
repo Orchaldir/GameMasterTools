@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.*
+import at.orchaldir.gm.core.model.util.Color
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -46,6 +47,7 @@ private fun parseSimpleLifeStage(parameters: Parameters, index: Int) = LifeStage
     parseInt(parameters, combine(LIFE_STAGE, AGE, index), 2),
     parseFactor(parameters, combine(LIFE_STAGE, SIZE, index)),
     parseBool(parameters, combine(LIFE_STAGE, BEARD, index)),
+    parse<Color>(parameters, combine(LIFE_STAGE, HAIR_COLOR, index)),
 )
 
 private fun parseAppearanceId(parameters: Parameters, index: Int) =

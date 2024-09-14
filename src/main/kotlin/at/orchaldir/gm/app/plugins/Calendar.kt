@@ -341,7 +341,7 @@ private fun FORM.editOrigin(
     }
     when (origin) {
         is ImprovedCalendar ->
-            selectEnum("Parent", CALENDAR, possibleParents) { c ->
+            selectValue("Parent", CALENDAR, possibleParents) { c ->
                 label = c.name
                 value = c.id.value.toString()
                 selected = origin.parent == c.id

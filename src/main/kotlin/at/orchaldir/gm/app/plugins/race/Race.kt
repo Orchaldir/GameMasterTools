@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStagesType
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.core.selector.getCharacters
@@ -204,6 +205,11 @@ private fun HtmlBlockTag.showLifeStages(
                             }
                         }
                     }
+                    if (stage.hairColor != null) {
+                        li {
+                            field("Hair Color", stage.hairColor.name)
+                        }
+                    }
                 }
             }
         }
@@ -275,7 +281,7 @@ private fun FORM.editLifeStages(
 
     h2 { +"Life Stages" }
 
-    selectEnum("Type", combine(LIFE_STAGE, TYPE), LifeStagesType.entries, true) { type ->
+    selectValue("Type", combine(LIFE_STAGE, TYPE), LifeStagesType.entries, true) { type ->
         label = type.name
         value = type.name
         selected = when (lifeStages) {
@@ -309,6 +315,18 @@ private fun FORM.editLifeStages(
                             combine(LIFE_STAGE, BEARD, index),
                             !canHaveBeard
                         )
+                    }
+                    li {
+                        selectOptionalValue(
+                            "Hair Color",
+                            combine(LIFE_STAGE, HAIR_COLOR, index),
+                            stage.hairColor,
+                            Color.entries,
+                            true
+                        ) { color ->
+                            label = color.name
+                            value = color.name
+                        }
                     }
                 }
                 minMaxAge = stage.maxAge + 1
@@ -348,7 +366,7 @@ private fun HtmlBlockTag.selectAppearance(
     raceAppearanceId: RaceAppearanceId,
     index: Int,
 ) {
-    selectEnum(
+    selectValue(
         "Appearance",
         combine(RACE, APPEARANCE, index),
         state.getRaceAppearanceStorage().getAll(),

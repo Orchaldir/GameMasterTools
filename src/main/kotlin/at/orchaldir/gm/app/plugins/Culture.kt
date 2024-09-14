@@ -310,7 +310,7 @@ private fun HTML.showCultureEditor(
             action = previewLink
             method = FormMethod.post
             selectName(culture.name)
-            selectEnum("Calendar", CALENDAR, state.getCalendarStorage().getAll()) { c ->
+            selectValue("Calendar", CALENDAR, state.getCalendarStorage().getAll()) { c ->
                 label = c.name
                 value = c.id.value.toString()
                 selected = culture.calendar == c.id
@@ -355,7 +355,7 @@ private fun FORM.editNamingConvention(
     state: State,
 ) {
     h2 { +"Naming Convention" }
-    selectEnum("Type", NAMING_CONVENTION, NamingConventionType.entries, true) { type ->
+    selectValue("Type", NAMING_CONVENTION, NamingConventionType.entries, true) { type ->
         label = type.toString()
         value = type.toString()
         selected = when (type) {
@@ -369,7 +369,7 @@ private fun FORM.editNamingConvention(
     }
     when (namingConvention) {
         is FamilyConvention -> {
-            selectEnum("Name Order", NAME_ORDER, NameOrder.entries, true) { o ->
+            selectValue("Name Order", NAME_ORDER, NameOrder.entries, true) { o ->
                 label = o.name
                 value = o.toString()
                 selected = namingConvention.nameOrder == o
@@ -413,12 +413,12 @@ private fun FORM.selectGenonymConvention(
     style: GenonymicStyle,
     names: GenderMap<NameListId>,
 ) {
-    selectEnum("Lookup Distance", LOOKUP_DISTANCE, GenonymicLookupDistance.entries) { distance ->
+    selectValue("Lookup Distance", LOOKUP_DISTANCE, GenonymicLookupDistance.entries) { distance ->
         label = distance.name
         value = distance.toString()
         selected = lookupDistance == distance
     }
-    selectEnum("Genonymic Style", GENONYMIC_STYLE, GenonymicStyleType.entries, true) { type ->
+    selectValue("Genonymic Style", GENONYMIC_STYLE, GenonymicStyleType.entries, true) { type ->
         label = type.name
         value = type.toString()
         selected = when (type) {

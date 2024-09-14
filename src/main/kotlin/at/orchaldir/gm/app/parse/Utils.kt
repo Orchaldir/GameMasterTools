@@ -20,6 +20,16 @@ fun combine(param0: String, param1: String, number: Int) = combine(param0, param
 inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String, default: T): T =
     parameters[param]?.let { java.lang.Enum.valueOf(T::class.java, it) } ?: default
 
+inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String): T? =
+    parameters[param]
+        ?.let {
+            if (it == "") {
+                null
+            } else {
+                java.lang.Enum.valueOf(T::class.java, it)
+            }
+        }
+
 inline fun <reified T : Enum<T>> parseSet(parameters: Parameters, param: String): Set<T> =
     parameters.getAll(param)?.map { java.lang.Enum.valueOf(T::class.java, it) }?.toSet() ?: emptySet()
 

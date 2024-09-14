@@ -251,14 +251,14 @@ private fun HTML.showLanguageEditor(
                 }
 
                 is EvolvedLanguage ->
-                    selectEnum("Parent", LANGUAGES, possibleParents) { l ->
+                    selectValue("Parent", LANGUAGES, possibleParents) { l ->
                         label = l.name
                         value = l.id.value.toString()
                         selected = language.origin.parent == l.id
                     }
 
                 is InventedLanguage -> {
-                    selectEnum(
+                    selectValue(
                         "Inventor",
                         INVENTOR,
                         possibleInventors

@@ -45,7 +45,8 @@
       "name": "Old Age",
       "maxAge": 90,
       "relativeSize": 0.95,
-      "hasBeard": true
+      "hasBeard": true,
+      "hairColor": "Gray"
      },
      {
       "name": "Venerable",
