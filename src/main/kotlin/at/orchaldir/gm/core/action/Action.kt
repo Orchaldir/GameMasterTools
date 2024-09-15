@@ -26,6 +26,8 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
+import at.orchaldir.gm.core.model.world.terrain.Mountain
+import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 
@@ -129,6 +131,11 @@ sealed class WorldAction : Action()
 data object CreateMoon : WorldAction()
 data class DeleteMoon(val id: MoonId) : WorldAction()
 data class UpdateMoon(val moon: Moon) : WorldAction()
+
+// mountain
+data object CreateMountain : WorldAction()
+data class DeleteMountain(val id: MountainId) : WorldAction()
+data class UpdateMountain(val mountain: Mountain) : WorldAction()
 
 // river
 data object CreateRiver : WorldAction()
