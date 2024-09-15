@@ -56,13 +56,10 @@ data class Calendar(
 
     fun getStartOfPreviousMonth(day: Day): Day {
         val displayDay = resolve(day)
-        val previousMonth = if (displayDay.monthIndex == 0) {
-            displayDay.copy(dayIndex = 0, monthIndex = getLastMonthIndex(), yearIndex = displayDay.yearIndex - 1)
-        } else {
-            displayDay.copy(dayIndex = 0, monthIndex = displayDay.monthIndex - 1)
-        }
+        val startOfMonth = getStartOfMonth(displayDay)
+        val month = getMonth(startOfMonth - 1)
 
-        return resolve(previousMonth)
+        return startOfMonth - month.days
     }
 
     fun getWeekDay(date: Day) = when (days) {
