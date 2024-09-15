@@ -4,10 +4,10 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.action
 import at.orchaldir.gm.app.html.fieldStorageLink
 import at.orchaldir.gm.app.html.simpleHtml
-import at.orchaldir.gm.app.plugins.character.Characters
+import at.orchaldir.gm.app.plugins.character.CharacterRoutes
 import at.orchaldir.gm.app.plugins.race.RaceRoutes
 import at.orchaldir.gm.app.plugins.race.RaceRoutes.AppearanceRoutes
-import at.orchaldir.gm.app.plugins.world.Moons
+import at.orchaldir.gm.app.plugins.world.MoonRoutes
 import at.orchaldir.gm.app.plugins.world.RiverRoutes
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -39,20 +39,20 @@ fun Application.configureRouting() {
             call.respondHtml(HttpStatusCode.OK) {
                 simpleHtml(TITLE) {
                     h2 { +"Elements" }
-                    fieldStorageLink(call, state.getCharacterStorage(), Characters())
-                    fieldStorageLink(call, state.getCalendarStorage(), Calendars())
-                    fieldStorageLink(call, state.getCultureStorage(), Cultures())
-                    fieldStorageLink(call, state.getFashionStorage(), Fashions())
-                    fieldStorageLink(call, state.getHolidayStorage(), Holidays())
-                    fieldStorageLink(call, state.getItemTemplateStorage(), ItemTemplates())
-                    fieldStorageLink(call, state.getLanguageStorage(), Languages())
-                    fieldStorageLink(call, state.getMaterialStorage(), Materials())
-                    fieldStorageLink(call, state.getNameListStorage(), NameLists())
-                    fieldStorageLink(call, state.getPersonalityTraitStorage(), Personality())
+                    fieldStorageLink(call, state.getCharacterStorage(), CharacterRoutes())
+                    fieldStorageLink(call, state.getCalendarStorage(), CalendarRoutes())
+                    fieldStorageLink(call, state.getCultureStorage(), CultureRoutes())
+                    fieldStorageLink(call, state.getFashionStorage(), FashionRoutes())
+                    fieldStorageLink(call, state.getHolidayStorage(), HolidayRoutes())
+                    fieldStorageLink(call, state.getItemTemplateStorage(), ItemTemplateRoutes())
+                    fieldStorageLink(call, state.getLanguageStorage(), LanguageRoutes())
+                    fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes())
+                    fieldStorageLink(call, state.getNameListStorage(), NameListRoutes())
+                    fieldStorageLink(call, state.getPersonalityTraitStorage(), PersonalityTraitRoutes())
                     fieldStorageLink(call, state.getRaceStorage(), RaceRoutes())
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), AppearanceRoutes())
                     h3 { +"World" }
-                    fieldStorageLink(call, state.getMoonStorage(), Moons())
+                    fieldStorageLink(call, state.getMoonStorage(), MoonRoutes())
                     fieldStorageLink(call, state.getRiverStorage(), RiverRoutes())
                     h2 { +"Data" }
                     ul {

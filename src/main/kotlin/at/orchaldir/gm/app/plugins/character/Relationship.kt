@@ -26,7 +26,7 @@ private const val RELATIONSHIP_PARAM = "r"
 
 fun Application.configureCharacterRelationshipRouting() {
     routing {
-        get<Characters.Relationships.Edit> { edit ->
+        get<CharacterRoutes.Relationships.Edit> { edit ->
             logger.info { "Get editor for character ${edit.id.value}'s relationships" }
 
             val state = STORE.getState()
@@ -36,7 +36,7 @@ fun Application.configureCharacterRelationshipRouting() {
                 showRelationshipEditor(call, state, character)
             }
         }
-        post<Characters.Relationships.Preview> { edit ->
+        post<CharacterRoutes.Relationships.Preview> { edit ->
             logger.info { "Get preview for character ${edit.id.value}'s relationships" }
 
             val state = STORE.getState()
@@ -57,7 +57,7 @@ fun Application.configureCharacterRelationshipRouting() {
                 showRelationshipEditor(call, state, updatedCharacter)
             }
         }
-        post<Characters.Relationships.Update> { update ->
+        post<CharacterRoutes.Relationships.Update> { update ->
             logger.info { "Update character ${update.id.value}'s relationships" }
 
             val formParameters = call.receiveParameters()
@@ -91,8 +91,8 @@ private fun HTML.showRelationshipEditor(
     character: Character,
 ) {
     val backLink = href(call, character.id)
-    val previewLink = call.application.href(Characters.Relationships.Preview(character.id))
-    val updateLink = call.application.href(Characters.Relationships.Update(character.id))
+    val previewLink = call.application.href(CharacterRoutes.Relationships.Preview(character.id))
+    val updateLink = call.application.href(CharacterRoutes.Relationships.Update(character.id))
 
     simpleHtml("Edit Relationships: ${state.getName(character)}") {
         form {

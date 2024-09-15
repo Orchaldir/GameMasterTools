@@ -26,33 +26,33 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/materials")
-class Materials {
+class MaterialRoutes {
     @Resource("details")
-    class Details(val id: MaterialId, val parent: Materials = Materials())
+    class Details(val id: MaterialId, val parent: MaterialRoutes = MaterialRoutes())
 
     @Resource("new")
-    class New(val parent: Materials = Materials())
+    class New(val parent: MaterialRoutes = MaterialRoutes())
 
     @Resource("delete")
-    class Delete(val id: MaterialId, val parent: Materials = Materials())
+    class Delete(val id: MaterialId, val parent: MaterialRoutes = MaterialRoutes())
 
     @Resource("edit")
-    class Edit(val id: MaterialId, val parent: Materials = Materials())
+    class Edit(val id: MaterialId, val parent: MaterialRoutes = MaterialRoutes())
 
     @Resource("update")
-    class Update(val id: MaterialId, val parent: Materials = Materials())
+    class Update(val id: MaterialId, val parent: MaterialRoutes = MaterialRoutes())
 }
 
 fun Application.configureMaterialRouting() {
     routing {
-        get<Materials> {
+        get<MaterialRoutes> {
             logger.info { "Get all materials" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllMaterials(call)
             }
         }
-        get<Materials.Details> { details ->
+        get<MaterialRoutes.Details> { details ->
             logger.info { "Get details of material ${details.id.value}" }
 
             val state = STORE.getState()
@@ -62,25 +62,31 @@ fun Application.configureMaterialRouting() {
                 showMaterialDetails(call, state, material)
             }
         }
-        get<Materials.New> {
+        get<MaterialRoutes.New> {
             logger.info { "Add new material" }
 
             STORE.dispatch(CreateMaterial)
 
-            call.respondRedirect(call.application.href(Materials.Edit(STORE.getState().getMaterialStorage().lastId)))
+            call.respondRedirect(
+                call.application.href(
+                    MaterialRoutes.Edit(
+                        STORE.getState().getMaterialStorage().lastId
+                    )
+                )
+            )
 
             STORE.getState().save()
         }
-        get<Materials.Delete> { delete ->
+        get<MaterialRoutes.Delete> { delete ->
             logger.info { "Delete material ${delete.id.value}" }
 
             STORE.dispatch(DeleteMaterial(delete.id))
 
-            call.respondRedirect(call.application.href(Materials()))
+            call.respondRedirect(call.application.href(MaterialRoutes()))
 
             STORE.getState().save()
         }
-        get<Materials.Edit> { edit ->
+        get<MaterialRoutes.Edit> { edit ->
             logger.info { "Get editor for material ${edit.id.value}" }
 
             val state = STORE.getState()
@@ -90,7 +96,7 @@ fun Application.configureMaterialRouting() {
                 showMaterialEditor(call, material)
             }
         }
-        post<Materials.Update> { update ->
+        post<MaterialRoutes.Update> { update ->
             logger.info { "Update material ${update.id.value}" }
 
             val material = parseMaterial(update.id, call.receiveParameters())
@@ -107,7 +113,7 @@ fun Application.configureMaterialRouting() {
 private fun HTML.showAllMaterials(call: ApplicationCall) {
     val materials = STORE.getState().getMaterialStorage().getAll().sortedBy { it.name }
     val count = materials.size
-    val createLink = call.application.href(Materials.New())
+    val createLink = call.application.href(MaterialRoutes.New())
 
     simpleHtml("Materials") {
         field("Count", count.toString())
@@ -125,9 +131,9 @@ private fun HTML.showMaterialDetails(
     material: Material,
 ) {
     val templates = state.getItemTemplatesOf(material.id)
-    val backLink = call.application.href(Materials())
-    val deleteLink = call.application.href(Materials.Delete(material.id))
-    val editLink = call.application.href(Materials.Edit(material.id))
+    val backLink = call.application.href(MaterialRoutes())
+    val deleteLink = call.application.href(MaterialRoutes.Delete(material.id))
+    val editLink = call.application.href(MaterialRoutes.Edit(material.id))
 
     simpleHtml("Material: ${material.name}") {
         field("Id", material.id.value.toString())
@@ -148,7 +154,7 @@ private fun HTML.showMaterialEditor(
     material: Material,
 ) {
     val backLink = href(call, material.id)
-    val updateLink = call.application.href(Materials.Update(material.id))
+    val updateLink = call.application.href(MaterialRoutes.Update(material.id))
 
     simpleHtml("Edit Material: ${material.name}") {
         field("Id", material.id.value.toString())

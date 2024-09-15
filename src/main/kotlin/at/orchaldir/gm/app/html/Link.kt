@@ -1,9 +1,9 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.plugins.*
-import at.orchaldir.gm.app.plugins.character.Characters
+import at.orchaldir.gm.app.plugins.character.CharacterRoutes
 import at.orchaldir.gm.app.plugins.race.RaceRoutes
-import at.orchaldir.gm.app.plugins.world.Moons
+import at.orchaldir.gm.app.plugins.world.MoonRoutes
 import at.orchaldir.gm.app.plugins.world.RiverRoutes
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
@@ -112,17 +112,17 @@ fun <ID : Id<ID>> href(
     call: ApplicationCall,
     id: ID,
 ) = when (id) {
-    is CalendarId -> call.application.href(Calendars.Details(id))
-    is CharacterId -> call.application.href(Characters.Details(id))
-    is CultureId -> call.application.href(Cultures.Details(id))
-    is FashionId -> call.application.href(Fashions.Details(id))
-    is HolidayId -> call.application.href(Holidays.Details(id))
-    is ItemTemplateId -> call.application.href(ItemTemplates.Details(id))
-    is LanguageId -> call.application.href(Languages.Details(id))
-    is MaterialId -> call.application.href(Materials.Details(id))
-    is MoonId -> call.application.href(Moons.Details(id))
-    is NameListId -> call.application.href(NameLists.Details(id))
-    is PersonalityTraitId -> call.application.href(Personality.Details(id))
+    is CalendarId -> call.application.href(CalendarRoutes.Details(id))
+    is CharacterId -> call.application.href(CharacterRoutes.Details(id))
+    is CultureId -> call.application.href(CultureRoutes.Details(id))
+    is FashionId -> call.application.href(FashionRoutes.Details(id))
+    is HolidayId -> call.application.href(HolidayRoutes.Details(id))
+    is ItemTemplateId -> call.application.href(ItemTemplateRoutes.Details(id))
+    is LanguageId -> call.application.href(LanguageRoutes.Details(id))
+    is MaterialId -> call.application.href(MaterialRoutes.Details(id))
+    is MoonId -> call.application.href(MoonRoutes.Details(id))
+    is NameListId -> call.application.href(NameListRoutes.Details(id))
+    is PersonalityTraitId -> call.application.href(PersonalityTraitRoutes.Details(id))
     is RaceId -> call.application.href(RaceRoutes.Details(id))
     is RaceAppearanceId -> call.application.href(RaceRoutes.AppearanceRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))

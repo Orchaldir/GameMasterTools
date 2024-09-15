@@ -37,14 +37,14 @@ private val logger = KotlinLogging.logger {}
 
 fun Application.configureCharacterRouting() {
     routing {
-        get<Characters> {
+        get<CharacterRoutes> {
             logger.info { "Get all characters" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllCharacters(call, STORE.getState())
             }
         }
-        get<Characters.Details> { details ->
+        get<CharacterRoutes.Details> { details ->
             logger.info { "Get details of character ${details.id.value}" }
 
             val state = STORE.getState()
@@ -54,25 +54,31 @@ fun Application.configureCharacterRouting() {
                 showCharacterDetails(call, state, character)
             }
         }
-        get<Characters.New> {
+        get<CharacterRoutes.New> {
             logger.info { "Add new character" }
 
             STORE.dispatch(CreateCharacter)
 
-            call.respondRedirect(call.application.href(Characters.Edit(STORE.getState().getCharacterStorage().lastId)))
+            call.respondRedirect(
+                call.application.href(
+                    CharacterRoutes.Edit(
+                        STORE.getState().getCharacterStorage().lastId
+                    )
+                )
+            )
 
             STORE.getState().save()
         }
-        get<Characters.Delete> { delete ->
+        get<CharacterRoutes.Delete> { delete ->
             logger.info { "Delete character ${delete.id.value}" }
 
             STORE.dispatch(DeleteCharacter(delete.id))
 
-            call.respondRedirect(call.application.href(Characters()))
+            call.respondRedirect(call.application.href(CharacterRoutes()))
 
             STORE.getState().save()
         }
-        get<Characters.Edit> { edit ->
+        get<CharacterRoutes.Edit> { edit ->
             logger.info { "Get editor for character ${edit.id.value}" }
 
             val state = STORE.getState()
@@ -82,7 +88,7 @@ fun Application.configureCharacterRouting() {
                 showCharacterEditor(call, state, character)
             }
         }
-        post<Characters.Preview> { preview ->
+        post<CharacterRoutes.Preview> { preview ->
             logger.info { "Preview changes to character ${preview.id.value}" }
 
             val state = STORE.getState()
@@ -92,7 +98,7 @@ fun Application.configureCharacterRouting() {
                 showCharacterEditor(call, state, character)
             }
         }
-        post<Characters.Update> { update ->
+        post<CharacterRoutes.Update> { update ->
             logger.info { "Update character ${update.id.value}" }
 
             val state = STORE.getState()
@@ -104,7 +110,7 @@ fun Application.configureCharacterRouting() {
 
             STORE.getState().save()
         }
-        get<Characters.Birthday.Generate> { generate ->
+        get<CharacterRoutes.Birthday.Generate> { generate ->
             logger.info { "Generate the birthday of character ${generate.id.value}" }
 
             val state = STORE.getState()
@@ -119,7 +125,7 @@ fun Application.configureCharacterRouting() {
 
             STORE.getState().save()
         }
-        get<Characters.Name.Generate> { generate ->
+        get<CharacterRoutes.Name.Generate> { generate ->
             logger.info { "Generate the name of character ${generate.id.value}" }
 
             val state = STORE.getState()
@@ -141,7 +147,7 @@ private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
         .map { Pair(it, state.getName(it)) }
         .sortedBy { it.second }
     val count = characters.size
-    val createLink = call.application.href(Characters.New())
+    val createLink = call.application.href(CharacterRoutes.New())
 
     simpleHtml("Characters") {
         field("Count", count.toString())
@@ -167,8 +173,8 @@ private fun HTML.showCharacterDetails(
     character: Character,
 ) {
     val equipment = state.getEquipment(character)
-    val backLink = call.application.href(Characters())
-    val editAppearanceLink = call.application.href(Characters.Appearance.Edit(character.id))
+    val backLink = call.application.href(CharacterRoutes())
+    val editAppearanceLink = call.application.href(CharacterRoutes.Appearance.Edit(character.id))
     val frontSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipment)
     val backSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipment, false)
 
@@ -192,10 +198,10 @@ private fun BODY.showData(
     state: State,
 ) {
     val race = state.getRaceStorage().getOrThrow(character.race)
-    val deleteLink = call.application.href(Characters.Delete(character.id))
-    val editLink = call.application.href(Characters.Edit(character.id))
-    val generateNameLink = call.application.href(Characters.Name.Generate(character.id))
-    val generateBirthdayLink = call.application.href(Characters.Birthday.Generate(character.id))
+    val deleteLink = call.application.href(CharacterRoutes.Delete(character.id))
+    val editLink = call.application.href(CharacterRoutes.Edit(character.id))
+    val generateNameLink = call.application.href(CharacterRoutes.Name.Generate(character.id))
+    val generateBirthdayLink = call.application.href(CharacterRoutes.Birthday.Generate(character.id))
 
     h2 { +"Data" }
 
@@ -287,8 +293,8 @@ private fun BODY.showSocial(
     state: State,
     character: Character,
 ) {
-    val editLanguagesLink = call.application.href(Characters.Languages.Edit(character.id))
-    val editRelationshipsLink = call.application.href(Characters.Relationships.Edit(character.id))
+    val editLanguagesLink = call.application.href(CharacterRoutes.Languages.Edit(character.id))
+    val editRelationshipsLink = call.application.href(CharacterRoutes.Relationships.Edit(character.id))
 
     h2 { +"Social" }
 
@@ -355,7 +361,7 @@ fun BODY.showItems(
     state: State,
     character: Character,
 ) {
-    val editEquipmentLink = call.application.href(Characters.Equipment.Edit(character.id))
+    val editEquipmentLink = call.application.href(CharacterRoutes.Equipment.Edit(character.id))
 
     h2 { +"Items" }
 
@@ -374,8 +380,8 @@ private fun HTML.showCharacterEditor(
     val characterName = state.getName(character)
     val race = state.getRaceStorage().getOrThrow(character.race)
     val backLink = href(call, character.id)
-    val previewLink = call.application.href(Characters.Preview(character.id))
-    val updateLink = call.application.href(Characters.Update(character.id))
+    val previewLink = call.application.href(CharacterRoutes.Preview(character.id))
+    val updateLink = call.application.href(CharacterRoutes.Update(character.id))
 
     simpleHtml("Edit Character: $characterName") {
         field("Id", character.id.value.toString())

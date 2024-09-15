@@ -28,33 +28,33 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/personality")
-class Personality {
+class PersonalityTraitRoutes {
     @Resource("details")
-    class Details(val id: PersonalityTraitId, val parent: Personality = Personality())
+    class Details(val id: PersonalityTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
 
     @Resource("new")
-    class New(val parent: Personality = Personality())
+    class New(val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
 
     @Resource("delete")
-    class Delete(val id: PersonalityTraitId, val parent: Personality = Personality())
+    class Delete(val id: PersonalityTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
 
     @Resource("edit")
-    class Edit(val id: PersonalityTraitId, val parent: Personality = Personality())
+    class Edit(val id: PersonalityTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
 
     @Resource("update")
-    class Update(val id: PersonalityTraitId, val parent: Personality = Personality())
+    class Update(val id: PersonalityTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
 }
 
 fun Application.configurePersonalityRouting() {
     routing {
-        get<Personality> {
+        get<PersonalityTraitRoutes> {
             logger.info { "Get all personality traits" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllPersonalityTraits(call)
             }
         }
-        get<Personality.Details> { details ->
+        get<PersonalityTraitRoutes.Details> { details ->
             logger.info { "Get details of personality trait ${details.id.value}" }
 
             val state = STORE.getState()
@@ -64,26 +64,26 @@ fun Application.configurePersonalityRouting() {
                 showPersonalityTraitDetails(call, state, trait)
             }
         }
-        get<Personality.New> {
+        get<PersonalityTraitRoutes.New> {
             logger.info { "Add new personalityTrait" }
 
             STORE.dispatch(CreatePersonalityTrait)
 
             val state = STORE.getState()
-            call.respondRedirect(call.application.href(Personality.Edit(state.getPersonalityTraitStorage().lastId)))
+            call.respondRedirect(call.application.href(PersonalityTraitRoutes.Edit(state.getPersonalityTraitStorage().lastId)))
 
             STORE.getState().save()
         }
-        get<Personality.Delete> { delete ->
+        get<PersonalityTraitRoutes.Delete> { delete ->
             logger.info { "Delete personality trait ${delete.id.value}" }
 
             STORE.dispatch(DeletePersonalityTrait(delete.id))
 
-            call.respondRedirect(call.application.href(Personality()))
+            call.respondRedirect(call.application.href(PersonalityTraitRoutes()))
 
             STORE.getState().save()
         }
-        get<Personality.Edit> { edit ->
+        get<PersonalityTraitRoutes.Edit> { edit ->
             logger.info { "Get editor for personality trait ${edit.id.value}" }
 
             val state = STORE.getState()
@@ -93,7 +93,7 @@ fun Application.configurePersonalityRouting() {
                 showPersonalityTraitEditor(call, state, trait)
             }
         }
-        post<Personality.Update> { update ->
+        post<PersonalityTraitRoutes.Update> { update ->
             logger.info { "Update personality trait ${update.id.value}" }
 
             val trait = parsePersonalityTrait(update.id, call.receiveParameters())
@@ -119,7 +119,7 @@ private fun parsePersonalityTrait(id: PersonalityTraitId, parameters: Parameters
 private fun HTML.showAllPersonalityTraits(call: ApplicationCall) {
     val personalityTraits = STORE.getState().getPersonalityTraitStorage().getAll().sortedBy { it.name }
     val count = personalityTraits.size
-    val createLink = call.application.href(Personality.New())
+    val createLink = call.application.href(PersonalityTraitRoutes.New())
 
     simpleHtml("Personality Traits") {
         field("Count", count.toString())
@@ -137,9 +137,9 @@ private fun HTML.showPersonalityTraitDetails(
     trait: PersonalityTrait,
 ) {
     val characters = state.getCharacters(trait.id)
-    val backLink = call.application.href(Personality())
-    val deleteLink = call.application.href(Personality.Delete(trait.id))
-    val editLink = call.application.href(Personality.Edit(trait.id))
+    val backLink = call.application.href(PersonalityTraitRoutes())
+    val deleteLink = call.application.href(PersonalityTraitRoutes.Delete(trait.id))
+    val editLink = call.application.href(PersonalityTraitRoutes.Edit(trait.id))
 
     simpleHtml("Personality Trait: ${trait.name}") {
         field("Id", trait.id.value.toString())
@@ -170,7 +170,7 @@ private fun HTML.showPersonalityTraitEditor(
     val groups = state.getPersonalityTraitGroups()
     val newGroup = groups.maxOfOrNull { it.value + 1 } ?: 0
     val backLink = href(call, trait.id)
-    val updateLink = call.application.href(Personality.Update(trait.id))
+    val updateLink = call.application.href(PersonalityTraitRoutes.Update(trait.id))
 
     simpleHtml("Edit PersonalityTrait: ${trait.name}") {
         field("Id", trait.id.value.toString())

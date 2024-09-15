@@ -4,28 +4,28 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import io.ktor.resources.*
 
 @Resource("/characters")
-class Characters {
+class CharacterRoutes {
 
     @Resource("details")
-    class Details(val id: CharacterId, val parent: Characters = Characters())
+    class Details(val id: CharacterId, val parent: CharacterRoutes = CharacterRoutes())
 
     @Resource("new")
-    class New(val parent: Characters = Characters())
+    class New(val parent: CharacterRoutes = CharacterRoutes())
 
     @Resource("delete")
-    class Delete(val id: CharacterId, val parent: Characters = Characters())
+    class Delete(val id: CharacterId, val parent: CharacterRoutes = CharacterRoutes())
 
     @Resource("edit")
-    class Edit(val id: CharacterId, val parent: Characters = Characters())
+    class Edit(val id: CharacterId, val parent: CharacterRoutes = CharacterRoutes())
 
     @Resource("preview")
-    class Preview(val id: CharacterId, val parent: Characters = Characters())
+    class Preview(val id: CharacterId, val parent: CharacterRoutes = CharacterRoutes())
 
     @Resource("update")
-    class Update(val id: CharacterId, val parent: Characters = Characters())
+    class Update(val id: CharacterId, val parent: CharacterRoutes = CharacterRoutes())
 
     @Resource("/appearance")
-    class Appearance(val parent: Characters = Characters()) {
+    class Appearance(val parent: CharacterRoutes = CharacterRoutes()) {
 
         @Resource("edit")
         class Edit(val id: CharacterId, val parent: Appearance = Appearance())
@@ -41,14 +41,14 @@ class Characters {
     }
 
     @Resource("/birthday")
-    class Birthday(val parent: Characters = Characters()) {
+    class Birthday(val parent: CharacterRoutes = CharacterRoutes()) {
 
         @Resource("generate")
         class Generate(val id: CharacterId, val parent: Birthday = Birthday())
     }
 
     @Resource("/equipment")
-    class Equipment(val parent: Characters = Characters()) {
+    class Equipment(val parent: CharacterRoutes = CharacterRoutes()) {
 
         @Resource("edit")
         class Edit(val id: CharacterId, val parent: Equipment = Equipment())
@@ -64,7 +64,7 @@ class Characters {
     }
 
     @Resource("/languages")
-    class Languages(val parent: Characters = Characters()) {
+    class Languages(val parent: CharacterRoutes = CharacterRoutes()) {
 
         @Resource("edit")
         class Edit(val id: CharacterId, val parent: Languages = Languages())
@@ -74,14 +74,14 @@ class Characters {
     }
 
     @Resource("/name")
-    class Name(val parent: Characters = Characters()) {
+    class Name(val parent: CharacterRoutes = CharacterRoutes()) {
 
         @Resource("generate")
         class Generate(val id: CharacterId, val parent: Name = Name())
     }
 
     @Resource("/relationship")
-    class Relationships(val parent: Characters = Characters()) {
+    class Relationships(val parent: CharacterRoutes = CharacterRoutes()) {
 
         @Resource("edit")
         class Edit(val id: CharacterId, val parent: Relationships = Relationships())

@@ -30,7 +30,7 @@ private val logger = KotlinLogging.logger {}
 
 fun Application.configureEquipmentRouting() {
     routing {
-        get<Characters.Equipment.Edit> { edit ->
+        get<CharacterRoutes.Equipment.Edit> { edit ->
             logger.info { "Get editor for character ${edit.id.value}'s equipment" }
 
             val state = STORE.getState()
@@ -40,7 +40,7 @@ fun Application.configureEquipmentRouting() {
                 showEquipmentEditor(call, state, character, character.equipmentMap)
             }
         }
-        post<Characters.Equipment.Preview> { preview ->
+        post<CharacterRoutes.Equipment.Preview> { preview ->
             logger.info { "Get preview for character ${preview.id.value}'s equipment" }
 
             val state = STORE.getState()
@@ -54,7 +54,7 @@ fun Application.configureEquipmentRouting() {
                 showEquipmentEditor(call, state, character, equipmentMap)
             }
         }
-        post<Characters.Equipment.Update> { update ->
+        post<CharacterRoutes.Equipment.Update> { update ->
             logger.info { "Update character ${update.id.value}'s equipment" }
 
             val formParameters = call.receiveParameters()
@@ -66,7 +66,7 @@ fun Application.configureEquipmentRouting() {
 
             STORE.getState().save()
         }
-        post<Characters.Equipment.Generate> { update ->
+        post<CharacterRoutes.Equipment.Generate> { update ->
             logger.info { "Generate character ${update.id.value}'s equipment" }
 
             val state = STORE.getState()
@@ -92,9 +92,9 @@ private fun HTML.showEquipmentEditor(
     val culture = state.getCultureStorage().getOrThrow(character.culture)
     val fashion = state.getFashionStorage().getOrThrow(culture.getFashion(character))
     val backLink = href(call, character.id)
-    val previewLink = call.application.href(Characters.Equipment.Preview(character.id))
-    val updateLink = call.application.href(Characters.Equipment.Update(character.id))
-    val generateLink = call.application.href(Characters.Equipment.Generate(character.id))
+    val previewLink = call.application.href(CharacterRoutes.Equipment.Preview(character.id))
+    val updateLink = call.application.href(CharacterRoutes.Equipment.Update(character.id))
+    val generateLink = call.application.href(CharacterRoutes.Equipment.Generate(character.id))
     val frontSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipped)
     val backSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipped, false)
 
