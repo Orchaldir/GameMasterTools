@@ -77,7 +77,7 @@ private fun parseVitalStatus(
 private fun parseDeathDay(
     parameters: Parameters,
     state: State,
-) = parseDay(parameters, state.getDefaultCalendar(), combine(DEATH, DATE))
+) = parseDay(parameters, state.getDefaultCalendar(), combine(DEATH, DATE), state.time.currentDate)
 
 private fun parseCharacterName(parameters: Parameters): CharacterName {
     val given = parameters.getOrFail(GIVEN_NAME)
