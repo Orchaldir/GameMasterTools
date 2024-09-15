@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.event.CharacterDeathEvent
 import at.orchaldir.gm.core.model.event.CharacterOriginEvent
+import at.orchaldir.gm.core.model.event.Event
 import at.orchaldir.gm.core.model.moon.Moon
 import at.orchaldir.gm.core.model.moon.MoonPhase
 import at.orchaldir.gm.core.model.time.Day
@@ -110,6 +111,7 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayDay = calendar.resolve(day)
+    val events = state.getEventsOfMonth(calendarId, day)
     val backLink = call.application.href(TimeRoutes())
     val nextLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfNextMonth(day)))
     val previousLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfPreviousMonth(day)))
@@ -130,6 +132,7 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
                 calendar.days,
             )
         }
+        showEvents(events, call, state, calendar)
         back(backLink)
     }
 }
@@ -260,21 +263,30 @@ private fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
             link(call, calendar)
         }
         showCurrentDate(call, state)
-        showList("Events", events) { event ->
-            link(call, calendar, event.getEventDay())
-            +": "
-            when (event) {
-                is CharacterDeathEvent -> {
-                    link(call, state, event.characterId)
-                    +" died."
-                }
+        showEvents(events, call, state, calendar)
+        back(backLink)
+    }
+}
 
-                is CharacterOriginEvent -> {
-                    link(call, state, event.characterId)
-                    +" was born."
-                }
+private fun HtmlBlockTag.showEvents(
+    events: List<Event>,
+    call: ApplicationCall,
+    state: State,
+    calendar: Calendar,
+) {
+    showList("Events", events) { event ->
+        link(call, calendar, event.getEventDay())
+        +": "
+        when (event) {
+            is CharacterDeathEvent -> {
+                link(call, state, event.characterId)
+                +" died."
+            }
+
+            is CharacterOriginEvent -> {
+                link(call, state, event.characterId)
+                +" was born."
             }
         }
-        back(backLink)
     }
 }
