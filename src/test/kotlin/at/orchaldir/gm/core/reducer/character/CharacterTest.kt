@@ -34,17 +34,31 @@ private val RACE1 = RaceId(1)
 
 class CharacterTest {
 
-    @Test
-    fun `Create another character`() {
-        val character0 = Character(ID0)
-        val character1 = Character(ID1)
-        val state = State(Storage(listOf(character0)))
+    @Nested
+    inner class CreateTest {
 
-        val characters = REDUCER.invoke(state, CreateCharacter).first.getCharacterStorage()
+        @Test
+        fun `Create another character`() {
+            val character0 = Character(ID0)
+            val character1 = Character(ID1)
+            val state = State(Storage(listOf(character0)))
 
-        assertEquals(2, characters.getSize())
-        assertEquals(character0, characters.getOrThrow(ID0))
-        assertEquals(character1, characters.getOrThrow(ID1))
+            val characters = REDUCER.invoke(state, CreateCharacter).first.getCharacterStorage()
+
+            assertEquals(2, characters.getSize())
+            assertEquals(character0, characters.getOrThrow(ID0))
+            assertEquals(character1, characters.getOrThrow(ID1))
+        }
+
+        @Test
+        fun `Default birthday is today`() {
+            val today = Day(42)
+            val state = State(time = Time(currentDate = today))
+
+            val characters = REDUCER.invoke(state, CreateCharacter).first.getCharacterStorage()
+
+            assertEquals(today, characters.getOrThrow(ID0).birthDate)
+        }
     }
 
     @Nested
@@ -226,56 +240,56 @@ class CharacterTest {
 
             @Test
             fun `Died from accident`() {
-                testDie(Accident(Day(5)))
+                testDie(Day(5), Accident)
             }
 
             @Test
             fun `Cannot die from accident in the future`() {
-                testFailToDie(Accident(Day(11)))
+                testFailToDie(Day(11), Accident)
             }
 
             @Test
             fun `Cannot die from accident before its origin`() {
-                testFailToDie(Accident(Day(-1)))
+                testFailToDie(Day(-1), Accident)
             }
 
             @Test
             fun `Died from murder`() {
-                testDie(Murder(Day(5), ID1))
+                testDie(Day(5), Murder(ID1))
             }
 
             @Test
             fun `Cannot die from murder in the future`() {
-                testFailToDie(Murder(Day(11), ID1))
+                testFailToDie(Day(11), Murder(ID1))
             }
 
             @Test
             fun `Cannot die from murder before its origin`() {
-                testFailToDie(Murder(Day(-1), ID1))
+                testFailToDie(Day(-1), Murder(ID1))
             }
 
             @Test
             fun `Killer doesn't exist`() {
-                testFailToDie(Murder(Day(5), ID2))
+                testFailToDie(Day(5), Murder(ID2))
             }
 
             @Test
             fun `Died from old age`() {
-                testDie(OldAge(Day(5)))
+                testDie(Day(5), OldAge)
             }
 
             @Test
             fun `Cannot die from old age in the future`() {
-                testFailToDie(OldAge(Day(11)))
+                testFailToDie(Day(11), OldAge)
             }
 
             @Test
             fun `Cannot die from old age before its origin`() {
-                testFailToDie(OldAge(Day(-1)))
+                testFailToDie(Day(-1), OldAge)
             }
 
-            private fun testDie(causeOfDeath: CauseOfDeath) {
-                val character = Character(ID0, causeOfDeath = causeOfDeath)
+            private fun testDie(deathDate: Day, causeOfDeath: CauseOfDeath) {
+                val character = Character(ID0, vitalStatus = Dead(deathDate, causeOfDeath))
                 val action = UpdateCharacter(character)
 
                 val result = REDUCER.invoke(state, action).first
@@ -286,8 +300,8 @@ class CharacterTest {
                 )
             }
 
-            private fun testFailToDie(causeOfDeath: CauseOfDeath) {
-                val action = UpdateCharacter(Character(ID0, causeOfDeath = causeOfDeath))
+            private fun testFailToDie(deathDate: Day, causeOfDeath: CauseOfDeath) {
+                val action = UpdateCharacter(Character(ID0, vitalStatus = Dead(deathDate, causeOfDeath)))
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
             }

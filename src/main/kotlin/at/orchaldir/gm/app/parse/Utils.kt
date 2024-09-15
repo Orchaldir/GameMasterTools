@@ -49,16 +49,23 @@ fun parseDate(
 
 fun parseDay(
     parameters: Parameters,
-    default: Calendar,
+    calendar: Calendar,
     param: String,
+    default: Day? = null,
 ): Day {
-    val eraIndex = parseInt(parameters, combine(param, ERA))
+    val eraParam = combine(param, ERA)
+
+    if (default != null && !parameters.contains(eraParam)) {
+        return default
+    }
+
+    val eraIndex = parseInt(parameters, eraParam)
     val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
     val monthIndex = parseInt(parameters, combine(param, MONTH))
     val dayIndex = parseDayIndex(parameters, param)
     val calendarDate = DisplayDay(eraIndex, yearIndex, monthIndex, dayIndex)
 
-    return default.resolve(calendarDate)
+    return calendar.resolve(calendarDate)
 }
 
 fun parseDayIndex(parameters: Parameters, param: String) =

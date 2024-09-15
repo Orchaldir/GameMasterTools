@@ -32,7 +32,7 @@ data class Character(
     val gender: Gender = Gender.Genderless,
     val origin: CharacterOrigin = UndefinedCharacterOrigin,
     val birthDate: Day = Day(0),
-    val causeOfDeath: CauseOfDeath = Alive,
+    val vitalStatus: VitalStatus = Alive,
     val culture: CultureId = CultureId(0),
     val personality: Set<PersonalityTraitId> = emptySet(),
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
@@ -49,13 +49,15 @@ data class Character(
             return Duration(0)
         }
 
-        val deathDate = causeOfDeath.getDeathDate()
+        if (vitalStatus is Dead) {
+            val deathDate = vitalStatus.deathDay
 
-        return if (deathDate != null && deathDate < currentDay) {
-            deathDate.getDurationBetween(birthDate)
-        } else {
-            currentDay.getDurationBetween(birthDate)
+            if (deathDate < currentDay) {
+                return deathDate.getDurationBetween(birthDate)
+            }
         }
+
+        return currentDay.getDurationBetween(birthDate)
     }
 
 }

@@ -13,7 +13,7 @@ class CharacterTest {
 
         private val birthDate = Day(10)
         private val deathDay = Day(25)
-        private val character = Character(CharacterId(0), birthDate = birthDate, causeOfDeath = Accident(deathDay))
+        private val character = Character(CharacterId(0), birthDate = birthDate, vitalStatus = Dead(deathDay, Accident))
 
         @Test
         fun `Age is 0 before the day of birth`() {

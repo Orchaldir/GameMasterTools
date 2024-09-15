@@ -22,8 +22,11 @@ data class Day(val day: Int) : Date() {
     }
 
     operator fun plus(duration: Int) = Day(day + duration)
+    operator fun minus(duration: Int) = Day(day - duration)
 
     fun getDurationBetween(other: Day) = Duration((day - other.day).absoluteValue)
+
+    fun isBetween(start: Day, end: Day) = day >= start.day && day <= end.day
 }
 
 @Serializable

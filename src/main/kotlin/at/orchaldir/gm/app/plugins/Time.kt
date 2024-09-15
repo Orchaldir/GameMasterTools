@@ -7,12 +7,14 @@ import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
+import at.orchaldir.gm.core.model.event.CharacterDeathEvent
+import at.orchaldir.gm.core.model.event.CharacterOriginEvent
+import at.orchaldir.gm.core.model.event.Event
 import at.orchaldir.gm.core.model.moon.Moon
 import at.orchaldir.gm.core.model.moon.MoonPhase
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.DisplayDay
-import at.orchaldir.gm.core.selector.getDefaultCalendar
-import at.orchaldir.gm.core.selector.getForHolidays
+import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.ceilDiv
 import io.ktor.http.*
@@ -32,8 +34,11 @@ private val logger = KotlinLogging.logger {}
 @Resource("/time")
 class TimeRoutes {
 
-    @Resource("show")
+    @Resource("date")
     class ShowDate(val day: Day, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+
+    @Resource("events")
+    class ShowEvents(val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
 
     @Resource("edit")
     class Edit(val parent: TimeRoutes = TimeRoutes())
@@ -57,6 +62,14 @@ fun Application.configureTimeRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showMonth(call, calendarId, data.day)
+            }
+        }
+        get<TimeRoutes.ShowEvents> { data ->
+            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
+            logger.info { "Show events with calendar ${calendarId.value}" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showEvents(call, calendarId)
             }
         }
         get<TimeRoutes.Edit> {
@@ -88,7 +101,7 @@ private fun HTML.showTimeData(call: ApplicationCall) {
         field("Default Calendar") {
             link(call, state, state.time.defaultCalendar)
         }
-        field(call, state, "Current Date", state.time.currentDate)
+        showCurrentDate(call, state)
         action(editLink, "Edit")
         back("/")
     }
@@ -98,6 +111,7 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayDay = calendar.resolve(day)
+    val events = state.getEventsOfMonth(calendarId, day)
     val backLink = call.application.href(TimeRoutes())
     val nextLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfNextMonth(day)))
     val previousLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfPreviousMonth(day)))
@@ -118,6 +132,7 @@ private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: D
                 calendar.days,
             )
         }
+        showEvents(events, call, state, calendar)
         back(backLink)
     }
 }
@@ -234,5 +249,49 @@ private fun HTML.editTimeData(
             }
         }
         back(backLink)
+    }
+}
+
+private fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
+    val state = STORE.getState()
+    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+    val events = state.getEvents().sort()
+    val backLink = call.application.href(TimeRoutes())
+
+    simpleHtml("Events") {
+        field("Calendar") {
+            link(call, calendar)
+        }
+        showCurrentDate(call, state)
+        showEvents(events, call, state, calendar)
+        back(backLink)
+    }
+}
+
+private fun HtmlBlockTag.showEvents(
+    events: List<Event>,
+    call: ApplicationCall,
+    state: State,
+    calendar: Calendar,
+) {
+    showList("Events", events) { event ->
+        val day = event.getEventDay()
+        if (day == state.time.currentDate) {
+            link(call, day, "Today")
+        } else {
+            link(call, calendar, day)
+        }
+        +": "
+        when (event) {
+            is CharacterDeathEvent -> {
+                link(call, state, event.characterId)
+                +" died."
+            }
+
+            is CharacterOriginEvent -> {
+                link(call, state, event.characterId)
+                +" was born."
+            }
+        }
     }
 }

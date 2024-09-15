@@ -41,16 +41,6 @@ fun parseCharacter(
         Undefined -> UndefinedCharacterOrigin
     }
     val birthDate = parseDay(parameters, state.getDefaultCalendar(), combine(ORIGIN, DATE))
-    val causeOfDeath = when (parse(parameters, DEATH, CauseOfDeathType.Alive)) {
-        CauseOfDeathType.Alive -> Alive
-        CauseOfDeathType.Accident -> Accident(parseDeathDay(parameters, state))
-        CauseOfDeathType.Murder -> Murder(
-            parseDeathDay(parameters, state),
-            parseCharacterId(parameters, KILLER),
-        )
-
-        CauseOfDeathType.OldAge -> OldAge(parseDeathDay(parameters, state))
-    }
 
     return character.copy(
         name = name,
@@ -58,16 +48,36 @@ fun parseCharacter(
         gender = gender,
         origin = origin,
         birthDate = birthDate,
-        causeOfDeath = causeOfDeath,
+        vitalStatus = parseVitalStatus(parameters, state),
         culture = culture,
         personality = personality
     )
 }
 
+private fun parseVitalStatus(
+    parameters: Parameters,
+    state: State,
+): VitalStatus {
+    return when (parse(parameters, VITAL, VitalStatusType.Alive)) {
+        VitalStatusType.Alive -> Alive
+        VitalStatusType.Dead -> Dead(
+            parseDeathDay(parameters, state),
+            when (parse(parameters, DEATH, CauseOfDeathType.OldAge)) {
+                CauseOfDeathType.Accident -> Accident
+                CauseOfDeathType.Murder -> Murder(
+                    parseCharacterId(parameters, KILLER),
+                )
+
+                CauseOfDeathType.OldAge -> OldAge
+            },
+        )
+    }
+}
+
 private fun parseDeathDay(
     parameters: Parameters,
     state: State,
-) = parseDay(parameters, state.getDefaultCalendar(), combine(DEATH, DATE))
+) = parseDay(parameters, state.getDefaultCalendar(), combine(DEATH, DATE), state.time.currentDate)
 
 private fun parseCharacterName(parameters: Parameters): CharacterName {
     val given = parameters.getOrFail(GIVEN_NAME)
