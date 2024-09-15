@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.plugins.character.Characters
 import at.orchaldir.gm.app.plugins.race.RaceRoutes
 import at.orchaldir.gm.app.plugins.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.app.plugins.world.Moons
+import at.orchaldir.gm.app.plugins.world.RiverRoutes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -17,6 +18,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.h2
+import kotlinx.html.h3
 import kotlinx.html.li
 import kotlinx.html.ul
 import mu.KotlinLogging
@@ -45,11 +47,13 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getItemTemplateStorage(), ItemTemplates())
                     fieldStorageLink(call, state.getLanguageStorage(), Languages())
                     fieldStorageLink(call, state.getMaterialStorage(), Materials())
-                    fieldStorageLink(call, state.getMoonStorage(), Moons())
                     fieldStorageLink(call, state.getNameListStorage(), NameLists())
                     fieldStorageLink(call, state.getPersonalityTraitStorage(), Personality())
                     fieldStorageLink(call, state.getRaceStorage(), RaceRoutes())
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), AppearanceRoutes())
+                    h3 { +"World" }
+                    fieldStorageLink(call, state.getMoonStorage(), Moons())
+                    fieldStorageLink(call, state.getRiverStorage(), RiverRoutes())
                     h2 { +"Data" }
                     ul {
                         li {

@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.plugins.character.*
 import at.orchaldir.gm.app.plugins.race.configureRaceAppearanceRouting
 import at.orchaldir.gm.app.plugins.race.configureRaceRouting
 import at.orchaldir.gm.app.plugins.world.configureMoonRouting
+import at.orchaldir.gm.app.plugins.world.configureRiverRouting
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -46,6 +47,7 @@ fun Application.module() {
     configurePersonalityRouting()
     configureRaceRouting()
     configureRaceAppearanceRouting()
+    configureRiverRouting()
     configureTimeRouting()
 }
 
