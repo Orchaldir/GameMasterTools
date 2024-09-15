@@ -20,5 +20,5 @@ fun State.getEvents(): List<Event> {
     return events
 }
 
-fun State.getSortedEvents() = getEvents().sortedBy { it.getEventDay().day }
+fun List<Event>.sort() = sortedBy { it.getEventDay().day }
 

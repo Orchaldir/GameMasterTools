@@ -13,9 +13,7 @@ import at.orchaldir.gm.core.model.moon.Moon
 import at.orchaldir.gm.core.model.moon.MoonPhase
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.DisplayDay
-import at.orchaldir.gm.core.selector.getDefaultCalendar
-import at.orchaldir.gm.core.selector.getForHolidays
-import at.orchaldir.gm.core.selector.getSortedEvents
+import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.ceilDiv
 import io.ktor.http.*
@@ -102,7 +100,7 @@ private fun HTML.showTimeData(call: ApplicationCall) {
         field("Default Calendar") {
             link(call, state, state.time.defaultCalendar)
         }
-        field(call, state, "Current Date", state.time.currentDate)
+        showCurrentDate(call, state)
         action(editLink, "Edit")
         back("/")
     }
@@ -254,14 +252,14 @@ private fun HTML.editTimeData(
 private fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val events = state.getSortedEvents()
+    val events = state.getEvents().sort()
     val backLink = call.application.href(TimeRoutes())
 
     simpleHtml("Events") {
         field("Calendar") {
             link(call, calendar)
         }
-        field(call, state, "Current Date", state.time.currentDate)
+        showCurrentDate(call, state)
         showList("Events", events) { event ->
             link(call, calendar, event.getEventDay())
             +": "

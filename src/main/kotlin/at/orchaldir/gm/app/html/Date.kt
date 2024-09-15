@@ -2,13 +2,11 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.plugins.TimeRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import io.ktor.server.application.*
-import io.ktor.server.resources.*
 import kotlinx.html.*
 
 fun HtmlBlockTag.field(call: ApplicationCall, state: State, label: String, date: Date) {
@@ -19,6 +17,13 @@ fun HtmlBlockTag.field(call: ApplicationCall, label: String, calendar: Calendar,
     field(label) {
         link(call, calendar, date)
     }
+}
+
+fun HtmlBlockTag.showCurrentDate(
+    call: ApplicationCall,
+    state: State,
+) {
+    field(call, state, "Current Date", state.time.currentDate)
 }
 
 fun FORM.selectDate(
