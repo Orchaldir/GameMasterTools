@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.parse.world.parseRiver
 import at.orchaldir.gm.core.action.CreateRiver
 import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import io.ktor.http.*
@@ -57,7 +56,7 @@ fun Application.configureRiverRouting() {
             val river = state.getRiverStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showRiverDetails(call, state, river)
+                showRiverDetails(call, river)
             }
         }
         get<RiverRoutes.New> {
@@ -119,7 +118,6 @@ private fun HTML.showAllRivers(call: ApplicationCall) {
 
 private fun HTML.showRiverDetails(
     call: ApplicationCall,
-    state: State,
     river: River,
 ) {
     val backLink = call.application.href(RiverRoutes())

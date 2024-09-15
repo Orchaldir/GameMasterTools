@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.plugins.character.CharacterRoutes
 import at.orchaldir.gm.app.plugins.race.RaceRoutes
 import at.orchaldir.gm.app.plugins.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.app.plugins.world.MoonRoutes
+import at.orchaldir.gm.app.plugins.world.MountainRoutes
 import at.orchaldir.gm.app.plugins.world.RiverRoutes
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -53,6 +54,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), AppearanceRoutes())
                     h3 { +"World" }
                     fieldStorageLink(call, state.getMoonStorage(), MoonRoutes())
+                    fieldStorageLink(call, state.getMountainStorage(), MountainRoutes())
                     fieldStorageLink(call, state.getRiverStorage(), RiverRoutes())
                     h2 { +"Data" }
                     ul {

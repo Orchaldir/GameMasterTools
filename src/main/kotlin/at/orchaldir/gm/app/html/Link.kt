@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.plugins.*
 import at.orchaldir.gm.app.plugins.character.CharacterRoutes
 import at.orchaldir.gm.app.plugins.race.RaceRoutes
 import at.orchaldir.gm.app.plugins.world.MoonRoutes
+import at.orchaldir.gm.app.plugins.world.MountainRoutes
 import at.orchaldir.gm.app.plugins.world.RiverRoutes
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
@@ -24,6 +25,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.utils.Element
@@ -121,6 +123,7 @@ fun <ID : Id<ID>> href(
     is LanguageId -> call.application.href(LanguageRoutes.Details(id))
     is MaterialId -> call.application.href(MaterialRoutes.Details(id))
     is MoonId -> call.application.href(MoonRoutes.Details(id))
+    is MountainId -> call.application.href(MountainRoutes.Details(id))
     is NameListId -> call.application.href(NameListRoutes.Details(id))
     is PersonalityTraitId -> call.application.href(PersonalityTraitRoutes.Details(id))
     is RaceId -> call.application.href(RaceRoutes.Details(id))
