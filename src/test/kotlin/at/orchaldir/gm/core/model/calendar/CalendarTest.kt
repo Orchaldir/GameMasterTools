@@ -59,7 +59,15 @@ class CalendarTest {
 
     @Test
     fun `Get start of month`() {
+        assertEquals(Day(2), CALENDAR0.getStartOfMonth(Day(2)))
+        assertEquals(Day(2), CALENDAR0.getStartOfMonth(Day(3)))
         assertEquals(Day(2), CALENDAR0.getStartOfMonth(Day(4)))
+    }
+
+    @Test
+    fun `Get end of month`() {
+        assertEquals(Day(1), CALENDAR0.getEndOfMonth(Day(0)))
+        assertEquals(Day(1), CALENDAR0.getEndOfMonth(Day(1)))
     }
 
     @Nested

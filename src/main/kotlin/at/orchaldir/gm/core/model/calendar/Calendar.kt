@@ -62,6 +62,8 @@ data class Calendar(
         return startOfMonth - month.days
     }
 
+    fun getEndOfMonth(day: Day) = getStartOfNextMonth(day) - 1
+
     fun getWeekDay(date: Day) = when (days) {
         DayOfTheMonth -> null
         is Weekdays -> {
