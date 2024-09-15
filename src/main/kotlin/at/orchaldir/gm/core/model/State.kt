@@ -35,9 +35,7 @@ import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
-import at.orchaldir.gm.core.model.world.terrain.RIVER
-import at.orchaldir.gm.core.model.world.terrain.River
-import at.orchaldir.gm.core.model.world.terrain.RiverId
+import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.saveData
 import at.orchaldir.gm.core.saveStorage
 import at.orchaldir.gm.utils.Element
@@ -92,6 +90,7 @@ data class State(
     fun getLanguageStorage() = getStorage<LanguageId, Language>(LANGUAGE)
     fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL)
     fun getMoonStorage() = getStorage<MoonId, Moon>(MOON)
+    fun getMountainStorage() = getStorage<MountainId, Mountain>(MOUNTAIN)
     fun getNameListStorage() = getStorage<NameListId, NameList>(NAME_LIST)
     fun getPersonalityTraitStorage() = getStorage<PersonalityTraitId, PersonalityTrait>(PERSONALITY_TRAIT)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE)
@@ -157,6 +156,7 @@ data class State(
         saveStorage(path, getLanguageStorage())
         saveStorage(path, getMaterialStorage())
         saveStorage(path, getMoonStorage())
+        saveStorage(path, getMountainStorage())
         saveStorage(path, getNameListStorage())
         saveStorage(path, getPersonalityTraitStorage())
         saveStorage(path, getRaceStorage())
@@ -176,6 +176,7 @@ fun createStorage(type: String) = when (type) {
     LANGUAGE -> Storage(LanguageId(0))
     MATERIAL -> Storage(MaterialId(0))
     MOON -> Storage(MoonId(0))
+    MOUNTAIN -> Storage(MountainId(0))
     NAME_LIST -> Storage(NameListId(0))
     PERSONALITY_TRAIT -> Storage(PersonalityTraitId(0))
     RACE -> Storage(RaceId(0))
@@ -194,6 +195,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     LANGUAGE -> loadStorage<LanguageId, Language>(path, LanguageId(0))
     MATERIAL -> loadStorage<MaterialId, Material>(path, MaterialId(0))
     MOON -> loadStorage<MoonId, Moon>(path, MoonId(0))
+    MOUNTAIN -> loadStorage<MountainId, Mountain>(path, MountainId(0))
     NAME_LIST -> loadStorage<NameListId, NameList>(path, NameListId(0))
     PERSONALITY_TRAIT -> loadStorage<PersonalityTraitId, PersonalityTrait>(
         path,
