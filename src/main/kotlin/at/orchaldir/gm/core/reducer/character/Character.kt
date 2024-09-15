@@ -4,10 +4,7 @@ import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Born
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.character.Murder
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getInventedLanguages
 import at.orchaldir.gm.core.selector.getParents
@@ -83,14 +80,18 @@ private fun checkCauseOfDeath(
     state: State,
     character: Character,
 ) {
-    character.causeOfDeath.getDeathDate()?.let {
-        require(it <= state.time.currentDate) { "Character died in the future!" }
-        require(it >= character.birthDate) { "Character died before its origin!" }
-    }
+    if (character.vitalStatus is Dead) {
+        val dead: Dead = character.vitalStatus
 
-    if (character.causeOfDeath is Murder) {
-        require(
-            state.getCharacterStorage().contains(character.causeOfDeath.killer)
-        ) { "Cannot use an unknown killer ${character.causeOfDeath.killer}!" }
+        dead.deathDay.let {
+            require(it <= state.time.currentDate) { "Character died in the future!" }
+            require(it >= character.birthDate) { "Character died before its origin!" }
+        }
+
+        if (dead.cause is Murder) {
+            require(
+                state.getCharacterStorage().contains(dead.cause.killer)
+            ) { "Cannot use an unknown killer ${dead.cause.killer}!" }
+        }
     }
 }

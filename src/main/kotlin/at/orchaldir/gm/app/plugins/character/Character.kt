@@ -216,18 +216,20 @@ private fun BODY.showData(
         UndefinedAppearance -> doNothing()
     }
     field(call, state, "Birthdate", character.birthDate)
-    character.causeOfDeath.getDeathDate()?.let { field(call, state, "Date of Death", it) }
-    when (character.causeOfDeath) {
-        Alive -> doNothing()
-        is Accident -> showCauseOfDeath("Accident")
-        is Murder -> {
-            field("Cause of Death") {
-                +"Killed by "
-                link(call, state, character.causeOfDeath.killer)
-            }
-        }
+    if (character.vitalStatus is Dead) {
+        field(call, state, "Date of Death", character.vitalStatus.deathDay)
 
-        is OldAge -> showCauseOfDeath("Old Age")
+        when (character.vitalStatus.cause) {
+            is Accident -> showCauseOfDeath("Accident")
+            is Murder -> {
+                field("Cause of Death") {
+                    +"Killed by "
+                    link(call, state, character.vitalStatus.cause.killer)
+                }
+            }
+
+            is OldAge -> showCauseOfDeath("Old Age")
+        }
     }
     showAge(state, character, race)
 
@@ -420,19 +422,24 @@ private fun HTML.showCharacterEditor(
                 else -> doNothing()
             }
             selectDay(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
-            selectValue("Cause of death", DEATH, CauseOfDeathType.entries, true) { type ->
+            selectValue("Vital Status", VITAL, VitalStatusType.entries, true) { type ->
                 label = type.name
                 value = type.name
-                selected = type == character.causeOfDeath.getType()
+                selected = type == character.vitalStatus.getType()
             }
-            character.causeOfDeath.getDeathDate()?.let {
-                selectDay(state, "Date of Death", it, combine(DEATH, DATE))
-            }
-            if (character.causeOfDeath is Murder) {
-                selectValue("Killer", KILLER, state.getOthers(character.id)) { c ->
-                    label = state.getName(c)
-                    value = c.id.value.toString()
-                    selected = character.causeOfDeath.killer == c.id
+            if (character.vitalStatus is Dead) {
+                selectDay(state, "Date of Death", character.vitalStatus.deathDay, combine(DEATH, DATE))
+                selectValue("Cause of death", DEATH, CauseOfDeathType.entries, true) { type ->
+                    label = type.name
+                    value = type.name
+                    selected = type == character.vitalStatus.cause.getType()
+                }
+                if (character.vitalStatus.cause is Murder) {
+                    selectValue("Killer", KILLER, state.getOthers(character.id)) { c ->
+                        label = state.getName(c)
+                        value = c.id.value.toString()
+                        selected = character.vitalStatus.cause.killer == c.id
+                    }
                 }
             }
             showAge(state, character, race)
