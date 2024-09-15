@@ -34,17 +34,31 @@ private val RACE1 = RaceId(1)
 
 class CharacterTest {
 
-    @Test
-    fun `Create another character`() {
-        val character0 = Character(ID0)
-        val character1 = Character(ID1)
-        val state = State(Storage(listOf(character0)))
+    @Nested
+    inner class CreateTest {
 
-        val characters = REDUCER.invoke(state, CreateCharacter).first.getCharacterStorage()
+        @Test
+        fun `Create another character`() {
+            val character0 = Character(ID0)
+            val character1 = Character(ID1)
+            val state = State(Storage(listOf(character0)))
 
-        assertEquals(2, characters.getSize())
-        assertEquals(character0, characters.getOrThrow(ID0))
-        assertEquals(character1, characters.getOrThrow(ID1))
+            val characters = REDUCER.invoke(state, CreateCharacter).first.getCharacterStorage()
+
+            assertEquals(2, characters.getSize())
+            assertEquals(character0, characters.getOrThrow(ID0))
+            assertEquals(character1, characters.getOrThrow(ID1))
+        }
+
+        @Test
+        fun `Default birthday is today`() {
+            val today = Day(42)
+            val state = State(time = Time(currentDate = today))
+
+            val characters = REDUCER.invoke(state, CreateCharacter).first.getCharacterStorage()
+
+            assertEquals(today, characters.getOrThrow(ID0).birthDate)
+        }
     }
 
     @Nested

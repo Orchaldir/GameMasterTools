@@ -16,7 +16,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 val CREATE_CHARACTER: Reducer<CreateCharacter, State> = { state, _ ->
-    val character = Character(state.getCharacterStorage().nextId)
+    val character = Character(state.getCharacterStorage().nextId, birthDate = state.time.currentDate)
     logger.info { "new character $character" }
     val characters = state.getCharacterStorage().add(character)
     logger.info { "new characters $characters" }
