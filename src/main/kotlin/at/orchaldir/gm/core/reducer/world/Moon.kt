@@ -1,10 +1,10 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.core.action.CreateMoon
 import at.orchaldir.gm.core.action.DeleteMoon
 import at.orchaldir.gm.core.action.UpdateMoon
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.moon.Moon
+import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

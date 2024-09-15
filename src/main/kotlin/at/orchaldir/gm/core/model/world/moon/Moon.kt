@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.moon
+package at.orchaldir.gm.core.model.world.moon
 
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.util.Color

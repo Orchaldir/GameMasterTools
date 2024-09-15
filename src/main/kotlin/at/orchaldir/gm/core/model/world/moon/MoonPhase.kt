@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.moon
+package at.orchaldir.gm.core.model.world.moon
 
 enum class MoonPhase {
     NewMoon,

@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.plugins.character.Characters
 import at.orchaldir.gm.app.plugins.race.RaceRoutes
 import at.orchaldir.gm.app.plugins.race.RaceRoutes.AppearanceRoutes
+import at.orchaldir.gm.app.plugins.world.Moons
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*

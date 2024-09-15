@@ -3,6 +3,9 @@ package at.orchaldir.gm.core.reducer
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.character.*
+import at.orchaldir.gm.core.reducer.world.CREATE_MOON
+import at.orchaldir.gm.core.reducer.world.DELETE_MOON
+import at.orchaldir.gm.core.reducer.world.UPDATE_MOON
 import at.orchaldir.gm.utils.redux.Reducer
 
 val REDUCER: Reducer<Action, State> = { state, action ->

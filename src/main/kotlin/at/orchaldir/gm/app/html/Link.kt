@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.plugins.*
 import at.orchaldir.gm.app.plugins.character.Characters
 import at.orchaldir.gm.app.plugins.race.RaceRoutes
+import at.orchaldir.gm.app.plugins.world.Moons
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
@@ -16,7 +17,7 @@ import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.moon.MoonId
+import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
