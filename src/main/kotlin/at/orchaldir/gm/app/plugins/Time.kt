@@ -275,7 +275,12 @@ private fun HtmlBlockTag.showEvents(
     calendar: Calendar,
 ) {
     showList("Events", events) { event ->
-        link(call, calendar, event.getEventDay())
+        val day = event.getEventDay()
+        if (day == state.time.currentDate) {
+            link(call, day, "Today")
+        } else {
+            link(call, calendar, day)
+        }
         +": "
         when (event) {
             is CharacterDeathEvent -> {

@@ -61,11 +61,19 @@ fun HtmlBlockTag.link(
     val calendarDate = calendar.resolve(date)
     when (date) {
         is Day -> {
-            link(call.application.href(TimeRoutes.ShowDate(date)), calendar.display(calendarDate))
+            link(call, date, calendar.display(calendarDate))
         }
 
         is Year -> +calendar.display(calendarDate)
     }
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    day: Day,
+    text: String,
+) {
+    link(call.application.href(TimeRoutes.ShowDate(day)), text)
 }
 
 // element
