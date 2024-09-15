@@ -138,7 +138,7 @@ fun Application.configureCharacterRouting() {
 
 private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
     val characters = STORE.getState().getCharacterStorage().getAll()
-        .map { Pair(it.id, state.getName(it)) }
+        .map { Pair(it, state.getName(it)) }
         .sortedBy { it.second }
     val count = characters.size
     val createLink = call.application.href(Characters.New())
@@ -146,7 +146,13 @@ private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
     simpleHtml("Characters") {
         field("Count", count.toString())
         showList(characters) { character ->
-            link(call, character.first, character.second)
+            if (character.first.vitalStatus is Dead) {
+                del {
+                    link(call, character.first.id, character.second)
+                }
+            } else {
+                link(call, character.first.id, character.second)
+            }
         }
         if (state.canCreateCharacter()) {
             action(createLink, "Add")
