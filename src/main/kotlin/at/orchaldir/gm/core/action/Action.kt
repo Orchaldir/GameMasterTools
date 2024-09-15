@@ -96,11 +96,6 @@ data object CreateMaterial : Action()
 data class DeleteMaterial(val id: MaterialId) : Action()
 data class UpdateMaterial(val material: Material) : Action()
 
-// moon
-data object CreateMoon : Action()
-data class DeleteMoon(val id: MoonId) : Action()
-data class UpdateMoon(val moon: Moon) : Action()
-
 // name list
 data object CreateNameList : Action()
 data class DeleteNameList(val id: NameListId) : Action()
@@ -123,3 +118,12 @@ data class UpdateRaceAppearance(val race: RaceAppearance) : Action()
 
 // time
 data class UpdateTime(val time: Time) : Action()
+
+//-- world --
+
+sealed class WorldAction : Action()
+
+// moon
+data object CreateMoon : WorldAction()
+data class DeleteMoon(val id: MoonId) : WorldAction()
+data class UpdateMoon(val moon: Moon) : WorldAction()
