@@ -7,12 +7,15 @@ import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
+import at.orchaldir.gm.core.model.event.CharacterDeathEvent
+import at.orchaldir.gm.core.model.event.CharacterOriginEvent
 import at.orchaldir.gm.core.model.moon.Moon
 import at.orchaldir.gm.core.model.moon.MoonPhase
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.DisplayDay
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getForHolidays
+import at.orchaldir.gm.core.selector.getSortedEvents
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.ceilDiv
 import io.ktor.http.*
@@ -32,8 +35,11 @@ private val logger = KotlinLogging.logger {}
 @Resource("/time")
 class TimeRoutes {
 
-    @Resource("show")
+    @Resource("date")
     class ShowDate(val day: Day, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+
+    @Resource("events")
+    class ShowEvents(val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
 
     @Resource("edit")
     class Edit(val parent: TimeRoutes = TimeRoutes())
@@ -57,6 +63,14 @@ fun Application.configureTimeRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showMonth(call, calendarId, data.day)
+            }
+        }
+        get<TimeRoutes.ShowEvents> { data ->
+            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
+            logger.info { "Show events with calendar ${calendarId.value}" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showEvents(call, calendarId)
             }
         }
         get<TimeRoutes.Edit> {
@@ -230,6 +244,36 @@ private fun HTML.editTimeData(
                     value = "Update"
                     formAction = updateLink
                     formMethod = InputFormMethod.post
+                }
+            }
+        }
+        back(backLink)
+    }
+}
+
+private fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
+    val state = STORE.getState()
+    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+    val events = state.getSortedEvents()
+    val backLink = call.application.href(TimeRoutes())
+
+    simpleHtml("Events") {
+        field("Calendar") {
+            link(call, calendar)
+        }
+        field(call, state, "Current Date", state.time.currentDate)
+        showList("Events", events) { event ->
+            link(call, calendar, event.getEventDay())
+            +": "
+            when (event) {
+                is CharacterDeathEvent -> {
+                    link(call, state, event.characterId)
+                    +" died."
+                }
+
+                is CharacterOriginEvent -> {
+                    link(call, state, event.characterId)
+                    +" was born."
                 }
             }
         }

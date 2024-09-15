@@ -31,6 +31,7 @@ fun Application.configureRouting() {
             logger.info { "Root" }
             val state = STORE.getState()
             val timeLink = call.application.href(TimeRoutes())
+            val eventsLink = call.application.href(TimeRoutes.ShowEvents())
 
             call.respondHtml(HttpStatusCode.OK) {
                 simpleHtml(TITLE) {
@@ -52,6 +53,9 @@ fun Application.configureRouting() {
                     ul {
                         li {
                             action(timeLink, "Time")
+                        }
+                        li {
+                            action(eventsLink, "Events")
                         }
                     }
                 }

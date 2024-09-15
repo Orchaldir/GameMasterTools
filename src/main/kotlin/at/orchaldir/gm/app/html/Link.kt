@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.plugins.character.Characters
 import at.orchaldir.gm.app.plugins.race.RaceRoutes
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
@@ -18,6 +19,9 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.moon.MoonId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -46,6 +50,23 @@ fun HtmlBlockTag.link(
     href: String,
     content: A.() -> Unit,
 ) = a(href) { content() }
+
+// date
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    calendar: Calendar,
+    date: Date,
+) {
+    val calendarDate = calendar.resolve(date)
+    when (date) {
+        is Day -> {
+            link(call.application.href(TimeRoutes.ShowDate(date)), calendar.display(calendarDate))
+        }
+
+        is Year -> +calendar.display(calendarDate)
+    }
+}
 
 // element
 

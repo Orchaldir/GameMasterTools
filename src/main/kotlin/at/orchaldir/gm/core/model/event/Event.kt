@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class Event {
 
-    abstract fun getDay(): Day
+    abstract fun getEventDay(): Day
 
 }
 
@@ -22,7 +22,7 @@ data class CharacterOriginEvent(
     val origin: CharacterOrigin,
 ) : Event() {
 
-    override fun getDay() = day
+    override fun getEventDay() = day
 
 }
 
@@ -34,6 +34,6 @@ data class CharacterDeathEvent(
     val causeOfDeath: CauseOfDeath,
 ) : Event() {
 
-    override fun getDay() = day
+    override fun getEventDay() = day
 
 }

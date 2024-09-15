@@ -16,16 +16,8 @@ fun HtmlBlockTag.field(call: ApplicationCall, state: State, label: String, date:
 }
 
 fun HtmlBlockTag.field(call: ApplicationCall, label: String, calendar: Calendar, date: Date) {
-    val calendarDate = calendar.resolve(date)
-
     field(label) {
-        when (date) {
-            is Day -> {
-                link(call.application.href(TimeRoutes.ShowDate(date)), calendar.display(calendarDate))
-            }
-
-            is Year -> +calendar.display(calendarDate)
-        }
+        link(call, calendar, date)
     }
 }
 
