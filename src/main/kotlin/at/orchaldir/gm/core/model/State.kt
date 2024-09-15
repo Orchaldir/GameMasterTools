@@ -35,6 +35,9 @@ import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
+import at.orchaldir.gm.core.model.world.terrain.RIVER
+import at.orchaldir.gm.core.model.world.terrain.River
+import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.saveData
 import at.orchaldir.gm.core.saveStorage
 import at.orchaldir.gm.utils.Element
@@ -56,6 +59,7 @@ val ELEMENTS =
         PERSONALITY_TRAIT,
         RACE,
         RACE_APPEARANCE,
+        RIVER,
     )
 private const val TIME = "Time"
 
@@ -92,6 +96,7 @@ data class State(
     fun getPersonalityTraitStorage() = getStorage<PersonalityTraitId, PersonalityTrait>(PERSONALITY_TRAIT)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE)
+    fun getRiverStorage() = getStorage<RiverId, River>(RIVER)
 
     private fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(type: String): Storage<ID, ELEMENT> {
         val storage = storageMap[type]
@@ -156,6 +161,7 @@ data class State(
         saveStorage(path, getPersonalityTraitStorage())
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
+        saveStorage(path, getRiverStorage())
         saveData(path, TIME, time)
     }
 }
@@ -174,6 +180,7 @@ fun createStorage(type: String) = when (type) {
     PERSONALITY_TRAIT -> Storage(PersonalityTraitId(0))
     RACE -> Storage(RaceId(0))
     RACE_APPEARANCE -> Storage(RaceAppearanceId(0))
+    RIVER -> Storage(RiverId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
 
@@ -195,5 +202,6 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
 
     RACE -> loadStorage<RaceId, Race>(path, RaceId(0))
     RACE_APPEARANCE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))
+    RIVER -> loadStorage<RiverId, River>(path, RiverId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
