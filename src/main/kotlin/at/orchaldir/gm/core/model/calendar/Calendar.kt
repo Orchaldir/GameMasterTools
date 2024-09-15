@@ -48,17 +48,10 @@ data class Calendar(
 
     fun getStartOfNextMonth(day: Day): Day {
         val displayDay = resolve(day)
-        val nextMonth = if (displayDay.monthIndex == getLastMonthIndex()) {
-            if (displayDay.eraIndex == 0 && displayDay.yearIndex == 0) {
-                DisplayDay(1, 0, 0, 0)
-            } else {
-                displayDay.copy(dayIndex = 0, monthIndex = 0, yearIndex = displayDay.yearIndex + 1)
-            }
-        } else {
-            displayDay.copy(dayIndex = 0, monthIndex = displayDay.monthIndex + 1)
-        }
+        val startOfMonth = getStartOfMonth(displayDay)
+        val month = getMonth(displayDay)
 
-        return resolve(nextMonth)
+        return startOfMonth + month.days
     }
 
     fun getStartOfPreviousMonth(day: Day): Day {
