@@ -56,11 +56,13 @@ val ELEMENTS =
         LANGUAGE,
         MATERIAL,
         MOON,
+        MOUNTAIN,
         NAME_LIST,
         PERSONALITY_TRAIT,
         RACE,
         RACE_APPEARANCE,
         RIVER,
+        TOWN,
     )
 private const val TIME = "Time"
 
