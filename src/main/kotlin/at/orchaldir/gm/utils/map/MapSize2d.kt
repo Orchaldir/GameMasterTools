@@ -14,6 +14,8 @@ data class MapSize2d(val width: Int, val height: Int) {
         fun square(size: Int) = MapSize2d(size, size)
     }
 
+    fun tiles() = width * height
+
     fun isInside(x: Int, y: Int) = x in 0..<width && y in 0..<height
 
     fun toIndex(x: Int, y: Int): Int? {

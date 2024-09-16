@@ -12,6 +12,11 @@ class MapSize2dTest {
 
     private val size = MapSize2d(3, 2)
 
+    @Test
+    fun `Get number of tiles in map`() {
+        assertEquals(6, size.tiles())
+    }
+
     @ParameterizedTest(name = "x={0} y={1}")
     @MethodSource("inside")
     fun `Test if inside for points inside`(x: Int, y: Int, index: Int) {
