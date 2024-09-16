@@ -30,6 +30,8 @@ import at.orchaldir.gm.core.model.world.terrain.Mountain
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
+import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownId
 
 sealed class Action
 
@@ -141,3 +143,8 @@ data class UpdateMountain(val mountain: Mountain) : WorldAction()
 data object CreateRiver : WorldAction()
 data class DeleteRiver(val id: RiverId) : WorldAction()
 data class UpdateRiver(val river: River) : WorldAction()
+
+// town
+data object CreateTown : WorldAction()
+data class DeleteTown(val id: TownId) : WorldAction()
+data class UpdateTown(val town: Town) : WorldAction()
