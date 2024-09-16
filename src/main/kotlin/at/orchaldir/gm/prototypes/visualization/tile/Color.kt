@@ -5,8 +5,8 @@ import at.orchaldir.gm.core.model.util.Color.Red
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
+import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import java.io.File
 
 fun main() {

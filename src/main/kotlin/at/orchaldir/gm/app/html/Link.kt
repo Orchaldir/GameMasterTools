@@ -20,12 +20,12 @@ import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownId

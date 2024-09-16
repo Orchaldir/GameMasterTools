@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.LENGTH
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
-import at.orchaldir.gm.core.model.util.Color
 import io.ktor.http.*
 import io.ktor.server.util.*
 

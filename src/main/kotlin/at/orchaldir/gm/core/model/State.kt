@@ -25,9 +25,6 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MATERIAL
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.world.moon.MOON
-import at.orchaldir.gm.core.model.world.moon.Moon
-import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.race.RACE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
@@ -35,6 +32,9 @@ import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
+import at.orchaldir.gm.core.model.world.moon.MOON
+import at.orchaldir.gm.core.model.world.moon.Moon
+import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.TOWN
 import at.orchaldir.gm.core.model.world.town.Town
