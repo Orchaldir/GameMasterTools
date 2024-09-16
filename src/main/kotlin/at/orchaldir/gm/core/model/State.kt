@@ -25,9 +25,6 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MATERIAL
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.moon.MOON
-import at.orchaldir.gm.core.model.moon.Moon
-import at.orchaldir.gm.core.model.moon.MoonId
 import at.orchaldir.gm.core.model.race.RACE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
@@ -35,6 +32,13 @@ import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
+import at.orchaldir.gm.core.model.world.moon.MOON
+import at.orchaldir.gm.core.model.world.moon.Moon
+import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.terrain.*
+import at.orchaldir.gm.core.model.world.town.TOWN
+import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.saveData
 import at.orchaldir.gm.core.saveStorage
 import at.orchaldir.gm.utils.Element
@@ -52,10 +56,13 @@ val ELEMENTS =
         LANGUAGE,
         MATERIAL,
         MOON,
+        MOUNTAIN,
         NAME_LIST,
         PERSONALITY_TRAIT,
         RACE,
         RACE_APPEARANCE,
+        RIVER,
+        TOWN,
     )
 private const val TIME = "Time"
 
@@ -88,10 +95,13 @@ data class State(
     fun getLanguageStorage() = getStorage<LanguageId, Language>(LANGUAGE)
     fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL)
     fun getMoonStorage() = getStorage<MoonId, Moon>(MOON)
+    fun getMountainStorage() = getStorage<MountainId, Mountain>(MOUNTAIN)
     fun getNameListStorage() = getStorage<NameListId, NameList>(NAME_LIST)
     fun getPersonalityTraitStorage() = getStorage<PersonalityTraitId, PersonalityTrait>(PERSONALITY_TRAIT)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE)
+    fun getRiverStorage() = getStorage<RiverId, River>(RIVER)
+    fun getTownStorage() = getStorage<TownId, Town>(TOWN)
 
     private fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(type: String): Storage<ID, ELEMENT> {
         val storage = storageMap[type]
@@ -152,10 +162,13 @@ data class State(
         saveStorage(path, getLanguageStorage())
         saveStorage(path, getMaterialStorage())
         saveStorage(path, getMoonStorage())
+        saveStorage(path, getMountainStorage())
         saveStorage(path, getNameListStorage())
         saveStorage(path, getPersonalityTraitStorage())
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
+        saveStorage(path, getRiverStorage())
+        saveStorage(path, getTownStorage())
         saveData(path, TIME, time)
     }
 }
@@ -170,10 +183,13 @@ fun createStorage(type: String) = when (type) {
     LANGUAGE -> Storage(LanguageId(0))
     MATERIAL -> Storage(MaterialId(0))
     MOON -> Storage(MoonId(0))
+    MOUNTAIN -> Storage(MountainId(0))
     NAME_LIST -> Storage(NameListId(0))
     PERSONALITY_TRAIT -> Storage(PersonalityTraitId(0))
     RACE -> Storage(RaceId(0))
     RACE_APPEARANCE -> Storage(RaceAppearanceId(0))
+    RIVER -> Storage(RiverId(0))
+    TOWN -> Storage(TownId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
 
@@ -187,6 +203,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     LANGUAGE -> loadStorage<LanguageId, Language>(path, LanguageId(0))
     MATERIAL -> loadStorage<MaterialId, Material>(path, MaterialId(0))
     MOON -> loadStorage<MoonId, Moon>(path, MoonId(0))
+    MOUNTAIN -> loadStorage<MountainId, Mountain>(path, MountainId(0))
     NAME_LIST -> loadStorage<NameListId, NameList>(path, NameListId(0))
     PERSONALITY_TRAIT -> loadStorage<PersonalityTraitId, PersonalityTrait>(
         path,
@@ -195,5 +212,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
 
     RACE -> loadStorage<RaceId, Race>(path, RaceId(0))
     RACE_APPEARANCE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))
+    RIVER -> loadStorage<RiverId, River>(path, RiverId(0))
+    TOWN -> loadStorage<TownId, Town>(path, TownId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }

@@ -28,36 +28,36 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/calendars")
-class Calendars {
+class CalendarRoutes {
     @Resource("details")
-    class Details(val id: CalendarId, val parent: Calendars = Calendars())
+    class Details(val id: CalendarId, val parent: CalendarRoutes = CalendarRoutes())
 
     @Resource("new")
-    class New(val parent: Calendars = Calendars())
+    class New(val parent: CalendarRoutes = CalendarRoutes())
 
     @Resource("delete")
-    class Delete(val id: CalendarId, val parent: Calendars = Calendars())
+    class Delete(val id: CalendarId, val parent: CalendarRoutes = CalendarRoutes())
 
     @Resource("edit")
-    class Edit(val id: CalendarId, val parent: Calendars = Calendars())
+    class Edit(val id: CalendarId, val parent: CalendarRoutes = CalendarRoutes())
 
     @Resource("preview")
-    class Preview(val id: CalendarId, val parent: Calendars = Calendars())
+    class Preview(val id: CalendarId, val parent: CalendarRoutes = CalendarRoutes())
 
     @Resource("update")
-    class Update(val id: CalendarId, val parent: Calendars = Calendars())
+    class Update(val id: CalendarId, val parent: CalendarRoutes = CalendarRoutes())
 }
 
 fun Application.configureCalendarRouting() {
     routing {
-        get<Calendars> {
+        get<CalendarRoutes> {
             logger.info { "Get all calendars" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllCalendars(call)
             }
         }
-        get<Calendars.Details> { details ->
+        get<CalendarRoutes.Details> { details ->
             logger.info { "Get details of calendar ${details.id.value}" }
 
             val state = STORE.getState()
@@ -67,25 +67,31 @@ fun Application.configureCalendarRouting() {
                 showCalendarDetails(call, state, calendar)
             }
         }
-        get<Calendars.New> {
+        get<CalendarRoutes.New> {
             logger.info { "Add new calendar" }
 
             STORE.dispatch(CreateCalendar)
 
-            call.respondRedirect(call.application.href(Calendars.Edit(STORE.getState().getCalendarStorage().lastId)))
+            call.respondRedirect(
+                call.application.href(
+                    CalendarRoutes.Edit(
+                        STORE.getState().getCalendarStorage().lastId
+                    )
+                )
+            )
 
             STORE.getState().save()
         }
-        get<Calendars.Delete> { delete ->
+        get<CalendarRoutes.Delete> { delete ->
             logger.info { "Delete calendar ${delete.id.value}" }
 
             STORE.dispatch(DeleteCalendar(delete.id))
 
-            call.respondRedirect(call.application.href(Calendars()))
+            call.respondRedirect(call.application.href(CalendarRoutes()))
 
             STORE.getState().save()
         }
-        get<Calendars.Edit> { edit ->
+        get<CalendarRoutes.Edit> { edit ->
             logger.info { "Get editor for calendar ${edit.id.value}" }
 
             val state = STORE.getState()
@@ -95,7 +101,7 @@ fun Application.configureCalendarRouting() {
                 showCalendarEditor(call, state, calendar)
             }
         }
-        post<Calendars.Preview> { preview ->
+        post<CalendarRoutes.Preview> { preview ->
             logger.info { "Preview changes to calendar ${preview.id.value}" }
 
             val state = STORE.getState()
@@ -105,7 +111,7 @@ fun Application.configureCalendarRouting() {
                 showCalendarEditor(call, state, calendar)
             }
         }
-        post<Calendars.Update> { update ->
+        post<CalendarRoutes.Update> { update ->
             logger.info { "Update calendar ${update.id.value}" }
 
             val state = STORE.getState()
@@ -123,7 +129,7 @@ fun Application.configureCalendarRouting() {
 private fun HTML.showAllCalendars(call: ApplicationCall) {
     val calendars = STORE.getState().getCalendarStorage().getAll().sortedBy { it.name }
     val count = calendars.size
-    val createLink = call.application.href(Calendars.New())
+    val createLink = call.application.href(CalendarRoutes.New())
 
     simpleHtml("Calendars") {
         field("Count", count.toString())
@@ -140,9 +146,9 @@ private fun HTML.showCalendarDetails(
     state: State,
     calendar: Calendar,
 ) {
-    val backLink = call.application.href(Calendars())
-    val deleteLink = call.application.href(Calendars.Delete(calendar.id))
-    val editLink = call.application.href(Calendars.Edit(calendar.id))
+    val backLink = call.application.href(CalendarRoutes())
+    val deleteLink = call.application.href(CalendarRoutes.Delete(calendar.id))
+    val editLink = call.application.href(CalendarRoutes.Edit(calendar.id))
     val cultures = state.getCultures(calendar.id)
     val holidays = state.getHolidays(calendar.id)
 
@@ -233,8 +239,8 @@ private fun HTML.showCalendarEditor(
 ) {
     val holidays = state.getHolidays(calendar.id)
     val backLink = href(call, calendar.id)
-    val previewLink = call.application.href(Calendars.Preview(calendar.id))
-    val updateLink = call.application.href(Calendars.Update(calendar.id))
+    val previewLink = call.application.href(CalendarRoutes.Preview(calendar.id))
+    val updateLink = call.application.href(CalendarRoutes.Update(calendar.id))
 
     simpleHtml("Edit Calendar: ${calendar.name}") {
         field("Id", calendar.id.value.toString())

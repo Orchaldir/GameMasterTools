@@ -28,36 +28,36 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/languages")
-class Languages {
+class LanguageRoutes {
     @Resource("details")
-    class Details(val id: LanguageId, val parent: Languages = Languages())
+    class Details(val id: LanguageId, val parent: LanguageRoutes = LanguageRoutes())
 
     @Resource("new")
-    class New(val parent: Languages = Languages())
+    class New(val parent: LanguageRoutes = LanguageRoutes())
 
     @Resource("delete")
-    class Delete(val id: LanguageId, val parent: Languages = Languages())
+    class Delete(val id: LanguageId, val parent: LanguageRoutes = LanguageRoutes())
 
     @Resource("edit")
-    class Edit(val id: LanguageId, val parent: Languages = Languages())
+    class Edit(val id: LanguageId, val parent: LanguageRoutes = LanguageRoutes())
 
     @Resource("preview")
-    class Preview(val id: LanguageId, val parent: Languages = Languages())
+    class Preview(val id: LanguageId, val parent: LanguageRoutes = LanguageRoutes())
 
     @Resource("update")
-    class Update(val id: LanguageId, val parent: Languages = Languages())
+    class Update(val id: LanguageId, val parent: LanguageRoutes = LanguageRoutes())
 }
 
 fun Application.configureLanguageRouting() {
     routing {
-        get<Languages> {
+        get<LanguageRoutes> {
             logger.info { "Get all languages" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllLanguages(call)
             }
         }
-        get<Languages.Details> { details ->
+        get<LanguageRoutes.Details> { details ->
             logger.info { "Get details of language ${details.id.value}" }
 
             val state = STORE.getState()
@@ -67,25 +67,31 @@ fun Application.configureLanguageRouting() {
                 showLanguageDetails(call, state, language)
             }
         }
-        get<Languages.New> {
+        get<LanguageRoutes.New> {
             logger.info { "Add new language" }
 
             STORE.dispatch(CreateLanguage)
 
-            call.respondRedirect(call.application.href(Languages.Edit(STORE.getState().getLanguageStorage().lastId)))
+            call.respondRedirect(
+                call.application.href(
+                    LanguageRoutes.Edit(
+                        STORE.getState().getLanguageStorage().lastId
+                    )
+                )
+            )
 
             STORE.getState().save()
         }
-        get<Languages.Delete> { delete ->
+        get<LanguageRoutes.Delete> { delete ->
             logger.info { "Delete language ${delete.id.value}" }
 
             STORE.dispatch(DeleteLanguage(delete.id))
 
-            call.respondRedirect(call.application.href(Languages()))
+            call.respondRedirect(call.application.href(LanguageRoutes()))
 
             STORE.getState().save()
         }
-        get<Languages.Edit> { edit ->
+        get<LanguageRoutes.Edit> { edit ->
             logger.info { "Get editor for language ${edit.id.value}" }
 
             val state = STORE.getState()
@@ -95,7 +101,7 @@ fun Application.configureLanguageRouting() {
                 showLanguageEditor(call, state, language)
             }
         }
-        post<Languages.Preview> { preview ->
+        post<LanguageRoutes.Preview> { preview ->
             logger.info { "Preview changes to language ${preview.id.value}" }
 
             val language = parseLanguage(preview.id, call.receiveParameters())
@@ -106,7 +112,7 @@ fun Application.configureLanguageRouting() {
                 showLanguageEditor(call, state, language)
             }
         }
-        post<Languages.Update> { update ->
+        post<LanguageRoutes.Update> { update ->
             logger.info { "Update language ${update.id.value}" }
 
             val language = parseLanguage(update.id, call.receiveParameters())
@@ -123,7 +129,7 @@ fun Application.configureLanguageRouting() {
 private fun HTML.showAllLanguages(call: ApplicationCall) {
     val languages = STORE.getState().getLanguageStorage().getAll().sortedBy { it.name }
     val count = languages.size
-    val createLink = call.application.href(Languages.New())
+    val createLink = call.application.href(LanguageRoutes.New())
 
     simpleHtml("Languages") {
         field("Count", count.toString())
@@ -140,9 +146,9 @@ private fun HTML.showLanguageDetails(
     state: State,
     language: Language,
 ) {
-    val backLink = call.application.href(Languages())
-    val deleteLink = call.application.href(Languages.Delete(language.id))
-    val editLink = call.application.href(Languages.Edit(language.id))
+    val backLink = call.application.href(LanguageRoutes())
+    val deleteLink = call.application.href(LanguageRoutes.Delete(language.id))
+    val editLink = call.application.href(LanguageRoutes.Edit(language.id))
     val children = state.getChildren(language.id)
     val characters = state.getCharacters(language.id)
     val cultures = state.getCultures(language.id)
@@ -201,8 +207,8 @@ private fun HTML.showLanguageEditor(
     val possibleInventors = state.getCharacterStorage().getAll()
     val possibleParents = state.getPossibleParents(language.id)
     val backLink = href(call, language.id)
-    val previewLink = call.application.href(Languages.Preview(language.id))
-    val updateLink = call.application.href(Languages.Update(language.id))
+    val previewLink = call.application.href(LanguageRoutes.Preview(language.id))
+    val updateLink = call.application.href(LanguageRoutes.Update(language.id))
 
     simpleHtml("Edit Language: ${language.name}") {
         field("Id", language.id.value.toString())

@@ -38,7 +38,7 @@ private val logger = KotlinLogging.logger {}
 
 fun Application.configureAppearanceRouting() {
     routing {
-        get<Characters.Appearance.Edit> { edit ->
+        get<CharacterRoutes.Appearance.Edit> { edit ->
             logger.info { "Get editor for character ${edit.id.value}'s appearance" }
 
             val state = STORE.getState()
@@ -48,7 +48,7 @@ fun Application.configureAppearanceRouting() {
                 showAppearanceEditor(call, state, character)
             }
         }
-        post<Characters.Appearance.Preview> { preview ->
+        post<CharacterRoutes.Appearance.Preview> { preview ->
             logger.info { "Get preview for character ${preview.id.value}'s appearance" }
 
             val state = STORE.getState()
@@ -62,7 +62,7 @@ fun Application.configureAppearanceRouting() {
                 showAppearanceEditor(call, state, updatedCharacter)
             }
         }
-        post<Characters.Appearance.Update> { update ->
+        post<CharacterRoutes.Appearance.Update> { update ->
             logger.info { "Update character ${update.id.value}'s appearance" }
 
             val state = STORE.getState()
@@ -77,7 +77,7 @@ fun Application.configureAppearanceRouting() {
 
             STORE.getState().save()
         }
-        post<Characters.Appearance.Generate> { update ->
+        post<CharacterRoutes.Appearance.Generate> { update ->
             logger.info { "Generate character ${update.id.value}'s appearance" }
 
             val state = STORE.getState()
@@ -102,9 +102,9 @@ private fun HTML.showAppearanceEditor(
     val raceAppearance = state.getRaceAppearance(character)
     val culture = state.getCultureStorage().getOrThrow(character.culture)
     val backLink = href(call, character.id)
-    val previewLink = call.application.href(Characters.Appearance.Preview(character.id))
-    val updateLink = call.application.href(Characters.Appearance.Update(character.id))
-    val generateLink = call.application.href(Characters.Appearance.Generate(character.id))
+    val previewLink = call.application.href(CharacterRoutes.Appearance.Preview(character.id))
+    val updateLink = call.application.href(CharacterRoutes.Appearance.Update(character.id))
+    val generateLink = call.application.href(CharacterRoutes.Appearance.Generate(character.id))
     val frontSvg = visualizeCharacter(RENDER_CONFIG, state, character)
     val backSvg = visualizeCharacter(RENDER_CONFIG, state, character, renderFront = false)
 

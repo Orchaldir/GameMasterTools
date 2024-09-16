@@ -3,6 +3,10 @@ package at.orchaldir.gm.core.reducer
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.character.*
+import at.orchaldir.gm.core.reducer.world.CREATE_MOON
+import at.orchaldir.gm.core.reducer.world.DELETE_MOON
+import at.orchaldir.gm.core.reducer.world.UPDATE_MOON
+import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
 import at.orchaldir.gm.utils.redux.Reducer
 
 val REDUCER: Reducer<Action, State> = { state, action ->
@@ -67,5 +71,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateRaceAppearance -> UPDATE_RACE_APPEARANCE(state, action)
         // time
         is UpdateTime -> UPDATE_TIME(state, action)
+        // world
+        is WorldAction -> WORLD_REDUCER(state, action)
     }
 }

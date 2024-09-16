@@ -26,33 +26,33 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/names")
-class NameLists {
+class NameListRoutes {
     @Resource("details")
-    class Details(val id: NameListId, val parent: NameLists = NameLists())
+    class Details(val id: NameListId, val parent: NameListRoutes = NameListRoutes())
 
     @Resource("new")
-    class New(val parent: NameLists = NameLists())
+    class New(val parent: NameListRoutes = NameListRoutes())
 
     @Resource("delete")
-    class Delete(val id: NameListId, val parent: NameLists = NameLists())
+    class Delete(val id: NameListId, val parent: NameListRoutes = NameListRoutes())
 
     @Resource("edit")
-    class Edit(val id: NameListId, val parent: NameLists = NameLists())
+    class Edit(val id: NameListId, val parent: NameListRoutes = NameListRoutes())
 
     @Resource("update")
-    class Update(val id: NameListId, val parent: NameLists = NameLists())
+    class Update(val id: NameListId, val parent: NameListRoutes = NameListRoutes())
 }
 
 fun Application.configureNameListRouting() {
     routing {
-        get<NameLists> {
+        get<NameListRoutes> {
             logger.info { "Get all name lists" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllNameLists(call)
             }
         }
-        get<NameLists.Details> { details ->
+        get<NameListRoutes.Details> { details ->
             logger.info { "Get details of name list ${details.id.value}" }
 
             val state = STORE.getState()
@@ -62,25 +62,31 @@ fun Application.configureNameListRouting() {
                 showNameListDetails(call, state, nameList)
             }
         }
-        get<NameLists.New> {
+        get<NameListRoutes.New> {
             logger.info { "Add new name list" }
 
             STORE.dispatch(CreateNameList)
 
-            call.respondRedirect(call.application.href(NameLists.Edit(STORE.getState().getNameListStorage().lastId)))
+            call.respondRedirect(
+                call.application.href(
+                    NameListRoutes.Edit(
+                        STORE.getState().getNameListStorage().lastId
+                    )
+                )
+            )
 
             STORE.getState().save()
         }
-        get<NameLists.Delete> { delete ->
+        get<NameListRoutes.Delete> { delete ->
             logger.info { "Delete name list ${delete.id.value}" }
 
             STORE.dispatch(DeleteNameList(delete.id))
 
-            call.respondRedirect(call.application.href(NameLists()))
+            call.respondRedirect(call.application.href(NameListRoutes()))
 
             STORE.getState().save()
         }
-        get<NameLists.Edit> { edit ->
+        get<NameListRoutes.Edit> { edit ->
             logger.info { "Get editor for name list ${edit.id.value}" }
 
             val state = STORE.getState()
@@ -90,7 +96,7 @@ fun Application.configureNameListRouting() {
                 showNameListEditor(call, nameList)
             }
         }
-        post<NameLists.Update> { update ->
+        post<NameListRoutes.Update> { update ->
             logger.info { "Update name list ${update.id.value}" }
 
             val nameList = parseNameList(update.id, call.receiveParameters())
@@ -107,7 +113,7 @@ fun Application.configureNameListRouting() {
 private fun HTML.showAllNameLists(call: ApplicationCall) {
     val nameLists = STORE.getState().getNameListStorage().getAll().sortedBy { it.name }
     val count = nameLists.size
-    val createLink = call.application.href(NameLists.New())
+    val createLink = call.application.href(NameListRoutes.New())
 
     simpleHtml("Name Lists") {
         field("Count", count.toString())
@@ -124,9 +130,9 @@ private fun HTML.showNameListDetails(
     state: State,
     nameList: NameList,
 ) {
-    val backLink = call.application.href(NameLists())
-    val deleteLink = call.application.href(NameLists.Delete(nameList.id))
-    val editLink = call.application.href(NameLists.Edit(nameList.id))
+    val backLink = call.application.href(NameListRoutes())
+    val deleteLink = call.application.href(NameListRoutes.Delete(nameList.id))
+    val editLink = call.application.href(NameListRoutes.Edit(nameList.id))
 
     simpleHtml("Name List: ${nameList.name}") {
         field("Id", nameList.id.value.toString())
@@ -150,7 +156,7 @@ private fun HTML.showNameListEditor(
     nameList: NameList,
 ) {
     val backLink = href(call, nameList.id)
-    val updateLink = call.application.href(NameLists.Update(nameList.id))
+    val updateLink = call.application.href(NameListRoutes.Update(nameList.id))
 
     simpleHtml("Edit Name List: ${nameList.name}") {
         field("Id", nameList.id.value.toString())

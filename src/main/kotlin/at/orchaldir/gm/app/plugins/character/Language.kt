@@ -28,7 +28,7 @@ private const val REMOVE = "remove"
 
 fun Application.configureCharacterLanguageRouting() {
     routing {
-        get<Characters.Languages.Edit> { edit ->
+        get<CharacterRoutes.Languages.Edit> { edit ->
             logger.info { "Get editor for character ${edit.id.value}'s languages" }
 
             val state = STORE.getState()
@@ -38,7 +38,7 @@ fun Application.configureCharacterLanguageRouting() {
                 showLanguageEditor(call, state, character)
             }
         }
-        post<Characters.Languages.Update> { update ->
+        post<CharacterRoutes.Languages.Update> { update ->
             logger.info { "Update character ${update.id.value}'s languages" }
 
             val formParameters = call.receiveParameters()
@@ -71,7 +71,7 @@ private fun HTML.showLanguageEditor(
 ) {
     val cultures = state.getCultureStorage().getOrThrow(character.culture)
     val backLink = href(call, character.id)
-    val updateLink = call.application.href(Characters.Languages.Update(character.id))
+    val updateLink = call.application.href(CharacterRoutes.Languages.Update(character.id))
 
     simpleHtml("Edit Languages: ${state.getName(character)}") {
         showLanguages(call, state, character)

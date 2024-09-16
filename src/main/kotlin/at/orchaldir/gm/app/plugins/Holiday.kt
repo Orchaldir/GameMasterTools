@@ -27,36 +27,36 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/holiday")
-class Holidays {
+class HolidayRoutes {
     @Resource("details")
-    class Details(val id: HolidayId, val parent: Holidays = Holidays())
+    class Details(val id: HolidayId, val parent: HolidayRoutes = HolidayRoutes())
 
     @Resource("new")
-    class New(val parent: Holidays = Holidays())
+    class New(val parent: HolidayRoutes = HolidayRoutes())
 
     @Resource("delete")
-    class Delete(val id: HolidayId, val parent: Holidays = Holidays())
+    class Delete(val id: HolidayId, val parent: HolidayRoutes = HolidayRoutes())
 
     @Resource("edit")
-    class Edit(val id: HolidayId, val parent: Holidays = Holidays())
+    class Edit(val id: HolidayId, val parent: HolidayRoutes = HolidayRoutes())
 
     @Resource("preview")
-    class Preview(val id: HolidayId, val parent: Holidays = Holidays())
+    class Preview(val id: HolidayId, val parent: HolidayRoutes = HolidayRoutes())
 
     @Resource("update")
-    class Update(val id: HolidayId, val parent: Holidays = Holidays())
+    class Update(val id: HolidayId, val parent: HolidayRoutes = HolidayRoutes())
 }
 
 fun Application.configureHolidayRouting() {
     routing {
-        get<Holidays> {
+        get<HolidayRoutes> {
             logger.info { "Get all holidays" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllHolidays(call)
             }
         }
-        get<Holidays.Details> { details ->
+        get<HolidayRoutes.Details> { details ->
             logger.info { "Get details of holiday ${details.id.value}" }
 
             val state = STORE.getState()
@@ -66,25 +66,25 @@ fun Application.configureHolidayRouting() {
                 showHolidayDetails(call, state, holiday)
             }
         }
-        get<Holidays.New> {
+        get<HolidayRoutes.New> {
             logger.info { "Add new holiday" }
 
             STORE.dispatch(CreateHoliday)
 
-            call.respondRedirect(call.application.href(Holidays.Edit(STORE.getState().getHolidayStorage().lastId)))
+            call.respondRedirect(call.application.href(HolidayRoutes.Edit(STORE.getState().getHolidayStorage().lastId)))
 
             STORE.getState().save()
         }
-        get<Holidays.Delete> { delete ->
+        get<HolidayRoutes.Delete> { delete ->
             logger.info { "Delete holiday ${delete.id.value}" }
 
             STORE.dispatch(DeleteHoliday(delete.id))
 
-            call.respondRedirect(call.application.href(Holidays()))
+            call.respondRedirect(call.application.href(HolidayRoutes()))
 
             STORE.getState().save()
         }
-        get<Holidays.Edit> { edit ->
+        get<HolidayRoutes.Edit> { edit ->
             logger.info { "Get editor for holiday ${edit.id.value}" }
 
             val state = STORE.getState()
@@ -94,7 +94,7 @@ fun Application.configureHolidayRouting() {
                 showHolidayEditor(call, state, holiday)
             }
         }
-        post<Holidays.Preview> { preview ->
+        post<HolidayRoutes.Preview> { preview ->
             logger.info { "Get preview for holiday ${preview.id.value}" }
 
             val holiday = parseHoliday(preview.id, call.receiveParameters())
@@ -103,7 +103,7 @@ fun Application.configureHolidayRouting() {
                 showHolidayEditor(call, STORE.getState(), holiday)
             }
         }
-        post<Holidays.Update> { update ->
+        post<HolidayRoutes.Update> { update ->
             logger.info { "Update holiday ${update.id.value}" }
 
             val holiday = parseHoliday(update.id, call.receiveParameters())
@@ -120,7 +120,7 @@ fun Application.configureHolidayRouting() {
 private fun HTML.showAllHolidays(call: ApplicationCall) {
     val holiday = STORE.getState().getHolidayStorage().getAll().sortedBy { it.name }
     val count = holiday.size
-    val createLink = call.application.href(Holidays.New())
+    val createLink = call.application.href(HolidayRoutes.New())
 
     simpleHtml("Holidays") {
         field("Count", count.toString())
@@ -138,9 +138,9 @@ private fun HTML.showHolidayDetails(
     holiday: Holiday,
 ) {
     val calendar = state.getCalendarStorage().getOrThrow(holiday.calendar)
-    val backLink = call.application.href(Holidays())
-    val deleteLink = call.application.href(Holidays.Delete(holiday.id))
-    val editLink = call.application.href(Holidays.Edit(holiday.id))
+    val backLink = call.application.href(HolidayRoutes())
+    val deleteLink = call.application.href(HolidayRoutes.Delete(holiday.id))
+    val editLink = call.application.href(HolidayRoutes.Edit(holiday.id))
 
     simpleHtml("Holiday: ${holiday.name}") {
         field("Id", holiday.id.value.toString())
@@ -167,8 +167,8 @@ private fun HTML.showHolidayEditor(
 ) {
     val calendar = state.getCalendarStorage().getOrThrow(holiday.calendar)
     val backLink = href(call, holiday.id)
-    val previewLink = call.application.href(Holidays.Preview(holiday.id))
-    val updateLink = call.application.href(Holidays.Update(holiday.id))
+    val previewLink = call.application.href(HolidayRoutes.Preview(holiday.id))
+    val updateLink = call.application.href(HolidayRoutes.Update(holiday.id))
 
     simpleHtml("Edit Holiday: ${holiday.name}") {
         field("Id", holiday.id.value.toString())

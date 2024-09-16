@@ -32,36 +32,36 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/cultures")
-class Cultures {
+class CultureRoutes {
     @Resource("details")
-    class Details(val id: CultureId, val parent: Cultures = Cultures())
+    class Details(val id: CultureId, val parent: CultureRoutes = CultureRoutes())
 
     @Resource("new")
-    class New(val parent: Cultures = Cultures())
+    class New(val parent: CultureRoutes = CultureRoutes())
 
     @Resource("delete")
-    class Delete(val id: CultureId, val parent: Cultures = Cultures())
+    class Delete(val id: CultureId, val parent: CultureRoutes = CultureRoutes())
 
     @Resource("edit")
-    class Edit(val id: CultureId, val parent: Cultures = Cultures())
+    class Edit(val id: CultureId, val parent: CultureRoutes = CultureRoutes())
 
     @Resource("preview")
-    class Preview(val id: CultureId, val parent: Cultures = Cultures())
+    class Preview(val id: CultureId, val parent: CultureRoutes = CultureRoutes())
 
     @Resource("update")
-    class Update(val id: CultureId, val parent: Cultures = Cultures())
+    class Update(val id: CultureId, val parent: CultureRoutes = CultureRoutes())
 }
 
 fun Application.configureCultureRouting() {
     routing {
-        get<Cultures> {
+        get<CultureRoutes> {
             logger.info { "Get all cultures" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllCultures(call)
             }
         }
-        get<Cultures.Details> { details ->
+        get<CultureRoutes.Details> { details ->
             logger.info { "Get details of culture ${details.id.value}" }
 
             val state = STORE.getState()
@@ -71,25 +71,25 @@ fun Application.configureCultureRouting() {
                 showCultureDetails(call, state, culture)
             }
         }
-        get<Cultures.New> {
+        get<CultureRoutes.New> {
             logger.info { "Add new culture" }
 
             STORE.dispatch(CreateCulture)
 
-            call.respondRedirect(call.application.href(Cultures.Edit(STORE.getState().getCultureStorage().lastId)))
+            call.respondRedirect(call.application.href(CultureRoutes.Edit(STORE.getState().getCultureStorage().lastId)))
 
             STORE.getState().save()
         }
-        get<Cultures.Delete> { delete ->
+        get<CultureRoutes.Delete> { delete ->
             logger.info { "Delete culture ${delete.id.value}" }
 
             STORE.dispatch(DeleteCulture(delete.id))
 
-            call.respondRedirect(call.application.href(Cultures()))
+            call.respondRedirect(call.application.href(CultureRoutes()))
 
             STORE.getState().save()
         }
-        get<Cultures.Edit> { edit ->
+        get<CultureRoutes.Edit> { edit ->
             logger.info { "Get editor for culture ${edit.id.value}" }
 
             val state = STORE.getState()
@@ -99,7 +99,7 @@ fun Application.configureCultureRouting() {
                 showCultureEditor(call, state, culture)
             }
         }
-        post<Cultures.Preview> { preview ->
+        post<CultureRoutes.Preview> { preview ->
             logger.info { "Get preview for race ${preview.id.value}" }
 
             val formParameters = call.receiveParameters()
@@ -109,7 +109,7 @@ fun Application.configureCultureRouting() {
                 showCultureEditor(call, STORE.getState(), culture)
             }
         }
-        post<Cultures.Update> { update ->
+        post<CultureRoutes.Update> { update ->
             logger.info { "Update culture ${update.id.value}" }
 
             val formParameters = call.receiveParameters()
@@ -127,7 +127,7 @@ fun Application.configureCultureRouting() {
 private fun HTML.showAllCultures(call: ApplicationCall) {
     val cultures = STORE.getState().getCultureStorage().getAll().sortedBy { it.name }
     val count = cultures.size
-    val createLink = call.application.href(Cultures.New())
+    val createLink = call.application.href(CultureRoutes.New())
 
     simpleHtml("Cultures") {
         field("Count", count.toString())
@@ -145,9 +145,9 @@ private fun HTML.showCultureDetails(
     culture: Culture,
 ) {
     val namingConvention = culture.namingConvention
-    val backLink = call.application.href(Cultures())
-    val deleteLink = call.application.href(Cultures.Delete(culture.id))
-    val editLink = call.application.href(Cultures.Edit(culture.id))
+    val backLink = call.application.href(CultureRoutes())
+    val deleteLink = call.application.href(CultureRoutes.Delete(culture.id))
+    val editLink = call.application.href(CultureRoutes.Edit(culture.id))
 
     simpleHtml("Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
@@ -301,8 +301,8 @@ private fun HTML.showCultureEditor(
 ) {
     val namingConvention = culture.namingConvention
     val backLink = href(call, culture.id)
-    val previewLink = call.application.href(Cultures.Preview(culture.id))
-    val updateLink = call.application.href(Cultures.Update(culture.id))
+    val previewLink = call.application.href(CultureRoutes.Preview(culture.id))
+    val updateLink = call.application.href(CultureRoutes.Update(culture.id))
 
     simpleHtml("Edit Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())

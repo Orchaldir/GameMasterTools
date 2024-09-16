@@ -36,36 +36,36 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/item_templates")
-class ItemTemplates {
+class ItemTemplateRoutes {
     @Resource("details")
-    class Details(val id: ItemTemplateId, val parent: ItemTemplates = ItemTemplates())
+    class Details(val id: ItemTemplateId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
 
     @Resource("new")
-    class New(val parent: ItemTemplates = ItemTemplates())
+    class New(val parent: ItemTemplateRoutes = ItemTemplateRoutes())
 
     @Resource("delete")
-    class Delete(val id: ItemTemplateId, val parent: ItemTemplates = ItemTemplates())
+    class Delete(val id: ItemTemplateId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
 
     @Resource("edit")
-    class Edit(val id: ItemTemplateId, val parent: ItemTemplates = ItemTemplates())
+    class Edit(val id: ItemTemplateId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
 
     @Resource("preview")
-    class Preview(val id: ItemTemplateId, val parent: ItemTemplates = ItemTemplates())
+    class Preview(val id: ItemTemplateId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
 
     @Resource("update")
-    class Update(val id: ItemTemplateId, val parent: ItemTemplates = ItemTemplates())
+    class Update(val id: ItemTemplateId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
 }
 
 fun Application.configureItemTemplateRouting() {
     routing {
-        get<ItemTemplates> {
+        get<ItemTemplateRoutes> {
             logger.info { "Get all item templates" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllItemTemplates(call)
             }
         }
-        get<ItemTemplates.Details> { details ->
+        get<ItemTemplateRoutes.Details> { details ->
             logger.info { "Get details of item template ${details.id.value}" }
 
             val state = STORE.getState()
@@ -75,14 +75,14 @@ fun Application.configureItemTemplateRouting() {
                 showItemTemplateDetails(call, state, itemTemplate)
             }
         }
-        get<ItemTemplates.New> {
+        get<ItemTemplateRoutes.New> {
             logger.info { "Add new item template" }
 
             STORE.dispatch(CreateItemTemplate)
 
             call.respondRedirect(
                 call.application.href(
-                    ItemTemplates.Edit(
+                    ItemTemplateRoutes.Edit(
                         STORE.getState().getItemTemplateStorage().lastId
                     )
                 )
@@ -90,16 +90,16 @@ fun Application.configureItemTemplateRouting() {
 
             STORE.getState().save()
         }
-        get<ItemTemplates.Delete> { delete ->
+        get<ItemTemplateRoutes.Delete> { delete ->
             logger.info { "Delete item template ${delete.id.value}" }
 
             STORE.dispatch(DeleteItemTemplate(delete.id))
 
-            call.respondRedirect(call.application.href(ItemTemplates()))
+            call.respondRedirect(call.application.href(ItemTemplateRoutes()))
 
             STORE.getState().save()
         }
-        get<ItemTemplates.Edit> { edit ->
+        get<ItemTemplateRoutes.Edit> { edit ->
             logger.info { "Get editor for item template ${edit.id.value}" }
 
             val state = STORE.getState()
@@ -109,7 +109,7 @@ fun Application.configureItemTemplateRouting() {
                 showItemTemplateEditor(call, state, template)
             }
         }
-        post<ItemTemplates.Preview> { preview ->
+        post<ItemTemplateRoutes.Preview> { preview ->
             logger.info { "Get preview for item template ${preview.id.value}" }
 
             val template = parseItemTemplate(preview.id, call.receiveParameters())
@@ -118,7 +118,7 @@ fun Application.configureItemTemplateRouting() {
                 showItemTemplateEditor(call, STORE.getState(), template)
             }
         }
-        post<ItemTemplates.Update> { update ->
+        post<ItemTemplateRoutes.Update> { update ->
             logger.info { "Update item template ${update.id.value}" }
 
             val template = parseItemTemplate(update.id, call.receiveParameters())
@@ -135,7 +135,7 @@ fun Application.configureItemTemplateRouting() {
 private fun HTML.showAllItemTemplates(call: ApplicationCall) {
     val templates = STORE.getState().getItemTemplateStorage().getAll().sortedBy { it.name }
     val count = templates.size
-    val createLink = call.application.href(ItemTemplates.New())
+    val createLink = call.application.href(ItemTemplateRoutes.New())
 
     simpleHtml("Item Templates") {
         field("Count", count.toString())
@@ -154,9 +154,9 @@ private fun HTML.showItemTemplateDetails(
 ) {
     val characters = state.getEquippedBy(template.id)
     val fashions = state.getFashions(template.id)
-    val backLink = call.application.href(ItemTemplates())
-    val deleteLink = call.application.href(ItemTemplates.Delete(template.id))
-    val editLink = call.application.href(ItemTemplates.Edit(template.id))
+    val backLink = call.application.href(ItemTemplateRoutes())
+    val deleteLink = call.application.href(ItemTemplateRoutes.Delete(template.id))
+    val editLink = call.application.href(ItemTemplateRoutes.Edit(template.id))
 
     simpleHtml("Item Template: ${template.name}") {
         visualizeItem(template)
@@ -294,8 +294,8 @@ private fun HTML.showItemTemplateEditor(
     template: ItemTemplate,
 ) {
     val backLink = href(call, template.id)
-    val previewLink = call.application.href(ItemTemplates.Preview(template.id))
-    val updateLink = call.application.href(ItemTemplates.Update(template.id))
+    val previewLink = call.application.href(ItemTemplateRoutes.Preview(template.id))
+    val updateLink = call.application.href(ItemTemplateRoutes.Update(template.id))
 
     simpleHtml("Edit Item Template: ${template.name}") {
         visualizeItem(template)

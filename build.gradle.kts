@@ -30,6 +30,7 @@ dependencies {
     implementation("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:4.0.0.2929")
 
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.1.0")
     testImplementation(kotlin("test"))
 }
 

@@ -10,10 +10,10 @@ import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.event.CharacterDeathEvent
 import at.orchaldir.gm.core.model.event.CharacterOriginEvent
 import at.orchaldir.gm.core.model.event.Event
-import at.orchaldir.gm.core.model.moon.Moon
-import at.orchaldir.gm.core.model.moon.MoonPhase
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.DisplayDay
+import at.orchaldir.gm.core.model.world.moon.Moon
+import at.orchaldir.gm.core.model.world.moon.MoonPhase
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.ceilDiv

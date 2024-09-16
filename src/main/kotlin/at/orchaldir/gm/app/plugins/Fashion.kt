@@ -31,33 +31,33 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/fashion")
-class Fashions {
+class FashionRoutes {
     @Resource("details")
-    class Details(val id: FashionId, val parent: Fashions = Fashions())
+    class Details(val id: FashionId, val parent: FashionRoutes = FashionRoutes())
 
     @Resource("new")
-    class New(val parent: Fashions = Fashions())
+    class New(val parent: FashionRoutes = FashionRoutes())
 
     @Resource("delete")
-    class Delete(val id: FashionId, val parent: Fashions = Fashions())
+    class Delete(val id: FashionId, val parent: FashionRoutes = FashionRoutes())
 
     @Resource("edit")
-    class Edit(val id: FashionId, val parent: Fashions = Fashions())
+    class Edit(val id: FashionId, val parent: FashionRoutes = FashionRoutes())
 
     @Resource("update")
-    class Update(val id: FashionId, val parent: Fashions = Fashions())
+    class Update(val id: FashionId, val parent: FashionRoutes = FashionRoutes())
 }
 
 fun Application.configureFashionRouting() {
     routing {
-        get<Fashions> {
+        get<FashionRoutes> {
             logger.info { "Get all fashions" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllFashions(call)
             }
         }
-        get<Fashions.Details> { details ->
+        get<FashionRoutes.Details> { details ->
             logger.info { "Get details of fashion ${details.id.value}" }
 
             val state = STORE.getState()
@@ -67,25 +67,25 @@ fun Application.configureFashionRouting() {
                 showFashionDetails(call, state, fashion)
             }
         }
-        get<Fashions.New> {
+        get<FashionRoutes.New> {
             logger.info { "Add new fashion" }
 
             STORE.dispatch(CreateFashion)
 
-            call.respondRedirect(call.application.href(Fashions.Edit(STORE.getState().getFashionStorage().lastId)))
+            call.respondRedirect(call.application.href(FashionRoutes.Edit(STORE.getState().getFashionStorage().lastId)))
 
             STORE.getState().save()
         }
-        get<Fashions.Delete> { delete ->
+        get<FashionRoutes.Delete> { delete ->
             logger.info { "Delete fashion ${delete.id.value}" }
 
             STORE.dispatch(DeleteFashion(delete.id))
 
-            call.respondRedirect(call.application.href(Fashions()))
+            call.respondRedirect(call.application.href(FashionRoutes()))
 
             STORE.getState().save()
         }
-        get<Fashions.Edit> { edit ->
+        get<FashionRoutes.Edit> { edit ->
             logger.info { "Get editor for fashion ${edit.id.value}" }
 
             val state = STORE.getState()
@@ -95,7 +95,7 @@ fun Application.configureFashionRouting() {
                 showFashionEditor(call, state, fashion)
             }
         }
-        post<Fashions.Update> { update ->
+        post<FashionRoutes.Update> { update ->
             logger.info { "Update fashion ${update.id.value}" }
 
             val fashion = parseFashion(update.id, call.receiveParameters())
@@ -112,7 +112,7 @@ fun Application.configureFashionRouting() {
 private fun HTML.showAllFashions(call: ApplicationCall) {
     val fashion = STORE.getState().getFashionStorage().getAll().sortedBy { it.name }
     val count = fashion.size
-    val createLink = call.application.href(Fashions.New())
+    val createLink = call.application.href(FashionRoutes.New())
 
     simpleHtml("Fashions") {
         field("Count", count.toString())
@@ -129,9 +129,9 @@ private fun HTML.showFashionDetails(
     state: State,
     fashion: Fashion,
 ) {
-    val backLink = call.application.href(Fashions())
-    val deleteLink = call.application.href(Fashions.Delete(fashion.id))
-    val editLink = call.application.href(Fashions.Edit(fashion.id))
+    val backLink = call.application.href(FashionRoutes())
+    val deleteLink = call.application.href(FashionRoutes.Delete(fashion.id))
+    val editLink = call.application.href(FashionRoutes.Edit(fashion.id))
 
     simpleHtml("Fashion: ${fashion.name}") {
         field("Id", fashion.id.value.toString())
@@ -164,7 +164,7 @@ private fun HTML.showFashionEditor(
     fashion: Fashion,
 ) {
     val backLink = href(call, fashion.id)
-    val updateLink = call.application.href(Fashions.Update(fashion.id))
+    val updateLink = call.application.href(FashionRoutes.Update(fashion.id))
 
     simpleHtml("Edit Fashion: ${fashion.name}") {
         field("Id", fashion.id.value.toString())

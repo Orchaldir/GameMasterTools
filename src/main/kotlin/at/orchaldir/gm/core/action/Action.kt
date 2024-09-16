@@ -19,13 +19,19 @@ import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.moon.Moon
-import at.orchaldir.gm.core.model.moon.MoonId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
+import at.orchaldir.gm.core.model.world.moon.Moon
+import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.terrain.Mountain
+import at.orchaldir.gm.core.model.world.terrain.MountainId
+import at.orchaldir.gm.core.model.world.terrain.River
+import at.orchaldir.gm.core.model.world.terrain.RiverId
+import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownId
 
 sealed class Action
 
@@ -96,11 +102,6 @@ data object CreateMaterial : Action()
 data class DeleteMaterial(val id: MaterialId) : Action()
 data class UpdateMaterial(val material: Material) : Action()
 
-// moon
-data object CreateMoon : Action()
-data class DeleteMoon(val id: MoonId) : Action()
-data class UpdateMoon(val moon: Moon) : Action()
-
 // name list
 data object CreateNameList : Action()
 data class DeleteNameList(val id: NameListId) : Action()
@@ -123,3 +124,27 @@ data class UpdateRaceAppearance(val race: RaceAppearance) : Action()
 
 // time
 data class UpdateTime(val time: Time) : Action()
+
+//-- world --
+
+sealed class WorldAction : Action()
+
+// moon
+data object CreateMoon : WorldAction()
+data class DeleteMoon(val id: MoonId) : WorldAction()
+data class UpdateMoon(val moon: Moon) : WorldAction()
+
+// mountain
+data object CreateMountain : WorldAction()
+data class DeleteMountain(val id: MountainId) : WorldAction()
+data class UpdateMountain(val mountain: Mountain) : WorldAction()
+
+// river
+data object CreateRiver : WorldAction()
+data class DeleteRiver(val id: RiverId) : WorldAction()
+data class UpdateRiver(val river: River) : WorldAction()
+
+// town
+data object CreateTown : WorldAction()
+data class DeleteTown(val id: TownId) : WorldAction()
+data class UpdateTown(val town: Town) : WorldAction()
