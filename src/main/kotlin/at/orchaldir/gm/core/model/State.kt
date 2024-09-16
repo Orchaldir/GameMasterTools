@@ -187,7 +187,7 @@ fun createStorage(type: String) = when (type) {
     RACE -> Storage(RaceId(0))
     RACE_APPEARANCE -> Storage(RaceAppearanceId(0))
     RIVER -> Storage(RiverId(0))
-    TOWN -> Storage(RiverId(0))
+    TOWN -> Storage(TownId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
 
