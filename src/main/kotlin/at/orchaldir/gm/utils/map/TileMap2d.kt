@@ -1,5 +1,8 @@
 package at.orchaldir.gm.utils.map
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class TileMap2d<TILE>(
     val size2d: MapSize2d,
     val tiles: List<TILE>,
