@@ -6,7 +6,7 @@ import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.tile.TileMap2dRenderer
+import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import java.io.File
 
 fun main() {

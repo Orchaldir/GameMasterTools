@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -125,11 +126,15 @@ private fun HTML.showTownDetails(
     val editLink = call.application.href(TownRoutes.Edit(town.id))
 
     simpleHtml("Town: ${town.name}") {
-        field("Id", town.id.value.toString())
-        field("Name", town.name)
-        action(editLink, "Edit")
-        action(deleteLink, "Delete")
-        back(backLink)
+        split({
+            field("Id", town.id.value.toString())
+            field("Name", town.name)
+            action(editLink, "Edit")
+            action(deleteLink, "Delete")
+            back(backLink)
+        }, {
+            svg(visualizeTown(town), 90)
+        })
     }
 }
 
