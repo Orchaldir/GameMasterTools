@@ -35,6 +35,16 @@ fun Application.configureTerrainRouting() {
 
             val state = STORE.getState()
             val town = state.getTownStorage().getOrThrow(edit.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showTerrainEditor(call, state, town, TerrainType.Plain, 0)
+            }
+        }
+        post<TownRoutes.TerrainRoutes.Preview> { preview ->
+            logger.info { "Preview the terrain editor for town ${preview.id.value}" }
+
+            val state = STORE.getState()
+            val town = state.getTownStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
             val terrainType = parse(params, combine(TERRAIN, TYPE), TerrainType.Plain)
             val terrainId: Int = parseInt(params, TERRAIN, 0)
@@ -54,7 +64,7 @@ fun Application.configureTerrainRouting() {
                 TerrainType.Plain -> PlainTerrain
                 TerrainType.River -> RiverTerrain(RiverId(update.terrainId))
             }
-            val tile = oldTown.map.tiles[update.tileIndex].copy(terrain)
+            val tile = oldTown.map.tiles[update.tileIndex].copy(terrain = terrain)
             val tiles = oldTown.map.tiles.update(update.tileIndex, tile)
             val town = oldTown.copy(map = oldTown.map.copy(tiles = tiles))
 
@@ -77,7 +87,7 @@ private fun HTML.showTerrainEditor(
     terrainId: Int,
 ) {
     val backLink = href(call, town.id)
-    val previewLink = call.application.href(TownRoutes.TerrainRoutes.Edit(town.id))
+    val previewLink = call.application.href(TownRoutes.TerrainRoutes.Preview(town.id))
 
     simpleHtml("Edit Terrain of Town ${town.name}") {
         split({
