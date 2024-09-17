@@ -26,7 +26,7 @@ class TownRoutes {
         @Resource("edit")
         class Edit(val id: TownId, val parent: TerrainRoutes = TerrainRoutes())
 
-        @Resource("edit")
+        @Resource("preview")
         class Preview(val id: TownId, val parent: TerrainRoutes = TerrainRoutes())
 
         @Resource("update")
