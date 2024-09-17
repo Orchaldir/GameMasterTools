@@ -22,11 +22,11 @@ class TownRoutes {
     class Update(val id: TownId, val parent: TownRoutes = TownRoutes())
 
     @Resource("/terrain")
-    class TerrainRoutes(val parent: RaceRoutes = RaceRoutes()) {
+    class TerrainRoutes(val parent: TownRoutes = TownRoutes()) {
         @Resource("edit")
-        class Edit(val id: TownId, val parent: TownRoutes = TownRoutes())
+        class Edit(val id: TownId, val parent: TerrainRoutes = TerrainRoutes())
 
         @Resource("update")
-        class Update(val id: TownId, val parent: TownRoutes = TownRoutes())
+        class Update(val id: TownId, val parent: TerrainRoutes = TerrainRoutes())
     }
 }

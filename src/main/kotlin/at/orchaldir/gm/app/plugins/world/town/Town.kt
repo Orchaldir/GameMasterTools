@@ -71,7 +71,9 @@ fun Application.configureTownRouting() {
         post<TownRoutes.Update> { update ->
             logger.info { "Update town ${update.id.value}" }
 
-            val town = parseTown(update.id, call.receiveParameters())
+            val state = STORE.getState()
+            val oldTown = state.getTownStorage().getOrThrow(update.id)
+            val town = parseTown(oldTown, call.receiveParameters())
 
             STORE.dispatch(UpdateTown(town))
 
@@ -104,12 +106,14 @@ private fun HTML.showTownDetails(
     val backLink = call.application.href(TownRoutes())
     val deleteLink = call.application.href(TownRoutes.Delete(town.id))
     val editLink = call.application.href(TownRoutes.Edit(town.id))
+    val editTerrainLink = call.application.href(TownRoutes.TerrainRoutes.Edit(town.id))
 
     simpleHtml("Town: ${town.name}") {
         split({
             field("Id", town.id.value.toString())
             field("Name", town.name)
-            action(editLink, "Edit")
+            action(editLink, "Edit Town")
+            action(editTerrainLink, "Edit Terrain")
             action(deleteLink, "Delete")
             back(backLink)
         }, {
