@@ -37,6 +37,7 @@ fun Application.configureTerrainRouting() {
             }
         }
         post<TownRoutes.TerrainRoutes.Preview> { preview ->
+            // needed?
             logger.info { "Update the tool selection of terrain editor for town ${preview.id.value}" }
 
             val state = STORE.getState()
