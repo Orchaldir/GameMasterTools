@@ -4,6 +4,6 @@ interface LinkRenderer : Renderer {
 
     fun link(link: String, layer: Int = 0)
 
-    fun closeLink(layer: Int)
+    fun closeLink(layer: Int = 0)
 
 }
