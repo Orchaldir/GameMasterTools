@@ -10,7 +10,7 @@ import at.orchaldir.gm.app.plugins.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.app.plugins.world.MoonRoutes
 import at.orchaldir.gm.app.plugins.world.MountainRoutes
 import at.orchaldir.gm.app.plugins.world.RiverRoutes
-import at.orchaldir.gm.app.plugins.world.TownRoutes
+import at.orchaldir.gm.app.plugins.world.town.TownRoutes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*

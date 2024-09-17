@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.plugins.world
+package at.orchaldir.gm.app.plugins.world.town
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
@@ -7,10 +7,8 @@ import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
-import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.request.*
@@ -22,24 +20,6 @@ import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
-
-@Resource("/towns")
-class TownRoutes {
-    @Resource("details")
-    class Details(val id: TownId, val parent: TownRoutes = TownRoutes())
-
-    @Resource("new")
-    class New(val parent: TownRoutes = TownRoutes())
-
-    @Resource("delete")
-    class Delete(val id: TownId, val parent: TownRoutes = TownRoutes())
-
-    @Resource("edit")
-    class Edit(val id: TownId, val parent: TownRoutes = TownRoutes())
-
-    @Resource("update")
-    class Update(val id: TownId, val parent: TownRoutes = TownRoutes())
-}
 
 fun Application.configureTownRouting() {
     routing {
