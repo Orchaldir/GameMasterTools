@@ -36,6 +36,16 @@ fun Application.configureTerrainRouting() {
                 showTerrainEditor(call, state, town)
             }
         }
+        post<TownRoutes.TerrainRoutes.Preview> { preview ->
+            logger.info { "Update the tool selection of terrain editor for town ${preview.id.value}" }
+
+            val state = STORE.getState()
+            val town = state.getTownStorage().getOrThrow(preview.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showTerrainEditor(call, state, town)
+            }
+        }
         post<TownRoutes.TerrainRoutes.Update> { update ->
             logger.info { "Update the terrain for town ${update.id.value}" }
 
@@ -58,29 +68,33 @@ private fun HTML.showTerrainEditor(
     call: ApplicationCall,
     state: State,
     town: Town,
-    terrain: TerrainType = TerrainType.Plain,
-    id: Int = 0,
+    terrainType: TerrainType = TerrainType.Plain,
+    terrainId: Int = 0,
 ) {
     val backLink = href(call, town.id)
-    val updateLink = call.application.href(TownRoutes.Update(town.id))
+    val updateLink = call.application.href(TownRoutes.TerrainRoutes.Update(town.id))
+    val previewLink = call.application.href(TownRoutes.TerrainRoutes.Preview(town.id))
 
     simpleHtml("Edit Terrain of Town ${town.name}") {
         split({
             form {
+                id = "editor"
+                action = previewLink
+                method = FormMethod.post
                 selectValue("Terrain", combine(TERRAIN, TYPE), TerrainType.entries, true) { type ->
                     label = type.toString()
                     value = type.toString()
-                    selected = type == terrain
+                    selected = type == terrainType
                 }
-                when (terrain) {
+                when (terrainType) {
                     TerrainType.Hill, TerrainType.Mountain -> selectTerrain(
                         "Mountain",
                         state.getMountainStorage().getAll(),
-                        id
+                        terrainId
                     )
 
                     TerrainType.Plain -> doNothing()
-                    TerrainType.River -> selectTerrain("River", state.getMountainStorage().getAll(), id)
+                    TerrainType.River -> selectTerrain("River", state.getMountainStorage().getAll(), terrainId)
                 }
                 p {
                     submitInput {
