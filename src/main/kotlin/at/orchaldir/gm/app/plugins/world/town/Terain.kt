@@ -44,16 +44,10 @@ fun Application.configureTerrainRouting() {
             logger.info { "Preview the terrain editor for town ${preview.id.value}" }
 
             val state = STORE.getState()
-            logger.info { "a" }
             val town = state.getTownStorage().getOrThrow(preview.id)
-            logger.info { "b" }
             val params = call.receiveParameters()
-            logger.info { "c" }
             val terrainType = parse(params, combine(TERRAIN, TYPE), TerrainType.Plain)
-            logger.info { "d" }
             val terrainId: Int = parseInt(params, TERRAIN, 0)
-
-            logger.info { "f" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 showTerrainEditor(call, state, town, terrainType, terrainId)
@@ -114,7 +108,7 @@ private fun HTML.showTerrainEditor(
                     )
 
                     TerrainType.Plain -> doNothing()
-                    TerrainType.River -> selectTerrain("River", state.getMountainStorage().getAll(), terrainId)
+                    TerrainType.River -> selectTerrain("River", state.getRiverStorage().getAll(), terrainId)
                 }
             }
             back(backLink)
