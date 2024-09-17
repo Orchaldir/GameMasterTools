@@ -126,17 +126,21 @@ private fun HTML.showTownEditor(
     val updateLink = call.application.href(TownRoutes.Update(town.id))
 
     simpleHtml("Edit Town: ${town.name}") {
-        field("Id", town.id.value.toString())
-        form {
-            selectName(town.name)
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
+        split({
+            field("Id", town.id.value.toString())
+            form {
+                selectName(town.name)
+                p {
+                    submitInput {
+                        value = "Update"
+                        formAction = updateLink
+                        formMethod = InputFormMethod.post
+                    }
                 }
             }
-        }
-        back(backLink)
+            back(backLink)
+        }, {
+            svg(visualizeTown(town), 90)
+        })
     }
 }
