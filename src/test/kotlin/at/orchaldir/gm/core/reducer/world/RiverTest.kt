@@ -5,8 +5,13 @@ import at.orchaldir.gm.core.action.UpdateRiver
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
+import at.orchaldir.gm.core.model.world.terrain.RiverTerrain
+import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -32,6 +37,19 @@ class RiverTest {
             val action = DeleteRiver(ID0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Cannot delete, if used by a town`() {
+            val action = DeleteRiver(ID0)
+            val state = State(
+                listOf(
+                    Storage(River(ID0)),
+                    Storage(Town(TownId(0), map = TileMap2d(TownTile(RiverTerrain(ID0)))))
+                )
+            )
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
     }
 
