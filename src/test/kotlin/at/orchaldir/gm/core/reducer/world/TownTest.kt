@@ -129,19 +129,20 @@ class TownTest {
             element: ELEMENT,
             type: TerrainType,
         ) {
-            fail(element, type)
+            fail(element, type, "Tile 2 is outside the map")
         }
 
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> fail(
             river: ELEMENT,
             type: TerrainType,
+            message: String,
         ) {
             val oldMap = TileMap2d(MapSize2d(2, 1), listOf(TownTile(), TownTile()))
             val oldTown = Town(ID0, map = oldMap)
             val state = State(listOf(Storage(river), Storage(oldTown)))
             val action = UpdateTerrain(ID0, type, 0, 2)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertFailsWith<IllegalArgumentException>(message) { REDUCER.invoke(state, action) }
         }
     }
 
