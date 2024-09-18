@@ -24,10 +24,14 @@ val DELETE_TOWN: Reducer<DeleteTown, State> = { state, action ->
 }
 
 val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
+    state.getTownStorage().require(action.town.id)
+
     noFollowUps(state.updateStorage(state.getTownStorage().update(action.town)))
 }
 
 val UPDATE_TERRAIN: Reducer<UpdateTerrain, State> = { state, action ->
+    state.getTownStorage().require(action.town)
+
     val oldTown = state.getTownStorage().getOrThrow(action.town)
     val terrain = when (action.terrainType) {
         TerrainType.Hill -> HillTerrain(MountainId(action.terrainId))
