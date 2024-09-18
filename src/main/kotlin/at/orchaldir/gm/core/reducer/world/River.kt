@@ -21,7 +21,7 @@ val DELETE_RIVER: Reducer<DeleteRiver, State> = { state, action ->
 }
 
 val UPDATE_RIVER: Reducer<UpdateRiver, State> = { state, action ->
-    val moon = action.river
+    state.getRiverStorage().require(action.river.id)
 
-    noFollowUps(state.updateStorage(state.getRiverStorage().update(moon)))
+    noFollowUps(state.updateStorage(state.getRiverStorage().update(action.river)))
 }
