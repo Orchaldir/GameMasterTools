@@ -8,6 +8,8 @@ import kotlinx.serialization.Serializable
 sealed class Terrain {
 
     fun <ID : Id<ID>> contains(id: ID) = when (this) {
+        is HillTerrain -> mountain == id
+        is MountainTerrain -> mountain == id
         is RiverTerrain -> river == id
         else -> false
     }
