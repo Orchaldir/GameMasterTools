@@ -73,6 +73,8 @@ class TownTest {
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
+        // test unknown river & mountain
+
         @Test
         fun `Set to Hill`() {
             testSuccess(Mountain(MOUNTAIN0), TerrainType.Hill, HillTerrain(MOUNTAIN0))
@@ -88,6 +90,26 @@ class TownTest {
             testSuccess(River(RIVER0), TerrainType.River, RiverTerrain(RIVER0))
         }
 
+        @Test
+        fun `Set tile outside the map to hill`() {
+            testOutside(River(RIVER0), TerrainType.Hill)
+        }
+
+        @Test
+        fun `Set tile outside the map to plain`() {
+            testOutside(River(RIVER0), TerrainType.Plain)
+        }
+
+        @Test
+        fun `Set tile outside the map to mountain`() {
+            testOutside(River(RIVER0), TerrainType.Mountain)
+        }
+
+        @Test
+        fun `Set tile outside the map to river`() {
+            testOutside(River(RIVER0), TerrainType.River)
+        }
+
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> testSuccess(
             river: ELEMENT,
             type: TerrainType,
@@ -101,6 +123,18 @@ class TownTest {
             val action = UpdateTerrain(ID0, type, 0, 1)
 
             assertEquals(newTown, REDUCER.invoke(state, action).first.getTownStorage().get(ID0))
+        }
+
+        private fun <ID : Id<ID>, ELEMENT : Element<ID>> testOutside(
+            river: ELEMENT,
+            type: TerrainType,
+        ) {
+            val oldMap = TileMap2d(MapSize2d(2, 1), listOf(TownTile(), TownTile()))
+            val oldTown = Town(ID0, map = oldMap)
+            val state = State(listOf(Storage(river), Storage(oldTown)))
+            val action = UpdateTerrain(ID0, type, 0, 2)
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
     }
 

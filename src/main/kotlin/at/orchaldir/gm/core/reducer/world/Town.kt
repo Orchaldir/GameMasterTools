@@ -30,9 +30,10 @@ val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
 }
 
 val UPDATE_TERRAIN: Reducer<UpdateTerrain, State> = { state, action ->
-    state.getTownStorage().require(action.town)
-
     val oldTown = state.getTownStorage().getOrThrow(action.town)
+
+    require(oldTown.map.isInside(action.tileIndex)) { "Tile ${action.tileIndex} is outside the map" }
+
     val terrain = when (action.terrainType) {
         TerrainType.Hill -> HillTerrain(MountainId(action.terrainId))
         TerrainType.Mountain -> MountainTerrain(MountainId(action.terrainId))

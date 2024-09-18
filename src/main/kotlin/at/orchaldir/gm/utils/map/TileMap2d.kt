@@ -13,5 +13,7 @@ data class TileMap2d<TILE>(
         require(size.tiles() == tiles.size) { "The number of tiles must match the map size" }
     }
 
+    fun isInside(index: Int) = size.isInside(index)
+
     fun getTile(index: Int) = tiles.getOrNull(index)
 }
