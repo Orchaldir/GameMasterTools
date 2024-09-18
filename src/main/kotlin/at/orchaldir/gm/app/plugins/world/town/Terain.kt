@@ -7,14 +7,13 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.core.action.UpdateTown
+import at.orchaldir.gm.core.action.UpdateTerrain
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.update
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -54,25 +53,15 @@ fun Application.configureTerrainRouting() {
             }
         }
         get<TownRoutes.TerrainRoutes.Update> { update ->
-            logger.info { "Update the terrain for town ${update.id.value}" }
+            logger.info { "Update the terrain to ${update.terrainType} with id ${update.terrainId} for tile ${update.tileIndex} for town ${update.id.value}" }
 
-            val state = STORE.getState()
-            val oldTown = state.getTownStorage().getOrThrow(update.id)
-            val terrain = when (update.terrainType) {
-                TerrainType.Hill -> HillTerrain(MountainId(update.terrainId))
-                TerrainType.Mountain -> MountainTerrain(MountainId(update.terrainId))
-                TerrainType.Plain -> PlainTerrain
-                TerrainType.River -> RiverTerrain(RiverId(update.terrainId))
-            }
-            val tile = oldTown.map.tiles[update.tileIndex].copy(terrain = terrain)
-            val tiles = oldTown.map.tiles.update(update.tileIndex, tile)
-            val town = oldTown.copy(map = oldTown.map.copy(tiles = tiles))
-
-            STORE.dispatch(UpdateTown(town))
+            STORE.dispatch(UpdateTerrain(update.id, update.terrainType, update.terrainId, update.tileIndex))
 
             STORE.getState().save()
 
             call.respondHtml(HttpStatusCode.OK) {
+                val state = STORE.getState()
+                val town = state.getTownStorage().getOrThrow(update.id)
                 showTerrainEditor(call, state, town, update.terrainType, update.terrainId)
             }
         }
