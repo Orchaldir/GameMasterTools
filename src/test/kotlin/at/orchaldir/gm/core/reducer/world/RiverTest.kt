@@ -25,7 +25,7 @@ class RiverTest {
     inner class DeleteTest {
 
         @Test
-        fun `Can delete an existing moon`() {
+        fun `Can delete an existing river`() {
             val state = State(Storage(River(ID0)))
             val action = DeleteRiver(ID0)
 
@@ -49,7 +49,7 @@ class RiverTest {
                 )
             )
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertFailsWith<IllegalArgumentException>("River 0 is used") { REDUCER.invoke(state, action) }
         }
     }
 
@@ -66,10 +66,10 @@ class RiverTest {
         @Test
         fun `Update is valid`() {
             val state = State(Storage(River(ID0)))
-            val moon = River(ID0, "Test")
-            val action = UpdateRiver(moon)
+            val river = River(ID0, "Test")
+            val action = UpdateRiver(river)
 
-            assertEquals(moon, REDUCER.invoke(state, action).first.getRiverStorage().get(ID0))
+            assertEquals(river, REDUCER.invoke(state, action).first.getRiverStorage().get(ID0))
         }
     }
 
