@@ -6,7 +6,9 @@ import at.orchaldir.gm.app.parse.world.parseTown
 import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.selector.world.getRivers
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -37,7 +39,7 @@ fun Application.configureTownRouting() {
             val town = state.getTownStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showTownDetails(call, town)
+                showTownDetails(call, state, town)
             }
         }
         get<TownRoutes.New> {
@@ -101,6 +103,7 @@ private fun HTML.showAllTowns(call: ApplicationCall) {
 
 private fun HTML.showTownDetails(
     call: ApplicationCall,
+    state: State,
     town: Town,
 ) {
     val backLink = call.application.href(TownRoutes())
@@ -112,6 +115,9 @@ private fun HTML.showTownDetails(
         split({
             field("Id", town.id.value.toString())
             field("Name", town.name)
+            showList("Rivers", state.getRivers(town.id)) { river ->
+                link(call, state, river)
+            }
             action(editLink, "Edit Town")
             action(editTerrainLink, "Edit Terrain")
             action(deleteLink, "Delete")
