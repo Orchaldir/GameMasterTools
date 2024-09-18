@@ -35,10 +35,23 @@ val UPDATE_TERRAIN: Reducer<UpdateTerrain, State> = { state, action ->
     require(oldTown.map.isInside(action.tileIndex)) { "Tile ${action.tileIndex} is outside the map" }
 
     val terrain = when (action.terrainType) {
-        TerrainType.Hill -> HillTerrain(MountainId(action.terrainId))
-        TerrainType.Mountain -> MountainTerrain(MountainId(action.terrainId))
+        TerrainType.Hill -> {
+            val mountainId = MountainId(action.terrainId)
+            state.getMountainStorage().require(mountainId)
+            HillTerrain(mountainId)
+        }
+
+        TerrainType.Mountain -> {
+            val mountainId = MountainId(action.terrainId)
+            state.getMountainStorage().require(mountainId)
+            MountainTerrain(mountainId)
+        }
         TerrainType.Plain -> PlainTerrain
-        TerrainType.River -> RiverTerrain(RiverId(action.terrainId))
+        TerrainType.River -> {
+            val riverId = RiverId(action.terrainId)
+            state.getRiverStorage().require(riverId)
+            RiverTerrain(riverId)
+        }
     }
     val tile = oldTown.map.tiles[action.tileIndex].copy(terrain = terrain)
     val tiles = oldTown.map.tiles.update(action.tileIndex, tile)

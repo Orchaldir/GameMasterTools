@@ -110,6 +110,21 @@ class TownTest {
             testOutside(River(RIVER0), TerrainType.River)
         }
 
+        @Test
+        fun `Set unknown hill`() {
+            testUnknown(Mountain(MOUNTAIN0), TerrainType.Hill)
+        }
+
+        @Test
+        fun `Set unknown mountain`() {
+            testUnknown(Mountain(MOUNTAIN0), TerrainType.Mountain)
+        }
+
+        @Test
+        fun `Set unknown river`() {
+            testUnknown(River(RIVER0), TerrainType.River)
+        }
+
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> testSuccess(
             river: ELEMENT,
             type: TerrainType,
@@ -129,18 +144,27 @@ class TownTest {
             element: ELEMENT,
             type: TerrainType,
         ) {
-            fail(element, type, "Tile 2 is outside the map")
+            fail(element, type, 0, 2, "Tile 2 is outside the map")
+        }
+
+        private fun <ID : Id<ID>, ELEMENT : Element<ID>> testUnknown(
+            element: ELEMENT,
+            type: TerrainType,
+        ) {
+            fail(element, type, 1, 0, "Requires unknown ${element.id().type()} 1!")
         }
 
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> fail(
             river: ELEMENT,
             type: TerrainType,
+            terrainIndex: Int,
+            tileIndex: Int,
             message: String,
         ) {
             val oldMap = TileMap2d(MapSize2d(2, 1), listOf(TownTile(), TownTile()))
             val oldTown = Town(ID0, map = oldMap)
             val state = State(listOf(Storage(river), Storage(oldTown)))
-            val action = UpdateTerrain(ID0, type, 0, 2)
+            val action = UpdateTerrain(ID0, type, terrainIndex, tileIndex)
 
             assertFailsWith<IllegalArgumentException>(message) { REDUCER.invoke(state, action) }
         }
