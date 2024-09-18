@@ -22,6 +22,6 @@ val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
         is CreateTown -> CREATE_TOWN(state, action)
         is DeleteTown -> DELETE_TOWN(state, action)
         is UpdateTown -> UPDATE_TOWN(state, action)
-        is UpdateTerrain -> UPDATE_TERRAIN(state, action)
+        is SetTerrainTile -> SET_TERRAIN_TILE(state, action)
     }
 }

@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
-import at.orchaldir.gm.core.action.UpdateTerrain
+import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
@@ -29,7 +29,7 @@ val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
     noFollowUps(state.updateStorage(state.getTownStorage().update(action.town)))
 }
 
-val UPDATE_TERRAIN: Reducer<UpdateTerrain, State> = { state, action ->
+val SET_TERRAIN_TILE: Reducer<SetTerrainTile, State> = { state, action ->
     val oldTown = state.getTownStorage().getOrThrow(action.town)
 
     require(oldTown.map.isInside(action.tileIndex)) { "Tile ${action.tileIndex} is outside the map" }

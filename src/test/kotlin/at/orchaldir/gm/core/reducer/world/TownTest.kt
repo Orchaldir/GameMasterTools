@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.core.action.DeleteTown
-import at.orchaldir.gm.core.action.UpdateTerrain
+import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
@@ -69,7 +69,7 @@ class TownTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateTerrain(ID0, TerrainType.Plain, 0, 0)
+            val action = SetTerrainTile(ID0, TerrainType.Plain, 0, 0)
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
@@ -135,7 +135,7 @@ class TownTest {
             val oldTown = Town(ID0, map = oldMap)
             val newTown = Town(ID0, map = newMap)
             val state = State(listOf(Storage(river), Storage(oldTown)))
-            val action = UpdateTerrain(ID0, type, 0, 1)
+            val action = SetTerrainTile(ID0, type, 0, 1)
 
             assertEquals(newTown, REDUCER.invoke(state, action).first.getTownStorage().get(ID0))
         }
@@ -164,7 +164,7 @@ class TownTest {
             val oldMap = TileMap2d(MapSize2d(2, 1), listOf(TownTile(), TownTile()))
             val oldTown = Town(ID0, map = oldMap)
             val state = State(listOf(Storage(river), Storage(oldTown)))
-            val action = UpdateTerrain(ID0, type, terrainIndex, tileIndex)
+            val action = SetTerrainTile(ID0, type, terrainIndex, tileIndex)
 
             assertFailsWith<IllegalArgumentException>(message) { REDUCER.invoke(state, action) }
         }

@@ -145,7 +145,7 @@ data class UpdateRiver(val river: River) : WorldAction()
 data object CreateTown : WorldAction()
 data class DeleteTown(val id: TownId) : WorldAction()
 data class UpdateTown(val town: Town) : WorldAction()
-data class UpdateTerrain(
+data class SetTerrainTile(
     val town: TownId,
     val terrainType: TerrainType,
     val terrainId: Int,

@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.core.action.UpdateTerrain
+import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.Town
@@ -55,7 +55,7 @@ fun Application.configureTerrainRouting() {
         get<TownRoutes.TerrainRoutes.Update> { update ->
             logger.info { "Update the terrain to ${update.terrainType} with id ${update.terrainId} for tile ${update.tileIndex} for town ${update.id.value}" }
 
-            STORE.dispatch(UpdateTerrain(update.id, update.terrainType, update.terrainId, update.tileIndex))
+            STORE.dispatch(SetTerrainTile(update.id, update.terrainType, update.terrainId, update.tileIndex))
 
             STORE.getState().save()
 
