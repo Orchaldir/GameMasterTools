@@ -92,7 +92,7 @@ class TownTest {
 
         @Test
         fun `Set tile outside the map to hill`() {
-            testOutside(River(RIVER0), TerrainType.Hill)
+            testOutside(Mountain(MOUNTAIN0), TerrainType.Hill)
         }
 
         @Test
@@ -102,7 +102,7 @@ class TownTest {
 
         @Test
         fun `Set tile outside the map to mountain`() {
-            testOutside(River(RIVER0), TerrainType.Mountain)
+            testOutside(Mountain(MOUNTAIN0), TerrainType.Mountain)
         }
 
         @Test
@@ -126,6 +126,13 @@ class TownTest {
         }
 
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> testOutside(
+            element: ELEMENT,
+            type: TerrainType,
+        ) {
+            fail(element, type)
+        }
+
+        private fun <ID : Id<ID>, ELEMENT : Element<ID>> fail(
             river: ELEMENT,
             type: TerrainType,
         ) {
