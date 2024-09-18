@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.selector.world.getMountains
 import at.orchaldir.gm.core.selector.world.getRivers
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
@@ -115,6 +116,9 @@ private fun HTML.showTownDetails(
         split({
             field("Id", town.id.value.toString())
             field("Name", town.name)
+            showList("Mountains", state.getMountains(town.id)) { mountain ->
+                link(call, state, mountain)
+            }
             showList("Rivers", state.getRivers(town.id)) { river ->
                 link(call, state, river)
             }

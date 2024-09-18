@@ -16,6 +16,12 @@ sealed class Terrain {
         is RiverTerrain -> river
         else -> null
     }
+
+    fun getMountain() = when (this) {
+        is MountainTerrain -> mountain
+        is HillTerrain -> mountain
+        else -> null
+    }
 }
 
 @Serializable
