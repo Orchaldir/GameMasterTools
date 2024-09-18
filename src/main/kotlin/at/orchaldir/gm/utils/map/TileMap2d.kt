@@ -16,4 +16,6 @@ data class TileMap2d<TILE>(
     fun isInside(index: Int) = size.isInside(index)
 
     fun getTile(index: Int) = tiles.getOrNull(index)
+
+    fun contains(check: (TILE) -> Boolean) = tiles.any { check(it) }
 }

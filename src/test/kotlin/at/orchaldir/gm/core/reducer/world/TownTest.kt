@@ -73,8 +73,6 @@ class TownTest {
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
-        // test unknown river & mountain
-
         @Test
         fun `Set to Hill`() {
             testSuccess(Mountain(MOUNTAIN0), TerrainType.Hill, HillTerrain(MOUNTAIN0))

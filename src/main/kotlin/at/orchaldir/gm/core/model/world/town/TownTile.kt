@@ -1,10 +1,15 @@
 package at.orchaldir.gm.core.model.world.town
 
-import at.orchaldir.gm.core.model.world.terrain.PlainTerrain
-import at.orchaldir.gm.core.model.world.terrain.Terrain
+import at.orchaldir.gm.core.model.world.terrain.*
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class TownTile(
     val terrain: Terrain = PlainTerrain,
-)
+) {
+
+    fun contains(river: RiverId) = when (terrain) {
+        is RiverTerrain -> terrain.river == river
+        else -> false
+    }
+}
