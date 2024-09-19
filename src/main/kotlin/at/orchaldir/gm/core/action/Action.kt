@@ -26,6 +26,8 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.street.Street
+import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
@@ -140,6 +142,11 @@ data class UpdateMountain(val mountain: Mountain) : WorldAction()
 data object CreateRiver : WorldAction()
 data class DeleteRiver(val id: RiverId) : WorldAction()
 data class UpdateRiver(val river: River) : WorldAction()
+
+// street
+data object CreateStreet : WorldAction()
+data class DeleteStreet(val id: StreetId) : WorldAction()
+data class UpdateStreet(val street: Street) : WorldAction()
 
 // town
 data object CreateTown : WorldAction()
