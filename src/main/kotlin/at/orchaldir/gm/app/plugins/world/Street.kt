@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.plugins.world
 
-import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseStreet
@@ -87,13 +86,13 @@ fun Application.configureStreetRouting() {
             val street = state.getStreetStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showStreetEditor(call, state, street)
+                showStreetEditor(call, street)
             }
         }
         post<StreetRoutes.Update> { update ->
             logger.info { "Update street ${update.id.value}" }
 
-            val street = parseStreet(update.id, call.receiveParameters(), STORE.getState())
+            val street = parseStreet(update.id, call.receiveParameters())
 
             STORE.dispatch(UpdateStreet(street))
 
@@ -131,7 +130,6 @@ private fun HTML.showStreetDetails(
     simpleHtml("Street: ${street.name}") {
         field("Id", street.id.value.toString())
         field("Name", street.name)
-        field(call, state, "Start Date", street.startDate)
         action(editLink, "Edit")
         if (state.canDelete(street.id)) {
             action(deleteLink, "Delete")
@@ -142,7 +140,6 @@ private fun HTML.showStreetDetails(
 
 private fun HTML.showStreetEditor(
     call: ApplicationCall,
-    state: State,
     street: Street,
 ) {
     val backLink = href(call, street.id)
@@ -152,7 +149,6 @@ private fun HTML.showStreetEditor(
         field("Id", street.id.value.toString())
         form {
             selectName(street.name)
-            selectDate(state, "Start Date", street.startDate, DATE)
             p {
                 submitInput {
                     value = "Update"
