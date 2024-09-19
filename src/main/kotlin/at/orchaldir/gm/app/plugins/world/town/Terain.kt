@@ -7,6 +7,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.plugins.world.MountainRoutes
+import at.orchaldir.gm.app.plugins.world.RiverRoutes
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.TerrainType
@@ -77,6 +79,8 @@ private fun HTML.showTerrainEditor(
 ) {
     val backLink = href(call, town.id)
     val previewLink = call.application.href(TownRoutes.TerrainRoutes.Preview(town.id))
+    val createMountainLink = call.application.href(MountainRoutes.New())
+    val createRiverLink = call.application.href(RiverRoutes.New())
 
     simpleHtml("Edit Terrain of Town ${town.name}") {
         split({
@@ -93,11 +97,17 @@ private fun HTML.showTerrainEditor(
                     TerrainType.Hill, TerrainType.Mountain -> selectTerrain(
                         "Mountain",
                         state.getMountainStorage().getAll(),
-                        terrainId
+                        terrainId,
+                        createMountainLink,
                     )
 
                     TerrainType.Plain -> doNothing()
-                    TerrainType.River -> selectTerrain("River", state.getRiverStorage().getAll(), terrainId)
+                    TerrainType.River -> selectTerrain(
+                        "River",
+                        state.getRiverStorage().getAll(),
+                        terrainId,
+                        createRiverLink,
+                    )
                 }
             }
             back(backLink)
@@ -109,10 +119,11 @@ private fun HTML.showTerrainEditor(
     }
 }
 
-private fun <ID : Id<ID>> FORM.selectTerrain(text: String, options: Collection<Element<ID>>, id: Int) {
+private fun <ID : Id<ID>> FORM.selectTerrain(text: String, options: Collection<Element<ID>>, id: Int, link: String) {
     selectValue(text, TERRAIN, options, true) { m ->
         label = m.name()
         value = m.id().value().toString()
         selected = id == m.id().value()
     }
+    action(link, "Create new $text")
 }
