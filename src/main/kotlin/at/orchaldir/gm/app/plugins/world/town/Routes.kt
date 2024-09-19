@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.plugins.world.town
 
+import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownId
 import io.ktor.resources.*
@@ -30,7 +31,7 @@ class TownRoutes {
         class Add(
             val id: TownId,
             val tileIndex: Int,
-            val streetId: Int,
+            val streetId: StreetId,
             val parent: StreetRoutes = StreetRoutes(),
         )
 

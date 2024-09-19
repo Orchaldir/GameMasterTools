@@ -7,7 +7,11 @@ import at.orchaldir.gm.core.model.world.terrain.PlainTerrain
 import at.orchaldir.gm.core.model.world.terrain.RiverTerrain
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.renderer.LinkRenderer
+import at.orchaldir.gm.utils.renderer.NoBorder
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
@@ -29,4 +33,9 @@ fun TownTile.getColor() = when (terrain) {
     is MountainTerrain -> Color.Gray
     PlainTerrain -> Color.Green
     is RiverTerrain -> Color.Blue
+}
+
+fun renderStreet(renderer: LinkRenderer, tile: AABB, color: Color = Color.Gray) {
+    val style = NoBorder(color.toRender())
+    renderer.renderRectangle(tile.shrink(Factor(0.5f)), style)
 }
