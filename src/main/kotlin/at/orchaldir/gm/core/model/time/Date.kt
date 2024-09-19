@@ -12,6 +12,8 @@ sealed class Date {
         is Year -> DateType.Year
     }
 
+    abstract fun isBetween(start: Day, end: Day): Boolean
+
 }
 
 @Serializable
@@ -26,9 +28,13 @@ data class Day(val day: Int) : Date() {
 
     fun getDurationBetween(other: Day) = Duration((day - other.day).absoluteValue)
 
-    fun isBetween(start: Day, end: Day) = day >= start.day && day <= end.day
+    override fun isBetween(start: Day, end: Day) = day >= start.day && day <= end.day
 }
 
 @Serializable
 @SerialName("Year")
-data class Year(val year: Int) : Date()
+data class Year(val year: Int) : Date() {
+
+    override fun isBetween(start: Day, end: Day) = false
+
+}

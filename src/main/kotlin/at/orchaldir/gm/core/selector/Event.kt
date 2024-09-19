@@ -1,12 +1,15 @@
 package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.event.CharacterDeathEvent
 import at.orchaldir.gm.core.model.event.CharacterOriginEvent
 import at.orchaldir.gm.core.model.event.Event
+import at.orchaldir.gm.core.model.event.TownFoundingEvent
 import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.Year
 
 fun State.getEvents(): List<Event> {
     val events = mutableListOf<Event>()
@@ -19,6 +22,10 @@ fun State.getEvents(): List<Event> {
         }
     }
 
+    getTownStorage().getAll().forEach { town ->
+        events.add(TownFoundingEvent(town.foundingDate, town.id))
+    }
+
     return events
 }
 
@@ -27,8 +34,19 @@ fun State.getEventsOfMonth(calendarId: CalendarId, day: Day): List<Event> {
     val start = calendar.getStartOfMonth(day)
     val end = calendar.getEndOfMonth(day)
 
-    return getEvents().filter { it.getEventDay().isBetween(start, end) }
+    return getEvents().filter { it.getDate().isBetween(start, end) }
 }
 
-fun List<Event>.sort() = sortedBy { it.getEventDay().day }
+fun List<Event>.sort(calendar: Calendar): List<Event> {
+    val daysPerYear = calendar.getDaysPerYear()
+
+    return sortedBy {
+        when (val date = it.getDate()) {
+            is Day -> date.day
+            is Year -> {
+                date.year * daysPerYear
+            }
+        }
+    }
+}
 

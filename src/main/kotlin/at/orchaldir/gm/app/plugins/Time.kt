@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.event.CharacterDeathEvent
 import at.orchaldir.gm.core.model.event.CharacterOriginEvent
 import at.orchaldir.gm.core.model.event.Event
+import at.orchaldir.gm.core.model.event.TownFoundingEvent
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.DisplayDay
 import at.orchaldir.gm.core.model.world.moon.Moon
@@ -255,7 +256,7 @@ private fun HTML.editTimeData(
 private fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val events = state.getEvents().sort()
+    val events = state.getEvents()
     val backLink = call.application.href(TimeRoutes())
 
     simpleHtml("Events") {
@@ -269,17 +270,20 @@ private fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
 }
 
 private fun HtmlBlockTag.showEvents(
-    events: List<Event>,
+    unsortedEvents: List<Event>,
     call: ApplicationCall,
     state: State,
     calendar: Calendar,
 ) {
+    val events = unsortedEvents.sort(calendar)
+
     showList("Events", events) { event ->
-        val day = event.getEventDay()
-        if (day == state.time.currentDate) {
-            link(call, day, "Today")
+        val date = event.getDate()
+
+        if (date is Day && date == state.time.currentDate) {
+            link(call, date, "Today")
         } else {
-            link(call, calendar, day)
+            link(call, calendar, date)
         }
         +": "
         when (event) {
@@ -291,6 +295,11 @@ private fun HtmlBlockTag.showEvents(
             is CharacterOriginEvent -> {
                 link(call, state, event.characterId)
                 +" was born."
+            }
+
+            is TownFoundingEvent -> {
+                link(call, state, event.townId)
+                +" was founded."
             }
         }
     }
