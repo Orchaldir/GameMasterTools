@@ -46,6 +46,7 @@ val SET_TERRAIN_TILE: Reducer<SetTerrainTile, State> = { state, action ->
             state.getMountainStorage().require(mountainId)
             MountainTerrain(mountainId)
         }
+
         TerrainType.Plain -> PlainTerrain
         TerrainType.River -> {
             val riverId = RiverId(action.terrainId)

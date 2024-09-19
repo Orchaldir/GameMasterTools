@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.action.UpdateRiver
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
-import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*

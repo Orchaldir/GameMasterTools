@@ -9,7 +9,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.*
+import at.orchaldir.gm.core.model.world.terrain.TerrainType
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
