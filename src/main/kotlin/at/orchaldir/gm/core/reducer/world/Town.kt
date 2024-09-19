@@ -12,9 +12,9 @@ import at.orchaldir.gm.utils.redux.noFollowUps
 import at.orchaldir.gm.utils.update
 
 val CREATE_TOWN: Reducer<CreateTown, State> = { state, _ ->
-    val moon = Town(state.getTownStorage().nextId)
+    val town = Town(state.getTownStorage().nextId, foundingDate = state.time.currentDate)
 
-    noFollowUps(state.updateStorage(state.getTownStorage().add(moon)))
+    noFollowUps(state.updateStorage(state.getTownStorage().add(town)))
 }
 
 val DELETE_TOWN: Reducer<DeleteTown, State> = { state, action ->

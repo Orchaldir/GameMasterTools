@@ -223,6 +223,10 @@
      {
      }
     ]
+   },
+   "foundingDate": {
+    "type": "Year",
+    "year": 1624
    }
   }
  }

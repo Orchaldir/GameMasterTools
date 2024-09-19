@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.plugins.world.town
 
+import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseTown
@@ -68,7 +69,7 @@ fun Application.configureTownRouting() {
             val town = state.getTownStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showTownEditor(call, town)
+                showTownEditor(call, state, town)
             }
         }
         post<TownRoutes.Update> { update ->
@@ -76,7 +77,7 @@ fun Application.configureTownRouting() {
 
             val state = STORE.getState()
             val oldTown = state.getTownStorage().getOrThrow(update.id)
-            val town = parseTown(oldTown, call.receiveParameters())
+            val town = parseTown(call.receiveParameters(), state, oldTown)
 
             STORE.dispatch(UpdateTown(town))
 
@@ -116,6 +117,7 @@ private fun HTML.showTownDetails(
         split({
             field("Id", town.id.value.toString())
             field("Name", town.name)
+            field(call, state, "Founding", town.foundingDate)
             showList("Mountains", state.getMountains(town.id)) { mountain ->
                 link(call, state, mountain)
             }
@@ -134,6 +136,7 @@ private fun HTML.showTownDetails(
 
 private fun HTML.showTownEditor(
     call: ApplicationCall,
+    state: State,
     town: Town,
 ) {
     val backLink = href(call, town.id)
@@ -144,6 +147,7 @@ private fun HTML.showTownEditor(
             field("Id", town.id.value.toString())
             form {
                 selectName(town.name)
+                selectDate(state, "Founding", town.foundingDate, DATE)
                 p {
                     submitInput {
                         value = "Update"
