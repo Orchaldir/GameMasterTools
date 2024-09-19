@@ -80,7 +80,7 @@ fun HtmlBlockTag.link(
     day: Day,
     text: String,
 ) {
-    link(call.application.href(TimeRoutes.ShowDate(day)), text)
+    link(call.application.href(TimeRoutes.ShowDay(day)), text)
 }
 
 // element

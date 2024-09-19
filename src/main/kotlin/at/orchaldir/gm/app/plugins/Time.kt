@@ -35,8 +35,8 @@ private val logger = KotlinLogging.logger {}
 @Resource("/time")
 class TimeRoutes {
 
-    @Resource("date")
-    class ShowDate(val day: Day, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+    @Resource("day")
+    class ShowDay(val day: Day, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
 
     @Resource("events")
     class ShowEvents(val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
@@ -57,12 +57,12 @@ fun Application.configureTimeRouting() {
                 showTimeData(call)
             }
         }
-        get<TimeRoutes.ShowDate> { data ->
+        get<TimeRoutes.ShowDay> { data ->
             val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
             logger.info { "Show month of day ${data.day.day} for calendar ${calendarId.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showMonth(call, calendarId, data.day)
+                showDay(call, calendarId, data.day)
             }
         }
         get<TimeRoutes.ShowEvents> { data ->
@@ -108,16 +108,16 @@ private fun HTML.showTimeData(call: ApplicationCall) {
     }
 }
 
-private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: Day) {
+private fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayDay = calendar.resolve(day)
     val events = state.getEventsOfMonth(calendarId, day)
     val backLink = call.application.href(TimeRoutes())
-    val nextLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfNextMonth(day)))
-    val previousLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfPreviousMonth(day)))
+    val nextLink = call.application.href(TimeRoutes.ShowDay(calendar.getStartOfNextMonth(day)))
+    val previousLink = call.application.href(TimeRoutes.ShowDay(calendar.getStartOfPreviousMonth(day)))
 
-    simpleHtml("Date: " + calendar.display(displayDay)) {
+    simpleHtml("Day: " + calendar.display(displayDay)) {
         field("Calendar") {
             link(call, calendar)
         }
