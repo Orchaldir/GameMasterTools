@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.time
 
+import at.orchaldir.gm.core.model.calendar.Calendar
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
@@ -12,7 +13,7 @@ sealed class Date {
         is Year -> DateType.Year
     }
 
-    abstract fun isBetween(start: Day, end: Day): Boolean
+    abstract fun isBetween(calendar: Calendar, start: Day, end: Day): Boolean
 
 }
 
@@ -31,14 +32,16 @@ data class Day(val day: Int) : Date() {
 
     fun getDurationBetween(other: Day) = Duration((day - other.day).absoluteValue)
 
-    override fun isBetween(start: Day, end: Day) = day >= start.day && day <= end.day
+    override fun isBetween(calendar: Calendar, start: Day, end: Day) = day >= start.day && day <= end.day
 }
 
 @Serializable
 @SerialName("Year")
 data class Year(val year: Int) : Date() {
 
-    override fun isBetween(start: Day, end: Day) = false
+    override fun isBetween(calendar: Calendar, start: Day, end: Day) = calendar
+        .getStartOfYear(this)
+        .isBetween(calendar, start, end)
 
     fun next() = Year(year + 1)
     fun previous() = Year(year - 1)
