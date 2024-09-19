@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.model.world.town.NoConstruction
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
-import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.svg.Svg
@@ -26,6 +25,7 @@ import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
+import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.FormMethod
 import kotlinx.html.HTML
@@ -42,6 +42,16 @@ fun Application.configureStreetEditorRouting() {
 
             val state = STORE.getState()
             val town = state.getTownStorage().getOrThrow(edit.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showStreetEditor(call, state, town, StreetId(0))
+            }
+        }
+        post<TownRoutes.StreetRoutes.Preview> { preview ->
+            logger.info { "Preview the street editor for town ${preview.id.value}" }
+
+            val state = STORE.getState()
+            val town = state.getTownStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
             val streetId: Int = parseInt(params, TERRAIN, 0)
 
@@ -72,7 +82,7 @@ private fun HTML.showStreetEditor(
     streetId: StreetId,
 ) {
     val backLink = href(call, town.id)
-    val previewLink = call.application.href(TownRoutes.StreetRoutes.Edit(town.id))
+    val previewLink = call.application.href(TownRoutes.StreetRoutes.Preview(town.id))
     val createLink = call.application.href(StreetRoutes.New())
 
     simpleHtml("Edit Streets of Town ${town.name}") {
@@ -82,8 +92,8 @@ private fun HTML.showStreetEditor(
                 action = previewLink
                 method = FormMethod.post
                 selectValue("Street", STREET, state.getStreetStorage().getAll(), true) { street ->
-                    label = street.toString()
-                    value = street.toString()
+                    label = street.name
+                    value = street.id.toString()
                     selected = street.id == streetId
                 }
             }
