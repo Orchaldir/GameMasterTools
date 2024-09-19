@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.plugins.race.configureRaceRouting
 import at.orchaldir.gm.app.plugins.world.configureMoonRouting
 import at.orchaldir.gm.app.plugins.world.configureMountainRouting
 import at.orchaldir.gm.app.plugins.world.configureRiverRouting
+import at.orchaldir.gm.app.plugins.world.configureStreetRouting
 import at.orchaldir.gm.app.plugins.world.town.configureTerrainRouting
 import at.orchaldir.gm.app.plugins.world.town.configureTownRouting
 import at.orchaldir.gm.core.action.Action
@@ -54,6 +55,7 @@ fun Application.module() {
     configureRiverRouting()
     configureTerrainRouting()
     configureTimeRouting()
+    configureStreetRouting()
     configureTownRouting()
 }
 

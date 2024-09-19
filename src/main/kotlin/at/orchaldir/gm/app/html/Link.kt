@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.plugins.race.RaceRoutes
 import at.orchaldir.gm.app.plugins.world.MoonRoutes
 import at.orchaldir.gm.app.plugins.world.MountainRoutes
 import at.orchaldir.gm.app.plugins.world.RiverRoutes
+import at.orchaldir.gm.app.plugins.world.StreetRoutes
 import at.orchaldir.gm.app.plugins.world.town.TownRoutes
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
@@ -26,6 +27,7 @@ import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownId
@@ -141,6 +143,7 @@ fun <ID : Id<ID>> href(
     is RaceId -> call.application.href(RaceRoutes.Details(id))
     is RaceAppearanceId -> call.application.href(RaceRoutes.AppearanceRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))
+    is StreetId -> call.application.href(StreetRoutes.Details(id))
     is TownId -> call.application.href(TownRoutes.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
 }
