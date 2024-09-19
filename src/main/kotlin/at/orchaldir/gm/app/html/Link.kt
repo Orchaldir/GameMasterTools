@@ -71,7 +71,9 @@ fun HtmlBlockTag.link(
             link(call, date, calendar.display(calendarDate))
         }
 
-        is Year -> +calendar.display(calendarDate)
+        is Year -> {
+            link(call, date, calendar.display(calendarDate))
+        }
     }
 }
 
@@ -81,6 +83,14 @@ fun HtmlBlockTag.link(
     text: String,
 ) {
     link(call.application.href(TimeRoutes.ShowDay(day)), text)
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    year: Year,
+    text: String,
+) {
+    link(call.application.href(TimeRoutes.ShowYear(year)), text)
 }
 
 // element

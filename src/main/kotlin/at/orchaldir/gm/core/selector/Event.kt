@@ -37,6 +37,14 @@ fun State.getEventsOfMonth(calendarId: CalendarId, day: Day): List<Event> {
     return getEvents().filter { it.getDate().isBetween(start, end) }
 }
 
+fun State.getEventsOfYear(calendarId: CalendarId, year: Year): List<Event> {
+    val calendar = getCalendarStorage().getOrThrow(calendarId)
+    val start = calendar.getStartOfYear(year)
+    val end = calendar.getEndOfYear(year)
+
+    return getEvents().filter { it.getDate().isBetween(start, end) }
+}
+
 fun List<Event>.sort(calendar: Calendar): List<Event> {
     val daysPerYear = calendar.getDaysPerYear()
 

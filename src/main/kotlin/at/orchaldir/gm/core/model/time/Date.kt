@@ -23,6 +23,9 @@ data class Day(val day: Int) : Date() {
         return day.compareTo(other.day)
     }
 
+    fun next() = this + 1
+    fun previous() = this - 1
+
     operator fun plus(duration: Int) = Day(day + duration)
     operator fun minus(duration: Int) = Day(day - duration)
 
@@ -36,5 +39,8 @@ data class Day(val day: Int) : Date() {
 data class Year(val year: Int) : Date() {
 
     override fun isBetween(start: Day, end: Day) = false
+
+    fun next() = Year(year + 1)
+    fun previous() = Year(year - 1)
 
 }

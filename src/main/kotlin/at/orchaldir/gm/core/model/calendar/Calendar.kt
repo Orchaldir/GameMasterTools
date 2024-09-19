@@ -34,6 +34,8 @@ data class Calendar(
 
     fun getDaysPerYear() = months.sumOf { it.days }
 
+    // month
+
     fun getMonth(day: Day) = getMonth(resolve(day))
 
     fun getMonth(day: DisplayDay) = months[day.monthIndex]
@@ -63,6 +65,16 @@ data class Calendar(
     }
 
     fun getEndOfMonth(day: Day) = getStartOfNextMonth(day) - 1
+
+    // year
+
+    fun getStartOfYear(year: Year) = resolve(getStartOfYear(resolve(year)))
+
+    fun getStartOfYear(year: DisplayYear) = DisplayDay(year.eraIndex, year.yearIndex, 0, 0, null)
+
+    fun getEndOfYear(year: Year) = getStartOfYear(year.next()).previous()
+
+    //
 
     fun getWeekDay(date: Day) = when (days) {
         DayOfTheMonth -> null

@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.event.Event
 import at.orchaldir.gm.core.model.event.TownFoundingEvent
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.DisplayDay
+import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonPhase
 import at.orchaldir.gm.core.selector.*
@@ -38,6 +39,9 @@ class TimeRoutes {
     @Resource("day")
     class ShowDay(val day: Day, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
 
+    @Resource("year")
+    class ShowYear(val year: Year, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+
     @Resource("events")
     class ShowEvents(val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
 
@@ -59,10 +63,18 @@ fun Application.configureTimeRouting() {
         }
         get<TimeRoutes.ShowDay> { data ->
             val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
-            logger.info { "Show month of day ${data.day.day} for calendar ${calendarId.value}" }
+            logger.info { "Show the day ${data.day.day} for calendar ${calendarId.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 showDay(call, calendarId, data.day)
+            }
+        }
+        get<TimeRoutes.ShowYear> { data ->
+            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
+            logger.info { "Show the year ${data.year.year} for calendar ${calendarId.value}" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showYear(call, calendarId, data.year)
             }
         }
         get<TimeRoutes.ShowEvents> { data ->
@@ -223,6 +235,26 @@ private fun TD.showIcon(
                 width = "16p"
             }
         }
+    }
+}
+
+private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Year) {
+    val state = STORE.getState()
+    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+    val displayYear = calendar.resolve(year)
+    val events = state.getEventsOfYear(calendarId, year)
+    val backLink = call.application.href(TimeRoutes())
+    val nextLink = call.application.href(TimeRoutes.ShowYear(year.next()))
+    val previousLink = call.application.href(TimeRoutes.ShowYear(year.previous()))
+
+    simpleHtml("Year: " + calendar.display(displayYear)) {
+        field("Calendar") {
+            link(call, calendar)
+        }
+        action(nextLink, "Next Year")
+        action(previousLink, "Previous Year")
+        showEvents(events, call, state, calendar)
+        back(backLink)
     }
 }
 
