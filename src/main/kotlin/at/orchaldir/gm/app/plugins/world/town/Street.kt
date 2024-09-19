@@ -6,7 +6,9 @@ import at.orchaldir.gm.app.TERRAIN
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.plugins.world.StreetRoutes
+import at.orchaldir.gm.core.action.AddStreetTile
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
@@ -38,9 +40,9 @@ fun Application.configureStreetEditorRouting() {
             }
         }
         get<TownRoutes.StreetRoutes.Add> { add ->
-            logger.info { "Update the street ${add.streetId} to tile ${add.tileIndex} for town ${add.id.value}" }
+            logger.info { "Set tile ${add.tileIndex} to street ${add.streetId} for town ${add.id.value}" }
 
-            //STORE.dispatch(SetTerrainTile(add.id, add.terrainType, add.terrainId, add.tileIndex))
+            STORE.dispatch(AddStreetTile(add.id, add.tileIndex, StreetId(add.streetId)))
 
             STORE.getState().save()
 

@@ -152,6 +152,11 @@ data class UpdateStreet(val street: Street) : WorldAction()
 data object CreateTown : WorldAction()
 data class DeleteTown(val id: TownId) : WorldAction()
 data class UpdateTown(val town: Town) : WorldAction()
+data class AddStreetTile(
+    val town: TownId,
+    val tileIndex: Int,
+    val street: StreetId,
+) : WorldAction()
 data class SetTerrainTile(
     val town: TownId,
     val terrainType: TerrainType,
