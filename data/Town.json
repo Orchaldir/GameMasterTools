@@ -21,6 +21,10 @@
      {
      },
      {
+      "construction": {
+       "type": "Street",
+       "street": 1
+      }
      },
      {
      },
@@ -45,6 +49,10 @@
      {
      },
      {
+      "construction": {
+       "type": "Street",
+       "street": 1
+      }
      },
      {
      },
@@ -71,6 +79,48 @@
      {
      },
      {
+      "construction": {
+       "type": "Street",
+       "street": 0
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "street": 0
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "street": 0
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "street": 0
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "street": 1
+      }
      },
      {
      },
@@ -91,6 +141,10 @@
      {
      },
      {
+      "construction": {
+       "type": "Street",
+       "street": 1
+      }
      },
      {
      },
@@ -111,6 +165,10 @@
      {
      },
      {
+      "construction": {
+       "type": "Street",
+       "street": 1
+      }
      },
      {
      },
@@ -131,30 +189,16 @@
      {
      },
      {
+      "construction": {
+       "type": "Street",
+       "street": 1
+      }
      },
      {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
+      "construction": {
+       "type": "Street",
+       "street": 1
+      }
      },
      {
      },

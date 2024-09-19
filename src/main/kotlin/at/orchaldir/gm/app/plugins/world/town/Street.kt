@@ -53,7 +53,7 @@ fun Application.configureStreetEditorRouting() {
             val state = STORE.getState()
             val town = state.getTownStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
-            val streetId: Int = parseInt(params, TERRAIN, 0)
+            val streetId: Int = parseInt(params, STREET, 0)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showStreetEditor(call, state, town, StreetId(streetId))
@@ -93,7 +93,7 @@ private fun HTML.showStreetEditor(
                 method = FormMethod.post
                 selectValue("Street", STREET, state.getStreetStorage().getAll(), true) { street ->
                     label = street.name
-                    value = street.id.toString()
+                    value = street.id.value.toString()
                     selected = street.id == streetId
                 }
             }

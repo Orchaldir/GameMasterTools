@@ -12,7 +12,7 @@ sealed class Construction
 data object NoConstruction : Construction()
 
 @Serializable
-@SerialName("River")
+@SerialName("Street")
 data class StreetTile(val street: StreetId) : Construction()
 
 
