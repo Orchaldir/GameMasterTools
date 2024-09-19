@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.plugins.world
+package at.orchaldir.gm.app.plugins.world.town
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
@@ -6,11 +6,12 @@ import at.orchaldir.gm.app.parse.world.parseTown
 import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.selector.world.getMountains
+import at.orchaldir.gm.core.selector.world.getRivers
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
-import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.request.*
@@ -22,24 +23,6 @@ import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
-
-@Resource("/towns")
-class TownRoutes {
-    @Resource("details")
-    class Details(val id: TownId, val parent: TownRoutes = TownRoutes())
-
-    @Resource("new")
-    class New(val parent: TownRoutes = TownRoutes())
-
-    @Resource("delete")
-    class Delete(val id: TownId, val parent: TownRoutes = TownRoutes())
-
-    @Resource("edit")
-    class Edit(val id: TownId, val parent: TownRoutes = TownRoutes())
-
-    @Resource("update")
-    class Update(val id: TownId, val parent: TownRoutes = TownRoutes())
-}
 
 fun Application.configureTownRouting() {
     routing {
@@ -57,7 +40,7 @@ fun Application.configureTownRouting() {
             val town = state.getTownStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showTownDetails(call, town)
+                showTownDetails(call, state, town)
             }
         }
         get<TownRoutes.New> {
@@ -91,7 +74,9 @@ fun Application.configureTownRouting() {
         post<TownRoutes.Update> { update ->
             logger.info { "Update town ${update.id.value}" }
 
-            val town = parseTown(update.id, call.receiveParameters())
+            val state = STORE.getState()
+            val oldTown = state.getTownStorage().getOrThrow(update.id)
+            val town = parseTown(oldTown, call.receiveParameters())
 
             STORE.dispatch(UpdateTown(town))
 
@@ -119,17 +104,26 @@ private fun HTML.showAllTowns(call: ApplicationCall) {
 
 private fun HTML.showTownDetails(
     call: ApplicationCall,
+    state: State,
     town: Town,
 ) {
     val backLink = call.application.href(TownRoutes())
     val deleteLink = call.application.href(TownRoutes.Delete(town.id))
     val editLink = call.application.href(TownRoutes.Edit(town.id))
+    val editTerrainLink = call.application.href(TownRoutes.TerrainRoutes.Edit(town.id))
 
     simpleHtml("Town: ${town.name}") {
         split({
             field("Id", town.id.value.toString())
             field("Name", town.name)
-            action(editLink, "Edit")
+            showList("Mountains", state.getMountains(town.id)) { mountain ->
+                link(call, state, mountain)
+            }
+            showList("Rivers", state.getRivers(town.id)) { river ->
+                link(call, state, river)
+            }
+            action(editLink, "Edit Town")
+            action(editTerrainLink, "Edit Terrain")
             action(deleteLink, "Delete")
             back(backLink)
         }, {
@@ -146,17 +140,21 @@ private fun HTML.showTownEditor(
     val updateLink = call.application.href(TownRoutes.Update(town.id))
 
     simpleHtml("Edit Town: ${town.name}") {
-        field("Id", town.id.value.toString())
-        form {
-            selectName(town.name)
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
+        split({
+            field("Id", town.id.value.toString())
+            form {
+                selectName(town.name)
+                p {
+                    submitInput {
+                        value = "Update"
+                        formAction = updateLink
+                        formMethod = InputFormMethod.post
+                    }
                 }
             }
-        }
-        back(backLink)
+            back(backLink)
+        }, {
+            svg(visualizeTown(town), 90)
+        })
     }
 }

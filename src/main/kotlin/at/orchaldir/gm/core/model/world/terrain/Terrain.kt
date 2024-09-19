@@ -1,10 +1,30 @@
 package at.orchaldir.gm.core.model.world.terrain
 
+import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class Terrain
+sealed class Terrain {
+
+    fun <ID : Id<ID>> contains(id: ID) = when (this) {
+        is HillTerrain -> mountain == id
+        is MountainTerrain -> mountain == id
+        is RiverTerrain -> river == id
+        else -> false
+    }
+
+    fun getRiver() = when (this) {
+        is RiverTerrain -> river
+        else -> null
+    }
+
+    fun getMountain() = when (this) {
+        is MountainTerrain -> mountain
+        is HillTerrain -> mountain
+        else -> null
+    }
+}
 
 @Serializable
 @SerialName("Hill")

@@ -6,8 +6,11 @@ import at.orchaldir.gm.app.parse.world.parseMountain
 import at.orchaldir.gm.core.action.CreateMountain
 import at.orchaldir.gm.core.action.DeleteMountain
 import at.orchaldir.gm.core.action.UpdateMountain
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.Mountain
 import at.orchaldir.gm.core.model.world.terrain.MountainId
+import at.orchaldir.gm.core.selector.world.canDelete
+import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -56,7 +59,7 @@ fun Application.configureMountainRouting() {
             val mountain = state.getMountainStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showMountainDetails(call, mountain)
+                showMountainDetails(call, state, mountain)
             }
         }
         get<MountainRoutes.New> {
@@ -124,6 +127,7 @@ private fun HTML.showAllMountains(call: ApplicationCall) {
 
 private fun HTML.showMountainDetails(
     call: ApplicationCall,
+    state: State,
     mountain: Mountain,
 ) {
     val backLink = call.application.href(MountainRoutes())
@@ -133,8 +137,13 @@ private fun HTML.showMountainDetails(
     simpleHtml("Mountain: ${mountain.name}") {
         field("Id", mountain.id.value.toString())
         field("Name", mountain.name)
+        showList("Towns", state.getTowns(mountain.id)) { town ->
+            link(call, town)
+        }
         action(editLink, "Edit")
-        action(deleteLink, "Delete")
+        if (state.canDelete(mountain.id)) {
+            action(deleteLink, "Delete")
+        }
         back(backLink)
     }
 }

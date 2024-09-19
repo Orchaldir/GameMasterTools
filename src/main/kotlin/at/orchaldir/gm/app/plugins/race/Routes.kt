@@ -43,8 +43,5 @@ class RaceRoutes {
 
         @Resource("update")
         class Update(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
-
-        @Resource("generate")
-        class Generate(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
     }
 }

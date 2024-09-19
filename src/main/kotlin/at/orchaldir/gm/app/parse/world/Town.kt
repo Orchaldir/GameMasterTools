@@ -9,7 +9,4 @@ import io.ktor.server.util.*
 
 fun parseTownId(parameters: Parameters, param: String) = TownId(parseInt(parameters, param))
 
-fun parseTown(id: TownId, parameters: Parameters) = Town(
-    id,
-    parameters.getOrFail(NAME),
-)
+fun parseTown(oldTown: Town, parameters: Parameters) = oldTown.copy(name = parameters.getOrFail(NAME))

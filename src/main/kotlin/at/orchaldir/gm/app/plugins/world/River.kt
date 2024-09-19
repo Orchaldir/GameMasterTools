@@ -6,8 +6,11 @@ import at.orchaldir.gm.app.parse.world.parseRiver
 import at.orchaldir.gm.core.action.CreateRiver
 import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
+import at.orchaldir.gm.core.selector.world.canDelete
+import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -56,7 +59,7 @@ fun Application.configureRiverRouting() {
             val river = state.getRiverStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showRiverDetails(call, river)
+                showRiverDetails(call, state, river)
             }
         }
         get<RiverRoutes.New> {
@@ -118,6 +121,7 @@ private fun HTML.showAllRivers(call: ApplicationCall) {
 
 private fun HTML.showRiverDetails(
     call: ApplicationCall,
+    state: State,
     river: River,
 ) {
     val backLink = call.application.href(RiverRoutes())
@@ -127,8 +131,13 @@ private fun HTML.showRiverDetails(
     simpleHtml("River: ${river.name}") {
         field("Id", river.id.value.toString())
         field("Name", river.name)
+        showList("Towns", state.getTowns(river.id)) { town ->
+            link(call, town)
+        }
         action(editLink, "Edit")
-        action(deleteLink, "Delete")
+        if (state.canDelete(river.id)) {
+            action(deleteLink, "Delete")
+        }
         back(backLink)
     }
 }

@@ -6,7 +6,7 @@ import java.util.*
 
 val LOCALE: Locale = Locale.US
 
-class SvgBuilder(private val size: Size2d) : Renderer {
+class SvgBuilder(private val size: Size2d) : LinkRenderer {
     private val patterns: MutableMap<RenderFill, String> = mutableMapOf()
     private val layers: MutableMap<Int, MutableList<String>> = mutableMapOf()
 
@@ -28,6 +28,22 @@ class SvgBuilder(private val size: Size2d) : Renderer {
         lines.add("</svg>")
         return Svg(lines)
     }
+
+    // LinkRenderer
+
+    override fun link(link: String, layer: Int) {
+        layers.computeIfAbsent(layer) {
+            mutableListOf()
+        }.add(String.format(LOCALE, "  <a href=\"%s\" target=\"_parent\">", link))
+    }
+
+    override fun closeLink(layer: Int) {
+        layers.computeIfAbsent(layer) {
+            mutableListOf()
+        }.add("  </a>")
+    }
+
+    // Renderer
 
     override fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions, layer: Int) {
         layers.computeIfAbsent(layer) {

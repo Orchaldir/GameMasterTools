@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.plugins.race.RaceRoutes
 import at.orchaldir.gm.app.plugins.world.MoonRoutes
 import at.orchaldir.gm.app.plugins.world.MountainRoutes
 import at.orchaldir.gm.app.plugins.world.RiverRoutes
-import at.orchaldir.gm.app.plugins.world.TownRoutes
+import at.orchaldir.gm.app.plugins.world.town.TownRoutes
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar

@@ -14,11 +14,12 @@ import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 
 fun visualizeTown(
     town: Town,
+    linkLookup: (Int, TownTile) -> String? = { _, _ -> null },
 ): Svg {
     val tileMapRenderer = TileMap2dRenderer(Distance(20.0f), Distance(1.0f))
     val svgBuilder = SvgBuilder(tileMapRenderer.calculateMapSize(town.map))
 
-    tileMapRenderer.render(svgBuilder, town.map, TownTile::getColor)
+    tileMapRenderer.renderWithLinks(svgBuilder, town.map, TownTile::getColor, linkLookup)
 
     return svgBuilder.finish()
 }
