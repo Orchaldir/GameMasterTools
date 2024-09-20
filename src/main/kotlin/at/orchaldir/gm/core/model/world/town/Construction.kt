@@ -5,7 +5,14 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class Construction
+sealed class Construction {
+
+    fun getStreet() = when (this) {
+        is StreetTile -> street
+        else -> null
+    }
+
+}
 
 @Serializable
 @SerialName("None")

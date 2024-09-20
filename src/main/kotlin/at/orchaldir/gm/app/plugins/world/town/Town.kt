@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.getMountains
 import at.orchaldir.gm.core.selector.world.getRivers
+import at.orchaldir.gm.core.selector.world.getStreets
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -124,6 +125,9 @@ private fun HTML.showTownDetails(
             }
             showList("Rivers", state.getRivers(town.id)) { river ->
                 link(call, state, river)
+            }
+            showList("Streets", state.getStreets(town.id)) { street ->
+                link(call, state, street)
             }
             action(editLink, "Edit Town")
             action(editStreetLink, "Edit Streets")
