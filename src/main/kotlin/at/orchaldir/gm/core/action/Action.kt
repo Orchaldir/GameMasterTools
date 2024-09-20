@@ -157,6 +157,10 @@ data class AddStreetTile(
     val tileIndex: Int,
     val street: StreetId,
 ) : WorldAction()
+data class RemoveStreetTile(
+    val town: TownId,
+    val tileIndex: Int,
+) : WorldAction()
 data class SetTerrainTile(
     val town: TownId,
     val terrainType: TerrainType,

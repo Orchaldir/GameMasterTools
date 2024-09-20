@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
+import at.orchaldir.gm.core.model.world.town.NoConstruction
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.utils.redux.Reducer
@@ -34,6 +35,22 @@ val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
     require(oldTown.map.isInside(action.tileIndex)) { "Tile ${action.tileIndex} is outside the map" }
 
     val tile = oldTown.map.tiles[action.tileIndex].copy(construction = StreetTile(action.street))
+    val tiles = oldTown.map.tiles.update(action.tileIndex, tile)
+    val town = oldTown.copy(map = oldTown.map.copy(tiles = tiles))
+
+    noFollowUps(state.updateStorage(state.getTownStorage().update(town)))
+}
+
+val REMOVE_STREET_TILE: Reducer<RemoveStreetTile, State> = { state, action ->
+    val oldTown = state.getTownStorage().getOrThrow(action.town)
+
+    require(oldTown.map.isInside(action.tileIndex)) { "Tile ${action.tileIndex} is outside the map" }
+
+    val oldTile = oldTown.map.tiles[action.tileIndex]
+
+    require(oldTile.construction is StreetTile) { "Tile ${action.tileIndex} is not a street" }
+
+    val tile = oldTile.copy(construction = NoConstruction)
     val tiles = oldTown.map.tiles.update(action.tileIndex, tile)
     val town = oldTown.copy(map = oldTown.map.copy(tiles = tiles))
 
