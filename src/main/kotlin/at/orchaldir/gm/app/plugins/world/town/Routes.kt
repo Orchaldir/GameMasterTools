@@ -42,6 +42,7 @@ class TownRoutes {
         class Remove(
             val id: TownId,
             val tileIndex: Int,
+            val selectedStreet: StreetId,
             val parent: StreetRoutes = StreetRoutes(),
         )
     }

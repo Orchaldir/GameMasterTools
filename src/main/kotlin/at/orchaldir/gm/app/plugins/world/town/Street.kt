@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.plugins.world.StreetRoutes
 import at.orchaldir.gm.core.action.AddStreetTile
+import at.orchaldir.gm.core.action.RemoveStreetTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.street.StreetId
@@ -71,6 +72,19 @@ fun Application.configureStreetEditorRouting() {
                 showStreetEditor(call, state, town, add.streetId)
             }
         }
+        get<TownRoutes.StreetRoutes.Remove> { remove ->
+            logger.info { "Remove street from tile ${remove.tileIndex} for town ${remove.id.value}" }
+
+            STORE.dispatch(RemoveStreetTile(remove.id, remove.tileIndex))
+
+            STORE.getState().save()
+
+            call.respondHtml(HttpStatusCode.OK) {
+                val state = STORE.getState()
+                val town = state.getTownStorage().getOrThrow(remove.id)
+                showStreetEditor(call, state, town, remove.selectedStreet)
+            }
+        }
     }
 }
 
@@ -120,12 +134,16 @@ fun visualizeStreetEditor(
         }
     }
 
-    visualizeStreetsComplex(tileMapRenderer, town) { aabb, street, _ ->
+    visualizeStreetsComplex(tileMapRenderer, town) { aabb, street, index ->
+        svgBuilder.link(call.application.href(TownRoutes.StreetRoutes.Remove(town.id, index, selectedStreet)))
+
         if (street == selectedStreet) {
             renderStreet(svgBuilder, aabb, Color.Gold)
         } else {
             renderStreet(svgBuilder, aabb)
         }
+
+        svgBuilder.closeLink()
     }
 
     return svgBuilder.finish()
