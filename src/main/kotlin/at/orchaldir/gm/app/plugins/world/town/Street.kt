@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.plugins.world.town
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.STREET
-import at.orchaldir.gm.app.TERRAIN
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.plugins.world.StreetRoutes
@@ -11,7 +10,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.NoConstruction
-import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.utils.math.Distance
@@ -20,6 +18,7 @@ import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.town.getColor
 import at.orchaldir.gm.visualization.town.renderStreet
+import at.orchaldir.gm.visualization.town.visualizeStreetsComplex
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -108,26 +107,24 @@ private fun HTML.showStreetEditor(
 fun visualizeStreetEditor(
     call: ApplicationCall,
     town: Town,
-    streetId: StreetId,
+    selectedStreet: StreetId,
 ): Svg {
     val tileMapRenderer = TileMap2dRenderer(Distance(20.0f), Distance(1.0f))
     val svgBuilder = SvgBuilder(tileMapRenderer.calculateMapSize(town.map))
 
     tileMapRenderer.renderWithLinks(svgBuilder, town.map, TownTile::getColor) { index, tile ->
         if (tile.construction is NoConstruction) {
-            call.application.href(TownRoutes.StreetRoutes.Add(town.id, index, streetId))
+            call.application.href(TownRoutes.StreetRoutes.Add(town.id, index, selectedStreet))
         } else {
             null
         }
     }
 
-    tileMapRenderer.render(town.map) { _, _, _, aabb, tile ->
-        if (tile.construction is StreetTile) {
-            if (tile.construction.street == streetId) {
-                renderStreet(svgBuilder, aabb, Color.Gold)
-            } else {
-                renderStreet(svgBuilder, aabb)
-            }
+    visualizeStreetsComplex(tileMapRenderer, town) { aabb, street, _ ->
+        if (street == selectedStreet) {
+            renderStreet(svgBuilder, aabb, Color.Gold)
+        } else {
+            renderStreet(svgBuilder, aabb)
         }
     }
 

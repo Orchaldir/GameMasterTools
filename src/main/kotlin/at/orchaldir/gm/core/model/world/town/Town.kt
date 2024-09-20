@@ -31,4 +31,9 @@ data class Town(
     override fun id() = id
     override fun name() = name
 
+    fun checkTile(x: Int, y: Int, check: (TownTile) -> Boolean) = map
+        .getTile(x, y)
+        ?.let(check)
+        ?: false
+
 }

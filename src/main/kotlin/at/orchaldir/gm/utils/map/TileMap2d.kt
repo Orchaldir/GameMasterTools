@@ -19,5 +19,7 @@ data class TileMap2d<TILE>(
 
     fun getTile(index: Int) = tiles.getOrNull(index)
 
+    fun getTile(x: Int, y: Int) = size.toIndex(x, y)?.let { tiles[it] }
+
     fun contains(check: (TILE) -> Boolean) = tiles.any { check(it) }
 }
