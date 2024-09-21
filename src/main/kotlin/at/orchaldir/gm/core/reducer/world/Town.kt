@@ -28,6 +28,8 @@ val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
     noFollowUps(state.updateStorage(state.getTownStorage().update(action.town)))
 }
 
+// town's streets
+
 val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
     val oldTown = state.getTownStorage().getOrThrow(action.town)
     state.getStreetStorage().require(action.street)
@@ -36,7 +38,7 @@ val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
 
     val oldTile = oldTown.map.tiles[action.tileIndex]
 
-    require(oldTile.canBuildStreet()) { "Tile ${action.tileIndex} is not empty!" }
+    require(oldTile.canBuild()) { "Tile ${action.tileIndex} is not empty!" }
 
     val tile = oldTile.copy(construction = StreetTile(action.street))
     val tiles = oldTown.map.tiles.update(action.tileIndex, tile)
@@ -60,6 +62,8 @@ val REMOVE_STREET_TILE: Reducer<RemoveStreetTile, State> = { state, action ->
 
     noFollowUps(state.updateStorage(state.getTownStorage().update(town)))
 }
+
+// town's terrain
 
 val SET_TERRAIN_TILE: Reducer<SetTerrainTile, State> = { state, action ->
     val oldTown = state.getTownStorage().getOrThrow(action.town)

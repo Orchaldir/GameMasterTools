@@ -10,6 +10,6 @@ data class TownTile(
     val construction: Construction = NoConstruction,
 ) {
 
-    fun canBuildStreet() = construction is NoConstruction
+    fun canBuild() = construction is NoConstruction
 
 }

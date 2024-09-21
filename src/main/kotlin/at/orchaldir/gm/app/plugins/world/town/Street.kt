@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.action.RemoveStreetTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.model.world.town.NoConstruction
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.utils.math.Distance
@@ -127,7 +126,7 @@ fun visualizeStreetEditor(
     val svgBuilder = SvgBuilder(tileMapRenderer.calculateMapSize(town.map))
 
     tileMapRenderer.renderWithLinks(svgBuilder, town.map, TownTile::getColor) { index, tile ->
-        if (tile.canBuildStreet()) {
+        if (tile.canBuild()) {
             call.application.href(TownRoutes.StreetRoutes.Add(town.id, index, selectedStreet))
         } else {
             null

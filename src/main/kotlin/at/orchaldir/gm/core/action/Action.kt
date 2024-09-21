@@ -24,6 +24,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
+import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.street.Street
@@ -31,6 +32,7 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.utils.map.MapSize2d
 
 sealed class Action
 
@@ -152,6 +154,19 @@ data class UpdateStreet(val street: Street) : WorldAction()
 data object CreateTown : WorldAction()
 data class DeleteTown(val id: TownId) : WorldAction()
 data class UpdateTown(val town: Town) : WorldAction()
+
+// town's buildings
+
+data class AddBuilding(
+    val town: TownId,
+    val tileIndex: Int,
+    val size: MapSize2d,
+) : WorldAction()
+
+data class DeleteBuilding(val id: BuildingId) : WorldAction()
+
+// town's streets
+
 data class AddStreetTile(
     val town: TownId,
     val tileIndex: Int,
@@ -162,6 +177,8 @@ data class RemoveStreetTile(
     val town: TownId,
     val tileIndex: Int,
 ) : WorldAction()
+
+// town's terrain
 
 data class SetTerrainTile(
     val town: TownId,
