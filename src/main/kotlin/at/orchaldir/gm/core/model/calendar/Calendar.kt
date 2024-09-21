@@ -76,6 +76,13 @@ data class Calendar(
 
     //
 
+    fun getDurationInYears(from: Date, to: Day) = getYears(getDuration(from, to))
+
+    fun getDuration(from: Date, to: Day) = when (from) {
+        is Day -> from
+        is Year -> getStartOfYear(from)
+    }.getDurationBetween(to)
+
     fun getWeekDay(date: Day) = when (days) {
         DayOfTheMonth -> null
         is Weekdays -> {

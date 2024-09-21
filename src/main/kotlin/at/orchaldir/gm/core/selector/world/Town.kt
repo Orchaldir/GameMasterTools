@@ -4,6 +4,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
+import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.selector.getDefaultCalendar
+
+fun State.getAgeInYears(town: Town) = getDefaultCalendar()
+    .getDurationInYears(town.foundingDate, time.currentDate)
 
 fun State.getTowns(mountain: MountainId) = getTownStorage().getAll()
     .filter { it.map.contains { it.terrain.contains(mountain) } }
