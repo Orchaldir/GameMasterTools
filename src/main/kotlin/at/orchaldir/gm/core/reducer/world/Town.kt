@@ -33,10 +33,7 @@ val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
 val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
     val oldTown = state.getTownStorage().getOrThrow(action.town)
     state.getStreetStorage().require(action.street)
-
-    oldTown.map.requireIsInside(action.tileIndex)
-
-    val oldTile = oldTown.map.tiles[action.tileIndex]
+    val oldTile = oldTown.map.getRequiredTile(action.tileIndex)
 
     require(oldTile.canBuild()) { "Tile ${action.tileIndex} is not empty!" }
 
@@ -49,10 +46,7 @@ val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
 
 val REMOVE_STREET_TILE: Reducer<RemoveStreetTile, State> = { state, action ->
     val oldTown = state.getTownStorage().getOrThrow(action.town)
-
-    oldTown.map.requireIsInside(action.tileIndex)
-
-    val oldTile = oldTown.map.tiles[action.tileIndex]
+    val oldTile = oldTown.map.getRequiredTile(action.tileIndex)
 
     require(oldTile.construction is StreetTile) { "Tile ${action.tileIndex} is not a street!" }
 

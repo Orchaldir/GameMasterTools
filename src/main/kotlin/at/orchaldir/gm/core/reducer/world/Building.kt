@@ -13,9 +13,7 @@ import at.orchaldir.gm.utils.update
 val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
     val oldTown = state.getTownStorage().getOrThrow(action.town)
 
-    oldTown.map.requireIsInside(action.tileIndex)
-
-    val oldTile = oldTown.map.tiles[action.tileIndex]
+    val oldTile = oldTown.map.getRequiredTile(action.tileIndex)
 
     require(oldTile.canBuild()) { "Tile ${action.tileIndex} is not empty!" }
 

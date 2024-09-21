@@ -19,6 +19,11 @@ data class TileMap2d<TILE>(
 
     fun requireIsInside(index: Int) = require(isInside(index)) { "Tile $index is outside the map!" }
 
+    fun getRequiredTile(index: Int): TILE {
+        requireIsInside(index)
+        return tiles[index]
+    }
+
     fun getTile(index: Int) = tiles.getOrNull(index)
 
     fun getTile(x: Int, y: Int) = size.toIndex(x, y)?.let { tiles[it] }
