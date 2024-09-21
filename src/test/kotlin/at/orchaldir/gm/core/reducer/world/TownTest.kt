@@ -1,10 +1,7 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.assertIllegalArgument
-import at.orchaldir.gm.core.action.AddStreetTile
-import at.orchaldir.gm.core.action.DeleteTown
-import at.orchaldir.gm.core.action.SetTerrainTile
-import at.orchaldir.gm.core.action.UpdateTown
+import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
@@ -29,6 +26,7 @@ private val MOUNTAIN0 = MountainId(0)
 private val RIVER0 = RiverId(0)
 private val STREET0 = StreetId(0)
 private val STREET1 = StreetId(1)
+private val STREET_TILE = TownTile(construction = StreetTile(STREET0))
 
 class TownTest {
 
@@ -73,8 +71,6 @@ class TownTest {
 
     @Nested
     inner class AddStreetTileTest {
-
-        private val STREET_TILE = TownTile(construction = StreetTile(STREET0))
 
         @Test
         fun `Cannot update unknown town`() {
@@ -129,6 +125,56 @@ class TownTest {
             val action = AddStreetTile(ID0, 0, STREET0)
 
             assertEquals(STREET_TILE, REDUCER.invoke(state, action).first.getTownStorage().get(ID0)?.map?.getTile(0))
+        }
+
+    }
+
+    @Nested
+    inner class RemoveStreetTileTest {
+
+        @Test
+        fun `Cannot update unknown town`() {
+            val action = RemoveStreetTile(ID0, 0)
+
+            assertIllegalArgument("Unknown Town 0!") { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Tile is outside the map`() {
+            val town = Town(ID0)
+            val state = State(Storage(town))
+            val action = RemoveStreetTile(ID0, 100)
+
+            assertIllegalArgument("Tile 100 is outside the map!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
+        @Test
+        fun `Tile is already empty`() {
+            val town = Town(ID0)
+            val state = State(Storage(town))
+            val action = RemoveStreetTile(ID0, 0)
+
+            assertIllegalArgument("Tile 0 is not a street!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
+        @Test
+        fun `Successfully set a street`() {
+            val map = TileMap2d(STREET_TILE)
+            val town = Town(ID0, map = map)
+            val state = State(Storage(town))
+            val action = RemoveStreetTile(ID0, 0)
+
+            assertEquals(TownTile(), REDUCER.invoke(state, action).first.getTownStorage().get(ID0)?.map?.getTile(0))
         }
 
     }
