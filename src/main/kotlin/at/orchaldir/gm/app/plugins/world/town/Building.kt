@@ -108,9 +108,12 @@ fun visualizeBuildingEditor(
 ): Svg {
     val tileMapRenderer = TileMap2dRenderer(Distance(20.0f), Distance(1.0f))
     val svgBuilder = SvgBuilder(tileMapRenderer.calculateMapSize(town.map))
+    val isBig = size.width > 1 || size.height > 1
 
     tileMapRenderer.renderWithLinks(svgBuilder, town.map, TownTile::getColor) { index, tile ->
-        if (tile.canBuild()) {
+        if (isBig && town.checkTiles(index, size) { it.canBuild() }) {
+            call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
+        } else if (!isBig && tile.canBuild()) {
             call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
         } else {
             null

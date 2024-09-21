@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils.map
 
+import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
 
@@ -20,6 +21,26 @@ data class MapSize2d(val width: Int, val height: Int) {
     fun isInside(index: Int) = index in 0..<tiles()
 
     fun isInside(x: Int, y: Int) = x in 0..<width && y in 0..<height
+
+    fun toIndices(index: Int, size: MapSize2d): List<Int>? {
+        if (!isInside(index)) {
+            return null
+        }
+
+        val startX = toX(index)
+        val startY = toY(index)
+        val indices = mutableListOf<Int>()
+
+        for (y in startY..<(startY + size.height)) {
+            for (x in startX..<(startX + size.width)) {
+                val tileIndex = toIndex(x, y) ?: return null
+
+                indices.add(tileIndex)
+            }
+        }
+
+        return indices
+    }
 
     fun toIndex(x: Int, y: Int): Int? {
         if (isInside(x, y)) {

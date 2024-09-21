@@ -40,6 +40,11 @@ data class Town(
         ?.let(check)
         ?: false
 
+    fun checkTiles(index: Int, size: MapSize2d, check: (TownTile) -> Boolean) = map
+        .size.toIndices(index, size)
+        ?.all { check(map.getRequiredTile(it)) }
+        ?: false
+
     fun build(index: Int, construction: Construction): Town {
         val oldTile = map.getRequiredTile(index)
 
@@ -105,9 +110,7 @@ data class Town(
     }
 
     private fun updateTiles(tiles: Map<Int, TownTile>): Town {
-        val tiles = map.tiles.update(tiles)
-
-        return copy(map = map.copy(tiles = tiles))
+        return copy(map = map.copy(tiles = map.tiles.update(tiles)))
     }
 
 
