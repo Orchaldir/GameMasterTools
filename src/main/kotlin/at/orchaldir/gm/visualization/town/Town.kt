@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.town
 
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.HillTerrain
 import at.orchaldir.gm.core.model.world.terrain.MountainTerrain
@@ -13,7 +14,6 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.renderer.LinkRenderer
 import at.orchaldir.gm.utils.renderer.NoBorder
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
@@ -22,6 +22,7 @@ import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 
 fun visualizeTown(
     town: Town,
+    buildings: List<Building> = emptyList(),
     streets: Boolean = true,
     linkLookup: (Int, TownTile) -> String? = { _, _ -> null },
 ): Svg {
@@ -30,11 +31,23 @@ fun visualizeTown(
 
     tileMapRenderer.renderWithLinks(svgBuilder, town.map, TownTile::getColor, linkLookup)
 
+    visualizeBuildings(svgBuilder, tileMapRenderer, town, buildings)
+
     if (streets) {
         visualizeStreetsComplex(svgBuilder, tileMapRenderer, town)
     }
 
     return svgBuilder.finish()
+}
+
+fun visualizeBuildings(
+    renderer: Renderer,
+    tileRenderer: TileMap2dRenderer,
+    town: Town,
+    buildings: List<Building>,
+    color: Color = Color.Black,
+) {
+    buildings.forEach { renderBuilding(renderer, tileRenderer, town, it, color) }
 }
 
 fun visualizeStreetsComplex(
@@ -70,14 +83,31 @@ fun visualizeStreetsComplex(
     }
 }
 
-fun TownTile.getColor() = when (terrain) {
-    is HillTerrain -> Color.SaddleBrown
-    is MountainTerrain -> Color.Gray
-    PlainTerrain -> Color.Green
-    is RiverTerrain -> Color.Blue
+// render
+
+fun renderBuilding(
+    renderer: Renderer,
+    tileRenderer: TileMap2dRenderer,
+    town: Town,
+    building: Building,
+    color: Color = Color.Black,
+) {
+    val start = tileRenderer.calculateTilePosition(town.map, building.lot.tileIndex)
+    val size = tileRenderer.calculateLotSize(building.lot.size)
+    val aabb = AABB(start, size).shrink(Factor(0.5f))
+    val style = NoBorder(color.toRender())
+
+    renderer.renderRectangle(aabb, style)
 }
 
 fun renderStreet(renderer: Renderer, tile: AABB, color: Color = Color.Gray) {
     val style = NoBorder(color.toRender())
     renderer.renderRectangle(tile.shrink(Factor(0.5f)), style)
+}
+
+fun TownTile.getColor() = when (terrain) {
+    is HillTerrain -> Color.SaddleBrown
+    is MountainTerrain -> Color.Gray
+    PlainTerrain -> Color.Green
+    is RiverTerrain -> Color.Blue
 }

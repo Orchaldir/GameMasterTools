@@ -12,11 +12,13 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.town.getColor
+import at.orchaldir.gm.visualization.town.visualizeBuildings
 import at.orchaldir.gm.visualization.town.renderStreet
 import at.orchaldir.gm.visualization.town.visualizeStreetsComplex
 import io.ktor.http.*
@@ -112,13 +114,14 @@ private fun HTML.showStreetEditor(
             action(createLink, "Create new Street")
             back(backLink)
         }, {
-            svg(visualizeStreetEditor(call, town, streetId), 90)
+            svg(visualizeStreetEditor(call, state, town, streetId), 90)
         })
     }
 }
 
 fun visualizeStreetEditor(
     call: ApplicationCall,
+    state: State,
     town: Town,
     selectedStreet: StreetId,
 ): Svg {
@@ -132,6 +135,8 @@ fun visualizeStreetEditor(
             null
         }
     }
+
+    visualizeBuildings(svgBuilder, tileMapRenderer, town, state.getBuildings(town.id))
 
     visualizeStreetsComplex(tileMapRenderer, town) { aabb, street, index ->
         svgBuilder.link(call.application.href(TownRoutes.StreetRoutes.Remove(town.id, index, selectedStreet)))

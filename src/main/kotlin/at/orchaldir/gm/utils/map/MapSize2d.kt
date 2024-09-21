@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils.map
 
+import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -29,6 +30,10 @@ data class MapSize2d(val width: Int, val height: Int) {
     }
 
     fun toIndexRisky(x: Int, y: Int) = y * width + x
+
+    fun toX(index: Int) = index.modulo(width)
+
+    fun toY(index: Int) = index / width
 
     fun format() = "$width x $height"
 

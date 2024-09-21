@@ -140,7 +140,7 @@ private fun HTML.showTownDetails(
             action(deleteLink, "Delete")
             back(backLink)
         }, {
-            svg(visualizeTown(town), 90)
+            svg(visualizeTown(town, state.getBuildings(town.id)), 90)
         })
     }
 }
@@ -169,7 +169,7 @@ private fun HTML.showTownEditor(
             }
             back(backLink)
         }, {
-            svg(visualizeTown(town), 90)
+            svg(visualizeTown(town, state.getBuildings(town.id)), 90)
         })
     }
 }

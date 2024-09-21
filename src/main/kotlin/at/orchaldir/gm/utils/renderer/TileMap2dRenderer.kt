@@ -2,6 +2,7 @@ package at.orchaldir.gm.utils.renderer
 
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Color.Black
+import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
@@ -76,5 +77,10 @@ data class TileMap2dRenderer(
         }
     }
 
-    private fun calculateTilePosition(x: Int, y: Int) = Point2d(tileSize.value * x, tileSize.value * y)
+    fun calculateLotSize(size: MapSize2d) = Size2d(tileSize * size.width, tileSize * size.height)
+
+    fun <TILE> calculateTilePosition(map: TileMap2d<TILE>, index: Int) =
+        calculateTilePosition(map.size.toX(index), map.size.toY(index))
+
+    fun calculateTilePosition(x: Int, y: Int) = Point2d(tileSize.value * x, tileSize.value * y)
 }

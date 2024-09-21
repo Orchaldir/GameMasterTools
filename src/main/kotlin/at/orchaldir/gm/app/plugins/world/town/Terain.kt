@@ -112,7 +112,7 @@ private fun HTML.showTerrainEditor(
             }
             back(backLink)
         }, {
-            svg(visualizeTown(town, false) { index, _ ->
+            svg(visualizeTown(town, streets = false) { index, _ ->
                 call.application.href(TownRoutes.TerrainRoutes.Update(town.id, terrainType, terrainId, index))
             }, 90)
         })

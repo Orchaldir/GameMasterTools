@@ -6,14 +6,17 @@ import at.orchaldir.gm.app.WIDTH
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.action.AddBuilding
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.town.getColor
+import at.orchaldir.gm.visualization.town.visualizeBuildings
 import at.orchaldir.gm.visualization.town.visualizeStreetsComplex
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -39,7 +42,7 @@ fun Application.configureBuildingEditorRouting() {
             val town = state.getTownStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showBuildingEditor(call, town, MapSize2d.square(1))
+                showBuildingEditor(call, state, town, MapSize2d.square(1))
             }
         }
         post<TownRoutes.BuildingRoutes.Preview> { preview ->
@@ -51,7 +54,7 @@ fun Application.configureBuildingEditorRouting() {
             val size = MapSize2d(parseInt(params, WIDTH, 1), parseInt(params, HEIGHT, 1))
 
             call.respondHtml(HttpStatusCode.OK) {
-                showBuildingEditor(call, town, size)
+                showBuildingEditor(call, state, town, size)
             }
         }
         get<TownRoutes.BuildingRoutes.Add> { add ->
@@ -64,7 +67,7 @@ fun Application.configureBuildingEditorRouting() {
             call.respondHtml(HttpStatusCode.OK) {
                 val state = STORE.getState()
                 val town = state.getTownStorage().getOrThrow(add.town)
-                showBuildingEditor(call, town, add.size)
+                showBuildingEditor(call, state, town, add.size)
             }
         }
     }
@@ -72,6 +75,7 @@ fun Application.configureBuildingEditorRouting() {
 
 private fun HTML.showBuildingEditor(
     call: ApplicationCall,
+    state: State,
     town: Town,
     size: MapSize2d,
 ) {
@@ -89,13 +93,14 @@ private fun HTML.showBuildingEditor(
             }
             back(backLink)
         }, {
-            svg(visualizeBuildingEditor(call, town, size), 90)
+            svg(visualizeBuildingEditor(call, state, town, size), 90)
         })
     }
 }
 
 fun visualizeBuildingEditor(
     call: ApplicationCall,
+    state: State,
     town: Town,
     size: MapSize2d,
 ): Svg {
@@ -109,6 +114,8 @@ fun visualizeBuildingEditor(
             null
         }
     }
+
+    visualizeBuildings(svgBuilder, tileMapRenderer, town, state.getBuildings(town.id))
 
     visualizeStreetsComplex(svgBuilder, tileMapRenderer, town)
 
