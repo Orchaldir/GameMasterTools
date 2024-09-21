@@ -1,9 +1,12 @@
 package at.orchaldir.gm.core.reducer.world
 
+import at.orchaldir.gm.core.action.AddStreetTile
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.world.street.Street
+import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
@@ -22,6 +25,8 @@ import kotlin.test.assertFailsWith
 private val ID0 = TownId(0)
 private val MOUNTAIN0 = MountainId(0)
 private val RIVER0 = RiverId(0)
+private val STREET0 = StreetId(0)
+private val STREET1 = StreetId(1)
 
 class TownTest {
 
@@ -65,12 +70,42 @@ class TownTest {
     }
 
     @Nested
-    inner class UpdateTerrainTest {
+    inner class AddStreetTileTest {
 
         @Test
-        fun `Cannot update unknown id`() {
+        fun `Cannot update unknown town`() {
+            val action = AddStreetTile(ID0, 0, STREET0)
+
+            assertFailsWith<IllegalArgumentException>("Unknown Town 0") { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Cannot use unknown street`() {
+            val town = Town(ID0)
+            val state = State(Storage(town))
+            val action = AddStreetTile(ID0, 0, STREET1)
+
+            assertFailsWith<IllegalArgumentException>("Requires unknown Street 1") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Tile is outside the map`() {
+            val town = Town(ID0)
+            val state = State(listOf(Storage(Street(STREET0)), Storage(town)))
+            val action = AddStreetTile(ID0, 100, STREET0)
+
+            assertFailsWith<IllegalArgumentException>("Requires unknwn Street 1") { REDUCER.invoke(state, action) }
+        }
+
+    }
+
+    @Nested
+    inner class SetTerrainTileTest {
+
+        @Test
+        fun `Cannot update unknown town`() {
             val action = SetTerrainTile(ID0, TerrainType.Plain, 0, 0)
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertFailsWith<IllegalArgumentException>("Unknown Town 0") { REDUCER.invoke(State(), action) }
         }
 
         @Test
