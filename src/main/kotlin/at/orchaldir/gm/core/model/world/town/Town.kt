@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.world.town
 
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.terrain.Terrain
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -70,25 +71,14 @@ data class Town(
         return updateTiles(tiles)
     }
 
-    fun removeBuilding(index: Int, size: MapSize2d): Town {
-        map.requireIsInside(index)
-
-        val startX = map.size.toX(index)
-        val startY = map.size.toY(index)
-        val tiles = mutableMapOf<Int, TownTile>()
-
-        for (y in startY..<(startY + size.height)) {
-            for (x in startX..<(startX + size.width)) {
-                val oldTile = map.getRequiredTile(x, y)
-                val tileIndex = map.size.toIndexRisky(x, y)
-
-                require(oldTile.construction is BuildingTile) { "Tile $tileIndex is not a building!" }
-
-                tiles[tileIndex] = oldTile.copy(construction = NoConstruction)
+    fun removeBuilding(building: BuildingId): Town {
+        return copy(map = map.copy(tiles = map.tiles.map { tile ->
+            if (tile.construction is BuildingTile && tile.construction.building == building) {
+                tile.copy(construction = NoConstruction)
+            } else {
+                tile
             }
-        }
-
-        return updateTiles(tiles)
+        }))
     }
 
     fun removeStreet(index: Int): Town {

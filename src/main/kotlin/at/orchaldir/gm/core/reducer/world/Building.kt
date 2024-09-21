@@ -29,7 +29,7 @@ val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
 val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
     val building = state.getBuildingStorage().getOrThrow(action.id)
     val oldTown = state.getTownStorage().getOrThrow(building.lot.town)
-    val town = oldTown.removeBuilding(building.lot.tileIndex, building.lot.size)
+    val town = oldTown.removeBuilding(building.id)
 
     noFollowUps(
         state.updateStorage(

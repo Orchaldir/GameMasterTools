@@ -146,26 +146,6 @@ class BuildingTest {
         }
 
         @Test
-        fun `Tile is already empty`() {
-            val building = Building(ID0, lot = BuildingLot(TOWN0))
-            val town = Town(TOWN0)
-            val state = State(listOf(Storage(building), Storage(town)))
-            val action = DeleteBuilding(ID0)
-
-            assertIllegalArgument("Tile 0 is not a building!") { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Tile is a street`() {
-            val building = Building(ID0, lot = BuildingLot(TOWN0))
-            val town = Town(TOWN0, map = TileMap2d(STREET_TILE))
-            val state = State(listOf(Storage(building), Storage(town)))
-            val action = DeleteBuilding(ID0)
-
-            assertIllegalArgument("Tile 0 is not a building!") { REDUCER.invoke(state, action) }
-        }
-
-        @Test
         fun `Successfully removed a building`() {
             val building = Building(ID0, lot = BuildingLot(TOWN0))
             val town = Town(TOWN0, map = TileMap2d(BUILDING_TILE))
@@ -183,6 +163,20 @@ class BuildingTest {
             val building = Building(ID0, lot = BuildingLot(TOWN0, 0, BIG_SIZE))
             val town =
                 Town(TOWN0, map = TileMap2d(BIG_SQUARE, listOf(BUILDING_TILE, BUILDING_TILE, TownTile(), TownTile())))
+            val state = State(listOf(Storage(building), Storage(town)))
+            val action = DeleteBuilding(ID0)
+
+            val result = REDUCER.invoke(state, action).first
+
+            assertFalse(result.getBuildingStorage().contains(ID0))
+            assertFree(result, BIG_SQUARE)
+        }
+
+        @Test
+        fun `Successfully removed a building in multiple places`() {
+            val building = Building(ID0, lot = BuildingLot(TOWN0))
+            val town =
+                Town(TOWN0, map = TileMap2d(BIG_SQUARE, listOf(BUILDING_TILE, TownTile(), TownTile(), BUILDING_TILE)))
             val state = State(listOf(Storage(building), Storage(town)))
             val action = DeleteBuilding(ID0)
 
