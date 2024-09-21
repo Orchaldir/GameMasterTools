@@ -112,14 +112,14 @@ fun visualizeBuildingEditor(
     tileMapRenderer.renderWithLinks(svgBuilder, town.map, TownTile::getColor) { index, tile ->
         if (tile.canBuild()) {
             call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
-        } else if (tile.construction is BuildingTile) {
-            call.application.href(BuildingRoutes.Details(tile.construction.building))
         } else {
             null
         }
     }
 
-    visualizeBuildings(svgBuilder, tileMapRenderer, town, state.getBuildings(town.id))
+    visualizeBuildings(svgBuilder, tileMapRenderer, town, state.getBuildings(town.id)) { building ->
+        call.application.href(BuildingRoutes.Details(building.id))
+    }
 
     visualizeStreetsComplex(svgBuilder, tileMapRenderer, town)
 
