@@ -131,7 +131,6 @@ class TownTest {
 
             assertEquals(STREET_TILE, REDUCER.invoke(state, action).first.getTownStorage().get(ID0)?.map?.getTile(0))
         }
-
     }
 
     @Nested
@@ -150,12 +149,7 @@ class TownTest {
             val state = State(Storage(town))
             val action = RemoveStreetTile(ID0, 100)
 
-            assertIllegalArgument("Tile 100 is outside the map!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
-            }
+            assertIllegalArgument("Tile 100 is outside the map!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -164,18 +158,21 @@ class TownTest {
             val state = State(Storage(town))
             val action = RemoveStreetTile(ID0, 0)
 
-            assertIllegalArgument("Tile 0 is not a street!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
-            }
+            assertIllegalArgument("Tile 0 is not a street!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Tile is a building`() {
+            val town = Town(ID0, map = TileMap2d(BUILDING_TILE))
+            val state = State(Storage(town))
+            val action = RemoveStreetTile(ID0, 0)
+
+            assertIllegalArgument("Tile 0 is not a street!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Successfully set a street`() {
-            val map = TileMap2d(STREET_TILE)
-            val town = Town(ID0, map = map)
+            val town = Town(ID0, map = TileMap2d(STREET_TILE))
             val state = State(Storage(town))
             val action = RemoveStreetTile(ID0, 0)
 
