@@ -20,10 +20,8 @@ import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 
-fun visualizeTown(
+fun visualizeTerrain(
     town: Town,
-    buildings: List<Building> = emptyList(),
-    streets: Boolean = true,
     linkLookup: (Int, TownTile) -> String? = { _, _ -> null },
 ): Svg {
     val tileMapRenderer = TileMap2dRenderer(Distance(20.0f), Distance(1.0f))
@@ -31,11 +29,21 @@ fun visualizeTown(
 
     tileMapRenderer.renderWithLinks(svgBuilder, town.map, TownTile::getColor, linkLookup)
 
+    return svgBuilder.finish()
+}
+
+fun visualizeTown(
+    town: Town,
+    buildings: List<Building> = emptyList(),
+): Svg {
+    val tileMapRenderer = TileMap2dRenderer(Distance(20.0f), Distance(1.0f))
+    val svgBuilder = SvgBuilder(tileMapRenderer.calculateMapSize(town.map))
+
+    tileMapRenderer.render(svgBuilder, town.map, TownTile::getColor)
+
     visualizeBuildings(svgBuilder, tileMapRenderer, town, buildings)
 
-    if (streets) {
-        visualizeStreetsComplex(svgBuilder, tileMapRenderer, town)
-    }
+    visualizeStreetsComplex(svgBuilder, tileMapRenderer, town)
 
     return svgBuilder.finish()
 }
