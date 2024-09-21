@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer.world
 
+import at.orchaldir.gm.assertFailMessage
 import at.orchaldir.gm.core.action.AddStreetTile
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.SetTerrainTile
@@ -76,7 +77,7 @@ class TownTest {
         fun `Cannot update unknown town`() {
             val action = AddStreetTile(ID0, 0, STREET0)
 
-            assertFailsWith<IllegalArgumentException>("Unknown Town 0") { REDUCER.invoke(State(), action) }
+            assertFailMessage<IllegalArgumentException>("Unknown Town 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -85,7 +86,7 @@ class TownTest {
             val state = State(Storage(town))
             val action = AddStreetTile(ID0, 0, STREET1)
 
-            assertFailsWith<IllegalArgumentException>("Requires unknown Street 1") { REDUCER.invoke(state, action) }
+            assertFailMessage<IllegalArgumentException>("Requires unknown Street 1!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -94,7 +95,12 @@ class TownTest {
             val state = State(listOf(Storage(Street(STREET0)), Storage(town)))
             val action = AddStreetTile(ID0, 100, STREET0)
 
-            assertFailsWith<IllegalArgumentException>("Requires unknwn Street 1") { REDUCER.invoke(state, action) }
+            assertFailMessage<IllegalArgumentException>("Tile 100 is outside the map!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
         }
 
     }
@@ -105,7 +111,7 @@ class TownTest {
         @Test
         fun `Cannot update unknown town`() {
             val action = SetTerrainTile(ID0, TerrainType.Plain, 0, 0)
-            assertFailsWith<IllegalArgumentException>("Unknown Town 0") { REDUCER.invoke(State(), action) }
+            assertFailMessage<IllegalArgumentException>("Unknown Town 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -199,7 +205,7 @@ class TownTest {
             val state = State(listOf(Storage(river), Storage(oldTown)))
             val action = SetTerrainTile(ID0, type, terrainIndex, tileIndex)
 
-            assertFailsWith<IllegalArgumentException>(message) { REDUCER.invoke(state, action) }
+            assertFailMessage<IllegalArgumentException>(message) { REDUCER.invoke(state, action) }
         }
     }
 

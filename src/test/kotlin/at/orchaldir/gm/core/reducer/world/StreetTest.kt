@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer.world
 
+import at.orchaldir.gm.assertFailMessage
 import at.orchaldir.gm.core.action.DeleteStreet
 import at.orchaldir.gm.core.action.UpdateStreet
 import at.orchaldir.gm.core.model.State
@@ -50,7 +51,7 @@ class StreetTest {
                 )
             )
 
-            assertFailsWith<IllegalArgumentException>("Street 0 is used") { REDUCER.invoke(state, action) }
+            assertFailMessage<IllegalArgumentException>("Street 0 is used") { REDUCER.invoke(state, action) }
         }
     }
 
