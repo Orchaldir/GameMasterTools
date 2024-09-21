@@ -30,4 +30,6 @@ data class MapSize2d(val width: Int, val height: Int) {
 
     fun toIndexRisky(x: Int, y: Int) = y * width + x
 
+    fun format() = "$width x $height"
+
 }

@@ -90,6 +90,7 @@ private fun HTML.showBuildingDetails(
         field("Town") {
             link(call, state, building.lot.town)
         }
+        field("Size", building.lot.size.format())
         if (state.canDelete(building.id)) {
             action(deleteLink, "Delete")
         }
