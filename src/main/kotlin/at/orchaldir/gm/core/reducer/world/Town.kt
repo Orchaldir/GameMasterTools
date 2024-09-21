@@ -32,7 +32,7 @@ val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
     val oldTown = state.getTownStorage().getOrThrow(action.town)
     state.getStreetStorage().require(action.street)
 
-    require(oldTown.map.isInside(action.tileIndex)) { "Tile ${action.tileIndex} is outside the map!" }
+    oldTown.map.requireIsInside(action.tileIndex)
 
     val tile = oldTown.map.tiles[action.tileIndex].copy(construction = StreetTile(action.street))
     val tiles = oldTown.map.tiles.update(action.tileIndex, tile)
@@ -44,7 +44,7 @@ val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
 val REMOVE_STREET_TILE: Reducer<RemoveStreetTile, State> = { state, action ->
     val oldTown = state.getTownStorage().getOrThrow(action.town)
 
-    require(oldTown.map.isInside(action.tileIndex)) { "Tile ${action.tileIndex} is outside the map!" }
+    oldTown.map.requireIsInside(action.tileIndex)
 
     val oldTile = oldTown.map.tiles[action.tileIndex]
 
@@ -60,7 +60,7 @@ val REMOVE_STREET_TILE: Reducer<RemoveStreetTile, State> = { state, action ->
 val SET_TERRAIN_TILE: Reducer<SetTerrainTile, State> = { state, action ->
     val oldTown = state.getTownStorage().getOrThrow(action.town)
 
-    require(oldTown.map.isInside(action.tileIndex)) { "Tile ${action.tileIndex} is outside the map" }
+    oldTown.map.requireIsInside(action.tileIndex)
 
     val terrain = when (action.terrainType) {
         TerrainType.Hill -> {

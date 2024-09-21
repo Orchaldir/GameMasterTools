@@ -183,7 +183,7 @@ class TownTest {
             element: ELEMENT,
             type: TerrainType,
         ) {
-            fail(element, type, 0, 2, "Tile 2 is outside the map")
+            fail(element, type, 0, 2, "Tile 2 is outside the map!")
         }
 
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> testUnknown(
