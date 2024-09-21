@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.plugins.character.*
 import at.orchaldir.gm.app.plugins.race.configureRaceAppearanceRouting
 import at.orchaldir.gm.app.plugins.race.configureRaceRouting
 import at.orchaldir.gm.app.plugins.world.*
+import at.orchaldir.gm.app.plugins.world.town.configureBuildingEditorRouting
 import at.orchaldir.gm.app.plugins.world.town.configureStreetEditorRouting
 import at.orchaldir.gm.app.plugins.world.town.configureTerrainRouting
 import at.orchaldir.gm.app.plugins.world.town.configureTownRouting
@@ -33,6 +34,7 @@ fun Application.module() {
     configureRouting()
     configureStatusPages()
     configureBuildingRouting()
+    configureBuildingEditorRouting()
     configureCharacterRouting()
     configureCharacterLanguageRouting()
     configureCharacterRelationshipRouting()

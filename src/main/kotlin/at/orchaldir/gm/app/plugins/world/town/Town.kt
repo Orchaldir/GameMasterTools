@@ -112,7 +112,8 @@ private fun HTML.showTownDetails(
     val backLink = call.application.href(TownRoutes())
     val deleteLink = call.application.href(TownRoutes.Delete(town.id))
     val editLink = call.application.href(TownRoutes.Edit(town.id))
-    val editStreetLink = call.application.href(TownRoutes.StreetRoutes.Edit(town.id))
+    val editBuildingsLink = call.application.href(TownRoutes.BuildingRoutes.Edit(town.id))
+    val editStreetsLink = call.application.href(TownRoutes.StreetRoutes.Edit(town.id))
     val editTerrainLink = call.application.href(TownRoutes.TerrainRoutes.Edit(town.id))
 
     simpleHtml("Town: ${town.name}") {
@@ -130,7 +131,8 @@ private fun HTML.showTownDetails(
                 link(call, state, street)
             }
             action(editLink, "Edit Town")
-            action(editStreetLink, "Edit Streets")
+            action(editBuildingsLink, "Edit Buildings")
+            action(editStreetsLink, "Edit Streets")
             action(editTerrainLink, "Edit Terrain")
             action(deleteLink, "Delete")
             back(backLink)

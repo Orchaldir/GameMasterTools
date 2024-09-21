@@ -27,14 +27,6 @@ class BuildingRoutes {
     @Resource("details")
     class Details(val id: BuildingId, val parent: BuildingRoutes = BuildingRoutes())
 
-    @Resource("add")
-    class Add(
-        val town: TownId,
-        val tileIndex: Int,
-        val size: MapSize2d,
-        val parent: BuildingRoutes = BuildingRoutes(),
-    )
-
     @Resource("delete")
     class Delete(val id: BuildingId, val parent: BuildingRoutes = BuildingRoutes())
 }
@@ -58,21 +50,7 @@ fun Application.configureBuildingRouting() {
                 showBuildingDetails(call, state, building)
             }
         }
-        get<BuildingRoutes.Add> { add ->
-            logger.info { "Add new building" }
 
-            STORE.dispatch(AddBuilding(add.town, add.tileIndex, add.size))
-
-            call.respondRedirect(
-                call.application.href(
-                    BuildingRoutes.Details(
-                        STORE.getState().getBuildingStorage().lastId
-                    )
-                )
-            )
-
-            STORE.getState().save()
-        }
         get<BuildingRoutes.Delete> { delete ->
             logger.info { "Delete building ${delete.id.value}" }
 

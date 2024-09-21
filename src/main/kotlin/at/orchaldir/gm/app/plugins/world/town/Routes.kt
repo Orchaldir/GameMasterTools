@@ -1,8 +1,10 @@
 package at.orchaldir.gm.app.plugins.world.town
 
+import at.orchaldir.gm.app.plugins.world.BuildingRoutes
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.utils.map.MapSize2d
 import io.ktor.resources.*
 
 @Resource("/town")
@@ -21,6 +23,23 @@ class TownRoutes {
 
     @Resource("update")
     class Update(val id: TownId, val parent: TownRoutes = TownRoutes())
+
+    @Resource("/building")
+    class BuildingRoutes(val parent: TownRoutes = TownRoutes()) {
+        @Resource("edit")
+        class Edit(val id: TownId, val parent: BuildingRoutes = BuildingRoutes())
+
+        @Resource("preview")
+        class Preview(val id: TownId, val parent: BuildingRoutes = BuildingRoutes())
+
+        @Resource("add")
+        class Add(
+            val town: TownId,
+            val tileIndex: Int,
+            val size: MapSize2d,
+            val parent: BuildingRoutes = BuildingRoutes(),
+        )
+    }
 
     @Resource("/street")
     class StreetRoutes(val parent: TownRoutes = TownRoutes()) {

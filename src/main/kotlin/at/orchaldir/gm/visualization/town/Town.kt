@@ -15,6 +15,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.LinkRenderer
 import at.orchaldir.gm.utils.renderer.NoBorder
+import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
@@ -30,10 +31,18 @@ fun visualizeTown(
     tileMapRenderer.renderWithLinks(svgBuilder, town.map, TownTile::getColor, linkLookup)
 
     if (streets) {
-        visualizeStreetsComplex(tileMapRenderer, town) { aabb, _, _ -> renderStreet(svgBuilder, aabb) }
+        visualizeStreetsComplex(svgBuilder, tileMapRenderer, town)
     }
 
     return svgBuilder.finish()
+}
+
+fun visualizeStreetsComplex(
+    renderer: Renderer,
+    tileRenderer: TileMap2dRenderer,
+    town: Town,
+) {
+    visualizeStreetsComplex(tileRenderer, town) { aabb, _, _ -> renderStreet(renderer, aabb) }
 }
 
 fun visualizeStreetsComplex(
@@ -68,7 +77,7 @@ fun TownTile.getColor() = when (terrain) {
     is RiverTerrain -> Color.Blue
 }
 
-fun renderStreet(renderer: LinkRenderer, tile: AABB, color: Color = Color.Gray) {
+fun renderStreet(renderer: Renderer, tile: AABB, color: Color = Color.Gray) {
     val style = NoBorder(color.toRender())
     renderer.renderRectangle(tile.shrink(Factor(0.5f)), style)
 }
