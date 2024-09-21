@@ -19,13 +19,14 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNull
 
 private val ID0 = BuildingId(0)
 private val TOWN0 = TownId(0)
 private val STREET0 = StreetId(0)
 private val BUILDING_TILE = TownTile(construction = BuildingTile(ID0))
 private val STREET_TILE = TownTile(construction = StreetTile(STREET0))
+private val BIG_SIZE = MapSize2d(2, 1)
+private val BIG_SQUARE = square(2)
 
 class BuildingTest {
 
@@ -78,11 +79,10 @@ class BuildingTest {
         }
 
         private fun testBigLotNotEmpty(townTile: TownTile) {
-            val size = MapSize2d(2, 1)
-            val map = TileMap2d(size, listOf(TownTile(), townTile))
+            val map = TileMap2d(BIG_SIZE, listOf(TownTile(), townTile))
             val town = Town(TOWN0, map = map)
             val state = State(listOf(Storage(listOf(Street(STREET0))), Storage(town)))
-            val action = AddBuilding(TOWN0, 0, size)
+            val action = AddBuilding(TOWN0, 0, BIG_SIZE)
 
             assertIllegalArgument("Tile 1 is not empty!") { REDUCER.invoke(state, action) }
         }
@@ -105,16 +105,18 @@ class BuildingTest {
 
         @Test
         fun `Successfully added a big building`() {
-            val map = TileMap2d(MapSize2d(2, 2), TownTile())
+            val map = TileMap2d(BIG_SQUARE, TownTile())
             val town = Town(TOWN0, map = map)
             val state = State(Storage(town))
-            val size = MapSize2d(2, 1)
-            val action = AddBuilding(TOWN0, 0, size)
+            val action = AddBuilding(TOWN0, 0, BIG_SIZE)
 
             val result = REDUCER.invoke(state, action).first
             val tilemap = result.getTownStorage().getOrThrow(TOWN0).map
 
-            assertEquals(Building(ID0, lot = BuildingLot(TOWN0, 0, size)), result.getBuildingStorage().getOrThrow(ID0))
+            assertEquals(
+                Building(ID0, lot = BuildingLot(TOWN0, 0, BIG_SIZE)),
+                result.getBuildingStorage().getOrThrow(ID0)
+            )
             assertEquals(BuildingTile(ID0), tilemap.getRequiredTile(0).construction)
             assertEquals(BuildingTile(ID0), tilemap.getRequiredTile(1).construction)
             assertEquals(NoConstruction, tilemap.getRequiredTile(2).construction)
@@ -173,7 +175,25 @@ class BuildingTest {
             val result = REDUCER.invoke(state, action).first
 
             assertFalse(result.getBuildingStorage().contains(ID0))
-            assertEquals(TownTile(), result.getTownStorage().get(TOWN0)?.map?.getTile(0))
+            assertFree(result, square(1))
         }
+
+        @Test
+        fun `Successfully removed a big building`() {
+            val building = Building(ID0, lot = BuildingLot(TOWN0, 0, BIG_SIZE))
+            val town =
+                Town(TOWN0, map = TileMap2d(BIG_SQUARE, listOf(BUILDING_TILE, BUILDING_TILE, TownTile(), TownTile())))
+            val state = State(listOf(Storage(building), Storage(town)))
+            val action = DeleteBuilding(ID0)
+
+            val result = REDUCER.invoke(state, action).first
+
+            assertFalse(result.getBuildingStorage().contains(ID0))
+            assertFree(result, BIG_SQUARE)
+        }
+    }
+
+    private fun assertFree(result: State, mapSize: MapSize2d) {
+        assertEquals(TileMap2d(mapSize, TownTile()), result.getTownStorage().getOrThrow(TOWN0).map)
     }
 }

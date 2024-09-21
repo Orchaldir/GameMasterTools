@@ -70,14 +70,25 @@ data class Town(
         return updateTiles(tiles)
     }
 
-    fun removeBuilding(index: Int): Town {
-        val oldTile = map.getRequiredTile(index)
+    fun removeBuilding(index: Int, size: MapSize2d): Town {
+        map.requireIsInside(index)
 
-        require(oldTile.construction is BuildingTile) { "Tile $index is not a building!" }
+        val startX = map.size.toX(index)
+        val startY = map.size.toY(index)
+        val tiles = mutableMapOf<Int, TownTile>()
 
-        val tile = oldTile.copy(construction = NoConstruction)
+        for (y in startY..<(startY + size.height)) {
+            for (x in startX..<(startX + size.width)) {
+                val oldTile = map.getRequiredTile(x, y)
+                val tileIndex = map.size.toIndexRisky(x, y)
 
-        return updateTile(index, tile)
+                require(oldTile.construction is BuildingTile) { "Tile $tileIndex is not a building!" }
+
+                tiles[tileIndex] = oldTile.copy(construction = NoConstruction)
+            }
+        }
+
+        return updateTiles(tiles)
     }
 
     fun removeStreet(index: Int): Town {
