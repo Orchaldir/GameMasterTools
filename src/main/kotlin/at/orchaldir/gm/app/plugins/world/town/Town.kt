@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.plugins.world.town
 
+import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseTown
@@ -10,6 +11,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.getMountains
 import at.orchaldir.gm.core.selector.world.getRivers
+import at.orchaldir.gm.core.selector.world.getStreets
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -68,7 +70,7 @@ fun Application.configureTownRouting() {
             val town = state.getTownStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showTownEditor(call, town)
+                showTownEditor(call, state, town)
             }
         }
         post<TownRoutes.Update> { update ->
@@ -76,7 +78,7 @@ fun Application.configureTownRouting() {
 
             val state = STORE.getState()
             val oldTown = state.getTownStorage().getOrThrow(update.id)
-            val town = parseTown(oldTown, call.receiveParameters())
+            val town = parseTown(call.receiveParameters(), state, oldTown)
 
             STORE.dispatch(UpdateTown(town))
 
@@ -110,19 +112,25 @@ private fun HTML.showTownDetails(
     val backLink = call.application.href(TownRoutes())
     val deleteLink = call.application.href(TownRoutes.Delete(town.id))
     val editLink = call.application.href(TownRoutes.Edit(town.id))
+    val editStreetLink = call.application.href(TownRoutes.StreetRoutes.Edit(town.id))
     val editTerrainLink = call.application.href(TownRoutes.TerrainRoutes.Edit(town.id))
 
     simpleHtml("Town: ${town.name}") {
         split({
             field("Id", town.id.value.toString())
             field("Name", town.name)
+            field(call, state, "Founding", town.foundingDate)
             showList("Mountains", state.getMountains(town.id)) { mountain ->
                 link(call, state, mountain)
             }
             showList("Rivers", state.getRivers(town.id)) { river ->
                 link(call, state, river)
             }
+            showList("Streets", state.getStreets(town.id)) { street ->
+                link(call, state, street)
+            }
             action(editLink, "Edit Town")
+            action(editStreetLink, "Edit Streets")
             action(editTerrainLink, "Edit Terrain")
             action(deleteLink, "Delete")
             back(backLink)
@@ -134,6 +142,7 @@ private fun HTML.showTownDetails(
 
 private fun HTML.showTownEditor(
     call: ApplicationCall,
+    state: State,
     town: Town,
 ) {
     val backLink = href(call, town.id)
@@ -144,6 +153,7 @@ private fun HTML.showTownEditor(
             field("Id", town.id.value.toString())
             form {
                 selectName(town.name)
+                selectDate(state, "Founding", town.foundingDate, DATE)
                 p {
                     submitInput {
                         value = "Update"

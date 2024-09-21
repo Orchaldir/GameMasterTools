@@ -7,4 +7,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TownTile(
     val terrain: Terrain = PlainTerrain,
+    val construction: Construction = NoConstruction,
 )

@@ -35,6 +35,9 @@ import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.world.moon.MOON
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.street.STREET
+import at.orchaldir.gm.core.model.world.street.Street
+import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.TOWN
 import at.orchaldir.gm.core.model.world.town.Town
@@ -62,6 +65,7 @@ val ELEMENTS =
         RACE,
         RACE_APPEARANCE,
         RIVER,
+        STREET,
         TOWN,
     )
 private const val TIME = "Time"
@@ -101,6 +105,7 @@ data class State(
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE)
     fun getRiverStorage() = getStorage<RiverId, River>(RIVER)
+    fun getStreetStorage() = getStorage<StreetId, Street>(STREET)
     fun getTownStorage() = getStorage<TownId, Town>(TOWN)
 
     private fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(type: String): Storage<ID, ELEMENT> {
@@ -168,6 +173,7 @@ data class State(
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
         saveStorage(path, getRiverStorage())
+        saveStorage(path, getStreetStorage())
         saveStorage(path, getTownStorage())
         saveData(path, TIME, time)
     }
@@ -189,6 +195,7 @@ fun createStorage(type: String) = when (type) {
     RACE -> Storage(RaceId(0))
     RACE_APPEARANCE -> Storage(RaceAppearanceId(0))
     RIVER -> Storage(RiverId(0))
+    STREET -> Storage(StreetId(0))
     TOWN -> Storage(TownId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
@@ -213,6 +220,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     RACE -> loadStorage<RaceId, Race>(path, RaceId(0))
     RACE_APPEARANCE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))
     RIVER -> loadStorage<RiverId, River>(path, RiverId(0))
+    STREET -> loadStorage<StreetId, Street>(path, StreetId(0))
     TOWN -> loadStorage<TownId, Town>(path, TownId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }

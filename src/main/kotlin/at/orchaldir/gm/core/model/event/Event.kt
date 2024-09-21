@@ -3,14 +3,16 @@ package at.orchaldir.gm.core.model.event
 import at.orchaldir.gm.core.model.character.CauseOfDeath
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterOrigin
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.world.town.TownId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 sealed class Event {
 
-    abstract fun getEventDay(): Day
+    abstract fun getDate(): Date
 
 }
 
@@ -22,7 +24,7 @@ data class CharacterOriginEvent(
     val origin: CharacterOrigin,
 ) : Event() {
 
-    override fun getEventDay() = day
+    override fun getDate() = day
 
 }
 
@@ -34,6 +36,17 @@ data class CharacterDeathEvent(
     val causeOfDeath: CauseOfDeath,
 ) : Event() {
 
-    override fun getEventDay() = day
+    override fun getDate() = day
+
+}
+
+@Serializable
+@SerialName("CharacterOrigin")
+data class TownFoundingEvent(
+    val foundingDate: Date,
+    val townId: TownId,
+) : Event() {
+
+    override fun getDate() = foundingDate
 
 }

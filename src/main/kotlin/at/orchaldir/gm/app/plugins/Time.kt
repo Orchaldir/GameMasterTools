@@ -10,8 +10,10 @@ import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.event.CharacterDeathEvent
 import at.orchaldir.gm.core.model.event.CharacterOriginEvent
 import at.orchaldir.gm.core.model.event.Event
+import at.orchaldir.gm.core.model.event.TownFoundingEvent
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.DisplayDay
+import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonPhase
 import at.orchaldir.gm.core.selector.*
@@ -34,8 +36,11 @@ private val logger = KotlinLogging.logger {}
 @Resource("/time")
 class TimeRoutes {
 
-    @Resource("date")
-    class ShowDate(val day: Day, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+    @Resource("day")
+    class ShowDay(val day: Day, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+
+    @Resource("year")
+    class ShowYear(val year: Year, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
 
     @Resource("events")
     class ShowEvents(val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
@@ -56,12 +61,20 @@ fun Application.configureTimeRouting() {
                 showTimeData(call)
             }
         }
-        get<TimeRoutes.ShowDate> { data ->
+        get<TimeRoutes.ShowDay> { data ->
             val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
-            logger.info { "Show month of day ${data.day.day} for calendar ${calendarId.value}" }
+            logger.info { "Show the day ${data.day.day} for calendar ${calendarId.value}" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showMonth(call, calendarId, data.day)
+                showDay(call, calendarId, data.day)
+            }
+        }
+        get<TimeRoutes.ShowYear> { data ->
+            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
+            logger.info { "Show the year ${data.year.year} for calendar ${calendarId.value}" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showYear(call, calendarId, data.year)
             }
         }
         get<TimeRoutes.ShowEvents> { data ->
@@ -107,16 +120,16 @@ private fun HTML.showTimeData(call: ApplicationCall) {
     }
 }
 
-private fun HTML.showMonth(call: ApplicationCall, calendarId: CalendarId, day: Day) {
+private fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayDay = calendar.resolve(day)
     val events = state.getEventsOfMonth(calendarId, day)
     val backLink = call.application.href(TimeRoutes())
-    val nextLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfNextMonth(day)))
-    val previousLink = call.application.href(TimeRoutes.ShowDate(calendar.getStartOfPreviousMonth(day)))
+    val nextLink = call.application.href(TimeRoutes.ShowDay(calendar.getStartOfNextMonth(day)))
+    val previousLink = call.application.href(TimeRoutes.ShowDay(calendar.getStartOfPreviousMonth(day)))
 
-    simpleHtml("Date: " + calendar.display(displayDay)) {
+    simpleHtml("Day: " + calendar.display(displayDay)) {
         field("Calendar") {
             link(call, calendar)
         }
@@ -225,6 +238,26 @@ private fun TD.showIcon(
     }
 }
 
+private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Year) {
+    val state = STORE.getState()
+    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+    val displayYear = calendar.resolve(year)
+    val events = state.getEventsOfYear(calendarId, year)
+    val backLink = call.application.href(TimeRoutes())
+    val nextLink = call.application.href(TimeRoutes.ShowYear(year.next()))
+    val previousLink = call.application.href(TimeRoutes.ShowYear(year.previous()))
+
+    simpleHtml("Year: " + calendar.display(displayYear)) {
+        field("Calendar") {
+            link(call, calendar)
+        }
+        action(nextLink, "Next Year")
+        action(previousLink, "Previous Year")
+        showEvents(events, call, state, calendar)
+        back(backLink)
+    }
+}
+
 private fun HTML.editTimeData(
     call: ApplicationCall,
 ) {
@@ -255,7 +288,7 @@ private fun HTML.editTimeData(
 private fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val events = state.getEvents().sort()
+    val events = state.getEvents()
     val backLink = call.application.href(TimeRoutes())
 
     simpleHtml("Events") {
@@ -269,17 +302,20 @@ private fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
 }
 
 private fun HtmlBlockTag.showEvents(
-    events: List<Event>,
+    unsortedEvents: List<Event>,
     call: ApplicationCall,
     state: State,
     calendar: Calendar,
 ) {
+    val events = unsortedEvents.sort(calendar)
+
     showList("Events", events) { event ->
-        val day = event.getEventDay()
-        if (day == state.time.currentDate) {
-            link(call, day, "Today")
+        val date = event.getDate()
+
+        if (date is Day && date == state.time.currentDate) {
+            link(call, date, "Today")
         } else {
-            link(call, calendar, day)
+            link(call, calendar, date)
         }
         +": "
         when (event) {
@@ -291,6 +327,11 @@ private fun HtmlBlockTag.showEvents(
             is CharacterOriginEvent -> {
                 link(call, state, event.characterId)
                 +" was born."
+            }
+
+            is TownFoundingEvent -> {
+                link(call, state, event.townId)
+                +" was founded."
             }
         }
     }
