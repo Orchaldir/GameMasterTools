@@ -20,6 +20,7 @@ value class BuildingId(val value: Int) : Id<BuildingId> {
 data class Building(
     val id: BuildingId,
     val name: String = "Building ${id.value}",
+    val lot: BuildingLot = BuildingLot(),
 ) : Element<BuildingId> {
 
     override fun id() = id
