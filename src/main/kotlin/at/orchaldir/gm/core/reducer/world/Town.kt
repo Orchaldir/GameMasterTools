@@ -34,7 +34,11 @@ val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
 
     oldTown.map.requireIsInside(action.tileIndex)
 
-    val tile = oldTown.map.tiles[action.tileIndex].copy(construction = StreetTile(action.street))
+    val oldTile = oldTown.map.tiles[action.tileIndex]
+
+    require(oldTile.construction is NoConstruction) { "Tile ${action.tileIndex} is not empty!" }
+
+    val tile = oldTile.copy(construction = StreetTile(action.street))
     val tiles = oldTown.map.tiles.update(action.tileIndex, tile)
     val town = oldTown.copy(map = oldTown.map.copy(tiles = tiles))
 
@@ -48,7 +52,7 @@ val REMOVE_STREET_TILE: Reducer<RemoveStreetTile, State> = { state, action ->
 
     val oldTile = oldTown.map.tiles[action.tileIndex]
 
-    require(oldTile.construction is StreetTile) { "Tile ${action.tileIndex} is not a street" }
+    require(oldTile.construction is StreetTile) { "Tile ${action.tileIndex} is not a street!" }
 
     val tile = oldTile.copy(construction = NoConstruction)
     val tiles = oldTown.map.tiles.update(action.tileIndex, tile)

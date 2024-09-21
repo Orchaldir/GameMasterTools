@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.assertFailMessage
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.AddStreetTile
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.SetTerrainTile
@@ -9,6 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.*
+import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.model.world.town.TownTile
@@ -77,7 +79,7 @@ class TownTest {
         fun `Cannot update unknown town`() {
             val action = AddStreetTile(ID0, 0, STREET0)
 
-            assertFailMessage<IllegalArgumentException>("Unknown Town 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Unknown Town 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -86,7 +88,7 @@ class TownTest {
             val state = State(Storage(town))
             val action = AddStreetTile(ID0, 0, STREET1)
 
-            assertFailMessage<IllegalArgumentException>("Requires unknown Street 1!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Street 1!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -95,7 +97,22 @@ class TownTest {
             val state = State(listOf(Storage(Street(STREET0)), Storage(town)))
             val action = AddStreetTile(ID0, 100, STREET0)
 
-            assertFailMessage<IllegalArgumentException>("Tile 100 is outside the map!") {
+            assertIllegalArgument("Tile 100 is outside the map!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
+        @Test
+        fun `Tile is already a street`() {
+            val map = TileMap2d(MapSize2d(1, 1), listOf(TownTile(construction = StreetTile(STREET0))))
+            val town = Town(ID0, map = map)
+            val state = State(listOf(Storage(listOf(Street(STREET0), Street(STREET1))), Storage(town)))
+            val action = AddStreetTile(ID0, 0, STREET1)
+
+            assertIllegalArgument("Tile 0 is not empty!") {
                 REDUCER.invoke(
                     state,
                     action
