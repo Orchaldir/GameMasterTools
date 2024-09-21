@@ -36,7 +36,7 @@ val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
 
     val oldTile = oldTown.map.tiles[action.tileIndex]
 
-    require(oldTile.construction is NoConstruction) { "Tile ${action.tileIndex} is not empty!" }
+    require(oldTile.canBuildStreet()) { "Tile ${action.tileIndex} is not empty!" }
 
     val tile = oldTile.copy(construction = StreetTile(action.street))
     val tiles = oldTown.map.tiles.update(action.tileIndex, tile)

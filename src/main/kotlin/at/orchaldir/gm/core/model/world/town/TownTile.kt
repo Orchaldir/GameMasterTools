@@ -8,4 +8,8 @@ import kotlinx.serialization.Serializable
 data class TownTile(
     val terrain: Terrain = PlainTerrain,
     val construction: Construction = NoConstruction,
-)
+) {
+
+    fun canBuildStreet() = construction is NoConstruction
+
+}

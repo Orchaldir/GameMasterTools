@@ -127,7 +127,7 @@ fun visualizeStreetEditor(
     val svgBuilder = SvgBuilder(tileMapRenderer.calculateMapSize(town.map))
 
     tileMapRenderer.renderWithLinks(svgBuilder, town.map, TownTile::getColor) { index, tile ->
-        if (tile.construction is NoConstruction) {
+        if (tile.canBuildStreet()) {
             call.application.href(TownRoutes.StreetRoutes.Add(town.id, index, selectedStreet))
         } else {
             null
