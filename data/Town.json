@@ -115,6 +115,10 @@
      {
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 0
+      }
      },
      {
       "construction": {
@@ -123,6 +127,10 @@
       }
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 1
+      }
      },
      {
      },

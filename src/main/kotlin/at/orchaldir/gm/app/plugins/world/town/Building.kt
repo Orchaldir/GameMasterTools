@@ -5,8 +5,10 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.WIDTH
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.plugins.world.BuildingRoutes
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.selector.world.getBuildings
@@ -110,6 +112,8 @@ fun visualizeBuildingEditor(
     tileMapRenderer.renderWithLinks(svgBuilder, town.map, TownTile::getColor) { index, tile ->
         if (tile.canBuild()) {
             call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
+        } else if (tile.construction is BuildingTile) {
+            call.application.href(BuildingRoutes.Details(tile.construction.building))
         } else {
             null
         }

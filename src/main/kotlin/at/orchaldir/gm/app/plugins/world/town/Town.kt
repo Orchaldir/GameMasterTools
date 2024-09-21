@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseTown
+import at.orchaldir.gm.app.plugins.world.BuildingRoutes
 import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
@@ -140,7 +141,7 @@ private fun HTML.showTownDetails(
             action(deleteLink, "Delete")
             back(backLink)
         }, {
-            svg(visualizeTown(town, state.getBuildings(town.id)), 90)
+            svg(visualizeTownWithLinks(call, state, town), 90)
         })
     }
 }
@@ -169,7 +170,15 @@ private fun HTML.showTownEditor(
             }
             back(backLink)
         }, {
-            svg(visualizeTown(town, state.getBuildings(town.id)), 90)
+            svg(visualizeTownWithLinks(call, state, town), 90)
         })
     }
+}
+
+private fun visualizeTownWithLinks(
+    call: ApplicationCall,
+    state: State,
+    town: Town,
+) = visualizeTown(town, state.getBuildings(town.id)) { building ->
+    call.application.href(BuildingRoutes.Details(building.id))
 }

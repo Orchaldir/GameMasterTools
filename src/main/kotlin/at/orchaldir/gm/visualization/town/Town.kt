@@ -14,6 +14,7 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.renderer.LinkRenderer
 import at.orchaldir.gm.utils.renderer.NoBorder
 import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
@@ -35,13 +36,14 @@ fun visualizeTerrain(
 fun visualizeTown(
     town: Town,
     buildings: List<Building> = emptyList(),
+    buildingLinkLookup: (Building) -> String? = { _ -> null },
 ): Svg {
     val tileMapRenderer = TileMap2dRenderer(Distance(20.0f), Distance(1.0f))
     val svgBuilder = SvgBuilder(tileMapRenderer.calculateMapSize(town.map))
 
     tileMapRenderer.render(svgBuilder, town.map, TownTile::getColor)
 
-    visualizeBuildings(svgBuilder, tileMapRenderer, town, buildings)
+    visualizeBuildings(svgBuilder, tileMapRenderer, town, buildings, buildingLinkLookup)
 
     visualizeStreetsComplex(svgBuilder, tileMapRenderer, town)
 
@@ -49,13 +51,23 @@ fun visualizeTown(
 }
 
 fun visualizeBuildings(
-    renderer: Renderer,
+    renderer: LinkRenderer,
     tileRenderer: TileMap2dRenderer,
     town: Town,
     buildings: List<Building>,
-    color: Color = Color.Black,
+    linkLookup: (Building) -> String? = { _ -> null },
 ) {
-    buildings.forEach { renderBuilding(renderer, tileRenderer, town, it, color) }
+    buildings.forEach { building ->
+        val link = linkLookup(building)
+
+        if (link != null) {
+            renderer.link(link)
+            renderBuilding(renderer, tileRenderer, town, building, Color.Black)
+            renderer.closeLink()
+        } else {
+            renderBuilding(renderer, tileRenderer, town, building, Color.Black)
+        }
+    }
 }
 
 fun visualizeStreetsComplex(

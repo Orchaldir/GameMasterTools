@@ -1,5 +1,17 @@
 {
-  "version": 1,
-  "elements": {
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "lot": {
+    "tileIndex": 34
+   }
+  },
+  "1": {
+   "id": 1,
+   "lot": {
+    "tileIndex": 36
+   }
   }
+ }
 }
