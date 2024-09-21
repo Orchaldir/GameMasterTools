@@ -3,13 +3,11 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.*
-import at.orchaldir.gm.core.model.world.town.StreetTile
-import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownId
-import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -22,10 +20,12 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 private val ID0 = TownId(0)
+private val BUILDING0 = BuildingId(0)
 private val MOUNTAIN0 = MountainId(0)
 private val RIVER0 = RiverId(0)
 private val STREET0 = StreetId(0)
 private val STREET1 = StreetId(1)
+private val BUILDING_TILE = TownTile(construction = BuildingTile(BUILDING0))
 private val STREET_TILE = TownTile(construction = StreetTile(STREET0))
 
 class TownTest {
@@ -103,18 +103,22 @@ class TownTest {
         }
 
         @Test
+        fun `Tile is already a building`() {
+            testTileNotEmpty(BUILDING_TILE)
+        }
+
+        @Test
         fun `Tile is already a street`() {
-            val map = TileMap2d(STREET_TILE)
+            testTileNotEmpty(STREET_TILE)
+        }
+
+        private fun testTileNotEmpty(townTile: TownTile) {
+            val map = TileMap2d(townTile)
             val town = Town(ID0, map = map)
             val state = State(listOf(Storage(listOf(Street(STREET0), Street(STREET1))), Storage(town)))
             val action = AddStreetTile(ID0, 0, STREET1)
 
-            assertIllegalArgument("Tile 0 is not empty!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
-            }
+            assertIllegalArgument("Tile 0 is not empty!") { REDUCER.invoke(state, action) }
         }
 
         @Test

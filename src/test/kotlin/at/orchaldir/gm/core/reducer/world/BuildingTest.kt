@@ -43,8 +43,17 @@ class BuildingTest {
         }
 
         @Test
+        fun `Tile is already a building`() {
+            testTileNotEmpty(BUILDING_TILE)
+        }
+
+        @Test
         fun `Tile is already a street`() {
-            val map = TileMap2d(STREET_TILE)
+            testTileNotEmpty(STREET_TILE)
+        }
+
+        private fun testTileNotEmpty(townTile: TownTile) {
+            val map = TileMap2d(townTile)
             val town = Town(TOWN0, map = map)
             val state = State(listOf(Storage(listOf(Street(STREET0))), Storage(town)))
             val action = AddBuilding(TOWN0, 0, square(1))
