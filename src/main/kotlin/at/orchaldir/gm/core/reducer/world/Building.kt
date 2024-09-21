@@ -12,7 +12,7 @@ import at.orchaldir.gm.utils.redux.noFollowUps
 val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
     val buildingId = state.getBuildingStorage().nextId
     val oldTown = state.getTownStorage().getOrThrow(action.town)
-    val town = oldTown.build(action.tileIndex, BuildingTile(buildingId))
+    val town = oldTown.build(action.tileIndex, action.size, BuildingTile(buildingId))
     val lot = BuildingLot(action.town, action.tileIndex, action.size)
     val building = Building(buildingId, lot = lot)
 

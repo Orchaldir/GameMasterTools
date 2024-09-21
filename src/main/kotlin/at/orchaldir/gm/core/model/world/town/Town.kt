@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.terrain.Terrain
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.MapSize2d.Companion.square
 import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.utils.update
@@ -48,6 +49,27 @@ data class Town(
         return updateTile(index, tile)
     }
 
+    fun build(index: Int, size: MapSize2d, construction: Construction): Town {
+        map.requireIsInside(index)
+
+        val startX = map.size.toX(index)
+        val startY = map.size.toY(index)
+        val tiles = mutableMapOf<Int, TownTile>()
+
+        for (y in startY..<(startY + size.height)) {
+            for (x in startX..<(startX + size.width)) {
+                val oldTile = map.getRequiredTile(x, y)
+                val tileIndex = map.size.toIndexRisky(x, y)
+
+                require(oldTile.canBuild()) { "Tile $tileIndex is not empty!" }
+
+                tiles[tileIndex] = oldTile.copy(construction = construction)
+            }
+        }
+
+        return updateTiles(tiles)
+    }
+
     fun removeBuilding(index: Int): Town {
         val oldTile = map.getRequiredTile(index)
 
@@ -80,5 +102,12 @@ data class Town(
 
         return copy(map = map.copy(tiles = tiles))
     }
+
+    private fun updateTiles(tiles: Map<Int, TownTile>): Town {
+        val tiles = map.tiles.update(tiles)
+
+        return copy(map = map.copy(tiles = tiles))
+    }
+
 
 }

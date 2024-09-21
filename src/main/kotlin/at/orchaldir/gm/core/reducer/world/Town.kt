@@ -3,12 +3,10 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
-import at.orchaldir.gm.core.model.world.town.NoConstruction
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-import at.orchaldir.gm.utils.update
 
 val CREATE_TOWN: Reducer<CreateTown, State> = { state, _ ->
     val town = Town(state.getTownStorage().nextId, foundingDate = state.time.currentDate)

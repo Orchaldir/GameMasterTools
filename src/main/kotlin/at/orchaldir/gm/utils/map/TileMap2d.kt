@@ -15,13 +15,18 @@ data class TileMap2d<TILE>(
         require(size.tiles() == tiles.size) { "The number of tiles must match the map size" }
     }
 
-    fun isInside(index: Int) = size.isInside(index)
+    fun requireIsInside(index: Int) = require(size.isInside(index)) { "Tile $index is outside the map!" }
 
-    fun requireIsInside(index: Int) = require(isInside(index)) { "Tile $index is outside the map!" }
+    fun requireIsInside(x: Int, y: Int) = require(size.isInside(x, y)) { "Tile ($x, $y) is outside the map!" }
 
     fun getRequiredTile(index: Int): TILE {
         requireIsInside(index)
         return tiles[index]
+    }
+
+    fun getRequiredTile(x: Int, y: Int): TILE {
+        requireIsInside(x, y)
+        return tiles[size.toIndexRisky(x, y)]
     }
 
     fun getTile(index: Int) = tiles.getOrNull(index)
