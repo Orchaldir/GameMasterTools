@@ -3,10 +3,7 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.plugins.*
 import at.orchaldir.gm.app.plugins.character.CharacterRoutes
 import at.orchaldir.gm.app.plugins.race.RaceRoutes
-import at.orchaldir.gm.app.plugins.world.MoonRoutes
-import at.orchaldir.gm.app.plugins.world.MountainRoutes
-import at.orchaldir.gm.app.plugins.world.RiverRoutes
-import at.orchaldir.gm.app.plugins.world.StreetRoutes
+import at.orchaldir.gm.app.plugins.world.*
 import at.orchaldir.gm.app.plugins.world.town.TownRoutes
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
@@ -26,6 +23,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
@@ -128,6 +126,7 @@ fun <ID : Id<ID>> href(
     call: ApplicationCall,
     id: ID,
 ) = when (id) {
+    is BuildingId -> call.application.href(BuildingRoutes.Details(id))
     is CalendarId -> call.application.href(CalendarRoutes.Details(id))
     is CharacterId -> call.application.href(CharacterRoutes.Details(id))
     is CultureId -> call.application.href(CultureRoutes.Details(id))

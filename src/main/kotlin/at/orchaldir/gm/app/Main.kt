@@ -4,10 +4,7 @@ import at.orchaldir.gm.app.plugins.*
 import at.orchaldir.gm.app.plugins.character.*
 import at.orchaldir.gm.app.plugins.race.configureRaceAppearanceRouting
 import at.orchaldir.gm.app.plugins.race.configureRaceRouting
-import at.orchaldir.gm.app.plugins.world.configureMoonRouting
-import at.orchaldir.gm.app.plugins.world.configureMountainRouting
-import at.orchaldir.gm.app.plugins.world.configureRiverRouting
-import at.orchaldir.gm.app.plugins.world.configureStreetRouting
+import at.orchaldir.gm.app.plugins.world.*
 import at.orchaldir.gm.app.plugins.world.town.configureStreetEditorRouting
 import at.orchaldir.gm.app.plugins.world.town.configureTerrainRouting
 import at.orchaldir.gm.app.plugins.world.town.configureTownRouting
@@ -35,6 +32,7 @@ fun Application.module() {
     configureSerialization()
     configureRouting()
     configureStatusPages()
+    configureBuildingRouting()
     configureCharacterRouting()
     configureCharacterLanguageRouting()
     configureCharacterRelationshipRouting()
