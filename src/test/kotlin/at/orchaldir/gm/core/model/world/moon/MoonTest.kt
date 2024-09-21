@@ -1,10 +1,7 @@
 package at.orchaldir.gm.core.model.world.moon
 
-import at.orchaldir.gm.core.model.world.moon.MoonPhase.*
 import at.orchaldir.gm.core.model.time.Day
-import at.orchaldir.gm.core.model.world.moon.Moon
-import at.orchaldir.gm.core.model.world.moon.MoonId
-import at.orchaldir.gm.core.model.world.moon.MoonPhase
+import at.orchaldir.gm.core.model.world.moon.MoonPhase.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
