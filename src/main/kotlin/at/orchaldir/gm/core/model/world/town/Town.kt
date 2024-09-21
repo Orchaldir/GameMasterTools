@@ -48,6 +48,16 @@ data class Town(
         return updateTile(index, tile)
     }
 
+    fun removeBuilding(index: Int): Town {
+        val oldTile = map.getRequiredTile(index)
+
+        require(oldTile.construction is BuildingTile) { "Tile $index is not a building!" }
+
+        val tile = oldTile.copy(construction = NoConstruction)
+
+        return updateTile(index, tile)
+    }
+
     fun removeStreet(index: Int): Town {
         val oldTile = map.getRequiredTile(index)
 

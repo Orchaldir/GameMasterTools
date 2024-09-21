@@ -171,7 +171,7 @@ class TownTest {
         }
 
         @Test
-        fun `Successfully set a street`() {
+        fun `Successfully removed a street`() {
             val town = Town(ID0, map = TileMap2d(STREET_TILE))
             val state = State(Storage(town))
             val action = RemoveStreetTile(ID0, 0)
