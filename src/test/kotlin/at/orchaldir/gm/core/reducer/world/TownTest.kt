@@ -74,9 +74,10 @@ class TownTest {
 
         @Test
         fun `Cannot update unknown town`() {
+            val state = State(listOf(Storage(Street(STREET0))))
             val action = AddStreetTile(ID0, 0, STREET0)
 
-            assertIllegalArgument("Unknown Town 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Unknown Town 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test

@@ -8,21 +8,13 @@ import at.orchaldir.gm.core.model.world.building.BuildingLot
 import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-import at.orchaldir.gm.utils.update
 
 val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
+    val buildingId = state.getBuildingStorage().nextId
     val oldTown = state.getTownStorage().getOrThrow(action.town)
-
-    val oldTile = oldTown.map.getRequiredTile(action.tileIndex)
-
-    require(oldTile.canBuild()) { "Tile ${action.tileIndex} is not empty!" }
-
+    val town = oldTown.build(action.tileIndex, BuildingTile(buildingId))
     val lot = BuildingLot(action.town, action.tileIndex, action.size)
-    val building = Building(state.getBuildingStorage().nextId, lot = lot)
-
-    val tile = oldTile.copy(construction = BuildingTile(building.id))
-    val tiles = oldTown.map.tiles.update(action.tileIndex, tile)
-    val town = oldTown.copy(map = oldTown.map.copy(tiles = tiles))
+    val building = Building(buildingId, lot = lot)
 
     noFollowUps(
         state.updateStorage(

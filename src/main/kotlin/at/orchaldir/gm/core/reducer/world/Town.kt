@@ -31,15 +31,10 @@ val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
 // town's streets
 
 val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
-    val oldTown = state.getTownStorage().getOrThrow(action.town)
     state.getStreetStorage().require(action.street)
-    val oldTile = oldTown.map.getRequiredTile(action.tileIndex)
 
-    require(oldTile.canBuild()) { "Tile ${action.tileIndex} is not empty!" }
-
-    val tile = oldTile.copy(construction = StreetTile(action.street))
-    val tiles = oldTown.map.tiles.update(action.tileIndex, tile)
-    val town = oldTown.copy(map = oldTown.map.copy(tiles = tiles))
+    val oldTown = state.getTownStorage().getOrThrow(action.town)
+    val town = oldTown.build(action.tileIndex, StreetTile(action.street))
 
     noFollowUps(state.updateStorage(state.getTownStorage().update(town)))
 }
@@ -62,8 +57,6 @@ val REMOVE_STREET_TILE: Reducer<RemoveStreetTile, State> = { state, action ->
 val SET_TERRAIN_TILE: Reducer<SetTerrainTile, State> = { state, action ->
     val oldTown = state.getTownStorage().getOrThrow(action.town)
 
-    oldTown.map.requireIsInside(action.tileIndex)
-
     val terrain = when (action.terrainType) {
         TerrainType.Hill -> {
             val mountainId = MountainId(action.terrainId)
@@ -84,9 +77,7 @@ val SET_TERRAIN_TILE: Reducer<SetTerrainTile, State> = { state, action ->
             RiverTerrain(riverId)
         }
     }
-    val tile = oldTown.map.tiles[action.tileIndex].copy(terrain = terrain)
-    val tiles = oldTown.map.tiles.update(action.tileIndex, tile)
-    val town = oldTown.copy(map = oldTown.map.copy(tiles = tiles))
+    val town = oldTown.setTerrain(action.tileIndex, terrain)
 
     noFollowUps(state.updateStorage(state.getTownStorage().update(town)))
 }
