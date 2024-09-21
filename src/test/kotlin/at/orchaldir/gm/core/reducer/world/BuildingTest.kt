@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.assertIllegalState
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.model.State
@@ -46,7 +47,7 @@ class BuildingTest {
             val state = State(Storage(town))
             val action = AddBuilding(TOWN0, 100, square(1))
 
-            assertIllegalArgument("Tile 100 is outside the map!") { REDUCER.invoke(state, action) }
+            assertIllegalState("Lot with index 100 is outside the map!") { REDUCER.invoke(state, action) }
         }
 
         @Test

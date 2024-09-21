@@ -56,22 +56,15 @@ data class Town(
     }
 
     fun build(index: Int, size: MapSize2d, construction: Construction): Town {
-        map.requireIsInside(index)
-
-        val startX = map.size.toX(index)
-        val startY = map.size.toY(index)
         val tiles = mutableMapOf<Int, TownTile>()
 
-        for (y in startY..<(startY + size.height)) {
-            for (x in startX..<(startX + size.width)) {
-                val oldTile = map.getRequiredTile(x, y)
-                val tileIndex = map.size.toIndexRisky(x, y)
+        map.size.toIndices(index, size)?.forEach { tileIndex ->
+            val oldTile = map.getRequiredTile(tileIndex)
 
-                require(oldTile.canBuild()) { "Tile $tileIndex is not empty!" }
+            require(oldTile.canBuild()) { "Tile $tileIndex is not empty!" }
 
-                tiles[tileIndex] = oldTile.copy(construction = construction)
-            }
-        }
+            tiles[tileIndex] = oldTile.copy(construction = construction)
+        } ?: error("Lot with index $index is outside the map!")
 
         return updateTiles(tiles)
     }
