@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.plugins.world.BuildingRoutes
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.selector.world.getBuildings

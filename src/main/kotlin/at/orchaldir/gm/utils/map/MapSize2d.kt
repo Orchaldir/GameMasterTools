@@ -1,6 +1,5 @@
 package at.orchaldir.gm.utils.map
 
-import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
 

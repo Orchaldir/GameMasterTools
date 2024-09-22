@@ -2,14 +2,11 @@ package at.orchaldir.gm.app.plugins.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.world.canDelete
-import at.orchaldir.gm.utils.map.MapSize2d
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -17,7 +14,7 @@ import io.ktor.server.html.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.HTML
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}

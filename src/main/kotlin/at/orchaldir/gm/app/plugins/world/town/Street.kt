@@ -18,8 +18,8 @@ import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.town.getColor
-import at.orchaldir.gm.visualization.town.visualizeBuildings
 import at.orchaldir.gm.visualization.town.renderStreet
+import at.orchaldir.gm.visualization.town.visualizeBuildings
 import at.orchaldir.gm.visualization.town.visualizeStreetsComplex
 import io.ktor.http.*
 import io.ktor.server.application.*
