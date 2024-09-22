@@ -236,15 +236,8 @@ private fun FORM.selectOwnership(
     selectInt("Previous Owners", ownership.previousOwners.size, 0, 100, previousOwnersParam, true)
     showListWithIndex(ownership.previousOwners) { index, previous ->
         val previousParam = combine(previousOwnersParam, index)
-        ul {
-            +"${index + 1}.Owner"
-            li {
-                selectOwner(state, previousParam, ownership.owner)
-            }
-            li {
-                selectDate(state, "Until", previous.until, combine(previousParam, DATE))
-            }
-        }
+        selectOwner(state, previousParam, ownership.owner)
+        selectDate(state, "Until", previous.until, combine(previousParam, DATE))
     }
 }
 
