@@ -5,6 +5,8 @@ import at.orchaldir.gm.assertIllegalState
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.building.BuildingLot
@@ -92,13 +94,13 @@ class BuildingTest {
         fun `Successfully added a building`() {
             val map = TileMap2d(TownTile())
             val town = Town(TOWN0, map = map)
-            val state = State(Storage(town))
+            val state = State(Storage(town), time = Time(currentDate = Day(42)))
             val action = AddBuilding(TOWN0, 0, square(1))
 
             val result = REDUCER.invoke(state, action).first
 
             assertEquals(
-                Building(ID0, lot = BuildingLot(TOWN0, 0, square(1))),
+                Building(ID0, lot = BuildingLot(TOWN0, 0, square(1)), constructionDate = Day(42)),
                 result.getBuildingStorage().getOrThrow(ID0)
             )
             assertEquals(BuildingTile(ID0), result.getTownStorage().get(TOWN0)?.map?.getTile(0)?.construction)
@@ -108,14 +110,14 @@ class BuildingTest {
         fun `Successfully added a big building`() {
             val map = TileMap2d(BIG_SQUARE, TownTile())
             val town = Town(TOWN0, map = map)
-            val state = State(Storage(town))
+            val state = State(Storage(town), time = Time(currentDate = Day(42)))
             val action = AddBuilding(TOWN0, 0, BIG_SIZE)
 
             val result = REDUCER.invoke(state, action).first
             val tilemap = result.getTownStorage().getOrThrow(TOWN0).map
 
             assertEquals(
-                Building(ID0, lot = BuildingLot(TOWN0, 0, BIG_SIZE)),
+                Building(ID0, lot = BuildingLot(TOWN0, 0, BIG_SIZE), constructionDate = Day(42)),
                 result.getBuildingStorage().getOrThrow(ID0)
             )
             assertEquals(BuildingTile(ID0), tilemap.getRequiredTile(0).construction)

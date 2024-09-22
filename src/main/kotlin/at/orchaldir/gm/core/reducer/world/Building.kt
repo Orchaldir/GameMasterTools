@@ -14,7 +14,7 @@ val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
     val oldTown = state.getTownStorage().getOrThrow(action.town)
     val town = oldTown.build(action.tileIndex, action.size, BuildingTile(buildingId))
     val lot = BuildingLot(action.town, action.tileIndex, action.size)
-    val building = Building(buildingId, lot = lot)
+    val building = Building(buildingId, lot = lot, constructionDate = state.time.currentDate)
 
     noFollowUps(
         state.updateStorage(
