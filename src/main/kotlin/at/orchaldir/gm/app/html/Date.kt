@@ -26,7 +26,7 @@ fun HtmlBlockTag.showCurrentDate(
     field(call, state, "Current Date", state.time.currentDate)
 }
 
-fun FORM.selectDate(
+fun HtmlBlockTag.selectDate(
     state: State,
     fieldLabel: String,
     date: Date,
@@ -35,7 +35,7 @@ fun FORM.selectDate(
     selectDate(fieldLabel, state.getDefaultCalendar(), date, param)
 }
 
-fun FORM.selectDate(
+fun HtmlBlockTag.selectDate(
     fieldLabel: String,
     calendar: Calendar,
     date: Date,

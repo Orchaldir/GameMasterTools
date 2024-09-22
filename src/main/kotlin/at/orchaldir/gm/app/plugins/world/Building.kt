@@ -140,18 +140,7 @@ private fun HTML.showBuildingDetails(
             field("Name", building.name)
             field(call, state, "Construction", building.constructionDate)
             fieldAge("Age", state.getAgeInYears(building))
-            when (building.owner) {
-                NoOwner -> field("Owner", "None")
-                is OwnedByCharacter -> field("Owner") {
-                    link(call, state, building.owner.character)
-                }
-
-                is OwnedByTown -> field("Owner") {
-                    link(call, state, building.owner.town)
-                }
-
-                UnknownOwner -> field("Owner", "Unknown")
-            }
+            showOwnership(call, state, building.ownership)
             field("Town") {
                 link(call, state, building.lot.town)
             }
@@ -164,6 +153,44 @@ private fun HTML.showBuildingDetails(
         }, {
             svg(visualizeBuilding(call, state, building), 90)
         })
+    }
+}
+
+private fun HtmlBlockTag.showOwnership(
+    call: ApplicationCall,
+    state: State,
+    ownership: Ownership,
+) {
+    showOwner(call, state, ownership.owner)
+    showList("Previous Owners", ownership.previousOwners) { previous ->
+        ul {
+            li {
+                showOwner(call, state, previous.owner)
+            }
+            li {
+                field(call, state, "Until", previous.until)
+            }
+        }
+
+    }
+}
+
+private fun HtmlBlockTag.showOwner(
+    call: ApplicationCall,
+    state: State,
+    owner: Owner,
+) {
+    when (owner) {
+        NoOwner -> field("Owner", "None")
+        is OwnedByCharacter -> field("Owner") {
+            link(call, state, owner.character)
+        }
+
+        is OwnedByTown -> field("Owner") {
+            link(call, state, owner.town)
+        }
+
+        UnknownOwner -> field("Owner", "Unknown")
     }
 }
 
@@ -185,36 +212,7 @@ private fun HTML.showBuildingEditor(
                 method = FormMethod.post
                 selectName(building.name)
                 selectDate(state, "Construction", building.constructionDate, DATE)
-                selectValue("Owner Type", OWNER, OwnerType.entries, true) { type ->
-                    label = type.toString()
-                    value = type.toString()
-                    selected = building.owner.getType() == type
-                }
-                when (building.owner) {
-                    is OwnedByCharacter -> selectValue(
-                        "Owner",
-                        combine(OWNER, CHARACTER),
-                        state.getCharacterStorage().getAll(),
-                        false
-                    ) { c ->
-                        label = state.getName(c)
-                        value = c.id.value.toString()
-                        selected = building.owner.character == c.id
-                    }
-
-                    is OwnedByTown -> selectValue(
-                        "Owner",
-                        combine(OWNER, TOWN),
-                        state.getTownStorage().getAll(),
-                        false
-                    ) { town ->
-                        label = town.name
-                        value = town.id.value.toString()
-                        selected = building.owner.town == town.id
-                    }
-
-                    else -> doNothing()
-                }
+                selectOwnership(state, building.ownership)
                 p {
                     submitInput {
                         value = "Update"
@@ -227,6 +225,63 @@ private fun HTML.showBuildingEditor(
         }, {
             svg(visualizeBuilding(call, state, building), 90)
         })
+    }
+}
+
+private fun FORM.selectOwnership(
+    state: State,
+    ownership: Ownership,
+) {
+    selectOwner(state, OWNER, ownership.owner)
+    val previousOwnersParam = combine(OWNER, HISTORY)
+    selectInt("Previous Owners", ownership.previousOwners.size, 0, 100, previousOwnersParam, true)
+    showListWithIndex(ownership.previousOwners) { index, previous ->
+        val previousParam = combine(previousOwnersParam, index)
+        ul {
+            li {
+                selectOwner(state, previousParam, ownership.owner)
+            }
+            li {
+                selectDate(state, "Until", previous.until, combine(previousParam, DATE))
+            }
+        }
+    }
+}
+
+private fun HtmlBlockTag.selectOwner(
+    state: State,
+    param: String,
+    owner: Owner,
+) {
+    selectValue("Owner Type", param, OwnerType.entries, true) { type ->
+        label = type.toString()
+        value = type.toString()
+        selected = owner.getType() == type
+    }
+    when (owner) {
+        is OwnedByCharacter -> selectValue(
+            "Owner",
+            combine(param, CHARACTER),
+            state.getCharacterStorage().getAll(),
+            false
+        ) { c ->
+            label = state.getName(c)
+            value = c.id.value.toString()
+            selected = owner.character == c.id
+        }
+
+        is OwnedByTown -> selectValue(
+            "Owner",
+            combine(param, TOWN),
+            state.getTownStorage().getAll(),
+            false
+        ) { town ->
+            label = town.name
+            value = town.id.value.toString()
+            selected = owner.town == town.id
+        }
+
+        else -> doNothing()
     }
 }
 

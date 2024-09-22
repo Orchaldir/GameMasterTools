@@ -10,11 +10,11 @@ import at.orchaldir.gm.core.selector.getDefaultCalendar
 fun State.getAgeInYears(building: Building) = getDefaultCalendar()
     .getDurationInYears(building.constructionDate, time.currentDate)
 
-fun State.canDelete(building: Building) = building.owner.canDelete()
+fun State.canDelete(building: Building) = building.ownership.owner.canDelete()
 
 fun State.getBuildings(town: TownId) = getBuildingStorage().getAll()
     .filter { it.lot.town == town }
 
 fun State.getOwnedBuildings(character: CharacterId) = getBuildingStorage().getAll()
-    .filter { it.owner is OwnedByCharacter && it.owner.character == character }
+    .filter { it.ownership.owner is OwnedByCharacter && it.ownership.owner.character == character }
 
