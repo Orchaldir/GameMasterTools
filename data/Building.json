@@ -32,10 +32,6 @@
    "constructionDate": {
     "type": "Year",
     "year": 1642
-   },
-   "owner": {
-    "type": "Character",
-    "character": 0
    }
   }
  }
