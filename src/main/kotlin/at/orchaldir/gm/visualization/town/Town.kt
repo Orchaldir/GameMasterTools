@@ -19,6 +19,9 @@ import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 
+private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
+private val DEFAULT_STREET_COLOR: (StreetId, Int) -> Color = { _, _ -> Color.Gray }
+
 data class TownRenderer(
     private val tileRenderer: TileMap2dRenderer,
     private val renderer: SvgBuilder,
@@ -50,7 +53,7 @@ data class TownRenderer(
 
     fun renderBuildings(
         buildings: List<Building>,
-        colorLookup: (Building) -> Color = ::getDefaultBuildingColor,
+        colorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
     ) {
         buildings.forEach { building ->
             val color = colorLookup(building)
@@ -61,7 +64,7 @@ data class TownRenderer(
 
     fun renderBuildings(
         buildings: List<Building>,
-        colorLookup: (Building) -> Color = ::getDefaultBuildingColor,
+        colorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
         linkLookup: (Building) -> String?,
     ) {
         buildings.forEach { building ->
@@ -79,7 +82,7 @@ data class TownRenderer(
     }
 
     fun renderStreets(
-        colorLookup: (StreetId, Int) -> Color = ::getDefaultStreetColor,
+        colorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
     ) {
         renderStreets { aabb, streetId, index ->
             val color = colorLookup(streetId, index)
@@ -88,7 +91,7 @@ data class TownRenderer(
     }
 
     fun renderStreets(
-        colorLookup: (StreetId, Int) -> Color = ::getDefaultStreetColor,
+        colorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
         linkLookup: (StreetId, Int) -> String?,
     ) {
         renderStreets { aabb, streetId, index ->
@@ -179,7 +182,3 @@ fun TownTile.getColor() = when (terrain) {
     PlainTerrain -> Color.Green
     is RiverTerrain -> Color.Blue
 }
-
-fun getDefaultBuildingColor(building: Building) = Color.Black
-
-fun getDefaultStreetColor(street: StreetId, index: Int) = Color.Gray
