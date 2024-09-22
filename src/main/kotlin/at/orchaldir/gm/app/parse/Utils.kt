@@ -71,7 +71,7 @@ fun parseDay(
     val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
     val monthIndex = parseInt(parameters, combine(param, MONTH))
     val dayIndex = parseDayIndex(parameters, param)
-    val calendarDate = DisplayDay(DisplayYear(eraIndex, yearIndex), monthIndex, dayIndex)
+    val calendarDate = DisplayDay(eraIndex, yearIndex, monthIndex, dayIndex)
 
     return calendar.resolve(calendarDate)
 }

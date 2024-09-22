@@ -116,7 +116,7 @@ data class Calendar(
             val remainingDays = day % daysPerYear
             val (monthIndex, dayIndex) = resolveDayAndMonth(remainingDays)
 
-            return DisplayDay(DisplayYear(1, year), monthIndex, dayIndex, weekdayIndex)
+            return DisplayDay(1, year, monthIndex, dayIndex, weekdayIndex)
         }
 
         val absoluteDate = day.absoluteValue - 1
@@ -126,7 +126,7 @@ data class Calendar(
         for ((monthIndex, monthData) in months.withIndex().reversed()) {
             if (remainingDays < monthData.days) {
                 val dayIndex = monthData.days - remainingDays - 1
-                return DisplayDay(DisplayYear(0, year), monthIndex, dayIndex, weekdayIndex)
+                return DisplayDay(0, year, monthIndex, dayIndex, weekdayIndex)
             }
 
             remainingDays -= monthData.days
