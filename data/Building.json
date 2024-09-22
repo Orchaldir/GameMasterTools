@@ -32,6 +32,34 @@
    "constructionDate": {
     "type": "Year",
     "year": 1642
+   },
+   "ownership": {
+    "owner": {
+     "type": "Character",
+     "character": 1
+    },
+    "previousOwners": [
+     {
+      "owner": {
+       "type": "Character",
+       "character": 1
+      },
+      "until": {
+       "type": "Year",
+       "year": -1
+      }
+     },
+     {
+      "owner": {
+       "type": "Character",
+       "character": 0
+      },
+      "until": {
+       "type": "Year",
+       "year": 1
+      }
+     }
+    ]
    }
   }
  }
