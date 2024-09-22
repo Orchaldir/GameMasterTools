@@ -4,15 +4,16 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.Dead
-import at.orchaldir.gm.core.model.event.CharacterDeathEvent
-import at.orchaldir.gm.core.model.event.CharacterOriginEvent
-import at.orchaldir.gm.core.model.event.Event
-import at.orchaldir.gm.core.model.event.TownFoundingEvent
+import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
 
 fun State.getEvents(): List<Event> {
     val events = mutableListOf<Event>()
+
+    getBuildingStorage().getAll().forEach { building ->
+        events.add(BuildingConstructedEvent(building.constructionDate, building.id))
+    }
 
     getCharacterStorage().getAll().forEach { character ->
         events.add(CharacterOriginEvent(character.birthDate, character.id, character.origin))

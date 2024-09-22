@@ -7,10 +7,7 @@ import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
-import at.orchaldir.gm.core.model.event.CharacterDeathEvent
-import at.orchaldir.gm.core.model.event.CharacterOriginEvent
-import at.orchaldir.gm.core.model.event.Event
-import at.orchaldir.gm.core.model.event.TownFoundingEvent
+import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.DisplayDay
 import at.orchaldir.gm.core.model.time.Year
@@ -319,6 +316,11 @@ private fun HtmlBlockTag.showEvents(
         }
         +": "
         when (event) {
+            is BuildingConstructedEvent -> {
+                link(call, state, event.buildingId)
+                +" was constructed."
+            }
+
             is CharacterDeathEvent -> {
                 link(call, state, event.characterId)
                 +" died."
