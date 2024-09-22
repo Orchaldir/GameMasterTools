@@ -14,6 +14,32 @@ private val CALENDAR1 = Calendar(CalendarId(1), days = Weekdays(listOf(WeekDay("
 class CalendarTest {
 
     @Nested
+    inner class GetDurationInYearsTest {
+
+        @Test
+        fun `From a year to the same year`() {
+            assertWholeYear(Year(1))
+        }
+
+        @Test
+        fun `From a day to the same year`() {
+            assertWholeYear(Day(5))
+        }
+
+        private fun assertWholeYear(from: Date) {
+            assertGetDuration(from, 5, 0)
+            assertGetDuration(from, 6, 0)
+            assertGetDuration(from, 7, 0)
+            assertGetDuration(from, 8, 0)
+            assertGetDuration(from, 9, 0)
+        }
+
+        private fun assertGetDuration(from: Date, to: Int, result: Int) {
+            assertEquals(result, CALENDAR0.getDurationInYears(from, Day(to)))
+        }
+    }
+
+    @Nested
     inner class GetMonthTest {
 
         @Test
