@@ -157,7 +157,7 @@ private fun HTML.showBuildingDetails(
             }
             field("Size", building.lot.size.format())
             action(editLink, "Edit")
-            if (state.canDelete(building.id)) {
+            if (state.canDelete(building)) {
                 action(deleteLink, "Delete")
             }
             back(backLink)

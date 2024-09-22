@@ -15,6 +15,13 @@ sealed class Owner {
         UnknownOwner -> OwnerType.Unknown
     }
 
+    fun canDelete() = when (this) {
+        NoOwner -> true
+        is OwnedByCharacter -> false
+        is OwnedByTown -> false
+        UnknownOwner -> true
+    }
+
 }
 
 @Serializable
