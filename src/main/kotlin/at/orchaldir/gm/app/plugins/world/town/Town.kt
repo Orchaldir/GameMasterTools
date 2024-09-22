@@ -122,17 +122,17 @@ private fun HTML.showTownDetails(
             field(call, state, "Founding", town.foundingDate)
             fieldAge("Age", state.getAgeInYears(town))
             field("Size", town.map.size.format())
-            showList("Buildings", state.getBuildings(town.id)) { building ->
+            showList("Buildings", state.getBuildings(town.id).sortedBy { it.name }) { building ->
                 link(call, building)
             }
-            showList("Mountains", state.getMountains(town.id)) { mountain ->
-                link(call, state, mountain)
+            showList("Mountains", state.getMountains(town.id).sortedBy { it.name }) { mountain ->
+                link(call, mountain)
             }
-            showList("Rivers", state.getRivers(town.id)) { river ->
-                link(call, state, river)
+            showList("Rivers", state.getRivers(town.id).sortedBy { it.name }) { river ->
+                link(call, river)
             }
-            showList("Streets", state.getStreets(town.id)) { street ->
-                link(call, state, street)
+            showList("Streets", state.getStreets(town.id).sortedBy { it.name }) { street ->
+                link(call, street)
             }
             action(editLink, "Edit Town")
             action(editBuildingsLink, "Edit Buildings")

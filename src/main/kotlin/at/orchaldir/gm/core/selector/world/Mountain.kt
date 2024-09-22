@@ -6,6 +6,9 @@ import at.orchaldir.gm.core.model.world.town.TownId
 
 fun State.canDelete(mountain: MountainId) = getTowns(mountain).isEmpty()
 
-fun State.getMountains(town: TownId) = getTownStorage().getOrThrow(town)
+fun State.getMountains(town: TownId) = getMountainIds(town)
+    .map { getMountainStorage().getOrThrow(it) }
+
+fun State.getMountainIds(town: TownId) = getTownStorage().getOrThrow(town)
     .map.tiles.mapNotNull { it.terrain.getMountain() }.distinct()
 
