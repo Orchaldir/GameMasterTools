@@ -321,6 +321,15 @@ private fun HtmlBlockTag.showEvents(
                 +" was constructed."
             }
 
+            is BuildingOwnershipChangedEvent -> {
+                link(call, state, event.buildingId)
+                +"'s owner changed from "
+                showOwner(call, state, event.from)
+                +" to "
+                showOwner(call, state, event.to)
+                +"."
+            }
+
             is CharacterDeathEvent -> {
                 link(call, state, event.characterId)
                 +" died."

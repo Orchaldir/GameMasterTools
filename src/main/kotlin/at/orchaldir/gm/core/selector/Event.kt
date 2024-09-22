@@ -7,12 +7,29 @@ import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.building.Owner
+import at.orchaldir.gm.core.model.world.building.PreviousOwner
 
 fun State.getEvents(): List<Event> {
     val events = mutableListOf<Event>()
 
     getBuildingStorage().getAll().forEach { building ->
         events.add(BuildingConstructedEvent(building.constructionDate, building.id))
+
+        var lastPrevious: PreviousOwner? = null
+
+        for (previous in building.ownership.previousOwners) {
+            if (lastPrevious != null) {
+                events.add(createOwnershipChanged(building, lastPrevious, previous.owner))
+            }
+
+            lastPrevious = previous
+        }
+
+        if (lastPrevious != null) {
+            events.add(createOwnershipChanged(building, lastPrevious, building.ownership.owner))
+        }
     }
 
     getCharacterStorage().getAll().forEach { character ->
@@ -29,6 +46,17 @@ fun State.getEvents(): List<Event> {
 
     return events
 }
+
+private fun createOwnershipChanged(
+    building: Building,
+    lastPrevious: PreviousOwner,
+    to: Owner,
+) = BuildingOwnershipChangedEvent(
+    lastPrevious.until,
+    building.id,
+    lastPrevious.owner,
+    to,
+)
 
 fun State.getEventsOfMonth(calendarId: CalendarId, day: Day): List<Event> {
     val calendar = getCalendarStorage().getOrThrow(calendarId)
