@@ -43,7 +43,7 @@ private fun parsePreviousOwners(parameters: Parameters, state: State, startDate:
 
 fun parsePreviousOwner(parameters: Parameters, state: State, param: String, minDate: Date) = PreviousOwner(
     parseOwner(parameters, param),
-    parseDate(parameters, state, combine(param, DATE), minDate)
+    parseDate(parameters, state, combine(param, DATE), minDate),
 )
 
 fun parseOwner(parameters: Parameters, param: String): Owner = when (parameters[param]) {
