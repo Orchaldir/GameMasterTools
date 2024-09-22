@@ -8,17 +8,14 @@ import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.plugins.world.BuildingRoutes
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.map.MapSize2d
-import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.svg.Svg
-import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
+import at.orchaldir.gm.visualization.town.TownRenderer
 import at.orchaldir.gm.visualization.town.getColor
-import at.orchaldir.gm.visualization.town.visualizeBuildings
-import at.orchaldir.gm.visualization.town.visualizeStreetsComplex
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -105,11 +102,10 @@ fun visualizeBuildingEditor(
     town: Town,
     size: MapSize2d,
 ): Svg {
-    val tileMapRenderer = TileMap2dRenderer(Distance(20.0f), Distance(1.0f))
-    val svgBuilder = SvgBuilder(tileMapRenderer.calculateMapSize(town.map))
+    val townRenderer = TownRenderer(town)
     val isBig = size.width > 1 || size.height > 1
 
-    tileMapRenderer.renderWithLinks(svgBuilder, town.map, TownTile::getColor) { index, tile ->
+    townRenderer.renderTilesWithLinks(TownTile::getColor) { index, tile ->
         if (isBig && town.checkTiles(index, size) { it.canBuild() }) {
             call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
         } else if (!isBig && tile.canBuild()) {
@@ -119,12 +115,12 @@ fun visualizeBuildingEditor(
         }
     }
 
-    visualizeBuildings(svgBuilder, tileMapRenderer, town, state.getBuildings(town.id)) { building ->
+    townRenderer.renderBuildings(state.getBuildings(town.id), { _ -> Color.Black }) { building ->
         call.application.href(BuildingRoutes.Details(building.id))
     }
 
-    visualizeStreetsComplex(svgBuilder, tileMapRenderer, town)
+    townRenderer.renderStreets()
 
-    return svgBuilder.finish()
+    return townRenderer.finish()
 }
 

@@ -13,14 +13,9 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.selector.world.getBuildings
-import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.svg.Svg
-import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
+import at.orchaldir.gm.visualization.town.TownRenderer
 import at.orchaldir.gm.visualization.town.getColor
-import at.orchaldir.gm.visualization.town.renderStreet
-import at.orchaldir.gm.visualization.town.visualizeBuildings
-import at.orchaldir.gm.visualization.town.visualizeStreetsComplex
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -125,10 +120,9 @@ fun visualizeStreetEditor(
     town: Town,
     selectedStreet: StreetId,
 ): Svg {
-    val tileMapRenderer = TileMap2dRenderer(Distance(20.0f), Distance(1.0f))
-    val svgBuilder = SvgBuilder(tileMapRenderer.calculateMapSize(town.map))
+    val townRenderer = TownRenderer(town)
 
-    tileMapRenderer.renderWithLinks(svgBuilder, town.map, TownTile::getColor) { index, tile ->
+    townRenderer.renderTilesWithLinks(TownTile::getColor) { index, tile ->
         if (tile.canBuild()) {
             call.application.href(TownRoutes.StreetRoutes.Add(town.id, index, selectedStreet))
         } else {
@@ -136,20 +130,18 @@ fun visualizeStreetEditor(
         }
     }
 
-    visualizeBuildings(svgBuilder, tileMapRenderer, town, state.getBuildings(town.id))
+    townRenderer.renderBuildings(state.getBuildings(town.id))
 
-    visualizeStreetsComplex(tileMapRenderer, town) { aabb, street, index ->
-        svgBuilder.link(call.application.href(TownRoutes.StreetRoutes.Remove(town.id, index, selectedStreet)))
-
+    townRenderer.renderStreets({ street, _ ->
         if (street == selectedStreet) {
-            renderStreet(svgBuilder, aabb, Color.Gold)
+            Color.Gold
         } else {
-            renderStreet(svgBuilder, aabb)
+            Color.Gray
         }
-
-        svgBuilder.closeLink()
+    }) { _, index ->
+        call.application.href(TownRoutes.StreetRoutes.Remove(town.id, index, selectedStreet))
     }
 
-    return svgBuilder.finish()
+    return townRenderer.finish()
 }
 

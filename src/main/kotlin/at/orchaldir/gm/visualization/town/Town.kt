@@ -14,23 +14,149 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.renderer.LinkRenderer
 import at.orchaldir.gm.utils.renderer.NoBorder
-import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
+
+data class TownRenderer(
+    private val tileRenderer: TileMap2dRenderer,
+    private val renderer: SvgBuilder,
+    private val town: Town,
+) {
+    constructor(tileMapRenderer: TileMap2dRenderer, town: Town) : this(
+        tileMapRenderer,
+        SvgBuilder(tileMapRenderer.calculateMapSize(town.map)),
+        town,
+    )
+
+    constructor(town: Town) : this(
+        TileMap2dRenderer(Distance(20.0f), Distance(1.0f)),
+        town,
+    )
+
+    fun renderTiles(
+        colorLookup: (TownTile) -> Color = TownTile::getColor,
+    ) {
+        tileRenderer.render(renderer, town.map, colorLookup)
+    }
+
+    fun renderTilesWithLinks(
+        colorLookup: (TownTile) -> Color = TownTile::getColor,
+        linkLookup: (Int, TownTile) -> String?,
+    ) {
+        tileRenderer.renderWithLinks(renderer, town.map, colorLookup, linkLookup)
+    }
+
+    fun renderBuildings(
+        buildings: List<Building>,
+        colorLookup: (Building) -> Color = ::getDefaultBuildingColor,
+    ) {
+        buildings.forEach { building ->
+            val color = colorLookup(building)
+
+            renderBuilding(building, color)
+        }
+    }
+
+    fun renderBuildings(
+        buildings: List<Building>,
+        colorLookup: (Building) -> Color = ::getDefaultBuildingColor,
+        linkLookup: (Building) -> String?,
+    ) {
+        buildings.forEach { building ->
+            val color = colorLookup(building)
+            val link = linkLookup(building)
+
+            if (link != null) {
+                renderer.link(link)
+                renderBuilding(building, color)
+                renderer.closeLink()
+            } else {
+                renderBuilding(building, color)
+            }
+        }
+    }
+
+    fun renderStreets(
+        colorLookup: (StreetId, Int) -> Color = ::getDefaultStreetColor,
+    ) {
+        renderStreets { aabb, streetId, index ->
+            val color = colorLookup(streetId, index)
+            renderStreet(aabb, color)
+        }
+    }
+
+    fun renderStreets(
+        colorLookup: (StreetId, Int) -> Color = ::getDefaultStreetColor,
+        linkLookup: (StreetId, Int) -> String?,
+    ) {
+        renderStreets { aabb, streetId, index ->
+            val color = colorLookup(streetId, index)
+            val link = linkLookup(streetId, index)
+
+            if (link != null) {
+                renderer.link(link)
+                renderStreet(aabb, color)
+                renderer.closeLink()
+            } else {
+                renderStreet(aabb, color)
+            }
+        }
+    }
+
+    fun renderStreets(
+        render: (AABB, StreetId, Int) -> Unit,
+    ) {
+        val right = Point2d(tileRenderer.tileSize.value / 2, 0.0f)
+        val down = Point2d(0.0f, tileRenderer.tileSize.value / 2)
+
+        tileRenderer.render(town.map) { index, x, y, aabb, tile ->
+            if (tile.construction is StreetTile) {
+                if (town.checkTile(x + 1, y) { it.construction is StreetTile }) {
+                    val rightAABB = aabb + right
+                    render(rightAABB, tile.construction.street, index)
+                }
+
+                if (town.checkTile(x, y + 1) { it.construction is StreetTile }) {
+                    val downAABB = aabb + down
+                    render(downAABB, tile.construction.street, index)
+                }
+
+                render(aabb, tile.construction.street, index)
+            }
+        }
+    }
+
+    private fun renderBuilding(
+        building: Building,
+        color: Color,
+    ) {
+        val start = tileRenderer.calculateTilePosition(town.map, building.lot.tileIndex)
+        val size = tileRenderer.calculateLotSize(building.lot.size)
+        val aabb = AABB(start, size).shrink(Factor(0.5f))
+        val style = NoBorder(color.toRender())
+
+        renderer.renderRectangle(aabb, style)
+    }
+
+    private fun renderStreet(tile: AABB, color: Color) {
+        val style = NoBorder(color.toRender())
+        renderer.renderRectangle(tile.shrink(Factor(0.5f)), style)
+    }
+
+    fun finish() = renderer.finish()
+}
 
 fun visualizeTerrain(
     town: Town,
     linkLookup: (Int, TownTile) -> String? = { _, _ -> null },
 ): Svg {
-    val tileMapRenderer = TileMap2dRenderer(Distance(20.0f), Distance(1.0f))
-    val svgBuilder = SvgBuilder(tileMapRenderer.calculateMapSize(town.map))
+    val townRenderer = TownRenderer(town)
 
-    tileMapRenderer.renderWithLinks(svgBuilder, town.map, TownTile::getColor, linkLookup)
+    townRenderer.renderTilesWithLinks(TownTile::getColor, linkLookup)
 
-    return svgBuilder.finish()
+    return townRenderer.finish()
 }
 
 fun visualizeTown(
@@ -38,91 +164,13 @@ fun visualizeTown(
     buildings: List<Building> = emptyList(),
     buildingLinkLookup: (Building) -> String? = { _ -> null },
 ): Svg {
-    val tileMapRenderer = TileMap2dRenderer(Distance(20.0f), Distance(1.0f))
-    val svgBuilder = SvgBuilder(tileMapRenderer.calculateMapSize(town.map))
+    val townRenderer = TownRenderer(town)
 
-    tileMapRenderer.render(svgBuilder, town.map, TownTile::getColor)
+    townRenderer.renderTiles()
+    townRenderer.renderBuildings(buildings, { _ -> Color.Black }, buildingLinkLookup)
+    townRenderer.renderStreets()
 
-    visualizeBuildings(svgBuilder, tileMapRenderer, town, buildings, buildingLinkLookup)
-
-    visualizeStreetsComplex(svgBuilder, tileMapRenderer, town)
-
-    return svgBuilder.finish()
-}
-
-fun visualizeBuildings(
-    renderer: LinkRenderer,
-    tileRenderer: TileMap2dRenderer,
-    town: Town,
-    buildings: List<Building>,
-    linkLookup: (Building) -> String? = { _ -> null },
-) {
-    buildings.forEach { building ->
-        val link = linkLookup(building)
-
-        if (link != null) {
-            renderer.link(link)
-            renderBuilding(renderer, tileRenderer, town, building, Color.Black)
-            renderer.closeLink()
-        } else {
-            renderBuilding(renderer, tileRenderer, town, building, Color.Black)
-        }
-    }
-}
-
-fun visualizeStreetsComplex(
-    renderer: Renderer,
-    tileRenderer: TileMap2dRenderer,
-    town: Town,
-) {
-    visualizeStreetsComplex(tileRenderer, town) { aabb, _, _ -> renderStreet(renderer, aabb) }
-}
-
-fun visualizeStreetsComplex(
-    tileRenderer: TileMap2dRenderer,
-    town: Town,
-    render: (AABB, StreetId, Int) -> Unit,
-) {
-    val right = Point2d(tileRenderer.tileSize.value / 2, 0.0f)
-    val down = Point2d(0.0f, tileRenderer.tileSize.value / 2)
-
-    tileRenderer.render(town.map) { index, x, y, aabb, tile ->
-        if (tile.construction is StreetTile) {
-            if (town.checkTile(x + 1, y) { it.construction is StreetTile }) {
-                val rightAABB = aabb + right
-                render(rightAABB, tile.construction.street, index)
-            }
-
-            if (town.checkTile(x, y + 1) { it.construction is StreetTile }) {
-                val downAABB = aabb + down
-                render(downAABB, tile.construction.street, index)
-            }
-
-            render(aabb, tile.construction.street, index)
-        }
-    }
-}
-
-// render
-
-fun renderBuilding(
-    renderer: Renderer,
-    tileRenderer: TileMap2dRenderer,
-    town: Town,
-    building: Building,
-    color: Color = Color.Black,
-) {
-    val start = tileRenderer.calculateTilePosition(town.map, building.lot.tileIndex)
-    val size = tileRenderer.calculateLotSize(building.lot.size)
-    val aabb = AABB(start, size).shrink(Factor(0.5f))
-    val style = NoBorder(color.toRender())
-
-    renderer.renderRectangle(aabb, style)
-}
-
-fun renderStreet(renderer: Renderer, tile: AABB, color: Color = Color.Gray) {
-    val style = NoBorder(color.toRender())
-    renderer.renderRectangle(tile.shrink(Factor(0.5f)), style)
+    return townRenderer.finish()
 }
 
 fun TownTile.getColor() = when (terrain) {
@@ -131,3 +179,7 @@ fun TownTile.getColor() = when (terrain) {
     PlainTerrain -> Color.Green
     is RiverTerrain -> Color.Blue
 }
+
+fun getDefaultBuildingColor(building: Building) = Color.Black
+
+fun getDefaultStreetColor(street: StreetId, index: Int) = Color.Gray
