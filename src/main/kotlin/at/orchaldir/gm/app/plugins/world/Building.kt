@@ -170,16 +170,6 @@ private fun HtmlBlockTag.showOwnership(
     }
 }
 
-private fun HtmlBlockTag.fieldOwner(
-    call: ApplicationCall,
-    state: State,
-    owner: Owner,
-) {
-    field("Owner") {
-        showOwner(call, state, owner)
-    }
-}
-
 private fun HtmlBlockTag.showOwner(
     call: ApplicationCall,
     state: State,
@@ -236,7 +226,7 @@ private fun FORM.selectOwnership(
     selectInt("Previous Owners", ownership.previousOwners.size, 0, 100, previousOwnersParam, true)
     showListWithIndex(ownership.previousOwners) { index, previous ->
         val previousParam = combine(previousOwnersParam, index)
-        selectOwner(state, previousParam, ownership.owner)
+        selectOwner(state, previousParam, previous.owner)
         selectDate(state, "Until", previous.until, combine(previousParam, DATE))
     }
 }
