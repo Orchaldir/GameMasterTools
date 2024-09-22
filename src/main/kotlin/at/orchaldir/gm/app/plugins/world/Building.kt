@@ -4,9 +4,13 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.selector.world.canDelete
+import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.utils.renderer.svg.Svg
+import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -82,15 +86,42 @@ private fun HTML.showBuildingDetails(
     val deleteLink = call.application.href(BuildingRoutes.Delete(building.id))
 
     simpleHtml("Building: ${building.name}") {
-        field("Id", building.id.value.toString())
-        field("Name", building.name)
-        field("Town") {
-            link(call, state, building.lot.town)
-        }
-        field("Size", building.lot.size.format())
-        if (state.canDelete(building.id)) {
-            action(deleteLink, "Delete")
-        }
-        back(backLink)
+        split({
+            field("Id", building.id.value.toString())
+            field("Name", building.name)
+            field("Town") {
+                link(call, state, building.lot.town)
+            }
+            field("Size", building.lot.size.format())
+            if (state.canDelete(building.id)) {
+                action(deleteLink, "Delete")
+            }
+            back(backLink)
+        }, {
+            svg(visualizeBuilding(call, state, building), 90)
+        })
     }
+}
+
+private fun visualizeBuilding(
+    call: ApplicationCall,
+    state: State,
+    building: Building,
+): Svg {
+    val town = state.getTownStorage().getOrThrow(building.lot.town)
+
+    return visualizeTown(
+        town,
+        state.getBuildings(town.id),
+        buildingColorLookup = { b ->
+            if (b == building) {
+                Color.Gold
+            } else {
+                Color.Black
+            }
+        },
+        buildingLinkLookup = { b ->
+            call.application.href(BuildingRoutes.Details(b.id))
+        },
+    )
 }

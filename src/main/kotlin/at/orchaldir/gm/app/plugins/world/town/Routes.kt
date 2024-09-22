@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.plugins.world.town
 
-import at.orchaldir.gm.app.plugins.world.BuildingRoutes
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownId
