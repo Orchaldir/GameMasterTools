@@ -13,6 +13,18 @@ private val CALENDAR1 = Calendar(CalendarId(1), days = Weekdays(listOf(WeekDay("
 
 class CalendarTest {
 
+    @Test
+    fun `Get the start of a year`() {
+        assertEquals(Day(5), CALENDAR0.getStartOfYear(Year(1)))
+        assertEquals(Day(10), CALENDAR0.getStartOfYear(Year(2)))
+    }
+
+    @Test
+    fun `Get the end of a year`() {
+        assertEquals(Day(9), CALENDAR0.getEndOfYear(Year(1)))
+        assertEquals(Day(14), CALENDAR0.getEndOfYear(Year(2)))
+    }
+
     @Nested
     inner class GetDurationInYearsTest {
 
