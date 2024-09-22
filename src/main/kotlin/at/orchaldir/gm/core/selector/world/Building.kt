@@ -18,3 +18,6 @@ fun State.getBuildings(town: TownId) = getBuildingStorage().getAll()
 fun State.getOwnedBuildings(character: CharacterId) = getBuildingStorage().getAll()
     .filter { it.ownership.owner is OwnedByCharacter && it.ownership.owner.character == character }
 
+fun State.getPreviouslyOwnedBuildings(character: CharacterId) = getBuildingStorage().getAll()
+    .filter { it.ownership.contains(character) }
+

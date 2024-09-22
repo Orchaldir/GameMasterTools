@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
+import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
@@ -366,7 +367,11 @@ fun BODY.showPossession(
 
     h2 { +"Possession" }
 
-    showList("Buildings", state.getOwnedBuildings(character.id)) { building ->
+    showList("Owned Buildings", state.getOwnedBuildings(character.id)) { building ->
+        link(call, building)
+    }
+
+    showList("Previously owned Buildings", state.getPreviouslyOwnedBuildings(character.id)) { building ->
         link(call, building)
     }
 

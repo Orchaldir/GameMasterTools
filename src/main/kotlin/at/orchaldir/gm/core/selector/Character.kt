@@ -11,13 +11,17 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Duration
+import at.orchaldir.gm.core.selector.world.getOwnedBuildings
+import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.utils.math.Distance
 
 fun State.canCreateCharacter() = getCultureStorage().getSize() > 0 && getCharacterStorage().getSize() > 0
 
-fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty() &&
-        getParents(character).isEmpty() &&
-        getInventedLanguages(character).isEmpty()
+fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
+        && getParents(character).isEmpty()
+        && getInventedLanguages(character).isEmpty()
+        && getOwnedBuildings(character).isEmpty()
+        && getPreviouslyOwnedBuildings(character).isEmpty()
 
 // get characters
 

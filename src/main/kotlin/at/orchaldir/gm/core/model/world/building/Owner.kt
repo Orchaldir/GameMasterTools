@@ -22,6 +22,8 @@ sealed class Owner {
         UnknownOwner -> true
     }
 
+    fun contains(other: CharacterId) = this is OwnedByCharacter && character == other
+
 }
 
 @Serializable
