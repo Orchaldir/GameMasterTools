@@ -120,7 +120,7 @@ private fun P.selectDay(
     selectEraIndex(param, calendar, displayDate.year, displayMinDay?.year)
     selectYearIndex(param, displayDate.year, displayMinDay?.year)
     selectMonthIndex(param, calendar, displayDate, displayMinDay)
-    selectDayIndex(param, calendar, displayDate.monthIndex, displayDate.dayIndex)
+    selectDayIndex(param, calendar, displayDate, displayMinDay)
 }
 
 private fun P.selectEraIndex(
@@ -214,8 +214,23 @@ fun HtmlBlockTag.selectDayIndex(
     dayIndex: Int,
 ) {
     field(label) {
-        selectDayIndex(param, calendar, monthIndex, dayIndex)
+        selectDayIndex(param, calendar, monthIndex, dayIndex, 0)
     }
+}
+
+private fun P.selectDayIndex(
+    param: String,
+    calendar: Calendar,
+    day: DisplayDay,
+    minDay: DisplayDay? = null,
+) {
+    val minIndex = if (minDay != null && day.year == minDay.year && day.monthIndex == minDay.monthIndex) {
+        minDay.dayIndex
+    } else {
+        0
+    }
+
+    selectDayIndex(param, calendar, day.monthIndex, day.dayIndex, minIndex)
 }
 
 private fun P.selectDayIndex(
@@ -223,7 +238,8 @@ private fun P.selectDayIndex(
     calendar: Calendar,
     monthIndex: Int,
     dayIndex: Int,
+    minMonthIndex: Int,
 ) {
     val month = calendar.months[monthIndex]
-    selectInt(dayIndex + 1, 1, month.days, combine(param, DAY), true)
+    selectInt(dayIndex + 1, minMonthIndex + 1, month.days, combine(param, DAY), true)
 }
