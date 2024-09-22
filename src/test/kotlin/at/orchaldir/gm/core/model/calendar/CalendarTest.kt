@@ -13,6 +13,54 @@ private val CALENDAR1 = Calendar(CalendarId(1), days = Weekdays(listOf(WeekDay("
 
 class CalendarTest {
 
+    @Test
+    fun `Get the start of a year`() {
+        assertEquals(Day(5), CALENDAR0.getStartOfYear(Year(1)))
+        assertEquals(Day(10), CALENDAR0.getStartOfYear(Year(2)))
+    }
+
+    @Test
+    fun `Get the end of a year`() {
+        assertEquals(Day(9), CALENDAR0.getEndOfYear(Year(1)))
+        assertEquals(Day(14), CALENDAR0.getEndOfYear(Year(2)))
+    }
+
+    @Nested
+    inner class GetDurationInYearsTest {
+
+        @Test
+        fun `From a year to the same year`() {
+            assertWholeYear(Year(1), 5, 0)
+        }
+
+        @Test
+        fun `From a day to the same year`() {
+            assertWholeYear(Day(5), 5, 0)
+        }
+
+        @Test
+        fun `From a year to the next year`() {
+            assertWholeYear(Year(1), 10, 1)
+        }
+
+        @Test
+        fun `From a day to the next year`() {
+            assertWholeYear(Day(5), 10, 1)
+        }
+
+        private fun assertWholeYear(from: Date, toStart: Int, result: Int) {
+            assertGetDuration(from, toStart, result)
+            assertGetDuration(from, toStart + 1, result)
+            assertGetDuration(from, toStart + 2, result)
+            assertGetDuration(from, toStart + 3, result)
+            assertGetDuration(from, toStart + 4, result)
+        }
+
+        private fun assertGetDuration(from: Date, to: Int, result: Int) {
+            assertEquals(result, CALENDAR0.getDurationInYears(from, Day(to)))
+        }
+    }
+
     @Nested
     inner class GetMonthTest {
 

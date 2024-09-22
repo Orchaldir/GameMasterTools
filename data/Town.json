@@ -115,11 +115,21 @@
      {
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 0
+      }
      },
      {
       "construction": {
        "type": "Street",
        "street": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 1
       }
      },
      {
@@ -137,10 +147,12 @@
      {
      },
      {
+       "construction": {
+         "type": "Building",
+         "building": 2
+       }
      },
-     {
-     },
-     {
+      {
       "construction": {
        "type": "Street",
        "street": 1

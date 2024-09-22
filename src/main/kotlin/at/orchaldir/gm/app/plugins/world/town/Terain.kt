@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.visualization.town.visualizeTown
+import at.orchaldir.gm.visualization.town.visualizeTerrain
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -112,7 +112,7 @@ private fun HTML.showTerrainEditor(
             }
             back(backLink)
         }, {
-            svg(visualizeTown(town, false) { index, _ ->
+            svg(visualizeTerrain(town) { index, _ ->
                 call.application.href(TownRoutes.TerrainRoutes.Update(town.id, terrainType, terrainId, index))
             }, 90)
         })

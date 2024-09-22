@@ -4,14 +4,13 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseTown
+import at.orchaldir.gm.app.plugins.world.BuildingRoutes
 import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.selector.world.getMountains
-import at.orchaldir.gm.core.selector.world.getRivers
-import at.orchaldir.gm.core.selector.world.getStreets
+import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -112,7 +111,8 @@ private fun HTML.showTownDetails(
     val backLink = call.application.href(TownRoutes())
     val deleteLink = call.application.href(TownRoutes.Delete(town.id))
     val editLink = call.application.href(TownRoutes.Edit(town.id))
-    val editStreetLink = call.application.href(TownRoutes.StreetRoutes.Edit(town.id))
+    val editBuildingsLink = call.application.href(TownRoutes.BuildingRoutes.Edit(town.id))
+    val editStreetsLink = call.application.href(TownRoutes.StreetRoutes.Edit(town.id))
     val editTerrainLink = call.application.href(TownRoutes.TerrainRoutes.Edit(town.id))
 
     simpleHtml("Town: ${town.name}") {
@@ -120,6 +120,11 @@ private fun HTML.showTownDetails(
             field("Id", town.id.value.toString())
             field("Name", town.name)
             field(call, state, "Founding", town.foundingDate)
+            fieldAge("Age", state.getAgeInYears(town))
+            field("Size", town.map.size.format())
+            showList("Buildings", state.getBuildings(town.id)) { building ->
+                link(call, building)
+            }
             showList("Mountains", state.getMountains(town.id)) { mountain ->
                 link(call, state, mountain)
             }
@@ -130,12 +135,13 @@ private fun HTML.showTownDetails(
                 link(call, state, street)
             }
             action(editLink, "Edit Town")
-            action(editStreetLink, "Edit Streets")
+            action(editBuildingsLink, "Edit Buildings")
+            action(editStreetsLink, "Edit Streets")
             action(editTerrainLink, "Edit Terrain")
             action(deleteLink, "Delete")
             back(backLink)
         }, {
-            svg(visualizeTown(town), 90)
+            svg(visualizeTownWithLinks(call, state, town), 90)
         })
     }
 }
@@ -164,7 +170,19 @@ private fun HTML.showTownEditor(
             }
             back(backLink)
         }, {
-            svg(visualizeTown(town), 90)
+            svg(visualizeTownWithLinks(call, state, town), 90)
         })
     }
 }
+
+private fun visualizeTownWithLinks(
+    call: ApplicationCall,
+    state: State,
+    town: Town,
+) = visualizeTown(
+    town,
+    state.getBuildings(town.id),
+    buildingLinkLookup = { building ->
+        call.application.href(BuildingRoutes.Details(building.id))
+    },
+)

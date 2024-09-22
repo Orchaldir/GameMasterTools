@@ -48,6 +48,13 @@ fun HtmlBlockTag.field(name: String, value: String) {
     }
 }
 
+fun HtmlBlockTag.fieldAge(name: String, age: Int) {
+    p {
+        b { +"$name: " }
+        +"$age years"
+    }
+}
+
 fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
     p {
         b { +"$label: " }

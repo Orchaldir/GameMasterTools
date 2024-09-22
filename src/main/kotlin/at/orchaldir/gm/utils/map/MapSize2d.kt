@@ -1,13 +1,14 @@
 package at.orchaldir.gm.utils.map
 
+import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class MapSize2d(val width: Int, val height: Int) {
 
     init {
-        require(width >= 0) { "Width muster be greater or equal 0!" }
-        require(height >= 0) { "Height muster be greater or equal 0!" }
+        require(width > 0) { "Width muster be greater or equal 0!" }
+        require(height > 0) { "Height muster be greater or equal 0!" }
     }
 
     companion object {
@@ -20,6 +21,26 @@ data class MapSize2d(val width: Int, val height: Int) {
 
     fun isInside(x: Int, y: Int) = x in 0..<width && y in 0..<height
 
+    fun toIndices(index: Int, size: MapSize2d): List<Int>? {
+        if (!isInside(index)) {
+            return null
+        }
+
+        val startX = toX(index)
+        val startY = toY(index)
+        val indices = mutableListOf<Int>()
+
+        for (y in startY..<(startY + size.height)) {
+            for (x in startX..<(startX + size.width)) {
+                val tileIndex = toIndex(x, y) ?: return null
+
+                indices.add(tileIndex)
+            }
+        }
+
+        return indices
+    }
+
     fun toIndex(x: Int, y: Int): Int? {
         if (isInside(x, y)) {
             return toIndexRisky(x, y)
@@ -29,5 +50,11 @@ data class MapSize2d(val width: Int, val height: Int) {
     }
 
     fun toIndexRisky(x: Int, y: Int) = y * width + x
+
+    fun toX(index: Int) = index.modulo(width)
+
+    fun toY(index: Int) = index / width
+
+    fun format() = "$width x $height"
 
 }
