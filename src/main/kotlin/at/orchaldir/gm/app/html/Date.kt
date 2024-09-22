@@ -35,15 +35,17 @@ fun HtmlBlockTag.selectDate(
     fieldLabel: String,
     date: Date,
     param: String,
+    minDate: Date? = null,
 ) {
-    selectDate(fieldLabel, state.getDefaultCalendar(), date, param)
+    selectDate(state.getDefaultCalendar(), fieldLabel, date, param, minDate)
 }
 
-fun HtmlBlockTag.selectDate(
-    fieldLabel: String,
+private fun HtmlBlockTag.selectDate(
     calendar: Calendar,
+    fieldLabel: String,
     date: Date,
     param: String,
+    minDate: Date? = null,
 ) {
     val displayDate = calendar.resolve(date)
     val dateTypeParam = combine(param, DATE)
@@ -63,15 +65,18 @@ fun HtmlBlockTag.selectDate(
         }
         when (displayDate) {
             is DisplayDay -> {
-                selectEraIndex(param, calendar, displayDate.eraIndex)
-                selectYearIndex(param, displayDate.yearIndex)
-                selectMonthIndex(param, calendar, displayDate.monthIndex)
-                selectDayIndex(param, calendar, displayDate.monthIndex, displayDate.dayIndex)
+                selectDay(param, calendar, displayDate, minDate)
             }
 
             is DisplayYear -> {
-                selectEraIndex(param, calendar, displayDate.eraIndex)
-                selectYearIndex(param, displayDate.yearIndex)
+                val displayMinYear = minDate?.let {
+                    when (it) {
+                        is Day -> calendar.resolve(it).year
+                        is Year -> calendar.resolve(it)
+                    }
+                }
+                selectEraIndex(param, calendar, displayDate, displayMinYear)
+                selectYearIndex(param, displayDate, displayMinYear)
             }
         }
     }
@@ -95,19 +100,37 @@ fun FORM.selectDay(
     val displayDate = calendar.resolve(day)
 
     field(fieldLabel) {
-        selectEraIndex(param, calendar, displayDate.eraIndex)
-        selectYearIndex(param, displayDate.yearIndex)
-        selectMonthIndex(param, calendar, displayDate.monthIndex)
-        selectDayIndex(param, calendar, displayDate.monthIndex, displayDate.dayIndex)
+        selectDay(param, calendar, displayDate, null)
     }
+}
+
+private fun P.selectDay(
+    param: String,
+    calendar: Calendar,
+    displayDate: DisplayDay,
+    minDate: Date?,
+) {
+    val displayMinDay = minDate?.let {
+        when (it) {
+            is Day -> calendar.resolve(it)
+            is Year -> calendar.resolve(calendar.getStartOfYear(it))
+        }
+    }
+
+    selectEraIndex(param, calendar, displayDate.year, displayMinDay?.year)
+    selectYearIndex(param, displayDate.year, displayMinDay?.year)
+    selectMonthIndex(param, calendar, displayDate.monthIndex)
+    selectDayIndex(param, calendar, displayDate.monthIndex, displayDate.dayIndex)
 }
 
 private fun P.selectEraIndex(
     param: String,
     calendar: Calendar,
-    eraIndex: Int,
+    year: DisplayYear,
+    minYear: DisplayYear? = null,
 ) {
     val eraParam = combine(param, ERA)
+    val minIndex = minYear?.eraIndex ?: 0
 
     select {
         id = eraParam
@@ -117,7 +140,8 @@ private fun P.selectEraIndex(
             option {
                 label = era.text
                 value = index.toString()
-                selected = index == eraIndex
+                disabled = index < minIndex
+                selected = index == year.eraIndex
             }
         }
     }
@@ -125,10 +149,21 @@ private fun P.selectEraIndex(
 
 private fun P.selectYearIndex(
     param: String,
-    yearIndex: Int,
+    year: DisplayYear,
+    minYear: DisplayYear? = null,
 ) {
     val yearParam = combine(param, YEAR)
-    selectInt(yearIndex + 1, 1, Int.MAX_VALUE, yearParam, true)
+    val minIndex = if (minYear != null) {
+        if (minYear.eraIndex == year.eraIndex) {
+            minYear.yearIndex
+        } else {
+            0
+        }
+    } else {
+        0
+    }
+
+    selectInt(year.yearIndex + 1, minIndex + 1, Int.MAX_VALUE, yearParam, true)
 }
 
 fun HtmlBlockTag.selectMonthIndex(

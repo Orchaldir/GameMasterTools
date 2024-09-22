@@ -243,7 +243,7 @@ class CalendarTest {
             monthIndex: Int,
             dayIndex: Int,
         ) {
-            val displayDay = DisplayDay(eraIndex, yearIndex, monthIndex, dayIndex)
+            val displayDay = DisplayDay(DisplayYear(eraIndex, yearIndex), monthIndex, dayIndex)
             val day = Day(date)
 
             assertEquals(displayDay, calendar.resolve(day))

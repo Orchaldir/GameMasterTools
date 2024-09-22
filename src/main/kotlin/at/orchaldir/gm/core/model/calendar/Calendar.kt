@@ -70,7 +70,7 @@ data class Calendar(
 
     fun getStartOfYear(year: Year) = resolve(getStartOfYear(resolve(year)))
 
-    fun getStartOfYear(year: DisplayYear) = DisplayDay(year.eraIndex, year.yearIndex, 0, 0, null)
+    fun getStartOfYear(year: DisplayYear) = DisplayDay(year, 0, 0, null)
 
     fun getEndOfYear(year: Year) = getStartOfYear(year.next()).previous()
 
@@ -116,7 +116,7 @@ data class Calendar(
             val remainingDays = day % daysPerYear
             val (monthIndex, dayIndex) = resolveDayAndMonth(remainingDays)
 
-            return DisplayDay(1, year, monthIndex, dayIndex, weekdayIndex)
+            return DisplayDay(DisplayYear(1, year), monthIndex, dayIndex, weekdayIndex)
         }
 
         val absoluteDate = day.absoluteValue - 1
@@ -126,7 +126,7 @@ data class Calendar(
         for ((monthIndex, monthData) in months.withIndex().reversed()) {
             if (remainingDays < monthData.days) {
                 val dayIndex = monthData.days - remainingDays - 1
-                return DisplayDay(0, year, monthIndex, dayIndex, weekdayIndex)
+                return DisplayDay(DisplayYear(0, year), monthIndex, dayIndex, weekdayIndex)
             }
 
             remainingDays -= monthData.days
@@ -165,27 +165,27 @@ data class Calendar(
         is DisplayYear -> resolve(date)
     }
 
-    fun resolve(date: DisplayDay): Day {
+    fun resolve(day: DisplayDay): Day {
         val daysPerYear = getDaysPerYear()
         val offsetInDays = getOffsetInDays()
 
-        if (date.eraIndex == 1) {
-            var day = date.yearIndex * daysPerYear + date.dayIndex - offsetInDays
+        if (day.year.eraIndex == 1) {
+            var dayIndex = day.year.yearIndex * daysPerYear + day.dayIndex - offsetInDays
 
-            (0..<date.monthIndex).map { months[it] }
-                .forEach { day += it.days }
+            (0..<day.monthIndex).map { months[it] }
+                .forEach { dayIndex += it.days }
 
-            return Day(day)
+            return Day(dayIndex)
         }
 
-        var day = -date.yearIndex * daysPerYear - offsetInDays
+        var dayIndex = -day.year.yearIndex * daysPerYear - offsetInDays
 
-        (date.monthIndex..<months.size).map { months[it] }
-            .forEach { day -= it.days }
+        (day.monthIndex..<months.size).map { months[it] }
+            .forEach { dayIndex -= it.days }
 
-        day += date.dayIndex
+        dayIndex += day.dayIndex
 
-        return Day(day)
+        return Day(dayIndex)
     }
 
     fun resolve(date: DisplayYear): Year {

@@ -33,8 +33,8 @@ data class CalendarEras(
         is DisplayYear -> display(date)
     }
 
-    fun display(day: DisplayDay) = getEra(day.eraIndex)
-        .display(display(day.yearIndex + 1, day.monthIndex + 1, day.dayIndex + 1))
+    fun display(day: DisplayDay) = getEra(day.year.eraIndex)
+        .display(display(day.year.yearIndex + 1, day.monthIndex + 1, day.dayIndex + 1))
 
     private fun display(year: Int, month: Int, day: Int) = "$day.$month.$year"
 
