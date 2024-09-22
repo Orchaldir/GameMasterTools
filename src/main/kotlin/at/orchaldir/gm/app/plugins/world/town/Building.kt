@@ -8,14 +8,11 @@ import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.plugins.world.BuildingRoutes
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
-import at.orchaldir.gm.visualization.town.TownRenderer
-import at.orchaldir.gm.visualization.town.getColor
+import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -102,25 +99,21 @@ fun visualizeBuildingEditor(
     town: Town,
     size: MapSize2d,
 ): Svg {
-    val townRenderer = TownRenderer(town)
     val isBig = size.width > 1 || size.height > 1
 
-    townRenderer.renderTilesWithLinks(TownTile::getColor) { index, tile ->
-        if (isBig && town.checkTiles(index, size) { it.canBuild() }) {
-            call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
-        } else if (!isBig && tile.canBuild()) {
-            call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
-        } else {
-            null
+    return visualizeTown(town, state.getBuildings(town.id),
+        tileLinkLookup = { index, tile ->
+            if (isBig && town.checkTiles(index, size) { it.canBuild() }) {
+                call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
+            } else if (!isBig && tile.canBuild()) {
+                call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
+            } else {
+                null
+            }
+        },
+        buildingLinkLookup = { building ->
+            call.application.href(BuildingRoutes.Details(building.id))
         }
-    }
-
-    townRenderer.renderBuildings(state.getBuildings(town.id), { _ -> Color.Black }) { building ->
-        call.application.href(BuildingRoutes.Details(building.id))
-    }
-
-    townRenderer.renderStreets()
-
-    return townRenderer.finish()
+    )
 }
 

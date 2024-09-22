@@ -11,11 +11,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.selector.world.getBuildings
-import at.orchaldir.gm.utils.renderer.svg.Svg
-import at.orchaldir.gm.visualization.town.TownRenderer
-import at.orchaldir.gm.visualization.town.getColor
+import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -119,29 +116,23 @@ fun visualizeStreetEditor(
     state: State,
     town: Town,
     selectedStreet: StreetId,
-): Svg {
-    val townRenderer = TownRenderer(town)
-
-    townRenderer.renderTilesWithLinks(TownTile::getColor) { index, tile ->
+) = visualizeTown(town, state.getBuildings(town.id),
+    tileLinkLookup = { index, tile ->
         if (tile.canBuild()) {
             call.application.href(TownRoutes.StreetRoutes.Add(town.id, index, selectedStreet))
         } else {
             null
         }
-    }
-
-    townRenderer.renderBuildings(state.getBuildings(town.id))
-
-    townRenderer.renderStreets({ street, _ ->
+    },
+    streetColorLookup = { street, _ ->
         if (street == selectedStreet) {
             Color.Gold
         } else {
             Color.Gray
         }
-    }) { _, index ->
+    },
+    streetLinkLookup = { _, index ->
         call.application.href(TownRoutes.StreetRoutes.Remove(town.id, index, selectedStreet))
     }
-
-    return townRenderer.finish()
-}
+)
 

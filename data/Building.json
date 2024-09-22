@@ -12,6 +12,12 @@
    "lot": {
     "tileIndex": 36
    }
+  },
+   "2": {
+     "id": 2,
+     "lot": {
+       "tileIndex": 44
+     }
   }
  }
 }

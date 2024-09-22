@@ -179,6 +179,10 @@ private fun visualizeTownWithLinks(
     call: ApplicationCall,
     state: State,
     town: Town,
-) = visualizeTown(town, state.getBuildings(town.id)) { building ->
-    call.application.href(BuildingRoutes.Details(building.id))
-}
+) = visualizeTown(
+    town,
+    state.getBuildings(town.id),
+    buildingLinkLookup = { building ->
+        call.application.href(BuildingRoutes.Details(building.id))
+    },
+)

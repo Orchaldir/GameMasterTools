@@ -165,13 +165,18 @@ fun visualizeTerrain(
 fun visualizeTown(
     town: Town,
     buildings: List<Building> = emptyList(),
+    tileColorLookup: (TownTile) -> Color = TownTile::getColor,
+    tileLinkLookup: (Int, TownTile) -> String? = { _, _ -> null },
+    buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
     buildingLinkLookup: (Building) -> String? = { _ -> null },
+    streetColorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
+    streetLinkLookup: (StreetId, Int) -> String? = { _, _ -> null },
 ): Svg {
     val townRenderer = TownRenderer(town)
 
-    townRenderer.renderTiles()
-    townRenderer.renderBuildings(buildings, { _ -> Color.Black }, buildingLinkLookup)
-    townRenderer.renderStreets()
+    townRenderer.renderTilesWithLinks(tileColorLookup, tileLinkLookup)
+    townRenderer.renderBuildings(buildings, buildingColorLookup, buildingLinkLookup)
+    townRenderer.renderStreets(streetColorLookup, streetLinkLookup)
 
     return townRenderer.finish()
 }
