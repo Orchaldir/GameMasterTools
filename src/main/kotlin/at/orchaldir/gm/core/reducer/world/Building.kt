@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
+import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingLot
@@ -39,4 +40,11 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
             )
         )
     )
+}
+
+val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
+    val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
+    val building = oldBuilding.copy(name = action.name, constructionDate = action.constructionDate)
+
+    noFollowUps(state.updateStorage(state.getBuildingStorage().update(building)))
 }

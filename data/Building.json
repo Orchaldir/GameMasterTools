@@ -3,21 +3,36 @@
  "elements": {
   "0": {
    "id": 0,
+   "name": "Orne Library",
    "lot": {
     "tileIndex": 34
+   },
+   "constructionDate": {
+    "type": "Year",
+    "year": 1877
    }
   },
   "1": {
    "id": 1,
+   "name": "Home of Judith Renforth",
    "lot": {
     "tileIndex": 36
+   },
+   "constructionDate": {
+    "type": "Year",
+    "year": 1867
    }
   },
-   "2": {
-     "id": 2,
-     "lot": {
-       "tileIndex": 44
-     }
+  "2": {
+   "id": 2,
+   "name": "Folger's Boarding House",
+   "lot": {
+    "tileIndex": 44
+   },
+   "constructionDate": {
+    "type": "Year",
+    "year": 1642
+   }
   }
  }
 }

@@ -1,7 +1,9 @@
 package at.orchaldir.gm.app.plugins.world
 
+import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
@@ -16,10 +18,12 @@ import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
+import io.ktor.server.request.*
 import io.ktor.server.resources.*
+import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
+import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -31,6 +35,12 @@ class BuildingRoutes {
 
     @Resource("delete")
     class Delete(val id: BuildingId, val parent: BuildingRoutes = BuildingRoutes())
+
+    @Resource("edit")
+    class Edit(val id: BuildingId, val parent: BuildingRoutes = BuildingRoutes())
+
+    @Resource("update")
+    class Update(val id: BuildingId, val parent: BuildingRoutes = BuildingRoutes())
 }
 
 fun Application.configureBuildingRouting() {
@@ -52,7 +62,28 @@ fun Application.configureBuildingRouting() {
                 showBuildingDetails(call, state, building)
             }
         }
+        get<BuildingRoutes.Edit> { details ->
+            logger.info { "Get editor for building ${details.id.value}" }
 
+            val state = STORE.getState()
+            val building = state.getBuildingStorage().getOrThrow(details.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showBuildingEditor(call, state, building)
+            }
+        }
+        post<BuildingRoutes.Update> { update ->
+            logger.info { "Update building ${update.id.value}" }
+
+            val state = STORE.getState()
+            val action = parseUpdateBuilding(call.receiveParameters(), state, update.id)
+
+            STORE.dispatch(action)
+
+            call.respondRedirect(href(call, update.id))
+
+            STORE.getState().save()
+        }
         get<BuildingRoutes.Delete> { delete ->
             logger.info { "Delete building ${delete.id.value}" }
 
@@ -84,6 +115,7 @@ private fun HTML.showBuildingDetails(
     building: Building,
 ) {
     val backLink = call.application.href(BuildingRoutes())
+    val editLink = call.application.href(BuildingRoutes.Edit(building.id))
     val deleteLink = call.application.href(BuildingRoutes.Delete(building.id))
 
     simpleHtml("Building: ${building.name}") {
@@ -96,8 +128,38 @@ private fun HTML.showBuildingDetails(
                 link(call, state, building.lot.town)
             }
             field("Size", building.lot.size.format())
+            action(editLink, "Edit")
             if (state.canDelete(building.id)) {
                 action(deleteLink, "Delete")
+            }
+            back(backLink)
+        }, {
+            svg(visualizeBuilding(call, state, building), 90)
+        })
+    }
+}
+
+private fun HTML.showBuildingEditor(
+    call: ApplicationCall,
+    state: State,
+    building: Building,
+) {
+    val backLink = call.application.href(BuildingRoutes.Details(building.id))
+    val updateLink = call.application.href(BuildingRoutes.Update(building.id))
+
+    simpleHtml("Edit Building: ${building.name}") {
+        split({
+            field("Id", building.id.value.toString())
+            form {
+                selectName(building.name)
+                selectDate(state, "Construction", building.constructionDate, DATE)
+                p {
+                    submitInput {
+                        value = "Update"
+                        formAction = updateLink
+                        formMethod = InputFormMethod.post
+                    }
+                }
             }
             back(backLink)
         }, {
