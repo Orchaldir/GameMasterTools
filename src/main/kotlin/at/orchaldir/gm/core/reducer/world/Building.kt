@@ -44,7 +44,11 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
 
 val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
-    val building = oldBuilding.copy(name = action.name, constructionDate = action.constructionDate)
+    val building = oldBuilding.copy(
+        name = action.name,
+        constructionDate = action.constructionDate,
+        owner = action.owner,
+    )
 
     noFollowUps(state.updateStorage(state.getBuildingStorage().update(building)))
 }

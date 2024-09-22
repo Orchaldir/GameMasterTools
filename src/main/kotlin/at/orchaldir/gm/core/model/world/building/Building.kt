@@ -24,6 +24,7 @@ data class Building(
     val name: String = "Building ${id.value}",
     val lot: BuildingLot = BuildingLot(),
     val constructionDate: Date = Year(0),
+    val owner: Owner = UnknownOwner,
 ) : Element<BuildingId> {
 
     override fun id() = id

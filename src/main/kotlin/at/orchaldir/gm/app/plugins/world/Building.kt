@@ -1,17 +1,18 @@
 package at.orchaldir.gm.app.plugins.world
 
-import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getAgeInYears
 import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
@@ -124,6 +125,18 @@ private fun HTML.showBuildingDetails(
             field("Name", building.name)
             field(call, state, "Construction", building.constructionDate)
             fieldAge("Age", state.getAgeInYears(building))
+            when (building.owner) {
+                NoOwner -> field("Owner", "None")
+                is OwnedByCharacter -> field("Owner") {
+                    link(call, state, building.owner.character)
+                }
+
+                is OwnedByTown -> field("Owner") {
+                    link(call, state, building.owner.town)
+                }
+
+                UnknownOwner -> field("Owner", "Unknown")
+            }
             field("Town") {
                 link(call, state, building.lot.town)
             }
@@ -153,6 +166,31 @@ private fun HTML.showBuildingEditor(
             form {
                 selectName(building.name)
                 selectDate(state, "Construction", building.constructionDate, DATE)
+                selectValue("Owner Type", combine(OWNER, TYPE), OwnerType.entries, true) { type ->
+                    label = type.toString()
+                    value = type.toString()
+                    selected = building.owner.getType() == type
+                }
+                when (building.owner) {
+                    is OwnedByCharacter -> selectValue(
+                        "Owner",
+                        OWNER,
+                        state.getCharacterStorage().getAll(),
+                        false
+                    ) { c ->
+                        label = c.toString()
+                        value = c.toString()
+                        selected = building.owner.character == c.id
+                    }
+
+                    is OwnedByTown -> selectValue("Owner", OWNER, state.getTownStorage().getAll(), false) { town ->
+                        label = town.toString()
+                        value = town.toString()
+                        selected = building.owner.town == town.id
+                    }
+
+                    else -> doNothing()
+                }
                 p {
                     submitInput {
                         value = "Update"
