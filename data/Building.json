@@ -41,12 +41,12 @@
     "previousOwners": [
      {
       "owner": {
-       "type": "Character",
-       "character": 1
+       "type": "Town",
+       "town": 0
       },
       "until": {
        "type": "Year",
-       "year": -1
+       "year": 1643
       }
      },
      {
@@ -56,7 +56,7 @@
       },
       "until": {
        "type": "Year",
-       "year": 1
+       "year": 1644
       }
      }
     ]

@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.selector.getName
@@ -201,7 +202,7 @@ private fun HTML.showBuildingEditor(
                 method = FormMethod.post
                 selectName(building.name)
                 selectDate(state, "Construction", building.constructionDate, DATE)
-                selectOwnership(state, building.ownership)
+                selectOwnership(state, building.ownership, building.constructionDate)
                 p {
                     submitInput {
                         value = "Update"
@@ -220,14 +221,19 @@ private fun HTML.showBuildingEditor(
 private fun FORM.selectOwnership(
     state: State,
     ownership: Ownership,
+    startDate: Date,
 ) {
     selectOwner(state, OWNER, ownership.owner)
     val previousOwnersParam = combine(OWNER, HISTORY)
     selectInt("Previous Owners", ownership.previousOwners.size, 0, 100, previousOwnersParam, true)
+    var minDate = startDate.next()
+
     showListWithIndex(ownership.previousOwners) { index, previous ->
         val previousParam = combine(previousOwnersParam, index)
         selectOwner(state, previousParam, previous.owner)
-        selectDate(state, "Until", previous.until, combine(previousParam, DATE))
+        selectDate(state, "Until", previous.until, combine(previousParam, DATE), minDate)
+
+        minDate = previous.until.next()
     }
 }
 

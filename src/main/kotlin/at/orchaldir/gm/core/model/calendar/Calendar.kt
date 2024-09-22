@@ -72,7 +72,7 @@ data class Calendar(
 
     fun getStartOfYear(year: DisplayYear) = DisplayDay(year, 0, 0, null)
 
-    fun getEndOfYear(year: Year) = getStartOfYear(year.next()).previous()
+    fun getEndOfYear(year: Year) = getStartOfYear(year.nextYear()).previousDay()
 
     //
 

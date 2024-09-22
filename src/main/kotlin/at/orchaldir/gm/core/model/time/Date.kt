@@ -15,6 +15,8 @@ sealed class Date {
 
     abstract fun isBetween(calendar: Calendar, start: Day, end: Day): Boolean
 
+    abstract fun next(): Date
+
 }
 
 @Serializable
@@ -24,14 +26,14 @@ data class Day(val day: Int) : Date() {
         return day.compareTo(other.day)
     }
 
-    fun next() = this + 1
-    fun previous() = this - 1
+    override fun next() = nextDay()
+    fun nextDay() = this + 1
+    fun previousDay() = this - 1
 
     operator fun plus(duration: Int) = Day(day + duration)
     operator fun minus(duration: Int) = Day(day - duration)
 
     fun getDurationBetween(other: Day) = Duration((day - other.day).absoluteValue)
-
     override fun isBetween(calendar: Calendar, start: Day, end: Day) = day >= start.day && day <= end.day
 }
 
@@ -43,7 +45,8 @@ data class Year(val year: Int) : Date() {
         .getStartOfYear(this)
         .isBetween(calendar, start, end)
 
-    fun next() = Year(year + 1)
-    fun previous() = Year(year - 1)
+    override fun next() = nextYear()
+    fun nextYear() = Year(year + 1)
+    fun previousYear() = Year(year - 1)
 
 }

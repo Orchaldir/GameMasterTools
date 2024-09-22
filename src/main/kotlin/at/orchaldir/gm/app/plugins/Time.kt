@@ -244,8 +244,8 @@ private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Y
     val displayYear = calendar.resolve(year)
     val events = state.getEventsOfYear(calendarId, year)
     val backLink = call.application.href(TimeRoutes())
-    val nextLink = call.application.href(TimeRoutes.ShowYear(year.next()))
-    val previousLink = call.application.href(TimeRoutes.ShowYear(year.previous()))
+    val nextLink = call.application.href(TimeRoutes.ShowYear(year.nextYear()))
+    val previousLink = call.application.href(TimeRoutes.ShowYear(year.previousYear()))
 
     simpleHtml("Year: " + calendar.display(displayYear)) {
         field("Calendar") {
