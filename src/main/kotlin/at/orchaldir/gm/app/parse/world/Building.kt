@@ -20,9 +20,9 @@ fun parseUpdateBuilding(parameters: Parameters, state: State, id: BuildingId) = 
     parseOwner(parameters),
 )
 
-fun parseOwner(parameters: Parameters): Owner = when (parameters[combine(OWNER, TYPE)]) {
+fun parseOwner(parameters: Parameters): Owner = when (parameters[OWNER]) {
     OwnerType.None.toString() -> NoOwner
-    OwnerType.Character.toString() -> OwnedByCharacter(parseCharacterId(parameters, OWNER))
-    OwnerType.Town.toString() -> OwnedByTown(parseTownId(parameters, OWNER))
+    OwnerType.Character.toString() -> OwnedByCharacter(parseCharacterId(parameters, combine(OWNER, CHARACTER)))
+    OwnerType.Town.toString() -> OwnedByTown(parseTownId(parameters, combine(OWNER, TOWN)))
     else -> UnknownOwner
 }

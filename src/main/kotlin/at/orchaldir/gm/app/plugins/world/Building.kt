@@ -6,9 +6,9 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.*
+import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getAgeInYears
 import at.orchaldir.gm.core.selector.world.getBuildings
@@ -40,6 +40,9 @@ class BuildingRoutes {
     @Resource("edit")
     class Edit(val id: BuildingId, val parent: BuildingRoutes = BuildingRoutes())
 
+    @Resource("preview")
+    class Preview(val id: BuildingId, val parent: BuildingRoutes = BuildingRoutes())
+
     @Resource("update")
     class Update(val id: BuildingId, val parent: BuildingRoutes = BuildingRoutes())
 }
@@ -68,6 +71,18 @@ fun Application.configureBuildingRouting() {
 
             val state = STORE.getState()
             val building = state.getBuildingStorage().getOrThrow(details.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showBuildingEditor(call, state, building)
+            }
+        }
+        post<BuildingRoutes.Preview> { preview ->
+            logger.info { "Preview building ${preview.id.value}" }
+
+            val state = STORE.getState()
+            val action = parseUpdateBuilding(call.receiveParameters(), state, preview.id)
+            val oldBuilding = state.getBuildingStorage().getOrThrow(preview.id)
+            val building = action.applyTo(oldBuilding)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showBuildingEditor(call, state, building)
@@ -158,15 +173,19 @@ private fun HTML.showBuildingEditor(
     building: Building,
 ) {
     val backLink = call.application.href(BuildingRoutes.Details(building.id))
+    val previewLink = call.application.href(BuildingRoutes.Preview(building.id))
     val updateLink = call.application.href(BuildingRoutes.Update(building.id))
 
     simpleHtml("Edit Building: ${building.name}") {
         split({
             field("Id", building.id.value.toString())
             form {
+                id = "editor"
+                action = previewLink
+                method = FormMethod.post
                 selectName(building.name)
                 selectDate(state, "Construction", building.constructionDate, DATE)
-                selectValue("Owner Type", combine(OWNER, TYPE), OwnerType.entries, true) { type ->
+                selectValue("Owner Type", OWNER, OwnerType.entries, true) { type ->
                     label = type.toString()
                     value = type.toString()
                     selected = building.owner.getType() == type
@@ -174,18 +193,23 @@ private fun HTML.showBuildingEditor(
                 when (building.owner) {
                     is OwnedByCharacter -> selectValue(
                         "Owner",
-                        OWNER,
+                        combine(OWNER, CHARACTER),
                         state.getCharacterStorage().getAll(),
                         false
                     ) { c ->
-                        label = c.toString()
-                        value = c.toString()
+                        label = state.getName(c)
+                        value = c.id.value.toString()
                         selected = building.owner.character == c.id
                     }
 
-                    is OwnedByTown -> selectValue("Owner", OWNER, state.getTownStorage().getAll(), false) { town ->
-                        label = town.toString()
-                        value = town.toString()
+                    is OwnedByTown -> selectValue(
+                        "Owner",
+                        combine(OWNER, TOWN),
+                        state.getTownStorage().getAll(),
+                        false
+                    ) { town ->
+                        label = town.name
+                        value = town.id.value.toString()
                         selected = building.owner.town == town.id
                     }
 

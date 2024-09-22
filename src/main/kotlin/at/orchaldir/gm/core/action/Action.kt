@@ -25,9 +25,8 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Time
-import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.model.world.building.BuildingLot
 import at.orchaldir.gm.core.model.world.building.Owner
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
@@ -173,7 +172,14 @@ data class UpdateBuilding(
     val name: String,
     val constructionDate: Date,
     val owner: Owner,
-) : WorldAction()
+) : WorldAction() {
+
+    fun applyTo(building: Building) = building.copy(
+        name = name,
+        constructionDate = constructionDate,
+        owner = owner,
+    )
+}
 
 // town's streets
 
