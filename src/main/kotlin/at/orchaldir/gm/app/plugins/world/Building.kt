@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.selector.world.canDelete
+import at.orchaldir.gm.core.selector.world.getAgeInYears
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.town.visualizeTown
@@ -89,6 +90,8 @@ private fun HTML.showBuildingDetails(
         split({
             field("Id", building.id.value.toString())
             field("Name", building.name)
+            field(call, state, "Construction", building.constructionDate)
+            fieldAge("Age", state.getAgeInYears(building))
             field("Town") {
                 link(call, state, building.lot.town)
             }
