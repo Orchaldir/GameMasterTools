@@ -119,10 +119,23 @@ fun scaleHeightByAge(race: Race, height: Distance, age: Int): Distance {
     return height * relativeSize
 }
 
+fun State.getAppearanceForAge(character: Character): Appearance {
+    val age = getAgeInYears(character)
+    val race = getRaceStorage().getOrThrow(character.race)
+    val height = scaleHeightByAge(race, character.appearance.getSize(), age)
+
+    return getAppearanceForAge(race, character.appearance, age, height)
+}
+
 fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int): Appearance {
     val height = scaleHeightByAge(race, appearance.getSize(), age)
-    val stage = race.lifeStages.getLifeStage(age)
+
+    return getAppearanceForAge(race, appearance, age, height)
+}
+
+private fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int, height: Distance): Appearance {
     var updatedAppearance = appearance.with(height)
+    val stage = race.lifeStages.getLifeStage(age)
 
     if (stage != null) {
         if (!stage.hasBeard) {
@@ -135,9 +148,4 @@ fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int): Appearanc
     }
 
     return updatedAppearance
-}
-
-fun State.getAppearanceForAge(character: Character): Appearance {
-    val height = scaleHeightByAge(character, character.appearance.getSize())
-    return character.appearance.with(height)
 }
