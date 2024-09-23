@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.CALENDAR
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.Character
@@ -207,7 +206,7 @@ class BuildingTest {
                 Storage(Building(ID0)),
                 Storage(Calendar(CalendarId(0))),
                 Storage(Character(CHARACTER0)),
-                Storage(Town(TOWN0))
+                Storage(Town(TOWN0)),
             )
         )
         private val OWNED_BY_CHARACTER = Ownership(OwnedByCharacter(CHARACTER0))
@@ -263,10 +262,22 @@ class BuildingTest {
         }
 
         @Test
-        fun `Previous ownership ended before the construction`() {
+        fun `First Previous ownership ended before the construction`() {
             val action = UpdateBuilding(ID0, "New", DAY2, CHARACTER_AS_PREVIOUS)
 
             assertIllegalArgument("1.previous owner's until is too early!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `A previous ownership ended before the one before it`() {
+            val action = UpdateBuilding(
+                ID0, "New", DAY0, Ownership(
+                    OwnedByTown(TOWN0),
+                    listOf(PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2), PreviousOwner(OwnedByTown(TOWN0), DAY1))
+                )
+            )
+
+            assertIllegalArgument("2.previous owner's until is too early!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
