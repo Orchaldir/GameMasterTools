@@ -4,12 +4,13 @@ import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.assertIllegalState
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
+import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
-import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.model.world.building.BuildingLot
+import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.*
@@ -30,6 +31,10 @@ private val BUILDING_TILE = TownTile(construction = BuildingTile(ID0))
 private val STREET_TILE = TownTile(construction = StreetTile(STREET0))
 private val BIG_SIZE = MapSize2d(2, 1)
 private val BIG_SQUARE = square(2)
+private val DAY0 = Day(100)
+private val DAY1 = Day(200)
+private val CHARACTER0 = CharacterId(2)
+private val CHARACTER1 = CharacterId(3)
 
 class BuildingTest {
 
@@ -187,6 +192,31 @@ class BuildingTest {
 
             assertFalse(result.getBuildingStorage().contains(ID0))
             assertFree(result, BIG_SQUARE)
+        }
+    }
+
+    @Nested
+    inner class UpdateTest {
+
+        private val OWNERSHIP = Ownership(OwnedByCharacter(CHARACTER0))
+
+        @Test
+        fun `Cannot update unknown id`() {
+            val action = UpdateBuilding(ID0, "New", DAY0, OWNERSHIP)
+            val state = State(Storage(Character(CHARACTER0)))
+
+            assertIllegalArgument("Unknown Building 0!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Successfully updated`() {
+            val action = UpdateBuilding(ID0, "New", DAY0, OWNERSHIP)
+            val state = State(listOf(Storage(Building(ID0)), Storage(Character(CHARACTER0))))
+
+            assertEquals(
+                Building(ID0, "New", constructionDate = DAY0, ownership = OWNERSHIP),
+                REDUCER.invoke(state, action).first.getBuildingStorage().get(ID0)
+            )
         }
     }
 
