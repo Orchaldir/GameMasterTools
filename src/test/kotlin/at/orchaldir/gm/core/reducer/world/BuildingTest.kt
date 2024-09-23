@@ -198,7 +198,7 @@ class BuildingTest {
     @Nested
     inner class UpdateTest {
 
-        private val OWNERSHIP = Ownership(OwnedByCharacter(CHARACTER0))
+        private val OWNED_BY_CHARACTER = Ownership(OwnedByCharacter(CHARACTER0))
         private val OWNED_BY_TOWN = Ownership(OwnedByTown(TOWN0))
         private val CHARACTER_AS_PREVIOUS =
             Ownership(OwnedByTown(TOWN0), PreviousOwner(OwnedByCharacter(CHARACTER0), DAY1))
@@ -206,7 +206,7 @@ class BuildingTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateBuilding(ID0, "New", DAY0, OWNERSHIP)
+            val action = UpdateBuilding(ID0, "New", DAY0, OWNED_BY_CHARACTER)
             val state = State(Storage(Character(CHARACTER0)))
 
             assertIllegalArgument("Unknown Building 0!") { REDUCER.invoke(state, action) }
@@ -214,7 +214,7 @@ class BuildingTest {
 
         @Test
         fun `Owner is an unknown character`() {
-            val action = UpdateBuilding(ID0, "New", DAY0, OWNERSHIP)
+            val action = UpdateBuilding(ID0, "New", DAY0, OWNED_BY_CHARACTER)
             val state = State(listOf(Storage(Building(ID0))))
 
             assertIllegalArgument("Cannot use an unknown character 2 as owner!") { REDUCER.invoke(state, action) }
@@ -251,33 +251,30 @@ class BuildingTest {
 
         @Test
         fun `Successfully updated with character as owner`() {
-            val action = UpdateBuilding(ID0, "New", DAY0, OWNERSHIP)
-            val state = State(listOf(Storage(Building(ID0)), Storage(Character(CHARACTER0))))
-
-            assertEquals(
-                Building(ID0, "New", constructionDate = DAY0, ownership = OWNERSHIP),
-                REDUCER.invoke(state, action).first.getBuildingStorage().get(ID0)
-            )
+            testSuccess(OWNED_BY_CHARACTER)
         }
 
         @Test
         fun `Successfully updated with town as owner`() {
-            val action = UpdateBuilding(ID0, "New", DAY0, OWNED_BY_TOWN)
-            val state = State(listOf(Storage(Building(ID0)), Storage(Town(TOWN0))))
-
-            assertEquals(
-                Building(ID0, "New", constructionDate = DAY0, ownership = OWNED_BY_TOWN),
-                REDUCER.invoke(state, action).first.getBuildingStorage().get(ID0)
-            )
+            testSuccess(OWNED_BY_TOWN)
         }
 
         @Test
         fun `Successfully updated with character as previous owner`() {
-            val action = UpdateBuilding(ID0, "New", DAY0, CHARACTER_AS_PREVIOUS)
+            testSuccess(CHARACTER_AS_PREVIOUS)
+        }
+
+        @Test
+        fun `Successfully updated with town as previous owner`() {
+            testSuccess(TOWN_AS_PREVIOUS)
+        }
+
+        private fun testSuccess(ownership: Ownership) {
+            val action = UpdateBuilding(ID0, "New", DAY0, ownership)
             val state = State(listOf(Storage(Building(ID0)), Storage(Character(CHARACTER0)), Storage(Town(TOWN0))))
 
             assertEquals(
-                Building(ID0, "New", constructionDate = DAY0, ownership = CHARACTER_AS_PREVIOUS),
+                Building(ID0, "New", constructionDate = DAY0, ownership = ownership),
                 REDUCER.invoke(state, action).first.getBuildingStorage().get(ID0)
             )
         }
