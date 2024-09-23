@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getInventedLanguages
 import at.orchaldir.gm.core.selector.getParents
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
+import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -33,6 +34,8 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
     require(children.isEmpty()) { "Cannot delete character ${action.id.value}, because he has children!" }
     val ownedBuildings = state.getOwnedBuildings(action.id)
     require(ownedBuildings.isEmpty()) { "Cannot delete character ${action.id.value}, because he owns buildings!" }
+    val previouslyOwnedBuildings = state.getPreviouslyOwnedBuildings(action.id)
+    require(previouslyOwnedBuildings.isEmpty()) { "Cannot delete character ${action.id.value}, because he previously owned buildings!" }
 
     noFollowUps(state.updateStorage(state.getCharacterStorage().remove(action.id)))
 }

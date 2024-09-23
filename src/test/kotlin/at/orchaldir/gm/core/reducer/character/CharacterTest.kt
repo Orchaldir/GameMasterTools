@@ -16,10 +16,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
-import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.model.world.building.OwnedByCharacter
-import at.orchaldir.gm.core.model.world.building.Ownership
+import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -105,6 +102,24 @@ class CharacterTest {
             )
 
             assertIllegalArgument("Cannot delete character 0, because he owns buildings!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a previous building owner`() {
+            val building = Building(
+                BUILDING0,
+                ownership = Ownership(previousOwners = listOf(PreviousOwner(OwnedByCharacter(ID0), Day(0))))
+            )
+            val state = State(
+                listOf(
+                    Storage(listOf(Character(ID0))),
+                    Storage(listOf(building))
+                )
+            )
+
+            assertIllegalArgument("Cannot delete character 0, because he previously owned buildings!") {
                 REDUCER.invoke(state, action)
             }
         }
