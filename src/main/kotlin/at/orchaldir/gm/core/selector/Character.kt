@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
@@ -98,6 +99,10 @@ fun State.getAge(id: CharacterId): Duration = getAge(getCharacterStorage().getOr
 fun State.getAge(character: Character): Duration = character.getAge(time.currentDate)
 
 fun State.getAgeInYears(character: Character) = getDefaultCalendar().getYears(getAge(character))
+
+fun State.isAlive(id: CharacterId, date: Date) = isAlive(getCharacterStorage().getOrThrow(id), date)
+
+fun State.isAlive(character: Character, date: Date) = getDefaultCalendar().compareTo(character.birthDate, date) <= 0
 
 // height
 
