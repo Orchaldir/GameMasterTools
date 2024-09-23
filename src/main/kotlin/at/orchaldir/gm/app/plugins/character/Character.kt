@@ -16,6 +16,8 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.selector.world.getOwnedBuildings
+import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
@@ -186,7 +188,7 @@ private fun HTML.showCharacterDetails(
 
         showData(character, call, state)
         showSocial(call, state, character)
-        showItems(call, state, character)
+        showPossession(call, state, character)
 
         back(backLink)
     }
@@ -356,20 +358,28 @@ fun BODY.showLanguages(
     }
 }
 
-fun BODY.showItems(
+fun BODY.showPossession(
     call: ApplicationCall,
     state: State,
     character: Character,
 ) {
     val editEquipmentLink = call.application.href(CharacterRoutes.Equipment.Edit(character.id))
 
-    h2 { +"Items" }
+    h2 { +"Possession" }
 
-    action(editEquipmentLink, "Edit Equipment")
+    showList("Owned Buildings", state.getOwnedBuildings(character.id)) { building ->
+        link(call, building)
+    }
+
+    showList("Previously owned Buildings", state.getPreviouslyOwnedBuildings(character.id)) { building ->
+        link(call, building)
+    }
 
     showList("Equipped", character.equipmentMap.map.values) { item ->
         link(call, state, item)
     }
+
+    action(editEquipmentLink, "Edit Equipment")
 }
 
 private fun HTML.showCharacterEditor(

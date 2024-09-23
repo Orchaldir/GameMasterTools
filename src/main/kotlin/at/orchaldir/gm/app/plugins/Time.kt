@@ -7,10 +7,7 @@ import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
-import at.orchaldir.gm.core.model.event.CharacterDeathEvent
-import at.orchaldir.gm.core.model.event.CharacterOriginEvent
-import at.orchaldir.gm.core.model.event.Event
-import at.orchaldir.gm.core.model.event.TownFoundingEvent
+import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.DisplayDay
 import at.orchaldir.gm.core.model.time.Year
@@ -244,8 +241,8 @@ private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Y
     val displayYear = calendar.resolve(year)
     val events = state.getEventsOfYear(calendarId, year)
     val backLink = call.application.href(TimeRoutes())
-    val nextLink = call.application.href(TimeRoutes.ShowYear(year.next()))
-    val previousLink = call.application.href(TimeRoutes.ShowYear(year.previous()))
+    val nextLink = call.application.href(TimeRoutes.ShowYear(year.nextYear()))
+    val previousLink = call.application.href(TimeRoutes.ShowYear(year.previousYear()))
 
     simpleHtml("Year: " + calendar.display(displayYear)) {
         field("Calendar") {
@@ -319,6 +316,20 @@ private fun HtmlBlockTag.showEvents(
         }
         +": "
         when (event) {
+            is BuildingConstructedEvent -> {
+                link(call, state, event.buildingId)
+                +" was constructed."
+            }
+
+            is BuildingOwnershipChangedEvent -> {
+                link(call, state, event.buildingId)
+                +"'s owner changed from "
+                showOwner(call, state, event.from)
+                +" to "
+                showOwner(call, state, event.to)
+                +"."
+            }
+
             is CharacterDeathEvent -> {
                 link(call, state, event.characterId)
                 +" died."

@@ -5,19 +5,40 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterOrigin
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.model.world.building.Owner
 import at.orchaldir.gm.core.model.world.town.TownId
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 
-@Serializable
 sealed class Event {
 
     abstract fun getDate(): Date
 
 }
 
-@Serializable
-@SerialName("CharacterOrigin")
+// building
+
+data class BuildingConstructedEvent(
+    val constructionDate: Date,
+    val buildingId: BuildingId,
+) : Event() {
+
+    override fun getDate() = constructionDate
+
+}
+
+data class BuildingOwnershipChangedEvent(
+    val changeDate: Date,
+    val buildingId: BuildingId,
+    val from: Owner,
+    val to: Owner,
+) : Event() {
+
+    override fun getDate() = changeDate
+
+}
+
+// character
+
 data class CharacterOriginEvent(
     val day: Day,
     val characterId: CharacterId,
@@ -28,8 +49,6 @@ data class CharacterOriginEvent(
 
 }
 
-@Serializable
-@SerialName("CharacterDeath")
 data class CharacterDeathEvent(
     val day: Day,
     val characterId: CharacterId,
@@ -40,8 +59,8 @@ data class CharacterDeathEvent(
 
 }
 
-@Serializable
-@SerialName("CharacterOrigin")
+// town
+
 data class TownFoundingEvent(
     val foundingDate: Date,
     val townId: TownId,

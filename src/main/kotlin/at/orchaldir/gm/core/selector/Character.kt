@@ -10,14 +10,19 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Duration
+import at.orchaldir.gm.core.selector.world.getOwnedBuildings
+import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.utils.math.Distance
 
 fun State.canCreateCharacter() = getCultureStorage().getSize() > 0 && getCharacterStorage().getSize() > 0
 
-fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty() &&
-        getParents(character).isEmpty() &&
-        getInventedLanguages(character).isEmpty()
+fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
+        && getParents(character).isEmpty()
+        && getInventedLanguages(character).isEmpty()
+        && getOwnedBuildings(character).isEmpty()
+        && getPreviouslyOwnedBuildings(character).isEmpty()
 
 // get characters
 
@@ -95,6 +100,10 @@ fun State.getAge(character: Character): Duration = character.getAge(time.current
 
 fun State.getAgeInYears(character: Character) = getDefaultCalendar().getYears(getAge(character))
 
+fun State.isAlive(id: CharacterId, date: Date) = isAlive(getCharacterStorage().getOrThrow(id), date)
+
+fun State.isAlive(character: Character, date: Date) = getDefaultCalendar().compareTo(character.birthDate, date) <= 0
+
 // height
 
 fun State.scaleHeightByAge(character: Character, height: Distance): Distance {
@@ -110,10 +119,23 @@ fun scaleHeightByAge(race: Race, height: Distance, age: Int): Distance {
     return height * relativeSize
 }
 
+fun State.getAppearanceForAge(character: Character): Appearance {
+    val age = getAgeInYears(character)
+    val race = getRaceStorage().getOrThrow(character.race)
+    val height = scaleHeightByAge(race, character.appearance.getSize(), age)
+
+    return getAppearanceForAge(race, character.appearance, age, height)
+}
+
 fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int): Appearance {
     val height = scaleHeightByAge(race, appearance.getSize(), age)
-    val stage = race.lifeStages.getLifeStage(age)
+
+    return getAppearanceForAge(race, appearance, age, height)
+}
+
+private fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int, height: Distance): Appearance {
     var updatedAppearance = appearance.with(height)
+    val stage = race.lifeStages.getLifeStage(age)
 
     if (stage != null) {
         if (!stage.hasBeard) {
@@ -126,9 +148,4 @@ fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int): Appearanc
     }
 
     return updatedAppearance
-}
-
-fun State.getAppearanceForAge(character: Character): Appearance {
-    val height = scaleHeightByAge(character, character.appearance.getSize())
-    return character.appearance.with(height)
 }

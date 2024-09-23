@@ -3,12 +3,16 @@ package at.orchaldir.gm.core.model.time
 sealed class DisplayDate
 
 data class DisplayDay(
-    val eraIndex: Int,
-    val yearIndex: Int,
+    val year: DisplayYear,
     val monthIndex: Int,
     val dayIndex: Int,
     val weekdayIndex: Int? = null,
-) : DisplayDate()
+) : DisplayDate() {
+
+    constructor(eraIndex: Int, yearIndex: Int, monthIndex: Int, dayIndex: Int, weekdayIndex: Int? = null) :
+            this(DisplayYear(eraIndex, yearIndex), monthIndex, dayIndex, weekdayIndex)
+
+}
 
 data class DisplayYear(
     val eraIndex: Int,

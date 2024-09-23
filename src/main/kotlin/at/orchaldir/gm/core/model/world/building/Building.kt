@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.world.building
 
+import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -21,6 +23,8 @@ data class Building(
     val id: BuildingId,
     val name: String = "Building ${id.value}",
     val lot: BuildingLot = BuildingLot(),
+    val constructionDate: Date = Year(0),
+    val ownership: Ownership = Ownership(),
 ) : Element<BuildingId> {
 
     override fun id() = id

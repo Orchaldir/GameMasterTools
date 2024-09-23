@@ -1,11 +1,23 @@
 package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.building.OwnedByCharacter
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.selector.getDefaultCalendar
 
-fun State.canDelete(building: BuildingId) = true
+fun State.getAgeInYears(building: Building) = getDefaultCalendar()
+    .getDurationInYears(building.constructionDate, time.currentDate)
+
+fun State.canDelete(building: Building) = building.ownership.owner.canDelete()
 
 fun State.getBuildings(town: TownId) = getBuildingStorage().getAll()
     .filter { it.lot.town == town }
+
+fun State.getOwnedBuildings(character: CharacterId) = getBuildingStorage().getAll()
+    .filter { it.ownership.owner is OwnedByCharacter && it.ownership.owner.character == character }
+
+fun State.getPreviouslyOwnedBuildings(character: CharacterId) = getBuildingStorage().getAll()
+    .filter { it.ownership.contains(character) }
 

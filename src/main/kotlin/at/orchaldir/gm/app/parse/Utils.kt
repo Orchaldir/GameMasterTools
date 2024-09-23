@@ -41,17 +41,22 @@ fun parseDate(
     parameters: Parameters,
     state: State,
     param: String,
-): Date = parseDate(parameters, state.getDefaultCalendar(), param)
+    default: Date? = null,
+): Date = parseDate(parameters, state.getDefaultCalendar(), param, default)
 
 fun parseDate(
     parameters: Parameters,
-    default: Calendar,
+    calendar: Calendar,
     param: String,
+    default: Date? = null,
 ): Date {
-    return when (parse(parameters, combine(param, DATE), DateType.Year)) {
-        DateType.Day -> parseDay(parameters, default, param)
+    if (default != null && !parameters.contains(combine(param, ERA))) {
+        return default
+    }
 
-        DateType.Year -> parseYear(parameters, default, param)
+    return when (parse(parameters, combine(param, DATE), DateType.Year)) {
+        DateType.Day -> parseDay(parameters, calendar, param)
+        DateType.Year -> parseYear(parameters, calendar, param)
     }
 }
 

@@ -6,6 +6,9 @@ import at.orchaldir.gm.core.model.world.town.TownId
 
 fun State.canDelete(street: StreetId) = getTowns(street).isEmpty()
 
-fun State.getStreets(town: TownId) = getTownStorage().getOrThrow(town)
+fun State.getStreets(town: TownId) = getStreetIds(town)
+    .map { getStreetStorage().getOrThrow(it) }
+
+fun State.getStreetIds(town: TownId) = getTownStorage().getOrThrow(town)
     .map.tiles.mapNotNull { it.construction.getStreet() }.distinct()
 
