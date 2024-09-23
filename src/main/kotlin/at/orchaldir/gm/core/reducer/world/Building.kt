@@ -4,8 +4,10 @@ import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.town.BuildingTile
+import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -45,7 +47,7 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
 val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
 
-    checkOwnership(state, action.ownership)
+    checkOwnership(state, action.ownership, action.constructionDate)
 
     val building = action.applyTo(oldBuilding)
 
@@ -55,10 +57,19 @@ val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
 private fun checkOwnership(
     state: State,
     ownership: Ownership,
+    startMin: Date,
 ) {
     checkOwner(state, ownership.owner, "owner")
 
-    ownership.previousOwners.forEach { checkOwner(state, it.owner, "previous owner") }
+    val calendar = state.getDefaultCalendar()
+    var min = startMin
+
+    ownership.previousOwners.withIndex().forEach { (index, previous) ->
+        checkOwner(state, previous.owner, "previous owner")
+        require(calendar.compareTo(previous.until, min) > 0) { "${index + 1}.previous owner's until is too early!" }
+
+        min = previous.until
+    }
 }
 
 private fun checkOwner(

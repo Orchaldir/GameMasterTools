@@ -6,6 +6,9 @@ import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.CALENDAR
+import at.orchaldir.gm.core.model.calendar.Calendar
+import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.time.Day
@@ -33,6 +36,7 @@ private val BIG_SIZE = MapSize2d(2, 1)
 private val BIG_SQUARE = square(2)
 private val DAY0 = Day(100)
 private val DAY1 = Day(200)
+private val DAY2 = Day(300)
 private val CHARACTER0 = CharacterId(2)
 private val CHARACTER1 = CharacterId(3)
 
@@ -198,6 +202,14 @@ class BuildingTest {
     @Nested
     inner class UpdateTest {
 
+        private val STATE = State(
+            listOf(
+                Storage(Building(ID0)),
+                Storage(Calendar(CalendarId(0))),
+                Storage(Character(CHARACTER0)),
+                Storage(Town(TOWN0))
+            )
+        )
         private val OWNED_BY_CHARACTER = Ownership(OwnedByCharacter(CHARACTER0))
         private val OWNED_BY_TOWN = Ownership(OwnedByTown(TOWN0))
         private val CHARACTER_AS_PREVIOUS =
@@ -231,7 +243,7 @@ class BuildingTest {
         @Test
         fun `Previous owner is an unknown character`() {
             val action = UpdateBuilding(ID0, "New", DAY0, CHARACTER_AS_PREVIOUS)
-            val state = State(listOf(Storage(Building(ID0)), Storage(Town(TOWN0))))
+            val state = State(listOf(Storage(Building(ID0)), Storage(Calendar(CalendarId(0))), Storage(Town(TOWN0))))
 
             assertIllegalArgument("Cannot use an unknown character 2 as previous owner!") {
                 REDUCER.invoke(
@@ -244,9 +256,17 @@ class BuildingTest {
         @Test
         fun `Previous owner is an unknown town`() {
             val action = UpdateBuilding(ID0, "New", DAY0, TOWN_AS_PREVIOUS)
-            val state = State(listOf(Storage(Building(ID0)), Storage(Character(CHARACTER0))))
+            val state =
+                State(listOf(Storage(Building(ID0)), Storage(Calendar(CalendarId(0))), Storage(Character(CHARACTER0))))
 
             assertIllegalArgument("Cannot use an unknown town 0 as previous owner!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Previous ownership ended before the construction`() {
+            val action = UpdateBuilding(ID0, "New", DAY2, CHARACTER_AS_PREVIOUS)
+
+            assertIllegalArgument("1.previous owner's until is too early!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
@@ -271,11 +291,10 @@ class BuildingTest {
 
         private fun testSuccess(ownership: Ownership) {
             val action = UpdateBuilding(ID0, "New", DAY0, ownership)
-            val state = State(listOf(Storage(Building(ID0)), Storage(Character(CHARACTER0)), Storage(Town(TOWN0))))
 
             assertEquals(
                 Building(ID0, "New", constructionDate = DAY0, ownership = ownership),
-                REDUCER.invoke(state, action).first.getBuildingStorage().get(ID0)
+                REDUCER.invoke(STATE, action).first.getBuildingStorage().get(ID0)
             )
         }
     }
