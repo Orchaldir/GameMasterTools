@@ -199,6 +199,7 @@ class BuildingTest {
     inner class UpdateTest {
 
         private val OWNERSHIP = Ownership(OwnedByCharacter(CHARACTER0))
+        private val OWNED_BY_TOWN = Ownership(OwnedByTown(TOWN0))
 
         @Test
         fun `Cannot update unknown id`() {
@@ -217,12 +218,31 @@ class BuildingTest {
         }
 
         @Test
-        fun `Successfully updated`() {
+        fun `Owner is an unknown town`() {
+            val action = UpdateBuilding(ID0, "New", DAY0, OWNED_BY_TOWN)
+            val state = State(listOf(Storage(Building(ID0))))
+
+            assertIllegalArgument("Cannot use an unknown town 0 as owner!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Successfully updated with character as owner`() {
             val action = UpdateBuilding(ID0, "New", DAY0, OWNERSHIP)
             val state = State(listOf(Storage(Building(ID0)), Storage(Character(CHARACTER0))))
 
             assertEquals(
                 Building(ID0, "New", constructionDate = DAY0, ownership = OWNERSHIP),
+                REDUCER.invoke(state, action).first.getBuildingStorage().get(ID0)
+            )
+        }
+
+        @Test
+        fun `Successfully updated with town as owner`() {
+            val action = UpdateBuilding(ID0, "New", DAY0, OWNED_BY_TOWN)
+            val state = State(listOf(Storage(Building(ID0)), Storage(Town(TOWN0))))
+
+            assertEquals(
+                Building(ID0, "New", constructionDate = DAY0, ownership = OWNED_BY_TOWN),
                 REDUCER.invoke(state, action).first.getBuildingStorage().get(ID0)
             )
         }
