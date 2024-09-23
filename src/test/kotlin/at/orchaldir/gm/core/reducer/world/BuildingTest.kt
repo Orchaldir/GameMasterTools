@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
+import at.orchaldir.gm.core.model.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.time.Day
@@ -201,10 +202,11 @@ class BuildingTest {
     @Nested
     inner class UpdateTest {
 
+        val CALENDAR = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
         private val STATE = State(
             listOf(
                 Storage(Building(ID0)),
-                Storage(Calendar(CalendarId(0))),
+                Storage(CALENDAR),
                 Storage(Character(CHARACTER0)),
                 Storage(Town(TOWN0)),
             )
@@ -242,7 +244,7 @@ class BuildingTest {
         @Test
         fun `Previous owner is an unknown character`() {
             val action = UpdateBuilding(ID0, "New", DAY0, CHARACTER_AS_PREVIOUS)
-            val state = State(listOf(Storage(Building(ID0)), Storage(Calendar(CalendarId(0))), Storage(Town(TOWN0))))
+            val state = State(listOf(Storage(Building(ID0)), Storage(CALENDAR), Storage(Town(TOWN0))))
 
             assertIllegalArgument("Cannot use an unknown character 2 as previous owner!") {
                 REDUCER.invoke(
@@ -256,7 +258,7 @@ class BuildingTest {
         fun `Previous owner is an unknown town`() {
             val action = UpdateBuilding(ID0, "New", DAY0, TOWN_AS_PREVIOUS)
             val state =
-                State(listOf(Storage(Building(ID0)), Storage(Calendar(CalendarId(0))), Storage(Character(CHARACTER0))))
+                State(listOf(Storage(Building(ID0)), Storage(CALENDAR), Storage(Character(CHARACTER0))))
 
             assertIllegalArgument("Cannot use an unknown town 0 as previous owner!") { REDUCER.invoke(state, action) }
         }

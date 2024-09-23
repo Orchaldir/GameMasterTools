@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.town.BuildingTile
@@ -57,15 +58,18 @@ val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
 private fun checkOwnership(
     state: State,
     ownership: Ownership,
-    startMin: Date,
+    creationDate: Date,
 ) {
     checkOwner(state, ownership.owner, "owner")
 
     val calendar = state.getDefaultCalendar()
-    var min = startMin
+    var min = creationDate
+
+    checkOwnerStart(state, calendar, ownership.owner, "Owner", creationDate)
 
     ownership.previousOwners.withIndex().forEach { (index, previous) ->
         checkOwner(state, previous.owner, "previous owner")
+        checkOwnerStart(state, calendar, ownership.owner, "${index + 1}.previous owner", min)
         require(calendar.compareTo(previous.until, min) > 0) { "${index + 1}.previous owner's until is too early!" }
 
         min = previous.until
@@ -86,4 +90,25 @@ private fun checkOwner(
 
         else -> doNothing()
     }
+}
+
+private fun checkOwnerStart(
+    state: State,
+    calendar: Calendar,
+    owner: Owner,
+    noun: String,
+    startInterval: Date,
+) {
+    val startOwner = when (owner) {
+        is OwnedByCharacter -> state.getCharacterStorage().getOrThrow(owner.character).birthDate
+        is OwnedByTown -> state.getTownStorage().getOrThrow(owner.town).foundingDate
+        else -> return
+    }
+
+    require(
+        calendar.compareTo(
+            startOwner,
+            startInterval
+        ) <= 0
+    ) { "$noun didn't exist at the start of their ownership!" }
 }
