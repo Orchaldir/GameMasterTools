@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer.character
 
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
@@ -83,7 +84,8 @@ class CharacterTest {
                 )
             )
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete character 0, because he is an language inventor!")
+            { REDUCER.invoke(state, action) }
         }
 
         @Nested
@@ -101,23 +103,29 @@ class CharacterTest {
 
             @Test
             fun `Cannot delete a character with parents`() {
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, DeleteCharacter(ID0)) }
+                assertIllegalArgument("Cannot delete character 0, because he has parents!") {
+                    REDUCER.invoke(state, DeleteCharacter(ID0))
+                }
             }
 
             @Test
             fun `Cannot delete a father`() {
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, DeleteCharacter(ID2)) }
+                assertIllegalArgument("Cannot delete character 2, because he has children!") {
+                    REDUCER.invoke(state, DeleteCharacter(ID2))
+                }
             }
 
             @Test
             fun `Cannot delete a mother`() {
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, DeleteCharacter(ID1)) }
+                assertIllegalArgument("Cannot delete character 1, because he has children!") {
+                    REDUCER.invoke(state, DeleteCharacter(ID1))
+                }
             }
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Character 0!") { REDUCER.invoke(State(), action) }
         }
     }
 

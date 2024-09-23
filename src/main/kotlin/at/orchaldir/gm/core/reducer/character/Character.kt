@@ -17,9 +17,7 @@ private val logger = KotlinLogging.logger {}
 
 val CREATE_CHARACTER: Reducer<CreateCharacter, State> = { state, _ ->
     val character = Character(state.getCharacterStorage().nextId, birthDate = state.time.currentDate)
-    logger.info { "new character $character" }
     val characters = state.getCharacterStorage().add(character)
-    logger.info { "new characters $characters" }
     noFollowUps(state.updateStorage(characters))
 }
 
@@ -27,11 +25,11 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
     state.getCharacterStorage().require(action.id)
 
     val invented = state.getInventedLanguages(action.id)
-    require(invented.isEmpty()) { "Cannot delete character ${action.id.value}, because he is an language inventor" }
+    require(invented.isEmpty()) { "Cannot delete character ${action.id.value}, because he is an language inventor!" }
     val parents = state.getParents(action.id)
-    require(parents.isEmpty()) { "Cannot delete character ${action.id.value}, because he has parents" }
+    require(parents.isEmpty()) { "Cannot delete character ${action.id.value}, because he has parents!" }
     val children = state.getChildren(action.id)
-    require(children.isEmpty()) { "Cannot delete character ${action.id.value}, because he has children" }
+    require(children.isEmpty()) { "Cannot delete character ${action.id.value}, because he has children!" }
 
     noFollowUps(state.updateStorage(state.getCharacterStorage().remove(action.id)))
 }
