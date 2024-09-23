@@ -232,35 +232,35 @@ class CharacterTest {
             fun `Cannot be born in the future`() {
                 val action = UpdateCharacter(Character(ID0, birthDate = Day(1)))
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Character is born in the future!") { REDUCER.invoke(state, action) }
             }
 
             @Test
             fun `Unknown mother`() {
                 val action = UpdateCharacter(Character(ID0, origin = Born(UNKNOWN, ID1)))
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Cannot use an unknown mother 3!") { REDUCER.invoke(state, action) }
             }
 
             @Test
             fun `Mother is not female`() {
                 val action = UpdateCharacter(Character(ID0, origin = Born(ID1, ID1)))
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Mother 1 is not female!") { REDUCER.invoke(state, action) }
             }
 
             @Test
             fun `Unknown father`() {
                 val action = UpdateCharacter(Character(ID0, origin = Born(ID2, UNKNOWN)))
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Cannot use an unknown father 3!") { REDUCER.invoke(state, action) }
             }
 
             @Test
             fun `Father is not male`() {
                 val action = UpdateCharacter(Character(ID0, origin = Born(ID2, ID2)))
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Father 2 is not male!") { REDUCER.invoke(state, action) }
             }
 
         }
@@ -356,7 +356,7 @@ class CharacterTest {
             val state = State(Storage(listOf(Race(RACE0))))
             val action = UpdateCharacter(Character(ID0))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Unknown Character 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -364,15 +364,21 @@ class CharacterTest {
             val state = State(listOf(Storage(listOf(Character(ID0))), Storage(listOf(Race(RACE0)))))
             val action = UpdateCharacter(Character(ID0, culture = CULTURE0))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Culture 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot use unknown personality trait`() {
-            val state = State(listOf(Storage(listOf(Character(ID0))), Storage(listOf(Race(RACE0)))))
+            val state = State(
+                listOf(
+                    Storage(listOf(Character(ID0))),
+                    Storage(listOf(Race(RACE0))),
+                    Storage(listOf(Culture(CULTURE0))),
+                )
+            )
             val action = UpdateCharacter(Character(ID0, personality = setOf(PERSONALITY0)))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Personality Trait 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -380,7 +386,7 @@ class CharacterTest {
             val state = State(Storage(listOf(Character(ID0))))
             val action = UpdateCharacter(Character(ID0, race = RACE0))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Race 0!") { REDUCER.invoke(state, action) }
         }
     }
 
