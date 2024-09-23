@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.selector.getName
+import at.orchaldir.gm.core.selector.isAlive
+import at.orchaldir.gm.core.selector.world.exists
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -45,24 +47,26 @@ fun FORM.selectOwnership(
     ownership: Ownership,
     startDate: Date,
 ) {
-    selectOwner(state, OWNER, ownership.owner)
     val previousOwnersParam = combine(OWNER, HISTORY)
     selectInt("Previous Owners", ownership.previousOwners.size, 0, 100, previousOwnersParam, true)
     var minDate = startDate.next()
 
     showListWithIndex(ownership.previousOwners) { index, previous ->
         val previousParam = combine(previousOwnersParam, index)
-        selectOwner(state, previousParam, previous.owner)
+        selectOwner(state, previousParam, previous.owner, minDate)
         selectDate(state, "Until", previous.until, combine(previousParam, DATE), minDate)
 
         minDate = previous.until.next()
     }
+
+    selectOwner(state, OWNER, ownership.owner, minDate)
 }
 
 fun HtmlBlockTag.selectOwner(
     state: State,
     param: String,
     owner: Owner,
+    start: Date,
 ) {
     selectValue("Owner Type", param, OwnerType.entries, true) { type ->
         label = type.toString()
@@ -75,10 +79,11 @@ fun HtmlBlockTag.selectOwner(
             combine(param, CHARACTER),
             state.getCharacterStorage().getAll(),
             false
-        ) { c ->
-            label = state.getName(c)
-            value = c.id.value.toString()
-            selected = owner.character == c.id
+        ) { character ->
+            label = state.getName(character)
+            value = character.id.value.toString()
+            selected = owner.character == character.id
+            disabled = !state.isAlive(character, start)
         }
 
         is OwnedByTown -> selectValue(
@@ -90,6 +95,7 @@ fun HtmlBlockTag.selectOwner(
             label = town.name
             value = town.id.value.toString()
             selected = owner.town == town.id
+            disabled = !state.exists(town, start)
         }
 
         else -> doNothing()
