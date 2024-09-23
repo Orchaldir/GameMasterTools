@@ -135,6 +135,66 @@
      "Skirt": 20
     }
    }
+  },
+  "2": {
+   "id": 2,
+   "name": {
+    "type": "Family",
+    "given": "Hesper",
+    "middle": null,
+    "family": "Payne"
+   },
+   "gender": "Female",
+   "birthDate": {
+    "day": 595114
+   },
+   "vitalStatus": {
+    "type": "Dead",
+    "deathDay": {
+     "day": 617504
+    },
+    "cause": {
+     "type": "OldAge"
+    }
+   },
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "bodyShape": "Hourglass",
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "pupilColor": "Teal"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "MiddlePart"
+      },
+      "color": "SaddleBrown"
+     },
+     "mouth": {
+      "type": "Female"
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "height": {
+     "value": 1.8
+    }
+   }
   }
  }
 }

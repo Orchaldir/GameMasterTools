@@ -41,22 +41,22 @@
     "previousOwners": [
      {
       "owner": {
+       "type": "Character",
+       "character": 2
+      },
+      "until": {
+       "type": "Day",
+       "day": 617505
+      }
+     },
+     {
+      "owner": {
        "type": "Town",
        "town": 0
       },
       "until": {
        "type": "Year",
-       "year": 1643
-      }
-     },
-     {
-      "owner": {
-       "type": "Character",
-       "character": 0
-      },
-      "until": {
-       "type": "Year",
-       "year": 1644
+       "year": 1904
       }
      }
     ]
