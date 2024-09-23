@@ -16,6 +16,10 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
+import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.model.world.building.OwnedByCharacter
+import at.orchaldir.gm.core.model.world.building.Ownership
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -26,6 +30,7 @@ import kotlin.test.assertFailsWith
 private val ID0 = CharacterId(0)
 private val ID1 = CharacterId(1)
 private val ID2 = CharacterId(2)
+private val BUILDING0 = BuildingId(0)
 private val CULTURE0 = CultureId(0)
 private val LANGUAGE0 = LanguageId(0)
 private val LANGUAGES = mapOf(LANGUAGE0 to ComprehensionLevel.Native)
@@ -84,8 +89,24 @@ class CharacterTest {
                 )
             )
 
-            assertIllegalArgument("Cannot delete character 0, because he is an language inventor!")
-            { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete character 0, because he is an language inventor!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a building owner`() {
+            val building = Building(BUILDING0, ownership = Ownership(OwnedByCharacter(ID0)))
+            val state = State(
+                listOf(
+                    Storage(listOf(Character(ID0))),
+                    Storage(listOf(building))
+                )
+            )
+
+            assertIllegalArgument("Cannot delete character 0, because he owns buildings!") {
+                REDUCER.invoke(state, action)
+            }
         }
 
         @Nested
