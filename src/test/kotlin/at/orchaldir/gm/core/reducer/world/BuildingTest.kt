@@ -283,6 +283,45 @@ class BuildingTest {
         }
 
         @Test
+        fun `Character owns a building before his birth`() {
+            val action = UpdateBuilding(ID0, "New", DAY0, OWNED_BY_CHARACTER)
+            val state =
+                State(
+                    listOf(
+                        Storage(Building(ID0)),
+                        Storage(CALENDAR),
+                        Storage(Character(CHARACTER0, birthDate = DAY1))
+                    )
+                )
+
+            assertIllegalArgument("Owner didn't exist at the start of their ownership!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
+        @Test
+        fun `First owner didn't exist yet`() {
+            val action = UpdateBuilding(ID0, "New", DAY0, TOWN_AS_PREVIOUS)
+            val state =
+                State(
+                    listOf(
+                        Storage(Building(ID0)), Storage(CALENDAR), Storage(Character(CHARACTER0)),
+                        Storage(Town(TOWN0, foundingDate = DAY1)),
+                    )
+                )
+
+            assertIllegalArgument("1.previous owner didn't exist at the start of their ownership!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
+        @Test
         fun `Successfully updated with character as owner`() {
             testSuccess(OWNED_BY_CHARACTER)
         }

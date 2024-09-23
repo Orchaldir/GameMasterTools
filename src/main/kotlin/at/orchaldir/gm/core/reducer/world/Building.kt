@@ -65,15 +65,16 @@ private fun checkOwnership(
     val calendar = state.getDefaultCalendar()
     var min = creationDate
 
-    checkOwnerStart(state, calendar, ownership.owner, "Owner", creationDate)
 
     ownership.previousOwners.withIndex().forEach { (index, previous) ->
         checkOwner(state, previous.owner, "previous owner")
-        checkOwnerStart(state, calendar, ownership.owner, "${index + 1}.previous owner", min)
+        checkOwnerStart(state, calendar, previous.owner, "${index + 1}.previous owner", min)
         require(calendar.compareTo(previous.until, min) > 0) { "${index + 1}.previous owner's until is too early!" }
 
         min = previous.until
     }
+
+    checkOwnerStart(state, calendar, ownership.owner, "Owner", min)
 }
 
 private fun checkOwner(
@@ -105,10 +106,7 @@ private fun checkOwnerStart(
         else -> return
     }
 
-    require(
-        calendar.compareTo(
-            startOwner,
-            startInterval
-        ) <= 0
-    ) { "$noun didn't exist at the start of their ownership!" }
+    require(calendar.compareTo(startOwner, startInterval) <= 0) {
+        "$noun didn't exist at the start of their ownership!"
+    }
 }
