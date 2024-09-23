@@ -200,6 +200,9 @@ class BuildingTest {
 
         private val OWNERSHIP = Ownership(OwnedByCharacter(CHARACTER0))
         private val OWNED_BY_TOWN = Ownership(OwnedByTown(TOWN0))
+        private val CHARACTER_AS_PREVIOUS =
+            Ownership(OwnedByTown(TOWN0), PreviousOwner(OwnedByCharacter(CHARACTER0), DAY1))
+        private val TOWN_AS_PREVIOUS = Ownership(OwnedByCharacter(CHARACTER0), PreviousOwner(OwnedByTown(TOWN0), DAY1))
 
         @Test
         fun `Cannot update unknown id`() {
@@ -226,6 +229,27 @@ class BuildingTest {
         }
 
         @Test
+        fun `Previous owner is an unknown character`() {
+            val action = UpdateBuilding(ID0, "New", DAY0, CHARACTER_AS_PREVIOUS)
+            val state = State(listOf(Storage(Building(ID0)), Storage(Town(TOWN0))))
+
+            assertIllegalArgument("Cannot use an unknown character 2 as previous owner!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
+        @Test
+        fun `Previous owner is an unknown town`() {
+            val action = UpdateBuilding(ID0, "New", DAY0, TOWN_AS_PREVIOUS)
+            val state = State(listOf(Storage(Building(ID0)), Storage(Character(CHARACTER0))))
+
+            assertIllegalArgument("Cannot use an unknown town 0 as previous owner!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
         fun `Successfully updated with character as owner`() {
             val action = UpdateBuilding(ID0, "New", DAY0, OWNERSHIP)
             val state = State(listOf(Storage(Building(ID0)), Storage(Character(CHARACTER0))))
@@ -243,6 +267,17 @@ class BuildingTest {
 
             assertEquals(
                 Building(ID0, "New", constructionDate = DAY0, ownership = OWNED_BY_TOWN),
+                REDUCER.invoke(state, action).first.getBuildingStorage().get(ID0)
+            )
+        }
+
+        @Test
+        fun `Successfully updated with character as previous owner`() {
+            val action = UpdateBuilding(ID0, "New", DAY0, CHARACTER_AS_PREVIOUS)
+            val state = State(listOf(Storage(Building(ID0)), Storage(Character(CHARACTER0)), Storage(Town(TOWN0))))
+
+            assertEquals(
+                Building(ID0, "New", constructionDate = DAY0, ownership = CHARACTER_AS_PREVIOUS),
                 REDUCER.invoke(state, action).first.getBuildingStorage().get(ID0)
             )
         }

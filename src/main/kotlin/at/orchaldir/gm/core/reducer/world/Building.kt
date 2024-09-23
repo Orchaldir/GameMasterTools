@@ -56,19 +56,22 @@ private fun checkOwnership(
     state: State,
     ownership: Ownership,
 ) {
-    checkOwner(state, ownership.owner)
+    checkOwner(state, ownership.owner, "owner")
+
+    ownership.previousOwners.forEach { checkOwner(state, it.owner, "previous owner") }
 }
 
 private fun checkOwner(
     state: State,
     owner: Owner,
+    noun: String,
 ) {
     when (owner) {
         is OwnedByCharacter -> state.getCharacterStorage()
-            .require(owner.character) { "Cannot use an unknown character ${owner.character.value} as owner!" }
+            .require(owner.character) { "Cannot use an unknown character ${owner.character.value} as $noun!" }
 
         is OwnedByTown -> state.getTownStorage()
-            .require(owner.town) { "Cannot use an unknown town ${owner.town.value} as owner!" }
+            .require(owner.town) { "Cannot use an unknown town ${owner.town.value} as $noun!" }
 
         else -> doNothing()
     }

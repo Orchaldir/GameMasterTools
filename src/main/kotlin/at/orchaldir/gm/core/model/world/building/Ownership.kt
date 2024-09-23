@@ -8,6 +8,7 @@ data class Ownership(
     val owner: Owner = UnknownOwner,
     val previousOwners: List<PreviousOwner> = emptyList(),
 ) {
+    constructor(owner: Owner, previousOwner: PreviousOwner) : this(owner, listOf(previousOwner))
 
     fun contains(character: CharacterId) = previousOwners.any { it.owner.contains(character) }
 
