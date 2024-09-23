@@ -305,15 +305,41 @@ class BuildingTest {
         @Test
         fun `First owner didn't exist yet`() {
             val action = UpdateBuilding(ID0, "New", DAY0, TOWN_AS_PREVIOUS)
-            val state =
-                State(
-                    listOf(
-                        Storage(Building(ID0)), Storage(CALENDAR), Storage(Character(CHARACTER0)),
-                        Storage(Town(TOWN0, foundingDate = DAY1)),
-                    )
+            val state = State(
+                listOf(
+                    Storage(Building(ID0)),
+                    Storage(CALENDAR),
+                    Storage(Character(CHARACTER0)),
+                    Storage(Town(TOWN0, foundingDate = DAY1)),
                 )
+            )
 
             assertIllegalArgument("1.previous owner didn't exist at the start of their ownership!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
+        @Test
+        fun `Second owner didn't exist yet`() {
+            val action = UpdateBuilding(
+                ID0, "New", DAY0, Ownership(
+                    NoOwner,
+                    listOf(PreviousOwner(OwnedByTown(TOWN0), DAY1), PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2))
+                )
+            )
+            val state = State(
+                listOf(
+                    Storage(Building(ID0)),
+                    Storage(CALENDAR),
+                    Storage(Character(CHARACTER0, birthDate = DAY2)),
+                    Storage(Town(TOWN0)),
+                )
+            )
+
+            assertIllegalArgument("2.previous owner didn't exist at the start of their ownership!") {
                 REDUCER.invoke(
                     state,
                     action
@@ -339,6 +365,16 @@ class BuildingTest {
         @Test
         fun `Successfully updated with town as previous owner`() {
             testSuccess(TOWN_AS_PREVIOUS)
+        }
+
+        @Test
+        fun `Successfully updated with 2 previous owners`() {
+            testSuccess(
+                Ownership(
+                    NoOwner,
+                    listOf(PreviousOwner(OwnedByTown(TOWN0), DAY1), PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2))
+                )
+            )
         }
 
         private fun testSuccess(ownership: Ownership) {
