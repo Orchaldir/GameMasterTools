@@ -62,18 +62,11 @@ private fun checkOrigin(
 
     when (val origin = character.origin) {
         is Born -> {
-            require(
-                state.getCharacterStorage().contains(origin.mother)
-            ) { "Cannot use an unknown mother ${origin.mother.value}!" }
-            require(
-                state.getCharacterStorage().getOrThrow(origin.mother).gender == Gender.Female
-            ) { "Mother ${origin.mother.value} is not female!" }
-            require(
-                state.getCharacterStorage().contains(origin.father)
-            ) { "Cannot use an unknown father ${origin.father.value}!" }
-            require(
-                state.getCharacterStorage().getOrThrow(origin.father).gender == Gender.Male
-            ) { "Father ${origin.father.value} is not male!" }
+            val storage = state.getCharacterStorage()
+            storage.require(origin.mother) { "Cannot use an unknown mother ${origin.mother.value}!" }
+            require(storage.getOrThrow(origin.mother).gender == Gender.Female) { "Mother ${origin.mother.value} is not female!" }
+            storage.require(origin.father) { "Cannot use an unknown father ${origin.father.value}!" }
+            require(storage.getOrThrow(origin.father).gender == Gender.Male) { "Father ${origin.father.value} is not male!" }
         }
 
         else -> doNothing()

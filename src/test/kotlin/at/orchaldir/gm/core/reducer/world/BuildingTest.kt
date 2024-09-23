@@ -209,6 +209,14 @@ class BuildingTest {
         }
 
         @Test
+        fun `Owner is an unknown character`() {
+            val action = UpdateBuilding(ID0, "New", DAY0, OWNERSHIP)
+            val state = State(listOf(Storage(Building(ID0))))
+
+            assertIllegalArgument("Cannot use an unknown character 2 as owner!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
         fun `Successfully updated`() {
             val action = UpdateBuilding(ID0, "New", DAY0, OWNERSHIP)
             val state = State(listOf(Storage(Building(ID0)), Storage(Character(CHARACTER0))))

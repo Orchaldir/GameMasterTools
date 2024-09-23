@@ -55,4 +55,8 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
     fun require(id: ID) {
         require(contains(id)) { "Requires unknown ${getType()} ${id.value()}!" }
     }
+
+    fun require(id: ID, message: () -> String) {
+        require(contains(id)) { message() }
+    }
 }

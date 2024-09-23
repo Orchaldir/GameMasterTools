@@ -4,9 +4,9 @@ import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.BuildingLot
+import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.town.BuildingTile
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -44,7 +44,32 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
 
 val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
+
+    checkOwnership(state, action.ownership)
+
     val building = action.applyTo(oldBuilding)
 
     noFollowUps(state.updateStorage(state.getBuildingStorage().update(building)))
+}
+
+private fun checkOwnership(
+    state: State,
+    ownership: Ownership,
+) {
+    checkOwner(state, ownership.owner)
+}
+
+private fun checkOwner(
+    state: State,
+    owner: Owner,
+) {
+    when (owner) {
+        is OwnedByCharacter -> state.getCharacterStorage()
+            .require(owner.character) { "Cannot use an unknown character ${owner.character.value} as owner!" }
+
+        is OwnedByTown -> state.getTownStorage()
+            .require(owner.town) { "Cannot use an unknown town ${owner.town.value} as owner!" }
+
+        else -> doNothing()
+    }
 }
