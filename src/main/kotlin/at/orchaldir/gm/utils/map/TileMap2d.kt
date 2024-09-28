@@ -17,24 +17,21 @@ data class TileMap2d<TILE>(
     }
 
     fun resize(
-        widthStart: Int,
-        widthEnd: Int,
-        heightStart: Int,
-        heightEnd: Int,
+        resize: Resize,
         tile: TILE,
     ): TileMap2d<TILE> {
-        val newSize = MapSize2d(size.width + widthStart + widthEnd, size.height + heightStart + heightEnd)
+        val newSize = size.apply(resize)
         val newTiles = createTiles(newSize, tile).toMutableList()
 
         for (y in 0..<(size.height)) {
-            val newY = y + heightStart
+            val newY = y + resize.heightStart
 
             if (!newSize.isYInside(newY)) {
                 continue
             }
 
             for (x in 0..<(size.width)) {
-                val newX = x + widthStart
+                val newX = x + resize.widthStart
 
                 if (!newSize.isXInside(newX)) {
                     continue
@@ -48,6 +45,14 @@ data class TileMap2d<TILE>(
         }
 
         return TileMap2d(newSize, newTiles)
+    }
+
+    fun getIndexAfterResize(index: Int, resize: Resize): Int {
+        val newSize = size.apply(resize)
+        val newX = resize.widthStart + size.toX(index)
+        val newY = resize.heightStart + size.toY(index)
+
+        return newSize.toIndexRisky(newX, newY)
     }
 
     fun requireIsInside(index: Int) = require(size.isInside(index)) { "Tile $index is outside the map!" }

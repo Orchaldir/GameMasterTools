@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.utils.map.Resize
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -60,10 +61,23 @@ val RESIZE_TERRAIN: Reducer<ResizeTown, State> = { state, action ->
     val terrain = createTerrain(state, action.terrainType, action.terrainId)
     val tile = TownTile(terrain)
 
-    val newMap = oldTown.map.resize(action.widthStart, action.widthEnd, action.heightStart, action.heightEnd, tile)
+    val newMap = oldTown.map.resize(action.resize, tile)
     val newTown = oldTown.copy(map = newMap)
+    val newBuildings = state.getBuildingStorage().getAll()
+        .filter { it.lot.town == action.town }
+        .map { building ->
+            val newIndex = oldTown.map.getIndexAfterResize(building.lot.tileIndex, action.resize)
+            building.copy(lot = building.lot.copy(tileIndex = newIndex))
+        }
 
-    noFollowUps(state.updateStorage(state.getTownStorage().update(newTown)))
+    noFollowUps(
+        state.updateStorage(
+            listOf(
+                state.getBuildingStorage().update(newBuildings),
+                state.getTownStorage().update(newTown),
+            )
+        )
+    )
 }
 
 private fun createTerrain(

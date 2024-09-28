@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.map.Resize
 import at.orchaldir.gm.visualization.town.visualizeTerrain
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -69,12 +70,15 @@ fun Application.configureTerrainRouting() {
             val params = call.receiveParameters()
             val terrainType = parseTerrainType(params)
             val terrainId: Int = parseInt(params, TERRAIN, 0)
-            val widthStart = parseInt(params, combine(WIDTH, START), 0)
-            val widthEnd = parseInt(params, combine(WIDTH, END), 0)
-            val heightStart = parseInt(params, combine(HEIGHT, START), 0)
-            val heightEnd = parseInt(params, combine(HEIGHT, END), 0)
+            val resize = Resize(
+                parseInt(params, combine(WIDTH, START), 0),
+                parseInt(params, combine(WIDTH, END), 0),
+                parseInt(params, combine(HEIGHT, START), 0),
+                parseInt(params, combine(HEIGHT, END), 0),
+            )
 
-            STORE.dispatch(ResizeTown(update.id, terrainType, terrainId, widthStart, widthEnd, heightStart, heightEnd))
+
+            STORE.dispatch(ResizeTown(update.id, resize, terrainType, terrainId))
 
             STORE.getState().save()
 
