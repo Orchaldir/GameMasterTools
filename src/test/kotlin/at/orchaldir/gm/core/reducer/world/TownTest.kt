@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.assertIllegalState
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.Building
@@ -408,6 +409,17 @@ class TownTest {
 
             assertEquals(newBuilding, newState.getBuildingStorage().getOrThrow(BUILDING0))
             assertEquals(newMap, newState.getTownStorage().getOrThrow(ID0).map)
+        }
+
+        @Test
+        fun `Resize would remove a building`() {
+            val oldMap = TileMap2d(MapSize2d(2, 1), listOf(EMPTY, BUILDING_TILE))
+            val oldTown = Town(ID0, map = oldMap)
+            val oldBuilding = Building(BUILDING0, lot = BuildingLot(ID0, 1, MapSize2d.square(1)))
+            val state = State(listOf(Storage(oldBuilding), Storage(oldTown)))
+            val action = ResizeTown(ID0, Resize(0, -1, 0, 0), TerrainType.Plain, 0)
+
+            assertIllegalState("Resize would remove building 0!") { REDUCER.invoke(state, action) }
         }
 
         private fun testResize(

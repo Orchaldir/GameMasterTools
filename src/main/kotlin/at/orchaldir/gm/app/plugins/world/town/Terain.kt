@@ -128,6 +128,8 @@ private fun HTML.showTerrainEditor(
                         createRiverLink,
                     )
                 }
+                h2 { +"Update Terrain of Tile" }
+                p { +"Click on a tile to change it's terrain to the type above." }
                 h2 { +"Resize" }
                 field("Size", town.map.size.format())
                 val maxDelta = 100

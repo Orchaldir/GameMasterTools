@@ -67,7 +67,12 @@ val RESIZE_TERRAIN: Reducer<ResizeTown, State> = { state, action ->
         .filter { it.lot.town == action.town }
         .map { building ->
             val newIndex = oldTown.map.getIndexAfterResize(building.lot.tileIndex, action.resize)
-            building.copy(lot = building.lot.copy(tileIndex = newIndex))
+
+            if (newIndex != null) {
+                building.copy(lot = building.lot.copy(tileIndex = newIndex))
+            } else {
+                error("Resize would remove building ${building.id.value}!")
+            }
         }
 
     noFollowUps(

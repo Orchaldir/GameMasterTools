@@ -47,12 +47,12 @@ data class TileMap2d<TILE>(
         return TileMap2d(newSize, newTiles)
     }
 
-    fun getIndexAfterResize(index: Int, resize: Resize): Int {
+    fun getIndexAfterResize(index: Int, resize: Resize): Int? {
         val newSize = size.apply(resize)
         val newX = resize.widthStart + size.toX(index)
         val newY = resize.heightStart + size.toY(index)
 
-        return newSize.toIndexRisky(newX, newY)
+        return newSize.toIndex(newX, newY)
     }
 
     fun requireIsInside(index: Int) = require(size.isInside(index)) { "Tile $index is outside the map!" }
