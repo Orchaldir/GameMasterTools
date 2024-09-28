@@ -25,3 +25,10 @@ fun State.getTowns(river: RiverId) = getTownStorage().getAll()
 fun State.getTowns(street: StreetId) = getTownStorage().getAll()
     .filter { it.map.contains { it.construction.contains(street) } }
 
+// map size
+
+fun State.getMinWidthStart(town: Town): Int {
+    return getBuildings(town.id)
+        .maxOfOrNull { b -> -town.map.size.toX(b.lot.tileIndex) }
+        ?: (town.map.size.width - 1)
+}

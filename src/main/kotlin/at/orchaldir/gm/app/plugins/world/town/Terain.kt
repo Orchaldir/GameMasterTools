@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.TerrainType
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.core.selector.world.getMinWidthStart
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
@@ -133,7 +134,13 @@ private fun HTML.showTerrainEditor(
                 h2 { +"Resize" }
                 field("Size", town.map.size.format())
                 val maxDelta = 100
-                selectInt("Add/Remove Columns At Start", 0, -maxDelta, maxDelta, combine(WIDTH, START))
+                selectInt(
+                    "Add/Remove Columns At Start",
+                    0,
+                    state.getMinWidthStart(town),
+                    maxDelta,
+                    combine(WIDTH, START)
+                )
                 selectInt("Add/Remove Columns At End", 0, -maxDelta, maxDelta, combine(WIDTH, END))
                 selectInt("Add/Remove Rows At Start", 0, -maxDelta, maxDelta, combine(HEIGHT, START))
                 selectInt("Add/Remove Rows At End", 0, -maxDelta, maxDelta, combine(HEIGHT, END))
