@@ -22,6 +22,7 @@ import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -60,17 +61,11 @@ fun Application.configureTerrainRouting() {
 
             STORE.getState().save()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                val state = STORE.getState()
-                val town = state.getTownStorage().getOrThrow(update.id)
-                showTerrainEditor(call, state, town, update.terrainType, update.terrainId)
-            }
+            call.respondRedirect(call.application.href(TownRoutes.TerrainRoutes.Edit(update.id)))
         }
         post<TownRoutes.TerrainRoutes.Resize> { update ->
             logger.info { "Resize the terrain of town ${update.id.value}" }
 
-            val state = STORE.getState()
-            val town = state.getTownStorage().getOrThrow(update.id)
             val params = call.receiveParameters()
             val terrainType = parseTerrainType(params)
             val terrainId: Int = parseInt(params, TERRAIN, 0)
@@ -83,9 +78,7 @@ fun Application.configureTerrainRouting() {
 
             STORE.getState().save()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showTerrainEditor(call, state, town, terrainType, terrainId)
-            }
+            call.respondRedirect(call.application.href(TownRoutes.TerrainRoutes.Edit(update.id)))
         }
     }
 }
@@ -131,6 +124,7 @@ private fun HTML.showTerrainEditor(
                     )
                 }
                 h2 { +"Resize" }
+                field("Size", town.map.size.format())
                 val maxDelta = 100
                 selectInt("Add/Remove Columns At Start", 0, -maxDelta, maxDelta, combine(WIDTH, START))
                 selectInt("Add/Remove Columns At End", 0, -maxDelta, maxDelta, combine(WIDTH, END))

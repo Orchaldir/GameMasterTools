@@ -60,7 +60,7 @@ val RESIZE_TERRAIN: Reducer<ResizeTown, State> = { state, action ->
     val terrain = createTerrain(state, action.terrainType, action.terrainId)
     val tile = TownTile(terrain)
 
-    val newMap = oldTown.map.resize(action.widthStart, action.widthEnd, action.heightStart, action.widthEnd, tile)
+    val newMap = oldTown.map.resize(action.widthStart, action.widthEnd, action.heightStart, action.heightEnd, tile)
     val newTown = oldTown.copy(map = newMap)
 
     noFollowUps(state.updateStorage(state.getTownStorage().update(newTown)))
