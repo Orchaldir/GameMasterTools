@@ -50,3 +50,27 @@ fun getMinWidthEnd(town: Town) = town.map.tiles
     }
     .maxOrNull()
     ?: (town.map.size.width - 1)
+
+fun getMinHeightStart(town: Town) = town.map.tiles
+    .withIndex()
+    .mapNotNull { (index, tile) ->
+        if (!tile.canBuild()) {
+            -town.map.size.toY(index)
+        } else {
+            null
+        }
+    }
+    .maxOrNull()
+    ?: (town.map.size.height - 1)
+
+fun getMinHeightEnd(town: Town) = town.map.tiles
+    .withIndex()
+    .mapNotNull { (index, tile) ->
+        if (!tile.canBuild()) {
+            1 - (town.map.size.height - town.map.size.toY(index))
+        } else {
+            null
+        }
+    }
+    .maxOrNull()
+    ?: (town.map.size.height - 1)

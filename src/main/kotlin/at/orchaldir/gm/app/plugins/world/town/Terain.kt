@@ -12,9 +12,7 @@ import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.TerrainType
 import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.selector.world.getBuildings
-import at.orchaldir.gm.core.selector.world.getMinWidthEnd
-import at.orchaldir.gm.core.selector.world.getMinWidthStart
+import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
@@ -143,8 +141,8 @@ private fun HTML.showTerrainEditor(
                     combine(WIDTH, START)
                 )
                 selectInt("Add/Remove Columns At End", 0, getMinWidthEnd(town), maxDelta, combine(WIDTH, END))
-                selectInt("Add/Remove Rows At Start", 0, -maxDelta, maxDelta, combine(HEIGHT, START))
-                selectInt("Add/Remove Rows At End", 0, -maxDelta, maxDelta, combine(HEIGHT, END))
+                selectInt("Add/Remove Rows At Start", 0, getMinHeightStart(town), maxDelta, combine(HEIGHT, START))
+                selectInt("Add/Remove Rows At End", 0, getMinHeightEnd(town), maxDelta, combine(HEIGHT, END))
                 button("Resize", resizeLink)
             }
             back(backLink)
