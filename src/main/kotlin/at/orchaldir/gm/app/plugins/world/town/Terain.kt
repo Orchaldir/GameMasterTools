@@ -12,11 +12,12 @@ import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.TerrainType
 import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.Resize
-import at.orchaldir.gm.visualization.town.visualizeTerrain
+import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -138,9 +139,9 @@ private fun HTML.showTerrainEditor(
             }
             back(backLink)
         }, {
-            svg(visualizeTerrain(town) { index, _ ->
+            svg(visualizeTown(town, state.getBuildings(town.id), tileLinkLookup = { index, _ ->
                 call.application.href(TownRoutes.TerrainRoutes.Update(town.id, terrainType, terrainId, index))
-            }, 90)
+            }), 90)
         })
     }
 }
