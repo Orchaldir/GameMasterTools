@@ -205,6 +205,7 @@ data class ResizeTown(
     val heightStart: Int = 0,
     val heightEnd: Int = 0,
 ) : WorldAction()
+
 data class SetTerrainTile(
     val town: TownId,
     val terrainType: TerrainType,

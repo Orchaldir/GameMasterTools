@@ -22,6 +22,7 @@ import kotlin.test.assertFailsWith
 private val ID0 = TownId(0)
 private val BUILDING0 = BuildingId(0)
 private val MOUNTAIN0 = MountainId(0)
+private val MOUNTAIN1 = MountainId(1)
 private val RIVER0 = RiverId(0)
 private val STREET0 = StreetId(0)
 private val STREET1 = StreetId(1)
@@ -313,7 +314,7 @@ class TownTest {
             testResize(
                 MapSize2d(2, 1),
                 listOf(EMPTY, RIVER_TILE),
-                ResizeTown(ID0, TerrainType.River, 0, -1),
+                ResizeTown(ID0, TerrainType.Mountain, 1, -1),
                 MapSize2d(1, 1),
                 listOf(RIVER_TILE),
             )
@@ -335,7 +336,7 @@ class TownTest {
             testResize(
                 MapSize2d(2, 1),
                 listOf(RIVER_TILE, EMPTY),
-                ResizeTown(ID0, TerrainType.River, 0, widthEnd = -1),
+                ResizeTown(ID0, TerrainType.Mountain, 1, widthEnd = -1),
                 MapSize2d(1, 1),
                 listOf(RIVER_TILE),
             )
@@ -357,7 +358,29 @@ class TownTest {
             testResize(
                 MapSize2d(1, 2),
                 listOf(EMPTY, RIVER_TILE),
-                ResizeTown(ID0, TerrainType.River, 0, heightStart = -1),
+                ResizeTown(ID0, TerrainType.Mountain, 1, heightStart = -1),
+                MapSize2d(1, 1),
+                listOf(RIVER_TILE),
+            )
+        }
+
+        @Test
+        fun `Add row at end`() {
+            testResize(
+                MapSize2d(2, 1),
+                listOf(EMPTY, EMPTY),
+                ResizeTown(ID0, TerrainType.River, 0, heightEnd = 1),
+                MapSize2d(2, 2),
+                listOf(EMPTY, EMPTY, RIVER_TILE, RIVER_TILE),
+            )
+        }
+
+        @Test
+        fun `Remove row at end`() {
+            testResize(
+                MapSize2d(1, 2),
+                listOf(RIVER_TILE, EMPTY),
+                ResizeTown(ID0, TerrainType.Mountain, 1, heightEnd = -1),
                 MapSize2d(1, 1),
                 listOf(RIVER_TILE),
             )
@@ -373,7 +396,7 @@ class TownTest {
             val oldMap = TileMap2d(oldSize, oldTiles)
             val newMap = TileMap2d(newSize, newTiles)
             val oldTown = Town(ID0, map = oldMap)
-            val state = State(listOf(Storage(River(RIVER0)), Storage(oldTown)))
+            val state = State(listOf(Storage(River(RIVER0)), Storage(Mountain(MOUNTAIN1)), Storage(oldTown)))
 
             assertEquals(newMap, REDUCER.invoke(state, action).first.getTownStorage().getOrThrow(ID0).map)
         }
