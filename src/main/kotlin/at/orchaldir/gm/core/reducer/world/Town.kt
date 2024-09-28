@@ -73,3 +73,7 @@ val SET_TERRAIN_TILE: Reducer<SetTerrainTile, State> = { state, action ->
 
     noFollowUps(state.updateStorage(state.getTownStorage().update(town)))
 }
+
+val RESIZE_TERRAIN: Reducer<ResizeTown, State> = { state, action ->
+    noFollowUps(state)
+}

@@ -196,6 +196,15 @@ data class RemoveStreetTile(
 
 // town's terrain
 
+data class ResizeTown(
+    val id: TownId,
+    val terrainType: TerrainType,
+    val terrainId: Int,
+    val widthStart: Int,
+    val widthEnd: Int,
+    val heightStart: Int,
+    val heightEnd: Int,
+) : WorldAction()
 data class SetTerrainTile(
     val town: TownId,
     val terrainType: TerrainType,

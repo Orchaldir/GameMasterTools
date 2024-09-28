@@ -1,14 +1,13 @@
 package at.orchaldir.gm.app.plugins.world.town
 
-import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.TERRAIN
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.world.parseTerrainType
 import at.orchaldir.gm.app.plugins.world.MountainRoutes
 import at.orchaldir.gm.app.plugins.world.RiverRoutes
+import at.orchaldir.gm.core.action.ResizeTown
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.TerrainType
@@ -47,7 +46,7 @@ fun Application.configureTerrainRouting() {
             val state = STORE.getState()
             val town = state.getTownStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
-            val terrainType = parse(params, combine(TERRAIN, TYPE), TerrainType.Plain)
+            val terrainType = parseTerrainType(params)
             val terrainId: Int = parseInt(params, TERRAIN, 0)
 
             call.respondHtml(HttpStatusCode.OK) {
@@ -65,6 +64,27 @@ fun Application.configureTerrainRouting() {
                 val state = STORE.getState()
                 val town = state.getTownStorage().getOrThrow(update.id)
                 showTerrainEditor(call, state, town, update.terrainType, update.terrainId)
+            }
+        }
+        get<TownRoutes.TerrainRoutes.Resize> { update ->
+            logger.info { "Resize the terrain of town ${update.id.value}" }
+
+            val state = STORE.getState()
+            val town = state.getTownStorage().getOrThrow(update.id)
+            val params = call.receiveParameters()
+            val terrainType = parseTerrainType(params)
+            val terrainId: Int = parseInt(params, TERRAIN, 0)
+            val widthStart = parseInt(params, combine(WIDTH, START), 0)
+            val widthEnd = parseInt(params, combine(WIDTH, END), 0)
+            val heightStart = parseInt(params, combine(HEIGHT, START), 0)
+            val heightEnd = parseInt(params, combine(HEIGHT, END), 0)
+
+            STORE.dispatch(ResizeTown(update.id, terrainType, terrainId, widthStart, widthEnd, heightStart, heightEnd))
+
+            STORE.getState().save()
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showTerrainEditor(call, state, town, terrainType, terrainId)
             }
         }
     }
@@ -109,6 +129,12 @@ private fun HTML.showTerrainEditor(
                         createRiverLink,
                     )
                 }
+                h2 { +"Resize" }
+                val maxDelta = 100
+                selectInt("Add/Remove Columns At Start", 0, -maxDelta, maxDelta, combine(WIDTH, START))
+                selectInt("Add/Remove Columns At End", 0, -maxDelta, maxDelta, combine(WIDTH, END))
+                selectInt("Add/Remove Rows At Start", 0, -maxDelta, maxDelta, combine(HEIGHT, START))
+                selectInt("Add/Remove Rows At End", 0, -maxDelta, maxDelta, combine(HEIGHT, END))
             }
             back(backLink)
         }, {

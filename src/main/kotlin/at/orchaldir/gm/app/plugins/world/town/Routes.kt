@@ -81,5 +81,8 @@ class TownRoutes {
             val tileIndex: Int,
             val parent: TerrainRoutes = TerrainRoutes(),
         )
+
+        @Resource("resize")
+        class Resize(val id: TownId, val parent: TerrainRoutes = TerrainRoutes())
     }
 }
