@@ -19,7 +19,11 @@ data class MapSize2d(val width: Int, val height: Int) {
 
     fun isInside(index: Int) = index in 0..<tiles()
 
-    fun isInside(x: Int, y: Int) = x in 0..<width && y in 0..<height
+    fun isInside(x: Int, y: Int) = isXInside(x) && isYInside(y)
+
+    fun isXInside(x: Int) = x in 0..<width
+
+    fun isYInside(y: Int) = y in 0..<height
 
     fun toIndices(index: Int, size: MapSize2d): List<Int>? {
         if (!isInside(index)) {

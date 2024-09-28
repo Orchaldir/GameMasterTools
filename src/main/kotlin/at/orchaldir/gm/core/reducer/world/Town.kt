@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -48,32 +49,44 @@ val REMOVE_STREET_TILE: Reducer<RemoveStreetTile, State> = { state, action ->
 
 val SET_TERRAIN_TILE: Reducer<SetTerrainTile, State> = { state, action ->
     val oldTown = state.getTownStorage().getOrThrow(action.town)
+    val terrain = createTerrain(state, action.terrainType, action.terrainId)
+    val newTown = oldTown.setTerrain(action.tileIndex, terrain)
 
-    val terrain = when (action.terrainType) {
-        TerrainType.Hill -> {
-            val mountainId = MountainId(action.terrainId)
-            state.getMountainStorage().require(mountainId)
-            HillTerrain(mountainId)
-        }
-
-        TerrainType.Mountain -> {
-            val mountainId = MountainId(action.terrainId)
-            state.getMountainStorage().require(mountainId)
-            MountainTerrain(mountainId)
-        }
-
-        TerrainType.Plain -> PlainTerrain
-        TerrainType.River -> {
-            val riverId = RiverId(action.terrainId)
-            state.getRiverStorage().require(riverId)
-            RiverTerrain(riverId)
-        }
-    }
-    val town = oldTown.setTerrain(action.tileIndex, terrain)
-
-    noFollowUps(state.updateStorage(state.getTownStorage().update(town)))
+    noFollowUps(state.updateStorage(state.getTownStorage().update(newTown)))
 }
 
 val RESIZE_TERRAIN: Reducer<ResizeTown, State> = { state, action ->
-    noFollowUps(state)
+    val oldTown = state.getTownStorage().getOrThrow(action.town)
+    val terrain = createTerrain(state, action.terrainType, action.terrainId)
+    val tile = TownTile(terrain)
+
+    val newMap = oldTown.map.resize(action.widthStart, action.widthEnd, action.heightStart, action.widthEnd, tile)
+    val newTown = oldTown.copy(map = newMap)
+
+    noFollowUps(state.updateStorage(state.getTownStorage().update(newTown)))
+}
+
+private fun createTerrain(
+    state: State,
+    terrainType: TerrainType,
+    terrainId: Int,
+) = when (terrainType) {
+    TerrainType.Hill -> {
+        val mountainId = MountainId(terrainId)
+        state.getMountainStorage().require(mountainId)
+        HillTerrain(mountainId)
+    }
+
+    TerrainType.Mountain -> {
+        val mountainId = MountainId(terrainId)
+        state.getMountainStorage().require(mountainId)
+        MountainTerrain(mountainId)
+    }
+
+    TerrainType.Plain -> PlainTerrain
+    TerrainType.River -> {
+        val riverId = RiverId(terrainId)
+        state.getRiverStorage().require(riverId)
+        RiverTerrain(riverId)
+    }
 }

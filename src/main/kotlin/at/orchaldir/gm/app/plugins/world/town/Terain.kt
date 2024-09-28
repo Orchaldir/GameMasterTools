@@ -66,7 +66,7 @@ fun Application.configureTerrainRouting() {
                 showTerrainEditor(call, state, town, update.terrainType, update.terrainId)
             }
         }
-        get<TownRoutes.TerrainRoutes.Resize> { update ->
+        post<TownRoutes.TerrainRoutes.Resize> { update ->
             logger.info { "Resize the terrain of town ${update.id.value}" }
 
             val state = STORE.getState()
@@ -101,6 +101,7 @@ private fun HTML.showTerrainEditor(
     val previewLink = call.application.href(TownRoutes.TerrainRoutes.Preview(town.id))
     val createMountainLink = call.application.href(MountainRoutes.New())
     val createRiverLink = call.application.href(RiverRoutes.New())
+    val resizeLink = call.application.href(TownRoutes.TerrainRoutes.Resize(town.id))
 
     simpleHtml("Edit Terrain of Town ${town.name}") {
         split({
@@ -135,6 +136,13 @@ private fun HTML.showTerrainEditor(
                 selectInt("Add/Remove Columns At End", 0, -maxDelta, maxDelta, combine(WIDTH, END))
                 selectInt("Add/Remove Rows At Start", 0, -maxDelta, maxDelta, combine(HEIGHT, START))
                 selectInt("Add/Remove Rows At End", 0, -maxDelta, maxDelta, combine(HEIGHT, END))
+                p {
+                    submitInput {
+                        value = "Resize"
+                        formAction = resizeLink
+                        formMethod = InputFormMethod.post
+                    }
+                }
             }
             back(backLink)
         }, {

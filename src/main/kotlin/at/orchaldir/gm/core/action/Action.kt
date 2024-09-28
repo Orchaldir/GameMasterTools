@@ -197,7 +197,7 @@ data class RemoveStreetTile(
 // town's terrain
 
 data class ResizeTown(
-    val id: TownId,
+    val town: TownId,
     val terrainType: TerrainType,
     val terrainId: Int,
     val widthStart: Int,
