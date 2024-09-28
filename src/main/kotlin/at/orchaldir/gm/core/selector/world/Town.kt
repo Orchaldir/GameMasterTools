@@ -32,3 +32,9 @@ fun State.getMinWidthStart(town: Town): Int {
         .maxOfOrNull { b -> -town.map.size.toX(b.lot.tileIndex) }
         ?: (town.map.size.width - 1)
 }
+
+fun State.getMinWidthEnd(town: Town): Int {
+    return getBuildings(town.id)
+        .maxOfOrNull { b -> 1 - (town.map.size.width - town.map.size.toX(b.lot.tileIndex)) }
+        ?: (town.map.size.width - 1)
+}
