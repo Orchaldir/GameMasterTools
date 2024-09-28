@@ -298,20 +298,57 @@ class TownTest {
 
         @Test
         fun `Add row at start`() {
-            val action = ResizeTown(ID0, TerrainType.River, 0, 1)
-            val oldMap = TileMap2d(MapSize2d(2, 1), EMPTY)
-            val newMap = TileMap2d(MapSize2d(3, 1), listOf(TownTile(RiverTerrain(RIVER0)), EMPTY, EMPTY))
-            val oldTown = Town(ID0, map = oldMap)
-            val state = State(listOf(Storage(River(RIVER0)), Storage(oldTown)))
-
-            assertEquals(newMap, REDUCER.invoke(state, action).first.getTownStorage().getOrThrow(ID0).map)
+            testResize(
+                MapSize2d(2, 1),
+                listOf(EMPTY, EMPTY),
+                ResizeTown(ID0, TerrainType.River, 0, 1),
+                MapSize2d(3, 1),
+                listOf(TownTile(RiverTerrain(RIVER0)), EMPTY, EMPTY),
+            )
         }
 
         @Test
         fun `Remove row at start`() {
-            val action = ResizeTown(ID0, TerrainType.River, 0, -1)
-            val oldMap = TileMap2d(MapSize2d(2, 1), listOf(EMPTY, TownTile(RiverTerrain(RIVER0))))
-            val newMap = TileMap2d(MapSize2d(1, 1), listOf(TownTile(RiverTerrain(RIVER0))))
+            testResize(
+                MapSize2d(2, 1),
+                listOf(EMPTY, TownTile(RiverTerrain(RIVER0))),
+                ResizeTown(ID0, TerrainType.River, 0, -1),
+                MapSize2d(1, 1),
+                listOf(TownTile(RiverTerrain(RIVER0))),
+            )
+        }
+
+        @Test
+        fun `Add row at end`() {
+            testResize(
+                MapSize2d(2, 1),
+                listOf(EMPTY, EMPTY),
+                ResizeTown(ID0, TerrainType.River, 0, widthEnd = 1),
+                MapSize2d(3, 1),
+                listOf(EMPTY, EMPTY, TownTile(RiverTerrain(RIVER0))),
+            )
+        }
+
+        @Test
+        fun `Remove row at end`() {
+            testResize(
+                MapSize2d(2, 1),
+                listOf(TownTile(RiverTerrain(RIVER0)), EMPTY),
+                ResizeTown(ID0, TerrainType.River, 0, widthEnd = -1),
+                MapSize2d(1, 1),
+                listOf(TownTile(RiverTerrain(RIVER0))),
+            )
+        }
+
+        private fun testResize(
+            oldSize: MapSize2d,
+            oldTiles: List<TownTile>,
+            action: ResizeTown,
+            newSize: MapSize2d,
+            newTiles: List<TownTile>,
+        ) {
+            val oldMap = TileMap2d(oldSize, oldTiles)
+            val newMap = TileMap2d(newSize, newTiles)
             val oldTown = Town(ID0, map = oldMap)
             val state = State(listOf(Storage(River(RIVER0)), Storage(oldTown)))
 
