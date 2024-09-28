@@ -303,6 +303,26 @@ class TownTest {
         }
 
         @Test
+        fun `Resize would reduce width to 0`() {
+            val oldMap = TileMap2d(MapSize2d(2, 1), EMPTY)
+            val oldTown = Town(ID0, map = oldMap)
+            val state = State(listOf(Storage(oldTown)))
+            val action = ResizeTown(ID0, Resize(-2), TerrainType.Plain, 0)
+
+            assertIllegalArgument("Width must be greater or equal 0!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Resize would reduce height to 0`() {
+            val oldMap = TileMap2d(MapSize2d(1, 2), EMPTY)
+            val oldTown = Town(ID0, map = oldMap)
+            val state = State(listOf(Storage(oldTown)))
+            val action = ResizeTown(ID0, Resize(heightEnd = -2), TerrainType.Plain, 0)
+
+            assertIllegalArgument("Height must be greater or equal 0!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
         fun `Add column at start`() {
             testResize(
                 MapSize2d(2, 1),

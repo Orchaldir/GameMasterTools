@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
 data class MapSize2d(val width: Int, val height: Int) {
 
     init {
-        require(width > 0) { "Width muster be greater or equal 0!" }
-        require(height > 0) { "Height muster be greater or equal 0!" }
+        require(width > 0) { "Width must be greater or equal 0!" }
+        require(height > 0) { "Height must be greater or equal 0!" }
     }
 
     companion object {
