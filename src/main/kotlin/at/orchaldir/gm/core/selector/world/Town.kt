@@ -27,14 +27,26 @@ fun State.getTowns(street: StreetId) = getTownStorage().getAll()
 
 // map size
 
-fun State.getMinWidthStart(town: Town): Int {
-    return getBuildings(town.id)
-        .maxOfOrNull { b -> -town.map.size.toX(b.lot.tileIndex) }
-        ?: (town.map.size.width - 1)
-}
+fun getMinWidthStart(town: Town) = town.map.tiles
+    .withIndex()
+    .mapNotNull { (index, tile) ->
+        if (!tile.canBuild()) {
+            -town.map.size.toX(index)
+        } else {
+            null
+        }
+    }
+    .maxOrNull()
+    ?: (town.map.size.width - 1)
 
-fun State.getMinWidthEnd(town: Town): Int {
-    return getBuildings(town.id)
-        .maxOfOrNull { b -> 1 - (town.map.size.width - town.map.size.toX(b.lot.tileIndex)) }
-        ?: (town.map.size.width - 1)
-}
+fun getMinWidthEnd(town: Town) = town.map.tiles
+    .withIndex()
+    .mapNotNull { (index, tile) ->
+        if (!tile.canBuild()) {
+            1 - (town.map.size.width - town.map.size.toX(index))
+        } else {
+            null
+        }
+    }
+    .maxOrNull()
+    ?: (town.map.size.width - 1)

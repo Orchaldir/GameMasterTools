@@ -138,11 +138,11 @@ private fun HTML.showTerrainEditor(
                 selectInt(
                     "Add/Remove Columns At Start",
                     0,
-                    state.getMinWidthStart(town),
+                    getMinWidthStart(town),
                     maxDelta,
                     combine(WIDTH, START)
                 )
-                selectInt("Add/Remove Columns At End", 0, state.getMinWidthEnd(town), maxDelta, combine(WIDTH, END))
+                selectInt("Add/Remove Columns At End", 0, getMinWidthEnd(town), maxDelta, combine(WIDTH, END))
                 selectInt("Add/Remove Rows At Start", 0, -maxDelta, maxDelta, combine(HEIGHT, START))
                 selectInt("Add/Remove Rows At End", 0, -maxDelta, maxDelta, combine(HEIGHT, END))
                 button("Resize", resizeLink)
