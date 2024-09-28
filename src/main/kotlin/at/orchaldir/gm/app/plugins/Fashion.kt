@@ -175,13 +175,7 @@ private fun HTML.showFashionEditor(
             EquipmentType.entries.forEach {
                 selectEquipmentType(state, fashion, it)
             }
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }

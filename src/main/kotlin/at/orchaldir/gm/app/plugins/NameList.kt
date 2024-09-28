@@ -170,13 +170,7 @@ private fun HTML.showNameListEditor(
                 rows = (nameList.name.length + 5).toString()
                 +nameList.names.joinToString("\n")
             }
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }

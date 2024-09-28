@@ -160,13 +160,7 @@ private fun HTML.showTownEditor(
             form {
                 selectName(town.name)
                 selectDate(state, "Founding", town.foundingDate, DATE)
-                p {
-                    submitInput {
-                        value = "Update"
-                        formAction = updateLink
-                        formMethod = InputFormMethod.post
-                    }
-                }
+                button("Update", updateLink)
             }
             back(backLink)
         }, {

@@ -153,13 +153,7 @@ private fun HTML.showRiverEditor(
         field("Id", river.id.value.toString())
         form {
             selectName(river.name)
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }

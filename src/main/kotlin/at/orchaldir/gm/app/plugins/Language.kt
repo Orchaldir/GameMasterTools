@@ -277,13 +277,7 @@ private fun HTML.showLanguageEditor(
 
                 else -> doNothing()
             }
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }

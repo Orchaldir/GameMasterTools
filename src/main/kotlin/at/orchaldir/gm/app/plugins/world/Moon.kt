@@ -164,13 +164,7 @@ private fun HTML.showMoonEditor(
             selectName(moon.name)
             selectInt("Days per Quarter", moon.daysPerQuarter, 1, 100, LENGTH, false)
             selectColor("Color", COLOR, OneOf(Color.entries), moon.color)
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }

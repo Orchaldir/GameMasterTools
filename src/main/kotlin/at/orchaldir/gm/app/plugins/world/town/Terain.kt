@@ -130,13 +130,7 @@ private fun HTML.showTerrainEditor(
                 selectInt("Add/Remove Columns At End", 0, -maxDelta, maxDelta, combine(WIDTH, END))
                 selectInt("Add/Remove Rows At Start", 0, -maxDelta, maxDelta, combine(HEIGHT, START))
                 selectInt("Add/Remove Rows At End", 0, -maxDelta, maxDelta, combine(HEIGHT, END))
-                p {
-                    submitInput {
-                        value = "Resize"
-                        formAction = resizeLink
-                        formMethod = InputFormMethod.post
-                    }
-                }
+                button("Resize", resizeLink)
             }
             back(backLink)
         }, {

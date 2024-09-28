@@ -128,13 +128,7 @@ private fun HTML.showRelationshipEditor(
                     }
                 }
             }
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }

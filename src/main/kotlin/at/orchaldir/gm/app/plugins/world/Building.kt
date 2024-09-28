@@ -174,13 +174,7 @@ private fun HTML.showBuildingEditor(
                 selectName(building.name)
                 selectDate(state, "Construction", building.constructionDate, DATE)
                 selectOwnership(state, building.ownership, building.constructionDate)
-                p {
-                    submitInput {
-                        value = "Update"
-                        formAction = updateLink
-                        formMethod = InputFormMethod.post
-                    }
-                }
+                button("Update", updateLink)
             }
             back(backLink)
         }, {

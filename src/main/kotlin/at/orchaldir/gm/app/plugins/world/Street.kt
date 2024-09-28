@@ -153,13 +153,7 @@ private fun HTML.showStreetEditor(
         field("Id", street.id.value.toString())
         form {
             selectName(street.name)
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }

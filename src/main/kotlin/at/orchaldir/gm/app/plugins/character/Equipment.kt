@@ -105,23 +105,11 @@ private fun HTML.showEquipmentEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            p {
-                submitInput {
-                    value = "Random"
-                    formAction = generateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Random", generateLink)
 
             EquipmentType.entries.forEach { selectEquipment(state, equipmentMap, occupiedSlots, fashion, it) }
 
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }

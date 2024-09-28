@@ -183,13 +183,7 @@ private fun HTML.showHolidayEditor(
                 selected = calendar.id == holiday.calendar
             }
             selectRelativeDate(DATE, holiday.relativeDate, calendar)
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }

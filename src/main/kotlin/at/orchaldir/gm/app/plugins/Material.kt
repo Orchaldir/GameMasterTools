@@ -160,13 +160,7 @@ private fun HTML.showMaterialEditor(
         field("Id", material.id.value.toString())
         form {
             selectName(material.name)
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }

@@ -159,13 +159,7 @@ private fun HTML.showMountainEditor(
         field("Id", mountain.id.value.toString())
         form {
             selectName(mountain.name)
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }
