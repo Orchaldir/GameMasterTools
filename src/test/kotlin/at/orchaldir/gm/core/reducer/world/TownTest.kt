@@ -307,6 +307,17 @@ class TownTest {
             assertEquals(newMap, REDUCER.invoke(state, action).first.getTownStorage().getOrThrow(ID0).map)
         }
 
+        @Test
+        fun `Remove row at start`() {
+            val action = ResizeTown(ID0, TerrainType.River, 0, -1)
+            val oldMap = TileMap2d(MapSize2d(2, 1), listOf(EMPTY, TownTile(RiverTerrain(RIVER0))))
+            val newMap = TileMap2d(MapSize2d(1, 1), listOf(TownTile(RiverTerrain(RIVER0))))
+            val oldTown = Town(ID0, map = oldMap)
+            val state = State(listOf(Storage(River(RIVER0)), Storage(oldTown)))
+
+            assertEquals(newMap, REDUCER.invoke(state, action).first.getTownStorage().getOrThrow(ID0).map)
+        }
+
     }
 
 }
