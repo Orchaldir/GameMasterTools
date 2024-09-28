@@ -27,50 +27,30 @@ fun State.getTowns(street: StreetId) = getTownStorage().getAll()
 
 // map size
 
-fun getMinWidthStart(town: Town) = town.map.tiles
-    .withIndex()
-    .mapNotNull { (index, tile) ->
-        if (!tile.canBuild()) {
-            -town.map.size.toX(index)
-        } else {
-            null
-        }
-    }
-    .maxOrNull()
-    ?: (town.map.size.width - 1)
+fun getMinWidthStart(town: Town) = mapIndexOfConstructions(town, town.map.size.width - 1) { index ->
+    -town.map.size.toX(index)
+}
 
-fun getMinWidthEnd(town: Town) = town.map.tiles
-    .withIndex()
-    .mapNotNull { (index, tile) ->
-        if (!tile.canBuild()) {
-            1 - (town.map.size.width - town.map.size.toX(index))
-        } else {
-            null
-        }
-    }
-    .maxOrNull()
-    ?: (town.map.size.width - 1)
+fun getMinWidthEnd(town: Town) = mapIndexOfConstructions(town, town.map.size.width - 1) { index ->
+    1 - (town.map.size.width - town.map.size.toX(index))
+}
 
-fun getMinHeightStart(town: Town) = town.map.tiles
-    .withIndex()
-    .mapNotNull { (index, tile) ->
-        if (!tile.canBuild()) {
-            -town.map.size.toY(index)
-        } else {
-            null
-        }
-    }
-    .maxOrNull()
-    ?: (town.map.size.height - 1)
+fun getMinHeightStart(town: Town) = mapIndexOfConstructions(town, town.map.size.height - 1) { index ->
+    -town.map.size.toY(index)
+}
 
-fun getMinHeightEnd(town: Town) = town.map.tiles
+fun getMinHeightEnd(town: Town) = mapIndexOfConstructions(town, town.map.size.height - 1) { index ->
+    1 - (town.map.size.height - town.map.size.toY(index))
+}
+
+private fun mapIndexOfConstructions(town: Town, default: Int, indexLookup: (Int) -> Int) = town.map.tiles
     .withIndex()
     .mapNotNull { (index, tile) ->
         if (!tile.canBuild()) {
-            1 - (town.map.size.height - town.map.size.toY(index))
+            indexLookup(index)
         } else {
             null
         }
     }
     .maxOrNull()
-    ?: (town.map.size.height - 1)
+    ?: default
