@@ -26,6 +26,7 @@ private val RIVER0 = RiverId(0)
 private val STREET0 = StreetId(0)
 private val STREET1 = StreetId(1)
 private val BUILDING_TILE = TownTile(construction = BuildingTile(BUILDING0))
+private val RIVER_TILE = TownTile(RiverTerrain(RIVER0))
 private val STREET_TILE = TownTile(construction = StreetTile(STREET0))
 private val EMPTY = TownTile()
 
@@ -297,46 +298,68 @@ class TownTest {
         }
 
         @Test
-        fun `Add row at start`() {
+        fun `Add column at start`() {
             testResize(
                 MapSize2d(2, 1),
                 listOf(EMPTY, EMPTY),
                 ResizeTown(ID0, TerrainType.River, 0, 1),
                 MapSize2d(3, 1),
-                listOf(TownTile(RiverTerrain(RIVER0)), EMPTY, EMPTY),
+                listOf(RIVER_TILE, EMPTY, EMPTY),
+            )
+        }
+
+        @Test
+        fun `Remove column at start`() {
+            testResize(
+                MapSize2d(2, 1),
+                listOf(EMPTY, RIVER_TILE),
+                ResizeTown(ID0, TerrainType.River, 0, -1),
+                MapSize2d(1, 1),
+                listOf(RIVER_TILE),
+            )
+        }
+
+        @Test
+        fun `Add column at end`() {
+            testResize(
+                MapSize2d(2, 1),
+                listOf(EMPTY, EMPTY),
+                ResizeTown(ID0, TerrainType.River, 0, widthEnd = 1),
+                MapSize2d(3, 1),
+                listOf(EMPTY, EMPTY, RIVER_TILE),
+            )
+        }
+
+        @Test
+        fun `Remove column at end`() {
+            testResize(
+                MapSize2d(2, 1),
+                listOf(RIVER_TILE, EMPTY),
+                ResizeTown(ID0, TerrainType.River, 0, widthEnd = -1),
+                MapSize2d(1, 1),
+                listOf(RIVER_TILE),
+            )
+        }
+
+        @Test
+        fun `Add row at start`() {
+            testResize(
+                MapSize2d(2, 1),
+                listOf(EMPTY, EMPTY),
+                ResizeTown(ID0, TerrainType.River, 0, heightStart = 1),
+                MapSize2d(2, 2),
+                listOf(RIVER_TILE, RIVER_TILE, EMPTY, EMPTY),
             )
         }
 
         @Test
         fun `Remove row at start`() {
             testResize(
-                MapSize2d(2, 1),
-                listOf(EMPTY, TownTile(RiverTerrain(RIVER0))),
-                ResizeTown(ID0, TerrainType.River, 0, -1),
+                MapSize2d(1, 2),
+                listOf(EMPTY, RIVER_TILE),
+                ResizeTown(ID0, TerrainType.River, 0, heightStart = -1),
                 MapSize2d(1, 1),
-                listOf(TownTile(RiverTerrain(RIVER0))),
-            )
-        }
-
-        @Test
-        fun `Add row at end`() {
-            testResize(
-                MapSize2d(2, 1),
-                listOf(EMPTY, EMPTY),
-                ResizeTown(ID0, TerrainType.River, 0, widthEnd = 1),
-                MapSize2d(3, 1),
-                listOf(EMPTY, EMPTY, TownTile(RiverTerrain(RIVER0))),
-            )
-        }
-
-        @Test
-        fun `Remove row at end`() {
-            testResize(
-                MapSize2d(2, 1),
-                listOf(TownTile(RiverTerrain(RIVER0)), EMPTY),
-                ResizeTown(ID0, TerrainType.River, 0, widthEnd = -1),
-                MapSize2d(1, 1),
-                listOf(TownTile(RiverTerrain(RIVER0))),
+                listOf(RIVER_TILE),
             )
         }
 
