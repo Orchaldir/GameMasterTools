@@ -14,6 +14,16 @@ import kotlinx.html.*
 
 const val ON_CHANGE_SCRIPT = "updateEditor();"
 
+fun FORM.button(text: String, updateLink: String) {
+    p {
+        submitInput {
+            value = text
+            formAction = updateLink
+            formMethod = InputFormMethod.post
+        }
+    }
+}
+
 fun HtmlBlockTag.selectBool(
     label: String,
     value: Boolean,

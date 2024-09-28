@@ -25,3 +25,32 @@ fun State.getTowns(river: RiverId) = getTownStorage().getAll()
 fun State.getTowns(street: StreetId) = getTownStorage().getAll()
     .filter { it.map.contains { it.construction.contains(street) } }
 
+// map size
+
+fun getMinWidthStart(town: Town) = mapIndexOfConstructions(town, town.map.size.width - 1) { index ->
+    -town.map.size.toX(index)
+}
+
+fun getMinWidthEnd(town: Town) = mapIndexOfConstructions(town, town.map.size.width - 1) { index ->
+    1 - (town.map.size.width - town.map.size.toX(index))
+}
+
+fun getMinHeightStart(town: Town) = mapIndexOfConstructions(town, town.map.size.height - 1) { index ->
+    -town.map.size.toY(index)
+}
+
+fun getMinHeightEnd(town: Town) = mapIndexOfConstructions(town, town.map.size.height - 1) { index ->
+    1 - (town.map.size.height - town.map.size.toY(index))
+}
+
+private fun mapIndexOfConstructions(town: Town, default: Int, indexLookup: (Int) -> Int) = town.map.tiles
+    .withIndex()
+    .mapNotNull { (index, tile) ->
+        if (!tile.canBuild()) {
+            indexLookup(index)
+        } else {
+            null
+        }
+    }
+    .maxOrNull()
+    ?: default

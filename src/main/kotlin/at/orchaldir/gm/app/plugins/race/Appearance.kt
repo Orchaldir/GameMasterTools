@@ -231,13 +231,7 @@ private fun HTML.showEditor(
                 selectName(appearance.name)
                 h2 { +"Options" }
                 editAppearanceOptions(appearance, eyeOptions)
-                p {
-                    submitInput {
-                        value = "Update"
-                        formAction = updateLink
-                        formMethod = InputFormMethod.post
-                    }
-                }
+                button("Update", updateLink)
             }
             back(backLink)
         }, {

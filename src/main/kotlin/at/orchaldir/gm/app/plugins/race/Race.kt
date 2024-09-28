@@ -255,13 +255,7 @@ private fun HTML.showRaceEditor(
                 selectRarityMap("Gender", GENDER, race.genders)
                 selectDistribution("Height", HEIGHT, race.height, 0.1f, 5.0f, 1.0f, 0.01f, "m", true)
                 editLifeStages(state, race)
-                p {
-                    submitInput {
-                        value = "Update"
-                        formAction = updateLink
-                        formMethod = InputFormMethod.post
-                    }
-                }
+                button("Update", updateLink)
             }
             back(backLink)
         }, {

@@ -255,13 +255,7 @@ private fun HTML.showCalendarEditor(
             editMonths(calendar, holidays)
             h2 { +"Eras" }
             editEras(calendar, state)
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }

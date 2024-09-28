@@ -8,11 +8,51 @@ data class TileMap2d<TILE>(
     val size: MapSize2d,
     val tiles: List<TILE>,
 ) {
-    constructor(size2d: MapSize2d, tile: TILE) : this(size2d, (1..size2d.tiles()).map { tile })
+    constructor(size2d: MapSize2d, tile: TILE) : this(size2d, createTiles(size2d, tile))
+
     constructor(tile: TILE) : this(square(1), tile)
 
     init {
         require(size.tiles() == tiles.size) { "The number of tiles must match the map size" }
+    }
+
+    fun resize(
+        resize: Resize,
+        tile: TILE,
+    ): TileMap2d<TILE> {
+        val newSize = size.apply(resize)
+        val newTiles = createTiles(newSize, tile).toMutableList()
+
+        for (y in 0..<(size.height)) {
+            val newY = y + resize.heightStart
+
+            if (!newSize.isYInside(newY)) {
+                continue
+            }
+
+            for (x in 0..<(size.width)) {
+                val newX = x + resize.widthStart
+
+                if (!newSize.isXInside(newX)) {
+                    continue
+                }
+
+                val index = size.toIndexRisky(x, y)
+                val newIndex = newSize.toIndexRisky(newX, newY)
+
+                newTiles[newIndex] = tiles[index]
+            }
+        }
+
+        return TileMap2d(newSize, newTiles)
+    }
+
+    fun getIndexAfterResize(index: Int, resize: Resize): Int? {
+        val newSize = size.apply(resize)
+        val newX = resize.widthStart + size.toX(index)
+        val newY = resize.heightStart + size.toY(index)
+
+        return newSize.toIndex(newX, newY)
     }
 
     fun requireIsInside(index: Int) = require(size.isInside(index)) { "Tile $index is outside the map!" }
@@ -35,3 +75,5 @@ data class TileMap2d<TILE>(
 
     fun contains(check: (TILE) -> Boolean) = tiles.any { check(it) }
 }
+
+private fun <TILE> createTiles(size2d: MapSize2d, tile: TILE) = (1..size2d.tiles()).map { tile }

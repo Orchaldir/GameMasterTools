@@ -1,28 +1,30 @@
 package at.orchaldir.gm.app.plugins.world.town
 
-import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.TERRAIN
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.world.parseTerrainType
 import at.orchaldir.gm.app.plugins.world.MountainRoutes
 import at.orchaldir.gm.app.plugins.world.RiverRoutes
+import at.orchaldir.gm.core.action.ResizeTown
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.TerrainType
 import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.visualization.town.visualizeTerrain
+import at.orchaldir.gm.utils.map.Resize
+import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -47,7 +49,7 @@ fun Application.configureTerrainRouting() {
             val state = STORE.getState()
             val town = state.getTownStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
-            val terrainType = parse(params, combine(TERRAIN, TYPE), TerrainType.Plain)
+            val terrainType = parseTerrainType(params)
             val terrainId: Int = parseInt(params, TERRAIN, 0)
 
             call.respondHtml(HttpStatusCode.OK) {
@@ -61,11 +63,27 @@ fun Application.configureTerrainRouting() {
 
             STORE.getState().save()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                val state = STORE.getState()
-                val town = state.getTownStorage().getOrThrow(update.id)
-                showTerrainEditor(call, state, town, update.terrainType, update.terrainId)
-            }
+            call.respondRedirect(call.application.href(TownRoutes.TerrainRoutes.Edit(update.id)))
+        }
+        post<TownRoutes.TerrainRoutes.Resize> { update ->
+            logger.info { "Resize the terrain of town ${update.id.value}" }
+
+            val params = call.receiveParameters()
+            val terrainType = parseTerrainType(params)
+            val terrainId: Int = parseInt(params, TERRAIN, 0)
+            val resize = Resize(
+                parseInt(params, combine(WIDTH, START), 0),
+                parseInt(params, combine(WIDTH, END), 0),
+                parseInt(params, combine(HEIGHT, START), 0),
+                parseInt(params, combine(HEIGHT, END), 0),
+            )
+
+
+            STORE.dispatch(ResizeTown(update.id, resize, terrainType, terrainId))
+
+            STORE.getState().save()
+
+            call.respondRedirect(call.application.href(TownRoutes.TerrainRoutes.Edit(update.id)))
         }
     }
 }
@@ -81,6 +99,7 @@ private fun HTML.showTerrainEditor(
     val previewLink = call.application.href(TownRoutes.TerrainRoutes.Preview(town.id))
     val createMountainLink = call.application.href(MountainRoutes.New())
     val createRiverLink = call.application.href(RiverRoutes.New())
+    val resizeLink = call.application.href(TownRoutes.TerrainRoutes.Resize(town.id))
 
     simpleHtml("Edit Terrain of Town ${town.name}") {
         split({
@@ -109,12 +128,28 @@ private fun HTML.showTerrainEditor(
                         createRiverLink,
                     )
                 }
+                h2 { +"Update Terrain of Tile" }
+                p { +"Click on a tile to change it's terrain to the type above." }
+                h2 { +"Resize" }
+                field("Size", town.map.size.format())
+                val maxDelta = 100
+                selectInt(
+                    "Add/Remove Columns At Start",
+                    0,
+                    getMinWidthStart(town),
+                    maxDelta,
+                    combine(WIDTH, START)
+                )
+                selectInt("Add/Remove Columns At End", 0, getMinWidthEnd(town), maxDelta, combine(WIDTH, END))
+                selectInt("Add/Remove Rows At Start", 0, getMinHeightStart(town), maxDelta, combine(HEIGHT, START))
+                selectInt("Add/Remove Rows At End", 0, getMinHeightEnd(town), maxDelta, combine(HEIGHT, END))
+                button("Resize", resizeLink)
             }
             back(backLink)
         }, {
-            svg(visualizeTerrain(town) { index, _ ->
+            svg(visualizeTown(town, state.getBuildings(town.id), tileLinkLookup = { index, _ ->
                 call.application.href(TownRoutes.TerrainRoutes.Update(town.id, terrainType, terrainId, index))
-            }, 90)
+            }), 90)
         })
     }
 }

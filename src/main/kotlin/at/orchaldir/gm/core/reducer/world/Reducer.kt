@@ -34,6 +34,7 @@ val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
         is AddStreetTile -> ADD_STREET_TILE(state, action)
         is RemoveStreetTile -> REMOVE_STREET_TILE(state, action)
         // town's terrain
+        is ResizeTown -> RESIZE_TERRAIN(state, action)
         is SetTerrainTile -> SET_TERRAIN_TILE(state, action)
     }
 }

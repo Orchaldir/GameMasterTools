@@ -403,13 +403,7 @@ private fun HTML.showItemTemplateEditor(
                     selectMaterial(state, template.equipment.material)
                 }
             }
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }

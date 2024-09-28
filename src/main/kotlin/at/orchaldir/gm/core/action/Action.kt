@@ -36,6 +36,7 @@ import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.utils.map.MapSize2d
+import at.orchaldir.gm.utils.map.Resize
 
 sealed class Action
 
@@ -195,6 +196,13 @@ data class RemoveStreetTile(
 ) : WorldAction()
 
 // town's terrain
+
+data class ResizeTown(
+    val town: TownId,
+    val resize: Resize,
+    val terrainType: TerrainType = TerrainType.Plain,
+    val terrainId: Int = 0,
+) : WorldAction()
 
 data class SetTerrainTile(
     val town: TownId,

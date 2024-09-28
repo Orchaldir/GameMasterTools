@@ -115,13 +115,7 @@ private fun HTML.showAppearanceEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            p {
-                submitInput {
-                    value = "Random"
-                    formAction = generateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Random", generateLink)
             selectOneOf("Appearance Type", APPEARANCE, raceAppearance.appearanceTypes, true) { type ->
                 label = type.name
                 value = type.toString()
@@ -146,13 +140,7 @@ private fun HTML.showAppearanceEditor(
 
                 UndefinedAppearance -> doNothing()
             }
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }

@@ -270,13 +270,7 @@ private fun HTML.editTimeData(
                 selected = calendar.id == state.time.defaultCalendar
             }
             selectDate(state, "Current Date", state.time.currentDate, CURRENT)
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }

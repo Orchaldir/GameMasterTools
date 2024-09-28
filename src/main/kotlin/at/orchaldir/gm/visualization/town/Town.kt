@@ -151,17 +151,6 @@ data class TownRenderer(
     fun finish() = renderer.finish()
 }
 
-fun visualizeTerrain(
-    town: Town,
-    linkLookup: (Int, TownTile) -> String? = { _, _ -> null },
-): Svg {
-    val townRenderer = TownRenderer(town)
-
-    townRenderer.renderTilesWithLinks(TownTile::getColor, linkLookup)
-
-    return townRenderer.finish()
-}
-
 fun visualizeTown(
     town: Town,
     buildings: List<Building> = emptyList(),

@@ -23,7 +23,10 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.FormMethod
+import kotlinx.html.HTML
+import kotlinx.html.form
+import kotlinx.html.id
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -174,13 +177,7 @@ private fun HTML.showBuildingEditor(
                 selectName(building.name)
                 selectDate(state, "Construction", building.constructionDate, DATE)
                 selectOwnership(state, building.ownership, building.constructionDate)
-                p {
-                    submitInput {
-                        value = "Update"
-                        formAction = updateLink
-                        formMethod = InputFormMethod.post
-                    }
-                }
+                button("Update", updateLink)
             }
             back(backLink)
         }, {

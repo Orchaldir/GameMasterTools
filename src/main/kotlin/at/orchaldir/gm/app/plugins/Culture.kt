@@ -321,13 +321,7 @@ private fun HTML.showCultureEditor(
             editNamingConvention(namingConvention, state)
             editAppearanceOptions(culture)
             editClothingOptions(state, culture)
-            p {
-                submitInput {
-                    value = "Update"
-                    formAction = updateLink
-                    formMethod = InputFormMethod.post
-                }
-            }
+            button("Update", updateLink)
         }
         back(backLink)
     }
