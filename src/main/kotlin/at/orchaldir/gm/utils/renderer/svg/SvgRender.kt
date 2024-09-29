@@ -12,6 +12,8 @@ class SvgRenderer(
     private val lines: MutableList<String>,
 ) : LayerRenderer {
 
+    // LayerRenderer
+
     override fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions): LayerRenderer {
         lines.add(
             String.format(
@@ -129,14 +131,19 @@ class SvgRenderer(
         return this
     }
 
-    private fun renderPath(path: String, style: String) {
-        lines.add(
-            String.format(
-                "  <path d=\"%s\" style=\"%s\"/>",
-                path,
-                style,
-            )
+    //
+
+    private fun selfClosingTag(tag: String, format: String, vararg args: Any?) {
+        val attributes = String.format(
+            LOCALE,
+            format,
+            *args,
         )
+        lines.add(String.format("  <%s %s/>", tag, attributes))
+    }
+
+    private fun renderPath(path: String, style: String) {
+        selfClosingTag("path", "d=\"%s\" style=\"%s\"", path, style)
     }
 
     private fun toSvg(options: RenderOptions): String {
