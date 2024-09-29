@@ -146,7 +146,7 @@ class SvgRenderer(
 
     private fun selfClosingTag(tag: String, format: String, vararg args: Any?) {
         if (tooltip == null) {
-            val attributes = formatAttributes(format, args)
+            val attributes = formatAttributes(format, *args)
             addLine(String.format("<%s %s/>", tag, attributes))
         } else {
             tag(tag, format, args) {
