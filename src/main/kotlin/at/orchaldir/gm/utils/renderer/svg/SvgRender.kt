@@ -126,6 +126,19 @@ class SvgRenderer(
 
     //
 
+    fun tag(tag: String, format: String, vararg args: Any?, content: (LayerRenderer) -> Unit) {
+        val attributes = String.format(
+            LOCALE,
+            format,
+            *args,
+        )
+        lines.add(String.format("  <%s %s>", tag, attributes))
+
+        content(this)
+
+        lines.add(String.format("  </%s>", tag))
+    }
+
     private fun inlineTag(tag: String, text: String, format: String, vararg args: Any?) {
         val attributes = String.format(
             LOCALE,

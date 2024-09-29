@@ -1,7 +1,6 @@
 package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.utils.renderer.LinkRenderer
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.TooltipRenderer
@@ -40,13 +39,11 @@ class SvgBuilder(private val size: Size2d) : LinkRenderer, TooltipRenderer {
     // links
 
     override fun link(link: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
-        val layer = layers.computeIfAbsent(layerIndex) { mutableListOf() }
+        val layer = SvgRenderer(patterns, layers.computeIfAbsent(layerIndex) { mutableListOf() })
 
-        layer.add(String.format(LOCALE, "  <a href=\"%s\" target=\"_parent\">", link))
-
-        content(SvgRenderer(patterns, layer))
-
-        layer.add("  </a>")
+        layer.tag("a", "href=\"%s\" target=\"_parent\"", link) {
+            content(it)
+        }
     }
 
     // tooltips
