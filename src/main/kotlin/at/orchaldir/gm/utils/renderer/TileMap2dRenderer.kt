@@ -58,7 +58,7 @@ data class TileMap2dRenderer(
     }
 
     fun <TILE> renderWithLinks(
-        renderer: LinkRenderer,
+        renderer: AdvancedRenderer,
         map: TileMap2d<TILE>,
         colorLookup: (TILE) -> Color,
         linkLookup: (Int, TILE) -> String? = { _, _ -> null },

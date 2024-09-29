@@ -1,13 +1,12 @@
 package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.LinkRenderer
+import at.orchaldir.gm.utils.renderer.AdvancedRenderer
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.TooltipRenderer
 import at.orchaldir.gm.utils.renderer.model.*
 
 
-class SvgBuilder(private val size: Size2d) : LinkRenderer, TooltipRenderer {
+class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
     private val patterns: MutableMap<RenderFill, String> = mutableMapOf()
     private val layers: MutableMap<Int, MutableList<String>> = mutableMapOf()
     private val step: String = "  "
@@ -47,12 +46,18 @@ class SvgBuilder(private val size: Size2d) : LinkRenderer, TooltipRenderer {
         }
     }
 
-    // tooltips
-
     override fun tooltip(text: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
         val layer = SvgRenderer(patterns, layers.computeIfAbsent(layerIndex) { mutableListOf() }, step, step, text)
 
         content(layer)
+    }
+
+    override fun linkAndTooltip(link: String, tooltip: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
+        val layer = SvgRenderer(patterns, layers.computeIfAbsent(layerIndex) { mutableListOf() }, step, step, tooltip)
+
+        layer.tag("a", "href=\"%s\" target=\"_parent\"", link) {
+            content(it)
+        }
     }
 
     //
