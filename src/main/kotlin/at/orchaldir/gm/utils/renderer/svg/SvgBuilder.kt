@@ -50,7 +50,9 @@ class SvgBuilder(private val size: Size2d) : LinkRenderer, TooltipRenderer {
     // tooltips
 
     override fun tooltip(text: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
-        TODO("Not yet implemented")
+        val layer = SvgRenderer(patterns, layers.computeIfAbsent(layerIndex) { mutableListOf() }, step, step, text)
+
+        content(layer)
     }
 
     //

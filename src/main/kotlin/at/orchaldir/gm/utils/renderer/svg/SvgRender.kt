@@ -12,6 +12,7 @@ class SvgRenderer(
     private val lines: MutableList<String>,
     private val indent: String,
     private val step: String,
+    private val tooltip: String? = null,
 ) : LayerRenderer {
 
     // LayerRenderer
@@ -129,11 +130,7 @@ class SvgRenderer(
     //
 
     fun tag(tag: String, format: String, vararg args: Any?, content: (LayerRenderer) -> Unit) {
-        val attributes = String.format(
-            LOCALE,
-            format,
-            *args,
-        )
+        val attributes = formatAttributes(format, args)
         addLine(String.format("<%s %s>", tag, attributes))
 
         content(SvgRenderer(patterns, lines, indent + step, step))
@@ -142,22 +139,27 @@ class SvgRenderer(
     }
 
     private fun inlineTag(tag: String, text: String, format: String, vararg args: Any?) {
-        val attributes = String.format(
-            LOCALE,
-            format,
-            *args,
-        )
+
+        val attributes = formatAttributes(format, args)
         addLine(String.format("<%s %s>%s</%s>", tag, attributes, text, tag))
     }
 
     private fun selfClosingTag(tag: String, format: String, vararg args: Any?) {
-        val attributes = String.format(
-            LOCALE,
-            format,
-            *args,
-        )
-        addLine(String.format("<%s %s/>", tag, attributes))
+        if (tooltip == null) {
+            val attributes = formatAttributes(format, args)
+            addLine(String.format("<%s %s/>", tag, attributes))
+        } else {
+            tag(tag, format, args) {
+                addLine("<title>$tooltip</title>")
+            }
+        }
     }
+
+    private fun formatAttributes(format: String, vararg args: Any?) = String.format(
+        LOCALE,
+        format,
+        *args,
+    )
 
     private fun addLine(line: String) {
         lines.add(indent + line)
