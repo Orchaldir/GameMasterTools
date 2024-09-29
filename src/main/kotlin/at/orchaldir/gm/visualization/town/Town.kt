@@ -21,6 +21,7 @@ import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
+private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
 private val DEFAULT_STREET_COLOR: (StreetId, Int) -> Color = { _, _ -> Color.Gray }
 
 data class TownRenderer(
@@ -55,31 +56,14 @@ data class TownRenderer(
     fun renderBuildings(
         buildings: List<Building>,
         colorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
-    ) {
-        val layer = svgBuilder.getLayer()
-
-        buildings.forEach { building ->
-            val color = colorLookup(building)
-
-            renderBuilding(layer, building, color)
-        }
-    }
-
-    fun renderBuildings(
-        buildings: List<Building>,
-        colorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
-        linkLookup: (Building) -> String?,
+        linkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
+        tooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
     ) {
         buildings.forEach { building ->
             val color = colorLookup(building)
-            val link = linkLookup(building)
 
-            if (link != null) {
-                svgBuilder.link(link) {
-                    renderBuilding(it, building, color)
-                }
-            } else {
-                renderBuilding(svgBuilder.getLayer(), building, color)
+            svgBuilder.optionalLinkAndTooltip(linkLookup(building), tooltipLookup(building)) {
+                renderBuilding(it, building, color)
             }
         }
     }

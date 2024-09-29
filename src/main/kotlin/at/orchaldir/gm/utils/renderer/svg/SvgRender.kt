@@ -133,7 +133,7 @@ class SvgRenderer(
         val attributes = formatAttributes(format, *args)
         addLine(String.format("<%s %s>", tag, attributes))
 
-        content(SvgRenderer(patterns, lines, indent + step, step))
+        content(SvgRenderer(patterns, lines, indent + step, step, tooltip))
 
         addLine(String.format("</%s>", tag))
     }
