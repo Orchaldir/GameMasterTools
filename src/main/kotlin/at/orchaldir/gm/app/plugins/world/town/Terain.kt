@@ -10,9 +10,8 @@ import at.orchaldir.gm.app.plugins.world.RiverRoutes
 import at.orchaldir.gm.core.action.ResizeTown
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.*
+import at.orchaldir.gm.core.model.world.terrain.TerrainType
 import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
