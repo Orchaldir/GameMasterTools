@@ -5,7 +5,7 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.RenderOptions
-import at.orchaldir.gm.utils.renderer.Renderer
+import at.orchaldir.gm.utils.renderer.interfaces.Renderer
 
 fun renderBuilder(state: RenderState, builder: Polygon2dBuilder, options: RenderOptions, layer: Int) {
     val polygon = builder.build()

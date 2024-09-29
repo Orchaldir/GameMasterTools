@@ -1,6 +1,9 @@
-package at.orchaldir.gm.utils.renderer
+package at.orchaldir.gm.utils.renderer.interfaces
 
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.renderer.LineOptions
+import at.orchaldir.gm.utils.renderer.RenderOptions
+import at.orchaldir.gm.utils.renderer.TextOptions
 
 interface Renderer {
 
