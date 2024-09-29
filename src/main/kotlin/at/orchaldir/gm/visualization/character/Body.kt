@@ -204,10 +204,10 @@ fun visualizeArms(state: RenderState, body: Body, options: RenderOptions) {
     val (left, right) = state.config.body.getMirroredArmPoint(state.aabb, body, CENTER)
     val leftAabb = AABB.fromCenter(left, size)
     val rightAabb = AABB.fromCenter(right, size)
-    val layer = state.renderer.getLayer(getArmLayer(MAIN_LAYER, state.renderFront))
 
-    layer.renderRectangle(leftAabb, options)
-    layer.renderRectangle(rightAabb, options)
+    state.renderer.getLayer(getArmLayer(MAIN_LAYER, state.renderFront))
+        .renderRectangle(leftAabb, options)
+        .renderRectangle(rightAabb, options)
 }
 
 fun visualizeHands(state: RenderState, body: Body, options: RenderOptions) {
@@ -224,10 +224,10 @@ fun visualizeLegs(state: RenderState, body: Body, options: RenderOptions) {
     val (left, right) = state.config.body.getMirroredLegPoint(state.aabb, body, CENTER)
     val leftAabb = AABB.fromCenter(left, size)
     val rightAabb = AABB.fromCenter(right, size)
-    val layer = state.renderer.getLayer()
 
-    layer.renderRectangle(leftAabb, options)
-    layer.renderRectangle(rightAabb, options)
+    state.renderer.getLayer()
+        .renderRectangle(leftAabb, options)
+        .renderRectangle(rightAabb, options)
 }
 
 fun visualizeFeet(

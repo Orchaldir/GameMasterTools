@@ -47,6 +47,7 @@ private fun visualizeRoundEars(
 ) {
     val (left, right) = state.aabb.getMirroredPoints(Factor(1.0f), state.config.head.earY)
     val radius = state.config.head.ears.getRoundRadius(state.aabb, size)
+
     state.renderer.getLayer()
         .renderCircle(left, radius, option)
         .renderCircle(right, radius, option)

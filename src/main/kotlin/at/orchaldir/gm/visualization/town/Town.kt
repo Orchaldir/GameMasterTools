@@ -14,7 +14,7 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.renderer.Renderer
+import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.svg.Svg
@@ -25,7 +25,7 @@ private val DEFAULT_STREET_COLOR: (StreetId, Int) -> Color = { _, _ -> Color.Gra
 
 data class TownRenderer(
     private val tileRenderer: TileMap2dRenderer,
-    private val renderer: SvgBuilder,
+    private val svgBuilder: SvgBuilder,
     private val town: Town,
 ) {
     constructor(tileMapRenderer: TileMap2dRenderer, town: Town) : this(
@@ -42,21 +42,21 @@ data class TownRenderer(
     fun renderTiles(
         colorLookup: (TownTile) -> Color = TownTile::getColor,
     ) {
-        tileRenderer.render(renderer, town.map, colorLookup)
+        tileRenderer.render(svgBuilder, town.map, colorLookup)
     }
 
     fun renderTilesWithLinks(
         colorLookup: (TownTile) -> Color = TownTile::getColor,
         linkLookup: (Int, TownTile) -> String?,
     ) {
-        tileRenderer.renderWithLinks(renderer, town.map, colorLookup, linkLookup)
+        tileRenderer.renderWithLinks(svgBuilder, town.map, colorLookup, linkLookup)
     }
 
     fun renderBuildings(
         buildings: List<Building>,
         colorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
     ) {
-        val layer = renderer.getLayer()
+        val layer = svgBuilder.getLayer()
 
         buildings.forEach { building ->
             val color = colorLookup(building)
@@ -75,11 +75,11 @@ data class TownRenderer(
             val link = linkLookup(building)
 
             if (link != null) {
-                renderer.link(link) {
+                svgBuilder.link(link) {
                     renderBuilding(it, building, color)
                 }
             } else {
-                renderBuilding(renderer.getLayer(), building, color)
+                renderBuilding(svgBuilder.getLayer(), building, color)
             }
         }
     }
@@ -87,7 +87,7 @@ data class TownRenderer(
     fun renderStreets(
         colorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
     ) {
-        val layer = renderer.getLayer()
+        val layer = svgBuilder.getLayer()
 
         renderStreets { aabb, streetId, index ->
             val color = colorLookup(streetId, index)
@@ -104,11 +104,11 @@ data class TownRenderer(
             val link = linkLookup(streetId, index)
 
             if (link != null) {
-                renderer.link(link) {
+                svgBuilder.link(link) {
                     renderStreet(it, aabb, color)
                 }
             } else {
-                renderStreet(renderer.getLayer(), aabb, color)
+                renderStreet(svgBuilder.getLayer(), aabb, color)
             }
         }
     }
@@ -137,7 +137,7 @@ data class TownRenderer(
     }
 
     private fun renderBuilding(
-        renderer: Renderer,
+        layer: LayerRenderer,
         building: Building,
         color: Color,
     ) {
@@ -146,15 +146,15 @@ data class TownRenderer(
         val aabb = AABB(start, size).shrink(Factor(0.5f))
         val style = NoBorder(color.toRender())
 
-        renderer.renderRectangle(aabb, style)
+        layer.renderRectangle(aabb, style)
     }
 
-    private fun renderStreet(renderer: Renderer, tile: AABB, color: Color) {
+    private fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
         val style = NoBorder(color.toRender())
         renderer.renderRectangle(tile.shrink(Factor(0.5f)), style)
     }
 
-    fun finish() = renderer.finish()
+    fun finish() = svgBuilder.finish()
 }
 
 fun visualizeTown(

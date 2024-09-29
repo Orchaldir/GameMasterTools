@@ -1,7 +1,7 @@
 package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.Renderer
+import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.*
 import java.util.*
 
@@ -10,9 +10,9 @@ val LOCALE: Locale = Locale.US
 class SvgRenderer(
     private val patterns: MutableMap<RenderFill, String>,
     private val lines: MutableList<String>,
-) : Renderer {
+) : LayerRenderer {
 
-    override fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions): Renderer {
+    override fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions): LayerRenderer {
         lines.add(
             String.format(
                 LOCALE,
@@ -33,7 +33,7 @@ class SvgRenderer(
         offset: Orientation,
         angle: Orientation,
         options: RenderOptions,
-    ): Renderer {
+    ): LayerRenderer {
         renderPath(convertCircleArcToPath(center, radius, offset, angle), toSvg(options))
 
         return this
@@ -44,7 +44,7 @@ class SvgRenderer(
         radiusX: Distance,
         radiusY: Distance,
         options: RenderOptions,
-    ): Renderer {
+    ): LayerRenderer {
         lines.add(
             String.format(
                 LOCALE,
@@ -60,7 +60,7 @@ class SvgRenderer(
         return this
     }
 
-    override fun renderLine(line: List<Point2d>, options: LineOptions): Renderer {
+    override fun renderLine(line: List<Point2d>, options: LineOptions): LayerRenderer {
         renderPath(convertLineToPath(line), toSvg(options))
 
         return this
@@ -71,25 +71,25 @@ class SvgRenderer(
         radiusX: Distance,
         radiusY: Distance,
         options: RenderOptions,
-    ): Renderer {
+    ): LayerRenderer {
         renderPath(convertPointedOvalToPath(center, radiusX, radiusY), toSvg(options))
 
         return this
     }
 
-    override fun renderRoundedPolygon(polygon: Polygon2d, options: RenderOptions): Renderer {
+    override fun renderRoundedPolygon(polygon: Polygon2d, options: RenderOptions): LayerRenderer {
         renderPath(convertRoundedPolygonToPath(polygon), toSvg(options))
 
         return this
     }
 
-    override fun renderPolygon(polygon: Polygon2d, options: RenderOptions): Renderer {
+    override fun renderPolygon(polygon: Polygon2d, options: RenderOptions): LayerRenderer {
         renderPath(convertPolygonToPath(polygon), toSvg(options))
 
         return this
     }
 
-    override fun renderRectangle(aabb: AABB, options: RenderOptions): Renderer {
+    override fun renderRectangle(aabb: AABB, options: RenderOptions): LayerRenderer {
         lines.add(
             String.format(
                 LOCALE,
@@ -105,7 +105,12 @@ class SvgRenderer(
         return this
     }
 
-    override fun renderText(text: String, center: Point2d, orientation: Orientation, options: TextOptions): Renderer {
+    override fun renderText(
+        text: String,
+        center: Point2d,
+        orientation: Orientation,
+        options: TextOptions,
+    ): LayerRenderer {
         lines.add(
             String.format(
                 LOCALE,

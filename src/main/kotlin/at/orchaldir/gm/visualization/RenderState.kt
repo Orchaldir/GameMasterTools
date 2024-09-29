@@ -4,14 +4,13 @@ import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.core.model.item.EquipmentSlot
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.Renderer
+import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.visualization.character.ABOVE_EQUIPMENT_LAYER
 
 data class RenderState(
     val aabb: AABB,
     val config: RenderConfig,
-    val renderer: LayerRenderer,
+    val renderer: MultiLayerRenderer,
     val renderFront: Boolean,
     val equipped: List<Equipment>,
 ) {

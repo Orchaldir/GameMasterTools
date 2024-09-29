@@ -5,7 +5,7 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.utils.renderer.Renderer
+import at.orchaldir.gm.utils.renderer.LayerRenderer
 
 fun renderBuilder(state: RenderState, builder: Polygon2dBuilder, options: RenderOptions, layer: Int) {
     val polygon = builder.build()
@@ -20,7 +20,7 @@ fun renderRoundedBuilder(state: RenderState, builder: Polygon2dBuilder, options:
 }
 
 fun renderPolygon(
-    renderer: Renderer,
+    renderer: LayerRenderer,
     options: RenderOptions,
     corners: List<Point2d>,
 ) {
@@ -30,7 +30,7 @@ fun renderPolygon(
 }
 
 fun renderRoundedPolygon(
-    renderer: Renderer,
+    renderer: LayerRenderer,
     options: RenderOptions,
     corners: List<Point2d>,
 ) {
@@ -40,7 +40,7 @@ fun renderRoundedPolygon(
 }
 
 fun renderMirroredPolygons(
-    renderer: Renderer,
+    renderer: LayerRenderer,
     options: RenderOptions,
     aabb: AABB,
     corners: List<Point2d>,

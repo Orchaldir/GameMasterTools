@@ -1,13 +1,13 @@
 package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.LayerRenderer
+import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.utils.renderer.LinkRenderer
-import at.orchaldir.gm.utils.renderer.Renderer
+import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.*
 
 
-class SvgBuilder(private val size: Size2d) : LinkRenderer, LayerRenderer {
+class SvgBuilder(private val size: Size2d) : LinkRenderer, MultiLayerRenderer {
     private val patterns: MutableMap<RenderFill, String> = mutableMapOf()
     private val layers: MutableMap<Int, MutableList<String>> = mutableMapOf()
 
@@ -32,13 +32,13 @@ class SvgBuilder(private val size: Size2d) : LinkRenderer, LayerRenderer {
 
     // LayerRenderer
 
-    override fun getLayer(layer: Int) = SvgRenderer(patterns, layers.computeIfAbsent(layer) {
+    override fun getLayer(layer: Int): LayerRenderer = SvgRenderer(patterns, layers.computeIfAbsent(layer) {
         mutableListOf()
     })
 
     // LinkRenderer
 
-    override fun link(link: String, layerIndex: Int, content: (Renderer) -> Unit) {
+    override fun link(link: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
         val layer = layers.computeIfAbsent(layerIndex) { mutableListOf() }
 
         layer.add(String.format(LOCALE, "  <a href=\"%s\" target=\"_parent\">", link))
