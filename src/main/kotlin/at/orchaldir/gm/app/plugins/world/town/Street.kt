@@ -133,6 +133,8 @@ fun visualizeStreetEditor(
     },
     streetLinkLookup = { _, index ->
         call.application.href(TownRoutes.StreetRoutes.Remove(town.id, index, selectedStreet))
+    }, streetTooltipLookup = { streetId, _ ->
+        state.getStreetStorage().getOrThrow(streetId).name
     }
 )
 

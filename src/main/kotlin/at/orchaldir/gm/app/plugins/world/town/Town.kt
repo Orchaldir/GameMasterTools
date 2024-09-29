@@ -12,8 +12,7 @@ import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.*
-import at.orchaldir.gm.utils.renderer.svg.Svg
-import at.orchaldir.gm.visualization.town.TownRenderer
+import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -176,20 +175,18 @@ private fun visualizeTownWithLinks(
     call: ApplicationCall,
     state: State,
     town: Town,
-): Svg {
-    val townRenderer = TownRenderer(town)
-
-    townRenderer.renderTiles()
-    townRenderer.renderBuildings(state.getBuildings(town.id), linkLookup = { building ->
+) = visualizeTown(
+    town, state.getBuildings(town.id),
+    buildingLinkLookup = { building ->
         call.application.href(BuildingRoutes.Details(building.id))
-    }, tooltipLookup = { building ->
+    },
+    buildingTooltipLookup = { building ->
         building.name
-    })
-    townRenderer.renderStreets(linkLookup = { street, _ ->
+    },
+    streetLinkLookup = { street, _ ->
         call.application.href(StreetRoutes.Details(street))
-    }, tooltipLookup = { streetId, _ ->
+    },
+    streetTooltipLookup = { streetId, _ ->
         state.getStreetStorage().getOrThrow(streetId).name
-    })
-
-    return townRenderer.finish()
-}
+    },
+)

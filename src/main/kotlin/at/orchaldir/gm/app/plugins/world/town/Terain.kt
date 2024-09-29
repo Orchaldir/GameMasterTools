@@ -147,9 +147,14 @@ private fun HTML.showTerrainEditor(
             }
             back(backLink)
         }, {
-            svg(visualizeTown(town, state.getBuildings(town.id), tileLinkLookup = { index, _ ->
-                call.application.href(TownRoutes.TerrainRoutes.Update(town.id, terrainType, terrainId, index))
-            }), 90)
+            svg(
+                visualizeTown(
+                    town, state.getBuildings(town.id),
+                    tileLinkLookup = { index, _ ->
+                        call.application.href(TownRoutes.TerrainRoutes.Update(town.id, terrainType, terrainId, index))
+                    },
+                ), 90
+            )
         })
     }
 }

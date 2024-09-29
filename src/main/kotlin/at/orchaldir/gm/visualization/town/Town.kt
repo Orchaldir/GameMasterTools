@@ -24,6 +24,7 @@ private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
 private val DEFAULT_STREET_COLOR: (StreetId, Int) -> Color = { _, _ -> Color.Gray }
 private val DEFAULT_STREET_TEXT: (StreetId, Int) -> String? = { _, _ -> null }
+private val DEFAULT_TILE_TEXT: (Int, TownTile) -> String? = { _, _ -> null }
 
 data class TownRenderer(
     private val tileRenderer: TileMap2dRenderer,
@@ -131,17 +132,19 @@ fun visualizeTown(
     town: Town,
     buildings: List<Building> = emptyList(),
     tileColorLookup: (TownTile) -> Color = TownTile::getColor,
-    tileLinkLookup: (Int, TownTile) -> String? = { _, _ -> null },
+    tileLinkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
     buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
-    buildingLinkLookup: (Building) -> String? = { _ -> null },
+    buildingLinkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
+    buildingTooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
     streetColorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
-    streetLinkLookup: (StreetId, Int) -> String? = { _, _ -> null },
+    streetLinkLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
+    streetTooltipLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
 ): Svg {
     val townRenderer = TownRenderer(town)
 
     townRenderer.renderTilesWithLinks(tileColorLookup, tileLinkLookup)
-    townRenderer.renderBuildings(buildings, buildingColorLookup, buildingLinkLookup)
-    townRenderer.renderStreets(streetColorLookup, streetLinkLookup)
+    townRenderer.renderBuildings(buildings, buildingColorLookup, buildingLinkLookup, buildingTooltipLookup)
+    townRenderer.renderStreets(streetColorLookup, streetLinkLookup, streetTooltipLookup)
 
     return townRenderer.finish()
 }

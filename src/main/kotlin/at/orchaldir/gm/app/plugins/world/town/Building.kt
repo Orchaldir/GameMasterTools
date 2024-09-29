@@ -101,7 +101,8 @@ fun visualizeBuildingEditor(
 ): Svg {
     val isBig = size.width > 1 || size.height > 1
 
-    return visualizeTown(town, state.getBuildings(town.id),
+    return visualizeTown(
+        town, state.getBuildings(town.id),
         tileLinkLookup = { index, tile ->
             if (isBig && town.checkTiles(index, size) { it.canBuild() }) {
                 call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
@@ -113,7 +114,10 @@ fun visualizeBuildingEditor(
         },
         buildingLinkLookup = { building ->
             call.application.href(BuildingRoutes.Details(building.id))
-        }
+        },
+        buildingTooltipLookup = { building ->
+            building.name
+        },
     )
 }
 
