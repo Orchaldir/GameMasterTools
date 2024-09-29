@@ -23,6 +23,7 @@ data class Building(
     val id: BuildingId,
     val name: String = "Building ${id.value}",
     val lot: BuildingLot = BuildingLot(),
+    val address: Address = NoAddress,
     val constructionDate: Date = Year(0),
     val ownership: Ownership = Ownership(),
 ) : Element<BuildingId> {
