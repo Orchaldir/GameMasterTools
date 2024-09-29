@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.renderer.model.*
 class SvgBuilder(private val size: Size2d) : LinkRenderer, TooltipRenderer {
     private val patterns: MutableMap<RenderFill, String> = mutableMapOf()
     private val layers: MutableMap<Int, MutableList<String>> = mutableMapOf()
+    private val step: String = "  "
 
     fun finish(): Svg {
         val lines: MutableList<String> = mutableListOf()
@@ -34,12 +35,12 @@ class SvgBuilder(private val size: Size2d) : LinkRenderer, TooltipRenderer {
 
     override fun getLayer(layer: Int): LayerRenderer = SvgRenderer(patterns, layers.computeIfAbsent(layer) {
         mutableListOf()
-    })
+    }, step, step)
 
     // links
 
     override fun link(link: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
-        val layer = SvgRenderer(patterns, layers.computeIfAbsent(layerIndex) { mutableListOf() })
+        val layer = SvgRenderer(patterns, layers.computeIfAbsent(layerIndex) { mutableListOf() }, step, step)
 
         layer.tag("a", "href=\"%s\" target=\"_parent\"", link) {
             content(it)

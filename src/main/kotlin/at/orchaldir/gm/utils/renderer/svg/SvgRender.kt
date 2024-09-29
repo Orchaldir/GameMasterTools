@@ -10,6 +10,8 @@ val LOCALE: Locale = Locale.US
 class SvgRenderer(
     private val patterns: MutableMap<RenderFill, String>,
     private val lines: MutableList<String>,
+    private val indent: String,
+    private val step: String,
 ) : LayerRenderer {
 
     // LayerRenderer
@@ -132,11 +134,11 @@ class SvgRenderer(
             format,
             *args,
         )
-        lines.add(String.format("  <%s %s>", tag, attributes))
+        addLine(String.format("<%s %s>", tag, attributes))
 
-        content(this)
+        content(SvgRenderer(patterns, lines, indent + step, step))
 
-        lines.add(String.format("  </%s>", tag))
+        addLine(String.format("</%s>", tag))
     }
 
     private fun inlineTag(tag: String, text: String, format: String, vararg args: Any?) {
@@ -145,7 +147,7 @@ class SvgRenderer(
             format,
             *args,
         )
-        lines.add(String.format("  <%s %s>%s</%s>", tag, attributes, text, tag))
+        addLine(String.format("<%s %s>%s</%s>", tag, attributes, text, tag))
     }
 
     private fun selfClosingTag(tag: String, format: String, vararg args: Any?) {
@@ -154,7 +156,11 @@ class SvgRenderer(
             format,
             *args,
         )
-        lines.add(String.format("  <%s %s/>", tag, attributes))
+        addLine(String.format("<%s %s/>", tag, attributes))
+    }
+
+    private fun addLine(line: String) {
+        lines.add(indent + line)
     }
 
     private fun renderPath(path: String, style: String) {
