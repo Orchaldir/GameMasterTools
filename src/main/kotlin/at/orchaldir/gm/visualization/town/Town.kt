@@ -23,6 +23,7 @@ import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
 private val DEFAULT_STREET_COLOR: (StreetId, Int) -> Color = { _, _ -> Color.Gray }
+private val DEFAULT_STREET_TEXT: (StreetId, Int) -> String? = { _, _ -> null }
 
 data class TownRenderer(
     private val tileRenderer: TileMap2dRenderer,
@@ -70,29 +71,14 @@ data class TownRenderer(
 
     fun renderStreets(
         colorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
-    ) {
-        val layer = svgBuilder.getLayer()
-
-        renderStreets { aabb, streetId, index ->
-            val color = colorLookup(streetId, index)
-            renderStreet(layer, aabb, color)
-        }
-    }
-
-    fun renderStreets(
-        colorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
-        linkLookup: (StreetId, Int) -> String?,
+        linkLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
+        tooltipLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
     ) {
         renderStreets { aabb, streetId, index ->
             val color = colorLookup(streetId, index)
-            val link = linkLookup(streetId, index)
 
-            if (link != null) {
-                svgBuilder.link(link) {
-                    renderStreet(it, aabb, color)
-                }
-            } else {
-                renderStreet(svgBuilder.getLayer(), aabb, color)
+            svgBuilder.optionalLinkAndTooltip(linkLookup(streetId, index), tooltipLookup(streetId, index)) {
+                renderStreet(it, aabb, color)
             }
         }
     }

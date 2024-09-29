@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseTown
 import at.orchaldir.gm.app.plugins.world.BuildingRoutes
+import at.orchaldir.gm.app.plugins.world.StreetRoutes
 import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
@@ -184,7 +185,11 @@ private fun visualizeTownWithLinks(
     }, tooltipLookup = { building ->
         building.name
     })
-    townRenderer.renderStreets()
+    townRenderer.renderStreets(linkLookup = { street, _ ->
+        call.application.href(StreetRoutes.Details(street))
+    }, tooltipLookup = { streetId, _ ->
+        state.getStreetStorage().getOrThrow(streetId).name
+    })
 
     return townRenderer.finish()
 }
