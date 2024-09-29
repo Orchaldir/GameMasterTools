@@ -107,25 +107,33 @@ class SvgRenderer(
         orientation: Orientation,
         options: TextOptions,
     ): LayerRenderer {
-        lines.add(
-            String.format(
-                LOCALE,
-                "  <text x=\"%.3f\" y=\"%.3f\" transform=\"rotate(%.3f,%.3f,%.3f)\" fill=\"%s\" font-size=\"%.3fpx\" text-anchor=\"middle\">%s</text>",
-                center.x,
-                center.y,
-                orientation.toDegree(),
-                center.x,
-                center.y,
-                toSvg(options.color),
-                options.size,
-                text,
-            )
+        inlineTag(
+            "text",
+            text,
+            "x=\"%.3f\" y=\"%.3f\" transform=\"rotate(%.3f,%.3f,%.3f)\" fill=\"%s\" font-size=\"%.3fpx\" text-anchor=\"middle\"",
+            center.x,
+            center.y,
+            orientation.toDegree(),
+            center.x,
+            center.y,
+            toSvg(options.color),
+            options.size,
+            text,
         )
 
         return this
     }
 
     //
+
+    private fun inlineTag(tag: String, text: String, format: String, vararg args: Any?) {
+        val attributes = String.format(
+            LOCALE,
+            format,
+            *args,
+        )
+        lines.add(String.format("  <%s %s>%s</%s>", tag, attributes, text, tag))
+    }
 
     private fun selfClosingTag(tag: String, format: String, vararg args: Any?) {
         val attributes = String.format(
