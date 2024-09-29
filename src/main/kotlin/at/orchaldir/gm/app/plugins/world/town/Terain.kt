@@ -10,7 +10,7 @@ import at.orchaldir.gm.app.plugins.world.RiverRoutes
 import at.orchaldir.gm.core.action.ResizeTown
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.TerrainType
+import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.Element
@@ -153,6 +153,14 @@ private fun HTML.showTerrainEditor(
                     tileLinkLookup = { index, _ ->
                         call.application.href(TownRoutes.TerrainRoutes.Update(town.id, terrainType, terrainId, index))
                     },
+                    tileTooltipLookup = { _, tile ->
+                        when (tile.terrain) {
+                            is HillTerrain -> state.getMountainStorage().getOrThrow(tile.terrain.mountain).name
+                            is MountainTerrain -> state.getMountainStorage().getOrThrow(tile.terrain.mountain).name
+                            PlainTerrain -> null
+                            is RiverTerrain -> state.getRiverStorage().getOrThrow(tile.terrain.river).name
+                        }
+                    }
                 ), 90
             )
         })

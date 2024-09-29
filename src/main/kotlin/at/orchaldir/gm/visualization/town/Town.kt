@@ -44,15 +44,10 @@ data class TownRenderer(
 
     fun renderTiles(
         colorLookup: (TownTile) -> Color = TownTile::getColor,
-    ) {
-        tileRenderer.render(svgBuilder, town.map, colorLookup)
-    }
-
-    fun renderTilesWithLinks(
-        colorLookup: (TownTile) -> Color = TownTile::getColor,
         linkLookup: (Int, TownTile) -> String?,
+        tooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
     ) {
-        tileRenderer.renderWithLinks(svgBuilder, town.map, colorLookup, linkLookup)
+        tileRenderer.renderWithLinksAndTooltips(svgBuilder, town.map, colorLookup, linkLookup, tooltipLookup)
     }
 
     fun renderBuildings(
@@ -133,6 +128,7 @@ fun visualizeTown(
     buildings: List<Building> = emptyList(),
     tileColorLookup: (TownTile) -> Color = TownTile::getColor,
     tileLinkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
+    tileTooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
     buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
     buildingLinkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
     buildingTooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
@@ -142,7 +138,7 @@ fun visualizeTown(
 ): Svg {
     val townRenderer = TownRenderer(town)
 
-    townRenderer.renderTilesWithLinks(tileColorLookup, tileLinkLookup)
+    townRenderer.renderTiles(tileColorLookup, tileLinkLookup, tileTooltipLookup)
     townRenderer.renderBuildings(buildings, buildingColorLookup, buildingLinkLookup, buildingTooltipLookup)
     townRenderer.renderStreets(streetColorLookup, streetLinkLookup, streetTooltipLookup)
 

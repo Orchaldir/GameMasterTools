@@ -57,24 +57,21 @@ data class TileMap2dRenderer(
         }
     }
 
-    fun <TILE> renderWithLinks(
+    fun <TILE> renderWithLinksAndTooltips(
         renderer: AdvancedRenderer,
         map: TileMap2d<TILE>,
         colorLookup: (TILE) -> Color,
         linkLookup: (Int, TILE) -> String? = { _, _ -> null },
+        tooltipLookup: (Int, TILE) -> String? = { _, _ -> null },
     ) {
         val lineStyle = LineOptions(Black.toRender(), borderSize)
-        val layer = renderer.getLayer()
 
         render(map) { index, _, _, aabb, tile ->
             val color = colorLookup(tile)
-            val link = linkLookup(index, tile)
             val style = FillAndBorder(color.toRender(), lineStyle)
 
-            if (link != null) {
-                renderer.link(link) { it.renderRectangle(aabb, style) }
-            } else {
-                layer.renderRectangle(aabb, style)
+            renderer.optionalLinkAndTooltip(linkLookup(index, tile), tooltipLookup(index, tile)) {
+                it.renderRectangle(aabb, style)
             }
         }
     }
