@@ -15,15 +15,13 @@ class SvgRenderer(
     // LayerRenderer
 
     override fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions): LayerRenderer {
-        lines.add(
-            String.format(
-                LOCALE,
-                "  <circle cx=\"%.3f\" cy=\"%.3f\" r=\"%.3f\" style=\"%s\"/>",
-                center.x,
-                center.y,
-                radius.value,
-                toSvg(options),
-            )
+        selfClosingTag(
+            "circle",
+            "cx=\"%.3f\" cy=\"%.3f\" r=\"%.3f\" style=\"%s\"",
+            center.x,
+            center.y,
+            radius.value,
+            toSvg(options),
         )
 
         return this
@@ -47,16 +45,14 @@ class SvgRenderer(
         radiusY: Distance,
         options: RenderOptions,
     ): LayerRenderer {
-        lines.add(
-            String.format(
-                LOCALE,
-                "  <ellipse cx=\"%.3f\" cy=\"%.3f\" rx=\"%.3f\" ry=\"%.3f\" style=\"%s\"/>",
-                center.x,
-                center.y,
-                radiusX.value,
-                radiusY.value,
-                toSvg(options),
-            )
+        selfClosingTag(
+            "ellipse",
+            "cx=\"%.3f\" cy=\"%.3f\" rx=\"%.3f\" ry=\"%.3f\" style=\"%s\"",
+            center.x,
+            center.y,
+            radiusX.value,
+            radiusY.value,
+            toSvg(options),
         )
 
         return this
@@ -92,16 +88,14 @@ class SvgRenderer(
     }
 
     override fun renderRectangle(aabb: AABB, options: RenderOptions): LayerRenderer {
-        lines.add(
-            String.format(
-                LOCALE,
-                "  <rect x=\"%.3f\" y=\"%.3f\" width=\"%.3f\" height=\"%.3f\" style=\"%s\"/>",
-                aabb.start.x,
-                aabb.start.y,
-                aabb.size.width,
-                aabb.size.height,
-                toSvg(options),
-            )
+        selfClosingTag(
+            "rect",
+            "x=\"%.3f\" y=\"%.3f\" width=\"%.3f\" height=\"%.3f\" style=\"%s\"",
+            aabb.start.x,
+            aabb.start.y,
+            aabb.size.width,
+            aabb.size.height,
+            toSvg(options),
         )
 
         return this
