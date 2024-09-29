@@ -8,6 +8,8 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.LineOptions
 
 data class TileMap2dRenderer(
     val tileSize: Distance,
@@ -40,11 +42,12 @@ data class TileMap2dRenderer(
     }
 
     fun <TILE> render(
-        renderer: LinkRenderer,
+        layerRenderer: MultiLayerRenderer,
         map: TileMap2d<TILE>,
         lookup: (TILE) -> Color,
     ) {
         val lineStyle = LineOptions(Black.toRender(), borderSize)
+        val renderer = layerRenderer.getLayer()
 
         render(map) { _, _, _, aabb, tile ->
             val color = lookup(tile)
@@ -54,25 +57,21 @@ data class TileMap2dRenderer(
         }
     }
 
-    fun <TILE> renderWithLinks(
-        renderer: LinkRenderer,
+    fun <TILE> renderWithLinksAndTooltips(
+        renderer: AdvancedRenderer,
         map: TileMap2d<TILE>,
         colorLookup: (TILE) -> Color,
         linkLookup: (Int, TILE) -> String? = { _, _ -> null },
+        tooltipLookup: (Int, TILE) -> String? = { _, _ -> null },
     ) {
         val lineStyle = LineOptions(Black.toRender(), borderSize)
 
         render(map) { index, _, _, aabb, tile ->
             val color = colorLookup(tile)
-            val link = linkLookup(index, tile)
             val style = FillAndBorder(color.toRender(), lineStyle)
 
-            if (link != null) {
-                renderer.link(link)
-                renderer.renderRectangle(aabb, style)
-                renderer.closeLink()
-            } else {
-                renderer.renderRectangle(aabb, style)
+            renderer.optionalLinkAndTooltip(linkLookup(index, tile), tooltipLookup(index, tile)) {
+                it.renderRectangle(aabb, style)
             }
         }
     }

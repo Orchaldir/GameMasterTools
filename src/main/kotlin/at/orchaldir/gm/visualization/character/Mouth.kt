@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.NoBorder
+import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.SizeConfig
@@ -67,7 +67,7 @@ private fun visualizeMaleMouth(
     val mouthAabb = AABB.fromCenter(center, Size2d(width, height))
     val option = NoBorder(Color.Black.toRender())
 
-    state.renderer.renderRectangle(mouthAabb, option)
+    state.renderer.getLayer().renderRectangle(mouthAabb, option)
 }
 
 private fun visualizeFemaleMouth(
@@ -91,6 +91,6 @@ private fun visualizeFemaleMouth(
     val cupidsBow = aabb.getPoint(CENTER, config.head.mouthY - halfHeight * 0.5f)
     val polygon = Polygon2d(listOf(left, bottomLeft, bottomRight, right, topRight, cupidsBow, topLeft))
 
-    state.renderer.renderPolygon(polygon, options)
+    state.renderer.getLayer().renderPolygon(polygon, options)
 }
 

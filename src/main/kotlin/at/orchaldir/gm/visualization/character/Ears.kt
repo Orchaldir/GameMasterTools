@@ -6,7 +6,7 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.renderer.RenderOptions
+import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.renderMirroredPolygons
@@ -48,8 +48,9 @@ private fun visualizeRoundEars(
     val (left, right) = state.aabb.getMirroredPoints(Factor(1.0f), state.config.head.earY)
     val radius = state.config.head.ears.getRoundRadius(state.aabb, size)
 
-    state.renderer.renderCircle(left, radius, option)
-    state.renderer.renderCircle(right, radius, option)
+    state.renderer.getLayer()
+        .renderCircle(left, radius, option)
+        .renderCircle(right, radius, option)
 }
 
 private fun visualizePointedSideways(
@@ -65,7 +66,7 @@ private fun visualizePointedSideways(
     val length = radius.value * state.config.head.ears.pointedLength.value
     val tip = top + Point2d(length, 0.0f)
 
-    renderMirroredPolygons(state.renderer, option, state.aabb, listOf(top, bottom, tip))
+    renderMirroredPolygons(state.renderer.getLayer(), option, state.aabb, listOf(top, bottom, tip))
 }
 
 private fun visualizePointedUpwards(
@@ -82,5 +83,5 @@ private fun visualizePointedUpwards(
     val outerTop = top + Point2d(radius.value, -length)
     val outerBottom = bottom + Point2d(radius.value, -radius.value)
 
-    renderMirroredPolygons(state.renderer, option, state.aabb, listOf(top, bottom, outerBottom, outerTop))
+    renderMirroredPolygons(state.renderer.getLayer(), option, state.aabb, listOf(top, bottom, outerBottom, outerTop))
 }

@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
-import at.orchaldir.gm.utils.renderer.NoBorder
+import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.SizeConfig
 
@@ -73,11 +73,12 @@ private fun visualizeEye(state: RenderState, eye: Eye) {
 
 private fun visualizeEyeShape(state: RenderState, eyeShape: EyeShape, color: Color) {
     val options = NoBorder(color.toRender())
+    val layer = state.renderer.getLayer()
 
     when (eyeShape) {
-        EyeShape.Almond -> state.renderer.renderPointedOval(state.aabb, options)
-        EyeShape.Circle -> state.renderer.renderCircle(state.aabb, options)
-        EyeShape.Ellipse -> state.renderer.renderEllipse(state.aabb, options)
+        EyeShape.Almond -> layer.renderPointedOval(state.aabb, options)
+        EyeShape.Circle -> layer.renderCircle(state.aabb, options)
+        EyeShape.Ellipse -> layer.renderEllipse(state.aabb, options)
     }
 }
 
@@ -85,17 +86,18 @@ private fun visualizePupil(state: RenderState, pupilShape: PupilShape, color: Co
     val options = NoBorder(color.toRender())
     val aabb = state.aabb
     val slitWidth = aabb.size.width * state.config.head.eyes.slitFactor.value
+    val layer = state.renderer.getLayer()
 
     when (pupilShape) {
-        PupilShape.Circle -> state.renderer.renderCircle(aabb.shrink(state.config.head.eyes.pupilFactor), options)
+        PupilShape.Circle -> layer.renderCircle(aabb.shrink(state.config.head.eyes.pupilFactor), options)
         PupilShape.HorizontalSlit -> {
             val slitAABB = AABB.fromCenter(aabb.getCenter(), Size2d(aabb.size.width, slitWidth))
-            state.renderer.renderPointedOval(slitAABB, options)
+            layer.renderPointedOval(slitAABB, options)
         }
 
         PupilShape.VerticalSlit -> {
             val slitAABB = AABB.fromCenter(aabb.getCenter(), Size2d(slitWidth, aabb.size.height))
-            state.renderer.renderPointedOval(slitAABB, options)
+            layer.renderPointedOval(slitAABB, options)
         }
     }
 }

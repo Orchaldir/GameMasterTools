@@ -45,5 +45,5 @@ fun visualizeHead(
 fun visualizeHeadShape(state: RenderState, head: Head) {
     val options = state.config.getOptions(head.skin)
 
-    state.renderer.renderRectangle(state.aabb, options)
+    state.renderer.getLayer().renderRectangle(state.aabb, options)
 }

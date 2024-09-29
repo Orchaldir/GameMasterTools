@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.EquipmentSlot
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.renderPolygon
@@ -44,7 +44,7 @@ private fun visualizeNormalHair(state: RenderState, hair: NormalHair) {
             else -> doNothing()
         }
 
-        state.renderer.renderRectangle(state.aabb, options)
+        state.renderer.getLayer().renderRectangle(state.aabb, options)
 
         return
     }
@@ -104,7 +104,9 @@ private fun visualizeMiddlePart(
     val topCenter = aabb.getPoint(x, Factor(0.0f))
 
     renderRoundedPolygon(
-        state.renderer, options, listOf(
+        state.renderer.getLayer(),
+        options,
+        listOf(
             topLeft,
             topLeft,
             bottomLeft,
@@ -130,7 +132,7 @@ private fun visualizeRectangleHair(
     val (bottomLeft, bottomRight) = state.aabb.getMirroredPoints(width, state.config.head.hairlineY)
     val (topLeft, topRight) = state.aabb.getMirroredPoints(width * topWidth, topY)
 
-    renderPolygon(state.renderer, options, listOf(bottomLeft, bottomRight, topRight, topLeft))
+    renderPolygon(state.renderer.getLayer(), options, listOf(bottomLeft, bottomRight, topRight, topLeft))
 }
 
 private fun visualizeSpikedHair(
@@ -159,5 +161,5 @@ private fun visualizeSpikedHair(
     points.add(bottomRight)
     points.add(bottomLeft)
 
-    renderPolygon(state.renderer, options, points)
+    renderPolygon(state.renderer.getLayer(), options, points)
 }

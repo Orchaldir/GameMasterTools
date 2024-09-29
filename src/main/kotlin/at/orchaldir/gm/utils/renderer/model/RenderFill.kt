@@ -1,4 +1,4 @@
-package at.orchaldir.gm.utils.renderer
+package at.orchaldir.gm.utils.renderer.model
 
 import at.orchaldir.gm.core.model.util.Fill
 import at.orchaldir.gm.core.model.util.HorizontalStripes

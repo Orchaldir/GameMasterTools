@@ -1,14 +1,15 @@
 package at.orchaldir.gm.utils.renderer.svg
 
-import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.*
-import java.util.*
+import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.renderer.AdvancedRenderer
+import at.orchaldir.gm.utils.renderer.LayerRenderer
+import at.orchaldir.gm.utils.renderer.model.*
 
-val LOCALE: Locale = Locale.US
 
-class SvgBuilder(private val size: Size2d) : LinkRenderer {
+class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
     private val patterns: MutableMap<RenderFill, String> = mutableMapOf()
     private val layers: MutableMap<Int, MutableList<String>> = mutableMapOf()
+    private val step: String = "  "
 
     fun finish(): Svg {
         val lines: MutableList<String> = mutableListOf()
@@ -29,126 +30,54 @@ class SvgBuilder(private val size: Size2d) : LinkRenderer {
         return Svg(lines)
     }
 
-    // LinkRenderer
+    // layers
 
-    override fun link(link: String, layer: Int) {
-        layers.computeIfAbsent(layer) {
-            mutableListOf()
-        }.add(String.format(LOCALE, "  <a href=\"%s\" target=\"_parent\">", link))
+    override fun getLayer(layer: Int): LayerRenderer = SvgRenderer(patterns, layers.computeIfAbsent(layer) {
+        mutableListOf()
+    }, step, step)
+
+    // links
+
+    override fun link(link: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
+        val layer = SvgRenderer(patterns, layers.computeIfAbsent(layerIndex) { mutableListOf() }, step, step)
+
+        layer.tag("a", "href=\"%s\" target=\"_parent\"", link) {
+            content(it)
+        }
     }
 
-    override fun closeLink(layer: Int) {
-        layers.computeIfAbsent(layer) {
-            mutableListOf()
-        }.add("  </a>")
+    override fun tooltip(text: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
+        val layer = SvgRenderer(patterns, layers.computeIfAbsent(layerIndex) { mutableListOf() }, step, step, text)
+
+        content(layer)
     }
 
-    // Renderer
+    override fun linkAndTooltip(link: String, tooltip: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
+        val layer = SvgRenderer(patterns, layers.computeIfAbsent(layerIndex) { mutableListOf() }, step, step, tooltip)
 
-    override fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions, layer: Int) {
-        layers.computeIfAbsent(layer) {
-            mutableListOf()
-        }.add(
-            String.format(
-                LOCALE,
-                "  <circle cx=\"%.3f\" cy=\"%.3f\" r=\"%.3f\" style=\"%s\"/>",
-                center.x,
-                center.y,
-                radius.value,
-                toSvg(options),
-            )
-        )
+        layer.tag("a", "href=\"%s\" target=\"_parent\"", link) {
+            content(it)
+        }
     }
 
-    override fun renderCircleArc(
-        center: Point2d,
-        radius: Distance,
-        offset: Orientation,
-        angle: Orientation,
-        options: RenderOptions,
-        layer: Int,
+    override fun optionalLinkAndTooltip(
+        link: String?,
+        tooltip: String?,
+        layerIndex: Int,
+        content: (LayerRenderer) -> Unit,
     ) {
-        renderPath(convertCircleArcToPath(center, radius, offset, angle), toSvg(options), layer)
+        if (link != null && tooltip != null) {
+            linkAndTooltip(link, tooltip, layerIndex, content)
+        } else if (link != null) {
+            link(link, layerIndex, content)
+        } else if (tooltip != null) {
+            tooltip(tooltip, layerIndex, content)
+        } else {
+            content(getLayer(layerIndex))
+        }
     }
 
-    override fun renderEllipse(
-        center: Point2d,
-        radiusX: Distance,
-        radiusY: Distance,
-        options: RenderOptions,
-        layer: Int,
-    ) {
-        layers.computeIfAbsent(layer) {
-            mutableListOf()
-        }.add(
-            String.format(
-                LOCALE,
-                "  <ellipse cx=\"%.3f\" cy=\"%.3f\" rx=\"%.3f\" ry=\"%.3f\" style=\"%s\"/>",
-                center.x,
-                center.y,
-                radiusX.value,
-                radiusY.value,
-                toSvg(options),
-            )
-        )
-    }
-
-    override fun renderLine(line: List<Point2d>, options: LineOptions, layer: Int) {
-        renderPath(convertLineToPath(line), toSvg(options), layer)
-    }
-
-    override fun renderPointedOval(
-        center: Point2d,
-        radiusX: Distance,
-        radiusY: Distance,
-        options: RenderOptions,
-        layer: Int,
-    ) {
-        renderPath(convertPointedOvalToPath(center, radiusX, radiusY), toSvg(options), layer)
-    }
-
-    override fun renderRoundedPolygon(polygon: Polygon2d, options: RenderOptions, layer: Int) {
-        renderPath(convertRoundedPolygonToPath(polygon), toSvg(options), layer)
-    }
-
-    override fun renderPolygon(polygon: Polygon2d, options: RenderOptions, layer: Int) {
-        renderPath(convertPolygonToPath(polygon), toSvg(options), layer)
-    }
-
-    override fun renderRectangle(aabb: AABB, options: RenderOptions, layer: Int) {
-        layers.computeIfAbsent(layer) {
-            mutableListOf()
-        }.add(
-            String.format(
-                LOCALE,
-                "  <rect x=\"%.3f\" y=\"%.3f\" width=\"%.3f\" height=\"%.3f\" style=\"%s\"/>",
-                aabb.start.x,
-                aabb.start.y,
-                aabb.size.width,
-                aabb.size.height,
-                toSvg(options),
-            )
-        )
-    }
-
-    override fun renderText(text: String, center: Point2d, orientation: Orientation, options: TextOptions, layer: Int) {
-        layers.computeIfAbsent(layer) {
-            mutableListOf()
-        }.add(
-            String.format(
-                LOCALE,
-                "  <text x=\"%.3f\" y=\"%.3f\" transform=\"rotate(%.3f,%.3f,%.3f)\" fill=\"%s\" font-size=\"%.3fpx\" text-anchor=\"middle\">%s</text>",
-                center.x,
-                center.y,
-                orientation.toDegree(),
-                center.x,
-                center.y,
-                toSvg(options.color),
-                options.size,
-                text,
-            )
-        )
-    }
+    //
 
     private fun getStartLine() = String.format(
         LOCALE,
@@ -188,45 +117,6 @@ class SvgBuilder(private val size: Size2d) : LinkRenderer {
         lines.add("      <stop offset=\"0.5\" stop-color=\"$c1\"/>>")
         lines.add("      <stop offset=\"1.0\" stop-color=\"$c1\"/>>")
         lines.add("    </linearGradient>")
-    }
-
-    private fun renderPath(path: String, style: String, layer: Int) {
-        layers.computeIfAbsent(layer) {
-            mutableListOf()
-        }.add(
-            String.format(
-                "  <path d=\"%s\" style=\"%s\"/>",
-                path,
-                style,
-            )
-        )
-    }
-
-    private fun toSvg(options: RenderOptions): String {
-        return when (options) {
-            is FillAndBorder -> String.format(
-                "fill:%s;%s",
-                toSvg(options.fill),
-                toSvg(options.border)
-            )
-
-            is BorderOnly -> String.format("fill:none;%s", toSvg(options.border))
-            is NoBorder -> String.format("fill:%s", toSvg(options.fill))
-        }
-    }
-
-    private fun toSvg(line: LineOptions): String {
-        return String.format(
-            LOCALE, "stroke:%s;stroke-width:%.3f", toSvg(line.color), line.width.value
-        )
-    }
-
-    private fun toSvg(fill: RenderFill) = when (fill) {
-        is RenderSolid -> toSvg(fill.color)
-        else -> {
-            val name = patterns.computeIfAbsent(fill) { "pattern_${patterns.size}" }
-            "url(#$name)"
-        }
     }
 
     private fun toSvg(color: RenderColor) = color.toCode()

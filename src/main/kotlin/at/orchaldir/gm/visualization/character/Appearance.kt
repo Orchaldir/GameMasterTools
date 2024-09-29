@@ -14,8 +14,8 @@ import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
-import at.orchaldir.gm.utils.renderer.BorderOnly
-import at.orchaldir.gm.utils.renderer.TextOptions
+import at.orchaldir.gm.utils.renderer.model.BorderOnly
+import at.orchaldir.gm.utils.renderer.model.TextOptions
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.RenderConfig
@@ -56,7 +56,7 @@ fun visualizeAppearance(
     val inner = AABB.fromCenter(state.aabb.getCenter(), appearance.getSize2d())
     val innerState = state.copy(aabb = inner)
 
-    state.renderer.renderRectangle(state.aabb, BorderOnly(state.config.line))
+    state.renderer.getLayer().renderRectangle(state.aabb, BorderOnly(state.config.line))
 
     when (appearance) {
         is HeadOnly -> visualizeHead(innerState, appearance.head)
@@ -72,7 +72,7 @@ fun visualizeAppearance(
             val height = state.config.padding.value * 1.5f
             val options = TextOptions(Black.toRender(), 2.0f * height)
             val center = state.aabb.getCenter() + Point2d(0.0f, height * 0.5f)
-            state.renderer.renderText("?", center, Orientation.zero(), options)
+            state.renderer.getLayer().renderText("?", center, Orientation.zero(), options)
         }
 
     }

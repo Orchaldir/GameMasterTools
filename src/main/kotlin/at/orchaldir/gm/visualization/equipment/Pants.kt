@@ -4,8 +4,8 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.Pants
 import at.orchaldir.gm.core.model.item.style.PantsStyle
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.FillAndBorder
-import at.orchaldir.gm.utils.renderer.toRender
+import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.BodyConfig
 import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
@@ -31,7 +31,7 @@ fun visualizePants(
         PantsStyle.Shorts -> getPantsWithHeight(state, body, state.config.equipment.pants.heightShort)
     }
 
-    state.renderer.renderPolygon(polygon, options, EQUIPMENT_LAYER)
+    state.renderer.getLayer(EQUIPMENT_LAYER).renderPolygon(polygon, options)
 }
 
 private fun getRegularPants(state: RenderState, body: Body): Polygon2d {

@@ -5,12 +5,14 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseTown
 import at.orchaldir.gm.app.plugins.world.BuildingRoutes
+import at.orchaldir.gm.app.plugins.world.StreetRoutes
 import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.*
+import at.orchaldir.gm.visualization.town.showTerrainName
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -175,9 +177,18 @@ private fun visualizeTownWithLinks(
     state: State,
     town: Town,
 ) = visualizeTown(
-    town,
-    state.getBuildings(town.id),
+    town, state.getBuildings(town.id),
+    tileTooltipLookup = showTerrainName(state),
     buildingLinkLookup = { building ->
         call.application.href(BuildingRoutes.Details(building.id))
+    },
+    buildingTooltipLookup = { building ->
+        building.name
+    },
+    streetLinkLookup = { street, _ ->
+        call.application.href(StreetRoutes.Details(street))
+    },
+    streetTooltipLookup = { streetId, _ ->
+        state.getStreetStorage().getOrThrow(streetId).name
     },
 )

@@ -5,8 +5,8 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
-import at.orchaldir.gm.utils.renderer.LineOptions
-import at.orchaldir.gm.utils.renderer.NoBorder
+import at.orchaldir.gm.utils.renderer.model.LineOptions
+import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.ABOVE_EQUIPMENT_LAYER
@@ -54,10 +54,11 @@ fun visualizeButtons(
     val step = distance / buttons.count.toFloat()
     var y = topY + step * HALF
     val radius = aabb.convertHeight(state.config.equipment.opening.buttonRadius.convert(buttons.button.size))
+    val layer = state.renderer.getLayer(ABOVE_EQUIPMENT_LAYER)
 
     for (i in 0..<buttons.count.toInt()) {
         val center = aabb.getPoint(x, y)
-        state.renderer.renderCircle(center, radius, options, ABOVE_EQUIPMENT_LAYER)
+        layer.renderCircle(center, radius, options)
         y += step
     }
 }
@@ -75,5 +76,5 @@ fun visualizeZipper(
     val top = aabb.getPoint(x, topY)
     val bottom = aabb.getPoint(x, bottomY)
 
-    state.renderer.renderLine(listOf(top, bottom), options, ABOVE_EQUIPMENT_LAYER)
+    state.renderer.getLayer(ABOVE_EQUIPMENT_LAYER).renderLine(listOf(top, bottom), options)
 }

@@ -206,5 +206,8 @@ private fun visualizeBuilding(
         buildingLinkLookup = { b ->
             call.application.href(BuildingRoutes.Details(b.id))
         },
+        buildingTooltipLookup = { building ->
+            building.name
+        },
     )
 }

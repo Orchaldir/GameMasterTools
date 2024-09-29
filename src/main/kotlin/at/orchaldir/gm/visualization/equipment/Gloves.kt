@@ -5,9 +5,9 @@ import at.orchaldir.gm.core.model.item.Gloves
 import at.orchaldir.gm.core.model.item.style.GloveStyle
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.FillAndBorder
-import at.orchaldir.gm.utils.renderer.RenderOptions
-import at.orchaldir.gm.utils.renderer.toRender
+import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.RenderOptions
+import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.HIGHER_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.getArmLayer
@@ -43,8 +43,8 @@ private fun visualizeGloveSleeves(
     val centerRight = right + down
     val leftAabb = AABB(centerLeft, gloveSize)
     val rightAabb = AABB(centerRight, gloveSize)
-    val layer = getArmLayer(HIGHER_EQUIPMENT_LAYER, state.renderFront)
+    val layer = state.renderer.getLayer(getArmLayer(HIGHER_EQUIPMENT_LAYER, state.renderFront))
 
-    state.renderer.renderRectangle(leftAabb, options, layer)
-    state.renderer.renderRectangle(rightAabb, options, layer)
+    layer.renderRectangle(leftAabb, options)
+    layer.renderRectangle(rightAabb, options)
 }
