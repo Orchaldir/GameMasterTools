@@ -130,7 +130,7 @@ class SvgRenderer(
     //
 
     fun tag(tag: String, format: String, vararg args: Any?, content: (LayerRenderer) -> Unit) {
-        val attributes = formatAttributes(format, args)
+        val attributes = formatAttributes(format, *args)
         addLine(String.format("<%s %s>", tag, attributes))
 
         content(SvgRenderer(patterns, lines, indent + step, step))
@@ -140,7 +140,7 @@ class SvgRenderer(
 
     private fun inlineTag(tag: String, text: String, format: String, vararg args: Any?) {
 
-        val attributes = formatAttributes(format, args)
+        val attributes = formatAttributes(format, *args)
         addLine(String.format("<%s %s>%s</%s>", tag, attributes, text, tag))
     }
 
@@ -149,7 +149,7 @@ class SvgRenderer(
             val attributes = formatAttributes(format, *args)
             addLine(String.format("<%s %s/>", tag, attributes))
         } else {
-            tag(tag, format, args) {
+            tag(tag, format, *args) {
                 addLine("<title>$tooltip</title>")
             }
         }

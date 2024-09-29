@@ -8,4 +8,6 @@ interface AdvancedRenderer : MultiLayerRenderer {
 
     fun linkAndTooltip(link: String, tooltip: String, layerIndex: Int = 0, content: (LayerRenderer) -> Unit)
 
+    fun optionalLinkAndTooltip(link: String?, tooltip: String?, layerIndex: Int = 0, content: (LayerRenderer) -> Unit)
+
 }

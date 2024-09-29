@@ -60,6 +60,23 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
         }
     }
 
+    override fun optionalLinkAndTooltip(
+        link: String?,
+        tooltip: String?,
+        layerIndex: Int,
+        content: (LayerRenderer) -> Unit,
+    ) {
+        if (link != null && tooltip != null) {
+            linkAndTooltip(link, tooltip, layerIndex, content)
+        } else if (link != null) {
+            link(link, layerIndex, content)
+        } else if (tooltip != null) {
+            tooltip(tooltip, layerIndex, content)
+        } else {
+            content(getLayer(layerIndex))
+        }
+    }
+
     //
 
     private fun getStartLine() = String.format(
