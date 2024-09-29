@@ -28,7 +28,7 @@ class SvgTest {
         val options = BorderOnly(LineOptions(Green.toRender(), 10.0f))
         val aabb = AABB(Point2d(100.0f, 200.0f), Size2d(20.0f, 40.0f))
         val builder = SvgBuilder(Size2d(100.0f, 150.0f))
-        builder.renderRectangle(aabb, options)
+        builder.getLayer().renderRectangle(aabb, options)
         val svg = builder.finish()
 
         assertEquals(
@@ -46,7 +46,7 @@ class SvgTest {
         @Test
         fun `Render a circle`() {
             val builder = SvgBuilder(Size2d(100.0f, 150.0f))
-            builder.renderCircle(Point2d(110.0f, 220.0f), Distance(10.0f), options)
+            builder.getLayer().renderCircle(Point2d(110.0f, 220.0f), Distance(10.0f), options)
 
             testCircle(builder)
         }
@@ -55,7 +55,7 @@ class SvgTest {
         fun `Render an aabb as a circle`() {
             val aabb = AABB(Point2d(100.0f, 200.0f), Size2d(20.0f, 40.0f))
             val builder = SvgBuilder(Size2d(100.0f, 150.0f))
-            builder.renderCircle(aabb, options)
+            builder.getLayer().renderCircle(aabb, options)
 
             testCircle(builder)
         }
@@ -78,7 +78,7 @@ class SvgTest {
         val aabb = AABB(Point2d(100.0f, 200.0f), Size2d(20.0f, 40.0f))
         val builder = SvgBuilder(Size2d(100.0f, 150.0f))
 
-        builder.renderEllipse(aabb, options)
+        builder.getLayer().renderEllipse(aabb, options)
 
         assertEquals(
             """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
@@ -93,7 +93,7 @@ class SvgTest {
         val options = LineOptions(Black.toRender(), 0.5f)
         val builder = SvgBuilder(Size2d(100.0f, 150.0f))
 
-        builder.renderLine(listOf(Point2d(1.2f, 3.4f), Point2d(10.0f, 20.0f)), options)
+        builder.getLayer().renderLine(listOf(Point2d(1.2f, 3.4f), Point2d(10.0f, 20.0f)), options)
 
         assertEquals(
             """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
@@ -108,7 +108,7 @@ class SvgTest {
         val builder = SvgBuilder(Size2d(100.0f, 150.0f))
         val corners = listOf(Point2d(1.2f, 3.4f), Point2d(10.0f, 20.0f), Point2d(30.0f, 40.0f))
 
-        builder.renderPolygon(Polygon2d(corners), options)
+        builder.getLayer().renderPolygon(Polygon2d(corners), options)
 
         assertEquals(
             """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
@@ -122,7 +122,7 @@ class SvgTest {
     fun `Render a text`() {
         val builder = SvgBuilder(Size2d(100.0f, 150.0f))
 
-        builder.renderText("test", Point2d(1.0f, 2.0f), zero(), TextOptions(Blue.toRender(), 0.3f))
+        builder.getLayer().renderText("test", Point2d(1.0f, 2.0f), zero(), TextOptions(Blue.toRender(), 0.3f))
 
         assertEquals(
             """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
