@@ -1,8 +1,8 @@
 package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.*
-import at.orchaldir.gm.utils.renderer.interfaces.LinkRenderer
+import at.orchaldir.gm.utils.renderer.LinkRenderer
+import at.orchaldir.gm.utils.renderer.model.*
 import java.util.*
 
 val LOCALE: Locale = Locale.US

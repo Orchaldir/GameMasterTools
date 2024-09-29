@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.core.model.item.EquipmentSlot
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.renderer.interfaces.Renderer
+import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.visualization.character.ABOVE_EQUIPMENT_LAYER
 
 data class RenderState(

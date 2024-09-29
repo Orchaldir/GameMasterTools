@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils.renderer
 
+import at.orchaldir.gm.utils.renderer.model.RGB
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

@@ -3,7 +3,7 @@ package at.orchaldir.gm.prototypes.visualization
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.renderer.LineOptions
+import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.SizeConfig.Companion.withFactor
 import at.orchaldir.gm.visualization.character.*

@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.EquipmentSlot
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.RenderConfig
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.renderPolygon

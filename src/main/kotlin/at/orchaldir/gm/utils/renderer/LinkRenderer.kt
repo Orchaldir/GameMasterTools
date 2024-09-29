@@ -1,4 +1,4 @@
-package at.orchaldir.gm.utils.renderer.interfaces
+package at.orchaldir.gm.utils.renderer
 
 interface LinkRenderer : Renderer {
 

@@ -8,7 +8,8 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.renderer.interfaces.LinkRenderer
+import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.LineOptions
 
 data class TileMap2dRenderer(
     val tileSize: Distance,

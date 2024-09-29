@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.renderer.NoBorder
+import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.RenderState
 
 data class BeardConfig(

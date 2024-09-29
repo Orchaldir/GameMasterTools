@@ -14,8 +14,8 @@ import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
-import at.orchaldir.gm.utils.renderer.BorderOnly
-import at.orchaldir.gm.utils.renderer.TextOptions
+import at.orchaldir.gm.utils.renderer.model.BorderOnly
+import at.orchaldir.gm.utils.renderer.model.TextOptions
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.RenderConfig
