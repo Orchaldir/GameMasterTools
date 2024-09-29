@@ -14,6 +14,7 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.renderer.Renderer
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.svg.Svg
@@ -55,10 +56,12 @@ data class TownRenderer(
         buildings: List<Building>,
         colorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
     ) {
+        val layer = renderer.getLayer()
+
         buildings.forEach { building ->
             val color = colorLookup(building)
 
-            renderBuilding(building, color)
+            renderBuilding(layer, building, color)
         }
     }
 
@@ -72,11 +75,11 @@ data class TownRenderer(
             val link = linkLookup(building)
 
             if (link != null) {
-                renderer.link(link)
-                renderBuilding(building, color)
-                renderer.closeLink()
+                renderer.link(link) {
+                    renderBuilding(it, building, color)
+                }
             } else {
-                renderBuilding(building, color)
+                renderBuilding(renderer.getLayer(), building, color)
             }
         }
     }
@@ -84,9 +87,11 @@ data class TownRenderer(
     fun renderStreets(
         colorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
     ) {
+        val layer = renderer.getLayer()
+
         renderStreets { aabb, streetId, index ->
             val color = colorLookup(streetId, index)
-            renderStreet(aabb, color)
+            renderStreet(layer, aabb, color)
         }
     }
 
@@ -99,11 +104,11 @@ data class TownRenderer(
             val link = linkLookup(streetId, index)
 
             if (link != null) {
-                renderer.link(link)
-                renderStreet(aabb, color)
-                renderer.closeLink()
+                renderer.link(link) {
+                    renderStreet(it, aabb, color)
+                }
             } else {
-                renderStreet(aabb, color)
+                renderStreet(renderer.getLayer(), aabb, color)
             }
         }
     }
@@ -132,6 +137,7 @@ data class TownRenderer(
     }
 
     private fun renderBuilding(
+        renderer: Renderer,
         building: Building,
         color: Color,
     ) {
@@ -143,7 +149,7 @@ data class TownRenderer(
         renderer.renderRectangle(aabb, style)
     }
 
-    private fun renderStreet(tile: AABB, color: Color) {
+    private fun renderStreet(renderer: Renderer, tile: AABB, color: Color) {
         val style = NoBorder(color.toRender())
         renderer.renderRectangle(tile.shrink(Factor(0.5f)), style)
     }

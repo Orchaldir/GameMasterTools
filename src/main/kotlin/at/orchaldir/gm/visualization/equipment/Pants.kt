@@ -31,7 +31,7 @@ fun visualizePants(
         PantsStyle.Shorts -> getPantsWithHeight(state, body, state.config.equipment.pants.heightShort)
     }
 
-    state.renderer.renderPolygon(polygon, options, EQUIPMENT_LAYER)
+    state.renderer.getLayer(EQUIPMENT_LAYER).renderPolygon(polygon, options)
 }
 
 private fun getRegularPants(state: RenderState, body: Body): Polygon2d {

@@ -43,8 +43,8 @@ private fun visualizeGloveSleeves(
     val centerRight = right + down
     val leftAabb = AABB(centerLeft, gloveSize)
     val rightAabb = AABB(centerRight, gloveSize)
-    val layer = getArmLayer(HIGHER_EQUIPMENT_LAYER, state.renderFront)
+    val layer = state.renderer.getLayer(getArmLayer(HIGHER_EQUIPMENT_LAYER, state.renderFront))
 
-    state.renderer.renderRectangle(leftAabb, options, layer)
-    state.renderer.renderRectangle(rightAabb, options, layer)
+    layer.renderRectangle(leftAabb, options)
+    layer.renderRectangle(rightAabb, options)
 }

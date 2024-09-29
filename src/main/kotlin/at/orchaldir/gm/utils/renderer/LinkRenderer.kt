@@ -1,9 +1,7 @@
 package at.orchaldir.gm.utils.renderer
 
-interface LinkRenderer : Renderer {
+interface LinkRenderer : LayerRenderer {
 
-    fun link(link: String, layer: Int = 0)
-
-    fun closeLink(layer: Int = 0)
+    fun link(link: String, layerIndex: Int = 0, content: (Renderer) -> Unit)
 
 }

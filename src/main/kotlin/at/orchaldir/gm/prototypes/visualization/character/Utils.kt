@@ -70,6 +70,7 @@ fun <C, R> renderTable(
     val columnTextOffset = Point2d(size.width / 2.0f, textSize)
     val columnOrientation = Orientation.zero()
     val rowOrientation = Orientation.fromDegree(270.0f)
+    val layer = builder.getLayer(TEXT_LAYER)
 
     rows.forEach { (rowName, row) ->
         var start = startOfRow.copy()
@@ -90,16 +91,16 @@ fun <C, R> renderTable(
             }
 
             val textCenter = start + columnTextOffset
-            builder.renderText(columnName, textCenter, columnOrientation, textOptions, TEXT_LAYER)
+            layer.renderText(columnName, textCenter, columnOrientation, textOptions)
 
             start += columnStep
         }
 
         val textCenter = Point2d(textSize, start.y + size.height / 2.0f)
-        builder.renderText(rowName, textCenter, rowOrientation, textOptions, TEXT_LAYER)
+        layer.renderText(rowName, textCenter, rowOrientation, textOptions)
 
         if (backToo) {
-            builder.renderText("Back", textCenter + rowStep, rowOrientation, textOptions, TEXT_LAYER)
+            layer.renderText("Back", textCenter + rowStep, rowOrientation, textOptions)
         }
 
         startOfRow += rowStep * rowSize

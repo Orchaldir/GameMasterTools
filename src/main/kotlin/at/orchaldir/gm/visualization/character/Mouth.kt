@@ -67,7 +67,7 @@ private fun visualizeMaleMouth(
     val mouthAabb = AABB.fromCenter(center, Size2d(width, height))
     val option = NoBorder(Color.Black.toRender())
 
-    state.renderer.renderRectangle(mouthAabb, option)
+    state.renderer.getLayer().renderRectangle(mouthAabb, option)
 }
 
 private fun visualizeFemaleMouth(
@@ -91,6 +91,6 @@ private fun visualizeFemaleMouth(
     val cupidsBow = aabb.getPoint(CENTER, config.head.mouthY - halfHeight * 0.5f)
     val polygon = Polygon2d(listOf(left, bottomLeft, bottomRight, right, topRight, cupidsBow, topLeft))
 
-    state.renderer.renderPolygon(polygon, options)
+    state.renderer.getLayer().renderPolygon(polygon, options)
 }
 

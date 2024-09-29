@@ -13,7 +13,7 @@ fun visualizeSleeves(
     options: RenderOptions,
     body: Body,
     style: SleeveStyle,
-    layer: Int = EQUIPMENT_LAYER,
+    layerIndex: Int = EQUIPMENT_LAYER,
 ) {
     val (left, right) = state.config.body.getArmStarts(state.aabb, body)
     val armSize = state.config.body.getArmSize(state.aabb, body)
@@ -24,8 +24,8 @@ fun visualizeSleeves(
     }
     val leftAabb = AABB(left, sleeveSize)
     val rightAabb = AABB(right, sleeveSize)
-    val l = getArmLayer(layer, state.renderFront)
+    val layer = state.renderer.getLayer(getArmLayer(layerIndex, state.renderFront))
 
-    state.renderer.renderRectangle(leftAabb, options, l)
-    state.renderer.renderRectangle(rightAabb, options, l)
+    layer.renderRectangle(leftAabb, options)
+    layer.renderRectangle(rightAabb, options)
 }

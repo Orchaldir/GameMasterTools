@@ -41,24 +41,25 @@ private fun visualizeGoatee(
     goatee: GoateeStyle,
     color: Color,
 ) {
+    val layer = state.renderer.getLayer(state.getBeardLayer())
     val options = NoBorder(color.toRender())
     val polygon = when (goatee) {
         GoateeStyle.ChinPuff -> getChinPuff(state, head)
         GoateeStyle.Goatee -> {
-            state.renderer.renderPolygon(getGoatee(state, head), options, state.getBeardLayer())
+            layer.renderPolygon(getGoatee(state, head), options)
             return
         }
 
         GoateeStyle.LandingStrip -> getLandingStrip(state, head)
         GoateeStyle.SoulPatch -> {
-            state.renderer.renderPolygon(getSoulPatch(state, head), options, state.getBeardLayer())
+            layer.renderPolygon(getSoulPatch(state, head), options)
             return
         }
 
         GoateeStyle.VanDyke -> getVanDyke(state, head)
     }
 
-    state.renderer.renderRoundedPolygon(polygon, options, state.getBeardLayer())
+    layer.renderRoundedPolygon(polygon, options)
 }
 
 private fun visualizeMoustache(
@@ -77,5 +78,5 @@ private fun visualizeMoustache(
         MoustacheStyle.Walrus -> getWalrus(state, head)
     }
 
-    state.renderer.renderRoundedPolygon(polygon, options, state.getBeardLayer())
+    state.renderer.getLayer(state.getBeardLayer()).renderRoundedPolygon(polygon, options)
 }

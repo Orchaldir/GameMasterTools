@@ -10,13 +10,13 @@ import at.orchaldir.gm.utils.renderer.Renderer
 fun renderBuilder(state: RenderState, builder: Polygon2dBuilder, options: RenderOptions, layer: Int) {
     val polygon = builder.build()
 
-    state.renderer.renderPolygon(polygon, options, layer)
+    state.renderer.getLayer(layer).renderPolygon(polygon, options)
 }
 
 fun renderRoundedBuilder(state: RenderState, builder: Polygon2dBuilder, options: RenderOptions, layer: Int) {
     val polygon = builder.build()
 
-    state.renderer.renderRoundedPolygon(polygon, options, layer)
+    state.renderer.getLayer(layer).renderRoundedPolygon(polygon, options)
 }
 
 fun renderPolygon(

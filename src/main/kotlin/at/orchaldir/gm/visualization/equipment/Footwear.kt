@@ -82,9 +82,10 @@ private fun visualizeBootShaft(
     val (left, right) = config.body.getMirroredLegPoint(state.aabb, body, FULL - scale * 0.5f)
     val leftAabb = AABB.fromCenter(left, size)
     val rightAabb = AABB.fromCenter(right, size)
+    val layer = state.renderer.getLayer(EQUIPMENT_LAYER)
 
-    state.renderer.renderRectangle(leftAabb, options, EQUIPMENT_LAYER)
-    state.renderer.renderRectangle(rightAabb, options, EQUIPMENT_LAYER)
+    layer.renderRectangle(leftAabb, options)
+    layer.renderRectangle(rightAabb, options)
 }
 
 fun visualizeSoles(
@@ -101,7 +102,8 @@ fun visualizeSoles(
     val offset = Point2d(0.0f, size.height / 2.0f)
     val leftAABB = AABB.fromCenter(left + offset, size)
     val rightAABB = AABB.fromCenter(right + offset, size)
+    val layer = state.renderer.getLayer(EQUIPMENT_LAYER)
 
-    state.renderer.renderRectangle(leftAABB, options, EQUIPMENT_LAYER)
-    state.renderer.renderRectangle(rightAABB, options, EQUIPMENT_LAYER)
+    layer.renderRectangle(leftAABB, options)
+    layer.renderRectangle(rightAABB, options)
 }

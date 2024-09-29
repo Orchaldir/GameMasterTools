@@ -42,11 +42,12 @@ data class TileMap2dRenderer(
     }
 
     fun <TILE> render(
-        renderer: LinkRenderer,
+        layerRenderer: LayerRenderer,
         map: TileMap2d<TILE>,
         lookup: (TILE) -> Color,
     ) {
         val lineStyle = LineOptions(Black.toRender(), borderSize)
+        val renderer = layerRenderer.getLayer()
 
         render(map) { _, _, _, aabb, tile ->
             val color = lookup(tile)
@@ -70,11 +71,9 @@ data class TileMap2dRenderer(
             val style = FillAndBorder(color.toRender(), lineStyle)
 
             if (link != null) {
-                renderer.link(link)
-                renderer.renderRectangle(aabb, style)
-                renderer.closeLink()
+                renderer.link(link) { it.renderRectangle(aabb, style) }
             } else {
-                renderer.renderRectangle(aabb, style)
+                renderer.getLayer().renderRectangle(aabb, style)
             }
         }
     }
