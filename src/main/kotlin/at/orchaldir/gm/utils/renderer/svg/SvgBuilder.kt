@@ -4,10 +4,11 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.utils.renderer.LinkRenderer
 import at.orchaldir.gm.utils.renderer.LayerRenderer
+import at.orchaldir.gm.utils.renderer.TooltipRenderer
 import at.orchaldir.gm.utils.renderer.model.*
 
 
-class SvgBuilder(private val size: Size2d) : LinkRenderer, MultiLayerRenderer {
+class SvgBuilder(private val size: Size2d) : LinkRenderer, TooltipRenderer {
     private val patterns: MutableMap<RenderFill, String> = mutableMapOf()
     private val layers: MutableMap<Int, MutableList<String>> = mutableMapOf()
 
@@ -30,13 +31,13 @@ class SvgBuilder(private val size: Size2d) : LinkRenderer, MultiLayerRenderer {
         return Svg(lines)
     }
 
-    // LayerRenderer
+    // layers
 
     override fun getLayer(layer: Int): LayerRenderer = SvgRenderer(patterns, layers.computeIfAbsent(layer) {
         mutableListOf()
     })
 
-    // LinkRenderer
+    // links
 
     override fun link(link: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
         val layer = layers.computeIfAbsent(layerIndex) { mutableListOf() }
@@ -46,6 +47,12 @@ class SvgBuilder(private val size: Size2d) : LinkRenderer, MultiLayerRenderer {
         content(SvgRenderer(patterns, layer))
 
         layer.add("  </a>")
+    }
+
+    // tooltips
+
+    override fun tooltip(text: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
+        TODO("Not yet implemented")
     }
 
     //
