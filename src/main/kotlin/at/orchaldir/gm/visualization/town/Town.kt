@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.town
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.StreetId
@@ -150,4 +151,13 @@ fun TownTile.getColor() = when (terrain) {
     is MountainTerrain -> Color.Gray
     PlainTerrain -> Color.Green
     is RiverTerrain -> Color.Blue
+}
+
+fun showTerrainName(state: State): (Int, TownTile) -> String? = { _, tile ->
+    when (tile.terrain) {
+        is HillTerrain -> state.getMountainStorage().getOrThrow(tile.terrain.mountain).name
+        is MountainTerrain -> state.getMountainStorage().getOrThrow(tile.terrain.mountain).name
+        PlainTerrain -> null
+        is RiverTerrain -> state.getRiverStorage().getOrThrow(tile.terrain.river).name
+    }
 }

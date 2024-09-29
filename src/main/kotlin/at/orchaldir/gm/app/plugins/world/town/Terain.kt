@@ -12,11 +12,13 @@ import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.Resize
+import at.orchaldir.gm.visualization.town.showTerrainName
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -153,14 +155,7 @@ private fun HTML.showTerrainEditor(
                     tileLinkLookup = { index, _ ->
                         call.application.href(TownRoutes.TerrainRoutes.Update(town.id, terrainType, terrainId, index))
                     },
-                    tileTooltipLookup = { _, tile ->
-                        when (tile.terrain) {
-                            is HillTerrain -> state.getMountainStorage().getOrThrow(tile.terrain.mountain).name
-                            is MountainTerrain -> state.getMountainStorage().getOrThrow(tile.terrain.mountain).name
-                            PlainTerrain -> null
-                            is RiverTerrain -> state.getRiverStorage().getOrThrow(tile.terrain.river).name
-                        }
-                    }
+                    tileTooltipLookup = showTerrainName(state),
                 ), 90
             )
         })

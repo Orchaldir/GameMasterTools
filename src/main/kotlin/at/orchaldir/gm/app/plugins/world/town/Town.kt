@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.*
+import at.orchaldir.gm.visualization.town.showTerrainName
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -177,6 +178,7 @@ private fun visualizeTownWithLinks(
     town: Town,
 ) = visualizeTown(
     town, state.getBuildings(town.id),
+    tileTooltipLookup = showTerrainName(state),
     buildingLinkLookup = { building ->
         call.application.href(BuildingRoutes.Details(building.id))
     },
