@@ -14,6 +14,12 @@ sealed class Address {
         is TownAddress -> AddressType.Town
     }
 
+    fun contains(other: StreetId) = when (this) {
+        is CrossingAddress -> streets.contains(other)
+        is StreetAddress -> street == other
+        else -> false
+    }
+
 }
 
 @Serializable

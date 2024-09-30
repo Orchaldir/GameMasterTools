@@ -140,7 +140,7 @@ private fun HTML.showBuildingDetails(
         split({
             field("Id", building.id.value.toString())
             field("Name", building.name)
-            showAddress(call, state, building)
+            fieldAddress(call, state, building)
             field(call, state, "Construction", building.constructionDate)
             fieldAge("Age", state.getAgeInYears(building))
             showOwnership(call, state, building.ownership)
@@ -156,45 +156,6 @@ private fun HTML.showBuildingDetails(
         }, {
             svg(visualizeBuilding(call, state, building), 90)
         })
-    }
-}
-
-private fun DIV.showAddress(
-    call: ApplicationCall,
-    state: State,
-    building: Building,
-) {
-    val address = building.address
-
-    field("Address") {
-        when (address) {
-            is CrossingAddress -> {
-                var isStart = true
-                +"Crossing of "
-                address.streets.forEach { street ->
-                    if (isStart) {
-                        isStart = false
-                    } else {
-                        +" & "
-                    }
-                    link(call, state, street)
-                }
-            }
-
-            NoAddress -> {
-                +"None"
-            }
-
-            is StreetAddress -> {
-                link(call, state, address.street)
-                +" ${address.houseNumber}"
-            }
-
-            is TownAddress -> {
-                link(call, state, building.lot.town)
-                +" ${address.houseNumber}"
-            }
-        }
     }
 }
 

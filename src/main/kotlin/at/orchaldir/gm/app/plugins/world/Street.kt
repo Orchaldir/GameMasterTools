@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.world.canDelete
+import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -134,6 +135,9 @@ private fun HTML.showStreetDetails(
         field("Name", street.name)
         showList("Towns", state.getTowns(street.id)) { town ->
             link(call, town)
+            showList(state.getBuildings(town.id).filter { it.address.contains(street.id) }) { building ->
+                link(call, building)
+            }
         }
         action(editLink, "Edit")
         if (state.canDelete(street.id)) {
