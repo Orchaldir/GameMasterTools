@@ -1,14 +1,13 @@
 package at.orchaldir.gm.app.parse.world
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parseCharacterId
-import at.orchaldir.gm.app.parse.parseDate
-import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.WeekDay
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.*
+import at.orchaldir.gm.core.model.world.street.StreetId
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -32,8 +31,16 @@ fun parseAddress(parameters: Parameters): Address = when (parameters[combine(ADD
         parseStreetId(parameters, combine(ADDRESS, STREET)),
         parseInt(parameters, combine(ADDRESS, NUMBER), 1),
     )
+    AddressType.Crossing.toString() -> CrossingAddress(parseStreets(parameters))
 
     else -> NoAddress
+}
+
+private fun parseStreets(parameters: Parameters): List<StreetId> {
+    val count = parseInt(parameters, combine(ADDRESS, STREET), 2)
+
+    return (0..<count)
+        .map { parseStreetId(parameters, combine(ADDRESS, STREET, it)) }
 }
 
 fun parseOwnership(parameters: Parameters, state: State, startDate: Date): Ownership = Ownership(

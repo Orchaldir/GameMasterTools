@@ -170,8 +170,9 @@ private fun DIV.showAddress(
                 +"Crossing of "
                 address.streets.forEach { street ->
                     if (isStart) {
-                        +" & "
                         isStart = false
+                    } else {
+                        +" & "
                     }
                     link(call, state, street)
                 }
@@ -231,7 +232,7 @@ private fun FORM.selectAddress(state: State, building: Building) {
     }
     when (building.address) {
         is CrossingAddress -> {
-            selectInt("Streets", building.address.streets.size, 2, 3, combine(ADDRESS, STREET, NUMBER), true)
+            selectInt("Streets", building.address.streets.size, 2, 3, combine(ADDRESS, STREET), true)
             building.address.streets.withIndex().forEach { (index, streetId) ->
                 selectValue(
                     "${index + 1}.Street",
