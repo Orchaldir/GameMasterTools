@@ -258,10 +258,11 @@ private fun FORM.selectAddress(state: State, building: Building) {
                     streets,
                     true
                 ) { street ->
+                    val alreadyUsed = previous.contains(street.id)
                     label = street.name
                     value = street.id.value.toString()
-                    selected = street.id == streetId
-                    disabled = previous.contains(street.id)
+                    selected = street.id == streetId && !alreadyUsed
+                    disabled = alreadyUsed
                 }
                 previous.add(streetId)
             }
