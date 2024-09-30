@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getAgeInYears
 import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.core.selector.world.getStreets
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.town.visualizeTown
@@ -25,6 +26,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
+import kotlin.math.min
 
 private val logger = KotlinLogging.logger {}
 
@@ -225,19 +227,26 @@ private fun HTML.showBuildingEditor(
 }
 
 private fun FORM.selectAddress(state: State, building: Building) {
+    val streets = state.getStreets(building.lot.town)
+
     selectValue("Address Type", combine(ADDRESS, TYPE), AddressType.entries, true) { type ->
         label = type.name
         value = type.name
         selected = type == building.address.getType()
+        disabled = when (type) {
+            AddressType.Street -> streets.isEmpty()
+            AddressType.Crossing -> streets.size < 2
+            else -> false
+        }
     }
     when (building.address) {
         is CrossingAddress -> {
-            selectInt("Streets", building.address.streets.size, 2, 3, combine(ADDRESS, STREET), true)
+            selectInt("Streets", building.address.streets.size, 2, min(3, streets.size), combine(ADDRESS, STREET), true)
             building.address.streets.withIndex().forEach { (index, streetId) ->
                 selectValue(
                     "${index + 1}.Street",
                     combine(ADDRESS, STREET, index),
-                    state.getStreetStorage().getAll(),
+                    streets,
                     true
                 ) { street ->
                     label = street.name
@@ -246,9 +255,10 @@ private fun FORM.selectAddress(state: State, building: Building) {
                 }
             }
         }
+
         NoAddress -> doNothing()
         is StreetAddress -> {
-            selectValue("Street", combine(ADDRESS, STREET), state.getStreetStorage().getAll(), true) { street ->
+            selectValue("Street", combine(ADDRESS, STREET), streets, true) { street ->
                 label = street.name
                 value = street.id.value.toString()
                 selected = street.id == building.address.street
