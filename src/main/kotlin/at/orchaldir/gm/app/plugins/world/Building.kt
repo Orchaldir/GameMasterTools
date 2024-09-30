@@ -157,14 +157,12 @@ private fun HTML.showBuildingDetails(
 
                     is StreetAddress -> {
                         link(call, state, building.address.street)
-                        +" "
-                        building.address.houseNumber
+                        +" ${building.address.houseNumber}"
                     }
 
                     is TownAddress -> {
                         link(call, state, building.lot.town)
-                        +" "
-                        building.address.houseNumber
+                        +" ${building.address.houseNumber}"
                     }
                 }
             }
@@ -203,7 +201,7 @@ private fun HTML.showBuildingEditor(
                 action = previewLink
                 method = FormMethod.post
                 selectName(building.name)
-                selectAddress(building)
+                selectAddress(state, building)
                 selectDate(state, "Construction", building.constructionDate, DATE)
                 selectOwnership(state, building.ownership, building.constructionDate)
                 button("Update", updateLink)
@@ -215,7 +213,7 @@ private fun HTML.showBuildingEditor(
     }
 }
 
-private fun FORM.selectAddress(building: Building) {
+private fun FORM.selectAddress(state: State, building: Building) {
     selectValue("Address Type", combine(ADDRESS, TYPE), AddressType.entries, true) { type ->
         label = type.name
         value = type.name
@@ -225,10 +223,10 @@ private fun FORM.selectAddress(building: Building) {
         is CrossingAddress -> TODO()
         NoAddress -> doNothing()
         is StreetAddress -> {
-            selectValue("Street", combine(ADDRESS, STREET), AddressType.entries, true) { type ->
-                label = type.name
-                value = type.name
-                selected = type == building.address.getType()
+            selectValue("Street", combine(ADDRESS, STREET), state.getStreetStorage().getAll(), true) { street ->
+                label = street.name
+                value = street.id.value.toString()
+                selected = street.id == building.address.street
             }
             selectHouseNumber(building.address.houseNumber)
         }

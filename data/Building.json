@@ -30,7 +30,8 @@
     "tileIndex": 44
    },
    "address": {
-    "type": "Town",
+    "type": "Street",
+    "street": 0,
     "houseNumber": 4
    },
    "constructionDate": {
