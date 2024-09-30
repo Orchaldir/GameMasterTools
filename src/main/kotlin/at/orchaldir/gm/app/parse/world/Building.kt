@@ -37,7 +37,7 @@ fun parseAddress(parameters: Parameters): Address = when (parameters[combine(ADD
 }
 
 private fun parseStreets(parameters: Parameters): List<StreetId> {
-    val count = parseInt(parameters, combine(ADDRESS, STREET), 2)
+    val count = parseInt(parameters, combine(ADDRESS, STREET, NUMBER), 2)
 
     return (0..<count)
         .map { parseStreetId(parameters, combine(ADDRESS, STREET, it)) }

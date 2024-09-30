@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.*
+import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getAgeInYears
 import at.orchaldir.gm.core.selector.world.getBuildings
@@ -241,7 +242,15 @@ private fun FORM.selectAddress(state: State, building: Building) {
     }
     when (building.address) {
         is CrossingAddress -> {
-            selectInt("Streets", building.address.streets.size, 2, min(3, streets.size), combine(ADDRESS, STREET), true)
+            selectInt(
+                "Streets",
+                building.address.streets.size,
+                2,
+                min(3, streets.size),
+                combine(ADDRESS, STREET, NUMBER),
+                true
+            )
+            val previous = mutableListOf<StreetId>()
             building.address.streets.withIndex().forEach { (index, streetId) ->
                 selectValue(
                     "${index + 1}.Street",
@@ -252,7 +261,9 @@ private fun FORM.selectAddress(state: State, building: Building) {
                     label = street.name
                     value = street.id.value.toString()
                     selected = street.id == streetId
+                    disabled = previous.contains(street.id)
                 }
+                previous.add(streetId)
             }
         }
 
