@@ -137,35 +137,7 @@ private fun HTML.showBuildingDetails(
         split({
             field("Id", building.id.value.toString())
             field("Name", building.name)
-            field("Address") {
-                when (building.address) {
-                    is CrossingAddress -> {
-                        var isStart = true
-                        +"Crossing of "
-                        building.address.streets.forEach { street ->
-                            if (isStart) {
-                                +" & "
-                                isStart = false
-                            }
-                            link(call, state, street)
-                        }
-                    }
-
-                    NoAddress -> {
-                        +"None"
-                    }
-
-                    is StreetAddress -> {
-                        link(call, state, building.address.street)
-                        +" ${building.address.houseNumber}"
-                    }
-
-                    is TownAddress -> {
-                        link(call, state, building.lot.town)
-                        +" ${building.address.houseNumber}"
-                    }
-                }
-            }
+            showAddress(call, state, building)
             field(call, state, "Construction", building.constructionDate)
             fieldAge("Age", state.getAgeInYears(building))
             showOwnership(call, state, building.ownership)
@@ -181,6 +153,44 @@ private fun HTML.showBuildingDetails(
         }, {
             svg(visualizeBuilding(call, state, building), 90)
         })
+    }
+}
+
+private fun DIV.showAddress(
+    call: ApplicationCall,
+    state: State,
+    building: Building,
+) {
+    val address = building.address
+
+    field("Address") {
+        when (address) {
+            is CrossingAddress -> {
+                var isStart = true
+                +"Crossing of "
+                address.streets.forEach { street ->
+                    if (isStart) {
+                        +" & "
+                        isStart = false
+                    }
+                    link(call, state, street)
+                }
+            }
+
+            NoAddress -> {
+                +"None"
+            }
+
+            is StreetAddress -> {
+                link(call, state, address.street)
+                +" ${address.houseNumber}"
+            }
+
+            is TownAddress -> {
+                link(call, state, building.lot.town)
+                +" ${address.houseNumber}"
+            }
+        }
     }
 }
 
@@ -220,7 +230,21 @@ private fun FORM.selectAddress(state: State, building: Building) {
         selected = type == building.address.getType()
     }
     when (building.address) {
-        is CrossingAddress -> TODO()
+        is CrossingAddress -> {
+            selectInt("Streets", building.address.streets.size, 2, 3, combine(ADDRESS, STREET, NUMBER), true)
+            building.address.streets.withIndex().forEach { (index, streetId) ->
+                selectValue(
+                    "${index + 1}.Street",
+                    combine(ADDRESS, STREET, index),
+                    state.getStreetStorage().getAll(),
+                    true
+                ) { street ->
+                    label = street.name
+                    value = street.id.value.toString()
+                    selected = street.id == streetId
+                }
+            }
+        }
         NoAddress -> doNothing()
         is StreetAddress -> {
             selectValue("Street", combine(ADDRESS, STREET), state.getStreetStorage().getAll(), true) { street ->
@@ -242,15 +266,15 @@ private fun FORM.selectHouseNumber(houseNumber: Int) {
 private fun visualizeBuilding(
     call: ApplicationCall,
     state: State,
-    building: Building,
+    selected: Building,
 ): Svg {
-    val town = state.getTownStorage().getOrThrow(building.lot.town)
+    val town = state.getTownStorage().getOrThrow(selected.lot.town)
 
     return visualizeTown(
         town,
         state.getBuildings(town.id),
         buildingColorLookup = { b ->
-            if (b == building) {
+            if (b == selected) {
                 Color.Gold
             } else {
                 Color.Black
