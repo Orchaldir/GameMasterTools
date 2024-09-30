@@ -29,6 +29,10 @@
    "lot": {
     "tileIndex": 44
    },
+   "address": {
+    "type": "Town",
+    "houseNumber": 4
+   },
    "constructionDate": {
     "type": "Year",
     "year": 1642

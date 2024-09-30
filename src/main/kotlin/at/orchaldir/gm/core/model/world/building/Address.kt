@@ -5,7 +5,16 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class Address
+sealed class Address {
+
+    fun getType() = when (this) {
+        is CrossingAddress -> AddressType.Crossing
+        NoAddress -> AddressType.None
+        is StreetAddress -> AddressType.Street
+        is TownAddress -> AddressType.Town
+    }
+
+}
 
 @Serializable
 @SerialName("None")

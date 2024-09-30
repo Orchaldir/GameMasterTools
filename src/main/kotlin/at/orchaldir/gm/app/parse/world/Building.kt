@@ -20,9 +20,20 @@ fun parseUpdateBuilding(parameters: Parameters, state: State, id: BuildingId): U
     return UpdateBuilding(
         id,
         parameters.getOrFail(NAME),
+        parseAddress(parameters),
         constructionDate,
         parseOwnership(parameters, state, constructionDate),
     )
+}
+
+fun parseAddress(parameters: Parameters): Address = when (parameters[combine(ADDRESS, TYPE)]) {
+    AddressType.Town.toString() -> TownAddress(parseInt(parameters, combine(ADDRESS, NUMBER), 1))
+    AddressType.Street.toString() -> StreetAddress(
+        parseStreetId(parameters, combine(ADDRESS, STREET)),
+        parseInt(parameters, combine(ADDRESS, NUMBER), 1),
+    )
+
+    else -> NoAddress
 }
 
 fun parseOwnership(parameters: Parameters, state: State, startDate: Date): Ownership = Ownership(

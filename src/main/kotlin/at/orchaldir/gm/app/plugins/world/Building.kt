@@ -1,17 +1,17 @@
 package at.orchaldir.gm.app.plugins.world
 
-import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getAgeInYears
 import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
@@ -23,10 +23,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.FormMethod
-import kotlinx.html.HTML
-import kotlinx.html.form
-import kotlinx.html.id
+import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -140,6 +137,37 @@ private fun HTML.showBuildingDetails(
         split({
             field("Id", building.id.value.toString())
             field("Name", building.name)
+            field("Address") {
+                when (building.address) {
+                    is CrossingAddress -> {
+                        var isStart = true
+                        +"Crossing of "
+                        building.address.streets.forEach { street ->
+                            if (isStart) {
+                                +" & "
+                                isStart = false
+                            }
+                            link(call, state, street)
+                        }
+                    }
+
+                    NoAddress -> {
+                        +"None"
+                    }
+
+                    is StreetAddress -> {
+                        link(call, state, building.address.street)
+                        +" "
+                        building.address.houseNumber
+                    }
+
+                    is TownAddress -> {
+                        link(call, state, building.lot.town)
+                        +" "
+                        building.address.houseNumber
+                    }
+                }
+            }
             field(call, state, "Construction", building.constructionDate)
             fieldAge("Age", state.getAgeInYears(building))
             showOwnership(call, state, building.ownership)
@@ -175,6 +203,7 @@ private fun HTML.showBuildingEditor(
                 action = previewLink
                 method = FormMethod.post
                 selectName(building.name)
+                selectAddress(building)
                 selectDate(state, "Construction", building.constructionDate, DATE)
                 selectOwnership(state, building.ownership, building.constructionDate)
                 button("Update", updateLink)
@@ -184,6 +213,32 @@ private fun HTML.showBuildingEditor(
             svg(visualizeBuilding(call, state, building), 90)
         })
     }
+}
+
+private fun FORM.selectAddress(building: Building) {
+    selectValue("Address Type", combine(ADDRESS, TYPE), AddressType.entries, true) { type ->
+        label = type.name
+        value = type.name
+        selected = type == building.address.getType()
+    }
+    when (building.address) {
+        is CrossingAddress -> TODO()
+        NoAddress -> doNothing()
+        is StreetAddress -> {
+            selectValue("Street", combine(ADDRESS, STREET), AddressType.entries, true) { type ->
+                label = type.name
+                value = type.name
+                selected = type == building.address.getType()
+            }
+            selectHouseNumber(building.address.houseNumber)
+        }
+
+        is TownAddress -> selectHouseNumber(building.address.houseNumber)
+    }
+}
+
+private fun FORM.selectHouseNumber(houseNumber: Int) {
+    selectInt("House Number", houseNumber, 1, 1000, combine(ADDRESS, NUMBER))
 }
 
 private fun visualizeBuilding(

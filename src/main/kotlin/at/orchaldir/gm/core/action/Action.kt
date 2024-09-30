@@ -25,6 +25,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Time
+import at.orchaldir.gm.core.model.world.building.Address
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.building.Ownership
@@ -171,12 +172,14 @@ data class DeleteBuilding(val id: BuildingId) : WorldAction()
 data class UpdateBuilding(
     val id: BuildingId,
     val name: String,
+    val address: Address,
     val constructionDate: Date,
     val ownership: Ownership,
 ) : WorldAction() {
 
     fun applyTo(building: Building) = building.copy(
         name = name,
+        address = address,
         constructionDate = constructionDate,
         ownership = ownership,
     )
