@@ -239,7 +239,10 @@ private fun FORM.selectAddress(state: State, building: Building) {
             )
         }
 
-        is TownAddress -> selectHouseNumber(address.houseNumber, emptySet())
+        is TownAddress -> selectHouseNumber(
+            address.houseNumber,
+            state.getHouseNumbersUsedByOthers(building.lot.town, address),
+        )
     }
 }
 
