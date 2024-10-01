@@ -134,8 +134,12 @@ private fun HTML.showStreetDetails(
         field("Id", street.id.value.toString())
         field("Name", street.name)
         showList("Towns", state.getTowns(street.id)) { town ->
+            val buildings = state.getBuildings(town.id)
+                .filter { it.address.contains(street.id) }
+                .sortedBy { it.name }
+
             link(call, town)
-            showList(state.getBuildings(town.id).filter { it.address.contains(street.id) }) { building ->
+            showList(buildings) { building ->
                 link(call, building)
             }
         }
