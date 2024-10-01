@@ -9,10 +9,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.selector.world.canDelete
-import at.orchaldir.gm.core.selector.world.getAgeInYears
-import at.orchaldir.gm.core.selector.world.getBuildings
-import at.orchaldir.gm.core.selector.world.getStreets
+import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.town.visualizeTown
@@ -201,18 +198,18 @@ private fun FORM.selectAddress(state: State, building: Building) {
             else -> false
         }
     }
-    when (building.address) {
+    when (val address = building.address) {
         is CrossingAddress -> {
             selectInt(
                 "Streets",
-                building.address.streets.size,
+                address.streets.size,
                 2,
                 min(3, streets.size),
                 combine(ADDRESS, STREET, NUMBER),
                 true
             )
             val previous = mutableListOf<StreetId>()
-            building.address.streets.withIndex().forEach { (index, streetId) ->
+            address.streets.withIndex().forEach { (index, streetId) ->
                 selectValue(
                     "${index + 1}.Street",
                     combine(ADDRESS, STREET, index),
@@ -234,17 +231,26 @@ private fun FORM.selectAddress(state: State, building: Building) {
             selectValue("Street", combine(ADDRESS, STREET), streets, true) { street ->
                 label = street.name
                 value = street.id.value.toString()
-                selected = street.id == building.address.street
+                selected = street.id == address.street
             }
-            selectHouseNumber(building.address.houseNumber)
+            selectHouseNumber(
+                address.houseNumber,
+                state.getUsedHouseNumbers(building.lot.town, address.street) - address.houseNumber
+            )
         }
 
-        is TownAddress -> selectHouseNumber(building.address.houseNumber)
+        is TownAddress -> selectHouseNumber(address.houseNumber, emptySet())
     }
 }
 
-private fun FORM.selectHouseNumber(houseNumber: Int) {
-    selectInt("House Number", houseNumber, 1, 1000, combine(ADDRESS, NUMBER))
+private fun FORM.selectHouseNumber(currentHouseNumber: Int, usedHouseNumbers: Set<Int>) {
+    val numbers = (1..1000).toList() - usedHouseNumbers
+
+    selectValue("Street", combine(ADDRESS, NUMBER), numbers, true) { number ->
+        label = number.toString()
+        value = number.toString()
+        selected = number == currentHouseNumber
+    }
 }
 
 private fun visualizeBuilding(
