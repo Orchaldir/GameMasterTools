@@ -13,6 +13,9 @@ fun State.getStreets(town: TownId) = getStreetIds(town)
 fun State.getStreetIds(town: TownId) = getTownStorage().getOrThrow(town)
     .map.tiles.mapNotNull { it.construction.getStreet() }.distinct()
 
+fun State.getHouseNumbersUsedByOthers(town: TownId, address: StreetAddress) =
+    getUsedHouseNumbers(town, address.street) - address.houseNumber
+
 fun State.getUsedHouseNumbers(town: TownId, street: StreetId) = getBuildings(town)
     .mapNotNull {
         if (it.address is StreetAddress && it.address.street == street) {

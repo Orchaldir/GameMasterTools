@@ -235,7 +235,7 @@ private fun FORM.selectAddress(state: State, building: Building) {
             }
             selectHouseNumber(
                 address.houseNumber,
-                state.getUsedHouseNumbers(building.lot.town, address.street) - address.houseNumber
+                state.getHouseNumbersUsedByOthers(building.lot.town, address),
             )
         }
 
