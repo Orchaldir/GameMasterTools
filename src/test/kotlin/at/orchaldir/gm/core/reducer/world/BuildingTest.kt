@@ -393,18 +393,15 @@ class BuildingTest {
 
             @Test
             fun `Updated street address`() {
-                val address = StreetAddress(STREET0, 1)
-                val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
-
-                assertEquals(
-                    Building(ID0, "New", address = address, constructionDate = DAY0),
-                    REDUCER.invoke(STATE, action).first.getBuildingStorage().get(ID0)
-                )
+                testSuccessful(StreetAddress(STREET0, 1))
             }
 
             @Test
             fun `Updated town address`() {
-                val address = TownAddress(1)
+                testSuccessful(TownAddress(1))
+            }
+
+            private fun testSuccessful(address: Address) {
                 val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
 
                 assertEquals(
