@@ -422,6 +422,14 @@ class BuildingTest {
             }
 
             @Test
+            fun `Street of crossing must be part of the town`() {
+                val address = CrossingAddress(listOf(STREET0, STREET_NOT_IN_TOWN))
+                val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
+
+                assertIllegalArgument("Street 199 is not part of town 0!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
             fun `A crossing with an unknown street`() {
                 val address = CrossingAddress(listOf(STREET0, UNKNOWN_STREET))
                 val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())

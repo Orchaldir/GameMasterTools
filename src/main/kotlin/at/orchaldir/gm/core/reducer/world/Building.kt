@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.*
+import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getDefaultCalendar
@@ -69,7 +70,11 @@ private fun checkAddress(
     when (address) {
         is CrossingAddress -> {
             require(address.streets.toSet().size == address.streets.size) { "List of streets contains duplicates!" }
-            address.streets.forEach { state.getStreetStorage().require(it) }
+
+            address.streets.forEach { street ->
+                state.getStreetStorage().require(street)
+                checkIfStreetIsPartOfTown(state, townId, street)
+            }
         }
 
         NoAddress -> doNothing()
@@ -82,9 +87,7 @@ private fun checkAddress(
                 }
             }
 
-            require(state.getStreetIds(townId).contains(address.street)) {
-                "Street ${address.street.value} is not part of town ${townId.value}!"
-            }
+            checkIfStreetIsPartOfTown(state, townId, address.street)
         }
         is TownAddress -> {
             if (!(oldAddress is TownAddress && oldAddress.houseNumber == address.houseNumber)) {
@@ -93,6 +96,16 @@ private fun checkAddress(
                 }
             }
         }
+    }
+}
+
+private fun checkIfStreetIsPartOfTown(
+    state: State,
+    townId: TownId,
+    streetId: StreetId,
+) {
+    require(state.getStreetIds(townId).contains(streetId)) {
+        "Street ${streetId.value} is not part of town ${townId.value}!"
     }
 }
 
