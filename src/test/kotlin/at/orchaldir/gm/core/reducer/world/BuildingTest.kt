@@ -30,6 +30,7 @@ import kotlin.test.assertFalse
 private val ID0 = BuildingId(0)
 private val TOWN0 = TownId(0)
 private val STREET0 = StreetId(0)
+private val STREET1 = StreetId(1)
 private val BUILDING_TILE = TownTile(construction = BuildingTile(ID0))
 private val STREET_TILE = TownTile(construction = StreetTile(STREET0))
 private val BIG_SIZE = MapSize2d(2, 1)
@@ -208,6 +209,7 @@ class BuildingTest {
                 Storage(Building(ID0)),
                 Storage(CALENDAR),
                 Storage(Character(CHARACTER0)),
+                Storage(Street(STREET0)),
                 Storage(Town(TOWN0)),
             )
         )
@@ -384,6 +386,32 @@ class BuildingTest {
                 Building(ID0, "New", constructionDate = DAY0, ownership = ownership),
                 REDUCER.invoke(STATE, action).first.getBuildingStorage().get(ID0)
             )
+        }
+
+        @Nested
+        inner class AddressTest {
+
+            @Test
+            fun `Updated street address`() {
+                val address = StreetAddress(STREET0, 1)
+                val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
+
+                assertEquals(
+                    Building(ID0, "New", address = address, constructionDate = DAY0),
+                    REDUCER.invoke(STATE, action).first.getBuildingStorage().get(ID0)
+                )
+            }
+
+            @Test
+            fun `Updated town address`() {
+                val address = TownAddress(1)
+                val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
+
+                assertEquals(
+                    Building(ID0, "New", address = address, constructionDate = DAY0),
+                    REDUCER.invoke(STATE, action).first.getBuildingStorage().get(ID0)
+                )
+            }
         }
     }
 
