@@ -404,15 +404,16 @@ class BuildingTest {
 
             @Test
             fun `Cannot add the same street multiple times to a crossing`() {
-                val action = UpdateBuilding(ID0, "New", CrossingAddress(listOf(STREET1, STREET1)), DAY0, Ownership())
+                val address = CrossingAddress(listOf(STREET1, STREET1))
+                val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
 
                 assertIllegalArgument("List of streets contains duplicates!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test
             fun `A crossing with an unknown street`() {
-                val action =
-                    UpdateBuilding(ID0, "New", CrossingAddress(listOf(STREET0, UNKNOWN_STREET)), DAY0, Ownership())
+                val address = CrossingAddress(listOf(STREET0, UNKNOWN_STREET))
+                val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
 
                 assertIllegalArgument("Requires unknown Street 99!") { REDUCER.invoke(STATE, action) }
             }
@@ -424,7 +425,8 @@ class BuildingTest {
 
             @Test
             fun `A street address with an unknown street`() {
-                val action = UpdateBuilding(ID0, "New", StreetAddress(UNKNOWN_STREET, 1), DAY0, Ownership())
+                val address = StreetAddress(UNKNOWN_STREET, 1)
+                val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
 
                 assertIllegalArgument("Requires unknown Street 99!") { REDUCER.invoke(STATE, action) }
             }
