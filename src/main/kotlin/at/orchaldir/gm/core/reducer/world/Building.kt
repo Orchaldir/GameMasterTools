@@ -82,7 +82,13 @@ private fun checkAddress(
             }
 
         }
-        is TownAddress -> doNothing()
+        is TownAddress -> {
+            if (!(oldAddress is TownAddress && oldAddress.houseNumber == address.houseNumber)) {
+                require(!state.getUsedHouseNumbers(townId).contains(address.houseNumber)) {
+                    "House number ${address.houseNumber} already used for the town!"
+                }
+            }
+        }
     }
 }
 

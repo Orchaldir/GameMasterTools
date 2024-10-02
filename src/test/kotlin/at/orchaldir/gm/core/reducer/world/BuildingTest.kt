@@ -469,6 +469,15 @@ class BuildingTest {
                 testSuccessful(TownAddress(1))
             }
 
+            @Test
+            fun `Cannot reuse the same town address`() {
+                val address = TownAddress(1)
+                val state = testSuccessful(address)
+                val action = UpdateBuilding(ID1, "B2", address, DAY0, Ownership())
+
+                assertIllegalArgument("House number 1 already used for the town!") { REDUCER.invoke(state, action) }
+            }
+
             private fun testSuccessful(address: Address, state: State = STATE, id: BuildingId = ID0): State {
                 val action = UpdateBuilding(id, "New", address, DAY0, Ownership())
 
