@@ -89,6 +89,7 @@ private fun checkAddress(
 
             checkIfStreetIsPartOfTown(state, townId, address.street)
         }
+
         is TownAddress -> {
             if (!(oldAddress is TownAddress && oldAddress.houseNumber == address.houseNumber)) {
                 require(!state.getUsedHouseNumbers(townId).contains(address.houseNumber)) {
