@@ -41,7 +41,6 @@ private val DAY0 = Day(100)
 private val DAY1 = Day(200)
 private val DAY2 = Day(300)
 private val CHARACTER0 = CharacterId(2)
-private val CHARACTER1 = CharacterId(3)
 
 class BuildingTest {
 
@@ -205,7 +204,7 @@ class BuildingTest {
     @Nested
     inner class UpdateTest {
 
-        val CALENDAR = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
+        private val CALENDAR = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
         private val UNKNOWN_STREET = StreetId(99)
         private val STREET_NOT_IN_TOWN = StreetId(199)
         private val STATE = State(
