@@ -31,6 +31,7 @@ private val ID0 = BuildingId(0)
 private val TOWN0 = TownId(0)
 private val STREET0 = StreetId(0)
 private val STREET1 = StreetId(1)
+private val UNKNOWN_STREET = StreetId(99)
 private val BUILDING_TILE = TownTile(construction = BuildingTile(ID0))
 private val STREET_TILE = TownTile(construction = StreetTile(STREET0))
 private val BIG_SIZE = MapSize2d(2, 1)
@@ -209,7 +210,7 @@ class BuildingTest {
                 Storage(Building(ID0)),
                 Storage(CALENDAR),
                 Storage(Character(CHARACTER0)),
-                Storage(Street(STREET0)),
+                Storage(listOf(Street(STREET0), Street(STREET1))),
                 Storage(Town(TOWN0)),
             )
         )
@@ -390,6 +391,16 @@ class BuildingTest {
 
         @Nested
         inner class AddressTest {
+
+            @Test
+            fun `Updated crossing address`() {
+                testSuccessful(CrossingAddress(listOf(STREET0, STREET1)))
+            }
+
+            @Test
+            fun `Updated crossing address with the other order`() {
+                testSuccessful(CrossingAddress(listOf(STREET1, STREET0)))
+            }
 
             @Test
             fun `Updated street address`() {
