@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.world.exists
+import at.orchaldir.gm.core.selector.world.getStreetIds
 import at.orchaldir.gm.core.selector.world.getUsedHouseNumbers
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -81,6 +82,9 @@ private fun checkAddress(
                 }
             }
 
+            require(state.getStreetIds(townId).contains(address.street)) {
+                "Street ${address.street.value} is not part of town ${townId.value}!"
+            }
         }
         is TownAddress -> {
             if (!(oldAddress is TownAddress && oldAddress.houseNumber == address.houseNumber)) {

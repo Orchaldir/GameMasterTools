@@ -32,9 +32,9 @@ private val ID1 = BuildingId(1)
 private val TOWN0 = TownId(0)
 private val STREET0 = StreetId(0)
 private val STREET1 = StreetId(1)
-private val UNKNOWN_STREET = StreetId(99)
 private val BUILDING_TILE = TownTile(construction = BuildingTile(ID0))
-private val STREET_TILE = TownTile(construction = StreetTile(STREET0))
+private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET0))
+private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET1))
 private val BIG_SIZE = MapSize2d(2, 1)
 private val BIG_SQUARE = square(2)
 private val DAY0 = Day(100)
@@ -71,7 +71,7 @@ class BuildingTest {
 
         @Test
         fun `Tile is already a street`() {
-            testTileNotEmpty(STREET_TILE)
+            testTileNotEmpty(STREET_TILE_0)
         }
 
         private fun testTileNotEmpty(townTile: TownTile) {
@@ -90,7 +90,7 @@ class BuildingTest {
 
         @Test
         fun `Big lot has a street`() {
-            testBigLotNotEmpty(STREET_TILE)
+            testBigLotNotEmpty(STREET_TILE_0)
         }
 
         private fun testBigLotNotEmpty(townTile: TownTile) {
@@ -206,13 +206,15 @@ class BuildingTest {
     inner class UpdateTest {
 
         val CALENDAR = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
+        private val UNKNOWN_STREET = StreetId(99)
+        private val STREET_NOT_IN_TOWN = StreetId(199)
         private val STATE = State(
             listOf(
                 Storage(listOf(Building(ID0), Building(ID1))),
                 Storage(CALENDAR),
                 Storage(Character(CHARACTER0)),
-                Storage(listOf(Street(STREET0), Street(STREET1))),
-                Storage(Town(TOWN0)),
+                Storage(listOf(Street(STREET0), Street(STREET1), Street(STREET_NOT_IN_TOWN))),
+                Storage(Town(TOWN0, map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1)))),
             )
         )
         private val OWNED_BY_CHARACTER = Ownership(OwnedByCharacter(CHARACTER0))
@@ -438,6 +440,14 @@ class BuildingTest {
                 val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
 
                 assertIllegalArgument("Requires unknown Street 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Street must be part of the town`() {
+                val address = StreetAddress(STREET_NOT_IN_TOWN, 1)
+                val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
+
+                assertIllegalArgument("Street 199 is not part of town 0!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test
