@@ -410,8 +410,23 @@ class BuildingTest {
             }
 
             @Test
+            fun `A crossing with an unknown street`() {
+                val action =
+                    UpdateBuilding(ID0, "New", CrossingAddress(listOf(STREET0, UNKNOWN_STREET)), DAY0, Ownership())
+
+                assertIllegalArgument("Requires unknown Street 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
             fun `Updated street address`() {
                 testSuccessful(StreetAddress(STREET0, 1))
+            }
+
+            @Test
+            fun `A street address with an unknown street`() {
+                val action = UpdateBuilding(ID0, "New", StreetAddress(UNKNOWN_STREET, 1), DAY0, Ownership())
+
+                assertIllegalArgument("Requires unknown Street 99!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test

@@ -64,10 +64,13 @@ private fun checkAddress(
     when (address) {
         is CrossingAddress -> {
             require(address.streets.toSet().size == address.streets.size) { "List of streets contains duplicates!" }
+            address.streets.forEach { state.getStreetStorage().require(it) }
         }
 
         NoAddress -> doNothing()
-        is StreetAddress -> doNothing()
+        is StreetAddress -> {
+            state.getStreetStorage().require(address.street)
+        }
         is TownAddress -> doNothing()
     }
 }
