@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app
 
 const val ACCESSORY_RARITY = "accessories"
+const val ADDRESS = "address"
 const val AGE = "age"
 const val APPEARANCE = "appearance"
 const val BEARD = "beard"
@@ -75,6 +76,7 @@ const val NAMING_CONVENTION = "naming_convention"
 const val NECKLINE_STYLE = "neckline_style"
 const val NONE = "None"
 const val NORMAL_SKIN_COLOR = "normal_skin_color"
+const val NUMBER = "number"
 const val OFFSET = "offset"
 const val ORIGIN = "origin"
 const val OPENING_STYLE = "opening_style"

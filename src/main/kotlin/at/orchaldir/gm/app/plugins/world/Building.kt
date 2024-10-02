@@ -1,17 +1,16 @@
 package at.orchaldir.gm.app.plugins.world
 
-import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.selector.world.canDelete
-import at.orchaldir.gm.core.selector.world.getAgeInYears
-import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.core.model.world.building.*
+import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.selector.world.*
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
@@ -23,11 +22,9 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.FormMethod
-import kotlinx.html.HTML
-import kotlinx.html.form
-import kotlinx.html.id
+import kotlinx.html.*
 import mu.KotlinLogging
+import kotlin.math.min
 
 private val logger = KotlinLogging.logger {}
 
@@ -140,6 +137,7 @@ private fun HTML.showBuildingDetails(
         split({
             field("Id", building.id.value.toString())
             field("Name", building.name)
+            fieldAddress(call, state, building)
             field(call, state, "Construction", building.constructionDate)
             fieldAge("Age", state.getAgeInYears(building))
             showOwnership(call, state, building.ownership)
@@ -175,6 +173,7 @@ private fun HTML.showBuildingEditor(
                 action = previewLink
                 method = FormMethod.post
                 selectName(building.name)
+                selectAddress(state, building)
                 selectDate(state, "Construction", building.constructionDate, DATE)
                 selectOwnership(state, building.ownership, building.constructionDate)
                 button("Update", updateLink)
@@ -186,18 +185,89 @@ private fun HTML.showBuildingEditor(
     }
 }
 
+private fun FORM.selectAddress(state: State, building: Building) {
+    val streets = state.getStreets(building.lot.town)
+
+    selectValue("Address Type", combine(ADDRESS, TYPE), AddressType.entries, true) { type ->
+        label = type.name
+        value = type.name
+        selected = type == building.address.getType()
+        disabled = when (type) {
+            AddressType.Street -> streets.isEmpty()
+            AddressType.Crossing -> streets.size < 2
+            else -> false
+        }
+    }
+    when (val address = building.address) {
+        is CrossingAddress -> {
+            selectInt(
+                "Streets",
+                address.streets.size,
+                2,
+                min(3, streets.size),
+                combine(ADDRESS, STREET, NUMBER),
+                true
+            )
+            val previous = mutableListOf<StreetId>()
+            address.streets.withIndex().forEach { (index, streetId) ->
+                selectValue(
+                    "${index + 1}.Street",
+                    combine(ADDRESS, STREET, index),
+                    streets,
+                    true
+                ) { street ->
+                    val alreadyUsed = previous.contains(street.id)
+                    label = street.name
+                    value = street.id.value.toString()
+                    selected = street.id == streetId && !alreadyUsed
+                    disabled = alreadyUsed
+                }
+                previous.add(streetId)
+            }
+        }
+
+        NoAddress -> doNothing()
+        is StreetAddress -> {
+            selectValue("Street", combine(ADDRESS, STREET), streets, true) { street ->
+                label = street.name
+                value = street.id.value.toString()
+                selected = street.id == address.street
+            }
+            selectHouseNumber(
+                address.houseNumber,
+                state.getHouseNumbersUsedByOthers(building.lot.town, address),
+            )
+        }
+
+        is TownAddress -> selectHouseNumber(
+            address.houseNumber,
+            state.getHouseNumbersUsedByOthers(building.lot.town, address),
+        )
+    }
+}
+
+private fun FORM.selectHouseNumber(currentHouseNumber: Int, usedHouseNumbers: Set<Int>) {
+    val numbers = (1..1000).toList() - usedHouseNumbers
+
+    selectValue("Street", combine(ADDRESS, NUMBER), numbers, true) { number ->
+        label = number.toString()
+        value = number.toString()
+        selected = number == currentHouseNumber
+    }
+}
+
 private fun visualizeBuilding(
     call: ApplicationCall,
     state: State,
-    building: Building,
+    selected: Building,
 ): Svg {
-    val town = state.getTownStorage().getOrThrow(building.lot.town)
+    val town = state.getTownStorage().getOrThrow(selected.lot.town)
 
     return visualizeTown(
         town,
         state.getBuildings(town.id),
         buildingColorLookup = { b ->
-            if (b == building) {
+            if (b == selected) {
                 Color.Gold
             } else {
                 Color.Black

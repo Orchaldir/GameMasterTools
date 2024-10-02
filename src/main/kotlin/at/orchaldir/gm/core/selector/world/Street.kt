@@ -11,4 +11,3 @@ fun State.getStreets(town: TownId) = getStreetIds(town)
 
 fun State.getStreetIds(town: TownId) = getTownStorage().getOrThrow(town)
     .map.tiles.mapNotNull { it.construction.getStreet() }.distinct()
-

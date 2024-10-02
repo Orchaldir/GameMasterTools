@@ -28,17 +28,19 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
 private val ID0 = BuildingId(0)
+private val ID1 = BuildingId(1)
 private val TOWN0 = TownId(0)
 private val STREET0 = StreetId(0)
+private val STREET1 = StreetId(1)
 private val BUILDING_TILE = TownTile(construction = BuildingTile(ID0))
-private val STREET_TILE = TownTile(construction = StreetTile(STREET0))
+private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET0))
+private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET1))
 private val BIG_SIZE = MapSize2d(2, 1)
 private val BIG_SQUARE = square(2)
 private val DAY0 = Day(100)
 private val DAY1 = Day(200)
 private val DAY2 = Day(300)
 private val CHARACTER0 = CharacterId(2)
-private val CHARACTER1 = CharacterId(3)
 
 class BuildingTest {
 
@@ -68,7 +70,7 @@ class BuildingTest {
 
         @Test
         fun `Tile is already a street`() {
-            testTileNotEmpty(STREET_TILE)
+            testTileNotEmpty(STREET_TILE_0)
         }
 
         private fun testTileNotEmpty(townTile: TownTile) {
@@ -87,7 +89,7 @@ class BuildingTest {
 
         @Test
         fun `Big lot has a street`() {
-            testBigLotNotEmpty(STREET_TILE)
+            testBigLotNotEmpty(STREET_TILE_0)
         }
 
         private fun testBigLotNotEmpty(townTile: TownTile) {
@@ -202,13 +204,16 @@ class BuildingTest {
     @Nested
     inner class UpdateTest {
 
-        val CALENDAR = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
+        private val CALENDAR = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
+        private val UNKNOWN_STREET = StreetId(99)
+        private val STREET_NOT_IN_TOWN = StreetId(199)
         private val STATE = State(
             listOf(
-                Storage(Building(ID0)),
+                Storage(listOf(Building(ID0), Building(ID1))),
                 Storage(CALENDAR),
                 Storage(Character(CHARACTER0)),
-                Storage(Town(TOWN0)),
+                Storage(listOf(Street(STREET0), Street(STREET1), Street(STREET_NOT_IN_TOWN))),
+                Storage(Town(TOWN0, map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1)))),
             )
         )
         private val OWNED_BY_CHARACTER = Ownership(OwnedByCharacter(CHARACTER0))
@@ -219,7 +224,7 @@ class BuildingTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateBuilding(ID0, "New", DAY0, OWNED_BY_CHARACTER)
+            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER)
             val state = State(Storage(Character(CHARACTER0)))
 
             assertIllegalArgument("Unknown Building 0!") { REDUCER.invoke(state, action) }
@@ -227,7 +232,7 @@ class BuildingTest {
 
         @Test
         fun `Owner is an unknown character`() {
-            val action = UpdateBuilding(ID0, "New", DAY0, OWNED_BY_CHARACTER)
+            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER)
             val state = State(listOf(Storage(Building(ID0))))
 
             assertIllegalArgument("Cannot use an unknown character 2 as owner!") { REDUCER.invoke(state, action) }
@@ -235,7 +240,7 @@ class BuildingTest {
 
         @Test
         fun `Owner is an unknown town`() {
-            val action = UpdateBuilding(ID0, "New", DAY0, OWNED_BY_TOWN)
+            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_TOWN)
             val state = State(listOf(Storage(Building(ID0))))
 
             assertIllegalArgument("Cannot use an unknown town 0 as owner!") { REDUCER.invoke(state, action) }
@@ -243,7 +248,7 @@ class BuildingTest {
 
         @Test
         fun `Previous owner is an unknown character`() {
-            val action = UpdateBuilding(ID0, "New", DAY0, CHARACTER_AS_PREVIOUS)
+            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, CHARACTER_AS_PREVIOUS)
             val state = State(listOf(Storage(Building(ID0)), Storage(CALENDAR), Storage(Town(TOWN0))))
 
             assertIllegalArgument("Cannot use an unknown character 2 as previous owner!") {
@@ -256,7 +261,7 @@ class BuildingTest {
 
         @Test
         fun `Previous owner is an unknown town`() {
-            val action = UpdateBuilding(ID0, "New", DAY0, TOWN_AS_PREVIOUS)
+            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, TOWN_AS_PREVIOUS)
             val state =
                 State(listOf(Storage(Building(ID0)), Storage(CALENDAR), Storage(Character(CHARACTER0))))
 
@@ -265,7 +270,7 @@ class BuildingTest {
 
         @Test
         fun `First Previous ownership ended before the construction`() {
-            val action = UpdateBuilding(ID0, "New", DAY2, CHARACTER_AS_PREVIOUS)
+            val action = UpdateBuilding(ID0, "New", NoAddress, DAY2, CHARACTER_AS_PREVIOUS)
 
             assertIllegalArgument("1.previous owner's until is too early!") { REDUCER.invoke(STATE, action) }
         }
@@ -273,7 +278,7 @@ class BuildingTest {
         @Test
         fun `A previous ownership ended before the one before it`() {
             val action = UpdateBuilding(
-                ID0, "New", DAY0, Ownership(
+                ID0, "New", NoAddress, DAY0, Ownership(
                     OwnedByTown(TOWN0),
                     listOf(PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2), PreviousOwner(OwnedByTown(TOWN0), DAY1))
                 )
@@ -284,7 +289,7 @@ class BuildingTest {
 
         @Test
         fun `Character owns a building before his birth`() {
-            val action = UpdateBuilding(ID0, "New", DAY0, OWNED_BY_CHARACTER)
+            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER)
             val state =
                 State(
                     listOf(
@@ -304,7 +309,7 @@ class BuildingTest {
 
         @Test
         fun `First owner didn't exist yet`() {
-            val action = UpdateBuilding(ID0, "New", DAY0, TOWN_AS_PREVIOUS)
+            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, TOWN_AS_PREVIOUS)
             val state = State(
                 listOf(
                     Storage(Building(ID0)),
@@ -325,7 +330,7 @@ class BuildingTest {
         @Test
         fun `Second owner didn't exist yet`() {
             val action = UpdateBuilding(
-                ID0, "New", DAY0, Ownership(
+                ID0, "New", NoAddress, DAY0, Ownership(
                     NoOwner,
                     listOf(PreviousOwner(OwnedByTown(TOWN0), DAY1), PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2))
                 )
@@ -378,12 +383,138 @@ class BuildingTest {
         }
 
         private fun testSuccess(ownership: Ownership) {
-            val action = UpdateBuilding(ID0, "New", DAY0, ownership)
+            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, ownership)
 
             assertEquals(
                 Building(ID0, "New", constructionDate = DAY0, ownership = ownership),
                 REDUCER.invoke(STATE, action).first.getBuildingStorage().get(ID0)
             )
+        }
+
+        @Nested
+        inner class AddressTest {
+
+            @Test
+            fun `Updated crossing address`() {
+                testSuccessful(CrossingAddress(listOf(STREET0, STREET1)))
+            }
+
+            @Test
+            fun `Updated crossing address with the other order`() {
+                testSuccessful(CrossingAddress(listOf(STREET1, STREET0)))
+            }
+
+            @Test
+            fun `Can reuse the same crossing address`() {
+                val address = CrossingAddress(listOf(STREET0, STREET1))
+                val state = testSuccessful(address)
+
+                testSuccessful(address, state, ID1)
+            }
+
+            @Test
+            fun `Cannot add the same street multiple times to a crossing`() {
+                val address = CrossingAddress(listOf(STREET1, STREET1))
+                val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
+
+                assertIllegalArgument("List of streets contains duplicates!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Street of crossing must be part of the town`() {
+                val address = CrossingAddress(listOf(STREET0, STREET_NOT_IN_TOWN))
+                val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
+
+                assertIllegalArgument("Street 199 is not part of town 0!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `A crossing with an unknown street`() {
+                val address = CrossingAddress(listOf(STREET0, UNKNOWN_STREET))
+                val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
+
+                assertIllegalArgument("Requires unknown Street 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Updated street address`() {
+                testSuccessful(StreetAddress(STREET0, 1))
+            }
+
+            @Test
+            fun `A street address with an unknown street`() {
+                val address = StreetAddress(UNKNOWN_STREET, 1)
+                val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
+
+                assertIllegalArgument("Requires unknown Street 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Street must be part of the town`() {
+                val address = StreetAddress(STREET_NOT_IN_TOWN, 1)
+                val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
+
+                assertIllegalArgument("Street 199 is not part of town 0!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Cannot reuse the same street address`() {
+                val address = StreetAddress(STREET0, 1)
+                val state = testSuccessful(address)
+                val action = UpdateBuilding(ID1, "B2", address, DAY0, Ownership())
+
+                assertIllegalArgument("House number 1 already used for street 0!") { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Can reuse the same street address for the same house`() {
+                val address = StreetAddress(STREET0, 1)
+                val state = testSuccessful(address)
+
+                testSuccessful(address, state)
+            }
+
+            @Test
+            fun `Can reuse the same street with a different house number`() {
+                val state = testSuccessful(StreetAddress(STREET0, 1))
+
+                testSuccessful(StreetAddress(STREET0, 2), state, ID1)
+            }
+
+            @Test
+            fun `Updated town address`() {
+                testSuccessful(TownAddress(1))
+            }
+
+            @Test
+            fun `Cannot reuse the same town address`() {
+                val address = TownAddress(1)
+                val state = testSuccessful(address)
+                val action = UpdateBuilding(ID1, "B2", address, DAY0, Ownership())
+
+                assertIllegalArgument("House number 1 already used for the town!") { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Can reuse the same town address for the same house`() {
+                val address = TownAddress(1)
+                val state = testSuccessful(address)
+
+                testSuccessful(address, state)
+            }
+
+            private fun testSuccessful(address: Address, state: State = STATE, id: BuildingId = ID0): State {
+                val action = UpdateBuilding(id, "New", address, DAY0, Ownership())
+
+                val result = REDUCER.invoke(state, action).first
+
+                assertEquals(
+                    Building(id, "New", address = address, constructionDate = DAY0),
+                    result.getBuildingStorage().get(id)
+                )
+
+                return result
+            }
         }
     }
 

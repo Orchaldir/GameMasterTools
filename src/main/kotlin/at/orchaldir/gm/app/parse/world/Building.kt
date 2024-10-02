@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.*
+import at.orchaldir.gm.core.model.world.street.StreetId
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -20,9 +21,29 @@ fun parseUpdateBuilding(parameters: Parameters, state: State, id: BuildingId): U
     return UpdateBuilding(
         id,
         parameters.getOrFail(NAME),
+        parseAddress(parameters),
         constructionDate,
         parseOwnership(parameters, state, constructionDate),
     )
+}
+
+fun parseAddress(parameters: Parameters): Address = when (parameters[combine(ADDRESS, TYPE)]) {
+    AddressType.Town.toString() -> TownAddress(parseInt(parameters, combine(ADDRESS, NUMBER), 1))
+    AddressType.Street.toString() -> StreetAddress(
+        parseStreetId(parameters, combine(ADDRESS, STREET)),
+        parseInt(parameters, combine(ADDRESS, NUMBER), 1),
+    )
+
+    AddressType.Crossing.toString() -> CrossingAddress(parseStreets(parameters))
+
+    else -> NoAddress
+}
+
+private fun parseStreets(parameters: Parameters): List<StreetId> {
+    val count = parseInt(parameters, combine(ADDRESS, STREET, NUMBER), 2)
+
+    return (0..<count)
+        .map { parseStreetId(parameters, combine(ADDRESS, STREET, it)) }
 }
 
 fun parseOwnership(parameters: Parameters, state: State, startDate: Date): Ownership = Ownership(
