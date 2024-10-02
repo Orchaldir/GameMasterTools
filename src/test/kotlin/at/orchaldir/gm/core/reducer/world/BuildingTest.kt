@@ -28,6 +28,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
 private val ID0 = BuildingId(0)
+private val ID1 = BuildingId(1)
 private val TOWN0 = TownId(0)
 private val STREET0 = StreetId(0)
 private val STREET1 = StreetId(1)
@@ -207,7 +208,7 @@ class BuildingTest {
         val CALENDAR = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
         private val STATE = State(
             listOf(
-                Storage(Building(ID0)),
+                Storage(listOf(Building(ID0), Building(ID1))),
                 Storage(CALENDAR),
                 Storage(Character(CHARACTER0)),
                 Storage(listOf(Street(STREET0), Street(STREET1))),
@@ -403,6 +404,14 @@ class BuildingTest {
             }
 
             @Test
+            fun `Can reuse the same crossing address`() {
+                val address = CrossingAddress(listOf(STREET0, STREET1))
+                val state = testSuccessful(address)
+
+                testSuccessful(address, state, ID1)
+            }
+
+            @Test
             fun `Cannot add the same street multiple times to a crossing`() {
                 val address = CrossingAddress(listOf(STREET1, STREET1))
                 val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
@@ -432,17 +441,45 @@ class BuildingTest {
             }
 
             @Test
+            fun `Cannot reuse the same street address`() {
+                val address = StreetAddress(STREET0, 1)
+                val state = testSuccessful(address)
+                val action = UpdateBuilding(ID1, "B2", address, DAY0, Ownership())
+
+                assertIllegalArgument("House number 1 already used for street 0!") { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Can reuse the same street address for the same house`() {
+                val address = StreetAddress(STREET0, 1)
+                val state = testSuccessful(address)
+
+                testSuccessful(address, state)
+            }
+
+            @Test
+            fun `Can reuse the same street with a different house number`() {
+                val state = testSuccessful(StreetAddress(STREET0, 1))
+
+                testSuccessful(StreetAddress(STREET0, 2), state, ID1)
+            }
+
+            @Test
             fun `Updated town address`() {
                 testSuccessful(TownAddress(1))
             }
 
-            private fun testSuccessful(address: Address) {
-                val action = UpdateBuilding(ID0, "New", address, DAY0, Ownership())
+            private fun testSuccessful(address: Address, state: State = STATE, id: BuildingId = ID0): State {
+                val action = UpdateBuilding(id, "New", address, DAY0, Ownership())
+
+                val result = REDUCER.invoke(state, action).first
 
                 assertEquals(
-                    Building(ID0, "New", address = address, constructionDate = DAY0),
-                    REDUCER.invoke(STATE, action).first.getBuildingStorage().get(ID0)
+                    Building(id, "New", address = address, constructionDate = DAY0),
+                    result.getBuildingStorage().get(id)
                 )
+
+                return result
             }
         }
     }

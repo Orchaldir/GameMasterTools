@@ -7,9 +7,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.town.BuildingTile
+import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.world.exists
+import at.orchaldir.gm.core.selector.world.getUsedHouseNumbers
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -49,7 +51,7 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
 val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
 
-    checkAddress(state, action.address)
+    checkAddress(state, oldBuilding.lot.town, oldBuilding.address, action.address)
     checkOwnership(state, action.ownership, action.constructionDate)
 
     val building = action.applyTo(oldBuilding)
@@ -59,6 +61,8 @@ val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
 
 private fun checkAddress(
     state: State,
+    townId: TownId,
+    oldAddress: Address,
     address: Address,
 ) {
     when (address) {
@@ -70,6 +74,13 @@ private fun checkAddress(
         NoAddress -> doNothing()
         is StreetAddress -> {
             state.getStreetStorage().require(address.street)
+
+            if (!(oldAddress is StreetAddress && oldAddress.houseNumber == address.houseNumber)) {
+                require(!state.getUsedHouseNumbers(townId, address.street).contains(address.houseNumber)) {
+                    "House number ${address.houseNumber} already used for street ${address.street.value}!"
+                }
+            }
+
         }
         is TownAddress -> doNothing()
     }
