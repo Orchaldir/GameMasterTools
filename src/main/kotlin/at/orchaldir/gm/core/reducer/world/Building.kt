@@ -49,11 +49,27 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
 val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
 
+    checkAddress(state, action.address)
     checkOwnership(state, action.ownership, action.constructionDate)
 
     val building = action.applyTo(oldBuilding)
 
     noFollowUps(state.updateStorage(state.getBuildingStorage().update(building)))
+}
+
+private fun checkAddress(
+    state: State,
+    address: Address,
+) {
+    when (address) {
+        is CrossingAddress -> {
+            require(address.streets.toSet().size == address.streets.size) { "List of streets contains duplicates!" }
+        }
+
+        NoAddress -> doNothing()
+        is StreetAddress -> doNothing()
+        is TownAddress -> doNothing()
+    }
 }
 
 private fun checkOwnership(

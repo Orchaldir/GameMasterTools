@@ -403,6 +403,13 @@ class BuildingTest {
             }
 
             @Test
+            fun `Cannot add the same street multiple times to a crossing`() {
+                val action = UpdateBuilding(ID0, "New", CrossingAddress(listOf(STREET1, STREET1)), DAY0, Ownership())
+
+                assertIllegalArgument("List of streets contains duplicates!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
             fun `Updated street address`() {
                 testSuccessful(StreetAddress(STREET0, 1))
             }
