@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuilding
+import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.*
@@ -59,6 +60,24 @@ val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     val building = action.applyTo(oldBuilding)
 
     noFollowUps(state.updateStorage(state.getBuildingStorage().update(building)))
+}
+
+val UPDATE_BUILDING_LOT: Reducer<UpdateBuildingLot, State> = { state, action ->
+    val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
+    val oldTown = state.getTownStorage().getOrThrow(oldBuilding.lot.town)
+    val building = action.applyTo(oldBuilding)
+
+    val town = oldTown.removeBuilding(action.id)
+        .build(action.tileIndex, action.size, BuildingTile(oldBuilding.id))
+
+    noFollowUps(
+        state.updateStorage(
+            listOf(
+                state.getBuildingStorage().update(building),
+                state.getTownStorage().update(town),
+            )
+        )
+    )
 }
 
 private fun checkAddress(

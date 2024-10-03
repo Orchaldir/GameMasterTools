@@ -169,6 +169,7 @@ data class AddBuilding(
 ) : WorldAction()
 
 data class DeleteBuilding(val id: BuildingId) : WorldAction()
+
 data class UpdateBuilding(
     val id: BuildingId,
     val name: String,
@@ -184,6 +185,18 @@ data class UpdateBuilding(
         ownership = ownership,
     )
 }
+
+data class UpdateBuildingLot(
+    val id: BuildingId,
+    val tileIndex: Int,
+    val size: MapSize2d,
+) : WorldAction() {
+
+    fun applyTo(building: Building) = building.copy(
+        lot = building.lot.copy(tileIndex = tileIndex, size = size)
+    )
+}
+
 
 // town's streets
 
