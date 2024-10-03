@@ -14,12 +14,13 @@ import kotlinx.html.*
 
 const val ON_CHANGE_SCRIPT = "updateEditor();"
 
-fun FORM.button(text: String, updateLink: String) {
+fun FORM.button(text: String, updateLink: String, isDisabled: Boolean = false) {
     p {
         submitInput {
             value = text
             formAction = updateLink
             formMethod = InputFormMethod.post
+            disabled = isDisabled
         }
     }
 }

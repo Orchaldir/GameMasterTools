@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world.town
 
+import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.terrain.PlainTerrain
 import at.orchaldir.gm.core.model.world.terrain.Terrain
 import kotlinx.serialization.Serializable
@@ -11,5 +12,8 @@ data class TownTile(
 ) {
 
     fun canBuild() = construction is NoConstruction
+
+    fun canResize(building: BuildingId) = construction is NoConstruction ||
+            (construction is BuildingTile && construction.building == building)
 
 }

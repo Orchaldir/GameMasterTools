@@ -375,7 +375,7 @@ private fun visualizeBuildingLot(
         town,
         state.getBuildings(town.id),
         tileLinkLookup = { index, _ ->
-            if (town.checkTiles(index, size) { it.canBuild() }) {
+            if (town.canBuild(index, size)) {
                 call.application.href(BuildingRoutes.Lot.Update(building.id, index, size))
             } else {
                 null
