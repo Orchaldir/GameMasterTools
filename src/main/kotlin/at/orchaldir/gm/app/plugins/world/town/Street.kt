@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.visualization.town.showSelectedBuilding
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*

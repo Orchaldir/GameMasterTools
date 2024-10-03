@@ -45,7 +45,7 @@ data class TownRenderer(
 
     fun renderTiles(
         colorLookup: (TownTile) -> Color = TownTile::getColor,
-        linkLookup: (Int, TownTile) -> String?,
+        linkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
         tooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
     ) {
         tileRenderer.renderWithLinksAndTooltips(svgBuilder, town.map, colorLookup, linkLookup, tooltipLookup)
@@ -151,6 +151,14 @@ fun TownTile.getColor() = when (terrain) {
     is MountainTerrain -> Color.Gray
     PlainTerrain -> Color.Green
     is RiverTerrain -> Color.Blue
+}
+
+fun showSelectedBuilding(selected: Building): (Building) -> Color = { building ->
+    if (building == selected) {
+        Color.Gold
+    } else {
+        Color.Black
+    }
 }
 
 fun showTerrainName(state: State): (Int, TownTile) -> String? = { _, tile ->

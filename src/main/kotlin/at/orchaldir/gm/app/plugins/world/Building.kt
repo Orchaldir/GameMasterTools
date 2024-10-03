@@ -8,13 +8,13 @@ import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
+import at.orchaldir.gm.visualization.town.showSelectedBuilding
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -347,13 +347,7 @@ private fun visualizeBuilding(
     return visualizeTown(
         town,
         state.getBuildings(town.id),
-        buildingColorLookup = { b ->
-            if (b == selected) {
-                Color.Gold
-            } else {
-                Color.Black
-            }
-        },
+        buildingColorLookup = showSelectedBuilding(selected),
         buildingLinkLookup = { b ->
             call.application.href(BuildingRoutes.Details(b.id))
         },
@@ -381,5 +375,6 @@ private fun visualizeBuildingLot(
                 null
             }
         },
+        buildingColorLookup = showSelectedBuilding(building),
     )
 }
