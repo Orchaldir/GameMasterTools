@@ -3,8 +3,10 @@ package at.orchaldir.gm.app.plugins.world
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
+import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.*
@@ -135,6 +137,29 @@ fun Application.configureBuildingRouting() {
             call.respondHtml(HttpStatusCode.OK) {
                 showBuildingLotEditor(call, state, building, building.lot.size)
             }
+        }
+        post<BuildingRoutes.Lot.Preview> { preview ->
+            logger.info { "Preview building lot ${preview.id.value}" }
+
+            val state = STORE.getState()
+            val building = state.getBuildingStorage().getOrThrow(preview.id)
+            val params = call.receiveParameters()
+            val size = MapSize2d(parseInt(params, WIDTH, 1), parseInt(params, HEIGHT, 1))
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showBuildingLotEditor(call, state, building, size)
+            }
+        }
+        get<BuildingRoutes.Lot.Update> { update ->
+            logger.info { "Update building lot ${update.id.value}" }
+
+            val action = UpdateBuildingLot(update.id, update.tileIndex, update.size)
+
+            STORE.dispatch(action)
+
+            call.respondRedirect(href(call, update.id))
+
+            STORE.getState().save()
         }
     }
 }
