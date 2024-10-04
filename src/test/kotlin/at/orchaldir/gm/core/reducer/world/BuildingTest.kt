@@ -558,6 +558,13 @@ class BuildingTest {
         }
 
         @Test
+        fun `Resize is blocked by other building`() {
+            val action = UpdateBuildingLot(ID0, 0, MapSize2d(2, 2))
+
+            assertIllegalArgument("Tile 3 is not empty!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Change nothing`() {
             val action = UpdateBuildingLot(ID0, 0, square(1))
 
@@ -566,53 +573,33 @@ class BuildingTest {
 
         @Test
         fun `Move the building`() {
-            val action = UpdateBuildingLot(ID0, 2, square(1))
-
-            assertEquals(
-                State(
-                    listOf(
-                        Storage(listOf(Building(ID0, lot = BuildingLot(TOWN0, 2, square(1))), Building(ID1))),
-                        Storage(
-                            Town(
-                                TOWN0,
-                                map = TileMap2d(
-                                    square(2),
-                                    listOf(TownTile(), TownTile(), BUILDING_TILE_0, BUILDING_TILE_1)
-                                )
-                            )
-                        ),
-                    )
-                ), REDUCER.invoke(STATE, action).first
+            assertSuccess(
+                2, square(1),
+                listOf(TownTile(), TownTile(), BUILDING_TILE_0, BUILDING_TILE_1)
             )
         }
 
         @Test
         fun `Resize the building`() {
-            val action = UpdateBuildingLot(ID0, 0, MapSize2d(2, 1))
+            assertSuccess(
+                0, MapSize2d(2, 1),
+                listOf(BUILDING_TILE_0, BUILDING_TILE_0, TownTile(), BUILDING_TILE_1)
+            )
+        }
+
+        private fun assertSuccess(tileIndex: Int, size: MapSize2d, tiles: List<TownTile>) {
+            val action = UpdateBuildingLot(ID0, tileIndex, size)
+            val lot = BuildingLot(TOWN0, tileIndex, size)
 
             assertEquals(
                 State(
                     listOf(
-                        Storage(listOf(Building(ID0, lot = BuildingLot(TOWN0, 0, MapSize2d(2, 1))), Building(ID1))),
-                        Storage(
-                            Town(
-                                TOWN0,
-                                map = TileMap2d(
-                                    square(2),
-                                    listOf(BUILDING_TILE_0, BUILDING_TILE_0, TownTile(), BUILDING_TILE_1)
-                                )
-                            )
-                        ),
+                        Storage(listOf(Building(ID0, lot = lot), Building(ID1))),
+                        Storage(Town(TOWN0, map = TileMap2d(square(2), tiles)))
                     )
-                ), REDUCER.invoke(STATE, action).first
+                ),
+                REDUCER.invoke(STATE, action).first
             )
-        }
-
-        @Test
-        fun `Resize is blocked by other building`() {
-            val action = UpdateBuildingLot(ID0, 0, MapSize2d(2, 2))
-
-            assertIllegalArgument("Tile 3 is not empty!") { REDUCER.invoke(STATE, action) }
         }
     }
 
