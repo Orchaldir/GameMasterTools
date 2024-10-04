@@ -68,7 +68,7 @@ data class Town(
             require(oldTile.canBuild()) { "Tile $tileIndex is not empty!" }
 
             tiles[tileIndex] = oldTile.copy(construction = construction)
-        } ?: error("Lot with index $index is outside the map!")
+        } ?: error("Lot with index $index & size ${size.format()} is outside the map!")
 
         return updateTiles(tiles)
     }

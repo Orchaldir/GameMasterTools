@@ -5,6 +5,7 @@ import at.orchaldir.gm.assertIllegalState
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuilding
+import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
@@ -32,7 +33,8 @@ private val ID1 = BuildingId(1)
 private val TOWN0 = TownId(0)
 private val STREET0 = StreetId(0)
 private val STREET1 = StreetId(1)
-private val BUILDING_TILE = TownTile(construction = BuildingTile(ID0))
+private val BUILDING_TILE_0 = TownTile(construction = BuildingTile(ID0))
+private val BUILDING_TILE_1 = TownTile(construction = BuildingTile(ID1))
 private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET0))
 private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET1))
 private val BIG_SIZE = MapSize2d(2, 1)
@@ -60,12 +62,21 @@ class BuildingTest {
             val state = State(Storage(town))
             val action = AddBuilding(TOWN0, 100, square(1))
 
-            assertIllegalState("Lot with index 100 is outside the map!") { REDUCER.invoke(state, action) }
+            assertIllegalState("Lot with index 100 & size 1 x 1 is outside the map!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Big lot is outside the map`() {
+            val town = Town(TOWN0)
+            val state = State(Storage(town))
+            val action = AddBuilding(TOWN0, 9, square(2))
+
+            assertIllegalState("Lot with index 9 & size 2 x 2 is outside the map!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Tile is already a building`() {
-            testTileNotEmpty(BUILDING_TILE)
+            testTileNotEmpty(BUILDING_TILE_0)
         }
 
         @Test
@@ -84,7 +95,7 @@ class BuildingTest {
 
         @Test
         fun `Big lot has another building`() {
-            testBigLotNotEmpty(BUILDING_TILE)
+            testBigLotNotEmpty(BUILDING_TILE_0)
         }
 
         @Test
@@ -162,7 +173,7 @@ class BuildingTest {
         @Test
         fun `Successfully removed a building`() {
             val building = Building(ID0, lot = BuildingLot(TOWN0))
-            val town = Town(TOWN0, map = TileMap2d(BUILDING_TILE))
+            val town = Town(TOWN0, map = TileMap2d(BUILDING_TILE_0))
             val state = State(listOf(Storage(building), Storage(town)))
             val action = DeleteBuilding(ID0)
 
@@ -176,7 +187,10 @@ class BuildingTest {
         fun `Successfully removed a big building`() {
             val building = Building(ID0, lot = BuildingLot(TOWN0, 0, BIG_SIZE))
             val town =
-                Town(TOWN0, map = TileMap2d(BIG_SQUARE, listOf(BUILDING_TILE, BUILDING_TILE, TownTile(), TownTile())))
+                Town(
+                    TOWN0,
+                    map = TileMap2d(BIG_SQUARE, listOf(BUILDING_TILE_0, BUILDING_TILE_0, TownTile(), TownTile()))
+                )
             val state = State(listOf(Storage(building), Storage(town)))
             val action = DeleteBuilding(ID0)
 
@@ -190,7 +204,10 @@ class BuildingTest {
         fun `Successfully removed a building in multiple places`() {
             val building = Building(ID0, lot = BuildingLot(TOWN0))
             val town =
-                Town(TOWN0, map = TileMap2d(BIG_SQUARE, listOf(BUILDING_TILE, TownTile(), TownTile(), BUILDING_TILE)))
+                Town(
+                    TOWN0,
+                    map = TileMap2d(BIG_SQUARE, listOf(BUILDING_TILE_0, TownTile(), TownTile(), BUILDING_TILE_0))
+                )
             val state = State(listOf(Storage(building), Storage(town)))
             val action = DeleteBuilding(ID0)
 
@@ -515,6 +532,87 @@ class BuildingTest {
 
                 return result
             }
+        }
+    }
+
+    @Nested
+    inner class UpdateLotTest {
+
+        private val STATE = State(
+            listOf(
+                Storage(listOf(Building(ID0), Building(ID1))),
+                Storage(
+                    Town(
+                        TOWN0,
+                        map = TileMap2d(square(2), listOf(BUILDING_TILE_0, TownTile(), TownTile(), BUILDING_TILE_1))
+                    )
+                ),
+            )
+        )
+
+        @Test
+        fun `Cannot update unknown building`() {
+            val action = UpdateBuildingLot(ID0, 0, MapSize2d(2, 1))
+
+            assertIllegalArgument("Unknown Building 0!") { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Change nothing`() {
+            val action = UpdateBuildingLot(ID0, 0, square(1))
+
+            assertEquals(STATE, REDUCER.invoke(STATE, action).first)
+        }
+
+        @Test
+        fun `Move the building`() {
+            val action = UpdateBuildingLot(ID0, 2, square(1))
+
+            assertEquals(
+                State(
+                    listOf(
+                        Storage(listOf(Building(ID0, lot = BuildingLot(TOWN0, 2, square(1))), Building(ID1))),
+                        Storage(
+                            Town(
+                                TOWN0,
+                                map = TileMap2d(
+                                    square(2),
+                                    listOf(TownTile(), TownTile(), BUILDING_TILE_0, BUILDING_TILE_1)
+                                )
+                            )
+                        ),
+                    )
+                ), REDUCER.invoke(STATE, action).first
+            )
+        }
+
+        @Test
+        fun `Resize the building`() {
+            val action = UpdateBuildingLot(ID0, 0, MapSize2d(2, 1))
+
+            assertEquals(
+                State(
+                    listOf(
+                        Storage(listOf(Building(ID0, lot = BuildingLot(TOWN0, 0, MapSize2d(2, 1))), Building(ID1))),
+                        Storage(
+                            Town(
+                                TOWN0,
+                                map = TileMap2d(
+                                    square(2),
+                                    listOf(BUILDING_TILE_0, BUILDING_TILE_0, TownTile(), BUILDING_TILE_1)
+                                )
+                            )
+                        ),
+                    )
+                ), REDUCER.invoke(STATE, action).first
+            )
+        }
+
+        @Test
+        fun `Resize is blocked by other building`() {
+            val action = UpdateBuildingLot(ID0, 0, MapSize2d(2, 2))
+
+            assertIllegalArgument("Tile 3 is not empty!") { REDUCER.invoke(STATE, action) }
         }
     }
 
