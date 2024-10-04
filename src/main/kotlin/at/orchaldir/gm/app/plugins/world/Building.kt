@@ -3,15 +3,18 @@ package at.orchaldir.gm.app.plugins.world
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
+import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
+import at.orchaldir.gm.visualization.town.showSelectedBuilding
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -44,6 +47,23 @@ class BuildingRoutes {
 
     @Resource("update")
     class Update(val id: BuildingId, val parent: BuildingRoutes = BuildingRoutes())
+
+    @Resource("/lot")
+    class Lot(val parent: BuildingRoutes = BuildingRoutes()) {
+        @Resource("edit")
+        class Edit(val id: BuildingId, val parent: Lot = Lot())
+
+        @Resource("preview")
+        class Preview(val id: BuildingId, val parent: Lot = Lot())
+
+        @Resource("update")
+        class Update(
+            val id: BuildingId,
+            val tileIndex: Int,
+            val size: MapSize2d,
+            val parent: Lot = Lot(),
+        )
+    }
 }
 
 fun Application.configureBuildingRouting() {
@@ -65,11 +85,11 @@ fun Application.configureBuildingRouting() {
                 showBuildingDetails(call, state, building)
             }
         }
-        get<BuildingRoutes.Edit> { details ->
-            logger.info { "Get editor for building ${details.id.value}" }
+        get<BuildingRoutes.Edit> { edit ->
+            logger.info { "Get editor for building ${edit.id.value}" }
 
             val state = STORE.getState()
-            val building = state.getBuildingStorage().getOrThrow(details.id)
+            val building = state.getBuildingStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showBuildingEditor(call, state, building)
@@ -108,6 +128,39 @@ fun Application.configureBuildingRouting() {
 
             STORE.getState().save()
         }
+        get<BuildingRoutes.Lot.Edit> { edit ->
+            logger.info { "Get editor for building lot ${edit.id.value}" }
+
+            val state = STORE.getState()
+            val building = state.getBuildingStorage().getOrThrow(edit.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showBuildingLotEditor(call, state, building, building.lot.size)
+            }
+        }
+        post<BuildingRoutes.Lot.Preview> { preview ->
+            logger.info { "Preview building lot ${preview.id.value}" }
+
+            val state = STORE.getState()
+            val building = state.getBuildingStorage().getOrThrow(preview.id)
+            val params = call.receiveParameters()
+            val size = MapSize2d(parseInt(params, WIDTH, 1), parseInt(params, HEIGHT, 1))
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showBuildingLotEditor(call, state, building, size)
+            }
+        }
+        get<BuildingRoutes.Lot.Update> { update ->
+            logger.info { "Update building lot ${update.id.value}" }
+
+            val action = UpdateBuildingLot(update.id, update.tileIndex, update.size)
+
+            STORE.dispatch(action)
+
+            call.respondRedirect(href(call, update.id))
+
+            STORE.getState().save()
+        }
     }
 }
 
@@ -131,6 +184,7 @@ private fun HTML.showBuildingDetails(
 ) {
     val backLink = call.application.href(BuildingRoutes())
     val editLink = call.application.href(BuildingRoutes.Edit(building.id))
+    val editLotLink = call.application.href(BuildingRoutes.Lot.Edit(building.id))
     val deleteLink = call.application.href(BuildingRoutes.Delete(building.id))
 
     simpleHtml("Building: ${building.name}") {
@@ -146,6 +200,7 @@ private fun HTML.showBuildingDetails(
             }
             field("Size", building.lot.size.format())
             action(editLink, "Edit")
+            action(editLotLink, "Move & Resize")
             if (state.canDelete(building)) {
                 action(deleteLink, "Delete")
             }
@@ -181,6 +236,32 @@ private fun HTML.showBuildingEditor(
             back(backLink)
         }, {
             svg(visualizeBuilding(call, state, building), 90)
+        })
+    }
+}
+
+private fun HTML.showBuildingLotEditor(
+    call: ApplicationCall,
+    state: State,
+    building: Building,
+    size: MapSize2d,
+) {
+    val backLink = call.application.href(BuildingRoutes.Details(building.id))
+    val previewLink = call.application.href(BuildingRoutes.Lot.Preview(building.id))
+
+    simpleHtml("Move & resize: ${building.name}") {
+        split({
+            field("Id", building.id.value.toString())
+            form {
+                id = "editor"
+                action = previewLink
+                method = FormMethod.post
+                selectInt("Width", size.width, 1, 10, WIDTH, true)
+                selectInt("Height", size.height, 1, 10, HEIGHT, true)
+            }
+            back(backLink)
+        }, {
+            svg(visualizeBuildingLot(call, state, building, size), 90)
         })
     }
 }
@@ -266,18 +347,34 @@ private fun visualizeBuilding(
     return visualizeTown(
         town,
         state.getBuildings(town.id),
-        buildingColorLookup = { b ->
-            if (b == selected) {
-                Color.Gold
-            } else {
-                Color.Black
-            }
-        },
+        buildingColorLookup = showSelectedBuilding(selected),
         buildingLinkLookup = { b ->
             call.application.href(BuildingRoutes.Details(b.id))
         },
         buildingTooltipLookup = { building ->
             building.name
         },
+    )
+}
+
+private fun visualizeBuildingLot(
+    call: ApplicationCall,
+    state: State,
+    building: Building,
+    size: MapSize2d,
+): Svg {
+    val town = state.getTownStorage().getOrThrow(building.lot.town)
+
+    return visualizeTown(
+        town,
+        state.getBuildings(town.id),
+        tileLinkLookup = { index, _ ->
+            if (town.canResize(index, size, building.id)) {
+                call.application.href(BuildingRoutes.Lot.Update(building.id, index, size))
+            } else {
+                null
+            }
+        },
+        buildingColorLookup = showSelectedBuilding(building),
     )
 }
