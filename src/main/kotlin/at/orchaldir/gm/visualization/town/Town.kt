@@ -119,12 +119,14 @@ data class TownRenderer(
         layer.renderRectangle(aabb, style)
     }
 
-    private fun renderStreet(renderer: LayerRenderer, tile: AABB, fill: Fill) {
-        val style = NoBorder(fill.toRender())
-        renderer.renderRectangle(tile.shrink(Factor(0.5f)), style)
-    }
+
 
     fun finish() = svgBuilder.finish()
+}
+
+fun renderStreet(renderer: LayerRenderer, tile: AABB, fill: Fill) {
+    val style = NoBorder(fill.toRender())
+    renderer.renderRectangle(tile.shrink(Factor(0.5f)), style)
 }
 
 fun visualizeTown(

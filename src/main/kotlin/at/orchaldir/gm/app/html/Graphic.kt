@@ -3,12 +3,12 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.util.*
-import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 // fill
 
-fun BODY.showFill(fill: Fill) {
+fun HtmlBlockTag.showFill(fill: Fill) {
     when (fill) {
         is Solid -> field("Solid Fill", fill.color.toString())
         is VerticalStripes -> field("Vertical Stripes", "${fill.color0} & ${fill.color1}")
