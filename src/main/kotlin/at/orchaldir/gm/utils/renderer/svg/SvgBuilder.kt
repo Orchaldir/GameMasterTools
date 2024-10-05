@@ -1,7 +1,7 @@
 package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.AdvancedRenderer
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -142,11 +142,11 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
     ) {
         renderer.tag(
             "pattern",
-            "id=\"%s\" width=\"%s\" height=\"%s\" patternUnits=\"userSpaceOnUse\"",
+            "id=\"%s\" viewBox=\"0,0,100,100\" width=\"%s\" height=\"%s\" patternUnits=\"userSpaceOnUse\"",
             name, tiles.width, tiles.width
         ) { tag ->
-            val full = AABB(Size2d.square(tiles.width.toFloat()))
-            val tile = full.shrink(Distance(tiles.border.toFloat()))
+            val full = AABB(Size2d.square(100.0f))
+            val tile = full.shrink(Factor(1.0f - tiles.borderPercentage))
 
             if (tiles.background != null) {
                 tag.renderRectangle(full, NoBorder(RenderSolid(tiles.background)))

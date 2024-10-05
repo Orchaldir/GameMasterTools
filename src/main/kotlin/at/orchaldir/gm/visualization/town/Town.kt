@@ -24,7 +24,7 @@ import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 
-const val TILE_SIZE = 100.0f
+const val TILE_SIZE = 20.0f
 
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
