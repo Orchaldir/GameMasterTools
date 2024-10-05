@@ -174,7 +174,7 @@ fun parseFill(parameters: Parameters): Fill {
         FillType.Tiles -> Tiles(
             parse(parameters, combine(FILL, COLOR, 0), Color.Black),
             parse<Color>(parameters, combine(FILL, COLOR, 1)),
-            parseUByte(parameters, combine(PATTERN, WIDTH), 5u),
+            parseUByte(parameters, combine(PATTERN, TILE), 5u),
             parseUByte(parameters, combine(PATTERN, BORDER), 1u)
         )
     }

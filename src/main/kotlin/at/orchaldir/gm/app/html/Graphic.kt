@@ -52,7 +52,7 @@ fun FORM.selectFill(fill: Fill) {
                 Color.entries - fill.fill,
                 true
             )
-            selectInt("Tile", fill.width.toInt(), minWidth, 10, combine(PATTERN, WIDTH), true)
+            selectInt("Tile", fill.width.toInt(), minWidth, 10, combine(PATTERN, TILE), true)
             selectInt("Border", fill.border.toInt(), 0, 10, combine(PATTERN, BORDER), true)
         }
     }
