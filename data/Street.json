@@ -7,7 +7,8 @@
   },
   "1": {
    "id": 1,
-   "name": "Miskatonic Avenue"
+   "name": "Miskatonic Avenue",
+   "type": 1
   }
  }
 }
