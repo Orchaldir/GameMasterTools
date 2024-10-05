@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.StreetType
 import at.orchaldir.gm.core.model.world.street.StreetTypeId
 import at.orchaldir.gm.core.selector.world.canDelete
+import at.orchaldir.gm.core.selector.world.getStreets
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -138,6 +139,9 @@ private fun HTML.showStreetTypeDetails(
         field("Id", type.id.value.toString())
         field("Name", type.name)
         showFill(type.fill)
+        showList("Streets", state.getStreets(type.id)) { street ->
+            link(call, street)
+        }
         action(editLink, "Edit")
         if (state.canDelete(type.id)) {
             action(deleteLink, "Delete")
