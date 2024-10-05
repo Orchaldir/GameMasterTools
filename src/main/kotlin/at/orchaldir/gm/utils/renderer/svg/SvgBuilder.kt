@@ -141,7 +141,7 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
         tiles: RenderTiles,
     ) {
         renderer.tag(
-            "patter",
+            "pattern",
             "id=\"%s\" width=\"%s%%\" height=\"%s%%\" gradientUnits=\"userSpaceOnUse\"",
             name, tiles.width, tiles.width
         ) { tag ->
