@@ -20,8 +20,10 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.html.FormMethod
 import kotlinx.html.HTML
 import kotlinx.html.form
+import kotlinx.html.id
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -39,6 +41,9 @@ class StreetTypeRoutes {
 
     @Resource("edit")
     class Edit(val id: StreetTypeId, val parent: StreetTypeRoutes = StreetTypeRoutes())
+
+    @Resource("preview")
+    class Preview(val id: StreetTypeId, val parent: StreetTypeRoutes = StreetTypeRoutes())
 
     @Resource("update")
     class Update(val id: StreetTypeId, val parent: StreetTypeRoutes = StreetTypeRoutes())
@@ -92,6 +97,15 @@ fun Application.configureStreetTypeRouting() {
 
             val state = STORE.getState()
             val street = state.getStreetTypeStorage().getOrThrow(edit.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showStreetTypeEditor(call, street)
+            }
+        }
+        post<StreetTypeRoutes.Preview> { preview ->
+            logger.info { "Preview street type ${preview.id.value}" }
+
+            val street = parseStreetType(preview.id, call.receiveParameters())
 
             call.respondHtml(HttpStatusCode.OK) {
                 showStreetTypeEditor(call, street)
@@ -155,11 +169,15 @@ private fun HTML.showStreetTypeEditor(
     type: StreetType,
 ) {
     val backLink = href(call, type.id)
+    val previewLink = call.application.href(StreetTypeRoutes.Preview(type.id))
     val updateLink = call.application.href(StreetTypeRoutes.Update(type.id))
 
     simpleHtml("Edit Street Type: ${type.name}") {
         field("Id", type.id.value.toString())
         form {
+            id = "editor"
+            action = previewLink
+            method = FormMethod.post
             selectName(type.name)
             selectFill(type.fill)
             button("Update", updateLink)
