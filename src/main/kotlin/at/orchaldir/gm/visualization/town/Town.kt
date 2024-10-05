@@ -24,6 +24,8 @@ import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 
+const val TILE_SIZE = 100.0f
+
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
 private val DEFAULT_STREET_COLOR: (StreetId, Int) -> Fill = { _, _ -> Solid(Color.Gray) }
@@ -42,7 +44,7 @@ data class TownRenderer(
     )
 
     constructor(town: Town) : this(
-        TileMap2dRenderer(Distance(20.0f), Distance(1.0f)),
+        TileMap2dRenderer(Distance(TILE_SIZE), Distance(1.0f)),
         town,
     )
 

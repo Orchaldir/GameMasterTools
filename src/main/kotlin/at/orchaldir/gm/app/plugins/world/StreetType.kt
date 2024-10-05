@@ -19,6 +19,7 @@ import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
+import at.orchaldir.gm.visualization.town.TILE_SIZE
 import at.orchaldir.gm.visualization.town.renderStreet
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -206,7 +207,7 @@ private fun HTML.showStreetTypeEditor(
 private fun visualizeStreetType(
     streetType: StreetType,
 ): Svg {
-    val size = Size2d.square(100.0f)
+    val size = Size2d.square(TILE_SIZE)
     val builder = SvgBuilder(size)
     val aabb = AABB(size)
     val option = NoBorder(Solid(Color.Green).toRender())

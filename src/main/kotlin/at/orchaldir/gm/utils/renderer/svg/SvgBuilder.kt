@@ -142,7 +142,7 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
     ) {
         renderer.tag(
             "pattern",
-            "id=\"%s\" width=\"%s%%\" height=\"%s%%\" patternUnits=\"userSpaceOnUse\"",
+            "id=\"%s\" width=\"%s\" height=\"%s\" patternUnits=\"userSpaceOnUse\"",
             name, tiles.width, tiles.width
         ) { tag ->
             val full = AABB(Size2d.square(tiles.width.toFloat()))
