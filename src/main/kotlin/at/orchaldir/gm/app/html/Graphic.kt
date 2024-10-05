@@ -51,10 +51,10 @@ fun FORM.selectFill(fill: Fill) {
                 Color.entries - fill.fill,
                 true
             )
-            selectFloat("Tile in Meter", fill.width, 0.001f, 100f, 0.1f, combine(PATTERN, TILE), true)
+            selectFloat("Tile in Meter", fill.width, 0.001f, 100f, 0.01f, combine(PATTERN, TILE), true)
             selectFloat(
                 "Border in Percentage",
-                fill.borderPercentage,
+                fill.borderPercentage.value,
                 0.01f,
                 0.9f,
                 0.01f,

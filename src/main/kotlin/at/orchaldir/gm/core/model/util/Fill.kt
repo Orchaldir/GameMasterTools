@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.util
 
 import at.orchaldir.gm.utils.map.MapSize2d
+import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -35,6 +36,6 @@ data class Tiles(
     val fill: Color,
     val background: Color?,
     val width: Float,
-    val borderPercentage: Float,
+    val borderPercentage: Factor,
 ) : Fill()
 

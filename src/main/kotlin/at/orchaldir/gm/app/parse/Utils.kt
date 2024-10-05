@@ -175,7 +175,7 @@ fun parseFill(parameters: Parameters): Fill {
             parse(parameters, combine(FILL, COLOR, 0), Color.Black),
             parse<Color>(parameters, combine(FILL, COLOR, 1)),
             parseFloat(parameters, combine(PATTERN, TILE), 1.0f),
-            parseFloat(parameters, combine(PATTERN, BORDER), 1.0f)
+            parseFactor(parameters, combine(PATTERN, BORDER), Factor(0.1f))
         )
     }
 }

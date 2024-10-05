@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.AdvancedRenderer
@@ -146,7 +147,7 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
             name, tiles.width, tiles.width
         ) { tag ->
             val full = AABB(Size2d.square(100.0f))
-            val tile = full.shrink(Factor(1.0f - tiles.borderPercentage))
+            val tile = full.shrink(tiles.borderPercentage)
 
             if (tiles.background != null) {
                 tag.renderRectangle(full, NoBorder(RenderSolid(tiles.background)))
