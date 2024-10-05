@@ -128,17 +128,18 @@ private fun HTML.showAllStreetTypes(call: ApplicationCall) {
 private fun HTML.showStreetTypeDetails(
     call: ApplicationCall,
     state: State,
-    street: StreetType,
+    type: StreetType,
 ) {
     val backLink = call.application.href(StreetTypeRoutes())
-    val deleteLink = call.application.href(StreetTypeRoutes.Delete(street.id))
-    val editLink = call.application.href(StreetTypeRoutes.Edit(street.id))
+    val deleteLink = call.application.href(StreetTypeRoutes.Delete(type.id))
+    val editLink = call.application.href(StreetTypeRoutes.Edit(type.id))
 
-    simpleHtml("Street Type: ${street.name}") {
-        field("Id", street.id.value.toString())
-        field("Name", street.name)
+    simpleHtml("Street Type: ${type.name}") {
+        field("Id", type.id.value.toString())
+        field("Name", type.name)
+        showFill(type.fill)
         action(editLink, "Edit")
-        if (state.canDelete(street.id)) {
+        if (state.canDelete(type.id)) {
             action(deleteLink, "Delete")
         }
         back(backLink)
@@ -147,15 +148,16 @@ private fun HTML.showStreetTypeDetails(
 
 private fun HTML.showStreetTypeEditor(
     call: ApplicationCall,
-    street: StreetType,
+    type: StreetType,
 ) {
-    val backLink = href(call, street.id)
-    val updateLink = call.application.href(StreetTypeRoutes.Update(street.id))
+    val backLink = href(call, type.id)
+    val updateLink = call.application.href(StreetTypeRoutes.Update(type.id))
 
-    simpleHtml("Edit Street Type: ${street.name}") {
-        field("Id", street.id.value.toString())
+    simpleHtml("Edit Street Type: ${type.name}") {
+        field("Id", type.id.value.toString())
         form {
-            selectName(street.name)
+            selectName(type.name)
+            selectFill(type.fill)
             button("Update", updateLink)
         }
         back(backLink)
