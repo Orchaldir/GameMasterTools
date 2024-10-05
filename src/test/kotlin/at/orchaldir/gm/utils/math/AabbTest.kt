@@ -61,6 +61,11 @@ class AabbTest {
     }
 
     @Test
+    fun `Shrink by another factor`() {
+        assertEquals(AABB(3.5f, 6.0f, 27.0f, 54.0f), aabb.shrink(Factor(0.1f)))
+    }
+
+    @Test
     fun `Mirror a polygon`() {
         val polygon = Polygon2d(List(3) { Point2d(9.0f, 18.0f) })
         val mirrored = Polygon2d(List(3) { Point2d(25.0f, 18.0f) })
