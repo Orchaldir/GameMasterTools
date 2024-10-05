@@ -5,7 +5,6 @@ import at.orchaldir.gm.utils.renderer.AdvancedRenderer
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.*
 
-
 class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
     private val patterns: MutableMap<RenderFill, String> = mutableMapOf()
     private val layers: MutableMap<Int, MutableList<String>> = mutableMapOf()
@@ -16,11 +15,14 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
         lines.add(getStartLine())
 
         if (patterns.isNotEmpty()) {
-            lines.add("  <defs>")
+            val patternLines = mutableListOf<String>()
+            val renderer = SvgRenderer(patterns, patternLines, step, step)
 
-            patterns.forEach { (fill, name) -> addPatternLines(lines, fill, name) }
+            renderer.tag("defs") {
+                patterns.forEach { (fill, name) -> addPatternLines(renderer, fill, name) }
+            }
 
-            lines.add("  </defs>")
+            lines.addAll(patternLines)
         }
 
         layers.toSortedMap()
@@ -86,12 +88,12 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
         size.height
     )
 
-    private fun addPatternLines(lines: MutableList<String>, fill: RenderFill, name: String) {
+    private fun addPatternLines(renderer: SvgRenderer, fill: RenderFill, name: String) {
         when (fill) {
             is RenderSolid -> error("Solid is not a pattern!")
-            is RenderVerticalStripes -> addStripes(lines, name, fill.color0, fill.color1, fill.width)
+            is RenderVerticalStripes -> addStripes(renderer, name, fill.color0, fill.color1, fill.width)
             is RenderHorizontalStripes -> addStripes(
-                lines,
+                renderer,
                 name,
                 fill.color0,
                 fill.color1,
@@ -101,22 +103,32 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
         }
     }
 
-    private fun SvgBuilder.addStripes(
-        lines: MutableList<String>,
+    private fun addStripes(
+        renderer: SvgRenderer,
         name: String,
         color0: RenderColor,
         color1: RenderColor,
         width: UByte,
         options: String = "",
     ) {
-        val c0 = toSvg(color0)
-        val c1 = toSvg(color1)
-        lines.add("    <linearGradient id=\"$name\" spreadMethod=\"repeat\" x2=\"$width%\" gradientUnits=\"userSpaceOnUse\"$options>")
-        lines.add("      <stop offset=\"0\" stop-color=\"$c0\"/>>")
-        lines.add("      <stop offset=\"0.5\" stop-color=\"$c0\"/>>")
-        lines.add("      <stop offset=\"0.5\" stop-color=\"$c1\"/>>")
-        lines.add("      <stop offset=\"1.0\" stop-color=\"$c1\"/>>")
-        lines.add("    </linearGradient>")
+        renderer.tag(
+            "linearGradient",
+            "id=\"%s\" spreadMethod=\"repeat\" x2=\"%s%%\" gradientUnits=\"userSpaceOnUse\"%s",
+            name, width, options
+        ) {
+            addStop(renderer, 0.0f, color0);
+            addStop(renderer, 0.5f, color0);
+            addStop(renderer, 0.5f, color1);
+            addStop(renderer, 1.0f, color1);
+        }
+    }
+
+    private fun addStop(
+        renderer: SvgRenderer,
+        offset: Float,
+        color: RenderColor,
+    ) {
+        renderer.selfClosingTag("stop", "offset=\"%.2f\" stop-color=\"%s\"", offset, toSvg(color))
     }
 
     private fun toSvg(color: RenderColor) = color.toCode()
