@@ -146,13 +146,15 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
             name, tiles.width, tiles.width
         ) { tag ->
             val full = AABB(Size2d.square(tiles.width.toFloat()))
-            val tile = full.shrink(Distance(tiles.border.toFloat()))
 
             if (tiles.background != null) {
+                val tile = full.shrink(Distance(tiles.border.toFloat()))
                 tag.renderRectangle(full, NoBorder(RenderSolid(tiles.background)))
+                tag.renderRectangle(tile, NoBorder(RenderSolid(tiles.fill)))
+            } else {
+                tag.renderRectangle(full, NoBorder(RenderSolid(tiles.fill)))
             }
 
-            tag.renderRectangle(tile, NoBorder(RenderSolid(tiles.fill)))
         }
     }
 

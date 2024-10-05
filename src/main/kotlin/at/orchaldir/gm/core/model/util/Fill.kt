@@ -34,7 +34,7 @@ data class HorizontalStripes(
 data class Tiles(
     val fill: Color,
     val background: Color?,
-    val width: UByte = 1u,
+    val width: UByte = 3u,
     val border: UByte = 1u,
 ) : Fill()
 

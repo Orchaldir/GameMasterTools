@@ -114,18 +114,18 @@ fun Application.configureStreetTypeRouting() {
         post<StreetTypeRoutes.Preview> { preview ->
             logger.info { "Preview street type ${preview.id.value}" }
 
-            val street = parseStreetType(preview.id, call.receiveParameters())
+            val type = parseStreetType(preview.id, call.receiveParameters())
 
             call.respondHtml(HttpStatusCode.OK) {
-                showStreetTypeEditor(call, street)
+                showStreetTypeEditor(call, type)
             }
         }
         post<StreetTypeRoutes.Update> { update ->
             logger.info { "Update street type ${update.id.value}" }
 
-            val street = parseStreetType(update.id, call.receiveParameters())
+            val type = parseStreetType(update.id, call.receiveParameters())
 
-            STORE.dispatch(UpdateStreetType(street))
+            STORE.dispatch(UpdateStreetType(type))
 
             call.respondRedirect(href(call, update.id))
 

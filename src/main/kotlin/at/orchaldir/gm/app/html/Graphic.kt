@@ -43,10 +43,17 @@ fun FORM.selectFill(fill: Fill) {
             } else {
                 Color.entries
             }
+            val minWidth = (fill.border * 2u + 1u).toInt()
             selectColor(fill.fill, "Tile Color", combine(FILL, COLOR, 0), availableTileColors)
-            selectOptionalColor("Background Color", combine(FILL, COLOR, 1), fill.background, Color.entries - fill.fill)
-            selectInt("Tile", fill.width.toInt(), 1, 10, combine(PATTERN, WIDTH), true)
-            selectInt("Border", fill.border.toInt(), 1, 10, combine(PATTERN, BORDER), true)
+            selectOptionalColor(
+                "Background Color",
+                combine(FILL, COLOR, 1),
+                fill.background,
+                Color.entries - fill.fill,
+                true
+            )
+            selectInt("Tile", fill.width.toInt(), minWidth, 10, combine(PATTERN, WIDTH), true)
+            selectInt("Border", fill.border.toInt(), 0, 10, combine(PATTERN, BORDER), true)
         }
     }
 }
