@@ -1,13 +1,17 @@
 {
-  "version": 1,
-  "elements": {
-    "0": {
-      "id": 0,
-      "name": "Paved Street"
-    },
-    "1": {
-      "id": 1,
-      "name": "Dirt Road"
-    }
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Paved Street"
+  },
+  "1": {
+   "id": 1,
+   "name": "Dirt Road",
+   "fill": {
+    "type": "Solid",
+    "color": "SaddleBrown"
+   }
   }
+ }
 }
