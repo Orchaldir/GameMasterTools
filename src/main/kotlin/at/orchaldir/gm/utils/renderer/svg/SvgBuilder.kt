@@ -18,8 +18,8 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
             val patternLines = mutableListOf<String>()
             val renderer = SvgRenderer(patterns, patternLines, step, step)
 
-            renderer.tag("defs") {
-                patterns.forEach { (fill, name) -> addPatternLines(renderer, fill, name) }
+            renderer.tag("defs") { tag ->
+                patterns.forEach { (fill, name) -> addPatternLines(tag, fill, name) }
             }
 
             lines.addAll(patternLines)
@@ -115,11 +115,11 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
             "linearGradient",
             "id=\"%s\" spreadMethod=\"repeat\" x2=\"%s%%\" gradientUnits=\"userSpaceOnUse\"%s",
             name, width, options
-        ) {
-            addStop(renderer, 0.0f, color0);
-            addStop(renderer, 0.5f, color0);
-            addStop(renderer, 0.5f, color1);
-            addStop(renderer, 1.0f, color1);
+        ) { tag ->
+            addStop(tag, 0.0f, color0);
+            addStop(tag, 0.5f, color0);
+            addStop(tag, 0.5f, color1);
+            addStop(tag, 1.0f, color1);
         }
     }
 

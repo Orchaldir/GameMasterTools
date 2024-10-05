@@ -129,7 +129,7 @@ class SvgRenderer(
 
     //
 
-    fun tag(tag: String, attributes: String = "", content: (LayerRenderer) -> Unit) {
+    fun tag(tag: String, attributes: String = "", content: (SvgRenderer) -> Unit) {
         addLine(String.format("<%s%s>", tag, attributes))
 
         content(SvgRenderer(patterns, lines, indent + step, step, tooltip))
@@ -137,7 +137,7 @@ class SvgRenderer(
         addLine(String.format("</%s>", tag))
     }
 
-    fun tag(tag: String, format: String, vararg args: Any?, content: (LayerRenderer) -> Unit) {
+    fun tag(tag: String, format: String, vararg args: Any?, content: (SvgRenderer) -> Unit) {
         val attributes = formatAttributes(format, *args)
         tag(tag, " $attributes") {
             content(it)
