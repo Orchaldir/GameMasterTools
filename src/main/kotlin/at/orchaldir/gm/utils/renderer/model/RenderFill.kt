@@ -1,9 +1,7 @@
 package at.orchaldir.gm.utils.renderer.model
 
-import at.orchaldir.gm.core.model.util.Fill
-import at.orchaldir.gm.core.model.util.HorizontalStripes
-import at.orchaldir.gm.core.model.util.Solid
-import at.orchaldir.gm.core.model.util.VerticalStripes
+import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.utils.map.MapSize2d
 
 sealed class RenderFill
 
@@ -23,9 +21,17 @@ data class RenderHorizontalStripes(
     val width: UByte,
 ) : RenderFill()
 
+data class RenderTiles(
+    val fill: RenderColor,
+    val background: RenderColor?,
+    val width: UByte = 1u,
+    val border: UByte = 1u,
+) : RenderFill()
+
 fun Fill.toRender(): RenderFill = when (this) {
-    is Solid -> RenderSolid(this.color.toRender())
-    is VerticalStripes -> RenderVerticalStripes(this.color0.toRender(), this.color1.toRender(), this.width)
-    is HorizontalStripes -> RenderHorizontalStripes(this.color0.toRender(), this.color1.toRender(), this.width)
+    is Solid -> RenderSolid(color.toRender())
+    is VerticalStripes -> RenderVerticalStripes(color0.toRender(), color1.toRender(), width)
+    is HorizontalStripes -> RenderHorizontalStripes(color0.toRender(), color1.toRender(), width)
+    is Tiles -> RenderTiles(fill.toRender(), background?.toRender(), width, border)
 }
 

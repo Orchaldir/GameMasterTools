@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.util
 
+import at.orchaldir.gm.utils.map.MapSize2d
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -27,3 +28,13 @@ data class HorizontalStripes(
     val color1: Color,
     val width: UByte = 1u,
 ) : Fill()
+
+@Serializable
+@SerialName("Tiles")
+data class Tiles(
+    val fill: Color,
+    val background: Color?,
+    val width: UByte = 1u,
+    val border: UByte = 1u,
+) : Fill()
+

@@ -4,4 +4,5 @@ enum class FillType {
     Solid,
     VerticalStripes,
     HorizontalStripes,
+    Tiles,
 }

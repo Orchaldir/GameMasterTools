@@ -280,14 +280,6 @@ private fun BODY.showButtons(buttonColumn: ButtonColumn) {
     field("Button Size", buttonColumn.button.size.toString())
 }
 
-private fun BODY.showFill(fill: Fill) {
-    when (fill) {
-        is Solid -> field("Color", fill.color.toString())
-        is VerticalStripes -> field("Vertical Stripes", "${fill.color0} & ${fill.color1}")
-        is HorizontalStripes -> field("Horizontal Stripes", "${fill.color0} & ${fill.color1}")
-    }
-}
-
 private fun HTML.showItemTemplateEditor(
     call: ApplicationCall,
     state: State,

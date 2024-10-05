@@ -13,6 +13,12 @@ fun HtmlBlockTag.showFill(fill: Fill) {
         is Solid -> field("Solid Fill", fill.color.toString())
         is VerticalStripes -> field("Vertical Stripes", "${fill.color0} & ${fill.color1}")
         is HorizontalStripes -> field("Horizontal Stripes", "${fill.color0} & ${fill.color1}")
+        is Tiles -> {
+            field("Tile Color", fill.fill.toString())
+            if (fill.background != null) {
+                field("Background Color", fill.background.toString())
+            }
+        }
     }
 }
 
@@ -24,19 +30,31 @@ fun FORM.selectFill(fill: Fill) {
             is Solid -> type == FillType.Solid
             is VerticalStripes -> type == FillType.VerticalStripes
             is HorizontalStripes -> type == FillType.HorizontalStripes
+            is Tiles -> type == FillType.Tiles
         }
     }
     when (fill) {
         is Solid -> selectColor(fill.color)
         is VerticalStripes -> selectStripes(fill.color0, fill.color1, fill.width)
         is HorizontalStripes -> selectStripes(fill.color0, fill.color1, fill.width)
+        is Tiles -> {
+            val availableTileColors = if (fill.background != null) {
+                Color.entries - fill.background
+            } else {
+                Color.entries
+            }
+            selectColor(fill.fill, "Tile Color", combine(FILL, COLOR, 0), availableTileColors)
+            selectOptionalColor("Background Color", combine(FILL, COLOR, 1), fill.background, Color.entries - fill.fill)
+            selectInt("Tile", fill.width.toInt(), 1, 10, combine(PATTERN, WIDTH), true)
+            selectInt("Border", fill.border.toInt(), 1, 10, combine(PATTERN, BORDER), true)
+        }
     }
 }
 
 private fun FORM.selectStripes(color0: Color, color1: Color, width: UByte) {
     selectColor(color0, "1.Stripe Color", combine(FILL, COLOR, 0), Color.entries - color1)
     selectColor(color1, "2.Stripe Color", combine(FILL, COLOR, 1), Color.entries - color0)
-    selectInt("Stripe Width", width.toInt(), 1, 10, PATTERN_WIDTH, true)
+    selectInt("Stripe Width", width.toInt(), 1, 10, combine(PATTERN, WIDTH), true)
 }
 
 fun FORM.selectColor(

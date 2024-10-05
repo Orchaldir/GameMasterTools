@@ -1,5 +1,7 @@
 package at.orchaldir.gm.utils.renderer.svg
 
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.AdvancedRenderer
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -100,6 +102,8 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
                 fill.width,
                 " gradientTransform=\"rotate(90)\""
             )
+
+            is RenderTiles -> addTiles(renderer, name, fill)
         }
     }
 
@@ -129,6 +133,27 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
         color: RenderColor,
     ) {
         renderer.selfClosingTag("stop", "offset=\"%.2f\" stop-color=\"%s\"", offset, toSvg(color))
+    }
+
+    private fun addTiles(
+        renderer: SvgRenderer,
+        name: String,
+        tiles: RenderTiles,
+    ) {
+        renderer.tag(
+            "patter",
+            "id=\"%s\" width=\"%s%%\" height=\"%s%%\" gradientUnits=\"userSpaceOnUse\"",
+            name, tiles.width, tiles.width
+        ) { tag ->
+            val full = AABB(Size2d.square(tiles.width.toFloat()))
+            val tile = full.shrink(Distance(tiles.border.toFloat()))
+
+            if (tiles.background != null) {
+                tag.renderRectangle(full, NoBorder(RenderSolid(tiles.background)))
+            }
+
+            tag.renderRectangle(tile, NoBorder(RenderSolid(tiles.fill)))
+        }
     }
 
     private fun toSvg(color: RenderColor) = color.toCode()

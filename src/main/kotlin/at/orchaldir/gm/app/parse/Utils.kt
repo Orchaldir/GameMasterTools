@@ -170,10 +170,17 @@ fun parseFill(parameters: Parameters): Fill {
             parse(parameters, combine(FILL, COLOR, 1), Color.White),
             parseWidth(parameters),
         )
+
+        FillType.Tiles -> Tiles(
+            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
+            parse<Color>(parameters, combine(FILL, COLOR, 1)),
+            parseWidth(parameters),
+            parseUByte(parameters, combine(PATTERN, BORDER), 1u)
+        )
     }
 }
 
-private fun parseWidth(parameters: Parameters) = parameters[PATTERN_WIDTH]?.toUByte() ?: 1u
+private fun parseWidth(parameters: Parameters) = parseUByte(parameters, combine(PATTERN, WIDTH), 1u)
 
 //
 
@@ -186,6 +193,8 @@ fun parseBool(parameters: Parameters, param: String, default: Boolean = false) =
     parameters[param]?.toBoolean() ?: default
 
 fun parseInt(parameters: Parameters, param: String, default: Int = 0) = parameters[param]?.toInt() ?: default
+
+fun parseUByte(parameters: Parameters, param: String, default: UByte = 0u) = parameters[param]?.toUByte() ?: default
 
 fun parseFactor(parameters: Parameters, param: String, default: Factor = FULL) =
     parameters[param]?.toFloat()?.let { Factor(it) } ?: default
