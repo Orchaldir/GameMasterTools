@@ -1,9 +1,9 @@
-package at.orchaldir.gm.app.plugins
+package at.orchaldir.gm.app
 
-import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.action
 import at.orchaldir.gm.app.html.fieldStorageLink
 import at.orchaldir.gm.app.html.simpleHtml
+import at.orchaldir.gm.app.plugins.*
 import at.orchaldir.gm.app.plugins.character.CharacterRoutes
 import at.orchaldir.gm.app.plugins.race.RaceRoutes
 import at.orchaldir.gm.app.plugins.race.RaceRoutes.AppearanceRoutes
@@ -57,6 +57,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getMountainStorage(), MountainRoutes())
                     fieldStorageLink(call, state.getRiverStorage(), RiverRoutes())
                     fieldStorageLink(call, state.getStreetStorage(), StreetRoutes())
+                    fieldStorageLink(call, state.getStreetTypeStorage(), StreetTypeRoutes())
                     fieldStorageLink(call, state.getTownStorage(), TownRoutes())
                     h2 { +"Data" }
                     ul {

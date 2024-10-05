@@ -462,29 +462,6 @@ private fun FORM.selectSleeveStyle(options: Collection<SleeveStyle>, current: Sl
     }
 }
 
-private fun FORM.selectFill(fill: Fill) {
-    selectValue("Fill Type", FILL_TYPE, FillType.entries, true) { type ->
-        label = type.name
-        value = type.name
-        selected = when (fill) {
-            is Solid -> type == FillType.Solid
-            is VerticalStripes -> type == FillType.VerticalStripes
-            is HorizontalStripes -> type == FillType.HorizontalStripes
-        }
-    }
-    when (fill) {
-        is Solid -> selectColor(fill.color)
-        is VerticalStripes -> selectStripes(fill.color0, fill.color1, fill.width)
-        is HorizontalStripes -> selectStripes(fill.color0, fill.color1, fill.width)
-    }
-}
-
-private fun FORM.selectStripes(color0: Color, color1: Color, width: UByte) {
-    selectColor(color0, "1.Stripe Color", colors = Color.entries - color1)
-    selectColor(color1, "2.Stripe Color", EQUIPMENT_COLOR_1, Color.entries - color0)
-    selectInt("Stripe Width", width.toInt(), 1, 10, PATTERN_WIDTH, true)
-}
-
 private fun FORM.selectMaterial(
     state: State,
     materialId: MaterialId,
@@ -494,15 +471,6 @@ private fun FORM.selectMaterial(
         value = material.id.value.toString()
         selected = materialId == material.id
     }
-}
-
-private fun FORM.selectColor(
-    color: Color,
-    label: String = "Color",
-    selectId: String = EQUIPMENT_COLOR_0,
-    colors: Collection<Color> = Color.entries,
-) {
-    selectColor(label, selectId, OneOf(colors), color)
 }
 
 private fun BODY.visualizeItem(template: ItemTemplate) {

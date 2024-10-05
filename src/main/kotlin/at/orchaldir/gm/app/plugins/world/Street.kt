@@ -113,8 +113,8 @@ private fun HTML.showAllStreets(call: ApplicationCall) {
 
     simpleHtml("Streets") {
         field("Count", count.toString())
-        showList(streets) { nameList ->
-            link(call, nameList)
+        showList(streets) { street ->
+            link(call, street)
         }
         action(createLink, "Add")
         back("/")
