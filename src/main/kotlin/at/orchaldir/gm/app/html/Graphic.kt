@@ -53,7 +53,7 @@ fun FORM.selectFill(fill: Fill) {
                 true
             )
             selectInt("Tile", fill.width.toInt(), minWidth, 1000, combine(PATTERN, TILE), true)
-            selectInt("Border", fill.border.toInt(), 0, 1000, combine(PATTERN, BORDER), true)
+            selectInt("Border", fill.border.toInt(), 1, 1000, combine(PATTERN, BORDER), true)
         }
     }
 }
