@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.reducer.world
 
-import at.orchaldir.gm.core.action.*
+import at.orchaldir.gm.core.action.CreateStreetType
+import at.orchaldir.gm.core.action.DeleteStreetType
+import at.orchaldir.gm.core.action.UpdateStreetType
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.StreetType
 import at.orchaldir.gm.core.selector.world.canDelete

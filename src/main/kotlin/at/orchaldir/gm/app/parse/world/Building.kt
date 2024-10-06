@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.parse.parseCharacterId
 import at.orchaldir.gm.app.parse.parseDate
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.action.UpdateBuilding
-import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.*

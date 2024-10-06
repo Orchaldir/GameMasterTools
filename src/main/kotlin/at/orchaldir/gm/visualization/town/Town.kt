@@ -122,7 +122,6 @@ data class TownRenderer(
     }
 
 
-
     fun finish() = svgBuilder.finish()
 }
 

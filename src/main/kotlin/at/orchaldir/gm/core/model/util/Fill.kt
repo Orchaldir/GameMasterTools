@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.util
 
-import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
