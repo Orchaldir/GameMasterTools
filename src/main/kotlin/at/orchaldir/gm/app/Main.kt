@@ -5,10 +5,7 @@ import at.orchaldir.gm.app.plugins.character.*
 import at.orchaldir.gm.app.plugins.race.configureRaceAppearanceRouting
 import at.orchaldir.gm.app.plugins.race.configureRaceRouting
 import at.orchaldir.gm.app.plugins.world.*
-import at.orchaldir.gm.app.plugins.world.town.configureBuildingEditorRouting
-import at.orchaldir.gm.app.plugins.world.town.configureStreetEditorRouting
-import at.orchaldir.gm.app.plugins.world.town.configureTerrainRouting
-import at.orchaldir.gm.app.plugins.world.town.configureTownRouting
+import at.orchaldir.gm.app.plugins.world.town.*
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -54,6 +51,7 @@ fun Application.module() {
     configureRaceRouting()
     configureRaceAppearanceRouting()
     configureRailwayTypeRouting()
+    configureRailwayEditorRouting()
     configureRiverRouting()
     configureTerrainRouting()
     configureTimeRouting()

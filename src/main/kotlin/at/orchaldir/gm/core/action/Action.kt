@@ -38,6 +38,7 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetType
 import at.orchaldir.gm.core.model.world.street.StreetTypeId
 import at.orchaldir.gm.core.model.world.terrain.*
+import at.orchaldir.gm.core.model.world.town.TileConnection
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -217,6 +218,7 @@ data class AddRailwayTile(
     val town: TownId,
     val tileIndex: Int,
     val type: RailwayTypeId,
+    val connection: TileConnection,
 ) : WorldAction()
 
 data class RemoveRailwayTile(
