@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.util.Solid
 import at.orchaldir.gm.core.model.world.railway.RailwayTypeId
 import at.orchaldir.gm.core.model.world.railway.RailwayType
 import at.orchaldir.gm.core.selector.world.canDelete
+import at.orchaldir.gm.core.selector.world.getTowns
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.NoBorder
@@ -165,6 +166,9 @@ private fun HTML.showRailwayTypeDetails(
             field("Id", type.id.value.toString())
             field("Name", type.name)
             field("Color", type.color.toString())
+            showList("Towns", state.getTowns(type.id)) { town ->
+                link(call, town)
+            }
             action(editLink, "Edit")
             if (state.canDelete(type.id)) {
                 action(deleteLink, "Delete")
