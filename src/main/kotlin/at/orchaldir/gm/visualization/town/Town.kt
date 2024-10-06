@@ -100,31 +100,36 @@ data class TownRenderer(
     }
 
     fun renderRailways() {
-        renderRailways { aabb, tile, index ->
+        renderRailways { aabb, tile, index, x, y ->
             val color = config.railwayColorLookup(index, tile.railwayType)
             val link = config.railwayLinkLookup(index, tile.railwayType)
             val tooltip = config.railwayTooltipLookup(index, tile.railwayType)
 
-            svgBuilder.optionalLinkAndTooltip(link, tooltip) {
+            svgBuilder.optionalLinkAndTooltip(link, tooltip) { renderer ->
                 when (tile.connection) {
                     TileConnection.Curve -> {
-                        renderHorizontalRailway(it, aabb, color, RAILWAY_WIDTH)
-                        renderVerticalRailway(it, aabb, color, RAILWAY_WIDTH)
+                        if (town.checkTile(x + 1, y) { it.construction.contains(tile.railwayType) }) {
+                            renderRailwayRight(renderer, aabb, color, RAILWAY_WIDTH)
+                        }
+                        if (town.checkTile(x, y + 1) { it.construction.contains(tile.railwayType) }) {
+                            renderRailwayDown(renderer, aabb, color, RAILWAY_WIDTH)
+                        }
+                        renderRailwayCenter(renderer, aabb, color, RAILWAY_WIDTH)
                     }
 
-                    TileConnection.Horizontal -> renderHorizontalRailway(it, aabb, color, RAILWAY_WIDTH)
-                    TileConnection.Vertical -> renderVerticalRailway(it, aabb, color, RAILWAY_WIDTH)
+                    TileConnection.Horizontal -> renderHorizontalRailway(renderer, aabb, color, RAILWAY_WIDTH)
+                    TileConnection.Vertical -> renderVerticalRailway(renderer, aabb, color, RAILWAY_WIDTH)
                 }
             }
         }
     }
 
     fun renderRailways(
-        render: (AABB, RailwayTile, Int) -> Unit,
+        render: (AABB, RailwayTile, Int, Int, Int) -> Unit,
     ) {
-        tileRenderer.render(town.map) { index, _, _, aabb, tile ->
+        tileRenderer.render(town.map) { index, x, y, aabb, tile ->
             if (tile.construction is RailwayTile) {
-                render(aabb, tile.construction, index)
+                render(aabb, tile.construction, index, x, y)
             }
         }
     }
@@ -179,6 +184,37 @@ data class TownRenderer(
 
 
     fun finish() = svgBuilder.finish()
+}
+
+fun renderRailwayCenter(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {
+    val style = NoBorder(color.toRender())
+    renderer.renderRectangle(tile.shrink(FULL - width), style)
+}
+
+fun renderRailwayDown(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {
+    val style = NoBorder(color.toRender())
+    val builder = Polygon2dBuilder()
+    val half = width * 0.5f
+
+    builder.addPoint(tile, CENTER + half, CENTER + half)
+    builder.addPoint(tile, CENTER - half, CENTER + half)
+    builder.addPoint(tile, CENTER - half, FULL)
+    builder.addPoint(tile, CENTER + half, FULL)
+
+    renderer.renderPolygon(builder.build(), style)
+}
+
+fun renderRailwayRight(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {
+    val style = NoBorder(color.toRender())
+    val builder = Polygon2dBuilder()
+    val half = width * 0.5f
+
+    builder.addPoint(tile, CENTER + half, CENTER + half)
+    builder.addPoint(tile, CENTER + half, CENTER - half)
+    builder.addPoint(tile, FULL, CENTER - half)
+    builder.addPoint(tile, FULL, CENTER + half)
+
+    renderer.renderPolygon(builder.build(), style)
 }
 
 fun renderHorizontalRailway(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {

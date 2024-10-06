@@ -11,9 +11,10 @@ import kotlinx.serialization.Serializable
 sealed class Construction {
 
     fun <ID : Id<ID>> contains(id: ID) = when (this) {
-        is StreetTile -> street == id
         is BuildingTile -> building == id
-        else -> false
+        is RailwayTile -> railwayType == id
+        is StreetTile -> street == id
+        NoConstruction -> false
     }
 
     fun getStreet() = when (this) {
