@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.action.DeleteStreetType
 import at.orchaldir.gm.core.action.UpdateStreetType
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Solid
 import at.orchaldir.gm.core.model.world.street.StreetType
 import at.orchaldir.gm.core.model.world.street.StreetTypeId
