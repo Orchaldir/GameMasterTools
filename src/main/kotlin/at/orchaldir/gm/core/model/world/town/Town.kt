@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.world.town
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.model.world.railway.RailwayTypeId
 import at.orchaldir.gm.core.model.world.terrain.Terrain
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -71,6 +72,23 @@ data class Town(
         } ?: error("Lot with index $index & size ${size.format()} is outside the map!")
 
         return updateTiles(tiles)
+    }
+
+    fun buildRailway(index: Int, railwayType: RailwayTypeId, connection: TileConnection): Town {
+        val oldTile = map.getRequiredTile(index)
+
+        require(oldTile.canBuildRailway()) { "Cannot build railway on tile $index!" }
+
+        val construction = when (oldTile.construction) {
+            NoConstruction -> RailwayTile(railwayType, connection)
+            is CrossingTile -> CrossingTile(oldTile.construction.railwayTypes + railwayType)
+            is RailwayTile -> CrossingTile(setOf(oldTile.construction.railwayType, railwayType))
+            is StreetTile -> TODO()
+            is BuildingTile -> error("Unreachable!")
+        }
+        val tile = oldTile.copy(construction = construction)
+
+        return updateTile(index, tile)
     }
 
     fun removeBuilding(building: BuildingId): Town {

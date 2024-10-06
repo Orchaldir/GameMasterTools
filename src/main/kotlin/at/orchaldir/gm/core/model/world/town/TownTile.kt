@@ -13,6 +13,8 @@ data class TownTile(
 
     fun canBuild() = construction is NoConstruction
 
+    fun canBuildRailway() = construction !is BuildingTile
+
     fun canResize(building: BuildingId) = construction is NoConstruction ||
             (construction is BuildingTile && construction.building == building)
 
