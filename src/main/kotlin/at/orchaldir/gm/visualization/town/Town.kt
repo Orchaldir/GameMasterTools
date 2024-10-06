@@ -100,24 +100,24 @@ data class TownRenderer(
     }
 
     fun renderRailways() {
-        renderRailways { aabb, tile, index, x, y ->
-            val color = config.railwayColorLookup(index, tile.railwayType)
-            val link = config.railwayLinkLookup(index, tile.railwayType)
-            val tooltip = config.railwayTooltipLookup(index, tile.railwayType)
+        renderRailways { aabb, railwayType, connection, index, x, y ->
+            val color = config.railwayColorLookup(index, railwayType)
+            val link = config.railwayLinkLookup(index, railwayType)
+            val tooltip = config.railwayTooltipLookup(index, railwayType)
 
             svgBuilder.optionalLinkAndTooltip(link, tooltip) { renderer ->
-                when (tile.connection) {
+                when (connection) {
                     TileConnection.Curve -> {
-                        if (town.checkTile(x + 1, y) { it.construction.contains(tile.railwayType) }) {
+                        if (town.checkTile(x + 1, y) { it.construction.contains(railwayType) }) {
                             renderRailwayRight(renderer, aabb, color, RAILWAY_WIDTH)
                         }
-                        if (town.checkTile(x - 1, y) { it.construction.contains(tile.railwayType) }) {
+                        if (town.checkTile(x - 1, y) { it.construction.contains(railwayType) }) {
                             renderRailwayLeft(renderer, aabb, color, RAILWAY_WIDTH)
                         }
-                        if (town.checkTile(x, y + 1) { it.construction.contains(tile.railwayType) }) {
+                        if (town.checkTile(x, y + 1) { it.construction.contains(railwayType) }) {
                             renderRailwayDown(renderer, aabb, color, RAILWAY_WIDTH)
                         }
-                        if (town.checkTile(x, y - 1) { it.construction.contains(tile.railwayType) }) {
+                        if (town.checkTile(x, y - 1) { it.construction.contains(railwayType) }) {
                             renderRailwayUp(renderer, aabb, color, RAILWAY_WIDTH)
                         }
                         renderRailwayCenter(renderer, aabb, color, RAILWAY_WIDTH)
@@ -131,11 +131,15 @@ data class TownRenderer(
     }
 
     fun renderRailways(
-        render: (AABB, RailwayTile, Int, Int, Int) -> Unit,
+        render: (AABB, RailwayTypeId, TileConnection, Int, Int, Int) -> Unit,
     ) {
         tileRenderer.render(town.map) { index, x, y, aabb, tile ->
             if (tile.construction is RailwayTile) {
-                render(aabb, tile.construction, index, x, y)
+                render(aabb, tile.construction.railwayType, tile.construction.connection, index, x, y)
+            } else if (tile.construction is CrossingTile) {
+                tile.construction.railwayTypes.forEach {
+                    render(aabb, it, TileConnection.Curve, index, x, y)
+                }
             }
         }
     }
