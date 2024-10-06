@@ -3,11 +3,14 @@ package at.orchaldir.gm.visualization.town
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.railway.RailwayType
+import at.orchaldir.gm.core.model.world.railway.RailwayTypeId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.HillTerrain
 import at.orchaldir.gm.core.model.world.terrain.MountainTerrain
 import at.orchaldir.gm.core.model.world.terrain.PlainTerrain
 import at.orchaldir.gm.core.model.world.terrain.RiverTerrain
+import at.orchaldir.gm.core.model.world.town.RailwayTile
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
@@ -28,6 +31,8 @@ val SHOW_BUILDING_NAME: (Building) -> String? = { b -> b.name }
 
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
+private val DEFAULT_RAILWAY_COLOR: (Int, RailwayTypeId) -> Color = { _, _ -> Color.Gray }
+private val DEFAULT_RAILWAY_TEXT: (Int, RailwayTypeId) -> String? = { _, _ -> null }
 private val DEFAULT_STREET_COLOR: (Int, StreetId) -> Color = { _, _ -> Color.Gray }
 private val DEFAULT_STREET_TEXT: (Int, StreetId) -> String? = { _, _ -> null }
 private val DEFAULT_TILE_COLOR: (Int, TownTile) -> Color = { _, tile ->
@@ -47,6 +52,9 @@ data class TownRendererConfig(
     val buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
     val buildingLinkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
     val buildingTooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
+    val railwayColorLookup: (Int, RailwayTypeId) -> Color = DEFAULT_RAILWAY_COLOR,
+    val railwayLinkLookup: (Int, RailwayTypeId) -> String? = DEFAULT_RAILWAY_TEXT,
+    val railwayTooltipLookup: (Int, RailwayTypeId) -> String? = DEFAULT_RAILWAY_TEXT,
     val streetColorLookup: (Int, StreetId) -> Color = DEFAULT_STREET_COLOR,
     val streetLinkLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
     val streetTooltipLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
@@ -93,6 +101,28 @@ data class TownRenderer(
 
             svgBuilder.optionalLinkAndTooltip(link, tooltip) {
                 renderBuilding(it, building, color)
+            }
+        }
+    }
+
+    fun renderRailways() {
+        renderRailways { aabb, railway, index ->
+            val color = config.railwayColorLookup(index, railway)
+            val link = config.railwayLinkLookup(index, railway)
+            val tooltip = config.railwayTooltipLookup(index, railway)
+
+            svgBuilder.optionalLinkAndTooltip(link, tooltip) {
+                renderRailway(it, aabb, color)
+            }
+        }
+    }
+
+    fun renderRailways(
+        render: (AABB, RailwayTypeId, Int) -> Unit,
+    ) {
+        tileRenderer.render(town.map) { index, x, y, aabb, tile ->
+            if (tile.construction is RailwayTile) {
+                render(aabb, tile.construction.type, index)
             }
         }
     }
@@ -149,6 +179,11 @@ data class TownRenderer(
     fun finish() = svgBuilder.finish()
 }
 
+fun renderRailway(renderer: LayerRenderer, tile: AABB, color: Color) {
+    val style = NoBorder(color.toRender())
+    renderer.renderRectangle(tile.shrink(Factor(0.25f)), style)
+}
+
 fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
     val style = NoBorder(color.toRender())
     renderer.renderRectangle(tile.shrink(Factor(0.5f)), style)
@@ -164,6 +199,7 @@ fun visualizeTown(
     townRenderer.renderTiles()
     townRenderer.renderBuildings(buildings)
     townRenderer.renderStreets()
+    townRenderer.renderRailways()
 
     return townRenderer.finish()
 }
