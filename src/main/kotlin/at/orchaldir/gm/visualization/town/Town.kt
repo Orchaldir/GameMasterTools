@@ -27,6 +27,14 @@ private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
 private val DEFAULT_STREET_COLOR: (StreetId, Int) -> Color = { _, _ -> Color.Gray }
 private val DEFAULT_STREET_TEXT: (StreetId, Int) -> String? = { _, _ -> null }
+private val DEFAULT_TILE_COLOR: (Int, TownTile) -> Color = { _, tile ->
+    when (tile.terrain) {
+        is HillTerrain -> Color.SaddleBrown
+        is MountainTerrain -> Color.Gray
+        PlainTerrain -> Color.Green
+        is RiverTerrain -> Color.Blue
+    }
+}
 private val DEFAULT_TILE_TEXT: (Int, TownTile) -> String? = { _, _ -> null }
 
 data class TownRenderer(
@@ -46,7 +54,7 @@ data class TownRenderer(
     )
 
     fun renderTiles(
-        colorLookup: (TownTile) -> Color = TownTile::getTerrainColor,
+        colorLookup: (Int, TownTile) -> Color = DEFAULT_TILE_COLOR,
         linkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
         tooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
     ) {
@@ -130,7 +138,7 @@ fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
 fun visualizeTown(
     town: Town,
     buildings: List<Building> = emptyList(),
-    tileColorLookup: (TownTile) -> Color = TownTile::getTerrainColor,
+    tileColorLookup: (Int, TownTile) -> Color = DEFAULT_TILE_COLOR,
     tileLinkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
     tileTooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
     buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
@@ -147,13 +155,6 @@ fun visualizeTown(
     townRenderer.renderStreets(streetColorLookup, streetLinkLookup, streetTooltipLookup)
 
     return townRenderer.finish()
-}
-
-fun TownTile.getTerrainColor() = when (terrain) {
-    is HillTerrain -> Color.SaddleBrown
-    is MountainTerrain -> Color.Gray
-    PlainTerrain -> Color.Green
-    is RiverTerrain -> Color.Blue
 }
 
 fun getStreetTypeColor(state: State): (StreetId, Int) -> Color = { id, _ ->
