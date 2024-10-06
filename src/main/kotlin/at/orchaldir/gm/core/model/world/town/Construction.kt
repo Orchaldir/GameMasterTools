@@ -38,7 +38,7 @@ data class StreetTile(val street: StreetId) : Construction()
 @Serializable
 @SerialName("Railway")
 data class RailwayTile(
-    val type: RailwayTypeId,
+    val railwayType: RailwayTypeId,
     val connection: TileConnection = TileConnection.Horizontal,
 ) : Construction()
 

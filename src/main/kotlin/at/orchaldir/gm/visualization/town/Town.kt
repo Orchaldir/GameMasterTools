@@ -3,7 +3,6 @@ package at.orchaldir.gm.visualization.town
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.railway.RailwayType
 import at.orchaldir.gm.core.model.world.railway.RailwayTypeId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.HillTerrain
@@ -122,7 +121,7 @@ data class TownRenderer(
     ) {
         tileRenderer.render(town.map) { index, x, y, aabb, tile ->
             if (tile.construction is RailwayTile) {
-                render(aabb, tile.construction.type, index)
+                render(aabb, tile.construction.railwayType, index)
             }
         }
     }

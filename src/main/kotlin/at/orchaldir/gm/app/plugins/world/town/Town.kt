@@ -114,6 +114,7 @@ private fun HTML.showTownDetails(
     val deleteLink = call.application.href(TownRoutes.Delete(town.id))
     val editLink = call.application.href(TownRoutes.Edit(town.id))
     val editBuildingsLink = call.application.href(TownRoutes.BuildingRoutes.Edit(town.id))
+    val editRailwaysLink = call.application.href(TownRoutes.RailwayRoutes.Edit(town.id))
     val editStreetsLink = call.application.href(TownRoutes.StreetRoutes.Edit(town.id))
     val editTerrainLink = call.application.href(TownRoutes.TerrainRoutes.Edit(town.id))
 
@@ -138,6 +139,7 @@ private fun HTML.showTownDetails(
             }
             action(editLink, "Edit Town")
             action(editBuildingsLink, "Edit Buildings")
+            action(editRailwaysLink, "Edit Railways")
             action(editStreetsLink, "Edit Streets")
             action(editTerrainLink, "Edit Terrain")
             action(deleteLink, "Delete")
