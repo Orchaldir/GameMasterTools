@@ -53,6 +53,7 @@ fun Application.module() {
     configurePersonalityRouting()
     configureRaceRouting()
     configureRaceAppearanceRouting()
+    configureRailwayTypeRouting()
     configureRiverRouting()
     configureTerrainRouting()
     configureTimeRouting()

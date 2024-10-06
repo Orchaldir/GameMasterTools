@@ -55,6 +55,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getBuildingStorage(), BuildingRoutes())
                     fieldStorageLink(call, state.getMoonStorage(), MoonRoutes())
                     fieldStorageLink(call, state.getMountainStorage(), MountainRoutes())
+                    fieldStorageLink(call, state.getRailwayTypeStorage(), RailwayTypeRoutes())
                     fieldStorageLink(call, state.getRiverStorage(), RiverRoutes())
                     fieldStorageLink(call, state.getStreetStorage(), StreetRoutes())
                     fieldStorageLink(call, state.getStreetTypeStorage(), StreetTypeRoutes())
