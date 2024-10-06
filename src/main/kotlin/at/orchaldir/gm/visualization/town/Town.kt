@@ -46,7 +46,7 @@ data class TownRenderer(
     )
 
     fun renderTiles(
-        colorLookup: (TownTile) -> Color = TownTile::getColor,
+        colorLookup: (TownTile) -> Color = TownTile::getTerrainColor,
         linkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
         tooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
     ) {
@@ -130,7 +130,7 @@ fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
 fun visualizeTown(
     town: Town,
     buildings: List<Building> = emptyList(),
-    tileColorLookup: (TownTile) -> Color = TownTile::getColor,
+    tileColorLookup: (TownTile) -> Color = TownTile::getTerrainColor,
     tileLinkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
     tileTooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
     buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
@@ -149,7 +149,7 @@ fun visualizeTown(
     return townRenderer.finish()
 }
 
-fun TownTile.getColor() = when (terrain) {
+fun TownTile.getTerrainColor() = when (terrain) {
     is HillTerrain -> Color.SaddleBrown
     is MountainTerrain -> Color.Gray
     PlainTerrain -> Color.Green
