@@ -9,15 +9,9 @@ import at.orchaldir.gm.core.model.world.terrain.HillTerrain
 import at.orchaldir.gm.core.model.world.terrain.MountainTerrain
 import at.orchaldir.gm.core.model.world.terrain.PlainTerrain
 import at.orchaldir.gm.core.model.world.terrain.RiverTerrain
-import at.orchaldir.gm.core.model.world.town.RailwayTile
-import at.orchaldir.gm.core.model.world.town.StreetTile
-import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.core.model.world.town.*
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.model.NoBorder
@@ -105,23 +99,26 @@ data class TownRenderer(
     }
 
     fun renderRailways() {
-        renderRailways { aabb, railway, index ->
-            val color = config.railwayColorLookup(index, railway)
-            val link = config.railwayLinkLookup(index, railway)
-            val tooltip = config.railwayTooltipLookup(index, railway)
+        renderRailways { aabb, tile, index ->
+            val color = config.railwayColorLookup(index, tile.railwayType)
+            val link = config.railwayLinkLookup(index, tile.railwayType)
+            val tooltip = config.railwayTooltipLookup(index, tile.railwayType)
 
             svgBuilder.optionalLinkAndTooltip(link, tooltip) {
-                renderRailway(it, aabb, color)
+                when (tile.connection) {
+                    TileConnection.Horizontal -> renderHorizontalRailway(it, aabb, color)
+                    TileConnection.Vertical -> renderRailway(it, aabb, color)
+                }
             }
         }
     }
 
     fun renderRailways(
-        render: (AABB, RailwayTypeId, Int) -> Unit,
+        render: (AABB, RailwayTile, Int) -> Unit,
     ) {
         tileRenderer.render(town.map) { index, x, y, aabb, tile ->
             if (tile.construction is RailwayTile) {
-                render(aabb, tile.construction.railwayType, index)
+                render(aabb, tile.construction, index)
             }
         }
     }
@@ -181,6 +178,16 @@ data class TownRenderer(
 fun renderRailway(renderer: LayerRenderer, tile: AABB, color: Color) {
     val style = NoBorder(color.toRender())
     renderer.renderRectangle(tile.shrink(Factor(0.75f)), style)
+}
+
+fun renderHorizontalRailway(renderer: LayerRenderer, tile: AABB, color: Color) {
+    val style = NoBorder(color.toRender())
+    val builder = Polygon2dBuilder()
+
+    builder.addMirroredPoints(tile, FULL, Factor(0.4f))
+    builder.addMirroredPoints(tile, FULL, Factor(0.6f))
+
+    renderer.renderPolygon(builder.build(), style)
 }
 
 fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
