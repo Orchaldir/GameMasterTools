@@ -52,7 +52,16 @@ data class TownRendererConfig(
     val streetColorLookup: (Int, StreetId) -> Color = DEFAULT_STREET_COLOR,
     val streetLinkLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
     val streetTooltipLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
-)
+) {
+
+    constructor(state: State) : this(
+        buildingTooltipLookup = SHOW_BUILDING_NAME,
+        railwayColorLookup = getRailwayTypeColor(state),
+        streetColorLookup = getStreetTypeColor(state),
+        streetTooltipLookup = showStreetName(state),
+        tileTooltipLookup = showTerrainName(state),
+    )
+}
 
 data class TownRenderer(
     private val config: TownRendererConfig,
@@ -292,6 +301,13 @@ fun visualizeTown(
     townRenderer.renderRailways()
 
     return townRenderer.finish()
+}
+
+fun getRailwayTypeColor(state: State): (Int, RailwayTypeId) -> Color = { _, id ->
+    state
+        .getRailwayTypeStorage()
+        .get(id)
+        ?.color ?: Color.Pink
 }
 
 fun getStreetTypeColor(state: State): (Int, StreetId) -> Color = { _, id ->

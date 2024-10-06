@@ -130,7 +130,7 @@ fun visualizeRailwayEditor(
 ) = visualizeTown(
     town,
     state.getBuildings(town.id),
-    TownRendererConfig(
+    TownRendererConfig(state).copy(
         tileLinkLookup = { index, tile ->
             if (tile.canBuild()) {
                 call.application.href(TownRoutes.RailwayRoutes.Add(town.id, index, railway, connection))

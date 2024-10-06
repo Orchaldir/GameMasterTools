@@ -345,12 +345,11 @@ private fun visualizeBuilding(
     selected: Building,
 ): Svg {
     val town = state.getTownStorage().getOrThrow(selected.lot.town)
-    val config = TownRendererConfig(
+    val config = TownRendererConfig(state).copy(
         buildingColorLookup = showSelectedBuilding(selected),
         buildingLinkLookup = { b ->
             call.application.href(BuildingRoutes.Details(b.id))
         },
-        buildingTooltipLookup = SHOW_BUILDING_NAME,
     )
 
     return visualizeTown(
@@ -367,7 +366,7 @@ private fun visualizeBuildingLot(
     size: MapSize2d,
 ): Svg {
     val town = state.getTownStorage().getOrThrow(building.lot.town)
-    val config = TownRendererConfig(
+    val config = TownRendererConfig(state).copy(
         tileLinkLookup = { index, _ ->
             if (town.canResize(index, size, building.id)) {
                 call.application.href(BuildingRoutes.Lot.Update(building.id, index, size))

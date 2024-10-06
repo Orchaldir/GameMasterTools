@@ -120,7 +120,7 @@ fun visualizeStreetEditor(
     selectedStreet: StreetId,
 ) = visualizeTown(
     town, state.getBuildings(town.id),
-    TownRendererConfig(
+    TownRendererConfig(state).copy(
         tileLinkLookup = { index, tile ->
             if (tile.canBuild()) {
                 call.application.href(TownRoutes.StreetRoutes.Add(town.id, index, selectedStreet))
@@ -132,7 +132,6 @@ fun visualizeStreetEditor(
         streetLinkLookup = { index, _ ->
             call.application.href(TownRoutes.StreetRoutes.Remove(town.id, index, selectedStreet))
         },
-        streetTooltipLookup = showStreetName(state),
     )
 )
 
