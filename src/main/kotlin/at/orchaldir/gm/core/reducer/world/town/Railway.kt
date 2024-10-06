@@ -11,7 +11,7 @@ val ADD_RAILWAY_TILE: Reducer<AddRailwayTile, State> = { state, action ->
     state.getRailwayTypeStorage().require(action.type)
 
     val oldTown = state.getTownStorage().getOrThrow(action.town)
-    val town = oldTown.build(action.tileIndex, RailwayTile(action.type))
+    val town = oldTown.build(action.tileIndex, RailwayTile(action.type, action.connection))
 
     noFollowUps(state.updateStorage(state.getTownStorage().update(town)))
 }

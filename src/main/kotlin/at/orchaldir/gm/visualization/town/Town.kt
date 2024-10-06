@@ -107,7 +107,7 @@ data class TownRenderer(
             svgBuilder.optionalLinkAndTooltip(link, tooltip) {
                 when (tile.connection) {
                     TileConnection.Horizontal -> renderHorizontalRailway(it, aabb, color)
-                    TileConnection.Vertical -> renderRailway(it, aabb, color)
+                    TileConnection.Vertical -> renderVerticalRailway(it, aabb, color)
                 }
             }
         }
@@ -186,6 +186,16 @@ fun renderHorizontalRailway(renderer: LayerRenderer, tile: AABB, color: Color) {
 
     builder.addMirroredPoints(tile, FULL, Factor(0.4f))
     builder.addMirroredPoints(tile, FULL, Factor(0.6f))
+
+    renderer.renderPolygon(builder.build(), style)
+}
+
+fun renderVerticalRailway(renderer: LayerRenderer, tile: AABB, color: Color) {
+    val style = NoBorder(color.toRender())
+    val builder = Polygon2dBuilder()
+
+    builder.addMirroredPoints(tile, Factor(0.2f), START)
+    builder.addMirroredPoints(tile, Factor(0.2f), END)
 
     renderer.renderPolygon(builder.build(), style)
 }
