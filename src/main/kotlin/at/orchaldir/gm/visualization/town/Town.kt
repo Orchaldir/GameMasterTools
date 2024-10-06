@@ -106,7 +106,7 @@ data class TownRenderer(
 
             svgBuilder.optionalLinkAndTooltip(link, tooltip) {
                 when (tile.connection) {
-                    TileConnection.Crossing -> {
+                    TileConnection.Curve -> {
                         renderHorizontalRailway(it, aabb, color)
                         renderVerticalRailway(it, aabb, color)
                     }
@@ -120,7 +120,7 @@ data class TownRenderer(
     fun renderRailways(
         render: (AABB, RailwayTile, Int) -> Unit,
     ) {
-        tileRenderer.render(town.map) { index, x, y, aabb, tile ->
+        tileRenderer.render(town.map) { index, _, _, aabb, tile ->
             if (tile.construction is RailwayTile) {
                 render(aabb, tile.construction, index)
             }
