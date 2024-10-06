@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.world.terrain.RiverTerrain
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
@@ -179,6 +180,14 @@ fun showSelectedBuilding(selected: Building): (Building) -> Color = { building -
         Color.Gold
     } else {
         Color.Black
+    }
+}
+
+fun <ID : Id<ID>> showSelectedElement(selected: ID): (Int, ID) -> Color = { _, id ->
+    if (id == selected) {
+        Color.Gold
+    } else {
+        Color.Gray
     }
 }
 

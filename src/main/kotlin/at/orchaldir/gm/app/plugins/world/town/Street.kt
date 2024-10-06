@@ -8,10 +8,10 @@ import at.orchaldir.gm.app.plugins.world.StreetRoutes
 import at.orchaldir.gm.core.action.AddStreetTile
 import at.orchaldir.gm.core.action.RemoveStreetTile
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.visualization.town.showSelectedElement
 import at.orchaldir.gm.visualization.town.showStreetName
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
@@ -126,13 +126,7 @@ fun visualizeStreetEditor(
             null
         }
     },
-    streetColorLookup = { _, street ->
-        if (street == selectedStreet) {
-            Color.Gold
-        } else {
-            Color.Gray
-        }
-    },
+    streetColorLookup = showSelectedElement(selectedStreet),
     streetLinkLookup = { index, _ ->
         call.application.href(TownRoutes.StreetRoutes.Remove(town.id, index, selectedStreet))
     },
