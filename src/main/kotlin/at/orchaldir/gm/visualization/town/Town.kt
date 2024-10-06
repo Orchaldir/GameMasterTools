@@ -19,6 +19,7 @@ import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 
 const val TILE_SIZE = 20.0f
+val RAILWAY_WIDTH = Factor(0.2f)
 
 val SHOW_BUILDING_NAME: (Building) -> String? = { b -> b.name }
 
@@ -107,11 +108,12 @@ data class TownRenderer(
             svgBuilder.optionalLinkAndTooltip(link, tooltip) {
                 when (tile.connection) {
                     TileConnection.Curve -> {
-                        renderHorizontalRailway(it, aabb, color)
-                        renderVerticalRailway(it, aabb, color)
+                        renderHorizontalRailway(it, aabb, color, RAILWAY_WIDTH)
+                        renderVerticalRailway(it, aabb, color, RAILWAY_WIDTH)
                     }
-                    TileConnection.Horizontal -> renderHorizontalRailway(it, aabb, color)
-                    TileConnection.Vertical -> renderVerticalRailway(it, aabb, color)
+
+                    TileConnection.Horizontal -> renderHorizontalRailway(it, aabb, color, RAILWAY_WIDTH)
+                    TileConnection.Vertical -> renderVerticalRailway(it, aabb, color, RAILWAY_WIDTH)
                 }
             }
         }
@@ -179,22 +181,23 @@ data class TownRenderer(
     fun finish() = svgBuilder.finish()
 }
 
-fun renderHorizontalRailway(renderer: LayerRenderer, tile: AABB, color: Color) {
+fun renderHorizontalRailway(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {
     val style = NoBorder(color.toRender())
     val builder = Polygon2dBuilder()
+    val half = width * 0.5f
 
-    builder.addMirroredPoints(tile, FULL, Factor(0.4f))
-    builder.addMirroredPoints(tile, FULL, Factor(0.6f))
+    builder.addMirroredPoints(tile, FULL, CENTER - half)
+    builder.addMirroredPoints(tile, FULL, CENTER + half)
 
     renderer.renderPolygon(builder.build(), style)
 }
 
-fun renderVerticalRailway(renderer: LayerRenderer, tile: AABB, color: Color) {
+fun renderVerticalRailway(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {
     val style = NoBorder(color.toRender())
     val builder = Polygon2dBuilder()
 
-    builder.addMirroredPoints(tile, Factor(0.2f), START)
-    builder.addMirroredPoints(tile, Factor(0.2f), END)
+    builder.addMirroredPoints(tile, width, START)
+    builder.addMirroredPoints(tile, width, END)
 
     renderer.renderPolygon(builder.build(), style)
 }
