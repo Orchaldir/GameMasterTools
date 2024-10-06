@@ -152,7 +152,7 @@ private fun HTML.showTerrainEditor(
             svg(
                 visualizeTown(
                     town, state.getBuildings(town.id),
-                    TownRendererConfig(state).copy(
+                    createConfigWithLinks(call, state).copy(
                         tileLinkLookup = { index, _ ->
                             call.application.href(
                                 TownRoutes.TerrainRoutes.Update(

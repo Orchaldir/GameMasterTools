@@ -180,12 +180,5 @@ private fun visualizeTownWithLinks(
 ) = visualizeTown(
     town,
     state.getBuildings(town.id),
-    TownRendererConfig(state).copy(
-        buildingLinkLookup = { building ->
-            call.application.href(BuildingRoutes.Details(building.id))
-        },
-        streetLinkLookup = { _, street ->
-            call.application.href(StreetRoutes.Details(street))
-        },
-    )
+    createConfigWithLinks(call, state)
 )

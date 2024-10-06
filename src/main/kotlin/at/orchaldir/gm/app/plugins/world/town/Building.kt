@@ -104,16 +104,13 @@ fun visualizeBuildingEditor(
     return visualizeTown(
         town,
         state.getBuildings(town.id),
-        TownRendererConfig(state).copy(
+        createConfigWithLinks(call, state).copy(
             tileLinkLookup = { index, _ ->
                 if (town.canBuild(index, size)) {
                     call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
                 } else {
                     null
                 }
-            },
-            buildingLinkLookup = { building ->
-                call.application.href(BuildingRoutes.Details(building.id))
             },
         )
     )

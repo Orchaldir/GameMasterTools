@@ -34,6 +34,7 @@ import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.visualization.town.TownRendererConfig
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import kotlinx.html.A
@@ -168,3 +169,17 @@ fun HtmlBlockTag.link(
 ) {
     link(call, character.id, state.getName(character))
 }
+
+// visualize links
+
+fun createConfigWithLinks(call: ApplicationCall, state: State) = TownRendererConfig(state).copy(
+    buildingLinkLookup = { building ->
+        call.application.href(BuildingRoutes.Details(building.id))
+    },
+    railwayLinkLookup = { _, railwayType ->
+        call.application.href(RailwayTypeRoutes.Details(railwayType))
+    },
+    streetLinkLookup = { _, street ->
+        call.application.href(StreetRoutes.Details(street))
+    },
+)

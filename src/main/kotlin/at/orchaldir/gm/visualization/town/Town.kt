@@ -57,6 +57,7 @@ data class TownRendererConfig(
     constructor(state: State) : this(
         buildingTooltipLookup = SHOW_BUILDING_NAME,
         railwayColorLookup = getRailwayTypeColor(state),
+        railwayTooltipLookup = showRailwayName(state),
         streetColorLookup = getStreetTypeColor(state),
         streetTooltipLookup = showStreetName(state),
         tileTooltipLookup = showTerrainName(state),
@@ -337,6 +338,10 @@ fun <ID : Id<ID>> showSelectedElement(selected: ID): (Int, ID) -> Color = { _, i
     } else {
         Color.Gray
     }
+}
+
+fun showRailwayName(state: State): (Int, RailwayTypeId) -> String? = { _, railway ->
+    state.getRailwayTypeStorage().getOrThrow(railway).name
 }
 
 fun showStreetName(state: State): (Int, StreetId) -> String? = { _, streetId ->
