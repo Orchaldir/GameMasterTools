@@ -114,7 +114,7 @@ data class Town(
     fun removeRailway(index: Int): Town {
         val oldTile = map.getRequiredTile(index)
 
-        require(oldTile.construction is RailwayTile) { "Tile $index is not a railway!" }
+        require(oldTile.construction is RailwayTile || oldTile.construction is CrossingTile) { "Tile $index is not a railway!" }
 
         val tile = oldTile.copy(construction = NoConstruction)
 
