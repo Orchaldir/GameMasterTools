@@ -31,6 +31,8 @@ import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.building.Ownership
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.railway.RailwayType
+import at.orchaldir.gm.core.model.world.railway.RailwayTypeId
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetType
@@ -146,6 +148,11 @@ data class UpdateMoon(val moon: Moon) : WorldAction()
 data object CreateMountain : WorldAction()
 data class DeleteMountain(val id: MountainId) : WorldAction()
 data class UpdateMountain(val mountain: Mountain) : WorldAction()
+
+// street type
+data object CreateRailwayType : WorldAction()
+data class DeleteRailwayType(val id: RailwayTypeId) : WorldAction()
+data class UpdateRailwayType(val type: RailwayType) : WorldAction()
 
 // river
 data object CreateRiver : WorldAction()

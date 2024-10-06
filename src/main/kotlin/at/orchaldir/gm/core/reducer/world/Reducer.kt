@@ -14,6 +14,10 @@ val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
         is CreateMountain -> CREATE_MOUNTAIN(state, action)
         is DeleteMountain -> DELETE_MOUNTAIN(state, action)
         is UpdateMountain -> UPDATE_MOUNTAIN(state, action)
+        // railway type
+        is CreateRailwayType -> CREATE_RAILWAY_TYPE(state, action)
+        is DeleteRailwayType -> DELETE_RAILWAY_TYPE(state, action)
+        is UpdateRailwayType -> UPDATE_RAILWAY_TYPE(state, action)
         // river
         is CreateRiver -> CREATE_RIVER(state, action)
         is DeleteRiver -> DELETE_RIVER(state, action)
