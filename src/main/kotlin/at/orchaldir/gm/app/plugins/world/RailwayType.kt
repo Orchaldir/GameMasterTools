@@ -208,7 +208,9 @@ private fun visualizeRailwayType(
     val size = Size2d.square(TILE_SIZE)
     val builder = SvgBuilder(size)
     val aabb = AABB(size)
+    val option = NoBorder(Solid(Color.Green).toRender())
 
+    builder.getLayer().renderRectangle(aabb, option)
     renderHorizontalRailway(builder.getLayer(), aabb, railwayType.color, RAILWAY_WIDTH)
 
     return builder.finish()
