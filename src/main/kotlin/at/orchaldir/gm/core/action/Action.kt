@@ -211,6 +211,19 @@ data class UpdateBuildingLot(
     )
 }
 
+// town's railway
+
+data class AddRailwayTile(
+    val town: TownId,
+    val tileIndex: Int,
+    val type: RailwayTypeId,
+) : WorldAction()
+
+data class RemoveRailwayTile(
+    val town: TownId,
+    val tileIndex: Int,
+) : WorldAction()
+
 // town's streets
 
 data class AddStreetTile(

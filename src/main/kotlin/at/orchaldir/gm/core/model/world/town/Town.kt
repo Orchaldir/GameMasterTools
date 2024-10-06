@@ -93,6 +93,16 @@ data class Town(
         return updateTile(index, tile)
     }
 
+    fun removeRailway(index: Int): Town {
+        val oldTile = map.getRequiredTile(index)
+
+        require(oldTile.construction is RailwayTile) { "Tile $index is not a railway!" }
+
+        val tile = oldTile.copy(construction = NoConstruction)
+
+        return updateTile(index, tile)
+    }
+
     fun setTerrain(index: Int, terrain: Terrain): Town {
         val oldTile = map.getRequiredTile(index)
         val tile = oldTile.copy(terrain = terrain)
