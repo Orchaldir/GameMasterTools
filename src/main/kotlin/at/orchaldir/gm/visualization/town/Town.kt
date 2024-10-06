@@ -25,8 +25,8 @@ const val TILE_SIZE = 20.0f
 
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
-private val DEFAULT_STREET_COLOR: (StreetId, Int) -> Color = { _, _ -> Color.Gray }
-private val DEFAULT_STREET_TEXT: (StreetId, Int) -> String? = { _, _ -> null }
+private val DEFAULT_STREET_COLOR: (Int, StreetId) -> Color = { _, _ -> Color.Gray }
+private val DEFAULT_STREET_TEXT: (Int, StreetId) -> String? = { _, _ -> null }
 private val DEFAULT_TILE_COLOR: (Int, TownTile) -> Color = { _, tile ->
     when (tile.terrain) {
         is HillTerrain -> Color.SaddleBrown
@@ -77,14 +77,16 @@ data class TownRenderer(
     }
 
     fun renderStreets(
-        colorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
-        linkLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
-        tooltipLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
+        colorLookup: (Int, StreetId) -> Color = DEFAULT_STREET_COLOR,
+        linkLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
+        tooltipLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
     ) {
         renderStreets { aabb, streetId, index ->
-            val color = colorLookup(streetId, index)
+            val color = colorLookup(index, streetId)
+            val link = linkLookup(index, streetId)
+            val tooltip = tooltipLookup(index, streetId)
 
-            svgBuilder.optionalLinkAndTooltip(linkLookup(streetId, index), tooltipLookup(streetId, index)) {
+            svgBuilder.optionalLinkAndTooltip(link, tooltip) {
                 renderStreet(it, aabb, color)
             }
         }
@@ -144,9 +146,9 @@ fun visualizeTown(
     buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
     buildingLinkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
     buildingTooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
-    streetColorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
-    streetLinkLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
-    streetTooltipLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
+    streetColorLookup: (Int, StreetId) -> Color = DEFAULT_STREET_COLOR,
+    streetLinkLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
+    streetTooltipLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
 ): Svg {
     val townRenderer = TownRenderer(town)
 
@@ -157,7 +159,7 @@ fun visualizeTown(
     return townRenderer.finish()
 }
 
-fun getStreetTypeColor(state: State): (StreetId, Int) -> Color = { id, _ ->
+fun getStreetTypeColor(state: State): (Int, StreetId) -> Color = { _, id ->
     state
         .getStreetStorage()
         .get(id)
@@ -185,4 +187,8 @@ fun showTerrainName(state: State): (Int, TownTile) -> String? = { _, tile ->
         PlainTerrain -> null
         is RiverTerrain -> state.getRiverStorage().getOrThrow(tile.terrain.river).name
     }
+}
+
+fun showStreetName(state: State): (Int, StreetId) -> String? = { _, streetId ->
+    state.getStreetStorage().getOrThrow(streetId).name
 }

@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.visualization.town.getStreetTypeColor
+import at.orchaldir.gm.visualization.town.showStreetName
 import at.orchaldir.gm.visualization.town.showTerrainName
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
@@ -186,11 +187,9 @@ private fun visualizeTownWithLinks(
     buildingTooltipLookup = { building ->
         building.name
     },
-    streetLinkLookup = { street, _ ->
+    streetLinkLookup = { _, street ->
         call.application.href(StreetRoutes.Details(street))
     },
-    streetTooltipLookup = { streetId, _ ->
-        state.getStreetStorage().getOrThrow(streetId).name
-    },
+    streetTooltipLookup = showStreetName(state),
     streetColorLookup = getStreetTypeColor(state),
 )
