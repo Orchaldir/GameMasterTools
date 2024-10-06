@@ -9,12 +9,8 @@ import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetType
 import at.orchaldir.gm.core.model.world.street.StreetTypeId
-import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownId
-import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -39,7 +35,12 @@ class StreetTypeTest {
         fun `Cannot delete unknown id`() {
             val action = DeleteStreetType(ID0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertFailMessage<IllegalArgumentException>("Requires unknown Street Type 0!") {
+                REDUCER.invoke(
+                    State(),
+                    action
+                )
+            }
         }
 
         @Test
@@ -63,7 +64,12 @@ class StreetTypeTest {
         fun `Cannot update unknown id`() {
             val action = UpdateStreetType(StreetType(ID0))
 
-            assertFailsWith<IllegalArgumentException>("StreetType 0 is used") { REDUCER.invoke(State(), action) }
+            assertFailMessage<IllegalArgumentException>("Requires unknown Street Type 0!") {
+                REDUCER.invoke(
+                    State(),
+                    action
+                )
+            }
         }
 
         @Test

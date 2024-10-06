@@ -38,7 +38,12 @@ class StreetTest {
         fun `Cannot delete unknown id`() {
             val action = DeleteStreet(ID0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertFailMessage<IllegalArgumentException>("Requires unknown Street 0!") {
+                REDUCER.invoke(
+                    State(),
+                    action
+                )
+            }
         }
 
         @Test
@@ -62,7 +67,12 @@ class StreetTest {
         fun `Cannot update unknown id`() {
             val action = UpdateStreet(Street(ID0))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertFailMessage<IllegalArgumentException>("Requires unknown Street 0!") {
+                REDUCER.invoke(
+                    State(),
+                    action
+                )
+            }
         }
 
         @Test
