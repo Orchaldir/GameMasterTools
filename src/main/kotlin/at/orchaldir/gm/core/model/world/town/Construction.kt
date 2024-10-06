@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.world.town
 
 import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.model.world.railway.RailwayTypeId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
@@ -34,4 +35,10 @@ data class BuildingTile(val building: BuildingId) : Construction()
 @SerialName("Street")
 data class StreetTile(val street: StreetId) : Construction()
 
+@Serializable
+@SerialName("Railway")
+data class RailwayTile(
+    val type: RailwayTypeId,
+    val connection: TileConnection = TileConnection.Horizontal,
+) : Construction()
 
