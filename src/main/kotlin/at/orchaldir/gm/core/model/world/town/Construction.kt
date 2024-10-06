@@ -10,10 +10,15 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class Construction {
 
-    fun <ID : Id<ID>> contains(id: ID) = when (this) {
+    fun <ID : Id<ID>> contains(id: ID): Boolean = when (this) {
         is BuildingTile -> building == id
         is RailwayTile -> railwayType == id
         is StreetTile -> street == id
+        is CrossingTile -> if (id is RailwayTypeId) {
+            railwayTypes.contains(id)
+        } else {
+            false
+        }
         NoConstruction -> false
     }
 
@@ -41,5 +46,11 @@ data class StreetTile(val street: StreetId) : Construction()
 data class RailwayTile(
     val railwayType: RailwayTypeId,
     val connection: TileConnection = TileConnection.Horizontal,
+) : Construction()
+
+@Serializable
+@SerialName("Crossing")
+data class CrossingTile(
+    val railwayTypes: Set<RailwayTypeId>,
 ) : Construction()
 
