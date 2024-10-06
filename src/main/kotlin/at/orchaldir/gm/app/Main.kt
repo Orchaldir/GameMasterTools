@@ -57,6 +57,7 @@ fun Application.module() {
     configureTerrainRouting()
     configureTimeRouting()
     configureStreetRouting()
+    configureStreetTypeRouting()
     configureStreetEditorRouting()
     configureTownRouting()
 }

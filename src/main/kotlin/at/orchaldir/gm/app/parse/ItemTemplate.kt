@@ -3,7 +3,8 @@ package at.orchaldir.gm.app.parse
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.model.item.style.*
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.Size
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -109,27 +110,6 @@ private fun parseButtonColumn(parameters: Parameters) = ButtonColumn(
     ),
     parameters[BUTTON_COUNT]?.toUByte() ?: 1u,
 )
-
-private fun parseFill(parameters: Parameters): Fill {
-    val type = parse(parameters, FILL_TYPE, FillType.Solid)
-
-    return when (type) {
-        FillType.Solid -> Solid(parse(parameters, EQUIPMENT_COLOR_0, Color.SkyBlue))
-        FillType.VerticalStripes -> VerticalStripes(
-            parse(parameters, EQUIPMENT_COLOR_0, Color.Black),
-            parse(parameters, EQUIPMENT_COLOR_1, Color.White),
-            parseWidth(parameters),
-        )
-
-        FillType.HorizontalStripes -> HorizontalStripes(
-            parse(parameters, EQUIPMENT_COLOR_0, Color.Black),
-            parse(parameters, EQUIPMENT_COLOR_1, Color.White),
-            parseWidth(parameters),
-        )
-    }
-}
-
-private fun parseWidth(parameters: Parameters) = parameters[PATTERN_WIDTH]?.toUByte() ?: 1u
 
 private fun parseSleeveStyle(
     parameters: Parameters,

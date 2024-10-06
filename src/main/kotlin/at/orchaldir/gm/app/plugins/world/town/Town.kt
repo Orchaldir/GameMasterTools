@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.*
+import at.orchaldir.gm.visualization.town.getStreetTypeFill
 import at.orchaldir.gm.visualization.town.showTerrainName
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
@@ -191,4 +192,5 @@ private fun visualizeTownWithLinks(
     streetTooltipLookup = { streetId, _ ->
         state.getStreetStorage().getOrThrow(streetId).name
     },
+    streetColorLookup = getStreetTypeFill(state),
 )

@@ -68,6 +68,20 @@ fun FORM.selectColor(
     }
 }
 
+fun FORM.selectColor(
+    labelText: String,
+    selectId: String,
+    values: Collection<Color>,
+    current: Color,
+) {
+    selectValue(labelText, selectId, values, true) { c ->
+        label = c.name
+        value = c.toString()
+        selected = current == c
+        style = "background-color:$c"
+    }
+}
+
 fun HtmlBlockTag.selectOptionalColor(
     fieldLabel: String,
     selectId: String,

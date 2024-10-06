@@ -10,9 +10,9 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_STREET: Reducer<CreateStreet, State> = { state, _ ->
-    val moon = Street(state.getStreetStorage().nextId)
+    val street = Street(state.getStreetStorage().nextId)
 
-    noFollowUps(state.updateStorage(state.getStreetStorage().add(moon)))
+    noFollowUps(state.updateStorage(state.getStreetStorage().add(street)))
 }
 
 val DELETE_STREET: Reducer<DeleteStreet, State> = { state, action ->

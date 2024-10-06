@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.plugins.world
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseStreet
 import at.orchaldir.gm.core.action.CreateStreet
@@ -89,7 +90,7 @@ fun Application.configureStreetRouting() {
             val street = state.getStreetStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showStreetEditor(call, street)
+                showStreetEditor(call, state, street)
             }
         }
         post<StreetRoutes.Update> { update ->
@@ -113,8 +114,8 @@ private fun HTML.showAllStreets(call: ApplicationCall) {
 
     simpleHtml("Streets") {
         field("Count", count.toString())
-        showList(streets) { nameList ->
-            link(call, nameList)
+        showList(streets) { street ->
+            link(call, street)
         }
         action(createLink, "Add")
         back("/")
@@ -133,6 +134,9 @@ private fun HTML.showStreetDetails(
     simpleHtml("Street: ${street.name}") {
         field("Id", street.id.value.toString())
         field("Name", street.name)
+        field("Type") {
+            link(call, state, street.type)
+        }
         showList("Towns", state.getTowns(street.id)) { town ->
             val buildings = state.getBuildings(town.id)
                 .filter { it.address.contains(street.id) }
@@ -153,6 +157,7 @@ private fun HTML.showStreetDetails(
 
 private fun HTML.showStreetEditor(
     call: ApplicationCall,
+    state: State,
     street: Street,
 ) {
     val backLink = href(call, street.id)
@@ -162,6 +167,11 @@ private fun HTML.showStreetEditor(
         field("Id", street.id.value.toString())
         form {
             selectName(street.name)
+            selectValue("Type", TYPE, state.getStreetTypeStorage().getAll()) { type ->
+                label = type.name
+                value = type.id.value.toString()
+                selected = street.type == type.id
+            }
             button("Update", updateLink)
         }
         back(backLink)

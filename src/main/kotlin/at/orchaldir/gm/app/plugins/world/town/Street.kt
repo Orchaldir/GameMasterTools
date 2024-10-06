@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.getBuildings
-import at.orchaldir.gm.visualization.town.showSelectedBuilding
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -117,7 +116,8 @@ fun visualizeStreetEditor(
     state: State,
     town: Town,
     selectedStreet: StreetId,
-) = visualizeTown(town, state.getBuildings(town.id),
+) = visualizeTown(
+    town, state.getBuildings(town.id),
     tileLinkLookup = { index, tile ->
         if (tile.canBuild()) {
             call.application.href(TownRoutes.StreetRoutes.Add(town.id, index, selectedStreet))
@@ -134,8 +134,9 @@ fun visualizeStreetEditor(
     },
     streetLinkLookup = { _, index ->
         call.application.href(TownRoutes.StreetRoutes.Remove(town.id, index, selectedStreet))
-    }, streetTooltipLookup = { streetId, _ ->
+    },
+    streetTooltipLookup = { streetId, _ ->
         state.getStreetStorage().getOrThrow(streetId).name
-    }
+    },
 )
 

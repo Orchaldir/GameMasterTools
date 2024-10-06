@@ -33,6 +33,8 @@ import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.model.world.street.StreetType
+import at.orchaldir.gm.core.model.world.street.StreetTypeId
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
@@ -155,6 +157,11 @@ data object CreateStreet : WorldAction()
 data class DeleteStreet(val id: StreetId) : WorldAction()
 data class UpdateStreet(val street: Street) : WorldAction()
 
+// street type
+data object CreateStreetType : WorldAction()
+data class DeleteStreetType(val id: StreetTypeId) : WorldAction()
+data class UpdateStreetType(val type: StreetType) : WorldAction()
+
 // town
 data object CreateTown : WorldAction()
 data class DeleteTown(val id: TownId) : WorldAction()
@@ -196,7 +203,6 @@ data class UpdateBuildingLot(
         lot = building.lot.copy(tileIndex = tileIndex, size = size)
     )
 }
-
 
 // town's streets
 

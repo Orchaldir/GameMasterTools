@@ -4,10 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.time.*
-import at.orchaldir.gm.core.model.util.OneOf
-import at.orchaldir.gm.core.model.util.OneOrNone
-import at.orchaldir.gm.core.model.util.Rarity
-import at.orchaldir.gm.core.model.util.SomeOf
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.utils.math.FULL
@@ -95,6 +92,7 @@ fun parseYear(
 
     return default.resolve(calendarDate)
 }
+
 // RarityMap
 
 fun <T> parseOneOf(
@@ -156,6 +154,36 @@ private fun <T> parseRarityMap(
 
 //
 
+fun parseFill(parameters: Parameters): Fill {
+    val type = parse(parameters, combine(FILL, TYPE), FillType.Solid)
+
+    return when (type) {
+        FillType.Solid -> Solid(parse(parameters, combine(FILL, COLOR, 0), Color.SkyBlue))
+        FillType.VerticalStripes -> VerticalStripes(
+            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
+            parse(parameters, combine(FILL, COLOR, 1), Color.White),
+            parseWidth(parameters),
+        )
+
+        FillType.HorizontalStripes -> HorizontalStripes(
+            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
+            parse(parameters, combine(FILL, COLOR, 1), Color.White),
+            parseWidth(parameters),
+        )
+
+        FillType.Tiles -> Tiles(
+            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
+            parse<Color>(parameters, combine(FILL, COLOR, 1)),
+            parseFloat(parameters, combine(PATTERN, TILE), 1.0f),
+            parseFactor(parameters, combine(PATTERN, BORDER), Factor(0.1f))
+        )
+    }
+}
+
+private fun parseWidth(parameters: Parameters) = parseUByte(parameters, combine(PATTERN, WIDTH), 1u)
+
+//
+
 fun parseDistribution(parameters: Parameters, param: String) = Distribution(
     parseFloat(parameters, combine(param, CENTER)),
     parseFloat(parameters, combine(param, OFFSET)),
@@ -165,6 +193,8 @@ fun parseBool(parameters: Parameters, param: String, default: Boolean = false) =
     parameters[param]?.toBoolean() ?: default
 
 fun parseInt(parameters: Parameters, param: String, default: Int = 0) = parameters[param]?.toInt() ?: default
+
+fun parseUByte(parameters: Parameters, param: String, default: UByte = 0u) = parameters[param]?.toUByte() ?: default
 
 fun parseFactor(parameters: Parameters, param: String, default: Factor = FULL) =
     parameters[param]?.toFloat()?.let { Factor(it) } ?: default

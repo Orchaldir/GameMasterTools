@@ -21,6 +21,8 @@ import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 
+const val TILE_SIZE = 20.0f
+
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
 private val DEFAULT_STREET_COLOR: (StreetId, Int) -> Color = { _, _ -> Color.Gray }
@@ -39,7 +41,7 @@ data class TownRenderer(
     )
 
     constructor(town: Town) : this(
-        TileMap2dRenderer(Distance(20.0f), Distance(1.0f)),
+        TileMap2dRenderer(Distance(TILE_SIZE), Distance(1.0f)),
         town,
     )
 
@@ -116,12 +118,13 @@ data class TownRenderer(
         layer.renderRectangle(aabb, style)
     }
 
-    private fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
-        val style = NoBorder(color.toRender())
-        renderer.renderRectangle(tile.shrink(Factor(0.5f)), style)
-    }
 
     fun finish() = svgBuilder.finish()
+}
+
+fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
+    val style = NoBorder(color.toRender())
+    renderer.renderRectangle(tile.shrink(Factor(0.5f)), style)
 }
 
 fun visualizeTown(
@@ -151,6 +154,19 @@ fun TownTile.getColor() = when (terrain) {
     is MountainTerrain -> Color.Gray
     PlainTerrain -> Color.Green
     is RiverTerrain -> Color.Blue
+}
+
+fun getStreetTypeFill(state: State): (StreetId, Int) -> Color = { id, _ ->
+    state
+        .getStreetStorage()
+        .get(id)
+        ?.type
+        ?.let {
+            state
+                .getStreetTypeStorage()
+                .get(it)
+                ?.color
+        } ?: Color.Pink
 }
 
 fun showSelectedBuilding(selected: Building): (Building) -> Color = { building ->

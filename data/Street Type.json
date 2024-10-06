@@ -3,12 +3,12 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Armitage Street"
+   "name": "Paved Street"
   },
   "1": {
    "id": 1,
-   "name": "Miskatonic Avenue",
-   "type": 1
+   "name": "Dirt Road",
+   "color": "SaddleBrown"
   }
  }
 }

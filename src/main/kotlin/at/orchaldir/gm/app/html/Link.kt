@@ -26,6 +26,7 @@ import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.model.world.street.StreetTypeId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownId
@@ -143,6 +144,7 @@ fun <ID : Id<ID>> href(
     is RaceAppearanceId -> call.application.href(RaceRoutes.AppearanceRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))
     is StreetId -> call.application.href(StreetRoutes.Details(id))
+    is StreetTypeId -> call.application.href(StreetTypeRoutes.Details(id))
     is TownId -> call.application.href(TownRoutes.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
 }

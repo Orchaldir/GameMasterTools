@@ -70,7 +70,7 @@ data class AABB(val start: Point2d, val size: Size2d) {
      */
     fun shrink(factor: Factor): AABB {
         val border = size * (factor * 0.5f)
-        return AABB(start + border, size * factor)
+        return AABB(start + border, size * (FULL - factor))
     }
 }
 
