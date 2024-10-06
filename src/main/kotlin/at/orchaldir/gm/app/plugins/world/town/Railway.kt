@@ -138,6 +138,16 @@ fun visualizeRailwayEditor(
                 null
             }
         },
+        railwayLinkLookup = { index, _ ->
+            call.application.href(
+                TownRoutes.RailwayRoutes.Remove(
+                    town.id,
+                    index,
+                    railway,
+                    connection
+                )
+            )
+        }
     )
 )
 
