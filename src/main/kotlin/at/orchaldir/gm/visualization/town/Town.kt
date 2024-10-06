@@ -111,8 +111,14 @@ data class TownRenderer(
                         if (town.checkTile(x + 1, y) { it.construction.contains(tile.railwayType) }) {
                             renderRailwayRight(renderer, aabb, color, RAILWAY_WIDTH)
                         }
+                        if (town.checkTile(x - 1, y) { it.construction.contains(tile.railwayType) }) {
+                            renderRailwayLeft(renderer, aabb, color, RAILWAY_WIDTH)
+                        }
                         if (town.checkTile(x, y + 1) { it.construction.contains(tile.railwayType) }) {
                             renderRailwayDown(renderer, aabb, color, RAILWAY_WIDTH)
+                        }
+                        if (town.checkTile(x, y - 1) { it.construction.contains(tile.railwayType) }) {
+                            renderRailwayUp(renderer, aabb, color, RAILWAY_WIDTH)
                         }
                         renderRailwayCenter(renderer, aabb, color, RAILWAY_WIDTH)
                     }
@@ -191,6 +197,19 @@ fun renderRailwayCenter(renderer: LayerRenderer, tile: AABB, color: Color, width
     renderer.renderRectangle(tile.shrink(FULL - width), style)
 }
 
+fun renderRailwayLeft(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {
+    val style = NoBorder(color.toRender())
+    val builder = Polygon2dBuilder()
+    val half = width * 0.5f
+
+    builder.addPoint(tile, START, CENTER + half)
+    builder.addPoint(tile, START, CENTER - half)
+    builder.addPoint(tile, CENTER - half, CENTER - half)
+    builder.addPoint(tile, CENTER - half, CENTER + half)
+
+    renderer.renderPolygon(builder.build(), style)
+}
+
 fun renderRailwayDown(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {
     val style = NoBorder(color.toRender())
     val builder = Polygon2dBuilder()
@@ -213,6 +232,19 @@ fun renderRailwayRight(renderer: LayerRenderer, tile: AABB, color: Color, width:
     builder.addPoint(tile, CENTER + half, CENTER - half)
     builder.addPoint(tile, FULL, CENTER - half)
     builder.addPoint(tile, FULL, CENTER + half)
+
+    renderer.renderPolygon(builder.build(), style)
+}
+
+fun renderRailwayUp(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {
+    val style = NoBorder(color.toRender())
+    val builder = Polygon2dBuilder()
+    val half = width * 0.5f
+
+    builder.addPoint(tile, CENTER + half, START)
+    builder.addPoint(tile, CENTER - half, START)
+    builder.addPoint(tile, CENTER - half, CENTER - half)
+    builder.addPoint(tile, CENTER + half, CENTER - half)
 
     renderer.renderPolygon(builder.build(), style)
 }
