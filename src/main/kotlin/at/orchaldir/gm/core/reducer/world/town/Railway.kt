@@ -17,7 +17,7 @@ val ADD_RAILWAY_TILE: Reducer<AddRailwayTile, State> = { state, action ->
 
 val REMOVE_RAILWAY_TILE: Reducer<RemoveRailwayTile, State> = { state, action ->
     val oldTown = state.getTownStorage().getOrThrow(action.town)
-    val town = oldTown.removeRailway(action.tileIndex)
+    val town = oldTown.removeRailway(action.tileIndex, action.type)
 
     noFollowUps(state.updateStorage(state.getTownStorage().update(town)))
 }

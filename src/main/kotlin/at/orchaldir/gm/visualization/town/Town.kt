@@ -146,8 +146,8 @@ data class TownRenderer(
             if (tile.construction is RailwayTile) {
                 render(aabb, tile.construction.railwayType, tile.construction.connection, index, x, y)
             } else if (tile.construction is CrossingTile) {
-                tile.construction.railwayTypes.forEach {
-                    render(aabb, it, TileConnection.Curve, index, x, y)
+                tile.construction.railways.forEach {
+                    render(aabb, it.first, it.second, index, x, y)
                 }
             }
         }

@@ -15,7 +15,7 @@ sealed class Construction {
         is RailwayTile -> railwayType == id
         is StreetTile -> street == id
         is CrossingTile -> if (id is RailwayTypeId) {
-            railwayTypes.contains(id)
+            railways.any { it.first == id }
         } else {
             false
         }
@@ -51,6 +51,6 @@ data class RailwayTile(
 @Serializable
 @SerialName("Crossing")
 data class CrossingTile(
-    val railwayTypes: Set<RailwayTypeId>,
+    val railways: Set<Pair<RailwayTypeId, TileConnection>>,
 ) : Construction()
 

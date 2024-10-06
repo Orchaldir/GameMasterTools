@@ -73,7 +73,7 @@ fun Application.configureRailwayEditorRouting() {
         get<TownRoutes.RailwayRoutes.Remove> { remove ->
             logger.info { "Remove railway from tile ${remove.tileIndex} for town ${remove.town.value}" }
 
-            STORE.dispatch(RemoveRailwayTile(remove.town, remove.tileIndex))
+            STORE.dispatch(RemoveRailwayTile(remove.town, remove.tileIndex, remove.remove))
 
             STORE.getState().save()
 
@@ -139,11 +139,12 @@ fun visualizeRailwayEditor(
                 null
             }
         },
-        railwayLinkLookup = { index, _ ->
+        railwayLinkLookup = { index, remove ->
             call.application.href(
                 TownRoutes.RailwayRoutes.Remove(
                     town.id,
                     index,
+                    remove,
                     railway,
                     connection
                 )

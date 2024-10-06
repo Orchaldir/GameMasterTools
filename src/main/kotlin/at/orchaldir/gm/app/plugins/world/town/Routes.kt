@@ -63,6 +63,7 @@ class TownRoutes {
         class Remove(
             val town: TownId,
             val tileIndex: Int,
+            val remove: RailwayTypeId,
             val railway: RailwayTypeId,
             val connection: TileConnection,
             val parent: RailwayRoutes = RailwayRoutes(),

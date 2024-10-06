@@ -224,6 +224,7 @@ data class AddRailwayTile(
 data class RemoveRailwayTile(
     val town: TownId,
     val tileIndex: Int,
+    val type: RailwayTypeId,
 ) : WorldAction()
 
 // town's streets

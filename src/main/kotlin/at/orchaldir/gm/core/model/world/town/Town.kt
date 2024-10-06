@@ -81,8 +81,15 @@ data class Town(
 
         val construction = when (oldTile.construction) {
             NoConstruction -> RailwayTile(railwayType, connection)
-            is CrossingTile -> CrossingTile(oldTile.construction.railwayTypes + railwayType)
-            is RailwayTile -> CrossingTile(setOf(oldTile.construction.railwayType, railwayType))
+            is CrossingTile -> CrossingTile(oldTile.construction.railways + Pair(railwayType, connection))
+            is RailwayTile -> CrossingTile(
+                setOf(
+                    Pair(
+                        oldTile.construction.railwayType,
+                        oldTile.construction.connection
+                    ), Pair(railwayType, connection)
+                )
+            )
             is StreetTile -> TODO()
             is BuildingTile -> error("Unreachable!")
         }
@@ -111,12 +118,29 @@ data class Town(
         return updateTile(index, tile)
     }
 
-    fun removeRailway(index: Int): Town {
+    fun removeRailway(index: Int, railwayType: RailwayTypeId): Town {
         val oldTile = map.getRequiredTile(index)
 
         require(oldTile.construction is RailwayTile || oldTile.construction is CrossingTile) { "Tile $index is not a railway!" }
+        val construction = when (oldTile.construction) {
+            is RailwayTile -> NoConstruction
+            is CrossingTile -> {
+                val railways = oldTile.construction.railways
+                    .filter { it.first != railwayType }
+                    .toSet()
 
-        val tile = oldTile.copy(construction = NoConstruction)
+                if (railways.size == 1) {
+                    val pair = railways.first()
+                    RailwayTile(pair.first, pair.second)
+                } else {
+
+                    CrossingTile(railways)
+                }
+            }
+
+            else -> error("Tile $index is not a railway!")
+        }
+        val tile = oldTile.copy(construction = construction)
 
         return updateTile(index, tile)
     }
