@@ -24,7 +24,7 @@ val SHOW_BUILDING_NAME: (Building) -> String? = { b -> b.name }
 
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
-private val DEFAULT_RAILWAY_COLOR: (Int, RailwayTypeId) -> Color = { _, _ -> Color.Navy }
+private val DEFAULT_RAILWAY_COLOR: (Int, RailwayTypeId) -> Color = { _, _ -> Color.Black }
 private val DEFAULT_RAILWAY_TEXT: (Int, RailwayTypeId) -> String? = { _, _ -> null }
 private val DEFAULT_STREET_COLOR: (Int, StreetId) -> Color = { _, _ -> Color.Gray }
 private val DEFAULT_STREET_TEXT: (Int, StreetId) -> String? = { _, _ -> null }
@@ -106,6 +106,10 @@ data class TownRenderer(
 
             svgBuilder.optionalLinkAndTooltip(link, tooltip) {
                 when (tile.connection) {
+                    TileConnection.Crossing -> {
+                        renderHorizontalRailway(it, aabb, color)
+                        renderVerticalRailway(it, aabb, color)
+                    }
                     TileConnection.Horizontal -> renderHorizontalRailway(it, aabb, color)
                     TileConnection.Vertical -> renderVerticalRailway(it, aabb, color)
                 }
@@ -173,11 +177,6 @@ data class TownRenderer(
 
 
     fun finish() = svgBuilder.finish()
-}
-
-fun renderRailway(renderer: LayerRenderer, tile: AABB, color: Color) {
-    val style = NoBorder(color.toRender())
-    renderer.renderRectangle(tile.shrink(Factor(0.75f)), style)
 }
 
 fun renderHorizontalRailway(renderer: LayerRenderer, tile: AABB, color: Color) {
