@@ -23,6 +23,8 @@ import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 
 const val TILE_SIZE = 20.0f
 
+val SHOW_BUILDING_NAME: (Building) -> String? = { b -> b.name }
+
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
 private val DEFAULT_STREET_COLOR: (Int, StreetId) -> Color = { _, _ -> Color.Gray }
@@ -180,6 +182,10 @@ fun showSelectedBuilding(selected: Building): (Building) -> Color = { building -
     }
 }
 
+fun showStreetName(state: State): (Int, StreetId) -> String? = { _, streetId ->
+    state.getStreetStorage().getOrThrow(streetId).name
+}
+
 fun showTerrainName(state: State): (Int, TownTile) -> String? = { _, tile ->
     when (tile.terrain) {
         is HillTerrain -> state.getMountainStorage().getOrThrow(tile.terrain.mountain).name
@@ -187,8 +193,4 @@ fun showTerrainName(state: State): (Int, TownTile) -> String? = { _, tile ->
         PlainTerrain -> null
         is RiverTerrain -> state.getRiverStorage().getOrThrow(tile.terrain.river).name
     }
-}
-
-fun showStreetName(state: State): (Int, StreetId) -> String? = { _, streetId ->
-    state.getStreetStorage().getOrThrow(streetId).name
 }

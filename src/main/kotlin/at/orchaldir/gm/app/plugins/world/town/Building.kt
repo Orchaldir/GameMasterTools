@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
+import at.orchaldir.gm.visualization.town.SHOW_BUILDING_NAME
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -111,9 +112,7 @@ fun visualizeBuildingEditor(
         buildingLinkLookup = { building ->
             call.application.href(BuildingRoutes.Details(building.id))
         },
-        buildingTooltipLookup = { building ->
-            building.name
-        },
+        buildingTooltipLookup = SHOW_BUILDING_NAME,
     )
 }
 

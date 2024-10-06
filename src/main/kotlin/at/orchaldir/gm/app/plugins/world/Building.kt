@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
+import at.orchaldir.gm.visualization.town.SHOW_BUILDING_NAME
 import at.orchaldir.gm.visualization.town.showSelectedBuilding
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
@@ -351,9 +352,7 @@ private fun visualizeBuilding(
         buildingLinkLookup = { b ->
             call.application.href(BuildingRoutes.Details(b.id))
         },
-        buildingTooltipLookup = { building ->
-            building.name
-        },
+        buildingTooltipLookup = SHOW_BUILDING_NAME,
     )
 }
 
