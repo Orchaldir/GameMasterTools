@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.action.AddStreetTile
 import at.orchaldir.gm.core.action.RemoveStreetTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.Solid
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.getBuildings
@@ -128,9 +127,9 @@ fun visualizeStreetEditor(
     },
     streetColorLookup = { street, _ ->
         if (street == selectedStreet) {
-            Solid(Color.Gold)
+            Color.Gold
         } else {
-            Solid(Color.Gray)
+            Color.Gray
         }
     },
     streetLinkLookup = { _, index ->

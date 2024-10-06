@@ -2,8 +2,6 @@ package at.orchaldir.gm.visualization.town
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.Fill
-import at.orchaldir.gm.core.model.util.Solid
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.HillTerrain
@@ -20,7 +18,6 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.model.NoBorder
-import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 
@@ -28,7 +25,7 @@ const val TILE_SIZE = 20.0f
 
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
-private val DEFAULT_STREET_COLOR: (StreetId, Int) -> Fill = { _, _ -> Solid(Color.Gray) }
+private val DEFAULT_STREET_COLOR: (StreetId, Int) -> Color = { _, _ -> Color.Gray }
 private val DEFAULT_STREET_TEXT: (StreetId, Int) -> String? = { _, _ -> null }
 private val DEFAULT_TILE_TEXT: (Int, TownTile) -> String? = { _, _ -> null }
 
@@ -72,7 +69,7 @@ data class TownRenderer(
     }
 
     fun renderStreets(
-        colorLookup: (StreetId, Int) -> Fill = DEFAULT_STREET_COLOR,
+        colorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
         linkLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
         tooltipLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
     ) {
@@ -125,8 +122,8 @@ data class TownRenderer(
     fun finish() = svgBuilder.finish()
 }
 
-fun renderStreet(renderer: LayerRenderer, tile: AABB, fill: Fill) {
-    val style = NoBorder(fill.toRender())
+fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
+    val style = NoBorder(color.toRender())
     renderer.renderRectangle(tile.shrink(Factor(0.5f)), style)
 }
 
@@ -139,7 +136,7 @@ fun visualizeTown(
     buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
     buildingLinkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
     buildingTooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
-    streetColorLookup: (StreetId, Int) -> Fill = DEFAULT_STREET_COLOR,
+    streetColorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
     streetLinkLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
     streetTooltipLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
 ): Svg {
@@ -159,7 +156,7 @@ fun TownTile.getColor() = when (terrain) {
     is RiverTerrain -> Color.Blue
 }
 
-fun getStreetTypeFill(state: State): (StreetId, Int) -> Fill = { id, _ ->
+fun getStreetTypeFill(state: State): (StreetId, Int) -> Color = { id, _ ->
     state
         .getStreetStorage()
         .get(id)
@@ -168,8 +165,8 @@ fun getStreetTypeFill(state: State): (StreetId, Int) -> Fill = { id, _ ->
             state
                 .getStreetTypeStorage()
                 .get(it)
-                ?.fill
-        } ?: Solid(Color.Pink)
+                ?.color
+        } ?: Color.Pink
 }
 
 fun showSelectedBuilding(selected: Building): (Building) -> Color = { building ->

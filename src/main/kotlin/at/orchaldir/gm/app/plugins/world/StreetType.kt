@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.plugins.world
 
+import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseStreetType
@@ -8,6 +9,7 @@ import at.orchaldir.gm.core.action.DeleteStreetType
 import at.orchaldir.gm.core.action.UpdateStreetType
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Solid
 import at.orchaldir.gm.core.model.world.street.StreetType
 import at.orchaldir.gm.core.model.world.street.StreetTypeId
@@ -163,7 +165,7 @@ private fun HTML.showStreetTypeDetails(
         split({
             field("Id", type.id.value.toString())
             field("Name", type.name)
-            showFill(type.fill)
+            field("Color", type.color.toString())
             showList("Streets", state.getStreets(type.id)) { street ->
                 link(call, street)
             }
@@ -194,7 +196,7 @@ private fun HTML.showStreetTypeEditor(
                 action = previewLink
                 method = FormMethod.post
                 selectName(type.name)
-                selectFill(type.fill)
+                selectColor("Color", COLOR, Color.entries, type.color)
                 button("Update", updateLink)
             }
             back(backLink)
@@ -213,7 +215,7 @@ private fun visualizeStreetType(
     val option = NoBorder(Solid(Color.Green).toRender())
 
     builder.getLayer().renderRectangle(aabb, option)
-    renderStreet(builder.getLayer(), aabb, streetType.fill)
+    renderStreet(builder.getLayer(), aabb, streetType.color)
 
     return builder.finish()
 }

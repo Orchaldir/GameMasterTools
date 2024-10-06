@@ -8,10 +8,7 @@
   "1": {
    "id": 1,
    "name": "Dirt Road",
-   "fill": {
-    "type": "Solid",
-    "color": "SaddleBrown"
-   }
+   "color": "SaddleBrown"
   }
  }
 }
