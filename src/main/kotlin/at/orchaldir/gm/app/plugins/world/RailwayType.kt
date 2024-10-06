@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.plugins.world
 
+import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseRailwayType
@@ -18,7 +19,9 @@ import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
+import at.orchaldir.gm.visualization.town.RAILWAY_WIDTH
 import at.orchaldir.gm.visualization.town.TILE_SIZE
+import at.orchaldir.gm.visualization.town.renderHorizontalRailway
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -161,6 +164,7 @@ private fun HTML.showRailwayTypeDetails(
         split({
             field("Id", type.id.value.toString())
             field("Name", type.name)
+            field("Color", type.color.toString())
             action(editLink, "Edit")
             if (state.canDelete(type.id)) {
                 action(deleteLink, "Delete")
@@ -188,6 +192,7 @@ private fun HTML.showRailwayTypeEditor(
                 action = previewLink
                 method = FormMethod.post
                 selectName(type.name)
+                selectColor("Color", COLOR, Color.entries, type.color)
                 button("Update", updateLink)
             }
             back(backLink)
@@ -203,9 +208,8 @@ private fun visualizeRailwayType(
     val size = Size2d.square(TILE_SIZE)
     val builder = SvgBuilder(size)
     val aabb = AABB(size)
-    val option = NoBorder(Solid(Color.Green).toRender())
 
-    builder.getLayer().renderRectangle(aabb, option)
+    renderHorizontalRailway(builder.getLayer(), aabb, railwayType.color, RAILWAY_WIDTH)
 
     return builder.finish()
 }

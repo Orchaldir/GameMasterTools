@@ -1,7 +1,10 @@
 package at.orchaldir.gm.app.parse.world
 
+import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.railway.RailwayType
 import at.orchaldir.gm.core.model.world.railway.RailwayTypeId
 import io.ktor.http.*
@@ -12,5 +15,6 @@ fun parseRailwayTypeId(parameters: Parameters, param: String) = RailwayTypeId(pa
 fun parseRailwayType(id: RailwayTypeId, parameters: Parameters) = RailwayType(
     id,
     parameters.getOrFail(NAME),
+    parse(parameters, COLOR, Color.Black),
 )
 

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world.railway
 
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -20,6 +21,7 @@ value class RailwayTypeId(val value: Int) : Id<RailwayTypeId> {
 data class RailwayType(
     val id: RailwayTypeId,
     val name: String = "RailwayType ${id.value}",
+    val color: Color = Color.Black,
 ) : Element<RailwayTypeId> {
 
     override fun id() = id
