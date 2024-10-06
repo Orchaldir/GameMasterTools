@@ -12,10 +12,7 @@ import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.*
-import at.orchaldir.gm.visualization.town.getStreetTypeColor
-import at.orchaldir.gm.visualization.town.showStreetName
-import at.orchaldir.gm.visualization.town.showTerrainName
-import at.orchaldir.gm.visualization.town.visualizeTown
+import at.orchaldir.gm.visualization.town.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -179,17 +176,20 @@ private fun visualizeTownWithLinks(
     state: State,
     town: Town,
 ) = visualizeTown(
-    town, state.getBuildings(town.id),
-    tileTooltipLookup = showTerrainName(state),
-    buildingLinkLookup = { building ->
-        call.application.href(BuildingRoutes.Details(building.id))
-    },
-    buildingTooltipLookup = { building ->
-        building.name
-    },
-    streetLinkLookup = { _, street ->
-        call.application.href(StreetRoutes.Details(street))
-    },
-    streetTooltipLookup = showStreetName(state),
-    streetColorLookup = getStreetTypeColor(state),
+    town,
+    state.getBuildings(town.id),
+    TownRendererConfig(
+        tileTooltipLookup = showTerrainName(state),
+        buildingLinkLookup = { building ->
+            call.application.href(BuildingRoutes.Details(building.id))
+        },
+        buildingTooltipLookup = { building ->
+            building.name
+        },
+        streetLinkLookup = { _, street ->
+            call.application.href(StreetRoutes.Details(street))
+        },
+        streetTooltipLookup = showStreetName(state),
+        streetColorLookup = getStreetTypeColor(state),
+    )
 )

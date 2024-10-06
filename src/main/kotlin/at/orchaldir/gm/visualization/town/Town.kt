@@ -40,54 +40,68 @@ private val DEFAULT_TILE_COLOR: (Int, TownTile) -> Color = { _, tile ->
 }
 private val DEFAULT_TILE_TEXT: (Int, TownTile) -> String? = { _, _ -> null }
 
+data class TownRendererConfig(
+    val tileColorLookup: (Int, TownTile) -> Color = DEFAULT_TILE_COLOR,
+    val tileLinkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
+    val tileTooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
+    val buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
+    val buildingLinkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
+    val buildingTooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
+    val streetColorLookup: (Int, StreetId) -> Color = DEFAULT_STREET_COLOR,
+    val streetLinkLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
+    val streetTooltipLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
+)
+
 data class TownRenderer(
+    private val config: TownRendererConfig,
     private val tileRenderer: TileMap2dRenderer,
     private val svgBuilder: SvgBuilder,
     private val town: Town,
 ) {
-    constructor(tileMapRenderer: TileMap2dRenderer, town: Town) : this(
+    constructor(
+        tileMapRenderer: TileMap2dRenderer,
+        town: Town,
+        config: TownRendererConfig = TownRendererConfig(),
+    ) : this(
+        config,
         tileMapRenderer,
         SvgBuilder(tileMapRenderer.calculateMapSize(town.map)),
         town,
     )
 
-    constructor(town: Town) : this(
+    constructor(town: Town, config: TownRendererConfig = TownRendererConfig()) : this(
         TileMap2dRenderer(Distance(TILE_SIZE), Distance(1.0f)),
         town,
+        config,
     )
 
-    fun renderTiles(
-        colorLookup: (Int, TownTile) -> Color = DEFAULT_TILE_COLOR,
-        linkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
-        tooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
-    ) {
-        tileRenderer.renderWithLinksAndTooltips(svgBuilder, town.map, colorLookup, linkLookup, tooltipLookup)
+    fun renderTiles() {
+        tileRenderer.renderWithLinksAndTooltips(
+            svgBuilder,
+            town.map,
+            config.tileColorLookup,
+            config.tileLinkLookup,
+            config.tileTooltipLookup
+        )
     }
 
-    fun renderBuildings(
-        buildings: List<Building>,
-        colorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
-        linkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
-        tooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
-    ) {
+    fun renderBuildings(buildings: List<Building>) {
         buildings.forEach { building ->
-            val color = colorLookup(building)
+            val color = config.buildingColorLookup(building)
+            val link = config.buildingLinkLookup(building)
+            val tooltip = config.buildingTooltipLookup(building)
 
-            svgBuilder.optionalLinkAndTooltip(linkLookup(building), tooltipLookup(building)) {
+            svgBuilder.optionalLinkAndTooltip(link, tooltip) {
                 renderBuilding(it, building, color)
             }
         }
     }
 
-    fun renderStreets(
-        colorLookup: (Int, StreetId) -> Color = DEFAULT_STREET_COLOR,
-        linkLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
-        tooltipLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
-    ) {
+    fun renderStreets() {
         renderStreets { aabb, streetId, index ->
-            val color = colorLookup(index, streetId)
-            val link = linkLookup(index, streetId)
-            val tooltip = tooltipLookup(index, streetId)
+            val color = config.streetColorLookup(index, streetId)
+            val link = config.streetLinkLookup(index, streetId)
+            val tooltip = config.streetTooltipLookup(index, streetId)
 
             svgBuilder.optionalLinkAndTooltip(link, tooltip) {
                 renderStreet(it, aabb, color)
@@ -143,21 +157,13 @@ fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
 fun visualizeTown(
     town: Town,
     buildings: List<Building> = emptyList(),
-    tileColorLookup: (Int, TownTile) -> Color = DEFAULT_TILE_COLOR,
-    tileLinkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
-    tileTooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
-    buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
-    buildingLinkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
-    buildingTooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
-    streetColorLookup: (Int, StreetId) -> Color = DEFAULT_STREET_COLOR,
-    streetLinkLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
-    streetTooltipLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
+    config: TownRendererConfig = TownRendererConfig(),
 ): Svg {
-    val townRenderer = TownRenderer(town)
+    val townRenderer = TownRenderer(town, config)
 
-    townRenderer.renderTiles(tileColorLookup, tileLinkLookup, tileTooltipLookup)
-    townRenderer.renderBuildings(buildings, buildingColorLookup, buildingLinkLookup, buildingTooltipLookup)
-    townRenderer.renderStreets(streetColorLookup, streetLinkLookup, streetTooltipLookup)
+    townRenderer.renderTiles()
+    townRenderer.renderBuildings(buildings)
+    townRenderer.renderStreets()
 
     return townRenderer.finish()
 }

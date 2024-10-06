@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.town.SHOW_BUILDING_NAME
+import at.orchaldir.gm.visualization.town.TownRendererConfig
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -101,18 +102,21 @@ fun visualizeBuildingEditor(
     size: MapSize2d,
 ): Svg {
     return visualizeTown(
-        town, state.getBuildings(town.id),
-        tileLinkLookup = { index, _ ->
-            if (town.canBuild(index, size)) {
-                call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
-            } else {
-                null
-            }
-        },
-        buildingLinkLookup = { building ->
-            call.application.href(BuildingRoutes.Details(building.id))
-        },
-        buildingTooltipLookup = SHOW_BUILDING_NAME,
+        town,
+        state.getBuildings(town.id),
+        TownRendererConfig(
+            tileLinkLookup = { index, _ ->
+                if (town.canBuild(index, size)) {
+                    call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
+                } else {
+                    null
+                }
+            },
+            buildingLinkLookup = { building ->
+                call.application.href(BuildingRoutes.Details(building.id))
+            },
+            buildingTooltipLookup = SHOW_BUILDING_NAME,
+        )
     )
 }
 

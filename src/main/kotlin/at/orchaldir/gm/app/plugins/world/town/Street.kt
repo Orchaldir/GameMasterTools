@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.visualization.town.TownRendererConfig
 import at.orchaldir.gm.visualization.town.showSelectedElement
 import at.orchaldir.gm.visualization.town.showStreetName
 import at.orchaldir.gm.visualization.town.visualizeTown
@@ -119,17 +120,19 @@ fun visualizeStreetEditor(
     selectedStreet: StreetId,
 ) = visualizeTown(
     town, state.getBuildings(town.id),
-    tileLinkLookup = { index, tile ->
-        if (tile.canBuild()) {
-            call.application.href(TownRoutes.StreetRoutes.Add(town.id, index, selectedStreet))
-        } else {
-            null
-        }
-    },
-    streetColorLookup = showSelectedElement(selectedStreet),
-    streetLinkLookup = { index, _ ->
-        call.application.href(TownRoutes.StreetRoutes.Remove(town.id, index, selectedStreet))
-    },
-    streetTooltipLookup = showStreetName(state),
+    TownRendererConfig(
+        tileLinkLookup = { index, tile ->
+            if (tile.canBuild()) {
+                call.application.href(TownRoutes.StreetRoutes.Add(town.id, index, selectedStreet))
+            } else {
+                null
+            }
+        },
+        streetColorLookup = showSelectedElement(selectedStreet),
+        streetLinkLookup = { index, _ ->
+            call.application.href(TownRoutes.StreetRoutes.Remove(town.id, index, selectedStreet))
+        },
+        streetTooltipLookup = showStreetName(state),
+    )
 )
 

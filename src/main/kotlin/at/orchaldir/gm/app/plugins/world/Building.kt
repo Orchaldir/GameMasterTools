@@ -15,6 +15,7 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.town.SHOW_BUILDING_NAME
+import at.orchaldir.gm.visualization.town.TownRendererConfig
 import at.orchaldir.gm.visualization.town.showSelectedBuilding
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
@@ -344,15 +345,18 @@ private fun visualizeBuilding(
     selected: Building,
 ): Svg {
     val town = state.getTownStorage().getOrThrow(selected.lot.town)
-
-    return visualizeTown(
-        town,
-        state.getBuildings(town.id),
+    val config = TownRendererConfig(
         buildingColorLookup = showSelectedBuilding(selected),
         buildingLinkLookup = { b ->
             call.application.href(BuildingRoutes.Details(b.id))
         },
         buildingTooltipLookup = SHOW_BUILDING_NAME,
+    )
+
+    return visualizeTown(
+        town,
+        state.getBuildings(town.id),
+        config
     )
 }
 
@@ -363,10 +367,7 @@ private fun visualizeBuildingLot(
     size: MapSize2d,
 ): Svg {
     val town = state.getTownStorage().getOrThrow(building.lot.town)
-
-    return visualizeTown(
-        town,
-        state.getBuildings(town.id),
+    val config = TownRendererConfig(
         tileLinkLookup = { index, _ ->
             if (town.canResize(index, size, building.id)) {
                 call.application.href(BuildingRoutes.Lot.Update(building.id, index, size))
@@ -375,5 +376,10 @@ private fun visualizeBuildingLot(
             }
         },
         buildingColorLookup = showSelectedBuilding(building),
+    )
+    return visualizeTown(
+        town,
+        state.getBuildings(town.id),
+        config
     )
 }
