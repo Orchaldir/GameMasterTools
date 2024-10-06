@@ -38,6 +38,9 @@ import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MOON
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.railway.RAILWAY_TYPE
+import at.orchaldir.gm.core.model.world.railway.RailwayType
+import at.orchaldir.gm.core.model.world.railway.RailwayTypeId
 import at.orchaldir.gm.core.model.world.street.*
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.TOWN
@@ -66,6 +69,7 @@ val ELEMENTS =
         PERSONALITY_TRAIT,
         RACE,
         RACE_APPEARANCE,
+        RAILWAY_TYPE,
         RIVER,
         STREET,
         STREET_TYPE,
@@ -108,6 +112,7 @@ data class State(
     fun getPersonalityTraitStorage() = getStorage<PersonalityTraitId, PersonalityTrait>(PERSONALITY_TRAIT)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE)
+    fun getRailwayTypeStorage() = getStorage<RailwayTypeId, RailwayType>(RAILWAY_TYPE)
     fun getRiverStorage() = getStorage<RiverId, River>(RIVER)
     fun getStreetStorage() = getStorage<StreetId, Street>(STREET)
     fun getStreetTypeStorage() = getStorage<StreetTypeId, StreetType>(STREET_TYPE)
@@ -178,6 +183,7 @@ data class State(
         saveStorage(path, getPersonalityTraitStorage())
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
+        saveStorage(path, getRailwayTypeStorage())
         saveStorage(path, getRiverStorage())
         saveStorage(path, getStreetStorage())
         saveStorage(path, getStreetTypeStorage())
@@ -202,6 +208,7 @@ fun createStorage(type: String) = when (type) {
     PERSONALITY_TRAIT -> Storage(PersonalityTraitId(0))
     RACE -> Storage(RaceId(0))
     RACE_APPEARANCE -> Storage(RaceAppearanceId(0))
+    RAILWAY_TYPE -> Storage(RailwayTypeId(0))
     RIVER -> Storage(RiverId(0))
     STREET -> Storage(StreetId(0))
     STREET_TYPE -> Storage(StreetTypeId(0))
@@ -229,6 +236,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
 
     RACE -> loadStorage<RaceId, Race>(path, RaceId(0))
     RACE_APPEARANCE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))
+    RAILWAY_TYPE -> loadStorage<RailwayTypeId, RailwayType>(path, RailwayTypeId(0))
     RIVER -> loadStorage<RiverId, River>(path, RiverId(0))
     STREET -> loadStorage<StreetId, Street>(path, StreetId(0))
     STREET_TYPE -> loadStorage<StreetTypeId, StreetType>(path, StreetTypeId(0))
