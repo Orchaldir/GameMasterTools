@@ -83,6 +83,7 @@ class TownRoutes {
             val id: TownId,
             val tileIndex: Int,
             val streetId: StreetId,
+            val connection: TileConnection,
             val parent: StreetRoutes = StreetRoutes(),
         )
 
@@ -90,7 +91,9 @@ class TownRoutes {
         class Remove(
             val id: TownId,
             val tileIndex: Int,
-            val selectedStreet: StreetId,
+            val remove: StreetId,
+            val street: StreetId,
+            val connection: TileConnection,
             val parent: StreetRoutes = StreetRoutes(),
         )
     }

@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.railway.RailwayTypeId
+import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.Terrain
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -50,16 +51,6 @@ data class Town(
         ?.all { check(map.getRequiredTile(it)) }
         ?: false
 
-    fun build(index: Int, construction: Construction): Town {
-        val oldTile = map.getRequiredTile(index)
-
-        require(oldTile.canBuild()) { "Tile $index is not empty!" }
-
-        val tile = oldTile.copy(construction = construction)
-
-        return updateTile(index, tile)
-    }
-
     fun build(index: Int, size: MapSize2d, construction: Construction): Town {
         val tiles = mutableMapOf<Int, TownTile>()
 
@@ -74,6 +65,35 @@ data class Town(
         return updateTiles(tiles)
     }
 
+    fun buildStreet(index: Int, street: StreetId, connection: TileConnection): Town {
+        val oldTile = map.getRequiredTile(index)
+
+        require(oldTile.canBuildRailway()) { "Cannot build railway on tile $index!" }
+
+        val construction = when (oldTile.construction) {
+            NoConstruction -> StreetTile(street, connection)
+            is CrossingTile -> CrossingTile(
+                oldTile.construction.railways,
+                oldTile.construction.streets + Pair(street, connection)
+            )
+
+            is RailwayTile -> CrossingTile(
+                setOf(Pair(oldTile.construction.railwayType, oldTile.construction.connection)),
+                setOf(Pair(street, connection)),
+            )
+
+            is StreetTile -> CrossingTile(
+                emptySet(),
+                setOf(Pair(oldTile.construction.street, oldTile.construction.connection), Pair(street, connection)),
+            )
+
+            is BuildingTile -> error("Unreachable!")
+        }
+        val tile = oldTile.copy(construction = construction)
+
+        return updateTile(index, tile)
+    }
+
     fun buildRailway(index: Int, railwayType: RailwayTypeId, connection: TileConnection): Town {
         val oldTile = map.getRequiredTile(index)
 
@@ -81,16 +101,25 @@ data class Town(
 
         val construction = when (oldTile.construction) {
             NoConstruction -> RailwayTile(railwayType, connection)
-            is CrossingTile -> CrossingTile(oldTile.construction.railways + Pair(railwayType, connection))
+            is CrossingTile -> CrossingTile(
+                oldTile.construction.railways + Pair(railwayType, connection),
+                oldTile.construction.streets
+            )
             is RailwayTile -> CrossingTile(
                 setOf(
                     Pair(
                         oldTile.construction.railwayType,
-                        oldTile.construction.connection
-                    ), Pair(railwayType, connection)
-                )
+                        oldTile.construction.connection,
+                    ),
+                    Pair(railwayType, connection),
+                ),
+                emptySet(),
             )
-            is StreetTile -> TODO()
+
+            is StreetTile -> CrossingTile(
+                setOf(Pair(railwayType, connection)),
+                setOf(Pair(oldTile.construction.street, oldTile.construction.connection)),
+            )
             is BuildingTile -> error("Unreachable!")
         }
         val tile = oldTile.copy(construction = construction)
@@ -108,12 +137,30 @@ data class Town(
         }))
     }
 
-    fun removeStreet(index: Int): Town {
+    fun removeStreet(index: Int, street: StreetId): Town {
         val oldTile = map.getRequiredTile(index)
 
-        require(oldTile.construction is StreetTile) { "Tile $index is not a street!" }
+        require(oldTile.construction is StreetTile || oldTile.construction is CrossingTile) { "Tile $index is not a railway!" }
 
-        val tile = oldTile.copy(construction = NoConstruction)
+        val construction = when (oldTile.construction) {
+            is StreetTile -> NoConstruction
+            is CrossingTile -> {
+                val streets = oldTile.construction.streets
+                    .filter { it.first != street }
+                    .toSet()
+
+                if (streets.size == 1 && oldTile.construction.railways.isEmpty()) {
+                    val pair = streets.first()
+                    StreetTile(pair.first, pair.second)
+                } else {
+
+                    CrossingTile(oldTile.construction.railways, streets)
+                }
+            }
+
+            else -> error("Tile $index is not a street!")
+        }
+        val tile = oldTile.copy(construction = construction)
 
         return updateTile(index, tile)
     }
@@ -122,6 +169,7 @@ data class Town(
         val oldTile = map.getRequiredTile(index)
 
         require(oldTile.construction is RailwayTile || oldTile.construction is CrossingTile) { "Tile $index is not a railway!" }
+
         val construction = when (oldTile.construction) {
             is RailwayTile -> NoConstruction
             is CrossingTile -> {
@@ -129,12 +177,12 @@ data class Town(
                     .filter { it.first != railwayType }
                     .toSet()
 
-                if (railways.size == 1) {
+                if (railways.size == 1 && oldTile.construction.streets.isEmpty()) {
                     val pair = railways.first()
                     RailwayTile(pair.first, pair.second)
                 } else {
 
-                    CrossingTile(railways)
+                    CrossingTile(railways, oldTile.construction.streets)
                 }
             }
 

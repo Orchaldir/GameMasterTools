@@ -233,11 +233,13 @@ data class AddStreetTile(
     val town: TownId,
     val tileIndex: Int,
     val street: StreetId,
+    val connection: TileConnection,
 ) : WorldAction()
 
 data class RemoveStreetTile(
     val town: TownId,
     val tileIndex: Int,
+    val street: StreetId,
 ) : WorldAction()
 
 // town's terrain
