@@ -14,10 +14,10 @@ sealed class Construction {
         is BuildingTile -> building == id
         is RailwayTile -> railwayType == id
         is StreetTile -> street == id
-        is CrossingTile -> if (id is RailwayTypeId) {
-            railways.any { it.first == id }
-        } else {
-            false
+        is CrossingTile -> when (id) {
+            is RailwayTypeId -> railways.any { it.first == id }
+            is StreetId -> streets.any { it.first == id }
+            else -> false
         }
         NoConstruction -> false
     }

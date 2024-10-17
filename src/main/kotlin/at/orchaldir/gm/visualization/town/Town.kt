@@ -20,6 +20,7 @@ import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 
 const val TILE_SIZE = 20.0f
 val RAILWAY_WIDTH = Factor(0.2f)
+val STREET_WIDTH = Factor(0.5f)
 
 val SHOW_BUILDING_NAME: (Building) -> String? = { b -> b.name }
 
@@ -155,36 +156,46 @@ data class TownRenderer(
     }
 
     fun renderStreets() {
-        renderStreets { aabb, streetId, index ->
-            val color = config.streetColorLookup(index, streetId)
-            val link = config.streetLinkLookup(index, streetId)
-            val tooltip = config.streetTooltipLookup(index, streetId)
+        renderStreets { aabb, street, connection, index, x, y ->
+            val color = config.streetColorLookup(index, street)
+            val link = config.streetLinkLookup(index, street)
+            val tooltip = config.streetTooltipLookup(index, street)
 
-            svgBuilder.optionalLinkAndTooltip(link, tooltip) {
-                renderStreet(it, aabb, color)
+            svgBuilder.optionalLinkAndTooltip(link, tooltip) { renderer ->
+                when (connection) {
+                    TileConnection.Curve -> {
+                        if (town.checkTile(x + 1, y) { it.construction.contains(street) }) {
+                            renderRailwayRight(renderer, aabb, color, STREET_WIDTH)
+                        }
+                        if (town.checkTile(x - 1, y) { it.construction.contains(street) }) {
+                            renderRailwayLeft(renderer, aabb, color, STREET_WIDTH)
+                        }
+                        if (town.checkTile(x, y + 1) { it.construction.contains(street) }) {
+                            renderRailwayDown(renderer, aabb, color, STREET_WIDTH)
+                        }
+                        if (town.checkTile(x, y - 1) { it.construction.contains(street) }) {
+                            renderRailwayUp(renderer, aabb, color, STREET_WIDTH)
+                        }
+                        renderRailwayCenter(renderer, aabb, color, STREET_WIDTH)
+                    }
+
+                    TileConnection.Horizontal -> renderHorizontalRailway(renderer, aabb, color, STREET_WIDTH)
+                    TileConnection.Vertical -> renderVerticalRailway(renderer, aabb, color, STREET_WIDTH)
+                }
             }
         }
     }
 
     fun renderStreets(
-        render: (AABB, StreetId, Int) -> Unit,
+        render: (AABB, StreetId, TileConnection, Int, Int, Int) -> Unit,
     ) {
-        val right = Point2d(tileRenderer.tileSize.value / 2, 0.0f)
-        val down = Point2d(0.0f, tileRenderer.tileSize.value / 2)
-
         tileRenderer.render(town.map) { index, x, y, aabb, tile ->
             if (tile.construction is StreetTile) {
-                if (town.checkTile(x + 1, y) { it.construction is StreetTile }) {
-                    val rightAABB = aabb + right
-                    render(rightAABB, tile.construction.street, index)
+                render(aabb, tile.construction.street, tile.construction.connection, index, x, y)
+            } else if (tile.construction is CrossingTile) {
+                tile.construction.streets.forEach {
+                    render(aabb, it.first, it.second, index, x, y)
                 }
-
-                if (town.checkTile(x, y + 1) { it.construction is StreetTile }) {
-                    val downAABB = aabb + down
-                    render(downAABB, tile.construction.street, index)
-                }
-
-                render(aabb, tile.construction.street, index)
             }
         }
     }

@@ -23,7 +23,8 @@
      {
       "construction": {
        "type": "Street",
-       "street": 1
+       "street": 1,
+       "connection": "Vertical"
       }
      },
      {
@@ -51,7 +52,8 @@
      {
       "construction": {
        "type": "Street",
-       "street": 1
+       "street": 1,
+       "connection": "Vertical"
       }
      },
      {
@@ -87,7 +89,8 @@
      {
       "construction": {
        "type": "Street",
-       "street": 0
+       "street": 1,
+       "connection": "Vertical"
       }
      },
      {
@@ -123,7 +126,8 @@
      {
       "construction": {
        "type": "Street",
-       "street": 1
+       "street": 1,
+       "connection": "Vertical"
       }
      },
      {
@@ -155,10 +159,112 @@
      {
       "construction": {
        "type": "Street",
+       "street": 1,
+       "connection": "Vertical"
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Railway",
+       "railwayType": 1,
+       "connection": "Vertical"
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "street": 1,
+       "connection": "Vertical"
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Railway",
+       "railwayType": 1,
+       "connection": "Vertical"
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "street": 1,
+       "connection": "Curve"
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
        "street": 1
       }
      },
      {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Railway",
+       "railwayType": 0
+      }
+     },
+     {
+      "construction": {
+       "type": "Crossing",
+       "railways": [
+        {
+         "first": 0,
+         "second": "Horizontal"
+        },
+        {
+         "first": 1,
+         "second": "Vertical"
+        }
+       ],
+       "streets": [
+       ]
+      }
+     },
+     {
+      "construction": {
+       "type": "Railway",
+       "railwayType": 0
+      }
      },
      {
      },
@@ -178,71 +284,10 @@
      },
      {
       "construction": {
-       "type": "Street",
-       "street": 1
+       "type": "Railway",
+       "railwayType": 1,
+       "connection": "Vertical"
       }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-      "construction": {
-       "type": "Street",
-       "street": 1
-      }
-     },
-     {
-      "construction": {
-       "type": "Street",
-       "street": 1
-      }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
      },
      {
      },
