@@ -68,7 +68,7 @@ data class Town(
     fun buildStreet(index: Int, street: StreetId, connection: TileConnection): Town {
         val oldTile = map.getRequiredTile(index)
 
-        require(oldTile.canBuildRailway()) { "Cannot build railway on tile $index!" }
+        require(oldTile.canBuildRailway()) { "Cannot build street on tile $index!" }
 
         val construction = when (oldTile.construction) {
             NoConstruction -> StreetTile(street, connection)

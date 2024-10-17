@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.world.railway.RailwayTypeId
 import at.orchaldir.gm.core.model.world.town.TileConnection
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.visualization.town.TownRendererConfig
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -129,7 +130,7 @@ fun visualizeRailwayEditor(
 ) = visualizeTown(
     town,
     state.getBuildings(town.id),
-    createConfigWithLinks(call, state).copy(
+    TownRendererConfig(state).copy(
         tileLinkLookup = { index, tile ->
             if (tile.canBuildRailway()) {
                 call.application.href(TownRoutes.RailwayRoutes.Add(town.id, index, railway, connection))

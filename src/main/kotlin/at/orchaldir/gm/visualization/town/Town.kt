@@ -117,26 +117,7 @@ data class TownRenderer(
             val tooltip = config.railwayTooltipLookup(index, railwayType)
 
             svgBuilder.optionalLinkAndTooltip(link, tooltip) { renderer ->
-                when (connection) {
-                    TileConnection.Curve -> {
-                        if (town.checkTile(x + 1, y) { it.construction.contains(railwayType) }) {
-                            renderRailwayRight(renderer, aabb, color, RAILWAY_WIDTH)
-                        }
-                        if (town.checkTile(x - 1, y) { it.construction.contains(railwayType) }) {
-                            renderRailwayLeft(renderer, aabb, color, RAILWAY_WIDTH)
-                        }
-                        if (town.checkTile(x, y + 1) { it.construction.contains(railwayType) }) {
-                            renderRailwayDown(renderer, aabb, color, RAILWAY_WIDTH)
-                        }
-                        if (town.checkTile(x, y - 1) { it.construction.contains(railwayType) }) {
-                            renderRailwayUp(renderer, aabb, color, RAILWAY_WIDTH)
-                        }
-                        renderRailwayCenter(renderer, aabb, color, RAILWAY_WIDTH)
-                    }
-
-                    TileConnection.Horizontal -> renderHorizontalRailway(renderer, aabb, color, RAILWAY_WIDTH)
-                    TileConnection.Vertical -> renderVerticalRailway(renderer, aabb, color, RAILWAY_WIDTH)
-                }
+                renderConnection(renderer, railwayType, connection, x, y, aabb, color, RAILWAY_WIDTH)
             }
         }
     }
@@ -162,26 +143,7 @@ data class TownRenderer(
             val tooltip = config.streetTooltipLookup(index, street)
 
             svgBuilder.optionalLinkAndTooltip(link, tooltip) { renderer ->
-                when (connection) {
-                    TileConnection.Curve -> {
-                        if (town.checkTile(x + 1, y) { it.construction.contains(street) }) {
-                            renderRailwayRight(renderer, aabb, color, STREET_WIDTH)
-                        }
-                        if (town.checkTile(x - 1, y) { it.construction.contains(street) }) {
-                            renderRailwayLeft(renderer, aabb, color, STREET_WIDTH)
-                        }
-                        if (town.checkTile(x, y + 1) { it.construction.contains(street) }) {
-                            renderRailwayDown(renderer, aabb, color, STREET_WIDTH)
-                        }
-                        if (town.checkTile(x, y - 1) { it.construction.contains(street) }) {
-                            renderRailwayUp(renderer, aabb, color, STREET_WIDTH)
-                        }
-                        renderRailwayCenter(renderer, aabb, color, STREET_WIDTH)
-                    }
-
-                    TileConnection.Horizontal -> renderHorizontalRailway(renderer, aabb, color, STREET_WIDTH)
-                    TileConnection.Vertical -> renderVerticalRailway(renderer, aabb, color, STREET_WIDTH)
-                }
+                renderConnection(renderer, street, connection, x, y, aabb, color, STREET_WIDTH)
             }
         }
     }
@@ -197,6 +159,38 @@ data class TownRenderer(
                     render(aabb, it.first, it.second, index, x, y)
                 }
             }
+        }
+    }
+
+    private fun <ID : Id<ID>> renderConnection(
+        renderer: LayerRenderer,
+        type: ID,
+        connection: TileConnection,
+        x: Int,
+        y: Int,
+        aabb: AABB,
+        color: Color,
+        width: Factor,
+    ) {
+        when (connection) {
+            TileConnection.Curve -> {
+                if (town.checkTile(x + 1, y) { it.construction.contains(type) }) {
+                    renderRailwayRight(renderer, aabb, color, width)
+                }
+                if (town.checkTile(x - 1, y) { it.construction.contains(type) }) {
+                    renderRailwayLeft(renderer, aabb, color, width)
+                }
+                if (town.checkTile(x, y + 1) { it.construction.contains(type) }) {
+                    renderRailwayDown(renderer, aabb, color, width)
+                }
+                if (town.checkTile(x, y - 1) { it.construction.contains(type) }) {
+                    renderRailwayUp(renderer, aabb, color, width)
+                }
+                renderRailwayCenter(renderer, aabb, color, width)
+            }
+
+            TileConnection.Horizontal -> renderHorizontalRailway(renderer, aabb, color, width)
+            TileConnection.Vertical -> renderVerticalRailway(renderer, aabb, color, width)
         }
     }
 
