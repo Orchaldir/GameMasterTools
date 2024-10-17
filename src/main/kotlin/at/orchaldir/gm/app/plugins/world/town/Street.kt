@@ -131,7 +131,7 @@ fun visualizeStreetEditor(
     town, state.getBuildings(town.id),
     createConfigWithLinks(call, state).copy(
         tileLinkLookup = { index, tile ->
-            if (tile.canBuild()) {
+            if (tile.canBuildStreet()) {
                 call.application.href(TownRoutes.StreetRoutes.Add(town.id, index, street, connection))
             } else {
                 null

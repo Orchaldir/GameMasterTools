@@ -88,9 +88,19 @@
      },
      {
       "construction": {
-       "type": "Street",
-       "street": 1,
-       "connection": "Vertical"
+       "type": "Crossing",
+       "railways": [
+       ],
+       "streets": [
+        {
+         "first": 1,
+         "second": "Vertical"
+        },
+        {
+         "first": 0,
+         "second": "Horizontal"
+        }
+       ]
       }
      },
      {
