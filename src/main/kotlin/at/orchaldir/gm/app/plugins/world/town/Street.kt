@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.TileConnection
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.visualization.town.TownRendererConfig
 import at.orchaldir.gm.visualization.town.showSelectedElement
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
@@ -129,7 +130,7 @@ fun visualizeStreetEditor(
     connection: TileConnection,
 ) = visualizeTown(
     town, state.getBuildings(town.id),
-    createConfigWithLinks(call, state).copy(
+    TownRendererConfig(state).copy(
         tileLinkLookup = { index, tile ->
             if (tile.canBuildStreet()) {
                 call.application.href(TownRoutes.StreetRoutes.Add(town.id, index, street, connection))
