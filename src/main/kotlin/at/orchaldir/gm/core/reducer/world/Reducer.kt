@@ -6,6 +6,10 @@ import at.orchaldir.gm.utils.redux.Reducer
 
 val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
     when (action) {
+        // architectural style
+        is CreateArchitecturalStyle -> CREATE_ARCHITECTURAL_STYLE(state, action)
+        is DeleteArchitecturalStyle -> DELETE_ARCHITECTURAL_STYLE(state, action)
+        is UpdateArchitecturalStyle -> UPDATE_ARCHITECTURAL_STYLE(state, action)
         // moon
         is CreateMoon -> CREATE_MOON(state, action)
         is DeleteMoon -> DELETE_MOON(state, action)

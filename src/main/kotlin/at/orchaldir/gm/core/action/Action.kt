@@ -25,10 +25,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Time
-import at.orchaldir.gm.core.model.world.building.Address
-import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.model.world.building.Ownership
+import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.street.Street
@@ -136,6 +133,11 @@ data class UpdateTime(val time: Time) : Action()
 //-- world --
 
 sealed class WorldAction : Action()
+
+// architectural style
+data object CreateArchitecturalStyle : WorldAction()
+data class DeleteArchitecturalStyle(val id: ArchitecturalStyleId) : WorldAction()
+data class UpdateArchitecturalStyle(val style: ArchitecturalStyle) : WorldAction()
 
 // moon
 data object CreateMoon : WorldAction()
