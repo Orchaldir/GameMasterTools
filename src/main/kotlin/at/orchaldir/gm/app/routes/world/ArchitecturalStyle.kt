@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.routes.world
 
+import at.orchaldir.gm.app.END
 import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.REVIVAL
 import at.orchaldir.gm.app.STORE
@@ -21,8 +22,10 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.html.FormMethod
 import kotlinx.html.HTML
 import kotlinx.html.form
+import kotlinx.html.id
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -40,6 +43,9 @@ class ArchitecturalStyleRoutes {
 
     @Resource("edit")
     class Edit(val id: ArchitecturalStyleId, val parent: ArchitecturalStyleRoutes = ArchitecturalStyleRoutes())
+
+    @Resource("preview")
+    class Preview(val id: ArchitecturalStyleId, val parent: ArchitecturalStyleRoutes = ArchitecturalStyleRoutes())
 
     @Resource("update")
     class Update(val id: ArchitecturalStyleId, val parent: ArchitecturalStyleRoutes = ArchitecturalStyleRoutes())
@@ -98,6 +104,16 @@ fun Application.configureArchitecturalStyleRouting() {
                 showArchitecturalStyleEditor(call, state, style)
             }
         }
+        post<ArchitecturalStyleRoutes.Preview> { preview ->
+            logger.info { "Get preview for architectural style ${preview.id.value}" }
+
+            val state = STORE.getState()
+            val style = parseArchitecturalStyle(call.receiveParameters(), state, preview.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showArchitecturalStyleEditor(call, state, style)
+            }
+        }
         post<ArchitecturalStyleRoutes.Update> { update ->
             logger.info { "Update architectural style ${update.id.value}" }
 
@@ -141,6 +157,7 @@ private fun HTML.showArchitecturalStyleDetails(
         field("Id", style.id.value.toString())
         field("Name", style.name)
         field(call, state, "Start", style.startDate)
+        optionalField(call, state, "End", style.endDate)
         if (style.revival != null) {
             field("Revival of") {
                 link(call, state, style.revival)
@@ -162,13 +179,18 @@ private fun HTML.showArchitecturalStyleEditor(
 ) {
     val storage = state.getArchitecturalStyleStorage()
     val backLink = href(call, style.id)
+    val previewLink = call.application.href(ArchitecturalStyleRoutes.Preview(style.id))
     val updateLink = call.application.href(ArchitecturalStyleRoutes.Update(style.id))
 
     simpleHtml("Edit Architectural Style: ${style.name}") {
         field("Id", style.id.value.toString())
         form {
+            id = "editor"
+            action = previewLink
+            method = FormMethod.post
             selectName(style.name)
             selectDate(state, "Start", style.startDate, START)
+            selectOptionalDate(state, "End", style.endDate, END)
             selectOptionalValue(
                 "Revival Of",
                 REVIVAL,

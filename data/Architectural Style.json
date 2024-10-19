@@ -7,6 +7,10 @@
    "startDate": {
     "type": "Year",
     "year": 1713
+   },
+   "endDate": {
+    "type": "Year",
+    "year": 1829
    }
   },
   "1": {
@@ -15,6 +19,10 @@
    "startDate": {
     "type": "Year",
     "year": 1779
+   },
+   "endDate": {
+    "type": "Year",
+    "year": 1829
    }
   },
   "2": {
@@ -23,6 +31,10 @@
    "startDate": {
     "type": "Year",
     "year": -900
+   },
+   "endDate": {
+    "type": "Year",
+    "year": -1
    }
   },
   "3": {
@@ -32,6 +44,10 @@
     "type": "Year",
     "year": 1824
    },
+   "endDate": {
+    "type": "Year",
+    "year": 1859
+   },
    "revival": 2
   },
   "4": {
@@ -40,6 +56,10 @@
    "startDate": {
     "type": "Year",
     "year": 1599
+   },
+   "endDate": {
+    "type": "Year",
+    "year": 1724
    }
   },
   "5": {
@@ -48,6 +68,10 @@
    "startDate": {
     "type": "Year",
     "year": 1864
+   },
+   "endDate": {
+    "type": "Year",
+    "year": 1879
    }
   },
   "6": {
@@ -55,7 +79,11 @@
    "name": "Queen Anne",
    "startDate": {
     "type": "Year",
-    "year": 1879
+    "year": 1869
+   },
+   "endDate": {
+    "type": "Year",
+    "year": 1909
    }
   },
   "7": {
@@ -64,6 +92,10 @@
    "startDate": {
     "type": "Year",
     "year": 1599
+   },
+   "endDate": {
+    "type": "Year",
+    "year": 1699
    }
   }
  }

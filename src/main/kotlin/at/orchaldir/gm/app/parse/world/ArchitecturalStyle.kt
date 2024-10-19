@@ -1,10 +1,12 @@
 package at.orchaldir.gm.app.parse.world
 
+import at.orchaldir.gm.app.END
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.REVIVAL
 import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.parse.parseDate
 import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.parseOptionalDate
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
@@ -20,5 +22,6 @@ fun parseArchitecturalStyle(parameters: Parameters, state: State, id: Architectu
     id,
     parameters.getOrFail(NAME),
     parseDate(parameters, state, START),
+    parseOptionalDate(parameters, state, END),
     parseOptionalArchitecturalStyleId(parameters, REVIVAL),
 )

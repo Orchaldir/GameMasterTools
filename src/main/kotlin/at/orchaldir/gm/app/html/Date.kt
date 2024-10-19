@@ -36,6 +36,31 @@ fun HtmlBlockTag.showDate(call: ApplicationCall, state: State, date: Date) {
     link(call, state.getDefaultCalendar(), date)
 }
 
+fun HtmlBlockTag.selectOptionalDate(
+    state: State,
+    fieldLabel: String,
+    date: Date?,
+    param: String,
+    minDate: Date? = null,
+) {
+    selectOptionalDate(state.getDefaultCalendar(), fieldLabel, date, param, minDate)
+}
+
+private fun HtmlBlockTag.selectOptionalDate(
+    calendar: Calendar,
+    fieldLabel: String,
+    date: Date?,
+    param: String,
+    minDate: Date? = null,
+) {
+    field(fieldLabel) {
+        selectBool(date != null, combine(param, AVAILABLE), isDisabled = false, update = true)
+        if (date != null) {
+            selectDate(calendar, date, param, minDate)
+        }
+    }
+}
+
 fun HtmlBlockTag.selectDate(
     state: State,
     fieldLabel: String,
@@ -53,37 +78,46 @@ private fun HtmlBlockTag.selectDate(
     param: String,
     minDate: Date? = null,
 ) {
+    field(fieldLabel) {
+        selectDate(calendar, date, param, minDate)
+    }
+}
+
+private fun HtmlBlockTag.selectDate(
+    calendar: Calendar,
+    date: Date,
+    param: String,
+    minDate: Date? = null,
+) {
     val displayDate = calendar.resolve(date)
     val dateTypeParam = combine(param, DATE)
 
-    field(fieldLabel) {
-        select {
-            id = dateTypeParam
-            name = dateTypeParam
-            onChange = ON_CHANGE_SCRIPT
-            DateType.entries.forEach {
-                option {
-                    label = it.name
-                    value = it.name
-                    selected = it == date.getType()
-                }
+    select {
+        id = dateTypeParam
+        name = dateTypeParam
+        onChange = ON_CHANGE_SCRIPT
+        DateType.entries.forEach {
+            option {
+                label = it.name
+                value = it.name
+                selected = it == date.getType()
             }
         }
-        when (displayDate) {
-            is DisplayDay -> {
-                selectDay(param, calendar, displayDate, minDate)
-            }
+    }
+    when (displayDate) {
+        is DisplayDay -> {
+            selectDay(param, calendar, displayDate, minDate)
+        }
 
-            is DisplayYear -> {
-                val displayMinYear = minDate?.let {
-                    when (it) {
-                        is Day -> calendar.resolve(it).year
-                        is Year -> calendar.resolve(it)
-                    }
+        is DisplayYear -> {
+            val displayMinYear = minDate?.let {
+                when (it) {
+                    is Day -> calendar.resolve(it).year
+                    is Year -> calendar.resolve(it)
                 }
-                selectEraIndex(param, calendar, displayDate, displayMinYear)
-                selectYearIndex(param, displayDate, displayMinYear)
             }
+            selectEraIndex(param, calendar, displayDate, displayMinYear)
+            selectYearIndex(param, displayDate, displayMinYear)
         }
     }
 }
@@ -110,7 +144,7 @@ fun FORM.selectDay(
     }
 }
 
-private fun P.selectDay(
+private fun HtmlBlockTag.selectDay(
     param: String,
     calendar: Calendar,
     displayDate: DisplayDay,
@@ -129,7 +163,7 @@ private fun P.selectDay(
     selectDayIndex(param, calendar, displayDate, displayMinDay)
 }
 
-private fun P.selectEraIndex(
+private fun HtmlBlockTag.selectEraIndex(
     param: String,
     calendar: Calendar,
     year: DisplayYear,
@@ -153,7 +187,7 @@ private fun P.selectEraIndex(
     }
 }
 
-private fun P.selectYearIndex(
+private fun HtmlBlockTag.selectYearIndex(
     param: String,
     year: DisplayYear,
     minYear: DisplayYear? = null,
@@ -183,7 +217,7 @@ fun HtmlBlockTag.selectMonthIndex(
     }
 }
 
-private fun P.selectMonthIndex(
+private fun HtmlBlockTag.selectMonthIndex(
     param: String,
     calendar: Calendar,
     day: DisplayDay,
@@ -198,7 +232,7 @@ private fun P.selectMonthIndex(
     selectMonthIndex(param, calendar, day.monthIndex, minIndex)
 }
 
-private fun P.selectMonthIndex(
+private fun HtmlBlockTag.selectMonthIndex(
     param: String,
     calendar: Calendar,
     monthIndex: Int,
@@ -224,7 +258,7 @@ fun HtmlBlockTag.selectDayIndex(
     }
 }
 
-private fun P.selectDayIndex(
+private fun HtmlBlockTag.selectDayIndex(
     param: String,
     calendar: Calendar,
     day: DisplayDay,
@@ -239,7 +273,7 @@ private fun P.selectDayIndex(
     selectDayIndex(param, calendar, day.monthIndex, day.dayIndex, minIndex)
 }
 
-private fun P.selectDayIndex(
+private fun HtmlBlockTag.selectDayIndex(
     param: String,
     calendar: Calendar,
     monthIndex: Int,

@@ -34,6 +34,27 @@ inline fun <reified T : Enum<T>> parseSet(parameters: Parameters, param: String)
 
 // date
 
+fun parseOptionalDate(
+    parameters: Parameters,
+    state: State,
+    param: String,
+): Date? = parseOptionalDate(parameters, state.getDefaultCalendar(), param)
+
+fun parseOptionalDate(
+    parameters: Parameters,
+    calendar: Calendar,
+    param: String,
+): Date? {
+    if (!parseBool(parameters, combine(param, AVAILABLE))) {
+        return null
+    }
+
+    return when (parse(parameters, combine(param, DATE), DateType.Year)) {
+        DateType.Day -> parseDay(parameters, calendar, param)
+        DateType.Year -> parseYear(parameters, calendar, param)
+    }
+}
+
 fun parseDate(
     parameters: Parameters,
     state: State,

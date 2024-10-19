@@ -100,7 +100,7 @@ fun Application.configureCultureRouting() {
             }
         }
         post<CultureRoutes.Preview> { preview ->
-            logger.info { "Get preview for race ${preview.id.value}" }
+            logger.info { "Get preview for culture ${preview.id.value}" }
 
             val formParameters = call.receiveParameters()
             val culture = parseCulture(formParameters, preview.id)
