@@ -315,6 +315,11 @@ private fun HtmlBlockTag.showEvents(
                 +" style started."
             }
 
+            is ArchitecturalStyleEndEvent -> {
+                link(call, state, event.style)
+                +" style ended."
+            }
+
             is BuildingConstructedEvent -> {
                 link(call, state, event.buildingId)
                 +" was constructed."

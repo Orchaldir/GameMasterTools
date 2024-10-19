@@ -16,6 +16,10 @@ fun State.getEvents(): List<Event> {
 
     getArchitecturalStyleStorage().getAll().forEach { style ->
         events.add(ArchitecturalStyleStartEvent(style.startDate, style.id))
+
+        if (style.endDate != null) {
+            events.add(ArchitecturalStyleEndEvent(style.endDate, style.id))
+        }
     }
 
     getBuildingStorage().getAll().forEach { building ->

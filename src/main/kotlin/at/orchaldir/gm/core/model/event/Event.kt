@@ -27,6 +27,15 @@ data class ArchitecturalStyleStartEvent(
 
 }
 
+data class ArchitecturalStyleEndEvent(
+    val endDate: Date,
+    val style: ArchitecturalStyleId,
+) : Event() {
+
+    override fun getDate() = endDate
+
+}
+
 // building
 
 data class BuildingConstructedEvent(
