@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
+import at.orchaldir.gm.core.selector.world.getRevivedBy
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -131,6 +132,7 @@ private fun HTML.showArchitecturalStyleDetails(
     state: State,
     style: ArchitecturalStyle,
 ) {
+    val revivedBy = state.getRevivedBy(style.id)
     val backLink = call.application.href(ArchitecturalStyleRoutes())
     val deleteLink = call.application.href(ArchitecturalStyleRoutes.Delete(style.id))
     val editLink = call.application.href(ArchitecturalStyleRoutes.Edit(style.id))
@@ -140,11 +142,13 @@ private fun HTML.showArchitecturalStyleDetails(
         field("Name", style.name)
         field(call, state, "Start", style.startDate)
         if (style.revival != null) {
-            field("Revival od") {
+            field("Revival of") {
                 link(call, state, style.revival)
             }
         }
-
+        showList("Revived by", revivedBy) { s ->
+            link(call, s)
+        }
         action(editLink, "Edit")
         action(deleteLink, "Delete")
         back(backLink)
@@ -160,7 +164,7 @@ private fun HTML.showArchitecturalStyleEditor(
     val backLink = href(call, style.id)
     val updateLink = call.application.href(ArchitecturalStyleRoutes.Update(style.id))
 
-    simpleHtml("Edit ArchitecturalStyle: ${style.name}") {
+    simpleHtml("Edit Architectural Style: ${style.name}") {
         field("Id", style.id.value.toString())
         form {
             selectName(style.name)
