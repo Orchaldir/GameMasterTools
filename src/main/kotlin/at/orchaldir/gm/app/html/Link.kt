@@ -1,10 +1,10 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.plugins.*
-import at.orchaldir.gm.app.plugins.character.CharacterRoutes
-import at.orchaldir.gm.app.plugins.race.RaceRoutes
-import at.orchaldir.gm.app.plugins.world.*
-import at.orchaldir.gm.app.plugins.world.town.TownRoutes
+import at.orchaldir.gm.app.routes.*
+import at.orchaldir.gm.app.routes.character.CharacterRoutes
+import at.orchaldir.gm.app.routes.race.RaceRoutes
+import at.orchaldir.gm.app.routes.world.*
+import at.orchaldir.gm.app.routes.world.town.TownRoutes
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
