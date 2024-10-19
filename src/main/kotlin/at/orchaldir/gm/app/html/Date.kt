@@ -61,6 +61,32 @@ private fun HtmlBlockTag.selectOptionalDate(
     }
 }
 
+fun HtmlBlockTag.selectOptionalYear(
+    state: State,
+    fieldLabel: String,
+    year: Year?,
+    param: String,
+    minDate: Date? = null,
+) {
+    selectOptionalYear(state.getDefaultCalendar(), fieldLabel, year, param, minDate)
+}
+
+fun HtmlBlockTag.selectOptionalYear(
+    calendar: Calendar,
+    fieldLabel: String,
+    year: Year?,
+    param: String,
+    minDate: Date? = null,
+) {
+    field(fieldLabel) {
+        selectBool(year != null, combine(param, AVAILABLE), isDisabled = false, update = true)
+        if (year != null) {
+            val displayYear = calendar.resolve(year)
+            selectYear(param, calendar, displayYear, minDate)
+        }
+    }
+}
+
 fun HtmlBlockTag.selectDate(
     state: State,
     fieldLabel: String,
@@ -110,16 +136,47 @@ private fun HtmlBlockTag.selectDate(
         }
 
         is DisplayYear -> {
-            val displayMinYear = minDate?.let {
-                when (it) {
-                    is Day -> calendar.resolve(it).year
-                    is Year -> calendar.resolve(it)
-                }
-            }
-            selectEraIndex(param, calendar, displayDate, displayMinYear)
-            selectYearIndex(param, displayDate, displayMinYear)
+            selectYear(param, calendar, displayDate, minDate)
         }
     }
+}
+
+fun FORM.selectYear(
+    state: State,
+    fieldLabel: String,
+    year: Year,
+    param: String,
+) {
+    selectYear(fieldLabel, state.getDefaultCalendar(), year, param)
+}
+
+fun FORM.selectYear(
+    fieldLabel: String,
+    calendar: Calendar,
+    year: Year,
+    param: String,
+) {
+    val displayDate = calendar.resolve(year)
+
+    field(fieldLabel) {
+        selectYear(param, calendar, displayDate, null)
+    }
+}
+
+private fun HtmlBlockTag.selectYear(
+    param: String,
+    calendar: Calendar,
+    year: DisplayYear,
+    minDate: Date?,
+) {
+    val displayMinYear = minDate?.let {
+        when (it) {
+            is Day -> calendar.resolve(it).year
+            is Year -> calendar.resolve(it)
+        }
+    }
+    selectEraIndex(param, calendar, year, displayMinYear)
+    selectYearIndex(param, year, displayMinYear)
 }
 
 fun FORM.selectDay(

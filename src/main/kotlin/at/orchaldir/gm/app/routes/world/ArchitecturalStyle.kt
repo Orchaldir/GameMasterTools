@@ -156,8 +156,8 @@ private fun HTML.showArchitecturalStyleDetails(
     simpleHtml("Architectural Style: ${style.name}") {
         field("Id", style.id.value.toString())
         field("Name", style.name)
-        field(call, state, "Start", style.startDate)
-        optionalField(call, state, "End", style.endDate)
+        field(call, state, "Start", style.start)
+        optionalField(call, state, "End", style.end)
         if (style.revival != null) {
             field("Revival of") {
                 link(call, state, style.revival)
@@ -189,13 +189,13 @@ private fun HTML.showArchitecturalStyleEditor(
             action = previewLink
             method = FormMethod.post
             selectName(style.name)
-            selectDate(state, "Start", style.startDate, START)
-            selectOptionalDate(state, "End", style.endDate, END, style.startDate)
+            selectYear(state, "Start", style.start, START)
+            selectOptionalYear(state, "End", style.end, END, style.start)
             selectOptionalValue(
                 "Revival Of",
                 REVIVAL,
                 storage.getOptional(style.revival),
-                storage.getAll().filter { it.id != style.id },
+                storage.getAll().filter { it.id != style.id && it.start < style.start },
                 false,
             ) { s ->
                 label = s.name()

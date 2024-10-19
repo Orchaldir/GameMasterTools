@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.world.building
 
-import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -22,8 +21,8 @@ value class ArchitecturalStyleId(val value: Int) : Id<ArchitecturalStyleId> {
 data class ArchitecturalStyle(
     val id: ArchitecturalStyleId,
     val name: String = "Architectural Style ${id.value}",
-    val startDate: Date = Year(0),
-    val endDate: Date? = null,
+    val start: Year = Year(0),
+    val end: Year? = null,
     val revival: ArchitecturalStyleId? = null,
 ) : Element<ArchitecturalStyleId> {
 

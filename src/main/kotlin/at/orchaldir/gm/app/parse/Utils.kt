@@ -55,6 +55,24 @@ fun parseOptionalDate(
     }
 }
 
+fun parseOptionalYear(
+    parameters: Parameters,
+    state: State,
+    param: String,
+): Year? = parseOptionalYear(parameters, state.getDefaultCalendar(), param)
+
+fun parseOptionalYear(
+    parameters: Parameters,
+    calendar: Calendar,
+    param: String,
+): Year? {
+    if (!parseBool(parameters, combine(param, AVAILABLE))) {
+        return null
+    }
+
+    return parseYear(parameters, calendar, param)
+}
+
 fun parseDate(
     parameters: Parameters,
     state: State,
@@ -101,6 +119,12 @@ fun parseDay(
 
 fun parseDayIndex(parameters: Parameters, param: String) =
     parseInt(parameters, combine(param, DAY), 1) - 1
+
+fun parseYear(
+    parameters: Parameters,
+    state: State,
+    param: String,
+): Year = parseYear(parameters, state.getDefaultCalendar(), param)
 
 fun parseYear(
     parameters: Parameters,
