@@ -5,15 +5,12 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.WIDTH
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.plugins.world.BuildingRoutes
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
-import at.orchaldir.gm.visualization.town.SHOW_BUILDING_NAME
-import at.orchaldir.gm.visualization.town.TownRendererConfig
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -106,7 +103,7 @@ fun visualizeBuildingEditor(
         state.getBuildings(town.id),
         createConfigWithLinks(call, state).copy(
             tileLinkLookup = { index, _ ->
-                if (town.canBuild(index, size)) {
+                if (town.canBuildBuilding(index, size)) {
                     call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
                 } else {
                     null

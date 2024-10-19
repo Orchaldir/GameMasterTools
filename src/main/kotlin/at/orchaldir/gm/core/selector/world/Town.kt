@@ -50,7 +50,7 @@ fun getMinHeightEnd(town: Town) = mapIndexOfConstructions(town, town.map.size.he
 private fun mapIndexOfConstructions(town: Town, default: Int, indexLookup: (Int) -> Int) = town.map.tiles
     .withIndex()
     .mapNotNull { (index, tile) ->
-        if (!tile.canBuild()) {
+        if (!tile.canBuildBuilding()) {
             indexLookup(index)
         } else {
             null

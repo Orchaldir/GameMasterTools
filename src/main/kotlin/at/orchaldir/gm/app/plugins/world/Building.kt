@@ -14,8 +14,6 @@ import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
-import at.orchaldir.gm.visualization.town.SHOW_BUILDING_NAME
-import at.orchaldir.gm.visualization.town.TownRendererConfig
 import at.orchaldir.gm.visualization.town.showSelectedBuilding
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
@@ -365,7 +363,7 @@ private fun visualizeBuildingLot(
     val town = state.getTownStorage().getOrThrow(building.lot.town)
     val config = createConfigWithLinks(call, state).copy(
         tileLinkLookup = { index, _ ->
-            if (town.canResize(index, size, building.id)) {
+            if (town.canResizeBuilding(index, size, building.id)) {
                 call.application.href(BuildingRoutes.Lot.Update(building.id, index, size))
             } else {
                 null

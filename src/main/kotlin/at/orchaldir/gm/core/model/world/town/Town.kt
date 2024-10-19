@@ -37,9 +37,9 @@ data class Town(
     override fun id() = id
     override fun name() = name
 
-    fun canBuild(index: Int, size: MapSize2d) = checkTiles(index, size) { it.canBuild() }
-    fun canResize(index: Int, size: MapSize2d, building: BuildingId) =
-        checkTiles(index, size) { it.canResize(building) }
+    fun canBuildBuilding(index: Int, size: MapSize2d) = checkTiles(index, size) { it.canBuildBuilding() }
+    fun canResizeBuilding(index: Int, size: MapSize2d, building: BuildingId) =
+        checkTiles(index, size) { it.canResizeBuilding(building) }
 
     fun checkTile(x: Int, y: Int, check: (TownTile) -> Boolean) = map
         .getTile(x, y)
@@ -57,7 +57,7 @@ data class Town(
         map.size.toIndices(index, size)?.forEach { tileIndex ->
             val oldTile = map.getRequiredTile(tileIndex)
 
-            require(oldTile.canBuild()) { "Tile $tileIndex is not empty!" }
+            require(oldTile.canBuildBuilding()) { "Tile $tileIndex is not empty!" }
 
             tiles[tileIndex] = oldTile.copy(construction = construction)
         } ?: error("Lot with index $index & size ${size.format()} is outside the map!")
