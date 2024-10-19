@@ -15,6 +15,6 @@ fun parseStreetTypeId(parameters: Parameters, param: String) = StreetTypeId(pars
 fun parseStreetType(id: StreetTypeId, parameters: Parameters) = StreetType(
     id,
     parameters.getOrFail(NAME),
-    parse(parameters, COLOR, Color.SkyBlue),
+    parse(parameters, COLOR, Color.Gray),
 )
 

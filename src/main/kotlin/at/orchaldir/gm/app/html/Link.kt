@@ -25,6 +25,7 @@ import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.railway.RailwayTypeId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTypeId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
@@ -33,6 +34,7 @@ import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.visualization.town.TownRendererConfig
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import kotlinx.html.A
@@ -142,6 +144,7 @@ fun <ID : Id<ID>> href(
     is PersonalityTraitId -> call.application.href(PersonalityTraitRoutes.Details(id))
     is RaceId -> call.application.href(RaceRoutes.Details(id))
     is RaceAppearanceId -> call.application.href(RaceRoutes.AppearanceRoutes.Details(id))
+    is RailwayTypeId -> call.application.href(RailwayTypeRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))
     is StreetId -> call.application.href(StreetRoutes.Details(id))
     is StreetTypeId -> call.application.href(StreetTypeRoutes.Details(id))
@@ -166,3 +169,17 @@ fun HtmlBlockTag.link(
 ) {
     link(call, character.id, state.getName(character))
 }
+
+// visualize links
+
+fun createConfigWithLinks(call: ApplicationCall, state: State) = TownRendererConfig(state).copy(
+    buildingLinkLookup = { building ->
+        call.application.href(BuildingRoutes.Details(building.id))
+    },
+    railwayLinkLookup = { _, railwayType ->
+        call.application.href(RailwayTypeRoutes.Details(railwayType))
+    },
+    streetLinkLookup = { _, street ->
+        call.application.href(StreetRoutes.Details(street))
+    },
+)

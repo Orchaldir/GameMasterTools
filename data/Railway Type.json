@@ -1,0 +1,14 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Train"
+  },
+  "1": {
+   "id": 1,
+   "name": "Trolley",
+   "color": "Orange"
+  }
+ }
+}

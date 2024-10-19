@@ -11,9 +11,14 @@ data class TownTile(
     val construction: Construction = NoConstruction,
 ) {
 
-    fun canBuild() = construction is NoConstruction
+    fun canBuildBuilding() = construction is NoConstruction
 
-    fun canResize(building: BuildingId) = construction is NoConstruction ||
+    fun canBuildRailway() = construction !is BuildingTile
+
+    fun canBuildStreet() = canBuildRailway()
+
+    fun canResizeBuilding(building: BuildingId) = construction is NoConstruction ||
             (construction is BuildingTile && construction.building == building)
 
+    fun getStreet() = construction.getStreet()
 }

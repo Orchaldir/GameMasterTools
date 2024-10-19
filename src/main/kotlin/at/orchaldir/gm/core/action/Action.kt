@@ -31,11 +31,14 @@ import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.building.Ownership
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.railway.RailwayType
+import at.orchaldir.gm.core.model.world.railway.RailwayTypeId
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetType
 import at.orchaldir.gm.core.model.world.street.StreetTypeId
 import at.orchaldir.gm.core.model.world.terrain.*
+import at.orchaldir.gm.core.model.world.town.TileConnection
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -147,6 +150,11 @@ data object CreateMountain : WorldAction()
 data class DeleteMountain(val id: MountainId) : WorldAction()
 data class UpdateMountain(val mountain: Mountain) : WorldAction()
 
+// street type
+data object CreateRailwayType : WorldAction()
+data class DeleteRailwayType(val id: RailwayTypeId) : WorldAction()
+data class UpdateRailwayType(val type: RailwayType) : WorldAction()
+
 // river
 data object CreateRiver : WorldAction()
 data class DeleteRiver(val id: RiverId) : WorldAction()
@@ -204,17 +212,34 @@ data class UpdateBuildingLot(
     )
 }
 
+// town's railway
+
+data class AddRailwayTile(
+    val town: TownId,
+    val tileIndex: Int,
+    val type: RailwayTypeId,
+    val connection: TileConnection,
+) : WorldAction()
+
+data class RemoveRailwayTile(
+    val town: TownId,
+    val tileIndex: Int,
+    val type: RailwayTypeId,
+) : WorldAction()
+
 // town's streets
 
 data class AddStreetTile(
     val town: TownId,
     val tileIndex: Int,
     val street: StreetId,
+    val connection: TileConnection,
 ) : WorldAction()
 
 data class RemoveStreetTile(
     val town: TownId,
     val tileIndex: Int,
+    val street: StreetId,
 ) : WorldAction()
 
 // town's terrain

@@ -60,14 +60,14 @@ data class TileMap2dRenderer(
     fun <TILE> renderWithLinksAndTooltips(
         renderer: AdvancedRenderer,
         map: TileMap2d<TILE>,
-        colorLookup: (TILE) -> Color,
+        colorLookup: (Int, TILE) -> Color,
         linkLookup: (Int, TILE) -> String? = { _, _ -> null },
         tooltipLookup: (Int, TILE) -> String? = { _, _ -> null },
     ) {
         val lineStyle = LineOptions(Black.toRender(), borderSize)
 
         render(map) { index, _, _, aabb, tile ->
-            val color = colorLookup(tile)
+            val color = colorLookup(index, tile)
             val style = FillAndBorder(color.toRender(), lineStyle)
 
             renderer.optionalLinkAndTooltip(linkLookup(index, tile), tooltipLookup(index, tile)) {

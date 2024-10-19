@@ -17,6 +17,7 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.Resize
+import at.orchaldir.gm.visualization.town.TownRendererConfig
 import at.orchaldir.gm.visualization.town.showTerrainName
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
@@ -151,10 +152,18 @@ private fun HTML.showTerrainEditor(
             svg(
                 visualizeTown(
                     town, state.getBuildings(town.id),
-                    tileLinkLookup = { index, _ ->
-                        call.application.href(TownRoutes.TerrainRoutes.Update(town.id, terrainType, terrainId, index))
-                    },
-                    tileTooltipLookup = showTerrainName(state),
+                    createConfigWithLinks(call, state).copy(
+                        tileLinkLookup = { index, _ ->
+                            call.application.href(
+                                TownRoutes.TerrainRoutes.Update(
+                                    town.id,
+                                    terrainType,
+                                    terrainId,
+                                    index
+                                )
+                            )
+                        },
+                    )
                 ), 90
             )
         })

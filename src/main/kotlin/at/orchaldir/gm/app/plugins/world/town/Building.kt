@@ -5,7 +5,6 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.WIDTH
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.plugins.world.BuildingRoutes
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
@@ -100,20 +99,17 @@ fun visualizeBuildingEditor(
     size: MapSize2d,
 ): Svg {
     return visualizeTown(
-        town, state.getBuildings(town.id),
-        tileLinkLookup = { index, _ ->
-            if (town.canBuild(index, size)) {
-                call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
-            } else {
-                null
-            }
-        },
-        buildingLinkLookup = { building ->
-            call.application.href(BuildingRoutes.Details(building.id))
-        },
-        buildingTooltipLookup = { building ->
-            building.name
-        },
+        town,
+        state.getBuildings(town.id),
+        createConfigWithLinks(call, state).copy(
+            tileLinkLookup = { index, _ ->
+                if (town.canBuildBuilding(index, size)) {
+                    call.application.href(TownRoutes.BuildingRoutes.Add(town.id, index, size))
+                } else {
+                    null
+                }
+            },
+        )
     )
 }
 

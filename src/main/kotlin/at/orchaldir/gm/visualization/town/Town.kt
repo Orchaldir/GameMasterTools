@@ -3,18 +3,15 @@ package at.orchaldir.gm.visualization.town
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.railway.RailwayTypeId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.HillTerrain
 import at.orchaldir.gm.core.model.world.terrain.MountainTerrain
 import at.orchaldir.gm.core.model.world.terrain.PlainTerrain
 import at.orchaldir.gm.core.model.world.terrain.RiverTerrain
-import at.orchaldir.gm.core.model.world.town.StreetTile
-import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownTile
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.core.model.world.town.*
+import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.model.NoBorder
@@ -22,86 +19,178 @@ import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 
 const val TILE_SIZE = 20.0f
+val RAILWAY_WIDTH = Factor(0.2f)
+val STREET_WIDTH = Factor(0.5f)
+
+val SHOW_BUILDING_NAME: (Building) -> String? = { b -> b.name }
 
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
-private val DEFAULT_STREET_COLOR: (StreetId, Int) -> Color = { _, _ -> Color.Gray }
-private val DEFAULT_STREET_TEXT: (StreetId, Int) -> String? = { _, _ -> null }
+private val DEFAULT_RAILWAY_COLOR: (Int, RailwayTypeId) -> Color = { _, _ -> Color.Black }
+private val DEFAULT_RAILWAY_TEXT: (Int, RailwayTypeId) -> String? = { _, _ -> null }
+private val DEFAULT_STREET_COLOR: (Int, StreetId) -> Color = { _, _ -> Color.Gray }
+private val DEFAULT_STREET_TEXT: (Int, StreetId) -> String? = { _, _ -> null }
+private val DEFAULT_TILE_COLOR: (Int, TownTile) -> Color = { _, tile ->
+    when (tile.terrain) {
+        is HillTerrain -> Color.SaddleBrown
+        is MountainTerrain -> Color.Gray
+        PlainTerrain -> Color.Green
+        is RiverTerrain -> Color.Blue
+    }
+}
 private val DEFAULT_TILE_TEXT: (Int, TownTile) -> String? = { _, _ -> null }
 
+data class TownRendererConfig(
+    val tileColorLookup: (Int, TownTile) -> Color = DEFAULT_TILE_COLOR,
+    val tileLinkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
+    val tileTooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
+    val buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
+    val buildingLinkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
+    val buildingTooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
+    val railwayColorLookup: (Int, RailwayTypeId) -> Color = DEFAULT_RAILWAY_COLOR,
+    val railwayLinkLookup: (Int, RailwayTypeId) -> String? = DEFAULT_RAILWAY_TEXT,
+    val railwayTooltipLookup: (Int, RailwayTypeId) -> String? = DEFAULT_RAILWAY_TEXT,
+    val streetColorLookup: (Int, StreetId) -> Color = DEFAULT_STREET_COLOR,
+    val streetLinkLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
+    val streetTooltipLookup: (Int, StreetId) -> String? = DEFAULT_STREET_TEXT,
+) {
+
+    constructor(state: State) : this(
+        buildingTooltipLookup = SHOW_BUILDING_NAME,
+        railwayColorLookup = getRailwayTypeColor(state),
+        railwayTooltipLookup = showRailwayName(state),
+        streetColorLookup = getStreetTypeColor(state),
+        streetTooltipLookup = showStreetName(state),
+        tileTooltipLookup = showTerrainName(state),
+    )
+}
+
 data class TownRenderer(
+    private val config: TownRendererConfig,
     private val tileRenderer: TileMap2dRenderer,
     private val svgBuilder: SvgBuilder,
     private val town: Town,
 ) {
-    constructor(tileMapRenderer: TileMap2dRenderer, town: Town) : this(
+    constructor(
+        tileMapRenderer: TileMap2dRenderer,
+        town: Town,
+        config: TownRendererConfig = TownRendererConfig(),
+    ) : this(
+        config,
         tileMapRenderer,
         SvgBuilder(tileMapRenderer.calculateMapSize(town.map)),
         town,
     )
 
-    constructor(town: Town) : this(
+    constructor(town: Town, config: TownRendererConfig = TownRendererConfig()) : this(
         TileMap2dRenderer(Distance(TILE_SIZE), Distance(1.0f)),
         town,
+        config,
     )
 
-    fun renderTiles(
-        colorLookup: (TownTile) -> Color = TownTile::getColor,
-        linkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
-        tooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
-    ) {
-        tileRenderer.renderWithLinksAndTooltips(svgBuilder, town.map, colorLookup, linkLookup, tooltipLookup)
+    fun renderTiles() {
+        tileRenderer.renderWithLinksAndTooltips(
+            svgBuilder,
+            town.map,
+            config.tileColorLookup,
+            config.tileLinkLookup,
+            config.tileTooltipLookup
+        )
     }
 
-    fun renderBuildings(
-        buildings: List<Building>,
-        colorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
-        linkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
-        tooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
-    ) {
+    fun renderBuildings(buildings: List<Building>) {
         buildings.forEach { building ->
-            val color = colorLookup(building)
+            val color = config.buildingColorLookup(building)
+            val link = config.buildingLinkLookup(building)
+            val tooltip = config.buildingTooltipLookup(building)
 
-            svgBuilder.optionalLinkAndTooltip(linkLookup(building), tooltipLookup(building)) {
+            svgBuilder.optionalLinkAndTooltip(link, tooltip) {
                 renderBuilding(it, building, color)
             }
         }
     }
 
-    fun renderStreets(
-        colorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
-        linkLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
-        tooltipLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
-    ) {
-        renderStreets { aabb, streetId, index ->
-            val color = colorLookup(streetId, index)
+    fun renderRailways() {
+        renderRailways { aabb, railwayType, connection, index, x, y ->
+            val color = config.railwayColorLookup(index, railwayType)
+            val link = config.railwayLinkLookup(index, railwayType)
+            val tooltip = config.railwayTooltipLookup(index, railwayType)
 
-            svgBuilder.optionalLinkAndTooltip(linkLookup(streetId, index), tooltipLookup(streetId, index)) {
-                renderStreet(it, aabb, color)
+            svgBuilder.optionalLinkAndTooltip(link, tooltip) { renderer ->
+                renderConnection(renderer, railwayType, connection, x, y, aabb, color, RAILWAY_WIDTH)
+            }
+        }
+    }
+
+    fun renderRailways(
+        render: (AABB, RailwayTypeId, TileConnection, Int, Int, Int) -> Unit,
+    ) {
+        tileRenderer.render(town.map) { index, x, y, aabb, tile ->
+            if (tile.construction is RailwayTile) {
+                render(aabb, tile.construction.railwayType, tile.construction.connection, index, x, y)
+            } else if (tile.construction is CrossingTile) {
+                tile.construction.railways.forEach {
+                    render(aabb, it.first, it.second, index, x, y)
+                }
+            }
+        }
+    }
+
+    fun renderStreets() {
+        renderStreets { aabb, street, connection, index, x, y ->
+            val color = config.streetColorLookup(index, street)
+            val link = config.streetLinkLookup(index, street)
+            val tooltip = config.streetTooltipLookup(index, street)
+
+            svgBuilder.optionalLinkAndTooltip(link, tooltip) { renderer ->
+                renderConnection(renderer, street, connection, x, y, aabb, color, STREET_WIDTH)
             }
         }
     }
 
     fun renderStreets(
-        render: (AABB, StreetId, Int) -> Unit,
+        render: (AABB, StreetId, TileConnection, Int, Int, Int) -> Unit,
     ) {
-        val right = Point2d(tileRenderer.tileSize.value / 2, 0.0f)
-        val down = Point2d(0.0f, tileRenderer.tileSize.value / 2)
-
         tileRenderer.render(town.map) { index, x, y, aabb, tile ->
             if (tile.construction is StreetTile) {
-                if (town.checkTile(x + 1, y) { it.construction is StreetTile }) {
-                    val rightAABB = aabb + right
-                    render(rightAABB, tile.construction.street, index)
+                render(aabb, tile.construction.street, tile.construction.connection, index, x, y)
+            } else if (tile.construction is CrossingTile) {
+                tile.construction.streets.forEach {
+                    render(aabb, it.first, it.second, index, x, y)
                 }
-
-                if (town.checkTile(x, y + 1) { it.construction is StreetTile }) {
-                    val downAABB = aabb + down
-                    render(downAABB, tile.construction.street, index)
-                }
-
-                render(aabb, tile.construction.street, index)
             }
+        }
+    }
+
+    private fun <ID : Id<ID>> renderConnection(
+        renderer: LayerRenderer,
+        type: ID,
+        connection: TileConnection,
+        x: Int,
+        y: Int,
+        aabb: AABB,
+        color: Color,
+        width: Factor,
+    ) {
+        when (connection) {
+            TileConnection.Curve -> {
+                if (town.checkTile(x + 1, y) { it.construction.contains(type) }) {
+                    renderRailwayRight(renderer, aabb, color, width)
+                }
+                if (town.checkTile(x - 1, y) { it.construction.contains(type) }) {
+                    renderRailwayLeft(renderer, aabb, color, width)
+                }
+                if (town.checkTile(x, y + 1) { it.construction.contains(type) }) {
+                    renderRailwayDown(renderer, aabb, color, width)
+                }
+                if (town.checkTile(x, y - 1) { it.construction.contains(type) }) {
+                    renderRailwayUp(renderer, aabb, color, width)
+                }
+                renderRailwayCenter(renderer, aabb, color, width)
+            }
+
+            TileConnection.Horizontal -> renderHorizontalRailway(renderer, aabb, color, width)
+            TileConnection.Vertical -> renderVerticalRailway(renderer, aabb, color, width)
         }
     }
 
@@ -122,6 +211,84 @@ data class TownRenderer(
     fun finish() = svgBuilder.finish()
 }
 
+fun renderRailwayCenter(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {
+    val style = NoBorder(color.toRender())
+    renderer.renderRectangle(tile.shrink(FULL - width), style)
+}
+
+fun renderRailwayLeft(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {
+    val style = NoBorder(color.toRender())
+    val builder = Polygon2dBuilder()
+    val half = width * 0.5f
+
+    builder.addPoint(tile, START, CENTER + half)
+    builder.addPoint(tile, START, CENTER - half)
+    builder.addPoint(tile, CENTER - half, CENTER - half)
+    builder.addPoint(tile, CENTER - half, CENTER + half)
+
+    renderer.renderPolygon(builder.build(), style)
+}
+
+fun renderRailwayDown(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {
+    val style = NoBorder(color.toRender())
+    val builder = Polygon2dBuilder()
+    val half = width * 0.5f
+
+    builder.addPoint(tile, CENTER + half, CENTER + half)
+    builder.addPoint(tile, CENTER - half, CENTER + half)
+    builder.addPoint(tile, CENTER - half, FULL)
+    builder.addPoint(tile, CENTER + half, FULL)
+
+    renderer.renderPolygon(builder.build(), style)
+}
+
+fun renderRailwayRight(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {
+    val style = NoBorder(color.toRender())
+    val builder = Polygon2dBuilder()
+    val half = width * 0.5f
+
+    builder.addPoint(tile, CENTER + half, CENTER + half)
+    builder.addPoint(tile, CENTER + half, CENTER - half)
+    builder.addPoint(tile, FULL, CENTER - half)
+    builder.addPoint(tile, FULL, CENTER + half)
+
+    renderer.renderPolygon(builder.build(), style)
+}
+
+fun renderRailwayUp(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {
+    val style = NoBorder(color.toRender())
+    val builder = Polygon2dBuilder()
+    val half = width * 0.5f
+
+    builder.addPoint(tile, CENTER + half, START)
+    builder.addPoint(tile, CENTER - half, START)
+    builder.addPoint(tile, CENTER - half, CENTER - half)
+    builder.addPoint(tile, CENTER + half, CENTER - half)
+
+    renderer.renderPolygon(builder.build(), style)
+}
+
+fun renderHorizontalRailway(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {
+    val style = NoBorder(color.toRender())
+    val builder = Polygon2dBuilder()
+    val half = width * 0.5f
+
+    builder.addMirroredPoints(tile, FULL, CENTER - half)
+    builder.addMirroredPoints(tile, FULL, CENTER + half)
+
+    renderer.renderPolygon(builder.build(), style)
+}
+
+fun renderVerticalRailway(renderer: LayerRenderer, tile: AABB, color: Color, width: Factor) {
+    val style = NoBorder(color.toRender())
+    val builder = Polygon2dBuilder()
+
+    builder.addMirroredPoints(tile, width, START)
+    builder.addMirroredPoints(tile, width, END)
+
+    renderer.renderPolygon(builder.build(), style)
+}
+
 fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
     val style = NoBorder(color.toRender())
     renderer.renderRectangle(tile.shrink(Factor(0.5f)), style)
@@ -130,33 +297,26 @@ fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
 fun visualizeTown(
     town: Town,
     buildings: List<Building> = emptyList(),
-    tileColorLookup: (TownTile) -> Color = TownTile::getColor,
-    tileLinkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
-    tileTooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
-    buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
-    buildingLinkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
-    buildingTooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
-    streetColorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
-    streetLinkLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
-    streetTooltipLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
+    config: TownRendererConfig = TownRendererConfig(),
 ): Svg {
-    val townRenderer = TownRenderer(town)
+    val townRenderer = TownRenderer(town, config)
 
-    townRenderer.renderTiles(tileColorLookup, tileLinkLookup, tileTooltipLookup)
-    townRenderer.renderBuildings(buildings, buildingColorLookup, buildingLinkLookup, buildingTooltipLookup)
-    townRenderer.renderStreets(streetColorLookup, streetLinkLookup, streetTooltipLookup)
+    townRenderer.renderTiles()
+    townRenderer.renderBuildings(buildings)
+    townRenderer.renderStreets()
+    townRenderer.renderRailways()
 
     return townRenderer.finish()
 }
 
-fun TownTile.getColor() = when (terrain) {
-    is HillTerrain -> Color.SaddleBrown
-    is MountainTerrain -> Color.Gray
-    PlainTerrain -> Color.Green
-    is RiverTerrain -> Color.Blue
+fun getRailwayTypeColor(state: State): (Int, RailwayTypeId) -> Color = { _, id ->
+    state
+        .getRailwayTypeStorage()
+        .get(id)
+        ?.color ?: Color.Pink
 }
 
-fun getStreetTypeFill(state: State): (StreetId, Int) -> Color = { id, _ ->
+fun getStreetTypeColor(state: State): (Int, StreetId) -> Color = { _, id ->
     state
         .getStreetStorage()
         .get(id)
@@ -175,6 +335,22 @@ fun showSelectedBuilding(selected: Building): (Building) -> Color = { building -
     } else {
         Color.Black
     }
+}
+
+fun <ID : Id<ID>> showSelectedElement(selected: ID): (Int, ID) -> Color = { _, id ->
+    if (id == selected) {
+        Color.Gold
+    } else {
+        Color.Gray
+    }
+}
+
+fun showRailwayName(state: State): (Int, RailwayTypeId) -> String? = { _, railway ->
+    state.getRailwayTypeStorage().getOrThrow(railway).name
+}
+
+fun showStreetName(state: State): (Int, StreetId) -> String? = { _, streetId ->
+    state.getStreetStorage().getOrThrow(streetId).name
 }
 
 fun showTerrainName(state: State): (Int, TownTile) -> String? = { _, tile ->

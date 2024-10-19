@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.world.town
 
 import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.model.world.railway.RailwayTypeId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
@@ -9,10 +10,19 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class Construction {
 
-    fun <ID : Id<ID>> contains(id: ID) = when (this) {
-        is StreetTile -> street == id
+    open fun canConnectHorizontal(street: StreetId) = false
+    open fun canConnectVertical(street: StreetId) = false
+
+    fun <ID : Id<ID>> contains(id: ID): Boolean = when (this) {
         is BuildingTile -> building == id
-        else -> false
+        is RailwayTile -> railwayType == id
+        is StreetTile -> street == id
+        is CrossingTile -> when (id) {
+            is RailwayTypeId -> railways.any { it.first == id }
+            is StreetId -> streets.any { it.first == id }
+            else -> false
+        }
+        NoConstruction -> false
     }
 
     fun getStreet() = when (this) {
@@ -32,6 +42,34 @@ data class BuildingTile(val building: BuildingId) : Construction()
 
 @Serializable
 @SerialName("Street")
-data class StreetTile(val street: StreetId) : Construction()
+data class StreetTile(
+    val street: StreetId,
+    val connection: TileConnection = TileConnection.Horizontal,
+) : Construction() {
 
+    override fun canConnectHorizontal(other: StreetId) = connection.canConnectHorizontal() && other == street
+    override fun canConnectVertical(other: StreetId) = connection.canConnectVertical() && other == street
 
+}
+
+@Serializable
+@SerialName("Railway")
+data class RailwayTile(
+    val railwayType: RailwayTypeId,
+    val connection: TileConnection = TileConnection.Horizontal,
+) : Construction()
+
+@Serializable
+@SerialName("Crossing")
+data class CrossingTile(
+    val railways: Set<Pair<RailwayTypeId, TileConnection>>,
+    val streets: Set<Pair<StreetId, TileConnection>>,
+) : Construction() {
+
+    override fun canConnectHorizontal(street: StreetId) =
+        streets.any { it.second.canConnectHorizontal() && it.first == street }
+
+    override fun canConnectVertical(street: StreetId) =
+        streets.any { it.second.canConnectVertical() && it.first == street }
+
+}
