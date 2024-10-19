@@ -33,6 +33,30 @@
     "year": 1824
    },
    "revival": 2
+  },
+  "4": {
+   "id": 4,
+   "name": "First Period",
+   "startDate": {
+    "type": "Year",
+    "year": 1625
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Second Empire",
+   "startDate": {
+    "type": "Year",
+    "year": 1864
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Queen Anne",
+   "startDate": {
+    "type": "Year",
+    "year": 1879
+   }
   }
  }
 }
