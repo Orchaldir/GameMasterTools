@@ -190,7 +190,7 @@ private fun HTML.showArchitecturalStyleEditor(
             method = FormMethod.post
             selectName(style.name)
             selectDate(state, "Start", style.startDate, START)
-            selectOptionalDate(state, "End", style.endDate, END)
+            selectOptionalDate(state, "End", style.endDate, END, style.startDate)
             selectOptionalValue(
                 "Revival Of",
                 REVIVAL,
