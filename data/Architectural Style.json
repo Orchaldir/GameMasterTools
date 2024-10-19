@@ -39,7 +39,7 @@
    "name": "First Period",
    "startDate": {
     "type": "Year",
-    "year": 1625
+    "year": 1599
    }
   },
   "5": {
@@ -56,6 +56,14 @@
    "startDate": {
     "type": "Year",
     "year": 1879
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Cape Cod",
+   "startDate": {
+    "type": "Year",
+    "year": 1599
    }
   }
  }
