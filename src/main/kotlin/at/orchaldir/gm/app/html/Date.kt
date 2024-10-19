@@ -9,6 +9,12 @@ import at.orchaldir.gm.core.selector.getDefaultCalendar
 import io.ktor.server.application.*
 import kotlinx.html.*
 
+fun HtmlBlockTag.optionalField(call: ApplicationCall, state: State, label: String, date: Date?) {
+    if (date != null) {
+        field(call, label, state.getDefaultCalendar(), date)
+    }
+}
+
 fun HtmlBlockTag.field(call: ApplicationCall, state: State, label: String, date: Date) {
     field(call, label, state.getDefaultCalendar(), date)
 }

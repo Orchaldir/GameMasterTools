@@ -92,7 +92,7 @@ data class State(
         rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
     ) : this(storageList.associateBy { it.getType() }, path, time, rarityGenerator)
 
-    fun getArchitecturalStyleStorage() = getStorage<ArchitecturalStyleId, ArchitecturalStyle>(BUILDING)
+    fun getArchitecturalStyleStorage() = getStorage<ArchitecturalStyleId, ArchitecturalStyle>(ARCHITECTURAL_STYLE)
     fun getBuildingStorage() = getStorage<BuildingId, Building>(BUILDING)
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR)
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER)

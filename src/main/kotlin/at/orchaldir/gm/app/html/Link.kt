@@ -23,6 +23,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.street.StreetId
@@ -127,6 +128,7 @@ fun <ID : Id<ID>> href(
     call: ApplicationCall,
     id: ID,
 ) = when (id) {
+    is ArchitecturalStyleId -> call.application.href(ArchitecturalStyleRoutes.Details(id))
     is BuildingId -> call.application.href(BuildingRoutes.Details(id))
     is CalendarId -> call.application.href(CalendarRoutes.Details(id))
     is CharacterId -> call.application.href(CharacterRoutes.Details(id))
