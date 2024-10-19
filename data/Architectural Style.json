@@ -8,6 +8,31 @@
     "type": "Year",
     "year": 1713
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Federal",
+   "startDate": {
+    "type": "Year",
+    "year": 1779
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Ancient Greek",
+   "startDate": {
+    "type": "Year",
+    "year": -900
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Greek Revival",
+   "startDate": {
+    "type": "Year",
+    "year": 1824
+   },
+   "revival": 2
   }
  }
 }

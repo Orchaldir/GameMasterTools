@@ -169,11 +169,11 @@ private fun HTML.showArchitecturalStyleEditor(
                 "Revival Of",
                 REVIVAL,
                 storage.getOptional(style.revival),
-                storage.getAll(),
+                storage.getAll().filter { it.id != style.id },
                 false,
             ) { s ->
                 label = s.name()
-                value = s.id().toString()
+                value = s.id().value.toString()
             }
             button("Update", updateLink)
         }
