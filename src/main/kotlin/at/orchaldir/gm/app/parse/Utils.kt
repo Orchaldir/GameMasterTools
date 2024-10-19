@@ -194,6 +194,16 @@ fun parseBool(parameters: Parameters, param: String, default: Boolean = false) =
 
 fun parseInt(parameters: Parameters, param: String, default: Int = 0) = parameters[param]?.toInt() ?: default
 
+fun parseOptionalInt(parameters: Parameters, param: String): Int? {
+    val value = parameters[param]
+
+    if (value.isNullOrEmpty()) {
+        return null
+    }
+
+    return value.toInt()
+}
+
 fun parseUByte(parameters: Parameters, param: String, default: UByte = 0u) = parameters[param]?.toUByte() ?: default
 
 fun parseFactor(parameters: Parameters, param: String, default: Factor = FULL) =

@@ -1,5 +1,7 @@
 package at.orchaldir.gm.app.routes.world
 
+import at.orchaldir.gm.app.START
+import at.orchaldir.gm.app.REVIVAL
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
@@ -92,13 +94,13 @@ fun Application.configureArchitecturalStyleRouting() {
             val style = state.getArchitecturalStyleStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showArchitecturalStyleEditor(call, style)
+                showArchitecturalStyleEditor(call, state, style)
             }
         }
         post<ArchitecturalStyleRoutes.Update> { update ->
             logger.info { "Update architectural style ${update.id.value}" }
 
-            val style = parseArchitecturalStyle(update.id, call.receiveParameters())
+            val style = parseArchitecturalStyle(call.receiveParameters(), STORE.getState(), update.id)
 
             STORE.dispatch(UpdateArchitecturalStyle(style))
 
@@ -136,8 +138,7 @@ private fun HTML.showArchitecturalStyleDetails(
     simpleHtml("Architectural Style: ${style.name}") {
         field("Id", style.id.value.toString())
         field("Name", style.name)
-        field(call, state, "From", style.startDate)
-        optionalField(call, state, "Until", style.endDate)
+        field(call, state, "Start", style.startDate)
         if (style.revival != null) {
             field("Revival od") {
                 link(call, state, style.revival)
@@ -152,8 +153,10 @@ private fun HTML.showArchitecturalStyleDetails(
 
 private fun HTML.showArchitecturalStyleEditor(
     call: ApplicationCall,
+    state: State,
     style: ArchitecturalStyle,
 ) {
+    val storage = state.getArchitecturalStyleStorage()
     val backLink = href(call, style.id)
     val updateLink = call.application.href(ArchitecturalStyleRoutes.Update(style.id))
 
@@ -161,6 +164,17 @@ private fun HTML.showArchitecturalStyleEditor(
         field("Id", style.id.value.toString())
         form {
             selectName(style.name)
+            selectDate(state, "Start", style.startDate, START)
+            selectOptionalValue(
+                "Revival Of",
+                REVIVAL,
+                storage.getOptional(style.revival),
+                storage.getAll(),
+                false,
+            ) { s ->
+                label = s.name()
+                value = s.id().toString()
+            }
             button("Update", updateLink)
         }
         back(backLink)
