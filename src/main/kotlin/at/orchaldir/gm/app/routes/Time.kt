@@ -310,6 +310,11 @@ private fun HtmlBlockTag.showEvents(
         }
         +": "
         when (event) {
+            is ArchitecturalStyleStartEvent -> {
+                link(call, state, event.style)
+                +" style started."
+            }
+
             is BuildingConstructedEvent -> {
                 link(call, state, event.buildingId)
                 +" was constructed."
