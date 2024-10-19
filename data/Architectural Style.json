@@ -4,51 +4,83 @@
   "0": {
    "id": 0,
    "name": "Georgian",
-   "start": 1713,
-   "end": 1829
+   "start": {
+    "year": 1713
+   },
+   "end": {
+    "year": 1829
+   }
   },
   "1": {
    "id": 1,
    "name": "Federal",
-   "start": 1779,
-   "end": 1829
+   "start": {
+    "year": 1779
+   },
+   "end": {
+    "year": 1829
+   }
   },
   "2": {
    "id": 2,
    "name": "Ancient Greek",
-   "start": -900,
-   "end": -1
+   "start": {
+    "year": -900
+   },
+   "end": {
+    "year": -1
+   }
   },
   "3": {
    "id": 3,
    "name": "Greek Revival",
-   "start": 1824,
-   "end": 1859,
+   "start": {
+    "year": 1824
+   },
+   "end": {
+    "year": 1859
+   },
    "revival": 2
   },
   "4": {
    "id": 4,
    "name": "First Period",
-   "start": 1599,
-   "end": 1724
+   "start": {
+    "year": 1599
+   },
+   "end": {
+    "year": 1724
+   }
   },
   "5": {
    "id": 5,
    "name": "Second Empire",
-   "start": 1864,
-   "end": 1879
+   "start": {
+    "year": 1864
+   },
+   "end": {
+    "year": 1879
+   }
   },
   "6": {
    "id": 6,
    "name": "Queen Anne",
-   "start": 1869,
-   "end": 1909
+   "start": {
+    "year": 1869
+   },
+   "end": {
+    "year": 1909
+   }
   },
   "7": {
    "id": 7,
    "name": "Cape Cod",
-   "start": 1599,
-   "end": 1699
+   "start": {
+    "year": 1599
+   },
+   "end": {
+    "year": 1699
+   }
   }
  }
 }

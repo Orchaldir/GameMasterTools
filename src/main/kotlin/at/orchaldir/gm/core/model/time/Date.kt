@@ -6,22 +6,22 @@ import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
 
 @Serializable
-sealed class Date {
+sealed interface Date {
 
     fun getType() = when (this) {
         is Day -> DateType.Day
         is Year -> DateType.Year
     }
 
-    abstract fun isBetween(calendar: Calendar, start: Day, end: Day): Boolean
+    fun isBetween(calendar: Calendar, start: Day, end: Day): Boolean
 
-    abstract fun next(): Date
+    fun next(): Date
 
 }
 
 @Serializable
 @SerialName("Day")
-data class Day(val day: Int) : Date() {
+data class Day(val day: Int) : Date {
     operator fun compareTo(other: Day): Int {
         return day.compareTo(other.day)
     }
@@ -39,7 +39,7 @@ data class Day(val day: Int) : Date() {
 
 @Serializable
 @SerialName("Year")
-data class Year(val year: Int) : Date() {
+data class Year(val year: Int) : Date {
 
     override fun isBetween(calendar: Calendar, start: Day, end: Day) = calendar
         .getStartOfYear(this)

@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.selector.world.getRevivedBy
+import at.orchaldir.gm.core.selector.world.getPossibleStylesForRevival
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -177,7 +178,6 @@ private fun HTML.showArchitecturalStyleEditor(
     state: State,
     style: ArchitecturalStyle,
 ) {
-    val storage = state.getArchitecturalStyleStorage()
     val backLink = href(call, style.id)
     val previewLink = call.application.href(ArchitecturalStyleRoutes.Preview(style.id))
     val updateLink = call.application.href(ArchitecturalStyleRoutes.Update(style.id))
@@ -194,8 +194,8 @@ private fun HTML.showArchitecturalStyleEditor(
             selectOptionalValue(
                 "Revival Of",
                 REVIVAL,
-                storage.getOptional(style.revival),
-                storage.getAll().filter { it.id != style.id && it.start < style.start },
+                state.getArchitecturalStyleStorage().getOptional(style.revival),
+                state.getPossibleStylesForRevival(style),
                 false,
             ) { s ->
                 label = s.name()
