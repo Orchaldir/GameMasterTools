@@ -10,6 +10,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class Construction {
 
+    open fun canConnectHorizontal(street: StreetId) = false
+    open fun canConnectVertical(street: StreetId) = false
+
     fun <ID : Id<ID>> contains(id: ID): Boolean = when (this) {
         is BuildingTile -> building == id
         is RailwayTile -> railwayType == id
@@ -42,7 +45,12 @@ data class BuildingTile(val building: BuildingId) : Construction()
 data class StreetTile(
     val street: StreetId,
     val connection: TileConnection = TileConnection.Horizontal,
-) : Construction()
+) : Construction() {
+
+    override fun canConnectHorizontal(other: StreetId) = connection.canConnectHorizontal() && other == street
+    override fun canConnectVertical(other: StreetId) = connection.canConnectVertical() && other == street
+
+}
 
 @Serializable
 @SerialName("Railway")
@@ -56,5 +64,12 @@ data class RailwayTile(
 data class CrossingTile(
     val railways: Set<Pair<RailwayTypeId, TileConnection>>,
     val streets: Set<Pair<StreetId, TileConnection>>,
-) : Construction()
+) : Construction() {
 
+    override fun canConnectHorizontal(street: StreetId) =
+        streets.any { it.second.canConnectHorizontal() && it.first == street }
+
+    override fun canConnectVertical(street: StreetId) =
+        streets.any { it.second.canConnectVertical() && it.first == street }
+
+}

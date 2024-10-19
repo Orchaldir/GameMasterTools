@@ -38,6 +38,41 @@ data class Town(
     override fun name() = name
 
     fun canBuildBuilding(index: Int, size: MapSize2d) = checkTiles(index, size) { it.canBuildBuilding() }
+
+    fun canBuildStreet(index: Int, street: StreetId, connection: TileConnection): Boolean {
+        if (!contains(street)) {
+            return true
+        }
+
+        val x = map.size.toX(index)
+        val y = map.size.toY(index)
+
+        return when (connection) {
+            TileConnection.Curve -> {
+                val left = map.getTile(x - 1, y)?.construction?.canConnectHorizontal(street) ?: false
+                val right = map.getTile(x + 1, y)?.construction?.canConnectHorizontal(street) ?: false
+                val bottom = map.getTile(x, y - 1)?.construction?.canConnectVertical(street) ?: false
+                val top = map.getTile(x, y + 1)?.construction?.canConnectVertical(street) ?: false
+
+                left xor right xor bottom xor top
+            }
+
+            TileConnection.Horizontal -> {
+                val left = map.getTile(x - 1, y)?.construction?.canConnectHorizontal(street) ?: false
+                val right = map.getTile(x + 1, y)?.construction?.canConnectHorizontal(street) ?: false
+
+                left xor right
+            }
+
+            TileConnection.Vertical -> {
+                val bottom = map.getTile(x, y - 1)?.construction?.canConnectVertical(street) ?: false
+                val top = map.getTile(x, y + 1)?.construction?.canConnectVertical(street) ?: false
+
+                bottom xor top
+            }
+        }
+    }
+
     fun canResizeBuilding(index: Int, size: MapSize2d, building: BuildingId) =
         checkTiles(index, size) { it.canResizeBuilding(building) }
 
@@ -50,6 +85,8 @@ data class Town(
         .size.toIndices(index, size)
         ?.all { check(map.getRequiredTile(it)) }
         ?: false
+
+    fun contains(street: StreetId) = map.tiles.any { it.getStreet() == street }
 
     fun build(index: Int, size: MapSize2d, construction: Construction): Town {
         val tiles = mutableMapOf<Int, TownTile>()

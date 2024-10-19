@@ -20,4 +20,5 @@ data class TownTile(
     fun canResizeBuilding(building: BuildingId) = construction is NoConstruction ||
             (construction is BuildingTile && construction.building == building)
 
+    fun getStreet() = construction.getStreet()
 }
