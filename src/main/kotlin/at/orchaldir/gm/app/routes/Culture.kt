@@ -152,9 +152,7 @@ private fun HTML.showCultureDetails(
     simpleHtml("Culture: ${culture.name}") {
         field("Id", culture.id.value.toString())
         field("Name", culture.name)
-        field("Calendar") {
-            link(call, state, culture.calendar)
-        }
+        fieldLink("Calendar", call, state, culture.calendar)
         showRarityMap("Languages", culture.languages) { l ->
             link(call, state, l)
         }
@@ -192,9 +190,7 @@ private fun BODY.showNamingConvention(
             field("Name Order", namingConvention.nameOrder.toString())
             showRarityMap("Middle Name Options", namingConvention.middleNameOptions)
             showNamesByGender(call, state, "Given Names", namingConvention.givenNames)
-            field("Family Names") {
-                link(call, state, namingConvention.familyNames)
-            }
+            fieldLink("Family Names", call, state, namingConvention.familyNames)
         }
 
         is GenonymConvention -> showGenonymConvention(

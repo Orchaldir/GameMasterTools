@@ -197,9 +197,7 @@ private fun HTML.showArchitecturalStyleDetails(
         field(call, state, "Start", style.start)
         optionalField(call, state, "End", style.end)
         if (style.revival != null) {
-            field("Revival of") {
-                link(call, state, style.revival)
-            }
+            fieldLink("Revival of", call, state, style.revival)
         }
         showList("Revived by", revivedBy) { s ->
             link(call, s)

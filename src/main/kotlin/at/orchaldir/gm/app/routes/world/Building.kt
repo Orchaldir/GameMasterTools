@@ -195,9 +195,7 @@ private fun HTML.showBuildingDetails(
             field(call, state, "Construction", building.constructionDate)
             fieldAge("Age", state.getAgeInYears(building))
             showOwnership(call, state, building.ownership)
-            field("Town") {
-                link(call, state, building.lot.town)
-            }
+            fieldLink("Town", call, state, building.lot.town)
             field("Size", building.lot.size.format())
             action(editLink, "Edit")
             action(editLotLink, "Move & Resize")

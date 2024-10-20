@@ -300,9 +300,7 @@ private fun BODY.showSocial(
 
     h2 { +"Social" }
 
-    field("Culture") {
-        link(call, state, character.culture)
-    }
+    fieldLink("Culture", call, state, character.culture)
 
     showFamily(call, state, character)
 

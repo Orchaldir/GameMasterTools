@@ -145,9 +145,7 @@ private fun HTML.showHolidayDetails(
     simpleHtml("Holiday: ${holiday.name}") {
         field("Id", holiday.id.value.toString())
         field("Name", holiday.name)
-        field("Calendar") {
-            link(call, state, holiday.calendar)
-        }
+        fieldLink("Calendar", call, state, holiday.calendar)
         field("Relative Date", holiday.relativeDate.display(calendar))
         showList("Cultures", state.getCultures(holiday.id)) { culture ->
             link(call, culture)

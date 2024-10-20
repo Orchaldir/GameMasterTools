@@ -134,9 +134,7 @@ private fun HTML.showStreetDetails(
     simpleHtml("Street: ${street.name}") {
         field("Id", street.id.value.toString())
         field("Name", street.name)
-        field("Type") {
-            link(call, state, street.type)
-        }
+        fieldLink("Type", call, state, street.type)
         showList("Towns", state.getTowns(street.id)) { town ->
             val buildings = state.getBuildings(town.id)
                 .filter { it.address.contains(street.id) }

@@ -188,9 +188,7 @@ private fun BODY.showOrigin(
     when (calendar.origin) {
         is ImprovedCalendar -> {
             field("Origin", "Improved")
-            field("Parent Calendar") {
-                link(call, state, calendar.origin.parent)
-            }
+            fieldLink("Parent Calendar", call, state, calendar.origin.parent)
         }
 
         OriginalCalendar -> {

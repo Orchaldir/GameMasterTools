@@ -222,9 +222,7 @@ private fun HtmlBlockTag.showAppearance(
     state: State,
     id: RaceAppearanceId,
 ) {
-    field("Appearance") {
-        link(call, state, id)
-    }
+    fieldLink("Appearance", call, state, id)
 }
 
 private fun HtmlBlockTag.showMaxAge(maxAge: Int) {

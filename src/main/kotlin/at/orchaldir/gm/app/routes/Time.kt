@@ -108,9 +108,7 @@ private fun HTML.showTimeData(call: ApplicationCall) {
     val editLink = call.application.href(TimeRoutes.Edit())
 
     simpleHtml("Time Data") {
-        field("Default Calendar") {
-            link(call, state, state.time.defaultCalendar)
-        }
+        fieldLink("Default Calendar", call, state, state.time.defaultCalendar)
         showCurrentDate(call, state)
         action(editLink, "Edit")
         back("/")
