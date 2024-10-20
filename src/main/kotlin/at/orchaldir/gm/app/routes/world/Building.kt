@@ -191,11 +191,11 @@ private fun HTML.showBuildingDetails(
         split({
             field("Id", building.id.value.toString())
             field("Name", building.name)
+            fieldLink("Town", call, state, building.lot.town)
             fieldAddress(call, state, building)
             field(call, state, "Construction", building.constructionDate)
             fieldAge("Age", state.getAgeInYears(building))
             showOwnership(call, state, building.ownership)
-            fieldLink("Town", call, state, building.lot.town)
             field("Size", building.lot.size.format())
             fieldLink("Architectural Style", call, state, building.architecturalStyle)
             action(editLink, "Edit")

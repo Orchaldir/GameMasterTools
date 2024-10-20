@@ -10,6 +10,8 @@ import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
+import at.orchaldir.gm.core.selector.world.canDelete
+import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.core.selector.world.getRevivedBy
 import at.orchaldir.gm.core.selector.world.getPossibleStylesForRevival
 import io.ktor.http.*
@@ -202,8 +204,13 @@ private fun HTML.showArchitecturalStyleDetails(
         showList("Revived by", revivedBy) { s ->
             link(call, s)
         }
+        showList("Buildings", state.getBuildings(style.id).sortedBy { it.name }) { building ->
+            link(call, building)
+        }
         action(editLink, "Edit")
-        action(deleteLink, "Delete")
+        if (state.canDelete(style.id)) {
+            action(deleteLink, "Delete")
+        }
         back(backLink)
     }
 }
