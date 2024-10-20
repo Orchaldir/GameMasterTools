@@ -1,11 +1,9 @@
 package at.orchaldir.gm.app.routes.world
 
-import at.orchaldir.gm.app.END
-import at.orchaldir.gm.app.START
-import at.orchaldir.gm.app.REVIVAL
-import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
+import at.orchaldir.gm.app.routes.world.SortArchitecturalStyle.*
 import at.orchaldir.gm.core.action.CreateArchitecturalStyle
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
@@ -28,8 +26,20 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
+enum class SortArchitecturalStyle {
+    Name,
+    Start,
+    End,
+}
+
 @Resource("/architectural_styles")
 class ArchitecturalStyleRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortArchitecturalStyle = Name,
+        val parent: ArchitecturalStyleRoutes = ArchitecturalStyleRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: ArchitecturalStyleId, val parent: ArchitecturalStyleRoutes = ArchitecturalStyleRoutes())
 
@@ -51,11 +61,11 @@ class ArchitecturalStyleRoutes {
 
 fun Application.configureArchitecturalStyleRouting() {
     routing {
-        get<ArchitecturalStyleRoutes> {
+        get<ArchitecturalStyleRoutes.All> { all ->
             logger.info { "Get all architectural styles" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllArchitecturalStyles(call, STORE.getState())
+                showAllArchitecturalStyles(call, STORE.getState(), all.sort)
             }
         }
         get<ArchitecturalStyleRoutes.Details> { details ->
@@ -88,7 +98,7 @@ fun Application.configureArchitecturalStyleRouting() {
 
             STORE.dispatch(DeleteArchitecturalStyle(delete.id))
 
-            call.respondRedirect(call.application.href(ArchitecturalStyleRoutes()))
+            call.respondRedirect(call.application.href(ArchitecturalStyleRoutes.All()))
 
             STORE.getState().save()
         }
@@ -126,13 +136,26 @@ fun Application.configureArchitecturalStyleRouting() {
     }
 }
 
-private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State) {
-    val styles = STORE.getState().getArchitecturalStyleStorage().getAll().sortedBy { it.name }
+private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State, sort: SortArchitecturalStyle) {
+    val styles = STORE.getState()
+        .getArchitecturalStyleStorage()
+        .getAll()
+        .sortedWith(when (sort) {
+            Name -> compareBy { it.name }
+            Start -> compareBy { it.start.year }
+            End -> compareBy { it.end?.year }
+        })
     val count = styles.size
     val createLink = call.application.href(ArchitecturalStyleRoutes.New())
+    val sortNameLink = call.application.href(ArchitecturalStyleRoutes.All())
+    val sortStartLink = call.application.href(ArchitecturalStyleRoutes.All(Start))
+    val sortEndLink = call.application.href(ArchitecturalStyleRoutes.All(End))
 
     simpleHtml("Architectural Styles") {
         field("Count", count.toString())
+        action(sortNameLink, "Sort by Name")
+        action(sortStartLink, "Sort by Start")
+        action(sortEndLink, "Sort by End")
         table("sortable") {
             tr {
                 th { +"Name" }
@@ -160,7 +183,7 @@ private fun HTML.showArchitecturalStyleDetails(
     style: ArchitecturalStyle,
 ) {
     val revivedBy = state.getRevivedBy(style.id)
-    val backLink = call.application.href(ArchitecturalStyleRoutes())
+    val backLink = call.application.href(ArchitecturalStyleRoutes.All())
     val deleteLink = call.application.href(ArchitecturalStyleRoutes.Delete(style.id))
     val editLink = call.application.href(ArchitecturalStyleRoutes.Edit(style.id))
 
