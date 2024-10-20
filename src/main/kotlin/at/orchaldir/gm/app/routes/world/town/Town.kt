@@ -126,6 +126,10 @@ private fun HTML.showTownDetails(
             field(call, state, "Founding", town.foundingDate)
             fieldAge("Age", state.getAgeInYears(town))
             field("Size", town.map.size.format())
+            showMap("Architectural Styles", state.getArchitecturalStyles(town.id)) { style, count ->
+                link(call, state, style)
+                +": $count"
+            }
             showList("Buildings", state.getBuildings(town.id).sortedBy { it.name }) { building ->
                 link(call, building)
             }

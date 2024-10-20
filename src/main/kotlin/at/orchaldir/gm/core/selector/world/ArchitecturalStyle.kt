@@ -11,8 +11,8 @@ fun State.canDelete(style: ArchitecturalStyleId) = getRevivedBy(style).isEmpty()
         getBuildings(style).isEmpty()
 
 fun State.getArchitecturalStyles(town: TownId) = getBuildings(town)
-    .map { it.architecturalStyle }
-    .toSet()
+    .groupingBy { it.architecturalStyle }
+    .eachCount()
 
 fun State.getRevivedBy(style: ArchitecturalStyleId) = getArchitecturalStyleStorage()
     .getAll()
