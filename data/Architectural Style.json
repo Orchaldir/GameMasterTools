@@ -81,6 +81,27 @@
    "end": {
     "year": 1699
    }
+  },
+  "8": {
+   "id": 8,
+   "name": "Gothic Revival",
+   "start": {
+    "year": 1839
+   },
+   "end": {
+    "year": 1879
+   },
+   "revival": 9
+  },
+  "9": {
+   "id": 9,
+   "name": "Gothic",
+   "start": {
+    "year": 1129
+   },
+   "end": {
+    "year": 1239
+   }
   }
  }
 }
