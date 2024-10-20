@@ -55,7 +55,7 @@ fun Application.configureArchitecturalStyleRouting() {
             logger.info { "Get all architectural styles" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllArchitecturalStyles(call)
+                showAllArchitecturalStyles(call, STORE.getState())
             }
         }
         get<ArchitecturalStyleRoutes.Details> { details ->
@@ -126,7 +126,7 @@ fun Application.configureArchitecturalStyleRouting() {
     }
 }
 
-private fun HTML.showAllArchitecturalStyles(call: ApplicationCall) {
+private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State) {
     val styles = STORE.getState().getArchitecturalStyleStorage().getAll().sortedBy { it.name }
     val count = styles.size
     val createLink = call.application.href(ArchitecturalStyleRoutes.New())
@@ -138,12 +138,14 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall) {
                 th { +"Name" }
                 th { +"Start" }
                 th { +"End" }
+                th { +"Revival Of" }
             }
             styles.forEach { style ->
                 tr("item") {
                     td { link(call, style) }
                     td { +style.start.year.toString() }
                     td { +style.end?.year.toString() }
+                    td { style.revival?.let { link(call, state, it) } }
                 }
             }
         }
