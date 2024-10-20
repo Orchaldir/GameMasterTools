@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.CreateArchitecturalStyle
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.selector.world.canDelete
@@ -168,6 +169,7 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State,
                 th { +"Start" }
                 th { +"End" }
                 th { +"Revival Of" }
+                th { +"Buildings" }
             }
             styles.forEach { style ->
                 tr("item") {
@@ -175,11 +177,20 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State,
                     td { showDate(call, state, style.start) }
                     td { showOptionalDate(call, state, style.end) }
                     td { style.revival?.let { link(call, state, it) } }
+                    td { countBuildings(state, style) }
                 }
             }
         }
         action(createLink, "Add")
         back("/")
+    }
+}
+
+private fun HtmlBlockTag.countBuildings(state: State, style: ArchitecturalStyle) {
+    val count = state.getBuildings(style.id).size
+
+    if (count > 0) {
+        +count.toString()
     }
 }
 
