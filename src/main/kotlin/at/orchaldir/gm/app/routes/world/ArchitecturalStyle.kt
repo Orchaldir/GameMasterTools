@@ -23,10 +23,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.FormMethod
-import kotlinx.html.HTML
-import kotlinx.html.form
-import kotlinx.html.id
+import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -136,8 +133,19 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall) {
 
     simpleHtml("Architectural Styles") {
         field("Count", count.toString())
-        showList(styles) { nameList ->
-            link(call, nameList)
+        table("sortable") {
+            tr {
+                th { +"Name" }
+                th { +"Start" }
+                th { +"End" }
+            }
+            styles.forEach { style ->
+                tr("item") {
+                    td { link(call, style) }
+                    td { +style.start.year.toString() }
+                    td { +style.end?.year.toString() }
+                }
+            }
         }
         action(createLink, "Add")
         back("/")
