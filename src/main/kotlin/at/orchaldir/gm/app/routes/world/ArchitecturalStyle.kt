@@ -143,8 +143,8 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State)
             styles.forEach { style ->
                 tr("item") {
                     td { link(call, style) }
-                    td { +style.start.year.toString() }
-                    td { +style.end?.year.toString() }
+                    td { showDate(call, state, style.start) }
+                    td { showOptionalDate(call, state, style.end) }
                     td { style.revival?.let { link(call, state, it) } }
                 }
             }

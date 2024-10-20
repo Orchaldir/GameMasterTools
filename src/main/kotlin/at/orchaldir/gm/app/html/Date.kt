@@ -32,6 +32,12 @@ fun HtmlBlockTag.showCurrentDate(
     field(call, state, "Current Date", state.time.currentDate)
 }
 
+fun HtmlBlockTag.showOptionalDate(call: ApplicationCall, state: State, date: Date?) {
+    if (date != null) {
+        showDate(call, state, date)
+    }
+}
+
 fun HtmlBlockTag.showDate(call: ApplicationCall, state: State, date: Date) {
     link(call, state.getDefaultCalendar(), date)
 }
