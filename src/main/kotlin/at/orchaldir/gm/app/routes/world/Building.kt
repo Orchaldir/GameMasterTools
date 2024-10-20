@@ -197,6 +197,7 @@ private fun HTML.showBuildingDetails(
             showOwnership(call, state, building.ownership)
             fieldLink("Town", call, state, building.lot.town)
             field("Size", building.lot.size.format())
+            fieldLink("Architectural Style", call, state, building.architecturalStyle)
             action(editLink, "Edit")
             action(editLotLink, "Move & Resize")
             if (state.canDelete(building)) {
@@ -229,6 +230,15 @@ private fun HTML.showBuildingEditor(
                 selectAddress(state, building)
                 selectDate(state, "Construction", building.constructionDate, DATE)
                 selectOwnership(state, building.ownership, building.constructionDate)
+                selectValue(
+                    "Architectural Style",
+                    STYLE,
+                    state.getPossibleStyles(building),
+                ) { s ->
+                    label = s.name()
+                    value = s.id().value.toString()
+                    selected = s.id == building.architecturalStyle
+                }
                 button("Update", updateLink)
             }
             back(backLink)

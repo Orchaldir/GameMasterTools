@@ -68,6 +68,11 @@ data class Calendar(
 
     // year
 
+    fun getYear(date: Date): Year = when (date) {
+        is Day -> resolve(resolve(date).year)
+        is Year -> date
+    }
+
     fun getStartOfYear(year: Year) = resolve(getStartOfYear(resolve(year)))
 
     fun getStartOfYear(year: DisplayYear) = DisplayDay(year, 0, 0, null)
