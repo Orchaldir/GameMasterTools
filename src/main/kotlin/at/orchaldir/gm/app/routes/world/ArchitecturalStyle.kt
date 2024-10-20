@@ -153,9 +153,13 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State,
 
     simpleHtml("Architectural Styles") {
         field("Count", count.toString())
-        action(sortNameLink, "Sort by Name")
-        action(sortStartLink, "Sort by Start")
-        action(sortEndLink, "Sort by End")
+        field("Sort") {
+            link(sortNameLink, "Name")
+            +" "
+            link(sortStartLink, "Start")
+            +" "
+            link(sortEndLink, "End")
+        }
         table("sortable") {
             tr {
                 th { +"Name" }
