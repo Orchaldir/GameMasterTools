@@ -55,7 +55,7 @@ val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
 
     checkAddress(state, oldBuilding.lot.town, oldBuilding.address, action.address)
-    checkArchitecturalStyle(state, action.style)
+    checkArchitecturalStyle(state, action)
     checkOwnership(state, action.ownership, action.constructionDate)
 
     val building = action.applyTo(oldBuilding)
@@ -81,8 +81,12 @@ val UPDATE_BUILDING_LOT: Reducer<UpdateBuildingLot, State> = { state, action ->
     )
 }
 
-private fun checkArchitecturalStyle(state: State, style: ArchitecturalStyleId) {
-    state.getArchitecturalStyleStorage().require(style)
+private fun checkArchitecturalStyle(state: State, action: UpdateBuilding) {
+    val style = state.getArchitecturalStyleStorage().getOrThrow(action.style)
+    val calendar = state.getDefaultCalendar()
+    val compareTo = calendar.compareTo(style.start, action.constructionDate)
+
+    require(compareTo <= 0) { "Architectural Style ${style.id.value} didn't exist yet!" }
 }
 
 private fun checkAddress(

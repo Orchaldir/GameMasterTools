@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
+import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
@@ -359,7 +360,15 @@ class BuildingTest {
         fun `Architectural style is unknown`() {
             val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, UNKNOWN_STYLE)
 
-            assertIllegalArgument("Requires unknown Architectural Style 1!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Unknown Architectural Style 1!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Architectural style didn't exist yet`() {
+            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE)
+            val state = STATE.updateStorage(Storage(ArchitecturalStyle(STYLE, start = Year(2000))))
+
+            assertIllegalArgument("Architectural Style 0 didn't exist yet!") { REDUCER.invoke(state, action) }
         }
 
         @Test
