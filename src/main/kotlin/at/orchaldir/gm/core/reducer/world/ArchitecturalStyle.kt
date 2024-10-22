@@ -28,5 +28,9 @@ val UPDATE_ARCHITECTURAL_STYLE: Reducer<UpdateArchitecturalStyle, State> = { sta
             .require(it) { "Cannot revive unknown architectural style ${it.value}!" }
     }
 
+    action.style.end?.let { end ->
+        require(action.style.start < end) { "Architectural style must end after it started!" }
+    }
+
     noFollowUps(state.updateStorage(state.getArchitecturalStyleStorage().update(action.style)))
 }
