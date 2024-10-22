@@ -83,10 +83,8 @@ val UPDATE_BUILDING_LOT: Reducer<UpdateBuildingLot, State> = { state, action ->
 
 private fun checkArchitecturalStyle(state: State, action: UpdateBuilding) {
     val style = state.getArchitecturalStyleStorage().getOrThrow(action.style)
-    val calendar = state.getDefaultCalendar()
-    val compareTo = calendar.compareTo(style.start, action.constructionDate)
 
-    require(compareTo <= 0) { "Architectural Style ${style.id.value} didn't exist yet!" }
+    checkStartDate(state, style, action.id, action.constructionDate)
 }
 
 private fun checkAddress(

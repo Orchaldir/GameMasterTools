@@ -4,6 +4,9 @@ import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.Calendar
+import at.orchaldir.gm.core.model.calendar.CalendarId
+import at.orchaldir.gm.core.model.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
@@ -17,6 +20,7 @@ import kotlin.test.assertEquals
 
 private val ID0 = ArchitecturalStyleId(0)
 private val ID1 = ArchitecturalStyleId(1)
+private val CALENDAR0 = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
 
 class ArchitecturalStyleTest {
 
@@ -24,7 +28,7 @@ class ArchitecturalStyleTest {
     inner class DeleteTest {
 
         @Test
-        fun `Can delete an existing ArchitecturalStyle`() {
+        fun `Can delete an unused style`() {
             val state = State(Storage(ArchitecturalStyle(ID0)))
             val action = DeleteArchitecturalStyle(ID0)
 
@@ -87,12 +91,28 @@ class ArchitecturalStyleTest {
         }
 
         @Test
-        fun `End after it started`() {
+        fun `Style ends after it started`() {
             val state = State(Storage(ArchitecturalStyle(ID0)))
             val style = ArchitecturalStyle(ID0, start = Year(2), end = Year(3))
             val action = UpdateArchitecturalStyle(style)
 
             assertEquals(style, REDUCER.invoke(state, action).first.getArchitecturalStyleStorage().get(ID0))
+        }
+
+        @Test
+        fun `Style cannot start after a building using it was build`() {
+            val state = State(
+                listOf(
+                    Storage(ArchitecturalStyle(ID0)),
+                    Storage(Building(BuildingId(0))),
+                    Storage(CALENDAR0),
+                )
+            )
+            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ID0, start = Year(1)))
+
+            assertIllegalArgument("Architectural Style 0 didn't exist yet, when building 0 was build!") {
+                REDUCER.invoke(state, action)
+            }
         }
 
         @Test

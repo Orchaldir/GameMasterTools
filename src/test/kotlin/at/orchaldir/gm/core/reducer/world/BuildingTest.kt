@@ -368,7 +368,12 @@ class BuildingTest {
             val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE)
             val state = STATE.updateStorage(Storage(ArchitecturalStyle(STYLE, start = Year(2000))))
 
-            assertIllegalArgument("Architectural Style 0 didn't exist yet!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Architectural Style 0 didn't exist yet, when building 0 was build!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
         }
 
         @Test
