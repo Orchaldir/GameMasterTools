@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.calendar.MonthDefinition
+import at.orchaldir.gm.core.model.character.CHARACTER
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.time.Day
@@ -225,8 +226,10 @@ class BuildingTest {
         private val UNKNOWN_STREET = StreetId(99)
         private val STREET_NOT_IN_TOWN = StreetId(199)
         private val STYLE = ArchitecturalStyleId(0)
+        private val UNKNOWN_STYLE = ArchitecturalStyleId(1)
         private val STATE = State(
             listOf(
+                Storage(listOf(ArchitecturalStyle(STYLE))),
                 Storage(listOf(Building(ID0), Building(ID1))),
                 Storage(CALENDAR),
                 Storage(Character(CHARACTER0)),
@@ -243,7 +246,7 @@ class BuildingTest {
         @Test
         fun `Cannot update unknown id`() {
             val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE)
-            val state = State(Storage(Character(CHARACTER0)))
+            val state = STATE.removeStorage(BUILDING)
 
             assertIllegalArgument("Unknown Building 0!") { REDUCER.invoke(state, action) }
         }
@@ -251,7 +254,7 @@ class BuildingTest {
         @Test
         fun `Owner is an unknown character`() {
             val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE)
-            val state = State(listOf(Storage(Building(ID0))))
+            val state = STATE.removeStorage(CHARACTER)
 
             assertIllegalArgument("Cannot use an unknown character 2 as owner!") { REDUCER.invoke(state, action) }
         }
@@ -259,7 +262,7 @@ class BuildingTest {
         @Test
         fun `Owner is an unknown town`() {
             val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_TOWN, STYLE)
-            val state = State(listOf(Storage(Building(ID0))))
+            val state = STATE.removeStorage(TOWN)
 
             assertIllegalArgument("Cannot use an unknown town 0 as owner!") { REDUCER.invoke(state, action) }
         }
@@ -267,7 +270,7 @@ class BuildingTest {
         @Test
         fun `Previous owner is an unknown character`() {
             val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, CHARACTER_AS_PREVIOUS, STYLE)
-            val state = State(listOf(Storage(Building(ID0)), Storage(CALENDAR), Storage(Town(TOWN0))))
+            val state = STATE.removeStorage(CHARACTER)
 
             assertIllegalArgument("Cannot use an unknown character 2 as previous owner!") {
                 REDUCER.invoke(
@@ -280,8 +283,7 @@ class BuildingTest {
         @Test
         fun `Previous owner is an unknown town`() {
             val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, TOWN_AS_PREVIOUS, STYLE)
-            val state =
-                State(listOf(Storage(Building(ID0)), Storage(CALENDAR), Storage(Character(CHARACTER0))))
+            val state = STATE.removeStorage(TOWN)
 
             assertIllegalArgument("Cannot use an unknown town 0 as previous owner!") { REDUCER.invoke(state, action) }
         }
@@ -296,7 +298,8 @@ class BuildingTest {
         @Test
         fun `A previous ownership ended before the one before it`() {
             val action = UpdateBuilding(
-                ID0, "New", NoAddress, DAY0, Ownership(
+                ID0, "New", NoAddress, DAY0,
+                Ownership(
                     OwnedByTown(TOWN0),
                     listOf(PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2), PreviousOwner(OwnedByTown(TOWN0), DAY1))
                 ),
@@ -309,14 +312,7 @@ class BuildingTest {
         @Test
         fun `Character owns a building before his birth`() {
             val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE)
-            val state =
-                State(
-                    listOf(
-                        Storage(Building(ID0)),
-                        Storage(CALENDAR),
-                        Storage(Character(CHARACTER0, birthDate = DAY1))
-                    )
-                )
+            val state = STATE.updateStorage(Storage(Character(CHARACTER0, birthDate = DAY1)))
 
             assertIllegalArgument("Owner didn't exist at the start of their ownership!") {
                 REDUCER.invoke(
@@ -329,14 +325,7 @@ class BuildingTest {
         @Test
         fun `First owner didn't exist yet`() {
             val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, TOWN_AS_PREVIOUS, STYLE)
-            val state = State(
-                listOf(
-                    Storage(Building(ID0)),
-                    Storage(CALENDAR),
-                    Storage(Character(CHARACTER0)),
-                    Storage(Town(TOWN0, foundingDate = DAY1)),
-                )
-            )
+            val state = STATE.updateStorage(Storage(Town(TOWN0, foundingDate = DAY1)))
 
             assertIllegalArgument("1.previous owner didn't exist at the start of their ownership!") {
                 REDUCER.invoke(
@@ -349,20 +338,14 @@ class BuildingTest {
         @Test
         fun `Second owner didn't exist yet`() {
             val action = UpdateBuilding(
-                ID0, "New", NoAddress, DAY0, Ownership(
+                ID0, "New", NoAddress, DAY0,
+                Ownership(
                     NoOwner,
                     listOf(PreviousOwner(OwnedByTown(TOWN0), DAY1), PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2))
                 ),
                 STYLE,
             )
-            val state = State(
-                listOf(
-                    Storage(Building(ID0)),
-                    Storage(CALENDAR),
-                    Storage(Character(CHARACTER0, birthDate = DAY2)),
-                    Storage(Town(TOWN0)),
-                )
-            )
+            val state = STATE.updateStorage(Storage(Character(CHARACTER0, birthDate = DAY2)))
 
             assertIllegalArgument("2.previous owner didn't exist at the start of their ownership!") {
                 REDUCER.invoke(
@@ -370,6 +353,13 @@ class BuildingTest {
                     action
                 )
             }
+        }
+
+        @Test
+        fun `Architectural style is unknown`() {
+            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, UNKNOWN_STYLE)
+
+            assertIllegalArgument("Requires unknown Architectural Style 1!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
