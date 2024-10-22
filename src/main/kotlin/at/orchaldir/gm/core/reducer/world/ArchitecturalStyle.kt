@@ -23,5 +23,10 @@ val DELETE_ARCHITECTURAL_STYLE: Reducer<DeleteArchitecturalStyle, State> = { sta
 val UPDATE_ARCHITECTURAL_STYLE: Reducer<UpdateArchitecturalStyle, State> = { state, action ->
     state.getArchitecturalStyleStorage().require(action.style.id)
 
+    action.style.revival?.let {
+        state.getArchitecturalStyleStorage()
+            .require(it) { "Cannot revive unknown architectural style ${it.value}!" }
+    }
+
     noFollowUps(state.updateStorage(state.getArchitecturalStyleStorage().update(action.style)))
 }

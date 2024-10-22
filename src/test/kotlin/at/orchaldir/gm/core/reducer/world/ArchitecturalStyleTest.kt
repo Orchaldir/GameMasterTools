@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer.world
 
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
@@ -13,6 +14,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 private val ID0 = ArchitecturalStyleId(0)
+private val ID1 = ArchitecturalStyleId(1)
 
 class ArchitecturalStyleTest {
 
@@ -31,7 +33,7 @@ class ArchitecturalStyleTest {
         fun `Cannot delete unknown id`() {
             val action = DeleteArchitecturalStyle(ID0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Architectural Style 0!") { REDUCER.invoke(State(), action) }
         }
     }
 
@@ -42,7 +44,15 @@ class ArchitecturalStyleTest {
         fun `Cannot update unknown id`() {
             val action = UpdateArchitecturalStyle(ArchitecturalStyle(ID0))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Architectural Style 0!") { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Cannot revive an unknown style`() {
+            val state = State(Storage(ArchitecturalStyle(ID0)))
+            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ID0, revival = ID1))
+
+            assertIllegalArgument("Cannot revive unknown architectural style 1!") { REDUCER.invoke(state, action) }
         }
 
         @Test
