@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
+import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -16,6 +17,8 @@ val CREATE_ARCHITECTURAL_STYLE: Reducer<CreateArchitecturalStyle, State> = { sta
 
 val DELETE_ARCHITECTURAL_STYLE: Reducer<DeleteArchitecturalStyle, State> = { state, action ->
     state.getArchitecturalStyleStorage().require(action.id)
+
+    require(state.canDelete(action.id)) { "Architectural Style ${action.id.value} is used!" }
 
     noFollowUps(state.updateStorage(state.getArchitecturalStyleStorage().remove(action.id)))
 }

@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
+import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -30,10 +32,23 @@ class ArchitecturalStyleTest {
         }
 
         @Test
-        fun `Cannot delete unknown id`() {
+        fun `Cannot delete unknown style`() {
             val action = DeleteArchitecturalStyle(ID0)
 
             assertIllegalArgument("Requires unknown Architectural Style 0!") { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Cannot delete used style`() {
+            val state = State(
+                listOf(
+                    Storage(ArchitecturalStyle(ID0)),
+                    Storage(Building(BuildingId(0), architecturalStyle = ID0))
+                )
+            )
+            val action = DeleteArchitecturalStyle(ID0)
+
+            assertIllegalArgument("Architectural Style 0 is used!") { REDUCER.invoke(state, action) }
         }
     }
 
