@@ -5,6 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
+import at.orchaldir.gm.app.routes.world.SortBuilding.Construction
+import at.orchaldir.gm.app.routes.world.SortBuilding.Name
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
@@ -31,8 +33,19 @@ import kotlin.math.min
 
 private val logger = KotlinLogging.logger {}
 
+enum class SortBuilding {
+    Name,
+    Construction,
+}
+
 @Resource("/building")
 class BuildingRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortBuilding = Name,
+        val parent: BuildingRoutes = BuildingRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: BuildingId, val parent: BuildingRoutes = BuildingRoutes())
 
@@ -68,11 +81,11 @@ class BuildingRoutes {
 
 fun Application.configureBuildingRouting() {
     routing {
-        get<BuildingRoutes> {
+        get<BuildingRoutes.All> { all ->
             logger.info { "Get all buildings" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllBuildings(call, STORE.getState())
+                showAllBuildings(call, STORE.getState(), all.sort)
             }
         }
         get<BuildingRoutes.Details> { details ->
@@ -167,12 +180,26 @@ fun Application.configureBuildingRouting() {
 private fun HTML.showAllBuildings(
     call: ApplicationCall,
     state: State,
+    sort: SortBuilding,
 ) {
-    val buildings = STORE.getState().getBuildingStorage().getAll().sortedBy { it.name }
+    val buildings = STORE.getState()
+        .getBuildingStorage()
+        .getAll()
+        .sortedWith(when (sort) {
+            Name -> compareBy { it.name }
+            Construction -> state.getConstructionComparator()
+        })
     val count = buildings.size
+    val sortNameLink = call.application.href(BuildingRoutes.All())
+    val sortConstructionLink = call.application.href(BuildingRoutes.All(Construction))
 
     simpleHtml("Architectural Styles") {
         field("Count", count.toString())
+        field("Sort") {
+            link(sortNameLink, "Name")
+            +" "
+            link(sortConstructionLink, "Construction")
+        }
         table {
             tr {
                 th { +"Name" }
@@ -200,7 +227,7 @@ private fun HTML.showBuildingDetails(
     state: State,
     building: Building,
 ) {
-    val backLink = call.application.href(BuildingRoutes())
+    val backLink = call.application.href(BuildingRoutes.All())
     val editLink = call.application.href(BuildingRoutes.Edit(building.id))
     val editLotLink = call.application.href(BuildingRoutes.Lot.Edit(building.id))
     val deleteLink = call.application.href(BuildingRoutes.Delete(building.id))

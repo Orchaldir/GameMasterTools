@@ -53,7 +53,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), AppearanceRoutes())
                     h3 { +"World" }
                     fieldStorageLink(call, state.getArchitecturalStyleStorage(), ArchitecturalStyleRoutes.All())
-                    fieldStorageLink(call, state.getBuildingStorage(), BuildingRoutes())
+                    fieldStorageLink(call, state.getBuildingStorage(), BuildingRoutes.All())
                     fieldStorageLink(call, state.getMoonStorage(), MoonRoutes())
                     fieldStorageLink(call, state.getMountainStorage(), MountainRoutes())
                     fieldStorageLink(call, state.getRiverStorage(), RiverRoutes())
