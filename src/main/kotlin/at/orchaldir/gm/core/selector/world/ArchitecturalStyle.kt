@@ -10,7 +10,9 @@ import at.orchaldir.gm.core.selector.getDefaultCalendar
 fun State.canDelete(style: ArchitecturalStyleId) = getRevivedBy(style).isEmpty() &&
         getBuildings(style).isEmpty()
 
-fun State.getArchitecturalStyles(town: TownId) = getBuildings(town)
+fun State.getArchitecturalStyles(town: TownId) = countArchitecturalStyles(getBuildings(town))
+
+fun countArchitecturalStyles(buildings: Collection<Building>) = buildings
     .groupingBy { it.architecturalStyle }
     .eachCount()
 
