@@ -27,6 +27,7 @@ data class Building(
     val constructionDate: Date = Year(0),
     val ownership: Ownership = Ownership(),
     val architecturalStyle: ArchitecturalStyleId = ArchitecturalStyleId(0),
+    val purpose: BuildingPurpose = SingleFamilyHouse(),
 ) : Element<BuildingId> {
 
     override fun id() = id
