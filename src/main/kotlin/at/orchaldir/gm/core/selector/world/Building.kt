@@ -13,6 +13,14 @@ fun State.getAgeInYears(building: Building) = getDefaultCalendar()
 
 fun State.canDelete(building: Building) = building.ownership.owner.canDelete()
 
+fun State.getEarliestBuilding(buildings: List<Building>): Building? {
+    val calendar = getDefaultCalendar()
+    val lengthComparator =
+        Comparator<Building> { a: Building, b: Building -> calendar.compareTo(a.constructionDate, b.constructionDate) }
+
+    return buildings.minWithOrNull(lengthComparator)
+}
+
 fun State.getBuildings(style: ArchitecturalStyleId) = getBuildingStorage()
     .getAll()
     .filter { it.architecturalStyle == style }

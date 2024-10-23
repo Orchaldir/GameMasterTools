@@ -10,10 +10,7 @@ import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
-import at.orchaldir.gm.core.selector.world.canDelete
-import at.orchaldir.gm.core.selector.world.getBuildings
-import at.orchaldir.gm.core.selector.world.getRevivedBy
-import at.orchaldir.gm.core.selector.world.getPossibleStylesForRevival
+import at.orchaldir.gm.core.selector.world.*
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -162,7 +159,7 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State,
             +" "
             link(sortEndLink, "End")
         }
-        table("sortable") {
+        table {
             tr {
                 th { +"Name" }
                 th { +"Start" }
@@ -171,7 +168,7 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State,
                 th { +"Buildings" }
             }
             styles.forEach { style ->
-                tr("item") {
+                tr {
                     td { link(call, style) }
                     td { showDate(call, state, style.start) }
                     td { showOptionalDate(call, state, style.end) }
@@ -230,6 +227,7 @@ private fun HTML.showArchitecturalStyleEditor(
     state: State,
     style: ArchitecturalStyle,
 ) {
+    val minDate = state.getEarliestBuilding(state.getBuildings(style.id))?.constructionDate
     val backLink = href(call, style.id)
     val previewLink = call.application.href(ArchitecturalStyleRoutes.Preview(style.id))
     val updateLink = call.application.href(ArchitecturalStyleRoutes.Update(style.id))
@@ -241,8 +239,8 @@ private fun HTML.showArchitecturalStyleEditor(
             action = previewLink
             method = FormMethod.post
             selectName(style.name)
-            selectYear(state, "Start", style.start, START)
-            selectOptionalYear(state, "End", style.end, END, style.start)
+            selectYear(state, "Start", style.start, START, null, minDate)
+            selectOptionalYear(state, "End", style.end, END, style.start.nextYear())
             selectOptionalValue(
                 "Revival Of",
                 REVIVAL,
