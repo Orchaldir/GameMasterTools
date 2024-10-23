@@ -14,6 +14,14 @@ import at.orchaldir.gm.core.model.world.building.PreviousOwner
 fun State.getEvents(): List<Event> {
     val events = mutableListOf<Event>()
 
+    getArchitecturalStyleStorage().getAll().forEach { style ->
+        events.add(ArchitecturalStyleStartEvent(style.start, style.id))
+
+        if (style.end != null) {
+            events.add(ArchitecturalStyleEndEvent(style.end, style.id))
+        }
+    }
+
     getBuildingStorage().getAll().forEach { building ->
         events.add(BuildingConstructedEvent(building.constructionDate, building.id))
 

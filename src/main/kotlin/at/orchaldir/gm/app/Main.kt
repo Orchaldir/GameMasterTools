@@ -1,14 +1,14 @@
 package at.orchaldir.gm.app
 
-import at.orchaldir.gm.app.plugins.*
-import at.orchaldir.gm.app.plugins.character.*
-import at.orchaldir.gm.app.plugins.race.configureRaceAppearanceRouting
-import at.orchaldir.gm.app.plugins.race.configureRaceRouting
-import at.orchaldir.gm.app.plugins.world.*
-import at.orchaldir.gm.app.plugins.world.town.configureBuildingEditorRouting
-import at.orchaldir.gm.app.plugins.world.town.configureStreetEditorRouting
-import at.orchaldir.gm.app.plugins.world.town.configureTerrainRouting
-import at.orchaldir.gm.app.plugins.world.town.configureTownRouting
+import at.orchaldir.gm.app.routes.*
+import at.orchaldir.gm.app.routes.character.*
+import at.orchaldir.gm.app.routes.race.configureRaceAppearanceRouting
+import at.orchaldir.gm.app.routes.race.configureRaceRouting
+import at.orchaldir.gm.app.routes.world.*
+import at.orchaldir.gm.app.routes.world.town.configureBuildingEditorRouting
+import at.orchaldir.gm.app.routes.world.town.configureStreetEditorRouting
+import at.orchaldir.gm.app.routes.world.town.configureTerrainRouting
+import at.orchaldir.gm.app.routes.world.town.configureTownRouting
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -33,6 +33,7 @@ fun Application.module() {
     configureSerialization()
     configureRouting()
     configureStatusPages()
+    configureArchitecturalStyleRouting()
     configureBuildingRouting()
     configureBuildingEditorRouting()
     configureCharacterRouting()

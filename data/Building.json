@@ -17,7 +17,8 @@
    "constructionDate": {
     "type": "Year",
     "year": 1877
-   }
+   },
+   "architecturalStyle": 8
   },
   "1": {
    "id": 1,
@@ -72,7 +73,8 @@
       }
      }
     ]
-   }
+   },
+   "architecturalStyle": 4
   }
  }
 }

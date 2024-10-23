@@ -9,6 +9,12 @@ import at.orchaldir.gm.core.selector.getDefaultCalendar
 import io.ktor.server.application.*
 import kotlinx.html.*
 
+fun HtmlBlockTag.optionalField(call: ApplicationCall, state: State, label: String, date: Date?) {
+    if (date != null) {
+        field(call, label, state.getDefaultCalendar(), date)
+    }
+}
+
 fun HtmlBlockTag.field(call: ApplicationCall, state: State, label: String, date: Date) {
     field(call, label, state.getDefaultCalendar(), date)
 }
@@ -26,8 +32,65 @@ fun HtmlBlockTag.showCurrentDate(
     field(call, state, "Current Date", state.time.currentDate)
 }
 
+fun HtmlBlockTag.showOptionalDate(call: ApplicationCall, state: State, date: Date?) {
+    if (date != null) {
+        showDate(call, state, date)
+    }
+}
+
 fun HtmlBlockTag.showDate(call: ApplicationCall, state: State, date: Date) {
     link(call, state.getDefaultCalendar(), date)
+}
+
+fun HtmlBlockTag.selectOptionalDate(
+    state: State,
+    fieldLabel: String,
+    date: Date?,
+    param: String,
+    minDate: Date? = null,
+) {
+    selectOptionalDate(state.getDefaultCalendar(), fieldLabel, date, param, minDate)
+}
+
+private fun HtmlBlockTag.selectOptionalDate(
+    calendar: Calendar,
+    fieldLabel: String,
+    date: Date?,
+    param: String,
+    minDate: Date? = null,
+) {
+    field(fieldLabel) {
+        selectBool(date != null, combine(param, AVAILABLE), isDisabled = false, update = true)
+        if (date != null) {
+            selectDate(calendar, date, param, minDate)
+        }
+    }
+}
+
+fun HtmlBlockTag.selectOptionalYear(
+    state: State,
+    fieldLabel: String,
+    year: Year?,
+    param: String,
+    minDate: Date? = null,
+) {
+    selectOptionalYear(state.getDefaultCalendar(), fieldLabel, year, param, minDate)
+}
+
+fun HtmlBlockTag.selectOptionalYear(
+    calendar: Calendar,
+    fieldLabel: String,
+    year: Year?,
+    param: String,
+    minDate: Date? = null,
+) {
+    field(fieldLabel) {
+        selectBool(year != null, combine(param, AVAILABLE), isDisabled = false, update = true)
+        if (year != null) {
+            val displayYear = calendar.resolve(year)
+            selectYear(param, calendar, displayYear, minDate)
+        }
+    }
 }
 
 fun HtmlBlockTag.selectDate(
@@ -47,39 +110,91 @@ private fun HtmlBlockTag.selectDate(
     param: String,
     minDate: Date? = null,
 ) {
+    field(fieldLabel) {
+        selectDate(calendar, date, param, minDate)
+    }
+}
+
+private fun HtmlBlockTag.selectDate(
+    calendar: Calendar,
+    date: Date,
+    param: String,
+    minDate: Date? = null,
+) {
     val displayDate = calendar.resolve(date)
     val dateTypeParam = combine(param, DATE)
 
-    field(fieldLabel) {
-        select {
-            id = dateTypeParam
-            name = dateTypeParam
-            onChange = ON_CHANGE_SCRIPT
-            DateType.entries.forEach {
-                option {
-                    label = it.name
-                    value = it.name
-                    selected = it == date.getType()
-                }
-            }
-        }
-        when (displayDate) {
-            is DisplayDay -> {
-                selectDay(param, calendar, displayDate, minDate)
-            }
-
-            is DisplayYear -> {
-                val displayMinYear = minDate?.let {
-                    when (it) {
-                        is Day -> calendar.resolve(it).year
-                        is Year -> calendar.resolve(it)
-                    }
-                }
-                selectEraIndex(param, calendar, displayDate, displayMinYear)
-                selectYearIndex(param, displayDate, displayMinYear)
+    select {
+        id = dateTypeParam
+        name = dateTypeParam
+        onChange = ON_CHANGE_SCRIPT
+        DateType.entries.forEach {
+            option {
+                label = it.name
+                value = it.name
+                selected = it == date.getType()
             }
         }
     }
+    when (displayDate) {
+        is DisplayDay -> {
+            selectDay(param, calendar, displayDate, minDate)
+        }
+
+        is DisplayYear -> {
+            selectYear(param, calendar, displayDate, minDate)
+        }
+    }
+}
+
+fun FORM.selectYear(
+    state: State,
+    fieldLabel: String,
+    year: Year,
+    param: String,
+    minDate: Date? = null,
+    maxDate: Date? = null,
+) {
+    selectYear(fieldLabel, state.getDefaultCalendar(), year, param, minDate, maxDate)
+}
+
+fun FORM.selectYear(
+    fieldLabel: String,
+    calendar: Calendar,
+    year: Year,
+    param: String,
+    minDate: Date? = null,
+    maxDate: Date? = null,
+) {
+    val displayDate = calendar.resolve(year)
+
+    field(fieldLabel) {
+        selectYear(param, calendar, displayDate, minDate, maxDate)
+    }
+}
+
+private fun HtmlBlockTag.selectYear(
+    param: String,
+    calendar: Calendar,
+    year: DisplayYear,
+    minDate: Date? = null,
+    maxDate: Date? = null,
+) {
+    val displayMinYear = minDate?.let {
+        when (it) {
+            is Day -> calendar.resolve(it).year
+            is Year -> calendar.resolve(it)
+        }
+    }
+    val displayMaxYear = maxDate?.let {
+        when (it) {
+            is Day -> calendar.resolve(it).year
+            is Year -> calendar.resolve(it)
+        }
+    }
+
+    selectEraIndex(param, calendar, year, displayMinYear, displayMaxYear)
+    selectYearIndex(param, year, displayMinYear, displayMaxYear)
 }
 
 fun FORM.selectDay(
@@ -104,7 +219,7 @@ fun FORM.selectDay(
     }
 }
 
-private fun P.selectDay(
+private fun HtmlBlockTag.selectDay(
     param: String,
     calendar: Calendar,
     displayDate: DisplayDay,
@@ -123,14 +238,16 @@ private fun P.selectDay(
     selectDayIndex(param, calendar, displayDate, displayMinDay)
 }
 
-private fun P.selectEraIndex(
+private fun HtmlBlockTag.selectEraIndex(
     param: String,
     calendar: Calendar,
     year: DisplayYear,
     minYear: DisplayYear? = null,
+    maxYear: DisplayYear? = null,
 ) {
     val eraParam = combine(param, ERA)
     val minIndex = minYear?.eraIndex ?: 0
+    val maxIndex = maxYear?.eraIndex ?: Int.MAX_VALUE
 
     select {
         id = eraParam
@@ -140,17 +257,18 @@ private fun P.selectEraIndex(
             option {
                 label = era.text
                 value = index.toString()
-                disabled = index < minIndex
+                disabled = index < minIndex || index > maxIndex
                 selected = index == year.eraIndex
             }
         }
     }
 }
 
-private fun P.selectYearIndex(
+private fun HtmlBlockTag.selectYearIndex(
     param: String,
     year: DisplayYear,
     minYear: DisplayYear? = null,
+    maxYear: DisplayYear? = null,
 ) {
     val yearParam = combine(param, YEAR)
     val minIndex = if (minYear != null) {
@@ -161,9 +279,18 @@ private fun P.selectYearIndex(
         }
     } else {
         0
+    } + 1
+    val maxIndex = if (maxYear != null) {
+        if (maxYear.eraIndex == year.eraIndex) {
+            maxYear.yearIndex + 1
+        } else {
+            Int.MAX_VALUE
+        }
+    } else {
+        Int.MAX_VALUE
     }
 
-    selectInt(year.yearIndex + 1, minIndex + 1, Int.MAX_VALUE, yearParam, true)
+    selectInt(year.yearIndex + 1, minIndex, maxIndex, yearParam, true)
 }
 
 fun HtmlBlockTag.selectMonthIndex(
@@ -177,7 +304,7 @@ fun HtmlBlockTag.selectMonthIndex(
     }
 }
 
-private fun P.selectMonthIndex(
+private fun HtmlBlockTag.selectMonthIndex(
     param: String,
     calendar: Calendar,
     day: DisplayDay,
@@ -192,7 +319,7 @@ private fun P.selectMonthIndex(
     selectMonthIndex(param, calendar, day.monthIndex, minIndex)
 }
 
-private fun P.selectMonthIndex(
+private fun HtmlBlockTag.selectMonthIndex(
     param: String,
     calendar: Calendar,
     monthIndex: Int,
@@ -218,7 +345,7 @@ fun HtmlBlockTag.selectDayIndex(
     }
 }
 
-private fun P.selectDayIndex(
+private fun HtmlBlockTag.selectDayIndex(
     param: String,
     calendar: Calendar,
     day: DisplayDay,
@@ -233,7 +360,7 @@ private fun P.selectDayIndex(
     selectDayIndex(param, calendar, day.monthIndex, day.dayIndex, minIndex)
 }
 
-private fun P.selectDayIndex(
+private fun HtmlBlockTag.selectDayIndex(
     param: String,
     calendar: Calendar,
     monthIndex: Int,

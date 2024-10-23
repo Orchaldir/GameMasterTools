@@ -48,6 +48,12 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
 
     fun get(id: ID) = elements[id]
 
+    fun getOptional(id: ID?) = if (id != null) {
+        elements[id]
+    } else {
+        null
+    }
+
     fun getOrThrow(id: ID) = elements[id] ?: throw IllegalArgumentException("Unknown ${getType()} ${id.value()}!")
 
     fun contains(id: ID) = elements.containsKey(id)

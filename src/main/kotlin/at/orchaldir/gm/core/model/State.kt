@@ -32,9 +32,7 @@ import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
-import at.orchaldir.gm.core.model.world.building.BUILDING
-import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.moon.MOON
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
@@ -51,6 +49,7 @@ import at.orchaldir.gm.utils.Storage
 
 val ELEMENTS =
     setOf(
+        ARCHITECTURAL_STYLE,
         BUILDING,
         CALENDAR,
         CHARACTER,
@@ -93,6 +92,7 @@ data class State(
         rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
     ) : this(storageList.associateBy { it.getType() }, path, time, rarityGenerator)
 
+    fun getArchitecturalStyleStorage() = getStorage<ArchitecturalStyleId, ArchitecturalStyle>(ARCHITECTURAL_STYLE)
     fun getBuildingStorage() = getStorage<BuildingId, Building>(BUILDING)
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR)
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER)
@@ -136,6 +136,13 @@ data class State(
         return "Unknown"
     }
 
+    fun removeStorage(type: String): State {
+        val newMap = storageMap.toMutableMap()
+        newMap.remove(type)
+
+        return copy(storageMap = newMap)
+    }
+
     fun updateStorage(storage: Storage<*, *>): State {
         val newMap = storageMap.toMutableMap()
         newMap[storage.getType()] = storage
@@ -163,6 +170,7 @@ data class State(
     }
 
     fun save() {
+        saveStorage(path, getArchitecturalStyleStorage())
         saveStorage(path, getBuildingStorage())
         saveStorage(path, getCalendarStorage())
         saveStorage(path, getCharacterStorage())
@@ -187,6 +195,7 @@ data class State(
 }
 
 fun createStorage(type: String) = when (type) {
+    ARCHITECTURAL_STYLE -> Storage(ArchitecturalStyleId(0))
     BUILDING -> Storage(BuildingId(0))
     CALENDAR -> Storage(CalendarId(0))
     CHARACTER -> Storage(CharacterId(0))
@@ -210,6 +219,7 @@ fun createStorage(type: String) = when (type) {
 }
 
 fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) {
+    ARCHITECTURAL_STYLE -> loadStorage<ArchitecturalStyleId, ArchitecturalStyle>(path, ArchitecturalStyleId(0))
     BUILDING -> loadStorage<BuildingId, Building>(path, BuildingId(0))
     CALENDAR -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))
     CHARACTER -> loadStorage<CharacterId, Character>(path, CharacterId(0))

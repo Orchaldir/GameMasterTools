@@ -3,12 +3,12 @@ package at.orchaldir.gm.app
 import at.orchaldir.gm.app.html.action
 import at.orchaldir.gm.app.html.fieldStorageLink
 import at.orchaldir.gm.app.html.simpleHtml
-import at.orchaldir.gm.app.plugins.*
-import at.orchaldir.gm.app.plugins.character.CharacterRoutes
-import at.orchaldir.gm.app.plugins.race.RaceRoutes
-import at.orchaldir.gm.app.plugins.race.RaceRoutes.AppearanceRoutes
-import at.orchaldir.gm.app.plugins.world.*
-import at.orchaldir.gm.app.plugins.world.town.TownRoutes
+import at.orchaldir.gm.app.routes.*
+import at.orchaldir.gm.app.routes.character.CharacterRoutes
+import at.orchaldir.gm.app.routes.race.RaceRoutes
+import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
+import at.orchaldir.gm.app.routes.world.*
+import at.orchaldir.gm.app.routes.world.town.TownRoutes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -52,6 +52,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getRaceStorage(), RaceRoutes())
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), AppearanceRoutes())
                     h3 { +"World" }
+                    fieldStorageLink(call, state.getArchitecturalStyleStorage(), ArchitecturalStyleRoutes.All())
                     fieldStorageLink(call, state.getBuildingStorage(), BuildingRoutes())
                     fieldStorageLink(call, state.getMoonStorage(), MoonRoutes())
                     fieldStorageLink(call, state.getMountainStorage(), MountainRoutes())

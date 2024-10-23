@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterOrigin
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.building.Owner
 import at.orchaldir.gm.core.model.world.town.TownId
@@ -12,6 +13,26 @@ import at.orchaldir.gm.core.model.world.town.TownId
 sealed class Event {
 
     abstract fun getDate(): Date
+
+}
+
+// architectural style
+
+data class ArchitecturalStyleStartEvent(
+    val startDate: Date,
+    val style: ArchitecturalStyleId,
+) : Event() {
+
+    override fun getDate() = startDate
+
+}
+
+data class ArchitecturalStyleEndEvent(
+    val endDate: Date,
+    val style: ArchitecturalStyleId,
+) : Event() {
+
+    override fun getDate() = endDate
 
 }
 
