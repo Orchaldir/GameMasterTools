@@ -20,16 +20,22 @@ import kotlin.test.assertEquals
 
 private val ID0 = ArchitecturalStyleId(0)
 private val ID1 = ArchitecturalStyleId(1)
+private val STYLE0 = ArchitecturalStyle(ID0)
 private val CALENDAR0 = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
 
 class ArchitecturalStyleTest {
 
+
     @Nested
     inner class DeleteTest {
 
+        private val revivalState = State(
+            listOf(Storage(listOf(STYLE0, ArchitecturalStyle(ID1, revival = ID0))))
+        )
+
         @Test
         fun `Can delete an unused style`() {
-            val state = State(Storage(ArchitecturalStyle(ID0)))
+            val state = State(Storage(STYLE0))
             val action = DeleteArchitecturalStyle(ID0)
 
             assertEquals(0, REDUCER.invoke(state, action).first.getArchitecturalStyleStorage().getSize())
@@ -46,7 +52,7 @@ class ArchitecturalStyleTest {
         fun `Cannot delete a style used by building`() {
             val state = State(
                 listOf(
-                    Storage(ArchitecturalStyle(ID0)),
+                    Storage(STYLE0),
                     Storage(Building(BuildingId(0), architecturalStyle = ID0))
                 )
             )
@@ -57,14 +63,19 @@ class ArchitecturalStyleTest {
 
         @Test
         fun `Cannot delete a revived style`() {
-            val state = State(
-                listOf(
-                    Storage(listOf(ArchitecturalStyle(ID0), ArchitecturalStyle(ID0, revival = ID0))),
-                )
-            )
             val action = DeleteArchitecturalStyle(ID0)
 
-            assertIllegalArgument("Architectural Style 0 is used!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Architectural Style 0 is used!") { REDUCER.invoke(revivalState, action) }
+        }
+
+        @Test
+        fun `Can delete a revival style`() {
+            val action = DeleteArchitecturalStyle(ID1)
+
+            assertEquals(
+                listOf(STYLE0),
+                REDUCER.invoke(revivalState, action).first.getArchitecturalStyleStorage().getAll().toList()
+            )
         }
     }
 
