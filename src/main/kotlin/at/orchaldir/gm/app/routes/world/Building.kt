@@ -72,7 +72,7 @@ fun Application.configureBuildingRouting() {
             logger.info { "Get all buildings" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllBuildings(call)
+                showAllBuildings(call, STORE.getState())
             }
         }
         get<BuildingRoutes.Details> { details ->
@@ -164,14 +164,32 @@ fun Application.configureBuildingRouting() {
     }
 }
 
-private fun HTML.showAllBuildings(call: ApplicationCall) {
+private fun HTML.showAllBuildings(
+    call: ApplicationCall,
+    state: State,
+) {
     val buildings = STORE.getState().getBuildingStorage().getAll().sortedBy { it.name }
     val count = buildings.size
 
-    simpleHtml("Buildings") {
+    simpleHtml("Architectural Styles") {
         field("Count", count.toString())
-        showList(buildings) { nameList ->
-            link(call, nameList)
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Construction" }
+                th { +"Town" }
+                th { +"Purpose" }
+                th { +"Style" }
+            }
+            buildings.forEach { building ->
+                tr {
+                    td { link(call, building) }
+                    td { showDate(call, state, building.constructionDate) }
+                    td { link(call, state, building.lot.town) }
+                    td { +building.purpose.getType().toString() }
+                    td { link(call, state, building.architecturalStyle) }
+                }
+            }
         }
         back("/")
     }
@@ -216,16 +234,16 @@ fun HtmlBlockTag.showPurpose(
     state: State,
     purpose: BuildingPurpose,
 ) {
+    field("Purpose", purpose.getType().toString())
+
     when (purpose) {
         is ApartmentHouse -> {
-            field("Purpose", "Apartment House")
             purpose.apartments.forEach {
                 showHome(call, state, it)
             }
         }
 
         is SingleFamilyHouse -> {
-            field("Purpose", "Home")
             showHome(call, state, purpose.home)
         }
     }

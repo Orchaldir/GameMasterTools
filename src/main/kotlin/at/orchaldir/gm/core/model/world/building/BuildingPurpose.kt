@@ -4,7 +4,14 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class BuildingPurpose
+sealed class BuildingPurpose {
+
+    fun getType() = when (this) {
+        is ApartmentHouse -> BuildingPurposeType.ApartmentHouse
+        is SingleFamilyHouse -> BuildingPurposeType.SingleFamilyHouse
+    }
+
+}
 
 @Serializable
 @SerialName("SingleFamilyHouse")
