@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
@@ -11,6 +12,10 @@ import at.orchaldir.gm.core.selector.getDefaultCalendar
 
 fun State.getAgeInYears(town: Town) = getDefaultCalendar()
     .getDurationInYears(town.foundingDate, time.currentDate)
+
+fun countTowns(buildings: Collection<Building>) = buildings
+    .groupingBy { it.lot.town }
+    .eachCount()
 
 fun State.exists(id: TownId, date: Date) = exists(getTownStorage().getOrThrow(id), date)
 

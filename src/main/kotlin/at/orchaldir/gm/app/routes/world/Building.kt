@@ -219,6 +219,7 @@ private fun HTML.showAllBuildings(
             }
         }
         showArchitecturalStyleCount(call, state, buildings)
+        showTownCount(call, state, buildings)
         back("/")
     }
 }
