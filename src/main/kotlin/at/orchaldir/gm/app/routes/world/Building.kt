@@ -198,6 +198,7 @@ private fun HTML.showBuildingDetails(
             showOwnership(call, state, building.ownership)
             field("Size", building.lot.size.format())
             fieldLink("Architectural Style", call, state, building.architecturalStyle)
+            showPurpose(call, state, building.purpose)
             action(editLink, "Edit")
             action(editLotLink, "Move & Resize")
             if (state.canDelete(building)) {
@@ -207,6 +208,36 @@ private fun HTML.showBuildingDetails(
         }, {
             svg(visualizeBuilding(call, state, building), 90)
         })
+    }
+}
+
+fun HtmlBlockTag.showPurpose(
+    call: ApplicationCall,
+    state: State,
+    purpose: BuildingPurpose,
+) {
+    when (purpose) {
+        is ApartmentHouse -> {
+            field("Purpose", "Apartment House")
+            purpose.apartments.forEach {
+                showHome(call, state, it)
+            }
+        }
+
+        is SingleFamilyHouse -> {
+            field("Purpose", "Home")
+            showHome(call, state, purpose.home)
+        }
+    }
+}
+
+fun HtmlBlockTag.showHome(
+    call: ApplicationCall,
+    state: State,
+    home: Home,
+) {
+    showList("Inhabitants", home.inhabitant) { inhabitant ->
+        link(call, state, inhabitant)
     }
 }
 
