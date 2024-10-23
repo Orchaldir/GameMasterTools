@@ -43,11 +43,23 @@ class ArchitecturalStyleTest {
         }
 
         @Test
-        fun `Cannot delete used style`() {
+        fun `Cannot delete a style used by building`() {
             val state = State(
                 listOf(
                     Storage(ArchitecturalStyle(ID0)),
                     Storage(Building(BuildingId(0), architecturalStyle = ID0))
+                )
+            )
+            val action = DeleteArchitecturalStyle(ID0)
+
+            assertIllegalArgument("Architectural Style 0 is used!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot delete a revived style`() {
+            val state = State(
+                listOf(
+                    Storage(listOf(ArchitecturalStyle(ID0), ArchitecturalStyle(ID0, revival = ID0))),
                 )
             )
             val action = DeleteArchitecturalStyle(ID0)
