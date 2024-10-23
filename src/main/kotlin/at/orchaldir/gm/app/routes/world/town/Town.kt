@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.action.CreateTown
 import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.visualization.town.getStreetTypeFill
@@ -24,9 +23,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.DIV
 import kotlinx.html.HTML
-import kotlinx.html.HtmlBlockTag
 import kotlinx.html.form
 import mu.KotlinLogging
 
@@ -130,7 +127,7 @@ private fun HTML.showTownDetails(
             field(call, state, "Founding", town.foundingDate)
             fieldAge("Age", state.getAgeInYears(town))
             field("Size", town.map.size.format())
-            showArchitecturalStyles(call, state, buildings)
+            showArchitecturalStyleCount(call, state, buildings)
             showList("Buildings", buildings.sortedBy { it.name }) { building ->
                 link(call, building)
             }
@@ -152,17 +149,6 @@ private fun HTML.showTownDetails(
         }, {
             svg(visualizeTownWithLinks(call, state, town), 90)
         })
-    }
-}
-
-fun HtmlBlockTag.showArchitecturalStyles(
-    call: ApplicationCall,
-    state: State,
-    buildings: List<Building>,
-) {
-    showMap("Architectural Styles", countArchitecturalStyles(buildings)) { style, count ->
-        link(call, state, style)
-        +": $count"
     }
 }
 

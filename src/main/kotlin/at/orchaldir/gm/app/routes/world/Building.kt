@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
 import at.orchaldir.gm.app.routes.world.SortBuilding.Construction
 import at.orchaldir.gm.app.routes.world.SortBuilding.Name
-import at.orchaldir.gm.app.routes.world.town.countArchitecturalStyles
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
@@ -219,7 +218,7 @@ private fun HTML.showAllBuildings(
                 }
             }
         }
-        countArchitecturalStyles(call, state, buildings)
+        showArchitecturalStyleCount(call, state, buildings)
         back("/")
     }
 }
