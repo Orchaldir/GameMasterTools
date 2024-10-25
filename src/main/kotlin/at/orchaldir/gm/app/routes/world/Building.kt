@@ -245,7 +245,7 @@ private fun HTML.showBuildingDetails(
             showOwnership(call, state, building.ownership)
             field("Size", building.lot.size.format())
             fieldLink("Architectural Style", call, state, building.architecturalStyle)
-            showPurpose(call, state, building.purpose)
+            showPurpose(building.purpose)
             action(editLink, "Edit")
             action(editLotLink, "Move & Resize")
             if (state.canDelete(building)) {
@@ -259,32 +259,16 @@ private fun HTML.showBuildingDetails(
 }
 
 fun HtmlBlockTag.showPurpose(
-    call: ApplicationCall,
-    state: State,
     purpose: BuildingPurpose,
 ) {
     field("Purpose", purpose.getType().toString())
 
     when (purpose) {
         is ApartmentHouse -> {
-            purpose.apartments.forEach {
-                showHome(call, state, it)
-            }
+            field("Apartments", purpose.apartments.toString())
         }
 
-        is SingleFamilyHouse -> {
-            showHome(call, state, purpose.home)
-        }
-    }
-}
-
-fun HtmlBlockTag.showHome(
-    call: ApplicationCall,
-    state: State,
-    home: Home,
-) {
-    showList("Inhabitants", home.inhabitant) { inhabitant ->
-        link(call, state, inhabitant)
+        is SingleFamilyHouse -> doNothing()
     }
 }
 

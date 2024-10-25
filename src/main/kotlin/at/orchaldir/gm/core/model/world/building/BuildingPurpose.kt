@@ -15,11 +15,11 @@ sealed class BuildingPurpose {
 
 @Serializable
 @SerialName("SingleFamilyHouse")
-data class SingleFamilyHouse(val home: Home = Home()) : BuildingPurpose()
+data object SingleFamilyHouse : BuildingPurpose()
 
 @Serializable
 @SerialName("ApartmentHouse")
-data class ApartmentHouse(val apartments: List<Home>) : BuildingPurpose()
+data class ApartmentHouse(val apartments: Int) : BuildingPurpose()
 
 
 
