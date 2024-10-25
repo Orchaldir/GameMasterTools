@@ -153,13 +153,30 @@ private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
 
     simpleHtml("Characters") {
         field("Count", count.toString())
-        showList(characters) { character ->
-            if (character.first.vitalStatus is Dead) {
-                del {
-                    link(call, character.first.id, character.second)
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Race" }
+                th { +"Culture" }
+                th { +"Gender" }
+                th { +"Birthdate" }
+            }
+            characters.forEach { (character, name) ->
+                tr {
+                    td {
+                        if (character.vitalStatus is Dead) {
+                            del {
+                                link(call, character.id, name)
+                            }
+                        } else {
+                            link(call, character.id, name)
+                        }
+                    }
+                    td { link(call, state, character.race) }
+                    td { link(call, state, character.culture) }
+                    td { +character.gender.toString() }
+                    td { showDate(call, state, character.birthDate) }
                 }
-            } else {
-                link(call, character.first.id, character.second)
             }
         }
         if (state.canCreateCharacter()) {
