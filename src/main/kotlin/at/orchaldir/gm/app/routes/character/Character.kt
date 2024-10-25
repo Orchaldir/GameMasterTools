@@ -160,6 +160,7 @@ private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
                 th { +"Culture" }
                 th { +"Gender" }
                 th { +"Birthdate" }
+                th { +"Age" }
             }
             characters.forEach { (character, name) ->
                 tr {
@@ -176,6 +177,7 @@ private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
                     td { link(call, state, character.culture) }
                     td { +character.gender.toString() }
                     td { showDate(call, state, character.birthDate) }
+                    td { +state.getAgeInYears(character).toString() }
                 }
             }
         }
