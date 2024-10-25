@@ -301,12 +301,29 @@ private fun HTML.showBuildingEditor(
                     value = s.id().value.toString()
                     selected = s.id == building.architecturalStyle
                 }
+                selectPurpose(building.purpose)
                 button("Update", updateLink)
             }
             back(backLink)
         }, {
             svg(visualizeBuilding(call, state, building), 90)
         })
+    }
+}
+
+fun FORM.selectPurpose(purpose: BuildingPurpose) {
+    selectValue("Purpose", PURPOSE, BuildingPurposeType.entries, true) { type ->
+        label = type.toString()
+        value = type.toString()
+        selected = purpose.getType() == type
+    }
+
+    when (purpose) {
+        is ApartmentHouse -> {
+            selectInt("Apartments", purpose.apartments, 2, 1000, combine(PURPOSE, NUMBER), true)
+        }
+
+        SingleFamilyHouse -> doNothing()
     }
 }
 

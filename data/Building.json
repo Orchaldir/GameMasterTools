@@ -74,7 +74,11 @@
      }
     ]
    },
-   "architecturalStyle": 4
+   "architecturalStyle": 4,
+   "purpose": {
+    "type": "ApartmentHouse",
+    "apartments": 10
+   }
   }
  }
 }

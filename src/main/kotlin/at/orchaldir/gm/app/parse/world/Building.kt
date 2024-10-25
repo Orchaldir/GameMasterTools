@@ -25,6 +25,7 @@ fun parseUpdateBuilding(parameters: Parameters, state: State, id: BuildingId): U
         constructionDate,
         parseOwnership(parameters, state, constructionDate),
         parseArchitecturalStyleId(parameters, STYLE),
+        parsePurpose(parameters),
     )
 }
 
@@ -76,4 +77,9 @@ fun parseOwner(parameters: Parameters, param: String): Owner = when (parameters[
     OwnerType.Character.toString() -> OwnedByCharacter(parseCharacterId(parameters, combine(param, CHARACTER)))
     OwnerType.Town.toString() -> OwnedByTown(parseTownId(parameters, combine(param, TOWN)))
     else -> UnknownOwner
+}
+
+fun parsePurpose(parameters: Parameters): BuildingPurpose = when (parameters[PURPOSE]) {
+    BuildingPurposeType.ApartmentHouse.toString() -> ApartmentHouse(parseInt(parameters, combine(PURPOSE, NUMBER), 10))
+    else -> SingleFamilyHouse
 }
