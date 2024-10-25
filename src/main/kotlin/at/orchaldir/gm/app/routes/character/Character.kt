@@ -230,28 +230,49 @@ private fun BODY.showData(
         UndefinedAppearance -> doNothing()
     }
     field(call, state, "Birthdate", character.birthDate)
-    if (character.vitalStatus is Dead) {
-        field(call, state, "Date of Death", character.vitalStatus.deathDay)
-
-        when (character.vitalStatus.cause) {
-            is Accident -> showCauseOfDeath("Accident")
-            is Murder -> {
-                field("Cause of Death") {
-                    +"Killed by "
-                    link(call, state, character.vitalStatus.cause.killer)
-                }
-            }
-
-            is OldAge -> showCauseOfDeath("Old Age")
-        }
-    }
+    showVitalStatus(call, state, character.vitalStatus)
     showAge(state, character, race)
+    showLivingStatus(call, state, character.livingStatus)
 
     action(generateNameLink, "Generate New Name")
     action(generateBirthdayLink, "Generate Birthday")
     action(editLink, "Edit")
     if (state.canDelete(character.id)) {
         action(deleteLink, "Delete")
+    }
+}
+
+private fun BODY.showVitalStatus(
+    call: ApplicationCall,
+    state: State,
+    vitalStatus: VitalStatus,
+) {
+    if (vitalStatus is Dead) {
+        field(call, state, "Date of Death", vitalStatus.deathDay)
+
+        when (vitalStatus.cause) {
+            is Accident -> showCauseOfDeath("Accident")
+            is Murder -> {
+                field("Cause of Death") {
+                    +"Killed by "
+                    link(call, state, vitalStatus.cause.killer)
+                }
+            }
+
+            is OldAge -> showCauseOfDeath("Old Age")
+        }
+    }
+}
+
+private fun BODY.showLivingStatus(
+    call: ApplicationCall,
+    state: State,
+    livingStatus: LivingStatus,
+) {
+    when (livingStatus) {
+        Homeless -> field("Living Status", "Homeless")
+        is InApartment -> fieldLink("${livingStatus.apartment + 1}.Apartment of", call, state, livingStatus.building)
+        is InHouse -> fieldLink("Home", call, state, livingStatus.building)
     }
 }
 
