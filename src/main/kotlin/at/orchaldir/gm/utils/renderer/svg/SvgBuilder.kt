@@ -119,10 +119,10 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
             "id=\"%s\" spreadMethod=\"repeat\" x2=\"%s%%\" gradientUnits=\"userSpaceOnUse\"%s",
             name, width, options
         ) { tag ->
-            addStop(tag, 0.0f, color0);
-            addStop(tag, 0.5f, color0);
-            addStop(tag, 0.5f, color1);
-            addStop(tag, 1.0f, color1);
+            addStop(tag, 0.0f, color0)
+            addStop(tag, 0.5f, color0)
+            addStop(tag, 0.5f, color1)
+            addStop(tag, 1.0f, color1)
         }
     }
 

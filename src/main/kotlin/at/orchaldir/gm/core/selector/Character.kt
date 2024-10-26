@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Duration
+import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.utils.math.Distance
@@ -23,6 +24,16 @@ fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
         && getInventedLanguages(character).isEmpty()
         && getOwnedBuildings(character).isEmpty()
         && getPreviouslyOwnedBuildings(character).isEmpty()
+
+// count
+
+fun countGender(characters: Collection<Character>) = characters
+    .groupingBy { it.gender }
+    .eachCount()
+
+fun countLivingStatus(characters: Collection<Character>) = characters
+    .groupingBy { it.livingStatus.getType() }
+    .eachCount()
 
 // get characters
 
@@ -37,6 +48,20 @@ fun State.getCharacters(trait: PersonalityTraitId) =
 fun State.getCharacters(race: RaceId) = getCharacterStorage().getAll().filter { c -> c.race == race }
 
 fun State.getOthers(id: CharacterId) = getCharacterStorage().getAll().filter { c -> c.id != id }
+
+// living status
+
+fun State.getCharactersLivingIn(building: BuildingId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.livingStatus.isLivingIn(building) }
+
+fun State.getCharactersLivingInApartment(building: BuildingId, apartment: Int) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.livingStatus.isLivingInApartment(building, apartment) }
+
+fun State.getCharactersLivingInHouse(building: BuildingId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.livingStatus.isLivingInHouse(building) }
 
 // get relatives
 

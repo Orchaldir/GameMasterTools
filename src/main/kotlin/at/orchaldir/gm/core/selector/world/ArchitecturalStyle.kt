@@ -4,13 +4,12 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 
 fun State.canDelete(style: ArchitecturalStyleId) = getRevivedBy(style).isEmpty() &&
         getBuildings(style).isEmpty()
 
-fun State.getArchitecturalStyles(town: TownId) = getBuildings(town)
+fun countArchitecturalStyles(buildings: Collection<Building>) = buildings
     .groupingBy { it.architecturalStyle }
     .eachCount()
 

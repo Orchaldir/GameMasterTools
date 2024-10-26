@@ -70,6 +70,10 @@
      "Pants": 4,
      "Shirt": 2
     }
+   },
+   "livingStatus": {
+    "type": "InHouse",
+    "building": 1
    }
   },
   "1": {
@@ -134,6 +138,11 @@
      "Shirt": 2,
      "Skirt": 20
     }
+   },
+   "livingStatus": {
+    "type": "InApartment",
+    "building": 2,
+    "apartmentIndex": 9
    }
   },
   "2": {

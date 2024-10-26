@@ -10,9 +10,11 @@ import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.world.exists
+import at.orchaldir.gm.core.selector.world.getMinNumberOfApartment
 import at.orchaldir.gm.core.selector.world.getStreetIds
 import at.orchaldir.gm.core.selector.world.getUsedHouseNumbers
 import at.orchaldir.gm.utils.doNothing
@@ -37,14 +39,19 @@ val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
 }
 
 val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
-    val building = state.getBuildingStorage().getOrThrow(action.id)
+    val id = action.id
+    val building = state.getBuildingStorage().getOrThrow(id)
     val oldTown = state.getTownStorage().getOrThrow(building.lot.town)
     val town = oldTown.removeBuilding(building.id)
+
+    require(
+        state.getCharactersLivingIn(id).isEmpty()
+    ) { "Cannot delete building ${id.value}, because it has inhabitants!" }
 
     noFollowUps(
         state.updateStorage(
             listOf(
-                state.getBuildingStorage().remove(action.id),
+                state.getBuildingStorage().remove(id),
                 state.getTownStorage().update(town),
             )
         )
@@ -57,6 +64,7 @@ val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     checkAddress(state, oldBuilding.lot.town, oldBuilding.address, action.address)
     checkArchitecturalStyle(state, action)
     checkOwnership(state, action.ownership, action.constructionDate)
+    checkPurpose(state, oldBuilding, action)
 
     val building = action.applyTo(oldBuilding)
 
@@ -187,4 +195,26 @@ private fun checkOwnerStart(
     }
 
     require(exists) { "$noun didn't exist at the start of their ownership!" }
+}
+
+private fun checkPurpose(
+    state: State,
+    oldBuilding: Building,
+    action: UpdateBuilding,
+) {
+    if (oldBuilding.purpose.getType() != action.purpose.getType()) {
+        require(state.getCharactersLivingIn(oldBuilding.id).isEmpty()) {
+            "Cannot change the purpose, while characters are living in it!"
+        }
+    }
+    when (action.purpose) {
+        is ApartmentHouse -> {
+            val min = state.getMinNumberOfApartment(action.id)
+            require(action.purpose.apartments >= min) {
+                "The apartment house ${action.id.value} requires at least $min apartments!"
+            }
+        }
+
+        SingleFamilyHouse -> doNothing()
+    }
 }

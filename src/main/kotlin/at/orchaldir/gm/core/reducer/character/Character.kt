@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getInventedLanguages
 import at.orchaldir.gm.core.selector.getParents
@@ -48,6 +49,7 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     state.getCultureStorage().require(character.culture)
     checkOrigin(state, character)
     checkCauseOfDeath(state, character)
+    checkLivingStatus(state, character)
     character.personality.forEach { state.getPersonalityTraitStorage().require(it) }
     val update = character.copy(languages = oldCharacter.languages)
 
@@ -86,9 +88,28 @@ private fun checkCauseOfDeath(
         }
 
         if (dead.cause is Murder) {
-            require(
-                state.getCharacterStorage().contains(dead.cause.killer)
-            ) { "Cannot use an unknown killer ${dead.cause.killer}!" }
+            state.getCharacterStorage()
+                .require(dead.cause.killer) { "Cannot use an unknown killer ${dead.cause.killer}!" }
         }
+    }
+}
+
+private fun checkLivingStatus(
+    state: State,
+    character: Character,
+) {
+    when (val livingStatus = character.livingStatus) {
+        Homeless -> doNothing()
+        is InApartment -> {
+            val apartmentHouse = state.getBuildingStorage().getOrThrow(livingStatus.building)
+
+            if (apartmentHouse.purpose is ApartmentHouse) {
+                require(livingStatus.apartmentIndex < apartmentHouse.purpose.apartments) { "Apartment index is too high!" }
+            } else {
+                error("Living in an apartment requires an apartment house!")
+            }
+        }
+
+        is InHouse -> state.getBuildingStorage().require(livingStatus.building)
     }
 }

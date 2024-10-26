@@ -39,6 +39,7 @@ data class Character(
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val appearance: Appearance = UndefinedAppearance,
     val equipmentMap: EquipmentMap = EquipmentMap(emptyMap()),
+    val livingStatus: LivingStatus = Homeless,
 ) : Element<CharacterId> {
 
     override fun id() = id

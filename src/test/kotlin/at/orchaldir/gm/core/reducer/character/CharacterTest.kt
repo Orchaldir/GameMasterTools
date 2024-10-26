@@ -1,17 +1,20 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.assertIllegalState
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.culture.CULTURE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.race.RACE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Day
@@ -168,17 +171,19 @@ class CharacterTest {
     @Nested
     inner class UpdateTest {
 
+        val STATE = State(
+            listOf(
+                Storage(Character(ID0)),
+                Storage(Culture(CULTURE0)),
+                Storage(Language(LANGUAGE0)),
+                Storage(PersonalityTrait(PERSONALITY0)),
+                Storage(listOf(Race(RACE0), Race(RACE1)))
+            )
+        )
+
         @Test
         fun `Do not overwrite languages`() {
-            val state = State(
-                listOf(
-                    Storage(listOf(Character(ID0, languages = LANGUAGES))),
-                    Storage(listOf(Culture(CULTURE0))),
-                    Storage(listOf(Language(LANGUAGE0))),
-                    Storage(listOf(PersonalityTrait(PERSONALITY0))),
-                    Storage(listOf(Race(RACE0), Race(RACE1)))
-                )
-            )
+            val state = STATE.updateStorage(Storage(Character(ID0, languages = LANGUAGES)))
             val action =
                 UpdateCharacter(Character(ID0, Mononym("Test"), RACE1, Gender.Male, personality = setOf(PERSONALITY0)))
 
@@ -200,18 +205,13 @@ class CharacterTest {
         @Nested
         inner class BornTest {
             private val UNKNOWN = CharacterId(3)
-
-            private val state = State(
-                listOf(
-                    Storage(
-                        listOf(
-                            Character(ID0),
-                            Character(ID1, gender = Gender.Male),
-                            Character(ID2, gender = Gender.Female)
-                        )
-                    ),
-                    Storage(listOf(Culture(CULTURE0))),
-                    Storage(listOf(Race(RACE0)))
+            private val state = STATE.updateStorage(
+                Storage(
+                    listOf(
+                        Character(ID0),
+                        Character(ID1, gender = Gender.Male),
+                        Character(ID2, gender = Gender.Female)
+                    )
                 )
             )
 
@@ -268,7 +268,7 @@ class CharacterTest {
         @Nested
         inner class CauseOfDeathTest {
 
-            private val state = State(
+            private val state = STATE.updateStorage(
                 listOf(
                     Storage(
                         listOf(
@@ -278,9 +278,8 @@ class CharacterTest {
                     ),
                     Storage(listOf(Culture(CULTURE0))),
                     Storage(listOf(Race(RACE0))),
-                ),
-                time = Time(currentDate = Day(10)),
-            )
+                )
+            ).copy(time = Time(currentDate = Day(10)))
 
             @Test
             fun `Died from accident`() {
@@ -351,17 +350,80 @@ class CharacterTest {
             }
         }
 
+        @Nested
+        inner class LivingStatusTest {
+
+            @Test
+            fun `Live in a single family house`() {
+                testSuccess(Building(BUILDING0), InHouse(BUILDING0))
+            }
+
+            @Test
+            fun `Live in an apartment`() {
+                val count = 3
+
+                repeat(count) {
+                    testSuccess(Building(BUILDING0, purpose = ApartmentHouse(count)), InApartment(BUILDING0, it))
+                }
+            }
+
+            @Test
+            fun `Living in an apartment requires an apartment house`() {
+                val state = STATE.updateStorage(Storage(Building(BUILDING0)))
+                val action = UpdateCharacter(Character(ID0, livingStatus = InApartment(BUILDING0, 0)))
+
+                assertIllegalState("Living in an apartment requires an apartment house!") {
+                    REDUCER.invoke(state, action)
+                }
+            }
+
+            @Test
+            fun `Cannot use an apartment number higher than the building allows`() {
+                val state = STATE.updateStorage(Storage(Building(BUILDING0, purpose = ApartmentHouse(2))))
+                val action = UpdateCharacter(Character(ID0, livingStatus = InApartment(BUILDING0, 2)))
+
+                assertIllegalArgument("Apartment index is too high!") { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Cannot use unknown building as home`() {
+                val action = UpdateCharacter(Character(ID0, livingStatus = InHouse(BUILDING0)))
+
+                assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Cannot use unknown building as apartment house`() {
+                val action = UpdateCharacter(Character(ID0, livingStatus = InApartment(BUILDING0, 0)))
+
+                assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(STATE, action) }
+            }
+
+            private fun testSuccess(building: Building, livingStatus: LivingStatus) {
+                val state = STATE.updateStorage(Storage(building))
+                val character = Character(ID0, livingStatus = livingStatus)
+                val action = UpdateCharacter(character)
+
+                val result = REDUCER.invoke(state, action).first
+
+                assertEquals(
+                    character,
+                    result.getCharacterStorage().getOrThrow(ID0)
+                )
+            }
+        }
+
         @Test
         fun `Cannot update unknown character`() {
-            val state = State(Storage(listOf(Race(RACE0))))
+            val state = STATE.removeStorage(CHARACTER)
             val action = UpdateCharacter(Character(ID0))
 
-            assertIllegalArgument("Unknown Character 0!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Character 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot use unknown culture`() {
-            val state = State(listOf(Storage(listOf(Character(ID0))), Storage(listOf(Race(RACE0)))))
+            val state = STATE.removeStorage(CULTURE)
             val action = UpdateCharacter(Character(ID0, culture = CULTURE0))
 
             assertIllegalArgument("Requires unknown Culture 0!") { REDUCER.invoke(state, action) }
@@ -369,13 +431,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot use unknown personality trait`() {
-            val state = State(
-                listOf(
-                    Storage(listOf(Character(ID0))),
-                    Storage(listOf(Race(RACE0))),
-                    Storage(listOf(Culture(CULTURE0))),
-                )
-            )
+            val state = STATE.removeStorage(PERSONALITY_TRAIT)
             val action = UpdateCharacter(Character(ID0, personality = setOf(PERSONALITY0)))
 
             assertIllegalArgument("Requires unknown Personality Trait 0!") { REDUCER.invoke(state, action) }
@@ -383,7 +439,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot use unknown race`() {
-            val state = State(Storage(listOf(Character(ID0))))
+            val state = STATE.removeStorage(RACE)
             val action = UpdateCharacter(Character(ID0, race = RACE0))
 
             assertIllegalArgument("Requires unknown Race 0!") { REDUCER.invoke(state, action) }
