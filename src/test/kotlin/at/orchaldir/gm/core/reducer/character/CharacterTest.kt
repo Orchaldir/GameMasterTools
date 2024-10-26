@@ -349,6 +349,38 @@ class CharacterTest {
             }
         }
 
+        @Nested
+        inner class LivingStatusTest {
+
+            @Test
+            fun `Live in a single family house`() {
+                val state = STATE.updateStorage(Storage(Building(BUILDING0)))
+                val character = Character(ID0, livingStatus = InHouse(BUILDING0))
+                val action = UpdateCharacter(character)
+
+                val result = REDUCER.invoke(state, action).first
+
+                assertEquals(
+                    character,
+                    result.getCharacterStorage().getOrThrow(ID0)
+                )
+            }
+
+            @Test
+            fun `Cannot use unknown building as home`() {
+                val action = UpdateCharacter(Character(ID0, livingStatus = InHouse(BUILDING0)))
+
+                assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Cannot use unknown building as apartment house`() {
+                val action = UpdateCharacter(Character(ID0, livingStatus = InApartment(BUILDING0, 0)))
+
+                assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(STATE, action) }
+            }
+        }
+
         @Test
         fun `Cannot update unknown character`() {
             val state = STATE.removeStorage(CHARACTER)
@@ -379,13 +411,6 @@ class CharacterTest {
             val action = UpdateCharacter(Character(ID0, race = RACE0))
 
             assertIllegalArgument("Requires unknown Race 0!") { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Cannot use unknown building as home`() {
-            val action = UpdateCharacter(Character(ID0, livingStatus = InHouse(BUILDING0)))
-
-            assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(STATE, action) }
         }
     }
 

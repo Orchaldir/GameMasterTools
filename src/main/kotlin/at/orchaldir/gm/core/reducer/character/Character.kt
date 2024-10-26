@@ -99,7 +99,7 @@ private fun checkLivingStatus(
 ) {
     when (val livingStatus = character.livingStatus) {
         Homeless -> doNothing()
-        is InApartment -> TODO()
+        is InApartment -> state.getBuildingStorage().require(livingStatus.building)
         is InHouse -> state.getBuildingStorage().require(livingStatus.building)
     }
 }
