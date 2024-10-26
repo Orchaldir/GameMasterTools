@@ -354,16 +354,16 @@ class CharacterTest {
 
             @Test
             fun `Live in a single family house`() {
-                val state = STATE.updateStorage(Storage(Building(BUILDING0)))
-                val character = Character(ID0, livingStatus = InHouse(BUILDING0))
-                val action = UpdateCharacter(character)
+                testSuccess(Building(BUILDING0), InHouse(BUILDING0))
+            }
 
-                val result = REDUCER.invoke(state, action).first
+            @Test
+            fun `Live in an apartment`() {
+                val count = 3
 
-                assertEquals(
-                    character,
-                    result.getCharacterStorage().getOrThrow(ID0)
-                )
+                repeat(count) {
+                    testSuccess(Building(BUILDING0, purpose = ApartmentHouse(count)), InApartment(BUILDING0, it))
+                }
             }
 
             @Test
@@ -378,6 +378,19 @@ class CharacterTest {
                 val action = UpdateCharacter(Character(ID0, livingStatus = InApartment(BUILDING0, 0)))
 
                 assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(STATE, action) }
+            }
+
+            private fun testSuccess(building: Building, livingStatus: LivingStatus) {
+                val state = STATE.updateStorage(Storage(building))
+                val character = Character(ID0, livingStatus = livingStatus)
+                val action = UpdateCharacter(character)
+
+                val result = REDUCER.invoke(state, action).first
+
+                assertEquals(
+                    character,
+                    result.getCharacterStorage().getOrThrow(ID0)
+                )
             }
         }
 
