@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.assertIllegalState
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
@@ -363,6 +364,19 @@ class CharacterTest {
 
                 repeat(count) {
                     testSuccess(Building(BUILDING0, purpose = ApartmentHouse(count)), InApartment(BUILDING0, it))
+                }
+            }
+
+            @Test
+            fun `Living in an apartment requires an apartment house`() {
+                val state = STATE.updateStorage(Storage(Building(BUILDING0)))
+                val action = UpdateCharacter(Character(ID0, livingStatus = InApartment(BUILDING0, 0)))
+
+                assertIllegalState("Living in an apartment requires an apartment house!") {
+                    REDUCER.invoke(
+                        state,
+                        action
+                    )
                 }
             }
 

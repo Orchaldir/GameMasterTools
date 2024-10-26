@@ -105,8 +105,9 @@ private fun checkLivingStatus(
 
             if (apartmentHouse.purpose is ApartmentHouse) {
                 require(livingStatus.apartmentIndex < apartmentHouse.purpose.apartments) { "Apartment index is too high!" }
+            } else {
+                error("Living in an apartment requires an apartment house!")
             }
-
         }
         is InHouse -> state.getBuildingStorage().require(livingStatus.building)
     }
