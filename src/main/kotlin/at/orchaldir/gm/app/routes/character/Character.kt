@@ -149,6 +149,7 @@ fun Application.configureCharacterRouting() {
 
 private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
     val characters = STORE.getState().getCharacterStorage().getAll()
+    val charactersWithNames = characters
         .map { Pair(it, state.getName(it)) }
         .sortedBy { it.second }
     val count = characters.size
@@ -166,7 +167,7 @@ private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
                 th { +"Age" }
                 th { +"Living Status" }
             }
-            characters.forEach { (character, name) ->
+            charactersWithNames.forEach { (character, name) ->
                 tr {
                     td {
                         if (character.vitalStatus is Dead) {
@@ -186,6 +187,11 @@ private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
                 }
             }
         }
+        showCultureCount(call, state, characters)
+        showGenderCount(characters)
+        showLivingStatusCount(characters)
+        showRaceCount(call, state, characters)
+
         if (state.canCreateCharacter()) {
             action(createLink, "Add")
         }

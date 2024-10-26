@@ -25,6 +25,16 @@ fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
         && getOwnedBuildings(character).isEmpty()
         && getPreviouslyOwnedBuildings(character).isEmpty()
 
+// count
+
+fun countGender(characters: Collection<Character>) = characters
+    .groupingBy { it.gender }
+    .eachCount()
+
+fun countLivingStatus(characters: Collection<Character>) = characters
+    .groupingBy { it.livingStatus.getType() }
+    .eachCount()
+
 // get characters
 
 fun State.getCharacters(culture: CultureId) = getCharacterStorage().getAll().filter { c -> c.culture == culture }
