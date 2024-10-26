@@ -142,7 +142,7 @@
    "livingStatus": {
     "type": "InApartment",
     "building": 2,
-    "apartment": 6
+    "apartmentIndex": 9
    }
   },
   "2": {
