@@ -63,6 +63,7 @@ val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     checkAddress(state, oldBuilding.lot.town, oldBuilding.address, action.address)
     checkArchitecturalStyle(state, action)
     checkOwnership(state, action.ownership, action.constructionDate)
+    checkPurpose(state, oldBuilding, action)
 
     val building = action.applyTo(oldBuilding)
 
@@ -193,4 +194,15 @@ private fun checkOwnerStart(
     }
 
     require(exists) { "$noun didn't exist at the start of their ownership!" }
+}
+
+private fun checkPurpose(
+    state: State,
+    oldBuilding: Building,
+    action: UpdateBuilding,
+) {
+    when (action.purpose) {
+        is ApartmentHouse -> require(action.purpose.apartments > 1) { "An apartment house requires at least 2 apartments!" }
+        SingleFamilyHouse -> doNothing()
+    }
 }

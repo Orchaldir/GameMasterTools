@@ -381,6 +381,17 @@ class BuildingTest {
         }
 
         @Test
+        fun `An apartment house requires at least 2 apartments`() {
+            (-1..1).forEach {
+                val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE, ApartmentHouse(it))
+
+                assertIllegalArgument("An apartment house requires at least 2 apartments!") {
+                    REDUCER.invoke(STATE, action)
+                }
+            }
+        }
+
+        @Test
         fun `Successfully updated with character as owner`() {
             testSuccess(OWNED_BY_CHARACTER)
         }

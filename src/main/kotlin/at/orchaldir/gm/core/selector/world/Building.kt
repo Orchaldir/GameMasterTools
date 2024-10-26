@@ -4,12 +4,14 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 
 fun State.getAgeInYears(building: Building) = getDefaultCalendar()
     .getDurationInYears(building.constructionDate, time.currentDate)
 
-fun State.canDelete(building: Building) = building.ownership.owner.canDelete()
+fun State.canDelete(building: Building) = building.ownership.owner.canDelete() &&
+        getCharactersLivingIn(building.id).isEmpty()
 
 fun countPurpose(buildings: Collection<Building>) = buildings
     .groupingBy { it.purpose.getType() }
