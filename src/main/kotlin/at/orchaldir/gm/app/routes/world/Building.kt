@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getCharactersLivingInApartment
 import at.orchaldir.gm.core.selector.getCharactersLivingInHouse
 import at.orchaldir.gm.core.selector.world.*
@@ -325,11 +326,13 @@ private fun HTML.showBuildingEditor(
 
 fun FORM.selectPurpose(state: State, building: Building) {
     val purpose = building.purpose
+    val inhabitants = state.getCharactersLivingIn(building.id)
 
     selectValue("Purpose", PURPOSE, BuildingPurposeType.entries, true) { type ->
         label = type.toString()
         value = type.toString()
         selected = purpose.getType() == type
+        disabled = purpose.getType() != type && inhabitants.isNotEmpty()
     }
 
     when (purpose) {
