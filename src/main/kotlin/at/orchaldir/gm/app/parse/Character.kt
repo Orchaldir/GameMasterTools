@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.parse.world.parseBuildingId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.CharacterOriginType.Undefined
@@ -50,7 +51,8 @@ fun parseCharacter(
         birthDate = birthDate,
         vitalStatus = parseVitalStatus(parameters, state),
         culture = culture,
-        personality = personality
+        personality = personality,
+        livingStatus = parseLivingStatus(parameters),
     )
 }
 
@@ -99,5 +101,22 @@ private fun parseCharacterName(parameters: Parameters): CharacterName {
 
         "Genonym" -> Genonym(given)
         else -> Mononym(given)
+    }
+}
+
+private fun parseLivingStatus(
+    parameters: Parameters,
+): LivingStatus {
+    return when (parse(parameters, HOME, LivingStatusType.Homeless)) {
+        LivingStatusType.InApartment -> InApartment(
+            parseBuildingId(parameters, combine(HOME, BUILDING)),
+            parseInt(parameters, combine(HOME, NUMBER)),
+        )
+
+        LivingStatusType.InHouse -> InHouse(
+            parseBuildingId(parameters, combine(HOME, BUILDING)),
+        )
+
+        else -> Homeless
     }
 }

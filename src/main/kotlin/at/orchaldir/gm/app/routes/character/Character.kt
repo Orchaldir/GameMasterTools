@@ -539,10 +539,8 @@ private fun FORM.selectLivingStatus(
                     livingStatus.apartment,
                     0,
                     apartmentHouse.purpose.apartments,
-                    combine(HOME, NUMBER)
+                    combine(HOME, NUMBER),
                 )
-            } else {
-                error("Building purpose doesn't match!")
             }
         }
 
