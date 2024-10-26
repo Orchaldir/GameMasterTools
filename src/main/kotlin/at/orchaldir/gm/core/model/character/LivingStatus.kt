@@ -36,11 +36,15 @@ data class InHouse(val building: BuildingId) : LivingStatus() {
 @SerialName("InApartment")
 data class InApartment(
     val building: BuildingId,
-    val apartment: Int,
+    val apartmentIndex: Int,
 ) : LivingStatus() {
 
-    override fun isLivingInApartment(building: BuildingId, apartment: Int) = this.building == building &&
-            this.apartment == apartment
+    init {
+        require(apartmentIndex >= 0) { "Apartment index must be greater 0!" }
+    }
+
+    override fun isLivingInApartment(building: BuildingId, apartmentIndex: Int) = this.building == building &&
+            this.apartmentIndex == apartmentIndex
 
 }
 

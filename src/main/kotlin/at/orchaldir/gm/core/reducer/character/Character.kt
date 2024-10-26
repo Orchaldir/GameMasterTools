@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getInventedLanguages
 import at.orchaldir.gm.core.selector.getParents
@@ -99,7 +100,14 @@ private fun checkLivingStatus(
 ) {
     when (val livingStatus = character.livingStatus) {
         Homeless -> doNothing()
-        is InApartment -> state.getBuildingStorage().require(livingStatus.building)
+        is InApartment -> {
+            val apartmentHouse = state.getBuildingStorage().getOrThrow(livingStatus.building)
+
+            if (apartmentHouse.purpose is ApartmentHouse) {
+                require(livingStatus.apartmentIndex < apartmentHouse.purpose.apartments) { "Apartment index is too high!" }
+            }
+
+        }
         is InHouse -> state.getBuildingStorage().require(livingStatus.building)
     }
 }

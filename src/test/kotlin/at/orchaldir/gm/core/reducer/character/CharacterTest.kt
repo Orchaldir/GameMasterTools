@@ -367,6 +367,14 @@ class CharacterTest {
             }
 
             @Test
+            fun `Cannot use an apartment number higher than the building allows`() {
+                val state = STATE.updateStorage(Storage(Building(BUILDING0, purpose = ApartmentHouse(2))))
+                val action = UpdateCharacter(Character(ID0, livingStatus = InApartment(BUILDING0, 2)))
+
+                assertIllegalArgument("Apartment index is too high!") { REDUCER.invoke(state, action) }
+            }
+
+            @Test
             fun `Cannot use unknown building as home`() {
                 val action = UpdateCharacter(Character(ID0, livingStatus = InHouse(BUILDING0)))
 
@@ -399,7 +407,7 @@ class CharacterTest {
             val state = STATE.removeStorage(CHARACTER)
             val action = UpdateCharacter(Character(ID0))
 
-            assertIllegalArgument("Unknown Character 0!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Character 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test

@@ -32,7 +32,7 @@ fun HtmlBlockTag.showLivingStatus(
     when (livingStatus) {
         Homeless -> +"Homeless"
         is InApartment -> {
-            +"${livingStatus.apartment + 1}.Apartment of "
+            +"${livingStatus.apartmentIndex + 1}.Apartment of "
             link(
                 call,
                 state,
@@ -68,7 +68,7 @@ fun FORM.selectLivingStatus(
             if (apartmentHouse.purpose is ApartmentHouse) {
                 selectInt(
                     "Apartment",
-                    livingStatus.apartment,
+                    livingStatus.apartmentIndex,
                     0,
                     apartmentHouse.purpose.apartments - 1,
                     combine(HOME, NUMBER),
