@@ -84,7 +84,7 @@ class TownTest {
             val state = State(listOf(Storage(Street(STREET0))))
             val action = AddStreetTile(ID0, 0, STREET0)
 
-            assertIllegalArgument("Unknown Town 0!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Town 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -147,7 +147,7 @@ class TownTest {
         fun `Cannot update unknown town`() {
             val action = RemoveStreetTile(ID0, 0)
 
-            assertIllegalArgument("Unknown Town 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Town 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -194,7 +194,7 @@ class TownTest {
         @Test
         fun `Cannot update unknown town`() {
             val action = SetTerrainTile(ID0, TerrainType.Plain, 0, 0)
-            assertIllegalArgument("Unknown Town 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Town 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -299,7 +299,7 @@ class TownTest {
         fun `Cannot resize unknown town`() {
             val action = ResizeTown(ID0, Resize(1))
 
-            assertIllegalArgument("Unknown Town 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Town 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test

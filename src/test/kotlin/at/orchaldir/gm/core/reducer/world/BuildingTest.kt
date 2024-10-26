@@ -55,7 +55,7 @@ class BuildingTest {
         fun `Cannot update unknown town`() {
             val action = AddBuilding(TOWN0, 0, square(1))
 
-            assertIllegalArgument("Unknown Town 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Town 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -160,7 +160,7 @@ class BuildingTest {
             val state = State(listOf(Storage(building)))
             val action = DeleteBuilding(ID0)
 
-            assertIllegalArgument("Unknown Town 0!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Town 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -169,7 +169,7 @@ class BuildingTest {
             val state = State(Storage(town))
             val action = DeleteBuilding(ID0)
 
-            assertIllegalArgument("Unknown Building 0!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -249,7 +249,7 @@ class BuildingTest {
             val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE, SingleFamilyHouse)
             val state = STATE.removeStorage(BUILDING)
 
-            assertIllegalArgument("Unknown Building 0!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -363,7 +363,7 @@ class BuildingTest {
             val action =
                 UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, UNKNOWN_STYLE, SingleFamilyHouse)
 
-            assertIllegalArgument("Unknown Architectural Style 1!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Architectural Style 1!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
@@ -564,7 +564,7 @@ class BuildingTest {
         fun `Cannot update unknown building`() {
             val action = UpdateBuildingLot(ID0, 0, MapSize2d(2, 1))
 
-            assertIllegalArgument("Unknown Building 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test

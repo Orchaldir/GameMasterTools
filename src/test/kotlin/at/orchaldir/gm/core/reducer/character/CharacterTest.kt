@@ -373,10 +373,7 @@ class CharacterTest {
                 val action = UpdateCharacter(Character(ID0, livingStatus = InApartment(BUILDING0, 0)))
 
                 assertIllegalState("Living in an apartment requires an apartment house!") {
-                    REDUCER.invoke(
-                        state,
-                        action
-                    )
+                    REDUCER.invoke(state, action)
                 }
             }
 
