@@ -214,6 +214,7 @@ private fun checkPurpose(
                 "The apartment house ${action.id.value} requires at least $min apartments!"
             }
         }
+
         SingleFamilyHouse -> doNothing()
     }
 }

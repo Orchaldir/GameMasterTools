@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.core.action.CreateArchitecturalStyle
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
-import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle

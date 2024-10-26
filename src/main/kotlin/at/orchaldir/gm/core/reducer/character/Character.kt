@@ -109,6 +109,7 @@ private fun checkLivingStatus(
                 error("Living in an apartment requires an apartment house!")
             }
         }
+
         is InHouse -> state.getBuildingStorage().require(livingStatus.building)
     }
 }
