@@ -13,7 +13,8 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import io.ktor.http.*
 import io.ktor.server.util.*
 
-fun parseBuildingId(parameters: Parameters, param: String) = BuildingId(parseInt(parameters, param))
+fun parseBuildingId(parameters: Parameters, param: String, default: Int = 0) =
+    BuildingId(parseInt(parameters, param, default))
 
 fun parseUpdateBuilding(parameters: Parameters, state: State, id: BuildingId): UpdateBuilding {
     val constructionDate = parseDate(parameters, state, DATE)

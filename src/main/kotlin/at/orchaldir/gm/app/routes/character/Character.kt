@@ -525,7 +525,7 @@ private fun FORM.selectLivingStatus(
     when (livingStatus) {
         Homeless -> doNothing()
         is InApartment -> {
-            selectValue("Apartment House", combine(HOME, BUILDING), state.getApartmentHouses()) { building ->
+            selectValue("Apartment House", combine(HOME, BUILDING), state.getApartmentHouses(), true) { building ->
                 label = building.name
                 value = building.id.value.toString()
                 selected = livingStatus.building == building.id

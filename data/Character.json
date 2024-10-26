@@ -138,6 +138,11 @@
      "Shirt": 2,
      "Skirt": 20
     }
+   },
+   "livingStatus": {
+    "type": "InApartment",
+    "building": 2,
+    "apartment": 6
    }
   },
   "2": {
