@@ -4,8 +4,22 @@ import at.orchaldir.gm.core.model.world.building.BuildingId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class LivingStatusType {
+    Homeless,
+    InApartment,
+    InHouse,
+}
+
 @Serializable
-sealed class LivingStatus
+sealed class LivingStatus {
+
+    fun getType() = when (this) {
+        Homeless -> LivingStatusType.Homeless
+        is InApartment -> LivingStatusType.InApartment
+        is InHouse -> LivingStatusType.InHouse
+    }
+
+}
 
 @Serializable
 @SerialName("InHouse")

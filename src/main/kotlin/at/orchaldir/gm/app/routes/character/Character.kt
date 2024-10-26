@@ -15,9 +15,12 @@ import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.selector.world.getApartmentHouses
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
+import at.orchaldir.gm.core.selector.world.getSingleFamilyHouses
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
@@ -451,6 +454,7 @@ private fun HTML.showCharacterEditor(
             selectOrigin(state, character)
             selectVitalStatus(state, character)
             showAge(state, character, race)
+            selectLivingStatus(state, character)
             h2 { +"Social" }
             selectValue("Culture", CULTURE, state.getCultureStorage().getAll()) { culture ->
                 label = culture.name
@@ -505,6 +509,49 @@ private fun FORM.editPersonality(
                 }
             }
         }
+    }
+}
+
+private fun FORM.selectLivingStatus(
+    state: State,
+    character: Character,
+) {
+    val livingStatus = character.livingStatus
+    selectValue("Living Status", HOME, LivingStatusType.entries, true) { type ->
+        label = type.name
+        value = type.name
+        selected = type == livingStatus.getType()
+    }
+    when (livingStatus) {
+        Homeless -> doNothing()
+        is InApartment -> {
+            selectValue("Apartment House", combine(HOME, BUILDING), state.getApartmentHouses()) { building ->
+                label = building.name
+                value = building.id.value.toString()
+                selected = livingStatus.building == building.id
+            }
+
+            val apartmentHouse = state.getBuildingStorage().getOrThrow(livingStatus.building)
+
+            if (apartmentHouse.purpose is ApartmentHouse) {
+                selectInt(
+                    "Apartment",
+                    livingStatus.apartment,
+                    0,
+                    apartmentHouse.purpose.apartments,
+                    combine(HOME, NUMBER)
+                )
+            } else {
+                error("Building purpose doesn't match!")
+            }
+        }
+
+        is InHouse ->
+            selectValue("Home", combine(HOME, BUILDING), state.getSingleFamilyHouses()) { building ->
+                label = building.name
+                value = building.id.value.toString()
+                selected = livingStatus.building == building.id
+            }
     }
 }
 

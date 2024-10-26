@@ -2,9 +2,7 @@ package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
-import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.OwnedByCharacter
+import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 
@@ -20,6 +18,14 @@ fun State.getConstructionComparator(): Comparator<Building> {
     val calendar = getDefaultCalendar()
     return Comparator { a: Building, b: Building -> calendar.compareTo(a.constructionDate, b.constructionDate) }
 }
+
+fun State.getApartmentHouses() = getBuildingStorage()
+    .getAll()
+    .filter { it.purpose is ApartmentHouse }
+
+fun State.getSingleFamilyHouses() = getBuildingStorage()
+    .getAll()
+    .filter { it.purpose is SingleFamilyHouse }
 
 fun State.getBuildings(style: ArchitecturalStyleId) = getBuildingStorage()
     .getAll()
