@@ -313,7 +313,7 @@ private fun HTML.showBuildingEditor(
                     value = s.id().value.toString()
                     selected = s.id == building.architecturalStyle
                 }
-                selectPurpose(building.purpose)
+                selectPurpose(state, building)
                 button("Update", updateLink)
             }
             back(backLink)
@@ -323,7 +323,9 @@ private fun HTML.showBuildingEditor(
     }
 }
 
-fun FORM.selectPurpose(purpose: BuildingPurpose) {
+fun FORM.selectPurpose(state: State, building: Building) {
+    val purpose = building.purpose
+
     selectValue("Purpose", PURPOSE, BuildingPurposeType.entries, true) { type ->
         label = type.toString()
         value = type.toString()
@@ -332,7 +334,8 @@ fun FORM.selectPurpose(purpose: BuildingPurpose) {
 
     when (purpose) {
         is ApartmentHouse -> {
-            selectInt("Apartments", purpose.apartments, 2, 1000, combine(PURPOSE, NUMBER), true)
+            val min = state.getMinNumberOfApartment(building.id)
+            selectInt("Apartments", purpose.apartments, min, 1000, combine(PURPOSE, NUMBER), true)
         }
 
         SingleFamilyHouse -> doNothing()
