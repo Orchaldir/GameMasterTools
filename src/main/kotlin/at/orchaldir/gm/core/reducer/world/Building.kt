@@ -201,6 +201,11 @@ private fun checkPurpose(
     oldBuilding: Building,
     action: UpdateBuilding,
 ) {
+    if (oldBuilding.purpose.getType() != action.purpose.getType()) {
+        require(state.getCharactersLivingIn(oldBuilding.id).isEmpty()) {
+            "Cannot change the purpose, while characters are living in it!"
+        }
+    }
     when (action.purpose) {
         is ApartmentHouse -> require(action.purpose.apartments > 1) { "An apartment house requires at least 2 apartments!" }
         SingleFamilyHouse -> doNothing()

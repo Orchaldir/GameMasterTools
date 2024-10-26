@@ -381,17 +381,6 @@ class BuildingTest {
         }
 
         @Test
-        fun `An apartment house requires at least 2 apartments`() {
-            (-1..1).forEach {
-                val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE, ApartmentHouse(it))
-
-                assertIllegalArgument("An apartment house requires at least 2 apartments!") {
-                    REDUCER.invoke(STATE, action)
-                }
-            }
-        }
-
-        @Test
         fun `Successfully updated with character as owner`() {
             testSuccess(OWNED_BY_CHARACTER)
         }
@@ -554,6 +543,33 @@ class BuildingTest {
 
                 return result
             }
+        }
+
+        @Nested
+        inner class PurposeTest {
+
+            @Test
+            fun `Cannot change the purpose, while characters are living in it`() {
+                val state = STATE.updateStorage(Storage(Character(CHARACTER0, livingStatus = InHouse(ID0))))
+                val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE, ApartmentHouse(3))
+
+                assertIllegalArgument("Cannot change the purpose, while characters are living in it!") {
+                    REDUCER.invoke(state, action)
+                }
+            }
+
+            @Test
+            fun `An apartment house requires at least 2 apartments`() {
+                (-1..1).forEach {
+                    val action =
+                        UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE, ApartmentHouse(it))
+
+                    assertIllegalArgument("An apartment house requires at least 2 apartments!") {
+                        REDUCER.invoke(STATE, action)
+                    }
+                }
+            }
+
         }
     }
 
