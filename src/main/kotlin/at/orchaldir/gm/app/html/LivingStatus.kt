@@ -1,11 +1,17 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.BUILDING
+import at.orchaldir.gm.app.HOME
+import at.orchaldir.gm.app.NUMBER
+import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Homeless
-import at.orchaldir.gm.core.model.character.InApartment
-import at.orchaldir.gm.core.model.character.InHouse
-import at.orchaldir.gm.core.model.character.LivingStatus
+import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.world.building.ApartmentHouse
+import at.orchaldir.gm.core.selector.world.getApartmentHouses
+import at.orchaldir.gm.core.selector.world.getSingleFamilyHouses
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.server.application.*
+import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 fun HtmlBlockTag.fieldLivingStatus(
@@ -35,5 +41,46 @@ fun HtmlBlockTag.showLivingStatus(
         }
 
         is InHouse -> link(call, state, livingStatus.building)
+    }
+}
+
+fun FORM.selectLivingStatus(
+    state: State,
+    character: Character,
+) {
+    val livingStatus = character.livingStatus
+    selectValue("Living Status", HOME, LivingStatusType.entries, true) { type ->
+        label = type.name
+        value = type.name
+        selected = type == livingStatus.getType()
+    }
+    when (livingStatus) {
+        Homeless -> doNothing()
+        is InApartment -> {
+            selectValue("Apartment House", combine(HOME, BUILDING), state.getApartmentHouses(), true) { building ->
+                label = building.name
+                value = building.id.value.toString()
+                selected = livingStatus.building == building.id
+            }
+
+            val apartmentHouse = state.getBuildingStorage().getOrThrow(livingStatus.building)
+
+            if (apartmentHouse.purpose is ApartmentHouse) {
+                selectInt(
+                    "Apartment",
+                    livingStatus.apartment,
+                    0,
+                    apartmentHouse.purpose.apartments - 1,
+                    combine(HOME, NUMBER),
+                )
+            }
+        }
+
+        is InHouse ->
+            selectValue("Home", combine(HOME, BUILDING), state.getSingleFamilyHouses()) { building ->
+                label = building.name
+                value = building.id.value.toString()
+                selected = livingStatus.building == building.id
+            }
     }
 }
