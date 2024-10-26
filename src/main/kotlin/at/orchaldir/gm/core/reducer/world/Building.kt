@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.world.exists
+import at.orchaldir.gm.core.selector.world.getMinNumberOfApartment
 import at.orchaldir.gm.core.selector.world.getStreetIds
 import at.orchaldir.gm.core.selector.world.getUsedHouseNumbers
 import at.orchaldir.gm.utils.doNothing
@@ -207,7 +208,12 @@ private fun checkPurpose(
         }
     }
     when (action.purpose) {
-        is ApartmentHouse -> require(action.purpose.apartments > 1) { "An apartment house requires at least 2 apartments!" }
+        is ApartmentHouse -> {
+            val min = state.getMinNumberOfApartment(action.id)
+            require(action.purpose.apartments >= min) {
+                "The apartment house ${action.id.value} requires at least $min apartments!"
+            }
+        }
         SingleFamilyHouse -> doNothing()
     }
 }

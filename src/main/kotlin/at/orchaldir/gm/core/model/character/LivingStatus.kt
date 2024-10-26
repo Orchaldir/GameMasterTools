@@ -13,6 +13,11 @@ enum class LivingStatusType {
 @Serializable
 sealed class LivingStatus {
 
+    open fun getApartmentIndex(): Int? = when (this) {
+        is InApartment -> apartmentIndex
+        else -> null
+    }
+
     fun getType() = when (this) {
         Homeless -> LivingStatusType.Homeless
         is InApartment -> LivingStatusType.InApartment

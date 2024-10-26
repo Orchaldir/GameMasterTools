@@ -17,6 +17,11 @@ fun countPurpose(buildings: Collection<Building>) = buildings
     .groupingBy { it.purpose.getType() }
     .eachCount()
 
+fun State.getMinNumberOfApartment(building: BuildingId) =
+    (getCharactersLivingIn(building)
+        .mapNotNull { it.livingStatus.getApartmentIndex() }
+        .maxOrNull() ?: 1) + 1
+
 fun State.getEarliestBuilding(buildings: List<Building>) =
     buildings.minWithOrNull(getConstructionComparator())
 

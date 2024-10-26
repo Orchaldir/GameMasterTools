@@ -7,10 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.calendar.MonthDefinition
-import at.orchaldir.gm.core.model.character.CHARACTER
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.InHouse
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.Year
@@ -559,12 +556,27 @@ class BuildingTest {
             }
 
             @Test
+            fun `Cannot delete apartments, while characters are living in it`() {
+                (3..4).forEach {
+                    val state = STATE
+                        .updateStorage(Storage(Character(CHARACTER0, livingStatus = InApartment(ID0, 4))))
+                        .updateStorage(Storage(Building(ID0, purpose = ApartmentHouse(5))))
+                    val action =
+                        UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE, ApartmentHouse(it))
+
+                    assertIllegalArgument("The apartment house 0 requires at least 5 apartments!") {
+                        REDUCER.invoke(state, action)
+                    }
+                }
+            }
+
+            @Test
             fun `An apartment house requires at least 2 apartments`() {
                 (-1..1).forEach {
                     val action =
                         UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE, ApartmentHouse(it))
 
-                    assertIllegalArgument("An apartment house requires at least 2 apartments!") {
+                    assertIllegalArgument("The apartment house 0 requires at least 2 apartments!") {
                         REDUCER.invoke(STATE, action)
                     }
                 }
