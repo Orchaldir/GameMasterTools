@@ -448,102 +448,126 @@ private fun HTML.showCharacterEditor(
                 value = gender.toString()
                 selected = character.gender == gender
             }
+            selectOrigin(state, character)
+            selectVitalStatus(state, character)
+            showAge(state, character, race)
+            h2 { +"Social" }
             selectValue("Culture", CULTURE, state.getCultureStorage().getAll()) { culture ->
                 label = culture.name
                 value = culture.id.value.toString()
                 selected = culture.id == character.culture
             }
-            selectValue("Origin", ORIGIN, CharacterOriginType.entries, true) { type ->
-                label = type.name
-                value = type.name
-                disabled = when (type) {
-                    CharacterOriginType.Born -> !state.hasPossibleParents(character.id)
-                    CharacterOriginType.Undefined -> false
-                }
-                selected = when (type) {
-                    CharacterOriginType.Born -> character.origin is Born
-                    CharacterOriginType.Undefined -> character.origin is UndefinedCharacterOrigin
-                }
-            }
-            when (character.origin) {
-                is Born -> {
-                    selectValue("Father", FATHER, state.getPossibleFathers(character.id)) { c ->
-                        label = state.getName(c)
-                        value = c.id.value.toString()
-                        selected = character.origin.father == c.id
-                    }
-                    selectValue("Mother", MOTHER, state.getPossibleMothers(character.id)) { c ->
-                        label = state.getName(c)
-                        value = c.id.value.toString()
-                        selected = character.origin.mother == c.id
-                    }
-                }
-
-                else -> doNothing()
-            }
-            selectDay(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
-            selectValue("Vital Status", VITAL, VitalStatusType.entries, true) { type ->
-                label = type.name
-                value = type.name
-                selected = type == character.vitalStatus.getType()
-            }
-            if (character.vitalStatus is Dead) {
-                selectDay(state, "Date of Death", character.vitalStatus.deathDay, combine(DEATH, DATE))
-                selectValue("Cause of death", DEATH, CauseOfDeathType.entries, true) { type ->
-                    label = type.name
-                    value = type.name
-                    selected = type == character.vitalStatus.cause.getType()
-                }
-                if (character.vitalStatus.cause is Murder) {
-                    selectValue("Killer", KILLER, state.getOthers(character.id)) { c ->
-                        label = state.getName(c)
-                        value = c.id.value.toString()
-                        selected = character.vitalStatus.cause.killer == c.id
-                    }
-                }
-            }
-            showAge(state, character, race)
-            field("Personality") {
-                details {
-                    state.getPersonalityTraitGroups().forEach { group ->
-                        val textId = "$PERSONALITY_PREFIX${group.value}"
-                        var isAnyCheck = false
-
-                        p {
-                            state.getPersonalityTraits(group).forEach { trait ->
-                                val isChecked = character.personality.contains(trait.id)
-                                isAnyCheck = isAnyCheck || isChecked
-
-                                radioInput {
-                                    id = textId
-                                    name = textId
-                                    value = trait.id.value.toString()
-                                    checked = isChecked
-                                }
-                                label {
-                                    htmlFor = textId
-                                    link(call, trait)
-                                }
-                            }
-
-                            radioInput {
-                                id = textId
-                                name = textId
-                                value = NONE
-                                checked = !isAnyCheck
-                            }
-                            label {
-                                htmlFor = textId
-                                +NONE
-                            }
-                        }
-                    }
-                }
-            }
+            editPersonality(call, state, character)
             button("Update", updateLink)
         }
         back(backLink)
     }
+}
+
+private fun FORM.editPersonality(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    field("Personality") {
+        details {
+            state.getPersonalityTraitGroups().forEach { group ->
+                val textId = "$PERSONALITY_PREFIX${group.value}"
+                var isAnyCheck = false
+
+                p {
+                    state.getPersonalityTraits(group).forEach { trait ->
+                        val isChecked = character.personality.contains(trait.id)
+                        isAnyCheck = isAnyCheck || isChecked
+
+                        radioInput {
+                            id = textId
+                            name = textId
+                            value = trait.id.value.toString()
+                            checked = isChecked
+                        }
+                        label {
+                            htmlFor = textId
+                            link(call, trait)
+                        }
+                    }
+
+                    radioInput {
+                        id = textId
+                        name = textId
+                        value = NONE
+                        checked = !isAnyCheck
+                    }
+                    label {
+                        htmlFor = textId
+                        +NONE
+                    }
+                }
+            }
+        }
+    }
+}
+
+private fun FORM.selectVitalStatus(
+    state: State,
+    character: Character,
+) {
+    val vitalStatus = character.vitalStatus
+    selectValue("Vital Status", VITAL, VitalStatusType.entries, true) { type ->
+        label = type.name
+        value = type.name
+        selected = type == vitalStatus.getType()
+    }
+    if (vitalStatus is Dead) {
+        selectDay(state, "Date of Death", vitalStatus.deathDay, combine(DEATH, DATE))
+        selectValue("Cause of death", DEATH, CauseOfDeathType.entries, true) { type ->
+            label = type.name
+            value = type.name
+            selected = type == vitalStatus.cause.getType()
+        }
+        if (vitalStatus.cause is Murder) {
+            selectValue("Killer", KILLER, state.getOthers(character.id)) { c ->
+                label = state.getName(c)
+                value = c.id.value.toString()
+                selected = vitalStatus.cause.killer == c.id
+            }
+        }
+    }
+}
+
+private fun FORM.selectOrigin(
+    state: State,
+    character: Character,
+) {
+    selectValue("Origin", ORIGIN, CharacterOriginType.entries, true) { type ->
+        label = type.name
+        value = type.name
+        disabled = when (type) {
+            CharacterOriginType.Born -> !state.hasPossibleParents(character.id)
+            CharacterOriginType.Undefined -> false
+        }
+        selected = when (type) {
+            CharacterOriginType.Born -> character.origin is Born
+            CharacterOriginType.Undefined -> character.origin is UndefinedCharacterOrigin
+        }
+    }
+    when (character.origin) {
+        is Born -> {
+            selectValue("Father", FATHER, state.getPossibleFathers(character.id)) { c ->
+                label = state.getName(c)
+                value = c.id.value.toString()
+                selected = character.origin.father == c.id
+            }
+            selectValue("Mother", MOTHER, state.getPossibleMothers(character.id)) { c ->
+                label = state.getName(c)
+                value = c.id.value.toString()
+                selected = character.origin.mother == c.id
+            }
+        }
+
+        else -> doNothing()
+    }
+    selectDay(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
 }
 
 private fun FORM.selectName(
