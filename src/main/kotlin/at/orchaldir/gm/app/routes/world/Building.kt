@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.selector.getCharactersLivingInHouse
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -245,7 +246,7 @@ private fun HTML.showBuildingDetails(
             showOwnership(call, state, building.ownership)
             field("Size", building.lot.size.format())
             fieldLink("Architectural Style", call, state, building.architecturalStyle)
-            showPurpose(building.purpose)
+            showPurpose(call, state, building)
             action(editLink, "Edit")
             action(editLotLink, "Move & Resize")
             if (state.canDelete(building)) {
@@ -259,8 +260,11 @@ private fun HTML.showBuildingDetails(
 }
 
 fun HtmlBlockTag.showPurpose(
-    purpose: BuildingPurpose,
+    call: ApplicationCall,
+    state: State,
+    building: Building,
 ) {
+    val purpose = building.purpose
     field("Purpose", purpose.getType().toString())
 
     when (purpose) {
@@ -268,7 +272,9 @@ fun HtmlBlockTag.showPurpose(
             field("Apartments", purpose.apartments.toString())
         }
 
-        is SingleFamilyHouse -> doNothing()
+        is SingleFamilyHouse -> showList("Inhabitants", state.getCharactersLivingInHouse(building.id)) { c ->
+            link(call, state, c)
+        }
     }
 }
 

@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Duration
+import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.utils.math.Distance
@@ -37,6 +38,12 @@ fun State.getCharacters(trait: PersonalityTraitId) =
 fun State.getCharacters(race: RaceId) = getCharacterStorage().getAll().filter { c -> c.race == race }
 
 fun State.getOthers(id: CharacterId) = getCharacterStorage().getAll().filter { c -> c.id != id }
+
+// living status
+
+fun State.getCharactersLivingInHouse(building: BuildingId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.livingStatus.isLivingInHouse(building) }
 
 // get relatives
 
