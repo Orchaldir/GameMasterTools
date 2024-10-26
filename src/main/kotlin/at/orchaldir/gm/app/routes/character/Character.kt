@@ -164,6 +164,7 @@ private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
                 th { +"Gender" }
                 th { +"Birthdate" }
                 th { +"Age" }
+                th { +"Living Status" }
             }
             characters.forEach { (character, name) ->
                 tr {
@@ -181,6 +182,7 @@ private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
                     td { +character.gender.toString() }
                     td { showDate(call, state, character.birthDate) }
                     td { +state.getAgeInYears(character).toString() }
+                    td { showLivingStatus(call, state, character.livingStatus) }
                 }
             }
         }
@@ -254,7 +256,7 @@ private fun BODY.showData(
     field(call, state, "Birthdate", character.birthDate)
     showVitalStatus(call, state, character.vitalStatus)
     showAge(state, character, race)
-    showLivingStatus(call, state, character.livingStatus)
+    fieldLivingStatus(call, state, character.livingStatus)
 
     action(generateNameLink, "Generate New Name")
     action(generateBirthdayLink, "Generate Birthday")
@@ -283,18 +285,6 @@ private fun BODY.showVitalStatus(
 
             is OldAge -> showCauseOfDeath("Old Age")
         }
-    }
-}
-
-private fun BODY.showLivingStatus(
-    call: ApplicationCall,
-    state: State,
-    livingStatus: LivingStatus,
-) {
-    when (livingStatus) {
-        Homeless -> field("Living Status", "Homeless")
-        is InApartment -> fieldLink("${livingStatus.apartment + 1}.Apartment of", call, state, livingStatus.building)
-        is InHouse -> fieldLink("Home", call, state, livingStatus.building)
     }
 }
 
@@ -538,7 +528,7 @@ private fun FORM.selectLivingStatus(
                     "Apartment",
                     livingStatus.apartment,
                     0,
-                    apartmentHouse.purpose.apartments,
+                    apartmentHouse.purpose.apartments - 1,
                     combine(HOME, NUMBER),
                 )
             }
