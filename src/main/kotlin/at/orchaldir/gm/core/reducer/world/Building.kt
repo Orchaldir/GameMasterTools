@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.world.exists
@@ -37,14 +38,19 @@ val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
 }
 
 val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
-    val building = state.getBuildingStorage().getOrThrow(action.id)
+    val id = action.id
+    val building = state.getBuildingStorage().getOrThrow(id)
     val oldTown = state.getTownStorage().getOrThrow(building.lot.town)
     val town = oldTown.removeBuilding(building.id)
+
+    require(
+        state.getCharactersLivingIn(id).isEmpty()
+    ) { "Cannot delete building ${id.value}, because it has inhabitants!" }
 
     noFollowUps(
         state.updateStorage(
             listOf(
-                state.getBuildingStorage().remove(action.id),
+                state.getBuildingStorage().remove(id),
                 state.getTownStorage().update(town),
             )
         )

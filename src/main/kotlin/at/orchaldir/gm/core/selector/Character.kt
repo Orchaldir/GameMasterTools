@@ -51,6 +51,10 @@ fun State.getOthers(id: CharacterId) = getCharacterStorage().getAll().filter { c
 
 // living status
 
+fun State.getCharactersLivingIn(building: BuildingId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.livingStatus.isLivingIn(building) }
+
 fun State.getCharactersLivingInApartment(building: BuildingId, apartment: Int) = getCharacterStorage()
     .getAll()
     .filter { c -> c.livingStatus.isLivingInApartment(building, apartment) }

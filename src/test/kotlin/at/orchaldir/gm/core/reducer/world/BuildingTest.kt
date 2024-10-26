@@ -2,10 +2,7 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.assertIllegalState
-import at.orchaldir.gm.core.action.AddBuilding
-import at.orchaldir.gm.core.action.DeleteBuilding
-import at.orchaldir.gm.core.action.UpdateBuilding
-import at.orchaldir.gm.core.action.UpdateBuildingLot
+import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
@@ -13,6 +10,7 @@ import at.orchaldir.gm.core.model.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.character.CHARACTER
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.InHouse
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.Year
@@ -154,11 +152,14 @@ class BuildingTest {
     @Nested
     inner class DeleteBuildingTileTest {
 
+        private val building = Building(ID0, lot = BuildingLot(TOWN0))
+        private val town = Town(TOWN0, map = TileMap2d(BUILDING_TILE_0))
+        private val state = State(listOf(Storage(building), Storage(town)))
+        private val action = DeleteBuilding(ID0)
+
         @Test
         fun `Cannot update unknown town`() {
-            val building = Building(ID0, lot = BuildingLot(TOWN0))
             val state = State(listOf(Storage(building)))
-            val action = DeleteBuilding(ID0)
 
             assertIllegalArgument("Requires unknown Town 0!") { REDUCER.invoke(state, action) }
         }
@@ -167,18 +168,12 @@ class BuildingTest {
         fun `Tile delete unknown building`() {
             val town = Town(TOWN0)
             val state = State(Storage(town))
-            val action = DeleteBuilding(ID0)
 
             assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Successfully removed a building`() {
-            val building = Building(ID0, lot = BuildingLot(TOWN0))
-            val town = Town(TOWN0, map = TileMap2d(BUILDING_TILE_0))
-            val state = State(listOf(Storage(building), Storage(town)))
-            val action = DeleteBuilding(ID0)
-
             val result = REDUCER.invoke(state, action).first
 
             assertFalse(result.getBuildingStorage().contains(ID0))
@@ -194,7 +189,6 @@ class BuildingTest {
                     map = TileMap2d(BIG_SQUARE, listOf(BUILDING_TILE_0, BUILDING_TILE_0, TownTile(), TownTile()))
                 )
             val state = State(listOf(Storage(building), Storage(town)))
-            val action = DeleteBuilding(ID0)
 
             val result = REDUCER.invoke(state, action).first
 
@@ -204,19 +198,26 @@ class BuildingTest {
 
         @Test
         fun `Successfully removed a building in multiple places`() {
-            val building = Building(ID0, lot = BuildingLot(TOWN0))
             val town =
                 Town(
                     TOWN0,
                     map = TileMap2d(BIG_SQUARE, listOf(BUILDING_TILE_0, TownTile(), TownTile(), BUILDING_TILE_0))
                 )
             val state = State(listOf(Storage(building), Storage(town)))
-            val action = DeleteBuilding(ID0)
 
             val result = REDUCER.invoke(state, action).first
 
             assertFalse(result.getBuildingStorage().contains(ID0))
             assertFree(result, BIG_SQUARE)
+        }
+
+        @Test
+        fun `Cannot delete a single family house, if someone lives inside`() {
+            val state = state.updateStorage(Storage(Character(CHARACTER0, livingStatus = InHouse(ID0))))
+
+            assertIllegalArgument("Cannot delete building 0, because it has inhabitants!") {
+                REDUCER.invoke(state, action)
+            }
         }
     }
 

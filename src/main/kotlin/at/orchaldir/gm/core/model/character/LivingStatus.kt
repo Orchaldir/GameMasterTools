@@ -19,7 +19,8 @@ sealed class LivingStatus {
         is InHouse -> LivingStatusType.InHouse
     }
 
-    open fun isLivingInApartment(building: BuildingId, apartment: Int) = false
+    open fun isLivingIn(building: BuildingId) = false
+    open fun isLivingInApartment(building: BuildingId, apartmentIndex: Int) = false
     open fun isLivingInHouse(building: BuildingId) = false
 
 }
@@ -28,6 +29,7 @@ sealed class LivingStatus {
 @SerialName("InHouse")
 data class InHouse(val building: BuildingId) : LivingStatus() {
 
+    override fun isLivingIn(building: BuildingId) = isLivingInHouse(building)
     override fun isLivingInHouse(building: BuildingId) = this.building == building
 
 }
@@ -43,7 +45,8 @@ data class InApartment(
         require(apartmentIndex >= 0) { "Apartment index must be greater 0!" }
     }
 
-    override fun isLivingInApartment(building: BuildingId, apartmentIndex: Int) = this.building == building &&
+    override fun isLivingIn(building: BuildingId) = this.building == building
+    override fun isLivingInApartment(building: BuildingId, apartmentIndex: Int) = isLivingIn(building) &&
             this.apartmentIndex == apartmentIndex
 
 }
