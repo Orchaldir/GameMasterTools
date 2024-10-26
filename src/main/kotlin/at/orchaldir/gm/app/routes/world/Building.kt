@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.selector.getCharactersLivingInApartment
 import at.orchaldir.gm.core.selector.getCharactersLivingInHouse
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.doNothing
@@ -270,6 +271,11 @@ fun HtmlBlockTag.showPurpose(
     when (purpose) {
         is ApartmentHouse -> {
             field("Apartments", purpose.apartments.toString())
+            repeat(purpose.apartments) { i ->
+                showList("${i + 1}.Apartment", state.getCharactersLivingInApartment(building.id, i)) { c ->
+                    link(call, state, c)
+                }
+            }
         }
 
         is SingleFamilyHouse -> showList("Inhabitants", state.getCharactersLivingInHouse(building.id)) { c ->
