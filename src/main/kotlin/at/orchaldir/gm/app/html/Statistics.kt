@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.selector.countGender
 import at.orchaldir.gm.core.selector.countLivingStatus
 import at.orchaldir.gm.core.selector.countRace
 import at.orchaldir.gm.core.selector.world.countArchitecturalStyles
+import at.orchaldir.gm.core.selector.world.countPurpose
 import at.orchaldir.gm.core.selector.world.countTowns
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
@@ -20,6 +21,9 @@ fun HtmlBlockTag.showArchitecturalStyleCount(
     state: State,
     buildings: Collection<Building>,
 ) = showCount(call, state, "Architectural Styles", countArchitecturalStyles(buildings))
+
+fun HtmlBlockTag.showBuildingPurposeCount(buildings: Collection<Building>) =
+    showCount("Building Purpose", countPurpose(buildings))
 
 fun HtmlBlockTag.showCultureCount(
     call: ApplicationCall,

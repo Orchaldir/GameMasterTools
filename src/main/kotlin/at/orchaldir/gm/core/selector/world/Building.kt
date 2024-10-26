@@ -11,6 +11,10 @@ fun State.getAgeInYears(building: Building) = getDefaultCalendar()
 
 fun State.canDelete(building: Building) = building.ownership.owner.canDelete()
 
+fun countPurpose(buildings: Collection<Building>) = buildings
+    .groupingBy { it.purpose.getType() }
+    .eachCount()
+
 fun State.getEarliestBuilding(buildings: List<Building>) =
     buildings.minWithOrNull(getConstructionComparator())
 

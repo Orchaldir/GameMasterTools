@@ -128,6 +128,7 @@ private fun HTML.showTownDetails(
             fieldAge("Age", state.getAgeInYears(town))
             field("Size", town.map.size.format())
             showArchitecturalStyleCount(call, state, buildings)
+            showBuildingPurposeCount(buildings)
             showList("Buildings", buildings.sortedBy { it.name }) { building ->
                 link(call, building)
             }
