@@ -380,6 +380,13 @@ class CharacterTest {
 
             assertIllegalArgument("Requires unknown Race 0!") { REDUCER.invoke(state, action) }
         }
+
+        @Test
+        fun `Cannot use unknown building as home`() {
+            val action = UpdateCharacter(Character(ID0, livingStatus = InHouse(BUILDING0)))
+
+            assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(STATE, action) }
+        }
     }
 
 }

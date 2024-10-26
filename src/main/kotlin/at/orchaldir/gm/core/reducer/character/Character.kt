@@ -48,6 +48,7 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     state.getCultureStorage().require(character.culture)
     checkOrigin(state, character)
     checkCauseOfDeath(state, character)
+    checkLivingStatus(state, character)
     character.personality.forEach { state.getPersonalityTraitStorage().require(it) }
     val update = character.copy(languages = oldCharacter.languages)
 
@@ -86,9 +87,19 @@ private fun checkCauseOfDeath(
         }
 
         if (dead.cause is Murder) {
-            require(
-                state.getCharacterStorage().contains(dead.cause.killer)
-            ) { "Cannot use an unknown killer ${dead.cause.killer}!" }
+            state.getCharacterStorage()
+                .require(dead.cause.killer) { "Cannot use an unknown killer ${dead.cause.killer}!" }
         }
+    }
+}
+
+private fun checkLivingStatus(
+    state: State,
+    character: Character,
+) {
+    when (val livingStatus = character.livingStatus) {
+        Homeless -> doNothing()
+        is InApartment -> TODO()
+        is InHouse -> state.getBuildingStorage().require(livingStatus.building)
     }
 }
