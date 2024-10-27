@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.selector.economy.canDelete
+import at.orchaldir.gm.core.selector.world.getBuilding
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -136,6 +137,7 @@ private fun HTML.showBusinessDetails(
 
     simpleHtml("Business: ${business.name}") {
         field("Name", business.name)
+        state.getBuilding(business.id)?.let { fieldLink("Building", call, it) }
         action(editLink, "Edit")
         if (state.canDelete(business.id)) {
             action(deleteLink, "Delete")

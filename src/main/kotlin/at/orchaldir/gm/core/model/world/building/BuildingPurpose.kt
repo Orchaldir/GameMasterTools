@@ -14,6 +14,11 @@ sealed class BuildingPurpose {
         is SingleFamilyHouse -> BuildingPurposeType.SingleFamilyHouse
     }
 
+    fun contains(business: BusinessId) = when (this) {
+        is SingleBusiness -> this.business == business
+        is MultipleBusiness -> businesses.contains(business)
+        else -> false
+    }
 }
 
 // business

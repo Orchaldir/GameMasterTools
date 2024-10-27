@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
@@ -37,6 +38,9 @@ fun State.getApartmentHouses() = getBuildingStorage()
 fun State.getSingleFamilyHouses() = getBuildingStorage()
     .getAll()
     .filter { it.purpose is SingleFamilyHouse }
+
+fun State.getBuilding(business: BusinessId) = getBuildingStorage().getAll()
+    .firstOrNull { it.purpose.contains(business) }
 
 fun State.getBuildings(style: ArchitecturalStyleId) = getBuildingStorage()
     .getAll()
