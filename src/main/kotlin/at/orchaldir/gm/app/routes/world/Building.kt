@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.selector.economy.getBusinessesWithoutBuilding
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getCharactersLivingInApartment
 import at.orchaldir.gm.core.selector.getCharactersLivingInHouse
@@ -345,15 +346,18 @@ fun FORM.selectPurpose(state: State, building: Building) {
         }
 
         is MultipleBusiness -> TODO()
-        is SingleBusiness -> selectValue(
-            "Business",
-            combine(PURPOSE, BUSINESS),
-            state.getBusinessStorage().getAll(),
-            false
-        ) { business ->
-            label = business.name
-            value = business.id.value.toString()
-            selected = purpose.business == business.id
+        is SingleBusiness -> {
+            val businesses = state.getBusinessesWithoutBuilding()
+            selectValue(
+                "Business",
+                combine(PURPOSE, BUSINESS),
+                businesses + purpose.business,
+                false
+            ) { business ->
+                label = state.getBusinessStorage().getOrThrow(business).name
+                value = business.value().toString()
+                selected = purpose.business == business
+            }
         }
 
         SingleFamilyHouse -> doNothing()

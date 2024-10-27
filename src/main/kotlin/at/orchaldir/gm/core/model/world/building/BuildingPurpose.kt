@@ -19,6 +19,12 @@ sealed class BuildingPurpose {
         is MultipleBusiness -> businesses.contains(business)
         else -> false
     }
+
+    fun getBusinesses() = when (this) {
+        is SingleBusiness -> setOf(business)
+        is MultipleBusiness -> businesses
+        else -> emptySet()
+    }
 }
 
 // business
