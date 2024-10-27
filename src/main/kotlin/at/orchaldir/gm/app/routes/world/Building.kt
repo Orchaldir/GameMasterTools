@@ -277,6 +277,11 @@ fun HtmlBlockTag.showPurpose(
                 }
             }
         }
+        is MultipleBusiness -> showList("Businesses", purpose.businesses) { business ->
+            link(call, state, business)
+        }
+
+        is SingleBusiness -> fieldLink("Business", call, state, purpose.business)
 
         is SingleFamilyHouse -> showList("Inhabitants", state.getCharactersLivingInHouse(building.id)) { c ->
             link(call, state, c)
@@ -337,6 +342,18 @@ fun FORM.selectPurpose(state: State, building: Building) {
         is ApartmentHouse -> {
             val min = state.getMinNumberOfApartment(building.id)
             selectInt("Apartments", purpose.apartments, min, 1000, combine(PURPOSE, NUMBER), true)
+        }
+
+        is MultipleBusiness -> TODO()
+        is SingleBusiness -> selectValue(
+            "Business",
+            combine(PURPOSE, BUSINESS),
+            state.getBusinessStorage().getAll(),
+            false
+        ) { business ->
+            label = business.name
+            value = business.id.value.toString()
+            selected = purpose.business == business.id
         }
 
         SingleFamilyHouse -> doNothing()

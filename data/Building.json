@@ -18,7 +18,11 @@
     "type": "Year",
     "year": 1877
    },
-   "architecturalStyle": 8
+   "architecturalStyle": 8,
+   "purpose": {
+    "type": "SingleBusiness",
+    "business": 0
+   }
   },
   "1": {
    "id": 1,

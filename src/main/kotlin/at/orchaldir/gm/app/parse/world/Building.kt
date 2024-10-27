@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.parse.world
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.economy.parseBusinessId
 import at.orchaldir.gm.app.parse.parseCharacterId
 import at.orchaldir.gm.app.parse.parseDate
 import at.orchaldir.gm.app.parse.parseInt
@@ -82,5 +83,11 @@ fun parseOwner(parameters: Parameters, param: String): Owner = when (parameters[
 
 fun parsePurpose(parameters: Parameters): BuildingPurpose = when (parameters[PURPOSE]) {
     BuildingPurposeType.ApartmentHouse.toString() -> ApartmentHouse(parseInt(parameters, combine(PURPOSE, NUMBER), 10))
+    BuildingPurposeType.SingleBusiness.toString() -> SingleBusiness(
+        parseBusinessId(
+            parameters,
+            combine(PURPOSE, BUSINESS)
+        )
+    )
     else -> SingleFamilyHouse
 }
