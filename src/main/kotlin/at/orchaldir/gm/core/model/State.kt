@@ -10,6 +10,9 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.CULTURE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.economy.business.BUSINESS_TYPE
+import at.orchaldir.gm.core.model.economy.business.BusinessType
+import at.orchaldir.gm.core.model.economy.business.BusinessTypeId
 import at.orchaldir.gm.core.model.fashion.FASHION
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
@@ -54,6 +57,7 @@ val ELEMENTS =
     setOf(
         ARCHITECTURAL_STYLE,
         BUILDING,
+        BUSINESS_TYPE,
         CALENDAR,
         CHARACTER,
         CULTURE,
@@ -98,6 +102,7 @@ data class State(
 
     fun getArchitecturalStyleStorage() = getStorage<ArchitecturalStyleId, ArchitecturalStyle>(ARCHITECTURAL_STYLE)
     fun getBuildingStorage() = getStorage<BuildingId, Building>(BUILDING)
+    fun getBusinessTypeStorage() = getStorage<BusinessTypeId, BusinessType>(BUSINESS_TYPE)
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR)
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER)
     fun getCultureStorage() = getStorage<CultureId, Culture>(CULTURE)
@@ -177,6 +182,7 @@ data class State(
     fun save() {
         saveStorage(path, getArchitecturalStyleStorage())
         saveStorage(path, getBuildingStorage())
+        saveStorage(path, getBusinessTypeStorage())
         saveStorage(path, getCalendarStorage())
         saveStorage(path, getCharacterStorage())
         saveStorage(path, getCultureStorage())
@@ -203,6 +209,7 @@ data class State(
 fun createStorage(type: String) = when (type) {
     ARCHITECTURAL_STYLE -> Storage(ArchitecturalStyleId(0))
     BUILDING -> Storage(BuildingId(0))
+    BUSINESS_TYPE -> Storage(BusinessTypeId(0))
     CALENDAR -> Storage(CalendarId(0))
     CHARACTER -> Storage(CharacterId(0))
     CULTURE -> Storage(CultureId(0))
@@ -228,6 +235,7 @@ fun createStorage(type: String) = when (type) {
 fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) {
     ARCHITECTURAL_STYLE -> loadStorage<ArchitecturalStyleId, ArchitecturalStyle>(path, ArchitecturalStyleId(0))
     BUILDING -> loadStorage<BuildingId, Building>(path, BuildingId(0))
+    BUSINESS_TYPE -> loadStorage<BusinessTypeId, BusinessType>(path, BusinessTypeId(0))
     CALENDAR -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))
     CHARACTER -> loadStorage<CharacterId, Character>(path, CharacterId(0))
     CULTURE -> loadStorage<CultureId, Culture>(path, CultureId(0))
