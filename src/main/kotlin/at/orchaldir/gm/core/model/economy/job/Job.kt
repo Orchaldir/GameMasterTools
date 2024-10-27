@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.job
+package at.orchaldir.gm.core.model.economy.job
 
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id

@@ -19,9 +19,9 @@ import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ITEM_TEMPLATE
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
-import at.orchaldir.gm.core.model.job.JOB
-import at.orchaldir.gm.core.model.job.Job
-import at.orchaldir.gm.core.model.job.JobId
+import at.orchaldir.gm.core.model.economy.job.JOB
+import at.orchaldir.gm.core.model.economy.job.Job
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.language.LANGUAGE
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
