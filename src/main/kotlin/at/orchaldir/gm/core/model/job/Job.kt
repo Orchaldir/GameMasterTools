@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.material
+package at.orchaldir.gm.core.model.job
 
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id

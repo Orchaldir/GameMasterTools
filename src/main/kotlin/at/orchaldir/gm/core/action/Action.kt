@@ -17,8 +17,8 @@ import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
-import at.orchaldir.gm.core.model.material.Job
-import at.orchaldir.gm.core.model.material.JobId
+import at.orchaldir.gm.core.model.job.Job
+import at.orchaldir.gm.core.model.job.JobId
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.race.Race
