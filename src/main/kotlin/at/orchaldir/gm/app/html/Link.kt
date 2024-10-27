@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.job.JobId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.race.RaceId
@@ -136,6 +137,7 @@ fun <ID : Id<ID>> href(
     is FashionId -> call.application.href(FashionRoutes.Details(id))
     is HolidayId -> call.application.href(HolidayRoutes.Details(id))
     is ItemTemplateId -> call.application.href(ItemTemplateRoutes.Details(id))
+    is JobId -> call.application.href(JobRoutes.Details(id))
     is LanguageId -> call.application.href(LanguageRoutes.Details(id))
     is MaterialId -> call.application.href(MaterialRoutes.Details(id))
     is MoonId -> call.application.href(MoonRoutes.Details(id))

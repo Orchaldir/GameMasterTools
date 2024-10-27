@@ -46,6 +46,7 @@ fun Application.module() {
     configureFashionRouting()
     configureHolidayRouting()
     configureItemTemplateRouting()
+    configureJobRouting()
     configureLanguageRouting()
     configureMaterialRouting()
     configureMoonRouting()
