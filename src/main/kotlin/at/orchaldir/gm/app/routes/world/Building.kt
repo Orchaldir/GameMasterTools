@@ -197,7 +197,7 @@ private fun HTML.showAllBuildings(
     val sortNameLink = call.application.href(BuildingRoutes.All())
     val sortConstructionLink = call.application.href(BuildingRoutes.All(Construction))
 
-    simpleHtml("Architectural Styles") {
+    simpleHtml("Buildings") {
         field("Count", count.toString())
         field("Sort") {
             link(sortNameLink, "Name")
@@ -278,7 +278,7 @@ fun HtmlBlockTag.showPurpose(
                 }
             }
         }
-        is MultipleBusiness -> showList("Businesses", purpose.businesses) { business ->
+        is MultipleBusiness -> showList("Businesses", purpose.businessSet) { business ->
             link(call, state, business)
         }
 
@@ -331,12 +331,14 @@ private fun HTML.showBuildingEditor(
 fun FORM.selectPurpose(state: State, building: Building) {
     val purpose = building.purpose
     val inhabitants = state.getCharactersLivingIn(building.id)
+    val availableBusinesses = state.getBusinessesWithoutBuilding()
 
     selectValue("Purpose", PURPOSE, BuildingPurposeType.entries, true) { type ->
         label = type.toString()
         value = type.toString()
         selected = purpose.getType() == type
-        disabled = purpose.getType() != type && inhabitants.isNotEmpty()
+        disabled = (purpose.getType() != type && inhabitants.isNotEmpty()) ||
+                (type.isBusiness() && availableBusinesses.isEmpty())
     }
 
     when (purpose) {
@@ -347,11 +349,10 @@ fun FORM.selectPurpose(state: State, building: Building) {
 
         is MultipleBusiness -> TODO()
         is SingleBusiness -> {
-            val businesses = state.getBusinessesWithoutBuilding()
             selectValue(
                 "Business",
                 combine(PURPOSE, BUSINESS),
-                businesses + purpose.business,
+                availableBusinesses + purpose.business,
                 false
             ) { business ->
                 label = state.getBusinessStorage().getOrThrow(business).name

@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.selector.economy.getBusinessesWithoutBuilding
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -27,7 +28,7 @@ fun parseUpdateBuilding(parameters: Parameters, state: State, id: BuildingId): U
         constructionDate,
         parseOwnership(parameters, state, constructionDate),
         parseArchitecturalStyleId(parameters, STYLE),
-        parsePurpose(parameters),
+        parsePurpose(parameters, state),
     )
 }
 
@@ -81,13 +82,11 @@ fun parseOwner(parameters: Parameters, param: String): Owner = when (parameters[
     else -> UnknownOwner
 }
 
-fun parsePurpose(parameters: Parameters): BuildingPurpose = when (parameters[PURPOSE]) {
+fun parsePurpose(parameters: Parameters, state: State): BuildingPurpose = when (parameters[PURPOSE]) {
     BuildingPurposeType.ApartmentHouse.toString() -> ApartmentHouse(parseInt(parameters, combine(PURPOSE, NUMBER), 10))
     BuildingPurposeType.SingleBusiness.toString() -> SingleBusiness(
-        parseBusinessId(
-            parameters,
-            combine(PURPOSE, BUSINESS)
-        )
+        parseBusinessId(parameters, combine(PURPOSE, BUSINESS))
+            ?: state.getBusinessesWithoutBuilding().first()
     )
     else -> SingleFamilyHouse
 }

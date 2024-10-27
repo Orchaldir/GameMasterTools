@@ -4,5 +4,11 @@ enum class BuildingPurposeType {
     MultipleBusiness,
     SingleBusiness,
     SingleFamilyHouse,
-    ApartmentHouse,
+    ApartmentHouse;
+
+    fun isBusiness() = when (this) {
+        MultipleBusiness -> true
+        SingleBusiness -> true
+        else -> false
+    }
 }

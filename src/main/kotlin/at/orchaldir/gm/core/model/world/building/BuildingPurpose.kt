@@ -16,13 +16,13 @@ sealed class BuildingPurpose {
 
     fun contains(business: BusinessId) = when (this) {
         is SingleBusiness -> this.business == business
-        is MultipleBusiness -> businesses.contains(business)
+        is MultipleBusiness -> businessSet.contains(business)
         else -> false
     }
 
     fun getBusinesses() = when (this) {
         is SingleBusiness -> setOf(business)
-        is MultipleBusiness -> businesses
+        is MultipleBusiness -> businessSet
         else -> emptySet()
     }
 }
@@ -35,7 +35,7 @@ data class SingleBusiness(val business: BusinessId) : BuildingPurpose()
 
 @Serializable
 @SerialName("MultipleBusiness")
-data class MultipleBusiness(val businesses: Set<BusinessId>) : BuildingPurpose()
+data class MultipleBusiness(val businessSet: Set<BusinessId>) : BuildingPurpose()
 
 // home
 

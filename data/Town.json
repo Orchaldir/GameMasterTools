@@ -175,6 +175,10 @@
      {
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 3
+      }
      },
      {
       "construction": {
