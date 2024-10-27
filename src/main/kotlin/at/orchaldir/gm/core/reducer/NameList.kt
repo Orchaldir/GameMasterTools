@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.action.DeleteNameList
 import at.orchaldir.gm.core.action.UpdateNameList
 import at.orchaldir.gm.core.model.NameList
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.selector.economy.canDelete
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 import at.orchaldir.gm.utils.titlecaseFirstChar

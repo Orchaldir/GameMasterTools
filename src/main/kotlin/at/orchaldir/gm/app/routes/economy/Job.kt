@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.routes
+package at.orchaldir.gm.app.routes.economy
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*

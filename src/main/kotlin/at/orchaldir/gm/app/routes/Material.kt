@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.action.UpdateMaterial
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.selector.economy.canDelete
+import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getItemTemplatesOf
 import io.ktor.http.*
 import io.ktor.resources.*
