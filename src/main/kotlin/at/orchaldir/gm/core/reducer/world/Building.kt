@@ -215,7 +215,6 @@ private fun checkPurpose(
             }
         }
 
-        is MultipleBusiness -> doNothing()
         is SingleBusiness -> doNothing()
         is SingleFamilyHouse -> doNothing()
     }

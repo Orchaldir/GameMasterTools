@@ -9,20 +9,17 @@ sealed class BuildingPurpose {
 
     fun getType() = when (this) {
         is ApartmentHouse -> BuildingPurposeType.ApartmentHouse
-        is MultipleBusiness -> BuildingPurposeType.MultipleBusiness
         is SingleBusiness -> BuildingPurposeType.SingleBusiness
         is SingleFamilyHouse -> BuildingPurposeType.SingleFamilyHouse
     }
 
     fun contains(business: BusinessId) = when (this) {
         is SingleBusiness -> this.business == business
-        is MultipleBusiness -> businessSet.contains(business)
         else -> false
     }
 
     fun getBusinesses() = when (this) {
         is SingleBusiness -> setOf(business)
-        is MultipleBusiness -> businessSet
         else -> emptySet()
     }
 }
@@ -32,10 +29,6 @@ sealed class BuildingPurpose {
 @Serializable
 @SerialName("SingleBusiness")
 data class SingleBusiness(val business: BusinessId) : BuildingPurpose()
-
-@Serializable
-@SerialName("MultipleBusiness")
-data class MultipleBusiness(val businessSet: Set<BusinessId>) : BuildingPurpose()
 
 // home
 

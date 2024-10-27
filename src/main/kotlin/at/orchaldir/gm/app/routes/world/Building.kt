@@ -278,9 +278,6 @@ fun HtmlBlockTag.showPurpose(
                 }
             }
         }
-        is MultipleBusiness -> showList("Businesses", purpose.businessSet) { business ->
-            link(call, state, business)
-        }
 
         is SingleBusiness -> fieldLink("Business", call, state, purpose.business)
 
@@ -347,7 +344,6 @@ fun FORM.selectPurpose(state: State, building: Building) {
             selectInt("Apartments", purpose.apartments, min, 1000, combine(PURPOSE, NUMBER), true)
         }
 
-        is MultipleBusiness -> TODO()
         is SingleBusiness -> {
             selectValue(
                 "Business",
