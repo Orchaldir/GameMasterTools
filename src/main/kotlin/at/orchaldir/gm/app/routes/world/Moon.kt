@@ -134,7 +134,6 @@ private fun HTML.showMoonDetails(
     val editLink = call.application.href(MoonRoutes.Edit(moon.id))
 
     simpleHtml("Moon: ${moon.name}") {
-        field("Id", moon.id.value.toString())
         field("Name", moon.name)
         field("Cycle", moon.getCycle().toString() + " days")
         field("Color", moon.color.toString())
@@ -160,7 +159,6 @@ private fun HTML.showMoonEditor(
     val updateLink = call.application.href(MoonRoutes.Update(moon.id))
 
     simpleHtml("Edit Moon: ${moon.name}") {
-        field("Id", moon.id.value.toString())
         form {
             selectName(moon.name)
             selectInt("Days per Quarter", moon.daysPerQuarter, 1, 100, LENGTH, false)

@@ -150,7 +150,6 @@ private fun HTML.showCultureDetails(
     val editLink = call.application.href(CultureRoutes.Edit(culture.id))
 
     simpleHtml("Culture: ${culture.name}") {
-        field("Id", culture.id.value.toString())
         field("Name", culture.name)
         fieldLink("Calendar", call, state, culture.calendar)
         showRarityMap("Languages", culture.languages) { l ->
@@ -301,7 +300,6 @@ private fun HTML.showCultureEditor(
     val updateLink = call.application.href(CultureRoutes.Update(culture.id))
 
     simpleHtml("Edit Culture: ${culture.name}") {
-        field("Id", culture.id.value.toString())
         form {
             id = "editor"
             action = previewLink

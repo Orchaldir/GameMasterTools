@@ -136,7 +136,6 @@ private fun HTML.showFashionDetails(
     val editLink = call.application.href(FashionRoutes.Edit(fashion.id))
 
     simpleHtml("Fashion: ${fashion.name}") {
-        field("Id", fashion.id.value.toString())
         field("Name", fashion.name)
         showRarityMap("Clothing Sets", fashion.clothingSets)
         showRarityMap("Accessories", fashion.accessories, ACCESSORIES)
@@ -169,7 +168,6 @@ private fun HTML.showFashionEditor(
     val updateLink = call.application.href(FashionRoutes.Update(fashion.id))
 
     simpleHtml("Edit Fashion: ${fashion.name}") {
-        field("Id", fashion.id.value.toString())
         form {
             selectName(fashion.name)
             selectRarityMap("Clothing Sets", CLOTHING_SETS, fashion.clothingSets)

@@ -130,7 +130,6 @@ private fun HTML.showRiverDetails(
     val editLink = call.application.href(RiverRoutes.Edit(river.id))
 
     simpleHtml("River: ${river.name}") {
-        field("Id", river.id.value.toString())
         field("Name", river.name)
         showList("Towns", state.getTowns(river.id)) { town ->
             link(call, town)
@@ -151,7 +150,6 @@ private fun HTML.showRiverEditor(
     val updateLink = call.application.href(RiverRoutes.Update(river.id))
 
     simpleHtml("Edit River: ${river.name}") {
-        field("Id", river.id.value.toString())
         form {
             selectName(river.name)
             button("Update", updateLink)

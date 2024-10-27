@@ -136,7 +136,6 @@ private fun HTML.showDetails(
 
     simpleHtml("Race Appearance: ${appearance.name}") {
         split({
-            field("Id", appearance.id.value.toString())
             field("Name", appearance.name)
             h2 { +"Options" }
             showAppearanceOptions(appearance, eyeOptions)
@@ -223,7 +222,6 @@ private fun HTML.showEditor(
 
     simpleHtml("Edit Race Appearance: ${appearance.name}") {
         split({
-            field("Id", appearance.id.value.toString())
             form {
                 id = "editor"
                 action = previewLink

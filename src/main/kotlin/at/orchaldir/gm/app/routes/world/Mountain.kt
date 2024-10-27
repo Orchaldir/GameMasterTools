@@ -136,7 +136,6 @@ private fun HTML.showMountainDetails(
     val editLink = call.application.href(MountainRoutes.Edit(mountain.id))
 
     simpleHtml("Mountain: ${mountain.name}") {
-        field("Id", mountain.id.value.toString())
         field("Name", mountain.name)
         showList("Towns", state.getTowns(mountain.id)) { town ->
             link(call, town)
@@ -157,7 +156,6 @@ private fun HTML.showMountainEditor(
     val updateLink = call.application.href(MountainRoutes.Update(mountain.id))
 
     simpleHtml("Edit Mountain: ${mountain.name}") {
-        field("Id", mountain.id.value.toString())
         form {
             selectName(mountain.name)
             button("Update", updateLink)

@@ -162,7 +162,6 @@ private fun HTML.showStreetTypeDetails(
 
     simpleHtml("Street Type: ${type.name}") {
         split({
-            field("Id", type.id.value.toString())
             field("Name", type.name)
             field("Color", type.color.toString())
             showList("Streets", state.getStreets(type.id)) { street ->
@@ -189,7 +188,6 @@ private fun HTML.showStreetTypeEditor(
 
     simpleHtml("Edit Street Type: ${type.name}") {
         split({
-            field("Id", type.id.value.toString())
             form {
                 id = "editor"
                 action = previewLink
