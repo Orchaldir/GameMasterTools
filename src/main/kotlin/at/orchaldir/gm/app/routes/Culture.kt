@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.util.GenderMap
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*

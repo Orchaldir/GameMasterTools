@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.getEquippedBy
 import at.orchaldir.gm.core.selector.getFashions
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG

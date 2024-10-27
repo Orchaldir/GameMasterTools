@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.economy.business.BusinessType
+import at.orchaldir.gm.core.model.economy.business.BusinessTypeId
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.holiday.Holiday
@@ -135,6 +137,11 @@ data class UpdateTime(val time: Time) : Action()
 //-- economy --
 
 sealed class EconomyAction : Action()
+
+// business type
+data object CreateBusinessType : EconomyAction()
+data class DeleteBusinessType(val id: BusinessTypeId) : EconomyAction()
+data class UpdateBusinessType(val type: BusinessType) : EconomyAction()
 
 // job
 data object CreateJob : EconomyAction()

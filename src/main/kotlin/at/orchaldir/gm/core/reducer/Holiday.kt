@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.holiday.FixedDayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.RelativeDate
 import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

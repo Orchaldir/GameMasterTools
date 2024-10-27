@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.holiday.*
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.getCultures
 import io.ktor.http.*
 import io.ktor.resources.*

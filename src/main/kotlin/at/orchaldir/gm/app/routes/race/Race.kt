@@ -17,7 +17,7 @@ import at.orchaldir.gm.core.model.race.aging.LifeStagesType
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG

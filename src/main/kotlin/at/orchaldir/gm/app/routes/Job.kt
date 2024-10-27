@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.action.UpdateJob
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.economy.canDelete
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*

@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.action.UpdateNameList
 import at.orchaldir.gm.core.model.NameList
 import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.getCultures
 import io.ktor.http.*
 import io.ktor.resources.*
