@@ -2,7 +2,7 @@ package at.orchaldir.gm.app
 
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.character.*
-import at.orchaldir.gm.app.routes.economy.configureBusinessTypeRouting
+import at.orchaldir.gm.app.routes.economy.configureBusinessRouting
 import at.orchaldir.gm.app.routes.economy.configureJobRouting
 import at.orchaldir.gm.app.routes.race.configureRaceAppearanceRouting
 import at.orchaldir.gm.app.routes.race.configureRaceRouting
@@ -38,7 +38,7 @@ fun Application.module() {
     configureArchitecturalStyleRouting()
     configureBuildingRouting()
     configureBuildingEditorRouting()
-    configureBusinessTypeRouting()
+    configureBusinessRouting()
     configureCharacterRouting()
     configureCharacterLanguageRouting()
     configureCharacterRelationshipRouting()

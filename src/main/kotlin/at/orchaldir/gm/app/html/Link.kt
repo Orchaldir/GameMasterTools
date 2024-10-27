@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
-import at.orchaldir.gm.app.routes.economy.BusinessTypeRoutes
+import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.world.*
@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.economy.business.BusinessTypeId
+import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ItemTemplateId
@@ -134,7 +134,7 @@ fun <ID : Id<ID>> href(
 ) = when (id) {
     is ArchitecturalStyleId -> call.application.href(ArchitecturalStyleRoutes.Details(id))
     is BuildingId -> call.application.href(BuildingRoutes.Details(id))
-    is BusinessTypeId -> call.application.href(BusinessTypeRoutes.Details(id))
+    is BusinessId -> call.application.href(BusinessRoutes.Details(id))
     is CalendarId -> call.application.href(CalendarRoutes.Details(id))
     is CharacterId -> call.application.href(CharacterRoutes.Details(id))
     is CultureId -> call.application.href(CultureRoutes.Details(id))
