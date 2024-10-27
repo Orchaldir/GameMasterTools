@@ -132,7 +132,6 @@ private fun HTML.showStreetDetails(
     val editLink = call.application.href(StreetRoutes.Edit(street.id))
 
     simpleHtml("Street: ${street.name}") {
-        field("Id", street.id.value.toString())
         field("Name", street.name)
         fieldLink("Type", call, state, street.type)
         showList("Towns", state.getTowns(street.id)) { town ->
@@ -162,7 +161,6 @@ private fun HTML.showStreetEditor(
     val updateLink = call.application.href(StreetRoutes.Update(street.id))
 
     simpleHtml("Edit Street: ${street.name}") {
-        field("Id", street.id.value.toString())
         form {
             selectName(street.name)
             selectValue("Type", TYPE, state.getStreetTypeStorage().getAll()) { type ->

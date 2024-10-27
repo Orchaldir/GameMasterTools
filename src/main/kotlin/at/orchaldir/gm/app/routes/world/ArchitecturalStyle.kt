@@ -204,7 +204,6 @@ private fun HTML.showArchitecturalStyleDetails(
     val editLink = call.application.href(ArchitecturalStyleRoutes.Edit(style.id))
 
     simpleHtml("Architectural Style: ${style.name}") {
-        field("Id", style.id.value.toString())
         field("Name", style.name)
         field(call, state, "Start", style.start)
         optionalField(call, state, "End", style.end)
@@ -236,7 +235,6 @@ private fun HTML.showArchitecturalStyleEditor(
     val updateLink = call.application.href(ArchitecturalStyleRoutes.Update(style.id))
 
     simpleHtml("Edit Architectural Style: ${style.name}") {
-        field("Id", style.id.value.toString())
         form {
             id = "editor"
             action = previewLink

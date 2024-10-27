@@ -239,7 +239,6 @@ private fun HTML.showBuildingDetails(
 
     simpleHtml("Building: ${building.name}") {
         split({
-            field("Id", building.id.value.toString())
             field("Name", building.name)
             fieldLink("Town", call, state, building.lot.town)
             fieldAddress(call, state, building)
@@ -296,7 +295,6 @@ private fun HTML.showBuildingEditor(
 
     simpleHtml("Edit Building: ${building.name}") {
         split({
-            field("Id", building.id.value.toString())
             form {
                 id = "editor"
                 action = previewLink
@@ -356,7 +354,6 @@ private fun HTML.showBuildingLotEditor(
 
     simpleHtml("Move & resize: ${building.name}") {
         split({
-            field("Id", building.id.value.toString())
             form {
                 id = "editor"
                 action = previewLink

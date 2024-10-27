@@ -160,7 +160,6 @@ private fun HTML.showItemTemplateDetails(
 
     simpleHtml("Item Template: ${template.name}") {
         visualizeItem(template)
-        field("Id", template.id.value.toString())
         when (template.equipment) {
             NoEquipment -> doubleArrayOf()
             is Coat -> {
@@ -275,7 +274,6 @@ private fun HTML.showItemTemplateEditor(
 
     simpleHtml("Edit Item Template: ${template.name}") {
         visualizeItem(template)
-        field("Id", template.id.value.toString())
         form {
             id = "editor"
             action = previewLink

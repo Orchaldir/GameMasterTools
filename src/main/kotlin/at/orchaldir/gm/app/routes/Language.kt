@@ -154,7 +154,6 @@ private fun HTML.showLanguageDetails(
     val cultures = state.getCultures(language.id)
 
     simpleHtml("Language: ${language.name}") {
-        field("Id", language.id.value.toString())
         field("Name", language.name)
         when (language.origin) {
             is CombinedLanguage -> {
@@ -207,7 +206,6 @@ private fun HTML.showLanguageEditor(
     val updateLink = call.application.href(LanguageRoutes.Update(language.id))
 
     simpleHtml("Edit Language: ${language.name}") {
-        field("Id", language.id.value.toString())
         form {
             id = "editor"
             action = previewLink

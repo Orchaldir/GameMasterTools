@@ -153,7 +153,6 @@ private fun HTML.showCalendarDetails(
     val holidays = state.getHolidays(calendar.id)
 
     simpleHtml("Calendar: ${calendar.name}") {
-        field("Id", calendar.id.value.toString())
         field("Name", calendar.name)
         showOrigin(call, state, calendar)
         h2 { +"Parts" }
@@ -241,7 +240,6 @@ private fun HTML.showCalendarEditor(
     val updateLink = call.application.href(CalendarRoutes.Update(calendar.id))
 
     simpleHtml("Edit Calendar: ${calendar.name}") {
-        field("Id", calendar.id.value.toString())
         form {
             id = "editor"
             action = previewLink

@@ -135,7 +135,6 @@ private fun HTML.showNameListDetails(
     val editLink = call.application.href(NameListRoutes.Edit(nameList.id))
 
     simpleHtml("Name List: ${nameList.name}") {
-        field("Id", nameList.id.value.toString())
         field("Name", nameList.name)
         showList("Names", nameList.names) { name ->
             +name
@@ -159,7 +158,6 @@ private fun HTML.showNameListEditor(
     val updateLink = call.application.href(NameListRoutes.Update(nameList.id))
 
     simpleHtml("Edit Name List: ${nameList.name}") {
-        field("Id", nameList.id.value.toString())
         form {
             selectName(nameList.name)
             h2 { +"Names" }

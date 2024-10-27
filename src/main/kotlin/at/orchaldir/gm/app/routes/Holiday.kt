@@ -143,7 +143,6 @@ private fun HTML.showHolidayDetails(
     val editLink = call.application.href(HolidayRoutes.Edit(holiday.id))
 
     simpleHtml("Holiday: ${holiday.name}") {
-        field("Id", holiday.id.value.toString())
         field("Name", holiday.name)
         fieldLink("Calendar", call, state, holiday.calendar)
         field("Relative Date", holiday.relativeDate.display(calendar))
@@ -169,7 +168,6 @@ private fun HTML.showHolidayEditor(
     val updateLink = call.application.href(HolidayRoutes.Update(holiday.id))
 
     simpleHtml("Edit Holiday: ${holiday.name}") {
-        field("Id", holiday.id.value.toString())
         form {
             id = "editor"
             action = previewLink

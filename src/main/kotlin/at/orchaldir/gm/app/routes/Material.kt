@@ -137,7 +137,6 @@ private fun HTML.showMaterialDetails(
     val editLink = call.application.href(MaterialRoutes.Edit(material.id))
 
     simpleHtml("Material: ${material.name}") {
-        field("Id", material.id.value.toString())
         field("Name", material.name)
         showList("Item templates", templates) { template ->
             link(call, template)
@@ -158,7 +157,6 @@ private fun HTML.showMaterialEditor(
     val updateLink = call.application.href(MaterialRoutes.Update(material.id))
 
     simpleHtml("Edit Material: ${material.name}") {
-        field("Id", material.id.value.toString())
         form {
             selectName(material.name)
             button("Update", updateLink)

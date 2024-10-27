@@ -234,7 +234,6 @@ private fun BODY.showData(
 
     h2 { +"Data" }
 
-    field("Id", character.id.value.toString())
     field("Race") {
         link(call, race)
     }
@@ -428,7 +427,6 @@ private fun HTML.showCharacterEditor(
     val updateLink = call.application.href(CharacterRoutes.Update(character.id))
 
     simpleHtml("Edit Character: $characterName") {
-        field("Id", character.id.value.toString())
         form {
             id = "editor"
             action = previewLink

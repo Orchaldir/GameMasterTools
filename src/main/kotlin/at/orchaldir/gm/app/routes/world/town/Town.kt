@@ -122,7 +122,6 @@ private fun HTML.showTownDetails(
 
     simpleHtml("Town: ${town.name}") {
         split({
-            field("Id", town.id.value.toString())
             field("Name", town.name)
             field(call, state, "Founding", town.foundingDate)
             fieldAge("Age", state.getAgeInYears(town))
@@ -163,7 +162,6 @@ private fun HTML.showTownEditor(
 
     simpleHtml("Edit Town: ${town.name}") {
         split({
-            field("Id", town.id.value.toString())
             form {
                 selectName(town.name)
                 selectDate(state, "Founding", town.foundingDate, DATE)

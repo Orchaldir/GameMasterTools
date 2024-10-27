@@ -132,7 +132,6 @@ private fun HTML.showRaceDetails(
 
     simpleHtml("Race: ${race.name}") {
         split({
-            field("Id", race.id.value.toString())
             field("Name", race.name)
             showRarityMap("Gender", race.genders)
             showDistribution("Height", race.height, "m")
@@ -244,7 +243,6 @@ private fun HTML.showRaceEditor(
 
     simpleHtml("Edit Race: ${race.name}") {
         split({
-            field("Id", race.id.value.toString())
             form {
                 id = "editor"
                 action = previewLink
