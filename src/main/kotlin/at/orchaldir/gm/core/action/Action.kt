@@ -104,11 +104,6 @@ data object CreateItemTemplate : Action()
 data class DeleteItemTemplate(val id: ItemTemplateId) : Action()
 data class UpdateItemTemplate(val itemTemplate: ItemTemplate) : Action()
 
-// job
-data object CreateJob : Action()
-data class DeleteJob(val id: JobId) : Action()
-data class UpdateJob(val job: Job) : Action()
-
 // material
 data object CreateMaterial : Action()
 data class DeleteMaterial(val id: MaterialId) : Action()
@@ -136,6 +131,15 @@ data class UpdateRaceAppearance(val race: RaceAppearance) : Action()
 
 // time
 data class UpdateTime(val time: Time) : Action()
+
+//-- economy --
+
+sealed class EconomyAction : Action()
+
+// job
+data object CreateJob : EconomyAction()
+data class DeleteJob(val id: JobId) : EconomyAction()
+data class UpdateJob(val job: Job) : EconomyAction()
 
 //-- world --
 

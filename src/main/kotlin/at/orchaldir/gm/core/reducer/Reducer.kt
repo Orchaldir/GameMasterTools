@@ -3,9 +3,7 @@ package at.orchaldir.gm.core.reducer
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.character.*
-import at.orchaldir.gm.core.reducer.world.CREATE_MOON
-import at.orchaldir.gm.core.reducer.world.DELETE_MOON
-import at.orchaldir.gm.core.reducer.world.UPDATE_MOON
+import at.orchaldir.gm.core.reducer.economy.ECONOMY_REDUCER
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
 import at.orchaldir.gm.utils.redux.Reducer
 
@@ -41,10 +39,6 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateItemTemplate -> CREATE_ITEM_TEMPLATE(state, action)
         is DeleteItemTemplate -> DELETE_ITEM_TEMPLATE(state, action)
         is UpdateItemTemplate -> UPDATE_ITEM_TEMPLATE(state, action)
-        // job
-        is CreateJob -> CREATE_JOB(state, action)
-        is DeleteJob -> DELETE_JOB(state, action)
-        is UpdateJob -> UPDATE_JOB(state, action)
         // language
         is CreateLanguage -> CREATE_LANGUAGE(state, action)
         is DeleteLanguage -> DELETE_LANGUAGE(state, action)
@@ -53,10 +47,6 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateMaterial -> CREATE_MATERIAL(state, action)
         is DeleteMaterial -> DELETE_MATERIAL(state, action)
         is UpdateMaterial -> UPDATE_MATERIAL(state, action)
-        // moon
-        is CreateMoon -> CREATE_MOON(state, action)
-        is DeleteMoon -> DELETE_MOON(state, action)
-        is UpdateMoon -> UPDATE_MOON(state, action)
         // name list
         is CreateNameList -> CREATE_NAME_LIST(state, action)
         is DeleteNameList -> DELETE_NAME_LIST(state, action)
@@ -77,5 +67,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateTime -> UPDATE_TIME(state, action)
         // world
         is WorldAction -> WORLD_REDUCER(state, action)
+        // economy
+        is EconomyAction -> ECONOMY_REDUCER(state, action)
     }
 }
