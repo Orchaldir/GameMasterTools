@@ -209,6 +209,7 @@ private fun HTML.showAllBuildings(
                 th { +"Name" }
                 th { +"Construction" }
                 th { +"Town" }
+                th { +"Address" }
                 th { +"Purpose" }
                 th { +"Style" }
             }
@@ -217,12 +218,14 @@ private fun HTML.showAllBuildings(
                     td { link(call, building) }
                     td { showDate(call, state, building.constructionDate) }
                     td { link(call, state, building.lot.town) }
+                    td { showAddress(call, state, building) }
                     td { +building.purpose.getType().toString() }
                     td { link(call, state, building.architecturalStyle) }
                 }
             }
         }
         showArchitecturalStyleCount(call, state, buildings)
+        showBuildingPurposeCount(buildings)
         showTownCount(call, state, buildings)
         back("/")
     }
