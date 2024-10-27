@@ -22,9 +22,7 @@ import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.LANGUAGE
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
-import at.orchaldir.gm.core.model.material.MATERIAL
-import at.orchaldir.gm.core.model.material.Material
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.material.*
 import at.orchaldir.gm.core.model.race.RACE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
@@ -57,6 +55,7 @@ val ELEMENTS =
         FASHION,
         HOLIDAY,
         ITEM_TEMPLATE,
+        JOB,
         LANGUAGE,
         MATERIAL,
         MOON,
@@ -100,6 +99,7 @@ data class State(
     fun getFashionStorage() = getStorage<FashionId, Fashion>(FASHION)
     fun getHolidayStorage() = getStorage<HolidayId, Holiday>(HOLIDAY)
     fun getItemTemplateStorage() = getStorage<ItemTemplateId, ItemTemplate>(ITEM_TEMPLATE)
+    fun getJobStorage() = getStorage<JobId, Job>(JOB)
     fun getLanguageStorage() = getStorage<LanguageId, Language>(LANGUAGE)
     fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL)
     fun getMoonStorage() = getStorage<MoonId, Moon>(MOON)
@@ -178,6 +178,7 @@ data class State(
         saveStorage(path, getFashionStorage())
         saveStorage(path, getHolidayStorage())
         saveStorage(path, getItemTemplateStorage())
+        saveStorage(path, getJobStorage())
         saveStorage(path, getLanguageStorage())
         saveStorage(path, getMaterialStorage())
         saveStorage(path, getMoonStorage())
@@ -203,6 +204,7 @@ fun createStorage(type: String) = when (type) {
     FASHION -> Storage(FashionId(0))
     HOLIDAY -> Storage(HolidayId(0))
     ITEM_TEMPLATE -> Storage(ItemTemplateId(0))
+    JOB -> Storage(JobId(0))
     LANGUAGE -> Storage(LanguageId(0))
     MATERIAL -> Storage(MaterialId(0))
     MOON -> Storage(MoonId(0))
@@ -227,6 +229,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     FASHION -> loadStorage<FashionId, Fashion>(path, FashionId(0))
     HOLIDAY -> loadStorage<HolidayId, Holiday>(path, HolidayId(0))
     ITEM_TEMPLATE -> loadStorage<ItemTemplateId, ItemTemplate>(path, ItemTemplateId(0))
+    JOB -> loadStorage<JobId, Job>(path, JobId(0))
     LANGUAGE -> loadStorage<LanguageId, Language>(path, LanguageId(0))
     MATERIAL -> loadStorage<MaterialId, Material>(path, MaterialId(0))
     MOON -> loadStorage<MoonId, Moon>(path, MoonId(0))
