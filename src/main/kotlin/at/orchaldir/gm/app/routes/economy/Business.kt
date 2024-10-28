@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.economy
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.parse.economy.parseBusiness
 import at.orchaldir.gm.core.action.CreateBusiness
 import at.orchaldir.gm.core.action.DeleteBusiness
@@ -22,10 +23,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.FormMethod
-import kotlinx.html.HTML
-import kotlinx.html.form
-import kotlinx.html.id
+import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -57,7 +55,7 @@ fun Application.configureBusinessRouting() {
             logger.info { "Get all business" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllBusinesses(call)
+                showAllBusinesses(call, STORE.getState())
             }
         }
         get<BusinessRoutes.Details> { details ->
@@ -128,15 +126,28 @@ fun Application.configureBusinessRouting() {
     }
 }
 
-private fun HTML.showAllBusinesses(call: ApplicationCall) {
+private fun HTML.showAllBusinesses(call: ApplicationCall, state: State) {
     val businesses = STORE.getState().getBusinessStorage().getAll().sortedBy { it.name }
     val count = businesses.size
     val createLink = call.application.href(BusinessRoutes.New())
 
     simpleHtml("Businesses") {
         field("Count", count.toString())
-        showList(businesses) { business ->
-            link(call, business)
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Start" }
+                th { +"Age" }
+                th { +"Owner" }
+            }
+            businesses.forEach { business ->
+                tr {
+                    td { link(call, business) }
+                    td { showDate(call, state, business.startDate) }
+                    td { +state.getAgeInYears(business).toString() }
+                    td { showOwner(call, state, business.ownership.owner) }
+                }
+            }
         }
         action(createLink, "Add")
         back("/")
