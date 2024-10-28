@@ -18,11 +18,13 @@
     "type": "Year",
     "year": 1877
    },
-   "architecturalStyle": 8,
-   "purpose": {
-    "type": "SingleBusiness",
-    "business": 0
-   }
+   "ownership": {
+    "owner": {
+     "type": "Town",
+     "town": 0
+    }
+   },
+   "architecturalStyle": 8
   },
   "1": {
    "id": 1,

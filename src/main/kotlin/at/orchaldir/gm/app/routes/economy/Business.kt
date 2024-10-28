@@ -149,6 +149,7 @@ private fun HTML.showAllBusinesses(call: ApplicationCall, state: State) {
                 }
             }
         }
+        showBusinessOwnershipCount(call, state, businesses)
         action(createLink, "Add")
         back("/")
     }

@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.selector.countCultures
@@ -39,6 +40,9 @@ fun HtmlBlockTag.showLivingStatusCount(characters: Collection<Character>) =
     showCount("Living Status", countLivingStatus(characters))
 
 fun HtmlBlockTag.showBuildingOwnershipCount(call: ApplicationCall, state: State, collection: Collection<Building>) =
+    showOwnershipCount(call, state, collection.map { it.ownership })
+
+fun HtmlBlockTag.showBusinessOwnershipCount(call: ApplicationCall, state: State, collection: Collection<Business>) =
     showOwnershipCount(call, state, collection.map { it.ownership })
 
 fun HtmlBlockTag.showOwnershipCount(call: ApplicationCall, state: State, ownershipCollection: Collection<Ownership>) {

@@ -25,6 +25,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.form
+import kotlinx.html.h2
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -126,11 +127,17 @@ private fun HTML.showTownDetails(
             field(call, state, "Founding", town.foundingDate)
             fieldAge("Age", state.getAgeInYears(town))
             field("Size", town.map.size.format())
+            action(editLink, "Edit Town")
+            action(deleteLink, "Delete")
+            h2 { +"Buildings" }
             showArchitecturalStyleCount(call, state, buildings)
             showBuildingPurposeCount(buildings)
             showList("Buildings", buildings.sortedBy { it.name }) { building ->
                 link(call, building)
             }
+            showBuildingOwnershipCount(call, state, buildings)
+            action(editBuildingsLink, "Edit Buildings")
+            h2 { +"Terrain" }
             showList("Mountains", state.getMountains(town.id).sortedBy { it.name }) { mountain ->
                 link(call, mountain)
             }
@@ -140,11 +147,8 @@ private fun HTML.showTownDetails(
             showList("Streets", state.getStreets(town.id).sortedBy { it.name }) { street ->
                 link(call, street)
             }
-            action(editLink, "Edit Town")
-            action(editBuildingsLink, "Edit Buildings")
             action(editStreetsLink, "Edit Streets")
             action(editTerrainLink, "Edit Terrain")
-            action(deleteLink, "Delete")
             back(backLink)
         }, {
             svg(visualizeTownWithLinks(call, state, town), 90)
