@@ -3,7 +3,17 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Orne Library"
+   "name": "Orne Library",
+   "startDate": {
+    "type": "Year",
+    "year": 1799
+   },
+   "ownership": {
+    "owner": {
+     "type": "Town",
+     "town": 0
+    }
+   }
   },
   "1": {
    "id": 1,

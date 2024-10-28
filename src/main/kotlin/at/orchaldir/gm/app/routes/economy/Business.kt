@@ -22,8 +22,10 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.html.FormMethod
 import kotlinx.html.HTML
 import kotlinx.html.form
+import kotlinx.html.id
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -41,6 +43,9 @@ class BusinessRoutes {
 
     @Resource("edit")
     class Edit(val id: BusinessId, val parent: BusinessRoutes = BusinessRoutes())
+
+    @Resource("preview")
+    class Preview(val id: BusinessId, val parent: BusinessRoutes = BusinessRoutes())
 
     @Resource("update")
     class Update(val id: BusinessId, val parent: BusinessRoutes = BusinessRoutes())
@@ -94,6 +99,16 @@ fun Application.configureBusinessRouting() {
 
             val state = STORE.getState()
             val business = state.getBusinessStorage().getOrThrow(edit.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showBusinessEditor(call, state, business)
+            }
+        }
+        post<BusinessRoutes.Preview> { preview ->
+            logger.info { "Preview business ${preview.id.value}" }
+
+            val state = STORE.getState()
+            val business = parseBusiness(call.receiveParameters(), state, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showBusinessEditor(call, state, business)
@@ -157,10 +172,14 @@ private fun HTML.showBusinessEditor(
     business: Business,
 ) {
     val backLink = href(call, business.id)
+    val previewLink = call.application.href(BusinessRoutes.Preview(business.id))
     val updateLink = call.application.href(BusinessRoutes.Update(business.id))
 
     simpleHtml("Edit Business: ${business.name}") {
         form {
+            id = "editor"
+            action = previewLink
+            method = FormMethod.post
             selectName(business.name)
             selectDate(state, "Start", business.startDate, DATE)
             selectOwnership(state, business.ownership, business.startDate)
