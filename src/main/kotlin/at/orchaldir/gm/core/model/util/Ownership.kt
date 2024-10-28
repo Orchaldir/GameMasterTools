@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.world.building
+package at.orchaldir.gm.core.model.util
 
 import at.orchaldir.gm.core.model.character.CharacterId
 import kotlinx.serialization.Serializable

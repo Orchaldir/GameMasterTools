@@ -8,8 +8,8 @@ import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.Owner
-import at.orchaldir.gm.core.model.world.building.PreviousOwner
+import at.orchaldir.gm.core.model.util.Owner
+import at.orchaldir.gm.core.model.util.PreviousOwner
 
 fun State.getEvents(): List<Event> {
     val events = mutableListOf<Event>()

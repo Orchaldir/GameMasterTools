@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.world.building.*
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.world.exists
