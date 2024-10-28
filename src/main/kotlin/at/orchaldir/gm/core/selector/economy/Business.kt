@@ -1,9 +1,14 @@
 package at.orchaldir.gm.core.selector.economy
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.selector.getDefaultCalendar
 
 fun State.canDelete(type: BusinessId) = true
+
+fun State.getAgeInYears(business: Business) = getDefaultCalendar()
+    .getDurationInYears(business.startDate, time.currentDate)
 
 fun State.getBusinessesWithBuilding() = getBuildingStorage().getAll()
     .flatMap { it.purpose.getBusinesses() }

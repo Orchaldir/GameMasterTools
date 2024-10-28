@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.routes.economy
 
+import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.economy.parseBusiness
@@ -10,6 +11,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.selector.economy.canDelete
+import at.orchaldir.gm.core.selector.economy.getAgeInYears
 import at.orchaldir.gm.core.selector.world.getBuilding
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -94,13 +96,13 @@ fun Application.configureBusinessRouting() {
             val business = state.getBusinessStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showBusinessEditor(call, business)
+                showBusinessEditor(call, state, business)
             }
         }
         post<BusinessRoutes.Update> { update ->
             logger.info { "Update business ${update.id.value}" }
 
-            val business = parseBusiness(update.id, call.receiveParameters())
+            val business = parseBusiness(call.receiveParameters(), STORE.getState(), update.id)
 
             STORE.dispatch(UpdateBusiness(business))
 
@@ -138,6 +140,9 @@ private fun HTML.showBusinessDetails(
     simpleHtml("Business: ${business.name}") {
         field("Name", business.name)
         state.getBuilding(business.id)?.let { fieldLink("Building", call, it) }
+        field(call, state, "Start", business.startDate)
+        fieldAge("Age", state.getAgeInYears(business))
+        showOwnership(call, state, business.ownership)
         action(editLink, "Edit")
         if (state.canDelete(business.id)) {
             action(deleteLink, "Delete")
@@ -148,6 +153,7 @@ private fun HTML.showBusinessDetails(
 
 private fun HTML.showBusinessEditor(
     call: ApplicationCall,
+    state: State,
     business: Business,
 ) {
     val backLink = href(call, business.id)
@@ -156,6 +162,8 @@ private fun HTML.showBusinessEditor(
     simpleHtml("Edit Business: ${business.name}") {
         form {
             selectName(business.name)
+            selectDate(state, "Start", business.startDate, DATE)
+            selectOwnership(state, business.ownership, business.startDate)
             button("Update", updateLink)
         }
         back(backLink)
