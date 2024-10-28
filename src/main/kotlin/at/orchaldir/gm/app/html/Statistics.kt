@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.selector.countCultures
 import at.orchaldir.gm.core.selector.countGender
@@ -36,6 +37,20 @@ fun HtmlBlockTag.showGenderCount(characters: Collection<Character>) =
 
 fun HtmlBlockTag.showLivingStatusCount(characters: Collection<Character>) =
     showCount("Living Status", countLivingStatus(characters))
+
+fun HtmlBlockTag.showBuildingOwnershipCount(call: ApplicationCall, state: State, collection: Collection<Building>) =
+    showOwnershipCount(call, state, collection.map { it.ownership })
+
+fun HtmlBlockTag.showOwnershipCount(call: ApplicationCall, state: State, ownershipCollection: Collection<Ownership>) {
+    showMap("Ownership", countOwnership(ownershipCollection)) { owner, count ->
+        showOwner(call, state, owner)
+        +": $count"
+    }
+}
+
+fun countOwnership(ownershipCollection: Collection<Ownership>) = ownershipCollection
+    .groupingBy { it.owner }
+    .eachCount()
 
 fun HtmlBlockTag.showRaceCount(
     call: ApplicationCall,

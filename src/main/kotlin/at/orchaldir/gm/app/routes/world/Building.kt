@@ -212,6 +212,7 @@ private fun HTML.showAllBuildings(
                 th { +"Address" }
                 th { +"Purpose" }
                 th { +"Style" }
+                th { +"Owner" }
             }
             buildings.forEach { building ->
                 tr {
@@ -221,11 +222,13 @@ private fun HTML.showAllBuildings(
                     td { showAddress(call, state, building) }
                     td { +building.purpose.getType().toString() }
                     td { link(call, state, building.architecturalStyle) }
+                    td { showOwner(call, state, building.ownership.owner) }
                 }
             }
         }
         showArchitecturalStyleCount(call, state, buildings)
         showBuildingPurposeCount(buildings)
+        showBuildingOwnershipCount(call, state, buildings)
         showTownCount(call, state, buildings)
         back("/")
     }
