@@ -7,9 +7,10 @@ import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
-import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.util.Owner
+import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.core.model.util.PreviousOwner
+import at.orchaldir.gm.core.model.world.building.BuildingId
 
 fun State.getEvents(): List<Event> {
     val events = mutableListOf<Event>()
@@ -25,19 +26,7 @@ fun State.getEvents(): List<Event> {
     getBuildingStorage().getAll().forEach { building ->
         events.add(BuildingConstructedEvent(building.constructionDate, building.id))
 
-        var lastPrevious: PreviousOwner? = null
-
-        for (previous in building.ownership.previousOwners) {
-            if (lastPrevious != null) {
-                events.add(createOwnershipChanged(building, lastPrevious, previous.owner))
-            }
-
-            lastPrevious = previous
-        }
-
-        if (lastPrevious != null) {
-            events.add(createOwnershipChanged(building, lastPrevious, building.ownership.owner))
-        }
+        handleOwnership(events, building.id, building.ownership, ::createOwnershipChanged)
     }
 
     getCharacterStorage().getAll().forEach { character ->
@@ -55,14 +44,35 @@ fun State.getEvents(): List<Event> {
     return events
 }
 
+private fun handleOwnership(
+    events: MutableList<Event>,
+    id: BuildingId,
+    ownership: Ownership,
+    create: (BuildingId, PreviousOwner, Owner) -> BuildingOwnershipChangedEvent,
+) {
+    var lastPrevious: PreviousOwner? = null
+
+    for (previous in ownership.previousOwners) {
+        if (lastPrevious != null) {
+            events.add(create(id, lastPrevious, previous.owner))
+        }
+
+        lastPrevious = previous
+    }
+
+    if (lastPrevious != null) {
+        events.add(create(id, lastPrevious, ownership.owner))
+    }
+}
+
 private fun createOwnershipChanged(
-    building: Building,
-    lastPrevious: PreviousOwner,
+    id: BuildingId,
+    previous: PreviousOwner,
     to: Owner,
 ) = BuildingOwnershipChangedEvent(
-    lastPrevious.until,
-    building.id,
-    lastPrevious.owner,
+    previous.until,
+    id,
+    previous.owner,
     to,
 )
 
