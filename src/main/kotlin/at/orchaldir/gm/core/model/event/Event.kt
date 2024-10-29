@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.utils.Id
 
 sealed class Event {
 
@@ -47,17 +48,6 @@ data class BuildingConstructedEvent(
 
 }
 
-data class BuildingOwnershipChangedEvent(
-    val changeDate: Date,
-    val buildingId: BuildingId,
-    val from: Owner,
-    val to: Owner,
-) : Event() {
-
-    override fun getDate() = changeDate
-
-}
-
 // character
 
 data class CharacterOriginEvent(
@@ -79,6 +69,26 @@ data class CharacterDeathEvent(
     override fun getDate() = day
 
 }
+
+// ownership
+
+open class OwnershipChangedEvent<ID : Id<ID>>(
+    val changeDate: Date,
+    val id: ID,
+    val from: Owner,
+    val to: Owner,
+) : Event() {
+
+    override fun getDate() = changeDate
+
+}
+
+class BuildingOwnershipChangedEvent(
+    changeDate: Date,
+    buildingId: BuildingId,
+    from: Owner,
+    to: Owner,
+) : OwnershipChangedEvent<BuildingId>(changeDate, buildingId, from, to)
 
 // town
 

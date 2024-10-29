@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.core.model.util.PreviousOwner
 import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.utils.Id
 
 fun State.getEvents(): List<Event> {
     val events = mutableListOf<Event>()
@@ -44,11 +45,11 @@ fun State.getEvents(): List<Event> {
     return events
 }
 
-private fun handleOwnership(
+private fun <ID : Id<ID>> handleOwnership(
     events: MutableList<Event>,
-    id: BuildingId,
+    id: ID,
     ownership: Ownership,
-    create: (BuildingId, PreviousOwner, Owner) -> BuildingOwnershipChangedEvent,
+    create: (ID, PreviousOwner, Owner) -> OwnershipChangedEvent<ID>,
 ) {
     var lastPrevious: PreviousOwner? = null
 
