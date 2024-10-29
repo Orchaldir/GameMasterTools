@@ -324,6 +324,11 @@ private fun HtmlBlockTag.showEvents(
                 +" was constructed."
             }
 
+            is BusinessStartedEvent -> {
+                link(call, state, event.businessId)
+                +" was started."
+            }
+
             is BuildingOwnershipChangedEvent -> handleOwnershipChanged(call, state, event)
 
             is BusinessOwnershipChangedEvent -> handleOwnershipChanged(call, state, event)

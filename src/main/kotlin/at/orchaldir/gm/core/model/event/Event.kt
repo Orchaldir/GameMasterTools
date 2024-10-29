@@ -49,6 +49,17 @@ data class BuildingConstructedEvent(
 
 }
 
+// business
+
+data class BusinessStartedEvent(
+    val startDate: Date,
+    val businessId: BusinessId,
+) : Event() {
+
+    override fun getDate() = startDate
+
+}
+
 // character
 
 data class CharacterOriginEvent(
