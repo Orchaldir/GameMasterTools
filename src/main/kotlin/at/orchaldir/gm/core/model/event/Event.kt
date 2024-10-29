@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.event
 import at.orchaldir.gm.core.model.character.CauseOfDeath
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterOrigin
+import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
@@ -85,10 +86,17 @@ open class OwnershipChangedEvent<ID : Id<ID>>(
 
 class BuildingOwnershipChangedEvent(
     changeDate: Date,
-    buildingId: BuildingId,
+    id: BuildingId,
     from: Owner,
     to: Owner,
-) : OwnershipChangedEvent<BuildingId>(changeDate, buildingId, from, to)
+) : OwnershipChangedEvent<BuildingId>(changeDate, id, from, to)
+
+class BusinessOwnershipChangedEvent(
+    changeDate: Date,
+    id: BusinessId,
+    from: Owner,
+    to: Owner,
+) : OwnershipChangedEvent<BusinessId>(changeDate, id, from, to)
 
 // town
 

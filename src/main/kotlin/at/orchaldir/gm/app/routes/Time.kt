@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonPhase
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.ceilDiv
 import io.ktor.http.*
@@ -323,14 +324,9 @@ private fun HtmlBlockTag.showEvents(
                 +" was constructed."
             }
 
-            is BuildingOwnershipChangedEvent -> {
-                link(call, state, event.id)
-                +"'s owner changed from "
-                showOwner(call, state, event.from)
-                +" to "
-                showOwner(call, state, event.to)
-                +"."
-            }
+            is BuildingOwnershipChangedEvent -> handleOwnershipChanged(call, state, event)
+
+            is BusinessOwnershipChangedEvent -> handleOwnershipChanged(call, state, event)
 
             is OwnershipChangedEvent<*> -> doNothing()
 
@@ -350,4 +346,17 @@ private fun HtmlBlockTag.showEvents(
             }
         }
     }
+}
+
+private fun <ID : Id<ID>> LI.handleOwnershipChanged(
+    call: ApplicationCall,
+    state: State,
+    event: OwnershipChangedEvent<ID>,
+) {
+    link(call, state, event.id)
+    +"'s owner changed from "
+    showOwner(call, state, event.from)
+    +" to "
+    showOwner(call, state, event.to)
+    +"."
 }

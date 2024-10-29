@@ -17,7 +17,24 @@
   },
   "1": {
    "id": 1,
-   "name": "Imperial Theater"
+   "name": "Imperial Theater",
+   "ownership": {
+    "owner": {
+     "type": "Character",
+     "character": 0
+    },
+    "previousOwners": [
+     {
+      "owner": {
+       "type": "Unknown"
+      },
+      "until": {
+       "type": "Year",
+       "year": 1899
+      }
+     }
+    ]
+   }
   }
  }
 }

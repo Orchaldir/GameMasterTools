@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.Dead
+import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
@@ -27,6 +28,10 @@ fun State.getEvents(): List<Event> {
     getBuildingStorage().getAll().forEach { building ->
         events.add(BuildingConstructedEvent(building.constructionDate, building.id))
 
+        handleOwnership(events, building.id, building.ownership, ::createOwnershipChanged)
+    }
+
+    getBusinessStorage().getAll().forEach { building ->
         handleOwnership(events, building.id, building.ownership, ::createOwnershipChanged)
     }
 
@@ -71,6 +76,17 @@ private fun createOwnershipChanged(
     previous: PreviousOwner,
     to: Owner,
 ) = BuildingOwnershipChangedEvent(
+    previous.until,
+    id,
+    previous.owner,
+    to,
+)
+
+private fun createOwnershipChanged(
+    id: BusinessId,
+    previous: PreviousOwner,
+    to: Owner,
+) = BusinessOwnershipChangedEvent(
     previous.until,
     id,
     previous.owner,
