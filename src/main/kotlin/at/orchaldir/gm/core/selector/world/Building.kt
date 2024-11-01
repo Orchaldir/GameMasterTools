@@ -27,11 +27,6 @@ fun State.getMinNumberOfApartment(building: BuildingId) =
 fun State.getEarliestBuilding(buildings: List<Building>) =
     buildings.minWithOrNull(getConstructionComparator())
 
-fun State.getConstructionComparator(): Comparator<Building> {
-    val calendar = getDefaultCalendar()
-    return Comparator { a: Building, b: Building -> calendar.compareTo(a.constructionDate, b.constructionDate) }
-}
-
 fun State.getApartmentHouses() = getBuildingStorage()
     .getAll()
     .filter { it.purpose is ApartmentHouse }
@@ -55,4 +50,30 @@ fun State.getOwnedBuildings(character: CharacterId) = getBuildingStorage().getAl
 
 fun State.getPreviouslyOwnedBuildings(character: CharacterId) = getBuildingStorage().getAll()
     .filter { it.ownership.contains(character) }
+
+// sort
+
+enum class SortBuilding {
+    Name,
+    Construction,
+}
+
+fun State.getConstructionComparator(): Comparator<Building> {
+    val calendar = getDefaultCalendar()
+    return Comparator { a: Building, b: Building -> calendar.compareTo(a.constructionDate, b.constructionDate) }
+}
+
+fun State.getPairConstructionComparator(): Comparator<Pair<Building, String>> {
+    val comparator = getConstructionComparator()
+    return Comparator { a: Pair<Building, String>, b: Pair<Building, String> -> comparator.compare(a.first, b.first) }
+}
+
+fun State.sortBuildings(sort: SortBuilding = SortBuilding.Name) = sort(getBuildingStorage().getAll(), sort)
+
+fun State.sort(buildings: Collection<Building>, sort: SortBuilding = SortBuilding.Name) = buildings
+    .map { Pair(it, it.name(this)) }
+    .sortedWith(when (sort) {
+        SortBuilding.Name -> compareBy { it.second }
+        SortBuilding.Construction -> getPairConstructionComparator()
+    })
 

@@ -132,8 +132,8 @@ private fun HTML.showTownDetails(
             h2 { +"Buildings" }
             showArchitecturalStyleCount(call, state, buildings)
             showBuildingPurposeCount(buildings)
-            showList("Buildings", buildings.sortedBy { it.name }) { building ->
-                link(call, state, building)
+            showList("Buildings", state.sort(buildings)) { (building, name) ->
+                link(call, building.id, name)
             }
             showBuildingOwnershipCount(call, state, buildings)
             action(editBuildingsLink, "Edit Buildings")
@@ -189,7 +189,7 @@ private fun visualizeTownWithLinks(
         call.application.href(BuildingRoutes.Details(building.id))
     },
     buildingTooltipLookup = { building ->
-        building.name
+        building.name(state)
     },
     streetLinkLookup = { street, _ ->
         call.application.href(StreetRoutes.Details(street))

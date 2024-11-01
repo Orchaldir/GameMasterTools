@@ -112,7 +112,7 @@ fun visualizeBuildingEditor(
             call.application.href(BuildingRoutes.Details(building.id))
         },
         buildingTooltipLookup = { building ->
-            building.name
+            building.name(state)
         },
     )
 }

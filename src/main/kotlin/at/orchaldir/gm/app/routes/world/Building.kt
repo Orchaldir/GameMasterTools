@@ -5,8 +5,6 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
-import at.orchaldir.gm.app.routes.world.SortBuilding.Construction
-import at.orchaldir.gm.app.routes.world.SortBuilding.Name
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
@@ -37,16 +35,11 @@ import kotlin.math.min
 
 private val logger = KotlinLogging.logger {}
 
-enum class SortBuilding {
-    Name,
-    Construction,
-}
-
 @Resource("/building")
 class BuildingRoutes {
     @Resource("all")
     class All(
-        val sort: SortBuilding = Name,
+        val sort: SortBuilding = SortBuilding.Name,
         val parent: BuildingRoutes = BuildingRoutes(),
     )
 
@@ -189,13 +182,10 @@ private fun HTML.showAllBuildings(
     val buildings = STORE.getState()
         .getBuildingStorage()
         .getAll()
-        .sortedWith(when (sort) {
-            Name -> compareBy { it.name }
-            Construction -> state.getConstructionComparator()
-        })
+    val buildingsWithNames = state.sort(buildings, sort)
     val count = buildings.size
     val sortNameLink = call.application.href(BuildingRoutes.All())
-    val sortConstructionLink = call.application.href(BuildingRoutes.All(Construction))
+    val sortConstructionLink = call.application.href(BuildingRoutes.All(SortBuilding.Construction))
 
     simpleHtml("Buildings") {
         field("Count", count.toString())
@@ -214,9 +204,9 @@ private fun HTML.showAllBuildings(
                 th { +"Style" }
                 th { +"Owner" }
             }
-            buildings.forEach { building ->
+            buildingsWithNames.forEach { (building, name) ->
                 tr {
-                    td { link(call, state, building) }
+                    td { link(call, building.id, name) }
                     td { showDate(call, state, building.constructionDate) }
                     td { link(call, state, building.lot.town) }
                     td { showAddress(call, state, building) }
@@ -244,9 +234,8 @@ private fun HTML.showBuildingDetails(
     val editLotLink = call.application.href(BuildingRoutes.Lot.Edit(building.id))
     val deleteLink = call.application.href(BuildingRoutes.Delete(building.id))
 
-    simpleHtml("Building: ${building.name}") {
+    simpleHtml("Building: ${building.name(state)}") {
         split({
-            field("Name", building.name(state))
             fieldLink("Town", call, state, building.lot.town)
             fieldAddress(call, state, building)
             field(call, state, "Construction", building.constructionDate)
@@ -302,7 +291,7 @@ private fun HTML.showBuildingEditor(
     val previewLink = call.application.href(BuildingRoutes.Preview(building.id))
     val updateLink = call.application.href(BuildingRoutes.Update(building.id))
 
-    simpleHtml("Edit Building: ${building.name}") {
+    simpleHtml("Edit Building: ${building.name(state)}") {
         split({
             form {
                 id = "editor"
@@ -376,7 +365,7 @@ private fun HTML.showBuildingLotEditor(
     val backLink = call.application.href(BuildingRoutes.Details(building.id))
     val previewLink = call.application.href(BuildingRoutes.Lot.Preview(building.id))
 
-    simpleHtml("Move & resize: ${building.name}") {
+    simpleHtml("Move & resize: ${building.name(state)}") {
         split({
             form {
                 id = "editor"
@@ -478,7 +467,7 @@ private fun visualizeBuilding(
             call.application.href(BuildingRoutes.Details(b.id))
         },
         buildingTooltipLookup = { building ->
-            building.name
+            building.name(state)
         },
     )
 }
