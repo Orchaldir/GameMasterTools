@@ -1,7 +1,9 @@
 package at.orchaldir.gm.core.model.world.building
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.util.ElementWithComplexName
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.utils.Id
@@ -22,16 +24,25 @@ value class BuildingId(val value: Int) : Id<BuildingId> {
 @Serializable
 data class Building(
     val id: BuildingId,
-    val name: String = "Building ${id.value}",
+    val name: String? = null,
     val lot: BuildingLot = BuildingLot(),
     val address: Address = NoAddress,
     val constructionDate: Date = Year(0),
     val ownership: Ownership = Ownership(),
     val architecturalStyle: ArchitecturalStyleId = ArchitecturalStyleId(0),
     val purpose: BuildingPurpose = SingleFamilyHouse,
-) : ElementWithSimpleName<BuildingId> {
+) : ElementWithComplexName<BuildingId> {
 
     override fun id() = id
-    override fun name() = name
+
+    override fun name(state: State): String {
+        if (name != null) {
+            return name
+        } else if (purpose is SingleBusiness) {
+            return state.getElementName(purpose.business)
+        }
+
+        return "Building ${id.value}"
+    }
 
 }

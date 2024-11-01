@@ -133,7 +133,7 @@ private fun HTML.showTownDetails(
             showArchitecturalStyleCount(call, state, buildings)
             showBuildingPurposeCount(buildings)
             showList("Buildings", buildings.sortedBy { it.name }) { building ->
-                link(call, building)
+                link(call, state, building)
             }
             showBuildingOwnershipCount(call, state, buildings)
             action(editBuildingsLink, "Edit Buildings")

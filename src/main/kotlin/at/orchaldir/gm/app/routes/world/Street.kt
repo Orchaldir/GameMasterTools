@@ -141,7 +141,7 @@ private fun HTML.showStreetDetails(
 
             link(call, town)
             showList(buildings) { building ->
-                link(call, building)
+                link(call, state, building)
             }
         }
         action(editLink, "Edit")

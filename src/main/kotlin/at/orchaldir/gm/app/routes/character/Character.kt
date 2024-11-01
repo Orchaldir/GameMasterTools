@@ -401,11 +401,11 @@ fun BODY.showPossession(
     h2 { +"Possession" }
 
     showList("Owned Buildings", state.getOwnedBuildings(character.id)) { building ->
-        link(call, building)
+        link(call, state, building)
     }
 
     showList("Previously owned Buildings", state.getPreviouslyOwnedBuildings(character.id)) { building ->
-        link(call, building)
+        link(call, state, building)
     }
 
     showList("Equipped", character.equipmentMap.map.values) { item ->

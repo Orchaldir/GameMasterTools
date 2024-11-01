@@ -214,7 +214,7 @@ private fun HTML.showArchitecturalStyleDetails(
             link(call, s)
         }
         showList("Buildings", state.getBuildings(style.id).sortedBy { it.name }) { building ->
-            link(call, building)
+            link(call, state, building)
         }
         action(editLink, "Edit")
         if (state.canDelete(style.id)) {

@@ -216,7 +216,7 @@ private fun HTML.showAllBuildings(
             }
             buildings.forEach { building ->
                 tr {
-                    td { link(call, building) }
+                    td { link(call, state, building) }
                     td { showDate(call, state, building.constructionDate) }
                     td { link(call, state, building.lot.town) }
                     td { showAddress(call, state, building) }
@@ -246,7 +246,7 @@ private fun HTML.showBuildingDetails(
 
     simpleHtml("Building: ${building.name}") {
         split({
-            field("Name", building.name)
+            field("Name", building.name(state))
             fieldLink("Town", call, state, building.lot.town)
             fieldAddress(call, state, building)
             field(call, state, "Construction", building.constructionDate)
@@ -308,7 +308,7 @@ private fun HTML.showBuildingEditor(
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectName(building.name)
+                selectName(building.name(state))
                 selectAddress(state, building)
                 selectDate(state, "Construction", building.constructionDate, DATE)
                 selectOwnership(state, building.ownership, building.constructionDate)

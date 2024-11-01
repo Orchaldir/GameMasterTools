@@ -166,7 +166,7 @@ private fun HTML.showBusinessDetails(
 
     simpleHtml("Business: ${business.name}") {
         field("Name", business.name)
-        state.getBuilding(business.id)?.let { fieldLink("Building", call, it) }
+        state.getBuilding(business.id)?.let { fieldLink("Building", call, state, it) }
         field(call, state, "Start", business.startDate)
         fieldAge("Age", state.getAgeInYears(business))
         showOwnership(call, state, business.ownership)
