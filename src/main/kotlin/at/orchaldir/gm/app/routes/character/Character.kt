@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseCharacter
+import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
@@ -16,6 +17,7 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.selector.world.SortBuilding
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
@@ -39,11 +41,11 @@ private val logger = KotlinLogging.logger {}
 
 fun Application.configureCharacterRouting() {
     routing {
-        get<CharacterRoutes> {
+        get<CharacterRoutes.All> { all ->
             logger.info { "Get all characters" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllCharacters(call, STORE.getState())
+                showAllCharacters(call, STORE.getState(), all.sort)
             }
         }
         get<CharacterRoutes.Details> { details ->
@@ -76,7 +78,7 @@ fun Application.configureCharacterRouting() {
 
             STORE.dispatch(DeleteCharacter(delete.id))
 
-            call.respondRedirect(call.application.href(CharacterRoutes()))
+            call.respondRedirect(call.application.href(CharacterRoutes.All()))
 
             STORE.getState().save()
         }
@@ -144,14 +146,25 @@ fun Application.configureCharacterRouting() {
     }
 }
 
-private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
+private fun HTML.showAllCharacters(
+    call: ApplicationCall,
+    state: State,
+    sort: SortCharacter,
+) {
     val characters = STORE.getState().getCharacterStorage().getAll()
-    val charactersWithNames = state.sort(characters)
+    val charactersWithNames = state.sort(characters, sort)
     val count = characters.size
     val createLink = call.application.href(CharacterRoutes.New())
+    val sortNameLink = call.application.href(CharacterRoutes.All())
+    val sortAgeLink = call.application.href(CharacterRoutes.All(SortCharacter.Age))
 
     simpleHtml("Characters") {
         field("Count", count.toString())
+        field("Sort") {
+            link(sortNameLink, "Name")
+            +" "
+            link(sortAgeLink, "Age")
+        }
         table {
             tr {
                 th { +"Name" }
@@ -200,7 +213,7 @@ private fun HTML.showCharacterDetails(
     character: Character,
 ) {
     val equipment = state.getEquipment(character)
-    val backLink = call.application.href(CharacterRoutes())
+    val backLink = call.application.href(CharacterRoutes.All())
     val editAppearanceLink = call.application.href(CharacterRoutes.Appearance.Edit(character.id))
     val frontSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipment)
     val backSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipment, false)
