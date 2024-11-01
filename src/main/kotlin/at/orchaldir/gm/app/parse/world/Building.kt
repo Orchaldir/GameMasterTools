@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.economy.getBusinessesWithoutBuilding
 import io.ktor.http.*
-import io.ktor.server.util.*
 
 fun parseBuildingId(parameters: Parameters, param: String, default: Int = 0) =
     BuildingId(parseInt(parameters, param, default))
@@ -53,5 +52,6 @@ fun parsePurpose(parameters: Parameters, state: State): BuildingPurpose = when (
         parseBusinessId(parameters, combine(PURPOSE, BUSINESS))
             ?: state.getBusinessesWithoutBuilding().first()
     )
+
     else -> SingleFamilyHouse
 }

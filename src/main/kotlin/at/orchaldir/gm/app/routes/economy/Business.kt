@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.routes.economy
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.parse.economy.parseBusiness
 import at.orchaldir.gm.core.action.CreateBusiness
 import at.orchaldir.gm.core.action.DeleteBusiness

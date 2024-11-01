@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.world.terrain
 
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
-import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 

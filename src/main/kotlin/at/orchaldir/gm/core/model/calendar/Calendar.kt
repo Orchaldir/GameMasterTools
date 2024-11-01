@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.model.calendar
 
 import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
-import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
