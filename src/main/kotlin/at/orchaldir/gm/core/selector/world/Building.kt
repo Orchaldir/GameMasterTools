@@ -63,7 +63,7 @@ fun State.getConstructionComparator(): Comparator<Building> {
     return Comparator { a: Building, b: Building -> calendar.compareTo(a.constructionDate, b.constructionDate) }
 }
 
-fun State.getPairConstructionComparator(): Comparator<Pair<Building, String>> {
+fun State.getConstructionComparatorForPair(): Comparator<Pair<Building, String>> {
     val comparator = getConstructionComparator()
     return Comparator { a: Pair<Building, String>, b: Pair<Building, String> -> comparator.compare(a.first, b.first) }
 }
@@ -74,6 +74,6 @@ fun State.sort(buildings: Collection<Building>, sort: SortBuilding = SortBuildin
     .map { Pair(it, it.name(this)) }
     .sortedWith(when (sort) {
         SortBuilding.Name -> compareBy { it.second }
-        SortBuilding.Construction -> getPairConstructionComparator()
+        SortBuilding.Construction -> getConstructionComparatorForPair()
     })
 

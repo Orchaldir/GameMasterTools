@@ -146,9 +146,7 @@ fun Application.configureCharacterRouting() {
 
 private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
     val characters = STORE.getState().getCharacterStorage().getAll()
-    val charactersWithNames = characters
-        .map { Pair(it, it.name(state)) }
-        .sortedBy { it.second }
+    val charactersWithNames = state.sort(characters)
     val count = characters.size
     val createLink = call.application.href(CharacterRoutes.New())
 

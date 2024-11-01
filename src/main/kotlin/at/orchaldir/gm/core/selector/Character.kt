@@ -12,8 +12,11 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Duration
+import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.selector.world.SortBuilding
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
+import at.orchaldir.gm.core.selector.world.getConstructionComparatorForPair
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.utils.math.Distance
 
@@ -174,3 +177,29 @@ private fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int, he
 
     return updatedAppearance
 }
+
+// sort
+
+enum class SortCharacter {
+    Name,
+    Age,
+}
+
+fun State.getAgeComparator(): Comparator<Character> {
+    val calendar = getDefaultCalendar()
+    return Comparator { a: Character, b: Character -> calendar.compareTo(a.birthDate, b.birthDate) }
+}
+
+fun State.getAgeComparatorForPair(): Comparator<Pair<Character, String>> {
+    val comparator = getAgeComparator()
+    return Comparator { a: Pair<Character, String>, b: Pair<Character, String> -> comparator.compare(a.first, b.first) }
+}
+
+fun State.sortBuildings(sort: SortCharacter = SortCharacter.Name) = sort(getCharacterStorage().getAll(), sort)
+
+fun State.sort(buildings: Collection<Character>, sort: SortCharacter = SortCharacter.Name) = buildings
+    .map { Pair(it, it.name(this)) }
+    .sortedWith(when (sort) {
+        SortCharacter.Name -> compareBy { it.second }
+        SortCharacter.Age -> getAgeComparatorForPair()
+    })
