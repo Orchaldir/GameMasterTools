@@ -23,7 +23,7 @@ value class BuildingId(val value: Int) : Id<BuildingId> {
 @Serializable
 data class Building(
     val id: BuildingId,
-    private val name: String? = null,
+    val name: String? = null,
     val lot: BuildingLot = BuildingLot(),
     val address: Address = NoAddress,
     val constructionDate: Date = Year(0),

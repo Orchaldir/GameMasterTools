@@ -297,7 +297,7 @@ private fun HTML.showBuildingEditor(
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectName(building.name(state))
+                selectOptionalName(building.name)
                 selectAddress(state, building)
                 selectDate(state, "Construction", building.constructionDate, DATE)
                 selectOwnership(state, building.ownership, building.constructionDate)

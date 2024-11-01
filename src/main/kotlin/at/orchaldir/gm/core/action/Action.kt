@@ -200,7 +200,7 @@ data class DeleteBuilding(val id: BuildingId) : WorldAction()
 
 data class UpdateBuilding(
     val id: BuildingId,
-    val name: String,
+    val name: String?,
     val address: Address,
     val constructionDate: Date,
     val ownership: Ownership,

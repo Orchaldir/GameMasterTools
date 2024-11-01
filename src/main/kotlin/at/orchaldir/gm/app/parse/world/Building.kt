@@ -19,7 +19,7 @@ fun parseUpdateBuilding(parameters: Parameters, state: State, id: BuildingId): U
 
     return UpdateBuilding(
         id,
-        parameters.getOrFail(NAME),
+        parseName(parameters, NAME),
         parseAddress(parameters),
         constructionDate,
         parseOwnership(parameters, state, constructionDate),
