@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.util.ElementWithComplexName
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -35,14 +34,45 @@ data class Building(
 
     override fun id() = id
 
-    override fun name(state: State): String {
-        if (name != null) {
-            return name
-        } else if (purpose is SingleBusiness) {
-            return state.getElementName(purpose.business)
+    override fun name(state: State) = when {
+        name != null -> {
+            name
         }
 
-        return "Building ${id.value}"
+        purpose is SingleBusiness -> {
+            state.getElementName(purpose.business)
+        }
+
+        address !is NoAddress -> {
+            address(state)
+        }
+
+        else -> "Building ${id.value}"
+    }
+
+    fun address(state: State) = when (address) {
+        is CrossingAddress -> {
+            var isStart = true
+            var text = "Crossing of "
+
+            address.streets.forEach { street ->
+                if (isStart) {
+                    isStart = false
+                } else {
+                    text += " & "
+                }
+
+                text += state.getElementName(street)
+            }
+
+            text
+        }
+
+        NoAddress -> "None"
+
+        is StreetAddress -> state.getElementName(address.street) + " ${address.houseNumber}"
+
+        is TownAddress -> state.getElementName(lot.town) + " ${address.houseNumber}"
     }
 
 }
