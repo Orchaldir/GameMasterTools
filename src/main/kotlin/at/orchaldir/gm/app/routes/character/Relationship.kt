@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.InterpersonalRelationship
-import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.core.selector.getOthersWithoutRelationship
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -94,7 +93,7 @@ private fun HTML.showRelationshipEditor(
     val previewLink = call.application.href(CharacterRoutes.Relationships.Preview(character.id))
     val updateLink = call.application.href(CharacterRoutes.Relationships.Update(character.id))
 
-    simpleHtml("Edit Relationships: ${state.getName(character)}") {
+    simpleHtml("Edit Relationships: ${character.name(state)}") {
         form {
             id = "editor"
             action = previewLink
@@ -111,7 +110,7 @@ private fun HTML.showRelationshipEditor(
                     }
                     state.getOthersWithoutRelationship(character).forEach { other ->
                         option {
-                            label = state.getName(other)
+                            label = other.name(state)
                             value = other.id.value.toString()
                         }
                     }

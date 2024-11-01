@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.util.reverseAndSort
-import at.orchaldir.gm.core.selector.getName
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -73,7 +72,7 @@ private fun HTML.showLanguageEditor(
     val backLink = href(call, character.id)
     val updateLink = call.application.href(CharacterRoutes.Languages.Update(character.id))
 
-    simpleHtml("Edit Languages: ${state.getName(character)}") {
+    simpleHtml("Edit Languages: ${character.name(state)}") {
         showLanguages(call, state, character)
         form {
             field("Language to Update") {

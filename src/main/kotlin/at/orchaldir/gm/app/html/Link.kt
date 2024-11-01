@@ -36,7 +36,6 @@ import at.orchaldir.gm.core.model.world.street.StreetTypeId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownId
-import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -164,7 +163,7 @@ fun HtmlBlockTag.link(
     state: State,
     id: CharacterId,
 ) {
-    link(call, id, state.getName(id))
+    link(call, state, state.getCharacterStorage().getOrThrow(id))
 }
 
 fun HtmlBlockTag.link(
@@ -172,5 +171,5 @@ fun HtmlBlockTag.link(
     state: State,
     character: Character,
 ) {
-    link(call, character.id, state.getName(character))
+    link(call, character.id, character.name(state))
 }

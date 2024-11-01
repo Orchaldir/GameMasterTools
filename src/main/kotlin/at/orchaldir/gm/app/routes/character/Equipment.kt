@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.item.EquipmentSlot
 import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.selector.getEquipment
-import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
@@ -98,7 +97,7 @@ private fun HTML.showEquipmentEditor(
     val frontSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipped)
     val backSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipped, false)
 
-    simpleHtml("Edit Equipment: ${state.getName(character)}") {
+    simpleHtml("Edit Equipment: ${character.name(state)}") {
         svg(frontSvg, 20)
         svg(backSvg, 20)
         form {

@@ -147,7 +147,7 @@ fun Application.configureCharacterRouting() {
 private fun HTML.showAllCharacters(call: ApplicationCall, state: State) {
     val characters = STORE.getState().getCharacterStorage().getAll()
     val charactersWithNames = characters
-        .map { Pair(it, state.getName(it)) }
+        .map { Pair(it, it.name(state)) }
         .sortedBy { it.second }
     val count = characters.size
     val createLink = call.application.href(CharacterRoutes.New())
@@ -207,7 +207,7 @@ private fun HTML.showCharacterDetails(
     val frontSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipment)
     val backSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipment, false)
 
-    simpleHtml("Character: ${state.getName(character)}") {
+    simpleHtml("Character: ${character.name(state)}") {
         svg(frontSvg, 20)
         svg(backSvg, 20)
 
@@ -420,7 +420,7 @@ private fun HTML.showCharacterEditor(
     state: State,
     character: Character,
 ) {
-    val characterName = state.getName(character)
+    val characterName = character.name(state)
     val race = state.getRaceStorage().getOrThrow(character.race)
     val backLink = href(call, character.id)
     val previewLink = call.application.href(CharacterRoutes.Preview(character.id))
@@ -522,7 +522,7 @@ private fun FORM.selectVitalStatus(
         }
         if (vitalStatus.cause is Murder) {
             selectValue("Killer", KILLER, state.getOthers(character.id)) { c ->
-                label = state.getName(c)
+                label = c.name(state)
                 value = c.id.value.toString()
                 selected = vitalStatus.cause.killer == c.id
             }
@@ -549,12 +549,12 @@ private fun FORM.selectOrigin(
     when (character.origin) {
         is Born -> {
             selectValue("Father", FATHER, state.getPossibleFathers(character.id)) { c ->
-                label = state.getName(c)
+                label = c.name(state)
                 value = c.id.value.toString()
                 selected = character.origin.father == c.id
             }
             selectValue("Mother", MOTHER, state.getPossibleMothers(character.id)) { c ->
-                label = state.getName(c)
+                label = c.name(state)
                 value = c.id.value.toString()
                 selected = character.origin.mother == c.id
             }

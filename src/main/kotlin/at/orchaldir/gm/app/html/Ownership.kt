@@ -5,7 +5,6 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.world.exists
 import at.orchaldir.gm.utils.doNothing
@@ -80,7 +79,7 @@ fun HtmlBlockTag.selectOwner(
             state.getCharacterStorage().getAll(),
             false
         ) { character ->
-            label = state.getName(character)
+            label = character.name(state)
             value = character.id.value.toString()
             selected = owner.character == character.id
             disabled = !state.isAlive(character, start)

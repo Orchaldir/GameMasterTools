@@ -263,7 +263,7 @@ private fun HTML.showLanguageEditor(
                         INVENTOR,
                         possibleInventors
                     ) { c ->
-                        label = state.getName(c)
+                        label = c.name(state)
                         value = c.id.value.toString()
                         selected = language.origin.inventor == c.id
                     }
