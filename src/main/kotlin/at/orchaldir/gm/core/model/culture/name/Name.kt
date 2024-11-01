@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.culture.name
 
 import at.orchaldir.gm.core.model.NameListId
+import at.orchaldir.gm.core.model.character.FamilyName
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.OneGeneration
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.OneOf
@@ -23,6 +24,31 @@ sealed class NamingConvention {
 
     abstract fun getNameLists(): Set<NameListId>
 
+    fun getFamilyName(name: FamilyName): String {
+        when (this) {
+            is FamilyConvention -> return when (nameOrder) {
+                NameOrder.GivenNameFirst -> getFamilyName(
+                    name.given,
+                    name.middle,
+                    name.family
+                )
+
+                NameOrder.FamilyNameFirst -> getFamilyName(
+                    name.family,
+                    name.middle,
+                    name.given
+                )
+            }
+
+            else -> error("A family name requires a family convention!")
+        }
+    }
+}
+
+private fun getFamilyName(first: String, middle: String?, last: String) = if (middle != null) {
+    "$first $middle $last"
+} else {
+    "$first $last"
 }
 
 @Serializable

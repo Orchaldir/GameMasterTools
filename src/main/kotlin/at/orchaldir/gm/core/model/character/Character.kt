@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -8,8 +9,8 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Duration
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
-import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.core.model.util.ElementWithComplexName
+import at.orchaldir.gm.core.selector.getGenonymName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -41,10 +42,22 @@ data class Character(
     val appearance: Appearance = UndefinedAppearance,
     val equipmentMap: EquipmentMap = EquipmentMap(emptyMap()),
     val livingStatus: LivingStatus = Homeless,
-) : ElementWithSimpleName<CharacterId> {
+) : ElementWithComplexName<CharacterId> {
 
     override fun id() = id
-    override fun name() = error("Wrong character name!")
+
+    override fun name(state: State): String {
+        return when (val name = name) {
+            is FamilyName -> {
+                val culture = state.getCultureStorage().getOrThrow(culture)
+
+                culture.namingConvention.getFamilyName(name)
+            }
+
+            is Genonym -> state.getGenonymName(this, name)
+            is Mononym -> name.name
+        }
+    }
 
     fun getAge(currentDay: Day): Duration {
         if (birthDate >= currentDay) {

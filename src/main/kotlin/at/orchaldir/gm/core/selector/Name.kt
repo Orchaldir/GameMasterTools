@@ -25,7 +25,7 @@ fun State.getName(character: Character): String {
         is FamilyName -> {
             val culture = getCultureStorage().getOrThrow(character.culture)
 
-            getFamilyName(culture.namingConvention, name)
+            culture.namingConvention.getFamilyName(name)
         }
 
         is Genonym -> getGenonymName(character, name)
@@ -33,36 +33,8 @@ fun State.getName(character: Character): String {
     }
 }
 
-private fun getFamilyName(
-    namingConvention: NamingConvention,
-    name: FamilyName,
-): String {
-    when (namingConvention) {
-        is FamilyConvention -> return when (namingConvention.nameOrder) {
-            NameOrder.GivenNameFirst -> getFamilyName(
-                name.given,
-                name.middle,
-                name.family
-            )
 
-            NameOrder.FamilyNameFirst -> getFamilyName(
-                name.family,
-                name.middle,
-                name.given
-            )
-        }
-
-        else -> error("A family name requires a family convention!")
-    }
-}
-
-private fun getFamilyName(first: String, middle: String?, last: String) = if (middle != null) {
-    "$first $middle $last"
-} else {
-    "$first $last"
-}
-
-private fun State.getGenonymName(
+fun State.getGenonymName(
     character: Character,
     name: Genonym,
 ): String {
