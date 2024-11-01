@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
-import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -27,6 +26,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.util.ElementWithComplexName
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
@@ -115,6 +115,14 @@ fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.link(
     link(call, element.id(), element.name())
 }
 
+fun <ID : Id<ID>, ELEMENT : ElementWithComplexName<ID>> HtmlBlockTag.link(
+    call: ApplicationCall,
+    state: State,
+    element: ELEMENT,
+) {
+    link(call, element.id(), element.name(state))
+}
+
 fun <ID : Id<ID>> HtmlBlockTag.link(
     call: ApplicationCall,
     id: ID,
@@ -154,22 +162,4 @@ fun <ID : Id<ID>> href(
     is StreetTypeId -> call.application.href(StreetTypeRoutes.Details(id))
     is TownId -> call.application.href(TownRoutes.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
-}
-
-// character
-
-fun HtmlBlockTag.link(
-    call: ApplicationCall,
-    state: State,
-    id: CharacterId,
-) {
-    link(call, state, state.getCharacterStorage().getOrThrow(id))
-}
-
-fun HtmlBlockTag.link(
-    call: ApplicationCall,
-    state: State,
-    character: Character,
-) {
-    link(call, character.id, character.name(state))
 }
