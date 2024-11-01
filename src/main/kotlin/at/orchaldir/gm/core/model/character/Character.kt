@@ -43,7 +43,7 @@ data class Character(
 ) : Element<CharacterId> {
 
     override fun id() = id
-    override fun name() = error("Wong character name!")
+    override fun name() = error("Wrong character name!")
 
     fun getAge(currentDay: Day): Duration {
         if (birthDate >= currentDay) {
