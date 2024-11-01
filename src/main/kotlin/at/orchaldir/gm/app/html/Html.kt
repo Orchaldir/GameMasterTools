@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.reverseAndSort
@@ -75,7 +76,7 @@ fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
     }
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.fieldLink(
+fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.fieldLink(
     label: String, call: ApplicationCall,
     element: ELEMENT,
 ) {

@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.fashion
 
 import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.model.util.SomeOf
@@ -29,7 +30,7 @@ data class Fashion(
     val clothingSets: OneOf<ClothingSet> = OneOf(ClothingSet.entries),
     val accessories: SomeOf<EquipmentType> = SomeOf(emptySet()),
     val itemRarityMap: Map<EquipmentType, OneOrNone<ItemTemplateId>> = emptyMap(),
-) : Element<FashionId> {
+) : ElementWithSimpleName<FashionId> {
 
     override fun id() = id
     override fun name() = name

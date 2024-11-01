@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.world.street
 
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -22,7 +23,7 @@ data class StreetType(
     val id: StreetTypeId,
     val name: String = "StreetType ${id.value}",
     val color: Color = Color.Gray,
-) : Element<StreetTypeId> {
+) : ElementWithSimpleName<StreetTypeId> {
 
     override fun id() = id
     override fun name() = name

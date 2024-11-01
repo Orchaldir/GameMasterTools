@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Element
@@ -36,7 +37,7 @@ data class Culture(
     val appearanceStyle: AppearanceStyle = AppearanceStyle(),
     val clothingStyles: GenderMap<FashionId> = GenderMap(FashionId(0)),
     val holidays: Set<HolidayId> = emptySet(),
-) : Element<CultureId> {
+) : ElementWithSimpleName<CultureId> {
 
     override fun id() = id
     override fun name() = name

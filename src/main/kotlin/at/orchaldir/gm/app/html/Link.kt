@@ -27,6 +27,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
@@ -36,7 +37,6 @@ import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getName
-import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -109,7 +109,7 @@ fun <ID : Id<ID>> HtmlBlockTag.link(
     link(call, id, state.getElementName(id))
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.link(
+fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.link(
     call: ApplicationCall,
     element: ELEMENT,
 ) {

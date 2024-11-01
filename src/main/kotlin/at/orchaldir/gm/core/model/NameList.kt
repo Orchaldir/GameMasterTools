@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model
 
-import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -22,7 +22,7 @@ data class NameList(
     val id: NameListId,
     val name: String = "NameList ${id.value}",
     val names: List<String> = listOf(),
-) : Element<NameListId> {
+) : ElementWithSimpleName<NameListId> {
 
     override fun id() = id
     override fun name() = name

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item
 
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -21,7 +22,7 @@ data class ItemTemplate(
     val id: ItemTemplateId,
     val name: String = "Item Template ${id.value}",
     val equipment: Equipment = NoEquipment,
-) : Element<ItemTemplateId> {
+) : ElementWithSimpleName<ItemTemplateId> {
 
     override fun id() = id
     override fun name() = name

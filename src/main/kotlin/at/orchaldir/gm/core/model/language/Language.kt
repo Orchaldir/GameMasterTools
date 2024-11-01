@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.language
 
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -21,7 +22,7 @@ data class Language(
     val id: LanguageId,
     val name: String = "Language ${id.value}",
     val origin: LanguageOrigin = OriginalLanguage,
-) : Element<LanguageId> {
+) : ElementWithSimpleName<LanguageId> {
 
     override fun id() = id
     override fun name() = name

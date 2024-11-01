@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Duration
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -40,7 +41,7 @@ data class Character(
     val appearance: Appearance = UndefinedAppearance,
     val equipmentMap: EquipmentMap = EquipmentMap(emptyMap()),
     val livingStatus: LivingStatus = Homeless,
-) : Element<CharacterId> {
+) : ElementWithSimpleName<CharacterId> {
 
     override fun id() = id
     override fun name() = error("Wrong character name!")

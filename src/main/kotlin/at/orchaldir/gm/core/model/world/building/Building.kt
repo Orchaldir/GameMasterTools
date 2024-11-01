@@ -2,8 +2,8 @@ package at.orchaldir.gm.core.model.world.building
 
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.Ownership
-import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -29,7 +29,7 @@ data class Building(
     val ownership: Ownership = Ownership(),
     val architecturalStyle: ArchitecturalStyleId = ArchitecturalStyleId(0),
     val purpose: BuildingPurpose = SingleFamilyHouse,
-) : Element<BuildingId> {
+) : ElementWithSimpleName<BuildingId> {
 
     override fun id() = id
     override fun name() = name

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.calendar
 
 import at.orchaldir.gm.core.model.time.*
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.modulo
@@ -27,7 +28,7 @@ data class Calendar(
     val months: List<MonthDefinition> = emptyList(),
     val eras: CalendarEras = CalendarEras("BC", true, Day(0), "AD", false),
     val origin: CalendarOrigin = OriginalCalendar,
-) : Element<CalendarId> {
+) : ElementWithSimpleName<CalendarId> {
 
     override fun id() = id
     override fun name() = name

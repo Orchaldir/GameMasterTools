@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.world.moon
 
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.modulo
@@ -25,7 +26,7 @@ data class Moon(
     val name: String = "Moon ${id.value}",
     val daysPerQuarter: Int = 1,
     val color: Color = Color.White,
-) : Element<MoonId> {
+) : ElementWithSimpleName<MoonId> {
 
     override fun id() = id
     override fun name() = name

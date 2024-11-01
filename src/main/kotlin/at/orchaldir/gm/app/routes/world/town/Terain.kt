@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.routes.world.RiverRoutes
 import at.orchaldir.gm.core.action.ResizeTown
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.terrain.TerrainType
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.*
@@ -161,7 +162,12 @@ private fun HTML.showTerrainEditor(
     }
 }
 
-private fun <ID : Id<ID>> FORM.selectTerrain(text: String, options: Collection<Element<ID>>, id: Int, link: String) {
+private fun <ID : Id<ID>> FORM.selectTerrain(
+    text: String,
+    options: Collection<ElementWithSimpleName<ID>>,
+    id: Int,
+    link: String,
+) {
     selectValue(text, TERRAIN, options, true) { m ->
         label = m.name()
         value = m.id().value().toString()

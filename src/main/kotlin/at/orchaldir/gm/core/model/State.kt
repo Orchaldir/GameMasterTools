@@ -38,6 +38,7 @@ import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.moon.MOON
 import at.orchaldir.gm.core.model.world.moon.Moon
@@ -140,7 +141,13 @@ data class State(
 
         if (storage != null) {
             @Suppress("UNCHECKED_CAST")
-            return (storage as Storage<ID, Element<ID>>).get(id)?.name() ?: "Unknown"
+            val element = (storage as Storage<ID, Element<ID>>).get(id)
+
+            if (element != null && element is ElementWithSimpleName) {
+                return element.name()
+            }
+
+            return "Unknown"
         }
 
         return "Unknown"

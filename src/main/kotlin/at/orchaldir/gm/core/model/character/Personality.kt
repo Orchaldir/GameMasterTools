@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -25,7 +26,7 @@ data class PersonalityTrait(
     val id: PersonalityTraitId,
     val name: String = "Personality Trait ${id.value}",
     val group: PersonalityTraitGroup? = null,
-) : Element<PersonalityTraitId> {
+) : ElementWithSimpleName<PersonalityTraitId> {
 
     override fun id() = id
     override fun name() = name

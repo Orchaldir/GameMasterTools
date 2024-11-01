@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world.terrain
 
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -21,7 +22,7 @@ value class RiverId(val value: Int) : Id<RiverId> {
 data class River(
     val id: RiverId,
     val name: String = "River ${id.value}",
-) : Element<RiverId> {
+) : ElementWithSimpleName<RiverId> {
 
     override fun id() = id
     override fun name() = name
