@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.selector.getEmployees
 fun State.canDelete(job: JobId) = getEmployees(job).isEmpty()
 
 fun countJobs(characters: Collection<Character>) = characters
-    .mapNotNull { it.employmentStatus.getJob() }
+    .map { it.employmentStatus.getJob() }
     .groupingBy { it }
     .eachCount()
 

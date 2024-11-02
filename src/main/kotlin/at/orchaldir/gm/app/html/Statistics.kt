@@ -32,9 +32,6 @@ fun HtmlBlockTag.showCultureCount(
     characters: Collection<Character>,
 ) = showCount(call, state, "Cultures", countCultures(characters))
 
-fun HtmlBlockTag.showEmploymentStatusCount(characters: Collection<Character>) =
-    showCount("Employment Status", countEmploymentStatus(characters))
-
 fun HtmlBlockTag.showGenderCount(characters: Collection<Character>) =
     showCount("Genders", countGender(characters))
 
@@ -42,7 +39,16 @@ fun HtmlBlockTag.showJobCount(
     call: ApplicationCall,
     state: State,
     characters: Collection<Character>,
-) = showCount(call, state, "Jobs", countJobs(characters))
+) {
+    showMap("Jobs", countJobs(characters)) { job, count ->
+        if (job == null) {
+            +"Unemployed"
+        } else {
+            link(call, state, job)
+        }
+        +": $count"
+    }
+}
 
 fun HtmlBlockTag.showLivingStatusCount(characters: Collection<Character>) =
     showCount("Living Status", countLivingStatus(characters))

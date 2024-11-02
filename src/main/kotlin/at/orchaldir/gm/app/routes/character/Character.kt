@@ -199,7 +199,6 @@ private fun HTML.showAllCharacters(
             }
         }
         showCultureCount(call, state, characters)
-        showEmploymentStatusCount(characters)
         showGenderCount(characters)
         showJobCount(call, state, characters)
         showLivingStatusCount(characters)
