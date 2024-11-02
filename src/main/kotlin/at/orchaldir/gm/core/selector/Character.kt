@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import at.orchaldir.gm.core.model.character.appearance.updateBeard
 import at.orchaldir.gm.core.model.character.appearance.updateHairColor
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
@@ -66,6 +68,16 @@ fun State.getCharactersLivingInApartment(building: BuildingId, apartment: Int) =
 fun State.getCharactersLivingInHouse(building: BuildingId) = getCharacterStorage()
     .getAll()
     .filter { c -> c.livingStatus.isLivingInHouse(building) }
+
+// employment status
+
+fun State.getEmployees(job: JobId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.employmentStatus.has(job) }
+
+fun State.getEmployees(business: BusinessId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.employmentStatus.isEmployedAt(business) }
 
 // get relatives
 
@@ -147,6 +159,8 @@ fun scaleHeightByAge(race: Race, height: Distance, age: Int): Distance {
 
     return height * relativeSize
 }
+
+// appearance
 
 fun State.getAppearanceForAge(character: Character): Appearance {
     val age = getAgeInYears(character)

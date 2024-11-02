@@ -18,6 +18,16 @@ sealed class EmploymentStatus {
         is Employed -> EmploymentStatusType.Employed
     }
 
+    fun has(job: JobId) = when (this) {
+        is Employed -> job == this.job
+        Unemployed -> false
+    }
+
+    fun isEmployedAt(business: BusinessId) = when (this) {
+        is Employed -> business == this.business
+        Unemployed -> false
+    }
+
 }
 
 @Serializable

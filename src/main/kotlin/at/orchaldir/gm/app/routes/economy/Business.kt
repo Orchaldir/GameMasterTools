@@ -11,10 +11,13 @@ import at.orchaldir.gm.core.action.CreateBusiness
 import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.economy.getAgeInYears
+import at.orchaldir.gm.core.selector.getEmployees
+import at.orchaldir.gm.core.selector.sort
 import at.orchaldir.gm.core.selector.world.getBuilding
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -172,6 +175,13 @@ private fun HTML.showBusinessDetails(
         field(call, state, "Start", business.startDate)
         fieldAge("Age", state.getAgeInYears(business))
         showOwnership(call, state, business.ownership)
+        showList("Employees", state.sort(state.getEmployees(business.id))) { (character, name) ->
+            link(call, character.id, name)
+            +" as "
+            if (character.employmentStatus is Employed) {
+                link(call, state, character.employmentStatus.job)
+            }
+        }
         action(editLink, "Edit")
         if (state.canDelete(business.id)) {
             action(deleteLink, "Delete")
