@@ -105,43 +105,6 @@ class CharacterTest {
 
             @Test
             fun `Cannot delete a building owner`() {
-                val business = Business(BUSINESS0, ownership = Ownership(OwnedByCharacter(ID0)))
-                val state = State(
-                    listOf(
-                        Storage(listOf(Character(ID0))),
-                        Storage(listOf(business))
-                    )
-                )
-
-                assertIllegalArgument("Cannot delete character 0, because he owns businesses!") {
-                    REDUCER.invoke(state, action)
-                }
-            }
-
-            @Test
-            fun `Cannot delete a previous buisness owner`() {
-                val business = Business(
-                    BUSINESS0,
-                    ownership = Ownership(previousOwners = listOf(PreviousOwner(OwnedByCharacter(ID0), Day(0))))
-                )
-                val state = State(
-                    listOf(
-                        Storage(listOf(Character(ID0))),
-                        Storage(listOf(business))
-                    )
-                )
-
-                assertIllegalArgument("Cannot delete character 0, because he previously owned businesses!") {
-                    REDUCER.invoke(state, action)
-                }
-            }
-        }
-
-        @Nested
-        inner class BusinessOwnerTest {
-
-            @Test
-            fun `Cannot delete a business owner`() {
                 val building = Building(BUILDING0, ownership = Ownership(OwnedByCharacter(ID0)))
                 val state = State(
                     listOf(
@@ -169,6 +132,43 @@ class CharacterTest {
                 )
 
                 assertIllegalArgument("Cannot delete character 0, because he previously owned buildings!") {
+                    REDUCER.invoke(state, action)
+                }
+            }
+        }
+
+        @Nested
+        inner class BusinessOwnerTest {
+
+            @Test
+            fun `Cannot delete a business owner`() {
+                val business = Business(BUSINESS0, ownership = Ownership(OwnedByCharacter(ID0)))
+                val state = State(
+                    listOf(
+                        Storage(listOf(Character(ID0))),
+                        Storage(listOf(business))
+                    )
+                )
+
+                assertIllegalArgument("Cannot delete character 0, because he owns businesses!") {
+                    REDUCER.invoke(state, action)
+                }
+            }
+
+            @Test
+            fun `Cannot delete a previous business owner`() {
+                val business = Business(
+                    BUSINESS0,
+                    ownership = Ownership(previousOwners = listOf(PreviousOwner(OwnedByCharacter(ID0), Day(0))))
+                )
+                val state = State(
+                    listOf(
+                        Storage(listOf(Character(ID0))),
+                        Storage(listOf(business))
+                    )
+                )
+
+                assertIllegalArgument("Cannot delete character 0, because he previously owned businesses!") {
                     REDUCER.invoke(state, action)
                 }
             }
