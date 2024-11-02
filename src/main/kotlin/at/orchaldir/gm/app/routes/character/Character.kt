@@ -16,6 +16,8 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
+import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
@@ -415,6 +417,14 @@ fun BODY.showPossession(
 
     showList("Previously owned Buildings", state.getPreviouslyOwnedBuildings(character.id)) { building ->
         link(call, state, building)
+    }
+
+    showList("Owned Businesses", state.getOwnedBusinesses(character.id)) { business ->
+        link(call, business)
+    }
+
+    showList("Previously owned Businesses", state.getPreviouslyOwnedBusinesses(character.id)) { business ->
+        link(call, business)
     }
 
     showList("Equipped", character.equipmentMap.map.values) { item ->
