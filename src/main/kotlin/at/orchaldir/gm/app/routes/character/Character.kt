@@ -153,7 +153,7 @@ private fun HTML.showAllCharacters(
     sort: SortCharacter,
 ) {
     val characters = STORE.getState().getCharacterStorage().getAll()
-    val charactersWithNames = state.sort(characters, sort)
+    val charactersWithNames = state.sortCharacters(characters, sort)
     val count = characters.size
     val createLink = call.application.href(CharacterRoutes.New())
     val sortNameLink = call.application.href(CharacterRoutes.All())
