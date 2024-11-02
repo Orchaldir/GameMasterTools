@@ -43,6 +43,8 @@ private val LANGUAGES = mapOf(LANGUAGE0 to ComprehensionLevel.Native)
 private val PERSONALITY0 = PersonalityTraitId(0)
 private val RACE0 = RaceId(0)
 private val RACE1 = RaceId(1)
+private val OWNER = Ownership(OwnedByCharacter(ID0))
+private val PREVIOUS_OWNER = Ownership(previousOwners = listOf(PreviousOwner(OwnedByCharacter(ID0), Day(0))))
 
 class CharacterTest {
 
@@ -105,7 +107,7 @@ class CharacterTest {
 
             @Test
             fun `Cannot delete a building owner`() {
-                val building = Building(BUILDING0, ownership = Ownership(OwnedByCharacter(ID0)))
+                val building = Building(BUILDING0, ownership = OWNER)
                 val state = State(
                     listOf(
                         Storage(listOf(Character(ID0))),
@@ -120,10 +122,7 @@ class CharacterTest {
 
             @Test
             fun `Cannot delete a previous building owner`() {
-                val building = Building(
-                    BUILDING0,
-                    ownership = Ownership(previousOwners = listOf(PreviousOwner(OwnedByCharacter(ID0), Day(0))))
-                )
+                val building = Building(BUILDING0, ownership = PREVIOUS_OWNER)
                 val state = State(
                     listOf(
                         Storage(listOf(Character(ID0))),
@@ -142,7 +141,7 @@ class CharacterTest {
 
             @Test
             fun `Cannot delete a business owner`() {
-                val business = Business(BUSINESS0, ownership = Ownership(OwnedByCharacter(ID0)))
+                val business = Business(BUSINESS0, ownership = OWNER)
                 val state = State(
                     listOf(
                         Storage(listOf(Character(ID0))),
@@ -157,10 +156,7 @@ class CharacterTest {
 
             @Test
             fun `Cannot delete a previous business owner`() {
-                val business = Business(
-                    BUSINESS0,
-                    ownership = Ownership(previousOwners = listOf(PreviousOwner(OwnedByCharacter(ID0), Day(0))))
-                )
+                val business = Business(BUSINESS0, ownership = PREVIOUS_OWNER)
                 val state = State(
                     listOf(
                         Storage(listOf(Character(ID0))),
