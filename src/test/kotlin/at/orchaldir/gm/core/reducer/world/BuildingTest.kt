@@ -28,6 +28,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNull
 
 private val ID0 = BuildingId(0)
 private val ID1 = BuildingId(1)
@@ -272,6 +273,35 @@ class BuildingTest {
                     state,
                     action
                 )
+            }
+        }
+
+        @Nested
+        inner class NameTest {
+
+            @Test
+            fun `An empty string is invalid`() {
+                val action = UpdateBuilding(ID0, "", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE, SingleFamilyHouse)
+
+                assertIllegalArgument("Name is invalid!") {
+                    REDUCER.invoke(STATE, action)
+                }
+            }
+
+            @Test
+            fun `Only whitespaces are invalid`() {
+                val action = UpdateBuilding(ID0, "  ", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE, SingleFamilyHouse)
+
+                assertIllegalArgument("Name is invalid!") {
+                    REDUCER.invoke(STATE, action)
+                }
+            }
+
+            @Test
+            fun `Null is valid`() {
+                val action = UpdateBuilding(ID0, null, NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE, SingleFamilyHouse)
+
+                assertNull(REDUCER.invoke(STATE, action).first.getBuildingStorage().getOrThrow(ID0).name)
             }
         }
 

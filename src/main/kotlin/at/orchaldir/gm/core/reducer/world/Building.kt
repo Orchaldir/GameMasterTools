@@ -65,6 +65,9 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
 val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
 
+    if (action.name != null) {
+        require(action.name.isNotBlank()) { "Name is invalid!" }
+    }
     checkAddress(state, oldBuilding.lot.town, oldBuilding.address, action.address)
     checkArchitecturalStyle(state, action)
     checkOwnership(state, action.ownership, action.constructionDate)
