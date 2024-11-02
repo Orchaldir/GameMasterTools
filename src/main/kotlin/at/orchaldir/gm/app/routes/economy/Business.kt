@@ -144,6 +144,7 @@ private fun HTML.showAllBusinesses(call: ApplicationCall, state: State) {
                 th { +"Start" }
                 th { +"Age" }
                 th { +"Owner" }
+                th { +"Employees" }
             }
             businesses.forEach { business ->
                 tr {
@@ -151,6 +152,7 @@ private fun HTML.showAllBusinesses(call: ApplicationCall, state: State) {
                     td { showDate(call, state, business.startDate) }
                     td { +state.getAgeInYears(business).toString() }
                     td { showOwner(call, state, business.ownership.owner) }
+                    td { +state.getEmployees(business.id).size.toString() }
                 }
             }
         }

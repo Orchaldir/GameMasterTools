@@ -33,6 +33,10 @@ fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
 
 // count
 
+fun countEmploymentStatus(characters: Collection<Character>) = characters
+    .groupingBy { it.employmentStatus.getType() }
+    .eachCount()
+
 fun countGender(characters: Collection<Character>) = characters
     .groupingBy { it.gender }
     .eachCount()
@@ -73,7 +77,7 @@ fun State.getCharactersLivingInHouse(building: BuildingId) = getCharacterStorage
 
 fun State.getEmployees(job: JobId) = getCharacterStorage()
     .getAll()
-    .filter { c -> c.employmentStatus.has(job) }
+    .filter { c -> c.employmentStatus.hasJob(job) }
 
 fun State.getEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()

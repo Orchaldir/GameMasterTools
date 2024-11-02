@@ -18,7 +18,12 @@ sealed class EmploymentStatus {
         is Employed -> EmploymentStatusType.Employed
     }
 
-    fun has(job: JobId) = when (this) {
+    fun getJob() = when (this) {
+        is Employed -> job
+        Unemployed -> null
+    }
+
+    fun hasJob(job: JobId) = when (this) {
         is Employed -> job == this.job
         Unemployed -> false
     }

@@ -6,10 +6,8 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.selector.countCultures
-import at.orchaldir.gm.core.selector.countGender
-import at.orchaldir.gm.core.selector.countLivingStatus
-import at.orchaldir.gm.core.selector.countRace
+import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.world.countArchitecturalStyles
 import at.orchaldir.gm.core.selector.world.countPurpose
 import at.orchaldir.gm.core.selector.world.countTowns
@@ -34,8 +32,17 @@ fun HtmlBlockTag.showCultureCount(
     characters: Collection<Character>,
 ) = showCount(call, state, "Cultures", countCultures(characters))
 
+fun HtmlBlockTag.showEmploymentStatusCount(characters: Collection<Character>) =
+    showCount("Employment Status", countEmploymentStatus(characters))
+
 fun HtmlBlockTag.showGenderCount(characters: Collection<Character>) =
     showCount("Genders", countGender(characters))
+
+fun HtmlBlockTag.showJobCount(
+    call: ApplicationCall,
+    state: State,
+    characters: Collection<Character>,
+) = showCount(call, state, "Jobs", countJobs(characters))
 
 fun HtmlBlockTag.showLivingStatusCount(characters: Collection<Character>) =
     showCount("Living Status", countLivingStatus(characters))

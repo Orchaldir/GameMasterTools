@@ -175,6 +175,7 @@ private fun HTML.showAllCharacters(
                 th { +"Birthdate" }
                 th { +"Age" }
                 th { +"Living Status" }
+                th { +"Employment Status" }
             }
             charactersWithNames.forEach { (character, name) ->
                 tr {
@@ -193,11 +194,14 @@ private fun HTML.showAllCharacters(
                     td { showDate(call, state, character.birthDate) }
                     td { +state.getAgeInYears(character).toString() }
                     td { showLivingStatus(call, state, character.livingStatus) }
+                    td { showEmploymentStatus(call, state, character.employmentStatus) }
                 }
             }
         }
         showCultureCount(call, state, characters)
+        showEmploymentStatusCount(characters)
         showGenderCount(characters)
+        showJobCount(call, state, characters)
         showLivingStatusCount(characters)
         showRaceCount(call, state, characters)
 
