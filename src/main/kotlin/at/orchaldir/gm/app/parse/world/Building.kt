@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.parse.world
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.parse.*
-import at.orchaldir.gm.app.parse.economy.parseBusinessId
+import at.orchaldir.gm.app.parse.economy.parseOptionalBusinessId
 import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.*
@@ -49,7 +49,7 @@ private fun parseStreets(parameters: Parameters): List<StreetId> {
 fun parsePurpose(parameters: Parameters, state: State): BuildingPurpose = when (parameters[PURPOSE]) {
     BuildingPurposeType.ApartmentHouse.toString() -> ApartmentHouse(parseInt(parameters, combine(PURPOSE, NUMBER), 10))
     BuildingPurposeType.SingleBusiness.toString() -> SingleBusiness(
-        parseBusinessId(parameters, combine(PURPOSE, BUSINESS))
+        parseOptionalBusinessId(parameters, combine(PURPOSE, BUSINESS))
             ?: state.getBusinessesWithoutBuilding().first()
     )
 

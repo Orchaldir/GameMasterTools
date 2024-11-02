@@ -11,7 +11,9 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import io.ktor.http.*
 import io.ktor.server.util.*
 
-fun parseBusinessId(parameters: Parameters, param: String) = parseOptionalInt(parameters, param)?.let { BusinessId(it) }
+fun parseBusinessId(parameters: Parameters, param: String) = parseOptionalBusinessId(parameters, param) ?: BusinessId(0)
+fun parseOptionalBusinessId(parameters: Parameters, param: String) =
+    parseOptionalInt(parameters, param)?.let { BusinessId(it) }
 
 fun parseBusiness(parameters: Parameters, state: State, id: BusinessId): Business {
     val name = parameters.getOrFail(NAME)

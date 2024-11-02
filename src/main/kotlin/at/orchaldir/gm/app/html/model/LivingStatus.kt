@@ -1,15 +1,23 @@
-package at.orchaldir.gm.app.html
+package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.BUILDING
 import at.orchaldir.gm.app.HOME
 import at.orchaldir.gm.app.NUMBER
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.selectInt
+import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.world.parseBuildingId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
 import at.orchaldir.gm.core.selector.world.getSingleFamilyHouses
 import at.orchaldir.gm.utils.doNothing
+import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
@@ -82,5 +90,29 @@ fun FORM.selectLivingStatus(
                 value = building.id.value.toString()
                 selected = livingStatus.building == building.id
             }
+    }
+}
+
+fun parseLivingStatus(
+    parameters: Parameters,
+    state: State,
+): LivingStatus {
+    return when (parse(parameters, HOME, LivingStatusType.Homeless)) {
+        LivingStatusType.InApartment -> InApartment(
+            parseBuildingId(
+                parameters,
+                combine(HOME, BUILDING),
+                state.getApartmentHouses().minOfOrNull { it.id.value } ?: 0),
+            parseInt(parameters, combine(HOME, NUMBER)),
+        )
+
+        LivingStatusType.InHouse -> InHouse(
+            parseBuildingId(
+                parameters,
+                combine(HOME, BUILDING),
+                state.getSingleFamilyHouses().minOfOrNull { it.id.value } ?: 0),
+        )
+
+        else -> Homeless
     }
 }

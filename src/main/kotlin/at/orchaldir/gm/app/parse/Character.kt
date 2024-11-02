@@ -1,15 +1,14 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.parse.world.parseBuildingId
+import at.orchaldir.gm.app.html.model.parseEmploymentStatus
+import at.orchaldir.gm.app.html.model.parseLivingStatus
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.CharacterOriginType.Undefined
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.selector.getDefaultCalendar
-import at.orchaldir.gm.core.selector.world.getApartmentHouses
-import at.orchaldir.gm.core.selector.world.getSingleFamilyHouses
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -55,6 +54,7 @@ fun parseCharacter(
         culture = culture,
         personality = personality,
         livingStatus = parseLivingStatus(parameters, state),
+        employmentStatus = parseEmploymentStatus(parameters),
     )
 }
 
@@ -103,29 +103,5 @@ private fun parseCharacterName(parameters: Parameters): CharacterName {
 
         "Genonym" -> Genonym(given)
         else -> Mononym(given)
-    }
-}
-
-private fun parseLivingStatus(
-    parameters: Parameters,
-    state: State,
-): LivingStatus {
-    return when (parse(parameters, HOME, LivingStatusType.Homeless)) {
-        LivingStatusType.InApartment -> InApartment(
-            parseBuildingId(
-                parameters,
-                combine(HOME, BUILDING),
-                state.getApartmentHouses().minOfOrNull { it.id.value } ?: 0),
-            parseInt(parameters, combine(HOME, NUMBER)),
-        )
-
-        LivingStatusType.InHouse -> InHouse(
-            parseBuildingId(
-                parameters,
-                combine(HOME, BUILDING),
-                state.getSingleFamilyHouses().minOfOrNull { it.id.value } ?: 0),
-        )
-
-        else -> Homeless
     }
 }

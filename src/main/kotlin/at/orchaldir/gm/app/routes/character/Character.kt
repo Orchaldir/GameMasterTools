@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseCharacter
 import at.orchaldir.gm.core.action.CreateCharacter
@@ -270,6 +271,7 @@ private fun BODY.showData(
     showVitalStatus(call, state, character.vitalStatus)
     showAge(state, character, race)
     fieldLivingStatus(call, state, character.livingStatus)
+    fieldEmploymentStatus(call, state, character.employmentStatus)
 
     action(generateNameLink, "Generate New Name")
     action(generateBirthdayLink, "Generate Birthday")
@@ -465,6 +467,7 @@ private fun HTML.showCharacterEditor(
             selectVitalStatus(state, character)
             showAge(state, character, race)
             selectLivingStatus(state, character)
+            selectEmploymentStatus(state, character)
             h2 { +"Social" }
             selectValue("Culture", CULTURE, state.getCultureStorage().getAll()) { culture ->
                 label = culture.name
