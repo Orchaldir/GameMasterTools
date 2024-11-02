@@ -2,8 +2,10 @@ package at.orchaldir.gm.core.selector.economy
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.OwnedByTown
 import at.orchaldir.gm.core.model.world.town.TownId
@@ -20,6 +22,17 @@ fun State.getBusinessesWithBuilding() = getBuildingStorage().getAll()
     .toSet()
 
 fun State.getBusinessesWithoutBuilding() = getBusinessStorage().getIds() - getBusinessesWithBuilding()
+
+fun State.getBusinesses(job: JobId) = getCharacterStorage().getAll()
+    .mapNotNull {
+        if (it.employmentStatus is Employed && it.employmentStatus.job == job) {
+            it.employmentStatus.business
+        } else {
+            null
+        }
+    }
+    .toSet()
+    .map { getBusinessStorage().getOrThrow(it) }
 
 // owner
 

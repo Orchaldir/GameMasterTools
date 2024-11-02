@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.selector.economy.canDelete
+import at.orchaldir.gm.core.selector.economy.getBusinesses
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.sort
 import at.orchaldir.gm.core.selector.world.getStreets
@@ -139,6 +140,9 @@ private fun HTML.showJobDetails(
 
     simpleHtml("Job: ${job.name}") {
         field("Name", job.name)
+        showList("Businesses", state.getBusinesses(job.id)) { business ->
+            link(call, business)
+        }
         showList("Characters", state.sort(state.getEmployees(job.id))) { (character, name) ->
             link(call, character.id, name)
         }
