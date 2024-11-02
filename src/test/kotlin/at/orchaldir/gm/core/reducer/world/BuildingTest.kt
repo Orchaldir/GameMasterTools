@@ -255,112 +255,6 @@ class BuildingTest {
         }
 
         @Test
-        fun `Owner is an unknown character`() {
-            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE, SingleFamilyHouse)
-            val state = STATE.removeStorage(CHARACTER)
-
-            assertIllegalArgument("Cannot use an unknown character 2 as owner!") { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Owner is an unknown town`() {
-            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_TOWN, STYLE, SingleFamilyHouse)
-            val state = STATE.removeStorage(TOWN)
-
-            assertIllegalArgument("Cannot use an unknown town 0 as owner!") { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Previous owner is an unknown character`() {
-            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, CHARACTER_AS_PREVIOUS, STYLE, SingleFamilyHouse)
-            val state = STATE.removeStorage(CHARACTER)
-
-            assertIllegalArgument("Cannot use an unknown character 2 as previous owner!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
-            }
-        }
-
-        @Test
-        fun `Previous owner is an unknown town`() {
-            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, TOWN_AS_PREVIOUS, STYLE, SingleFamilyHouse)
-            val state = STATE.removeStorage(TOWN)
-
-            assertIllegalArgument("Cannot use an unknown town 0 as previous owner!") { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `First Previous ownership ended before the construction`() {
-            val action = UpdateBuilding(ID0, "New", NoAddress, DAY2, CHARACTER_AS_PREVIOUS, STYLE, SingleFamilyHouse)
-
-            assertIllegalArgument("1.previous owner's until is too early!") { REDUCER.invoke(STATE, action) }
-        }
-
-        @Test
-        fun `A previous ownership ended before the one before it`() {
-            val action = UpdateBuilding(
-                ID0, "New", NoAddress, DAY0,
-                Ownership(
-                    OwnedByTown(TOWN0),
-                    listOf(PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2), PreviousOwner(OwnedByTown(TOWN0), DAY1))
-                ),
-                STYLE,
-                SingleFamilyHouse,
-            )
-
-            assertIllegalArgument("2.previous owner's until is too early!") { REDUCER.invoke(STATE, action) }
-        }
-
-        @Test
-        fun `Character owns a building before his birth`() {
-            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE, SingleFamilyHouse)
-            val state = STATE.updateStorage(Storage(Character(CHARACTER0, birthDate = DAY1)))
-
-            assertIllegalArgument("Owner didn't exist at the start of their ownership!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
-            }
-        }
-
-        @Test
-        fun `First owner didn't exist yet`() {
-            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, TOWN_AS_PREVIOUS, STYLE, SingleFamilyHouse)
-            val state = STATE.updateStorage(Storage(Town(TOWN0, foundingDate = DAY1)))
-
-            assertIllegalArgument("1.previous owner didn't exist at the start of their ownership!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
-            }
-        }
-
-        @Test
-        fun `Second owner didn't exist yet`() {
-            val action = UpdateBuilding(
-                ID0, "New", NoAddress, DAY0,
-                Ownership(
-                    NoOwner,
-                    listOf(PreviousOwner(OwnedByTown(TOWN0), DAY1), PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2))
-                ),
-                STYLE,
-                SingleFamilyHouse,
-            )
-            val state = STATE.updateStorage(Storage(Character(CHARACTER0, birthDate = DAY2)))
-
-            assertIllegalArgument("2.previous owner didn't exist at the start of their ownership!") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
-            }
-        }
-
-        @Test
         fun `Architectural style is unknown`() {
             val action =
                 UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, UNKNOWN_STYLE, SingleFamilyHouse)
@@ -381,43 +275,169 @@ class BuildingTest {
             }
         }
 
-        @Test
-        fun `Successfully updated with character as owner`() {
-            testSuccess(OWNED_BY_CHARACTER)
-        }
+        @Nested
+        inner class OwnerTest {
 
-        @Test
-        fun `Successfully updated with town as owner`() {
-            testSuccess(OWNED_BY_TOWN)
-        }
+            @Test
+            fun `Owner is an unknown character`() {
+                val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE, SingleFamilyHouse)
+                val state = STATE.removeStorage(CHARACTER)
 
-        @Test
-        fun `Successfully updated with character as previous owner`() {
-            testSuccess(CHARACTER_AS_PREVIOUS)
-        }
+                assertIllegalArgument("Cannot use an unknown character 2 as owner!") { REDUCER.invoke(state, action) }
+            }
 
-        @Test
-        fun `Successfully updated with town as previous owner`() {
-            testSuccess(TOWN_AS_PREVIOUS)
-        }
+            @Test
+            fun `Owner is an unknown town`() {
+                val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_TOWN, STYLE, SingleFamilyHouse)
+                val state = STATE.removeStorage(TOWN)
 
-        @Test
-        fun `Successfully updated with 2 previous owners`() {
-            testSuccess(
-                Ownership(
-                    NoOwner,
-                    listOf(PreviousOwner(OwnedByTown(TOWN0), DAY1), PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2))
+                assertIllegalArgument("Cannot use an unknown town 0 as owner!") { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Previous owner is an unknown character`() {
+                val action =
+                    UpdateBuilding(ID0, "New", NoAddress, DAY0, CHARACTER_AS_PREVIOUS, STYLE, SingleFamilyHouse)
+                val state = STATE.removeStorage(CHARACTER)
+
+                assertIllegalArgument("Cannot use an unknown character 2 as previous owner!") {
+                    REDUCER.invoke(
+                        state,
+                        action
+                    )
+                }
+            }
+
+            @Test
+            fun `Previous owner is an unknown town`() {
+                val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, TOWN_AS_PREVIOUS, STYLE, SingleFamilyHouse)
+                val state = STATE.removeStorage(TOWN)
+
+                assertIllegalArgument("Cannot use an unknown town 0 as previous owner!") {
+                    REDUCER.invoke(
+                        state,
+                        action
+                    )
+                }
+            }
+
+            @Test
+            fun `First Previous ownership ended before the construction`() {
+                val action =
+                    UpdateBuilding(ID0, "New", NoAddress, DAY2, CHARACTER_AS_PREVIOUS, STYLE, SingleFamilyHouse)
+
+                assertIllegalArgument("1.previous owner's until is too early!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `A previous ownership ended before the one before it`() {
+                val action = UpdateBuilding(
+                    ID0, "New", NoAddress, DAY0,
+                    Ownership(
+                        OwnedByTown(TOWN0),
+                        listOf(
+                            PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2),
+                            PreviousOwner(OwnedByTown(TOWN0), DAY1)
+                        )
+                    ),
+                    STYLE,
+                    SingleFamilyHouse,
                 )
-            )
-        }
 
-        private fun testSuccess(ownership: Ownership) {
-            val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, ownership, STYLE, SingleFamilyHouse)
+                assertIllegalArgument("2.previous owner's until is too early!") { REDUCER.invoke(STATE, action) }
+            }
 
-            assertEquals(
-                Building(ID0, "New", constructionDate = DAY0, ownership = ownership),
-                REDUCER.invoke(STATE, action).first.getBuildingStorage().get(ID0)
-            )
+            @Test
+            fun `Character owns a building before his birth`() {
+                val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, OWNED_BY_CHARACTER, STYLE, SingleFamilyHouse)
+                val state = STATE.updateStorage(Storage(Character(CHARACTER0, birthDate = DAY1)))
+
+                assertIllegalArgument("Owner didn't exist at the start of their ownership!") {
+                    REDUCER.invoke(
+                        state,
+                        action
+                    )
+                }
+            }
+
+            @Test
+            fun `First owner didn't exist yet`() {
+                val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, TOWN_AS_PREVIOUS, STYLE, SingleFamilyHouse)
+                val state = STATE.updateStorage(Storage(Town(TOWN0, foundingDate = DAY1)))
+
+                assertIllegalArgument("1.previous owner didn't exist at the start of their ownership!") {
+                    REDUCER.invoke(
+                        state,
+                        action
+                    )
+                }
+            }
+
+            @Test
+            fun `Second owner didn't exist yet`() {
+                val action = UpdateBuilding(
+                    ID0, "New", NoAddress, DAY0,
+                    Ownership(
+                        NoOwner,
+                        listOf(
+                            PreviousOwner(OwnedByTown(TOWN0), DAY1),
+                            PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2)
+                        )
+                    ),
+                    STYLE,
+                    SingleFamilyHouse,
+                )
+                val state = STATE.updateStorage(Storage(Character(CHARACTER0, birthDate = DAY2)))
+
+                assertIllegalArgument("2.previous owner didn't exist at the start of their ownership!") {
+                    REDUCER.invoke(
+                        state,
+                        action
+                    )
+                }
+            }
+
+            @Test
+            fun `Successfully updated with character as owner`() {
+                testSuccess(OWNED_BY_CHARACTER)
+            }
+
+            @Test
+            fun `Successfully updated with town as owner`() {
+                testSuccess(OWNED_BY_TOWN)
+            }
+
+            @Test
+            fun `Successfully updated with character as previous owner`() {
+                testSuccess(CHARACTER_AS_PREVIOUS)
+            }
+
+            @Test
+            fun `Successfully updated with town as previous owner`() {
+                testSuccess(TOWN_AS_PREVIOUS)
+            }
+
+            @Test
+            fun `Successfully updated with 2 previous owners`() {
+                testSuccess(
+                    Ownership(
+                        NoOwner,
+                        listOf(
+                            PreviousOwner(OwnedByTown(TOWN0), DAY1),
+                            PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2)
+                        )
+                    )
+                )
+            }
+
+            private fun testSuccess(ownership: Ownership) {
+                val action = UpdateBuilding(ID0, "New", NoAddress, DAY0, ownership, STYLE, SingleFamilyHouse)
+
+                assertEquals(
+                    Building(ID0, "New", constructionDate = DAY0, ownership = ownership),
+                    REDUCER.invoke(STATE, action).first.getBuildingStorage().get(ID0)
+                )
+            }
         }
 
         @Nested
