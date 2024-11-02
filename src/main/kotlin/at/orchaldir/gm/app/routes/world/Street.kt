@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.core.selector.world.getTowns
+import at.orchaldir.gm.core.selector.world.sort
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -135,13 +136,12 @@ private fun HTML.showStreetDetails(
         field("Name", street.name)
         fieldLink("Type", call, state, street.type)
         showList("Towns", state.getTowns(street.id)) { town ->
-            val buildings = state.getBuildings(town.id)
-                .filter { it.address.contains(street.id) }
-                .sortedBy { it.name }
+            val buildings = state.sort(state.getBuildings(town.id)
+                .filter { it.address.contains(street.id) })
 
             link(call, town)
-            showList(buildings) { building ->
-                link(call, building)
+            showList(buildings) { (building, name) ->
+                link(call, building.id, name)
             }
         }
         action(editLink, "Edit")

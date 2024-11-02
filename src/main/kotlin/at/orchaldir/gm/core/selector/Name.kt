@@ -18,51 +18,7 @@ fun State.canHaveGenonym(character: Character): Boolean {
     return convention is GenonymConvention || convention is PatronymConvention || convention is MatronymConvention
 }
 
-fun State.getName(character: CharacterId) = getName(getCharacterStorage().getOrThrow(character))
-
-fun State.getName(character: Character): String {
-    return when (val name = character.name) {
-        is FamilyName -> {
-            val culture = getCultureStorage().getOrThrow(character.culture)
-
-            getFamilyName(culture.namingConvention, name)
-        }
-
-        is Genonym -> getGenonymName(character, name)
-        is Mononym -> name.name
-    }
-}
-
-private fun getFamilyName(
-    namingConvention: NamingConvention,
-    name: FamilyName,
-): String {
-    when (namingConvention) {
-        is FamilyConvention -> return when (namingConvention.nameOrder) {
-            NameOrder.GivenNameFirst -> getFamilyName(
-                name.given,
-                name.middle,
-                name.family
-            )
-
-            NameOrder.FamilyNameFirst -> getFamilyName(
-                name.family,
-                name.middle,
-                name.given
-            )
-        }
-
-        else -> error("A family name requires a family convention!")
-    }
-}
-
-private fun getFamilyName(first: String, middle: String?, last: String) = if (middle != null) {
-    "$first $middle $last"
-} else {
-    "$first $last"
-}
-
-private fun State.getGenonymName(
+fun State.getGenonymName(
     character: Character,
     name: Genonym,
 ): String {

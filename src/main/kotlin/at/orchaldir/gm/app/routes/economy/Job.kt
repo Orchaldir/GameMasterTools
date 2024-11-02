@@ -1,15 +1,15 @@
-package at.orchaldir.gm.app.routes
+package at.orchaldir.gm.app.routes.economy
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parseJob
+import at.orchaldir.gm.app.parse.economy.parseJob
 import at.orchaldir.gm.core.action.CreateJob
 import at.orchaldir.gm.core.action.DeleteJob
 import at.orchaldir.gm.core.action.UpdateJob
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.job.Job
-import at.orchaldir.gm.core.model.job.JobId
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.model.economy.job.Job
+import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.selector.economy.canDelete
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*

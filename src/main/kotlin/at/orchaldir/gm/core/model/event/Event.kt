@@ -3,12 +3,14 @@ package at.orchaldir.gm.core.model.event
 import at.orchaldir.gm.core.model.character.CauseOfDeath
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterOrigin
+import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.model.world.building.Owner
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.utils.Id
 
 sealed class Event {
 
@@ -47,14 +49,14 @@ data class BuildingConstructedEvent(
 
 }
 
-data class BuildingOwnershipChangedEvent(
-    val changeDate: Date,
-    val buildingId: BuildingId,
-    val from: Owner,
-    val to: Owner,
+// business
+
+data class BusinessStartedEvent(
+    val startDate: Date,
+    val businessId: BusinessId,
 ) : Event() {
 
-    override fun getDate() = changeDate
+    override fun getDate() = startDate
 
 }
 
@@ -79,6 +81,33 @@ data class CharacterDeathEvent(
     override fun getDate() = day
 
 }
+
+// ownership
+
+open class OwnershipChangedEvent<ID : Id<ID>>(
+    val changeDate: Date,
+    val id: ID,
+    val from: Owner,
+    val to: Owner,
+) : Event() {
+
+    override fun getDate() = changeDate
+
+}
+
+class BuildingOwnershipChangedEvent(
+    changeDate: Date,
+    id: BuildingId,
+    from: Owner,
+    to: Owner,
+) : OwnershipChangedEvent<BuildingId>(changeDate, id, from, to)
+
+class BusinessOwnershipChangedEvent(
+    changeDate: Date,
+    id: BusinessId,
+    from: Owner,
+    to: Owner,
+) : OwnershipChangedEvent<BusinessId>(changeDate, id, from, to)
 
 // town
 

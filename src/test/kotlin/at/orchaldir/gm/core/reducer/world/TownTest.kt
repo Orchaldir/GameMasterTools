@@ -4,6 +4,12 @@ import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.assertIllegalState
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.util.OwnedByTown
+import at.orchaldir.gm.core.model.util.Ownership
+import at.orchaldir.gm.core.model.util.PreviousOwner
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.building.BuildingLot
@@ -25,6 +31,7 @@ import kotlin.test.assertFailsWith
 
 private val ID0 = TownId(0)
 private val BUILDING0 = BuildingId(0)
+private val BUSINESS0 = BusinessId(0)
 private val MOUNTAIN0 = MountainId(0)
 private val MOUNTAIN1 = MountainId(1)
 private val RIVER0 = RiverId(0)
@@ -34,25 +41,80 @@ private val BUILDING_TILE = TownTile(construction = BuildingTile(BUILDING0))
 private val RIVER_TILE = TownTile(RiverTerrain(RIVER0))
 private val STREET_TILE = TownTile(construction = StreetTile(STREET0))
 private val EMPTY = TownTile()
+private val OWNER = Ownership(OwnedByTown(ID0))
+private val PREVIOUS_OWNER = Ownership(previousOwners = listOf(PreviousOwner(OwnedByTown(ID0), Day(0))))
 
 class TownTest {
 
     @Nested
     inner class DeleteTest {
 
+        private val action = DeleteTown(ID0)
+
         @Test
         fun `Can delete an existing Town`() {
             val state = State(Storage(Town(ID0)))
-            val action = DeleteTown(ID0)
 
             assertEquals(0, REDUCER.invoke(state, action).first.getTownStorage().getSize())
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            val action = DeleteTown(ID0)
-
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+        }
+
+        @Nested
+        inner class BuildingOwnerTest {
+
+            @Test
+            fun `Cannot delete a building owner`() {
+                val state = createState(Building(BUILDING0, ownership = OWNER))
+
+                assertIllegalArgument("Cannot delete town 0, because it owns buildings!") {
+                    REDUCER.invoke(state, action)
+                }
+            }
+
+            @Test
+            fun `Cannot delete a previous building owner`() {
+                val state = createState(Building(BUILDING0, ownership = PREVIOUS_OWNER))
+
+                assertIllegalArgument("Cannot delete town 0, because it previously owned buildings!") {
+                    REDUCER.invoke(state, action)
+                }
+            }
+        }
+
+        @Nested
+        inner class BusinessOwnerTest {
+
+            @Test
+            fun `Cannot delete a business owner`() {
+                val state = createState(Business(BUSINESS0, ownership = OWNER))
+
+                assertIllegalArgument("Cannot delete town 0, because it owns businesses!") {
+                    REDUCER.invoke(state, action)
+                }
+            }
+
+            @Test
+            fun `Cannot delete a previous business owner`() {
+                val state = createState(Business(BUSINESS0, ownership = PREVIOUS_OWNER))
+
+                assertIllegalArgument("Cannot delete town 0, because it previously owned businesses!") {
+                    REDUCER.invoke(state, action)
+                }
+            }
+        }
+
+        private fun <ID : Id<ID>, ELEMENT : Element<ID>> createState(element: ELEMENT): State {
+            val state = State(
+                listOf(
+                    Storage(listOf(Town(ID0))),
+                    Storage(listOf(element))
+                )
+            )
+            return state
         }
     }
 

@@ -2,8 +2,8 @@ package at.orchaldir.gm.core.model.race.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.OneOf
-import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -34,7 +34,7 @@ data class RaceAppearance(
     val eyeOptions: EyeOptions = EyeOptions(),
     val hairOptions: HairOptions = HairOptions(),
     val mouthTypes: OneOf<MouthType> = OneOf(MouthType.entries),
-) : Element<RaceAppearanceId> {
+) : ElementWithSimpleName<RaceAppearanceId> {
 
     override fun id() = id
     override fun name() = name

@@ -6,10 +6,15 @@ import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.util.OwnedByCharacter
+import at.orchaldir.gm.core.model.util.OwnedByTown
+import at.orchaldir.gm.core.model.util.Owner
+import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.reducer.util.checkOwnership
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.isAlive
@@ -61,6 +66,9 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
 val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
 
+    if (action.name != null) {
+        require(action.name.isNotBlank()) { "Name is invalid!" }
+    }
     checkAddress(state, oldBuilding.lot.town, oldBuilding.address, action.address)
     checkArchitecturalStyle(state, action)
     checkOwnership(state, action.ownership, action.constructionDate)
@@ -144,59 +152,6 @@ private fun checkIfStreetIsPartOfTown(
     }
 }
 
-private fun checkOwnership(
-    state: State,
-    ownership: Ownership,
-    creationDate: Date,
-) {
-    checkOwner(state, ownership.owner, "owner")
-
-    val calendar = state.getDefaultCalendar()
-    var min = creationDate
-
-
-    ownership.previousOwners.withIndex().forEach { (index, previous) ->
-        checkOwner(state, previous.owner, "previous owner")
-        checkOwnerStart(state, previous.owner, "${index + 1}.previous owner", min)
-        require(calendar.compareTo(previous.until, min) > 0) { "${index + 1}.previous owner's until is too early!" }
-
-        min = previous.until
-    }
-
-    checkOwnerStart(state, ownership.owner, "Owner", min)
-}
-
-private fun checkOwner(
-    state: State,
-    owner: Owner,
-    noun: String,
-) {
-    when (owner) {
-        is OwnedByCharacter -> state.getCharacterStorage()
-            .require(owner.character) { "Cannot use an unknown character ${owner.character.value} as $noun!" }
-
-        is OwnedByTown -> state.getTownStorage()
-            .require(owner.town) { "Cannot use an unknown town ${owner.town.value} as $noun!" }
-
-        else -> doNothing()
-    }
-}
-
-private fun checkOwnerStart(
-    state: State,
-    owner: Owner,
-    noun: String,
-    startInterval: Date,
-) {
-    val exists = when (owner) {
-        is OwnedByCharacter -> state.isAlive(owner.character, startInterval)
-        is OwnedByTown -> state.exists(owner.town, startInterval)
-        else -> return
-    }
-
-    require(exists) { "$noun didn't exist at the start of their ownership!" }
-}
-
 private fun checkPurpose(
     state: State,
     oldBuilding: Building,
@@ -215,6 +170,7 @@ private fun checkPurpose(
             }
         }
 
-        SingleFamilyHouse -> doNothing()
+        is SingleBusiness -> doNothing()
+        is SingleFamilyHouse -> doNothing()
     }
 }

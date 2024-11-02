@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.world.building
 
 import at.orchaldir.gm.core.model.time.Year
-import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -24,7 +24,7 @@ data class ArchitecturalStyle(
     val start: Year = Year(0),
     val end: Year? = null,
     val revival: ArchitecturalStyleId? = null,
-) : Element<ArchitecturalStyleId> {
+) : ElementWithSimpleName<ArchitecturalStyleId> {
 
     override fun id() = id
     override fun name() = name

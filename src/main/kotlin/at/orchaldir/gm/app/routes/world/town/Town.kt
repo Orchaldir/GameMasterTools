@@ -11,6 +11,8 @@ import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
+import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.visualization.town.getStreetTypeFill
 import at.orchaldir.gm.visualization.town.showTerrainName
@@ -23,8 +25,10 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.html.DIV
 import kotlinx.html.HTML
 import kotlinx.html.form
+import kotlinx.html.h2
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -126,11 +130,19 @@ private fun HTML.showTownDetails(
             field(call, state, "Founding", town.foundingDate)
             fieldAge("Age", state.getAgeInYears(town))
             field("Size", town.map.size.format())
+            action(editLink, "Edit Town")
+            if (state.canDelete(town.id)) {
+                action(deleteLink, "Delete")
+            }
+            h2 { +"Buildings" }
             showArchitecturalStyleCount(call, state, buildings)
             showBuildingPurposeCount(buildings)
-            showList("Buildings", buildings.sortedBy { it.name }) { building ->
-                link(call, building)
+            showList("Buildings", state.sort(buildings)) { (building, name) ->
+                link(call, building.id, name)
             }
+            showBuildingOwnershipCount(call, state, buildings)
+            action(editBuildingsLink, "Edit Buildings")
+            h2 { +"Terrain" }
             showList("Mountains", state.getMountains(town.id).sortedBy { it.name }) { mountain ->
                 link(call, mountain)
             }
@@ -140,15 +152,39 @@ private fun HTML.showTownDetails(
             showList("Streets", state.getStreets(town.id).sortedBy { it.name }) { street ->
                 link(call, street)
             }
-            action(editLink, "Edit Town")
-            action(editBuildingsLink, "Edit Buildings")
             action(editStreetsLink, "Edit Streets")
             action(editTerrainLink, "Edit Terrain")
-            action(deleteLink, "Delete")
+
+            showPossession(state, town, call)
+
             back(backLink)
         }, {
             svg(visualizeTownWithLinks(call, state, town), 90)
         })
+    }
+}
+
+private fun DIV.showPossession(
+    state: State,
+    town: Town,
+    call: ApplicationCall,
+) {
+    h2 { +"Possession" }
+
+    showList("Owned Buildings", state.getOwnedBuildings(town.id)) { building ->
+        link(call, state, building)
+    }
+
+    showList("Previously owned Buildings", state.getPreviouslyOwnedBuildings(town.id)) { building ->
+        link(call, state, building)
+    }
+
+    showList("Owned Businesses", state.getOwnedBusinesses(town.id)) { business ->
+        link(call, business)
+    }
+
+    showList("Previously owned Businesses", state.getPreviouslyOwnedBusinesses(town.id)) { business ->
+        link(call, business)
     }
 }
 
@@ -185,7 +221,7 @@ private fun visualizeTownWithLinks(
         call.application.href(BuildingRoutes.Details(building.id))
     },
     buildingTooltipLookup = { building ->
-        building.name
+        building.name(state)
     },
     streetLinkLookup = { street, _ ->
         call.application.href(StreetRoutes.Details(street))

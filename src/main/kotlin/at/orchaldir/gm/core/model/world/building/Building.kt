@@ -1,8 +1,10 @@
 package at.orchaldir.gm.core.model.world.building
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
-import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.core.model.util.ElementWithComplexName
+import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -21,16 +23,56 @@ value class BuildingId(val value: Int) : Id<BuildingId> {
 @Serializable
 data class Building(
     val id: BuildingId,
-    val name: String = "Building ${id.value}",
+    val name: String? = null,
     val lot: BuildingLot = BuildingLot(),
     val address: Address = NoAddress,
     val constructionDate: Date = Year(0),
     val ownership: Ownership = Ownership(),
     val architecturalStyle: ArchitecturalStyleId = ArchitecturalStyleId(0),
     val purpose: BuildingPurpose = SingleFamilyHouse,
-) : Element<BuildingId> {
+) : ElementWithComplexName<BuildingId> {
 
     override fun id() = id
-    override fun name() = name
+
+    override fun name(state: State) = when {
+        name != null -> {
+            name
+        }
+
+        purpose is SingleBusiness -> {
+            state.getElementName(purpose.business)
+        }
+
+        address !is NoAddress -> {
+            address(state)
+        }
+
+        else -> "Building ${id.value}"
+    }
+
+    fun address(state: State) = when (address) {
+        is CrossingAddress -> {
+            var isStart = true
+            var text = "Crossing of "
+
+            address.streets.forEach { street ->
+                if (isStart) {
+                    isStart = false
+                } else {
+                    text += " & "
+                }
+
+                text += state.getElementName(street)
+            }
+
+            text
+        }
+
+        NoAddress -> "None"
+
+        is StreetAddress -> state.getElementName(address.street) + " ${address.houseNumber}"
+
+        is TownAddress -> state.getElementName(lot.town) + " ${address.houseNumber}"
+    }
 
 }

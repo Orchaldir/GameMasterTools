@@ -10,6 +10,12 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.CULTURE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.economy.business.BUSINESS
+import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.job.JOB
+import at.orchaldir.gm.core.model.economy.job.Job
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.fashion.FASHION
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
@@ -19,9 +25,6 @@ import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ITEM_TEMPLATE
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
-import at.orchaldir.gm.core.model.job.JOB
-import at.orchaldir.gm.core.model.job.Job
-import at.orchaldir.gm.core.model.job.JobId
 import at.orchaldir.gm.core.model.language.LANGUAGE
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
@@ -35,6 +38,8 @@ import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
+import at.orchaldir.gm.core.model.util.ElementWithComplexName
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.moon.MOON
 import at.orchaldir.gm.core.model.world.moon.Moon
@@ -54,6 +59,7 @@ val ELEMENTS =
     setOf(
         ARCHITECTURAL_STYLE,
         BUILDING,
+        BUSINESS,
         CALENDAR,
         CHARACTER,
         CULTURE,
@@ -98,6 +104,7 @@ data class State(
 
     fun getArchitecturalStyleStorage() = getStorage<ArchitecturalStyleId, ArchitecturalStyle>(ARCHITECTURAL_STYLE)
     fun getBuildingStorage() = getStorage<BuildingId, Building>(BUILDING)
+    fun getBusinessStorage() = getStorage<BusinessId, Business>(BUSINESS)
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR)
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER)
     fun getCultureStorage() = getStorage<CultureId, Culture>(CULTURE)
@@ -135,7 +142,13 @@ data class State(
 
         if (storage != null) {
             @Suppress("UNCHECKED_CAST")
-            return (storage as Storage<ID, Element<ID>>).get(id)?.name() ?: "Unknown"
+            val element = (storage as Storage<ID, Element<ID>>).get(id)
+
+            if (element != null && element is ElementWithSimpleName) {
+                return element.name()
+            } else if (element != null && element is ElementWithComplexName) {
+                return element.name(this)
+            }
         }
 
         return "Unknown"
@@ -177,6 +190,7 @@ data class State(
     fun save() {
         saveStorage(path, getArchitecturalStyleStorage())
         saveStorage(path, getBuildingStorage())
+        saveStorage(path, getBusinessStorage())
         saveStorage(path, getCalendarStorage())
         saveStorage(path, getCharacterStorage())
         saveStorage(path, getCultureStorage())
@@ -203,6 +217,7 @@ data class State(
 fun createStorage(type: String) = when (type) {
     ARCHITECTURAL_STYLE -> Storage(ArchitecturalStyleId(0))
     BUILDING -> Storage(BuildingId(0))
+    BUSINESS -> Storage(BusinessId(0))
     CALENDAR -> Storage(CalendarId(0))
     CHARACTER -> Storage(CharacterId(0))
     CULTURE -> Storage(CultureId(0))
@@ -228,6 +243,7 @@ fun createStorage(type: String) = when (type) {
 fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) {
     ARCHITECTURAL_STYLE -> loadStorage<ArchitecturalStyleId, ArchitecturalStyle>(path, ArchitecturalStyleId(0))
     BUILDING -> loadStorage<BuildingId, Building>(path, BuildingId(0))
+    BUSINESS -> loadStorage<BusinessId, Business>(path, BusinessId(0))
     CALENDAR -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))
     CHARACTER -> loadStorage<CharacterId, Character>(path, CharacterId(0))
     CULTURE -> loadStorage<CultureId, Culture>(path, CultureId(0))

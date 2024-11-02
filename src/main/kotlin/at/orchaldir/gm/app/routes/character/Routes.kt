@@ -1,10 +1,16 @@
 package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.selector.SortCharacter
 import io.ktor.resources.*
 
 @Resource("/characters")
 class CharacterRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortCharacter = SortCharacter.Name,
+        val parent: CharacterRoutes = CharacterRoutes(),
+    )
 
     @Resource("details")
     class Details(val id: CharacterId, val parent: CharacterRoutes = CharacterRoutes())

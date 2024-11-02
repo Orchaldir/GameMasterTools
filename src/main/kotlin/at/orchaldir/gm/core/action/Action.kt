@@ -8,6 +8,10 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.job.Job
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.holiday.Holiday
@@ -17,8 +21,6 @@ import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
-import at.orchaldir.gm.core.model.job.Job
-import at.orchaldir.gm.core.model.job.JobId
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.race.Race
@@ -27,6 +29,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Time
+import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
@@ -104,11 +107,6 @@ data object CreateItemTemplate : Action()
 data class DeleteItemTemplate(val id: ItemTemplateId) : Action()
 data class UpdateItemTemplate(val itemTemplate: ItemTemplate) : Action()
 
-// job
-data object CreateJob : Action()
-data class DeleteJob(val id: JobId) : Action()
-data class UpdateJob(val job: Job) : Action()
-
 // material
 data object CreateMaterial : Action()
 data class DeleteMaterial(val id: MaterialId) : Action()
@@ -136,6 +134,20 @@ data class UpdateRaceAppearance(val race: RaceAppearance) : Action()
 
 // time
 data class UpdateTime(val time: Time) : Action()
+
+//-- economy --
+
+sealed class EconomyAction : Action()
+
+// business
+data object CreateBusiness : EconomyAction()
+data class DeleteBusiness(val id: BusinessId) : EconomyAction()
+data class UpdateBusiness(val type: Business) : EconomyAction()
+
+// job
+data object CreateJob : EconomyAction()
+data class DeleteJob(val id: JobId) : EconomyAction()
+data class UpdateJob(val job: Job) : EconomyAction()
 
 //-- world --
 
@@ -188,7 +200,7 @@ data class DeleteBuilding(val id: BuildingId) : WorldAction()
 
 data class UpdateBuilding(
     val id: BuildingId,
-    val name: String,
+    val name: String?,
     val address: Address,
     val constructionDate: Date,
     val ownership: Ownership,

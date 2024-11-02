@@ -5,6 +5,8 @@ import at.orchaldir.gm.app.html.fieldStorageLink
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
+import at.orchaldir.gm.app.routes.economy.BusinessRoutes
+import at.orchaldir.gm.app.routes.economy.JobRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.app.routes.world.*
@@ -39,19 +41,21 @@ fun Application.configureRouting() {
             call.respondHtml(HttpStatusCode.OK) {
                 simpleHtml(TITLE) {
                     h2 { +"Elements" }
-                    fieldStorageLink(call, state.getCharacterStorage(), CharacterRoutes())
+                    fieldStorageLink(call, state.getCharacterStorage(), CharacterRoutes.All())
                     fieldStorageLink(call, state.getCalendarStorage(), CalendarRoutes())
                     fieldStorageLink(call, state.getCultureStorage(), CultureRoutes())
                     fieldStorageLink(call, state.getFashionStorage(), FashionRoutes())
                     fieldStorageLink(call, state.getHolidayStorage(), HolidayRoutes())
                     fieldStorageLink(call, state.getItemTemplateStorage(), ItemTemplateRoutes())
-                    fieldStorageLink(call, state.getJobStorage(), JobRoutes())
                     fieldStorageLink(call, state.getLanguageStorage(), LanguageRoutes())
                     fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes())
                     fieldStorageLink(call, state.getNameListStorage(), NameListRoutes())
                     fieldStorageLink(call, state.getPersonalityTraitStorage(), PersonalityTraitRoutes())
                     fieldStorageLink(call, state.getRaceStorage(), RaceRoutes())
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), AppearanceRoutes())
+                    h3 { +"Economy" }
+                    fieldStorageLink(call, state.getBusinessStorage(), BusinessRoutes())
+                    fieldStorageLink(call, state.getJobStorage(), JobRoutes())
                     h3 { +"World" }
                     fieldStorageLink(call, state.getArchitecturalStyleStorage(), ArchitecturalStyleRoutes.All())
                     fieldStorageLink(call, state.getBuildingStorage(), BuildingRoutes.All())

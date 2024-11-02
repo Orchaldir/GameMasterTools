@@ -58,7 +58,7 @@ fun FORM.selectLivingStatus(
         Homeless -> doNothing()
         is InApartment -> {
             selectValue("Apartment House", combine(HOME, BUILDING), state.getApartmentHouses(), true) { building ->
-                label = building.name
+                label = building.name(state)
                 value = building.id.value.toString()
                 selected = livingStatus.building == building.id
             }
@@ -78,7 +78,7 @@ fun FORM.selectLivingStatus(
 
         is InHouse ->
             selectValue("Home", combine(HOME, BUILDING), state.getSingleFamilyHouses()) { building ->
-                label = building.name
+                label = building.name(state)
                 value = building.id.value.toString()
                 selected = livingStatus.building == building.id
             }

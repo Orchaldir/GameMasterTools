@@ -17,7 +17,6 @@ import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.selector.getName
 import at.orchaldir.gm.core.selector.getRaceAppearance
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
@@ -108,7 +107,7 @@ private fun HTML.showAppearanceEditor(
     val frontSvg = visualizeCharacter(RENDER_CONFIG, state, character)
     val backSvg = visualizeCharacter(RENDER_CONFIG, state, character, renderFront = false)
 
-    simpleHtml("Edit Appearance: ${state.getName(character)}") {
+    simpleHtml("Edit Appearance: ${character.name(state)}") {
         svg(frontSvg, 20)
         svg(backSvg, 20)
         form {

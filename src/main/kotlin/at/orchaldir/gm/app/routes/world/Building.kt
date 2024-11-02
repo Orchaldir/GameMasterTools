@@ -5,13 +5,12 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
-import at.orchaldir.gm.app.routes.world.SortBuilding.Construction
-import at.orchaldir.gm.app.routes.world.SortBuilding.Name
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.selector.economy.getBusinessesWithoutBuilding
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getCharactersLivingInApartment
 import at.orchaldir.gm.core.selector.getCharactersLivingInHouse
@@ -36,16 +35,11 @@ import kotlin.math.min
 
 private val logger = KotlinLogging.logger {}
 
-enum class SortBuilding {
-    Name,
-    Construction,
-}
-
 @Resource("/building")
 class BuildingRoutes {
     @Resource("all")
     class All(
-        val sort: SortBuilding = Name,
+        val sort: SortBuilding = SortBuilding.Name,
         val parent: BuildingRoutes = BuildingRoutes(),
     )
 
@@ -188,15 +182,12 @@ private fun HTML.showAllBuildings(
     val buildings = STORE.getState()
         .getBuildingStorage()
         .getAll()
-        .sortedWith(when (sort) {
-            Name -> compareBy { it.name }
-            Construction -> state.getConstructionComparator()
-        })
+    val buildingsWithNames = state.sort(buildings, sort)
     val count = buildings.size
     val sortNameLink = call.application.href(BuildingRoutes.All())
-    val sortConstructionLink = call.application.href(BuildingRoutes.All(Construction))
+    val sortConstructionLink = call.application.href(BuildingRoutes.All(SortBuilding.Construction))
 
-    simpleHtml("Architectural Styles") {
+    simpleHtml("Buildings") {
         field("Count", count.toString())
         field("Sort") {
             link(sortNameLink, "Name")
@@ -208,20 +199,26 @@ private fun HTML.showAllBuildings(
                 th { +"Name" }
                 th { +"Construction" }
                 th { +"Town" }
+                th { +"Address" }
                 th { +"Purpose" }
                 th { +"Style" }
+                th { +"Owner" }
             }
-            buildings.forEach { building ->
+            buildingsWithNames.forEach { (building, name) ->
                 tr {
-                    td { link(call, building) }
+                    td { link(call, building.id, name) }
                     td { showDate(call, state, building.constructionDate) }
                     td { link(call, state, building.lot.town) }
+                    td { showAddress(call, state, building) }
                     td { +building.purpose.getType().toString() }
                     td { link(call, state, building.architecturalStyle) }
+                    td { showOwner(call, state, building.ownership.owner) }
                 }
             }
         }
         showArchitecturalStyleCount(call, state, buildings)
+        showBuildingPurposeCount(buildings)
+        showBuildingOwnershipCount(call, state, buildings)
         showTownCount(call, state, buildings)
         back("/")
     }
@@ -237,9 +234,8 @@ private fun HTML.showBuildingDetails(
     val editLotLink = call.application.href(BuildingRoutes.Lot.Edit(building.id))
     val deleteLink = call.application.href(BuildingRoutes.Delete(building.id))
 
-    simpleHtml("Building: ${building.name}") {
+    simpleHtml("Building: ${building.name(state)}") {
         split({
-            field("Name", building.name)
             fieldLink("Town", call, state, building.lot.town)
             fieldAddress(call, state, building)
             field(call, state, "Construction", building.constructionDate)
@@ -278,6 +274,8 @@ fun HtmlBlockTag.showPurpose(
             }
         }
 
+        is SingleBusiness -> fieldLink("Business", call, state, purpose.business)
+
         is SingleFamilyHouse -> showList("Inhabitants", state.getCharactersLivingInHouse(building.id)) { c ->
             link(call, state, c)
         }
@@ -293,13 +291,13 @@ private fun HTML.showBuildingEditor(
     val previewLink = call.application.href(BuildingRoutes.Preview(building.id))
     val updateLink = call.application.href(BuildingRoutes.Update(building.id))
 
-    simpleHtml("Edit Building: ${building.name}") {
+    simpleHtml("Edit Building: ${building.name(state)}") {
         split({
             form {
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectName(building.name)
+                selectOptionalName(building.name)
                 selectAddress(state, building)
                 selectDate(state, "Construction", building.constructionDate, DATE)
                 selectOwnership(state, building.ownership, building.constructionDate)
@@ -325,18 +323,33 @@ private fun HTML.showBuildingEditor(
 fun FORM.selectPurpose(state: State, building: Building) {
     val purpose = building.purpose
     val inhabitants = state.getCharactersLivingIn(building.id)
+    val availableBusinesses = state.getBusinessesWithoutBuilding()
 
     selectValue("Purpose", PURPOSE, BuildingPurposeType.entries, true) { type ->
         label = type.toString()
         value = type.toString()
         selected = purpose.getType() == type
-        disabled = purpose.getType() != type && inhabitants.isNotEmpty()
+        disabled = (purpose.getType() != type && inhabitants.isNotEmpty()) ||
+                (type.isBusiness() && availableBusinesses.isEmpty())
     }
 
     when (purpose) {
         is ApartmentHouse -> {
             val min = state.getMinNumberOfApartment(building.id)
             selectInt("Apartments", purpose.apartments, min, 1000, combine(PURPOSE, NUMBER), true)
+        }
+
+        is SingleBusiness -> {
+            selectValue(
+                "Business",
+                combine(PURPOSE, BUSINESS),
+                availableBusinesses + purpose.business,
+                false
+            ) { business ->
+                label = state.getBusinessStorage().getOrThrow(business).name
+                value = business.value().toString()
+                selected = purpose.business == business
+            }
         }
 
         SingleFamilyHouse -> doNothing()
@@ -352,7 +365,7 @@ private fun HTML.showBuildingLotEditor(
     val backLink = call.application.href(BuildingRoutes.Details(building.id))
     val previewLink = call.application.href(BuildingRoutes.Lot.Preview(building.id))
 
-    simpleHtml("Move & resize: ${building.name}") {
+    simpleHtml("Move & resize: ${building.name(state)}") {
         split({
             form {
                 id = "editor"
@@ -454,7 +467,7 @@ private fun visualizeBuilding(
             call.application.href(BuildingRoutes.Details(b.id))
         },
         buildingTooltipLookup = { building ->
-            building.name
+            building.name(state)
         },
     )
 }

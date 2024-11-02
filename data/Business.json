@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Orne Library",
+   "startDate": {
+    "type": "Year",
+    "year": 1799
+   },
+   "ownership": {
+    "owner": {
+     "type": "Town",
+     "town": 0
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Imperial Theater",
+   "ownership": {
+    "owner": {
+     "type": "Character",
+     "character": 0
+    },
+    "previousOwners": [
+     {
+      "owner": {
+       "type": "Unknown"
+      },
+      "until": {
+       "type": "Year",
+       "year": 1899
+      }
+     }
+    ]
+   }
+  }
+ }
+}

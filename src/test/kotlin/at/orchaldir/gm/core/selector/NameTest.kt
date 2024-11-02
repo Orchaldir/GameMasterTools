@@ -30,7 +30,7 @@ class NameTest {
     fun `Get Mononym independent of culture`() {
         val state = State(Storage(Character(ID0, Mononym("Test"))))
 
-        assertEquals("Test", state.getName(ID0))
+        assertEquals("Test", state.getElementName(ID0))
     }
 
     @Nested
@@ -40,28 +40,28 @@ class NameTest {
         fun `Given name first`() {
             val state = init(GivenNameFirst, null)
 
-            assertEquals("Given Family", state.getName(ID0))
+            assertEquals("Given Family", state.getElementName(ID0))
         }
 
         @Test
         fun `Given name first with middle name`() {
             val state = init(GivenNameFirst, "Middle")
 
-            assertEquals("Given Middle Family", state.getName(ID0))
+            assertEquals("Given Middle Family", state.getElementName(ID0))
         }
 
         @Test
         fun `Family name first`() {
             val state = init(FamilyNameFirst, null)
 
-            assertEquals("Family Given", state.getName(ID0))
+            assertEquals("Family Given", state.getElementName(ID0))
         }
 
         @Test
         fun `Family name first with middle name`() {
             val state = init(FamilyNameFirst, "Middle")
 
-            assertEquals("Family Middle Given", state.getName(ID0))
+            assertEquals("Family Middle Given", state.getElementName(ID0))
         }
 
         @Test
@@ -75,7 +75,7 @@ class NameTest {
             ).forEach {
                 val state = init(it, null)
 
-                assertFailsWith<IllegalStateException> { state.getName(ID0) }
+                assertFailsWith<IllegalStateException> { state.getElementName(ID0) }
             }
         }
 
@@ -102,7 +102,7 @@ class NameTest {
                 )
             )
 
-            assertEquals("A", state.getName(ID0))
+            assertEquals("A", state.getElementName(ID0))
         }
 
         @Nested
@@ -121,49 +121,49 @@ class NameTest {
                     )
                 )
 
-                assertEquals("Child Father", state.getName(ID0))
+                assertEquals("Child Father", state.getElementName(ID0))
             }
 
             @Test
             fun `Prefix style for son`() {
                 val state = init(Male, PrefixStyle(GENDER_MAP))
 
-                assertEquals("Child mFather", state.getName(ID0))
+                assertEquals("Child mFather", state.getElementName(ID0))
             }
 
             @Test
             fun `Prefix style for daughter`() {
                 val state = init(Female, PrefixStyle(GENDER_MAP))
 
-                assertEquals("Child fFather", state.getName(ID0))
+                assertEquals("Child fFather", state.getElementName(ID0))
             }
 
             @Test
             fun `Prefix style for child`() {
                 val state = init(Genderless, PrefixStyle(GENDER_MAP))
 
-                assertEquals("Child gFather", state.getName(ID0))
+                assertEquals("Child gFather", state.getElementName(ID0))
             }
 
             @Test
             fun `Suffix style for son`() {
                 val state = init(Male, SuffixStyle(GENDER_MAP))
 
-                assertEquals("Child Fatherm", state.getName(ID0))
+                assertEquals("Child Fatherm", state.getElementName(ID0))
             }
 
             @Test
             fun `Suffix style for daughter`() {
                 val state = init(Female, SuffixStyle(GENDER_MAP))
 
-                assertEquals("Child Fatherf", state.getName(ID0))
+                assertEquals("Child Fatherf", state.getElementName(ID0))
             }
 
             @Test
             fun `Suffix style for child`() {
                 val state = init(Genderless, SuffixStyle(GENDER_MAP))
 
-                assertEquals("Child Fatherg", state.getName(ID0))
+                assertEquals("Child Fatherg", state.getElementName(ID0))
             }
 
             private fun init(gender: Gender, style: GenonymicStyle) = State(
@@ -210,7 +210,7 @@ class NameTest {
                 )
             )
 
-            assertEquals("A f B m C", state.getName(ID0))
+            assertEquals("A f B m C", state.getElementName(ID0))
         }
     }
 
@@ -239,7 +239,7 @@ class NameTest {
             )
         )
 
-        assertEquals("A m B f C", state.getName(ID0))
+        assertEquals("A m B f C", state.getElementName(ID0))
     }
 
     @Nested
@@ -249,14 +249,14 @@ class NameTest {
         fun `Use father with male`() {
             val state = init(Male)
 
-            assertEquals("A m C", state.getName(ID0))
+            assertEquals("A m C", state.getElementName(ID0))
         }
 
         @Test
         fun `Use mother with female`() {
             val state = init(Female)
 
-            assertEquals("A f B", state.getName(ID0))
+            assertEquals("A f B", state.getElementName(ID0))
         }
 
         private fun init(gender: Gender) = State(

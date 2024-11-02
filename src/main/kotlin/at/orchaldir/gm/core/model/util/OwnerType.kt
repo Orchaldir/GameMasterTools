@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.world.building
+package at.orchaldir.gm.core.model.util
 
 enum class OwnerType {
     None,

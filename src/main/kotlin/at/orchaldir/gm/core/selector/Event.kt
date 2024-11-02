@@ -4,12 +4,15 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.Dead
+import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
-import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.Owner
-import at.orchaldir.gm.core.model.world.building.PreviousOwner
+import at.orchaldir.gm.core.model.util.Owner
+import at.orchaldir.gm.core.model.util.Ownership
+import at.orchaldir.gm.core.model.util.PreviousOwner
+import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.utils.Id
 
 fun State.getEvents(): List<Event> {
     val events = mutableListOf<Event>()
@@ -25,19 +28,13 @@ fun State.getEvents(): List<Event> {
     getBuildingStorage().getAll().forEach { building ->
         events.add(BuildingConstructedEvent(building.constructionDate, building.id))
 
-        var lastPrevious: PreviousOwner? = null
+        handleOwnership(events, building.id, building.ownership, ::createOwnershipChanged)
+    }
 
-        for (previous in building.ownership.previousOwners) {
-            if (lastPrevious != null) {
-                events.add(createOwnershipChanged(building, lastPrevious, previous.owner))
-            }
+    getBusinessStorage().getAll().forEach { business ->
+        events.add(BusinessStartedEvent(business.startDate, business.id))
 
-            lastPrevious = previous
-        }
-
-        if (lastPrevious != null) {
-            events.add(createOwnershipChanged(building, lastPrevious, building.ownership.owner))
-        }
+        handleOwnership(events, business.id, business.ownership, ::createOwnershipChanged)
     }
 
     getCharacterStorage().getAll().forEach { character ->
@@ -55,14 +52,46 @@ fun State.getEvents(): List<Event> {
     return events
 }
 
+private fun <ID : Id<ID>> handleOwnership(
+    events: MutableList<Event>,
+    id: ID,
+    ownership: Ownership,
+    create: (ID, PreviousOwner, Owner) -> OwnershipChangedEvent<ID>,
+) {
+    var lastPrevious: PreviousOwner? = null
+
+    for (previous in ownership.previousOwners) {
+        if (lastPrevious != null) {
+            events.add(create(id, lastPrevious, previous.owner))
+        }
+
+        lastPrevious = previous
+    }
+
+    if (lastPrevious != null) {
+        events.add(create(id, lastPrevious, ownership.owner))
+    }
+}
+
 private fun createOwnershipChanged(
-    building: Building,
-    lastPrevious: PreviousOwner,
+    id: BuildingId,
+    previous: PreviousOwner,
     to: Owner,
 ) = BuildingOwnershipChangedEvent(
-    lastPrevious.until,
-    building.id,
-    lastPrevious.owner,
+    previous.until,
+    id,
+    previous.owner,
+    to,
+)
+
+private fun createOwnershipChanged(
+    id: BusinessId,
+    previous: PreviousOwner,
+    to: Owner,
+) = BusinessOwnershipChangedEvent(
+    previous.until,
+    id,
+    previous.owner,
     to,
 )
 

@@ -2,6 +2,8 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
+import at.orchaldir.gm.app.routes.economy.BusinessRoutes
+import at.orchaldir.gm.app.routes.economy.JobRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.TownRoutes
@@ -9,14 +11,14 @@ import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
-import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ItemTemplateId
-import at.orchaldir.gm.core.model.job.JobId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.race.RaceId
@@ -24,6 +26,8 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.util.ElementWithComplexName
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
@@ -32,8 +36,6 @@ import at.orchaldir.gm.core.model.world.street.StreetTypeId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownId
-import at.orchaldir.gm.core.selector.getName
-import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -106,11 +108,19 @@ fun <ID : Id<ID>> HtmlBlockTag.link(
     link(call, id, state.getElementName(id))
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.link(
+fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.link(
     call: ApplicationCall,
     element: ELEMENT,
 ) {
     link(call, element.id(), element.name())
+}
+
+fun <ID : Id<ID>, ELEMENT : ElementWithComplexName<ID>> HtmlBlockTag.link(
+    call: ApplicationCall,
+    state: State,
+    element: ELEMENT,
+) {
+    link(call, element.id(), element.name(state))
 }
 
 fun <ID : Id<ID>> HtmlBlockTag.link(
@@ -131,6 +141,7 @@ fun <ID : Id<ID>> href(
 ) = when (id) {
     is ArchitecturalStyleId -> call.application.href(ArchitecturalStyleRoutes.Details(id))
     is BuildingId -> call.application.href(BuildingRoutes.Details(id))
+    is BusinessId -> call.application.href(BusinessRoutes.Details(id))
     is CalendarId -> call.application.href(CalendarRoutes.Details(id))
     is CharacterId -> call.application.href(CharacterRoutes.Details(id))
     is CultureId -> call.application.href(CultureRoutes.Details(id))
@@ -151,22 +162,4 @@ fun <ID : Id<ID>> href(
     is StreetTypeId -> call.application.href(StreetTypeRoutes.Details(id))
     is TownId -> call.application.href(TownRoutes.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
-}
-
-// character
-
-fun HtmlBlockTag.link(
-    call: ApplicationCall,
-    state: State,
-    id: CharacterId,
-) {
-    link(call, id, state.getName(id))
-}
-
-fun HtmlBlockTag.link(
-    call: ApplicationCall,
-    state: State,
-    character: Character,
-) {
-    link(call, character.id, state.getName(character))
 }

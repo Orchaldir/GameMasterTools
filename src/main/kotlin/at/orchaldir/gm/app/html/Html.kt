@@ -3,9 +3,7 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.util.GenderMap
-import at.orchaldir.gm.core.model.util.RarityMap
-import at.orchaldir.gm.core.model.util.reverseAndSort
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Distribution
@@ -65,12 +63,34 @@ fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
 }
 
 fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
-    label: String, call: ApplicationCall,
+    label: String,
+    call: ApplicationCall,
     state: State,
     id: ID,
 ) {
     field(label) {
         link(call, state, id)
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.fieldLink(
+    label: String,
+    call: ApplicationCall,
+    element: ELEMENT,
+) {
+    field(label) {
+        link(call, element)
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : ElementWithComplexName<ID>> HtmlBlockTag.fieldLink(
+    label: String,
+    call: ApplicationCall,
+    state: State,
+    element: ELEMENT,
+) {
+    field(label) {
+        link(call, state, element)
     }
 }
 

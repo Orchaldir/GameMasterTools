@@ -2,9 +2,9 @@ package at.orchaldir.gm.core.model.world.town
 
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.terrain.Terrain
-import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.MapSize2d.Companion.square
@@ -30,7 +30,7 @@ data class Town(
     val name: String = "Town ${id.value}",
     val map: TileMap2d<TownTile> = TileMap2d(square(10), TownTile()),
     val foundingDate: Date = Year(0),
-) : Element<TownId> {
+) : ElementWithSimpleName<TownId> {
 
     override fun id() = id
     override fun name() = name

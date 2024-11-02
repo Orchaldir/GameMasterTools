@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.world.building
+package at.orchaldir.gm.core.model.util
 
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.world.town.TownId
@@ -23,6 +23,8 @@ sealed class Owner {
     }
 
     fun contains(other: CharacterId) = this is OwnedByCharacter && character == other
+
+    fun contains(other: TownId) = this is OwnedByTown && town == other
 
 }
 

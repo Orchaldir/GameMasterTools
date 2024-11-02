@@ -18,6 +18,12 @@
     "type": "Year",
     "year": 1877
    },
+   "ownership": {
+    "owner": {
+     "type": "Town",
+     "town": 0
+    }
+   },
    "architecturalStyle": 8
   },
   "1": {
@@ -78,6 +84,20 @@
    "purpose": {
     "type": "ApartmentHouse",
     "apartments": 10
+   }
+  },
+  "3": {
+   "id": 3,
+   "lot": {
+    "tileIndex": 54
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   },
+   "purpose": {
+    "type": "SingleBusiness",
+    "business": 1
    }
   }
  }
