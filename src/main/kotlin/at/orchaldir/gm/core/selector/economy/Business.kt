@@ -4,8 +4,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.selector.getDefaultCalendar
+import at.orchaldir.gm.core.selector.world.getBuilding
 
-fun State.canDelete(type: BusinessId) = true
+fun State.canDelete(id: BusinessId) = getBuilding(id) == null
 
 fun State.getAgeInYears(business: Business) = getDefaultCalendar()
     .getDurationInYears(business.startDate, time.currentDate)
