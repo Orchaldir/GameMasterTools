@@ -24,6 +24,8 @@ sealed class Owner {
 
     fun contains(other: CharacterId) = this is OwnedByCharacter && character == other
 
+    fun contains(other: TownId) = this is OwnedByTown && town == other
+
 }
 
 @Serializable

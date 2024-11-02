@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
+import at.orchaldir.gm.core.model.util.OwnedByTown
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
@@ -45,11 +46,19 @@ fun State.getBuildings(style: ArchitecturalStyleId) = getBuildingStorage()
 fun State.getBuildings(town: TownId) = getBuildingStorage().getAll()
     .filter { it.lot.town == town }
 
+// owner
+
 fun State.getOwnedBuildings(character: CharacterId) = getBuildingStorage().getAll()
     .filter { it.ownership.owner is OwnedByCharacter && it.ownership.owner.character == character }
 
 fun State.getPreviouslyOwnedBuildings(character: CharacterId) = getBuildingStorage().getAll()
     .filter { it.ownership.contains(character) }
+
+fun State.getOwnedBuildings(town: TownId) = getBuildingStorage().getAll()
+    .filter { it.ownership.owner is OwnedByTown && it.ownership.owner.town == town }
+
+fun State.getPreviouslyOwnedBuildings(town: TownId) = getBuildingStorage().getAll()
+    .filter { it.ownership.contains(town) }
 
 // sort
 

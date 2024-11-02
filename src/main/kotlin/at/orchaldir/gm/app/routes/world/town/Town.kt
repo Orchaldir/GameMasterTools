@@ -11,6 +11,8 @@ import at.orchaldir.gm.core.action.DeleteTown
 import at.orchaldir.gm.core.action.UpdateTown
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
+import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.visualization.town.getStreetTypeFill
 import at.orchaldir.gm.visualization.town.showTerrainName
@@ -23,6 +25,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.html.DIV
 import kotlinx.html.HTML
 import kotlinx.html.form
 import kotlinx.html.h2
@@ -128,7 +131,9 @@ private fun HTML.showTownDetails(
             fieldAge("Age", state.getAgeInYears(town))
             field("Size", town.map.size.format())
             action(editLink, "Edit Town")
-            action(deleteLink, "Delete")
+            if (state.canDelete(town.id)) {
+                action(deleteLink, "Delete")
+            }
             h2 { +"Buildings" }
             showArchitecturalStyleCount(call, state, buildings)
             showBuildingPurposeCount(buildings)
@@ -149,10 +154,37 @@ private fun HTML.showTownDetails(
             }
             action(editStreetsLink, "Edit Streets")
             action(editTerrainLink, "Edit Terrain")
+
+            showPossession(state, town, call)
+
             back(backLink)
         }, {
             svg(visualizeTownWithLinks(call, state, town), 90)
         })
+    }
+}
+
+private fun DIV.showPossession(
+    state: State,
+    town: Town,
+    call: ApplicationCall,
+) {
+    h2 { +"Possession" }
+
+    showList("Owned Buildings", state.getOwnedBuildings(town.id)) { building ->
+        link(call, state, building)
+    }
+
+    showList("Previously owned Buildings", state.getPreviouslyOwnedBuildings(town.id)) { building ->
+        link(call, state, building)
+    }
+
+    showList("Owned Businesses", state.getOwnedBusinesses(town.id)) { business ->
+        link(call, business)
+    }
+
+    showList("Previously owned Businesses", state.getPreviouslyOwnedBusinesses(town.id)) { business ->
+        link(call, business)
     }
 }
 

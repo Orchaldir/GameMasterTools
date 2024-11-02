@@ -5,8 +5,13 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
+import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.world.getBuildings
+import at.orchaldir.gm.core.selector.world.getOwnedBuildings
+import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -19,7 +24,24 @@ val CREATE_TOWN: Reducer<CreateTown, State> = { state, _ ->
 val DELETE_TOWN: Reducer<DeleteTown, State> = { state, action ->
     state.getTownStorage().require(action.id)
 
+    checkBuildingOwnership(state, action.id)
+    checkBusinessOwnership(state, action.id)
+
     noFollowUps(state.updateStorage(state.getTownStorage().remove(action.id)))
+}
+
+private fun checkBuildingOwnership(state: State, id: TownId) {
+    val owned = state.getOwnedBuildings(id)
+    require(owned.isEmpty()) { "Cannot delete town ${id.value}, because it owns buildings!" }
+    val previouslyOwned = state.getPreviouslyOwnedBuildings(id)
+    require(previouslyOwned.isEmpty()) { "Cannot delete town ${id.value}, because it previously owned buildings!" }
+}
+
+private fun checkBusinessOwnership(state: State, id: TownId) {
+    val owned = state.getOwnedBusinesses(id)
+    require(owned.isEmpty()) { "Cannot delete town ${id.value}, because it owns businesses!" }
+    val previouslyOwned = state.getPreviouslyOwnedBusinesses(id)
+    require(previouslyOwned.isEmpty()) { "Cannot delete town ${id.value}, because it previously owned businesses!" }
 }
 
 val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->

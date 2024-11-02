@@ -8,7 +8,17 @@ import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
+import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getDefaultCalendar
+
+fun State.canDelete(town: TownId) = getBuildings(town).isEmpty()
+        && getOwnedBuildings(town).isEmpty()
+        && getPreviouslyOwnedBuildings(town).isEmpty()
+        && getOwnedBusinesses(town).isEmpty()
+        && getPreviouslyOwnedBusinesses(town).isEmpty()
+
+// get
 
 fun State.getAgeInYears(town: Town) = getDefaultCalendar()
     .getDurationInYears(town.foundingDate, time.currentDate)
