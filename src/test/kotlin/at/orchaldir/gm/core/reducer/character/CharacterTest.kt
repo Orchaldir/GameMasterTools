@@ -24,7 +24,9 @@ import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.core.model.util.PreviousOwner
-import at.orchaldir.gm.core.model.world.building.*
+import at.orchaldir.gm.core.model.world.building.ApartmentHouse
+import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id

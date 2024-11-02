@@ -4,7 +4,6 @@ import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.assertIllegalState
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.time.Day

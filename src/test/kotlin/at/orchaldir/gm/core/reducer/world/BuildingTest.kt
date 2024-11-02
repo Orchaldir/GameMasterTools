@@ -14,7 +14,8 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.Year
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.OwnedByCharacter
+import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
