@@ -4,6 +4,7 @@ import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.assertIllegalState
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.time.Day
@@ -68,13 +69,7 @@ class TownTest {
 
             @Test
             fun `Cannot delete a building owner`() {
-                val building = Building(BUILDING0, ownership = OWNER)
-                val state = State(
-                    listOf(
-                        Storage(listOf(Town(ID0))),
-                        Storage(listOf(building)),
-                    )
-                )
+                val state = createState(Building(BUILDING0, ownership = OWNER))
 
                 assertIllegalArgument("Cannot delete town 0, because it owns buildings!") {
                     REDUCER.invoke(state, action)
@@ -83,13 +78,7 @@ class TownTest {
 
             @Test
             fun `Cannot delete a previous building owner`() {
-                val building = Building(BUILDING0, ownership = PREVIOUS_OWNER)
-                val state = State(
-                    listOf(
-                        Storage(listOf(Town(ID0))),
-                        Storage(listOf(building)),
-                    )
-                )
+                val state = createState(Building(BUILDING0, ownership = PREVIOUS_OWNER))
 
                 assertIllegalArgument("Cannot delete town 0, because it previously owned buildings!") {
                     REDUCER.invoke(state, action)
@@ -102,13 +91,7 @@ class TownTest {
 
             @Test
             fun `Cannot delete a business owner`() {
-                val business = Business(BUSINESS0, ownership = OWNER)
-                val state = State(
-                    listOf(
-                        Storage(listOf(Town(ID0))),
-                        Storage(listOf(business)),
-                    )
-                )
+                val state = createState(Business(BUSINESS0, ownership = OWNER))
 
                 assertIllegalArgument("Cannot delete town 0, because it owns businesses!") {
                     REDUCER.invoke(state, action)
@@ -117,18 +100,22 @@ class TownTest {
 
             @Test
             fun `Cannot delete a previous business owner`() {
-                val business = Business(BUSINESS0, ownership = PREVIOUS_OWNER)
-                val state = State(
-                    listOf(
-                        Storage(listOf(Town(ID0))),
-                        Storage(listOf(business)),
-                    )
-                )
+                val state = createState(Business(BUSINESS0, ownership = PREVIOUS_OWNER))
 
                 assertIllegalArgument("Cannot delete town 0, because it previously owned businesses!") {
                     REDUCER.invoke(state, action)
                 }
             }
+        }
+
+        private fun <ID : Id<ID>, ELEMENT : Element<ID>> createState(element: ELEMENT): State {
+            val state = State(
+                listOf(
+                    Storage(listOf(Town(ID0))),
+                    Storage(listOf(element))
+                )
+            )
+            return state
         }
     }
 
