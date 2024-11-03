@@ -16,7 +16,7 @@ fun formatDistance(distance: Distance) =
     formatMillimetersAsMeters(distance.millimeters)
 
 fun formatMillimetersAsMeters(millimeters: Int) =
-    String.format("%d.%d m", metersOnly(millimeters), millimetersOnly(millimeters))
+    String.format("%d.%03d m", metersOnly(millimeters), millimetersOnly(millimeters))
 
 fun HtmlBlockTag.selectDistance(
     label: String,
