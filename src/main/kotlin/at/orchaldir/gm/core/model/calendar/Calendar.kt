@@ -83,6 +83,8 @@ data class Calendar(
 
     fun compareTo(a: Date, b: Date) = getDay(a).compareTo(getDay(b))
 
+    fun isAfterOrEqual(a: Date, b: Date) = compareTo(a, b) >= 0
+
     fun getDay(date: Date) = when (date) {
         is Day -> date
         is Year -> getStartOfYear(date)

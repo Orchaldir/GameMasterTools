@@ -10,7 +10,9 @@ import at.orchaldir.gm.app.parse.economy.parseBusinessId
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseCharacterId
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.*
+import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -32,6 +34,7 @@ fun HtmlBlockTag.showBuilder(
 fun FORM.selectBuilder(
     state: State,
     builder: Builder,
+    date: Date,
 ) {
     selectValue("Builder Type", BUILDER, BuilderType.entries, true) { type ->
         label = type.name
@@ -42,7 +45,7 @@ fun FORM.selectBuilder(
         is BuildByBusiness -> selectValue(
             "Builder",
             combine(BUILDER, BUSINESS),
-            state.getBusinessStorage().getAll(),
+            state.getOpenBusinesses(date),
             true
         ) { business ->
             label = business.name

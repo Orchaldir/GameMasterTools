@@ -313,7 +313,7 @@ private fun HTML.showBuildingEditor(
                     selected = s.id == building.architecturalStyle
                 }
                 selectPurpose(state, building)
-                selectBuilder(state, building.builder)
+                selectBuilder(state, building.builder, building.constructionDate)
                 button("Update", updateLink)
             }
             back(backLink)
