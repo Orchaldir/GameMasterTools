@@ -1,8 +1,6 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.TITLE
-import at.orchaldir.gm.app.html.model.formatDistance
-import at.orchaldir.gm.app.html.model.formatMillimetersAsMeters
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.util.*
@@ -127,11 +125,10 @@ fun HtmlBlockTag.showDetails(
 fun HtmlBlockTag.showDistribution(
     label: String,
     distribution: Distribution,
-    unit: String,
 ) {
     field(
         label,
-        String.format("%s +- %s %s", formatDistance(distribution.center), formatDistance(distribution.offset), unit)
+        String.format("%s +- %s", distribution.center, distribution.offset)
     )
 }
 

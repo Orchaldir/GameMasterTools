@@ -135,7 +135,7 @@ private fun HTML.showRaceDetails(
         split({
             field("Name", race.name)
             showRarityMap("Gender", race.genders)
-            showDistribution("Height", race.height, "m")
+            showDistribution("Height", race.height)
             showLifeStages(call, state, race)
             h2 { +"Characters" }
             showList(state.getCharacters(race.id)) { character ->

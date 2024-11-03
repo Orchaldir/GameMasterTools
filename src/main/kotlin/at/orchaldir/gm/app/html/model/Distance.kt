@@ -4,19 +4,12 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 
 import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.math.metersOnly
-import at.orchaldir.gm.utils.math.millimetersOnly
+import at.orchaldir.gm.utils.math.formatMillimetersAsMeters
 import kotlinx.html.HtmlBlockTag
 
 fun HtmlBlockTag.fieldDistance(name: String, distance: Distance) {
-    field(name, formatDistance(distance))
+    field(name, distance.toString())
 }
-
-fun formatDistance(distance: Distance) =
-    formatMillimetersAsMeters(distance.millimeters)
-
-fun formatMillimetersAsMeters(millimeters: Int) =
-    String.format("%d.%03d m", metersOnly(millimeters), millimetersOnly(millimeters))
 
 fun HtmlBlockTag.selectDistance(
     label: String,

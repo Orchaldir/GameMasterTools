@@ -19,6 +19,7 @@ data class Distance(val millimeters: Int) {
     fun millimetersOnly() = millimetersOnly(millimeters)
 
     fun toMeters() = millimeterToMeter(millimeters)
+    override fun toString() = formatMillimetersAsMeters(millimeters)
 
     operator fun plus(other: Distance) = Distance(millimeters + other.millimeters)
     operator fun minus(other: Distance) = Distance(millimeters - other.millimeters)
@@ -33,3 +34,6 @@ fun millimetersOnly(millimeters: Int) = millimeters % FACTOR
 
 fun meterToMillimeter(meter: Float) = (meter * FACTOR).toInt()
 fun millimeterToMeter(millimeters: Int) = millimeters / FACTOR.toFloat()
+
+fun formatMillimetersAsMeters(millimeters: Int) =
+    String.format("%d.%03d m", metersOnly(millimeters), millimetersOnly(millimeters))
