@@ -79,8 +79,12 @@ data class Character(
     }
 
     fun isAlive(calendar: Calendar, date: Date): Boolean {
-        if (calendar.isAfterOrEqual(date, birthDate) && vitalStatus is Dead) {
-            return calendar.isAfter(date, vitalStatus.deathDay)
+        if (calendar.isAfterOrEqual(date, birthDate)) {
+            if (vitalStatus is Dead) {
+                return calendar.isAfterOrEqual(vitalStatus.deathDay, date)
+            }
+
+            return true
         }
 
         return false
