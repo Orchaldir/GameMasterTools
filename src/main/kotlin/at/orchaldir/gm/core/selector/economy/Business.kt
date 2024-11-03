@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.world.getBuilding
 
-fun State.canDelete(id: BusinessId) = getBuilding(id) == null
+fun State.canDelete(id: BusinessId) = getBuilding(id) == null && getEmployees(id).isEmpty()
 
 fun State.getAgeInYears(business: Business) = getDefaultCalendar()
     .getDurationInYears(business.startDate, time.currentDate)

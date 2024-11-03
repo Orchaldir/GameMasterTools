@@ -7,12 +7,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.calendar.MonthDefinition
-import at.orchaldir.gm.core.model.character.CHARACTER
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.economy.business.BUSINESS
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.core.model.world.building.Building
@@ -46,7 +45,7 @@ class BusinessTest {
         fun `Cannot delete unknown id`() {
             val action = DeleteBusiness(ID0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Business 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -59,7 +58,30 @@ class BusinessTest {
             )
             val action = DeleteBusiness(ID0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete business 0, because it has a building!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
+        @Test
+        fun `Cannot delete a business where a character is employed`() {
+            val state = State(
+                listOf(
+                    Storage(Business(ID0)),
+                    Storage(Character(CHARACTER0, employmentStatus = Employed(ID0, JobId(0)))),
+                )
+            )
+            val action = DeleteBusiness(ID0)
+
+            assertIllegalArgument("Cannot delete business 0, because it has employees!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
         }
     }
 
