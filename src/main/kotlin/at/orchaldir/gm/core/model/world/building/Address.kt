@@ -4,6 +4,13 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class AddressType {
+    None,
+    Town,
+    Street,
+    Crossing,
+}
+
 @Serializable
 sealed class Address {
 

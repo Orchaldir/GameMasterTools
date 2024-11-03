@@ -4,6 +4,14 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class BuildingPurposeType {
+    SingleBusiness,
+    SingleFamilyHouse,
+    ApartmentHouse;
+
+    fun isBusiness() = this == SingleBusiness
+}
+
 @Serializable
 sealed class BuildingPurpose {
 
