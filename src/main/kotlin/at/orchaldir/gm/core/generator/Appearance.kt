@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.NumberGenerator
-import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Distribution
 
 data class AppearanceGeneratorConfig(
