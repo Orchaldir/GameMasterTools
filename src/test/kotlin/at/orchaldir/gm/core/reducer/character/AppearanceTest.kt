@@ -18,7 +18,7 @@ private val ID0 = CharacterId(0)
 
 class AppearanceTest {
 
-    private val appearance = HeadOnly(Head(skin = NormalSkin()), Distance(0.5f))
+    private val appearance = HeadOnly(Head(skin = NormalSkin()), Distance(500))
     private val action = UpdateAppearance(ID0, appearance)
 
     @Test
