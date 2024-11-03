@@ -14,8 +14,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.selector.SortCharacter
+import at.orchaldir.gm.core.selector.economy.SortBusiness
 import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.economy.getAgeInYears
+import at.orchaldir.gm.core.selector.economy.sortBusinesses
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.sortCharacters
 import at.orchaldir.gm.core.selector.world.getBuilding
@@ -35,6 +38,12 @@ private val logger = KotlinLogging.logger {}
 
 @Resource("/business")
 class BusinessRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortBusiness = SortBusiness.Name,
+        val parent: BusinessRoutes = BusinessRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: BusinessId, val parent: BusinessRoutes = BusinessRoutes())
 
@@ -56,11 +65,11 @@ class BusinessRoutes {
 
 fun Application.configureBusinessRouting() {
     routing {
-        get<BusinessRoutes> {
+        get<BusinessRoutes.All> { all ->
             logger.info { "Get all business" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllBusinesses(call, STORE.getState())
+                showAllBusinesses(call, STORE.getState(), all.sort)
             }
         }
         get<BusinessRoutes.Details> { details ->
@@ -131,13 +140,27 @@ fun Application.configureBusinessRouting() {
     }
 }
 
-private fun HTML.showAllBusinesses(call: ApplicationCall, state: State) {
-    val businesses = STORE.getState().getBusinessStorage().getAll().sortedBy { it.name }
+private fun HTML.showAllBusinesses(
+    call: ApplicationCall,
+    state: State,
+    sort: SortBusiness,
+) {
+    val businesses = state.sortBusinesses(sort)
     val count = businesses.size
     val createLink = call.application.href(BusinessRoutes.New())
+    val sortNameLink = call.application.href(BusinessRoutes.All())
+    val sortAgeLink = call.application.href(BusinessRoutes.All(SortBusiness.Age))
+    val sortEmployeesLink = call.application.href(BusinessRoutes.All(SortBusiness.Employees))
 
     simpleHtml("Businesses") {
         field("Count", count.toString())
+        field("Sort") {
+            link(sortNameLink, "Name")
+            +" "
+            link(sortAgeLink, "Age")
+            +" "
+            link(sortEmployeesLink, "Employees")
+        }
         table {
             tr {
                 th { +"Name" }
@@ -167,7 +190,7 @@ private fun HTML.showBusinessDetails(
     state: State,
     business: Business,
 ) {
-    val backLink = call.application.href(BusinessRoutes())
+    val backLink = call.application.href(BusinessRoutes.All())
     val deleteLink = call.application.href(BusinessRoutes.Delete(business.id))
     val editLink = call.application.href(BusinessRoutes.Edit(business.id))
 
