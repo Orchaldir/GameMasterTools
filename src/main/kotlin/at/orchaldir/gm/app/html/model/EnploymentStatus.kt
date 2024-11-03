@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.BUILDING
+import at.orchaldir.gm.app.BUSINESS
+import at.orchaldir.gm.app.EMPLOYMENT
+import at.orchaldir.gm.app.JOB
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.selectValue

@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
-import at.orchaldir.gm.core.selector.SortCharacter
 import at.orchaldir.gm.core.selector.economy.SortBusiness
 import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.economy.getAgeInYears

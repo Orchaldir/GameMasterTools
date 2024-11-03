@@ -6,7 +6,10 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.selector.countCultures
+import at.orchaldir.gm.core.selector.countGender
+import at.orchaldir.gm.core.selector.countLivingStatus
+import at.orchaldir.gm.core.selector.countRace
 import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.world.countArchitecturalStyles
 import at.orchaldir.gm.core.selector.world.countPurpose
