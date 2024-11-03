@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.calendar.MonthDefinition
-import at.orchaldir.gm.core.model.character.CHARACTER
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Employed
@@ -15,9 +14,6 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JOB
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
-import at.orchaldir.gm.core.model.util.OwnedByCharacter
-import at.orchaldir.gm.core.model.util.Ownership
-import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
