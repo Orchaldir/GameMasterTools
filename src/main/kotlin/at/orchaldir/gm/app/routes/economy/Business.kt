@@ -3,15 +3,23 @@ package at.orchaldir.gm.app.routes.economy
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.selectOwnership
+import at.orchaldir.gm.app.html.model.showOwner
+import at.orchaldir.gm.app.html.model.showOwnership
 import at.orchaldir.gm.app.parse.economy.parseBusiness
 import at.orchaldir.gm.core.action.CreateBusiness
 import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.selector.economy.SortBusiness
 import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.economy.getAgeInYears
+import at.orchaldir.gm.core.selector.economy.sortBusinesses
+import at.orchaldir.gm.core.selector.getEmployees
+import at.orchaldir.gm.core.selector.sortCharacters
 import at.orchaldir.gm.core.selector.world.getBuilding
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -29,6 +37,12 @@ private val logger = KotlinLogging.logger {}
 
 @Resource("/business")
 class BusinessRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortBusiness = SortBusiness.Name,
+        val parent: BusinessRoutes = BusinessRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: BusinessId, val parent: BusinessRoutes = BusinessRoutes())
 
@@ -50,11 +64,11 @@ class BusinessRoutes {
 
 fun Application.configureBusinessRouting() {
     routing {
-        get<BusinessRoutes> {
+        get<BusinessRoutes.All> { all ->
             logger.info { "Get all business" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllBusinesses(call, STORE.getState())
+                showAllBusinesses(call, STORE.getState(), all.sort)
             }
         }
         get<BusinessRoutes.Details> { details ->
@@ -125,19 +139,34 @@ fun Application.configureBusinessRouting() {
     }
 }
 
-private fun HTML.showAllBusinesses(call: ApplicationCall, state: State) {
-    val businesses = STORE.getState().getBusinessStorage().getAll().sortedBy { it.name }
+private fun HTML.showAllBusinesses(
+    call: ApplicationCall,
+    state: State,
+    sort: SortBusiness,
+) {
+    val businesses = state.sortBusinesses(sort)
     val count = businesses.size
     val createLink = call.application.href(BusinessRoutes.New())
+    val sortNameLink = call.application.href(BusinessRoutes.All())
+    val sortAgeLink = call.application.href(BusinessRoutes.All(SortBusiness.Age))
+    val sortEmployeesLink = call.application.href(BusinessRoutes.All(SortBusiness.Employees))
 
     simpleHtml("Businesses") {
         field("Count", count.toString())
+        field("Sort") {
+            link(sortNameLink, "Name")
+            +" "
+            link(sortAgeLink, "Age")
+            +" "
+            link(sortEmployeesLink, "Employees")
+        }
         table {
             tr {
                 th { +"Name" }
                 th { +"Start" }
                 th { +"Age" }
                 th { +"Owner" }
+                th { +"Employees" }
             }
             businesses.forEach { business ->
                 tr {
@@ -145,6 +174,7 @@ private fun HTML.showAllBusinesses(call: ApplicationCall, state: State) {
                     td { showDate(call, state, business.startDate) }
                     td { +state.getAgeInYears(business).toString() }
                     td { showOwner(call, state, business.ownership.owner) }
+                    td { +state.getEmployees(business.id).size.toString() }
                 }
             }
         }
@@ -159,7 +189,7 @@ private fun HTML.showBusinessDetails(
     state: State,
     business: Business,
 ) {
-    val backLink = call.application.href(BusinessRoutes())
+    val backLink = call.application.href(BusinessRoutes.All())
     val deleteLink = call.application.href(BusinessRoutes.Delete(business.id))
     val editLink = call.application.href(BusinessRoutes.Edit(business.id))
 
@@ -169,6 +199,13 @@ private fun HTML.showBusinessDetails(
         field(call, state, "Start", business.startDate)
         fieldAge("Age", state.getAgeInYears(business))
         showOwnership(call, state, business.ownership)
+        showList("Employees", state.sortCharacters(state.getEmployees(business.id))) { (character, name) ->
+            link(call, character.id, name)
+            +" as "
+            if (character.employmentStatus is Employed) {
+                link(call, state, character.employmentStatus.job)
+            }
+        }
         action(editLink, "Edit")
         if (state.canDelete(business.id)) {
             action(deleteLink, "Delete")

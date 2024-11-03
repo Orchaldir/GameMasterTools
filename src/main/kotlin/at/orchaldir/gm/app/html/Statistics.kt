@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
@@ -9,6 +10,7 @@ import at.orchaldir.gm.core.selector.countCultures
 import at.orchaldir.gm.core.selector.countGender
 import at.orchaldir.gm.core.selector.countLivingStatus
 import at.orchaldir.gm.core.selector.countRace
+import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.world.countArchitecturalStyles
 import at.orchaldir.gm.core.selector.world.countPurpose
 import at.orchaldir.gm.core.selector.world.countTowns
@@ -35,6 +37,21 @@ fun HtmlBlockTag.showCultureCount(
 
 fun HtmlBlockTag.showGenderCount(characters: Collection<Character>) =
     showCount("Genders", countGender(characters))
+
+fun HtmlBlockTag.showJobCount(
+    call: ApplicationCall,
+    state: State,
+    characters: Collection<Character>,
+) {
+    showMap("Jobs", countJobs(characters)) { job, count ->
+        if (job == null) {
+            +"Unemployed"
+        } else {
+            link(call, state, job)
+        }
+        +": $count"
+    }
+}
 
 fun HtmlBlockTag.showLivingStatusCount(characters: Collection<Character>) =
     showCount("Living Status", countLivingStatus(characters))

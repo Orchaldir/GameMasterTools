@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseCharacter
 import at.orchaldir.gm.core.action.CreateCharacter
@@ -152,7 +153,7 @@ private fun HTML.showAllCharacters(
     sort: SortCharacter,
 ) {
     val characters = STORE.getState().getCharacterStorage().getAll()
-    val charactersWithNames = state.sort(characters, sort)
+    val charactersWithNames = state.sortCharacters(characters, sort)
     val count = characters.size
     val createLink = call.application.href(CharacterRoutes.New())
     val sortNameLink = call.application.href(CharacterRoutes.All())
@@ -174,6 +175,7 @@ private fun HTML.showAllCharacters(
                 th { +"Birthdate" }
                 th { +"Age" }
                 th { +"Living Status" }
+                th { +"Employment Status" }
             }
             charactersWithNames.forEach { (character, name) ->
                 tr {
@@ -192,11 +194,13 @@ private fun HTML.showAllCharacters(
                     td { showDate(call, state, character.birthDate) }
                     td { +state.getAgeInYears(character).toString() }
                     td { showLivingStatus(call, state, character.livingStatus) }
+                    td { showEmploymentStatus(call, state, character.employmentStatus) }
                 }
             }
         }
         showCultureCount(call, state, characters)
         showGenderCount(characters)
+        showJobCount(call, state, characters)
         showLivingStatusCount(characters)
         showRaceCount(call, state, characters)
 
@@ -270,6 +274,7 @@ private fun BODY.showData(
     showVitalStatus(call, state, character.vitalStatus)
     showAge(state, character, race)
     fieldLivingStatus(call, state, character.livingStatus)
+    fieldEmploymentStatus(call, state, character.employmentStatus)
 
     action(generateNameLink, "Generate New Name")
     action(generateBirthdayLink, "Generate Birthday")
@@ -465,6 +470,7 @@ private fun HTML.showCharacterEditor(
             selectVitalStatus(state, character)
             showAge(state, character, race)
             selectLivingStatus(state, character)
+            selectEmploymentStatus(state, character)
             h2 { +"Social" }
             selectValue("Culture", CULTURE, state.getCultureStorage().getAll()) { culture ->
                 label = culture.name

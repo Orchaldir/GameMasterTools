@@ -1,5 +1,7 @@
-package at.orchaldir.gm.app.html
+package at.orchaldir.gm.app.html.model
 
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.*
 import io.ktor.server.application.*

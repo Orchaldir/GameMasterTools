@@ -13,6 +13,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
+import at.orchaldir.gm.core.selector.getResident
+import at.orchaldir.gm.core.selector.sortCharacters
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.visualization.town.getStreetTypeFill
 import at.orchaldir.gm.visualization.town.showTerrainName
@@ -142,6 +144,16 @@ private fun HTML.showTownDetails(
             }
             showBuildingOwnershipCount(call, state, buildings)
             action(editBuildingsLink, "Edit Buildings")
+            h2 { +"Characters" }
+            val residents = state.getResident(town.id)
+            showList("Residents", state.sortCharacters(residents)) { (character, name) ->
+                link(call, character.id, name)
+            }
+            showCultureCount(call, state, residents)
+            showGenderCount(residents)
+            showJobCount(call, state, residents)
+            showLivingStatusCount(residents)
+            showRaceCount(call, state, residents)
             h2 { +"Terrain" }
             showList("Mountains", state.getMountains(town.id).sortedBy { it.name }) { mountain ->
                 link(call, mountain)

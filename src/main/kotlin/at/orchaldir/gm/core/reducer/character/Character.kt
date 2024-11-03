@@ -65,6 +65,7 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     checkOrigin(state, character)
     checkCauseOfDeath(state, character)
     checkLivingStatus(state, character)
+    checkEmploymentStatus(state, character)
     character.personality.forEach { state.getPersonalityTraitStorage().require(it) }
     val update = character.copy(languages = oldCharacter.languages)
 
@@ -126,5 +127,18 @@ private fun checkLivingStatus(
         }
 
         is InHouse -> state.getBuildingStorage().require(livingStatus.building)
+    }
+}
+
+private fun checkEmploymentStatus(
+    state: State,
+    character: Character,
+) {
+    when (val employmentStatus = character.employmentStatus) {
+        Unemployed -> doNothing()
+        is Employed -> {
+            state.getBusinessStorage().require(employmentStatus.business)
+            state.getJobStorage().require(employmentStatus.job)
+        }
     }
 }

@@ -10,8 +10,12 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.CULTURE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.economy.business.BUSINESS
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.job.JOB
+import at.orchaldir.gm.core.model.economy.job.Job
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
@@ -44,6 +48,7 @@ private val BUSINESS0 = BusinessId(0)
 private val CULTURE0 = CultureId(0)
 private val LANGUAGE0 = LanguageId(0)
 private val LANGUAGES = mapOf(LANGUAGE0 to ComprehensionLevel.Native)
+private val JOB0 = JobId(0)
 private val PERSONALITY0 = PersonalityTraitId(0)
 private val RACE0 = RaceId(0)
 private val RACE1 = RaceId(1)
@@ -207,8 +212,10 @@ class CharacterTest {
         val STATE = State(
             listOf(
                 Storage(Character(ID0)),
+                Storage(Business(BUSINESS0)),
                 Storage(Culture(CULTURE0)),
                 Storage(Language(LANGUAGE0)),
+                Storage(Job(JOB0)),
                 Storage(PersonalityTrait(PERSONALITY0)),
                 Storage(listOf(Race(RACE0), Race(RACE1)))
             )
@@ -444,6 +451,37 @@ class CharacterTest {
                     result.getCharacterStorage().getOrThrow(ID0)
                 )
             }
+        }
+
+        @Nested
+        inner class EmploymentStatusTest {
+            private val employed = Employed(BUSINESS0, JOB0)
+            private val action = UpdateCharacter(Character(ID0, employmentStatus = employed))
+
+            @Test
+            fun `Cannot use unknown business`() {
+                val state = STATE.removeStorage(BUSINESS)
+
+                assertIllegalArgument("Requires unknown Business 0!") { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Cannot use unknown job`() {
+                val state = STATE.removeStorage(JOB)
+
+                assertIllegalArgument("Requires unknown Job 0!") { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Character has a valid job`() {
+                val result = REDUCER.invoke(STATE, action).first
+
+                assertEquals(
+                    employed,
+                    result.getCharacterStorage().getOrThrow(ID0).employmentStatus
+                )
+            }
+
         }
 
         @Test

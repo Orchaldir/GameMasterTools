@@ -10,6 +10,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.selector.economy.canDelete
+import at.orchaldir.gm.core.selector.economy.getBusinesses
+import at.orchaldir.gm.core.selector.getEmployees
+import at.orchaldir.gm.core.selector.sortCharacters
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -136,6 +139,12 @@ private fun HTML.showJobDetails(
 
     simpleHtml("Job: ${job.name}") {
         field("Name", job.name)
+        showList("Businesses", state.getBusinesses(job.id)) { business ->
+            link(call, business)
+        }
+        showList("Characters", state.sortCharacters(state.getEmployees(job.id))) { (character, name) ->
+            link(call, character.id, name)
+        }
         action(editLink, "Edit")
         if (state.canDelete(job.id)) {
             action(deleteLink, "Delete")

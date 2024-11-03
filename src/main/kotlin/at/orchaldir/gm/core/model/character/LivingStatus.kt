@@ -18,6 +18,12 @@ sealed class LivingStatus {
         else -> null
     }
 
+    fun getBuilding() = when (this) {
+        Homeless -> null
+        is InApartment -> building
+        is InHouse -> building
+    }
+
     fun getType() = when (this) {
         Homeless -> LivingStatusType.Homeless
         is InApartment -> LivingStatusType.InApartment

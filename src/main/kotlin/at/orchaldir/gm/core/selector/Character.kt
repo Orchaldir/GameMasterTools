@@ -7,12 +7,15 @@ import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import at.orchaldir.gm.core.model.character.appearance.updateBeard
 import at.orchaldir.gm.core.model.character.appearance.updateHairColor
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
@@ -30,6 +33,10 @@ fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
         && getPreviouslyOwnedBusinesses(character).isEmpty()
 
 // count
+
+fun countEmploymentStatus(characters: Collection<Character>) = characters
+    .groupingBy { it.employmentStatus.getType() }
+    .eachCount()
 
 fun countGender(characters: Collection<Character>) = characters
     .groupingBy { it.gender }
@@ -66,6 +73,25 @@ fun State.getCharactersLivingInApartment(building: BuildingId, apartment: Int) =
 fun State.getCharactersLivingInHouse(building: BuildingId) = getCharacterStorage()
     .getAll()
     .filter { c -> c.livingStatus.isLivingInHouse(building) }
+
+// employment status
+
+fun State.getEmployees(job: JobId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.employmentStatus.hasJob(job) }
+
+fun State.getEmployees(business: BusinessId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.employmentStatus.isEmployedAt(business) }
+
+// living status
+
+fun State.getResident(town: TownId) = getCharacterStorage().getAll()
+    .filter { isResident(it, town) }
+
+fun State.isResident(character: Character, town: TownId) = character.livingStatus.getBuilding()
+    ?.let { getBuildingStorage().getOrThrow(it).lot.town == town }
+    ?: false
 
 // get relatives
 
@@ -148,6 +174,8 @@ fun scaleHeightByAge(race: Race, height: Distance, age: Int): Distance {
     return height * relativeSize
 }
 
+// appearance
+
 fun State.getAppearanceForAge(character: Character): Appearance {
     val age = getAgeInYears(character)
     val race = getRaceStorage().getOrThrow(character.race)
@@ -196,9 +224,10 @@ fun State.getAgeComparatorForPair(): Comparator<Pair<Character, String>> {
     return Comparator { a: Pair<Character, String>, b: Pair<Character, String> -> comparator.compare(a.first, b.first) }
 }
 
-fun State.sortBuildings(sort: SortCharacter = SortCharacter.Name) = sort(getCharacterStorage().getAll(), sort)
+fun State.sortCharacters(sort: SortCharacter = SortCharacter.Name) =
+    sortCharacters(getCharacterStorage().getAll(), sort)
 
-fun State.sort(buildings: Collection<Character>, sort: SortCharacter = SortCharacter.Name) = buildings
+fun State.sortCharacters(characters: Collection<Character>, sort: SortCharacter = SortCharacter.Name) = characters
     .map { Pair(it, it.name(this)) }
     .sortedWith(when (sort) {
         SortCharacter.Name -> compareBy { it.second }

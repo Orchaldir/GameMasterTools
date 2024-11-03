@@ -17,7 +17,7 @@ val CREATE_JOB: Reducer<CreateJob, State> = { state, _ ->
 
 val DELETE_JOB: Reducer<DeleteJob, State> = { state, action ->
     state.getJobStorage().require(action.id)
-    require(state.canDelete(action.id)) { "Job ${action.id.value} is used" }
+    require(state.canDelete(action.id)) { "Cannot delete job ${action.id.value}, because it is used by a character!" }
 
     noFollowUps(state.updateStorage(state.getJobStorage().remove(action.id)))
 }

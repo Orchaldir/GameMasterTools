@@ -143,6 +143,11 @@
     "type": "InApartment",
     "building": 2,
     "apartmentIndex": 9
+   },
+    "employmentStatus": {
+      "type": "Employed",
+      "business": 0,
+      "job": 0
    }
   },
   "2": {
