@@ -59,7 +59,7 @@
      }
     },
     "height": {
-     "value": 1.8
+     "millimeters": 1800
     }
    },
    "equipmentMap": {
@@ -128,7 +128,7 @@
      }
     },
     "height": {
-     "value": 1.8
+     "millimeters": 1750
     }
    },
    "equipmentMap": {
@@ -144,10 +144,10 @@
     "building": 2,
     "apartmentIndex": 9
    },
-    "employmentStatus": {
-      "type": "Employed",
-      "business": 0,
-      "job": 0
+   "employmentStatus": {
+    "type": "Employed",
+    "business": 0,
+    "job": 0
    }
   },
   "2": {
@@ -206,7 +206,7 @@
      }
     },
     "height": {
-     "value": 1.8
+     "millimeters": 1800
     }
    }
   }
