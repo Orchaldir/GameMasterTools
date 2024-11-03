@@ -74,6 +74,13 @@ fun State.getCharactersLivingInHouse(building: BuildingId) = getCharacterStorage
     .getAll()
     .filter { c -> c.livingStatus.isLivingInHouse(building) }
 
+fun State.getResident(town: TownId) = getCharacterStorage().getAll()
+    .filter { isResident(it, town) }
+
+fun State.isResident(character: Character, town: TownId) = character.livingStatus.getBuilding()
+    ?.let { getBuildingStorage().getOrThrow(it).lot.town == town }
+    ?: false
+
 // employment status
 
 fun State.getEmployees(job: JobId) = getCharacterStorage()
@@ -83,15 +90,6 @@ fun State.getEmployees(job: JobId) = getCharacterStorage()
 fun State.getEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()
     .filter { c -> c.employmentStatus.isEmployedAt(business) }
-
-// living status
-
-fun State.getResident(town: TownId) = getCharacterStorage().getAll()
-    .filter { isResident(it, town) }
-
-fun State.isResident(character: Character, town: TownId) = character.livingStatus.getBuilding()
-    ?.let { getBuildingStorage().getOrThrow(it).lot.town == town }
-    ?: false
 
 // get relatives
 
@@ -157,7 +155,11 @@ fun State.getAgeInYears(character: Character) = getDefaultCalendar().getYears(ge
 
 fun State.isAlive(id: CharacterId, date: Date) = isAlive(getCharacterStorage().getOrThrow(id), date)
 
-fun State.isAlive(character: Character, date: Date) = getDefaultCalendar().compareTo(character.birthDate, date) <= 0
+fun State.isAlive(character: Character, date: Date) = getDefaultCalendar()
+    .isAfterOrEqual(date, character.birthDate)
+
+fun State.getLiving(date: Date) = getCharacterStorage().getAll()
+    .filter { isAlive(it, date) }
 
 // height
 
