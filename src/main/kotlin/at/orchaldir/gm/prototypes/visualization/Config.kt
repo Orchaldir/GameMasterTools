@@ -13,7 +13,8 @@ import at.orchaldir.gm.visualization.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.equipment.part.OpeningConfig
 
 val RENDER_CONFIG = RenderConfig(
-    Distance(0.1f), LineOptions(Color.Black.toRender(), Distance(0.001f)),
+    Distance(100),
+    LineOptions(Color.Black.toRender(), Distance(1)),
     BodyConfig(
         Factor(0.1f),
         Factor(0.09f),

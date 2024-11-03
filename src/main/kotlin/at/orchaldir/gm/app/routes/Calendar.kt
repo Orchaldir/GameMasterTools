@@ -283,7 +283,7 @@ private fun FORM.editDays(
         DayOfTheMonth -> doNothing()
         is Weekdays -> {
             val minNumber = getMinNumberOfWeekdays(holidays)
-            selectInt("Weekdays", days.weekDays.size, minNumber, 100, combine(WEEK, DAYS), true)
+            selectInt("Weekdays", days.weekDays.size, minNumber, 100, 1, combine(WEEK, DAYS), true)
             days.weekDays.withIndex().forEach { (index, day) ->
                 p {
                     selectText(day.name, combine(WEEK, DAY, index))
@@ -295,14 +295,14 @@ private fun FORM.editDays(
 
 private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
     val minMonths = getMinNumberOfMonths(holidays)
-    selectInt("Months", calendar.months.size, minMonths, 100, MONTHS, true)
+    selectInt("Months", calendar.months.size, minMonths, 100, 1, MONTHS, true)
 
     calendar.months.withIndex().forEach { (index, month) ->
         val minDays = getMinNumberOfDays(holidays, index)
         p {
             selectText(month.name, combine(MONTH, NAME, index))
             +": "
-            selectInt(month.days, minDays, 100, combine(MONTH, DAYS, index))
+            selectInt(month.days, minDays, 100, 1, combine(MONTH, DAYS, index))
             +"days"
         }
     }

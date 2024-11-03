@@ -2,17 +2,38 @@ package at.orchaldir.gm.utils.math
 
 import kotlinx.serialization.Serializable
 
+private const val FACTOR = 1000
+
 @Serializable
-data class Distance(val value: Float) {
+data class Distance(val millimeters: Int) {
 
     init {
-        require(value > 0.0) { "Distance muster be greater 0!" }
+        require(millimeters >= 0) { "Distance must be greater 0!" }
     }
 
-    operator fun plus(other: Distance) = Distance(value + other.value)
-    operator fun minus(other: Distance) = Distance(value - other.value)
-    operator fun times(other: Float) = Distance(value * other)
-    operator fun times(other: Factor) = Distance(value * other.value)
-    operator fun times(other: Int) = Distance(value * other)
+    companion object {
+        fun fromMeters(meters: Float) = Distance(meterToMillimeter(meters))
+    }
+
+    fun metersOnly() = metersOnly(millimeters)
+    fun millimetersOnly() = millimetersOnly(millimeters)
+
+    fun toMeters() = millimeterToMeter(millimeters)
+    override fun toString() = formatMillimetersAsMeters(millimeters)
+
+    operator fun plus(other: Distance) = Distance(millimeters + other.millimeters)
+    operator fun minus(other: Distance) = Distance(millimeters - other.millimeters)
+    operator fun times(factor: Float) = Distance((millimeters * factor).toInt())
+    operator fun times(factor: Factor) = times(factor.value)
+    operator fun times(factor: Int) = Distance(millimeters * factor)
 
 }
+
+fun metersOnly(millimeters: Int) = millimeters / FACTOR
+fun millimetersOnly(millimeters: Int) = millimeters % FACTOR
+
+fun meterToMillimeter(meter: Float) = (meter * FACTOR).toInt()
+fun millimeterToMeter(millimeters: Int) = millimeters / FACTOR.toFloat()
+
+fun formatMillimetersAsMeters(millimeters: Int) =
+    String.format("%d.%03d m", metersOnly(millimeters), millimetersOnly(millimeters))

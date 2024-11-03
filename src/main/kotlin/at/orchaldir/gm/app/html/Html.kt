@@ -125,9 +125,11 @@ fun HtmlBlockTag.showDetails(
 fun HtmlBlockTag.showDistribution(
     label: String,
     distribution: Distribution,
-    unit: String,
 ) {
-    field(label, String.format("%.2f +- %.2f %s", distribution.center, distribution.offset, unit))
+    field(
+        label,
+        String.format("%s +- %s", distribution.center, distribution.offset)
+    )
 }
 
 // lists

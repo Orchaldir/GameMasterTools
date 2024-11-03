@@ -290,7 +290,7 @@ private fun HtmlBlockTag.selectYearIndex(
         Int.MAX_VALUE
     }
 
-    selectInt(year.yearIndex + 1, minIndex, maxIndex, yearParam, true)
+    selectInt(year.yearIndex + 1, minIndex, maxIndex, 1, yearParam, true)
 }
 
 fun HtmlBlockTag.selectMonthIndex(
@@ -368,5 +368,5 @@ private fun HtmlBlockTag.selectDayIndex(
     minMonthIndex: Int,
 ) {
     val month = calendar.months[monthIndex]
-    selectInt(dayIndex + 1, minMonthIndex + 1, month.days, combine(param, DAY), true)
+    selectInt(dayIndex + 1, minMonthIndex + 1, month.days, 1, combine(param, DAY), true)
 }

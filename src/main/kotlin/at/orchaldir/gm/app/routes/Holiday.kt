@@ -221,7 +221,7 @@ private fun FORM.selectRelativeDate(param: String, relativeDate: RelativeDate, c
                     selected = relativeDate.weekdayIndex == index
                 }
             }
-            selectInt("Week", relativeDate.weekInMonthIndex, 0, 2, combine(param, WEEK))
+            selectInt("Week", relativeDate.weekInMonthIndex, 0, 2, 1, combine(param, WEEK))
         }
     }
 }

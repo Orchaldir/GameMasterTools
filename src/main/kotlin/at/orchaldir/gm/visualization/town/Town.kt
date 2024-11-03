@@ -41,7 +41,7 @@ data class TownRenderer(
     )
 
     constructor(town: Town) : this(
-        TileMap2dRenderer(Distance(TILE_SIZE), Distance(1.0f)),
+        TileMap2dRenderer(Distance.fromMeters(TILE_SIZE), Distance.fromMeters(1.0f)),
         town,
     )
 
@@ -85,8 +85,8 @@ data class TownRenderer(
     fun renderStreets(
         render: (AABB, StreetId, Int) -> Unit,
     ) {
-        val right = Point2d(tileRenderer.tileSize.value / 2, 0.0f)
-        val down = Point2d(0.0f, tileRenderer.tileSize.value / 2)
+        val right = Point2d(tileRenderer.tileSize.toMeters() / 2, 0.0f)
+        val down = Point2d(0.0f, tileRenderer.tileSize.toMeters() / 2)
 
         tileRenderer.render(town.map) { index, x, y, aabb, tile ->
             if (tile.construction is StreetTile) {

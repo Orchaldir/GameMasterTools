@@ -19,10 +19,10 @@ fun visualizeGroup(
 ): Svg {
     val number = appearances.size
     val sizes = appearances.map { it.getSize() }
-    val maxSize = sizes.maxBy { it.value }
+    val maxSize = sizes.maxBy { it.toMeters() }
     val groupSize = Size2d(maxSize * number + config.padding * 2, maxSize + config.padding * 2)
     val builder = SvgBuilder(groupSize)
-    var start = Point2d(config.padding, Distance(groupSize.height) - config.padding)
+    var start = Point2d(config.padding, Distance.fromMeters(groupSize.height) - config.padding)
 
     appearances.forEach { appearance ->
         val size = appearance.getSize2d()

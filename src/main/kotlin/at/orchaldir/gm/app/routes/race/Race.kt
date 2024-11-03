@@ -21,6 +21,7 @@ import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
+import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.visualization.character.visualizeGroup
 import io.ktor.http.*
@@ -134,7 +135,7 @@ private fun HTML.showRaceDetails(
         split({
             field("Name", race.name)
             showRarityMap("Gender", race.genders)
-            showDistribution("Height", race.height, "m")
+            showDistribution("Height", race.height)
             showLifeStages(call, state, race)
             h2 { +"Characters" }
             showList(state.getCharacters(race.id)) { character ->
@@ -249,7 +250,16 @@ private fun HTML.showRaceEditor(
                 method = FormMethod.post
                 selectName(race.name)
                 selectRarityMap("Gender", GENDER, race.genders)
-                selectDistribution("Height", HEIGHT, race.height, 0.1f, 5.0f, 1.0f, 0.01f, "m", true)
+                selectDistribution(
+                    "Height",
+                    HEIGHT,
+                    race.height,
+                    Distance(100),
+                    Distance(5000),
+                    Distance(1000),
+                    Distance(10),
+                    true
+                )
                 editLifeStages(state, race)
                 button("Update", updateLink)
             }
@@ -324,7 +334,7 @@ private fun FORM.editLifeStages(
 }
 
 private fun FORM.selectNumberOfLifeStages(number: Int) {
-    selectInt("Weekdays", number, 2, 100, LIFE_STAGE, true)
+    selectInt("Weekdays", number, 2, 100, 1, LIFE_STAGE, true)
 }
 
 private fun LI.selectStageName(
@@ -339,7 +349,7 @@ private fun LI.selectMaxAge(
     index: Int,
     maxAge: Int?,
 ) {
-    selectInt("Max Age", maxAge ?: 0, minMaxAge, 10000, combine(LIFE_STAGE, AGE, index))
+    selectInt("Max Age", maxAge ?: 0, minMaxAge, 10000, 1, combine(LIFE_STAGE, AGE, index))
 }
 
 private fun LI.selectRelativeSize(

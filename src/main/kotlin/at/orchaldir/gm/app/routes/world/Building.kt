@@ -337,7 +337,7 @@ fun FORM.selectPurpose(state: State, building: Building) {
     when (purpose) {
         is ApartmentHouse -> {
             val min = state.getMinNumberOfApartment(building.id)
-            selectInt("Apartments", purpose.apartments, min, 1000, combine(PURPOSE, NUMBER), true)
+            selectInt("Apartments", purpose.apartments, min, 1000, 1, combine(PURPOSE, NUMBER), true)
         }
 
         is SingleBusiness -> {
@@ -372,8 +372,8 @@ private fun HTML.showBuildingLotEditor(
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectInt("Width", size.width, 1, 10, WIDTH, true)
-                selectInt("Height", size.height, 1, 10, HEIGHT, true)
+                selectInt("Width", size.width, 1, 10, 1, WIDTH, true)
+                selectInt("Height", size.height, 1, 10, 1, HEIGHT, true)
             }
             back(backLink)
         }, {
@@ -402,6 +402,7 @@ private fun FORM.selectAddress(state: State, building: Building) {
                 address.streets.size,
                 2,
                 min(3, streets.size),
+                1,
                 combine(ADDRESS, STREET, NUMBER),
                 true
             )

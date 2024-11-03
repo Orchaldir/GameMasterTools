@@ -16,7 +16,7 @@ fun convertCircleArcToPath(
     return String.format(
         LOCALE,
         "M %.3f %.3f A %.3f %.3f 0 0 0 %.3f %.3f Z",
-        start.x, start.y, radius.value, radius.value, end.x, end.y
+        start.x, start.y, radius.toMeters(), radius.toMeters(), end.x, end.y
     )
 }
 
@@ -27,14 +27,16 @@ fun convertLineToPath(line: List<Point2d>): String {
 }
 
 fun convertPointedOvalToPath(center: Point2d, radiusX: Distance, radiusY: Distance): String {
-    val radius = (radiusX.value.pow(2.0f) + radiusY.value.pow(2.0f)) / (2.0f * min(radiusX.value, radiusY.value))
+    val metersX = radiusX.toMeters()
+    val metersY = radiusY.toMeters()
+    val radius = (metersX.pow(2.0f) + metersY.pow(2.0f)) / (2.0f * min(metersX, metersY))
     val aabb = AABB.fromRadii(center, radiusX, radiusY)
-    val left = if (radiusX.value > radiusY.value) {
+    val left = if (metersX > metersY) {
         aabb.getPoint(START, CENTER)
     } else {
         aabb.getPoint(CENTER, START)
     }
-    val right = if (radiusX.value > radiusY.value) {
+    val right = if (metersX > metersY) {
         aabb.getPoint(END, CENTER)
     } else {
         aabb.getPoint(CENTER, END)

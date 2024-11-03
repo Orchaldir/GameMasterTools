@@ -17,7 +17,7 @@ fun main() {
     val config = RENDER_CONFIG
     val columns: List<Size> = Size.entries
     val rows: List<EarShape> = EarShape.entries
-    val height = Distance(0.2f)
+    val height = Distance(200)
     val size = calculateSizeFromHeight(config, height)
     val totalSize = Size2d(size.width * columns.size, size.height * rows.size)
     val builder = SvgBuilder(totalSize)

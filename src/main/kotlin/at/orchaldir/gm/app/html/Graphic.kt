@@ -68,7 +68,7 @@ fun FORM.selectFill(fill: Fill) {
 private fun FORM.selectStripes(color0: Color, color1: Color, width: UByte) {
     selectColor(color0, "1.Stripe Color", combine(FILL, COLOR, 0), Color.entries - color1)
     selectColor(color1, "2.Stripe Color", combine(FILL, COLOR, 1), Color.entries - color0)
-    selectInt("Stripe Width", width.toInt(), 1, 10, combine(PATTERN, WIDTH), true)
+    selectInt("Stripe Width", width.toInt(), 1, 10, 1, combine(PATTERN, WIDTH), true)
 }
 
 fun FORM.selectColor(

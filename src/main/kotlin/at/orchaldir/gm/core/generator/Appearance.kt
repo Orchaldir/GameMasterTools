@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.NumberGenerator
-import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Distribution
 
 data class AppearanceGeneratorConfig(
@@ -23,18 +22,17 @@ data class AppearanceGeneratorConfig(
 ) {
     fun generate(): Appearance {
         val skin = generateSkin(this)
-        val height = Distance(heightDistribution.center)
 
         return when (generate(appearanceOptions.appearanceTypes)) {
             AppearanceType.Body -> HumanoidBody(
                 generateBody(this, skin),
                 generateHead(this, skin),
-                height,
+                heightDistribution.center,
             )
 
             AppearanceType.HeadOnly -> HeadOnly(
                 generateHead(this, skin),
-                height,
+                heightDistribution.center,
             )
         }
     }

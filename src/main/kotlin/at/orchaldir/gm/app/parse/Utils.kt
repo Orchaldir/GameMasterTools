@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.getDefaultCalendar
+import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
@@ -230,8 +231,8 @@ private fun parseWidth(parameters: Parameters) = parseUByte(parameters, combine(
 //
 
 fun parseDistribution(parameters: Parameters, param: String) = Distribution(
-    parseFloat(parameters, combine(param, CENTER)),
-    parseFloat(parameters, combine(param, OFFSET)),
+    Distance(parseInt(parameters, combine(param, CENTER))),
+    Distance(parseInt(parameters, combine(param, OFFSET))),
 )
 
 fun parseBool(parameters: Parameters, param: String, default: Boolean = false) =

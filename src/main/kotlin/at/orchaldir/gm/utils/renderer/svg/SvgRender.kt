@@ -23,7 +23,7 @@ class SvgRenderer(
             "cx=\"%.3f\" cy=\"%.3f\" r=\"%.3f\" style=\"%s\"",
             center.x,
             center.y,
-            radius.value,
+            radius.toMeters(),
             toSvg(options),
         )
 
@@ -53,8 +53,8 @@ class SvgRenderer(
             "cx=\"%.3f\" cy=\"%.3f\" rx=\"%.3f\" ry=\"%.3f\" style=\"%s\"",
             center.x,
             center.y,
-            radiusX.value,
-            radiusY.value,
+            radiusX.toMeters(),
+            radiusY.toMeters(),
             toSvg(options),
         )
 
@@ -190,7 +190,7 @@ class SvgRenderer(
 
     private fun toSvg(line: LineOptions): String {
         return String.format(
-            LOCALE, "stroke:%s;stroke-width:%.3f", toSvg(line.color), line.width.value
+            LOCALE, "stroke:%s;stroke-width:%.3f", toSvg(line.color), line.width.toMeters()
         )
     }
 

@@ -81,5 +81,5 @@ data class TileMap2dRenderer(
     fun <TILE> calculateTilePosition(map: TileMap2d<TILE>, index: Int) =
         calculateTilePosition(map.size.toX(index), map.size.toY(index))
 
-    fun calculateTilePosition(x: Int, y: Int) = Point2d(tileSize.value * x, tileSize.value * y)
+    fun calculateTilePosition(x: Int, y: Int) = Point2d(tileSize.toMeters() * x, tileSize.toMeters() * y)
 }

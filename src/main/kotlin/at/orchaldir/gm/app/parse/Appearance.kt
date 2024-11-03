@@ -64,7 +64,7 @@ fun parseAppearance(
 private fun parseHeight(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
-) = Distance(parseFloat(parameters, HEIGHT, config.heightDistribution.center))
+) = Distance(parseInt(parameters, HEIGHT, config.heightDistribution.center.millimeters))
 
 private fun parseBody(
     parameters: Parameters,

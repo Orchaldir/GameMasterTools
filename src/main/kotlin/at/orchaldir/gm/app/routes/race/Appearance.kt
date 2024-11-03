@@ -303,7 +303,7 @@ fun createGeneratorConfig(
         RandomNumberGenerator(Random),
         state.rarityGenerator,
         gender,
-        Distribution(1.0f, 0.0f),
+        Distribution.fromMeters(1.0f, 0.0f),
         appearance,
         culture.appearanceStyle
     )

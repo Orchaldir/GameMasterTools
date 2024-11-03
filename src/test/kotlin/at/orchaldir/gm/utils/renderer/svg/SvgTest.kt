@@ -46,7 +46,7 @@ class SvgTest {
         @Test
         fun `Render a circle`() {
             val builder = SvgBuilder(Size2d(100.0f, 150.0f))
-            builder.getLayer().renderCircle(Point2d(110.0f, 220.0f), Distance(10.0f), options)
+            builder.getLayer().renderCircle(Point2d(110.0f, 220.0f), Distance(10000), options)
 
             testCircle(builder)
         }

@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.selectDistance
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.createGenerationConfig
 import at.orchaldir.gm.app.parse.generateAppearance
@@ -151,10 +152,7 @@ private fun FORM.editHeight(
     maxHeight: Distance,
 ) {
     val race = state.getRaceStorage().getOrThrow(character.race)
-    field("Max Height") {
-        selectFloat(maxHeight.value, race.height.getMin(), race.height.getMax(), 0.01f, HEIGHT)
-        +" m"
-    }
+    selectDistance("Max Height", HEIGHT, maxHeight, race.height.getMin(), race.height.getMax(), Distance(10))
     showCurrentHeight(state, character, maxHeight)
 }
 

@@ -10,7 +10,7 @@ class Size2dTest {
         val result = Size2d(5.0f, 5.0f)
 
         assertEquals(result, Size2d.square(5.0f))
-        assertEquals(result, Size2d.square(Distance(5.0f)))
+        assertEquals(result, Size2d.square(Distance(5000)))
     }
 
     @Test

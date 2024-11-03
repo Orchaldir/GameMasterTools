@@ -53,7 +53,7 @@ fun <C, R> renderTable(
     backToo: Boolean = false,
     create: (Distance, C, R) -> Pair<Appearance, List<Equipment>>,
 ) {
-    val height = Distance(0.2f)
+    val height = Distance(200)
     val size = config.calculateSize(height)
     val rowSize = if (backToo) {
         2

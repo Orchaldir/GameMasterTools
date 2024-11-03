@@ -16,7 +16,7 @@ fun main() {
     renderTable("eyes.svg", RENDER_CONFIG, appearances)
 }
 
-private fun createAppearance(eyes: Eyes) = HeadOnly(Head(eyes = eyes, skin = ExoticSkin()), Distance(0.2f))
+private fun createAppearance(eyes: Eyes) = HeadOnly(Head(eyes = eyes, skin = ExoticSkin()), Distance(200))
 
 private fun createRow(eye: Eye) =
     listOf(OneEye(eye, Size.Small), OneEye(eye, Size.Medium), OneEye(eye, Size.Large), TwoEyes(eye))

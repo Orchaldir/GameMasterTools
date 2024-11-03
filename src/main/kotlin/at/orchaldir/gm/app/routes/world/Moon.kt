@@ -161,7 +161,7 @@ private fun HTML.showMoonEditor(
     simpleHtml("Edit Moon: ${moon.name}") {
         form {
             selectName(moon.name)
-            selectInt("Days per Quarter", moon.daysPerQuarter, 1, 100, LENGTH, false)
+            selectInt("Days per Quarter", moon.daysPerQuarter, 1, 100, 1, LENGTH, false)
             selectColor("Color", COLOR, OneOf(Color.entries), moon.color)
             button("Update", updateLink)
         }
