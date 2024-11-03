@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.Ownership
+import at.orchaldir.gm.core.model.world.building.BuildByBusiness
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.building.SingleBusiness
@@ -56,6 +57,18 @@ class BusinessTest {
             val state = createState(Building(BUILDING0, purpose = SingleBusiness(ID0)))
 
             assertIllegalArgument("Cannot delete business 0, because it has a building!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
+        @Test
+        fun `Cannot delete a business that build a building`() {
+            val state = createState(Building(BUILDING0, builder = BuildByBusiness(ID0)))
+
+            assertIllegalArgument("Cannot delete business 0, because it has build a building!") {
                 REDUCER.invoke(
                     state,
                     action

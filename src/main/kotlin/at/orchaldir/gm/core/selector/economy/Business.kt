@@ -13,8 +13,11 @@ import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.world.getBuilding
+import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 
-fun State.canDelete(id: BusinessId) = getBuilding(id) == null && getEmployees(id).isEmpty()
+fun State.canDelete(id: BusinessId) = getBuilding(id) == null
+        && getEmployees(id).isEmpty()
+        && getBuildingsBuildBy(id).isEmpty()
 
 fun State.isOpen(business: Business, date: Date) = getDefaultCalendar()
     .isAfterOrEqual(date, business.startDate)

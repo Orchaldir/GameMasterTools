@@ -48,6 +48,9 @@ fun State.getBuildings(town: TownId) = getBuildingStorage().getAll()
 
 // builder
 
+fun State.getBuildingsBuildBy(business: BusinessId) = getBuildingStorage().getAll()
+    .filter { it.builder is BuildByBusiness && it.builder.business == business }
+
 fun State.getBuildingsBuildBy(character: CharacterId) = getBuildingStorage().getAll()
     .filter { it.builder is BuildByCharacter && it.builder.character == character }
 
