@@ -21,6 +21,8 @@ import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.building.SingleBusiness
 import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -51,12 +53,7 @@ class BusinessTest {
 
         @Test
         fun `Cannot delete a business used by a building`() {
-            val state = State(
-                listOf(
-                    Storage(Building(BUILDING0, purpose = SingleBusiness(ID0))),
-                    Storage(Business(ID0)),
-                )
-            )
+            val state = createState(Building(BUILDING0, purpose = SingleBusiness(ID0)))
 
             assertIllegalArgument("Cannot delete business 0, because it has a building!") {
                 REDUCER.invoke(
@@ -68,12 +65,7 @@ class BusinessTest {
 
         @Test
         fun `Cannot delete a business where a character is employed`() {
-            val state = State(
-                listOf(
-                    Storage(Business(ID0)),
-                    Storage(Character(CHARACTER0, employmentStatus = Employed(ID0, JobId(0)))),
-                )
-            )
+            val state = createState(Character(CHARACTER0, employmentStatus = Employed(ID0, JobId(0))))
             val action = DeleteBusiness(ID0)
 
             assertIllegalArgument("Cannot delete business 0, because it has employees!") {
@@ -83,6 +75,13 @@ class BusinessTest {
                 )
             }
         }
+
+        private fun <ID : Id<ID>, ELEMENT : Element<ID>> createState(element: ELEMENT) = State(
+            listOf(
+                Storage(listOf(Business(ID0))),
+                Storage(listOf(element))
+            )
+        )
     }
 
     @Nested
@@ -114,7 +113,7 @@ class BusinessTest {
         }
 
         @Test
-        fun `Success`() {
+        fun `Test Success`() {
             val business = Business(ID0, "Test")
             val action = UpdateBusiness(business)
 

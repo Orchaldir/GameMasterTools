@@ -165,15 +165,12 @@ class CharacterTest {
             }
         }
 
-        private fun <ID : Id<ID>, ELEMENT : Element<ID>> createState(element: ELEMENT): State {
-            val state = State(
+        private fun <ID : Id<ID>, ELEMENT : Element<ID>> createState(element: ELEMENT) = State(
                 listOf(
                     Storage(listOf(Character(ID0))),
                     Storage(listOf(element))
                 )
             )
-            return state
-        }
 
         @Nested
         inner class DeleteFamilyMemberTest {
