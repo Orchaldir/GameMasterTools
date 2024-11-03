@@ -32,19 +32,17 @@ class BusinessTest {
 
     @Nested
     inner class DeleteTest {
+        val action = DeleteBusiness(ID0)
 
         @Test
         fun `Can delete an existing business`() {
             val state = State(Storage(Business(ID0)))
-            val action = DeleteBusiness(ID0)
 
             assertEquals(0, REDUCER.invoke(state, action).first.getBusinessStorage().getSize())
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            val action = DeleteBusiness(ID0)
-
             assertIllegalArgument("Requires unknown Business 0!") { REDUCER.invoke(State(), action) }
         }
 
@@ -56,7 +54,6 @@ class BusinessTest {
                     Storage(Business(ID0)),
                 )
             )
-            val action = DeleteBusiness(ID0)
 
             assertIllegalArgument("Cannot delete business 0, because it has a building!") {
                 REDUCER.invoke(
@@ -114,7 +111,7 @@ class BusinessTest {
         }
 
         @Test
-        fun `Business exists`() {
+        fun `Success`() {
             val business = Business(ID0, "Test")
             val action = UpdateBusiness(business)
 
