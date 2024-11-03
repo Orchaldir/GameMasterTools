@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
+import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
@@ -231,6 +232,7 @@ private fun HTML.showCharacterDetails(
         showData(character, call, state)
         showSocial(call, state, character)
         showPossession(call, state, character)
+        showCrafting(call, state, character)
 
         back(backLink)
     }
@@ -341,6 +343,22 @@ private fun HtmlBlockTag.showAge(
     }
 }
 
+private fun BODY.showCrafting(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    h2 { +"Crafting" }
+
+    showList("Buildings", state.getBuildingsBuildBy(character.id)) { building ->
+        link(call, state, building)
+    }
+
+    showList("Invented Languages", state.getInventedLanguages(character.id)) { language ->
+        link(call, language)
+    }
+}
+
 private fun BODY.showSocial(
     call: ApplicationCall,
     state: State,
@@ -395,15 +413,9 @@ fun BODY.showLanguages(
     state: State,
     character: Character,
 ) {
-    val inventedLanguages = state.getInventedLanguages(character.id)
-
     showMap("Known Languages", character.languages) { id, level ->
         link(call, state, id)
         +": $level"
-    }
-
-    showList("Invented Languages", inventedLanguages) { language ->
-        link(call, language)
     }
 }
 

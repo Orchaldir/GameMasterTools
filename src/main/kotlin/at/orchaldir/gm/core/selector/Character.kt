@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
+import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.utils.math.Distance
@@ -31,6 +32,7 @@ fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
         && getPreviouslyOwnedBuildings(character).isEmpty()
         && getOwnedBusinesses(character).isEmpty()
         && getPreviouslyOwnedBusinesses(character).isEmpty()
+        && getBuildingsBuildBy(character).isEmpty()
 
 // count
 

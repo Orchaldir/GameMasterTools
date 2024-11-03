@@ -29,6 +29,7 @@ import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.core.model.util.PreviousOwner
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
+import at.orchaldir.gm.core.model.world.building.BuildByCharacter
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -107,6 +108,15 @@ class CharacterTest {
             )
 
             assertIllegalArgument("Cannot delete character 0, because he is an language inventor!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a builder`() {
+            val state = createState(Building(BUILDING0, builder = BuildByCharacter(ID0)))
+
+            assertIllegalArgument("Cannot delete character 0, because he is a builder!") {
                 REDUCER.invoke(state, action)
             }
         }

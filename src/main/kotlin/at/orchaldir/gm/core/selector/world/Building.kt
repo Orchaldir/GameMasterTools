@@ -46,6 +46,11 @@ fun State.getBuildings(style: ArchitecturalStyleId) = getBuildingStorage()
 fun State.getBuildings(town: TownId) = getBuildingStorage().getAll()
     .filter { it.lot.town == town }
 
+// builder
+
+fun State.getBuildingsBuildBy(character: CharacterId) = getBuildingStorage().getAll()
+    .filter { it.builder is BuildByCharacter && it.builder.character == character }
+
 // owner
 
 fun State.getOwnedBuildings(character: CharacterId) = getBuildingStorage().getAll()
