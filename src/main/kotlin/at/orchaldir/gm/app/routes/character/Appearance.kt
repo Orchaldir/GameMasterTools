@@ -152,7 +152,7 @@ private fun FORM.editHeight(
     maxHeight: Distance,
 ) {
     val race = state.getRaceStorage().getOrThrow(character.race)
-    selectDistance("Max Height", HEIGHT, maxHeight, race.height.getMin(), race.height.getMax())
+    selectDistance("Max Height", HEIGHT, maxHeight, race.height.getMin(), race.height.getMax(), 10)
     showCurrentHeight(state, character, maxHeight)
 }
 

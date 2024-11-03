@@ -1,11 +1,7 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.HEIGHT
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.routes.character.showCurrentHeight
-import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
 
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.metersOnly
@@ -27,10 +23,11 @@ fun FORM.selectDistance(
     text: String,
     param: String,
     distance: Distance,
-    min: Int,
-    max: Int,
+    minValue: Int,
+    maxVale: Int,
+    stepValue: Int = 1,
 ) {
-    val values = (min..max).toList()
+    val values = (minValue..maxVale step stepValue).toList()
     selectValue(text, param, values) { height ->
         label = formatMillimetersAsMeters(height)
         value = height.toString()
