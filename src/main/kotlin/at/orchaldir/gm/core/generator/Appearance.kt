@@ -23,18 +23,17 @@ data class AppearanceGeneratorConfig(
 ) {
     fun generate(): Appearance {
         val skin = generateSkin(this)
-        val height = Distance(heightDistribution.center)
 
         return when (generate(appearanceOptions.appearanceTypes)) {
             AppearanceType.Body -> HumanoidBody(
                 generateBody(this, skin),
                 generateHead(this, skin),
-                height,
+                heightDistribution.center,
             )
 
             AppearanceType.HeadOnly -> HeadOnly(
                 generateHead(this, skin),
-                height,
+                heightDistribution.center,
             )
         }
     }

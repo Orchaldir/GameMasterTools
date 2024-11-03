@@ -3,12 +3,14 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.CENTER
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.OFFSET
+import at.orchaldir.gm.app.html.model.selectDistance
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Distribution
 import kotlinx.html.*
 
@@ -106,18 +108,16 @@ fun FORM.selectDistribution(
     label: String,
     param: String,
     distribution: Distribution,
-    min: Int,
-    max: Int,
-    maxOffset: Int,
-    step: Int,
-    unit: String,
+    min: Distance,
+    max: Distance,
+    maxOffset: Distance,
+    step: Distance = Distance(1),
     update: Boolean = false,
 ) {
     field(label) {
-        selectInt(distribution.center, min, max, step, combine(param, CENTER), update)
+        selectDistance(combine(param, CENTER), distribution.center, min, max, step, update)
         +" +- "
-        selectInt(distribution.offset, 0, maxOffset, step, combine(param, OFFSET), update)
-        +" $unit"
+        selectDistance(combine(param, OFFSET), distribution.offset, Distance(0), maxOffset, step, update)
     }
 }
 
@@ -159,16 +159,25 @@ fun <T> HtmlBlockTag.selectValue(
     content: OPTION.(T) -> Unit,
 ) {
     field(label) {
-        select {
-            id = selectId
-            name = selectId
-            if (update) {
-                onChange = ON_CHANGE_SCRIPT
-            }
-            values.forEach { value ->
-                option {
-                    content(value)
-                }
+        selectValue(selectId, values, update, content)
+    }
+}
+
+fun <T> HtmlBlockTag.selectValue(
+    selectId: String,
+    values: Collection<T>,
+    update: Boolean = false,
+    content: OPTION.(T) -> Unit,
+) {
+    select {
+        id = selectId
+        name = selectId
+        if (update) {
+            onChange = ON_CHANGE_SCRIPT
+        }
+        values.forEach { value ->
+            option {
+                content(value)
             }
         }
     }

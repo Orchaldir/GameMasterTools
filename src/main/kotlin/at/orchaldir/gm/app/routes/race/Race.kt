@@ -21,6 +21,7 @@ import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
+import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.visualization.character.visualizeGroup
 import io.ktor.http.*
@@ -249,7 +250,16 @@ private fun HTML.showRaceEditor(
                 method = FormMethod.post
                 selectName(race.name)
                 selectRarityMap("Gender", GENDER, race.genders)
-                selectDistribution("Height", HEIGHT, race.height, 100, 5000, 1000, 10, "m", true)
+                selectDistribution(
+                    "Height",
+                    HEIGHT,
+                    race.height,
+                    Distance(100),
+                    Distance(5000),
+                    Distance(1000),
+                    Distance(10),
+                    true
+                )
                 editLifeStages(state, race)
                 button("Update", updateLink)
             }

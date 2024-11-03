@@ -4,12 +4,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Distribution(
-    val center: Int,
-    val offset: Int,
+    val center: Distance,
+    val offset: Distance,
 ) {
     companion object {
         fun fromMeters(center: Float, offset: Float) =
-            Distribution(meterToMillimeter(center), meterToMillimeter(offset))
+            Distribution(Distance.fromMeters(center), Distance.fromMeters(offset))
     }
 
     fun getMin() = center - offset
