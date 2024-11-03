@@ -69,7 +69,7 @@ fun visualizeAppearance(
         }
 
         UndefinedAppearance -> {
-            val height = state.config.padding.value * 1.5f
+            val height = state.config.padding.toMeters() * 1.5f
             val options = TextOptions(Black.toRender(), 2.0f * height)
             val center = state.aabb.getCenter() + Point2d(0.0f, height * 0.5f)
             state.renderer.getLayer().renderText("?", center, Orientation.zero(), options)

@@ -11,7 +11,7 @@ sealed class Appearance {
     fun getSize() = when (this) {
         is HeadOnly -> this.height
         is HumanoidBody -> this.height
-        UndefinedAppearance -> Distance(1.0f)
+        UndefinedAppearance -> Distance.fromMeters(1.0f)
     }
 
     fun getSize2d() = Size2d.square(getSize())

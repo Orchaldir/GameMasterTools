@@ -79,6 +79,7 @@ fun FORM.selectLivingStatus(
                     livingStatus.apartmentIndex,
                     0,
                     apartmentHouse.purpose.apartments - 1,
+                    1,
                     combine(HOME, NUMBER),
                 )
             }

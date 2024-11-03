@@ -311,7 +311,7 @@ private fun BODY.showHeight(
     character: Character,
     maxHeight: Distance,
 ) {
-    field("Max Height", String.format("%.2f m", maxHeight.value))
+    fieldDistance("Max Height", maxHeight)
     showCurrentHeight(state, character, maxHeight)
 }
 
@@ -321,7 +321,7 @@ fun HtmlBlockTag.showCurrentHeight(
     maxHeight: Distance,
 ) {
     val currentHeight = state.scaleHeightByAge(character, maxHeight)
-    field("Current Height", String.format("%.2f m", currentHeight.value))
+    fieldDistance("Current Height", currentHeight)
 }
 
 private fun BODY.showCauseOfDeath(cause: String) {

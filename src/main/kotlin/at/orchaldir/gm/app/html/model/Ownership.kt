@@ -48,7 +48,7 @@ fun FORM.selectOwnership(
     startDate: Date,
 ) {
     val previousOwnersParam = combine(OWNER, HISTORY)
-    selectInt("Previous Owners", ownership.previousOwners.size, 0, 100, previousOwnersParam, true)
+    selectInt("Previous Owners", ownership.previousOwners.size, 0, 100, 1, previousOwnersParam, true)
     var minDate = startDate.next()
 
     showListWithIndex(ownership.previousOwners) { index, previous ->

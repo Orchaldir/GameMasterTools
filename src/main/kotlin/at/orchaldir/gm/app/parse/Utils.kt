@@ -230,8 +230,8 @@ private fun parseWidth(parameters: Parameters) = parseUByte(parameters, combine(
 //
 
 fun parseDistribution(parameters: Parameters, param: String) = Distribution(
-    parseFloat(parameters, combine(param, CENTER)),
-    parseFloat(parameters, combine(param, OFFSET)),
+    parseInt(parameters, combine(param, CENTER)),
+    parseInt(parameters, combine(param, OFFSET)),
 )
 
 fun parseBool(parameters: Parameters, param: String, default: Boolean = false) =

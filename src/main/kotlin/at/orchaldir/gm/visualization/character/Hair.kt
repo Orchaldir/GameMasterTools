@@ -145,7 +145,7 @@ private fun visualizeSpikedHair(
     val points = mutableListOf<Point2d>()
     val spikes = 8
     val topPoints = splitLine(topLeft, topRight, spikes)
-    val down = Point2d(0.0f, state.aabb.convertHeight(state.config.head.hair.spikedHeight).value)
+    val down = Point2d(0.0f, state.aabb.convertHeight(state.config.head.hair.spikedHeight).toMeters())
 
     for (i in 0..spikes) {
         val spike = topPoints[i]

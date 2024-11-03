@@ -419,7 +419,7 @@ private fun FORM.selectOpeningStyle(openingStyle: OpeningStyle) {
 }
 
 private fun FORM.selectButtons(buttonColumn: ButtonColumn) {
-    selectInt("Button Count", buttonColumn.count.toInt(), 1, 20, BUTTON_COUNT, true)
+    selectInt("Button Count", buttonColumn.count.toInt(), 1, 20, 1, BUTTON_COUNT, true)
     selectColor(buttonColumn.button.color, "Button Color", BUTTON_COLOR)
     selectValue("Button Size", BUTTON_SIZE, Size.entries, true) { size ->
         label = size.name
@@ -450,7 +450,7 @@ private fun FORM.selectMaterial(
 private fun BODY.visualizeItem(template: ItemTemplate) {
     if (template.equipment.getType() != EquipmentType.None) {
         val equipped = listOf(template.equipment)
-        val appearance = HumanoidBody(Body(), Head(), Distance(1.0f))
+        val appearance = HumanoidBody(Body(), Head(), Distance.fromMeters(1.0f))
         val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance, equipped)
         val backSvg = visualizeCharacter(RENDER_CONFIG, appearance, equipped, false)
         svg(frontSvg, 20)

@@ -106,17 +106,17 @@ fun FORM.selectDistribution(
     label: String,
     param: String,
     distribution: Distribution,
-    min: Float,
-    max: Float,
-    maxOffset: Float,
-    step: Float,
+    min: Int,
+    max: Int,
+    maxOffset: Int,
+    step: Int,
     unit: String,
     update: Boolean = false,
 ) {
     field(label) {
-        selectFloat(distribution.center, min, max, step, combine(param, CENTER), update)
+        selectInt(distribution.center, min, max, step, combine(param, CENTER), update)
         +" +- "
-        selectFloat(distribution.offset, 0.0f, maxOffset, step, combine(param, OFFSET), update)
+        selectInt(distribution.offset, 0, maxOffset, step, combine(param, OFFSET), update)
         +" $unit"
     }
 }
@@ -266,11 +266,12 @@ fun HtmlBlockTag.selectInt(
     number: Int,
     minNumber: Int,
     maxNumber: Int,
+    stepNumber: Int,
     param: String,
     update: Boolean = false,
 ) {
     field(label) {
-        selectInt(number, minNumber, maxNumber, param, update)
+        selectInt(number, minNumber, maxNumber, stepNumber, param, update)
     }
 }
 
@@ -278,12 +279,14 @@ fun HtmlBlockTag.selectInt(
     number: Int,
     minNumber: Int,
     maxNumber: Int,
+    stepNumber: Int,
     param: String,
     update: Boolean = false,
 ) {
     numberInput(name = param) {
         min = "$minNumber"
         max = "$maxNumber"
+        step = stepNumber.toString()
         value = number.toString()
         if (update) {
             onChange = ON_CHANGE_SCRIPT

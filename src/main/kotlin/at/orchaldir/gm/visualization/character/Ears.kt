@@ -60,10 +60,10 @@ private fun visualizePointedSideways(
 ) {
     val center = state.aabb.getPoint(Factor(1.0f), state.config.head.earY)
     val radius = state.config.head.ears.getRoundRadius(state.aabb, size)
-    val offset = Point2d(0.0f, radius.value)
+    val offset = Point2d(0.0f, radius.toMeters())
     val top = center - offset
     val bottom = center + offset
-    val length = radius.value * state.config.head.ears.pointedLength.value
+    val length = radius.toMeters() * state.config.head.ears.pointedLength.value
     val tip = top + Point2d(length, 0.0f)
 
     renderMirroredPolygons(state.renderer.getLayer(), option, state.aabb, listOf(top, bottom, tip))
@@ -75,13 +75,13 @@ private fun visualizePointedUpwards(
     option: RenderOptions,
 ) {
     val center = state.aabb.getPoint(Factor(1.0f), state.config.head.earY)
-    val radius = state.config.head.ears.getRoundRadius(state.aabb, size)
-    val offset = Point2d(0.0f, radius.value)
+    val radius = state.config.head.ears.getRoundRadius(state.aabb, size).toMeters()
+    val offset = Point2d(0.0f, radius)
     val top = center - offset
     val bottom = center + offset
-    val length = radius.value * state.config.head.ears.pointedLength.value
-    val outerTop = top + Point2d(radius.value, -length)
-    val outerBottom = bottom + Point2d(radius.value, -radius.value)
+    val length = radius * state.config.head.ears.pointedLength.value
+    val outerTop = top + Point2d(radius, -length)
+    val outerBottom = bottom + Point2d(radius, -radius)
 
     renderMirroredPolygons(state.renderer.getLayer(), option, state.aabb, listOf(top, bottom, outerBottom, outerTop))
 }
