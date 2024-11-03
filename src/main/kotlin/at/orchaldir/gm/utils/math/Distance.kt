@@ -8,7 +8,7 @@ private const val FACTOR = 1000
 data class Distance(val millimeters: Int) {
 
     init {
-        require(millimeters > 0) { "Distance must be greater 0!" }
+        require(millimeters >= 0) { "Distance must be greater 0!" }
     }
 
     companion object {
