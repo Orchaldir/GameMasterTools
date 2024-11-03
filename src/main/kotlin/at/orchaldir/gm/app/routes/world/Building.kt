@@ -241,6 +241,7 @@ private fun HTML.showBuildingDetails(
             fieldAddress(call, state, building)
             field(call, state, "Construction", building.constructionDate)
             fieldAge("Age", state.getAgeInYears(building))
+            showBuilder(call, state, building.builder)
             showOwnership(call, state, building.ownership)
             field("Size", building.lot.size.format())
             fieldLink("Architectural Style", call, state, building.architecturalStyle)
@@ -312,6 +313,7 @@ private fun HTML.showBuildingEditor(
                     selected = s.id == building.architecturalStyle
                 }
                 selectPurpose(state, building)
+                selectBuilder(state, building.builder)
                 button("Update", updateLink)
             }
             back(backLink)

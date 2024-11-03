@@ -206,6 +206,7 @@ data class UpdateBuilding(
     val ownership: Ownership,
     val style: ArchitecturalStyleId,
     val purpose: BuildingPurpose,
+    val builder: Builder,
 ) : WorldAction() {
 
     fun applyTo(building: Building) = building.copy(
@@ -215,6 +216,7 @@ data class UpdateBuilding(
         ownership = ownership,
         architecturalStyle = style,
         purpose = purpose,
+        builder = builder,
     )
 }
 
