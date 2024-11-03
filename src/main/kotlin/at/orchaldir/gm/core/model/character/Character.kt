@@ -1,12 +1,14 @@
 package at.orchaldir.gm.core.model.character
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.util.ElementWithComplexName
@@ -74,6 +76,14 @@ data class Character(
         }
 
         return currentDay.getDurationBetween(birthDate)
+    }
+
+    fun isAlive(calendar: Calendar, date: Date): Boolean {
+        if (calendar.isAfterOrEqual(date, birthDate) && vitalStatus is Dead) {
+            return calendar.isAfter(date, vitalStatus.deathDay)
+        }
+
+        return false
     }
 
 }

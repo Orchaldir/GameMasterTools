@@ -155,8 +155,8 @@ fun State.getAgeInYears(character: Character) = getDefaultCalendar().getYears(ge
 
 fun State.isAlive(id: CharacterId, date: Date) = isAlive(getCharacterStorage().getOrThrow(id), date)
 
-fun State.isAlive(character: Character, date: Date) = getDefaultCalendar()
-    .isAfterOrEqual(date, character.birthDate)
+fun State.isAlive(character: Character, date: Date) = character
+    .isAlive(getDefaultCalendar(), date)
 
 fun State.getLiving(date: Date) = getCharacterStorage().getAll()
     .filter { isAlive(it, date) }
