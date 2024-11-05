@@ -3,7 +3,9 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.BUILDER
 import at.orchaldir.gm.app.BUSINESS
 import at.orchaldir.gm.app.CHARACTER
+import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.fieldLink
+import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.economy.parseBusinessId
@@ -11,6 +13,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseCharacterId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.core.selector.getLiving
@@ -20,15 +23,25 @@ import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
+fun HtmlBlockTag.fieldBuilder(
+    call: ApplicationCall,
+    state: State,
+    builder: Builder,
+) {
+    field("Builder") {
+        showBuilder(call, state, builder)
+    }
+}
+
 fun HtmlBlockTag.showBuilder(
     call: ApplicationCall,
     state: State,
     builder: Builder,
 ) {
     when (builder) {
-        is BuildByBusiness -> fieldLink("Builder", call, state, builder.business)
-        is BuildByCharacter -> fieldLink("Builder", call, state, builder.character)
-        UndefinedBuilder -> doNothing()
+        is BuildByBusiness -> link(call, state, builder.business)
+        is BuildByCharacter -> link(call, state, builder.character)
+        UndefinedBuilder -> +"Undefined"
     }
 }
 
