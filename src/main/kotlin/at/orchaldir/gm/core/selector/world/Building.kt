@@ -16,6 +16,10 @@ fun State.getAgeInYears(building: Building) = getDefaultCalendar()
 fun State.canDelete(building: Building) = building.ownership.owner.canDelete() &&
         getCharactersLivingIn(building.id).isEmpty()
 
+fun countBuilder(collection: Collection<Building>) = collection
+    .groupingBy { it.builder }
+    .eachCount()
+
 fun countPurpose(buildings: Collection<Building>) = buildings
     .groupingBy { it.purpose.getType() }
     .eachCount()

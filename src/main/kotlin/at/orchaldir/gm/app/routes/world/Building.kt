@@ -220,6 +220,7 @@ private fun HTML.showAllBuildings(
             }
         }
         showArchitecturalStyleCount(call, state, buildings)
+        showBuilderCount(call, state, buildings)
         showBuildingPurposeCount(buildings)
         showBuildingOwnershipCount(call, state, buildings)
         showTownCount(call, state, buildings)
