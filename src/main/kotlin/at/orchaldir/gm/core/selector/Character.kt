@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
+import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.utils.math.Distance
@@ -31,6 +32,7 @@ fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
         && getPreviouslyOwnedBuildings(character).isEmpty()
         && getOwnedBusinesses(character).isEmpty()
         && getPreviouslyOwnedBusinesses(character).isEmpty()
+        && getBuildingsBuildBy(character).isEmpty()
 
 // count
 
@@ -74,6 +76,13 @@ fun State.getCharactersLivingInHouse(building: BuildingId) = getCharacterStorage
     .getAll()
     .filter { c -> c.livingStatus.isLivingInHouse(building) }
 
+fun State.getResident(town: TownId) = getCharacterStorage().getAll()
+    .filter { isResident(it, town) }
+
+fun State.isResident(character: Character, town: TownId) = character.livingStatus.getBuilding()
+    ?.let { getBuildingStorage().getOrThrow(it).lot.town == town }
+    ?: false
+
 // employment status
 
 fun State.getEmployees(job: JobId) = getCharacterStorage()
@@ -83,15 +92,6 @@ fun State.getEmployees(job: JobId) = getCharacterStorage()
 fun State.getEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()
     .filter { c -> c.employmentStatus.isEmployedAt(business) }
-
-// living status
-
-fun State.getResident(town: TownId) = getCharacterStorage().getAll()
-    .filter { isResident(it, town) }
-
-fun State.isResident(character: Character, town: TownId) = character.livingStatus.getBuilding()
-    ?.let { getBuildingStorage().getOrThrow(it).lot.town == town }
-    ?: false
 
 // get relatives
 
@@ -157,7 +157,11 @@ fun State.getAgeInYears(character: Character) = getDefaultCalendar().getYears(ge
 
 fun State.isAlive(id: CharacterId, date: Date) = isAlive(getCharacterStorage().getOrThrow(id), date)
 
-fun State.isAlive(character: Character, date: Date) = getDefaultCalendar().compareTo(character.birthDate, date) <= 0
+fun State.isAlive(character: Character, date: Date) = character
+    .isAlive(getDefaultCalendar(), date)
+
+fun State.getLiving(date: Date) = getCharacterStorage().getAll()
+    .filter { isAlive(it, date) }
 
 // height
 

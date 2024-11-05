@@ -138,6 +138,7 @@ private fun HTML.showTownDetails(
             }
             h2 { +"Buildings" }
             showArchitecturalStyleCount(call, state, buildings)
+            showBuilderCount(call, state, buildings)
             showBuildingPurposeCount(buildings)
             showList("Buildings", state.sort(buildings)) { (building, name) ->
                 link(call, building.id, name)

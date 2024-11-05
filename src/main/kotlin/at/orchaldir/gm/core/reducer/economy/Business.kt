@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.reducer.util.checkOwnership
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.world.getBuilding
+import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -21,8 +22,11 @@ val DELETE_BUSINESS: Reducer<DeleteBusiness, State> = { state, action ->
     state.getBusinessStorage().require(action.id)
     require(state.getBuilding(action.id) == null) { "Cannot delete business ${action.id.value}, because it has a building!" }
     require(
-        state.getEmployees(action.id).isEmpty()
-    ) { "Cannot delete business ${action.id.value}, because it has employees!" }
+        state.getBuildingsBuildBy(action.id).isEmpty()
+    ) { "Cannot delete business ${action.id.value}, because it has build a building!" }
+    require(state.getEmployees(action.id).isEmpty()) {
+        "Cannot delete business ${action.id.value}, because it has employees!"
+    }
 
     noFollowUps(state.updateStorage(state.getBusinessStorage().remove(action.id)))
 }

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.parse.world
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.model.parseBuilder
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.app.parse.economy.parseOptionalBusinessId
 import at.orchaldir.gm.core.action.UpdateBuilding
@@ -24,6 +25,7 @@ fun parseUpdateBuilding(parameters: Parameters, state: State, id: BuildingId): U
         parseOwnership(parameters, state, constructionDate),
         parseArchitecturalStyleId(parameters, STYLE),
         parsePurpose(parameters, state),
+        parseBuilder(parameters),
     )
 }
 

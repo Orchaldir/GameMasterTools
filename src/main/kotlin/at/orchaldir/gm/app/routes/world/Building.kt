@@ -204,6 +204,7 @@ private fun HTML.showAllBuildings(
                 th { +"Purpose" }
                 th { +"Style" }
                 th { +"Owner" }
+                th { +"Builder" }
             }
             buildingsWithNames.forEach { (building, name) ->
                 tr {
@@ -214,10 +215,12 @@ private fun HTML.showAllBuildings(
                     td { +building.purpose.getType().toString() }
                     td { link(call, state, building.architecturalStyle) }
                     td { showOwner(call, state, building.ownership.owner) }
+                    td { showBuilder(call, state, building.builder) }
                 }
             }
         }
         showArchitecturalStyleCount(call, state, buildings)
+        showBuilderCount(call, state, buildings)
         showBuildingPurposeCount(buildings)
         showBuildingOwnershipCount(call, state, buildings)
         showTownCount(call, state, buildings)
@@ -241,6 +244,7 @@ private fun HTML.showBuildingDetails(
             fieldAddress(call, state, building)
             field(call, state, "Construction", building.constructionDate)
             fieldAge("Age", state.getAgeInYears(building))
+            fieldBuilder(call, state, building.builder)
             showOwnership(call, state, building.ownership)
             field("Size", building.lot.size.format())
             fieldLink("Architectural Style", call, state, building.architecturalStyle)
@@ -301,6 +305,8 @@ private fun HTML.showBuildingEditor(
                 selectOptionalName(building.name)
                 selectAddress(state, building)
                 selectDate(state, "Construction", building.constructionDate, DATE)
+                fieldAge("Age", state.getAgeInYears(building))
+                selectBuilder(state, building.builder, building.constructionDate)
                 selectOwnership(state, building.ownership, building.constructionDate)
                 selectValue(
                     "Architectural Style",

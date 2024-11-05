@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.html.model.showBuilder
 import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -12,6 +13,7 @@ import at.orchaldir.gm.core.selector.countLivingStatus
 import at.orchaldir.gm.core.selector.countRace
 import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.world.countArchitecturalStyles
+import at.orchaldir.gm.core.selector.world.countBuilder
 import at.orchaldir.gm.core.selector.world.countPurpose
 import at.orchaldir.gm.core.selector.world.countTowns
 import at.orchaldir.gm.utils.Id
@@ -25,6 +27,13 @@ fun HtmlBlockTag.showArchitecturalStyleCount(
     state: State,
     buildings: Collection<Building>,
 ) = showCount(call, state, "Architectural Styles", countArchitecturalStyles(buildings))
+
+fun HtmlBlockTag.showBuilderCount(call: ApplicationCall, state: State, collection: Collection<Building>) {
+    showMap("Builder", countBuilder(collection)) { builder, count ->
+        showBuilder(call, state, builder)
+        +": $count"
+    }
+}
 
 fun HtmlBlockTag.showBuildingPurposeCount(buildings: Collection<Building>) =
     showCount("Building Purpose", countPurpose(buildings))

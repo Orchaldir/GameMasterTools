@@ -21,6 +21,7 @@ import at.orchaldir.gm.core.selector.economy.sortBusinesses
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.sortCharacters
 import at.orchaldir.gm.core.selector.world.getBuilding
+import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -205,6 +206,9 @@ private fun HTML.showBusinessDetails(
             if (character.employmentStatus is Employed) {
                 link(call, state, character.employmentStatus.job)
             }
+        }
+        showList("Constructed Buildings", state.getBuildingsBuildBy(business.id)) { building ->
+            link(call, state, building)
         }
         action(editLink, "Edit")
         if (state.canDelete(business.id)) {

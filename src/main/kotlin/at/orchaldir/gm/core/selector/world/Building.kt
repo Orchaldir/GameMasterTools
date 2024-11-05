@@ -16,6 +16,10 @@ fun State.getAgeInYears(building: Building) = getDefaultCalendar()
 fun State.canDelete(building: Building) = building.ownership.owner.canDelete() &&
         getCharactersLivingIn(building.id).isEmpty()
 
+fun countBuilder(collection: Collection<Building>) = collection
+    .groupingBy { it.builder }
+    .eachCount()
+
 fun countPurpose(buildings: Collection<Building>) = buildings
     .groupingBy { it.purpose.getType() }
     .eachCount()
@@ -45,6 +49,14 @@ fun State.getBuildings(style: ArchitecturalStyleId) = getBuildingStorage()
 
 fun State.getBuildings(town: TownId) = getBuildingStorage().getAll()
     .filter { it.lot.town == town }
+
+// builder
+
+fun State.getBuildingsBuildBy(business: BusinessId) = getBuildingStorage().getAll()
+    .filter { it.builder is BuildByBusiness && it.builder.business == business }
+
+fun State.getBuildingsBuildBy(character: CharacterId) = getBuildingStorage().getAll()
+    .filter { it.builder is BuildByCharacter && it.builder.character == character }
 
 // owner
 

@@ -98,6 +98,10 @@
    "purpose": {
     "type": "SingleBusiness",
     "business": 1
+   },
+   "builder": {
+    "type": "Character",
+    "character": 0
    }
   }
  }

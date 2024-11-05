@@ -6,14 +6,23 @@ import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.OwnedByTown
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.world.getBuilding
+import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 
-fun State.canDelete(id: BusinessId) = getBuilding(id) == null && getEmployees(id).isEmpty()
+fun State.canDelete(id: BusinessId) = getBuilding(id) == null
+        && getEmployees(id).isEmpty()
+        && getBuildingsBuildBy(id).isEmpty()
+
+fun State.isOpen(id: BusinessId, date: Date) = isOpen(getBusinessStorage().getOrThrow(id), date)
+
+fun State.isOpen(business: Business, date: Date) = getDefaultCalendar()
+    .isAfterOrEqual(date, business.startDate)
 
 fun State.getAgeInYears(business: Business) = getDefaultCalendar()
     .getDurationInYears(business.startDate, time.currentDate)
@@ -34,6 +43,9 @@ fun State.getBusinesses(job: JobId) = getCharacterStorage().getAll()
     }
     .toSet()
     .map { getBusinessStorage().getOrThrow(it) }
+
+fun State.getOpenBusinesses(date: Date) = getBusinessStorage().getAll()
+    .filter { isOpen(it, date) }
 
 // owner
 

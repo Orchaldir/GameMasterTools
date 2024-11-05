@@ -4,7 +4,9 @@ import at.orchaldir.gm.core.model.time.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 private val MONTH0 = MonthDefinition("a", 2)
 private val MONTH1 = MonthDefinition("b", 3)
@@ -23,6 +25,24 @@ class CalendarTest {
     fun `Get the end of a year`() {
         assertEquals(Day(9), CALENDAR0.getEndOfYear(Year(1)))
         assertEquals(Day(14), CALENDAR0.getEndOfYear(Year(2)))
+    }
+
+    @Nested
+    inner class IsAfterOrEqualTest {
+        @Test
+        fun `Test a greater than b`() {
+            assertTrue(CALENDAR0.isAfterOrEqual(Year(2), Year(1)))
+        }
+
+        @Test
+        fun `Test a equal to b`() {
+            assertTrue(CALENDAR0.isAfterOrEqual(Year(1), Year(1)))
+        }
+
+        @Test
+        fun `Test a less than b`() {
+            assertFalse(CALENDAR0.isAfterOrEqual(Year(1), Year(2)))
+        }
     }
 
     @Nested
