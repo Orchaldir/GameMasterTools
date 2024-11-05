@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.BUILDER
 import at.orchaldir.gm.app.BUSINESS
 import at.orchaldir.gm.app.CHARACTER
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
@@ -13,7 +12,6 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseCharacterId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.core.selector.getLiving
