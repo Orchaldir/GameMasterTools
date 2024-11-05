@@ -19,6 +19,8 @@ fun State.canDelete(id: BusinessId) = getBuilding(id) == null
         && getEmployees(id).isEmpty()
         && getBuildingsBuildBy(id).isEmpty()
 
+fun State.isOpen(id: BusinessId, date: Date) = isOpen(getBusinessStorage().getOrThrow(id), date)
+
 fun State.isOpen(business: Business, date: Date) = getDefaultCalendar()
     .isAfterOrEqual(date, business.startDate)
 
