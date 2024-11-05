@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.character.CHARACTER
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.economy.business.BUSINESS
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.time.Day
@@ -20,6 +21,7 @@ import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class BuilderTest {
@@ -43,12 +45,39 @@ class BuilderTest {
     private val BUILD_BY_BUSINESS = BuildByBusiness(BUSINESS0)
     private val BUILD_BY_CHARACTER = BuildByCharacter(CHARACTER0)
 
-    @Test
-    fun `Builder is an unknown character`() {
-        val state = STATE.removeStorage(CHARACTER)
+    @Nested
+    inner class BuildByBusinessTest {
 
-        assertIllegalArgument("Cannot use an unknown character 3 as builder!") {
-            checkBuilder(state, BUILD_BY_CHARACTER, DAY0)
+        @Test
+        fun `Builder is an unknown business`() {
+            val state = STATE.removeStorage(BUSINESS)
+
+            assertIllegalArgument("Cannot use an unknown business 2 as builder!") {
+                checkBuilder(state, BUILD_BY_BUSINESS, DAY0)
+            }
+        }
+
+        @Test
+        fun `Builder is valid`() {
+            checkBuilder(STATE, BUILD_BY_BUSINESS, DAY2)
+        }
+    }
+
+    @Nested
+    inner class BuildByCharacterTest {
+
+        @Test
+        fun `Builder is an unknown character`() {
+            val state = STATE.removeStorage(CHARACTER)
+
+            assertIllegalArgument("Cannot use an unknown character 3 as builder!") {
+                checkBuilder(state, BUILD_BY_CHARACTER, DAY0)
+            }
+        }
+
+        @Test
+        fun `Builder is valid`() {
+            checkBuilder(STATE, BUILD_BY_CHARACTER, DAY2)
         }
     }
 }
