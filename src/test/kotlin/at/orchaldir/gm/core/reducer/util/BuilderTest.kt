@@ -14,13 +14,7 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.world.building.BuildByBusiness
 import at.orchaldir.gm.core.model.world.building.BuildByCharacter
-import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.street.Street
-import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.map.MapSize2d
-import at.orchaldir.gm.utils.map.TileMap2d
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -58,6 +52,13 @@ class BuilderTest {
         }
 
         @Test
+        fun `Builder doesn't exist yet`() {
+            assertIllegalArgument("Builder (business 2) is not open!") {
+                checkBuilder(STATE, BUILD_BY_BUSINESS, DAY0)
+            }
+        }
+
+        @Test
         fun `Builder is valid`() {
             checkBuilder(STATE, BUILD_BY_BUSINESS, DAY2)
         }
@@ -72,6 +73,13 @@ class BuilderTest {
 
             assertIllegalArgument("Cannot use an unknown character 3 as builder!") {
                 checkBuilder(state, BUILD_BY_CHARACTER, DAY0)
+            }
+        }
+
+        @Test
+        fun `Builder doesn't exist yet`() {
+            assertIllegalArgument("Builder (character 3) is not alive!") {
+                checkBuilder(STATE, BUILD_BY_CHARACTER, DAY0)
             }
         }
 

@@ -20,7 +20,7 @@ fun checkBuilder(
             state.getBusinessStorage()
                 .require(builder.business) { "Cannot use an unknown business ${builder.business.value} as builder!" }
             require(state.isOpen(builder.business, date)) {
-                "Builder ${builder.business.value} is not open!"
+                "Builder (business ${builder.business.value}) is not open!"
             }
         }
 
@@ -28,7 +28,7 @@ fun checkBuilder(
             state.getCharacterStorage()
                 .require(builder.character) { "Cannot use an unknown character ${builder.character.value} as builder!" }
             require(state.isAlive(builder.character, date)) {
-                "Builder ${builder.character.value} is not alive!"
+                "Builder (character ${builder.character.value}) is not alive!"
             }
         }
 
