@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
-import at.orchaldir.gm.core.model.util.Ownership
+import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.BuildByBusiness
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
@@ -119,7 +119,7 @@ class BusinessTest {
 
         @Test
         fun `Owner is an unknown character`() {
-            val action = UpdateBusiness(Business(ID0, ownership = Ownership(OwnedByCharacter(CHARACTER0))))
+            val action = UpdateBusiness(Business(ID0, ownership = History(OwnedByCharacter(CHARACTER0))))
             val state = STATE.removeStorage(CHARACTER)
 
             assertIllegalArgument("Cannot use an unknown character 0 as owner!") { REDUCER.invoke(state, action) }

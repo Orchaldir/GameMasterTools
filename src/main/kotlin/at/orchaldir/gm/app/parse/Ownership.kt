@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.*
 import io.ktor.http.*
 
-fun parseOwnership(parameters: Parameters, state: State, startDate: Date): Ownership = Ownership(
+fun parseOwnership(parameters: Parameters, state: State, startDate: Date) = History(
     parseOwner(parameters, OWNER),
     parsePreviousOwners(parameters, state, startDate),
 )

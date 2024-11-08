@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.world.town.TownId
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Ownership(
+data class History(
     val owner: Owner = UnknownOwner,
     val previousOwners: List<PreviousOwner> = emptyList(),
 ) {

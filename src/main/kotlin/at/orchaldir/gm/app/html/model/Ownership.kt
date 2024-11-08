@@ -16,7 +16,7 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showOwnership(
     call: ApplicationCall,
     state: State,
-    ownership: Ownership,
+    ownership: History,
 ) {
     field("Owner") {
         showOwner(call, state, ownership.owner)
@@ -44,7 +44,7 @@ fun HtmlBlockTag.showOwner(
 
 fun FORM.selectOwnership(
     state: State,
-    ownership: Ownership,
+    ownership: History,
     startDate: Date,
 ) {
     val previousOwnersParam = combine(OWNER, HISTORY)

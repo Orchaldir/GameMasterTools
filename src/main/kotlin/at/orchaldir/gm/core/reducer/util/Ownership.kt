@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.OwnedByTown
 import at.orchaldir.gm.core.model.util.Owner
-import at.orchaldir.gm.core.model.util.Ownership
+import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.world.exists
@@ -13,7 +13,7 @@ import at.orchaldir.gm.utils.doNothing
 
 fun checkOwnership(
     state: State,
-    ownership: Ownership,
+    ownership: History,
     creationDate: Date,
 ) {
     checkOwner(state, ownership.owner, "owner")

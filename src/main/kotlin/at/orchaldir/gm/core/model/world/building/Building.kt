@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.util.ElementWithComplexName
-import at.orchaldir.gm.core.model.util.Ownership
+import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -27,7 +27,7 @@ data class Building(
     val lot: BuildingLot = BuildingLot(),
     val address: Address = NoAddress,
     val constructionDate: Date = Year(0),
-    val ownership: Ownership = Ownership(),
+    val ownership: History = History(),
     val architecturalStyle: ArchitecturalStyleId = ArchitecturalStyleId(0),
     val purpose: BuildingPurpose = SingleFamilyHouse,
     val builder: Builder = UndefinedBuilder,

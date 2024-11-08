@@ -46,11 +46,11 @@ class OwnerTest {
             Storage(Town(TOWN0, map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1)))),
         )
     )
-    private val OWNED_BY_CHARACTER = Ownership(OwnedByCharacter(CHARACTER0))
-    private val OWNED_BY_TOWN = Ownership(OwnedByTown(TOWN0))
+    private val OWNED_BY_CHARACTER = History(OwnedByCharacter(CHARACTER0))
+    private val OWNED_BY_TOWN = History(OwnedByTown(TOWN0))
     private val CHARACTER_AS_PREVIOUS =
-        Ownership(OwnedByTown(TOWN0), PreviousOwner(OwnedByCharacter(CHARACTER0), DAY1))
-    private val TOWN_AS_PREVIOUS = Ownership(OwnedByCharacter(CHARACTER0), PreviousOwner(OwnedByTown(TOWN0), DAY1))
+        History(OwnedByTown(TOWN0), PreviousOwner(OwnedByCharacter(CHARACTER0), DAY1))
+    private val TOWN_AS_PREVIOUS = History(OwnedByCharacter(CHARACTER0), PreviousOwner(OwnedByTown(TOWN0), DAY1))
 
 
     @Test
@@ -104,7 +104,7 @@ class OwnerTest {
 
     @Test
     fun `A previous ownership ended before the one before it`() {
-        val ownership = Ownership(
+        val ownership = History(
             OwnedByTown(TOWN0),
             listOf(
                 PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2),
@@ -137,7 +137,7 @@ class OwnerTest {
 
     @Test
     fun `Second owner didn't exist yet`() {
-        val ownership = Ownership(
+        val ownership = History(
             NoOwner,
             listOf(
                 PreviousOwner(OwnedByTown(TOWN0), DAY1),
@@ -174,7 +174,7 @@ class OwnerTest {
     @Test
     fun `Successfully updated with 2 previous owners`() {
         testSuccess(
-            Ownership(
+            History(
                 NoOwner,
                 listOf(
                     PreviousOwner(OwnedByTown(TOWN0), DAY1),
@@ -184,7 +184,7 @@ class OwnerTest {
         )
     }
 
-    private fun testSuccess(ownership: Ownership) {
+    private fun testSuccess(ownership: History) {
         checkOwnership(STATE, ownership, DAY0)
     }
 }
