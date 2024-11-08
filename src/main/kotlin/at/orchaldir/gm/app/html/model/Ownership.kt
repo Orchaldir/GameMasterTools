@@ -36,21 +36,7 @@ fun FORM.selectOwnership(
     state: State,
     ownership: History<Owner>,
     startDate: Date,
-) {
-    val previousOwnersParam = combine(OWNER, HISTORY)
-    selectInt("Previous Owners", ownership.previousEntries.size, 0, 100, 1, previousOwnersParam, true)
-    var minDate = startDate.next()
-
-    showListWithIndex(ownership.previousEntries) { index, previous ->
-        val previousParam = combine(previousOwnersParam, index)
-        selectOwner(state, previousParam, previous.entry, minDate)
-        selectDate(state, "Until", previous.until, combine(previousParam, DATE), minDate)
-
-        minDate = previous.until.next()
-    }
-
-    selectOwner(state, OWNER, ownership.current, minDate)
-}
+) = selectHistory(state, OWNER, ownership, startDate, "Owners", HtmlBlockTag::selectOwner)
 
 fun HtmlBlockTag.selectOwner(
     state: State,
