@@ -56,9 +56,9 @@ private fun <ID : Id<ID>> handleOwnership(
     events: MutableList<Event>,
     id: ID,
     ownership: History,
-    create: (ID, HistoryEntry, Owner) -> OwnershipChangedEvent<ID>,
+    create: (ID, HistoryEntry<Owner>, Owner) -> OwnershipChangedEvent<ID>,
 ) {
-    var lastPrevious: HistoryEntry? = null
+    var lastPrevious: HistoryEntry<Owner>? = null
 
     for (previous in ownership.previousOwners) {
         if (lastPrevious != null) {
@@ -75,7 +75,7 @@ private fun <ID : Id<ID>> handleOwnership(
 
 private fun createOwnershipChanged(
     id: BuildingId,
-    previous: HistoryEntry,
+    previous: HistoryEntry<Owner>,
     to: Owner,
 ) = BuildingOwnershipChangedEvent(
     previous.until,
@@ -86,7 +86,7 @@ private fun createOwnershipChanged(
 
 private fun createOwnershipChanged(
     id: BusinessId,
-    previous: HistoryEntry,
+    previous: HistoryEntry<Owner>,
     to: Owner,
 ) = BusinessOwnershipChangedEvent(
     previous.until,
