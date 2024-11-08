@@ -5,6 +5,13 @@ import at.orchaldir.gm.core.model.world.town.TownId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class OwnerType {
+    None,
+    Unknown,
+    Character,
+    Town,
+}
+
 @Serializable
 sealed class Owner {
 
