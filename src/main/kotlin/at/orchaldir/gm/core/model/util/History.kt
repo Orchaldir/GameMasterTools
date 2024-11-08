@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class History<T>(
-    val owner: T,
+    val current: T,
     val previousOwners: List<HistoryEntry<T>> = emptyList(),
 ) {
     constructor(owner: T) : this(owner, emptyList())

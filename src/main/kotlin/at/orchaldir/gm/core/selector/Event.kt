@@ -69,7 +69,7 @@ private fun <ID : Id<ID>> handleOwnership(
     }
 
     if (lastPrevious != null) {
-        events.add(create(id, lastPrevious, ownership.owner))
+        events.add(create(id, lastPrevious, ownership.current))
     }
 }
 

@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.selector.getDefaultCalendar
 fun State.getAgeInYears(building: Building) = getDefaultCalendar()
     .getDurationInYears(building.constructionDate, time.currentDate)
 
-fun State.canDelete(building: Building) = building.ownership.owner.canDelete() &&
+fun State.canDelete(building: Building) = building.ownership.current.canDelete() &&
         getCharactersLivingIn(building.id).isEmpty()
 
 fun countBuilder(collection: Collection<Building>) = collection
@@ -62,13 +62,13 @@ fun State.getBuildingsBuildBy(character: CharacterId) = getBuildingStorage().get
 // owner
 
 fun State.getOwnedBuildings(character: CharacterId) = getBuildingStorage().getAll()
-    .filter { it.ownership.owner is OwnedByCharacter && it.ownership.owner.character == character }
+    .filter { it.ownership.current is OwnedByCharacter && it.ownership.current.character == character }
 
 fun State.getPreviouslyOwnedBuildings(character: CharacterId) = getBuildingStorage().getAll()
     .filter { it.ownership.contains(character) }
 
 fun State.getOwnedBuildings(town: TownId) = getBuildingStorage().getAll()
-    .filter { it.ownership.owner is OwnedByTown && it.ownership.owner.town == town }
+    .filter { it.ownership.current is OwnedByTown && it.ownership.current.town == town }
 
 fun State.getPreviouslyOwnedBuildings(town: TownId) = getBuildingStorage().getAll()
     .filter { it.ownership.contains(town) }

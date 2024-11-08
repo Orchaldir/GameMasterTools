@@ -84,7 +84,7 @@ fun HtmlBlockTag.showOwnershipCount(
 }
 
 fun countOwnership(ownershipCollection: Collection<History<Owner>>) = ownershipCollection
-    .groupingBy { it.owner }
+    .groupingBy { it.current }
     .eachCount()
 
 fun HtmlBlockTag.showRaceCount(

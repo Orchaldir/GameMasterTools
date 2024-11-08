@@ -19,7 +19,7 @@ fun HtmlBlockTag.showOwnership(
     ownership: History<Owner>,
 ) {
     field("Owner") {
-        showOwner(call, state, ownership.owner)
+        showOwner(call, state, ownership.current)
     }
     showList("Previous Owners", ownership.previousOwners) { previous ->
         +"Until "
@@ -59,7 +59,7 @@ fun FORM.selectOwnership(
         minDate = previous.until.next()
     }
 
-    selectOwner(state, OWNER, ownership.owner, minDate)
+    selectOwner(state, OWNER, ownership.current, minDate)
 }
 
 fun HtmlBlockTag.selectOwner(

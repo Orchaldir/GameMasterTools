@@ -25,7 +25,7 @@ fun checkOwnership(
         min = previous.until
     }
 
-    checkOwner(state, ownership.owner, "Owner", min)
+    checkOwner(state, ownership.current, "Owner", min)
 }
 
 private fun checkOwner(

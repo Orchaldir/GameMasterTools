@@ -51,13 +51,13 @@ fun State.getOpenBusinesses(date: Date) = getBusinessStorage().getAll()
 // owner
 
 fun State.getOwnedBusinesses(character: CharacterId) = getBusinessStorage().getAll()
-    .filter { it.ownership.owner is OwnedByCharacter && it.ownership.owner.character == character }
+    .filter { it.ownership.current is OwnedByCharacter && it.ownership.current.character == character }
 
 fun State.getPreviouslyOwnedBusinesses(character: CharacterId) = getBusinessStorage().getAll()
     .filter { it.ownership.contains(character) }
 
 fun State.getOwnedBusinesses(town: TownId) = getBusinessStorage().getAll()
-    .filter { it.ownership.owner is OwnedByTown && it.ownership.owner.town == town }
+    .filter { it.ownership.current is OwnedByTown && it.ownership.current.town == town }
 
 fun State.getPreviouslyOwnedBusinesses(town: TownId) = getBusinessStorage().getAll()
     .filter { it.ownership.contains(town) }
