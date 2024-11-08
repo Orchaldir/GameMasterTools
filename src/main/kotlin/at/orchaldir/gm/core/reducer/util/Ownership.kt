@@ -37,5 +37,5 @@ private fun checkOwner(
         else -> return
     }
 
-    require(exists) { "$noun didn't exist at the start of their ownership!" }
+    require(exists) { "The $noun didn't exist at the start of their ownership!" }
 }

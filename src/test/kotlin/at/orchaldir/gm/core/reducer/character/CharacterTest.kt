@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer.character
 
+import at.orchaldir.gm.CALENDAR0
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.assertIllegalState
 import at.orchaldir.gm.core.action.CreateCharacter
@@ -25,9 +26,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
-import at.orchaldir.gm.core.model.util.OwnedByCharacter
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.HistoryEntry
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.BuildByCharacter
 import at.orchaldir.gm.core.model.world.building.Building
@@ -53,8 +52,8 @@ private val JOB0 = JobId(0)
 private val PERSONALITY0 = PersonalityTraitId(0)
 private val RACE0 = RaceId(0)
 private val RACE1 = RaceId(1)
-private val OWNER = History(OwnedByCharacter(ID0))
-private val PREVIOUS_OWNER = History(previousOwners = listOf(HistoryEntry(OwnedByCharacter(ID0), Day(0))))
+private val OWNER = History<Owner>(OwnedByCharacter(ID0))
+private val PREVIOUS_OWNER = History(UnknownOwner, listOf(HistoryEntry(OwnedByCharacter(ID0), Day(0))))
 
 class CharacterTest {
 
@@ -218,6 +217,7 @@ class CharacterTest {
 
         val STATE = State(
             listOf(
+                Storage(CALENDAR0),
                 Storage(Character(ID0)),
                 Storage(Business(BUSINESS0)),
                 Storage(Culture(CULTURE0)),
@@ -417,7 +417,7 @@ class CharacterTest {
             @Test
             fun `Living in an apartment requires an apartment house`() {
                 val state = STATE.updateStorage(Storage(Building(BUILDING0)))
-                val action = UpdateCharacter(Character(ID0, livingStatus = InApartment(BUILDING0, 0)))
+                val action = UpdateCharacter(Character(ID0, livingStatus = History(InApartment(BUILDING0, 0))))
 
                 assertIllegalState("Living in an apartment requires an apartment house!") {
                     REDUCER.invoke(state, action)
@@ -427,28 +427,28 @@ class CharacterTest {
             @Test
             fun `Cannot use an apartment number higher than the building allows`() {
                 val state = STATE.updateStorage(Storage(Building(BUILDING0, purpose = ApartmentHouse(2))))
-                val action = UpdateCharacter(Character(ID0, livingStatus = InApartment(BUILDING0, 2)))
+                val action = UpdateCharacter(Character(ID0, livingStatus = History(InApartment(BUILDING0, 2))))
 
                 assertIllegalArgument("Apartment index is too high!") { REDUCER.invoke(state, action) }
             }
 
             @Test
             fun `Cannot use unknown building as home`() {
-                val action = UpdateCharacter(Character(ID0, livingStatus = InHouse(BUILDING0)))
+                val action = UpdateCharacter(Character(ID0, livingStatus = History(InHouse(BUILDING0))))
 
                 assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test
             fun `Cannot use unknown building as apartment house`() {
-                val action = UpdateCharacter(Character(ID0, livingStatus = InApartment(BUILDING0, 0)))
+                val action = UpdateCharacter(Character(ID0, livingStatus = History(InApartment(BUILDING0, 0))))
 
                 assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(STATE, action) }
             }
 
             private fun testSuccess(building: Building, livingStatus: LivingStatus) {
                 val state = STATE.updateStorage(Storage(building))
-                val character = Character(ID0, livingStatus = livingStatus)
+                val character = Character(ID0, livingStatus = History(livingStatus))
                 val action = UpdateCharacter(character)
 
                 val result = REDUCER.invoke(state, action).first

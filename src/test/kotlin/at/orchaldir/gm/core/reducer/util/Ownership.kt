@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer.util
 
+import at.orchaldir.gm.CALENDAR0
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
@@ -46,8 +47,8 @@ class OwnerTest {
             Storage(Town(TOWN0, map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1)))),
         )
     )
-    private val OWNED_BY_CHARACTER = History(OwnedByCharacter(CHARACTER0))
-    private val OWNED_BY_TOWN = History(OwnedByTown(TOWN0))
+    private val OWNED_BY_CHARACTER = History<Owner>(OwnedByCharacter(CHARACTER0))
+    private val OWNED_BY_TOWN = History<Owner>(OwnedByTown(TOWN0))
     private val CHARACTER_AS_PREVIOUS =
         History(OwnedByTown(TOWN0), HistoryEntry(OwnedByCharacter(CHARACTER0), DAY1))
     private val TOWN_AS_PREVIOUS = History(OwnedByCharacter(CHARACTER0), HistoryEntry(OwnedByTown(TOWN0), DAY1))
@@ -77,7 +78,7 @@ class OwnerTest {
     fun `Previous owner is an unknown character`() {
         val state = STATE.removeStorage(CHARACTER)
 
-        assertIllegalArgument("Cannot use an unknown character 2 as previous owner!") {
+        assertIllegalArgument("Cannot use an unknown character 2 as 1.previous owner!") {
             checkOwnership(state, CHARACTER_AS_PREVIOUS, DAY0)
         }
     }
@@ -86,7 +87,7 @@ class OwnerTest {
     fun `Previous owner is an unknown town`() {
         val state = STATE.removeStorage(TOWN)
 
-        assertIllegalArgument("Cannot use an unknown town 0 as previous owner!") {
+        assertIllegalArgument("Cannot use an unknown town 0 as 1.previous owner!") {
             checkOwnership(state, TOWN_AS_PREVIOUS, DAY0)
         }
     }
@@ -121,7 +122,7 @@ class OwnerTest {
     fun `Character owns a building before his birth`() {
         val state = STATE.updateStorage(Storage(Character(CHARACTER0, birthDate = DAY1)))
 
-        assertIllegalArgument("Owner didn't exist at the start of their ownership!") {
+        assertIllegalArgument("The owner didn't exist at the start of their ownership!") {
             checkOwnership(state, OWNED_BY_CHARACTER, DAY0)
         }
     }
@@ -130,7 +131,7 @@ class OwnerTest {
     fun `First owner didn't exist yet`() {
         val state = STATE.updateStorage(Storage(Town(TOWN0, foundingDate = DAY1)))
 
-        assertIllegalArgument("1.previous owner didn't exist at the start of their ownership!") {
+        assertIllegalArgument("The 1.previous owner didn't exist at the start of their ownership!") {
             checkOwnership(state, TOWN_AS_PREVIOUS, DAY0)
         }
     }
@@ -146,7 +147,7 @@ class OwnerTest {
         )
         val state = STATE.updateStorage(Storage(Character(CHARACTER0, birthDate = DAY2)))
 
-        assertIllegalArgument("2.previous owner didn't exist at the start of their ownership!") {
+        assertIllegalArgument("The 2.previous owner didn't exist at the start of their ownership!") {
             checkOwnership(state, ownership, DAY0)
         }
     }
@@ -184,7 +185,7 @@ class OwnerTest {
         )
     }
 
-    private fun testSuccess(ownership: History) {
+    private fun testSuccess(ownership: History<Owner>) {
         checkOwnership(STATE, ownership, DAY0)
     }
 }
