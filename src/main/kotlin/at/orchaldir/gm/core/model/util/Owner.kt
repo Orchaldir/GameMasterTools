@@ -35,6 +35,10 @@ sealed class Owner {
 
 }
 
+fun History<Owner>.contains(character: CharacterId) = previousOwners.any { it.entry.contains(character) }
+
+fun History<Owner>.contains(town: TownId) = previousOwners.any { it.entry.contains(town) }
+
 @Serializable
 @SerialName("None")
 data object NoOwner : Owner()

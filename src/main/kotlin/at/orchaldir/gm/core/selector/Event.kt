@@ -55,7 +55,7 @@ fun State.getEvents(): List<Event> {
 private fun <ID : Id<ID>> handleOwnership(
     events: MutableList<Event>,
     id: ID,
-    ownership: History,
+    ownership: History<Owner>,
     create: (ID, HistoryEntry<Owner>, Owner) -> OwnershipChangedEvent<ID>,
 ) {
     var lastPrevious: HistoryEntry<Owner>? = null

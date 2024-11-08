@@ -13,7 +13,7 @@ import at.orchaldir.gm.utils.doNothing
 
 fun checkOwnership(
     state: State,
-    ownership: History,
+    ownership: History<Owner>,
     creationDate: Date,
 ) {
     checkOwner(state, ownership.owner, "owner")
