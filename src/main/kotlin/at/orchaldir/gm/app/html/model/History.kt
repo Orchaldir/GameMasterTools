@@ -74,7 +74,7 @@ private fun <T> parseHistoryEntries(
     parseEntry: (Parameters, State, String) -> T,
 ): List<HistoryEntry<T>> {
     val historyParam = combine(param, HISTORY)
-    val count = parseInt(parameters, param, 0)
+    val count = parseInt(parameters, historyParam, 0)
     var minDate = startDate.next()
 
     return (0..<count)

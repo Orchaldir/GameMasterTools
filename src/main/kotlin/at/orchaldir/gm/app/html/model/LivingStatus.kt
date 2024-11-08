@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.BUILDING
 import at.orchaldir.gm.app.HOME
 import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectValue
