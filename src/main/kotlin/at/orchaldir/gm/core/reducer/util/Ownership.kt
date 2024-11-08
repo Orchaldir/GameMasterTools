@@ -18,7 +18,7 @@ fun checkOwnership(
     val calendar = state.getDefaultCalendar()
     var min = creationDate
 
-    ownership.previousOwners.withIndex().forEach { (index, previous) ->
+    ownership.previousEntries.withIndex().forEach { (index, previous) ->
         checkOwner(state, previous.entry, "${index + 1}.previous owner", min)
         require(calendar.compareTo(previous.until, min) > 0) { "${index + 1}.previous owner's until is too early!" }
 

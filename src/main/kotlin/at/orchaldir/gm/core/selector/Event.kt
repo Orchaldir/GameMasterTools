@@ -60,7 +60,7 @@ private fun <ID : Id<ID>> handleOwnership(
 ) {
     var lastPrevious: HistoryEntry<Owner>? = null
 
-    for (previous in ownership.previousOwners) {
+    for (previous in ownership.previousEntries) {
         if (lastPrevious != null) {
             events.add(create(id, lastPrevious, previous.entry))
         }

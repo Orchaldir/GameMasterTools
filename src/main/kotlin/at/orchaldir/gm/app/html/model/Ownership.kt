@@ -21,7 +21,7 @@ fun HtmlBlockTag.showOwnership(
     field("Owner") {
         showOwner(call, state, ownership.current)
     }
-    showList("Previous Owners", ownership.previousOwners) { previous ->
+    showList("Previous Owners", ownership.previousEntries) { previous ->
         +"Until "
         showDate(call, state, previous.until)
         +": "
@@ -48,10 +48,10 @@ fun FORM.selectOwnership(
     startDate: Date,
 ) {
     val previousOwnersParam = combine(OWNER, HISTORY)
-    selectInt("Previous Owners", ownership.previousOwners.size, 0, 100, 1, previousOwnersParam, true)
+    selectInt("Previous Owners", ownership.previousEntries.size, 0, 100, 1, previousOwnersParam, true)
     var minDate = startDate.next()
 
-    showListWithIndex(ownership.previousOwners) { index, previous ->
+    showListWithIndex(ownership.previousEntries) { index, previous ->
         val previousParam = combine(previousOwnersParam, index)
         selectOwner(state, previousParam, previous.entry, minDate)
         selectDate(state, "Until", previous.until, combine(previousParam, DATE), minDate)
