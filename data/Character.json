@@ -72,8 +72,10 @@
     }
    },
    "livingStatus": {
-    "type": "InHouse",
-    "building": 1
+    "current": {
+     "type": "InHouse",
+     "building": 1
+    }
    }
   },
   "1": {
@@ -140,9 +142,11 @@
     }
    },
    "livingStatus": {
-    "type": "InApartment",
-    "building": 2,
-    "apartmentIndex": 9
+    "current": {
+     "type": "InApartment",
+     "building": 2,
+     "apartmentIndex": 9
+    }
    },
    "employmentStatus": {
     "type": "Employed",

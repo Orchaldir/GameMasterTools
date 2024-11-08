@@ -15,7 +15,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
 import at.orchaldir.gm.core.selector.world.getSingleFamilyHouses
@@ -29,7 +28,7 @@ fun HtmlBlockTag.showLivingStatusHistory(
     call: ApplicationCall,
     state: State,
     ownership: History<LivingStatus>,
-) = showHistory(call, state, ownership, "Owner", HtmlBlockTag::showLivingStatus)
+) = showHistory(call, state, ownership, "Living Status", HtmlBlockTag::showLivingStatus)
 
 fun HtmlBlockTag.showLivingStatus(
     call: ApplicationCall,
