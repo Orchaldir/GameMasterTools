@@ -2,11 +2,15 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.HISTORY
+import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.HistoryEntry
+import at.orchaldir.gm.core.model.util.Owner
+import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
@@ -51,3 +55,43 @@ fun <T> FORM.selectHistory(
 
     selectEntry(state, param, ownership.current, minDate)
 }
+
+fun <T> parseHistory(
+    parameters: Parameters,
+    state: State,
+    startDate: Date,
+    parseEntry: (Parameters, State, String) -> T,
+) = History(
+    parseEntry(parameters, state, OWNER),
+    parseHistoryEntries(parameters, state, startDate, parseEntry),
+)
+
+private fun <T> parseHistoryEntries(
+    parameters: Parameters,
+    state: State,
+    startDate: Date,
+    parseEntry: (Parameters, State, String) -> T,
+): List<HistoryEntry<T>> {
+    val param = combine(OWNER, HISTORY)
+    val count = parseInt(parameters, param, 0)
+    var minDate = startDate.next()
+
+    return (0..<count)
+        .map {
+            val previousOwner = parseHistoryEntry(parameters, state, combine(param, it), minDate, parseEntry)
+            minDate = previousOwner.until.next()
+
+            previousOwner
+        }
+}
+
+private fun <T> parseHistoryEntry(
+    parameters: Parameters,
+    state: State,
+    param: String,
+    minDate: Date,
+    parseEntry: (Parameters, State, String) -> T,
+) = HistoryEntry<T>(
+    parseEntry(parameters, state, param),
+    parseDate(parameters, state, combine(param, DATE), minDate),
+)

@@ -3,12 +3,17 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parseCharacterId
+import at.orchaldir.gm.app.parse.parseDate
+import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.world.exists
 import at.orchaldir.gm.utils.doNothing
+import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
@@ -76,4 +81,14 @@ fun HtmlBlockTag.selectOwner(
 
         else -> doNothing()
     }
+}
+
+fun parseOwnership(parameters: Parameters, state: State, startDate: Date) =
+    parseHistory(parameters, state, startDate, ::parseOwner)
+
+private fun parseOwner(parameters: Parameters, state: State, param: String): Owner = when (parameters[param]) {
+    OwnerType.None.toString() -> NoOwner
+    OwnerType.Character.toString() -> OwnedByCharacter(parseCharacterId(parameters, combine(param, CHARACTER)))
+    OwnerType.Town.toString() -> OwnedByTown(parseTownId(parameters, combine(param, TOWN)))
+    else -> UnknownOwner
 }

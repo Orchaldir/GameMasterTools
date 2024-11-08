@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.parse.world
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.model.parseBuilder
+import at.orchaldir.gm.app.html.model.parseOwnership
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.app.parse.economy.parseOptionalBusinessId
 import at.orchaldir.gm.core.action.UpdateBuilding
