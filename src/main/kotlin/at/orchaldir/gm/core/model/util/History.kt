@@ -7,8 +7,8 @@ data class History<T>(
     val current: T,
     val previousEntries: List<HistoryEntry<T>> = emptyList(),
 ) {
-    constructor(owner: T) : this(owner, emptyList())
+    constructor(current: T) : this(current, emptyList())
 
-    constructor(owner: T, previousOwner: HistoryEntry<T>) : this(owner, listOf(previousOwner))
+    constructor(current: T, previousEntries: HistoryEntry<T>) : this(current, listOf(previousEntries))
 
 }
