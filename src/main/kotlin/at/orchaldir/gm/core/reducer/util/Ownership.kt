@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.OwnedByTown
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.world.exists
 
@@ -14,19 +13,7 @@ fun checkOwnership(
     state: State,
     ownership: History<Owner>,
     creationDate: Date,
-) {
-    val calendar = state.getDefaultCalendar()
-    var min = creationDate
-
-    ownership.previousEntries.withIndex().forEach { (index, previous) ->
-        checkOwner(state, previous.entry, "${index + 1}.previous owner", min)
-        require(calendar.compareTo(previous.until, min) > 0) { "${index + 1}.previous owner's until is too early!" }
-
-        min = previous.until
-    }
-
-    checkOwner(state, ownership.current, "Owner", min)
-}
+) = checkHistory(state, ownership, creationDate, "owner", ::checkOwner)
 
 private fun checkOwner(
     state: State,
