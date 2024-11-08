@@ -62,7 +62,7 @@ private fun <ID : Id<ID>> handleOwnership(
 
     for (previous in ownership.previousOwners) {
         if (lastPrevious != null) {
-            events.add(create(id, lastPrevious, previous.owner))
+            events.add(create(id, lastPrevious, previous.entry))
         }
 
         lastPrevious = previous
@@ -80,7 +80,7 @@ private fun createOwnershipChanged(
 ) = BuildingOwnershipChangedEvent(
     previous.until,
     id,
-    previous.owner,
+    previous.entry,
     to,
 )
 
@@ -91,7 +91,7 @@ private fun createOwnershipChanged(
 ) = BusinessOwnershipChangedEvent(
     previous.until,
     id,
-    previous.owner,
+    previous.entry,
     to,
 )
 

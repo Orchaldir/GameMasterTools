@@ -11,8 +11,8 @@ data class History(
 ) {
     constructor(owner: Owner, previousOwner: HistoryEntry) : this(owner, listOf(previousOwner))
 
-    fun contains(character: CharacterId) = previousOwners.any { it.owner.contains(character) }
+    fun contains(character: CharacterId) = previousOwners.any { it.entry.contains(character) }
 
-    fun contains(town: TownId) = previousOwners.any { it.owner.contains(town) }
+    fun contains(town: TownId) = previousOwners.any { it.entry.contains(town) }
 
 }

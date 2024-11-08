@@ -23,8 +23,8 @@ fun checkOwnership(
 
 
     ownership.previousOwners.withIndex().forEach { (index, previous) ->
-        checkOwner(state, previous.owner, "previous owner")
-        checkOwnerStart(state, previous.owner, "${index + 1}.previous owner", min)
+        checkOwner(state, previous.entry, "previous owner")
+        checkOwnerStart(state, previous.entry, "${index + 1}.previous owner", min)
         require(calendar.compareTo(previous.until, min) > 0) { "${index + 1}.previous owner's until is too early!" }
 
         min = previous.until

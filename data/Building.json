@@ -59,7 +59,7 @@
     },
     "previousOwners": [
      {
-      "owner": {
+      "entry": {
        "type": "Character",
        "character": 2
       },
@@ -69,7 +69,7 @@
       }
      },
      {
-      "owner": {
+      "entry": {
        "type": "Town",
        "town": 0
       },

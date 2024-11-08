@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class HistoryEntry(
-    val owner: Owner,
+    val entry: Owner,
     val until: Date,
 )
