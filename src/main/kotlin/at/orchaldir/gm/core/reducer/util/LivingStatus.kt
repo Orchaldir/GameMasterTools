@@ -10,8 +10,8 @@ import at.orchaldir.gm.utils.doNothing
 fun checkLivingStatusHistory(
     state: State,
     ownership: History<LivingStatus>,
-    creationDate: Date,
-) = checkHistory(state, ownership, creationDate, "owner", ::checkLivingStatus)
+    startDate: Date,
+) = checkHistory(state, ownership, startDate, "owner", ::checkLivingStatus)
 
 private fun checkLivingStatus(
     state: State,

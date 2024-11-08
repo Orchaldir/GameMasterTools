@@ -84,7 +84,7 @@ fun HtmlBlockTag.selectOwner(
 }
 
 fun parseOwnership(parameters: Parameters, state: State, startDate: Date) =
-    parseHistory(parameters, state, startDate, ::parseOwner)
+    parseHistory(parameters, OWNER, state, startDate, ::parseOwner)
 
 private fun parseOwner(parameters: Parameters, state: State, param: String): Owner = when (parameters[param]) {
     OwnerType.None.toString() -> NoOwner

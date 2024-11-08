@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.BUILDING
 import at.orchaldir.gm.app.HOME
 import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectValue
@@ -13,6 +13,9 @@ import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.world.parseBuildingId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
 import at.orchaldir.gm.core.selector.world.getSingleFamilyHouses
@@ -22,15 +25,11 @@ import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
-fun HtmlBlockTag.fieldLivingStatus(
+fun HtmlBlockTag.showLivingStatusHistory(
     call: ApplicationCall,
     state: State,
-    livingStatus: LivingStatus,
-) {
-    field("Living Status") {
-        showLivingStatus(call, state, livingStatus)
-    }
-}
+    ownership: History<LivingStatus>,
+) = showHistory(call, state, ownership, "Owner", HtmlBlockTag::showLivingStatus)
 
 fun HtmlBlockTag.showLivingStatus(
     call: ApplicationCall,
@@ -52,12 +51,19 @@ fun HtmlBlockTag.showLivingStatus(
     }
 }
 
-fun FORM.selectLivingStatus(
+fun FORM.selectLivingStatusHistory(
     state: State,
-    character: Character,
+    ownership: History<LivingStatus>,
+    startDate: Date,
+) = selectHistory(state, HOME, ownership, startDate, "Living Status", HtmlBlockTag::selectLivingStatus)
+
+fun HtmlBlockTag.selectLivingStatus(
+    state: State,
+    param: String,
+    livingStatus: LivingStatus,
+    start: Date,
 ) {
-    val livingStatus = character.livingStatus
-    selectValue("Living Status", HOME, LivingStatusType.entries, true) { type ->
+    selectValue("Living Status", param, LivingStatusType.entries, true) { type ->
         label = type.name
         value = type.name
         selected = type == livingStatus.getType()
@@ -65,7 +71,7 @@ fun FORM.selectLivingStatus(
     when (livingStatus) {
         Homeless -> doNothing()
         is InApartment -> {
-            selectValue("Apartment House", combine(HOME, BUILDING), state.getApartmentHouses(), true) { building ->
+            selectValue("Apartment House", combine(param, BUILDING), state.getApartmentHouses(), true) { building ->
                 label = building.name(state)
                 value = building.id.value.toString()
                 selected = livingStatus.building == building.id
@@ -80,13 +86,13 @@ fun FORM.selectLivingStatus(
                     0,
                     apartmentHouse.purpose.apartments - 1,
                     1,
-                    combine(HOME, NUMBER),
+                    combine(param, NUMBER),
                 )
             }
         }
 
         is InHouse ->
-            selectValue("Home", combine(HOME, BUILDING), state.getSingleFamilyHouses()) { building ->
+            selectValue("Home", combine(param, BUILDING), state.getSingleFamilyHouses()) { building ->
                 label = building.name(state)
                 value = building.id.value.toString()
                 selected = livingStatus.building == building.id
@@ -94,23 +100,23 @@ fun FORM.selectLivingStatus(
     }
 }
 
-fun parseLivingStatus(
-    parameters: Parameters,
-    state: State,
-): LivingStatus {
-    return when (parse(parameters, HOME, LivingStatusType.Homeless)) {
+fun parseLivingStatusHistory(parameters: Parameters, state: State, startDate: Date) =
+    parseHistory(parameters, HOME, state, startDate, ::parseLivingStatus)
+
+private fun parseLivingStatus(parameters: Parameters, state: State, param: String): LivingStatus {
+    return when (parse(parameters, param, LivingStatusType.Homeless)) {
         LivingStatusType.InApartment -> InApartment(
             parseBuildingId(
                 parameters,
-                combine(HOME, BUILDING),
+                combine(param, BUILDING),
                 state.getApartmentHouses().minOfOrNull { it.id.value } ?: 0),
-            parseInt(parameters, combine(HOME, NUMBER)),
+            parseInt(parameters, combine(param, NUMBER)),
         )
 
         LivingStatusType.InHouse -> InHouse(
             parseBuildingId(
                 parameters,
-                combine(HOME, BUILDING),
+                combine(param, BUILDING),
                 state.getSingleFamilyHouses().minOfOrNull { it.id.value } ?: 0),
         )
 

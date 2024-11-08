@@ -45,7 +45,7 @@ fun countGender(characters: Collection<Character>) = characters
     .eachCount()
 
 fun countLivingStatus(characters: Collection<Character>) = characters
-    .groupingBy { it.livingStatus.getType() }
+    .groupingBy { it.livingStatus.current.getType() }
     .eachCount()
 
 // get characters
@@ -66,20 +66,20 @@ fun State.getOthers(id: CharacterId) = getCharacterStorage().getAll().filter { c
 
 fun State.getCharactersLivingIn(building: BuildingId) = getCharacterStorage()
     .getAll()
-    .filter { c -> c.livingStatus.isLivingIn(building) }
+    .filter { c -> c.livingStatus.current.isLivingIn(building) }
 
 fun State.getCharactersLivingInApartment(building: BuildingId, apartment: Int) = getCharacterStorage()
     .getAll()
-    .filter { c -> c.livingStatus.isLivingInApartment(building, apartment) }
+    .filter { c -> c.livingStatus.current.isLivingInApartment(building, apartment) }
 
 fun State.getCharactersLivingInHouse(building: BuildingId) = getCharacterStorage()
     .getAll()
-    .filter { c -> c.livingStatus.isLivingInHouse(building) }
+    .filter { c -> c.livingStatus.current.isLivingInHouse(building) }
 
 fun State.getResident(town: TownId) = getCharacterStorage().getAll()
     .filter { isResident(it, town) }
 
-fun State.isResident(character: Character, town: TownId) = character.livingStatus.getBuilding()
+fun State.isResident(character: Character, town: TownId) = character.livingStatus.current.getBuilding()
     ?.let { getBuildingStorage().getOrThrow(it).lot.town == town }
     ?: false
 

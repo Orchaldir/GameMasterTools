@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.util.ElementWithComplexName
+import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.getGenonymName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -43,7 +44,7 @@ data class Character(
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val appearance: Appearance = UndefinedAppearance,
     val equipmentMap: EquipmentMap = EquipmentMap(emptyMap()),
-    val livingStatus: LivingStatus = Homeless,
+    val livingStatus: History<LivingStatus> = History(Homeless),
     val employmentStatus: EmploymentStatus = Unemployed,
 ) : ElementWithComplexName<CharacterId> {
 

@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
-import at.orchaldir.gm.core.model.util.Owner
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
@@ -58,27 +57,29 @@ fun <T> FORM.selectHistory(
 
 fun <T> parseHistory(
     parameters: Parameters,
+    param: String,
     state: State,
     startDate: Date,
     parseEntry: (Parameters, State, String) -> T,
 ) = History(
-    parseEntry(parameters, state, OWNER),
-    parseHistoryEntries(parameters, state, startDate, parseEntry),
+    parseEntry(parameters, state, param),
+    parseHistoryEntries(parameters, param, state, startDate, parseEntry),
 )
 
 private fun <T> parseHistoryEntries(
     parameters: Parameters,
+    param: String,
     state: State,
     startDate: Date,
     parseEntry: (Parameters, State, String) -> T,
 ): List<HistoryEntry<T>> {
-    val param = combine(OWNER, HISTORY)
+    val historyParam = combine(param, HISTORY)
     val count = parseInt(parameters, param, 0)
     var minDate = startDate.next()
 
     return (0..<count)
         .map {
-            val previousOwner = parseHistoryEntry(parameters, state, combine(param, it), minDate, parseEntry)
+            val previousOwner = parseHistoryEntry(parameters, state, combine(historyParam, it), minDate, parseEntry)
             minDate = previousOwner.until.next()
 
             previousOwner
