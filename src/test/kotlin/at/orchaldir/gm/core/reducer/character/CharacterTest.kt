@@ -27,7 +27,7 @@ import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.PreviousOwner
+import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.BuildByCharacter
 import at.orchaldir.gm.core.model.world.building.Building
@@ -54,7 +54,7 @@ private val PERSONALITY0 = PersonalityTraitId(0)
 private val RACE0 = RaceId(0)
 private val RACE1 = RaceId(1)
 private val OWNER = History(OwnedByCharacter(ID0))
-private val PREVIOUS_OWNER = History(previousOwners = listOf(PreviousOwner(OwnedByCharacter(ID0), Day(0))))
+private val PREVIOUS_OWNER = History(previousOwners = listOf(HistoryEntry(OwnedByCharacter(ID0), Day(0))))
 
 class CharacterTest {
 

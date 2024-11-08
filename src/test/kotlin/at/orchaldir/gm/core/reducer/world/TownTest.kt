@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.util.OwnedByTown
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.PreviousOwner
+import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.building.BuildingLot
@@ -42,7 +42,7 @@ private val RIVER_TILE = TownTile(RiverTerrain(RIVER0))
 private val STREET_TILE = TownTile(construction = StreetTile(STREET0))
 private val EMPTY = TownTile()
 private val OWNER = History(OwnedByTown(ID0))
-private val PREVIOUS_OWNER = History(previousOwners = listOf(PreviousOwner(OwnedByTown(ID0), Day(0))))
+private val PREVIOUS_OWNER = History(previousOwners = listOf(HistoryEntry(OwnedByTown(ID0), Day(0))))
 
 class TownTest {
 

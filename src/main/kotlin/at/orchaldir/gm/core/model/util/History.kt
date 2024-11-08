@@ -7,9 +7,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class History(
     val owner: Owner = UnknownOwner,
-    val previousOwners: List<PreviousOwner> = emptyList(),
+    val previousOwners: List<HistoryEntry> = emptyList(),
 ) {
-    constructor(owner: Owner, previousOwner: PreviousOwner) : this(owner, listOf(previousOwner))
+    constructor(owner: Owner, previousOwner: HistoryEntry) : this(owner, listOf(previousOwner))
 
     fun contains(character: CharacterId) = previousOwners.any { it.owner.contains(character) }
 

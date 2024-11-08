@@ -12,7 +12,7 @@ fun parseOwnership(parameters: Parameters, state: State, startDate: Date) = Hist
     parsePreviousOwners(parameters, state, startDate),
 )
 
-private fun parsePreviousOwners(parameters: Parameters, state: State, startDate: Date): List<PreviousOwner> {
+private fun parsePreviousOwners(parameters: Parameters, state: State, startDate: Date): List<HistoryEntry> {
     val param = combine(OWNER, HISTORY)
     val count = parseInt(parameters, param, 0)
     var minDate = startDate.next()
@@ -26,7 +26,7 @@ private fun parsePreviousOwners(parameters: Parameters, state: State, startDate:
         }
 }
 
-private fun parsePreviousOwner(parameters: Parameters, state: State, param: String, minDate: Date) = PreviousOwner(
+private fun parsePreviousOwner(parameters: Parameters, state: State, param: String, minDate: Date) = HistoryEntry(
     parseOwner(parameters, param),
     parseDate(parameters, state, combine(param, DATE), minDate),
 )

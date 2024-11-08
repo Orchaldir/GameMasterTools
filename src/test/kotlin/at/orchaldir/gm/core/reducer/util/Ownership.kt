@@ -49,8 +49,8 @@ class OwnerTest {
     private val OWNED_BY_CHARACTER = History(OwnedByCharacter(CHARACTER0))
     private val OWNED_BY_TOWN = History(OwnedByTown(TOWN0))
     private val CHARACTER_AS_PREVIOUS =
-        History(OwnedByTown(TOWN0), PreviousOwner(OwnedByCharacter(CHARACTER0), DAY1))
-    private val TOWN_AS_PREVIOUS = History(OwnedByCharacter(CHARACTER0), PreviousOwner(OwnedByTown(TOWN0), DAY1))
+        History(OwnedByTown(TOWN0), HistoryEntry(OwnedByCharacter(CHARACTER0), DAY1))
+    private val TOWN_AS_PREVIOUS = History(OwnedByCharacter(CHARACTER0), HistoryEntry(OwnedByTown(TOWN0), DAY1))
 
 
     @Test
@@ -107,8 +107,8 @@ class OwnerTest {
         val ownership = History(
             OwnedByTown(TOWN0),
             listOf(
-                PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2),
-                PreviousOwner(OwnedByTown(TOWN0), DAY1)
+                HistoryEntry(OwnedByCharacter(CHARACTER0), DAY2),
+                HistoryEntry(OwnedByTown(TOWN0), DAY1)
             )
         )
 
@@ -140,8 +140,8 @@ class OwnerTest {
         val ownership = History(
             NoOwner,
             listOf(
-                PreviousOwner(OwnedByTown(TOWN0), DAY1),
-                PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2)
+                HistoryEntry(OwnedByTown(TOWN0), DAY1),
+                HistoryEntry(OwnedByCharacter(CHARACTER0), DAY2)
             )
         )
         val state = STATE.updateStorage(Storage(Character(CHARACTER0, birthDate = DAY2)))
@@ -177,8 +177,8 @@ class OwnerTest {
             History(
                 NoOwner,
                 listOf(
-                    PreviousOwner(OwnedByTown(TOWN0), DAY1),
-                    PreviousOwner(OwnedByCharacter(CHARACTER0), DAY2)
+                    HistoryEntry(OwnedByTown(TOWN0), DAY1),
+                    HistoryEntry(OwnedByCharacter(CHARACTER0), DAY2)
                 )
             )
         )
