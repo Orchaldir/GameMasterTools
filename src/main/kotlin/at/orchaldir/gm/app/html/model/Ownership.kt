@@ -17,17 +17,7 @@ fun HtmlBlockTag.showOwnership(
     call: ApplicationCall,
     state: State,
     ownership: History<Owner>,
-) {
-    field("Owner") {
-        showOwner(call, state, ownership.current)
-    }
-    showList("Previous Owners", ownership.previousEntries) { previous ->
-        +"Until "
-        showDate(call, state, previous.until)
-        +": "
-        showOwner(call, state, previous.entry)
-    }
-}
+) = showHistory(call, state, ownership, "Owner", HtmlBlockTag::showOwner)
 
 fun HtmlBlockTag.showOwner(
     call: ApplicationCall,
