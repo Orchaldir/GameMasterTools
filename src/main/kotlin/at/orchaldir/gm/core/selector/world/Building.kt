@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.world
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.OwnedByTown
 import at.orchaldir.gm.core.model.util.contains
@@ -16,6 +17,10 @@ fun State.getAgeInYears(building: Building) = getDefaultCalendar()
 
 fun State.canDelete(building: Building) = building.ownership.current.canDelete() &&
         getCharactersLivingIn(building.id).isEmpty()
+
+fun State.exists(id: BuildingId, date: Date) = exists(getBuildingStorage().getOrThrow(id), date)
+
+fun State.exists(building: Building, date: Date) = getDefaultCalendar().compareTo(building.constructionDate, date) <= 0
 
 fun countBuilder(collection: Collection<Building>) = collection
     .groupingBy { it.builder }
