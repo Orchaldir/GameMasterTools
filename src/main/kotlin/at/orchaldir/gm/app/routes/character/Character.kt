@@ -195,7 +195,7 @@ private fun HTML.showAllCharacters(
                     td { showDate(call, state, character.birthDate) }
                     td { +state.getAgeInYears(character).toString() }
                     td { showLivingStatus(call, state, character.livingStatus.current) }
-                    td { showEmploymentStatus(call, state, character.employmentStatus) }
+                    td { showEmploymentStatus(call, state, character.employmentStatus.current) }
                 }
             }
         }
@@ -276,7 +276,7 @@ private fun BODY.showData(
     showVitalStatus(call, state, character.vitalStatus)
     showAge(state, character, race)
     showLivingStatusHistory(call, state, character.livingStatus)
-    fieldEmploymentStatus(call, state, character.employmentStatus)
+    showEmploymentStatusHistory(call, state, character.employmentStatus)
 
     action(generateNameLink, "Generate New Name")
     action(generateBirthdayLink, "Generate Birthday")
@@ -482,7 +482,7 @@ private fun HTML.showCharacterEditor(
             selectVitalStatus(state, character)
             showAge(state, character, race)
             selectLivingStatusHistory(state, character.livingStatus, character.birthDate)
-            selectEmploymentStatus(state, character)
+            selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
             h2 { +"Social" }
             selectValue("Culture", CULTURE, state.getCultureStorage().getAll()) { culture ->
                 label = culture.name

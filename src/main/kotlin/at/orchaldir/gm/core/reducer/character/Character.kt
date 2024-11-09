@@ -121,7 +121,7 @@ private fun checkEmploymentStatus(
     state: State,
     character: Character,
 ) {
-    when (val employmentStatus = character.employmentStatus) {
+    when (val employmentStatus = character.employmentStatus.current) {
         Unemployed -> doNothing()
         is Employed -> {
             state.getBusinessStorage().require(employmentStatus.business)

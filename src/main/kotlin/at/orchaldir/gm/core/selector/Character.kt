@@ -37,7 +37,7 @@ fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
 // count
 
 fun countEmploymentStatus(characters: Collection<Character>) = characters
-    .groupingBy { it.employmentStatus.getType() }
+    .groupingBy { it.employmentStatus.current.getType() }
     .eachCount()
 
 fun countGender(characters: Collection<Character>) = characters
@@ -91,11 +91,11 @@ fun State.isResident(character: Character, town: TownId) = character.livingStatu
 
 fun State.getEmployees(job: JobId) = getCharacterStorage()
     .getAll()
-    .filter { c -> c.employmentStatus.hasJob(job) }
+    .filter { c -> c.employmentStatus.current.hasJob(job) }
 
 fun State.getEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()
-    .filter { c -> c.employmentStatus.isEmployedAt(business) }
+    .filter { c -> c.employmentStatus.current.isEmployedAt(business) }
 
 // get relatives
 

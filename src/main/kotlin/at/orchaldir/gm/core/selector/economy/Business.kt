@@ -36,8 +36,10 @@ fun State.getBusinessesWithoutBuilding() = getBusinessStorage().getIds() - getBu
 
 fun State.getBusinesses(job: JobId) = getCharacterStorage().getAll()
     .mapNotNull {
-        if (it.employmentStatus is Employed && it.employmentStatus.job == job) {
-            it.employmentStatus.business
+        val employmentStatus = it.employmentStatus.current
+
+        if (employmentStatus is Employed && employmentStatus.job == job) {
+            employmentStatus.business
         } else {
             null
         }

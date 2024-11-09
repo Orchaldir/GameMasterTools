@@ -203,8 +203,8 @@ private fun HTML.showBusinessDetails(
         showList("Employees", state.sortCharacters(state.getEmployees(business.id))) { (character, name) ->
             link(call, character.id, name)
             +" as "
-            if (character.employmentStatus is Employed) {
-                link(call, state, character.employmentStatus.job)
+            if (character.employmentStatus.current is Employed) {
+                link(call, state, character.employmentStatus.current.job)
             }
         }
         showList("Constructed Buildings", state.getBuildingsBuildBy(business.id)) { building ->
