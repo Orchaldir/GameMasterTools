@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JOB
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -49,7 +50,7 @@ class JobTest {
         fun `Cannot delete a job used by a character`() {
             val state = State(
                 listOf(
-                    Storage(Character(CHARACTER0, employmentStatus = Employed(BUSINESS0, ID0))),
+                    Storage(Character(CHARACTER0, employmentStatus = History(Employed(BUSINESS0, ID0)))),
                     Storage(Job(ID0)),
                 )
             )

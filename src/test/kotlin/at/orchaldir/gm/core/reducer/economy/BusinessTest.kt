@@ -78,7 +78,7 @@ class BusinessTest {
 
         @Test
         fun `Cannot delete a business where a character is employed`() {
-            val state = createState(Character(CHARACTER0, employmentStatus = Employed(ID0, JobId(0))))
+            val state = createState(Character(CHARACTER0, employmentStatus = History(Employed(ID0, JobId(0)))))
             val action = DeleteBusiness(ID0)
 
             assertIllegalArgument("Cannot delete business 0, because it has employees!") {

@@ -485,7 +485,7 @@ class CharacterTest {
         @Nested
         inner class EmploymentStatusTest {
             private val employed = Employed(BUSINESS0, JOB0)
-            private val action = UpdateCharacter(Character(ID0, employmentStatus = employed))
+            private val action = UpdateCharacter(Character(ID0, employmentStatus = History(employed)))
 
             @Test
             fun `Cannot use unknown business`() {
@@ -507,7 +507,7 @@ class CharacterTest {
 
                 assertEquals(
                     employed,
-                    result.getCharacterStorage().getOrThrow(ID0).employmentStatus
+                    result.getCharacterStorage().getOrThrow(ID0).employmentStatus.current
                 )
             }
 
