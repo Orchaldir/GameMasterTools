@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.util
 
-import at.orchaldir.gm.CALENDAR0
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
@@ -21,38 +20,36 @@ import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Test
 
+private val ID0 = BuildingId(0)
+private val ID1 = BuildingId(1)
+private val TOWN0 = TownId(0)
+private val STREET0 = StreetId(0)
+private val STREET1 = StreetId(1)
+private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET0))
+private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET1))
+private val DAY0 = Day(100)
+private val DAY1 = Day(200)
+private val DAY2 = Day(300)
+private val CHARACTER0 = CharacterId(2)
+
+private val CALENDAR = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
+private val STREET_NOT_IN_TOWN = StreetId(199)
+private val STATE = State(
+    listOf(
+        Storage(listOf(Building(ID0), Building(ID1))),
+        Storage(CALENDAR),
+        Storage(Character(CHARACTER0)),
+        Storage(listOf(Street(STREET0), Street(STREET1), Street(STREET_NOT_IN_TOWN))),
+        Storage(Town(TOWN0, map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1)))),
+    )
+)
+private val OWNED_BY_CHARACTER = History<Owner>(OwnedByCharacter(CHARACTER0))
+private val OWNED_BY_TOWN = History<Owner>(OwnedByTown(TOWN0))
+private val CHARACTER_AS_PREVIOUS =
+    History(OwnedByTown(TOWN0), HistoryEntry(OwnedByCharacter(CHARACTER0), DAY1))
+private val TOWN_AS_PREVIOUS = History(OwnedByCharacter(CHARACTER0), HistoryEntry(OwnedByTown(TOWN0), DAY1))
 
 class OwnerTest {
-
-    private val ID0 = BuildingId(0)
-    private val ID1 = BuildingId(1)
-    private val TOWN0 = TownId(0)
-    private val STREET0 = StreetId(0)
-    private val STREET1 = StreetId(1)
-    private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET0))
-    private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET1))
-    private val DAY0 = Day(100)
-    private val DAY1 = Day(200)
-    private val DAY2 = Day(300)
-    private val CHARACTER0 = CharacterId(2)
-
-    private val CALENDAR = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
-    private val STREET_NOT_IN_TOWN = StreetId(199)
-    private val STATE = State(
-        listOf(
-            Storage(listOf(Building(ID0), Building(ID1))),
-            Storage(CALENDAR),
-            Storage(Character(CHARACTER0)),
-            Storage(listOf(Street(STREET0), Street(STREET1), Street(STREET_NOT_IN_TOWN))),
-            Storage(Town(TOWN0, map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1)))),
-        )
-    )
-    private val OWNED_BY_CHARACTER = History<Owner>(OwnedByCharacter(CHARACTER0))
-    private val OWNED_BY_TOWN = History<Owner>(OwnedByTown(TOWN0))
-    private val CHARACTER_AS_PREVIOUS =
-        History(OwnedByTown(TOWN0), HistoryEntry(OwnedByCharacter(CHARACTER0), DAY1))
-    private val TOWN_AS_PREVIOUS = History(OwnedByCharacter(CHARACTER0), HistoryEntry(OwnedByTown(TOWN0), DAY1))
-
 
     @Test
     fun `Owner is an unknown character`() {
