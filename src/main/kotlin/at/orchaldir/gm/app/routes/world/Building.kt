@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.selector.economy.getBusinessesWithoutBuilding
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getCharactersLivingInApartment
 import at.orchaldir.gm.core.selector.getCharactersLivingInHouse
-import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingInHouse
+import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -286,10 +286,11 @@ fun HtmlBlockTag.showPurpose(
             showList("Inhabitants", state.getCharactersLivingInHouse(building.id)) { c ->
                 link(call, state, c)
             }
-            showList("Previous Inhabitants", state.getCharactersPreviouslyLivingInHouse(building.id)) { c ->
-                link(call, state, c)
-            }
         }
+    }
+
+    showList("Previous Inhabitants", state.getCharactersPreviouslyLivingIn(building.id)) { c ->
+        link(call, state, c)
     }
 }
 
