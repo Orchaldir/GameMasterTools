@@ -161,9 +161,11 @@
     ]
    },
    "employmentStatus": {
-    "type": "Employed",
-    "business": 0,
-    "job": 0
+    "current": {
+     "type": "Employed",
+     "business": 0,
+     "job": 0
+    }
    }
   },
   "2": {
