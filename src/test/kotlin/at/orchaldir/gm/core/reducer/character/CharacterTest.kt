@@ -44,6 +44,7 @@ private val ID0 = CharacterId(0)
 private val ID1 = CharacterId(1)
 private val ID2 = CharacterId(2)
 private val BUILDING0 = BuildingId(0)
+private val BUILDING1 = BuildingId(1)
 private val BUSINESS0 = BusinessId(0)
 private val CULTURE0 = CultureId(0)
 private val LANGUAGE0 = LanguageId(0)
@@ -449,6 +450,15 @@ class CharacterTest {
                 val action = UpdateCharacter(Character(ID0, livingStatus = History(IN_HOUSE)))
 
                 assertIllegalArgument("The home doesn't exist!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Cannot use unknown building as a previous home`() {
+                val state = STATE.updateStorage(Storage(Building(BUILDING0)))
+                val entry = HistoryEntry<LivingStatus>(InHouse(BUILDING1), Day(0))
+                val action = UpdateCharacter(Character(ID0, livingStatus = History(IN_HOUSE, listOf(entry))))
+
+                assertIllegalArgument("The 1.previous home doesn't exist!") { REDUCER.invoke(state, action) }
             }
 
             @Test
