@@ -54,6 +54,8 @@ private val RACE0 = RaceId(0)
 private val RACE1 = RaceId(1)
 private val OWNER = History<Owner>(OwnedByCharacter(ID0))
 private val PREVIOUS_OWNER = History(UnknownOwner, listOf(HistoryEntry(OwnedByCharacter(ID0), Day(0))))
+private val IN_APARTMENT = InApartment(BUILDING0, 0)
+private val IN_HOUSE = InHouse(BUILDING0)
 
 class CharacterTest {
 
@@ -402,7 +404,7 @@ class CharacterTest {
 
             @Test
             fun `Live in a single family house`() {
-                testSuccess(Building(BUILDING0), InHouse(BUILDING0))
+                testSuccess(Building(BUILDING0), IN_HOUSE)
             }
 
             @Test
@@ -417,9 +419,19 @@ class CharacterTest {
             @Test
             fun `Living in an apartment requires an apartment house`() {
                 val state = STATE.updateStorage(Storage(Building(BUILDING0)))
-                val action = UpdateCharacter(Character(ID0, livingStatus = History(InApartment(BUILDING0, 0))))
+                val action = UpdateCharacter(Character(ID0, livingStatus = History(IN_APARTMENT)))
 
-                assertIllegalState("Living in an apartment requires an apartment house!") {
+                assertIllegalState("The home is not an apartment house!") {
+                    REDUCER.invoke(state, action)
+                }
+            }
+
+            @Test
+            fun `Living in an house requires a house`() {
+                val state = STATE.updateStorage(Storage(Building(BUILDING0, purpose = ApartmentHouse(2))))
+                val action = UpdateCharacter(Character(ID0, livingStatus = History(IN_HOUSE)))
+
+                assertIllegalArgument("The home is not a single family house!") {
                     REDUCER.invoke(state, action)
                 }
             }
@@ -429,21 +441,21 @@ class CharacterTest {
                 val state = STATE.updateStorage(Storage(Building(BUILDING0, purpose = ApartmentHouse(2))))
                 val action = UpdateCharacter(Character(ID0, livingStatus = History(InApartment(BUILDING0, 2))))
 
-                assertIllegalArgument("Apartment index is too high!") { REDUCER.invoke(state, action) }
+                assertIllegalArgument("The home's apartment index is too high!") { REDUCER.invoke(state, action) }
             }
 
             @Test
             fun `Cannot use unknown building as home`() {
-                val action = UpdateCharacter(Character(ID0, livingStatus = History(InHouse(BUILDING0))))
+                val action = UpdateCharacter(Character(ID0, livingStatus = History(IN_HOUSE)))
 
-                assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("The home doesn't exist!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test
             fun `Cannot use unknown building as apartment house`() {
-                val action = UpdateCharacter(Character(ID0, livingStatus = History(InApartment(BUILDING0, 0))))
+                val action = UpdateCharacter(Character(ID0, livingStatus = History(IN_APARTMENT)))
 
-                assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("The home doesn't exist!") { REDUCER.invoke(STATE, action) }
             }
 
             private fun testSuccess(building: Building, livingStatus: LivingStatus) {
