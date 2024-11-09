@@ -146,7 +146,19 @@
      "type": "InApartment",
      "building": 2,
      "apartmentIndex": 9
-    }
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "InHouse",
+       "building": 1
+      },
+      "until": {
+       "type": "Day",
+       "day": 691902
+      }
+     }
+    ]
    },
    "employmentStatus": {
     "type": "Employed",

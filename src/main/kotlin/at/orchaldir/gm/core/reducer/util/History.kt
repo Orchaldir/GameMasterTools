@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.getDefaultCalendar
-import at.orchaldir.gm.utils.titlecaseFirstChar
 
 fun <T> checkHistory(
     state: State,
