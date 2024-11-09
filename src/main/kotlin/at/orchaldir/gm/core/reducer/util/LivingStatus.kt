@@ -17,15 +17,15 @@ private fun checkLivingStatus(
     state: State,
     livingStatus: LivingStatus,
     noun: String,
-    start: Date,
+    date: Date,
 ) {
     when (livingStatus) {
         Homeless -> doNothing()
         is InApartment -> {
-            val apartmentHouse = state.getBuildingStorage().getOrThrow(livingStatus.building)
+            val building = state.getBuildingStorage().getOrThrow(livingStatus.building)
 
-            if (apartmentHouse.purpose is ApartmentHouse) {
-                require(livingStatus.apartmentIndex < apartmentHouse.purpose.apartments) { "Apartment index is too high!" }
+            if (building.purpose is ApartmentHouse) {
+                require(livingStatus.apartmentIndex < building.purpose.apartments) { "Apartment index is too high!" }
             } else {
                 error("Living in an apartment requires an apartment house!")
             }
