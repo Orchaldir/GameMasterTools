@@ -417,33 +417,7 @@ class CharacterTest {
                 }
             }
 
-            @Test
-            fun `Living in an apartment requires an apartment house`() {
-                val state = STATE.updateStorage(Storage(Building(BUILDING0)))
-                val action = UpdateCharacter(Character(ID0, livingStatus = History(IN_APARTMENT)))
 
-                assertIllegalState("The home is not an apartment house!") {
-                    REDUCER.invoke(state, action)
-                }
-            }
-
-            @Test
-            fun `Living in an house requires a house`() {
-                val state = STATE.updateStorage(Storage(Building(BUILDING0, purpose = ApartmentHouse(2))))
-                val action = UpdateCharacter(Character(ID0, livingStatus = History(IN_HOUSE)))
-
-                assertIllegalArgument("The home is not a single family house!") {
-                    REDUCER.invoke(state, action)
-                }
-            }
-
-            @Test
-            fun `Cannot use an apartment number higher than the building allows`() {
-                val state = STATE.updateStorage(Storage(Building(BUILDING0, purpose = ApartmentHouse(2))))
-                val action = UpdateCharacter(Character(ID0, livingStatus = History(InApartment(BUILDING0, 2))))
-
-                assertIllegalArgument("The home's apartment index is too high!") { REDUCER.invoke(state, action) }
-            }
 
 
             private fun testSuccess(building: Building, livingStatus: LivingStatus) {

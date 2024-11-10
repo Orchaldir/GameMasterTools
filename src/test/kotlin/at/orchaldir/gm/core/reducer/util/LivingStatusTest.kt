@@ -5,9 +5,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.InApartment
 import at.orchaldir.gm.core.model.character.InHouse
 import at.orchaldir.gm.core.model.character.LivingStatus
-import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
+import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.BUILDING
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.utils.Storage
@@ -50,6 +50,31 @@ class LivingStatusTest {
 
         assertIllegalArgument("The home doesn't exist!") {
             checkLivingStatusHistory(state, History(IN_APARTMENT), DAY0)
+        }
+    }
+
+    @Test
+    fun `Living in an house requires a house`() {
+        val state = STATE.updateStorage(Storage(Building(BUILDING_ID_0, purpose = ApartmentHouse(2))))
+
+        assertIllegalArgument("The home is not a single family house!") {
+            checkLivingStatusHistory(state, History(IN_HOUSE), DAY0)
+        }
+    }
+
+    @Test
+    fun `Living in an apartment requires an apartment house`() {
+        assertIllegalState("The home is not an apartment house!") {
+            checkLivingStatusHistory(STATE, History(IN_APARTMENT), DAY0)
+        }
+    }
+
+    @Test
+    fun `Cannot use an apartment number higher than the building allows`() {
+        val state = STATE.updateStorage(Storage(Building(BUILDING_ID_0, purpose = ApartmentHouse(2))))
+
+        assertIllegalArgument("The home's apartment index is too high!") {
+            checkLivingStatusHistory(state, History(InApartment(BUILDING_ID_0, 2)), DAY0)
         }
     }
 
