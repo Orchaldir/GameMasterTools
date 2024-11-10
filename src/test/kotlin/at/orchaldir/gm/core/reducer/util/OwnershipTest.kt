@@ -1,5 +1,8 @@
 package at.orchaldir.gm.core.reducer.util
 
+import at.orchaldir.gm.DAY0
+import at.orchaldir.gm.DAY1
+import at.orchaldir.gm.DAY2
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
@@ -8,7 +11,6 @@ import at.orchaldir.gm.core.model.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.character.CHARACTER
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
@@ -27,9 +29,6 @@ private val STREET0 = StreetId(0)
 private val STREET1 = StreetId(1)
 private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET0))
 private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET1))
-private val DAY0 = Day(100)
-private val DAY1 = Day(200)
-private val DAY2 = Day(300)
 private val CHARACTER0 = CharacterId(2)
 
 private val CALENDAR = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
