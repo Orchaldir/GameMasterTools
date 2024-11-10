@@ -201,7 +201,9 @@ private fun HTML.showBusinessDetails(
         fieldAge("Age", state.getAgeInYears(business))
         showOwnership(call, state, business.ownership)
         showEmployees(call, state, "Employees", state.getEmployees(business.id))
-        showEmployees(call, state, "Previous Employees", state.getPreviousEmployees(business.id))
+        showList("Previous Employees", state.getPreviousEmployees(business.id).toSet()) { character ->
+            link(call, state, character)
+        }
         showList("Constructed Buildings", state.getBuildingsBuildBy(business.id)) { building ->
             link(call, state, building)
         }
