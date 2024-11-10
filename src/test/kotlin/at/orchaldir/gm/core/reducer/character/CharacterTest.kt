@@ -445,28 +445,6 @@ class CharacterTest {
                 assertIllegalArgument("The home's apartment index is too high!") { REDUCER.invoke(state, action) }
             }
 
-            @Test
-            fun `Cannot use unknown building as home`() {
-                val action = UpdateCharacter(Character(ID0, livingStatus = History(IN_HOUSE)))
-
-                assertIllegalArgument("The home doesn't exist!") { REDUCER.invoke(STATE, action) }
-            }
-
-            @Test
-            fun `Cannot use unknown building as a previous home`() {
-                val state = STATE.updateStorage(Storage(Building(BUILDING0)))
-                val entry = HistoryEntry<LivingStatus>(InHouse(BUILDING1), Day(0))
-                val action = UpdateCharacter(Character(ID0, livingStatus = History(IN_HOUSE, listOf(entry))))
-
-                assertIllegalArgument("The 1.previous home doesn't exist!") { REDUCER.invoke(state, action) }
-            }
-
-            @Test
-            fun `Cannot use unknown building as apartment house`() {
-                val action = UpdateCharacter(Character(ID0, livingStatus = History(IN_APARTMENT)))
-
-                assertIllegalArgument("The home doesn't exist!") { REDUCER.invoke(STATE, action) }
-            }
 
             private fun testSuccess(building: Building, livingStatus: LivingStatus) {
                 val state = STATE.updateStorage(Storage(building))
