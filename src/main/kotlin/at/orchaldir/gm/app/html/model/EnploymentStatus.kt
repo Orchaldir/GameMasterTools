@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.showList
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.economy.parseBusinessId
 import at.orchaldir.gm.app.parse.economy.parseJobId
@@ -11,11 +12,27 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.selector.sortCharacters
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+
+fun HtmlBlockTag.showEmployees(
+    call: ApplicationCall,
+    state: State,
+    label: String,
+    employees: List<Character>,
+) {
+    showList(label, state.sortCharacters(employees)) { (character, name) ->
+        link(call, character.id, name)
+        +" as "
+        if (character.employmentStatus.current is Employed) {
+            link(call, state, character.employmentStatus.current.job)
+        }
+    }
+}
 
 fun HtmlBlockTag.showEmploymentStatusHistory(
     call: ApplicationCall,

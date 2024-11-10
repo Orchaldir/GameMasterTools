@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.selectOwnership
+import at.orchaldir.gm.app.html.model.showEmployees
 import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.app.html.model.showOwnership
 import at.orchaldir.gm.app.parse.economy.parseBusiness
@@ -11,7 +12,6 @@ import at.orchaldir.gm.core.action.CreateBusiness
 import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.selector.economy.SortBusiness
@@ -19,7 +19,7 @@ import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.economy.getAgeInYears
 import at.orchaldir.gm.core.selector.economy.sortBusinesses
 import at.orchaldir.gm.core.selector.getEmployees
-import at.orchaldir.gm.core.selector.sortCharacters
+import at.orchaldir.gm.core.selector.getPreviousEmployees
 import at.orchaldir.gm.core.selector.world.getBuilding
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import io.ktor.http.*
@@ -200,13 +200,8 @@ private fun HTML.showBusinessDetails(
         field(call, state, "Start", business.startDate)
         fieldAge("Age", state.getAgeInYears(business))
         showOwnership(call, state, business.ownership)
-        showList("Employees", state.sortCharacters(state.getEmployees(business.id))) { (character, name) ->
-            link(call, character.id, name)
-            +" as "
-            if (character.employmentStatus.current is Employed) {
-                link(call, state, character.employmentStatus.current.job)
-            }
-        }
+        showEmployees(call, state, "Employees", state.getEmployees(business.id))
+        showEmployees(call, state, "Previous Employees", state.getPreviousEmployees(business.id))
         showList("Constructed Buildings", state.getBuildingsBuildBy(business.id)) { building ->
             link(call, state, building)
         }
