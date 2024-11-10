@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.SingleFamilyHouse
+import at.orchaldir.gm.core.selector.world.exists
 import at.orchaldir.gm.utils.doNothing
 
 fun checkLivingStatusHistory(
@@ -20,8 +21,8 @@ private fun checkLivingStatus(
     noun: String,
     date: Date,
 ) {
-    when (livingStatus) {
-        Homeless -> doNothing()
+    val building = when (livingStatus) {
+        Homeless -> return
         is InApartment -> {
             val building = state.getBuildingStorage().getOrThrow(livingStatus.building) { "The $noun doesn't exist!" }
 
@@ -30,12 +31,18 @@ private fun checkLivingStatus(
             } else {
                 error("The $noun is not an apartment house!")
             }
+
+            building
         }
 
         is InHouse -> {
             val building = state.getBuildingStorage().getOrThrow(livingStatus.building) { "The $noun doesn't exist!" }
 
             require(building.purpose is SingleFamilyHouse) { "The $noun is not a single family house!" }
+
+            building
         }
     }
+
+    require(state.exists(building, date)) { "The $noun doesn't exist yet!" }
 }

@@ -79,6 +79,25 @@ class LivingStatusTest {
     }
 
     @Test
+    fun `The house doesn't exist yet`() {
+        val state = STATE.updateStorage(Storage(Building(BUILDING_ID_0, constructionDate = DAY1)))
+
+        assertIllegalArgument("The home doesn't exist yet!") {
+            checkLivingStatusHistory(state, History(IN_HOUSE), DAY0)
+        }
+    }
+
+    @Test
+    fun `The apartment house doesn't exist yet`() {
+        val state =
+            STATE.updateStorage(Storage(Building(BUILDING_ID_0, purpose = ApartmentHouse(2), constructionDate = DAY1)))
+
+        assertIllegalArgument("The home doesn't exist yet!") {
+            checkLivingStatusHistory(state, History(IN_APARTMENT), DAY0)
+        }
+    }
+
+    @Test
     fun `Live in a valid single family house`() {
         checkLivingStatusHistory(STATE, History(IN_HOUSE), DAY0)
     }
