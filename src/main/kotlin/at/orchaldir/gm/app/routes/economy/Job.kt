@@ -137,16 +137,18 @@ private fun HTML.showJobDetails(
     val backLink = call.application.href(JobRoutes())
     val deleteLink = call.application.href(JobRoutes.Delete(job.id))
     val editLink = call.application.href(JobRoutes.Edit(job.id))
+    val characters = state.getEmployees(job.id).toSet()
+    val previousCharacters = state.getPreviousEmployees(job.id).toSet() - characters
 
     simpleHtml("Job: ${job.name}") {
         field("Name", job.name)
         showList("Businesses", state.getBusinesses(job.id)) { business ->
             link(call, business)
         }
-        showList("Current Characters", state.sortCharacters(state.getEmployees(job.id))) { (character, name) ->
+        showList("Current Characters", state.sortCharacters(characters)) { (character, name) ->
             link(call, character.id, name)
         }
-        showList("Previous Characters", state.sortCharacters(state.getPreviousEmployees(job.id))) { (character, name) ->
+        showList("Previous Characters", state.sortCharacters(previousCharacters)) { (character, name) ->
             link(call, character.id, name)
         }
         action(editLink, "Edit")

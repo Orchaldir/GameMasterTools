@@ -23,7 +23,7 @@ fun HtmlBlockTag.showEmployees(
     call: ApplicationCall,
     state: State,
     label: String,
-    employees: List<Character>,
+    employees: Collection<Character>,
 ) {
     showList(label, state.sortCharacters(employees)) { (character, name) ->
         link(call, character.id, name)

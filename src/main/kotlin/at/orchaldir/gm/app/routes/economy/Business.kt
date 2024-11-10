@@ -193,6 +193,8 @@ private fun HTML.showBusinessDetails(
     val backLink = call.application.href(BusinessRoutes.All())
     val deleteLink = call.application.href(BusinessRoutes.Delete(business.id))
     val editLink = call.application.href(BusinessRoutes.Edit(business.id))
+    val employees = state.getEmployees(business.id).toSet()
+    val previousEmployees = state.getPreviousEmployees(business.id).toSet() - employees
 
     simpleHtml("Business: ${business.name}") {
         field("Name", business.name)
@@ -200,8 +202,8 @@ private fun HTML.showBusinessDetails(
         field(call, state, "Start", business.startDate)
         fieldAge("Age", state.getAgeInYears(business))
         showOwnership(call, state, business.ownership)
-        showEmployees(call, state, "Employees", state.getEmployees(business.id))
-        showList("Previous Employees", state.getPreviousEmployees(business.id).toSet()) { character ->
+        showEmployees(call, state, "Employees", employees)
+        showList("Previous Employees", previousEmployees) { character ->
             link(call, state, character)
         }
         showList("Constructed Buildings", state.getBuildingsBuildBy(business.id)) { building ->
