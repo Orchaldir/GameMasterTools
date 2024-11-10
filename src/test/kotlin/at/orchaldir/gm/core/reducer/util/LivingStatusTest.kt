@@ -78,4 +78,19 @@ class LivingStatusTest {
         }
     }
 
+    @Test
+    fun `Live in a valid single family house`() {
+        checkLivingStatusHistory(STATE, History(IN_HOUSE), DAY0)
+    }
+
+    @Test
+    fun `Live in a valid apartment`() {
+        val count = 3
+        val state = STATE.updateStorage(Storage(Building(BUILDING_ID_0, purpose = ApartmentHouse(count))))
+
+        repeat(count) {
+            checkLivingStatusHistory(state, History(InApartment(BUILDING_ID_0, it)), DAY0)
+        }
+    }
+
 }

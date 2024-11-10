@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.reducer.character
 
+import at.orchaldir.gm.BUILDING_ID_0
 import at.orchaldir.gm.CALENDAR0
 import at.orchaldir.gm.assertIllegalArgument
-import at.orchaldir.gm.assertIllegalState
 import at.orchaldir.gm.core.action.CreateCharacter
 import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
@@ -27,10 +27,8 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.BuildByCharacter
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -43,8 +41,6 @@ import kotlin.test.assertFailsWith
 private val ID0 = CharacterId(0)
 private val ID1 = CharacterId(1)
 private val ID2 = CharacterId(2)
-private val BUILDING0 = BuildingId(0)
-private val BUILDING1 = BuildingId(1)
 private val BUSINESS0 = BusinessId(0)
 private val CULTURE0 = CultureId(0)
 private val LANGUAGE0 = LanguageId(0)
@@ -55,8 +51,6 @@ private val RACE0 = RaceId(0)
 private val RACE1 = RaceId(1)
 private val OWNER = History<Owner>(OwnedByCharacter(ID0))
 private val PREVIOUS_OWNER = History(UnknownOwner, listOf(HistoryEntry(OwnedByCharacter(ID0), Day(0))))
-private val IN_APARTMENT = InApartment(BUILDING0, 0)
-private val IN_HOUSE = InHouse(BUILDING0)
 
 class CharacterTest {
 
@@ -116,7 +110,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot delete a builder`() {
-            val state = createState(Building(BUILDING0, builder = BuildByCharacter(ID0)))
+            val state = createState(Building(BUILDING_ID_0, builder = BuildByCharacter(ID0)))
 
             assertIllegalArgument("Cannot delete character 0, because he is a builder!") {
                 REDUCER.invoke(state, action)
@@ -128,7 +122,7 @@ class CharacterTest {
 
             @Test
             fun `Cannot delete a building owner`() {
-                val state = createState(Building(BUILDING0, ownership = OWNER))
+                val state = createState(Building(BUILDING_ID_0, ownership = OWNER))
 
                 assertIllegalArgument("Cannot delete character 0, because he owns buildings!") {
                     REDUCER.invoke(state, action)
@@ -137,7 +131,7 @@ class CharacterTest {
 
             @Test
             fun `Cannot delete a previous building owner`() {
-                val state = createState(Building(BUILDING0, ownership = PREVIOUS_OWNER))
+                val state = createState(Building(BUILDING_ID_0, ownership = PREVIOUS_OWNER))
 
                 assertIllegalArgument("Cannot delete character 0, because he previously owned buildings!") {
                     REDUCER.invoke(state, action)
@@ -404,33 +398,10 @@ class CharacterTest {
         inner class LivingStatusTest {
 
             @Test
-            fun `Live in a single family house`() {
-                testSuccess(Building(BUILDING0), IN_HOUSE)
-            }
+            fun `Cannot use unknown building as home`() {
+                val action = UpdateCharacter(Character(ID0, livingStatus = History(InHouse(BUILDING_ID_0))))
 
-            @Test
-            fun `Live in an apartment`() {
-                val count = 3
-
-                repeat(count) {
-                    testSuccess(Building(BUILDING0, purpose = ApartmentHouse(count)), InApartment(BUILDING0, it))
-                }
-            }
-
-
-
-
-            private fun testSuccess(building: Building, livingStatus: LivingStatus) {
-                val state = STATE.updateStorage(Storage(building))
-                val character = Character(ID0, livingStatus = History(livingStatus))
-                val action = UpdateCharacter(character)
-
-                val result = REDUCER.invoke(state, action).first
-
-                assertEquals(
-                    character,
-                    result.getCharacterStorage().getOrThrow(ID0)
-                )
+                assertIllegalArgument("The home doesn't exist!") { REDUCER.invoke(STATE, action) }
             }
         }
 
