@@ -414,14 +414,14 @@ class CharacterTest {
             fun `Cannot use unknown business`() {
                 val state = STATE.removeStorage(BUSINESS)
 
-                assertIllegalArgument("Requires unknown Business 0!") { REDUCER.invoke(state, action) }
+                assertIllegalArgument("The employment's business doesn't exist!") { REDUCER.invoke(state, action) }
             }
 
             @Test
             fun `Cannot use unknown job`() {
                 val state = STATE.removeStorage(JOB)
 
-                assertIllegalArgument("Requires unknown Job 0!") { REDUCER.invoke(state, action) }
+                assertIllegalArgument("The employment's job doesn't exist!") { REDUCER.invoke(state, action) }
             }
 
             @Test

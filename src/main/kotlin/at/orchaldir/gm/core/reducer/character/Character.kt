@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.reducer.util.checkEmploymentStatusHistory
 import at.orchaldir.gm.core.reducer.util.checkLivingStatusHistory
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
@@ -18,8 +19,6 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 val CREATE_CHARACTER: Reducer<CreateCharacter, State> = { state, _ ->
     val character = Character(state.getCharacterStorage().nextId, birthDate = state.time.currentDate)
@@ -72,7 +71,7 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     checkOrigin(state, character)
     checkCauseOfDeath(state, character)
     checkLivingStatusHistory(state, character.livingStatus, character.birthDate)
-    checkEmploymentStatus(state, character)
+    checkEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
     character.personality.forEach { state.getPersonalityTraitStorage().require(it) }
     val update = character.copy(languages = oldCharacter.languages)
 
@@ -117,15 +116,4 @@ private fun checkCauseOfDeath(
     }
 }
 
-private fun checkEmploymentStatus(
-    state: State,
-    character: Character,
-) {
-    when (val employmentStatus = character.employmentStatus.current) {
-        Unemployed -> doNothing()
-        is Employed -> {
-            state.getBusinessStorage().require(employmentStatus.business)
-            state.getJobStorage().require(employmentStatus.job)
-        }
-    }
-}
+
