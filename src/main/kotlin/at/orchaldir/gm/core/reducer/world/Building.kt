@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.reducer.util.checkBuilder
 import at.orchaldir.gm.core.reducer.util.checkOwnership
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
+import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.world.getMinNumberOfApartment
 import at.orchaldir.gm.core.selector.world.getStreetIds
 import at.orchaldir.gm.core.selector.world.getUsedHouseNumbers
@@ -45,6 +46,9 @@ val DELETE_BUILDING: Reducer<DeleteBuilding, State> = { state, action ->
     require(
         state.getCharactersLivingIn(id).isEmpty()
     ) { "Cannot delete building ${id.value}, because it has inhabitants!" }
+    require(
+        state.getCharactersPreviouslyLivingIn(id).isEmpty()
+    ) { "Cannot delete building ${id.value}, because it had inhabitants!" }
 
     noFollowUps(
         state.updateStorage(

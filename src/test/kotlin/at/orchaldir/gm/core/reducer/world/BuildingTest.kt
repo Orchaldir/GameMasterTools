@@ -14,10 +14,7 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.Year
-import at.orchaldir.gm.core.model.util.OwnedByCharacter
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.Owner
-import at.orchaldir.gm.core.model.util.UnknownOwner
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
@@ -220,6 +217,16 @@ class BuildingTest {
             val state = state.updateStorage(Storage(Character(CHARACTER0, livingStatus = History(InHouse(ID0)))))
 
             assertIllegalArgument("Cannot delete building 0, because it has inhabitants!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a single family house, if someone lived inside`() {
+            val livingStatus = History(Homeless, HistoryEntry(InHouse(ID0), DAY0))
+            val state = state.updateStorage(Storage(Character(CHARACTER0, livingStatus = livingStatus)))
+
+            assertIllegalArgument("Cannot delete building 0, because it had inhabitants!") {
                 REDUCER.invoke(state, action)
             }
         }
