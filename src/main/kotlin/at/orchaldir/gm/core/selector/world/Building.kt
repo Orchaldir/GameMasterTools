@@ -10,13 +10,15 @@ import at.orchaldir.gm.core.model.util.contains
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
+import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 
 fun State.getAgeInYears(building: Building) = getDefaultCalendar()
     .getDurationInYears(building.constructionDate, time.currentDate)
 
-fun State.canDelete(building: Building) = building.ownership.current.canDelete() &&
-        getCharactersLivingIn(building.id).isEmpty()
+fun State.canDelete(building: Building) = building.ownership.current.canDelete()
+        && getCharactersLivingIn(building.id).isEmpty()
+        && getCharactersPreviouslyLivingIn(building.id).isEmpty()
 
 fun State.exists(id: BuildingId, date: Date) = exists(getBuildingStorage().getOrThrow(id), date)
 
