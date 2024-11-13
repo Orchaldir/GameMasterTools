@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.BUILDING
+import at.orchaldir.gm.app.BUSINESS
+import at.orchaldir.gm.app.EMPLOYMENT
+import at.orchaldir.gm.app.JOB
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showList
@@ -14,7 +17,6 @@ import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.economy.isInOperation
 import at.orchaldir.gm.core.selector.sortCharacters
-import at.orchaldir.gm.core.selector.world.exists
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*

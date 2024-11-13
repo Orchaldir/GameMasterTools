@@ -1,11 +1,12 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.Employed
+import at.orchaldir.gm.core.model.character.EmploymentStatus
+import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.economy.isInOperation
-import at.orchaldir.gm.core.selector.world.exists
 import at.orchaldir.gm.utils.doNothing
 
 fun checkEmploymentStatusHistory(

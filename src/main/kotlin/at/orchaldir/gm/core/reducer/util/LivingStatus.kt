@@ -1,13 +1,15 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.Homeless
+import at.orchaldir.gm.core.model.character.InApartment
+import at.orchaldir.gm.core.model.character.InHouse
+import at.orchaldir.gm.core.model.character.LivingStatus
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.SingleFamilyHouse
 import at.orchaldir.gm.core.selector.world.exists
-import at.orchaldir.gm.utils.doNothing
 
 fun checkLivingStatusHistory(
     state: State,
