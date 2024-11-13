@@ -15,6 +15,8 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
+import at.orchaldir.gm.core.selector.isAlive
+import at.orchaldir.gm.core.selector.world.exists
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
 import at.orchaldir.gm.core.selector.world.getSingleFamilyHouses
 import at.orchaldir.gm.utils.doNothing
@@ -73,6 +75,7 @@ fun HtmlBlockTag.selectLivingStatus(
                 label = building.name(state)
                 value = building.id.value.toString()
                 selected = livingStatus.building == building.id
+                disabled = !state.exists(building, start)
             }
 
             val apartmentHouse = state.getBuildingStorage().getOrThrow(livingStatus.building)
@@ -94,6 +97,7 @@ fun HtmlBlockTag.selectLivingStatus(
                 label = building.name(state)
                 value = building.id.value.toString()
                 selected = livingStatus.building == building.id
+                disabled = !state.exists(building, start)
             }
     }
 }

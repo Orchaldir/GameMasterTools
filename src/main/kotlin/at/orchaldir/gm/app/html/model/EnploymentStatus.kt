@@ -12,7 +12,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.selector.economy.isInOperation
 import at.orchaldir.gm.core.selector.sortCharacters
+import at.orchaldir.gm.core.selector.world.exists
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -81,6 +83,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
                 label = business.name
                 value = business.id.value.toString()
                 selected = employmentStatus.business == business.id
+                disabled = !state.isInOperation(business, start)
             }
             selectValue("Job", combine(param, JOB), state.getJobStorage().getAll()) { job ->
                 label = job.name
