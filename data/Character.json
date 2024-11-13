@@ -72,8 +72,10 @@
     }
    },
    "livingStatus": {
-    "type": "InHouse",
-    "building": 1
+    "current": {
+     "type": "InHouse",
+     "building": 1
+    }
    }
   },
   "1": {
@@ -140,14 +142,30 @@
     }
    },
    "livingStatus": {
-    "type": "InApartment",
-    "building": 2,
-    "apartmentIndex": 9
+    "current": {
+     "type": "InApartment",
+     "building": 2,
+     "apartmentIndex": 9
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "InHouse",
+       "building": 1
+      },
+      "until": {
+       "type": "Day",
+       "day": 691902
+      }
+     }
+    ]
    },
    "employmentStatus": {
-    "type": "Employed",
-    "business": 0,
-    "job": 0
+    "current": {
+     "type": "Employed",
+     "business": 0,
+     "job": 0
+    }
    }
   },
   "2": {

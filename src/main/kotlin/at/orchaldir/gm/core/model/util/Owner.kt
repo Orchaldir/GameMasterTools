@@ -5,6 +5,13 @@ import at.orchaldir.gm.core.model.world.town.TownId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class OwnerType {
+    None,
+    Unknown,
+    Character,
+    Town,
+}
+
 @Serializable
 sealed class Owner {
 
@@ -27,6 +34,10 @@ sealed class Owner {
     fun contains(other: TownId) = this is OwnedByTown && town == other
 
 }
+
+fun History<Owner>.contains(character: CharacterId) = previousEntries.any { it.entry.contains(character) }
+
+fun History<Owner>.contains(town: TownId) = previousEntries.any { it.entry.contains(town) }
 
 @Serializable
 @SerialName("None")

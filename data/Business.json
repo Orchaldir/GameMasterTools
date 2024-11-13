@@ -9,7 +9,7 @@
     "year": 1799
    },
    "ownership": {
-    "owner": {
+    "current": {
      "type": "Town",
      "town": 0
     }
@@ -19,13 +19,13 @@
    "id": 1,
    "name": "Imperial Theater",
    "ownership": {
-    "owner": {
+    "current": {
      "type": "Character",
      "character": 0
     },
-    "previousOwners": [
+    "previousEntries": [
      {
-      "owner": {
+      "entry": {
        "type": "Unknown"
       },
       "until": {

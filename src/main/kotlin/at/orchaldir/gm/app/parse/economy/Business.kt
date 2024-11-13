@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.parse.economy
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.html.model.parseOwnership
 import at.orchaldir.gm.app.parse.parseDate
 import at.orchaldir.gm.app.parse.parseOptionalInt
-import at.orchaldir.gm.app.parse.parseOwnership
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId

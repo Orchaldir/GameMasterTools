@@ -19,7 +19,7 @@
     "year": 1877
    },
    "ownership": {
-    "owner": {
+    "current": {
      "type": "Town",
      "town": 0
     }
@@ -53,13 +53,13 @@
     "year": 1642
    },
    "ownership": {
-    "owner": {
+    "current": {
      "type": "Character",
      "character": 1
     },
-    "previousOwners": [
+    "previousEntries": [
      {
-      "owner": {
+      "entry": {
        "type": "Character",
        "character": 2
       },
@@ -69,7 +69,7 @@
       }
      },
      {
-      "owner": {
+      "entry": {
        "type": "Town",
        "town": 0
       },

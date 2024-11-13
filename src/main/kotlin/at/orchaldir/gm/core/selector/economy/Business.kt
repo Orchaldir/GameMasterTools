@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.OwnedByTown
+import at.orchaldir.gm.core.model.util.contains
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getEmployees
@@ -17,11 +18,12 @@ import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 
 fun State.canDelete(id: BusinessId) = getBuilding(id) == null
         && getEmployees(id).isEmpty()
+
         && getBuildingsBuildBy(id).isEmpty()
 
-fun State.isOpen(id: BusinessId, date: Date) = isOpen(getBusinessStorage().getOrThrow(id), date)
+fun State.isInOperation(id: BusinessId, date: Date) = isInOperation(getBusinessStorage().getOrThrow(id), date)
 
-fun State.isOpen(business: Business, date: Date) = getDefaultCalendar()
+fun State.isInOperation(business: Business, date: Date) = getDefaultCalendar()
     .isAfterOrEqual(date, business.startDate)
 
 fun State.getAgeInYears(business: Business) = getDefaultCalendar()
@@ -35,8 +37,10 @@ fun State.getBusinessesWithoutBuilding() = getBusinessStorage().getIds() - getBu
 
 fun State.getBusinesses(job: JobId) = getCharacterStorage().getAll()
     .mapNotNull {
-        if (it.employmentStatus is Employed && it.employmentStatus.job == job) {
-            it.employmentStatus.business
+        val employmentStatus = it.employmentStatus.current
+
+        if (employmentStatus is Employed && employmentStatus.job == job) {
+            employmentStatus.business
         } else {
             null
         }
@@ -45,18 +49,18 @@ fun State.getBusinesses(job: JobId) = getCharacterStorage().getAll()
     .map { getBusinessStorage().getOrThrow(it) }
 
 fun State.getOpenBusinesses(date: Date) = getBusinessStorage().getAll()
-    .filter { isOpen(it, date) }
+    .filter { isInOperation(it, date) }
 
 // owner
 
 fun State.getOwnedBusinesses(character: CharacterId) = getBusinessStorage().getAll()
-    .filter { it.ownership.owner is OwnedByCharacter && it.ownership.owner.character == character }
+    .filter { it.ownership.current is OwnedByCharacter && it.ownership.current.character == character }
 
 fun State.getPreviouslyOwnedBusinesses(character: CharacterId) = getBusinessStorage().getAll()
     .filter { it.ownership.contains(character) }
 
 fun State.getOwnedBusinesses(town: TownId) = getBusinessStorage().getAll()
-    .filter { it.ownership.owner is OwnedByTown && it.ownership.owner.town == town }
+    .filter { it.ownership.current is OwnedByTown && it.ownership.current.town == town }
 
 fun State.getPreviouslyOwnedBusinesses(town: TownId) = getBusinessStorage().getAll()
     .filter { it.ownership.contains(town) }

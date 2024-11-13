@@ -8,9 +8,9 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.Owner
-import at.orchaldir.gm.core.model.util.Ownership
-import at.orchaldir.gm.core.model.util.PreviousOwner
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.utils.Id
 
@@ -55,43 +55,43 @@ fun State.getEvents(): List<Event> {
 private fun <ID : Id<ID>> handleOwnership(
     events: MutableList<Event>,
     id: ID,
-    ownership: Ownership,
-    create: (ID, PreviousOwner, Owner) -> OwnershipChangedEvent<ID>,
+    ownership: History<Owner>,
+    create: (ID, HistoryEntry<Owner>, Owner) -> OwnershipChangedEvent<ID>,
 ) {
-    var lastPrevious: PreviousOwner? = null
+    var lastPrevious: HistoryEntry<Owner>? = null
 
-    for (previous in ownership.previousOwners) {
+    for (previous in ownership.previousEntries) {
         if (lastPrevious != null) {
-            events.add(create(id, lastPrevious, previous.owner))
+            events.add(create(id, lastPrevious, previous.entry))
         }
 
         lastPrevious = previous
     }
 
     if (lastPrevious != null) {
-        events.add(create(id, lastPrevious, ownership.owner))
+        events.add(create(id, lastPrevious, ownership.current))
     }
 }
 
 private fun createOwnershipChanged(
     id: BuildingId,
-    previous: PreviousOwner,
+    previous: HistoryEntry<Owner>,
     to: Owner,
 ) = BuildingOwnershipChangedEvent(
     previous.until,
     id,
-    previous.owner,
+    previous.entry,
     to,
 )
 
 private fun createOwnershipChanged(
     id: BusinessId,
-    previous: PreviousOwner,
+    previous: HistoryEntry<Owner>,
     to: Owner,
 ) = BusinessOwnershipChangedEvent(
     previous.until,
     id,
-    previous.owner,
+    previous.entry,
     to,
 )
 

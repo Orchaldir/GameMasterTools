@@ -5,7 +5,8 @@ import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.util.Ownership
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.selector.countCultures
 import at.orchaldir.gm.core.selector.countGender
@@ -71,15 +72,19 @@ fun HtmlBlockTag.showBuildingOwnershipCount(call: ApplicationCall, state: State,
 fun HtmlBlockTag.showBusinessOwnershipCount(call: ApplicationCall, state: State, collection: Collection<Business>) =
     showOwnershipCount(call, state, collection.map { it.ownership })
 
-fun HtmlBlockTag.showOwnershipCount(call: ApplicationCall, state: State, ownershipCollection: Collection<Ownership>) {
+fun HtmlBlockTag.showOwnershipCount(
+    call: ApplicationCall,
+    state: State,
+    ownershipCollection: Collection<History<Owner>>,
+) {
     showMap("Ownership", countOwnership(ownershipCollection)) { owner, count ->
         showOwner(call, state, owner)
         +": $count"
     }
 }
 
-fun countOwnership(ownershipCollection: Collection<Ownership>) = ownershipCollection
-    .groupingBy { it.owner }
+fun countOwnership(ownershipCollection: Collection<History<Owner>>) = ownershipCollection
+    .groupingBy { it.current }
     .eachCount()
 
 fun HtmlBlockTag.showRaceCount(

@@ -5,7 +5,8 @@ import at.orchaldir.gm.core.action.DeleteJob
 import at.orchaldir.gm.core.action.UpdateJob
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.Job
-import at.orchaldir.gm.core.selector.economy.canDelete
+import at.orchaldir.gm.core.selector.getEmployees
+import at.orchaldir.gm.core.selector.getPreviousEmployees
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -17,7 +18,12 @@ val CREATE_JOB: Reducer<CreateJob, State> = { state, _ ->
 
 val DELETE_JOB: Reducer<DeleteJob, State> = { state, action ->
     state.getJobStorage().require(action.id)
-    require(state.canDelete(action.id)) { "Cannot delete job ${action.id.value}, because it is used by a character!" }
+    require(state.getEmployees(action.id).isEmpty()) {
+        "Cannot delete job ${action.id.value}, because it is used by a character!"
+    }
+    require(state.getPreviousEmployees(action.id).isEmpty()) {
+        "Cannot delete job ${action.id.value}, because it is the former job of a character!"
+    }
 
     noFollowUps(state.updateStorage(state.getJobStorage().remove(action.id)))
 }

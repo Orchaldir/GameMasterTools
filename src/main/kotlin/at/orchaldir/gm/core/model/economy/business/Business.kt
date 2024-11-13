@@ -3,7 +3,9 @@ package at.orchaldir.gm.core.model.economy.business
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
-import at.orchaldir.gm.core.model.util.Ownership
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.Owner
+import at.orchaldir.gm.core.model.util.UnknownOwner
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -24,7 +26,7 @@ data class Business(
     val id: BusinessId,
     val name: String = "Business ${id.value}",
     val startDate: Date = Year(0),
-    val ownership: Ownership = Ownership(),
+    val ownership: History<Owner> = History(UnknownOwner),
 ) : ElementWithSimpleName<BusinessId> {
 
     override fun id() = id

@@ -3,18 +3,26 @@ package at.orchaldir.gm.core.selector.world
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.OwnedByTown
+import at.orchaldir.gm.core.model.util.contains
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
+import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 
 fun State.getAgeInYears(building: Building) = getDefaultCalendar()
     .getDurationInYears(building.constructionDate, time.currentDate)
 
-fun State.canDelete(building: Building) = building.ownership.owner.canDelete() &&
-        getCharactersLivingIn(building.id).isEmpty()
+fun State.canDelete(building: Building) = building.ownership.current.canDelete()
+        && getCharactersLivingIn(building.id).isEmpty()
+        && getCharactersPreviouslyLivingIn(building.id).isEmpty()
+
+fun State.exists(id: BuildingId, date: Date) = exists(getBuildingStorage().getOrThrow(id), date)
+
+fun State.exists(building: Building, date: Date) = getDefaultCalendar().compareTo(building.constructionDate, date) <= 0
 
 fun countBuilder(collection: Collection<Building>) = collection
     .groupingBy { it.builder }
@@ -26,7 +34,7 @@ fun countPurpose(buildings: Collection<Building>) = buildings
 
 fun State.getMinNumberOfApartment(building: BuildingId) =
     (getCharactersLivingIn(building)
-        .mapNotNull { it.livingStatus.getApartmentIndex() }
+        .mapNotNull { it.livingStatus.current.getApartmentIndex() }
         .maxOrNull() ?: 1) + 1
 
 fun State.getEarliestBuilding(buildings: List<Building>) =
@@ -61,13 +69,13 @@ fun State.getBuildingsBuildBy(character: CharacterId) = getBuildingStorage().get
 // owner
 
 fun State.getOwnedBuildings(character: CharacterId) = getBuildingStorage().getAll()
-    .filter { it.ownership.owner is OwnedByCharacter && it.ownership.owner.character == character }
+    .filter { it.ownership.current is OwnedByCharacter && it.ownership.current.character == character }
 
 fun State.getPreviouslyOwnedBuildings(character: CharacterId) = getBuildingStorage().getAll()
     .filter { it.ownership.contains(character) }
 
 fun State.getOwnedBuildings(town: TownId) = getBuildingStorage().getAll()
-    .filter { it.ownership.owner is OwnedByTown && it.ownership.owner.town == town }
+    .filter { it.ownership.current is OwnedByTown && it.ownership.current.town == town }
 
 fun State.getPreviouslyOwnedBuildings(town: TownId) = getBuildingStorage().getAll()
     .filter { it.ownership.contains(town) }

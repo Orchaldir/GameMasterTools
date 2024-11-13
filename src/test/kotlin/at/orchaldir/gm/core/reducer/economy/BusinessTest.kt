@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer.economy
 
+import at.orchaldir.gm.DAY0
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
@@ -7,16 +8,14 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.calendar.MonthDefinition
-import at.orchaldir.gm.core.model.character.CHARACTER
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.Employed
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.economy.business.BUSINESS
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
-import at.orchaldir.gm.core.model.util.Ownership
 import at.orchaldir.gm.core.model.world.building.BuildByBusiness
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
@@ -78,10 +77,24 @@ class BusinessTest {
 
         @Test
         fun `Cannot delete a business where a character is employed`() {
-            val state = createState(Character(CHARACTER0, employmentStatus = Employed(ID0, JobId(0))))
+            val state = createState(Character(CHARACTER0, employmentStatus = History(Employed(ID0, JobId(0)))))
             val action = DeleteBusiness(ID0)
 
             assertIllegalArgument("Cannot delete business 0, because it has employees!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
+        @Test
+        fun `Cannot delete a business where a character was previously employed`() {
+            val employmentStatus = History(Unemployed, listOf(HistoryEntry(Employed(ID0, JobId(0)), DAY0)))
+            val state = createState(Character(CHARACTER0, employmentStatus = employmentStatus))
+            val action = DeleteBusiness(ID0)
+
+            assertIllegalArgument("Cannot delete business 0, because it has previous employees!") {
                 REDUCER.invoke(
                     state,
                     action
@@ -119,7 +132,7 @@ class BusinessTest {
 
         @Test
         fun `Owner is an unknown character`() {
-            val action = UpdateBusiness(Business(ID0, ownership = Ownership(OwnedByCharacter(CHARACTER0))))
+            val action = UpdateBusiness(Business(ID0, ownership = History(OwnedByCharacter(CHARACTER0))))
             val state = STATE.removeStorage(CHARACTER)
 
             assertIllegalArgument("Cannot use an unknown character 0 as owner!") { REDUCER.invoke(state, action) }

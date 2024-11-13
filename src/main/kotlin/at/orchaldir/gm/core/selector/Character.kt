@@ -37,7 +37,7 @@ fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
 // count
 
 fun countEmploymentStatus(characters: Collection<Character>) = characters
-    .groupingBy { it.employmentStatus.getType() }
+    .groupingBy { it.employmentStatus.current.getType() }
     .eachCount()
 
 fun countGender(characters: Collection<Character>) = characters
@@ -45,7 +45,7 @@ fun countGender(characters: Collection<Character>) = characters
     .eachCount()
 
 fun countLivingStatus(characters: Collection<Character>) = characters
-    .groupingBy { it.livingStatus.getType() }
+    .groupingBy { it.livingStatus.current.getType() }
     .eachCount()
 
 // get characters
@@ -66,20 +66,24 @@ fun State.getOthers(id: CharacterId) = getCharacterStorage().getAll().filter { c
 
 fun State.getCharactersLivingIn(building: BuildingId) = getCharacterStorage()
     .getAll()
-    .filter { c -> c.livingStatus.isLivingIn(building) }
+    .filter { c -> c.livingStatus.current.isLivingIn(building) }
 
 fun State.getCharactersLivingInApartment(building: BuildingId, apartment: Int) = getCharacterStorage()
     .getAll()
-    .filter { c -> c.livingStatus.isLivingInApartment(building, apartment) }
+    .filter { c -> c.livingStatus.current.isLivingInApartment(building, apartment) }
 
 fun State.getCharactersLivingInHouse(building: BuildingId) = getCharacterStorage()
     .getAll()
-    .filter { c -> c.livingStatus.isLivingInHouse(building) }
+    .filter { c -> c.livingStatus.current.isLivingInHouse(building) }
+
+fun State.getCharactersPreviouslyLivingIn(building: BuildingId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.livingStatus.previousEntries.any { it.entry.isLivingIn(building) } }
 
 fun State.getResident(town: TownId) = getCharacterStorage().getAll()
     .filter { isResident(it, town) }
 
-fun State.isResident(character: Character, town: TownId) = character.livingStatus.getBuilding()
+fun State.isResident(character: Character, town: TownId) = character.livingStatus.current.getBuilding()
     ?.let { getBuildingStorage().getOrThrow(it).lot.town == town }
     ?: false
 
@@ -87,11 +91,19 @@ fun State.isResident(character: Character, town: TownId) = character.livingStatu
 
 fun State.getEmployees(job: JobId) = getCharacterStorage()
     .getAll()
-    .filter { c -> c.employmentStatus.hasJob(job) }
+    .filter { c -> c.employmentStatus.current.hasJob(job) }
 
 fun State.getEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()
-    .filter { c -> c.employmentStatus.isEmployedAt(business) }
+    .filter { c -> c.employmentStatus.current.isEmployedAt(business) }
+
+fun State.getPreviousEmployees(job: JobId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.employmentStatus.previousEntries.any { it.entry.hasJob(job) } }
+
+fun State.getPreviousEmployees(business: BusinessId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.employmentStatus.previousEntries.any { it.entry.isEmployedAt(business) } }
 
 // get relatives
 

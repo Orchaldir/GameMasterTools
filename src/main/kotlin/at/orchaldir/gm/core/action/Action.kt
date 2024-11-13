@@ -29,7 +29,8 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Time
-import at.orchaldir.gm.core.model.util.Ownership
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
@@ -203,7 +204,7 @@ data class UpdateBuilding(
     val name: String?,
     val address: Address,
     val constructionDate: Date,
-    val ownership: Ownership,
+    val ownership: History<Owner>,
     val style: ArchitecturalStyleId,
     val purpose: BuildingPurpose,
     val builder: Builder,

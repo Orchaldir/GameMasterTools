@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.selector.economy.getBusinessesWithoutBuilding
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getCharactersLivingInApartment
 import at.orchaldir.gm.core.selector.getCharactersLivingInHouse
+import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -214,7 +215,7 @@ private fun HTML.showAllBuildings(
                     td { showAddress(call, state, building) }
                     td { +building.purpose.getType().toString() }
                     td { link(call, state, building.architecturalStyle) }
-                    td { showOwner(call, state, building.ownership.owner) }
+                    td { showOwner(call, state, building.ownership.current) }
                     td { showBuilder(call, state, building.builder) }
                 }
             }
@@ -281,9 +282,15 @@ fun HtmlBlockTag.showPurpose(
 
         is SingleBusiness -> fieldLink("Business", call, state, purpose.business)
 
-        is SingleFamilyHouse -> showList("Inhabitants", state.getCharactersLivingInHouse(building.id)) { c ->
-            link(call, state, c)
+        is SingleFamilyHouse -> {
+            showList("Inhabitants", state.getCharactersLivingInHouse(building.id)) { c ->
+                link(call, state, c)
+            }
         }
+    }
+
+    showList("Previous Inhabitants", state.getCharactersPreviouslyLivingIn(building.id)) { c ->
+        link(call, state, c)
     }
 }
 

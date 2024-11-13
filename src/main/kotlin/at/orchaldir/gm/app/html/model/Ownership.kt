@@ -1,14 +1,20 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.CHARACTER
+import at.orchaldir.gm.app.OWNER
+import at.orchaldir.gm.app.TOWN
+import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parseCharacterId
+import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.world.exists
 import at.orchaldir.gm.utils.doNothing
+import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
@@ -16,18 +22,8 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showOwnership(
     call: ApplicationCall,
     state: State,
-    ownership: Ownership,
-) {
-    field("Owner") {
-        showOwner(call, state, ownership.owner)
-    }
-    showList("Previous Owners", ownership.previousOwners) { previous ->
-        +"Until "
-        showDate(call, state, previous.until)
-        +": "
-        showOwner(call, state, previous.owner)
-    }
-}
+    ownership: History<Owner>,
+) = showHistory(call, state, ownership, "Owner", HtmlBlockTag::showOwner)
 
 fun HtmlBlockTag.showOwner(
     call: ApplicationCall,
@@ -44,23 +40,9 @@ fun HtmlBlockTag.showOwner(
 
 fun FORM.selectOwnership(
     state: State,
-    ownership: Ownership,
+    ownership: History<Owner>,
     startDate: Date,
-) {
-    val previousOwnersParam = combine(OWNER, HISTORY)
-    selectInt("Previous Owners", ownership.previousOwners.size, 0, 100, 1, previousOwnersParam, true)
-    var minDate = startDate.next()
-
-    showListWithIndex(ownership.previousOwners) { index, previous ->
-        val previousParam = combine(previousOwnersParam, index)
-        selectOwner(state, previousParam, previous.owner, minDate)
-        selectDate(state, "Until", previous.until, combine(previousParam, DATE), minDate)
-
-        minDate = previous.until.next()
-    }
-
-    selectOwner(state, OWNER, ownership.owner, minDate)
-}
+) = selectHistory(state, OWNER, ownership, startDate, "Owners", HtmlBlockTag::selectOwner)
 
 fun HtmlBlockTag.selectOwner(
     state: State,
@@ -100,4 +82,14 @@ fun HtmlBlockTag.selectOwner(
 
         else -> doNothing()
     }
+}
+
+fun parseOwnership(parameters: Parameters, state: State, startDate: Date) =
+    parseHistory(parameters, OWNER, state, startDate, ::parseOwner)
+
+private fun parseOwner(parameters: Parameters, state: State, param: String): Owner = when (parameters[param]) {
+    OwnerType.None.toString() -> NoOwner
+    OwnerType.Character.toString() -> OwnedByCharacter(parseCharacterId(parameters, combine(param, CHARACTER)))
+    OwnerType.Town.toString() -> OwnedByTown(parseTownId(parameters, combine(param, TOWN)))
+    else -> UnknownOwner
 }

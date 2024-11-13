@@ -5,7 +5,8 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.model.world.building.ApartmentHouse
+import at.orchaldir.gm.core.reducer.util.checkEmploymentStatusHistory
+import at.orchaldir.gm.core.reducer.util.checkLivingStatusHistory
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getChildren
@@ -17,9 +18,6 @@ import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 val CREATE_CHARACTER: Reducer<CreateCharacter, State> = { state, _ ->
     val character = Character(state.getCharacterStorage().nextId, birthDate = state.time.currentDate)
@@ -71,8 +69,8 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     state.getCultureStorage().require(character.culture)
     checkOrigin(state, character)
     checkCauseOfDeath(state, character)
-    checkLivingStatus(state, character)
-    checkEmploymentStatus(state, character)
+    checkLivingStatusHistory(state, character.livingStatus, character.birthDate)
+    checkEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
     character.personality.forEach { state.getPersonalityTraitStorage().require(it) }
     val update = character.copy(languages = oldCharacter.languages)
 
@@ -117,35 +115,4 @@ private fun checkCauseOfDeath(
     }
 }
 
-private fun checkLivingStatus(
-    state: State,
-    character: Character,
-) {
-    when (val livingStatus = character.livingStatus) {
-        Homeless -> doNothing()
-        is InApartment -> {
-            val apartmentHouse = state.getBuildingStorage().getOrThrow(livingStatus.building)
 
-            if (apartmentHouse.purpose is ApartmentHouse) {
-                require(livingStatus.apartmentIndex < apartmentHouse.purpose.apartments) { "Apartment index is too high!" }
-            } else {
-                error("Living in an apartment requires an apartment house!")
-            }
-        }
-
-        is InHouse -> state.getBuildingStorage().require(livingStatus.building)
-    }
-}
-
-private fun checkEmploymentStatus(
-    state: State,
-    character: Character,
-) {
-    when (val employmentStatus = character.employmentStatus) {
-        Unemployed -> doNothing()
-        is Employed -> {
-            state.getBusinessStorage().require(employmentStatus.business)
-            state.getJobStorage().require(employmentStatus.job)
-        }
-    }
-}
