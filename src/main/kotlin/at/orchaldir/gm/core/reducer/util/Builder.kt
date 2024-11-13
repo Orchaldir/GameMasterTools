@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.world.building.BuildByBusiness
 import at.orchaldir.gm.core.model.world.building.BuildByCharacter
 import at.orchaldir.gm.core.model.world.building.Builder
 import at.orchaldir.gm.core.model.world.building.UndefinedBuilder
-import at.orchaldir.gm.core.selector.economy.isOpen
+import at.orchaldir.gm.core.selector.economy.isInOperation
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.utils.doNothing
 
@@ -19,7 +19,7 @@ fun checkBuilder(
         is BuildByBusiness -> {
             state.getBusinessStorage()
                 .require(builder.business) { "Cannot use an unknown business ${builder.business.value} as builder!" }
-            require(state.isOpen(builder.business, date)) {
+            require(state.isInOperation(builder.business, date)) {
                 "Builder (business ${builder.business.value}) is not open!"
             }
         }

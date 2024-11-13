@@ -20,9 +20,9 @@ fun State.canDelete(id: BusinessId) = getBuilding(id) == null
         && getEmployees(id).isEmpty()
         && getBuildingsBuildBy(id).isEmpty()
 
-fun State.isOpen(id: BusinessId, date: Date) = isOpen(getBusinessStorage().getOrThrow(id), date)
+fun State.isInOperation(id: BusinessId, date: Date) = isInOperation(getBusinessStorage().getOrThrow(id), date)
 
-fun State.isOpen(business: Business, date: Date) = getDefaultCalendar()
+fun State.isInOperation(business: Business, date: Date) = getDefaultCalendar()
     .isAfterOrEqual(date, business.startDate)
 
 fun State.getAgeInYears(business: Business) = getDefaultCalendar()
@@ -48,7 +48,7 @@ fun State.getBusinesses(job: JobId) = getCharacterStorage().getAll()
     .map { getBusinessStorage().getOrThrow(it) }
 
 fun State.getOpenBusinesses(date: Date) = getBusinessStorage().getAll()
-    .filter { isOpen(it, date) }
+    .filter { isInOperation(it, date) }
 
 // owner
 
