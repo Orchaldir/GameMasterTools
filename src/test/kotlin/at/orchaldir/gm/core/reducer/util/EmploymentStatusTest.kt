@@ -45,4 +45,13 @@ class EmploymentStatusTest {
         checkEmploymentStatusHistory(STATE, History(EMPLOYED), DAY0)
     }
 
+    @Test
+    fun `Character employed by a business before its founding`() {
+        val state = STATE.updateStorage(Storage(Business(BUSINESS_ID_0, startDate = DAY1)))
+
+        assertIllegalArgument("The employment's business is not in operation!") {
+            checkEmploymentStatusHistory(state, History(EMPLOYED), DAY0)
+        }
+    }
+
 }
