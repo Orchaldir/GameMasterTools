@@ -7,10 +7,12 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.character.EmploymentStatus
+import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.JOB
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -49,6 +51,16 @@ class JobTest {
             val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_0, employmentStatus = employmentStatus)))
 
             assertIllegalArgument("Cannot delete job 0, because it is used by a character!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a job previously used by a character`() {
+            val employmentStatus = History(Unemployed, HistoryEntry(Employed(BUSINESS_ID_0, JOB_ID_0), DAY0))
+            val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_0, employmentStatus = employmentStatus)))
+
+            assertIllegalArgument("Cannot delete job 0, because it is the former job of a character!") {
                 REDUCER.invoke(state, action)
             }
         }
