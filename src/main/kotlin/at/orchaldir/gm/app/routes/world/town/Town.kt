@@ -29,10 +29,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.DIV
-import kotlinx.html.HTML
-import kotlinx.html.form
-import kotlinx.html.h2
+import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -79,6 +76,17 @@ fun Application.configureTownRouting() {
 
             val state = STORE.getState()
             val town = state.getTownStorage().getOrThrow(edit.id)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showTownEditor(call, state, town)
+            }
+        }
+        post<TownRoutes.Preview> { preview ->
+            logger.info { "Preview town ${preview.id.value}" }
+
+            val state = STORE.getState()
+            val oldTown = state.getTownStorage().getOrThrow(preview.id)
+            val town = parseTown(call.receiveParameters(), state, oldTown)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showTownEditor(call, state, town)
@@ -210,11 +218,15 @@ private fun HTML.showTownEditor(
     town: Town,
 ) {
     val backLink = href(call, town.id)
+    val previewLink = call.application.href(TownRoutes.Preview(town.id))
     val updateLink = call.application.href(TownRoutes.Update(town.id))
 
     simpleHtml("Edit Town: ${town.name}") {
         split({
             form {
+                id = "editor"
+                action = previewLink
+                method = FormMethod.post
                 selectName(town.name)
                 selectDate(state, "Founding", town.foundingDate, DATE)
                 selectCreator(state, town.founder, town.id, town.foundingDate, "Founder")
