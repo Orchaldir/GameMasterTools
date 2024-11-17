@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.parse.economy
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.html.model.parseCreator
 import at.orchaldir.gm.app.html.model.parseOwnership
 import at.orchaldir.gm.app.parse.parseDate
 import at.orchaldir.gm.app.parse.parseOptionalInt
@@ -23,6 +24,7 @@ fun parseBusiness(parameters: Parameters, state: State, id: BusinessId): Busines
         id,
         name,
         startDate,
+        parseCreator(parameters),
         parseOwnership(parameters, state, startDate),
     )
 }
