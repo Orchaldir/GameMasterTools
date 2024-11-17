@@ -33,20 +33,27 @@ class CreatorTest {
             val state = STATE.removeStorage(BUSINESS)
 
             assertIllegalArgument("Cannot use an unknown business 0 as Builder!") {
-                checkCreator(state, BUILD_BY_BUSINESS, DAY0, "Builder")
+                checkCreator(state, BUILD_BY_BUSINESS, BUILDING_ID_0, DAY0, "Builder")
+            }
+        }
+
+        @Test
+        fun `A business cannot create itself`() {
+            assertIllegalArgument("A business cannot create itself!") {
+                checkCreator(STATE, BUILD_BY_BUSINESS, BUSINESS_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Creator doesn't exist yet`() {
             assertIllegalArgument("Builder (business 0) is not open!") {
-                checkCreator(STATE, BUILD_BY_BUSINESS, DAY0, "Builder")
+                checkCreator(STATE, BUILD_BY_BUSINESS, BUILDING_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Creator is valid`() {
-            checkCreator(STATE, BUILD_BY_BUSINESS, DAY2, "Builder")
+            checkCreator(STATE, BUILD_BY_BUSINESS, BUILDING_ID_0, DAY2, "Builder")
         }
     }
 
@@ -58,20 +65,20 @@ class CreatorTest {
             val state = STATE.removeStorage(CHARACTER)
 
             assertIllegalArgument("Cannot use an unknown character 0 as Builder!") {
-                checkCreator(state, BUILD_BY_CHARACTER, DAY0, "Builder")
+                checkCreator(state, BUILD_BY_CHARACTER, BUILDING_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Creator doesn't exist yet`() {
             assertIllegalArgument("Builder (character 0) is not alive!") {
-                checkCreator(STATE, BUILD_BY_CHARACTER, DAY0, "Builder")
+                checkCreator(STATE, BUILD_BY_CHARACTER, BUILDING_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Creator is valid`() {
-            checkCreator(STATE, BUILD_BY_CHARACTER, DAY2, "Builder")
+            checkCreator(STATE, BUILD_BY_CHARACTER, BUILDING_ID_0, DAY2, "Builder")
         }
     }
 }

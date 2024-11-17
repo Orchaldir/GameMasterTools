@@ -32,7 +32,7 @@ val DELETE_BUSINESS: Reducer<DeleteBusiness, State> = { state, action ->
     require(state.getPreviousEmployees(action.id).isEmpty()) {
         "Cannot delete business ${action.id.value}, because it has previous employees!"
     }
-    checkCreator(state, business.founder, business.startDate, "Founder")
+    checkCreator(state, business.founder, business.id, business.startDate, "Founder")
 
     noFollowUps(state.updateStorage(state.getBusinessStorage().remove(action.id)))
 }

@@ -8,16 +8,19 @@ import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.selector.economy.isInOperation
 import at.orchaldir.gm.core.selector.isAlive
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 
-fun checkCreator(
+fun <ID : Id<ID>> checkCreator(
     state: State,
     creator: Creator,
+    created: ID,
     date: Date,
     noun: String,
 ) {
     when (creator) {
         is CreatedByBusiness -> {
+            require(creator.business != created) { "A business cannot create itself!" }
             state.getBusinessStorage()
                 .require(creator.business) { "Cannot use an unknown business ${creator.business.value} as $noun!" }
             require(state.isInOperation(creator.business, date)) {

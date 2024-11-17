@@ -68,7 +68,7 @@ val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     }
     checkAddress(state, oldBuilding.lot.town, oldBuilding.address, action.address)
     checkArchitecturalStyle(state, action)
-    checkCreator(state, action.builder, action.constructionDate, "Builder")
+    checkCreator(state, action.builder, action.id, action.constructionDate, "Builder")
     checkOwnership(state, action.ownership, action.constructionDate)
     checkPurpose(state, oldBuilding, action)
 
