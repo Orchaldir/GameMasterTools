@@ -28,18 +28,18 @@ fun HtmlBlockTag.fieldCreator(
     label: String,
 ) {
     field(label) {
-        showBuilder(call, state, creator)
+        showCreator(call, state, creator)
     }
 }
 
-fun HtmlBlockTag.showBuilder(
+fun HtmlBlockTag.showCreator(
     call: ApplicationCall,
     state: State,
-    builder: Creator,
+    creator: Creator,
 ) {
-    when (builder) {
-        is CreatedByBusiness -> link(call, state, builder.business)
-        is CreatedByCharacter -> link(call, state, builder.character)
+    when (creator) {
+        is CreatedByBusiness -> link(call, state, creator.business)
+        is CreatedByCharacter -> link(call, state, creator.character)
         UndefinedCreator -> +"Undefined"
     }
 }
