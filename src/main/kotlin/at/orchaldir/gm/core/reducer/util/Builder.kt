@@ -4,15 +4,15 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.BuildByBusiness
 import at.orchaldir.gm.core.model.util.BuildByCharacter
-import at.orchaldir.gm.core.model.util.Builder
-import at.orchaldir.gm.core.model.util.UndefinedBuilder
+import at.orchaldir.gm.core.model.util.Creator
+import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.selector.economy.isInOperation
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.utils.doNothing
 
 fun checkBuilder(
     state: State,
-    builder: Builder,
+    builder: Creator,
     date: Date,
 ) {
     when (builder) {
@@ -32,6 +32,6 @@ fun checkBuilder(
             }
         }
 
-        UndefinedBuilder -> doNothing()
+        UndefinedCreator -> doNothing()
     }
 }

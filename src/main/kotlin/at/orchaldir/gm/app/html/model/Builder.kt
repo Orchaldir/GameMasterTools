@@ -24,7 +24,7 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.fieldBuilder(
     call: ApplicationCall,
     state: State,
-    builder: Builder,
+    builder: Creator,
 ) {
     field("Builder") {
         showBuilder(call, state, builder)
@@ -34,21 +34,21 @@ fun HtmlBlockTag.fieldBuilder(
 fun HtmlBlockTag.showBuilder(
     call: ApplicationCall,
     state: State,
-    builder: Builder,
+    builder: Creator,
 ) {
     when (builder) {
         is BuildByBusiness -> link(call, state, builder.business)
         is BuildByCharacter -> link(call, state, builder.character)
-        UndefinedBuilder -> +"Undefined"
+        UndefinedCreator -> +"Undefined"
     }
 }
 
 fun FORM.selectBuilder(
     state: State,
-    builder: Builder,
+    builder: Creator,
     date: Date,
 ) {
-    selectValue("Builder Type", BUILDER, BuilderType.entries, true) { type ->
+    selectValue("Builder Type", BUILDER, CreatorType.entries, true) { type ->
         label = type.name
         value = type.name
         selected = type == builder.getType()
@@ -76,14 +76,14 @@ fun FORM.selectBuilder(
             selected = builder.character == character.id
         }
 
-        UndefinedBuilder -> doNothing()
+        UndefinedCreator -> doNothing()
     }
 }
 
-fun parseBuilder(parameters: Parameters): Builder {
-    return when (parse(parameters, BUILDER, BuilderType.Undefined)) {
-        BuilderType.Undefined -> UndefinedBuilder
-        BuilderType.BuildByBusiness -> BuildByBusiness(parseBusinessId(parameters, combine(BUILDER, BUSINESS)))
-        BuilderType.BuildByCharacter -> BuildByCharacter(parseCharacterId(parameters, combine(BUILDER, CHARACTER)))
+fun parseBuilder(parameters: Parameters): Creator {
+    return when (parse(parameters, BUILDER, CreatorType.Undefined)) {
+        CreatorType.Undefined -> UndefinedCreator
+        CreatorType.BuildByBusiness -> BuildByBusiness(parseBusinessId(parameters, combine(BUILDER, BUSINESS)))
+        CreatorType.BuildByCharacter -> BuildByCharacter(parseCharacterId(parameters, combine(BUILDER, CHARACTER)))
     }
 }

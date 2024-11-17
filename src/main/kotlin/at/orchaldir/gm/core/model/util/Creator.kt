@@ -5,34 +5,34 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-enum class BuilderType {
+enum class CreatorType {
     Undefined,
     BuildByBusiness,
     BuildByCharacter,
 }
 
 @Serializable
-sealed class Builder {
+sealed class Creator {
 
     fun getType() = when (this) {
-        is UndefinedBuilder -> BuilderType.Undefined
-        is BuildByBusiness -> BuilderType.BuildByBusiness
-        is BuildByCharacter -> BuilderType.BuildByCharacter
+        is UndefinedCreator -> CreatorType.Undefined
+        is BuildByBusiness -> CreatorType.BuildByBusiness
+        is BuildByCharacter -> CreatorType.BuildByCharacter
     }
 
 }
 
 @Serializable
 @SerialName("Undefined")
-data object UndefinedBuilder : Builder()
+data object UndefinedCreator : Creator()
 
 @Serializable
 @SerialName("Business")
-data class BuildByBusiness(val business: BusinessId) : Builder()
+data class BuildByBusiness(val business: BusinessId) : Creator()
 
 @Serializable
 @SerialName("Character")
-data class BuildByCharacter(val character: CharacterId) : Builder()
+data class BuildByCharacter(val character: CharacterId) : Creator()
 
 
 

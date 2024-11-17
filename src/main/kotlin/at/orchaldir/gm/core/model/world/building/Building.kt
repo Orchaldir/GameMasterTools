@@ -29,7 +29,7 @@ data class Building(
     val ownership: History<Owner> = History(UnknownOwner),
     val architecturalStyle: ArchitecturalStyleId = ArchitecturalStyleId(0),
     val purpose: BuildingPurpose = SingleFamilyHouse,
-    val builder: Builder = UndefinedBuilder,
+    val builder: Creator = UndefinedCreator,
 ) : ElementWithComplexName<BuildingId> {
 
     override fun id() = id

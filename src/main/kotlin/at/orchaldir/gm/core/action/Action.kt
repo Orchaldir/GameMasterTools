@@ -29,7 +29,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Time
-import at.orchaldir.gm.core.model.util.Builder
+import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.*
@@ -208,7 +208,7 @@ data class UpdateBuilding(
     val ownership: History<Owner>,
     val style: ArchitecturalStyleId,
     val purpose: BuildingPurpose,
-    val builder: Builder,
+    val builder: Creator,
 ) : WorldAction() {
 
     fun applyTo(building: Building) = building.copy(
