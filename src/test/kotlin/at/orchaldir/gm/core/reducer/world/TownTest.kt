@@ -10,7 +10,10 @@ import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingLot
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.terrain.*
-import at.orchaldir.gm.core.model.world.town.*
+import at.orchaldir.gm.core.model.world.town.BuildingTile
+import at.orchaldir.gm.core.model.world.town.StreetTile
+import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id

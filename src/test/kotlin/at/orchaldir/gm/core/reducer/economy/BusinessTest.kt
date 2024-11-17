@@ -4,7 +4,10 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.CHARACTER
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.Employed
+import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.economy.business.BUSINESS
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.JobId

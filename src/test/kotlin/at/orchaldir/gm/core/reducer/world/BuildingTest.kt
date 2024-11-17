@@ -3,7 +3,10 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.CALENDAR0
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.assertIllegalState
-import at.orchaldir.gm.core.action.*
+import at.orchaldir.gm.core.action.AddBuilding
+import at.orchaldir.gm.core.action.DeleteBuilding
+import at.orchaldir.gm.core.action.UpdateBuilding
+import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.Day
