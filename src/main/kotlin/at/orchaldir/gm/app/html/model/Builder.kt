@@ -12,7 +12,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseCharacterId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.world.building.*
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.core.selector.getLiving
 import at.orchaldir.gm.utils.doNothing

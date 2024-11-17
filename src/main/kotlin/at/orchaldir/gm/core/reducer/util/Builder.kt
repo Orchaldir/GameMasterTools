@@ -2,10 +2,10 @@ package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.world.building.BuildByBusiness
-import at.orchaldir.gm.core.model.world.building.BuildByCharacter
-import at.orchaldir.gm.core.model.world.building.Builder
-import at.orchaldir.gm.core.model.world.building.UndefinedBuilder
+import at.orchaldir.gm.core.model.util.BuildByBusiness
+import at.orchaldir.gm.core.model.util.BuildByCharacter
+import at.orchaldir.gm.core.model.util.Builder
+import at.orchaldir.gm.core.model.util.UndefinedBuilder
 import at.orchaldir.gm.core.selector.economy.isInOperation
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.utils.doNothing

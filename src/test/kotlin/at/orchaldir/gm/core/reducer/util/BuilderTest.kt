@@ -12,8 +12,8 @@ import at.orchaldir.gm.core.model.economy.business.BUSINESS
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.time.Day
-import at.orchaldir.gm.core.model.world.building.BuildByBusiness
-import at.orchaldir.gm.core.model.world.building.BuildByCharacter
+import at.orchaldir.gm.core.model.util.BuildByBusiness
+import at.orchaldir.gm.core.model.util.BuildByCharacter
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

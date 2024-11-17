@@ -21,7 +21,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.model.world.building.BuildByCharacter
+import at.orchaldir.gm.core.model.util.BuildByCharacter
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element

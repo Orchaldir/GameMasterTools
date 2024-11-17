@@ -3,10 +3,7 @@ package at.orchaldir.gm.core.model.world.building
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
-import at.orchaldir.gm.core.model.util.ElementWithComplexName
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.Owner
-import at.orchaldir.gm.core.model.util.UnknownOwner
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 

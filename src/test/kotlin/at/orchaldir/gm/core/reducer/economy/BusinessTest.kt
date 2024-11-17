@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
-import at.orchaldir.gm.core.model.world.building.BuildByBusiness
+import at.orchaldir.gm.core.model.util.BuildByBusiness
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.building.SingleBusiness
