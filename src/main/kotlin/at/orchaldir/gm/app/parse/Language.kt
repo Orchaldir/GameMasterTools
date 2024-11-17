@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.parse
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.LANGUAGES
+import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.html.model.parseCreator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.*

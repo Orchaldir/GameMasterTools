@@ -1,8 +1,8 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.CREATOR
 import at.orchaldir.gm.app.BUSINESS
 import at.orchaldir.gm.app.CHARACTER
+import at.orchaldir.gm.app.CREATOR
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.selectValue
@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.parse.economy.parseBusinessId
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseCharacterId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
