@@ -2,15 +2,13 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.assertIllegalState
-import at.orchaldir.gm.core.action.AddBuilding
-import at.orchaldir.gm.core.action.DeleteBuilding
-import at.orchaldir.gm.core.action.UpdateBuilding
-import at.orchaldir.gm.core.action.UpdateBuildingLot
+import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.Year
@@ -251,78 +249,55 @@ class BuildingTest {
             )
         )
         private val OWNED_BY_CHARACTER = History<Owner>(OwnedByCharacter(CHARACTER0))
+        private val ACTION = UpdateBuilding(
+            ID0,
+            "New",
+            NoAddress,
+            DAY0,
+            OWNED_BY_CHARACTER,
+            STYLE,
+            SingleFamilyHouse,
+            UndefinedCreator
+        )
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateBuilding(
-                ID0,
-                "New",
-                NoAddress,
-                DAY0,
-                OWNED_BY_CHARACTER,
-                STYLE,
-                SingleFamilyHouse,
-                UndefinedCreator
-            )
             val state = STATE.removeStorage(BUILDING)
 
-            assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(state, ACTION) }
         }
 
         @Test
         fun `Architectural style is unknown`() {
-            val action =
-                UpdateBuilding(
-                    ID0,
-                    "New",
-                    NoAddress,
-                    DAY0,
-                    OWNED_BY_CHARACTER,
-                    UNKNOWN_STYLE,
-                    SingleFamilyHouse,
-                    UndefinedCreator
-                )
+            val action = ACTION.copy(style = UNKNOWN_STYLE)
 
             assertIllegalArgument("Requires unknown Architectural Style 1!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Architectural style didn't exist yet`() {
-            val action = UpdateBuilding(
-                ID0,
-                "New",
-                NoAddress,
-                DAY0,
-                OWNED_BY_CHARACTER,
-                STYLE,
-                SingleFamilyHouse,
-                UndefinedCreator
-            )
             val state = STATE.updateStorage(Storage(ArchitecturalStyle(STYLE, start = Year(2000))))
 
             assertIllegalArgument("Architectural Style 0 didn't exist yet, when building 0 was build!") {
                 REDUCER.invoke(
                     state,
-                    action
+                    ACTION
                 )
             }
         }
 
         @Test
         fun `Owner is an unknown character`() {
-            val action = UpdateBuilding(
-                ID0,
-                "New",
-                NoAddress,
-                DAY0,
-                OWNED_BY_CHARACTER,
-                STYLE,
-                SingleFamilyHouse,
-                UndefinedCreator
-            )
             val state = STATE.removeStorage(CHARACTER)
 
-            assertIllegalArgument("Cannot use an unknown character 2 as owner!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown character 2 as owner!") { REDUCER.invoke(state, ACTION) }
+        }
+
+        @Test
+        fun `Founder is an unknown character`() {
+            val state = STATE.removeStorage(CHARACTER)
+
+            assertIllegalArgument("Cannot use an unknown character 2 as owner!") { REDUCER.invoke(state, ACTION) }
         }
 
         @Nested
