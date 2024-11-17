@@ -37,8 +37,8 @@ fun HtmlBlockTag.showBuilder(
     builder: Creator,
 ) {
     when (builder) {
-        is BuildByBusiness -> link(call, state, builder.business)
-        is BuildByCharacter -> link(call, state, builder.character)
+        is CreatedByBusiness -> link(call, state, builder.business)
+        is CreatedByCharacter -> link(call, state, builder.character)
         UndefinedCreator -> +"Undefined"
     }
 }
@@ -54,7 +54,7 @@ fun FORM.selectBuilder(
         selected = type == builder.getType()
     }
     when (builder) {
-        is BuildByBusiness -> selectValue(
+        is CreatedByBusiness -> selectValue(
             "Builder",
             combine(BUILDER, BUSINESS),
             state.getOpenBusinesses(date),
@@ -65,7 +65,7 @@ fun FORM.selectBuilder(
             selected = builder.business == business.id
         }
 
-        is BuildByCharacter -> selectValue(
+        is CreatedByCharacter -> selectValue(
             "Builder",
             combine(BUILDER, CHARACTER),
             state.getLiving(date),
@@ -83,7 +83,7 @@ fun FORM.selectBuilder(
 fun parseBuilder(parameters: Parameters): Creator {
     return when (parse(parameters, BUILDER, CreatorType.Undefined)) {
         CreatorType.Undefined -> UndefinedCreator
-        CreatorType.BuildByBusiness -> BuildByBusiness(parseBusinessId(parameters, combine(BUILDER, BUSINESS)))
-        CreatorType.BuildByCharacter -> BuildByCharacter(parseCharacterId(parameters, combine(BUILDER, CHARACTER)))
+        CreatorType.CreatedByBusiness -> CreatedByBusiness(parseBusinessId(parameters, combine(BUILDER, BUSINESS)))
+        CreatorType.CreatedByCharacter -> CreatedByCharacter(parseCharacterId(parameters, combine(BUILDER, CHARACTER)))
     }
 }

@@ -21,7 +21,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.model.util.BuildByCharacter
+import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
@@ -99,7 +99,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot delete a builder`() {
-            val state = createState(Building(BUILDING_ID_0, builder = BuildByCharacter(CHARACTER_ID_0)))
+            val state = createState(Building(BUILDING_ID_0, builder = CreatedByCharacter(CHARACTER_ID_0)))
 
             assertIllegalArgument("Cannot delete character 0, because he is a builder!") {
                 REDUCER.invoke(state, action)

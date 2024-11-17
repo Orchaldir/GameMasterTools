@@ -12,8 +12,8 @@ import at.orchaldir.gm.core.model.economy.business.BUSINESS
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.time.Day
-import at.orchaldir.gm.core.model.util.BuildByBusiness
-import at.orchaldir.gm.core.model.util.BuildByCharacter
+import at.orchaldir.gm.core.model.util.CreatedByBusiness
+import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -36,8 +36,8 @@ class BuilderTest {
         )
     )
 
-    private val BUILD_BY_BUSINESS = BuildByBusiness(BUSINESS0)
-    private val BUILD_BY_CHARACTER = BuildByCharacter(CHARACTER0)
+    private val BUILD_BY_BUSINESS = CreatedByBusiness(BUSINESS0)
+    private val BUILD_BY_CHARACTER = CreatedByCharacter(CHARACTER0)
 
     @Nested
     inner class BuildByBusinessTest {
