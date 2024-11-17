@@ -1,6 +1,6 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.BUILDER
+import at.orchaldir.gm.app.CREATOR
 import at.orchaldir.gm.app.BUSINESS
 import at.orchaldir.gm.app.CHARACTER
 import at.orchaldir.gm.app.html.field
@@ -50,7 +50,7 @@ fun FORM.selectCreator(
     date: Date,
     noun: String,
 ) {
-    selectValue("$noun Type", BUILDER, CreatorType.entries, true) { type ->
+    selectValue("$noun Type", CREATOR, CreatorType.entries, true) { type ->
         label = type.name
         value = type.name
         selected = type == creator.getType()
@@ -58,7 +58,7 @@ fun FORM.selectCreator(
     when (creator) {
         is CreatedByBusiness -> selectValue(
             noun,
-            combine(BUILDER, BUSINESS),
+            combine(CREATOR, BUSINESS),
             state.getOpenBusinesses(date),
             true
         ) { business ->
@@ -69,7 +69,7 @@ fun FORM.selectCreator(
 
         is CreatedByCharacter -> selectValue(
             noun,
-            combine(BUILDER, CHARACTER),
+            combine(CREATOR, CHARACTER),
             state.getLiving(date),
             true
         ) { character ->
@@ -83,9 +83,9 @@ fun FORM.selectCreator(
 }
 
 fun parseCreator(parameters: Parameters): Creator {
-    return when (parse(parameters, BUILDER, CreatorType.Undefined)) {
+    return when (parse(parameters, CREATOR, CreatorType.Undefined)) {
         CreatorType.Undefined -> UndefinedCreator
-        CreatorType.CreatedByBusiness -> CreatedByBusiness(parseBusinessId(parameters, combine(BUILDER, BUSINESS)))
-        CreatorType.CreatedByCharacter -> CreatedByCharacter(parseCharacterId(parameters, combine(BUILDER, CHARACTER)))
+        CreatorType.CreatedByBusiness -> CreatedByBusiness(parseBusinessId(parameters, combine(CREATOR, BUSINESS)))
+        CreatorType.CreatedByCharacter -> CreatedByCharacter(parseCharacterId(parameters, combine(CREATOR, CHARACTER)))
     }
 }
