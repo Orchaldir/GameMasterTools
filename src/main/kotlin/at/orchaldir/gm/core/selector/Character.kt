@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
+import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
@@ -27,12 +28,11 @@ fun State.canCreateCharacter() = getCultureStorage().getSize() > 0 && getCharact
 
 fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
         && getParents(character).isEmpty()
-        && getInventedLanguages(character).isEmpty()
         && getOwnedBuildings(character).isEmpty()
         && getPreviouslyOwnedBuildings(character).isEmpty()
         && getOwnedBusinesses(character).isEmpty()
         && getPreviouslyOwnedBusinesses(character).isEmpty()
-        && getBuildingsBuildBy(character).isEmpty()
+        && !isCreator(character)
 
 // count
 

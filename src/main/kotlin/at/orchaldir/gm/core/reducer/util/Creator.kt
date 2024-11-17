@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.selector.economy.getBusinessesFoundedBy
 import at.orchaldir.gm.core.selector.economy.isInOperation
-import at.orchaldir.gm.core.selector.getInventedLanguages
+import at.orchaldir.gm.core.selector.getLanguagesInventedBy
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getTownsFoundedBy
@@ -53,7 +53,7 @@ fun <ID : Id<ID>> checkCreated(
     require(buildings.isEmpty()) { "Cannot delete $noun ${id.value()}, because of built buildings!" }
     val businesses = state.getBusinessesFoundedBy(id)
     require(businesses.isEmpty()) { "Cannot delete $noun ${id.value()}, because of founded businesses!" }
-    val languages = state.getInventedLanguages(id)
+    val languages = state.getLanguagesInventedBy(id)
     require(languages.isEmpty()) { "Cannot delete $noun ${id.value()}, because of invented languages!" }
     val towns = state.getTownsFoundedBy(id)
     require(towns.isEmpty()) { "Cannot delete $noun ${id.value()}, because of founded towns!" }

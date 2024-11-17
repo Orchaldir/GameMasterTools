@@ -21,7 +21,7 @@ fun State.getChildren(language: LanguageId) = getLanguageStorage().getAll().filt
 
 fun State.getPossibleParents(language: LanguageId) = getLanguageStorage().getAll().filter { l -> l.id != language }
 
-fun <ID : Id<ID>> State.getInventedLanguages(id: ID) = getLanguageStorage().getAll().filter { l ->
+fun <ID : Id<ID>> State.getLanguagesInventedBy(id: ID) = getLanguageStorage().getAll().filter { l ->
     when (l.origin) {
         is InventedLanguage -> l.origin.inventor.wasCreatedBy(id)
         else -> false
