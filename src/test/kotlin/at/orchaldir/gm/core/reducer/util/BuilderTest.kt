@@ -47,20 +47,20 @@ class BuilderTest {
             val state = STATE.removeStorage(BUSINESS)
 
             assertIllegalArgument("Cannot use an unknown business 2 as builder!") {
-                checkBuilder(state, BUILD_BY_BUSINESS, DAY0)
+                checkCreator(state, BUILD_BY_BUSINESS, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Builder doesn't exist yet`() {
             assertIllegalArgument("Builder (business 2) is not open!") {
-                checkBuilder(STATE, BUILD_BY_BUSINESS, DAY0)
+                checkCreator(STATE, BUILD_BY_BUSINESS, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Builder is valid`() {
-            checkBuilder(STATE, BUILD_BY_BUSINESS, DAY2)
+            checkCreator(STATE, BUILD_BY_BUSINESS, DAY2, "Builder")
         }
     }
 
@@ -72,20 +72,20 @@ class BuilderTest {
             val state = STATE.removeStorage(CHARACTER)
 
             assertIllegalArgument("Cannot use an unknown character 3 as builder!") {
-                checkBuilder(state, BUILD_BY_CHARACTER, DAY0)
+                checkCreator(state, BUILD_BY_CHARACTER, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Builder doesn't exist yet`() {
             assertIllegalArgument("Builder (character 3) is not alive!") {
-                checkBuilder(STATE, BUILD_BY_CHARACTER, DAY0)
+                checkCreator(STATE, BUILD_BY_CHARACTER, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Builder is valid`() {
-            checkBuilder(STATE, BUILD_BY_CHARACTER, DAY2)
+            checkCreator(STATE, BUILD_BY_CHARACTER, DAY2, "Builder")
         }
     }
 }
