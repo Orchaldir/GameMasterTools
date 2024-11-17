@@ -84,7 +84,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot delete an inventor`() {
-            val origin = InventedLanguage(CHARACTER_ID_0)
+            val origin = InventedLanguage(CreatedByCharacter(CHARACTER_ID_0), DAY0)
             val state = State(
                 listOf(
                     Storage(listOf(Character(CHARACTER_ID_0))),
