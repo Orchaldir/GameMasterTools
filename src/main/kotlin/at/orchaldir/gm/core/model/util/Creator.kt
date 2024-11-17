@@ -41,5 +41,9 @@ data class CreatedByBusiness(val business: BusinessId) : Creator()
 @SerialName("Character")
 data class CreatedByCharacter(val character: CharacterId) : Creator()
 
+interface Created {
+    fun creator(): Creator
+}
+
 
 

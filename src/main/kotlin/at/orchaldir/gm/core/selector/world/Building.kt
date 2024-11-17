@@ -23,10 +23,6 @@ fun State.exists(id: BuildingId, date: Date) = exists(getBuildingStorage().getOr
 
 fun State.exists(building: Building, date: Date) = getDefaultCalendar().compareTo(building.constructionDate, date) <= 0
 
-fun countBuilder(collection: Collection<Building>) = collection
-    .groupingBy { it.builder }
-    .eachCount()
-
 fun countPurpose(buildings: Collection<Building>) = buildings
     .groupingBy { it.purpose.getType() }
     .eachCount()

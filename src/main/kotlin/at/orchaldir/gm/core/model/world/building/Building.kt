@@ -30,7 +30,7 @@ data class Building(
     val architecturalStyle: ArchitecturalStyleId = ArchitecturalStyleId(0),
     val purpose: BuildingPurpose = SingleFamilyHouse,
     val builder: Creator = UndefinedCreator,
-) : ElementWithComplexName<BuildingId> {
+) : ElementWithComplexName<BuildingId>, Created {
 
     override fun id() = id
 
@@ -49,6 +49,8 @@ data class Building(
 
         else -> "Building ${id.value}"
     }
+
+    override fun creator() = builder
 
     fun address(state: State) = when (address) {
         is CrossingAddress -> {

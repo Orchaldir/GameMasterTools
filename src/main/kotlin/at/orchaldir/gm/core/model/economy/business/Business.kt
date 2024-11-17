@@ -25,9 +25,11 @@ data class Business(
     val startDate: Date = Year(0),
     val founder: Creator = UndefinedCreator,
     val ownership: History<Owner> = History(UnknownOwner),
-) : ElementWithSimpleName<BusinessId> {
+) : ElementWithSimpleName<BusinessId>, Created {
 
     override fun id() = id
     override fun name() = name
+
+    override fun creator() = founder
 
 }

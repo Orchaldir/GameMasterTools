@@ -221,7 +221,7 @@ private fun HTML.showAllBuildings(
             }
         }
         showArchitecturalStyleCount(call, state, buildings)
-        showBuilderCount(call, state, buildings)
+        showCreatorCount(call, state, buildings, "Builder")
         showBuildingPurposeCount(buildings)
         showBuildingOwnershipCount(call, state, buildings)
         showTownCount(call, state, buildings)

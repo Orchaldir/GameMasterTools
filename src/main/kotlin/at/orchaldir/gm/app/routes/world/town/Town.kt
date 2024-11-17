@@ -40,7 +40,7 @@ fun Application.configureTownRouting() {
             logger.info { "Get all towns" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllTowns(call)
+                showAllTowns(call, STORE.getState())
             }
         }
         get<TownRoutes.Details> { details ->
@@ -108,7 +108,10 @@ fun Application.configureTownRouting() {
     }
 }
 
-private fun HTML.showAllTowns(call: ApplicationCall) {
+private fun HTML.showAllTowns(
+    call: ApplicationCall,
+    state: State,
+) {
     val towns = STORE.getState().getTownStorage().getAll().sortedBy { it.name }
     val count = towns.size
     val createLink = call.application.href(TownRoutes.New())
@@ -118,6 +121,7 @@ private fun HTML.showAllTowns(call: ApplicationCall) {
         showList(towns) { nameList ->
             link(call, nameList)
         }
+        showCreatorCount(call, state, towns, "Founders")
         action(createLink, "Add")
         back("/")
     }
@@ -149,7 +153,7 @@ private fun HTML.showTownDetails(
             }
             h2 { +"Buildings" }
             showArchitecturalStyleCount(call, state, buildings)
-            showBuilderCount(call, state, buildings)
+            showCreatorCount(call, state, buildings, "Builder")
             showBuildingPurposeCount(buildings)
             showList("Buildings", state.sort(buildings)) { (building, name) ->
                 link(call, building.id, name)

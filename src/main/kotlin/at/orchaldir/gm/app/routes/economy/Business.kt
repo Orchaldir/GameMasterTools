@@ -179,6 +179,7 @@ private fun HTML.showAllBusinesses(
             }
         }
         showBusinessOwnershipCount(call, state, businesses)
+        showCreatorCount(call, state, businesses, "Founders")
         action(createLink, "Add")
         back("/")
     }
