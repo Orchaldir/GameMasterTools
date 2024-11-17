@@ -21,8 +21,8 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.model.world.building.BuildByCharacter
 import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -84,7 +84,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot delete an inventor`() {
-            val origin = InventedLanguage(CHARACTER_ID_0)
+            val origin = InventedLanguage(CreatedByCharacter(CHARACTER_ID_0), DAY0)
             val state = State(
                 listOf(
                     Storage(listOf(Character(CHARACTER_ID_0))),
@@ -92,16 +92,25 @@ class CharacterTest {
                 )
             )
 
-            assertIllegalArgument("Cannot delete character 0, because he is an language inventor!") {
+            assertIllegalArgument("Cannot delete character 0, because of invented languages!") {
                 REDUCER.invoke(state, action)
             }
         }
 
         @Test
         fun `Cannot delete a builder`() {
-            val state = createState(Building(BUILDING_ID_0, builder = BuildByCharacter(CHARACTER_ID_0)))
+            val state = createState(Building(BUILDING_ID_0, builder = CreatedByCharacter(CHARACTER_ID_0)))
 
-            assertIllegalArgument("Cannot delete character 0, because he is a builder!") {
+            assertIllegalArgument("Cannot delete character 0, because of built buildings!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a town founder`() {
+            val state = createState(Town(TOWN_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
+
+            assertIllegalArgument("Cannot delete character 0, because of founded towns!") {
                 REDUCER.invoke(state, action)
             }
         }

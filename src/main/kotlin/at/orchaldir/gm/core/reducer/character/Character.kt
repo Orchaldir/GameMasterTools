@@ -5,14 +5,13 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.reducer.util.checkCreated
 import at.orchaldir.gm.core.reducer.util.checkEmploymentStatusHistory
 import at.orchaldir.gm.core.reducer.util.checkLivingStatusHistory
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getChildren
-import at.orchaldir.gm.core.selector.getInventedLanguages
 import at.orchaldir.gm.core.selector.getParents
-import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.utils.doNothing
@@ -35,16 +34,9 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
 
     checkBuildingOwnership(state, action.id)
     checkBusinessOwnership(state, action.id)
-    checkCrafting(state, action.id)
+    checkCreated(state, action.id, "character")
 
     noFollowUps(state.updateStorage(state.getCharacterStorage().remove(action.id)))
-}
-
-private fun checkCrafting(state: State, id: CharacterId) {
-    val invented = state.getInventedLanguages(id)
-    require(invented.isEmpty()) { "Cannot delete character ${id.value}, because he is an language inventor!" }
-    val buildings = state.getBuildingsBuildBy(id)
-    require(buildings.isEmpty()) { "Cannot delete character ${id.value}, because he is a builder!" }
 }
 
 private fun checkBuildingOwnership(state: State, id: CharacterId) {

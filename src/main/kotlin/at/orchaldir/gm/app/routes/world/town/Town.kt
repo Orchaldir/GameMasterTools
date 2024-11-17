@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.routes.world.town
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldCreator
+import at.orchaldir.gm.app.html.model.selectCreator
 import at.orchaldir.gm.app.parse.world.parseTown
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
@@ -27,10 +29,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.DIV
-import kotlinx.html.HTML
-import kotlinx.html.form
-import kotlinx.html.h2
+import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -41,7 +40,7 @@ fun Application.configureTownRouting() {
             logger.info { "Get all towns" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllTowns(call)
+                showAllTowns(call, STORE.getState())
             }
         }
         get<TownRoutes.Details> { details ->
@@ -82,6 +81,17 @@ fun Application.configureTownRouting() {
                 showTownEditor(call, state, town)
             }
         }
+        post<TownRoutes.Preview> { preview ->
+            logger.info { "Preview town ${preview.id.value}" }
+
+            val state = STORE.getState()
+            val oldTown = state.getTownStorage().getOrThrow(preview.id)
+            val town = parseTown(call.receiveParameters(), state, oldTown)
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showTownEditor(call, state, town)
+            }
+        }
         post<TownRoutes.Update> { update ->
             logger.info { "Update town ${update.id.value}" }
 
@@ -98,7 +108,10 @@ fun Application.configureTownRouting() {
     }
 }
 
-private fun HTML.showAllTowns(call: ApplicationCall) {
+private fun HTML.showAllTowns(
+    call: ApplicationCall,
+    state: State,
+) {
     val towns = STORE.getState().getTownStorage().getAll().sortedBy { it.name }
     val count = towns.size
     val createLink = call.application.href(TownRoutes.New())
@@ -108,6 +121,7 @@ private fun HTML.showAllTowns(call: ApplicationCall) {
         showList(towns) { nameList ->
             link(call, nameList)
         }
+        showCreatorCount(call, state, towns, "Founders")
         action(createLink, "Add")
         back("/")
     }
@@ -131,6 +145,7 @@ private fun HTML.showTownDetails(
             field("Name", town.name)
             field(call, state, "Founding", town.foundingDate)
             fieldAge("Age", state.getAgeInYears(town))
+            fieldCreator(call, state, town.founder, "Founder")
             field("Size", town.map.size.format())
             action(editLink, "Edit Town")
             if (state.canDelete(town.id)) {
@@ -138,7 +153,7 @@ private fun HTML.showTownDetails(
             }
             h2 { +"Buildings" }
             showArchitecturalStyleCount(call, state, buildings)
-            showBuilderCount(call, state, buildings)
+            showCreatorCount(call, state, buildings, "Builder")
             showBuildingPurposeCount(buildings)
             showList("Buildings", state.sort(buildings)) { (building, name) ->
                 link(call, building.id, name)
@@ -207,13 +222,18 @@ private fun HTML.showTownEditor(
     town: Town,
 ) {
     val backLink = href(call, town.id)
+    val previewLink = call.application.href(TownRoutes.Preview(town.id))
     val updateLink = call.application.href(TownRoutes.Update(town.id))
 
     simpleHtml("Edit Town: ${town.name}") {
         split({
             form {
+                id = "editor"
+                action = previewLink
+                method = FormMethod.post
                 selectName(town.name)
                 selectDate(state, "Founding", town.foundingDate, DATE)
+                selectCreator(state, town.founder, town.id, town.foundingDate, "Founder")
                 button("Update", updateLink)
             }
             back(backLink)

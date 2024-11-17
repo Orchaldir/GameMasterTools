@@ -354,7 +354,7 @@ private fun BODY.showCrafting(
         link(call, state, building)
     }
 
-    showList("Invented Languages", state.getInventedLanguages(character.id)) { language ->
+    showList("Invented Languages", state.getLanguagesInventedBy(character.id)) { language ->
         link(call, language)
     }
 }

@@ -1,24 +1,20 @@
 package at.orchaldir.gm.core.reducer.economy
 
-import at.orchaldir.gm.DAY0
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.CalendarId
-import at.orchaldir.gm.core.model.calendar.MonthDefinition
-import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.CHARACTER
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.Employed
+import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.economy.business.BUSINESS
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.HistoryEntry
-import at.orchaldir.gm.core.model.util.OwnedByCharacter
-import at.orchaldir.gm.core.model.world.building.BuildByBusiness
+import at.orchaldir.gm.core.model.language.InventedLanguage
+import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.building.SingleBusiness
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
@@ -29,19 +25,16 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-private val ID0 = BusinessId(0)
-private val BUILDING0 = BuildingId(0)
-private val CHARACTER0 = CharacterId(0)
 
 class BusinessTest {
 
     @Nested
     inner class DeleteTest {
-        val action = DeleteBusiness(ID0)
+        val action = DeleteBusiness(BUSINESS_ID_0)
 
         @Test
         fun `Can delete an existing business`() {
-            val state = State(Storage(Business(ID0)))
+            val state = State(Storage(Business(BUSINESS_ID_0)))
 
             assertEquals(0, REDUCER.invoke(state, action).first.getBusinessStorage().getSize())
         }
@@ -52,8 +45,23 @@ class BusinessTest {
         }
 
         @Test
+        fun `Cannot delete an inventor`() {
+            val origin = InventedLanguage(CreatedByBusiness(BUSINESS_ID_0), DAY0)
+            val state = State(
+                listOf(
+                    Storage(listOf(Business(BUSINESS_ID_0))),
+                    Storage(listOf(Language(LANGUAGE_ID_0, origin = origin)))
+                )
+            )
+
+            assertIllegalArgument("Cannot delete business 0, because of invented languages!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
         fun `Cannot delete a business used by a building`() {
-            val state = createState(Building(BUILDING0, purpose = SingleBusiness(ID0)))
+            val state = createState(Building(BUILDING_ID_0, purpose = SingleBusiness(BUSINESS_ID_0)))
 
             assertIllegalArgument("Cannot delete business 0, because it has a building!") {
                 REDUCER.invoke(
@@ -65,9 +73,9 @@ class BusinessTest {
 
         @Test
         fun `Cannot delete a business that build a building`() {
-            val state = createState(Building(BUILDING0, builder = BuildByBusiness(ID0)))
+            val state = createState(Building(BUILDING_ID_0, builder = CreatedByBusiness(BUSINESS_ID_0)))
 
-            assertIllegalArgument("Cannot delete business 0, because it has build a building!") {
+            assertIllegalArgument("Cannot delete business 0, because of built buildings!") {
                 REDUCER.invoke(
                     state,
                     action
@@ -77,8 +85,9 @@ class BusinessTest {
 
         @Test
         fun `Cannot delete a business where a character is employed`() {
-            val state = createState(Character(CHARACTER0, employmentStatus = History(Employed(ID0, JobId(0)))))
-            val action = DeleteBusiness(ID0)
+            val state =
+                createState(Character(CHARACTER_ID_0, employmentStatus = History(Employed(BUSINESS_ID_0, JobId(0)))))
+            val action = DeleteBusiness(BUSINESS_ID_0)
 
             assertIllegalArgument("Cannot delete business 0, because it has employees!") {
                 REDUCER.invoke(
@@ -90,9 +99,9 @@ class BusinessTest {
 
         @Test
         fun `Cannot delete a business where a character was previously employed`() {
-            val employmentStatus = History(Unemployed, listOf(HistoryEntry(Employed(ID0, JobId(0)), DAY0)))
-            val state = createState(Character(CHARACTER0, employmentStatus = employmentStatus))
-            val action = DeleteBusiness(ID0)
+            val employmentStatus = History(Unemployed, listOf(HistoryEntry(Employed(BUSINESS_ID_0, JobId(0)), DAY0)))
+            val state = createState(Character(CHARACTER_ID_0, employmentStatus = employmentStatus))
+            val action = DeleteBusiness(BUSINESS_ID_0)
 
             assertIllegalArgument("Cannot delete business 0, because it has previous employees!") {
                 REDUCER.invoke(
@@ -104,7 +113,7 @@ class BusinessTest {
 
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> createState(element: ELEMENT) = State(
             listOf(
-                Storage(listOf(Business(ID0))),
+                Storage(listOf(Business(BUSINESS_ID_0))),
                 Storage(listOf(element))
             )
         )
@@ -113,18 +122,17 @@ class BusinessTest {
     @Nested
     inner class UpdateTest {
 
-        private val CALENDAR = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
         private val STATE = State(
             listOf(
-                Storage(Business(ID0)),
-                Storage(CALENDAR),
-                Storage(Character(CHARACTER0)),
+                Storage(Business(BUSINESS_ID_0)),
+                Storage(CALENDAR0),
+                Storage(Character(CHARACTER_ID_0)),
             )
         )
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateBusiness(Business(ID0))
+            val action = UpdateBusiness(Business(BUSINESS_ID_0))
             val state = STATE.removeStorage(BUSINESS)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -132,18 +140,26 @@ class BusinessTest {
 
         @Test
         fun `Owner is an unknown character`() {
-            val action = UpdateBusiness(Business(ID0, ownership = History(OwnedByCharacter(CHARACTER0))))
+            val action = UpdateBusiness(Business(BUSINESS_ID_0, ownership = History(OwnedByCharacter(CHARACTER_ID_0))))
             val state = STATE.removeStorage(CHARACTER)
 
             assertIllegalArgument("Cannot use an unknown character 0 as owner!") { REDUCER.invoke(state, action) }
         }
 
         @Test
+        fun `Founder is an unknown character`() {
+            val action = UpdateBusiness(Business(BUSINESS_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
+            val state = STATE.removeStorage(CHARACTER)
+
+            assertIllegalArgument("Cannot use an unknown character 0 as Founder!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
         fun `Test Success`() {
-            val business = Business(ID0, "Test")
+            val business = Business(BUSINESS_ID_0, "Test")
             val action = UpdateBusiness(business)
 
-            assertEquals(business, REDUCER.invoke(STATE, action).first.getBusinessStorage().get(ID0))
+            assertEquals(business, REDUCER.invoke(STATE, action).first.getBusinessStorage().get(BUSINESS_ID_0))
         }
     }
 

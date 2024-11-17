@@ -3,10 +3,7 @@ package at.orchaldir.gm.core.model.world.building
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
-import at.orchaldir.gm.core.model.util.ElementWithComplexName
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.Owner
-import at.orchaldir.gm.core.model.util.UnknownOwner
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -32,8 +29,8 @@ data class Building(
     val ownership: History<Owner> = History(UnknownOwner),
     val architecturalStyle: ArchitecturalStyleId = ArchitecturalStyleId(0),
     val purpose: BuildingPurpose = SingleFamilyHouse,
-    val builder: Builder = UndefinedBuilder,
-) : ElementWithComplexName<BuildingId> {
+    val builder: Creator = UndefinedCreator,
+) : ElementWithComplexName<BuildingId>, Created {
 
     override fun id() = id
 
@@ -52,6 +49,8 @@ data class Building(
 
         else -> "Building ${id.value}"
     }
+
+    override fun creator() = builder
 
     fun address(state: State) = when (address) {
         is CrossingAddress -> {

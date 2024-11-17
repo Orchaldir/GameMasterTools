@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.getDefaultCalendar
+import at.orchaldir.gm.utils.Id
 
 fun State.getAgeInYears(building: Building) = getDefaultCalendar()
     .getDurationInYears(building.constructionDate, time.currentDate)
@@ -23,10 +24,6 @@ fun State.canDelete(building: Building) = building.ownership.current.canDelete()
 fun State.exists(id: BuildingId, date: Date) = exists(getBuildingStorage().getOrThrow(id), date)
 
 fun State.exists(building: Building, date: Date) = getDefaultCalendar().compareTo(building.constructionDate, date) <= 0
-
-fun countBuilder(collection: Collection<Building>) = collection
-    .groupingBy { it.builder }
-    .eachCount()
 
 fun countPurpose(buildings: Collection<Building>) = buildings
     .groupingBy { it.purpose.getType() }
@@ -60,11 +57,8 @@ fun State.getBuildings(town: TownId) = getBuildingStorage().getAll()
 
 // builder
 
-fun State.getBuildingsBuildBy(business: BusinessId) = getBuildingStorage().getAll()
-    .filter { it.builder is BuildByBusiness && it.builder.business == business }
-
-fun State.getBuildingsBuildBy(character: CharacterId) = getBuildingStorage().getAll()
-    .filter { it.builder is BuildByCharacter && it.builder.character == character }
+fun <ID : Id<ID>> State.getBuildingsBuildBy(id: ID) = getBuildingStorage().getAll()
+    .filter { it.builder.wasCreatedBy(id) }
 
 // owner
 

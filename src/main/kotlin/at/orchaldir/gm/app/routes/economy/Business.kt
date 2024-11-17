@@ -3,10 +3,7 @@ package at.orchaldir.gm.app.routes.economy
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.selectOwnership
-import at.orchaldir.gm.app.html.model.showEmployees
-import at.orchaldir.gm.app.html.model.showOwner
-import at.orchaldir.gm.app.html.model.showOwnership
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.economy.parseBusiness
 import at.orchaldir.gm.core.action.CreateBusiness
 import at.orchaldir.gm.core.action.DeleteBusiness
@@ -166,6 +163,7 @@ private fun HTML.showAllBusinesses(
                 th { +"Name" }
                 th { +"Start" }
                 th { +"Age" }
+                th { +"Founder" }
                 th { +"Owner" }
                 th { +"Employees" }
             }
@@ -174,12 +172,14 @@ private fun HTML.showAllBusinesses(
                     td { link(call, business) }
                     td { showDate(call, state, business.startDate) }
                     td { +state.getAgeInYears(business).toString() }
+                    td { showCreator(call, state, business.founder) }
                     td { showOwner(call, state, business.ownership.current) }
                     td { +state.getEmployees(business.id).size.toString() }
                 }
             }
         }
         showBusinessOwnershipCount(call, state, businesses)
+        showCreatorCount(call, state, businesses, "Founders")
         action(createLink, "Add")
         back("/")
     }
@@ -201,6 +201,7 @@ private fun HTML.showBusinessDetails(
         state.getBuilding(business.id)?.let { fieldLink("Building", call, state, it) }
         field(call, state, "Start", business.startDate)
         fieldAge("Age", state.getAgeInYears(business))
+        fieldCreator(call, state, business.founder, "Founder")
         showOwnership(call, state, business.ownership)
         showEmployees(call, state, "Employees", employees)
         showList("Previous Employees", previousEmployees) { character ->
@@ -233,6 +234,7 @@ private fun HTML.showBusinessEditor(
             method = FormMethod.post
             selectName(business.name)
             selectDate(state, "Start", business.startDate, DATE)
+            selectCreator(state, business.founder, business.id, business.startDate, "Founder")
             selectOwnership(state, business.ownership, business.startDate)
             button("Update", updateLink)
         }

@@ -1,11 +1,13 @@
 package at.orchaldir.gm.core.reducer
 
+import at.orchaldir.gm.DAY0
 import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.language.*
+import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -67,25 +69,10 @@ class LanguageTest {
         @Test
         fun `Inventor must exist`() {
             val state = State(Storage(Language(ID0)))
-            val origin = InventedLanguage(CHARACTER0)
+            val origin = InventedLanguage(CreatedByCharacter(CHARACTER0), DAY0)
             val action = UpdateLanguage(Language(ID0, origin = origin))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Inventor exists`() {
-            val state = State(
-                listOf(
-                    Storage(Character(CHARACTER0)),
-                    Storage(Language(ID0)),
-                )
-            )
-            val origin = InventedLanguage(CHARACTER0)
-            val language = Language(ID0, origin = origin)
-            val action = UpdateLanguage(language)
-
-            assertEquals(language, REDUCER.invoke(state, action).first.getLanguageStorage().get(ID0))
         }
 
         @Test

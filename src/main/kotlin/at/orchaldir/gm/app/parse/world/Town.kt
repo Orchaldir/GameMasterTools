@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.TERRAIN
 import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.html.model.parseCreator
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseDate
@@ -22,4 +23,5 @@ fun parseTownId(parameters: Parameters, param: String) = TownId(parseInt(paramet
 fun parseTown(parameters: Parameters, state: State, oldTown: Town) = oldTown.copy(
     name = parameters.getOrFail(NAME),
     foundingDate = parseDate(parameters, state, DATE),
+    founder = parseCreator(parameters),
 )

@@ -13,13 +13,13 @@ import at.orchaldir.gm.core.model.util.contains
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getEmployees
+import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.world.getBuilding
-import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
+import at.orchaldir.gm.utils.Id
 
 fun State.canDelete(id: BusinessId) = getBuilding(id) == null
         && getEmployees(id).isEmpty()
-
-        && getBuildingsBuildBy(id).isEmpty()
+        && !isCreator(id)
 
 fun State.isInOperation(id: BusinessId, date: Date) = isInOperation(getBusinessStorage().getOrThrow(id), date)
 
@@ -64,6 +64,11 @@ fun State.getOwnedBusinesses(town: TownId) = getBusinessStorage().getAll()
 
 fun State.getPreviouslyOwnedBusinesses(town: TownId) = getBusinessStorage().getAll()
     .filter { it.ownership.contains(town) }
+
+// founder
+
+fun <ID : Id<ID>> State.getBusinessesFoundedBy(id: ID) = getBusinessStorage().getAll()
+    .filter { it.founder.wasCreatedBy(id) }
 
 // sort
 

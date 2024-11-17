@@ -5,11 +5,12 @@ import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.reducer.util.checkCreated
+import at.orchaldir.gm.core.reducer.util.checkCreator
 import at.orchaldir.gm.core.reducer.util.checkOwnership
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.getPreviousEmployees
 import at.orchaldir.gm.core.selector.world.getBuilding
-import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -22,9 +23,7 @@ val CREATE_BUSINESS: Reducer<CreateBusiness, State> = { state, _ ->
 val DELETE_BUSINESS: Reducer<DeleteBusiness, State> = { state, action ->
     state.getBusinessStorage().require(action.id)
     require(state.getBuilding(action.id) == null) { "Cannot delete business ${action.id.value}, because it has a building!" }
-    require(
-        state.getBuildingsBuildBy(action.id).isEmpty()
-    ) { "Cannot delete business ${action.id.value}, because it has build a building!" }
+    checkCreated(state, action.id, "business")
     require(state.getEmployees(action.id).isEmpty()) {
         "Cannot delete business ${action.id.value}, because it has employees!"
     }
@@ -36,9 +35,11 @@ val DELETE_BUSINESS: Reducer<DeleteBusiness, State> = { state, action ->
 }
 
 val UPDATE_BUSINESS: Reducer<UpdateBusiness, State> = { state, action ->
-    state.getBusinessStorage().require(action.type.id)
+    state.getBusinessStorage().require(action.business.id)
+    val newBusiness = action.business
 
-    checkOwnership(state, action.type.ownership, action.type.startDate)
+    checkCreator(state, newBusiness.founder, newBusiness.id, newBusiness.startDate, "Founder")
+    checkOwnership(state, newBusiness.ownership, newBusiness.startDate)
 
-    noFollowUps(state.updateStorage(state.getBusinessStorage().update(action.type)))
+    noFollowUps(state.updateStorage(state.getBusinessStorage().update(action.business)))
 }

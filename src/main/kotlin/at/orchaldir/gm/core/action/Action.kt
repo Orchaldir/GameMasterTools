@@ -29,6 +29,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Time
+import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.*
@@ -143,7 +144,7 @@ sealed class EconomyAction : Action()
 // business
 data object CreateBusiness : EconomyAction()
 data class DeleteBusiness(val id: BusinessId) : EconomyAction()
-data class UpdateBusiness(val type: Business) : EconomyAction()
+data class UpdateBusiness(val business: Business) : EconomyAction()
 
 // job
 data object CreateJob : EconomyAction()
@@ -207,7 +208,7 @@ data class UpdateBuilding(
     val ownership: History<Owner>,
     val style: ArchitecturalStyleId,
     val purpose: BuildingPurpose,
-    val builder: Builder,
+    val builder: Creator,
 ) : WorldAction() {
 
     fun applyTo(building: Building) = building.copy(
