@@ -52,16 +52,25 @@ fun <ID : Id<ID>> FORM.selectCreator(
     date: Date,
     noun: String,
 ) {
+    val businesses = state.getOpenBusinesses(date).filter { it.id != created }
+    val characters = state.getLiving(date)
+
     selectValue("$noun Type", CREATOR, CreatorType.entries, true) { type ->
         label = type.name
         value = type.name
         selected = type == creator.getType()
+        disabled = when (type) {
+            CreatorType.Undefined -> false
+            CreatorType.CreatedByBusiness -> businesses.isEmpty()
+            CreatorType.CreatedByCharacter -> characters.isEmpty()
+        }
     }
+
     when (creator) {
         is CreatedByBusiness -> selectValue(
             noun,
             combine(CREATOR, BUSINESS),
-            state.getOpenBusinesses(date).filter { it.id != created },
+            businesses,
             true
         ) { business ->
             label = business.name
@@ -72,7 +81,7 @@ fun <ID : Id<ID>> FORM.selectCreator(
         is CreatedByCharacter -> selectValue(
             noun,
             combine(CREATOR, CHARACTER),
-            state.getLiving(date),
+            characters,
             true
         ) { character ->
             label = character.name(state)
