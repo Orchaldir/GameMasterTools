@@ -1,14 +1,11 @@
 package at.orchaldir.gm.core.reducer.world
 
+import at.orchaldir.gm.CALENDAR0
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.assertIllegalState
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.CalendarId
-import at.orchaldir.gm.core.model.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.Year
@@ -233,7 +230,6 @@ class BuildingTest {
     @Nested
     inner class UpdateTest {
 
-        private val CALENDAR = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
         private val UNKNOWN_STREET = StreetId(99)
         private val STREET_NOT_IN_TOWN = StreetId(199)
         private val STYLE = ArchitecturalStyleId(0)
@@ -242,7 +238,7 @@ class BuildingTest {
             listOf(
                 Storage(listOf(ArchitecturalStyle(STYLE))),
                 Storage(listOf(Building(ID0), Building(ID1))),
-                Storage(CALENDAR),
+                Storage(CALENDAR0),
                 Storage(Character(CHARACTER0)),
                 Storage(listOf(Street(STREET0), Street(STREET1), Street(STREET_NOT_IN_TOWN))),
                 Storage(Town(TOWN0, map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1)))),
@@ -306,16 +302,7 @@ class BuildingTest {
 
             @Test
             fun `An empty string is invalid`() {
-                val action = UpdateBuilding(
-                    ID0,
-                    "",
-                    NoAddress,
-                    DAY0,
-                    OWNED_BY_CHARACTER,
-                    STYLE,
-                    SingleFamilyHouse,
-                    UndefinedCreator
-                )
+                val action = ACTION.copy(name = "")
 
                 assertIllegalArgument("Name is invalid!") {
                     REDUCER.invoke(STATE, action)
@@ -324,16 +311,7 @@ class BuildingTest {
 
             @Test
             fun `Only whitespaces are invalid`() {
-                val action = UpdateBuilding(
-                    ID0,
-                    "  ",
-                    NoAddress,
-                    DAY0,
-                    OWNED_BY_CHARACTER,
-                    STYLE,
-                    SingleFamilyHouse,
-                    UndefinedCreator
-                )
+                val action = ACTION.copy(name = "  ")
 
                 assertIllegalArgument("Name is invalid!") {
                     REDUCER.invoke(STATE, action)
@@ -342,16 +320,7 @@ class BuildingTest {
 
             @Test
             fun `Null is valid`() {
-                val action = UpdateBuilding(
-                    ID0,
-                    null,
-                    NoAddress,
-                    DAY0,
-                    OWNED_BY_CHARACTER,
-                    STYLE,
-                    SingleFamilyHouse,
-                    UndefinedCreator
-                )
+                val action = ACTION.copy(name = null)
 
                 assertNull(REDUCER.invoke(STATE, action).first.getBuildingStorage().getOrThrow(ID0).name)
             }
