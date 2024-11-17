@@ -21,13 +21,14 @@ import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
-fun HtmlBlockTag.fieldBuilder(
+fun HtmlBlockTag.fieldCreator(
     call: ApplicationCall,
     state: State,
-    builder: Creator,
+    creator: Creator,
+    label: String,
 ) {
-    field("Builder") {
-        showBuilder(call, state, builder)
+    field(label) {
+        showBuilder(call, state, creator)
     }
 }
 
@@ -43,44 +44,45 @@ fun HtmlBlockTag.showBuilder(
     }
 }
 
-fun FORM.selectBuilder(
+fun FORM.selectCreator(
     state: State,
-    builder: Creator,
+    creator: Creator,
     date: Date,
+    noun: String,
 ) {
-    selectValue("Builder Type", BUILDER, CreatorType.entries, true) { type ->
+    selectValue("$noun Type", BUILDER, CreatorType.entries, true) { type ->
         label = type.name
         value = type.name
-        selected = type == builder.getType()
+        selected = type == creator.getType()
     }
-    when (builder) {
+    when (creator) {
         is CreatedByBusiness -> selectValue(
-            "Builder",
+            noun,
             combine(BUILDER, BUSINESS),
             state.getOpenBusinesses(date),
             true
         ) { business ->
             label = business.name
             value = business.id.value.toString()
-            selected = builder.business == business.id
+            selected = creator.business == business.id
         }
 
         is CreatedByCharacter -> selectValue(
-            "Builder",
+            noun,
             combine(BUILDER, CHARACTER),
             state.getLiving(date),
             true
         ) { character ->
             label = character.name(state)
             value = character.id.value.toString()
-            selected = builder.character == character.id
+            selected = creator.character == character.id
         }
 
         UndefinedCreator -> doNothing()
     }
 }
 
-fun parseBuilder(parameters: Parameters): Creator {
+fun parseCreator(parameters: Parameters): Creator {
     return when (parse(parameters, BUILDER, CreatorType.Undefined)) {
         CreatorType.Undefined -> UndefinedCreator
         CreatorType.CreatedByBusiness -> CreatedByBusiness(parseBusinessId(parameters, combine(BUILDER, BUSINESS)))

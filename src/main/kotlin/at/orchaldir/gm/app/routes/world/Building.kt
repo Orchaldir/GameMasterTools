@@ -245,7 +245,7 @@ private fun HTML.showBuildingDetails(
             fieldAddress(call, state, building)
             field(call, state, "Construction", building.constructionDate)
             fieldAge("Age", state.getAgeInYears(building))
-            fieldBuilder(call, state, building.builder)
+            fieldCreator(call, state, building.builder, "Builder")
             showOwnership(call, state, building.ownership)
             field("Size", building.lot.size.format())
             fieldLink("Architectural Style", call, state, building.architecturalStyle)
@@ -313,7 +313,7 @@ private fun HTML.showBuildingEditor(
                 selectAddress(state, building)
                 selectDate(state, "Construction", building.constructionDate, DATE)
                 fieldAge("Age", state.getAgeInYears(building))
-                selectBuilder(state, building.builder, building.constructionDate)
+                selectCreator(state, building.builder, building.constructionDate, "Builder")
                 selectOwnership(state, building.ownership, building.constructionDate)
                 selectValue(
                     "Architectural Style",
