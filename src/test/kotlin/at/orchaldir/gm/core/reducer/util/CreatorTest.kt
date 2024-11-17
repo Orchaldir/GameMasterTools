@@ -18,7 +18,7 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class BuilderTest {
+class CreatorTest {
 
     private val BUSINESS0 = BusinessId(2)
     private val CHARACTER0 = CharacterId(3)
@@ -40,51 +40,51 @@ class BuilderTest {
     private val BUILD_BY_CHARACTER = CreatedByCharacter(CHARACTER0)
 
     @Nested
-    inner class BuildByBusinessTest {
+    inner class CreatedByBusinessTest {
 
         @Test
-        fun `Builder is an unknown business`() {
+        fun `Creator is an unknown business`() {
             val state = STATE.removeStorage(BUSINESS)
 
-            assertIllegalArgument("Cannot use an unknown business 2 as builder!") {
+            assertIllegalArgument("Cannot use an unknown business 2 as Builder!") {
                 checkCreator(state, BUILD_BY_BUSINESS, DAY0, "Builder")
             }
         }
 
         @Test
-        fun `Builder doesn't exist yet`() {
+        fun `Creator doesn't exist yet`() {
             assertIllegalArgument("Builder (business 2) is not open!") {
                 checkCreator(STATE, BUILD_BY_BUSINESS, DAY0, "Builder")
             }
         }
 
         @Test
-        fun `Builder is valid`() {
+        fun `Creator is valid`() {
             checkCreator(STATE, BUILD_BY_BUSINESS, DAY2, "Builder")
         }
     }
 
     @Nested
-    inner class BuildByCharacterTest {
+    inner class CreatedByCharacterTest {
 
         @Test
-        fun `Builder is an unknown character`() {
+        fun `Creator is an unknown character`() {
             val state = STATE.removeStorage(CHARACTER)
 
-            assertIllegalArgument("Cannot use an unknown character 3 as builder!") {
+            assertIllegalArgument("Cannot use an unknown character 3 as Builder!") {
                 checkCreator(state, BUILD_BY_CHARACTER, DAY0, "Builder")
             }
         }
 
         @Test
-        fun `Builder doesn't exist yet`() {
+        fun `Creator doesn't exist yet`() {
             assertIllegalArgument("Builder (character 3) is not alive!") {
                 checkCreator(STATE, BUILD_BY_CHARACTER, DAY0, "Builder")
             }
         }
 
         @Test
-        fun `Builder is valid`() {
+        fun `Creator is valid`() {
             checkCreator(STATE, BUILD_BY_CHARACTER, DAY2, "Builder")
         }
     }
