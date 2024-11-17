@@ -32,15 +32,16 @@ val DELETE_BUSINESS: Reducer<DeleteBusiness, State> = { state, action ->
     require(state.getPreviousEmployees(action.id).isEmpty()) {
         "Cannot delete business ${action.id.value}, because it has previous employees!"
     }
-    checkCreator(state, business.founder, business.id, business.startDate, "Founder")
 
     noFollowUps(state.updateStorage(state.getBusinessStorage().remove(action.id)))
 }
 
 val UPDATE_BUSINESS: Reducer<UpdateBusiness, State> = { state, action ->
-    state.getBusinessStorage().require(action.type.id)
+    state.getBusinessStorage().require(action.business.id)
+    val newBusiness = action.business
 
-    checkOwnership(state, action.type.ownership, action.type.startDate)
+    checkCreator(state, newBusiness.founder, newBusiness.id, newBusiness.startDate, "Founder")
+    checkOwnership(state, newBusiness.ownership, newBusiness.startDate)
 
-    noFollowUps(state.updateStorage(state.getBusinessStorage().update(action.type)))
+    noFollowUps(state.updateStorage(state.getBusinessStorage().update(action.business)))
 }

@@ -313,7 +313,7 @@ private fun HTML.showBuildingEditor(
                 selectAddress(state, building)
                 selectDate(state, "Construction", building.constructionDate, DATE)
                 fieldAge("Age", state.getAgeInYears(building))
-                selectCreator(state, building.builder, building.constructionDate, "Builder")
+                selectCreator(state, building.builder, building.id, building.constructionDate, "Builder")
                 selectOwnership(state, building.ownership, building.constructionDate)
                 selectValue(
                     "Architectural Style",

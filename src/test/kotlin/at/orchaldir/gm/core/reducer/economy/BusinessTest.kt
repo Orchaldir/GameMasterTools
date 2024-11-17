@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer.economy
 
+import at.orchaldir.gm.BUSINESS_ID_0
 import at.orchaldir.gm.DAY0
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteBusiness
@@ -13,10 +14,7 @@ import at.orchaldir.gm.core.model.economy.business.BUSINESS
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.HistoryEntry
-import at.orchaldir.gm.core.model.util.OwnedByCharacter
-import at.orchaldir.gm.core.model.util.CreatedByBusiness
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.building.SingleBusiness
@@ -133,6 +131,14 @@ class BusinessTest {
         @Test
         fun `Owner is an unknown character`() {
             val action = UpdateBusiness(Business(ID0, ownership = History(OwnedByCharacter(CHARACTER0))))
+            val state = STATE.removeStorage(CHARACTER)
+
+            assertIllegalArgument("Cannot use an unknown character 0 as Founder!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Founder is an unknown character`() {
+            val action = UpdateBusiness(Business(ID0, founder = CreatedByCharacter(CHARACTER0)))
             val state = STATE.removeStorage(CHARACTER)
 
             assertIllegalArgument("Cannot use an unknown character 0 as owner!") { REDUCER.invoke(state, action) }

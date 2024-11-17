@@ -11,10 +11,12 @@ import at.orchaldir.gm.app.parse.economy.parseBusinessId
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseCharacterId
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.core.selector.getLiving
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -44,9 +46,10 @@ fun HtmlBlockTag.showCreator(
     }
 }
 
-fun FORM.selectCreator(
+fun <ID : Id<ID>> FORM.selectCreator(
     state: State,
     creator: Creator,
+    created: ID,
     date: Date,
     noun: String,
 ) {
@@ -59,7 +62,7 @@ fun FORM.selectCreator(
         is CreatedByBusiness -> selectValue(
             noun,
             combine(CREATOR, BUSINESS),
-            state.getOpenBusinesses(date),
+            state.getOpenBusinesses(date).filter { it.id != created },
             true
         ) { business ->
             label = business.name

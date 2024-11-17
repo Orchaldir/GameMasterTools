@@ -144,7 +144,7 @@ sealed class EconomyAction : Action()
 // business
 data object CreateBusiness : EconomyAction()
 data class DeleteBusiness(val id: BusinessId) : EconomyAction()
-data class UpdateBusiness(val type: Business) : EconomyAction()
+data class UpdateBusiness(val business: Business) : EconomyAction()
 
 // job
 data object CreateJob : EconomyAction()

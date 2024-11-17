@@ -231,7 +231,7 @@ private fun HTML.showBusinessEditor(
             method = FormMethod.post
             selectName(business.name)
             selectDate(state, "Start", business.startDate, DATE)
-            selectCreator(state, business.founder, business.startDate, "Founder")
+            selectCreator(state, business.founder, business.id, business.startDate, "Founder")
             selectOwnership(state, business.ownership, business.startDate)
             button("Update", updateLink)
         }
