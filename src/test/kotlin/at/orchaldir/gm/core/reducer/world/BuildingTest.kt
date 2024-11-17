@@ -295,9 +295,10 @@ class BuildingTest {
 
         @Test
         fun `Founder is an unknown character`() {
+            val action = ACTION.copy(builder = CreatedByCharacter(CHARACTER0), ownership = History(UnknownOwner))
             val state = STATE.removeStorage(CHARACTER)
 
-            assertIllegalArgument("Cannot use an unknown character 2 as owner!") { REDUCER.invoke(state, ACTION) }
+            assertIllegalArgument("Cannot use an unknown character 2 as Builder!") { REDUCER.invoke(state, action) }
         }
 
         @Nested
