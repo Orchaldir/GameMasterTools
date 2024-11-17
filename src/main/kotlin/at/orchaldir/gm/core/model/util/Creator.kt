@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.util
 
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -18,6 +19,12 @@ sealed class Creator {
         is UndefinedCreator -> CreatorType.Undefined
         is CreatedByBusiness -> CreatorType.CreatedByBusiness
         is CreatedByCharacter -> CreatorType.CreatedByCharacter
+    }
+
+    fun <ID : Id<ID>> wasInventedBy(id: ID) = when (this) {
+        is CreatedByBusiness -> business == id
+        is CreatedByCharacter -> character == id
+        UndefinedCreator -> false
     }
 
 }

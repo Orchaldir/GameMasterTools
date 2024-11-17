@@ -1,10 +1,12 @@
 package at.orchaldir.gm.app.routes
 
-import at.orchaldir.gm.app.INVENTOR
+import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.LANGUAGES
 import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldCreator
+import at.orchaldir.gm.app.html.model.selectCreator
 import at.orchaldir.gm.app.parse.parseLanguage
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
@@ -104,10 +106,10 @@ fun Application.configureLanguageRouting() {
         post<LanguageRoutes.Preview> { preview ->
             logger.info { "Preview changes to language ${preview.id.value}" }
 
-            val language = parseLanguage(preview.id, call.receiveParameters())
+            val state = STORE.getState()
+            val language = parseLanguage(call.receiveParameters(), state, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                val state = STORE.getState()
 
                 showLanguageEditor(call, state, language)
             }
@@ -115,7 +117,7 @@ fun Application.configureLanguageRouting() {
         post<LanguageRoutes.Update> { update ->
             logger.info { "Update language ${update.id.value}" }
 
-            val language = parseLanguage(update.id, call.receiveParameters())
+            val language = parseLanguage(call.receiveParameters(), STORE.getState(), update.id)
 
             STORE.dispatch(UpdateLanguage(language))
 
@@ -155,22 +157,23 @@ private fun HTML.showLanguageDetails(
 
     simpleHtml("Language: ${language.name}") {
         field("Name", language.name)
-        when (language.origin) {
+        when (val origin = language.origin) {
             is CombinedLanguage -> {
                 field("Origin", "Combined")
-                showList("Parent Languages", language.origin.parents) { id ->
+                showList("Parent Languages", origin.parents) { id ->
                     link(call, state, id)
                 }
             }
 
             is EvolvedLanguage -> {
                 field("Origin", "Evolved")
-                fieldLink("Parent Language", call, state, language.origin.parent)
+                fieldLink("Parent Language", call, state, origin.parent)
             }
 
             is InventedLanguage -> {
                 field("Origin", "Invented")
-                fieldLink("Inventor", call, state, language.origin.inventor)
+                fieldCreator(call, state, origin.inventor, "Inventor")
+                field(call, state, "Date", origin.date)
             }
 
             OriginalLanguage -> {
@@ -236,14 +239,14 @@ private fun HTML.showLanguageEditor(
                     }
                 }
             }
-            when (language.origin) {
+            when (val origin = language.origin) {
                 is CombinedLanguage -> {
                     possibleParents.sortedBy { it.name }.forEach { l ->
                         p {
                             checkBoxInput {
                                 name = LANGUAGES
                                 value = l.id.value.toString()
-                                checked = language.origin.parents.contains(l.id)
+                                checked = origin.parents.contains(l.id)
                                 +l.name
                             }
                         }
@@ -254,19 +257,12 @@ private fun HTML.showLanguageEditor(
                     selectValue("Parent", LANGUAGES, possibleParents) { l ->
                         label = l.name
                         value = l.id.value.toString()
-                        selected = language.origin.parent == l.id
+                        selected = origin.parent == l.id
                     }
 
                 is InventedLanguage -> {
-                    selectValue(
-                        "Inventor",
-                        INVENTOR,
-                        possibleInventors
-                    ) { c ->
-                        label = c.name(state)
-                        value = c.id.value.toString()
-                        selected = language.origin.inventor == c.id
-                    }
+                    selectCreator(state, origin.inventor, language.id, origin.date, "Inventor")
+                    selectDate(state, "Date", origin.date, DATE)
                 }
 
                 else -> doNothing()

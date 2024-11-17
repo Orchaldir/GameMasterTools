@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.reducer.util.checkCreator
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.utils.doNothing
@@ -46,9 +47,7 @@ private fun checkOrigin(
 ) {
     when (val origin = language.origin) {
         is InventedLanguage -> {
-            require(
-                state.getCharacterStorage().contains(origin.inventor)
-            ) { "Cannot use an unknown inventor ${origin.inventor.value}" }
+            checkCreator(state, origin.inventor, language.id, origin.date, "Inventor")
         }
 
         is EvolvedLanguage -> {

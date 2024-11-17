@@ -23,7 +23,7 @@ fun State.getPossibleParents(language: LanguageId) = getLanguageStorage().getAll
 
 fun State.getInventedLanguages(inventor: CharacterId) = getLanguageStorage().getAll().filter { l ->
     when (l.origin) {
-        is InventedLanguage -> l.origin.inventor == inventor
+        is InventedLanguage -> l.origin.inventor.wasInventedBy(inventor)
         else -> false
     }
 }
