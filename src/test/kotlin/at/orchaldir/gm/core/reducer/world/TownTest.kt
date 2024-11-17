@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.world
 
-import at.orchaldir.gm.assertIllegalArgument
-import at.orchaldir.gm.assertIllegalState
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
@@ -124,6 +123,14 @@ class TownTest {
             val action = UpdateTown(Town(ID0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Founder must exist`() {
+            val state = State(Storage(Town(ID0)))
+            val action = UpdateTown(Town(ID0, founder = CreatedByCharacter(CHARACTER_ID_0)))
+
+            assertIllegalArgument("Cannot use an unknown character 0 as founder!") { REDUCER.invoke(state, action) }
         }
 
         @Test
