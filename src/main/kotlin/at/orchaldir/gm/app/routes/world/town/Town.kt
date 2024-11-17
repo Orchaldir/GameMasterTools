@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.routes.world.town
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldCreator
+import at.orchaldir.gm.app.html.model.selectCreator
 import at.orchaldir.gm.app.parse.world.parseTown
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
@@ -131,6 +133,7 @@ private fun HTML.showTownDetails(
             field("Name", town.name)
             field(call, state, "Founding", town.foundingDate)
             fieldAge("Age", state.getAgeInYears(town))
+            fieldCreator(call, state, town.founder, "Founder")
             field("Size", town.map.size.format())
             action(editLink, "Edit Town")
             if (state.canDelete(town.id)) {
@@ -214,6 +217,7 @@ private fun HTML.showTownEditor(
             form {
                 selectName(town.name)
                 selectDate(state, "Founding", town.foundingDate, DATE)
+                selectCreator(state, town.founder, town.id, town.foundingDate, "Founder")
                 button("Update", updateLink)
             }
             back(backLink)

@@ -2,7 +2,9 @@ package at.orchaldir.gm.core.model.world.town
 
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.terrain.Terrain
 import at.orchaldir.gm.utils.Id
@@ -30,6 +32,7 @@ data class Town(
     val name: String = "Town ${id.value}",
     val map: TileMap2d<TownTile> = TileMap2d(square(10), TownTile()),
     val foundingDate: Date = Year(0),
+    val founder: Creator = UndefinedCreator,
 ) : ElementWithSimpleName<TownId> {
 
     override fun id() = id
