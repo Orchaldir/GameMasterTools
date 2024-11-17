@@ -92,7 +92,7 @@ class CharacterTest {
                 )
             )
 
-            assertIllegalArgument("Cannot delete character 0, because he is an language inventor!") {
+            assertIllegalArgument("Cannot delete character 0, because of invented languages!") {
                 REDUCER.invoke(state, action)
             }
         }
@@ -101,7 +101,7 @@ class CharacterTest {
         fun `Cannot delete a builder`() {
             val state = createState(Building(BUILDING_ID_0, builder = CreatedByCharacter(CHARACTER_ID_0)))
 
-            assertIllegalArgument("Cannot delete character 0, because he is a builder!") {
+            assertIllegalArgument("Cannot delete character 0, because of built buildings!") {
                 REDUCER.invoke(state, action)
             }
         }

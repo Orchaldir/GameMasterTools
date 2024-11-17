@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.economy.business.BUSINESS
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.language.InventedLanguage
+import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.SingleBusiness
@@ -40,6 +42,21 @@ class BusinessTest {
         }
 
         @Test
+        fun `Cannot delete an inventor`() {
+            val origin = InventedLanguage(CreatedByBusiness(BUSINESS_ID_0), DAY0)
+            val state = State(
+                listOf(
+                    Storage(listOf(Business(BUSINESS_ID_0))),
+                    Storage(listOf(Language(LANGUAGE_ID_0, origin = origin)))
+                )
+            )
+
+            assertIllegalArgument("Cannot delete business 0, because of invented languages!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
         fun `Cannot delete a business used by a building`() {
             val state = createState(Building(BUILDING_ID_0, purpose = SingleBusiness(BUSINESS_ID_0)))
 
@@ -55,7 +72,7 @@ class BusinessTest {
         fun `Cannot delete a business that build a building`() {
             val state = createState(Building(BUILDING_ID_0, builder = CreatedByBusiness(BUSINESS_ID_0)))
 
-            assertIllegalArgument("Cannot delete business 0, because it has build a building!") {
+            assertIllegalArgument("Cannot delete business 0, because of built buildings!") {
                 REDUCER.invoke(
                     state,
                     action
