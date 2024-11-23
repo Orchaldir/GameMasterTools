@@ -51,7 +51,7 @@ data class Character(
     override fun id() = id
 
     override fun name(state: State): String {
-        return when (val name = name) {
+        return when (name) {
             is FamilyName -> {
                 val culture = state.getCultureStorage().getOrThrow(culture)
 

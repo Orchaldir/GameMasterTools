@@ -2,8 +2,8 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
-import at.orchaldir.gm.core.model.NameList
-import at.orchaldir.gm.core.model.NameListId
+import at.orchaldir.gm.core.model.name.NameList
+import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId

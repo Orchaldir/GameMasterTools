@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.core.model.NameListId
+import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.calendar.CALENDAR
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType

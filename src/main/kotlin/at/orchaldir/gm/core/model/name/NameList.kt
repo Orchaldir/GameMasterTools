@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model
+package at.orchaldir.gm.core.model.name
 
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id

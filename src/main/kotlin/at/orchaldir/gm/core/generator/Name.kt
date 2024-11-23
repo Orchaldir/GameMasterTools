@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.generator
 
-import at.orchaldir.gm.core.model.NameListId
+import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.name.*
