@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.name
 
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.world.moon.MoonId
-import at.orchaldir.gm.core.model.world.terrain.Mountain
+import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownId
 import kotlinx.serialization.SerialName
@@ -25,7 +25,7 @@ data class ReferencedMoon(val id: MoonId) : ReferenceForName()
 
 @Serializable
 @SerialName("Mountain")
-data class ReferencedMountain(val id: Mountain) : ReferenceForName()
+data class ReferencedMountain(val id: MountainId) : ReferenceForName()
 
 @Serializable
 @SerialName("River")
