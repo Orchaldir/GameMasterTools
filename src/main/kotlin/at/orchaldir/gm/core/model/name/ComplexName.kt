@@ -13,6 +13,7 @@ data class SimpleName(val name: String) : ComplexName()
 @Serializable
 @SerialName("Reference")
 data class NameWithReference(
+    val reference: ReferenceForName,
     val prefix: String?,
     val postfix: String,
 ) : ComplexName()
