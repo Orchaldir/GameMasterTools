@@ -32,7 +32,7 @@ data class NameWithReference(
         val referencedName = when (reference) {
             is ReferencedFamilyName -> {
                 val character = state.getCharacterStorage().getOrThrow(reference.id)
-                return when (character.name) {
+                when (character.name) {
                     is FamilyName -> character.name.family
                     else -> error("A referenced family name requires a family name!")
                 }
