@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.character.FamilyName
 import at.orchaldir.gm.core.model.character.Mononym
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.name.FamilyConvention
+import at.orchaldir.gm.core.model.world.terrain.River
+import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
@@ -21,6 +23,8 @@ private val STATE = State(
             )
         ),
         Storage(Culture(CULTURE_ID_0, namingConvention = FamilyConvention())),
+        Storage(River(RIVER_ID_0, "Miskatonic")),
+        Storage(Town(TOWN_ID_0, "York")),
     )
 )
 
@@ -52,6 +56,20 @@ class ComplexNameTest {
             val name = NameWithReference(ReferencedFamilyName(CHARACTER_ID_0), "Pre1", "Post1")
 
             assertEquals("Pre1 Family0 Post1", name.resolve(STATE))
+        }
+
+        @Test
+        fun `Reference river`() {
+            val name = NameWithReference(ReferencedRiver(RIVER_ID_0), null, "University")
+
+            assertEquals("Miskatonic University", name.resolve(STATE))
+        }
+
+        @Test
+        fun `Reference town`() {
+            val name = NameWithReference(ReferencedTown(TOWN_ID_0), "New", null)
+
+            assertEquals("New York", name.resolve(STATE))
         }
     }
 
