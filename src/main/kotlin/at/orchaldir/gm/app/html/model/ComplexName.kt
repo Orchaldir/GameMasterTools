@@ -96,6 +96,10 @@ fun parseComplexName(parameters: Parameters): ComplexName {
                 ReferenceForNameType.Town -> ReferencedTown(parseTownId(parameters, param))
             }
 
+            if (prefix == null && postfix == null) {
+                return NameWithReference(id, "?", "?")
+            }
+
             return NameWithReference(id, prefix, postfix)
         }
     }
