@@ -41,7 +41,6 @@ import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
-import at.orchaldir.gm.core.model.util.ElementWithComplexName
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.moon.MOON
@@ -149,7 +148,7 @@ data class State(
 
             if (element != null && element is ElementWithSimpleName) {
                 return element.name()
-            } else if (element != null && element is ElementWithComplexName) {
+            } else if (element != null) {
                 return element.name(this)
             }
         }

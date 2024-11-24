@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils
 
+import at.orchaldir.gm.core.model.State
 import kotlinx.serialization.Serializable
 
 interface Id<ID> {
@@ -10,6 +11,8 @@ interface Id<ID> {
 
 interface Element<ID> {
     fun id(): ID
+
+    fun name(state: State): String
 }
 
 @Serializable

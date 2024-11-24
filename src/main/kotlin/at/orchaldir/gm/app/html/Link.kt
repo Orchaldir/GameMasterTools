@@ -26,7 +26,6 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
-import at.orchaldir.gm.core.model.util.ElementWithComplexName
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
@@ -36,6 +35,7 @@ import at.orchaldir.gm.core.model.world.street.StreetTypeId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -115,7 +115,7 @@ fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.link(
     link(call, element.id(), element.name())
 }
 
-fun <ID : Id<ID>, ELEMENT : ElementWithComplexName<ID>> HtmlBlockTag.link(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.link(
     call: ApplicationCall,
     state: State,
     element: ELEMENT,
