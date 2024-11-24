@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.reducer.util.checkCreated
 import at.orchaldir.gm.core.reducer.util.checkCreator
 import at.orchaldir.gm.core.reducer.util.checkOwnership
@@ -38,6 +39,7 @@ val UPDATE_BUSINESS: Reducer<UpdateBusiness, State> = { state, action ->
     state.getBusinessStorage().require(action.business.id)
     val newBusiness = action.business
 
+    checkComplexName(state, newBusiness.name)
     checkCreator(state, newBusiness.founder, newBusiness.id, newBusiness.startDate, "Founder")
     checkOwnership(state, newBusiness.ownership, newBusiness.startDate)
 
