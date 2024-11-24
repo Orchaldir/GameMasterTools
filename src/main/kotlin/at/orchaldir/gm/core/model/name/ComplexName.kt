@@ -2,8 +2,6 @@ package at.orchaldir.gm.core.model.name
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.FamilyName
-import at.orchaldir.gm.core.model.character.Genonym
-import at.orchaldir.gm.core.model.character.Mononym
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
