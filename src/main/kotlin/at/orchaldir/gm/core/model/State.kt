@@ -41,7 +41,6 @@ import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.moon.MOON
 import at.orchaldir.gm.core.model.world.moon.Moon
@@ -146,9 +145,7 @@ data class State(
             @Suppress("UNCHECKED_CAST")
             val element = (storage as Storage<ID, Element<ID>>).get(id)
 
-            if (element != null && element is ElementWithSimpleName) {
-                return element.name()
-            } else if (element != null) {
+            if (element != null) {
                 return element.name(this)
             }
         }
