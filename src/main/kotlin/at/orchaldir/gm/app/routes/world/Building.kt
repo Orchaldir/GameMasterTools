@@ -360,7 +360,7 @@ fun FORM.selectPurpose(state: State, building: Building) {
                 availableBusinesses + purpose.business,
                 false
             ) { business ->
-                label = state.getBusinessStorage().getOrThrow(business).name
+                label = state.getBusinessStorage().getOrThrow(business).name(state)
                 value = business.value().toString()
                 selected = purpose.business == business
             }

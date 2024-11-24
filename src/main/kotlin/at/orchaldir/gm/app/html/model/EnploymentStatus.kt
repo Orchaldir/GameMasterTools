@@ -82,7 +82,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
 
         is Employed -> {
             selectValue("Business", combine(param, BUSINESS), state.getBusinessStorage().getAll()) { business ->
-                label = business.name
+                label = business.name(state)
                 value = business.id.value.toString()
                 selected = employmentStatus.business == business.id
                 disabled = !state.isInOperation(business, start)

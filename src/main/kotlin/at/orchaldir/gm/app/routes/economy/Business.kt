@@ -169,7 +169,7 @@ private fun HTML.showAllBusinesses(
             }
             businesses.forEach { business ->
                 tr {
-                    td { link(call, business) }
+                    td { link(call, state, business) }
                     td { showDate(call, state, business.startDate) }
                     td { +state.getAgeInYears(business).toString() }
                     td { showCreator(call, state, business.founder) }
@@ -197,7 +197,7 @@ private fun HTML.showBusinessDetails(
     val previousEmployees = state.getPreviousEmployees(business.id).toSet() - employees
 
     simpleHtml("Business: ${business.name}") {
-        field("Name", business.name)
+        fieldComplexName(state, business.name)
         state.getBuilding(business.id)?.let { fieldLink("Building", call, state, it) }
         field(call, state, "Start", business.startDate)
         fieldAge("Age", state.getAgeInYears(business))
@@ -232,7 +232,7 @@ private fun HTML.showBusinessEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            selectName(business.name)
+            selectComplexName(state, business.name)
             selectDate(state, "Start", business.startDate, DATE)
             selectCreator(state, business.founder, business.id, business.startDate, "Founder")
             selectOwnership(state, business.ownership, business.startDate)

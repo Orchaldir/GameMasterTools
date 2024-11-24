@@ -73,7 +73,7 @@ fun <ID : Id<ID>> FORM.selectCreator(
             businesses,
             true
         ) { business ->
-            label = business.name
+            label = business.name(state)
             value = business.id.value.toString()
             selected = creator.business == business.id
         }

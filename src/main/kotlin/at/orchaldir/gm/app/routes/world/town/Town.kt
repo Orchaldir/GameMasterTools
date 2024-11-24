@@ -208,11 +208,11 @@ private fun DIV.showPossession(
     }
 
     showList("Owned Businesses", state.getOwnedBusinesses(town.id)) { business ->
-        link(call, business)
+        link(call, state, business)
     }
 
     showList("Previously owned Businesses", state.getPreviouslyOwnedBusinesses(town.id)) { business ->
-        link(call, business)
+        link(call, state, business)
     }
 }
 
