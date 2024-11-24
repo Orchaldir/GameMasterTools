@@ -197,7 +197,7 @@ private fun HTML.showBusinessDetails(
     val previousEmployees = state.getPreviousEmployees(business.id).toSet() - employees
 
     simpleHtml("Business: ${business.name(state)}") {
-        fieldComplexName(state, business.name)
+        fieldReferenceByName(call, state, business.name)
         state.getBuilding(business.id)?.let { fieldLink("Building", call, state, it) }
         field(call, state, "Start", business.startDate)
         fieldAge("Age", state.getAgeInYears(business))

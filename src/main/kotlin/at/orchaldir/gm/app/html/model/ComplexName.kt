@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.selectText
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.*
@@ -12,6 +13,7 @@ import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.*
 import io.ktor.http.*
+import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
@@ -21,6 +23,25 @@ fun HtmlBlockTag.fieldComplexName(
 ) {
     field("Name") {
         showComplexName(state, name)
+    }
+}
+
+fun HtmlBlockTag.fieldReferenceByName(
+    call: ApplicationCall,
+    state: State,
+    name: ComplexName,
+) {
+    if (name is NameWithReference) {
+        field("Referenced by Name") {
+            when (name.reference) {
+                is ReferencedFamilyName -> link(call, state, name.reference.id)
+                is ReferencedFullName -> link(call, state, name.reference.id)
+                is ReferencedMoon -> link(call, state, name.reference.id)
+                is ReferencedMountain -> link(call, state, name.reference.id)
+                is ReferencedRiver -> link(call, state, name.reference.id)
+                is ReferencedTown -> link(call, state, name.reference.id)
+            }
+        }
     }
 }
 
