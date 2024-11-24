@@ -4,10 +4,14 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectText
 import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.world.parseMoonId
+import at.orchaldir.gm.app.parse.world.parseMountainId
+import at.orchaldir.gm.app.parse.world.parseRiverId
+import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.*
-import at.orchaldir.gm.utils.Id
+import io.ktor.http.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
@@ -45,6 +49,7 @@ fun FORM.selectComplexName(
                 selected = type == name.reference.getType()
             }
 
+            // replace with id.type()?
             val elements = when (name.reference) {
                 is ReferencedFamilyName -> state.getCharacterStorage().getAll()
                 is ReferencedFullName -> state.getCharacterStorage().getAll()
@@ -56,7 +61,7 @@ fun FORM.selectComplexName(
             val id = name.reference.getId()
 
             selectValue("Referenced Element", combine(NAME, REFERENCE), elements) { element ->
-                label = element.toString()
+                label = element.name(state)
                 value = element.id().value().toString()
                 selected = element.id() == id
             }
@@ -66,5 +71,32 @@ fun FORM.selectComplexName(
         }
 
         is SimpleName -> selectText("Name", name.name, NAME, 1)
+    }
+}
+
+fun parseComplexName(parameters: Parameters): ComplexName {
+    return when (parse(parameters, combine(NAME, TYPE), ComplexNameType.Simple)) {
+        ComplexNameType.Simple -> SimpleName(parseString(parameters, NAME))
+        ComplexNameType.Reference -> {
+            val prefix = parseOptionalString(parameters, combine(NAME, PREFIX))
+            val postfix = parseOptionalString(parameters, combine(NAME, POSTFIX))
+            val param = combine(NAME, REFERENCE)
+
+            val id = when (parse(parameters, combine(NAME, REFERENCE, TYPE), ReferenceForNameType.FamilyName)) {
+                ReferenceForNameType.FamilyName, ReferenceForNameType.FullName -> ReferencedFamilyName(
+                    parseCharacterId(
+                        parameters,
+                        param
+                    )
+                )
+
+                ReferenceForNameType.Moon -> ReferencedMoon(parseMoonId(parameters, param))
+                ReferenceForNameType.Mountain -> ReferencedMountain(parseMountainId(parameters, param))
+                ReferenceForNameType.River -> ReferencedRiver(parseRiverId(parameters, param))
+                ReferenceForNameType.Town -> ReferencedTown(parseTownId(parameters, param))
+            }
+
+            return NameWithReference(id, prefix, postfix)
+        }
     }
 }

@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.economy.parseOptionalBusinessId
 import at.orchaldir.gm.app.parse.parseDate
 import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseName
+import at.orchaldir.gm.app.parse.parseOptionalString
 import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.*
@@ -23,7 +23,7 @@ fun parseUpdateBuilding(parameters: Parameters, state: State, id: BuildingId): U
 
     return UpdateBuilding(
         id,
-        parseName(parameters, NAME),
+        parseOptionalString(parameters, NAME),
         parseAddress(parameters),
         constructionDate,
         parseOwnership(parameters, state, constructionDate),
