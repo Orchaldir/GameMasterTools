@@ -5,11 +5,20 @@ import at.orchaldir.gm.core.model.character.FamilyName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class ComplexNameType {
+    Simple,
+    Reference,
+}
+
 @Serializable
 sealed class ComplexName {
 
     abstract fun resolve(state: State): String
 
+    fun getType() = when (this) {
+        is NameWithReference -> ComplexNameType.Reference
+        is SimpleName -> ComplexNameType.Simple
+    }
 }
 
 @Serializable

@@ -8,8 +8,36 @@ import at.orchaldir.gm.core.model.world.town.TownId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class ReferenceForNameType {
+    FamilyName,
+    FullName,
+    Moon,
+    Mountain,
+    River,
+    Town,
+}
+
 @Serializable
-sealed class ReferenceForName
+sealed class ReferenceForName {
+
+    fun getId() = when (this) {
+        is ReferencedFamilyName -> id
+        is ReferencedFullName -> id
+        is ReferencedMoon -> id
+        is ReferencedMountain -> id
+        is ReferencedRiver -> id
+        is ReferencedTown -> id
+    }
+
+    fun getType() = when (this) {
+        is ReferencedFamilyName -> ReferenceForNameType.FamilyName
+        is ReferencedFullName -> ReferenceForNameType.FullName
+        is ReferencedMoon -> ReferenceForNameType.Moon
+        is ReferencedMountain -> ReferenceForNameType.Mountain
+        is ReferencedRiver -> ReferenceForNameType.River
+        is ReferencedTown -> ReferenceForNameType.Town
+    }
+}
 
 @Serializable
 @SerialName("FullName")
