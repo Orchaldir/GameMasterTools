@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.character.LivingStatus
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
-import at.orchaldir.gm.core.model.world.building.BUILDING
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Test
@@ -27,7 +26,7 @@ class LivingStatusTest {
 
     @Test
     fun `Cannot use unknown building as home`() {
-        val state = STATE.removeStorage(BUILDING)
+        val state = STATE.removeStorage(BUILDING_ID_0)
 
         assertIllegalArgument("The home doesn't exist!") {
             checkLivingStatusHistory(state, History(IN_HOUSE), DAY0)
@@ -46,7 +45,7 @@ class LivingStatusTest {
 
     @Test
     fun `Cannot use unknown building as apartment house`() {
-        val state = STATE.removeStorage(BUILDING)
+        val state = STATE.removeStorage(BUILDING_ID_0)
 
         assertIllegalArgument("The home doesn't exist!") {
             checkLivingStatusHistory(state, History(IN_APARTMENT), DAY0)

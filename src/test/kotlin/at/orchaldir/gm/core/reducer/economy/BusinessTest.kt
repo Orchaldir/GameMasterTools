@@ -4,11 +4,9 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.CHARACTER
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.character.Unemployed
-import at.orchaldir.gm.core.model.economy.business.BUSINESS
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.language.InventedLanguage
@@ -134,7 +132,7 @@ class BusinessTest {
         @Test
         fun `Cannot update unknown id`() {
             val action = UpdateBusiness(Business(BUSINESS_ID_0))
-            val state = STATE.removeStorage(BUSINESS)
+            val state = STATE.removeStorage(BUSINESS_ID_0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
@@ -142,7 +140,7 @@ class BusinessTest {
         @Test
         fun `Owner is an unknown character`() {
             val action = UpdateBusiness(Business(BUSINESS_ID_0, ownership = History(OwnedByCharacter(CHARACTER_ID_0))))
-            val state = STATE.removeStorage(CHARACTER)
+            val state = STATE.removeStorage(CHARACTER_ID_0)
 
             assertIllegalArgument("Cannot use an unknown character 0 as owner!") { REDUCER.invoke(state, action) }
         }
@@ -150,7 +148,7 @@ class BusinessTest {
         @Test
         fun `Founder is an unknown character`() {
             val action = UpdateBusiness(Business(BUSINESS_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
-            val state = STATE.removeStorage(CHARACTER)
+            val state = STATE.removeStorage(CHARACTER_ID_0)
 
             assertIllegalArgument("Cannot use an unknown character 0 as Founder!") { REDUCER.invoke(state, action) }
         }

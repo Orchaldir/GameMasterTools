@@ -153,12 +153,7 @@ data class State(
         return "Unknown"
     }
 
-    fun <ID : Id<ID>> removeStorage(id: ID): State {
-        val newMap = storageMap.toMutableMap()
-        newMap.remove(id.type())
-
-        return copy(storageMap = newMap)
-    }
+    fun <ID : Id<ID>> removeStorage(id: ID) = removeStorage(id.type())
 
     fun removeStorage(type: String): State {
         val newMap = storageMap.toMutableMap()

@@ -1,14 +1,10 @@
 package at.orchaldir.gm.core.reducer.util
 
-import at.orchaldir.gm.DAY0
-import at.orchaldir.gm.DAY1
-import at.orchaldir.gm.DAY2
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.calendar.MonthDefinition
-import at.orchaldir.gm.core.model.character.CHARACTER
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.util.*
@@ -52,7 +48,7 @@ class OwnerTest {
 
     @Test
     fun `Owner is an unknown character`() {
-        val state = STATE.removeStorage(CHARACTER)
+        val state = STATE.removeStorage(CHARACTER_ID_0)
 
         assertIllegalArgument("Cannot use an unknown character 2 as owner!") {
             checkOwnership(
@@ -65,14 +61,14 @@ class OwnerTest {
 
     @Test
     fun `Owner is an unknown town`() {
-        val state = STATE.removeStorage(TOWN)
+        val state = STATE.removeStorage(TOWN_ID_0)
 
         assertIllegalArgument("Cannot use an unknown town 0 as owner!") { checkOwnership(state, OWNED_BY_TOWN, DAY0) }
     }
 
     @Test
     fun `Previous owner is an unknown character`() {
-        val state = STATE.removeStorage(CHARACTER)
+        val state = STATE.removeStorage(CHARACTER_ID_0)
 
         assertIllegalArgument("Cannot use an unknown character 2 as 1.previous owner!") {
             checkOwnership(state, CHARACTER_AS_PREVIOUS, DAY0)
@@ -81,7 +77,7 @@ class OwnerTest {
 
     @Test
     fun `Previous owner is an unknown town`() {
-        val state = STATE.removeStorage(TOWN)
+        val state = STATE.removeStorage(TOWN_ID_0)
 
         assertIllegalArgument("Cannot use an unknown town 0 as 1.previous owner!") {
             checkOwnership(state, TOWN_AS_PREVIOUS, DAY0)
