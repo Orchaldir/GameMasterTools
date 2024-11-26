@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.CHARACTER_ID_0
-import at.orchaldir.gm.CHARACTER_ID_1
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -45,8 +44,10 @@ class ComplexNameTest {
 
         @Test
         fun `The character referenced for its family name doesn't exist`() {
+            val state = STATE.removeStorage(CHARACTER_ID_0)
+
             assertIllegalArgument("Reference for complex name is unknown!") {
-                checkComplexName(STATE, NameWithReference(ReferencedFamilyName(CHARACTER_ID_1), "test", null))
+                checkComplexName(state, NameWithReference(ReferencedFamilyName(CHARACTER_ID_0), "test", null))
             }
         }
 
@@ -57,8 +58,10 @@ class ComplexNameTest {
 
         @Test
         fun `The character referenced for its full name doesn't exist`() {
+            val state = STATE.removeStorage(CHARACTER_ID_0)
+
             assertIllegalArgument("Reference for complex name is unknown!") {
-                checkComplexName(STATE, NameWithReference(ReferencedFullName(CHARACTER_ID_1), null, "test"))
+                checkComplexName(state, NameWithReference(ReferencedFullName(CHARACTER_ID_0), null, "test"))
             }
         }
 
