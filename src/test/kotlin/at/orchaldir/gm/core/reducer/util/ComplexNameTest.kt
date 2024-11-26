@@ -1,13 +1,14 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.CHARACTER_ID_0
+import at.orchaldir.gm.MOON_ID_0
+import at.orchaldir.gm.MOUNTAIN_ID_0
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.name.NameWithReference
-import at.orchaldir.gm.core.model.name.ReferencedFamilyName
-import at.orchaldir.gm.core.model.name.ReferencedFullName
-import at.orchaldir.gm.core.model.name.SimpleName
+import at.orchaldir.gm.core.model.name.*
+import at.orchaldir.gm.core.model.world.moon.Moon
+import at.orchaldir.gm.core.model.world.terrain.Mountain
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -15,6 +16,8 @@ import org.junit.jupiter.api.Test
 private val STATE = State(
     listOf(
         Storage(Character(CHARACTER_ID_0)),
+        Storage(Moon(MOON_ID_0)),
+        Storage(Mountain(MOUNTAIN_ID_0)),
     )
 )
 
@@ -68,6 +71,34 @@ class ComplexNameTest {
         @Test
         fun `A valid full name`() {
             checkComplexName(STATE, NameWithReference(ReferencedFullName(CHARACTER_ID_0), null, "test"))
+        }
+
+        @Test
+        fun `The referenced moon doesn't exist`() {
+            val state = STATE.removeStorage(MOON_ID_0)
+
+            assertIllegalArgument("Reference for complex name is unknown!") {
+                checkComplexName(state, NameWithReference(ReferencedMoon(MOON_ID_0), "a", "b"))
+            }
+        }
+
+        @Test
+        fun `A valid moon`() {
+            checkComplexName(STATE, NameWithReference(ReferencedMoon(MOON_ID_0), "a", "b"))
+        }
+
+        @Test
+        fun `The referenced mountain doesn't exist`() {
+            val state = STATE.removeStorage(MOUNTAIN_ID_0)
+
+            assertIllegalArgument("Reference for complex name is unknown!") {
+                checkComplexName(state, NameWithReference(ReferencedMountain(MOUNTAIN_ID_0), "a", "b"))
+            }
+        }
+
+        @Test
+        fun `A valid mountain`() {
+            checkComplexName(STATE, NameWithReference(ReferencedMountain(MOUNTAIN_ID_0), "a", "b"))
         }
     }
 
