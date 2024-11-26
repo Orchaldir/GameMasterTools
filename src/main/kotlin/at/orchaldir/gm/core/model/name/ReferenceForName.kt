@@ -40,12 +40,12 @@ sealed class ReferenceForName {
 }
 
 @Serializable
-@SerialName("FullName")
-data class ReferencedFullName(val id: CharacterId) : ReferenceForName()
-
-@Serializable
 @SerialName("FamilyName")
 data class ReferencedFamilyName(val id: CharacterId) : ReferenceForName()
+
+@Serializable
+@SerialName("FullName")
+data class ReferencedFullName(val id: CharacterId) : ReferenceForName()
 
 @Serializable
 @SerialName("Moon")

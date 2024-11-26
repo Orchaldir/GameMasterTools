@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.CHARACTER_ID_0
+import at.orchaldir.gm.CHARACTER_ID_1
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -39,6 +40,18 @@ class ComplexNameTest {
             assertIllegalArgument("The prefix & the postfix of the name with reference must not be empty at the same time!") {
                 checkComplexName(STATE, NameWithReference(ReferencedFullName(CHARACTER_ID_0), null, null))
             }
+        }
+
+        @Test
+        fun `The character referenced for its full name doesn't exist`() {
+            assertIllegalArgument("Reference for complex name is unknown!") {
+                checkComplexName(STATE, NameWithReference(ReferencedFullName(CHARACTER_ID_1), "test", null))
+            }
+        }
+
+        @Test
+        fun `A valid full name`() {
+            checkComplexName(STATE, NameWithReference(ReferencedFullName(CHARACTER_ID_0), "test", null))
         }
     }
 
