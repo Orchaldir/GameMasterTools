@@ -1,14 +1,13 @@
 package at.orchaldir.gm.core.reducer.util
 
-import at.orchaldir.gm.CHARACTER_ID_0
-import at.orchaldir.gm.MOON_ID_0
-import at.orchaldir.gm.MOUNTAIN_ID_0
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.name.*
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.terrain.Mountain
+import at.orchaldir.gm.core.model.world.terrain.River
+import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -18,6 +17,8 @@ private val STATE = State(
         Storage(Character(CHARACTER_ID_0)),
         Storage(Moon(MOON_ID_0)),
         Storage(Mountain(MOUNTAIN_ID_0)),
+        Storage(River(RIVER_ID_0)),
+        Storage(Town(TOWN_ID_0)),
     )
 )
 
@@ -99,6 +100,34 @@ class ComplexNameTest {
         @Test
         fun `A valid mountain`() {
             checkComplexName(STATE, NameWithReference(ReferencedMountain(MOUNTAIN_ID_0), "a", "b"))
+        }
+
+        @Test
+        fun `The referenced river doesn't exist`() {
+            val state = STATE.removeStorage(RIVER_ID_0)
+
+            assertIllegalArgument("Reference for complex name is unknown!") {
+                checkComplexName(state, NameWithReference(ReferencedRiver(RIVER_ID_0), "a", "b"))
+            }
+        }
+
+        @Test
+        fun `A valid river`() {
+            checkComplexName(STATE, NameWithReference(ReferencedRiver(RIVER_ID_0), "a", "b"))
+        }
+
+        @Test
+        fun `The referenced town doesn't exist`() {
+            val state = STATE.removeStorage(TOWN_ID_0)
+
+            assertIllegalArgument("Reference for complex name is unknown!") {
+                checkComplexName(state, NameWithReference(ReferencedTown(TOWN_ID_0), "a", "b"))
+            }
+        }
+
+        @Test
+        fun `A valid town`() {
+            checkComplexName(STATE, NameWithReference(ReferencedTown(TOWN_ID_0), "a", "b"))
         }
     }
 
