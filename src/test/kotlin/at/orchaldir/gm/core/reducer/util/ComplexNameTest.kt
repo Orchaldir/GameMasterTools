@@ -1,0 +1,46 @@
+package at.orchaldir.gm.core.reducer.util
+
+import at.orchaldir.gm.CHARACTER_ID_0
+import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.name.NameWithReference
+import at.orchaldir.gm.core.model.name.ReferencedFullName
+import at.orchaldir.gm.core.model.name.SimpleName
+import at.orchaldir.gm.utils.Storage
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+
+private val STATE = State(
+    listOf(
+        Storage(Character(CHARACTER_ID_0)),
+    )
+)
+
+class ComplexNameTest {
+
+    @Test
+    fun `A valid simple`() {
+        checkComplexName(STATE, SimpleName("Test"))
+    }
+
+    @Test
+    fun `A simple name must not be empty`() {
+        assertIllegalArgument("A simple name must not be empty!") {
+            checkComplexName(STATE, SimpleName(""))
+        }
+    }
+
+    @Nested
+    inner class NameWithReferenceTest {
+
+        @Test
+        fun `The prefix & the postfix must not be empty at the same time`() {
+            assertIllegalArgument("The prefix & the postfix of the name with reference must not be empty at the same time!") {
+                checkComplexName(STATE, NameWithReference(ReferencedFullName(CHARACTER_ID_0), null, null))
+            }
+        }
+    }
+
+
+}

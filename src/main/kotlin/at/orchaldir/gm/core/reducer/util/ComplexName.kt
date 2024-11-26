@@ -11,7 +11,9 @@ fun checkComplexName(
 ) {
     when (name) {
         is NameWithReference -> {
-            require(!(name.prefix.isNullOrEmpty() && name.postfix.isNullOrEmpty())) { "The prefix & the postfix of the complex must not be empty at the same time!" }
+            require(!(name.prefix.isNullOrEmpty() && name.postfix.isNullOrEmpty())) {
+                "The prefix & the postfix of the name with reference must not be empty at the same time!"
+            }
 
             when (name.reference) {
                 is ReferencedFamilyName -> state.getCharacterStorage().require(name.reference.id) { REQUIRED_REFERENCE }
@@ -23,6 +25,6 @@ fun checkComplexName(
             }
         }
 
-        is SimpleName -> require(name.name.isNotEmpty()) { "Simple must not be empty!" }
+        is SimpleName -> require(name.name.isNotEmpty()) { "A simple name must not be empty!" }
     }
 }

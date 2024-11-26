@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.name.SimpleName
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.SingleBusiness
@@ -156,7 +157,7 @@ class BusinessTest {
 
         @Test
         fun `Test Success`() {
-            val business = Business(BUSINESS_ID_0, "Test")
+            val business = Business(BUSINESS_ID_0, SimpleName("Test"))
             val action = UpdateBusiness(business)
 
             assertEquals(business, REDUCER.invoke(STATE, action).first.getBusinessStorage().get(BUSINESS_ID_0))
