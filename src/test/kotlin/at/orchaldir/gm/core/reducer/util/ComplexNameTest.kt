@@ -6,6 +6,7 @@ import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.name.NameWithReference
+import at.orchaldir.gm.core.model.name.ReferencedFamilyName
 import at.orchaldir.gm.core.model.name.ReferencedFullName
 import at.orchaldir.gm.core.model.name.SimpleName
 import at.orchaldir.gm.utils.Storage
@@ -43,15 +44,27 @@ class ComplexNameTest {
         }
 
         @Test
+        fun `The character referenced for its family name doesn't exist`() {
+            assertIllegalArgument("Reference for complex name is unknown!") {
+                checkComplexName(STATE, NameWithReference(ReferencedFamilyName(CHARACTER_ID_1), "test", null))
+            }
+        }
+
+        @Test
+        fun `A valid family name`() {
+            checkComplexName(STATE, NameWithReference(ReferencedFamilyName(CHARACTER_ID_0), "test", null))
+        }
+
+        @Test
         fun `The character referenced for its full name doesn't exist`() {
             assertIllegalArgument("Reference for complex name is unknown!") {
-                checkComplexName(STATE, NameWithReference(ReferencedFullName(CHARACTER_ID_1), "test", null))
+                checkComplexName(STATE, NameWithReference(ReferencedFullName(CHARACTER_ID_1), null, "test"))
             }
         }
 
         @Test
         fun `A valid full name`() {
-            checkComplexName(STATE, NameWithReference(ReferencedFullName(CHARACTER_ID_0), "test", null))
+            checkComplexName(STATE, NameWithReference(ReferencedFullName(CHARACTER_ID_0), null, "test"))
         }
     }
 
