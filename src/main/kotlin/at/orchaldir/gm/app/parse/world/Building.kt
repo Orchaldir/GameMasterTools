@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.parse.world
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.model.parseCreator
+import at.orchaldir.gm.app.html.model.parseOptionalComplexName
 import at.orchaldir.gm.app.html.model.parseOwnership
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.economy.parseOptionalBusinessId
@@ -23,7 +24,7 @@ fun parseUpdateBuilding(parameters: Parameters, state: State, id: BuildingId): U
 
     return UpdateBuilding(
         id,
-        parseOptionalString(parameters, NAME),
+        parseOptionalComplexName(parameters),
         parseAddress(parameters),
         constructionDate,
         parseOwnership(parameters, state, constructionDate),

@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.reducer.util.checkCreator
 import at.orchaldir.gm.core.reducer.util.checkOwnership
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
@@ -64,7 +65,7 @@ val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
     val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
 
     if (action.name != null) {
-        require(action.name.isNotBlank()) { "Name is invalid!" }
+        checkComplexName(state, action.name)
     }
     checkAddress(state, oldBuilding.lot.town, oldBuilding.address, action.address)
     checkArchitecturalStyle(state, action)

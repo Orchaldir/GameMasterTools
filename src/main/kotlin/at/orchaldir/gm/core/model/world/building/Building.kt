@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.world.building
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.name.ComplexName
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.util.*
@@ -23,7 +24,7 @@ value class BuildingId(val value: Int) : Id<BuildingId> {
 @Serializable
 data class Building(
     val id: BuildingId,
-    val name: String? = null,
+    val name: ComplexName? = null,
     val lot: BuildingLot = BuildingLot(),
     val address: Address = NoAddress,
     val constructionDate: Date = Year(0),
@@ -37,7 +38,7 @@ data class Building(
 
     override fun name(state: State) = when {
         name != null -> {
-            name
+            name.resolve(state)
         }
 
         purpose is SingleBusiness -> {

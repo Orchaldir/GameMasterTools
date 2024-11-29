@@ -23,6 +23,7 @@ import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.name.ComplexName
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
@@ -202,7 +203,7 @@ data class DeleteBuilding(val id: BuildingId) : WorldAction()
 
 data class UpdateBuilding(
     val id: BuildingId,
-    val name: String?,
+    val name: ComplexName?,
     val address: Address,
     val constructionDate: Date,
     val ownership: History<Owner>,

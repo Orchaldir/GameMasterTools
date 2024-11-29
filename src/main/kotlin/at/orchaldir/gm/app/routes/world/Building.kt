@@ -309,7 +309,7 @@ private fun HTML.showBuildingEditor(
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectOptionalName(building.name)
+                selectOptionalComplexName(state, building.name)
                 selectAddress(state, building)
                 selectDate(state, "Construction", building.constructionDate, DATE)
                 fieldAge("Age", state.getAgeInYears(building))

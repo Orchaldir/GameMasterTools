@@ -1,10 +1,7 @@
 package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.selectText
-import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.app.parse.world.parseMoonId
 import at.orchaldir.gm.app.parse.world.parseMountainId
@@ -62,9 +59,30 @@ fun FORM.selectComplexName(
         selected = type == name.getType()
     }
 
+    internalSelect(state, name)
+}
+
+fun FORM.selectOptionalComplexName(
+    state: State,
+    name: ComplexName?,
+) {
+    selectOptionalValue("Name Type", combine(NAME, TYPE), name?.getType(), ComplexNameType.entries, true) { type ->
+        label = type.name
+        value = type.name
+    }
+
+    if (name != null) {
+        internalSelect(state, name)
+    }
+}
+
+private fun FORM.internalSelect(
+    state: State,
+    name: ComplexName,
+) {
     when (name) {
         is NameWithReference -> {
-            selectValue("Name Type", combine(NAME, REFERENCE, TYPE), ReferenceForNameType.entries, true) { type ->
+            selectValue("Reference Type", combine(NAME, REFERENCE, TYPE), ReferenceForNameType.entries, true) { type ->
                 label = type.name
                 value = type.name
                 selected = type == name.reference.getType()
@@ -96,32 +114,45 @@ fun FORM.selectComplexName(
 }
 
 fun parseComplexName(parameters: Parameters): ComplexName {
-    return when (parse(parameters, combine(NAME, TYPE), ComplexNameType.Simple)) {
-        ComplexNameType.Simple -> SimpleName(parseString(parameters, NAME))
-        ComplexNameType.Reference -> {
-            val prefix = parseOptionalString(parameters, combine(NAME, PREFIX))
-            val postfix = parseOptionalString(parameters, combine(NAME, POSTFIX))
-            val param = combine(NAME, REFERENCE)
+    val type = parse(parameters, combine(NAME, TYPE), ComplexNameType.Simple)
+    return internalParse(parameters, type)
+}
 
-            val id = when (parse(parameters, combine(NAME, REFERENCE, TYPE), ReferenceForNameType.FamilyName)) {
-                ReferenceForNameType.FamilyName, ReferenceForNameType.FullName -> ReferencedFamilyName(
-                    parseCharacterId(
-                        parameters,
-                        param
-                    )
+fun parseOptionalComplexName(parameters: Parameters): ComplexName? {
+    val type = parse<ComplexNameType>(parameters, combine(NAME, TYPE))
+
+    return if (type != null) {
+        internalParse(parameters, type)
+    } else {
+        null
+    }
+}
+
+fun internalParse(parameters: Parameters, type: ComplexNameType) = when (type) {
+    ComplexNameType.Simple -> SimpleName(parseString(parameters, NAME))
+    ComplexNameType.Reference -> {
+        val prefix = parseOptionalString(parameters, combine(NAME, PREFIX))
+        val postfix = parseOptionalString(parameters, combine(NAME, POSTFIX))
+        val param = combine(NAME, REFERENCE)
+
+        val id = when (parse(parameters, combine(NAME, REFERENCE, TYPE), ReferenceForNameType.FamilyName)) {
+            ReferenceForNameType.FamilyName, ReferenceForNameType.FullName -> ReferencedFamilyName(
+                parseCharacterId(
+                    parameters,
+                    param
                 )
+            )
 
-                ReferenceForNameType.Moon -> ReferencedMoon(parseMoonId(parameters, param))
-                ReferenceForNameType.Mountain -> ReferencedMountain(parseMountainId(parameters, param))
-                ReferenceForNameType.River -> ReferencedRiver(parseRiverId(parameters, param))
-                ReferenceForNameType.Town -> ReferencedTown(parseTownId(parameters, param))
-            }
+            ReferenceForNameType.Moon -> ReferencedMoon(parseMoonId(parameters, param))
+            ReferenceForNameType.Mountain -> ReferencedMountain(parseMountainId(parameters, param))
+            ReferenceForNameType.River -> ReferencedRiver(parseRiverId(parameters, param))
+            ReferenceForNameType.Town -> ReferencedTown(parseTownId(parameters, param))
+        }
 
-            if (prefix == null && postfix == null) {
-                return NameWithReference(id, "?", "?")
-            }
-
-            return NameWithReference(id, prefix, postfix)
+        if (prefix == null && postfix == null) {
+            NameWithReference(id, "?", "?")
+        } else {
+            NameWithReference(id, prefix, postfix)
         }
     }
 }

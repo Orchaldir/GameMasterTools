@@ -3,7 +3,10 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Orne Library",
+   "name": {
+    "type": "Simple",
+    "name": "Orne Library"
+   },
    "lot": {
     "tileIndex": 34
    },
@@ -28,7 +31,10 @@
   },
   "1": {
    "id": 1,
-   "name": "Home of Judith Renforth",
+   "name": {
+    "type": "Simple",
+    "name": "Home of Judith Renforth"
+   },
    "lot": {
     "tileIndex": 36
    },
@@ -39,7 +45,10 @@
   },
   "2": {
    "id": 2,
-   "name": "Folger's Boarding House",
+   "name": {
+    "type": "Simple",
+    "name": "Folger's Boarding House"
+   },
    "lot": {
     "tileIndex": 44
    },
