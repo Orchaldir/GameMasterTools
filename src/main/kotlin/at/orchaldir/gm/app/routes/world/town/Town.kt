@@ -4,6 +4,8 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.fieldCreator
+import at.orchaldir.gm.app.html.model.fieldReferenceByName
+import at.orchaldir.gm.app.html.model.selectComplexName
 import at.orchaldir.gm.app.html.model.selectCreator
 import at.orchaldir.gm.app.parse.world.parseTown
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
@@ -112,14 +114,14 @@ private fun HTML.showAllTowns(
     call: ApplicationCall,
     state: State,
 ) {
-    val towns = STORE.getState().getTownStorage().getAll().sortedBy { it.name }
+    val towns = STORE.getState().getTownStorage().getAll().sortedBy { it.name(state) }
     val count = towns.size
     val createLink = call.application.href(TownRoutes.New())
 
     simpleHtml("Towns") {
         field("Count", count.toString())
-        showList(towns) { nameList ->
-            link(call, nameList)
+        showList(towns) { town ->
+            link(call, state, town)
         }
         showCreatorCount(call, state, towns, "Founders")
         action(createLink, "Add")
@@ -140,9 +142,9 @@ private fun HTML.showTownDetails(
     val editStreetsLink = call.application.href(TownRoutes.StreetRoutes.Edit(town.id))
     val editTerrainLink = call.application.href(TownRoutes.TerrainRoutes.Edit(town.id))
 
-    simpleHtml("Town: ${town.name}") {
+    simpleHtml("Town: ${town.name(state)}") {
         split({
-            field("Name", town.name)
+            fieldReferenceByName(call, state, town.name)
             field(call, state, "Founding", town.foundingDate)
             fieldAge("Age", state.getAgeInYears(town))
             fieldCreator(call, state, town.founder, "Founder")
@@ -231,7 +233,7 @@ private fun HTML.showTownEditor(
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectName(town.name)
+                selectComplexName(state, town.name)
                 selectDate(state, "Founding", town.foundingDate, DATE)
                 selectCreator(state, town.founder, town.id, town.foundingDate, "Founder")
                 button("Update", updateLink)

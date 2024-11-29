@@ -74,7 +74,7 @@ fun HtmlBlockTag.selectOwner(
             state.getTownStorage().getAll(),
             false
         ) { town ->
-            label = town.name
+            label = town.name(state)
             value = town.id.value.toString()
             selected = owner.town == town.id
             disabled = !state.exists(town, start)

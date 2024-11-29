@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.reducer.util.checkCreator
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
@@ -46,8 +47,9 @@ private fun checkBusinessOwnership(state: State, id: TownId) {
 }
 
 val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
-    state.getTownStorage().require(action.town.id)
+    state.getTownStorage().getOrThrow(action.town.id)
 
+    checkComplexName(state, action.town.name)
     checkCreator(state, action.town.founder, action.town.id, action.town.foundingDate, "founder")
 
     noFollowUps(state.updateStorage(state.getTownStorage().update(action.town)))

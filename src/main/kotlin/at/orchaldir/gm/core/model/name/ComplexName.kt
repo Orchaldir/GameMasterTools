@@ -51,7 +51,7 @@ data class NameWithReference(
             is ReferencedMoon -> state.getMoonStorage().getOrThrow(reference.id).name
             is ReferencedMountain -> state.getMountainStorage().getOrThrow(reference.id).name
             is ReferencedRiver -> state.getRiverStorage().getOrThrow(reference.id).name
-            is ReferencedTown -> state.getTownStorage().getOrThrow(reference.id).name
+            is ReferencedTown -> state.getTownStorage().getOrThrow(reference.id).name(state)
         }
 
         return if (prefix != null && postfix != null) {

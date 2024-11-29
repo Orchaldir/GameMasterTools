@@ -139,7 +139,7 @@ private fun HTML.showStreetDetails(
             val buildings = state.sort(state.getBuildings(town.id)
                 .filter { it.address.contains(street.id) })
 
-            link(call, town)
+            link(call, state, town)
             showList(buildings) { (building, name) ->
                 link(call, building.id, name)
             }

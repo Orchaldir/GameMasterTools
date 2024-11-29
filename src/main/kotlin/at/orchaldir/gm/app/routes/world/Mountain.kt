@@ -138,7 +138,7 @@ private fun HTML.showMountainDetails(
     simpleHtml("Mountain: ${mountain.name}") {
         field("Name", mountain.name)
         showList("Towns", state.getTowns(mountain.id)) { town ->
-            link(call, town)
+            link(call, state, town)
         }
         action(editLink, "Edit")
         if (state.canDelete(mountain.id)) {

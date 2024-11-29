@@ -3,7 +3,10 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Arkham",
+   "name": {
+    "type": "Simple",
+    "name": "Arkham"
+   },
    "map": {
     "size": {
      "width": 10,
