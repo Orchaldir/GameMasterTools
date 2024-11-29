@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.routes.world
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldReferenceByName
+import at.orchaldir.gm.app.html.model.selectComplexName
 import at.orchaldir.gm.app.parse.world.parseStreet
 import at.orchaldir.gm.core.action.CreateStreet
 import at.orchaldir.gm.core.action.DeleteStreet
@@ -53,7 +55,7 @@ fun Application.configureStreetRouting() {
             logger.info { "Get all streets" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllStreets(call)
+                showAllStreets(call, STORE.getState())
             }
         }
         get<StreetRoutes.Details> { details ->
@@ -108,15 +110,18 @@ fun Application.configureStreetRouting() {
     }
 }
 
-private fun HTML.showAllStreets(call: ApplicationCall) {
-    val streets = STORE.getState().getStreetStorage().getAll().sortedBy { it.name }
+private fun HTML.showAllStreets(
+    call: ApplicationCall,
+    state: State,
+) {
+    val streets = STORE.getState().getStreetStorage().getAll().sortedBy { it.name(state) }
     val count = streets.size
     val createLink = call.application.href(StreetRoutes.New())
 
     simpleHtml("Streets") {
         field("Count", count.toString())
         showList(streets) { street ->
-            link(call, street)
+            link(call, state, street)
         }
         action(createLink, "Add")
         back("/")
@@ -132,8 +137,8 @@ private fun HTML.showStreetDetails(
     val deleteLink = call.application.href(StreetRoutes.Delete(street.id))
     val editLink = call.application.href(StreetRoutes.Edit(street.id))
 
-    simpleHtml("Street: ${street.name}") {
-        field("Name", street.name)
+    simpleHtml("Street: ${street.name(state)}") {
+        fieldReferenceByName(call, state, street.name)
         fieldLink("Type", call, state, street.type)
         showList("Towns", state.getTowns(street.id)) { town ->
             val buildings = state.sort(state.getBuildings(town.id)
@@ -160,9 +165,9 @@ private fun HTML.showStreetEditor(
     val backLink = href(call, street.id)
     val updateLink = call.application.href(StreetRoutes.Update(street.id))
 
-    simpleHtml("Edit Street: ${street.name}") {
+    simpleHtml("Edit Street: ${street.name(state)}") {
         form {
-            selectName(street.name)
+            selectComplexName(state, street.name)
             selectValue("Type", TYPE, state.getStreetTypeStorage().getAll()) { type ->
                 label = type.name
                 value = type.id.value.toString()

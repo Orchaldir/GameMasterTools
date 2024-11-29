@@ -179,8 +179,8 @@ private fun HTML.showTownDetails(
             showList("Rivers", state.getRivers(town.id).sortedBy { it.name }) { river ->
                 link(call, river)
             }
-            showList("Streets", state.getStreets(town.id).sortedBy { it.name }) { street ->
-                link(call, street)
+            showList("Streets", state.getStreets(town.id).sortedBy { it.name(state) }) { street ->
+                link(call, state, street)
             }
             action(editStreetsLink, "Edit Streets")
             action(editTerrainLink, "Edit Terrain")
@@ -262,7 +262,7 @@ private fun visualizeTownWithLinks(
         call.application.href(StreetRoutes.Details(street))
     },
     streetTooltipLookup = { streetId, _ ->
-        state.getStreetStorage().getOrThrow(streetId).name
+        state.getStreetStorage().getOrThrow(streetId).name(state)
     },
     streetColorLookup = getStreetTypeFill(state),
 )

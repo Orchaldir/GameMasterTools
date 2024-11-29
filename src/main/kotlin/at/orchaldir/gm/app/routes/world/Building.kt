@@ -428,7 +428,7 @@ private fun FORM.selectAddress(state: State, building: Building) {
                     true
                 ) { street ->
                     val alreadyUsed = previous.contains(street.id)
-                    label = street.name
+                    label = street.name(state)
                     value = street.id.value.toString()
                     selected = street.id == streetId && !alreadyUsed
                     disabled = alreadyUsed
@@ -440,7 +440,7 @@ private fun FORM.selectAddress(state: State, building: Building) {
         NoAddress -> doNothing()
         is StreetAddress -> {
             selectValue("Street", combine(ADDRESS, STREET), streets, true) { street ->
-                label = street.name
+                label = street.name(state)
                 value = street.id.value.toString()
                 selected = street.id == address.street
             }

@@ -98,7 +98,7 @@ private fun HTML.showStreetEditor(
                 action = previewLink
                 method = FormMethod.post
                 selectValue("Street", STREET, state.getStreetStorage().getAll(), true) { street ->
-                    label = street.name
+                    label = street.name(state)
                     value = street.id.value.toString()
                     selected = street.id == streetId
                 }
@@ -136,7 +136,7 @@ fun visualizeStreetEditor(
         call.application.href(TownRoutes.StreetRoutes.Remove(town.id, index, selectedStreet))
     },
     streetTooltipLookup = { streetId, _ ->
-        state.getStreetStorage().getOrThrow(streetId).name
+        state.getStreetStorage().getOrThrow(streetId).name(state)
     },
 )
 
