@@ -6,9 +6,9 @@ import at.orchaldir.gm.app.parse.parseNameList
 import at.orchaldir.gm.core.action.CreateNameList
 import at.orchaldir.gm.core.action.DeleteNameList
 import at.orchaldir.gm.core.action.UpdateNameList
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.NameList
 import at.orchaldir.gm.core.model.name.NameListId
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCultures
 import io.ktor.http.*

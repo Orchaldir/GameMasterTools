@@ -12,7 +12,10 @@ import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.model.world.town.*
+import at.orchaldir.gm.core.model.world.town.StreetTile
+import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d

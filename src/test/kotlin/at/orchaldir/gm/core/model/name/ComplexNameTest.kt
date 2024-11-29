@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.culture.name.FamilyConvention
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.utils.Storage
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import kotlin.test.Test
 
