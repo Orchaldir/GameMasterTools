@@ -11,6 +11,8 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.name.NameWithReference
+import at.orchaldir.gm.core.model.name.ReferencedFullName
 import at.orchaldir.gm.core.model.name.SimpleName
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
@@ -135,6 +137,15 @@ class BusinessTest {
             val state = STATE.removeStorage(BUSINESS_ID_0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Named after unknown character`() {
+            val name = NameWithReference(ReferencedFullName(CHARACTER_ID_0), "A", "B")
+            val action = UpdateBusiness(Business(BUSINESS_ID_0, name))
+            val state = STATE.removeStorage(CHARACTER_ID_0)
+
+            assertIllegalArgument("Reference for complex name is unknown!") { REDUCER.invoke(state, action) }
         }
 
         @Test
