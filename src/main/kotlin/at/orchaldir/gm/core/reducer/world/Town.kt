@@ -47,7 +47,7 @@ private fun checkBusinessOwnership(state: State, id: TownId) {
 }
 
 val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
-    state.getTownStorage().getOrThrow(action.town.id)
+    state.getTownStorage().require(action.town.id)
 
     checkComplexName(state, action.town.name)
     checkCreator(state, action.town.founder, action.town.id, action.town.foundingDate, "founder")

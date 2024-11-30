@@ -25,7 +25,7 @@ private val STATE = State(
 class ComplexNameTest {
 
     @Test
-    fun `A valid simple`() {
+    fun `A valid simple name`() {
         checkComplexName(STATE, SimpleName("Test"))
     }
 
