@@ -227,7 +227,7 @@ private fun HTML.showTownEditor(
     val previewLink = call.application.href(TownRoutes.Preview(town.id))
     val updateLink = call.application.href(TownRoutes.Update(town.id))
 
-    simpleHtml("Edit Town: ${town.name}") {
+    simpleHtml("Edit Town: ${town.name(state)}") {
         split({
             form {
                 id = "editor"
