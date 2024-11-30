@@ -4,6 +4,9 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.name.NameWithReference
+import at.orchaldir.gm.core.model.name.ReferencedFullName
+import at.orchaldir.gm.core.model.name.SimpleName
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
@@ -33,6 +36,7 @@ private val STREET_TILE = TownTile(construction = StreetTile(STREET_ID_0))
 private val EMPTY = TownTile()
 private val OWNER = History<Owner>(OwnedByTown(TOWN_ID_0))
 private val PREVIOUS_OWNER = History(UnknownOwner, listOf(HistoryEntry(OwnedByTown(TOWN_ID_0), Day(0))))
+private val STATE = State(listOf(Storage(Street(STREET_ID_0)), Storage(Town(TOWN_ID_0))))
 
 class TownTest {
 
@@ -119,20 +123,26 @@ class TownTest {
         }
 
         @Test
+        fun `Named after unknown character`() {
+            val name = NameWithReference(ReferencedFullName(CHARACTER_ID_0), "A", "B")
+            val action = UpdateTown(Town(TOWN_ID_0, name))
+
+            assertIllegalArgument("Reference for complex name is unknown!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Founder must exist`() {
-            val state = State(Storage(Town(TOWN_ID_0)))
             val action = UpdateTown(Town(TOWN_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
 
-            assertIllegalArgument("Cannot use an unknown character 0 as founder!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown character 0 as founder!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Update is valid`() {
-            val state = State(Storage(Town(TOWN_ID_0)))
-            val town = Town(TOWN_ID_0, "Test")
+            val town = Town(TOWN_ID_0, SimpleName("Test"))
             val action = UpdateTown(town)
 
-            assertEquals(town, REDUCER.invoke(state, action).first.getTownStorage().get(TOWN_ID_0))
+            assertEquals(town, REDUCER.invoke(STATE, action).first.getTownStorage().get(TOWN_ID_0))
         }
     }
 
@@ -141,7 +151,7 @@ class TownTest {
 
         @Test
         fun `Cannot update unknown town`() {
-            val state = State(listOf(Storage(Street(STREET_ID_0))))
+            val state = State(Storage(Street(STREET_ID_0)))
             val action = AddStreetTile(TOWN_ID_0, 0, STREET_ID_0)
 
             assertIllegalArgument("Requires unknown Town 0!") { REDUCER.invoke(state, action) }
@@ -159,12 +169,11 @@ class TownTest {
         @Test
         fun `Tile is outside the map`() {
             val town = Town(TOWN_ID_0)
-            val state = State(listOf(Storage(Street(STREET_ID_0)), Storage(town)))
             val action = AddStreetTile(TOWN_ID_0, 100, STREET_ID_0)
 
             assertIllegalArgument("Tile 100 is outside the map!") {
                 REDUCER.invoke(
-                    state,
+                    STATE,
                     action
                 )
             }
@@ -215,20 +224,16 @@ class TownTest {
 
         @Test
         fun `Tile is outside the map`() {
-            val town = Town(TOWN_ID_0)
-            val state = State(Storage(town))
             val action = RemoveStreetTile(TOWN_ID_0, 100)
 
-            assertIllegalArgument("Tile 100 is outside the map!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Tile 100 is outside the map!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Tile is already empty`() {
-            val town = Town(TOWN_ID_0)
-            val state = State(Storage(town))
             val action = RemoveStreetTile(TOWN_ID_0, 0)
 
-            assertIllegalArgument("Tile 0 is not a street!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Tile 0 is not a street!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

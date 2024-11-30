@@ -437,11 +437,11 @@ fun BODY.showPossession(
     }
 
     showList("Owned Businesses", state.getOwnedBusinesses(character.id)) { business ->
-        link(call, business)
+        link(call, state, business)
     }
 
     showList("Previously owned Businesses", state.getPreviouslyOwnedBusinesses(character.id)) { business ->
-        link(call, business)
+        link(call, state, business)
     }
 
     showList("Equipped", character.equipmentMap.map.values) { item ->

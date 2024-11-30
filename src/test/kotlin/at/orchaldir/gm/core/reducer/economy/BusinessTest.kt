@@ -4,15 +4,16 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.CHARACTER
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.character.Unemployed
-import at.orchaldir.gm.core.model.economy.business.BUSINESS
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.name.NameWithReference
+import at.orchaldir.gm.core.model.name.ReferencedFullName
+import at.orchaldir.gm.core.model.name.SimpleName
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.SingleBusiness
@@ -133,15 +134,24 @@ class BusinessTest {
         @Test
         fun `Cannot update unknown id`() {
             val action = UpdateBusiness(Business(BUSINESS_ID_0))
-            val state = STATE.removeStorage(BUSINESS)
+            val state = STATE.removeStorage(BUSINESS_ID_0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
 
         @Test
+        fun `Named after unknown character`() {
+            val name = NameWithReference(ReferencedFullName(CHARACTER_ID_0), "A", "B")
+            val action = UpdateBusiness(Business(BUSINESS_ID_0, name))
+            val state = STATE.removeStorage(CHARACTER_ID_0)
+
+            assertIllegalArgument("Reference for complex name is unknown!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
         fun `Owner is an unknown character`() {
             val action = UpdateBusiness(Business(BUSINESS_ID_0, ownership = History(OwnedByCharacter(CHARACTER_ID_0))))
-            val state = STATE.removeStorage(CHARACTER)
+            val state = STATE.removeStorage(CHARACTER_ID_0)
 
             assertIllegalArgument("Cannot use an unknown character 0 as owner!") { REDUCER.invoke(state, action) }
         }
@@ -149,14 +159,14 @@ class BusinessTest {
         @Test
         fun `Founder is an unknown character`() {
             val action = UpdateBusiness(Business(BUSINESS_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
-            val state = STATE.removeStorage(CHARACTER)
+            val state = STATE.removeStorage(CHARACTER_ID_0)
 
             assertIllegalArgument("Cannot use an unknown character 0 as Founder!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Test Success`() {
-            val business = Business(BUSINESS_ID_0, "Test")
+            val business = Business(BUSINESS_ID_0, SimpleName("Test"))
             val action = UpdateBusiness(business)
 
             assertEquals(business, REDUCER.invoke(STATE, action).first.getBusinessStorage().get(BUSINESS_ID_0))

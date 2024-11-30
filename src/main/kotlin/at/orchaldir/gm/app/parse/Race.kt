@@ -43,7 +43,7 @@ private fun parseSimpleLifeStages(parameters: Parameters): List<LifeStage> {
 }
 
 private fun parseSimpleLifeStage(parameters: Parameters, index: Int) = LifeStage(
-    parseName(parameters, combine(LIFE_STAGE, NAME, index)) ?: "${index + 1}.Life Stage",
+    parseOptionalString(parameters, combine(LIFE_STAGE, NAME, index)) ?: "${index + 1}.Life Stage",
     parseInt(parameters, combine(LIFE_STAGE, AGE, index), 2),
     parseFactor(parameters, combine(LIFE_STAGE, SIZE, index)),
     parseBool(parameters, combine(LIFE_STAGE, BEARD, index)),

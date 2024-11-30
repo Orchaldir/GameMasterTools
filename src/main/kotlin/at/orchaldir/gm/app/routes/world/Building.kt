@@ -309,7 +309,7 @@ private fun HTML.showBuildingEditor(
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectOptionalName(building.name)
+                selectOptionalComplexName(state, building.name)
                 selectAddress(state, building)
                 selectDate(state, "Construction", building.constructionDate, DATE)
                 fieldAge("Age", state.getAgeInYears(building))
@@ -360,7 +360,7 @@ fun FORM.selectPurpose(state: State, building: Building) {
                 availableBusinesses + purpose.business,
                 false
             ) { business ->
-                label = state.getBusinessStorage().getOrThrow(business).name
+                label = state.getBusinessStorage().getOrThrow(business).name(state)
                 value = business.value().toString()
                 selected = purpose.business == business
             }
@@ -428,7 +428,7 @@ private fun FORM.selectAddress(state: State, building: Building) {
                     true
                 ) { street ->
                     val alreadyUsed = previous.contains(street.id)
-                    label = street.name
+                    label = street.name(state)
                     value = street.id.value.toString()
                     selected = street.id == streetId && !alreadyUsed
                     disabled = alreadyUsed
@@ -440,7 +440,7 @@ private fun FORM.selectAddress(state: State, building: Building) {
         NoAddress -> doNothing()
         is StreetAddress -> {
             selectValue("Street", combine(ADDRESS, STREET), streets, true) { street ->
-                label = street.name
+                label = street.name(state)
                 value = street.id.value.toString()
                 selected = street.id == address.street
             }

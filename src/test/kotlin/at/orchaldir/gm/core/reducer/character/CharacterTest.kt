@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.model.culture.CULTURE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.Business
@@ -15,7 +14,6 @@ import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
-import at.orchaldir.gm.core.model.race.RACE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Day
@@ -413,7 +411,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot update unknown character`() {
-            val state = STATE.removeStorage(CHARACTER)
+            val state = STATE.removeStorage(CHARACTER_ID_0)
             val action = UpdateCharacter(Character(CHARACTER_ID_0))
 
             assertIllegalArgument("Requires unknown Character 0!") { REDUCER.invoke(state, action) }
@@ -421,7 +419,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot use unknown culture`() {
-            val state = STATE.removeStorage(CULTURE)
+            val state = STATE.removeStorage(CULTURE0)
             val action = UpdateCharacter(Character(CHARACTER_ID_0, culture = CULTURE0))
 
             assertIllegalArgument("Requires unknown Culture 0!") { REDUCER.invoke(state, action) }
@@ -429,7 +427,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot use unknown personality trait`() {
-            val state = STATE.removeStorage(PERSONALITY_TRAIT)
+            val state = STATE.removeStorage(PERSONALITY0)
             val action = UpdateCharacter(Character(CHARACTER_ID_0, personality = setOf(PERSONALITY0)))
 
             assertIllegalArgument("Requires unknown Personality Trait 0!") { REDUCER.invoke(state, action) }
@@ -437,7 +435,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot use unknown race`() {
-            val state = STATE.removeStorage(RACE)
+            val state = STATE.removeStorage(RACE0)
             val action = UpdateCharacter(Character(CHARACTER_ID_0, race = RACE0))
 
             assertIllegalArgument("Requires unknown Race 0!") { REDUCER.invoke(state, action) }

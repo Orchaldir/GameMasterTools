@@ -3,7 +3,10 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Orne Library",
+   "name": {
+    "type": "Simple",
+    "name": "Orne Library"
+   },
    "startDate": {
     "type": "Year",
     "year": 1799
@@ -17,7 +20,10 @@
   },
   "1": {
    "id": 1,
-   "name": "Imperial Theater",
+   "name": {
+    "type": "Simple",
+    "name": "Imperial Theater"
+   },
    "ownership": {
     "current": {
      "type": "Character",

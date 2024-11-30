@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.culture.name
 
-import at.orchaldir.gm.core.model.NameListId
 import at.orchaldir.gm.core.model.character.FamilyName
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.OneGeneration
+import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.OneOf
 import kotlinx.serialization.SerialName

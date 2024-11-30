@@ -143,7 +143,7 @@ private fun HTML.showJobDetails(
     simpleHtml("Job: ${job.name}") {
         field("Name", job.name)
         showList("Businesses", state.getBusinesses(job.id)) { business ->
-            link(call, business)
+            link(call, state, business)
         }
         showList("Current Characters", state.sortCharacters(characters)) { (character, name) ->
             link(call, character.id, name)

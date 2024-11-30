@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.character.EmploymentStatus
 import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.economy.job.JOB
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
@@ -72,7 +71,7 @@ class JobTest {
         @Test
         fun `Cannot update unknown id`() {
             val action = UpdateJob(Job(JOB_ID_0))
-            val state = STATE.removeStorage(JOB)
+            val state = STATE.removeStorage(JOB_ID_0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }

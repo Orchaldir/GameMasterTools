@@ -1,11 +1,16 @@
 package at.orchaldir.gm.core.reducer.world
 
+import at.orchaldir.gm.CHARACTER_ID_0
+import at.orchaldir.gm.STREET_ID_0
 import at.orchaldir.gm.assertFailMessage
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteStreet
 import at.orchaldir.gm.core.action.UpdateStreet
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.name.NameWithReference
+import at.orchaldir.gm.core.model.name.ReferencedFullName
+import at.orchaldir.gm.core.model.name.SimpleName
 import at.orchaldir.gm.core.model.world.street.Street
-import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
@@ -17,8 +22,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-private val ID0 = StreetId(0)
-
+private val STATE = State(Storage(Street(STREET_ID_0)))
 
 class StreetTest {
 
@@ -27,15 +31,14 @@ class StreetTest {
 
         @Test
         fun `Can delete an existing street`() {
-            val state = State(Storage(Street(ID0)))
-            val action = DeleteStreet(ID0)
+            val action = DeleteStreet(STREET_ID_0)
 
-            assertEquals(0, REDUCER.invoke(state, action).first.getStreetStorage().getSize())
+            assertEquals(0, REDUCER.invoke(STATE, action).first.getStreetStorage().getSize())
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            val action = DeleteStreet(ID0)
+            val action = DeleteStreet(STREET_ID_0)
 
             assertFailMessage<IllegalArgumentException>("Requires unknown Street 0!") {
                 REDUCER.invoke(
@@ -47,11 +50,11 @@ class StreetTest {
 
         @Test
         fun `Cannot delete, if used by a town`() {
-            val action = DeleteStreet(ID0)
+            val action = DeleteStreet(STREET_ID_0)
             val state = State(
                 listOf(
-                    Storage(Street(ID0)),
-                    Storage(Town(TownId(0), map = TileMap2d(TownTile(construction = StreetTile(ID0)))))
+                    Storage(Street(STREET_ID_0)),
+                    Storage(Town(TownId(0), map = TileMap2d(TownTile(construction = StreetTile(STREET_ID_0)))))
                 )
             )
 
@@ -64,7 +67,7 @@ class StreetTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateStreet(Street(ID0))
+            val action = UpdateStreet(Street(STREET_ID_0))
 
             assertFailMessage<IllegalArgumentException>("Requires unknown Street 0!") {
                 REDUCER.invoke(
@@ -75,12 +78,19 @@ class StreetTest {
         }
 
         @Test
+        fun `Named after unknown character`() {
+            val name = NameWithReference(ReferencedFullName(CHARACTER_ID_0), "A", "B")
+            val action = UpdateStreet(Street(STREET_ID_0, name))
+
+            assertIllegalArgument("Reference for complex name is unknown!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Update is valid`() {
-            val state = State(Storage(Street(ID0)))
-            val street = Street(ID0, "Test")
+            val street = Street(STREET_ID_0, SimpleName("Test"))
             val action = UpdateStreet(street)
 
-            assertEquals(street, REDUCER.invoke(state, action).first.getStreetStorage().get(ID0))
+            assertEquals(street, REDUCER.invoke(STATE, action).first.getStreetStorage().get(STREET_ID_0))
         }
     }
 

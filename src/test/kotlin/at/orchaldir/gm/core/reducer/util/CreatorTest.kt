@@ -2,9 +2,7 @@ package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.CHARACTER
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.economy.business.BUSINESS
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.util.CreatedByBusiness
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
@@ -30,7 +28,7 @@ class CreatorTest {
 
         @Test
         fun `Creator is an unknown business`() {
-            val state = STATE.removeStorage(BUSINESS)
+            val state = STATE.removeStorage(BUSINESS_ID_0)
 
             assertIllegalArgument("Cannot use an unknown business 0 as Builder!") {
                 checkCreator(state, BUILD_BY_BUSINESS, BUILDING_ID_0, DAY0, "Builder")
@@ -62,7 +60,7 @@ class CreatorTest {
 
         @Test
         fun `Creator is an unknown character`() {
-            val state = STATE.removeStorage(CHARACTER)
+            val state = STATE.removeStorage(CHARACTER_ID_0)
 
             assertIllegalArgument("Cannot use an unknown character 0 as Builder!") {
                 checkCreator(state, BUILD_BY_CHARACTER, BUILDING_ID_0, DAY0, "Builder")

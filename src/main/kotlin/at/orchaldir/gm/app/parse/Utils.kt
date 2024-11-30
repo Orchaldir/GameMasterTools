@@ -257,7 +257,9 @@ fun parseFactor(parameters: Parameters, param: String, default: Factor = FULL) =
 
 fun parseFloat(parameters: Parameters, param: String, default: Float = 0.0f) = parameters[param]?.toFloat() ?: default
 
-fun parseName(parameters: Parameters, param: String): String? {
+fun parseString(parameters: Parameters, param: String, default: String = "") = parameters[param]?.trim() ?: default
+
+fun parseOptionalString(parameters: Parameters, param: String): String? {
     val name = parameters[param]?.trim() ?: return null
 
     if (name.isEmpty()) {

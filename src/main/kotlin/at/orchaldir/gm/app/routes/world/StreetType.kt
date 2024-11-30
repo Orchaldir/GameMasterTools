@@ -165,7 +165,7 @@ private fun HTML.showStreetTypeDetails(
             field("Name", type.name)
             field("Color", type.color.toString())
             showList("Streets", state.getStreets(type.id)) { street ->
-                link(call, street)
+                link(call, state, street)
             }
             action(editLink, "Edit")
             if (state.canDelete(type.id)) {

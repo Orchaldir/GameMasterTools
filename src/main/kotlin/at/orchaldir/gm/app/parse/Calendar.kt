@@ -13,7 +13,7 @@ fun parseCalendar(
     default: Calendar,
     id: CalendarId,
 ): Calendar {
-    val name = parseName(parameters, NAME) ?: "Unknown"
+    val name = parseOptionalString(parameters, NAME) ?: "Unknown"
     val origin = parseOrigin(parameters)
 
     return Calendar(
@@ -47,7 +47,7 @@ private fun parseIsPrefix(parameters: Parameters, param: String) =
     parseBool(parameters, combine(param, PREFIX))
 
 private fun parseEraName(parameters: Parameters, param: String) =
-    parseName(parameters, combine(param, NAME)) ?: "?"
+    parseOptionalString(parameters, combine(param, NAME)) ?: "?"
 
 private fun parseDays(parameters: Parameters) = when (parse(parameters, DAYS, DaysType.DayOfTheMonth)) {
     DaysType.DayOfTheMonth -> DayOfTheMonth
@@ -58,7 +58,7 @@ private fun parseWeekdays(parameters: Parameters): List<WeekDay> {
     val count = parseInt(parameters, combine(WEEK, DAYS), 2)
 
     return (0..<count)
-        .map { parseName(parameters, combine(WEEK, DAY, it)) ?: "${it + 1}.Day" }
+        .map { parseOptionalString(parameters, combine(WEEK, DAY, it)) ?: "${it + 1}.Day" }
         .map { WeekDay(it) }
 }
 
@@ -70,7 +70,7 @@ private fun parseMonths(parameters: Parameters): List<MonthDefinition> {
 }
 
 private fun parseMonth(parameters: Parameters, it: Int) = MonthDefinition(
-    parseName(parameters, combine(MONTH, NAME, it)) ?: "${it + 1}.Month",
+    parseOptionalString(parameters, combine(MONTH, NAME, it)) ?: "${it + 1}.Month",
     parseInt(parameters, combine(MONTH, DAYS, it), 2)
 )
 

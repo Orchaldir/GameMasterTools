@@ -31,6 +31,9 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MATERIAL
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.name.NAME_LIST
+import at.orchaldir.gm.core.model.name.NameList
+import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.race.RACE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
@@ -38,8 +41,6 @@ import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Time
-import at.orchaldir.gm.core.model.util.ElementWithComplexName
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.moon.MOON
 import at.orchaldir.gm.core.model.world.moon.Moon
@@ -144,15 +145,15 @@ data class State(
             @Suppress("UNCHECKED_CAST")
             val element = (storage as Storage<ID, Element<ID>>).get(id)
 
-            if (element != null && element is ElementWithSimpleName) {
-                return element.name()
-            } else if (element != null && element is ElementWithComplexName) {
+            if (element != null) {
                 return element.name(this)
             }
         }
 
         return "Unknown"
     }
+
+    fun <ID : Id<ID>> removeStorage(id: ID) = removeStorage(id.type())
 
     fun removeStorage(type: String): State {
         val newMap = storageMap.toMutableMap()

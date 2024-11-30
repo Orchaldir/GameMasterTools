@@ -3,11 +3,17 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Armitage Street"
+   "name": {
+    "type": "Simple",
+    "name": "Armitage Street"
+   }
   },
   "1": {
    "id": 1,
-   "name": "Miskatonic Avenue",
+   "name": {
+    "type": "Simple",
+    "name": "Miskatonic Avenue"
+   },
    "type": 1
   }
  }

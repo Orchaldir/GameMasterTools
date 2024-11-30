@@ -1,13 +1,16 @@
 package at.orchaldir.gm.core.model.world.town
 
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.name.ComplexName
+import at.orchaldir.gm.core.model.name.SimpleName
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.Creator
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.terrain.Terrain
+import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.MapSize2d.Companion.square
@@ -30,14 +33,14 @@ value class TownId(val value: Int) : Id<TownId> {
 @Serializable
 data class Town(
     val id: TownId,
-    val name: String = "Town ${id.value}",
+    val name: ComplexName = SimpleName("Town ${id.value}"),
     val map: TileMap2d<TownTile> = TileMap2d(square(10), TownTile()),
     val foundingDate: Date = Year(0),
     val founder: Creator = UndefinedCreator,
-) : ElementWithSimpleName<TownId>, Created {
+) : Element<TownId>, Created {
 
     override fun id() = id
-    override fun name() = name
+    override fun name(state: State) = name.resolve(state)
 
     override fun creator() = founder
 
