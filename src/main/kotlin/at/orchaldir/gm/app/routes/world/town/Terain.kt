@@ -108,7 +108,7 @@ private fun HTML.showTerrainEditor(
     val createRiverLink = call.application.href(RiverRoutes.New())
     val resizeLink = call.application.href(TownRoutes.TerrainRoutes.Resize(town.id))
 
-    simpleHtml("Edit Terrain of Town ${town.name}") {
+    simpleHtml("Edit Terrain of Town ${town.name(state)}") {
         split({
             form {
                 id = "editor"
