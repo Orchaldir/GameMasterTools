@@ -1,5 +1,27 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": {
+    "type": "Family",
+    "given": "Franklin",
+    "middle": null,
+    "family": "Cobb"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "day": 636085
+   },
+   "vitalStatus": {
+    "type": "Dead",
+    "deathDay": {
+     "day": 656160
+    },
+    "cause": {
+     "type": "OldAge"
+    }
+   }
+  }
  }
 }
