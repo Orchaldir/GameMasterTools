@@ -43,8 +43,8 @@ fun countGender(characters: Collection<Character>) = characters
     .groupingBy { it.gender }
     .eachCount()
 
-fun countLivingStatus(characters: Collection<Character>) = characters
-    .groupingBy { it.livingStatus.current.getType() }
+fun countHousingStatus(characters: Collection<Character>) = characters
+    .groupingBy { it.housingStatus.current.getType() }
     .eachCount()
 
 // get characters
@@ -61,28 +61,28 @@ fun State.getCharacters(race: RaceId) = getCharacterStorage().getAll().filter { 
 
 fun State.getOthers(id: CharacterId) = getCharacterStorage().getAll().filter { c -> c.id != id }
 
-// living status
+// housing status
 
 fun State.getCharactersLivingIn(building: BuildingId) = getCharacterStorage()
     .getAll()
-    .filter { c -> c.livingStatus.current.isLivingIn(building) }
+    .filter { c -> c.housingStatus.current.isLivingIn(building) }
 
 fun State.getCharactersLivingInApartment(building: BuildingId, apartment: Int) = getCharacterStorage()
     .getAll()
-    .filter { c -> c.livingStatus.current.isLivingInApartment(building, apartment) }
+    .filter { c -> c.housingStatus.current.isLivingInApartment(building, apartment) }
 
 fun State.getCharactersLivingInHouse(building: BuildingId) = getCharacterStorage()
     .getAll()
-    .filter { c -> c.livingStatus.current.isLivingInHouse(building) }
+    .filter { c -> c.housingStatus.current.isLivingInHouse(building) }
 
 fun State.getCharactersPreviouslyLivingIn(building: BuildingId) = getCharacterStorage()
     .getAll()
-    .filter { c -> c.livingStatus.previousEntries.any { it.entry.isLivingIn(building) } }
+    .filter { c -> c.housingStatus.previousEntries.any { it.entry.isLivingIn(building) } }
 
 fun State.getResident(town: TownId) = getCharacterStorage().getAll()
     .filter { isResident(it, town) }
 
-fun State.isResident(character: Character, town: TownId) = character.livingStatus.current.getBuilding()
+fun State.isResident(character: Character, town: TownId) = character.housingStatus.current.getBuilding()
     ?.let { getBuildingStorage().getOrThrow(it).lot.town == town }
     ?: false
 

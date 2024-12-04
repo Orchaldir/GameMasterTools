@@ -176,7 +176,7 @@ private fun HTML.showAllCharacters(
                 th { +"Gender" }
                 th { +"Birthdate" }
                 th { +"Age" }
-                th { +"Living Status" }
+                th { +"Housing Status" }
                 th { +"Employment Status" }
             }
             charactersWithNames.forEach { (character, name) ->
@@ -195,7 +195,7 @@ private fun HTML.showAllCharacters(
                     td { +character.gender.toString() }
                     td { showDate(call, state, character.birthDate) }
                     td { +state.getAgeInYears(character).toString() }
-                    td { showLivingStatus(call, state, character.livingStatus.current, false) }
+                    td { showHousingStatus(call, state, character.housingStatus.current, false) }
                     td { showEmploymentStatus(call, state, character.employmentStatus.current, false) }
                 }
             }
@@ -203,7 +203,7 @@ private fun HTML.showAllCharacters(
         showCultureCount(call, state, characters)
         showGenderCount(characters)
         showJobCount(call, state, characters)
-        showLivingStatusCount(characters)
+        showHousingStatusCount(characters)
         showRaceCount(call, state, characters)
 
         if (state.canCreateCharacter()) {
@@ -276,7 +276,7 @@ private fun BODY.showData(
     field(call, state, "Birthdate", character.birthDate)
     showVitalStatus(call, state, character.vitalStatus)
     showAge(state, character, race)
-    showLivingStatusHistory(call, state, character.livingStatus)
+    showHousingStatusHistory(call, state, character.housingStatus)
     showEmploymentStatusHistory(call, state, character.employmentStatus)
 
     action(generateNameLink, "Generate New Name")
@@ -486,7 +486,7 @@ private fun HTML.showCharacterEditor(
             selectOrigin(state, character)
             selectVitalStatus(state, character)
             showAge(state, character, race)
-            selectLivingStatusHistory(state, character.livingStatus, character.birthDate)
+            selectHousingStatusHistory(state, character.housingStatus, character.birthDate)
             selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
             h2 { +"Social" }
             selectValue("Culture", CULTURE, state.getCultureStorage().getAll()) { culture ->

@@ -170,7 +170,7 @@ private fun HTML.showTownDetails(
             showCultureCount(call, state, residents)
             showGenderCount(residents)
             showJobCount(call, state, residents)
-            showLivingStatusCount(residents)
+            showHousingStatusCount(residents)
             showRaceCount(call, state, residents)
             h2 { +"Terrain" }
             showList("Mountains", state.getMountains(town.id).sortedBy { it.name }) { mountain ->

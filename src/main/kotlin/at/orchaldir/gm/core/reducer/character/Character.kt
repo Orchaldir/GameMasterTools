@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.reducer.util.checkCreated
 import at.orchaldir.gm.core.reducer.util.checkEmploymentStatusHistory
-import at.orchaldir.gm.core.reducer.util.checkLivingStatusHistory
+import at.orchaldir.gm.core.reducer.util.checkHousingStatusHistory
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getChildren
@@ -61,7 +61,7 @@ val UPDATE_CHARACTER: Reducer<UpdateCharacter, State> = { state, action ->
     state.getCultureStorage().require(character.culture)
     checkOrigin(state, character)
     checkCauseOfDeath(state, character)
-    checkLivingStatusHistory(state, character.livingStatus, character.birthDate)
+    checkHousingStatusHistory(state, character.housingStatus, character.birthDate)
     checkEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
     character.personality.forEach { state.getPersonalityTraitStorage().require(it) }
     val update = character.copy(languages = oldCharacter.languages)

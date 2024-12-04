@@ -8,26 +8,26 @@ import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.SingleFamilyHouse
 import at.orchaldir.gm.core.selector.world.exists
 
-fun checkLivingStatusHistory(
+fun checkHousingStatusHistory(
     state: State,
-    ownership: History<LivingStatus>,
+    ownership: History<HousingStatus>,
     startDate: Date,
-) = checkHistory(state, ownership, startDate, "home", ::checkLivingStatus)
+) = checkHistory(state, ownership, startDate, "home", ::checkHousingStatus)
 
-private fun checkLivingStatus(
+private fun checkHousingStatus(
     state: State,
-    livingStatus: LivingStatus,
+    housingStatus: HousingStatus,
     noun: String,
     date: Date,
 ) {
-    val building = when (livingStatus) {
-        UndefinedLivingStatus -> return
+    val building = when (housingStatus) {
+        UndefinedHousingStatus -> return
         Homeless -> return
         is InApartment -> {
-            val building = state.getBuildingStorage().getOrThrow(livingStatus.building) { "The $noun doesn't exist!" }
+            val building = state.getBuildingStorage().getOrThrow(housingStatus.building) { "The $noun doesn't exist!" }
 
             if (building.purpose is ApartmentHouse) {
-                require(livingStatus.apartmentIndex < building.purpose.apartments) { "The $noun's apartment index is too high!" }
+                require(housingStatus.apartmentIndex < building.purpose.apartments) { "The $noun's apartment index is too high!" }
             } else {
                 error("The $noun is not an apartment house!")
             }
@@ -36,7 +36,7 @@ private fun checkLivingStatus(
         }
 
         is InHouse -> {
-            val building = state.getBuildingStorage().getOrThrow(livingStatus.building) { "The $noun doesn't exist!" }
+            val building = state.getBuildingStorage().getOrThrow(housingStatus.building) { "The $noun doesn't exist!" }
 
             require(building.purpose is SingleFamilyHouse) { "The $noun is not a single family house!" }
 

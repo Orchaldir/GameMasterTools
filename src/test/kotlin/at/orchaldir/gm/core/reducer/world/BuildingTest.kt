@@ -211,7 +211,7 @@ class BuildingTest {
         @Test
         fun `Cannot delete a single family house, if someone lives inside`() {
             val state =
-                state.updateStorage(Storage(Character(CHARACTER_ID_0, livingStatus = History(InHouse(BUILDING_ID_0)))))
+                state.updateStorage(Storage(Character(CHARACTER_ID_0, housingStatus = History(InHouse(BUILDING_ID_0)))))
 
             assertIllegalArgument("Cannot delete building 0, because it has inhabitants!") {
                 REDUCER.invoke(state, action)
@@ -220,8 +220,8 @@ class BuildingTest {
 
         @Test
         fun `Cannot delete a single family house, if someone lived inside`() {
-            val livingStatus = History(Homeless, HistoryEntry(InHouse(BUILDING_ID_0), DAY0))
-            val state = state.updateStorage(Storage(Character(CHARACTER_ID_0, livingStatus = livingStatus)))
+            val housingStatus = History(Homeless, HistoryEntry(InHouse(BUILDING_ID_0), DAY0))
+            val state = state.updateStorage(Storage(Character(CHARACTER_ID_0, housingStatus = housingStatus)))
 
             assertIllegalArgument("Cannot delete building 0, because it had inhabitants!") {
                 REDUCER.invoke(state, action)
@@ -465,7 +465,7 @@ class BuildingTest {
                     Storage(
                         Character(
                             CHARACTER_ID_0,
-                            livingStatus = History(InHouse(BUILDING_ID_0))
+                            housingStatus = History(InHouse(BUILDING_ID_0))
                         )
                     )
                 )
@@ -493,7 +493,7 @@ class BuildingTest {
                             Storage(
                                 Character(
                                     CHARACTER_ID_0,
-                                    livingStatus = History(InApartment(BUILDING_ID_0, 4))
+                                    housingStatus = History(InApartment(BUILDING_ID_0, 4))
                                 )
                             )
                         )

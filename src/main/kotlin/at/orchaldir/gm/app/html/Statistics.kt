@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.selector.countCultures
 import at.orchaldir.gm.core.selector.countGender
-import at.orchaldir.gm.core.selector.countLivingStatus
+import at.orchaldir.gm.core.selector.countHousingStatus
 import at.orchaldir.gm.core.selector.countRace
 import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.util.countCreators
@@ -69,8 +69,8 @@ fun HtmlBlockTag.showJobCount(
     }
 }
 
-fun HtmlBlockTag.showLivingStatusCount(characters: Collection<Character>) =
-    showCount("Living Status", countLivingStatus(characters))
+fun HtmlBlockTag.showHousingStatusCount(characters: Collection<Character>) =
+    showCount("Housing Status", countHousingStatus(characters))
 
 fun HtmlBlockTag.showBuildingOwnershipCount(call: ApplicationCall, state: State, collection: Collection<Building>) =
     showOwnershipCount(call, state, collection.map { it.ownership })

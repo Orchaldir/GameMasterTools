@@ -399,11 +399,11 @@ class CharacterTest {
         }
 
         @Nested
-        inner class LivingStatusTest {
+        inner class HousingStatusTest {
 
             @Test
             fun `Cannot use unknown building as home`() {
-                val action = UpdateCharacter(Character(CHARACTER_ID_0, livingStatus = History(InHouse(BUILDING_ID_0))))
+                val action = UpdateCharacter(Character(CHARACTER_ID_0, housingStatus = History(InHouse(BUILDING_ID_0))))
 
                 assertIllegalArgument("The home doesn't exist!") { REDUCER.invoke(STATE, action) }
             }

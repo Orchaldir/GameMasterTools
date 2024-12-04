@@ -44,7 +44,7 @@ data class Character(
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val appearance: Appearance = UndefinedAppearance,
     val equipmentMap: EquipmentMap = EquipmentMap(emptyMap()),
-    val livingStatus: History<LivingStatus> = History(UndefinedLivingStatus),
+    val housingStatus: History<HousingStatus> = History(UndefinedHousingStatus),
     val employmentStatus: History<EmploymentStatus> = History(UndefinedEmploymentStatus),
 ) : Element<CharacterId> {
 
