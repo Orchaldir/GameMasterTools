@@ -1,5 +1,16 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": {
+    "type": "Simple",
+    "name": "Cobb’s Corners"
+   },
+   "foundingDate": {
+    "type": "Year",
+    "year": 1786
+   }
+  }
  }
 }
