@@ -1,46 +1,5 @@
 {
  "version": 1,
  "elements": {
-  "0": {
-   "id": 0,
-   "name": {
-    "type": "Simple",
-    "name": "Orne Library"
-   },
-   "startDate": {
-    "type": "Year",
-    "year": 1799
-   },
-   "ownership": {
-    "current": {
-     "type": "Town",
-     "town": 0
-    }
-   }
-  },
-  "1": {
-   "id": 1,
-   "name": {
-    "type": "Simple",
-    "name": "Imperial Theater"
-   },
-   "ownership": {
-    "current": {
-     "type": "Character",
-     "character": 0
-    },
-    "previousEntries": [
-     {
-      "entry": {
-       "type": "Unknown"
-      },
-      "until": {
-       "type": "Year",
-       "year": 1899
-      }
-     }
-    ]
-   }
-  }
  }
 }

@@ -1,20 +1,5 @@
 {
  "version": 1,
  "elements": {
-  "0": {
-   "id": 0,
-   "name": {
-    "type": "Simple",
-    "name": "Armitage Street"
-   }
-  },
-  "1": {
-   "id": 1,
-   "name": {
-    "type": "Simple",
-    "name": "Miskatonic Avenue"
-   },
-   "type": 1
-  }
  }
 }
