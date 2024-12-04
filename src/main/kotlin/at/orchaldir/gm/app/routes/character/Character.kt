@@ -22,6 +22,7 @@ import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
+import at.orchaldir.gm.core.selector.world.getTownsFoundedBy
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
@@ -352,6 +353,10 @@ private fun BODY.showCrafting(
 
     showList("Buildings", state.getBuildingsBuildBy(character.id)) { building ->
         link(call, state, building)
+    }
+
+    showList("Founded Towns", state.getTownsFoundedBy(character.id)) { town ->
+        link(call, state, town)
     }
 
     showList("Invented Languages", state.getLanguagesInventedBy(character.id)) { language ->
