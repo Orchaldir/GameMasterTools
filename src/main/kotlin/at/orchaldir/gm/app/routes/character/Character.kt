@@ -195,7 +195,7 @@ private fun HTML.showAllCharacters(
                     td { showDate(call, state, character.birthDate) }
                     td { +state.getAgeInYears(character).toString() }
                     td { showLivingStatus(call, state, character.livingStatus.current, false) }
-                    td { showEmploymentStatus(call, state, character.employmentStatus.current) }
+                    td { showEmploymentStatus(call, state, character.employmentStatus.current, false) }
                 }
             }
         }

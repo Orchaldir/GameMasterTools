@@ -48,6 +48,7 @@ fun HtmlBlockTag.showEmploymentStatus(
     call: ApplicationCall,
     state: State,
     employmentStatus: EmploymentStatus,
+    showUndefined: Boolean = true,
 ) {
     when (employmentStatus) {
         is Employed -> {
@@ -57,6 +58,9 @@ fun HtmlBlockTag.showEmploymentStatus(
         }
 
         Unemployed -> +"Unemployed"
+        UndefinedEmploymentStatus -> if (showUndefined) {
+            +"Undefined"
+        }
     }
 }
 
@@ -78,6 +82,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
         selected = type == employmentStatus.getType()
     }
     when (employmentStatus) {
+        UndefinedEmploymentStatus -> doNothing()
         Unemployed -> doNothing()
 
         is Employed -> {
@@ -100,12 +105,13 @@ fun parseEmploymentStatusHistory(parameters: Parameters, state: State, startDate
     parseHistory(parameters, EMPLOYMENT, state, startDate, ::parseEmploymentStatus)
 
 fun parseEmploymentStatus(parameters: Parameters, state: State, param: String): EmploymentStatus {
-    return when (parse(parameters, param, EmploymentStatusType.Unemployed)) {
+    return when (parse(parameters, param, EmploymentStatusType.Undefined)) {
         EmploymentStatusType.Employed -> Employed(
             parseBusinessId(parameters, combine(param, BUILDING)),
             parseJobId(parameters, combine(param, JOB)),
         )
 
-        else -> Unemployed
+        EmploymentStatusType.Unemployed -> Unemployed
+        EmploymentStatusType.Undefined -> UndefinedEmploymentStatus
     }
 }

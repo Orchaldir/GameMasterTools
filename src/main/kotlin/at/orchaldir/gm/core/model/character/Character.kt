@@ -45,7 +45,7 @@ data class Character(
     val appearance: Appearance = UndefinedAppearance,
     val equipmentMap: EquipmentMap = EquipmentMap(emptyMap()),
     val livingStatus: History<LivingStatus> = History(UndefinedLivingStatus),
-    val employmentStatus: History<EmploymentStatus> = History(Unemployed),
+    val employmentStatus: History<EmploymentStatus> = History(UndefinedEmploymentStatus),
 ) : Element<CharacterId> {
 
     override fun id() = id

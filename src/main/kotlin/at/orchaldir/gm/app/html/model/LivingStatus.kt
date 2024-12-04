@@ -127,6 +127,6 @@ private fun parseLivingStatus(parameters: Parameters, state: State, param: Strin
         )
 
         LivingStatusType.Homeless -> Homeless
-        else -> UndefinedLivingStatus
+        LivingStatusType.Undefined -> UndefinedLivingStatus
     }
 }
