@@ -100,6 +100,8 @@ private fun HTML.showTerrainEditor(
     terrainType: TerrainType,
     terrainId: Int,
 ) {
+    val rivers = state.getRiverStorage().getAll()
+    val mountains = state.getMountainStorage().getAll()
     val backLink = href(call, town.id)
     val previewLink = call.application.href(TownRoutes.TerrainRoutes.Preview(town.id))
     val createMountainLink = call.application.href(MountainRoutes.New())
@@ -116,11 +118,16 @@ private fun HTML.showTerrainEditor(
                     label = type.toString()
                     value = type.toString()
                     selected = type == terrainType
+                    disabled = when (type) {
+                        TerrainType.Hill, TerrainType.Mountain -> mountains.isEmpty()
+                        TerrainType.Plain -> false
+                        TerrainType.River -> rivers.isEmpty()
+                    }
                 }
                 when (terrainType) {
                     TerrainType.Hill, TerrainType.Mountain -> selectTerrain(
                         "Mountain",
-                        state.getMountainStorage().getAll(),
+                        mountains,
                         terrainId,
                         createMountainLink,
                     )
@@ -128,7 +135,7 @@ private fun HTML.showTerrainEditor(
                     TerrainType.Plain -> doNothing()
                     TerrainType.River -> selectTerrain(
                         "River",
-                        state.getRiverStorage().getAll(),
+                        rivers,
                         terrainId,
                         createRiverLink,
                     )
