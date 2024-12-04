@@ -48,19 +48,19 @@ fun <ID : Id<ID>> State.getTownsFoundedBy(id: ID) = getTownStorage().getAll()
 
 // map size
 
-fun getMinWidthStart(town: Town) = mapIndexOfConstructions(town, town.map.size.width - 1) { index ->
+fun getMinWidthStart(town: Town) = mapIndexOfConstructions(town, 1 - town.map.size.width) { index ->
     -town.map.size.toX(index)
 }
 
-fun getMinWidthEnd(town: Town) = mapIndexOfConstructions(town, town.map.size.width - 1) { index ->
+fun getMinWidthEnd(town: Town) = mapIndexOfConstructions(town, 1 - town.map.size.width) { index ->
     1 - (town.map.size.width - town.map.size.toX(index))
 }
 
-fun getMinHeightStart(town: Town) = mapIndexOfConstructions(town, town.map.size.height - 1) { index ->
+fun getMinHeightStart(town: Town) = mapIndexOfConstructions(town, 1 - town.map.size.height) { index ->
     -town.map.size.toY(index)
 }
 
-fun getMinHeightEnd(town: Town) = mapIndexOfConstructions(town, town.map.size.height - 1) { index ->
+fun getMinHeightEnd(town: Town) = mapIndexOfConstructions(town, 1 - town.map.size.height) { index ->
     1 - (town.map.size.height - town.map.size.toY(index))
 }
 
