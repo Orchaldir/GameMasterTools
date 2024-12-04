@@ -5,6 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class LivingStatusType {
+    Undefined,
     Homeless,
     InApartment,
     InHouse,
@@ -19,15 +20,16 @@ sealed class LivingStatus {
     }
 
     fun getBuilding() = when (this) {
-        Homeless -> null
         is InApartment -> building
         is InHouse -> building
+        else -> null
     }
 
     fun getType() = when (this) {
         Homeless -> LivingStatusType.Homeless
         is InApartment -> LivingStatusType.InApartment
         is InHouse -> LivingStatusType.InHouse
+        UndefinedLivingStatus -> LivingStatusType.Undefined
     }
 
     open fun isLivingIn(building: BuildingId) = false
@@ -65,3 +67,7 @@ data class InApartment(
 @Serializable
 @SerialName("Homeless")
 data object Homeless : LivingStatus()
+
+@Serializable
+@SerialName("Undefined")
+data object UndefinedLivingStatus : LivingStatus()

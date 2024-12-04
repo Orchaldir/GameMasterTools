@@ -34,6 +34,7 @@ fun HtmlBlockTag.showLivingStatus(
     call: ApplicationCall,
     state: State,
     livingStatus: LivingStatus,
+    showUndefined: Boolean = true,
 ) {
     when (livingStatus) {
         Homeless -> +"Homeless"
@@ -47,6 +48,9 @@ fun HtmlBlockTag.showLivingStatus(
         }
 
         is InHouse -> link(call, state, livingStatus.building)
+        UndefinedLivingStatus -> if (showUndefined) {
+            +"Undefined"
+        }
     }
 }
 
@@ -68,6 +72,7 @@ fun HtmlBlockTag.selectLivingStatus(
         selected = type == livingStatus.getType()
     }
     when (livingStatus) {
+        UndefinedLivingStatus -> doNothing()
         Homeless -> doNothing()
         is InApartment -> {
             selectValue("Apartment House", combine(param, BUILDING), state.getApartmentHouses(), true) { building ->
@@ -105,7 +110,7 @@ fun parseLivingStatusHistory(parameters: Parameters, state: State, startDate: Da
     parseHistory(parameters, HOME, state, startDate, ::parseLivingStatus)
 
 private fun parseLivingStatus(parameters: Parameters, state: State, param: String): LivingStatus {
-    return when (parse(parameters, param, LivingStatusType.Homeless)) {
+    return when (parse(parameters, param, LivingStatusType.Undefined)) {
         LivingStatusType.InApartment -> InApartment(
             parseBuildingId(
                 parameters,
@@ -121,6 +126,7 @@ private fun parseLivingStatus(parameters: Parameters, state: State, param: Strin
                 state.getSingleFamilyHouses().minOfOrNull { it.id.value } ?: 0),
         )
 
-        else -> Homeless
+        LivingStatusType.Homeless -> Homeless
+        else -> UndefinedLivingStatus
     }
 }

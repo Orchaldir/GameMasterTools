@@ -1,10 +1,7 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Homeless
-import at.orchaldir.gm.core.model.character.InApartment
-import at.orchaldir.gm.core.model.character.InHouse
-import at.orchaldir.gm.core.model.character.LivingStatus
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
@@ -24,6 +21,7 @@ private fun checkLivingStatus(
     date: Date,
 ) {
     val building = when (livingStatus) {
+        UndefinedLivingStatus -> return
         Homeless -> return
         is InApartment -> {
             val building = state.getBuildingStorage().getOrThrow(livingStatus.building) { "The $noun doesn't exist!" }
