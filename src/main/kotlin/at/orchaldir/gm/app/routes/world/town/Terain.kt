@@ -62,9 +62,13 @@ fun Application.configureTerrainRouting() {
 
             STORE.dispatch(SetTerrainTile(update.id, update.terrainType, update.terrainId, update.tileIndex))
 
-            STORE.getState().save()
+            val state = STORE.getState()
+            state.save()
+            val town = state.getTownStorage().getOrThrow(update.id)
 
-            call.respondRedirect(call.application.href(TownRoutes.TerrainRoutes.Edit(update.id)))
+            call.respondHtml(HttpStatusCode.OK) {
+                showTerrainEditor(call, state, town, update.terrainType, update.terrainId)
+            }
         }
         post<TownRoutes.TerrainRoutes.Resize> { update ->
             logger.info { "Resize the terrain of town ${update.id.value}" }
