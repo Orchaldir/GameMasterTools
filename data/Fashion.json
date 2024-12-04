@@ -3,7 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Arkham - Male",
+   "name": "New England - Male",
    "clothingSets": {
     "Suit": "Common"
    },
@@ -44,7 +44,7 @@
   },
   "1": {
    "id": 1,
-   "name": "Arkham - Female",
+   "name": "New England - Female",
    "clothingSets": {
     "Dress": "Common",
     "ShirtAndSkirt": "Common"
