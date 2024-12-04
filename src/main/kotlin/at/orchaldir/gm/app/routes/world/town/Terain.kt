@@ -129,7 +129,6 @@ private fun HTML.showTerrainEditor(
                         "Mountain",
                         mountains,
                         terrainId,
-                        createMountainLink,
                     )
 
                     TerrainType.Plain -> doNothing()
@@ -137,9 +136,10 @@ private fun HTML.showTerrainEditor(
                         "River",
                         rivers,
                         terrainId,
-                        createRiverLink,
                     )
                 }
+                action(createMountainLink, "Create new Mountain")
+                action(createRiverLink, "Create new River")
                 h2 { +"Update Terrain of Tile" }
                 p { +"Click on a tile to change it's terrain to the type above." }
                 h2 { +"Resize" }
@@ -177,12 +177,10 @@ private fun <ID : Id<ID>> FORM.selectTerrain(
     text: String,
     options: Collection<ElementWithSimpleName<ID>>,
     id: Int,
-    link: String,
 ) {
     selectValue(text, TERRAIN, options, true) { m ->
         label = m.name()
         value = m.id().value().toString()
         selected = id == m.id().value()
     }
-    action(link, "Create new $text")
 }
