@@ -1,5 +1,167 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "lot": {
+    "tileIndex": 174
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "1": {
+   "id": 1,
+   "lot": {
+    "tileIndex": 173
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "2": {
+   "id": 2,
+   "lot": {
+    "tileIndex": 172
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "3": {
+   "id": 3,
+   "lot": {
+    "tileIndex": 170
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "4": {
+   "id": 4,
+   "lot": {
+    "tileIndex": 230
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "5": {
+   "id": 5,
+   "lot": {
+    "tileIndex": 232
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "6": {
+   "id": 6,
+   "lot": {
+    "tileIndex": 234
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "7": {
+   "id": 7,
+   "lot": {
+    "tileIndex": 258
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "8": {
+   "id": 8,
+   "lot": {
+    "tileIndex": 257
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "9": {
+   "id": 9,
+   "lot": {
+    "tileIndex": 256
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "10": {
+   "id": 10,
+   "lot": {
+    "tileIndex": 255
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "11": {
+   "id": 11,
+   "lot": {
+    "tileIndex": 254
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "12": {
+   "id": 12,
+   "lot": {
+    "tileIndex": 317,
+    "size": {
+     "width": 2,
+     "height": 1
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "13": {
+   "id": 13,
+   "lot": {
+    "tileIndex": 197,
+    "size": {
+     "width": 2,
+     "height": 1
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "14": {
+   "id": 14,
+   "lot": {
+    "tileIndex": 407,
+    "size": {
+     "width": 2,
+     "height": 1
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  }
  }
 }
