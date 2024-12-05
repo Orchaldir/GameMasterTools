@@ -143,7 +143,9 @@ fun visualizeStreetEditor(
         }
     },
     streetColorLookup = { street, _ ->
-        if (street.streetId == selectedStreet) {
+        if (selectedStreet == null) {
+            state.getStreetTypeStorage().getOrThrow(street.typeId).color
+        } else if (street.streetId == selectedStreet) {
             Color.Gold
         } else {
             Color.Gray
