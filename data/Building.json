@@ -4,7 +4,7 @@
   "0": {
    "id": 0,
    "lot": {
-    "tileIndex": 174
+    "tileIndex": 150
    },
    "constructionDate": {
     "type": "Day",
@@ -14,7 +14,7 @@
   "1": {
    "id": 1,
    "lot": {
-    "tileIndex": 173
+    "tileIndex": 149
    },
    "constructionDate": {
     "type": "Day",
@@ -24,7 +24,7 @@
   "2": {
    "id": 2,
    "lot": {
-    "tileIndex": 172
+    "tileIndex": 148
    },
    "constructionDate": {
     "type": "Day",
@@ -34,7 +34,7 @@
   "3": {
    "id": 3,
    "lot": {
-    "tileIndex": 170
+    "tileIndex": 146
    },
    "constructionDate": {
     "type": "Day",
@@ -44,7 +44,7 @@
   "4": {
    "id": 4,
    "lot": {
-    "tileIndex": 230
+    "tileIndex": 198
    },
    "constructionDate": {
     "type": "Day",
@@ -54,7 +54,7 @@
   "5": {
    "id": 5,
    "lot": {
-    "tileIndex": 232
+    "tileIndex": 200
    },
    "constructionDate": {
     "type": "Day",
@@ -64,7 +64,7 @@
   "6": {
    "id": 6,
    "lot": {
-    "tileIndex": 234
+    "tileIndex": 202
    },
    "constructionDate": {
     "type": "Day",
@@ -74,7 +74,7 @@
   "7": {
    "id": 7,
    "lot": {
-    "tileIndex": 258
+    "tileIndex": 222
    },
    "constructionDate": {
     "type": "Day",
@@ -84,7 +84,7 @@
   "8": {
    "id": 8,
    "lot": {
-    "tileIndex": 257
+    "tileIndex": 221
    },
    "constructionDate": {
     "type": "Day",
@@ -94,7 +94,7 @@
   "9": {
    "id": 9,
    "lot": {
-    "tileIndex": 256
+    "tileIndex": 220
    },
    "constructionDate": {
     "type": "Day",
@@ -104,7 +104,7 @@
   "10": {
    "id": 10,
    "lot": {
-    "tileIndex": 255
+    "tileIndex": 219
    },
    "constructionDate": {
     "type": "Day",
@@ -114,7 +114,7 @@
   "11": {
    "id": 11,
    "lot": {
-    "tileIndex": 254
+    "tileIndex": 218
    },
    "constructionDate": {
     "type": "Day",
@@ -124,7 +124,7 @@
   "12": {
    "id": 12,
    "lot": {
-    "tileIndex": 317,
+    "tileIndex": 273,
     "size": {
      "width": 2,
      "height": 1
@@ -138,7 +138,7 @@
   "13": {
    "id": 13,
    "lot": {
-    "tileIndex": 197,
+    "tileIndex": 169,
     "size": {
      "width": 2,
      "height": 1
@@ -152,7 +152,7 @@
   "14": {
    "id": 14,
    "lot": {
-    "tileIndex": 407,
+    "tileIndex": 351,
     "size": {
      "width": 2,
      "height": 1
@@ -166,7 +166,7 @@
   "15": {
    "id": 15,
    "lot": {
-    "tileIndex": 260
+    "tileIndex": 224
    },
    "constructionDate": {
     "type": "Day",
@@ -176,7 +176,7 @@
   "16": {
    "id": 16,
    "lot": {
-    "tileIndex": 320
+    "tileIndex": 276
    },
    "constructionDate": {
     "type": "Day",
@@ -186,7 +186,7 @@
   "17": {
    "id": 17,
    "lot": {
-    "tileIndex": 350
+    "tileIndex": 302
    },
    "constructionDate": {
     "type": "Day",
@@ -196,7 +196,7 @@
   "18": {
    "id": 18,
    "lot": {
-    "tileIndex": 192
+    "tileIndex": 164
    },
    "constructionDate": {
     "type": "Day",
@@ -206,7 +206,7 @@
   "19": {
    "id": 19,
    "lot": {
-    "tileIndex": 194
+    "tileIndex": 166
    },
    "constructionDate": {
     "type": "Day",
@@ -216,7 +216,7 @@
   "20": {
    "id": 20,
    "lot": {
-    "tileIndex": 132
+    "tileIndex": 112
    },
    "constructionDate": {
     "type": "Day",
@@ -226,7 +226,7 @@
   "21": {
    "id": 21,
    "lot": {
-    "tileIndex": 164
+    "tileIndex": 140
    },
    "constructionDate": {
     "type": "Day",
@@ -236,7 +236,7 @@
   "22": {
    "id": 22,
    "lot": {
-    "tileIndex": 252
+    "tileIndex": 216
    },
    "constructionDate": {
     "type": "Day",
@@ -246,7 +246,7 @@
   "23": {
    "id": 23,
    "lot": {
-    "tileIndex": 352
+    "tileIndex": 304
    },
    "constructionDate": {
     "type": "Day",
@@ -256,7 +256,7 @@
   "24": {
    "id": 24,
    "lot": {
-    "tileIndex": 354
+    "tileIndex": 306
    },
    "constructionDate": {
     "type": "Day",
@@ -266,7 +266,7 @@
   "25": {
    "id": 25,
    "lot": {
-    "tileIndex": 412
+    "tileIndex": 356
    },
    "constructionDate": {
     "type": "Day",
@@ -276,7 +276,7 @@
   "26": {
    "id": 26,
    "lot": {
-    "tileIndex": 410
+    "tileIndex": 354
    },
    "constructionDate": {
     "type": "Day",
@@ -286,7 +286,7 @@
   "27": {
    "id": 27,
    "lot": {
-    "tileIndex": 315
+    "tileIndex": 271
    },
    "constructionDate": {
     "type": "Day",
@@ -296,7 +296,7 @@
   "28": {
    "id": 28,
    "lot": {
-    "tileIndex": 312
+    "tileIndex": 268
    },
    "constructionDate": {
     "type": "Day",
@@ -306,7 +306,7 @@
   "29": {
    "id": 29,
    "lot": {
-    "tileIndex": 310
+    "tileIndex": 266
    },
    "constructionDate": {
     "type": "Day",
@@ -316,7 +316,7 @@
   "30": {
    "id": 30,
    "lot": {
-    "tileIndex": 372
+    "tileIndex": 320
    },
    "constructionDate": {
     "type": "Day",
@@ -326,7 +326,7 @@
   "31": {
    "id": 31,
    "lot": {
-    "tileIndex": 370
+    "tileIndex": 318
    },
    "constructionDate": {
     "type": "Day",
@@ -336,7 +336,7 @@
   "32": {
    "id": 32,
    "lot": {
-    "tileIndex": 307,
+    "tileIndex": 263,
     "size": {
      "width": 2,
      "height": 1
@@ -350,7 +350,7 @@
   "33": {
    "id": 33,
    "lot": {
-    "tileIndex": 247,
+    "tileIndex": 211,
     "size": {
      "width": 2,
      "height": 1
@@ -364,7 +364,7 @@
   "34": {
    "id": 34,
    "lot": {
-    "tileIndex": 367
+    "tileIndex": 315
    },
    "constructionDate": {
     "type": "Day",
@@ -374,7 +374,7 @@
   "35": {
    "id": 35,
    "lot": {
-    "tileIndex": 365
+    "tileIndex": 313
    },
    "constructionDate": {
     "type": "Day",
@@ -384,7 +384,7 @@
   "36": {
    "id": 36,
    "lot": {
-    "tileIndex": 432
+    "tileIndex": 372
    },
    "constructionDate": {
     "type": "Day",
@@ -394,7 +394,7 @@
   "37": {
    "id": 37,
    "lot": {
-    "tileIndex": 461
+    "tileIndex": 397
    },
    "constructionDate": {
     "type": "Day",
@@ -404,7 +404,7 @@
   "38": {
    "id": 38,
    "lot": {
-    "tileIndex": 429
+    "tileIndex": 369
    },
    "constructionDate": {
     "type": "Day",
@@ -414,7 +414,7 @@
   "39": {
    "id": 39,
    "lot": {
-    "tileIndex": 427
+    "tileIndex": 367
    },
    "constructionDate": {
     "type": "Day",
@@ -424,7 +424,7 @@
   "40": {
    "id": 40,
    "lot": {
-    "tileIndex": 458
+    "tileIndex": 394
    },
    "constructionDate": {
     "type": "Day",
@@ -434,7 +434,7 @@
   "41": {
    "id": 41,
    "lot": {
-    "tileIndex": 456
+    "tileIndex": 392
    },
    "constructionDate": {
     "type": "Day",
@@ -444,7 +444,7 @@
   "42": {
    "id": 42,
    "lot": {
-    "tileIndex": 454
+    "tileIndex": 390
    },
    "constructionDate": {
     "type": "Day",
@@ -454,7 +454,7 @@
   "43": {
    "id": 43,
    "lot": {
-    "tileIndex": 414,
+    "tileIndex": 358,
     "size": {
      "width": 1,
      "height": 2
@@ -468,7 +468,7 @@
   "44": {
    "id": 44,
    "lot": {
-    "tileIndex": 404,
+    "tileIndex": 348,
     "size": {
      "width": 2,
      "height": 1
@@ -482,7 +482,7 @@
   "45": {
    "id": 45,
    "lot": {
-    "tileIndex": 344
+    "tileIndex": 296
    },
    "constructionDate": {
     "type": "Day",
@@ -492,7 +492,7 @@
   "46": {
    "id": 46,
    "lot": {
-    "tileIndex": 472
+    "tileIndex": 408
    },
    "constructionDate": {
     "type": "Day",
@@ -502,7 +502,7 @@
   "47": {
    "id": 47,
    "lot": {
-    "tileIndex": 470
+    "tileIndex": 406
    },
    "constructionDate": {
     "type": "Day",
@@ -512,7 +512,7 @@
   "48": {
    "id": 48,
    "lot": {
-    "tileIndex": 464
+    "tileIndex": 400
    },
    "constructionDate": {
     "type": "Day",
@@ -522,7 +522,7 @@
   "49": {
    "id": 49,
    "lot": {
-    "tileIndex": 465
+    "tileIndex": 401
    },
    "constructionDate": {
     "type": "Day",
@@ -532,7 +532,7 @@
   "50": {
    "id": 50,
    "lot": {
-    "tileIndex": 466
+    "tileIndex": 402
    },
    "constructionDate": {
     "type": "Day",
@@ -542,7 +542,7 @@
   "51": {
    "id": 51,
    "lot": {
-    "tileIndex": 468
+    "tileIndex": 404
    },
    "constructionDate": {
     "type": "Day",
@@ -552,7 +552,7 @@
   "52": {
    "id": 52,
    "lot": {
-    "tileIndex": 532
+    "tileIndex": 460
    },
    "constructionDate": {
     "type": "Day",
@@ -562,7 +562,7 @@
   "53": {
    "id": 53,
    "lot": {
-    "tileIndex": 530
+    "tileIndex": 458
    },
    "constructionDate": {
     "type": "Day",
@@ -572,7 +572,7 @@
   "54": {
    "id": 54,
    "lot": {
-    "tileIndex": 528
+    "tileIndex": 456
    },
    "constructionDate": {
     "type": "Day",
@@ -582,7 +582,7 @@
   "55": {
    "id": 55,
    "lot": {
-    "tileIndex": 526
+    "tileIndex": 454
    },
    "constructionDate": {
     "type": "Day",
@@ -592,7 +592,7 @@
   "56": {
    "id": 56,
    "lot": {
-    "tileIndex": 592
+    "tileIndex": 512
    },
    "constructionDate": {
     "type": "Day",
@@ -602,7 +602,7 @@
   "57": {
    "id": 57,
    "lot": {
-    "tileIndex": 591
+    "tileIndex": 511
    },
    "constructionDate": {
     "type": "Day",
@@ -612,7 +612,7 @@
   "58": {
    "id": 58,
    "lot": {
-    "tileIndex": 585
+    "tileIndex": 505
    },
    "constructionDate": {
     "type": "Day",
@@ -622,7 +622,7 @@
   "59": {
    "id": 59,
    "lot": {
-    "tileIndex": 587
+    "tileIndex": 507
    },
    "constructionDate": {
     "type": "Day",
@@ -632,7 +632,7 @@
   "60": {
    "id": 60,
    "lot": {
-    "tileIndex": 589
+    "tileIndex": 509
    },
    "constructionDate": {
     "type": "Day",
@@ -642,7 +642,7 @@
   "61": {
    "id": 61,
    "lot": {
-    "tileIndex": 524,
+    "tileIndex": 452,
     "size": {
      "width": 2,
      "height": 1
@@ -656,7 +656,7 @@
   "62": {
    "id": 62,
    "lot": {
-    "tileIndex": 645,
+    "tileIndex": 557,
     "size": {
      "width": 2,
      "height": 1
@@ -670,7 +670,7 @@
   "63": {
    "id": 63,
    "lot": {
-    "tileIndex": 705,
+    "tileIndex": 609,
     "size": {
      "width": 2,
      "height": 1
@@ -684,7 +684,7 @@
   "64": {
    "id": 64,
    "lot": {
-    "tileIndex": 534,
+    "tileIndex": 462,
     "size": {
      "width": 1,
      "height": 2
@@ -698,7 +698,7 @@
   "65": {
    "id": 65,
    "lot": {
-    "tileIndex": 581,
+    "tileIndex": 501,
     "size": {
      "width": 2,
      "height": 1
@@ -712,7 +712,7 @@
   "66": {
    "id": 66,
    "lot": {
-    "tileIndex": 521,
+    "tileIndex": 449,
     "size": {
      "width": 2,
      "height": 1
@@ -726,7 +726,7 @@
   "67": {
    "id": 67,
    "lot": {
-    "tileIndex": 520
+    "tileIndex": 448
    },
    "constructionDate": {
     "type": "Day",
@@ -736,7 +736,7 @@
   "68": {
    "id": 68,
    "lot": {
-    "tileIndex": 518
+    "tileIndex": 446
    },
    "constructionDate": {
     "type": "Day",
@@ -746,7 +746,7 @@
   "69": {
    "id": 69,
    "lot": {
-    "tileIndex": 516
+    "tileIndex": 444
    },
    "constructionDate": {
     "type": "Day",
@@ -756,7 +756,7 @@
   "70": {
    "id": 70,
    "lot": {
-    "tileIndex": 637
+    "tileIndex": 549
    },
    "constructionDate": {
     "type": "Day",
@@ -766,7 +766,7 @@
   "71": {
    "id": 71,
    "lot": {
-    "tileIndex": 642
+    "tileIndex": 554
    },
    "constructionDate": {
     "type": "Day",
@@ -776,7 +776,7 @@
   "72": {
    "id": 72,
    "lot": {
-    "tileIndex": 648,
+    "tileIndex": 560,
     "size": {
      "width": 3,
      "height": 2
@@ -790,7 +790,7 @@
   "73": {
    "id": 73,
    "lot": {
-    "tileIndex": 43
+    "tileIndex": 35
    },
    "constructionDate": {
     "type": "Day",
