@@ -157,8 +157,10 @@ private fun HTML.showTownDetails(
             showArchitecturalStyleCount(call, state, buildings)
             showCreatorCount(call, state, buildings, "Builder")
             showBuildingPurposeCount(buildings)
-            showList("Buildings", state.sort(buildings)) { (building, name) ->
-                link(call, building.id, name)
+            showDetails("Buildings") {
+                showList("Buildings", state.sort(buildings)) { (building, name) ->
+                    link(call, building.id, name)
+                }
             }
             showBuildingOwnershipCount(call, state, buildings)
             action(editBuildingsLink, "Edit Buildings")
