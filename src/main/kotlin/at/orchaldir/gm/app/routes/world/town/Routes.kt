@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.routes.world.town
 
 import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.model.world.street.StreetTypeId
 import at.orchaldir.gm.core.model.world.terrain.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -55,7 +56,8 @@ class TownRoutes {
         class Add(
             val id: TownId,
             val tileIndex: Int,
-            val streetId: StreetId,
+            val typeId: StreetTypeId,
+            val streetId: StreetId?,
             val parent: StreetRoutes = StreetRoutes(),
         )
 
@@ -63,7 +65,8 @@ class TownRoutes {
         class Remove(
             val id: TownId,
             val tileIndex: Int,
-            val selectedStreet: StreetId,
+            val typeId: StreetTypeId,
+            val streetId: StreetId?,
             val parent: StreetRoutes = StreetRoutes(),
         )
     }

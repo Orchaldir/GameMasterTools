@@ -23,7 +23,6 @@ value class StreetId(val value: Int) : Id<StreetId> {
 data class Street(
     val id: StreetId,
     val name: ComplexName = SimpleName("Street ${id.value}"),
-    val type: StreetTypeId = StreetTypeId(0),
 ) : Element<StreetId> {
 
     override fun id() = id

@@ -25,8 +25,8 @@ const val TILE_SIZE = 20.0f
 
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
-private val DEFAULT_STREET_COLOR: (StreetId, Int) -> Color = { _, _ -> Color.Gray }
-private val DEFAULT_STREET_TEXT: (StreetId, Int) -> String? = { _, _ -> null }
+private val DEFAULT_STREET_COLOR: (StreetTile, Int) -> Color = { _, _ -> Color.Gray }
+private val DEFAULT_STREET_TEXT: (StreetTile, Int) -> String? = { _, _ -> null }
 private val DEFAULT_TILE_TEXT: (Int, TownTile) -> String? = { _, _ -> null }
 
 data class TownRenderer(
@@ -69,21 +69,21 @@ data class TownRenderer(
     }
 
     fun renderStreets(
-        colorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
-        linkLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
-        tooltipLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
+        colorLookup: (StreetTile, Int) -> Color = DEFAULT_STREET_COLOR,
+        linkLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
+        tooltipLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
     ) {
-        renderStreets { aabb, streetId, index ->
-            val color = colorLookup(streetId, index)
+        renderStreets { aabb, street, index ->
+            val color = colorLookup(street, index)
 
-            svgBuilder.optionalLinkAndTooltip(linkLookup(streetId, index), tooltipLookup(streetId, index)) {
+            svgBuilder.optionalLinkAndTooltip(linkLookup(street, index), tooltipLookup(street, index)) {
                 renderStreet(it, aabb, color)
             }
         }
     }
 
     fun renderStreets(
-        render: (AABB, StreetId, Int) -> Unit,
+        render: (AABB, StreetTile, Int) -> Unit,
     ) {
         val right = Point2d(tileRenderer.tileSize.toMeters() / 2, 0.0f)
         val down = Point2d(0.0f, tileRenderer.tileSize.toMeters() / 2)
@@ -92,15 +92,15 @@ data class TownRenderer(
             if (tile.construction is StreetTile) {
                 if (town.checkTile(x + 1, y) { it.construction is StreetTile }) {
                     val rightAABB = aabb + right
-                    render(rightAABB, tile.construction.street, index)
+                    render(rightAABB, tile.construction, index)
                 }
 
                 if (town.checkTile(x, y + 1) { it.construction is StreetTile }) {
                     val downAABB = aabb + down
-                    render(downAABB, tile.construction.street, index)
+                    render(downAABB, tile.construction, index)
                 }
 
-                render(aabb, tile.construction.street, index)
+                render(aabb, tile.construction, index)
             }
         }
     }
@@ -136,9 +136,9 @@ fun visualizeTown(
     buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
     buildingLinkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
     buildingTooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
-    streetColorLookup: (StreetId, Int) -> Color = DEFAULT_STREET_COLOR,
-    streetLinkLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
-    streetTooltipLookup: (StreetId, Int) -> String? = DEFAULT_STREET_TEXT,
+    streetColorLookup: (StreetTile, Int) -> Color = DEFAULT_STREET_COLOR,
+    streetLinkLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
+    streetTooltipLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
 ): Svg {
     val townRenderer = TownRenderer(town)
 
@@ -156,17 +156,11 @@ fun TownTile.getColor() = when (terrain) {
     is RiverTerrain -> Color.Blue
 }
 
-fun getStreetTypeFill(state: State): (StreetId, Int) -> Color = { id, _ ->
+fun getStreetTypeFill(state: State): (StreetTile, Int) -> Color = { tile, _ ->
     state
-        .getStreetStorage()
-        .get(id)
-        ?.type
-        ?.let {
-            state
-                .getStreetTypeStorage()
-                .get(it)
-                ?.color
-        } ?: Color.Pink
+        .getStreetTypeStorage()
+        .get(tile.type)
+        ?.color ?: Color.Pink
 }
 
 fun showSelectedBuilding(selected: Building): (Building) -> Color = { building ->

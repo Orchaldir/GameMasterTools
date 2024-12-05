@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.parse.world
 
-import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.model.parseComplexName
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.world.street.Street
@@ -12,6 +11,5 @@ fun parseStreetId(parameters: Parameters, param: String) = StreetId(parseInt(par
 fun parseStreet(id: StreetId, parameters: Parameters) = Street(
     id,
     parseComplexName(parameters),
-    parseStreetTypeId(parameters, TYPE),
 )
 

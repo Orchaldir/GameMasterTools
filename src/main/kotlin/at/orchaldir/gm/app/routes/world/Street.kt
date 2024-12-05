@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.fieldReferenceByName
 import at.orchaldir.gm.app.html.model.selectComplexName
@@ -139,7 +138,6 @@ private fun HTML.showStreetDetails(
 
     simpleHtml("Street: ${street.name(state)}") {
         fieldReferenceByName(call, state, street.name)
-        fieldLink("Type", call, state, street.type)
         showList("Towns", state.getTowns(street.id)) { town ->
             val buildings = state.sort(state.getBuildings(town.id)
                 .filter { it.address.contains(street.id) })
@@ -168,11 +166,6 @@ private fun HTML.showStreetEditor(
     simpleHtml("Edit Street: ${street.name(state)}") {
         form {
             selectComplexName(state, street.name)
-            selectValue("Type", TYPE, state.getStreetTypeStorage().getAll()) { type ->
-                label = type.name
-                value = type.id.value.toString()
-                selected = street.type == type.id
-            }
             button("Update", updateLink)
         }
         back(backLink)

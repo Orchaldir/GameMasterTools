@@ -12,8 +12,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Solid
 import at.orchaldir.gm.core.model.world.street.StreetType
 import at.orchaldir.gm.core.model.world.street.StreetTypeId
-import at.orchaldir.gm.core.selector.world.canDelete
-import at.orchaldir.gm.core.selector.world.getStreets
+import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.NoBorder
@@ -164,8 +163,8 @@ private fun HTML.showStreetTypeDetails(
         split({
             field("Name", type.name)
             field("Color", type.color.toString())
-            showList("Streets", state.getStreets(type.id)) { street ->
-                link(call, state, street)
+            showList("Towns", state.getTowns(type.id)) { town ->
+                link(call, state, town)
             }
             action(editLink, "Edit")
             if (state.canDelete(type.id)) {

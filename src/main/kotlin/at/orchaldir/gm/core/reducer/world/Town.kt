@@ -58,10 +58,13 @@ val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
 // town's streets
 
 val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
-    state.getStreetStorage().require(action.street)
+    state.getStreetTypeStorage().require(action.type)
+
+    action.street?.let { state.getStreetStorage().require(it) }
+
 
     val oldTown = state.getTownStorage().getOrThrow(action.town)
-    val town = oldTown.build(action.tileIndex, StreetTile(action.street))
+    val town = oldTown.build(action.tileIndex, StreetTile(action.type, action.street))
 
     noFollowUps(state.updateStorage(state.getTownStorage().update(town)))
 }
