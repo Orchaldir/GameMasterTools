@@ -57,7 +57,7 @@ class TownRoutes {
             val id: TownId,
             val tileIndex: Int,
             val typeId: StreetTypeId,
-            val streetId: StreetId?,
+            val streetId: StreetId? = null,
             val parent: StreetRoutes = StreetRoutes(),
         )
 
@@ -66,7 +66,7 @@ class TownRoutes {
             val id: TownId,
             val tileIndex: Int,
             val typeId: StreetTypeId,
-            val streetId: StreetId?,
+            val streetId: StreetId? = null,
             val parent: StreetRoutes = StreetRoutes(),
         )
     }
