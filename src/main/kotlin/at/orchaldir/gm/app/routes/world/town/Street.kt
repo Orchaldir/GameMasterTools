@@ -49,7 +49,7 @@ fun Application.configureStreetEditorRouting() {
             val state = STORE.getState()
             val town = state.getTownStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
-            val typeId = parseInt(params, STREET, 0)
+            val typeId = parseInt(params, TYPE, 0)
             val streetId = parseOptionalInt(params, STREET)
 
             call.respondHtml(HttpStatusCode.OK) {
@@ -57,7 +57,7 @@ fun Application.configureStreetEditorRouting() {
             }
         }
         get<TownRoutes.StreetRoutes.Add> { add ->
-            logger.info { "Set tile ${add.tileIndex} to street ${add.typeId.value} & ${add.streetId?.value} for town ${add.id.value}" }
+            logger.info { "Set tile ${add.tileIndex} to street ${add.typeId.value} for town ${add.id.value}" }
 
             STORE.dispatch(AddStreetTile(add.id, add.tileIndex, add.typeId, add.streetId))
 
@@ -103,7 +103,7 @@ private fun HTML.showStreetEditor(
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectValue("Type", TYPE, state.getStreetTypeStorage().getAll()) { type ->
+                selectValue("Type", TYPE, state.getStreetTypeStorage().getAll(), true) { type ->
                     label = type.name
                     value = type.id.value.toString()
                     selected = selectedType == type.id
@@ -143,7 +143,7 @@ fun visualizeStreetEditor(
         }
     },
     streetColorLookup = { street, _ ->
-        if (street.street == selectedStreet) {
+        if (street.streetId == selectedStreet) {
             Color.Gold
         } else {
             Color.Gray
@@ -153,7 +153,7 @@ fun visualizeStreetEditor(
         call.application.href(TownRoutes.StreetRoutes.Remove(town.id, index, selectedType, selectedStreet))
     },
     streetTooltipLookup = { street, _ ->
-        state.getStreetStorage().getOptional(street.street)?.name(state)
+        state.getStreetStorage().getOptional(street.streetId)?.name(state)
     },
 )
 

@@ -3,7 +3,6 @@ package at.orchaldir.gm.visualization.town
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.terrain.HillTerrain
 import at.orchaldir.gm.core.model.world.terrain.MountainTerrain
 import at.orchaldir.gm.core.model.world.terrain.PlainTerrain
@@ -159,7 +158,7 @@ fun TownTile.getColor() = when (terrain) {
 fun getStreetTypeFill(state: State): (StreetTile, Int) -> Color = { tile, _ ->
     state
         .getStreetTypeStorage()
-        .get(tile.type)
+        .get(tile.typeId)
         ?.color ?: Color.Pink
 }
 

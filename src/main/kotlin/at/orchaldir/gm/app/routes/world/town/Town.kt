@@ -259,10 +259,10 @@ private fun visualizeTownWithLinks(
         building.name(state)
     },
     streetLinkLookup = { tile, _ ->
-        tile.street?.let { call.application.href(StreetRoutes.Details(it)) }
+        tile.streetId?.let { call.application.href(StreetRoutes.Details(it)) }
     },
     streetTooltipLookup = { tile, _ ->
-        state.getStreetStorage().getOptional(tile.street)?.name(state)
+        state.getStreetStorage().getOptional(tile.streetId)?.name(state)
     },
     streetColorLookup = getStreetTypeFill(state),
 )

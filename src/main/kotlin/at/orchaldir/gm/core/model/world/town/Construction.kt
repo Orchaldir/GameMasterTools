@@ -10,17 +10,17 @@ import kotlinx.serialization.Serializable
 sealed class Construction {
 
     fun contains(id: StreetId) = when (this) {
-        is StreetTile -> street == id
+        is StreetTile -> streetId == id
         else -> false
     }
 
     fun contains(id: StreetTypeId) = when (this) {
-        is StreetTile -> type == id
+        is StreetTile -> typeId == id
         else -> false
     }
 
     fun getOptionalStreet() = when (this) {
-        is StreetTile -> street
+        is StreetTile -> streetId
         else -> null
     }
 
@@ -37,8 +37,8 @@ data class BuildingTile(val building: BuildingId) : Construction()
 @Serializable
 @SerialName("Street")
 data class StreetTile(
-    val type: StreetTypeId = StreetTypeId(0),
-    val street: StreetId? = null,
+    val typeId: StreetTypeId = StreetTypeId(0),
+    val streetId: StreetId? = null,
 ) : Construction()
 
 
