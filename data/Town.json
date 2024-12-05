@@ -42,6 +42,10 @@
      {
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
      },
@@ -108,6 +112,238 @@
      {
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 73
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 20
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
      },
@@ -176,212 +412,16 @@
      {
      },
      {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
+      "construction": {
+       "type": "Street",
+       "typeId": 1
       }
      },
      {
-      "terrain": {
-       "type": "River",
-       "river": 0
+      "construction": {
+       "type": "Building",
+       "building": 21
       }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
      },
      {
      },
@@ -462,10 +502,22 @@
      {
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 18
+      }
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 19
+      }
      },
      {
      },
@@ -576,31 +628,69 @@
      {
      },
      {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
       "construction": {
-       "type": "Street"
+       "type": "Street",
+       "typeId": 1
       }
      },
      {
       "construction": {
-       "type": "Street"
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
       }
      },
      {
@@ -658,18 +748,38 @@
      {
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 33
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 33
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
      },
      {
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 22
+      }
      },
      {
-     },
-     {
-     },
-     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
       "construction": {
@@ -703,10 +813,15 @@
      },
      {
       "construction": {
-       "type": "Street"
+       "type": "Street",
+       "typeId": 1
       }
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 15
+      }
      },
      {
      },
@@ -731,24 +846,6 @@
        "type": "River",
        "river": 0
       }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
      },
      {
      },
@@ -772,12 +869,68 @@
      },
      {
       "construction": {
-       "type": "Street"
+       "type": "Street",
+       "typeId": 1
       }
      },
      {
       "construction": {
-       "type": "Street"
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
       }
      },
      {
@@ -805,26 +958,6 @@
        "type": "River",
        "river": 0
       }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
      },
      {
      },
@@ -845,6 +978,54 @@
      {
       "construction": {
        "type": "Building",
+       "building": 32
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 32
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 29
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 28
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 27
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
        "building": 12
       }
      },
@@ -856,10 +1037,15 @@
      },
      {
       "construction": {
-       "type": "Street"
+       "type": "Street",
+       "typeId": 1
       }
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 16
+      }
      },
      {
      },
@@ -884,30 +1070,6 @@
        "type": "River",
        "river": 0
       }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
      },
      {
      },
@@ -927,7 +1089,50 @@
      },
      {
       "construction": {
-       "type": "Street"
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 45
       }
      },
      {
@@ -939,6 +1144,32 @@
      {
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 17
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 23
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 24
+      }
      },
      {
      },
@@ -969,6 +1200,42 @@
      {
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 35
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 34
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 31
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 30
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
      },
@@ -981,32 +1248,40 @@
      {
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
      },
@@ -1037,26 +1312,70 @@
      {
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 44
+      }
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 44
+      }
      },
      {
      },
@@ -1075,6 +1394,1138 @@
      {
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 26
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 25
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 43
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 39
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 38
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 36
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 43
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 42
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 41
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 40
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 37
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 48
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 49
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 50
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 51
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 47
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 46
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 69
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 68
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 67
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 66
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 66
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 61
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 61
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 55
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 54
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 53
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 52
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 64
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 64
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 65
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 65
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 58
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 59
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 60
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 57
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 56
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 70
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 71
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 62
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 62
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 72
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 72
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 72
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      }
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 72
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 72
+      }
+     },
+     {
+      "construction": {
+       "type": "Building",
+       "building": 72
+      }
      },
      {
      },
@@ -1129,12 +2580,24 @@
      {
      },
      {
+      "construction": {
+       "type": "Street",
+       "typeId": 1
+      }
      },
      {
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 63
+      }
      },
      {
+      "construction": {
+       "type": "Building",
+       "building": 63
+      }
      },
      {
      },
@@ -1197,618 +2660,10 @@
      {
      },
      {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
+      "construction": {
+       "type": "Street",
+       "typeId": 1
       }
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      }
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
-     },
-     {
      },
      {
      },
