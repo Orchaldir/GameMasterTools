@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.STREET_ID_0
 import at.orchaldir.gm.core.action.DeleteStreet
 import at.orchaldir.gm.core.action.UpdateStreet
 import at.orchaldir.gm.core.model.State

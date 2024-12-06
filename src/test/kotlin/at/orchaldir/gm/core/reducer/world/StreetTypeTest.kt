@@ -7,13 +7,9 @@ import at.orchaldir.gm.core.action.DeleteStreetType
 import at.orchaldir.gm.core.action.UpdateStreetType
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.world.street.Street
-import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetType
-import at.orchaldir.gm.core.model.world.street.StreetTypeId
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage

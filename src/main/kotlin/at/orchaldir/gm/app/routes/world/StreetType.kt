@@ -12,7 +12,8 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Solid
 import at.orchaldir.gm.core.model.world.street.StreetType
 import at.orchaldir.gm.core.model.world.street.StreetTypeId
-import at.orchaldir.gm.core.selector.world.*
+import at.orchaldir.gm.core.selector.world.canDelete
+import at.orchaldir.gm.core.selector.world.getTowns
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.NoBorder
