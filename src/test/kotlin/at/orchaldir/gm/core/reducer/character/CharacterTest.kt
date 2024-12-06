@@ -37,7 +37,7 @@ private val PERSONALITY0 = PersonalityTraitId(0)
 private val RACE0 = RaceId(0)
 private val RACE1 = RaceId(1)
 private val OWNER = History<Owner>(OwnedByCharacter(CHARACTER_ID_0))
-private val PREVIOUS_OWNER = History(UnknownOwner, listOf(HistoryEntry(OwnedByCharacter(CHARACTER_ID_0), Day(0))))
+private val PREVIOUS_OWNER = History(UndefinedOwner, listOf(HistoryEntry(OwnedByCharacter(CHARACTER_ID_0), Day(0))))
 
 class CharacterTest {
 

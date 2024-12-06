@@ -35,7 +35,7 @@ private val RIVER_TILE = TownTile(RiverTerrain(RIVER_ID_0))
 private val STREET_TILE = TownTile(construction = StreetTile(STREET_ID_0))
 private val EMPTY = TownTile()
 private val OWNER = History<Owner>(OwnedByTown(TOWN_ID_0))
-private val PREVIOUS_OWNER = History(UnknownOwner, listOf(HistoryEntry(OwnedByTown(TOWN_ID_0), Day(0))))
+private val PREVIOUS_OWNER = History(UndefinedOwner, listOf(HistoryEntry(OwnedByTown(TOWN_ID_0), Day(0))))
 private val STATE = State(listOf(Storage(Street(STREET_ID_0)), Storage(Town(TOWN_ID_0))))
 
 class TownTest {

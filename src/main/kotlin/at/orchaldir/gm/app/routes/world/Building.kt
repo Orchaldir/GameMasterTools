@@ -215,8 +215,8 @@ private fun HTML.showAllBuildings(
                     td { showAddress(call, state, building) }
                     td { +building.purpose.getType().toString() }
                     td { link(call, state, building.architecturalStyle) }
-                    td { showOwner(call, state, building.ownership.current) }
-                    td { showCreator(call, state, building.builder) }
+                    td { showOwner(call, state, building.ownership.current, false) }
+                    td { showCreator(call, state, building.builder, false) }
                 }
             }
         }

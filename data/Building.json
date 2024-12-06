@@ -566,6 +566,23 @@
    "constructionDate": {
     "type": "Year",
     "year": 1799
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 1
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 1918
+      }
+     }
+    ]
    }
   },
   "53": {

@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 
 enum class OwnerType {
     None,
-    Unknown,
+    Undefined,
     Character,
     Town,
 }
@@ -19,14 +19,14 @@ sealed class Owner {
         NoOwner -> OwnerType.None
         is OwnedByCharacter -> OwnerType.Character
         is OwnedByTown -> OwnerType.Town
-        UnknownOwner -> OwnerType.Unknown
+        UndefinedOwner -> OwnerType.Undefined
     }
 
     fun canDelete() = when (this) {
         NoOwner -> true
         is OwnedByCharacter -> false
         is OwnedByTown -> false
-        UnknownOwner -> true
+        UndefinedOwner -> true
     }
 
     fun contains(other: CharacterId) = this is OwnedByCharacter && character == other
@@ -44,8 +44,8 @@ fun History<Owner>.contains(town: TownId) = previousEntries.any { it.entry.conta
 data object NoOwner : Owner()
 
 @Serializable
-@SerialName("Unknown")
-data object UnknownOwner : Owner()
+@SerialName("Undefined")
+data object UndefinedOwner : Owner()
 
 @Serializable
 @SerialName("Character")
