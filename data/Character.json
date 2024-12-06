@@ -41,6 +41,36 @@
      "building": 52
     }
    }
+  },
+  "2": {
+   "id": 2,
+   "name": {
+    "type": "Family",
+    "given": "Owen",
+    "middle": null,
+    "family": "Perry"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "day": 678938
+   },
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 35
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 1909
+      }
+     }
+    ]
+   }
   }
  }
 }

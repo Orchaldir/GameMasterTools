@@ -373,12 +373,38 @@
   },
   "35": {
    "id": 35,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "FullName",
+     "id": 2
+    },
+    "prefix": "Dr",
+    "postfix": "Home and Practice"
+   },
    "lot": {
     "tileIndex": 313
    },
    "constructionDate": {
-    "type": "Day",
-    "day": 701420
+    "type": "Year",
+    "year": 1799
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 2
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 1909
+      }
+     }
+    ]
    }
   },
   "36": {
