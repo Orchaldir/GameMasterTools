@@ -22,6 +22,25 @@
      "type": "OldAge"
     }
    }
+  },
+  "1": {
+   "id": 1,
+   "name": {
+    "type": "Family",
+    "given": "John",
+    "middle": null,
+    "family": "Cutter"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "day": 694120
+   },
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 52
+    }
+   }
   }
  }
 }

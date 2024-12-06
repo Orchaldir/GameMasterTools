@@ -551,12 +551,21 @@
   },
   "52": {
    "id": 52,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "FamilyName",
+     "id": 1
+    },
+    "prefix": "Home of",
+    "postfix": null
+   },
    "lot": {
     "tileIndex": 460
    },
    "constructionDate": {
-    "type": "Day",
-    "day": 701420
+    "type": "Year",
+    "year": 1799
    }
   },
   "53": {
