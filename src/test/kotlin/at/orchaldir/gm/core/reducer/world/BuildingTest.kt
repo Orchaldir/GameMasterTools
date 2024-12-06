@@ -32,8 +32,8 @@ import kotlin.test.assertNull
 
 private val BUILDING_TILE_0 = TownTile(construction = BuildingTile(BUILDING_ID_0))
 private val BUILDING_TILE_1 = TownTile(construction = BuildingTile(BUILDING_ID_1))
-private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET_ID_0))
-private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_ID_1))
+private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0))
+private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_TYPE_ID_1, STREET_ID_1))
 private val BIG_SIZE = MapSize2d(2, 1)
 private val BIG_SQUARE = square(2)
 private val OWNERSHIP = History<Owner>(UndefinedOwner)

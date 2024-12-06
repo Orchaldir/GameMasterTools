@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingLot
 import at.orchaldir.gm.core.model.world.street.Street
+import at.orchaldir.gm.core.model.world.street.StreetType
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.StreetTile
@@ -32,11 +33,17 @@ import kotlin.test.assertFailsWith
 
 private val BUILDING_TILE = TownTile(construction = BuildingTile(BUILDING_ID_0))
 private val RIVER_TILE = TownTile(RiverTerrain(RIVER_ID_0))
-private val STREET_TILE = TownTile(construction = StreetTile(STREET_ID_0))
+private val STREET_TILE = TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0))
 private val EMPTY = TownTile()
 private val OWNER = History<Owner>(OwnedByTown(TOWN_ID_0))
 private val PREVIOUS_OWNER = History(UndefinedOwner, listOf(HistoryEntry(OwnedByTown(TOWN_ID_0), Day(0))))
-private val STATE = State(listOf(Storage(Street(STREET_ID_0)), Storage(Town(TOWN_ID_0))))
+private val STATE = State(
+    listOf(
+        Storage(Street(STREET_ID_0)),
+        Storage(StreetType(STREET_TYPE_ID_0)),
+        Storage(Town(TOWN_ID_0)),
+    )
+)
 
 class TownTest {
 
@@ -151,25 +158,28 @@ class TownTest {
 
         @Test
         fun `Cannot update unknown town`() {
-            val state = State(Storage(Street(STREET_ID_0)))
-            val action = AddStreetTile(TOWN_ID_0, 0, STREET_ID_0)
+            val action = AddStreetTile(TOWN_ID_1, 0, STREET_TYPE_ID_0, STREET_ID_0)
 
-            assertIllegalArgument("Requires unknown Town 0!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Town 1!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Cannot use unknown street`() {
-            val town = Town(TOWN_ID_0)
-            val state = State(Storage(town))
-            val action = AddStreetTile(TOWN_ID_0, 0, STREET_ID_1)
+            val action = AddStreetTile(TOWN_ID_0, 0, STREET_TYPE_ID_0, STREET_ID_1)
 
-            assertIllegalArgument("Requires unknown Street 1!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Street 1!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Cannot use unknown street type`() {
+            val action = AddStreetTile(TOWN_ID_0, 0, STREET_TYPE_ID_1, STREET_ID_0)
+
+            assertIllegalArgument("Requires unknown Street Type 1!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Tile is outside the map`() {
-            val town = Town(TOWN_ID_0)
-            val action = AddStreetTile(TOWN_ID_0, 100, STREET_ID_0)
+            val action = AddStreetTile(TOWN_ID_0, 100, STREET_TYPE_ID_0, STREET_ID_0)
 
             assertIllegalArgument("Tile 100 is outside the map!") {
                 REDUCER.invoke(
@@ -192,8 +202,8 @@ class TownTest {
         private fun testTileNotEmpty(townTile: TownTile) {
             val map = TileMap2d(townTile)
             val town = Town(TOWN_ID_0, map = map)
-            val state = State(listOf(Storage(listOf(Street(STREET_ID_0), Street(STREET_ID_1))), Storage(town)))
-            val action = AddStreetTile(TOWN_ID_0, 0, STREET_ID_1)
+            val state = STATE.updateStorage(Storage(town))
+            val action = AddStreetTile(TOWN_ID_0, 0, STREET_TYPE_ID_0, STREET_ID_0)
 
             assertIllegalArgument("Tile 0 is not empty!") { REDUCER.invoke(state, action) }
         }
@@ -202,8 +212,8 @@ class TownTest {
         fun `Successfully set a street`() {
             val map = TileMap2d(EMPTY)
             val town = Town(TOWN_ID_0, map = map)
-            val state = State(listOf(Storage(Street(STREET_ID_0)), Storage(town)))
-            val action = AddStreetTile(TOWN_ID_0, 0, STREET_ID_0)
+            val state = STATE.updateStorage(Storage(town))
+            val action = AddStreetTile(TOWN_ID_0, 0, STREET_TYPE_ID_0, STREET_ID_0)
 
             assertEquals(
                 STREET_TILE,

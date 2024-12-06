@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.reducer.world
 
+import at.orchaldir.gm.STREET_TYPE_ID_0
+import at.orchaldir.gm.TOWN_ID_0
 import at.orchaldir.gm.assertFailMessage
 import at.orchaldir.gm.core.action.DeleteStreetType
 import at.orchaldir.gm.core.action.UpdateStreetType
@@ -9,13 +11,16 @@ import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetType
 import at.orchaldir.gm.core.model.world.street.StreetTypeId
+import at.orchaldir.gm.core.model.world.town.StreetTile
+import at.orchaldir.gm.core.model.world.town.Town
+import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-
-private val ID0 = StreetTypeId(0)
 
 class StreetTypeTest {
 
@@ -24,15 +29,15 @@ class StreetTypeTest {
 
         @Test
         fun `Can delete an existing street`() {
-            val state = State(Storage(StreetType(ID0)))
-            val action = DeleteStreetType(ID0)
+            val state = State(Storage(StreetType(STREET_TYPE_ID_0)))
+            val action = DeleteStreetType(STREET_TYPE_ID_0)
 
             assertEquals(0, REDUCER.invoke(state, action).first.getStreetTypeStorage().getSize())
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            val action = DeleteStreetType(ID0)
+            val action = DeleteStreetType(STREET_TYPE_ID_0)
 
             assertFailMessage<IllegalArgumentException>("Requires unknown Street Type 0!") {
                 REDUCER.invoke(
@@ -43,12 +48,12 @@ class StreetTypeTest {
         }
 
         @Test
-        fun `Cannot delete, if used by a street`() {
-            val action = DeleteStreetType(ID0)
+        fun `Cannot delete, if used by a town`() {
+            val action = DeleteStreetType(STREET_TYPE_ID_0)
             val state = State(
                 listOf(
-                    Storage(StreetType(ID0)),
-                    Storage(Street(StreetId(9), type = ID0)),
+                    Storage(StreetType(STREET_TYPE_ID_0)),
+                    Storage(Town(TOWN_ID_0, map = TileMap2d(TownTile(construction = StreetTile(STREET_TYPE_ID_0)))))
                 )
             )
 
@@ -61,7 +66,7 @@ class StreetTypeTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateStreetType(StreetType(ID0))
+            val action = UpdateStreetType(StreetType(STREET_TYPE_ID_0))
 
             assertFailMessage<IllegalArgumentException>("Requires unknown Street Type 0!") {
                 REDUCER.invoke(
@@ -73,11 +78,11 @@ class StreetTypeTest {
 
         @Test
         fun `Update is valid`() {
-            val state = State(Storage(StreetType(ID0)))
-            val street = StreetType(ID0, "Test", Color.Gold)
+            val state = State(Storage(StreetType(STREET_TYPE_ID_0)))
+            val street = StreetType(STREET_TYPE_ID_0, "Test", Color.Gold)
             val action = UpdateStreetType(street)
 
-            assertEquals(street, REDUCER.invoke(state, action).first.getStreetTypeStorage().get(ID0))
+            assertEquals(street, REDUCER.invoke(state, action).first.getStreetTypeStorage().get(STREET_TYPE_ID_0))
         }
     }
 

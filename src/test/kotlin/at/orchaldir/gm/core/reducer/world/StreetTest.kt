@@ -1,9 +1,7 @@
 package at.orchaldir.gm.core.reducer.world
 
-import at.orchaldir.gm.CHARACTER_ID_0
+import at.orchaldir.gm.*
 import at.orchaldir.gm.STREET_ID_0
-import at.orchaldir.gm.assertFailMessage
-import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteStreet
 import at.orchaldir.gm.core.action.UpdateStreet
 import at.orchaldir.gm.core.model.State
@@ -54,7 +52,12 @@ class StreetTest {
             val state = State(
                 listOf(
                     Storage(Street(STREET_ID_0)),
-                    Storage(Town(TownId(0), map = TileMap2d(TownTile(construction = StreetTile(STREET_ID_0)))))
+                    Storage(
+                        Town(
+                            TownId(0),
+                            map = TileMap2d(TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0)))
+                        )
+                    )
                 )
             )
 
