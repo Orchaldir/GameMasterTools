@@ -21,6 +21,7 @@ fun HtmlBlockTag.showAddress(
     call: ApplicationCall,
     state: State,
     building: Building,
+    showNone: Boolean = true,
 ) {
     when (val address = building.address) {
         is CrossingAddress -> {
@@ -36,7 +37,7 @@ fun HtmlBlockTag.showAddress(
             }
         }
 
-        NoAddress -> {
+        NoAddress -> if (showNone) {
             +"None"
         }
 

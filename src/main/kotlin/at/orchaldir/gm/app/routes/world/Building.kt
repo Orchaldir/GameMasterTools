@@ -212,7 +212,7 @@ private fun HTML.showAllBuildings(
                     td { link(call, building.id, name) }
                     td { showDate(call, state, building.constructionDate) }
                     td { link(call, state, building.lot.town) }
-                    td { showAddress(call, state, building) }
+                    td { showAddress(call, state, building, false) }
                     td { +building.purpose.getType().toString() }
                     td { link(call, state, building.architecturalStyle) }
                     td { showOwner(call, state, building.ownership.current, false) }
