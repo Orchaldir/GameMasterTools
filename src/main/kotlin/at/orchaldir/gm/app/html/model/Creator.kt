@@ -37,11 +37,14 @@ fun HtmlBlockTag.showCreator(
     call: ApplicationCall,
     state: State,
     creator: Creator,
+    showUndefined: Boolean = true,
 ) {
     when (creator) {
         is CreatedByBusiness -> link(call, state, creator.business)
         is CreatedByCharacter -> link(call, state, creator.character)
-        UndefinedCreator -> +"Undefined"
+        UndefinedCreator -> if (showUndefined) {
+            +"Undefined"
+        }
     }
 }
 

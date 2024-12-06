@@ -30,4 +30,28 @@ class IntTest {
             assertEquals(-1, (-4).ceilDiv(3))
         }
     }
+
+    @Nested
+    inner class LengthTest {
+
+        @Test
+        fun `Test positive numbers`() {
+            assertEquals(1, 5.length())
+            assertEquals(2, 16.length())
+            assertEquals(3, 234.length())
+        }
+
+        @Test
+        fun `Test 0`() {
+            assertEquals(1, 0.length())
+        }
+
+
+        @Test
+        fun `Test negative numbers`() {
+            assertEquals(1, (-5).length())
+            assertEquals(2, (-16).length())
+            assertEquals(3, (-234).length())
+        }
+    }
 }

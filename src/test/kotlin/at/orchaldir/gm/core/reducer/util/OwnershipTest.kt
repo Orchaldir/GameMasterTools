@@ -6,46 +6,33 @@ import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.model.world.street.Street
-import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.model.world.street.StreetType
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
-import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import org.junit.jupiter.api.Test
 
-private val ID0 = BuildingId(0)
-private val ID1 = BuildingId(1)
-private val TOWN0 = TownId(0)
-private val STREET0 = StreetId(0)
-private val STREET1 = StreetId(1)
-private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET0))
-private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET1))
-private val CHARACTER0 = CharacterId(2)
+private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET_TYPE_ID_0))
+private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_TYPE_ID_1))
 
 private val CALENDAR = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
-private val STREET_NOT_IN_TOWN = StreetId(199)
 private val STATE = State(
     listOf(
-        Storage(listOf(Building(ID0), Building(ID1))),
         Storage(CALENDAR),
-        Storage(Character(CHARACTER0)),
-        Storage(listOf(Street(STREET0), Street(STREET1), Street(STREET_NOT_IN_TOWN))),
-        Storage(Town(TOWN0, map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1)))),
+        Storage(Character(CHARACTER_ID_2)),
+        Storage(listOf(StreetType(STREET_TYPE_ID_0), StreetType(STREET_TYPE_ID_0))),
+        Storage(Town(TOWN_ID_0, map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1)))),
     )
 )
-private val OWNED_BY_CHARACTER = History<Owner>(OwnedByCharacter(CHARACTER0))
-private val OWNED_BY_TOWN = History<Owner>(OwnedByTown(TOWN0))
+private val OWNED_BY_CHARACTER = History<Owner>(OwnedByCharacter(CHARACTER_ID_2))
+private val OWNED_BY_TOWN = History<Owner>(OwnedByTown(TOWN_ID_0))
 private val CHARACTER_AS_PREVIOUS =
-    History(OwnedByTown(TOWN0), HistoryEntry(OwnedByCharacter(CHARACTER0), DAY1))
-private val TOWN_AS_PREVIOUS = History(OwnedByCharacter(CHARACTER0), HistoryEntry(OwnedByTown(TOWN0), DAY1))
+    History(OwnedByTown(TOWN_ID_0), HistoryEntry(OwnedByCharacter(CHARACTER_ID_2), DAY1))
+private val TOWN_AS_PREVIOUS = History(OwnedByCharacter(CHARACTER_ID_2), HistoryEntry(OwnedByTown(TOWN_ID_0), DAY1))
 
 class OwnerTest {
 
@@ -101,10 +88,10 @@ class OwnerTest {
     @Test
     fun `A previous ownership ended before the one before it`() {
         val ownership = History(
-            OwnedByTown(TOWN0),
+            OwnedByTown(TOWN_ID_0),
             listOf(
-                HistoryEntry(OwnedByCharacter(CHARACTER0), DAY2),
-                HistoryEntry(OwnedByTown(TOWN0), DAY1)
+                HistoryEntry(OwnedByCharacter(CHARACTER_ID_2), DAY2),
+                HistoryEntry(OwnedByTown(TOWN_ID_0), DAY1)
             )
         )
 
@@ -115,7 +102,7 @@ class OwnerTest {
 
     @Test
     fun `Character owns a building before his birth`() {
-        val state = STATE.updateStorage(Storage(Character(CHARACTER0, birthDate = DAY1)))
+        val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_2, birthDate = DAY1)))
 
         assertIllegalArgument("The owner didn't exist at the start of their ownership!") {
             checkOwnership(state, OWNED_BY_CHARACTER, DAY0)
@@ -124,7 +111,7 @@ class OwnerTest {
 
     @Test
     fun `First owner didn't exist yet`() {
-        val state = STATE.updateStorage(Storage(Town(TOWN0, foundingDate = DAY1)))
+        val state = STATE.updateStorage(Storage(Town(TOWN_ID_0, foundingDate = DAY1)))
 
         assertIllegalArgument("The 1.previous owner didn't exist at the start of their ownership!") {
             checkOwnership(state, TOWN_AS_PREVIOUS, DAY0)
@@ -136,11 +123,11 @@ class OwnerTest {
         val ownership = History(
             NoOwner,
             listOf(
-                HistoryEntry(OwnedByTown(TOWN0), DAY1),
-                HistoryEntry(OwnedByCharacter(CHARACTER0), DAY2)
+                HistoryEntry(OwnedByTown(TOWN_ID_0), DAY1),
+                HistoryEntry(OwnedByCharacter(CHARACTER_ID_2), DAY2)
             )
         )
-        val state = STATE.updateStorage(Storage(Character(CHARACTER0, birthDate = DAY2)))
+        val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_2, birthDate = DAY2)))
 
         assertIllegalArgument("The 2.previous owner didn't exist at the start of their ownership!") {
             checkOwnership(state, ownership, DAY0)
@@ -173,8 +160,8 @@ class OwnerTest {
             History(
                 NoOwner,
                 listOf(
-                    HistoryEntry(OwnedByTown(TOWN0), DAY1),
-                    HistoryEntry(OwnedByCharacter(CHARACTER0), DAY2)
+                    HistoryEntry(OwnedByTown(TOWN_ID_0), DAY1),
+                    HistoryEntry(OwnedByCharacter(CHARACTER_ID_2), DAY2)
                 )
             )
         )

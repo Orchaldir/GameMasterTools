@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.model.world.street.StreetTypeId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.Town
@@ -41,6 +42,9 @@ fun State.getTowns(river: RiverId) = getTownStorage().getAll()
 fun State.getTowns(street: StreetId) = getTownStorage().getAll()
     .filter { it.map.contains { it.construction.contains(street) } }
 
+fun State.getTowns(type: StreetTypeId) = getTownStorage().getAll()
+    .filter { it.map.contains { it.construction.contains(type) } }
+
 // founder
 
 fun <ID : Id<ID>> State.getTownsFoundedBy(id: ID) = getTownStorage().getAll()
@@ -48,19 +52,19 @@ fun <ID : Id<ID>> State.getTownsFoundedBy(id: ID) = getTownStorage().getAll()
 
 // map size
 
-fun getMinWidthStart(town: Town) = mapIndexOfConstructions(town, town.map.size.width - 1) { index ->
+fun getMinWidthStart(town: Town) = mapIndexOfConstructions(town, 1 - town.map.size.width) { index ->
     -town.map.size.toX(index)
 }
 
-fun getMinWidthEnd(town: Town) = mapIndexOfConstructions(town, town.map.size.width - 1) { index ->
+fun getMinWidthEnd(town: Town) = mapIndexOfConstructions(town, 1 - town.map.size.width) { index ->
     1 - (town.map.size.width - town.map.size.toX(index))
 }
 
-fun getMinHeightStart(town: Town) = mapIndexOfConstructions(town, town.map.size.height - 1) { index ->
+fun getMinHeightStart(town: Town) = mapIndexOfConstructions(town, 1 - town.map.size.height) { index ->
     -town.map.size.toY(index)
 }
 
-fun getMinHeightEnd(town: Town) = mapIndexOfConstructions(town, town.map.size.height - 1) { index ->
+fun getMinHeightEnd(town: Town) = mapIndexOfConstructions(town, 1 - town.map.size.height) { index ->
     1 - (town.map.size.height - town.map.size.toY(index))
 }
 

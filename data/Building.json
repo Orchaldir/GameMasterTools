@@ -3,63 +3,595 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": {
-    "type": "Simple",
-    "name": "Orne Library"
-   },
    "lot": {
-    "tileIndex": 34
-   },
-   "address": {
-    "type": "Crossing",
-    "streets": [
-     0,
-     1
-    ]
+    "tileIndex": 150
    },
    "constructionDate": {
-    "type": "Year",
-    "year": 1877
-   },
-   "ownership": {
-    "current": {
-     "type": "Town",
-     "town": 0
-    }
-   },
-   "architecturalStyle": 8
+    "type": "Day",
+    "day": 701420
+   }
   },
   "1": {
    "id": 1,
-   "name": {
-    "type": "Simple",
-    "name": "Home of Judith Renforth"
-   },
    "lot": {
-    "tileIndex": 36
+    "tileIndex": 149
    },
    "constructionDate": {
-    "type": "Year",
-    "year": 1867
+    "type": "Day",
+    "day": 701420
    }
   },
   "2": {
    "id": 2,
+   "lot": {
+    "tileIndex": 148
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "3": {
+   "id": 3,
+   "lot": {
+    "tileIndex": 146
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "4": {
+   "id": 4,
+   "lot": {
+    "tileIndex": 198
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "5": {
+   "id": 5,
+   "lot": {
+    "tileIndex": 200
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "6": {
+   "id": 6,
+   "lot": {
+    "tileIndex": 202
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "7": {
+   "id": 7,
+   "lot": {
+    "tileIndex": 222
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "8": {
+   "id": 8,
+   "lot": {
+    "tileIndex": 221
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "9": {
+   "id": 9,
+   "lot": {
+    "tileIndex": 220
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "10": {
+   "id": 10,
+   "lot": {
+    "tileIndex": 219
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "11": {
+   "id": 11,
+   "lot": {
+    "tileIndex": 218
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "12": {
+   "id": 12,
+   "lot": {
+    "tileIndex": 273,
+    "size": {
+     "width": 2,
+     "height": 1
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "13": {
+   "id": 13,
+   "lot": {
+    "tileIndex": 169,
+    "size": {
+     "width": 2,
+     "height": 1
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "14": {
+   "id": 14,
+   "lot": {
+    "tileIndex": 351,
+    "size": {
+     "width": 2,
+     "height": 1
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "15": {
+   "id": 15,
+   "lot": {
+    "tileIndex": 224
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "16": {
+   "id": 16,
+   "lot": {
+    "tileIndex": 276
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "17": {
+   "id": 17,
+   "lot": {
+    "tileIndex": 302
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "18": {
+   "id": 18,
+   "lot": {
+    "tileIndex": 164
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "19": {
+   "id": 19,
+   "lot": {
+    "tileIndex": 166
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "20": {
+   "id": 20,
+   "lot": {
+    "tileIndex": 112
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "21": {
+   "id": 21,
+   "lot": {
+    "tileIndex": 140
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "22": {
+   "id": 22,
+   "lot": {
+    "tileIndex": 216
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "23": {
+   "id": 23,
+   "lot": {
+    "tileIndex": 304
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "24": {
+   "id": 24,
+   "lot": {
+    "tileIndex": 306
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "25": {
+   "id": 25,
+   "lot": {
+    "tileIndex": 356
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "26": {
+   "id": 26,
+   "lot": {
+    "tileIndex": 354
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "27": {
+   "id": 27,
+   "lot": {
+    "tileIndex": 271
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "28": {
+   "id": 28,
+   "lot": {
+    "tileIndex": 268
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "29": {
+   "id": 29,
+   "lot": {
+    "tileIndex": 266
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "30": {
+   "id": 30,
+   "lot": {
+    "tileIndex": 320
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "31": {
+   "id": 31,
+   "lot": {
+    "tileIndex": 318
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "32": {
+   "id": 32,
+   "lot": {
+    "tileIndex": 263,
+    "size": {
+     "width": 2,
+     "height": 1
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "33": {
+   "id": 33,
+   "lot": {
+    "tileIndex": 211,
+    "size": {
+     "width": 2,
+     "height": 1
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "34": {
+   "id": 34,
+   "lot": {
+    "tileIndex": 315
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "35": {
+   "id": 35,
    "name": {
-    "type": "Simple",
-    "name": "Folger's Boarding House"
+    "type": "Reference",
+    "reference": {
+     "type": "FullName",
+     "id": 2
+    },
+    "prefix": "Dr",
+    "postfix": "Home and Practice"
    },
    "lot": {
-    "tileIndex": 44
-   },
-   "address": {
-    "type": "Street",
-    "street": 0,
-    "houseNumber": 4
+    "tileIndex": 313
    },
    "constructionDate": {
     "type": "Year",
-    "year": 1642
+    "year": 1799
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 2
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 1909
+      }
+     }
+    ]
+   }
+  },
+  "36": {
+   "id": 36,
+   "lot": {
+    "tileIndex": 372
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "37": {
+   "id": 37,
+   "lot": {
+    "tileIndex": 397
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "38": {
+   "id": 38,
+   "lot": {
+    "tileIndex": 369
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "39": {
+   "id": 39,
+   "lot": {
+    "tileIndex": 367
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "40": {
+   "id": 40,
+   "lot": {
+    "tileIndex": 394
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "41": {
+   "id": 41,
+   "lot": {
+    "tileIndex": 392
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "42": {
+   "id": 42,
+   "lot": {
+    "tileIndex": 390
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "43": {
+   "id": 43,
+   "lot": {
+    "tileIndex": 358,
+    "size": {
+     "width": 1,
+     "height": 2
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "44": {
+   "id": 44,
+   "lot": {
+    "tileIndex": 348,
+    "size": {
+     "width": 2,
+     "height": 1
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "45": {
+   "id": 45,
+   "lot": {
+    "tileIndex": 296
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "46": {
+   "id": 46,
+   "lot": {
+    "tileIndex": 408
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "47": {
+   "id": 47,
+   "lot": {
+    "tileIndex": 406
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "48": {
+   "id": 48,
+   "lot": {
+    "tileIndex": 400
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "49": {
+   "id": 49,
+   "lot": {
+    "tileIndex": 401
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "50": {
+   "id": 50,
+   "lot": {
+    "tileIndex": 402
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "51": {
+   "id": 51,
+   "lot": {
+    "tileIndex": 404
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "52": {
+   "id": 52,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "FullName",
+     "id": 1
+    },
+    "prefix": "Home of",
+    "postfix": null
+   },
+   "lot": {
+    "tileIndex": 460
+   },
+   "constructionDate": {
+    "type": "Year",
+    "year": 1799
    },
    "ownership": {
     "current": {
@@ -69,48 +601,252 @@
     "previousEntries": [
      {
       "entry": {
-       "type": "Character",
-       "character": 2
-      },
-      "until": {
-       "type": "Day",
-       "day": 617505
-      }
-     },
-     {
-      "entry": {
-       "type": "Town",
-       "town": 0
+       "type": "Undefined"
       },
       "until": {
        "type": "Year",
-       "year": 1904
+       "year": 1918
       }
      }
     ]
-   },
-   "architecturalStyle": 4,
-   "purpose": {
-    "type": "ApartmentHouse",
-    "apartments": 10
    }
   },
-  "3": {
-   "id": 3,
+  "53": {
+   "id": 53,
    "lot": {
-    "tileIndex": 54
+    "tileIndex": 458
    },
    "constructionDate": {
     "type": "Day",
     "day": 701420
+   }
+  },
+  "54": {
+   "id": 54,
+   "lot": {
+    "tileIndex": 456
    },
-   "purpose": {
-    "type": "SingleBusiness",
-    "business": 1
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "55": {
+   "id": 55,
+   "lot": {
+    "tileIndex": 454
    },
-   "builder": {
-    "type": "Character",
-    "character": 0
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "56": {
+   "id": 56,
+   "lot": {
+    "tileIndex": 512
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "57": {
+   "id": 57,
+   "lot": {
+    "tileIndex": 511
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "58": {
+   "id": 58,
+   "lot": {
+    "tileIndex": 505
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "59": {
+   "id": 59,
+   "lot": {
+    "tileIndex": 507
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "60": {
+   "id": 60,
+   "lot": {
+    "tileIndex": 509
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "61": {
+   "id": 61,
+   "lot": {
+    "tileIndex": 452,
+    "size": {
+     "width": 2,
+     "height": 1
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "62": {
+   "id": 62,
+   "lot": {
+    "tileIndex": 557,
+    "size": {
+     "width": 2,
+     "height": 1
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "63": {
+   "id": 63,
+   "lot": {
+    "tileIndex": 609,
+    "size": {
+     "width": 2,
+     "height": 1
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "64": {
+   "id": 64,
+   "lot": {
+    "tileIndex": 462,
+    "size": {
+     "width": 1,
+     "height": 2
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "65": {
+   "id": 65,
+   "lot": {
+    "tileIndex": 501,
+    "size": {
+     "width": 2,
+     "height": 1
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "66": {
+   "id": 66,
+   "lot": {
+    "tileIndex": 449,
+    "size": {
+     "width": 2,
+     "height": 1
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "67": {
+   "id": 67,
+   "lot": {
+    "tileIndex": 448
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "68": {
+   "id": 68,
+   "lot": {
+    "tileIndex": 446
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "69": {
+   "id": 69,
+   "lot": {
+    "tileIndex": 444
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "70": {
+   "id": 70,
+   "lot": {
+    "tileIndex": 549
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "71": {
+   "id": 71,
+   "lot": {
+    "tileIndex": 554
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "72": {
+   "id": 72,
+   "lot": {
+    "tileIndex": 560,
+    "size": {
+     "width": 3,
+     "height": 2
+    }
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
+   }
+  },
+  "73": {
+   "id": 73,
+   "lot": {
+    "tileIndex": 35
+   },
+   "constructionDate": {
+    "type": "Day",
+    "day": 701420
    }
   }
  }

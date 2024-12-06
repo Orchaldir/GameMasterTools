@@ -31,7 +31,7 @@ fun countPurpose(buildings: Collection<Building>) = buildings
 
 fun State.getMinNumberOfApartment(building: BuildingId) =
     (getCharactersLivingIn(building)
-        .mapNotNull { it.livingStatus.current.getApartmentIndex() }
+        .mapNotNull { it.housingStatus.current.getApartmentIndex() }
         .maxOrNull() ?: 1) + 1
 
 fun State.getEarliestBuilding(buildings: List<Building>) =

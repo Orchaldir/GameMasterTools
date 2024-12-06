@@ -157,8 +157,10 @@ private fun HTML.showTownDetails(
             showArchitecturalStyleCount(call, state, buildings)
             showCreatorCount(call, state, buildings, "Builder")
             showBuildingPurposeCount(buildings)
-            showList("Buildings", state.sort(buildings)) { (building, name) ->
-                link(call, building.id, name)
+            showDetails("Buildings") {
+                showList("Buildings", state.sort(buildings)) { (building, name) ->
+                    link(call, building.id, name)
+                }
             }
             showBuildingOwnershipCount(call, state, buildings)
             action(editBuildingsLink, "Edit Buildings")
@@ -170,7 +172,7 @@ private fun HTML.showTownDetails(
             showCultureCount(call, state, residents)
             showGenderCount(residents)
             showJobCount(call, state, residents)
-            showLivingStatusCount(residents)
+            showHousingStatusCount(residents)
             showRaceCount(call, state, residents)
             h2 { +"Terrain" }
             showList("Mountains", state.getMountains(town.id).sortedBy { it.name }) { mountain ->
@@ -258,11 +260,11 @@ private fun visualizeTownWithLinks(
     buildingTooltipLookup = { building ->
         building.name(state)
     },
-    streetLinkLookup = { street, _ ->
-        call.application.href(StreetRoutes.Details(street))
+    streetLinkLookup = { tile, _ ->
+        tile.streetId?.let { call.application.href(StreetRoutes.Details(it)) }
     },
-    streetTooltipLookup = { streetId, _ ->
-        state.getStreetStorage().getOrThrow(streetId).name(state)
+    streetTooltipLookup = { tile, _ ->
+        state.getStreetStorage().getOptional(tile.streetId)?.name(state)
     },
     streetColorLookup = getStreetTypeFill(state),
 )

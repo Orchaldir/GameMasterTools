@@ -6,6 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class EmploymentStatusType {
+    Undefined,
     Unemployed,
     Employed,
 }
@@ -14,23 +15,24 @@ enum class EmploymentStatusType {
 sealed class EmploymentStatus {
 
     fun getType() = when (this) {
+        UndefinedEmploymentStatus -> EmploymentStatusType.Undefined
         Unemployed -> EmploymentStatusType.Unemployed
         is Employed -> EmploymentStatusType.Employed
     }
 
     fun getJob() = when (this) {
         is Employed -> job
-        Unemployed -> null
+        else -> null
     }
 
     fun hasJob(job: JobId) = when (this) {
         is Employed -> job == this.job
-        Unemployed -> false
+        else -> false
     }
 
     fun isEmployedAt(business: BusinessId) = when (this) {
         is Employed -> business == this.business
-        Unemployed -> false
+        else -> false
     }
 
 }
@@ -45,3 +47,7 @@ data class Employed(
 @Serializable
 @SerialName("Unemployed")
 data object Unemployed : EmploymentStatus()
+
+@Serializable
+@SerialName("Undefined")
+data object UndefinedEmploymentStatus : EmploymentStatus()

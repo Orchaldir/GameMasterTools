@@ -5,76 +5,21 @@
    "id": 0,
    "name": {
     "type": "Family",
-    "given": "Gordon",
+    "given": "Franklin",
     "middle": null,
-    "family": "Walker"
+    "family": "Cobb"
    },
    "gender": "Male",
    "birthDate": {
-    "day": 689780
+    "day": 636104
    },
-   "languages": {
-    "0": "Native"
-   },
-   "appearance": {
-    "type": "Humanoid",
-    "body": {
-     "bodyShape": "Muscular",
-     "width": "Small",
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
-     }
+   "vitalStatus": {
+    "type": "Dead",
+    "deathDay": {
+     "day": 656160
     },
-    "head": {
-     "ears": {
-      "type": "Normal",
-      "size": "Large"
-     },
-     "eyes": {
-      "type": "Two"
-     },
-     "hair": {
-      "type": "Normal",
-      "style": {
-       "type": "MiddlePart"
-      },
-      "color": "Black"
-     },
-     "mouth": {
-      "type": "Normal",
-      "beard": {
-       "type": "Normal",
-       "style": {
-        "type": "Moustache",
-        "moustacheStyle": "Pencil"
-       },
-       "color": "Black"
-      },
-      "width": "Small"
-     },
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
-     }
-    },
-    "height": {
-     "millimeters": 1800
-    }
-   },
-   "equipmentMap": {
-    "map": {
-     "Coat": 31,
-     "Footwear": 0,
-     "Hat": 9,
-     "Pants": 4,
-     "Shirt": 2
-    }
-   },
-   "livingStatus": {
-    "current": {
-     "type": "InHouse",
-     "building": 1
+    "cause": {
+     "type": "OldAge"
     }
    }
   },
@@ -82,89 +27,18 @@
    "id": 1,
    "name": {
     "type": "Family",
-    "given": "Nellie",
+    "given": "John",
     "middle": null,
-    "family": "Dangerfield"
+    "family": "Cutter"
    },
-   "gender": "Female",
+   "gender": "Male",
    "birthDate": {
-    "day": 691536
+    "day": 694120
    },
-   "languages": {
-    "0": "Native"
-   },
-   "appearance": {
-    "type": "Humanoid",
-    "body": {
-     "bodyShape": "Hourglass",
-     "skin": {
-      "type": "Normal",
-      "color": "Fair"
-     }
-    },
-    "head": {
-     "ears": {
-      "type": "Normal"
-     },
-     "eyes": {
-      "type": "Two",
-      "eye": {
-       "eyeShape": "Almond",
-       "pupilColor": "Olive"
-      }
-     },
-     "hair": {
-      "type": "Normal",
-      "style": {
-       "type": "MiddlePart"
-      },
-      "color": "Black"
-     },
-     "mouth": {
-      "type": "Female",
-      "width": "Large"
-     },
-     "skin": {
-      "type": "Normal",
-      "color": "Fair"
-     }
-    },
-    "height": {
-     "millimeters": 1750
-    }
-   },
-   "equipmentMap": {
-    "map": {
-     "Footwear": 11,
-     "Hat": 16,
-     "Shirt": 2,
-     "Skirt": 20
-    }
-   },
-   "livingStatus": {
+   "housingStatus": {
     "current": {
-     "type": "InApartment",
-     "building": 2,
-     "apartmentIndex": 9
-    },
-    "previousEntries": [
-     {
-      "entry": {
-       "type": "InHouse",
-       "building": 1
-      },
-      "until": {
-       "type": "Day",
-       "day": 691902
-      }
-     }
-    ]
-   },
-   "employmentStatus": {
-    "current": {
-     "type": "Employed",
-     "business": 0,
-     "job": 0
+     "type": "InHouse",
+     "building": 52
     }
    }
   },
@@ -172,60 +46,30 @@
    "id": 2,
    "name": {
     "type": "Family",
-    "given": "Hesper",
+    "given": "Owen",
     "middle": null,
-    "family": "Payne"
+    "family": "Perry"
    },
-   "gender": "Female",
+   "gender": "Male",
    "birthDate": {
-    "day": 595114
+    "day": 678938
    },
-   "vitalStatus": {
-    "type": "Dead",
-    "deathDay": {
-     "day": 617504
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 35
     },
-    "cause": {
-     "type": "OldAge"
-    }
-   },
-   "appearance": {
-    "type": "Humanoid",
-    "body": {
-     "bodyShape": "Hourglass",
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
-     }
-    },
-    "head": {
-     "ears": {
-      "type": "Normal"
-     },
-     "eyes": {
-      "type": "Two",
-      "eye": {
-       "pupilColor": "Teal"
-      }
-     },
-     "hair": {
-      "type": "Normal",
-      "style": {
-       "type": "MiddlePart"
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
       },
-      "color": "SaddleBrown"
-     },
-     "mouth": {
-      "type": "Female"
-     },
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
+      "until": {
+       "type": "Year",
+       "year": 1909
+      }
      }
-    },
-    "height": {
-     "millimeters": 1800
-    }
+    ]
    }
   }
  }

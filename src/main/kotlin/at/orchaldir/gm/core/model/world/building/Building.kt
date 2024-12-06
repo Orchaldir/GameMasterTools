@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.length
 import kotlinx.serialization.Serializable
 
 const val BUILDING = "Building"
@@ -28,7 +29,7 @@ data class Building(
     val lot: BuildingLot = BuildingLot(),
     val address: Address = NoAddress,
     val constructionDate: Date = Year(0),
-    val ownership: History<Owner> = History(UnknownOwner),
+    val ownership: History<Owner> = History(UndefinedOwner),
     val architecturalStyle: ArchitecturalStyleId = ArchitecturalStyleId(0),
     val purpose: BuildingPurpose = SingleFamilyHouse,
     val builder: Creator = UndefinedCreator,
@@ -49,7 +50,11 @@ data class Building(
             address(state)
         }
 
-        else -> "Building ${id.value}"
+        else -> {
+            val digits = state.getBuildingStorage().getSize().length()
+            val paddedNumber = id.value.toString().padStart(digits, '0')
+            "Building $paddedNumber"
+        }
     }
 
     override fun creator() = builder

@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.util
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.character.EmploymentStatus
+import at.orchaldir.gm.core.model.character.UndefinedEmploymentStatus
 import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
@@ -22,6 +23,7 @@ private fun checkEmploymentStatus(
     date: Date,
 ) {
     when (employmentStatus) {
+        UndefinedEmploymentStatus -> doNothing()
         Unemployed -> doNothing()
         is Employed -> {
             val business = state.getBusinessStorage()

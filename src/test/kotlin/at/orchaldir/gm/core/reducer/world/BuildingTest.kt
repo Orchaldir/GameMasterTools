@@ -32,11 +32,11 @@ import kotlin.test.assertNull
 
 private val BUILDING_TILE_0 = TownTile(construction = BuildingTile(BUILDING_ID_0))
 private val BUILDING_TILE_1 = TownTile(construction = BuildingTile(BUILDING_ID_1))
-private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET_ID_0))
-private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_ID_1))
+private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0))
+private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_TYPE_ID_1, STREET_ID_1))
 private val BIG_SIZE = MapSize2d(2, 1)
 private val BIG_SQUARE = square(2)
-private val OWNERSHIP = History<Owner>(UnknownOwner)
+private val OWNERSHIP = History<Owner>(UndefinedOwner)
 
 class BuildingTest {
 
@@ -211,7 +211,7 @@ class BuildingTest {
         @Test
         fun `Cannot delete a single family house, if someone lives inside`() {
             val state =
-                state.updateStorage(Storage(Character(CHARACTER_ID_0, livingStatus = History(InHouse(BUILDING_ID_0)))))
+                state.updateStorage(Storage(Character(CHARACTER_ID_0, housingStatus = History(InHouse(BUILDING_ID_0)))))
 
             assertIllegalArgument("Cannot delete building 0, because it has inhabitants!") {
                 REDUCER.invoke(state, action)
@@ -220,8 +220,8 @@ class BuildingTest {
 
         @Test
         fun `Cannot delete a single family house, if someone lived inside`() {
-            val livingStatus = History(Homeless, HistoryEntry(InHouse(BUILDING_ID_0), DAY0))
-            val state = state.updateStorage(Storage(Character(CHARACTER_ID_0, livingStatus = livingStatus)))
+            val housingStatus = History(Homeless, HistoryEntry(InHouse(BUILDING_ID_0), DAY0))
+            val state = state.updateStorage(Storage(Character(CHARACTER_ID_0, housingStatus = housingStatus)))
 
             assertIllegalArgument("Cannot delete building 0, because it had inhabitants!") {
                 REDUCER.invoke(state, action)
@@ -293,7 +293,7 @@ class BuildingTest {
 
         @Test
         fun `Founder is an unknown character`() {
-            val action = ACTION.copy(builder = CreatedByCharacter(CHARACTER_ID_0), ownership = History(UnknownOwner))
+            val action = ACTION.copy(builder = CreatedByCharacter(CHARACTER_ID_0), ownership = History(UndefinedOwner))
             val state = STATE.removeStorage(CHARACTER)
 
             assertIllegalArgument("Cannot use an unknown character 0 as Builder!") { REDUCER.invoke(state, action) }
@@ -465,7 +465,7 @@ class BuildingTest {
                     Storage(
                         Character(
                             CHARACTER_ID_0,
-                            livingStatus = History(InHouse(BUILDING_ID_0))
+                            housingStatus = History(InHouse(BUILDING_ID_0))
                         )
                     )
                 )
@@ -493,7 +493,7 @@ class BuildingTest {
                             Storage(
                                 Character(
                                     CHARACTER_ID_0,
-                                    livingStatus = History(InApartment(BUILDING_ID_0, 4))
+                                    housingStatus = History(InApartment(BUILDING_ID_0, 4))
                                 )
                             )
                         )

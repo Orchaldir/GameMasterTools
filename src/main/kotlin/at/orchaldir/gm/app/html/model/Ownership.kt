@@ -29,12 +29,15 @@ fun HtmlBlockTag.showOwner(
     call: ApplicationCall,
     state: State,
     owner: Owner,
+    showUndefined: Boolean = true,
 ) {
     when (owner) {
         NoOwner -> +"None"
         is OwnedByCharacter -> link(call, state, owner.character)
         is OwnedByTown -> link(call, state, owner.town)
-        UnknownOwner -> +"Unknown"
+        UndefinedOwner -> if (showUndefined) {
+            +"Undefined"
+        }
     }
 }
 
@@ -91,5 +94,5 @@ private fun parseOwner(parameters: Parameters, state: State, param: String): Own
     OwnerType.None.toString() -> NoOwner
     OwnerType.Character.toString() -> OwnedByCharacter(parseCharacterId(parameters, combine(param, CHARACTER)))
     OwnerType.Town.toString() -> OwnedByTown(parseTownId(parameters, combine(param, TOWN)))
-    else -> UnknownOwner
+    else -> UndefinedOwner
 }

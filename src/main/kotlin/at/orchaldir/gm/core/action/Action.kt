@@ -239,7 +239,8 @@ data class UpdateBuildingLot(
 data class AddStreetTile(
     val town: TownId,
     val tileIndex: Int,
-    val street: StreetId,
+    val type: StreetTypeId,
+    val street: StreetId?,
 ) : WorldAction()
 
 data class RemoveStreetTile(

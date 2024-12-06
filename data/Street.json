@@ -5,16 +5,8 @@
    "id": 0,
    "name": {
     "type": "Simple",
-    "name": "Armitage Street"
+    "name": "Main Street"
    }
-  },
-  "1": {
-   "id": 1,
-   "name": {
-    "type": "Simple",
-    "name": "Miskatonic Avenue"
-   },
-   "type": 1
   }
  }
 }

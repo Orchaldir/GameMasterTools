@@ -62,9 +62,13 @@ fun Application.configureTerrainRouting() {
 
             STORE.dispatch(SetTerrainTile(update.id, update.terrainType, update.terrainId, update.tileIndex))
 
-            STORE.getState().save()
+            val state = STORE.getState()
+            state.save()
+            val town = state.getTownStorage().getOrThrow(update.id)
 
-            call.respondRedirect(call.application.href(TownRoutes.TerrainRoutes.Edit(update.id)))
+            call.respondHtml(HttpStatusCode.OK) {
+                showTerrainEditor(call, state, town, update.terrainType, update.terrainId)
+            }
         }
         post<TownRoutes.TerrainRoutes.Resize> { update ->
             logger.info { "Resize the terrain of town ${update.id.value}" }
@@ -96,13 +100,15 @@ private fun HTML.showTerrainEditor(
     terrainType: TerrainType,
     terrainId: Int,
 ) {
+    val rivers = state.getRiverStorage().getAll()
+    val mountains = state.getMountainStorage().getAll()
     val backLink = href(call, town.id)
     val previewLink = call.application.href(TownRoutes.TerrainRoutes.Preview(town.id))
     val createMountainLink = call.application.href(MountainRoutes.New())
     val createRiverLink = call.application.href(RiverRoutes.New())
     val resizeLink = call.application.href(TownRoutes.TerrainRoutes.Resize(town.id))
 
-    simpleHtml("Edit Terrain of Town ${town.name}") {
+    simpleHtml("Edit Terrain of Town ${town.name(state)}") {
         split({
             form {
                 id = "editor"
@@ -112,23 +118,28 @@ private fun HTML.showTerrainEditor(
                     label = type.toString()
                     value = type.toString()
                     selected = type == terrainType
+                    disabled = when (type) {
+                        TerrainType.Hill, TerrainType.Mountain -> mountains.isEmpty()
+                        TerrainType.Plain -> false
+                        TerrainType.River -> rivers.isEmpty()
+                    }
                 }
                 when (terrainType) {
                     TerrainType.Hill, TerrainType.Mountain -> selectTerrain(
                         "Mountain",
-                        state.getMountainStorage().getAll(),
+                        mountains,
                         terrainId,
-                        createMountainLink,
                     )
 
                     TerrainType.Plain -> doNothing()
                     TerrainType.River -> selectTerrain(
                         "River",
-                        state.getRiverStorage().getAll(),
+                        rivers,
                         terrainId,
-                        createRiverLink,
                     )
                 }
+                action(createMountainLink, "Create new Mountain")
+                action(createRiverLink, "Create new River")
                 h2 { +"Update Terrain of Tile" }
                 p { +"Click on a tile to change it's terrain to the type above." }
                 h2 { +"Resize" }
@@ -166,12 +177,10 @@ private fun <ID : Id<ID>> FORM.selectTerrain(
     text: String,
     options: Collection<ElementWithSimpleName<ID>>,
     id: Int,
-    link: String,
 ) {
     selectValue(text, TERRAIN, options, true) { m ->
         label = m.name()
         value = m.id().value().toString()
         selected = id == m.id().value()
     }
-    action(link, "Create new $text")
 }

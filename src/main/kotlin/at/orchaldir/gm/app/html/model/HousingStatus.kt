@@ -24,65 +24,71 @@ import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
-fun HtmlBlockTag.showLivingStatusHistory(
+fun HtmlBlockTag.showHousingStatusHistory(
     call: ApplicationCall,
     state: State,
-    ownership: History<LivingStatus>,
-) = showHistory(call, state, ownership, "Living Status", HtmlBlockTag::showLivingStatus)
+    housing: History<HousingStatus>,
+) = showHistory(call, state, housing, "Housing Status", HtmlBlockTag::showHousingStatus)
 
-fun HtmlBlockTag.showLivingStatus(
+fun HtmlBlockTag.showHousingStatus(
     call: ApplicationCall,
     state: State,
-    livingStatus: LivingStatus,
+    housingStatus: HousingStatus,
+    showUndefined: Boolean = true,
 ) {
-    when (livingStatus) {
+    when (housingStatus) {
         Homeless -> +"Homeless"
         is InApartment -> {
-            +"${livingStatus.apartmentIndex + 1}.Apartment of "
+            +"${housingStatus.apartmentIndex + 1}.Apartment of "
             link(
                 call,
                 state,
-                livingStatus.building
+                housingStatus.building
             )
         }
 
-        is InHouse -> link(call, state, livingStatus.building)
+        is InHouse -> link(call, state, housingStatus.building)
+        UndefinedHousingStatus -> if (showUndefined) {
+            +"Undefined"
+        }
     }
 }
 
-fun FORM.selectLivingStatusHistory(
+fun FORM.selectHousingStatusHistory(
     state: State,
-    ownership: History<LivingStatus>,
+    housing: History<HousingStatus>,
     startDate: Date,
-) = selectHistory(state, HOME, ownership, startDate, "Living Status", HtmlBlockTag::selectLivingStatus)
+) = selectHistory(state, HOME, housing, startDate, "Housing Status", HtmlBlockTag::selectHousingStatus)
 
-fun HtmlBlockTag.selectLivingStatus(
+fun HtmlBlockTag.selectHousingStatus(
     state: State,
     param: String,
-    livingStatus: LivingStatus,
+    housingStatus: HousingStatus,
     start: Date,
 ) {
-    selectValue("Living Status", param, LivingStatusType.entries, true) { type ->
+    selectValue("Housing Status", param, HousingStatusType.entries, true) { type ->
         label = type.name
         value = type.name
-        selected = type == livingStatus.getType()
+        selected = type == housingStatus.getType()
     }
-    when (livingStatus) {
+    when (housingStatus) {
+        UndefinedHousingStatus -> doNothing()
         Homeless -> doNothing()
         is InApartment -> {
-            selectValue("Apartment House", combine(param, BUILDING), state.getApartmentHouses(), true) { building ->
+            val apartments = state.getApartmentHouses()
+                .filter { state.exists(it, start) }
+            selectValue("Apartment House", combine(param, BUILDING), apartments, true) { building ->
                 label = building.name(state)
                 value = building.id.value.toString()
-                selected = livingStatus.building == building.id
-                disabled = !state.exists(building, start)
+                selected = housingStatus.building == building.id
             }
 
-            val apartmentHouse = state.getBuildingStorage().getOrThrow(livingStatus.building)
+            val apartmentHouse = state.getBuildingStorage().getOrThrow(housingStatus.building)
 
             if (apartmentHouse.purpose is ApartmentHouse) {
                 selectInt(
                     "Apartment",
-                    livingStatus.apartmentIndex,
+                    housingStatus.apartmentIndex,
                     0,
                     apartmentHouse.purpose.apartments - 1,
                     1,
@@ -91,22 +97,24 @@ fun HtmlBlockTag.selectLivingStatus(
             }
         }
 
-        is InHouse ->
-            selectValue("Home", combine(param, BUILDING), state.getSingleFamilyHouses()) { building ->
+        is InHouse -> {
+            val house = state.getSingleFamilyHouses()
+                .filter { state.exists(it, start) }
+            selectValue("Home", combine(param, BUILDING), house) { building ->
                 label = building.name(state)
                 value = building.id.value.toString()
-                selected = livingStatus.building == building.id
-                disabled = !state.exists(building, start)
+                selected = housingStatus.building == building.id
             }
+        }
     }
 }
 
-fun parseLivingStatusHistory(parameters: Parameters, state: State, startDate: Date) =
-    parseHistory(parameters, HOME, state, startDate, ::parseLivingStatus)
+fun parseHousingStatusHistory(parameters: Parameters, state: State, startDate: Date) =
+    parseHistory(parameters, HOME, state, startDate, ::parseHousingStatus)
 
-private fun parseLivingStatus(parameters: Parameters, state: State, param: String): LivingStatus {
-    return when (parse(parameters, param, LivingStatusType.Homeless)) {
-        LivingStatusType.InApartment -> InApartment(
+private fun parseHousingStatus(parameters: Parameters, state: State, param: String): HousingStatus {
+    return when (parse(parameters, param, HousingStatusType.Undefined)) {
+        HousingStatusType.InApartment -> InApartment(
             parseBuildingId(
                 parameters,
                 combine(param, BUILDING),
@@ -114,13 +122,14 @@ private fun parseLivingStatus(parameters: Parameters, state: State, param: Strin
             parseInt(parameters, combine(param, NUMBER)),
         )
 
-        LivingStatusType.InHouse -> InHouse(
+        HousingStatusType.InHouse -> InHouse(
             parseBuildingId(
                 parameters,
                 combine(param, BUILDING),
                 state.getSingleFamilyHouses().minOfOrNull { it.id.value } ?: 0),
         )
 
-        else -> Homeless
+        HousingStatusType.Homeless -> Homeless
+        HousingStatusType.Undefined -> UndefinedHousingStatus
     }
 }
