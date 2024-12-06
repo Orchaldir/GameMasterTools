@@ -136,11 +136,12 @@ fun internalParse(parameters: Parameters, type: ComplexNameType) = when (type) {
         val param = combine(NAME, REFERENCE)
 
         val id = when (parse(parameters, combine(NAME, REFERENCE, TYPE), ReferenceForNameType.FamilyName)) {
-            ReferenceForNameType.FamilyName, ReferenceForNameType.FullName -> ReferencedFamilyName(
-                parseCharacterId(
-                    parameters,
-                    param
-                )
+            ReferenceForNameType.FamilyName -> ReferencedFamilyName(
+                parseCharacterId(parameters, param)
+            )
+
+            ReferenceForNameType.FullName -> ReferencedFullName(
+                parseCharacterId(parameters, param)
             )
 
             ReferenceForNameType.Moon -> ReferencedMoon(parseMoonId(parameters, param))

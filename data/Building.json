@@ -554,7 +554,7 @@
    "name": {
     "type": "Reference",
     "reference": {
-     "type": "FamilyName",
+     "type": "FullName",
      "id": 1
     },
     "prefix": "Home of",
