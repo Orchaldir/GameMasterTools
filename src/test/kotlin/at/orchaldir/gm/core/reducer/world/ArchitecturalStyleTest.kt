@@ -53,7 +53,7 @@ class ArchitecturalStyleTest {
             val state = State(
                 listOf(
                     Storage(STYLE0),
-                    Storage(Building(BuildingId(0), architecturalStyle = ID0))
+                    Storage(Building(BuildingId(0), style = ID0))
                 )
             )
             val action = DeleteArchitecturalStyle(ID0)
@@ -127,7 +127,7 @@ class ArchitecturalStyleTest {
             val state = State(
                 listOf(
                     Storage(ArchitecturalStyle(ID0)),
-                    Storage(Building(BuildingId(0))),
+                    Storage(Building(BuildingId(0), style = ID0)),
                     Storage(CALENDAR0),
                 )
             )

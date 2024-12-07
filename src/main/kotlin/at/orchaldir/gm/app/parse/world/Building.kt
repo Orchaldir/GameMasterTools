@@ -27,7 +27,7 @@ fun parseUpdateBuilding(parameters: Parameters, state: State, id: BuildingId): U
         parseAddress(parameters),
         constructionDate,
         parseOwnership(parameters, state, constructionDate),
-        parseArchitecturalStyleId(parameters, STYLE),
+        parseOptionalArchitecturalStyleId(parameters, STYLE),
         parsePurpose(parameters, state),
         parseCreator(parameters),
     )

@@ -97,9 +97,11 @@ val UPDATE_BUILDING_LOT: Reducer<UpdateBuildingLot, State> = { state, action ->
 }
 
 private fun checkArchitecturalStyle(state: State, action: UpdateBuilding) {
-    val style = state.getArchitecturalStyleStorage().getOrThrow(action.style)
+    if (action.style != null) {
+        val style = state.getArchitecturalStyleStorage().getOrThrow(action.style)
 
-    checkStartDate(state, style, action.id, action.constructionDate)
+        checkStartDate(state, style, action.id, action.constructionDate)
+    }
 }
 
 private fun checkAddress(

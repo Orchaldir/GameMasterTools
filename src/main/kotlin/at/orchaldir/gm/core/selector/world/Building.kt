@@ -50,7 +50,7 @@ fun State.getBuilding(business: BusinessId) = getBuildingStorage().getAll()
 
 fun State.getBuildings(style: ArchitecturalStyleId) = getBuildingStorage()
     .getAll()
-    .filter { it.architecturalStyle == style }
+    .filter { it.style == style }
 
 fun State.getBuildings(town: TownId) = getBuildingStorage().getAll()
     .filter { it.lot.town == town }

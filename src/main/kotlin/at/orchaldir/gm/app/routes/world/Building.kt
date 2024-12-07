@@ -214,7 +214,7 @@ private fun HTML.showAllBuildings(
                     td { link(call, state, building.lot.town) }
                     td { showAddress(call, state, building, false) }
                     td { +building.purpose.getType().toString() }
-                    td { link(call, state, building.architecturalStyle) }
+                    td { optionalLink(call, state, building.style) }
                     td { showOwner(call, state, building.ownership.current, false) }
                     td { showCreator(call, state, building.builder, false) }
                 }
@@ -248,7 +248,7 @@ private fun HTML.showBuildingDetails(
             fieldCreator(call, state, building.builder, "Builder")
             showOwnership(call, state, building.ownership)
             field("Size", building.lot.size.format())
-            fieldLink("Architectural Style", call, state, building.architecturalStyle)
+            optionalFieldLink("Architectural Style", call, state, building.style)
             showPurpose(call, state, building)
             action(editLink, "Edit")
             action(editLotLink, "Move & Resize")
@@ -315,14 +315,14 @@ private fun HTML.showBuildingEditor(
                 fieldAge("Age", state.getAgeInYears(building))
                 selectCreator(state, building.builder, building.id, building.constructionDate, "Builder")
                 selectOwnership(state, building.ownership, building.constructionDate)
-                selectValue(
+                selectOptionalValue(
                     "Architectural Style",
                     STYLE,
+                    state.getArchitecturalStyleStorage().getOptional(building.style),
                     state.getPossibleStyles(building),
                 ) { s ->
                     label = s.name()
                     value = s.id().value.toString()
-                    selected = s.id == building.architecturalStyle
                 }
                 selectPurpose(state, building)
                 button("Update", updateLink)

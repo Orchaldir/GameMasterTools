@@ -239,7 +239,7 @@ class BuildingTest {
         private val STATE = State(
             listOf(
                 Storage(listOf(ArchitecturalStyle(STYLE))),
-                Storage(listOf(Building(BUILDING_ID_0), Building(BUILDING_ID_1))),
+                Storage(listOf(Building(BUILDING_ID_0, style = STYLE), Building(BUILDING_ID_1, style = STYLE))),
                 Storage(CALENDAR0),
                 Storage(Character(CHARACTER_ID_0)),
                 Storage(listOf(Street(STREET_ID_0), Street(STREET_ID_1), Street(STREET_NOT_IN_TOWN))),
@@ -448,7 +448,7 @@ class BuildingTest {
                 val result = REDUCER.invoke(state, action).first
 
                 assertEquals(
-                    Building(id, null, address = address, constructionDate = DAY0),
+                    Building(id, null, address = address, constructionDate = DAY0, style = STYLE),
                     result.getBuildingStorage().get(id)
                 )
 

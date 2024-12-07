@@ -108,6 +108,16 @@ fun <ID : Id<ID>> HtmlBlockTag.link(
     link(call, id, state.getElementName(id))
 }
 
+fun <ID : Id<ID>> HtmlBlockTag.optionalLink(
+    call: ApplicationCall,
+    state: State,
+    id: ID?,
+) {
+    if (id != null) {
+        link(call, id, state.getElementName(id))
+    }
+}
+
 fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.link(
     call: ApplicationCall,
     element: ELEMENT,

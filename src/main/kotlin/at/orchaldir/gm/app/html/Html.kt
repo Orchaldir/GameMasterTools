@@ -77,6 +77,17 @@ fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
     }
 }
 
+fun <ID : Id<ID>> HtmlBlockTag.optionalFieldLink(
+    label: String,
+    call: ApplicationCall,
+    state: State,
+    id: ID?,
+) {
+    if (id != null) {
+        fieldLink(label, call, state, id)
+    }
+}
+
 fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.fieldLink(
     label: String,
     call: ApplicationCall,
