@@ -109,6 +109,16 @@ fun State.getPreviousEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()
     .filter { c -> c.employmentStatus.previousEntries.any { it.entry.isEmployedAt(business) } }
 
+fun State.getWorkingIn(town: TownId) = getCharacterStorage()
+    .getAll()
+    .filter { isWorkingIn(it, town) }
+
+fun State.isWorkingIn(character: Character, town: TownId) = character.employmentStatus.current.getBusiness()
+    ?.let {
+        getBuildingStorage().getAll().any { building -> building.purpose.contains(it) && building.lot.town == town }
+    }
+    ?: false
+
 // get relatives
 
 fun State.getParents(id: CharacterId): List<Character> {

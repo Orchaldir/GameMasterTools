@@ -20,6 +20,11 @@ sealed class EmploymentStatus {
         is Employed -> EmploymentStatusType.Employed
     }
 
+    fun getBusiness() = when (this) {
+        is Employed -> business
+        else -> null
+    }
+
     fun getJob() = when (this) {
         is Employed -> job
         else -> null
