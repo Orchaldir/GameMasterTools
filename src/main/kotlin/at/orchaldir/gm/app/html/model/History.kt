@@ -60,7 +60,7 @@ fun <T> parseHistory(
     parameters: Parameters,
     param: String,
     state: State,
-    startDate: Date,
+    startDate: Date?,
     parseEntry: (Parameters, State, String) -> T,
 ) = History(
     parseEntry(parameters, state, param),
@@ -71,12 +71,12 @@ private fun <T> parseHistoryEntries(
     parameters: Parameters,
     param: String,
     state: State,
-    startDate: Date,
+    startDate: Date?,
     parseEntry: (Parameters, State, String) -> T,
 ): List<HistoryEntry<T>> {
     val historyParam = combine(param, HISTORY)
     val count = parseInt(parameters, historyParam, 0)
-    var minDate = startDate.next()
+    var minDate = startDate?.next()
 
     return (0..<count)
         .map {
@@ -91,9 +91,9 @@ private fun <T> parseHistoryEntry(
     parameters: Parameters,
     state: State,
     param: String,
-    minDate: Date,
+    minDate: Date?,
     parseEntry: (Parameters, State, String) -> T,
-) = HistoryEntry<T>(
+) = HistoryEntry(
     parseEntry(parameters, state, param),
     parseDate(parameters, state, combine(param, DATE), minDate),
 )
