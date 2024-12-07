@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.BUILDING
 import at.orchaldir.gm.app.BUSINESS
 import at.orchaldir.gm.app.EMPLOYMENT
 import at.orchaldir.gm.app.JOB
@@ -107,7 +106,7 @@ fun parseEmploymentStatusHistory(parameters: Parameters, state: State, startDate
 fun parseEmploymentStatus(parameters: Parameters, state: State, param: String): EmploymentStatus {
     return when (parse(parameters, param, EmploymentStatusType.Undefined)) {
         EmploymentStatusType.Employed -> Employed(
-            parseBusinessId(parameters, combine(param, BUILDING)),
+            parseBusinessId(parameters, combine(param, BUSINESS)),
             parseJobId(parameters, combine(param, JOB)),
         )
 
