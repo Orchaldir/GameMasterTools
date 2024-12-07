@@ -94,7 +94,8 @@ fun HtmlBlockTag.showPersonalityCount(
     call: ApplicationCall,
     state: State,
     characters: Collection<Character>,
-) = showCount(call, state, "Personality", countPersonality(characters))
+    label: String = "Personality",
+) = showCount(call, state, label, countPersonality(characters))
 
 fun HtmlBlockTag.showRaceCount(
     call: ApplicationCall,

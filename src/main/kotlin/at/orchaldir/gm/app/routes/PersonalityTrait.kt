@@ -51,7 +51,7 @@ fun Application.configurePersonalityRouting() {
             logger.info { "Get all personality traits" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllPersonalityTraits(call)
+                showAllPersonalityTraits(call, STORE.getState())
             }
         }
         get<PersonalityTraitRoutes.Details> { details ->
@@ -116,8 +116,8 @@ private fun parsePersonalityTrait(id: PersonalityTraitId, parameters: Parameters
     return PersonalityTrait(id, name, group)
 }
 
-private fun HTML.showAllPersonalityTraits(call: ApplicationCall) {
-    val personalityTraits = STORE.getState().getPersonalityTraitStorage().getAll().sortedBy { it.name }
+private fun HTML.showAllPersonalityTraits(call: ApplicationCall, state: State) {
+    val personalityTraits = state.getPersonalityTraitStorage().getAll().sortedBy { it.name }
     val count = personalityTraits.size
     val createLink = call.application.href(PersonalityTraitRoutes.New())
 
@@ -126,6 +126,7 @@ private fun HTML.showAllPersonalityTraits(call: ApplicationCall) {
         showList(personalityTraits) { personalityTrait ->
             link(call, personalityTrait)
         }
+        showPersonalityCount(call, state, state.getCharacterStorage().getAll(), "Distribution")
         action(createLink, "Add")
         back("/")
     }
