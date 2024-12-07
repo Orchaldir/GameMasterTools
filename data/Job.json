@@ -4,6 +4,14 @@
   "0": {
    "id": 0,
    "name": "Librarian"
+  },
+  "1": {
+   "id": 1,
+   "name": "Sheriff"
+  },
+  "2": {
+   "id": 2,
+   "name": "Deputy"
   }
  }
 }

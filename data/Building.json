@@ -23,6 +23,16 @@
    "id": 3,
    "lot": {
     "tileIndex": 146
+   },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   },
+   "purpose": {
+    "type": "SingleBusiness",
+    "business": 1
    }
   },
   "4": {

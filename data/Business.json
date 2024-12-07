@@ -17,6 +17,23 @@
      "town": 0
     }
    }
+  },
+  "1": {
+   "id": 1,
+   "name": {
+    "type": "Simple",
+    "name": "Sheriff's Office"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 1799
+   },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   }
   }
  }
 }

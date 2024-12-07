@@ -43,6 +43,13 @@
      "type": "InHouse",
      "building": 52
     }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 1,
+     "job": 2
+    }
    }
   },
   "2": {
