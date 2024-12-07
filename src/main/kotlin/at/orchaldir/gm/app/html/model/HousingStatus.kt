@@ -64,7 +64,7 @@ fun HtmlBlockTag.selectHousingStatus(
     state: State,
     param: String,
     housingStatus: HousingStatus,
-    start: Date,
+    start: Date?,
 ) {
     selectValue("Housing Status", param, HousingStatusType.entries, true) { type ->
         label = type.name

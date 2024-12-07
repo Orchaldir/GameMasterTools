@@ -26,7 +26,9 @@ fun State.getEvents(): List<Event> {
     }
 
     getBuildingStorage().getAll().forEach { building ->
-        events.add(BuildingConstructedEvent(building.constructionDate, building.id))
+        if (building.constructionDate != null) {
+            events.add(BuildingConstructedEvent(building.constructionDate, building.id))
+        }
 
         handleOwnership(events, building.id, building.ownership, ::createOwnershipChanged)
     }

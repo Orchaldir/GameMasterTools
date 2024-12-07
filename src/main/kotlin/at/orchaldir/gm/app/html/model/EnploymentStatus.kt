@@ -74,7 +74,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
     state: State,
     param: String,
     employmentStatus: EmploymentStatus,
-    start: Date,
+    start: Date?,
 ) {
     selectValue("Employment Status", param, EmploymentStatusType.entries, true) { type ->
         label = type.name
@@ -90,7 +90,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
                 label = business.name(state)
                 value = business.id.value.toString()
                 selected = employmentStatus.business == business.id
-                disabled = !state.isInOperation(business, start)
+                disabled = start != null && !state.isInOperation(business, start)
             }
             selectValue("Job", combine(param, JOB), state.getJobStorage().getAll()) { job ->
                 label = job.name

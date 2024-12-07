@@ -37,13 +37,13 @@ fun <T> FORM.selectHistory(
     state: State,
     param: String,
     ownership: History<T>,
-    startDate: Date,
+    startDate: Date?,
     label: String,
-    selectEntry: HtmlBlockTag.(State, String, T, Date) -> Unit,
+    selectEntry: HtmlBlockTag.(State, String, T, Date?) -> Unit,
 ) {
     val previousOwnersParam = combine(param, HISTORY)
     selectInt("Previous $label", ownership.previousEntries.size, 0, 100, 1, previousOwnersParam, true)
-    var minDate = startDate.next()
+    var minDate = startDate?.next()
 
     showListWithIndex(ownership.previousEntries) { index, previous ->
         val previousParam = combine(previousOwnersParam, index)

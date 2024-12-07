@@ -171,7 +171,14 @@ fun State.isAlive(id: CharacterId, date: Date) = isAlive(getCharacterStorage().g
 fun State.isAlive(character: Character, date: Date) = character
     .isAlive(getDefaultCalendar(), date)
 
-fun State.getLiving(date: Date) = getCharacterStorage().getAll()
+fun State.getLiving(date: Date?) = if (date == null) {
+    getCharacterStorage().getAll()
+} else {
+    getLiving(date)
+}
+
+fun State.getLiving(date: Date) = getCharacterStorage()
+    .getAll()
     .filter { isAlive(it, date) }
 
 // height

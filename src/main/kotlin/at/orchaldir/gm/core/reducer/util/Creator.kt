@@ -19,7 +19,7 @@ fun <ID : Id<ID>> checkCreator(
     state: State,
     creator: Creator,
     created: ID,
-    date: Date,
+    date: Date?,
     noun: String,
 ) {
     when (creator) {
@@ -27,16 +27,21 @@ fun <ID : Id<ID>> checkCreator(
             require(creator.business != created) { "A business cannot create itself!" }
             state.getBusinessStorage()
                 .require(creator.business) { "Cannot use an unknown business ${creator.business.value} as $noun!" }
-            require(state.isInOperation(creator.business, date)) {
-                "$noun (business ${creator.business.value}) is not open!"
+            if (date != null) {
+                require(state.isInOperation(creator.business, date)) {
+                    "$noun (business ${creator.business.value}) is not open!"
+                }
             }
         }
 
         is CreatedByCharacter -> {
             state.getCharacterStorage()
                 .require(creator.character) { "Cannot use an unknown character ${creator.character.value} as $noun!" }
-            require(state.isAlive(creator.character, date)) {
-                "$noun (character ${creator.character.value}) is not alive!"
+
+            if (date != null) {
+                require(state.isAlive(creator.character, date)) {
+                    "$noun (character ${creator.character.value}) is not alive!"
+                }
             }
         }
 

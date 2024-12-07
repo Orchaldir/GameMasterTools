@@ -28,7 +28,7 @@ data class Building(
     val name: ComplexName? = null,
     val lot: BuildingLot = BuildingLot(),
     val address: Address = NoAddress,
-    val constructionDate: Date = Year(0),
+    val constructionDate: Date? = null,
     val ownership: History<Owner> = History(UndefinedOwner),
     val style: ArchitecturalStyleId? = null,
     val purpose: BuildingPurpose = SingleFamilyHouse,

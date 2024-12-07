@@ -48,7 +48,14 @@ fun State.getBusinesses(job: JobId) = getCharacterStorage().getAll()
     .toSet()
     .map { getBusinessStorage().getOrThrow(it) }
 
-fun State.getOpenBusinesses(date: Date) = getBusinessStorage().getAll()
+fun State.getOpenBusinesses(date: Date?) = if (date == null) {
+    getBusinessStorage().getAll()
+} else {
+    getOpenBusinesses(date)
+}
+
+fun State.getOpenBusinesses(date: Date) = getBusinessStorage()
+    .getAll()
     .filter { isInOperation(it, date) }
 
 // owner

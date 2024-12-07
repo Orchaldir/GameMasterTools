@@ -8,12 +8,28 @@ import at.orchaldir.gm.core.model.util.OwnedByTown
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.world.exists
+import at.orchaldir.gm.utils.doNothing
+
+fun checkOwnershipWithOptionalDate(
+    state: State,
+    ownership: History<Owner>,
+    creationDate: Date?,
+) = if (creationDate == null) {
+    checkOwnership(state, ownership)
+} else {
+    checkOwnership(state, ownership, creationDate)
+}
 
 fun checkOwnership(
     state: State,
     ownership: History<Owner>,
     creationDate: Date,
 ) = checkHistory(state, ownership, creationDate, "owner", ::checkOwner)
+
+fun checkOwnership(
+    state: State,
+    ownership: History<Owner>,
+) = checkHistory(state, ownership, "owner", ::checkOwner)
 
 private fun checkOwner(
     state: State,
@@ -38,4 +54,18 @@ private fun checkOwner(
     }
 
     require(exists) { "The $noun didn't exist at the start of their ownership!" }
+}
+
+private fun checkOwner(
+    state: State,
+    owner: Owner,
+    noun: String,
+) = when (owner) {
+    is OwnedByCharacter -> state.getCharacterStorage()
+        .require(owner.character) { "Cannot use an unknown character ${owner.character.value} as $noun!" }
+
+    is OwnedByTown -> state.getTownStorage()
+        .require(owner.town) { "Cannot use an unknown town ${owner.town.value} as $noun!" }
+
+    else -> doNothing()
 }

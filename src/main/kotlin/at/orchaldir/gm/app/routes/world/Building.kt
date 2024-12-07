@@ -210,7 +210,7 @@ private fun HTML.showAllBuildings(
             buildingsWithNames.forEach { (building, name) ->
                 tr {
                     td { link(call, building.id, name) }
-                    td { showDate(call, state, building.constructionDate) }
+                    td { showOptionalDate(call, state, building.constructionDate) }
                     td { link(call, state, building.lot.town) }
                     td { showAddress(call, state, building, false) }
                     td { +building.purpose.getType().toString() }
@@ -243,8 +243,8 @@ private fun HTML.showBuildingDetails(
         split({
             fieldLink("Town", call, state, building.lot.town)
             fieldAddress(call, state, building)
-            field(call, state, "Construction", building.constructionDate)
-            fieldAge("Age", state.getAgeInYears(building))
+            optionalField(call, state, "Construction", building.constructionDate)
+            fieldAge("Age", state, building.constructionDate)
             fieldCreator(call, state, building.builder, "Builder")
             showOwnership(call, state, building.ownership)
             field("Size", building.lot.size.format())
@@ -311,8 +311,8 @@ private fun HTML.showBuildingEditor(
                 method = FormMethod.post
                 selectOptionalComplexName(state, building.name)
                 selectAddress(state, building)
-                selectDate(state, "Construction", building.constructionDate, DATE)
-                fieldAge("Age", state.getAgeInYears(building))
+                selectOptionalDate(state, "Construction", building.constructionDate, DATE)
+                fieldAge("Age", state, building.constructionDate)
                 selectCreator(state, building.builder, building.id, building.constructionDate, "Builder")
                 selectOwnership(state, building.ownership, building.constructionDate)
                 selectOptionalValue(

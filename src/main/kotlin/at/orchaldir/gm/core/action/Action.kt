@@ -205,7 +205,7 @@ data class UpdateBuilding(
     val id: BuildingId,
     val name: ComplexName?,
     val address: Address,
-    val constructionDate: Date,
+    val constructionDate: Date?,
     val ownership: History<Owner>,
     val style: ArchitecturalStyleId?,
     val purpose: BuildingPurpose,

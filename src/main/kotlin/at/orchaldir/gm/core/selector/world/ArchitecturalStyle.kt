@@ -22,7 +22,11 @@ fun State.getPossibleStylesForRevival(style: ArchitecturalStyle) = getArchitectu
     .getAll()
     .filter { it.id != style.id && it.start < style.start }
 
-fun State.getPossibleStyles(building: Building): List<ArchitecturalStyle> {
+fun State.getPossibleStyles(building: Building): Collection<ArchitecturalStyle> {
+    if (building.constructionDate == null) {
+        return getArchitecturalStyleStorage().getAll()
+    }
+
     val year = getDefaultCalendar().getYear(building.constructionDate)
 
     return getArchitecturalStyleStorage()
