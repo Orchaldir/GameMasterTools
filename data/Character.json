@@ -11,13 +11,14 @@
    },
    "gender": "Male",
    "birthDate": {
-    "type": "Day",
-    "day": 636104
+    "type": "Year",
+    "year": 1742
    },
    "vitalStatus": {
     "type": "Dead",
     "deathDay": {
-     "day": 656160
+     "type": "Year",
+     "year": 1797
     },
     "cause": {
      "type": "OldAge"
@@ -109,8 +110,8 @@
    },
    "gender": "Female",
    "birthDate": {
-    "type": "Year",
-    "year": 1904
+    "type": "Day",
+    "day": 695115
    },
    "personality": [
     1

@@ -167,24 +167,7 @@ fun State.getOthersWithoutRelationship(character: Character) = getCharacterStora
 
 fun State.getAge(id: CharacterId): Duration = getAge(getCharacterStorage().getOrThrow(id))
 
-fun State.getAge(character: Character): Duration {
-    val currentDay = time.currentDate
-    val birthDate = getDefaultCalendar().getDay(character.birthDate)
-
-    if (birthDate >= currentDay) {
-        return Duration(0)
-    }
-
-    if (character.vitalStatus is Dead) {
-        val deathDate = character.vitalStatus.deathDay
-
-        if (deathDate < currentDay) {
-            return deathDate.getDurationBetween(birthDate)
-        }
-    }
-
-    return currentDay.getDurationBetween(birthDate)
-}
+fun State.getAge(character: Character) = character.getAge(this, time.currentDate)
 
 fun State.getAgeInYears(character: Character) = getDefaultCalendar().getYears(getAge(character))
 

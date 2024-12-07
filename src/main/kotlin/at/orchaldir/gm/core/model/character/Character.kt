@@ -66,13 +66,15 @@ data class Character(
     }
 
     fun getAge(state: State, currentDay: Day): Duration {
-        val birthDate = state.getDefaultCalendar().getDay(birthDate)
+        val defaultCalendar = state.getDefaultCalendar()
+        val birthDate = defaultCalendar.getDay(birthDate)
+
         if (birthDate >= currentDay) {
             return Duration(0)
         }
 
         if (vitalStatus is Dead) {
-            val deathDate = vitalStatus.deathDay
+            val deathDate = defaultCalendar.getDay(vitalStatus.deathDay)
 
             if (deathDate < currentDay) {
                 return deathDate.getDurationBetween(birthDate)

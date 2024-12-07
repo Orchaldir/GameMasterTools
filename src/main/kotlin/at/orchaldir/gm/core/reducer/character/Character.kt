@@ -99,7 +99,7 @@ private fun checkCauseOfDeath(
         val dead = character.vitalStatus
 
         dead.deathDay.let {
-            require(it <= state.time.currentDate) { "Character died in the future!" }
+            require(calendar.isAfterOrEqual(state.time.currentDate, it)) { "Character died in the future!" }
             require(calendar.isAfterOrEqual(it, character.birthDate)) { "Character died before its origin!" }
         }
 

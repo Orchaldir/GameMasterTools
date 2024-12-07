@@ -557,7 +557,7 @@ private fun FORM.selectVitalStatus(
         selected = type == vitalStatus.getType()
     }
     if (vitalStatus is Dead) {
-        selectDay(state, "Date of Death", vitalStatus.deathDay, combine(DEATH, DATE))
+        selectDate(state, "Date of Death", vitalStatus.deathDay, combine(DEATH, DATE))
         selectValue("Cause of death", DEATH, CauseOfDeathType.entries, true) { type ->
             label = type.name
             value = type.name

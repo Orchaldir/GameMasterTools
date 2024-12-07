@@ -73,7 +73,7 @@ data class CharacterOriginEvent(
 }
 
 data class CharacterDeathEvent(
-    val day: Day,
+    val day: Date,
     val characterId: CharacterId,
     val causeOfDeath: CauseOfDeath,
 ) : Event() {

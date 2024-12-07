@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -19,6 +20,6 @@ data object Alive : VitalStatus()
 @Serializable
 @SerialName("Dead")
 data class Dead(
-    val deathDay: Day,
+    val deathDay: Date,
     val cause: CauseOfDeath,
 ) : VitalStatus()
