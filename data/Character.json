@@ -123,6 +123,64 @@
     "type": "Day",
     "day": 678938
    },
+   "personality": [
+    12,
+    28
+   ],
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "eyeShape": "Ellipse",
+       "pupilColor": "Blue"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "SidePart",
+       "side": "Left"
+      },
+      "color": "SaddleBrown"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "Shaved"
+       },
+       "color": "Orange"
+      }
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "height": {
+     "millimeters": 1800
+    }
+   },
+   "equipmentMap": {
+    "map": {
+     "Coat": 31,
+     "Footwear": 0,
+     "Pants": 4,
+     "Shirt": 2
+    }
+   },
    "housingStatus": {
     "current": {
      "type": "InHouse",
