@@ -172,7 +172,7 @@ private fun HTML.showAllBusinesses(
                     td { link(call, state, business) }
                     td { showDate(call, state, business.startDate) }
                     td { +state.getAgeInYears(business).toString() }
-                    td { showCreator(call, state, business.founder) }
+                    td { showCreator(call, state, business.founder, false) }
                     td { showOwner(call, state, business.ownership.current) }
                     td { +state.getEmployees(business.id).size.toString() }
                 }
