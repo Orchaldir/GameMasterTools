@@ -98,6 +98,30 @@
      "job": 0
     }
    }
+  },
+  "4": {
+   "id": 4,
+   "name": {
+    "type": "Family",
+    "given": "Amanda",
+    "middle": null,
+    "family": "Wells"
+   },
+   "gender": "Female",
+   "birthDate": {
+    "type": "Year",
+    "year": 1904
+   },
+   "personality": [
+    1
+   ],
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 0,
+     "job": 0
+    }
+   }
   }
  }
 }

@@ -42,7 +42,7 @@ fun parseCharacter(
 
         Undefined -> UndefinedCharacterOrigin
     }
-    val birthDate = parseDay(parameters, state.getDefaultCalendar(), combine(ORIGIN, DATE))
+    val birthDate = parseDate(parameters, state.getDefaultCalendar(), combine(ORIGIN, DATE))
 
     return character.copy(
         name = name,
