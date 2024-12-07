@@ -127,7 +127,7 @@ class ArchitecturalStyleTest {
             val state = State(
                 listOf(
                     Storage(ArchitecturalStyle(ID0)),
-                    Storage(Building(BuildingId(0), style = ID0)),
+                    Storage(Building(BuildingId(0), constructionDate = Year(0), style = ID0)),
                     Storage(CALENDAR0),
                 )
             )
