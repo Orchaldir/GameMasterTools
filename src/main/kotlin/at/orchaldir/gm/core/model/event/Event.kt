@@ -63,7 +63,7 @@ data class BusinessStartedEvent(
 // character
 
 data class CharacterOriginEvent(
-    val day: Day,
+    val day: Date,
     val characterId: CharacterId,
     val origin: CharacterOrigin,
 ) : Event() {

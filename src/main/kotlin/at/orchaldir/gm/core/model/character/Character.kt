@@ -11,7 +11,9 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Duration
+import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getGenonymName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -36,7 +38,7 @@ data class Character(
     val race: RaceId = RaceId(0),
     val gender: Gender = Gender.Genderless,
     val origin: CharacterOrigin = UndefinedCharacterOrigin,
-    val birthDate: Day = Day(0),
+    val birthDate: Date = Year(0),
     val vitalStatus: VitalStatus = Alive,
     val culture: CultureId = CultureId(0),
     val personality: Set<PersonalityTraitId> = emptySet(),
@@ -63,7 +65,8 @@ data class Character(
         }
     }
 
-    fun getAge(currentDay: Day): Duration {
+    fun getAge(state: State, currentDay: Day): Duration {
+        val birthDate = state.getDefaultCalendar().getDay(birthDate)
         if (birthDate >= currentDay) {
             return Duration(0)
         }

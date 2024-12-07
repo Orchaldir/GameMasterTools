@@ -605,7 +605,7 @@ private fun FORM.selectOrigin(
 
         else -> doNothing()
     }
-    selectDay(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
+    selectDate(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
 }
 
 private fun FORM.selectName(
