@@ -337,7 +337,7 @@ private fun HTML.showBuildingEditor(
 fun FORM.selectPurpose(state: State, building: Building) {
     val purpose = building.purpose
     val inhabitants = state.getCharactersLivingIn(building.id)
-    val availableBusinesses = state.getBusinessesWithoutBuilding()
+    val availableBusinesses = state.getBusinessesWithoutBuilding() + purpose.getBusinesses()
 
     selectValue("Purpose", PURPOSE, BuildingPurposeType.entries, true) { type ->
         label = type.toString()
@@ -357,7 +357,7 @@ fun FORM.selectPurpose(state: State, building: Building) {
             selectValue(
                 "Business",
                 combine(PURPOSE, BUSINESS),
-                availableBusinesses + purpose.business,
+                availableBusinesses,
                 false
             ) { business ->
                 label = state.getBusinessStorage().getOrThrow(business).name(state)
