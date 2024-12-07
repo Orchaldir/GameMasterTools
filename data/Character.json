@@ -11,6 +11,7 @@
    },
    "gender": "Male",
    "birthDate": {
+    "type": "Day",
     "day": 636104
    },
    "vitalStatus": {
@@ -33,6 +34,7 @@
    },
    "gender": "Male",
    "birthDate": {
+    "type": "Day",
     "day": 694120
    },
    "housingStatus": {
@@ -52,6 +54,7 @@
    },
    "gender": "Male",
    "birthDate": {
+    "type": "Day",
     "day": 678938
    },
    "housingStatus": {
@@ -82,6 +85,7 @@
    },
    "gender": "Female",
    "birthDate": {
+    "type": "Day",
     "day": 682280
    },
    "personality": [
