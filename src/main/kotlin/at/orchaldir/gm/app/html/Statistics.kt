@@ -9,10 +9,7 @@ import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.selector.countCultures
-import at.orchaldir.gm.core.selector.countGender
-import at.orchaldir.gm.core.selector.countHousingStatus
-import at.orchaldir.gm.core.selector.countRace
+import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.util.countCreators
 import at.orchaldir.gm.core.selector.world.countArchitecturalStyles
@@ -92,6 +89,12 @@ fun HtmlBlockTag.showOwnershipCount(
 fun countOwnership(ownershipCollection: Collection<History<Owner>>) = ownershipCollection
     .groupingBy { it.current }
     .eachCount()
+
+fun HtmlBlockTag.showPersonalityCount(
+    call: ApplicationCall,
+    state: State,
+    characters: Collection<Character>,
+) = showCount(call, state, "Personality", countPersonality(characters))
 
 fun HtmlBlockTag.showRaceCount(
     call: ApplicationCall,

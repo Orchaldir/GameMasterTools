@@ -204,6 +204,7 @@ private fun HTML.showAllCharacters(
         showGenderCount(characters)
         showJobCount(call, state, characters)
         showHousingStatusCount(characters)
+        showPersonalityCount(call, state, characters)
         showRaceCount(call, state, characters)
 
         if (state.canCreateCharacter()) {

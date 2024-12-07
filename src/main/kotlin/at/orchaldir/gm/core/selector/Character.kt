@@ -47,6 +47,10 @@ fun countHousingStatus(characters: Collection<Character>) = characters
     .groupingBy { it.housingStatus.current.getType() }
     .eachCount()
 
+fun countPersonality(characters: Collection<Character>) = characters.flatMap { it.personality }
+    .groupingBy { it }
+    .eachCount()
+
 // get characters
 
 fun State.getCharacters(culture: CultureId) = getCharacterStorage().getAll().filter { c -> c.culture == culture }
