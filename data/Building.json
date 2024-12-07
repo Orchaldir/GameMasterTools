@@ -224,6 +224,12 @@
      "height": 1
     }
    },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   },
    "purpose": {
     "type": "SingleBusiness",
     "business": 0
@@ -243,8 +249,8 @@
      "type": "FullName",
      "id": 2
     },
-    "prefix": "Dr",
-    "postfix": "Home and Practice"
+    "prefix": "Home and Practice of Dr",
+    "postfix": null
    },
    "lot": {
     "tileIndex": 313
