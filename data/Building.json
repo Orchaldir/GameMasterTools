@@ -77,7 +77,7 @@
     }
    },
    "purpose": {
-    "type": "SingleBusiness",
+    "type": "BusinessAndHome",
     "business": 2
    }
   },

@@ -45,6 +45,10 @@ data class Building(
             state.getElementName(purpose.business)
         }
 
+        purpose is BusinessAndHome -> {
+            state.getElementName(purpose.business)
+        }
+
         address !is NoAddress -> {
             address(state)
         }
