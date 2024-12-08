@@ -200,6 +200,7 @@ private fun HTML.showAllCharacters(
                 }
             }
         }
+        showCauseOfDeath(characters)
         showCultureCount(call, state, characters)
         showGenderCount(characters)
         showJobCount(call, state, characters)

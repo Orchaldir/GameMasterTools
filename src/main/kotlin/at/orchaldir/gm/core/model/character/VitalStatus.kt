@@ -12,8 +12,13 @@ enum class VitalStatusType {
 @Serializable
 sealed class VitalStatus {
     fun getType() = when (this) {
-        Alive -> VitalStatusType.Alive
+        is Alive -> VitalStatusType.Alive
         is Dead -> VitalStatusType.Dead
+    }
+
+    fun getCauseOfDeath() = when (this) {
+        is Alive -> null
+        is Dead -> cause
     }
 }
 

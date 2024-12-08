@@ -42,6 +42,9 @@ fun <ELEMENT : Created> HtmlBlockTag.showCreatorCount(
 fun HtmlBlockTag.showBuildingPurposeCount(buildings: Collection<Building>) =
     showCount("Building Purpose", countPurpose(buildings))
 
+fun HtmlBlockTag.showCauseOfDeath(characters: Collection<Character>) =
+    showCount("Cause Of Death", countCauseOfDeath(characters))
+
 fun HtmlBlockTag.showCultureCount(
     call: ApplicationCall,
     state: State,

@@ -36,6 +36,11 @@ fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
 
 // count
 
+fun countCauseOfDeath(characters: Collection<Character>) = characters
+    .filter { it.vitalStatus is Dead }
+    .groupingBy { it.vitalStatus.getCauseOfDeath()!! }
+    .eachCount()
+
 fun countEmploymentStatus(characters: Collection<Character>) = characters
     .groupingBy { it.employmentStatus.current.getType() }
     .eachCount()

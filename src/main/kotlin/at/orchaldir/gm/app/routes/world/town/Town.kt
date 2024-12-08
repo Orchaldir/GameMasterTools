@@ -175,6 +175,7 @@ private fun HTML.showTownDetails(
                 link(call, character.id, name)
             }
             val characters = residents.toSet() + workers.toSet()
+            showCauseOfDeath(characters)
             showCultureCount(call, state, characters)
             showGenderCount(characters)
             showJobCount(call, state, characters)
