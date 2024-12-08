@@ -235,6 +235,16 @@
    "id": 46,
    "name": "Nosey",
    "group": 105
+  },
+  "47": {
+   "id": 47,
+   "name": "Polite",
+   "group": 106
+  },
+  "48": {
+   "id": 48,
+   "name": "Rude",
+   "group": 106
   }
  }
 }
