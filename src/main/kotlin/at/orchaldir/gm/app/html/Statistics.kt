@@ -55,8 +55,9 @@ fun HtmlBlockTag.showJobCount(
     call: ApplicationCall,
     state: State,
     characters: Collection<Character>,
+    label: String = "Jobs",
 ) {
-    showMap("Jobs", countJobs(characters)) { job, count ->
+    showMap(label, countJobs(characters)) { job, count ->
         if (job == null) {
             +"Unemployed"
         } else {
