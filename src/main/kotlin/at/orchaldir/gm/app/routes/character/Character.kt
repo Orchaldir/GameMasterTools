@@ -298,6 +298,7 @@ private fun BODY.showVitalStatus(
 
         when (vitalStatus.cause) {
             is Accident -> showCauseOfDeath("Accident")
+            is DeathByIllness -> showCauseOfDeath("Illness")
             is Murder -> {
                 field("Cause of Death") {
                     +"Killed by "

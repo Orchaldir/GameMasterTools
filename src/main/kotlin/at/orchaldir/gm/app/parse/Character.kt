@@ -68,6 +68,7 @@ private fun parseVitalStatus(
             parseDeathDay(parameters, state),
             when (parse(parameters, DEATH, CauseOfDeathType.OldAge)) {
                 CauseOfDeathType.Accident -> Accident
+                CauseOfDeathType.Illness -> DeathByIllness
                 CauseOfDeathType.Murder -> Murder(
                     parseCharacterId(parameters, KILLER),
                 )

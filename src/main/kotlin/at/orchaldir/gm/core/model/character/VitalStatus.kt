@@ -1,9 +1,13 @@
 package at.orchaldir.gm.core.model.character
 
 import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.time.Day
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+enum class VitalStatusType {
+    Alive,
+    Dead,
+}
 
 @Serializable
 sealed class VitalStatus {
