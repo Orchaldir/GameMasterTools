@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.ComplexName
 import at.orchaldir.gm.core.model.name.SimpleName
 import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id

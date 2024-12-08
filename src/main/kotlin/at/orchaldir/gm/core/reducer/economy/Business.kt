@@ -5,7 +5,10 @@ import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.reducer.util.*
+import at.orchaldir.gm.core.reducer.util.checkComplexName
+import at.orchaldir.gm.core.reducer.util.checkCreated
+import at.orchaldir.gm.core.reducer.util.checkCreator
+import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.getPreviousEmployees
 import at.orchaldir.gm.core.selector.world.getBuilding

@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.action.DeletePersonalityTrait
 import at.orchaldir.gm.core.action.UpdatePersonalityTrait
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.PersonalityTrait
-import at.orchaldir.gm.core.model.character.PersonalityTraitGroup
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.getPersonalityTraitGroups
@@ -22,7 +21,6 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.util.*
 import kotlinx.html.*
 import mu.KotlinLogging
 
