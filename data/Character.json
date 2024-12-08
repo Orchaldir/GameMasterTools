@@ -326,7 +326,7 @@
     "type": "Family",
     "given": "Sarah",
     "middle": null,
-    "family": "Spencer"
+    "family": "Maclearan"
    },
    "gender": "Female",
    "birthDate": {
@@ -345,7 +345,34 @@
    },
    "personality": [
     28
-   ]
+   ],
+   "relationships": {
+    "7": [
+     "Spouse"
+    ]
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": {
+    "type": "Family",
+    "given": "James",
+    "middle": null,
+    "family": "Maclearan"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 1873
+   },
+   "personality": [
+    30
+   ],
+   "relationships": {
+    "6": [
+     "Spouse"
+    ]
+   }
   }
  }
 }
