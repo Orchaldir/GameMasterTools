@@ -17,7 +17,7 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.selector.world.exists
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
-import at.orchaldir.gm.core.selector.world.getSingleFamilyHouses
+import at.orchaldir.gm.core.selector.world.getHomes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -98,7 +98,7 @@ fun HtmlBlockTag.selectHousingStatus(
         }
 
         is InHouse -> {
-            val house = state.getSingleFamilyHouses()
+            val house = state.getHomes()
                 .filter { state.exists(it, start) }
             selectValue("Home", combine(param, BUILDING), house) { building ->
                 label = building.name(state)
@@ -126,7 +126,7 @@ private fun parseHousingStatus(parameters: Parameters, state: State, param: Stri
             parseBuildingId(
                 parameters,
                 combine(param, BUILDING),
-                state.getSingleFamilyHouses().minOfOrNull { it.id.value } ?: 0),
+                state.getHomes().minOfOrNull { it.id.value } ?: 0),
         )
 
         HousingStatusType.Homeless -> Homeless

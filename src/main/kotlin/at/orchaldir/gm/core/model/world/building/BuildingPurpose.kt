@@ -23,6 +23,11 @@ sealed class BuildingPurpose {
         is SingleFamilyHouse -> BuildingPurposeType.SingleFamilyHouse
     }
 
+    fun isHome() = when (this) {
+        is BusinessAndHome, is SingleFamilyHouse -> true
+        else -> false
+    }
+
     fun contains(business: BusinessId) = when (this) {
         is BusinessAndHome -> this.business == business
         is SingleBusiness -> this.business == business

@@ -448,6 +448,12 @@
      "Shirt": 2
     }
    },
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 9
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "Employed",

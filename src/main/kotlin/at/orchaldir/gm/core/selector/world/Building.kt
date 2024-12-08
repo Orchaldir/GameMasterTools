@@ -42,9 +42,9 @@ fun State.getApartmentHouses() = getBuildingStorage()
     .getAll()
     .filter { it.purpose is ApartmentHouse }
 
-fun State.getSingleFamilyHouses() = getBuildingStorage()
+fun State.getHomes() = getBuildingStorage()
     .getAll()
-    .filter { it.purpose is SingleFamilyHouse }
+    .filter { it.purpose.isHome() }
 
 fun State.getBuilding(business: BusinessId) = getBuildingStorage().getAll()
     .firstOrNull { it.purpose.contains(business) }

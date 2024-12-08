@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
-import at.orchaldir.gm.core.model.world.building.SingleFamilyHouse
 import at.orchaldir.gm.core.selector.world.exists
 
 fun checkHousingStatusHistory(
@@ -38,7 +37,7 @@ private fun checkHousingStatus(
         is InHouse -> {
             val building = state.getBuildingStorage().getOrThrow(housingStatus.building) { "The $noun doesn't exist!" }
 
-            require(building.purpose is SingleFamilyHouse) { "The $noun is not a single family house!" }
+            require(building.purpose.isHome()) { "The $noun is not a home!" }
 
             building
         }
