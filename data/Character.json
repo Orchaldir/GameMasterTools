@@ -487,6 +487,12 @@
      "Spouse"
     ]
    },
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 66
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "Employed",
@@ -515,6 +521,12 @@
     "9": [
      "Spouse"
     ]
+   },
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 66
+    }
    },
    "employmentStatus": {
     "current": {
@@ -546,6 +558,12 @@
     10,
     47
    ],
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 66
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "Employed",
