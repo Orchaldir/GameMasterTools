@@ -10,7 +10,8 @@ fun State.canDelete(style: ArchitecturalStyleId) = getRevivedBy(style).isEmpty()
         getBuildings(style).isEmpty()
 
 fun countArchitecturalStyles(buildings: Collection<Building>) = buildings
-    .groupingBy { it.architecturalStyle }
+    .filter { it.style != null }
+    .groupingBy { it.style!! }
     .eachCount()
 
 fun State.getRevivedBy(style: ArchitecturalStyleId) = getArchitecturalStyleStorage()
@@ -21,7 +22,11 @@ fun State.getPossibleStylesForRevival(style: ArchitecturalStyle) = getArchitectu
     .getAll()
     .filter { it.id != style.id && it.start < style.start }
 
-fun State.getPossibleStyles(building: Building): List<ArchitecturalStyle> {
+fun State.getPossibleStyles(building: Building): Collection<ArchitecturalStyle> {
+    if (building.constructionDate == null) {
+        return getArchitecturalStyleStorage().getAll()
+    }
+
     val year = getDefaultCalendar().getYear(building.constructionDate)
 
     return getArchitecturalStyleStorage()

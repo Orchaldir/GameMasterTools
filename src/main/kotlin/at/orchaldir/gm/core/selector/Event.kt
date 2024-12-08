@@ -26,13 +26,17 @@ fun State.getEvents(): List<Event> {
     }
 
     getBuildingStorage().getAll().forEach { building ->
-        events.add(BuildingConstructedEvent(building.constructionDate, building.id))
+        if (building.constructionDate != null) {
+            events.add(BuildingConstructedEvent(building.constructionDate, building.id))
+        }
 
         handleOwnership(events, building.id, building.ownership, ::createOwnershipChanged)
     }
 
     getBusinessStorage().getAll().forEach { business ->
-        events.add(BusinessStartedEvent(business.startDate, business.id))
+        if (business.startDate != null) {
+            events.add(BusinessStartedEvent(business.startDate, business.id))
+        }
 
         handleOwnership(events, business.id, business.ownership, ::createOwnershipChanged)
     }

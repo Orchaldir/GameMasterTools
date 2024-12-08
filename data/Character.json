@@ -11,12 +11,14 @@
    },
    "gender": "Male",
    "birthDate": {
-    "day": 636104
+    "type": "Year",
+    "year": 1742
    },
    "vitalStatus": {
     "type": "Dead",
     "deathDay": {
-     "day": 656160
+     "type": "Year",
+     "year": 1797
     },
     "cause": {
      "type": "OldAge"
@@ -33,12 +35,78 @@
    },
    "gender": "Male",
    "birthDate": {
+    "type": "Day",
     "day": 694120
+   },
+   "personality": [
+    1,
+    24
+   ],
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "bodyShape": "Muscular",
+     "width": "Small",
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "pupilColor": "Blue"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "SidePart",
+       "side": "Right"
+      },
+      "color": "SaddleBrown"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "Shaved"
+       },
+       "color": "Maroon"
+      }
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "height": {
+     "millimeters": 1900
+    }
+   },
+   "equipmentMap": {
+    "map": {
+     "Footwear": 1,
+     "Pants": 4,
+     "Shirt": 2
+    }
    },
    "housingStatus": {
     "current": {
      "type": "InHouse",
      "building": 52
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 1,
+     "job": 2
     }
    }
   },
@@ -52,7 +120,66 @@
    },
    "gender": "Male",
    "birthDate": {
+    "type": "Day",
     "day": 678938
+   },
+   "personality": [
+    12,
+    28
+   ],
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "eyeShape": "Ellipse",
+       "pupilColor": "Blue"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "SidePart",
+       "side": "Left"
+      },
+      "color": "SaddleBrown"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "Shaved"
+       },
+       "color": "Orange"
+      }
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "height": {
+     "millimeters": 1800
+    }
+   },
+   "equipmentMap": {
+    "map": {
+     "Coat": 31,
+     "Footwear": 0,
+     "Pants": 4,
+     "Shirt": 2
+    }
    },
    "housingStatus": {
     "current": {
@@ -70,6 +197,348 @@
       }
      }
     ]
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": {
+    "type": "Family",
+    "given": "Mabel",
+    "middle": null,
+    "family": "Carruthers"
+   },
+   "gender": "Female",
+   "birthDate": {
+    "type": "Day",
+    "day": 682280
+   },
+   "personality": [
+    28
+   ],
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 0,
+     "job": 0
+    }
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": {
+    "type": "Family",
+    "given": "Amanda",
+    "middle": null,
+    "family": "Wells"
+   },
+   "gender": "Female",
+   "birthDate": {
+    "type": "Day",
+    "day": 695115
+   },
+   "personality": [
+    1
+   ],
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 0,
+     "job": 0
+    }
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": {
+    "type": "Family",
+    "given": "Dan",
+    "middle": null,
+    "family": "Spencer"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Day",
+    "day": 686625
+   },
+   "personality": [
+    9,
+    24,
+    27
+   ],
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "bodyShape": "Muscular"
+    },
+    "head": {
+     "ears": {
+      "type": "Normal",
+      "size": "Large"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "pupilColor": "Blue"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "MiddlePart"
+      },
+      "color": "Black"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "Shaved"
+       },
+       "color": "Maroon"
+      },
+      "width": "Large"
+     }
+    },
+    "height": {
+     "millimeters": 1800
+    }
+   },
+   "equipmentMap": {
+    "map": {
+     "Coat": 33,
+     "Footwear": 1,
+     "Pants": 4,
+     "Shirt": 2
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 1,
+     "job": 1
+    }
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": {
+    "type": "Family",
+    "given": "Sarah",
+    "middle": null,
+    "family": "Maclearan"
+   },
+   "gender": "Female",
+   "birthDate": {
+    "type": "Day",
+    "day": 687818
+   },
+   "vitalStatus": {
+    "type": "Dead",
+    "deathDay": {
+     "type": "Year",
+     "year": 1909
+    },
+    "cause": {
+     "type": "Illness"
+    }
+   },
+   "personality": [
+    28
+   ],
+   "relationships": {
+    "7": [
+     "Spouse"
+    ]
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": {
+    "type": "Family",
+    "given": "James",
+    "middle": null,
+    "family": "Maclearan"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 1873
+   },
+   "personality": [
+    30,
+    42
+   ],
+   "relationships": {
+    "6": [
+     "Spouse"
+    ]
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": {
+    "type": "Family",
+    "given": "Richard",
+    "middle": null,
+    "family": "Wendell"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 1886
+   },
+   "personality": [
+    5,
+    46
+   ],
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "width": "Small",
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal",
+      "size": "Large"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "pupilColor": "SaddleBrown"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "SidePart",
+       "side": "Right"
+      },
+      "color": "SaddleBrown"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "Shaved"
+       },
+       "color": "Orange"
+      },
+      "width": "Small"
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "height": {
+     "millimeters": 1800
+    }
+   },
+   "equipmentMap": {
+    "map": {
+     "Coat": 31,
+     "Footwear": 0,
+     "Pants": 4,
+     "Shirt": 2
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 2,
+     "job": 3
+    }
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": {
+    "type": "Family",
+    "given": "Jim",
+    "middle": null,
+    "family": "Haggerty"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 1879
+   },
+   "relationships": {
+    "10": [
+     "Spouse"
+    ]
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 3,
+     "job": 4
+    }
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": {
+    "type": "Family",
+    "given": "Ann",
+    "middle": null,
+    "family": "Haggerty"
+   },
+   "gender": "Female",
+   "birthDate": {
+    "type": "Year",
+    "year": 1882
+   },
+   "personality": [
+    28
+   ],
+   "relationships": {
+    "9": [
+     "Spouse"
+    ]
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 3,
+     "job": 5
+    }
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": {
+    "type": "Family",
+    "given": "Jason",
+    "middle": null,
+    "family": "Haggerty"
+   },
+   "gender": "Male",
+   "origin": {
+    "type": "Born",
+    "mother": 10,
+    "father": 9
+   },
+   "birthDate": {
+    "type": "Year",
+    "year": 1907
+   },
+   "personality": [
+    10,
+    47
+   ],
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 3,
+     "job": 5
+    }
    }
   }
  }

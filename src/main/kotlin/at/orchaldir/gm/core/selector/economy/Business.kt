@@ -23,11 +23,11 @@ fun State.canDelete(id: BusinessId) = getBuilding(id) == null
 
 fun State.isInOperation(id: BusinessId, date: Date) = isInOperation(getBusinessStorage().getOrThrow(id), date)
 
-fun State.isInOperation(business: Business, date: Date) = getDefaultCalendar()
-    .isAfterOrEqual(date, business.startDate)
-
-fun State.getAgeInYears(business: Business) = getDefaultCalendar()
-    .getDurationInYears(business.startDate, time.currentDate)
+fun State.isInOperation(business: Business, date: Date) = if (business.startDate != null) {
+    getDefaultCalendar().isAfterOrEqual(date, business.startDate)
+} else {
+    true
+}
 
 fun State.getBusinessesWithBuilding() = getBuildingStorage().getAll()
     .flatMap { it.purpose.getBusinesses() }
@@ -48,7 +48,14 @@ fun State.getBusinesses(job: JobId) = getCharacterStorage().getAll()
     .toSet()
     .map { getBusinessStorage().getOrThrow(it) }
 
-fun State.getOpenBusinesses(date: Date) = getBusinessStorage().getAll()
+fun State.getOpenBusinesses(date: Date?) = if (date == null) {
+    getBusinessStorage().getAll()
+} else {
+    getOpenBusinesses(date)
+}
+
+fun State.getOpenBusinesses(date: Date) = getBusinessStorage()
+    .getAll()
     .filter { isInOperation(it, date) }
 
 // owner
@@ -80,7 +87,7 @@ enum class SortBusiness {
 
 fun State.getAgeComparator(): Comparator<Business> {
     val calendar = getDefaultCalendar()
-    return Comparator { a: Business, b: Business -> calendar.compareTo(a.startDate, b.startDate) }
+    return Comparator { a: Business, b: Business -> calendar.compareToOptional(a.startDate, b.startDate) }
 }
 
 fun State.sortBusinesses(sort: SortBusiness = SortBusiness.Name) =

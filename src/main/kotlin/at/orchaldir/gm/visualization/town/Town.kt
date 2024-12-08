@@ -163,7 +163,7 @@ fun getStreetTypeFill(state: State): (StreetTile, Int) -> Color = { tile, _ ->
 }
 
 fun showSelectedBuilding(selected: Building): (Building) -> Color = { building ->
-    if (building == selected) {
+    if (building.id == selected.id) {
         Color.Gold
     } else {
         Color.Black

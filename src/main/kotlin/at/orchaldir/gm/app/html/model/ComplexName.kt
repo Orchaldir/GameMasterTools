@@ -31,6 +31,7 @@ fun HtmlBlockTag.fieldReferenceByName(
     if (name is NameWithReference) {
         field("Referenced by Name") {
             when (name.reference) {
+                is ReferencedGivenName -> link(call, state, name.reference.id)
                 is ReferencedFamilyName -> link(call, state, name.reference.id)
                 is ReferencedFullName -> link(call, state, name.reference.id)
                 is ReferencedMoon -> link(call, state, name.reference.id)
@@ -90,6 +91,7 @@ private fun FORM.internalSelect(
 
             // replace with id.type()?
             val elements = when (name.reference) {
+                is ReferencedGivenName -> state.getCharacterStorage().getAll()
                 is ReferencedFamilyName -> state.getCharacterStorage().getAll()
                 is ReferencedFullName -> state.getCharacterStorage().getAll()
                 is ReferencedMoon -> state.getMoonStorage().getAll()
@@ -137,6 +139,10 @@ fun internalParse(parameters: Parameters, type: ComplexNameType) = when (type) {
 
         val id = when (parse(parameters, combine(NAME, REFERENCE, TYPE), ReferenceForNameType.FamilyName)) {
             ReferenceForNameType.FamilyName -> ReferencedFamilyName(
+                parseCharacterId(parameters, param)
+            )
+
+            ReferenceForNameType.GivenName -> ReferencedGivenName(
                 parseCharacterId(parameters, param)
             )
 

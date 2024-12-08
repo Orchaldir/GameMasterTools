@@ -1,5 +1,67 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": {
+    "type": "Simple",
+    "name": "Public Library"
+   },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": {
+    "type": "Simple",
+    "name": "Sheriff's Office"
+   },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "Town",
+     "id": 0
+    },
+    "prefix": null,
+    "postfix": "Gazette"
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 8
+    }
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "GivenName",
+     "id": 9
+    },
+    "prefix": null,
+    "postfix": "'s Grill"
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 9
+    }
+   }
+  }
  }
 }

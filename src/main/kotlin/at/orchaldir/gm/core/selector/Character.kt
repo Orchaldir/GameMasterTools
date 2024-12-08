@@ -35,6 +35,11 @@ fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
 
 // count
 
+fun countCauseOfDeath(characters: Collection<Character>) = characters
+    .filter { it.vitalStatus is Dead }
+    .groupingBy { it.vitalStatus.getCauseOfDeath()!! }
+    .eachCount()
+
 fun countEmploymentStatus(characters: Collection<Character>) = characters
     .groupingBy { it.employmentStatus.current.getType() }
     .eachCount()
@@ -45,6 +50,10 @@ fun countGender(characters: Collection<Character>) = characters
 
 fun countHousingStatus(characters: Collection<Character>) = characters
     .groupingBy { it.housingStatus.current.getType() }
+    .eachCount()
+
+fun countPersonality(characters: Collection<Character>) = characters.flatMap { it.personality }
+    .groupingBy { it }
     .eachCount()
 
 // get characters
@@ -104,6 +113,16 @@ fun State.getPreviousEmployees(business: BusinessId) = getCharacterStorage()
     .getAll()
     .filter { c -> c.employmentStatus.previousEntries.any { it.entry.isEmployedAt(business) } }
 
+fun State.getWorkingIn(town: TownId) = getCharacterStorage()
+    .getAll()
+    .filter { isWorkingIn(it, town) }
+
+fun State.isWorkingIn(character: Character, town: TownId) = character.employmentStatus.current.getBusiness()
+    ?.let {
+        getBuildingStorage().getAll().any { building -> building.purpose.contains(it) && building.lot.town == town }
+    }
+    ?: false
+
 // get relatives
 
 fun State.getParents(id: CharacterId): List<Character> {
@@ -162,7 +181,7 @@ fun State.getOthersWithoutRelationship(character: Character) = getCharacterStora
 
 fun State.getAge(id: CharacterId): Duration = getAge(getCharacterStorage().getOrThrow(id))
 
-fun State.getAge(character: Character): Duration = character.getAge(time.currentDate)
+fun State.getAge(character: Character) = character.getAge(this, time.currentDate)
 
 fun State.getAgeInYears(character: Character) = getDefaultCalendar().getYears(getAge(character))
 
@@ -171,7 +190,14 @@ fun State.isAlive(id: CharacterId, date: Date) = isAlive(getCharacterStorage().g
 fun State.isAlive(character: Character, date: Date) = character
     .isAlive(getDefaultCalendar(), date)
 
-fun State.getLiving(date: Date) = getCharacterStorage().getAll()
+fun State.getLiving(date: Date?) = if (date == null) {
+    getCharacterStorage().getAll()
+} else {
+    getLiving(date)
+}
+
+fun State.getLiving(date: Date) = getCharacterStorage()
+    .getAll()
     .filter { isAlive(it, date) }
 
 // height

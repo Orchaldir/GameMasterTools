@@ -4,6 +4,26 @@
   "0": {
    "id": 0,
    "name": "Librarian"
+  },
+  "1": {
+   "id": 1,
+   "name": "Sheriff"
+  },
+  "2": {
+   "id": 2,
+   "name": "Deputy"
+  },
+  "3": {
+   "id": 3,
+   "name": "Reporter"
+  },
+  "4": {
+   "id": 4,
+   "name": "Cook"
+  },
+  "5": {
+   "id": 5,
+   "name": "Waiter"
   }
  }
 }

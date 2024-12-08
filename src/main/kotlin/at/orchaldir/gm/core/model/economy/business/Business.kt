@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.ComplexName
 import at.orchaldir.gm.core.model.name.SimpleName
 import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -26,7 +25,7 @@ value class BusinessId(val value: Int) : Id<BusinessId> {
 data class Business(
     val id: BusinessId,
     val name: ComplexName = SimpleName("Business ${id.value}"),
-    val startDate: Date = Year(0),
+    val startDate: Date? = null,
     val founder: Creator = UndefinedCreator,
     val ownership: History<Owner> = History(UndefinedOwner),
 ) : Element<BusinessId>, Created {

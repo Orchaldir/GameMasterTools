@@ -3,10 +3,12 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.reverseAndSort
+import at.orchaldir.gm.core.selector.getAgeInYears
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -52,6 +54,12 @@ fun HtmlBlockTag.field(name: String, value: String) {
     }
 }
 
+fun HtmlBlockTag.fieldAge(name: String, state: State, date: Date?) {
+    if (date != null) {
+        fieldAge(name, state.getAgeInYears(date))
+    }
+}
+
 fun HtmlBlockTag.fieldAge(name: String, age: Int) {
     p {
         b { +"$name: " }
@@ -74,6 +82,17 @@ fun <ID : Id<ID>> HtmlBlockTag.fieldLink(
 ) {
     field(label) {
         link(call, state, id)
+    }
+}
+
+fun <ID : Id<ID>> HtmlBlockTag.optionalFieldLink(
+    label: String,
+    call: ApplicationCall,
+    state: State,
+    id: ID?,
+) {
+    if (id != null) {
+        fieldLink(label, call, state, id)
     }
 }
 

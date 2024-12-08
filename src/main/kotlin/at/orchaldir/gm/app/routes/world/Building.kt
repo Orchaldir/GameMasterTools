@@ -210,11 +210,11 @@ private fun HTML.showAllBuildings(
             buildingsWithNames.forEach { (building, name) ->
                 tr {
                     td { link(call, building.id, name) }
-                    td { showDate(call, state, building.constructionDate) }
+                    td { showOptionalDate(call, state, building.constructionDate) }
                     td { link(call, state, building.lot.town) }
                     td { showAddress(call, state, building, false) }
                     td { +building.purpose.getType().toString() }
-                    td { link(call, state, building.architecturalStyle) }
+                    td { optionalLink(call, state, building.style) }
                     td { showOwner(call, state, building.ownership.current, false) }
                     td { showCreator(call, state, building.builder, false) }
                 }
@@ -243,12 +243,12 @@ private fun HTML.showBuildingDetails(
         split({
             fieldLink("Town", call, state, building.lot.town)
             fieldAddress(call, state, building)
-            field(call, state, "Construction", building.constructionDate)
-            fieldAge("Age", state.getAgeInYears(building))
+            optionalField(call, state, "Construction", building.constructionDate)
+            fieldAge("Age", state, building.constructionDate)
             fieldCreator(call, state, building.builder, "Builder")
             showOwnership(call, state, building.ownership)
             field("Size", building.lot.size.format())
-            fieldLink("Architectural Style", call, state, building.architecturalStyle)
+            optionalFieldLink("Architectural Style", call, state, building.style)
             showPurpose(call, state, building)
             action(editLink, "Edit")
             action(editLotLink, "Move & Resize")
@@ -311,18 +311,18 @@ private fun HTML.showBuildingEditor(
                 method = FormMethod.post
                 selectOptionalComplexName(state, building.name)
                 selectAddress(state, building)
-                selectDate(state, "Construction", building.constructionDate, DATE)
-                fieldAge("Age", state.getAgeInYears(building))
+                selectOptionalDate(state, "Construction", building.constructionDate, DATE)
+                fieldAge("Age", state, building.constructionDate)
                 selectCreator(state, building.builder, building.id, building.constructionDate, "Builder")
                 selectOwnership(state, building.ownership, building.constructionDate)
-                selectValue(
+                selectOptionalValue(
                     "Architectural Style",
                     STYLE,
+                    state.getArchitecturalStyleStorage().getOptional(building.style),
                     state.getPossibleStyles(building),
                 ) { s ->
                     label = s.name()
                     value = s.id().value.toString()
-                    selected = s.id == building.architecturalStyle
                 }
                 selectPurpose(state, building)
                 button("Update", updateLink)
@@ -337,7 +337,7 @@ private fun HTML.showBuildingEditor(
 fun FORM.selectPurpose(state: State, building: Building) {
     val purpose = building.purpose
     val inhabitants = state.getCharactersLivingIn(building.id)
-    val availableBusinesses = state.getBusinessesWithoutBuilding()
+    val availableBusinesses = state.getBusinessesWithoutBuilding() + purpose.getBusinesses()
 
     selectValue("Purpose", PURPOSE, BuildingPurposeType.entries, true) { type ->
         label = type.toString()
@@ -357,7 +357,7 @@ fun FORM.selectPurpose(state: State, building: Building) {
             selectValue(
                 "Business",
                 combine(PURPOSE, BUSINESS),
-                availableBusinesses + purpose.business,
+                availableBusinesses,
                 false
             ) { business ->
                 label = state.getBusinessStorage().getOrThrow(business).name(state)

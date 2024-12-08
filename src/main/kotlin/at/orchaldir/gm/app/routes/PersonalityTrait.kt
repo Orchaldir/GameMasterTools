@@ -2,12 +2,12 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.parsePersonalityTrait
 import at.orchaldir.gm.core.action.CreatePersonalityTrait
 import at.orchaldir.gm.core.action.DeletePersonalityTrait
 import at.orchaldir.gm.core.action.UpdatePersonalityTrait
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.PersonalityTrait
-import at.orchaldir.gm.core.model.character.PersonalityTraitGroup
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.getPersonalityTraitGroups
@@ -21,7 +21,6 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.util.*
 import kotlinx.html.*
 import mu.KotlinLogging
 
@@ -51,7 +50,7 @@ fun Application.configurePersonalityRouting() {
             logger.info { "Get all personality traits" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllPersonalityTraits(call)
+                showAllPersonalityTraits(call, STORE.getState())
             }
         }
         get<PersonalityTraitRoutes.Details> { details ->
@@ -107,17 +106,8 @@ fun Application.configurePersonalityRouting() {
     }
 }
 
-private fun parsePersonalityTrait(id: PersonalityTraitId, parameters: Parameters): PersonalityTrait {
-    val name = parameters.getOrFail("name")
-    val group = parameters["group"]
-        ?.toIntOrNull()
-        ?.let { PersonalityTraitGroup(it) }
-
-    return PersonalityTrait(id, name, group)
-}
-
-private fun HTML.showAllPersonalityTraits(call: ApplicationCall) {
-    val personalityTraits = STORE.getState().getPersonalityTraitStorage().getAll().sortedBy { it.name }
+private fun HTML.showAllPersonalityTraits(call: ApplicationCall, state: State) {
+    val personalityTraits = state.getPersonalityTraitStorage().getAll().sortedBy { it.name }
     val count = personalityTraits.size
     val createLink = call.application.href(PersonalityTraitRoutes.New())
 
@@ -126,6 +116,7 @@ private fun HTML.showAllPersonalityTraits(call: ApplicationCall) {
         showList(personalityTraits) { personalityTrait ->
             link(call, personalityTrait)
         }
+        showPersonalityCount(call, state, state.getCharacterStorage().getAll(), "Distribution")
         action(createLink, "Add")
         back("/")
     }

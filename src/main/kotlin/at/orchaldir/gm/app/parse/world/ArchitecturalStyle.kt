@@ -15,6 +15,7 @@ import io.ktor.http.*
 import io.ktor.server.util.*
 
 fun parseArchitecturalStyleId(parameters: Parameters, param: String) = ArchitecturalStyleId(parseInt(parameters, param))
+
 fun parseOptionalArchitecturalStyleId(parameters: Parameters, param: String) =
     parseOptionalInt(parameters, param)?.let { ArchitecturalStyleId(it) }
 

@@ -16,7 +16,7 @@ fun <T> checkHistory(
     var min = startDate
 
     history.previousEntries.withIndex().forEach { (index, previous) ->
-        val previousNoun = "${index + 1}.previous $noun"
+        val previousNoun = createPreviousNoun(index, noun)
         checkEntry(state, previous.entry, previousNoun, min)
         require(calendar.compareTo(previous.until, min) > 0) { "$previousNoun's until is too early!" }
 
@@ -25,3 +25,19 @@ fun <T> checkHistory(
 
     checkEntry(state, history.current, noun, min)
 }
+
+fun <T> checkHistory(
+    state: State,
+    history: History<T>,
+    noun: String,
+    checkEntry: (State, T, String) -> Unit,
+) {
+    history.previousEntries.withIndex().forEach { (index, previous) ->
+        val previousNoun = createPreviousNoun(index, noun)
+        checkEntry(state, previous.entry, previousNoun)
+    }
+
+    checkEntry(state, history.current, noun)
+}
+
+private fun createPreviousNoun(index: Int, noun: String) = "${index + 1}.previous $noun"

@@ -44,9 +44,11 @@ val UPDATE_ARCHITECTURAL_STYLE: Reducer<UpdateArchitecturalStyle, State> = { sta
     noFollowUps(state.updateStorage(state.getArchitecturalStyleStorage().update(action.style)))
 }
 
-fun checkStartDate(state: State, style: ArchitecturalStyle, building: BuildingId, constructionDate: Date) {
-    val calendar = state.getDefaultCalendar()
-    val compareTo = calendar.compareTo(style.start, constructionDate)
+fun checkStartDate(state: State, style: ArchitecturalStyle, building: BuildingId, constructionDate: Date?) {
+    if (constructionDate != null) {
+        val calendar = state.getDefaultCalendar()
+        val compareTo = calendar.compareTo(style.start, constructionDate)
 
-    require(compareTo <= 0) { "Architectural Style ${style.id.value} didn't exist yet, when building ${building.value} was build!" }
+        require(compareTo <= 0) { "Architectural Style ${style.id.value} didn't exist yet, when building ${building.value} was build!" }
+    }
 }

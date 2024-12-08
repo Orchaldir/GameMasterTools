@@ -16,6 +16,7 @@ fun checkComplexName(
             }
 
             when (name.reference) {
+                is ReferencedGivenName -> state.getCharacterStorage().require(name.reference.id) { REQUIRED_REFERENCE }
                 is ReferencedFamilyName -> state.getCharacterStorage().require(name.reference.id) { REQUIRED_REFERENCE }
                 is ReferencedFullName -> state.getCharacterStorage().require(name.reference.id) { REQUIRED_REFERENCE }
                 is ReferencedMoon -> state.getMoonStorage().require(name.reference.id) { REQUIRED_REFERENCE }

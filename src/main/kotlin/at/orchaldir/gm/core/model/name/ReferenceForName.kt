@@ -9,6 +9,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class ReferenceForNameType {
+    GivenName,
     FamilyName,
     FullName,
     Moon,
@@ -21,6 +22,7 @@ enum class ReferenceForNameType {
 sealed class ReferenceForName {
 
     fun getId() = when (this) {
+        is ReferencedGivenName -> id
         is ReferencedFamilyName -> id
         is ReferencedFullName -> id
         is ReferencedMoon -> id
@@ -30,6 +32,7 @@ sealed class ReferenceForName {
     }
 
     fun getType() = when (this) {
+        is ReferencedGivenName -> ReferenceForNameType.GivenName
         is ReferencedFamilyName -> ReferenceForNameType.FamilyName
         is ReferencedFullName -> ReferenceForNameType.FullName
         is ReferencedMoon -> ReferenceForNameType.Moon
@@ -38,6 +41,10 @@ sealed class ReferenceForName {
         is ReferencedTown -> ReferenceForNameType.Town
     }
 }
+
+@Serializable
+@SerialName("GivenName")
+data class ReferencedGivenName(val id: CharacterId) : ReferenceForName()
 
 @Serializable
 @SerialName("FamilyName")

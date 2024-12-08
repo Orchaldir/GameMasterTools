@@ -9,10 +9,7 @@ import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.selector.countCultures
-import at.orchaldir.gm.core.selector.countGender
-import at.orchaldir.gm.core.selector.countHousingStatus
-import at.orchaldir.gm.core.selector.countRace
+import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.util.countCreators
 import at.orchaldir.gm.core.selector.world.countArchitecturalStyles
@@ -45,6 +42,9 @@ fun <ELEMENT : Created> HtmlBlockTag.showCreatorCount(
 fun HtmlBlockTag.showBuildingPurposeCount(buildings: Collection<Building>) =
     showCount("Building Purpose", countPurpose(buildings))
 
+fun HtmlBlockTag.showCauseOfDeath(characters: Collection<Character>) =
+    showCount("Cause Of Death", countCauseOfDeath(characters))
+
 fun HtmlBlockTag.showCultureCount(
     call: ApplicationCall,
     state: State,
@@ -58,8 +58,9 @@ fun HtmlBlockTag.showJobCount(
     call: ApplicationCall,
     state: State,
     characters: Collection<Character>,
+    label: String = "Jobs",
 ) {
-    showMap("Jobs", countJobs(characters)) { job, count ->
+    showMap(label, countJobs(characters)) { job, count ->
         if (job == null) {
             +"Unemployed"
         } else {
@@ -92,6 +93,13 @@ fun HtmlBlockTag.showOwnershipCount(
 fun countOwnership(ownershipCollection: Collection<History<Owner>>) = ownershipCollection
     .groupingBy { it.current }
     .eachCount()
+
+fun HtmlBlockTag.showPersonalityCount(
+    call: ApplicationCall,
+    state: State,
+    characters: Collection<Character>,
+    label: String = "Personality",
+) = showCount(call, state, label, countPersonality(characters))
 
 fun HtmlBlockTag.showRaceCount(
     call: ApplicationCall,

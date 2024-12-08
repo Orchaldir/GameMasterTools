@@ -200,10 +200,12 @@ private fun HTML.showAllCharacters(
                 }
             }
         }
+        showCauseOfDeath(characters)
         showCultureCount(call, state, characters)
         showGenderCount(characters)
         showJobCount(call, state, characters)
         showHousingStatusCount(characters)
+        showPersonalityCount(call, state, characters)
         showRaceCount(call, state, characters)
 
         if (state.canCreateCharacter()) {
@@ -297,6 +299,7 @@ private fun BODY.showVitalStatus(
 
         when (vitalStatus.cause) {
             is Accident -> showCauseOfDeath("Accident")
+            is DeathByIllness -> showCauseOfDeath("Illness")
             is Murder -> {
                 field("Cause of Death") {
                     +"Killed by "
@@ -556,7 +559,7 @@ private fun FORM.selectVitalStatus(
         selected = type == vitalStatus.getType()
     }
     if (vitalStatus is Dead) {
-        selectDay(state, "Date of Death", vitalStatus.deathDay, combine(DEATH, DATE))
+        selectDate(state, "Date of Death", vitalStatus.deathDay, combine(DEATH, DATE))
         selectValue("Cause of death", DEATH, CauseOfDeathType.entries, true) { type ->
             label = type.name
             value = type.name
@@ -604,7 +607,7 @@ private fun FORM.selectOrigin(
 
         else -> doNothing()
     }
-    selectDay(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
+    selectDate(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
 }
 
 private fun FORM.selectName(

@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.model.world.building
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.ComplexName
 import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -28,9 +27,9 @@ data class Building(
     val name: ComplexName? = null,
     val lot: BuildingLot = BuildingLot(),
     val address: Address = NoAddress,
-    val constructionDate: Date = Year(0),
+    val constructionDate: Date? = null,
     val ownership: History<Owner> = History(UndefinedOwner),
-    val architecturalStyle: ArchitecturalStyleId = ArchitecturalStyleId(0),
+    val style: ArchitecturalStyleId? = null,
     val purpose: BuildingPurpose = SingleFamilyHouse,
     val builder: Creator = UndefinedCreator,
 ) : Element<BuildingId>, Created {

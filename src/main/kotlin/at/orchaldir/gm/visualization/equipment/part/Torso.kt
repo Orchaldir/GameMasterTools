@@ -13,9 +13,10 @@ fun visualizeTorso(
     options: RenderOptions,
     body: Body,
     style: NecklineStyle,
+    layerIndex: Int = EQUIPMENT_LAYER,
 ) {
     val builder = createTorso(state, body, style.addTop())
     addNeckline(state, body, builder, style)
 
-    renderBuilder(state, builder, options, EQUIPMENT_LAYER)
+    renderBuilder(state, builder, options, layerIndex)
 }

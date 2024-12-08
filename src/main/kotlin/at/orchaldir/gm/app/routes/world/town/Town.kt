@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getResident
+import at.orchaldir.gm.core.selector.getWorkingIn
 import at.orchaldir.gm.core.selector.sortCharacters
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.visualization.town.getStreetTypeFill
@@ -166,14 +167,21 @@ private fun HTML.showTownDetails(
             action(editBuildingsLink, "Edit Buildings")
             h2 { +"Characters" }
             val residents = state.getResident(town.id)
+            val workers = state.getWorkingIn(town.id)
             showList("Residents", state.sortCharacters(residents)) { (character, name) ->
                 link(call, character.id, name)
             }
-            showCultureCount(call, state, residents)
-            showGenderCount(residents)
-            showJobCount(call, state, residents)
-            showHousingStatusCount(residents)
-            showRaceCount(call, state, residents)
+            showList("Working in Town", state.sortCharacters(workers)) { (character, name) ->
+                link(call, character.id, name)
+            }
+            val characters = residents.toSet() + workers.toSet()
+            showCauseOfDeath(characters)
+            showCultureCount(call, state, characters)
+            showGenderCount(characters)
+            showJobCount(call, state, characters)
+            showHousingStatusCount(characters)
+            showPersonalityCount(call, state, characters)
+            showRaceCount(call, state, characters)
             h2 { +"Terrain" }
             showList("Mountains", state.getMountains(town.id).sortedBy { it.name }) { mountain ->
                 link(call, mountain)

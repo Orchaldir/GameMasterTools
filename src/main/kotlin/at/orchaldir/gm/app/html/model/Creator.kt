@@ -52,10 +52,11 @@ fun <ID : Id<ID>> FORM.selectCreator(
     state: State,
     creator: Creator,
     created: ID,
-    date: Date,
+    date: Date?,
     noun: String,
 ) {
-    val businesses = state.getOpenBusinesses(date).filter { it.id != created }
+    val businesses = state.getOpenBusinesses(date)
+        .filter { it.id != created }
     val characters = state.getLiving(date)
 
     selectValue("$noun Type", CREATOR, CreatorType.entries, true) { type ->

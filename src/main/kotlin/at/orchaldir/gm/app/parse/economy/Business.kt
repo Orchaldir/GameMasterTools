@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.model.parseComplexName
 import at.orchaldir.gm.app.html.model.parseCreator
 import at.orchaldir.gm.app.html.model.parseOwnership
-import at.orchaldir.gm.app.parse.parseDate
+import at.orchaldir.gm.app.parse.parseOptionalDate
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
@@ -17,7 +17,7 @@ fun parseOptionalBusinessId(parameters: Parameters, param: String) =
 
 fun parseBusiness(parameters: Parameters, state: State, id: BusinessId): Business {
     val name = parseComplexName(parameters)
-    val startDate = parseDate(parameters, state, DATE)
+    val startDate = parseOptionalDate(parameters, state, DATE)
 
     return Business(
         id,

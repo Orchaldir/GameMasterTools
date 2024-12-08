@@ -14,16 +14,17 @@ import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.utils.Id
 
-fun State.getAgeInYears(building: Building) = getDefaultCalendar()
-    .getDurationInYears(building.constructionDate, time.currentDate)
-
 fun State.canDelete(building: Building) = building.ownership.current.canDelete()
         && getCharactersLivingIn(building.id).isEmpty()
         && getCharactersPreviouslyLivingIn(building.id).isEmpty()
 
 fun State.exists(id: BuildingId, date: Date) = exists(getBuildingStorage().getOrThrow(id), date)
 
-fun State.exists(building: Building, date: Date) = getDefaultCalendar().compareTo(building.constructionDate, date) <= 0
+fun State.exists(building: Building, date: Date?) = if (date != null) {
+    getDefaultCalendar().compareToOptional(building.constructionDate, date) <= 0
+} else {
+    true
+}
 
 fun countPurpose(buildings: Collection<Building>) = buildings
     .groupingBy { it.purpose.getType() }
@@ -50,7 +51,7 @@ fun State.getBuilding(business: BusinessId) = getBuildingStorage().getAll()
 
 fun State.getBuildings(style: ArchitecturalStyleId) = getBuildingStorage()
     .getAll()
-    .filter { it.architecturalStyle == style }
+    .filter { it.style == style }
 
 fun State.getBuildings(town: TownId) = getBuildingStorage().getAll()
     .filter { it.lot.town == town }
@@ -83,7 +84,7 @@ enum class SortBuilding {
 
 fun State.getConstructionComparator(): Comparator<Building> {
     val calendar = getDefaultCalendar()
-    return Comparator { a: Building, b: Building -> calendar.compareTo(a.constructionDate, b.constructionDate) }
+    return Comparator { a: Building, b: Building -> calendar.compareToOptional(a.constructionDate, b.constructionDate) }
 }
 
 fun State.getConstructionComparatorForPair(): Comparator<Pair<Building, String>> {

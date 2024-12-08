@@ -47,7 +47,7 @@ class CharacterTest {
         @Test
         fun `Create another character`() {
             val character0 = Character(CHARACTER_ID_0)
-            val character1 = Character(CHARACTER_ID_1)
+            val character1 = Character(CHARACTER_ID_1, birthDate = Day(0))
             val state = State(Storage(listOf(character0)))
 
             val characters = REDUCER.invoke(state, CreateCharacter).first.getCharacterStorage()

@@ -44,14 +44,14 @@ fun HtmlBlockTag.showOwner(
 fun FORM.selectOwnership(
     state: State,
     ownership: History<Owner>,
-    startDate: Date,
+    startDate: Date?,
 ) = selectHistory(state, OWNER, ownership, startDate, "Owners", HtmlBlockTag::selectOwner)
 
 fun HtmlBlockTag.selectOwner(
     state: State,
     param: String,
     owner: Owner,
-    start: Date,
+    start: Date?,
 ) {
     selectValue("Owner Type", param, OwnerType.entries, true) { type ->
         label = type.toString()
@@ -68,7 +68,7 @@ fun HtmlBlockTag.selectOwner(
             label = character.name(state)
             value = character.id.value.toString()
             selected = owner.character == character.id
-            disabled = !state.isAlive(character, start)
+            disabled = start != null && !state.isAlive(character, start)
         }
 
         is OwnedByTown -> selectValue(
@@ -80,14 +80,14 @@ fun HtmlBlockTag.selectOwner(
             label = town.name(state)
             value = town.id.value.toString()
             selected = owner.town == town.id
-            disabled = !state.exists(town, start)
+            disabled = start != null && !state.exists(town, start)
         }
 
         else -> doNothing()
     }
 }
 
-fun parseOwnership(parameters: Parameters, state: State, startDate: Date) =
+fun parseOwnership(parameters: Parameters, state: State, startDate: Date?) =
     parseHistory(parameters, OWNER, state, startDate, ::parseOwner)
 
 private fun parseOwner(parameters: Parameters, state: State, param: String): Owner = when (parameters[param]) {

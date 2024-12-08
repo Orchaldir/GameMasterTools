@@ -53,7 +53,7 @@ fun Application.configureJobRouting() {
             logger.info { "Get all jobs" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllJobs(call)
+                showAllJobs(call, STORE.getState())
             }
         }
         get<JobRoutes.Details> { details ->
@@ -114,8 +114,8 @@ fun Application.configureJobRouting() {
     }
 }
 
-private fun HTML.showAllJobs(call: ApplicationCall) {
-    val jobs = STORE.getState().getJobStorage().getAll().sortedBy { it.name }
+private fun HTML.showAllJobs(call: ApplicationCall, state: State) {
+    val jobs = state.getJobStorage().getAll().sortedBy { it.name }
     val count = jobs.size
     val createLink = call.application.href(JobRoutes.New())
 
@@ -124,6 +124,7 @@ private fun HTML.showAllJobs(call: ApplicationCall) {
         showList(jobs) { nameList ->
             link(call, nameList)
         }
+        showJobCount(call, state, state.getCharacterStorage().getAll(), "Distribution")
         action(createLink, "Add")
         back("/")
     }

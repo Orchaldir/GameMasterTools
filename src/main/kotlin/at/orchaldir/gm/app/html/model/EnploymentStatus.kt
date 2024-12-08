@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.BUILDING
 import at.orchaldir.gm.app.BUSINESS
 import at.orchaldir.gm.app.EMPLOYMENT
 import at.orchaldir.gm.app.JOB
@@ -74,7 +73,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
     state: State,
     param: String,
     employmentStatus: EmploymentStatus,
-    start: Date,
+    start: Date?,
 ) {
     selectValue("Employment Status", param, EmploymentStatusType.entries, true) { type ->
         label = type.name
@@ -90,7 +89,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
                 label = business.name(state)
                 value = business.id.value.toString()
                 selected = employmentStatus.business == business.id
-                disabled = !state.isInOperation(business, start)
+                disabled = start != null && !state.isInOperation(business, start)
             }
             selectValue("Job", combine(param, JOB), state.getJobStorage().getAll()) { job ->
                 label = job.name
@@ -107,7 +106,7 @@ fun parseEmploymentStatusHistory(parameters: Parameters, state: State, startDate
 fun parseEmploymentStatus(parameters: Parameters, state: State, param: String): EmploymentStatus {
     return when (parse(parameters, param, EmploymentStatusType.Undefined)) {
         EmploymentStatusType.Employed -> Employed(
-            parseBusinessId(parameters, combine(param, BUILDING)),
+            parseBusinessId(parameters, combine(param, BUSINESS)),
             parseJobId(parameters, combine(param, JOB)),
         )
 

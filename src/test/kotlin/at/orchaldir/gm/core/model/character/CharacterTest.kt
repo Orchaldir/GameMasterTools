@@ -1,9 +1,11 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.CALENDAR_ID_0
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Duration
+import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
@@ -18,7 +20,8 @@ class CharacterTest {
         private val birthDate = Day(10)
         private val deathDay = Day(25)
         private val character = Character(CharacterId(0), birthDate = birthDate, vitalStatus = Dead(deathDay, Accident))
-        private val calendar = Calendar(CalendarId(0))
+        private val calendar = Calendar(CALENDAR_ID_0)
+        private val state = State(Storage(calendar))
 
         @Test
         fun `Age is 0 before the day of birth`() {
@@ -70,8 +73,8 @@ class CharacterTest {
             assertFalse(character.isAlive(calendar, Day(30)))
         }
 
-        private fun assertGetAge(day: Day, duration: Int) {
-            assertEquals(Duration(duration), character.getAge(day))
+        private fun assertGetAge(day: Day, age: Int) {
+            assertEquals(Duration(age), character.getAge(state, day))
             // assertEquals(alive, character.isAlive(calendar, day))
         }
     }

@@ -210,6 +210,41 @@
    "id": 41,
    "name": "Greedy",
    "group": 103
+  },
+  "42": {
+   "id": 42,
+   "name": "Drunk",
+   "group": 104
+  },
+  "43": {
+   "id": 43,
+   "name": "Teetotaler",
+   "group": 104
+  },
+  "44": {
+   "id": 44,
+   "name": "Incurious",
+   "group": 105
+  },
+  "45": {
+   "id": 45,
+   "name": "Curious",
+   "group": 105
+  },
+  "46": {
+   "id": 46,
+   "name": "Nosey",
+   "group": 105
+  },
+  "47": {
+   "id": 47,
+   "name": "Polite",
+   "group": 106
+  },
+  "48": {
+   "id": 48,
+   "name": "Rude",
+   "group": 106
   }
  }
 }
