@@ -13,7 +13,7 @@ import at.orchaldir.gm.app.parse.world.parseBuildingId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.selector.countCharactersLivingInHouse
