@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.parsePersonalityTrait
 import at.orchaldir.gm.core.action.CreatePersonalityTrait
 import at.orchaldir.gm.core.action.DeletePersonalityTrait
 import at.orchaldir.gm.core.action.UpdatePersonalityTrait
@@ -105,15 +106,6 @@ fun Application.configurePersonalityRouting() {
             STORE.getState().save()
         }
     }
-}
-
-private fun parsePersonalityTrait(id: PersonalityTraitId, parameters: Parameters): PersonalityTrait {
-    val name = parameters.getOrFail("name")
-    val group = parameters["group"]
-        ?.toIntOrNull()
-        ?.let { PersonalityTraitGroup(it) }
-
-    return PersonalityTrait(id, name, group)
 }
 
 private fun HTML.showAllPersonalityTraits(call: ApplicationCall, state: State) {
