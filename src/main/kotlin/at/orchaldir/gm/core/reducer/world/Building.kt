@@ -158,11 +158,12 @@ private fun checkPurpose(
     oldBuilding: Building,
     action: UpdateBuilding,
 ) {
-    if (oldBuilding.purpose.getType() != action.purpose.getType()) {
+    if (!action.purpose.getType().isHome()) {
         require(state.getCharactersLivingIn(oldBuilding.id).isEmpty()) {
             "Cannot change the purpose, while characters are living in it!"
         }
     }
+
     when (action.purpose) {
         is ApartmentHouse -> {
             val min = state.getMinNumberOfApartment(action.id)

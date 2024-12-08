@@ -280,6 +280,10 @@
      "type": "Character",
      "character": 2
     }
+   },
+   "purpose": {
+    "type": "BusinessAndHome",
+    "business": 4
    }
   },
   "36": {

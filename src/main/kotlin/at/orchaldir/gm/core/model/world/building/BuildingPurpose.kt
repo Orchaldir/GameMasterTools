@@ -10,7 +10,11 @@ enum class BuildingPurposeType {
     SingleBusiness,
     SingleFamilyHouse;
 
-    fun isBusiness() = this == SingleBusiness || this == BusinessAndHome
+    fun isBusiness() = this == SingleBusiness ||
+            this == BusinessAndHome
+
+    fun isHome() = this == BusinessAndHome ||
+            this == SingleFamilyHouse
 }
 
 @Serializable

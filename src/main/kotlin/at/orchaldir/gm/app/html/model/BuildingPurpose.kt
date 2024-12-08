@@ -74,7 +74,7 @@ fun FORM.selectBuildingPurpose(state: State, building: Building) {
         label = type.toString()
         value = type.toString()
         selected = purpose.getType() == type
-        disabled = (purpose.getType() != type && inhabitants.isNotEmpty()) ||
+        disabled = (!type.isHome() && inhabitants.isNotEmpty()) ||
                 (type.isBusiness() && availableBusinesses.isEmpty())
     }
 
