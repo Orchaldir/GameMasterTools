@@ -12,6 +12,10 @@
   "2": {
    "id": 2,
    "name": "Deputy"
+  },
+  "3": {
+   "id": 3,
+   "name": "Reporter"
   }
  }
 }

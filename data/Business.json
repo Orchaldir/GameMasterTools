@@ -26,6 +26,24 @@
      "town": 0
     }
    }
+  },
+  "2": {
+   "id": 2,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "Town",
+     "id": 0
+    },
+    "prefix": null,
+    "postfix": "Gazette"
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 8
+    }
+   }
   }
  }
 }

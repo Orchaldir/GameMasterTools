@@ -69,6 +69,16 @@
    "id": 9,
    "lot": {
     "tileIndex": 220
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 8
+    }
+   },
+   "purpose": {
+    "type": "SingleBusiness",
+    "business": 2
    }
   },
   "10": {

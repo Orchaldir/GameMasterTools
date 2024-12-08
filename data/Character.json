@@ -374,6 +374,86 @@
      "Spouse"
     ]
    }
+  },
+  "8": {
+   "id": 8,
+   "name": {
+    "type": "Family",
+    "given": "Richard",
+    "middle": null,
+    "family": "Wendell"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 1886
+   },
+   "personality": [
+    5
+   ],
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "width": "Small",
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal",
+      "size": "Large"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "pupilColor": "SaddleBrown"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "SidePart",
+       "side": "Right"
+      },
+      "color": "SaddleBrown"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "Shaved"
+       },
+       "color": "Orange"
+      },
+      "width": "Small"
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "height": {
+     "millimeters": 1800
+    }
+   },
+   "equipmentMap": {
+    "map": {
+     "Coat": 31,
+     "Footwear": 0,
+     "Pants": 4,
+     "Shirt": 2
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 2,
+     "job": 3
+    }
+   }
   }
  }
 }
