@@ -198,6 +198,7 @@ private fun HTML.showAllBuildings(
                 th { +"Town" }
                 th { +"Address" }
                 th { +"Purpose" }
+                th { +"Inhabitants" }
                 th { +"Style" }
                 th { +"Owner" }
                 th { +"Builder" }
@@ -209,6 +210,7 @@ private fun HTML.showAllBuildings(
                     td { link(call, state, building.lot.town) }
                     td { showAddress(call, state, building, false) }
                     td { +building.purpose.getType().toString() }
+                    td { showInhabitantCount(state, building.id) }
                     td { optionalLink(call, state, building.style) }
                     td { showOwner(call, state, building.ownership.current, false) }
                     td { showCreator(call, state, building.builder, false) }
