@@ -7,10 +7,6 @@
     "type": "Simple",
     "name": "Public Library"
    },
-   "startDate": {
-    "type": "Year",
-    "year": 1799
-   },
    "ownership": {
     "current": {
      "type": "Town",
@@ -23,10 +19,6 @@
    "name": {
     "type": "Simple",
     "name": "Sheriff's Office"
-   },
-   "startDate": {
-    "type": "Year",
-    "year": 1799
    },
    "ownership": {
     "current": {

@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.selector.economy.SortBusiness
 import at.orchaldir.gm.core.selector.economy.canDelete
-import at.orchaldir.gm.core.selector.economy.getAgeInYears
 import at.orchaldir.gm.core.selector.economy.sortBusinesses
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.getPreviousEmployees
@@ -162,7 +161,6 @@ private fun HTML.showAllBusinesses(
             tr {
                 th { +"Name" }
                 th { +"Start" }
-                th { +"Age" }
                 th { +"Founder" }
                 th { +"Owner" }
                 th { +"Employees" }
@@ -170,8 +168,7 @@ private fun HTML.showAllBusinesses(
             businesses.forEach { business ->
                 tr {
                     td { link(call, state, business) }
-                    td { showDate(call, state, business.startDate) }
-                    td { +state.getAgeInYears(business).toString() }
+                    td { showOptionalDate(call, state, business.startDate) }
                     td { showCreator(call, state, business.founder, false) }
                     td { showOwner(call, state, business.ownership.current) }
                     td { +state.getEmployees(business.id).size.toString() }
@@ -199,8 +196,8 @@ private fun HTML.showBusinessDetails(
     simpleHtml("Business: ${business.name(state)}") {
         fieldReferenceByName(call, state, business.name)
         state.getBuilding(business.id)?.let { fieldLink("Building", call, state, it) }
-        field(call, state, "Start", business.startDate)
-        fieldAge("Age", state.getAgeInYears(business))
+        optionalField(call, state, "Start", business.startDate)
+        fieldAge("Age", state, business.startDate)
         fieldCreator(call, state, business.founder, "Founder")
         showOwnership(call, state, business.ownership)
         showEmployees(call, state, "Employees", employees)
@@ -233,7 +230,7 @@ private fun HTML.showBusinessEditor(
             action = previewLink
             method = FormMethod.post
             selectComplexName(state, business.name)
-            selectDate(state, "Start", business.startDate, DATE)
+            selectOptionalDate(state, "Start", business.startDate, DATE)
             selectCreator(state, business.founder, business.id, business.startDate, "Founder")
             selectOwnership(state, business.ownership, business.startDate)
             button("Update", updateLink)

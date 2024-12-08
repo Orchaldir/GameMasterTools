@@ -26,7 +26,7 @@ value class BusinessId(val value: Int) : Id<BusinessId> {
 data class Business(
     val id: BusinessId,
     val name: ComplexName = SimpleName("Business ${id.value}"),
-    val startDate: Date = Year(0),
+    val startDate: Date? = null,
     val founder: Creator = UndefinedCreator,
     val ownership: History<Owner> = History(UndefinedOwner),
 ) : Element<BusinessId>, Created {

@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.OwnedByTown
 import at.orchaldir.gm.core.model.util.contains
+import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getEmployees
@@ -23,11 +24,11 @@ fun State.canDelete(id: BusinessId) = getBuilding(id) == null
 
 fun State.isInOperation(id: BusinessId, date: Date) = isInOperation(getBusinessStorage().getOrThrow(id), date)
 
-fun State.isInOperation(business: Business, date: Date) = getDefaultCalendar()
-    .isAfterOrEqual(date, business.startDate)
-
-fun State.getAgeInYears(business: Business) = getDefaultCalendar()
-    .getDurationInYears(business.startDate, time.currentDate)
+fun State.isInOperation(business: Business, date: Date) = if (business.startDate != null) {
+    getDefaultCalendar().isAfterOrEqual(date, business.startDate)
+} else {
+    true
+}
 
 fun State.getBusinessesWithBuilding() = getBuildingStorage().getAll()
     .flatMap { it.purpose.getBusinesses() }
@@ -87,7 +88,7 @@ enum class SortBusiness {
 
 fun State.getAgeComparator(): Comparator<Business> {
     val calendar = getDefaultCalendar()
-    return Comparator { a: Business, b: Business -> calendar.compareTo(a.startDate, b.startDate) }
+    return Comparator { a: Business, b: Business -> calendar.compareToOptional(a.startDate, b.startDate) }
 }
 
 fun State.sortBusinesses(sort: SortBusiness = SortBusiness.Name) =
