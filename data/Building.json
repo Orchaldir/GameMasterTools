@@ -279,18 +279,7 @@
     "current": {
      "type": "Character",
      "character": 2
-    },
-    "previousEntries": [
-     {
-      "entry": {
-       "type": "Undefined"
-      },
-      "until": {
-       "type": "Year",
-       "year": 1909
-      }
-     }
-    ]
+    }
    }
   },
   "36": {
