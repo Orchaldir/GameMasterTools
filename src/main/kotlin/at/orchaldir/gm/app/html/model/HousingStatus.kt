@@ -66,17 +66,26 @@ fun HtmlBlockTag.selectHousingStatus(
     housingStatus: HousingStatus,
     start: Date?,
 ) {
+    val apartments = state.getApartmentHouses()
+        .filter { state.exists(it, start) }
+    val homes = state.getHomes()
+        .filter { state.exists(it, start) }
+
     selectValue("Housing Status", param, HousingStatusType.entries, true) { type ->
         label = type.name
         value = type.name
         selected = type == housingStatus.getType()
+        disabled = when (type) {
+            HousingStatusType.Undefined -> false
+            HousingStatusType.Homeless -> false
+            HousingStatusType.InApartment -> apartments.isEmpty()
+            HousingStatusType.InHouse -> homes.isEmpty()
+        }
     }
     when (housingStatus) {
         UndefinedHousingStatus -> doNothing()
         Homeless -> doNothing()
         is InApartment -> {
-            val apartments = state.getApartmentHouses()
-                .filter { state.exists(it, start) }
             selectValue("Apartment House", combine(param, BUILDING), apartments, true) { building ->
                 label = building.name(state)
                 value = building.id.value.toString()
@@ -97,14 +106,10 @@ fun HtmlBlockTag.selectHousingStatus(
             }
         }
 
-        is InHouse -> {
-            val house = state.getHomes()
-                .filter { state.exists(it, start) }
-            selectValue("Home", combine(param, BUILDING), house) { building ->
-                label = building.name(state)
-                value = building.id.value.toString()
-                selected = housingStatus.building == building.id
-            }
+        is InHouse -> selectValue("Home", combine(param, BUILDING), homes) { building ->
+            label = building.name(state)
+            value = building.id.value.toString()
+            selected = housingStatus.building == building.id
         }
     }
 }
