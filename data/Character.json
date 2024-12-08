@@ -257,8 +257,8 @@
    },
    "gender": "Male",
    "birthDate": {
-    "type": "Year",
-    "year": 1881
+    "type": "Day",
+    "day": 686625
    },
    "personality": [
     9,
@@ -319,6 +319,33 @@
      "job": 1
     }
    }
+  },
+  "6": {
+   "id": 6,
+   "name": {
+    "type": "Family",
+    "given": "Sarah",
+    "middle": null,
+    "family": "Spencer"
+   },
+   "gender": "Female",
+   "birthDate": {
+    "type": "Day",
+    "day": 687818
+   },
+   "vitalStatus": {
+    "type": "Dead",
+    "deathDay": {
+     "type": "Year",
+     "year": 1909
+    },
+    "cause": {
+     "type": "OldAge"
+    }
+   },
+   "personality": [
+    28
+   ]
   }
  }
 }
