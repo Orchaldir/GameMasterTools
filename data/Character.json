@@ -197,6 +197,13 @@
       }
      }
     ]
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 4,
+     "job": 6
+    }
    }
   },
   "3": {
