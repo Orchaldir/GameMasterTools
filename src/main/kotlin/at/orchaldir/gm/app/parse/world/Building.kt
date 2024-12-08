@@ -1,18 +1,17 @@
 package at.orchaldir.gm.app.parse.world
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.model.parseBuildingPurpose
 import at.orchaldir.gm.app.html.model.parseCreator
 import at.orchaldir.gm.app.html.model.parseOptionalComplexName
 import at.orchaldir.gm.app.html.model.parseOwnership
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.economy.parseOptionalBusinessId
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOptionalDate
 import at.orchaldir.gm.core.action.UpdateBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.selector.economy.getBusinessesWithoutBuilding
 import io.ktor.http.*
 
 fun parseBuildingId(parameters: Parameters, param: String, default: Int = 0) =
@@ -28,7 +27,7 @@ fun parseUpdateBuilding(parameters: Parameters, state: State, id: BuildingId): U
         constructionDate,
         parseOwnership(parameters, state, constructionDate),
         parseOptionalArchitecturalStyleId(parameters, STYLE),
-        parsePurpose(parameters, state),
+        parseBuildingPurpose(parameters, state),
         parseCreator(parameters),
     )
 }
@@ -50,14 +49,4 @@ private fun parseStreets(parameters: Parameters): List<StreetId> {
 
     return (0..<count)
         .map { parseStreetId(parameters, combine(ADDRESS, STREET, it)) }
-}
-
-fun parsePurpose(parameters: Parameters, state: State): BuildingPurpose = when (parameters[PURPOSE]) {
-    BuildingPurposeType.ApartmentHouse.toString() -> ApartmentHouse(parseInt(parameters, combine(PURPOSE, NUMBER), 10))
-    BuildingPurposeType.SingleBusiness.toString() -> SingleBusiness(
-        parseOptionalBusinessId(parameters, combine(PURPOSE, BUSINESS))
-            ?: state.getBusinessesWithoutBuilding().first()
-    )
-
-    else -> SingleFamilyHouse
 }

@@ -5,11 +5,16 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class BuildingPurposeType {
+    ApartmentHouse,
+    BusinessAndHome,
     SingleBusiness,
-    SingleFamilyHouse,
-    ApartmentHouse;
+    SingleFamilyHouse;
 
-    fun isBusiness() = this == SingleBusiness
+    fun isBusiness() = this == SingleBusiness ||
+            this == BusinessAndHome
+
+    fun isHome() = this == BusinessAndHome ||
+            this == SingleFamilyHouse
 }
 
 @Serializable
@@ -17,20 +22,32 @@ sealed class BuildingPurpose {
 
     fun getType() = when (this) {
         is ApartmentHouse -> BuildingPurposeType.ApartmentHouse
+        is BusinessAndHome -> BuildingPurposeType.BusinessAndHome
         is SingleBusiness -> BuildingPurposeType.SingleBusiness
         is SingleFamilyHouse -> BuildingPurposeType.SingleFamilyHouse
     }
 
+    fun isHome() = when (this) {
+        is BusinessAndHome, is SingleFamilyHouse -> true
+        else -> false
+    }
+
     fun contains(business: BusinessId) = when (this) {
+        is BusinessAndHome -> this.business == business
         is SingleBusiness -> this.business == business
         else -> false
     }
 
     fun getBusinesses() = when (this) {
+        is BusinessAndHome -> setOf(business)
         is SingleBusiness -> setOf(business)
         else -> emptySet()
     }
 }
+
+@Serializable
+@SerialName("BusinessAndHome")
+data class BusinessAndHome(val business: BusinessId) : BuildingPurpose()
 
 // business
 

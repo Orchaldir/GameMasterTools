@@ -24,6 +24,10 @@
   "5": {
    "id": 5,
    "name": "Waiter"
+  },
+  "6": {
+   "id": 6,
+   "name": "Doctor"
   }
  }
 }

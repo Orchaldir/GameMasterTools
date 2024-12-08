@@ -77,7 +77,7 @@
     }
    },
    "purpose": {
-    "type": "SingleBusiness",
+    "type": "BusinessAndHome",
     "business": 2
    }
   },
@@ -279,18 +279,11 @@
     "current": {
      "type": "Character",
      "character": 2
-    },
-    "previousEntries": [
-     {
-      "entry": {
-       "type": "Undefined"
-      },
-      "until": {
-       "type": "Year",
-       "year": 1909
-      }
-     }
-    ]
+    }
+   },
+   "purpose": {
+    "type": "BusinessAndHome",
+    "business": 4
    }
   },
   "36": {
@@ -543,7 +536,7 @@
     }
    },
    "purpose": {
-    "type": "SingleBusiness",
+    "type": "BusinessAndHome",
     "business": 3
    }
   },

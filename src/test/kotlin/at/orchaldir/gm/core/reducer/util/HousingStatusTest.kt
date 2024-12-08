@@ -63,7 +63,7 @@ class HousingStatusTest {
     fun `Living in an house requires a house`() {
         val state = STATE.updateStorage(Storage(create(ApartmentHouse(2))))
 
-        assertIllegalArgument("The home is not a single family house!") {
+        assertIllegalArgument("The home is not a home!") {
             checkHousingStatusHistory(state, History(IN_HOUSE), DAY0)
         }
     }

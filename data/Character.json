@@ -197,6 +197,13 @@
       }
      }
     ]
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 4,
+     "job": 6
+    }
    }
   },
   "3": {
@@ -448,6 +455,12 @@
      "Shirt": 2
     }
    },
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 9
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "Employed",
@@ -473,6 +486,12 @@
     "10": [
      "Spouse"
     ]
+   },
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 66
+    }
    },
    "employmentStatus": {
     "current": {
@@ -502,6 +521,12 @@
     "9": [
      "Spouse"
     ]
+   },
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 66
+    }
    },
    "employmentStatus": {
     "current": {
@@ -533,6 +558,12 @@
     10,
     47
    ],
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 66
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "Employed",

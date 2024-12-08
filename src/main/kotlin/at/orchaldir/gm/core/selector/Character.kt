@@ -84,6 +84,10 @@ fun State.getCharactersLivingInHouse(building: BuildingId) = getCharacterStorage
     .getAll()
     .filter { c -> c.housingStatus.current.isLivingInHouse(building) }
 
+fun State.countCharactersLivingInHouse(building: BuildingId) = getCharacterStorage()
+    .getAll()
+    .count { c -> c.housingStatus.current.isLivingInHouse(building) }
+
 fun State.getCharactersPreviouslyLivingIn(building: BuildingId) = getCharacterStorage()
     .getAll()
     .filter { c -> c.housingStatus.previousEntries.any { it.entry.isLivingIn(building) } }
