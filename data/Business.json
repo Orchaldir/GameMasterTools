@@ -44,6 +44,24 @@
      "character": 8
     }
    }
+  },
+  "3": {
+   "id": 3,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "GivenName",
+     "id": 9
+    },
+    "prefix": null,
+    "postfix": "'s Grill"
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 9
+    }
+   }
   }
  }
 }

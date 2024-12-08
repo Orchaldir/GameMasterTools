@@ -535,6 +535,16 @@
      "width": 2,
      "height": 1
     }
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 9
+    }
+   },
+   "purpose": {
+    "type": "SingleBusiness",
+    "business": 3
    }
   },
   "67": {

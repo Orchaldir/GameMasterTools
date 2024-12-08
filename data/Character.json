@@ -455,6 +455,90 @@
      "job": 3
     }
    }
+  },
+  "9": {
+   "id": 9,
+   "name": {
+    "type": "Family",
+    "given": "Jim",
+    "middle": null,
+    "family": "Haggerty"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 1879
+   },
+   "relationships": {
+    "10": [
+     "Spouse"
+    ]
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 3,
+     "job": 4
+    }
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": {
+    "type": "Family",
+    "given": "Ann",
+    "middle": null,
+    "family": "Haggerty"
+   },
+   "gender": "Female",
+   "birthDate": {
+    "type": "Year",
+    "year": 1882
+   },
+   "personality": [
+    28
+   ],
+   "relationships": {
+    "9": [
+     "Spouse"
+    ]
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 3,
+     "job": 5
+    }
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": {
+    "type": "Family",
+    "given": "Jason",
+    "middle": null,
+    "family": "Haggerty"
+   },
+   "gender": "Male",
+   "origin": {
+    "type": "Born",
+    "mother": 10,
+    "father": 9
+   },
+   "birthDate": {
+    "type": "Year",
+    "year": 1907
+   },
+   "personality": [
+    10
+   ],
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 3,
+     "job": 5
+    }
+   }
   }
  }
 }
