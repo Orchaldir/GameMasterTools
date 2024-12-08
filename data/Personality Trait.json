@@ -220,6 +220,21 @@
    "id": 43,
    "name": "Teetotaler",
    "group": 104
+  },
+  "44": {
+   "id": 44,
+   "name": "Incurious",
+   "group": 105
+  },
+  "45": {
+   "id": 45,
+   "name": "Curious",
+   "group": 105
+  },
+  "46": {
+   "id": 46,
+   "name": "Nosey",
+   "group": 105
   }
  }
 }
