@@ -459,8 +459,19 @@ class BuildingTest {
         @Nested
         inner class PurposeTest {
 
+            private val action0 = UpdateBuilding(
+                BUILDING_ID_0,
+                null,
+                NoAddress,
+                DAY0,
+                OWNED_BY_CHARACTER,
+                STYLE,
+                SingleFamilyHouse,
+                UndefinedCreator
+            )
+
             @Test
-            fun `Cannot change the purpose, while characters are living in it`() {
+            fun `A home needs to stay a home, while characters are living in it`() {
                 val state = STATE.updateStorage(
                     Storage(
                         Character(
@@ -469,20 +480,29 @@ class BuildingTest {
                         )
                     )
                 )
-                val action = UpdateBuilding(
-                    BUILDING_ID_0,
-                    null,
-                    NoAddress,
-                    DAY0,
-                    OWNED_BY_CHARACTER,
-                    STYLE,
-                    ApartmentHouse(3),
-                    UndefinedCreator
-                )
+                val action = action0.copy(purpose = ApartmentHouse(3))
 
                 assertIllegalArgument("Cannot change the purpose, while characters are living in it!") {
                     REDUCER.invoke(state, action)
                 }
+            }
+
+            @Test
+            fun `A home can become another type of home, while characters are living in it`() {
+                val state = STATE.updateStorage(
+                    Storage(
+                        Character(
+                            CHARACTER_ID_0,
+                            housingStatus = History(InHouse(BUILDING_ID_0))
+                        )
+                    )
+                )
+                val action = action0.copy(purpose = BusinessAndHome(BUSINESS_ID_0))
+
+                assertEquals(
+                    BusinessAndHome(BUSINESS_ID_0),
+                    REDUCER.invoke(state, action).first.getBuildingStorage().getOrThrow(BUILDING_ID_0).purpose
+                )
             }
 
             @Test
@@ -498,17 +518,7 @@ class BuildingTest {
                             )
                         )
                         .updateStorage(Storage(Building(BUILDING_ID_0, purpose = ApartmentHouse(5))))
-                    val action =
-                        UpdateBuilding(
-                            BUILDING_ID_0,
-                            null,
-                            NoAddress,
-                            DAY0,
-                            OWNED_BY_CHARACTER,
-                            STYLE,
-                            ApartmentHouse(it),
-                            UndefinedCreator
-                        )
+                    val action = action0.copy(purpose = ApartmentHouse(it))
 
                     assertIllegalArgument("The apartment house 0 requires at least 5 apartments!") {
                         REDUCER.invoke(state, action)
@@ -519,17 +529,7 @@ class BuildingTest {
             @Test
             fun `An apartment house requires at least 2 apartments`() {
                 (-1..1).forEach {
-                    val action =
-                        UpdateBuilding(
-                            BUILDING_ID_0,
-                            null,
-                            NoAddress,
-                            DAY0,
-                            OWNED_BY_CHARACTER,
-                            STYLE,
-                            ApartmentHouse(it),
-                            UndefinedCreator
-                        )
+                    val action = action0.copy(purpose = ApartmentHouse(it))
 
                     assertIllegalArgument("The apartment house 0 requires at least 2 apartments!") {
                         REDUCER.invoke(STATE, action)
