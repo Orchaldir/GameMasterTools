@@ -246,6 +246,79 @@
      "job": 0
     }
    }
+  },
+  "5": {
+   "id": 5,
+   "name": {
+    "type": "Family",
+    "given": "Dan",
+    "middle": null,
+    "family": "Spencer"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 1881
+   },
+   "personality": [
+    9,
+    24,
+    27
+   ],
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "bodyShape": "Muscular"
+    },
+    "head": {
+     "ears": {
+      "type": "Normal",
+      "size": "Large"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "pupilColor": "Blue"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "MiddlePart"
+      },
+      "color": "Black"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "Shaved"
+       },
+       "color": "Maroon"
+      },
+      "width": "Large"
+     }
+    },
+    "height": {
+     "millimeters": 1800
+    }
+   },
+   "equipmentMap": {
+    "map": {
+     "Coat": 33,
+     "Footwear": 1,
+     "Pants": 4,
+     "Shirt": 2
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 1,
+     "job": 1
+    }
+   }
   }
  }
 }
