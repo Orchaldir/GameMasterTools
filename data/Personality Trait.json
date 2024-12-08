@@ -210,6 +210,16 @@
    "id": 41,
    "name": "Greedy",
    "group": 103
+  },
+  "42": {
+   "id": 42,
+   "name": "Drunk",
+   "group": 104
+  },
+  "43": {
+   "id": 43,
+   "name": "Teetotaler",
+   "group": 104
   }
  }
 }
