@@ -11,11 +11,6 @@ import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.selector.economy.getBusinessesWithoutBuilding
-import at.orchaldir.gm.core.selector.getCharactersLivingIn
-import at.orchaldir.gm.core.selector.getCharactersLivingInApartment
-import at.orchaldir.gm.core.selector.getCharactersLivingInHouse
-import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -249,7 +244,7 @@ private fun HTML.showBuildingDetails(
             showOwnership(call, state, building.ownership)
             field("Size", building.lot.size.format())
             optionalFieldLink("Architectural Style", call, state, building.style)
-            showPurpose(call, state, building)
+            showBuildingPurpose(call, state, building)
             action(editLink, "Edit")
             action(editLotLink, "Move & Resize")
             if (state.canDelete(building)) {
@@ -259,38 +254,6 @@ private fun HTML.showBuildingDetails(
         }, {
             svg(visualizeBuilding(call, state, building), 90)
         })
-    }
-}
-
-fun HtmlBlockTag.showPurpose(
-    call: ApplicationCall,
-    state: State,
-    building: Building,
-) {
-    val purpose = building.purpose
-    field("Purpose", purpose.getType().toString())
-
-    when (purpose) {
-        is ApartmentHouse -> {
-            field("Apartments", purpose.apartments.toString())
-            repeat(purpose.apartments) { i ->
-                showList("${i + 1}.Apartment", state.getCharactersLivingInApartment(building.id, i)) { c ->
-                    link(call, state, c)
-                }
-            }
-        }
-
-        is SingleBusiness -> fieldLink("Business", call, state, purpose.business)
-
-        is SingleFamilyHouse -> {
-            showList("Inhabitants", state.getCharactersLivingInHouse(building.id)) { c ->
-                link(call, state, c)
-            }
-        }
-    }
-
-    showList("Previous Inhabitants", state.getCharactersPreviouslyLivingIn(building.id)) { c ->
-        link(call, state, c)
     }
 }
 
@@ -324,49 +287,13 @@ private fun HTML.showBuildingEditor(
                     label = s.name()
                     value = s.id().value.toString()
                 }
-                selectPurpose(state, building)
+                selectBuildingPurpose(state, building)
                 button("Update", updateLink)
             }
             back(backLink)
         }, {
             svg(visualizeBuilding(call, state, building), 90)
         })
-    }
-}
-
-fun FORM.selectPurpose(state: State, building: Building) {
-    val purpose = building.purpose
-    val inhabitants = state.getCharactersLivingIn(building.id)
-    val availableBusinesses = state.getBusinessesWithoutBuilding() + purpose.getBusinesses()
-
-    selectValue("Purpose", PURPOSE, BuildingPurposeType.entries, true) { type ->
-        label = type.toString()
-        value = type.toString()
-        selected = purpose.getType() == type
-        disabled = (purpose.getType() != type && inhabitants.isNotEmpty()) ||
-                (type.isBusiness() && availableBusinesses.isEmpty())
-    }
-
-    when (purpose) {
-        is ApartmentHouse -> {
-            val min = state.getMinNumberOfApartment(building.id)
-            selectInt("Apartments", purpose.apartments, min, 1000, 1, combine(PURPOSE, NUMBER), true)
-        }
-
-        is SingleBusiness -> {
-            selectValue(
-                "Business",
-                combine(PURPOSE, BUSINESS),
-                availableBusinesses,
-                false
-            ) { business ->
-                label = state.getBusinessStorage().getOrThrow(business).name(state)
-                value = business.value().toString()
-                selected = purpose.business == business
-            }
-        }
-
-        SingleFamilyHouse -> doNothing()
     }
 }
 

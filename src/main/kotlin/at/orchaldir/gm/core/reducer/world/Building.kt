@@ -171,6 +171,7 @@ private fun checkPurpose(
             }
         }
 
+        is BuildingPurpose -> doNothing()
         is SingleBusiness -> doNothing()
         is SingleFamilyHouse -> doNothing()
     }
