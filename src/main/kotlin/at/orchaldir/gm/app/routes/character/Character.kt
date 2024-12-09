@@ -200,6 +200,12 @@ private fun HTML.showAllCharacters(
                 }
             }
         }
+
+        if (state.canCreateCharacter()) {
+            action(createLink, "Add")
+        }
+        back("/")
+
         showCauseOfDeath(characters)
         showCultureCount(call, state, characters)
         showGenderCount(characters)
@@ -207,11 +213,6 @@ private fun HTML.showAllCharacters(
         showHousingStatusCount(characters)
         showPersonalityCount(call, state, characters)
         showRaceCount(call, state, characters)
-
-        if (state.canCreateCharacter()) {
-            action(createLink, "Add")
-        }
-        back("/")
     }
 }
 

@@ -28,6 +28,10 @@
   "6": {
    "id": 6,
    "name": "Doctor"
+  },
+  "7": {
+   "id": 7,
+   "name": "Reverend"
   }
  }
 }

@@ -578,6 +578,10 @@
      "width": 3,
      "height": 2
     }
+   },
+   "purpose": {
+    "type": "BusinessAndHome",
+    "business": 5
    }
   },
   "73": {
