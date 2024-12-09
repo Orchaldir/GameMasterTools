@@ -94,6 +94,25 @@
    "name": {
     "type": "Simple",
     "name": "First Baptist Church of the Divine Ascension"
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 12
+    }
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": {
+    "type": "Simple",
+    "name": "School"
+   },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
    }
   }
  }

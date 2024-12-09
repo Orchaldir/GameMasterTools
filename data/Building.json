@@ -562,6 +562,16 @@
    "id": 70,
    "lot": {
     "tileIndex": 549
+   },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   },
+   "purpose": {
+    "type": "SingleBusiness",
+    "business": 6
    }
   },
   "71": {
@@ -577,6 +587,12 @@
     "size": {
      "width": 3,
      "height": 2
+    }
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 12
     }
    },
    "purpose": {
