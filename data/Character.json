@@ -125,7 +125,8 @@
    },
    "personality": [
     12,
-    28
+    28,
+    47
    ],
    "appearance": {
     "type": "Humanoid",
