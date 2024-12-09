@@ -269,8 +269,8 @@
      "type": "FullName",
      "id": 2
     },
-    "prefix": "Home and Practice of Dr",
-    "postfix": null
+    "prefix": "Dr",
+    "postfix": "'s Home and Practice"
    },
    "lot": {
     "tileIndex": 313

@@ -4,8 +4,13 @@
   "0": {
    "id": 0,
    "name": {
-    "type": "Simple",
-    "name": "Cobb’s Corners"
+    "type": "Reference",
+    "reference": {
+     "type": "FamilyName",
+     "id": 0
+    },
+    "prefix": null,
+    "postfix": "’s Corners"
    },
    "map": {
     "size": {

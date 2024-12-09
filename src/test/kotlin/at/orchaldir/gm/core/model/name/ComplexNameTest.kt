@@ -46,16 +46,16 @@ class ComplexNameTest {
 
         @Test
         fun `Reference full name with other name`() {
-            val name = NameWithReference(ReferencedFullName(CHARACTER_ID_1), "Pre0", "Post0")
+            val name = NameWithReference(ReferencedFullName(CHARACTER_ID_1), "Pre0", "’Post0")
 
-            assertEquals("Pre0 Mononym0 Post0", name.resolve(STATE))
+            assertEquals("Pre0 Mononym0’Post0", name.resolve(STATE))
         }
 
         @Test
         fun `Reference family name with family name`() {
-            val name = NameWithReference(ReferencedFamilyName(CHARACTER_ID_0), "Pre1", "Post1")
+            val name = NameWithReference(ReferencedFamilyName(CHARACTER_ID_0), "Pre1", "'Post1")
 
-            assertEquals("Pre1 Family0 Post1", name.resolve(STATE))
+            assertEquals("Pre1 Family0'Post1", name.resolve(STATE))
         }
 
         @Test

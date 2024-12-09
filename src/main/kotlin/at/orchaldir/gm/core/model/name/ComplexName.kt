@@ -66,14 +66,20 @@ data class NameWithReference(
         }
 
         return if (prefix != null && postfix != null) {
-            "$prefix $referencedName $postfix"
+            "$prefix $referencedName${handlePostfix(postfix)}"
         } else if (prefix != null) {
             "$prefix $referencedName"
         } else if (postfix != null) {
-            "$referencedName $postfix"
+            "$referencedName${handlePostfix(postfix)}"
         } else {
             error("Prefix & postfix are null!")
         }
     }
 
+}
+
+private fun handlePostfix(postfix: String) = if (postfix.startsWith('\'') || postfix.startsWith('’')) {
+    postfix
+} else {
+    " $postfix"
 }
