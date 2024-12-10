@@ -77,7 +77,7 @@ private fun HTML.showBuildingEditor(
     val backLink = href(call, town.id)
     val previewLink = call.application.href(TownRoutes.BuildingRoutes.Preview(town.id))
 
-    simpleHtml("Edit Buildings of Town ${town.name}") {
+    simpleHtml("Edit Buildings of Town ${town.name.resolve(state)}") {
         split({
             form {
                 id = "editor"

@@ -114,6 +114,37 @@
      "town": 0
     }
    }
+  },
+  "7": {
+   "id": 7,
+   "name": {
+    "type": "Simple",
+    "name": "Town Hall"
+   },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "FamilyName",
+     "id": 16
+    },
+    "prefix": null,
+    "postfix": "'s Goods"
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 16
+    }
+   }
   }
  }
 }

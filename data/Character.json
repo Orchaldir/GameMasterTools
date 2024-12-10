@@ -683,6 +683,70 @@
      "job": 8
     }
    }
+  },
+  "16": {
+   "id": 16,
+   "name": {
+    "type": "Family",
+    "given": "Fred",
+    "middle": null,
+    "family": "Karner"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 1867
+   },
+   "relationships": {
+    "17": [
+     "Spouse"
+    ]
+   },
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 74
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 8,
+     "job": 9
+    }
+   }
+  },
+  "17": {
+   "id": 17,
+   "name": {
+    "type": "Family",
+    "given": "Christine",
+    "middle": null,
+    "family": "Karner"
+   },
+   "gender": "Female",
+   "birthDate": {
+    "type": "Year",
+    "year": 1870
+   },
+   "relationships": {
+    "16": [
+     "Spouse"
+    ]
+   },
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 74
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 8,
+     "job": 9
+    }
+   }
   }
  }
 }

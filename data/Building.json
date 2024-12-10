@@ -111,6 +111,16 @@
      "width": 2,
      "height": 1
     }
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 16
+    }
+   },
+   "purpose": {
+    "type": "SingleBusiness",
+    "business": 8
    }
   },
   "14": {
@@ -233,6 +243,10 @@
      "width": 2,
      "height": 1
     }
+   },
+   "purpose": {
+    "type": "SingleBusiness",
+    "business": 7
    }
   },
   "33": {
@@ -604,6 +618,27 @@
    "id": 73,
    "lot": {
     "tileIndex": 35
+   }
+  },
+  "74": {
+   "id": 74,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "FamilyName",
+     "id": 16
+    },
+    "prefix": "Home of Family",
+    "postfix": null
+   },
+   "lot": {
+    "tileIndex": 168
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 16
+    }
    }
   }
  }
