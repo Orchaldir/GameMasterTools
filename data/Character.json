@@ -121,11 +121,12 @@
    "gender": "Male",
    "birthDate": {
     "type": "Day",
-    "day": 678938
+    "day": 679101
    },
    "personality": [
     12,
-    28
+    28,
+    47
    ],
    "appearance": {
     "type": "Humanoid",
@@ -569,6 +570,181 @@
      "type": "Employed",
      "business": 3,
      "job": 5
+    }
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": {
+    "type": "Family",
+    "given": "Earl",
+    "middle": null,
+    "family": "Wilson"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 1878
+   },
+   "personality": [
+    24,
+    49,
+    35
+   ],
+   "relationships": {
+    "13": [
+     "Spouse"
+    ]
+   },
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 72
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 5,
+     "job": 7
+    }
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": {
+    "type": "Family",
+    "given": "Martha",
+    "middle": null,
+    "family": "Wilson"
+   },
+   "gender": "Female",
+   "birthDate": {
+    "type": "Year",
+    "year": 1898
+   },
+   "personality": [
+    13
+   ],
+   "relationships": {
+    "12": [
+     "Spouse"
+    ]
+   },
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 72
+    }
+   }
+  },
+  "14": {
+   "id": 14,
+   "name": {
+    "type": "Family",
+    "given": "Jacob",
+    "middle": null,
+    "family": "Wilson"
+   },
+   "gender": "Male",
+   "origin": {
+    "type": "Born",
+    "mother": 13,
+    "father": 12
+   },
+   "birthDate": {
+    "type": "Year",
+    "year": 1913
+   },
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 72
+    }
+   }
+  },
+  "15": {
+   "id": 15,
+   "name": {
+    "type": "Family",
+    "given": "Holly",
+    "middle": null,
+    "family": "Rydell"
+   },
+   "gender": "Female",
+   "birthDate": {
+    "type": "Year",
+    "year": 1890
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 6,
+     "job": 8
+    }
+   }
+  },
+  "16": {
+   "id": 16,
+   "name": {
+    "type": "Family",
+    "given": "Fred",
+    "middle": null,
+    "family": "Karner"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 1867
+   },
+   "relationships": {
+    "17": [
+     "Spouse"
+    ]
+   },
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 74
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 8,
+     "job": 9
+    }
+   }
+  },
+  "17": {
+   "id": 17,
+   "name": {
+    "type": "Family",
+    "given": "Christine",
+    "middle": null,
+    "family": "Karner"
+   },
+   "gender": "Female",
+   "birthDate": {
+    "type": "Year",
+    "year": 1870
+   },
+   "relationships": {
+    "16": [
+     "Spouse"
+    ]
+   },
+   "housingStatus": {
+    "current": {
+     "type": "InHouse",
+     "building": 74
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 8,
+     "job": 9
     }
    }
   }

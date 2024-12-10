@@ -245,6 +245,11 @@
    "id": 48,
    "name": "Rude",
    "group": 106
+  },
+  "49": {
+   "id": 49,
+   "name": "Stern",
+   "group": 13
   }
  }
 }

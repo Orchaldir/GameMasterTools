@@ -111,6 +111,16 @@
      "width": 2,
      "height": 1
     }
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 16
+    }
+   },
+   "purpose": {
+    "type": "SingleBusiness",
+    "business": 8
    }
   },
   "14": {
@@ -233,6 +243,10 @@
      "width": 2,
      "height": 1
     }
+   },
+   "purpose": {
+    "type": "SingleBusiness",
+    "business": 7
    }
   },
   "33": {
@@ -269,8 +283,8 @@
      "type": "FullName",
      "id": 2
     },
-    "prefix": "Home and Practice of Dr",
-    "postfix": null
+    "prefix": "Dr",
+    "postfix": "'s Home and Practice"
    },
    "lot": {
     "tileIndex": 313
@@ -562,6 +576,16 @@
    "id": 70,
    "lot": {
     "tileIndex": 549
+   },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   },
+   "purpose": {
+    "type": "SingleBusiness",
+    "business": 6
    }
   },
   "71": {
@@ -578,12 +602,43 @@
      "width": 3,
      "height": 2
     }
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 12
+    }
+   },
+   "purpose": {
+    "type": "BusinessAndHome",
+    "business": 5
    }
   },
   "73": {
    "id": 73,
    "lot": {
     "tileIndex": 35
+   }
+  },
+  "74": {
+   "id": 74,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "FamilyName",
+     "id": 16
+    },
+    "prefix": "Home of Family",
+    "postfix": null
+   },
+   "lot": {
+    "tileIndex": 168
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 16
+    }
    }
   }
  }

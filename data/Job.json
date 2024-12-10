@@ -28,6 +28,18 @@
   "6": {
    "id": 6,
    "name": "Doctor"
+  },
+  "7": {
+   "id": 7,
+   "name": "Reverend"
+  },
+  "8": {
+   "id": 8,
+   "name": "Teacher"
+  },
+  "9": {
+   "id": 9,
+   "name": "Shopkeeper"
   }
  }
 }
