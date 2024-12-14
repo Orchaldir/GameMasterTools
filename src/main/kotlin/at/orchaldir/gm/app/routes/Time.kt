@@ -3,9 +3,7 @@ package at.orchaldir.gm.app.routes
 import at.orchaldir.gm.app.CURRENT
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.selectDate
-import at.orchaldir.gm.app.html.model.showCurrentDate
-import at.orchaldir.gm.app.html.model.showOwner
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
 import at.orchaldir.gm.core.model.State
@@ -142,9 +140,7 @@ private fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day
     val yearLink = call.application.href(TimeRoutes.ShowYear(calendar.getYear(day)))
 
     simpleHtml("Day: " + calendar.display(displayDay)) {
-        field("Calendar") {
-            link(call, calendar)
-        }
+        fieldLink("Calendar", call, state, calendar)
         action(nextLink, "Next Month")
         action(previousLink, "Previous Month")
         action(yearLink, "Show Year")
@@ -264,9 +260,7 @@ private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Y
     val decadeLink = call.application.href(TimeRoutes.ShowDecade(decade))
 
     simpleHtml("Year: " + calendar.display(displayYear)) {
-        field("Calendar") {
-            link(call, calendar)
-        }
+        fieldLink("Calendar", call, state, calendar)
         action(nextLink, "Next Year")
         action(previousLink, "Previous Year")
         action(decadeLink, "Show Decade")
@@ -286,9 +280,9 @@ private fun HTML.showDecade(call: ApplicationCall, calendarId: CalendarId, decad
     val previousLink = call.application.href(TimeRoutes.ShowDecade(decade.previousDecade()))
 
     simpleHtml("Decade: " + calendar.display(displayDecade)) {
-        field("Calendar") {
-            link(call, calendar)
-        }
+        fieldLink("Calendar", call, state, calendar)
+        field(call, "Start", calendar, calendar.getStartOfDecade(decade))
+        field(call, "End", calendar, calendar.getEndOfDecade(decade))
         action(nextLink, "Next Decade")
         action(previousLink, "Previous Decade")
         showEvents(events, call, state, calendar)
@@ -324,9 +318,7 @@ private fun HTML.showEvents(call: ApplicationCall, calendarId: CalendarId) {
     val backLink = call.application.href(TimeRoutes())
 
     simpleHtml("Events") {
-        field("Calendar") {
-            link(call, calendar)
-        }
+        fieldLink("Calendar", call, state, calendar)
         showCurrentDate(call, state)
         showEvents(events, call, state, calendar)
         back(backLink)
