@@ -40,5 +40,5 @@ data class CalendarEras(
         .display(year.yearIndex + 1)
 
     fun display(decade: DisplayDecade) = getEra(decade.eraIndex)
-        .display(decade.decadeIndex)
+        .display(decade)
 }

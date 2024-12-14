@@ -152,8 +152,34 @@ private fun HtmlBlockTag.selectDate(
             selectYear(param, calendar, displayDate, minDate)
         }
 
-        is DisplayDecade -> TODO()
+        is DisplayDecade -> selectDecade(param, calendar, displayDate, minDate)
     }
+}
+
+private fun HtmlBlockTag.selectDecade(
+    param: String,
+    calendar: Calendar,
+    decade: DisplayDecade,
+    minDate: Date? = null,
+    maxDate: Date? = null,
+) {
+    val displayMinYear = minDate?.let {
+        when (it) {
+            is Day -> calendar.resolve(it).year
+            is Year -> calendar.resolve(it)
+            is Decade -> calendar.resolve(it).year()
+        }
+    }
+    val displayMaxYear = maxDate?.let {
+        when (it) {
+            is Day -> calendar.resolve(it).year
+            is Year -> calendar.resolve(it)
+            is Decade -> calendar.resolve(it).year()
+        }
+    }
+
+    selectEraIndex(param, calendar, decade.eraIndex, displayMinYear, displayMaxYear)
+    selectDecadeIndex(param, decade, displayMinYear, displayMaxYear)
 }
 
 fun FORM.selectYear(
@@ -204,7 +230,7 @@ private fun HtmlBlockTag.selectYear(
         }
     }
 
-    selectEraIndex(param, calendar, year, displayMinYear, displayMaxYear)
+    selectEraIndex(param, calendar, year.eraIndex, displayMinYear, displayMaxYear)
     selectYearIndex(param, year, displayMinYear, displayMaxYear)
 }
 
@@ -244,7 +270,7 @@ private fun HtmlBlockTag.selectDay(
         }
     }
 
-    selectEraIndex(param, calendar, displayDate.year, displayMinDay?.year)
+    selectEraIndex(param, calendar, displayDate.year.eraIndex, displayMinDay?.year)
     selectYearIndex(param, displayDate.year, displayMinDay?.year)
     selectMonthIndex(param, calendar, displayDate, displayMinDay)
     selectDayIndex(param, calendar, displayDate, displayMinDay)
@@ -253,7 +279,7 @@ private fun HtmlBlockTag.selectDay(
 private fun HtmlBlockTag.selectEraIndex(
     param: String,
     calendar: Calendar,
-    year: DisplayYear,
+    eraIndex: Int,
     minYear: DisplayYear? = null,
     maxYear: DisplayYear? = null,
 ) {
@@ -270,10 +296,39 @@ private fun HtmlBlockTag.selectEraIndex(
                 label = era.text
                 value = index.toString()
                 disabled = index < minIndex || index > maxIndex
-                selected = index == year.eraIndex
+                selected = index == eraIndex
             }
         }
     }
+}
+
+private fun HtmlBlockTag.selectDecadeIndex(
+    param: String,
+    decade: DisplayDecade,
+    minYear: DisplayYear? = null,
+    maxYear: DisplayYear? = null,
+) {
+    val decadeParam = combine(param, DECADE)
+    val minIndex = if (minYear != null) {
+        if (minYear.eraIndex == decade.eraIndex) {
+            minYear.yearIndex
+        } else {
+            0
+        }
+    } else {
+        0
+    }
+    val maxIndex = if (maxYear != null) {
+        if (maxYear.eraIndex == decade.eraIndex) {
+            maxYear.yearIndex
+        } else {
+            Int.MAX_VALUE
+        }
+    } else {
+        Int.MAX_VALUE
+    }
+
+    selectInt(decade.yearIndex(), minIndex, maxIndex, 10, decadeParam, true)
 }
 
 private fun HtmlBlockTag.selectYearIndex(
@@ -497,7 +552,7 @@ fun parseDecade(
     param: String,
 ): Decade {
     val eraIndex = parseInt(parameters, combine(param, ERA))
-    val decadeIndex = parseInt(parameters, combine(param, DECADE))
+    val decadeIndex = parseInt(parameters, combine(param, DECADE)) / 10
     val calendarDate = DisplayDecade(eraIndex, decadeIndex)
 
     return default.resolve(calendarDate)
