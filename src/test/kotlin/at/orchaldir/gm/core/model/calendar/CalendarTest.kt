@@ -324,6 +324,17 @@ class CalendarTest {
             assertResolve(CALENDAR0, 1, 1, 1)
         }
 
+        @Test
+        fun `Test with positive offset`() {
+            val calendar = createCalendar(Decade(1))
+
+            assertResolve(calendar, -2, 0, 2)
+            assertResolve(calendar, -1, 0, 1)
+            assertResolve(calendar, 0, 0, 0)
+            assertResolve(calendar, 1, 1, 0) // 1 AD
+            assertResolve(calendar, 2, 1, 1)
+        }
+
         private fun assertResolve(calendar: Calendar, inputDecade: Int, eraIndex: Int, decadeIndex: Int) {
             val decade = Decade(inputDecade)
             val displayYDecade = DisplayDecade(eraIndex, decadeIndex)
