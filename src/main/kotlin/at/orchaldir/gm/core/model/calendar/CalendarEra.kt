@@ -12,7 +12,7 @@ sealed class CalendarEra {
 
     fun display(year: Int) = display(year.toString())
 
-    fun display(decade: DisplayDecade) = display(decade.yearIndex().toString() + "s")
+    fun display(decade: DisplayDecade) = display(decade.display())
 
     fun display(date: String) = if (isPrefix) {
         "$text $date"

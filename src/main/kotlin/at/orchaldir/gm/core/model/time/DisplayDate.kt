@@ -27,11 +27,13 @@ data class DisplayDecade(
     val decadeIndex: Int,
 ) : DisplayDate() {
 
-    fun yearIndex() = if (eraIndex == 0) {
+    fun startYearIndex() = if (eraIndex == 0) {
         (decadeIndex + 1) * 10 - 1
     } else {
         decadeIndex * 10
     }
 
-    fun year() = DisplayYear(eraIndex, yearIndex())
+    fun display() = (decadeIndex * 10).toString() + "s"
+
+    fun year() = DisplayYear(eraIndex, startYearIndex())
 }
