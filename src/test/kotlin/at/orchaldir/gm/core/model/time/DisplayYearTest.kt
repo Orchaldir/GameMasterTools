@@ -10,6 +10,30 @@ class DisplayYearTest {
     inner class DecadeTest {
 
         @Test
+        fun `Test the first decade of BC`() {
+            // only 9 years
+            assertYear(0, 0, 0, 0)
+            assertYear(0, 1, 0, 0)
+            assertYear(0, 2, 0, 0)
+            assertYear(0, 3, 0, 0)
+            assertYear(0, 4, 0, 0)
+            assertYear(0, 5, 0, 0)
+            assertYear(0, 6, 0, 0)
+            assertYear(0, 7, 0, 0)
+            assertYear(0, 8, 0, 0)
+        }
+
+        @Test
+        fun `Test the second decade of BC`() {
+            assertYearsInDecade(0, 9, 0, 1)
+        }
+
+        @Test
+        fun `Test a decade of BC`() {
+            assertYearsInDecade(0, 109, 0, 11)
+        }
+
+        @Test
         fun `Test the first decade of AD`() {
             // only 9 years
             assertYear(1, 0, 1, 0)
