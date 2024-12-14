@@ -54,6 +54,21 @@ class CalendarTest {
             assertEquals("50s AD", CALENDAR0.display(DisplayDecade(1, 5)))
         }
 
+        @Test
+        fun `Test a day in BC`() {
+            assertEquals("BC 14.12.102", CALENDAR0.display(DisplayDay(0, 101, 11, 13)))
+        }
+
+        @Test
+        fun `Test a year in BC`() {
+            assertEquals("BC 1235", CALENDAR0.display(DisplayYear(0, 1234)))
+        }
+
+        @Test
+        fun `Test a decade in BC`() {
+            assertEquals("BC 110s", CALENDAR0.display(DisplayDecade(0, 11)))
+        }
+
     }
 
     @Nested
