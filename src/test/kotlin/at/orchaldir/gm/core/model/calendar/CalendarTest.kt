@@ -179,12 +179,17 @@ class CalendarTest {
 
         @Test
         fun `Get the start of a year`() {
+            assertEquals(Day(-10), CALENDAR0.getStartOfYear(Year(-2)))
+            assertEquals(Day(-5), CALENDAR0.getStartOfYear(Year(-1)))
+            assertEquals(Day(0), CALENDAR0.getStartOfYear(Year(0)))
             assertEquals(Day(5), CALENDAR0.getStartOfYear(Year(1)))
             assertEquals(Day(10), CALENDAR0.getStartOfYear(Year(2)))
         }
 
         @Test
         fun `Get the end of a year`() {
+            assertEquals(Day(-1), CALENDAR0.getEndOfYear(Year(-1)))
+            assertEquals(Day(4), CALENDAR0.getEndOfYear(Year(0)))
             assertEquals(Day(9), CALENDAR0.getEndOfYear(Year(1)))
             assertEquals(Day(14), CALENDAR0.getEndOfYear(Year(2)))
         }
