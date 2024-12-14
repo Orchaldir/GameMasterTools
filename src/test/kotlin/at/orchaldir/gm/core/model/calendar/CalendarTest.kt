@@ -69,6 +69,11 @@ class CalendarTest {
             assertEquals("BC 110s", CALENDAR0.display(DisplayDecade(0, 11)))
         }
 
+        @Test
+        fun `Test the first decade in BC`() {
+            assertEquals("BC 0s", CALENDAR0.display(DisplayDecade(0, 0)))
+        }
+
     }
 
     @Nested

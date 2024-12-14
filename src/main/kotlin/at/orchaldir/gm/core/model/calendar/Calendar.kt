@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.calendar
 import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
@@ -112,6 +113,12 @@ data class Calendar(
     fun getEndOfYear(year: Year) = getStartOfYear(year.nextYear()).previousDay()
 
     // decade
+
+    fun getDecade(date: Date): Decade = when (date) {
+        is Day -> TODO()
+        is Year -> resolve(resolve(date).decade())
+        is Decade -> date
+    }
 
     fun getStartOfDecade(decade: Decade) = resolve(getStartOfDecade(resolve(decade)))
 
