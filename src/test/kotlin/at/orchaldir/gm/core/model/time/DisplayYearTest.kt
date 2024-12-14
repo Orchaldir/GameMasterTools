@@ -25,16 +25,18 @@ class DisplayYearTest {
 
         @Test
         fun `Test the second decade of AD`() {
-            assertYear(1, 9, 1, 1)
-            assertYear(1, 10, 1, 1)
-            assertYear(1, 11, 1, 1)
-            assertYear(1, 12, 1, 1)
-            assertYear(1, 13, 1, 1)
-            assertYear(1, 14, 1, 1)
-            assertYear(1, 15, 1, 1)
-            assertYear(1, 16, 1, 1)
-            assertYear(1, 17, 1, 1)
-            assertYear(1, 18, 1, 1)
+            assertYearsInDecade(1, 9, 1, 1)
+        }
+
+        @Test
+        fun `Test a decade of AD`() {
+            assertYearsInDecade(1, 1919, 1, 192)
+        }
+
+        private fun assertYearsInDecade(inputEra: Int, startYear: Int, resultEra: Int, resultDecade: Int) {
+            repeat(10) {
+                assertYear(inputEra, startYear + it, resultEra, resultDecade)
+            }
         }
 
         private fun assertYear(inputEra: Int, inputYear: Int, resultEra: Int, resultDecade: Int) {
