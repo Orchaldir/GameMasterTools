@@ -305,9 +305,9 @@ class CalendarTest {
 
         @Test
         fun `Get the start of a decade`() {
-            assertEquals(Day(0), CALENDAR0.getStartOfDecade(Decade(0)))
-            assertEquals(Day(50), CALENDAR0.getStartOfDecade(Decade(1)))
-            assertEquals(Day(100), CALENDAR0.getStartOfDecade(Decade(2)))
+            assertEquals(Day(-5), CALENDAR0.getStartOfDecade(Decade(0)))
+            assertEquals(Day(45), CALENDAR0.getStartOfDecade(Decade(1)))
+            assertEquals(Day(95), CALENDAR0.getStartOfDecade(Decade(2)))
         }
 
         @Test
@@ -318,9 +318,9 @@ class CalendarTest {
 
         @Test
         fun `Get the end of a decade`() {
-            assertEquals(Day(49), CALENDAR0.getEndOfDecade(Decade(0)))
-            assertEquals(Day(99), CALENDAR0.getEndOfDecade(Decade(1)))
-            assertEquals(Day(149), CALENDAR0.getEndOfDecade(Decade(2)))
+            assertEquals(Day(44), CALENDAR0.getEndOfDecade(Decade(0)))
+            assertEquals(Day(94), CALENDAR0.getEndOfDecade(Decade(1)))
+            assertEquals(Day(144), CALENDAR0.getEndOfDecade(Decade(2)))
         }
     }
 
