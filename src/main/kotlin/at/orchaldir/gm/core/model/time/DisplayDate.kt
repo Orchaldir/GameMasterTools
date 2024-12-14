@@ -20,6 +20,8 @@ data class DisplayYear(
 ) : DisplayDate() {
 
     fun decadeIndex() = yearIndex / 10
+
+    fun decade() = DisplayDecade(eraIndex, decadeIndex())
 }
 
 data class DisplayDecade(

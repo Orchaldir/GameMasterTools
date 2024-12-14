@@ -139,6 +139,7 @@ private fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day
     val backLink = call.application.href(TimeRoutes())
     val nextLink = call.application.href(TimeRoutes.ShowDay(calendar.getStartOfNextMonth(day)))
     val previousLink = call.application.href(TimeRoutes.ShowDay(calendar.getStartOfPreviousMonth(day)))
+    val yearLink = call.application.href(TimeRoutes.ShowYear(calendar.getYear(day)))
 
     simpleHtml("Day: " + calendar.display(displayDay)) {
         field("Calendar") {
@@ -146,6 +147,8 @@ private fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day
         }
         action(nextLink, "Next Month")
         action(previousLink, "Previous Month")
+        action(yearLink, "Show Year")
+
         when (calendar.days) {
             DayOfTheMonth -> doNothing()
             is Weekdays -> showMonthWithWeekDays(
@@ -253,10 +256,12 @@ private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Y
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
     val displayYear = calendar.resolve(year)
+    val decade = calendar.resolve(displayYear.decade())
     val events = state.getEventsOfYear(calendarId, year)
     val backLink = call.application.href(TimeRoutes())
     val nextLink = call.application.href(TimeRoutes.ShowYear(year.nextYear()))
     val previousLink = call.application.href(TimeRoutes.ShowYear(year.previousYear()))
+    val decadeLink = call.application.href(TimeRoutes.ShowDecade(decade))
 
     simpleHtml("Year: " + calendar.display(displayYear)) {
         field("Calendar") {
@@ -264,6 +269,8 @@ private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Y
         }
         action(nextLink, "Next Year")
         action(previousLink, "Previous Year")
+        action(decadeLink, "Show Decade")
+
         showEvents(events, call, state, calendar)
         back(backLink)
     }
