@@ -15,216 +15,241 @@ private val CALENDAR1 = Calendar(CalendarId(1), days = Weekdays(listOf(WeekDay("
 
 class CalendarTest {
 
-    @Test
-    fun `Get the start of a year`() {
-        assertEquals(Day(5), CALENDAR0.getStartOfYear(Year(1)))
-        assertEquals(Day(10), CALENDAR0.getStartOfYear(Year(2)))
-    }
-
-    @Test
-    fun `Get the end of a year`() {
-        assertEquals(Day(9), CALENDAR0.getEndOfYear(Year(1)))
-        assertEquals(Day(14), CALENDAR0.getEndOfYear(Year(2)))
-    }
-
     @Nested
-    inner class IsAfterOrEqualTest {
-        @Test
-        fun `Test a greater than b`() {
-            assertTrue(CALENDAR0.isAfterOrEqual(Year(2), Year(1)))
-        }
+    inner class DataTest {
 
         @Test
-        fun `Test a equal to b`() {
-            assertTrue(CALENDAR0.isAfterOrEqual(Year(1), Year(1)))
-        }
-
-        @Test
-        fun `Test a less than b`() {
-            assertFalse(CALENDAR0.isAfterOrEqual(Year(1), Year(2)))
+        fun `Test the number of days per year`() {
+            assertEquals(5, CALENDAR0.getDaysPerYear())
         }
     }
 
     @Nested
-    inner class GetDurationInYearsTest {
+    inner class DayTest {
 
-        @Test
-        fun `From a year to the same year`() {
-            assertWholeYear(Year(1), 5, 0)
+        @Nested
+        inner class GetWeekDayTest {
+
+            @Test
+            fun `Day of the month returns 0`() {
+                assertNull(CALENDAR0.getWeekDay(Day(0)))
+                assertNull(CALENDAR0.getWeekDay(Day(1)))
+            }
+
+            @Test
+            fun `First week`() {
+                assertEquals(0, CALENDAR1.getWeekDay(Day(0)))
+                assertEquals(1, CALENDAR1.getWeekDay(Day(1)))
+                assertEquals(2, CALENDAR1.getWeekDay(Day(2)))
+            }
+
+            @Test
+            fun `Second week`() {
+                assertEquals(0, CALENDAR1.getWeekDay(Day(3)))
+                assertEquals(1, CALENDAR1.getWeekDay(Day(4)))
+                assertEquals(2, CALENDAR1.getWeekDay(Day(5)))
+            }
+
+            @Test
+            fun `Negative days`() {
+                assertEquals(2, CALENDAR1.getWeekDay(Day(-4)))
+                assertEquals(0, CALENDAR1.getWeekDay(Day(-3)))
+                assertEquals(1, CALENDAR1.getWeekDay(Day(-2)))
+                assertEquals(2, CALENDAR1.getWeekDay(Day(-1)))
+            }
+        }
+
+    }
+
+    @Nested
+    inner class MonthTest {
+
+        @Nested
+        inner class GetMonthTest {
+
+            @Test
+            fun `Get months of negative days`() {
+                assertEquals(MONTH0, CALENDAR0.getMonth(Day(-5)))
+                assertEquals(MONTH0, CALENDAR0.getMonth(Day(-4)))
+                assertEquals(MONTH1, CALENDAR0.getMonth(Day(-3)))
+                assertEquals(MONTH1, CALENDAR0.getMonth(Day(-2)))
+                assertEquals(MONTH1, CALENDAR0.getMonth(Day(-1)))
+            }
+
+            @Test
+            fun `Get months of the first year`() {
+                assertEquals(MONTH0, CALENDAR0.getMonth(Day(0)))
+                assertEquals(MONTH0, CALENDAR0.getMonth(Day(1)))
+                assertEquals(MONTH1, CALENDAR0.getMonth(Day(2)))
+                assertEquals(MONTH1, CALENDAR0.getMonth(Day(3)))
+                assertEquals(MONTH1, CALENDAR0.getMonth(Day(4)))
+            }
+
+            @Test
+            fun `Get months of the second year`() {
+                assertEquals(MONTH0, CALENDAR0.getMonth(Day(5)))
+                assertEquals(MONTH0, CALENDAR0.getMonth(Day(6)))
+                assertEquals(MONTH1, CALENDAR0.getMonth(Day(7)))
+                assertEquals(MONTH1, CALENDAR0.getMonth(Day(8)))
+                assertEquals(MONTH1, CALENDAR0.getMonth(Day(9)))
+            }
+
+            @Test
+            fun `Test with offset`() {
+                val calendar = CALENDAR0.copy(eras = CalendarEras("BC", true, Day(1), "AD", false))
+
+                assertEquals(MONTH1, calendar.getMonth(Day(0)))
+                assertEquals(MONTH0, calendar.getMonth(Day(1)))
+            }
         }
 
         @Test
-        fun `From a day to the same year`() {
-            assertWholeYear(Day(5), 5, 0)
+        fun `Get last month index`() {
+            assertEquals(1, CALENDAR0.getLastMonthIndex())
         }
 
         @Test
-        fun `From a year to the next year`() {
-            assertWholeYear(Year(1), 10, 1)
+        fun `Get start of month`() {
+            assertEquals(Day(2), CALENDAR0.getStartOfMonth(Day(2)))
+            assertEquals(Day(2), CALENDAR0.getStartOfMonth(Day(3)))
+            assertEquals(Day(2), CALENDAR0.getStartOfMonth(Day(4)))
         }
 
         @Test
-        fun `From a day to the next year`() {
-            assertWholeYear(Day(5), 10, 1)
+        fun `Get end of month`() {
+            assertEquals(Day(1), CALENDAR0.getEndOfMonth(Day(0)))
+            assertEquals(Day(1), CALENDAR0.getEndOfMonth(Day(1)))
         }
 
-        private fun assertWholeYear(from: Date, toStart: Int, result: Int) {
-            assertGetDuration(from, toStart, result)
-            assertGetDuration(from, toStart + 1, result)
-            assertGetDuration(from, toStart + 2, result)
-            assertGetDuration(from, toStart + 3, result)
-            assertGetDuration(from, toStart + 4, result)
+        @Nested
+        inner class GetStartOfNextMonthTest {
+            @Test
+            fun `Get start of next month in first era`() {
+                assertEquals(Day(-3), CALENDAR0.getStartOfNextMonth(Day(-5)))
+                assertEquals(Day(-3), CALENDAR0.getStartOfNextMonth(Day(-4)))
+            }
+
+            @Test
+            fun `Get start of next month across era`() {
+                assertEquals(Day(0), CALENDAR0.getStartOfNextMonth(Day(-3)))
+                assertEquals(Day(0), CALENDAR0.getStartOfNextMonth(Day(-2)))
+                assertEquals(Day(0), CALENDAR0.getStartOfNextMonth(Day(-1)))
+            }
+
+            @Test
+            fun `Get start of next month`() {
+                assertEquals(Day(2), CALENDAR0.getStartOfNextMonth(Day(0)))
+                assertEquals(Day(2), CALENDAR0.getStartOfNextMonth(Day(1)))
+            }
+
+            @Test
+            fun `In the next year`() {
+                assertEquals(Day(5), CALENDAR0.getStartOfNextMonth(Day(2)))
+                assertEquals(Day(5), CALENDAR0.getStartOfNextMonth(Day(3)))
+                assertEquals(Day(5), CALENDAR0.getStartOfNextMonth(Day(4)))
+            }
         }
 
-        private fun assertGetDuration(from: Date, to: Int, result: Int) {
-            assertEquals(result, CALENDAR0.getDurationInYears(from, Day(to)))
+        @Nested
+        inner class GetStartOfPreviousMonthTest {
+            @Test
+            fun `Get start of previous month in first era`() {
+                assertEquals(Day(-5), CALENDAR0.getStartOfPreviousMonth(Day(-3)))
+                assertEquals(Day(-5), CALENDAR0.getStartOfPreviousMonth(Day(-2)))
+                assertEquals(Day(-5), CALENDAR0.getStartOfPreviousMonth(Day(-1)))
+            }
+
+            @Test
+            fun `Get start of previous month`() {
+                assertEquals(Day(-3), CALENDAR0.getStartOfPreviousMonth(Day(0)))
+                assertEquals(Day(-3), CALENDAR0.getStartOfPreviousMonth(Day(1)))
+            }
+
+            @Test
+            fun `In the next year`() {
+                assertEquals(Day(0), CALENDAR0.getStartOfPreviousMonth(Day(2)))
+                assertEquals(Day(0), CALENDAR0.getStartOfPreviousMonth(Day(3)))
+                assertEquals(Day(0), CALENDAR0.getStartOfPreviousMonth(Day(4)))
+            }
         }
     }
 
     @Nested
-    inner class GetMonthTest {
+    inner class YearTest {
 
         @Test
-        fun `Get months of negative days`() {
-            assertEquals(MONTH0, CALENDAR0.getMonth(Day(-5)))
-            assertEquals(MONTH0, CALENDAR0.getMonth(Day(-4)))
-            assertEquals(MONTH1, CALENDAR0.getMonth(Day(-3)))
-            assertEquals(MONTH1, CALENDAR0.getMonth(Day(-2)))
-            assertEquals(MONTH1, CALENDAR0.getMonth(Day(-1)))
+        fun `Get the start of a year`() {
+            assertEquals(Day(5), CALENDAR0.getStartOfYear(Year(1)))
+            assertEquals(Day(10), CALENDAR0.getStartOfYear(Year(2)))
         }
 
         @Test
-        fun `Get months of the first year`() {
-            assertEquals(MONTH0, CALENDAR0.getMonth(Day(0)))
-            assertEquals(MONTH0, CALENDAR0.getMonth(Day(1)))
-            assertEquals(MONTH1, CALENDAR0.getMonth(Day(2)))
-            assertEquals(MONTH1, CALENDAR0.getMonth(Day(3)))
-            assertEquals(MONTH1, CALENDAR0.getMonth(Day(4)))
-        }
-
-        @Test
-        fun `Get months of the second year`() {
-            assertEquals(MONTH0, CALENDAR0.getMonth(Day(5)))
-            assertEquals(MONTH0, CALENDAR0.getMonth(Day(6)))
-            assertEquals(MONTH1, CALENDAR0.getMonth(Day(7)))
-            assertEquals(MONTH1, CALENDAR0.getMonth(Day(8)))
-            assertEquals(MONTH1, CALENDAR0.getMonth(Day(9)))
-        }
-
-        @Test
-        fun `Test with offset`() {
-            val calendar = CALENDAR0.copy(eras = CalendarEras("BC", true, Day(1), "AD", false))
-
-            assertEquals(MONTH1, calendar.getMonth(Day(0)))
-            assertEquals(MONTH0, calendar.getMonth(Day(1)))
-        }
-    }
-
-    @Test
-    fun `Get last month index`() {
-        assertEquals(1, CALENDAR0.getLastMonthIndex())
-    }
-
-    @Test
-    fun `Get start of month`() {
-        assertEquals(Day(2), CALENDAR0.getStartOfMonth(Day(2)))
-        assertEquals(Day(2), CALENDAR0.getStartOfMonth(Day(3)))
-        assertEquals(Day(2), CALENDAR0.getStartOfMonth(Day(4)))
-    }
-
-    @Test
-    fun `Get end of month`() {
-        assertEquals(Day(1), CALENDAR0.getEndOfMonth(Day(0)))
-        assertEquals(Day(1), CALENDAR0.getEndOfMonth(Day(1)))
-    }
-
-    @Nested
-    inner class GetStartOfNextMonthTest {
-        @Test
-        fun `Get start of next month in first era`() {
-            assertEquals(Day(-3), CALENDAR0.getStartOfNextMonth(Day(-5)))
-            assertEquals(Day(-3), CALENDAR0.getStartOfNextMonth(Day(-4)))
-        }
-
-        @Test
-        fun `Get start of next month across era`() {
-            assertEquals(Day(0), CALENDAR0.getStartOfNextMonth(Day(-3)))
-            assertEquals(Day(0), CALENDAR0.getStartOfNextMonth(Day(-2)))
-            assertEquals(Day(0), CALENDAR0.getStartOfNextMonth(Day(-1)))
-        }
-
-        @Test
-        fun `Get start of next month`() {
-            assertEquals(Day(2), CALENDAR0.getStartOfNextMonth(Day(0)))
-            assertEquals(Day(2), CALENDAR0.getStartOfNextMonth(Day(1)))
-        }
-
-        @Test
-        fun `In the next year`() {
-            assertEquals(Day(5), CALENDAR0.getStartOfNextMonth(Day(2)))
-            assertEquals(Day(5), CALENDAR0.getStartOfNextMonth(Day(3)))
-            assertEquals(Day(5), CALENDAR0.getStartOfNextMonth(Day(4)))
+        fun `Get the end of a year`() {
+            assertEquals(Day(9), CALENDAR0.getEndOfYear(Year(1)))
+            assertEquals(Day(14), CALENDAR0.getEndOfYear(Year(2)))
         }
     }
 
     @Nested
-    inner class GetStartOfPreviousMonthTest {
-        @Test
-        fun `Get start of previous month in first era`() {
-            assertEquals(Day(-5), CALENDAR0.getStartOfPreviousMonth(Day(-3)))
-            assertEquals(Day(-5), CALENDAR0.getStartOfPreviousMonth(Day(-2)))
-            assertEquals(Day(-5), CALENDAR0.getStartOfPreviousMonth(Day(-1)))
-        }
+    inner class CompareTest {
 
-        @Test
-        fun `Get start of previous month`() {
-            assertEquals(Day(-3), CALENDAR0.getStartOfPreviousMonth(Day(0)))
-            assertEquals(Day(-3), CALENDAR0.getStartOfPreviousMonth(Day(1)))
-        }
+        @Nested
+        inner class IsAfterOrEqualTest {
+            @Test
+            fun `Test a greater than b`() {
+                assertTrue(CALENDAR0.isAfterOrEqual(Year(2), Year(1)))
+            }
 
-        @Test
-        fun `In the next year`() {
-            assertEquals(Day(0), CALENDAR0.getStartOfPreviousMonth(Day(2)))
-            assertEquals(Day(0), CALENDAR0.getStartOfPreviousMonth(Day(3)))
-            assertEquals(Day(0), CALENDAR0.getStartOfPreviousMonth(Day(4)))
+            @Test
+            fun `Test a equal to b`() {
+                assertTrue(CALENDAR0.isAfterOrEqual(Year(1), Year(1)))
+            }
+
+            @Test
+            fun `Test a less than b`() {
+                assertFalse(CALENDAR0.isAfterOrEqual(Year(1), Year(2)))
+            }
         }
     }
 
     @Nested
-    inner class GetWeekDayTest {
+    inner class DurationTest {
 
-        @Test
-        fun `Day of the month returns 0`() {
-            assertNull(CALENDAR0.getWeekDay(Day(0)))
-            assertNull(CALENDAR0.getWeekDay(Day(1)))
+        @Nested
+        inner class GetDurationInYearsTest {
+
+            @Test
+            fun `From a year to the same year`() {
+                assertWholeYear(Year(1), 5, 0)
+            }
+
+            @Test
+            fun `From a day to the same year`() {
+                assertWholeYear(Day(5), 5, 0)
+            }
+
+            @Test
+            fun `From a year to the next year`() {
+                assertWholeYear(Year(1), 10, 1)
+            }
+
+            @Test
+            fun `From a day to the next year`() {
+                assertWholeYear(Day(5), 10, 1)
+            }
+
+            private fun assertWholeYear(from: Date, toStart: Int, result: Int) {
+                assertGetDuration(from, toStart, result)
+                assertGetDuration(from, toStart + 1, result)
+                assertGetDuration(from, toStart + 2, result)
+                assertGetDuration(from, toStart + 3, result)
+                assertGetDuration(from, toStart + 4, result)
+            }
+
+            private fun assertGetDuration(from: Date, to: Int, result: Int) {
+                assertEquals(result, CALENDAR0.getDurationInYears(from, Day(to)))
+            }
         }
-
-        @Test
-        fun `First week`() {
-            assertEquals(0, CALENDAR1.getWeekDay(Day(0)))
-            assertEquals(1, CALENDAR1.getWeekDay(Day(1)))
-            assertEquals(2, CALENDAR1.getWeekDay(Day(2)))
-        }
-
-        @Test
-        fun `Second week`() {
-            assertEquals(0, CALENDAR1.getWeekDay(Day(3)))
-            assertEquals(1, CALENDAR1.getWeekDay(Day(4)))
-            assertEquals(2, CALENDAR1.getWeekDay(Day(5)))
-        }
-
-        @Test
-        fun `Negative days`() {
-            assertEquals(2, CALENDAR1.getWeekDay(Day(-4)))
-            assertEquals(0, CALENDAR1.getWeekDay(Day(-3)))
-            assertEquals(1, CALENDAR1.getWeekDay(Day(-2)))
-            assertEquals(2, CALENDAR1.getWeekDay(Day(-1)))
-        }
-    }
-
-    @Test
-    fun `Test the number of days per year`() {
-        assertEquals(5, CALENDAR0.getDaysPerYear())
     }
 
     @Nested
