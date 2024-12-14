@@ -30,10 +30,10 @@ data class DisplayDecade(
 ) : DisplayDate() {
 
     fun startYearIndex() = if (eraIndex == 0) {
-        (decadeIndex + 1) * 10 - 1
+        decadeIndex + 1
     } else {
-        decadeIndex * 10
-    }
+        decadeIndex
+    } * 10 - 1
 
     fun display() = (decadeIndex * 10).toString() + "s"
 

@@ -278,7 +278,25 @@ class CalendarTest {
     inner class DecadeTest {
 
         @Test
-        fun `Get the start of a negtaive decade`() {
+        fun `Display the start of a decade`() {
+            val decade = Decade(186)
+            val start = CALENDAR0.getEndOfDecade(decade)
+            val display = CALENDAR0.resolve(start)
+
+            assertEquals("1.1.1860 AD", CALENDAR0.display(display))
+        }
+
+        @Test
+        fun `Display the end of a decade`() {
+            val decade = Decade(186)
+            val end = CALENDAR0.getEndOfDecade(decade)
+            val display = CALENDAR0.resolve(end)
+
+            assertEquals("3.2.1869 AD", CALENDAR0.display(display))
+        }
+
+        @Test
+        fun `Get the start of a negative decade`() {
             assertEquals(Day(-100), CALENDAR0.getStartOfDecade(Decade(-2)))
             assertEquals(Day(-50), CALENDAR0.getStartOfDecade(Decade(-1)))
         }
