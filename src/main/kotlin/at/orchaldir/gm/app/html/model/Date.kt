@@ -145,14 +145,8 @@ private fun HtmlBlockTag.selectDate(
         }
     }
     when (displayDate) {
-        is DisplayDay -> {
-            selectDay(param, calendar, displayDate, minDate)
-        }
-
-        is DisplayYear -> {
-            selectYear(param, calendar, displayDate, minDate)
-        }
-
+        is DisplayDay -> selectDay(param, calendar, displayDate, minDate)
+        is DisplayYear -> selectYear(param, calendar, displayDate, minDate)
         is DisplayDecade -> selectDecade(param, calendar, displayDate, minDate)
     }
 }
@@ -164,20 +158,8 @@ private fun HtmlBlockTag.selectDecade(
     minDate: Date? = null,
     maxDate: Date? = null,
 ) {
-    val displayMinYear = minDate?.let {
-        when (it) {
-            is Day -> calendar.resolve(it).year
-            is Year -> calendar.resolve(it)
-            is Decade -> calendar.resolve(it).year()
-        }
-    }
-    val displayMaxYear = maxDate?.let {
-        when (it) {
-            is Day -> calendar.resolve(it).year
-            is Year -> calendar.resolve(it)
-            is Decade -> calendar.resolve(it).year()
-        }
-    }
+    val displayMinYear = minDate?.let { calendar.getDisplayYear(it) }
+    val displayMaxYear = maxDate?.let { calendar.getDisplayYear(it) }
 
     selectEraIndex(param, calendar, decade.eraIndex, displayMinYear, displayMaxYear)
     selectDecadeIndex(param, calendar, decade, displayMinYear, displayMaxYear)
@@ -216,20 +198,8 @@ private fun HtmlBlockTag.selectYear(
     minDate: Date? = null,
     maxDate: Date? = null,
 ) {
-    val displayMinYear = minDate?.let {
-        when (it) {
-            is Day -> calendar.resolve(it).year
-            is Year -> calendar.resolve(it)
-            is Decade -> calendar.resolve(it).year()
-        }
-    }
-    val displayMaxYear = maxDate?.let {
-        when (it) {
-            is Day -> calendar.resolve(it).year
-            is Year -> calendar.resolve(it)
-            is Decade -> calendar.resolve(it).year()
-        }
-    }
+    val displayMinYear = minDate?.let { calendar.getDisplayYear(it) }
+    val displayMaxYear = maxDate?.let { calendar.getDisplayYear(it) }
 
     selectEraIndex(param, calendar, year.eraIndex, displayMinYear, displayMaxYear)
     selectYearIndex(param, year, displayMinYear, displayMaxYear)
@@ -263,13 +233,7 @@ private fun HtmlBlockTag.selectDay(
     displayDate: DisplayDay,
     minDate: Date?,
 ) {
-    val displayMinDay = minDate?.let {
-        when (it) {
-            is Day -> calendar.resolve(it)
-            is Year -> calendar.resolve(calendar.getStartOfYear(it))
-            is Decade -> calendar.resolve(calendar.getStartOfDecade(it))
-        }
-    }
+    val displayMinDay = minDate?.let { calendar.getDisplayDay(it) }
 
     selectEraIndex(param, calendar, displayDate.year.eraIndex, displayMinDay?.year)
     selectYearIndex(param, displayDate.year, displayMinDay?.year)

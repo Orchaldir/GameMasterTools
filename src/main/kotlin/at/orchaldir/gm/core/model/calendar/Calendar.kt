@@ -3,10 +3,8 @@ package at.orchaldir.gm.core.model.calendar
 import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
-import kotlin.math.absoluteValue
 
 const val CALENDAR = "Calendar"
 
@@ -59,6 +57,12 @@ data class Calendar(
         is Decade -> getStartOfDecade(date)
     }
 
+    fun getDisplayDay(date: Date): DisplayDay = when (date) {
+        is Day -> resolve(date)
+        is Year -> getDisplayStartOfYear(date)
+        is Decade -> getDisplayStartOfDecade(date)
+    }
+
     fun getWeekDay(date: Day) = when (days) {
         DayOfTheMonth -> null
         is Weekdays -> {
@@ -106,7 +110,14 @@ data class Calendar(
         is Decade -> resolve(resolve(date).year())
     }
 
-    fun getStartOfYear(year: Year) = resolve(getStartOfYear(resolve(year)))
+    fun getDisplayYear(date: Date): DisplayYear = when (date) {
+        is Day -> resolve(date).year
+        is Year -> resolve(date)
+        is Decade -> resolve(date).year()
+    }
+
+    fun getStartOfYear(year: Year) = resolve(getDisplayStartOfYear(year))
+    fun getDisplayStartOfYear(year: Year) = getStartOfYear(resolve(year))
 
     fun getStartOfYear(year: DisplayYear) = DisplayDay(year, 0, 0, null)
 
@@ -120,7 +131,9 @@ data class Calendar(
         is Decade -> date
     }
 
-    fun getStartOfDecade(decade: Decade) = resolve(getStartOfDecade(resolve(decade)))
+    fun getStartOfDecade(decade: Decade) = resolve(getDisplayStartOfDecade(decade))
+
+    fun getDisplayStartOfDecade(decade: Decade) = getStartOfDecade(resolve(decade))
 
     fun getStartOfDecade(decade: DisplayDecade) = DisplayDay(decade.year(), 0, 0, null)
 
