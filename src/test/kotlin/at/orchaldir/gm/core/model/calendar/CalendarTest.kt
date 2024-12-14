@@ -212,6 +212,12 @@ class CalendarTest {
         }
 
         @Test
+        fun `Get the end of a negative decade`() {
+            assertEquals(Day(-51), CALENDAR0.getEndOfDecade(Decade(-2)))
+            assertEquals(Day(-1), CALENDAR0.getEndOfDecade(Decade(-1)))
+        }
+
+        @Test
         fun `Get the end of a decade`() {
             assertEquals(Day(49), CALENDAR0.getEndOfDecade(Decade(0)))
             assertEquals(Day(99), CALENDAR0.getEndOfDecade(Decade(1)))
