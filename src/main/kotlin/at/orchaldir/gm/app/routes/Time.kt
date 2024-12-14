@@ -82,6 +82,14 @@ fun Application.configureTimeRouting() {
                 showYear(call, calendarId, data.year)
             }
         }
+        get<TimeRoutes.ShowDecade> { data ->
+            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
+            logger.info { "Show the decade ${data.decade} for calendar ${calendarId.value}" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showDecade(call, calendarId, data.decade)
+            }
+        }
         get<TimeRoutes.ShowEvents> { data ->
             val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
             logger.info { "Show events with calendar ${calendarId.value}" }
@@ -256,6 +264,26 @@ private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Y
         }
         action(nextLink, "Next Year")
         action(previousLink, "Previous Year")
+        showEvents(events, call, state, calendar)
+        back(backLink)
+    }
+}
+
+private fun HTML.showDecade(call: ApplicationCall, calendarId: CalendarId, decade: Decade) {
+    val state = STORE.getState()
+    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+    val displayYear = calendar.resolve(decade)
+    val events = state.getEventsOfDecade(calendarId, decade)
+    val backLink = call.application.href(TimeRoutes())
+    val nextLink = call.application.href(TimeRoutes.ShowDecade(decade.nextDecade()))
+    val previousLink = call.application.href(TimeRoutes.ShowDecade(decade.previousDecade()))
+
+    simpleHtml("Decade: " + calendar.display(displayYear)) {
+        field("Calendar") {
+            link(call, calendar)
+        }
+        action(nextLink, "Next Decade")
+        action(previousLink, "Previous Decade")
         showEvents(events, call, state, calendar)
         back(backLink)
     }
