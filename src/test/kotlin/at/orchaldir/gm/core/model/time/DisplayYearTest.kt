@@ -11,16 +11,7 @@ class DisplayYearTest {
 
         @Test
         fun `Test the first decade of BC`() {
-            // only 9 years
-            assertYear(0, 0, 0, 0)
-            assertYear(0, 1, 0, 0)
-            assertYear(0, 2, 0, 0)
-            assertYear(0, 3, 0, 0)
-            assertYear(0, 4, 0, 0)
-            assertYear(0, 5, 0, 0)
-            assertYear(0, 6, 0, 0)
-            assertYear(0, 7, 0, 0)
-            assertYear(0, 8, 0, 0)
+            assertYearsInDecade(0, 0, 0, 0, 9)
         }
 
         @Test
@@ -35,16 +26,7 @@ class DisplayYearTest {
 
         @Test
         fun `Test the first decade of AD`() {
-            // only 9 years
-            assertYear(1, 0, 1, 0)
-            assertYear(1, 1, 1, 0)
-            assertYear(1, 2, 1, 0)
-            assertYear(1, 3, 1, 0)
-            assertYear(1, 4, 1, 0)
-            assertYear(1, 5, 1, 0)
-            assertYear(1, 6, 1, 0)
-            assertYear(1, 7, 1, 0)
-            assertYear(1, 8, 1, 0)
+            assertYearsInDecade(1, 0, 1, 0, 9)
         }
 
         @Test
@@ -57,8 +39,14 @@ class DisplayYearTest {
             assertYearsInDecade(1, 1919, 1, 192)
         }
 
-        private fun assertYearsInDecade(inputEra: Int, startYear: Int, resultEra: Int, resultDecade: Int) {
-            repeat(10) {
+        private fun assertYearsInDecade(
+            inputEra: Int,
+            startYear: Int,
+            resultEra: Int,
+            resultDecade: Int,
+            years: Int = 10,
+        ) {
+            repeat(years) {
                 assertYear(inputEra, startYear + it, resultEra, resultDecade)
             }
         }
