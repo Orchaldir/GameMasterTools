@@ -314,5 +314,24 @@ class CalendarTest {
         }
     }
 
+    @Nested
+    inner class ResolveDecadeTest {
+        @Test
+        fun `Test without offset`() {
+            assertResolve(CALENDAR0, -2, 0, 1)
+            assertResolve(CALENDAR0, -1, 0, 0)
+            assertResolve(CALENDAR0, 0, 1, 0) // 1 AD
+            assertResolve(CALENDAR0, 1, 1, 1)
+        }
+
+        private fun assertResolve(calendar: Calendar, inputDecade: Int, eraIndex: Int, decadeIndex: Int) {
+            val decade = Decade(inputDecade)
+            val displayYDecade = DisplayDecade(eraIndex, decadeIndex)
+
+            assertEquals(displayYDecade, calendar.resolve(decade))
+            assertEquals(decade, calendar.resolve(displayYDecade))
+        }
+    }
+
     private fun createCalendar(date: Date) = CALENDAR0.copy(eras = CalendarEras("BC", true, date, "AD", false))
 }

@@ -72,7 +72,7 @@ fun Calendar.resolve(date: Decade): DisplayDecade {
         return DisplayDecade(1, decade)
     }
 
-    return DisplayDecade(0, -decade)
+    return DisplayDecade(0, -decade - 1)
 }
 
 fun Calendar.resolve(date: DisplayDate) = when (date) {
@@ -127,7 +127,7 @@ fun Calendar.resolve(date: DisplayDecade): Decade {
         return Decade(decade)
     }
 
-    val decade = -date.decadeIndex - offsetInDecades
+    val decade = -(date.decadeIndex + 1) - offsetInDecades
 
     return Decade(decade)
 }
