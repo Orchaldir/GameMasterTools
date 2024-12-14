@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.generator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
+import at.orchaldir.gm.core.model.calendar.resolve
 import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.utils.NumberGenerator
 

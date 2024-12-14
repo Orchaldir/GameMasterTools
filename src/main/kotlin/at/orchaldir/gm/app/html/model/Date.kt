@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.parse.parseBool
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
+import at.orchaldir.gm.core.model.calendar.resolve
 import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import io.ktor.http.*
