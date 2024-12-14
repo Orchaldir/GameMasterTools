@@ -252,6 +252,24 @@ class CalendarTest {
     inner class CompareTest {
 
         @Nested
+        inner class IsAfterTest {
+            @Test
+            fun `Test a greater than b`() {
+                assertTrue(CALENDAR0.isAfter(Year(2), Year(1)))
+            }
+
+            @Test
+            fun `Test a equal to b`() {
+                assertFalse(CALENDAR0.isAfter(Year(1), Year(1)))
+            }
+
+            @Test
+            fun `Test a less than b`() {
+                assertFalse(CALENDAR0.isAfter(Year(1), Year(2)))
+            }
+        }
+
+        @Nested
         inner class IsAfterOrEqualTest {
             @Test
             fun `Test a greater than b`() {
