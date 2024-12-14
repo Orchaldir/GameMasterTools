@@ -279,13 +279,13 @@ private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Y
 private fun HTML.showDecade(call: ApplicationCall, calendarId: CalendarId, decade: Decade) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val displayYear = calendar.resolve(decade)
+    val displayDecade = calendar.resolve(decade)
     val events = state.getEventsOfDecade(calendarId, decade)
     val backLink = call.application.href(TimeRoutes())
     val nextLink = call.application.href(TimeRoutes.ShowDecade(decade.nextDecade()))
     val previousLink = call.application.href(TimeRoutes.ShowDecade(decade.previousDecade()))
 
-    simpleHtml("Decade: " + calendar.display(displayYear)) {
+    simpleHtml("Decade: " + calendar.display(displayDecade)) {
         field("Calendar") {
             link(call, calendar)
         }
