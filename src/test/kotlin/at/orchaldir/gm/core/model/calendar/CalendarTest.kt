@@ -16,6 +16,26 @@ private val CALENDAR1 = Calendar(CalendarId(1), days = Weekdays(listOf(WeekDay("
 class CalendarTest {
 
     @Nested
+    inner class DisplayTest {
+
+        @Test
+        fun `Test a day in AD`() {
+            assertEquals("14.12.2024 AD", CALENDAR0.display(DisplayDay(1, 2023, 11, 13)))
+        }
+
+        @Test
+        fun `Test a year in AD`() {
+            assertEquals("2024 AD", CALENDAR0.display(DisplayYear(1, 2023)))
+        }
+
+        @Test
+        fun `Test a decade in AD`() {
+            assertEquals("2020s AD", CALENDAR0.display(DisplayDecade(1, 202)))
+        }
+
+    }
+
+    @Nested
     inner class DataTest {
 
         @Test
