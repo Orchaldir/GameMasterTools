@@ -199,15 +199,20 @@ class CalendarTest {
     inner class DecadeTest {
 
         @Test
+        fun `Get the start of a negtaive decade`() {
+            assertEquals(Day(-100), CALENDAR0.getStartOfDecade(Decade(-2)))
+            assertEquals(Day(-50), CALENDAR0.getStartOfDecade(Decade(-1)))
+        }
+
+        @Test
         fun `Get the start of a decade`() {
-            //assertEquals(Day(-50), CALENDAR0.getStartOfDecade(Decade(-1)))
             assertEquals(Day(0), CALENDAR0.getStartOfDecade(Decade(0)))
             assertEquals(Day(50), CALENDAR0.getStartOfDecade(Decade(1)))
             assertEquals(Day(100), CALENDAR0.getStartOfDecade(Decade(2)))
         }
 
         @Test
-        fun `Get the end of a year`() {
+        fun `Get the end of a decade`() {
             assertEquals(Day(49), CALENDAR0.getEndOfDecade(Decade(0)))
             assertEquals(Day(99), CALENDAR0.getEndOfDecade(Decade(1)))
             assertEquals(Day(149), CALENDAR0.getEndOfDecade(Decade(2)))
