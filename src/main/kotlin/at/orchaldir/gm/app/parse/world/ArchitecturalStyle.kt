@@ -4,10 +4,10 @@ import at.orchaldir.gm.app.END
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.REVIVAL
 import at.orchaldir.gm.app.START
+import at.orchaldir.gm.app.html.model.parseOptionalYear
+import at.orchaldir.gm.app.html.model.parseYear
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOptionalInt
-import at.orchaldir.gm.app.parse.parseOptionalYear
-import at.orchaldir.gm.app.parse.parseYear
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId

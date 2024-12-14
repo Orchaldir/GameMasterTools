@@ -71,6 +71,7 @@ data class Calendar(
     fun getYear(date: Date): Year = when (date) {
         is Day -> resolve(resolve(date).year)
         is Year -> date
+        is Decade -> resolve(resolve(date).year())
     }
 
     fun getStartOfYear(year: Year) = resolve(getStartOfYear(resolve(year)))
@@ -78,6 +79,14 @@ data class Calendar(
     fun getStartOfYear(year: DisplayYear) = DisplayDay(year, 0, 0, null)
 
     fun getEndOfYear(year: Year) = getStartOfYear(year.nextYear()).previousDay()
+
+    // decade
+
+    fun getStartOfDecade(decade: Decade) = resolve(getStartOfDecade(resolve(decade)))
+
+    fun getStartOfDecade(decade: DisplayDecade) = DisplayDay(decade.year(), 0, 0, null)
+
+    fun getEndOfDecade(decade: Decade) = getStartOfDecade(decade.nextDecade()).previousDay()
 
     //
 
@@ -95,6 +104,7 @@ data class Calendar(
     fun getDay(date: Date) = when (date) {
         is Day -> date
         is Year -> getStartOfYear(date)
+        is Decade -> getStartOfDecade(date)
     }
 
     fun getDurationInYears(from: Date, to: Day) = getYears(getDuration(from, to))
@@ -113,7 +123,12 @@ data class Calendar(
     private fun getOffsetInDays() = when (eras.first.startDate) {
         is Day -> -eras.first.startDate.day
         is Year -> -eras.first.startDate.year * getDaysPerYear()
+        is Decade -> -eras.first.startDate.decade * getDaysPerYear() * 10
     }
+
+    private fun getOffsetInYears() = getOffsetInDays() / getDaysPerYear()
+
+    private fun getOffsetInDecades() = getOffsetInYears() / 10
 
     fun getYears(duration: Duration) = duration.day / getDaysPerYear()
 
@@ -122,6 +137,7 @@ data class Calendar(
     fun resolve(date: Date) = when (date) {
         is Day -> resolve(date)
         is Year -> resolve(date)
+        is Decade -> resolve(date)
     }
 
     fun resolve(date: Day): DisplayDay {
@@ -168,7 +184,7 @@ data class Calendar(
     }
 
     fun resolve(date: Year): DisplayYear {
-        val offsetInYears = getOffsetInDays() / getDaysPerYear()
+        val offsetInYears = getOffsetInYears()
         val year = date.year + offsetInYears
 
         if (year >= 0) {
@@ -178,9 +194,21 @@ data class Calendar(
         return DisplayYear(0, -(year + 1))
     }
 
+    fun resolve(date: Decade): DisplayDecade {
+        val offsetInDecades = getOffsetInDecades()
+        val decade = date.decade + offsetInDecades
+
+        if (decade >= 0) {
+            return DisplayDecade(1, decade)
+        }
+
+        return DisplayDecade(0, -decade)
+    }
+
     fun resolve(date: DisplayDate) = when (date) {
         is DisplayDay -> resolve(date)
         is DisplayYear -> resolve(date)
+        is DisplayDecade -> resolve(date)
     }
 
     fun resolve(day: DisplayDay): Day {
@@ -207,7 +235,7 @@ data class Calendar(
     }
 
     fun resolve(date: DisplayYear): Year {
-        val offsetInYears = getOffsetInDays() / getDaysPerYear()
+        val offsetInYears = getOffsetInYears()
 
         if (date.eraIndex == 1) {
             val year = date.yearIndex - offsetInYears
@@ -218,5 +246,19 @@ data class Calendar(
         val year = -(date.yearIndex + 1) - offsetInYears
 
         return Year(year)
+    }
+
+    fun resolve(date: DisplayDecade): Decade {
+        val offsetInDecades = getOffsetInDecades()
+
+        if (date.eraIndex == 1) {
+            val decade = date.decadeIndex - offsetInDecades
+
+            return Decade(decade)
+        }
+
+        val decade = -date.decadeIndex - offsetInDecades
+
+        return Decade(decade)
     }
 }

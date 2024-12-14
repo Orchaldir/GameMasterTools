@@ -3,10 +3,8 @@ package at.orchaldir.gm.app.routes.world.town
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.fieldCreator
-import at.orchaldir.gm.app.html.model.fieldReferenceByName
-import at.orchaldir.gm.app.html.model.selectComplexName
-import at.orchaldir.gm.app.html.model.selectCreator
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.world.parseTown
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes

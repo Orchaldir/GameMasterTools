@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.routes
 import at.orchaldir.gm.app.CURRENT
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.selectDate
+import at.orchaldir.gm.app.html.model.showCurrentDate
 import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
@@ -10,6 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.Decade
 import at.orchaldir.gm.core.model.time.DisplayDay
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.moon.Moon
@@ -40,6 +43,9 @@ class TimeRoutes {
 
     @Resource("year")
     class ShowYear(val year: Year, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+
+    @Resource("decade")
+    class ShowDecade(val decade: Decade, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
 
     @Resource("events")
     class ShowEvents(val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())

@@ -25,6 +25,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.Decade
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
@@ -79,6 +80,10 @@ fun HtmlBlockTag.link(
         is Year -> {
             link(call, date, calendar.display(calendarDate))
         }
+
+        is Decade -> {
+            link(call, date, calendar.display(calendarDate))
+        }
     }
 }
 
@@ -96,6 +101,14 @@ fun HtmlBlockTag.link(
     text: String,
 ) {
     link(call.application.href(TimeRoutes.ShowYear(year)), text)
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    decade: Decade,
+    text: String,
+) {
+    link(call.application.href(TimeRoutes.ShowDecade(decade)), text)
 }
 
 // element

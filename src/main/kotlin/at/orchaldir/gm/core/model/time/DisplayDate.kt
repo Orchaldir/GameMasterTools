@@ -18,3 +18,11 @@ data class DisplayYear(
     val eraIndex: Int,
     val yearIndex: Int,
 ) : DisplayDate()
+
+data class DisplayDecade(
+    val eraIndex: Int,
+    val decadeIndex: Int,
+) : DisplayDate() {
+
+    fun year() = DisplayYear(eraIndex, decadeIndex * 10)
+}

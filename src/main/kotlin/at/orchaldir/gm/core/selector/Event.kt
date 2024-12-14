@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.Decade
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
@@ -125,6 +126,9 @@ fun List<Event>.sort(calendar: Calendar): List<Event> {
             is Day -> date.day
             is Year -> {
                 date.year * daysPerYear
+            }
+            is Decade -> {
+                date.decade * daysPerYear * 10
             }
         }
     }

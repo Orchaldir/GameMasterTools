@@ -3,8 +3,8 @@ package at.orchaldir.gm.app.parse.economy
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.model.parseComplexName
 import at.orchaldir.gm.app.html.model.parseCreator
+import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.html.model.parseOwnership
-import at.orchaldir.gm.app.parse.parseOptionalDate
 import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
