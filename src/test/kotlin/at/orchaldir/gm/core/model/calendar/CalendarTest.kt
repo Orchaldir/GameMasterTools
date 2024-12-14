@@ -251,9 +251,9 @@ class CalendarTest {
         fun `Get the year of a decade`() {
             assertEquals(Year(-20), CALENDAR0.getYear(Decade(-2)))
             assertEquals(Year(-10), CALENDAR0.getYear(Decade(-1)))
-            assertEquals(Year(0), CALENDAR0.getYear(Decade(0)))
-            assertEquals(Year(10), CALENDAR0.getYear(Decade(1)))
-            assertEquals(Year(20), CALENDAR0.getYear(Decade(2)))
+            assertEquals(Year(-1), CALENDAR0.getYear(Decade(0)))
+            assertEquals(Year(9), CALENDAR0.getYear(Decade(1)))
+            assertEquals(Year(19), CALENDAR0.getYear(Decade(2)))
         }
 
         @Test
@@ -278,21 +278,15 @@ class CalendarTest {
     inner class DecadeTest {
 
         @Test
-        fun `Display the start of a decade`() {
+        fun `Display the start & end of a positive decade`() {
             val decade = Decade(186)
-            val start = CALENDAR0.getEndOfDecade(decade)
-            val display = CALENDAR0.resolve(start)
 
-            assertEquals("1.1.1860 AD", CALENDAR0.display(display))
+            assertDisplay(CALENDAR0.getStartOfDecade(decade), "1.1.1860 AD")
+            assertDisplay(CALENDAR0.getEndOfDecade(decade), "3.2.1869 AD")
         }
 
-        @Test
-        fun `Display the end of a decade`() {
-            val decade = Decade(186)
-            val end = CALENDAR0.getEndOfDecade(decade)
-            val display = CALENDAR0.resolve(end)
-
-            assertEquals("3.2.1869 AD", CALENDAR0.display(display))
+        private fun assertDisplay(day: Day, display: String) {
+            assertEquals(display, CALENDAR0.display(CALENDAR0.resolve(day)))
         }
 
         @Test
