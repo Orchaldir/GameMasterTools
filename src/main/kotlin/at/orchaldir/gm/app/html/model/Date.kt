@@ -180,7 +180,7 @@ private fun HtmlBlockTag.selectDecade(
     }
 
     selectEraIndex(param, calendar, decade.eraIndex, displayMinYear, displayMaxYear)
-    selectDecadeIndex(param, decade, displayMinYear, displayMaxYear)
+    selectDecadeIndex(param, calendar, decade, displayMinYear, displayMaxYear)
 }
 
 fun FORM.selectYear(
@@ -305,11 +305,12 @@ private fun HtmlBlockTag.selectEraIndex(
 
 private fun HtmlBlockTag.selectDecadeIndex(
     param: String,
+    calendar: Calendar,
     decade: DisplayDecade,
     minYear: DisplayYear? = null,
     maxYear: DisplayYear? = null,
 ) {
-    val decadeParam = combine(param, DECADE)
+    val decadeParam = combine(param, YEAR)
     val minIndex = if (minYear != null) {
         if (minYear.eraIndex == decade.eraIndex) {
             minYear.yearIndex
@@ -328,8 +329,10 @@ private fun HtmlBlockTag.selectDecadeIndex(
     } else {
         Int.MAX_VALUE
     }
+    val year = calendar.getYear(calendar.resolve(decade))
+    val displayYear = calendar.resolve(year)
 
-    selectInt(decade.startYearIndex(), minIndex, maxIndex, 10, decadeParam, true)
+    selectInt(displayYear.yearIndex + 1, minIndex, maxIndex, 1, decadeParam, true)
 }
 
 private fun HtmlBlockTag.selectYearIndex(
@@ -537,24 +540,18 @@ fun parseYear(
 
 fun parseYear(
     parameters: Parameters,
-    default: Calendar,
+    calendar: Calendar,
     param: String,
 ): Year {
     val eraIndex = parseInt(parameters, combine(param, ERA))
     val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
     val calendarDate = DisplayYear(eraIndex, yearIndex)
 
-    return default.resolve(calendarDate)
+    return calendar.resolve(calendarDate)
 }
 
 fun parseDecade(
     parameters: Parameters,
-    default: Calendar,
+    calendar: Calendar,
     param: String,
-): Decade {
-    val eraIndex = parseInt(parameters, combine(param, ERA))
-    val decadeIndex = parseInt(parameters, combine(param, DECADE)) / 10
-    val calendarDate = DisplayDecade(eraIndex, decadeIndex)
-
-    return default.resolve(calendarDate)
-}
+) = calendar.getDecade(parseYear(parameters, calendar, param))

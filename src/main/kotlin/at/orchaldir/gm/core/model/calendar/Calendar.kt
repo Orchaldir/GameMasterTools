@@ -115,7 +115,7 @@ data class Calendar(
     // decade
 
     fun getDecade(date: Date): Decade = when (date) {
-        is Day -> TODO()
+        is Day -> resolve(resolve(getYear(date)).decade())
         is Year -> resolve(resolve(date).decade())
         is Decade -> date
     }
