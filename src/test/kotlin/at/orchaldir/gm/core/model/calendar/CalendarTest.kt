@@ -249,9 +249,9 @@ class CalendarTest {
 
         @Test
         fun `Get the year of a decade`() {
-            assertEquals(Year(-20), CALENDAR0.getYear(Decade(-2)))
-            assertEquals(Year(-10), CALENDAR0.getYear(Decade(-1)))
-            assertEquals(Year(-1), CALENDAR0.getYear(Decade(0)))
+            assertEquals(Year(-19), CALENDAR0.getYear(Decade(-2)))
+            assertEquals(Year(-9), CALENDAR0.getYear(Decade(-1)))
+            assertEquals(Year(0), CALENDAR0.getYear(Decade(0)))
             assertEquals(Year(9), CALENDAR0.getYear(Decade(1)))
             assertEquals(Year(19), CALENDAR0.getYear(Decade(2)))
         }
@@ -286,11 +286,27 @@ class CalendarTest {
         }
 
         @Test
-        fun `Display the start & end of a negative decade`() {
-            val decade = Decade(-10)
+        fun `The AD 0s only have 9 years`() {
+            val decade = Decade(0)
 
-            assertDisplay(CALENDAR0.getStartOfDecade(decade), "BC 1.1.100")
-            assertDisplay(CALENDAR0.getEndOfDecade(decade), "BC 3.2.91")
+            assertDisplay(CALENDAR0.getStartOfDecade(decade), "1.1.1 AD")
+            assertDisplay(CALENDAR0.getEndOfDecade(decade), "3.2.9 AD")
+        }
+
+        @Test
+        fun `The 0s BC only have 9 years`() {
+            val decade = Decade(-1)
+
+            assertDisplay(CALENDAR0.getStartOfDecade(decade), "BC 1.1.9")
+            assertDisplay(CALENDAR0.getEndOfDecade(decade), "BC 3.2.1")
+        }
+
+        @Test
+        fun `Display the start & end of a negative decade`() {
+            val decade = Decade(-6)
+
+            assertDisplay(CALENDAR0.getStartOfDecade(decade), "BC 1.1.59")
+            assertDisplay(CALENDAR0.getEndOfDecade(decade), "BC 3.2.50")
         }
 
         private fun assertDisplay(day: Day, display: String) {
@@ -299,20 +315,20 @@ class CalendarTest {
 
         @Test
         fun `Get the start of a negative decade`() {
-            assertEquals(Day(-100), CALENDAR0.getStartOfDecade(Decade(-2)))
-            assertEquals(Day(-50), CALENDAR0.getStartOfDecade(Decade(-1)))
+            assertEquals(Day(-95), CALENDAR0.getStartOfDecade(Decade(-2)))
+            assertEquals(Day(-45), CALENDAR0.getStartOfDecade(Decade(-1)))
         }
 
         @Test
         fun `Get the start of a decade`() {
-            assertEquals(Day(-5), CALENDAR0.getStartOfDecade(Decade(0)))
+            assertEquals(Day(0), CALENDAR0.getStartOfDecade(Decade(0)))
             assertEquals(Day(45), CALENDAR0.getStartOfDecade(Decade(1)))
             assertEquals(Day(95), CALENDAR0.getStartOfDecade(Decade(2)))
         }
 
         @Test
         fun `Get the end of a negative decade`() {
-            assertEquals(Day(-51), CALENDAR0.getEndOfDecade(Decade(-2)))
+            assertEquals(Day(-46), CALENDAR0.getEndOfDecade(Decade(-2)))
             assertEquals(Day(-1), CALENDAR0.getEndOfDecade(Decade(-1)))
         }
 
