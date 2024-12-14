@@ -5,6 +5,11 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
 
+enum class DateType {
+    Day,
+    Year,
+}
+
 @Serializable
 sealed interface Date {
 
