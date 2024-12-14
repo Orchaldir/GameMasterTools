@@ -33,6 +33,27 @@ class CalendarTest {
             assertEquals("2020s AD", CALENDAR0.display(DisplayDecade(1, 202)))
         }
 
+        @Test
+        fun `Test the first day in AD`() {
+            assertEquals("1.1.1 AD", CALENDAR0.display(DisplayDay(1, 0, 0, 0)))
+        }
+
+        @Test
+        fun `Test the first year in AD`() {
+            assertEquals("1 AD", CALENDAR0.display(DisplayYear(1, 0)))
+        }
+
+        @Test
+        fun `Test the first decade in AD`() {
+            // not sure about this
+            assertEquals("0s AD", CALENDAR0.display(DisplayDecade(1, 0)))
+        }
+
+        @Test
+        fun `Test a single digit decade in AD`() {
+            assertEquals("50s AD", CALENDAR0.display(DisplayDecade(1, 5)))
+        }
+
     }
 
     @Nested
