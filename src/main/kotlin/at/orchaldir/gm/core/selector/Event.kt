@@ -137,6 +137,7 @@ fun List<Event>.sort(calendar: Calendar): List<Event> {
             is Year -> {
                 date.year * daysPerYear
             }
+
             is Decade -> {
                 date.decade * daysPerYear * 10
             }
