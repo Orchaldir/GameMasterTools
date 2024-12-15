@@ -99,19 +99,27 @@ class CalendarTest {
 
             @Test
             fun `Given a day, returns the same day`() {
-                assertEquals(Day(99), CALENDAR0.getDay(Day(99)))
+                val day = Day(99)
+                assertGetDay(day, day)
             }
 
             @ParameterizedTest
             @MethodSource("at.orchaldir.gm.core.model.calendar.CalendarTest#provideStartOfYear")
             fun `Get the (start) day of a year`(year: Year, day: Day) {
-                assertEquals(day, CALENDAR0.getDay(year))
+                assertGetDay(year, day)
             }
 
             @ParameterizedTest
             @MethodSource("at.orchaldir.gm.core.model.calendar.CalendarTest#provideStartOfDecade")
             fun `Get the (start) day of a decade`(decade: Decade, day: Day) {
-                assertEquals(day, CALENDAR0.getDay(decade))
+                assertGetDay(decade, day)
+            }
+
+            private fun assertGetDay(input: Date, day: Day) {
+                val display = CALENDAR0.resolve(day)
+
+                assertEquals(day, CALENDAR0.getDay(input))
+                assertEquals(display, CALENDAR0.getDisplayDay(input))
             }
         }
 
