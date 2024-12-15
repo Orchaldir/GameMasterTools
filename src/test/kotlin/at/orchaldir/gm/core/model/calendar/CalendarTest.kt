@@ -97,10 +97,21 @@ class CalendarTest {
         @Nested
         inner class GetDayTest {
 
+            @Test
+            fun `Given a day, returns the same day`() {
+                assertEquals(Day(99), CALENDAR0.getDay(Day(99)))
+            }
+
             @ParameterizedTest
             @MethodSource("at.orchaldir.gm.core.model.calendar.CalendarTest#provideStartOfYear")
-            fun `Get the day of a year`(year: Year, day: Day) {
+            fun `Get the (start) day of a year`(year: Year, day: Day) {
                 assertEquals(day, CALENDAR0.getDay(year))
+            }
+
+            @ParameterizedTest
+            @MethodSource("at.orchaldir.gm.core.model.calendar.CalendarTest#provideStartOfDecade")
+            fun `Get the (start) day of a decade`(decade: Decade, day: Day) {
+                assertEquals(day, CALENDAR0.getDay(decade))
             }
         }
 
@@ -370,17 +381,10 @@ class CalendarTest {
             assertEquals(display, CALENDAR0.display(CALENDAR0.resolve(day)))
         }
 
-        @Test
-        fun `Get the start of a negative decade`() {
-            assertEquals(Day(-95), CALENDAR0.getStartOfDecade(Decade(-2)))
-            assertEquals(Day(-45), CALENDAR0.getStartOfDecade(Decade(-1)))
-        }
-
-        @Test
-        fun `Get the start of a decade`() {
-            assertEquals(Day(0), CALENDAR0.getStartOfDecade(Decade(0)))
-            assertEquals(Day(45), CALENDAR0.getStartOfDecade(Decade(1)))
-            assertEquals(Day(95), CALENDAR0.getStartOfDecade(Decade(2)))
+        @ParameterizedTest
+        @MethodSource("at.orchaldir.gm.core.model.calendar.CalendarTest#provideStartOfDecade")
+        fun `Get the start of a decade`(decade: Decade, day: Day) {
+            assertEquals(day, CALENDAR0.getStartOfDecade(decade))
         }
 
         @Test
@@ -636,6 +640,17 @@ class CalendarTest {
                 Arguments.of(Year(0), Day(0)),
                 Arguments.of(Year(1), Day(5)),
                 Arguments.of(Year(2), Day(10)),
+            )
+        }
+
+        @JvmStatic
+        fun provideStartOfDecade(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(Decade(-2), Day(-95)),
+                Arguments.of(Decade(-1), Day(-45)),
+                Arguments.of(Decade(0), Day(0)),
+                Arguments.of(Decade(1), Day(45)),
+                Arguments.of(Decade(2), Day(95)),
             )
         }
     }
