@@ -4,6 +4,11 @@ import at.orchaldir.gm.core.model.time.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
+import java.util.stream.Stream
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -86,7 +91,18 @@ class CalendarTest {
     }
 
     @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class DayTest {
+
+        @Nested
+        inner class GetDayTest {
+
+            @ParameterizedTest
+            @MethodSource("at.orchaldir.gm.core.model.calendar.CalendarTest#provideStartOfYear")
+            fun `Get the day of a year`(year: Year, day: Day) {
+                assertEquals(day, CALENDAR0.getDay(year))
+            }
+        }
 
         @Nested
         inner class GetWeekDayTest {
@@ -273,13 +289,10 @@ class CalendarTest {
             }
         }
 
-        @Test
-        fun `Get the start of a year`() {
-            assertEquals(Day(-10), CALENDAR0.getStartOfYear(Year(-2)))
-            assertEquals(Day(-5), CALENDAR0.getStartOfYear(Year(-1)))
-            assertEquals(Day(0), CALENDAR0.getStartOfYear(Year(0)))
-            assertEquals(Day(5), CALENDAR0.getStartOfYear(Year(1)))
-            assertEquals(Day(10), CALENDAR0.getStartOfYear(Year(2)))
+        @ParameterizedTest
+        @MethodSource("at.orchaldir.gm.core.model.calendar.CalendarTest#provideStartOfYear")
+        fun `Get the start of a year`(year: Year, day: Day) {
+            assertEquals(day, CALENDAR0.getStartOfYear(year))
         }
 
         @Test
@@ -611,6 +624,19 @@ class CalendarTest {
 
             assertEquals(displayYDecade, calendar.resolve(decade))
             assertEquals(decade, calendar.resolve(displayYDecade))
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        fun provideStartOfYear(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(Year(-2), Day(-10)),
+                Arguments.of(Year(-1), Day(-5)),
+                Arguments.of(Year(0), Day(0)),
+                Arguments.of(Year(1), Day(5)),
+                Arguments.of(Year(2), Day(10)),
+            )
         }
     }
 
