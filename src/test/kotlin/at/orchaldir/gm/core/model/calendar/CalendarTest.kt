@@ -282,6 +282,27 @@ class CalendarTest {
     @Nested
     inner class DecadeTest {
 
+        @Nested
+        inner class GetDecadeTest {
+            private val decade = Decade(0)
+
+            @Test
+            fun `Get the decade of a decade`() {
+                assertEquals(decade, CALENDAR0.getDecade(decade))
+            }
+
+            @Test
+            fun `Get the decade of a year`() {
+                assertEquals(decade, CALENDAR0.getDecade(Year(5)))
+            }
+
+            @Test
+            fun `Get the decade of a day`() {
+                assertEquals(decade, CALENDAR0.getDecade(Day(25)))
+            }
+
+        }
+
         @Test
         fun `Display the start & end of a positive decade`() {
             val decade = Decade(186)
@@ -363,6 +384,21 @@ class CalendarTest {
             @Test
             fun `Test a less than b`() {
                 assertEquals(-1, CALENDAR0.compareToOptional(Year(1), Year(2)))
+            }
+
+            @Test
+            fun `Given a is null, then return 0`() {
+                assertEquals(0, CALENDAR0.compareToOptional(null, Year(1)))
+            }
+
+            @Test
+            fun `Given b is null, then return 0`() {
+                assertEquals(0, CALENDAR0.compareToOptional(Year(1), null))
+            }
+
+            @Test
+            fun `Given both are null, then return 0`() {
+                assertEquals(0, CALENDAR0.compareToOptional(null, null))
             }
         }
 
