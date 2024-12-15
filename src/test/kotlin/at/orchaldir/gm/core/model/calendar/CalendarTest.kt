@@ -285,20 +285,26 @@ class CalendarTest {
         @Nested
         inner class GetDecadeTest {
             private val decade = Decade(0)
+            private val display = DisplayDecade(1, 0)
 
             @Test
             fun `Get the decade of a decade`() {
-                assertEquals(decade, CALENDAR0.getDecade(decade))
+                assertGetDecade(decade)
             }
 
             @Test
             fun `Get the decade of a year`() {
-                assertEquals(decade, CALENDAR0.getDecade(Year(5)))
+                assertGetDecade(Year(5))
             }
 
             @Test
             fun `Get the decade of a day`() {
-                assertEquals(decade, CALENDAR0.getDecade(Day(25)))
+                assertGetDecade(Day(25))
+            }
+
+            private fun assertGetDecade(date: Date) {
+                assertEquals(decade, CALENDAR0.getDecade(date))
+                assertEquals(display, CALENDAR0.getDisplayDecade(date))
             }
 
         }
