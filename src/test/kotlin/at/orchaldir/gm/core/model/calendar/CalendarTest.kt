@@ -238,27 +238,39 @@ class CalendarTest {
     @Nested
     inner class YearTest {
 
-        @Test
-        fun `Get the year of a day`() {
-            assertEquals(Year(-2), CALENDAR0.getYear(Day(-10)))
-            assertEquals(Year(-1), CALENDAR0.getYear(Day(-5)))
-            assertEquals(Year(0), CALENDAR0.getYear(Day(0)))
-            assertEquals(Year(1), CALENDAR0.getYear(Day(5)))
-            assertEquals(Year(2), CALENDAR0.getYear(Day(10)))
-        }
+        @Nested
+        inner class GetYearTest {
 
-        @Test
-        fun `Get the year of a year`() {
-            assertEquals(Year(2), CALENDAR0.getYear(Year(2)))
-        }
+            @Test
+            fun `Get the year of a day`() {
+                assertGetYear(Day(-10), -2)
+                assertGetYear(Day(-5), -1)
+                assertGetYear(Day(0), 0)
+                assertGetYear(Day(5), 1)
+                assertGetYear(Day(10), 2)
+            }
 
-        @Test
-        fun `Get the year of a decade`() {
-            assertEquals(Year(-19), CALENDAR0.getYear(Decade(-2)))
-            assertEquals(Year(-9), CALENDAR0.getYear(Decade(-1)))
-            assertEquals(Year(0), CALENDAR0.getYear(Decade(0)))
-            assertEquals(Year(9), CALENDAR0.getYear(Decade(1)))
-            assertEquals(Year(19), CALENDAR0.getYear(Decade(2)))
+            @Test
+            fun `Get the year of a year`() {
+                assertGetYear(Year(2), 2)
+            }
+
+            @Test
+            fun `Get the year of a decade`() {
+                assertGetYear(Decade(-2), -19)
+                assertGetYear(Decade(-1), -9)
+                assertGetYear(Decade(0), 0)
+                assertGetYear(Decade(1), 9)
+                assertGetYear(Decade(2), 19)
+            }
+
+            private fun assertGetYear(input: Date, year: Int) {
+                val year = Year(year)
+                val display = CALENDAR0.resolve(year)
+
+                assertEquals(year, CALENDAR0.getYear(input))
+                assertEquals(display, CALENDAR0.getDisplayYear(input))
+            }
         }
 
         @Test
