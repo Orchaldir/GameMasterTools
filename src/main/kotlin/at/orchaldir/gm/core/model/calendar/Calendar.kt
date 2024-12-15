@@ -131,6 +131,12 @@ data class Calendar(
         is Decade -> date
     }
 
+    fun getDisplayDecade(date: Date): DisplayDecade = when (date) {
+        is Day -> resolve(getYear(date)).decade()
+        is Year -> resolve(date).decade()
+        is Decade -> resolve(date)
+    }
+
     fun getStartOfDecade(decade: Decade) = resolve(getDisplayStartOfDecade(decade))
 
     fun getDisplayStartOfDecade(decade: Decade) = getStartOfDecade(resolve(decade))
