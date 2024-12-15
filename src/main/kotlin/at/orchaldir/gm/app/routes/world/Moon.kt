@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.LENGTH
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.field
 import at.orchaldir.gm.app.parse.world.parseMoon
 import at.orchaldir.gm.core.action.CreateMoon
 import at.orchaldir.gm.core.action.DeleteMoon

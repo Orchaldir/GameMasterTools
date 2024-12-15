@@ -2,9 +2,11 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.HISTORY
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.selectInt
+import at.orchaldir.gm.app.html.showList
+import at.orchaldir.gm.app.html.showListWithIndex
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parseDate
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date

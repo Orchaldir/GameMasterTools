@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.Decade
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
@@ -117,6 +118,16 @@ fun State.getEventsOfYear(calendarId: CalendarId, year: Year): List<Event> {
     }
 }
 
+fun State.getEventsOfDecade(calendarId: CalendarId, decade: Decade): List<Event> {
+    val calendar = getCalendarStorage().getOrThrow(calendarId)
+    val start = calendar.getStartOfDecade(decade)
+    val end = calendar.getEndOfDecade(decade)
+
+    return getEvents().filter {
+        it.getDate().isBetween(calendar, start, end)
+    }
+}
+
 fun List<Event>.sort(calendar: Calendar): List<Event> {
     val daysPerYear = calendar.getDaysPerYear()
 
@@ -125,6 +136,10 @@ fun List<Event>.sort(calendar: Calendar): List<Event> {
             is Day -> date.day
             is Year -> {
                 date.year * daysPerYear
+            }
+
+            is Decade -> {
+                date.decade * daysPerYear * 10
             }
         }
     }

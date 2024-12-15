@@ -1,11 +1,7 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.utils.math.FULL
@@ -33,111 +29,6 @@ inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String): T
 inline fun <reified T : Enum<T>> parseSet(parameters: Parameters, param: String): Set<T> =
     parameters.getAll(param)?.map { java.lang.Enum.valueOf(T::class.java, it) }?.toSet() ?: emptySet()
 
-// date
-
-fun parseOptionalDate(
-    parameters: Parameters,
-    state: State,
-    param: String,
-): Date? = parseOptionalDate(parameters, state.getDefaultCalendar(), param)
-
-fun parseOptionalDate(
-    parameters: Parameters,
-    calendar: Calendar,
-    param: String,
-): Date? {
-    if (!parseBool(parameters, combine(param, AVAILABLE))) {
-        return null
-    }
-
-    return when (parse(parameters, combine(param, DATE), DateType.Year)) {
-        DateType.Day -> parseDay(parameters, calendar, param)
-        DateType.Year -> parseYear(parameters, calendar, param)
-    }
-}
-
-fun parseOptionalYear(
-    parameters: Parameters,
-    state: State,
-    param: String,
-): Year? = parseOptionalYear(parameters, state.getDefaultCalendar(), param)
-
-fun parseOptionalYear(
-    parameters: Parameters,
-    calendar: Calendar,
-    param: String,
-): Year? {
-    if (!parseBool(parameters, combine(param, AVAILABLE))) {
-        return null
-    }
-
-    return parseYear(parameters, calendar, param)
-}
-
-fun parseDate(
-    parameters: Parameters,
-    state: State,
-    param: String,
-    default: Date? = null,
-): Date = parseDate(parameters, state.getDefaultCalendar(), param, default)
-
-fun parseDate(
-    parameters: Parameters,
-    calendar: Calendar,
-    param: String,
-    default: Date? = null,
-): Date {
-    if (default != null && !parameters.contains(combine(param, ERA))) {
-        return default
-    }
-
-    return when (parse(parameters, combine(param, DATE), DateType.Year)) {
-        DateType.Day -> parseDay(parameters, calendar, param)
-        DateType.Year -> parseYear(parameters, calendar, param)
-    }
-}
-
-fun parseDay(
-    parameters: Parameters,
-    calendar: Calendar,
-    param: String,
-    default: Day? = null,
-): Day {
-    val eraParam = combine(param, ERA)
-
-    if (default != null && !parameters.contains(eraParam)) {
-        return default
-    }
-
-    val eraIndex = parseInt(parameters, eraParam)
-    val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
-    val monthIndex = parseInt(parameters, combine(param, MONTH))
-    val dayIndex = parseDayIndex(parameters, param)
-    val calendarDate = DisplayDay(eraIndex, yearIndex, monthIndex, dayIndex)
-
-    return calendar.resolve(calendarDate)
-}
-
-fun parseDayIndex(parameters: Parameters, param: String) =
-    parseInt(parameters, combine(param, DAY), 1) - 1
-
-fun parseYear(
-    parameters: Parameters,
-    state: State,
-    param: String,
-): Year = parseYear(parameters, state.getDefaultCalendar(), param)
-
-fun parseYear(
-    parameters: Parameters,
-    default: Calendar,
-    param: String,
-): Year {
-    val eraIndex = parseInt(parameters, combine(param, ERA))
-    val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
-    val calendarDate = DisplayYear(eraIndex, yearIndex)
-
-    return default.resolve(calendarDate)
-}
 
 // RarityMap
 

@@ -5,12 +5,19 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
 
+enum class DateType {
+    Day,
+    Year,
+    Decade,
+}
+
 @Serializable
 sealed interface Date {
 
     fun getType() = when (this) {
         is Day -> DateType.Day
         is Year -> DateType.Year
+        is Decade -> DateType.Decade
     }
 
     fun isBetween(calendar: Calendar, start: Day, end: Day): Boolean
@@ -27,6 +34,7 @@ data class Day(val day: Int) : Date {
     }
 
     override fun next() = nextDay()
+
     fun nextDay() = this + 1
     fun previousDay() = this - 1
 
@@ -46,11 +54,30 @@ data class Year(val year: Int) : Date {
         .isBetween(calendar, start, end)
 
     override fun next() = nextYear()
+
     fun nextYear() = Year(year + 1)
     fun previousYear() = Year(year - 1)
 
     operator fun compareTo(other: Year): Int {
         return year.compareTo(other.year)
+    }
+
+}
+
+@Serializable
+@SerialName("Decade")
+data class Decade(val decade: Int) : Date {
+
+    override fun isBetween(calendar: Calendar, start: Day, end: Day) = calendar
+        .getStartOfDecade(this)
+        .isBetween(calendar, start, end)
+
+    override fun next() = nextDecade()
+    fun nextDecade() = Decade(decade + 1)
+    fun previousDecade() = Decade(decade - 1)
+
+    operator fun compareTo(other: Decade): Int {
+        return decade.compareTo(other.decade)
     }
 
 }

@@ -2,6 +2,8 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.selectDayIndex
+import at.orchaldir.gm.app.html.model.selectMonthIndex
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseHoliday
 import at.orchaldir.gm.core.action.CreateHoliday

@@ -1,9 +1,6 @@
 package at.orchaldir.gm.core.model.calendar
 
-import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.time.DisplayDate
-import at.orchaldir.gm.core.model.time.DisplayDay
-import at.orchaldir.gm.core.model.time.DisplayYear
+import at.orchaldir.gm.core.model.time.*
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -31,6 +28,7 @@ data class CalendarEras(
     fun display(date: DisplayDate) = when (date) {
         is DisplayDay -> display(date)
         is DisplayYear -> display(date)
+        is DisplayDecade -> display(date)
     }
 
     fun display(day: DisplayDay) = getEra(day.year.eraIndex)
@@ -40,4 +38,7 @@ data class CalendarEras(
 
     fun display(year: DisplayYear) = getEra(year.eraIndex)
         .display(year.yearIndex + 1)
+
+    fun display(decade: DisplayDecade) = getEra(decade.eraIndex)
+        .display(decade)
 }

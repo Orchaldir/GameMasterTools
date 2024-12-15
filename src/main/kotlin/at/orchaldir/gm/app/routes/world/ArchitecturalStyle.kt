@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.REVIVAL
 import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
 import at.orchaldir.gm.app.routes.world.SortArchitecturalStyle.*
 import at.orchaldir.gm.core.action.CreateArchitecturalStyle

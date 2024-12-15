@@ -1,11 +1,17 @@
-package at.orchaldir.gm.app.html
+package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseBool
+import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
+import at.orchaldir.gm.core.model.calendar.resolve
 import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.selector.getDefaultCalendar
+import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
 
@@ -41,6 +47,8 @@ fun HtmlBlockTag.showOptionalDate(call: ApplicationCall, state: State, date: Dat
 fun HtmlBlockTag.showDate(call: ApplicationCall, state: State, date: Date) {
     link(call, state.getDefaultCalendar(), date)
 }
+
+// select
 
 fun HtmlBlockTag.selectOptionalDate(
     state: State,
@@ -137,14 +145,24 @@ private fun HtmlBlockTag.selectDate(
         }
     }
     when (displayDate) {
-        is DisplayDay -> {
-            selectDay(param, calendar, displayDate, minDate)
-        }
-
-        is DisplayYear -> {
-            selectYear(param, calendar, displayDate, minDate)
-        }
+        is DisplayDay -> selectDay(param, calendar, displayDate, minDate)
+        is DisplayYear -> selectYear(param, calendar, displayDate, minDate)
+        is DisplayDecade -> selectDecade(param, calendar, displayDate, minDate)
     }
+}
+
+private fun HtmlBlockTag.selectDecade(
+    param: String,
+    calendar: Calendar,
+    decade: DisplayDecade,
+    minDate: Date? = null,
+    maxDate: Date? = null,
+) {
+    val displayMinYear = minDate?.let { calendar.getDisplayYear(it) }
+    val displayMaxYear = maxDate?.let { calendar.getDisplayYear(it) }
+
+    selectEraIndex(param, calendar, decade.eraIndex, displayMinYear, displayMaxYear)
+    selectDecadeIndex(param, calendar, decade, minDate, maxDate)
 }
 
 fun FORM.selectYear(
@@ -180,20 +198,10 @@ private fun HtmlBlockTag.selectYear(
     minDate: Date? = null,
     maxDate: Date? = null,
 ) {
-    val displayMinYear = minDate?.let {
-        when (it) {
-            is Day -> calendar.resolve(it).year
-            is Year -> calendar.resolve(it)
-        }
-    }
-    val displayMaxYear = maxDate?.let {
-        when (it) {
-            is Day -> calendar.resolve(it).year
-            is Year -> calendar.resolve(it)
-        }
-    }
+    val displayMinYear = minDate?.let { calendar.getDisplayYear(it) }
+    val displayMaxYear = maxDate?.let { calendar.getDisplayYear(it) }
 
-    selectEraIndex(param, calendar, year, displayMinYear, displayMaxYear)
+    selectEraIndex(param, calendar, year.eraIndex, displayMinYear, displayMaxYear)
     selectYearIndex(param, year, displayMinYear, displayMaxYear)
 }
 
@@ -225,14 +233,9 @@ private fun HtmlBlockTag.selectDay(
     displayDate: DisplayDay,
     minDate: Date?,
 ) {
-    val displayMinDay = minDate?.let {
-        when (it) {
-            is Day -> calendar.resolve(it)
-            is Year -> calendar.resolve(calendar.getStartOfYear(it))
-        }
-    }
+    val displayMinDay = minDate?.let { calendar.getDisplayDay(it) }
 
-    selectEraIndex(param, calendar, displayDate.year, displayMinDay?.year)
+    selectEraIndex(param, calendar, displayDate.year.eraIndex, displayMinDay?.year)
     selectYearIndex(param, displayDate.year, displayMinDay?.year)
     selectMonthIndex(param, calendar, displayDate, displayMinDay)
     selectDayIndex(param, calendar, displayDate, displayMinDay)
@@ -241,7 +244,7 @@ private fun HtmlBlockTag.selectDay(
 private fun HtmlBlockTag.selectEraIndex(
     param: String,
     calendar: Calendar,
-    year: DisplayYear,
+    eraIndex: Int,
     minYear: DisplayYear? = null,
     maxYear: DisplayYear? = null,
 ) {
@@ -258,10 +261,45 @@ private fun HtmlBlockTag.selectEraIndex(
                 label = era.text
                 value = index.toString()
                 disabled = index < minIndex || index > maxIndex
-                selected = index == year.eraIndex
+                selected = index == eraIndex
             }
         }
     }
+}
+
+private fun HtmlBlockTag.selectDecadeIndex(
+    param: String,
+    calendar: Calendar,
+    decade: DisplayDecade,
+    minDate: Date? = null,
+    maxDate: Date? = null,
+) {
+    val decadeParam = combine(param, DECADE)
+    val minIndex = if (minDate != null) {
+        val minDecade = calendar.getDisplayDecade(minDate)
+
+        if (minDecade.eraIndex == decade.eraIndex) {
+            minDecade.eraIndex
+        } else {
+            0
+        }
+    } else {
+        0
+    }
+    val maxIndex = if (maxDate != null) {
+        val maxDecade = calendar.getDisplayDecade(maxDate)
+
+        if (maxDecade.eraIndex == decade.eraIndex) {
+            maxDecade.decadeIndex
+        } else {
+            Int.MAX_VALUE
+        }
+    } else {
+        Int.MAX_VALUE
+    }
+
+    selectInt(decade.decadeIndex, minIndex, maxIndex, 1, decadeParam, true)
+    +"0s"
 }
 
 private fun HtmlBlockTag.selectYearIndex(
@@ -369,4 +407,124 @@ private fun HtmlBlockTag.selectDayIndex(
 ) {
     val month = calendar.months[monthIndex]
     selectInt(dayIndex + 1, minMonthIndex + 1, month.days, 1, combine(param, DAY), true)
+}
+
+// parse
+
+fun parseOptionalDate(
+    parameters: Parameters,
+    state: State,
+    param: String,
+): Date? = parseOptionalDate(parameters, state.getDefaultCalendar(), param)
+
+fun parseOptionalDate(
+    parameters: Parameters,
+    calendar: Calendar,
+    param: String,
+): Date? {
+    if (!parseBool(parameters, combine(param, AVAILABLE))) {
+        return null
+    }
+
+    return when (parse(parameters, combine(param, DATE), DateType.Year)) {
+        DateType.Day -> parseDay(parameters, calendar, param)
+        DateType.Year -> parseYear(parameters, calendar, param)
+        DateType.Decade -> TODO()
+    }
+}
+
+fun parseOptionalYear(
+    parameters: Parameters,
+    state: State,
+    param: String,
+): Year? = parseOptionalYear(parameters, state.getDefaultCalendar(), param)
+
+fun parseOptionalYear(
+    parameters: Parameters,
+    calendar: Calendar,
+    param: String,
+): Year? {
+    if (!parseBool(parameters, combine(param, AVAILABLE))) {
+        return null
+    }
+
+    return parseYear(parameters, calendar, param)
+}
+
+fun parseDate(
+    parameters: Parameters,
+    state: State,
+    param: String,
+    default: Date? = null,
+): Date = parseDate(parameters, state.getDefaultCalendar(), param, default)
+
+fun parseDate(
+    parameters: Parameters,
+    calendar: Calendar,
+    param: String,
+    default: Date? = null,
+): Date {
+    if (default != null && !parameters.contains(combine(param, ERA))) {
+        return default
+    }
+
+    return when (parse(parameters, combine(param, DATE), DateType.Year)) {
+        DateType.Day -> parseDay(parameters, calendar, param)
+        DateType.Year -> parseYear(parameters, calendar, param)
+        DateType.Decade -> parseDecade(parameters, calendar, param)
+    }
+}
+
+fun parseDay(
+    parameters: Parameters,
+    calendar: Calendar,
+    param: String,
+    default: Day? = null,
+): Day {
+    val eraParam = combine(param, ERA)
+
+    if (default != null && !parameters.contains(eraParam)) {
+        return default
+    }
+
+    val eraIndex = parseInt(parameters, eraParam)
+    val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
+    val monthIndex = parseInt(parameters, combine(param, MONTH))
+    val dayIndex = parseDayIndex(parameters, param)
+    val calendarDate = DisplayDay(eraIndex, yearIndex, monthIndex, dayIndex)
+
+    return calendar.resolve(calendarDate)
+}
+
+fun parseDayIndex(parameters: Parameters, param: String) =
+    parseInt(parameters, combine(param, DAY), 1) - 1
+
+fun parseYear(
+    parameters: Parameters,
+    state: State,
+    param: String,
+): Year = parseYear(parameters, state.getDefaultCalendar(), param)
+
+fun parseYear(
+    parameters: Parameters,
+    calendar: Calendar,
+    param: String,
+): Year {
+    val eraIndex = parseInt(parameters, combine(param, ERA))
+    val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
+    val calendarDate = DisplayYear(eraIndex, yearIndex)
+
+    return calendar.resolve(calendarDate)
+}
+
+fun parseDecade(
+    parameters: Parameters,
+    calendar: Calendar,
+    param: String,
+): Decade {
+    val eraIndex = parseInt(parameters, combine(param, ERA))
+    val decadeIndex = parseInt(parameters, combine(param, DECADE))
+    val calendarDate = DisplayDecade(eraIndex, decadeIndex)
+
+    return calendar.resolve(calendarDate)
 }
