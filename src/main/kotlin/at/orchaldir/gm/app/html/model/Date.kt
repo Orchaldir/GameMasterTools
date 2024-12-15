@@ -299,6 +299,7 @@ private fun HtmlBlockTag.selectDecadeIndex(
     }
 
     selectInt(decade.decadeIndex, minIndex, maxIndex, 1, decadeParam, true)
+    +"0s"
 }
 
 private fun HtmlBlockTag.selectYearIndex(
