@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world.street
 
+import at.orchaldir.gm.core.model.material.MaterialCost
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
@@ -22,6 +23,7 @@ data class StreetType(
     val id: StreetTypeId,
     val name: String = "StreetType ${id.value}",
     val color: Color = Color.Gray,
+    val materialCost: MaterialCost = MaterialCost(),
 ) : ElementWithSimpleName<StreetTypeId> {
 
     override fun id() = id

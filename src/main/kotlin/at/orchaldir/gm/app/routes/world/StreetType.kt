@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.world
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.showMaterialCost
 import at.orchaldir.gm.app.parse.world.parseStreetType
 import at.orchaldir.gm.core.action.CreateStreetType
 import at.orchaldir.gm.core.action.DeleteStreetType
@@ -163,6 +164,7 @@ private fun HTML.showStreetTypeDetails(
     simpleHtml("Street Type: ${type.name}") {
         split({
             field("Name", type.name)
+            showMaterialCost(call, state, type.materialCost)
             field("Color", type.color.toString())
             showList("Towns", state.getTowns(type.id)) { town ->
                 link(call, state, town)

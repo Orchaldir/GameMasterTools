@@ -20,6 +20,11 @@
    "id": 3,
    "name": "Cotton",
    "category": "Fabric"
+  },
+  "4": {
+   "id": 4,
+   "name": "Stone",
+   "category": "Stone"
   }
  }
 }

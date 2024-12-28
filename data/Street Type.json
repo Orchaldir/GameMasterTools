@@ -3,7 +3,10 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Paved Street"
+   "name": "Paved Street",
+   "materialCost": {
+    "4": 1
+   }
   },
   "1": {
    "id": 1,

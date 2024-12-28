@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.world.street
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.material.MaterialCost
 import at.orchaldir.gm.core.model.name.ComplexName
 import at.orchaldir.gm.core.model.name.SimpleName
 import at.orchaldir.gm.utils.Element
@@ -24,7 +23,6 @@ value class StreetId(val value: Int) : Id<StreetId> {
 data class Street(
     val id: StreetId,
     val name: ComplexName = SimpleName("Street ${id.value}"),
-    val materialCost: MaterialCost = MaterialCost(),
 ) : Element<StreetId> {
 
     override fun id() = id
