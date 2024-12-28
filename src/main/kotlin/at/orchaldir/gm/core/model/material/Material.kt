@@ -20,6 +20,7 @@ value class MaterialId(val value: Int) : Id<MaterialId> {
 data class Material(
     val id: MaterialId,
     val name: String = "Material ${id.value}",
+    val category: MaterialCategory = MaterialCategory.Metal,
 ) : ElementWithSimpleName<MaterialId> {
 
     override fun id() = id
