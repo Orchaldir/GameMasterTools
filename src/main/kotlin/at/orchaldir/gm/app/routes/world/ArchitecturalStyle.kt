@@ -143,7 +143,8 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State,
     val styles = STORE.getState()
         .getArchitecturalStyleStorage()
         .getAll()
-        .sortedWith(when (sort) {
+        .sortedWith(
+            when (sort) {
             Name -> compareBy { it.name }
             Start -> compareBy { it.start.year }
             End -> compareBy { it.end?.year }
