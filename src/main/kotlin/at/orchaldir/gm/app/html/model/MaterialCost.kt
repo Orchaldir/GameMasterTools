@@ -33,7 +33,10 @@ fun FORM.selectMaterialCost(
     state: State,
     materialCost: MaterialCost,
 ) {
-    selectOptionalValue("Add Material", combine(ADD, MATERIAL), null, state.getMaterialStorage().getAll()) { material ->
+    val newMaterials = state.getMaterialStorage()
+        .getAll()
+        .filter { !materialCost.contains(it.id) }
+    selectOptionalValue("Add Material", combine(ADD, MATERIAL), null, newMaterials) { material ->
         label = material.name
         value = material.id.value.toString()
     }
