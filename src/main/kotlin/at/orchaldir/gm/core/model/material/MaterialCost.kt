@@ -5,16 +5,12 @@ import kotlinx.serialization.Serializable
 @JvmInline
 @Serializable
 value class MaterialCost private constructor(
-    val map: Map<MaterialId, UInt> = emptyMap(),
+    val map: Map<MaterialId, Int> = emptyMap(),
 ) {
     constructor() : this(emptyMap())
 
     companion object {
-        fun fromSigned(map: Map<MaterialId, UInt>) = MaterialCost(map.filterValues { it > 0u })
-        fun fromUnsigned(map: Map<MaterialId, Int>) = MaterialCost(
-            map
-            .filterValues { it > 0 }
-            .mapValues { it.value.toUInt() })
+        fun init(map: Map<MaterialId, Int>) = MaterialCost(map.filterValues { it > 0 })
     }
 
     fun contains(material: MaterialId) = map.containsKey(material)

@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.showMaterialCost
+import at.orchaldir.gm.app.html.model.selectMaterialCost
 import at.orchaldir.gm.app.parse.world.parseStreetType
 import at.orchaldir.gm.core.action.CreateStreetType
 import at.orchaldir.gm.core.action.DeleteStreetType
@@ -111,7 +112,7 @@ fun Application.configureStreetTypeRouting() {
             val street = state.getStreetTypeStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showStreetTypeEditor(call, street)
+                showStreetTypeEditor(call, state, street)
             }
         }
         post<StreetTypeRoutes.Preview> { preview ->
@@ -120,7 +121,7 @@ fun Application.configureStreetTypeRouting() {
             val type = parseStreetType(preview.id, call.receiveParameters())
 
             call.respondHtml(HttpStatusCode.OK) {
-                showStreetTypeEditor(call, type)
+                showStreetTypeEditor(call, STORE.getState(), type)
             }
         }
         post<StreetTypeRoutes.Update> { update ->
@@ -164,8 +165,8 @@ private fun HTML.showStreetTypeDetails(
     simpleHtml("Street Type: ${type.name}") {
         split({
             field("Name", type.name)
-            showMaterialCost(call, state, type.materialCost)
             field("Color", type.color.toString())
+            showMaterialCost(call, state, type.materialCost)
             showList("Towns", state.getTowns(type.id)) { town ->
                 link(call, state, town)
             }
@@ -182,6 +183,7 @@ private fun HTML.showStreetTypeDetails(
 
 private fun HTML.showStreetTypeEditor(
     call: ApplicationCall,
+    state: State,
     type: StreetType,
 ) {
     val backLink = href(call, type.id)
@@ -196,6 +198,7 @@ private fun HTML.showStreetTypeEditor(
                 method = FormMethod.post
                 selectName(type.name)
                 selectColor("Color", COLOR, Color.entries, type.color)
+                selectMaterialCost(call, state, type.materialCost)
                 button("Update", updateLink)
             }
             back(backLink)
