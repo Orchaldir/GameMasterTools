@@ -6,12 +6,16 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.material.MaterialId
 
 fun State.canDelete(itemTemplate: ItemTemplateId) = getCharacterStorage().getAll()
     .none { it.equipmentMap.contains(itemTemplate) }
 
 fun State.getItemTemplatesOf(type: EquipmentType) = getItemTemplateStorage().getAll()
     .filter { it.equipment.isType(type) }
+
+fun State.getItemTemplatesMadeOf(material: MaterialId) = getItemTemplateStorage().getAll()
+    .filter { it.equipment.contains(material) }
 
 fun State.getItemTemplatesId(type: EquipmentType) = getItemTemplatesOf(type)
     .map { it.id() }

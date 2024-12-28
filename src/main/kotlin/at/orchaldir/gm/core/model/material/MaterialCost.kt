@@ -16,4 +16,6 @@ value class MaterialCost private constructor(
             .filterValues { it > 0 }
             .mapValues { it.value.toUInt() })
     }
+
+    fun contains(material: MaterialId) = map.containsKey(material)
 }
