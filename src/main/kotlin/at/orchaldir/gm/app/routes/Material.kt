@@ -132,7 +132,11 @@ private fun HTML.showAllMaterials(
                 tr {
                     td { link(call, state, material) }
                     td { +material.category.toString() }
-                    td { +"" }
+                    td {
+                        +state.getItemTemplatesOf(material.id)
+                            .count()
+                            .toString()
+                    }
                 }
             }
         }
