@@ -8,15 +8,18 @@
   },
   "1": {
    "id": 1,
-   "name": "Wool"
+   "name": "Wool",
+   "category": "Fabric"
   },
   "2": {
    "id": 2,
-   "name": "Silk"
+   "name": "Silk",
+   "category": "Fabric"
   },
   "3": {
    "id": 3,
-   "name": "Cotton"
+   "name": "Cotton",
+   "category": "Fabric"
   }
  }
 }
