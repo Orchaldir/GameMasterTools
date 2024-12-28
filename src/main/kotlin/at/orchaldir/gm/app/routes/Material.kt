@@ -128,6 +128,7 @@ private fun HTML.showAllMaterials(
                 th { +"Name" }
                 th { +"Category" }
                 th { +"Items" }
+                th { +"Streets" }
             }
             materials.forEach { material ->
                 tr {
@@ -135,6 +136,11 @@ private fun HTML.showAllMaterials(
                     td { +material.category.toString() }
                     td {
                         +state.getItemTemplatesMadeOf(material.id)
+                            .count()
+                            .toString()
+                    }
+                    td {
+                        +state.getStreetTypesMadeOf(material.id)
                             .count()
                             .toString()
                     }
