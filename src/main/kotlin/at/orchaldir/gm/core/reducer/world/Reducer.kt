@@ -26,10 +26,10 @@ val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->
         is CreateStreet -> CREATE_STREET(state, action)
         is DeleteStreet -> DELETE_STREET(state, action)
         is UpdateStreet -> UPDATE_STREET(state, action)
-        // street type
-        is CreateStreetType -> CREATE_STREET_TYPE(state, action)
-        is DeleteStreetType -> DELETE_STREET_TYPE(state, action)
-        is UpdateStreetType -> UPDATE_STREET_TYPE(state, action)
+        // street template
+        is CreateStreetTemplate -> CREATE_STREET_TEMPLATE(state, action)
+        is DeleteStreetTemplate -> DELETE_STREET_TEMPLATE(state, action)
+        is UpdateStreetTemplate -> UPDATE_STREET_TEMPLATE(state, action)
         // town
         is CreateTown -> CREATE_TOWN(state, action)
         is DeleteTown -> DELETE_TOWN(state, action)

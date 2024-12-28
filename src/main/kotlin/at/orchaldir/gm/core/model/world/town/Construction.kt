@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.world.town
 
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.model.world.street.StreetTypeId
+import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -14,13 +14,18 @@ sealed class Construction {
         else -> false
     }
 
-    fun contains(id: StreetTypeId) = when (this) {
-        is StreetTile -> typeId == id
+    fun contains(id: StreetTemplateId) = when (this) {
+        is StreetTile -> templateId == id
         else -> false
     }
 
     fun getOptionalStreet() = when (this) {
         is StreetTile -> streetId
+        else -> null
+    }
+
+    fun getOptionalStreetTemplate() = when (this) {
+        is StreetTile -> templateId
         else -> null
     }
 
@@ -37,7 +42,7 @@ data class BuildingTile(val building: BuildingId) : Construction()
 @Serializable
 @SerialName("Street")
 data class StreetTile(
-    val typeId: StreetTypeId = StreetTypeId(0),
+    val templateId: StreetTemplateId = StreetTemplateId(0),
     val streetId: StreetId? = null,
 ) : Construction()
 

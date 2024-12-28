@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.model.world.street.StreetType
+import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
@@ -24,7 +24,7 @@ private val STATE = State(
     listOf(
         Storage(CALENDAR),
         Storage(Character(CHARACTER_ID_2)),
-        Storage(listOf(StreetType(STREET_TYPE_ID_0), StreetType(STREET_TYPE_ID_0))),
+        Storage(listOf(StreetTemplate(STREET_TYPE_ID_0), StreetTemplate(STREET_TYPE_ID_0))),
         Storage(Town(TOWN_ID_0, map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1)))),
     )
 )

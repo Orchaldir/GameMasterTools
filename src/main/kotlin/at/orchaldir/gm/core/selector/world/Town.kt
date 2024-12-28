@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.model.world.street.StreetTypeId
+import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.Town
@@ -42,7 +42,7 @@ fun State.getTowns(river: RiverId) = getTownStorage().getAll()
 fun State.getTowns(street: StreetId) = getTownStorage().getAll()
     .filter { it.map.contains { it.construction.contains(street) } }
 
-fun State.getTowns(type: StreetTypeId) = getTownStorage().getAll()
+fun State.getTowns(type: StreetTemplateId) = getTownStorage().getAll()
     .filter { it.map.contains { it.construction.contains(type) } }
 
 // founder

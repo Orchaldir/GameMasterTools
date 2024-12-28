@@ -41,7 +41,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -109,7 +109,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -171,13 +171,13 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -239,7 +239,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -307,7 +307,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -371,7 +371,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -459,7 +459,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -491,59 +491,49 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
-      }
-     },
-     {
-      "terrain": {
-       "type": "River",
-       "river": 0
-      },
-      "construction": {
-       "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -553,13 +543,23 @@
       },
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
+      }
+     },
+     {
+      "terrain": {
+       "type": "River",
+       "river": 0
+      },
+      "construction": {
+       "type": "Street",
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -575,67 +575,67 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -699,7 +699,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -715,7 +715,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -751,7 +751,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -799,67 +799,67 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -911,7 +911,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -931,7 +931,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -959,7 +959,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -1003,43 +1003,43 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -1059,7 +1059,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -1139,7 +1139,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -1155,37 +1155,37 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -1211,55 +1211,55 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -1363,67 +1363,67 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -1487,7 +1487,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -1535,13 +1535,13 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -1565,121 +1565,121 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -1743,7 +1743,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -1791,7 +1791,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -1831,91 +1831,91 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -1955,7 +1955,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -1975,7 +1975,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -2019,7 +2019,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -2055,91 +2055,91 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -2179,7 +2179,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -2195,7 +2195,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -2215,7 +2215,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -2271,67 +2271,67 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -2399,7 +2399,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {
@@ -2471,7 +2471,7 @@
      {
       "construction": {
        "type": "Street",
-       "typeId": 1
+       "templateId": 1
       }
      },
      {

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app
 
 const val ACCESSORY_RARITY = "accessories"
+const val ADD = "add"
 const val ADDRESS = "address"
 const val AGE = "age"
 const val APPEARANCE = "appearance"
@@ -15,6 +16,7 @@ const val BUSINESS = "business"
 const val BUTTON_COLOR = "button_color"
 const val BUTTON_COUNT = "button_count"
 const val BUTTON_SIZE = "button_size"
+const val CATEGORY = "category"
 const val CENTER = "center"
 const val CHARACTER = "character"
 const val CLOTHING_SETS = "clothing_sets"

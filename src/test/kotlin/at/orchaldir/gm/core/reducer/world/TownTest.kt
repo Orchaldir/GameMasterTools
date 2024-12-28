@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingLot
 import at.orchaldir.gm.core.model.world.street.Street
-import at.orchaldir.gm.core.model.world.street.StreetType
+import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.StreetTile
@@ -40,7 +40,7 @@ private val PREVIOUS_OWNER = History(UndefinedOwner, listOf(HistoryEntry(OwnedBy
 private val STATE = State(
     listOf(
         Storage(Street(STREET_ID_0)),
-        Storage(StreetType(STREET_TYPE_ID_0)),
+        Storage(StreetTemplate(STREET_TYPE_ID_0)),
         Storage(Town(TOWN_ID_0)),
     )
 )
@@ -171,10 +171,10 @@ class TownTest {
         }
 
         @Test
-        fun `Cannot use unknown street type`() {
+        fun `Cannot use unknown street template`() {
             val action = AddStreetTile(TOWN_ID_0, 0, STREET_TYPE_ID_1, STREET_ID_0)
 
-            assertIllegalArgument("Requires unknown Street Type 1!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Street Template 1!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

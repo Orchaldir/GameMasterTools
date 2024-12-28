@@ -55,7 +55,7 @@ class MaterialTest {
             )
         )
 
-        assertEquals(listOf(template0, template1), state.getItemTemplatesOf(ID0))
-        assertEquals(emptyList(), state.getItemTemplatesOf(ID1))
+        assertEquals(listOf(template0, template1), state.getItemTemplatesMadeOf(ID0))
+        assertEquals(emptyList(), state.getItemTemplatesMadeOf(ID1))
     }
 }

@@ -155,10 +155,10 @@ fun TownTile.getColor() = when (terrain) {
     is RiverTerrain -> Color.Blue
 }
 
-fun getStreetTypeFill(state: State): (StreetTile, Int) -> Color = { tile, _ ->
+fun getStreetTemplateFill(state: State): (StreetTile, Int) -> Color = { tile, _ ->
     state
-        .getStreetTypeStorage()
-        .get(tile.typeId)
+        .getStreetTemplateStorage()
+        .get(tile.templateId)
         ?.color ?: Color.Pink
 }
 

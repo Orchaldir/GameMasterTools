@@ -3,19 +3,28 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Leather"
+   "name": "Leather",
+   "category": "Skin"
   },
   "1": {
    "id": 1,
-   "name": "Wool"
+   "name": "Wool",
+   "category": "Fabric"
   },
   "2": {
    "id": 2,
-   "name": "Silk"
+   "name": "Silk",
+   "category": "Fabric"
   },
   "3": {
    "id": 3,
-   "name": "Cotton"
+   "name": "Cotton",
+   "category": "Fabric"
+  },
+  "4": {
+   "id": 4,
+   "name": "Stone",
+   "category": "Stone"
   }
  }
 }

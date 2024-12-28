@@ -5,15 +5,18 @@ import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.util.countCreators
 import at.orchaldir.gm.core.selector.world.countArchitecturalStyles
 import at.orchaldir.gm.core.selector.world.countPurpose
+import at.orchaldir.gm.core.selector.world.countStreetTemplates
 import at.orchaldir.gm.core.selector.world.countTowns
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
@@ -73,6 +76,9 @@ fun HtmlBlockTag.showJobCount(
 fun HtmlBlockTag.showHousingStatusCount(characters: Collection<Character>) =
     showCount("Housing Status", countHousingStatus(characters))
 
+fun HtmlBlockTag.showMaterialCategoryCount(materials: Collection<Material>) =
+    showCount("Material Category", countMaterialCategory(materials))
+
 fun HtmlBlockTag.showBuildingOwnershipCount(call: ApplicationCall, state: State, collection: Collection<Building>) =
     showOwnershipCount(call, state, collection.map { it.ownership })
 
@@ -106,6 +112,12 @@ fun HtmlBlockTag.showRaceCount(
     state: State,
     characters: Collection<Character>,
 ) = showCount(call, state, "Races", countRace(characters))
+
+fun HtmlBlockTag.showStreetTemplateCount(
+    call: ApplicationCall,
+    state: State,
+    town: TownId,
+) = showCount(call, state, "Street Templates", state.countStreetTemplates(town))
 
 fun HtmlBlockTag.showTownCount(
     call: ApplicationCall,

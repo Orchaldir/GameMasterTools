@@ -58,7 +58,7 @@ val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
 // town's streets
 
 val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
-    state.getStreetTypeStorage().require(action.type)
+    state.getStreetTemplateStorage().require(action.type)
 
     action.street?.let { state.getStreetStorage().require(it) }
 

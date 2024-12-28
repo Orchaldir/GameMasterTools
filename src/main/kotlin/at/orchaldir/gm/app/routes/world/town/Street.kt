@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.action.RemoveStreetTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.model.world.street.StreetTypeId
+import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.visualization.town.visualizeTown
@@ -40,7 +40,7 @@ fun Application.configureStreetEditorRouting() {
             val town = state.getTownStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showStreetEditor(call, state, town, StreetTypeId(0), null)
+                showStreetEditor(call, state, town, StreetTemplateId(0), null)
             }
         }
         post<TownRoutes.StreetRoutes.Preview> { preview ->
@@ -53,7 +53,7 @@ fun Application.configureStreetEditorRouting() {
             val streetId = parseOptionalInt(params, STREET)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showStreetEditor(call, state, town, StreetTypeId(typeId), streetId?.let { StreetId(it) })
+                showStreetEditor(call, state, town, StreetTemplateId(typeId), streetId?.let { StreetId(it) })
             }
         }
         get<TownRoutes.StreetRoutes.Add> { add ->
@@ -89,7 +89,7 @@ private fun HTML.showStreetEditor(
     call: ApplicationCall,
     state: State,
     town: Town,
-    selectedType: StreetTypeId,
+    selectedType: StreetTemplateId,
     selectedStreetId: StreetId?,
 ) {
     val selectedStreet = state.getStreetStorage().getOptional(selectedStreetId)
@@ -103,7 +103,7 @@ private fun HTML.showStreetEditor(
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectValue("Type", TYPE, state.getStreetTypeStorage().getAll(), true) { type ->
+                selectValue("Type", TYPE, state.getStreetTemplateStorage().getAll(), true) { type ->
                     label = type.name
                     value = type.id.value.toString()
                     selected = selectedType == type.id
@@ -131,7 +131,7 @@ fun visualizeStreetEditor(
     call: ApplicationCall,
     state: State,
     town: Town,
-    selectedType: StreetTypeId,
+    selectedType: StreetTemplateId,
     selectedStreet: StreetId?,
 ) = visualizeTown(
     town, state.getBuildings(town.id),
@@ -144,7 +144,7 @@ fun visualizeStreetEditor(
     },
     streetColorLookup = { street, _ ->
         if (selectedStreet == null) {
-            state.getStreetTypeStorage().getOrThrow(street.typeId).color
+            state.getStreetTemplateStorage().getOrThrow(street.templateId).color
         } else if (street.streetId == selectedStreet) {
             Color.Gold
         } else {

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.routes
 
+import at.orchaldir.gm.app.CATEGORY
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseMaterial
@@ -8,9 +9,11 @@ import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.material.Material
+import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getItemTemplatesOf
+import at.orchaldir.gm.core.selector.getItemTemplatesMadeOf
+import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -20,8 +23,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
-import kotlinx.html.form
+import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -50,7 +52,7 @@ fun Application.configureMaterialRouting() {
             logger.info { "Get all materials" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllMaterials(call)
+                showAllMaterials(call, STORE.getState())
             }
         }
         get<MaterialRoutes.Details> { details ->
@@ -111,16 +113,33 @@ fun Application.configureMaterialRouting() {
     }
 }
 
-private fun HTML.showAllMaterials(call: ApplicationCall) {
+private fun HTML.showAllMaterials(
+    call: ApplicationCall,
+    state: State,
+) {
     val materials = STORE.getState().getMaterialStorage().getAll().sortedBy { it.name }
     val count = materials.size
     val createLink = call.application.href(MaterialRoutes.New())
 
     simpleHtml("Materials") {
         field("Count", count.toString())
-        showList(materials) { nameList ->
-            link(call, nameList)
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Category" }
+                th { +"Items" }
+                th { +"Streets" }
+            }
+            materials.forEach { material ->
+                tr {
+                    td { link(call, state, material) }
+                    td { +material.category.toString() }
+                    tdSkipZero(state.getItemTemplatesMadeOf(material.id).count())
+                    tdSkipZero(state.getStreetTemplatesMadeOf(material.id).count())
+                }
+            }
         }
+        showMaterialCategoryCount(materials)
         action(createLink, "Add")
         back("/")
     }
@@ -131,14 +150,19 @@ private fun HTML.showMaterialDetails(
     state: State,
     material: Material,
 ) {
-    val templates = state.getItemTemplatesOf(material.id)
+    val itemTemplates = state.getItemTemplatesMadeOf(material.id)
+    val streetTemplates = state.getStreetTemplatesMadeOf(material.id)
     val backLink = call.application.href(MaterialRoutes())
     val deleteLink = call.application.href(MaterialRoutes.Delete(material.id))
     val editLink = call.application.href(MaterialRoutes.Edit(material.id))
 
     simpleHtml("Material: ${material.name}") {
         field("Name", material.name)
-        showList("Item templates", templates) { template ->
+        field("Category", material.category.toString())
+        showList("Item Templates", itemTemplates) { template ->
+            link(call, template)
+        }
+        showList("Street Templates", streetTemplates) { template ->
             link(call, template)
         }
         action(editLink, "Edit")
@@ -159,6 +183,11 @@ private fun HTML.showMaterialEditor(
     simpleHtml("Edit Material: ${material.name}") {
         form {
             selectName(material.name)
+            selectValue("Category", CATEGORY, MaterialCategory.entries) { category ->
+                label = category.name
+                value = category.name
+                selected = material.category == category
+            }
             button("Update", updateLink)
         }
         back(backLink)
