@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.Owner
@@ -72,6 +73,9 @@ fun HtmlBlockTag.showJobCount(
 
 fun HtmlBlockTag.showHousingStatusCount(characters: Collection<Character>) =
     showCount("Housing Status", countHousingStatus(characters))
+
+fun HtmlBlockTag.showMaterialCategoryCount(materials: Collection<Material>) =
+    showCount("Material Category", countMaterialCategory(materials))
 
 fun HtmlBlockTag.showBuildingOwnershipCount(call: ApplicationCall, state: State, collection: Collection<Building>) =
     showOwnershipCount(call, state, collection.map { it.ownership })

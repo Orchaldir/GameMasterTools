@@ -140,6 +140,7 @@ private fun HTML.showAllMaterials(
                 }
             }
         }
+        showMaterialCategoryCount(materials)
         action(createLink, "Add")
         back("/")
     }
