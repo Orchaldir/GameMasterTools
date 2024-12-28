@@ -24,6 +24,11 @@ sealed class Construction {
         else -> null
     }
 
+    fun getOptionalStreetTemplate() = when (this) {
+        is StreetTile -> templateId
+        else -> null
+    }
+
 }
 
 @Serializable

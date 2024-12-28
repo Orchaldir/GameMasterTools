@@ -10,11 +10,13 @@ import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.util.countCreators
 import at.orchaldir.gm.core.selector.world.countArchitecturalStyles
 import at.orchaldir.gm.core.selector.world.countPurpose
+import at.orchaldir.gm.core.selector.world.countStreetTemplates
 import at.orchaldir.gm.core.selector.world.countTowns
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
@@ -110,6 +112,12 @@ fun HtmlBlockTag.showRaceCount(
     state: State,
     characters: Collection<Character>,
 ) = showCount(call, state, "Races", countRace(characters))
+
+fun HtmlBlockTag.showStreetTemplateCount(
+    call: ApplicationCall,
+    state: State,
+    town: TownId,
+) = showCount(call, state, "Street Templates", state.countStreetTemplates(town))
 
 fun HtmlBlockTag.showTownCount(
     call: ApplicationCall,

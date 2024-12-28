@@ -189,6 +189,7 @@ private fun HTML.showTownDetails(
             showList("Streets", state.getStreets(town.id).sortedBy { it.name(state) }) { street ->
                 link(call, state, street)
             }
+            showStreetTemplateCount(call, state, town.id)
             action(editStreetsLink, "Edit Streets")
             action(editTerrainLink, "Edit Terrain")
 
