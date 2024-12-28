@@ -38,8 +38,8 @@ import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.model.world.street.StreetType
-import at.orchaldir.gm.core.model.world.street.StreetTypeId
+import at.orchaldir.gm.core.model.world.street.StreetTemplate
+import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
@@ -181,10 +181,10 @@ data object CreateStreet : WorldAction()
 data class DeleteStreet(val id: StreetId) : WorldAction()
 data class UpdateStreet(val street: Street) : WorldAction()
 
-// street type
-data object CreateStreetType : WorldAction()
-data class DeleteStreetType(val id: StreetTypeId) : WorldAction()
-data class UpdateStreetType(val type: StreetType) : WorldAction()
+// street template
+data object CreateStreetTemplate : WorldAction()
+data class DeleteStreetTemplate(val id: StreetTemplateId) : WorldAction()
+data class UpdateStreetTemplate(val template: StreetTemplate) : WorldAction()
 
 // town
 data object CreateTown : WorldAction()
@@ -239,7 +239,7 @@ data class UpdateBuildingLot(
 data class AddStreetTile(
     val town: TownId,
     val tileIndex: Int,
-    val type: StreetTypeId,
+    val type: StreetTemplateId,
     val street: StreetId?,
 ) : WorldAction()
 

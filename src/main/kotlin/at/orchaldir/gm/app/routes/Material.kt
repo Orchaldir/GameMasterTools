@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getItemTemplatesMadeOf
-import at.orchaldir.gm.core.selector.world.getStreetTypesMadeOf
+import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -135,7 +135,7 @@ private fun HTML.showAllMaterials(
                     td { link(call, state, material) }
                     td { +material.category.toString() }
                     tdSkipZero(state.getItemTemplatesMadeOf(material.id).count())
-                    tdSkipZero(state.getStreetTypesMadeOf(material.id).count())
+                    tdSkipZero(state.getStreetTemplatesMadeOf(material.id).count())
                 }
             }
         }
@@ -150,8 +150,8 @@ private fun HTML.showMaterialDetails(
     state: State,
     material: Material,
 ) {
-    val templates = state.getItemTemplatesMadeOf(material.id)
-    val streetTypes = state.getStreetTypesMadeOf(material.id)
+    val itemTemplates = state.getItemTemplatesMadeOf(material.id)
+    val streetTemplates = state.getStreetTemplatesMadeOf(material.id)
     val backLink = call.application.href(MaterialRoutes())
     val deleteLink = call.application.href(MaterialRoutes.Delete(material.id))
     val editLink = call.application.href(MaterialRoutes.Edit(material.id))
@@ -159,10 +159,10 @@ private fun HTML.showMaterialDetails(
     simpleHtml("Material: ${material.name}") {
         field("Name", material.name)
         field("Category", material.category.toString())
-        showList("Item templates", templates) { template ->
+        showList("Item Templates", itemTemplates) { template ->
             link(call, template)
         }
-        showList("Street Types", streetTypes) { template ->
+        showList("Street Templates", streetTemplates) { template ->
             link(call, template)
         }
         action(editLink, "Edit")

@@ -6,25 +6,25 @@ import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val STREET_TYPE = "Street Type"
+const val STREET_TEMPLATE = "Street Template"
 
 @JvmInline
 @Serializable
-value class StreetTypeId(val value: Int) : Id<StreetTypeId> {
+value class StreetTemplateId(val value: Int) : Id<StreetTemplateId> {
 
-    override fun next() = StreetTypeId(value + 1)
-    override fun type() = STREET_TYPE
+    override fun next() = StreetTemplateId(value + 1)
+    override fun type() = STREET_TEMPLATE
     override fun value() = value
 
 }
 
 @Serializable
-data class StreetType(
-    val id: StreetTypeId,
-    val name: String = "StreetType ${id.value}",
+data class StreetTemplate(
+    val id: StreetTemplateId,
+    val name: String = "StreetTemplate ${id.value}",
     val color: Color = Color.Gray,
     val materialCost: MaterialCost = MaterialCost(),
-) : ElementWithSimpleName<StreetTypeId> {
+) : ElementWithSimpleName<StreetTemplateId> {
 
     override fun id() = id
     override fun name() = name

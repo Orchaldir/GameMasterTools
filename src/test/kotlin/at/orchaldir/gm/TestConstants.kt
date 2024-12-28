@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.model.world.street.StreetTypeId
+import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownId
@@ -33,8 +33,8 @@ val MOUNTAIN_ID_1 = MountainId(1)
 val RIVER_ID_0 = RiverId(0)
 val STREET_ID_0 = StreetId(0)
 val STREET_ID_1 = StreetId(1)
-val STREET_TYPE_ID_0 = StreetTypeId(0)
-val STREET_TYPE_ID_1 = StreetTypeId(1)
+val STREET_TYPE_ID_0 = StreetTemplateId(0)
+val STREET_TYPE_ID_1 = StreetTemplateId(1)
 val TOWN_ID_0 = TownId(0)
 val TOWN_ID_1 = TownId(1)
 

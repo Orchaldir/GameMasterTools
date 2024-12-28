@@ -18,7 +18,7 @@ import at.orchaldir.gm.core.selector.getResident
 import at.orchaldir.gm.core.selector.getWorkingIn
 import at.orchaldir.gm.core.selector.sortCharacters
 import at.orchaldir.gm.core.selector.world.*
-import at.orchaldir.gm.visualization.town.getStreetTypeFill
+import at.orchaldir.gm.visualization.town.getStreetTemplateFill
 import at.orchaldir.gm.visualization.town.showTerrainName
 import at.orchaldir.gm.visualization.town.visualizeTown
 import io.ktor.http.*
@@ -271,5 +271,5 @@ private fun visualizeTownWithLinks(
     streetTooltipLookup = { tile, _ ->
         state.getStreetStorage().getOptional(tile.streetId)?.name(state)
     },
-    streetColorLookup = getStreetTypeFill(state),
+    streetColorLookup = getStreetTemplateFill(state),
 )
