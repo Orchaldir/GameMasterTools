@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app
 
 const val ACCESSORY_RARITY = "accessories"
+const val ADD = "add"
 const val ADDRESS = "address"
 const val AGE = "age"
 const val APPEARANCE = "appearance"
