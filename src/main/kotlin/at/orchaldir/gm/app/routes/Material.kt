@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.routes
 
+import at.orchaldir.gm.app.CATEGORY
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseMaterial
@@ -8,7 +9,9 @@ import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.material.Material
+import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getItemTemplatesOf
 import io.ktor.http.*
@@ -138,6 +141,7 @@ private fun HTML.showMaterialDetails(
 
     simpleHtml("Material: ${material.name}") {
         field("Name", material.name)
+        field("Category", material.category.toString())
         showList("Item templates", templates) { template ->
             link(call, template)
         }
@@ -159,6 +163,11 @@ private fun HTML.showMaterialEditor(
     simpleHtml("Edit Material: ${material.name}") {
         form {
             selectName(material.name)
+            selectValue("Category", CATEGORY, MaterialCategory.entries) { category ->
+                label = category.name
+                value = category.name
+                selected = material.category == category
+            }
             button("Update", updateLink)
         }
         back(backLink)

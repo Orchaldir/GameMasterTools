@@ -3,7 +3,8 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Leather"
+   "name": "Leather",
+   "category": "Skin"
   },
   "1": {
    "id": 1,
