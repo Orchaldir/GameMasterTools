@@ -265,3 +265,13 @@ fun <T> HtmlBlockTag.showRarityMap(
     }
 }
 
+// table
+
+fun TR.tdSkipZero(value: Int) {
+    td {
+        if (value != 0) {
+            +value.toString()
+        }
+    }
+}
+

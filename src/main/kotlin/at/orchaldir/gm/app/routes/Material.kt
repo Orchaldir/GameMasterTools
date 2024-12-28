@@ -134,16 +134,8 @@ private fun HTML.showAllMaterials(
                 tr {
                     td { link(call, state, material) }
                     td { +material.category.toString() }
-                    td {
-                        +state.getItemTemplatesMadeOf(material.id)
-                            .count()
-                            .toString()
-                    }
-                    td {
-                        +state.getStreetTypesMadeOf(material.id)
-                            .count()
-                            .toString()
-                    }
+                    tdSkipZero(state.getItemTemplatesMadeOf(material.id).count())
+                    tdSkipZero(state.getStreetTypesMadeOf(material.id).count())
                 }
             }
         }
