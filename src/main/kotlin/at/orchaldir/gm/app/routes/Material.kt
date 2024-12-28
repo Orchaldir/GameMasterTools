@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getItemTemplatesOf
 import io.ktor.http.*
@@ -23,8 +22,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
-import kotlinx.html.form
+import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -53,7 +51,7 @@ fun Application.configureMaterialRouting() {
             logger.info { "Get all materials" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllMaterials(call)
+                showAllMaterials(call, STORE.getState())
             }
         }
         get<MaterialRoutes.Details> { details ->
@@ -114,15 +112,29 @@ fun Application.configureMaterialRouting() {
     }
 }
 
-private fun HTML.showAllMaterials(call: ApplicationCall) {
+private fun HTML.showAllMaterials(
+    call: ApplicationCall,
+    state: State,
+) {
     val materials = STORE.getState().getMaterialStorage().getAll().sortedBy { it.name }
     val count = materials.size
     val createLink = call.application.href(MaterialRoutes.New())
 
     simpleHtml("Materials") {
         field("Count", count.toString())
-        showList(materials) { nameList ->
-            link(call, nameList)
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Category" }
+                th { +"Items" }
+            }
+            materials.forEach { material ->
+                tr {
+                    td { link(call, state, material) }
+                    td { +material.category.toString() }
+                    td { +"" }
+                }
+            }
         }
         action(createLink, "Add")
         back("/")
