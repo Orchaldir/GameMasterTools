@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.selector.item.getBooks
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -154,6 +155,7 @@ private fun HTML.showLanguageDetails(
     val deleteLink = call.application.href(LanguageRoutes.Delete(language.id))
     val editLink = call.application.href(LanguageRoutes.Edit(language.id))
     val children = state.getChildren(language.id)
+    val books = state.getBooks(language.id)
     val characters = state.getCharacters(language.id)
     val cultures = state.getCultures(language.id)
 
@@ -184,6 +186,10 @@ private fun HTML.showLanguageDetails(
         }
         showList("Child Languages", children) { language ->
             link(call, language)
+        }
+        h2 { +"Usage" }
+        showList("Books", books) { book ->
+            link(call, state, book)
         }
         showList("Characters", characters) { character ->
             link(call, state, character)
