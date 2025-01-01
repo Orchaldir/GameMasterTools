@@ -132,18 +132,23 @@ private fun HTML.showAllBooks(
             tr {
                 th { +"Name" }
                 th { +"Date" }
+                th { +"Origin" }
+                th { +"Creator" }
                 th { +"Language" }
             }
             books.forEach { book ->
                 tr {
                     td { link(call, state, book) }
                     td { showOptionalDate(call, state, book.date) }
+                    td { +book.origin.getType().toString() }
+                    td { showCreator(call, state, book.origin.creator()) }
                     td { link(call, state, book.language) }
                 }
             }
         }
 
         showBookOriginTypeCount(books)
+        showCreatorCount(call, state, books, "Creators")
         showLanguageCountForBooks(call, state, books)
 
         action(createLink, "Add")
