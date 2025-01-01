@@ -4,6 +4,13 @@
   "0": {
    "id": 0,
    "name": "The Necronomicon",
+   "origin": {
+    "type": "Original",
+    "author": {
+     "type": "Character",
+     "character": 18
+    }
+   },
    "date": {
     "type": "Decade",
     "decade": 73

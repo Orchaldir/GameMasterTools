@@ -747,6 +747,30 @@
      "job": 9
     }
    }
+  },
+  "18": {
+   "id": 18,
+   "name": {
+    "type": "Family",
+    "given": "Abdul",
+    "middle": null,
+    "family": "Alhazred"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 699
+   },
+   "vitalStatus": {
+    "type": "Dead",
+    "deathDay": {
+     "type": "Year",
+     "year": 737
+    },
+    "cause": {
+     "type": "Accident"
+    }
+   }
   }
  }
 }
