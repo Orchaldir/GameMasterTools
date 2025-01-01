@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
+import at.orchaldir.gm.core.selector.item.getBooksWrittenBy
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
@@ -356,6 +357,10 @@ private fun BODY.showCrafting(
     character: Character,
 ) {
     h2 { +"Crafting" }
+
+    showList("Written Books", state.getBooksWrittenBy(character.id)) { book ->
+        link(call, state, book)
+    }
 
     showList("Buildings", state.getBuildingsBuildBy(character.id)) { building ->
         link(call, state, building)

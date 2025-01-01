@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.book.Book
 import at.orchaldir.gm.core.model.item.book.BookId
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteBook(book: BookId) = true
 
@@ -22,4 +23,7 @@ fun countBookOriginTypes(books: Collection<Book>) = books
 fun State.getBooks(language: LanguageId) = getBookStorage()
     .getAll()
     .filter { c -> c.language == language }
+
+fun <ID : Id<ID>> State.getBooksWrittenBy(id: ID) = getBookStorage().getAll()
+    .filter { it.origin.wasWrittenBy(id) }
 
