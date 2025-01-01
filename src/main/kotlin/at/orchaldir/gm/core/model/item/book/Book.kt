@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.book
 
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -20,6 +21,7 @@ value class BookId(val value: Int) : Id<BookId> {
 data class Book(
     val id: BookId,
     val name: String = "Book ${id.value}",
+    val date: Date? = null,
 ) : ElementWithSimpleName<BookId> {
 
     override fun id() = id

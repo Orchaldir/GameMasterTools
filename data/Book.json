@@ -3,7 +3,11 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "The Necronomicon"
+   "name": "The Necronomicon",
+   "date": {
+    "type": "Year",
+    "year": 729
+   }
   }
  }
 }

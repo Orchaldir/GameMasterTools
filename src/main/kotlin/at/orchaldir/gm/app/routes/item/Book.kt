@@ -2,6 +2,8 @@ package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.optionalField
+import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.app.parse.item.parseBook
 import at.orchaldir.gm.core.action.CreateBook
 import at.orchaldir.gm.core.action.DeleteBook
@@ -97,7 +99,7 @@ fun Application.configureBookRouting() {
             logger.info { "Get preview for book ${preview.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val book = parseBook(formParameters, preview.id)
+            val book = parseBook(formParameters, STORE.getState(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showBookEditor(call, STORE.getState(), book)
@@ -107,7 +109,7 @@ fun Application.configureBookRouting() {
             logger.info { "Update book ${update.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val book = parseBook(formParameters, update.id)
+            val book = parseBook(formParameters, STORE.getState(), update.id)
 
             STORE.dispatch(UpdateBook(book))
 
@@ -144,6 +146,7 @@ private fun HTML.showBookDetails(
 
     simpleHtml("Book: ${book.name}") {
         field("Name", book.name)
+        optionalField(call, state, "Date", book.date)
         action(editLink, "Edit")
 
         if (state.canDeleteBook(book.id)) {
@@ -169,6 +172,7 @@ private fun HTML.showBookEditor(
             action = previewLink
             method = FormMethod.post
             selectName(book.name)
+            selectOptionalDate(state, "Date", book.date, DATE)
             button("Update", updateLink)
         }
         back(backLink)
