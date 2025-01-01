@@ -143,6 +143,7 @@ private fun HTML.showAllBooks(
             }
         }
 
+        showBookOriginTypeCount(books)
         showLanguageCountForBooks(call, state, books)
 
         action(createLink, "Add")

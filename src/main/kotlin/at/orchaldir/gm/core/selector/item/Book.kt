@@ -15,6 +15,10 @@ fun countLanguages(books: Collection<Book>) = books
     .groupingBy { it.language }
     .eachCount()
 
+fun countBookOriginTypes(books: Collection<Book>) = books
+    .groupingBy { it.origin.getType() }
+    .eachCount()
+
 fun State.getBooks(language: LanguageId) = getBookStorage()
     .getAll()
     .filter { c -> c.language == language }
