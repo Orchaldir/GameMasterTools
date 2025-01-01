@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
+import at.orchaldir.gm.app.routes.item.BookRoutes
 import at.orchaldir.gm.app.routes.item.ItemTemplateRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
@@ -47,13 +48,15 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getCultureStorage(), CultureRoutes())
                     fieldStorageLink(call, state.getFashionStorage(), FashionRoutes())
                     fieldStorageLink(call, state.getHolidayStorage(), HolidayRoutes())
-                    fieldStorageLink(call, state.getItemTemplateStorage(), ItemTemplateRoutes())
                     fieldStorageLink(call, state.getLanguageStorage(), LanguageRoutes())
                     fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes())
                     fieldStorageLink(call, state.getNameListStorage(), NameListRoutes())
                     fieldStorageLink(call, state.getPersonalityTraitStorage(), PersonalityTraitRoutes())
                     fieldStorageLink(call, state.getRaceStorage(), RaceRoutes())
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), AppearanceRoutes())
+                    h3 { +"Items" }
+                    fieldStorageLink(call, state.getBookStorage(), BookRoutes())
+                    fieldStorageLink(call, state.getItemTemplateStorage(), ItemTemplateRoutes())
                     h3 { +"Economy" }
                     fieldStorageLink(call, state.getBusinessStorage(), BusinessRoutes.All())
                     fieldStorageLink(call, state.getJobStorage(), JobRoutes())
