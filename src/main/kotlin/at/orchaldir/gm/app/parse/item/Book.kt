@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.LANGUAGE
 import at.orchaldir.gm.app.html.model.parseCreator
 import at.orchaldir.gm.app.html.model.parseOptionalDate
+import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseLanguageId
@@ -27,5 +28,8 @@ fun parseBook(parameters: Parameters, state: State, id: BookId) =
 
 private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, BookOriginType.Original)) {
     BookOriginType.Original -> OriginalBook(parseCreator(parameters))
-    BookOriginType.Translation -> TranslatedBook(parseCreator(parameters))
+    BookOriginType.Translation -> TranslatedBook(
+        parseBookId(parameters, combine(ORIGIN, REFERENCE)),
+        parseCreator(parameters),
+    )
 }

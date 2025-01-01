@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.item
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.item.parseBook
 import at.orchaldir.gm.core.action.CreateBook
 import at.orchaldir.gm.core.action.DeleteBook
@@ -190,8 +191,11 @@ private fun BODY.showOrigin(
             showCreator(call, state, book.origin.author)
         }
 
-        is TranslatedBook -> field("Translator") {
-            showCreator(call, state, book.origin.translator)
+        is TranslatedBook -> {
+            fieldLink("Translation Of", call, state, book.origin.book)
+            field("Translator") {
+                showCreator(call, state, book.origin.translator)
+            }
         }
     }
 }
@@ -237,6 +241,13 @@ private fun FORM.editOrigin(
     }
     when (book.origin) {
         is OriginalBook -> selectCreator(state, book.origin.author, book.id, book.date, "Author")
-        is TranslatedBook -> selectCreator(state, book.origin.translator, book.id, book.date, "Translator")
+        is TranslatedBook -> {
+            selectValue("Translation Of", combine(ORIGIN, REFERENCE), state.getBookStorage().getAll()) { translated ->
+                label = translated.name
+                value = translated.name
+                selected = translated.id == book.origin.book
+            }
+            selectCreator(state, book.origin.translator, book.id, book.date, "Translator")
+        }
     }
 }

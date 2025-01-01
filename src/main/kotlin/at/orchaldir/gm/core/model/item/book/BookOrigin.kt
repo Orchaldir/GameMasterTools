@@ -40,4 +40,7 @@ data class OriginalBook(val author: Creator) : BookOrigin()
 
 @Serializable
 @SerialName("Translation")
-data class TranslatedBook(val translator: Creator) : BookOrigin()
+data class TranslatedBook(
+    val book: BookId,
+    val translator: Creator,
+) : BookOrigin()

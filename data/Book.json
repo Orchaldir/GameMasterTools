@@ -22,6 +22,7 @@
    "name": "Necronomicon",
    "origin": {
     "type": "Translation",
+    "book": 0,
     "translator": {
      "type": "Character",
      "character": 19
