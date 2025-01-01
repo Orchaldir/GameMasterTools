@@ -771,6 +771,30 @@
      "type": "Accident"
     }
    }
+  },
+  "19": {
+   "id": 19,
+   "name": {
+    "type": "Family",
+    "given": "Theodorus",
+    "middle": null,
+    "family": "Philetas"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Decade",
+    "decade": 91
+   },
+   "vitalStatus": {
+    "type": "Dead",
+    "deathDay": {
+     "type": "Decade",
+     "decade": 96
+    },
+    "cause": {
+     "type": "Accident"
+    }
+   }
   }
  }
 }

@@ -16,6 +16,22 @@
     "decade": 73
    },
    "language": 7
+  },
+  "1": {
+   "id": 1,
+   "name": "The Necronomicon",
+   "origin": {
+    "type": "Translation",
+    "translator": {
+     "type": "Character",
+     "character": 19
+    }
+   },
+   "date": {
+    "type": "Decade",
+    "decade": 95
+   },
+   "language": 5
   }
  }
 }
