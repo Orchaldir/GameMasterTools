@@ -21,7 +21,7 @@ sealed class Creator {
         is CreatedByCharacter -> CreatorType.CreatedByCharacter
     }
 
-    fun <ID : Id<ID>> wasCreatedBy(id: ID) = when (this) {
+    fun <ID : Id<ID>> isId(id: ID) = when (this) {
         is CreatedByBusiness -> business == id
         is CreatedByCharacter -> character == id
         UndefinedCreator -> false

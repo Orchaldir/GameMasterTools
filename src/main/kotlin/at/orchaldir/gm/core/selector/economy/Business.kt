@@ -75,7 +75,7 @@ fun State.getPreviouslyOwnedBusinesses(town: TownId) = getBusinessStorage().getA
 // founder
 
 fun <ID : Id<ID>> State.getBusinessesFoundedBy(id: ID) = getBusinessStorage().getAll()
-    .filter { it.founder.wasCreatedBy(id) }
+    .filter { it.founder.isId(id) }
 
 // sort
 

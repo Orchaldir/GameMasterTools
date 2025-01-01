@@ -24,12 +24,12 @@ sealed class BookOrigin : Created {
     }
 
     fun <ID : Id<ID>> wasTranslatedBy(id: ID) = when (this) {
-        is TranslatedBook -> translator.wasCreatedBy(id)
+        is TranslatedBook -> translator.isId(id)
         else -> false
     }
 
     fun <ID : Id<ID>> wasWrittenBy(id: ID) = when (this) {
-        is OriginalBook -> author.wasCreatedBy(id)
+        is OriginalBook -> author.isId(id)
         else -> false
     }
 }

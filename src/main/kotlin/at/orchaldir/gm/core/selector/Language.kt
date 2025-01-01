@@ -25,7 +25,7 @@ fun State.getPossibleParents(language: LanguageId) = getLanguageStorage().getAll
 
 fun <ID : Id<ID>> State.getLanguagesInventedBy(id: ID) = getLanguageStorage().getAll().filter { l ->
     when (l.origin) {
-        is InventedLanguage -> l.origin.inventor.wasCreatedBy(id)
+        is InventedLanguage -> l.origin.inventor.isId(id)
         else -> false
     }
 }
