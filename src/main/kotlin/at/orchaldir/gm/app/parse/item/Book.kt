@@ -1,14 +1,14 @@
 package at.orchaldir.gm.app.parse.item
 
-import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.LANGUAGE
-import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.html.model.parseCreator
 import at.orchaldir.gm.app.html.model.parseOptionalDate
+import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseLanguageId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.book.Book
-import at.orchaldir.gm.core.model.item.book.BookId
+import at.orchaldir.gm.core.model.item.book.*
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -20,6 +20,12 @@ fun parseBook(parameters: Parameters, state: State, id: BookId) =
     Book(
         id,
         parameters.getOrFail(NAME),
+        parseOrigin(parameters),
         parseOptionalDate(parameters, state, DATE),
         parseLanguageId(parameters, LANGUAGE),
     )
+
+private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, BookOriginType.Original)) {
+    BookOriginType.Original -> OriginalBook(parseCreator(parameters))
+    BookOriginType.Translation -> TranslatedBook(parseCreator(parameters))
+}

@@ -8,9 +8,7 @@ import at.orchaldir.gm.core.action.CreateBook
 import at.orchaldir.gm.core.action.DeleteBook
 import at.orchaldir.gm.core.action.UpdateBook
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.book.BOOK_TYPE
-import at.orchaldir.gm.core.model.item.book.Book
-import at.orchaldir.gm.core.model.item.book.BookId
+import at.orchaldir.gm.core.model.item.book.*
 import at.orchaldir.gm.core.selector.item.canDeleteBook
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -163,6 +161,7 @@ private fun HTML.showBookDetails(
 
     simpleHtml("Book: ${book.name}") {
         field("Name", book.name)
+        showOrigin(call, state, book)
         optionalField(call, state, "Date", book.date)
         fieldLink("Language", call, state, book.language)
         action(editLink, "Edit")
@@ -172,6 +171,22 @@ private fun HTML.showBookDetails(
         }
 
         back(backLink)
+    }
+}
+
+private fun BODY.showOrigin(
+    call: ApplicationCall,
+    state: State,
+    book: Book,
+) {
+    when (book.origin) {
+        is OriginalBook -> field("Author") {
+            showCreator(call, state, book.origin.author)
+        }
+
+        is TranslatedBook -> field("Translator") {
+            showCreator(call, state, book.origin.translator)
+        }
     }
 }
 
@@ -192,6 +207,7 @@ private fun HTML.showBookEditor(
             action = previewLink
             method = FormMethod.post
             selectName(book.name)
+            editOrigin(state, book)
             selectOptionalDate(state, "Date", book.date, DATE)
             selectValue("Language", LANGUAGE, languages, true) { l ->
                 label = l.name
@@ -201,5 +217,20 @@ private fun HTML.showBookEditor(
             button("Update", updateLink)
         }
         back(backLink)
+    }
+}
+
+private fun FORM.editOrigin(
+    state: State,
+    book: Book,
+) {
+    selectValue("Origin", ORIGIN, BookOriginType.entries, true) { type ->
+        label = type.name
+        value = type.name
+        selected = type == book.origin.getType()
+    }
+    when (book.origin) {
+        is OriginalBook -> selectCreator(state, book.origin.author, book.id, book.date, "Author")
+        is TranslatedBook -> selectCreator(state, book.origin.translator, book.id, book.date, "Translator")
     }
 }
