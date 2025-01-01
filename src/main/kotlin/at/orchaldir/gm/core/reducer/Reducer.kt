@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.character.*
 import at.orchaldir.gm.core.reducer.economy.ECONOMY_REDUCER
+import at.orchaldir.gm.core.reducer.item.ITEM_REDUCER
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
 import at.orchaldir.gm.utils.redux.Reducer
 
@@ -35,10 +36,6 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateHoliday -> CREATE_HOLIDAY(state, action)
         is DeleteHoliday -> DELETE_HOLIDAY(state, action)
         is UpdateHoliday -> UPDATE_HOLIDAY(state, action)
-        // item template
-        is CreateItemTemplate -> CREATE_ITEM_TEMPLATE(state, action)
-        is DeleteItemTemplate -> DELETE_ITEM_TEMPLATE(state, action)
-        is UpdateItemTemplate -> UPDATE_ITEM_TEMPLATE(state, action)
         // language
         is CreateLanguage -> CREATE_LANGUAGE(state, action)
         is DeleteLanguage -> DELETE_LANGUAGE(state, action)
@@ -65,6 +62,8 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateRaceAppearance -> UPDATE_RACE_APPEARANCE(state, action)
         // time
         is UpdateTime -> UPDATE_TIME(state, action)
+        // world
+        is ItemAction -> ITEM_REDUCER(state, action)
         // world
         is WorldAction -> WORLD_REDUCER(state, action)
         // economy

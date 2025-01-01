@@ -105,11 +105,6 @@ data object CreateLanguage : Action()
 data class DeleteLanguage(val id: LanguageId) : Action()
 data class UpdateLanguage(val language: Language) : Action()
 
-// item template
-data object CreateItemTemplate : Action()
-data class DeleteItemTemplate(val id: ItemTemplateId) : Action()
-data class UpdateItemTemplate(val itemTemplate: ItemTemplate) : Action()
-
 // material
 data object CreateMaterial : Action()
 data class DeleteMaterial(val id: MaterialId) : Action()
@@ -137,6 +132,15 @@ data class UpdateRaceAppearance(val race: RaceAppearance) : Action()
 
 // time
 data class UpdateTime(val time: Time) : Action()
+
+//-- items --
+
+sealed class ItemAction : Action()
+
+// item template
+data object CreateItemTemplate : ItemAction()
+data class DeleteItemTemplate(val id: ItemTemplateId) : ItemAction()
+data class UpdateItemTemplate(val itemTemplate: ItemTemplate) : ItemAction()
 
 //-- economy --
 
