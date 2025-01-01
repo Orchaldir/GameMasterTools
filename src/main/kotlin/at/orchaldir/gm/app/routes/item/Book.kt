@@ -2,8 +2,7 @@ package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.optionalField
-import at.orchaldir.gm.app.html.model.selectOptionalDate
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.item.parseBook
 import at.orchaldir.gm.core.action.CreateBook
 import at.orchaldir.gm.core.action.DeleteBook
@@ -54,7 +53,7 @@ fun Application.configureBookRouting() {
             logger.info { "Get all books" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllBooks(call)
+                showAllBooks(call, STORE.getState())
             }
         }
         get<BookRoutes.Details> { details ->
@@ -120,16 +119,30 @@ fun Application.configureBookRouting() {
     }
 }
 
-private fun HTML.showAllBooks(call: ApplicationCall) {
+private fun HTML.showAllBooks(
+    call: ApplicationCall,
+    state: State,
+) {
     val books = STORE.getState().getBookStorage().getAll().sortedBy { it.name }
     val count = books.size
     val createLink = call.application.href(BookRoutes.New())
 
     simpleHtml("Books") {
         field("Count", count.toString())
-        showList(books) { book ->
-            link(call, book)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Date" }
+            }
+            books.forEach { book ->
+                tr {
+                    td { link(call, state, book) }
+                    td { showOptionalDate(call, state, book.date) }
+                }
+            }
         }
+
         action(createLink, "Add")
         back("/")
     }
