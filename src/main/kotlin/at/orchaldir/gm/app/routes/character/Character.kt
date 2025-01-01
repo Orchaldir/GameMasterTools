@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
+import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings

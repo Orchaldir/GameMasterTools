@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.item.EquipmentSlot
 import at.orchaldir.gm.core.model.item.EquipmentType
-import at.orchaldir.gm.core.selector.getEquipment
+import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.visualization.character.visualizeCharacter
 import io.ktor.http.*
