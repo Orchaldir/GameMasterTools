@@ -3,7 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "The Necronomicon",
+   "name": "Al Azif",
    "origin": {
     "type": "Original",
     "author": {
@@ -19,7 +19,7 @@
   },
   "1": {
    "id": 1,
-   "name": "The Necronomicon",
+   "name": "Necronomicon",
    "origin": {
     "type": "Translation",
     "translator": {
