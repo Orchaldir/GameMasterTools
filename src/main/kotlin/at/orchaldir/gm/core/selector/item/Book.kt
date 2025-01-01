@@ -22,7 +22,11 @@ fun countBookOriginTypes(books: Collection<Book>) = books
 
 fun State.getBooks(language: LanguageId) = getBookStorage()
     .getAll()
-    .filter { c -> c.language == language }
+    .filter { b -> b.language == language }
+
+fun State.getTranslationsOf(book: BookId) = getBookStorage()
+    .getAll()
+    .filter { b -> b.origin.isTranslationOf(book) }
 
 fun <ID : Id<ID>> State.getBooksTranslatedBy(id: ID) = getBookStorage().getAll()
     .filter { it.origin.wasTranslatedBy(id) }

@@ -11,6 +11,8 @@ import at.orchaldir.gm.core.action.UpdateBook
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.book.*
 import at.orchaldir.gm.core.selector.item.canDeleteBook
+import at.orchaldir.gm.core.selector.item.getBooksTranslatedBy
+import at.orchaldir.gm.core.selector.item.getTranslationsOf
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -171,6 +173,10 @@ private fun HTML.showBookDetails(
         showOrigin(call, state, book)
         optionalField(call, state, "Date", book.date)
         fieldLink("Language", call, state, book.language)
+        showList("Translations", state.getTranslationsOf(book.id)) { book ->
+            link(call, state, book)
+        }
+
         action(editLink, "Edit")
 
         if (state.canDeleteBook(book.id)) {
