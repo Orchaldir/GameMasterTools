@@ -145,6 +145,8 @@ private fun HTML.showAllBooks(
             }
         }
 
+        showLanguageCount(call, state, books)
+
         action(createLink, "Add")
         back("/")
     }
