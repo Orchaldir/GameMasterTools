@@ -5,8 +5,8 @@
    "id": 0,
    "name": "The Necronomicon",
    "date": {
-    "type": "Year",
-    "year": 729
+    "type": "Decade",
+    "decade": 73
    },
    "language": 7
   }

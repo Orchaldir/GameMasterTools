@@ -178,6 +178,8 @@ private fun HTML.showBookEditor(
     state: State,
     book: Book,
 ) {
+    val languages = state.getLanguageStorage().getAll()
+        .sortedBy { it.name }
     val backLink = href(call, book.id)
     val previewLink = call.application.href(BookRoutes.Preview(book.id))
     val updateLink = call.application.href(BookRoutes.Update(book.id))
@@ -189,7 +191,7 @@ private fun HTML.showBookEditor(
             method = FormMethod.post
             selectName(book.name)
             selectOptionalDate(state, "Date", book.date, DATE)
-            selectValue("Language", LANGUAGE, state.getLanguageStorage().getAll(), true) { l ->
+            selectValue("Language", LANGUAGE, languages, true) { l ->
                 label = l.name
                 value = l.id.value.toString()
                 selected = l.id == book.language
