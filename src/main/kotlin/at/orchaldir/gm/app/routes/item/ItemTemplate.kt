@@ -1,8 +1,8 @@
-package at.orchaldir.gm.app.routes
+package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parseItemTemplate
+import at.orchaldir.gm.app.parse.item.parseItemTemplate
 import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate

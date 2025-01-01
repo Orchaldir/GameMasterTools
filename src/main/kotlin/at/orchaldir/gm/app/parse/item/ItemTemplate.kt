@@ -1,6 +1,10 @@
-package at.orchaldir.gm.app.parse
+package at.orchaldir.gm.app.parse.item
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseFill
+import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.parseMaterialId
 import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.util.Color
