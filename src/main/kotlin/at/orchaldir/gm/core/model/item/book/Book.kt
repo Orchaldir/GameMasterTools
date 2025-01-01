@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.book
+package at.orchaldir.gm.core.model.item.book
 
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
