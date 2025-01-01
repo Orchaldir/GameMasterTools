@@ -134,11 +134,13 @@ private fun HTML.showAllBooks(
             tr {
                 th { +"Name" }
                 th { +"Date" }
+                th { +"Language" }
             }
             books.forEach { book ->
                 tr {
                     td { link(call, state, book) }
                     td { showOptionalDate(call, state, book.date) }
+                    td { link(call, state, book.language) }
                 }
             }
         }
@@ -160,6 +162,7 @@ private fun HTML.showBookDetails(
     simpleHtml("Book: ${book.name}") {
         field("Name", book.name)
         optionalField(call, state, "Date", book.date)
+        fieldLink("Language", call, state, book.language)
         action(editLink, "Edit")
 
         if (state.canDeleteBook(book.id)) {
@@ -186,6 +189,11 @@ private fun HTML.showBookEditor(
             method = FormMethod.post
             selectName(book.name)
             selectOptionalDate(state, "Date", book.date, DATE)
+            selectValue("Language", LANGUAGE, state.getLanguageStorage().getAll(), true) { l ->
+                label = l.name
+                value = l.id.value.toString()
+                selected = l.id == book.language
+            }
             button("Update", updateLink)
         }
         back(backLink)

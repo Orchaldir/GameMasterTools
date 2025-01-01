@@ -1,9 +1,11 @@
 package at.orchaldir.gm.app.parse.item
 
 import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.LANGUAGE
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.parseLanguageId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.book.Book
 import at.orchaldir.gm.core.model.item.book.BookId
@@ -19,4 +21,5 @@ fun parseBook(parameters: Parameters, state: State, id: BookId) =
         id,
         parameters.getOrFail(NAME),
         parseOptionalDate(parameters, state, DATE),
+        parseLanguageId(parameters, LANGUAGE),
     )

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.book
 
+import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
@@ -22,6 +23,7 @@ data class Book(
     val id: BookId,
     val name: String = "Book ${id.value}",
     val date: Date? = null,
+    val language: LanguageId = LanguageId(0),
 ) : ElementWithSimpleName<BookId> {
 
     override fun id() = id
