@@ -23,6 +23,11 @@ sealed class BookOrigin : Created {
         is TranslatedBook -> translator
     }
 
+    fun <ID : Id<ID>> wasTranslatedBy(id: ID) = when (this) {
+        is TranslatedBook -> translator.wasCreatedBy(id)
+        else -> false
+    }
+
     fun <ID : Id<ID>> wasWrittenBy(id: ID) = when (this) {
         is OriginalBook -> author.wasCreatedBy(id)
         else -> false

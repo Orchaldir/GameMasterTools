@@ -24,6 +24,9 @@ fun State.getBooks(language: LanguageId) = getBookStorage()
     .getAll()
     .filter { c -> c.language == language }
 
+fun <ID : Id<ID>> State.getBooksTranslatedBy(id: ID) = getBookStorage().getAll()
+    .filter { it.origin.wasTranslatedBy(id) }
+
 fun <ID : Id<ID>> State.getBooksWrittenBy(id: ID) = getBookStorage().getAll()
     .filter { it.origin.wasWrittenBy(id) }
 
