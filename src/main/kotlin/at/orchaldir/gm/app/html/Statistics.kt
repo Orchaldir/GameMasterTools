@@ -78,10 +78,16 @@ fun HtmlBlockTag.showJobCount(
 fun HtmlBlockTag.showHousingStatusCount(characters: Collection<Character>) =
     showCount("Housing Status", countHousingStatus(characters))
 
-fun HtmlBlockTag.showLanguageCount(
+fun HtmlBlockTag.showLanguageCountForBooks(
     call: ApplicationCall,
     state: State,
     books: Collection<Book>,
+) = showCount(call, state, "Languages", countLanguages(books))
+
+fun HtmlBlockTag.showLanguageCountForCharacters(
+    call: ApplicationCall,
+    state: State,
+    books: Collection<Character>,
 ) = showCount(call, state, "Languages", countLanguages(books))
 
 fun HtmlBlockTag.showMaterialCategoryCount(materials: Collection<Material>) =

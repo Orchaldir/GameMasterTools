@@ -44,6 +44,10 @@ fun countCauseOfDeath(characters: Collection<Character>) = characters
     .groupingBy { it.vitalStatus.getCauseOfDeath()!! }
     .eachCount()
 
+fun countCultures(characters: Collection<Character>) = characters
+    .groupingBy { it.culture }
+    .eachCount()
+
 fun countEmploymentStatus(characters: Collection<Character>) = characters
     .groupingBy { it.employmentStatus.current.getType() }
     .eachCount()
@@ -54,6 +58,11 @@ fun countGender(characters: Collection<Character>) = characters
 
 fun countHousingStatus(characters: Collection<Character>) = characters
     .groupingBy { it.housingStatus.current.getType() }
+    .eachCount()
+
+fun countLanguages(characters: Collection<Character>) = characters
+    .flatMap { it.languages.keys }
+    .groupingBy { it }
     .eachCount()
 
 fun countPersonality(characters: Collection<Character>) = characters.flatMap { it.personality }
