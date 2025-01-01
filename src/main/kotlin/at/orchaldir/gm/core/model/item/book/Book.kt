@@ -22,6 +22,7 @@ value class BookId(val value: Int) : Id<BookId> {
 data class Book(
     val id: BookId,
     val name: String = "Book ${id.value}",
+    val origin: BookOrigin = UndefinedBookOrigin,
     val date: Date? = null,
     val language: LanguageId = LanguageId(0),
 ) : ElementWithSimpleName<BookId> {
