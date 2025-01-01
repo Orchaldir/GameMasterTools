@@ -5,10 +5,7 @@ import at.orchaldir.gm.app.LANGUAGES
 import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.field
-import at.orchaldir.gm.app.html.model.fieldCreator
-import at.orchaldir.gm.app.html.model.selectCreator
-import at.orchaldir.gm.app.html.model.selectDate
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.parseLanguage
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
@@ -16,6 +13,7 @@ import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.selector.item.countBooks
 import at.orchaldir.gm.core.selector.item.getBooks
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -59,7 +57,7 @@ fun Application.configureLanguageRouting() {
             logger.info { "Get all languages" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllLanguages(call)
+                showAllLanguages(call, STORE.getState())
             }
         }
         get<LanguageRoutes.Details> { details ->
@@ -131,16 +129,34 @@ fun Application.configureLanguageRouting() {
     }
 }
 
-private fun HTML.showAllLanguages(call: ApplicationCall) {
+private fun HTML.showAllLanguages(
+    call: ApplicationCall,
+    state: State,
+) {
     val languages = STORE.getState().getLanguageStorage().getAll().sortedBy { it.name }
     val count = languages.size
     val createLink = call.application.href(LanguageRoutes.New())
 
     simpleHtml("Languages") {
         field("Count", count.toString())
-        showList(languages) { language ->
-            link(call, language)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Books" }
+                th { +"Characters" }
+                th { +"Cultures" }
+            }
+            languages.forEach { language ->
+                tr {
+                    td { link(call, state, language) }
+                    tdSkipZero(state.countBooks(language.id))
+                    tdSkipZero(state.countCharacters(language.id))
+                    tdSkipZero(state.countCultures(language.id))
+                }
+            }
         }
+
         action(createLink, "Add")
         back("/")
     }

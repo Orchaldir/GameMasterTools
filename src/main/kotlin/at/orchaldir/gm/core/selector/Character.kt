@@ -35,6 +35,10 @@ fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
 
 // count
 
+fun State.countCharacters(language: LanguageId) = getCharacterStorage()
+    .getAll()
+    .count { c -> c.languages.containsKey(language) }
+
 fun countCauseOfDeath(characters: Collection<Character>) = characters
     .filter { it.vitalStatus is Dead }
     .groupingBy { it.vitalStatus.getCauseOfDeath()!! }

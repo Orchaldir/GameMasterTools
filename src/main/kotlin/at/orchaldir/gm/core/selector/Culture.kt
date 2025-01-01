@@ -10,6 +10,10 @@ import at.orchaldir.gm.core.model.language.LanguageId
 
 fun State.canDelete(culture: CultureId) = getCharacters(culture).isEmpty()
 
+fun State.countCultures(language: LanguageId) = getCultureStorage()
+    .getAll()
+    .count { it.languages.isAvailable(language) }
+
 fun countCultures(characters: Collection<Character>) = characters
     .groupingBy { it.culture }
     .eachCount()
