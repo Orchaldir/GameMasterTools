@@ -247,7 +247,8 @@ private fun FORM.editOrigin(
     when (book.origin) {
         is OriginalBook -> selectCreator(state, book.origin.author, book.id, book.date, "Author")
         is TranslatedBook -> {
-            selectValue("Translation Of", combine(ORIGIN, REFERENCE), state.getBookStorage().getAll()) { translated ->
+            val otherBooks = state.getBookStorage().getAllExcept(book.id)
+            selectValue("Translation Of", combine(ORIGIN, REFERENCE), otherBooks) { translated ->
                 label = translated.name
                 value = translated.id.value.toString()
                 selected = translated.id == book.origin.book
