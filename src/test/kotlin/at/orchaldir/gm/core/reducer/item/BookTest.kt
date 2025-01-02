@@ -67,6 +67,14 @@ class BookTest {
 
             assertIllegalArgument("Cannot use an unknown character 1 as Translator!") { REDUCER.invoke(STATE, action) }
         }
+
+        @Test
+        fun `Translated book must exist`() {
+            val origin = TranslatedBook(BOOK_ID_2, CreatedByCharacter(CHARACTER_ID_0))
+            val action = UpdateBook(Book(BOOK_ID_0, origin = origin))
+
+            assertIllegalArgument("Requires unknown Book 2!") { REDUCER.invoke(STATE, action) }
+        }
     }
 
 }

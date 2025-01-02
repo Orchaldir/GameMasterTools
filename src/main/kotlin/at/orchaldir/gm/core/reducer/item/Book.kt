@@ -38,6 +38,9 @@ private fun checkOrigin(
 ) {
     when (val origin = book.origin) {
         is OriginalBook -> checkCreator(state, origin.author, book.id, book.date, "Author")
-        is TranslatedBook -> checkCreator(state, origin.translator, book.id, book.date, "Translator")
+        is TranslatedBook -> {
+            state.getBookStorage().require(origin.book)
+            checkCreator(state, origin.translator, book.id, book.date, "Translator")
+        }
     }
 }
