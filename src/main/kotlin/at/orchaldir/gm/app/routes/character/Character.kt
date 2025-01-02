@@ -19,6 +19,9 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
+import at.orchaldir.gm.core.selector.item.getBooksTranslatedBy
+import at.orchaldir.gm.core.selector.item.getBooksWrittenBy
+import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
@@ -209,8 +212,9 @@ private fun HTML.showAllCharacters(
         showCauseOfDeath(characters)
         showCultureCount(call, state, characters)
         showGenderCount(characters)
-        showJobCount(call, state, characters)
         showHousingStatusCount(characters)
+        showJobCount(call, state, characters)
+        showLanguageCountForCharacters(call, state, characters)
         showPersonalityCount(call, state, characters)
         showRaceCount(call, state, characters)
     }
@@ -354,6 +358,14 @@ private fun BODY.showCrafting(
     character: Character,
 ) {
     h2 { +"Crafting" }
+
+    showList("Written Books", state.getBooksWrittenBy(character.id)) { book ->
+        link(call, state, book)
+    }
+
+    showList("Translated Books", state.getBooksTranslatedBy(character.id)) { book ->
+        link(call, state, book)
+    }
 
     showList("Buildings", state.getBuildingsBuildBy(character.id)) { building ->
         link(call, state, building)

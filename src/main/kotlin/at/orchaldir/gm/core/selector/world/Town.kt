@@ -48,7 +48,7 @@ fun State.getTowns(type: StreetTemplateId) = getTownStorage().getAll()
 // founder
 
 fun <ID : Id<ID>> State.getTownsFoundedBy(id: ID) = getTownStorage().getAll()
-    .filter { it.founder.wasCreatedBy(id) }
+    .filter { it.founder.isId(id) }
 
 // map size
 

@@ -44,6 +44,9 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
 
     fun getAll() = elements.values
 
+    fun getAllExcept(id: ID) = elements.values
+        .filter { it.id() != id }
+
     fun getSize() = elements.size
 
     fun getType() = nextId.type()

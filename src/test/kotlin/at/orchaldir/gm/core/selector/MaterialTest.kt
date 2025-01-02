@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.item.Shirt
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.selector.item.getItemTemplatesMadeOf
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue

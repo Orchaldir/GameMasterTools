@@ -747,6 +747,54 @@
      "job": 9
     }
    }
+  },
+  "18": {
+   "id": 18,
+   "name": {
+    "type": "Family",
+    "given": "Abdul",
+    "middle": null,
+    "family": "Alhazred"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 699
+   },
+   "vitalStatus": {
+    "type": "Dead",
+    "deathDay": {
+     "type": "Year",
+     "year": 737
+    },
+    "cause": {
+     "type": "Accident"
+    }
+   }
+  },
+  "19": {
+   "id": 19,
+   "name": {
+    "type": "Family",
+    "given": "Theodorus",
+    "middle": null,
+    "family": "Philetas"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Decade",
+    "decade": 91
+   },
+   "vitalStatus": {
+    "type": "Dead",
+    "deathDay": {
+     "type": "Decade",
+     "decade": 96
+    },
+    "cause": {
+     "type": "Accident"
+    }
+   }
   }
  }
 }

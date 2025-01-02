@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getItemTemplatesMadeOf
+import at.orchaldir.gm.core.selector.item.getItemTemplatesMadeOf
 import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
 import io.ktor.http.*
 import io.ktor.resources.*

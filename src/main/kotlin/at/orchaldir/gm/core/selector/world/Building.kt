@@ -62,7 +62,7 @@ fun State.getBuildings(town: TownId) = getBuildingStorage().getAll()
 // builder
 
 fun <ID : Id<ID>> State.getBuildingsBuildBy(id: ID) = getBuildingStorage().getAll()
-    .filter { it.builder.wasCreatedBy(id) }
+    .filter { it.builder.isId(id) }
 
 // owner
 
@@ -101,7 +101,7 @@ fun State.sort(buildings: Collection<Building>, sort: SortBuilding = SortBuildin
     .map { Pair(it, it.name(this)) }
     .sortedWith(
         when (sort) {
-        SortBuilding.Name -> compareBy { it.second }
-        SortBuilding.Construction -> getConstructionComparatorForPair()
-    })
+            SortBuilding.Name -> compareBy { it.second }
+            SortBuilding.Construction -> getConstructionComparatorForPair()
+        })
 

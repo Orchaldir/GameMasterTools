@@ -5,11 +5,13 @@ import at.orchaldir.gm.core.model.language.CombinedLanguage
 import at.orchaldir.gm.core.model.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.selector.item.countBooks
 import at.orchaldir.gm.utils.Id
 
-fun State.canDelete(language: LanguageId) = getCharacters(language).isEmpty() &&
+fun State.canDelete(language: LanguageId) = countBooks(language) == 0 &&
+        countCharacters(language) == 0 &&
         getChildren(language).isEmpty() &&
-        getCultures(language).isEmpty()
+        countCultures(language) == 0
 
 fun State.getChildren(language: LanguageId) = getLanguageStorage().getAll().filter { l ->
     when (l.origin) {
@@ -23,7 +25,7 @@ fun State.getPossibleParents(language: LanguageId) = getLanguageStorage().getAll
 
 fun <ID : Id<ID>> State.getLanguagesInventedBy(id: ID) = getLanguageStorage().getAll().filter { l ->
     when (l.origin) {
-        is InventedLanguage -> l.origin.inventor.wasCreatedBy(id)
+        is InventedLanguage -> l.origin.inventor.isId(id)
         else -> false
     }
 }

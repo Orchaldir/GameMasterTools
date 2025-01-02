@@ -429,7 +429,7 @@ fun parseOptionalDate(
     return when (parse(parameters, combine(param, DATE), DateType.Year)) {
         DateType.Day -> parseDay(parameters, calendar, param)
         DateType.Year -> parseYear(parameters, calendar, param)
-        DateType.Decade -> TODO()
+        DateType.Decade -> parseDecade(parameters, calendar, param)
     }
 }
 

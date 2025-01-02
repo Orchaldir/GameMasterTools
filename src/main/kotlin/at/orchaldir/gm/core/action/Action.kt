@@ -16,6 +16,8 @@ import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.item.book.Book
+import at.orchaldir.gm.core.model.item.book.BookId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
@@ -105,11 +107,6 @@ data object CreateLanguage : Action()
 data class DeleteLanguage(val id: LanguageId) : Action()
 data class UpdateLanguage(val language: Language) : Action()
 
-// item template
-data object CreateItemTemplate : Action()
-data class DeleteItemTemplate(val id: ItemTemplateId) : Action()
-data class UpdateItemTemplate(val itemTemplate: ItemTemplate) : Action()
-
 // material
 data object CreateMaterial : Action()
 data class DeleteMaterial(val id: MaterialId) : Action()
@@ -137,6 +134,20 @@ data class UpdateRaceAppearance(val race: RaceAppearance) : Action()
 
 // time
 data class UpdateTime(val time: Time) : Action()
+
+//-- items --
+
+sealed class ItemAction : Action()
+
+// Book
+data object CreateBook : ItemAction()
+data class DeleteBook(val id: BookId) : ItemAction()
+data class UpdateBook(val book: Book) : ItemAction()
+
+// item template
+data object CreateItemTemplate : ItemAction()
+data class DeleteItemTemplate(val id: ItemTemplateId) : ItemAction()
+data class UpdateItemTemplate(val itemTemplate: ItemTemplate) : ItemAction()
 
 //-- economy --
 

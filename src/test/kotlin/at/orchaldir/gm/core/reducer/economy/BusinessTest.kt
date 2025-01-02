@@ -9,6 +9,8 @@ import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.item.book.Book
+import at.orchaldir.gm.core.model.item.book.OriginalBook
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.name.NameWithReference
@@ -56,6 +58,21 @@ class BusinessTest {
             )
 
             assertIllegalArgument("Cannot delete business 0, because of invented languages!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete an author`() {
+            val origin = OriginalBook(CreatedByBusiness(BUSINESS_ID_0))
+            val state = State(
+                listOf(
+                    Storage(listOf(Business(BUSINESS_ID_0))),
+                    Storage(listOf(Book(BOOK_ID_0, origin = origin)))
+                )
+            )
+
+            assertIllegalArgument("Cannot delete business 0, who is an author!") {
                 REDUCER.invoke(state, action)
             }
         }

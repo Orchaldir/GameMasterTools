@@ -1,8 +1,8 @@
-package at.orchaldir.gm.app.routes
+package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parseItemTemplate
+import at.orchaldir.gm.app.parse.item.parseItemTemplate
 import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
@@ -14,9 +14,9 @@ import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getEquippedBy
 import at.orchaldir.gm.core.selector.getFashions
+import at.orchaldir.gm.core.selector.item.canDelete
+import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance

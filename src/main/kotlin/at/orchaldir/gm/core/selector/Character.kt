@@ -35,9 +35,17 @@ fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
 
 // count
 
+fun State.countCharacters(language: LanguageId) = getCharacterStorage()
+    .getAll()
+    .count { c -> c.languages.containsKey(language) }
+
 fun countCauseOfDeath(characters: Collection<Character>) = characters
     .filter { it.vitalStatus is Dead }
     .groupingBy { it.vitalStatus.getCauseOfDeath()!! }
+    .eachCount()
+
+fun countCultures(characters: Collection<Character>) = characters
+    .groupingBy { it.culture }
     .eachCount()
 
 fun countEmploymentStatus(characters: Collection<Character>) = characters
@@ -50,6 +58,11 @@ fun countGender(characters: Collection<Character>) = characters
 
 fun countHousingStatus(characters: Collection<Character>) = characters
     .groupingBy { it.housingStatus.current.getType() }
+    .eachCount()
+
+fun countLanguages(characters: Collection<Character>) = characters
+    .flatMap { it.languages.keys }
+    .groupingBy { it }
     .eachCount()
 
 fun countPersonality(characters: Collection<Character>) = characters.flatMap { it.personality }
@@ -276,6 +289,6 @@ fun State.sortCharacters(characters: Collection<Character>, sort: SortCharacter 
     .map { Pair(it, it.name(this)) }
     .sortedWith(
         when (sort) {
-        SortCharacter.Name -> compareBy { it.second }
-        SortCharacter.Age -> getAgeComparatorForPair()
-    })
+            SortCharacter.Name -> compareBy { it.second }
+            SortCharacter.Age -> getAgeComparatorForPair()
+        })

@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Al Azif",
+   "origin": {
+    "type": "Original",
+    "author": {
+     "type": "Character",
+     "character": 18
+    }
+   },
+   "date": {
+    "type": "Decade",
+    "decade": 73
+   },
+   "language": 7
+  },
+  "1": {
+   "id": 1,
+   "name": "Necronomicon",
+   "origin": {
+    "type": "Translation",
+    "book": 0,
+    "translator": {
+     "type": "Character",
+     "character": 19
+    }
+   },
+   "date": {
+    "type": "Decade",
+    "decade": 95
+   },
+   "language": 5
+  },
+  "2": {
+   "id": 2,
+   "name": "Necronomicon",
+   "origin": {
+    "type": "Translation",
+    "book": 1,
+    "translator": {
+     "type": "Undefined"
+    }
+   },
+   "date": {
+    "type": "Year",
+    "year": 1227
+   },
+   "language": 6
+  }
+ }
+}

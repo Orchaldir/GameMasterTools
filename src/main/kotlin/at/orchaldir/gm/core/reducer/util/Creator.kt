@@ -10,6 +10,8 @@ import at.orchaldir.gm.core.selector.economy.getBusinessesFoundedBy
 import at.orchaldir.gm.core.selector.economy.isInOperation
 import at.orchaldir.gm.core.selector.getLanguagesInventedBy
 import at.orchaldir.gm.core.selector.isAlive
+import at.orchaldir.gm.core.selector.item.getBooksTranslatedBy
+import at.orchaldir.gm.core.selector.item.getBooksWrittenBy
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getTownsFoundedBy
 import at.orchaldir.gm.utils.Id
@@ -62,4 +64,8 @@ fun <ID : Id<ID>> checkCreated(
     require(languages.isEmpty()) { "Cannot delete $noun ${id.value()}, because of invented languages!" }
     val towns = state.getTownsFoundedBy(id)
     require(towns.isEmpty()) { "Cannot delete $noun ${id.value()}, because of founded towns!" }
+    val writtenBooks = state.getBooksWrittenBy(id)
+    require(writtenBooks.isEmpty()) { "Cannot delete $noun ${id.value()}, who is an author!" }
+    val translatedBooks = state.getBooksTranslatedBy(id)
+    require(translatedBooks.isEmpty()) { "Cannot delete $noun ${id.value()}, who is a translator!" }
 }
