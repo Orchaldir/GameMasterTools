@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.item.book.Book
 import at.orchaldir.gm.core.model.item.book.OriginalBook
 import at.orchaldir.gm.core.model.item.book.TranslatedBook
 import at.orchaldir.gm.core.reducer.util.checkCreator
+import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.item.canDeleteBook
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -39,8 +40,11 @@ private fun checkOrigin(
     when (val origin = book.origin) {
         is OriginalBook -> checkCreator(state, origin.author, book.id, book.date, "Author")
         is TranslatedBook -> {
-            state.getBookStorage().require(origin.book)
+            val original = state.getBookStorage().getOrThrow(origin.book)
             require(book.id != origin.book) { "Book cannot translate itself!" }
+            require(state.getDefaultCalendar().isAfterOrEqualOptional(book.date, original.date)) {
+                "The translation must happen after the original was written!"
+            }
             checkCreator(state, origin.translator, book.id, book.date, "Translator")
         }
     }

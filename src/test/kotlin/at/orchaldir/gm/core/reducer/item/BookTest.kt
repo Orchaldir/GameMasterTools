@@ -19,7 +19,8 @@ import kotlin.test.assertFalse
 
 private val STATE = State(
     listOf(
-        Storage(listOf(Book(BOOK_ID_0), Book(BOOK_ID_1))),
+        Storage(listOf(Book(BOOK_ID_0), Book(BOOK_ID_1, date = DAY1))),
+        Storage(CALENDAR0),
         Storage(Character(CHARACTER_ID_0)),
         Storage(Language(LANGUAGE_ID_0)),
     )
@@ -91,6 +92,19 @@ class BookTest {
             val action = UpdateBook(Book(BOOK_ID_0, origin = origin))
 
             assertIllegalArgument("Book cannot translate itself!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `The translation must happen after the original was written`() {
+            val origin = TranslatedBook(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_0))
+            val action = UpdateBook(Book(BOOK_ID_0, date = DAY0, origin = origin))
+
+            assertIllegalArgument("The translation must happen after the original was written!") {
+                REDUCER.invoke(
+                    STATE,
+                    action
+                )
+            }
         }
 
         @Test
