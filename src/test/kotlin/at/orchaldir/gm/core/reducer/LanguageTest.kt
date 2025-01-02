@@ -6,7 +6,10 @@ import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.item.book.Book
-import at.orchaldir.gm.core.model.language.*
+import at.orchaldir.gm.core.model.language.ComprehensionLevel
+import at.orchaldir.gm.core.model.language.EvolvedLanguage
+import at.orchaldir.gm.core.model.language.InventedLanguage
+import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.material
 import at.orchaldir.gm.MATERIAL_ID_0
 import at.orchaldir.gm.MATERIAL_ID_1
 import at.orchaldir.gm.core.model.material.MaterialCost.Companion.init
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 
 class MaterialCostTest {
