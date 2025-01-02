@@ -4,8 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class BookFormatType {
-    Hardcover,
-    Paperback,
+    Codex,
     Undefined,
 }
 
@@ -13,21 +12,14 @@ enum class BookFormatType {
 sealed class BookFormat {
 
     fun getType() = when (this) {
-        is Hardcover -> BookFormatType.Hardcover
-        is Paperback -> BookFormatType.Paperback
+        is Codex -> BookFormatType.Codex
         UndefinedBookFormat -> BookFormatType.Undefined
     }
 }
 
 @Serializable
-@SerialName("Hardcover")
-data class Hardcover(
-    val pages: Int,
-) : BookFormat()
-
-@Serializable
-@SerialName("Paperback")
-data class Paperback(
+@SerialName("Codex")
+data class Codex(
     val pages: Int,
 ) : BookFormat()
 
