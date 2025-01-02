@@ -41,6 +41,18 @@ class BookTest {
         fun `Cannot delete unknown id`() {
             assertIllegalArgument("Requires unknown Book 0!") { REDUCER.invoke(State(), action) }
         }
+
+        @Test
+        fun `Cannot delete a translated book`() {
+            val origin = TranslatedBook(BOOK_ID_0, CreatedByCharacter(CHARACTER_ID_0))
+            val state = STATE.updateStorage(
+                Storage(listOf(Book(BOOK_ID_0), Book(BOOK_ID_1, origin = origin)))
+            )
+
+            assertIllegalArgument("Book 0 is used") {
+                REDUCER.invoke(state, action)
+            }
+        }
     }
 
     @Nested

@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.book.BookId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.utils.Id
 
-fun State.canDeleteBook(book: BookId) = true
+fun State.canDeleteBook(book: BookId) = getTranslationsOf(book).isEmpty()
 
 fun State.countBooks(language: LanguageId) = getBookStorage()
     .getAll()
@@ -28,9 +28,11 @@ fun State.getTranslationsOf(book: BookId) = getBookStorage()
     .getAll()
     .filter { b -> b.origin.isTranslationOf(book) }
 
-fun <ID : Id<ID>> State.getBooksTranslatedBy(id: ID) = getBookStorage().getAll()
+fun <ID : Id<ID>> State.getBooksTranslatedBy(id: ID) = getBookStorage()
+    .getAll()
     .filter { it.origin.wasTranslatedBy(id) }
 
-fun <ID : Id<ID>> State.getBooksWrittenBy(id: ID) = getBookStorage().getAll()
+fun <ID : Id<ID>> State.getBooksWrittenBy(id: ID) = getBookStorage()
+    .getAll()
     .filter { it.origin.wasWrittenBy(id) }
 
