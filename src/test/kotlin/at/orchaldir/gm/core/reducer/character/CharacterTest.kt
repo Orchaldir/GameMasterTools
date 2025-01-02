@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.item.book.Book
 import at.orchaldir.gm.core.model.item.book.OriginalBook
+import at.orchaldir.gm.core.model.item.book.TranslatedBook
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
@@ -108,6 +109,21 @@ class CharacterTest {
             )
 
             assertIllegalArgument("Cannot delete character 0, who is an author!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a translator`() {
+            val origin = TranslatedBook(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_0))
+            val state = State(
+                listOf(
+                    Storage(listOf(Character(CHARACTER_ID_0))),
+                    Storage(listOf(Book(BOOK_ID_0, origin = origin), Book(BOOK_ID_1)))
+                )
+            )
+
+            assertIllegalArgument("Cannot delete character 0, who is a translator!") {
                 REDUCER.invoke(state, action)
             }
         }
