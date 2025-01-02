@@ -7,12 +7,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.book.Book
 import at.orchaldir.gm.core.model.item.book.OriginalBook
 import at.orchaldir.gm.core.model.item.book.TranslatedBook
-import at.orchaldir.gm.core.model.language.EvolvedLanguage
-import at.orchaldir.gm.core.model.language.InventedLanguage
-import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.reducer.util.checkCreator
 import at.orchaldir.gm.core.selector.item.canDeleteBook
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -42,6 +38,6 @@ private fun checkOrigin(
 ) {
     when (val origin = book.origin) {
         is OriginalBook -> checkCreator(state, origin.author, book.id, book.date, "Author")
-        is TranslatedBook -> checkCreator(state, origin.translator, book.id, book.date, "Author")
+        is TranslatedBook -> checkCreator(state, origin.translator, book.id, book.date, "Translator")
     }
 }
