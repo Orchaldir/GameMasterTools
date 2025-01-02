@@ -23,13 +23,13 @@ val CREATE_LANGUAGE: Reducer<CreateLanguage, State> = { state, _ ->
 
 val DELETE_LANGUAGE: Reducer<DeleteLanguage, State> = { state, action ->
     state.getLanguageStorage().require(action.id)
-    require(state.getChildren(action.id).isEmpty()) { "Cannot delete language ${action.id.value} with children" }
+    require(state.getChildren(action.id).isEmpty()) { "Cannot delete language ${action.id.value} with children!" }
     require(
         state.getCharacters(action.id).isEmpty()
-    ) { "Cannot delete language ${action.id.value} that is known by characters" }
+    ) { "Cannot delete language ${action.id.value} that is known by characters!" }
     require(
         state.getBooks(action.id).isEmpty()
-    ) { "Cannot delete language ${action.id.value} that is used by books" }
+    ) { "Cannot delete language ${action.id.value} that is used by books!" }
 
     noFollowUps(state.updateStorage(state.getLanguageStorage().remove(action.id)))
 }
@@ -55,10 +55,10 @@ private fun checkOrigin(
         }
 
         is EvolvedLanguage -> {
-            require(origin.parent != language.id) { "A language cannot be its own parent" }
+            require(origin.parent != language.id) { "A language cannot be its own parent!" }
             require(
                 state.getLanguageStorage().contains(origin.parent)
-            ) { "Cannot use an unknown parent language ${origin.parent.value}" }
+            ) { "Cannot use an unknown parent language ${origin.parent.value}!" }
         }
 
         else -> doNothing()

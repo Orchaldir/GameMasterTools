@@ -45,7 +45,7 @@ class LanguageTest {
             )
             val action = DeleteLanguage(LANGUAGE_ID_0)
 
-            assertIllegalArgument("Cannot delete language 0 with children") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete language 0 with children!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -54,11 +54,8 @@ class LanguageTest {
             val state = State(listOf(Storage(character), Storage(Language(LANGUAGE_ID_0))))
             val action = DeleteLanguage(LANGUAGE_ID_0)
 
-            assertIllegalArgument("Cannot delete language 0 that is known by characters") {
-                REDUCER.invoke(
-                    state,
-                    action
-                )
+            assertIllegalArgument("Cannot delete language 0 that is known by characters!") {
+                REDUCER.invoke(state, action)
             }
         }
 
@@ -68,7 +65,7 @@ class LanguageTest {
             val state = State(listOf(Storage(book), Storage(Language(LANGUAGE_ID_1))))
             val action = DeleteLanguage(LANGUAGE_ID_1)
 
-            assertIllegalArgument("Cannot delete language 1 that is used by books") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete language 1 that is used by books!") { REDUCER.invoke(state, action) }
         }
     }
 
@@ -97,7 +94,7 @@ class LanguageTest {
             val origin = EvolvedLanguage(LANGUAGE_ID_1)
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = origin))
 
-            assertIllegalArgument("Cannot use an unknown parent language 1") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown parent language 1!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -105,7 +102,7 @@ class LanguageTest {
             val state = State(Storage(Language(LANGUAGE_ID_0)))
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = EvolvedLanguage(LANGUAGE_ID_0)))
 
-            assertIllegalArgument("A language cannot be its own parent") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("A language cannot be its own parent!") { REDUCER.invoke(state, action) }
         }
 
         @Test
