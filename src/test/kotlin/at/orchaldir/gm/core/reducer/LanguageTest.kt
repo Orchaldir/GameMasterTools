@@ -12,7 +12,6 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 class LanguageTest {
 
@@ -31,7 +30,7 @@ class LanguageTest {
         fun `Cannot delete unknown id`() {
             val action = DeleteLanguage(LANGUAGE_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Language 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -46,7 +45,7 @@ class LanguageTest {
             )
             val action = DeleteLanguage(LANGUAGE_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete language 0 with children") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -55,7 +54,12 @@ class LanguageTest {
             val state = State(listOf(Storage(character), Storage(Language(LANGUAGE_ID_0))))
             val action = DeleteLanguage(LANGUAGE_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete language 0 that is known by characters") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
         }
 
         @Test
@@ -75,7 +79,7 @@ class LanguageTest {
         fun `Cannot update unknown id`() {
             val action = UpdateLanguage(Language(LANGUAGE_ID_0))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Language 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -84,7 +88,7 @@ class LanguageTest {
             val origin = InventedLanguage(CreatedByCharacter(CHARACTER_ID_0), DAY0)
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = origin))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown character 0 as Inventor!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -93,7 +97,7 @@ class LanguageTest {
             val origin = EvolvedLanguage(LANGUAGE_ID_1)
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = origin))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown parent language 1") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -101,7 +105,7 @@ class LanguageTest {
             val state = State(Storage(Language(LANGUAGE_ID_0)))
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = EvolvedLanguage(LANGUAGE_ID_0)))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("A language cannot be its own parent") { REDUCER.invoke(state, action) }
         }
 
         @Test
