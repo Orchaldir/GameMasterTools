@@ -249,7 +249,7 @@ private fun FORM.editOrigin(
         is TranslatedBook -> {
             selectValue("Translation Of", combine(ORIGIN, REFERENCE), state.getBookStorage().getAll()) { translated ->
                 label = translated.name
-                value = translated.name
+                value = translated.id.value.toString()
                 selected = translated.id == book.origin.book
             }
             selectCreator(state, book.origin.translator, book.id, book.date, "Translator")

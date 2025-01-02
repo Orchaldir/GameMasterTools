@@ -33,6 +33,22 @@
     "decade": 95
    },
    "language": 5
+  },
+  "2": {
+   "id": 2,
+   "name": "Necronomicon",
+   "origin": {
+    "type": "Translation",
+    "book": 1,
+    "translator": {
+     "type": "Undefined"
+    }
+   },
+   "date": {
+    "type": "Year",
+    "year": 1227
+   },
+   "language": 6
   }
  }
 }
