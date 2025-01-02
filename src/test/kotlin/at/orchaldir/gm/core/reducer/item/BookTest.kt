@@ -100,10 +100,7 @@ class BookTest {
             val action = UpdateBook(Book(BOOK_ID_0, date = DAY0, origin = origin))
 
             assertIllegalArgument("The translation must happen after the original was written!") {
-                REDUCER.invoke(
-                    STATE,
-                    action
-                )
+                REDUCER.invoke(STATE, action)
             }
         }
 

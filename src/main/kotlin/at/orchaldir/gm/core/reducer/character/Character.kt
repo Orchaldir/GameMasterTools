@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getParents
+import at.orchaldir.gm.core.selector.item.getBooksWrittenBy
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.utils.doNothing
