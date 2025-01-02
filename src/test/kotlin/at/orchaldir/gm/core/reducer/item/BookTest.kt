@@ -61,6 +61,15 @@ class BookTest {
         }
 
         @Test
+        fun `Successfully update an original book`() {
+            val origin = OriginalBook(CreatedByCharacter(CHARACTER_ID_0))
+            val book = Book(BOOK_ID_0, origin = origin)
+            val action = UpdateBook(book)
+
+            assertEquals(book, REDUCER.invoke(STATE, action).first.getBookStorage().get(BOOK_ID_0))
+        }
+
+        @Test
         fun `Translator must exist`() {
             val origin = TranslatedBook(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_1))
             val action = UpdateBook(Book(BOOK_ID_0, origin = origin))
@@ -74,6 +83,15 @@ class BookTest {
             val action = UpdateBook(Book(BOOK_ID_0, origin = origin))
 
             assertIllegalArgument("Requires unknown Book 2!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Successfully update a translated book`() {
+            val origin = TranslatedBook(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_0))
+            val book = Book(BOOK_ID_0, origin = origin)
+            val action = UpdateBook(book)
+
+            assertEquals(book, REDUCER.invoke(STATE, action).first.getBookStorage().get(BOOK_ID_0))
         }
     }
 
