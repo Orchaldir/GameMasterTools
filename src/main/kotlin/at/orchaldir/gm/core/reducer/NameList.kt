@@ -30,13 +30,13 @@ val UPDATE_NAME_LIST: Reducer<UpdateNameList, State> = { state, action ->
 
     val cleaned = nameList.copy(
         names = nameList.names
-        .asSequence()
-        .flatMap { it.split(",", ".", ";") }
-        .map { it.trim() }
-        .filter { it.isNotEmpty() }
-        .map { it.titlecaseFirstChar() }
-        .sorted()
-        .toList())
+            .asSequence()
+            .flatMap { it.split(",", ".", ";") }
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+            .map { it.titlecaseFirstChar() }
+            .sorted()
+            .toList())
 
     noFollowUps(state.updateStorage(state.getNameListStorage().update(cleaned)))
 }

@@ -62,7 +62,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateRaceAppearance -> UPDATE_RACE_APPEARANCE(state, action)
         // time
         is UpdateTime -> UPDATE_TIME(state, action)
-        // world
+        // item
         is ItemAction -> ITEM_REDUCER(state, action)
         // world
         is WorldAction -> WORLD_REDUCER(state, action)

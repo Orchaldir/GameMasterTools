@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.book
 
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

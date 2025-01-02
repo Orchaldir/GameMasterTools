@@ -145,10 +145,10 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State,
         .getAll()
         .sortedWith(
             when (sort) {
-            Name -> compareBy { it.name }
-            Start -> compareBy { it.start.year }
-            End -> compareBy { it.end?.year }
-        })
+                Name -> compareBy { it.name }
+                Start -> compareBy { it.start.year }
+                End -> compareBy { it.end?.year }
+            })
     val count = styles.size
     val createLink = call.application.href(ArchitecturalStyleRoutes.New())
     val sortNameLink = call.application.href(ArchitecturalStyleRoutes.All())

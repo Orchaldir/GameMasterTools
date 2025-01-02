@@ -101,7 +101,7 @@ fun State.sort(buildings: Collection<Building>, sort: SortBuilding = SortBuildin
     .map { Pair(it, it.name(this)) }
     .sortedWith(
         when (sort) {
-        SortBuilding.Name -> compareBy { it.second }
-        SortBuilding.Construction -> getConstructionComparatorForPair()
-    })
+            SortBuilding.Name -> compareBy { it.second }
+            SortBuilding.Construction -> getConstructionComparatorForPair()
+        })
 

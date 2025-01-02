@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.action.UpdateBook
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.book.*
 import at.orchaldir.gm.core.selector.item.canDeleteBook
-import at.orchaldir.gm.core.selector.item.getBooksTranslatedBy
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
 import io.ktor.http.*
 import io.ktor.resources.*

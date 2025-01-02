@@ -289,6 +289,6 @@ fun State.sortCharacters(characters: Collection<Character>, sort: SortCharacter 
     .map { Pair(it, it.name(this)) }
     .sortedWith(
         when (sort) {
-        SortCharacter.Name -> compareBy { it.second }
-        SortCharacter.Age -> getAgeComparatorForPair()
-    })
+            SortCharacter.Name -> compareBy { it.second }
+            SortCharacter.Age -> getAgeComparatorForPair()
+        })

@@ -96,10 +96,10 @@ fun State.sortBusinesses(sort: SortBusiness = SortBusiness.Name) =
 fun State.sortBusinesses(businesses: Collection<Business>, sort: SortBusiness = SortBusiness.Name) = businesses
     .sortedWith(
         when (sort) {
-        SortBusiness.Name -> compareBy { it.name(this) }
-        SortBusiness.Age -> getAgeComparator()
-        SortBusiness.Employees -> compareBy<Business> { getEmployees(it.id).size }.reversed()
-    }
+            SortBusiness.Name -> compareBy { it.name(this) }
+            SortBusiness.Age -> getAgeComparator()
+            SortBusiness.Employees -> compareBy<Business> { getEmployees(it.id).size }.reversed()
+        }
     )
 
 

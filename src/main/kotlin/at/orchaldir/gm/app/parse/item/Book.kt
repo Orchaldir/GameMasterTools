@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.parse.item
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.LANGUAGE
 import at.orchaldir.gm.app.html.model.parseCreator
 import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.parse.combine
