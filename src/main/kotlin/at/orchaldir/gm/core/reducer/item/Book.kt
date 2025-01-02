@@ -5,7 +5,14 @@ import at.orchaldir.gm.core.action.DeleteBook
 import at.orchaldir.gm.core.action.UpdateBook
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.book.Book
+import at.orchaldir.gm.core.model.item.book.OriginalBook
+import at.orchaldir.gm.core.model.item.book.TranslatedBook
+import at.orchaldir.gm.core.model.language.EvolvedLanguage
+import at.orchaldir.gm.core.model.language.InventedLanguage
+import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.reducer.util.checkCreator
 import at.orchaldir.gm.core.selector.item.canDeleteBook
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -24,6 +31,17 @@ val DELETE_BOOK: Reducer<DeleteBook, State> = { state, action ->
 
 val UPDATE_BOOK: Reducer<UpdateBook, State> = { state, action ->
     state.getBookStorage().require(action.book.id)
+    checkOrigin(state, action.book)
 
     noFollowUps(state.updateStorage(state.getBookStorage().update(action.book)))
+}
+
+private fun checkOrigin(
+    state: State,
+    book: Book,
+) {
+    when (val origin = book.origin) {
+        is OriginalBook -> checkCreator(state, origin.author, book.id, book.date, "Author")
+        is TranslatedBook -> checkCreator(state, origin.translator, book.id, book.date, "Author")
+    }
 }
