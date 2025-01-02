@@ -21,6 +21,7 @@ sealed class BookFormat {
 @SerialName("Codex")
 data class Codex(
     val pages: Int,
+    val binding: BookBinding,
 ) : BookFormat()
 
 @Serializable
