@@ -86,6 +86,14 @@ class BookTest {
         }
 
         @Test
+        fun `Book cannot translate itself`() {
+            val origin = TranslatedBook(BOOK_ID_0, CreatedByCharacter(CHARACTER_ID_0))
+            val action = UpdateBook(Book(BOOK_ID_0, origin = origin))
+
+            assertIllegalArgument("Book cannot translate itself!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Successfully update a translated book`() {
             val origin = TranslatedBook(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_0))
             val book = Book(BOOK_ID_0, origin = origin)

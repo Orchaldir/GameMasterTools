@@ -40,6 +40,7 @@ private fun checkOrigin(
         is OriginalBook -> checkCreator(state, origin.author, book.id, book.date, "Author")
         is TranslatedBook -> {
             state.getBookStorage().require(origin.book)
+            require(book.id != origin.book) { "Book cannot translate itself!" }
             checkCreator(state, origin.translator, book.id, book.date, "Translator")
         }
     }
