@@ -233,6 +233,7 @@ private fun HTML.showBookEditor(
                 value = l.id.value.toString()
                 selected = l.id == book.language
             }
+            editBookFormat(state, book.format)
             button("Update", updateLink)
         }
         back(backLink)
