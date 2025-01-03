@@ -137,6 +137,7 @@ private fun HTML.showAllBooks(
                 th { +"Origin" }
                 th { +"Creator" }
                 th { +"Language" }
+                th { +"Format" }
             }
             books.forEach { book ->
                 tr {
@@ -145,6 +146,7 @@ private fun HTML.showAllBooks(
                     td { +book.origin.getType().toString() }
                     td { showCreator(call, state, book.origin.creator()) }
                     td { link(call, state, book.language) }
+                    td { +book.format.getType().toString() }
                 }
             }
         }
@@ -172,6 +174,8 @@ private fun HTML.showBookDetails(
         showOrigin(call, state, book)
         optionalField(call, state, "Date", book.date)
         fieldLink("Language", call, state, book.language)
+        field("Format", book.format.getType().toString())
+
         showList("Translations", state.getTranslationsOf(book.id)) { book ->
             link(call, state, book)
         }
