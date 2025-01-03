@@ -44,10 +44,11 @@
      },
      "sewingPattern": {
       "type": "Simple",
-      "color": "Crimson",
+       "color": "Silver",
       "size": "Medium",
       "stitches": [
        "Kettle",
+        "FrenchLink",
        "Kettle"
       ]
      }

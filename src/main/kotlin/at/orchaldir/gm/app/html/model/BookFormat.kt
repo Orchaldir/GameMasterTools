@@ -198,23 +198,41 @@ fun parseBookFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Bo
     BookFormatType.Undefined -> UndefinedBookFormat
 }
 
-private fun parseBinding(parameters: Parameters): BookBinding =
-    when (parse(parameters, BINDING, BookBindingType.Hardcover)) {
-        BookBindingType.Coptic -> CopticBinding(
-            parseCover(parameters),
-            SimpleSewingPattern(Color.Crimson, Size.Medium, listOf(StitchType.Kettle, StitchType.Kettle))
-        )
+private fun parseBinding(parameters: Parameters) = when (parse(parameters, BINDING, BookBindingType.Hardcover)) {
+    BookBindingType.Coptic -> CopticBinding(
+        parseCover(parameters),
+        parseSewing(parameters),
+    )
 
-        BookBindingType.Hardcover -> Hardcover(parseCover(parameters))
-        BookBindingType.Leather -> LeatherBinding(
-            parse(parameters, combine(LEATHER, BINDING, COLOR), Color.SaddleBrown),
-            parseMaterialId(parameters, combine(LEATHER, MATERIAL)),
-            parse(parameters, combine(LEATHER, BINDING), LeatherBindingType.Half),
-            parseCover(parameters),
-        )
-    }
+    BookBindingType.Hardcover -> Hardcover(parseCover(parameters))
+    BookBindingType.Leather -> LeatherBinding(
+        parse(parameters, combine(LEATHER, BINDING, COLOR), Color.SaddleBrown),
+        parseMaterialId(parameters, combine(LEATHER, MATERIAL)),
+        parse(parameters, combine(LEATHER, BINDING), LeatherBindingType.Half),
+        parseCover(parameters),
+    )
+}
 
 private fun parseCover(parameters: Parameters) = BookCover(
     parse(parameters, combine(COVER, BINDING, COLOR), Color.Black),
     parseMaterialId(parameters, combine(COVER, MATERIAL)),
 )
+
+fun parseSewing(parameters: Parameters) = when (parse(parameters, SEWING, SewingPatternType.Simple)) {
+    SewingPatternType.Simple -> SimpleSewingPattern(
+        parse(parameters, combine(SEWING, COLOR), Color.Crimson),
+        parse(parameters, combine(SEWING, SIZE), Size.Medium),
+        parseSimplePattern(parameters),
+    )
+
+    SewingPatternType.Complex -> TODO()
+}
+
+fun parseSimplePattern(parameters: Parameters): List<StitchType> {
+    val count = parseInt(parameters, combine(SEWING, NUMBER), 0)
+
+    return (0..<count)
+        .map { index ->
+            parse(parameters, combine(SEWING, index), StitchType.Kettle)
+        }
+}
