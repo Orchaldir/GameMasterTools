@@ -37,10 +37,19 @@
     "type": "Codex",
     "pages": 400,
     "binding": {
-     "type": "Hardcover",
+     "type": "Coptic",
      "cover": {
-      "color": "Black",
+      "color": "SaddleBrown",
       "material": 0
+     },
+     "sewingPattern": {
+      "type": "Simple",
+      "color": "Crimson",
+      "size": "Medium",
+      "stitches": [
+       "Kettle",
+       "Kettle"
+      ]
      }
     }
    }

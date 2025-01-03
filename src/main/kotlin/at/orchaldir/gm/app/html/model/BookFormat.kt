@@ -23,7 +23,7 @@ fun BODY.showBookFormat(
     state: State,
     format: BookFormat,
 ) {
-    field("Format", format.getType().name)
+    field("Format", format.getType())
 
     when (format) {
         UndefinedBookFormat -> doNothing()
@@ -39,11 +39,12 @@ private fun BODY.showBinding(
     state: State,
     binding: BookBinding,
 ) {
-    field("Binding", binding.getType().name)
+    field("Binding", binding.getType())
 
     when (binding) {
         is CopticBinding -> {
             showCover(call, state, binding.cover)
+            showSewingPattern(binding.sewingPattern)
         }
 
         is Hardcover -> {
@@ -52,9 +53,9 @@ private fun BODY.showBinding(
 
         is LeatherBinding -> {
             showCover(call, state, binding.cover)
-            field("Leather Color", binding.leatherColor.name)
+            field("Leather Color", binding.leatherColor)
             fieldLink("Leather Material", call, state, binding.leatherMaterial)
-            field("Leather Binding", binding.type.name)
+            field("Leather Binding", binding.type)
         }
     }
 }
@@ -64,8 +65,30 @@ private fun BODY.showCover(
     state: State,
     cover: BookCover,
 ) {
-    field("Cover Color", cover.color.name)
+    field("Cover Color", cover.color)
     fieldLink("Cover Material", call, state, cover.material)
+}
+
+private fun BODY.showSewingPattern(pattern: SewingPattern) {
+    field("Sewing Pattern", pattern.getType())
+
+    when (pattern) {
+        is SimpleSewingPattern -> {
+            field("Sewing Color", pattern.color)
+            field("Sewing Size", pattern.size)
+            showList("Stitches", pattern.stitches) { stitch ->
+                +stitch.name
+            }
+        }
+
+        is ComplexSewingPattern -> {
+            showList("Stitches", pattern.stitches) { complex ->
+                field("Sewing Color", complex.color)
+                field("Sewing Size", complex.size)
+                field("Stitch", complex.stitch)
+            }
+        }
+    }
 }
 
 // edit
@@ -94,6 +117,7 @@ private fun FORM.editBinding(
     when (binding) {
         is CopticBinding -> {
             editCover(state, binding.cover)
+            editSewingPattern(binding.sewingPattern)
         }
 
         is Hardcover -> {
@@ -128,6 +152,39 @@ private fun FORM.editCover(
         value = material.id.value.toString()
         selected = material.id == cover.material
     }
+}
+
+private fun FORM.editSewingPattern(pattern: SewingPattern) {
+    selectValue("Sewing Pattern", SEWING, SewingPatternType.entries, pattern.getType(), true)
+
+    when (pattern) {
+        is SimpleSewingPattern -> {
+            selectColor("Sewing Color", combine(SEWING, COLOR), Color.entries, pattern.color)
+            selectValue("Sewing Size", combine(SEWING, SIZE), Size.entries, pattern.size, true)
+            editSewingPatternSize(pattern.stitches.size)
+
+            showListWithIndex(pattern.stitches) { index, stitch ->
+                val stitchParam = combine(SEWING, index)
+                selectValue("Stitch", stitchParam, StitchType.entries, stitch, true)
+            }
+        }
+
+        is ComplexSewingPattern -> {
+            editSewingPatternSize(pattern.stitches.size)
+
+            showListWithIndex(pattern.stitches) { index, complex ->
+                val stitchParam = combine(SEWING, index)
+
+                selectColor("Sewing Color", combine(stitchParam, COLOR), Color.entries, complex.color)
+                selectValue("Sewing Size", combine(stitchParam, SIZE), Size.entries, complex.size, true)
+                selectValue("Stitch", stitchParam, StitchType.entries, complex.stitch, true)
+            }
+        }
+    }
+}
+
+private fun FORM.editSewingPatternSize(size: Int) {
+    selectInt("Sewing Pattern Size", size, 2, 20, 1, combine(SEWING, NUMBER), true)
 }
 
 // parse

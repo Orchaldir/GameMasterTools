@@ -39,6 +39,6 @@ data class Hardcover(
 data class LeatherBinding(
     val leatherColor: Color,
     val leatherMaterial: MaterialId,
-    val type: LeatherBindingType = LeatherBindingType.Full,
+    val type: LeatherBindingType = LeatherBindingType.Half,
     val cover: BookCover,
 ) : BookBinding()

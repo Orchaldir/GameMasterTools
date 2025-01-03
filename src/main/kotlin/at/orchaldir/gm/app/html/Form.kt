@@ -72,7 +72,7 @@ fun FORM.selectColor(
     }
 }
 
-fun FORM.selectColor(
+fun HtmlBlockTag.selectColor(
     labelText: String,
     selectId: String,
     values: Collection<Color>,
