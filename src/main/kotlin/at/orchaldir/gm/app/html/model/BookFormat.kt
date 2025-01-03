@@ -82,9 +82,9 @@ private fun BODY.showSewingPattern(pattern: SewingPattern) {
         }
 
         is ComplexSewingPattern -> {
-            showList("Stitches", pattern.stitches) { complex ->
-                field("Sewing Color", complex.color)
-                field("Sewing Size", complex.size)
+            showList(pattern.stitches) { complex ->
+                field("Color", complex.color)
+                field("Size", complex.size)
                 field("Stitch", complex.stitch)
             }
         }
@@ -175,8 +175,8 @@ private fun FORM.editSewingPattern(pattern: SewingPattern) {
             showListWithIndex(pattern.stitches) { index, complex ->
                 val stitchParam = combine(SEWING, index)
 
-                selectColor("Sewing Color", combine(stitchParam, COLOR), Color.entries, complex.color)
-                selectValue("Sewing Size", combine(stitchParam, SIZE), Size.entries, complex.size, true)
+                selectColor("Color", combine(stitchParam, COLOR), Color.entries, complex.color)
+                selectValue("Size", combine(stitchParam, SIZE), Size.entries, complex.size, true)
                 selectValue("Stitch", stitchParam, StitchType.entries, complex.stitch, true)
             }
         }
