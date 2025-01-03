@@ -1,9 +1,12 @@
 package at.orchaldir.gm.core.model.item.book
 
+import at.orchaldir.gm.core.model.item.book.StitchType.Kettle
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.intellij.lang.annotations.Pattern
 
 enum class BookBindingType {
     Coptic,
@@ -26,6 +29,7 @@ sealed class BookBinding {
 data class CopticBinding(
     val material: MaterialId,
     val sewingColor: Color,
+    val stitchPattern: List<StitchType>,
     val coverColor: Color,
 ) : BookBinding()
 
