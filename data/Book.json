@@ -32,7 +32,18 @@
     "type": "Decade",
     "decade": 95
    },
-   "language": 5
+   "language": 5,
+   "format": {
+    "type": "Codex",
+    "pages": 400,
+    "binding": {
+     "type": "Hardcover",
+     "cover": {
+      "color": "Black",
+      "material": 0
+     }
+    }
+   }
   },
   "2": {
    "id": 2,

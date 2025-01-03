@@ -3,10 +3,15 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.parseMaterialId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.book.*
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
+import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
 import kotlinx.html.FORM
@@ -124,3 +129,35 @@ private fun FORM.editCover(
         selected = material.id == cover.material
     }
 }
+
+// parse
+
+fun parseBookFormat(parameters: Parameters) = when (parse(parameters, FORMAT, BookFormatType.Undefined)) {
+    BookFormatType.Codex -> Codex(
+        parseInt(parameters, PAGES, 100),
+        parseBinding(parameters),
+    )
+
+    BookFormatType.Undefined -> UndefinedBookFormat
+}
+
+private fun parseBinding(parameters: Parameters): BookBinding =
+    when (parse(parameters, BINDING, BookBindingType.Hardcover)) {
+        BookBindingType.Coptic -> CopticBinding(
+            parseCover(parameters),
+            SimpleSewingPattern(Color.Crimson, Size.Medium, listOf(StitchType.Kettle, StitchType.Kettle))
+        )
+
+        BookBindingType.Hardcover -> Hardcover(parseCover(parameters))
+        BookBindingType.Leather -> LeatherBinding(
+            parse(parameters, combine(LEATHER, BINDING, COLOR), Color.SaddleBrown),
+            parseMaterialId(parameters, combine(LEATHER, MATERIAL)),
+            parse(parameters, combine(LEATHER, BINDING), LeatherBindingType.Half),
+            parseCover(parameters),
+        )
+    }
+
+private fun parseCover(parameters: Parameters) = BookCover(
+    parse(parameters, combine(COVER, BINDING, COLOR), Color.Black),
+    parseMaterialId(parameters, combine(COVER, MATERIAL)),
+)
