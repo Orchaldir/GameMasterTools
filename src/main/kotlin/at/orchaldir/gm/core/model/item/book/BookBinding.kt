@@ -26,14 +26,14 @@ sealed class BookBinding {
 data class CopticBinding(
     val material: MaterialId,
     val sewingPattern: SewingPattern,
-    val coverColor: Color,
+    val cover: BookCover,
 ) : BookBinding()
 
 @Serializable
 @SerialName("Hardcover")
 data class Hardcover(
     val material: MaterialId,
-    val coverColor: Color,
+    val cover: BookCover,
 ) : BookBinding()
 
 @Serializable
@@ -42,5 +42,5 @@ data class LeatherBinding(
     val leather: MaterialId,
     val type: LeatherBindingType = LeatherBindingType.Full,
     val leatherColor: Color,
-    val coverColor: Color,
+    val cover: BookCover,
 ) : BookBinding()
