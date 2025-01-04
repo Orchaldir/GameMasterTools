@@ -11,7 +11,10 @@ fun visualizeCodex(
     when (codex.binding) {
         is CopticBinding -> visualizeCover(state, codex.binding.cover)
         is Hardcover -> visualizeCover(state, codex.binding.cover)
-        is LeatherBinding -> visualizeCover(state, codex.binding.cover)
+        is LeatherBinding -> {
+            visualizeCover(state, codex.binding.cover)
+            visualizeLeatherBinding(state, codex.binding)
+        }
     }
 }
 
@@ -21,4 +24,16 @@ fun visualizeCover(
 ) {
     val options = FillAndBorder(cover.color.toRender(), state.config.line)
     state.renderer.getLayer().renderRectangle(state.aabb, options)
+}
+
+fun visualizeLeatherBinding(
+    state: BookRenderState,
+    leatherBinding: LeatherBinding,
+) {
+    val options = FillAndBorder(leatherBinding.leatherColor.toRender(), state.config.line)
+    val config = state.config.leatherBindingMap.getValue(leatherBinding.type)
+    val spineWidth = state.aabb.convertWidth(config.spine)
+    val spineAabb = state.aabb.replaceWidth(spineWidth)
+
+    state.renderer.getLayer().renderRectangle(spineAabb, options)
 }

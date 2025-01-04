@@ -16,7 +16,7 @@ fun main() {
         "leather-binding.svg",
         BOOK_CONFIG,
         size.toSize2d() + Distance(50),
-        addNames(listOf(Color.SaddleBrown, Color.Red, Color.Black, Color.Green)),
+        addNames(listOf(Color.Blue, Color.Red, Color.Black, Color.Green)),
         addNames(LeatherBindingType.entries),
     ) { color, type ->
         val cover = BookCover(color, ID)

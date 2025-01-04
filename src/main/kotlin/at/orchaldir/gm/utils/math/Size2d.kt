@@ -25,4 +25,5 @@ data class Size2d(val width: Float, val height: Float) {
     operator fun times(factor: Factor) = Size2d(width * factor.value, height * factor.value)
     operator fun div(factor: Factor) = Size2d(width / factor.value, height / factor.value)
 
+    fun replaceWidth(width: Distance) = copy(width = width.toMeters())
 }
