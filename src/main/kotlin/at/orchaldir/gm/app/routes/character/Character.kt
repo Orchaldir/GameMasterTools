@@ -26,7 +26,7 @@ import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getTownsFoundedBy
-import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
@@ -228,8 +228,8 @@ private fun HTML.showCharacterDetails(
     val equipment = state.getEquipment(character)
     val backLink = call.application.href(CharacterRoutes.All())
     val editAppearanceLink = call.application.href(CharacterRoutes.Appearance.Edit(character.id))
-    val frontSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipment)
-    val backSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipment, false)
+    val frontSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment)
+    val backSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment, false)
 
     simpleHtml("Character: ${character.name(state)}") {
         svg(frontSvg, 20)

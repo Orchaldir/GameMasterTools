@@ -17,7 +17,7 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.getFashions
 import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
-import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
@@ -402,8 +402,8 @@ private fun BODY.visualizeItem(template: ItemTemplate) {
     if (template.equipment.getType() != EquipmentType.None) {
         val equipped = listOf(template.equipment)
         val appearance = HumanoidBody(Body(), Head(), Distance.fromMeters(1.0f))
-        val frontSvg = visualizeCharacter(RENDER_CONFIG, appearance, equipped)
-        val backSvg = visualizeCharacter(RENDER_CONFIG, appearance, equipped, false)
+        val frontSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped)
+        val backSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped, false)
         svg(frontSvg, 20)
         svg(backSvg, 20)
     }

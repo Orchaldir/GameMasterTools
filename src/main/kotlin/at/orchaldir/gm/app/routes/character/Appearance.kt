@@ -19,7 +19,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.getRaceAppearance
-import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
@@ -105,8 +105,8 @@ private fun HTML.showAppearanceEditor(
     val previewLink = call.application.href(CharacterRoutes.Appearance.Preview(character.id))
     val updateLink = call.application.href(CharacterRoutes.Appearance.Update(character.id))
     val generateLink = call.application.href(CharacterRoutes.Appearance.Generate(character.id))
-    val frontSvg = visualizeCharacter(RENDER_CONFIG, state, character)
-    val backSvg = visualizeCharacter(RENDER_CONFIG, state, character, renderFront = false)
+    val frontSvg = visualizeCharacter(CHARACTER_CONFIG, state, character)
+    val backSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, renderFront = false)
 
     simpleHtml("Edit Appearance: ${character.name(state)}") {
         svg(frontSvg, 20)
@@ -222,7 +222,7 @@ private fun FORM.editSkin(
                 label = skinColor.name
                 value = skinColor.toString()
                 selected = skin.color == skinColor
-                val bgColor = RENDER_CONFIG.getSkinColor(skinColor).toCode()
+                val bgColor = CHARACTER_CONFIG.getSkinColor(skinColor).toCode()
                 style = "background-color:${bgColor}"
             }
         }

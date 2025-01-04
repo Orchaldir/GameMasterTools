@@ -10,14 +10,14 @@ import at.orchaldir.gm.core.model.item.style.SkirtStyle
 import at.orchaldir.gm.core.model.item.style.SleeveStyle
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.addNames
-import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.Distance
 
 fun main() {
     renderCharacterTable(
         "dresses.svg",
-        RENDER_CONFIG,
+        CHARACTER_CONFIG,
         addNames(SkirtStyle.entries),
         addNames(BodyShape.entries),
         true,

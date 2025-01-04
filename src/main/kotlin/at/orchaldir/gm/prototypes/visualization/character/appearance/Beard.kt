@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.SidePart
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.addNamesToBeardStyle
 import at.orchaldir.gm.prototypes.visualization.character.addNamesToEyes
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
@@ -31,7 +31,7 @@ fun main() {
 
     renderCharacterTable(
         "beard.svg",
-        RENDER_CONFIG,
+        CHARACTER_CONFIG,
         addNamesToBeardStyle(beards),
         addNamesToEyes(eyes),
     ) { distance, eyes, beard ->

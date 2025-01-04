@@ -2,7 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d
@@ -14,7 +14,7 @@ import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import java.io.File
 
 fun main() {
-    val config = RENDER_CONFIG
+    val config = CHARACTER_CONFIG
     val columns: List<Size> = Size.entries
     val rows: List<EarShape> = EarShape.entries
     val height = Distance(200)

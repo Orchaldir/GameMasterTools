@@ -20,7 +20,7 @@ import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getRaces
-import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
@@ -166,7 +166,7 @@ private fun HtmlBlockTag.showRandomExamples(
     val generator = createGeneratorConfig(state, appearance, Gender.Male, CultureId(0))
 
     repeat(n) {
-        val svg = visualizeCharacter(RENDER_CONFIG, generator.generate())
+        val svg = visualizeCharacter(CHARACTER_CONFIG, generator.generate())
         svg(svg, width)
     }
 }

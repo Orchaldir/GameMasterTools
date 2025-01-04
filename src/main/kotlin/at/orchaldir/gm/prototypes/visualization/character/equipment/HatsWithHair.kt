@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.item.style.HatStyle
 import at.orchaldir.gm.core.model.util.Color.SaddleBrown
 import at.orchaldir.gm.core.model.util.Color.Yellow
 import at.orchaldir.gm.prototypes.visualization.addNames
-import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.appearance.HAIR_STYLES
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.Distance
@@ -19,7 +19,7 @@ import at.orchaldir.gm.utils.math.Distance
 fun main() {
     renderCharacterTable(
         "hats-with-hair.svg",
-        RENDER_CONFIG,
+        CHARACTER_CONFIG,
         addNames(HAIR_STYLES),
         addNames(HatStyle.entries),
         true,

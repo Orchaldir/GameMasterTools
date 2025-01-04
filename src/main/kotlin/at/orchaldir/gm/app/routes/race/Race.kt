@@ -20,7 +20,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.core.selector.getCharacters
-import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.visualization.character.appearance.visualizeGroup
@@ -167,7 +167,7 @@ private fun HtmlBlockTag.visualizeLifeStages(
     val generator = createGeneratorConfig(state, raceAppearance, gender, CultureId(0))
     val appearance = generator.generate()
 
-    val svg = visualizeGroup(RENDER_CONFIG, race.lifeStages.getAllLifeStages().map {
+    val svg = visualizeGroup(CHARACTER_CONFIG, race.lifeStages.getAllLifeStages().map {
         getAppearanceForAge(race, appearance, it.maxAge)
     })
 
