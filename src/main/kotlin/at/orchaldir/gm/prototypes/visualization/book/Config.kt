@@ -12,8 +12,8 @@ val BOOK_CONFIG = BookRenderConfig(
     Distance(100),
     LineOptions(Color.Black.toRender(), Distance(1)),
     mapOf(
-        LeatherBindingType.ThreeQuarter to LeatherBindingConfig(Factor(0.4f), Factor(0.3f)),
-        LeatherBindingType.Half to LeatherBindingConfig(Factor(0.3f), Factor(0.2f)),
-        LeatherBindingType.Quarter to LeatherBindingConfig(Factor(0.2f), Factor(0.1f)),
+        LeatherBindingType.ThreeQuarter to LeatherBindingConfig(Factor(0.4f), Factor(0.4f)),
+        LeatherBindingType.Half to LeatherBindingConfig(Factor(0.3f), Factor(0.3f)),
+        LeatherBindingType.Quarter to LeatherBindingConfig(Factor(0.2f), Factor(0.2f)),
     )
 )

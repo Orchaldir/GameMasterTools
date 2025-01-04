@@ -44,6 +44,7 @@ private fun visualizeLeatherBinding(
     val cornerWidth = state.aabb.convertWidth(config.corner)
 
     visualizeTopCorner(state, options, cornerWidth)
+    visualizeBottomCorner(state, options, cornerWidth)
 }
 
 private fun visualizeTopCorner(
@@ -54,6 +55,18 @@ private fun visualizeTopCorner(
     val corner0 = state.aabb.getPoint(END, START)
     val corner1 = corner0.addHeight(distance)
     val corner2 = corner0.minusWidth(distance)
+
+    renderPolygon(state.renderer.getLayer(), options, listOf(corner0, corner1, corner2))
+}
+
+private fun visualizeBottomCorner(
+    state: BookRenderState,
+    options: RenderOptions,
+    distance: Distance,
+) {
+    val corner0 = state.aabb.getPoint(END, END)
+    val corner1 = corner0.minusWidth(distance)
+    val corner2 = corner0.minusHeight(distance)
 
     renderPolygon(state.renderer.getLayer(), options, listOf(corner0, corner1, corner2))
 }
