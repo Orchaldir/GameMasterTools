@@ -21,7 +21,7 @@ fun main() {
         size.toSize2d() + Distance(50),
         listOf(
             Pair("1", listOf(Kettle, Kettle, Kettle, Kettle)),
-            Pair("2", listOf(Kettle, FrenchLink, FrenchLink, Kettle)),
+            Pair("2", listOf(Kettle, FrenchLink, Kettle)),
         ),
         addNames(Size.entries),
     ) { pattern, sewingSize ->

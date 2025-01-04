@@ -12,7 +12,10 @@ fun visualizeCodex(
     codex: Codex,
 ) {
     when (codex.binding) {
-        is CopticBinding -> visualizeCover(state, codex.binding.cover)
+        is CopticBinding -> {
+            visualizeCover(state, codex.binding.cover)
+            visualizeSewingPattern(state, codex.binding.sewingPattern)
+        }
         is Hardcover -> visualizeCover(state, codex.binding.cover)
         is LeatherBinding -> {
             visualizeCover(state, codex.binding.cover)
