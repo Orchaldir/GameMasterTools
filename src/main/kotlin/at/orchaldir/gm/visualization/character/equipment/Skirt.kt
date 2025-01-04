@@ -47,7 +47,7 @@ fun visualizeSkirt(
     val options = FillAndBorder(skirt.fill.toRender(), state.config.line)
     val builder = createSkirt(state, body, skirt.style)
 
-    renderBuilder(state, builder, options, EQUIPMENT_LAYER)
+    renderBuilder(state.renderer, builder, options, EQUIPMENT_LAYER)
 }
 
 fun createSkirt(

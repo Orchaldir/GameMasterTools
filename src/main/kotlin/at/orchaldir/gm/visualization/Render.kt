@@ -5,19 +5,29 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.LayerRenderer
+import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.visualization.character.CharacterRenderState
 
-fun renderBuilder(state: CharacterRenderState, builder: Polygon2dBuilder, options: RenderOptions, layer: Int) {
+fun renderBuilder(
+    renderer: MultiLayerRenderer,
+    builder: Polygon2dBuilder,
+    options: RenderOptions,
+    layer: Int,
+) {
     val polygon = builder.build()
 
-    state.renderer.getLayer(layer).renderPolygon(polygon, options)
+    renderer.getLayer(layer).renderPolygon(polygon, options)
 }
 
-fun renderRoundedBuilder(state: CharacterRenderState, builder: Polygon2dBuilder, options: RenderOptions, layer: Int) {
+fun renderRoundedBuilder(
+    renderer: MultiLayerRenderer,
+    builder: Polygon2dBuilder,
+    options: RenderOptions,
+    layer: Int,
+) {
     val polygon = builder.build()
 
-    state.renderer.getLayer(layer).renderRoundedPolygon(polygon, options)
+    renderer.getLayer(layer).renderRoundedPolygon(polygon, options)
 }
 
 fun renderPolygon(

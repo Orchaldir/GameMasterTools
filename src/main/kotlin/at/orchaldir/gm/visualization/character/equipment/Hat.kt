@@ -51,7 +51,7 @@ private fun visualizeBeanie(
         state.config.head.mouthY
     }
 
-    renderBuilder(state, buildCrown(state, y, ZERO, y), options, EQUIPMENT_LAYER)
+    renderBuilder(state.renderer, buildCrown(state, y, ZERO, y), options, EQUIPMENT_LAYER)
     renderBrim(state, options, state.config.equipment.hat.getCommonWidth(), y)
 }
 
@@ -61,7 +61,7 @@ private fun visualizeBoater(
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
 
-    renderBuilder(state, buildCrown(state), options, EQUIPMENT_LAYER)
+    renderBuilder(state.renderer, buildCrown(state), options, EQUIPMENT_LAYER)
     renderBrim(state, options, state.config.equipment.hat.widthBrimWide)
 }
 
@@ -74,7 +74,7 @@ private fun visualizeBowler(
     val crown = buildCrown(state)
     crown.createSharpCorners(0)
 
-    renderRoundedBuilder(state, crown, options, EQUIPMENT_LAYER)
+    renderRoundedBuilder(state.renderer, crown, options, EQUIPMENT_LAYER)
     renderBrim(state, options, state.config.equipment.hat.widthBrimNarrow)
 }
 
@@ -90,7 +90,7 @@ private fun visualizeCoolie(
     builder.addMirroredPoints(state.aabb, state.config.equipment.hat.widthCoolie, y)
     builder.addPoint(state.aabb, CENTER, y - state.config.equipment.hat.heightHigh)
 
-    renderBuilder(state, builder, options, EQUIPMENT_LAYER)
+    renderBuilder(state.renderer, builder, options, EQUIPMENT_LAYER)
 }
 
 private fun visualizeCowboy(
@@ -103,7 +103,7 @@ private fun visualizeCowboy(
     crown.addPoint(state.aabb, CENTER, Factor(-0.1f))
     crown.createSharpCorners(0)
 
-    renderRoundedBuilder(state, crown, options, EQUIPMENT_LAYER)
+    renderRoundedBuilder(state.renderer, crown, options, EQUIPMENT_LAYER)
     renderBrim(state, options, state.config.equipment.hat.widthBrimWide)
 }
 
@@ -114,7 +114,7 @@ private fun visualizeFez(
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
 
     renderBuilder(
-        state,
+        state.renderer,
         buildCrown(state, state.config.equipment.hat.heightHigh, -state.config.equipment.hat.topOffset),
         options,
         EQUIPMENT_LAYER
@@ -127,7 +127,7 @@ private fun visualizePillbox(
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
 
-    renderBuilder(state, buildCrown(state), options, EQUIPMENT_LAYER)
+    renderBuilder(state.renderer, buildCrown(state), options, EQUIPMENT_LAYER)
 }
 
 private fun visualizeTopHat(
@@ -137,7 +137,7 @@ private fun visualizeTopHat(
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
 
     renderBuilder(
-        state,
+        state.renderer,
         buildCrown(state, state.config.equipment.hat.heightHigh, state.config.equipment.hat.topOffset),
         options,
         EQUIPMENT_LAYER
@@ -177,7 +177,7 @@ private fun renderBrim(
     y: Factor = state.config.head.hatY,
 ) {
     renderBuilder(
-        state,
+        state.renderer,
         buildBrim(state, width, state.config.equipment.hat.heightBrim, y),
         options,
         EQUIPMENT_LAYER

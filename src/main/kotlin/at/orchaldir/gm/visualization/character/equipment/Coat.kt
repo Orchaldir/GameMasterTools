@@ -70,7 +70,7 @@ private fun visualizeCoatBody(
     addTorso(state, body, builder, coat.necklineStyle.addTop(), paddedWidth)
     addNeckline(state, body, builder, coat.necklineStyle)
 
-    renderBuilder(state, builder, options, OUTERWEAR_LAYER)
+    renderBuilder(state.renderer, builder, options, OUTERWEAR_LAYER)
 }
 
 fun createCoatBottom(

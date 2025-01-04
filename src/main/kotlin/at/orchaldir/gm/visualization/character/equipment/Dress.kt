@@ -32,6 +32,6 @@ private fun visualizeDressBody(
     addTorso(state, body, builder, dress.necklineStyle.addTop())
     addNeckline(state, body, builder, dress.necklineStyle)
 
-    renderBuilder(state, builder, options, EQUIPMENT_LAYER)
+    renderBuilder(state.renderer, builder, options, EQUIPMENT_LAYER)
 }
 
