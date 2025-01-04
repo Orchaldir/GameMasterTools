@@ -16,7 +16,8 @@ data class BookRenderConfig(
     val padding: Distance,
     val line: LineOptions,
     val leatherBindingMap: Map<LeatherBindingType, LeatherBindingConfig>,
-    val sewingSize: SizeConfig<Factor>,
+    val sewingRadius: SizeConfig<Factor>,
+    val sewingLength: SizeConfig<Factor>,
 ) {
 
     fun calculateSize(height: Distance) = Size2d.square(height + padding * 2.0f)

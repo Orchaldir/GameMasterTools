@@ -25,6 +25,7 @@ sealed class SewingPattern {
 data class SimpleSewingPattern(
     val color: Color,
     val size: Size = Size.Medium,
+    val length: Size = Size.Medium,
     val stitches: List<StitchType> = listOf(Kettle, Kettle, Kettle, Kettle),
 ) : SewingPattern()
 

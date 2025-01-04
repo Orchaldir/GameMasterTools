@@ -25,9 +25,9 @@ private fun visualizeSimpleSewingPattern(
     val parts = simple.stitches.size
     val length = Factor(1.0f / parts.toFloat())
     val half = length / 2.0f
+    val radius = state.aabb.convertHeight(state.config.sewingRadius.convert(simple.size))
+    val sewingLength = state.config.sewingLength.convert(simple.length)
     var y = half
-    val x = half * 0.5f
-    val radius = state.aabb.convertHeight(state.config.sewingSize.convert(simple.size))
     val diameter = radius * 2
     val renderer = state.renderer.getLayer()
 
@@ -35,7 +35,7 @@ private fun visualizeSimpleSewingPattern(
         when (stitch) {
             StitchType.Kettle -> {
                 val start = state.aabb.getPoint(START, y)
-                val hole = state.aabb.getPoint(x, y)
+                val hole = state.aabb.getPoint(sewingLength, y)
 
                 val corner0 = start - radius
                 val corner1 = hole.minusHeight(radius)

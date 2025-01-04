@@ -226,6 +226,7 @@ private fun parseSewing(parameters: Parameters) = when (parse(parameters, SEWING
     SewingPatternType.Simple -> SimpleSewingPattern(
         parse(parameters, combine(SEWING, COLOR), Color.Crimson),
         parse(parameters, combine(SEWING, SIZE), Size.Medium),
+        parse(parameters, combine(SEWING, LENGTH), Size.Medium),
         parseSimplePattern(parameters),
     )
 
