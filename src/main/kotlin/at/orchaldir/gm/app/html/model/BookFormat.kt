@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.item.book.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Distance
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
@@ -30,6 +31,7 @@ fun BODY.showBookFormat(
         is Codex -> {
             field("Pages", format.pages)
             showBinding(call, state, format.binding)
+            fieldSize("Size", format.size)
         }
     }
 }
@@ -104,6 +106,7 @@ fun FORM.editBookFormat(
         is Codex -> {
             selectInt("Pages", format.pages, 10, 10000, 1, PAGES)
             editBinding(state, format.binding)
+            selectSize(SIZE, format.size, Distance(10), Distance(2000), Distance(10), true)
         }
     }
 }
@@ -193,6 +196,7 @@ fun parseBookFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Bo
     BookFormatType.Codex -> Codex(
         parseInt(parameters, PAGES, 100),
         parseBinding(parameters),
+        parseSize(parameters, SIZE),
     )
 
     BookFormatType.Undefined -> UndefinedBookFormat

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.model.parseDistance
 import at.orchaldir.gm.core.generator.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -13,7 +14,6 @@ import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.getRaceAppearance
 import at.orchaldir.gm.utils.RandomNumberGenerator
-import at.orchaldir.gm.utils.math.Distance
 import io.ktor.http.*
 import kotlin.random.Random
 
@@ -64,7 +64,7 @@ fun parseAppearance(
 private fun parseHeight(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
-) = Distance(parseInt(parameters, HEIGHT, config.heightDistribution.center.millimeters))
+) = parseDistance(parameters, HEIGHT, config.heightDistribution.center.millimeters)
 
 private fun parseBody(
     parameters: Parameters,

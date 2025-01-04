@@ -44,14 +44,18 @@
      },
      "sewingPattern": {
       "type": "Simple",
-       "color": "Silver",
+      "color": "Silver",
       "size": "Medium",
       "stitches": [
        "Kettle",
-        "FrenchLink",
+       "FrenchLink",
        "Kettle"
       ]
      }
+    },
+    "size": {
+     "width": 130,
+     "height": 200
     }
    }
   },

@@ -1,8 +1,8 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.model.parseDistance
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
@@ -122,8 +122,8 @@ private fun parseWidth(parameters: Parameters) = parseUByte(parameters, combine(
 //
 
 fun parseDistribution(parameters: Parameters, param: String) = Distribution(
-    Distance(parseInt(parameters, combine(param, CENTER))),
-    Distance(parseInt(parameters, combine(param, OFFSET))),
+    parseDistance(parameters, combine(param, CENTER)),
+    parseDistance(parameters, combine(param, OFFSET)),
 )
 
 fun parseBool(parameters: Parameters, param: String, default: Boolean = false) =

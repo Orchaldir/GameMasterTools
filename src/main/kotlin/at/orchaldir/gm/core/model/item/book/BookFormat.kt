@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.book
 
+import at.orchaldir.gm.utils.math.Size2i
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -22,6 +23,7 @@ sealed class BookFormat {
 data class Codex(
     val pages: Int,
     val binding: BookBinding,
+    val size: Size2i,
 ) : BookFormat()
 
 @Serializable
