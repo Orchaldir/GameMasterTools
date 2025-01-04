@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.item.Equipment
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.TextOptions
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
@@ -14,38 +15,20 @@ import at.orchaldir.gm.visualization.character.appearance.calculateSize
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import java.io.File
 
-fun renderTable(
+fun renderCharacterTable(
     filename: String,
     config: CharacterRenderConfig,
     appearances: List<List<Appearance>>,
 ) {
     val size = calculateSize(config, appearances[0][0])
-    val maxColumns = appearances.maxOf { it.size }
-    val totalSize = Size2d(size.width * maxColumns, size.height * appearances.size)
-    val builder = SvgBuilder(totalSize)
-    val columnStep = Point2d(size.width, 0.0f)
-    val rowStep = Point2d(0.0f, size.height)
-    var startOfRow = Point2d()
+    renderTable(filename, size, appearances) { aabb, renderer, appearance ->
+        val state = CharacterRenderState(aabb, config, renderer, true, emptyList())
 
-    appearances.forEach { row ->
-        var start = startOfRow.copy()
-
-        row.forEach { appearance ->
-            val aabb = AABB(start, size)
-            val state = CharacterRenderState(aabb, config, builder, true, emptyList())
-
-            visualizeAppearance(state, appearance)
-
-            start += columnStep
-        }
-
-        startOfRow += rowStep
+        visualizeAppearance(state, appearance)
     }
-
-    File(filename).writeText(builder.finish().export())
 }
 
-fun <C, R> renderTable(
+fun <C, R> renderCharacterTable(
     filename: String,
     config: CharacterRenderConfig,
     rows: List<Pair<String, R>>,

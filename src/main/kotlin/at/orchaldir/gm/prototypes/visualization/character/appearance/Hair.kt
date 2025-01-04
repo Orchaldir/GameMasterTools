@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
-import at.orchaldir.gm.prototypes.visualization.character.renderTable
+import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.Distance
 
 val HAIR_STYLES: List<HairStyle> = listOf(
@@ -33,7 +33,7 @@ fun main() {
         appearances.add(row)
     }
 
-    renderTable("hair.svg", RENDER_CONFIG, appearances)
+    renderCharacterTable("hair.svg", RENDER_CONFIG, appearances)
 }
 
 private fun createAppearance(style: HairStyle, eyes: Eyes) =

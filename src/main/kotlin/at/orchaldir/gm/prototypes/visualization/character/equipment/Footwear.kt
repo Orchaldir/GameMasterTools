@@ -11,11 +11,11 @@ import at.orchaldir.gm.core.model.util.Color.SaddleBrown
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.addNames
-import at.orchaldir.gm.prototypes.visualization.character.renderTable
+import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.Distance
 
 fun main() {
-    renderTable(
+    renderCharacterTable(
         "footwear.svg",
         RENDER_CONFIG,
         addNames(listOf(BodyShape.Rectangle)),

@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.addNamesToBeardStyle
 import at.orchaldir.gm.prototypes.visualization.character.addNamesToEyes
-import at.orchaldir.gm.prototypes.visualization.character.renderTable
+import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.Distance
 
 fun main() {
@@ -29,7 +29,7 @@ fun main() {
     }
     eyes.add(TwoEyes())
 
-    renderTable(
+    renderCharacterTable(
         "beard.svg",
         RENDER_CONFIG,
         addNamesToBeardStyle(beards),

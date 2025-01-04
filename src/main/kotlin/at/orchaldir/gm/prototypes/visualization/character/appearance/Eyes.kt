@@ -3,7 +3,7 @@ package at.orchaldir.gm.prototypes.visualization.character.appearance
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
-import at.orchaldir.gm.prototypes.visualization.character.renderTable
+import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.Distance
 
 fun main() {
@@ -15,7 +15,7 @@ fun main() {
         }
     }
 
-    renderTable("eyes.svg", RENDER_CONFIG, appearances)
+    renderCharacterTable("eyes.svg", RENDER_CONFIG, appearances)
 }
 
 private fun createAppearance(eyes: Eyes) = HeadOnly(Head(eyes = eyes, skin = ExoticSkin()), Distance(200))
