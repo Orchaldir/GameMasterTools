@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.book
 
+import at.orchaldir.gm.core.model.item.book.StitchType.Kettle
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
@@ -23,8 +24,8 @@ sealed class SewingPattern {
 @SerialName("Simple")
 data class SimpleSewingPattern(
     val color: Color,
-    val size: Size,
-    val stitches: List<StitchType>,
+    val size: Size = Size.Medium,
+    val stitches: List<StitchType> = listOf(Kettle, Kettle, Kettle, Kettle),
 ) : SewingPattern()
 
 @Serializable
