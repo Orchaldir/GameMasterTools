@@ -18,4 +18,6 @@ data class Size2i(val width: Int, val height: Int) {
         fun square(distance: Distance) = square(distance.millimeters)
     }
 
+    fun toSize2d() = Size2d(millimeterToMeter(width), millimeterToMeter(height))
+
 }
