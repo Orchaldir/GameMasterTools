@@ -13,7 +13,7 @@ fun main() {
     val size = Size2i(125, 190)
 
     renderBookTable(
-        "leather-binding.svg",
+        "book-leather-bindings.svg",
         BOOK_CONFIG,
         size.toSize2d() + Distance(50),
         addNames(listOf(Color.Blue, Color.Red, Color.Black, Color.Green)),
