@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
@@ -19,7 +19,7 @@ data class EquipmentConfig(
 )
 
 fun visualizeBodyEquipment(
-    state: RenderState,
+    state: CharacterRenderState,
     body: Body,
 ) {
     state.equipped.forEach {
@@ -37,7 +37,7 @@ fun visualizeBodyEquipment(
 }
 
 fun visualizeHeadEquipment(
-    state: RenderState,
+    state: CharacterRenderState,
     head: Head,
 ) {
     state.equipped.forEach {

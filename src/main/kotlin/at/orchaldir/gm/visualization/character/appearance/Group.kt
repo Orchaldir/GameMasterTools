@@ -8,11 +8,11 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.character.RenderConfig
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderConfig
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun visualizeGroup(
-    config: RenderConfig,
+    config: CharacterRenderConfig,
     appearances: List<Appearance>,
     equipped: List<Equipment> = emptyList(),
     renderFront: Boolean = true,
@@ -27,7 +27,7 @@ fun visualizeGroup(
     appearances.forEach { appearance ->
         val size = appearance.getSize2d()
         val aabb = AABB(start - Point2d(0.0f, size.height), size)
-        val state = RenderState(aabb, config, builder, renderFront, equipped)
+        val state = CharacterRenderState(aabb, config, builder, renderFront, equipped)
 
         visualizeAppearance(state, appearance)
 

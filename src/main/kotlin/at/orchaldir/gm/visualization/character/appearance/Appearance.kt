@@ -18,11 +18,11 @@ import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.model.TextOptions
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.character.RenderConfig
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderConfig
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun visualizeCharacter(
-    config: RenderConfig,
+    config: CharacterRenderConfig,
     state: State,
     character: Character,
     equipped: List<Equipment> = emptyList(),
@@ -34,7 +34,7 @@ fun visualizeCharacter(
 }
 
 fun visualizeCharacter(
-    config: RenderConfig,
+    config: CharacterRenderConfig,
     appearance: Appearance,
     equipped: List<Equipment> = emptyList(),
     renderFront: Boolean = true,
@@ -42,7 +42,7 @@ fun visualizeCharacter(
     val size = calculateSize(config, appearance)
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
-    val state = RenderState(aabb, config, builder, renderFront, equipped)
+    val state = CharacterRenderState(aabb, config, builder, renderFront, equipped)
 
     visualizeAppearance(state, appearance)
 
@@ -50,7 +50,7 @@ fun visualizeCharacter(
 }
 
 fun visualizeAppearance(
-    state: RenderState,
+    state: CharacterRenderState,
     appearance: Appearance,
 ) {
     val inner = AABB.fromCenter(state.aabb.getCenter(), appearance.getSize2d())
@@ -78,13 +78,13 @@ fun visualizeAppearance(
     }
 }
 
-fun calculateSize(config: RenderConfig, appearance: Appearance) = when (appearance) {
+fun calculateSize(config: CharacterRenderConfig, appearance: Appearance) = when (appearance) {
     is HeadOnly -> calculateSizeFromHeight(config, appearance.height)
     is HumanoidBody -> calculateSizeFromHeight(config, appearance.height)
     UndefinedAppearance -> square(config.padding * 4.0f)
 }
 
 fun calculateSizeFromHeight(
-    config: RenderConfig,
+    config: CharacterRenderConfig,
     height: Distance,
 ) = square(height + config.padding * 2.0f)

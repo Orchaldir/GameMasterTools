@@ -12,7 +12,7 @@ import at.orchaldir.gm.visualization.character.appearance.BodyConfig
 import at.orchaldir.gm.visualization.character.appearance.HeadConfig
 import at.orchaldir.gm.visualization.character.equipment.EquipmentConfig
 
-data class RenderConfig(
+data class CharacterRenderConfig(
     val padding: Distance,
     val line: LineOptions,
     val body: BodyConfig,

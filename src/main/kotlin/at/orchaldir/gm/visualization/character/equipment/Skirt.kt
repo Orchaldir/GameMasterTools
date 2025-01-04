@@ -10,7 +10,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.BodyConfig
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.addHip
@@ -40,7 +40,7 @@ data class SkirtConfig(
 }
 
 fun visualizeSkirt(
-    state: RenderState,
+    state: CharacterRenderState,
     body: Body,
     skirt: Skirt,
 ) {
@@ -51,7 +51,7 @@ fun visualizeSkirt(
 }
 
 fun createSkirt(
-    state: RenderState,
+    state: CharacterRenderState,
     body: Body,
     skirtStyle: SkirtStyle,
 ): Polygon2dBuilder {

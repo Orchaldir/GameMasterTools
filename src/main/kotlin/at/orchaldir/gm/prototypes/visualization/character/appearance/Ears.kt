@@ -1,14 +1,14 @@
-package at.orchaldir.gm.prototypes.visualization.character
+package at.orchaldir.gm.prototypes.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.calculateSizeFromHeight
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import java.io.File
@@ -30,7 +30,7 @@ fun main() {
 
         columns.forEach { column ->
             val aabb = AABB(start, size)
-            val state = RenderState(aabb, config, builder, true, emptyList())
+            val state = CharacterRenderState(aabb, config, builder, true, emptyList())
             val appearance = createAppearance(height, row, column)
 
             visualizeAppearance(state, appearance)

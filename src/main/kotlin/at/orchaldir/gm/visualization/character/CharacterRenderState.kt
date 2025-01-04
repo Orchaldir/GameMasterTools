@@ -7,9 +7,9 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
 
-data class RenderState(
+data class CharacterRenderState(
     val aabb: AABB,
-    val config: RenderConfig,
+    val config: CharacterRenderConfig,
     val renderer: MultiLayerRenderer,
     val renderFront: Boolean,
     val equipped: List<Equipment>,

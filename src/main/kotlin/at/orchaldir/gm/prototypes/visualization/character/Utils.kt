@@ -7,8 +7,8 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.TextOptions
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.character.RenderConfig
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderConfig
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.TEXT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.calculateSize
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
@@ -16,7 +16,7 @@ import java.io.File
 
 fun renderTable(
     filename: String,
-    config: RenderConfig,
+    config: CharacterRenderConfig,
     appearances: List<List<Appearance>>,
 ) {
     val size = calculateSize(config, appearances[0][0])
@@ -32,7 +32,7 @@ fun renderTable(
 
         row.forEach { appearance ->
             val aabb = AABB(start, size)
-            val state = RenderState(aabb, config, builder, true, emptyList())
+            val state = CharacterRenderState(aabb, config, builder, true, emptyList())
 
             visualizeAppearance(state, appearance)
 
@@ -47,7 +47,7 @@ fun renderTable(
 
 fun <C, R> renderTable(
     filename: String,
-    config: RenderConfig,
+    config: CharacterRenderConfig,
     rows: List<Pair<String, R>>,
     columns: List<Pair<String, C>>,
     backToo: Boolean = false,
@@ -78,14 +78,14 @@ fun <C, R> renderTable(
         columns.forEach { (columnName, column) ->
             val aabb = AABB(start, size)
             val (appearance, equipment) = create(height, column, row)
-            val state = RenderState(aabb, config, builder, true, equipment)
+            val state = CharacterRenderState(aabb, config, builder, true, equipment)
 
             visualizeAppearance(state, appearance)
 
             if (backToo) {
                 val startBack = start + rowStep
                 val aabbBack = AABB(startBack, size)
-                val stateBack = RenderState(aabbBack, config, builder, false, equipment)
+                val stateBack = CharacterRenderState(aabbBack, config, builder, false, equipment)
 
                 visualizeAppearance(stateBack, appearance)
             }

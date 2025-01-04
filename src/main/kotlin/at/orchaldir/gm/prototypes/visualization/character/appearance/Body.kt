@@ -1,11 +1,13 @@
-package at.orchaldir.gm.prototypes.visualization.character
+package at.orchaldir.gm.prototypes.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.addNames
+import at.orchaldir.gm.prototypes.visualization.character.renderTable
 import at.orchaldir.gm.utils.math.Distance
 
 fun main() {

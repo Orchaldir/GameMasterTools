@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.style.NecklineStyle.*
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 data class NecklineConfig(
     val heightCrew: Factor,
@@ -26,7 +26,7 @@ data class NecklineConfig(
 }
 
 fun addNeckline(
-    state: RenderState,
+    state: CharacterRenderState,
     body: Body,
     builder: Polygon2dBuilder,
     style: NecklineStyle,
@@ -50,7 +50,7 @@ fun addNeckline(
 }
 
 private fun addAsymmetrical(
-    state: RenderState,
+    state: CharacterRenderState,
     builder: Polygon2dBuilder,
     body: Body,
     aabb: AABB,
@@ -61,7 +61,7 @@ private fun addAsymmetrical(
 }
 
 private fun addHalter(
-    state: RenderState,
+    state: CharacterRenderState,
     builder: Polygon2dBuilder,
     body: Body,
     aabb: AABB,

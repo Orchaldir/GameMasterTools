@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.item.Hat
 import at.orchaldir.gm.core.model.item.style.HatStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.renderBuilder
 import at.orchaldir.gm.visualization.renderRoundedBuilder
@@ -25,7 +25,7 @@ data class HatConfig(
 }
 
 fun visualizeHat(
-    state: RenderState,
+    state: CharacterRenderState,
     hat: Hat,
 ) {
     when (hat.style) {
@@ -41,7 +41,7 @@ fun visualizeHat(
 }
 
 private fun visualizeBeanie(
-    state: RenderState,
+    state: CharacterRenderState,
     hat: Hat,
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
@@ -56,7 +56,7 @@ private fun visualizeBeanie(
 }
 
 private fun visualizeBoater(
-    state: RenderState,
+    state: CharacterRenderState,
     hat: Hat,
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
@@ -66,7 +66,7 @@ private fun visualizeBoater(
 }
 
 private fun visualizeBowler(
-    state: RenderState,
+    state: CharacterRenderState,
     hat: Hat,
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
@@ -79,7 +79,7 @@ private fun visualizeBowler(
 }
 
 private fun visualizeCoolie(
-    state: RenderState,
+    state: CharacterRenderState,
     hat: Hat,
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
@@ -94,7 +94,7 @@ private fun visualizeCoolie(
 }
 
 private fun visualizeCowboy(
-    state: RenderState,
+    state: CharacterRenderState,
     hat: Hat,
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
@@ -108,7 +108,7 @@ private fun visualizeCowboy(
 }
 
 private fun visualizeFez(
-    state: RenderState,
+    state: CharacterRenderState,
     hat: Hat,
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
@@ -122,7 +122,7 @@ private fun visualizeFez(
 }
 
 private fun visualizePillbox(
-    state: RenderState,
+    state: CharacterRenderState,
     hat: Hat,
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
@@ -131,7 +131,7 @@ private fun visualizePillbox(
 }
 
 private fun visualizeTopHat(
-    state: RenderState,
+    state: CharacterRenderState,
     hat: Hat,
 ) {
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
@@ -146,7 +146,7 @@ private fun visualizeTopHat(
 }
 
 private fun buildCrown(
-    state: RenderState,
+    state: CharacterRenderState,
     height: Factor = state.config.equipment.hat.heightLow,
     extraTopWidth: Factor = ZERO,
     y: Factor = state.config.head.hatY,
@@ -160,7 +160,7 @@ private fun buildCrown(
     return builder
 }
 
-private fun buildBrim(state: RenderState, width: Factor, height: Factor, y: Factor): Polygon2dBuilder {
+private fun buildBrim(state: CharacterRenderState, width: Factor, height: Factor, y: Factor): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
     val half = height * 0.5f
 
@@ -171,7 +171,7 @@ private fun buildBrim(state: RenderState, width: Factor, height: Factor, y: Fact
 }
 
 private fun renderBrim(
-    state: RenderState,
+    state: CharacterRenderState,
     options: FillAndBorder,
     width: Factor,
     y: Factor = state.config.head.hatY,

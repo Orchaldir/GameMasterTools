@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.Dress
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.addTorso
 import at.orchaldir.gm.visualization.character.equipment.part.addNeckline
@@ -12,7 +12,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.visualizeSleeves
 import at.orchaldir.gm.visualization.renderBuilder
 
 fun visualizeDress(
-    state: RenderState,
+    state: CharacterRenderState,
     body: Body,
     dress: Dress,
 ) {
@@ -23,7 +23,7 @@ fun visualizeDress(
 }
 
 private fun visualizeDressBody(
-    state: RenderState,
+    state: CharacterRenderState,
     options: FillAndBorder,
     body: Body,
     dress: Dress,

@@ -1,28 +1,28 @@
-package at.orchaldir.gm.prototypes.visualization.equipment
+package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
-import at.orchaldir.gm.core.model.item.Gloves
-import at.orchaldir.gm.core.model.item.style.GloveStyle
+import at.orchaldir.gm.core.model.item.Shirt
+import at.orchaldir.gm.core.model.item.style.NecklineStyle.None
+import at.orchaldir.gm.core.model.item.style.SleeveStyle
 import at.orchaldir.gm.core.model.util.Color.Blue
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.Solid
-import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.addNames
 import at.orchaldir.gm.prototypes.visualization.character.renderTable
 import at.orchaldir.gm.utils.math.Distance
 
 fun main() {
     renderTable(
-        "gloves.svg",
+        "sleeves.svg",
         RENDER_CONFIG,
-        addNames(listOf(BodyShape.Rectangle)),
-        addNames(GloveStyle.entries),
-        true,
-    ) { distance, style, shape ->
-        Pair(createAppearance(distance, shape), listOf(Gloves(style, Solid(Blue))))
+        addNames(SleeveStyle.entries),
+        addNames(BodyShape.entries)
+    ) { distance, shape, style ->
+        Pair(createAppearance(distance, shape), listOf(Shirt(None, style, Solid(Blue))))
     }
 }
 

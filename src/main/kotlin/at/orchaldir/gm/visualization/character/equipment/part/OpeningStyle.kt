@@ -7,7 +7,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
 
@@ -18,7 +18,7 @@ data class OpeningConfig(
 )
 
 fun visualizeOpening(
-    state: RenderState,
+    state: CharacterRenderState,
     aabb: AABB,
     x: Factor,
     topY: Factor,
@@ -42,7 +42,7 @@ fun visualizeOpening(
 }
 
 fun visualizeButtons(
-    state: RenderState,
+    state: CharacterRenderState,
     aabb: AABB,
     x: Factor,
     topY: Factor,
@@ -64,7 +64,7 @@ fun visualizeButtons(
 }
 
 fun visualizeZipper(
-    state: RenderState,
+    state: CharacterRenderState,
     aabb: AABB,
     x: Factor,
     topY: Factor,

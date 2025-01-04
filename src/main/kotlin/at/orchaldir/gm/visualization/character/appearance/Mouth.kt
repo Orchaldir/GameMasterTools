@@ -6,8 +6,8 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.NoBorder
-import at.orchaldir.gm.visualization.character.RenderConfig
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderConfig
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.appearance.beard.visualizeBeard
 
@@ -35,7 +35,7 @@ data class MouthConfig(
     }
 }
 
-fun visualizeMouth(state: RenderState, head: Head) {
+fun visualizeMouth(state: CharacterRenderState, head: Head) {
     val aabb = state.aabb
     val config = state.config
 
@@ -52,10 +52,10 @@ fun visualizeMouth(state: RenderState, head: Head) {
 
 private fun visualizeMaleMouth(
     aabb: AABB,
-    config: RenderConfig,
+    config: CharacterRenderConfig,
     mouth: NormalMouth,
     head: Head,
-    state: RenderState,
+    state: CharacterRenderState,
 ) {
     if (!state.renderFront) {
         return
@@ -71,7 +71,7 @@ private fun visualizeMaleMouth(
 }
 
 private fun visualizeFemaleMouth(
-    state: RenderState,
+    state: CharacterRenderState,
     mouth: FemaleMouth,
 ) {
     if (!state.renderFront) {

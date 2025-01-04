@@ -7,7 +7,7 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.renderer.model.NoBorder
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.SizeConfig
 
 data class EyesConfig(
@@ -32,7 +32,7 @@ data class EyesConfig(
     fun getDistanceBetweenEyes(size: Size = Size.Medium) = distanceBetweenEyes.convert(size)
 }
 
-fun visualizeEyes(state: RenderState, head: Head) {
+fun visualizeEyes(state: CharacterRenderState, head: Head) {
     if (!state.renderFront) {
         return
     }
@@ -60,18 +60,18 @@ fun visualizeEyes(state: RenderState, head: Head) {
     }
 }
 
-private fun visualizeEye(state: RenderState, center: Point2d, size: Size2d, eye: Eye) {
+private fun visualizeEye(state: CharacterRenderState, center: Point2d, size: Size2d, eye: Eye) {
     val eyeAabb = AABB.fromCenter(center, size)
 
     visualizeEye(state.copy(aabb = eyeAabb), eye)
 }
 
-private fun visualizeEye(state: RenderState, eye: Eye) {
+private fun visualizeEye(state: CharacterRenderState, eye: Eye) {
     visualizeEyeShape(state, eye.eyeShape, eye.scleraColor)
     visualizePupil(state, eye.pupilShape, eye.pupilColor)
 }
 
-private fun visualizeEyeShape(state: RenderState, eyeShape: EyeShape, color: Color) {
+private fun visualizeEyeShape(state: CharacterRenderState, eyeShape: EyeShape, color: Color) {
     val options = NoBorder(color.toRender())
     val layer = state.renderer.getLayer()
 
@@ -82,7 +82,7 @@ private fun visualizeEyeShape(state: RenderState, eyeShape: EyeShape, color: Col
     }
 }
 
-private fun visualizePupil(state: RenderState, pupilShape: PupilShape, color: Color) {
+private fun visualizePupil(state: CharacterRenderState, pupilShape: PupilShape, color: Color) {
     val options = NoBorder(color.toRender())
     val aabb = state.aabb
     val slitWidth = aabb.size.width * state.config.head.eyes.slitFactor.value

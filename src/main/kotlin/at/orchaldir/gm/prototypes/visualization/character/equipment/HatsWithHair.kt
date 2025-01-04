@@ -1,4 +1,4 @@
-package at.orchaldir.gm.prototypes.visualization.equipment
+package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
@@ -10,8 +10,8 @@ import at.orchaldir.gm.core.model.item.Hat
 import at.orchaldir.gm.core.model.item.style.HatStyle
 import at.orchaldir.gm.core.model.util.Color.SaddleBrown
 import at.orchaldir.gm.core.model.util.Color.Yellow
-import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
-import at.orchaldir.gm.prototypes.visualization.character.HAIR_STYLES
+import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.appearance.HAIR_STYLES
 import at.orchaldir.gm.prototypes.visualization.character.addNames
 import at.orchaldir.gm.prototypes.visualization.character.renderTable
 import at.orchaldir.gm.utils.math.Distance

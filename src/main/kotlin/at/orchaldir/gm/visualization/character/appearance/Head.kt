@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.Mouth
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.beard.BeardConfig
 import at.orchaldir.gm.visualization.character.equipment.visualizeHeadEquipment
 
@@ -31,7 +31,7 @@ data class HeadConfig(
 }
 
 fun visualizeHead(
-    state: RenderState,
+    state: CharacterRenderState,
     head: Head,
 ) {
     visualizeEars(state, head)
@@ -42,7 +42,7 @@ fun visualizeHead(
     visualizeHeadEquipment(state, head)
 }
 
-fun visualizeHeadShape(state: RenderState, head: Head) {
+fun visualizeHeadShape(state: CharacterRenderState, head: Head) {
     val options = state.config.getOptions(head.skin)
 
     state.renderer.getLayer().renderRectangle(state.aabb, options)

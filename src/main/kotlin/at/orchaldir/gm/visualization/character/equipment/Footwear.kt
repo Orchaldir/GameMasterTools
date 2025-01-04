@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.style.FootwearStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.BEHIND_LAYER
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.visualizeFeet
@@ -19,7 +19,7 @@ data class FootwearConfig(
 )
 
 fun visualizeFootwear(
-    state: RenderState,
+    state: CharacterRenderState,
     body: Body,
     footwear: Footwear,
 ) {
@@ -42,7 +42,7 @@ fun visualizeFootwear(
 }
 
 private fun visualizeBootShaft(
-    state: RenderState,
+    state: CharacterRenderState,
     body: Body,
     footwear: Footwear,
     options: RenderOptions,
@@ -65,12 +65,12 @@ private fun visualizeBootShaft(
 }
 
 private fun getShoeHeight(
-    state: RenderState,
+    state: CharacterRenderState,
     body: Body,
 ) = state.config.body.getFootRadius(body) / state.config.body.getLegHeight()
 
 private fun visualizeBootShaft(
-    state: RenderState,
+    state: CharacterRenderState,
     body: Body,
     options: RenderOptions,
     scale: Factor,
@@ -89,7 +89,7 @@ private fun visualizeBootShaft(
 }
 
 fun visualizeSoles(
-    state: RenderState,
+    state: CharacterRenderState,
     body: Body,
     footwear: Footwear,
 ) {

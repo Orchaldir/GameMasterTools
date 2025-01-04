@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.style.PantsStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.BodyConfig
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 
@@ -19,7 +19,7 @@ data class PantsConfig(
 }
 
 fun visualizePants(
-    state: RenderState,
+    state: CharacterRenderState,
     body: Body,
     pants: Pants,
 ) {
@@ -34,17 +34,17 @@ fun visualizePants(
     state.renderer.getLayer(EQUIPMENT_LAYER).renderPolygon(polygon, options)
 }
 
-private fun getRegularPants(state: RenderState, body: Body): Polygon2d {
+private fun getRegularPants(state: CharacterRenderState, body: Body): Polygon2d {
     val bottomY = state.config.body.getFootY(body)
     return getPants(state, body, bottomY)
 }
 
-private fun getPantsWithHeight(state: RenderState, body: Body, height: Factor): Polygon2d {
+private fun getPantsWithHeight(state: CharacterRenderState, body: Body, height: Factor): Polygon2d {
     val bottomY = state.config.body.getLegY(body, height)
     return getPants(state, body, bottomY)
 }
 
-private fun getPants(state: RenderState, body: Body, bottomY: Factor): Polygon2d {
+private fun getPants(state: CharacterRenderState, body: Body, bottomY: Factor): Polygon2d {
     val builder = getBase(state, body)
     val config = state.config
     val padding = config.body.getLegsWidth(body) * config.equipment.pants.widthPadding
@@ -62,7 +62,7 @@ private fun getPants(state: RenderState, body: Body, bottomY: Factor): Polygon2d
     return builder.build()
 }
 
-private fun getBase(state: RenderState, body: Body): Polygon2dBuilder {
+private fun getBase(state: CharacterRenderState, body: Body): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
     val bodyConfig = state.config.body
     val torso = bodyConfig.getTorsoAabb(state.aabb, body)

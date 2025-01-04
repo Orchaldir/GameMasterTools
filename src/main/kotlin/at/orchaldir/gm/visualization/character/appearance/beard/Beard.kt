@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.model.NoBorder
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 data class BeardConfig(
     val goateeWidth: Factor,
@@ -15,14 +15,14 @@ data class BeardConfig(
     val moustacheOffset: Factor,
 )
 
-fun visualizeBeard(state: RenderState, head: Head, beard: Beard) {
+fun visualizeBeard(state: CharacterRenderState, head: Head, beard: Beard) {
     when (beard) {
         NoBeard -> doNothing()
         is NormalBeard -> visualizeNormalBeard(state, head, beard)
     }
 }
 
-private fun visualizeNormalBeard(state: RenderState, head: Head, beard: NormalBeard) {
+private fun visualizeNormalBeard(state: CharacterRenderState, head: Head, beard: NormalBeard) {
     when (beard.style) {
         is Goatee -> visualizeGoatee(state, head, beard.style.goateeStyle, beard.color)
         is GoateeAndMoustache -> {
@@ -36,7 +36,7 @@ private fun visualizeNormalBeard(state: RenderState, head: Head, beard: NormalBe
 }
 
 private fun visualizeGoatee(
-    state: RenderState,
+    state: CharacterRenderState,
     head: Head,
     goatee: GoateeStyle,
     color: Color,
@@ -63,7 +63,7 @@ private fun visualizeGoatee(
 }
 
 private fun visualizeMoustache(
-    state: RenderState,
+    state: CharacterRenderState,
     head: Head,
     moustache: MoustacheStyle,
     color: Color,

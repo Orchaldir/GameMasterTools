@@ -1,28 +1,28 @@
-package at.orchaldir.gm.prototypes.visualization.equipment
+package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
-import at.orchaldir.gm.core.model.item.Footwear
-import at.orchaldir.gm.core.model.item.style.FootwearStyle
-import at.orchaldir.gm.core.model.util.Color.Gray
-import at.orchaldir.gm.core.model.util.Color.SaddleBrown
+import at.orchaldir.gm.core.model.item.Dress
+import at.orchaldir.gm.core.model.item.style.NecklineStyle.Strapless
+import at.orchaldir.gm.core.model.item.style.SkirtStyle
+import at.orchaldir.gm.core.model.item.style.SleeveStyle
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.addNames
 import at.orchaldir.gm.prototypes.visualization.character.renderTable
 import at.orchaldir.gm.utils.math.Distance
 
 fun main() {
     renderTable(
-        "footwear.svg",
+        "dresses.svg",
         RENDER_CONFIG,
-        addNames(listOf(BodyShape.Rectangle)),
-        addNames(FootwearStyle.entries),
+        addNames(SkirtStyle.entries),
+        addNames(BodyShape.entries),
         true,
-    ) { distance, style, shape ->
-        Pair(createAppearance(distance, shape), listOf(Footwear(style, SaddleBrown, Gray)))
+    ) { distance, shape, style ->
+        Pair(createAppearance(distance, shape), listOf(Dress(Strapless, style, SleeveStyle.None)))
     }
 }
 

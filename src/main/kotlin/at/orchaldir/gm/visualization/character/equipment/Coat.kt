@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.style.OuterwearLength
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.*
 import at.orchaldir.gm.visualization.character.equipment.part.addNeckline
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOpening
@@ -29,7 +29,7 @@ private fun getBottomHeight(length: OuterwearLength) = when (length) {
 }
 
 private fun getBottomY(
-    state: RenderState,
+    state: CharacterRenderState,
     body: Body,
     length: OuterwearLength,
 ): Factor {
@@ -38,7 +38,7 @@ private fun getBottomY(
 }
 
 fun visualizeCoat(
-    state: RenderState,
+    state: CharacterRenderState,
     body: Body,
     coat: Coat,
 ) {
@@ -60,7 +60,7 @@ fun visualizeCoat(
 }
 
 private fun visualizeCoatBody(
-    state: RenderState,
+    state: CharacterRenderState,
     options: FillAndBorder,
     body: Body,
     coat: Coat,
@@ -74,7 +74,7 @@ private fun visualizeCoatBody(
 }
 
 fun createCoatBottom(
-    state: RenderState,
+    state: CharacterRenderState,
     body: Body,
     length: OuterwearLength,
     paddedWidth: Factor,

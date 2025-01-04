@@ -7,7 +7,7 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.renderMirroredPolygons
 
@@ -18,7 +18,7 @@ data class EarConfig(
     fun getRoundRadius(aabb: AABB, size: Size) = aabb.convertHeight(roundRadius.convert(size))
 }
 
-fun visualizeEars(state: RenderState, head: Head) {
+fun visualizeEars(state: CharacterRenderState, head: Head) {
     when (head.ears) {
         NoEars -> doNothing()
         is NormalEars -> visualizeNormalEars(state, head.ears.shape, head.ears.size, head.skin)
@@ -26,7 +26,7 @@ fun visualizeEars(state: RenderState, head: Head) {
 }
 
 private fun visualizeNormalEars(
-    state: RenderState,
+    state: CharacterRenderState,
     shape: EarShape,
     size: Size,
     skin: Skin,
@@ -41,7 +41,7 @@ private fun visualizeNormalEars(
 }
 
 private fun visualizeRoundEars(
-    state: RenderState,
+    state: CharacterRenderState,
     size: Size,
     option: RenderOptions,
 ) {
@@ -54,7 +54,7 @@ private fun visualizeRoundEars(
 }
 
 private fun visualizePointedSideways(
-    state: RenderState,
+    state: CharacterRenderState,
     size: Size,
     option: RenderOptions,
 ) {
@@ -70,7 +70,7 @@ private fun visualizePointedSideways(
 }
 
 private fun visualizePointedUpwards(
-    state: RenderState,
+    state: CharacterRenderState,
     size: Size,
     option: RenderOptions,
 ) {

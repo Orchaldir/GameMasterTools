@@ -8,13 +8,13 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.utils.renderer.model.toRender
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HIGHER_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.getArmLayer
 import at.orchaldir.gm.visualization.character.appearance.visualizeHands
 
 fun visualizeGloves(
-    state: RenderState,
+    state: CharacterRenderState,
     body: Body,
     gloves: Gloves,
 ) {
@@ -30,7 +30,7 @@ fun visualizeGloves(
 }
 
 private fun visualizeGloveSleeves(
-    state: RenderState,
+    state: CharacterRenderState,
     options: RenderOptions,
     body: Body,
     length: Factor,

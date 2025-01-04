@@ -7,8 +7,8 @@ import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.visualization.character.RenderConfig
-import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.CharacterRenderConfig
+import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.renderPolygon
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 
@@ -22,14 +22,14 @@ data class HairConfig(
     val spikedHeight: Factor,
 )
 
-fun visualizeHair(state: RenderState, head: Head) {
+fun visualizeHair(state: CharacterRenderState, head: Head) {
     when (head.hair) {
         NoHair -> doNothing()
         is NormalHair -> visualizeNormalHair(state, head.hair)
     }
 }
 
-private fun visualizeNormalHair(state: RenderState, hair: NormalHair) {
+private fun visualizeNormalHair(state: CharacterRenderState, hair: NormalHair) {
     val config = state.config
     val options = FillAndBorder(hair.color.toRender(), config.line)
     val hasHeadwear = state.hasEquipped(EquipmentSlot.Headwear)
@@ -80,9 +80,9 @@ private fun visualizeNormalHair(state: RenderState, hair: NormalHair) {
 }
 
 private fun visualizeFlatTop(
-    state: RenderState,
+    state: CharacterRenderState,
     options: FillAndBorder,
-    config: RenderConfig,
+    config: CharacterRenderConfig,
 ) {
     if (state.hasEquipped(EquipmentSlot.Headwear)) {
         return
@@ -92,7 +92,7 @@ private fun visualizeFlatTop(
 }
 
 private fun visualizeMiddlePart(
-    state: RenderState,
+    state: CharacterRenderState,
     options: FillAndBorder,
     x: Factor,
 ) {
@@ -123,7 +123,7 @@ private fun visualizeMiddlePart(
 }
 
 private fun visualizeRectangleHair(
-    state: RenderState,
+    state: CharacterRenderState,
     options: FillAndBorder,
     width: Factor,
     topY: Factor,
@@ -136,7 +136,7 @@ private fun visualizeRectangleHair(
 }
 
 private fun visualizeSpikedHair(
-    state: RenderState,
+    state: CharacterRenderState,
     options: FillAndBorder,
     bottomY: Factor,
 ) {
