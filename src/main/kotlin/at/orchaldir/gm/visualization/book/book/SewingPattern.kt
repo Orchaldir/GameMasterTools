@@ -24,8 +24,8 @@ private fun visualizeSimpleSewingPattern(
     val length = Factor(1.0f / parts.toFloat())
     val half = length / 2.0f
     var y = half
-    val x = half * state.config.sewingSize.convert(simple.size)
-    val radius = state.aabb.convertHeight(x / 2.0f)
+    val x = half * 0.5f
+    val radius = state.aabb.convertHeight(state.config.sewingSize.convert(simple.size))
 
     repeat(parts) {
         val hole = state.aabb.getPoint(x, y)

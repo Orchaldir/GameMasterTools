@@ -17,5 +17,5 @@ val BOOK_CONFIG = BookRenderConfig(
         LeatherBindingType.Half to LeatherBindingConfig(Factor(0.3f), Factor(0.3f)),
         LeatherBindingType.Quarter to LeatherBindingConfig(Factor(0.2f), Factor(0.2f)),
     ),
-    SizeConfig(Factor(0.1f), Factor(0.2f), Factor(0.3f)),
+    SizeConfig(Factor(0.015f), Factor(0.02f), Factor(0.025f)),
 )
