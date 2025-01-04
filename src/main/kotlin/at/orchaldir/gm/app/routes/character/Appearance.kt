@@ -161,16 +161,8 @@ private fun FORM.editBody(
     body: Body,
 ) {
     h2 { +"Body" }
-    selectValue("Shape", BODY_SHAPE, getAvailableBodyShapes(character.gender), true) { shape ->
-        label = shape.name
-        value = shape.toString()
-        selected = body.bodyShape == shape
-    }
-    selectValue("Width", BODY_WIDTH, Size.entries, true) { width ->
-        label = width.name
-        value = width.toString()
-        selected = body.width == width
-    }
+    selectValue("Shape", BODY_SHAPE, getAvailableBodyShapes(character.gender), body.bodyShape, true)
+    selectValue("Width", BODY_WIDTH, Size.entries, body.width, true)
 }
 
 private fun FORM.editHead(
@@ -201,11 +193,7 @@ private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
                 value = shape.toString()
                 selected = ears.shape == shape
             }
-            selectValue("Ear Size", EAR_SIZE, Size.entries, true) { size ->
-                label = size.name
-                value = size.toString()
-                selected = ears.size == size
-            }
+            selectValue("Ear Size", EAR_SIZE, Size.entries, ears.size, true)
         }
 
         else -> doNothing()
@@ -329,11 +317,7 @@ private fun FORM.editEyes(
     when (eyes) {
         is OneEye -> {
             editEye(raceAppearance.eyeOptions, eyes.eye)
-            selectValue("Eye Size", EYE_SIZE, Size.entries, true) { c ->
-                label = c.name
-                value = c.toString()
-                selected = eyes.size == c
-            }
+            selectValue("Eye Size", EYE_SIZE, Size.entries, eyes.size, true)
         }
 
         is TwoEyes -> {
@@ -403,11 +387,7 @@ private fun FORM.editNormalHair(
 
     when (hair.style) {
         is SidePart -> {
-            selectValue("Side", SIDE_PART, Side.entries, true) { side ->
-                label = side.name
-                value = side.toString()
-                selected = hair.style.side == side
-            }
+            selectValue("Side", SIDE_PART, Side.entries, hair.style.side, true)
         }
 
         else -> doNothing()
@@ -444,14 +424,6 @@ private fun FORM.editMouth(
 }
 
 private fun FORM.editSimpleMouth(size: Size, teethColor: TeethColor) {
-    selectValue("Width", MOUTH_WIDTH, Size.entries, true) { width ->
-        label = width.name
-        value = width.toString()
-        selected = size == width
-    }
-    selectValue("Teeth Color", TEETH_COLOR, TeethColor.entries, true) { color ->
-        label = color.name
-        value = color.toString()
-        selected = teethColor == color
-    }
+    selectValue("Width", MOUTH_WIDTH, Size.entries, size, true)
+    selectValue("Teeth Color", TEETH_COLOR, TeethColor.entries, teethColor, true)
 }

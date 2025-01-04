@@ -244,11 +244,8 @@ private fun FORM.editOrigin(
     state: State,
     book: Book,
 ) {
-    selectValue("Origin", ORIGIN, BookOriginType.entries, true) { type ->
-        label = type.name
-        value = type.name
-        selected = type == book.origin.getType()
-    }
+    selectValue("Origin", ORIGIN, BookOriginType.entries, book.origin.getType(), true)
+
     when (book.origin) {
         is OriginalBook -> selectCreator(state, book.origin.author, book.id, book.date, "Author")
         is TranslatedBook -> {

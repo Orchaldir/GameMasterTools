@@ -75,11 +75,8 @@ fun HtmlBlockTag.selectEmploymentStatus(
     employmentStatus: EmploymentStatus,
     start: Date?,
 ) {
-    selectValue("Employment Status", param, EmploymentStatusType.entries, true) { type ->
-        label = type.name
-        value = type.name
-        selected = type == employmentStatus.getType()
-    }
+    selectValue("Employment Status", param, EmploymentStatusType.entries, employmentStatus.getType(), true)
+
     when (employmentStatus) {
         UndefinedEmploymentStatus -> doNothing()
         Unemployed -> doNothing()

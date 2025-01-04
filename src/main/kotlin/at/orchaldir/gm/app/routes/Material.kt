@@ -183,11 +183,7 @@ private fun HTML.showMaterialEditor(
     simpleHtml("Edit Material: ${material.name}") {
         form {
             selectName(material.name)
-            selectValue("Category", CATEGORY, MaterialCategory.entries) { category ->
-                label = category.name
-                value = category.name
-                selected = material.category == category
-            }
+            selectValue("Category", CATEGORY, MaterialCategory.entries, material.category)
             button("Update", updateLink)
         }
         back(backLink)

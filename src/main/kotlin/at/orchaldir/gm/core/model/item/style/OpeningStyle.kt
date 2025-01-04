@@ -6,7 +6,15 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class OpeningStyle
+sealed class OpeningStyle {
+
+    fun getType() = when (this) {
+        NoOpening -> OpeningType.NoOpening
+        is SingleBreasted -> OpeningType.SingleBreasted
+        is DoubleBreasted -> OpeningType.DoubleBreasted
+        is Zipper -> OpeningType.Zipper
+    }
+}
 
 @Serializable
 @SerialName("NoOpening")

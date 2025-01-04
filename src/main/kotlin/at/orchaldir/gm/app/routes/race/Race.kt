@@ -282,14 +282,7 @@ private fun FORM.editLifeStages(
 
     h2 { +"Life Stages" }
 
-    selectValue("Type", combine(LIFE_STAGE, TYPE), LifeStagesType.entries, true) { type ->
-        label = type.name
-        value = type.name
-        selected = when (lifeStages) {
-            is ImmutableLifeStage -> type == LifeStagesType.ImmutableLifeStage
-            is SimpleAging -> type == LifeStagesType.SimpleAging
-        }
-    }
+    selectValue("Type", combine(LIFE_STAGE, TYPE), LifeStagesType.entries, lifeStages.getType(), true)
 
     when (lifeStages) {
         is ImmutableLifeStage -> {

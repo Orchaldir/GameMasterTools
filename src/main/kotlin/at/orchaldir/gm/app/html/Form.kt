@@ -153,17 +153,6 @@ fun <T> HtmlBlockTag.selectOptionalValue(
     }
 }
 
-fun <T> HtmlBlockTag.selectValue(
-    label: String,
-    selectId: String,
-    values: Collection<T>,
-    update: Boolean = false,
-    content: OPTION.(T) -> Unit,
-) {
-    field(label) {
-        selectValue(selectId, values, update, content)
-    }
-}
 
 fun <T : Enum<T>> HtmlBlockTag.selectValue(
     labelText: String,
@@ -176,6 +165,18 @@ fun <T : Enum<T>> HtmlBlockTag.selectValue(
         label = type.name
         value = type.name
         selected = type == current
+    }
+}
+
+fun <T> HtmlBlockTag.selectValue(
+    label: String,
+    selectId: String,
+    values: Collection<T>,
+    update: Boolean = false,
+    content: OPTION.(T) -> Unit,
+) {
+    field(label) {
+        selectValue(selectId, values, update, content)
     }
 }
 

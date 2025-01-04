@@ -53,11 +53,8 @@ fun HtmlBlockTag.selectOwner(
     owner: Owner,
     start: Date?,
 ) {
-    selectValue("Owner Type", param, OwnerType.entries, true) { type ->
-        label = type.toString()
-        value = type.toString()
-        selected = owner.getType() == type
-    }
+    selectValue("Owner Type", param, OwnerType.entries, owner.getType(), true)
+
     when (owner) {
         is OwnedByCharacter -> selectValue(
             "Owner",

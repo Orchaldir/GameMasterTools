@@ -23,16 +23,8 @@ fun HtmlBlockTag.showFill(fill: Fill) {
 }
 
 fun FORM.selectFill(fill: Fill) {
-    selectValue("Fill Type", combine(FILL, TYPE), FillType.entries, true) { type ->
-        label = type.name
-        value = type.name
-        selected = when (fill) {
-            is Solid -> type == FillType.Solid
-            is VerticalStripes -> type == FillType.VerticalStripes
-            is HorizontalStripes -> type == FillType.HorizontalStripes
-            is Tiles -> type == FillType.Tiles
-        }
-    }
+    selectValue("Fill Type", combine(FILL, TYPE), FillType.entries, fill.getType(), true)
+
     when (fill) {
         is Solid -> selectColor(fill.color)
         is VerticalStripes -> selectStripes(fill.color0, fill.color1, fill.width)

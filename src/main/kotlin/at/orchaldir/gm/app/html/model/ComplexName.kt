@@ -54,11 +54,7 @@ fun FORM.selectComplexName(
     state: State,
     name: ComplexName,
 ) {
-    selectValue("Name Type", combine(NAME, TYPE), ComplexNameType.entries, true) { type ->
-        label = type.name
-        value = type.name
-        selected = type == name.getType()
-    }
+    selectValue("Name Type", combine(NAME, TYPE), ComplexNameType.entries, name.getType(), true)
 
     internalSelect(state, name)
 }
@@ -83,11 +79,13 @@ private fun FORM.internalSelect(
 ) {
     when (name) {
         is NameWithReference -> {
-            selectValue("Reference Type", combine(NAME, REFERENCE, TYPE), ReferenceForNameType.entries, true) { type ->
-                label = type.name
-                value = type.name
-                selected = type == name.reference.getType()
-            }
+            selectValue(
+                "Reference Type",
+                combine(NAME, REFERENCE, TYPE),
+                ReferenceForNameType.entries,
+                name.reference.getType(),
+                true
+            )
 
             // replace with id.type()?
             val elements = when (name.reference) {

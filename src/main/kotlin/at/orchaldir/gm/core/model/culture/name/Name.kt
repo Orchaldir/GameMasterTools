@@ -43,6 +43,15 @@ sealed class NamingConvention {
             else -> error("A family name requires a family convention!")
         }
     }
+
+    fun getType() = when (this) {
+        is FamilyConvention -> NamingConventionType.Family
+        is GenonymConvention -> NamingConventionType.Genonym
+        is MatronymConvention -> NamingConventionType.Matronym
+        is MononymConvention -> NamingConventionType.Mononym
+        NoNamingConvention -> NamingConventionType.None
+        is PatronymConvention -> NamingConventionType.Patronym
+    }
 }
 
 private fun getFamilyName(first: String, middle: String?, last: String) = if (middle != null) {
