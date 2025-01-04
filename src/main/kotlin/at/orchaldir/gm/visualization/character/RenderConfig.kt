@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization
+package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.util.Color
@@ -8,9 +8,9 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RGB
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.visualization.character.BodyConfig
-import at.orchaldir.gm.visualization.character.HeadConfig
-import at.orchaldir.gm.visualization.equipment.EquipmentConfig
+import at.orchaldir.gm.visualization.character.appearance.BodyConfig
+import at.orchaldir.gm.visualization.character.appearance.HeadConfig
+import at.orchaldir.gm.visualization.character.equipment.EquipmentConfig
 
 data class RenderConfig(
     val padding: Distance,

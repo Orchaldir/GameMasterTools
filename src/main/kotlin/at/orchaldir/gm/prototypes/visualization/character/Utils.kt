@@ -7,11 +7,11 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.TextOptions
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.RenderConfig
-import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.character.TEXT_LAYER
-import at.orchaldir.gm.visualization.character.calculateSize
-import at.orchaldir.gm.visualization.character.visualizeAppearance
+import at.orchaldir.gm.visualization.character.RenderConfig
+import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.appearance.TEXT_LAYER
+import at.orchaldir.gm.visualization.character.appearance.calculateSize
+import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import java.io.File
 
 fun renderTable(

@@ -1,12 +1,12 @@
-package at.orchaldir.gm.visualization.character
+package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.Mouth
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.character.beard.BeardConfig
-import at.orchaldir.gm.visualization.equipment.visualizeHeadEquipment
+import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.appearance.beard.BeardConfig
+import at.orchaldir.gm.visualization.character.equipment.visualizeHeadEquipment
 
 data class HeadConfig(
     val beard: BeardConfig,

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.character
+package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.item.Equipment
@@ -8,8 +8,8 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.RenderConfig
-import at.orchaldir.gm.visualization.RenderState
+import at.orchaldir.gm.visualization.character.RenderConfig
+import at.orchaldir.gm.visualization.character.RenderState
 
 fun visualizeGroup(
     config: RenderConfig,

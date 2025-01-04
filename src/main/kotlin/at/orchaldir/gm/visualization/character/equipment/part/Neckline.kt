@@ -1,10 +1,10 @@
-package at.orchaldir.gm.visualization.equipment.part
+package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.style.NecklineStyle.*
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.visualization.RenderState
+import at.orchaldir.gm.visualization.character.RenderState
 
 data class NecklineConfig(
     val heightCrew: Factor,

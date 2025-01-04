@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.equipment
+package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.Footwear
@@ -6,10 +6,10 @@ import at.orchaldir.gm.core.model.item.style.FootwearStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.character.BEHIND_LAYER
-import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.character.visualizeFeet
+import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.appearance.BEHIND_LAYER
+import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.appearance.visualizeFeet
 
 data class FootwearConfig(
     val heightAnkle: Factor,

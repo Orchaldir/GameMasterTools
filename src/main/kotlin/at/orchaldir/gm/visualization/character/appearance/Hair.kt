@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.character
+package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.hair.*
@@ -7,8 +7,8 @@ import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.visualization.RenderConfig
-import at.orchaldir.gm.visualization.RenderState
+import at.orchaldir.gm.visualization.character.RenderConfig
+import at.orchaldir.gm.visualization.character.RenderState
 import at.orchaldir.gm.visualization.renderPolygon
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 

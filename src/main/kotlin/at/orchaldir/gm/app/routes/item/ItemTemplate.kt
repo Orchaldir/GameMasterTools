@@ -20,7 +20,7 @@ import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.visualization.character.visualizeCharacter
+import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*

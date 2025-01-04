@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.character
+package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.util.Color
@@ -7,7 +7,7 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.renderer.model.NoBorder
-import at.orchaldir.gm.visualization.RenderState
+import at.orchaldir.gm.visualization.character.RenderState
 import at.orchaldir.gm.visualization.SizeConfig
 
 data class EyesConfig(

@@ -6,6 +6,7 @@ import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
+import at.orchaldir.gm.visualization.character.RenderState
 
 fun renderBuilder(state: RenderState, builder: Polygon2dBuilder, options: RenderOptions, layer: Int) {
     val polygon = builder.build()

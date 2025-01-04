@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.character
+package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.util.Color
@@ -6,10 +6,10 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.NoBorder
-import at.orchaldir.gm.visualization.RenderConfig
-import at.orchaldir.gm.visualization.RenderState
+import at.orchaldir.gm.visualization.character.RenderConfig
+import at.orchaldir.gm.visualization.character.RenderState
 import at.orchaldir.gm.visualization.SizeConfig
-import at.orchaldir.gm.visualization.character.beard.visualizeBeard
+import at.orchaldir.gm.visualization.character.appearance.beard.visualizeBeard
 
 data class MouthConfig(
     private val simpleWidth: SizeConfig<Factor>,

@@ -1,11 +1,11 @@
-package at.orchaldir.gm.visualization.character.beard
+package at.orchaldir.gm.visualization.character.appearance.beard
 
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
-import at.orchaldir.gm.visualization.RenderState
+import at.orchaldir.gm.visualization.character.RenderState
 
 fun getFuManchu(state: RenderState, head: Head): Polygon2d {
     val aabb = state.aabb

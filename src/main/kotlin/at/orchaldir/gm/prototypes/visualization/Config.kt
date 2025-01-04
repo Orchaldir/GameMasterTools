@@ -6,13 +6,13 @@ import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RGB
-import at.orchaldir.gm.visualization.RenderConfig
+import at.orchaldir.gm.visualization.character.RenderConfig
 import at.orchaldir.gm.visualization.SizeConfig.Companion.withFactor
-import at.orchaldir.gm.visualization.character.*
-import at.orchaldir.gm.visualization.character.beard.BeardConfig
-import at.orchaldir.gm.visualization.equipment.*
-import at.orchaldir.gm.visualization.equipment.part.NecklineConfig
-import at.orchaldir.gm.visualization.equipment.part.OpeningConfig
+import at.orchaldir.gm.visualization.character.appearance.*
+import at.orchaldir.gm.visualization.character.appearance.beard.BeardConfig
+import at.orchaldir.gm.visualization.character.equipment.*
+import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
+import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
 val RENDER_CONFIG = RenderConfig(
     Distance(100),

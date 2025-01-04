@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.character
+package at.orchaldir.gm.visualization.character.appearance
 
 const val TEXT_LAYER = 100
 const val ABOVE_EQUIPMENT_LAYER = 5

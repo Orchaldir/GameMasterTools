@@ -23,7 +23,7 @@ import at.orchaldir.gm.core.selector.getRaces
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.math.Distribution
-import at.orchaldir.gm.visualization.character.visualizeCharacter
+import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*

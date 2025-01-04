@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.equipment.part
+package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.utils.doNothing
@@ -7,9 +7,9 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
-import at.orchaldir.gm.visualization.RenderState
+import at.orchaldir.gm.visualization.character.RenderState
 import at.orchaldir.gm.visualization.SizeConfig
-import at.orchaldir.gm.visualization.character.ABOVE_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
 
 data class OpeningConfig(
     val buttonRadius: SizeConfig<Factor>,

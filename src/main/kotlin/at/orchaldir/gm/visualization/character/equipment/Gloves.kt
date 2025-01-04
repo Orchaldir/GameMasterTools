@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.equipment
+package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.Gloves
@@ -8,10 +8,10 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.utils.renderer.model.toRender
-import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.character.HIGHER_EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.character.getArmLayer
-import at.orchaldir.gm.visualization.character.visualizeHands
+import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.appearance.HIGHER_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.appearance.getArmLayer
+import at.orchaldir.gm.visualization.character.appearance.visualizeHands
 
 fun visualizeGloves(
     state: RenderState,

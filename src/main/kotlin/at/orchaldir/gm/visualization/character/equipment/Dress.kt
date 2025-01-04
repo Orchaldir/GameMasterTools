@@ -1,14 +1,14 @@
-package at.orchaldir.gm.visualization.equipment
+package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.Dress
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
-import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.character.EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.character.addTorso
-import at.orchaldir.gm.visualization.equipment.part.addNeckline
-import at.orchaldir.gm.visualization.equipment.part.visualizeSleeves
+import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.appearance.addTorso
+import at.orchaldir.gm.visualization.character.equipment.part.addNeckline
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeSleeves
 import at.orchaldir.gm.visualization.renderBuilder
 
 fun visualizeDress(

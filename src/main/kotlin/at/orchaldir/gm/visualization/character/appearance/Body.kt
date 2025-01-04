@@ -1,14 +1,14 @@
-package at.orchaldir.gm.visualization.character
+package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.*
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.visualization.RenderConfig
-import at.orchaldir.gm.visualization.RenderState
+import at.orchaldir.gm.visualization.character.RenderConfig
+import at.orchaldir.gm.visualization.character.RenderState
 import at.orchaldir.gm.visualization.SizeConfig
-import at.orchaldir.gm.visualization.equipment.visualizeBodyEquipment
+import at.orchaldir.gm.visualization.character.equipment.visualizeBodyEquipment
 
 data class BodyConfig(
     val armWidth: Factor,

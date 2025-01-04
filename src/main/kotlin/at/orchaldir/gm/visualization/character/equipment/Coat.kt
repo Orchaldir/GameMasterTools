@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.equipment
+package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.Coat
@@ -6,11 +6,11 @@ import at.orchaldir.gm.core.model.item.style.OuterwearLength
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
-import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.character.*
-import at.orchaldir.gm.visualization.equipment.part.addNeckline
-import at.orchaldir.gm.visualization.equipment.part.visualizeOpening
-import at.orchaldir.gm.visualization.equipment.part.visualizeSleeves
+import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.appearance.*
+import at.orchaldir.gm.visualization.character.equipment.part.addNeckline
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeOpening
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeSleeves
 import at.orchaldir.gm.visualization.renderBuilder
 
 data class CoatConfig(

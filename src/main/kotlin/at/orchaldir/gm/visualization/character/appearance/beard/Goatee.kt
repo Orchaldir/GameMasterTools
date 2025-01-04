@@ -1,9 +1,9 @@
-package at.orchaldir.gm.visualization.character.beard
+package at.orchaldir.gm.visualization.character.appearance.beard
 
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.Mouth
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.visualization.RenderState
+import at.orchaldir.gm.visualization.character.RenderState
 
 fun getChinPuff(state: RenderState, head: Head): Polygon2d {
     val width = state.config.head.getGoateeWidth(head.mouth)

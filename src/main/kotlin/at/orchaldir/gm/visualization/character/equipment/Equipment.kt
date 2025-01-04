@@ -1,12 +1,12 @@
-package at.orchaldir.gm.visualization.equipment
+package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.equipment.part.NecklineConfig
-import at.orchaldir.gm.visualization.equipment.part.OpeningConfig
+import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
+import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
 data class EquipmentConfig(
     val coat: CoatConfig,

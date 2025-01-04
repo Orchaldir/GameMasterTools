@@ -8,9 +8,9 @@ import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.character.calculateSizeFromHeight
-import at.orchaldir.gm.visualization.character.visualizeAppearance
+import at.orchaldir.gm.visualization.character.RenderState
+import at.orchaldir.gm.visualization.character.appearance.calculateSizeFromHeight
+import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import java.io.File
 
 fun main() {

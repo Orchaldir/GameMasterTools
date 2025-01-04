@@ -23,7 +23,7 @@ import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.visualization.character.visualizeGroup
+import at.orchaldir.gm.visualization.character.appearance.visualizeGroup
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
