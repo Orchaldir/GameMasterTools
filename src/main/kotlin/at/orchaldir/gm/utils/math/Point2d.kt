@@ -8,6 +8,12 @@ data class Point2d(val x: Float = 0.0f, val y: Float = 0.0f) {
 
     constructor(x: Distance, y: Distance) : this(x.toMeters(), y.toMeters())
 
+    fun addWidth(distance: Distance) = Point2d(x + distance.toMeters(), y)
+    fun addHeight(distance: Distance) = Point2d(x, y + distance.toMeters())
+
+    fun minusWidth(distance: Distance) = Point2d(x - distance.toMeters(), y)
+    fun minusHeight(distance: Distance) = Point2d(x, y - distance.toMeters())
+
     fun createPolar(distance: Distance, orientation: Orientation) = Point2d(
         x + distance.toMeters() * orientation.cos(),
         y + distance.toMeters() * orientation.sin(),
@@ -25,5 +31,4 @@ data class Point2d(val x: Float = 0.0f, val y: Float = 0.0f) {
 
     operator fun times(factor: Int) = Point2d(x * factor, y * factor)
     operator fun div(factor: Float) = Point2d(x / factor, y / factor)
-
 }
