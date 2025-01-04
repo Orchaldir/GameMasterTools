@@ -222,12 +222,14 @@ private fun HTML.showBookEditor(
     val backLink = href(call, book.id)
     val previewLink = call.application.href(BookRoutes.Preview(book.id))
     val updateLink = call.application.href(BookRoutes.Update(book.id))
+    val svg = visualizeBook(BOOK_CONFIG, book)
 
     simpleHtml("Edit Book: ${book.name}") {
         form {
             id = "editor"
             action = previewLink
             method = FormMethod.post
+            svg(svg, 20)
             selectName(book.name)
             editOrigin(state, book)
             selectOptionalDate(state, "Date", book.date, DATE)
