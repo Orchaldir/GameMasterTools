@@ -9,8 +9,8 @@ import at.orchaldir.gm.core.model.item.style.FootwearStyle
 import at.orchaldir.gm.core.model.util.Color.Gray
 import at.orchaldir.gm.core.model.util.Color.SaddleBrown
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.RENDER_CONFIG
-import at.orchaldir.gm.prototypes.visualization.character.addNames
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.Distance
 
