@@ -7,6 +7,7 @@ import at.orchaldir.gm.utils.math.Distance
 
 fun main() {
     val appearances = mutableListOf<List<Appearance>>()
+
     PupilShape.entries.forEach { pupilShape ->
         EyeShape.entries.forEach { eyeShape ->
             appearances.add(createRow(Eye(eyeShape, pupilShape)))

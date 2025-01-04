@@ -18,14 +18,7 @@ data class RenderConfig(
     val body: BodyConfig,
     val equipment: EquipmentConfig,
     val head: HeadConfig,
-    private val skinColors: Map<SkinColor, RGB> = mapOf(
-        SkinColor.Fair to RGB(254, 228, 208),
-        SkinColor.Light to RGB(232, 198, 175),
-        SkinColor.Medium to RGB(175, 118, 88),
-        SkinColor.Tan to RGB(156, 89, 60),
-        SkinColor.Dark to RGB(122, 68, 44),
-        SkinColor.VeryDark to RGB(58, 26, 13),
-    ),
+    val skinColors: Map<SkinColor, RGB>,
 ) {
 
     fun calculateSize(height: Distance) = Size2d.square(height + padding * 2.0f)
