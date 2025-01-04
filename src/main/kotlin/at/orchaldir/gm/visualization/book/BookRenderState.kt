@@ -7,5 +7,4 @@ data class BookRenderState(
     val aabb: AABB,
     val config: BookRenderConfig,
     val renderer: MultiLayerRenderer,
-    val renderFront: Boolean,
 )

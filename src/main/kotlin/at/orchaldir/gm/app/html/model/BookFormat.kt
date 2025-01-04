@@ -78,6 +78,7 @@ private fun BODY.showSewingPattern(pattern: SewingPattern) {
         is SimpleSewingPattern -> {
             field("Sewing Color", pattern.color)
             field("Sewing Size", pattern.size)
+            field("Sewing Length", pattern.length)
             showList("Stitches", pattern.stitches) { stitch ->
                 +stitch.name
             }
@@ -164,6 +165,7 @@ private fun FORM.editSewingPattern(pattern: SewingPattern) {
         is SimpleSewingPattern -> {
             selectColor("Sewing Color", combine(SEWING, COLOR), Color.entries, pattern.color)
             selectValue("Sewing Size", combine(SEWING, SIZE), Size.entries, pattern.size, true)
+            selectValue("Sewing Length", combine(SEWING, LENGTH), Size.entries, pattern.length, true)
             editSewingPatternSize(pattern.stitches.size)
 
             showListWithIndex(pattern.stitches) { index, stitch ->

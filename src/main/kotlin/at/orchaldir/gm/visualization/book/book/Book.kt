@@ -16,12 +16,11 @@ import at.orchaldir.gm.visualization.book.BookRenderState
 fun visualizeBook(
     config: BookRenderConfig,
     book: Book,
-    renderFront: Boolean = true,
 ): Svg {
     val size = calculateRenderSize(config, book)
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
-    val state = BookRenderState(aabb, config, builder, renderFront)
+    val state = BookRenderState(aabb, config, builder)
 
     visualizeBookFormat(state, book.format)
 

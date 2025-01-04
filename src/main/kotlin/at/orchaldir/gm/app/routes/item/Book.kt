@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.book.*
 import at.orchaldir.gm.core.selector.item.canDeleteBook
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
+import at.orchaldir.gm.prototypes.visualization.book.BOOK_CONFIG
+import at.orchaldir.gm.visualization.book.book.visualizeBook
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -168,9 +170,10 @@ private fun HTML.showBookDetails(
     val backLink = call.application.href(BookRoutes())
     val deleteLink = call.application.href(BookRoutes.Delete(book.id))
     val editLink = call.application.href(BookRoutes.Edit(book.id))
+    val svg = visualizeBook(BOOK_CONFIG, book)
 
     simpleHtml("Book: ${book.name}") {
-        field("Name", book.name)
+        svg(svg, 20)
         showOrigin(call, state, book)
         optionalField(call, state, "Date", book.date)
         fieldLink("Language", call, state, book.language)
