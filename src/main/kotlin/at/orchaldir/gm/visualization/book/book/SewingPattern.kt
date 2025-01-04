@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.book.book
 
 import at.orchaldir.gm.core.model.item.book.*
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.book.BookRenderState
@@ -30,16 +31,22 @@ private fun visualizeSimpleSewingPattern(
     val diameter = radius * 2
     val renderer = state.renderer.getLayer()
 
-    repeat(parts) {
-        val start = state.aabb.getPoint(START, y)
-        val hole = state.aabb.getPoint(x, y)
+    simple.stitches.forEach { stitch ->
+        when (stitch) {
+            StitchType.Kettle -> {
+                val start = state.aabb.getPoint(START, y)
+                val hole = state.aabb.getPoint(x, y)
 
-        val corner0 = start - radius
-        val corner1 = hole.minusHeight(radius)
-        val corner2 = hole.addHeight(radius)
-        val corner3 = corner0.addHeight(diameter)
+                val corner0 = start - radius
+                val corner1 = hole.minusHeight(radius)
+                val corner2 = hole.addHeight(radius)
+                val corner3 = corner0.addHeight(diameter)
 
-        renderRoundedPolygon(renderer, options, listOf(corner0, corner1, corner2, corner3))
+                renderRoundedPolygon(renderer, options, listOf(corner0, corner1, corner2, corner3))
+            }
+
+            StitchType.Empty -> doNothing()
+        }
 
         y += length
     }

@@ -1,8 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.book
 
 import at.orchaldir.gm.core.model.item.book.*
-import at.orchaldir.gm.core.model.item.book.StitchType.FrenchLink
-import at.orchaldir.gm.core.model.item.book.StitchType.Kettle
+import at.orchaldir.gm.core.model.item.book.StitchType.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
@@ -21,7 +20,8 @@ fun main() {
         size.toSize2d() + Distance(50),
         listOf(
             Pair("1", listOf(Kettle, Kettle, Kettle, Kettle)),
-            Pair("2", listOf(Kettle, FrenchLink, Kettle)),
+            Pair("2", listOf(Kettle, Empty, Kettle)),
+            Pair("3", listOf(Empty, Kettle, Kettle, Empty, Empty, Empty, Empty, Kettle, Kettle, Empty)),
         ),
         addNames(Size.entries),
     ) { pattern, sewingSize ->
