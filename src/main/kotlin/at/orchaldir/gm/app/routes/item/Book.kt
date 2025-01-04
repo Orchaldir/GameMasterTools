@@ -225,23 +225,27 @@ private fun HTML.showBookEditor(
     val svg = visualizeBook(BOOK_CONFIG, book)
 
     simpleHtml("Edit Book: ${book.name}") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-            svg(svg, 20)
-            selectName(book.name)
-            editOrigin(state, book)
-            selectOptionalDate(state, "Date", book.date, DATE)
-            selectValue("Language", LANGUAGE, languages, true) { l ->
-                label = l.name
-                value = l.id.value.toString()
-                selected = l.id == book.language
+        split({
+            form {
+                id = "editor"
+                action = previewLink
+                method = FormMethod.post
+                selectName(book.name)
+                editOrigin(state, book)
+                selectOptionalDate(state, "Date", book.date, DATE)
+                selectValue("Language", LANGUAGE, languages, true) { l ->
+                    label = l.name
+                    value = l.id.value.toString()
+                    selected = l.id == book.language
+                }
+                editBookFormat(state, book.format)
+                button("Update", updateLink)
             }
-            editBookFormat(state, book.format)
-            button("Update", updateLink)
-        }
-        back(backLink)
+            back(backLink)
+        }, {
+            svg(svg, 50)
+        })
+
     }
 }
 
