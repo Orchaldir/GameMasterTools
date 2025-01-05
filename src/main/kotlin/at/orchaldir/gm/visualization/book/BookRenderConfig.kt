@@ -1,9 +1,9 @@
 package at.orchaldir.gm.visualization.book
 
-import at.orchaldir.gm.core.model.item.text.BookFormat
+import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.core.model.item.text.Codex
 import at.orchaldir.gm.core.model.item.text.LeatherBindingType
-import at.orchaldir.gm.core.model.item.text.UndefinedBookFormat
+import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
@@ -23,9 +23,9 @@ data class BookRenderConfig(
     val sewingLength: SizeConfig<Factor>,
 ) {
 
-    fun calculateSize(book: BookFormat) = when (book) {
+    fun calculateSize(book: TextFormat) = when (book) {
         is Codex -> book.size.toSize2d() + (padding * 2)
-        UndefinedBookFormat -> square(padding * 4.0f)
+        UndefinedTextFormat -> square(padding * 4.0f)
     }
 
 }

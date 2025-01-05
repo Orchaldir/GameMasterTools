@@ -1,6 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.book
 
-import at.orchaldir.gm.core.model.item.text.BookFormat
+import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.visualization.book.BookRenderConfig
@@ -13,7 +13,7 @@ fun <C, R> renderBookTable(
     size: Size2d,
     columns: List<Pair<String, C>>,
     rows: List<Pair<String, R>>,
-    create: (C, R) -> BookFormat,
+    create: (C, R) -> TextFormat,
 ) {
     renderTable(filename, size, rows, columns, false) { aabb, renderer, _, column, row ->
         val format = create(column, row)

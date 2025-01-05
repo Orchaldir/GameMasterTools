@@ -22,12 +22,12 @@ import kotlinx.html.FORM
 fun BODY.showBookFormat(
     call: ApplicationCall,
     state: State,
-    format: BookFormat,
+    format: TextFormat,
 ) {
     field("Format", format.getType())
 
     when (format) {
-        UndefinedBookFormat -> doNothing()
+        UndefinedTextFormat -> doNothing()
         is Codex -> {
             field("Pages", format.pages)
             showBinding(call, state, format.binding)
@@ -99,12 +99,12 @@ private fun BODY.showSewingPattern(pattern: SewingPattern) {
 
 fun FORM.editBookFormat(
     state: State,
-    format: BookFormat,
+    format: TextFormat,
 ) {
-    selectValue("Format", FORMAT, BookFormatType.entries, format.getType(), true)
+    selectValue("Format", FORMAT, TextFormatType.entries, format.getType(), true)
 
     when (format) {
-        UndefinedBookFormat -> doNothing()
+        UndefinedTextFormat -> doNothing()
         is Codex -> {
             selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
             editBinding(state, format.binding)
@@ -196,14 +196,14 @@ private fun FORM.editSewingPatternSize(size: Int) {
 
 // parse
 
-fun parseBookFormat(parameters: Parameters) = when (parse(parameters, FORMAT, BookFormatType.Undefined)) {
-    BookFormatType.Codex -> Codex(
+fun parseBookFormat(parameters: Parameters) = when (parse(parameters, FORMAT, TextFormatType.Undefined)) {
+    TextFormatType.Codex -> Codex(
         parseInt(parameters, PAGES, 100),
         parseBinding(parameters),
         parseSize(parameters, SIZE),
     )
 
-    BookFormatType.Undefined -> UndefinedBookFormat
+    TextFormatType.Undefined -> UndefinedTextFormat
 }
 
 private fun parseBinding(parameters: Parameters) = when (parse(parameters, BINDING, BookBindingType.Hardcover)) {

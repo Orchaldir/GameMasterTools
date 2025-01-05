@@ -1,9 +1,9 @@
 package at.orchaldir.gm.visualization.book.book
 
 import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.item.text.BookFormat
+import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.core.model.item.text.Codex
-import at.orchaldir.gm.core.model.item.text.UndefinedBookFormat
+import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
@@ -20,7 +20,7 @@ fun visualizeBook(
 
 fun visualizeBookFormat(
     config: BookRenderConfig,
-    format: BookFormat,
+    format: TextFormat,
 ): Svg {
     val size = config.calculateSize(format)
     val aabb = AABB(size)
@@ -34,7 +34,7 @@ fun visualizeBookFormat(
 
 fun visualizeBookFormat(
     state: BookRenderState,
-    format: BookFormat,
+    format: TextFormat,
 ) {
     val inner = AABB.fromCenter(state.aabb.getCenter(), calculateSize(format))
     val innerState = state.copy(aabb = inner)
@@ -43,11 +43,11 @@ fun visualizeBookFormat(
 
     when (format) {
         is Codex -> visualizeCodex(innerState, format)
-        UndefinedBookFormat -> doNothing()
+        UndefinedTextFormat -> doNothing()
     }
 }
 
-fun calculateSize(format: BookFormat) = when (format) {
+fun calculateSize(format: TextFormat) = when (format) {
     is Codex -> format.size.toSize2d()
-    UndefinedBookFormat -> square(0.0f)
+    UndefinedTextFormat -> square(0.0f)
 }

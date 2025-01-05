@@ -27,7 +27,7 @@ data class Text(
     val origin: TextOrigin = OriginalText(UndefinedCreator),
     val date: Date? = null,
     val language: LanguageId = LanguageId(0),
-    val format: BookFormat = UndefinedBookFormat,
+    val format: TextFormat = UndefinedTextFormat,
 ) : ElementWithSimpleName<TextId>, Created {
 
     override fun id() = id

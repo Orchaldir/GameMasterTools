@@ -50,7 +50,7 @@ private fun checkOrigin(
     }
 }
 
-private fun checkFormat(format: BookFormat) {
+private fun checkFormat(format: TextFormat) {
     when (format) {
         is Codex -> {
             require(format.pages >= MIN_PAGES) { "Book requires at least $MIN_PAGES pages!" }
@@ -69,6 +69,6 @@ private fun checkFormat(format: BookFormat) {
             }
         }
 
-        UndefinedBookFormat -> doNothing()
+        UndefinedTextFormat -> doNothing()
     }
 }
