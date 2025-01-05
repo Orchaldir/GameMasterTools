@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.DeleteBook
-import at.orchaldir.gm.core.action.UpdateBook
+import at.orchaldir.gm.core.action.DeleteText
+import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.item.text.*
@@ -28,7 +28,7 @@ class BookTest {
 
     @Nested
     inner class DeleteTest {
-        val action = DeleteBook(BOOK_ID_0)
+        val action = DeleteText(BOOK_ID_0)
 
         @Test
         fun `Can delete an existing book`() {
@@ -58,7 +58,7 @@ class BookTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateBook(Text(BOOK_ID_0))
+            val action = UpdateText(Text(BOOK_ID_0))
 
             assertIllegalArgument("Requires unknown Book 0!") { REDUCER.invoke(State(), action) }
         }
@@ -66,7 +66,7 @@ class BookTest {
         @Test
         fun `Author must exist`() {
             val origin = OriginalText(CreatedByCharacter(CHARACTER_ID_1))
-            val action = UpdateBook(Text(BOOK_ID_0, origin = origin))
+            val action = UpdateText(Text(BOOK_ID_0, origin = origin))
 
             assertIllegalArgument("Cannot use an unknown character 1 as Author!") { REDUCER.invoke(STATE, action) }
         }
@@ -75,7 +75,7 @@ class BookTest {
         fun `Successfully update an original book`() {
             val origin = OriginalText(CreatedByCharacter(CHARACTER_ID_0))
             val text = Text(BOOK_ID_0, origin = origin)
-            val action = UpdateBook(text)
+            val action = UpdateText(text)
 
             assertEquals(text, REDUCER.invoke(STATE, action).first.getTextStorage().get(BOOK_ID_0))
         }
@@ -83,7 +83,7 @@ class BookTest {
         @Test
         fun `Translator must exist`() {
             val origin = TranslatedText(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_1))
-            val action = UpdateBook(Text(BOOK_ID_0, origin = origin))
+            val action = UpdateText(Text(BOOK_ID_0, origin = origin))
 
             assertIllegalArgument("Cannot use an unknown character 1 as Translator!") { REDUCER.invoke(STATE, action) }
         }
@@ -91,7 +91,7 @@ class BookTest {
         @Test
         fun `Translated book must exist`() {
             val origin = TranslatedText(BOOK_ID_2, CreatedByCharacter(CHARACTER_ID_0))
-            val action = UpdateBook(Text(BOOK_ID_0, origin = origin))
+            val action = UpdateText(Text(BOOK_ID_0, origin = origin))
 
             assertIllegalArgument("Requires unknown Book 2!") { REDUCER.invoke(STATE, action) }
         }
@@ -99,7 +99,7 @@ class BookTest {
         @Test
         fun `Book cannot translate itself`() {
             val origin = TranslatedText(BOOK_ID_0, CreatedByCharacter(CHARACTER_ID_0))
-            val action = UpdateBook(Text(BOOK_ID_0, origin = origin))
+            val action = UpdateText(Text(BOOK_ID_0, origin = origin))
 
             assertIllegalArgument("Book cannot translate itself!") { REDUCER.invoke(STATE, action) }
         }
@@ -107,7 +107,7 @@ class BookTest {
         @Test
         fun `The translation must happen after the original was written`() {
             val origin = TranslatedText(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_0))
-            val action = UpdateBook(Text(BOOK_ID_0, date = DAY0, origin = origin))
+            val action = UpdateText(Text(BOOK_ID_0, date = DAY0, origin = origin))
 
             assertIllegalArgument("The translation must happen after the original was written!") {
                 REDUCER.invoke(STATE, action)
@@ -118,7 +118,7 @@ class BookTest {
         fun `Successfully update a translated book`() {
             val origin = TranslatedText(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_0))
             val text = Text(BOOK_ID_0, origin = origin)
-            val action = UpdateBook(text)
+            val action = UpdateText(text)
 
             assertEquals(text, REDUCER.invoke(STATE, action).first.getTextStorage().get(BOOK_ID_0))
         }
@@ -127,7 +127,7 @@ class BookTest {
         inner class FormatTest {
             @Test
             fun `Too few pages`() {
-                val action = UpdateBook(Text(BOOK_ID_0, format = Codex(2, Hardcover())))
+                val action = UpdateText(Text(BOOK_ID_0, format = Codex(2, Hardcover())))
 
                 assertIllegalArgument("Book requires at least 10 pages!") { REDUCER.invoke(STATE, action) }
             }
@@ -136,7 +136,7 @@ class BookTest {
             fun `Too few stitches for the simple pattern`() {
                 val pattern = SimpleSewingPattern(stitches = emptyList())
                 val binding = CopticBinding(sewingPattern = pattern)
-                val action = UpdateBook(Text(BOOK_ID_0, format = Codex(100, binding)))
+                val action = UpdateText(Text(BOOK_ID_0, format = Codex(100, binding)))
 
                 assertIllegalArgument("Sewing pattern requires at least 2 stitches!") { REDUCER.invoke(STATE, action) }
             }
@@ -145,7 +145,7 @@ class BookTest {
             fun `Too few stitches for the complex pattern`() {
                 val pattern = ComplexSewingPattern(stitches = emptyList())
                 val binding = CopticBinding(sewingPattern = pattern)
-                val action = UpdateBook(Text(BOOK_ID_0, format = Codex(100, binding)))
+                val action = UpdateText(Text(BOOK_ID_0, format = Codex(100, binding)))
 
                 assertIllegalArgument("Sewing pattern requires at least 2 stitches!") { REDUCER.invoke(STATE, action) }
             }

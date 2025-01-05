@@ -139,10 +139,10 @@ data class UpdateTime(val time: Time) : Action()
 
 sealed class ItemAction : Action()
 
-// Book
-data object CreateBook : ItemAction()
-data class DeleteBook(val id: TextId) : ItemAction()
-data class UpdateBook(val text: Text) : ItemAction()
+// text
+data object CreateText : ItemAction()
+data class DeleteText(val id: TextId) : ItemAction()
+data class UpdateText(val text: Text) : ItemAction()
 
 // item template
 data object CreateItemTemplate : ItemAction()

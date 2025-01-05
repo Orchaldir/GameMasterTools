@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.item.parseText
-import at.orchaldir.gm.core.action.CreateBook
-import at.orchaldir.gm.core.action.DeleteBook
-import at.orchaldir.gm.core.action.UpdateBook
+import at.orchaldir.gm.core.action.CreateText
+import at.orchaldir.gm.core.action.DeleteText
+import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.selector.item.canDeleteBook
@@ -71,7 +71,7 @@ fun Application.configureTextRouting() {
         get<TextRoutes.New> {
             logger.info { "Add new text" }
 
-            STORE.dispatch(CreateBook)
+            STORE.dispatch(CreateText)
 
             call.respondRedirect(call.application.href(TextRoutes.Edit(STORE.getState().getTextStorage().lastId)))
 
@@ -80,7 +80,7 @@ fun Application.configureTextRouting() {
         get<TextRoutes.Delete> { delete ->
             logger.info { "Delete text ${delete.id.value}" }
 
-            STORE.dispatch(DeleteBook(delete.id))
+            STORE.dispatch(DeleteText(delete.id))
 
             call.respondRedirect(call.application.href(TextRoutes()))
 
@@ -112,7 +112,7 @@ fun Application.configureTextRouting() {
             val formParameters = call.receiveParameters()
             val text = parseText(formParameters, STORE.getState(), update.id)
 
-            STORE.dispatch(UpdateBook(text))
+            STORE.dispatch(UpdateText(text))
 
             call.respondRedirect(href(call, update.id))
 
