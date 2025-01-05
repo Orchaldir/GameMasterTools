@@ -108,11 +108,10 @@ fun Application.configurePersonalityRouting() {
 
 private fun HTML.showAllPersonalityTraits(call: ApplicationCall, state: State) {
     val personalityTraits = state.getPersonalityTraitStorage().getAll().sortedBy { it.name }
-    val count = personalityTraits.size
     val createLink = call.application.href(PersonalityTraitRoutes.New())
 
     simpleHtml("Personality Traits") {
-        field("Count", count.toString())
+        field("Count", personalityTraits.size)
         showList(personalityTraits) { personalityTrait ->
             link(call, personalityTrait)
         }

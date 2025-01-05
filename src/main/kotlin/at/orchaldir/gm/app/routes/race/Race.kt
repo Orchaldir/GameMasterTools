@@ -20,10 +20,10 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.core.selector.getCharacters
-import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.visualization.character.visualizeGroup
+import at.orchaldir.gm.visualization.character.appearance.visualizeGroup
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -109,11 +109,10 @@ fun Application.configureRaceRouting() {
 
 private fun HTML.showAllRaces(call: ApplicationCall) {
     val races = STORE.getState().getRaceStorage().getAll().sortedBy { it.name }
-    val count = races.size
     val createLink = call.application.href(RaceRoutes.New())
 
     simpleHtml("Races") {
-        field("Count", count.toString())
+        field("Count", races.size)
         showList(races) { race ->
             link(call, race)
         }
@@ -167,7 +166,7 @@ private fun HtmlBlockTag.visualizeLifeStages(
     val generator = createGeneratorConfig(state, raceAppearance, gender, CultureId(0))
     val appearance = generator.generate()
 
-    val svg = visualizeGroup(RENDER_CONFIG, race.lifeStages.getAllLifeStages().map {
+    val svg = visualizeGroup(CHARACTER_CONFIG, race.lifeStages.getAllLifeStages().map {
         getAppearanceForAge(race, appearance, it.maxAge)
     })
 
@@ -208,7 +207,7 @@ private fun HtmlBlockTag.showLifeStages(
                     }
                     if (stage.hairColor != null) {
                         li {
-                            field("Hair Color", stage.hairColor.name)
+                            field("Hair Color", stage.hairColor)
                         }
                     }
                 }
@@ -226,7 +225,7 @@ private fun HtmlBlockTag.showAppearance(
 }
 
 private fun HtmlBlockTag.showMaxAge(maxAge: Int) {
-    field("Max Age", maxAge.toString())
+    field("Max Age", maxAge)
 }
 
 private fun HtmlBlockTag.showRelativeSize(size: Factor) {
@@ -282,14 +281,7 @@ private fun FORM.editLifeStages(
 
     h2 { +"Life Stages" }
 
-    selectValue("Type", combine(LIFE_STAGE, TYPE), LifeStagesType.entries, true) { type ->
-        label = type.name
-        value = type.name
-        selected = when (lifeStages) {
-            is ImmutableLifeStage -> type == LifeStagesType.ImmutableLifeStage
-            is SimpleAging -> type == LifeStagesType.SimpleAging
-        }
-    }
+    selectValue("Type", combine(LIFE_STAGE, TYPE), LifeStagesType.entries, lifeStages.getType(), true)
 
     when (lifeStages) {
         is ImmutableLifeStage -> {

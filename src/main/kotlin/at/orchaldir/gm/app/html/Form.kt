@@ -70,7 +70,7 @@ fun FORM.selectColor(
     }
 }
 
-fun FORM.selectColor(
+fun HtmlBlockTag.selectColor(
     labelText: String,
     selectId: String,
     values: Collection<Color>,
@@ -148,6 +148,21 @@ fun <T> HtmlBlockTag.selectOptionalValue(
                 }
             }
         }
+    }
+}
+
+
+fun <T : Enum<T>> HtmlBlockTag.selectValue(
+    labelText: String,
+    selectId: String,
+    values: Collection<T>,
+    current: T,
+    update: Boolean = false,
+) {
+    selectValue(labelText, selectId, values, update) { type ->
+        label = type.name
+        value = type.name
+        selected = type == current
     }
 }
 

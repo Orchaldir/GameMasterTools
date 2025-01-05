@@ -27,6 +27,7 @@ data class Book(
     val origin: BookOrigin = OriginalBook(UndefinedCreator),
     val date: Date? = null,
     val language: LanguageId = LanguageId(0),
+    val format: BookFormat = UndefinedBookFormat,
 ) : ElementWithSimpleName<BookId>, Created {
 
     override fun id() = id

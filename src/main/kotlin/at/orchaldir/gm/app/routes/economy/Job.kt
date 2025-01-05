@@ -116,11 +116,10 @@ fun Application.configureJobRouting() {
 
 private fun HTML.showAllJobs(call: ApplicationCall, state: State) {
     val jobs = state.getJobStorage().getAll().sortedBy { it.name }
-    val count = jobs.size
     val createLink = call.application.href(JobRoutes.New())
 
     simpleHtml("Jobs") {
-        field("Count", count.toString())
+        field("Count", jobs.size)
         showList(jobs) { nameList ->
             link(call, nameList)
         }
@@ -142,7 +141,6 @@ private fun HTML.showJobDetails(
     val previousCharacters = state.getPreviousEmployees(job.id).toSet() - characters
 
     simpleHtml("Job: ${job.name}") {
-        field("Name", job.name)
         showList("Businesses", state.getBusinesses(job.id)) { business ->
             link(call, state, business)
         }

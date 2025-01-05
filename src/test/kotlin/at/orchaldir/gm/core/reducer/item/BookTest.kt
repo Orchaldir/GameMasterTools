@@ -5,9 +5,7 @@ import at.orchaldir.gm.core.action.DeleteBook
 import at.orchaldir.gm.core.action.UpdateBook
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.item.book.Book
-import at.orchaldir.gm.core.model.item.book.OriginalBook
-import at.orchaldir.gm.core.model.item.book.TranslatedBook
+import at.orchaldir.gm.core.model.item.book.*
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -123,6 +121,34 @@ class BookTest {
             val action = UpdateBook(book)
 
             assertEquals(book, REDUCER.invoke(STATE, action).first.getBookStorage().get(BOOK_ID_0))
+        }
+
+        @Nested
+        inner class FormatTest {
+            @Test
+            fun `Too few pages`() {
+                val action = UpdateBook(Book(BOOK_ID_0, format = Codex(2, Hardcover())))
+
+                assertIllegalArgument("Book requires at least 10 pages!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Too few stitches for the simple pattern`() {
+                val pattern = SimpleSewingPattern(stitches = emptyList())
+                val binding = CopticBinding(sewingPattern = pattern)
+                val action = UpdateBook(Book(BOOK_ID_0, format = Codex(100, binding)))
+
+                assertIllegalArgument("Sewing pattern requires at least 2 stitches!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Too few stitches for the complex pattern`() {
+                val pattern = ComplexSewingPattern(stitches = emptyList())
+                val binding = CopticBinding(sewingPattern = pattern)
+                val action = UpdateBook(Book(BOOK_ID_0, format = Codex(100, binding)))
+
+                assertIllegalArgument("Sewing pattern requires at least 2 stitches!") { REDUCER.invoke(STATE, action) }
+            }
         }
     }
 

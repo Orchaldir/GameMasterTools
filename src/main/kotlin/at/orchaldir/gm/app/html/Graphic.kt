@@ -10,29 +10,21 @@ import kotlinx.html.HtmlBlockTag
 
 fun HtmlBlockTag.showFill(fill: Fill) {
     when (fill) {
-        is Solid -> field("Solid Fill", fill.color.toString())
+        is Solid -> field("Solid Fill", fill.color)
         is VerticalStripes -> field("Vertical Stripes", "${fill.color0} & ${fill.color1}")
         is HorizontalStripes -> field("Horizontal Stripes", "${fill.color0} & ${fill.color1}")
         is Tiles -> {
-            field("Tile Color", fill.fill.toString())
+            field("Tile Color", fill.fill)
             if (fill.background != null) {
-                field("Background Color", fill.background.toString())
+                field("Background Color", fill.background)
             }
         }
     }
 }
 
 fun FORM.selectFill(fill: Fill) {
-    selectValue("Fill Type", combine(FILL, TYPE), FillType.entries, true) { type ->
-        label = type.name
-        value = type.name
-        selected = when (fill) {
-            is Solid -> type == FillType.Solid
-            is VerticalStripes -> type == FillType.VerticalStripes
-            is HorizontalStripes -> type == FillType.HorizontalStripes
-            is Tiles -> type == FillType.Tiles
-        }
-    }
+    selectValue("Fill Type", combine(FILL, TYPE), FillType.entries, fill.getType(), true)
+
     when (fill) {
         is Solid -> selectColor(fill.color)
         is VerticalStripes -> selectStripes(fill.color0, fill.color1, fill.width)

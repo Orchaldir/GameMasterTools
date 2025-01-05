@@ -180,12 +180,11 @@ private fun HTML.showAllBuildings(
         .getBuildingStorage()
         .getAll()
     val buildingsWithNames = state.sort(buildings, sort)
-    val count = buildings.size
     val sortNameLink = call.application.href(BuildingRoutes.All())
     val sortConstructionLink = call.application.href(BuildingRoutes.All(SortBuilding.Construction))
 
     simpleHtml("Buildings") {
-        field("Count", count.toString())
+        field("Count", buildings.size)
         field("Sort") {
             link(sortNameLink, "Name")
             +" "

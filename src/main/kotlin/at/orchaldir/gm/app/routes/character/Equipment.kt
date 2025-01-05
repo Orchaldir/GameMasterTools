@@ -12,8 +12,8 @@ import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.item.EquipmentSlot
 import at.orchaldir.gm.core.model.item.EquipmentType
 import at.orchaldir.gm.core.selector.item.getEquipment
-import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
-import at.orchaldir.gm.visualization.character.visualizeCharacter
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
+import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -94,8 +94,8 @@ private fun HTML.showEquipmentEditor(
     val previewLink = call.application.href(CharacterRoutes.Equipment.Preview(character.id))
     val updateLink = call.application.href(CharacterRoutes.Equipment.Update(character.id))
     val generateLink = call.application.href(CharacterRoutes.Equipment.Generate(character.id))
-    val frontSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipped)
-    val backSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipped, false)
+    val frontSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipped)
+    val backSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipped, false)
 
     simpleHtml("Edit Equipment: ${character.name(state)}") {
         svg(frontSvg, 20)

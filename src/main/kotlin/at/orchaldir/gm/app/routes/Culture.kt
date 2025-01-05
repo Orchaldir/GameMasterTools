@@ -130,7 +130,7 @@ private fun HTML.showAllCultures(call: ApplicationCall) {
     val createLink = call.application.href(CultureRoutes.New())
 
     simpleHtml("Cultures") {
-        field("Count", count.toString())
+        field("Count", count)
         showList(cultures) { culture ->
             link(call, culture)
         }
@@ -186,7 +186,7 @@ private fun BODY.showNamingConvention(
     field("Type", namingConvention.javaClass.simpleName)
     when (namingConvention) {
         is FamilyConvention -> {
-            field("Name Order", namingConvention.nameOrder.toString())
+            field("Name Order", namingConvention.nameOrder)
             showRarityMap("Middle Name Options", namingConvention.middleNameOptions)
             showNamesByGender(call, state, "Given Names", namingConvention.givenNames)
             fieldLink("Family Names", call, state, namingConvention.familyNames)
@@ -228,7 +228,7 @@ private fun BODY.showGenonymConvention(
     style: GenonymicStyle,
     names: GenderMap<NameListId>,
 ) {
-    field("Lookup Distance", lookupDistance.toString())
+    field("Lookup Distance", lookupDistance)
     field("Genonymic Style", style.javaClass.simpleName)
     when (style) {
         is ChildOfStyle -> showStyleByGender("Words", style.words)
@@ -344,25 +344,11 @@ private fun FORM.editNamingConvention(
     state: State,
 ) {
     h2 { +"Naming Convention" }
-    selectValue("Type", NAMING_CONVENTION, NamingConventionType.entries, true) { type ->
-        label = type.toString()
-        value = type.toString()
-        selected = when (type) {
-            NamingConventionType.None -> namingConvention is NoNamingConvention
-            NamingConventionType.Mononym -> namingConvention is MononymConvention
-            NamingConventionType.Family -> namingConvention is FamilyConvention
-            NamingConventionType.Patronym -> namingConvention is PatronymConvention
-            NamingConventionType.Matronym -> namingConvention is MatronymConvention
-            NamingConventionType.Genonym -> namingConvention is GenonymConvention
-        }
-    }
+    selectValue("Type", NAMING_CONVENTION, NamingConventionType.entries, namingConvention.getType(), true)
+
     when (namingConvention) {
         is FamilyConvention -> {
-            selectValue("Name Order", NAME_ORDER, NameOrder.entries, true) { o ->
-                label = o.name
-                value = o.toString()
-                selected = namingConvention.nameOrder == o
-            }
+            selectValue("Name Order", NAME_ORDER, NameOrder.entries, namingConvention.nameOrder, true)
             selectRarityMap("Middle Name Options", MIDDLE_NAME, namingConvention.middleNameOptions)
             selectNamesByGender(state, "Given Names", namingConvention.givenNames, NAMES)
             field("Family Names") {
@@ -402,21 +388,9 @@ private fun FORM.selectGenonymConvention(
     style: GenonymicStyle,
     names: GenderMap<NameListId>,
 ) {
-    selectValue("Lookup Distance", LOOKUP_DISTANCE, GenonymicLookupDistance.entries) { distance ->
-        label = distance.name
-        value = distance.toString()
-        selected = lookupDistance == distance
-    }
-    selectValue("Genonymic Style", GENONYMIC_STYLE, GenonymicStyleType.entries, true) { type ->
-        label = type.name
-        value = type.toString()
-        selected = when (type) {
-            GenonymicStyleType.NamesOnly -> style is NamesOnlyStyle
-            GenonymicStyleType.Prefix -> style is PrefixStyle
-            GenonymicStyleType.Suffix -> style is SuffixStyle
-            GenonymicStyleType.ChildOf -> style is ChildOfStyle
-        }
-    }
+    selectValue("Lookup Distance", LOOKUP_DISTANCE, GenonymicLookupDistance.entries, lookupDistance)
+    selectValue("Genonymic Style", GENONYMIC_STYLE, GenonymicStyleType.entries, style.getType(), true)
+
     when (style) {
         is ChildOfStyle -> selectWordsByGender("Words", style.words, WORD)
         NamesOnlyStyle -> doNothing()

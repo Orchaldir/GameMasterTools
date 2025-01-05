@@ -9,6 +9,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class LifeStages {
 
+    fun getType() = when (this) {
+        is ImmutableLifeStage -> LifeStagesType.ImmutableLifeStage
+        is SimpleAging -> LifeStagesType.SimpleAging
+    }
+
     abstract fun contains(id: RaceAppearanceId): Boolean
 
     fun getRaceAppearance() = when (this) {

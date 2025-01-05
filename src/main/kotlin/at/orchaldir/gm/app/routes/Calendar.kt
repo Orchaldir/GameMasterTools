@@ -134,7 +134,7 @@ private fun HTML.showAllCalendars(call: ApplicationCall) {
     val createLink = call.application.href(CalendarRoutes.New())
 
     simpleHtml("Calendars") {
-        field("Count", count.toString())
+        field("Count", count)
         showList(calendars) { calendar ->
             link(call, calendar)
         }
@@ -204,7 +204,7 @@ private fun BODY.showOrigin(
 private fun BODY.showDays(
     calendar: Calendar,
 ) {
-    field("Days", calendar.days.getType().name)
+    field("Days", calendar.days.getType())
     when (calendar.days) {
         is Weekdays -> showList("Weekdays", calendar.days.weekDays) { day ->
             +day.name
@@ -218,7 +218,7 @@ private fun BODY.showMonths(calendar: Calendar) {
     showList("Months", calendar.months) { month ->
         field(month.name, "${month.days} days")
     }
-    field("Days per Year", calendar.getDaysPerYear().toString())
+    field("Days per Year", calendar.getDaysPerYear())
 }
 
 private fun BODY.showEras(

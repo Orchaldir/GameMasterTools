@@ -26,11 +26,11 @@ import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getTownsFoundedBy
-import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.visualization.character.visualizeCharacter
+import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -159,13 +159,12 @@ private fun HTML.showAllCharacters(
 ) {
     val characters = STORE.getState().getCharacterStorage().getAll()
     val charactersWithNames = state.sortCharacters(characters, sort)
-    val count = characters.size
     val createLink = call.application.href(CharacterRoutes.New())
     val sortNameLink = call.application.href(CharacterRoutes.All())
     val sortAgeLink = call.application.href(CharacterRoutes.All(SortCharacter.Age))
 
     simpleHtml("Characters") {
-        field("Count", count.toString())
+        field("Count", characters.size)
         field("Sort") {
             link(sortNameLink, "Name")
             +" "
@@ -228,8 +227,8 @@ private fun HTML.showCharacterDetails(
     val equipment = state.getEquipment(character)
     val backLink = call.application.href(CharacterRoutes.All())
     val editAppearanceLink = call.application.href(CharacterRoutes.Appearance.Edit(character.id))
-    val frontSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipment)
-    val backSvg = visualizeCharacter(RENDER_CONFIG, state, character, equipment, false)
+    val frontSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment)
+    val backSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment, false)
 
     simpleHtml("Character: ${character.name(state)}") {
         svg(frontSvg, 20)
@@ -262,7 +261,7 @@ private fun BODY.showData(
     field("Race") {
         link(call, race)
     }
-    field("Gender", character.gender.toString())
+    field("Gender", character.gender)
     when (character.origin) {
         is Born -> {
             field("Origin") {
@@ -566,18 +565,12 @@ private fun FORM.selectVitalStatus(
     character: Character,
 ) {
     val vitalStatus = character.vitalStatus
-    selectValue("Vital Status", VITAL, VitalStatusType.entries, true) { type ->
-        label = type.name
-        value = type.name
-        selected = type == vitalStatus.getType()
-    }
+    selectValue("Vital Status", VITAL, VitalStatusType.entries, vitalStatus.getType(), true)
+
     if (vitalStatus is Dead) {
         selectDate(state, "Date of Death", vitalStatus.deathDay, combine(DEATH, DATE))
-        selectValue("Cause of death", DEATH, CauseOfDeathType.entries, true) { type ->
-            label = type.name
-            value = type.name
-            selected = type == vitalStatus.cause.getType()
-        }
+        selectValue("Cause of death", DEATH, CauseOfDeathType.entries, vitalStatus.cause.getType(), true)
+
         if (vitalStatus.cause is Murder) {
             selectValue("Killer", KILLER, state.getOthers(character.id)) { c ->
                 label = c.name(state)

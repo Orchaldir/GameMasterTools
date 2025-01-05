@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.parse.item
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.model.parseBookFormat
 import at.orchaldir.gm.app.html.model.parseCreator
 import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.parse.combine
@@ -23,6 +24,7 @@ fun parseBook(parameters: Parameters, state: State, id: BookId) =
         parseOrigin(parameters),
         parseOptionalDate(parameters, state, DATE),
         parseLanguageId(parameters, LANGUAGE),
+        parseBookFormat(parameters),
     )
 
 private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, BookOriginType.Original)) {

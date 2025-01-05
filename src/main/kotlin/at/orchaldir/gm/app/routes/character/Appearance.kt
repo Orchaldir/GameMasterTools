@@ -19,10 +19,10 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.getRaceAppearance
-import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.visualization.character.visualizeCharacter
+import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -105,8 +105,8 @@ private fun HTML.showAppearanceEditor(
     val previewLink = call.application.href(CharacterRoutes.Appearance.Preview(character.id))
     val updateLink = call.application.href(CharacterRoutes.Appearance.Update(character.id))
     val generateLink = call.application.href(CharacterRoutes.Appearance.Generate(character.id))
-    val frontSvg = visualizeCharacter(RENDER_CONFIG, state, character)
-    val backSvg = visualizeCharacter(RENDER_CONFIG, state, character, renderFront = false)
+    val frontSvg = visualizeCharacter(CHARACTER_CONFIG, state, character)
+    val backSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, renderFront = false)
 
     simpleHtml("Edit Appearance: ${character.name(state)}") {
         svg(frontSvg, 20)
@@ -161,16 +161,8 @@ private fun FORM.editBody(
     body: Body,
 ) {
     h2 { +"Body" }
-    selectValue("Shape", BODY_SHAPE, getAvailableBodyShapes(character.gender), true) { shape ->
-        label = shape.name
-        value = shape.toString()
-        selected = body.bodyShape == shape
-    }
-    selectValue("Width", BODY_WIDTH, Size.entries, true) { width ->
-        label = width.name
-        value = width.toString()
-        selected = body.width == width
-    }
+    selectValue("Shape", BODY_SHAPE, getAvailableBodyShapes(character.gender), body.bodyShape, true)
+    selectValue("Width", BODY_WIDTH, Size.entries, body.width, true)
 }
 
 private fun FORM.editHead(
@@ -201,11 +193,7 @@ private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
                 value = shape.toString()
                 selected = ears.shape == shape
             }
-            selectValue("Ear Size", EAR_SIZE, Size.entries, true) { size ->
-                label = size.name
-                value = size.toString()
-                selected = ears.size == size
-            }
+            selectValue("Ear Size", EAR_SIZE, Size.entries, ears.size, true)
         }
 
         else -> doNothing()
@@ -234,7 +222,7 @@ private fun FORM.editSkin(
                 label = skinColor.name
                 value = skinColor.toString()
                 selected = skin.color == skinColor
-                val bgColor = RENDER_CONFIG.getSkinColor(skinColor).toCode()
+                val bgColor = CHARACTER_CONFIG.getSkinColor(skinColor).toCode()
                 style = "background-color:${bgColor}"
             }
         }
@@ -329,11 +317,7 @@ private fun FORM.editEyes(
     when (eyes) {
         is OneEye -> {
             editEye(raceAppearance.eyeOptions, eyes.eye)
-            selectValue("Eye Size", EYE_SIZE, Size.entries, true) { c ->
-                label = c.name
-                value = c.toString()
-                selected = eyes.size == c
-            }
+            selectValue("Eye Size", EYE_SIZE, Size.entries, eyes.size, true)
         }
 
         is TwoEyes -> {
@@ -403,11 +387,7 @@ private fun FORM.editNormalHair(
 
     when (hair.style) {
         is SidePart -> {
-            selectValue("Side", SIDE_PART, Side.entries, true) { side ->
-                label = side.name
-                value = side.toString()
-                selected = hair.style.side == side
-            }
+            selectValue("Side", SIDE_PART, Side.entries, hair.style.side, true)
         }
 
         else -> doNothing()
@@ -444,14 +424,6 @@ private fun FORM.editMouth(
 }
 
 private fun FORM.editSimpleMouth(size: Size, teethColor: TeethColor) {
-    selectValue("Width", MOUTH_WIDTH, Size.entries, true) { width ->
-        label = width.name
-        value = width.toString()
-        selected = size == width
-    }
-    selectValue("Teeth Color", TEETH_COLOR, TeethColor.entries, true) { color ->
-        label = color.name
-        value = color.toString()
-        selected = teethColor == color
-    }
+    selectValue("Width", MOUTH_WIDTH, Size.entries, size, true)
+    selectValue("Teeth Color", TEETH_COLOR, TeethColor.entries, teethColor, true)
 }

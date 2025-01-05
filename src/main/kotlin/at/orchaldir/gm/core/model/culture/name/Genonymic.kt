@@ -21,7 +21,16 @@ enum class GenonymicStyleType {
 }
 
 @Serializable
-sealed class GenonymicStyle
+sealed class GenonymicStyle {
+
+    fun getType() = when (this) {
+        is ChildOfStyle -> GenonymicStyleType.ChildOf
+        NamesOnlyStyle -> GenonymicStyleType.NamesOnly
+        is PrefixStyle -> GenonymicStyleType.Prefix
+        is SuffixStyle -> GenonymicStyleType.Suffix
+    }
+
+}
 
 /**
  * "A B" means that A is son of B.

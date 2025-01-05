@@ -114,11 +114,10 @@ private fun HTML.showAllStreets(
     state: State,
 ) {
     val streets = STORE.getState().getStreetStorage().getAll().sortedBy { it.name(state) }
-    val count = streets.size
     val createLink = call.application.href(StreetRoutes.New())
 
     simpleHtml("Streets") {
-        field("Count", count.toString())
+        field("Count", streets.size)
         showList(streets) { street ->
             link(call, state, street)
         }

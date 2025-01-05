@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.book.*
 import at.orchaldir.gm.core.selector.item.canDeleteBook
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
+import at.orchaldir.gm.prototypes.visualization.book.BOOK_CONFIG
+import at.orchaldir.gm.visualization.book.book.visualizeBook
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -124,11 +126,10 @@ private fun HTML.showAllBooks(
     state: State,
 ) {
     val books = STORE.getState().getBookStorage().getAll().sortedBy { it.name }
-    val count = books.size
     val createLink = call.application.href(BookRoutes.New())
 
     simpleHtml("Books") {
-        field("Count", count.toString())
+        field("Count", books.size)
 
         table {
             tr {
@@ -137,6 +138,7 @@ private fun HTML.showAllBooks(
                 th { +"Origin" }
                 th { +"Creator" }
                 th { +"Language" }
+                th { +"Format" }
             }
             books.forEach { book ->
                 tr {
@@ -145,6 +147,7 @@ private fun HTML.showAllBooks(
                     td { +book.origin.getType().toString() }
                     td { showCreator(call, state, book.origin.creator()) }
                     td { link(call, state, book.language) }
+                    td { +book.format.getType().toString() }
                 }
             }
         }
@@ -166,12 +169,15 @@ private fun HTML.showBookDetails(
     val backLink = call.application.href(BookRoutes())
     val deleteLink = call.application.href(BookRoutes.Delete(book.id))
     val editLink = call.application.href(BookRoutes.Edit(book.id))
+    val svg = visualizeBook(BOOK_CONFIG, book)
 
     simpleHtml("Book: ${book.name}") {
-        field("Name", book.name)
+        svg(svg, 20)
         showOrigin(call, state, book)
         optionalField(call, state, "Date", book.date)
         fieldLink("Language", call, state, book.language)
+        showBookFormat(call, state, book.format)
+
         showList("Translations", state.getTranslationsOf(book.id)) { book ->
             link(call, state, book)
         }
@@ -215,23 +221,30 @@ private fun HTML.showBookEditor(
     val backLink = href(call, book.id)
     val previewLink = call.application.href(BookRoutes.Preview(book.id))
     val updateLink = call.application.href(BookRoutes.Update(book.id))
+    val svg = visualizeBook(BOOK_CONFIG, book)
 
     simpleHtml("Edit Book: ${book.name}") {
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-            selectName(book.name)
-            editOrigin(state, book)
-            selectOptionalDate(state, "Date", book.date, DATE)
-            selectValue("Language", LANGUAGE, languages, true) { l ->
-                label = l.name
-                value = l.id.value.toString()
-                selected = l.id == book.language
+        split({
+            form {
+                id = "editor"
+                action = previewLink
+                method = FormMethod.post
+                selectName(book.name)
+                editOrigin(state, book)
+                selectOptionalDate(state, "Date", book.date, DATE)
+                selectValue("Language", LANGUAGE, languages, true) { l ->
+                    label = l.name
+                    value = l.id.value.toString()
+                    selected = l.id == book.language
+                }
+                editBookFormat(state, book.format)
+                button("Update", updateLink)
             }
-            button("Update", updateLink)
-        }
-        back(backLink)
+            back(backLink)
+        }, {
+            svg(svg, 50)
+        })
+
     }
 }
 
@@ -239,11 +252,8 @@ private fun FORM.editOrigin(
     state: State,
     book: Book,
 ) {
-    selectValue("Origin", ORIGIN, BookOriginType.entries, true) { type ->
-        label = type.name
-        value = type.name
-        selected = type == book.origin.getType()
-    }
+    selectValue("Origin", ORIGIN, BookOriginType.entries, book.origin.getType(), true)
+
     when (book.origin) {
         is OriginalBook -> selectCreator(state, book.origin.author, book.id, book.date, "Author")
         is TranslatedBook -> {

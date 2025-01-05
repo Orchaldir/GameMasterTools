@@ -98,11 +98,7 @@ private fun HTML.showLanguageEditor(
                         }
                 }
             }
-            selectValue("Comprehension Level", "level", ComprehensionLevel.entries) { level ->
-                label = level.toString()
-                value = level.toString()
-                selected = level == ComprehensionLevel.Native
-            }
+            selectValue("Comprehension Level", "level", ComprehensionLevel.entries, ComprehensionLevel.Native)
             field("Languages to Remove") {
                 character.languages.keys.forEach { id ->
                     val language = state.getLanguageStorage().getOrThrow(id)

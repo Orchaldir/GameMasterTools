@@ -4,12 +4,11 @@ import at.orchaldir.gm.core.action.CreateBook
 import at.orchaldir.gm.core.action.DeleteBook
 import at.orchaldir.gm.core.action.UpdateBook
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.book.Book
-import at.orchaldir.gm.core.model.item.book.OriginalBook
-import at.orchaldir.gm.core.model.item.book.TranslatedBook
+import at.orchaldir.gm.core.model.item.book.*
 import at.orchaldir.gm.core.reducer.util.checkCreator
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.item.canDeleteBook
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -29,6 +28,7 @@ val DELETE_BOOK: Reducer<DeleteBook, State> = { state, action ->
 val UPDATE_BOOK: Reducer<UpdateBook, State> = { state, action ->
     state.getBookStorage().require(action.book.id)
     checkOrigin(state, action.book)
+    checkFormat(action.book.format)
 
     noFollowUps(state.updateStorage(state.getBookStorage().update(action.book)))
 }
@@ -47,5 +47,28 @@ private fun checkOrigin(
             }
             checkCreator(state, origin.translator, book.id, book.date, "Translator")
         }
+    }
+}
+
+private fun checkFormat(format: BookFormat) {
+    when (format) {
+        is Codex -> {
+            require(format.pages >= MIN_PAGES) { "Book requires at least $MIN_PAGES pages!" }
+
+            when (format.binding) {
+                is CopticBinding -> {
+                    val stitches = when (val sewing = format.binding.sewingPattern) {
+                        is ComplexSewingPattern -> sewing.stitches.size
+                        is SimpleSewingPattern -> sewing.stitches.size
+                    }
+                    require(stitches >= MIN_STITCHES) { "Sewing pattern requires at least $MIN_STITCHES stitches!" }
+                }
+
+                is Hardcover -> doNothing()
+                is LeatherBinding -> doNothing()
+            }
+        }
+
+        UndefinedBookFormat -> doNothing()
     }
 }

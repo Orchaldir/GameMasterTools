@@ -3,51 +3,29 @@ package at.orchaldir.gm.prototypes.visualization.character
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.item.Equipment
-import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.model.TextOptions
-import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.RenderConfig
-import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.character.TEXT_LAYER
-import at.orchaldir.gm.visualization.character.calculateSize
-import at.orchaldir.gm.visualization.character.visualizeAppearance
-import java.io.File
+import at.orchaldir.gm.prototypes.visualization.renderTable
+import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.visualization.character.CharacterRenderConfig
+import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.appearance.calculateSize
+import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 
-fun renderTable(
+fun renderCharacterTable(
     filename: String,
-    config: RenderConfig,
+    config: CharacterRenderConfig,
     appearances: List<List<Appearance>>,
 ) {
     val size = calculateSize(config, appearances[0][0])
-    val maxColumns = appearances.maxOf { it.size }
-    val totalSize = Size2d(size.width * maxColumns, size.height * appearances.size)
-    val builder = SvgBuilder(totalSize)
-    val columnStep = Point2d(size.width, 0.0f)
-    val rowStep = Point2d(0.0f, size.height)
-    var startOfRow = Point2d()
+    renderTable(filename, size, appearances) { aabb, renderer, appearance ->
+        val state = CharacterRenderState(aabb, config, renderer, true, emptyList())
 
-    appearances.forEach { row ->
-        var start = startOfRow.copy()
-
-        row.forEach { appearance ->
-            val aabb = AABB(start, size)
-            val state = RenderState(aabb, config, builder, true, emptyList())
-
-            visualizeAppearance(state, appearance)
-
-            start += columnStep
-        }
-
-        startOfRow += rowStep
+        visualizeAppearance(state, appearance)
     }
-
-    File(filename).writeText(builder.finish().export())
 }
 
-fun <C, R> renderTable(
+fun <C, R> renderCharacterTable(
     filename: String,
-    config: RenderConfig,
+    config: CharacterRenderConfig,
     rows: List<Pair<String, R>>,
     columns: List<Pair<String, C>>,
     backToo: Boolean = false,
@@ -55,58 +33,13 @@ fun <C, R> renderTable(
 ) {
     val height = Distance(200)
     val size = config.calculateSize(height)
-    val rowSize = if (backToo) {
-        2
-    } else {
-        1
+
+    renderTable(filename, size, rows, columns, backToo) { aabb, renderer, renderFront, column, row ->
+        val (appearance, equipment) = create(height, column, row)
+        val state = CharacterRenderState(aabb, config, renderer, renderFront, equipment)
+
+        visualizeAppearance(state, appearance)
     }
-    val totalSize = Size2d(size.width * columns.size, size.height * rows.size * rowSize)
-    val builder = SvgBuilder(totalSize)
-    val columnStep = Point2d(size.width, 0.0f)
-    val rowStep = Point2d(0.0f, size.height)
-    var startOfRow = Point2d()
-    val textSize = size.width / 10.0f
-    val textOptions = TextOptions(Color.Black.toRender(), textSize)
-    val columnTextOffset = Point2d(size.width / 2.0f, textSize)
-    val columnOrientation = Orientation.zero()
-    val rowOrientation = Orientation.fromDegree(270.0f)
-    val layer = builder.getLayer(TEXT_LAYER)
-
-    rows.forEach { (rowName, row) ->
-        var start = startOfRow.copy()
-
-        columns.forEach { (columnName, column) ->
-            val aabb = AABB(start, size)
-            val (appearance, equipment) = create(height, column, row)
-            val state = RenderState(aabb, config, builder, true, equipment)
-
-            visualizeAppearance(state, appearance)
-
-            if (backToo) {
-                val startBack = start + rowStep
-                val aabbBack = AABB(startBack, size)
-                val stateBack = RenderState(aabbBack, config, builder, false, equipment)
-
-                visualizeAppearance(stateBack, appearance)
-            }
-
-            val textCenter = start + columnTextOffset
-            layer.renderText(columnName, textCenter, columnOrientation, textOptions)
-
-            start += columnStep
-        }
-
-        val textCenter = Point2d(textSize, start.y + size.height / 2.0f)
-        layer.renderText(rowName, textCenter, rowOrientation, textOptions)
-
-        if (backToo) {
-            layer.renderText("Back", textCenter + rowStep, rowOrientation, textOptions)
-        }
-
-        startOfRow += rowStep * rowSize
-    }
-
-    File(filename).writeText(builder.finish().export())
 }
 
 fun addNamesToBeardStyle(values: List<BeardStyle>) = values.map {
@@ -128,8 +61,4 @@ fun addNamesToEyes(values: List<Eyes>) = values.map {
             is TwoEyes -> "Two Eyes"
         }, it
     )
-}
-
-fun <T> addNames(values: Collection<T>) = values.map {
-    Pair(it.toString(), it)
 }

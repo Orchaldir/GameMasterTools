@@ -140,11 +140,10 @@ fun Application.configureStreetTemplateRouting() {
 
 private fun HTML.showAllStreetTemplates(call: ApplicationCall) {
     val streets = STORE.getState().getStreetTemplateStorage().getAll().sortedBy { it.name }
-    val count = streets.size
     val createLink = call.application.href(StreetTemplateRoutes.New())
 
     simpleHtml("Street Templates") {
-        field("Count", count.toString())
+        field("Count", streets.size)
         showList(streets) { type ->
             link(call, type)
         }
@@ -165,7 +164,7 @@ private fun HTML.showStreetTemplateDetails(
     simpleHtml("Street Template: ${type.name}") {
         split({
             field("Name", type.name)
-            field("Color", type.color.toString())
+            field("Color", type.color)
             showMaterialCost(call, state, type.materialCost)
             showList("Towns", state.getTowns(type.id)) { town ->
                 link(call, state, town)

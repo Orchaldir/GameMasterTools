@@ -20,10 +20,10 @@ import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getRaces
-import at.orchaldir.gm.prototypes.visualization.RENDER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.math.Distribution
-import at.orchaldir.gm.visualization.character.visualizeCharacter
+import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -111,11 +111,10 @@ fun Application.configureRaceAppearanceRouting() {
 
 private fun HTML.showAll(call: ApplicationCall) {
     val elements = STORE.getState().getRaceAppearanceStorage().getAll().sortedBy { it.name }
-    val count = elements.size
     val createLink = call.application.href(AppearanceRoutes.New())
 
     simpleHtml("Race Appearances") {
-        field("Count", count.toString())
+        field("Count", elements.size)
         showList(elements) { element ->
             link(call, element)
         }
@@ -166,7 +165,7 @@ private fun HtmlBlockTag.showRandomExamples(
     val generator = createGeneratorConfig(state, appearance, Gender.Male, CultureId(0))
 
     repeat(n) {
-        val svg = visualizeCharacter(RENDER_CONFIG, generator.generate())
+        val svg = visualizeCharacter(CHARACTER_CONFIG, generator.generate())
         svg(svg, width)
     }
 }

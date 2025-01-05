@@ -32,7 +32,32 @@
     "type": "Decade",
     "decade": 95
    },
-   "language": 5
+   "language": 5,
+   "format": {
+    "type": "Codex",
+    "pages": 400,
+    "binding": {
+     "type": "Coptic",
+     "cover": {
+      "color": "SaddleBrown",
+      "material": 0
+     },
+     "sewingPattern": {
+      "type": "Simple",
+      "color": "Silver",
+      "size": "Medium",
+      "stitches": [
+       "Kettle",
+       "Kettle",
+       "Kettle"
+      ]
+     }
+    },
+    "size": {
+     "width": 130,
+     "height": 200
+    }
+   }
   },
   "2": {
    "id": 2,

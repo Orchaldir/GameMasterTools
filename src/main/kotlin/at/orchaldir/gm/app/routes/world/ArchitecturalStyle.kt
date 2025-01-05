@@ -149,14 +149,13 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State,
                 Start -> compareBy { it.start.year }
                 End -> compareBy { it.end?.year }
             })
-    val count = styles.size
     val createLink = call.application.href(ArchitecturalStyleRoutes.New())
     val sortNameLink = call.application.href(ArchitecturalStyleRoutes.All())
     val sortStartLink = call.application.href(ArchitecturalStyleRoutes.All(Start))
     val sortEndLink = call.application.href(ArchitecturalStyleRoutes.All(End))
 
     simpleHtml("Architectural Styles") {
-        field("Count", count.toString())
+        field("Count", styles.size)
         field("Sort") {
             link(sortNameLink, "Name")
             +" "

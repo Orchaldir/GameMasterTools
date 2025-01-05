@@ -113,11 +113,10 @@ fun Application.configureMountainRouting() {
 
 private fun HTML.showAllMountains(call: ApplicationCall) {
     val mountains = STORE.getState().getMountainStorage().getAll().sortedBy { it.name }
-    val count = mountains.size
     val createLink = call.application.href(MountainRoutes.New())
 
     simpleHtml("Mountains") {
-        field("Count", count.toString())
+        field("Count", mountains.size)
         showList(mountains) { nameList ->
             link(call, nameList)
         }
