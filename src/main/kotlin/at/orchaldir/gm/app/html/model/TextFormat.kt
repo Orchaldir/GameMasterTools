@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
+import at.orchaldir.gm.core.model.item.text.scroll.NoRod
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
@@ -33,7 +34,6 @@ fun BODY.showTextFormat(
         }
         is Scroll -> {
             field("Vertical", format.vertical.toString())
-            fieldSize("Size", format.size)
         }
     }
 }
@@ -108,13 +108,12 @@ fun FORM.editTextFormat(
     when (format) {
         UndefinedTextFormat -> doNothing()
         is Book -> {
-            selectInt("Pages", format.pages, at.orchaldir.gm.core.model.item.text.scroll.MIN_PAGES, 10000, 1, PAGES)
+            selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
             editBinding(state, format.binding)
             selectSize(SIZE, format.size, Distance(10), Distance(2000), Distance(10), true)
         }
         is Scroll -> {
             selectBool("Vertical", format.vertical, VERTICAL, update = true)
-            selectSize(SIZE, format.size, Distance(10), Distance(2000), Distance(10), true)
         }
     }
 }
@@ -210,7 +209,9 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
     )
     TextFormatType.Scroll -> Scroll(
         parseBool(parameters, VERTICAL),
-        parseSize(parameters, SIZE),
+        parseDistance(parameters, LENGTH),
+        parseDistance(parameters, DIAMETER),
+        NoRod,
     )
 
     TextFormatType.Undefined -> UndefinedTextFormat

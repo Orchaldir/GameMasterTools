@@ -54,7 +54,7 @@ private fun checkOrigin(
 private fun checkFormat(format: TextFormat) {
     when (format) {
         is Book -> {
-            require(format.pages >= at.orchaldir.gm.core.model.item.text.scroll.MIN_PAGES) { "The text requires at least ${at.orchaldir.gm.core.model.item.text.scroll.MIN_PAGES} pages!" }
+            require(format.pages >= MIN_PAGES) { "The text requires at least $MIN_PAGES pages!" }
 
             when (format.binding) {
                 is CopticBinding -> {

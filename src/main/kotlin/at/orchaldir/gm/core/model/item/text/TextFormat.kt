@@ -37,7 +37,8 @@ data class Book(
 @SerialName("Scroll")
 data class Scroll(
     val vertical: Boolean,
-    val size: Size2i = Size2i(200, 20),
+    val length: Distance,
+    val diameter: Distance,
     val format: ScrollFormat,
 ) : TextFormat()
 
