@@ -106,7 +106,7 @@ fun FORM.editBookFormat(
     when (format) {
         UndefinedBookFormat -> doNothing()
         is Codex -> {
-            selectInt("Pages", format.pages, 10, 10000, 1, PAGES)
+            selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
             editBinding(state, format.binding)
             selectSize(SIZE, format.size, Distance(10), Distance(2000), Distance(10), true)
         }
@@ -191,7 +191,7 @@ private fun FORM.editSewingPattern(pattern: SewingPattern) {
 }
 
 private fun FORM.editSewingPatternSize(size: Int) {
-    selectInt("Sewing Pattern Size", size, 2, 20, 1, combine(SEWING, NUMBER), true)
+    selectInt("Sewing Pattern Size", size, MIN_STITCHES, 20, 1, combine(SEWING, NUMBER), true)
 }
 
 // parse

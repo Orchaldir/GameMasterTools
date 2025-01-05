@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+const val MIN_STITCHES = 2
+
 enum class SewingPatternType {
     Simple,
     Complex,

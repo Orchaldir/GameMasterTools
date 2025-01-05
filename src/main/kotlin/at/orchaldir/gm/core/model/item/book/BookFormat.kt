@@ -4,6 +4,8 @@ import at.orchaldir.gm.utils.math.Size2i
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+const val MIN_PAGES = 10
+
 enum class BookFormatType {
     Codex,
     Undefined,
@@ -23,7 +25,7 @@ sealed class BookFormat {
 data class Codex(
     val pages: Int,
     val binding: BookBinding,
-    val size: Size2i,
+    val size: Size2i = Size2i.square(100),
 ) : BookFormat()
 
 @Serializable
