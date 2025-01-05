@@ -145,7 +145,7 @@ private fun HTML.showAllLanguages(
         table {
             tr {
                 th { +"Name" }
-                th { +"Books" }
+                th { +"Texts" }
                 th { +"Characters" }
                 th { +"Cultures" }
             }
@@ -173,7 +173,7 @@ private fun HTML.showLanguageDetails(
     val deleteLink = call.application.href(LanguageRoutes.Delete(language.id))
     val editLink = call.application.href(LanguageRoutes.Edit(language.id))
     val children = state.getChildren(language.id)
-    val books = state.getTexts(language.id)
+    val texts = state.getTexts(language.id)
     val characters = state.getCharacters(language.id)
     val cultures = state.getCultures(language.id)
 
@@ -206,8 +206,8 @@ private fun HTML.showLanguageDetails(
             link(call, language)
         }
         h2 { +"Usage" }
-        showList("Books", books) { book ->
-            link(call, state, book)
+        showList("Texts", texts) { texts ->
+            link(call, state, texts)
         }
         showList("Characters", characters) { character ->
             link(call, state, character)

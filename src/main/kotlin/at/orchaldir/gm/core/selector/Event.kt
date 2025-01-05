@@ -26,9 +26,9 @@ fun State.getEvents(): List<Event> {
         }
     }
 
-    getTextStorage().getAll().forEach { book ->
-        if (book.date != null) {
-            events.add(BookPublishedEvent(book.date, book.id))
+    getTextStorage().getAll().forEach { text ->
+        if (text.date != null) {
+            events.add(TextPublishedEvent(text.date, text.id))
         }
     }
 

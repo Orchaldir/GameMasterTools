@@ -6,13 +6,13 @@ import at.orchaldir.gm.utils.redux.Reducer
 
 val ITEM_REDUCER: Reducer<ItemAction, State> = { state, action ->
     when (action) {
-        // book
-        is CreateText -> CREATE_TEXT(state, action)
-        is DeleteText -> DELETE_TEXT(state, action)
-        is UpdateText -> UPDATE_TEXT(state, action)
         // item template
         is CreateItemTemplate -> CREATE_ITEM_TEMPLATE(state, action)
         is DeleteItemTemplate -> DELETE_ITEM_TEMPLATE(state, action)
         is UpdateItemTemplate -> UPDATE_ITEM_TEMPLATE(state, action)
+        // text
+        is CreateText -> CREATE_TEXT(state, action)
+        is DeleteText -> DELETE_TEXT(state, action)
+        is UpdateText -> UPDATE_TEXT(state, action)
     }
 }

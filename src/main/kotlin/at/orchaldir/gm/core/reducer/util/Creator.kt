@@ -64,8 +64,8 @@ fun <ID : Id<ID>> checkCreated(
     require(languages.isEmpty()) { "Cannot delete $noun ${id.value()}, because of invented languages!" }
     val towns = state.getTownsFoundedBy(id)
     require(towns.isEmpty()) { "Cannot delete $noun ${id.value()}, because of founded towns!" }
-    val writtenBooks = state.getTextsWrittenBy(id)
-    require(writtenBooks.isEmpty()) { "Cannot delete $noun ${id.value()}, who is an author!" }
-    val translatedBooks = state.getTextsTranslatedBy(id)
-    require(translatedBooks.isEmpty()) { "Cannot delete $noun ${id.value()}, who is a translator!" }
+    val writtenTexts = state.getTextsWrittenBy(id)
+    require(writtenTexts.isEmpty()) { "Cannot delete $noun ${id.value()}, who is an author!" }
+    val translatedTexts = state.getTextsTranslatedBy(id)
+    require(translatedTexts.isEmpty()) { "Cannot delete $noun ${id.value()}, who is a translator!" }
 }

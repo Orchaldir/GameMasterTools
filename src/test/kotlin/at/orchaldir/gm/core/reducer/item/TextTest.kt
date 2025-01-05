@@ -31,7 +31,7 @@ class TextTest {
         val action = DeleteText(TEXT_ID_0)
 
         @Test
-        fun `Can delete an existing book`() {
+        fun `Can delete an existing text`() {
             assertFalse(REDUCER.invoke(STATE, action).first.getTextStorage().contains(TEXT_ID_0))
         }
 
@@ -41,7 +41,7 @@ class TextTest {
         }
 
         @Test
-        fun `Cannot delete a translated book`() {
+        fun `Cannot delete a translated text`() {
             val origin = TranslatedText(TEXT_ID_0, CreatedByCharacter(CHARACTER_ID_0))
             val state = STATE.updateStorage(
                 Storage(listOf(Text(TEXT_ID_0), Text(TEXT_ID_1, origin = origin)))
@@ -72,7 +72,7 @@ class TextTest {
         }
 
         @Test
-        fun `Successfully update an original book`() {
+        fun `Successfully update an original text`() {
             val origin = OriginalText(CreatedByCharacter(CHARACTER_ID_0))
             val text = Text(TEXT_ID_0, origin = origin)
             val action = UpdateText(text)
@@ -89,7 +89,7 @@ class TextTest {
         }
 
         @Test
-        fun `Translated book must exist`() {
+        fun `Translated text must exist`() {
             val origin = TranslatedText(TEXT_ID_2, CreatedByCharacter(CHARACTER_ID_0))
             val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
@@ -97,7 +97,7 @@ class TextTest {
         }
 
         @Test
-        fun `Book cannot translate itself`() {
+        fun `A text cannot translate itself`() {
             val origin = TranslatedText(TEXT_ID_0, CreatedByCharacter(CHARACTER_ID_0))
             val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 

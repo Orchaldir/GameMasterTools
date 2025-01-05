@@ -33,7 +33,7 @@ fun HtmlBlockTag.showArchitecturalStyleCount(
     buildings: Collection<Building>,
 ) = showCount(call, state, "Architectural Styles", countArchitecturalStyles(buildings))
 
-fun HtmlBlockTag.showBookOriginTypeCount(texts: Collection<Text>) =
+fun HtmlBlockTag.showTextOriginTypeCount(texts: Collection<Text>) =
     showCount("Origin", countTextOriginTypes(texts))
 
 fun <ELEMENT : Created> HtmlBlockTag.showCreatorCount(
@@ -82,7 +82,7 @@ fun HtmlBlockTag.showJobCount(
 fun HtmlBlockTag.showHousingStatusCount(characters: Collection<Character>) =
     showCount("Housing Status", countHousingStatus(characters))
 
-fun HtmlBlockTag.showLanguageCountForBooks(
+fun HtmlBlockTag.showLanguageCountForTexts(
     call: ApplicationCall,
     state: State,
     texts: Collection<Text>,
@@ -91,8 +91,8 @@ fun HtmlBlockTag.showLanguageCountForBooks(
 fun HtmlBlockTag.showLanguageCountForCharacters(
     call: ApplicationCall,
     state: State,
-    books: Collection<Character>,
-) = showCount(call, state, "Languages", countLanguages(books))
+    characters: Collection<Character>,
+) = showCount(call, state, "Languages", countLanguages(characters))
 
 fun HtmlBlockTag.showMaterialCategoryCount(materials: Collection<Material>) =
     showCount("Material Category", countMaterialCategory(materials))

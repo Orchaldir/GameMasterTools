@@ -29,7 +29,7 @@ val DELETE_LANGUAGE: Reducer<DeleteLanguage, State> = { state, action ->
     ) { "Cannot delete language ${action.id.value} that is known by characters!" }
     require(
         state.getTexts(action.id).isEmpty()
-    ) { "Cannot delete language ${action.id.value} that is used by books!" }
+    ) { "Cannot delete language ${action.id.value} that is used by a text!" }
 
     noFollowUps(state.updateStorage(state.getLanguageStorage().remove(action.id)))
 }

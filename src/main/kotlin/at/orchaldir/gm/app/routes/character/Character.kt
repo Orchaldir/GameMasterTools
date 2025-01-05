@@ -358,12 +358,12 @@ private fun BODY.showCrafting(
 ) {
     h2 { +"Crafting" }
 
-    showList("Written Books", state.getTextsWrittenBy(character.id)) { book ->
-        link(call, state, book)
+    showList("Written Texts", state.getTextsWrittenBy(character.id)) { text ->
+        link(call, state, text)
     }
 
-    showList("Translated Books", state.getTextsTranslatedBy(character.id)) { book ->
-        link(call, state, book)
+    showList("Translated Texts", state.getTextsTranslatedBy(character.id)) { text ->
+        link(call, state, text)
     }
 
     showList("Buildings", state.getBuildingsBuildBy(character.id)) { building ->

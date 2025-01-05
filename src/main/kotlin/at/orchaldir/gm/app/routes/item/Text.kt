@@ -152,9 +152,9 @@ private fun HTML.showAllTexts(
             }
         }
 
-        showBookOriginTypeCount(texts)
+        showTextOriginTypeCount(texts)
         showCreatorCount(call, state, texts, "Creators")
-        showLanguageCountForBooks(call, state, texts)
+        showLanguageCountForTexts(call, state, texts)
 
         action(createLink, "Add")
         back("/")
@@ -257,8 +257,9 @@ private fun FORM.editOrigin(
     when (text.origin) {
         is OriginalText -> selectCreator(state, text.origin.author, text.id, text.date, "Author")
         is TranslatedText -> {
-            val otherBooks = state.getTextStorage().getAllExcept(text.id)
-            selectValue("Translation Of", combine(ORIGIN, REFERENCE), otherBooks) { translated ->
+            val otherTexts = state.getTextStorage().getAllExcept(text.id)
+
+            selectValue("Translation Of", combine(ORIGIN, REFERENCE), otherTexts) { translated ->
                 label = translated.name
                 value = translated.id.value.toString()
                 selected = translated.id == text.origin.text

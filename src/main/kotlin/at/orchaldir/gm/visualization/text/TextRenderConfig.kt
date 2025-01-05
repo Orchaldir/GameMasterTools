@@ -23,8 +23,8 @@ data class TextRenderConfig(
     val sewingLength: SizeConfig<Factor>,
 ) {
 
-    fun calculateSize(book: TextFormat) = when (book) {
-        is Codex -> book.size.toSize2d() + (padding * 2)
+    fun calculateSize(format: TextFormat) = when (format) {
+        is Codex -> format.size.toSize2d() + (padding * 2)
         UndefinedTextFormat -> square(padding * 4.0f)
     }
 

@@ -63,12 +63,12 @@ class LanguageTest {
         }
 
         @Test
-        fun `Cannot delete a language used by a book`() {
+        fun `Cannot delete a language used by a text`() {
             val text = Text(TEXT_ID_0, language = LANGUAGE_ID_1)
             val state = State(listOf(Storage(text), Storage(Language(LANGUAGE_ID_1))))
             val action = DeleteLanguage(LANGUAGE_ID_1)
 
-            assertIllegalArgument("Cannot delete language 1 that is used by books!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete language 1 that is used by a text!") { REDUCER.invoke(state, action) }
         }
     }
 

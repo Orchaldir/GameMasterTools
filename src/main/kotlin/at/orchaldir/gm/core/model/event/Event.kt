@@ -38,9 +38,9 @@ data class ArchitecturalStyleEndEvent(
 
 }
 
-// book
+// text
 
-data class BookPublishedEvent(
+data class TextPublishedEvent(
     val publishingDate: Date,
     val textId: TextId,
 ) : Event() {
