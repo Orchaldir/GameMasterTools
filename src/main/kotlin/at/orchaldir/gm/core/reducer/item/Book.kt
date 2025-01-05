@@ -13,24 +13,24 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_BOOK: Reducer<CreateBook, State> = { state, _ ->
-    val text = Text(state.getBookStorage().nextId)
+    val text = Text(state.getTextStorage().nextId)
 
-    noFollowUps(state.updateStorage(state.getBookStorage().add(text)))
+    noFollowUps(state.updateStorage(state.getTextStorage().add(text)))
 }
 
 val DELETE_BOOK: Reducer<DeleteBook, State> = { state, action ->
-    state.getBookStorage().require(action.id)
+    state.getTextStorage().require(action.id)
     require(state.canDeleteBook(action.id)) { "Book ${action.id.value} is used" }
 
-    noFollowUps(state.updateStorage(state.getBookStorage().remove(action.id)))
+    noFollowUps(state.updateStorage(state.getTextStorage().remove(action.id)))
 }
 
 val UPDATE_BOOK: Reducer<UpdateBook, State> = { state, action ->
-    state.getBookStorage().require(action.text.id)
+    state.getTextStorage().require(action.text.id)
     checkOrigin(state, action.text)
     checkFormat(action.text.format)
 
-    noFollowUps(state.updateStorage(state.getBookStorage().update(action.text)))
+    noFollowUps(state.updateStorage(state.getTextStorage().update(action.text)))
 }
 
 private fun checkOrigin(
@@ -40,7 +40,7 @@ private fun checkOrigin(
     when (val origin = text.origin) {
         is OriginalText -> checkCreator(state, origin.author, text.id, text.date, "Author")
         is TranslatedText -> {
-            val original = state.getBookStorage().getOrThrow(origin.text)
+            val original = state.getTextStorage().getOrThrow(origin.text)
             require(text.id != origin.text) { "Book cannot translate itself!" }
             require(state.getDefaultCalendar().isAfterOrEqualOptional(text.date, original.date)) {
                 "The translation must happen after the original was written!"

@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.character.*
 import at.orchaldir.gm.app.routes.economy.configureBusinessRouting
 import at.orchaldir.gm.app.routes.economy.configureJobRouting
-import at.orchaldir.gm.app.routes.item.configureBookRouting
+import at.orchaldir.gm.app.routes.item.configureTextRouting
 import at.orchaldir.gm.app.routes.item.configureItemTemplateRouting
 import at.orchaldir.gm.app.routes.race.configureRaceAppearanceRouting
 import at.orchaldir.gm.app.routes.race.configureRaceRouting
@@ -38,7 +38,6 @@ fun Application.module() {
     configureRouting()
     configureStatusPages()
     configureArchitecturalStyleRouting()
-    configureBookRouting()
     configureBuildingRouting()
     configureBuildingEditorRouting()
     configureBusinessRouting()
@@ -67,6 +66,7 @@ fun Application.module() {
     configureStreetRouting()
     configureStreetTemplateRouting()
     configureStreetEditorRouting()
+    configureTextRouting()
     configureTownRouting()
 }
 

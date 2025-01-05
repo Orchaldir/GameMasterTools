@@ -8,7 +8,7 @@ import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteBook(book: TextId) = getTranslationsOf(book).isEmpty()
 
-fun State.countBooks(language: LanguageId) = getBookStorage()
+fun State.countBooks(language: LanguageId) = getTextStorage()
     .getAll()
     .count { c -> c.language == language }
 
@@ -20,19 +20,19 @@ fun countBookOriginTypes(texts: Collection<Text>) = texts
     .groupingBy { it.origin.getType() }
     .eachCount()
 
-fun State.getBooks(language: LanguageId) = getBookStorage()
+fun State.getBooks(language: LanguageId) = getTextStorage()
     .getAll()
     .filter { b -> b.language == language }
 
-fun State.getTranslationsOf(book: TextId) = getBookStorage()
+fun State.getTranslationsOf(book: TextId) = getTextStorage()
     .getAll()
     .filter { b -> b.origin.isTranslationOf(book) }
 
-fun <ID : Id<ID>> State.getBooksTranslatedBy(id: ID) = getBookStorage()
+fun <ID : Id<ID>> State.getBooksTranslatedBy(id: ID) = getTextStorage()
     .getAll()
     .filter { it.origin.wasTranslatedBy(id) }
 
-fun <ID : Id<ID>> State.getBooksWrittenBy(id: ID) = getBookStorage()
+fun <ID : Id<ID>> State.getBooksWrittenBy(id: ID) = getTextStorage()
     .getAll()
     .filter { it.origin.wasWrittenBy(id) }
 

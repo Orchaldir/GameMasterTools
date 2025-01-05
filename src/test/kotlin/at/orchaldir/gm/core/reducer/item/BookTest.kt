@@ -32,7 +32,7 @@ class BookTest {
 
         @Test
         fun `Can delete an existing book`() {
-            assertFalse(REDUCER.invoke(STATE, action).first.getBookStorage().contains(BOOK_ID_0))
+            assertFalse(REDUCER.invoke(STATE, action).first.getTextStorage().contains(BOOK_ID_0))
         }
 
         @Test
@@ -77,7 +77,7 @@ class BookTest {
             val text = Text(BOOK_ID_0, origin = origin)
             val action = UpdateBook(text)
 
-            assertEquals(text, REDUCER.invoke(STATE, action).first.getBookStorage().get(BOOK_ID_0))
+            assertEquals(text, REDUCER.invoke(STATE, action).first.getTextStorage().get(BOOK_ID_0))
         }
 
         @Test
@@ -120,7 +120,7 @@ class BookTest {
             val text = Text(BOOK_ID_0, origin = origin)
             val action = UpdateBook(text)
 
-            assertEquals(text, REDUCER.invoke(STATE, action).first.getBookStorage().get(BOOK_ID_0))
+            assertEquals(text, REDUCER.invoke(STATE, action).first.getTextStorage().get(BOOK_ID_0))
         }
 
         @Nested

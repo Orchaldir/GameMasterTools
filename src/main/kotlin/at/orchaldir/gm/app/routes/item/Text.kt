@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.item.parseBook
+import at.orchaldir.gm.app.parse.item.parseText
 import at.orchaldir.gm.core.action.CreateBook
 import at.orchaldir.gm.core.action.DeleteBook
 import at.orchaldir.gm.core.action.UpdateBook
@@ -29,90 +29,90 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$TEXT_TYPE")
-class BookRoutes {
+class TextRoutes {
     @Resource("details")
-    class Details(val id: TextId, val parent: BookRoutes = BookRoutes())
+    class Details(val id: TextId, val parent: TextRoutes = TextRoutes())
 
     @Resource("new")
-    class New(val parent: BookRoutes = BookRoutes())
+    class New(val parent: TextRoutes = TextRoutes())
 
     @Resource("delete")
-    class Delete(val id: TextId, val parent: BookRoutes = BookRoutes())
+    class Delete(val id: TextId, val parent: TextRoutes = TextRoutes())
 
     @Resource("edit")
-    class Edit(val id: TextId, val parent: BookRoutes = BookRoutes())
+    class Edit(val id: TextId, val parent: TextRoutes = TextRoutes())
 
     @Resource("preview")
-    class Preview(val id: TextId, val parent: BookRoutes = BookRoutes())
+    class Preview(val id: TextId, val parent: TextRoutes = TextRoutes())
 
     @Resource("update")
-    class Update(val id: TextId, val parent: BookRoutes = BookRoutes())
+    class Update(val id: TextId, val parent: TextRoutes = TextRoutes())
 }
 
-fun Application.configureBookRouting() {
+fun Application.configureTextRouting() {
     routing {
-        get<BookRoutes> {
-            logger.info { "Get all books" }
+        get<TextRoutes> {
+            logger.info { "Get all texts" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllBooks(call, STORE.getState())
+                showAllTexts(call, STORE.getState())
             }
         }
-        get<BookRoutes.Details> { details ->
-            logger.info { "Get details of book ${details.id.value}" }
+        get<TextRoutes.Details> { details ->
+            logger.info { "Get details of text ${details.id.value}" }
 
             val state = STORE.getState()
-            val book = state.getBookStorage().getOrThrow(details.id)
+            val text = state.getTextStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showBookDetails(call, state, book)
+                showTextDetails(call, state, text)
             }
         }
-        get<BookRoutes.New> {
-            logger.info { "Add new book" }
+        get<TextRoutes.New> {
+            logger.info { "Add new text" }
 
             STORE.dispatch(CreateBook)
 
-            call.respondRedirect(call.application.href(BookRoutes.Edit(STORE.getState().getBookStorage().lastId)))
+            call.respondRedirect(call.application.href(TextRoutes.Edit(STORE.getState().getTextStorage().lastId)))
 
             STORE.getState().save()
         }
-        get<BookRoutes.Delete> { delete ->
-            logger.info { "Delete book ${delete.id.value}" }
+        get<TextRoutes.Delete> { delete ->
+            logger.info { "Delete text ${delete.id.value}" }
 
             STORE.dispatch(DeleteBook(delete.id))
 
-            call.respondRedirect(call.application.href(BookRoutes()))
+            call.respondRedirect(call.application.href(TextRoutes()))
 
             STORE.getState().save()
         }
-        get<BookRoutes.Edit> { edit ->
-            logger.info { "Get editor for book ${edit.id.value}" }
+        get<TextRoutes.Edit> { edit ->
+            logger.info { "Get editor for text ${edit.id.value}" }
 
             val state = STORE.getState()
-            val book = state.getBookStorage().getOrThrow(edit.id)
+            val text = state.getTextStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showBookEditor(call, state, book)
+                showTextEditor(call, state, text)
             }
         }
-        post<BookRoutes.Preview> { preview ->
-            logger.info { "Get preview for book ${preview.id.value}" }
+        post<TextRoutes.Preview> { preview ->
+            logger.info { "Get preview for text ${preview.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val book = parseBook(formParameters, STORE.getState(), preview.id)
+            val text = parseText(formParameters, STORE.getState(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showBookEditor(call, STORE.getState(), book)
+                showTextEditor(call, STORE.getState(), text)
             }
         }
-        post<BookRoutes.Update> { update ->
-            logger.info { "Update book ${update.id.value}" }
+        post<TextRoutes.Update> { update ->
+            logger.info { "Update text ${update.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val book = parseBook(formParameters, STORE.getState(), update.id)
+            val text = parseText(formParameters, STORE.getState(), update.id)
 
-            STORE.dispatch(UpdateBook(book))
+            STORE.dispatch(UpdateBook(text))
 
             call.respondRedirect(href(call, update.id))
 
@@ -121,15 +121,15 @@ fun Application.configureBookRouting() {
     }
 }
 
-private fun HTML.showAllBooks(
+private fun HTML.showAllTexts(
     call: ApplicationCall,
     state: State,
 ) {
-    val books = STORE.getState().getBookStorage().getAll().sortedBy { it.name }
-    val createLink = call.application.href(BookRoutes.New())
+    val texts = STORE.getState().getTextStorage().getAll().sortedBy { it.name }
+    val createLink = call.application.href(TextRoutes.New())
 
-    simpleHtml("Books") {
-        field("Count", books.size)
+    simpleHtml("Texts") {
+        field("Count", texts.size)
 
         table {
             tr {
@@ -140,46 +140,46 @@ private fun HTML.showAllBooks(
                 th { +"Language" }
                 th { +"Format" }
             }
-            books.forEach { book ->
+            texts.forEach { text ->
                 tr {
-                    td { link(call, state, book) }
-                    td { showOptionalDate(call, state, book.date) }
-                    td { +book.origin.getType().toString() }
-                    td { showCreator(call, state, book.origin.creator()) }
-                    td { link(call, state, book.language) }
-                    td { +book.format.getType().toString() }
+                    td { link(call, state, text) }
+                    td { showOptionalDate(call, state, text.date) }
+                    td { +text.origin.getType().toString() }
+                    td { showCreator(call, state, text.origin.creator()) }
+                    td { link(call, state, text.language) }
+                    td { +text.format.getType().toString() }
                 }
             }
         }
 
-        showBookOriginTypeCount(books)
-        showCreatorCount(call, state, books, "Creators")
-        showLanguageCountForBooks(call, state, books)
+        showBookOriginTypeCount(texts)
+        showCreatorCount(call, state, texts, "Creators")
+        showLanguageCountForBooks(call, state, texts)
 
         action(createLink, "Add")
         back("/")
     }
 }
 
-private fun HTML.showBookDetails(
+private fun HTML.showTextDetails(
     call: ApplicationCall,
     state: State,
     text: Text,
 ) {
-    val backLink = call.application.href(BookRoutes())
-    val deleteLink = call.application.href(BookRoutes.Delete(text.id))
-    val editLink = call.application.href(BookRoutes.Edit(text.id))
+    val backLink = call.application.href(TextRoutes())
+    val deleteLink = call.application.href(TextRoutes.Delete(text.id))
+    val editLink = call.application.href(TextRoutes.Edit(text.id))
     val svg = visualizeBook(BOOK_CONFIG, text)
 
-    simpleHtml("Book: ${text.name}") {
+    simpleHtml("Text: ${text.name}") {
         svg(svg, 20)
         showOrigin(call, state, text)
         optionalField(call, state, "Date", text.date)
         fieldLink("Language", call, state, text.language)
-        showBookFormat(call, state, text.format)
+        showTextFormat(call, state, text.format)
 
-        showList("Translations", state.getTranslationsOf(text.id)) { book ->
-            link(call, state, book)
+        showList("Translations", state.getTranslationsOf(text.id)) { text ->
+            link(call, state, text)
         }
 
         action(editLink, "Edit")
@@ -211,7 +211,7 @@ private fun BODY.showOrigin(
     }
 }
 
-private fun HTML.showBookEditor(
+private fun HTML.showTextEditor(
     call: ApplicationCall,
     state: State,
     text: Text,
@@ -219,11 +219,11 @@ private fun HTML.showBookEditor(
     val languages = state.getLanguageStorage().getAll()
         .sortedBy { it.name }
     val backLink = href(call, text.id)
-    val previewLink = call.application.href(BookRoutes.Preview(text.id))
-    val updateLink = call.application.href(BookRoutes.Update(text.id))
+    val previewLink = call.application.href(TextRoutes.Preview(text.id))
+    val updateLink = call.application.href(TextRoutes.Update(text.id))
     val svg = visualizeBook(BOOK_CONFIG, text)
 
-    simpleHtml("Edit Book: ${text.name}") {
+    simpleHtml("Edit Text: ${text.name}") {
         split({
             form {
                 id = "editor"
@@ -237,7 +237,7 @@ private fun HTML.showBookEditor(
                     value = l.id.value.toString()
                     selected = l.id == text.language
                 }
-                editBookFormat(state, text.format)
+                editTextFormat(state, text.format)
                 button("Update", updateLink)
             }
             back(backLink)
@@ -257,7 +257,7 @@ private fun FORM.editOrigin(
     when (text.origin) {
         is OriginalText -> selectCreator(state, text.origin.author, text.id, text.date, "Author")
         is TranslatedText -> {
-            val otherBooks = state.getBookStorage().getAllExcept(text.id)
+            val otherBooks = state.getTextStorage().getAllExcept(text.id)
             selectValue("Translation Of", combine(ORIGIN, REFERENCE), otherBooks) { translated ->
                 label = translated.name
                 value = translated.id.value.toString()

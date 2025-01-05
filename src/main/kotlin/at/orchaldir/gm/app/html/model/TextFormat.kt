@@ -19,7 +19,7 @@ import kotlinx.html.FORM
 
 // show
 
-fun BODY.showBookFormat(
+fun BODY.showTextFormat(
     call: ApplicationCall,
     state: State,
     format: TextFormat,
@@ -97,7 +97,7 @@ private fun BODY.showSewingPattern(pattern: SewingPattern) {
 
 // edit
 
-fun FORM.editBookFormat(
+fun FORM.editTextFormat(
     state: State,
     format: TextFormat,
 ) {
@@ -196,7 +196,7 @@ private fun FORM.editSewingPatternSize(size: Int) {
 
 // parse
 
-fun parseBookFormat(parameters: Parameters) = when (parse(parameters, FORMAT, TextFormatType.Undefined)) {
+fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, TextFormatType.Undefined)) {
     TextFormatType.Codex -> Codex(
         parseInt(parameters, PAGES, 100),
         parseBinding(parameters),
