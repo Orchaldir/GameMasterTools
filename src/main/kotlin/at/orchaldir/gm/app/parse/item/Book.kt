@@ -27,9 +27,9 @@ fun parseBook(parameters: Parameters, state: State, id: TextId) =
         parseBookFormat(parameters),
     )
 
-private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, BookOriginType.Original)) {
-    BookOriginType.Original -> OriginalBook(parseCreator(parameters))
-    BookOriginType.Translation -> TranslatedBook(
+private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, TextOriginType.Original)) {
+    TextOriginType.Original -> OriginalText(parseCreator(parameters))
+    TextOriginType.Translation -> TranslatedText(
         parseBookId(parameters, combine(ORIGIN, REFERENCE)),
         parseCreator(parameters),
     )

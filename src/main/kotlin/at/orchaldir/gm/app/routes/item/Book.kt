@@ -28,7 +28,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/$BOOK_TYPE")
+@Resource("/$TEXT_TYPE")
 class BookRoutes {
     @Resource("details")
     class Details(val id: TextId, val parent: BookRoutes = BookRoutes())
@@ -198,12 +198,12 @@ private fun BODY.showOrigin(
     text: Text,
 ) {
     when (text.origin) {
-        is OriginalBook -> field("Author") {
+        is OriginalText -> field("Author") {
             showCreator(call, state, text.origin.author)
         }
 
-        is TranslatedBook -> {
-            fieldLink("Translation Of", call, state, text.origin.book)
+        is TranslatedText -> {
+            fieldLink("Translation Of", call, state, text.origin.text)
             field("Translator") {
                 showCreator(call, state, text.origin.translator)
             }
@@ -252,16 +252,16 @@ private fun FORM.editOrigin(
     state: State,
     text: Text,
 ) {
-    selectValue("Origin", ORIGIN, BookOriginType.entries, text.origin.getType(), true)
+    selectValue("Origin", ORIGIN, TextOriginType.entries, text.origin.getType(), true)
 
     when (text.origin) {
-        is OriginalBook -> selectCreator(state, text.origin.author, text.id, text.date, "Author")
-        is TranslatedBook -> {
+        is OriginalText -> selectCreator(state, text.origin.author, text.id, text.date, "Author")
+        is TranslatedText -> {
             val otherBooks = state.getBookStorage().getAllExcept(text.id)
             selectValue("Translation Of", combine(ORIGIN, REFERENCE), otherBooks) { translated ->
                 label = translated.name
                 value = translated.id.value.toString()
-                selected = translated.id == text.origin.book
+                selected = translated.id == text.origin.text
             }
             selectCreator(state, text.origin.translator, text.id, text.date, "Translator")
         }

@@ -42,7 +42,7 @@ class BookTest {
 
         @Test
         fun `Cannot delete a translated book`() {
-            val origin = TranslatedBook(BOOK_ID_0, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedText(BOOK_ID_0, CreatedByCharacter(CHARACTER_ID_0))
             val state = STATE.updateStorage(
                 Storage(listOf(Text(BOOK_ID_0), Text(BOOK_ID_1, origin = origin)))
             )
@@ -65,7 +65,7 @@ class BookTest {
 
         @Test
         fun `Author must exist`() {
-            val origin = OriginalBook(CreatedByCharacter(CHARACTER_ID_1))
+            val origin = OriginalText(CreatedByCharacter(CHARACTER_ID_1))
             val action = UpdateBook(Text(BOOK_ID_0, origin = origin))
 
             assertIllegalArgument("Cannot use an unknown character 1 as Author!") { REDUCER.invoke(STATE, action) }
@@ -73,7 +73,7 @@ class BookTest {
 
         @Test
         fun `Successfully update an original book`() {
-            val origin = OriginalBook(CreatedByCharacter(CHARACTER_ID_0))
+            val origin = OriginalText(CreatedByCharacter(CHARACTER_ID_0))
             val text = Text(BOOK_ID_0, origin = origin)
             val action = UpdateBook(text)
 
@@ -82,7 +82,7 @@ class BookTest {
 
         @Test
         fun `Translator must exist`() {
-            val origin = TranslatedBook(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_1))
+            val origin = TranslatedText(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_1))
             val action = UpdateBook(Text(BOOK_ID_0, origin = origin))
 
             assertIllegalArgument("Cannot use an unknown character 1 as Translator!") { REDUCER.invoke(STATE, action) }
@@ -90,7 +90,7 @@ class BookTest {
 
         @Test
         fun `Translated book must exist`() {
-            val origin = TranslatedBook(BOOK_ID_2, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedText(BOOK_ID_2, CreatedByCharacter(CHARACTER_ID_0))
             val action = UpdateBook(Text(BOOK_ID_0, origin = origin))
 
             assertIllegalArgument("Requires unknown Book 2!") { REDUCER.invoke(STATE, action) }
@@ -98,7 +98,7 @@ class BookTest {
 
         @Test
         fun `Book cannot translate itself`() {
-            val origin = TranslatedBook(BOOK_ID_0, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedText(BOOK_ID_0, CreatedByCharacter(CHARACTER_ID_0))
             val action = UpdateBook(Text(BOOK_ID_0, origin = origin))
 
             assertIllegalArgument("Book cannot translate itself!") { REDUCER.invoke(STATE, action) }
@@ -106,7 +106,7 @@ class BookTest {
 
         @Test
         fun `The translation must happen after the original was written`() {
-            val origin = TranslatedBook(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedText(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_0))
             val action = UpdateBook(Text(BOOK_ID_0, date = DAY0, origin = origin))
 
             assertIllegalArgument("The translation must happen after the original was written!") {
@@ -116,7 +116,7 @@ class BookTest {
 
         @Test
         fun `Successfully update a translated book`() {
-            val origin = TranslatedBook(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedText(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_0))
             val text = Text(BOOK_ID_0, origin = origin)
             val action = UpdateBook(text)
 

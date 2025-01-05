@@ -25,7 +25,7 @@ import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ITEM_TEMPLATE
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
-import at.orchaldir.gm.core.model.item.text.BOOK_TYPE
+import at.orchaldir.gm.core.model.item.text.TEXT_TYPE
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LANGUAGE
@@ -62,7 +62,7 @@ import at.orchaldir.gm.utils.Storage
 val ELEMENTS =
     setOf(
         ARCHITECTURAL_STYLE,
-        BOOK_TYPE,
+        TEXT_TYPE,
         BUILDING,
         BUSINESS,
         CALENDAR,
@@ -108,7 +108,7 @@ data class State(
     ) : this(storageList.associateBy { it.getType() }, path, time, rarityGenerator)
 
     fun getArchitecturalStyleStorage() = getStorage<ArchitecturalStyleId, ArchitecturalStyle>(ARCHITECTURAL_STYLE)
-    fun getBookStorage() = getStorage<TextId, Text>(BOOK_TYPE)
+    fun getBookStorage() = getStorage<TextId, Text>(TEXT_TYPE)
     fun getBuildingStorage() = getStorage<BuildingId, Building>(BUILDING)
     fun getBusinessStorage() = getStorage<BusinessId, Business>(BUSINESS)
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR)
@@ -223,7 +223,7 @@ data class State(
 
 fun createStorage(type: String) = when (type) {
     ARCHITECTURAL_STYLE -> Storage(ArchitecturalStyleId(0))
-    BOOK_TYPE -> Storage(TextId(0))
+    TEXT_TYPE -> Storage(TextId(0))
     BUILDING -> Storage(BuildingId(0))
     BUSINESS -> Storage(BusinessId(0))
     CALENDAR -> Storage(CalendarId(0))
@@ -250,7 +250,7 @@ fun createStorage(type: String) = when (type) {
 
 fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) {
     ARCHITECTURAL_STYLE -> loadStorage<ArchitecturalStyleId, ArchitecturalStyle>(path, ArchitecturalStyleId(0))
-    BOOK_TYPE -> loadStorage<TextId, Text>(path, TextId(0))
+    TEXT_TYPE -> loadStorage<TextId, Text>(path, TextId(0))
     BUILDING -> loadStorage<BuildingId, Building>(path, BuildingId(0))
     BUSINESS -> loadStorage<BusinessId, Business>(path, BusinessId(0))
     CALENDAR -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))

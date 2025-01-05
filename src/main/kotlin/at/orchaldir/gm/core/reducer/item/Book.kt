@@ -38,10 +38,10 @@ private fun checkOrigin(
     text: Text,
 ) {
     when (val origin = text.origin) {
-        is OriginalBook -> checkCreator(state, origin.author, text.id, text.date, "Author")
-        is TranslatedBook -> {
-            val original = state.getBookStorage().getOrThrow(origin.book)
-            require(text.id != origin.book) { "Book cannot translate itself!" }
+        is OriginalText -> checkCreator(state, origin.author, text.id, text.date, "Author")
+        is TranslatedText -> {
+            val original = state.getBookStorage().getOrThrow(origin.text)
+            require(text.id != origin.text) { "Book cannot translate itself!" }
             require(state.getDefaultCalendar().isAfterOrEqualOptional(text.date, original.date)) {
                 "The translation must happen after the original was written!"
             }

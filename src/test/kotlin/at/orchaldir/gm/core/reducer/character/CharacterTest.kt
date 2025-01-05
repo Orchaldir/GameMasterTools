@@ -11,8 +11,8 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.item.text.OriginalBook
-import at.orchaldir.gm.core.model.item.text.TranslatedBook
+import at.orchaldir.gm.core.model.item.text.OriginalText
+import at.orchaldir.gm.core.model.item.text.TranslatedText
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
@@ -100,7 +100,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot delete an author`() {
-            val origin = OriginalBook(CreatedByCharacter(CHARACTER_ID_0))
+            val origin = OriginalText(CreatedByCharacter(CHARACTER_ID_0))
             val state = State(
                 listOf(
                     Storage(listOf(Character(CHARACTER_ID_0))),
@@ -115,7 +115,7 @@ class CharacterTest {
 
         @Test
         fun `Cannot delete a translator`() {
-            val origin = TranslatedBook(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedText(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_0))
             val state = State(
                 listOf(
                     Storage(listOf(Character(CHARACTER_ID_0))),

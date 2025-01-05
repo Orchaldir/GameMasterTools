@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.item.text.OriginalBook
+import at.orchaldir.gm.core.model.item.text.OriginalText
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.name.NameWithReference
@@ -64,7 +64,7 @@ class BusinessTest {
 
         @Test
         fun `Cannot delete an author`() {
-            val origin = OriginalBook(CreatedByBusiness(BUSINESS_ID_0))
+            val origin = OriginalText(CreatedByBusiness(BUSINESS_ID_0))
             val state = State(
                 listOf(
                     Storage(listOf(Business(BUSINESS_ID_0))),
