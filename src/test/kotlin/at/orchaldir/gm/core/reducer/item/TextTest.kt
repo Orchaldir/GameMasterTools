@@ -6,6 +6,10 @@ import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.item.text.*
+import at.orchaldir.gm.core.model.item.text.book.ComplexSewingPattern
+import at.orchaldir.gm.core.model.item.text.book.CopticBinding
+import at.orchaldir.gm.core.model.item.text.book.Hardcover
+import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.reducer.REDUCER

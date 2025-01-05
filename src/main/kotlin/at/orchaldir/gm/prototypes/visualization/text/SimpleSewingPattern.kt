@@ -1,11 +1,11 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
-import at.orchaldir.gm.core.model.item.text.BookCover
+import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.CopticBinding
-import at.orchaldir.gm.core.model.item.text.SimpleSewingPattern
-import at.orchaldir.gm.core.model.item.text.StitchType.Empty
-import at.orchaldir.gm.core.model.item.text.StitchType.Kettle
+import at.orchaldir.gm.core.model.item.text.book.CopticBinding
+import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
+import at.orchaldir.gm.core.model.item.text.book.StitchType.Empty
+import at.orchaldir.gm.core.model.item.text.book.StitchType.Kettle
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size

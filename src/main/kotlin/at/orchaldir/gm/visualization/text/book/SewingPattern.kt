@@ -1,9 +1,9 @@
 package at.orchaldir.gm.visualization.text.book
 
-import at.orchaldir.gm.core.model.item.text.ComplexSewingPattern
-import at.orchaldir.gm.core.model.item.text.SewingPattern
-import at.orchaldir.gm.core.model.item.text.SimpleSewingPattern
-import at.orchaldir.gm.core.model.item.text.StitchType
+import at.orchaldir.gm.core.model.item.text.book.ComplexSewingPattern
+import at.orchaldir.gm.core.model.item.text.book.SewingPattern
+import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
+import at.orchaldir.gm.core.model.item.text.book.StitchType
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.START

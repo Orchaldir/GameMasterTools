@@ -1,6 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
-import at.orchaldir.gm.core.model.item.text.LeatherBindingType
+import at.orchaldir.gm.core.model.item.text.book.LeatherBindingType
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor

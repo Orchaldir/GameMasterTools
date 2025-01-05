@@ -1,6 +1,10 @@
 package at.orchaldir.gm.visualization.text.book
 
 import at.orchaldir.gm.core.model.item.text.*
+import at.orchaldir.gm.core.model.item.text.book.BookCover
+import at.orchaldir.gm.core.model.item.text.book.CopticBinding
+import at.orchaldir.gm.core.model.item.text.book.Hardcover
+import at.orchaldir.gm.core.model.item.text.book.LeatherBinding
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.START

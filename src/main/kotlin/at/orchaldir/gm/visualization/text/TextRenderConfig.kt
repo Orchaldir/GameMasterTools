@@ -2,7 +2,7 @@ package at.orchaldir.gm.visualization.text
 
 import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.LeatherBindingType
+import at.orchaldir.gm.core.model.item.text.book.LeatherBindingType
 import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor

@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
+import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.reducer.util.checkCreator
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.item.canDeleteText

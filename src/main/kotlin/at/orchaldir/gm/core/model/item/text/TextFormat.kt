@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.text
 
+import at.orchaldir.gm.core.model.item.text.book.BookBinding
 import at.orchaldir.gm.utils.math.Size2i
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
