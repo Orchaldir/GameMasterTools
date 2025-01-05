@@ -1,6 +1,6 @@
 package at.orchaldir.gm.visualization.book.book
 
-import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.BookFormat
 import at.orchaldir.gm.core.model.item.text.Codex
 import at.orchaldir.gm.core.model.item.text.UndefinedBookFormat
@@ -15,8 +15,8 @@ import at.orchaldir.gm.visualization.book.BookRenderState
 
 fun visualizeBook(
     config: BookRenderConfig,
-    book: Book,
-) = visualizeBookFormat(config, book.format)
+    text: Text,
+) = visualizeBookFormat(config, text.format)
 
 fun visualizeBookFormat(
     config: BookRenderConfig,

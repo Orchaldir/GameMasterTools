@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.character.CauseOfDeath
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterOrigin
 import at.orchaldir.gm.core.model.economy.business.BusinessId
-import at.orchaldir.gm.core.model.item.text.BookId
+import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
@@ -42,7 +42,7 @@ data class ArchitecturalStyleEndEvent(
 
 data class BookPublishedEvent(
     val publishingDate: Date,
-    val bookId: BookId,
+    val textId: TextId,
 ) : Event() {
 
     override fun getDate() = publishingDate

@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
-import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.OriginalBook
 import at.orchaldir.gm.core.model.item.text.TranslatedBook
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
@@ -104,7 +104,7 @@ class CharacterTest {
             val state = State(
                 listOf(
                     Storage(listOf(Character(CHARACTER_ID_0))),
-                    Storage(listOf(Book(BOOK_ID_0, origin = origin)))
+                    Storage(listOf(Text(BOOK_ID_0, origin = origin)))
                 )
             )
 
@@ -119,7 +119,7 @@ class CharacterTest {
             val state = State(
                 listOf(
                     Storage(listOf(Character(CHARACTER_ID_0))),
-                    Storage(listOf(Book(BOOK_ID_0, origin = origin), Book(BOOK_ID_1)))
+                    Storage(listOf(Text(BOOK_ID_0, origin = origin), Text(BOOK_ID_1)))
                 )
             )
 

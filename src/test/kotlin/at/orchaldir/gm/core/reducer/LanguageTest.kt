@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.language.InventedLanguage
@@ -64,8 +64,8 @@ class LanguageTest {
 
         @Test
         fun `Cannot delete a language used by a book`() {
-            val book = Book(BOOK_ID_0, language = LANGUAGE_ID_1)
-            val state = State(listOf(Storage(book), Storage(Language(LANGUAGE_ID_1))))
+            val text = Text(BOOK_ID_0, language = LANGUAGE_ID_1)
+            val state = State(listOf(Storage(text), Storage(Language(LANGUAGE_ID_1))))
             val action = DeleteLanguage(LANGUAGE_ID_1)
 
             assertIllegalArgument("Cannot delete language 1 that is used by books!") { REDUCER.invoke(state, action) }

@@ -13,12 +13,12 @@ import at.orchaldir.gm.core.model.item.text.*
 import io.ktor.http.*
 import io.ktor.server.util.*
 
-fun parseBookId(value: String) = BookId(value.toInt())
+fun parseBookId(value: String) = TextId(value.toInt())
 
-fun parseBookId(parameters: Parameters, param: String) = BookId(parseInt(parameters, param))
+fun parseBookId(parameters: Parameters, param: String) = TextId(parseInt(parameters, param))
 
-fun parseBook(parameters: Parameters, state: State, id: BookId) =
-    Book(
+fun parseBook(parameters: Parameters, state: State, id: TextId) =
+    Text(
         id,
         parameters.getOrFail(NAME),
         parseOrigin(parameters),

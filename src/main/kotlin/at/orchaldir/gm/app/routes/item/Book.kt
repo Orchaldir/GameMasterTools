@@ -31,22 +31,22 @@ private val logger = KotlinLogging.logger {}
 @Resource("/$BOOK_TYPE")
 class BookRoutes {
     @Resource("details")
-    class Details(val id: BookId, val parent: BookRoutes = BookRoutes())
+    class Details(val id: TextId, val parent: BookRoutes = BookRoutes())
 
     @Resource("new")
     class New(val parent: BookRoutes = BookRoutes())
 
     @Resource("delete")
-    class Delete(val id: BookId, val parent: BookRoutes = BookRoutes())
+    class Delete(val id: TextId, val parent: BookRoutes = BookRoutes())
 
     @Resource("edit")
-    class Edit(val id: BookId, val parent: BookRoutes = BookRoutes())
+    class Edit(val id: TextId, val parent: BookRoutes = BookRoutes())
 
     @Resource("preview")
-    class Preview(val id: BookId, val parent: BookRoutes = BookRoutes())
+    class Preview(val id: TextId, val parent: BookRoutes = BookRoutes())
 
     @Resource("update")
-    class Update(val id: BookId, val parent: BookRoutes = BookRoutes())
+    class Update(val id: TextId, val parent: BookRoutes = BookRoutes())
 }
 
 fun Application.configureBookRouting() {
@@ -164,27 +164,27 @@ private fun HTML.showAllBooks(
 private fun HTML.showBookDetails(
     call: ApplicationCall,
     state: State,
-    book: Book,
+    text: Text,
 ) {
     val backLink = call.application.href(BookRoutes())
-    val deleteLink = call.application.href(BookRoutes.Delete(book.id))
-    val editLink = call.application.href(BookRoutes.Edit(book.id))
-    val svg = visualizeBook(BOOK_CONFIG, book)
+    val deleteLink = call.application.href(BookRoutes.Delete(text.id))
+    val editLink = call.application.href(BookRoutes.Edit(text.id))
+    val svg = visualizeBook(BOOK_CONFIG, text)
 
-    simpleHtml("Book: ${book.name}") {
+    simpleHtml("Book: ${text.name}") {
         svg(svg, 20)
-        showOrigin(call, state, book)
-        optionalField(call, state, "Date", book.date)
-        fieldLink("Language", call, state, book.language)
-        showBookFormat(call, state, book.format)
+        showOrigin(call, state, text)
+        optionalField(call, state, "Date", text.date)
+        fieldLink("Language", call, state, text.language)
+        showBookFormat(call, state, text.format)
 
-        showList("Translations", state.getTranslationsOf(book.id)) { book ->
+        showList("Translations", state.getTranslationsOf(text.id)) { book ->
             link(call, state, book)
         }
 
         action(editLink, "Edit")
 
-        if (state.canDeleteBook(book.id)) {
+        if (state.canDeleteBook(text.id)) {
             action(deleteLink, "Delete")
         }
 
@@ -195,17 +195,17 @@ private fun HTML.showBookDetails(
 private fun BODY.showOrigin(
     call: ApplicationCall,
     state: State,
-    book: Book,
+    text: Text,
 ) {
-    when (book.origin) {
+    when (text.origin) {
         is OriginalBook -> field("Author") {
-            showCreator(call, state, book.origin.author)
+            showCreator(call, state, text.origin.author)
         }
 
         is TranslatedBook -> {
-            fieldLink("Translation Of", call, state, book.origin.book)
+            fieldLink("Translation Of", call, state, text.origin.book)
             field("Translator") {
-                showCreator(call, state, book.origin.translator)
+                showCreator(call, state, text.origin.translator)
             }
         }
     }
@@ -214,30 +214,30 @@ private fun BODY.showOrigin(
 private fun HTML.showBookEditor(
     call: ApplicationCall,
     state: State,
-    book: Book,
+    text: Text,
 ) {
     val languages = state.getLanguageStorage().getAll()
         .sortedBy { it.name }
-    val backLink = href(call, book.id)
-    val previewLink = call.application.href(BookRoutes.Preview(book.id))
-    val updateLink = call.application.href(BookRoutes.Update(book.id))
-    val svg = visualizeBook(BOOK_CONFIG, book)
+    val backLink = href(call, text.id)
+    val previewLink = call.application.href(BookRoutes.Preview(text.id))
+    val updateLink = call.application.href(BookRoutes.Update(text.id))
+    val svg = visualizeBook(BOOK_CONFIG, text)
 
-    simpleHtml("Edit Book: ${book.name}") {
+    simpleHtml("Edit Book: ${text.name}") {
         split({
             form {
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectName(book.name)
-                editOrigin(state, book)
-                selectOptionalDate(state, "Date", book.date, DATE)
+                selectName(text.name)
+                editOrigin(state, text)
+                selectOptionalDate(state, "Date", text.date, DATE)
                 selectValue("Language", LANGUAGE, languages, true) { l ->
                     label = l.name
                     value = l.id.value.toString()
-                    selected = l.id == book.language
+                    selected = l.id == text.language
                 }
-                editBookFormat(state, book.format)
+                editBookFormat(state, text.format)
                 button("Update", updateLink)
             }
             back(backLink)
@@ -250,20 +250,20 @@ private fun HTML.showBookEditor(
 
 private fun FORM.editOrigin(
     state: State,
-    book: Book,
+    text: Text,
 ) {
-    selectValue("Origin", ORIGIN, BookOriginType.entries, book.origin.getType(), true)
+    selectValue("Origin", ORIGIN, BookOriginType.entries, text.origin.getType(), true)
 
-    when (book.origin) {
-        is OriginalBook -> selectCreator(state, book.origin.author, book.id, book.date, "Author")
+    when (text.origin) {
+        is OriginalBook -> selectCreator(state, text.origin.author, text.id, text.date, "Author")
         is TranslatedBook -> {
-            val otherBooks = state.getBookStorage().getAllExcept(book.id)
+            val otherBooks = state.getBookStorage().getAllExcept(text.id)
             selectValue("Translation Of", combine(ORIGIN, REFERENCE), otherBooks) { translated ->
                 label = translated.name
                 value = translated.id.value.toString()
-                selected = translated.id == book.origin.book
+                selected = translated.id == text.origin.book
             }
-            selectCreator(state, book.origin.translator, book.id, book.date, "Translator")
+            selectCreator(state, text.origin.translator, text.id, text.date, "Translator")
         }
     }
 }

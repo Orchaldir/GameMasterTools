@@ -29,7 +29,7 @@ sealed class BookOrigin : Created {
         else -> false
     }
 
-    fun isTranslationOf(id: BookId) = when (this) {
+    fun isTranslationOf(id: TextId) = when (this) {
         is TranslatedBook -> book == id
         else -> false
     }
@@ -47,6 +47,6 @@ data class OriginalBook(val author: Creator) : BookOrigin()
 @Serializable
 @SerialName("Translation")
 data class TranslatedBook(
-    val book: BookId,
+    val book: TextId,
     val translator: Creator,
 ) : BookOrigin()

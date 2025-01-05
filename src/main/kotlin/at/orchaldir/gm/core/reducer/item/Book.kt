@@ -13,9 +13,9 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_BOOK: Reducer<CreateBook, State> = { state, _ ->
-    val book = Book(state.getBookStorage().nextId)
+    val text = Text(state.getBookStorage().nextId)
 
-    noFollowUps(state.updateStorage(state.getBookStorage().add(book)))
+    noFollowUps(state.updateStorage(state.getBookStorage().add(text)))
 }
 
 val DELETE_BOOK: Reducer<DeleteBook, State> = { state, action ->
@@ -26,26 +26,26 @@ val DELETE_BOOK: Reducer<DeleteBook, State> = { state, action ->
 }
 
 val UPDATE_BOOK: Reducer<UpdateBook, State> = { state, action ->
-    state.getBookStorage().require(action.book.id)
-    checkOrigin(state, action.book)
-    checkFormat(action.book.format)
+    state.getBookStorage().require(action.text.id)
+    checkOrigin(state, action.text)
+    checkFormat(action.text.format)
 
-    noFollowUps(state.updateStorage(state.getBookStorage().update(action.book)))
+    noFollowUps(state.updateStorage(state.getBookStorage().update(action.text)))
 }
 
 private fun checkOrigin(
     state: State,
-    book: Book,
+    text: Text,
 ) {
-    when (val origin = book.origin) {
-        is OriginalBook -> checkCreator(state, origin.author, book.id, book.date, "Author")
+    when (val origin = text.origin) {
+        is OriginalBook -> checkCreator(state, origin.author, text.id, text.date, "Author")
         is TranslatedBook -> {
             val original = state.getBookStorage().getOrThrow(origin.book)
-            require(book.id != origin.book) { "Book cannot translate itself!" }
-            require(state.getDefaultCalendar().isAfterOrEqualOptional(book.date, original.date)) {
+            require(text.id != origin.book) { "Book cannot translate itself!" }
+            require(state.getDefaultCalendar().isAfterOrEqualOptional(text.date, original.date)) {
                 "The translation must happen after the original was written!"
             }
-            checkCreator(state, origin.translator, book.id, book.date, "Translator")
+            checkCreator(state, origin.translator, text.id, text.date, "Translator")
         }
     }
 }

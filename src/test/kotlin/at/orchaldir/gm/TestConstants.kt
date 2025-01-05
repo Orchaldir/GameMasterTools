@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.item.ItemTemplateId
-import at.orchaldir.gm.core.model.item.text.BookId
+import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.time.Day
@@ -20,9 +20,9 @@ import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownId
 
-val BOOK_ID_0 = BookId(0)
-val BOOK_ID_1 = BookId(1)
-val BOOK_ID_2 = BookId(2)
+val BOOK_ID_0 = TextId(0)
+val BOOK_ID_1 = TextId(1)
+val BOOK_ID_2 = TextId(2)
 val BUILDING_ID_0 = BuildingId(0)
 val BUILDING_ID_1 = BuildingId(1)
 val BUSINESS_ID_0 = BusinessId(0)

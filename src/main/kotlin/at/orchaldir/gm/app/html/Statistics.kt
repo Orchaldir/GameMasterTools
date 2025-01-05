@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.History
@@ -33,8 +33,8 @@ fun HtmlBlockTag.showArchitecturalStyleCount(
     buildings: Collection<Building>,
 ) = showCount(call, state, "Architectural Styles", countArchitecturalStyles(buildings))
 
-fun HtmlBlockTag.showBookOriginTypeCount(books: Collection<Book>) =
-    showCount("Origin", countBookOriginTypes(books))
+fun HtmlBlockTag.showBookOriginTypeCount(texts: Collection<Text>) =
+    showCount("Origin", countBookOriginTypes(texts))
 
 fun <ELEMENT : Created> HtmlBlockTag.showCreatorCount(
     call: ApplicationCall,
@@ -85,8 +85,8 @@ fun HtmlBlockTag.showHousingStatusCount(characters: Collection<Character>) =
 fun HtmlBlockTag.showLanguageCountForBooks(
     call: ApplicationCall,
     state: State,
-    books: Collection<Book>,
-) = showCount(call, state, "Languages", countLanguages(books))
+    texts: Collection<Text>,
+) = showCount(call, state, "Languages", countLanguages(texts))
 
 fun HtmlBlockTag.showLanguageCountForCharacters(
     call: ApplicationCall,
