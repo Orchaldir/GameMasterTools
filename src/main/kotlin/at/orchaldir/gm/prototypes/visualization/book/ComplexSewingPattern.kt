@@ -25,5 +25,5 @@ fun main() {
 
     val svg = visualizeBookFormat(BOOK_CONFIG, book)
 
-    File("book-complex-sewing-patterns.svg").writeText(svg.export())
+    File("book-sewing-patterns-complex.svg").writeText(svg.export())
 }

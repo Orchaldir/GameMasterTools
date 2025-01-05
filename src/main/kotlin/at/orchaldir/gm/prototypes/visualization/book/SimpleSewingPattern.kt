@@ -14,7 +14,7 @@ fun main() {
     val size = Size2i(125, 190)
 
     renderBookTable(
-        "book-simple-sewing-patterns.svg",
+        "book-sewing-patterns-simple.svg",
         BOOK_CONFIG,
         size.toSize2d() + Distance(50),
         listOf(

@@ -88,6 +88,7 @@ private fun BODY.showSewingPattern(pattern: SewingPattern) {
             showList(pattern.stitches) { complex ->
                 field("Color", complex.color)
                 field("Size", complex.size)
+                field("Length", complex.length)
                 field("Stitch", complex.stitch)
             }
         }
@@ -182,6 +183,7 @@ private fun FORM.editSewingPattern(pattern: SewingPattern) {
 
                 selectColor("Color", combine(stitchParam, COLOR), Color.entries, complex.color)
                 selectValue("Size", combine(stitchParam, SIZE), Size.entries, complex.size, true)
+                selectValue("Length", combine(stitchParam, LENGTH), Size.entries, complex.length, true)
                 selectValue("Stitch", stitchParam, StitchType.entries, complex.stitch, true)
             }
         }
