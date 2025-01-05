@@ -25,7 +25,7 @@ sealed class SewingPattern {
 @Serializable
 @SerialName("Simple")
 data class SimpleSewingPattern(
-    val color: Color,
+    val color: Color = Color.Red,
     val size: Size = Size.Medium,
     val length: Size = Size.Medium,
     val stitches: List<StitchType> = listOf(Kettle, Kettle, Kettle, Kettle),
