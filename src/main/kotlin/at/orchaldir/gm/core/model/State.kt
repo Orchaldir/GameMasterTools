@@ -25,9 +25,9 @@ import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ITEM_TEMPLATE
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
-import at.orchaldir.gm.core.model.item.book.BOOK_TYPE
-import at.orchaldir.gm.core.model.item.book.Book
-import at.orchaldir.gm.core.model.item.book.BookId
+import at.orchaldir.gm.core.model.item.text.TEXT_TYPE
+import at.orchaldir.gm.core.model.item.text.Text
+import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LANGUAGE
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
@@ -62,7 +62,6 @@ import at.orchaldir.gm.utils.Storage
 val ELEMENTS =
     setOf(
         ARCHITECTURAL_STYLE,
-        BOOK_TYPE,
         BUILDING,
         BUSINESS,
         CALENDAR,
@@ -83,6 +82,7 @@ val ELEMENTS =
         RIVER,
         STREET,
         STREET_TEMPLATE,
+        TEXT_TYPE,
         TOWN,
     )
 private const val TIME = "Time"
@@ -108,7 +108,6 @@ data class State(
     ) : this(storageList.associateBy { it.getType() }, path, time, rarityGenerator)
 
     fun getArchitecturalStyleStorage() = getStorage<ArchitecturalStyleId, ArchitecturalStyle>(ARCHITECTURAL_STYLE)
-    fun getBookStorage() = getStorage<BookId, Book>(BOOK_TYPE)
     fun getBuildingStorage() = getStorage<BuildingId, Building>(BUILDING)
     fun getBusinessStorage() = getStorage<BusinessId, Business>(BUSINESS)
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR)
@@ -129,6 +128,7 @@ data class State(
     fun getRiverStorage() = getStorage<RiverId, River>(RIVER)
     fun getStreetStorage() = getStorage<StreetId, Street>(STREET)
     fun getStreetTemplateStorage() = getStorage<StreetTemplateId, StreetTemplate>(STREET_TEMPLATE)
+    fun getTextStorage() = getStorage<TextId, Text>(TEXT_TYPE)
     fun getTownStorage() = getStorage<TownId, Town>(TOWN)
 
     private fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(type: String): Storage<ID, ELEMENT> {
@@ -195,7 +195,6 @@ data class State(
 
     fun save() {
         saveStorage(path, getArchitecturalStyleStorage())
-        saveStorage(path, getBookStorage())
         saveStorage(path, getBuildingStorage())
         saveStorage(path, getBusinessStorage())
         saveStorage(path, getCalendarStorage())
@@ -216,6 +215,7 @@ data class State(
         saveStorage(path, getRiverStorage())
         saveStorage(path, getStreetStorage())
         saveStorage(path, getStreetTemplateStorage())
+        saveStorage(path, getTextStorage())
         saveStorage(path, getTownStorage())
         saveData(path, TIME, time)
     }
@@ -223,7 +223,6 @@ data class State(
 
 fun createStorage(type: String) = when (type) {
     ARCHITECTURAL_STYLE -> Storage(ArchitecturalStyleId(0))
-    BOOK_TYPE -> Storage(BookId(0))
     BUILDING -> Storage(BuildingId(0))
     BUSINESS -> Storage(BusinessId(0))
     CALENDAR -> Storage(CalendarId(0))
@@ -244,13 +243,13 @@ fun createStorage(type: String) = when (type) {
     RIVER -> Storage(RiverId(0))
     STREET -> Storage(StreetId(0))
     STREET_TEMPLATE -> Storage(StreetTemplateId(0))
+    TEXT_TYPE -> Storage(TextId(0))
     TOWN -> Storage(TownId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }
 
 fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) {
     ARCHITECTURAL_STYLE -> loadStorage<ArchitecturalStyleId, ArchitecturalStyle>(path, ArchitecturalStyleId(0))
-    BOOK_TYPE -> loadStorage<BookId, Book>(path, BookId(0))
     BUILDING -> loadStorage<BuildingId, Building>(path, BuildingId(0))
     BUSINESS -> loadStorage<BusinessId, Business>(path, BusinessId(0))
     CALENDAR -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))
@@ -275,6 +274,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     RIVER -> loadStorage<RiverId, River>(path, RiverId(0))
     STREET -> loadStorage<StreetId, Street>(path, StreetId(0))
     STREET_TEMPLATE -> loadStorage<StreetTemplateId, StreetTemplate>(path, StreetTemplateId(0))
+    TEXT_TYPE -> loadStorage<TextId, Text>(path, TextId(0))
     TOWN -> loadStorage<TownId, Town>(path, TownId(0))
     else -> throw IllegalArgumentException("Unknown type $type")
 }

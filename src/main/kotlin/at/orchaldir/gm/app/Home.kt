@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
-import at.orchaldir.gm.app.routes.item.BookRoutes
+import at.orchaldir.gm.app.routes.item.TextRoutes
 import at.orchaldir.gm.app.routes.item.ItemTemplateRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
@@ -55,7 +55,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getRaceStorage(), RaceRoutes())
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), AppearanceRoutes())
                     h3 { +"Items" }
-                    fieldStorageLink(call, state.getBookStorage(), BookRoutes())
+                    fieldStorageLink(call, state.getTextStorage(), TextRoutes())
                     fieldStorageLink(call, state.getItemTemplateStorage(), ItemTemplateRoutes())
                     h3 { +"Economy" }
                     fieldStorageLink(call, state.getBusinessStorage(), BusinessRoutes.All())

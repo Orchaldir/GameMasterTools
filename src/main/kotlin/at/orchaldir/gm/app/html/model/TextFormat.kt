@@ -7,7 +7,8 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseMaterialId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.book.*
+import at.orchaldir.gm.core.model.item.text.*
+import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
@@ -19,16 +20,16 @@ import kotlinx.html.FORM
 
 // show
 
-fun BODY.showBookFormat(
+fun BODY.showTextFormat(
     call: ApplicationCall,
     state: State,
-    format: BookFormat,
+    format: TextFormat,
 ) {
     field("Format", format.getType())
 
     when (format) {
-        UndefinedBookFormat -> doNothing()
-        is Codex -> {
+        UndefinedTextFormat -> doNothing()
+        is Book -> {
             field("Pages", format.pages)
             showBinding(call, state, format.binding)
             fieldSize("Size", format.size)
@@ -97,15 +98,15 @@ private fun BODY.showSewingPattern(pattern: SewingPattern) {
 
 // edit
 
-fun FORM.editBookFormat(
+fun FORM.editTextFormat(
     state: State,
-    format: BookFormat,
+    format: TextFormat,
 ) {
-    selectValue("Format", FORMAT, BookFormatType.entries, format.getType(), true)
+    selectValue("Format", FORMAT, TextFormatType.entries, format.getType(), true)
 
     when (format) {
-        UndefinedBookFormat -> doNothing()
-        is Codex -> {
+        UndefinedTextFormat -> doNothing()
+        is Book -> {
             selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
             editBinding(state, format.binding)
             selectSize(SIZE, format.size, Distance(10), Distance(2000), Distance(10), true)
@@ -196,14 +197,14 @@ private fun FORM.editSewingPatternSize(size: Int) {
 
 // parse
 
-fun parseBookFormat(parameters: Parameters) = when (parse(parameters, FORMAT, BookFormatType.Undefined)) {
-    BookFormatType.Codex -> Codex(
+fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, TextFormatType.Undefined)) {
+    TextFormatType.Book -> Book(
         parseInt(parameters, PAGES, 100),
         parseBinding(parameters),
         parseSize(parameters, SIZE),
     )
 
-    BookFormatType.Undefined -> UndefinedBookFormat
+    TextFormatType.Undefined -> UndefinedTextFormat
 }
 
 private fun parseBinding(parameters: Parameters) = when (parse(parameters, BINDING, BookBindingType.Hardcover)) {

@@ -1,9 +1,9 @@
-package at.orchaldir.gm.visualization.book
+package at.orchaldir.gm.visualization.text
 
-import at.orchaldir.gm.core.model.item.book.BookFormat
-import at.orchaldir.gm.core.model.item.book.Codex
-import at.orchaldir.gm.core.model.item.book.LeatherBindingType
-import at.orchaldir.gm.core.model.item.book.UndefinedBookFormat
+import at.orchaldir.gm.core.model.item.text.TextFormat
+import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.book.LeatherBindingType
+import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
@@ -15,7 +15,7 @@ data class LeatherBindingConfig(
     val corner: Factor,
 )
 
-data class BookRenderConfig(
+data class TextRenderConfig(
     val padding: Distance,
     val line: LineOptions,
     val leatherBindingMap: Map<LeatherBindingType, LeatherBindingConfig>,
@@ -23,9 +23,9 @@ data class BookRenderConfig(
     val sewingLength: SizeConfig<Factor>,
 ) {
 
-    fun calculateSize(book: BookFormat) = when (book) {
-        is Codex -> book.size.toSize2d() + (padding * 2)
-        UndefinedBookFormat -> square(padding * 4.0f)
+    fun calculateSize(format: TextFormat) = when (format) {
+        is Book -> format.size.toSize2d() + (padding * 2)
+        UndefinedTextFormat -> square(padding * 4.0f)
     }
 
 }

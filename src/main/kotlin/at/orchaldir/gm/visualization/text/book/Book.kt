@@ -1,34 +1,38 @@
-package at.orchaldir.gm.visualization.book.book
+package at.orchaldir.gm.visualization.text.book
 
-import at.orchaldir.gm.core.model.item.book.*
+import at.orchaldir.gm.core.model.item.text.*
+import at.orchaldir.gm.core.model.item.text.book.BookCover
+import at.orchaldir.gm.core.model.item.text.book.CopticBinding
+import at.orchaldir.gm.core.model.item.text.book.Hardcover
+import at.orchaldir.gm.core.model.item.text.book.LeatherBinding
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.visualization.book.BookRenderState
+import at.orchaldir.gm.visualization.text.TextRenderState
 import at.orchaldir.gm.visualization.renderPolygon
 
-fun visualizeCodex(
-    state: BookRenderState,
-    codex: Codex,
+fun visualizeBook(
+    state: TextRenderState,
+    book: Book,
 ) {
-    when (codex.binding) {
+    when (book.binding) {
         is CopticBinding -> {
-            visualizeCover(state, codex.binding.cover)
-            visualizeSewingPattern(state, codex.binding.sewingPattern)
+            visualizeCover(state, book.binding.cover)
+            visualizeSewingPattern(state, book.binding.sewingPattern)
         }
 
-        is Hardcover -> visualizeCover(state, codex.binding.cover)
+        is Hardcover -> visualizeCover(state, book.binding.cover)
         is LeatherBinding -> {
-            visualizeCover(state, codex.binding.cover)
-            visualizeLeatherBinding(state, codex.binding)
+            visualizeCover(state, book.binding.cover)
+            visualizeLeatherBinding(state, book.binding)
         }
     }
 }
 
 private fun visualizeCover(
-    state: BookRenderState,
+    state: TextRenderState,
     cover: BookCover,
 ) {
     val options = FillAndBorder(cover.color.toRender(), state.config.line)
@@ -36,7 +40,7 @@ private fun visualizeCover(
 }
 
 private fun visualizeLeatherBinding(
-    state: BookRenderState,
+    state: TextRenderState,
     leatherBinding: LeatherBinding,
 ) {
     val options = FillAndBorder(leatherBinding.leatherColor.toRender(), state.config.line)
@@ -54,7 +58,7 @@ private fun visualizeLeatherBinding(
 }
 
 private fun visualizeTopCorner(
-    state: BookRenderState,
+    state: TextRenderState,
     options: RenderOptions,
     distance: Distance,
 ) {
@@ -66,7 +70,7 @@ private fun visualizeTopCorner(
 }
 
 private fun visualizeBottomCorner(
-    state: BookRenderState,
+    state: TextRenderState,
     options: RenderOptions,
     distance: Distance,
 ) {

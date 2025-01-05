@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.item.book.Book
+import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.History
@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.economy.countJobs
-import at.orchaldir.gm.core.selector.item.countBookOriginTypes
+import at.orchaldir.gm.core.selector.item.countTextOriginTypes
 import at.orchaldir.gm.core.selector.item.countLanguages
 import at.orchaldir.gm.core.selector.util.countCreators
 import at.orchaldir.gm.core.selector.world.countArchitecturalStyles
@@ -33,8 +33,8 @@ fun HtmlBlockTag.showArchitecturalStyleCount(
     buildings: Collection<Building>,
 ) = showCount(call, state, "Architectural Styles", countArchitecturalStyles(buildings))
 
-fun HtmlBlockTag.showBookOriginTypeCount(books: Collection<Book>) =
-    showCount("Origin", countBookOriginTypes(books))
+fun HtmlBlockTag.showTextOriginTypeCount(texts: Collection<Text>) =
+    showCount("Origin", countTextOriginTypes(texts))
 
 fun <ELEMENT : Created> HtmlBlockTag.showCreatorCount(
     call: ApplicationCall,
@@ -82,17 +82,17 @@ fun HtmlBlockTag.showJobCount(
 fun HtmlBlockTag.showHousingStatusCount(characters: Collection<Character>) =
     showCount("Housing Status", countHousingStatus(characters))
 
-fun HtmlBlockTag.showLanguageCountForBooks(
+fun HtmlBlockTag.showLanguageCountForTexts(
     call: ApplicationCall,
     state: State,
-    books: Collection<Book>,
-) = showCount(call, state, "Languages", countLanguages(books))
+    texts: Collection<Text>,
+) = showCount(call, state, "Languages", countLanguages(texts))
 
 fun HtmlBlockTag.showLanguageCountForCharacters(
     call: ApplicationCall,
     state: State,
-    books: Collection<Character>,
-) = showCount(call, state, "Languages", countLanguages(books))
+    characters: Collection<Character>,
+) = showCount(call, state, "Languages", countLanguages(characters))
 
 fun HtmlBlockTag.showMaterialCategoryCount(materials: Collection<Material>) =
     showCount("Material Category", countMaterialCategory(materials))

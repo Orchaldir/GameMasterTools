@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.item.book
+package at.orchaldir.gm.core.model.item.text
 
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.Creator
@@ -6,47 +6,47 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-enum class BookOriginType {
+enum class TextOriginType {
     Original,
     Translation,
 }
 
 @Serializable
-sealed class BookOrigin : Created {
+sealed class TextOrigin : Created {
 
     fun getType() = when (this) {
-        is OriginalBook -> BookOriginType.Original
-        is TranslatedBook -> BookOriginType.Translation
+        is OriginalText -> TextOriginType.Original
+        is TranslatedText -> TextOriginType.Translation
     }
 
     override fun creator() = when (this) {
-        is OriginalBook -> author
-        is TranslatedBook -> translator
+        is OriginalText -> author
+        is TranslatedText -> translator
     }
 
     fun <ID : Id<ID>> wasTranslatedBy(id: ID) = when (this) {
-        is TranslatedBook -> translator.isId(id)
+        is TranslatedText -> translator.isId(id)
         else -> false
     }
 
-    fun isTranslationOf(id: BookId) = when (this) {
-        is TranslatedBook -> book == id
+    fun isTranslationOf(id: TextId) = when (this) {
+        is TranslatedText -> text == id
         else -> false
     }
 
     fun <ID : Id<ID>> wasWrittenBy(id: ID) = when (this) {
-        is OriginalBook -> author.isId(id)
+        is OriginalText -> author.isId(id)
         else -> false
     }
 }
 
 @Serializable
 @SerialName("Original")
-data class OriginalBook(val author: Creator) : BookOrigin()
+data class OriginalText(val author: Creator) : TextOrigin()
 
 @Serializable
 @SerialName("Translation")
-data class TranslatedBook(
-    val book: BookId,
+data class TranslatedText(
+    val text: TextId,
     val translator: Creator,
-) : BookOrigin()
+) : TextOrigin()

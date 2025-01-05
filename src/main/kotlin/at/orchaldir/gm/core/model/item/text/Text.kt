@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.item.book
+package at.orchaldir.gm.core.model.item.text
 
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.time.Date
@@ -8,27 +8,27 @@ import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val BOOK_TYPE = "Book"
+const val TEXT_TYPE = "Text"
 
 @JvmInline
 @Serializable
-value class BookId(val value: Int) : Id<BookId> {
+value class TextId(val value: Int) : Id<TextId> {
 
-    override fun next() = BookId(value + 1)
-    override fun type() = BOOK_TYPE
+    override fun next() = TextId(value + 1)
+    override fun type() = TEXT_TYPE
     override fun value() = value
 
 }
 
 @Serializable
-data class Book(
-    val id: BookId,
-    val name: String = "Book ${id.value}",
-    val origin: BookOrigin = OriginalBook(UndefinedCreator),
+data class Text(
+    val id: TextId,
+    val name: String = "Text ${id.value}",
+    val origin: TextOrigin = OriginalText(UndefinedCreator),
     val date: Date? = null,
     val language: LanguageId = LanguageId(0),
-    val format: BookFormat = UndefinedBookFormat,
-) : ElementWithSimpleName<BookId>, Created {
+    val format: TextFormat = UndefinedTextFormat,
+) : ElementWithSimpleName<TextId>, Created {
 
     override fun id() = id
     override fun name() = name

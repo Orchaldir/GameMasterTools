@@ -22,7 +22,7 @@
    "name": "Necronomicon",
    "origin": {
     "type": "Translation",
-    "book": 0,
+    "text": 0,
     "translator": {
      "type": "Character",
      "character": 19
@@ -34,7 +34,7 @@
    },
    "language": 5,
    "format": {
-    "type": "Codex",
+    "type": "Book",
     "pages": 400,
     "binding": {
      "type": "Coptic",
@@ -64,7 +64,7 @@
    "name": "Necronomicon",
    "origin": {
     "type": "Translation",
-    "book": 1,
+    "text": 1,
     "translator": {
      "type": "Undefined"
     }

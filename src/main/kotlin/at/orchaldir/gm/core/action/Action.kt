@@ -16,8 +16,8 @@ import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
-import at.orchaldir.gm.core.model.item.book.Book
-import at.orchaldir.gm.core.model.item.book.BookId
+import at.orchaldir.gm.core.model.item.text.Text
+import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
@@ -139,10 +139,10 @@ data class UpdateTime(val time: Time) : Action()
 
 sealed class ItemAction : Action()
 
-// Book
-data object CreateBook : ItemAction()
-data class DeleteBook(val id: BookId) : ItemAction()
-data class UpdateBook(val book: Book) : ItemAction()
+// text
+data object CreateText : ItemAction()
+data class DeleteText(val id: TextId) : ItemAction()
+data class UpdateText(val text: Text) : ItemAction()
 
 // item template
 data object CreateItemTemplate : ItemAction()

@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
-import at.orchaldir.gm.app.routes.item.BookRoutes
+import at.orchaldir.gm.app.routes.item.TextRoutes
 import at.orchaldir.gm.app.routes.item.ItemTemplateRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.world.*
@@ -21,7 +21,7 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ItemTemplateId
-import at.orchaldir.gm.core.model.item.book.BookId
+import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.name.NameListId
@@ -167,7 +167,6 @@ fun <ID : Id<ID>> href(
     id: ID,
 ) = when (id) {
     is ArchitecturalStyleId -> call.application.href(ArchitecturalStyleRoutes.Details(id))
-    is BookId -> call.application.href(BookRoutes.Details(id))
     is BuildingId -> call.application.href(BuildingRoutes.Details(id))
     is BusinessId -> call.application.href(BusinessRoutes.Details(id))
     is CalendarId -> call.application.href(CalendarRoutes.Details(id))
@@ -188,6 +187,7 @@ fun <ID : Id<ID>> href(
     is RiverId -> call.application.href(RiverRoutes.Details(id))
     is StreetId -> call.application.href(StreetRoutes.Details(id))
     is StreetTemplateId -> call.application.href(StreetTemplateRoutes.Details(id))
+    is TextId -> call.application.href(TextRoutes.Details(id))
     is TownId -> call.application.href(TownRoutes.Details(id))
     else -> error("Cannot create link for unsupported type ${id.type()}!")
 }

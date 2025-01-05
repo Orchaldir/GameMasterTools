@@ -1,11 +1,11 @@
-package at.orchaldir.gm.prototypes.visualization.book
+package at.orchaldir.gm.prototypes.visualization.text
 
-import at.orchaldir.gm.core.model.item.book.BookCover
-import at.orchaldir.gm.core.model.item.book.Codex
-import at.orchaldir.gm.core.model.item.book.CopticBinding
-import at.orchaldir.gm.core.model.item.book.SimpleSewingPattern
-import at.orchaldir.gm.core.model.item.book.StitchType.Empty
-import at.orchaldir.gm.core.model.item.book.StitchType.Kettle
+import at.orchaldir.gm.core.model.item.text.book.BookCover
+import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.book.CopticBinding
+import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
+import at.orchaldir.gm.core.model.item.text.book.StitchType.Empty
+import at.orchaldir.gm.core.model.item.text.book.StitchType.Kettle
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
@@ -17,9 +17,9 @@ private val ID = MaterialId(0)
 fun main() {
     val size = Size2i(125, 190)
 
-    renderBookTable(
+    renderTextTable(
         "book-sewing-patterns-simple.svg",
-        BOOK_CONFIG,
+        TEXT_CONFIG,
         size.toSize2d() + Distance(50),
         listOf(
             Pair("Small + Short", Pair(Size.Small, Size.Small)),
@@ -39,7 +39,7 @@ fun main() {
         ),
     ) { (sewingSize, sewingLength), pattern ->
         val cover = BookCover(Color.SaddleBrown, ID)
-        Codex(
+        Book(
             100,
             CopticBinding(cover, SimpleSewingPattern(Color.Red, sewingSize, sewingLength, pattern)),
             size

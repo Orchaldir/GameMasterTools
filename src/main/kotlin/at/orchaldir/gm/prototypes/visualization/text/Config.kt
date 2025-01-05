@@ -1,15 +1,15 @@
-package at.orchaldir.gm.prototypes.visualization.book
+package at.orchaldir.gm.prototypes.visualization.text
 
-import at.orchaldir.gm.core.model.item.book.LeatherBindingType
+import at.orchaldir.gm.core.model.item.text.book.LeatherBindingType
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
-import at.orchaldir.gm.visualization.book.BookRenderConfig
-import at.orchaldir.gm.visualization.book.LeatherBindingConfig
+import at.orchaldir.gm.visualization.text.TextRenderConfig
+import at.orchaldir.gm.visualization.text.LeatherBindingConfig
 
-val BOOK_CONFIG = BookRenderConfig(
+val TEXT_CONFIG = TextRenderConfig(
     Distance(100),
     LineOptions(Color.Black.toRender(), Distance(1)),
     mapOf(
