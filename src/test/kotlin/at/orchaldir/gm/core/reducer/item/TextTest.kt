@@ -17,37 +17,37 @@ import kotlin.test.assertFalse
 
 private val STATE = State(
     listOf(
-        Storage(listOf(Text(BOOK_ID_0), Text(BOOK_ID_1, date = DAY1))),
+        Storage(listOf(Text(TEXT_ID_0), Text(TEXT_ID_1, date = DAY1))),
         Storage(CALENDAR0),
         Storage(Character(CHARACTER_ID_0)),
         Storage(Language(LANGUAGE_ID_0)),
     )
 )
 
-class BookTest {
+class TextTest {
 
     @Nested
     inner class DeleteTest {
-        val action = DeleteText(BOOK_ID_0)
+        val action = DeleteText(TEXT_ID_0)
 
         @Test
         fun `Can delete an existing book`() {
-            assertFalse(REDUCER.invoke(STATE, action).first.getTextStorage().contains(BOOK_ID_0))
+            assertFalse(REDUCER.invoke(STATE, action).first.getTextStorage().contains(TEXT_ID_0))
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            assertIllegalArgument("Requires unknown Book 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Text 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot delete a translated book`() {
-            val origin = TranslatedText(BOOK_ID_0, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedText(TEXT_ID_0, CreatedByCharacter(CHARACTER_ID_0))
             val state = STATE.updateStorage(
-                Storage(listOf(Text(BOOK_ID_0), Text(BOOK_ID_1, origin = origin)))
+                Storage(listOf(Text(TEXT_ID_0), Text(TEXT_ID_1, origin = origin)))
             )
 
-            assertIllegalArgument("Book 0 is used") {
+            assertIllegalArgument("The text 0 is used") {
                 REDUCER.invoke(state, action)
             }
         }
@@ -58,15 +58,15 @@ class BookTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateText(Text(BOOK_ID_0))
+            val action = UpdateText(Text(TEXT_ID_0))
 
-            assertIllegalArgument("Requires unknown Book 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Text 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Author must exist`() {
             val origin = OriginalText(CreatedByCharacter(CHARACTER_ID_1))
-            val action = UpdateText(Text(BOOK_ID_0, origin = origin))
+            val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
             assertIllegalArgument("Cannot use an unknown character 1 as Author!") { REDUCER.invoke(STATE, action) }
         }
@@ -74,40 +74,40 @@ class BookTest {
         @Test
         fun `Successfully update an original book`() {
             val origin = OriginalText(CreatedByCharacter(CHARACTER_ID_0))
-            val text = Text(BOOK_ID_0, origin = origin)
+            val text = Text(TEXT_ID_0, origin = origin)
             val action = UpdateText(text)
 
-            assertEquals(text, REDUCER.invoke(STATE, action).first.getTextStorage().get(BOOK_ID_0))
+            assertEquals(text, REDUCER.invoke(STATE, action).first.getTextStorage().get(TEXT_ID_0))
         }
 
         @Test
         fun `Translator must exist`() {
-            val origin = TranslatedText(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_1))
-            val action = UpdateText(Text(BOOK_ID_0, origin = origin))
+            val origin = TranslatedText(TEXT_ID_1, CreatedByCharacter(CHARACTER_ID_1))
+            val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
             assertIllegalArgument("Cannot use an unknown character 1 as Translator!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Translated book must exist`() {
-            val origin = TranslatedText(BOOK_ID_2, CreatedByCharacter(CHARACTER_ID_0))
-            val action = UpdateText(Text(BOOK_ID_0, origin = origin))
+            val origin = TranslatedText(TEXT_ID_2, CreatedByCharacter(CHARACTER_ID_0))
+            val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
-            assertIllegalArgument("Requires unknown Book 2!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Text 2!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Book cannot translate itself`() {
-            val origin = TranslatedText(BOOK_ID_0, CreatedByCharacter(CHARACTER_ID_0))
-            val action = UpdateText(Text(BOOK_ID_0, origin = origin))
+            val origin = TranslatedText(TEXT_ID_0, CreatedByCharacter(CHARACTER_ID_0))
+            val action = UpdateText(Text(TEXT_ID_0, origin = origin))
 
-            assertIllegalArgument("Book cannot translate itself!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("The text cannot translate itself!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `The translation must happen after the original was written`() {
-            val origin = TranslatedText(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_0))
-            val action = UpdateText(Text(BOOK_ID_0, date = DAY0, origin = origin))
+            val origin = TranslatedText(TEXT_ID_1, CreatedByCharacter(CHARACTER_ID_0))
+            val action = UpdateText(Text(TEXT_ID_0, date = DAY0, origin = origin))
 
             assertIllegalArgument("The translation must happen after the original was written!") {
                 REDUCER.invoke(STATE, action)
@@ -115,39 +115,49 @@ class BookTest {
         }
 
         @Test
-        fun `Successfully update a translated book`() {
-            val origin = TranslatedText(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_0))
-            val text = Text(BOOK_ID_0, origin = origin)
+        fun `Successfully update a translated text`() {
+            val origin = TranslatedText(TEXT_ID_1, CreatedByCharacter(CHARACTER_ID_0))
+            val text = Text(TEXT_ID_0, origin = origin)
             val action = UpdateText(text)
 
-            assertEquals(text, REDUCER.invoke(STATE, action).first.getTextStorage().get(BOOK_ID_0))
+            assertEquals(text, REDUCER.invoke(STATE, action).first.getTextStorage().get(TEXT_ID_0))
         }
 
         @Nested
         inner class FormatTest {
             @Test
             fun `Too few pages`() {
-                val action = UpdateText(Text(BOOK_ID_0, format = Codex(2, Hardcover())))
+                val action = UpdateText(Text(TEXT_ID_0, format = Codex(2, Hardcover())))
 
-                assertIllegalArgument("Book requires at least 10 pages!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("The text requires at least 10 pages!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test
             fun `Too few stitches for the simple pattern`() {
                 val pattern = SimpleSewingPattern(stitches = emptyList())
                 val binding = CopticBinding(sewingPattern = pattern)
-                val action = UpdateText(Text(BOOK_ID_0, format = Codex(100, binding)))
+                val action = UpdateText(Text(TEXT_ID_0, format = Codex(100, binding)))
 
-                assertIllegalArgument("Sewing pattern requires at least 2 stitches!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("The sewing pattern requires at least 2 stitches!") {
+                    REDUCER.invoke(
+                        STATE,
+                        action
+                    )
+                }
             }
 
             @Test
             fun `Too few stitches for the complex pattern`() {
                 val pattern = ComplexSewingPattern(stitches = emptyList())
                 val binding = CopticBinding(sewingPattern = pattern)
-                val action = UpdateText(Text(BOOK_ID_0, format = Codex(100, binding)))
+                val action = UpdateText(Text(TEXT_ID_0, format = Codex(100, binding)))
 
-                assertIllegalArgument("Sewing pattern requires at least 2 stitches!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("The sewing pattern requires at least 2 stitches!") {
+                    REDUCER.invoke(
+                        STATE,
+                        action
+                    )
+                }
             }
         }
     }

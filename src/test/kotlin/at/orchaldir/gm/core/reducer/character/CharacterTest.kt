@@ -104,7 +104,7 @@ class CharacterTest {
             val state = State(
                 listOf(
                     Storage(listOf(Character(CHARACTER_ID_0))),
-                    Storage(listOf(Text(BOOK_ID_0, origin = origin)))
+                    Storage(listOf(Text(TEXT_ID_0, origin = origin)))
                 )
             )
 
@@ -115,11 +115,11 @@ class CharacterTest {
 
         @Test
         fun `Cannot delete a translator`() {
-            val origin = TranslatedText(BOOK_ID_1, CreatedByCharacter(CHARACTER_ID_0))
+            val origin = TranslatedText(TEXT_ID_1, CreatedByCharacter(CHARACTER_ID_0))
             val state = State(
                 listOf(
                     Storage(listOf(Character(CHARACTER_ID_0))),
-                    Storage(listOf(Text(BOOK_ID_0, origin = origin), Text(BOOK_ID_1)))
+                    Storage(listOf(Text(TEXT_ID_0, origin = origin), Text(TEXT_ID_1)))
                 )
             )
 

@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
-import at.orchaldir.gm.core.selector.item.canDeleteBook
+import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.visualization.text.visualizeText
@@ -184,7 +184,7 @@ private fun HTML.showTextDetails(
 
         action(editLink, "Edit")
 
-        if (state.canDeleteBook(text.id)) {
+        if (state.canDeleteText(text.id)) {
             action(deleteLink, "Delete")
         }
 

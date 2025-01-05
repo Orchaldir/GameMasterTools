@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.economy.countJobs
-import at.orchaldir.gm.core.selector.item.countBookOriginTypes
+import at.orchaldir.gm.core.selector.item.countTextOriginTypes
 import at.orchaldir.gm.core.selector.item.countLanguages
 import at.orchaldir.gm.core.selector.util.countCreators
 import at.orchaldir.gm.core.selector.world.countArchitecturalStyles
@@ -34,7 +34,7 @@ fun HtmlBlockTag.showArchitecturalStyleCount(
 ) = showCount(call, state, "Architectural Styles", countArchitecturalStyles(buildings))
 
 fun HtmlBlockTag.showBookOriginTypeCount(texts: Collection<Text>) =
-    showCount("Origin", countBookOriginTypes(texts))
+    showCount("Origin", countTextOriginTypes(texts))
 
 fun <ELEMENT : Created> HtmlBlockTag.showCreatorCount(
     call: ApplicationCall,

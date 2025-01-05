@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.reducer.util.checkCreator
 import at.orchaldir.gm.core.selector.getDefaultCalendar
-import at.orchaldir.gm.core.selector.item.canDeleteBook
+import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -20,7 +20,7 @@ val CREATE_TEXT: Reducer<CreateText, State> = { state, _ ->
 
 val DELETE_TEXT: Reducer<DeleteText, State> = { state, action ->
     state.getTextStorage().require(action.id)
-    require(state.canDeleteBook(action.id)) { "Book ${action.id.value} is used" }
+    require(state.canDeleteText(action.id)) { "The text ${action.id.value} is used" }
 
     noFollowUps(state.updateStorage(state.getTextStorage().remove(action.id)))
 }
@@ -53,7 +53,7 @@ private fun checkOrigin(
 private fun checkFormat(format: TextFormat) {
     when (format) {
         is Codex -> {
-            require(format.pages >= MIN_PAGES) { "The book requires at least $MIN_PAGES pages!" }
+            require(format.pages >= MIN_PAGES) { "The text requires at least $MIN_PAGES pages!" }
 
             when (format.binding) {
                 is CopticBinding -> {

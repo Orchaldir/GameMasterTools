@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.reducer.util.checkCreator
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.getChildren
-import at.orchaldir.gm.core.selector.item.getBooks
+import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -28,7 +28,7 @@ val DELETE_LANGUAGE: Reducer<DeleteLanguage, State> = { state, action ->
         state.getCharacters(action.id).isEmpty()
     ) { "Cannot delete language ${action.id.value} that is known by characters!" }
     require(
-        state.getBooks(action.id).isEmpty()
+        state.getTexts(action.id).isEmpty()
     ) { "Cannot delete language ${action.id.value} that is used by books!" }
 
     noFollowUps(state.updateStorage(state.getLanguageStorage().remove(action.id)))

@@ -68,7 +68,7 @@ class BusinessTest {
             val state = State(
                 listOf(
                     Storage(listOf(Business(BUSINESS_ID_0))),
-                    Storage(listOf(Text(BOOK_ID_0, origin = origin)))
+                    Storage(listOf(Text(TEXT_ID_0, origin = origin)))
                 )
             )
 

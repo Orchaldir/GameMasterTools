@@ -64,7 +64,7 @@ class LanguageTest {
 
         @Test
         fun `Cannot delete a language used by a book`() {
-            val text = Text(BOOK_ID_0, language = LANGUAGE_ID_1)
+            val text = Text(TEXT_ID_0, language = LANGUAGE_ID_1)
             val state = State(listOf(Storage(text), Storage(Language(LANGUAGE_ID_1))))
             val action = DeleteLanguage(LANGUAGE_ID_1)
 

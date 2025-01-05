@@ -16,8 +16,8 @@ import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.selector.*
-import at.orchaldir.gm.core.selector.item.countBooks
-import at.orchaldir.gm.core.selector.item.getBooks
+import at.orchaldir.gm.core.selector.item.countText
+import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -152,7 +152,7 @@ private fun HTML.showAllLanguages(
             languages.forEach { language ->
                 tr {
                     td { link(call, state, language) }
-                    tdSkipZero(state.countBooks(language.id))
+                    tdSkipZero(state.countText(language.id))
                     tdSkipZero(state.countCharacters(language.id))
                     tdSkipZero(state.countCultures(language.id))
                 }
@@ -173,7 +173,7 @@ private fun HTML.showLanguageDetails(
     val deleteLink = call.application.href(LanguageRoutes.Delete(language.id))
     val editLink = call.application.href(LanguageRoutes.Edit(language.id))
     val children = state.getChildren(language.id)
-    val books = state.getBooks(language.id)
+    val books = state.getTexts(language.id)
     val characters = state.getCharacters(language.id)
     val cultures = state.getCultures(language.id)
 
