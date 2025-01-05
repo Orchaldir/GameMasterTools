@@ -140,6 +140,15 @@ class BookTest {
 
                 assertIllegalArgument("Sewing pattern requires at least 2 stitches!") { REDUCER.invoke(STATE, action) }
             }
+
+            @Test
+            fun `Too few stitches for the complex pattern`() {
+                val pattern = ComplexSewingPattern(stitches = emptyList())
+                val binding = CopticBinding(sewingPattern = pattern)
+                val action = UpdateBook(Book(BOOK_ID_0, format = Codex(100, binding)))
+
+                assertIllegalArgument("Sewing pattern requires at least 2 stitches!") { REDUCER.invoke(STATE, action) }
+            }
         }
     }
 
