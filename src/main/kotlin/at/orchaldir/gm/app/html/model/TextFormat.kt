@@ -108,7 +108,7 @@ fun FORM.editTextFormat(
     when (format) {
         UndefinedTextFormat -> doNothing()
         is Book -> {
-            selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
+            selectInt("Pages", format.pages, at.orchaldir.gm.core.model.item.text.scroll.MIN_PAGES, 10000, 1, PAGES)
             editBinding(state, format.binding)
             selectSize(SIZE, format.size, Distance(10), Distance(2000), Distance(10), true)
         }

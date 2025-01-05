@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.text
 
 import at.orchaldir.gm.core.model.item.text.book.BookBinding
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollFormat
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Size2i
 import kotlinx.serialization.SerialName
@@ -37,6 +38,7 @@ data class Book(
 data class Scroll(
     val vertical: Boolean,
     val size: Size2i = Size2i(200, 20),
+    val format: ScrollFormat,
 ) : TextFormat()
 
 @Serializable
