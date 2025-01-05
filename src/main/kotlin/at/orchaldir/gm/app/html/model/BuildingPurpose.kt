@@ -28,11 +28,11 @@ fun HtmlBlockTag.showBuildingPurpose(
     building: Building,
 ) {
     val purpose = building.purpose
-    field("Purpose", purpose.getType().toString())
+    field("Purpose", purpose.getType())
 
     when (purpose) {
         is ApartmentHouse -> {
-            field("Apartments", purpose.apartments.toString())
+            field("Apartments", purpose.apartments)
             repeat(purpose.apartments) { i ->
                 showList("${i + 1}.Apartment", state.getCharactersLivingInApartment(building.id, i)) { c ->
                     link(call, state, c)

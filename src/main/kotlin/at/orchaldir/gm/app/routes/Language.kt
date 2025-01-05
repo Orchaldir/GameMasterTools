@@ -137,11 +137,10 @@ private fun HTML.showAllLanguages(
     state: State,
 ) {
     val languages = STORE.getState().getLanguageStorage().getAll().sortedBy { it.name }
-    val count = languages.size
     val createLink = call.application.href(LanguageRoutes.New())
 
     simpleHtml("Languages") {
-        field("Count", count.toString())
+        field("Count", languages.size)
 
         table {
             tr {

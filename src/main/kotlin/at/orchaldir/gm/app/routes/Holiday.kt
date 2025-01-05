@@ -121,11 +121,10 @@ fun Application.configureHolidayRouting() {
 
 private fun HTML.showAllHolidays(call: ApplicationCall) {
     val holiday = STORE.getState().getHolidayStorage().getAll().sortedBy { it.name }
-    val count = holiday.size
     val createLink = call.application.href(HolidayRoutes.New())
 
     simpleHtml("Holidays") {
-        field("Count", count.toString())
+        field("Count", holiday.size)
         showList(holiday) { holiday ->
             link(call, holiday)
         }

@@ -109,11 +109,10 @@ fun Application.configureRaceRouting() {
 
 private fun HTML.showAllRaces(call: ApplicationCall) {
     val races = STORE.getState().getRaceStorage().getAll().sortedBy { it.name }
-    val count = races.size
     val createLink = call.application.href(RaceRoutes.New())
 
     simpleHtml("Races") {
-        field("Count", count.toString())
+        field("Count", races.size)
         showList(races) { race ->
             link(call, race)
         }
@@ -208,7 +207,7 @@ private fun HtmlBlockTag.showLifeStages(
                     }
                     if (stage.hairColor != null) {
                         li {
-                            field("Hair Color", stage.hairColor.name)
+                            field("Hair Color", stage.hairColor)
                         }
                     }
                 }
@@ -226,7 +225,7 @@ private fun HtmlBlockTag.showAppearance(
 }
 
 private fun HtmlBlockTag.showMaxAge(maxAge: Int) {
-    field("Max Age", maxAge.toString())
+    field("Max Age", maxAge)
 }
 
 private fun HtmlBlockTag.showRelativeSize(size: Factor) {

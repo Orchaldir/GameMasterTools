@@ -159,13 +159,12 @@ private fun HTML.showAllCharacters(
 ) {
     val characters = STORE.getState().getCharacterStorage().getAll()
     val charactersWithNames = state.sortCharacters(characters, sort)
-    val count = characters.size
     val createLink = call.application.href(CharacterRoutes.New())
     val sortNameLink = call.application.href(CharacterRoutes.All())
     val sortAgeLink = call.application.href(CharacterRoutes.All(SortCharacter.Age))
 
     simpleHtml("Characters") {
-        field("Count", count.toString())
+        field("Count", characters.size)
         field("Sort") {
             link(sortNameLink, "Name")
             +" "
@@ -262,7 +261,7 @@ private fun BODY.showData(
     field("Race") {
         link(call, race)
     }
-    field("Gender", character.gender.toString())
+    field("Gender", character.gender)
     when (character.origin) {
         is Born -> {
             field("Origin") {

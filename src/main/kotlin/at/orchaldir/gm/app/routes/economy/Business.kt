@@ -142,14 +142,13 @@ private fun HTML.showAllBusinesses(
     sort: SortBusiness,
 ) {
     val businesses = state.sortBusinesses(sort)
-    val count = businesses.size
     val createLink = call.application.href(BusinessRoutes.New())
     val sortNameLink = call.application.href(BusinessRoutes.All())
     val sortAgeLink = call.application.href(BusinessRoutes.All(SortBusiness.Age))
     val sortEmployeesLink = call.application.href(BusinessRoutes.All(SortBusiness.Employees))
 
     simpleHtml("Businesses") {
-        field("Count", count.toString())
+        field("Count", businesses.size)
         field("Sort") {
             link(sortNameLink, "Name")
             +" "

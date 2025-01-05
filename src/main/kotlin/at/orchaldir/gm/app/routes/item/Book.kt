@@ -126,11 +126,10 @@ private fun HTML.showAllBooks(
     state: State,
 ) {
     val books = STORE.getState().getBookStorage().getAll().sortedBy { it.name }
-    val count = books.size
     val createLink = call.application.href(BookRoutes.New())
 
     simpleHtml("Books") {
-        field("Count", count.toString())
+        field("Count", books.size)
 
         table {
             tr {

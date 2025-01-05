@@ -10,13 +10,13 @@ import kotlinx.html.HtmlBlockTag
 
 fun HtmlBlockTag.showFill(fill: Fill) {
     when (fill) {
-        is Solid -> field("Solid Fill", fill.color.toString())
+        is Solid -> field("Solid Fill", fill.color)
         is VerticalStripes -> field("Vertical Stripes", "${fill.color0} & ${fill.color1}")
         is HorizontalStripes -> field("Horizontal Stripes", "${fill.color0} & ${fill.color1}")
         is Tiles -> {
-            field("Tile Color", fill.fill.toString())
+            field("Tile Color", fill.fill)
             if (fill.background != null) {
-                field("Background Color", fill.background.toString())
+                field("Background Color", fill.background)
             }
         }
     }

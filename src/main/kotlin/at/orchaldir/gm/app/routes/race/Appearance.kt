@@ -111,11 +111,10 @@ fun Application.configureRaceAppearanceRouting() {
 
 private fun HTML.showAll(call: ApplicationCall) {
     val elements = STORE.getState().getRaceAppearanceStorage().getAll().sortedBy { it.name }
-    val count = elements.size
     val createLink = call.application.href(AppearanceRoutes.New())
 
     simpleHtml("Race Appearances") {
-        field("Count", count.toString())
+        field("Count", elements.size)
         showList(elements) { element ->
             link(call, element)
         }

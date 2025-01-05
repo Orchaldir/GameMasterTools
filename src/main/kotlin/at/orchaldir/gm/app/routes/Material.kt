@@ -118,11 +118,10 @@ private fun HTML.showAllMaterials(
     state: State,
 ) {
     val materials = STORE.getState().getMaterialStorage().getAll().sortedBy { it.name }
-    val count = materials.size
     val createLink = call.application.href(MaterialRoutes.New())
 
     simpleHtml("Materials") {
-        field("Count", count.toString())
+        field("Count", materials.size)
         table {
             tr {
                 th { +"Name" }
@@ -158,7 +157,7 @@ private fun HTML.showMaterialDetails(
 
     simpleHtml("Material: ${material.name}") {
         field("Name", material.name)
-        field("Category", material.category.toString())
+        field("Category", material.category)
         showList("Item Templates", itemTemplates) { template ->
             link(call, template)
         }

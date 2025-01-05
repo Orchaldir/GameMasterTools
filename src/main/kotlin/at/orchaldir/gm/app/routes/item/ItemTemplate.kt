@@ -134,11 +134,10 @@ fun Application.configureItemTemplateRouting() {
 
 private fun HTML.showAllItemTemplates(call: ApplicationCall) {
     val templates = STORE.getState().getItemTemplateStorage().getAll().sortedBy { it.name }
-    val count = templates.size
     val createLink = call.application.href(ItemTemplateRoutes.New())
 
     simpleHtml("Item Templates") {
-        field("Count", count.toString())
+        field("Count", templates.size)
         showList(templates) { item ->
             link(call, item)
         }
@@ -164,9 +163,9 @@ private fun HTML.showItemTemplateDetails(
             NoEquipment -> doubleArrayOf()
             is Coat -> {
                 field("Equipment", "Coat")
-                field("Length", template.equipment.length.toString())
-                field("Neckline Style", template.equipment.necklineStyle.toString())
-                field("Sleeve Style", template.equipment.sleeveStyle.toString())
+                field("Length", template.equipment.length)
+                field("Neckline Style", template.equipment.necklineStyle)
+                field("Sleeve Style", template.equipment.sleeveStyle)
                 showOpeningStyle(template.equipment.openingStyle)
                 showFill(template.equipment.fill)
                 fieldLink("Material", call, state, template.equipment.material)
@@ -174,55 +173,55 @@ private fun HTML.showItemTemplateDetails(
 
             is Dress -> {
                 field("Equipment", "Dress")
-                field("Neckline Style", template.equipment.necklineStyle.toString())
-                field("Skirt Style", template.equipment.skirtStyle.toString())
-                field("Sleeve Style", template.equipment.sleeveStyle.toString())
+                field("Neckline Style", template.equipment.necklineStyle)
+                field("Skirt Style", template.equipment.skirtStyle)
+                field("Sleeve Style", template.equipment.sleeveStyle)
                 showFill(template.equipment.fill)
                 fieldLink("Material", call, state, template.equipment.material)
             }
 
             is Footwear -> {
                 field("Equipment", "Footwear")
-                field("Style", template.equipment.style.toString())
-                field("Color", template.equipment.color.toString())
+                field("Style", template.equipment.style)
+                field("Color", template.equipment.color)
                 if (template.equipment.style.hasSole()) {
-                    field("Sole Color", template.equipment.sole.toString())
+                    field("Sole Color", template.equipment.sole)
                 }
                 fieldLink("Material", call, state, template.equipment.material)
             }
 
             is Gloves -> {
                 field("Equipment", "Gloves")
-                field("Style", template.equipment.style.toString())
+                field("Style", template.equipment.style)
                 showFill(template.equipment.fill)
                 fieldLink("Material", call, state, template.equipment.material)
             }
 
             is Hat -> {
                 field("Equipment", "Hat")
-                field("Style", template.equipment.style.toString())
-                field("Color", template.equipment.color.toString())
+                field("Style", template.equipment.style)
+                field("Color", template.equipment.color)
                 fieldLink("Material", call, state, template.equipment.material)
             }
 
             is Pants -> {
                 field("Equipment", "Pants")
-                field("Style", template.equipment.style.toString())
+                field("Style", template.equipment.style)
                 showFill(template.equipment.fill)
                 fieldLink("Material", call, state, template.equipment.material)
             }
 
             is Shirt -> {
                 field("Equipment", "Shirt")
-                field("Neckline Style", template.equipment.necklineStyle.toString())
-                field("Sleeve Style", template.equipment.sleeveStyle.toString())
+                field("Neckline Style", template.equipment.necklineStyle)
+                field("Sleeve Style", template.equipment.sleeveStyle)
                 showFill(template.equipment.fill)
                 fieldLink("Material", call, state, template.equipment.material)
             }
 
             is Skirt -> {
                 field("Equipment", "Skirt")
-                field("Style", template.equipment.style.toString())
+                field("Style", template.equipment.style)
                 showFill(template.equipment.fill)
                 fieldLink("Material", call, state, template.equipment.material)
             }
@@ -248,19 +247,19 @@ private fun BODY.showOpeningStyle(openingStyle: OpeningStyle) {
         is SingleBreasted -> showButtons(openingStyle.buttons)
         is DoubleBreasted -> {
             showButtons(openingStyle.buttons)
-            field("Space between Columns", openingStyle.spaceBetweenColumns.toString())
+            field("Space between Columns", openingStyle.spaceBetweenColumns)
         }
 
         is Zipper -> {
-            field("Zipper Color", openingStyle.color.toString())
+            field("Zipper Color", openingStyle.color)
         }
     }
 }
 
 private fun BODY.showButtons(buttonColumn: ButtonColumn) {
     field("Button Count", buttonColumn.count.toString())
-    field("Button Color", buttonColumn.button.color.toString())
-    field("Button Size", buttonColumn.button.size.toString())
+    field("Button Color", buttonColumn.button.color)
+    field("Button Size", buttonColumn.button.size)
 }
 
 private fun HTML.showItemTemplateEditor(

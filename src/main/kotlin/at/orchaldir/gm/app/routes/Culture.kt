@@ -130,7 +130,7 @@ private fun HTML.showAllCultures(call: ApplicationCall) {
     val createLink = call.application.href(CultureRoutes.New())
 
     simpleHtml("Cultures") {
-        field("Count", count.toString())
+        field("Count", count)
         showList(cultures) { culture ->
             link(call, culture)
         }
@@ -186,7 +186,7 @@ private fun BODY.showNamingConvention(
     field("Type", namingConvention.javaClass.simpleName)
     when (namingConvention) {
         is FamilyConvention -> {
-            field("Name Order", namingConvention.nameOrder.toString())
+            field("Name Order", namingConvention.nameOrder)
             showRarityMap("Middle Name Options", namingConvention.middleNameOptions)
             showNamesByGender(call, state, "Given Names", namingConvention.givenNames)
             fieldLink("Family Names", call, state, namingConvention.familyNames)
@@ -228,7 +228,7 @@ private fun BODY.showGenonymConvention(
     style: GenonymicStyle,
     names: GenderMap<NameListId>,
 ) {
-    field("Lookup Distance", lookupDistance.toString())
+    field("Lookup Distance", lookupDistance)
     field("Genonymic Style", style.javaClass.simpleName)
     when (style) {
         is ChildOfStyle -> showStyleByGender("Words", style.words)

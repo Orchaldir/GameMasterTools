@@ -110,11 +110,10 @@ fun Application.configureMoonRouting() {
 
 private fun HTML.showAllMoons(call: ApplicationCall) {
     val moons = STORE.getState().getMoonStorage().getAll().sortedBy { it.name }
-    val count = moons.size
     val createLink = call.application.href(MoonRoutes.New())
 
     simpleHtml("Moons") {
-        field("Count", count.toString())
+        field("Count", moons.size)
         showList(moons) { nameList ->
             link(call, nameList)
         }
@@ -137,7 +136,7 @@ private fun HTML.showMoonDetails(
     simpleHtml("Moon: ${moon.name}") {
         field("Name", moon.name)
         field("Cycle", moon.getCycle().toString() + " days")
-        field("Color", moon.color.toString())
+        field("Color", moon.color)
         if (nextNewMoon > nextFullMoon) {
             field(call, state, "Next Full Moon", nextFullMoon)
             field(call, state, "Next New Moon", nextNewMoon)

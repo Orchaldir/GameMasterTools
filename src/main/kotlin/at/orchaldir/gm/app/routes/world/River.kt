@@ -107,11 +107,10 @@ fun Application.configureRiverRouting() {
 
 private fun HTML.showAllRivers(call: ApplicationCall) {
     val rivers = STORE.getState().getRiverStorage().getAll().sortedBy { it.name }
-    val count = rivers.size
     val createLink = call.application.href(RiverRoutes.New())
 
     simpleHtml("Rivers") {
-        field("Count", count.toString())
+        field("Count", rivers.size)
         showList(rivers) { nameList ->
             link(call, nameList)
         }
