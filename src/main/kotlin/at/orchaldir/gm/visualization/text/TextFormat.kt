@@ -1,9 +1,6 @@
 package at.orchaldir.gm.visualization.text
 
-import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.item.text.TextFormat
-import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
+import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
@@ -42,11 +39,13 @@ fun visualizeTextFormat(
 
     when (format) {
         is Book -> visualizeBook(innerState, format)
+        is Scroll -> doNothing()
         UndefinedTextFormat -> doNothing()
     }
 }
 
 fun calculateSize(format: TextFormat) = when (format) {
     is Book -> format.size.toSize2d()
+    is Scroll -> format.size.toSize2d()
     UndefinedTextFormat -> square(0.0f)
 }

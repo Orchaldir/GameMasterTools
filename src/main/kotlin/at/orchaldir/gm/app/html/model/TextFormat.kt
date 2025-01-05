@@ -2,10 +2,7 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseMaterialId
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
@@ -32,6 +29,10 @@ fun BODY.showTextFormat(
         is Book -> {
             field("Pages", format.pages)
             showBinding(call, state, format.binding)
+            fieldSize("Size", format.size)
+        }
+        is Scroll -> {
+            field("Vertical", format.vertical.toString())
             fieldSize("Size", format.size)
         }
     }
@@ -109,6 +110,10 @@ fun FORM.editTextFormat(
         is Book -> {
             selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
             editBinding(state, format.binding)
+            selectSize(SIZE, format.size, Distance(10), Distance(2000), Distance(10), true)
+        }
+        is Scroll -> {
+            selectBool("Vertical", format.vertical, VERTICAL, update = true)
             selectSize(SIZE, format.size, Distance(10), Distance(2000), Distance(10), true)
         }
     }
@@ -201,6 +206,10 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
     TextFormatType.Book -> Book(
         parseInt(parameters, PAGES, 100),
         parseBinding(parameters),
+        parseSize(parameters, SIZE),
+    )
+    TextFormatType.Scroll -> Scroll(
+        parseBool(parameters, VERTICAL),
         parseSize(parameters, SIZE),
     )
 

@@ -70,6 +70,7 @@ private fun checkFormat(format: TextFormat) {
             }
         }
 
+        is Scroll -> doNothing()
         UndefinedTextFormat -> doNothing()
     }
 }
