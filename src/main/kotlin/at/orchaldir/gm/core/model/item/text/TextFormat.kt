@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 const val MIN_PAGES = 10
 
 enum class TextFormatType {
-    Codex,
+    Book,
     Undefined,
 }
 
@@ -15,14 +15,14 @@ enum class TextFormatType {
 sealed class TextFormat {
 
     fun getType() = when (this) {
-        is Codex -> TextFormatType.Codex
+        is Book -> TextFormatType.Book
         UndefinedTextFormat -> TextFormatType.Undefined
     }
 }
 
 @Serializable
-@SerialName("Codex")
-data class Codex(
+@SerialName("Book")
+data class Book(
     val pages: Int,
     val binding: BookBinding,
     val size: Size2i = Size2i.square(100),

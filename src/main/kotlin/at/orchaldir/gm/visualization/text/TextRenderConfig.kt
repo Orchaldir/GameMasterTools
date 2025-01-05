@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.text
 
 import at.orchaldir.gm.core.model.item.text.TextFormat
-import at.orchaldir.gm.core.model.item.text.Codex
+import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.LeatherBindingType
 import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
 import at.orchaldir.gm.utils.math.Distance
@@ -24,7 +24,7 @@ data class TextRenderConfig(
 ) {
 
     fun calculateSize(format: TextFormat) = when (format) {
-        is Codex -> format.size.toSize2d() + (padding * 2)
+        is Book -> format.size.toSize2d() + (padding * 2)
         UndefinedTextFormat -> square(padding * 4.0f)
     }
 

@@ -1,7 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.item.text.BookCover
-import at.orchaldir.gm.core.model.item.text.Codex
+import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.CopticBinding
 import at.orchaldir.gm.core.model.item.text.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.StitchType.Empty
@@ -39,7 +39,7 @@ fun main() {
         ),
     ) { (sewingSize, sewingLength), pattern ->
         val cover = BookCover(Color.SaddleBrown, ID)
-        Codex(
+        Book(
             100,
             CopticBinding(cover, SimpleSewingPattern(Color.Red, sewingSize, sewingLength, pattern)),
             size

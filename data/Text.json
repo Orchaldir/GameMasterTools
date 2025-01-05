@@ -34,7 +34,7 @@
    },
    "language": 5,
    "format": {
-    "type": "Codex",
+    "type": "Book",
     "pages": 400,
     "binding": {
      "type": "Coptic",

@@ -28,7 +28,7 @@ fun BODY.showTextFormat(
 
     when (format) {
         UndefinedTextFormat -> doNothing()
-        is Codex -> {
+        is Book -> {
             field("Pages", format.pages)
             showBinding(call, state, format.binding)
             fieldSize("Size", format.size)
@@ -105,7 +105,7 @@ fun FORM.editTextFormat(
 
     when (format) {
         UndefinedTextFormat -> doNothing()
-        is Codex -> {
+        is Book -> {
             selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
             editBinding(state, format.binding)
             selectSize(SIZE, format.size, Distance(10), Distance(2000), Distance(10), true)
@@ -197,7 +197,7 @@ private fun FORM.editSewingPatternSize(size: Int) {
 // parse
 
 fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, TextFormatType.Undefined)) {
-    TextFormatType.Codex -> Codex(
+    TextFormatType.Book -> Book(
         parseInt(parameters, PAGES, 100),
         parseBinding(parameters),
         parseSize(parameters, SIZE),

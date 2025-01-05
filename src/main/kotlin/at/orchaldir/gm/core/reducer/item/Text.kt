@@ -52,7 +52,7 @@ private fun checkOrigin(
 
 private fun checkFormat(format: TextFormat) {
     when (format) {
-        is Codex -> {
+        is Book -> {
             require(format.pages >= MIN_PAGES) { "The text requires at least $MIN_PAGES pages!" }
 
             when (format.binding) {

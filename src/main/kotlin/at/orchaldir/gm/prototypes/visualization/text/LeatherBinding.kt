@@ -1,7 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.item.text.BookCover
-import at.orchaldir.gm.core.model.item.text.Codex
+import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.LeatherBinding
 import at.orchaldir.gm.core.model.item.text.LeatherBindingType
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -23,7 +23,7 @@ fun main() {
         addNames(LeatherBindingType.entries),
     ) { color, type ->
         val cover = BookCover(color, ID)
-        Codex(
+        Book(
             100,
             LeatherBinding(Color.SaddleBrown, ID, type, cover),
             size

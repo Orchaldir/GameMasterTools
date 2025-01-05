@@ -9,20 +9,20 @@ import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.text.TextRenderState
 import at.orchaldir.gm.visualization.renderPolygon
 
-fun visualizeCodex(
+fun visualizeBook(
     state: TextRenderState,
-    codex: Codex,
+    book: Book,
 ) {
-    when (codex.binding) {
+    when (book.binding) {
         is CopticBinding -> {
-            visualizeCover(state, codex.binding.cover)
-            visualizeSewingPattern(state, codex.binding.sewingPattern)
+            visualizeCover(state, book.binding.cover)
+            visualizeSewingPattern(state, book.binding.sewingPattern)
         }
 
-        is Hardcover -> visualizeCover(state, codex.binding.cover)
+        is Hardcover -> visualizeCover(state, book.binding.cover)
         is LeatherBinding -> {
-            visualizeCover(state, codex.binding.cover)
-            visualizeLeatherBinding(state, codex.binding)
+            visualizeCover(state, book.binding.cover)
+            visualizeLeatherBinding(state, book.binding)
         }
     }
 }

@@ -2,7 +2,7 @@ package at.orchaldir.gm.visualization.text
 
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextFormat
-import at.orchaldir.gm.core.model.item.text.Codex
+import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
@@ -10,7 +10,7 @@ import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.text.book.visualizeCodex
+import at.orchaldir.gm.visualization.text.book.visualizeBook
 
 fun visualizeText(
     config: TextRenderConfig,
@@ -41,12 +41,12 @@ fun visualizeTextFormat(
     state.renderer.getLayer().renderRectangle(state.aabb, BorderOnly(state.config.line))
 
     when (format) {
-        is Codex -> visualizeCodex(innerState, format)
+        is Book -> visualizeBook(innerState, format)
         UndefinedTextFormat -> doNothing()
     }
 }
 
 fun calculateSize(format: TextFormat) = when (format) {
-    is Codex -> format.size.toSize2d()
+    is Book -> format.size.toSize2d()
     UndefinedTextFormat -> square(0.0f)
 }

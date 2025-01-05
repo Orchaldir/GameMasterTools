@@ -17,7 +17,7 @@ fun main() {
         ComplexStitch(Color.Green, Size.Medium, Size.Small),
         ComplexStitch(Color.Blue, Size.Large, Size.Medium),
     )
-    val book = Codex(
+    val book = Book(
         100,
         CopticBinding(cover, ComplexSewingPattern(stitches)),
         Size2i(125, 190)

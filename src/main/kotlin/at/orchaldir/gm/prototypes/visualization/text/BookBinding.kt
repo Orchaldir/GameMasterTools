@@ -20,7 +20,7 @@ fun main() {
         addNames(BookBindingType.entries),
     ) { color, type ->
         val cover = BookCover(color, ID)
-        Codex(
+        Book(
             100,
             when (type) {
                 BookBindingType.Coptic -> CopticBinding(cover, SimpleSewingPattern(Color.White))
