@@ -1,8 +1,12 @@
 package at.orchaldir.gm.visualization.book.book
 
-import at.orchaldir.gm.core.model.item.book.*
+import at.orchaldir.gm.core.model.item.book.ComplexSewingPattern
+import at.orchaldir.gm.core.model.item.book.SewingPattern
+import at.orchaldir.gm.core.model.item.book.SimpleSewingPattern
+import at.orchaldir.gm.core.model.item.book.StitchType
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.book.BookRenderState
 import at.orchaldir.gm.visualization.renderRoundedPolygon

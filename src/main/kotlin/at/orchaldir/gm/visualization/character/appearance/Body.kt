@@ -5,9 +5,9 @@ import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.*
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
+import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.equipment.visualizeBodyEquipment
 
 data class BodyConfig(

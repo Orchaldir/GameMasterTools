@@ -1,7 +1,9 @@
 package at.orchaldir.gm.visualization.book.book
 
 import at.orchaldir.gm.core.model.item.book.*
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.END
+import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.book.BookRenderState
@@ -16,6 +18,7 @@ fun visualizeCodex(
             visualizeCover(state, codex.binding.cover)
             visualizeSewingPattern(state, codex.binding.sewingPattern)
         }
+
         is Hardcover -> visualizeCover(state, codex.binding.cover)
         is LeatherBinding -> {
             visualizeCover(state, codex.binding.cover)
