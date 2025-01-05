@@ -62,7 +62,6 @@ import at.orchaldir.gm.utils.Storage
 val ELEMENTS =
     setOf(
         ARCHITECTURAL_STYLE,
-        TEXT_TYPE,
         BUILDING,
         BUSINESS,
         CALENDAR,
@@ -83,6 +82,7 @@ val ELEMENTS =
         RIVER,
         STREET,
         STREET_TEMPLATE,
+        TEXT_TYPE,
         TOWN,
     )
 private const val TIME = "Time"
