@@ -25,9 +25,9 @@ import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ITEM_TEMPLATE
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.ItemTemplateId
-import at.orchaldir.gm.core.model.item.book.BOOK_TYPE
-import at.orchaldir.gm.core.model.item.book.Book
-import at.orchaldir.gm.core.model.item.book.BookId
+import at.orchaldir.gm.core.model.item.text.BOOK_TYPE
+import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.BookId
 import at.orchaldir.gm.core.model.language.LANGUAGE
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId

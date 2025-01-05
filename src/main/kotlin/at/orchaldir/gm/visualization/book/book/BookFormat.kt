@@ -1,6 +1,6 @@
 package at.orchaldir.gm.visualization.book.book
 
-import at.orchaldir.gm.core.model.item.book.*
+import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.START

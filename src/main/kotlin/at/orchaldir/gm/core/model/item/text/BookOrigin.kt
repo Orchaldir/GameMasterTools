@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.item.book
+package at.orchaldir.gm.core.model.item.text
 
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.Creator

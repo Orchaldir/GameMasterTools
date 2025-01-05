@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.action.CreateBook
 import at.orchaldir.gm.core.action.DeleteBook
 import at.orchaldir.gm.core.action.UpdateBook
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.book.*
+import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.selector.item.canDeleteBook
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
 import at.orchaldir.gm.prototypes.visualization.book.BOOK_CONFIG

@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.item.book.Book
+import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.language.InventedLanguage

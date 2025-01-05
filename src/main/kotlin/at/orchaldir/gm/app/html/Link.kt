@@ -21,7 +21,7 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ItemTemplateId
-import at.orchaldir.gm.core.model.item.book.BookId
+import at.orchaldir.gm.core.model.item.text.BookId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.name.NameListId

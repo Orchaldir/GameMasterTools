@@ -9,8 +9,8 @@ import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.JobId
-import at.orchaldir.gm.core.model.item.book.Book
-import at.orchaldir.gm.core.model.item.book.OriginalBook
+import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.OriginalBook
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.name.NameWithReference

@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.action.DeleteBook
 import at.orchaldir.gm.core.action.UpdateBook
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.item.book.*
+import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.reducer.REDUCER

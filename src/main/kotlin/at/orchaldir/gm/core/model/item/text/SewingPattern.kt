@@ -1,6 +1,6 @@
-package at.orchaldir.gm.core.model.item.book
+package at.orchaldir.gm.core.model.item.text
 
-import at.orchaldir.gm.core.model.item.book.StitchType.Kettle
+import at.orchaldir.gm.core.model.item.text.StitchType.Kettle
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName

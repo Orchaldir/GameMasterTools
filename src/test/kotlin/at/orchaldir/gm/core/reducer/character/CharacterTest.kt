@@ -10,9 +10,9 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
-import at.orchaldir.gm.core.model.item.book.Book
-import at.orchaldir.gm.core.model.item.book.OriginalBook
-import at.orchaldir.gm.core.model.item.book.TranslatedBook
+import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.OriginalBook
+import at.orchaldir.gm.core.model.item.text.TranslatedBook
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language

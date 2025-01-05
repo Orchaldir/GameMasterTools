@@ -1,9 +1,9 @@
 package at.orchaldir.gm.visualization.book
 
-import at.orchaldir.gm.core.model.item.book.BookFormat
-import at.orchaldir.gm.core.model.item.book.Codex
-import at.orchaldir.gm.core.model.item.book.LeatherBindingType
-import at.orchaldir.gm.core.model.item.book.UndefinedBookFormat
+import at.orchaldir.gm.core.model.item.text.BookFormat
+import at.orchaldir.gm.core.model.item.text.Codex
+import at.orchaldir.gm.core.model.item.text.LeatherBindingType
+import at.orchaldir.gm.core.model.item.text.UndefinedBookFormat
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2d.Companion.square

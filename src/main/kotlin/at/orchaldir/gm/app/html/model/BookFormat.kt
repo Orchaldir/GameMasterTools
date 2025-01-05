@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseMaterialId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.book.*
+import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing

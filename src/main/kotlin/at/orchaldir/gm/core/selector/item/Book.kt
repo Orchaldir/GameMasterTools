@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.selector.item
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.book.Book
-import at.orchaldir.gm.core.model.item.book.BookId
+import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.BookId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.utils.Id
 

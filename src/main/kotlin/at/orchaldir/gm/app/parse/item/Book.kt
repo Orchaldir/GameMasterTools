@@ -9,7 +9,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseLanguageId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.book.*
+import at.orchaldir.gm.core.model.item.text.*
 import io.ktor.http.*
 import io.ktor.server.util.*
 

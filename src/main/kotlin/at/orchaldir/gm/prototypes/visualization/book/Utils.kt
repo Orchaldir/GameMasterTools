@@ -1,6 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.book
 
-import at.orchaldir.gm.core.model.item.book.BookFormat
+import at.orchaldir.gm.core.model.item.text.BookFormat
 import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.visualization.book.BookRenderConfig

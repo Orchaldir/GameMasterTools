@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.item.book.Book
+import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.History

@@ -1,9 +1,9 @@
 package at.orchaldir.gm.prototypes.visualization.book
 
-import at.orchaldir.gm.core.model.item.book.BookCover
-import at.orchaldir.gm.core.model.item.book.Codex
-import at.orchaldir.gm.core.model.item.book.LeatherBinding
-import at.orchaldir.gm.core.model.item.book.LeatherBindingType
+import at.orchaldir.gm.core.model.item.text.BookCover
+import at.orchaldir.gm.core.model.item.text.Codex
+import at.orchaldir.gm.core.model.item.text.LeatherBinding
+import at.orchaldir.gm.core.model.item.text.LeatherBindingType
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
