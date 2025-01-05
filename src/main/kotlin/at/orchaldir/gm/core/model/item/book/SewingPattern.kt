@@ -32,8 +32,9 @@ data class SimpleSewingPattern(
 @Serializable
 data class ComplexStitch(
     val color: Color,
-    val size: Size,
-    val stitch: StitchType,
+    val size: Size = Size.Medium,
+    val length: Size = Size.Medium,
+    val stitch: StitchType = Kettle,
 )
 
 @Serializable

@@ -16,13 +16,18 @@ import at.orchaldir.gm.visualization.book.BookRenderState
 fun visualizeBook(
     config: BookRenderConfig,
     book: Book,
+) = visualizeBookFormat(config, book.format)
+
+fun visualizeBookFormat(
+    config: BookRenderConfig,
+    format: BookFormat,
 ): Svg {
-    val size = calculateRenderSize(config, book)
+    val size = config.calculateSize(format)
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
     val state = BookRenderState(aabb, config, builder)
 
-    visualizeBookFormat(state, book.format)
+    visualizeBookFormat(state, format)
 
     return builder.finish()
 }
@@ -40,11 +45,6 @@ fun visualizeBookFormat(
         is Codex -> visualizeCodex(innerState, format)
         UndefinedBookFormat -> doNothing()
     }
-}
-
-fun calculateRenderSize(config: BookRenderConfig, book: Book) = when (book.format) {
-    is Codex -> book.format.size.toSize2d() + (config.padding * 2)
-    UndefinedBookFormat -> square(config.padding * 4.0f)
 }
 
 fun calculateSize(format: BookFormat) = when (format) {

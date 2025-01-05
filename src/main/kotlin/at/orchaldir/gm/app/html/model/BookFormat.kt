@@ -253,6 +253,7 @@ private fun parseComplexPattern(parameters: Parameters): List<ComplexStitch> {
             ComplexStitch(
                 parse(parameters, combine(stitchParam, COLOR), Color.Crimson),
                 parse(parameters, combine(stitchParam, SIZE), Size.Medium),
+                parse(parameters, combine(stitchParam, LENGTH), Size.Medium),
                 parse(parameters, stitchParam, StitchType.Kettle),
             )
         }
