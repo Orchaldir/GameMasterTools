@@ -21,18 +21,16 @@ sealed class ScrollFormat {
 
 @Serializable
 @SerialName("NoRod")
-data class NoRod(
-    val pages: Int,
-) : ScrollFormat()
+data object NoRod : ScrollFormat()
 
 @Serializable
 @SerialName("OneRod")
 data class OneRod(
-    val pages: Int,
+    val rod: ScrollRod,
 ) : ScrollFormat()
 
 @Serializable
 @SerialName("TwoRods")
 data class TwoRods(
-    val pages: Int,
+    val rod: ScrollRod,
 ) : ScrollFormat()
