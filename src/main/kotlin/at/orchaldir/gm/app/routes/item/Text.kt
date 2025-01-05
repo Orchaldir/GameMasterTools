@@ -12,8 +12,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.selector.item.canDeleteBook
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
-import at.orchaldir.gm.prototypes.visualization.book.BOOK_CONFIG
-import at.orchaldir.gm.visualization.book.book.visualizeBook
+import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
+import at.orchaldir.gm.visualization.text.visualizeText
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -169,7 +169,7 @@ private fun HTML.showTextDetails(
     val backLink = call.application.href(TextRoutes())
     val deleteLink = call.application.href(TextRoutes.Delete(text.id))
     val editLink = call.application.href(TextRoutes.Edit(text.id))
-    val svg = visualizeBook(BOOK_CONFIG, text)
+    val svg = visualizeText(TEXT_CONFIG, text)
 
     simpleHtml("Text: ${text.name}") {
         svg(svg, 20)
@@ -221,7 +221,7 @@ private fun HTML.showTextEditor(
     val backLink = href(call, text.id)
     val previewLink = call.application.href(TextRoutes.Preview(text.id))
     val updateLink = call.application.href(TextRoutes.Update(text.id))
-    val svg = visualizeBook(BOOK_CONFIG, text)
+    val svg = visualizeText(TEXT_CONFIG, text)
 
     simpleHtml("Edit Text: ${text.name}") {
         split({

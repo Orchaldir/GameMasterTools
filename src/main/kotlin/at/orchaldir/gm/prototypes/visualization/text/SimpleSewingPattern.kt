@@ -1,4 +1,4 @@
-package at.orchaldir.gm.prototypes.visualization.book
+package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.item.text.BookCover
 import at.orchaldir.gm.core.model.item.text.Codex
@@ -17,9 +17,9 @@ private val ID = MaterialId(0)
 fun main() {
     val size = Size2i(125, 190)
 
-    renderBookTable(
+    renderTextTable(
         "book-sewing-patterns-simple.svg",
-        BOOK_CONFIG,
+        TEXT_CONFIG,
         size.toSize2d() + Distance(50),
         listOf(
             Pair("Small + Short", Pair(Size.Small, Size.Small)),

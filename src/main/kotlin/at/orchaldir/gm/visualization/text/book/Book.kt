@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.book.book
+package at.orchaldir.gm.visualization.text.book
 
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.utils.math.Distance
@@ -6,11 +6,11 @@ import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.visualization.book.BookRenderState
+import at.orchaldir.gm.visualization.text.TextRenderState
 import at.orchaldir.gm.visualization.renderPolygon
 
 fun visualizeCodex(
-    state: BookRenderState,
+    state: TextRenderState,
     codex: Codex,
 ) {
     when (codex.binding) {
@@ -28,7 +28,7 @@ fun visualizeCodex(
 }
 
 private fun visualizeCover(
-    state: BookRenderState,
+    state: TextRenderState,
     cover: BookCover,
 ) {
     val options = FillAndBorder(cover.color.toRender(), state.config.line)
@@ -36,7 +36,7 @@ private fun visualizeCover(
 }
 
 private fun visualizeLeatherBinding(
-    state: BookRenderState,
+    state: TextRenderState,
     leatherBinding: LeatherBinding,
 ) {
     val options = FillAndBorder(leatherBinding.leatherColor.toRender(), state.config.line)
@@ -54,7 +54,7 @@ private fun visualizeLeatherBinding(
 }
 
 private fun visualizeTopCorner(
-    state: BookRenderState,
+    state: TextRenderState,
     options: RenderOptions,
     distance: Distance,
 ) {
@@ -66,7 +66,7 @@ private fun visualizeTopCorner(
 }
 
 private fun visualizeBottomCorner(
-    state: BookRenderState,
+    state: TextRenderState,
     options: RenderOptions,
     distance: Distance,
 ) {

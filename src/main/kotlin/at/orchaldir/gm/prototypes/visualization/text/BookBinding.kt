@@ -1,4 +1,4 @@
-package at.orchaldir.gm.prototypes.visualization.book
+package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -12,9 +12,9 @@ private val ID = MaterialId(0)
 fun main() {
     val size = Size2i(125, 190)
 
-    renderBookTable(
+    renderTextTable(
         "book-bindings.svg",
-        BOOK_CONFIG,
+        TEXT_CONFIG,
         size.toSize2d() + Distance(50),
         addNames(listOf(Color.Blue, Color.Red, Color.Black, Color.Green)),
         addNames(BookBindingType.entries),

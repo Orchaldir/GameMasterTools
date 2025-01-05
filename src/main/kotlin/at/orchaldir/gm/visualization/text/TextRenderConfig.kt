@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.book
+package at.orchaldir.gm.visualization.text
 
 import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.core.model.item.text.Codex
@@ -15,7 +15,7 @@ data class LeatherBindingConfig(
     val corner: Factor,
 )
 
-data class BookRenderConfig(
+data class TextRenderConfig(
     val padding: Distance,
     val line: LineOptions,
     val leatherBindingMap: Map<LeatherBindingType, LeatherBindingConfig>,

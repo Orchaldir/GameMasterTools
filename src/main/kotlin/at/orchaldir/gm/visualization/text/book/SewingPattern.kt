@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.book.book
+package at.orchaldir.gm.visualization.text.book
 
 import at.orchaldir.gm.core.model.item.text.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.text.SewingPattern
@@ -8,11 +8,11 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.visualization.book.BookRenderState
+import at.orchaldir.gm.visualization.text.TextRenderState
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 
 fun visualizeSewingPattern(
-    state: BookRenderState,
+    state: TextRenderState,
     sewingPattern: SewingPattern,
 ) {
     when (sewingPattern) {
@@ -22,7 +22,7 @@ fun visualizeSewingPattern(
 }
 
 private fun visualizeSimpleSewingPattern(
-    state: BookRenderState,
+    state: TextRenderState,
     simple: SimpleSewingPattern,
 ) {
     val options = FillAndBorder(simple.color.toRender(), state.config.line)
@@ -57,7 +57,7 @@ private fun visualizeSimpleSewingPattern(
 }
 
 private fun visualizeComplexSewingPattern(
-    state: BookRenderState,
+    state: TextRenderState,
     complex: ComplexSewingPattern,
 ) {
     val parts = complex.stitches.size

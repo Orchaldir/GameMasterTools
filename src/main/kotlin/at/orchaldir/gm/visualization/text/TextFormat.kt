@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.book.book
+package at.orchaldir.gm.visualization.text
 
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextFormat
@@ -10,30 +10,29 @@ import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.book.BookRenderConfig
-import at.orchaldir.gm.visualization.book.BookRenderState
+import at.orchaldir.gm.visualization.text.book.visualizeCodex
 
-fun visualizeBook(
-    config: BookRenderConfig,
+fun visualizeText(
+    config: TextRenderConfig,
     text: Text,
-) = visualizeBookFormat(config, text.format)
+) = visualizeTextFormat(config, text.format)
 
-fun visualizeBookFormat(
-    config: BookRenderConfig,
+fun visualizeTextFormat(
+    config: TextRenderConfig,
     format: TextFormat,
 ): Svg {
     val size = config.calculateSize(format)
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
-    val state = BookRenderState(aabb, config, builder)
+    val state = TextRenderState(aabb, config, builder)
 
-    visualizeBookFormat(state, format)
+    visualizeTextFormat(state, format)
 
     return builder.finish()
 }
 
-fun visualizeBookFormat(
-    state: BookRenderState,
+fun visualizeTextFormat(
+    state: TextRenderState,
     format: TextFormat,
 ) {
     val inner = AABB.fromCenter(state.aabb.getCenter(), calculateSize(format))
