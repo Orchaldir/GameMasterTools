@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.text.scroll
 
 import at.orchaldir.gm.core.model.item.text.Scroll
-import at.orchaldir.gm.core.model.item.text.scroll.ScrollRod
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollHandle
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
@@ -33,7 +33,7 @@ private fun visualizeOneRod(
     scroll: Scroll,
     format: ScrollWithOneRod,
 ) {
-    visualizeRod(state, scroll, format.rod)
+    visualizeRod(state, scroll, format.handle)
 }
 
 private fun visualizeTwoRods(
@@ -44,29 +44,29 @@ private fun visualizeTwoRods(
     val first = state.aabb.splitHorizontal(START, HALF)
     val second = state.aabb.splitHorizontal(HALF, END)
 
-    visualizeRod(state.copy(aabb = first), scroll, format.rod)
-    visualizeRod(state.copy(aabb = second), scroll, format.rod)
+    visualizeRod(state.copy(aabb = first), scroll, format.handle)
+    visualizeRod(state.copy(aabb = second), scroll, format.handle)
 }
 
 private fun visualizeRod(
     state: TextRenderState,
     scroll: Scroll,
-    rod: ScrollRod,
+    rod: ScrollHandle,
 ) {
     val inner = AABB.fromCenter(state.aabb.getCenter(), scroll.calculateRollSize())
     val innerState = state.copy(aabb = inner)
 
     visualizeRoll(innerState, scroll)
 
-    val handleSize = rod.calculateHandleSize()
+    val handleSize = rod.calculateSize()
     val options = FillAndBorder(rod.color.toRender(), state.config.line)
 
-    val centerTop = state.aabb.getPoint(HALF, START).addHeight(rod.handleLength / 2)
+    val centerTop = state.aabb.getPoint(HALF, START).addHeight(rod.length / 2)
     val aabbTop = AABB.fromCenter(centerTop, handleSize)
 
     state.renderer.getLayer().renderRectangle(aabbTop, options)
 
-    val centerBottom = state.aabb.getPoint(HALF, END).minusHeight(rod.handleLength / 2)
+    val centerBottom = state.aabb.getPoint(HALF, END).minusHeight(rod.length / 2)
     val aabbBottom = AABB.fromCenter(centerBottom, handleSize)
 
     state.renderer.getLayer().renderRectangle(aabbBottom, options)

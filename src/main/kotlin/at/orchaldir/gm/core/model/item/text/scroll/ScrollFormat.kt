@@ -21,14 +21,14 @@ sealed class ScrollFormat {
 
     fun calculateLength(rollLength: Distance) = when (this) {
         ScrollWithoutRod -> rollLength
-        is ScrollWithOneRod -> rod.calculateLength(rollLength)
-        is ScrollWithTwoRods -> rod.calculateLength(rollLength)
+        is ScrollWithOneRod -> handle.calculateLength(rollLength)
+        is ScrollWithTwoRods -> handle.calculateLength(rollLength)
     }
 
     fun calculateWidth(rollDiameter: Distance) = when (this) {
         ScrollWithoutRod -> rollDiameter
-        is ScrollWithOneRod -> rod.calculateDiameter(rollDiameter)
-        is ScrollWithTwoRods -> rod.calculateDiameter(rollDiameter) * 2
+        is ScrollWithOneRod -> handle.calculateDiameter(rollDiameter)
+        is ScrollWithTwoRods -> handle.calculateDiameter(rollDiameter) * 2
     }
 }
 
@@ -39,11 +39,11 @@ data object ScrollWithoutRod : ScrollFormat()
 @Serializable
 @SerialName("OneRod")
 data class ScrollWithOneRod(
-    val rod: ScrollRod,
+    val handle: ScrollHandle,
 ) : ScrollFormat()
 
 @Serializable
 @SerialName("TwoRods")
 data class ScrollWithTwoRods(
-    val rod: ScrollRod,
+    val handle: ScrollHandle,
 ) : ScrollFormat()

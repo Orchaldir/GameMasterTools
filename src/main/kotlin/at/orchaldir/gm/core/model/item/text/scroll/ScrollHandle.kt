@@ -7,17 +7,17 @@ import at.orchaldir.gm.utils.math.Size2d
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ScrollRod(
-    val handleLength: Distance,
-    val handleDiameter: Distance,
+data class ScrollHandle(
+    val length: Distance,
+    val diameter: Distance,
     val color: Color = Color.Blue,
     val material: MaterialId = MaterialId(0),
 ) {
 
-    fun calculateLength(rollLength: Distance) = rollLength + handleLength * 2
+    fun calculateLength(rollLength: Distance) = rollLength + length * 2
 
-    fun calculateDiameter(rollDiameter: Distance) = rollDiameter.max(handleDiameter)
+    fun calculateDiameter(rollDiameter: Distance) = rollDiameter.max(diameter)
 
-    fun calculateHandleSize() = Size2d(handleDiameter, handleLength)
+    fun calculateSize() = Size2d(diameter, length)
 
 }

@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
-import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
+import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
@@ -15,6 +15,11 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
 import kotlinx.html.FORM
+
+
+private val step = Distance(10)
+private val min = Distance(10)
+private val max = Distance(2000)
 
 // show
 
@@ -33,7 +38,11 @@ fun BODY.showTextFormat(
             fieldSize("Size", format.size)
         }
         is Scroll -> {
-            //field("Vertical", format.vertical.toString())
+            fieldDistance("Roll Length", format.rollLength)
+            fieldDistance("Roll Diameter", format.rollDiameter)
+            field("Scroll Color", format.color)
+            fieldLink("Scroll Material", call, state, format.material)
+            showScrollFormat(call, state, format.format)
         }
     }
 }
@@ -97,6 +106,31 @@ private fun BODY.showSewingPattern(pattern: SewingPattern) {
     }
 }
 
+private fun BODY.showScrollFormat(
+    call: ApplicationCall,
+    state: State,
+    format: ScrollFormat,
+) {
+    field("Format", format.getType())
+
+    when (format) {
+        is ScrollWithOneRod -> showScrollHandle(call, state, format.handle)
+        is ScrollWithTwoRods -> showScrollHandle(call, state, format.handle)
+        ScrollWithoutRod -> doNothing()
+    }
+}
+
+private fun BODY.showScrollHandle(
+    call: ApplicationCall,
+    state: State,
+    handle: ScrollHandle,
+) {
+    fieldDistance("Handle Length", handle.length)
+    fieldDistance("Handle Diameter", handle.diameter)
+    field("Handle Color", handle.color)
+    fieldLink("Handle Material", call, state, handle.material)
+}
+
 // edit
 
 fun FORM.editTextFormat(
@@ -110,10 +144,18 @@ fun FORM.editTextFormat(
         is Book -> {
             selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
             editBinding(state, format.binding)
-            selectSize(SIZE, format.size, Distance(10), Distance(2000), Distance(10), true)
+            selectSize(SIZE, format.size, min, max, step, true)
         }
         is Scroll -> {
-            //selectBool("Vertical", format.vertical, VERTICAL, update = true)
+            selectDistance("Roll Length", LENGTH, format.rollLength, min, max, step, true)
+            selectDistance("Roll Diameter", LENGTH, format.rollDiameter, min, max, step, true)
+            selectColor("Scroll Color", COLOR, Color.entries, format.color)
+            selectValue("Scroll Material", MATERIAL, state.getMaterialStorage().getAll()) { material ->
+                label = material.name
+                value = material.id.value.toString()
+                selected = material.id == format.material
+            }
+            editScrollFormat(state, format.format)
         }
     }
 }
@@ -199,6 +241,33 @@ private fun FORM.editSewingPatternSize(size: Int) {
     selectInt("Sewing Pattern Size", size, MIN_STITCHES, 20, 1, combine(SEWING, NUMBER), true)
 }
 
+private fun FORM.editScrollFormat(
+    state: State,
+    format: ScrollFormat,
+) {
+    selectValue("Scroll Format", SCROLL, ScrollFormatType.entries, format.getType(), true)
+
+    when (format) {
+        is ScrollWithOneRod -> editScrollHandle(state, format.handle)
+        is ScrollWithTwoRods -> editScrollHandle(state, format.handle)
+        ScrollWithoutRod -> doNothing()
+    }
+}
+
+private fun FORM.editScrollHandle(
+    state: State,
+    rod: ScrollHandle,
+) {
+    selectDistance("Handle Length", combine(HANDLE, LENGTH), rod.length, min, max, step, true)
+    selectDistance("Handle Diameter", combine(HANDLE, DIAMETER), rod.diameter, min, max, step, true)
+    selectColor("Handle Color", combine(HANDLE, COLOR), Color.entries, rod.color)
+    selectValue("Handle Material", combine(HANDLE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
+        label = material.name
+        value = material.id.value.toString()
+        selected = material.id == rod.material
+    }
+}
+
 // parse
 
 fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, TextFormatType.Undefined)) {
@@ -210,7 +279,9 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
     TextFormatType.Scroll -> Scroll(
         parseDistance(parameters, LENGTH),
         parseDistance(parameters, DIAMETER),
-        ScrollWithoutRod,
+        parseScrollFormat(parameters),
+        parse(parameters, COLOR, Color.Green),
+        parseMaterialId(parameters, MATERIAL),
     )
 
     TextFormatType.Undefined -> UndefinedTextFormat
@@ -270,3 +341,16 @@ private fun parseComplexPattern(parameters: Parameters): List<ComplexStitch> {
             )
         }
 }
+
+private fun parseScrollFormat(parameters: Parameters) = when (parse(parameters, SCROLL, ScrollFormatType.NoRod)) {
+    ScrollFormatType.NoRod -> ScrollWithoutRod
+    ScrollFormatType.OneRod -> ScrollWithOneRod(parseScrollHandle(parameters))
+    ScrollFormatType.TwoRods -> ScrollWithTwoRods(parseScrollHandle(parameters))
+}
+
+private fun parseScrollHandle(parameters: Parameters) = ScrollHandle(
+    parseDistance(parameters, combine(HANDLE, LENGTH)),
+    parseDistance(parameters, combine(HANDLE, DIAMETER)),
+    parse(parameters, combine(HANDLE, COLOR), Color.Black),
+    parseMaterialId(parameters, combine(HANDLE, MATERIAL)),
+)
