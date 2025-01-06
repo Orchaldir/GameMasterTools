@@ -137,7 +137,7 @@ private fun HTML.showAllTexts(
     call: ApplicationCall,
     state: State,
 ) {
-    val texts = STORE.getState().getTextStorage().getAll().sortedBy { it.name }
+    val texts = state.getTextStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(TextRoutes.New())
     val galleryLink = call.application.href(TextRoutes.Gallery())
 
@@ -180,7 +180,7 @@ private fun HTML.showGallery(
     call: ApplicationCall,
     state: State,
 ) {
-    val texts = STORE.getState()
+    val texts = state
         .getTextStorage()
         .getAll()
         .filter { it.format !is UndefinedTextFormat }

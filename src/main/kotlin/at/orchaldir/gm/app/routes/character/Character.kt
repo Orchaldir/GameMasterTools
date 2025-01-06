@@ -54,6 +54,13 @@ fun Application.configureCharacterRouting() {
                 showAllCharacters(call, STORE.getState(), all.sort)
             }
         }
+        get<CharacterRoutes.Gallery> {
+            logger.info { "Show gallery" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showGallery(call, STORE.getState())
+            }
+        }
         get<CharacterRoutes.Details> { details ->
             logger.info { "Get details of character ${details.id.value}" }
 
@@ -162,8 +169,10 @@ private fun HTML.showAllCharacters(
     val createLink = call.application.href(CharacterRoutes.New())
     val sortNameLink = call.application.href(CharacterRoutes.All())
     val sortAgeLink = call.application.href(CharacterRoutes.All(SortCharacter.Age))
+    val galleryLink = call.application.href(CharacterRoutes.Gallery())
 
     simpleHtml("Characters") {
+        action(galleryLink, "Gallery")
         field("Count", characters.size)
         field("Sort") {
             link(sortNameLink, "Name")
@@ -216,6 +225,37 @@ private fun HTML.showAllCharacters(
         showLanguageCountForCharacters(call, state, characters)
         showPersonalityCount(call, state, characters)
         showRaceCount(call, state, characters)
+    }
+}
+
+private fun HTML.showGallery(
+    call: ApplicationCall,
+    state: State,
+) {
+    val characters = state
+        .getCharacterStorage()
+        .getAll()
+        .filter { it.appearance !is UndefinedAppearance }
+    val sortedCharacters = state.sortCharacters(characters, SortCharacter.Name)
+    val backLink = call.application.href(CharacterRoutes.All())
+
+    simpleHtml("Characters") {
+
+        div("grid-container") {
+            sortedCharacters.forEach { (character, name) ->
+                val equipment = state.getEquipment(character)
+                val svg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment)
+
+                div("grid-item") {
+                    a(href(call, character.id)) {
+                        div { +name }
+                        svg(svg, 100)
+                    }
+                }
+            }
+        }
+
+        back(backLink)
     }
 }
 
