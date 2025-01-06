@@ -186,6 +186,7 @@ private fun HTML.showGallery(
         .filter { it.format !is UndefinedTextFormat }
         .sortedBy { it.name }
     val size = Size2d.square(0.5f)
+    val backLink = call.application.href(TextRoutes())
 
     simpleHtml("Texts") {
 
@@ -193,11 +194,12 @@ private fun HTML.showGallery(
             val svg = visualizeTextFormat(TEXT_CONFIG, text.format, size)
 
             a(href(call, text.id)) {
+                div { +text.name }
                 svg(svg, 20)
             }
         }
 
-        back("/")
+        back(backLink)
     }
 }
 
