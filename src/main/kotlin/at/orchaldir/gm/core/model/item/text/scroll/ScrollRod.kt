@@ -7,8 +7,16 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ScrollRod(
-    val length: Distance,
-    val diameter: Distance,
+    val handleLength: Distance,
+    val handleDiameter: Distance,
     val color: Color = Color.Blue,
     val material: MaterialId = MaterialId(0),
-)
+) {
+
+    fun calculateLength(rollLength: Distance) = rollLength + handleLength * 2
+
+    fun calculateSingleRodDiameter(rollDiameter: Distance) = rollDiameter.max(handleDiameter)
+
+    fun calculateTwoRodsWidth(rollDiameter: Distance) = rollDiameter + calculateSingleRodDiameter(rollDiameter)
+
+}

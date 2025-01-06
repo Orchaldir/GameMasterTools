@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.text.scroll
 
+import at.orchaldir.gm.utils.math.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -16,6 +17,18 @@ sealed class ScrollFormat {
         is NoRod -> ScrollFormatType.NoRod
         is OneRod -> ScrollFormatType.OneRod
         is TwoRods -> ScrollFormatType.TwoRods
+    }
+
+    fun calculateLength(rollLength: Distance) = when (this) {
+        NoRod -> rollLength
+        is OneRod -> rod.calculateLength(rollLength)
+        is TwoRods -> rod.calculateLength(rollLength)
+    }
+
+    fun calculateWidth(rollDiameter: Distance) = when (this) {
+        NoRod -> rollDiameter
+        is OneRod -> rod.calculateSingleRodDiameter(rollDiameter)
+        is TwoRods -> rod.calculateTwoRodsWidth(rollDiameter)
     }
 }
 

@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.item.text
 import at.orchaldir.gm.core.model.item.text.book.BookBinding
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollFormat
 import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.Size2i
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -37,10 +38,22 @@ data class Book(
 @SerialName("Scroll")
 data class Scroll(
     val vertical: Boolean,
-    val length: Distance,
-    val diameter: Distance,
+    val rollLength: Distance,
+    val rollDiameter: Distance,
     val format: ScrollFormat,
-) : TextFormat()
+) : TextFormat() {
+
+    fun calculateSize(): Size2d {
+        val fullLength = format.calculateLength(rollLength)
+        val fullWidth = format.calculateWidth(rollLength)
+
+        return if (vertical) {
+            Size2d(fullLength, fullWidth)
+        } else {
+            Size2d(fullWidth, fullLength)
+        }
+    }
+}
 
 @Serializable
 @SerialName("Undefined")
