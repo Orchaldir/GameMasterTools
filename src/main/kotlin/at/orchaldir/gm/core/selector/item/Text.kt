@@ -13,6 +13,10 @@ fun State.countText(language: LanguageId) = getTextStorage()
     .getAll()
     .count { c -> c.language == language }
 
+fun State.countTexts(material: MaterialId) = getTextStorage()
+    .getAll()
+    .count { it.format.isMadeOf(material) }
+
 fun countLanguages(texts: Collection<Text>) = texts
     .groupingBy { it.language }
     .eachCount()

@@ -12,8 +12,11 @@ import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.item.countItemTemplates
+import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getItemTemplatesMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
+import at.orchaldir.gm.core.selector.world.countStreetTemplates
 import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -135,9 +138,9 @@ private fun HTML.showAllMaterials(
                 tr {
                     td { link(call, state, material) }
                     td { +material.category.toString() }
-                    tdSkipZero(state.getItemTemplatesMadeOf(material.id).count())
-                    tdSkipZero(state.getStreetTemplatesMadeOf(material.id).count())
-                    tdSkipZero(state.getTextsMadeOf(material.id).count())
+                    tdSkipZero(state.countItemTemplates(material.id))
+                    tdSkipZero(state.countStreetTemplates(material.id))
+                    tdSkipZero(state.countTexts(material.id))
                 }
             }
         }
