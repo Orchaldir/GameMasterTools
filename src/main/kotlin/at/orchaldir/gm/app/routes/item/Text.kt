@@ -30,6 +30,9 @@ private val logger = KotlinLogging.logger {}
 
 @Resource("/$TEXT_TYPE")
 class TextRoutes {
+    @Resource("gallery")
+    class Gallery(val parent: TextRoutes = TextRoutes())
+
     @Resource("details")
     class Details(val id: TextId, val parent: TextRoutes = TextRoutes())
 
@@ -56,6 +59,13 @@ fun Application.configureTextRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllTexts(call, STORE.getState())
+            }
+        }
+        get<TextRoutes.Gallery> {
+            logger.info { "Show gallery" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showGallery(call, STORE.getState())
             }
         }
         get<TextRoutes.Details> { details ->
@@ -127,8 +137,10 @@ private fun HTML.showAllTexts(
 ) {
     val texts = STORE.getState().getTextStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(TextRoutes.New())
+    val galleryLink = call.application.href(TextRoutes.Gallery())
 
     simpleHtml("Texts") {
+        action(galleryLink, "Gallery")
         field("Count", texts.size)
 
         table {
@@ -159,6 +171,27 @@ private fun HTML.showAllTexts(
         showTextOriginCount(texts)
         showCreatorCount(call, state, texts, "Creators")
         showLanguageCountForTexts(call, state, texts)
+    }
+}
+
+private fun HTML.showGallery(
+    call: ApplicationCall,
+    state: State,
+) {
+    val texts = STORE.getState()
+        .getTextStorage()
+        .getAll()
+        .filter { it.format !is UndefinedTextFormat }
+        .sortedBy { it.name }
+
+    simpleHtml("Texts") {
+
+        texts.forEach { text ->
+            val svg = visualizeText(TEXT_CONFIG, text)
+            svg(svg, 20)
+        }
+
+        back("/")
     }
 }
 
