@@ -172,7 +172,9 @@ private fun HTML.showTextDetails(
     val svg = visualizeText(TEXT_CONFIG, text)
 
     simpleHtml("Text: ${text.name}") {
-        svg(svg, 20)
+        if (text.format !is UndefinedTextFormat) {
+            svg(svg, 20)
+        }
         showOrigin(call, state, text)
         optionalField(call, state, "Date", text.date)
         fieldLink("Language", call, state, text.language)
