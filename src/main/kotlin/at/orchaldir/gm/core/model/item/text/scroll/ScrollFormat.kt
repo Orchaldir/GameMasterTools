@@ -14,36 +14,36 @@ enum class ScrollFormatType {
 sealed class ScrollFormat {
 
     fun getType() = when (this) {
-        is NoRod -> ScrollFormatType.NoRod
-        is OneRod -> ScrollFormatType.OneRod
-        is TwoRods -> ScrollFormatType.TwoRods
+        is ScrollWithoutRod -> ScrollFormatType.NoRod
+        is ScrollWithOneRod -> ScrollFormatType.OneRod
+        is ScrollWithTwoRods -> ScrollFormatType.TwoRods
     }
 
     fun calculateLength(rollLength: Distance) = when (this) {
-        NoRod -> rollLength
-        is OneRod -> rod.calculateLength(rollLength)
-        is TwoRods -> rod.calculateLength(rollLength)
+        ScrollWithoutRod -> rollLength
+        is ScrollWithOneRod -> rod.calculateLength(rollLength)
+        is ScrollWithTwoRods -> rod.calculateLength(rollLength)
     }
 
     fun calculateWidth(rollDiameter: Distance) = when (this) {
-        NoRod -> rollDiameter
-        is OneRod -> rod.calculateDiameter(rollDiameter)
-        is TwoRods -> rod.calculateDiameter(rollDiameter) * 2
+        ScrollWithoutRod -> rollDiameter
+        is ScrollWithOneRod -> rod.calculateDiameter(rollDiameter)
+        is ScrollWithTwoRods -> rod.calculateDiameter(rollDiameter) * 2
     }
 }
 
 @Serializable
 @SerialName("NoRod")
-data object NoRod : ScrollFormat()
+data object ScrollWithoutRod : ScrollFormat()
 
 @Serializable
 @SerialName("OneRod")
-data class OneRod(
+data class ScrollWithOneRod(
     val rod: ScrollRod,
 ) : ScrollFormat()
 
 @Serializable
 @SerialName("TwoRods")
-data class TwoRods(
+data class ScrollWithTwoRods(
     val rod: ScrollRod,
 ) : ScrollFormat()

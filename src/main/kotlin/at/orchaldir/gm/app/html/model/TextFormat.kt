@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
-import at.orchaldir.gm.core.model.item.text.scroll.NoRod
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
@@ -211,7 +211,7 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
         parseBool(parameters, VERTICAL),
         parseDistance(parameters, LENGTH),
         parseDistance(parameters, DIAMETER),
-        NoRod,
+        ScrollWithoutRod,
     )
 
     TextFormatType.Undefined -> UndefinedTextFormat

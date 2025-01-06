@@ -1,9 +1,9 @@
 package at.orchaldir.gm.visualization.text.scroll
 
 import at.orchaldir.gm.core.model.item.text.Scroll
-import at.orchaldir.gm.core.model.item.text.scroll.NoRod
-import at.orchaldir.gm.core.model.item.text.scroll.OneRod
-import at.orchaldir.gm.core.model.item.text.scroll.TwoRods
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.text.TextRenderState
@@ -13,9 +13,9 @@ fun visualizeScroll(
     scroll: Scroll,
 ) {
     when (scroll.format) {
-        is NoRod -> visualizeNoRod(state, scroll)
-        is OneRod -> doNothing()
-        is TwoRods -> doNothing()
+        is ScrollWithoutRod -> visualizeNoRod(state, scroll)
+        is ScrollWithOneRod -> doNothing()
+        is ScrollWithTwoRods -> doNothing()
     }
 }
 
