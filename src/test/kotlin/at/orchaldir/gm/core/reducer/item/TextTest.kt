@@ -5,7 +5,10 @@ import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.item.text.*
+import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.OriginalText
+import at.orchaldir.gm.core.model.item.text.Text
+import at.orchaldir.gm.core.model.item.text.TranslatedText
 import at.orchaldir.gm.core.model.item.text.book.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
