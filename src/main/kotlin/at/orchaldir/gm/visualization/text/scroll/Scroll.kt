@@ -63,22 +63,23 @@ private fun visualizeRod(
 
     val handleLength = handle.calculateHandleLength()
     var startTop = state.aabb.getPoint(HALF, START).addHeight(handleLength)
+    var startBottom = state.aabb.getPoint(HALF, END).minusHeight(handleLength)
+    val renderer = state.renderer.getLayer()
 
     handle.segments.forEach { segment ->
         val options = FillAndBorder(segment.color.toRender(), state.config.line)
-        val centerTop = startTop.minusHeight(segment.length / 2)
-        val aabbTop = AABB.fromCenter(centerTop, segment.calculateSize())
 
-        state.renderer.getLayer().renderRectangle(aabbTop, options)
+        val centerTop = startTop.minusHeight(segment.length / 2)
+        val centerBottom = startBottom.addHeight(segment.length / 2)
+
+        val aabbTop = AABB.fromCenter(centerTop, segment.calculateSize())
+        val aabbBottom = AABB.fromCenter(centerBottom, segment.calculateSize())
+
+        renderer.renderRectangle(aabbTop, options)
+        renderer.renderRectangle(aabbBottom, options)
 
         startTop = startTop.minusHeight(segment.length)
+        startBottom = startBottom.addHeight(segment.length)
     }
-
-    /*
-    val centerBottom = state.aabb.getPoint(HALF, END).minusHeight(handle.length / 2)
-    val aabbBottom = AABB.fromCenter(centerBottom, handleSize)
-
-    state.renderer.getLayer().renderRectangle(aabbBottom, options)
-    */
 }
 
