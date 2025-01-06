@@ -129,10 +129,12 @@ private fun BODY.showScrollHandle(
     state: State,
     handle: ScrollHandle,
 ) {
-    fieldDistance("Handle Length", handle.length)
-    fieldDistance("Handle Diameter", handle.diameter)
-    field("Handle Color", handle.color)
     fieldLink("Handle Material", call, state, handle.material)
+    showList("Handle Segments", handle.segments) { segment ->
+        fieldDistance("Length", segment.length)
+        fieldDistance("Diameter", segment.diameter)
+        field("Color", segment.color)
+    }
 }
 
 // edit
@@ -261,15 +263,20 @@ private fun FORM.editScrollFormat(
 
 private fun FORM.editScrollHandle(
     state: State,
-    rod: ScrollHandle,
+    handle: ScrollHandle,
 ) {
-    selectDistance("Handle Length", combine(HANDLE, LENGTH), rod.length, min, max, step, true)
-    selectDistance("Handle Diameter", combine(HANDLE, DIAMETER), rod.diameter, min, max, step, true)
-    selectColor("Handle Color", combine(HANDLE, COLOR), Color.entries, rod.color)
     selectValue("Handle Material", combine(HANDLE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
         label = material.name
         value = material.id.value.toString()
-        selected = material.id == rod.material
+        selected = material.id == handle.material
+    }
+    selectInt("Handle Segment Number", handle.segments.size, 1, 20, 1, combine(HANDLE, NUMBER), true)
+    showListWithIndex(handle.segments) { index, segment ->
+        val segmentParam = combine(HANDLE, index)
+
+        selectDistance("Handle Length", combine(segmentParam, LENGTH), segment.length, min, max, step, true)
+        selectDistance("Handle Diameter", combine(segmentParam, DIAMETER), segment.diameter, min, max, step, true)
+        selectColor("Handle Color", combine(segmentParam, COLOR), Color.entries, segment.color)
     }
 }
 
@@ -339,6 +346,7 @@ private fun parseComplexPattern(parameters: Parameters): List<ComplexStitch> {
     return (0..<count)
         .map { index ->
             val stitchParam = combine(SEWING, index)
+
             ComplexStitch(
                 parse(parameters, combine(stitchParam, COLOR), Color.Crimson),
                 parse(parameters, combine(stitchParam, SIZE), Size.Medium),
@@ -355,8 +363,21 @@ private fun parseScrollFormat(parameters: Parameters) = when (parse(parameters, 
 }
 
 private fun parseScrollHandle(parameters: Parameters) = ScrollHandle(
-    parseDistance(parameters, combine(HANDLE, LENGTH), 40),
-    parseDistance(parameters, combine(HANDLE, DIAMETER), 15),
-    parse(parameters, combine(HANDLE, COLOR), Color.Black),
+    parseHandleSegment(parameters),
     parseMaterialId(parameters, combine(HANDLE, MATERIAL)),
 )
+
+private fun parseHandleSegment(parameters: Parameters): List<HandleSegment> {
+    val count = parseInt(parameters, combine(HANDLE, NUMBER), 1)
+
+    return (0..<count)
+        .map { index ->
+            val segmentParam = combine(HANDLE, index)
+
+            HandleSegment(
+                parseDistance(parameters, combine(segmentParam, LENGTH), 40),
+                parseDistance(parameters, combine(segmentParam, DIAMETER), 15),
+                parse(parameters, combine(segmentParam, COLOR), Color.Black),
+            )
+        }
+}

@@ -54,24 +54,31 @@ private fun visualizeTwoRods(
 private fun visualizeRod(
     state: TextRenderState,
     scroll: Scroll,
-    rod: ScrollHandle,
+    handle: ScrollHandle,
 ) {
     val inner = AABB.fromCenter(state.aabb.getCenter(), scroll.calculateRollSize())
     val innerState = state.copy(aabb = inner)
 
     visualizeRoll(innerState, scroll)
 
-    val handleSize = rod.calculateSize()
-    val options = FillAndBorder(rod.color.toRender(), state.config.line)
+    val handleLength = handle.calculateHandleLength()
+    var startTop = state.aabb.getPoint(HALF, START).addHeight(handleLength)
 
-    val centerTop = state.aabb.getPoint(HALF, START).addHeight(rod.length / 2)
-    val aabbTop = AABB.fromCenter(centerTop, handleSize)
+    handle.segments.forEach { segment ->
+        val options = FillAndBorder(segment.color.toRender(), state.config.line)
+        val centerTop = startTop.minusHeight(segment.length / 2)
+        val aabbTop = AABB.fromCenter(centerTop, segment.calculateSize())
 
-    state.renderer.getLayer().renderRectangle(aabbTop, options)
+        state.renderer.getLayer().renderRectangle(aabbTop, options)
 
-    val centerBottom = state.aabb.getPoint(HALF, END).minusHeight(rod.length / 2)
+        startTop = startTop.minusHeight(segment.length)
+    }
+
+    /*
+    val centerBottom = state.aabb.getPoint(HALF, END).minusHeight(handle.length / 2)
     val aabbBottom = AABB.fromCenter(centerBottom, handleSize)
 
     state.renderer.getLayer().renderRectangle(aabbBottom, options)
+    */
 }
 
