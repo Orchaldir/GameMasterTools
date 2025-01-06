@@ -18,7 +18,7 @@ fun main() {
     renderTextTable(
         "scroll-formats.svg",
         TEXT_CONFIG,
-        Size2d.square(rollLength + Distance(100)),
+        Size2d(rollDiameter * 4, rollLength + Distance(200)),
         addNames(listOf(Color.Blue, Color.Red, Color.Black, Color.Green)),
         addNames(ScrollFormatType.entries),
     ) { color, type ->
