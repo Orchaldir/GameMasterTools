@@ -188,7 +188,10 @@ private fun HTML.showGallery(
 
         texts.forEach { text ->
             val svg = visualizeText(TEXT_CONFIG, text)
-            svg(svg, 20)
+
+            a(href(call, text.id)) {
+                svg(svg, 20)
+            }
         }
 
         back("/")
