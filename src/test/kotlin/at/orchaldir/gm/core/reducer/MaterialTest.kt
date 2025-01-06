@@ -1,14 +1,14 @@
 package at.orchaldir.gm.core.reducer
 
-import at.orchaldir.gm.ITEM_TEMPLATE_ID_0
-import at.orchaldir.gm.MATERIAL_ID_0
-import at.orchaldir.gm.STREET_TYPE_ID_0
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ItemTemplate
 import at.orchaldir.gm.core.model.item.Shirt
+import at.orchaldir.gm.core.model.item.text.Book
+import at.orchaldir.gm.core.model.item.text.Text
+import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialCost
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
@@ -57,6 +57,20 @@ class MaterialTest {
             val state = State(
                 listOf(
                     Storage(template),
+                    Storage(Material(MATERIAL_ID_0)),
+                )
+            )
+            val action = DeleteMaterial(MATERIAL_ID_0)
+
+            assertIllegalArgument("Material 0 is used") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot delete a material used by a book`() {
+            val book = Text(TEXT_ID_0, format = Book(100, Hardcover()))
+            val state = State(
+                listOf(
+                    Storage(book),
                     Storage(Material(MATERIAL_ID_0)),
                 )
             )

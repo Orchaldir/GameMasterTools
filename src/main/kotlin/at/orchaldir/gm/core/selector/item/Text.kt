@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteText(text: TextId) = getTranslationsOf(text).isEmpty()
@@ -12,17 +13,29 @@ fun State.countText(language: LanguageId) = getTextStorage()
     .getAll()
     .count { c -> c.language == language }
 
-fun countLanguages(texts: Collection<Text>) = texts
+fun State.countTexts(material: MaterialId) = getTextStorage()
+    .getAll()
+    .count { it.format.isMadeOf(material) }
+
+fun countEachTextFormat(texts: Collection<Text>) = texts
+    .groupingBy { it.format.getType() }
+    .eachCount()
+
+fun countEachLanguage(texts: Collection<Text>) = texts
     .groupingBy { it.language }
     .eachCount()
 
-fun countTextOriginTypes(texts: Collection<Text>) = texts
+fun countEachTextOrigin(texts: Collection<Text>) = texts
     .groupingBy { it.origin.getType() }
     .eachCount()
 
 fun State.getTexts(language: LanguageId) = getTextStorage()
     .getAll()
     .filter { b -> b.language == language }
+
+fun State.getTextsMadeOf(material: MaterialId) = getTextStorage()
+    .getAll()
+    .filter { it.format.isMadeOf(material) }
 
 fun State.getTranslationsOf(text: TextId) = getTextStorage()
     .getAll()

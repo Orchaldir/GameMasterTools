@@ -13,14 +13,15 @@ import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.*
-import at.orchaldir.gm.core.selector.economy.countJobs
-import at.orchaldir.gm.core.selector.item.countTextOriginTypes
-import at.orchaldir.gm.core.selector.item.countLanguages
-import at.orchaldir.gm.core.selector.util.countCreators
-import at.orchaldir.gm.core.selector.world.countArchitecturalStyles
-import at.orchaldir.gm.core.selector.world.countPurpose
-import at.orchaldir.gm.core.selector.world.countStreetTemplates
-import at.orchaldir.gm.core.selector.world.countTowns
+import at.orchaldir.gm.core.selector.economy.countEachJob
+import at.orchaldir.gm.core.selector.item.countEachLanguage
+import at.orchaldir.gm.core.selector.item.countEachTextFormat
+import at.orchaldir.gm.core.selector.item.countEachTextOrigin
+import at.orchaldir.gm.core.selector.util.countEachCreator
+import at.orchaldir.gm.core.selector.world.countEachArchitecturalStyle
+import at.orchaldir.gm.core.selector.world.countEachPurpose
+import at.orchaldir.gm.core.selector.world.countEachStreetTemplate
+import at.orchaldir.gm.core.selector.world.countEachTown
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -31,10 +32,13 @@ fun HtmlBlockTag.showArchitecturalStyleCount(
     call: ApplicationCall,
     state: State,
     buildings: Collection<Building>,
-) = showCount(call, state, "Architectural Styles", countArchitecturalStyles(buildings))
+) = showCount(call, state, "Architectural Styles", countEachArchitecturalStyle(buildings))
 
-fun HtmlBlockTag.showTextOriginTypeCount(texts: Collection<Text>) =
-    showCount("Origin", countTextOriginTypes(texts))
+fun HtmlBlockTag.showTextFormatCount(texts: Collection<Text>) =
+    showCount("Format", countEachTextFormat(texts))
+
+fun HtmlBlockTag.showTextOriginCount(texts: Collection<Text>) =
+    showCount("Origin", countEachTextOrigin(texts))
 
 fun <ELEMENT : Created> HtmlBlockTag.showCreatorCount(
     call: ApplicationCall,
@@ -42,26 +46,26 @@ fun <ELEMENT : Created> HtmlBlockTag.showCreatorCount(
     collection: Collection<ELEMENT>,
     label: String,
 ) {
-    showMap(label, countCreators(collection)) { builder, count ->
+    showMap(label, countEachCreator(collection)) { builder, count ->
         showCreator(call, state, builder)
         +": $count"
     }
 }
 
 fun HtmlBlockTag.showBuildingPurposeCount(buildings: Collection<Building>) =
-    showCount("Building Purpose", countPurpose(buildings))
+    showCount("Building Purpose", countEachPurpose(buildings))
 
 fun HtmlBlockTag.showCauseOfDeath(characters: Collection<Character>) =
-    showCount("Cause Of Death", countCauseOfDeath(characters))
+    showCount("Cause Of Death", countEachCauseOfDeath(characters))
 
 fun HtmlBlockTag.showCultureCount(
     call: ApplicationCall,
     state: State,
     characters: Collection<Character>,
-) = showCount(call, state, "Cultures", countCultures(characters))
+) = showCount(call, state, "Cultures", countEachCulture(characters))
 
 fun HtmlBlockTag.showGenderCount(characters: Collection<Character>) =
-    showCount("Genders", countGender(characters))
+    showCount("Genders", countEachGender(characters))
 
 fun HtmlBlockTag.showJobCount(
     call: ApplicationCall,
@@ -69,7 +73,7 @@ fun HtmlBlockTag.showJobCount(
     characters: Collection<Character>,
     label: String = "Jobs",
 ) {
-    showMap(label, countJobs(characters)) { job, count ->
+    showMap(label, countEachJob(characters)) { job, count ->
         if (job == null) {
             +"Unemployed"
         } else {
@@ -80,41 +84,41 @@ fun HtmlBlockTag.showJobCount(
 }
 
 fun HtmlBlockTag.showHousingStatusCount(characters: Collection<Character>) =
-    showCount("Housing Status", countHousingStatus(characters))
+    showCount("Housing Status", countEachHousingStatus(characters))
 
 fun HtmlBlockTag.showLanguageCountForTexts(
     call: ApplicationCall,
     state: State,
     texts: Collection<Text>,
-) = showCount(call, state, "Languages", countLanguages(texts))
+) = showCount(call, state, "Languages", countEachLanguage(texts))
 
 fun HtmlBlockTag.showLanguageCountForCharacters(
     call: ApplicationCall,
     state: State,
     characters: Collection<Character>,
-) = showCount(call, state, "Languages", countLanguages(characters))
+) = showCount(call, state, "Languages", countEachLanguage(characters))
 
 fun HtmlBlockTag.showMaterialCategoryCount(materials: Collection<Material>) =
-    showCount("Material Category", countMaterialCategory(materials))
+    showCount("Material Category", countEachMaterialCategory(materials))
 
 fun HtmlBlockTag.showBuildingOwnershipCount(call: ApplicationCall, state: State, collection: Collection<Building>) =
-    showOwnershipCount(call, state, collection.map { it.ownership })
+    showOwnerCount(call, state, collection.map { it.ownership })
 
 fun HtmlBlockTag.showBusinessOwnershipCount(call: ApplicationCall, state: State, collection: Collection<Business>) =
-    showOwnershipCount(call, state, collection.map { it.ownership })
+    showOwnerCount(call, state, collection.map { it.ownership })
 
-fun HtmlBlockTag.showOwnershipCount(
+fun HtmlBlockTag.showOwnerCount(
     call: ApplicationCall,
     state: State,
     ownershipCollection: Collection<History<Owner>>,
 ) {
-    showMap("Ownership", countOwnership(ownershipCollection)) { owner, count ->
+    showMap("Ownership", countEachOwner(ownershipCollection)) { owner, count ->
         showOwner(call, state, owner)
         +": $count"
     }
 }
 
-fun countOwnership(ownershipCollection: Collection<History<Owner>>) = ownershipCollection
+fun countEachOwner(ownershipCollection: Collection<History<Owner>>) = ownershipCollection
     .groupingBy { it.current }
     .eachCount()
 
@@ -123,25 +127,25 @@ fun HtmlBlockTag.showPersonalityCount(
     state: State,
     characters: Collection<Character>,
     label: String = "Personality",
-) = showCount(call, state, label, countPersonality(characters))
+) = showCount(call, state, label, countEachPersonality(characters))
 
 fun HtmlBlockTag.showRaceCount(
     call: ApplicationCall,
     state: State,
     characters: Collection<Character>,
-) = showCount(call, state, "Races", countRace(characters))
+) = showCount(call, state, "Races", countEachRace(characters))
 
 fun HtmlBlockTag.showStreetTemplateCount(
     call: ApplicationCall,
     state: State,
     town: TownId,
-) = showCount(call, state, "Street Templates", state.countStreetTemplates(town))
+) = showCount(call, state, "Street Templates", state.countEachStreetTemplate(town))
 
 fun HtmlBlockTag.showTownCount(
     call: ApplicationCall,
     state: State,
     buildings: Collection<Building>,
-) = showCount(call, state, "Towns", countTowns(buildings))
+) = showCount(call, state, "Towns", countEachTown(buildings))
 
 fun <ID : Id<ID>> HtmlBlockTag.showCount(
     call: ApplicationCall,

@@ -26,7 +26,14 @@ data class Distance(val millimeters: Int) {
     operator fun times(factor: Float) = Distance((millimeters * factor).toInt())
     operator fun times(factor: Factor) = times(factor.value)
     operator fun times(factor: Int) = Distance(millimeters * factor)
+    operator fun div(factor: Float) = Distance((millimeters / factor).toInt())
+    operator fun div(factor: Int) = Distance(millimeters / factor)
 
+    fun max(other: Distance) = if (millimeters >= other.millimeters) {
+        this
+    } else {
+        other
+    }
 }
 
 fun metersOnly(millimeters: Int) = millimeters / FACTOR

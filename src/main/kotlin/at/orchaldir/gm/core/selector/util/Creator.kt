@@ -13,6 +13,6 @@ fun <ID : Id<ID>> State.isCreator(id: ID) = getBuildingsBuildBy(id).isNotEmpty()
         || getLanguagesInventedBy(id).isNotEmpty()
         || getTownsFoundedBy(id).isNotEmpty()
 
-fun <ELEMENT : Created> countCreators(collection: Collection<ELEMENT>) = collection
+fun <ELEMENT : Created> countEachCreator(collection: Collection<ELEMENT>) = collection
     .groupingBy { it.creator() }
     .eachCount()

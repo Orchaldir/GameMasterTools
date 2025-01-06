@@ -6,8 +6,8 @@ import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
-import at.orchaldir.gm.visualization.text.TextRenderConfig
 import at.orchaldir.gm.visualization.text.LeatherBindingConfig
+import at.orchaldir.gm.visualization.text.TextRenderConfig
 
 val TEXT_CONFIG = TextRenderConfig(
     Distance(100),

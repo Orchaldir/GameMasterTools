@@ -1,9 +1,10 @@
 package at.orchaldir.gm.visualization.text
 
-import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.book.LeatherBindingType
+import at.orchaldir.gm.core.model.item.text.Scroll
+import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
+import at.orchaldir.gm.core.model.item.text.book.LeatherBindingType
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
@@ -23,9 +24,12 @@ data class TextRenderConfig(
     val sewingLength: SizeConfig<Factor>,
 ) {
 
+    fun calculatePaddedSize(format: TextFormat) = calculateSize(format) + padding * 2
+
     fun calculateSize(format: TextFormat) = when (format) {
-        is Book -> format.size.toSize2d() + (padding * 2)
-        UndefinedTextFormat -> square(padding * 4.0f)
+        is Book -> format.size.toSize2d()
+        is Scroll -> format.calculateSize()
+        UndefinedTextFormat -> square(padding * 2)
     }
 
 }

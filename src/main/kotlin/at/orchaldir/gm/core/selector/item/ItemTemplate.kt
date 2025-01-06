@@ -11,6 +11,10 @@ import at.orchaldir.gm.core.model.material.MaterialId
 fun State.canDelete(itemTemplate: ItemTemplateId) = getCharacterStorage().getAll()
     .none { it.equipmentMap.contains(itemTemplate) }
 
+fun State.countItemTemplates(material: MaterialId) = getItemTemplateStorage()
+    .getAll()
+    .count { it.equipment.contains(material) }
+
 fun State.getItemTemplatesOf(type: EquipmentType) = getItemTemplateStorage().getAll()
     .filter { it.equipment.isType(type) }
 

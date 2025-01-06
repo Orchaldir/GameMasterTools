@@ -19,6 +19,12 @@ sealed class BookBinding {
         is Hardcover -> BookBindingType.Hardcover
         is LeatherBinding -> BookBindingType.Leather
     }
+
+    fun isMadeOf(material: MaterialId) = when (this) {
+        is CopticBinding -> cover.material == material
+        is Hardcover -> cover.material == material
+        is LeatherBinding -> cover.material == material || leatherMaterial == material
+    }
 }
 
 @Serializable

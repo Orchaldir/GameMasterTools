@@ -25,6 +25,26 @@
    "id": 4,
    "name": "Stone",
    "category": "Stone"
+  },
+  "5": {
+   "id": 5,
+   "name": "Wood",
+   "category": "Wood"
+  },
+  "6": {
+   "id": 6,
+   "name": "Paper",
+   "category": "Paper"
+  },
+  "7": {
+   "id": 7,
+   "name": "Papyrus",
+   "category": "Paper"
+  },
+  "8": {
+   "id": 8,
+   "name": "Parchment",
+   "category": "Paper"
   }
  }
 }

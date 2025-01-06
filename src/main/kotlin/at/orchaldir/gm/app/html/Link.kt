@@ -4,8 +4,8 @@ import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
-import at.orchaldir.gm.app.routes.item.TextRoutes
 import at.orchaldir.gm.app.routes.item.ItemTemplateRoutes
+import at.orchaldir.gm.app.routes.item.TextRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.TownRoutes

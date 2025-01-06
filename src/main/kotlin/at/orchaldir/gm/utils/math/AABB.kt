@@ -74,6 +74,13 @@ data class AABB(val start: Point2d, val size: Size2d) {
         val border = size * (factor * 0.5f)
         return AABB(start + border, size * (FULL - factor))
     }
+
+    fun splitHorizontal(start: Factor, end: Factor): AABB {
+        val startPoint = getPoint(start, START)
+        val endPoint = getPoint(end, END)
+
+        return fromCorners(startPoint, endPoint)
+    }
 }
 
 /**

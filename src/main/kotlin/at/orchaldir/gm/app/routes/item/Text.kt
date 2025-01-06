@@ -13,7 +13,9 @@ import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.visualization.text.visualizeText
+import at.orchaldir.gm.visualization.text.visualizeTextFormat
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -30,6 +32,9 @@ private val logger = KotlinLogging.logger {}
 
 @Resource("/$TEXT_TYPE")
 class TextRoutes {
+    @Resource("gallery")
+    class Gallery(val parent: TextRoutes = TextRoutes())
+
     @Resource("details")
     class Details(val id: TextId, val parent: TextRoutes = TextRoutes())
 
@@ -56,6 +61,13 @@ fun Application.configureTextRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllTexts(call, STORE.getState())
+            }
+        }
+        get<TextRoutes.Gallery> {
+            logger.info { "Show gallery" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showGallery(call, STORE.getState())
             }
         }
         get<TextRoutes.Details> { details ->
@@ -125,10 +137,12 @@ private fun HTML.showAllTexts(
     call: ApplicationCall,
     state: State,
 ) {
-    val texts = STORE.getState().getTextStorage().getAll().sortedBy { it.name }
+    val texts = state.getTextStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(TextRoutes.New())
+    val galleryLink = call.application.href(TextRoutes.Gallery())
 
     simpleHtml("Texts") {
+        action(galleryLink, "Gallery")
         field("Count", texts.size)
 
         table {
@@ -152,12 +166,44 @@ private fun HTML.showAllTexts(
             }
         }
 
-        showTextOriginTypeCount(texts)
-        showCreatorCount(call, state, texts, "Creators")
-        showLanguageCountForTexts(call, state, texts)
-
         action(createLink, "Add")
         back("/")
+
+        showTextFormatCount(texts)
+        showTextOriginCount(texts)
+        showCreatorCount(call, state, texts, "Creators")
+        showLanguageCountForTexts(call, state, texts)
+    }
+}
+
+private fun HTML.showGallery(
+    call: ApplicationCall,
+    state: State,
+) {
+    val texts = state
+        .getTextStorage()
+        .getAll()
+        .filter { it.format !is UndefinedTextFormat }
+        .sortedBy { it.name }
+    val size = Size2d.square(0.5f)
+    val backLink = call.application.href(TextRoutes())
+
+    simpleHtml("Texts") {
+
+        div("grid-container") {
+            texts.forEach { text ->
+                val svg = visualizeTextFormat(TEXT_CONFIG, text.format, size)
+
+                div("grid-item") {
+                    a(href(call, text.id)) {
+                        div { +text.name }
+                        svg(svg, 100)
+                    }
+                }
+            }
+        }
+
+        back(backLink)
     }
 }
 
@@ -172,7 +218,9 @@ private fun HTML.showTextDetails(
     val svg = visualizeText(TEXT_CONFIG, text)
 
     simpleHtml("Text: ${text.name}") {
-        svg(svg, 20)
+        if (text.format !is UndefinedTextFormat) {
+            svg(svg, 20)
+        }
         showOrigin(call, state, text)
         optionalField(call, state, "Date", text.date)
         fieldLink("Language", call, state, text.language)

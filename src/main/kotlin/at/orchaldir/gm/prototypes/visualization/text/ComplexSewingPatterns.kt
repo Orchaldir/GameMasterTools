@@ -1,6 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
-import at.orchaldir.gm.core.model.item.text.*
+import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.ComplexStitch

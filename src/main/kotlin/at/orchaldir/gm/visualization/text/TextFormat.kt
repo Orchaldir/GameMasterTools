@@ -1,16 +1,14 @@
 package at.orchaldir.gm.visualization.text
 
-import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.item.text.TextFormat
-import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
+import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Size2d.Companion.square
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.text.book.visualizeBook
+import at.orchaldir.gm.visualization.text.scroll.visualizeScroll
 
 fun visualizeText(
     config: TextRenderConfig,
@@ -20,8 +18,13 @@ fun visualizeText(
 fun visualizeTextFormat(
     config: TextRenderConfig,
     format: TextFormat,
+) = visualizeTextFormat(config, format, config.calculatePaddedSize(format))
+
+fun visualizeTextFormat(
+    config: TextRenderConfig,
+    format: TextFormat,
+    size: Size2d,
 ): Svg {
-    val size = config.calculateSize(format)
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
     val state = TextRenderState(aabb, config, builder)
@@ -35,18 +38,14 @@ fun visualizeTextFormat(
     state: TextRenderState,
     format: TextFormat,
 ) {
-    val inner = AABB.fromCenter(state.aabb.getCenter(), calculateSize(format))
+    val inner = AABB.fromCenter(state.aabb.getCenter(), state.config.calculateSize(format))
     val innerState = state.copy(aabb = inner)
 
     state.renderer.getLayer().renderRectangle(state.aabb, BorderOnly(state.config.line))
 
     when (format) {
         is Book -> visualizeBook(innerState, format)
+        is Scroll -> visualizeScroll(innerState, format)
         UndefinedTextFormat -> doNothing()
     }
-}
-
-fun calculateSize(format: TextFormat) = when (format) {
-    is Book -> format.size.toSize2d()
-    UndefinedTextFormat -> square(0.0f)
 }

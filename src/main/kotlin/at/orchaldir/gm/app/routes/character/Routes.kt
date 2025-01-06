@@ -12,6 +12,9 @@ class CharacterRoutes {
         val parent: CharacterRoutes = CharacterRoutes(),
     )
 
+    @Resource("gallery")
+    class Gallery(val parent: CharacterRoutes = CharacterRoutes())
+
     @Resource("details")
     class Details(val id: CharacterId, val parent: CharacterRoutes = CharacterRoutes())
 

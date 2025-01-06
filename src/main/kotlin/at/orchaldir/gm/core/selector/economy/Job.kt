@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.selector.getPreviousEmployees
 fun State.canDelete(job: JobId) = getEmployees(job).isEmpty()
         && getPreviousEmployees(job).isEmpty()
 
-fun countJobs(characters: Collection<Character>) = characters
+fun countEachJob(characters: Collection<Character>) = characters
     .map { it.employmentStatus.current.getJob() }
     .groupingBy { it }
     .eachCount()
