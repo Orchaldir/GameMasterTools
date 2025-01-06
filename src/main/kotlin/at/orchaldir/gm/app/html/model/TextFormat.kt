@@ -115,7 +115,7 @@ private fun BODY.showScrollFormat(
     state: State,
     format: ScrollFormat,
 ) {
-    field("Format", format.getType())
+    field("Scroll Format", format.getType())
 
     when (format) {
         is ScrollWithOneRod -> showScrollHandle(call, state, format.handle)
