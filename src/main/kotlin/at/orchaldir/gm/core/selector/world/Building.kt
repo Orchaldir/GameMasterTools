@@ -29,7 +29,7 @@ fun State.exists(building: Building, date: Date?) = if (date != null) {
     true
 }
 
-fun countPurpose(buildings: Collection<Building>) = buildings
+fun countEachPurpose(buildings: Collection<Building>) = buildings
     .groupingBy { it.purpose.getType() }
     .eachCount()
 

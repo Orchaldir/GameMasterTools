@@ -25,7 +25,7 @@ fun State.canDelete(town: TownId) = getBuildings(town).isEmpty()
 fun State.getAgeInYears(town: Town) = getDefaultCalendar()
     .getDurationInYears(town.foundingDate, time.currentDate)
 
-fun countTowns(buildings: Collection<Building>) = buildings
+fun countEachTown(buildings: Collection<Building>) = buildings
     .groupingBy { it.lot.town }
     .eachCount()
 

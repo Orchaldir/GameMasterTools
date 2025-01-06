@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
 fun State.canDelete(material: MaterialId) = getItemTemplatesMadeOf(material).isEmpty()
         && getStreetTemplatesMadeOf(material).isEmpty()
 
-fun countMaterialCategory(materials: Collection<Material>) = materials
+fun countEachMaterialCategory(materials: Collection<Material>) = materials
     .groupingBy { it.category }
     .eachCount()
 

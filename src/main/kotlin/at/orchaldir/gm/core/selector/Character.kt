@@ -39,33 +39,34 @@ fun State.countCharacters(language: LanguageId) = getCharacterStorage()
     .getAll()
     .count { c -> c.languages.containsKey(language) }
 
-fun countCauseOfDeath(characters: Collection<Character>) = characters
+fun countEachCauseOfDeath(characters: Collection<Character>) = characters
     .filter { it.vitalStatus is Dead }
     .groupingBy { it.vitalStatus.getCauseOfDeath()!! }
     .eachCount()
 
-fun countCultures(characters: Collection<Character>) = characters
+fun countEachCulture(characters: Collection<Character>) = characters
     .groupingBy { it.culture }
     .eachCount()
 
-fun countEmploymentStatus(characters: Collection<Character>) = characters
+fun countEachEmploymentStatus(characters: Collection<Character>) = characters
     .groupingBy { it.employmentStatus.current.getType() }
     .eachCount()
 
-fun countGender(characters: Collection<Character>) = characters
+fun countEachGender(characters: Collection<Character>) = characters
     .groupingBy { it.gender }
     .eachCount()
 
-fun countHousingStatus(characters: Collection<Character>) = characters
+fun countEachHousingStatus(characters: Collection<Character>) = characters
     .groupingBy { it.housingStatus.current.getType() }
     .eachCount()
 
-fun countLanguages(characters: Collection<Character>) = characters
+fun countEachLanguage(characters: Collection<Character>) = characters
     .flatMap { it.languages.keys }
     .groupingBy { it }
     .eachCount()
 
-fun countPersonality(characters: Collection<Character>) = characters.flatMap { it.personality }
+fun countEachPersonality(characters: Collection<Character>) = characters
+    .flatMap { it.personality }
     .groupingBy { it }
     .eachCount()
 

@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 
 fun State.canDelete(race: RaceId) = getRaceStorage().getSize() > 1 && getCharacters(race).isEmpty()
 
-fun countRace(characters: Collection<Character>) = characters
+fun countEachRace(characters: Collection<Character>) = characters
     .groupingBy { it.race }
     .eachCount()
 
