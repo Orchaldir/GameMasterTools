@@ -33,7 +33,7 @@ fun BODY.showTextFormat(
             fieldSize("Size", format.size)
         }
         is Scroll -> {
-            field("Vertical", format.vertical.toString())
+            //field("Vertical", format.vertical.toString())
         }
     }
 }
@@ -113,7 +113,7 @@ fun FORM.editTextFormat(
             selectSize(SIZE, format.size, Distance(10), Distance(2000), Distance(10), true)
         }
         is Scroll -> {
-            selectBool("Vertical", format.vertical, VERTICAL, update = true)
+            //selectBool("Vertical", format.vertical, VERTICAL, update = true)
         }
     }
 }
@@ -208,7 +208,6 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
         parseSize(parameters, SIZE),
     )
     TextFormatType.Scroll -> Scroll(
-        parseBool(parameters, VERTICAL),
         parseDistance(parameters, LENGTH),
         parseDistance(parameters, DIAMETER),
         ScrollWithoutRod,

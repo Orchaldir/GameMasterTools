@@ -6,13 +6,11 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.math.Size2i
+import at.orchaldir.gm.utils.math.Size2d
 
 private val ID = MaterialId(0)
 
 fun main() {
-    val size = Size2i(125, 190)
-
     val rollLength = Distance(200)
     val rollDiameter = Distance(20)
     val rod = ScrollRod(rollDiameter, rollDiameter / 2.0f)
@@ -20,7 +18,7 @@ fun main() {
     renderTextTable(
         "scroll-formats.svg",
         TEXT_CONFIG,
-        size.toSize2d() + Distance(50),
+        Size2d.square(rollLength + Distance(100)),
         addNames(listOf(Color.Blue, Color.Red, Color.Black, Color.Green)),
         addNames(ScrollFormatType.entries),
     ) { color, type ->
