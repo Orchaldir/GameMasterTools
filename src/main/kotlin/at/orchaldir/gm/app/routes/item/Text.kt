@@ -190,12 +190,16 @@ private fun HTML.showGallery(
 
     simpleHtml("Texts") {
 
-        texts.forEach { text ->
-            val svg = visualizeTextFormat(TEXT_CONFIG, text.format, size)
+        div("grid-container") {
+            texts.forEach { text ->
+                val svg = visualizeTextFormat(TEXT_CONFIG, text.format, size)
 
-            a(href(call, text.id)) {
-                div { +text.name }
-                svg(svg, 20)
+                div("grid-item") {
+                    a(href(call, text.id)) {
+                        div { +text.name }
+                        svg(svg, 100)
+                    }
+                }
             }
         }
 
