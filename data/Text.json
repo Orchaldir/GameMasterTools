@@ -33,10 +33,12 @@
       "diameter": {
        "millimeters": 10
       },
-      "color": "SaddleBrown"
+      "color": "SaddleBrown",
+      "material": 5
      }
     },
-    "color": "Purple"
+    "color": "Purple",
+    "material": 7
    }
   },
   "1": {
