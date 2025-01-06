@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.economy.countEachJob
 import at.orchaldir.gm.core.selector.item.countEachLanguage
+import at.orchaldir.gm.core.selector.item.countEachTextFormat
 import at.orchaldir.gm.core.selector.item.countEachTextOrigin
 import at.orchaldir.gm.core.selector.util.countEachCreator
 import at.orchaldir.gm.core.selector.world.countEachArchitecturalStyle
@@ -33,7 +34,10 @@ fun HtmlBlockTag.showArchitecturalStyleCount(
     buildings: Collection<Building>,
 ) = showCount(call, state, "Architectural Styles", countEachArchitecturalStyle(buildings))
 
-fun HtmlBlockTag.showTextOriginTypeCount(texts: Collection<Text>) =
+fun HtmlBlockTag.showTextFormatCount(texts: Collection<Text>) =
+    showCount("Format", countEachTextFormat(texts))
+
+fun HtmlBlockTag.showTextOriginCount(texts: Collection<Text>) =
     showCount("Origin", countEachTextOrigin(texts))
 
 fun <ELEMENT : Created> HtmlBlockTag.showCreatorCount(

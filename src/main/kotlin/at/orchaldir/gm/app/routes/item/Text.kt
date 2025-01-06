@@ -152,12 +152,13 @@ private fun HTML.showAllTexts(
             }
         }
 
-        showTextOriginTypeCount(texts)
-        showCreatorCount(call, state, texts, "Creators")
-        showLanguageCountForTexts(call, state, texts)
-
         action(createLink, "Add")
         back("/")
+
+        showTextFormatCount(texts)
+        showTextOriginCount(texts)
+        showCreatorCount(call, state, texts, "Creators")
+        showLanguageCountForTexts(call, state, texts)
     }
 }
 
