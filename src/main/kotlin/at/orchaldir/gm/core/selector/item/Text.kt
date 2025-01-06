@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteText(text: TextId) = getTranslationsOf(text).isEmpty()
@@ -23,6 +24,10 @@ fun countTextOriginTypes(texts: Collection<Text>) = texts
 fun State.getTexts(language: LanguageId) = getTextStorage()
     .getAll()
     .filter { b -> b.language == language }
+
+fun State.getTextsMadeOf(material: MaterialId) = getTextStorage()
+    .getAll()
+    .filter { it.format.isMadeOf(material) }
 
 fun State.getTranslationsOf(text: TextId) = getTextStorage()
     .getAll()

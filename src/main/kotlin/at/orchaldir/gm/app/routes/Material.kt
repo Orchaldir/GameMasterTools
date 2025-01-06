@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.item.getItemTemplatesMadeOf
+import at.orchaldir.gm.core.selector.item.getTextsMadeOf
 import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -128,6 +129,7 @@ private fun HTML.showAllMaterials(
                 th { +"Category" }
                 th { +"Items" }
                 th { +"Streets" }
+                th { +"Texts" }
             }
             materials.forEach { material ->
                 tr {
@@ -135,6 +137,7 @@ private fun HTML.showAllMaterials(
                     td { +material.category.toString() }
                     tdSkipZero(state.getItemTemplatesMadeOf(material.id).count())
                     tdSkipZero(state.getStreetTemplatesMadeOf(material.id).count())
+                    tdSkipZero(state.getTextsMadeOf(material.id).count())
                 }
             }
         }
@@ -151,6 +154,7 @@ private fun HTML.showMaterialDetails(
 ) {
     val itemTemplates = state.getItemTemplatesMadeOf(material.id)
     val streetTemplates = state.getStreetTemplatesMadeOf(material.id)
+    val texts = state.getTextsMadeOf(material.id)
     val backLink = call.application.href(MaterialRoutes())
     val deleteLink = call.application.href(MaterialRoutes.Delete(material.id))
     val editLink = call.application.href(MaterialRoutes.Edit(material.id))
@@ -163,6 +167,9 @@ private fun HTML.showMaterialDetails(
         }
         showList("Street Templates", streetTemplates) { template ->
             link(call, template)
+        }
+        showList("Texts", texts) { text ->
+            link(call, text)
         }
         action(editLink, "Edit")
         if (state.canDelete(material.id)) {

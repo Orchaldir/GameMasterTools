@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.text.scroll
 
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.utils.math.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -29,6 +30,12 @@ sealed class ScrollFormat {
         ScrollWithoutRod -> rollDiameter
         is ScrollWithOneRod -> handle.calculateDiameter(rollDiameter)
         is ScrollWithTwoRods -> handle.calculateDiameter(rollDiameter) * 2
+    }
+
+    fun isMadeOf(material: MaterialId) = when (this) {
+        is ScrollWithOneRod -> handle.material == material
+        is ScrollWithTwoRods -> handle.material == material
+        ScrollWithoutRod -> false
     }
 }
 

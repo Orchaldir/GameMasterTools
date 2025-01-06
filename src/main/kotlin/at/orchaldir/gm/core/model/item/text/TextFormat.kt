@@ -26,6 +26,12 @@ sealed class TextFormat {
         is Scroll -> TextFormatType.Scroll
         UndefinedTextFormat -> TextFormatType.Undefined
     }
+
+    fun isMadeOf(material: MaterialId) = when (this) {
+        is Book -> binding.isMadeOf(material)
+        is Scroll -> this.material == material || format.isMadeOf(material)
+        UndefinedTextFormat -> false
+    }
 }
 
 @Serializable
