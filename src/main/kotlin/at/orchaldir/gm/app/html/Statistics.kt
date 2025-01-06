@@ -14,8 +14,8 @@ import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.economy.countEachJob
-import at.orchaldir.gm.core.selector.item.countEachTextOrigin
 import at.orchaldir.gm.core.selector.item.countEachLanguage
+import at.orchaldir.gm.core.selector.item.countEachTextOrigin
 import at.orchaldir.gm.core.selector.util.countEachCreator
 import at.orchaldir.gm.core.selector.world.countEachArchitecturalStyle
 import at.orchaldir.gm.core.selector.world.countEachPurpose

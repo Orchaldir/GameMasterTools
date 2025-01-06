@@ -1,13 +1,12 @@
 package at.orchaldir.gm.visualization.text
 
-import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Scroll
-import at.orchaldir.gm.core.model.item.text.book.LeatherBindingType
+import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
+import at.orchaldir.gm.core.model.item.text.book.LeatherBindingType
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig

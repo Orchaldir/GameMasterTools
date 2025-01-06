@@ -2,7 +2,10 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.parseMaterialId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
@@ -37,6 +40,7 @@ fun BODY.showTextFormat(
             showBinding(call, state, format.binding)
             fieldSize("Size", format.size)
         }
+
         is Scroll -> {
             fieldDistance("Roll Length", format.rollLength)
             fieldDistance("Roll Diameter", format.rollDiameter)
@@ -146,6 +150,7 @@ fun FORM.editTextFormat(
             editBinding(state, format.binding)
             selectSize(SIZE, format.size, min, max, step, true)
         }
+
         is Scroll -> {
             selectDistance("Roll Length", LENGTH, format.rollLength, min, max, step, true)
             selectDistance("Roll Diameter", LENGTH, format.rollDiameter, min, max, step, true)
@@ -276,6 +281,7 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
         parseBinding(parameters),
         parseSize(parameters, SIZE),
     )
+
     TextFormatType.Scroll -> Scroll(
         parseDistance(parameters, LENGTH, 200),
         parseDistance(parameters, DIAMETER, 50),

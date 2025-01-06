@@ -2,10 +2,13 @@ package at.orchaldir.gm.visualization.text.scroll
 
 import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollHandle
-import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.END
+import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.text.TextRenderState
 

@@ -8,8 +8,8 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.visualization.text.TextRenderState
 import at.orchaldir.gm.visualization.renderRoundedPolygon
+import at.orchaldir.gm.visualization.text.TextRenderState
 
 fun visualizeSewingPattern(
     state: TextRenderState,
