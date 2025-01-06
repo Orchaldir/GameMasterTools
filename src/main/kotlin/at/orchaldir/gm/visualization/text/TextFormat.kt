@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.text
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
@@ -17,8 +18,13 @@ fun visualizeText(
 fun visualizeTextFormat(
     config: TextRenderConfig,
     format: TextFormat,
+) = visualizeTextFormat(config, format, config.calculatePaddedSize(format))
+
+fun visualizeTextFormat(
+    config: TextRenderConfig,
+    format: TextFormat,
+    size: Size2d,
 ): Svg {
-    val size = config.calculatePaddedSize(format)
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
     val state = TextRenderState(aabb, config, builder)

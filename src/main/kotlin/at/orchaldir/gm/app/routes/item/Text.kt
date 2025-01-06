@@ -13,7 +13,9 @@ import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.visualization.text.visualizeText
+import at.orchaldir.gm.visualization.text.visualizeTextFormat
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -183,11 +185,12 @@ private fun HTML.showGallery(
         .getAll()
         .filter { it.format !is UndefinedTextFormat }
         .sortedBy { it.name }
+    val size = Size2d.square(0.5f)
 
     simpleHtml("Texts") {
 
         texts.forEach { text ->
-            val svg = visualizeText(TEXT_CONFIG, text)
+            val svg = visualizeTextFormat(TEXT_CONFIG, text.format, size)
 
             a(href(call, text.id)) {
                 svg(svg, 20)
