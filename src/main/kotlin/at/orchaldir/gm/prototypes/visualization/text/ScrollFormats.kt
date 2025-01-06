@@ -13,7 +13,7 @@ private val ID = MaterialId(0)
 fun main() {
     val rollLength = Distance(200)
     val rollDiameter = Distance(50)
-    val rod = ScrollRod(rollDiameter, rollDiameter / 2.0f)
+    val rod = ScrollRod(Distance(40), Distance(15), Color.SaddleBrown)
 
     renderTextTable(
         "scroll-formats.svg",

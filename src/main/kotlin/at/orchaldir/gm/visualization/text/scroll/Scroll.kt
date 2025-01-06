@@ -57,5 +57,12 @@ private fun visualizeRod(
     val innerState = state.copy(aabb = inner)
 
     visualizeRoll(innerState, scroll)
+
+    val handleSize = rod.calculateHandleSize()
+    val centerTop = state.aabb.getPoint(HALF, START).addHeight(rod.handleLength / 2)
+    val aabbTop = AABB.fromCenter(centerTop, handleSize)
+
+    val options = FillAndBorder(rod.color.toRender(), state.config.line)
+    state.renderer.getLayer().renderRectangle(aabbTop, options)
 }
 
