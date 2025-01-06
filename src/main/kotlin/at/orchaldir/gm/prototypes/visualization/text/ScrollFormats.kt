@@ -12,7 +12,7 @@ private val ID = MaterialId(0)
 
 fun main() {
     val rollLength = Distance(200)
-    val rollDiameter = Distance(20)
+    val rollDiameter = Distance(50)
     val rod = ScrollRod(rollDiameter, rollDiameter / 2.0f)
 
     renderTextTable(

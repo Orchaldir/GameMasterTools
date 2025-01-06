@@ -46,6 +46,8 @@ data class Scroll(
     val material: MaterialId = MaterialId(0),
 ) : TextFormat() {
 
+    fun calculateRollSize() = Size2d(rollDiameter, rollLength)
+
     fun calculateSize(): Size2d {
         val fullLength = format.calculateLength(rollLength)
         val fullWidth = format.calculateWidth(rollDiameter)
