@@ -27,13 +27,26 @@
     "format": {
      "type": "OneRod",
      "handle": {
-      "length": {
-       "millimeters": 40
-      },
-      "diameter": {
-       "millimeters": 10
-      },
-      "color": "SaddleBrown",
+      "segments": [
+       {
+        "length": {
+         "millimeters": 30
+        },
+        "diameter": {
+         "millimeters": 10
+        },
+        "color": "Gold"
+       },
+       {
+        "length": {
+         "millimeters": 10
+        },
+        "diameter": {
+         "millimeters": 30
+        },
+        "color": "Gold"
+       }
+      ],
       "material": 5
      }
     },
