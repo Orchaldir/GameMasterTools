@@ -48,7 +48,7 @@ data class Scroll(
 
     fun calculateSize(): Size2d {
         val fullLength = format.calculateLength(rollLength)
-        val fullWidth = format.calculateWidth(rollLength)
+        val fullWidth = format.calculateWidth(rollDiameter)
 
         return Size2d(fullWidth, fullLength)
     }
