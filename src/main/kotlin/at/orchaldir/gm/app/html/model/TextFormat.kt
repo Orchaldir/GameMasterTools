@@ -277,8 +277,8 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
         parseSize(parameters, SIZE),
     )
     TextFormatType.Scroll -> Scroll(
-        parseDistance(parameters, LENGTH),
-        parseDistance(parameters, DIAMETER),
+        parseDistance(parameters, LENGTH, 200),
+        parseDistance(parameters, DIAMETER, 50),
         parseScrollFormat(parameters),
         parse(parameters, COLOR, Color.Green),
         parseMaterialId(parameters, MATERIAL),
@@ -349,8 +349,8 @@ private fun parseScrollFormat(parameters: Parameters) = when (parse(parameters, 
 }
 
 private fun parseScrollHandle(parameters: Parameters) = ScrollHandle(
-    parseDistance(parameters, combine(HANDLE, LENGTH)),
-    parseDistance(parameters, combine(HANDLE, DIAMETER)),
+    parseDistance(parameters, combine(HANDLE, LENGTH), 40),
+    parseDistance(parameters, combine(HANDLE, DIAMETER), 15),
     parse(parameters, combine(HANDLE, COLOR), Color.Black),
     parseMaterialId(parameters, combine(HANDLE, MATERIAL)),
 )

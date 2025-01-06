@@ -15,7 +15,29 @@
     "type": "Decade",
     "decade": 73
    },
-   "language": 7
+   "language": 7,
+   "format": {
+    "type": "Scroll",
+    "rollLength": {
+     "millimeters": 200
+    },
+    "rollDiameter": {
+     "millimeters": 50
+    },
+    "format": {
+     "type": "OneRod",
+     "handle": {
+      "length": {
+       "millimeters": 40
+      },
+      "diameter": {
+       "millimeters": 10
+      },
+      "color": "SaddleBrown"
+     }
+    },
+    "color": "Purple"
+   }
   },
   "1": {
    "id": 1,
@@ -39,13 +61,11 @@
     "binding": {
      "type": "Coptic",
      "cover": {
-      "color": "SaddleBrown",
-      "material": 0
+      "color": "SaddleBrown"
      },
      "sewingPattern": {
       "type": "Simple",
       "color": "Silver",
-      "size": "Medium",
       "stitches": [
        "Kettle",
        "Kettle",
