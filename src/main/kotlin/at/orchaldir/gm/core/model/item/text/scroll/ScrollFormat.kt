@@ -27,8 +27,8 @@ sealed class ScrollFormat {
 
     fun calculateWidth(rollDiameter: Distance) = when (this) {
         NoRod -> rollDiameter
-        is OneRod -> rod.calculateSingleRodDiameter(rollDiameter)
-        is TwoRods -> rod.calculateTwoRodsWidth(rollDiameter)
+        is OneRod -> rod.calculateDiameter(rollDiameter)
+        is TwoRods -> rod.calculateDiameter(rollDiameter) * 2
     }
 }
 

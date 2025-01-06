@@ -2,6 +2,8 @@ package at.orchaldir.gm.core.model.item.text
 
 import at.orchaldir.gm.core.model.item.text.book.BookBinding
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollFormat
+import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.Size2i
@@ -37,21 +39,18 @@ data class Book(
 @Serializable
 @SerialName("Scroll")
 data class Scroll(
-    val vertical: Boolean,
     val rollLength: Distance,
     val rollDiameter: Distance,
     val format: ScrollFormat,
+    val color: Color = Color.Yellow,
+    val material: MaterialId = MaterialId(0),
 ) : TextFormat() {
 
     fun calculateSize(): Size2d {
         val fullLength = format.calculateLength(rollLength)
         val fullWidth = format.calculateWidth(rollLength)
 
-        return if (vertical) {
-            Size2d(fullLength, fullWidth)
-        } else {
-            Size2d(fullWidth, fullLength)
-        }
+        return Size2d(fullWidth, fullLength)
     }
 }
 

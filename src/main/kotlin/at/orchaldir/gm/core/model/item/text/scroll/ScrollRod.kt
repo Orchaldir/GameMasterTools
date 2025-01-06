@@ -15,8 +15,6 @@ data class ScrollRod(
 
     fun calculateLength(rollLength: Distance) = rollLength + handleLength * 2
 
-    fun calculateSingleRodDiameter(rollDiameter: Distance) = rollDiameter.max(handleDiameter)
-
-    fun calculateTwoRodsWidth(rollDiameter: Distance) = rollDiameter + calculateSingleRodDiameter(rollDiameter)
+    fun calculateDiameter(rollDiameter: Distance) = rollDiameter.max(handleDiameter)
 
 }

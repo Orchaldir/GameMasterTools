@@ -7,6 +7,7 @@ import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.text.book.visualizeBook
+import at.orchaldir.gm.visualization.text.scroll.visualizeScroll
 
 fun visualizeText(
     config: TextRenderConfig,
@@ -38,7 +39,7 @@ fun visualizeTextFormat(
 
     when (format) {
         is Book -> visualizeBook(innerState, format)
-        is Scroll -> doNothing()
+        is Scroll -> visualizeScroll(innerState, format)
         UndefinedTextFormat -> doNothing()
     }
 }
