@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.text.scroll
 
 import at.orchaldir.gm.core.model.item.text.Scroll
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollRod
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
@@ -32,10 +33,7 @@ private fun visualizeOneRod(
     scroll: Scroll,
     format: ScrollWithOneRod,
 ) {
-    val inner = AABB.fromCenter(state.aabb.getCenter(), scroll.calculateRollSize())
-    val innerState = state.copy(aabb = inner)
-
-    visualizeRoll(innerState, scroll)
+    visualizeRod(state, scroll, format.rod)
 }
 
 private fun visualizeTwoRods(
@@ -43,10 +41,21 @@ private fun visualizeTwoRods(
     scroll: Scroll,
     format: ScrollWithTwoRods,
 ) {
-    val first = AABB.fromCenter(state.aabb.getPoint(Factor(0.25f), HALF), scroll.calculateRollSize())
-    val second = AABB.fromCenter(state.aabb.getPoint(Factor(0.75f), HALF), scroll.calculateRollSize())
+    val first = state.aabb.splitHorizontal(START, HALF)
+    val second = state.aabb.splitHorizontal(HALF, END)
 
-    visualizeRoll(state.copy(aabb = first), scroll)
-    visualizeRoll(state.copy(aabb = second), scroll)
+    visualizeRod(state.copy(aabb = first), scroll, format.rod)
+    visualizeRod(state.copy(aabb = second), scroll, format.rod)
+}
+
+private fun visualizeRod(
+    state: TextRenderState,
+    scroll: Scroll,
+    rod: ScrollRod,
+) {
+    val inner = AABB.fromCenter(state.aabb.getCenter(), scroll.calculateRollSize())
+    val innerState = state.copy(aabb = inner)
+
+    visualizeRoll(innerState, scroll)
 }
 
