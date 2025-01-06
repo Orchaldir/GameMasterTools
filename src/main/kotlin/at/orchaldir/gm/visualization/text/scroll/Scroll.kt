@@ -4,8 +4,10 @@ import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.END
+import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.text.TextRenderState
 
@@ -16,7 +18,7 @@ fun visualizeScroll(
     when (scroll.format) {
         is ScrollWithoutRod -> visualizeRoll(state, scroll)
         is ScrollWithOneRod -> visualizeOneRod(state, scroll, scroll.format)
-        is ScrollWithTwoRods -> doNothing()
+        is ScrollWithTwoRods -> visualizeTwoRods(state, scroll, scroll.format)
     }
 }
 
@@ -37,5 +39,17 @@ private fun visualizeOneRod(
     val innerState = state.copy(aabb = inner)
 
     visualizeRoll(innerState, scroll)
+}
+
+private fun visualizeTwoRods(
+    state: TextRenderState,
+    scroll: Scroll,
+    format: ScrollWithTwoRods,
+) {
+    val first = state.aabb.splitHorizontal(START, HALF)
+    val second = state.aabb.splitHorizontal(HALF, END)
+
+    visualizeRoll(state.copy(aabb = first), scroll)
+    visualizeRoll(state.copy(aabb = second), scroll)
 }
 
