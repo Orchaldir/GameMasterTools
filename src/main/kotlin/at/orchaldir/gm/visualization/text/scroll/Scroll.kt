@@ -71,6 +71,20 @@ private fun visualizeRod(
         val aabbBottom = AABB.fromCenter(centerBottom, segment.calculateSize())
 
         when (segment.shape) {
+            HandleSegmentShape.Cone -> {
+                val builderTop = Polygon2dBuilder()
+                val builderBottom = Polygon2dBuilder()
+
+                builderTop.addMirroredPoints(aabbTop, FULL, END)
+                builderBottom.addMirroredPoints(aabbBottom, FULL, START)
+
+                builderTop.addPoint(aabbTop, CENTER, START)
+                builderBottom.addPoint(aabbBottom, CENTER, END)
+
+                renderer.renderPolygon(builderTop.build(), options)
+                renderer.renderPolygon(builderBottom.build(), options)
+            }
+
             HandleSegmentShape.Cylinder -> {
                 renderer.renderRectangle(aabbTop, options)
                 renderer.renderRectangle(aabbBottom, options)
