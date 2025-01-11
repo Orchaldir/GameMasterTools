@@ -40,6 +40,15 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     fun convertHeight(factor: Factor) = Distance.fromMeters(size.height * factor.value)
 
+    fun getCorners(): List<Point2d> {
+        return listOf(
+            getPoint(START, START),
+            getPoint(END, START),
+            getPoint(END, END),
+            getPoint(START, END),
+        )
+    }
+
     fun getPoint(horizontal: Factor, vertical: Factor) = Point2d(
         start.x + size.width * horizontal.value,
         start.y + size.height * vertical.value,

@@ -2,6 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.scroll.*
+import at.orchaldir.gm.core.model.item.text.scroll.HandleSegmentShape.RoundedCylinder
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
@@ -17,7 +18,7 @@ fun main() {
     val handle1 = ScrollHandle(
         listOf(
             HandleSegment(Distance(40), Distance(15), Color.Gold),
-            HandleSegment(Distance(15), Distance(40), Color.Gold),
+            HandleSegment(Distance(15), Distance(40), Color.Gold, RoundedCylinder),
         )
     )
 

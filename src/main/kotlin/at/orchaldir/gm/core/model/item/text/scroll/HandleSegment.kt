@@ -10,6 +10,7 @@ data class HandleSegment(
     val length: Distance,
     val diameter: Distance,
     val color: Color = Color.Blue,
+    val shape: HandleSegmentShape = HandleSegmentShape.Cylinder,
 ) {
 
     fun calculateSize() = Size2d(diameter, length)
