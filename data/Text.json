@@ -44,7 +44,8 @@
         "diameter": {
          "millimeters": 30
         },
-        "color": "Gold"
+        "color": "Gold",
+        "shape": "RoundedCylinder"
        }
       ],
       "material": 5
