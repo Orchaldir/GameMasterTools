@@ -278,10 +278,10 @@ private fun FORM.editScrollHandle(
     showListWithIndex(handle.segments) { index, segment ->
         val segmentParam = combine(HANDLE, index)
 
-        selectDistance("Segment Length", combine(segmentParam, LENGTH), segment.length, min, max, step, true)
-        selectDistance("Segment Diameter", combine(segmentParam, DIAMETER), segment.diameter, min, max, step, true)
-        selectColor("Segment Color", combine(segmentParam, COLOR), Color.entries, segment.color)
-        selectValue("Segment Shape", combine(segmentParam, SHAPE), HandleSegmentShape.entries, segment.shape, true)
+        selectDistance("Length", combine(segmentParam, LENGTH), segment.length, min, max, step, true)
+        selectDistance("Diameter", combine(segmentParam, DIAMETER), segment.diameter, min, max, step, true)
+        selectColor("Color", combine(segmentParam, COLOR), Color.entries, segment.color)
+        selectValue("Shape", combine(segmentParam, SHAPE), HandleSegmentShape.entries, segment.shape, true)
     }
 }
 
