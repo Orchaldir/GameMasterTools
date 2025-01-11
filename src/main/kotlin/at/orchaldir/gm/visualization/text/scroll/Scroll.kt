@@ -62,9 +62,10 @@ private fun visualizeRod(
 
     handle.segments.forEach { segment ->
         val options = FillAndBorder(segment.color.toRender(), state.config.line)
+        val half = segment.length / 2
 
-        val centerTop = startTop.minusHeight(segment.length / 2)
-        val centerBottom = startBottom.addHeight(segment.length / 2)
+        val centerTop = startTop.minusHeight(half)
+        val centerBottom = startBottom.addHeight(half)
 
         val aabbTop = AABB.fromCenter(centerTop, segment.calculateSize())
         val aabbBottom = AABB.fromCenter(centerBottom, segment.calculateSize())
@@ -78,6 +79,11 @@ private fun visualizeRod(
             HandleSegmentShape.RoundedCylinder -> {
                 renderer.renderRoundedPolygon(Polygon2d(aabbTop.getCorners()), options)
                 renderer.renderRoundedPolygon(Polygon2d(aabbBottom.getCorners()), options)
+            }
+
+            HandleSegmentShape.Sphere -> {
+                renderer.renderEllipse(aabbTop, options)
+                renderer.renderEllipse(aabbBottom, options)
             }
         }
 
