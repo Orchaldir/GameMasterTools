@@ -295,9 +295,9 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
     )
 
     TextFormatType.Scroll -> Scroll(
+        parseScrollFormat(parameters),
         parseDistance(parameters, LENGTH, 200),
         parseDistance(parameters, DIAMETER, 50),
-        parseScrollFormat(parameters),
         parse(parameters, COLOR, Color.Green),
         parseMaterialId(parameters, MATERIAL),
     )

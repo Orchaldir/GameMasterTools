@@ -5,14 +5,13 @@ import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.OriginalText
-import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.item.text.TranslatedText
+import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollHandle
+import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -165,6 +164,14 @@ class TextTest {
                         action
                     )
                 }
+            }
+
+            @Test
+            fun `Too few scroll handle segments`() {
+                val format = ScrollWithOneRod(ScrollHandle(emptyList()))
+                val action = UpdateText(Text(TEXT_ID_0, format = Scroll(format)))
+
+                assertIllegalArgument("A scroll handle needs at least 1 segment!") { REDUCER.invoke(STATE, action) }
             }
         }
     }

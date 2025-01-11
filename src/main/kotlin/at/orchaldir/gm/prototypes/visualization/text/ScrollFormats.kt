@@ -30,13 +30,13 @@ fun main() {
         addNames(ScrollFormatType.entries),
     ) { color, type ->
         Scroll(
-            rollLength,
-            rollDiameter,
             when (type) {
                 ScrollFormatType.NoRod -> ScrollWithoutRod
                 ScrollFormatType.OneRod -> ScrollWithOneRod(handle0)
                 ScrollFormatType.TwoRods -> ScrollWithTwoRods(handle1)
             },
+            rollLength,
+            rollDiameter,
             color
         )
     }
