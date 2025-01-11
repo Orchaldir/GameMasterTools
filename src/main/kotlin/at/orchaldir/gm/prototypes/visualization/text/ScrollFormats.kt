@@ -2,6 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.item.text.Scroll
 import at.orchaldir.gm.core.model.item.text.scroll.*
+import at.orchaldir.gm.core.model.item.text.scroll.HandleSegmentShape.RoundedCylinder
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
@@ -13,7 +14,13 @@ private val ID = MaterialId(0)
 fun main() {
     val rollLength = Distance(200)
     val rollDiameter = Distance(50)
-    val rod = ScrollHandle(Distance(40), Distance(15), Color.SaddleBrown)
+    val handle0 = ScrollHandle(HandleSegment(Distance(40), Distance(15), Color.SaddleBrown))
+    val handle1 = ScrollHandle(
+        listOf(
+            HandleSegment(Distance(40), Distance(15), Color.Gold),
+            HandleSegment(Distance(15), Distance(40), Color.Gold, RoundedCylinder),
+        )
+    )
 
     renderTextTable(
         "scroll-formats.svg",
@@ -23,13 +30,13 @@ fun main() {
         addNames(ScrollFormatType.entries),
     ) { color, type ->
         Scroll(
-            rollLength,
-            rollDiameter,
             when (type) {
                 ScrollFormatType.NoRod -> ScrollWithoutRod
-                ScrollFormatType.OneRod -> ScrollWithOneRod(rod)
-                ScrollFormatType.TwoRods -> ScrollWithTwoRods(rod)
+                ScrollFormatType.OneRod -> ScrollWithOneRod(handle0)
+                ScrollFormatType.TwoRods -> ScrollWithTwoRods(handle1)
             },
+            rollLength,
+            rollDiameter,
             color
         )
     }

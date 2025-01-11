@@ -18,6 +18,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 
 private val step = Distance(10)
@@ -31,27 +32,29 @@ fun BODY.showTextFormat(
     state: State,
     format: TextFormat,
 ) {
-    field("Format", format.getType())
+    showDetails("Description") {
+        field("Format", format.getType())
 
-    when (format) {
-        UndefinedTextFormat -> doNothing()
-        is Book -> {
-            field("Pages", format.pages)
-            showBinding(call, state, format.binding)
-            fieldSize("Size", format.size)
-        }
+        when (format) {
+            UndefinedTextFormat -> doNothing()
+            is Book -> {
+                field("Pages", format.pages)
+                showBinding(call, state, format.binding)
+                fieldSize("Size", format.size)
+            }
 
-        is Scroll -> {
-            fieldDistance("Roll Length", format.rollLength)
-            fieldDistance("Roll Diameter", format.rollDiameter)
-            field("Scroll Color", format.color)
-            fieldLink("Scroll Material", call, state, format.material)
-            showScrollFormat(call, state, format.format)
+            is Scroll -> {
+                fieldDistance("Roll Length", format.rollLength)
+                fieldDistance("Roll Diameter", format.rollDiameter)
+                field("Scroll Color", format.color)
+                fieldLink("Scroll Material", call, state, format.material)
+                showScrollFormat(call, state, format.format)
+            }
         }
     }
 }
 
-private fun BODY.showBinding(
+private fun HtmlBlockTag.showBinding(
     call: ApplicationCall,
     state: State,
     binding: BookBinding,
@@ -77,7 +80,7 @@ private fun BODY.showBinding(
     }
 }
 
-private fun BODY.showCover(
+private fun HtmlBlockTag.showCover(
     call: ApplicationCall,
     state: State,
     cover: BookCover,
@@ -86,7 +89,7 @@ private fun BODY.showCover(
     fieldLink("Cover Material", call, state, cover.material)
 }
 
-private fun BODY.showSewingPattern(pattern: SewingPattern) {
+private fun HtmlBlockTag.showSewingPattern(pattern: SewingPattern) {
     field("Sewing Pattern", pattern.getType())
 
     when (pattern) {
@@ -110,12 +113,12 @@ private fun BODY.showSewingPattern(pattern: SewingPattern) {
     }
 }
 
-private fun BODY.showScrollFormat(
+private fun HtmlBlockTag.showScrollFormat(
     call: ApplicationCall,
     state: State,
     format: ScrollFormat,
 ) {
-    field("Format", format.getType())
+    field("Scroll Format", format.getType())
 
     when (format) {
         is ScrollWithOneRod -> showScrollHandle(call, state, format.handle)
@@ -124,15 +127,18 @@ private fun BODY.showScrollFormat(
     }
 }
 
-private fun BODY.showScrollHandle(
+private fun HtmlBlockTag.showScrollHandle(
     call: ApplicationCall,
     state: State,
     handle: ScrollHandle,
 ) {
-    fieldDistance("Handle Length", handle.length)
-    fieldDistance("Handle Diameter", handle.diameter)
-    field("Handle Color", handle.color)
     fieldLink("Handle Material", call, state, handle.material)
+    showList("Handle Segments", handle.segments) { segment ->
+        fieldDistance("Length", segment.length)
+        fieldDistance("Diameter", segment.diameter)
+        field("Color", segment.color)
+        field("Shape", segment.shape)
+    }
 }
 
 // edit
@@ -261,15 +267,21 @@ private fun FORM.editScrollFormat(
 
 private fun FORM.editScrollHandle(
     state: State,
-    rod: ScrollHandle,
+    handle: ScrollHandle,
 ) {
-    selectDistance("Handle Length", combine(HANDLE, LENGTH), rod.length, min, max, step, true)
-    selectDistance("Handle Diameter", combine(HANDLE, DIAMETER), rod.diameter, min, max, step, true)
-    selectColor("Handle Color", combine(HANDLE, COLOR), Color.entries, rod.color)
     selectValue("Handle Material", combine(HANDLE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
         label = material.name
         value = material.id.value.toString()
-        selected = material.id == rod.material
+        selected = material.id == handle.material
+    }
+    selectInt("Handle Segment Number", handle.segments.size, 1, 20, 1, combine(HANDLE, NUMBER), true)
+    showListWithIndex(handle.segments) { index, segment ->
+        val segmentParam = combine(HANDLE, index)
+
+        selectDistance("Length", combine(segmentParam, LENGTH), segment.length, min, max, step, true)
+        selectDistance("Diameter", combine(segmentParam, DIAMETER), segment.diameter, min, max, step, true)
+        selectColor("Color", combine(segmentParam, COLOR), Color.entries, segment.color)
+        selectValue("Shape", combine(segmentParam, SHAPE), HandleSegmentShape.entries, segment.shape, true)
     }
 }
 
@@ -283,9 +295,9 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
     )
 
     TextFormatType.Scroll -> Scroll(
+        parseScrollFormat(parameters),
         parseDistance(parameters, LENGTH, 200),
         parseDistance(parameters, DIAMETER, 50),
-        parseScrollFormat(parameters),
         parse(parameters, COLOR, Color.Green),
         parseMaterialId(parameters, MATERIAL),
     )
@@ -339,6 +351,7 @@ private fun parseComplexPattern(parameters: Parameters): List<ComplexStitch> {
     return (0..<count)
         .map { index ->
             val stitchParam = combine(SEWING, index)
+
             ComplexStitch(
                 parse(parameters, combine(stitchParam, COLOR), Color.Crimson),
                 parse(parameters, combine(stitchParam, SIZE), Size.Medium),
@@ -355,8 +368,22 @@ private fun parseScrollFormat(parameters: Parameters) = when (parse(parameters, 
 }
 
 private fun parseScrollHandle(parameters: Parameters) = ScrollHandle(
-    parseDistance(parameters, combine(HANDLE, LENGTH), 40),
-    parseDistance(parameters, combine(HANDLE, DIAMETER), 15),
-    parse(parameters, combine(HANDLE, COLOR), Color.Black),
+    parseHandleSegments(parameters),
     parseMaterialId(parameters, combine(HANDLE, MATERIAL)),
 )
+
+private fun parseHandleSegments(parameters: Parameters): List<HandleSegment> {
+    val count = parseInt(parameters, combine(HANDLE, NUMBER), 1)
+
+    return (0..<count)
+        .map { index ->
+            val segmentParam = combine(HANDLE, index)
+
+            HandleSegment(
+                parseDistance(parameters, combine(segmentParam, LENGTH), 40),
+                parseDistance(parameters, combine(segmentParam, DIAMETER), 15),
+                parse(parameters, combine(segmentParam, COLOR), Color.Black),
+                parse(parameters, combine(segmentParam, SHAPE), HandleSegmentShape.Cylinder),
+            )
+        }
+}

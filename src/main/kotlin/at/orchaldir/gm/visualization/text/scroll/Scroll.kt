@@ -1,14 +1,8 @@
 package at.orchaldir.gm.visualization.text.scroll
 
 import at.orchaldir.gm.core.model.item.text.Scroll
-import at.orchaldir.gm.core.model.item.text.scroll.ScrollHandle
-import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
-import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
-import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.END
-import at.orchaldir.gm.utils.math.HALF
-import at.orchaldir.gm.utils.math.START
+import at.orchaldir.gm.core.model.item.text.scroll.*
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.text.TextRenderState
 
@@ -54,24 +48,61 @@ private fun visualizeTwoRods(
 private fun visualizeRod(
     state: TextRenderState,
     scroll: Scroll,
-    rod: ScrollHandle,
+    handle: ScrollHandle,
 ) {
     val inner = AABB.fromCenter(state.aabb.getCenter(), scroll.calculateRollSize())
     val innerState = state.copy(aabb = inner)
 
     visualizeRoll(innerState, scroll)
 
-    val handleSize = rod.calculateSize()
-    val options = FillAndBorder(rod.color.toRender(), state.config.line)
+    val handleLength = handle.calculateHandleLength()
+    var startTop = state.aabb.getPoint(HALF, START).addHeight(handleLength)
+    var startBottom = state.aabb.getPoint(HALF, END).minusHeight(handleLength)
+    val renderer = state.renderer.getLayer()
 
-    val centerTop = state.aabb.getPoint(HALF, START).addHeight(rod.length / 2)
-    val aabbTop = AABB.fromCenter(centerTop, handleSize)
+    handle.segments.forEach { segment ->
+        val options = FillAndBorder(segment.color.toRender(), state.config.line)
+        val half = segment.length / 2
 
-    state.renderer.getLayer().renderRectangle(aabbTop, options)
+        val centerTop = startTop.minusHeight(half)
+        val centerBottom = startBottom.addHeight(half)
 
-    val centerBottom = state.aabb.getPoint(HALF, END).minusHeight(rod.length / 2)
-    val aabbBottom = AABB.fromCenter(centerBottom, handleSize)
+        val aabbTop = AABB.fromCenter(centerTop, segment.calculateSize())
+        val aabbBottom = AABB.fromCenter(centerBottom, segment.calculateSize())
 
-    state.renderer.getLayer().renderRectangle(aabbBottom, options)
+        when (segment.shape) {
+            HandleSegmentShape.Cone -> {
+                val builderTop = Polygon2dBuilder()
+                val builderBottom = Polygon2dBuilder()
+
+                builderTop.addMirroredPoints(aabbTop, FULL, END)
+                builderBottom.addMirroredPoints(aabbBottom, FULL, START)
+
+                builderTop.addPoint(aabbTop, CENTER, START)
+                builderBottom.addPoint(aabbBottom, CENTER, END)
+
+                renderer.renderPolygon(builderTop.build(), options)
+                renderer.renderPolygon(builderBottom.build(), options)
+            }
+
+            HandleSegmentShape.Cylinder -> {
+                renderer.renderRectangle(aabbTop, options)
+                renderer.renderRectangle(aabbBottom, options)
+            }
+
+            HandleSegmentShape.RoundedCylinder -> {
+                renderer.renderRoundedPolygon(Polygon2d(aabbTop.getCorners()), options)
+                renderer.renderRoundedPolygon(Polygon2d(aabbBottom.getCorners()), options)
+            }
+
+            HandleSegmentShape.Sphere -> {
+                renderer.renderEllipse(aabbTop, options)
+                renderer.renderEllipse(aabbBottom, options)
+            }
+        }
+
+        startTop = startTop.minusHeight(segment.length)
+        startBottom = startBottom.addHeight(segment.length)
+    }
 }
 

@@ -45,9 +45,9 @@ data class Book(
 @Serializable
 @SerialName("Scroll")
 data class Scroll(
-    val rollLength: Distance,
-    val rollDiameter: Distance,
     val format: ScrollFormat,
+    val rollLength: Distance = Distance(1000),
+    val rollDiameter: Distance = Distance(200),
     val color: Color = Color.Yellow,
     val material: MaterialId = MaterialId(0),
 ) : TextFormat() {

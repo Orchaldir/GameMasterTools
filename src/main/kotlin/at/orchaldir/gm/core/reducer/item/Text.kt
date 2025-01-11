@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
+import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.reducer.util.checkCreator
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.item.canDeleteText
@@ -29,7 +30,7 @@ val DELETE_TEXT: Reducer<DeleteText, State> = { state, action ->
 val UPDATE_TEXT: Reducer<UpdateText, State> = { state, action ->
     state.getTextStorage().require(action.text.id)
     checkOrigin(state, action.text)
-    checkFormat(action.text.format)
+    checkTextFormat(action.text.format)
 
     noFollowUps(state.updateStorage(state.getTextStorage().update(action.text)))
 }
@@ -51,7 +52,7 @@ private fun checkOrigin(
     }
 }
 
-private fun checkFormat(format: TextFormat) {
+private fun checkTextFormat(format: TextFormat) {
     when (format) {
         is Book -> {
             require(format.pages >= MIN_PAGES) { "The text requires at least $MIN_PAGES pages!" }
@@ -70,7 +71,19 @@ private fun checkFormat(format: TextFormat) {
             }
         }
 
-        is Scroll -> doNothing()
+        is Scroll -> checkScrollFormat(format.format)
         UndefinedTextFormat -> doNothing()
     }
+}
+
+private fun checkScrollFormat(format: ScrollFormat) {
+    when (format) {
+        is ScrollWithOneRod -> checkScrollHandle(format.handle)
+        is ScrollWithTwoRods -> checkScrollHandle(format.handle)
+        ScrollWithoutRod -> doNothing()
+    }
+}
+
+private fun checkScrollHandle(handle: ScrollHandle) {
+    require(handle.segments.isNotEmpty()) { "A scroll handle needs at least 1 segment!" }
 }
