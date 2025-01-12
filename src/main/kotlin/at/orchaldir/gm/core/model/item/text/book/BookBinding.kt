@@ -39,6 +39,7 @@ data class CopticBinding(
 data class Hardcover(
     val cover: BookCover = BookCover(),
     val bosses: BossesPattern = NoBosses,
+    val protection: EdgeProtection = NoEdgeProtection,
 ) : BookBinding()
 
 @Serializable
