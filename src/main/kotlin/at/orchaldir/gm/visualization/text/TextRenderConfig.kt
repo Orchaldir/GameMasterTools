@@ -20,6 +20,7 @@ data class TextRenderConfig(
     val padding: Distance,
     val line: LineOptions,
     val leatherBindingMap: Map<LeatherBindingType, LeatherBindingConfig>,
+    val bossesRadius: SizeConfig<Factor>,
     val sewingRadius: SizeConfig<Factor>,
     val sewingLength: SizeConfig<Factor>,
 ) {

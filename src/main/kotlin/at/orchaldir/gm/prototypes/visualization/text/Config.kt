@@ -17,6 +17,7 @@ val TEXT_CONFIG = TextRenderConfig(
         LeatherBindingType.Half to LeatherBindingConfig(Factor(0.3f), Factor(0.3f)),
         LeatherBindingType.Quarter to LeatherBindingConfig(Factor(0.2f), Factor(0.2f)),
     ),
+    SizeConfig(Factor(0.02f), Factor(0.03f), Factor(0.04f)),
     SizeConfig(Factor(0.015f), Factor(0.02f), Factor(0.025f)),
     SizeConfig(Factor(0.1f), Factor(0.15f), Factor(0.2f)),
 )

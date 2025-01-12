@@ -23,7 +23,7 @@ private fun visualizeSimpleBossesPattern(
     val options = FillAndBorder(simple.color.toRender(), state.config.line)
     val parts = simple.pattern.size
     val segmentHeight = Factor(1.0f / parts.toFloat())
-    val radius = state.aabb.convertHeight(state.config.sewingRadius.convert(simple.size))
+    val radius = state.aabb.convertHeight(state.config.bossesRadius.convert(simple.size))
     var y = segmentHeight / 2.0f
     val renderer = state.renderer.getLayer()
 
