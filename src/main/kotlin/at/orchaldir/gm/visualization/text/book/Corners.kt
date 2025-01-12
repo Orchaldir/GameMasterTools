@@ -8,6 +8,8 @@ import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.renderPolygon
 import at.orchaldir.gm.visualization.text.TextRenderState
 
+// L
+
 fun visualizeTopCornerAsL(
     state: TextRenderState,
     options: RenderOptions,
@@ -44,6 +46,50 @@ private fun createTopCornerAsL(
 
     return Polygon2d(listOf(topRight, bottomRight, innerRight, inner, innerLeft, topLeft))
 }
+
+// round
+
+fun visualizeRoundTopCorner(
+    state: TextRenderState,
+    options: RenderOptions,
+    length: Distance,
+) {
+    val polygon = createRoundTopCorner(state, length)
+
+    state.renderer.getLayer().renderRoundedPolygon(polygon, options)
+}
+
+fun visualizeRoundBottomCorner(
+    state: TextRenderState,
+    options: RenderOptions,
+    length: Distance,
+) {
+    val polygon = createRoundTopCorner(state, length)
+    val mirrored = state.aabb.mirrorHorizontally(polygon)
+
+    state.renderer.getLayer().renderRoundedPolygon(mirrored, options)
+}
+
+private fun createRoundTopCorner(
+    state: TextRenderState,
+    length: Distance,
+): Polygon2d {
+    val topRight = state.aabb.getPoint(END, START)
+    val bottomRight = topRight.addHeight(length)
+    val topLeft = topRight.minusWidth(length)
+    val bottomLeft = topLeft.addHeight(length)
+
+    return Polygon2d(
+        listOf(
+            topRight, topRight,
+            bottomRight, bottomRight,
+            bottomLeft,
+            topLeft, topLeft,
+        )
+    )
+}
+
+// triangle
 
 fun visualizeTopCornerAsTriangle(
     state: TextRenderState,

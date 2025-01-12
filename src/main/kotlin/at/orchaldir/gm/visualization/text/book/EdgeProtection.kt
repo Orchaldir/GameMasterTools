@@ -28,6 +28,10 @@ private fun visualizeProtectedCorners(
             visualizeTopCornerAsL(state, options, length, width)
             visualizeBottomCornerAsL(state, options, length, width)
         }
+        CornerShape.Round -> {
+            visualizeRoundTopCorner(state, options, length)
+            visualizeRoundBottomCorner(state, options, length)
+        }
         CornerShape.Triangle -> {
             visualizeTopCornerAsTriangle(state, options, length)
             visualizeBottomCornerAsTriangle(state, options, length)
