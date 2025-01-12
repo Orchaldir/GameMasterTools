@@ -22,14 +22,11 @@ fun main() {
         addNames(Size.entries),
     ) { shape, size ->
         val cover = BookCover(Color.Green, ID)
+        val protection = ProtectedCorners(shape, size)
+
         Book(
             100,
-            Hardcover(
-                cover, protection = ProtectedCorners(
-                    shape,
-                    size,
-                )
-            ),
+            Hardcover(cover, protection = protection),
             bookSize
         )
     }
