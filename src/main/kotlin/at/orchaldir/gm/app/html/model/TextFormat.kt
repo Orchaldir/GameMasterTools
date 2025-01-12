@@ -389,7 +389,7 @@ private fun parseBosses(parameters: Parameters) = when (parse(parameters, BOSSES
 }
 
 private fun parseBossesPattern(parameters: Parameters): List<Int> {
-    val count = parseInt(parameters, combine(BOSSES, NUMBER), 0)
+    val count = parseInt(parameters, combine(BOSSES, NUMBER), 1)
 
     return (0..<count)
         .map { index ->
@@ -409,7 +409,7 @@ private fun parseSewing(parameters: Parameters) = when (parse(parameters, SEWING
 }
 
 private fun parseSimplePattern(parameters: Parameters): List<StitchType> {
-    val count = parseInt(parameters, combine(SEWING, NUMBER), 0)
+    val count = parseInt(parameters, combine(SEWING, NUMBER), 2)
 
     return (0..<count)
         .map { index ->
@@ -418,7 +418,7 @@ private fun parseSimplePattern(parameters: Parameters): List<StitchType> {
 }
 
 private fun parseComplexPattern(parameters: Parameters): List<ComplexStitch> {
-    val count = parseInt(parameters, combine(SEWING, NUMBER), 0)
+    val count = parseInt(parameters, combine(SEWING, NUMBER), 2)
 
     return (0..<count)
         .map { index ->
