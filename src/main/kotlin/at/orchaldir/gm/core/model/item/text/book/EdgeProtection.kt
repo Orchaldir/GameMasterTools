@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.model.item.text.book
 
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
