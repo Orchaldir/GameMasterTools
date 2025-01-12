@@ -23,7 +23,10 @@ fun visualizeBook(
             visualizeSewingPattern(state, book.binding.sewingPattern)
         }
 
-        is Hardcover -> visualizeCover(state, book.binding.cover)
+        is Hardcover -> {
+            visualizeCover(state, book.binding.cover)
+            visualizeBossesPattern(state, book.binding.bosses)
+        }
         is LeatherBinding -> {
             visualizeCover(state, book.binding.cover)
             visualizeLeatherBinding(state, book.binding)
