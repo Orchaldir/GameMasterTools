@@ -2,7 +2,9 @@ package at.orchaldir.gm.visualization.text.book
 
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.text.TextRenderState
 
@@ -24,6 +26,7 @@ private fun visualizeSimpleBossesPattern(
     val parts = simple.pattern.size
     val segmentHeight = Factor(1.0f / parts.toFloat())
     val radius = state.aabb.convertHeight(state.config.bossesRadius.convert(simple.size))
+    val size = Size2d.square(radius * 2)
     var y = segmentHeight / 2.0f
     val renderer = state.renderer.getLayer()
 
@@ -34,7 +37,13 @@ private fun visualizeSimpleBossesPattern(
         repeat(count) {
             val center = state.aabb.getPoint(x, y)
 
-            renderer.renderCircle(center, radius, options)
+            when (simple.shape) {
+                BossesShape.Circle -> renderer.renderCircle(center, radius, options)
+                BossesShape.Square -> {
+                    val square = AABB.fromCenter(center, size)
+                    renderer.renderRectangle(square, options)
+                }
+            }
 
             x += segmentWidth
         }
