@@ -121,6 +121,10 @@
      "bosses": {
       "type": "Simple",
       "material": 4
+     },
+     "protection": {
+      "type": "Corners",
+      "shape": "L"
      }
     },
     "size": {

@@ -2,10 +2,7 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseMaterialId
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
@@ -14,6 +11,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
@@ -70,6 +68,7 @@ private fun HtmlBlockTag.showBinding(
         is Hardcover -> {
             showCover(call, state, binding.cover)
             showBossesPattern(call, state, binding.bosses)
+            showEdgeProtection(call, state, binding.protection)
         }
 
         is LeatherBinding -> {
@@ -105,6 +104,24 @@ private fun HtmlBlockTag.showBossesPattern(
             field("Bosses Color", pattern.color)
             fieldLink("Bosses Material", call, state, pattern.material)
             field("Bosses Pattern", pattern.pattern.toString())
+        }
+    }
+}
+
+private fun HtmlBlockTag.showEdgeProtection(
+    call: ApplicationCall,
+    state: State,
+    protection: EdgeProtection,
+) {
+    field("Edge Protection", protection.getType())
+
+    when (protection) {
+        NoEdgeProtection -> doNothing()
+        is ProtectedCorners -> {
+            field("Corner Shape", protection.shape)
+            field("Corner Size", protection.size.toString())
+            field("Corner Color", protection.color)
+            fieldLink("Corner Material", call, state, protection.material)
         }
     }
 }
@@ -206,6 +223,7 @@ private fun FORM.editBinding(
         is Hardcover -> {
             editCover(state, binding.cover)
             editBossesPattern(state, binding.bosses)
+            editEdgeProtection(state, binding.protection)
         }
 
         is LeatherBinding -> {
@@ -260,6 +278,27 @@ private fun FORM.editBossesPattern(
             showListWithIndex(bosses.pattern) { index, count ->
                 val countParam = combine(BOSSES, index)
                 selectInt("Count", count, 1, 20, 1, countParam, true)
+            }
+        }
+    }
+}
+
+private fun FORM.editEdgeProtection(
+    state: State,
+    protection: EdgeProtection,
+) {
+    selectValue("Edge Protection", EDGE, EdgeProtectionType.entries, protection.getType(), true)
+
+    when (protection) {
+        NoEdgeProtection -> doNothing()
+        is ProtectedCorners -> {
+            selectValue("Corner Shape", combine(EDGE, SHAPE), CornerShape.entries, protection.shape, true)
+            selectFloat("Corner Size", protection.size.value, 0.01f, 0.5f, 0.01f, combine(EDGE, SIZE), true)
+            selectColor("Corner Color", combine(EDGE, COLOR), Color.entries, protection.color)
+            selectValue("Corner Material", combine(EDGE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
+                label = material.name
+                value = material.id.value.toString()
+                selected = material.id == protection.material
             }
         }
     }
@@ -362,6 +401,7 @@ private fun parseBinding(parameters: Parameters) = when (parse(parameters, BINDI
     BookBindingType.Hardcover -> Hardcover(
         parseCover(parameters),
         parseBosses(parameters),
+        parseEdgeProtection(parameters),
     )
     BookBindingType.Leather -> LeatherBinding(
         parse(parameters, combine(LEATHER, BINDING, COLOR), Color.SaddleBrown),
@@ -395,6 +435,16 @@ private fun parseBossesPattern(parameters: Parameters): List<Int> {
         .map { index ->
             parseInt(parameters, combine(BOSSES, index), 1)
         }
+}
+
+private fun parseEdgeProtection(parameters: Parameters) = when (parse(parameters, EDGE, EdgeProtectionType.None)) {
+    EdgeProtectionType.None -> NoEdgeProtection
+    EdgeProtectionType.Corners -> ProtectedCorners(
+        parse(parameters, combine(EDGE, SHAPE), CornerShape.Triangle),
+        parseFactor(parameters, combine(EDGE, SIZE), Factor(0.2f)),
+        parse(parameters, combine(EDGE, COLOR), Color.Crimson),
+        parseMaterialId(parameters, combine(EDGE, MATERIAL)),
+    )
 }
 
 private fun parseSewing(parameters: Parameters) = when (parse(parameters, SEWING, SewingPatternType.Simple)) {
