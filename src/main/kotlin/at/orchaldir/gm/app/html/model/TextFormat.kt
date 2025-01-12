@@ -69,6 +69,7 @@ private fun HtmlBlockTag.showBinding(
 
         is Hardcover -> {
             showCover(call, state, binding.cover)
+            showBossesPattern(call, state, binding.bosses)
         }
 
         is LeatherBinding -> {
@@ -87,6 +88,25 @@ private fun HtmlBlockTag.showCover(
 ) {
     field("Cover Color", cover.color)
     fieldLink("Cover Material", call, state, cover.material)
+}
+
+private fun HtmlBlockTag.showBossesPattern(
+    call: ApplicationCall,
+    state: State,
+    pattern: BossesPattern,
+) {
+    field("Bosses Pattern Type", pattern.getType())
+
+    when (pattern) {
+        NoBosses -> doNothing()
+        is SimpleBossesPattern -> {
+            field("Bosses Shape", pattern.shape)
+            field("Bosses Size", pattern.size)
+            field("Bosses Color", pattern.color)
+            fieldLink("Bosses Material", call, state, pattern.material)
+            field("Bosses Pattern", pattern.pattern.toString())
+        }
+    }
 }
 
 private fun HtmlBlockTag.showSewingPattern(pattern: SewingPattern) {
@@ -185,6 +205,7 @@ private fun FORM.editBinding(
 
         is Hardcover -> {
             editCover(state, binding.cover)
+            editBossesPattern(state, binding.bosses)
         }
 
         is LeatherBinding -> {
@@ -214,6 +235,33 @@ private fun FORM.editCover(
         label = material.name
         value = material.id.value.toString()
         selected = material.id == cover.material
+    }
+}
+
+private fun FORM.editBossesPattern(
+    state: State,
+    bosses: BossesPattern,
+) {
+    selectValue("Bosses Pattern", BOSSES, BossesPatternType.entries, bosses.getType(), true)
+
+    when (bosses) {
+        is NoBosses -> doNothing()
+        is SimpleBossesPattern -> {
+            selectValue("Bosses Shape", combine(BOSSES, SHAPE), BossesShape.entries, bosses.shape, true)
+            selectValue("Bosses Size", combine(BOSSES, SIZE), Size.entries, bosses.size, true)
+            selectColor("Bosses Color", combine(BOSSES, COLOR), Color.entries, bosses.color)
+            selectValue("Bosses Material", combine(BOSSES, MATERIAL), state.getMaterialStorage().getAll()) { material ->
+                label = material.name
+                value = material.id.value.toString()
+                selected = material.id == bosses.material
+            }
+            selectInt("Bosses Pattern Size", bosses.pattern.size, 1, 20, 1, combine(BOSSES, NUMBER), true)
+
+            showListWithIndex(bosses.pattern) { index, count ->
+                val countParam = combine(BOSSES, index)
+                selectInt("Count", count, 1, 20, 1, countParam, true)
+            }
+        }
     }
 }
 
@@ -311,7 +359,10 @@ private fun parseBinding(parameters: Parameters) = when (parse(parameters, BINDI
         parseSewing(parameters),
     )
 
-    BookBindingType.Hardcover -> Hardcover(parseCover(parameters))
+    BookBindingType.Hardcover -> Hardcover(
+        parseCover(parameters),
+        parseBosses(parameters),
+    )
     BookBindingType.Leather -> LeatherBinding(
         parse(parameters, combine(LEATHER, BINDING, COLOR), Color.SaddleBrown),
         parseMaterialId(parameters, combine(LEATHER, MATERIAL)),
@@ -324,6 +375,27 @@ private fun parseCover(parameters: Parameters) = BookCover(
     parse(parameters, combine(COVER, BINDING, COLOR), Color.Black),
     parseMaterialId(parameters, combine(COVER, MATERIAL)),
 )
+
+private fun parseBosses(parameters: Parameters) = when (parse(parameters, BOSSES, BossesPatternType.None)) {
+    BossesPatternType.Simple -> SimpleBossesPattern(
+        parseBossesPattern(parameters),
+        parse(parameters, combine(BOSSES, SHAPE), BossesShape.Circle),
+        parse(parameters, combine(BOSSES, SIZE), Size.Medium),
+        parse(parameters, combine(BOSSES, COLOR), Color.Crimson),
+        parseMaterialId(parameters, combine(BOSSES, MATERIAL)),
+    )
+
+    BossesPatternType.None -> NoBosses
+}
+
+private fun parseBossesPattern(parameters: Parameters): List<Int> {
+    val count = parseInt(parameters, combine(BOSSES, NUMBER), 0)
+
+    return (0..<count)
+        .map { index ->
+            parseInt(parameters, combine(BOSSES, index), 1)
+        }
+}
 
 private fun parseSewing(parameters: Parameters) = when (parse(parameters, SEWING, SewingPatternType.Simple)) {
     SewingPatternType.Simple -> SimpleSewingPattern(

@@ -31,6 +31,6 @@ data class SimpleBossesPattern(
     val shape: BossesShape = BossesShape.Circle,
     val size: Size = Size.Medium,
     val color: Color = Color.Gray,
-    val materialId: MaterialId = MaterialId(0),
+    val material: MaterialId = MaterialId(0),
 ) : BossesPattern()
 
