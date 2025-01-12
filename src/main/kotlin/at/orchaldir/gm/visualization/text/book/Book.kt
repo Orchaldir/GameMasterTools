@@ -26,6 +26,7 @@ fun visualizeBook(
         is Hardcover -> {
             visualizeCover(state, book.binding.cover)
             visualizeBossesPattern(state, book.binding.bosses)
+            visualizeEdgeProtection(state, book.binding.protection)
         }
         is LeatherBinding -> {
             visualizeCover(state, book.binding.cover)
@@ -56,11 +57,11 @@ private fun visualizeLeatherBinding(
 
     val cornerWidth = state.aabb.convertWidth(config.corner)
 
-    visualizeTopCorner(state, options, cornerWidth)
-    visualizeBottomCorner(state, options, cornerWidth)
+    visualizeTopCornerAsTriangle(state, options, cornerWidth)
+    visualizeBottomCornerAsTriangle(state, options, cornerWidth)
 }
 
-private fun visualizeTopCorner(
+private fun visualizeTopCornerAsTriangle(
     state: TextRenderState,
     options: RenderOptions,
     distance: Distance,
@@ -72,7 +73,7 @@ private fun visualizeTopCorner(
     renderPolygon(state.renderer.getLayer(), options, listOf(corner0, corner1, corner2))
 }
 
-private fun visualizeBottomCorner(
+private fun visualizeBottomCornerAsTriangle(
     state: TextRenderState,
     options: RenderOptions,
     distance: Distance,
