@@ -66,7 +66,15 @@ class AabbTest {
     }
 
     @Test
-    fun `Mirror a polygon`() {
+    fun `Mirror a polygon horizontally`() {
+        val polygon = Polygon2d(List(3) { Point2d(9.0f, 18.0f) })
+        val mirrored = Polygon2d(List(3) { Point2d(9.0f, 48.0f) })
+
+        assertEquals(mirrored, aabb.mirrorHorizontally(polygon))
+    }
+
+    @Test
+    fun `Mirror a polygon vertically`() {
         val polygon = Polygon2d(List(3) { Point2d(9.0f, 18.0f) })
         val mirrored = Polygon2d(List(3) { Point2d(25.0f, 18.0f) })
 

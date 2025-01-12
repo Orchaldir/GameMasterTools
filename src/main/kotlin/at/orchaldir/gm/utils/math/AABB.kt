@@ -66,6 +66,12 @@ data class AABB(val start: Point2d, val size: Size2d) {
         )
     }
 
+    fun mirrorHorizontally(polygon: Polygon2d): Polygon2d {
+        val mirrorY = start.y + size.height / 2.0f
+
+        return Polygon2d(polygon.corners.map { Point2d(it.x, 2.0f * mirrorY - it.y) })
+    }
+
     fun mirrorVertically(polygon: Polygon2d): Polygon2d {
         val mirrorX = start.x + size.width / 2.0f
 
