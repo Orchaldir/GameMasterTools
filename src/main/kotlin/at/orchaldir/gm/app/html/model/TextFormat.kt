@@ -119,7 +119,7 @@ private fun HtmlBlockTag.showEdgeProtection(
         NoEdgeProtection -> doNothing()
         is ProtectedCorners -> {
             field("Corner Shape", protection.shape)
-            field("Corner Size", protection.size.toString())
+            field("Corner Size", protection.size)
             field("Corner Color", protection.color)
             fieldLink("Corner Material", call, state, protection.material)
         }
