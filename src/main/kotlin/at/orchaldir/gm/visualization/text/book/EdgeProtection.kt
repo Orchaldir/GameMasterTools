@@ -2,8 +2,6 @@ package at.orchaldir.gm.visualization.text.book
 
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.text.TextRenderState
 
@@ -26,7 +24,9 @@ private fun visualizeProtectedCorners(
 
     when (data.shape) {
         CornerShape.L -> {
-            visualizeTopCornerAsL(state, options, length, length * 0.2f)
+            val width = length * 0.2f
+            visualizeTopCornerAsL(state, options, length, width)
+            visualizeBottomCornerAsL(state, options, length, width)
         }
         CornerShape.Triangle -> {
             visualizeTopCornerAsTriangle(state, options, length)
