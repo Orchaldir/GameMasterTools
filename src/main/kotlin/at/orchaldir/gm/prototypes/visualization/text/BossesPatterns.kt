@@ -1,7 +1,10 @@
 package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.book.*
+import at.orchaldir.gm.core.model.item.text.book.BookCover
+import at.orchaldir.gm.core.model.item.text.book.BossesShape
+import at.orchaldir.gm.core.model.item.text.book.Hardcover
+import at.orchaldir.gm.core.model.item.text.book.SimpleBossesPattern
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size

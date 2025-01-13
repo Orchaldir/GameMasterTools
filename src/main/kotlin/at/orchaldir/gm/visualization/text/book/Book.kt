@@ -23,6 +23,7 @@ fun visualizeBook(
             visualizeBossesPattern(state, book.binding.bosses)
             visualizeEdgeProtection(state, book.binding.protection)
         }
+
         is LeatherBinding -> {
             visualizeCover(state, book.binding.cover)
             visualizeLeatherBinding(state, book.binding)

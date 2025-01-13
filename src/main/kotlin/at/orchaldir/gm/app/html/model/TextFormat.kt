@@ -419,6 +419,7 @@ private fun parseBinding(parameters: Parameters) = when (parse(parameters, BINDI
         parseBosses(parameters),
         parseEdgeProtection(parameters),
     )
+
     BookBindingType.Leather -> LeatherBinding(
         parse(parameters, combine(LEATHER, BINDING, COLOR), Color.SaddleBrown),
         parseMaterialId(parameters, combine(LEATHER, MATERIAL)),

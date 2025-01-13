@@ -1,8 +1,14 @@
 package at.orchaldir.gm.visualization.text.book
 
-import at.orchaldir.gm.core.model.item.text.book.*
+import at.orchaldir.gm.core.model.item.text.book.BossesPattern
+import at.orchaldir.gm.core.model.item.text.book.BossesShape
+import at.orchaldir.gm.core.model.item.text.book.NoBosses
+import at.orchaldir.gm.core.model.item.text.book.SimpleBossesPattern
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Polygon2d
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.text.TextRenderState
 
@@ -49,6 +55,7 @@ private fun visualizeSimpleBossesPattern(
 
                     renderer.renderPolygon(polygon, options)
                 }
+
                 BossesShape.Square -> {
                     val square = AABB.fromCenter(center, size)
 
