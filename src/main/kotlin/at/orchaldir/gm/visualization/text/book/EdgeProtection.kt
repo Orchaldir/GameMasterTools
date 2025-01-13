@@ -12,6 +12,7 @@ fun visualizeEdgeProtection(
     when (protection) {
         NoEdgeProtection -> doNothing()
         is ProtectedCorners -> visualizeProtectedCorners(state, protection)
+        is ProtectedEdge -> doNothing()
     }
 }
 

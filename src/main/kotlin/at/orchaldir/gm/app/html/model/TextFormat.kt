@@ -123,6 +123,12 @@ private fun HtmlBlockTag.showEdgeProtection(
             field("Corner Color", protection.color)
             fieldLink("Corner Material", call, state, protection.material)
         }
+
+        is ProtectedEdge -> {
+            field("Edge Size", protection.size)
+            field("Edge Color", protection.color)
+            fieldLink("Edge Material", call, state, protection.material)
+        }
     }
 }
 
@@ -301,6 +307,16 @@ private fun FORM.editEdgeProtection(
                 selected = material.id == protection.material
             }
         }
+
+        is ProtectedEdge -> {
+            selectFloat("Edge Size", protection.size.value, 0.01f, 0.2f, 0.01f, combine(EDGE, SIZE), true)
+            selectColor("Edge Color", combine(EDGE, COLOR), Color.entries, protection.color)
+            selectValue("Edge Material", combine(EDGE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
+                label = material.name
+                value = material.id.value.toString()
+                selected = material.id == protection.material
+            }
+        }
     }
 }
 
@@ -441,6 +457,12 @@ private fun parseEdgeProtection(parameters: Parameters) = when (parse(parameters
     EdgeProtectionType.None -> NoEdgeProtection
     EdgeProtectionType.Corners -> ProtectedCorners(
         parse(parameters, combine(EDGE, SHAPE), CornerShape.Triangle),
+        parseFactor(parameters, combine(EDGE, SIZE), Factor(0.2f)),
+        parse(parameters, combine(EDGE, COLOR), Color.Crimson),
+        parseMaterialId(parameters, combine(EDGE, MATERIAL)),
+    )
+
+    EdgeProtectionType.Edge -> ProtectedEdge(
         parseFactor(parameters, combine(EDGE, SIZE), Factor(0.2f)),
         parse(parameters, combine(EDGE, COLOR), Color.Crimson),
         parseMaterialId(parameters, combine(EDGE, MATERIAL)),
