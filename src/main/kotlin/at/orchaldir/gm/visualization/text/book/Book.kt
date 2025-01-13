@@ -5,12 +5,7 @@ import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.LeatherBinding
-import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.math.END
-import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.visualization.renderPolygon
 import at.orchaldir.gm.visualization.text.TextRenderState
 
 fun visualizeBook(
@@ -23,7 +18,12 @@ fun visualizeBook(
             visualizeSewingPattern(state, book.binding.sewingPattern)
         }
 
-        is Hardcover -> visualizeCover(state, book.binding.cover)
+        is Hardcover -> {
+            visualizeCover(state, book.binding.cover)
+            visualizeBossesPattern(state, book.binding.bosses)
+            visualizeEdgeProtection(state, book.binding.protection)
+        }
+
         is LeatherBinding -> {
             visualizeCover(state, book.binding.cover)
             visualizeLeatherBinding(state, book.binding)
@@ -53,30 +53,6 @@ private fun visualizeLeatherBinding(
 
     val cornerWidth = state.aabb.convertWidth(config.corner)
 
-    visualizeTopCorner(state, options, cornerWidth)
-    visualizeBottomCorner(state, options, cornerWidth)
-}
-
-private fun visualizeTopCorner(
-    state: TextRenderState,
-    options: RenderOptions,
-    distance: Distance,
-) {
-    val corner0 = state.aabb.getPoint(END, START)
-    val corner1 = corner0.addHeight(distance)
-    val corner2 = corner0.minusWidth(distance)
-
-    renderPolygon(state.renderer.getLayer(), options, listOf(corner0, corner1, corner2))
-}
-
-private fun visualizeBottomCorner(
-    state: TextRenderState,
-    options: RenderOptions,
-    distance: Distance,
-) {
-    val corner0 = state.aabb.getPoint(END, END)
-    val corner1 = corner0.minusWidth(distance)
-    val corner2 = corner0.minusHeight(distance)
-
-    renderPolygon(state.renderer.getLayer(), options, listOf(corner0, corner1, corner2))
+    visualizeTopCornerAsTriangle(state, options, cornerWidth)
+    visualizeBottomCornerAsTriangle(state, options, cornerWidth)
 }

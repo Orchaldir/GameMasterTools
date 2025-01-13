@@ -57,7 +57,7 @@ fun renderMirroredPolygons(
     corners: List<Point2d>,
 ) {
     val polygon = Polygon2d(corners)
-    val mirror = aabb.mirror(polygon)
+    val mirror = aabb.mirrorVertically(polygon)
 
     renderer.renderPolygon(polygon, options)
     renderer.renderPolygon(mirror, options)

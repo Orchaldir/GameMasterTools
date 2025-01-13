@@ -2,10 +2,7 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseMaterialId
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
@@ -14,6 +11,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
@@ -69,6 +67,8 @@ private fun HtmlBlockTag.showBinding(
 
         is Hardcover -> {
             showCover(call, state, binding.cover)
+            showBossesPattern(call, state, binding.bosses)
+            showEdgeProtection(call, state, binding.protection)
         }
 
         is LeatherBinding -> {
@@ -87,6 +87,49 @@ private fun HtmlBlockTag.showCover(
 ) {
     field("Cover Color", cover.color)
     fieldLink("Cover Material", call, state, cover.material)
+}
+
+private fun HtmlBlockTag.showBossesPattern(
+    call: ApplicationCall,
+    state: State,
+    pattern: BossesPattern,
+) {
+    field("Bosses Pattern Type", pattern.getType())
+
+    when (pattern) {
+        NoBosses -> doNothing()
+        is SimpleBossesPattern -> {
+            field("Bosses Shape", pattern.shape)
+            field("Bosses Size", pattern.size)
+            field("Bosses Color", pattern.color)
+            fieldLink("Bosses Material", call, state, pattern.material)
+            field("Bosses Pattern", pattern.pattern.toString())
+        }
+    }
+}
+
+private fun HtmlBlockTag.showEdgeProtection(
+    call: ApplicationCall,
+    state: State,
+    protection: EdgeProtection,
+) {
+    field("Edge Protection", protection.getType())
+
+    when (protection) {
+        NoEdgeProtection -> doNothing()
+        is ProtectedCorners -> {
+            field("Corner Shape", protection.shape)
+            field("Corner Size", protection.size)
+            field("Corner Color", protection.color)
+            fieldLink("Corner Material", call, state, protection.material)
+        }
+
+        is ProtectedEdge -> {
+            field("Edge Width", protection.width)
+            field("Edge Color", protection.color)
+            fieldLink("Edge Material", call, state, protection.material)
+        }
+    }
 }
 
 private fun HtmlBlockTag.showSewingPattern(pattern: SewingPattern) {
@@ -185,6 +228,8 @@ private fun FORM.editBinding(
 
         is Hardcover -> {
             editCover(state, binding.cover)
+            editBossesPattern(state, binding.bosses)
+            editEdgeProtection(state, binding.protection)
         }
 
         is LeatherBinding -> {
@@ -214,6 +259,64 @@ private fun FORM.editCover(
         label = material.name
         value = material.id.value.toString()
         selected = material.id == cover.material
+    }
+}
+
+private fun FORM.editBossesPattern(
+    state: State,
+    bosses: BossesPattern,
+) {
+    selectValue("Bosses Pattern", BOSSES, BossesPatternType.entries, bosses.getType(), true)
+
+    when (bosses) {
+        is NoBosses -> doNothing()
+        is SimpleBossesPattern -> {
+            selectValue("Bosses Shape", combine(BOSSES, SHAPE), BossesShape.entries, bosses.shape, true)
+            selectValue("Bosses Size", combine(BOSSES, SIZE), Size.entries, bosses.size, true)
+            selectColor("Bosses Color", combine(BOSSES, COLOR), Color.entries, bosses.color)
+            selectValue("Bosses Material", combine(BOSSES, MATERIAL), state.getMaterialStorage().getAll()) { material ->
+                label = material.name
+                value = material.id.value.toString()
+                selected = material.id == bosses.material
+            }
+            selectInt("Bosses Pattern Size", bosses.pattern.size, 1, 20, 1, combine(BOSSES, NUMBER), true)
+
+            showListWithIndex(bosses.pattern) { index, count ->
+                val countParam = combine(BOSSES, index)
+                selectInt("Count", count, 1, 20, 1, countParam, true)
+            }
+        }
+    }
+}
+
+private fun FORM.editEdgeProtection(
+    state: State,
+    protection: EdgeProtection,
+) {
+    selectValue("Edge Protection", EDGE, EdgeProtectionType.entries, protection.getType(), true)
+
+    when (protection) {
+        NoEdgeProtection -> doNothing()
+        is ProtectedCorners -> {
+            selectValue("Corner Shape", combine(EDGE, SHAPE), CornerShape.entries, protection.shape, true)
+            selectFloat("Corner Size", protection.size.value, 0.01f, 0.5f, 0.01f, combine(EDGE, SIZE), true)
+            selectColor("Corner Color", combine(EDGE, COLOR), Color.entries, protection.color)
+            selectValue("Corner Material", combine(EDGE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
+                label = material.name
+                value = material.id.value.toString()
+                selected = material.id == protection.material
+            }
+        }
+
+        is ProtectedEdge -> {
+            selectFloat("Edge Width", protection.width.value, 0.01f, 0.2f, 0.01f, combine(EDGE, SIZE), true)
+            selectColor("Edge Color", combine(EDGE, COLOR), Color.entries, protection.color)
+            selectValue("Edge Material", combine(EDGE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
+                label = material.name
+                value = material.id.value.toString()
+                selected = material.id == protection.material
+            }
+        }
     }
 }
 
@@ -311,7 +414,12 @@ private fun parseBinding(parameters: Parameters) = when (parse(parameters, BINDI
         parseSewing(parameters),
     )
 
-    BookBindingType.Hardcover -> Hardcover(parseCover(parameters))
+    BookBindingType.Hardcover -> Hardcover(
+        parseCover(parameters),
+        parseBosses(parameters),
+        parseEdgeProtection(parameters),
+    )
+
     BookBindingType.Leather -> LeatherBinding(
         parse(parameters, combine(LEATHER, BINDING, COLOR), Color.SaddleBrown),
         parseMaterialId(parameters, combine(LEATHER, MATERIAL)),
@@ -325,6 +433,43 @@ private fun parseCover(parameters: Parameters) = BookCover(
     parseMaterialId(parameters, combine(COVER, MATERIAL)),
 )
 
+private fun parseBosses(parameters: Parameters) = when (parse(parameters, BOSSES, BossesPatternType.None)) {
+    BossesPatternType.Simple -> SimpleBossesPattern(
+        parseBossesPattern(parameters),
+        parse(parameters, combine(BOSSES, SHAPE), BossesShape.Circle),
+        parse(parameters, combine(BOSSES, SIZE), Size.Medium),
+        parse(parameters, combine(BOSSES, COLOR), Color.Crimson),
+        parseMaterialId(parameters, combine(BOSSES, MATERIAL)),
+    )
+
+    BossesPatternType.None -> NoBosses
+}
+
+private fun parseBossesPattern(parameters: Parameters): List<Int> {
+    val count = parseInt(parameters, combine(BOSSES, NUMBER), 1)
+
+    return (0..<count)
+        .map { index ->
+            parseInt(parameters, combine(BOSSES, index), 1)
+        }
+}
+
+private fun parseEdgeProtection(parameters: Parameters) = when (parse(parameters, EDGE, EdgeProtectionType.None)) {
+    EdgeProtectionType.None -> NoEdgeProtection
+    EdgeProtectionType.Corners -> ProtectedCorners(
+        parse(parameters, combine(EDGE, SHAPE), CornerShape.Triangle),
+        parseFactor(parameters, combine(EDGE, SIZE), Factor(0.2f)),
+        parse(parameters, combine(EDGE, COLOR), Color.Crimson),
+        parseMaterialId(parameters, combine(EDGE, MATERIAL)),
+    )
+
+    EdgeProtectionType.Edge -> ProtectedEdge(
+        parseFactor(parameters, combine(EDGE, SIZE), Factor(0.2f)),
+        parse(parameters, combine(EDGE, COLOR), Color.Crimson),
+        parseMaterialId(parameters, combine(EDGE, MATERIAL)),
+    )
+}
+
 private fun parseSewing(parameters: Parameters) = when (parse(parameters, SEWING, SewingPatternType.Simple)) {
     SewingPatternType.Simple -> SimpleSewingPattern(
         parse(parameters, combine(SEWING, COLOR), Color.Crimson),
@@ -337,7 +482,7 @@ private fun parseSewing(parameters: Parameters) = when (parse(parameters, SEWING
 }
 
 private fun parseSimplePattern(parameters: Parameters): List<StitchType> {
-    val count = parseInt(parameters, combine(SEWING, NUMBER), 0)
+    val count = parseInt(parameters, combine(SEWING, NUMBER), 2)
 
     return (0..<count)
         .map { index ->
@@ -346,7 +491,7 @@ private fun parseSimplePattern(parameters: Parameters): List<StitchType> {
 }
 
 private fun parseComplexPattern(parameters: Parameters): List<ComplexStitch> {
-    val count = parseInt(parameters, combine(SEWING, NUMBER), 0)
+    val count = parseInt(parameters, combine(SEWING, NUMBER), 2)
 
     return (0..<count)
         .map { index ->

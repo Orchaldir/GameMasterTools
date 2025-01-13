@@ -18,12 +18,6 @@
    "language": 7,
    "format": {
     "type": "Scroll",
-    "rollLength": {
-     "millimeters": 200
-    },
-    "rollDiameter": {
-     "millimeters": 50
-    },
     "format": {
      "type": "OneRod",
      "handle": {
@@ -50,6 +44,12 @@
       ],
       "material": 5
      }
+    },
+    "rollLength": {
+     "millimeters": 200
+    },
+    "rollDiameter": {
+     "millimeters": 50
     },
     "color": "Purple",
     "material": 7
@@ -109,7 +109,29 @@
     "type": "Year",
     "year": 1227
    },
-   "language": 6
+   "language": 6,
+   "format": {
+    "type": "Book",
+    "pages": 100,
+    "binding": {
+     "type": "Hardcover",
+     "cover": {
+      "color": "Navy"
+     },
+     "bosses": {
+      "type": "Simple",
+      "material": 4
+     },
+     "protection": {
+      "type": "Corners",
+      "shape": "L"
+     }
+    },
+    "size": {
+     "width": 160,
+     "height": 200
+    }
+   }
   }
  }
 }

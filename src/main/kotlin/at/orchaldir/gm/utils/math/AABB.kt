@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.math
 
 import kotlinx.serialization.Serializable
+import kotlin.math.min
 
 private val TWO = Factor(2.0f)
 
@@ -36,9 +37,13 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     fun getInnerRadius() = Distance.fromMeters(minOf(size.width, size.height) / 2.0f)
 
-    fun convertWidth(factor: Factor) = Distance.fromMeters(size.width * factor.value)
+    fun convertWidth(factor: Factor) = convertSide(size.width, factor)
 
-    fun convertHeight(factor: Factor) = Distance.fromMeters(size.height * factor.value)
+    fun convertHeight(factor: Factor) = convertSide(size.height, factor)
+
+    fun convertMinSide(factor: Factor) = convertSide(min(size.width, size.height), factor)
+
+    private fun convertSide(side: Float, factor: Factor) = Distance.fromMeters(side * factor.value)
 
     fun getCorners(): List<Point2d> {
         return listOf(
@@ -61,7 +66,13 @@ data class AABB(val start: Point2d, val size: Size2d) {
         )
     }
 
-    fun mirror(polygon: Polygon2d): Polygon2d {
+    fun mirrorHorizontally(polygon: Polygon2d): Polygon2d {
+        val mirrorY = start.y + size.height / 2.0f
+
+        return Polygon2d(polygon.corners.map { Point2d(it.x, 2.0f * mirrorY - it.y) })
+    }
+
+    fun mirrorVertically(polygon: Polygon2d): Polygon2d {
         val mirrorX = start.x + size.width / 2.0f
 
         return Polygon2d(polygon.corners.map { Point2d(2.0f * mirrorX - it.x, it.y) })
