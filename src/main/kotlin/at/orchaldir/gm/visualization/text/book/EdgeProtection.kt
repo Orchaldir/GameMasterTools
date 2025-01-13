@@ -52,7 +52,7 @@ private fun visualizeProtectedEdge(
 
     val topLeft = state.aabb.getPoint(START, START)
     val topRight = state.aabb.getPoint(END, START)
-    val bottomLeft = state.aabb.getPoint(END, END)
+    val bottomLeft = state.aabb.getPoint(START, END)
     val bottomRight = state.aabb.getPoint(END, END)
 
     val innerTopLeft = topLeft.addHeight(width)
