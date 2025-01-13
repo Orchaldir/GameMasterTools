@@ -125,7 +125,7 @@ private fun HtmlBlockTag.showEdgeProtection(
         }
 
         is ProtectedEdge -> {
-            field("Edge Size", protection.size)
+            field("Edge Width", protection.width)
             field("Edge Color", protection.color)
             fieldLink("Edge Material", call, state, protection.material)
         }
@@ -309,7 +309,7 @@ private fun FORM.editEdgeProtection(
         }
 
         is ProtectedEdge -> {
-            selectFloat("Edge Size", protection.size.value, 0.01f, 0.2f, 0.01f, combine(EDGE, SIZE), true)
+            selectFloat("Edge Width", protection.width.value, 0.01f, 0.2f, 0.01f, combine(EDGE, SIZE), true)
             selectColor("Edge Color", combine(EDGE, COLOR), Color.entries, protection.color)
             selectValue("Edge Material", combine(EDGE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
                 label = material.name

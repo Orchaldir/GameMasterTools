@@ -38,7 +38,7 @@ data class ProtectedCorners(
 @Serializable
 @SerialName("Edge")
 data class ProtectedEdge(
-    val size: Factor = Factor(0.1f),
+    val width: Factor = Factor(0.1f),
     val color: Color = Color.Gray,
     val material: MaterialId = MaterialId(0),
 ) : EdgeProtection()

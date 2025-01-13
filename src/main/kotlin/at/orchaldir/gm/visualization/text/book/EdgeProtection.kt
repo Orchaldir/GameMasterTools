@@ -2,7 +2,10 @@ package at.orchaldir.gm.visualization.text.book
 
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.END
+import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.visualization.renderPolygon
 import at.orchaldir.gm.visualization.text.TextRenderState
 
 fun visualizeEdgeProtection(
@@ -12,7 +15,7 @@ fun visualizeEdgeProtection(
     when (protection) {
         NoEdgeProtection -> doNothing()
         is ProtectedCorners -> visualizeProtectedCorners(state, protection)
-        is ProtectedEdge -> doNothing()
+        is ProtectedEdge -> visualizeProtectedEdge(state, protection)
     }
 }
 
@@ -39,3 +42,37 @@ private fun visualizeProtectedCorners(
         }
     }
 }
+
+private fun visualizeProtectedEdge(
+    state: TextRenderState,
+    data: ProtectedEdge,
+) {
+    val options = FillAndBorder(data.color.toRender(), state.config.line)
+    val width = state.aabb.convertMinSide(data.width)
+
+    val topLeft = state.aabb.getPoint(START, START)
+    val topRight = state.aabb.getPoint(END, START)
+    val bottomLeft = state.aabb.getPoint(END, END)
+    val bottomRight = state.aabb.getPoint(END, END)
+
+    val innerTopLeft = topLeft.addHeight(width)
+    val innerTopRight = topRight.addHeight(width).minusWidth(width)
+    val innerBottomLeft = bottomLeft.minusHeight(width)
+    val innerBottomRight = bottomRight.minusHeight(width).minusWidth(width)
+
+    renderPolygon(
+        state.renderer.getLayer(),
+        options,
+        listOf(
+            topLeft,
+            topRight,
+            bottomRight,
+            bottomLeft,
+            innerBottomLeft,
+            innerBottomRight,
+            innerTopRight,
+            innerTopLeft,
+        ),
+    )
+}
+
