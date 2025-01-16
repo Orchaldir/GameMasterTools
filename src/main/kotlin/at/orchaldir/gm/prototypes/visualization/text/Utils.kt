@@ -7,6 +7,20 @@ import at.orchaldir.gm.visualization.text.TextRenderConfig
 import at.orchaldir.gm.visualization.text.TextRenderState
 import at.orchaldir.gm.visualization.text.visualizeTextFormat
 
+fun renderTextTable(
+    filename: String,
+    config: TextRenderConfig,
+    texts: List<List<TextFormat>>,
+) {
+    val size = config.calculatePaddedSize(texts[0][0])
+
+    renderTable(filename, size, texts) { aabb, renderer, format ->
+        val state = TextRenderState(aabb, config, renderer)
+
+        visualizeTextFormat(state, format)
+    }
+}
+
 fun <C, R> renderTextTable(
     filename: String,
     config: TextRenderConfig,

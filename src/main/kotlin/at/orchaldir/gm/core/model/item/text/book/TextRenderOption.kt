@@ -20,6 +20,8 @@ sealed class TextRenderOption {
 @Serializable
 @SerialName("Simple")
 data class SimpleTextRenderOption(
-    val center: Distance,
-    val color: Color = Color.Gray,
+    val x: Distance,
+    val y: Distance,
+    val size: Distance,
+    val color: Color = Color.White,
 ) : TextRenderOption()
