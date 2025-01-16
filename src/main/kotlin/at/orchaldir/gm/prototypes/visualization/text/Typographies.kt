@@ -10,17 +10,19 @@ fun main() {
     val texts = listOf(
         listOf(
             createTypography(
-                bookSize, SimpleTextRenderOption(
+                bookSize,
+                SimpleTextRenderOption(
                     Distance(100),
-                    Distance(200),
-                    Distance(40),
+                    Distance(150),
+                    Distance(80),
                 )
             ),
             createTypography(
-                bookSize, SimpleTextRenderOption(
+                bookSize,
+                SimpleTextRenderOption(
                     Distance(100),
-                    Distance(100),
-                    Distance(20),
+                    Distance(60),
+                    Distance(40),
                 )
             ),
         )
