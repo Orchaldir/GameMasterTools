@@ -8,4 +8,5 @@ import kotlinx.serialization.Serializable
 data class BookCover(
     val color: Color = Color.Blue,
     val material: MaterialId = MaterialId(0),
+    val typography: Typography = NoTypography,
 )
