@@ -113,7 +113,7 @@ class SvgRenderer(
         inlineTag(
             "text",
             text,
-            "x=\"%.3f\" y=\"%.3f\" transform=\"rotate(%.3f,%.3f,%.3f)\" fill=\"%s\" font-size=\"%.3fpx\" text-anchor=\"middle\"",
+            "x=\"%.3f\" y=\"%.3f\" transform=\"rotate(%.3f,%.3f,%.3f)\" style=\"%s;font-size:%.3fpx\" text-anchor=\"middle\"",
             center.x,
             center.y,
             orientation.toDegree(),
