@@ -32,8 +32,9 @@ private fun visualizeTextRenderOption(
         is SimpleTextRenderOption -> {
             val textOptions = TextOptions(option.color.toRender(), option.size.toMeters())
             val center = state.aabb.start + Point2d(option.x, option.y)
+
             state.renderer.getLayer()
-                .renderText("Title", center, Orientation.zero(), textOptions)
+                .renderText(state.data.title, center, Orientation.zero(), textOptions)
         }
     }
 }

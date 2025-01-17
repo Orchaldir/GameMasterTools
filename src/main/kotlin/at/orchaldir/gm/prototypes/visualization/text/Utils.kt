@@ -3,6 +3,7 @@ package at.orchaldir.gm.prototypes.visualization.text
 import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.visualization.text.ResolvedTextData
 import at.orchaldir.gm.visualization.text.TextRenderConfig
 import at.orchaldir.gm.visualization.text.TextRenderState
 import at.orchaldir.gm.visualization.text.visualizeTextFormat
@@ -16,6 +17,20 @@ fun renderTextTable(
 
     renderTable(filename, size, texts) { aabb, renderer, format ->
         val state = TextRenderState(aabb, config, renderer)
+
+        visualizeTextFormat(state, format)
+    }
+}
+
+fun renderResolvedTextTable(
+    filename: String,
+    config: TextRenderConfig,
+    texts: List<List<Pair<TextFormat, ResolvedTextData>>>,
+) {
+    val size = config.calculatePaddedSize(texts[0][0].first)
+
+    renderTable(filename, size, texts) { aabb, renderer, (format, data) ->
+        val state = TextRenderState(aabb, config, renderer, data)
 
         visualizeTextFormat(state, format)
     }
