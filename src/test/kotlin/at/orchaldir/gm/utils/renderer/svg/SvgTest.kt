@@ -122,7 +122,7 @@ class SvgTest {
     fun `Render a text`() {
         val builder = SvgBuilder(Size2d(100.0f, 150.0f))
 
-        builder.getLayer().renderText("test", Point2d(1.0f, 2.0f), zero(), TextOptions(Blue.toRender(), 0.3f))
+        builder.getLayer().renderText("test", Point2d(1.0f, 2.0f), zero(), RenderTextOptions(Blue.toRender(), 0.3f))
 
         assertEquals(
             """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">

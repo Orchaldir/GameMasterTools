@@ -3,7 +3,7 @@ package at.orchaldir.gm.utils.renderer
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.utils.renderer.model.TextOptions
+import at.orchaldir.gm.utils.renderer.model.RenderTextOptions
 
 interface LayerRenderer {
 
@@ -48,6 +48,6 @@ interface LayerRenderer {
 
     fun renderRectangle(aabb: AABB, options: RenderOptions): LayerRenderer
 
-    fun renderText(text: String, center: Point2d, orientation: Orientation, options: TextOptions): LayerRenderer
+    fun renderText(text: String, center: Point2d, orientation: Orientation, options: RenderTextOptions): LayerRenderer
 
 }

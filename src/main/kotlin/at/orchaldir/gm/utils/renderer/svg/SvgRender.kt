@@ -108,7 +108,7 @@ class SvgRenderer(
         text: String,
         center: Point2d,
         orientation: Orientation,
-        options: TextOptions,
+        options: RenderTextOptions,
     ): LayerRenderer {
         inlineTag(
             "text",
@@ -119,7 +119,7 @@ class SvgRenderer(
             orientation.toDegree(),
             center.x,
             center.y,
-            toSvg(options.color),
+            toSvg(options.renderOptions),
             options.size,
             text,
         )

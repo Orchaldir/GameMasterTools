@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.item.text.book
 
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Orientation
 import kotlinx.serialization.SerialName
@@ -19,11 +18,10 @@ sealed class TextRenderOption {
 }
 
 @Serializable
-@SerialName("Advanced")
+@SerialName("Simple")
 data class SimpleTextRenderOption(
     val x: Distance,
     val y: Distance,
-    val size: Distance,
-    val color: Color = Color.White,
+    val fontOption: FontOption,
     val orientation: Orientation = Orientation.zero(),
 ) : TextRenderOption()

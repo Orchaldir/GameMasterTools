@@ -18,7 +18,7 @@ fun main() {
                 SimpleTextRenderOption(
                     Distance(100),
                     Distance(150),
-                    Distance(80),
+                    SolidFont(Color.White, Distance(80)),
                 ),
                 ResolvedTextData("Title"),
             ),
@@ -27,7 +27,7 @@ fun main() {
                 SimpleTextRenderOption(
                     Distance(100),
                     Distance(60),
-                    Distance(40),
+                    SolidFont(Color.White, Distance(40)),
                 ),
                 ResolvedTextData("Long Title"),
             ),
@@ -36,8 +36,7 @@ fun main() {
                 SimpleTextRenderOption(
                     Distance(100),
                     Distance(60),
-                    Distance(30),
-                    Color.Red,
+                    SolidFont(Color.White, Distance(30)),
                     Orientation.fromDegree(20.0f)
                 ),
                 ResolvedTextData("Rotated Title"),
