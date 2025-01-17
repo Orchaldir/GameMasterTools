@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 enum class TypographyType {
     None,
-    Simple,
+    Advanced,
 }
 
 @Serializable
@@ -13,7 +13,7 @@ sealed class Typography {
 
     fun getType() = when (this) {
         is NoTypography -> TypographyType.None
-        is SimpleTypography -> TypographyType.Simple
+        is AdvancedTypography -> TypographyType.Advanced
     }
 }
 
@@ -22,8 +22,8 @@ sealed class Typography {
 data object NoTypography : Typography()
 
 @Serializable
-@SerialName("Simple")
-data class SimpleTypography(
+@SerialName("Advanced")
+data class AdvancedTypography(
     val title: TextRenderOption,
 ) : Typography()
 

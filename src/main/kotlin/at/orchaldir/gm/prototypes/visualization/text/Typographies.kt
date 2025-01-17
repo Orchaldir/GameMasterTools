@@ -3,7 +3,9 @@ package at.orchaldir.gm.prototypes.visualization.text
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.core.model.item.text.book.*
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Size2i
 import at.orchaldir.gm.visualization.text.ResolvedTextData
 
@@ -29,6 +31,17 @@ fun main() {
                 ),
                 ResolvedTextData("Long Title"),
             ),
+            createTypography(
+                bookSize,
+                SimpleTextRenderOption(
+                    Distance(100),
+                    Distance(60),
+                    Distance(30),
+                    Color.Red,
+                    Orientation.fromDegree(20.0f)
+                ),
+                ResolvedTextData("Rotated Title"),
+            ),
         )
     )
 
@@ -48,7 +61,7 @@ private fun createTypography(
     100,
     Hardcover(
         BookCover(
-            typography = SimpleTypography(option)
+            typography = AdvancedTypography(option)
         )
     ),
     size,

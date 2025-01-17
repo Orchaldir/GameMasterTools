@@ -13,13 +13,13 @@ fun visualizeTypography(
 ) {
     when (typography) {
         NoTypography -> doNothing()
-        is SimpleTypography -> visualizeSimpleTypography(state, typography)
+        is AdvancedTypography -> visualizeSimpleTypography(state, typography)
     }
 }
 
 private fun visualizeSimpleTypography(
     state: TextRenderState,
-    simple: SimpleTypography,
+    simple: AdvancedTypography,
 ) {
     visualizeTextRenderOption(state, simple.title)
 }
@@ -34,7 +34,7 @@ private fun visualizeTextRenderOption(
             val center = state.aabb.start + Point2d(option.x, option.y)
 
             state.renderer.getLayer()
-                .renderText(state.data.title, center, Orientation.zero(), textOptions)
+                .renderText(state.data.title, center, option.orientation, textOptions)
         }
     }
 }
