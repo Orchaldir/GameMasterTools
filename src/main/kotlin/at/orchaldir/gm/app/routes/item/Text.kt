@@ -202,7 +202,7 @@ private fun HTML.showGallery(
                         div {
                             if (text.date != null) {
                                 +"${text.name} ("
-                                displayDate(state, text.date)
+                                +displayDate(state, text.date)
                                 +")"
                             } else {
                                 +text.name
@@ -319,7 +319,11 @@ private fun FORM.editOrigin(
             val otherTexts = state.getTextStorage().getAllExcept(text.id)
 
             selectValue("Translation Of", combine(ORIGIN, REFERENCE), otherTexts) { translated ->
-                label = translated.name
+                label = if (translated.date != null) {
+                    "${translated.name} (" + displayDate(state, translated.date) + ")"
+                } else {
+                    translated.name
+                }
                 value = translated.id.value.toString()
                 selected = translated.id == text.origin.text
             }
