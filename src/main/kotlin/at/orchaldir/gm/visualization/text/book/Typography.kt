@@ -34,11 +34,8 @@ private fun visualizeSimpleTypography(
     val width = state.aabb.convertWidth(Factor(0.8f))
 
     when (simple.layout) {
-        TypographyLayout.TopAndBottom, TypographyLayout.Top -> {
-            val top = state.aabb.getPoint(HALF, Factor(0.1f))
-
-            renderString(state, state.data.title, top, width, simple.font, VerticalAlignment.Top)
-        }
+        TypographyLayout.TopAndBottom, TypographyLayout.Top -> renderTop(state, state.data.title, width, simple.font)
+        TypographyLayout.Bottom -> renderBottom(state, state.data.title, width, simple.font)
 
         TypographyLayout.Center -> {
             val center = state.aabb.getCenter()
@@ -46,12 +43,29 @@ private fun visualizeSimpleTypography(
             renderString(state, state.data.title, center, width, simple.font)
         }
 
-        TypographyLayout.Bottom -> {
-            val bottom = state.aabb.getPoint(HALF, Factor(0.9f))
-
-            renderString(state, state.data.title, bottom, width, simple.font, VerticalAlignment.Bottom)
-        }
     }
+}
+
+private fun renderBottom(
+    state: TextRenderState,
+    text: String,
+    width: Distance,
+    fontOption: FontOption,
+) {
+    val bottom = state.aabb.getPoint(HALF, Factor(0.9f))
+
+    renderString(state, text, bottom, width, fontOption, VerticalAlignment.Bottom)
+}
+
+private fun renderTop(
+    state: TextRenderState,
+    text: String,
+    width: Distance,
+    fontOption: FontOption,
+) {
+    val top = state.aabb.getPoint(HALF, Factor(0.1f))
+
+    renderString(state, text, top, width, fontOption, VerticalAlignment.Top)
 }
 
 private fun visualizeSimpleTypography(
@@ -60,9 +74,28 @@ private fun visualizeSimpleTypography(
 ) {
     when (simple.layout) {
         TypographyLayout.Top -> doNothing()
-        TypographyLayout.TopAndBottom -> doNothing()
+        TypographyLayout.TopAndBottom -> visualizeTopAndBottomLayout(state, simple)
         TypographyLayout.Center -> visualizeCenterLayout(state, simple)
         TypographyLayout.Bottom -> doNothing()
+    }
+}
+
+private fun visualizeTopAndBottomLayout(
+    state: TextRenderState,
+    simple: SimpleTypography,
+) {
+    val width = state.aabb.convertWidth(Factor(0.8f))
+
+    when (simple.order) {
+        TypographyOrder.AuthorFirst -> {
+            renderTop(state, state.data.author ?: "Unknown", width, simple.author)
+            renderBottom(state, state.data.title, width, simple.title)
+        }
+
+        TypographyOrder.TitleFirst -> {
+            renderTop(state, state.data.title, width, simple.title)
+            renderBottom(state, state.data.author ?: "Unknown", width, simple.author)
+        }
     }
 }
 
