@@ -192,7 +192,7 @@ private fun HTML.showGallery(
 
         div("grid-container") {
             texts.forEach { text ->
-                val svg = visualizeTextFormat(TEXT_CONFIG, text.format, size)
+                val svg = visualizeTextFormat(state, TEXT_CONFIG, text, size)
 
                 div("grid-item") {
                     a(href(call, text.id)) {
@@ -215,7 +215,7 @@ private fun HTML.showTextDetails(
     val backLink = call.application.href(TextRoutes())
     val deleteLink = call.application.href(TextRoutes.Delete(text.id))
     val editLink = call.application.href(TextRoutes.Edit(text.id))
-    val svg = visualizeText(TEXT_CONFIG, text)
+    val svg = visualizeText(state, TEXT_CONFIG, text)
 
     simpleHtml("Text: ${text.name}") {
         if (text.format !is UndefinedTextFormat) {
@@ -269,7 +269,7 @@ private fun HTML.showTextEditor(
     val backLink = href(call, text.id)
     val previewLink = call.application.href(TextRoutes.Preview(text.id))
     val updateLink = call.application.href(TextRoutes.Update(text.id))
-    val svg = visualizeText(TEXT_CONFIG, text)
+    val svg = visualizeText(state, TEXT_CONFIG, text)
 
     simpleHtml("Edit Text: ${text.name}") {
         split({

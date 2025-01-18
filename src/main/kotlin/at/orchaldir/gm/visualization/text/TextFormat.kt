@@ -1,6 +1,8 @@
 package at.orchaldir.gm.visualization.text
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
+import at.orchaldir.gm.core.selector.item.getAuthorName
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d
@@ -11,9 +13,10 @@ import at.orchaldir.gm.visualization.text.book.visualizeBook
 import at.orchaldir.gm.visualization.text.scroll.visualizeScroll
 
 fun visualizeText(
+    state: State,
     config: TextRenderConfig,
     text: Text,
-) = visualizeTextFormat(config, text.format)
+) = visualizeTextFormat(state, config, text, config.calculatePaddedSize(text.format))
 
 fun visualizeTextFormat(
     config: TextRenderConfig,
@@ -35,6 +38,22 @@ fun visualizeTextFormat(
 }
 
 fun visualizeTextFormat(
+    state: State,
+    config: TextRenderConfig,
+    text: Text,
+    size: Size2d,
+): Svg {
+    val aabb = AABB(size)
+    val builder = SvgBuilder(size)
+    val data = resolveTextData(state, text)
+    val renderState = TextRenderState(aabb, config, builder, data)
+
+    visualizeTextFormat(renderState, text.format)
+
+    return builder.finish()
+}
+
+fun visualizeTextFormat(
     state: TextRenderState,
     format: TextFormat,
 ) {
@@ -49,3 +68,6 @@ fun visualizeTextFormat(
         UndefinedTextFormat -> doNothing()
     }
 }
+
+private fun resolveTextData(state: State, text: Text) =
+    ResolvedTextData(text.name, state.getAuthorName(text))
