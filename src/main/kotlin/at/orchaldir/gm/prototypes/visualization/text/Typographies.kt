@@ -3,6 +3,10 @@ package at.orchaldir.gm.prototypes.visualization.text
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.TextFormat
 import at.orchaldir.gm.core.model.item.text.book.*
+import at.orchaldir.gm.core.model.item.text.book.typography.AdvancedTypography
+import at.orchaldir.gm.core.model.item.text.book.typography.SimpleStringRenderOption
+import at.orchaldir.gm.core.model.item.text.book.typography.StringRenderOption
+import at.orchaldir.gm.core.model.item.text.book.typography.WrappedStringRenderOption
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Orientation

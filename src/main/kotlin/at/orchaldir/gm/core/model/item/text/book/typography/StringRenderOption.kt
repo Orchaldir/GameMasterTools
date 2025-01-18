@@ -1,5 +1,6 @@
-package at.orchaldir.gm.core.model.item.text.book
+package at.orchaldir.gm.core.model.item.text.book.typography
 
+import at.orchaldir.gm.core.model.item.text.book.FontOption
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Orientation
 import kotlinx.serialization.SerialName

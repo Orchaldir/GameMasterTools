@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.item.text.book
+package at.orchaldir.gm.core.model.item.text.book.typography
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

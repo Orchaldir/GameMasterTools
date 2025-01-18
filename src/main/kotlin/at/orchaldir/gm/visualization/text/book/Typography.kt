@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.text.book
 
 import at.orchaldir.gm.core.model.item.text.book.*
+import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d
