@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.renderWrappedString
+import at.orchaldir.gm.utils.renderer.wrapString
 import at.orchaldir.gm.visualization.text.TextRenderState
 
 fun visualizeTypography(
@@ -49,11 +50,14 @@ private fun visualizeCenterLayout(
             TypographyOrder.TitleFirst -> -1
         }
 
-        val authorCenter = center - Point2d(0.0f, simple.author.getFontSize().toMeters()) * direction
-        val titleCenter = center + Point2d(0.0f, simple.title.getFontSize().toMeters()) * direction
+        val authorLines = wrapString(state.data.author, width, simple.author.getFontSize().toMeters())
+        val titleLines = wrapString(state.data.title, width, simple.title.getFontSize().toMeters())
 
-        renderString(state, state.data.author, authorCenter, width, simple.author)
-        renderString(state, state.data.title, titleCenter, width, simple.title)
+        val authorCenter = center - Point2d(0.0f, simple.author.getFontSize().toMeters()) * direction * authorLines.size
+        val titleCenter = center + Point2d(0.0f, simple.title.getFontSize().toMeters()) * direction * titleLines.size
+
+        renderString(state, authorLines, authorCenter, simple.author)
+        renderString(state, titleLines, titleCenter, simple.title)
     }
 
 }
@@ -68,6 +72,17 @@ private fun renderString(
     val textOptions = convert(option)
 
     renderWrappedString(state.renderer.getLayer(), string, center, width, textOptions)
+}
+
+private fun renderString(
+    state: TextRenderState,
+    lines: List<String>,
+    center: Point2d,
+    option: FontOption,
+) {
+    val textOptions = convert(option)
+
+    renderWrappedString(state.renderer.getLayer(), lines, center, textOptions)
 }
 
 private fun visualizeAdvancedTypography(
