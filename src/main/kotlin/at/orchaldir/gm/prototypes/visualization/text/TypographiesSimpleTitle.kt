@@ -17,7 +17,7 @@ fun main() {
         "book-typographies-title.svg",
         TEXT_CONFIG,
         size.toSize2d() + Distance(50),
-        addNames(TypographyLayout.entries),
+        addNames(TypographyLayout.getTitleEntries()),
         listOf(
             Pair("Small", Distance(10)),
             Pair("Medium", Distance(15)),

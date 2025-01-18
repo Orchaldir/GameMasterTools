@@ -4,5 +4,9 @@ enum class TypographyLayout {
     Top,
     TopAndBottom,
     Center,
-    Bottom,
+    Bottom;
+
+    companion object {
+        fun getTitleEntries() = entries.filter { it != TopAndBottom }
+    }
 }
