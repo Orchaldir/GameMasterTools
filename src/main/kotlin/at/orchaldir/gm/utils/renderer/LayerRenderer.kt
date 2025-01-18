@@ -50,7 +50,7 @@ interface LayerRenderer {
 
     fun renderString(
         text: String,
-        center: Point2d,
+        position: Point2d,
         orientation: Orientation,
         options: RenderStringOptions,
     ): LayerRenderer

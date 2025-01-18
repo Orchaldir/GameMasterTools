@@ -4,6 +4,7 @@ import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
+import at.orchaldir.gm.utils.renderer.model.VerticalAlignment
 
 
 fun renderWrappedString(
@@ -21,17 +22,25 @@ fun renderWrappedString(
 fun renderWrappedString(
     renderer: LayerRenderer,
     lines: List<String>,
-    center: Point2d,
+    position: Point2d,
     options: RenderStringOptions,
 ) {
-    val yOffset = (lines.size - 1) / 2.0f
+
     val step = Point2d(0.0f, options.size)
-    var currentCenter = center - step * yOffset
+    var currentPosition = when (options.verticalAlignment) {
+        VerticalAlignment.Top -> position
+        VerticalAlignment.Center -> {
+            val yOffset = (lines.size - 1) / 2.0f
+            position - step * yOffset
+        }
+
+        VerticalAlignment.Bottom -> position - step * (lines.size - 1)
+    }
 
     for (line in lines) {
-        renderer.renderString(line, currentCenter, zero(), options)
+        renderer.renderString(line, currentPosition, zero(), options)
 
-        currentCenter += step
+        currentPosition += step
     }
 }
 

@@ -106,19 +106,20 @@ class SvgRenderer(
 
     override fun renderString(
         text: String,
-        center: Point2d,
+        position: Point2d,
         orientation: Orientation,
         options: RenderStringOptions,
     ): LayerRenderer {
         inlineTag(
             "text",
             text,
-            "x=\"%.3f\" y=\"%.3f\" transform=\"rotate(%.3f,%.3f,%.3f)\" style=\"%s;font-size:%.3fpx\" text-anchor=\"middle\"",
-            center.x,
-            center.y,
+            "x=\"%.3f\" y=\"%.3f\" alignment-baseline=\"%s\" transform=\"rotate(%.3f,%.3f,%.3f)\" style=\"%s;font-size:%.3fpx\" text-anchor=\"middle\"",
+            position.x,
+            position.y,
+            toSvg(options.verticalAlignment),
             orientation.toDegree(),
-            center.x,
-            center.y,
+            position.x,
+            position.y,
             toSvg(options.renderOptions),
             options.size,
             text,
@@ -173,6 +174,14 @@ class SvgRenderer(
 
     private fun renderPath(path: String, style: String) {
         selfClosingTag("path", "d=\"%s\" style=\"%s\"", path, style)
+    }
+
+    private fun toSvg(verticalAlignment: VerticalAlignment): String {
+        return when (verticalAlignment) {
+            VerticalAlignment.Top -> "hanging"
+            VerticalAlignment.Center -> "middle"
+            VerticalAlignment.Bottom -> "baseline"
+        }
     }
 
     private fun toSvg(options: RenderOptions): String {

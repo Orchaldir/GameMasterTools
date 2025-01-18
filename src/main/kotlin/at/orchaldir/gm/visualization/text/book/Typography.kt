@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
+import at.orchaldir.gm.utils.renderer.model.VerticalAlignment
 import at.orchaldir.gm.utils.renderer.renderWrappedString
 import at.orchaldir.gm.utils.renderer.wrapString
 import at.orchaldir.gm.visualization.text.TextRenderState
@@ -34,9 +35,9 @@ private fun visualizeSimpleTypography(
 
     when (simple.layout) {
         TypographyLayout.TopAndBottom, TypographyLayout.Top -> {
-            val top = state.aabb.getPoint(HALF, Factor(0.2f))
+            val top = state.aabb.getPoint(HALF, Factor(0.1f))
 
-            renderString(state, state.data.title, top, width, simple.font)
+            renderString(state, state.data.title, top, width, simple.font, VerticalAlignment.Top)
         }
 
         TypographyLayout.Center -> {
@@ -84,13 +85,14 @@ private fun visualizeCenterLayout(
 private fun renderString(
     state: TextRenderState,
     string: String,
-    center: Point2d,
+    position: Point2d,
     width: Distance,
     option: FontOption,
+    verticalAlignment: VerticalAlignment = VerticalAlignment.Center,
 ) {
-    val textOptions = convert(option)
+    val textOptions = convert(option, verticalAlignment)
 
-    renderWrappedString(state.renderer.getLayer(), string, center, width, textOptions)
+    renderWrappedString(state.renderer.getLayer(), string, position, width, textOptions)
 }
 
 private fun renderString(
@@ -143,12 +145,16 @@ private fun calculateCenter(
     y: Distance,
 ) = state.aabb.start + Point2d(x, y)
 
-private fun convert(option: FontOption) = when (option) {
+private fun convert(
+    option: FontOption,
+    verticalAlignment: VerticalAlignment = VerticalAlignment.Center,
+) = when (option) {
     is FontWithBorder -> RenderStringOptions(
         FillAndBorder(option.fill.toRender(), LineOptions(option.border.toRender(), option.thickness)),
-        option.size.toMeters()
+        option.size.toMeters(),
+        verticalAlignment,
     )
 
-    is SolidFont -> RenderStringOptions(option.color.toRender(), option.size.toMeters())
+    is SolidFont -> RenderStringOptions(option.color.toRender(), option.size.toMeters(), verticalAlignment)
 }
 
