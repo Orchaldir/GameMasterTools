@@ -191,67 +191,77 @@ fun FORM.editTextFormat(
     state: State,
     format: TextFormat,
 ) {
-    selectValue("Format", FORMAT, TextFormatType.entries, format.getType(), true)
+    showDetails("Text Format") {
+        selectValue("Format", FORMAT, TextFormatType.entries, format.getType(), true)
 
-    when (format) {
-        UndefinedTextFormat -> doNothing()
-        is Book -> {
-            selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
-            editBinding(state, format.binding)
-            selectSize(SIZE, format.size, min, max, step, true)
-        }
-
-        is Scroll -> {
-            selectDistance("Roll Length", LENGTH, format.rollLength, min, max, step, true)
-            selectDistance("Roll Diameter", LENGTH, format.rollDiameter, min, max, step, true)
-            selectColor("Scroll Color", COLOR, Color.entries, format.color)
-            selectValue("Scroll Material", MATERIAL, state.getMaterialStorage().getAll()) { material ->
-                label = material.name
-                value = material.id.value.toString()
-                selected = material.id == format.material
+        when (format) {
+            UndefinedTextFormat -> doNothing()
+            is Book -> {
+                selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
+                editBinding(state, format.binding)
+                selectSize(SIZE, format.size, min, max, step, true)
             }
-            editScrollFormat(state, format.format)
+
+            is Scroll -> {
+                selectDistance("Roll Length", LENGTH, format.rollLength, min, max, step, true)
+                selectDistance("Roll Diameter", LENGTH, format.rollDiameter, min, max, step, true)
+                selectColor("Scroll Color", COLOR, Color.entries, format.color)
+                selectValue("Scroll Material", MATERIAL, state.getMaterialStorage().getAll()) { material ->
+                    label = material.name
+                    value = material.id.value.toString()
+                    selected = material.id == format.material
+                }
+                editScrollFormat(state, format.format)
+            }
         }
     }
 }
 
-private fun FORM.editBinding(
+private fun HtmlBlockTag.editBinding(
     state: State,
     binding: BookBinding,
 ) {
-    selectValue("Binding", BINDING, BookBindingType.entries, binding.getType(), true)
+    showDetails("Binding") {
+        selectValue("Binding", BINDING, BookBindingType.entries, binding.getType(), true)
 
-    when (binding) {
-        is CopticBinding -> {
-            editCover(state, binding.cover)
-            editSewingPattern(binding.sewingPattern)
-        }
-
-        is Hardcover -> {
-            editCover(state, binding.cover)
-            editBossesPattern(state, binding.bosses)
-            editEdgeProtection(state, binding.protection)
-        }
-
-        is LeatherBinding -> {
-            editCover(state, binding.cover)
-            selectColor("Leather Color", combine(LEATHER, BINDING, COLOR), Color.entries, binding.leatherColor)
-            selectValue(
-                "Leather Material",
-                combine(LEATHER, MATERIAL),
-                state.getMaterialStorage().getAll(),
-                false
-            ) { material ->
-                label = material.name
-                value = material.id.value.toString()
-                selected = material.id == binding.leatherMaterial
+        when (binding) {
+            is CopticBinding -> {
+                editCover(state, binding.cover)
+                editSewingPattern(binding.sewingPattern)
             }
-            selectValue("Leather Binding", combine(LEATHER, BINDING), LeatherBindingType.entries, binding.type, true)
+
+            is Hardcover -> {
+                editCover(state, binding.cover)
+                editBossesPattern(state, binding.bosses)
+                editEdgeProtection(state, binding.protection)
+            }
+
+            is LeatherBinding -> {
+                editCover(state, binding.cover)
+                selectColor("Leather Color", combine(LEATHER, BINDING, COLOR), Color.entries, binding.leatherColor)
+                selectValue(
+                    "Leather Material",
+                    combine(LEATHER, MATERIAL),
+                    state.getMaterialStorage().getAll(),
+                    false
+                ) { material ->
+                    label = material.name
+                    value = material.id.value.toString()
+                    selected = material.id == binding.leatherMaterial
+                }
+                selectValue(
+                    "Leather Binding",
+                    combine(LEATHER, BINDING),
+                    LeatherBindingType.entries,
+                    binding.type,
+                    true
+                )
+            }
         }
     }
 }
 
-private fun FORM.editCover(
+private fun HtmlBlockTag.editCover(
     state: State,
     cover: BookCover,
 ) {
@@ -264,7 +274,7 @@ private fun FORM.editCover(
     editTypography(cover.typography)
 }
 
-private fun FORM.editBossesPattern(
+private fun HtmlBlockTag.editBossesPattern(
     state: State,
     bosses: BossesPattern,
 ) {
@@ -291,7 +301,7 @@ private fun FORM.editBossesPattern(
     }
 }
 
-private fun FORM.editEdgeProtection(
+private fun HtmlBlockTag.editEdgeProtection(
     state: State,
     protection: EdgeProtection,
 ) {
@@ -322,7 +332,7 @@ private fun FORM.editEdgeProtection(
     }
 }
 
-private fun FORM.editSewingPattern(pattern: SewingPattern) {
+private fun HtmlBlockTag.editSewingPattern(pattern: SewingPattern) {
     selectValue("Sewing Pattern", SEWING, SewingPatternType.entries, pattern.getType(), true)
 
     when (pattern) {
@@ -353,11 +363,11 @@ private fun FORM.editSewingPattern(pattern: SewingPattern) {
     }
 }
 
-private fun FORM.editSewingPatternSize(size: Int) {
+private fun HtmlBlockTag.editSewingPatternSize(size: Int) {
     selectInt("Sewing Pattern Size", size, MIN_STITCHES, 20, 1, combine(SEWING, NUMBER), true)
 }
 
-private fun FORM.editScrollFormat(
+private fun HtmlBlockTag.editScrollFormat(
     state: State,
     format: ScrollFormat,
 ) {
@@ -370,7 +380,7 @@ private fun FORM.editScrollFormat(
     }
 }
 
-private fun FORM.editScrollHandle(
+private fun HtmlBlockTag.editScrollHandle(
     state: State,
     handle: ScrollHandle,
 ) {
