@@ -33,7 +33,7 @@ fun State.getBuildingAgeComparator(): Comparator<Building> {
     return Comparator { a: Building, b: Building -> calendar.compareToOptional(a.constructionDate, b.constructionDate) }
 }
 
-fun State.getConstructionComparatorForPair(): Comparator<Pair<Building, String>> {
+fun State.getBuildingAgePairComparator(): Comparator<Pair<Building, String>> {
     val comparator = getBuildingAgeComparator()
     return Comparator { a: Pair<Building, String>, b: Pair<Building, String> -> comparator.compare(a.first, b.first) }
 }
@@ -46,7 +46,7 @@ fun State.sortBuildings(buildings: Collection<Building>, sort: SortBuilding = So
     .sortedWith(
         when (sort) {
             SortBuilding.Name -> compareBy { it.second }
-            SortBuilding.Construction -> getConstructionComparatorForPair()
+            SortBuilding.Construction -> getBuildingAgePairComparator()
         })
 
 // business
@@ -75,7 +75,7 @@ fun State.getCharacterAgeComparator(): Comparator<Character> {
     return Comparator { a: Character, b: Character -> calendar.compareTo(a.birthDate, b.birthDate) }
 }
 
-fun State.getAgeComparatorForPair(): Comparator<Pair<Character, String>> {
+fun State.getCharacterAgePairComparator(): Comparator<Pair<Character, String>> {
     val comparator = getCharacterAgeComparator()
     return Comparator { a: Pair<Character, String>, b: Pair<Character, String> -> comparator.compare(a.first, b.first) }
 }
@@ -88,5 +88,5 @@ fun State.sortCharacters(characters: Collection<Character>, sort: SortCharacter 
     .sortedWith(
         when (sort) {
             SortCharacter.Name -> compareBy { it.second }
-            SortCharacter.Age -> getAgeComparatorForPair()
+            SortCharacter.Age -> getCharacterAgePairComparator()
         })
