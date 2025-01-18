@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
 import at.orchaldir.gm.core.model.item.text.book.LeatherBindingType
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
@@ -25,7 +26,9 @@ data class TextRenderConfig(
     val sewingLength: SizeConfig<Factor>,
 ) {
 
-    fun calculatePaddedSize(format: TextFormat) = calculateSize(format) + padding * 2
+    fun calculatePaddedSize(format: TextFormat) = addPadding(calculateSize(format))
+
+    fun addPadding(size: Size2d) = size + padding * 2
 
     fun calculateSize(format: TextFormat) = when (format) {
         is Book -> format.size.toSize2d()
