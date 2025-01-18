@@ -198,7 +198,15 @@ private fun HTML.showGallery(
 
                 div("grid-item") {
                     a(href(call, text.id)) {
-                        div { +text.name }
+                        div {
+                            if (text.date != null) {
+                                +"${text.name} ("
+                                displayDate(state, text.date)
+                                +")"
+                            } else {
+                                +text.name
+                            }
+                        }
                         svg(svg, 100)
                     }
                 }
