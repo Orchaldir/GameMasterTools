@@ -158,12 +158,18 @@
        "type": "SimpleTitle",
        "font": {
         "type": "Solid",
-        "color": "Gold",
+        "color": "Red",
         "size": {
          "millimeters": 20
         }
        }
       }
+     },
+     "protection": {
+      "type": "Corners",
+      "shape": "L",
+      "size": 0.1,
+      "color": "Red"
      }
     },
     "size": {
