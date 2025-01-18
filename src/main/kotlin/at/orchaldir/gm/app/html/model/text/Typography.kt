@@ -1,16 +1,19 @@
 package at.orchaldir.gm.app.html.model.text
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.model.parseDistance
 import at.orchaldir.gm.app.html.model.selectDistance
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
 
 import at.orchaldir.gm.utils.math.Distance
+import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
 private val ZERO_MM = Distance(0)
@@ -115,6 +118,57 @@ fun HtmlBlockTag.editFontOption(
     }
 }
 
+// parse
 
+fun parseTextTypography(parameters: Parameters) = when (parse(parameters, TYPOGRAPHY, TypographyType.None)) {
+    TypographyType.None -> NoTypography
+    TypographyType.SimpleTitle -> SimpleTitleTypography(
+        parseFontOption(parameters, NAME),
+        parse(parameters, combine(TYPOGRAPHY, LAYOUT), TypographyLayout.Top),
+    )
+
+    TypographyType.Simple -> SimpleTypography(
+        parseFontOption(parameters, CREATOR),
+        parseFontOption(parameters, NAME),
+        parse(parameters, combine(TYPOGRAPHY, ORDER), TypographyOrder.AuthorFirst),
+        parse(parameters, combine(TYPOGRAPHY, LAYOUT), TypographyLayout.Top),
+    )
+
+    TypographyType.Advanced -> AdvancedTypography(
+        parseStringRenderOption(parameters, NAME),
+        parseStringRenderOption(parameters, CREATOR),
+    )
+}
+
+private fun parseFontOption(parameters: Parameters, param: String) =
+    when (parse(parameters, combine(param, FONT), FontOptionType.Solid)) {
+        FontOptionType.Solid -> SolidFont(
+            parse(parameters, combine(param, COLOR), Color.White),
+            parseDistance(parameters, combine(param, SIZE), 10),
+        )
+
+        FontOptionType.Border -> FontWithBorder(
+            parse(parameters, combine(param, COLOR), Color.White),
+            parse(parameters, combine(param, BORDER, COLOR), Color.White),
+            parseDistance(parameters, combine(param, SIZE), 10),
+            parseDistance(parameters, combine(param, BORDER, SIZE), 1),
+        )
+    }
+
+private fun parseStringRenderOption(parameters: Parameters, param: String) =
+    when (parse(parameters, combine(param, TYPE), StringRenderOptionType.Simple)) {
+        StringRenderOptionType.Simple -> SimpleStringRenderOption(
+            parseDistance(parameters, combine(param, X), 0),
+            parseDistance(parameters, combine(param, Y), 0),
+            parseFontOption(parameters, combine(param, FONT)),
+        )
+
+        StringRenderOptionType.Wrapped -> WrappedStringRenderOption(
+            parseDistance(parameters, combine(param, X), 0),
+            parseDistance(parameters, combine(param, Y), 0),
+            parseFontOption(parameters, combine(param, FONT)),
+            parseDistance(parameters, combine(param, WIDTH), 100),
+        )
+    }
 
 

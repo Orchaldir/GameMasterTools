@@ -433,6 +433,7 @@ private fun parseBinding(parameters: Parameters) = when (parse(parameters, BINDI
 private fun parseCover(parameters: Parameters) = BookCover(
     parse(parameters, combine(COVER, BINDING, COLOR), Color.Black),
     parseMaterialId(parameters, combine(COVER, MATERIAL)),
+    parseTextTypography(parameters),
 )
 
 private fun parseBosses(parameters: Parameters) = when (parse(parameters, BOSSES, BossesPatternType.None)) {
