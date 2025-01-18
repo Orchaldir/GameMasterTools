@@ -4,4 +4,5 @@ enum class TypographyLayout {
     Top,
     TopAndBottom,
     Center,
+    Bottom,
 }

@@ -45,6 +45,12 @@ private fun visualizeSimpleTypography(
 
             renderString(state, state.data.title, center, width, simple.font)
         }
+
+        TypographyLayout.Bottom -> {
+            val bottom = state.aabb.getPoint(HALF, Factor(0.9f))
+
+            renderString(state, state.data.title, bottom, width, simple.font, VerticalAlignment.Bottom)
+        }
     }
 }
 
@@ -56,6 +62,7 @@ private fun visualizeSimpleTypography(
         TypographyLayout.Top -> doNothing()
         TypographyLayout.TopAndBottom -> doNothing()
         TypographyLayout.Center -> visualizeCenterLayout(state, simple)
+        TypographyLayout.Bottom -> doNothing()
     }
 }
 
