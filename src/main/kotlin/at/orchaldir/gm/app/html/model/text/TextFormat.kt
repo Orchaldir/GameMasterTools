@@ -191,8 +191,8 @@ fun FORM.editTextFormat(
     state: State,
     format: TextFormat,
 ) {
-    showDetails("Text Format") {
-        selectValue("Format", FORMAT, TextFormatType.entries, format.getType(), true)
+    showDetails("Text Format", true) {
+        selectValue("Type", FORMAT, TextFormatType.entries, format.getType(), true)
 
         when (format) {
             UndefinedTextFormat -> doNothing()
@@ -221,8 +221,8 @@ private fun HtmlBlockTag.editBinding(
     state: State,
     binding: BookBinding,
 ) {
-    showDetails("Binding") {
-        selectValue("Binding", BINDING, BookBindingType.entries, binding.getType(), true)
+    showDetails("Binding", true) {
+        selectValue("Type", BINDING, BookBindingType.entries, binding.getType(), true)
 
         when (binding) {
             is CopticBinding -> {
@@ -265,37 +265,45 @@ private fun HtmlBlockTag.editCover(
     state: State,
     cover: BookCover,
 ) {
-    selectColor("Cover Color", combine(COVER, BINDING, COLOR), Color.entries, cover.color)
-    selectValue("Cover Material", combine(COVER, MATERIAL), state.getMaterialStorage().getAll()) { material ->
-        label = material.name
-        value = material.id.value.toString()
-        selected = material.id == cover.material
+    showDetails("Cover", true) {
+        selectColor("Cover Color", combine(COVER, BINDING, COLOR), Color.entries, cover.color)
+        selectValue("Cover Material", combine(COVER, MATERIAL), state.getMaterialStorage().getAll()) { material ->
+            label = material.name
+            value = material.id.value.toString()
+            selected = material.id == cover.material
+        }
+        editTypography(cover.typography)
     }
-    editTypography(cover.typography)
 }
 
 private fun HtmlBlockTag.editBossesPattern(
     state: State,
     bosses: BossesPattern,
 ) {
-    selectValue("Bosses Pattern", BOSSES, BossesPatternType.entries, bosses.getType(), true)
+    showDetails("Bosses", true) {
+        selectValue("Pattern", BOSSES, BossesPatternType.entries, bosses.getType(), true)
 
-    when (bosses) {
-        is NoBosses -> doNothing()
-        is SimpleBossesPattern -> {
-            selectValue("Bosses Shape", combine(BOSSES, SHAPE), BossesShape.entries, bosses.shape, true)
-            selectValue("Bosses Size", combine(BOSSES, SIZE), Size.entries, bosses.size, true)
-            selectColor("Bosses Color", combine(BOSSES, COLOR), Color.entries, bosses.color)
-            selectValue("Bosses Material", combine(BOSSES, MATERIAL), state.getMaterialStorage().getAll()) { material ->
-                label = material.name
-                value = material.id.value.toString()
-                selected = material.id == bosses.material
-            }
-            selectInt("Bosses Pattern Size", bosses.pattern.size, 1, 20, 1, combine(BOSSES, NUMBER), true)
+        when (bosses) {
+            is NoBosses -> doNothing()
+            is SimpleBossesPattern -> {
+                selectValue("Bosses Shape", combine(BOSSES, SHAPE), BossesShape.entries, bosses.shape, true)
+                selectValue("Bosses Size", combine(BOSSES, SIZE), Size.entries, bosses.size, true)
+                selectColor("Bosses Color", combine(BOSSES, COLOR), Color.entries, bosses.color)
+                selectValue(
+                    "Bosses Material",
+                    combine(BOSSES, MATERIAL),
+                    state.getMaterialStorage().getAll()
+                ) { material ->
+                    label = material.name
+                    value = material.id.value.toString()
+                    selected = material.id == bosses.material
+                }
+                selectInt("Bosses Pattern Size", bosses.pattern.size, 1, 20, 1, combine(BOSSES, NUMBER), true)
 
-            showListWithIndex(bosses.pattern) { index, count ->
-                val countParam = combine(BOSSES, index)
-                selectInt("Count", count, 1, 20, 1, countParam, true)
+                showListWithIndex(bosses.pattern) { index, count ->
+                    val countParam = combine(BOSSES, index)
+                    selectInt("Count", count, 1, 20, 1, countParam, true)
+                }
             }
         }
     }
@@ -305,28 +313,34 @@ private fun HtmlBlockTag.editEdgeProtection(
     state: State,
     protection: EdgeProtection,
 ) {
-    selectValue("Edge Protection", EDGE, EdgeProtectionType.entries, protection.getType(), true)
+    showDetails("Edge Protection", true) {
+        selectValue("Type", EDGE, EdgeProtectionType.entries, protection.getType(), true)
 
-    when (protection) {
-        NoEdgeProtection -> doNothing()
-        is ProtectedCorners -> {
-            selectValue("Corner Shape", combine(EDGE, SHAPE), CornerShape.entries, protection.shape, true)
-            selectFloat("Corner Size", protection.size.value, 0.01f, 0.5f, 0.01f, combine(EDGE, SIZE), true)
-            selectColor("Corner Color", combine(EDGE, COLOR), Color.entries, protection.color)
-            selectValue("Corner Material", combine(EDGE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
-                label = material.name
-                value = material.id.value.toString()
-                selected = material.id == protection.material
+        when (protection) {
+            NoEdgeProtection -> doNothing()
+            is ProtectedCorners -> {
+                selectValue("Corner Shape", combine(EDGE, SHAPE), CornerShape.entries, protection.shape, true)
+                selectFloat("Corner Size", protection.size.value, 0.01f, 0.5f, 0.01f, combine(EDGE, SIZE), true)
+                selectColor("Corner Color", combine(EDGE, COLOR), Color.entries, protection.color)
+                selectValue(
+                    "Corner Material",
+                    combine(EDGE, MATERIAL),
+                    state.getMaterialStorage().getAll()
+                ) { material ->
+                    label = material.name
+                    value = material.id.value.toString()
+                    selected = material.id == protection.material
+                }
             }
-        }
 
-        is ProtectedEdge -> {
-            selectFloat("Edge Width", protection.width.value, 0.01f, 0.2f, 0.01f, combine(EDGE, SIZE), true)
-            selectColor("Edge Color", combine(EDGE, COLOR), Color.entries, protection.color)
-            selectValue("Edge Material", combine(EDGE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
-                label = material.name
-                value = material.id.value.toString()
-                selected = material.id == protection.material
+            is ProtectedEdge -> {
+                selectFloat("Edge Width", protection.width.value, 0.01f, 0.2f, 0.01f, combine(EDGE, SIZE), true)
+                selectColor("Edge Color", combine(EDGE, COLOR), Color.entries, protection.color)
+                selectValue("Edge Material", combine(EDGE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
+                    label = material.name
+                    value = material.id.value.toString()
+                    selected = material.id == protection.material
+                }
             }
         }
     }

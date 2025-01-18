@@ -150,9 +150,11 @@ fun HtmlBlockTag.svg(svg: Svg, width: Int) {
 
 fun HtmlBlockTag.showDetails(
     label: String,
+    isOpen: Boolean = false,
     content: DETAILS.() -> Unit,
 ) {
     details {
+        open = isOpen
         summary { +label }
         content()
     }

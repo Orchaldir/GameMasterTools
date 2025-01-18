@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.model.parseDistance
 import at.orchaldir.gm.app.html.model.selectDistance
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.item.text.book.FontOption
@@ -38,15 +39,15 @@ fun HtmlBlockTag.editTypography(typography: Typography) {
 fun HtmlBlockTag.editSimpleTitleTypography(
     typography: SimpleTitleTypography,
 ) {
-    editFontOption(typography.font, "Title", NAME)
+    editFontOption("Title", typography.font, NAME)
     selectValue("Typography Layout", combine(TYPOGRAPHY, LAYOUT), TypographyLayout.entries, typography.layout, true)
 }
 
 fun HtmlBlockTag.editSimpleTypography(
     typography: SimpleTypography,
 ) {
-    editFontOption(typography.title, "Title", NAME)
-    editFontOption(typography.author, "Title", CREATOR)
+    editFontOption("Title", typography.title, NAME)
+    editFontOption("Author", typography.author, CREATOR)
     selectValue("Typography Order", combine(TYPOGRAPHY, ORDER), TypographyOrder.entries, typography.order, true)
     selectValue("Typography Layout", combine(TYPOGRAPHY, LAYOUT), TypographyLayout.entries, typography.layout, true)
 }
@@ -63,58 +64,72 @@ fun HtmlBlockTag.editStringRenderOption(
     text: String,
     param: String,
 ) {
-    selectValue(
-        "$text Option",
-        combine(param, TYPE),
-        StringRenderOptionType.entries,
-        option.getType(),
-        true
-    )
+    showDetails(text, true) {
+        selectValue(
+            "Option",
+            combine(param, TYPE),
+            StringRenderOptionType.entries,
+            option.getType(),
+            true
+        )
 
-    when (option) {
-        is SimpleStringRenderOption -> {
-            editStringSharedOptions(text, param, option.x, option.y, option.fontOption)
-        }
+        when (option) {
+            is SimpleStringRenderOption -> {
+                editStringSharedOptions(param, option.x, option.y, option.fontOption)
+            }
 
-        is WrappedStringRenderOption -> {
-            editStringSharedOptions(text, param, option.x, option.y, option.fontOption)
-            selectDistance("$text Width", combine(param, WIDTH), option.width, ZERO_MM, THOUSAND_MM, update = true)
+            is WrappedStringRenderOption -> {
+                editStringSharedOptions(param, option.x, option.y, option.fontOption)
+                selectDistance("$text Width", combine(param, WIDTH), option.width, ZERO_MM, THOUSAND_MM, update = true)
+            }
         }
     }
 }
 
 private fun HtmlBlockTag.editStringSharedOptions(
-    text: String,
     param: String,
     x: Distance,
     y: Distance,
     fontOption: FontOption,
 ) {
-    selectDistance("$text X", combine(param, X), x, ZERO_MM, THOUSAND_MM, update = true)
-    selectDistance("$text Y", combine(param, Y), y, ZERO_MM, THOUSAND_MM, update = true)
-    editFontOption(fontOption, text, combine(param, FONT))
+    selectDistance("X", combine(param, X), x, ZERO_MM, THOUSAND_MM, update = true)
+    selectDistance("Y", combine(param, Y), y, ZERO_MM, THOUSAND_MM, update = true)
+    editFontOption(fontOption, combine(param, FONT))
+}
+
+fun HtmlBlockTag.editFontOption(
+    text: String,
+    option: FontOption,
+    param: String,
+) {
+    showDetails(text, true) {
+        editFontOption(option, param)
+    }
 }
 
 fun HtmlBlockTag.editFontOption(
     option: FontOption,
-    text: String,
     param: String,
 ) {
-    selectValue("$text Font Option", combine(param, FONT), FontOptionType.entries, option.getType(), true)
+    selectValue("Font Option", combine(param, FONT), FontOptionType.entries, option.getType(), true)
 
     when (option) {
         is SolidFont -> {
-            selectColor("$text Font Color", combine(param, COLOR), Color.entries, option.color)
-            selectDistance("$text Font Size", combine(param, SIZE), option.size, ONE_MM, THOUSAND_MM, update = true)
+            selectColor("Font Color", combine(param, COLOR), Color.entries, option.color)
+            selectDistance("Font Size", combine(param, SIZE), option.size, ONE_MM, THOUSAND_MM, update = true)
         }
 
         is FontWithBorder -> {
-            selectColor("$text Fill Color", combine(param, COLOR), Color.entries, option.fill)
-            selectColor("$text Border Color", combine(param, BORDER, COLOR), Color.entries, option.border)
-            selectDistance("$text Font Size", combine(param, SIZE), option.size, ONE_MM, THOUSAND_MM, update = true)
+            selectColor("Fill Color", combine(param, COLOR), Color.entries, option.fill)
+            selectColor("Border Color", combine(param, BORDER, COLOR), Color.entries, option.border)
+            selectDistance("Font Size", combine(param, SIZE), option.size, ONE_MM, THOUSAND_MM, update = true)
             selectDistance(
-                "$text Border Thickness", combine(param, BORDER, SIZE), option.thickness,
-                ONE_MM, Distance(100), update = true
+                "Border Thickness",
+                combine(param, BORDER, SIZE),
+                option.thickness,
+                ONE_MM,
+                Distance(100),
+                update = true,
             )
         }
     }
