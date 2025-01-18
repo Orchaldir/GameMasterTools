@@ -9,13 +9,13 @@ import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Size2i
 import at.orchaldir.gm.visualization.text.ResolvedTextData
 
-private val topAuthor = SimpleTextRenderOption(
+private val topAuthor = SimpleStringRenderOption(
     Distance(100),
     Distance(50),
     SolidFont(Color.Aqua, Distance(20)),
 )
 
-private val bottomAuthor = SimpleTextRenderOption(
+private val bottomAuthor = SimpleStringRenderOption(
     Distance(100),
     Distance(250),
     SolidFont(Color.Red, Distance(20)),
@@ -29,7 +29,7 @@ fun main() {
         listOf(
             createTypography(
                 bookSize,
-                SimpleTextRenderOption(
+                SimpleStringRenderOption(
                     Distance(100),
                     Distance(150),
                     SolidFont(Color.Black, Distance(80)),
@@ -40,7 +40,7 @@ fun main() {
             ),
             createTypography(
                 bookSize,
-                SimpleTextRenderOption(
+                SimpleStringRenderOption(
                     Distance(100),
                     Distance(150),
                     SolidFont(Color.Black, Distance(80)),
@@ -65,7 +65,7 @@ private fun createRow(
 ) = listOf(
     createTypography(
         bookSize,
-        SimpleTextRenderOption(
+        SimpleStringRenderOption(
             Distance(100),
             Distance(150),
             createFont(Distance(80)),
@@ -75,7 +75,7 @@ private fun createRow(
     ),
     createTypography(
         bookSize,
-        SimpleTextRenderOption(
+        SimpleStringRenderOption(
             Distance(100),
             Distance(60),
             createFont(Distance(40)),
@@ -85,7 +85,7 @@ private fun createRow(
     ),
     createTypography(
         bookSize,
-        SimpleTextRenderOption(
+        SimpleStringRenderOption(
             Distance(100),
             Distance(150),
             createFont(Distance(80)),
@@ -98,8 +98,8 @@ private fun createRow(
 
 private fun createTypography(
     size: Size2i,
-    titleOption: TextRenderOption,
-    authorOption: TextRenderOption,
+    titleOption: StringRenderOption,
+    authorOption: StringRenderOption,
     data: ResolvedTextData,
 ): Pair<TextFormat, ResolvedTextData> = Pair(
     Book(

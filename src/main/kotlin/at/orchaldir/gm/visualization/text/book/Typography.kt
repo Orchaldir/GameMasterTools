@@ -30,13 +30,13 @@ private fun visualizeSimpleTypography(
 
 private fun visualizeTextRenderOption(
     state: TextRenderState,
-    option: TextRenderOption,
+    option: StringRenderOption,
     text: String,
 ) {
     val renderer = state.renderer.getLayer()
 
     when (option) {
-        is SimpleTextRenderOption -> {
+        is SimpleStringRenderOption -> {
             val textOptions = convert(option.fontOption)
             val center = state.aabb.start + Point2d(option.x, option.y)
 
