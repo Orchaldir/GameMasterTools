@@ -10,7 +10,7 @@ fun renderWrappedStrings(
     renderer: LayerRenderer,
     entries: List<Pair<String, RenderStringOptions>>,
     position: Point2d,
-    width: Distance,
+    maxWidth: Distance,
     alignment: VerticalAlignment,
 ) {
     val orderedEntries = when (alignment) {
@@ -21,12 +21,12 @@ fun renderWrappedStrings(
         VerticalAlignment.Top, VerticalAlignment.Center -> 1.0f
         VerticalAlignment.Bottom -> -1.0f
     }
-    val linesEntries = orderedEntries.map { Pair(wrapString(it.first, width, it.second.size), it.second) }
+    val linesEntries = orderedEntries.map { Pair(wrapString(it.first, maxWidth, it.second.size), it.second) }
     var currentPosition = when (alignment) {
         VerticalAlignment.Top, VerticalAlignment.Bottom -> position
         VerticalAlignment.Center -> {
-            val totalSize = linesEntries.fold(0.0f) { value, entry ->
-                value + entry.first.size * entry.second.size
+            val totalSize = linesEntries.fold(0.0f) { value, (lines, options) ->
+                value + lines.size * options.size
             }
             position - Point2d(0.0f, totalSize / 2)
         }
@@ -43,10 +43,10 @@ fun renderWrappedString(
     renderer: LayerRenderer,
     string: String,
     position: Point2d,
-    width: Distance,
+    maxWidth: Distance,
     options: RenderStringOptions,
 ) {
-    val lines = wrapString(string, width, options.size)
+    val lines = wrapString(string, maxWidth, options.size)
 
     renderWrappedString(renderer, lines, position, options)
 }
@@ -78,12 +78,12 @@ fun renderWrappedString(
 
 fun wrapString(
     string: String,
-    width: Distance,
+    maxWidth: Distance,
     fontSize: Float,
 ): List<String> {
     val split = string.split(' ')
     val lines = mutableListOf<String>()
-    val maxWidth = width.toMeters()
+    val maxLength = maxWidth.toMeters()
     var line = ""
 
     for (word in split) {
@@ -95,7 +95,7 @@ fun wrapString(
 
         val length = calculateLength(newLine, fontSize)
 
-        if (length > maxWidth) {
+        if (length > maxLength) {
             if (line.isEmpty()) {
                 lines.add(word)
             } else {
