@@ -13,6 +13,33 @@ fun renderWrappedString(
     width: Distance,
     options: RenderStringOptions,
 ) {
+    val lines = wrapString(string, width, options.size)
+
+    renderWrappedString(renderer, lines, center, options)
+}
+
+fun renderWrappedString(
+    renderer: LayerRenderer,
+    lines: List<String>,
+    center: Point2d,
+    options: RenderStringOptions,
+) {
+    val yOffset = (lines.size - 1) / 2.0f
+    val step = Point2d(0.0f, options.size)
+    var currentCenter = center - step * yOffset
+
+    for (line in lines) {
+        renderer.renderString(line, currentCenter, zero(), options)
+
+        currentCenter += step
+    }
+}
+
+fun wrapString(
+    string: String,
+    width: Distance,
+    fontSize: Float,
+): List<String> {
     val split = string.split(' ')
     val lines = mutableListOf<String>()
     val maxWidth = width.toMeters()
@@ -25,7 +52,7 @@ fun renderWrappedString(
             "$line $word"
         }
 
-        val length = calculateLength(newLine, options)
+        val length = calculateLength(newLine, fontSize)
 
         if (length > maxWidth) {
             if (line.isEmpty()) {
@@ -43,22 +70,14 @@ fun renderWrappedString(
         lines.add(line)
     }
 
-    val yOffset = (lines.size - 1) / 2.0f
-    val step = Point2d(0.0f, options.size)
-    var currentCenter = center - step * yOffset
-
-    for (line in lines) {
-        renderer.renderString(line, currentCenter, zero(), options)
-
-        currentCenter += step
-    }
+    return lines
 }
 
-fun calculateLength(text: String, options: RenderStringOptions): Float {
-    return options.size * calculatePicaSize(text) / 1000.0f
+fun calculateLength(text: String, fontSize: Float): Float {
+    return fontSize * calculatePicaSize(text) / 1000.0f
 }
 
-fun calculatePicaSize(text: String): Int {
+private fun calculatePicaSize(text: String): Int {
     val lookup = " .:,;'^`!|jl/\\i-()JfIt[]?{}sr*a\"ce_gFzLxkP+0123456789<=>~qvy\$SbduEphonTBCXY#VRKZN%GUAHD@OQ&wmMW"
     var result = 0
     for (c in text) {
