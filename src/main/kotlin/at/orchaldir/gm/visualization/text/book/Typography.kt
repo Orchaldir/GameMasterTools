@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
@@ -29,10 +30,20 @@ private fun visualizeSimpleTypography(
     state: TextRenderState,
     simple: SimpleTitleTypography,
 ) {
+    val width = state.aabb.convertWidth(Factor(0.8f))
+
     when (simple.layout) {
-        TypographyLayout.Top -> doNothing()
-        TypographyLayout.TopAndBottom -> doNothing()
-        TypographyLayout.Center -> visualizeCenterLayout(state, simple)
+        TypographyLayout.TopAndBottom, TypographyLayout.Top -> {
+            val top = state.aabb.getPoint(HALF, Factor(0.2f))
+
+            renderString(state, state.data.title, top, width, simple.font)
+        }
+
+        TypographyLayout.Center -> {
+            val center = state.aabb.getCenter()
+
+            renderString(state, state.data.title, center, width, simple.font)
+        }
     }
 }
 
@@ -45,16 +56,6 @@ private fun visualizeSimpleTypography(
         TypographyLayout.TopAndBottom -> doNothing()
         TypographyLayout.Center -> visualizeCenterLayout(state, simple)
     }
-}
-
-private fun visualizeCenterLayout(
-    state: TextRenderState,
-    simple: SimpleTitleTypography,
-) {
-    val width = state.aabb.convertWidth(Factor(0.8f))
-    val center = state.aabb.getCenter()
-
-    renderString(state, state.data.title, center, width, simple.font)
 }
 
 private fun visualizeCenterLayout(
