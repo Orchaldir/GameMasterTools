@@ -132,6 +132,45 @@
      "height": 200
     }
    }
+  },
+  "3": {
+   "id": 3,
+   "name": "Cultus Maleficarum",
+   "origin": {
+    "type": "Translation",
+    "text": 1,
+    "translator": {
+     "type": "Undefined"
+    }
+   },
+   "date": {
+    "type": "Year",
+    "year": 1596
+   },
+   "format": {
+    "type": "Book",
+    "pages": 500,
+    "binding": {
+     "type": "Hardcover",
+     "cover": {
+      "color": "Black",
+      "typography": {
+       "type": "SimpleTitle",
+       "font": {
+        "type": "Solid",
+        "color": "Gold",
+        "size": {
+         "millimeters": 20
+        }
+       }
+      }
+     }
+    },
+    "size": {
+     "width": 150,
+     "height": 200
+    }
+   }
   }
  }
 }
