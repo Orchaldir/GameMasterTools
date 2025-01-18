@@ -17,6 +17,7 @@ fun visualizeTypography(
 ) {
     when (typography) {
         NoTypography -> doNothing()
+        is SimpleTypography -> doNothing()
         is AdvancedTypography -> visualizeSimpleTypography(state, typography)
     }
 }

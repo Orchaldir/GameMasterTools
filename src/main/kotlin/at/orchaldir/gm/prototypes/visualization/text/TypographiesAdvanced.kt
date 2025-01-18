@@ -37,7 +37,7 @@ fun main() {
     )
 
     renderResolvedTextTable(
-        "book-typographies.svg",
+        "book-typographies-advanced.svg",
         TEXT_CONFIG,
         texts,
     )
@@ -99,13 +99,13 @@ private fun createTypography(
     data: ResolvedTextData,
 ): Pair<TextFormat, ResolvedTextData> = Pair(
     Book(
-    100,
-    Hardcover(
-        BookCover(
-            typography = AdvancedTypography(titleOption, authorOption)
-        )
-    ),
-    size,
+        100,
+        Hardcover(
+            BookCover(
+                typography = AdvancedTypography(titleOption, authorOption)
+            )
+        ),
+        size,
     ),
     data
 )
