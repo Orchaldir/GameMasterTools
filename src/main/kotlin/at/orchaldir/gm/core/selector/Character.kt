@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Duration
+import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
@@ -267,11 +268,6 @@ private fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int, he
 }
 
 // sort
-
-enum class SortCharacter {
-    Name,
-    Age,
-}
 
 fun State.getAgeComparator(): Comparator<Character> {
     val calendar = getDefaultCalendar()

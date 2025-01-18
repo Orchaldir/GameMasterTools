@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.selector.SortCharacter
+import at.orchaldir.gm.core.model.util.SortCharacter
 import io.ktor.resources.*
 
 @Resource("/characters")

@@ -7,11 +7,12 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.world.parseArchitecturalStyle
-import at.orchaldir.gm.app.routes.world.SortArchitecturalStyle.*
 import at.orchaldir.gm.core.action.CreateArchitecturalStyle
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortArchitecturalStyle
+import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.selector.world.*
@@ -28,12 +29,6 @@ import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
-
-enum class SortArchitecturalStyle {
-    Name,
-    Start,
-    End,
-}
 
 @Resource("/architectural_styles")
 class ArchitecturalStyleRoutes {

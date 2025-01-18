@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.OwnedByTown
+import at.orchaldir.gm.core.model.util.SortBusiness
 import at.orchaldir.gm.core.model.util.contains
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getDefaultCalendar
@@ -78,12 +79,6 @@ fun <ID : Id<ID>> State.getBusinessesFoundedBy(id: ID) = getBusinessStorage().ge
     .filter { it.founder.isId(id) }
 
 // sort
-
-enum class SortBusiness {
-    Name,
-    Age,
-    Employees,
-}
 
 fun State.getAgeComparator(): Comparator<Business> {
     val calendar = getDefaultCalendar()

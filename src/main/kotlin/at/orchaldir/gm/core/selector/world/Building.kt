@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.core.model.util.SortBuilding
 
 fun State.canDelete(building: Building) = building.ownership.current.canDelete()
         && getCharactersLivingIn(building.id).isEmpty()
@@ -79,11 +80,6 @@ fun State.getPreviouslyOwnedBuildings(town: TownId) = getBuildingStorage().getAl
     .filter { it.ownership.contains(town) }
 
 // sort
-
-enum class SortBuilding {
-    Name,
-    Construction,
-}
 
 fun State.getConstructionComparator(): Comparator<Building> {
     val calendar = getDefaultCalendar()
