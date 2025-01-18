@@ -1,6 +1,6 @@
 package at.orchaldir.gm.utils.renderer.model
 
-data class RenderTextOptions(
+data class RenderStringOptions(
     val renderOptions: RenderOptions,
     val size: Float,
 ) {

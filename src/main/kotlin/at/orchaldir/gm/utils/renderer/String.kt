@@ -3,17 +3,17 @@ package at.orchaldir.gm.utils.renderer
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.renderer.model.RenderTextOptions
+import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 
 
-fun renderWrappedText(
+fun renderWrappedString(
     renderer: LayerRenderer,
-    text: String,
+    string: String,
     center: Point2d,
     width: Distance,
-    options: RenderTextOptions,
+    options: RenderStringOptions,
 ) {
-    val split = text.split(' ')
+    val split = string.split(' ')
     val lines = mutableListOf<String>()
     val maxWidth = width.toMeters()
     var line = ""
@@ -48,13 +48,13 @@ fun renderWrappedText(
     var currentCenter = center - step * yOffset
 
     for (line in lines) {
-        renderer.renderText(line, currentCenter, zero(), options)
+        renderer.renderString(line, currentCenter, zero(), options)
 
         currentCenter += step
     }
 }
 
-fun calculateLength(text: String, options: RenderTextOptions): Float {
+fun calculateLength(text: String, options: RenderStringOptions): Float {
     return options.size * calculatePicaSize(text) / 1000.0f
 }
 

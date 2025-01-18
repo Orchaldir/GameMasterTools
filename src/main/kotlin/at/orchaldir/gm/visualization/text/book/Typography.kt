@@ -5,8 +5,8 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
-import at.orchaldir.gm.utils.renderer.model.RenderTextOptions
-import at.orchaldir.gm.utils.renderer.renderWrappedText
+import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
+import at.orchaldir.gm.utils.renderer.renderWrappedString
 import at.orchaldir.gm.visualization.text.TextRenderState
 
 fun visualizeTypography(
@@ -42,20 +42,20 @@ private fun visualizeTextRenderOption(
 
             if (option.width == null) {
                 renderer
-                    .renderText(text, center, option.orientation, textOptions)
+                    .renderString(text, center, option.orientation, textOptions)
             } else {
-                renderWrappedText(renderer, text, center, option.width, textOptions)
+                renderWrappedString(renderer, text, center, option.width, textOptions)
             }
         }
     }
 }
 
 private fun convert(option: FontOption) = when (option) {
-    is FontWithBorder -> RenderTextOptions(
+    is FontWithBorder -> RenderStringOptions(
         FillAndBorder(option.fill.toRender(), LineOptions(option.border.toRender(), option.thickness)),
         option.size.toMeters()
     )
 
-    is SolidFont -> RenderTextOptions(option.color.toRender(), option.size.toMeters())
+    is SolidFont -> RenderStringOptions(option.color.toRender(), option.size.toMeters())
 }
 

@@ -104,11 +104,11 @@ class SvgRenderer(
         return this
     }
 
-    override fun renderText(
+    override fun renderString(
         text: String,
         center: Point2d,
         orientation: Orientation,
-        options: RenderTextOptions,
+        options: RenderStringOptions,
     ): LayerRenderer {
         inlineTag(
             "text",
