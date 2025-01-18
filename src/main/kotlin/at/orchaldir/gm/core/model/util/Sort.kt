@@ -21,3 +21,8 @@ enum class SortCharacter {
     Name,
     Age,
 }
+
+enum class SortText {
+    Name,
+    Age,
+}

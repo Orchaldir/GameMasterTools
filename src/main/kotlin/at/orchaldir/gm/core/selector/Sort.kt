@@ -3,10 +3,8 @@ package at.orchaldir.gm.core.selector
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.util.SortArchitecturalStyle
-import at.orchaldir.gm.core.model.util.SortBuilding
-import at.orchaldir.gm.core.model.util.SortBusiness
-import at.orchaldir.gm.core.model.util.SortCharacter
+import at.orchaldir.gm.core.model.item.text.Text
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 
@@ -89,4 +87,24 @@ fun State.sortCharacters(characters: Collection<Character>, sort: SortCharacter 
         when (sort) {
             SortCharacter.Name -> compareBy { it.second }
             SortCharacter.Age -> getCharacterAgePairComparator()
+        })
+
+// text
+
+fun State.getTextAgeComparator(): Comparator<Text> {
+    val calendar = getDefaultCalendar()
+    return Comparator { a: Text, b: Text -> calendar.compareToOptional(a.date, b.date) }
+}
+
+fun State.sortTexts(sort: SortText = SortText.Name) =
+    sortTexts(getTextStorage().getAll(), sort)
+
+fun State.sortTexts(
+    buildings: Collection<Text>,
+    sort: SortText = SortText.Name,
+) = buildings
+    .sortedWith(
+        when (sort) {
+            SortText.Name -> compareBy { it.name }
+            SortText.Age -> getTextAgeComparator()
         })

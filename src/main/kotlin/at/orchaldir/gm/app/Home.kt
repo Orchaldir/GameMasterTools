@@ -55,7 +55,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getRaceStorage(), RaceRoutes())
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), AppearanceRoutes())
                     h3 { +"Items" }
-                    fieldStorageLink(call, state.getTextStorage(), TextRoutes())
+                    fieldStorageLink(call, state.getTextStorage(), TextRoutes.All())
                     fieldStorageLink(call, state.getItemTemplateStorage(), ItemTemplateRoutes())
                     h3 { +"Economy" }
                     fieldStorageLink(call, state.getBusinessStorage(), BusinessRoutes.All())

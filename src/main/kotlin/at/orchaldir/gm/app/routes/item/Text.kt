@@ -7,13 +7,17 @@ import at.orchaldir.gm.app.html.model.text.editTextFormat
 import at.orchaldir.gm.app.html.model.text.showTextFormat
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.item.parseText
+import at.orchaldir.gm.app.routes.world.ArchitecturalStyleRoutes
 import at.orchaldir.gm.core.action.CreateText
 import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
+import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.Start
+import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
+import at.orchaldir.gm.core.selector.sortTexts
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.visualization.text.visualizeText
@@ -34,6 +38,12 @@ private val logger = KotlinLogging.logger {}
 
 @Resource("/$TEXT_TYPE")
 class TextRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortText = SortText.Name,
+        val parent: TextRoutes = TextRoutes(),
+    )
+
     @Resource("gallery")
     class Gallery(val parent: TextRoutes = TextRoutes())
 
@@ -58,11 +68,11 @@ class TextRoutes {
 
 fun Application.configureTextRouting() {
     routing {
-        get<TextRoutes> {
+        get<TextRoutes.All> { all ->
             logger.info { "Get all texts" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllTexts(call, STORE.getState())
+                showAllTexts(call, STORE.getState(), all.sort)
             }
         }
         get<TextRoutes.Gallery> {
@@ -138,14 +148,22 @@ fun Application.configureTextRouting() {
 private fun HTML.showAllTexts(
     call: ApplicationCall,
     state: State,
+    sort: SortText,
 ) {
-    val texts = state.getTextStorage().getAll().sortedBy { it.name }
+    val texts = state.sortTexts(sort)
     val createLink = call.application.href(TextRoutes.New())
     val galleryLink = call.application.href(TextRoutes.Gallery())
+    val sortNameLink = call.application.href(TextRoutes.All(SortText.Name))
+    val sortAgeLink = call.application.href(TextRoutes.All(SortText.Age))
 
     simpleHtml("Texts") {
         action(galleryLink, "Gallery")
         field("Count", texts.size)
+        field("Sort") {
+            link(sortNameLink, "Name")
+            +" "
+            link(sortAgeLink, "Age")
+        }
 
         table {
             tr {
