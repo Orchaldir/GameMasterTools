@@ -1,7 +1,8 @@
-package at.orchaldir.gm.app.html.model
+package at.orchaldir.gm.app.html.model.text
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*

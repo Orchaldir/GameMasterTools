@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.routes.item
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.text.editTextFormat
+import at.orchaldir.gm.app.html.model.text.showTextFormat
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.item.parseText
 import at.orchaldir.gm.core.action.CreateText
