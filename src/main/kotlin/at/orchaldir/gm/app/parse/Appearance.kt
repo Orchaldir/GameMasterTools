@@ -141,7 +141,7 @@ private fun parseEars(parameters: Parameters, config: AppearanceGeneratorConfig)
 }
 
 private fun parseEyes(parameters: Parameters, config: AppearanceGeneratorConfig): Eyes {
-    return when (parameters[EYES_LAYOUT]) {
+    return when (parameters[combine(EYES, LAYOUT)]) {
         EyesLayout.NoEyes.toString() -> NoEyes
 
         EyesLayout.OneEye.toString() -> {

@@ -1,6 +1,6 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.TITLE
+import at.orchaldir.gm.app.APP_TITLE
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.time.Date
@@ -24,7 +24,7 @@ fun HTML.simpleHtml(
     content: BODY.() -> Unit,
 ) {
     head {
-        title { +TITLE }
+        title { +APP_TITLE }
         link(rel = "stylesheet", href = "/static/style.css", type = "text/css")
         script(src = "/static/scripts.js") {
             charset = "utf-8"

@@ -52,7 +52,7 @@ fun parseNamingConvention(
         Mononym.toString() -> MononymConvention(parseNamesByGender(parameters, NAMES))
 
         Family.toString() -> FamilyConvention(
-            parse(parameters, NAME_ORDER, GivenNameFirst),
+            parse(parameters, combine(NAME, ORDER), GivenNameFirst),
             parseOneOf(parameters, MIDDLE_NAME, MiddleNameOption::valueOf, MiddleNameOption.entries),
             parseNamesByGender(parameters, NAMES),
             parseNameListId(parameters, FAMILY_NAMES)

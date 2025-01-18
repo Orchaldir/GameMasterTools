@@ -261,6 +261,7 @@ private fun FORM.editCover(
         value = material.id.value.toString()
         selected = material.id == cover.material
     }
+    editTypography(cover.typography)
 }
 
 private fun FORM.editBossesPattern(

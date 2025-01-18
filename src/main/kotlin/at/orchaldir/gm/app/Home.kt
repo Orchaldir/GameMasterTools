@@ -29,7 +29,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-const val TITLE = "Orchaldir's Game Master Tools"
+const val APP_TITLE = "Orchaldir's Game Master Tools"
 
 fun Application.configureRouting() {
     routing {
@@ -41,7 +41,7 @@ fun Application.configureRouting() {
             val eventsLink = call.application.href(TimeRoutes.ShowEvents())
 
             call.respondHtml(HttpStatusCode.OK) {
-                simpleHtml(TITLE) {
+                simpleHtml(APP_TITLE) {
                     h2 { +"Elements" }
                     fieldStorageLink(call, state.getCharacterStorage(), CharacterRoutes.All())
                     fieldStorageLink(call, state.getCalendarStorage(), CalendarRoutes())

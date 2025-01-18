@@ -305,7 +305,7 @@ private fun FORM.editEyes(
     eyes: Eyes,
 ) {
     h2 { +"Eyes" }
-    selectOneOf("Layout", EYES_LAYOUT, raceAppearance.eyesLayout, true) { option ->
+    selectOneOf("Layout", combine(EYES, LAYOUT), raceAppearance.eyesLayout, true) { option ->
         label = option.name
         value = option.toString()
         selected = when (option) {
