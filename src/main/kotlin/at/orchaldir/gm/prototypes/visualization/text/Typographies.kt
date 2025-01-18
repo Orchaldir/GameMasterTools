@@ -27,28 +27,8 @@ fun main() {
         createRow(bookSize) { size -> SolidFont(Color.White, size) },
         createRow(bookSize) { size -> FontWithBorder(Color.Gold, Color.Black, size, Distance(2)) },
         listOf(
-            createTypography(
-                bookSize,
-                SimpleStringRenderOption(
-                    Distance(100),
-                    Distance(150),
-                    SolidFont(Color.Black, Distance(80)),
-                    width = Distance(180),
-                ),
-                topAuthor,
-                ResolvedTextData("Long Title"),
-            ),
-            createTypography(
-                bookSize,
-                SimpleStringRenderOption(
-                    Distance(100),
-                    Distance(150),
-                    SolidFont(Color.Black, Distance(80)),
-                    width = Distance(180),
-                ),
-                topAuthor,
-                ResolvedTextData("Very Long Title"),
-            )
+            createWrappedTitle(bookSize, ResolvedTextData("Long Title")),
+            createWrappedTitle(bookSize, ResolvedTextData("Very Long Title"))
         )
     )
 
@@ -94,6 +74,18 @@ private fun createRow(
         bottomAuthor,
         ResolvedTextData("Title"),
     ),
+)
+
+private fun createWrappedTitle(bookSize: Size2i, data: ResolvedTextData) = createTypography(
+    bookSize,
+    WrappedStringRenderOption(
+        Distance(100),
+        Distance(150),
+        SolidFont(Color.Black, Distance(80)),
+        Distance(180),
+    ),
+    topAuthor,
+    data,
 )
 
 private fun createTypography(

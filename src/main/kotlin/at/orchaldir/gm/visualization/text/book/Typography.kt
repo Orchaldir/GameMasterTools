@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.text.book
 
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
@@ -38,17 +39,25 @@ private fun visualizeTextRenderOption(
     when (option) {
         is SimpleStringRenderOption -> {
             val textOptions = convert(option.fontOption)
-            val center = state.aabb.start + Point2d(option.x, option.y)
+            val center = calculateCenter(state, option.x, option.y)
 
-            if (option.width == null) {
-                renderer
-                    .renderString(text, center, option.orientation, textOptions)
-            } else {
-                renderWrappedString(renderer, text, center, option.width, textOptions)
-            }
+            renderer.renderString(text, center, option.orientation, textOptions)
+        }
+
+        is WrappedStringRenderOption -> {
+            val textOptions = convert(option.fontOption)
+            val center = calculateCenter(state, option.x, option.y)
+
+            renderWrappedString(renderer, text, center, option.width, textOptions)
         }
     }
 }
+
+private fun calculateCenter(
+    state: TextRenderState,
+    x: Distance,
+    y: Distance,
+) = state.aabb.start + Point2d(x, y)
 
 private fun convert(option: FontOption) = when (option) {
     is FontWithBorder -> RenderStringOptions(

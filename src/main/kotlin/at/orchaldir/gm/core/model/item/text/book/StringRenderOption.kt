@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 
 enum class StringRenderOptionType {
     Simple,
+    Wrapped,
 }
 
 @Serializable
@@ -14,6 +15,7 @@ sealed class StringRenderOption {
 
     fun getType() = when (this) {
         is SimpleStringRenderOption -> StringRenderOptionType.Simple
+        is WrappedStringRenderOption -> StringRenderOptionType.Wrapped
     }
 }
 
@@ -24,5 +26,13 @@ data class SimpleStringRenderOption(
     val y: Distance,
     val fontOption: FontOption,
     val orientation: Orientation = Orientation.zero(),
-    val width: Distance? = null,
+) : StringRenderOption()
+
+@Serializable
+@SerialName("Wrapped")
+data class WrappedStringRenderOption(
+    val x: Distance,
+    val y: Distance,
+    val fontOption: FontOption,
+    val width: Distance,
 ) : StringRenderOption()
