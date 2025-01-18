@@ -17,10 +17,9 @@ fun renderWrappedText(
     val lines = mutableListOf<String>()
     val maxWidth = width.toMeters()
     var line = ""
-    var wordsPerLine = 0
 
     for (word in split) {
-        val newLine = if (wordsPerLine == 0) {
+        val newLine = if (line.isEmpty()) {
             word
         } else {
             "$line $word"
@@ -29,16 +28,14 @@ fun renderWrappedText(
         val length = calculateLength(newLine, options)
 
         if (length > maxWidth) {
-            if (wordsPerLine == 0) {
+            if (line.isEmpty()) {
                 lines.add(word)
             } else {
                 lines.add(line)
                 line = word
-                wordsPerLine = 1
             }
         } else {
             line = newLine
-            wordsPerLine++
         }
     }
 
