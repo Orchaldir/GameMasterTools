@@ -12,6 +12,7 @@ import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.VerticalAlignment
 import at.orchaldir.gm.utils.renderer.renderWrappedString
+import at.orchaldir.gm.utils.renderer.renderWrappedStrings
 import at.orchaldir.gm.utils.renderer.wrapString
 import at.orchaldir.gm.visualization.text.TextRenderState
 
@@ -73,11 +74,32 @@ private fun visualizeSimpleTypography(
     simple: SimpleTypography,
 ) {
     when (simple.layout) {
-        TypographyLayout.Top -> doNothing()
+        TypographyLayout.Top -> visualizeSimpleTypography(state, simple, VerticalAlignment.Top)
         TypographyLayout.TopAndBottom -> visualizeTopAndBottomLayout(state, simple)
         TypographyLayout.Center -> visualizeCenterLayout(state, simple)
-        TypographyLayout.Bottom -> doNothing()
+        TypographyLayout.Bottom -> visualizeSimpleTypography(state, simple, VerticalAlignment.Bottom)
     }
+}
+
+private fun visualizeSimpleTypography(
+    state: TextRenderState,
+    simple: SimpleTypography,
+    alignment: VerticalAlignment,
+) {
+    val width = state.aabb.convertWidth(Factor(0.8f))
+    val authorEntry = Pair(state.data.getAuthorOrUnknown(), convert(simple.author, alignment))
+    val titleEntry = Pair(state.data.title, convert(simple.title, alignment))
+    val entries = when (simple.order) {
+        TypographyOrder.AuthorFirst -> listOf(authorEntry, titleEntry)
+        TypographyOrder.TitleFirst -> listOf(titleEntry, authorEntry)
+    }
+    val position = when (alignment) {
+        VerticalAlignment.Top -> state.aabb.getPoint(HALF, Factor(0.1f))
+        VerticalAlignment.Center -> state.aabb.getCenter()
+        VerticalAlignment.Bottom -> state.aabb.getPoint(HALF, Factor(0.9f))
+    }
+
+    renderWrappedStrings(state.renderer.getLayer(), entries, position, width, alignment)
 }
 
 private fun visualizeTopAndBottomLayout(

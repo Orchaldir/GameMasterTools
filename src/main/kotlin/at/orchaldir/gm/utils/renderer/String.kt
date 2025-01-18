@@ -6,17 +6,49 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.model.VerticalAlignment
 
+fun renderWrappedStrings(
+    renderer: LayerRenderer,
+    entries: List<Pair<String, RenderStringOptions>>,
+    position: Point2d,
+    width: Distance,
+    alignment: VerticalAlignment,
+) {
+    val orderedEntries = when (alignment) {
+        VerticalAlignment.Top, VerticalAlignment.Center -> entries
+        VerticalAlignment.Bottom -> entries.reversed()
+    }
+    val direction = when (alignment) {
+        VerticalAlignment.Top, VerticalAlignment.Center -> 1.0f
+        VerticalAlignment.Bottom -> -1.0f
+    }
+    val linesEntries = orderedEntries.map { Pair(wrapString(it.first, width, it.second.size), it.second) }
+    var currentPosition = when (alignment) {
+        VerticalAlignment.Top, VerticalAlignment.Bottom -> position
+        VerticalAlignment.Center -> {
+            val totalSize = linesEntries.fold(0.0f) { value, entry ->
+                value + entry.first.size * entry.second.size
+            }
+            position - Point2d(0.0f, totalSize / 2)
+        }
+    }
+
+    for ((lines, options) in linesEntries) {
+        renderWrappedString(renderer, lines, currentPosition, options)
+
+        currentPosition += Point2d(0.0f, lines.size * options.size * direction)
+    }
+}
 
 fun renderWrappedString(
     renderer: LayerRenderer,
     string: String,
-    center: Point2d,
+    position: Point2d,
     width: Distance,
     options: RenderStringOptions,
 ) {
     val lines = wrapString(string, width, options.size)
 
-    renderWrappedString(renderer, lines, center, options)
+    renderWrappedString(renderer, lines, position, options)
 }
 
 fun renderWrappedString(
