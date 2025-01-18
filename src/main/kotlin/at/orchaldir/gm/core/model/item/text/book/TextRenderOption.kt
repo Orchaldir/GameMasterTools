@@ -24,4 +24,5 @@ data class SimpleTextRenderOption(
     val y: Distance,
     val fontOption: FontOption,
     val orientation: Orientation = Orientation.zero(),
+    val width: Distance? = null,
 ) : TextRenderOption()

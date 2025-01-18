@@ -6,6 +6,7 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RenderTextOptions
+import at.orchaldir.gm.utils.renderer.renderWrappedText
 import at.orchaldir.gm.visualization.text.TextRenderState
 
 fun visualizeTypography(
@@ -32,13 +33,19 @@ private fun visualizeTextRenderOption(
     option: TextRenderOption,
     text: String,
 ) {
+    val renderer = state.renderer.getLayer()
+
     when (option) {
         is SimpleTextRenderOption -> {
             val textOptions = convert(option.fontOption)
             val center = state.aabb.start + Point2d(option.x, option.y)
 
-            state.renderer.getLayer()
-                .renderText(text, center, option.orientation, textOptions)
+            if (option.width == null) {
+                renderer
+                    .renderText(text, center, option.orientation, textOptions)
+            } else {
+                renderWrappedText(renderer, text, center, option.width, textOptions)
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ import at.orchaldir.gm.visualization.text.LeatherBindingConfig
 import at.orchaldir.gm.visualization.text.TextRenderConfig
 
 val TEXT_CONFIG = TextRenderConfig(
-    Distance(100),
+    Distance(50),
     LineOptions(Color.Black.toRender(), Distance(1)),
     mapOf(
         LeatherBindingType.ThreeQuarter to LeatherBindingConfig(Factor(0.4f), Factor(0.4f)),
