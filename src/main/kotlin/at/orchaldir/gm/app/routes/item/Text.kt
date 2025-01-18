@@ -205,7 +205,7 @@ private fun HTML.showGallery(
         .sortedBy { it.name }
     val maxSize = Size2d.square(texts.maxOf { it.format.getTextSize().height })
     val size = TEXT_CONFIG.addPadding(maxSize)
-    val backLink = call.application.href(TextRoutes())
+    val backLink = call.application.href(TextRoutes.All())
 
     simpleHtml("Texts") {
 
@@ -239,7 +239,7 @@ private fun HTML.showTextDetails(
     state: State,
     text: Text,
 ) {
-    val backLink = call.application.href(TextRoutes())
+    val backLink = call.application.href(TextRoutes.All())
     val deleteLink = call.application.href(TextRoutes.Delete(text.id))
     val editLink = call.application.href(TextRoutes.Edit(text.id))
     val svg = visualizeText(state, TEXT_CONFIG, text)
