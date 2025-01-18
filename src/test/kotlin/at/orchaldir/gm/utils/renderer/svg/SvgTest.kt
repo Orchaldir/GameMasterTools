@@ -126,7 +126,7 @@ class SvgTest {
 
         assertEquals(
             """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
-  <text x="1.000" y="2.000" transform="rotate(0.000,1.000,2.000)" fill="blue" font-size="0.300px" text-anchor="middle">test</text>
+  <text x="1.000" y="2.000" alignment-baseline="middle" transform="rotate(0.000,1.000,2.000)" style="fill:blue;font-size:0.300px" text-anchor="middle">test</text>
 </svg>""",
             builder.finish().export()
         )
