@@ -9,6 +9,18 @@ import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Size2i
 import at.orchaldir.gm.visualization.text.ResolvedTextData
 
+private val topAuthor = SimpleTextRenderOption(
+    Distance(100),
+    Distance(50),
+    SolidFont(Color.Aqua, Distance(20)),
+)
+
+private val bottomAuthor = SimpleTextRenderOption(
+    Distance(100),
+    Distance(250),
+    SolidFont(Color.Red, Distance(20)),
+)
+
 fun main() {
     val bookSize = Size2i(200, 300)
     val texts = listOf(
@@ -34,7 +46,8 @@ private fun createRow(
             Distance(150),
             createFont(Distance(80)),
         ),
-        ResolvedTextData("Title"),
+        topAuthor,
+        ResolvedTextData("Title", "Max Musterman"),
     ),
     createTypography(
         bookSize,
@@ -43,30 +56,33 @@ private fun createRow(
             Distance(60),
             createFont(Distance(40)),
         ),
-        ResolvedTextData("Long Title"),
+        bottomAuthor,
+        ResolvedTextData("Long Title", "Max Musterman"),
     ),
     createTypography(
         bookSize,
         SimpleTextRenderOption(
             Distance(100),
-            Distance(100),
+            Distance(150),
             createFont(Distance(80)),
             Orientation.fromDegree(20.0f)
         ),
+        bottomAuthor,
         ResolvedTextData("Title"),
     ),
 )
 
 private fun createTypography(
     size: Size2i,
-    option: TextRenderOption,
+    titleOption: TextRenderOption,
+    authorOption: TextRenderOption,
     data: ResolvedTextData,
 ): Pair<TextFormat, ResolvedTextData> = Pair(
     Book(
     100,
     Hardcover(
         BookCover(
-            typography = AdvancedTypography(option)
+            typography = AdvancedTypography(titleOption, authorOption)
         )
     ),
     size,

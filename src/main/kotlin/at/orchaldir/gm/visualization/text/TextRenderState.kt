@@ -5,6 +5,7 @@ import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 
 data class ResolvedTextData(
     val title: String = "Title",
+    val author: String? = null,
 )
 
 data class TextRenderState(

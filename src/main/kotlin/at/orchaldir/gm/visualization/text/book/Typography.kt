@@ -22,12 +22,15 @@ private fun visualizeSimpleTypography(
     state: TextRenderState,
     simple: AdvancedTypography,
 ) {
-    visualizeTextRenderOption(state, simple.title)
+    visualizeTextRenderOption(state, simple.title, state.data.title)
+
+    state.data.author?.let { visualizeTextRenderOption(state, simple.author, it) }
 }
 
 private fun visualizeTextRenderOption(
     state: TextRenderState,
     option: TextRenderOption,
+    text: String,
 ) {
     when (option) {
         is SimpleTextRenderOption -> {
@@ -35,7 +38,7 @@ private fun visualizeTextRenderOption(
             val center = state.aabb.start + Point2d(option.x, option.y)
 
             state.renderer.getLayer()
-                .renderText(state.data.title, center, option.orientation, textOptions)
+                .renderText(text, center, option.orientation, textOptions)
         }
     }
 }

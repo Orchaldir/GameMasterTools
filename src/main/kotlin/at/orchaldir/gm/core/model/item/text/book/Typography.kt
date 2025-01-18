@@ -25,5 +25,6 @@ data object NoTypography : Typography()
 @SerialName("Advanced")
 data class AdvancedTypography(
     val title: TextRenderOption,
+    val author: TextRenderOption,
 ) : Typography()
 
