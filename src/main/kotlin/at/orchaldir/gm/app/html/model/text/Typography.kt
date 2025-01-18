@@ -64,7 +64,7 @@ fun HtmlBlockTag.editStringRenderOption(
     param: String,
 ) {
     selectValue(
-        "$text String Option Type",
+        "$text Option",
         combine(param, TYPE),
         StringRenderOptionType.entries,
         option.getType(),
@@ -92,7 +92,7 @@ private fun HtmlBlockTag.editStringSharedOptions(
 ) {
     selectDistance("$text X", combine(param, X), x, ZERO_MM, THOUSAND_MM, update = true)
     selectDistance("$text Y", combine(param, Y), y, ZERO_MM, THOUSAND_MM, update = true)
-    editFontOption(fontOption, "$text Font", combine(param, FONT))
+    editFontOption(fontOption, text, combine(param, FONT))
 }
 
 fun HtmlBlockTag.editFontOption(
@@ -100,7 +100,7 @@ fun HtmlBlockTag.editFontOption(
     text: String,
     param: String,
 ) {
-    selectValue("$text Font Option Type", combine(param, FONT), FontOptionType.entries, option.getType(), true)
+    selectValue("$text Font Option", combine(param, FONT), FontOptionType.entries, option.getType(), true)
 
     when (option) {
         is SolidFont -> {
