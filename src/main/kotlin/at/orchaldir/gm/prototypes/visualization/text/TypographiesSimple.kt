@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Size2i
+import at.orchaldir.gm.visualization.text.ResolvedTextData
 
 fun main() {
     val size = Size2i(125, 190)
@@ -19,14 +20,15 @@ fun main() {
         size.toSize2d() + Distance(50),
         addNames(TypographyLayout.entries),
         addNames(TypographyOrder.entries),
+        ResolvedTextData("The Shadow over Innsmouth", "H. P. Lovecraft")
     ) { layout, order ->
         Book(
             100,
             Hardcover(
                 BookCover(
                     typography = SimpleTypography(
-                        SolidFont(Color.White, Distance(20)),
-                        SolidFont(Color.White, Distance(40)),
+                        SolidFont(Color.White, Distance(10)),
+                        SolidFont(Color.White, Distance(15)),
                         order,
                         layout,
                     )

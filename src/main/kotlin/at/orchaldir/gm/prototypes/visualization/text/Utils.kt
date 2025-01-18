@@ -42,11 +42,12 @@ fun <C, R> renderTextTable(
     size: Size2d,
     columns: List<Pair<String, C>>,
     rows: List<Pair<String, R>>,
+    data: ResolvedTextData = ResolvedTextData(),
     create: (C, R) -> TextFormat,
 ) {
     renderTable(filename, size, rows, columns, false) { aabb, renderer, _, column, row ->
         val format = create(column, row)
-        val state = TextRenderState(aabb, config, renderer)
+        val state = TextRenderState(aabb, config, renderer, data)
 
         visualizeTextFormat(state, format)
     }
