@@ -2,9 +2,8 @@ package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.*
-import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTypography
+import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTitleTypography
 import at.orchaldir.gm.core.model.item.text.book.typography.TypographyLayout
-import at.orchaldir.gm.core.model.item.text.book.typography.TypographyOrder
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Distance
@@ -15,21 +14,24 @@ fun main() {
     val size = Size2i(125, 190)
 
     renderTextTable(
-        "book-typographies-simple.svg",
+        "book-typographies-title.svg",
         TEXT_CONFIG,
         size.toSize2d() + Distance(50),
         addNames(TypographyLayout.entries),
-        addNames(TypographyOrder.entries),
-        ResolvedTextData("The Shadow over Innsmouth", "H. P. Lovecraft"),
-    ) { layout, order ->
+        listOf(
+            Pair("Small", Distance(10)),
+            Pair("Medium", Distance(15)),
+            Pair("Large", Distance(20)),
+        ),
+        ResolvedTextData("The Colour Out of Space"),
+    ) { layout, fontSize ->
         Book(
             100,
             Hardcover(
                 BookCover(
-                    typography = SimpleTypography(
-                        SolidFont(Color.White, Distance(10)),
-                        SolidFont(Color.White, Distance(15)),
-                        order,
+                    Color.Black,
+                    typography = SimpleTitleTypography(
+                        SolidFont(Color.Red, fontSize),
                         layout,
                     )
                 )

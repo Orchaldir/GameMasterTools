@@ -19,8 +19,20 @@ fun visualizeTypography(
 ) {
     when (typography) {
         NoTypography -> doNothing()
+        is SimpleTitleTypography -> visualizeSimpleTypography(state, typography)
         is SimpleTypography -> visualizeSimpleTypography(state, typography)
         is AdvancedTypography -> visualizeAdvancedTypography(state, typography)
+    }
+}
+
+private fun visualizeSimpleTypography(
+    state: TextRenderState,
+    simple: SimpleTitleTypography,
+) {
+    when (simple.layout) {
+        TypographyLayout.Top -> doNothing()
+        TypographyLayout.TopAndBottom -> doNothing()
+        TypographyLayout.Center -> visualizeCenterLayout(state, simple)
     }
 }
 
@@ -37,31 +49,35 @@ private fun visualizeSimpleTypography(
 
 private fun visualizeCenterLayout(
     state: TextRenderState,
-    simple: SimpleTypography,
+    simple: SimpleTitleTypography,
 ) {
     val width = state.aabb.convertWidth(Factor(0.8f))
     val center = state.aabb.getCenter()
 
-    if (state.data.author == null) {
-        renderString(state, state.data.title, center, width, simple.title)
-    } else {
-        val direction = when (simple.order) {
-            TypographyOrder.AuthorFirst -> 1
-            TypographyOrder.TitleFirst -> -1
-        }
+    renderString(state, state.data.title, center, width, simple.font)
+}
 
-        val authorLines = wrapString(state.data.author, width, simple.author.getFontSize().toMeters())
-        val titleLines = wrapString(state.data.title, width, simple.title.getFontSize().toMeters())
-
-        val authorCenter =
-            center - Point2d(0.0f, simple.author.getFontSize().toMeters()) * direction * authorLines.size / 1.5f
-        val titleCenter =
-            center + Point2d(0.0f, simple.title.getFontSize().toMeters()) * direction * titleLines.size / 1.5f
-
-        renderString(state, authorLines, authorCenter, simple.author)
-        renderString(state, titleLines, titleCenter, simple.title)
+private fun visualizeCenterLayout(
+    state: TextRenderState,
+    simple: SimpleTypography,
+) {
+    val width = state.aabb.convertWidth(Factor(0.8f))
+    val center = state.aabb.getCenter()
+    val direction = when (simple.order) {
+        TypographyOrder.AuthorFirst -> 1
+        TypographyOrder.TitleFirst -> -1
     }
 
+    val authorLines = wrapString(state.data.author ?: "Unknown", width, simple.author.getFontSize().toMeters())
+    val titleLines = wrapString(state.data.title, width, simple.title.getFontSize().toMeters())
+
+    val authorCenter =
+        center - Point2d(0.0f, simple.author.getFontSize().toMeters()) * direction * authorLines.size / 1.5f
+    val titleCenter =
+        center + Point2d(0.0f, simple.title.getFontSize().toMeters()) * direction * titleLines.size / 1.5f
+
+    renderString(state, authorLines, authorCenter, simple.author)
+    renderString(state, titleLines, titleCenter, simple.title)
 }
 
 private fun renderString(
