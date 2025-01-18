@@ -12,11 +12,11 @@ import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.selector.getBuildingAgeComparator
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.core.selector.getBuildingAgeComparator
 
 fun State.canDelete(building: Building) = building.ownership.current.canDelete()
         && getCharactersLivingIn(building.id).isEmpty()

@@ -7,13 +7,11 @@ import at.orchaldir.gm.app.html.model.text.editTextFormat
 import at.orchaldir.gm.app.html.model.text.showTextFormat
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.item.parseText
-import at.orchaldir.gm.app.routes.world.ArchitecturalStyleRoutes
 import at.orchaldir.gm.core.action.CreateText
 import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
-import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.Start
 import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.item.getTranslationsOf

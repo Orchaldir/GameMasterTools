@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.OwnedByTown
-import at.orchaldir.gm.core.model.util.SortBusiness
 import at.orchaldir.gm.core.model.util.contains
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getDefaultCalendar

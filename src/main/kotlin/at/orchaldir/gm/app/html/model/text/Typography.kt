@@ -7,11 +7,13 @@ import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.model.item.text.book.*
+import at.orchaldir.gm.core.model.item.text.book.FontOption
+import at.orchaldir.gm.core.model.item.text.book.FontOptionType
+import at.orchaldir.gm.core.model.item.text.book.FontWithBorder
+import at.orchaldir.gm.core.model.item.text.book.SolidFont
 import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
-
 import at.orchaldir.gm.utils.math.Distance
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
