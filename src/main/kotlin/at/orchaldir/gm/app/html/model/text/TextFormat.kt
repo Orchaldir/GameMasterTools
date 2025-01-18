@@ -140,7 +140,7 @@ private fun HtmlBlockTag.showSewingPattern(pattern: SewingPattern) {
         is SimpleSewingPattern -> {
             field("Sewing Color", pattern.color)
             field("Sewing Size", pattern.size)
-            field("Sewing Length", pattern.length)
+            field("Distance Between Edge & Hole", pattern.length)
             showList("Stitches", pattern.stitches) { stitch ->
                 +stitch.name
             }
@@ -150,7 +150,7 @@ private fun HtmlBlockTag.showSewingPattern(pattern: SewingPattern) {
             showList(pattern.stitches) { complex ->
                 field("Color", complex.color)
                 field("Size", complex.size)
-                field("Length", complex.length)
+                field("Distance Between Edge & Hole", complex.length)
                 field("Stitch", complex.stitch)
             }
         }
@@ -347,38 +347,46 @@ private fun HtmlBlockTag.editEdgeProtection(
 }
 
 private fun HtmlBlockTag.editSewingPattern(pattern: SewingPattern) {
-    selectValue("Sewing Pattern", SEWING, SewingPatternType.entries, pattern.getType(), true)
+    showDetails("Sewing Pattern", true) {
+        selectValue("Type", SEWING, SewingPatternType.entries, pattern.getType(), true)
 
-    when (pattern) {
-        is SimpleSewingPattern -> {
-            selectColor("Sewing Color", combine(SEWING, COLOR), Color.entries, pattern.color)
-            selectValue("Sewing Size", combine(SEWING, SIZE), Size.entries, pattern.size, true)
-            selectValue("Sewing Length", combine(SEWING, LENGTH), Size.entries, pattern.length, true)
-            editSewingPatternSize(pattern.stitches.size)
+        when (pattern) {
+            is SimpleSewingPattern -> {
+                selectColor("Color", combine(SEWING, COLOR), Color.entries, pattern.color)
+                selectValue("Size", combine(SEWING, SIZE), Size.entries, pattern.size, true)
+                selectValue("Distance Between Edge & Hole", combine(SEWING, LENGTH), Size.entries, pattern.length, true)
+                editSewingPatternSize(pattern.stitches.size)
 
-            showListWithIndex(pattern.stitches) { index, stitch ->
-                val stitchParam = combine(SEWING, index)
-                selectValue("Stitch", stitchParam, StitchType.entries, stitch, true)
+                showListWithIndex(pattern.stitches) { index, stitch ->
+                    val stitchParam = combine(SEWING, index)
+                    selectValue("Stitch", stitchParam, StitchType.entries, stitch, true)
+                }
             }
-        }
 
-        is ComplexSewingPattern -> {
-            editSewingPatternSize(pattern.stitches.size)
+            is ComplexSewingPattern -> {
+                editSewingPatternSize(pattern.stitches.size)
 
-            showListWithIndex(pattern.stitches) { index, complex ->
-                val stitchParam = combine(SEWING, index)
+                showListWithIndex(pattern.stitches) { index, complex ->
+                    val stitchParam = combine(SEWING, index)
 
-                selectColor("Color", combine(stitchParam, COLOR), Color.entries, complex.color)
-                selectValue("Size", combine(stitchParam, SIZE), Size.entries, complex.size, true)
-                selectValue("Length", combine(stitchParam, LENGTH), Size.entries, complex.length, true)
-                selectValue("Stitch", stitchParam, StitchType.entries, complex.stitch, true)
+                    selectColor("Color", combine(stitchParam, COLOR), Color.entries, complex.color)
+                    selectValue("Size", combine(stitchParam, SIZE), Size.entries, complex.size, true)
+                    selectValue(
+                        "Distance Between Edge & Hole",
+                        combine(stitchParam, LENGTH),
+                        Size.entries,
+                        complex.length,
+                        true
+                    )
+                    selectValue("Stitch", stitchParam, StitchType.entries, complex.stitch, true)
+                }
             }
         }
     }
 }
 
 private fun HtmlBlockTag.editSewingPatternSize(size: Int) {
-    selectInt("Sewing Pattern Size", size, MIN_STITCHES, 20, 1, combine(SEWING, NUMBER), true)
+    selectInt("Pattern Size", size, MIN_STITCHES, 20, 1, combine(SEWING, NUMBER), true)
 }
 
 private fun HtmlBlockTag.editScrollFormat(
