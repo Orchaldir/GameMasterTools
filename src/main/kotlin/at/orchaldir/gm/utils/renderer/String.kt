@@ -28,14 +28,22 @@ fun renderWrappedText(
 
         val length = calculateLength(newLine, options)
 
-        if (length > maxWidth && wordsPerLine > 0) {
-            lines.add(line)
-            line = word
-            wordsPerLine = 0
+        if (length > maxWidth) {
+            if (wordsPerLine == 0) {
+                lines.add(word)
+            } else {
+                lines.add(line)
+                line = word
+                wordsPerLine = 1
+            }
         } else {
             line = newLine
             wordsPerLine++
         }
+    }
+
+    if (line.isNotEmpty()) {
+        lines.add(line)
     }
 
     val yOffset = (lines.size - 1) / 2.0f

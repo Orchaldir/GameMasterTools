@@ -37,6 +37,17 @@ fun main() {
                 ),
                 topAuthor,
                 ResolvedTextData("Long Title"),
+            ),
+            createTypography(
+                bookSize,
+                SimpleTextRenderOption(
+                    Distance(100),
+                    Distance(150),
+                    SolidFont(Color.Black, Distance(80)),
+                    width = Distance(180),
+                ),
+                topAuthor,
+                ResolvedTextData("Very Long Title"),
             )
         )
     )
