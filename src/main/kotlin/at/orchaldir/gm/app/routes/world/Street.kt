@@ -11,10 +11,10 @@ import at.orchaldir.gm.core.action.UpdateStreet
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.selector.sortBuildings
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.core.selector.world.getTowns
-import at.orchaldir.gm.core.selector.world.sort
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -138,7 +138,7 @@ private fun HTML.showStreetDetails(
     simpleHtml("Street: ${street.name(state)}") {
         fieldReferenceByName(call, state, street.name)
         showList("Towns", state.getTowns(street.id)) { town ->
-            val buildings = state.sort(
+            val buildings = state.sortBuildings(
                 state.getBuildings(town.id)
                     .filter { it.address.contains(street.id) })
 

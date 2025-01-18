@@ -265,31 +265,3 @@ private fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int, he
 
     return updatedAppearance
 }
-
-// sort
-
-enum class SortCharacter {
-    Name,
-    Age,
-}
-
-fun State.getAgeComparator(): Comparator<Character> {
-    val calendar = getDefaultCalendar()
-    return Comparator { a: Character, b: Character -> calendar.compareTo(a.birthDate, b.birthDate) }
-}
-
-fun State.getAgeComparatorForPair(): Comparator<Pair<Character, String>> {
-    val comparator = getAgeComparator()
-    return Comparator { a: Pair<Character, String>, b: Pair<Character, String> -> comparator.compare(a.first, b.first) }
-}
-
-fun State.sortCharacters(sort: SortCharacter = SortCharacter.Name) =
-    sortCharacters(getCharacterStorage().getAll(), sort)
-
-fun State.sortCharacters(characters: Collection<Character>, sort: SortCharacter = SortCharacter.Name) = characters
-    .map { Pair(it, it.name(this)) }
-    .sortedWith(
-        when (sort) {
-            SortCharacter.Name -> compareBy { it.second }
-            SortCharacter.Age -> getAgeComparatorForPair()
-        })

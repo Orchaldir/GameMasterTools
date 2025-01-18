@@ -48,6 +48,13 @@ fun HtmlBlockTag.showDate(call: ApplicationCall, state: State, date: Date) {
     link(call, state.getDefaultCalendar(), date)
 }
 
+fun displayDate(state: State, date: Date): String {
+    val calendar = state.getDefaultCalendar()
+    val calendarDate = calendar.resolve(date)
+
+    return calendar.display(calendarDate)
+}
+
 // select
 
 fun HtmlBlockTag.selectOptionalDate(

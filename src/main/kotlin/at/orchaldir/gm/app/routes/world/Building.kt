@@ -9,8 +9,10 @@ import at.orchaldir.gm.app.parse.world.parseUpdateBuilding
 import at.orchaldir.gm.core.action.DeleteBuilding
 import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.SortBuilding
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
+import at.orchaldir.gm.core.selector.sortBuildings
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -179,7 +181,7 @@ private fun HTML.showAllBuildings(
     val buildings = STORE.getState()
         .getBuildingStorage()
         .getAll()
-    val buildingsWithNames = state.sort(buildings, sort)
+    val buildingsWithNames = state.sortBuildings(buildings, sort)
     val sortNameLink = call.application.href(BuildingRoutes.All())
     val sortConstructionLink = call.application.href(BuildingRoutes.All(SortBuilding.Construction))
 

@@ -1,10 +1,15 @@
 package at.orchaldir.gm.core.selector.item
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.text.OriginalText
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
+import at.orchaldir.gm.core.model.item.text.TranslatedText
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.util.CreatedByBusiness
+import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteText(text: TextId) = getTranslationsOf(text).isEmpty()
@@ -28,6 +33,33 @@ fun countEachLanguage(texts: Collection<Text>) = texts
 fun countEachTextOrigin(texts: Collection<Text>) = texts
     .groupingBy { it.origin.getType() }
     .eachCount()
+
+fun State.getAuthorName(id: TextId): String? {
+    val original = getOriginal(id)
+
+    return getAuthorName(original)
+}
+
+fun State.getAuthorName(text: Text) = when (val origin = getOriginal(text).origin) {
+    is OriginalText -> when (origin.author) {
+        is CreatedByBusiness -> getElementName(origin.author.business)
+        is CreatedByCharacter -> getElementName(origin.author.character)
+        UndefinedCreator -> null
+    }
+
+    else -> error("The original text must be an original text!")
+}
+
+fun State.getOriginal(id: TextId): Text {
+    val text = getTextStorage().getOrThrow(id)
+
+    return getOriginal(text)
+}
+
+fun State.getOriginal(text: Text) = when (text.origin) {
+    is OriginalText -> text
+    is TranslatedText -> getOriginal(text.origin.text)
+}
 
 fun State.getTexts(language: LanguageId) = getTextStorage()
     .getAll()

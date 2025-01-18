@@ -15,7 +15,7 @@ import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
-import at.orchaldir.gm.utils.renderer.model.TextOptions
+import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
@@ -70,9 +70,9 @@ fun visualizeAppearance(
 
         UndefinedAppearance -> {
             val height = state.config.padding.toMeters() * 1.5f
-            val options = TextOptions(Black.toRender(), 2.0f * height)
+            val options = RenderStringOptions(Black.toRender(), 2.0f * height)
             val center = state.aabb.getCenter() + Point2d(0.0f, height * 0.5f)
-            state.renderer.getLayer().renderText("?", center, Orientation.zero(), options)
+            state.renderer.getLayer().renderString("?", center, Orientation.zero(), options)
         }
 
     }

@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.selector.getBuildingAgeComparator
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.getDefaultCalendar
@@ -39,7 +40,7 @@ fun State.getMinNumberOfApartment(building: BuildingId) =
         .maxOrNull() ?: 1) + 1
 
 fun State.getEarliestBuilding(buildings: List<Building>) =
-    buildings.minWithOrNull(getConstructionComparator())
+    buildings.minWithOrNull(getBuildingAgeComparator())
 
 fun State.getApartmentHouses() = getBuildingStorage()
     .getAll()
@@ -77,31 +78,3 @@ fun State.getOwnedBuildings(town: TownId) = getBuildingStorage().getAll()
 
 fun State.getPreviouslyOwnedBuildings(town: TownId) = getBuildingStorage().getAll()
     .filter { it.ownership.contains(town) }
-
-// sort
-
-enum class SortBuilding {
-    Name,
-    Construction,
-}
-
-fun State.getConstructionComparator(): Comparator<Building> {
-    val calendar = getDefaultCalendar()
-    return Comparator { a: Building, b: Building -> calendar.compareToOptional(a.constructionDate, b.constructionDate) }
-}
-
-fun State.getConstructionComparatorForPair(): Comparator<Pair<Building, String>> {
-    val comparator = getConstructionComparator()
-    return Comparator { a: Pair<Building, String>, b: Pair<Building, String> -> comparator.compare(a.first, b.first) }
-}
-
-fun State.sortBuildings(sort: SortBuilding = SortBuilding.Name) = sort(getBuildingStorage().getAll(), sort)
-
-fun State.sort(buildings: Collection<Building>, sort: SortBuilding = SortBuilding.Name) = buildings
-    .map { Pair(it, it.name(this)) }
-    .sortedWith(
-        when (sort) {
-            SortBuilding.Name -> compareBy { it.second }
-            SortBuilding.Construction -> getConstructionComparatorForPair()
-        })
-

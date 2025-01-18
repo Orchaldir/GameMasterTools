@@ -6,7 +6,7 @@ import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
-import at.orchaldir.gm.utils.renderer.model.TextOptions
+import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.character.appearance.TEXT_LAYER
 import java.io.File
@@ -60,7 +60,7 @@ fun <C, R> renderTable(
     val rowStep = Point2d(0.0f, size.height)
     var startOfRow = Point2d()
     val textSize = size.width / 10.0f
-    val textOptions = TextOptions(Color.Black.toRender(), textSize)
+    val textOptions = RenderStringOptions(Color.Black.toRender(), textSize)
     val columnTextOffset = Point2d(size.width / 2.0f, textSize)
     val columnOrientation = Orientation.zero()
     val rowOrientation = Orientation.fromDegree(270.0f)
@@ -82,16 +82,16 @@ fun <C, R> renderTable(
             }
 
             val textCenter = start + columnTextOffset
-            layer.renderText(columnName, textCenter, columnOrientation, textOptions)
+            layer.renderString(columnName, textCenter, columnOrientation, textOptions)
 
             start += columnStep
         }
 
         val textCenter = Point2d(textSize, start.y + size.height / 2.0f)
-        layer.renderText(rowName, textCenter, rowOrientation, textOptions)
+        layer.renderString(rowName, textCenter, rowOrientation, textOptions)
 
         if (backToo) {
-            layer.renderText("Back", textCenter + rowStep, rowOrientation, textOptions)
+            layer.renderString("Back", textCenter + rowStep, rowOrientation, textOptions)
         }
 
         startOfRow += rowStep * rowSize

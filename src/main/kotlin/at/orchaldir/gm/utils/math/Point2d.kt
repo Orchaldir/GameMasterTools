@@ -31,5 +31,6 @@ data class Point2d(val x: Float = 0.0f, val y: Float = 0.0f) {
     operator fun minus(size: Size2d) = Point2d(x - size.width, y - size.height)
 
     operator fun times(factor: Int) = Point2d(x * factor, y * factor)
+    operator fun times(factor: Float) = Point2d(x * factor, y * factor)
     operator fun div(factor: Float) = Point2d(x / factor, y / factor)
 }

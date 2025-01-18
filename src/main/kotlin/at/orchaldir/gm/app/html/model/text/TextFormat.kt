@@ -1,7 +1,8 @@
-package at.orchaldir.gm.app.html.model
+package at.orchaldir.gm.app.html.model.text
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
@@ -139,7 +140,7 @@ private fun HtmlBlockTag.showSewingPattern(pattern: SewingPattern) {
         is SimpleSewingPattern -> {
             field("Sewing Color", pattern.color)
             field("Sewing Size", pattern.size)
-            field("Sewing Length", pattern.length)
+            field("Distance Between Edge & Hole", pattern.length)
             showList("Stitches", pattern.stitches) { stitch ->
                 +stitch.name
             }
@@ -149,7 +150,7 @@ private fun HtmlBlockTag.showSewingPattern(pattern: SewingPattern) {
             showList(pattern.stitches) { complex ->
                 field("Color", complex.color)
                 field("Size", complex.size)
-                field("Length", complex.length)
+                field("Distance Between Edge & Hole", complex.length)
                 field("Stitch", complex.stitch)
             }
         }
@@ -190,172 +191,205 @@ fun FORM.editTextFormat(
     state: State,
     format: TextFormat,
 ) {
-    selectValue("Format", FORMAT, TextFormatType.entries, format.getType(), true)
+    showDetails("Text Format", true) {
+        selectValue("Type", FORMAT, TextFormatType.entries, format.getType(), true)
 
-    when (format) {
-        UndefinedTextFormat -> doNothing()
-        is Book -> {
-            selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
-            editBinding(state, format.binding)
-            selectSize(SIZE, format.size, min, max, step, true)
-        }
-
-        is Scroll -> {
-            selectDistance("Roll Length", LENGTH, format.rollLength, min, max, step, true)
-            selectDistance("Roll Diameter", LENGTH, format.rollDiameter, min, max, step, true)
-            selectColor("Scroll Color", COLOR, Color.entries, format.color)
-            selectValue("Scroll Material", MATERIAL, state.getMaterialStorage().getAll()) { material ->
-                label = material.name
-                value = material.id.value.toString()
-                selected = material.id == format.material
+        when (format) {
+            UndefinedTextFormat -> doNothing()
+            is Book -> {
+                selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
+                editBinding(state, format.binding)
+                selectSize(SIZE, format.size, min, max, step, true)
             }
-            editScrollFormat(state, format.format)
+
+            is Scroll -> {
+                selectDistance("Roll Length", LENGTH, format.rollLength, min, max, step, true)
+                selectDistance("Roll Diameter", LENGTH, format.rollDiameter, min, max, step, true)
+                selectColor("Scroll Color", COLOR, Color.entries, format.color)
+                selectValue("Scroll Material", MATERIAL, state.getMaterialStorage().getAll()) { material ->
+                    label = material.name
+                    value = material.id.value.toString()
+                    selected = material.id == format.material
+                }
+                editScrollFormat(state, format.format)
+            }
         }
     }
 }
 
-private fun FORM.editBinding(
+private fun HtmlBlockTag.editBinding(
     state: State,
     binding: BookBinding,
 ) {
-    selectValue("Binding", BINDING, BookBindingType.entries, binding.getType(), true)
+    showDetails("Binding", true) {
+        selectValue("Type", BINDING, BookBindingType.entries, binding.getType(), true)
 
-    when (binding) {
-        is CopticBinding -> {
-            editCover(state, binding.cover)
-            editSewingPattern(binding.sewingPattern)
-        }
-
-        is Hardcover -> {
-            editCover(state, binding.cover)
-            editBossesPattern(state, binding.bosses)
-            editEdgeProtection(state, binding.protection)
-        }
-
-        is LeatherBinding -> {
-            editCover(state, binding.cover)
-            selectColor("Leather Color", combine(LEATHER, BINDING, COLOR), Color.entries, binding.leatherColor)
-            selectValue(
-                "Leather Material",
-                combine(LEATHER, MATERIAL),
-                state.getMaterialStorage().getAll(),
-                false
-            ) { material ->
-                label = material.name
-                value = material.id.value.toString()
-                selected = material.id == binding.leatherMaterial
+        when (binding) {
+            is CopticBinding -> {
+                editCover(state, binding.cover)
+                editSewingPattern(binding.sewingPattern)
             }
-            selectValue("Leather Binding", combine(LEATHER, BINDING), LeatherBindingType.entries, binding.type, true)
+
+            is Hardcover -> {
+                editCover(state, binding.cover)
+                editBossesPattern(state, binding.bosses)
+                editEdgeProtection(state, binding.protection)
+            }
+
+            is LeatherBinding -> {
+                editCover(state, binding.cover)
+                selectColor("Leather Color", combine(LEATHER, BINDING, COLOR), Color.entries, binding.leatherColor)
+                selectValue(
+                    "Leather Material",
+                    combine(LEATHER, MATERIAL),
+                    state.getMaterialStorage().getAll(),
+                    false
+                ) { material ->
+                    label = material.name
+                    value = material.id.value.toString()
+                    selected = material.id == binding.leatherMaterial
+                }
+                selectValue(
+                    "Leather Binding",
+                    combine(LEATHER, BINDING),
+                    LeatherBindingType.entries,
+                    binding.type,
+                    true
+                )
+            }
         }
     }
 }
 
-private fun FORM.editCover(
+private fun HtmlBlockTag.editCover(
     state: State,
     cover: BookCover,
 ) {
-    selectColor("Cover Color", combine(COVER, BINDING, COLOR), Color.entries, cover.color)
-    selectValue("Cover Material", combine(COVER, MATERIAL), state.getMaterialStorage().getAll()) { material ->
-        label = material.name
-        value = material.id.value.toString()
-        selected = material.id == cover.material
+    showDetails("Cover", true) {
+        selectColor("Cover Color", combine(COVER, BINDING, COLOR), Color.entries, cover.color)
+        selectValue("Cover Material", combine(COVER, MATERIAL), state.getMaterialStorage().getAll()) { material ->
+            label = material.name
+            value = material.id.value.toString()
+            selected = material.id == cover.material
+        }
+        editTypography(cover.typography)
     }
 }
 
-private fun FORM.editBossesPattern(
+private fun HtmlBlockTag.editBossesPattern(
     state: State,
     bosses: BossesPattern,
 ) {
-    selectValue("Bosses Pattern", BOSSES, BossesPatternType.entries, bosses.getType(), true)
+    showDetails("Bosses", true) {
+        selectValue("Pattern", BOSSES, BossesPatternType.entries, bosses.getType(), true)
 
-    when (bosses) {
-        is NoBosses -> doNothing()
-        is SimpleBossesPattern -> {
-            selectValue("Bosses Shape", combine(BOSSES, SHAPE), BossesShape.entries, bosses.shape, true)
-            selectValue("Bosses Size", combine(BOSSES, SIZE), Size.entries, bosses.size, true)
-            selectColor("Bosses Color", combine(BOSSES, COLOR), Color.entries, bosses.color)
-            selectValue("Bosses Material", combine(BOSSES, MATERIAL), state.getMaterialStorage().getAll()) { material ->
-                label = material.name
-                value = material.id.value.toString()
-                selected = material.id == bosses.material
-            }
-            selectInt("Bosses Pattern Size", bosses.pattern.size, 1, 20, 1, combine(BOSSES, NUMBER), true)
+        when (bosses) {
+            is NoBosses -> doNothing()
+            is SimpleBossesPattern -> {
+                selectValue("Bosses Shape", combine(BOSSES, SHAPE), BossesShape.entries, bosses.shape, true)
+                selectValue("Bosses Size", combine(BOSSES, SIZE), Size.entries, bosses.size, true)
+                selectColor("Bosses Color", combine(BOSSES, COLOR), Color.entries, bosses.color)
+                selectValue(
+                    "Bosses Material",
+                    combine(BOSSES, MATERIAL),
+                    state.getMaterialStorage().getAll()
+                ) { material ->
+                    label = material.name
+                    value = material.id.value.toString()
+                    selected = material.id == bosses.material
+                }
+                selectInt("Bosses Pattern Size", bosses.pattern.size, 1, 20, 1, combine(BOSSES, NUMBER), true)
 
-            showListWithIndex(bosses.pattern) { index, count ->
-                val countParam = combine(BOSSES, index)
-                selectInt("Count", count, 1, 20, 1, countParam, true)
+                showListWithIndex(bosses.pattern) { index, count ->
+                    val countParam = combine(BOSSES, index)
+                    selectInt("Count", count, 1, 20, 1, countParam, true)
+                }
             }
         }
     }
 }
 
-private fun FORM.editEdgeProtection(
+private fun HtmlBlockTag.editEdgeProtection(
     state: State,
     protection: EdgeProtection,
 ) {
-    selectValue("Edge Protection", EDGE, EdgeProtectionType.entries, protection.getType(), true)
+    showDetails("Edge Protection", true) {
+        selectValue("Type", EDGE, EdgeProtectionType.entries, protection.getType(), true)
 
-    when (protection) {
-        NoEdgeProtection -> doNothing()
-        is ProtectedCorners -> {
-            selectValue("Corner Shape", combine(EDGE, SHAPE), CornerShape.entries, protection.shape, true)
-            selectFloat("Corner Size", protection.size.value, 0.01f, 0.5f, 0.01f, combine(EDGE, SIZE), true)
-            selectColor("Corner Color", combine(EDGE, COLOR), Color.entries, protection.color)
-            selectValue("Corner Material", combine(EDGE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
-                label = material.name
-                value = material.id.value.toString()
-                selected = material.id == protection.material
+        when (protection) {
+            NoEdgeProtection -> doNothing()
+            is ProtectedCorners -> {
+                selectValue("Corner Shape", combine(EDGE, SHAPE), CornerShape.entries, protection.shape, true)
+                selectFloat("Corner Size", protection.size.value, 0.01f, 0.5f, 0.01f, combine(EDGE, SIZE), true)
+                selectColor("Corner Color", combine(EDGE, COLOR), Color.entries, protection.color)
+                selectValue(
+                    "Corner Material",
+                    combine(EDGE, MATERIAL),
+                    state.getMaterialStorage().getAll()
+                ) { material ->
+                    label = material.name
+                    value = material.id.value.toString()
+                    selected = material.id == protection.material
+                }
             }
-        }
 
-        is ProtectedEdge -> {
-            selectFloat("Edge Width", protection.width.value, 0.01f, 0.2f, 0.01f, combine(EDGE, SIZE), true)
-            selectColor("Edge Color", combine(EDGE, COLOR), Color.entries, protection.color)
-            selectValue("Edge Material", combine(EDGE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
-                label = material.name
-                value = material.id.value.toString()
-                selected = material.id == protection.material
-            }
-        }
-    }
-}
-
-private fun FORM.editSewingPattern(pattern: SewingPattern) {
-    selectValue("Sewing Pattern", SEWING, SewingPatternType.entries, pattern.getType(), true)
-
-    when (pattern) {
-        is SimpleSewingPattern -> {
-            selectColor("Sewing Color", combine(SEWING, COLOR), Color.entries, pattern.color)
-            selectValue("Sewing Size", combine(SEWING, SIZE), Size.entries, pattern.size, true)
-            selectValue("Sewing Length", combine(SEWING, LENGTH), Size.entries, pattern.length, true)
-            editSewingPatternSize(pattern.stitches.size)
-
-            showListWithIndex(pattern.stitches) { index, stitch ->
-                val stitchParam = combine(SEWING, index)
-                selectValue("Stitch", stitchParam, StitchType.entries, stitch, true)
-            }
-        }
-
-        is ComplexSewingPattern -> {
-            editSewingPatternSize(pattern.stitches.size)
-
-            showListWithIndex(pattern.stitches) { index, complex ->
-                val stitchParam = combine(SEWING, index)
-
-                selectColor("Color", combine(stitchParam, COLOR), Color.entries, complex.color)
-                selectValue("Size", combine(stitchParam, SIZE), Size.entries, complex.size, true)
-                selectValue("Length", combine(stitchParam, LENGTH), Size.entries, complex.length, true)
-                selectValue("Stitch", stitchParam, StitchType.entries, complex.stitch, true)
+            is ProtectedEdge -> {
+                selectFloat("Edge Width", protection.width.value, 0.01f, 0.2f, 0.01f, combine(EDGE, SIZE), true)
+                selectColor("Edge Color", combine(EDGE, COLOR), Color.entries, protection.color)
+                selectValue("Edge Material", combine(EDGE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
+                    label = material.name
+                    value = material.id.value.toString()
+                    selected = material.id == protection.material
+                }
             }
         }
     }
 }
 
-private fun FORM.editSewingPatternSize(size: Int) {
-    selectInt("Sewing Pattern Size", size, MIN_STITCHES, 20, 1, combine(SEWING, NUMBER), true)
+private fun HtmlBlockTag.editSewingPattern(pattern: SewingPattern) {
+    showDetails("Sewing Pattern", true) {
+        selectValue("Type", SEWING, SewingPatternType.entries, pattern.getType(), true)
+
+        when (pattern) {
+            is SimpleSewingPattern -> {
+                selectColor("Color", combine(SEWING, COLOR), Color.entries, pattern.color)
+                selectValue("Size", combine(SEWING, SIZE), Size.entries, pattern.size, true)
+                selectValue("Distance Between Edge & Hole", combine(SEWING, LENGTH), Size.entries, pattern.length, true)
+                editSewingPatternSize(pattern.stitches.size)
+
+                showListWithIndex(pattern.stitches) { index, stitch ->
+                    val stitchParam = combine(SEWING, index)
+                    selectValue("Stitch", stitchParam, StitchType.entries, stitch, true)
+                }
+            }
+
+            is ComplexSewingPattern -> {
+                editSewingPatternSize(pattern.stitches.size)
+
+                showListWithIndex(pattern.stitches) { index, complex ->
+                    val stitchParam = combine(SEWING, index)
+
+                    selectColor("Color", combine(stitchParam, COLOR), Color.entries, complex.color)
+                    selectValue("Size", combine(stitchParam, SIZE), Size.entries, complex.size, true)
+                    selectValue(
+                        "Distance Between Edge & Hole",
+                        combine(stitchParam, LENGTH),
+                        Size.entries,
+                        complex.length,
+                        true
+                    )
+                    selectValue("Stitch", stitchParam, StitchType.entries, complex.stitch, true)
+                }
+            }
+        }
+    }
 }
 
-private fun FORM.editScrollFormat(
+private fun HtmlBlockTag.editSewingPatternSize(size: Int) {
+    selectInt("Pattern Size", size, MIN_STITCHES, 20, 1, combine(SEWING, NUMBER), true)
+}
+
+private fun HtmlBlockTag.editScrollFormat(
     state: State,
     format: ScrollFormat,
 ) {
@@ -368,7 +402,7 @@ private fun FORM.editScrollFormat(
     }
 }
 
-private fun FORM.editScrollHandle(
+private fun HtmlBlockTag.editScrollHandle(
     state: State,
     handle: ScrollHandle,
 ) {
@@ -431,6 +465,7 @@ private fun parseBinding(parameters: Parameters) = when (parse(parameters, BINDI
 private fun parseCover(parameters: Parameters) = BookCover(
     parse(parameters, combine(COVER, BINDING, COLOR), Color.Black),
     parseMaterialId(parameters, combine(COVER, MATERIAL)),
+    parseTextTypography(parameters),
 )
 
 private fun parseBosses(parameters: Parameters) = when (parse(parameters, BOSSES, BossesPatternType.None)) {

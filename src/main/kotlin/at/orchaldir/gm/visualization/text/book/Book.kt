@@ -37,6 +37,8 @@ private fun visualizeCover(
 ) {
     val options = FillAndBorder(cover.color.toRender(), state.config.line)
     state.renderer.getLayer().renderRectangle(state.aabb, options)
+
+    visualizeTypography(state, cover.typography)
 }
 
 private fun visualizeLeatherBinding(

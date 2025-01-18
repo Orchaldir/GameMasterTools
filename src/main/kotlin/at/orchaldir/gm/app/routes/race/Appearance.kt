@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.race
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseRaceAppearance
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.core.action.CreateRaceAppearance
@@ -264,12 +265,12 @@ private fun FORM.editAppearanceOptions(
         )
     }
     h3 { +"Ears" }
-    selectRarityMap("Layout", EARS_LAYOUT, appearance.earsLayout, true)
+    selectRarityMap("Layout", combine(EARS, LAYOUT), appearance.earsLayout, true)
     if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
         selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes, true)
     }
     h3 { +"Eyes" }
-    selectRarityMap("Layout", EYES_LAYOUT, appearance.eyesLayout, true)
+    selectRarityMap("Layout", combine(EYES, LAYOUT), appearance.eyesLayout, true)
     if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
         selectRarityMap("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes, true)
         selectRarityMap("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, true)

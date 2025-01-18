@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.routes.item
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.text.editTextFormat
+import at.orchaldir.gm.app.html.model.text.showTextFormat
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.item.parseText
 import at.orchaldir.gm.core.action.CreateText
@@ -10,8 +12,10 @@ import at.orchaldir.gm.core.action.DeleteText
 import at.orchaldir.gm.core.action.UpdateText
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
+import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
+import at.orchaldir.gm.core.selector.sortTexts
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.visualization.text.visualizeText
@@ -32,6 +36,12 @@ private val logger = KotlinLogging.logger {}
 
 @Resource("/$TEXT_TYPE")
 class TextRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortText = SortText.Name,
+        val parent: TextRoutes = TextRoutes(),
+    )
+
     @Resource("gallery")
     class Gallery(val parent: TextRoutes = TextRoutes())
 
@@ -56,11 +66,11 @@ class TextRoutes {
 
 fun Application.configureTextRouting() {
     routing {
-        get<TextRoutes> {
+        get<TextRoutes.All> { all ->
             logger.info { "Get all texts" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllTexts(call, STORE.getState())
+                showAllTexts(call, STORE.getState(), all.sort)
             }
         }
         get<TextRoutes.Gallery> {
@@ -136,14 +146,22 @@ fun Application.configureTextRouting() {
 private fun HTML.showAllTexts(
     call: ApplicationCall,
     state: State,
+    sort: SortText,
 ) {
-    val texts = state.getTextStorage().getAll().sortedBy { it.name }
+    val texts = state.sortTexts(sort)
     val createLink = call.application.href(TextRoutes.New())
     val galleryLink = call.application.href(TextRoutes.Gallery())
+    val sortNameLink = call.application.href(TextRoutes.All(SortText.Name))
+    val sortAgeLink = call.application.href(TextRoutes.All(SortText.Age))
 
     simpleHtml("Texts") {
         action(galleryLink, "Gallery")
         field("Count", texts.size)
+        field("Sort") {
+            link(sortNameLink, "Name")
+            +" "
+            link(sortAgeLink, "Age")
+        }
 
         table {
             tr {
@@ -185,18 +203,27 @@ private fun HTML.showGallery(
         .getAll()
         .filter { it.format !is UndefinedTextFormat }
         .sortedBy { it.name }
-    val size = Size2d.square(0.5f)
-    val backLink = call.application.href(TextRoutes())
+    val maxSize = Size2d.square(texts.maxOf { it.format.getTextSize().height })
+    val size = TEXT_CONFIG.addPadding(maxSize)
+    val backLink = call.application.href(TextRoutes.All())
 
     simpleHtml("Texts") {
 
         div("grid-container") {
             texts.forEach { text ->
-                val svg = visualizeTextFormat(TEXT_CONFIG, text.format, size)
+                val svg = visualizeTextFormat(state, TEXT_CONFIG, text, size)
 
                 div("grid-item") {
                     a(href(call, text.id)) {
-                        div { +text.name }
+                        div {
+                            if (text.date != null) {
+                                +"${text.name} ("
+                                +displayDate(state, text.date)
+                                +")"
+                            } else {
+                                +text.name
+                            }
+                        }
                         svg(svg, 100)
                     }
                 }
@@ -212,10 +239,10 @@ private fun HTML.showTextDetails(
     state: State,
     text: Text,
 ) {
-    val backLink = call.application.href(TextRoutes())
+    val backLink = call.application.href(TextRoutes.All())
     val deleteLink = call.application.href(TextRoutes.Delete(text.id))
     val editLink = call.application.href(TextRoutes.Edit(text.id))
-    val svg = visualizeText(TEXT_CONFIG, text)
+    val svg = visualizeText(state, TEXT_CONFIG, text)
 
     simpleHtml("Text: ${text.name}") {
         if (text.format !is UndefinedTextFormat) {
@@ -269,7 +296,7 @@ private fun HTML.showTextEditor(
     val backLink = href(call, text.id)
     val previewLink = call.application.href(TextRoutes.Preview(text.id))
     val updateLink = call.application.href(TextRoutes.Update(text.id))
-    val svg = visualizeText(TEXT_CONFIG, text)
+    val svg = visualizeText(state, TEXT_CONFIG, text)
 
     simpleHtml("Edit Text: ${text.name}") {
         split({
@@ -308,7 +335,11 @@ private fun FORM.editOrigin(
             val otherTexts = state.getTextStorage().getAllExcept(text.id)
 
             selectValue("Translation Of", combine(ORIGIN, REFERENCE), otherTexts) { translated ->
-                label = translated.name
+                label = if (translated.date != null) {
+                    "${translated.name} (" + displayDate(state, translated.date) + ")"
+                } else {
+                    translated.name
+                }
                 value = translated.id.value.toString()
                 selected = translated.id == text.origin.text
             }

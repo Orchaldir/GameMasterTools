@@ -348,7 +348,7 @@ private fun FORM.editNamingConvention(
 
     when (namingConvention) {
         is FamilyConvention -> {
-            selectValue("Name Order", NAME_ORDER, NameOrder.entries, namingConvention.nameOrder, true)
+            selectValue("Name Order", combine(NAME, ORDER), NameOrder.entries, namingConvention.nameOrder, true)
             selectRarityMap("Middle Name Options", MIDDLE_NAME, namingConvention.middleNameOptions)
             selectNamesByGender(state, "Given Names", namingConvention.givenNames, NAMES)
             field("Family Names") {
