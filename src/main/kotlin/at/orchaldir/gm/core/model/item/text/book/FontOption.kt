@@ -17,6 +17,11 @@ sealed class FontOption {
         is SolidFont -> FontOptionType.Solid
         is FontWithBorder -> FontOptionType.Border
     }
+
+    fun getFontSize() = when (this) {
+        is SolidFont -> size
+        is FontWithBorder -> size
+    }
 }
 
 @Serializable
