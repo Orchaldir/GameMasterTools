@@ -53,8 +53,10 @@ private fun visualizeCenterLayout(
         val authorLines = wrapString(state.data.author, width, simple.author.getFontSize().toMeters())
         val titleLines = wrapString(state.data.title, width, simple.title.getFontSize().toMeters())
 
-        val authorCenter = center - Point2d(0.0f, simple.author.getFontSize().toMeters()) * direction * authorLines.size
-        val titleCenter = center + Point2d(0.0f, simple.title.getFontSize().toMeters()) * direction * titleLines.size
+        val authorCenter =
+            center - Point2d(0.0f, simple.author.getFontSize().toMeters()) * direction * authorLines.size / 1.5f
+        val titleCenter =
+            center + Point2d(0.0f, simple.title.getFontSize().toMeters()) * direction * titleLines.size / 1.5f
 
         renderString(state, authorLines, authorCenter, simple.author)
         renderString(state, titleLines, titleCenter, simple.title)
