@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.core.model.util.SortBuilding
+import at.orchaldir.gm.core.selector.getBuildingAgeComparator
 
 fun State.canDelete(building: Building) = building.ownership.current.canDelete()
         && getCharactersLivingIn(building.id).isEmpty()
@@ -40,7 +40,7 @@ fun State.getMinNumberOfApartment(building: BuildingId) =
         .maxOrNull() ?: 1) + 1
 
 fun State.getEarliestBuilding(buildings: List<Building>) =
-    buildings.minWithOrNull(getConstructionComparator())
+    buildings.minWithOrNull(getBuildingAgeComparator())
 
 fun State.getApartmentHouses() = getBuildingStorage()
     .getAll()
@@ -78,26 +78,3 @@ fun State.getOwnedBuildings(town: TownId) = getBuildingStorage().getAll()
 
 fun State.getPreviouslyOwnedBuildings(town: TownId) = getBuildingStorage().getAll()
     .filter { it.ownership.contains(town) }
-
-// sort
-
-fun State.getConstructionComparator(): Comparator<Building> {
-    val calendar = getDefaultCalendar()
-    return Comparator { a: Building, b: Building -> calendar.compareToOptional(a.constructionDate, b.constructionDate) }
-}
-
-fun State.getConstructionComparatorForPair(): Comparator<Pair<Building, String>> {
-    val comparator = getConstructionComparator()
-    return Comparator { a: Pair<Building, String>, b: Pair<Building, String> -> comparator.compare(a.first, b.first) }
-}
-
-fun State.sortBuildings(sort: SortBuilding = SortBuilding.Name) = sort(getBuildingStorage().getAll(), sort)
-
-fun State.sort(buildings: Collection<Building>, sort: SortBuilding = SortBuilding.Name) = buildings
-    .map { Pair(it, it.name(this)) }
-    .sortedWith(
-        when (sort) {
-            SortBuilding.Name -> compareBy { it.second }
-            SortBuilding.Construction -> getConstructionComparatorForPair()
-        })
-

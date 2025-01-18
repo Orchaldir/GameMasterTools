@@ -15,6 +15,8 @@ import at.orchaldir.gm.core.model.util.SortArchitecturalStyle
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
+import at.orchaldir.gm.core.selector.sortArchitecturalStyles
+import at.orchaldir.gm.core.selector.sortBuildings
 import at.orchaldir.gm.core.selector.world.*
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -135,15 +137,7 @@ fun Application.configureArchitecturalStyleRouting() {
 }
 
 private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State, sort: SortArchitecturalStyle) {
-    val styles = STORE.getState()
-        .getArchitecturalStyleStorage()
-        .getAll()
-        .sortedWith(
-            when (sort) {
-                Name -> compareBy { it.name }
-                Start -> compareBy { it.start.year }
-                End -> compareBy { it.end?.year }
-            })
+    val styles = STORE.getState().sortArchitecturalStyles(sort)
     val createLink = call.application.href(ArchitecturalStyleRoutes.New())
     val sortNameLink = call.application.href(ArchitecturalStyleRoutes.All())
     val sortStartLink = call.application.href(ArchitecturalStyleRoutes.All(Start))

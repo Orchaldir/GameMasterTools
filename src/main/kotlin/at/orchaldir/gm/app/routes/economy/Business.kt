@@ -13,9 +13,9 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.util.SortBusiness
 import at.orchaldir.gm.core.selector.economy.canDelete
-import at.orchaldir.gm.core.selector.economy.sortBusinesses
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.getPreviousEmployees
+import at.orchaldir.gm.core.selector.sortBusinesses
 import at.orchaldir.gm.core.selector.world.getBuilding
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import io.ktor.http.*

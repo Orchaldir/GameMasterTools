@@ -77,24 +77,3 @@ fun State.getPreviouslyOwnedBusinesses(town: TownId) = getBusinessStorage().getA
 
 fun <ID : Id<ID>> State.getBusinessesFoundedBy(id: ID) = getBusinessStorage().getAll()
     .filter { it.founder.isId(id) }
-
-// sort
-
-fun State.getAgeComparator(): Comparator<Business> {
-    val calendar = getDefaultCalendar()
-    return Comparator { a: Business, b: Business -> calendar.compareToOptional(a.startDate, b.startDate) }
-}
-
-fun State.sortBusinesses(sort: SortBusiness = SortBusiness.Name) =
-    sortBusinesses(getBusinessStorage().getAll(), sort)
-
-fun State.sortBusinesses(businesses: Collection<Business>, sort: SortBusiness = SortBusiness.Name) = businesses
-    .sortedWith(
-        when (sort) {
-            SortBusiness.Name -> compareBy { it.name(this) }
-            SortBusiness.Age -> getAgeComparator()
-            SortBusiness.Employees -> compareBy<Business> { getEmployees(it.id).size }.reversed()
-        }
-    )
-
-
