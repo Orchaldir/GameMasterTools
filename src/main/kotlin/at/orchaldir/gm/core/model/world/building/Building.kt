@@ -9,14 +9,14 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.length
 import kotlinx.serialization.Serializable
 
-const val BUILDING = "Building"
+const val BUILDING_TYPE = "Building"
 
 @JvmInline
 @Serializable
 value class BuildingId(val value: Int) : Id<BuildingId> {
 
     override fun next() = BuildingId(value + 1)
-    override fun type() = BUILDING
+    override fun type() = BUILDING_TYPE
     override fun value() = value
 
 }

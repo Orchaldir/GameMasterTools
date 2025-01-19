@@ -7,14 +7,14 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
 
-const val MOON = "Moon"
+const val MOON_TYPE = "Moon"
 
 @JvmInline
 @Serializable
 value class MoonId(val value: Int) : Id<MoonId> {
 
     override fun next() = MoonId(value + 1)
-    override fun type() = MOON
+    override fun type() = MOON_TYPE
     override fun value() = value
 
 }

@@ -18,14 +18,14 @@ import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.utils.update
 import kotlinx.serialization.Serializable
 
-const val TOWN = "Town"
+const val TOWN_TYPE = "Town"
 
 @JvmInline
 @Serializable
 value class TownId(val value: Int) : Id<TownId> {
 
     override fun next() = TownId(value + 1)
-    override fun type() = TOWN
+    override fun type() = TOWN_TYPE
     override fun value() = value
 
 }

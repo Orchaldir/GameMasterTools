@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.model.parseDayIndex
-import at.orchaldir.gm.core.model.calendar.CALENDAR
+import at.orchaldir.gm.core.model.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.holiday.*
 import io.ktor.http.*
 import io.ktor.server.util.*
@@ -18,7 +18,7 @@ fun parseHoliday(id: HolidayId, parameters: Parameters): Holiday {
     return Holiday(
         id,
         name,
-        parseCalendarId(parameters, CALENDAR),
+        parseCalendarId(parameters, CALENDAR_TYPE),
         parseRelativeDate(parameters, DATE),
     )
 }

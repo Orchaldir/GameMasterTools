@@ -4,14 +4,14 @@ import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val JOB = "Job"
+const val JOB_TYPE = "Job"
 
 @JvmInline
 @Serializable
 value class JobId(val value: Int) : Id<JobId> {
 
     override fun next() = JobId(value + 1)
-    override fun type() = JOB
+    override fun type() = JOB_TYPE
     override fun value() = value
 
 }

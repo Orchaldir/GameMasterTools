@@ -77,7 +77,7 @@ private fun parseMonth(parameters: Parameters, it: Int) = MonthDefinition(
 
 private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, Original)) {
     Improved -> {
-        val parent = parseCalendarId(parameters, CALENDAR)
+        val parent = parseCalendarId(parameters, CALENDAR_TYPE)
         ImprovedCalendar(parent)
     }
 

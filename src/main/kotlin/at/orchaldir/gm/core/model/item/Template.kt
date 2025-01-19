@@ -4,14 +4,14 @@ import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val ITEM_TEMPLATE = "Item Template"
+const val ITEM_TEMPLATE_TYPE = "Item Template"
 
 @JvmInline
 @Serializable
 value class ItemTemplateId(val value: Int) : Id<ItemTemplateId> {
 
     override fun next() = ItemTemplateId(value + 1)
-    override fun type() = ITEM_TEMPLATE
+    override fun type() = ITEM_TEMPLATE_TYPE
     override fun value() = value
 
 }

@@ -9,14 +9,14 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val BUSINESS = "Business"
+const val BUSINESS_TYPE = "Business"
 
 @JvmInline
 @Serializable
 value class BusinessId(val value: Int) : Id<BusinessId> {
 
     override fun next() = BusinessId(value + 1)
-    override fun type() = BUSINESS
+    override fun type() = BUSINESS_TYPE
     override fun value() = value
 
 }
