@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.font.FONT_TYPE
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.item.countText
 import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.visualization.visualizeString
 import io.ktor.http.*
@@ -53,7 +54,7 @@ fun Application.configureFontRouting() {
             logger.info { "Get all fonts" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllFonts(call)
+                showAllFonts(call, STORE.getState())
             }
         }
         get<FontRoutes.Details> { details ->
@@ -114,7 +115,10 @@ fun Application.configureFontRouting() {
     }
 }
 
-private fun HTML.showAllFonts(call: ApplicationCall) {
+private fun HTML.showAllFonts(
+    call: ApplicationCall,
+    state: State,
+) {
     val fonts = STORE.getState().getFontStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(FontRoutes.New())
 
@@ -128,11 +132,13 @@ private fun HTML.showAllFonts(call: ApplicationCall) {
                     style = "width:1000px"
                     +"Example"
                 }
+                th { +"Texts" }
             }
             fonts.forEach { font ->
                 tr {
                     td { link(call, font) }
                     td { svg(visualizeString(example, font, 40.0f), 100) }
+                    tdSkipZero(state.countText(font.id))
                 }
             }
         }
