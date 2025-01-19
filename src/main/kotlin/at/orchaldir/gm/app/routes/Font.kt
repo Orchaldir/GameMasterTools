@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.CONTENT
+import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseFont
@@ -25,6 +26,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.util.*
 import io.ktor.utils.io.core.*
 import kotlinx.html.*
 import mu.KotlinLogging
@@ -108,6 +110,7 @@ fun Application.configureFontRouting() {
             logger.info { "Update font ${update.id.value}" }
 
             val multipartData = call.receiveMultipart()
+            var name = ""
             var fileBytes = ""
 
             multipartData.forEachPart { part ->
@@ -115,6 +118,7 @@ fun Application.configureFontRouting() {
                     is PartData.FileItem -> {
                         fileBytes = part.provider().readBytes().toString(UTF_8)
                     }
+                    is PartData.FormItem -> name = part.value
 
                     else -> logger.info { "else: part=$part" }
                 }
@@ -123,7 +127,7 @@ fun Application.configureFontRouting() {
 
             logger.info { "fileBytes=$fileBytes" }
 
-            val font = parseFont(update.id, call.receiveParameters(), fileBytes)
+            val font = Font(update.id, name, fileBytes)
 
             STORE.dispatch(UpdateFont(font))
 
