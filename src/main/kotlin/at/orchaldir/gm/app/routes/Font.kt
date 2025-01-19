@@ -136,7 +136,11 @@ private fun HTML.showFontDetails(
     val editLink = call.application.href(FontRoutes.Edit(font.id))
 
     simpleHtml("Font: ${font.name}") {
-        field("Base64", font.base64)
+        field("Base64") {
+            textArea("10", "200", TextAreaWrap.soft) {
+                +font.base64
+            }
+        }
 
         action(editLink, "Edit")
         if (state.canDelete(font.id)) {
