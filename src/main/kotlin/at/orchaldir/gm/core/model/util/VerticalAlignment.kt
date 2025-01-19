@@ -1,4 +1,4 @@
-package at.orchaldir.gm.utils.renderer.model
+package at.orchaldir.gm.core.model.util
 
 enum class VerticalAlignment {
     Top,

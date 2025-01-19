@@ -4,7 +4,7 @@ import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
-import at.orchaldir.gm.utils.renderer.model.VerticalAlignment
+import at.orchaldir.gm.core.model.util.VerticalAlignment
 
 fun renderWrappedStrings(
     renderer: LayerRenderer,

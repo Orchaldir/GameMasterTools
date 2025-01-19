@@ -1,5 +1,7 @@
 package at.orchaldir.gm.utils.renderer.model
 
+import at.orchaldir.gm.core.model.util.VerticalAlignment
+
 data class RenderStringOptions(
     val renderOptions: RenderOptions,
     val size: Float,

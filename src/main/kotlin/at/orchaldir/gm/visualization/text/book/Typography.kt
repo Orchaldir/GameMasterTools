@@ -12,7 +12,7 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
-import at.orchaldir.gm.utils.renderer.model.VerticalAlignment
+import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.renderer.renderWrappedString
 import at.orchaldir.gm.utils.renderer.renderWrappedStrings
 import at.orchaldir.gm.visualization.text.TextRenderState
