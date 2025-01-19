@@ -8,10 +8,10 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.model.item.text.book.FontOption
-import at.orchaldir.gm.core.model.item.text.book.FontOptionType
-import at.orchaldir.gm.core.model.item.text.book.FontWithBorder
-import at.orchaldir.gm.core.model.item.text.book.SolidFont
+import at.orchaldir.gm.core.model.util.FontOption
+import at.orchaldir.gm.core.model.util.FontOptionType
+import at.orchaldir.gm.core.model.util.FontWithBorder
+import at.orchaldir.gm.core.model.util.SolidFont
 import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
