@@ -95,11 +95,11 @@ fun HtmlBlockTag.editStringRenderOption(
 
         when (option) {
             is SimpleStringRenderOption -> {
-                editStringSharedOptions(state, param, option.x, option.y, option.fontOption)
+                editStringSharedOptions(state, param, option.x, option.y, option.font)
             }
 
             is WrappedStringRenderOption -> {
-                editStringSharedOptions(state, param, option.x, option.y, option.fontOption)
+                editStringSharedOptions(state, param, option.x, option.y, option.font)
                 selectDistance("$text Width", combine(param, WIDTH), option.width, ZERO_MM, THOUSAND_MM, update = true)
             }
         }

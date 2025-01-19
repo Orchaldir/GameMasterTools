@@ -18,6 +18,11 @@ sealed class FontOption {
         is FontWithBorder -> FontOptionType.Border
     }
 
+    fun font() = when (this) {
+        is SolidFont -> font
+        is FontWithBorder -> font
+    }
+
     fun getFontSize() = when (this) {
         is SolidFont -> size
         is FontWithBorder -> size

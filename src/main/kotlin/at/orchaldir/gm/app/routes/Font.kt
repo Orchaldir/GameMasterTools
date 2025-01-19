@@ -1,11 +1,8 @@
 package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.CONTENT
-import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.showCreator
-import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.app.parse.parseFont
 import at.orchaldir.gm.core.action.CreateFont
 import at.orchaldir.gm.core.action.DeleteFont
@@ -15,6 +12,7 @@ import at.orchaldir.gm.core.model.font.FONT_TYPE
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.visualization.visualizeString
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -158,6 +156,10 @@ private fun HTML.showFontDetails(
             textArea("10", "200", TextAreaWrap.soft) {
                 +font.base64
             }
+        }
+        h2 { +"Usage" }
+        showList("Texts", state.getTexts(font.id)) { text ->
+            link(call, state, text)
         }
 
         action(editLink, "Edit")

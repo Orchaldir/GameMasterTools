@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector.item
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.item.text.OriginalText
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
@@ -65,6 +66,10 @@ fun State.getOriginal(text: Text) = when (text.origin) {
     is OriginalText -> text
     is TranslatedText -> getOriginal(text.origin.text)
 }
+
+fun State.getTexts(font: FontId) = getTextStorage()
+    .getAll()
+    .filter { b -> b.format.contains(font) }
 
 fun State.getTexts(language: LanguageId) = getTextStorage()
     .getAll()

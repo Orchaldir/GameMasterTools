@@ -157,14 +157,14 @@ private fun visualizeString(
 
     when (option) {
         is SimpleStringRenderOption -> {
-            val textOptions = convert(state, option.fontOption)
+            val textOptions = convert(state, option.font)
             val center = calculateCenter(state, option.x, option.y)
 
             renderer.renderString(text, center, option.orientation, textOptions)
         }
 
         is WrappedStringRenderOption -> {
-            val textOptions = convert(state, option.fontOption)
+            val textOptions = convert(state, option.font)
             val center = calculateCenter(state, option.x, option.y)
 
             renderWrappedString(renderer, text, center, option.width, textOptions)

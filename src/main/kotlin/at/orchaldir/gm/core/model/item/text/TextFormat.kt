@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.text
 
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.item.text.book.BookBinding
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollFormat
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -30,6 +31,12 @@ sealed class TextFormat {
     fun isMadeOf(material: MaterialId) = when (this) {
         is Book -> binding.isMadeOf(material)
         is Scroll -> this.material == material || format.isMadeOf(material)
+        UndefinedTextFormat -> false
+    }
+
+    fun contains(font: FontId) = when (this) {
+        is Book -> binding.contains(font)
+        is Scroll -> false
         UndefinedTextFormat -> false
     }
 }
