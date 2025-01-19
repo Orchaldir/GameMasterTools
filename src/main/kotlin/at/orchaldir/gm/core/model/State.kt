@@ -19,6 +19,9 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.fashion.FASHION_TYPE
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
+import at.orchaldir.gm.core.model.font.FONT_TYPE
+import at.orchaldir.gm.core.model.font.Font
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.HOLIDAY_TYPE
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
@@ -68,6 +71,7 @@ val ELEMENTS =
         CHARACTER_TYPE,
         CULTURE_TYPE,
         FASHION_TYPE,
+        FONT_TYPE,
         HOLIDAY_TYPE,
         ITEM_TEMPLATE_TYPE,
         JOB_TYPE,
@@ -114,6 +118,7 @@ data class State(
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER_TYPE)
     fun getCultureStorage() = getStorage<CultureId, Culture>(CULTURE_TYPE)
     fun getFashionStorage() = getStorage<FashionId, Fashion>(FASHION_TYPE)
+    fun getFontStorage() = getStorage<FontId, Font>(FONT_TYPE)
     fun getHolidayStorage() = getStorage<HolidayId, Holiday>(HOLIDAY_TYPE)
     fun getItemTemplateStorage() = getStorage<ItemTemplateId, ItemTemplate>(ITEM_TEMPLATE_TYPE)
     fun getJobStorage() = getStorage<JobId, Job>(JOB_TYPE)
@@ -201,6 +206,7 @@ data class State(
         saveStorage(path, getCharacterStorage())
         saveStorage(path, getCultureStorage())
         saveStorage(path, getFashionStorage())
+        saveStorage(path, getFontStorage())
         saveStorage(path, getHolidayStorage())
         saveStorage(path, getItemTemplateStorage())
         saveStorage(path, getJobStorage())
@@ -229,6 +235,7 @@ fun createStorage(type: String) = when (type) {
     CHARACTER_TYPE -> Storage(CharacterId(0))
     CULTURE_TYPE -> Storage(CultureId(0))
     FASHION_TYPE -> Storage(FashionId(0))
+    FONT_TYPE -> Storage(FontId(0))
     HOLIDAY_TYPE -> Storage(HolidayId(0))
     ITEM_TEMPLATE_TYPE -> Storage(ItemTemplateId(0))
     JOB_TYPE -> Storage(JobId(0))
@@ -256,6 +263,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     CHARACTER_TYPE -> loadStorage<CharacterId, Character>(path, CharacterId(0))
     CULTURE_TYPE -> loadStorage<CultureId, Culture>(path, CultureId(0))
     FASHION_TYPE -> loadStorage<FashionId, Fashion>(path, FashionId(0))
+    FONT_TYPE -> loadStorage<FontId, Font>(path, FontId(0))
     HOLIDAY_TYPE -> loadStorage<HolidayId, Holiday>(path, HolidayId(0))
     ITEM_TEMPLATE_TYPE -> loadStorage<ItemTemplateId, ItemTemplate>(path, ItemTemplateId(0))
     JOB_TYPE -> loadStorage<JobId, Job>(path, JobId(0))
