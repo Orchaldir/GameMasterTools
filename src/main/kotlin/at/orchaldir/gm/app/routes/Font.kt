@@ -4,6 +4,8 @@ import at.orchaldir.gm.app.CONTENT
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.showCreator
+import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.app.parse.parseFont
 import at.orchaldir.gm.core.action.CreateFont
 import at.orchaldir.gm.core.action.DeleteFont
@@ -13,6 +15,7 @@ import at.orchaldir.gm.core.model.font.FONT_TYPE
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.visualization.visualizeString
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -115,12 +118,24 @@ fun Application.configureFontRouting() {
 private fun HTML.showAllFonts(call: ApplicationCall) {
     val fonts = STORE.getState().getFontStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(FontRoutes.New())
+    val example = "abcdefghijklmnopqrstuvwxyz"
 
     simpleHtml("Fonts") {
         field("Count", fonts.size)
-        showList(fonts) { font ->
-            link(call, font)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Example" }
+            }
+            fonts.forEach { font ->
+                tr {
+                    td { link(call, font) }
+                    td { svg(visualizeString(example, font, 20.0f), 100) }
+                }
+            }
         }
+
         action(createLink, "Add")
         back("/")
     }
