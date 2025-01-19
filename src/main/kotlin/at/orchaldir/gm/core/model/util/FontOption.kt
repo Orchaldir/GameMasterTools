@@ -26,15 +26,17 @@ sealed class FontOption {
 @Serializable
 @SerialName("Solid")
 data class SolidFont(
-    val color: Color = Color.White,
     val size: Distance,
+    val color: Color = Color.White,
+    val font: FontFamily = FontFamily.Arial,
 ) : FontOption()
 
 @Serializable
 @SerialName("Border")
 data class FontWithBorder(
-    val fill: Color = Color.White,
-    val border: Color = Color.Black,
     val size: Distance,
     val thickness: Distance,
+    val fill: Color = Color.White,
+    val border: Color = Color.Black,
+    val font: FontFamily = FontFamily.Arial,
 ) : FontOption()

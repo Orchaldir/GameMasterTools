@@ -19,20 +19,20 @@ import at.orchaldir.gm.visualization.text.ResolvedTextData
 private val topAuthor = SimpleStringRenderOption(
     Distance(100),
     Distance(50),
-    SolidFont(Color.Aqua, Distance(20)),
+    SolidFont(Distance(20), Color.Aqua),
 )
 
 private val bottomAuthor = SimpleStringRenderOption(
     Distance(100),
     Distance(250),
-    SolidFont(Color.Red, Distance(20)),
+    SolidFont(Distance(20), Color.Red),
 )
 
 fun main() {
     val bookSize = Size2i(200, 300)
     val texts = listOf(
-        createRow(bookSize) { size -> SolidFont(Color.White, size) },
-        createRow(bookSize) { size -> FontWithBorder(Color.Gold, Color.Black, size, Distance(2)) },
+        createRow(bookSize) { size -> SolidFont(size, Color.White) },
+        createRow(bookSize) { size -> FontWithBorder(size, Distance(2), Color.Gold, Color.Black) },
         listOf(
             createWrappedTitle(bookSize, ResolvedTextData("Long Title")),
             createWrappedTitle(bookSize, ResolvedTextData("Very Long Title"))
@@ -88,7 +88,7 @@ private fun createWrappedTitle(bookSize: Size2i, data: ResolvedTextData) = creat
     WrappedStringRenderOption(
         Distance(100),
         Distance(150),
-        SolidFont(Color.Black, Distance(80)),
+        SolidFont(Distance(80), Color.Black),
         Distance(180),
     ),
     topAuthor,

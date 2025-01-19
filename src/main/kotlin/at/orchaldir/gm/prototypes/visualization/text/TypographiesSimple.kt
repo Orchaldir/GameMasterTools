@@ -29,8 +29,8 @@ fun main() {
             Hardcover(
                 BookCover(
                     typography = SimpleTypography(
-                        SolidFont(Color.White, Distance(10)),
-                        SolidFont(Color.White, Distance(15)),
+                        SolidFont(Distance(10)),
+                        SolidFont(Distance(15)),
                         order,
                         layout,
                     )

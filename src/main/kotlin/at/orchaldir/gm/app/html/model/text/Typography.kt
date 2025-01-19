@@ -8,12 +8,8 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.model.util.FontOption
-import at.orchaldir.gm.core.model.util.FontOptionType
-import at.orchaldir.gm.core.model.util.FontWithBorder
-import at.orchaldir.gm.core.model.util.SolidFont
 import at.orchaldir.gm.core.model.item.text.book.typography.*
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
 import io.ktor.http.*
@@ -124,18 +120,18 @@ fun HtmlBlockTag.editFontOption(
     option: FontOption,
     param: String,
 ) {
-    selectValue("Font Option", combine(param, FONT), FontOptionType.entries, option.getType(), true)
+    selectValue("Font Option", combine(param, TYPE), FontOptionType.entries, option.getType(), true)
 
     when (option) {
         is SolidFont -> {
             selectColor("Font Color", combine(param, COLOR), Color.entries, option.color)
-            selectDistance("Font Size", combine(param, SIZE), option.size, ONE_MM, THOUSAND_MM, update = true)
+            editSharedFontOptions(param, option.font, option.size)
         }
 
         is FontWithBorder -> {
             selectColor("Fill Color", combine(param, COLOR), Color.entries, option.fill)
             selectColor("Border Color", combine(param, BORDER, COLOR), Color.entries, option.border)
-            selectDistance("Font Size", combine(param, SIZE), option.size, ONE_MM, THOUSAND_MM, update = true)
+            editSharedFontOptions(param, option.font, option.size)
             selectDistance(
                 "Border Thickness",
                 combine(param, BORDER, SIZE),
@@ -146,6 +142,15 @@ fun HtmlBlockTag.editFontOption(
             )
         }
     }
+}
+
+private fun HtmlBlockTag.editSharedFontOptions(
+    param: String,
+    family: FontFamily,
+    size: Distance,
+) {
+    selectValue("Font", combine(param, FONT), FontFamily.entries, family, true)
+    selectDistance("Font Size", combine(param, SIZE), size, ONE_MM, THOUSAND_MM, update = true)
 }
 
 // parse
@@ -171,17 +176,19 @@ fun parseTextTypography(parameters: Parameters) = when (parse(parameters, TYPOGR
 }
 
 private fun parseFontOption(parameters: Parameters, param: String) =
-    when (parse(parameters, combine(param, FONT), FontOptionType.Solid)) {
+    when (parse(parameters, combine(param, TYPE), FontOptionType.Solid)) {
         FontOptionType.Solid -> SolidFont(
-            parse(parameters, combine(param, COLOR), Color.White),
             parseDistance(parameters, combine(param, SIZE), 10),
+            parse(parameters, combine(param, COLOR), Color.White),
+            parse(parameters, combine(param, FONT), FontFamily.Arial),
         )
 
         FontOptionType.Border -> FontWithBorder(
-            parse(parameters, combine(param, COLOR), Color.White),
-            parse(parameters, combine(param, BORDER, COLOR), Color.White),
             parseDistance(parameters, combine(param, SIZE), 10),
             parseDistance(parameters, combine(param, BORDER, SIZE), 1),
+            parse(parameters, combine(param, COLOR), Color.White),
+            parse(parameters, combine(param, BORDER, COLOR), Color.White),
+            parse(parameters, combine(param, FONT), FontFamily.Arial),
         )
     }
 

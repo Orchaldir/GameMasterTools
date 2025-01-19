@@ -33,7 +33,7 @@ fun main() {
                 BookCover(
                     Color.Black,
                     typography = SimpleTitleTypography(
-                        SolidFont(Color.Red, fontSize),
+                        SolidFont(fontSize, Color.Red),
                         layout,
                     )
                 )
