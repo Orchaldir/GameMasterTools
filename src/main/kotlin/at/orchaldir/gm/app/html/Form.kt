@@ -166,6 +166,22 @@ fun <T : Enum<T>> HtmlBlockTag.selectValue(
     }
 }
 
+fun <T : Enum<T>> HtmlBlockTag.selectValue(
+    labelText: String,
+    selectId: String,
+    values: Collection<T>,
+    current: T,
+    update: Boolean = false,
+    isDisabled: (T) -> Boolean,
+) {
+    selectValue(labelText, selectId, values, update) { type ->
+        label = type.name
+        value = type.name
+        selected = type == current
+        disabled = isDisabled(type)
+    }
+}
+
 fun <T> HtmlBlockTag.selectValue(
     label: String,
     selectId: String,

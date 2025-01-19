@@ -26,11 +26,8 @@ private val THOUSAND_MM = Distance(1000)
 // edit
 
 fun HtmlBlockTag.editTypography(typography: Typography, hasAuthor: Boolean) {
-    selectValue("Typography", TYPOGRAPHY, TypographyType.entries, true) { type ->
-        label = type.name
-        value = type.name
-        selected = type == typography.getType()
-        disabled = when (type) {
+    selectValue("Typography", TYPOGRAPHY, TypographyType.entries, typography.getType(), true) { type ->
+        when (type) {
             TypographyType.Simple, TypographyType.Advanced -> !hasAuthor
             else -> false
         }
@@ -38,26 +35,34 @@ fun HtmlBlockTag.editTypography(typography: Typography, hasAuthor: Boolean) {
 
     when (typography) {
         NoTypography -> doNothing()
-        is SimpleTitleTypography -> editSimpleTitleTypography(typography)
-        is SimpleTypography -> editSimpleTypography(typography)
+        is SimpleTitleTypography -> editSimpleTitleTypography(typography, hasAuthor)
+        is SimpleTypography -> editSimpleTypography(typography, hasAuthor)
         is AdvancedTypography -> editAdvancedTypography(typography)
     }
 }
 
 fun HtmlBlockTag.editSimpleTitleTypography(
     typography: SimpleTitleTypography,
+    hasAuthor: Boolean,
 ) {
     editFontOption("Title", typography.font, NAME)
-    selectValue("Typography Layout", combine(TYPOGRAPHY, LAYOUT), TypographyLayout.entries, typography.layout, true)
+    editTypographyLayout(typography.layout, hasAuthor)
 }
 
 fun HtmlBlockTag.editSimpleTypography(
     typography: SimpleTypography,
+    hasAuthor: Boolean,
 ) {
     editFontOption("Title", typography.title, NAME)
     editFontOption("Author", typography.author, CREATOR)
     selectValue("Typography Order", combine(TYPOGRAPHY, ORDER), TypographyOrder.entries, typography.order, true)
-    selectValue("Typography Layout", combine(TYPOGRAPHY, LAYOUT), TypographyLayout.entries, typography.layout, true)
+    editTypographyLayout(typography.layout, hasAuthor)
+}
+
+private fun HtmlBlockTag.editTypographyLayout(layout: TypographyLayout, hasAuthor: Boolean) {
+    selectValue("Typography Layout", combine(TYPOGRAPHY, LAYOUT), TypographyLayout.entries, layout, true) { l ->
+        !hasAuthor && l == TypographyLayout.TopAndBottom
+    }
 }
 
 fun HtmlBlockTag.editAdvancedTypography(
