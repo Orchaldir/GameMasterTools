@@ -25,8 +25,16 @@ private val THOUSAND_MM = Distance(1000)
 
 // edit
 
-fun HtmlBlockTag.editTypography(typography: Typography) {
-    selectValue("Typography", TYPOGRAPHY, TypographyType.entries, typography.getType(), true)
+fun HtmlBlockTag.editTypography(typography: Typography, hasAuthor: Boolean) {
+    selectValue("Typography", TYPOGRAPHY, TypographyType.entries, true) { type ->
+        label = type.name
+        value = type.name
+        selected = type == typography.getType()
+        disabled = when (type) {
+            TypographyType.Simple, TypographyType.Advanced -> !hasAuthor
+            else -> false
+        }
+    }
 
     when (typography) {
         NoTypography -> doNothing()

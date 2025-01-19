@@ -50,6 +50,11 @@ fun State.getAuthorName(text: Text) = when (val origin = getOriginal(text).origi
     else -> error("The original text must be an original text!")
 }
 
+fun State.hasAuthor(text: Text) = when (val origin = getOriginal(text).origin) {
+    is OriginalText -> origin.author != UndefinedCreator
+    else -> error("The original text must be an original text!")
+}
+
 fun State.getOriginal(id: TextId): Text {
     val text = getTextStorage().getOrThrow(id)
 
