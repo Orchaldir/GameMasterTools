@@ -28,6 +28,7 @@ import io.ktor.server.routing.*
 import io.ktor.utils.io.core.*
 import kotlinx.html.*
 import mu.KotlinLogging
+import kotlin.text.Charsets.UTF_8
 
 private val logger = KotlinLogging.logger {}
 private val example = "abcdefghijklmnopqrstuvwxyz"
@@ -112,8 +113,7 @@ fun Application.configureFontRouting() {
             multipartData.forEachPart { part ->
                 when (part) {
                     is PartData.FileItem -> {
-                        fileBytes = part.provider().readBytes().contentToString()
-                        logger.info { "file=$fileBytes" }
+                        fileBytes = part.provider().readBytes().toString(UTF_8)
                     }
 
                     else -> logger.info { "else: part=$part" }
@@ -207,6 +207,10 @@ private fun HTML.showFontEditor(
         form(encType = FormEncType.multipartFormData) {
             selectName(font.name)
             fileInput {
+                formEncType = InputFormEncType.multipartFormData
+                formMethod = InputFormMethod.post
+                id = "myFile"
+                name = "filename"
                 accept = ".ttf,.otf"
             }
 
