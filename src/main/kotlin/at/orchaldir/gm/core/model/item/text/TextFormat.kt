@@ -27,12 +27,6 @@ sealed class TextFormat {
         UndefinedTextFormat -> TextFormatType.Undefined
     }
 
-    fun getTextSize() = when (this) {
-        is Book -> size.toSize2d()
-        is Scroll -> calculateSize()
-        UndefinedTextFormat -> Size2d.square(0.1f)
-    }
-
     fun isMadeOf(material: MaterialId) = when (this) {
         is Book -> binding.isMadeOf(material)
         is Scroll -> this.material == material || format.isMadeOf(material)
