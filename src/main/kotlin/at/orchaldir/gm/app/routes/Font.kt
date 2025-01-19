@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.selector.item.countText
 import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.visualization.visualizeString
 import io.ktor.http.*
+import io.ktor.http.content.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -24,6 +25,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.utils.io.core.*
 import kotlinx.html.*
 import mu.KotlinLogging
 
@@ -104,7 +106,24 @@ fun Application.configureFontRouting() {
         post<FontRoutes.Update> { update ->
             logger.info { "Update font ${update.id.value}" }
 
-            val font = parseFont(update.id, call.receiveParameters())
+            val multipartData = call.receiveMultipart()
+            var fileBytes = ""
+
+            multipartData.forEachPart { part ->
+                when (part) {
+                    is PartData.FileItem -> {
+                        fileBytes = part.provider().readBytes().contentToString()
+                        logger.info { "file=$fileBytes" }
+                    }
+
+                    else -> logger.info { "else: part=$part" }
+                }
+                part.dispose()
+            }
+
+            logger.info { "fileBytes=$fileBytes" }
+
+            val font = parseFont(update.id, call.receiveParameters(), fileBytes)
 
             STORE.dispatch(UpdateFont(font))
 
@@ -185,7 +204,7 @@ private fun HTML.showFontEditor(
     val updateLink = call.application.href(FontRoutes.Update(font.id))
 
     simpleHtml("Edit Font: ${font.name}") {
-        form {
+        form(encType = FormEncType.multipartFormData) {
             selectName(font.name)
             fileInput {
                 accept = ".ttf,.otf"
