@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils.renderer.svg
 
+import at.orchaldir.gm.core.model.util.FontFamily
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -114,15 +115,14 @@ class SvgRenderer(
         inlineTag(
             "text",
             text,
-            "x=\"%.3f\" y=\"%.3f\" alignment-baseline=\"%s\" transform=\"rotate(%.3f,%.3f,%.3f)\" style=\"%s;font-size:%.3fpx\" text-anchor=\"middle\"",
+            "x=\"%.3f\" y=\"%.3f\" alignment-baseline=\"%s\" transform=\"rotate(%.3f,%.3f,%.3f)\" style=\"%s\" text-anchor=\"middle\"",
             position.x,
             position.y,
             toSvg(options.verticalAlignment),
             orientation.toDegree(),
             position.x,
             position.y,
-            toSvg(options.renderOptions),
-            options.size,
+            toSvg(options),
             text,
         )
 
@@ -185,6 +185,21 @@ class SvgRenderer(
         }
     }
 
+    private fun toSvg(options: RenderStringOptions) =
+        formatAttributes(
+            "%s;font-family:'%s';font-size:%.3fpx",
+            toSvg(options.renderOptions),
+            toSvg(options.fontFamily),
+            options.size,
+        )
+
+    private fun toSvg(family: FontFamily) = when (family) {
+        FontFamily.BrushScriptMT -> "Brush Script MT"
+        FontFamily.CourierNew -> "Courier New"
+        FontFamily.TimesNewRoman -> "Times New Roman"
+        else -> family.name
+    }
+
     private fun toSvg(options: RenderOptions): String {
         return when (options) {
             is FillAndBorder -> String.format(
@@ -213,5 +228,4 @@ class SvgRenderer(
     }
 
     private fun toSvg(color: RenderColor) = color.toCode()
-
 }
