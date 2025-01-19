@@ -187,7 +187,9 @@ private fun HTML.showFontEditor(
     simpleHtml("Edit Font: ${font.name}") {
         form {
             selectName(font.name)
-            selectText("Base64", font.base64, CONTENT, 1)
+            fileInput {
+                accept = ".ttf,.otf"
+            }
 
             button("Update", updateLink)
         }
