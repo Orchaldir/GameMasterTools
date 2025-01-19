@@ -27,6 +27,7 @@ import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
+private val example = "abcdefghijklmnopqrstuvwxyz"
 
 @Resource("/$FONT_TYPE")
 class FontRoutes {
@@ -116,7 +117,6 @@ fun Application.configureFontRouting() {
 private fun HTML.showAllFonts(call: ApplicationCall) {
     val fonts = STORE.getState().getFontStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(FontRoutes.New())
-    val example = "abcdefghijklmnopqrstuvwxyz"
 
     simpleHtml("Fonts") {
         field("Count", fonts.size)
@@ -152,6 +152,7 @@ private fun HTML.showFontDetails(
     val editLink = call.application.href(FontRoutes.Edit(font.id))
 
     simpleHtml("Font: ${font.name}") {
+        svg(visualizeString(example, font, 40.0f), 100)
         field("Base64") {
             textArea("10", "200", TextAreaWrap.soft) {
                 +font.base64
