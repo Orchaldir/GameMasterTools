@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.renderer.svg
 
-import at.orchaldir.gm.core.model.util.FontFamily
+import at.orchaldir.gm.core.model.font.Font
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -187,17 +188,16 @@ class SvgRenderer(
 
     private fun toSvg(options: RenderStringOptions) =
         formatAttributes(
-            "%s;font-family:'%s';font-size:%.3fpx",
+            "%s%s;font-size:%.3fpx",
             toSvg(options.renderOptions),
-            toSvg(options.fontFamily),
+            toSvg(options.font),
             options.size,
         )
 
-    private fun toSvg(family: FontFamily) = when (family) {
-        FontFamily.BrushScriptMT -> "Brush Script MT"
-        FontFamily.CourierNew -> "Courier New"
-        FontFamily.TimesNewRoman -> "Times New Roman"
-        else -> family.name
+    private fun toSvg(font: Font?) = if (font != null) {
+        String.format(";font-family:'%s'", font.name)
+    } else {
+        ""
     }
 
     private fun toSvg(options: RenderOptions): String {

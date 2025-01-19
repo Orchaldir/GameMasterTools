@@ -275,7 +275,7 @@ private fun HtmlBlockTag.editCover(
             value = material.id.value.toString()
             selected = material.id == cover.material
         }
-        editTypography(cover.typography, hasAuthor)
+        editTypography(state, cover.typography, hasAuthor)
     }
 }
 

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.util
 
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.utils.math.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -28,7 +29,7 @@ sealed class FontOption {
 data class SolidFont(
     val size: Distance,
     val color: Color = Color.White,
-    val font: FontFamily = FontFamily.Arial,
+    val font: FontId = FontId(0),
 ) : FontOption()
 
 @Serializable
@@ -38,5 +39,5 @@ data class FontWithBorder(
     val thickness: Distance,
     val fill: Color = Color.White,
     val border: Color = Color.Black,
-    val font: FontFamily = FontFamily.Arial,
+    val font: FontId = FontId(0),
 ) : FontOption()

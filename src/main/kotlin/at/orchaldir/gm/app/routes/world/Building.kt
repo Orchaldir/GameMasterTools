@@ -328,11 +328,8 @@ private fun HTML.showBuildingLotEditor(
 private fun FORM.selectAddress(state: State, building: Building) {
     val streets = state.getStreets(building.lot.town)
 
-    selectValue("Address Type", combine(ADDRESS, TYPE), AddressType.entries, true) { type ->
-        label = type.name
-        value = type.name
-        selected = type == building.address.getType()
-        disabled = when (type) {
+    selectValue("Address Type", combine(ADDRESS, TYPE), AddressType.entries, building.address.getType(), true) { type ->
+        when (type) {
             AddressType.Street -> streets.isEmpty()
             AddressType.Crossing -> streets.size < 2
             else -> false

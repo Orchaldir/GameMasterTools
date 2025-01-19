@@ -59,11 +59,8 @@ fun <ID : Id<ID>> FORM.selectCreator(
         .filter { it.id != created }
     val characters = state.getLiving(date)
 
-    selectValue("$noun Type", CREATOR, CreatorType.entries, true) { type ->
-        label = type.name
-        value = type.name
-        selected = type == creator.getType()
-        disabled = when (type) {
+    selectValue("$noun Type", CREATOR, CreatorType.entries, creator.getType(), true) { type ->
+        when (type) {
             CreatorType.Undefined -> false
             CreatorType.CreatedByBusiness -> businesses.isEmpty()
             CreatorType.CreatedByCharacter -> characters.isEmpty()
