@@ -1,7 +1,6 @@
 package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.core.model.font.Font
-import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -11,6 +10,7 @@ import java.util.*
 val LOCALE: Locale = Locale.US
 
 class SvgRenderer(
+    private val fonts: MutableSet<Font>,
     private val patterns: MutableMap<RenderFill, String>,
     private val lines: MutableList<String>,
     private val indent: String,
@@ -132,12 +132,22 @@ class SvgRenderer(
 
     //
 
+    fun font(font: Font) {
+        customTag("@font-face{", "}") {
+            it.addLine("font-family:\"${font.name}\";")
+            it.addLine("src:url(data:application/font-woff;charset=utf-8;base64,${font.base64})")
+            it.addLine("format(\"woff\");")
+            it.addLine("font-weight:normal;")
+            it.addLine("font-style:normal;")
+        }
+    }
+
     fun tag(tag: String, attributes: String = "", content: (SvgRenderer) -> Unit) {
-        addLine(String.format("<%s%s>", tag, attributes))
-
-        content(SvgRenderer(patterns, lines, indent + step, step, tooltip))
-
-        addLine(String.format("</%s>", tag))
+        customTag(
+            String.format("<%s%s>", tag, attributes),
+            String.format("</%s>", tag),
+            content,
+        )
     }
 
     fun tag(tag: String, format: String, vararg args: Any?, content: (SvgRenderer) -> Unit) {
@@ -145,6 +155,14 @@ class SvgRenderer(
         tag(tag, " $attributes") {
             content(it)
         }
+    }
+
+    fun customTag(start: String, end: String, content: (SvgRenderer) -> Unit) {
+        addLine(start)
+
+        content(SvgRenderer(fonts, patterns, lines, indent + step, step, tooltip))
+
+        addLine(end)
     }
 
     private fun inlineTag(tag: String, text: String, format: String, vararg args: Any?) {
@@ -195,6 +213,7 @@ class SvgRenderer(
         )
 
     private fun toSvg(font: Font?) = if (font != null) {
+        fonts.add(font)
         String.format(";font-family:'%s'", font.name)
     } else {
         ""
