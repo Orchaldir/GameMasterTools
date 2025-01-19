@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.routes
 
+import at.orchaldir.gm.app.CALENDAR
 import at.orchaldir.gm.app.CURRENT
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
@@ -302,7 +303,7 @@ private fun HTML.editTimeData(
 
     simpleHtml("Edit Time Data") {
         form {
-            selectValue("Default Calendar", CALENDAR_TYPE, state.getCalendarStorage().getAll()) { calendar ->
+            selectValue("Default Calendar", CALENDAR, state.getCalendarStorage().getAll()) { calendar ->
                 label = calendar.name
                 value = calendar.id.value.toString()
                 selected = calendar.id == state.time.defaultCalendar
