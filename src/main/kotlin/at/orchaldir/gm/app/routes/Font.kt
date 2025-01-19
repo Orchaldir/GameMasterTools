@@ -117,6 +117,7 @@ fun Application.configureFontRouting() {
                     is PartData.FileItem -> {
                         fileBytes = Base64.encode(part.provider().readBytes())
                     }
+
                     is PartData.FormItem -> name = part.value
 
                     else -> logger.info { "else: part=$part" }

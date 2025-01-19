@@ -1,9 +1,6 @@
 package at.orchaldir.gm.core.model.item.text.book.typography
 
 import at.orchaldir.gm.core.model.font.FontId
-import at.orchaldir.gm.core.model.item.text.book.CopticBinding
-import at.orchaldir.gm.core.model.item.text.book.Hardcover
-import at.orchaldir.gm.core.model.item.text.book.LeatherBinding
 import at.orchaldir.gm.core.model.util.FontOption
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

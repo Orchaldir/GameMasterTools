@@ -1,9 +1,6 @@
 package at.orchaldir.gm.core.model.item.text.book
 
 import at.orchaldir.gm.core.model.font.FontId
-import at.orchaldir.gm.core.model.item.text.Book
-import at.orchaldir.gm.core.model.item.text.Scroll
-import at.orchaldir.gm.core.model.item.text.UndefinedTextFormat
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName

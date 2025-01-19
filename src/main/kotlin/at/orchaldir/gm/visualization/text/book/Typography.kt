@@ -1,9 +1,10 @@
 package at.orchaldir.gm.visualization.text.book
 
+import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.core.model.util.FontOption
 import at.orchaldir.gm.core.model.util.FontWithBorder
 import at.orchaldir.gm.core.model.util.SolidFont
-import at.orchaldir.gm.core.model.item.text.book.typography.*
+import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
@@ -12,7 +13,6 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
-import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.renderer.renderWrappedString
 import at.orchaldir.gm.utils.renderer.renderWrappedStrings
 import at.orchaldir.gm.visualization.text.TextRenderState
