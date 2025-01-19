@@ -28,7 +28,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/holiday")
+@Resource("/$HOLIDAY_TYPE")
 class HolidayRoutes {
     @Resource("details")
     class Details(val id: HolidayId, val parent: HolidayRoutes = HolidayRoutes())

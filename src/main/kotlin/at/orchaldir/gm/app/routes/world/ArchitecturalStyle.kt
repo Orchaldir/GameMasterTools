@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.*
+import at.orchaldir.gm.core.model.world.building.ARCHITECTURAL_STYLE_TYPE
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.selector.sortArchitecturalStyles
@@ -32,7 +33,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/architectural_styles")
+@Resource("/$ARCHITECTURAL_STYLE_TYPE")
 class ArchitecturalStyleRoutes {
     @Resource("all")
     class All(

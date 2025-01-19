@@ -29,7 +29,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/calendars")
+@Resource("/$CALENDAR_TYPE")
 class CalendarRoutes {
     @Resource("details")
     class Details(val id: CalendarId, val parent: CalendarRoutes = CalendarRoutes())

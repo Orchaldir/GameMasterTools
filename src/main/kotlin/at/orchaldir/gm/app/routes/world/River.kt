@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.action.CreateRiver
 import at.orchaldir.gm.core.action.DeleteRiver
 import at.orchaldir.gm.core.action.UpdateRiver
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.world.terrain.RIVER_TYPE
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.selector.world.canDelete
@@ -26,7 +27,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/rivers")
+@Resource("/$RIVER_TYPE")
 class RiverRoutes {
     @Resource("details")
     class Details(val id: RiverId, val parent: RiverRoutes = RiverRoutes())

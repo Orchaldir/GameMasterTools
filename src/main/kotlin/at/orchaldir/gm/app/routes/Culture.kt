@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.CALENDAR_TYPE
+import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
@@ -31,7 +32,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/cultures")
+@Resource("/$CULTURE_TYPE")
 class CultureRoutes {
     @Resource("details")
     class Details(val id: CultureId, val parent: CultureRoutes = CultureRoutes())

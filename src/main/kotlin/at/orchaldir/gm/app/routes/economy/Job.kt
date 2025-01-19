@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.action.CreateJob
 import at.orchaldir.gm.core.action.DeleteJob
 import at.orchaldir.gm.core.action.UpdateJob
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.job.JOB_TYPE
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.selector.economy.canDelete
@@ -29,7 +30,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/jobs")
+@Resource("/$JOB_TYPE")
 class JobRoutes {
     @Resource("details")
     class Details(val id: JobId, val parent: JobRoutes = JobRoutes())

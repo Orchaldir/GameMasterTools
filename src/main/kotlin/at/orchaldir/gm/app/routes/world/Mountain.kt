@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.action.CreateMountain
 import at.orchaldir.gm.core.action.DeleteMountain
 import at.orchaldir.gm.core.action.UpdateMountain
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.world.terrain.MOUNTAIN_TYPE
 import at.orchaldir.gm.core.model.world.terrain.Mountain
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.selector.world.canDelete
@@ -26,7 +27,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/mountains")
+@Resource("/$MOUNTAIN_TYPE")
 class MountainRoutes {
     @Resource("details")
     class Details(val id: MountainId, val parent: MountainRoutes = MountainRoutes())

@@ -34,7 +34,7 @@ import kotlin.math.min
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/building")
+@Resource("/$BUILDING_TYPE")
 class BuildingRoutes {
     @Resource("all")
     class All(

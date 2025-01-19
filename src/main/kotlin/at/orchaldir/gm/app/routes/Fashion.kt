@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.action.CreateFashion
 import at.orchaldir.gm.core.action.DeleteFashion
 import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.fashion.FASHION_TYPE
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.item.ACCESSORIES
@@ -32,7 +33,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/fashion")
+@Resource("/$FASHION_TYPE")
 class FashionRoutes {
     @Resource("details")
     class Details(val id: FashionId, val parent: FashionRoutes = FashionRoutes())

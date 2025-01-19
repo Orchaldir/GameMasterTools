@@ -3,11 +3,12 @@ package at.orchaldir.gm.app.routes.world.town
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.TerrainType
+import at.orchaldir.gm.core.model.world.town.TOWN_TYPE
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.utils.map.MapSize2d
 import io.ktor.resources.*
 
-@Resource("/town")
+@Resource("/$TOWN_TYPE")
 class TownRoutes {
     @Resource("details")
     class Details(val id: TownId, val parent: TownRoutes = TownRoutes())
