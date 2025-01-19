@@ -164,7 +164,7 @@ private fun HtmlBlockTag.editSharedFontOptions(
     fontId: FontId,
     size: Distance,
 ) {
-    selectValue("Font", combine(param, FONT), state.getFontStorage().getAll()) { font ->
+    selectValue("Font", combine(param, FONT), state.getFontStorage().getAll(), true) { font ->
         label = font.name
         value = font.id.value.toString()
         selected = fontId == font.id
