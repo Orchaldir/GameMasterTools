@@ -126,12 +126,15 @@ private fun HTML.showAllFonts(call: ApplicationCall) {
         table {
             tr {
                 th { +"Name" }
-                th { +"Example" }
+                th {
+                    style = "width:1000px"
+                    +"Example"
+                }
             }
             fonts.forEach { font ->
                 tr {
                     td { link(call, font) }
-                    td { svg(visualizeString(example, font, 20.0f), 100) }
+                    td { svg(visualizeString(example, font, 40.0f), 100) }
                 }
             }
         }
