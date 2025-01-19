@@ -17,7 +17,7 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
         val lines: MutableList<String> = mutableListOf()
         lines.add(getStartLine())
 
-        if (patterns.isNotEmpty()) {
+        if (patterns.isNotEmpty() || fonts.isNotEmpty()) {
             val patternLines = mutableListOf<String>()
             val renderer = SvgRenderer(fonts, patterns, patternLines, step, step)
 
