@@ -20,6 +20,7 @@ value class FontId(val value: Int) : Id<FontId> {
 data class Font(
     val id: FontId,
     val name: String = "Font ${id.value}",
+    val base64: String = "",
 ) : ElementWithSimpleName<FontId> {
 
     override fun id() = id

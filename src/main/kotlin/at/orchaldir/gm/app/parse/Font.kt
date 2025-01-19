@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.parse
 
+import at.orchaldir.gm.app.CONTENT
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
@@ -14,5 +15,6 @@ fun parseFontId(
 fun parseFont(id: FontId, parameters: Parameters) = Font(
     id,
     parameters.getOrFail(NAME),
+    parseString(parameters, CONTENT),
 )
 

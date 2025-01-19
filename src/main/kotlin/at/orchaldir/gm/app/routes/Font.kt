@@ -1,5 +1,7 @@
 package at.orchaldir.gm.app.routes
 
+import at.orchaldir.gm.app.CONTENT
+import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseFont
@@ -134,6 +136,8 @@ private fun HTML.showFontDetails(
     val editLink = call.application.href(FontRoutes.Edit(font.id))
 
     simpleHtml("Font: ${font.name}") {
+        field("Base64", font.base64)
+
         action(editLink, "Edit")
         if (state.canDelete(font.id)) {
             action(deleteLink, "Delete")
@@ -152,6 +156,7 @@ private fun HTML.showFontEditor(
     simpleHtml("Edit Font: ${font.name}") {
         form {
             selectName(font.name)
+            selectText("Base64", font.base64, CONTENT, 1)
 
             button("Update", updateLink)
         }
