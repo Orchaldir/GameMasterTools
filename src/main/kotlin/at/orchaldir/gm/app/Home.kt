@@ -47,6 +47,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getCalendarStorage(), CalendarRoutes())
                     fieldStorageLink(call, state.getCultureStorage(), CultureRoutes())
                     fieldStorageLink(call, state.getFashionStorage(), FashionRoutes())
+                    fieldStorageLink(call, state.getFontStorage(), FontRoutes())
                     fieldStorageLink(call, state.getHolidayStorage(), HolidayRoutes())
                     fieldStorageLink(call, state.getLanguageStorage(), LanguageRoutes())
                     fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes())

@@ -174,6 +174,7 @@ fun <ID : Id<ID>> href(
     is CharacterId -> call.application.href(CharacterRoutes.Details(id))
     is CultureId -> call.application.href(CultureRoutes.Details(id))
     is FashionId -> call.application.href(FashionRoutes.Details(id))
+    is FontId -> call.application.href(FontRoutes.Details(id))
     is HolidayId -> call.application.href(HolidayRoutes.Details(id))
     is ItemTemplateId -> call.application.href(ItemTemplateRoutes.Details(id))
     is JobId -> call.application.href(JobRoutes.Details(id))

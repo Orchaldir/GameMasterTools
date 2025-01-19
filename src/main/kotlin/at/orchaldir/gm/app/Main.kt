@@ -49,6 +49,7 @@ fun Application.module() {
     configureCultureRouting()
     configureEquipmentRouting()
     configureFashionRouting()
+    configureFontRouting()
     configureHolidayRouting()
     configureItemTemplateRouting()
     configureJobRouting()
