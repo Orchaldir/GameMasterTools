@@ -1,10 +1,14 @@
 package at.orchaldir.gm.core.model.item.text
 
+import at.orchaldir.gm.app.html.model.displayDate
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.name.ComplexName
+import at.orchaldir.gm.core.model.name.SimpleName
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.Created
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -23,15 +27,27 @@ value class TextId(val value: Int) : Id<TextId> {
 @Serializable
 data class Text(
     val id: TextId,
-    val name: String = "Text ${id.value}",
+    val name: ComplexName = SimpleName("Text ${id.value}"),
     val origin: TextOrigin = OriginalText(UndefinedCreator),
     val date: Date? = null,
     val language: LanguageId = LanguageId(0),
     val format: TextFormat = UndefinedTextFormat,
-) : ElementWithSimpleName<TextId>, Created {
+) : Element<TextId>, Created {
 
     override fun id() = id
-    override fun name() = name
+    override fun name(state: State) = name.resolve(state)
+
+    fun getNameWithDate(state: State): String {
+        val resolvedName = name(state)
+
+        return if (date != null) {
+            val displayDate = displayDate(state, date)
+
+            "$resolvedName ($displayDate)"
+        } else {
+            resolvedName
+        }
+    }
 
     override fun creator() = origin.creator()
 

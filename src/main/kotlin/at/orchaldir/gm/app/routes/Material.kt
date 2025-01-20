@@ -173,7 +173,7 @@ private fun HTML.showMaterialDetails(
             link(call, template)
         }
         showList("Texts", texts) { text ->
-            link(call, text)
+            link(call, state, text)
         }
         action(editLink, "Edit")
         if (state.canDelete(material.id)) {

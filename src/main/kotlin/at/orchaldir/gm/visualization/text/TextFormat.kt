@@ -70,4 +70,4 @@ fun visualizeTextFormat(
 }
 
 private fun resolveTextData(state: State, text: Text) =
-    ResolvedTextData(text.name, state.getAuthorName(text))
+    ResolvedTextData(text.name(state), state.getAuthorName(text))

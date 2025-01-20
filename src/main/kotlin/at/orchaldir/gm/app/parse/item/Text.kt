@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.parse.item
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.model.parseComplexName
 import at.orchaldir.gm.app.html.model.parseCreator
 import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.html.model.text.parseTextFormat
@@ -11,14 +12,13 @@ import at.orchaldir.gm.app.parse.parseLanguageId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import io.ktor.http.*
-import io.ktor.server.util.*
 
 fun parseTextId(parameters: Parameters, param: String) = TextId(parseInt(parameters, param))
 
 fun parseText(parameters: Parameters, state: State, id: TextId) =
     Text(
         id,
-        parameters.getOrFail(NAME),
+        parseComplexName(parameters),
         parseOrigin(parameters),
         parseOptionalDate(parameters, state, DATE),
         parseLanguageId(parameters, LANGUAGE),

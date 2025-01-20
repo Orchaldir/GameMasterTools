@@ -105,6 +105,6 @@ fun State.sortTexts(
 ) = buildings
     .sortedWith(
         when (sort) {
-            SortText.Name -> compareBy { it.name }
+            SortText.Name -> compareBy { it.name(this) }
             SortText.Age -> getTextAgeComparator()
         })
