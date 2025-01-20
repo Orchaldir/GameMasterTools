@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.action.CreateBusiness
 import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.business.BUSINESS_TYPE
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.util.SortBusiness
@@ -32,7 +33,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/business")
+@Resource("/$BUSINESS_TYPE")
 class BusinessRoutes {
     @Resource("all")
     class All(

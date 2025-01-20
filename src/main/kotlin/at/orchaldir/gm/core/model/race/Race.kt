@@ -9,14 +9,14 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Distribution
 import kotlinx.serialization.Serializable
 
-const val RACE = "Race"
+const val RACE_TYPE = "Race"
 
 @JvmInline
 @Serializable
 value class RaceId(val value: Int) : Id<RaceId> {
 
     override fun next() = RaceId(value + 1)
-    override fun type() = RACE
+    override fun type() = RACE_TYPE
     override fun value() = value
 
 }

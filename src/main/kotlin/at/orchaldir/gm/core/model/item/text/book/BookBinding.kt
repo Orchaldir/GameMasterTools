@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.text.book
 
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName
@@ -24,6 +25,12 @@ sealed class BookBinding {
         is CopticBinding -> cover.material == material
         is Hardcover -> cover.material == material
         is LeatherBinding -> cover.material == material || leatherMaterial == material
+    }
+
+    fun contains(font: FontId) = when (this) {
+        is CopticBinding -> cover.typography.contains(font)
+        is Hardcover -> cover.typography.contains(font)
+        is LeatherBinding -> cover.typography.contains(font)
     }
 }
 

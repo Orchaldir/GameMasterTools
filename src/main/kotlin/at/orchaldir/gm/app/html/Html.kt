@@ -144,7 +144,9 @@ inline fun <reified T : Any> BODY.fieldStorageLink(call: ApplicationCall, storag
 fun HtmlBlockTag.svg(svg: Svg, width: Int) {
     div {
         style = "display: inline-block; width:$width%"
+        +"\n"
         unsafe { +svg.export() }
+        +"\n"
     }
 }
 

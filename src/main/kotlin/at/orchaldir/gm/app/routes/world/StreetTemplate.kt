@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.action.UpdateStreetTemplate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Solid
+import at.orchaldir.gm.core.model.world.street.STREET_TEMPLATE_TYPE
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.selector.world.canDelete
@@ -41,7 +42,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/street_templates")
+@Resource("/$STREET_TEMPLATE_TYPE")
 class StreetTemplateRoutes {
     @Resource("details")
     class Details(val id: StreetTemplateId, val parent: StreetTemplateRoutes = StreetTemplateRoutes())

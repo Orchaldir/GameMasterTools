@@ -8,12 +8,11 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.model.item.text.book.FontOption
-import at.orchaldir.gm.core.model.item.text.book.FontOptionType
-import at.orchaldir.gm.core.model.item.text.book.FontWithBorder
-import at.orchaldir.gm.core.model.item.text.book.SolidFont
+import at.orchaldir.gm.app.parse.parseFontId
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.item.text.book.typography.*
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
 import io.ktor.http.*
@@ -25,41 +24,62 @@ private val THOUSAND_MM = Distance(1000)
 
 // edit
 
-fun HtmlBlockTag.editTypography(typography: Typography) {
-    selectValue("Typography", TYPOGRAPHY, TypographyType.entries, typography.getType(), true)
+fun HtmlBlockTag.editTypography(
+    state: State,
+    typography: Typography,
+    hasAuthor: Boolean,
+) {
+    selectValue("Typography", TYPOGRAPHY, TypographyType.entries, typography.getType(), true) { type ->
+        when (type) {
+            TypographyType.Simple, TypographyType.Advanced -> !hasAuthor
+            else -> false
+        }
+    }
 
     when (typography) {
         NoTypography -> doNothing()
-        is SimpleTitleTypography -> editSimpleTitleTypography(typography)
-        is SimpleTypography -> editSimpleTypography(typography)
-        is AdvancedTypography -> editAdvancedTypography(typography)
+        is SimpleTitleTypography -> editSimpleTitleTypography(state, typography, hasAuthor)
+        is SimpleTypography -> editSimpleTypography(state, typography, hasAuthor)
+        is AdvancedTypography -> editAdvancedTypography(state, typography)
     }
 }
 
 fun HtmlBlockTag.editSimpleTitleTypography(
+    state: State,
     typography: SimpleTitleTypography,
+    hasAuthor: Boolean,
 ) {
-    editFontOption("Title", typography.font, NAME)
-    selectValue("Typography Layout", combine(TYPOGRAPHY, LAYOUT), TypographyLayout.entries, typography.layout, true)
+    editFontOption(state, "Title", typography.font, NAME)
+    editTypographyLayout(typography.layout, hasAuthor)
 }
 
 fun HtmlBlockTag.editSimpleTypography(
+    state: State,
     typography: SimpleTypography,
+    hasAuthor: Boolean,
 ) {
-    editFontOption("Title", typography.title, NAME)
-    editFontOption("Author", typography.author, CREATOR)
+    editFontOption(state, "Title", typography.title, NAME)
+    editFontOption(state, "Author", typography.author, CREATOR)
     selectValue("Typography Order", combine(TYPOGRAPHY, ORDER), TypographyOrder.entries, typography.order, true)
-    selectValue("Typography Layout", combine(TYPOGRAPHY, LAYOUT), TypographyLayout.entries, typography.layout, true)
+    editTypographyLayout(typography.layout, hasAuthor)
+}
+
+private fun HtmlBlockTag.editTypographyLayout(layout: TypographyLayout, hasAuthor: Boolean) {
+    selectValue("Typography Layout", combine(TYPOGRAPHY, LAYOUT), TypographyLayout.entries, layout, true) { l ->
+        !hasAuthor && l == TypographyLayout.TopAndBottom
+    }
 }
 
 fun HtmlBlockTag.editAdvancedTypography(
+    state: State,
     typography: AdvancedTypography,
 ) {
-    editStringRenderOption(typography.author, "Author", CREATOR)
-    editStringRenderOption(typography.title, "Title", NAME)
+    editStringRenderOption(state, typography.author, "Author", CREATOR)
+    editStringRenderOption(state, typography.title, "Title", NAME)
 }
 
 fun HtmlBlockTag.editStringRenderOption(
+    state: State,
     option: StringRenderOption,
     text: String,
     param: String,
@@ -75,11 +95,11 @@ fun HtmlBlockTag.editStringRenderOption(
 
         when (option) {
             is SimpleStringRenderOption -> {
-                editStringSharedOptions(param, option.x, option.y, option.fontOption)
+                editStringSharedOptions(state, param, option.x, option.y, option.font)
             }
 
             is WrappedStringRenderOption -> {
-                editStringSharedOptions(param, option.x, option.y, option.fontOption)
+                editStringSharedOptions(state, param, option.x, option.y, option.font)
                 selectDistance("$text Width", combine(param, WIDTH), option.width, ZERO_MM, THOUSAND_MM, update = true)
             }
         }
@@ -87,6 +107,7 @@ fun HtmlBlockTag.editStringRenderOption(
 }
 
 private fun HtmlBlockTag.editStringSharedOptions(
+    state: State,
     param: String,
     x: Distance,
     y: Distance,
@@ -94,35 +115,37 @@ private fun HtmlBlockTag.editStringSharedOptions(
 ) {
     selectDistance("X", combine(param, X), x, ZERO_MM, THOUSAND_MM, update = true)
     selectDistance("Y", combine(param, Y), y, ZERO_MM, THOUSAND_MM, update = true)
-    editFontOption(fontOption, combine(param, FONT))
+    editFontOption(state, fontOption, combine(param, FONT))
 }
 
 fun HtmlBlockTag.editFontOption(
+    state: State,
     text: String,
     option: FontOption,
     param: String,
 ) {
     showDetails(text, true) {
-        editFontOption(option, param)
+        editFontOption(state, option, param)
     }
 }
 
 fun HtmlBlockTag.editFontOption(
+    state: State,
     option: FontOption,
     param: String,
 ) {
-    selectValue("Font Option", combine(param, FONT), FontOptionType.entries, option.getType(), true)
+    selectValue("Font Option", combine(param, TYPE), FontOptionType.entries, option.getType(), true)
 
     when (option) {
         is SolidFont -> {
             selectColor("Font Color", combine(param, COLOR), Color.entries, option.color)
-            selectDistance("Font Size", combine(param, SIZE), option.size, ONE_MM, THOUSAND_MM, update = true)
+            editSharedFontOptions(state, param, option.font, option.size)
         }
 
         is FontWithBorder -> {
             selectColor("Fill Color", combine(param, COLOR), Color.entries, option.fill)
             selectColor("Border Color", combine(param, BORDER, COLOR), Color.entries, option.border)
-            selectDistance("Font Size", combine(param, SIZE), option.size, ONE_MM, THOUSAND_MM, update = true)
+            editSharedFontOptions(state, param, option.font, option.size)
             selectDistance(
                 "Border Thickness",
                 combine(param, BORDER, SIZE),
@@ -133,6 +156,20 @@ fun HtmlBlockTag.editFontOption(
             )
         }
     }
+}
+
+private fun HtmlBlockTag.editSharedFontOptions(
+    state: State,
+    param: String,
+    fontId: FontId,
+    size: Distance,
+) {
+    selectValue("Font", combine(param, FONT), state.getFontStorage().getAll(), true) { font ->
+        label = font.name
+        value = font.id.value.toString()
+        selected = fontId == font.id
+    }
+    selectDistance("Font Size", combine(param, SIZE), size, ONE_MM, THOUSAND_MM, update = true)
 }
 
 // parse
@@ -158,17 +195,19 @@ fun parseTextTypography(parameters: Parameters) = when (parse(parameters, TYPOGR
 }
 
 private fun parseFontOption(parameters: Parameters, param: String) =
-    when (parse(parameters, combine(param, FONT), FontOptionType.Solid)) {
+    when (parse(parameters, combine(param, TYPE), FontOptionType.Solid)) {
         FontOptionType.Solid -> SolidFont(
-            parse(parameters, combine(param, COLOR), Color.White),
             parseDistance(parameters, combine(param, SIZE), 10),
+            parse(parameters, combine(param, COLOR), Color.White),
+            parseFontId(parameters, combine(param, FONT)),
         )
 
         FontOptionType.Border -> FontWithBorder(
-            parse(parameters, combine(param, COLOR), Color.White),
-            parse(parameters, combine(param, BORDER, COLOR), Color.White),
             parseDistance(parameters, combine(param, SIZE), 10),
             parseDistance(parameters, combine(param, BORDER, SIZE), 1),
+            parse(parameters, combine(param, COLOR), Color.White),
+            parse(parameters, combine(param, BORDER, COLOR), Color.White),
+            parseFontId(parameters, combine(param, FONT)),
         )
     }
 

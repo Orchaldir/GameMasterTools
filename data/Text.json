@@ -158,10 +158,10 @@
        "type": "SimpleTitle",
        "font": {
         "type": "Solid",
-        "color": "Red",
         "size": {
          "millimeters": 20
-        }
+        },
+        "color": "Red"
        }
       }
      },

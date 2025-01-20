@@ -114,11 +114,8 @@ private fun HTML.showTerrainEditor(
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectValue("Terrain", combine(TERRAIN, TYPE), TerrainType.entries, true) { type ->
-                    label = type.toString()
-                    value = type.toString()
-                    selected = type == terrainType
-                    disabled = when (type) {
+                selectValue("Terrain", combine(TERRAIN, TYPE), TerrainType.entries, terrainType, true) { type ->
+                    when (type) {
                         TerrainType.Hill, TerrainType.Mountain -> mountains.isEmpty()
                         TerrainType.Plain -> false
                         TerrainType.River -> rivers.isEmpty()

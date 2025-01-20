@@ -4,14 +4,14 @@ import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val LANGUAGE = "Language"
+const val LANGUAGE_TYPE = "Language"
 
 @JvmInline
 @Serializable
 value class LanguageId(val value: Int) : Id<LanguageId> {
 
     override fun next() = LanguageId(value + 1)
-    override fun type() = LANGUAGE
+    override fun type() = LANGUAGE_TYPE
     override fun value() = value
 
 }

@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.action.CreateStreet
 import at.orchaldir.gm.core.action.DeleteStreet
 import at.orchaldir.gm.core.action.UpdateStreet
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.world.street.STREET_TYPE
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.sortBuildings
@@ -30,7 +31,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/streets")
+@Resource("/$STREET_TYPE")
 class StreetRoutes {
     @Resource("details")
     class Details(val id: StreetId, val parent: StreetRoutes = StreetRoutes())

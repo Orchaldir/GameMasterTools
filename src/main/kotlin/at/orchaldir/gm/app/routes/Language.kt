@@ -33,7 +33,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/languages")
+@Resource("/$LANGUAGE_TYPE")
 class LanguageRoutes {
     @Resource("details")
     class Details(val id: LanguageId, val parent: LanguageRoutes = LanguageRoutes())

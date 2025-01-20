@@ -5,14 +5,14 @@ import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val ARCHITECTURAL_STYLE = "Architectural Style"
+const val ARCHITECTURAL_STYLE_TYPE = "Architectural Style"
 
 @JvmInline
 @Serializable
 value class ArchitecturalStyleId(val value: Int) : Id<ArchitecturalStyleId> {
 
     override fun next() = ArchitecturalStyleId(value + 1)
-    override fun type() = ARCHITECTURAL_STYLE
+    override fun type() = ARCHITECTURAL_STYLE_TYPE
     override fun value() = value
 
 }

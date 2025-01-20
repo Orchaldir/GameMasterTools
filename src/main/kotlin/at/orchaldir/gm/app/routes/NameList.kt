@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.action.CreateNameList
 import at.orchaldir.gm.core.action.DeleteNameList
 import at.orchaldir.gm.core.action.UpdateNameList
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.name.NAME_LIST_TYPE
 import at.orchaldir.gm.core.model.name.NameList
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.selector.canDelete
@@ -25,7 +26,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/names")
+@Resource("/$NAME_LIST_TYPE")
 class NameListRoutes {
     @Resource("details")
     class Details(val id: NameListId, val parent: NameListRoutes = NameListRoutes())

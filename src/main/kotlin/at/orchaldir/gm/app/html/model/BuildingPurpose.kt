@@ -70,12 +70,8 @@ fun FORM.selectBuildingPurpose(state: State, building: Building) {
     val inhabitants = state.getCharactersLivingIn(building.id)
     val availableBusinesses = state.getBusinessesWithoutBuilding() + purpose.getBusinesses()
 
-    selectValue("Purpose", PURPOSE, BuildingPurposeType.entries, true) { type ->
-        label = type.toString()
-        value = type.toString()
-        selected = purpose.getType() == type
-        disabled = (!type.isHome() && inhabitants.isNotEmpty()) ||
-                (type.isBusiness() && availableBusinesses.isEmpty())
+    selectValue("Purpose", PURPOSE, BuildingPurposeType.entries, purpose.getType(), true) { type ->
+        (!type.isHome() && inhabitants.isNotEmpty()) || (type.isBusiness() && availableBusinesses.isEmpty())
     }
 
     when (purpose) {

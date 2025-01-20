@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.routes
 
+import at.orchaldir.gm.app.CALENDAR
 import at.orchaldir.gm.app.CURRENT
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*

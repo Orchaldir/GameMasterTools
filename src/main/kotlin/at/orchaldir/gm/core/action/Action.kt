@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
+import at.orchaldir.gm.core.model.font.Font
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ItemTemplate
@@ -96,6 +98,11 @@ data class UpdateCulture(val culture: Culture) : Action()
 data object CreateFashion : Action()
 data class DeleteFashion(val id: FashionId) : Action()
 data class UpdateFashion(val fashion: Fashion) : Action()
+
+// font
+data object CreateFont : Action()
+data class DeleteFont(val id: FontId) : Action()
+data class UpdateFont(val font: Font) : Action()
 
 // holiday
 data object CreateHoliday : Action()

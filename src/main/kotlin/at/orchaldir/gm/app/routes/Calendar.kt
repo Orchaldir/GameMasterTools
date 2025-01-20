@@ -29,7 +29,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/calendars")
+@Resource("/$CALENDAR_TYPE")
 class CalendarRoutes {
     @Resource("details")
     class Details(val id: CalendarId, val parent: CalendarRoutes = CalendarRoutes())
@@ -340,7 +340,7 @@ private fun FORM.editOrigin(
     }
     when (origin) {
         is ImprovedCalendar ->
-            selectValue("Parent", CALENDAR, possibleParents) { c ->
+            selectValue("Parent", CALENDAR_TYPE, possibleParents) { c ->
                 label = c.name
                 value = c.id.value.toString()
                 selected = origin.parent == c.id

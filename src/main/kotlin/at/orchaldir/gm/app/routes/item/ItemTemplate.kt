@@ -35,7 +35,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/item_templates")
+@Resource("/$ITEM_TEMPLATE_TYPE")
 class ItemTemplateRoutes {
     @Resource("details")
     class Details(val id: ItemTemplateId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())

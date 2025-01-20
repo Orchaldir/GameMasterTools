@@ -28,7 +28,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/holiday")
+@Resource("/$HOLIDAY_TYPE")
 class HolidayRoutes {
     @Resource("details")
     class Details(val id: HolidayId, val parent: HolidayRoutes = HolidayRoutes())
@@ -187,14 +187,11 @@ private fun HTML.showHolidayEditor(
 }
 
 private fun FORM.selectRelativeDate(param: String, relativeDate: RelativeDate, calendar: Calendar) {
-    selectValue("Relative Date", combine(param, TYPE), RelativeDateType.entries, true) { type ->
-        label = type.name
-        value = type.name
-        disabled = when (type) {
+    selectValue("Relative Date", combine(param, TYPE), RelativeDateType.entries, relativeDate.getType(), true) { type ->
+        when (type) {
             RelativeDateType.FixedDayInYear -> false
             RelativeDateType.WeekdayInMonth -> calendar.days.getType() == DaysType.DayOfTheMonth
         }
-        selected = type == relativeDate.getType()
     }
     when (relativeDate) {
         is FixedDayInYear -> {

@@ -14,14 +14,14 @@ import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val CULTURE = "Culture"
+const val CULTURE_TYPE = "Culture"
 
 @JvmInline
 @Serializable
 value class CultureId(val value: Int) : Id<CultureId> {
 
     override fun next() = CultureId(value + 1)
-    override fun type() = CULTURE
+    override fun type() = CULTURE_TYPE
     override fun value() = value
 
 }

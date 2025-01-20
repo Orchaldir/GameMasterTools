@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector.item
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.item.text.OriginalText
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
@@ -13,6 +14,10 @@ import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteText(text: TextId) = getTranslationsOf(text).isEmpty()
+
+fun State.countText(font: FontId) = getTextStorage()
+    .getAll()
+    .count { c -> c.format.contains(font) }
 
 fun State.countText(language: LanguageId) = getTextStorage()
     .getAll()
@@ -50,6 +55,11 @@ fun State.getAuthorName(text: Text) = when (val origin = getOriginal(text).origi
     else -> error("The original text must be an original text!")
 }
 
+fun State.hasAuthor(text: Text) = when (val origin = getOriginal(text).origin) {
+    is OriginalText -> origin.author != UndefinedCreator
+    else -> error("The original text must be an original text!")
+}
+
 fun State.getOriginal(id: TextId): Text {
     val text = getTextStorage().getOrThrow(id)
 
@@ -60,6 +70,10 @@ fun State.getOriginal(text: Text) = when (text.origin) {
     is OriginalText -> text
     is TranslatedText -> getOriginal(text.origin.text)
 }
+
+fun State.getTexts(font: FontId) = getTextStorage()
+    .getAll()
+    .filter { b -> b.format.contains(font) }
 
 fun State.getTexts(language: LanguageId) = getTextStorage()
     .getAll()

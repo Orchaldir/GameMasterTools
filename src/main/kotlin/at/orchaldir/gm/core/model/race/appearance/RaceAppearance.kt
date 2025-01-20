@@ -7,14 +7,14 @@ import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val RACE_APPEARANCE = "Race Appearance"
+const val RACE_APPEARANCE_TYPE = "Race Appearance"
 
 @JvmInline
 @Serializable
 value class RaceAppearanceId(val value: Int) : Id<RaceAppearanceId> {
 
     override fun next() = RaceAppearanceId(value + 1)
-    override fun type() = RACE_APPEARANCE
+    override fun type() = RACE_APPEARANCE_TYPE
     override fun value() = value
 
 }

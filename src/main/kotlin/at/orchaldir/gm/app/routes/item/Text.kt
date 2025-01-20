@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
+import at.orchaldir.gm.core.selector.item.hasAuthor
 import at.orchaldir.gm.core.selector.sortTexts
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
@@ -203,7 +204,7 @@ private fun HTML.showGallery(
         .getAll()
         .filter { it.format !is UndefinedTextFormat }
         .sortedBy { it.name }
-    val maxSize = Size2d.square(texts.maxOf { it.format.getTextSize().height })
+    val maxSize = Size2d.square(texts.maxOf { TEXT_CONFIG.calculateSize(it.format).height })
     val size = TEXT_CONFIG.addPadding(maxSize)
     val backLink = call.application.href(TextRoutes.All())
 
@@ -291,6 +292,7 @@ private fun HTML.showTextEditor(
     state: State,
     text: Text,
 ) {
+    val hasAuthor = state.hasAuthor(text)
     val languages = state.getLanguageStorage().getAll()
         .sortedBy { it.name }
     val backLink = href(call, text.id)
@@ -312,7 +314,7 @@ private fun HTML.showTextEditor(
                     value = l.id.value.toString()
                     selected = l.id == text.language
                 }
-                editTextFormat(state, text.format)
+                editTextFormat(state, text.format, hasAuthor)
                 button("Update", updateLink)
             }
             back(backLink)

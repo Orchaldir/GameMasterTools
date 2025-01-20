@@ -1,10 +1,11 @@
 package at.orchaldir.gm.app.routes.character
 
+import at.orchaldir.gm.core.model.character.CHARACTER_TYPE
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.util.SortCharacter
 import io.ktor.resources.*
 
-@Resource("/characters")
+@Resource("/$CHARACTER_TYPE")
 class CharacterRoutes {
     @Resource("all")
     class All(

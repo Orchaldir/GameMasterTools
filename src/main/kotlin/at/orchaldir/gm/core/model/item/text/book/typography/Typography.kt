@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.text.book.typography
 
-import at.orchaldir.gm.core.model.item.text.book.FontOption
+import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.util.FontOption
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -19,6 +20,13 @@ sealed class Typography {
         is SimpleTypography -> TypographyType.Simple
         is SimpleTitleTypography -> TypographyType.SimpleTitle
         is AdvancedTypography -> TypographyType.Advanced
+    }
+
+    fun contains(id: FontId) = when (this) {
+        NoTypography -> false
+        is SimpleTitleTypography -> font.font() == id
+        is SimpleTypography -> author.font() == id || title.font() == id
+        is AdvancedTypography -> author.getFontOption().font() == id || title.getFontOption().font() == id
     }
 }
 

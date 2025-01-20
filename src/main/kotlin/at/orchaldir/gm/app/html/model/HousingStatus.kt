@@ -84,11 +84,8 @@ fun HtmlBlockTag.selectHousingStatus(
     val homes = state.getHomes()
         .filter { state.exists(it, start) }
 
-    selectValue("Housing Status", param, HousingStatusType.entries, true) { type ->
-        label = type.name
-        value = type.name
-        selected = type == housingStatus.getType()
-        disabled = when (type) {
+    selectValue("Housing Status", param, HousingStatusType.entries, housingStatus.getType(), true) { type ->
+        when (type) {
             HousingStatusType.Undefined -> false
             HousingStatusType.Homeless -> false
             HousingStatusType.InApartment -> apartments.isEmpty()

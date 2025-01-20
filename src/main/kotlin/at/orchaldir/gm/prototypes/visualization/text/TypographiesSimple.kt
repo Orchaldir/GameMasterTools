@@ -3,11 +3,10 @@ package at.orchaldir.gm.prototypes.visualization.text
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.BookCover
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
-import at.orchaldir.gm.core.model.item.text.book.SolidFont
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTypography
 import at.orchaldir.gm.core.model.item.text.book.typography.TypographyLayout
 import at.orchaldir.gm.core.model.item.text.book.typography.TypographyOrder
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.SolidFont
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Size2i
@@ -29,8 +28,8 @@ fun main() {
             Hardcover(
                 BookCover(
                     typography = SimpleTypography(
-                        SolidFont(Color.White, Distance(10)),
-                        SolidFont(Color.White, Distance(15)),
+                        SolidFont(Distance(10)),
+                        SolidFont(Distance(15)),
                         order,
                         layout,
                     )

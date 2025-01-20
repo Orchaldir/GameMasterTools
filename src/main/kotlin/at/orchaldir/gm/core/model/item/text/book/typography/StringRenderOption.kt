@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.item.text.book.typography
 
-import at.orchaldir.gm.core.model.item.text.book.FontOption
+import at.orchaldir.gm.core.model.util.FontOption
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Orientation
 import kotlinx.serialization.SerialName
@@ -18,6 +18,11 @@ sealed class StringRenderOption {
         is SimpleStringRenderOption -> StringRenderOptionType.Simple
         is WrappedStringRenderOption -> StringRenderOptionType.Wrapped
     }
+
+    fun getFontOption() = when (this) {
+        is SimpleStringRenderOption -> font
+        is WrappedStringRenderOption -> font
+    }
 }
 
 @Serializable
@@ -25,7 +30,7 @@ sealed class StringRenderOption {
 data class SimpleStringRenderOption(
     val x: Distance,
     val y: Distance,
-    val fontOption: FontOption,
+    val font: FontOption,
     val orientation: Orientation = Orientation.zero(),
 ) : StringRenderOption()
 
@@ -34,6 +39,6 @@ data class SimpleStringRenderOption(
 data class WrappedStringRenderOption(
     val x: Distance,
     val y: Distance,
-    val fontOption: FontOption,
+    val font: FontOption,
     val width: Distance,
 ) : StringRenderOption()

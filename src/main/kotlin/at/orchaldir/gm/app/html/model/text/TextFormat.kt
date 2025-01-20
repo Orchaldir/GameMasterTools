@@ -190,6 +190,7 @@ private fun HtmlBlockTag.showScrollHandle(
 fun FORM.editTextFormat(
     state: State,
     format: TextFormat,
+    hasAuthor: Boolean,
 ) {
     showDetails("Text Format", true) {
         selectValue("Type", FORMAT, TextFormatType.entries, format.getType(), true)
@@ -198,7 +199,7 @@ fun FORM.editTextFormat(
             UndefinedTextFormat -> doNothing()
             is Book -> {
                 selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
-                editBinding(state, format.binding)
+                editBinding(state, format.binding, hasAuthor)
                 selectSize(SIZE, format.size, min, max, step, true)
             }
 
@@ -220,24 +221,25 @@ fun FORM.editTextFormat(
 private fun HtmlBlockTag.editBinding(
     state: State,
     binding: BookBinding,
+    hasAuthor: Boolean,
 ) {
     showDetails("Binding", true) {
         selectValue("Type", BINDING, BookBindingType.entries, binding.getType(), true)
 
         when (binding) {
             is CopticBinding -> {
-                editCover(state, binding.cover)
+                editCover(state, binding.cover, hasAuthor)
                 editSewingPattern(binding.sewingPattern)
             }
 
             is Hardcover -> {
-                editCover(state, binding.cover)
+                editCover(state, binding.cover, hasAuthor)
                 editBossesPattern(state, binding.bosses)
                 editEdgeProtection(state, binding.protection)
             }
 
             is LeatherBinding -> {
-                editCover(state, binding.cover)
+                editCover(state, binding.cover, hasAuthor)
                 selectColor("Leather Color", combine(LEATHER, BINDING, COLOR), Color.entries, binding.leatherColor)
                 selectValue(
                     "Leather Material",
@@ -264,6 +266,7 @@ private fun HtmlBlockTag.editBinding(
 private fun HtmlBlockTag.editCover(
     state: State,
     cover: BookCover,
+    hasAuthor: Boolean,
 ) {
     showDetails("Cover", true) {
         selectColor("Cover Color", combine(COVER, BINDING, COLOR), Color.entries, cover.color)
@@ -272,7 +275,7 @@ private fun HtmlBlockTag.editCover(
             value = material.id.value.toString()
             selected = material.id == cover.material
         }
-        editTypography(cover.typography)
+        editTypography(state, cover.typography, hasAuthor)
     }
 }
 

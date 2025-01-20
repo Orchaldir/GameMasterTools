@@ -8,7 +8,8 @@ import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.CALENDAR
+import at.orchaldir.gm.core.model.calendar.CALENDAR_TYPE
+import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
@@ -31,7 +32,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/cultures")
+@Resource("/$CULTURE_TYPE")
 class CultureRoutes {
     @Resource("details")
     class Details(val id: CultureId, val parent: CultureRoutes = CultureRoutes())
@@ -305,7 +306,7 @@ private fun HTML.showCultureEditor(
             action = previewLink
             method = FormMethod.post
             selectName(culture.name)
-            selectValue("Calendar", CALENDAR, state.getCalendarStorage().getAll()) { c ->
+            selectValue("Calendar", CALENDAR_TYPE, state.getCalendarStorage().getAll()) { c ->
                 label = c.name
                 value = c.id.value.toString()
                 selected = culture.calendar == c.id

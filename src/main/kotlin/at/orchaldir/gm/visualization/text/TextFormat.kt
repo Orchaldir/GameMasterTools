@@ -46,7 +46,7 @@ fun visualizeTextFormat(
     val aabb = AABB(size)
     val builder = SvgBuilder(size)
     val data = resolveTextData(state, text)
-    val renderState = TextRenderState(aabb, config, builder, data)
+    val renderState = TextRenderState(aabb, config, builder, data, state.getFontStorage())
 
     visualizeTextFormat(renderState, text.format)
 

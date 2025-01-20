@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.action.CreateMaterial
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -32,7 +33,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/materials")
+@Resource("/$MATERIAL_TYPE")
 class MaterialRoutes {
     @Resource("details")
     class Details(val id: MaterialId, val parent: MaterialRoutes = MaterialRoutes())

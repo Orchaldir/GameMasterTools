@@ -32,7 +32,11 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is CreateFashion -> CREATE_FASHION(state, action)
         is DeleteFashion -> DELETE_FASHION(state, action)
         is UpdateFashion -> UPDATE_FASHION(state, action)
-        // fashion
+        // font
+        is CreateFont -> CREATE_FONT(state, action)
+        is DeleteFont -> DELETE_FONT(state, action)
+        is UpdateFont -> UPDATE_FONT(state, action)
+        // holiday
         is CreateHoliday -> CREATE_HOLIDAY(state, action)
         is DeleteHoliday -> DELETE_HOLIDAY(state, action)
         is UpdateHoliday -> UPDATE_HOLIDAY(state, action)

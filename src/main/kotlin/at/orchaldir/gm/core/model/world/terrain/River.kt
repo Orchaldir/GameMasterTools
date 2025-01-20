@@ -4,14 +4,14 @@ import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val RIVER = "River"
+const val RIVER_TYPE = "River"
 
 @JvmInline
 @Serializable
 value class RiverId(val value: Int) : Id<RiverId> {
 
     override fun next() = RiverId(value + 1)
-    override fun type() = RIVER
+    override fun type() = RIVER_TYPE
 
     override fun value() = value
 

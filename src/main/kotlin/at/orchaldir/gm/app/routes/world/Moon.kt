@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.action.UpdateMoon
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.model.world.moon.MOON_TYPE
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import io.ktor.http.*
@@ -29,7 +30,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/moons")
+@Resource("/$MOON_TYPE")
 class MoonRoutes {
     @Resource("details")
     class Details(val id: MoonId, val parent: MoonRoutes = MoonRoutes())
