@@ -3,7 +3,10 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Al Azif",
+   "name": {
+    "type": "Simple",
+    "name": "Al Azif"
+   },
    "origin": {
     "type": "Original",
     "author": {
@@ -57,7 +60,10 @@
   },
   "1": {
    "id": 1,
-   "name": "Necronomicon",
+   "name": {
+    "type": "Simple",
+    "name": "Necronomicon"
+   },
    "origin": {
     "type": "Translation",
     "text": 0,
@@ -97,7 +103,10 @@
   },
   "2": {
    "id": 2,
-   "name": "Necronomicon",
+   "name": {
+    "type": "Simple",
+    "name": "Necronomicon"
+   },
    "origin": {
     "type": "Translation",
     "text": 1,
@@ -135,7 +144,10 @@
   },
   "3": {
    "id": 3,
-   "name": "Cultus Maleficarum",
+   "name": {
+    "type": "Simple",
+    "name": "Cultus Maleficarum"
+   },
    "origin": {
     "type": "Translation",
     "text": 2,

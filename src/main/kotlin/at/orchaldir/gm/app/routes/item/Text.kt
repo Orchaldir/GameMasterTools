@@ -243,7 +243,7 @@ private fun HTML.showTextDetails(
     val editLink = call.application.href(TextRoutes.Edit(text.id))
     val svg = visualizeText(state, TEXT_CONFIG, text)
 
-    simpleHtml("Text: ${text.name}") {
+    simpleHtml("Text: ${text.name(state)}") {
         if (text.format !is UndefinedTextFormat) {
             svg(svg, 20)
         }
