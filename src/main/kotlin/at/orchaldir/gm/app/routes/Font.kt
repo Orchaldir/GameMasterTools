@@ -2,8 +2,12 @@
 
 package at.orchaldir.gm.app.routes
 
+import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.selectOptionalDate
+import at.orchaldir.gm.app.html.model.showOptionalDate
+import at.orchaldir.gm.app.parse.parseFont
 import at.orchaldir.gm.core.action.CreateFont
 import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
@@ -102,15 +106,15 @@ fun Application.configureFontRouting() {
             val font = state.getFontStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showFontEditor(call, font)
+                showFontEditor(call, state, font)
             }
         }
         post<FontRoutes.Update> { update ->
             logger.info { "Update font ${update.id.value}" }
 
             val multipartData = call.receiveMultipart()
-            var name = ""
             var fileBytes = ""
+            val builder = ParametersBuilderImpl()
 
             multipartData.forEachPart { part ->
                 when (part) {
@@ -118,7 +122,13 @@ fun Application.configureFontRouting() {
                         fileBytes = Base64.encode(part.provider().readBytes())
                     }
 
-                    is PartData.FormItem -> name = part.value
+                    is PartData.FormItem -> {
+                        val name = part.name
+
+                        if (name != null) {
+                            builder.append(name, part.value)
+                        }
+                    }
 
                     else -> logger.info { "else: part=$part" }
                 }
@@ -127,7 +137,7 @@ fun Application.configureFontRouting() {
 
             logger.info { "fileBytes=$fileBytes" }
 
-            val font = Font(update.id, name, fileBytes)
+            val font = parseFont(builder.build(), STORE.getState(), update.id, fileBytes)
 
             STORE.dispatch(UpdateFont(font))
 
@@ -182,6 +192,7 @@ private fun HTML.showFontDetails(
 
     simpleHtml("Font: ${font.name}") {
         svg(visualizeString(example, font, 40.0f), 100)
+        showOptionalDate(call, state, font.date)
         field("Base64") {
             textArea("10", "200", TextAreaWrap.soft) {
                 +font.base64
@@ -202,6 +213,7 @@ private fun HTML.showFontDetails(
 
 private fun HTML.showFontEditor(
     call: ApplicationCall,
+    state: State,
     font: Font,
 ) {
     val backLink = href(call, font.id)
@@ -210,6 +222,7 @@ private fun HTML.showFontEditor(
     simpleHtml("Edit Font: ${font.name}") {
         form(encType = FormEncType.multipartFormData) {
             selectName(font.name)
+            selectOptionalDate(state, "Date", font.date, DATE)
             fileInput {
                 formEncType = InputFormEncType.multipartFormData
                 formMethod = InputFormMethod.post
