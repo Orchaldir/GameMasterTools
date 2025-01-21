@@ -37,7 +37,7 @@ import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 private val logger = KotlinLogging.logger {}
-private val example = "abcdefghijklmnopqrstuvwxyz"
+private const val example = "abcdefghijklmnopqrstuvwxyz"
 
 @Resource("/$FONT_TYPE")
 class FontRoutes {
@@ -195,6 +195,7 @@ private fun HTML.showAllFonts(
         table {
             tr {
                 th { +"Name" }
+                th { +"Date" }
                 th {
                     style = "width:1000px"
                     +"Example"
@@ -204,6 +205,7 @@ private fun HTML.showAllFonts(
             fonts.forEach { font ->
                 tr {
                     td { link(call, font) }
+                    td { showOptionalDate(call, state, font.date) }
                     td { svg(visualizeString(example, font, 40.0f), 100) }
                     tdSkipZero(state.countText(font.id))
                 }
