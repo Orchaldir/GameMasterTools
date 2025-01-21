@@ -5,6 +5,7 @@ package at.orchaldir.gm.app.routes
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.optionalField
 import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.app.parse.parseFont
@@ -226,7 +227,7 @@ private fun HTML.showFontDetails(
 
     simpleHtml("Font: ${font.name}") {
         svg(visualizeString(example, font, 40.0f), 100)
-        showOptionalDate(call, state, font.date)
+        optionalField(call, state, "Date", font.date)
         field("Base64") {
             textArea("10", "200", TextAreaWrap.soft) {
                 +font.base64
