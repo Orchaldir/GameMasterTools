@@ -18,10 +18,13 @@ fun parseFont(
     parameters: Parameters,
     state: State,
     id: FontId,
-    base64: String,
-) = Font(
-    id,
-    parameters.getOrFail(NAME),
-    parseOptionalDate(parameters, state, DATE),
-    base64
-)
+): Font {
+    val oldFont = state.getFontStorage().getOrThrow(id)
+
+    return Font(
+        id,
+        parameters.getOrFail(NAME),
+        parseOptionalDate(parameters, state, DATE),
+        oldFont.base64
+    )
+}
