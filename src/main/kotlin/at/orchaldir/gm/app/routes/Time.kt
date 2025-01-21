@@ -357,8 +357,6 @@ private fun HtmlBlockTag.showEvents(
                 +" style ended."
             }
 
-            is TextPublishedEvent -> link(call, state, event.textId)
-
             is BuildingConstructedEvent -> {
                 link(call, state, event.buildingId)
                 +" was constructed."
@@ -383,6 +381,16 @@ private fun HtmlBlockTag.showEvents(
             is CharacterOriginEvent -> {
                 link(call, state, event.characterId)
                 +" was born."
+            }
+
+            is FontCreatedEvent -> {
+                link(call, state, event.fontId)
+                +" was created."
+            }
+
+            is TextPublishedEvent -> {
+                link(call, state, event.textId)
+                +" was published."
             }
 
             is TownFoundingEvent -> {

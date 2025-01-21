@@ -149,6 +149,10 @@ data class Calendar(
 
     fun compareToOptional(a: Date?, b: Date?): Int = if (a != null && b != null) {
         compareTo(a, b)
+    } else if (a != null) {
+        1
+    } else if (b != null) {
+        -1
     } else {
         0
     }
@@ -157,7 +161,11 @@ data class Calendar(
 
     fun isAfter(a: Date, b: Date) = compareTo(a, b) > 0
     fun isAfterOrEqual(a: Date, b: Date) = compareTo(a, b) >= 0
-    fun isAfterOrEqualOptional(a: Date?, b: Date?) = compareToOptional(a, b) >= 0
+    fun isAfterOrEqualOptional(a: Date?, b: Date?) = if (a != null && b != null) {
+        compareTo(a, b) >= 0
+    } else {
+        true
+    }
 
     // duration
 

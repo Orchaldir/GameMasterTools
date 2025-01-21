@@ -431,12 +431,12 @@ class CalendarTest {
 
             @Test
             fun `Given a is null, then return 0`() {
-                assertEquals(0, CALENDAR0.compareToOptional(null, Year(1)))
+                assertEquals(-1, CALENDAR0.compareToOptional(null, Year(1)))
             }
 
             @Test
             fun `Given b is null, then return 0`() {
-                assertEquals(0, CALENDAR0.compareToOptional(Year(1), null))
+                assertEquals(1, CALENDAR0.compareToOptional(Year(1), null))
             }
 
             @Test
@@ -478,6 +478,34 @@ class CalendarTest {
             @Test
             fun `Test a less than b`() {
                 assertFalse(CALENDAR0.isAfterOrEqual(Year(1), Year(2)))
+            }
+        }
+
+        @Nested
+        inner class IsAfterOrEqualOptionalTest {
+            @Test
+            fun `Test a greater than b`() {
+                assertTrue(CALENDAR0.isAfterOrEqualOptional(Year(2), Year(1)))
+            }
+
+            @Test
+            fun `Test a equal to b`() {
+                assertTrue(CALENDAR0.isAfterOrEqualOptional(Year(1), Year(1)))
+            }
+
+            @Test
+            fun `Test a less than b`() {
+                assertFalse(CALENDAR0.isAfterOrEqualOptional(Year(1), Year(2)))
+            }
+
+            @Test
+            fun `Test a is null`() {
+                assertTrue(CALENDAR0.isAfterOrEqualOptional(null, Year(1)))
+            }
+
+            @Test
+            fun `Test b is null`() {
+                assertTrue(CALENDAR0.isAfterOrEqualOptional(Year(1), null))
             }
         }
     }

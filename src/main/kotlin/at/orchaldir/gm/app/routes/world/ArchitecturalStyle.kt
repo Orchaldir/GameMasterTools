@@ -16,8 +16,8 @@ import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.*
 import at.orchaldir.gm.core.model.world.building.ARCHITECTURAL_STYLE_TYPE
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
-import at.orchaldir.gm.core.selector.sortArchitecturalStyles
-import at.orchaldir.gm.core.selector.sortBuildings
+import at.orchaldir.gm.core.selector.util.sortArchitecturalStyles
+import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.core.selector.world.*
 import io.ktor.http.*
 import io.ktor.resources.*

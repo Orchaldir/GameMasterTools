@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.economy.isInOperation
-import at.orchaldir.gm.core.selector.sortCharacters
+import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*

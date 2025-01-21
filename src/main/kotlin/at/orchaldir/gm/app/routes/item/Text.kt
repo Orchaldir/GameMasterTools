@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
 import at.orchaldir.gm.core.selector.item.hasAuthor
-import at.orchaldir.gm.core.selector.sortTexts
+import at.orchaldir.gm.core.selector.util.sortTexts
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.visualization.text.visualizeText
@@ -199,11 +199,8 @@ private fun HTML.showGallery(
     call: ApplicationCall,
     state: State,
 ) {
-    val texts = state
-        .getTextStorage()
-        .getAll()
+    val texts = state.sortTexts()
         .filter { it.format !is UndefinedTextFormat }
-        .sortedBy { it.name }
     val maxSize = Size2d.square(texts.maxOf { TEXT_CONFIG.calculateSize(it.format).height })
     val size = TEXT_CONFIG.addPadding(maxSize)
     val backLink = call.application.href(TextRoutes.All())
@@ -212,17 +209,18 @@ private fun HTML.showGallery(
 
         div("grid-container") {
             texts.forEach { text ->
+                val name = text.name(state)
                 val svg = visualizeTextFormat(state, TEXT_CONFIG, text, size)
 
                 div("grid-item") {
                     a(href(call, text.id)) {
                         div {
                             if (text.date != null) {
-                                +"${text.name} ("
+                                +"$name ("
                                 +displayDate(state, text.date)
                                 +")"
                             } else {
-                                +text.name
+                                +name
                             }
                         }
                         svg(svg, 100)
@@ -245,7 +243,7 @@ private fun HTML.showTextDetails(
     val editLink = call.application.href(TextRoutes.Edit(text.id))
     val svg = visualizeText(state, TEXT_CONFIG, text)
 
-    simpleHtml("Text: ${text.name}") {
+    simpleHtml("Text: ${text.name(state)}") {
         if (text.format !is UndefinedTextFormat) {
             svg(svg, 20)
         }
@@ -292,6 +290,7 @@ private fun HTML.showTextEditor(
     state: State,
     text: Text,
 ) {
+    val name = text.name(state)
     val hasAuthor = state.hasAuthor(text)
     val languages = state.getLanguageStorage().getAll()
         .sortedBy { it.name }
@@ -300,13 +299,13 @@ private fun HTML.showTextEditor(
     val updateLink = call.application.href(TextRoutes.Update(text.id))
     val svg = visualizeText(state, TEXT_CONFIG, text)
 
-    simpleHtml("Edit Text: ${text.name}") {
+    simpleHtml("Edit Text: $name") {
         split({
             form {
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectName(text.name)
+                selectComplexName(state, text.name)
                 editOrigin(state, text)
                 selectOptionalDate(state, "Date", text.date, DATE)
                 selectValue("Language", LANGUAGE, languages, true) { l ->
@@ -337,11 +336,7 @@ private fun FORM.editOrigin(
             val otherTexts = state.getTextStorage().getAllExcept(text.id)
 
             selectValue("Translation Of", combine(ORIGIN, REFERENCE), otherTexts) { translated ->
-                label = if (translated.date != null) {
-                    "${translated.name} (" + displayDate(state, translated.date) + ")"
-                } else {
-                    translated.name
-                }
+                label = translated.getNameWithDate(state)
                 value = translated.id.value.toString()
                 selected = translated.id == text.origin.text
             }
