@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.CauseOfDeath
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterOrigin
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.Owner
@@ -35,17 +36,6 @@ data class ArchitecturalStyleEndEvent(
 ) : Event() {
 
     override fun getDate() = endDate
-
-}
-
-// text
-
-data class TextPublishedEvent(
-    val publishingDate: Date,
-    val textId: TextId,
-) : Event() {
-
-    override fun getDate() = publishingDate
 
 }
 
@@ -93,6 +83,17 @@ data class CharacterDeathEvent(
 
 }
 
+// font
+
+data class FontCreatedEvent(
+    val creationDate: Date,
+    val fontId: FontId,
+) : Event() {
+
+    override fun getDate() = creationDate
+
+}
+
 // ownership
 
 open class OwnershipChangedEvent<ID : Id<ID>>(
@@ -119,6 +120,18 @@ class BusinessOwnershipChangedEvent(
     from: Owner,
     to: Owner,
 ) : OwnershipChangedEvent<BusinessId>(changeDate, id, from, to)
+
+
+// text
+
+data class TextPublishedEvent(
+    val publishingDate: Date,
+    val textId: TextId,
+) : Event() {
+
+    override fun getDate() = publishingDate
+
+}
 
 // town
 

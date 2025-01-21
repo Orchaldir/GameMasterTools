@@ -26,12 +26,6 @@ fun State.getEvents(): List<Event> {
         }
     }
 
-    getTextStorage().getAll().forEach { text ->
-        if (text.date != null) {
-            events.add(TextPublishedEvent(text.date, text.id))
-        }
-    }
-
     getBuildingStorage().getAll().forEach { building ->
         if (building.constructionDate != null) {
             events.add(BuildingConstructedEvent(building.constructionDate, building.id))
@@ -53,6 +47,18 @@ fun State.getEvents(): List<Event> {
 
         if (character.vitalStatus is Dead) {
             events.add(CharacterDeathEvent(character.vitalStatus.deathDay, character.id, character.vitalStatus.cause))
+        }
+    }
+
+    getFontStorage().getAll().forEach { text ->
+        if (text.date != null) {
+            events.add(FontCreatedEvent(text.date, text.id))
+        }
+    }
+
+    getTextStorage().getAll().forEach { text ->
+        if (text.date != null) {
+            events.add(TextPublishedEvent(text.date, text.id))
         }
     }
 
