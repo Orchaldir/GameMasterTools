@@ -48,6 +48,7 @@ class FontRoutes {
         val sort: SortFont = SortFont.Name,
         val parent: FontRoutes = FontRoutes(),
     )
+
     @Resource("details")
     class Details(val id: FontId, val parent: FontRoutes = FontRoutes())
 
