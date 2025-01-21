@@ -16,9 +16,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.FONT_TYPE
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.util.SortFont
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.item.countText
 import at.orchaldir.gm.core.selector.item.getTexts
+import at.orchaldir.gm.core.selector.util.sortFonts
 import at.orchaldir.gm.visualization.visualizeString
 import io.ktor.http.*
 import io.ktor.http.content.*
@@ -41,6 +43,11 @@ private const val example = "abcdefghijklmnopqrstuvwxyz"
 
 @Resource("/$FONT_TYPE")
 class FontRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortFont = SortFont.Name,
+        val parent: FontRoutes = FontRoutes(),
+    )
     @Resource("details")
     class Details(val id: FontId, val parent: FontRoutes = FontRoutes())
 
@@ -68,11 +75,11 @@ class FontRoutes {
 
 fun Application.configureFontRouting() {
     routing {
-        get<FontRoutes> {
+        get<FontRoutes.All> { all ->
             logger.info { "Get all fonts" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllFonts(call, STORE.getState())
+                showAllFonts(call, STORE.getState(), all.sort)
             }
         }
         get<FontRoutes.Details> { details ->
@@ -185,12 +192,20 @@ fun Application.configureFontRouting() {
 private fun HTML.showAllFonts(
     call: ApplicationCall,
     state: State,
+    sort: SortFont,
 ) {
-    val fonts = STORE.getState().getFontStorage().getAll().sortedBy { it.name }
+    val fonts = state.sortFonts(sort)
     val createLink = call.application.href(FontRoutes.New())
+    val sortNameLink = call.application.href(FontRoutes.All(SortFont.Name))
+    val sortAgeLink = call.application.href(FontRoutes.All(SortFont.Age))
 
     simpleHtml("Fonts") {
         field("Count", fonts.size)
+        field("Sort") {
+            link(sortNameLink, "Name")
+            +" "
+            link(sortAgeLink, "Age")
+        }
 
         table {
             tr {
@@ -222,7 +237,7 @@ private fun HTML.showFontDetails(
     state: State,
     font: Font,
 ) {
-    val backLink = call.application.href(FontRoutes())
+    val backLink = call.application.href(FontRoutes.All())
     val deleteLink = call.application.href(FontRoutes.Delete(font.id))
     val editLink = call.application.href(FontRoutes.Edit(font.id))
     val uploaderLink = call.application.href(FontRoutes.Uploader(font.id))

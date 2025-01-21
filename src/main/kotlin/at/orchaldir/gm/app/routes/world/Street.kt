@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.STREET_TYPE
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.selector.sortBuildings
+import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.core.selector.world.getTowns

@@ -1,12 +1,15 @@
-package at.orchaldir.gm.core.selector
+package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.selector.getDefaultCalendar
+import at.orchaldir.gm.core.selector.getEmployees
 
 // architectural style
 
@@ -87,6 +90,26 @@ fun State.sortCharacters(characters: Collection<Character>, sort: SortCharacter 
         when (sort) {
             SortCharacter.Name -> compareBy { it.second }
             SortCharacter.Age -> getCharacterAgePairComparator()
+        })
+
+// font
+
+fun State.getFontAgeComparator(): Comparator<Font> {
+    val calendar = getDefaultCalendar()
+    return Comparator { a: Font, b: Font -> calendar.compareToOptional(a.date, b.date) }
+}
+
+fun State.sortFonts(sort: SortFont = SortFont.Name) =
+    sortFonts(getFontStorage().getAll(), sort)
+
+fun State.sortFonts(
+    buildings: Collection<Font>,
+    sort: SortFont = SortFont.Name,
+) = buildings
+    .sortedWith(
+        when (sort) {
+            SortFont.Name -> compareBy { it.name(this) }
+            SortFont.Age -> getFontAgeComparator()
         })
 
 // text

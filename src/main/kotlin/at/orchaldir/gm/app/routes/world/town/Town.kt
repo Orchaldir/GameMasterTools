@@ -16,8 +16,8 @@ import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getResident
 import at.orchaldir.gm.core.selector.getWorkingIn
-import at.orchaldir.gm.core.selector.sortBuildings
-import at.orchaldir.gm.core.selector.sortCharacters
+import at.orchaldir.gm.core.selector.util.sortBuildings
+import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.visualization.town.getStreetTemplateFill
 import at.orchaldir.gm.visualization.town.showTerrainName

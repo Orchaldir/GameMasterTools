@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
 import at.orchaldir.gm.core.selector.item.hasAuthor
-import at.orchaldir.gm.core.selector.sortTexts
+import at.orchaldir.gm.core.selector.util.sortTexts
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.visualization.text.visualizeText
