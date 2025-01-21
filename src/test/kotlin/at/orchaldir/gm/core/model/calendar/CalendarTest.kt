@@ -431,12 +431,12 @@ class CalendarTest {
 
             @Test
             fun `Given a is null, then return 0`() {
-                assertEquals(0, CALENDAR0.compareToOptional(null, Year(1)))
+                assertEquals(-1, CALENDAR0.compareToOptional(null, Year(1)))
             }
 
             @Test
             fun `Given b is null, then return 0`() {
-                assertEquals(0, CALENDAR0.compareToOptional(Year(1), null))
+                assertEquals(1, CALENDAR0.compareToOptional(Year(1), null))
             }
 
             @Test

@@ -149,6 +149,10 @@ data class Calendar(
 
     fun compareToOptional(a: Date?, b: Date?): Int = if (a != null && b != null) {
         compareTo(a, b)
+    } else if (a != null) {
+        1
+    } else if (b != null) {
+        -1
     } else {
         0
     }
