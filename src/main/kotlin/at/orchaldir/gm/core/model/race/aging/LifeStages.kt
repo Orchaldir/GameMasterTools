@@ -6,6 +6,11 @@ import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class LifeStagesType {
+    ImmutableLifeStage,
+    SimpleAging,
+}
+
 @Serializable
 sealed class LifeStages {
 

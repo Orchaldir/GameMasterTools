@@ -4,6 +4,13 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class TerrainType {
+    Hill,
+    Mountain,
+    Plain,
+    River,
+}
+
 @Serializable
 sealed class Terrain {
 

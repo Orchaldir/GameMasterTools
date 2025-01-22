@@ -11,6 +11,11 @@ enum class EarShape {
     Round,
 }
 
+enum class EarsLayout {
+    NoEars,
+    NormalEars,
+}
+
 @Serializable
 sealed class Ears
 

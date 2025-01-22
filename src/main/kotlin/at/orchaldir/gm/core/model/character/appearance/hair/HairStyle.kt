@@ -4,6 +4,15 @@ import at.orchaldir.gm.core.model.util.Side
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class HairStyleType {
+    BuzzCut,
+    FlatTop,
+    MiddlePart,
+    Shaved,
+    SidePart,
+    Spiked,
+}
+
 @Serializable
 sealed class HairStyle
 

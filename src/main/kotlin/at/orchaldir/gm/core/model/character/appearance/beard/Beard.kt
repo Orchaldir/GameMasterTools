@@ -4,6 +4,11 @@ import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class BeardType {
+    None,
+    Normal,
+}
+
 @Serializable
 sealed class Beard
 

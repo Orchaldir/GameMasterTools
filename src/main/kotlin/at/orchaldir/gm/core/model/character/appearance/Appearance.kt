@@ -5,6 +5,11 @@ import at.orchaldir.gm.utils.math.Size2d
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class AppearanceType {
+    Body,
+    HeadOnly,
+}
+
 @Serializable
 sealed class Appearance {
 

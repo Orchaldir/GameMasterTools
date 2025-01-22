@@ -5,6 +5,13 @@ import at.orchaldir.gm.core.model.util.Creator
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class LanguageOriginType {
+    Combined,
+    Evolved,
+    Invented,
+    Original,
+}
+
 @Serializable
 sealed class LanguageOrigin
 

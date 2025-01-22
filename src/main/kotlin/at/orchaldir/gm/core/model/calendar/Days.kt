@@ -3,6 +3,11 @@ package at.orchaldir.gm.core.model.calendar
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class DaysType {
+    DayOfTheMonth,
+    Weekdays,
+}
+
 @Serializable
 sealed class Days {
 

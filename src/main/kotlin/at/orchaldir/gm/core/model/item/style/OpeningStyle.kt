@@ -5,6 +5,13 @@ import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class OpeningType {
+    NoOpening,
+    SingleBreasted,
+    DoubleBreasted,
+    Zipper,
+}
+
 @Serializable
 sealed class OpeningStyle {
 
