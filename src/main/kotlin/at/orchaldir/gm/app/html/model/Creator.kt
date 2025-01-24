@@ -117,7 +117,9 @@ fun <ID : Id<ID>> FORM.selectCreator(
         .filter { it.id != created }
     val characters = state.getLiving(date)
     val towns = state.getExistingTowns(date)
+        .filter { it.id != created }
     val organizations = state.getExistingOrganization(date)
+        .filter { it.id != created }
 
     selectValue("$noun Type", CREATOR, CreatorType.entries, creator.getType(), true) { type ->
         when (type) {
