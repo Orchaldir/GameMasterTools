@@ -28,6 +28,8 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.name.ComplexName
 import at.orchaldir.gm.core.model.name.NameList
 import at.orchaldir.gm.core.model.name.NameListId
+import at.orchaldir.gm.core.model.organization.Organization
+import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
@@ -169,6 +171,15 @@ data class UpdateBusiness(val business: Business) : EconomyAction()
 data object CreateJob : EconomyAction()
 data class DeleteJob(val id: JobId) : EconomyAction()
 data class UpdateJob(val job: Job) : EconomyAction()
+
+//-- organization --
+
+sealed class OrganizationAction : Action()
+
+// organization
+data object CreateOrganization : OrganizationAction()
+data class DeleteOrganization(val id: OrganizationId) : OrganizationAction()
+data class UpdateOrganization(val organization: Organization) : OrganizationAction()
 
 //-- world --
 
