@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getDefaultCalendar
+import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.utils.Id
 
 fun State.canDelete(town: TownId) = getBuildings(town).isEmpty()
@@ -20,6 +21,7 @@ fun State.canDelete(town: TownId) = getBuildings(town).isEmpty()
         && getPreviouslyOwnedBuildings(town).isEmpty()
         && getOwnedBusinesses(town).isEmpty()
         && getPreviouslyOwnedBusinesses(town).isEmpty()
+        && !isCreator(town)
 
 // get
 

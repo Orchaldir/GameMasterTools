@@ -23,6 +23,7 @@ import at.orchaldir.gm.core.selector.getLiving
 import at.orchaldir.gm.core.selector.item.getTextsTranslatedBy
 import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
 import at.orchaldir.gm.core.selector.organization.getOrganizationsFoundedBy
+import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getExistingTowns
 import at.orchaldir.gm.core.selector.world.getTownsFoundedBy
@@ -69,6 +70,10 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
     state: State,
     id: ID,
 ) {
+    if (!state.isCreator(id)) {
+        return
+    }
+
     h2 { +"Created" }
 
     showList("Buildings", state.getBuildingsBuildBy(id)) { building ->
