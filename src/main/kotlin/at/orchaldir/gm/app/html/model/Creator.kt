@@ -1,15 +1,13 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.BUSINESS
-import at.orchaldir.gm.app.CHARACTER
-import at.orchaldir.gm.app.CREATOR
-import at.orchaldir.gm.app.TOWN
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showList
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.economy.parseBusinessId
+import at.orchaldir.gm.app.parse.organization.parseOrganizationId
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseCharacterId
 import at.orchaldir.gm.app.parse.world.parseTownId
@@ -22,6 +20,7 @@ import at.orchaldir.gm.core.selector.getLanguagesInventedBy
 import at.orchaldir.gm.core.selector.getLiving
 import at.orchaldir.gm.core.selector.item.getTextsTranslatedBy
 import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
+import at.orchaldir.gm.core.selector.organization.getExistingOrganization
 import at.orchaldir.gm.core.selector.organization.getOrganizationsFoundedBy
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
@@ -57,6 +56,7 @@ fun HtmlBlockTag.showCreator(
     when (creator) {
         is CreatedByBusiness -> link(call, state, creator.business)
         is CreatedByCharacter -> link(call, state, creator.character)
+        is CreatedByOrganization -> link(call, state, creator.organization)
         is CreatedByTown -> link(call, state, creator.town)
         UndefinedCreator -> if (showUndefined) {
             +"Undefined"
@@ -117,12 +117,14 @@ fun <ID : Id<ID>> FORM.selectCreator(
         .filter { it.id != created }
     val characters = state.getLiving(date)
     val towns = state.getExistingTowns(date)
+    val organizations = state.getExistingOrganization(date)
 
     selectValue("$noun Type", CREATOR, CreatorType.entries, creator.getType(), true) { type ->
         when (type) {
             CreatorType.Undefined -> false
             CreatorType.CreatedByBusiness -> businesses.isEmpty()
             CreatorType.CreatedByCharacter -> characters.isEmpty()
+            CreatorType.CreatedByOrganization -> organizations.isEmpty()
             CreatorType.CreatedByTown -> towns.isEmpty()
         }
     }
@@ -150,6 +152,17 @@ fun <ID : Id<ID>> FORM.selectCreator(
             selected = creator.character == character.id
         }
 
+        is CreatedByOrganization -> selectValue(
+            noun,
+            combine(CREATOR, ORGANIZATION),
+            organizations,
+            true
+        ) { organization ->
+            label = organization.name(state)
+            value = organization.id.value.toString()
+            selected = creator.organization == organization.id
+        }
+
         is CreatedByTown -> selectValue(
             noun,
             combine(CREATOR, TOWN),
@@ -172,6 +185,12 @@ fun parseCreator(parameters: Parameters): Creator {
         CreatorType.Undefined -> UndefinedCreator
         CreatorType.CreatedByBusiness -> CreatedByBusiness(parseBusinessId(parameters, combine(CREATOR, BUSINESS)))
         CreatorType.CreatedByCharacter -> CreatedByCharacter(parseCharacterId(parameters, combine(CREATOR, CHARACTER)))
+        CreatorType.CreatedByOrganization -> CreatedByOrganization(
+            parseOrganizationId(
+                parameters,
+                combine(CREATOR, ORGANIZATION)
+            )
+        )
         CreatorType.CreatedByTown -> CreatedByTown(parseTownId(parameters, combine(CREATOR, TOWN)))
     }
 }

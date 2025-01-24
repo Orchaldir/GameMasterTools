@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.selector.getLanguagesInventedBy
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.item.getTextsTranslatedBy
 import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
+import at.orchaldir.gm.core.selector.organization.exists
 import at.orchaldir.gm.core.selector.world.exists
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getTownsFoundedBy
@@ -45,16 +46,28 @@ fun <ID : Id<ID>> checkCreator(
             }
         }
 
+        is CreatedByOrganization -> {
+            state.getOrganizationStorage()
+                .require(creator.organization) { "Cannot use an unknown organization ${creator.organization.value} as $noun!" }
+
+            if (date != null) {
+                require(state.exists(creator.organization, date)) {
+                    "$noun (organization ${creator.organization.value}) is not alive!"
+                }
+            }
+        }
+
         is CreatedByTown -> {
             state.getTownStorage()
                 .require(creator.town) { "Cannot use an unknown town ${creator.town.value} as $noun!" }
 
             if (date != null) {
                 require(state.exists(creator.town, date)) {
-                    "$noun (character ${creator.town.value}) is not alive!"
+                    "$noun (town ${creator.town.value}) is not alive!"
                 }
             }
         }
+
         UndefinedCreator -> doNothing()
     }
 }
