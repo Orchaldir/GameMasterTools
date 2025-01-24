@@ -47,6 +47,7 @@ fun <ID : Id<ID>> checkCreator(
         }
 
         is CreatedByOrganization -> {
+            require(creator.organization != created) { "An organization cannot create itself!" }
             state.getOrganizationStorage()
                 .require(creator.organization) { "Cannot use an unknown organization ${creator.organization.value} as $noun!" }
 
@@ -58,6 +59,7 @@ fun <ID : Id<ID>> checkCreator(
         }
 
         is CreatedByTown -> {
+            require(creator.town != created) { "A town cannot create itself!" }
             state.getTownStorage()
                 .require(creator.town) { "Cannot use an unknown town ${creator.town.value} as $noun!" }
 

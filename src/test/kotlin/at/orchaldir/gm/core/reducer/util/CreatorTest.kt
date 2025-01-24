@@ -92,11 +92,18 @@ class CreatorTest {
     inner class CreatedByOrganizationTest {
 
         @Test
-        fun `Creator is an unknown character`() {
+        fun `Creator is an unknown organization`() {
             val state = STATE.removeStorage(ORGANIZATION_ID_0)
 
             assertIllegalArgument("Cannot use an unknown organization 0 as Builder!") {
                 checkCreator(state, BUILD_BY_ORGANIZATION, BUILDING_ID_0, DAY0, "Builder")
+            }
+        }
+
+        @Test
+        fun `An organization cannot create itself`() {
+            assertIllegalArgument("An organization cannot create itself!") {
+                checkCreator(STATE, BUILD_BY_ORGANIZATION, ORGANIZATION_ID_0, DAY0, "Builder")
             }
         }
 
@@ -117,11 +124,18 @@ class CreatorTest {
     inner class CreatedByTownTest {
 
         @Test
-        fun `Creator is an unknown character`() {
+        fun `Creator is an unknown town`() {
             val state = STATE.removeStorage(TOWN_ID_0)
 
             assertIllegalArgument("Cannot use an unknown town 0 as Builder!") {
                 checkCreator(state, BUILD_BY_TOWN, BUILDING_ID_0, DAY0, "Builder")
+            }
+        }
+
+        @Test
+        fun `A town cannot create itself`() {
+            assertIllegalArgument("A town cannot create itself!") {
+                checkCreator(STATE, BUILD_BY_TOWN, TOWN_ID_0, DAY0, "Builder")
             }
         }
 
