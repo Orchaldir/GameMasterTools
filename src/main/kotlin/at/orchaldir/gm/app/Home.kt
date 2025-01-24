@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
 import at.orchaldir.gm.app.routes.item.ItemTemplateRoutes
 import at.orchaldir.gm.app.routes.item.TextRoutes
+import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.app.routes.world.*
@@ -52,6 +53,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getLanguageStorage(), LanguageRoutes())
                     fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes())
                     fieldStorageLink(call, state.getNameListStorage(), NameListRoutes())
+                    fieldStorageLink(call, state.getOrganizationStorage(), OrganizationRoutes.All())
                     fieldStorageLink(call, state.getPersonalityTraitStorage(), PersonalityTraitRoutes())
                     fieldStorageLink(call, state.getRaceStorage(), RaceRoutes())
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), AppearanceRoutes())
