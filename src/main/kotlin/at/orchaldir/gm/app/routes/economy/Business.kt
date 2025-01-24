@@ -204,9 +204,8 @@ private fun HTML.showBusinessDetails(
         showList("Previous Employees", previousEmployees) { character ->
             link(call, state, character)
         }
-        showList("Constructed Buildings", state.getBuildingsBuildBy(business.id)) { building ->
-            link(call, state, building)
-        }
+        showCreated(call, state, business.id)
+
         action(editLink, "Edit")
         if (state.canDelete(business.id)) {
             action(deleteLink, "Delete")

@@ -281,7 +281,7 @@ private fun HTML.showCharacterDetails(
         showData(character, call, state)
         showSocial(call, state, character)
         showPossession(call, state, character)
-        showCrafting(call, state, character)
+        showCreated(call, state, character.id)
 
         back(backLink)
     }
@@ -390,34 +390,6 @@ private fun HtmlBlockTag.showAge(
     race.lifeStages.getLifeStage(age)?.let {
         val start = race.lifeStages.getLifeStageStartAge(age)
         field("Life Stage", "${it.name} ($start-${it.maxAge} years)")
-    }
-}
-
-private fun BODY.showCrafting(
-    call: ApplicationCall,
-    state: State,
-    character: Character,
-) {
-    h2 { +"Crafting" }
-
-    showList("Written Texts", state.getTextsWrittenBy(character.id)) { text ->
-        link(call, state, text)
-    }
-
-    showList("Translated Texts", state.getTextsTranslatedBy(character.id)) { text ->
-        link(call, state, text)
-    }
-
-    showList("Buildings", state.getBuildingsBuildBy(character.id)) { building ->
-        link(call, state, building)
-    }
-
-    showList("Founded Towns", state.getTownsFoundedBy(character.id)) { town ->
-        link(call, state, town)
-    }
-
-    showList("Invented Languages", state.getLanguagesInventedBy(character.id)) { language ->
-        link(call, language)
     }
 }
 
