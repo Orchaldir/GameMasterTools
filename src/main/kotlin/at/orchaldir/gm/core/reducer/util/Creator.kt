@@ -2,16 +2,14 @@ package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.util.CreatedByBusiness
-import at.orchaldir.gm.core.model.util.CreatedByCharacter
-import at.orchaldir.gm.core.model.util.Creator
-import at.orchaldir.gm.core.model.util.UndefinedCreator
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.economy.getBusinessesFoundedBy
 import at.orchaldir.gm.core.selector.economy.isInOperation
 import at.orchaldir.gm.core.selector.getLanguagesInventedBy
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.item.getTextsTranslatedBy
 import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
+import at.orchaldir.gm.core.selector.world.exists
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getTownsFoundedBy
 import at.orchaldir.gm.utils.Id
@@ -47,6 +45,16 @@ fun <ID : Id<ID>> checkCreator(
             }
         }
 
+        is CreatedByTown -> {
+            state.getTownStorage()
+                .require(creator.town) { "Cannot use an unknown town ${creator.town.value} as $noun!" }
+
+            if (date != null) {
+                require(state.exists(creator.town, date)) {
+                    "$noun (character ${creator.town.value}) is not alive!"
+                }
+            }
+        }
         UndefinedCreator -> doNothing()
     }
 }

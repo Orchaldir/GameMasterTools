@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.StreetId
@@ -29,10 +30,6 @@ fun countEachTown(buildings: Collection<Building>) = buildings
     .groupingBy { it.lot.town }
     .eachCount()
 
-fun State.exists(id: TownId, date: Date) = exists(getTownStorage().getOrThrow(id), date)
-
-fun State.exists(town: Town, date: Date) = getDefaultCalendar().compareTo(town.foundingDate, date) <= 0
-
 fun State.getTowns(mountain: MountainId) = getTownStorage().getAll()
     .filter { it.map.contains { it.terrain.contains(mountain) } }
 
@@ -44,6 +41,17 @@ fun State.getTowns(street: StreetId) = getTownStorage().getAll()
 
 fun State.getTowns(type: StreetTemplateId) = getTownStorage().getAll()
     .filter { it.map.contains { it.construction.contains(type) } }
+
+// exists
+
+fun State.exists(id: TownId, date: Date?) = exists(getTownStorage().getOrThrow(id), date)
+
+fun State.exists(town: Town, date: Date?) = getDefaultCalendar()
+    .isAfterOrEqualOptional(date, town.foundingDate)
+
+fun State.getExistingTowns(date: Date?) = getTownStorage()
+    .getAll()
+    .filter { exists(it, date) }
 
 // founder
 

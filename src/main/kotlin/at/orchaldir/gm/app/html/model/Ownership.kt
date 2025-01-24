@@ -11,8 +11,8 @@ import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.selector.isAlive
-import at.orchaldir.gm.core.selector.world.exists
+import at.orchaldir.gm.core.selector.getLiving
+import at.orchaldir.gm.core.selector.world.getExistingTowns
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -59,25 +59,23 @@ fun HtmlBlockTag.selectOwner(
         is OwnedByCharacter -> selectValue(
             "Owner",
             combine(param, CHARACTER),
-            state.getCharacterStorage().getAll(),
+            state.getLiving(start),
             false
         ) { character ->
             label = character.name(state)
             value = character.id.value.toString()
             selected = owner.character == character.id
-            disabled = start != null && !state.isAlive(character, start)
         }
 
         is OwnedByTown -> selectValue(
             "Owner",
             combine(param, TOWN),
-            state.getTownStorage().getAll(),
+            state.getExistingTowns(start),
             false
         ) { town ->
             label = town.name(state)
             value = town.id.value.toString()
             selected = owner.town == town.id
-            disabled = start != null && !state.exists(town, start)
         }
 
         else -> doNothing()

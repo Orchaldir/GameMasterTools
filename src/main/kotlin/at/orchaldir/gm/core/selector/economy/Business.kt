@@ -21,13 +21,14 @@ fun State.canDelete(id: BusinessId) = getBuilding(id) == null
         && getEmployees(id).isEmpty()
         && !isCreator(id)
 
-fun State.isInOperation(id: BusinessId, date: Date) = isInOperation(getBusinessStorage().getOrThrow(id), date)
+fun State.isInOperation(id: BusinessId, date: Date?): Boolean {
+    val business = getBusinessStorage().getOrThrow(id)
 
-fun State.isInOperation(business: Business, date: Date) = if (business.startDate != null) {
-    getDefaultCalendar().isAfterOrEqual(date, business.startDate)
-} else {
-    true
+    return isInOperation(business, date)
 }
+
+fun State.isInOperation(business: Business, date: Date?) = getDefaultCalendar()
+    .isAfterOrEqualOptional(date, business.startDate)
 
 fun State.getBusinessesWithBuilding() = getBuildingStorage().getAll()
     .flatMap { it.purpose.getBusinesses() }
@@ -48,13 +49,7 @@ fun State.getBusinesses(job: JobId) = getCharacterStorage().getAll()
     .toSet()
     .map { getBusinessStorage().getOrThrow(it) }
 
-fun State.getOpenBusinesses(date: Date?) = if (date == null) {
-    getBusinessStorage().getAll()
-} else {
-    getOpenBusinesses(date)
-}
-
-fun State.getOpenBusinesses(date: Date) = getBusinessStorage()
+fun State.getOpenBusinesses(date: Date?) = getBusinessStorage()
     .getAll()
     .filter { isInOperation(it, date) }
 

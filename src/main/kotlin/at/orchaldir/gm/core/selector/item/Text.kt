@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.CreatedByBusiness
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.util.CreatedByTown
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.utils.Id
 
@@ -49,6 +50,7 @@ fun State.getAuthorName(text: Text) = when (val origin = getOriginal(text).origi
     is OriginalText -> when (origin.author) {
         is CreatedByBusiness -> getElementName(origin.author.business)
         is CreatedByCharacter -> getElementName(origin.author.character)
+        is CreatedByTown -> getElementName(origin.author.town)
         UndefinedCreator -> null
     }
 
