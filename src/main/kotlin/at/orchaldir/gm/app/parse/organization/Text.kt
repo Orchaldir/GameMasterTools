@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.parse.organization
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.model.parseCreator
 import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
@@ -15,5 +16,6 @@ fun parseOrganization(parameters: Parameters, state: State, id: OrganizationId) 
     Organization(
         id,
         parameters.getOrFail(NAME),
-        parseOptionalDate(parameters, state, DATE),
+        parseCreator(parameters),
+        parseOptionalDate(parameters, state, DATE)
     )

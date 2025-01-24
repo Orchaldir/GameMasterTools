@@ -1,7 +1,10 @@
 package at.orchaldir.gm.core.model.organization
 
 import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -21,9 +24,12 @@ value class OrganizationId(val value: Int) : Id<OrganizationId> {
 data class Organization(
     val id: OrganizationId,
     val name: String = "Organization ${id.value}",
+    val founder: Creator = UndefinedCreator,
     val date: Date? = null,
-) : ElementWithSimpleName<OrganizationId> {
+) : ElementWithSimpleName<OrganizationId>, Created {
 
     override fun id() = id
     override fun name() = name
+
+    override fun creator() = founder
 }

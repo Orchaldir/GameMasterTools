@@ -155,14 +155,18 @@ private fun HTML.showAllOrganizations(
             tr {
                 th { +"Name" }
                 th { +"Date" }
+                th { +"Founder" }
             }
             organizations.forEach { organization ->
                 tr {
                     td { link(call, state, organization) }
                     td { showOptionalDate(call, state, organization.date) }
+                    td { showCreator(call, state, organization.founder, false) }
                 }
             }
         }
+
+        showCreatorCount(call, state, organizations, "Founders")
 
         action(createLink, "Add")
         back("/")
@@ -180,6 +184,7 @@ private fun HTML.showOrganizationDetails(
 
     simpleHtml("Organization: ${organization.name(state)}") {
         optionalField(call, state, "Date", organization.date)
+        fieldCreator(call, state, organization.founder, "Founder")
 
         action(editLink, "Edit")
 
@@ -208,6 +213,7 @@ private fun HTML.showOrganizationEditor(
             method = FormMethod.post
             selectName(organization.name)
             selectOptionalDate(state, "Date", organization.date, DATE)
+            selectCreator(state, organization.founder, organization.id, organization.date, "Founder")
             button("Update", updateLink)
         }
         back(backLink)
