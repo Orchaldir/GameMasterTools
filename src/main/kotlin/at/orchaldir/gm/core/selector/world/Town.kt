@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.street.StreetId
@@ -13,6 +12,7 @@ import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getDefaultCalendar
+import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.utils.Id
 
@@ -44,16 +44,7 @@ fun State.getTowns(street: StreetId) = getTownStorage().getAll()
 fun State.getTowns(type: StreetTemplateId) = getTownStorage().getAll()
     .filter { it.map.contains { it.construction.contains(type) } }
 
-// exists
-
-fun State.exists(id: TownId, date: Date?) = exists(getTownStorage().getOrThrow(id), date)
-
-fun State.exists(town: Town, date: Date?) = getDefaultCalendar()
-    .isAfterOrEqualOptional(date, town.foundingDate)
-
-fun State.getExistingTowns(date: Date?) = getTownStorage()
-    .getAll()
-    .filter { exists(it, date) }
+fun State.getExistingTowns(date: Date?) = getExistingElements(getTownStorage().getAll(), date)
 
 // founder
 

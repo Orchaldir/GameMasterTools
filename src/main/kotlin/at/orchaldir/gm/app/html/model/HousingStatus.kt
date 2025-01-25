@@ -18,7 +18,7 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.selector.countCharactersLivingInHouse
-import at.orchaldir.gm.core.selector.world.exists
+import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
 import at.orchaldir.gm.core.selector.world.getHomes
 import at.orchaldir.gm.utils.doNothing
@@ -80,10 +80,8 @@ fun HtmlBlockTag.selectHousingStatus(
     housingStatus: HousingStatus,
     start: Date?,
 ) {
-    val apartments = state.getApartmentHouses()
-        .filter { state.exists(it, start) }
-    val homes = state.getHomes()
-        .filter { state.exists(it, start) }
+    val apartments = state.getExistingElements(state.getApartmentHouses(), start)
+    val homes = state.getExistingElements(state.getHomes(), start)
 
     selectValue("Housing Status", param, HousingStatusType.entries, housingStatus.getType(), true) { type ->
         when (type) {

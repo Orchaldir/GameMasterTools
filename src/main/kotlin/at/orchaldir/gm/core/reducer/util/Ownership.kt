@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.OwnedByTown
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.selector.isAlive
-import at.orchaldir.gm.core.selector.world.exists
+import at.orchaldir.gm.core.selector.util.exists
 import at.orchaldir.gm.utils.doNothing
 
 fun checkOwnershipWithOptionalDate(

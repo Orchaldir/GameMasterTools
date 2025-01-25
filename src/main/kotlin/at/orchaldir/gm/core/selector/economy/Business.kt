@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.util.contains
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getEmployees
+import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.world.getBuilding
 import at.orchaldir.gm.utils.Id
@@ -20,15 +21,6 @@ import at.orchaldir.gm.utils.Id
 fun State.canDelete(id: BusinessId) = getBuilding(id) == null
         && getEmployees(id).isEmpty()
         && !isCreator(id)
-
-fun State.isInOperation(id: BusinessId, date: Date?): Boolean {
-    val business = getBusinessStorage().getOrThrow(id)
-
-    return isInOperation(business, date)
-}
-
-fun State.isInOperation(business: Business, date: Date?) = getDefaultCalendar()
-    .isAfterOrEqualOptional(date, business.startDate())
 
 fun State.getBusinessesWithBuilding() = getBuildingStorage().getAll()
     .flatMap { it.purpose.getBusinesses() }
@@ -49,9 +41,7 @@ fun State.getBusinesses(job: JobId) = getCharacterStorage().getAll()
     .toSet()
     .map { getBusinessStorage().getOrThrow(it) }
 
-fun State.getOpenBusinesses(date: Date?) = getBusinessStorage()
-    .getAll()
-    .filter { isInOperation(it, date) }
+fun State.getOpenBusinesses(date: Date?) = getExistingElements(getBusinessStorage().getAll(), date)
 
 // owner
 

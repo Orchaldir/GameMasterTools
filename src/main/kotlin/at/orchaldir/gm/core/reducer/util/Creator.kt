@@ -4,13 +4,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.economy.getBusinessesFoundedBy
-import at.orchaldir.gm.core.selector.economy.isInOperation
 import at.orchaldir.gm.core.selector.getLanguagesInventedBy
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.item.getTextsTranslatedBy
 import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
-import at.orchaldir.gm.core.selector.organization.exists
-import at.orchaldir.gm.core.selector.world.exists
+import at.orchaldir.gm.core.selector.util.exists
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getTownsFoundedBy
 import at.orchaldir.gm.utils.Id
@@ -26,10 +24,10 @@ fun <ID : Id<ID>> checkCreator(
     when (creator) {
         is CreatedByBusiness -> {
             require(creator.business != created) { "A business cannot create itself!" }
-            state.getBusinessStorage()
-                .require(creator.business) { "Cannot use an unknown business ${creator.business.value} as $noun!" }
+            val business = state.getBusinessStorage()
+                .getOrThrow(creator.business) { "Cannot use an unknown business ${creator.business.value} as $noun!" }
             if (date != null) {
-                require(state.isInOperation(creator.business, date)) {
+                require(state.exists(business, date)) {
                     "$noun (business ${creator.business.value}) is not open!"
                 }
             }
@@ -48,11 +46,11 @@ fun <ID : Id<ID>> checkCreator(
 
         is CreatedByOrganization -> {
             require(creator.organization != created) { "An organization cannot create itself!" }
-            state.getOrganizationStorage()
-                .require(creator.organization) { "Cannot use an unknown organization ${creator.organization.value} as $noun!" }
+            val organization = state.getOrganizationStorage()
+                .getOrThrow(creator.organization) { "Cannot use an unknown organization ${creator.organization.value} as $noun!" }
 
             if (date != null) {
-                require(state.exists(creator.organization, date)) {
+                require(state.exists(organization, date)) {
                     "$noun (organization ${creator.organization.value}) is not alive!"
                 }
             }
@@ -60,11 +58,11 @@ fun <ID : Id<ID>> checkCreator(
 
         is CreatedByTown -> {
             require(creator.town != created) { "A town cannot create itself!" }
-            state.getTownStorage()
-                .require(creator.town) { "Cannot use an unknown town ${creator.town.value} as $noun!" }
+            val organization = state.getTownStorage()
+                .getOrThrow(creator.town) { "Cannot use an unknown town ${creator.town.value} as $noun!" }
 
             if (date != null) {
-                require(state.exists(creator.town, date)) {
+                require(state.exists(organization, date)) {
                     "$noun (town ${creator.town.value}) is not alive!"
                 }
             }
