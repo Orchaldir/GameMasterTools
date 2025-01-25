@@ -45,14 +45,14 @@ class CreatorTest {
 
         @Test
         fun `A business cannot create itself`() {
-            assertIllegalArgument("A business cannot create itself!") {
+            assertIllegalArgument("The business cannot create itself!") {
                 checkCreator(STATE, BUILD_BY_BUSINESS, BUSINESS_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Creator doesn't exist yet`() {
-            assertIllegalArgument("Builder (business 0) is not open!") {
+            assertIllegalArgument("Builder (business 0) does not exist!") {
                 checkCreator(STATE, BUILD_BY_BUSINESS, BUILDING_ID_0, DAY0, "Builder")
             }
         }
@@ -102,14 +102,14 @@ class CreatorTest {
 
         @Test
         fun `An organization cannot create itself`() {
-            assertIllegalArgument("An organization cannot create itself!") {
+            assertIllegalArgument("The organization cannot create itself!") {
                 checkCreator(STATE, BUILD_BY_ORGANIZATION, ORGANIZATION_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Creator doesn't exist yet`() {
-            assertIllegalArgument("Builder (organization 0) is not alive!") {
+            assertIllegalArgument("Builder (organization 0) does not exist!") {
                 checkCreator(STATE, BUILD_BY_ORGANIZATION, BUILDING_ID_0, DAY0, "Builder")
             }
         }
@@ -134,14 +134,14 @@ class CreatorTest {
 
         @Test
         fun `A town cannot create itself`() {
-            assertIllegalArgument("A town cannot create itself!") {
+            assertIllegalArgument("The town cannot create itself!") {
                 checkCreator(STATE, BUILD_BY_TOWN, TOWN_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Creator doesn't exist yet`() {
-            assertIllegalArgument("Builder (town 0) is not alive!") {
+            assertIllegalArgument("Builder (town 0) does not exist!") {
                 checkCreator(STATE, BUILD_BY_TOWN, BUILDING_ID_0, DAY0, "Builder")
             }
         }
