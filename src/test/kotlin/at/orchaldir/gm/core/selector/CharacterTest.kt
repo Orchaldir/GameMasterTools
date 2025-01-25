@@ -125,7 +125,7 @@ class CharacterTest {
     }
 
     private fun assertOthers(id: CharacterId, others: Set<Character>) {
-        assertEquals(others, FAMILY_STATE.getOthers(id).toSet())
+        assertEquals(others, FAMILY_STATE.getCharacterStorage().getAllExcept(id).toSet())
     }
 
     private fun assertOthersWithoutRelationship(character: Character, others: Set<Character>) {

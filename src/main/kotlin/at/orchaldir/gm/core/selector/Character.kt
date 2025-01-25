@@ -82,8 +82,6 @@ fun State.getCharacters(trait: PersonalityTraitId) =
 
 fun State.getCharacters(race: RaceId) = getCharacterStorage().getAll().filter { c -> c.race == race }
 
-fun State.getOthers(id: CharacterId) = getCharacterStorage().getAll().filter { c -> c.id != id }
-
 // housing status
 
 fun State.getCharactersLivingIn(building: BuildingId) = getCharacterStorage()
@@ -191,8 +189,8 @@ fun State.getSiblings(id: CharacterId): Set<Character> {
 
 // relationships
 
-fun State.getOthersWithoutRelationship(character: Character) = getCharacterStorage().getAll()
-    .filter { c -> c.id != character.id }
+fun State.getOthersWithoutRelationship(character: Character) = getCharacterStorage()
+    .getAllExcept(character.id)
     .filter { c -> !character.relationships.containsKey(c.id) }
 
 // age
