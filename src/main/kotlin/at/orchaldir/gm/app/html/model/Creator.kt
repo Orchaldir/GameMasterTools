@@ -182,6 +182,7 @@ fun parseCreator(parameters: Parameters): Creator {
                 combine(CREATOR, ORGANIZATION)
             )
         )
+
         CreatorType.CreatedByTown -> CreatedByTown(parseTownId(parameters, combine(CREATOR, TOWN)))
     }
 }

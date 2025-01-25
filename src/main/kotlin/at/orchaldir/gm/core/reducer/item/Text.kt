@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.reducer.util.checkCreator
-import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.exists
 import at.orchaldir.gm.utils.doNothing

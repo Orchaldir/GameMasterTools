@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.routes.organization
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.organization.parseOrganization

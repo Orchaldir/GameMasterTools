@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.selector.economy
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Employed
-import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.time.Date
@@ -11,7 +10,6 @@ import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.OwnedByTown
 import at.orchaldir.gm.core.model.util.contains
 import at.orchaldir.gm.core.model.world.town.TownId
-import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isCreator

@@ -21,13 +21,9 @@ import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.item.getEquipment
-import at.orchaldir.gm.core.selector.item.getTextsTranslatedBy
-import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
 import at.orchaldir.gm.core.selector.util.sortCharacters
-import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
-import at.orchaldir.gm.core.selector.world.getTownsFoundedBy
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
