@@ -64,11 +64,7 @@ private fun <ID0, ID1, ELEMENT> checkCreatorElement(
         .getStorage<ID0, ELEMENT>(creator)
         .getOrThrow(creator) { "Cannot use an unknown $typeNoun ${creator.value()} as $noun!" }
 
-    if (date != null) {
-        require(state.exists(organization, date)) {
-            "$noun ($typeNoun ${creator.value()}) does not exist!"
-        }
-    }
+    require(state.exists(organization, date)) { "$noun ($typeNoun ${creator.value()}) does not exist!" }
 }
 
 fun <ID : Id<ID>> checkCreated(
