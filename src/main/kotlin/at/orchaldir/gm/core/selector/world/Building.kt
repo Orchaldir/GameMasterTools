@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.selector.world
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
-import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.OwnedByTown
 import at.orchaldir.gm.core.model.util.contains
@@ -14,21 +13,12 @@ import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
-import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.getBuildingAgeComparator
 import at.orchaldir.gm.utils.Id
 
 fun State.canDelete(building: Building) = building.ownership.current.canDelete()
         && getCharactersLivingIn(building.id).isEmpty()
         && getCharactersPreviouslyLivingIn(building.id).isEmpty()
-
-fun State.exists(id: BuildingId, date: Date) = exists(getBuildingStorage().getOrThrow(id), date)
-
-fun State.exists(building: Building, date: Date?) = if (date != null) {
-    getDefaultCalendar().compareToOptional(building.constructionDate, date) <= 0
-} else {
-    true
-}
 
 fun countEachPurpose(buildings: Collection<Building>) = buildings
     .groupingBy { it.purpose.getType() }

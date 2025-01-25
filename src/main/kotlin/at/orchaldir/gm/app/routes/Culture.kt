@@ -306,11 +306,7 @@ private fun HTML.showCultureEditor(
             action = previewLink
             method = FormMethod.post
             selectName(culture.name)
-            selectValue("Calendar", CALENDAR_TYPE, state.getCalendarStorage().getAll()) { c ->
-                label = c.name
-                value = c.id.value.toString()
-                selected = culture.calendar == c.id
-            }
+            selectElement(state, "Calendar", CALENDAR_TYPE, state.getCalendarStorage().getAll(), culture.calendar)
             selectRarityMap("Languages", LANGUAGES, state.getLanguageStorage(), culture.languages) { it.name }
             editHolidays(state, culture)
             editNamingConvention(namingConvention, state)

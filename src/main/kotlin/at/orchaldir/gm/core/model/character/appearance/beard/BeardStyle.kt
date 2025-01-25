@@ -3,6 +3,13 @@ package at.orchaldir.gm.core.model.character.appearance.beard
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class BeardStyleType {
+    Goatee,
+    GoateeAndMoustache,
+    Moustache,
+    Shaved,
+}
+
 @Serializable
 sealed class BeardStyle
 

@@ -1,0 +1,17 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "The Young",
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "date": {
+    "type": "Decade",
+    "decade": 179
+   }
+  }
+ }
+}

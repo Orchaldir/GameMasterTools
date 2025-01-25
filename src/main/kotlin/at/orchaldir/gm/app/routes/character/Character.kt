@@ -21,13 +21,9 @@ import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.item.getEquipment
-import at.orchaldir.gm.core.selector.item.getTextsTranslatedBy
-import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
 import at.orchaldir.gm.core.selector.util.sortCharacters
-import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
-import at.orchaldir.gm.core.selector.world.getTownsFoundedBy
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
@@ -281,7 +277,7 @@ private fun HTML.showCharacterDetails(
         showData(character, call, state)
         showSocial(call, state, character)
         showPossession(call, state, character)
-        showCrafting(call, state, character)
+        showCreated(call, state, character.id)
 
         back(backLink)
     }
@@ -390,34 +386,6 @@ private fun HtmlBlockTag.showAge(
     race.lifeStages.getLifeStage(age)?.let {
         val start = race.lifeStages.getLifeStageStartAge(age)
         field("Life Stage", "${it.name} ($start-${it.maxAge} years)")
-    }
-}
-
-private fun BODY.showCrafting(
-    call: ApplicationCall,
-    state: State,
-    character: Character,
-) {
-    h2 { +"Crafting" }
-
-    showList("Written Texts", state.getTextsWrittenBy(character.id)) { text ->
-        link(call, state, text)
-    }
-
-    showList("Translated Texts", state.getTextsTranslatedBy(character.id)) { text ->
-        link(call, state, text)
-    }
-
-    showList("Buildings", state.getBuildingsBuildBy(character.id)) { building ->
-        link(call, state, building)
-    }
-
-    showList("Founded Towns", state.getTownsFoundedBy(character.id)) { town ->
-        link(call, state, town)
-    }
-
-    showList("Invented Languages", state.getLanguagesInventedBy(character.id)) { language ->
-        link(call, language)
     }
 }
 
@@ -530,11 +498,7 @@ private fun HTML.showCharacterEditor(
             action = previewLink
             method = FormMethod.post
             selectName(state, character)
-            selectValue("Race", RACE, state.getRaceStorage().getAll(), true) { r ->
-                label = r.name
-                value = r.id.value.toString()
-                selected = r.id == character.race
-            }
+            selectElement(state, "Race", RACE, state.getRaceStorage().getAll(), character.race, true)
             selectOneOf("Gender", GENDER, race.genders) { gender ->
                 label = gender.toString()
                 value = gender.toString()
@@ -546,11 +510,7 @@ private fun HTML.showCharacterEditor(
             selectHousingStatusHistory(state, character.housingStatus, character.birthDate)
             selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
             h2 { +"Social" }
-            selectValue("Culture", CULTURE, state.getCultureStorage().getAll()) { culture ->
-                label = culture.name
-                value = culture.id.value.toString()
-                selected = culture.id == character.culture
-            }
+            selectElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
             editPersonality(call, state, character)
             button("Update", updateLink)
         }
@@ -614,11 +574,13 @@ private fun FORM.selectVitalStatus(
         selectValue("Cause of death", DEATH, CauseOfDeathType.entries, vitalStatus.cause.getType(), true)
 
         if (vitalStatus.cause is Murder) {
-            selectValue("Killer", KILLER, state.getOthers(character.id)) { c ->
-                label = c.name(state)
-                value = c.id.value.toString()
-                selected = vitalStatus.cause.killer == c.id
-            }
+            selectElement(
+                state,
+                "Killer",
+                KILLER,
+                state.getCharacterStorage().getAllExcept(character.id),
+                vitalStatus.cause.killer,
+            )
         }
     }
 }
@@ -641,16 +603,20 @@ private fun FORM.selectOrigin(
     }
     when (character.origin) {
         is Born -> {
-            selectValue("Father", FATHER, state.getPossibleFathers(character.id)) { c ->
-                label = c.name(state)
-                value = c.id.value.toString()
-                selected = character.origin.father == c.id
-            }
-            selectValue("Mother", MOTHER, state.getPossibleMothers(character.id)) { c ->
-                label = c.name(state)
-                value = c.id.value.toString()
-                selected = character.origin.mother == c.id
-            }
+            selectElement(
+                state,
+                "Father",
+                FATHER,
+                state.getPossibleFathers(character.id),
+                character.origin.father,
+            )
+            selectElement(
+                state,
+                "Mother",
+                MOTHER,
+                state.getPossibleMothers(character.id),
+                character.origin.mother,
+            )
         }
 
         else -> doNothing()

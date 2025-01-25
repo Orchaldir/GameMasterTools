@@ -194,6 +194,7 @@ private fun HTML.showTownDetails(
             action(editTerrainLink, "Edit Terrain")
 
             showPossession(state, town, call)
+            showCreated(call, state, town.id)
 
             back(backLink)
         }, {

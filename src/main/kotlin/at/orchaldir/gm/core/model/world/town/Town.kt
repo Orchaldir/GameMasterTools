@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.Creator
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.terrain.Terrain
@@ -37,12 +38,14 @@ data class Town(
     val map: TileMap2d<TownTile> = TileMap2d(square(10), TownTile()),
     val foundingDate: Date = Year(0),
     val founder: Creator = UndefinedCreator,
-) : Element<TownId>, Created {
+) : Element<TownId>, Created, HasStartDate {
 
     override fun id() = id
     override fun name(state: State) = name.resolve(state)
 
     override fun creator() = founder
+
+    override fun startDate() = foundingDate
 
     fun canBuild(index: Int, size: MapSize2d) = checkTiles(index, size) { it.canBuild() }
     fun canResize(index: Int, size: MapSize2d, building: BuildingId) =

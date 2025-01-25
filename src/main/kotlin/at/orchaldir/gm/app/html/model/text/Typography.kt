@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.model.parseDistance
 import at.orchaldir.gm.app.html.model.selectDistance
 import at.orchaldir.gm.app.html.selectColor
+import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
@@ -164,11 +165,14 @@ private fun HtmlBlockTag.editSharedFontOptions(
     fontId: FontId,
     size: Distance,
 ) {
-    selectValue("Font", combine(param, FONT), state.getFontStorage().getAll(), true) { font ->
-        label = font.name
-        value = font.id.value.toString()
-        selected = fontId == font.id
-    }
+    selectElement(
+        state,
+        "Font",
+        combine(param, FONT),
+        state.getFontStorage().getAll(),
+        fontId,
+        true,
+    )
     selectDistance("Font Size", combine(param, SIZE), size, ONE_MM, THOUSAND_MM, update = true)
 }
 

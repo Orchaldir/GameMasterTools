@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.item.text.Text
+import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
@@ -54,7 +55,7 @@ fun State.sortBuildings(buildings: Collection<Building>, sort: SortBuilding = So
 
 fun State.getBusinessAgeComparator(): Comparator<Business> {
     val calendar = getDefaultCalendar()
-    return Comparator { a: Business, b: Business -> calendar.compareToOptional(a.startDate, b.startDate) }
+    return Comparator { a: Business, b: Business -> calendar.compareToOptional(a.startDate(), b.startDate()) }
 }
 
 fun State.sortBusinesses(sort: SortBusiness = SortBusiness.Name) =
@@ -110,6 +111,26 @@ fun State.sortFonts(
         when (sort) {
             SortFont.Name -> compareBy { it.name(this) }
             SortFont.Age -> getFontAgeComparator()
+        })
+
+// organization
+
+fun State.getOrganizationAgeComparator(): Comparator<Organization> {
+    val calendar = getDefaultCalendar()
+    return Comparator { a: Organization, b: Organization -> calendar.compareToOptional(a.date, b.date) }
+}
+
+fun State.sortOrganizations(sort: SortOrganization = SortOrganization.Name) =
+    sortOrganizations(getOrganizationStorage().getAll(), sort)
+
+fun State.sortOrganizations(
+    buildings: Collection<Organization>,
+    sort: SortOrganization = SortOrganization.Name,
+) = buildings
+    .sortedWith(
+        when (sort) {
+            SortOrganization.Name -> compareBy { it.name }
+            SortOrganization.Age -> getOrganizationAgeComparator()
         })
 
 // text

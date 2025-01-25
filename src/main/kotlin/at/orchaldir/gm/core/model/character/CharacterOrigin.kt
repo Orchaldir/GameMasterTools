@@ -3,6 +3,11 @@ package at.orchaldir.gm.core.model.character
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class CharacterOriginType {
+    Born,
+    Undefined,
+}
+
 @Serializable
 sealed class CharacterOrigin
 

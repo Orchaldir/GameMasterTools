@@ -177,11 +177,7 @@ private fun HTML.showHolidayEditor(
             action = previewLink
             method = FormMethod.post
             selectName(holiday.name)
-            selectValue("Calendar", CALENDAR, state.getCalendarStorage().getAll(), true) { calendar ->
-                label = calendar.name
-                value = calendar.id.value.toString()
-                selected = calendar.id == holiday.calendar
-            }
+            selectElement(state, "Calendar", CALENDAR, state.getCalendarStorage().getAll(), holiday.calendar, true)
             selectRelativeDate(DATE, holiday.relativeDate, calendar)
             button("Update", updateLink)
         }

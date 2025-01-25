@@ -103,11 +103,7 @@ private fun HTML.showStreetEditor(
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
-                selectValue("Type", TYPE, state.getStreetTemplateStorage().getAll(), true) { type ->
-                    label = type.name
-                    value = type.id.value.toString()
-                    selected = selectedType == type.id
-                }
+                selectElement(state, "Type", TYPE, state.getStreetTemplateStorage().getAll(), selectedType, true)
                 selectOptionalValue(
                     "Street",
                     STREET,

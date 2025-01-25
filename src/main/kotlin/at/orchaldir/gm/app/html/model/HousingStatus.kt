@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.BUILDING
 import at.orchaldir.gm.app.HOME
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
@@ -17,7 +18,7 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.selector.countCharactersLivingInHouse
-import at.orchaldir.gm.core.selector.world.exists
+import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
 import at.orchaldir.gm.core.selector.world.getHomes
 import at.orchaldir.gm.utils.doNothing
@@ -79,10 +80,8 @@ fun HtmlBlockTag.selectHousingStatus(
     housingStatus: HousingStatus,
     start: Date?,
 ) {
-    val apartments = state.getApartmentHouses()
-        .filter { state.exists(it, start) }
-    val homes = state.getHomes()
-        .filter { state.exists(it, start) }
+    val apartments = state.getExistingElements(state.getApartmentHouses(), start)
+    val homes = state.getExistingElements(state.getHomes(), start)
 
     selectValue("Housing Status", param, HousingStatusType.entries, housingStatus.getType(), true) { type ->
         when (type) {
@@ -96,11 +95,7 @@ fun HtmlBlockTag.selectHousingStatus(
         UndefinedHousingStatus -> doNothing()
         Homeless -> doNothing()
         is InApartment -> {
-            selectValue("Apartment House", combine(param, BUILDING), apartments, true) { building ->
-                label = building.name(state)
-                value = building.id.value.toString()
-                selected = housingStatus.building == building.id
-            }
+            selectElement(state, "Apartment House", combine(param, BUILDING), apartments, housingStatus.building, true)
 
             val apartmentHouse = state.getBuildingStorage().getOrThrow(housingStatus.building)
 
@@ -116,11 +111,7 @@ fun HtmlBlockTag.selectHousingStatus(
             }
         }
 
-        is InHouse -> selectValue("Home", combine(param, BUILDING), homes) { building ->
-            label = building.name(state)
-            value = building.id.value.toString()
-            selected = housingStatus.building == building.id
-        }
+        is InHouse -> selectElement(state, "Home", combine(param, BUILDING), homes, housingStatus.building)
     }
 }
 

@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.name.ComplexName
 import at.orchaldir.gm.core.model.name.SimpleName
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.Created
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -32,7 +33,7 @@ data class Text(
     val date: Date? = null,
     val language: LanguageId = LanguageId(0),
     val format: TextFormat = UndefinedTextFormat,
-) : Element<TextId>, Created {
+) : Element<TextId>, Created, HasStartDate {
 
     override fun id() = id
     override fun name(state: State) = name.resolve(state)
@@ -50,5 +51,6 @@ data class Text(
     }
 
     override fun creator() = origin.creator()
+    override fun startDate() = date
 
 }

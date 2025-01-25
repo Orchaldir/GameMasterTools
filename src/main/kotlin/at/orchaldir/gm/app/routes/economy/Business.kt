@@ -18,7 +18,6 @@ import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.getPreviousEmployees
 import at.orchaldir.gm.core.selector.util.sortBusinesses
 import at.orchaldir.gm.core.selector.world.getBuilding
-import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -168,7 +167,7 @@ private fun HTML.showAllBusinesses(
             businesses.forEach { business ->
                 tr {
                     td { link(call, state, business) }
-                    td { showOptionalDate(call, state, business.startDate) }
+                    td { showOptionalDate(call, state, business.startDate()) }
                     td { showCreator(call, state, business.founder, false) }
                     td { showOwner(call, state, business.ownership.current) }
                     td { +state.getEmployees(business.id).size.toString() }
@@ -196,17 +195,16 @@ private fun HTML.showBusinessDetails(
     simpleHtml("Business: ${business.name(state)}") {
         fieldReferenceByName(call, state, business.name)
         state.getBuilding(business.id)?.let { fieldLink("Building", call, state, it) }
-        optionalField(call, state, "Start", business.startDate)
-        fieldAge("Age", state, business.startDate)
+        optionalField(call, state, "Start", business.startDate())
+        fieldAge("Age", state, business.startDate())
         fieldCreator(call, state, business.founder, "Founder")
         showOwnership(call, state, business.ownership)
         showEmployees(call, state, "Employees", employees)
         showList("Previous Employees", previousEmployees) { character ->
             link(call, state, character)
         }
-        showList("Constructed Buildings", state.getBuildingsBuildBy(business.id)) { building ->
-            link(call, state, building)
-        }
+        showCreated(call, state, business.id)
+
         action(editLink, "Edit")
         if (state.canDelete(business.id)) {
             action(deleteLink, "Delete")
@@ -230,9 +228,9 @@ private fun HTML.showBusinessEditor(
             action = previewLink
             method = FormMethod.post
             selectComplexName(state, business.name)
-            selectOptionalDate(state, "Start", business.startDate, DATE)
-            selectCreator(state, business.founder, business.id, business.startDate, "Founder")
-            selectOwnership(state, business.ownership, business.startDate)
+            selectOptionalDate(state, "Start", business.startDate(), DATE)
+            selectCreator(state, business.founder, business.id, business.startDate(), "Founder")
+            selectOwnership(state, business.ownership, business.startDate())
             button("Update", updateLink)
         }
         back(backLink)

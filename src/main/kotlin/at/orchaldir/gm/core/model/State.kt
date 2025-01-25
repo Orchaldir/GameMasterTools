@@ -40,6 +40,9 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.name.NAME_LIST_TYPE
 import at.orchaldir.gm.core.model.name.NameList
 import at.orchaldir.gm.core.model.name.NameListId
+import at.orchaldir.gm.core.model.organization.ORGANIZATION_TYPE
+import at.orchaldir.gm.core.model.organization.Organization
+import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.RACE_TYPE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
@@ -80,6 +83,7 @@ val ELEMENTS =
         MOON_TYPE,
         MOUNTAIN_TYPE,
         NAME_LIST_TYPE,
+        ORGANIZATION_TYPE,
         PERSONALITY_TRAIT_TYPE,
         RACE_TYPE,
         RACE_APPEARANCE_TYPE,
@@ -127,6 +131,7 @@ data class State(
     fun getMoonStorage() = getStorage<MoonId, Moon>(MOON_TYPE)
     fun getMountainStorage() = getStorage<MountainId, Mountain>(MOUNTAIN_TYPE)
     fun getNameListStorage() = getStorage<NameListId, NameList>(NAME_LIST_TYPE)
+    fun getOrganizationStorage() = getStorage<OrganizationId, Organization>(ORGANIZATION_TYPE)
     fun getPersonalityTraitStorage() = getStorage<PersonalityTraitId, PersonalityTrait>(PERSONALITY_TRAIT_TYPE)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE_TYPE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE_TYPE)
@@ -135,6 +140,8 @@ data class State(
     fun getStreetTemplateStorage() = getStorage<StreetTemplateId, StreetTemplate>(STREET_TEMPLATE_TYPE)
     fun getTextStorage() = getStorage<TextId, Text>(TEXT_TYPE)
     fun getTownStorage() = getStorage<TownId, Town>(TOWN_TYPE)
+
+    fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(id: ID) = getStorage<ID, ELEMENT>(id.type())
 
     private fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(type: String): Storage<ID, ELEMENT> {
         val storage = storageMap[type]
@@ -215,6 +222,7 @@ data class State(
         saveStorage(path, getMoonStorage())
         saveStorage(path, getMountainStorage())
         saveStorage(path, getNameListStorage())
+        saveStorage(path, getOrganizationStorage())
         saveStorage(path, getPersonalityTraitStorage())
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
@@ -244,6 +252,7 @@ fun createStorage(type: String) = when (type) {
     MOON_TYPE -> Storage(MoonId(0))
     MOUNTAIN_TYPE -> Storage(MountainId(0))
     NAME_LIST_TYPE -> Storage(NameListId(0))
+    ORGANIZATION_TYPE -> Storage(OrganizationId(0))
     PERSONALITY_TRAIT_TYPE -> Storage(PersonalityTraitId(0))
     RACE_TYPE -> Storage(RaceId(0))
     RACE_APPEARANCE_TYPE -> Storage(RaceAppearanceId(0))
@@ -272,6 +281,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     MOON_TYPE -> loadStorage<MoonId, Moon>(path, MoonId(0))
     MOUNTAIN_TYPE -> loadStorage<MountainId, Mountain>(path, MountainId(0))
     NAME_LIST_TYPE -> loadStorage<NameListId, NameList>(path, NameListId(0))
+    ORGANIZATION_TYPE -> loadStorage<OrganizationId, Organization>(path, OrganizationId(0))
     PERSONALITY_TRAIT_TYPE -> loadStorage<PersonalityTraitId, PersonalityTrait>(
         path,
         PersonalityTraitId(0)

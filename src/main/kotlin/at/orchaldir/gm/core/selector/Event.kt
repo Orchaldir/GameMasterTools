@@ -35,8 +35,8 @@ fun State.getEvents(): List<Event> {
     }
 
     getBusinessStorage().getAll().forEach { business ->
-        if (business.startDate != null) {
-            events.add(BusinessStartedEvent(business.startDate, business.id))
+        business.startDate()?.let {
+            events.add(BusinessStartedEvent(it, business.id))
         }
 
         handleOwnership(events, business.id, business.ownership, ::createOwnershipChanged)

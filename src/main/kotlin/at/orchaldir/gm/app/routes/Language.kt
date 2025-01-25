@@ -279,12 +279,7 @@ private fun HTML.showLanguageEditor(
                     }
                 }
 
-                is EvolvedLanguage ->
-                    selectValue("Parent", LANGUAGES, possibleParents) { l ->
-                        label = l.name
-                        value = l.id.value.toString()
-                        selected = origin.parent == l.id
-                    }
+                is EvolvedLanguage -> selectElement(state, "Parent", LANGUAGES, possibleParents, origin.parent)
 
                 is InventedLanguage -> {
                     selectCreator(state, origin.inventor, language.id, origin.date, "Inventor")

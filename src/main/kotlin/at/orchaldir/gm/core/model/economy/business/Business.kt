@@ -25,14 +25,15 @@ value class BusinessId(val value: Int) : Id<BusinessId> {
 data class Business(
     val id: BusinessId,
     val name: ComplexName = SimpleName("Business ${id.value}"),
-    val startDate: Date? = null,
+    private val startDate: Date? = null,
     val founder: Creator = UndefinedCreator,
     val ownership: History<Owner> = History(UndefinedOwner),
-) : Element<BusinessId>, Created {
+) : Element<BusinessId>, Created, HasStartDate {
 
     override fun id() = id
     override fun name(state: State) = name.resolve(state)
 
     override fun creator() = founder
+    override fun startDate() = startDate
 
 }

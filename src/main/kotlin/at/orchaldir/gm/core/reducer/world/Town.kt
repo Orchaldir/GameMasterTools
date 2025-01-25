@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.util.checkComplexName
+import at.orchaldir.gm.core.reducer.util.checkCreated
 import at.orchaldir.gm.core.reducer.util.checkCreator
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
@@ -28,6 +29,7 @@ val DELETE_TOWN: Reducer<DeleteTown, State> = { state, action ->
 
     checkBuildingOwnership(state, action.id)
     checkBusinessOwnership(state, action.id)
+    checkCreated(state, action.id, "town")
 
     noFollowUps(state.updateStorage(state.getTownStorage().remove(action.id)))
 }

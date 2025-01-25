@@ -4,6 +4,12 @@ import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class SkinType {
+    Scales,
+    Normal,
+    Exotic,
+}
+
 @Serializable
 enum class SkinColor {
     Fair,

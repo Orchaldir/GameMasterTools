@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.routes.economy.configureBusinessRouting
 import at.orchaldir.gm.app.routes.economy.configureJobRouting
 import at.orchaldir.gm.app.routes.item.configureItemTemplateRouting
 import at.orchaldir.gm.app.routes.item.configureTextRouting
+import at.orchaldir.gm.app.routes.organization.configureOrganizationRouting
 import at.orchaldir.gm.app.routes.race.configureRaceAppearanceRouting
 import at.orchaldir.gm.app.routes.race.configureRaceRouting
 import at.orchaldir.gm.app.routes.world.*
@@ -58,6 +59,7 @@ fun Application.module() {
     configureMoonRouting()
     configureMountainRouting()
     configureNameListRouting()
+    configureOrganizationRouting()
     configurePersonalityRouting()
     configureRaceRouting()
     configureRaceAppearanceRouting()

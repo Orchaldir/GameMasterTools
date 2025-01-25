@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.selector.economy
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Employed
-import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.time.Date
@@ -11,8 +10,8 @@ import at.orchaldir.gm.core.model.util.OwnedByCharacter
 import at.orchaldir.gm.core.model.util.OwnedByTown
 import at.orchaldir.gm.core.model.util.contains
 import at.orchaldir.gm.core.model.world.town.TownId
-import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getEmployees
+import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.world.getBuilding
 import at.orchaldir.gm.utils.Id
@@ -20,14 +19,6 @@ import at.orchaldir.gm.utils.Id
 fun State.canDelete(id: BusinessId) = getBuilding(id) == null
         && getEmployees(id).isEmpty()
         && !isCreator(id)
-
-fun State.isInOperation(id: BusinessId, date: Date) = isInOperation(getBusinessStorage().getOrThrow(id), date)
-
-fun State.isInOperation(business: Business, date: Date) = if (business.startDate != null) {
-    getDefaultCalendar().isAfterOrEqual(date, business.startDate)
-} else {
-    true
-}
 
 fun State.getBusinessesWithBuilding() = getBuildingStorage().getAll()
     .flatMap { it.purpose.getBusinesses() }
@@ -48,15 +39,7 @@ fun State.getBusinesses(job: JobId) = getCharacterStorage().getAll()
     .toSet()
     .map { getBusinessStorage().getOrThrow(it) }
 
-fun State.getOpenBusinesses(date: Date?) = if (date == null) {
-    getBusinessStorage().getAll()
-} else {
-    getOpenBusinesses(date)
-}
-
-fun State.getOpenBusinesses(date: Date) = getBusinessStorage()
-    .getAll()
-    .filter { isInOperation(it, date) }
+fun State.getOpenBusinesses(date: Date?) = getExistingElements(getBusinessStorage().getAll(), date)
 
 // owner
 

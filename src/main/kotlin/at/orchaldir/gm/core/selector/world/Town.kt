@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getDefaultCalendar
+import at.orchaldir.gm.core.selector.util.getExistingElements
+import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.utils.Id
 
 fun State.canDelete(town: TownId) = getBuildings(town).isEmpty()
@@ -19,6 +21,7 @@ fun State.canDelete(town: TownId) = getBuildings(town).isEmpty()
         && getPreviouslyOwnedBuildings(town).isEmpty()
         && getOwnedBusinesses(town).isEmpty()
         && getPreviouslyOwnedBusinesses(town).isEmpty()
+        && !isCreator(town)
 
 // get
 
@@ -28,10 +31,6 @@ fun State.getAgeInYears(town: Town) = getDefaultCalendar()
 fun countEachTown(buildings: Collection<Building>) = buildings
     .groupingBy { it.lot.town }
     .eachCount()
-
-fun State.exists(id: TownId, date: Date) = exists(getTownStorage().getOrThrow(id), date)
-
-fun State.exists(town: Town, date: Date) = getDefaultCalendar().compareTo(town.foundingDate, date) <= 0
 
 fun State.getTowns(mountain: MountainId) = getTownStorage().getAll()
     .filter { it.map.contains { it.terrain.contains(mountain) } }
@@ -44,6 +43,8 @@ fun State.getTowns(street: StreetId) = getTownStorage().getAll()
 
 fun State.getTowns(type: StreetTemplateId) = getTownStorage().getAll()
     .filter { it.map.contains { it.construction.contains(type) } }
+
+fun State.getExistingTowns(date: Date?) = getExistingElements(getTownStorage().getAll(), date)
 
 // founder
 

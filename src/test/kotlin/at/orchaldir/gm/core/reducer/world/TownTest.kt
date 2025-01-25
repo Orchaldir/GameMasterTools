@@ -64,6 +64,18 @@ class TownTest {
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
+        @Test
+        fun `Cannot delete a town that build a building`() {
+            val state = createState(Building(BUILDING_ID_0, builder = CreatedByTown(TOWN_ID_0)))
+
+            assertIllegalArgument("Cannot delete town 0, because of built buildings!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
         @Nested
         inner class BuildingOwnerTest {
 

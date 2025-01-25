@@ -390,11 +390,7 @@ private fun FORM.selectMaterial(
     state: State,
     materialId: MaterialId,
 ) {
-    selectValue("Material", MATERIAL, state.getMaterialStorage().getAll()) { material ->
-        label = material.name
-        value = material.id.value.toString()
-        selected = materialId == material.id
-    }
+    selectElement(state, "Material", MATERIAL, state.getMaterialStorage().getAll(), materialId)
 }
 
 private fun BODY.visualizeItem(template: ItemTemplate) {
