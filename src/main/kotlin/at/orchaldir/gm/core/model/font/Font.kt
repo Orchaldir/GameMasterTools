@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.font
 
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -23,8 +24,9 @@ data class Font(
     val name: String = "Font ${id.value}",
     val date: Date? = null,
     val base64: String = "",
-) : ElementWithSimpleName<FontId> {
+) : ElementWithSimpleName<FontId>, HasStartDate {
 
     override fun id() = id
     override fun name() = name
+    override fun startDate() = date
 }

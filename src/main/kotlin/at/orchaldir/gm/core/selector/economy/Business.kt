@@ -28,7 +28,7 @@ fun State.isInOperation(id: BusinessId, date: Date?): Boolean {
 }
 
 fun State.isInOperation(business: Business, date: Date?) = getDefaultCalendar()
-    .isAfterOrEqualOptional(date, business.startDate)
+    .isAfterOrEqualOptional(date, business.startDate())
 
 fun State.getBusinessesWithBuilding() = getBuildingStorage().getAll()
     .flatMap { it.purpose.getBusinesses() }

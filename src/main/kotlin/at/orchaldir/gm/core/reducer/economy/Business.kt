@@ -40,8 +40,8 @@ val UPDATE_BUSINESS: Reducer<UpdateBusiness, State> = { state, action ->
     val newBusiness = action.business
 
     checkComplexName(state, newBusiness.name)
-    checkCreator(state, newBusiness.founder, newBusiness.id, newBusiness.startDate, "Founder")
-    checkOwnershipWithOptionalDate(state, newBusiness.ownership, newBusiness.startDate)
+    checkCreator(state, newBusiness.founder, newBusiness.id, newBusiness.startDate(), "Founder")
+    checkOwnershipWithOptionalDate(state, newBusiness.ownership, newBusiness.startDate())
 
     noFollowUps(state.updateStorage(state.getBusinessStorage().update(action.business)))
 }

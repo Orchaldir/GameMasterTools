@@ -55,7 +55,7 @@ fun State.sortBuildings(buildings: Collection<Building>, sort: SortBuilding = So
 
 fun State.getBusinessAgeComparator(): Comparator<Business> {
     val calendar = getDefaultCalendar()
-    return Comparator { a: Business, b: Business -> calendar.compareToOptional(a.startDate, b.startDate) }
+    return Comparator { a: Business, b: Business -> calendar.compareToOptional(a.startDate(), b.startDate()) }
 }
 
 fun State.sortBusinesses(sort: SortBusiness = SortBusiness.Name) =
