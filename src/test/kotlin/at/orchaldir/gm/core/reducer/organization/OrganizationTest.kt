@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.CreatedByOrganization
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.reducer.*
+import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
