@@ -141,6 +141,8 @@ data class State(
     fun getTextStorage() = getStorage<TextId, Text>(TEXT_TYPE)
     fun getTownStorage() = getStorage<TownId, Town>(TOWN_TYPE)
 
+    fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(id: ID) = getStorage<ID, ELEMENT>(id.type())
+
     private fun <ID : Id<ID>, ELEMENT : Element<ID>> getStorage(type: String): Storage<ID, ELEMENT> {
         val storage = storageMap[type]
 
