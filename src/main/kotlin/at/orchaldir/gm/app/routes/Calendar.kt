@@ -339,13 +339,7 @@ private fun FORM.editOrigin(
         }
     }
     when (origin) {
-        is ImprovedCalendar ->
-            selectValue("Parent", CALENDAR_TYPE, possibleParents) { c ->
-                label = c.name
-                value = c.id.value.toString()
-                selected = origin.parent == c.id
-            }
-
+        is ImprovedCalendar -> selectElement(state, "Parent", CALENDAR_TYPE, possibleParents, origin.parent)
         else -> doNothing()
     }
 }

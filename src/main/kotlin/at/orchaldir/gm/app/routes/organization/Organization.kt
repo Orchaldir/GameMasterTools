@@ -185,6 +185,7 @@ private fun HTML.showOrganizationDetails(
     simpleHtml("Organization: ${organization.name(state)}") {
         optionalField(call, state, "Date", organization.date)
         fieldCreator(call, state, organization.founder, "Founder")
+        showCreated(call, state, organization.id)
 
         action(editLink, "Edit")
 

@@ -303,11 +303,13 @@ private fun HTML.editTimeData(
 
     simpleHtml("Edit Time Data") {
         form {
-            selectValue("Default Calendar", CALENDAR, state.getCalendarStorage().getAll()) { calendar ->
-                label = calendar.name
-                value = calendar.id.value.toString()
-                selected = calendar.id == state.time.defaultCalendar
-            }
+            selectElement(
+                state,
+                "Default Calendar",
+                CALENDAR,
+                state.getCalendarStorage().getAll(),
+                state.time.defaultCalendar,
+            )
             selectDate(state, "Current Date", state.time.currentDate, CURRENT)
             button("Update", updateLink)
         }

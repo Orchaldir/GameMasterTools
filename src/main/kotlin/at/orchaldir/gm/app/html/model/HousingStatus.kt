@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.BUILDING
 import at.orchaldir.gm.app.HOME
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
@@ -96,11 +97,7 @@ fun HtmlBlockTag.selectHousingStatus(
         UndefinedHousingStatus -> doNothing()
         Homeless -> doNothing()
         is InApartment -> {
-            selectValue("Apartment House", combine(param, BUILDING), apartments, true) { building ->
-                label = building.name(state)
-                value = building.id.value.toString()
-                selected = housingStatus.building == building.id
-            }
+            selectElement(state, "Apartment House", combine(param, BUILDING), apartments, housingStatus.building, true)
 
             val apartmentHouse = state.getBuildingStorage().getOrThrow(housingStatus.building)
 
@@ -116,11 +113,7 @@ fun HtmlBlockTag.selectHousingStatus(
             }
         }
 
-        is InHouse -> selectValue("Home", combine(param, BUILDING), homes) { building ->
-            label = building.name(state)
-            value = building.id.value.toString()
-            selected = housingStatus.building == building.id
-        }
+        is InHouse -> selectElement(state, "Home", combine(param, BUILDING), homes, housingStatus.building)
     }
 }
 

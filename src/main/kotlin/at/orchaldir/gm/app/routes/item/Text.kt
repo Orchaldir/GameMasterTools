@@ -308,11 +308,7 @@ private fun HTML.showTextEditor(
                 selectComplexName(state, text.name)
                 editOrigin(state, text)
                 selectOptionalDate(state, "Date", text.date, DATE)
-                selectValue("Language", LANGUAGE, languages, true) { l ->
-                    label = l.name
-                    value = l.id.value.toString()
-                    selected = l.id == text.language
-                }
+                selectElement(state, "Language", LANGUAGE, languages, text.language, true)
                 editTextFormat(state, text.format, hasAuthor)
                 button("Update", updateLink)
             }
@@ -335,11 +331,7 @@ private fun FORM.editOrigin(
         is TranslatedText -> {
             val otherTexts = state.getTextStorage().getAllExcept(text.id)
 
-            selectValue("Translation Of", combine(ORIGIN, REFERENCE), otherTexts) { translated ->
-                label = translated.getNameWithDate(state)
-                value = translated.id.value.toString()
-                selected = translated.id == text.origin.text
-            }
+            selectElement(state, "Translation Of", combine(ORIGIN, REFERENCE), otherTexts, text.origin.text)
             selectCreator(state, text.origin.translator, text.id, text.date, "Translator")
         }
     }

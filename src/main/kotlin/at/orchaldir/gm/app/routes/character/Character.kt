@@ -502,11 +502,7 @@ private fun HTML.showCharacterEditor(
             action = previewLink
             method = FormMethod.post
             selectName(state, character)
-            selectValue("Race", RACE, state.getRaceStorage().getAll(), true) { r ->
-                label = r.name
-                value = r.id.value.toString()
-                selected = r.id == character.race
-            }
+            selectElement(state, "Race", RACE, state.getRaceStorage().getAll(), character.race, true)
             selectOneOf("Gender", GENDER, race.genders) { gender ->
                 label = gender.toString()
                 value = gender.toString()
@@ -518,11 +514,7 @@ private fun HTML.showCharacterEditor(
             selectHousingStatusHistory(state, character.housingStatus, character.birthDate)
             selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
             h2 { +"Social" }
-            selectValue("Culture", CULTURE, state.getCultureStorage().getAll()) { culture ->
-                label = culture.name
-                value = culture.id.value.toString()
-                selected = culture.id == character.culture
-            }
+            selectElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
             editPersonality(call, state, character)
             button("Update", updateLink)
         }
@@ -586,11 +578,13 @@ private fun FORM.selectVitalStatus(
         selectValue("Cause of death", DEATH, CauseOfDeathType.entries, vitalStatus.cause.getType(), true)
 
         if (vitalStatus.cause is Murder) {
-            selectValue("Killer", KILLER, state.getOthers(character.id)) { c ->
-                label = c.name(state)
-                value = c.id.value.toString()
-                selected = vitalStatus.cause.killer == c.id
-            }
+            selectElement(
+                state,
+                "Killer",
+                KILLER,
+                state.getOthers(character.id),
+                vitalStatus.cause.killer,
+            )
         }
     }
 }
@@ -613,16 +607,20 @@ private fun FORM.selectOrigin(
     }
     when (character.origin) {
         is Born -> {
-            selectValue("Father", FATHER, state.getPossibleFathers(character.id)) { c ->
-                label = c.name(state)
-                value = c.id.value.toString()
-                selected = character.origin.father == c.id
-            }
-            selectValue("Mother", MOTHER, state.getPossibleMothers(character.id)) { c ->
-                label = c.name(state)
-                value = c.id.value.toString()
-                selected = character.origin.mother == c.id
-            }
+            selectElement(
+                state,
+                "Father",
+                FATHER,
+                state.getPossibleFathers(character.id),
+                character.origin.father,
+            )
+            selectElement(
+                state,
+                "Mother",
+                MOTHER,
+                state.getPossibleMothers(character.id),
+                character.origin.mother,
+            )
         }
 
         else -> doNothing()

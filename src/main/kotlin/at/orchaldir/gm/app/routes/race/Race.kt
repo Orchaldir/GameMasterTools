@@ -356,14 +356,12 @@ private fun HtmlBlockTag.selectAppearance(
     raceAppearanceId: RaceAppearanceId,
     index: Int,
 ) {
-    selectValue(
+    selectElement(
+        state,
         "Appearance",
         combine(RACE, APPEARANCE, index),
         state.getRaceAppearanceStorage().getAll(),
+        raceAppearanceId,
         true,
-    ) { appearance ->
-        label = appearance.name
-        value = appearance.id.value.toString()
-        selected = appearance.id == raceAppearanceId
-    }
+    )
 }

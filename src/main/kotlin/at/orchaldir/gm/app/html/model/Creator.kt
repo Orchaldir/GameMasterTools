@@ -1,10 +1,7 @@
 package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showList
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.economy.parseBusinessId
 import at.orchaldir.gm.app.parse.organization.parseOrganizationId
@@ -132,49 +129,41 @@ fun <ID : Id<ID>> FORM.selectCreator(
     }
 
     when (creator) {
-        is CreatedByBusiness -> selectValue(
+        is CreatedByBusiness -> selectElement(
+            state,
             noun,
             combine(CREATOR, BUSINESS),
             businesses,
+            creator.business,
             true
-        ) { business ->
-            label = business.name(state)
-            value = business.id.value.toString()
-            selected = creator.business == business.id
-        }
+        )
 
-        is CreatedByCharacter -> selectValue(
+        is CreatedByCharacter -> selectElement(
+            state,
             noun,
             combine(CREATOR, CHARACTER),
             characters,
+            creator.character,
             true
-        ) { character ->
-            label = character.name(state)
-            value = character.id.value.toString()
-            selected = creator.character == character.id
-        }
+        )
 
-        is CreatedByOrganization -> selectValue(
+        is CreatedByOrganization -> selectElement(
+            state,
             noun,
             combine(CREATOR, ORGANIZATION),
             organizations,
+            creator.organization,
             true
-        ) { organization ->
-            label = organization.name(state)
-            value = organization.id.value.toString()
-            selected = creator.organization == organization.id
-        }
+        )
 
-        is CreatedByTown -> selectValue(
+        is CreatedByTown -> selectElement(
+            state,
             noun,
             combine(CREATOR, TOWN),
             towns,
+            creator.town,
             true
-        ) { town ->
-            label = town.name(state)
-            value = town.id.value.toString()
-            selected = creator.town == town.id
-        }
+        )
 
         UndefinedCreator -> doNothing()
     }

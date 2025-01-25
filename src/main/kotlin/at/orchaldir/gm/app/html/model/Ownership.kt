@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.CHARACTER
 import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.TOWN
 import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseCharacterId
@@ -56,27 +57,23 @@ fun HtmlBlockTag.selectOwner(
     selectValue("Owner Type", param, OwnerType.entries, owner.getType(), true)
 
     when (owner) {
-        is OwnedByCharacter -> selectValue(
+        is OwnedByCharacter -> selectElement(
+            state,
             "Owner",
             combine(param, CHARACTER),
             state.getLiving(start),
+            owner.character,
             false
-        ) { character ->
-            label = character.name(state)
-            value = character.id.value.toString()
-            selected = owner.character == character.id
-        }
+        )
 
-        is OwnedByTown -> selectValue(
+        is OwnedByTown -> selectElement(
+            state,
             "Owner",
             combine(param, TOWN),
             state.getExistingTowns(start),
+            owner.town,
             false
-        ) { town ->
-            label = town.name(state)
-            value = town.id.value.toString()
-            selected = owner.town == town.id
-        }
+        )
 
         else -> doNothing()
     }

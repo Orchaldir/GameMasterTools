@@ -207,11 +207,13 @@ fun FORM.editTextFormat(
                 selectDistance("Roll Length", LENGTH, format.rollLength, min, max, step, true)
                 selectDistance("Roll Diameter", LENGTH, format.rollDiameter, min, max, step, true)
                 selectColor("Scroll Color", COLOR, Color.entries, format.color)
-                selectValue("Scroll Material", MATERIAL, state.getMaterialStorage().getAll()) { material ->
-                    label = material.name
-                    value = material.id.value.toString()
-                    selected = material.id == format.material
-                }
+                selectElement(
+                    state,
+                    "Scroll Material",
+                    MATERIAL,
+                    state.getMaterialStorage().getAll(),
+                    format.material,
+                )
                 editScrollFormat(state, format.format)
             }
         }
@@ -241,16 +243,14 @@ private fun HtmlBlockTag.editBinding(
             is LeatherBinding -> {
                 editCover(state, binding.cover, hasAuthor)
                 selectColor("Leather Color", combine(LEATHER, BINDING, COLOR), Color.entries, binding.leatherColor)
-                selectValue(
+                selectElement(
+                    state,
                     "Leather Material",
                     combine(LEATHER, MATERIAL),
                     state.getMaterialStorage().getAll(),
+                    binding.leatherMaterial,
                     false
-                ) { material ->
-                    label = material.name
-                    value = material.id.value.toString()
-                    selected = material.id == binding.leatherMaterial
-                }
+                )
                 selectValue(
                     "Leather Binding",
                     combine(LEATHER, BINDING),
@@ -270,11 +270,13 @@ private fun HtmlBlockTag.editCover(
 ) {
     showDetails("Cover", true) {
         selectColor("Cover Color", combine(COVER, BINDING, COLOR), Color.entries, cover.color)
-        selectValue("Cover Material", combine(COVER, MATERIAL), state.getMaterialStorage().getAll()) { material ->
-            label = material.name
-            value = material.id.value.toString()
-            selected = material.id == cover.material
-        }
+        selectElement(
+            state,
+            "Cover Material",
+            combine(COVER, MATERIAL),
+            state.getMaterialStorage().getAll(),
+            cover.material,
+        )
         editTypography(state, cover.typography, hasAuthor)
     }
 }
@@ -292,15 +294,13 @@ private fun HtmlBlockTag.editBossesPattern(
                 selectValue("Bosses Shape", combine(BOSSES, SHAPE), BossesShape.entries, bosses.shape, true)
                 selectValue("Bosses Size", combine(BOSSES, SIZE), Size.entries, bosses.size, true)
                 selectColor("Bosses Color", combine(BOSSES, COLOR), Color.entries, bosses.color)
-                selectValue(
+                selectElement(
+                    state,
                     "Bosses Material",
                     combine(BOSSES, MATERIAL),
-                    state.getMaterialStorage().getAll()
-                ) { material ->
-                    label = material.name
-                    value = material.id.value.toString()
-                    selected = material.id == bosses.material
-                }
+                    state.getMaterialStorage().getAll(),
+                    bosses.material,
+                )
                 selectInt("Bosses Pattern Size", bosses.pattern.size, 1, 20, 1, combine(BOSSES, NUMBER), true)
 
                 showListWithIndex(bosses.pattern) { index, count ->
@@ -325,25 +325,25 @@ private fun HtmlBlockTag.editEdgeProtection(
                 selectValue("Corner Shape", combine(EDGE, SHAPE), CornerShape.entries, protection.shape, true)
                 selectFloat("Corner Size", protection.size.value, 0.01f, 0.5f, 0.01f, combine(EDGE, SIZE), true)
                 selectColor("Corner Color", combine(EDGE, COLOR), Color.entries, protection.color)
-                selectValue(
+                selectElement(
+                    state,
                     "Corner Material",
                     combine(EDGE, MATERIAL),
-                    state.getMaterialStorage().getAll()
-                ) { material ->
-                    label = material.name
-                    value = material.id.value.toString()
-                    selected = material.id == protection.material
-                }
+                    state.getMaterialStorage().getAll(),
+                    protection.material,
+                )
             }
 
             is ProtectedEdge -> {
                 selectFloat("Edge Width", protection.width.value, 0.01f, 0.2f, 0.01f, combine(EDGE, SIZE), true)
                 selectColor("Edge Color", combine(EDGE, COLOR), Color.entries, protection.color)
-                selectValue("Edge Material", combine(EDGE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
-                    label = material.name
-                    value = material.id.value.toString()
-                    selected = material.id == protection.material
-                }
+                selectElement(
+                    state,
+                    "Edge Material",
+                    combine(EDGE, MATERIAL),
+                    state.getMaterialStorage().getAll(),
+                    protection.material,
+                )
             }
         }
     }
@@ -409,11 +409,13 @@ private fun HtmlBlockTag.editScrollHandle(
     state: State,
     handle: ScrollHandle,
 ) {
-    selectValue("Handle Material", combine(HANDLE, MATERIAL), state.getMaterialStorage().getAll()) { material ->
-        label = material.name
-        value = material.id.value.toString()
-        selected = material.id == handle.material
-    }
+    selectElement(
+        state,
+        "Handle Material",
+        combine(HANDLE, MATERIAL),
+        state.getMaterialStorage().getAll(),
+        handle.material,
+    )
     selectInt("Handle Segment Number", handle.segments.size, 1, 20, 1, combine(HANDLE, NUMBER), true)
     showListWithIndex(handle.segments) { index, segment ->
         val segmentParam = combine(HANDLE, index)
