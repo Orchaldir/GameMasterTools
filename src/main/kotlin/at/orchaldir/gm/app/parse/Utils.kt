@@ -131,7 +131,15 @@ fun parseBool(parameters: Parameters, param: String, default: Boolean = false) =
 
 fun parseInt(parameters: Parameters, param: String, default: Int = 0) = parameters[param]?.toInt() ?: default
 
-fun parseOptionalInt(parameters: Parameters, param: String): Int? {
+fun parseOptionalInt(parameters: Parameters, param: String, init: Int): Int? {
+    if (parameters.contains(combine(param, AVAILABLE))) {
+        return parameters[param]?.toInt() ?: init
+    }
+
+    return null
+}
+
+fun parseOptionalIdValue(parameters: Parameters, param: String): Int? {
     val value = parameters[param]
 
     if (value.isNullOrEmpty()) {

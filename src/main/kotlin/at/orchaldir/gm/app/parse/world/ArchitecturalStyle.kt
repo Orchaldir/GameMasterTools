@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.html.model.parseOptionalYear
 import at.orchaldir.gm.app.html.model.parseYear
 import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseOptionalInt
+import at.orchaldir.gm.app.parse.parseOptionalIdValue
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
@@ -17,7 +17,7 @@ import io.ktor.server.util.*
 fun parseArchitecturalStyleId(parameters: Parameters, param: String) = ArchitecturalStyleId(parseInt(parameters, param))
 
 fun parseOptionalArchitecturalStyleId(parameters: Parameters, param: String) =
-    parseOptionalInt(parameters, param)?.let { ArchitecturalStyleId(it) }
+    parseOptionalIdValue(parameters, param)?.let { ArchitecturalStyleId(it) }
 
 fun parseArchitecturalStyle(parameters: Parameters, state: State, id: ArchitecturalStyleId) = ArchitecturalStyle(
     id,

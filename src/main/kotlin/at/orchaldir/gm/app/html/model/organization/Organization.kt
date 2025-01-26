@@ -83,7 +83,7 @@ private fun parseRanks(parameters: Parameters): List<MemberRank> {
 
             MemberRank(
                 parameters[combine(rankParam, NAME)] ?: "Member",
-                parseOptionalInt(parameters, combine(rankParam, NUMBER))
+                parseOptionalInt(parameters, combine(rankParam, NUMBER), 1),
             )
         }
 }
