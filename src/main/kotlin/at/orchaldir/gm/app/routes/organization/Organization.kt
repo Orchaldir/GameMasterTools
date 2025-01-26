@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.organization.parseOrganization
-import at.orchaldir.gm.app.html.model.organization.selectOrganization
+import at.orchaldir.gm.app.html.model.organization.editOrganization
 import at.orchaldir.gm.app.html.model.organization.showOrganization
 import at.orchaldir.gm.core.action.CreateOrganization
 import at.orchaldir.gm.core.action.DeleteOrganization
@@ -213,7 +213,7 @@ private fun HTML.showOrganizationEditor(
             action = previewLink
             method = FormMethod.post
 
-            selectOrganization(organization, state)
+            editOrganization(state, organization)
 
             button("Update", updateLink)
         }

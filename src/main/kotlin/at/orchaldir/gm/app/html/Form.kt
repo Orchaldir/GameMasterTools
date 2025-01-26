@@ -1,8 +1,10 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.AVAILABLE
 import at.orchaldir.gm.app.CENTER
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.OFFSET
+import at.orchaldir.gm.app.html.model.selectDate
 import at.orchaldir.gm.app.html.model.selectDistance
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.character.Gender
@@ -135,12 +137,12 @@ fun <T> FORM.selectGenderMap(
     }
 }
 
-fun FORM.selectName(name: String) {
-    selectText("Name", name, NAME, 1)
+fun HtmlBlockTag.selectName(name: String, param: String = NAME) {
+    selectText("Name", name, param, 1)
 }
 
-fun FORM.selectOptionalName(name: String?) {
-    selectText("Optional Name", name ?: "", NAME, 0)
+fun HtmlBlockTag.selectOptionalName(name: String?, param: String = NAME) {
+    selectText("Optional Name", name ?: "", param, 0)
 }
 
 fun HtmlBlockTag.selectFloat(
@@ -172,6 +174,23 @@ fun HtmlBlockTag.selectFloat(
         value = number.toString()
         if (update) {
             onChange = ON_CHANGE_SCRIPT
+        }
+    }
+}
+
+fun HtmlBlockTag.selectOptionalInt(
+    label: String,
+    number: Int?,
+    minNumber: Int,
+    maxNumber: Int,
+    stepNumber: Int,
+    param: String,
+    update: Boolean = false,
+) {
+    field(label) {
+        selectBool(number != null, combine(param, AVAILABLE), isDisabled = false, update = true)
+        if (number != null) {
+            selectInt(number, minNumber, maxNumber, stepNumber, param, update)
         }
     }
 }
