@@ -390,6 +390,11 @@ private fun HtmlBlockTag.showEvents(
                 +" was created."
             }
 
+            is OrganizationFoundingEvent -> {
+                link(call, state, event.organizationId)
+                +" was founded."
+            }
+
             is TextPublishedEvent -> {
                 link(call, state, event.textId)
                 +" was published."

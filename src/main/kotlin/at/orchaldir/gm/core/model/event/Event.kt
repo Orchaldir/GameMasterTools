@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.CharacterOrigin
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.item.text.TextId
+import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
@@ -88,6 +89,17 @@ data class CharacterDeathEvent(
 data class FontCreatedEvent(
     val creationDate: Date,
     val fontId: FontId,
+) : Event() {
+
+    override fun getDate() = creationDate
+
+}
+
+// organization
+
+data class OrganizationFoundingEvent(
+    val creationDate: Date,
+    val organizationId: OrganizationId,
 ) : Event() {
 
     override fun getDate() = creationDate
