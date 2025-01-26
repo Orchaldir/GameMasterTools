@@ -1,10 +1,11 @@
 package at.orchaldir.gm.app.routes.organization
 
-import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.parse.organization.parseOrganization
+import at.orchaldir.gm.app.html.model.organization.parseOrganization
+import at.orchaldir.gm.app.html.model.organization.selectOrganization
+import at.orchaldir.gm.app.html.model.organization.showOrganization
 import at.orchaldir.gm.core.action.CreateOrganization
 import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization
@@ -184,9 +185,7 @@ private fun HTML.showOrganizationDetails(
     val editLink = call.application.href(OrganizationRoutes.Edit(organization.id))
 
     simpleHtml("Organization: ${organization.name(state)}") {
-        optionalField(call, state, "Date", organization.date)
-        fieldCreator(call, state, organization.founder, "Founder")
-        showCreated(call, state, organization.id)
+        showOrganization(call, state, organization)
 
         action(editLink, "Edit")
 
@@ -213,9 +212,9 @@ private fun HTML.showOrganizationEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            selectName(organization.name)
-            selectOptionalDate(state, "Date", organization.date, DATE)
-            selectCreator(state, organization.founder, organization.id, organization.date, "Founder")
+
+            selectOrganization(organization, state)
+
             button("Update", updateLink)
         }
         back(backLink)
