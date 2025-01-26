@@ -158,12 +158,14 @@ private fun HTML.showAllOrganizations(
                 th { +"Name" }
                 th { +"Date" }
                 th { +"Founder" }
+                th { +"Ranks" }
             }
             organizations.forEach { organization ->
                 tr {
                     td { link(call, state, organization) }
                     td { showOptionalDate(call, state, organization.date) }
                     td { showCreator(call, state, organization.founder, false) }
+                    tdSkipZero(organization.ranks.size)
                 }
             }
         }
