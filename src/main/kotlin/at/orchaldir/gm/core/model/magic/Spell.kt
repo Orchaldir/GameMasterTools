@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.magic
 
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -20,9 +22,11 @@ value class SpellId(val value: Int) : Id<SpellId> {
 data class Spell(
     val id: SpellId,
     val name: String = "Spell ${id.value}",
-) : ElementWithSimpleName<SpellId> {
+    val date: Date? = null,
+) : ElementWithSimpleName<SpellId>, HasStartDate {
 
     override fun id() = id
     override fun name() = name
+    override fun startDate() = date
 
 }

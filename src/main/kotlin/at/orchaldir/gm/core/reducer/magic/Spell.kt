@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer.item
+package at.orchaldir.gm.core.reducer.magic
 
 import at.orchaldir.gm.core.action.CreateSpell
 import at.orchaldir.gm.core.action.DeleteSpell

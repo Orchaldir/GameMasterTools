@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.item.text.Text
+import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
@@ -131,6 +132,26 @@ fun State.sortOrganizations(
         when (sort) {
             SortOrganization.Name -> compareBy { it.name }
             SortOrganization.Age -> getOrganizationAgeComparator()
+        })
+
+// spell
+
+fun State.getSpellAgeComparator(): Comparator<Spell> {
+    val calendar = getDefaultCalendar()
+    return Comparator { a: Spell, b: Spell -> calendar.compareToOptional(a.date, b.date) }
+}
+
+fun State.sortSpells(sort: SortSpell = SortSpell.Name) =
+    sortSpells(getSpellStorage().getAll(), sort)
+
+fun State.sortSpells(
+    spells: Collection<Spell>,
+    sort: SortSpell = SortSpell.Name,
+) = spells
+    .sortedWith(
+        when (sort) {
+            SortSpell.Name -> compareBy { it.name }
+            SortSpell.Age -> getSpellAgeComparator()
         })
 
 // text

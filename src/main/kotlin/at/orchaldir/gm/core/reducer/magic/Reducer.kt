@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer.item
+package at.orchaldir.gm.core.reducer.magic
 
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State

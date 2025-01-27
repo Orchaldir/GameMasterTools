@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
 import at.orchaldir.gm.app.routes.item.ItemTemplateRoutes
 import at.orchaldir.gm.app.routes.item.TextRoutes
+import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.world.*
@@ -25,6 +26,7 @@ import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.ItemTemplateId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.organization.OrganizationId
@@ -190,6 +192,7 @@ fun <ID : Id<ID>> href(
     is RaceId -> call.application.href(RaceRoutes.Details(id))
     is RaceAppearanceId -> call.application.href(RaceRoutes.AppearanceRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))
+    is SpellId -> call.application.href(SpellRoutes.Details(id))
     is StreetId -> call.application.href(StreetRoutes.Details(id))
     is StreetTemplateId -> call.application.href(StreetTemplateRoutes.Details(id))
     is TextId -> call.application.href(TextRoutes.Details(id))
