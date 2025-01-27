@@ -25,6 +25,7 @@ data class Spell(
     val name: String = "Spell ${id.value}",
     val date: Date? = null,
     val language: LanguageId? = null,
+    val origin: SpellOrigin = UndefinedSpellOrigin,
 ) : ElementWithSimpleName<SpellId>, HasStartDate {
 
     override fun id() = id

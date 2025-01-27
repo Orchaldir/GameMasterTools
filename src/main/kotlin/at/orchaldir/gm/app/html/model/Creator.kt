@@ -103,7 +103,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
 
 // select
 
-fun <ID : Id<ID>> FORM.selectCreator(
+fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
     state: State,
     creator: Creator,
     created: ID,
