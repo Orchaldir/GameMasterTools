@@ -4,25 +4,30 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class MembershipStatusType {
-    Outsider,
+    Dead,
     Member,
+    Outsider,
 }
 
 @Serializable
 sealed class MembershipStatus {
 
     fun getType() = when (this) {
-        Outsider -> MembershipStatusType.Outsider
+        DeadMember -> MembershipStatusType.Dead
         is Member -> MembershipStatusType.Member
+        Outsider -> MembershipStatusType.Outsider
     }
 
 }
 
 @Serializable
-@SerialName("Outsider")
-data object Outsider : MembershipStatus()
+@SerialName("Dead")
+data object DeadMember : MembershipStatus()
 
 @Serializable
 @SerialName("Member")
 data class Member(val rank: Int) : MembershipStatus()
 
+@Serializable
+@SerialName("Outsider")
+data object Outsider : MembershipStatus()
