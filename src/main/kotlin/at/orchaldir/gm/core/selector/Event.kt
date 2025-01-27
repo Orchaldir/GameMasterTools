@@ -56,6 +56,12 @@ fun State.getEvents(): List<Event> {
         }
     }
 
+    getOrganizationStorage().getAll().forEach { organization ->
+        organization.startDate()?.let {
+            events.add(OrganizationFoundingEvent(it, organization.id))
+        }
+    }
+
     getTextStorage().getAll().forEach { text ->
         if (text.date != null) {
             events.add(TextPublishedEvent(text.date, text.id))

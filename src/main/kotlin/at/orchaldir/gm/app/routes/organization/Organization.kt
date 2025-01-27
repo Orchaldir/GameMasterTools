@@ -1,10 +1,11 @@
 package at.orchaldir.gm.app.routes.organization
 
-import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.parse.organization.parseOrganization
+import at.orchaldir.gm.app.html.model.organization.parseOrganization
+import at.orchaldir.gm.app.html.model.organization.editOrganization
+import at.orchaldir.gm.app.html.model.organization.showOrganization
 import at.orchaldir.gm.core.action.CreateOrganization
 import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization
@@ -157,12 +158,14 @@ private fun HTML.showAllOrganizations(
                 th { +"Name" }
                 th { +"Date" }
                 th { +"Founder" }
+                th { +"Ranks" }
             }
             organizations.forEach { organization ->
                 tr {
                     td { link(call, state, organization) }
                     td { showOptionalDate(call, state, organization.date) }
                     td { showCreator(call, state, organization.founder, false) }
+                    tdSkipZero(organization.ranks.size)
                 }
             }
         }
@@ -184,9 +187,7 @@ private fun HTML.showOrganizationDetails(
     val editLink = call.application.href(OrganizationRoutes.Edit(organization.id))
 
     simpleHtml("Organization: ${organization.name(state)}") {
-        optionalField(call, state, "Date", organization.date)
-        fieldCreator(call, state, organization.founder, "Founder")
-        showCreated(call, state, organization.id)
+        showOrganization(call, state, organization)
 
         action(editLink, "Edit")
 
@@ -213,9 +214,9 @@ private fun HTML.showOrganizationEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            selectName(organization.name)
-            selectOptionalDate(state, "Date", organization.date, DATE)
-            selectCreator(state, organization.founder, organization.id, organization.date, "Founder")
+
+            editOrganization(state, organization)
+
             button("Update", updateLink)
         }
         back(backLink)

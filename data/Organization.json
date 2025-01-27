@@ -11,7 +11,16 @@
    "date": {
     "type": "Decade",
     "decade": 179
-   }
+   },
+   "ranks": [
+    {
+     "name": "Cultist"
+    },
+    {
+     "name": "Leader",
+     "maxNumber": 1
+    }
+   ]
   }
  }
 }

@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.STREET
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseOptionalInt
+import at.orchaldir.gm.app.parse.parseOptionalIdValue
 import at.orchaldir.gm.app.routes.world.StreetRoutes
 import at.orchaldir.gm.core.action.AddStreetTile
 import at.orchaldir.gm.core.action.RemoveStreetTile
@@ -50,7 +50,7 @@ fun Application.configureStreetEditorRouting() {
             val town = state.getTownStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
             val typeId = parseInt(params, TYPE, 0)
-            val streetId = parseOptionalInt(params, STREET)
+            val streetId = parseOptionalIdValue(params, STREET)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showStreetEditor(call, state, town, StreetTemplateId(typeId), streetId?.let { StreetId(it) })

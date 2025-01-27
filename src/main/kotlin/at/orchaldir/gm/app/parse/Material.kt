@@ -10,7 +10,7 @@ import io.ktor.server.util.*
 
 fun parseMaterialId(parameters: Parameters, param: String) = MaterialId(parseInt(parameters, param))
 fun parseOptionalMaterialId(parameters: Parameters, param: String) =
-    parseOptionalInt(parameters, param)?.let { MaterialId(it) }
+    parseOptionalIdValue(parameters, param)?.let { MaterialId(it) }
 
 fun parseMaterial(id: MaterialId, parameters: Parameters): Material {
     val name = parameters.getOrFail(NAME)
