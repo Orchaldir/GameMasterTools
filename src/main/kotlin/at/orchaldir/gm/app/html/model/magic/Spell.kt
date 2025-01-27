@@ -68,7 +68,14 @@ private fun HtmlBlockTag.editOrigin(
     state: State,
     spell: Spell,
 ) {
-    selectValue("Spell Origin", ORIGIN, SpellOriginType.entries, spell.origin.getType(), true)
+    val availableSpells = state.getExistingSpell(spell.date).filter { it.id != spell.id }
+
+    selectValue("Spell Origin", ORIGIN, SpellOriginType.entries, spell.origin.getType(), true) { type ->
+        when (type) {
+            SpellOriginType.Modified -> availableSpells.isEmpty()
+            else -> false
+        }
+    }
 
     when (val origin = spell.origin) {
         is InventedSpell -> selectCreator(state, origin.inventor, spell.id, spell.date, "Inventor")
@@ -78,7 +85,7 @@ private fun HtmlBlockTag.editOrigin(
                 state,
                 "Original Spell",
                 combine(ORIGIN, REFERENCE),
-                state.getExistingSpell(spell.date).filter { it.id != spell.id },
+                availableSpells,
                 origin.original
             )
         }
