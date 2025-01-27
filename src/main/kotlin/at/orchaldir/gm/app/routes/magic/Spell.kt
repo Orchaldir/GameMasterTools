@@ -10,12 +10,11 @@ import at.orchaldir.gm.core.action.CreateSpell
 import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.magic.SPELL_TYPE
-import at.orchaldir.gm.core.model.magic.Spell
-import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.util.SortSpell
 import at.orchaldir.gm.core.selector.magic.canDeleteSpell
 import at.orchaldir.gm.core.selector.util.sortSpells
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -154,12 +153,28 @@ private fun HTML.showAllSpells(
                 th { +"Name" }
                 th { +"Date" }
                 th { +"Language" }
+                th { +"Origin" }
             }
             spells.forEach { spell ->
                 tr {
                     td { link(call, state, spell) }
                     td { showOptionalDate(call, state, spell.date) }
                     td { optionalLink(call, state, spell.language) }
+                    td {
+                        when (spell.origin) {
+                            is InventedSpell -> {
+                                +"Invented by "
+                                showCreator(call, state, spell.origin.inventor)
+                            }
+
+                            is ModifiedSpell -> {
+                                +"Modified by "
+                                showCreator(call, state, spell.origin.inventor)
+                            }
+
+                            UndefinedSpellOrigin -> doNothing()
+                        }
+                    }
                 }
             }
         }
