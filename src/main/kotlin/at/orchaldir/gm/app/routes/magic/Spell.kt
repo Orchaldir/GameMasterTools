@@ -3,7 +3,9 @@ package at.orchaldir.gm.app.routes.magic
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.magic.editSpell
 import at.orchaldir.gm.app.html.model.magic.parseSpell
+import at.orchaldir.gm.app.html.model.magic.showSpell
 import at.orchaldir.gm.core.action.CreateSpell
 import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateSpell
@@ -149,11 +151,13 @@ private fun HTML.showAllSpells(
             tr {
                 th { +"Name" }
                 th { +"Date" }
+                th { +"Language" }
             }
             spells.forEach { spell ->
                 tr {
                     td { link(call, state, spell) }
                     td { showOptionalDate(call, state, spell.date) }
+                    td { optionalLink(call, state, spell.language) }
                 }
             }
         }
@@ -173,6 +177,8 @@ private fun HTML.showSpellDetails(
     val editLink = call.application.href(SpellRoutes.Edit(spell.id))
 
     simpleHtml("Spell: ${spell.name(state)}") {
+
+        showSpell(call, state, spell)
 
         action(editLink, "Edit")
 
@@ -199,7 +205,7 @@ private fun HTML.showSpellEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            selectName(spell.name)
+            editSpell(state, spell)
 
             button("Update", updateLink)
         }

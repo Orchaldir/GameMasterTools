@@ -233,16 +233,13 @@ private fun HTML.showArchitecturalStyleEditor(
             selectName(style.name)
             selectYear(state, "Start", style.start, START, null, minDate)
             selectOptionalYear(state, "End", style.end, END, style.start.nextYear())
-            selectOptionalValue(
+            selectOptionalElement(
+                state,
                 "Revival Of",
                 REVIVAL,
-                state.getArchitecturalStyleStorage().getOptional(style.revival),
                 state.getPossibleStylesForRevival(style),
-                false,
-            ) { s ->
-                label = s.name()
-                value = s.id().value.toString()
-            }
+                style.revival,
+            )
             button("Update", updateLink)
         }
         back(backLink)
