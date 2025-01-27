@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.item.text.Text
+import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.History
@@ -17,6 +18,7 @@ import at.orchaldir.gm.core.selector.economy.countEachJob
 import at.orchaldir.gm.core.selector.item.countEachLanguage
 import at.orchaldir.gm.core.selector.item.countEachTextFormat
 import at.orchaldir.gm.core.selector.item.countEachTextOrigin
+import at.orchaldir.gm.core.selector.magic.countEachLanguage
 import at.orchaldir.gm.core.selector.util.countEachCreator
 import at.orchaldir.gm.core.selector.world.countEachArchitecturalStyle
 import at.orchaldir.gm.core.selector.world.countEachPurpose
@@ -86,17 +88,23 @@ fun HtmlBlockTag.showJobCount(
 fun HtmlBlockTag.showHousingStatusCount(characters: Collection<Character>) =
     showCount("Housing Status", countEachHousingStatus(characters))
 
-fun HtmlBlockTag.showLanguageCountForTexts(
-    call: ApplicationCall,
-    state: State,
-    texts: Collection<Text>,
-) = showCount(call, state, "Languages", countEachLanguage(texts))
-
 fun HtmlBlockTag.showLanguageCountForCharacters(
     call: ApplicationCall,
     state: State,
     characters: Collection<Character>,
 ) = showCount(call, state, "Languages", countEachLanguage(characters))
+
+fun HtmlBlockTag.showLanguageCountForSpells(
+    call: ApplicationCall,
+    state: State,
+    characters: Collection<Spell>,
+) = showCount(call, state, "Languages", countEachLanguage(characters))
+
+fun HtmlBlockTag.showLanguageCountForTexts(
+    call: ApplicationCall,
+    state: State,
+    texts: Collection<Text>,
+) = showCount(call, state, "Languages", countEachLanguage(texts))
 
 fun HtmlBlockTag.showMaterialCategoryCount(materials: Collection<Material>) =
     showCount("Material Category", countEachMaterialCategory(materials))

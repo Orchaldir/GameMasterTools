@@ -164,6 +164,8 @@ private fun HTML.showAllSpells(
             }
         }
 
+        showLanguageCountForSpells(call, state, spells)
+
         action(createLink, "Add")
         back("/")
     }
