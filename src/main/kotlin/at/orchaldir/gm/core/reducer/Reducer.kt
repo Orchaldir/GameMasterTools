@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.character.*
 import at.orchaldir.gm.core.reducer.economy.ECONOMY_REDUCER
 import at.orchaldir.gm.core.reducer.item.ITEM_REDUCER
+import at.orchaldir.gm.core.reducer.item.MAGIC_REDUCER
 import at.orchaldir.gm.core.reducer.organization.ORGANIZATION_REDUCER
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
 import at.orchaldir.gm.utils.redux.Reducer
@@ -71,6 +72,8 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is ItemAction -> ITEM_REDUCER(state, action)
         // economy
         is EconomyAction -> ECONOMY_REDUCER(state, action)
+        // magic
+        is MagicAction -> MAGIC_REDUCER(state, action)
         // organization
         is OrganizationAction -> ORGANIZATION_REDUCER(state, action)
         // world
