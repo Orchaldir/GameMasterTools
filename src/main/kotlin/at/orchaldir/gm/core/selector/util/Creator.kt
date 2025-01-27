@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.selector.economy.getBusinessesFoundedBy
 import at.orchaldir.gm.core.selector.getLanguagesInventedBy
 import at.orchaldir.gm.core.selector.item.getTextsTranslatedBy
 import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
+import at.orchaldir.gm.core.selector.magic.getSpellsCreatedBy
 import at.orchaldir.gm.core.selector.organization.getOrganizationsFoundedBy
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getTownsFoundedBy
@@ -15,6 +16,7 @@ fun <ID : Id<ID>> State.isCreator(id: ID) = getBuildingsBuildBy(id).isNotEmpty()
         || getBusinessesFoundedBy(id).isNotEmpty()
         || getLanguagesInventedBy(id).isNotEmpty()
         || getOrganizationsFoundedBy(id).isNotEmpty()
+        || getSpellsCreatedBy(id).isNotEmpty()
         || getTextsWrittenBy(id).isNotEmpty()
         || getTextsTranslatedBy(id).isNotEmpty()
         || getTownsFoundedBy(id).isNotEmpty()

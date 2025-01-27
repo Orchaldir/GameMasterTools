@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.magic
 
 import at.orchaldir.gm.core.model.util.Creator
+import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -17,6 +18,12 @@ sealed class SpellOrigin {
         is InventedSpell -> SpellOriginType.Invented
         is ModifiedSpell -> SpellOriginType.Modified
         UndefinedSpellOrigin -> SpellOriginType.Undefined
+    }
+
+    fun <ID : Id<ID>> wasCreatedBy(id: ID) = when (this) {
+        is InventedSpell -> inventor.isId(id)
+        is ModifiedSpell -> inventor.isId(id)
+        UndefinedSpellOrigin -> false
     }
 
 }

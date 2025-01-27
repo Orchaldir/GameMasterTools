@@ -4,7 +4,14 @@
   "0": {
    "id": 0,
    "name": "Summon Big Brother",
-   "language": 6
+   "language": 6,
+   "origin": {
+    "type": "Invented",
+    "inventor": {
+     "type": "Organization",
+     "organization": 0
+    }
+   }
   }
  }
 }
