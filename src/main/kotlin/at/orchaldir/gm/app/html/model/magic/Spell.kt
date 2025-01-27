@@ -5,10 +5,12 @@ import at.orchaldir.gm.app.LANGUAGE
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.model.optionalField
+import at.orchaldir.gm.app.html.model.parseOptionalDate
 import at.orchaldir.gm.app.html.model.selectOptionalDate
 import at.orchaldir.gm.app.html.optionalLink
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.html.selectOptionalElement
+import at.orchaldir.gm.app.parse.parseOptionalLanguageId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellId
@@ -44,7 +46,9 @@ fun FORM.editSpell(
 
 // parse
 
-fun parseSpell(parameters: Parameters, id: SpellId) = Spell(
+fun parseSpell(parameters: Parameters, state: State, id: SpellId) = Spell(
     id,
     parameters.getOrFail(NAME),
+    parseOptionalDate(parameters, state, DATE),
+    parseOptionalLanguageId(parameters, LANGUAGE),
 )

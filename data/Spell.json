@@ -3,7 +3,8 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Summon Brother"
+   "name": "Summon Brother",
+   "language": 6
   }
  }
 }

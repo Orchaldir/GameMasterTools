@@ -108,17 +108,19 @@ fun Application.configureSpellRouting() {
             logger.info { "Get preview for spell ${preview.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val spell = parseSpell(formParameters, preview.id)
+            val state = STORE.getState()
+            val spell = parseSpell(formParameters, state, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showSpellEditor(call, STORE.getState(), spell)
+                showSpellEditor(call, state, spell)
             }
         }
         post<SpellRoutes.Update> { update ->
             logger.info { "Update spell ${update.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val spell = parseSpell(formParameters, update.id)
+            val state = STORE.getState()
+            val spell = parseSpell(formParameters, state, update.id)
 
             STORE.dispatch(UpdateSpell(spell))
 
