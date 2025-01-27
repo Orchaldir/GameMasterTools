@@ -34,6 +34,9 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LANGUAGE_TYPE
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.magic.SPELL_TYPE
+import at.orchaldir.gm.core.model.magic.Spell
+import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -88,6 +91,7 @@ val ELEMENTS =
         RACE_TYPE,
         RACE_APPEARANCE_TYPE,
         RIVER_TYPE,
+        SPELL_TYPE,
         STREET_TYPE,
         STREET_TEMPLATE_TYPE,
         TEXT_TYPE,
@@ -136,6 +140,7 @@ data class State(
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE_TYPE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE_TYPE)
     fun getRiverStorage() = getStorage<RiverId, River>(RIVER_TYPE)
+    fun getSpellStorage() = getStorage<SpellId, Spell>(SPELL_TYPE)
     fun getStreetStorage() = getStorage<StreetId, Street>(STREET_TYPE)
     fun getStreetTemplateStorage() = getStorage<StreetTemplateId, StreetTemplate>(STREET_TEMPLATE_TYPE)
     fun getTextStorage() = getStorage<TextId, Text>(TEXT_TYPE)
@@ -227,6 +232,7 @@ data class State(
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
         saveStorage(path, getRiverStorage())
+        saveStorage(path, getSpellStorage())
         saveStorage(path, getStreetStorage())
         saveStorage(path, getStreetTemplateStorage())
         saveStorage(path, getTextStorage())
@@ -257,6 +263,7 @@ fun createStorage(type: String) = when (type) {
     RACE_TYPE -> Storage(RaceId(0))
     RACE_APPEARANCE_TYPE -> Storage(RaceAppearanceId(0))
     RIVER_TYPE -> Storage(RiverId(0))
+    SPELL_TYPE -> Storage(SpellId(0))
     STREET_TYPE -> Storage(StreetId(0))
     STREET_TEMPLATE_TYPE -> Storage(StreetTemplateId(0))
     TEXT_TYPE -> Storage(TextId(0))
@@ -290,6 +297,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     RACE_TYPE -> loadStorage<RaceId, Race>(path, RaceId(0))
     RACE_APPEARANCE_TYPE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))
     RIVER_TYPE -> loadStorage<RiverId, River>(path, RiverId(0))
+    SPELL_TYPE -> loadStorage<SpellId, Spell>(path, SpellId(0))
     STREET_TYPE -> loadStorage<StreetId, Street>(path, StreetId(0))
     STREET_TEMPLATE_TYPE -> loadStorage<StreetTemplateId, StreetTemplate>(path, StreetTemplateId(0))
     TEXT_TYPE -> loadStorage<TextId, Text>(path, TextId(0))
