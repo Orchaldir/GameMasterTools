@@ -80,7 +80,7 @@ private fun HtmlBlockTag.editOrigin(
 
     selectValue("Spell Origin", ORIGIN, SpellOriginType.entries, spell.origin.getType(), true) { type ->
         when (type) {
-            SpellOriginType.Modified -> availableSpells.isEmpty()
+            SpellOriginType.Modified, SpellOriginType.Translated -> availableSpells.isEmpty()
             else -> false
         }
     }

@@ -24,115 +24,115 @@ sealed class Event {
 // architectural style
 
 data class ArchitecturalStyleStartEvent(
-    val startDate: Date,
+    val date: Date,
     val style: ArchitecturalStyleId,
 ) : Event() {
 
-    override fun date() = startDate
+    override fun date() = date
 
 }
 
 data class ArchitecturalStyleEndEvent(
-    val endDate: Date,
+    val date: Date,
     val style: ArchitecturalStyleId,
 ) : Event() {
 
-    override fun date() = endDate
+    override fun date() = date
 
 }
 
 // building
 
 data class BuildingConstructedEvent(
-    val constructionDate: Date,
+    val date: Date,
     val buildingId: BuildingId,
 ) : Event() {
 
-    override fun date() = constructionDate
+    override fun date() = date
 
 }
 
 // business
 
 data class BusinessStartedEvent(
-    val startDate: Date,
+    val date: Date,
     val businessId: BusinessId,
 ) : Event() {
 
-    override fun date() = startDate
+    override fun date() = date
 
 }
 
 // character
 
 data class CharacterOriginEvent(
-    val day: Date,
+    val date: Date,
     val characterId: CharacterId,
     val origin: CharacterOrigin,
 ) : Event() {
 
-    override fun date() = day
+    override fun date() = date
 
 }
 
 data class CharacterDeathEvent(
-    val day: Date,
+    val date: Date,
     val characterId: CharacterId,
     val causeOfDeath: CauseOfDeath,
 ) : Event() {
 
-    override fun date() = day
+    override fun date() = date
 
 }
 
 // font
 
 data class FontCreatedEvent(
-    val creationDate: Date,
+    val date: Date,
     val fontId: FontId,
 ) : Event() {
 
-    override fun date() = creationDate
+    override fun date() = date
 
 }
 
 // organization
 
 data class OrganizationFoundingEvent(
-    val creationDate: Date,
+    val date: Date,
     val organizationId: OrganizationId,
 ) : Event() {
 
-    override fun date() = creationDate
+    override fun date() = date
 
 }
 
 // ownership
 
 open class OwnershipChangedEvent<ID : Id<ID>>(
-    val changeDate: Date,
+    val date: Date,
     val id: ID,
     val from: Owner,
     val to: Owner,
 ) : Event() {
 
-    override fun date() = changeDate
+    override fun date() = date
 
 }
 
 class BuildingOwnershipChangedEvent(
-    changeDate: Date,
+    date: Date,
     id: BuildingId,
     from: Owner,
     to: Owner,
-) : OwnershipChangedEvent<BuildingId>(changeDate, id, from, to)
+) : OwnershipChangedEvent<BuildingId>(date, id, from, to)
 
 class BusinessOwnershipChangedEvent(
-    changeDate: Date,
+    date: Date,
     id: BusinessId,
     from: Owner,
     to: Owner,
-) : OwnershipChangedEvent<BusinessId>(changeDate, id, from, to)
+) : OwnershipChangedEvent<BusinessId>(date, id, from, to)
 
 // text
 
@@ -148,21 +148,21 @@ data class SpellCreatedEvent(
 // text
 
 data class TextPublishedEvent(
-    val publishingDate: Date,
+    val date: Date,
     val textId: TextId,
 ) : Event() {
 
-    override fun date() = publishingDate
+    override fun date() = date
 
 }
 
 // town
 
 data class TownFoundingEvent(
-    val foundingDate: Date,
+    val date: Date,
     val townId: TownId,
 ) : Event() {
 
-    override fun date() = foundingDate
+    override fun date() = date
 
 }
