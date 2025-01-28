@@ -15,6 +15,10 @@ fun countEachLanguage(texts: Collection<Spell>) = texts
     .groupingBy { it.language!! }
     .eachCount()
 
+fun countSpellOrigin(texts: Collection<Spell>) = texts
+    .groupingBy { it.origin.getType() }
+    .eachCount()
+
 fun State.countSpells(language: LanguageId) = getSpellStorage()
     .getAll()
     .count { it.language == language }

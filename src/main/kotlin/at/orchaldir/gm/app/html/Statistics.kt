@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.selector.item.countEachLanguage
 import at.orchaldir.gm.core.selector.item.countEachTextFormat
 import at.orchaldir.gm.core.selector.item.countEachTextOrigin
 import at.orchaldir.gm.core.selector.magic.countEachLanguage
+import at.orchaldir.gm.core.selector.magic.countSpellOrigin
 import at.orchaldir.gm.core.selector.util.countEachCreator
 import at.orchaldir.gm.core.selector.world.countEachArchitecturalStyle
 import at.orchaldir.gm.core.selector.world.countEachPurpose
@@ -142,6 +143,9 @@ fun HtmlBlockTag.showRaceCount(
     state: State,
     characters: Collection<Character>,
 ) = showCount(call, state, "Races", countEachRace(characters))
+
+fun HtmlBlockTag.showSpellOriginCount(characters: Collection<Spell>) =
+    showCount("Origin", countSpellOrigin(characters))
 
 fun HtmlBlockTag.showStreetTemplateCount(
     call: ApplicationCall,
