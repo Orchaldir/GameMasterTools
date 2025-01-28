@@ -172,6 +172,11 @@ private fun HTML.showAllSpells(
                                 showCreator(call, state, spell.origin.inventor)
                             }
 
+                            is TranslatedSpell -> {
+                                +"Translated by "
+                                showCreator(call, state, spell.origin.inventor)
+                            }
+
                             UndefinedSpellOrigin -> doNothing()
                         }
                     }
