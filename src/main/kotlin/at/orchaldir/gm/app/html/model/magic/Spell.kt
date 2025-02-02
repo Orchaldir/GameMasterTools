@@ -30,20 +30,40 @@ fun BODY.showSpell(
     field("Language") {
         optionalLink(call, state, spell.language)
     }
-    showOrigin(call, state, spell.origin)
+    fieldSpellOrigin(call, state, spell.origin)
 }
 
-private fun HtmlBlockTag.showOrigin(
+private fun HtmlBlockTag.fieldSpellOrigin(
     call: ApplicationCall,
     state: State,
     origin: SpellOrigin,
 ) {
-    field("Spell Origin", origin.getType())
+    field("Origin") {
+        showOrigin(call, state, origin)
+    }
+}
 
+fun HtmlBlockTag.showOrigin(
+    call: ApplicationCall,
+    state: State,
+    origin: SpellOrigin,
+) {
     when (origin) {
-        is InventedSpell -> fieldCreator(call, state, origin.inventor, "Inventor")
-        is ModifiedSpell -> showCreatorAndOriginal(call, state, origin.inventor, origin.original)
-        is TranslatedSpell -> showCreatorAndOriginal(call, state, origin.inventor, origin.original)
+        is InventedSpell -> {
+            +"Invented by "
+            showCreator(call, state, origin.inventor)
+        }
+
+        is ModifiedSpell -> {
+            +"Modified by "
+            showCreator(call, state, origin.inventor)
+        }
+
+        is TranslatedSpell -> {
+            +"Translated by "
+            showCreator(call, state, origin.inventor)
+        }
+
         UndefinedSpellOrigin -> doNothing()
     }
 }

@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.magic.editSpell
 import at.orchaldir.gm.app.html.model.magic.parseSpell
+import at.orchaldir.gm.app.html.model.magic.showOrigin
 import at.orchaldir.gm.app.html.model.magic.showSpell
 import at.orchaldir.gm.core.action.CreateSpell
 import at.orchaldir.gm.core.action.DeleteSpell
@@ -14,7 +15,6 @@ import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.util.SortSpell
 import at.orchaldir.gm.core.selector.magic.canDeleteSpell
 import at.orchaldir.gm.core.selector.util.sortSpells
-import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -160,26 +160,7 @@ private fun HTML.showAllSpells(
                     td { link(call, state, spell) }
                     td { showOptionalDate(call, state, spell.date) }
                     td { optionalLink(call, state, spell.language) }
-                    td {
-                        when (spell.origin) {
-                            is InventedSpell -> {
-                                +"Invented by "
-                                showCreator(call, state, spell.origin.inventor)
-                            }
-
-                            is ModifiedSpell -> {
-                                +"Modified by "
-                                showCreator(call, state, spell.origin.inventor)
-                            }
-
-                            is TranslatedSpell -> {
-                                +"Translated by "
-                                showCreator(call, state, spell.origin.inventor)
-                            }
-
-                            UndefinedSpellOrigin -> doNothing()
-                        }
-                    }
+                    td { showOrigin(call, state, spell.origin) }
                 }
             }
         }
