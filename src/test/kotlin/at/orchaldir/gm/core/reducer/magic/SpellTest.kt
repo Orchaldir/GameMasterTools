@@ -5,14 +5,10 @@ import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.Employed
-import at.orchaldir.gm.core.model.character.EmploymentStatus
-import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.magic.ModifiedSpell
 import at.orchaldir.gm.core.model.magic.Spell
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.HistoryEntry
+import at.orchaldir.gm.core.model.magic.TranslatedSpell
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -22,7 +18,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 private val spell0 = Spell(SPELL_ID_0)
-private val spell1 = Spell(SPELL_ID_1, origin = ModifiedSpell(UndefinedCreator, SPELL_ID_0))
 private val STATE = State(
     listOf(
         Storage(CALENDAR0),
@@ -50,6 +45,17 @@ class SpellTest {
 
         @Test
         fun `Cannot delete a spell modified by another spell`() {
+            val spell1 = Spell(SPELL_ID_1, origin = ModifiedSpell(UndefinedCreator, SPELL_ID_0))
+            val state = STATE.updateStorage(Storage(listOf(spell0, spell1)))
+
+            assertIllegalArgument("The spell 0 is used!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a translated spell`() {
+            val spell1 = Spell(SPELL_ID_1, origin = TranslatedSpell(UndefinedCreator, SPELL_ID_0))
             val state = STATE.updateStorage(Storage(listOf(spell0, spell1)))
 
             assertIllegalArgument("The spell 0 is used!") {
