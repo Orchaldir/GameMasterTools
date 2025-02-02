@@ -76,6 +76,26 @@ class SpellTest {
         }
 
         @Test
+        fun `Cannot modify an unknown spell`() {
+            val spell = Spell(SPELL_ID_0, origin = ModifiedSpell(UndefinedCreator, SPELL_ID_1))
+            val action = UpdateSpell(spell)
+
+            assertIllegalArgument("Original spell 1 is unknown!") {
+                REDUCER.invoke(STATE, action)
+            }
+        }
+
+        @Test
+        fun `Cannot translate an unknown spell`() {
+            val spell = Spell(SPELL_ID_0, origin = TranslatedSpell(UndefinedCreator, SPELL_ID_1))
+            val action = UpdateSpell(spell)
+
+            assertIllegalArgument("Original spell 1 is unknown!") {
+                REDUCER.invoke(STATE, action)
+            }
+        }
+
+        @Test
         fun `Update a spell`() {
             val spell = Spell(SPELL_ID_0, "Test")
             val action = UpdateSpell(spell)
