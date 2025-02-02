@@ -22,6 +22,12 @@ sealed class SpellOrigin {
         UndefinedSpellOrigin -> SpellOriginType.Undefined
     }
 
+    fun wasBasedOn(id: SpellId) = when (this) {
+        is ModifiedSpell -> original == id
+        is TranslatedSpell -> original == id
+        else -> false
+    }
+
     fun <ID : Id<ID>> wasCreatedBy(id: ID) = when (this) {
         is InventedSpell -> inventor.isId(id)
         is ModifiedSpell -> inventor.isId(id)

@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.utils.Id
 
-fun State.canDeleteSpell(spell: SpellId) = true
+fun State.canDeleteSpell(spell: SpellId) = getSpellsBasedOn(spell).isEmpty()
 
 fun countEachLanguage(texts: Collection<Spell>) = texts
     .filter { it.language != null }
@@ -32,3 +32,7 @@ fun State.getExistingSpell(date: Date?) = getExistingElements(getSpellStorage().
 fun <ID : Id<ID>> State.getSpellsCreatedBy(id: ID) = getSpellStorage()
     .getAll()
     .filter { it.origin.wasCreatedBy(id) }
+
+fun State.getSpellsBasedOn(id: SpellId) = getSpellStorage()
+    .getAll()
+    .filter { it.origin.wasBasedOn(id) }

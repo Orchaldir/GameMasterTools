@@ -17,7 +17,7 @@ val CREATE_SPELL: Reducer<CreateSpell, State> = { state, _ ->
 
 val DELETE_SPELL: Reducer<DeleteSpell, State> = { state, action ->
     state.getSpellStorage().require(action.id)
-    require(state.canDeleteSpell(action.id)) { "The spell ${action.id.value} is used" }
+    require(state.canDeleteSpell(action.id)) { "The spell ${action.id.value} is used!" }
 
     noFollowUps(state.updateStorage(state.getSpellStorage().remove(action.id)))
 }
