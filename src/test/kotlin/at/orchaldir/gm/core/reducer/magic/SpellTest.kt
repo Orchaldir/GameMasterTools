@@ -4,11 +4,11 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.magic.InventedSpell
 import at.orchaldir.gm.core.model.magic.ModifiedSpell
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.TranslatedSpell
+import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -21,8 +21,6 @@ private val spell0 = Spell(SPELL_ID_0)
 private val STATE = State(
     listOf(
         Storage(CALENDAR0),
-        Storage(Business(BUSINESS_ID_0)),
-        Storage(Character(CHARACTER_ID_0)),
         Storage(spell0),
     )
 )
@@ -91,6 +89,16 @@ class SpellTest {
             val action = UpdateSpell(spell)
 
             assertIllegalArgument("Original spell 1 is unknown!") {
+                REDUCER.invoke(STATE, action)
+            }
+        }
+
+        @Test
+        fun `Inventor must exist`() {
+            val spell = Spell(SPELL_ID_0, origin = InventedSpell(CreatedByCharacter(CHARACTER_ID_0)))
+            val action = UpdateSpell(spell)
+
+            assertIllegalArgument("Cannot use an unknown character 0 as Inventor!") {
                 REDUCER.invoke(STATE, action)
             }
         }
