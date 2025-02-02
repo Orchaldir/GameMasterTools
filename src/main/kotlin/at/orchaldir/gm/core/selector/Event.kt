@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.selector.magic.getSpells
 import at.orchaldir.gm.utils.Id
 
 fun State.getEvents(): List<Event> {

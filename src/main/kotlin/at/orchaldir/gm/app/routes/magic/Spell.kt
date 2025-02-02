@@ -1,17 +1,19 @@
 package at.orchaldir.gm.app.routes.magic
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.html.model.magic.editSpell
 import at.orchaldir.gm.app.html.model.magic.parseSpell
 import at.orchaldir.gm.app.html.model.magic.showOrigin
 import at.orchaldir.gm.app.html.model.magic.showSpell
+import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.core.action.CreateSpell
 import at.orchaldir.gm.core.action.DeleteSpell
 import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.magic.*
+import at.orchaldir.gm.core.model.magic.SPELL_TYPE
+import at.orchaldir.gm.core.model.magic.Spell
+import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.util.SortSpell
 import at.orchaldir.gm.core.selector.magic.canDeleteSpell
 import at.orchaldir.gm.core.selector.util.sortSpells

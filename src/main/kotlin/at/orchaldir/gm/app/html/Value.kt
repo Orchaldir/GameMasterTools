@@ -1,8 +1,6 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.REVIVAL
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.selector.world.getPossibleStylesForRevival
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.html.*
