@@ -16,8 +16,10 @@ import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.selector.*
-import at.orchaldir.gm.core.selector.item.countText
+import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getTexts
+import at.orchaldir.gm.core.selector.magic.countSpells
+import at.orchaldir.gm.core.selector.magic.getSpells
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -145,16 +147,18 @@ private fun HTML.showAllLanguages(
         table {
             tr {
                 th { +"Name" }
-                th { +"Texts" }
                 th { +"Characters" }
                 th { +"Cultures" }
+                th { +"Spells" }
+                th { +"Texts" }
             }
             languages.forEach { language ->
                 tr {
                     td { link(call, state, language) }
-                    tdSkipZero(state.countText(language.id))
                     tdSkipZero(state.countCharacters(language.id))
                     tdSkipZero(state.countCultures(language.id))
+                    tdSkipZero(state.countSpells(language.id))
+                    tdSkipZero(state.countTexts(language.id))
                 }
             }
         }
@@ -176,6 +180,7 @@ private fun HTML.showLanguageDetails(
     val texts = state.getTexts(language.id)
     val characters = state.getCharacters(language.id)
     val cultures = state.getCultures(language.id)
+    val spells = state.getSpells(language.id)
 
     simpleHtml("Language: ${language.name}") {
         field("Name", language.name)
@@ -206,14 +211,17 @@ private fun HTML.showLanguageDetails(
             link(call, language)
         }
         h2 { +"Usage" }
-        showList("Texts", texts) { texts ->
-            link(call, state, texts)
-        }
         showList("Characters", characters) { character ->
             link(call, state, character)
         }
         showList("Cultures", cultures) { culture ->
             link(call, culture)
+        }
+        showList("Spells", spells) { spell ->
+            link(call, state, spell)
+        }
+        showList("Texts", texts) { texts ->
+            link(call, state, texts)
         }
         action(editLink, "Edit")
         if (state.canDelete(language.id)) {

@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.ADD
 import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.selectOptionalValue
+import at.orchaldir.gm.app.html.selectOptionalElement
 import at.orchaldir.gm.app.html.showMap
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseOptionalMaterialId
@@ -36,10 +36,7 @@ fun FORM.selectMaterialCost(
     val newMaterials = state.getMaterialStorage()
         .getAll()
         .filter { !materialCost.contains(it.id) }
-    selectOptionalValue("Add Material", combine(ADD, MATERIAL), null, newMaterials) { material ->
-        label = material.name
-        value = material.id.value.toString()
-    }
+    selectOptionalElement(state, "Add Material", combine(ADD, MATERIAL), newMaterials, null)
     showMap("Material Cost", materialCost.map) { material, cost ->
         link(call, state, material)
         +": "

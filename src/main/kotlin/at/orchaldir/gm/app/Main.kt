@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.routes.economy.configureBusinessRouting
 import at.orchaldir.gm.app.routes.economy.configureJobRouting
 import at.orchaldir.gm.app.routes.item.configureItemTemplateRouting
 import at.orchaldir.gm.app.routes.item.configureTextRouting
+import at.orchaldir.gm.app.routes.magic.configureSpellRouting
 import at.orchaldir.gm.app.routes.organization.configureOrganizationRouting
 import at.orchaldir.gm.app.routes.race.configureRaceAppearanceRouting
 import at.orchaldir.gm.app.routes.race.configureRaceRouting
@@ -64,6 +65,7 @@ fun Application.module() {
     configureRaceRouting()
     configureRaceAppearanceRouting()
     configureRiverRouting()
+    configureSpellRouting()
     configureTerrainRouting()
     configureTimeRouting()
     configureStreetRouting()

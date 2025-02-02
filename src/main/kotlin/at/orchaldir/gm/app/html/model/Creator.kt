@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.selector.getLanguagesInventedBy
 import at.orchaldir.gm.core.selector.getLiving
 import at.orchaldir.gm.core.selector.item.getTextsTranslatedBy
 import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
+import at.orchaldir.gm.core.selector.magic.getSpellsCreatedBy
 import at.orchaldir.gm.core.selector.organization.getExistingOrganization
 import at.orchaldir.gm.core.selector.organization.getOrganizationsFoundedBy
 import at.orchaldir.gm.core.selector.util.isCreator
@@ -27,7 +28,6 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
@@ -88,6 +88,10 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
         link(call, state, organization)
     }
 
+    showList("Spells", state.getSpellsCreatedBy(id)) { spell ->
+        link(call, state, spell)
+    }
+
     showList("Texts Written", state.getTextsWrittenBy(id)) { text ->
         link(call, state, text)
     }
@@ -103,7 +107,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
 
 // select
 
-fun <ID : Id<ID>> FORM.selectCreator(
+fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
     state: State,
     creator: Creator,
     created: ID,

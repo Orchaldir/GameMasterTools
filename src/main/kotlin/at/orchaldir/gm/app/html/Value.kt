@@ -7,6 +7,26 @@ import kotlinx.html.*
 
 // elements
 
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectOptionalElement(
+    state: State,
+    labelText: String,
+    selectId: String,
+    elements: Collection<ELEMENT>,
+    current: ID?,
+    update: Boolean = false,
+) {
+    selectOptionalValue(
+        labelText,
+        selectId,
+        current?.let { state.getStorage<ID, ELEMENT>(current).get(current) },
+        elements,
+        update,
+    ) { element ->
+        label = element.name(state)
+        value = element.id().value().toString()
+    }
+}
+
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
     state: State,
     labelText: String,

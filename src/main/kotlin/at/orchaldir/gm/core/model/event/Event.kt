@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.character.CharacterOrigin
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.item.text.TextId
+import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
@@ -15,131 +17,152 @@ import at.orchaldir.gm.utils.Id
 
 sealed class Event {
 
-    abstract fun getDate(): Date
+    abstract fun date(): Date
 
 }
 
 // architectural style
 
 data class ArchitecturalStyleStartEvent(
-    val startDate: Date,
+    val date: Date,
     val style: ArchitecturalStyleId,
 ) : Event() {
 
-    override fun getDate() = startDate
+    override fun date() = date
 
 }
 
 data class ArchitecturalStyleEndEvent(
-    val endDate: Date,
+    val date: Date,
     val style: ArchitecturalStyleId,
 ) : Event() {
 
-    override fun getDate() = endDate
+    override fun date() = date
 
 }
 
 // building
 
 data class BuildingConstructedEvent(
-    val constructionDate: Date,
+    val date: Date,
     val buildingId: BuildingId,
 ) : Event() {
 
-    override fun getDate() = constructionDate
+    override fun date() = date
 
 }
 
 // business
 
 data class BusinessStartedEvent(
-    val startDate: Date,
+    val date: Date,
     val businessId: BusinessId,
 ) : Event() {
 
-    override fun getDate() = startDate
+    override fun date() = date
 
 }
 
 // character
 
 data class CharacterOriginEvent(
-    val day: Date,
+    val date: Date,
     val characterId: CharacterId,
     val origin: CharacterOrigin,
 ) : Event() {
 
-    override fun getDate() = day
+    override fun date() = date
 
 }
 
 data class CharacterDeathEvent(
-    val day: Date,
+    val date: Date,
     val characterId: CharacterId,
     val causeOfDeath: CauseOfDeath,
 ) : Event() {
 
-    override fun getDate() = day
+    override fun date() = date
 
 }
 
 // font
 
 data class FontCreatedEvent(
-    val creationDate: Date,
+    val date: Date,
     val fontId: FontId,
 ) : Event() {
 
-    override fun getDate() = creationDate
+    override fun date() = date
+
+}
+
+// organization
+
+data class OrganizationFoundingEvent(
+    val date: Date,
+    val organizationId: OrganizationId,
+) : Event() {
+
+    override fun date() = date
 
 }
 
 // ownership
 
 open class OwnershipChangedEvent<ID : Id<ID>>(
-    val changeDate: Date,
+    val date: Date,
     val id: ID,
     val from: Owner,
     val to: Owner,
 ) : Event() {
 
-    override fun getDate() = changeDate
+    override fun date() = date
 
 }
 
 class BuildingOwnershipChangedEvent(
-    changeDate: Date,
+    date: Date,
     id: BuildingId,
     from: Owner,
     to: Owner,
-) : OwnershipChangedEvent<BuildingId>(changeDate, id, from, to)
+) : OwnershipChangedEvent<BuildingId>(date, id, from, to)
 
 class BusinessOwnershipChangedEvent(
-    changeDate: Date,
+    date: Date,
     id: BusinessId,
     from: Owner,
     to: Owner,
-) : OwnershipChangedEvent<BusinessId>(changeDate, id, from, to)
+) : OwnershipChangedEvent<BusinessId>(date, id, from, to)
 
+// text
+
+data class SpellCreatedEvent(
+    val date: Date,
+    val spellId: SpellId,
+) : Event() {
+
+    override fun date() = date
+
+}
 
 // text
 
 data class TextPublishedEvent(
-    val publishingDate: Date,
+    val date: Date,
     val textId: TextId,
 ) : Event() {
 
-    override fun getDate() = publishingDate
+    override fun date() = date
 
 }
 
 // town
 
 data class TownFoundingEvent(
-    val foundingDate: Date,
+    val date: Date,
     val townId: TownId,
 ) : Event() {
 
-    override fun getDate() = foundingDate
+    override fun date() = date
 
 }

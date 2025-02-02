@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getGenonymName
@@ -48,7 +49,7 @@ data class Character(
     val equipmentMap: EquipmentMap = EquipmentMap(emptyMap()),
     val housingStatus: History<HousingStatus> = History(UndefinedHousingStatus),
     val employmentStatus: History<EmploymentStatus> = History(UndefinedEmploymentStatus),
-) : Element<CharacterId> {
+) : Element<CharacterId>, HasStartDate {
 
     override fun id() = id
 
@@ -64,6 +65,8 @@ data class Character(
             is Mononym -> name.name
         }
     }
+
+    override fun startDate() = birthDate
 
     fun getAge(state: State, currentDay: Day): Duration {
         val defaultCalendar = state.getDefaultCalendar()

@@ -23,6 +23,8 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.magic.Spell
+import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.name.ComplexName
@@ -171,6 +173,15 @@ data class UpdateBusiness(val business: Business) : EconomyAction()
 data object CreateJob : EconomyAction()
 data class DeleteJob(val id: JobId) : EconomyAction()
 data class UpdateJob(val job: Job) : EconomyAction()
+
+//-- magic --
+
+sealed class MagicAction : Action()
+
+// spell
+data object CreateSpell : MagicAction()
+data class DeleteSpell(val id: SpellId) : MagicAction()
+data class UpdateSpell(val spell: Spell) : MagicAction()
 
 //-- organization --
 

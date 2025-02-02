@@ -281,15 +281,13 @@ private fun HTML.showBuildingEditor(
                 fieldAge("Age", state, building.constructionDate)
                 selectCreator(state, building.builder, building.id, building.constructionDate, "Builder")
                 selectOwnership(state, building.ownership, building.constructionDate)
-                selectOptionalValue(
+                selectOptionalElement(
+                    state,
                     "Architectural Style",
                     STYLE,
-                    state.getArchitecturalStyleStorage().getOptional(building.style),
                     state.getPossibleStyles(building),
-                ) { s ->
-                    label = s.name()
-                    value = s.id().value.toString()
-                }
+                    building.style
+                )
                 selectBuildingPurpose(state, building)
                 button("Update", updateLink)
             }

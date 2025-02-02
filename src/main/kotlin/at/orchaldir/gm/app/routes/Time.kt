@@ -340,7 +340,7 @@ private fun HtmlBlockTag.showEvents(
     val events = unsortedEvents.sort(calendar)
 
     showList("Events", events) { event ->
-        val date = event.getDate()
+        val date = event.date()
 
         if (date is Day && date == state.time.currentDate) {
             link(call, date, "Today")
@@ -387,6 +387,16 @@ private fun HtmlBlockTag.showEvents(
 
             is FontCreatedEvent -> {
                 link(call, state, event.fontId)
+                +" was created."
+            }
+
+            is OrganizationFoundingEvent -> {
+                link(call, state, event.organizationId)
+                +" was founded."
+            }
+
+            is SpellCreatedEvent -> {
+                link(call, state, event.spellId)
                 +" was created."
             }
 

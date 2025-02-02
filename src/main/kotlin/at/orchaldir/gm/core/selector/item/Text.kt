@@ -13,11 +13,11 @@ import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteText(text: TextId) = getTranslationsOf(text).isEmpty()
 
-fun State.countText(font: FontId) = getTextStorage()
+fun State.countTexts(font: FontId) = getTextStorage()
     .getAll()
     .count { c -> c.format.contains(font) }
 
-fun State.countText(language: LanguageId) = getTextStorage()
+fun State.countTexts(language: LanguageId) = getTextStorage()
     .getAll()
     .count { c -> c.language == language }
 

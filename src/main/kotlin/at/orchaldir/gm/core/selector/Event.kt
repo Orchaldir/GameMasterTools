@@ -56,6 +56,18 @@ fun State.getEvents(): List<Event> {
         }
     }
 
+    getOrganizationStorage().getAll().forEach { organization ->
+        organization.startDate()?.let {
+            events.add(OrganizationFoundingEvent(it, organization.id))
+        }
+    }
+
+    getSpellStorage().getAll().forEach { spell ->
+        if (spell.date != null) {
+            events.add(SpellCreatedEvent(spell.date, spell.id))
+        }
+    }
+
     getTextStorage().getAll().forEach { text ->
         if (text.date != null) {
             events.add(TextPublishedEvent(text.date, text.id))
@@ -117,7 +129,7 @@ fun State.getEventsOfMonth(calendarId: CalendarId, day: Day): List<Event> {
     val start = calendar.getStartOfMonth(day)
     val end = calendar.getEndOfMonth(day)
 
-    return getEvents().filter { it.getDate().isBetween(calendar, start, end) }
+    return getEvents().filter { it.date().isBetween(calendar, start, end) }
 }
 
 fun State.getEventsOfYear(calendarId: CalendarId, year: Year): List<Event> {
@@ -126,7 +138,7 @@ fun State.getEventsOfYear(calendarId: CalendarId, year: Year): List<Event> {
     val end = calendar.getEndOfYear(year)
 
     return getEvents().filter {
-        it.getDate().isBetween(calendar, start, end)
+        it.date().isBetween(calendar, start, end)
     }
 }
 
@@ -136,7 +148,7 @@ fun State.getEventsOfDecade(calendarId: CalendarId, decade: Decade): List<Event>
     val end = calendar.getEndOfDecade(decade)
 
     return getEvents().filter {
-        it.getDate().isBetween(calendar, start, end)
+        it.date().isBetween(calendar, start, end)
     }
 }
 
@@ -144,7 +156,7 @@ fun List<Event>.sort(calendar: Calendar): List<Event> {
     val daysPerYear = calendar.getDaysPerYear()
 
     return sortedBy {
-        when (val date = it.getDate()) {
+        when (val date = it.date()) {
             is Day -> date.day
             is Year -> {
                 date.year * daysPerYear
