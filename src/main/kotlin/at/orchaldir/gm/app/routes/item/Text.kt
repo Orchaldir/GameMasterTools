@@ -209,19 +209,12 @@ private fun HTML.showGallery(
 
         div("grid-container") {
             texts.forEach { text ->
-                val name = text.name(state)
                 val svg = visualizeTextFormat(state, TEXT_CONFIG, text, size)
 
                 div("grid-item") {
                     a(href(call, text.id)) {
                         div {
-                            if (text.date != null) {
-                                +"$name ("
-                                +displayDate(state, text.date)
-                                +")"
-                            } else {
-                                +name
-                            }
+                            +text.getNameWithDate(state)
                         }
                         svg(svg, 100)
                     }
