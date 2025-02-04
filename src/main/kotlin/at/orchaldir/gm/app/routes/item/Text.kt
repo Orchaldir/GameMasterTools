@@ -3,7 +3,9 @@ package at.orchaldir.gm.app.routes.item
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.text.editTextContent
 import at.orchaldir.gm.app.html.model.text.editTextFormat
+import at.orchaldir.gm.app.html.model.text.showTextContent
 import at.orchaldir.gm.app.html.model.text.showTextFormat
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.item.parseText
@@ -244,6 +246,7 @@ private fun HTML.showTextDetails(
         optionalField(call, state, "Date", text.date)
         fieldLink("Language", call, state, text.language)
         showTextFormat(call, state, text.format)
+        showTextContent(call, state, text.content)
 
         showList("Translations", state.getTranslationsOf(text.id)) { text ->
             link(call, state, text)
@@ -298,11 +301,14 @@ private fun HTML.showTextEditor(
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
+
                 selectComplexName(state, text.name)
                 editOrigin(state, text)
                 selectOptionalDate(state, "Date", text.date, DATE)
                 selectElement(state, "Language", LANGUAGE, languages, text.language, true)
                 editTextFormat(state, text.format, hasAuthor)
+                editTextContent(state, text.content)
+
                 button("Update", updateLink)
             }
             back(backLink)
