@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.item.text.TranslatedText
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
@@ -24,6 +25,10 @@ fun State.countTexts(language: LanguageId) = getTextStorage()
 fun State.countTexts(material: MaterialId) = getTextStorage()
     .getAll()
     .count { it.format.isMadeOf(material) }
+
+fun State.countTexts(spell: SpellId) = getTextStorage()
+    .getAll()
+    .count { it.content.contains(spell) }
 
 fun countEachTextFormat(texts: Collection<Text>) = texts
     .groupingBy { it.format.getType() }
@@ -78,6 +83,10 @@ fun State.getTexts(font: FontId) = getTextStorage()
 fun State.getTexts(language: LanguageId) = getTextStorage()
     .getAll()
     .filter { b -> b.language == language }
+
+fun State.getTextsContaining(spell: SpellId) = getTextStorage()
+    .getAll()
+    .filter { b -> b.content.contains(spell) }
 
 fun State.getTextsMadeOf(material: MaterialId) = getTextStorage()
     .getAll()

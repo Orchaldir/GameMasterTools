@@ -12,6 +12,8 @@ fun parseHolidayId(
     param: String,
 ) = HolidayId(parseInt(parameters, param))
 
+fun parseHolidayId(value: String) = HolidayId(value.toInt())
+
 fun parseHoliday(id: HolidayId, parameters: Parameters): Holiday {
     val name = parameters.getOrFail(NAME)
 

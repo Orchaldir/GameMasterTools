@@ -33,6 +33,7 @@ data class Text(
     val date: Date? = null,
     val language: LanguageId = LanguageId(0),
     val format: TextFormat = UndefinedTextFormat,
+    val content: TextContent = UndefinedTextContent,
 ) : Element<TextId>, Created, HasStartDate {
 
     override fun id() = id

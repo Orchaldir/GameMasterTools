@@ -323,16 +323,7 @@ private fun FORM.editHolidays(
     culture: Culture,
 ) {
     showDetails("Holidays") {
-        state.getHolidayStorage().getAll().forEach { holiday ->
-            p {
-                checkBoxInput {
-                    name = HOLIDAY
-                    value = holiday.id.value.toString()
-                    checked = culture.holidays.contains(holiday.id)
-                    +holiday.name
-                }
-            }
-        }
+        selectElements(state, HOLIDAY, state.getHolidayStorage().getAll(), culture.holidays)
     }
 }
 

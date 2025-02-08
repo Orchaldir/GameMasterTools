@@ -31,8 +31,8 @@ fun BODY.showTextFormat(
     state: State,
     format: TextFormat,
 ) {
-    showDetails("Description") {
-        field("Format", format.getType())
+    showDetails("Format") {
+        field("Type", format.getType())
 
         when (format) {
             UndefinedTextFormat -> doNothing()
@@ -58,25 +58,27 @@ private fun HtmlBlockTag.showBinding(
     state: State,
     binding: BookBinding,
 ) {
-    field("Binding", binding.getType())
+    showDetails("Binding") {
+        field("Type", binding.getType())
 
-    when (binding) {
-        is CopticBinding -> {
-            showCover(call, state, binding.cover)
-            showSewingPattern(binding.sewingPattern)
-        }
+        when (binding) {
+            is CopticBinding -> {
+                showCover(call, state, binding.cover)
+                showSewingPattern(binding.sewingPattern)
+            }
 
-        is Hardcover -> {
-            showCover(call, state, binding.cover)
-            showBossesPattern(call, state, binding.bosses)
-            showEdgeProtection(call, state, binding.protection)
-        }
+            is Hardcover -> {
+                showCover(call, state, binding.cover)
+                showBossesPattern(call, state, binding.bosses)
+                showEdgeProtection(call, state, binding.protection)
+            }
 
-        is LeatherBinding -> {
-            showCover(call, state, binding.cover)
-            field("Leather Color", binding.leatherColor)
-            fieldLink("Leather Material", call, state, binding.leatherMaterial)
-            field("Leather Binding", binding.type)
+            is LeatherBinding -> {
+                showCover(call, state, binding.cover)
+                field("Leather Color", binding.leatherColor)
+                fieldLink("Leather Material", call, state, binding.leatherMaterial)
+                field("Leather Binding", binding.type)
+            }
         }
     }
 }
@@ -86,8 +88,10 @@ private fun HtmlBlockTag.showCover(
     state: State,
     cover: BookCover,
 ) {
-    field("Cover Color", cover.color)
-    fieldLink("Cover Material", call, state, cover.material)
+    showDetails("Cover") {
+        field("Color", cover.color)
+        fieldLink("Material", call, state, cover.material)
+    }
 }
 
 private fun HtmlBlockTag.showBossesPattern(
@@ -95,16 +99,18 @@ private fun HtmlBlockTag.showBossesPattern(
     state: State,
     pattern: BossesPattern,
 ) {
-    field("Bosses Pattern Type", pattern.getType())
+    showDetails("Bosses Pattern") {
+        field("Type", pattern.getType())
 
-    when (pattern) {
-        NoBosses -> doNothing()
-        is SimpleBossesPattern -> {
-            field("Bosses Shape", pattern.shape)
-            field("Bosses Size", pattern.size)
-            field("Bosses Color", pattern.color)
-            fieldLink("Bosses Material", call, state, pattern.material)
-            field("Bosses Pattern", pattern.pattern.toString())
+        when (pattern) {
+            NoBosses -> doNothing()
+            is SimpleBossesPattern -> {
+                field("Shape", pattern.shape)
+                field("Size", pattern.size)
+                field("Color", pattern.color)
+                fieldLink("Material", call, state, pattern.material)
+                field("Pattern", pattern.pattern.toString())
+            }
         }
     }
 }
@@ -114,44 +120,48 @@ private fun HtmlBlockTag.showEdgeProtection(
     state: State,
     protection: EdgeProtection,
 ) {
-    field("Edge Protection", protection.getType())
+    showDetails("Edge Protection") {
+        field("Type", protection.getType())
 
-    when (protection) {
-        NoEdgeProtection -> doNothing()
-        is ProtectedCorners -> {
-            field("Corner Shape", protection.shape)
-            field("Corner Size", protection.size)
-            field("Corner Color", protection.color)
-            fieldLink("Corner Material", call, state, protection.material)
-        }
+        when (protection) {
+            NoEdgeProtection -> doNothing()
+            is ProtectedCorners -> {
+                field("Corner Shape", protection.shape)
+                field("Corner Size", protection.size)
+                field("Corner Color", protection.color)
+                fieldLink("Corner Material", call, state, protection.material)
+            }
 
-        is ProtectedEdge -> {
-            field("Edge Width", protection.width)
-            field("Edge Color", protection.color)
-            fieldLink("Edge Material", call, state, protection.material)
+            is ProtectedEdge -> {
+                field("Edge Width", protection.width)
+                field("Edge Color", protection.color)
+                fieldLink("Edge Material", call, state, protection.material)
+            }
         }
     }
 }
 
 private fun HtmlBlockTag.showSewingPattern(pattern: SewingPattern) {
-    field("Sewing Pattern", pattern.getType())
+    showDetails("Sewing") {
+        field("Pattern", pattern.getType())
 
-    when (pattern) {
-        is SimpleSewingPattern -> {
-            field("Sewing Color", pattern.color)
-            field("Sewing Size", pattern.size)
-            field("Distance Between Edge & Hole", pattern.length)
-            showList("Stitches", pattern.stitches) { stitch ->
-                +stitch.name
+        when (pattern) {
+            is SimpleSewingPattern -> {
+                field("Color", pattern.color)
+                field("Size", pattern.size)
+                field("Distance Between Edge & Hole", pattern.length)
+                showList("Stitches", pattern.stitches) { stitch ->
+                    +stitch.name
+                }
             }
-        }
 
-        is ComplexSewingPattern -> {
-            showList(pattern.stitches) { complex ->
-                field("Color", complex.color)
-                field("Size", complex.size)
-                field("Distance Between Edge & Hole", complex.length)
-                field("Stitch", complex.stitch)
+            is ComplexSewingPattern -> {
+                showList(pattern.stitches) { complex ->
+                    field("Color", complex.color)
+                    field("Size", complex.size)
+                    field("Distance Between Edge & Hole", complex.length)
+                    field("Stitch", complex.stitch)
+                }
             }
         }
     }

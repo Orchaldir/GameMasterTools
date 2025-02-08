@@ -3,7 +3,9 @@ package at.orchaldir.gm.app.routes.item
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.text.editTextContent
 import at.orchaldir.gm.app.html.model.text.editTextFormat
+import at.orchaldir.gm.app.html.model.text.showTextContent
 import at.orchaldir.gm.app.html.model.text.showTextFormat
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.item.parseText
@@ -172,6 +174,7 @@ private fun HTML.showAllTexts(
                 th { +"Creator" }
                 th { +"Language" }
                 th { +"Format" }
+                th { +"Spells" }
             }
             texts.forEach { text ->
                 tr {
@@ -181,6 +184,7 @@ private fun HTML.showAllTexts(
                     td { showCreator(call, state, text.origin.creator()) }
                     td { link(call, state, text.language) }
                     td { +text.format.getType().toString() }
+                    tdSkipZero(text.content.spells().size)
                 }
             }
         }
@@ -209,19 +213,12 @@ private fun HTML.showGallery(
 
         div("grid-container") {
             texts.forEach { text ->
-                val name = text.name(state)
                 val svg = visualizeTextFormat(state, TEXT_CONFIG, text, size)
 
                 div("grid-item") {
                     a(href(call, text.id)) {
                         div {
-                            if (text.date != null) {
-                                +"$name ("
-                                +displayDate(state, text.date)
-                                +")"
-                            } else {
-                                +name
-                            }
+                            +text.getNameWithDate(state)
                         }
                         svg(svg, 100)
                     }
@@ -251,9 +248,10 @@ private fun HTML.showTextDetails(
         optionalField(call, state, "Date", text.date)
         fieldLink("Language", call, state, text.language)
         showTextFormat(call, state, text.format)
+        showTextContent(call, state, text.content)
 
         showList("Translations", state.getTranslationsOf(text.id)) { text ->
-            link(call, state, text)
+            link(call, text.id, text.getNameWithDate(state))
         }
 
         action(editLink, "Edit")
@@ -305,11 +303,14 @@ private fun HTML.showTextEditor(
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
+
                 selectComplexName(state, text.name)
                 editOrigin(state, text)
                 selectOptionalDate(state, "Date", text.date, DATE)
                 selectElement(state, "Language", LANGUAGE, languages, text.language, true)
                 editTextFormat(state, text.format, hasAuthor)
+                editTextContent(state, text.content)
+
                 button("Update", updateLink)
             }
             back(backLink)

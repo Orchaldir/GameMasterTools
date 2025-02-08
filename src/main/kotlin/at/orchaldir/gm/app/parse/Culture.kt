@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
 import at.orchaldir.gm.core.model.culture.name.NamingConventionType.*
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.fashion.FashionId
-import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.GenderMap
@@ -41,7 +40,7 @@ fun parseCulture(
             parseOneOf(parameters, LIP_COLORS, Color::valueOf),
         ),
         parseClothingStyles(parameters),
-        parameters.getAll(HOLIDAY)?.map { HolidayId(it.toInt()) }?.toSet() ?: emptySet()
+        parseElements(parameters, HOLIDAY) { parseHolidayId(it) }
     )
 }
 

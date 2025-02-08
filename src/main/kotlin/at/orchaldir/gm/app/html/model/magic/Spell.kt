@@ -27,9 +27,7 @@ fun BODY.showSpell(
     spell: Spell,
 ) {
     optionalField(call, state, "Date", spell.date)
-    field("Language") {
-        optionalLink(call, state, spell.language)
-    }
+    optionalFieldLink("Language", call, state, spell.language)
     fieldSpellOrigin(call, state, spell.origin)
 }
 
@@ -39,7 +37,7 @@ private fun HtmlBlockTag.fieldSpellOrigin(
     origin: SpellOrigin,
 ) {
     field("Origin") {
-        showOrigin(call, state, origin)
+        showOrigin(call, state, origin, true)
     }
 }
 
@@ -47,6 +45,7 @@ fun HtmlBlockTag.showOrigin(
     call: ApplicationCall,
     state: State,
     origin: SpellOrigin,
+    showUndefined: Boolean = false,
 ) {
     when (origin) {
         is InventedSpell -> {
@@ -54,17 +53,13 @@ fun HtmlBlockTag.showOrigin(
             showCreator(call, state, origin.inventor)
         }
 
-        is ModifiedSpell -> {
-            +"Modified by "
-            showCreator(call, state, origin.inventor)
+        is ModifiedSpell -> showCreatorAndOriginal(call, state, origin.inventor, origin.original, "modified")
+        is TranslatedSpell -> showCreatorAndOriginal(call, state, origin.inventor, origin.original, "translated")
+        UndefinedSpellOrigin -> if (showUndefined) {
+            +"Undefined"
+        } else {
+            doNothing()
         }
-
-        is TranslatedSpell -> {
-            +"Translated by "
-            showCreator(call, state, origin.inventor)
-        }
-
-        UndefinedSpellOrigin -> doNothing()
     }
 }
 
@@ -73,11 +68,11 @@ private fun HtmlBlockTag.showCreatorAndOriginal(
     state: State,
     creator: Creator,
     original: SpellId,
+    verb: String,
 ) {
-    fieldCreator(call, state, creator, "Inventor")
-    field("Original Spell") {
-        link(call, state, original)
-    }
+    link(call, state, original)
+    +" $verb by "
+    showCreator(call, state, creator)
 }
 
 // edit
@@ -141,6 +136,8 @@ private fun HtmlBlockTag.selectInventor(
 // parse
 
 fun parseSpellId(parameters: Parameters, param: String) = SpellId(parseInt(parameters, param))
+
+fun parseSpellId(value: String) = SpellId(value.toInt())
 
 fun parseSpell(parameters: Parameters, state: State, id: SpellId) = Spell(
     id,

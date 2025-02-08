@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.REFERENCE
 import at.orchaldir.gm.app.html.model.parseComplexName
 import at.orchaldir.gm.app.html.model.parseCreator
 import at.orchaldir.gm.app.html.model.parseOptionalDate
+import at.orchaldir.gm.app.html.model.text.parseTextContent
 import at.orchaldir.gm.app.html.model.text.parseTextFormat
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -26,6 +27,7 @@ fun parseText(parameters: Parameters, state: State, id: TextId) =
         parseOptionalDate(parameters, state, DATE),
         parseLanguageId(parameters, LANGUAGE),
         parseTextFormat(parameters),
+        parseTextContent(parameters),
     )
 
 private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, TextOriginType.Original)) {

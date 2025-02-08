@@ -15,6 +15,8 @@ import at.orchaldir.gm.core.model.magic.SPELL_TYPE
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.util.SortSpell
+import at.orchaldir.gm.core.selector.item.countTexts
+import at.orchaldir.gm.core.selector.item.getTextsContaining
 import at.orchaldir.gm.core.selector.magic.canDeleteSpell
 import at.orchaldir.gm.core.selector.util.sortSpells
 import io.ktor.http.*
@@ -156,6 +158,7 @@ private fun HTML.showAllSpells(
                 th { +"Date" }
                 th { +"Language" }
                 th { +"Origin" }
+                th { +"Texts" }
             }
             spells.forEach { spell ->
                 tr {
@@ -163,6 +166,7 @@ private fun HTML.showAllSpells(
                     td { showOptionalDate(call, state, spell.date) }
                     td { optionalLink(call, state, spell.language) }
                     td { showOrigin(call, state, spell.origin) }
+                    tdSkipZero(state.countTexts(spell.id))
                 }
             }
         }
@@ -187,6 +191,9 @@ private fun HTML.showSpellDetails(
     simpleHtml("Spell: ${spell.name(state)}") {
 
         showSpell(call, state, spell)
+        showList("Texts containing it", state.getTextsContaining(spell.id)) { text ->
+            link(call, text.id, text.getNameWithDate(state))
+        }
 
         action(editLink, "Edit")
 
