@@ -770,7 +770,8 @@
     "cause": {
      "type": "Accident"
     }
-   }
+   },
+   "culture": 2
   },
   "19": {
    "id": 19,
