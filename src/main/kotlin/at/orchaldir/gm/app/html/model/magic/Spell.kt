@@ -54,16 +54,8 @@ fun HtmlBlockTag.showOrigin(
             showCreator(call, state, origin.inventor)
         }
 
-        is ModifiedSpell -> {
-            +"Modified by "
-            showCreator(call, state, origin.inventor)
-        }
-
-        is TranslatedSpell -> {
-            +"Translated by "
-            showCreator(call, state, origin.inventor)
-        }
-
+        is ModifiedSpell -> showCreatorAndOriginal(call, state, origin.inventor, origin.original, "modified")
+        is TranslatedSpell -> showCreatorAndOriginal(call, state, origin.inventor, origin.original, "translated")
         UndefinedSpellOrigin -> doNothing()
     }
 }
@@ -73,11 +65,11 @@ private fun HtmlBlockTag.showCreatorAndOriginal(
     state: State,
     creator: Creator,
     original: SpellId,
+    verb: String,
 ) {
-    fieldCreator(call, state, creator, "Inventor")
-    field("Original Spell") {
-        link(call, state, original)
-    }
+    link(call, state, original)
+    +" $verb by "
+    showCreator(call, state, creator)
 }
 
 // edit

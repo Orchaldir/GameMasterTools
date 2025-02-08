@@ -6,12 +6,17 @@
    "name": "Summon Big Brother",
    "language": 0,
    "origin": {
-    "type": "Invented",
+    "type": "Translated",
     "inventor": {
      "type": "Organization",
      "organization": 0
-    }
+    },
+    "original": 1
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Summon Dark Young"
   }
  }
 }
