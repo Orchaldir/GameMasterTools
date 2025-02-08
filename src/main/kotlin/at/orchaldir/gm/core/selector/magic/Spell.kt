@@ -10,12 +10,12 @@ import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteSpell(spell: SpellId) = getSpellsBasedOn(spell).isEmpty()
 
-fun countEachLanguage(texts: Collection<Spell>) = texts
+fun countEachLanguage(spells: Collection<Spell>) = spells
     .filter { it.language != null }
     .groupingBy { it.language!! }
     .eachCount()
 
-fun countSpellOrigin(texts: Collection<Spell>) = texts
+fun countSpellOrigin(spells: Collection<Spell>) = spells
     .groupingBy { it.origin.getType() }
     .eachCount()
 

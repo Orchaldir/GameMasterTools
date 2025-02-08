@@ -21,6 +21,11 @@ sealed class TextContent {
         is AbstractText -> spells
         UndefinedTextContent -> emptySet()
     }
+
+    fun contains(spell: SpellId) = when (this) {
+        is AbstractText -> spells.contains(spell)
+        UndefinedTextContent -> false
+    }
 }
 
 @Serializable
