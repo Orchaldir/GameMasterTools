@@ -183,6 +183,13 @@ class TextTest {
 
                 assertIllegalArgument("The abstract text requires at least 1 pages!") { REDUCER.invoke(STATE, action) }
             }
+
+            @Test
+            fun `Unknown spell`() {
+                val action = UpdateText(Text(TEXT_ID_0, content = AbstractText(100, setOf(SPELL_ID_0))))
+
+                assertIllegalArgument("Contains unknown Spell 0!") { REDUCER.invoke(STATE, action) }
+            }
         }
     }
 

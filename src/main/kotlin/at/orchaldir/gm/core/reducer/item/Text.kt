@@ -31,7 +31,7 @@ val UPDATE_TEXT: Reducer<UpdateText, State> = { state, action ->
     state.getTextStorage().require(action.text.id)
     checkOrigin(state, action.text)
     checkTextFormat(action.text.format)
-    checkTextContent(action.text.content)
+    checkTextContent(state, action.text.content)
 
     noFollowUps(state.updateStorage(state.getTextStorage().update(action.text)))
 }
@@ -89,10 +89,14 @@ private fun checkScrollHandle(handle: ScrollHandle) {
     require(handle.segments.isNotEmpty()) { "A scroll handle needs at least 1 segment!" }
 }
 
-private fun checkTextContent(content: TextContent) {
+private fun checkTextContent(
+    state: State,
+    content: TextContent,
+) {
     when (content) {
         is AbstractText -> {
             require(content.pages >= MIN_CONTENT_PAGES) { "The abstract text requires at least $MIN_CONTENT_PAGES pages!" }
+            content.spells.forEach { state.getSpellStorage().require(it) { "Contains unknown Spell ${it.value}!" } }
         }
 
         UndefinedTextContent -> doNothing()
