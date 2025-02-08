@@ -3,7 +3,11 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Summon Big Brother",
+   "name": "Play with Big Brother",
+   "date": {
+    "type": "Decade",
+    "decade": 180
+   },
    "language": 0,
    "origin": {
     "type": "Translated",
@@ -33,6 +37,10 @@
   "5": {
    "id": 5,
    "name": "Call Mother",
+   "date": {
+    "type": "Decade",
+    "decade": 181
+   },
    "language": 0,
    "origin": {
     "type": "Translated",
