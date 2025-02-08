@@ -60,8 +60,8 @@ fun countEachHousingStatus(characters: Collection<Character>) = characters
     .groupingBy { it.housingStatus.current.getType() }
     .eachCount()
 
-fun countEachLanguage(characters: Collection<Character>) = characters
-    .flatMap { it.languages.keys }
+fun State.countEachLanguage(characters: Collection<Character>) = characters
+    .flatMap { getKnownLanguages(it).keys }
     .groupingBy { it }
     .eachCount()
 
