@@ -275,16 +275,7 @@ private fun HTML.showLanguageEditor(
             }
             when (val origin = language.origin) {
                 is CombinedLanguage -> {
-                    possibleParents.sortedBy { it.name }.forEach { l ->
-                        p {
-                            checkBoxInput {
-                                name = LANGUAGES
-                                value = l.id.value.toString()
-                                checked = origin.parents.contains(l.id)
-                                +l.name
-                            }
-                        }
-                    }
+                    selectElements(state, LANGUAGES, possibleParents.sortedBy { it.name }, origin.parents)
                 }
 
                 is EvolvedLanguage -> selectElement(state, "Parent", LANGUAGES, possibleParents, origin.parent)

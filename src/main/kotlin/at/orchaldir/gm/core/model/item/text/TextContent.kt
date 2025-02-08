@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.text
 
+import at.orchaldir.gm.core.model.magic.SpellId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -21,6 +22,7 @@ sealed class TextContent {
 @SerialName("AbstractText")
 data class AbstractText(
     val pages: Int,
+    val spells: Set<SpellId> = emptySet(),
 ) : TextContent()
 
 @Serializable

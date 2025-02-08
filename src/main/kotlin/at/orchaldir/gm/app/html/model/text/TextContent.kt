@@ -1,12 +1,7 @@
 package at.orchaldir.gm.app.html.model.text
 
-import at.orchaldir.gm.app.CONTENT
-import at.orchaldir.gm.app.FORMAT
-import at.orchaldir.gm.app.PAGES
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
@@ -15,11 +10,14 @@ import at.orchaldir.gm.core.model.item.text.AbstractText
 import at.orchaldir.gm.core.model.item.text.TextContent
 import at.orchaldir.gm.core.model.item.text.TextContentType
 import at.orchaldir.gm.core.model.item.text.UndefinedTextContent
+import at.orchaldir.gm.core.model.magic.SpellId
+import at.orchaldir.gm.core.selector.util.sortSpells
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 
 // show
@@ -35,6 +33,9 @@ fun BODY.showTextContent(
         when (content) {
             is AbstractText -> {
                 field("Pages", content.pages)
+                showList("Spell", content.spells) { spell ->
+                    link(call, state, spell)
+                }
             }
 
             UndefinedTextContent -> doNothing()
@@ -55,11 +56,20 @@ fun FORM.editTextContent(
             UndefinedTextContent -> doNothing()
             is AbstractText -> {
                 selectInt("Pages", content.pages, 1, 10000, 1, combine(CONTENT, PAGES))
+                editSpells(state, content.spells)
             }
         }
     }
 }
 
+private fun HtmlBlockTag.editSpells(
+    state: State,
+    spells: Set<SpellId>,
+) {
+    showDetails("Spells", true) {
+        selectElements(state, SPELLS, state.sortSpells(), spells)
+    }
+}
 
 // parse
 
