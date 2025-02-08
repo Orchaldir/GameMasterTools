@@ -16,6 +16,11 @@ sealed class TextContent {
         is AbstractText -> TextContentType.AbstractText
         UndefinedTextContent -> TextContentType.Undefined
     }
+
+    fun spells() = when (this) {
+        is AbstractText -> spells
+        UndefinedTextContent -> emptySet()
+    }
 }
 
 @Serializable

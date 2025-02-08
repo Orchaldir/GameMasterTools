@@ -174,6 +174,7 @@ private fun HTML.showAllTexts(
                 th { +"Creator" }
                 th { +"Language" }
                 th { +"Format" }
+                th { +"Spells" }
             }
             texts.forEach { text ->
                 tr {
@@ -183,6 +184,7 @@ private fun HTML.showAllTexts(
                     td { showCreator(call, state, text.origin.creator()) }
                     td { link(call, state, text.language) }
                     td { +text.format.getType().toString() }
+                    tdSkipZero(text.content.spells().size)
                 }
             }
         }
@@ -249,7 +251,7 @@ private fun HTML.showTextDetails(
         showTextContent(call, state, text.content)
 
         showList("Translations", state.getTranslationsOf(text.id)) { text ->
-            link(call, state, text)
+            link(call, text.id, text.getNameWithDate(state))
         }
 
         action(editLink, "Edit")
