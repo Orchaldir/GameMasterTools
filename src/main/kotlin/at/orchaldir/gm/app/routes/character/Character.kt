@@ -443,7 +443,7 @@ fun BODY.showLanguages(
     state: State,
     character: Character,
 ) {
-    showMap("Known Languages", character.languages) { id, level ->
+    showMap("Known Languages", state.getKnownLanguages(character)) { id, level ->
         link(call, state, id)
         +": $level"
     }
