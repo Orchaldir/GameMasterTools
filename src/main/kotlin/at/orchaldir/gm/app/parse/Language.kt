@@ -28,8 +28,8 @@ fun parseLanguage(parameters: Parameters, state: State, id: LanguageId): Languag
 
 private fun parseOrigin(parameters: Parameters, state: State) = when (parse(parameters, ORIGIN, Original)) {
     Combined -> {
-        val parents = parameters.getAll(LANGUAGES)?.map { LanguageId(it.toInt()) }?.toSet()
-        CombinedLanguage(parents ?: emptySet())
+        val parents = parseElements(parameters, LANGUAGES) { parseLanguageId(it) }
+        CombinedLanguage(parents)
     }
 
     Evolved -> {

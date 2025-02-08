@@ -2,7 +2,9 @@ package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.model.parseDistance
+import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
@@ -159,3 +161,9 @@ fun parseOptionalString(parameters: Parameters, param: String): String? {
 
     return name
 }
+
+fun <ID : Id<ID>> parseElements(parameters: Parameters, param: String, parseId: (String) -> ID) =
+    parameters.getAll(param)
+        ?.map { parseId(it) }
+        ?.toSet()
+        ?: emptySet()

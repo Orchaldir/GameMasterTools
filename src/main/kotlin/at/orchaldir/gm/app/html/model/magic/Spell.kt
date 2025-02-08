@@ -142,6 +142,8 @@ private fun HtmlBlockTag.selectInventor(
 
 fun parseSpellId(parameters: Parameters, param: String) = SpellId(parseInt(parameters, param))
 
+fun parseSpellId(value: String) = SpellId(value.toInt())
+
 fun parseSpell(parameters: Parameters, state: State, id: SpellId) = Spell(
     id,
     parameters.getOrFail(NAME),

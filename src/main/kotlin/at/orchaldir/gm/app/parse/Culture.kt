@@ -41,7 +41,7 @@ fun parseCulture(
             parseOneOf(parameters, LIP_COLORS, Color::valueOf),
         ),
         parseClothingStyles(parameters),
-        parameters.getAll(HOLIDAY)?.map { HolidayId(it.toInt()) }?.toSet() ?: emptySet()
+        parseElements(parameters, HOLIDAY) { parseHolidayId(it) }
     )
 }
 
