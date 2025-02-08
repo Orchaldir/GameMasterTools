@@ -37,7 +37,7 @@ fun State.canDelete(character: CharacterId) = getChildren(character).isEmpty()
 
 fun State.countCharacters(language: LanguageId) = getCharacterStorage()
     .getAll()
-    .count { c -> c.languages.containsKey(language) }
+    .count { c -> getKnownLanguages(c).containsKey(language) }
 
 fun countEachCauseOfDeath(characters: Collection<Character>) = characters
     .filter { it.vitalStatus is Dead }
@@ -75,7 +75,7 @@ fun countEachPersonality(characters: Collection<Character>) = characters
 fun State.getCharacters(culture: CultureId) = getCharacterStorage().getAll().filter { c -> c.culture == culture }
 
 fun State.getCharacters(language: LanguageId) =
-    getCharacterStorage().getAll().filter { c -> c.languages.containsKey(language) }
+    getCharacterStorage().getAll().filter { c -> getKnownLanguages(c).containsKey(language) }
 
 fun State.getCharacters(trait: PersonalityTraitId) =
     getCharacterStorage().getAll().filter { c -> c.personality.contains(trait) }
