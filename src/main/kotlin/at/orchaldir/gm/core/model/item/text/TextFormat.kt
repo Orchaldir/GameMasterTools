@@ -12,6 +12,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 const val MIN_PAGES = 10
+const val MIN_CONTENT_PAGES = 1
 
 enum class TextFormatType {
     Book,

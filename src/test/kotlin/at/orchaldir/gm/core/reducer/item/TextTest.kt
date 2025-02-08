@@ -174,6 +174,16 @@ class TextTest {
                 assertIllegalArgument("A scroll handle needs at least 1 segment!") { REDUCER.invoke(STATE, action) }
             }
         }
+
+        @Nested
+        inner class ContentTest {
+            @Test
+            fun `Too few pages`() {
+                val action = UpdateText(Text(TEXT_ID_0, content = AbstractText(0)))
+
+                assertIllegalArgument("The abstract text requires at least 1 pages!") { REDUCER.invoke(STATE, action) }
+            }
+        }
     }
 
 }
