@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollHandle
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -27,6 +28,7 @@ private val STATE = State(
         Storage(CALENDAR0),
         Storage(Character(CHARACTER_ID_0)),
         Storage(Language(LANGUAGE_ID_0)),
+        Storage(Spell(SPELL_ID_0)),
     )
 )
 
@@ -186,9 +188,17 @@ class TextTest {
 
             @Test
             fun `Unknown spell`() {
-                val action = UpdateText(Text(TEXT_ID_0, content = AbstractText(100, setOf(SPELL_ID_0))))
+                val action = UpdateText(Text(TEXT_ID_0, content = AbstractText(100, setOf(SPELL_ID_1))))
 
-                assertIllegalArgument("Contains unknown Spell 0!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("Contains unknown Spell 1!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Known spell`() {
+                val text = Text(TEXT_ID_0, content = AbstractText(100, setOf(SPELL_ID_0)))
+                val action = UpdateText(text)
+
+                assertEquals(text, REDUCER.invoke(STATE, action).first.getTextStorage().get(TEXT_ID_0))
             }
         }
     }
