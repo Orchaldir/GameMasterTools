@@ -1,9 +1,14 @@
 package at.orchaldir.gm.app.html.model.text
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.CONTENT
+import at.orchaldir.gm.app.PAGES
+import at.orchaldir.gm.app.SPELLS
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.magic.parseSpellId
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseElements
+import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.AbstractText
 import at.orchaldir.gm.core.model.item.text.TextContent
