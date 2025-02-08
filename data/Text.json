@@ -210,6 +210,24 @@
      "height": 200
     }
    }
+  },
+  "4": {
+   "id": 4,
+   "name": {
+    "type": "Simple",
+    "name": "The Young's Mi-go Disks"
+   },
+   "language": 8,
+   "content": {
+    "type": "AbstractText",
+    "pages": 100,
+    "spells": [
+     2,
+     4,
+     3,
+     1
+    ]
+   }
   }
  }
 }
