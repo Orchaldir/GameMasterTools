@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.holiday.Holiday
+import at.orchaldir.gm.core.model.item.text.TextContentType
 import at.orchaldir.gm.core.model.time.DisplayYear
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.utils.doNothing
@@ -215,9 +216,19 @@ private fun BODY.showDays(
 }
 
 private fun BODY.showMonths(calendar: Calendar) {
-    showList("Months", calendar.months) { month ->
-        field(month.name, "${month.days} days")
+    when (val months = calendar.months) {
+        is ComplexMonths -> showList("Months", months.months) { month ->
+            field(month.name, "${month.days} days")
+        }
+
+        is SimpleMonths -> {
+            showList("Months", months.months) { month ->
+                +month
+            }
+            field("Days per Month", months.daysPerMonth)
+        }
     }
+
     field("Days per Year", calendar.getDaysPerYear())
 }
 
@@ -246,13 +257,19 @@ private fun HTML.showCalendarEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
+
             selectName(calendar.name)
             editOrigin(state, calendar)
+
             h2 { +"Parts" }
+
             editDays(calendar, holidays)
             editMonths(calendar, holidays)
+
             h2 { +"Eras" }
+
             editEras(calendar, state)
+
             button("Update", updateLink)
         }
         back(backLink)
@@ -266,20 +283,8 @@ private fun FORM.editDays(
     val days = calendar.days
     val supportsDayOfTheMonth = supportsDayOfTheMonth(holidays)
 
-    field("Days") {
-        select {
-            id = DAYS
-            name = DAYS
-            onChange = ON_CHANGE_SCRIPT
-            DaysType.entries.forEach {
-                option {
-                    label = it.name
-                    value = it.name
-                    disabled = it == DaysType.DayOfTheMonth && !supportsDayOfTheMonth
-                    selected = it == days.getType()
-                }
-            }
-        }
+    selectValue("Days", DAYS, DaysType.entries, days.getType(), true) {
+        it == DaysType.DayOfTheMonth && !supportsDayOfTheMonth
     }
     when (days) {
         DayOfTheMonth -> doNothing()
@@ -297,17 +302,33 @@ private fun FORM.editDays(
 
 private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
     val minMonths = getMinNumberOfMonths(holidays)
-    selectInt("Months", calendar.months.size, minMonths, 100, 1, MONTHS, true)
+    selectValue("Months Type", combine(MONTHS, TYPE), MonthsType.entries, calendar.months.getType(), true)
+    selectInt("Months", calendar.months.getSize(), minMonths, 100, 1, MONTHS, true)
 
-    calendar.months.withIndex().forEach { (index, month) ->
-        val minDays = getMinNumberOfDays(holidays, index)
-        p {
-            selectText(month.name, combine(MONTH, NAME, index))
-            +": "
-            selectInt(month.days, minDays, 100, 1, combine(MONTH, DAYS, index))
-            +"days"
+    when (val months = calendar.months) {
+        is ComplexMonths -> months.months.withIndex().forEach { (index, month) ->
+            val minDays = getMinNumberOfDays(holidays, index)
+            p {
+                selectText(month.name, combine(MONTH, NAME, index))
+                +": "
+                selectInt(month.days, minDays, 100, 1, combine(MONTH, DAYS, index))
+                +"days"
+            }
+        }
+
+        is SimpleMonths -> {
+            val minDays = getMinNumberOfDays(holidays)
+
+            months.months.withIndex().forEach { (index, month) ->
+                p {
+                    selectText(month, combine(MONTH, NAME, index))
+                }
+            }
+            selectInt("Days per Month", months.daysPerMonth, minDays, 100, 1, combine(MONTH, DAYS))
         }
     }
+
+    field("Days per Year", calendar.getDaysPerYear())
 }
 
 private fun FORM.editOrigin(

@@ -63,17 +63,36 @@ private fun parseWeekdays(parameters: Parameters): List<WeekDay> {
         .map { WeekDay(it) }
 }
 
-private fun parseMonths(parameters: Parameters): List<Month> {
-    val count = parseInt(parameters, MONTHS, 2)
+private fun parseMonths(parameters: Parameters) = when (parse(parameters, combine(MONTHS, TYPE), MonthsType.Simple)) {
+    MonthsType.Simple -> {
+        val count = parseInt(parameters, MONTHS, 2)
 
-    return (0..<count)
-        .map { parseMonth(parameters, it) }
+        SimpleMonths(
+            parseDaysPerMonth(parameters, combine(MONTH, DAYS)),
+            (0..<count)
+                .map { parseMonthName(parameters, it) },
+        )
+    }
+
+    MonthsType.Complex -> {
+        val count = parseInt(parameters, MONTHS, 2)
+
+        ComplexMonths(
+            (0..<count)
+                .map { parseComplexMonth(parameters, it) }
+        )
+    }
 }
 
-private fun parseMonth(parameters: Parameters, it: Int) = Month(
-    parseOptionalString(parameters, combine(MONTH, NAME, it)) ?: "${it + 1}.Month",
-    parseInt(parameters, combine(MONTH, DAYS, it), 2)
+private fun parseComplexMonth(parameters: Parameters, it: Int) = Month(
+    parseMonthName(parameters, it),
+    parseDaysPerMonth(parameters, combine(MONTH, DAYS, it)),
 )
+
+private fun parseDaysPerMonth(parameters: Parameters, param: String) = parseInt(parameters, param, 2)
+
+private fun parseMonthName(parameters: Parameters, it: Int) =
+    parseOptionalString(parameters, combine(MONTH, NAME, it)) ?: "${it + 1}.Month"
 
 private fun parseOrigin(parameters: Parameters) = when (parse(parameters, ORIGIN, Original)) {
     Improved -> {

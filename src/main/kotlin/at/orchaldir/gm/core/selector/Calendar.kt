@@ -44,6 +44,20 @@ fun getMinNumberOfDays(holidays: List<Holiday>, monthIndex: Int): Int {
     return minNumber
 }
 
+fun getMinNumberOfDays(holidays: List<Holiday>): Int {
+    var minNumber = 2
+
+    holidays.forEach { holiday ->
+        when (holiday.relativeDate) {
+            is DayInMonth -> minNumber = updateMinNumber(minNumber, holiday.relativeDate.dayIndex)
+            is DayInYear -> minNumber = updateMinNumber(minNumber, holiday.relativeDate.dayIndex)
+            is WeekdayInMonth -> doNothing()
+        }
+    }
+
+    return minNumber
+}
+
 private fun updateMinNumber(minNumber: Int, dayIndex: Int) = min(minNumber, dayIndex + 1)
 
 fun getMinNumberOfMonths(holidays: List<Holiday>): Int {

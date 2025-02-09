@@ -42,7 +42,7 @@ data class DayInMonth(val dayIndex: Int) : RelativeDate() {
 @SerialName("DayInYear")
 data class DayInYear(val dayIndex: Int, val monthIndex: Int) : RelativeDate() {
     override fun display(calendar: Calendar): String {
-        val month = calendar.months[monthIndex]
+        val month = calendar.months.getMonth(monthIndex)
         val day = dayIndex + 1
 
         return "${day}.${month.name}"
@@ -59,7 +59,7 @@ data class WeekdayInMonth(val weekdayIndex: Int, val weekInMonthIndex: Int, val 
         when (calendar.days) {
             DayOfTheMonth -> error("WeekdayInMonth doesn't support DayOfTheMonth!")
             is Weekdays -> {
-                val month = calendar.months[monthIndex]
+                val month = calendar.months.getMonth(monthIndex)
                 val count = weekInMonthIndex + 1
                 val weekday = calendar.days.weekDays[weekdayIndex]
 

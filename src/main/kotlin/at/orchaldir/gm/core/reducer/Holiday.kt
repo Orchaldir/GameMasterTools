@@ -62,6 +62,6 @@ private fun checkMonth(
     calendar: Calendar,
     monthIndex: Int,
 ): Month {
-    require(monthIndex < calendar.months.size) { "Holiday is in an unknown month!" }
-    return calendar.months[monthIndex]
+    require(monthIndex < calendar.months.getSize()) { "Holiday is in an unknown month!" }
+    return calendar.months.getMonth(monthIndex)
 }

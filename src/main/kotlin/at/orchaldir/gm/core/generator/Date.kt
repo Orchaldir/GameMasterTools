@@ -16,8 +16,8 @@ class DateGenerator(
             this(numberGenerator, state.getCalendarStorage().getOrThrow(id))
 
     fun generateMonthAndDay(date: Date): Day {
-        val monthIndex = numberGenerator.getNumber() % calendar.months.size
-        val dayIndex = numberGenerator.getNumber() % calendar.months[monthIndex].days
+        val monthIndex = numberGenerator.getNumber() % calendar.months.getSize()
+        val dayIndex = numberGenerator.getNumber() % calendar.months.getDaysPerMonth(monthIndex)
 
         val generatedDisplayDate = when (date) {
             is Day -> {
