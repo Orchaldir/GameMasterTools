@@ -2,10 +2,7 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.field
-import at.orchaldir.gm.app.html.model.fieldCreator
-import at.orchaldir.gm.app.html.model.selectCreator
-import at.orchaldir.gm.app.html.model.selectDate
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.parseLanguage
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
@@ -143,6 +140,7 @@ private fun HTML.showAllLanguages(
         table {
             tr {
                 th { +"Name" }
+                th { +"Origin" }
                 th { +"Characters" }
                 th { +"Cultures" }
                 th { +"Spells" }
@@ -151,6 +149,7 @@ private fun HTML.showAllLanguages(
             languages.forEach { language ->
                 tr {
                     td { link(call, state, language) }
+                    td { displayOrigin(call, state, language) }
                     tdSkipZero(state.countCharacters(language.id))
                     tdSkipZero(state.countCultures(language.id))
                     tdSkipZero(state.countSpells(language.id))
@@ -180,29 +179,7 @@ private fun HTML.showLanguageDetails(
 
     simpleHtml("Language: ${language.name}") {
         field("Name", language.name)
-        when (val origin = language.origin) {
-            is CombinedLanguage -> {
-                field("Origin", "Combined")
-                showList("Parent Languages", origin.parents) { id ->
-                    link(call, state, id)
-                }
-            }
-
-            is EvolvedLanguage -> {
-                field("Origin", "Evolved")
-                fieldLink("Parent Language", call, state, origin.parent)
-            }
-
-            is InventedLanguage -> {
-                field("Origin", "Invented")
-                fieldCreator(call, state, origin.inventor, "Inventor")
-                field(call, state, "Date", origin.date)
-            }
-
-            OriginalLanguage -> {
-                field("Origin", "Original")
-            }
-        }
+        showOrigin(call, state, language)
         showList("Child Languages", children) { language ->
             link(call, language)
         }
@@ -224,6 +201,51 @@ private fun HTML.showLanguageDetails(
             action(deleteLink, "Delete")
         }
         back(backLink)
+    }
+}
+
+private fun HtmlBlockTag.showOrigin(
+    call: ApplicationCall,
+    state: State,
+    language: Language,
+) {
+    field("Origin") {
+        displayOrigin(call, state, language)
+    }
+}
+
+private fun HtmlBlockTag.displayOrigin(
+    call: ApplicationCall,
+    state: State,
+    language: Language,
+) {
+    when (val origin = language.origin) {
+        is CombinedLanguage -> {
+            +"Combines "
+            var isFirst = true
+            origin.parents.forEach { language ->
+                if (isFirst) {
+                    isFirst = false
+                } else {
+                    +", "
+                }
+                link(call, state, language)
+            }
+        }
+
+        is EvolvedLanguage -> {
+            +"Evolved from "
+            link(call, state, origin.parent)
+        }
+
+        is InventedLanguage -> {
+            +"Invented by "
+            showCreator(call, state, origin.inventor)
+        }
+
+        OriginalLanguage -> {
+            +"Original"
+        }
     }
 }
 
