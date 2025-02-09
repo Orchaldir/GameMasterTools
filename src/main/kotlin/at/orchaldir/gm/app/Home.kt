@@ -25,8 +25,6 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.h2
 import kotlinx.html.h3
-import kotlinx.html.li
-import kotlinx.html.ul
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -46,11 +44,9 @@ fun Application.configureRouting() {
                 simpleHtml(APP_TITLE) {
                     h2 { +"Elements" }
                     fieldStorageLink(call, state.getCharacterStorage(), CharacterRoutes.All())
-                    fieldStorageLink(call, state.getCalendarStorage(), CalendarRoutes())
                     fieldStorageLink(call, state.getCultureStorage(), CultureRoutes())
                     fieldStorageLink(call, state.getFashionStorage(), FashionRoutes())
                     fieldStorageLink(call, state.getFontStorage(), FontRoutes.All())
-                    fieldStorageLink(call, state.getHolidayStorage(), HolidayRoutes())
                     fieldStorageLink(call, state.getLanguageStorage(), LanguageRoutes())
                     fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes())
                     fieldStorageLink(call, state.getNameListStorage(), NameListRoutes())
@@ -66,6 +62,11 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getJobStorage(), JobRoutes())
                     h3 { +"Magic" }
                     fieldStorageLink(call, state.getSpellStorage(), SpellRoutes.All())
+                    h3 { +"Time" }
+                    fieldStorageLink(call, state.getCalendarStorage(), CalendarRoutes())
+                    fieldStorageLink(call, state.getHolidayStorage(), HolidayRoutes())
+                    action(timeLink, "Time")
+                    action(eventsLink, "Events")
                     h3 { +"World" }
                     fieldStorageLink(call, state.getArchitecturalStyleStorage(), ArchitecturalStyleRoutes.All())
                     fieldStorageLink(call, state.getBuildingStorage(), BuildingRoutes.All())
@@ -75,15 +76,6 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getStreetStorage(), StreetRoutes())
                     fieldStorageLink(call, state.getStreetTemplateStorage(), StreetTemplateRoutes())
                     fieldStorageLink(call, state.getTownStorage(), TownRoutes())
-                    h2 { +"Data" }
-                    ul {
-                        li {
-                            action(timeLink, "Time")
-                        }
-                        li {
-                            action(eventsLink, "Events")
-                        }
-                    }
                 }
             }
         }
