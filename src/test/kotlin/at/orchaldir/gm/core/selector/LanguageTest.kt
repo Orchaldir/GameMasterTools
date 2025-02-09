@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector
 
+import at.orchaldir.gm.CULTURE_ID_0
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
@@ -56,6 +57,7 @@ class LanguageTest {
             val state = State(
                 listOf(
                     Storage(Character(CHARACTER0, languages = mapOf(ID0 to Native))),
+                    Storage(Culture(CULTURE_ID_0)),
                     Storage(listOf(Language(ID0), Language(ID1))),
                 )
             )
