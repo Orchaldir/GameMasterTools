@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.holiday.Holiday
-import at.orchaldir.gm.core.model.item.text.TextContentType
 import at.orchaldir.gm.core.model.time.DisplayYear
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.utils.doNothing
@@ -229,6 +228,7 @@ private fun BODY.showMonths(calendar: Calendar) {
         }
     }
 
+    field("Months per Year", calendar.months.getSize())
     field("Days per Year", calendar.getDaysPerYear())
 }
 
@@ -328,6 +328,7 @@ private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
         }
     }
 
+    field("Months per Year", calendar.months.getSize())
     field("Days per Year", calendar.getDaysPerYear())
 }
 
@@ -338,25 +339,10 @@ private fun FORM.editOrigin(
     val origin = calendar.origin
     val possibleParents = state.getPossibleParents(calendar.id)
 
-    field("Origin") {
-        select {
-            id = ORIGIN
-            name = ORIGIN
-            onChange = ON_CHANGE_SCRIPT
-            CalendarOriginType.entries.forEach {
-                option {
-                    label = it.name
-                    value = it.name
-                    disabled = when (it) {
-                        CalendarOriginType.Improved -> possibleParents.isEmpty()
-                        CalendarOriginType.Original -> false
-                    }
-                    selected = when (it) {
-                        CalendarOriginType.Improved -> origin is ImprovedCalendar
-                        CalendarOriginType.Original -> origin is OriginalCalendar
-                    }
-                }
-            }
+    selectValue("Origin", ORIGIN, CalendarOriginType.entries, origin.getType(), true) {
+        when (it) {
+            CalendarOriginType.Improved -> possibleParents.isEmpty()
+            CalendarOriginType.Original -> false
         }
     }
     when (origin) {

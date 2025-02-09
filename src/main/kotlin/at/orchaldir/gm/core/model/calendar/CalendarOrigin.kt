@@ -9,7 +9,14 @@ enum class CalendarOriginType {
 }
 
 @Serializable
-sealed class CalendarOrigin
+sealed class CalendarOrigin {
+
+    fun getType() = when (this) {
+        is ImprovedCalendar -> CalendarOriginType.Improved
+        OriginalCalendar -> CalendarOriginType.Original
+    }
+
+}
 
 @Serializable
 @SerialName("Improved")
