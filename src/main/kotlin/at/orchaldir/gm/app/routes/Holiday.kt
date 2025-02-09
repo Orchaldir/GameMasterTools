@@ -4,6 +4,8 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.selectDayIndex
 import at.orchaldir.gm.app.html.model.selectMonthIndex
+import at.orchaldir.gm.app.html.model.showCreator
+import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseHoliday
 import at.orchaldir.gm.core.action.CreateHoliday
@@ -17,6 +19,7 @@ import at.orchaldir.gm.core.model.calendar.Weekdays
 import at.orchaldir.gm.core.model.holiday.*
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCultures
+import at.orchaldir.gm.core.selector.getDefaultCalendar
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -58,7 +61,7 @@ fun Application.configureHolidayRouting() {
             logger.info { "Get all holidays" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllHolidays(call)
+                showAllHolidays(call, STORE.getState())
             }
         }
         get<HolidayRoutes.Details> { details ->
@@ -122,15 +125,32 @@ fun Application.configureHolidayRouting() {
     }
 }
 
-private fun HTML.showAllHolidays(call: ApplicationCall) {
-    val holiday = STORE.getState().getHolidayStorage().getAll().sortedBy { it.name }
+private fun HTML.showAllHolidays(
+    call: ApplicationCall,
+    state: State,
+) {
+    val calendar = state.getDefaultCalendar()
+    val holidays = state.getHolidayStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(HolidayRoutes.New())
 
     simpleHtml("Holidays") {
-        field("Count", holiday.size)
-        showList(holiday) { holiday ->
-            link(call, holiday)
+        field("Count", holidays.size)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Calendar" }
+                th { +"Date" }
+            }
+            holidays.forEach { holiday ->
+                tr {
+                    td { link(call, holiday) }
+                    td { link(call, state, holiday.calendar) }
+                    td { +holiday.relativeDate.display(calendar) }
+                }
+            }
         }
+
         action(createLink, "Add")
         back("/")
     }
@@ -147,7 +167,6 @@ private fun HTML.showHolidayDetails(
     val editLink = call.application.href(HolidayRoutes.Edit(holiday.id))
 
     simpleHtml("Holiday: ${holiday.name}") {
-        field("Name", holiday.name)
         fieldLink("Calendar", call, state, holiday.calendar)
         field("Relative Date", holiday.relativeDate.display(calendar))
         showList("Cultures", state.getCultures(holiday.id)) { culture ->
