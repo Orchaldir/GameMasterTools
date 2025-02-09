@@ -13,7 +13,16 @@ enum class LanguageOriginType {
 }
 
 @Serializable
-sealed class LanguageOrigin
+sealed class LanguageOrigin {
+
+    fun getType() = when (this) {
+        is CombinedLanguage -> LanguageOriginType.Combined
+        is EvolvedLanguage -> LanguageOriginType.Evolved
+        is InventedLanguage -> LanguageOriginType.Invented
+        OriginalLanguage -> LanguageOriginType.Original
+    }
+
+}
 
 @Serializable
 @SerialName("Combined")

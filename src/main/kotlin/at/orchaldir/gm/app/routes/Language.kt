@@ -1,9 +1,6 @@
 package at.orchaldir.gm.app.routes
 
-import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.LANGUAGES
-import at.orchaldir.gm.app.ORIGIN
-import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.field
 import at.orchaldir.gm.app.html.model.fieldCreator
@@ -116,7 +113,6 @@ fun Application.configureLanguageRouting() {
             val language = parseLanguage(call.receiveParameters(), state, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-
                 showLanguageEditor(call, state, language)
             }
         }
@@ -248,29 +244,12 @@ private fun HTML.showLanguageEditor(
             action = previewLink
             method = FormMethod.post
             selectName(language.name)
-            field("Origin") {
-                select {
-                    id = ORIGIN
-                    name = ORIGIN
-                    onChange = ON_CHANGE_SCRIPT
-                    LanguageOriginType.entries.forEach { origin ->
-                        option {
-                            label = origin.name
-                            value = origin.name
-                            disabled = when (origin) {
-                                LanguageOriginType.Combined -> possibleParents.size < 2
-                                LanguageOriginType.Evolved -> possibleParents.isEmpty()
-                                LanguageOriginType.Invented -> possibleInventors.isEmpty()
-                                LanguageOriginType.Original -> false
-                            }
-                            selected = when (origin) {
-                                LanguageOriginType.Combined -> language.origin is OriginalLanguage
-                                LanguageOriginType.Evolved -> language.origin is EvolvedLanguage
-                                LanguageOriginType.Invented -> language.origin is InventedLanguage
-                                LanguageOriginType.Original -> language.origin is CombinedLanguage
-                            }
-                        }
-                    }
+            selectValue("Origin", ORIGIN, LanguageOriginType.entries, language.origin.getType(), true) {
+                when (it) {
+                    LanguageOriginType.Combined -> possibleParents.size < 2
+                    LanguageOriginType.Evolved -> possibleParents.isEmpty()
+                    LanguageOriginType.Invented -> possibleInventors.isEmpty()
+                    LanguageOriginType.Original -> false
                 }
             }
             when (val origin = language.origin) {
