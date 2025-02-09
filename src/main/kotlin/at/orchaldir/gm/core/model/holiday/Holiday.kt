@@ -22,7 +22,7 @@ data class Holiday(
     val id: HolidayId,
     val name: String = "Holiday ${id.value}",
     val calendar: CalendarId = CalendarId(0),
-    val relativeDate: RelativeDate = FixedDayInYear(0, 0),
+    val relativeDate: RelativeDate = DayInYear(0, 0),
 ) : ElementWithSimpleName<HolidayId> {
 
     override fun id() = id

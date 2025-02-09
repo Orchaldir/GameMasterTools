@@ -16,7 +16,7 @@ class HolidayTest {
     @Nested
     inner class IsOnFixedDayTest {
 
-        private val relativeDate = FixedDayInYear(1, 1)
+        private val relativeDate = DayInYear(1, 1)
 
         @Test
         fun `Year 0`() {

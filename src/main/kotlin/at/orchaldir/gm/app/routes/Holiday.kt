@@ -4,8 +4,6 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.selectDayIndex
 import at.orchaldir.gm.app.html.model.selectMonthIndex
-import at.orchaldir.gm.app.html.model.showCreator
-import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseHoliday
 import at.orchaldir.gm.core.action.CreateHoliday
@@ -207,12 +205,12 @@ private fun HTML.showHolidayEditor(
 private fun FORM.selectRelativeDate(param: String, relativeDate: RelativeDate, calendar: Calendar) {
     selectValue("Relative Date", combine(param, TYPE), RelativeDateType.entries, relativeDate.getType(), true) { type ->
         when (type) {
-            RelativeDateType.FixedDayInYear -> false
+            RelativeDateType.DayInYear -> false
             RelativeDateType.WeekdayInMonth -> calendar.days.getType() == DaysType.DayOfTheMonth
         }
     }
     when (relativeDate) {
-        is FixedDayInYear -> {
+        is DayInYear -> {
             selectMonthIndex("Month", param, calendar, relativeDate.monthIndex)
             selectDayIndex(
                 "Day",

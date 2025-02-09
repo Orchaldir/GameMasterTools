@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.holiday.FixedDayInYear
+import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
@@ -73,12 +73,12 @@ class HolidayTest {
         }
 
         @Nested
-        inner class FixedDayInYearTest {
+        inner class DayInYearTest {
 
             @Test
             fun `In unknown month`() {
                 val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
-                val holiday = Holiday(ID0, relativeDate = FixedDayInYear(0, 2))
+                val holiday = Holiday(ID0, relativeDate = DayInYear(0, 2))
                 val action = UpdateHoliday(holiday)
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -87,7 +87,7 @@ class HolidayTest {
             @Test
             fun `Outside first month`() {
                 val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
-                val holiday = Holiday(ID0, relativeDate = FixedDayInYear(2, 0))
+                val holiday = Holiday(ID0, relativeDate = DayInYear(2, 0))
                 val action = UpdateHoliday(holiday)
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -96,7 +96,7 @@ class HolidayTest {
             @Test
             fun `Outside second month`() {
                 val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
-                val holiday = Holiday(ID0, relativeDate = FixedDayInYear(3, 1))
+                val holiday = Holiday(ID0, relativeDate = DayInYear(3, 1))
                 val action = UpdateHoliday(holiday)
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -107,7 +107,7 @@ class HolidayTest {
                 CALENDAR0.months.withIndex().forEach { month ->
                     repeat(month.value.days) { day ->
                         val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
-                        val holiday = Holiday(ID0, relativeDate = FixedDayInYear(day, month.index))
+                        val holiday = Holiday(ID0, relativeDate = DayInYear(day, month.index))
                         val action = UpdateHoliday(holiday)
 
                         assertEquals(holiday, REDUCER.invoke(state, action).first.getHolidayStorage().get(ID0))

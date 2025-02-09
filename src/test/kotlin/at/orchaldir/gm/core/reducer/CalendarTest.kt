@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.holiday.FixedDayInYear
+import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.utils.Storage
@@ -161,7 +161,7 @@ class CalendarTest {
 
         @Test
         fun `Update would make holiday invalid`() {
-            val holiday = Holiday(HOLIDAY0, calendar = ID0, relativeDate = FixedDayInYear(0, 2))
+            val holiday = Holiday(HOLIDAY0, calendar = ID0, relativeDate = DayInYear(0, 2))
             val state = State(listOf(Storage(holiday), Storage(Calendar(ID0))))
             val calendar = Calendar(ID0, months = VALID_MONTHS, origin = ImprovedCalendar(ID1))
             val action = UpdateCalendar(calendar)
@@ -171,7 +171,7 @@ class CalendarTest {
 
         @Test
         fun `Successful update with a holiday`() {
-            val holiday = Holiday(HOLIDAY0, calendar = ID0, relativeDate = FixedDayInYear(0, 0))
+            val holiday = Holiday(HOLIDAY0, calendar = ID0, relativeDate = DayInYear(0, 0))
             val state = State(listOf(Storage(holiday), Storage(Calendar(ID0))))
             val calendar = Calendar(ID0, months = VALID_MONTHS)
             val action = UpdateCalendar(calendar)

@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.calendar.MonthDefinition
 import at.orchaldir.gm.core.model.calendar.Weekdays
-import at.orchaldir.gm.core.model.holiday.FixedDayInYear
+import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.RelativeDate
 import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
@@ -42,7 +42,7 @@ val UPDATE_HOLIDAY: Reducer<UpdateHoliday, State> = { state, action ->
 
 fun checkRelativeDate(calendar: Calendar, relativeDate: RelativeDate) {
     when (relativeDate) {
-        is FixedDayInYear -> {
+        is DayInYear -> {
             val month = checkMonth(calendar, relativeDate.monthIndex)
             require(relativeDate.dayIndex < month.days) { "Holiday is outside the month ${month.name}!" }
         }

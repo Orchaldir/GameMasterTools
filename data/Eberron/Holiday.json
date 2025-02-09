@@ -5,7 +5,7 @@
    "id": 0,
    "name": "Onatar’s Flame",
    "relativeDate": {
-    "type": "FixedDayInYear",
+    "type": "DayInYear",
     "dayIndex": 6,
     "monthIndex": 0
    }
@@ -14,7 +14,7 @@
    "id": 1,
    "name": "Turrant’s Gift",
    "relativeDate": {
-    "type": "FixedDayInYear",
+    "type": "DayInYear",
     "dayIndex": 13,
     "monthIndex": 1
    }
@@ -23,7 +23,7 @@
    "id": 2,
    "name": "Winter’s End",
    "relativeDate": {
-    "type": "FixedDayInYear",
+    "type": "DayInYear",
     "dayIndex": 27,
     "monthIndex": 1
    }
@@ -32,7 +32,7 @@
    "id": 3,
    "name": "Sun’s Blessing",
    "relativeDate": {
-    "type": "FixedDayInYear",
+    "type": "DayInYear",
     "dayIndex": 14,
     "monthIndex": 2
    }
@@ -41,7 +41,7 @@
    "id": 4,
    "name": "Shargon’s Bargain",
    "relativeDate": {
-    "type": "FixedDayInYear",
+    "type": "DayInYear",
     "dayIndex": 12,
     "monthIndex": 3
    }
@@ -50,7 +50,7 @@
    "id": 5,
    "name": "Aureon’s Crown ",
    "relativeDate": {
-    "type": "FixedDayInYear",
+    "type": "DayInYear",
     "dayIndex": 25,
     "monthIndex": 4
    }
@@ -59,7 +59,7 @@
    "id": 6,
    "name": "Second Skin",
    "relativeDate": {
-    "type": "FixedDayInYear",
+    "type": "DayInYear",
     "dayIndex": 10,
     "monthIndex": 5
    }
@@ -68,7 +68,7 @@
    "id": 7,
    "name": "Brightblade",
    "relativeDate": {
-    "type": "FixedDayInYear",
+    "type": "DayInYear",
     "dayIndex": 11,
     "monthIndex": 5
    }
@@ -77,7 +77,7 @@
    "id": 8,
    "name": "Bounty’s Blessing",
    "relativeDate": {
-    "type": "FixedDayInYear",
+    "type": "DayInYear",
     "dayIndex": 13,
     "monthIndex": 6
    }
@@ -86,7 +86,7 @@
    "id": 9,
    "name": "The Hunt",
    "relativeDate": {
-    "type": "FixedDayInYear",
+    "type": "DayInYear",
     "dayIndex": 3,
     "monthIndex": 7
    }
@@ -95,7 +95,7 @@
    "id": 10,
    "name": "Boldrei’s Feast",
    "relativeDate": {
-    "type": "FixedDayInYear",
+    "type": "DayInYear",
     "dayIndex": 8,
     "monthIndex": 8
    }
@@ -104,7 +104,7 @@
    "id": 11,
    "name": "Wildnight",
    "relativeDate": {
-    "type": "FixedDayInYear",
+    "type": "DayInYear",
     "dayIndex": 17,
     "monthIndex": 9
    }
@@ -113,7 +113,7 @@
    "id": 12,
    "name": "Market Day",
    "relativeDate": {
-    "type": "FixedDayInYear",
+    "type": "DayInYear",
     "dayIndex": 19,
     "monthIndex": 10
    }
@@ -122,7 +122,7 @@
    "id": 13,
    "name": "Long Shadows",
    "relativeDate": {
-    "type": "FixedDayInYear",
+    "type": "DayInYear",
     "dayIndex": 27,
     "monthIndex": 11
    }

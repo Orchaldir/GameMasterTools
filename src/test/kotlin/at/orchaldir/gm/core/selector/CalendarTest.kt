@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.selector
 
-import at.orchaldir.gm.core.model.holiday.FixedDayInYear
+import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
@@ -11,7 +11,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 private val ID0 = HolidayId(0)
-private val FIXED_DAY_HOLIDAY = Holiday(ID0, relativeDate = FixedDayInYear(4, 2))
+private val FIXED_DAY_HOLIDAY = Holiday(ID0, relativeDate = DayInYear(4, 2))
 private val WEEKDAY_HOLIDAY = Holiday(ID0, relativeDate = WeekdayInMonth(2, 0, 3))
 
 class CalendarTest {
@@ -20,13 +20,13 @@ class CalendarTest {
     inner class GetMinNumberOfDaysTest {
 
         @Test
-        fun `Get default for FixedDayInYear with in month without holiday`() {
+        fun `Get default for DayInYear with in month without holiday`() {
             assertEquals(2, getMinNumberOfDays(listOf(FIXED_DAY_HOLIDAY), 0))
             assertEquals(2, getMinNumberOfDays(listOf(FIXED_DAY_HOLIDAY), 1))
         }
 
         @Test
-        fun `Get correct minimum for FixedDayInYear with in month with holiday`() {
+        fun `Get correct minimum for DayInYear with in month with holiday`() {
             assertEquals(5, getMinNumberOfDays(listOf(FIXED_DAY_HOLIDAY), 2))
         }
 
@@ -47,7 +47,7 @@ class CalendarTest {
     inner class GetMinNumberOfMonthsTest {
 
         @Test
-        fun `With FixedDayInYear`() {
+        fun `With DayInYear`() {
             assertEquals(3, getMinNumberOfMonths(listOf(FIXED_DAY_HOLIDAY)))
         }
 
@@ -61,7 +61,7 @@ class CalendarTest {
     inner class GetMinNumberOfWeekdaysTest {
 
         @Test
-        fun `With FixedDayInYear`() {
+        fun `With DayInYear`() {
             assertEquals(2, getMinNumberOfWeekdays(listOf(FIXED_DAY_HOLIDAY)))
         }
 
@@ -75,7 +75,7 @@ class CalendarTest {
     inner class SupportsDayOfTheMonthTest {
 
         @Test
-        fun `FixedDayInYear supports DayOfTheMonth`() {
+        fun `DayInYear supports DayOfTheMonth`() {
             assertTrue(supportsDayOfTheMonth(listOf(FIXED_DAY_HOLIDAY)))
         }
 

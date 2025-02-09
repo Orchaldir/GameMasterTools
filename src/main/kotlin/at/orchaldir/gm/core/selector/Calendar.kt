@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.calendar.ImprovedCalendar
 import at.orchaldir.gm.core.model.calendar.OriginalCalendar
-import at.orchaldir.gm.core.model.holiday.FixedDayInYear
+import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
 import at.orchaldir.gm.utils.doNothing
@@ -29,7 +29,7 @@ fun getMinNumberOfDays(holidays: List<Holiday>, monthIndex: Int): Int {
 
     holidays.forEach { holiday ->
         when (holiday.relativeDate) {
-            is FixedDayInYear -> if (holiday.relativeDate.monthIndex == monthIndex) {
+            is DayInYear -> if (holiday.relativeDate.monthIndex == monthIndex) {
                 val requiredDays = holiday.relativeDate.dayIndex + 1
 
                 if (minNumber < requiredDays) {
@@ -49,7 +49,7 @@ fun getMinNumberOfMonths(holidays: List<Holiday>): Int {
 
     holidays.forEach { holiday ->
         val requiredMonths = 1 + when (holiday.relativeDate) {
-            is FixedDayInYear -> holiday.relativeDate.monthIndex
+            is DayInYear -> holiday.relativeDate.monthIndex
             is WeekdayInMonth -> holiday.relativeDate.monthIndex
         }
 
@@ -66,7 +66,7 @@ fun getMinNumberOfWeekdays(holidays: List<Holiday>): Int {
 
     holidays.forEach { holiday ->
         when (holiday.relativeDate) {
-            is FixedDayInYear -> doNothing()
+            is DayInYear -> doNothing()
             is WeekdayInMonth -> {
                 val requiredWeekdays = holiday.relativeDate.weekdayIndex + 1
 
@@ -82,7 +82,7 @@ fun getMinNumberOfWeekdays(holidays: List<Holiday>): Int {
 
 fun supportsDayOfTheMonth(holidays: List<Holiday>) = holidays.none { holiday ->
     when (holiday.relativeDate) {
-        is FixedDayInYear -> false
+        is DayInYear -> false
         is WeekdayInMonth -> true
     }
 }
