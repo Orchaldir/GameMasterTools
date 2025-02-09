@@ -233,6 +233,8 @@ private fun HtmlBlockTag.displayOrigin(
             }
         }
 
+        CosmicLanguage -> +"Cosmic"
+
         is EvolvedLanguage -> {
             +"Evolved from "
             link(call, state, origin.parent)
@@ -243,9 +245,7 @@ private fun HtmlBlockTag.displayOrigin(
             showCreator(call, state, origin.inventor)
         }
 
-        OriginalLanguage -> {
-            +"Original"
-        }
+        OriginalLanguage -> +"Original"
     }
 }
 
@@ -272,7 +272,7 @@ private fun HTML.showLanguageEditor(
                     LanguageOriginType.Combined -> possibleParents.size < 2
                     LanguageOriginType.Evolved -> possibleParents.isEmpty()
                     LanguageOriginType.Invented -> possibleInventors.isEmpty()
-                    LanguageOriginType.Original -> false
+                    else -> false
                 }
             }
             when (val origin = language.origin) {
