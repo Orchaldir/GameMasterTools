@@ -56,6 +56,10 @@ import at.orchaldir.gm.utils.map.Resize
 
 sealed class Action
 
+// META
+
+data class LoadData(val path: String) : Action()
+
 // character
 data object CreateCharacter : Action()
 data class DeleteCharacter(val id: CharacterId) : Action()
