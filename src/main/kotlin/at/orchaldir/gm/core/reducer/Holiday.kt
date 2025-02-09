@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.DayOfTheMonth
-import at.orchaldir.gm.core.model.calendar.MonthDefinition
+import at.orchaldir.gm.core.model.calendar.Month
 import at.orchaldir.gm.core.model.calendar.Weekdays
 import at.orchaldir.gm.core.model.holiday.*
 import at.orchaldir.gm.core.selector.canDelete
@@ -61,7 +61,7 @@ fun checkRelativeDate(calendar: Calendar, relativeDate: RelativeDate) {
 private fun checkMonth(
     calendar: Calendar,
     monthIndex: Int,
-): MonthDefinition {
+): Month {
     require(monthIndex < calendar.months.size) { "Holiday is in an unknown month!" }
     return calendar.months[monthIndex]
 }

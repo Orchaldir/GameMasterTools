@@ -4,7 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
-import at.orchaldir.gm.core.model.calendar.MonthDefinition
+import at.orchaldir.gm.core.model.calendar.Month
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test
 private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET_TYPE_ID_0))
 private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_TYPE_ID_1))
 
-private val CALENDAR = Calendar(CalendarId(0), months = listOf(MonthDefinition("a")))
+private val CALENDAR = Calendar(CalendarId(0), months = listOf(Month("a")))
 private val STATE = State(
     listOf(
         Storage(CALENDAR),

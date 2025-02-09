@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 
 private val CALENDAR_ID0 = CalendarId(0)
 private val WEEKDAYS = Weekdays(listOf(WeekDay("d0"), WeekDay("d1")))
-private val MONTHS = listOf(MonthDefinition("M0", 2), MonthDefinition("M1", 3))
+private val MONTHS = listOf(Month("M0", 2), Month("M1", 3))
 private val CALENDAR0 = Calendar(CALENDAR_ID0, "C0", WEEKDAYS, months = MONTHS)
 
 class HolidayTest {

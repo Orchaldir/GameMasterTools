@@ -63,14 +63,14 @@ private fun parseWeekdays(parameters: Parameters): List<WeekDay> {
         .map { WeekDay(it) }
 }
 
-private fun parseMonths(parameters: Parameters): List<MonthDefinition> {
+private fun parseMonths(parameters: Parameters): List<Month> {
     val count = parseInt(parameters, MONTHS, 2)
 
     return (0..<count)
         .map { parseMonth(parameters, it) }
 }
 
-private fun parseMonth(parameters: Parameters, it: Int) = MonthDefinition(
+private fun parseMonth(parameters: Parameters, it: Int) = Month(
     parseOptionalString(parameters, combine(MONTH, NAME, it)) ?: "${it + 1}.Month",
     parseInt(parameters, combine(MONTH, DAYS, it), 2)
 )

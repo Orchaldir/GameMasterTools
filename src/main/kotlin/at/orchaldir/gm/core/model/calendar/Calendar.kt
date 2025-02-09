@@ -23,7 +23,7 @@ data class Calendar(
     val id: CalendarId,
     val name: String = "Calendar ${id.value}",
     val days: Days = DayOfTheMonth,
-    val months: List<MonthDefinition> = emptyList(),
+    val months: List<Month> = emptyList(),
     val eras: CalendarEras = CalendarEras("BC", true, Day(0), "AD", false),
     val origin: CalendarOrigin = OriginalCalendar,
 ) : ElementWithSimpleName<CalendarId> {
