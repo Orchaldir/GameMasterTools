@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.reverseAndSort
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -68,7 +69,7 @@ private fun HTML.showLanguageEditor(
     state: State,
     character: Character,
 ) {
-    val cultures = state.getCultureStorage().getOrThrow(character.culture)
+    val culture = state.getCultureStorage().getOrThrow(character.culture)
     val backLink = href(call, character.id)
     val updateLink = call.application.href(CharacterRoutes.Languages.Update(character.id))
 
@@ -84,7 +85,8 @@ private fun HTML.showLanguageEditor(
                         value = ""
                         selected = true
                     }
-                    reverseAndSort(cultures.languages.getRarityMap())
+                    reverseAndSort(culture.languages.getRarityMap())
+                        .filter { it.key != Rarity.Everyone }
                         .forEach { (rarity, values) ->
                             optGroup(rarity.toString()) {
                                 values.forEach { languageId ->
@@ -99,15 +101,12 @@ private fun HTML.showLanguageEditor(
                 }
             }
             selectValue("Comprehension Level", "level", ComprehensionLevel.entries, ComprehensionLevel.Native)
-            field("Languages to Remove") {
-                character.languages.keys.forEach { id ->
-                    val language = state.getLanguageStorage().getOrThrow(id)
-                    p {
-                        checkBoxInput {
-                            name = REMOVE
-                            value = language.id.value.toString()
-                            +language.name
-                        }
+            showList("Languages to Remove", state.getLanguageStorage().get(character.languages.keys)) { language ->
+                p {
+                    checkBoxInput {
+                        name = REMOVE
+                        value = language.id.value.toString()
+                        +language.name
                     }
                 }
             }

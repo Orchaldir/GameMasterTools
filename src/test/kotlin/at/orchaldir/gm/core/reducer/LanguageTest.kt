@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteLanguage
 import at.orchaldir.gm.core.action.UpdateLanguage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.EvolvedLanguage
@@ -54,7 +55,13 @@ class LanguageTest {
         @Test
         fun `Cannot delete a language known by a character`() {
             val character = Character(CHARACTER_ID_0, languages = mapOf(LANGUAGE_ID_0 to ComprehensionLevel.Native))
-            val state = State(listOf(Storage(character), Storage(Language(LANGUAGE_ID_0))))
+            val state = State(
+                listOf(
+                    Storage(character),
+                    Storage(Culture(CULTURE_ID_0)),
+                    Storage(Language(LANGUAGE_ID_0)),
+                )
+            )
             val action = DeleteLanguage(LANGUAGE_ID_0)
 
             assertIllegalArgument("Cannot delete language 0 that is known by characters!") {

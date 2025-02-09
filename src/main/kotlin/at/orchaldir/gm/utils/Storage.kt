@@ -53,6 +53,9 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
 
     fun get(id: ID) = elements[id]
 
+    fun get(ids: Collection<ID>) = ids.map { elements[it] }
+        .filterNotNull()
+
     fun getOptional(id: ID?) = if (id != null) {
         elements[id]
     } else {

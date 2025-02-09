@@ -93,7 +93,7 @@ fun HtmlBlockTag.showLanguageCountForCharacters(
     call: ApplicationCall,
     state: State,
     characters: Collection<Character>,
-) = showCount(call, state, "Languages", countEachLanguage(characters))
+) = showCount(call, state, "Languages", state.countEachLanguage(characters))
 
 fun HtmlBlockTag.showLanguageCountForSpells(
     call: ApplicationCall,

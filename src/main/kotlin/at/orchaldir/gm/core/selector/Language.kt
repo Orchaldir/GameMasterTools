@@ -1,10 +1,9 @@
 package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.language.CombinedLanguage
-import at.orchaldir.gm.core.model.language.EvolvedLanguage
-import at.orchaldir.gm.core.model.language.InventedLanguage
-import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.language.*
+import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.utils.Id
 
@@ -21,7 +20,17 @@ fun State.getChildren(language: LanguageId) = getLanguageStorage().getAll().filt
     }
 }
 
-fun State.getPossibleParents(language: LanguageId) = getLanguageStorage().getAll().filter { l -> l.id != language }
+fun State.getKnownLanguages(character: Character) = getDefaultLanguages(character) + character.languages
+
+fun State.getDefaultLanguages(character: Character) = getCultureStorage()
+    .getOrThrow(character.culture)
+    .languages
+    .getValuesFor(Rarity.Everyone)
+    .associateWith { ComprehensionLevel.Native }
+
+fun State.getPossibleParents(language: LanguageId) = getLanguageStorage()
+    .getAll()
+    .filter { l -> l.id != language }
 
 fun <ID : Id<ID>> State.getLanguagesInventedBy(id: ID) = getLanguageStorage().getAll().filter { l ->
     when (l.origin) {
