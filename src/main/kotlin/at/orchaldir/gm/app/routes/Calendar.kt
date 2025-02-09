@@ -328,7 +328,6 @@ private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
         }
     }
 
-    field("Months per Year", calendar.months.getSize())
     field("Days per Year", calendar.getDaysPerYear())
 }
 
