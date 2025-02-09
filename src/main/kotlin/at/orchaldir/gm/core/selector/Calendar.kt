@@ -4,10 +4,12 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.calendar.ImprovedCalendar
 import at.orchaldir.gm.core.model.calendar.OriginalCalendar
+import at.orchaldir.gm.core.model.holiday.DayInMonth
 import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
 import at.orchaldir.gm.utils.doNothing
+import kotlin.math.min
 
 fun State.canDelete(calendar: CalendarId) = getChildren(calendar).isEmpty() &&
         getCultures(calendar).isEmpty() &&
@@ -29,12 +31,10 @@ fun getMinNumberOfDays(holidays: List<Holiday>, monthIndex: Int): Int {
 
     holidays.forEach { holiday ->
         when (holiday.relativeDate) {
-            is DayInYear -> if (holiday.relativeDate.monthIndex == monthIndex) {
-                val requiredDays = holiday.relativeDate.dayIndex + 1
+            is DayInMonth -> minNumber = updateMinNumber(minNumber, holiday.relativeDate.dayIndex)
 
-                if (minNumber < requiredDays) {
-                    minNumber = requiredDays
-                }
+            is DayInYear -> if (holiday.relativeDate.monthIndex == monthIndex) {
+                minNumber = updateMinNumber(minNumber, holiday.relativeDate.dayIndex)
             }
 
             is WeekdayInMonth -> doNothing()
@@ -44,11 +44,14 @@ fun getMinNumberOfDays(holidays: List<Holiday>, monthIndex: Int): Int {
     return minNumber
 }
 
+private fun updateMinNumber(minNumber: Int, dayIndex: Int) = min(minNumber, dayIndex + 1)
+
 fun getMinNumberOfMonths(holidays: List<Holiday>): Int {
     var minNumber = 2
 
     holidays.forEach { holiday ->
         val requiredMonths = 1 + when (holiday.relativeDate) {
+            is DayInMonth -> 0
             is DayInYear -> holiday.relativeDate.monthIndex
             is WeekdayInMonth -> holiday.relativeDate.monthIndex
         }
@@ -66,7 +69,7 @@ fun getMinNumberOfWeekdays(holidays: List<Holiday>): Int {
 
     holidays.forEach { holiday ->
         when (holiday.relativeDate) {
-            is DayInYear -> doNothing()
+            is DayInMonth, is DayInYear -> doNothing()
             is WeekdayInMonth -> {
                 val requiredWeekdays = holiday.relativeDate.weekdayIndex + 1
 
@@ -82,7 +85,7 @@ fun getMinNumberOfWeekdays(holidays: List<Holiday>): Int {
 
 fun supportsDayOfTheMonth(holidays: List<Holiday>) = holidays.none { holiday ->
     when (holiday.relativeDate) {
-        is DayInYear -> false
+        is DayInMonth, is DayInYear -> false
         is WeekdayInMonth -> true
     }
 }

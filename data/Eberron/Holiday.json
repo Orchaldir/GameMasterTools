@@ -126,6 +126,14 @@
     "dayIndex": 27,
     "monthIndex": 11
    }
+  },
+  "14": {
+   "id": 14,
+   "name": "Aram’ja",
+   "relativeDate": {
+    "type": "DayInMonth",
+    "dayIndex": 17
+   }
   }
  }
 }

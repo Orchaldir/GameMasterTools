@@ -8,6 +8,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class RelativeDateType {
+    DayInMonth,
     DayInYear,
     WeekdayInMonth,
 }
@@ -16,12 +17,25 @@ enum class RelativeDateType {
 sealed class RelativeDate {
 
     fun getType() = when (this) {
+        is DayInMonth -> RelativeDateType.DayInMonth
         is DayInYear -> RelativeDateType.DayInYear
         is WeekdayInMonth -> RelativeDateType.WeekdayInMonth
     }
 
     abstract fun display(calendar: Calendar): String
     abstract fun isOn(calendar: Calendar, displayDay: DisplayDay): Boolean
+}
+
+@Serializable
+@SerialName("DayInMonth")
+data class DayInMonth(val dayIndex: Int) : RelativeDate() {
+    override fun display(calendar: Calendar): String {
+        val day = dayIndex + 1
+
+        return "$day of each Month"
+    }
+
+    override fun isOn(calendar: Calendar, displayDay: DisplayDay) = dayIndex == displayDay.dayIndex
 }
 
 @Serializable

@@ -37,6 +37,8 @@ data class Calendar(
 
     fun getDaysPerYear() = months.sumOf { it.days }
 
+    fun getMinDaysPerMonth() = months.minOf { it.days }
+
     fun getStartDate() = eras.first.startDate
 
     fun getOffsetInDays() = when (eras.first.startDate) {

@@ -205,11 +205,18 @@ private fun HTML.showHolidayEditor(
 private fun FORM.selectRelativeDate(param: String, relativeDate: RelativeDate, calendar: Calendar) {
     selectValue("Relative Date", combine(param, TYPE), RelativeDateType.entries, relativeDate.getType(), true) { type ->
         when (type) {
-            RelativeDateType.DayInYear -> false
+            RelativeDateType.DayInMonth, RelativeDateType.DayInYear -> false
             RelativeDateType.WeekdayInMonth -> calendar.days.getType() == DaysType.DayOfTheMonth
         }
     }
     when (relativeDate) {
+        is DayInMonth -> selectDayIndex(
+            "Day",
+            param,
+            relativeDate.dayIndex,
+            0,
+            calendar.getMinDaysPerMonth() - 1,
+        )
         is DayInYear -> {
             selectMonthIndex("Month", param, calendar, relativeDate.monthIndex)
             selectDayIndex(
