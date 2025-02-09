@@ -90,6 +90,14 @@
   "15": {
    "id": 15,
    "name": "Infernal"
+  },
+  "16": {
+   "id": 16,
+   "name": "Orc"
+  },
+  "17": {
+   "id": 17,
+   "name": "Celestial"
   }
  }
 }

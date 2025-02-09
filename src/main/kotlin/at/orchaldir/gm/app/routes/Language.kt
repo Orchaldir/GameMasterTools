@@ -256,6 +256,7 @@ private fun HTML.showLanguageEditor(
 ) {
     val possibleInventors = state.getCharacterStorage().getAll()
     val possibleParents = state.getPossibleParents(language.id)
+        .sortedBy { it.name }
     val backLink = href(call, language.id)
     val previewLink = call.application.href(LanguageRoutes.Preview(language.id))
     val updateLink = call.application.href(LanguageRoutes.Update(language.id))
@@ -276,7 +277,7 @@ private fun HTML.showLanguageEditor(
             }
             when (val origin = language.origin) {
                 is CombinedLanguage -> {
-                    selectElements(state, LANGUAGES, possibleParents.sortedBy { it.name }, origin.parents)
+                    selectElements(state, LANGUAGES, possibleParents, origin.parents)
                 }
 
                 is EvolvedLanguage -> selectElement(state, "Parent", LANGUAGES, possibleParents, origin.parent)
