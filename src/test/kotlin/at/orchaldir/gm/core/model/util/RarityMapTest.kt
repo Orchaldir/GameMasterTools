@@ -1,7 +1,9 @@
 package at.orchaldir.gm.core.model.util
 
+import at.orchaldir.gm.core.model.util.Color.*
 import at.orchaldir.gm.core.model.util.Rarity.*
 import at.orchaldir.gm.core.model.util.Size.Small
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -65,6 +67,13 @@ class RarityMapTest {
                         assertTrue(rarityMap.isAvailable(Small))
                     }
             }
+
+            @Test
+            fun `Unavailable is not available`() {
+                val rarityMap = SomeOf(mapOf(Small to Unavailable))
+
+                assertFalse(rarityMap.isAvailable(Small))
+            }
         }
     }
 
@@ -76,9 +85,25 @@ class RarityMapTest {
             SomeOf<Size>(setOf())
         }
 
-        @Test
-        fun `Is fine with only unavailable`() {
-            SomeOf(mapOf(Small to Unavailable))
+        @Nested
+        inner class GetValuesForTest {
+
+            val colors = SomeOf.init(mapOf(Red to Everyone, Green to Common, Blue to Common))
+
+            @Test
+            fun `Get the correct value for a rarity`() {
+                assertEquals(setOf(Red), colors.getValuesFor(Everyone))
+            }
+
+            @Test
+            fun `Get multiple values for a rarity`() {
+                assertEquals(setOf(Green, Blue), colors.getValuesFor(Common))
+            }
+
+            @Test
+            fun `A rarity without values`() {
+                assertEquals(emptySet(), colors.getValuesFor(Rare))
+            }
         }
 
         @Nested
@@ -93,6 +118,13 @@ class RarityMapTest {
 
                         assertTrue(rarityMap.isAvailable(Small))
                     }
+            }
+
+            @Test
+            fun `Is fine with only unavailable`() {
+                val rarityMap = SomeOf(mapOf(Small to Unavailable))
+
+                assertFalse(rarityMap.isAvailable(Small))
             }
         }
     }
