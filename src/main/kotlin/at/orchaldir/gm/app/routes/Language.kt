@@ -143,6 +143,7 @@ private fun HTML.showAllLanguages(
                 th { +"Origin" }
                 th { +"Characters" }
                 th { +"Cultures" }
+                th { +"Languages" }
                 th { +"Spells" }
                 th { +"Texts" }
             }
@@ -152,6 +153,7 @@ private fun HTML.showAllLanguages(
                     td { displayOrigin(call, state, language) }
                     tdSkipZero(state.countCharacters(language.id))
                     tdSkipZero(state.countCultures(language.id))
+                    tdSkipZero(state.countChildren(language.id))
                     tdSkipZero(state.countSpells(language.id))
                     tdSkipZero(state.countTexts(language.id))
                 }

@@ -9,16 +9,16 @@ import at.orchaldir.gm.utils.Id
 
 fun State.canDelete(language: LanguageId) = countTexts(language) == 0 &&
         countCharacters(language) == 0 &&
-        getChildren(language).isEmpty() &&
+        countChildren(language) == 0 &&
         countCultures(language) == 0
 
-fun State.getChildren(language: LanguageId) = getLanguageStorage().getAll().filter { l ->
-    when (l.origin) {
-        is CombinedLanguage -> l.origin.parents.contains(language)
-        is EvolvedLanguage -> l.origin.parent == language
-        else -> false
-    }
-}
+fun State.countChildren(language: LanguageId) = getLanguageStorage()
+    .getAll()
+    .count { l -> l.origin.isChildOf(language) }
+
+fun State.getChildren(language: LanguageId) = getLanguageStorage()
+    .getAll()
+    .filter { l -> l.origin.isChildOf(language) }
 
 fun State.getKnownLanguages(character: Character) = getDefaultLanguages(character) + character.languages
 

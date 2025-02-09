@@ -24,6 +24,12 @@ sealed class LanguageOrigin {
         OriginalLanguage -> LanguageOriginType.Original
     }
 
+    fun isChildOf(language: LanguageId) = when (this) {
+        is CombinedLanguage -> parents.contains(language)
+        is EvolvedLanguage -> parent == language
+        else -> false
+    }
+
 }
 
 @Serializable
