@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.reverseAndSort
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -85,6 +86,7 @@ private fun HTML.showLanguageEditor(
                         selected = true
                     }
                     reverseAndSort(culture.languages.getRarityMap())
+                        .filter { it.key != Rarity.Everyone }
                         .forEach { (rarity, values) ->
                             optGroup(rarity.toString()) {
                                 values.forEach { languageId ->

@@ -66,12 +66,12 @@
     "7": "Everyone"
    },
    "namingConvention": {
-     "type": "Family",
-     "givenNames": {
-       "female": 4,
-       "genderless": 3,
-       "male": 3
-     }
+    "type": "Family",
+    "givenNames": {
+     "female": 4,
+     "genderless": 3,
+     "male": 3
+    }
    }
   }
  }
