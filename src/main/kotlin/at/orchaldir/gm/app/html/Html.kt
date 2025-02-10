@@ -21,6 +21,7 @@ import kotlinx.html.*
 
 fun HTML.simpleHtml(
     title: String,
+    keepPositionAfterReload: Boolean = false,
     content: BODY.() -> Unit,
 ) {
     head {
@@ -32,8 +33,10 @@ fun HTML.simpleHtml(
         }
     }
     body {
-        onLoad = "setScreen()"
-        onBeforeunLoad = "setScroll()"
+        if (keepPositionAfterReload) {
+            onLoad = "setScreen()"
+            onBeforeunLoad = "setScroll()"
+        }
         h1 { +title }
         content()
     }

@@ -246,14 +246,12 @@
      {
       "name": "Old Age",
       "maxAge": 90,
-      "relativeSize": 0.95,
-      "hairColor": "Gray"
+      "relativeSize": 0.95
      },
      {
       "name": "Venerable",
       "maxAge": 120,
-      "relativeSize": 0.9,
-      "hairColor": "White"
+      "relativeSize": 0.9
      }
     ]
    }

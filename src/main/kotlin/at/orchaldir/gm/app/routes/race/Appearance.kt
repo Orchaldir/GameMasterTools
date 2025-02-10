@@ -220,7 +220,7 @@ private fun HTML.showEditor(
     val previewLink = call.application.href(AppearanceRoutes.Preview(appearance.id))
     val updateLink = call.application.href(AppearanceRoutes.Update(appearance.id))
 
-    simpleHtml("Edit Race Appearance: ${appearance.name}") {
+    simpleHtml("Edit Race Appearance: ${appearance.name}", true) {
         split({
             form {
                 id = "editor"

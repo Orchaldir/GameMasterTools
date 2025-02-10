@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseRace
-import at.orchaldir.gm.app.routes.item.TextRoutes
 import at.orchaldir.gm.core.action.CloneRace
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
@@ -21,7 +20,6 @@ import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.SortRace
-import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.core.selector.getCharacters
@@ -297,7 +295,7 @@ private fun HTML.showRaceEditor(
     val previewLink = call.application.href(RaceRoutes.Preview(race.id))
     val updateLink = call.application.href(RaceRoutes.Update(race.id))
 
-    simpleHtml("Edit Race: ${race.name}") {
+    simpleHtml("Edit Race: ${race.name}", true) {
         split({
             form {
                 id = "editor"
