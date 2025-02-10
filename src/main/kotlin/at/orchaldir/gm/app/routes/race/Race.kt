@@ -397,7 +397,7 @@ private fun LI.selectMaxAge(
     index: Int,
     maxAge: Int?,
 ) {
-    selectInt("Max Age", maxAge ?: 0, minMaxAge, 10000, 1, combine(LIFE_STAGE, AGE, index))
+    selectInt("Max Age", maxAge ?: 0, minMaxAge, 10000, 1, combine(LIFE_STAGE, AGE, index), true)
 }
 
 private fun LI.selectRelativeSize(
