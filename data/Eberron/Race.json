@@ -65,6 +65,14 @@
     "Female": "Common",
     "Male": "Common"
    },
+   "height": {
+    "center": {
+     "millimeters": 1700
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
    "lifeStages": {
     "type": "Simple",
     "lifeStages": [

@@ -154,6 +154,8 @@ private fun HTML.showRaceDetails(
                 link(call, state, character)
             }
 
+            h2 { +"Actions" }
+
             action(cloneLink, "Clone")
             action(editLink, "Edit")
 
@@ -345,7 +347,7 @@ private fun FORM.editLifeStages(
 }
 
 private fun FORM.selectNumberOfLifeStages(number: Int) {
-    selectInt("Weekdays", number, 2, 100, 1, LIFE_STAGE, true)
+    selectInt("Life Stages", number, 2, 100, 1, LIFE_STAGE, true)
 }
 
 private fun LI.selectStageName(
