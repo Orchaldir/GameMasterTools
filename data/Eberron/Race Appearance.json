@@ -64,6 +64,48 @@
    "mouthTypes": {
     "NormalMouth": "Common"
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Changeling",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Exotic": "Common"
+   },
+   "exoticSkinColors": {
+    "Lavender": "Common",
+    "Silver": "Common"
+   },
+   "earsLayout": {
+    "NormalEars": "Common"
+   },
+   "earShapes": {
+    "Round": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeShapes": {
+     "Circle": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "hairTypes": {
+     "Normal": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
   }
  }
 }

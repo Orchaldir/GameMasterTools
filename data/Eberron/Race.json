@@ -213,6 +213,7 @@
    },
    "lifeStages": {
     "type": "Simple",
+    "appearance": 1,
     "lifeStages": [
      {
       "name": "Baby",
