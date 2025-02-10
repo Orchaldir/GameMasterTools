@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
-import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStagesType
@@ -163,7 +163,7 @@ private fun HtmlBlockTag.visualizeLifeStages(
 ) {
     val raceAppearanceId = race.lifeStages.getRaceAppearance()
     val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(raceAppearanceId)
-    val generator = createGeneratorConfig(state, raceAppearance, gender, CultureId(0))
+    val generator = createGeneratorConfig(state, raceAppearance, AppearanceStyle(), gender)
     val appearance = generator.generate()
 
     val svg = visualizeGroup(CHARACTER_CONFIG, race.lifeStages.getAllLifeStages().map {

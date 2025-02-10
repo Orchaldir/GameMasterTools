@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.model.character.appearance.EyesLayout
 import at.orchaldir.gm.core.model.character.appearance.SkinType
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
-import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.canDelete
@@ -163,7 +163,7 @@ private fun HtmlBlockTag.showRandomExamples(
     n: Int,
     width: Int,
 ) {
-    val generator = createGeneratorConfig(state, appearance, Gender.Male, CultureId(0))
+    val generator = createGeneratorConfig(state, appearance, AppearanceStyle(), Gender.Male)
 
     repeat(n) {
         val svg = visualizeCharacter(CHARACTER_CONFIG, generator.generate())
@@ -294,17 +294,13 @@ private fun requiresHairColor(appearance: RaceAppearance) =
 fun createGeneratorConfig(
     state: State,
     appearance: RaceAppearance,
+    appearanceStyle: AppearanceStyle,
     gender: Gender,
-    cultureId: CultureId,
-): AppearanceGeneratorConfig {
-    val culture = state.getCultureStorage().getOrThrow(cultureId)
-
-    return AppearanceGeneratorConfig(
-        RandomNumberGenerator(Random),
-        state.rarityGenerator,
-        gender,
-        Distribution.fromMeters(1.0f, 0.0f),
-        appearance,
-        culture.appearanceStyle
-    )
-}
+) = AppearanceGeneratorConfig(
+    RandomNumberGenerator(Random),
+    state.rarityGenerator,
+    gender,
+    Distribution.fromMeters(1.0f, 0.0f),
+    appearance,
+    appearanceStyle,
+)
