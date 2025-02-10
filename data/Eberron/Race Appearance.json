@@ -96,6 +96,9 @@
     },
     "pupilColors": {
      "White": "Common"
+    },
+    "scleraColors": {
+     "White": "Common"
     }
    },
    "hairOptions": {
@@ -104,6 +107,9 @@
     },
     "hairTypes": {
      "Normal": "Common"
+    },
+    "colors": {
+     "White": "Common"
     }
    },
    "mouthTypes": {
