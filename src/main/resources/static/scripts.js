@@ -3,12 +3,12 @@ function updateEditor() {
   document.getElementById("editor").submit();
 }
 
-function setScreen() {
+function loadScroll() {
   var yScreen = localStorage.getItem("yPos");
   document.getElementById("left").scrollTop = yScreen;
 }
 
-function setScroll() {
+function saveScroll() {
   var yScroll = document.getElementById("left").scrollTop;
   localStorage.setItem("yPos", yScroll);
 }

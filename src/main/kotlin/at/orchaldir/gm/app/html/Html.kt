@@ -34,8 +34,8 @@ fun HTML.simpleHtml(
     }
     body {
         if (keepPositionAfterReload) {
-            onLoad = "setScreen()"
-            onBeforeunLoad = "setScroll()"
+            onLoad = "loadScroll()"
+            onBeforeunLoad = "saveScroll()"
         } else {
             onLoad = "clearScroll()"
         }
