@@ -12,3 +12,7 @@ function setScroll() {
   var yScroll = document.getElementById("left").scrollTop;
   localStorage.setItem("yPos", yScroll);
 }
+
+function clearScroll() {
+  localStorage.setItem("yPos", 0);
+}

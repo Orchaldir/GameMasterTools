@@ -36,6 +36,8 @@ fun HTML.simpleHtml(
         if (keepPositionAfterReload) {
             onLoad = "setScreen()"
             onBeforeunLoad = "setScroll()"
+        } else {
+            onLoad = "clearScroll()"
         }
         h1 { +title }
         content()
