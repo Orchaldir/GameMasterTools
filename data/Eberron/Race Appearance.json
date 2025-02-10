@@ -79,10 +79,7 @@
     "Silver": "Common"
    },
    "earsLayout": {
-    "NormalEars": "Common"
-   },
-   "earShapes": {
-    "Round": "Common"
+    "NoEars": "Common"
    },
    "eyesLayout": {
     "TwoEyes": "Common"
