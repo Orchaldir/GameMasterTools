@@ -122,6 +122,86 @@
      }
     ]
    }
+  },
+  "2": {
+   "id": 2,
+   "name": "Dwarf",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 1200
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 10,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 20,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 40,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 120,
+      "hasBeard": true
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 180,
+      "hasBeard": true
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 250,
+      "relativeSize": 0.95,
+      "hasBeard": true,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 400,
+      "relativeSize": 0.9,
+      "hasBeard": true,
+      "hairColor": "White"
+     }
+    ]
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Warforged",
+   "genders": {
+    "Genderless": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 2000
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   }
   }
  }
 }
