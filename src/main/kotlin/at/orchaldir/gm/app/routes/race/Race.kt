@@ -148,6 +148,7 @@ private fun HTML.showAllRaces(
                 th { +"Max Age" }
                 th { +"Height" }
                 th { +"Life Stages" }
+                th { +"Appearance" }
             }
             races.forEach { race ->
                 tr {
@@ -156,6 +157,7 @@ private fun HTML.showAllRaces(
                     tdSkipZero(race.lifeStages.getMaxAge())
                     td { +race.height.center.toString() }
                     tdSkipZero(race.lifeStages.countLifeStages())
+                    td { link(call, state, race.lifeStages.getRaceAppearance()) }
                 }
             }
         }
