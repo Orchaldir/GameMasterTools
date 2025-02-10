@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseRace
+import at.orchaldir.gm.app.routes.item.TextRoutes
 import at.orchaldir.gm.core.action.CloneRace
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
@@ -19,9 +20,12 @@ import at.orchaldir.gm.core.model.race.aging.LifeStagesType
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.SortRace
+import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
@@ -41,11 +45,11 @@ private val logger = KotlinLogging.logger {}
 
 fun Application.configureRaceRouting() {
     routing {
-        get<RaceRoutes> {
+        get<RaceRoutes.All> { all ->
             logger.info { "Get all races" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllRaces(call, STORE.getState())
+                showAllRaces(call, STORE.getState(), all.sort)
             }
         }
         get<RaceRoutes.Details> { details ->
@@ -121,12 +125,23 @@ fun Application.configureRaceRouting() {
 private fun HTML.showAllRaces(
     call: ApplicationCall,
     state: State,
+    sort: SortRace,
 ) {
-    val races = STORE.getState().getRaceStorage().getAll().sortedBy { it.name }
+    val races = state.sortRaces(sort)
     val createLink = call.application.href(RaceRoutes.New())
+    val sortNameLink = call.application.href(RaceRoutes.All(SortRace.Name))
+    val sortMaxAgeLink = call.application.href(RaceRoutes.All(SortRace.MaxAge))
+    val sortHeightLink = call.application.href(RaceRoutes.All(SortRace.Height))
 
     simpleHtml("Races") {
         field("Count", races.size)
+        field("Sort") {
+            link(sortNameLink, "Name")
+            +" "
+            link(sortMaxAgeLink, "Max Age")
+            +" "
+            link(sortHeightLink, "Height")
+        }
 
         table {
             tr {
@@ -157,7 +172,7 @@ private fun HTML.showRaceDetails(
     state: State,
     race: Race,
 ) {
-    val backLink = call.application.href(RaceRoutes())
+    val backLink = call.application.href(RaceRoutes.All())
     val cloneLink = call.application.href(RaceRoutes.Clone(race.id))
     val deleteLink = call.application.href(RaceRoutes.Delete(race.id))
     val editLink = call.application.href(RaceRoutes.Edit(race.id))

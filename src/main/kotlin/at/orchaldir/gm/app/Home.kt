@@ -52,7 +52,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getNameListStorage(), NameListRoutes())
                     fieldStorageLink(call, state.getOrganizationStorage(), OrganizationRoutes.All())
                     fieldStorageLink(call, state.getPersonalityTraitStorage(), PersonalityTraitRoutes())
-                    fieldStorageLink(call, state.getRaceStorage(), RaceRoutes())
+                    fieldStorageLink(call, state.getRaceStorage(), RaceRoutes.All())
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), AppearanceRoutes())
                     h3 { +"Items" }
                     fieldStorageLink(call, state.getTextStorage(), TextRoutes.All())
