@@ -202,6 +202,60 @@
      "millimeters": 200
     }
    }
+  },
+  "4": {
+   "id": 4,
+   "name": "Changeling",
+   "genders": {
+    "Female": "Common",
+    "Genderless": "Uncommon",
+    "Male": "Common"
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 5,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 12,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 18,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 45
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 60
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 90,
+      "relativeSize": 0.95,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 120,
+      "relativeSize": 0.9,
+      "hairColor": "White"
+     }
+    ]
+   }
   }
  }
 }

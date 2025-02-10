@@ -139,7 +139,7 @@ private fun HTML.showAllRaces(
                 tr {
                     td { link(call, state, race) }
                     tdSkipZero(race.lifeStages.getMaxAge())
-                    td { +race.height.display() }
+                    td { +race.height.center.toString() }
                     tdSkipZero(race.lifeStages.countLifeStages())
                 }
             }
