@@ -179,6 +179,50 @@
    "mouthTypes": {
     "NormalMouth": "Common"
    }
+  },
+  "3": {
+   "id": 3,
+   "name": "Warforged",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Exotic": "Common"
+   },
+   "exoticSkinColors": {
+    "Gray": "Common"
+   },
+   "earsLayout": {
+    "NoEars": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeShapes": {
+     "Circle": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "pupilColors": {
+     "Aqua": "Common"
+    },
+    "scleraColors": {
+     "Aqua": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "hairTypes": {
+     "None": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
   }
  }
 }
