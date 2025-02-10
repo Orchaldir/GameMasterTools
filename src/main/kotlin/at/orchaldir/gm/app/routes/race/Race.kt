@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseRace
+import at.orchaldir.gm.core.action.CloneRace
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
@@ -61,6 +62,15 @@ fun Application.configureRaceRouting() {
             logger.info { "Add new race" }
 
             STORE.dispatch(CreateRace)
+
+            call.respondRedirect(call.application.href(RaceRoutes.Edit(STORE.getState().getRaceStorage().lastId)))
+
+            STORE.getState().save()
+        }
+        get<RaceRoutes.Clone> { clone ->
+            logger.info { "Clone race ${clone.id.value}" }
+
+            STORE.dispatch(CloneRace(clone.id))
 
             call.respondRedirect(call.application.href(RaceRoutes.Edit(STORE.getState().getRaceStorage().lastId)))
 
@@ -128,6 +138,7 @@ private fun HTML.showRaceDetails(
     race: Race,
 ) {
     val backLink = call.application.href(RaceRoutes())
+    val cloneLink = call.application.href(RaceRoutes.Clone(race.id))
     val deleteLink = call.application.href(RaceRoutes.Delete(race.id))
     val editLink = call.application.href(RaceRoutes.Edit(race.id))
 
@@ -136,10 +147,14 @@ private fun HTML.showRaceDetails(
             showRarityMap("Gender", race.genders)
             showDistribution("Height", race.height)
             showLifeStages(call, state, race)
+
             h2 { +"Characters" }
+
             showList(state.getCharacters(race.id)) { character ->
                 link(call, state, character)
             }
+
+            action(cloneLink, "Clone")
             action(editLink, "Edit")
 
             if (state.canDelete(race.id)) {

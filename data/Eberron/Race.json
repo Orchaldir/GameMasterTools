@@ -57,6 +57,63 @@
      }
     ]
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Elf",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 20,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 60,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 110,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 170,
+      "hasBeard": true
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 260,
+      "hasBeard": true
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 350,
+      "relativeSize": 0.95,
+      "hasBeard": true,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 500,
+      "relativeSize": 0.9,
+      "hasBeard": true,
+      "hairColor": "White"
+     }
+    ]
+   }
   }
  }
 }

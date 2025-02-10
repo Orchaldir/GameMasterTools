@@ -62,6 +62,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdatePersonalityTrait -> UPDATE_PERSONALITY_TRAIT(state, action)
         // race
         is CreateRace -> CREATE_RACE(state, action)
+        is CloneRace -> CLONE_RACE(state, action)
         is DeleteRace -> DELETE_RACE(state, action)
         is UpdateRace -> UPDATE_RACE(state, action)
         // race appearance

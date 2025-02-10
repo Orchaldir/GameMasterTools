@@ -139,6 +139,7 @@ data class UpdatePersonalityTrait(val trait: PersonalityTrait) : Action()
 
 // race
 data object CreateRace : Action()
+data class CloneRace(val id: RaceId) : Action()
 data class DeleteRace(val id: RaceId) : Action()
 data class UpdateRace(val race: Race) : Action()
 
