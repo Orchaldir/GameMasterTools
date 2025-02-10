@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
+import at.orchaldir.gm.core.model.race.aging.LifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStagesType
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
@@ -132,7 +133,6 @@ private fun HTML.showRaceDetails(
 
     simpleHtml("Race: ${race.name}") {
         split({
-            field("Name", race.name)
             showRarityMap("Gender", race.genders)
             showDistribution("Height", race.height)
             showLifeStages(call, state, race)
@@ -189,28 +189,32 @@ private fun HtmlBlockTag.showLifeStages(
 
         is SimpleAging -> {
             showAppearance(call, state, lifeStages.appearance)
-            showList(lifeStages.lifeStages) { stage ->
-                +stage.name
-                ul {
-                    li {
-                        showMaxAge(stage.maxAge)
-                    }
-                    li {
-                        showRelativeSize(stage.relativeSize)
-                    }
-                    if (stage.hasBeard) {
-                        li {
-                            p {
-                                b { +"Has Beard" }
-                            }
-                        }
-                    }
-                    if (stage.hairColor != null) {
-                        li {
-                            field("Hair Color", stage.hairColor)
-                        }
-                    }
+            details {
+                showList(lifeStages.lifeStages, HtmlBlockTag::showLifeStafe)
+            }
+        }
+    }
+}
+
+private fun HtmlBlockTag.showLifeStafe(stage: LifeStage) {
+    +stage.name
+    ul {
+        li {
+            showMaxAge(stage.maxAge)
+        }
+        li {
+            showRelativeSize(stage.relativeSize)
+        }
+        if (stage.hasBeard) {
+            li {
+                p {
+                    b { +"Has Beard" }
                 }
+            }
+        }
+        if (stage.hairColor != null) {
+            li {
+                field("Hair Color", stage.hairColor)
             }
         }
     }
