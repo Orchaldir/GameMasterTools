@@ -26,6 +26,16 @@ sealed class LifeStages {
         is SimpleAging -> this.appearance
     }
 
+    fun getMaxAge() = when (this) {
+        is ImmutableLifeStage -> null
+        is SimpleAging -> lifeStages.last().maxAge
+    }
+
+    fun countLifeStages() = when (this) {
+        is ImmutableLifeStage -> 1
+        is SimpleAging -> lifeStages.size
+    }
+
     abstract fun getAllLifeStages(): List<LifeStage>
     abstract fun getLifeStage(age: Int): LifeStage?
     abstract fun getLifeStageStartAge(age: Int): Int

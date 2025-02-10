@@ -45,7 +45,7 @@ fun Application.configureRaceRouting() {
             logger.info { "Get all races" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllRaces(call)
+                showAllRaces(call, STORE.getState())
             }
         }
         get<RaceRoutes.Details> { details ->
@@ -118,15 +118,33 @@ fun Application.configureRaceRouting() {
     }
 }
 
-private fun HTML.showAllRaces(call: ApplicationCall) {
+private fun HTML.showAllRaces(
+    call: ApplicationCall,
+    state: State,
+) {
     val races = STORE.getState().getRaceStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(RaceRoutes.New())
 
     simpleHtml("Races") {
         field("Count", races.size)
-        showList(races) { race ->
-            link(call, race)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Max Age" }
+                th { +"Height" }
+                th { +"Life Stages" }
+            }
+            races.forEach { race ->
+                tr {
+                    td { link(call, state, race) }
+                    tdSkipZero(race.lifeStages.getMaxAge())
+                    td { +race.height.display() }
+                    tdSkipZero(race.lifeStages.countLifeStages())
+                }
+            }
         }
+
         action(createLink, "Add")
         back("/")
     }

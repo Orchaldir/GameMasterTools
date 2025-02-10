@@ -14,4 +14,6 @@ data class Distribution(
 
     fun getMin() = center - offset
     fun getMax() = center + offset
+
+    fun display() = String.format("%s +- %s", center, offset)
 }

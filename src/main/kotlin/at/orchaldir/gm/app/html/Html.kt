@@ -166,10 +166,7 @@ fun HtmlBlockTag.showDistribution(
     label: String,
     distribution: Distribution,
 ) {
-    field(
-        label,
-        String.format("%s +- %s", distribution.center, distribution.offset)
-    )
+    field(label, distribution.display())
 }
 
 // lists
@@ -284,9 +281,9 @@ fun <T> HtmlBlockTag.showRarityMap(
 
 // table
 
-fun TR.tdSkipZero(value: Int) {
+fun TR.tdSkipZero(value: Int?) {
     td {
-        if (value != 0) {
+        if (value != null && value != 0) {
             +value.toString()
         }
     }
