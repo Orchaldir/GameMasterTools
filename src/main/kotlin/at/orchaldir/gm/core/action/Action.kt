@@ -145,6 +145,7 @@ data class UpdateRace(val race: Race) : Action()
 
 // race appearance
 data object CreateRaceAppearance : Action()
+data class CloneRaceAppearance(val id: RaceAppearanceId) : Action()
 data class DeleteRaceAppearance(val id: RaceAppearanceId) : Action()
 data class UpdateRaceAppearance(val race: RaceAppearance) : Action()
 

@@ -189,8 +189,8 @@ private fun HTML.showRaceDetails(
 
             h2 { +"Actions" }
 
-            action(cloneLink, "Clone")
             action(editLink, "Edit")
+            action(cloneLink, "Clone")
 
             if (state.canDelete(race.id)) {
                 action(deleteLink, "Delete")

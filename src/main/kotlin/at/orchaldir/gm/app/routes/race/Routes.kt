@@ -43,6 +43,9 @@ class RaceRoutes {
         @Resource("new")
         class New(val parent: AppearanceRoutes = AppearanceRoutes())
 
+        @Resource("clone")
+        class Clone(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
+
         @Resource("delete")
         class Delete(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
 

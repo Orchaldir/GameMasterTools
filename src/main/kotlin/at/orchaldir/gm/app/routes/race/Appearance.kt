@@ -5,9 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseRaceAppearance
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
-import at.orchaldir.gm.core.action.CreateRaceAppearance
-import at.orchaldir.gm.core.action.DeleteRaceAppearance
-import at.orchaldir.gm.core.action.UpdateRaceAppearance
+import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -65,6 +63,21 @@ fun Application.configureRaceAppearanceRouting() {
 
             val id = STORE.getState().getRaceAppearanceStorage().lastId
             call.respondRedirect(call.application.href(AppearanceRoutes.Edit(id)))
+
+            STORE.getState().save()
+        }
+        get<AppearanceRoutes.Clone> { clone ->
+            logger.info { "Clone race appearance ${clone.id.value}" }
+
+            STORE.dispatch(CloneRaceAppearance(clone.id))
+
+            call.respondRedirect(
+                call.application.href(
+                    AppearanceRoutes.Edit(
+                        STORE.getState().getRaceAppearanceStorage().lastId
+                    )
+                )
+            )
 
             STORE.getState().save()
         }
@@ -131,6 +144,7 @@ private fun HTML.showDetails(
 ) {
     val eyeOptions = appearance.eyeOptions
     val backLink = call.application.href(AppearanceRoutes())
+    val cloneLink = call.application.href(AppearanceRoutes.Clone(appearance.id))
     val deleteLink = call.application.href(AppearanceRoutes.Delete(appearance.id))
     val editLink = call.application.href(AppearanceRoutes.Edit(appearance.id))
 
@@ -145,6 +159,7 @@ private fun HTML.showDetails(
             }
 
             action(editLink, "Edit")
+            action(cloneLink, "Clone")
 
             if (state.canDelete(appearance.id)) {
                 action(deleteLink, "Delete")
@@ -226,9 +241,13 @@ private fun HTML.showEditor(
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
+
                 selectName(appearance.name)
+
                 h2 { +"Options" }
+
                 editAppearanceOptions(appearance, eyeOptions)
+
                 button("Update", updateLink)
             }
             back(backLink)

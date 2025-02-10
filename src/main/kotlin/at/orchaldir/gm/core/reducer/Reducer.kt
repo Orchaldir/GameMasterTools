@@ -67,6 +67,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateRace -> UPDATE_RACE(state, action)
         // race appearance
         is CreateRaceAppearance -> CREATE_RACE_APPEARANCE(state, action)
+        is CloneRaceAppearance -> CLONE_RACE_APPEARANCE(state, action)
         is DeleteRaceAppearance -> DELETE_RACE_APPEARANCE(state, action)
         is UpdateRaceAppearance -> UPDATE_RACE_APPEARANCE(state, action)
         // time
