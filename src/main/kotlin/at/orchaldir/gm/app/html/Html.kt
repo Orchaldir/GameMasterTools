@@ -32,6 +32,8 @@ fun HTML.simpleHtml(
         }
     }
     body {
+        onLoad = "setScreen()"
+        onBeforeunLoad = "setScroll()"
         h1 { +title }
         content()
     }
@@ -39,10 +41,12 @@ fun HTML.simpleHtml(
 
 fun HtmlBlockTag.split(left: DIV.() -> Unit, right: DIV.() -> Unit) {
     div {
+        id = "left"
         classes += "split"
         left()
     }
     div {
+        id = "right"
         classes += "split"
         right()
     }
