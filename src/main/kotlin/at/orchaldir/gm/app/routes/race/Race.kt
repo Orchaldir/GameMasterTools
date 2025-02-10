@@ -131,6 +131,7 @@ private fun HTML.showAllRaces(
         table {
             tr {
                 th { +"Name" }
+                th { +"Gender" }
                 th { +"Max Age" }
                 th { +"Height" }
                 th { +"Life Stages" }
@@ -138,6 +139,7 @@ private fun HTML.showAllRaces(
             races.forEach { race ->
                 tr {
                     td { link(call, state, race) }
+                    td { +race.genders.getValidValues().joinToString() }
                     tdSkipZero(race.lifeStages.getMaxAge())
                     td { +race.height.center.toString() }
                     tdSkipZero(race.lifeStages.countLifeStages())
