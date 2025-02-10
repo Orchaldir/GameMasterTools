@@ -93,6 +93,9 @@
     },
     "pupilShapes": {
      "Circle": "Common"
+    },
+    "pupilColors": {
+     "White": "Common"
     }
    },
    "hairOptions": {
