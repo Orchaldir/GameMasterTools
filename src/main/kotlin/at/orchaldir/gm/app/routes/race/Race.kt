@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.Race
@@ -27,6 +28,7 @@ import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import at.orchaldir.gm.visualization.character.appearance.visualizeGroup
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -48,6 +50,13 @@ fun Application.configureRaceRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllRaces(call, STORE.getState(), all.sort)
+            }
+        }
+        get<RaceRoutes.Gallery> {
+            logger.info { "Show gallery" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showGallery(call, STORE.getState())
             }
         }
         get<RaceRoutes.Details> { details ->
@@ -127,11 +136,13 @@ private fun HTML.showAllRaces(
 ) {
     val races = state.sortRaces(sort)
     val createLink = call.application.href(RaceRoutes.New())
+    val galleryLink = call.application.href(RaceRoutes.Gallery())
     val sortNameLink = call.application.href(RaceRoutes.All(SortRace.Name))
     val sortMaxAgeLink = call.application.href(RaceRoutes.All(SortRace.MaxAge))
     val sortMaxHeightLink = call.application.href(RaceRoutes.All(SortRace.MaxHeight))
 
     simpleHtml("Races") {
+        action(galleryLink, "Gallery")
         field("Count", races.size)
         field("Sort") {
             link(sortNameLink, "Name")
@@ -164,6 +175,38 @@ private fun HTML.showAllRaces(
 
         action(createLink, "Add")
         back("/")
+    }
+}
+
+private fun HTML.showGallery(
+    call: ApplicationCall,
+    state: State,
+) {
+    val races = state.sortRaces()
+    val maxSize = CHARACTER_CONFIG.calculateSize(races.map { it.height.getMax() }.maxBy { it.millimeters })
+    val backLink = call.application.href(RaceRoutes.All())
+
+    simpleHtml("Races") {
+
+        div("grid-container") {
+            races.forEach { race ->
+                val lifeStage = race.lifeStages.getAllLifeStages().maxBy { it.relativeSize.value }
+                val appearance = generateAppearance(state, race, race.genders.getValidValues().first())
+                val appearanceForAge = getAppearanceForAge(race, appearance, lifeStage.maxAge)
+                val svg = visualizeAppearance(CHARACTER_CONFIG, maxSize, appearanceForAge)
+
+                div("grid-item") {
+                    a(href(call, race.id)) {
+                        div {
+                            +race.name
+                        }
+                        svg(svg, 100)
+                    }
+                }
+            }
+        }
+
+        back(backLink)
     }
 }
 
@@ -213,10 +256,7 @@ private fun HtmlBlockTag.visualizeLifeStages(
     gender: Gender,
     width: Int,
 ) {
-    val raceAppearanceId = race.lifeStages.getRaceAppearance()
-    val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(raceAppearanceId)
-    val generator = createGeneratorConfig(state, raceAppearance, AppearanceStyle(), gender)
-    val appearance = generator.generate()
+    val appearance = generateAppearance(state, race, gender)
 
     val svg = visualizeGroup(CHARACTER_CONFIG, race.lifeStages.getAllLifeStages().map {
         getAppearanceForAge(race, appearance, it.maxAge)
@@ -225,6 +265,18 @@ private fun HtmlBlockTag.visualizeLifeStages(
     p {
         svg(svg, width)
     }
+}
+
+private fun generateAppearance(
+    state: State,
+    race: Race,
+    gender: Gender,
+): Appearance {
+    val raceAppearanceId = race.lifeStages.getRaceAppearance()
+    val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(raceAppearanceId)
+    val generator = createGeneratorConfig(state, raceAppearance, AppearanceStyle(), gender)
+
+    return generator.generate()
 }
 
 private fun HtmlBlockTag.showLifeStages(

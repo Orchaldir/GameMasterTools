@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.routes.race
 
+import at.orchaldir.gm.app.routes.item.TextRoutes
 import at.orchaldir.gm.core.model.race.RACE_TYPE
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
@@ -13,6 +14,9 @@ class RaceRoutes {
         val sort: SortRace = SortRace.Name,
         val parent: RaceRoutes = RaceRoutes(),
     )
+
+    @Resource("gallery")
+    class Gallery(val parent: RaceRoutes = RaceRoutes())
 
     @Resource("details")
     class Details(val id: RaceId, val parent: RaceRoutes = RaceRoutes())
