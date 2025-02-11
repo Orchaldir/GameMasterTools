@@ -217,6 +217,7 @@ private fun FORM.selectRelativeDate(param: String, relativeDate: RelativeDate, c
             0,
             calendar.getMinDaysPerMonth() - 1,
         )
+
         is DayInYear -> {
             selectMonthIndex("Month", param, calendar, relativeDate.monthIndex)
             selectDayIndex(

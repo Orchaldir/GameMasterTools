@@ -5,7 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseRaceAppearance
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
-import at.orchaldir.gm.core.action.*
+import at.orchaldir.gm.core.action.CloneRaceAppearance
+import at.orchaldir.gm.core.action.CreateRaceAppearance
+import at.orchaldir.gm.core.action.DeleteRaceAppearance
+import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender

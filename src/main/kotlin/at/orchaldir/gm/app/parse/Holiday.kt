@@ -30,6 +30,7 @@ fun parseRelativeDate(parameters: Parameters, param: String): RelativeDate {
         RelativeDateType.DayInMonth -> DayInMonth(
             parseDayIndex(parameters, param),
         )
+
         RelativeDateType.DayInYear -> DayInYear(
             parseDayIndex(parameters, param),
             parseInt(parameters, combine(param, MONTH)),

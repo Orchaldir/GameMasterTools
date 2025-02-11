@@ -2,7 +2,9 @@ package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.language.*
+import at.orchaldir.gm.core.model.language.ComprehensionLevel
+import at.orchaldir.gm.core.model.language.InventedLanguage
+import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.utils.Id
