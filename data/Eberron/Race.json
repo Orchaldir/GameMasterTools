@@ -806,6 +806,68 @@
     "type": "Immutable",
     "appearance": 7
    }
+  },
+  "14": {
+   "id": 14,
+   "name": "Gnoll",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 2100
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 6,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 1,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 2,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 4,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 6,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 10
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 25
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 30,
+      "relativeSize": 0.95,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 35,
+      "relativeSize": 0.9,
+      "hairColor": "White"
+     }
+    ]
+   }
   }
  }
 }

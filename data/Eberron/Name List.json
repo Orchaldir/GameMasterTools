@@ -28,6 +28,30 @@
     "Shale Shard Slate",
     "Sunset"
    ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Gnoll",
+   "names": [
+    "Dagnyr",
+    "Dhyrn",
+    "Ghyrryn",
+    "Gnasc",
+    "Gnoryc",
+    "Gnyrl",
+    "Gnyrn",
+    "Hyrn",
+    "Lhoryn",
+    "Lhyr",
+    "Lhyrl",
+    "Mognyr",
+    "Myrl",
+    "Sorgnyn",
+    "Thyrn",
+    "Toryc",
+    "Yrgnyn",
+    "Yrych"
+   ]
   }
  }
 }
