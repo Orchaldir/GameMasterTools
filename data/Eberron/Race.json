@@ -925,6 +925,66 @@
      }
     ]
    }
+  },
+  "16": {
+   "id": 16,
+   "name": "Medusa",
+   "genders": {
+    "Female": "Common",
+    "Male": "Uncommon"
+   },
+   "height": {
+    "center": {
+     "millimeters": 1700
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 10,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 5,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 10,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 15,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 100
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 150
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 200,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 250,
+      "relativeSize": 0.9
+     }
+    ]
+   }
   }
  }
 }

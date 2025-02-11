@@ -580,6 +580,69 @@
    "mouthTypes": {
     "NormalMouth": "Common"
    }
+  },
+  "10": {
+   "id": 10,
+   "name": "Medusa",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Scales": "Uncommon",
+    "Normal": "Common"
+   },
+   "scalesColors": {
+    "Blue": "Common",
+    "Crimson": "Common",
+    "Gold": "Common",
+    "Green": "Common",
+    "Maroon": "Common",
+    "Navy": "Common",
+    "Orange": "Common",
+    "OrangeRed": "Common",
+    "Red": "Common",
+    "SaddleBrown": "Common"
+   },
+   "normalSkinColors": {
+    "Fair": "Uncommon",
+    "Light": "Common",
+    "Medium": "Common",
+    "Tan": "Common",
+    "Dark": "Common",
+    "VeryDark": "Common"
+   },
+   "earsLayout": {
+    "NoEars": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeShapes": {
+     "Circle": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "pupilColors": {
+     "Crimson": "Common"
+    },
+    "scleraColors": {
+     "Fuchsia": "Common",
+     "White": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "hairTypes": {
+     "None": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
   }
  }
 }
