@@ -43,20 +43,22 @@ fun Application.configureRouting() {
             call.respondHtml(HttpStatusCode.OK) {
                 simpleHtml(APP_TITLE) {
                     h2 { +"Elements" }
-                    fieldStorageLink(call, state.getCharacterStorage(), CharacterRoutes.All())
-                    fieldStorageLink(call, state.getCultureStorage(), CultureRoutes())
-                    fieldStorageLink(call, state.getFashionStorage(), FashionRoutes())
                     fieldStorageLink(call, state.getFontStorage(), FontRoutes.All())
-                    fieldStorageLink(call, state.getLanguageStorage(), LanguageRoutes())
-                    fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes())
-                    fieldStorageLink(call, state.getNameListStorage(), NameListRoutes())
                     fieldStorageLink(call, state.getOrganizationStorage(), OrganizationRoutes.All())
+                    h3 { +"Characters" }
+                    fieldStorageLink(call, state.getCharacterStorage(), CharacterRoutes.All())
                     fieldStorageLink(call, state.getPersonalityTraitStorage(), PersonalityTraitRoutes())
                     fieldStorageLink(call, state.getRaceStorage(), RaceRoutes.All())
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), AppearanceRoutes())
+                    h3 { +"Cultures" }
+                    fieldStorageLink(call, state.getCultureStorage(), CultureRoutes())
+                    fieldStorageLink(call, state.getFashionStorage(), FashionRoutes())
+                    fieldStorageLink(call, state.getLanguageStorage(), LanguageRoutes())
+                    fieldStorageLink(call, state.getNameListStorage(), NameListRoutes())
                     h3 { +"Items" }
-                    fieldStorageLink(call, state.getTextStorage(), TextRoutes.All())
                     fieldStorageLink(call, state.getItemTemplateStorage(), ItemTemplateRoutes())
+                    fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes())
+                    fieldStorageLink(call, state.getTextStorage(), TextRoutes.All())
                     h3 { +"Economy" }
                     fieldStorageLink(call, state.getBusinessStorage(), BusinessRoutes.All())
                     fieldStorageLink(call, state.getJobStorage(), JobRoutes())
