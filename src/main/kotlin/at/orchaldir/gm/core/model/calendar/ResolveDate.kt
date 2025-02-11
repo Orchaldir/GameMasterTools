@@ -27,7 +27,7 @@ fun Calendar.resolve(date: Day): DisplayDay {
     val year = absoluteDate / daysPerYear
     var remainingDays = absoluteDate % daysPerYear
 
-    for ((monthIndex, monthData) in months.withIndex().reversed()) {
+    for ((monthIndex, monthData) in months.months().withIndex().reversed()) {
         if (remainingDays < monthData.days) {
             val dayIndex = monthData.days - remainingDays - 1
             return DisplayDay(0, year, monthIndex, dayIndex, weekdayIndex)
@@ -42,7 +42,7 @@ fun Calendar.resolve(date: Day): DisplayDay {
 fun Calendar.resolveDayAndMonth(dayInYear: Int): Pair<Int, Int> {
     var remainingDays = dayInYear
 
-    for ((monthIndex, monthData) in months.withIndex()) {
+    for ((monthIndex, monthData) in months.months().withIndex()) {
         if (remainingDays < monthData.days) {
             return Pair(monthIndex, remainingDays)
         }
@@ -88,16 +88,16 @@ fun Calendar.resolve(day: DisplayDay): Day {
     if (day.year.eraIndex == 1) {
         var dayIndex = day.year.yearIndex * daysPerYear + day.dayIndex - offsetInDays
 
-        (0..<day.monthIndex).map { months[it] }
-            .forEach { dayIndex += it.days }
+        (0..<day.monthIndex)
+            .forEach { dayIndex += months.getDaysPerMonth(it) }
 
         return Day(dayIndex)
     }
 
     var dayIndex = -day.year.yearIndex * daysPerYear - offsetInDays
 
-    (day.monthIndex..<months.size).map { months[it] }
-        .forEach { dayIndex -= it.days }
+    (day.monthIndex..<months.getSize())
+        .forEach { dayIndex -= months.getDaysPerMonth(it) }
 
     dayIndex += day.dayIndex
 

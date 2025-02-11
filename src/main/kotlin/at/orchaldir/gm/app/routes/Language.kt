@@ -5,10 +5,9 @@ import at.orchaldir.gm.app.LANGUAGES
 import at.orchaldir.gm.app.ORIGIN
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.field
-import at.orchaldir.gm.app.html.model.fieldCreator
 import at.orchaldir.gm.app.html.model.selectCreator
 import at.orchaldir.gm.app.html.model.selectDate
+import at.orchaldir.gm.app.html.model.showCreator
 import at.orchaldir.gm.app.parse.parseLanguage
 import at.orchaldir.gm.core.action.CreateLanguage
 import at.orchaldir.gm.core.action.DeleteLanguage
@@ -116,7 +115,6 @@ fun Application.configureLanguageRouting() {
             val language = parseLanguage(call.receiveParameters(), state, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-
                 showLanguageEditor(call, state, language)
             }
         }
@@ -147,16 +145,20 @@ private fun HTML.showAllLanguages(
         table {
             tr {
                 th { +"Name" }
+                th { +"Origin" }
                 th { +"Characters" }
                 th { +"Cultures" }
+                th { +"Languages" }
                 th { +"Spells" }
                 th { +"Texts" }
             }
             languages.forEach { language ->
                 tr {
                     td { link(call, state, language) }
+                    td { displayOrigin(call, state, language) }
                     tdSkipZero(state.countCharacters(language.id))
                     tdSkipZero(state.countCultures(language.id))
+                    tdSkipZero(state.countChildren(language.id))
                     tdSkipZero(state.countSpells(language.id))
                     tdSkipZero(state.countTexts(language.id))
                 }
@@ -184,29 +186,7 @@ private fun HTML.showLanguageDetails(
 
     simpleHtml("Language: ${language.name}") {
         field("Name", language.name)
-        when (val origin = language.origin) {
-            is CombinedLanguage -> {
-                field("Origin", "Combined")
-                showList("Parent Languages", origin.parents) { id ->
-                    link(call, state, id)
-                }
-            }
-
-            is EvolvedLanguage -> {
-                field("Origin", "Evolved")
-                fieldLink("Parent Language", call, state, origin.parent)
-            }
-
-            is InventedLanguage -> {
-                field("Origin", "Invented")
-                fieldCreator(call, state, origin.inventor, "Inventor")
-                field(call, state, "Date", origin.date)
-            }
-
-            OriginalLanguage -> {
-                field("Origin", "Original")
-            }
-        }
+        showOrigin(call, state, language)
         showList("Child Languages", children) { language ->
             link(call, language)
         }
@@ -231,6 +211,51 @@ private fun HTML.showLanguageDetails(
     }
 }
 
+private fun HtmlBlockTag.showOrigin(
+    call: ApplicationCall,
+    state: State,
+    language: Language,
+) {
+    field("Origin") {
+        displayOrigin(call, state, language)
+    }
+}
+
+private fun HtmlBlockTag.displayOrigin(
+    call: ApplicationCall,
+    state: State,
+    language: Language,
+) {
+    when (val origin = language.origin) {
+        is CombinedLanguage -> {
+            +"Combines "
+            var isFirst = true
+            origin.parents.forEach { language ->
+                if (isFirst) {
+                    isFirst = false
+                } else {
+                    +", "
+                }
+                link(call, state, language)
+            }
+        }
+
+        CosmicLanguage -> +"Cosmic"
+
+        is EvolvedLanguage -> {
+            +"Evolved from "
+            link(call, state, origin.parent)
+        }
+
+        is InventedLanguage -> {
+            +"Invented by "
+            showCreator(call, state, origin.inventor)
+        }
+
+        OriginalLanguage -> +"Original"
+    }
+}
+
 private fun HTML.showLanguageEditor(
     call: ApplicationCall,
     state: State,
@@ -238,6 +263,7 @@ private fun HTML.showLanguageEditor(
 ) {
     val possibleInventors = state.getCharacterStorage().getAll()
     val possibleParents = state.getPossibleParents(language.id)
+        .sortedBy { it.name }
     val backLink = href(call, language.id)
     val previewLink = call.application.href(LanguageRoutes.Preview(language.id))
     val updateLink = call.application.href(LanguageRoutes.Update(language.id))
@@ -248,34 +274,17 @@ private fun HTML.showLanguageEditor(
             action = previewLink
             method = FormMethod.post
             selectName(language.name)
-            field("Origin") {
-                select {
-                    id = ORIGIN
-                    name = ORIGIN
-                    onChange = ON_CHANGE_SCRIPT
-                    LanguageOriginType.entries.forEach { origin ->
-                        option {
-                            label = origin.name
-                            value = origin.name
-                            disabled = when (origin) {
-                                LanguageOriginType.Combined -> possibleParents.size < 2
-                                LanguageOriginType.Evolved -> possibleParents.isEmpty()
-                                LanguageOriginType.Invented -> possibleInventors.isEmpty()
-                                LanguageOriginType.Original -> false
-                            }
-                            selected = when (origin) {
-                                LanguageOriginType.Combined -> language.origin is OriginalLanguage
-                                LanguageOriginType.Evolved -> language.origin is EvolvedLanguage
-                                LanguageOriginType.Invented -> language.origin is InventedLanguage
-                                LanguageOriginType.Original -> language.origin is CombinedLanguage
-                            }
-                        }
-                    }
+            selectValue("Origin", ORIGIN, LanguageOriginType.entries, language.origin.getType(), true) {
+                when (it) {
+                    LanguageOriginType.Combined -> possibleParents.size < 2
+                    LanguageOriginType.Evolved -> possibleParents.isEmpty()
+                    LanguageOriginType.Invented -> possibleInventors.isEmpty()
+                    else -> false
                 }
             }
             when (val origin = language.origin) {
                 is CombinedLanguage -> {
-                    selectElements(state, LANGUAGES, possibleParents.sortedBy { it.name }, origin.parents)
+                    selectElements(state, LANGUAGES, possibleParents, origin.parents)
                 }
 
                 is EvolvedLanguage -> selectElement(state, "Parent", LANGUAGES, possibleParents, origin.parent)

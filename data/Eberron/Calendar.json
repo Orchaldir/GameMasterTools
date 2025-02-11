@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Galifar",
+   "days": {
+    "type": "Weekdays",
+    "weekDays": [
+     {
+      "name": "Sul"
+     },
+     {
+      "name": "Mol"
+     },
+     {
+      "name": "Zol"
+     },
+     {
+      "name": "Wir"
+     },
+     {
+      "name": "Zor"
+     },
+     {
+      "name": "Far"
+     },
+     {
+      "name": "Sar"
+     }
+    ]
+   },
+   "months": {
+    "type": "Simple",
+    "daysPerMonth": 28,
+    "months": [
+     "Zarantyr",
+     "Olarune",
+     "Therendor",
+     "Eyre",
+     "Dravago",
+     "Nymm",
+     "Lharvion",
+     "Barrakas",
+     "Rhaan",
+     "Sypheros",
+     "Aryth",
+     "Vult"
+    ]
+   },
+   "eras": {
+    "before": {
+     "text": "BK",
+     "isPrefix": false
+    },
+    "first": {
+     "startDate": {
+      "type": "Year",
+      "year": 0
+     },
+     "text": "YK",
+     "isPrefix": false
+    }
+   }
+  }
+ }
+}

@@ -4,22 +4,26 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseRace
+import at.orchaldir.gm.core.action.CloneRace
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
-import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
+import at.orchaldir.gm.core.model.race.aging.LifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStagesType
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.SortRace
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
@@ -39,11 +43,11 @@ private val logger = KotlinLogging.logger {}
 
 fun Application.configureRaceRouting() {
     routing {
-        get<RaceRoutes> {
+        get<RaceRoutes.All> { all ->
             logger.info { "Get all races" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllRaces(call)
+                showAllRaces(call, STORE.getState(), all.sort)
             }
         }
         get<RaceRoutes.Details> { details ->
@@ -60,6 +64,15 @@ fun Application.configureRaceRouting() {
             logger.info { "Add new race" }
 
             STORE.dispatch(CreateRace)
+
+            call.respondRedirect(call.application.href(RaceRoutes.Edit(STORE.getState().getRaceStorage().lastId)))
+
+            STORE.getState().save()
+        }
+        get<RaceRoutes.Clone> { clone ->
+            logger.info { "Clone race ${clone.id.value}" }
+
+            STORE.dispatch(CloneRace(clone.id))
 
             call.respondRedirect(call.application.href(RaceRoutes.Edit(STORE.getState().getRaceStorage().lastId)))
 
@@ -107,15 +120,48 @@ fun Application.configureRaceRouting() {
     }
 }
 
-private fun HTML.showAllRaces(call: ApplicationCall) {
-    val races = STORE.getState().getRaceStorage().getAll().sortedBy { it.name }
+private fun HTML.showAllRaces(
+    call: ApplicationCall,
+    state: State,
+    sort: SortRace,
+) {
+    val races = state.sortRaces(sort)
     val createLink = call.application.href(RaceRoutes.New())
+    val sortNameLink = call.application.href(RaceRoutes.All(SortRace.Name))
+    val sortMaxAgeLink = call.application.href(RaceRoutes.All(SortRace.MaxAge))
+    val sortHeightLink = call.application.href(RaceRoutes.All(SortRace.Height))
 
     simpleHtml("Races") {
         field("Count", races.size)
-        showList(races) { race ->
-            link(call, race)
+        field("Sort") {
+            link(sortNameLink, "Name")
+            +" "
+            link(sortMaxAgeLink, "Max Age")
+            +" "
+            link(sortHeightLink, "Height")
         }
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Gender" }
+                th { +"Max Age" }
+                th { +"Height" }
+                th { +"Life Stages" }
+                th { +"Appearance" }
+            }
+            races.forEach { race ->
+                tr {
+                    td { link(call, state, race) }
+                    td { +race.genders.getValidValues().joinToString() }
+                    tdSkipZero(race.lifeStages.getMaxAge())
+                    td { +race.height.center.toString() }
+                    tdSkipZero(race.lifeStages.countLifeStages())
+                    td { link(call, state, race.lifeStages.getRaceAppearance()) }
+                }
+            }
+        }
+
         action(createLink, "Add")
         back("/")
     }
@@ -126,21 +172,27 @@ private fun HTML.showRaceDetails(
     state: State,
     race: Race,
 ) {
-    val backLink = call.application.href(RaceRoutes())
+    val backLink = call.application.href(RaceRoutes.All())
+    val cloneLink = call.application.href(RaceRoutes.Clone(race.id))
     val deleteLink = call.application.href(RaceRoutes.Delete(race.id))
     val editLink = call.application.href(RaceRoutes.Edit(race.id))
 
     simpleHtml("Race: ${race.name}") {
         split({
-            field("Name", race.name)
             showRarityMap("Gender", race.genders)
             showDistribution("Height", race.height)
             showLifeStages(call, state, race)
+
             h2 { +"Characters" }
+
             showList(state.getCharacters(race.id)) { character ->
                 link(call, state, character)
             }
+
+            h2 { +"Actions" }
+
             action(editLink, "Edit")
+            action(cloneLink, "Clone")
 
             if (state.canDelete(race.id)) {
                 action(deleteLink, "Delete")
@@ -163,7 +215,7 @@ private fun HtmlBlockTag.visualizeLifeStages(
 ) {
     val raceAppearanceId = race.lifeStages.getRaceAppearance()
     val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(raceAppearanceId)
-    val generator = createGeneratorConfig(state, raceAppearance, gender, CultureId(0))
+    val generator = createGeneratorConfig(state, raceAppearance, AppearanceStyle(), gender)
     val appearance = generator.generate()
 
     val svg = visualizeGroup(CHARACTER_CONFIG, race.lifeStages.getAllLifeStages().map {
@@ -189,28 +241,32 @@ private fun HtmlBlockTag.showLifeStages(
 
         is SimpleAging -> {
             showAppearance(call, state, lifeStages.appearance)
-            showList(lifeStages.lifeStages) { stage ->
-                +stage.name
-                ul {
-                    li {
-                        showMaxAge(stage.maxAge)
-                    }
-                    li {
-                        showRelativeSize(stage.relativeSize)
-                    }
-                    if (stage.hasBeard) {
-                        li {
-                            p {
-                                b { +"Has Beard" }
-                            }
-                        }
-                    }
-                    if (stage.hairColor != null) {
-                        li {
-                            field("Hair Color", stage.hairColor)
-                        }
-                    }
+            details {
+                showList(lifeStages.lifeStages, HtmlBlockTag::showLifeStafe)
+            }
+        }
+    }
+}
+
+private fun HtmlBlockTag.showLifeStafe(stage: LifeStage) {
+    +stage.name
+    ul {
+        li {
+            showMaxAge(stage.maxAge)
+        }
+        li {
+            showRelativeSize(stage.relativeSize)
+        }
+        if (stage.hasBeard) {
+            li {
+                p {
+                    b { +"Has Beard" }
                 }
+            }
+        }
+        if (stage.hairColor != null) {
+            li {
+                field("Hair Color", stage.hairColor)
             }
         }
     }
@@ -241,7 +297,7 @@ private fun HTML.showRaceEditor(
     val previewLink = call.application.href(RaceRoutes.Preview(race.id))
     val updateLink = call.application.href(RaceRoutes.Update(race.id))
 
-    simpleHtml("Edit Race: ${race.name}") {
+    simpleHtml("Edit Race: ${race.name}", true) {
         split({
             form {
                 id = "editor"
@@ -326,7 +382,7 @@ private fun FORM.editLifeStages(
 }
 
 private fun FORM.selectNumberOfLifeStages(number: Int) {
-    selectInt("Weekdays", number, 2, 100, 1, LIFE_STAGE, true)
+    selectInt("Life Stages", number, 2, 100, 1, LIFE_STAGE, true)
 }
 
 private fun LI.selectStageName(
@@ -341,7 +397,7 @@ private fun LI.selectMaxAge(
     index: Int,
     maxAge: Int?,
 ) {
-    selectInt("Max Age", maxAge ?: 0, minMaxAge, 10000, 1, combine(LIFE_STAGE, AGE, index))
+    selectInt("Max Age", maxAge ?: 0, minMaxAge, 10000, 1, combine(LIFE_STAGE, AGE, index), true)
 }
 
 private fun LI.selectRelativeSize(

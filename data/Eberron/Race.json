@@ -1,0 +1,792 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Human",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 5,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 12,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 18,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 45,
+      "hasBeard": true
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 60,
+      "hasBeard": true
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 90,
+      "relativeSize": 0.95,
+      "hasBeard": true,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 120,
+      "relativeSize": 0.9,
+      "hasBeard": true,
+      "hairColor": "White"
+     }
+    ]
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Elf",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 1700
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 2,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 20,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 60,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 110,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 170,
+      "hasBeard": true
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 260,
+      "hasBeard": true
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 350,
+      "relativeSize": 0.95,
+      "hasBeard": true,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 500,
+      "relativeSize": 0.9,
+      "hasBeard": true,
+      "hairColor": "White"
+     }
+    ]
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Dwarf",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 1200
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 10,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 20,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 40,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 120,
+      "hasBeard": true
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 180,
+      "hasBeard": true
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 250,
+      "relativeSize": 0.95,
+      "hasBeard": true,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 400,
+      "relativeSize": 0.9,
+      "hasBeard": true,
+      "hairColor": "White"
+     }
+    ]
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Warforged",
+   "genders": {
+    "Genderless": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 2000
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Immutable",
+    "appearance": 3
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Changeling",
+   "genders": {
+    "Female": "Common",
+    "Genderless": "Uncommon",
+    "Male": "Common"
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 1,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 5,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 12,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 18,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 45
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 60
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 90,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 120,
+      "relativeSize": 0.9
+     }
+    ]
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Khoravar",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 1600
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 2,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 5,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 12,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 20,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 60,
+      "hasBeard": true
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 90,
+      "hasBeard": true
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 120,
+      "relativeSize": 0.95,
+      "hasBeard": true,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 180,
+      "relativeSize": 0.9,
+      "hasBeard": true,
+      "hairColor": "White"
+     }
+    ]
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Gnome",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 900
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 2,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 10,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 20,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 40,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 100,
+      "hasBeard": true
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 150,
+      "hasBeard": true
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 200,
+      "relativeSize": 0.95,
+      "hasBeard": true,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 300,
+      "relativeSize": 0.9,
+      "hasBeard": true,
+      "hairColor": "White"
+     }
+    ]
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Halfling",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 800
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 5,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 12,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 20,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 50,
+      "hasBeard": true
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 75,
+      "hasBeard": true
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 100,
+      "relativeSize": 0.95,
+      "hasBeard": true,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 200,
+      "relativeSize": 0.9,
+      "hasBeard": true,
+      "hairColor": "White"
+     }
+    ]
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Orc",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 1900
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 4,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 4,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 8,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 14,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 30,
+      "hasBeard": true
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 45,
+      "hasBeard": true
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 60,
+      "relativeSize": 0.95,
+      "hasBeard": true,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 80,
+      "relativeSize": 0.9,
+      "hasBeard": true,
+      "hairColor": "White"
+     }
+    ]
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Shifter",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 1500
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 5,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 5,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 12,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 18,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 45,
+      "hasBeard": true
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 60,
+      "hasBeard": true
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 90,
+      "relativeSize": 0.95,
+      "hasBeard": true,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 120,
+      "relativeSize": 0.9,
+      "hasBeard": true,
+      "hairColor": "White"
+     }
+    ]
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": "Goblin",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 1100
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 6,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 1,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 3,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 6,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 8,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 20,
+      "hasBeard": true
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 30,
+      "hasBeard": true
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 40,
+      "relativeSize": 0.95,
+      "hasBeard": true,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 60,
+      "relativeSize": 0.9,
+      "hasBeard": true,
+      "hairColor": "White"
+     }
+    ]
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": "Hobgoblin",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 1700
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 6,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 5,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 12,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 18,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 45,
+      "hasBeard": true
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 60,
+      "hasBeard": true
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 90,
+      "relativeSize": 0.95,
+      "hasBeard": true,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 120,
+      "relativeSize": 0.9,
+      "hasBeard": true,
+      "hairColor": "White"
+     }
+    ]
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Bugbear",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 2100
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 6,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 4,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 10,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 16,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 30,
+      "hasBeard": true
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 40,
+      "hasBeard": true
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 60,
+      "relativeSize": 0.95,
+      "hasBeard": true,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 80,
+      "relativeSize": 0.9,
+      "hasBeard": true,
+      "hairColor": "White"
+     }
+    ]
+   }
+  }
+ }
+}

@@ -2,7 +2,8 @@ package at.orchaldir.gm
 
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.CalendarId
-import at.orchaldir.gm.core.model.calendar.MonthDefinition
+import at.orchaldir.gm.core.model.calendar.ComplexMonths
+import at.orchaldir.gm.core.model.calendar.Month
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
@@ -53,7 +54,7 @@ val TEXT_ID_2 = TextId(2)
 val TOWN_ID_0 = TownId(0)
 val TOWN_ID_1 = TownId(1)
 
-val CALENDAR0 = Calendar(CALENDAR_ID_0, months = listOf(MonthDefinition("a")))
+val CALENDAR0 = Calendar(CALENDAR_ID_0, months = ComplexMonths(listOf(Month("a"))))
 val DAY0 = Day(100)
 val DAY1 = Day(200)
 val DAY2 = Day(300)

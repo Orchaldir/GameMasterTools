@@ -7,17 +7,38 @@ import kotlinx.serialization.Serializable
 
 enum class LanguageOriginType {
     Combined,
+    Cosmic,
     Evolved,
     Invented,
     Original,
 }
 
 @Serializable
-sealed class LanguageOrigin
+sealed class LanguageOrigin {
+
+    fun getType() = when (this) {
+        is CombinedLanguage -> LanguageOriginType.Combined
+        is CosmicLanguage -> LanguageOriginType.Cosmic
+        is EvolvedLanguage -> LanguageOriginType.Evolved
+        is InventedLanguage -> LanguageOriginType.Invented
+        OriginalLanguage -> LanguageOriginType.Original
+    }
+
+    fun isChildOf(language: LanguageId) = when (this) {
+        is CombinedLanguage -> parents.contains(language)
+        is EvolvedLanguage -> parent == language
+        else -> false
+    }
+
+}
 
 @Serializable
 @SerialName("Combined")
 data class CombinedLanguage(val parents: Set<LanguageId>) : LanguageOrigin()
+
+@Serializable
+@SerialName("Cosmic")
+data object CosmicLanguage : LanguageOrigin()
 
 @Serializable
 @SerialName("Invented")

@@ -56,6 +56,10 @@ import at.orchaldir.gm.utils.map.Resize
 
 sealed class Action
 
+// META
+
+data class LoadData(val path: String) : Action()
+
 // character
 data object CreateCharacter : Action()
 data class DeleteCharacter(val id: CharacterId) : Action()
@@ -135,11 +139,13 @@ data class UpdatePersonalityTrait(val trait: PersonalityTrait) : Action()
 
 // race
 data object CreateRace : Action()
+data class CloneRace(val id: RaceId) : Action()
 data class DeleteRace(val id: RaceId) : Action()
 data class UpdateRace(val race: Race) : Action()
 
 // race appearance
 data object CreateRaceAppearance : Action()
+data class CloneRaceAppearance(val id: RaceAppearanceId) : Action()
 data class DeleteRaceAppearance(val id: RaceAppearanceId) : Action()
 data class UpdateRaceAppearance(val race: RaceAppearance) : Action()
 

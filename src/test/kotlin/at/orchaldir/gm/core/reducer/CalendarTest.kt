@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.holiday.FixedDayInYear
+import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.utils.Storage
@@ -19,7 +19,7 @@ private val ID0 = CalendarId(0)
 private val ID1 = CalendarId(1)
 private val CULTURE0 = CultureId(1)
 private val HOLIDAY0 = HolidayId(2)
-private val VALID_MONTHS = listOf(MonthDefinition("a", 10), MonthDefinition("b", 10))
+private val VALID_MONTHS = ComplexMonths(listOf(Month("a", 10), Month("b", 10)))
 
 class CalendarTest {
 
@@ -134,7 +134,8 @@ class CalendarTest {
             @Test
             fun `At least 2 months`() {
                 val state = State(Storage(Calendar(ID0)))
-                val calendar = Calendar(ID0, months = listOf(MonthDefinition("a", 10)))
+                val months = ComplexMonths(listOf(Month("a", 10)))
+                val calendar = Calendar(ID0, months = months)
                 val action = UpdateCalendar(calendar)
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -143,7 +144,8 @@ class CalendarTest {
             @Test
             fun `At least 2 days per month`() {
                 val state = State(Storage(Calendar(ID0)))
-                val calendar = Calendar(ID0, months = listOf(MonthDefinition("a", 1), MonthDefinition("b", 1)))
+                val months = ComplexMonths(listOf(Month("a", 1), Month("b", 1)))
+                val calendar = Calendar(ID0, months = months)
                 val action = UpdateCalendar(calendar)
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -152,7 +154,8 @@ class CalendarTest {
             @Test
             fun `Months need unique names`() {
                 val state = State(Storage(Calendar(ID0)))
-                val calendar = Calendar(ID0, months = listOf(MonthDefinition("a", 10), MonthDefinition("a", 10)))
+                val months = ComplexMonths(listOf(Month("a", 10), Month("a", 10)))
+                val calendar = Calendar(ID0, months = months)
                 val action = UpdateCalendar(calendar)
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -161,7 +164,7 @@ class CalendarTest {
 
         @Test
         fun `Update would make holiday invalid`() {
-            val holiday = Holiday(HOLIDAY0, calendar = ID0, relativeDate = FixedDayInYear(0, 2))
+            val holiday = Holiday(HOLIDAY0, calendar = ID0, relativeDate = DayInYear(0, 2))
             val state = State(listOf(Storage(holiday), Storage(Calendar(ID0))))
             val calendar = Calendar(ID0, months = VALID_MONTHS, origin = ImprovedCalendar(ID1))
             val action = UpdateCalendar(calendar)
@@ -171,7 +174,7 @@ class CalendarTest {
 
         @Test
         fun `Successful update with a holiday`() {
-            val holiday = Holiday(HOLIDAY0, calendar = ID0, relativeDate = FixedDayInYear(0, 0))
+            val holiday = Holiday(HOLIDAY0, calendar = ID0, relativeDate = DayInYear(0, 0))
             val state = State(listOf(Storage(holiday), Storage(Calendar(ID0))))
             val calendar = Calendar(ID0, months = VALID_MONTHS)
             val action = UpdateCalendar(calendar)

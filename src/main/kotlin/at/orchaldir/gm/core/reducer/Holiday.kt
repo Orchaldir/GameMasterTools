@@ -6,12 +6,9 @@ import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.calendar.DayOfTheMonth
-import at.orchaldir.gm.core.model.calendar.MonthDefinition
+import at.orchaldir.gm.core.model.calendar.Month
 import at.orchaldir.gm.core.model.calendar.Weekdays
-import at.orchaldir.gm.core.model.holiday.FixedDayInYear
-import at.orchaldir.gm.core.model.holiday.Holiday
-import at.orchaldir.gm.core.model.holiday.RelativeDate
-import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
+import at.orchaldir.gm.core.model.holiday.*
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -42,7 +39,11 @@ val UPDATE_HOLIDAY: Reducer<UpdateHoliday, State> = { state, action ->
 
 fun checkRelativeDate(calendar: Calendar, relativeDate: RelativeDate) {
     when (relativeDate) {
-        is FixedDayInYear -> {
+        is DayInMonth -> {
+            require(relativeDate.dayIndex < calendar.getMinDaysPerMonth()) { "Holiday is outside at least one month!" }
+        }
+
+        is DayInYear -> {
             val month = checkMonth(calendar, relativeDate.monthIndex)
             require(relativeDate.dayIndex < month.days) { "Holiday is outside the month ${month.name}!" }
         }
@@ -60,7 +61,7 @@ fun checkRelativeDate(calendar: Calendar, relativeDate: RelativeDate) {
 private fun checkMonth(
     calendar: Calendar,
     monthIndex: Int,
-): MonthDefinition {
-    require(monthIndex < calendar.months.size) { "Holiday is in an unknown month!" }
-    return calendar.months[monthIndex]
+): Month {
+    require(monthIndex < calendar.months.getSize()) { "Holiday is in an unknown month!" }
+    return calendar.months.getMonth(monthIndex)
 }

@@ -21,6 +21,7 @@ import kotlinx.html.*
 
 fun HTML.simpleHtml(
     title: String,
+    keepPositionAfterReload: Boolean = false,
     content: BODY.() -> Unit,
 ) {
     head {
@@ -32,6 +33,12 @@ fun HTML.simpleHtml(
         }
     }
     body {
+        if (keepPositionAfterReload) {
+            onLoad = "loadScroll()"
+            onBeforeunLoad = "saveScroll()"
+        } else {
+            onLoad = "clearScroll()"
+        }
         h1 { +title }
         content()
     }
@@ -39,10 +46,12 @@ fun HTML.simpleHtml(
 
 fun HtmlBlockTag.split(left: DIV.() -> Unit, right: DIV.() -> Unit) {
     div {
+        id = "left"
         classes += "split"
         left()
     }
     div {
+        id = "right"
         classes += "split"
         right()
     }
@@ -166,10 +175,7 @@ fun HtmlBlockTag.showDistribution(
     label: String,
     distribution: Distribution,
 ) {
-    field(
-        label,
-        String.format("%s +- %s", distribution.center, distribution.offset)
-    )
+    field(label, distribution.display())
 }
 
 // lists
@@ -284,9 +290,9 @@ fun <T> HtmlBlockTag.showRarityMap(
 
 // table
 
-fun TR.tdSkipZero(value: Int) {
+fun TR.tdSkipZero(value: Int?) {
     td {
-        if (value != 0) {
+        if (value != null && value != 0) {
             +value.toString()
         }
     }

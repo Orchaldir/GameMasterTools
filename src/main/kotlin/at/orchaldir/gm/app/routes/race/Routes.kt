@@ -3,15 +3,25 @@ package at.orchaldir.gm.app.routes.race
 import at.orchaldir.gm.core.model.race.RACE_TYPE
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.util.SortRace
 import io.ktor.resources.*
 
 @Resource("/$RACE_TYPE")
 class RaceRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortRace = SortRace.Name,
+        val parent: RaceRoutes = RaceRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: RaceId, val parent: RaceRoutes = RaceRoutes())
 
     @Resource("new")
     class New(val parent: RaceRoutes = RaceRoutes())
+
+    @Resource("clone")
+    class Clone(val id: RaceId, val parent: RaceRoutes = RaceRoutes())
 
     @Resource("delete")
     class Delete(val id: RaceId, val parent: RaceRoutes = RaceRoutes())
@@ -32,6 +42,9 @@ class RaceRoutes {
 
         @Resource("new")
         class New(val parent: AppearanceRoutes = AppearanceRoutes())
+
+        @Resource("clone")
+        class Clone(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())
 
         @Resource("delete")
         class Delete(val id: RaceAppearanceId, val parent: AppearanceRoutes = AppearanceRoutes())

@@ -370,7 +370,7 @@ private fun HtmlBlockTag.selectMonthIndex(
     monthIndex: Int,
     minMonthIndex: Int,
 ) {
-    selectWithIndex(combine(param, MONTH), calendar.months) { index, month ->
+    selectWithIndex(combine(param, MONTH), calendar.months.months()) { index, month ->
         label = month.name
         value = index.toString()
         selected = monthIndex == index
@@ -387,6 +387,18 @@ fun HtmlBlockTag.selectDayIndex(
 ) {
     field(label) {
         selectDayIndex(param, calendar, monthIndex, dayIndex, 0)
+    }
+}
+
+fun HtmlBlockTag.selectDayIndex(
+    label: String,
+    param: String,
+    dayIndex: Int,
+    minDayIndex: Int,
+    maxDayIndex: Int,
+) {
+    field(label) {
+        selectDayIndex(param, dayIndex, minDayIndex, maxDayIndex)
     }
 }
 
@@ -410,10 +422,19 @@ private fun HtmlBlockTag.selectDayIndex(
     calendar: Calendar,
     monthIndex: Int,
     dayIndex: Int,
-    minMonthIndex: Int,
+    minDayIndex: Int,
 ) {
-    val month = calendar.months[monthIndex]
-    selectInt(dayIndex + 1, minMonthIndex + 1, month.days, 1, combine(param, DAY), true)
+    val month = calendar.months.getMonth(monthIndex)
+    selectDayIndex(param, dayIndex, minDayIndex, month.days - 1)
+}
+
+fun HtmlBlockTag.selectDayIndex(
+    param: String,
+    dayIndex: Int,
+    minDayIndex: Int,
+    maxDayIndex: Int,
+) {
+    selectInt(dayIndex + 1, minDayIndex + 1, maxDayIndex + 1, 1, combine(param, DAY), true)
 }
 
 // parse

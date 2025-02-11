@@ -303,7 +303,7 @@ inline fun <reified T : Enum<T>> FORM.selectRarityMap(
     update: Boolean = false,
     values: Set<T> = enumValues<T>().toSet(),
 ) {
-    showDetails(enum) {
+    showDetails(enum, true) {
         showMap(rarityMap.getRarityFor(values)) { currentValue, currentRarity ->
             selectValue(currentValue.toString(), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
                 label = rarity.toString()

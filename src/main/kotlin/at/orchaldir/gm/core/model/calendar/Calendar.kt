@@ -23,7 +23,7 @@ data class Calendar(
     val id: CalendarId,
     val name: String = "Calendar ${id.value}",
     val days: Days = DayOfTheMonth,
-    val months: List<MonthDefinition> = emptyList(),
+    val months: Months = ComplexMonths(emptyList()),
     val eras: CalendarEras = CalendarEras("BC", true, Day(0), "AD", false),
     val origin: CalendarOrigin = OriginalCalendar,
 ) : ElementWithSimpleName<CalendarId> {
@@ -35,7 +35,9 @@ data class Calendar(
 
     fun display(date: DisplayDate) = eras.display(date)
 
-    fun getDaysPerYear() = months.sumOf { it.days }
+    fun getDaysPerYear() = months.getDaysPerYear()
+
+    fun getMinDaysPerMonth() = months.getMinDaysPerMonth()
 
     fun getStartDate() = eras.first.startDate
 
@@ -76,9 +78,9 @@ data class Calendar(
 
     fun getMonth(day: Day) = getMonth(resolve(day))
 
-    fun getMonth(day: DisplayDay) = months[day.monthIndex]
+    fun getMonth(day: DisplayDay) = months.getMonth(day.monthIndex)
 
-    fun getLastMonthIndex() = months.size - 1
+    fun getLastMonthIndex() = months.getSize() - 1
 
     fun getStartOfMonth(day: Day) = getStartOfMonth(resolve(day))
 

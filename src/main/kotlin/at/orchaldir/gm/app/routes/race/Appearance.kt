@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseRaceAppearance
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
+import at.orchaldir.gm.core.action.CloneRaceAppearance
 import at.orchaldir.gm.core.action.CreateRaceAppearance
 import at.orchaldir.gm.core.action.DeleteRaceAppearance
 import at.orchaldir.gm.core.action.UpdateRaceAppearance
@@ -16,7 +17,7 @@ import at.orchaldir.gm.core.model.character.appearance.EyesLayout
 import at.orchaldir.gm.core.model.character.appearance.SkinType
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
-import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.canDelete
@@ -65,6 +66,21 @@ fun Application.configureRaceAppearanceRouting() {
 
             val id = STORE.getState().getRaceAppearanceStorage().lastId
             call.respondRedirect(call.application.href(AppearanceRoutes.Edit(id)))
+
+            STORE.getState().save()
+        }
+        get<AppearanceRoutes.Clone> { clone ->
+            logger.info { "Clone race appearance ${clone.id.value}" }
+
+            STORE.dispatch(CloneRaceAppearance(clone.id))
+
+            call.respondRedirect(
+                call.application.href(
+                    AppearanceRoutes.Edit(
+                        STORE.getState().getRaceAppearanceStorage().lastId
+                    )
+                )
+            )
 
             STORE.getState().save()
         }
@@ -131,6 +147,7 @@ private fun HTML.showDetails(
 ) {
     val eyeOptions = appearance.eyeOptions
     val backLink = call.application.href(AppearanceRoutes())
+    val cloneLink = call.application.href(AppearanceRoutes.Clone(appearance.id))
     val deleteLink = call.application.href(AppearanceRoutes.Delete(appearance.id))
     val editLink = call.application.href(AppearanceRoutes.Edit(appearance.id))
 
@@ -145,6 +162,7 @@ private fun HTML.showDetails(
             }
 
             action(editLink, "Edit")
+            action(cloneLink, "Clone")
 
             if (state.canDelete(appearance.id)) {
                 action(deleteLink, "Delete")
@@ -163,7 +181,7 @@ private fun HtmlBlockTag.showRandomExamples(
     n: Int,
     width: Int,
 ) {
-    val generator = createGeneratorConfig(state, appearance, Gender.Male, CultureId(0))
+    val generator = createGeneratorConfig(state, appearance, AppearanceStyle(), Gender.Male)
 
     repeat(n) {
         val svg = visualizeCharacter(CHARACTER_CONFIG, generator.generate())
@@ -220,15 +238,19 @@ private fun HTML.showEditor(
     val previewLink = call.application.href(AppearanceRoutes.Preview(appearance.id))
     val updateLink = call.application.href(AppearanceRoutes.Update(appearance.id))
 
-    simpleHtml("Edit Race Appearance: ${appearance.name}") {
+    simpleHtml("Edit Race Appearance: ${appearance.name}", true) {
         split({
             form {
                 id = "editor"
                 action = previewLink
                 method = FormMethod.post
+
                 selectName(appearance.name)
+
                 h2 { +"Options" }
+
                 editAppearanceOptions(appearance, eyeOptions)
+
                 button("Update", updateLink)
             }
             back(backLink)
@@ -294,17 +316,13 @@ private fun requiresHairColor(appearance: RaceAppearance) =
 fun createGeneratorConfig(
     state: State,
     appearance: RaceAppearance,
+    appearanceStyle: AppearanceStyle,
     gender: Gender,
-    cultureId: CultureId,
-): AppearanceGeneratorConfig {
-    val culture = state.getCultureStorage().getOrThrow(cultureId)
-
-    return AppearanceGeneratorConfig(
-        RandomNumberGenerator(Random),
-        state.rarityGenerator,
-        gender,
-        Distribution.fromMeters(1.0f, 0.0f),
-        appearance,
-        culture.appearanceStyle
-    )
-}
+) = AppearanceGeneratorConfig(
+    RandomNumberGenerator(Random),
+    state.rarityGenerator,
+    gender,
+    Distribution.fromMeters(1.0f, 0.0f),
+    appearance,
+    appearanceStyle,
+)

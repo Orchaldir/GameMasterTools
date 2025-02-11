@@ -1,0 +1,415 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Human",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Normal": "Common"
+   },
+   "normalSkinColors": {
+    "Fair": "Uncommon",
+    "Light": "Common",
+    "Medium": "Uncommon"
+   },
+   "earsLayout": {
+    "NormalEars": "Common"
+   },
+   "earShapes": {
+    "Round": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "pupilColors": {
+     "Aqua": "Common",
+     "Blue": "Common",
+     "Gray": "Rare",
+     "Green": "Common",
+     "Navy": "Common",
+     "Olive": "Common",
+     "Purple": "VeryRare",
+     "Red": "VeryRare",
+     "SaddleBrown": "Common",
+     "Silver": "Common",
+     "Teal": "Common"
+    },
+    "scleraColors": {
+     "White": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "Normal": "Common"
+    },
+    "hairTypes": {
+     "Normal": "Common"
+    },
+    "colors": {
+     "Black": "Common",
+     "Maroon": "Rare",
+     "Orange": "Rare",
+     "Red": "Rare",
+     "SaddleBrown": "Common",
+     "Yellow": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Changeling",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Exotic": "Common"
+   },
+   "exoticSkinColors": {
+    "Lavender": "Common",
+    "Silver": "Common"
+   },
+   "earsLayout": {
+    "NoEars": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeShapes": {
+     "Circle": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "pupilColors": {
+     "White": "Common"
+    },
+    "scleraColors": {
+     "White": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "hairTypes": {
+     "Normal": "Common"
+    },
+    "colors": {
+     "White": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Elf",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Normal": "Common"
+   },
+   "normalSkinColors": {
+    "Fair": "Uncommon",
+    "Light": "Common",
+    "Medium": "Uncommon"
+   },
+   "earsLayout": {
+    "NormalEars": "Common"
+   },
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeShapes": {
+     "Circle": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "pupilColors": {
+     "Aqua": "Common",
+     "Blue": "Common",
+     "Gray": "Rare",
+     "Green": "Common",
+     "Navy": "Common",
+     "Olive": "Common",
+     "Purple": "VeryRare",
+     "Red": "VeryRare",
+     "SaddleBrown": "Common",
+     "Silver": "Common",
+     "Teal": "Common"
+    },
+    "scleraColors": {
+     "White": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "Normal": "Common"
+    },
+    "hairTypes": {
+     "Normal": "Common"
+    },
+    "colors": {
+     "Black": "Common",
+     "Maroon": "Rare",
+     "Orange": "Rare",
+     "Red": "Rare",
+     "SaddleBrown": "Common",
+     "Yellow": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Warforged",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Exotic": "Common"
+   },
+   "exoticSkinColors": {
+    "Gray": "Common"
+   },
+   "earsLayout": {
+    "NoEars": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeShapes": {
+     "Circle": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "pupilColors": {
+     "Aqua": "Common"
+    },
+    "scleraColors": {
+     "Aqua": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "hairTypes": {
+     "None": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Orc",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Exotic": "Common"
+   },
+   "exoticSkinColors": {
+    "Green": "Common",
+    "Olive": "Common"
+   },
+   "earsLayout": {
+    "NormalEars": "Common"
+   },
+   "earShapes": {
+    "Round": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "pupilColors": {
+     "Aqua": "Common",
+     "Blue": "Common",
+     "Gray": "Rare",
+     "Green": "Common",
+     "Navy": "Common",
+     "Olive": "Common",
+     "Purple": "VeryRare",
+     "Red": "VeryRare",
+     "SaddleBrown": "Common",
+     "Silver": "Common",
+     "Teal": "Common"
+    },
+    "scleraColors": {
+     "White": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "Normal": "Common"
+    },
+    "hairTypes": {
+     "Normal": "Common"
+    },
+    "colors": {
+     "Black": "Common",
+     "Maroon": "Rare",
+     "Orange": "Rare",
+     "Red": "Rare",
+     "SaddleBrown": "Common",
+     "Yellow": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Shifter",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Normal": "Common"
+   },
+   "normalSkinColors": {
+    "Fair": "Uncommon",
+    "Light": "Common",
+    "Medium": "Uncommon"
+   },
+   "earsLayout": {
+    "NormalEars": "Common"
+   },
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "pupilShapes": {
+     "VerticalSlit": "Common"
+    },
+    "pupilColors": {
+     "Aqua": "Common",
+     "Blue": "Common",
+     "Gray": "Rare",
+     "Green": "Common",
+     "Navy": "Common",
+     "Olive": "Common",
+     "Purple": "VeryRare",
+     "Red": "VeryRare",
+     "SaddleBrown": "Common",
+     "Silver": "Common",
+     "Teal": "Common"
+    },
+    "scleraColors": {
+     "White": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "Normal": "Common"
+    },
+    "hairTypes": {
+     "Normal": "Common"
+    },
+    "colors": {
+     "Black": "Common",
+     "Maroon": "Rare",
+     "Orange": "Rare",
+     "Red": "Rare",
+     "SaddleBrown": "Common",
+     "Yellow": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Goblinoid",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Exotic": "Common"
+   },
+   "exoticSkinColors": {
+    "Green": "Common",
+    "Maroon": "Common",
+    "Olive": "Common",
+    "Orange": "Common"
+   },
+   "earsLayout": {
+    "NormalEars": "Common"
+   },
+   "earShapes": {
+    "PointedSideways": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeShapes": {
+     "Ellipse": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "pupilColors": {
+     "Aqua": "Common",
+     "Blue": "Common",
+     "Gray": "Rare",
+     "Green": "Common",
+     "Navy": "Common",
+     "Olive": "Common",
+     "Purple": "VeryRare",
+     "Red": "VeryRare",
+     "SaddleBrown": "Common",
+     "Silver": "Common",
+     "Teal": "Common"
+    },
+    "scleraColors": {
+     "Gold": "Common",
+     "White": "Common"
+    }
+   },
+   "hairOptions": {
+    "colors": {
+     "Black": "Common",
+     "Maroon": "Rare",
+     "SaddleBrown": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
+  }
+ }
+}

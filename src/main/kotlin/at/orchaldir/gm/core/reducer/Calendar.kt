@@ -53,9 +53,9 @@ private fun checkDays(
 private fun checkMonths(
     calendar: Calendar,
 ) {
-    require(calendar.months.size > 1) { "Requires at least 2 months" }
-    calendar.months.forEach { require(it.days > 1) { "Requires at least 2 days per month" } }
-    require(calendar.months.map { it.name }.toSet().size == calendar.months.size) {
+    require(calendar.months.getSize() > 1) { "Requires at least 2 months" }
+    calendar.months.months().forEach { require(it.days > 1) { "Requires at least 2 days per month" } }
+    require(calendar.months.months().map { it.name }.toSet().size == calendar.months.getSize()) {
         "The names of the months need to be unique!"
     }
 }

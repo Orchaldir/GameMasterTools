@@ -12,6 +12,8 @@ import at.orchaldir.gm.utils.redux.Reducer
 
 val REDUCER: Reducer<Action, State> = { state, action ->
     when (action) {
+        // meta
+        is LoadData -> LOAD_DATA(state, action)
         // character
         is CreateCharacter -> CREATE_CHARACTER(state, action)
         is DeleteCharacter -> DELETE_CHARACTER(state, action)
@@ -60,10 +62,12 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdatePersonalityTrait -> UPDATE_PERSONALITY_TRAIT(state, action)
         // race
         is CreateRace -> CREATE_RACE(state, action)
+        is CloneRace -> CLONE_RACE(state, action)
         is DeleteRace -> DELETE_RACE(state, action)
         is UpdateRace -> UPDATE_RACE(state, action)
         // race appearance
         is CreateRaceAppearance -> CREATE_RACE_APPEARANCE(state, action)
+        is CloneRaceAppearance -> CLONE_RACE_APPEARANCE(state, action)
         is DeleteRaceAppearance -> DELETE_RACE_APPEARANCE(state, action)
         is UpdateRaceAppearance -> UPDATE_RACE_APPEARANCE(state, action)
         // time

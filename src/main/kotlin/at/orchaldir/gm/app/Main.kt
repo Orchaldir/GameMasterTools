@@ -15,7 +15,7 @@ import at.orchaldir.gm.app.routes.world.town.configureBuildingEditorRouting
 import at.orchaldir.gm.app.routes.world.town.configureStreetEditorRouting
 import at.orchaldir.gm.app.routes.world.town.configureTerrainRouting
 import at.orchaldir.gm.app.routes.world.town.configureTownRouting
-import at.orchaldir.gm.core.action.Action
+import at.orchaldir.gm.core.action.LoadData
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.redux.DefaultStore
@@ -26,10 +26,16 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.resources.*
+import mu.KotlinLogging
 
-val STORE = initStore()
+val STORE = DefaultStore(State(), REDUCER, listOf(LogAction()))
+private val logger = KotlinLogging.logger {}
 
-fun main() {
+fun main(args: Array<String>) {
+    logger.info { "Command line args: $args" }
+
+    STORE.dispatch(LoadData(args[0]))
+
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
         .start(wait = true)
 }
@@ -79,10 +85,4 @@ fun Application.configureSerialization() {
     install(ContentNegotiation) {
         json()
     }
-}
-
-fun initStore(): DefaultStore<Action, State> {
-    val state = State.load("data")
-
-    return DefaultStore(state, REDUCER, listOf(LogAction()))
 }

@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.organization.Organization
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
@@ -119,6 +120,22 @@ fun State.sortOrganizations(
         when (sort) {
             SortOrganization.Name -> compareBy { it.name }
             SortOrganization.Age -> getAgeComparator()
+        })
+
+// race
+
+fun State.sortRaces(sort: SortRace = SortRace.Name) =
+    sortRaces(getRaceStorage().getAll(), sort)
+
+fun State.sortRaces(
+    races: Collection<Race>,
+    sort: SortRace = SortRace.Name,
+) = races
+    .sortedWith(
+        when (sort) {
+            SortRace.Height -> compareBy { it.height.center.millimeters }
+            SortRace.MaxAge -> compareBy { it.lifeStages.getMaxAge() }
+            SortRace.Name -> compareBy { it.name(this) }
         })
 
 // spell

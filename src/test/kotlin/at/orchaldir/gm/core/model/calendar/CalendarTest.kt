@@ -13,9 +13,9 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-private val MONTH0 = MonthDefinition("a", 2)
-private val MONTH1 = MonthDefinition("b", 3)
-private val CALENDAR0 = Calendar(CalendarId(0), months = listOf(MONTH0, MONTH1))
+private val MONTH0 = Month("a", 2)
+private val MONTH1 = Month("b", 3)
+private val CALENDAR0 = Calendar(CalendarId(0), months = ComplexMonths(listOf(MONTH0, MONTH1)))
 private val CALENDAR1 = Calendar(CalendarId(1), days = Weekdays(listOf(WeekDay("D0"), WeekDay("D1"), WeekDay("D2"))))
 
 class CalendarTest {
