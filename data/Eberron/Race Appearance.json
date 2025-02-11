@@ -350,6 +350,66 @@
    "mouthTypes": {
     "NormalMouth": "Common"
    }
+  },
+  "6": {
+   "id": 6,
+   "name": "Goblinoid",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Exotic": "Common"
+   },
+   "exoticSkinColors": {
+    "Green": "Common",
+    "Maroon": "Common",
+    "Olive": "Common",
+    "Orange": "Common"
+   },
+   "earsLayout": {
+    "NormalEars": "Common"
+   },
+   "earShapes": {
+    "PointedSideways": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeShapes": {
+     "Ellipse": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "pupilColors": {
+     "Aqua": "Common",
+     "Blue": "Common",
+     "Gray": "Rare",
+     "Green": "Common",
+     "Navy": "Common",
+     "Olive": "Common",
+     "Purple": "VeryRare",
+     "Red": "VeryRare",
+     "SaddleBrown": "Common",
+     "Silver": "Common",
+     "Teal": "Common"
+    },
+    "scleraColors": {
+     "Gold": "Common",
+     "White": "Common"
+    }
+   },
+   "hairOptions": {
+    "colors": {
+     "Black": "Common",
+     "Maroon": "Rare",
+     "SaddleBrown": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
   }
  }
 }
