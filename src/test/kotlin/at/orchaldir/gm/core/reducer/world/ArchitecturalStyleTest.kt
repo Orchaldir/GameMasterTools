@@ -1,12 +1,10 @@
 package at.orchaldir.gm.core.reducer.world
 
+import at.orchaldir.gm.CALENDAR0
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.CalendarId
-import at.orchaldir.gm.core.model.calendar.Month
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
@@ -21,7 +19,6 @@ import kotlin.test.assertEquals
 private val ID0 = ArchitecturalStyleId(0)
 private val ID1 = ArchitecturalStyleId(1)
 private val STYLE0 = ArchitecturalStyle(ID0)
-private val CALENDAR0 = Calendar(CalendarId(0), months = listOf(Month("a")))
 
 class ArchitecturalStyleTest {
 

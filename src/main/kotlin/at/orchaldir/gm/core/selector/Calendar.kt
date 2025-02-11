@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
 import at.orchaldir.gm.utils.doNothing
-import kotlin.math.min
+import kotlin.math.max
 
 fun State.canDelete(calendar: CalendarId) = getChildren(calendar).isEmpty() &&
         getCultures(calendar).isEmpty() &&
@@ -58,7 +58,7 @@ fun getMinNumberOfDays(holidays: List<Holiday>): Int {
     return minNumber
 }
 
-private fun updateMinNumber(minNumber: Int, dayIndex: Int) = min(minNumber, dayIndex + 1)
+private fun updateMinNumber(minNumber: Int, dayIndex: Int) = max(minNumber, dayIndex + 1)
 
 fun getMinNumberOfMonths(holidays: List<Holiday>): Int {
     var minNumber = 2

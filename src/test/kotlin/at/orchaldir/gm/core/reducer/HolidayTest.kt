@@ -20,7 +20,7 @@ private val ID0 = HolidayId(0)
 private val CALENDAR_ID0 = CalendarId(0)
 private val CALENDAR_ID1 = CalendarId(1)
 private val WEEKDAYS = Weekdays(listOf(WeekDay("d0"), WeekDay("d1")))
-private val MONTHS = listOf(Month("M0", 2), Month("M1", 3))
+private val MONTHS = ComplexMonths(listOf(Month("M0", 2), Month("M1", 3)))
 private val CALENDAR0 = Calendar(CALENDAR_ID0, "C0", WEEKDAYS, months = MONTHS)
 private val CALENDAR1 = Calendar(CALENDAR_ID1, months = MONTHS)
 
@@ -104,7 +104,7 @@ class HolidayTest {
 
             @Test
             fun `Valid fixed days`() {
-                CALENDAR0.months.withIndex().forEach { month ->
+                MONTHS.months.withIndex().forEach { month ->
                     repeat(month.value.days) { day ->
                         val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
                         val holiday = Holiday(ID0, relativeDate = DayInYear(day, month.index))
