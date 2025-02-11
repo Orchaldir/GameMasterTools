@@ -63,10 +63,9 @@ fun FORM.selectColor(
     rarityMap: OneOf<Color>,
     current: Color,
 ) {
-    selectOneOf(labelText, selectId, rarityMap, true) { c ->
+    selectOneOf(labelText, selectId, rarityMap, current, true) { c ->
         label = c.name
         value = c.toString()
-        selected = current == c
         style = "background-color:$c"
     }
 }
@@ -238,6 +237,7 @@ fun <T> HtmlBlockTag.selectOneOf(
     label: String,
     selectId: String,
     values: OneOf<T>,
+    current: T,
     update: Boolean = false,
     content: OPTION.(T) -> Unit,
 ) {
@@ -253,6 +253,7 @@ fun <T> HtmlBlockTag.selectOneOf(
                     optGroup(rarity.toString()) {
                         values.forEach { value ->
                             option {
+                                selected = value == current
                                 content(value)
                             }
                         }

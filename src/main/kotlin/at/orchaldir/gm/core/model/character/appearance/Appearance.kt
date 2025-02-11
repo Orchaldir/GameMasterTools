@@ -13,6 +13,11 @@ enum class AppearanceType {
 @Serializable
 sealed class Appearance {
 
+    fun getType() = when (this) {
+        is HeadOnly -> AppearanceType.HeadOnly
+        else -> AppearanceType.Body
+    }
+
     fun getSize() = when (this) {
         is HeadOnly -> this.height
         is HumanoidBody -> this.height

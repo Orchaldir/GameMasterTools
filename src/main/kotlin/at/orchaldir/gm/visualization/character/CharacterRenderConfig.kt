@@ -26,6 +26,7 @@ data class CharacterRenderConfig(
     fun getOptions(skin: Skin): RenderOptions = FillAndBorder(
         when (skin) {
             is ExoticSkin -> skin.color.toRender()
+            is Fur -> skin.color.toRender()
             is NormalSkin -> skinColors[skin.color] ?: Color.Purple.toRender()
             is Scales -> skin.color.toRender()
         }, line

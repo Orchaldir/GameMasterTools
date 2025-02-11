@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.character.appearance
 
+import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -11,7 +12,15 @@ enum class EyesLayout {
 }
 
 @Serializable
-sealed class Eyes
+sealed class Eyes {
+
+    fun getType() = when (this) {
+        NoEyes -> EyesLayout.NoEyes
+        is OneEye -> EyesLayout.OneEye
+        is TwoEyes -> EyesLayout.TwoEyes
+    }
+
+}
 
 @Serializable
 @SerialName("None")

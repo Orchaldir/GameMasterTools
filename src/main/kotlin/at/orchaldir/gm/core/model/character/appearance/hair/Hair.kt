@@ -1,5 +1,9 @@
 package at.orchaldir.gm.core.model.character.appearance.hair
 
+import at.orchaldir.gm.core.model.character.appearance.EyesLayout
+import at.orchaldir.gm.core.model.character.appearance.NoEyes
+import at.orchaldir.gm.core.model.character.appearance.OneEye
+import at.orchaldir.gm.core.model.character.appearance.TwoEyes
 import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -10,7 +14,14 @@ enum class HairType {
 }
 
 @Serializable
-sealed class Hair
+sealed class Hair {
+
+    fun getType() = when (this) {
+        NoHair -> HairType.None
+        is NormalHair -> HairType.Normal
+    }
+
+}
 
 @Serializable
 @SerialName("None")

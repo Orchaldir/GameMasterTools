@@ -499,10 +499,9 @@ private fun HTML.showCharacterEditor(
             method = FormMethod.post
             selectName(state, character)
             selectElement(state, "Race", RACE, state.getRaceStorage().getAll(), character.race, true)
-            selectOneOf("Gender", GENDER, race.genders) { gender ->
+            selectOneOf("Gender", GENDER, race.genders, character.gender) { gender ->
                 label = gender.toString()
                 value = gender.toString()
-                selected = character.gender == gender
             }
             selectOrigin(state, character)
             selectVitalStatus(state, character)

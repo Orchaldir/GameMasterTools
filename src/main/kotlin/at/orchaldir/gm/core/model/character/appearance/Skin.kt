@@ -5,6 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class SkinType {
+    Fur,
     Scales,
     Normal,
     Exotic,
@@ -21,7 +22,20 @@ enum class SkinColor {
 }
 
 @Serializable
-sealed class Skin
+sealed class Skin {
+
+    fun getType() = when (this) {
+        is ExoticSkin -> SkinType.Exotic
+        is Fur -> SkinType.Fur
+        is NormalSkin -> SkinType.Normal
+        is Scales -> SkinType.Scales
+    }
+
+}
+
+@Serializable
+@SerialName("Fur")
+data class Fur(val color: Color = Color.SaddleBrown) : Skin()
 
 @Serializable
 @SerialName("Scales")

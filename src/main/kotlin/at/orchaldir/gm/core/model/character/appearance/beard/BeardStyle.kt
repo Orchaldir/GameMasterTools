@@ -11,7 +11,16 @@ enum class BeardStyleType {
 }
 
 @Serializable
-sealed class BeardStyle
+sealed class BeardStyle {
+
+    fun getType() = when (this) {
+        is Goatee -> BeardStyleType.Goatee
+        is GoateeAndMoustache -> BeardStyleType.GoateeAndMoustache
+        is Moustache -> BeardStyleType.Moustache
+        ShavedBeard -> BeardStyleType.Shaved
+    }
+
+}
 
 @Serializable
 @SerialName("Shaved")

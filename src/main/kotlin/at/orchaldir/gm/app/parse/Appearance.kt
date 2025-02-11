@@ -219,6 +219,10 @@ private fun parseMouth(
 
 private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig): Skin {
     return when (parameters[SKIN_TYPE]) {
+        SkinType.Fur.toString() -> {
+            return Fur(parseExoticColor(parameters))
+        }
+
         SkinType.Scales.toString() -> {
             return Scales(parseExoticColor(parameters))
         }

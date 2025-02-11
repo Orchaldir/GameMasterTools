@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.beard.Beard
 import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
+import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
@@ -20,7 +21,14 @@ enum class TeethColor {
 }
 
 @Serializable
-sealed class Mouth
+sealed class Mouth {
+
+    fun getType() = when (this) {
+        NoMouth -> MouthType.NoMouth
+        is NormalMouth, is FemaleMouth -> MouthType.NormalMouth
+    }
+
+}
 
 @Serializable
 @SerialName("None")

@@ -25,6 +25,7 @@ data class RaceAppearance(
     val name: String = "RaceAppearance ${id.value}",
     val appearanceTypes: OneOf<AppearanceType> = OneOf(AppearanceType.entries),
     val skinTypes: OneOf<SkinType> = OneOf(SkinType.entries),
+    val furColors: OneOf<Color> = OneOf(Color.entries),
     val scalesColors: OneOf<Color> = OneOf(Color.entries),
     val normalSkinColors: OneOf<SkinColor> = OneOf(SkinColor.entries),
     val exoticSkinColors: OneOf<Color> = OneOf(Color.entries),
