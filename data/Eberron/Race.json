@@ -857,14 +857,13 @@
      {
       "name": "Old Age",
       "maxAge": 30,
-      "relativeSize": 0.95,
-      "hairColor": "Gray"
+      "relativeSize": 0.95
      },
      {
       "name": "Venerable",
       "maxAge": 35,
       "relativeSize": 0.9,
-      "hairColor": "White"
+      "hairColor": "Silver"
      }
     ]
    }

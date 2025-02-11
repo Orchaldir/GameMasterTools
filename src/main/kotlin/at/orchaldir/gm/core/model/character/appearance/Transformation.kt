@@ -28,7 +28,10 @@ fun updateBeard(mouth: Mouth, beard: Beard): Mouth {
 fun updateHairColor(appearance: Appearance, color: Color): Appearance {
     return when (appearance) {
         is HeadOnly -> appearance.copy(updateHairColor(appearance.head, color))
-        is HumanoidBody -> appearance.copy(head = updateHairColor(appearance.head, color))
+        is HumanoidBody -> appearance.copy(
+            updateSkinColor(appearance.body, color),
+            updateHairColor(appearance.head, color),
+        )
         UndefinedAppearance -> appearance
     }
 }
@@ -36,25 +39,29 @@ fun updateHairColor(appearance: Appearance, color: Color): Appearance {
 fun updateHairColor(head: Head, color: Color) = head.copy(
     hair = updateHairColor(head.hair, color),
     mouth = updateHairColor(head.mouth, color),
+    skin = updateSkinColor(head.skin, color),
 )
 
-fun updateHairColor(hair: Hair, color: Color): Hair {
-    return when (hair) {
-        NoHair -> hair
-        is NormalHair -> hair.copy(color = color)
-    }
+fun updateHairColor(hair: Hair, color: Color) = when (hair) {
+    NoHair -> hair
+    is NormalHair -> hair.copy(color = color)
 }
 
-fun updateHairColor(mouth: Mouth, color: Color): Mouth {
-    return when (mouth) {
-        is NormalMouth -> mouth.copy(updateHairColor(mouth.beard, color))
-        else -> mouth
-    }
+fun updateHairColor(mouth: Mouth, color: Color) = when (mouth) {
+    is NormalMouth -> mouth.copy(updateHairColor(mouth.beard, color))
+    else -> mouth
 }
 
-fun updateHairColor(beard: Beard, color: Color): Beard {
-    return when (beard) {
-        NoBeard -> beard
-        is NormalBeard -> beard.copy(color = color)
-    }
+fun updateHairColor(beard: Beard, color: Color) = when (beard) {
+    NoBeard -> beard
+    is NormalBeard -> beard.copy(color = color)
+}
+
+fun updateSkinColor(body: Body, color: Color) = body.copy(
+    skin = updateSkinColor(body.skin, color),
+)
+
+fun updateSkinColor(skin: Skin, color: Color) = when (skin) {
+    is Fur -> Fur(color)
+    else -> skin
 }
