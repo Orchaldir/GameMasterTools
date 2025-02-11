@@ -467,6 +467,12 @@
    "skinTypes": {
     "Fur": "Common"
    },
+   "furColors": {
+    "Chocolate": "Uncommon",
+    "Gray": "Uncommon",
+    "Maroon": "Uncommon",
+    "SaddleBrown": "Common"
+   },
    "earsLayout": {
     "NormalEars": "Common"
    },
@@ -478,27 +484,17 @@
    },
    "eyeOptions": {
     "eyeShapes": {
-     "Ellipse": "Common"
-    },
-    "pupilShapes": {
      "Circle": "Common"
     },
+    "pupilShapes": {
+     "VerticalSlit": "Common"
+    },
     "pupilColors": {
-     "Aqua": "Common",
-     "Blue": "Common",
-     "Gray": "Rare",
-     "Green": "Common",
-     "Navy": "Common",
-     "Olive": "Common",
-     "Purple": "VeryRare",
-     "Red": "VeryRare",
-     "SaddleBrown": "Common",
-     "Silver": "Common",
-     "Teal": "Common"
+     "Black": "Common"
     },
     "scleraColors": {
-     "Gold": "Common",
-     "White": "Common"
+     "Crimson": "Rare",
+     "Gold": "Common"
     }
    },
    "hairOptions": {
