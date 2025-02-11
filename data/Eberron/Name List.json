@@ -86,6 +86,37 @@
     "Taluran",
     "Zakaro"
    ]
+  },
+  "4": {
+   "id": 4,
+   "name": "Medusa - Female",
+   "names": [
+    "Arasha",
+    "Ashaka",
+    "Hashkanel",
+    "Lillis",
+    "Orashka",
+    "Shahara",
+    "Sheshka",
+    "Slynter",
+    "Syskanel",
+    "Tashka"
+   ]
+  },
+  "5": {
+   "id": 5,
+   "name": "Medusa - Male",
+   "names": [
+    "Ashlak",
+    "Euryshal",
+    "Hasslak",
+    "Hymliss",
+    "Orrass",
+    "Sarrash",
+    "Slynter",
+    "Stoliss",
+    "Tarrash"
+   ]
   }
  }
 }
