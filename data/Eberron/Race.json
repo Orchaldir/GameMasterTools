@@ -787,6 +787,25 @@
      }
     ]
    }
+  },
+  "13": {
+   "id": 13,
+   "name": "Gargoyle",
+   "genders": {
+    "Genderless": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 1600
+    },
+    "offset": {
+     "millimeters": 500
+    }
+   },
+   "lifeStages": {
+    "type": "Immutable",
+    "appearance": 3
+   }
   }
  }
 }
