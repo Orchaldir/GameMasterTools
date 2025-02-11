@@ -52,6 +52,40 @@
     "Yrgnyn",
     "Yrych"
    ]
+  },
+   "2": {
+     "id": 2,
+     "name": "Harpy - Female",
+     "names": [
+       "Baeleth",
+       "Callain",
+       "Cazha",
+       "Daeraleth",
+       "Jalira",
+       "Lharrain",
+       "Mazalara",
+       "Sorasara",
+       "Surrain",
+       "Taleth",
+       "Zoryanna"
+     ]
+   },
+   "3": {
+     "id": 3,
+     "name": "Harpy - Male",
+     "names": [
+       "Bakar",
+       "Barakan",
+       "Canto",
+       "Daralan",
+       "Jakar",
+       "Lurran",
+       "Morro",
+       "Sorran",
+       "Surakar",
+       "Taluran",
+       "Zakaro"
+     ]
   }
  }
 }
