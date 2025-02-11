@@ -804,7 +804,7 @@
    },
    "lifeStages": {
     "type": "Immutable",
-    "appearance": 3
+    "appearance": 7
    }
   }
  }

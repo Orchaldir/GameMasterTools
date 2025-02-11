@@ -410,6 +410,53 @@
    "mouthTypes": {
     "NormalMouth": "Common"
    }
+  },
+  "7": {
+   "id": 7,
+   "name": "Gargoyle",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Exotic": "Common"
+   },
+   "exoticSkinColors": {
+    "Gray": "Common"
+   },
+   "earsLayout": {
+    "NormalEars": "Common"
+   },
+   "earShapes": {
+    "PointedSideways": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeShapes": {
+     "Circle": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "pupilColors": {
+     "Silver": "Common"
+    },
+    "scleraColors": {
+     "Silver": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "hairTypes": {
+     "None": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
   }
  }
 }

@@ -1,5 +1,33 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Gargoyle",
+   "names": [
+    "Alabaster",
+    "Basalt",
+    "Boulder",
+    "Chip",
+    "Cliff",
+    "Crag",
+    "Devotion",
+    "Flint",
+    "Granite",
+    "Graywall",
+    "Lime",
+    "Marble",
+    "Maul",
+    "Obsidian",
+    "Peak",
+    "Pebble",
+    "Rift",
+    "River",
+    "Rocky",
+    "Serpentine",
+    "Shale Shard Slate",
+    "Sunset"
+   ]
+  }
  }
 }
