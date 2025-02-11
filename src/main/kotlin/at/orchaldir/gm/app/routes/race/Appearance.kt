@@ -181,7 +181,13 @@ private fun HtmlBlockTag.showRandomExamples(
     n: Int,
     width: Int,
 ) {
-    val generator = createGeneratorConfig(state, appearance, AppearanceStyle(), Gender.Male)
+    val generator = createGeneratorConfig(
+        state,
+        appearance,
+        AppearanceStyle(),
+        Gender.Male,
+        Distribution.fromMeters(1.0f, 0.0f),
+    )
 
     repeat(n) {
         val svg = visualizeCharacter(CHARACTER_CONFIG, generator.generate())
@@ -338,11 +344,12 @@ fun createGeneratorConfig(
     appearance: RaceAppearance,
     appearanceStyle: AppearanceStyle,
     gender: Gender,
+    height: Distribution,
 ) = AppearanceGeneratorConfig(
     RandomNumberGenerator(Random),
     state.rarityGenerator,
     gender,
-    Distribution.fromMeters(1.0f, 0.0f),
+    height,
     appearance,
     appearanceStyle,
 )

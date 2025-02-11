@@ -183,7 +183,8 @@ private fun HTML.showGallery(
     state: State,
 ) {
     val races = state.sortRaces()
-    val maxSize = CHARACTER_CONFIG.calculateSize(races.map { it.height.getMax() }.maxBy { it.millimeters })
+    val maxHeight = races.map { it.height.getMax() }.maxBy { it.millimeters }
+    val maxSize = CHARACTER_CONFIG.calculateSize(maxHeight)
     val backLink = call.application.href(RaceRoutes.All())
 
     simpleHtml("Races") {
@@ -274,7 +275,13 @@ private fun generateAppearance(
 ): Appearance {
     val raceAppearanceId = race.lifeStages.getRaceAppearance()
     val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(raceAppearanceId)
-    val generator = createGeneratorConfig(state, raceAppearance, AppearanceStyle(), gender)
+    val generator = createGeneratorConfig(
+        state,
+        raceAppearance,
+        AppearanceStyle(),
+        gender,
+        race.height,
+    )
 
     return generator.generate()
 }
