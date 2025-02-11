@@ -169,7 +169,7 @@ private fun HTML.showAllRaces(
     }
 }
 
-private inline fun <reified T : kotlin.Any> BODY.showSortLinks(call: ApplicationCall, createLink: (SortRace) -> T) {
+private inline fun <reified T : Any> BODY.showSortLinks(call: ApplicationCall, createLink: (SortRace) -> T) {
     val sortNameLink = call.application.href(createLink(SortRace.Name))
     val sortMaxAgeLink = call.application.href(createLink(SortRace.MaxAge))
     val sortMaxHeightLink = call.application.href(createLink(SortRace.MaxHeight))
