@@ -52,11 +52,11 @@ fun Application.configureRaceRouting() {
                 showAllRaces(call, STORE.getState(), all.sort)
             }
         }
-        get<RaceRoutes.Gallery> {
+        get<RaceRoutes.Gallery> { gallery ->
             logger.info { "Show gallery" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showGallery(call, STORE.getState())
+                showGallery(call, STORE.getState(), gallery.sort)
             }
         }
         get<RaceRoutes.Details> { details ->
@@ -137,20 +137,11 @@ private fun HTML.showAllRaces(
     val races = state.sortRaces(sort)
     val createLink = call.application.href(RaceRoutes.New())
     val galleryLink = call.application.href(RaceRoutes.Gallery())
-    val sortNameLink = call.application.href(RaceRoutes.All(SortRace.Name))
-    val sortMaxAgeLink = call.application.href(RaceRoutes.All(SortRace.MaxAge))
-    val sortMaxHeightLink = call.application.href(RaceRoutes.All(SortRace.MaxHeight))
 
     simpleHtml("Races") {
         action(galleryLink, "Gallery")
         field("Count", races.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortMaxAgeLink, "Max Age")
-            +" "
-            link(sortMaxHeightLink, "Max Height")
-        }
+        showSortLinks(call) { sort -> RaceRoutes.All(sort) }
 
         table {
             tr {
@@ -178,16 +169,31 @@ private fun HTML.showAllRaces(
     }
 }
 
+private inline fun <reified T : kotlin.Any> BODY.showSortLinks(call: ApplicationCall, createLink: (SortRace) -> T) {
+    val sortNameLink = call.application.href(createLink(SortRace.Name))
+    val sortMaxAgeLink = call.application.href(createLink(SortRace.MaxAge))
+    val sortMaxHeightLink = call.application.href(createLink(SortRace.MaxHeight))
+    field("Sort") {
+        link(sortNameLink, "Name")
+        +" "
+        link(sortMaxAgeLink, "Max Age")
+        +" "
+        link(sortMaxHeightLink, "Max Height")
+    }
+}
+
 private fun HTML.showGallery(
     call: ApplicationCall,
     state: State,
+    sort: SortRace,
 ) {
-    val races = state.sortRaces()
+    val races = state.sortRaces(sort)
     val maxHeight = races.map { it.height.getMax() }.maxBy { it.millimeters }
     val maxSize = CHARACTER_CONFIG.calculateSize(maxHeight)
     val backLink = call.application.href(RaceRoutes.All())
 
     simpleHtml("Races") {
+        showSortLinks(call) { sort -> RaceRoutes.Gallery(sort) }
 
         div("grid-container") {
             races.forEach { race ->

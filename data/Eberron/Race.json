@@ -336,10 +336,10 @@
    },
    "height": {
     "center": {
-     "millimeters": 900
+     "millimeters": 1050
     },
     "offset": {
-     "millimeters": 200
+     "millimeters": 100
     }
    },
    "lifeStages": {
@@ -402,10 +402,10 @@
    },
    "height": {
     "center": {
-     "millimeters": 800
+     "millimeters": 1150
     },
     "offset": {
-     "millimeters": 200
+     "millimeters": 100
     }
    },
    "lifeStages": {
