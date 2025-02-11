@@ -129,7 +129,7 @@ private fun HTML.showAllRaces(
     val createLink = call.application.href(RaceRoutes.New())
     val sortNameLink = call.application.href(RaceRoutes.All(SortRace.Name))
     val sortMaxAgeLink = call.application.href(RaceRoutes.All(SortRace.MaxAge))
-    val sortHeightLink = call.application.href(RaceRoutes.All(SortRace.Height))
+    val sortMaxHeightLink = call.application.href(RaceRoutes.All(SortRace.MaxHeight))
 
     simpleHtml("Races") {
         field("Count", races.size)
@@ -138,7 +138,7 @@ private fun HTML.showAllRaces(
             +" "
             link(sortMaxAgeLink, "Max Age")
             +" "
-            link(sortHeightLink, "Height")
+            link(sortMaxHeightLink, "Max Height")
         }
 
         table {
@@ -146,7 +146,7 @@ private fun HTML.showAllRaces(
                 th { +"Name" }
                 th { +"Gender" }
                 th { +"Max Age" }
-                th { +"Height" }
+                th { +"Max Height" }
                 th { +"Life Stages" }
                 th { +"Appearance" }
             }
@@ -155,7 +155,7 @@ private fun HTML.showAllRaces(
                     td { link(call, state, race) }
                     td { +race.genders.getValidValues().joinToString() }
                     tdSkipZero(race.lifeStages.getMaxAge())
-                    td { +race.height.center.toString() }
+                    td { +race.height.getMax().toString() }
                     tdSkipZero(race.lifeStages.countLifeStages())
                     td { link(call, state, race.lifeStages.getRaceAppearance()) }
                 }
