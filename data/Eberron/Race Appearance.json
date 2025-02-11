@@ -286,6 +286,70 @@
    "mouthTypes": {
     "NormalMouth": "Common"
    }
+  },
+  "5": {
+   "id": 5,
+   "name": "Shifter",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Normal": "Common"
+   },
+   "normalSkinColors": {
+    "Fair": "Uncommon",
+    "Light": "Common",
+    "Medium": "Uncommon"
+   },
+   "earsLayout": {
+    "NormalEars": "Common"
+   },
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "pupilShapes": {
+     "VerticalSlit": "Common"
+    },
+    "pupilColors": {
+     "Aqua": "Common",
+     "Blue": "Common",
+     "Gray": "Rare",
+     "Green": "Common",
+     "Navy": "Common",
+     "Olive": "Common",
+     "Purple": "VeryRare",
+     "Red": "VeryRare",
+     "SaddleBrown": "Common",
+     "Silver": "Common",
+     "Teal": "Common"
+    },
+    "scleraColors": {
+     "White": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "Normal": "Common"
+    },
+    "hairTypes": {
+     "Normal": "Common"
+    },
+    "colors": {
+     "Black": "Common",
+     "Maroon": "Rare",
+     "Orange": "Rare",
+     "Red": "Rare",
+     "SaddleBrown": "Common",
+     "Yellow": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
   }
  }
 }
