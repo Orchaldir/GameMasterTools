@@ -593,7 +593,6 @@
    },
    "scalesColors": {
     "Blue": "Common",
-    "Crimson": "Common",
     "Gold": "Common",
     "Green": "Common",
     "Maroon": "Common",
@@ -628,8 +627,7 @@
      "Crimson": "Common"
     },
     "scleraColors": {
-     "Fuchsia": "Common",
-     "White": "Common"
+     "Crimson": "Common"
     }
    },
    "hairOptions": {
