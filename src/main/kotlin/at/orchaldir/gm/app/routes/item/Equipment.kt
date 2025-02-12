@@ -158,12 +158,12 @@ private fun HTML.showEquipmentDetails(
     val deleteLink = call.application.href(EquipmentRoutes.Delete(template.id))
     val editLink = call.application.href(EquipmentRoutes.Edit(template.id))
 
-    simpleHtml("equipment: ${template.name}") {
+    simpleHtml("Equipment: ${template.name}") {
         visualizeItem(template)
         when (template.data) {
             NoEquipment -> doubleArrayOf()
             is Coat -> {
-                field("Equipment", "Coat")
+                field("Type", "Coat")
                 field("Length", template.data.length)
                 field("Neckline Style", template.data.necklineStyle)
                 field("Sleeve Style", template.data.sleeveStyle)
