@@ -18,12 +18,8 @@ import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.selector.*
-import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
-import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.util.sortCharacters
-import at.orchaldir.gm.core.selector.world.getOwnedBuildings
-import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
@@ -458,21 +454,7 @@ fun BODY.showPossession(
 
     h2 { +"Possession" }
 
-    showList("Owned Buildings", state.getOwnedBuildings(character.id)) { building ->
-        link(call, state, building)
-    }
-
-    showList("Previously owned Buildings", state.getPreviouslyOwnedBuildings(character.id)) { building ->
-        link(call, state, building)
-    }
-
-    showList("Owned Businesses", state.getOwnedBusinesses(character.id)) { business ->
-        link(call, state, business)
-    }
-
-    showList("Previously owned Businesses", state.getPreviouslyOwnedBusinesses(character.id)) { business ->
-        link(call, state, business)
-    }
+    showOwnedElements(call, state, character.id)
 
     showList("Equipped", character.equipmentMap.map.values) { item ->
         link(call, state, item)

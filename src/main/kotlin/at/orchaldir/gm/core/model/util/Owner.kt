@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.util
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -33,15 +34,16 @@ sealed class Owner {
         UndefinedOwner -> true
     }
 
-    fun contains(other: CharacterId) = this is OwnedByCharacter && character == other
-
-    fun contains(other: TownId) = this is OwnedByTown && town == other
+    fun <ID : Id<ID>> isOwnedBy(id: ID) = when (this) {
+        is OwnedByCharacter -> character == id
+        is OwnedByOrganization -> organization == id
+        is OwnedByTown -> town == id
+        NoOwner, UndefinedOwner -> false
+    }
 
 }
 
-fun History<Owner>.contains(character: CharacterId) = previousEntries.any { it.entry.contains(character) }
-
-fun History<Owner>.contains(town: TownId) = previousEntries.any { it.entry.contains(town) }
+fun <ID : Id<ID>> History<Owner>.wasOwnedBy(id: ID) = previousEntries.any { it.entry.isOwnedBy(id) }
 
 @Serializable
 @SerialName("None")

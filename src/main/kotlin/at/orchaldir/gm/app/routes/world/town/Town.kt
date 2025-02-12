@@ -193,7 +193,7 @@ private fun HTML.showTownDetails(
             action(editStreetsLink, "Edit Streets")
             action(editTerrainLink, "Edit Terrain")
 
-            showPossession(state, town, call)
+            showPossession(call, state, town)
             showCreated(call, state, town.id)
 
             back(backLink)
@@ -204,27 +204,13 @@ private fun HTML.showTownDetails(
 }
 
 private fun DIV.showPossession(
+    call: ApplicationCall,
     state: State,
     town: Town,
-    call: ApplicationCall,
 ) {
     h2 { +"Possession" }
 
-    showList("Owned Buildings", state.getOwnedBuildings(town.id)) { building ->
-        link(call, state, building)
-    }
-
-    showList("Previously owned Buildings", state.getPreviouslyOwnedBuildings(town.id)) { building ->
-        link(call, state, building)
-    }
-
-    showList("Owned Businesses", state.getOwnedBusinesses(town.id)) { business ->
-        link(call, state, business)
-    }
-
-    showList("Previously owned Businesses", state.getPreviouslyOwnedBusinesses(town.id)) { business ->
-        link(call, state, business)
-    }
+    showOwnedElements(call, state, town.id)
 }
 
 private fun HTML.showTownEditor(
