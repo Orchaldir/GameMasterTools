@@ -74,7 +74,7 @@ fun HtmlBlockTag.selectOwner(
         is OwnedByOrganization -> selectElement(
             state,
             "Owner",
-            combine(param, CHARACTER),
+            combine(param, ORGANIZATION),
             state.getExistingOrganization(start),
             owner.organization,
             false
