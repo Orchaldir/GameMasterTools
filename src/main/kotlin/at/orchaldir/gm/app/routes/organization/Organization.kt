@@ -187,6 +187,7 @@ private fun HTML.showOrganizationDetails(
         optionalField(call, state, "Date", organization.date)
         fieldCreator(call, state, organization.founder, "Founder")
         showCreated(call, state, organization.id)
+        showPossession(call, state, organization)
 
         action(editLink, "Edit")
 
@@ -196,6 +197,16 @@ private fun HTML.showOrganizationDetails(
 
         back(backLink)
     }
+}
+
+private fun HtmlBlockTag.showPossession(
+    call: ApplicationCall,
+    state: State,
+    organization: Organization,
+) {
+    h2 { +"Possession" }
+
+    showOwnedElements(call, state, organization.id)
 }
 
 private fun HTML.showOrganizationEditor(
