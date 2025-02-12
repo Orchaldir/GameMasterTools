@@ -25,8 +25,8 @@ import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.HOLIDAY_TYPE
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
-import at.orchaldir.gm.core.model.item.equipment.ITEM_TEMPLATE_TYPE
-import at.orchaldir.gm.core.model.item.equipment.ItemTemplate
+import at.orchaldir.gm.core.model.item.equipment.EQUIPMENT_TYPE
+import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.text.TEXT_TYPE
 import at.orchaldir.gm.core.model.item.text.Text
@@ -79,7 +79,7 @@ val ELEMENTS =
         FASHION_TYPE,
         FONT_TYPE,
         HOLIDAY_TYPE,
-        ITEM_TEMPLATE_TYPE,
+        EQUIPMENT_TYPE,
         JOB_TYPE,
         LANGUAGE_TYPE,
         MATERIAL_TYPE,
@@ -128,7 +128,7 @@ data class State(
     fun getFashionStorage() = getStorage<FashionId, Fashion>(FASHION_TYPE)
     fun getFontStorage() = getStorage<FontId, Font>(FONT_TYPE)
     fun getHolidayStorage() = getStorage<HolidayId, Holiday>(HOLIDAY_TYPE)
-    fun getItemTemplateStorage() = getStorage<EquipmentId, ItemTemplate>(ITEM_TEMPLATE_TYPE)
+    fun getItemTemplateStorage() = getStorage<EquipmentId, Equipment>(EQUIPMENT_TYPE)
     fun getJobStorage() = getStorage<JobId, Job>(JOB_TYPE)
     fun getLanguageStorage() = getStorage<LanguageId, Language>(LANGUAGE_TYPE)
     fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL_TYPE)
@@ -251,7 +251,7 @@ fun createStorage(type: String) = when (type) {
     FASHION_TYPE -> Storage(FashionId(0))
     FONT_TYPE -> Storage(FontId(0))
     HOLIDAY_TYPE -> Storage(HolidayId(0))
-    ITEM_TEMPLATE_TYPE -> Storage(EquipmentId(0))
+    EQUIPMENT_TYPE -> Storage(EquipmentId(0))
     JOB_TYPE -> Storage(JobId(0))
     LANGUAGE_TYPE -> Storage(LanguageId(0))
     MATERIAL_TYPE -> Storage(MaterialId(0))
@@ -281,7 +281,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     FASHION_TYPE -> loadStorage<FashionId, Fashion>(path, FashionId(0))
     FONT_TYPE -> loadStorage<FontId, Font>(path, FontId(0))
     HOLIDAY_TYPE -> loadStorage<HolidayId, Holiday>(path, HolidayId(0))
-    ITEM_TEMPLATE_TYPE -> loadStorage<EquipmentId, ItemTemplate>(path, EquipmentId(0))
+    EQUIPMENT_TYPE -> loadStorage<EquipmentId, Equipment>(path, EquipmentId(0))
     JOB_TYPE -> loadStorage<JobId, Job>(path, JobId(0))
     LANGUAGE_TYPE -> loadStorage<LanguageId, Language>(path, LanguageId(0))
     MATERIAL_TYPE -> loadStorage<MaterialId, Material>(path, MaterialId(0))

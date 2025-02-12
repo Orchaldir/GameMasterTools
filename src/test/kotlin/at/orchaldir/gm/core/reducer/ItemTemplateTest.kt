@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType.Hat
-import at.orchaldir.gm.core.model.item.equipment.ItemTemplate
+import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.Pants
 import at.orchaldir.gm.core.model.item.equipment.Shirt
@@ -20,9 +20,9 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 private val ID0 = EquipmentId(0)
-private val ITEM = ItemTemplate(ID0, "Test")
+private val ITEM = Equipment(ID0, "Test")
 private val CHARACTER0 = CharacterId(0)
-private val STATE = State(Storage(ItemTemplate(ID0)))
+private val STATE = State(Storage(Equipment(ID0)))
 private val MATERIAL0 = MaterialId(0)
 private val MATERIAL1 = MaterialId(1)
 private val EQUIPMENT_MAP = EquipmentMap(mapOf(Hat to ID0))
@@ -68,8 +68,8 @@ class ItemTemplateTest {
 
         @Test
         fun `Cannot change equipment type while equipped`() {
-            val oldItem = ItemTemplate(ID0, equipment = Pants(material = MATERIAL0))
-            val newItem = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL0))
+            val oldItem = Equipment(ID0, equipment = Pants(material = MATERIAL0))
+            val newItem = Equipment(ID0, equipment = Shirt(material = MATERIAL0))
             val state = State(
                 listOf(
                     Storage(oldItem),
@@ -84,8 +84,8 @@ class ItemTemplateTest {
 
         @Test
         fun `Can change equipment details while equipped`() {
-            val oldItem = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL0))
-            val newItem = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL1))
+            val oldItem = Equipment(ID0, equipment = Shirt(material = MATERIAL0))
+            val newItem = Equipment(ID0, equipment = Shirt(material = MATERIAL1))
             val state = State(
                 listOf(
                     Storage(oldItem),
@@ -100,7 +100,7 @@ class ItemTemplateTest {
 
         @Test
         fun `Material must exist`() {
-            val item = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL0))
+            val item = Equipment(ID0, equipment = Shirt(material = MATERIAL0))
             val action = UpdateItemTemplate(item)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(STATE, action) }
@@ -115,7 +115,7 @@ class ItemTemplateTest {
 
         @Test
         fun `Update template with material`() {
-            val item = ItemTemplate(ID0, equipment = Shirt(material = MATERIAL0))
+            val item = Equipment(ID0, equipment = Shirt(material = MATERIAL0))
             val state = State(
                 listOf(
                     Storage(ITEM),

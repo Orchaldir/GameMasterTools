@@ -1,10 +1,7 @@
 package at.orchaldir.gm.app.parse.item
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseFill
-import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseMaterialId
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Color
@@ -16,13 +13,14 @@ fun parseItemTemplateId(value: String) = EquipmentId(value.toInt())
 
 fun parseItemTemplateId(parameters: Parameters, param: String) = EquipmentId(parseInt(parameters, param))
 
-fun parseItemTemplate(id: EquipmentId, parameters: Parameters): ItemTemplate {
+fun parseItemTemplate(id: EquipmentId, parameters: Parameters): Equipment {
     val name = parameters.getOrFail(NAME)
 
-    return ItemTemplate(id, name, parseEquipment(parameters))
+    return Equipment(id, name, parseEquipment(parameters))
 }
 
-fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_TYPE, EquipmentDataType.None)) {
+fun parseEquipment(parameters: Parameters) =
+    when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.None)) {
     EquipmentDataType.None -> NoEquipment
     EquipmentDataType.Coat -> Coat(
         parse(parameters, LENGTH, OuterwearLength.Hip),

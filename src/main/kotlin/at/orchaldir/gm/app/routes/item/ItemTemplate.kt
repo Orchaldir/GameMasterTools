@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.item.parseItemTemplate
 import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
@@ -35,7 +36,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-@Resource("/$ITEM_TEMPLATE_TYPE")
+@Resource("/$EQUIPMENT_TYPE")
 class ItemTemplateRoutes {
     @Resource("details")
     class Details(val id: EquipmentId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
@@ -149,7 +150,7 @@ private fun HTML.showAllItemTemplates(call: ApplicationCall) {
 private fun HTML.showItemTemplateDetails(
     call: ApplicationCall,
     state: State,
-    template: ItemTemplate,
+    template: Equipment,
 ) {
     val characters = state.getEquippedBy(template.id)
     val fashions = state.getFashions(template.id)
@@ -265,7 +266,7 @@ private fun BODY.showButtons(buttonColumn: ButtonColumn) {
 private fun HTML.showItemTemplateEditor(
     call: ApplicationCall,
     state: State,
-    template: ItemTemplate,
+    template: Equipment,
 ) {
     val backLink = href(call, template.id)
     val previewLink = call.application.href(ItemTemplateRoutes.Preview(template.id))
@@ -278,7 +279,13 @@ private fun HTML.showItemTemplateEditor(
             action = previewLink
             method = FormMethod.post
             selectName(template.name)
-            selectValue("Equipment", EQUIPMENT_TYPE, EquipmentDataType.entries, template.equipment.getType(), true)
+            selectValue(
+                "Equipment",
+                combine(EQUIPMENT, TYPE),
+                EquipmentDataType.entries,
+                template.equipment.getType(),
+                true
+            )
 
             when (val equipment = template.equipment) {
                 NoEquipment -> doNothing()
@@ -393,7 +400,7 @@ private fun FORM.selectMaterial(
     selectElement(state, "Material", MATERIAL, state.getMaterialStorage().getAll(), materialId)
 }
 
-private fun BODY.visualizeItem(template: ItemTemplate) {
+private fun BODY.visualizeItem(template: Equipment) {
     if (template.equipment.getType() != EquipmentDataType.None) {
         val equipped = listOf(template.equipment)
         val appearance = HumanoidBody(Body(), Head(), Distance.fromMeters(1.0f))

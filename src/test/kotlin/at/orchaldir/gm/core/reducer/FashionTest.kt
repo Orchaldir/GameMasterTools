@@ -59,7 +59,7 @@ class FashionTest {
         @Test
         fun `Successfully update a fashion`() {
             val state =
-                State(listOf(Storage(Fashion(ID0)), Storage(ItemTemplate(ITEM0, equipment = Dress()))))
+                State(listOf(Storage(Fashion(ID0)), Storage(Equipment(ITEM0, equipment = Dress()))))
             val fashion = Fashion(
                 ID0,
                 clothingSets = OneOf(ClothingSet.Dress),
@@ -103,7 +103,7 @@ class FashionTest {
         @Test
         fun `Equipment must have the correct type`() {
             val state =
-                State(listOf(Storage(Fashion(ID0)), Storage(ItemTemplate(ITEM0, equipment = Hat()))))
+                State(listOf(Storage(Fashion(ID0)), Storage(Equipment(ITEM0, equipment = Hat()))))
             val fashion = Fashion(
                 ID0,
                 clothingSets = OneOf(ClothingSet.Dress),
@@ -153,7 +153,7 @@ class FashionTest {
             val state = State(
                 listOf(
                     Storage(Fashion(ID0)),
-                    Storage(ItemTemplate(ITEM0, equipment = equipment))
+                    Storage(Equipment(ITEM0, equipment = equipment))
                 )
             )
             val fashion = Fashion(
@@ -177,8 +177,8 @@ class FashionTest {
                     Storage(Fashion(ID0)),
                     Storage(
                         listOf(
-                            ItemTemplate(ITEM0, equipment = equipment0),
-                            ItemTemplate(ITEM1, equipment = equipment1)
+                            Equipment(ITEM0, equipment = equipment0),
+                            Equipment(ITEM1, equipment = equipment1)
                         )
                     ),
                 )

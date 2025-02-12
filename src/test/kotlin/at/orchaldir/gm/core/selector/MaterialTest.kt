@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.ItemTemplate
+import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.material.Material
@@ -35,7 +35,7 @@ class MaterialTest {
         fun `Cannot delete material used by item template`() {
             val state = State(
                 listOf(
-                    Storage(ItemTemplate(TEMPLATE0, equipment = Shirt(material = ID0))),
+                    Storage(Equipment(TEMPLATE0, equipment = Shirt(material = ID0))),
                     Storage(listOf(Material(ID0), Material(ID1))),
                 )
             )
@@ -47,8 +47,8 @@ class MaterialTest {
 
     @Test
     fun `Get all item templates using a material`() {
-        val template0 = ItemTemplate(TEMPLATE0, equipment = Shirt(material = ID0))
-        val template1 = ItemTemplate(TEMPLATE1, equipment = Shirt(material = ID0))
+        val template0 = Equipment(TEMPLATE0, equipment = Shirt(material = ID0))
+        val template1 = Equipment(TEMPLATE1, equipment = Shirt(material = ID0))
         val state = State(
             listOf(
                 Storage(listOf(template0, template1)),

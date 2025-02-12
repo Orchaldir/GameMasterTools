@@ -4,16 +4,16 @@ import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.ItemTemplate
+import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_ITEM_TEMPLATE: Reducer<CreateItemTemplate, State> = { state, _ ->
-    val itemTemplate = ItemTemplate(state.getItemTemplateStorage().nextId)
+    val equipment = Equipment(state.getItemTemplateStorage().nextId)
 
-    noFollowUps(state.updateStorage(state.getItemTemplateStorage().add(itemTemplate)))
+    noFollowUps(state.updateStorage(state.getItemTemplateStorage().add(equipment)))
 }
 
 val DELETE_ITEM_TEMPLATE: Reducer<DeleteItemTemplate, State> = { state, action ->
@@ -24,7 +24,7 @@ val DELETE_ITEM_TEMPLATE: Reducer<DeleteItemTemplate, State> = { state, action -
 }
 
 val UPDATE_ITEM_TEMPLATE: Reducer<UpdateItemTemplate, State> = { state, action ->
-    val template = action.itemTemplate
+    val template = action.equipment
 
     val oldTemplate = state.getItemTemplateStorage().getOrThrow(template.id)
     template.equipment.getMaterials().forEach { state.getMaterialStorage().require(it) }

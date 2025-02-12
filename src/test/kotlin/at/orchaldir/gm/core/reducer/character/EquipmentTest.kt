@@ -26,7 +26,7 @@ class EquipmentTest {
         val state = State(
             listOf(
                 Storage(listOf(Character(ID0))),
-                Storage(listOf(ItemTemplate(ITEM0, equipment = Hat()))),
+                Storage(listOf(Equipment(ITEM0, equipment = Hat()))),
             )
         )
 
@@ -54,7 +54,7 @@ class EquipmentTest {
         val state = State(
             listOf(
                 Storage(listOf(Character(ID0))),
-                Storage(listOf(ItemTemplate(ITEM0, equipment = Dress()))),
+                Storage(listOf(Equipment(ITEM0, equipment = Dress()))),
             )
         )
 
@@ -68,8 +68,8 @@ class EquipmentTest {
                 Storage(listOf(Character(ID0))),
                 Storage(
                     listOf(
-                        ItemTemplate(ITEM0, equipment = Dress()),
-                        ItemTemplate(ITEM1, equipment = Shirt())
+                        Equipment(ITEM0, equipment = Dress()),
+                        Equipment(ITEM1, equipment = Shirt())
                     )
                 ),
             )
