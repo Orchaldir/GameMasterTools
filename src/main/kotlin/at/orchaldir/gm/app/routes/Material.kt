@@ -13,9 +13,9 @@ import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.item.countItemTemplates
+import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.countTexts
-import at.orchaldir.gm.core.selector.item.getItemTemplatesMadeOf
+import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
 import at.orchaldir.gm.core.selector.world.countStreetTemplates
 import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
@@ -139,7 +139,7 @@ private fun HTML.showAllMaterials(
                 tr {
                     td { link(call, state, material) }
                     td { +material.category.toString() }
-                    tdSkipZero(state.countItemTemplates(material.id))
+                    tdSkipZero(state.countEquipment(material.id))
                     tdSkipZero(state.countStreetTemplates(material.id))
                     tdSkipZero(state.countTexts(material.id))
                 }
@@ -156,7 +156,7 @@ private fun HTML.showMaterialDetails(
     state: State,
     material: Material,
 ) {
-    val itemTemplates = state.getItemTemplatesMadeOf(material.id)
+    val itemTemplates = state.getEquipmentMadeOf(material.id)
     val streetTemplates = state.getStreetTemplatesMadeOf(material.id)
     val texts = state.getTextsMadeOf(material.id)
     val backLink = call.application.href(MaterialRoutes())

@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.model.item.equipment.ACCESSORIES
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCultures
-import at.orchaldir.gm.core.selector.item.getItemTemplatesId
+import at.orchaldir.gm.core.selector.item.getEquipmentId
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -186,7 +186,7 @@ private fun FORM.selectEquipmentType(
     fashion: Fashion,
     type: EquipmentDataType,
 ) {
-    val items = state.getItemTemplatesId(type)
+    val items = state.getEquipmentId(type)
 
     if (items.isNotEmpty()) {
         val options = fashion.getOptions(type)

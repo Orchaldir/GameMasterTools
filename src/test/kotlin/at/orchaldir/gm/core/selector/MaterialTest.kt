@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.selector.item.getItemTemplatesMadeOf
+import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -56,7 +56,7 @@ class MaterialTest {
             )
         )
 
-        assertEquals(listOf(template0, template1), state.getItemTemplatesMadeOf(ID0))
-        assertEquals(emptyList(), state.getItemTemplatesMadeOf(ID1))
+        assertEquals(listOf(template0, template1), state.getEquipmentMadeOf(ID0))
+        assertEquals(emptyList(), state.getEquipmentMadeOf(ID1))
     }
 }
