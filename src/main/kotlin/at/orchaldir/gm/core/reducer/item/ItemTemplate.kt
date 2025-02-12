@@ -11,22 +11,22 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val CREATE_ITEM_TEMPLATE: Reducer<CreateItemTemplate, State> = { state, _ ->
-    val equipment = Equipment(state.getItemTemplateStorage().nextId)
+    val equipment = Equipment(state.getEquipmentStorage().nextId)
 
-    noFollowUps(state.updateStorage(state.getItemTemplateStorage().add(equipment)))
+    noFollowUps(state.updateStorage(state.getEquipmentStorage().add(equipment)))
 }
 
 val DELETE_ITEM_TEMPLATE: Reducer<DeleteItemTemplate, State> = { state, action ->
-    state.getItemTemplateStorage().require(action.id)
+    state.getEquipmentStorage().require(action.id)
     require(state.canDelete(action.id)) { "Item ${action.id.value} is used" }
 
-    noFollowUps(state.updateStorage(state.getItemTemplateStorage().remove(action.id)))
+    noFollowUps(state.updateStorage(state.getEquipmentStorage().remove(action.id)))
 }
 
 val UPDATE_ITEM_TEMPLATE: Reducer<UpdateItemTemplate, State> = { state, action ->
     val template = action.equipment
 
-    val oldTemplate = state.getItemTemplateStorage().getOrThrow(template.id)
+    val oldTemplate = state.getEquipmentStorage().getOrThrow(template.id)
     template.equipment.getMaterials().forEach { state.getMaterialStorage().require(it) }
 
     if (template.equipment.javaClass != oldTemplate.equipment.javaClass) {
@@ -35,5 +35,5 @@ val UPDATE_ITEM_TEMPLATE: Reducer<UpdateItemTemplate, State> = { state, action -
         ) { "Cannot change item template ${template.id.value} while it is equipped" }
     }
 
-    noFollowUps(state.updateStorage(state.getItemTemplateStorage().update(template)))
+    noFollowUps(state.updateStorage(state.getEquipmentStorage().update(template)))
 }

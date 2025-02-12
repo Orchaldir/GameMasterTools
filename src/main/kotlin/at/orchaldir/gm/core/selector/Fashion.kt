@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 fun State.canDelete(fashion: FashionId) = getCultures(fashion).isEmpty()
 
 fun State.getFashions(id: EquipmentId): List<Fashion> {
-    val itemTemplate = getItemTemplateStorage().getOrThrow(id)
+    val itemTemplate = getEquipmentStorage().getOrThrow(id)
 
     return getFashionStorage().getAll()
         .filter { it.getOptions(itemTemplate.equipment.getType()).isAvailable(id) }

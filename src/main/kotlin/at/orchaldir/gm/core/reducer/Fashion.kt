@@ -29,7 +29,7 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
     val fashion = action.fashion
 
     state.getFashionStorage().require(fashion.id)
-    fashion.getAllItemTemplates().forEach { state.getItemTemplateStorage().require(it) }
+    fashion.getAllItemTemplates().forEach { state.getEquipmentStorage().require(it) }
 
     fashion.clothingSets.getValidValues().forEach { set ->
         set.getTypes().forEach { type ->
@@ -39,7 +39,7 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
 
     NOT_NONE.forEach { type ->
         fashion.getOptions(type).getValidValues().forEach { id ->
-            val template = state.getItemTemplateStorage().getOrThrow(id)
+            val template = state.getEquipmentStorage().getOrThrow(id)
             require(template.equipment.isType(type)) { "Type $type has item ${id.value} of wrong type!" }
         }
     }

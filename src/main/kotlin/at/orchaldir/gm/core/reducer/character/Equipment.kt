@@ -10,7 +10,7 @@ val UPDATE_EQUIPMENT: Reducer<UpdateEquipment, State> = { state, action ->
     val occupySlots = mutableSetOf<EquipmentSlot>()
 
     action.map.map.forEach { (type, id) ->
-        val template = state.getItemTemplateStorage().getOrThrow(id)
+        val template = state.getEquipmentStorage().getOrThrow(id)
         val slots = template.slots()
 
         require(type == template.equipment.getType()) { "Item template ${template.id.value} has wrong type!" }

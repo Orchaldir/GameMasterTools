@@ -76,10 +76,10 @@ val ELEMENTS =
         CALENDAR_TYPE,
         CHARACTER_TYPE,
         CULTURE_TYPE,
+        EQUIPMENT_TYPE,
         FASHION_TYPE,
         FONT_TYPE,
         HOLIDAY_TYPE,
-        EQUIPMENT_TYPE,
         JOB_TYPE,
         LANGUAGE_TYPE,
         MATERIAL_TYPE,
@@ -125,10 +125,10 @@ data class State(
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR_TYPE)
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER_TYPE)
     fun getCultureStorage() = getStorage<CultureId, Culture>(CULTURE_TYPE)
+    fun getEquipmentStorage() = getStorage<EquipmentId, Equipment>(EQUIPMENT_TYPE)
     fun getFashionStorage() = getStorage<FashionId, Fashion>(FASHION_TYPE)
     fun getFontStorage() = getStorage<FontId, Font>(FONT_TYPE)
     fun getHolidayStorage() = getStorage<HolidayId, Holiday>(HOLIDAY_TYPE)
-    fun getItemTemplateStorage() = getStorage<EquipmentId, Equipment>(EQUIPMENT_TYPE)
     fun getJobStorage() = getStorage<JobId, Job>(JOB_TYPE)
     fun getLanguageStorage() = getStorage<LanguageId, Language>(LANGUAGE_TYPE)
     fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL_TYPE)
@@ -217,10 +217,10 @@ data class State(
         saveStorage(path, getCalendarStorage())
         saveStorage(path, getCharacterStorage())
         saveStorage(path, getCultureStorage())
+        saveStorage(path, getEquipmentStorage())
         saveStorage(path, getFashionStorage())
         saveStorage(path, getFontStorage())
         saveStorage(path, getHolidayStorage())
-        saveStorage(path, getItemTemplateStorage())
         saveStorage(path, getJobStorage())
         saveStorage(path, getLanguageStorage())
         saveStorage(path, getMaterialStorage())
@@ -248,10 +248,10 @@ fun createStorage(type: String) = when (type) {
     CALENDAR_TYPE -> Storage(CalendarId(0))
     CHARACTER_TYPE -> Storage(CharacterId(0))
     CULTURE_TYPE -> Storage(CultureId(0))
+    EQUIPMENT_TYPE -> Storage(EquipmentId(0))
     FASHION_TYPE -> Storage(FashionId(0))
     FONT_TYPE -> Storage(FontId(0))
     HOLIDAY_TYPE -> Storage(HolidayId(0))
-    EQUIPMENT_TYPE -> Storage(EquipmentId(0))
     JOB_TYPE -> Storage(JobId(0))
     LANGUAGE_TYPE -> Storage(LanguageId(0))
     MATERIAL_TYPE -> Storage(MaterialId(0))
@@ -278,10 +278,10 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     CALENDAR_TYPE -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))
     CHARACTER_TYPE -> loadStorage<CharacterId, Character>(path, CharacterId(0))
     CULTURE_TYPE -> loadStorage<CultureId, Culture>(path, CultureId(0))
+    EQUIPMENT_TYPE -> loadStorage<EquipmentId, Equipment>(path, EquipmentId(0))
     FASHION_TYPE -> loadStorage<FashionId, Fashion>(path, FashionId(0))
     FONT_TYPE -> loadStorage<FontId, Font>(path, FontId(0))
     HOLIDAY_TYPE -> loadStorage<HolidayId, Holiday>(path, HolidayId(0))
-    EQUIPMENT_TYPE -> loadStorage<EquipmentId, Equipment>(path, EquipmentId(0))
     JOB_TYPE -> loadStorage<JobId, Job>(path, JobId(0))
     LANGUAGE_TYPE -> loadStorage<LanguageId, Language>(path, LanguageId(0))
     MATERIAL_TYPE -> loadStorage<MaterialId, Material>(path, MaterialId(0))

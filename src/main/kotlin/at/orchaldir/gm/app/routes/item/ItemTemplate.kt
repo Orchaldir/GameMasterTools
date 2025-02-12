@@ -70,7 +70,7 @@ fun Application.configureItemTemplateRouting() {
             logger.info { "Get details of item template ${details.id.value}" }
 
             val state = STORE.getState()
-            val itemTemplate = state.getItemTemplateStorage().getOrThrow(details.id)
+            val itemTemplate = state.getEquipmentStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showItemTemplateDetails(call, state, itemTemplate)
@@ -84,7 +84,7 @@ fun Application.configureItemTemplateRouting() {
             call.respondRedirect(
                 call.application.href(
                     ItemTemplateRoutes.Edit(
-                        STORE.getState().getItemTemplateStorage().lastId
+                        STORE.getState().getEquipmentStorage().lastId
                     )
                 )
             )
@@ -104,7 +104,7 @@ fun Application.configureItemTemplateRouting() {
             logger.info { "Get editor for item template ${edit.id.value}" }
 
             val state = STORE.getState()
-            val template = state.getItemTemplateStorage().getOrThrow(edit.id)
+            val template = state.getEquipmentStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showItemTemplateEditor(call, state, template)
@@ -134,7 +134,7 @@ fun Application.configureItemTemplateRouting() {
 }
 
 private fun HTML.showAllItemTemplates(call: ApplicationCall) {
-    val templates = STORE.getState().getItemTemplateStorage().getAll().sortedBy { it.name }
+    val templates = STORE.getState().getEquipmentStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(ItemTemplateRoutes.New())
 
     simpleHtml("Item Templates") {

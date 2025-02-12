@@ -190,6 +190,6 @@ private fun FORM.selectEquipmentType(
 
     if (items.isNotEmpty()) {
         val options = fashion.getOptions(type)
-        selectRarityMap(type.name, type.name, state.getItemTemplateStorage(), items, options) { it.name }
+        selectRarityMap(type.name, type.name, state.getEquipmentStorage(), items, options) { it.name }
     }
 }

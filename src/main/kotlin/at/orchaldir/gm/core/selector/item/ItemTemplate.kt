@@ -11,14 +11,14 @@ import at.orchaldir.gm.core.model.material.MaterialId
 fun State.canDelete(itemTemplate: EquipmentId) = getCharacterStorage().getAll()
     .none { it.equipmentMap.contains(itemTemplate) }
 
-fun State.countItemTemplates(material: MaterialId) = getItemTemplateStorage()
+fun State.countItemTemplates(material: MaterialId) = getEquipmentStorage()
     .getAll()
     .count { it.equipment.contains(material) }
 
-fun State.getItemTemplatesOf(type: EquipmentDataType) = getItemTemplateStorage().getAll()
+fun State.getItemTemplatesOf(type: EquipmentDataType) = getEquipmentStorage().getAll()
     .filter { it.equipment.isType(type) }
 
-fun State.getItemTemplatesMadeOf(material: MaterialId) = getItemTemplateStorage().getAll()
+fun State.getItemTemplatesMadeOf(material: MaterialId) = getEquipmentStorage().getAll()
     .filter { it.equipment.contains(material) }
 
 fun State.getItemTemplatesId(type: EquipmentDataType) = getItemTemplatesOf(type)
@@ -33,7 +33,7 @@ fun State.getEquipment(character: Character) = getEquipment(character.equipmentM
 fun State.getEquipment(equipmentMap: EquipmentMap) = equipmentMap
     .map
     .values
-    .map { getItemTemplateStorage().getOrThrow(it).equipment }
+    .map { getEquipmentStorage().getOrThrow(it).equipment }
 
 fun State.getEquippedBy(itemTemplate: EquipmentId) = getCharacterStorage().getAll()
     .filter { it.equipmentMap.contains(itemTemplate) }

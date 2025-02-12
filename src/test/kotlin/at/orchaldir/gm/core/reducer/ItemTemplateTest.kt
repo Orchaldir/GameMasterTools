@@ -36,7 +36,7 @@ class ItemTemplateTest {
         fun `Can delete an existing id`() {
             val action = DeleteItemTemplate(ID0)
 
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getItemTemplateStorage().getSize())
+            assertEquals(0, REDUCER.invoke(STATE, action).first.getEquipmentStorage().getSize())
         }
 
         @Test
@@ -95,7 +95,7 @@ class ItemTemplateTest {
             )
             val action = UpdateItemTemplate(newItem)
 
-            assertEquals(newItem, REDUCER.invoke(state, action).first.getItemTemplateStorage().get(ID0))
+            assertEquals(newItem, REDUCER.invoke(state, action).first.getEquipmentStorage().get(ID0))
         }
 
         @Test
@@ -110,7 +110,7 @@ class ItemTemplateTest {
         fun `Update template`() {
             val action = UpdateItemTemplate(ITEM)
 
-            assertEquals(ITEM, REDUCER.invoke(STATE, action).first.getItemTemplateStorage().get(ID0))
+            assertEquals(ITEM, REDUCER.invoke(STATE, action).first.getEquipmentStorage().get(ID0))
         }
 
         @Test
@@ -124,7 +124,7 @@ class ItemTemplateTest {
             )
             val action = UpdateItemTemplate(item)
 
-            assertEquals(item, REDUCER.invoke(state, action).first.getItemTemplateStorage().get(ID0))
+            assertEquals(item, REDUCER.invoke(state, action).first.getEquipmentStorage().get(ID0))
         }
     }
 
