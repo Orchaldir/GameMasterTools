@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.item.equipment.Skirt
-import at.orchaldir.gm.core.model.item.style.SkirtStyle
+import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
 import at.orchaldir.gm.core.model.util.Color.White
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.Solid

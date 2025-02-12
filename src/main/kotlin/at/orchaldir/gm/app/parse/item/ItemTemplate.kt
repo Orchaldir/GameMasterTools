@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.parse.parseFill
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseMaterialId
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size

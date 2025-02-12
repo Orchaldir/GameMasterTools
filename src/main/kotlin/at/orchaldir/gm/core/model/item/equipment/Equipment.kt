@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
-import at.orchaldir.gm.core.model.item.style.*
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Fill

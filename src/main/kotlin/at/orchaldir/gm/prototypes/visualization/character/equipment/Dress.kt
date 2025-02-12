@@ -5,9 +5,9 @@ import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.Dress
-import at.orchaldir.gm.core.model.item.style.NecklineStyle.Strapless
-import at.orchaldir.gm.core.model.item.style.SkirtStyle
-import at.orchaldir.gm.core.model.item.style.SleeveStyle
+import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle.Strapless
+import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
+import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG

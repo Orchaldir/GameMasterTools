@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.item.style
+package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size

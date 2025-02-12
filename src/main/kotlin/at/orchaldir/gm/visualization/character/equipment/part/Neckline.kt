@@ -1,8 +1,8 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.item.style.NecklineStyle
-import at.orchaldir.gm.core.model.item.style.NecklineStyle.*
+import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
+import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle.*
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
