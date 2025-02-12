@@ -35,7 +35,7 @@ class MaterialTest {
         fun `Cannot delete material used by item template`() {
             val state = State(
                 listOf(
-                    Storage(Equipment(TEMPLATE0, equipment = Shirt(material = ID0))),
+                    Storage(Equipment(TEMPLATE0, data = Shirt(material = ID0))),
                     Storage(listOf(Material(ID0), Material(ID1))),
                 )
             )
@@ -47,8 +47,8 @@ class MaterialTest {
 
     @Test
     fun `Get all item templates using a material`() {
-        val template0 = Equipment(TEMPLATE0, equipment = Shirt(material = ID0))
-        val template1 = Equipment(TEMPLATE1, equipment = Shirt(material = ID0))
+        val template0 = Equipment(TEMPLATE0, data = Shirt(material = ID0))
+        val template1 = Equipment(TEMPLATE1, data = Shirt(material = ID0))
         val state = State(
             listOf(
                 Storage(listOf(template0, template1)),

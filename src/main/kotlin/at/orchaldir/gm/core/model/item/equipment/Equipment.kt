@@ -20,14 +20,14 @@ value class EquipmentId(val value: Int) : Id<EquipmentId> {
 data class Equipment(
     val id: EquipmentId,
     val name: String = "Equipment ${id.value}",
-    val equipment: EquipmentData = NoEquipment,
+    val data: EquipmentData = NoEquipment,
 ) : ElementWithSimpleName<EquipmentId> {
 
     override fun id() = id
     override fun name() = name
 
-    fun slots() = equipment.slots()
+    fun slots() = data.slots()
 
-    fun canEquip() = equipment.slots().isNotEmpty()
+    fun canEquip() = data.slots().isNotEmpty()
 
 }

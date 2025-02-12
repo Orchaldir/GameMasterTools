@@ -57,17 +57,17 @@ class EquipmentRoutes {
     class Update(val id: EquipmentId, val parent: EquipmentRoutes = EquipmentRoutes())
 }
 
-fun Application.configureItemTemplateRouting() {
+fun Application.configureEquipmentRouting() {
     routing {
         get<EquipmentRoutes> {
-            logger.info { "Get all item templates" }
+            logger.info { "Get all equipments" }
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllItemTemplates(call)
             }
         }
         get<EquipmentRoutes.Details> { details ->
-            logger.info { "Get details of item template ${details.id.value}" }
+            logger.info { "Get details of equipment ${details.id.value}" }
 
             val state = STORE.getState()
             val itemTemplate = state.getEquipmentStorage().getOrThrow(details.id)
@@ -77,7 +77,7 @@ fun Application.configureItemTemplateRouting() {
             }
         }
         get<EquipmentRoutes.New> {
-            logger.info { "Add new item template" }
+            logger.info { "Add new equipment" }
 
             STORE.dispatch(CreateItemTemplate)
 
@@ -92,7 +92,7 @@ fun Application.configureItemTemplateRouting() {
             STORE.getState().save()
         }
         get<EquipmentRoutes.Delete> { delete ->
-            logger.info { "Delete item template ${delete.id.value}" }
+            logger.info { "Delete equipment ${delete.id.value}" }
 
             STORE.dispatch(DeleteItemTemplate(delete.id))
 
@@ -101,7 +101,7 @@ fun Application.configureItemTemplateRouting() {
             STORE.getState().save()
         }
         get<EquipmentRoutes.Edit> { edit ->
-            logger.info { "Get editor for item template ${edit.id.value}" }
+            logger.info { "Get editor for equipment ${edit.id.value}" }
 
             val state = STORE.getState()
             val template = state.getEquipmentStorage().getOrThrow(edit.id)
@@ -111,7 +111,7 @@ fun Application.configureItemTemplateRouting() {
             }
         }
         post<EquipmentRoutes.Preview> { preview ->
-            logger.info { "Get preview for item template ${preview.id.value}" }
+            logger.info { "Get preview for equipment ${preview.id.value}" }
 
             val template = parseItemTemplate(preview.id, call.receiveParameters())
 
@@ -120,7 +120,7 @@ fun Application.configureItemTemplateRouting() {
             }
         }
         post<EquipmentRoutes.Update> { update ->
-            logger.info { "Update item template ${update.id.value}" }
+            logger.info { "Update equipment ${update.id.value}" }
 
             val template = parseItemTemplate(update.id, call.receiveParameters())
 
@@ -137,7 +137,7 @@ private fun HTML.showAllItemTemplates(call: ApplicationCall) {
     val templates = STORE.getState().getEquipmentStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(EquipmentRoutes.New())
 
-    simpleHtml("Item Templates") {
+    simpleHtml("equipments") {
         field("Count", templates.size)
         showList(templates) { item ->
             link(call, item)
@@ -158,73 +158,73 @@ private fun HTML.showItemTemplateDetails(
     val deleteLink = call.application.href(EquipmentRoutes.Delete(template.id))
     val editLink = call.application.href(EquipmentRoutes.Edit(template.id))
 
-    simpleHtml("Item Template: ${template.name}") {
+    simpleHtml("equipment: ${template.name}") {
         visualizeItem(template)
-        when (template.equipment) {
+        when (template.data) {
             NoEquipment -> doubleArrayOf()
             is Coat -> {
                 field("Equipment", "Coat")
-                field("Length", template.equipment.length)
-                field("Neckline Style", template.equipment.necklineStyle)
-                field("Sleeve Style", template.equipment.sleeveStyle)
-                showOpeningStyle(template.equipment.openingStyle)
-                showFill(template.equipment.fill)
-                fieldLink("Material", call, state, template.equipment.material)
+                field("Length", template.data.length)
+                field("Neckline Style", template.data.necklineStyle)
+                field("Sleeve Style", template.data.sleeveStyle)
+                showOpeningStyle(template.data.openingStyle)
+                showFill(template.data.fill)
+                fieldLink("Material", call, state, template.data.material)
             }
 
             is Dress -> {
                 field("Equipment", "Dress")
-                field("Neckline Style", template.equipment.necklineStyle)
-                field("Skirt Style", template.equipment.skirtStyle)
-                field("Sleeve Style", template.equipment.sleeveStyle)
-                showFill(template.equipment.fill)
-                fieldLink("Material", call, state, template.equipment.material)
+                field("Neckline Style", template.data.necklineStyle)
+                field("Skirt Style", template.data.skirtStyle)
+                field("Sleeve Style", template.data.sleeveStyle)
+                showFill(template.data.fill)
+                fieldLink("Material", call, state, template.data.material)
             }
 
             is Footwear -> {
                 field("Equipment", "Footwear")
-                field("Style", template.equipment.style)
-                field("Color", template.equipment.color)
-                if (template.equipment.style.hasSole()) {
-                    field("Sole Color", template.equipment.sole)
+                field("Style", template.data.style)
+                field("Color", template.data.color)
+                if (template.data.style.hasSole()) {
+                    field("Sole Color", template.data.sole)
                 }
-                fieldLink("Material", call, state, template.equipment.material)
+                fieldLink("Material", call, state, template.data.material)
             }
 
             is Gloves -> {
                 field("Equipment", "Gloves")
-                field("Style", template.equipment.style)
-                showFill(template.equipment.fill)
-                fieldLink("Material", call, state, template.equipment.material)
+                field("Style", template.data.style)
+                showFill(template.data.fill)
+                fieldLink("Material", call, state, template.data.material)
             }
 
             is Hat -> {
                 field("Equipment", "Hat")
-                field("Style", template.equipment.style)
-                field("Color", template.equipment.color)
-                fieldLink("Material", call, state, template.equipment.material)
+                field("Style", template.data.style)
+                field("Color", template.data.color)
+                fieldLink("Material", call, state, template.data.material)
             }
 
             is Pants -> {
                 field("Equipment", "Pants")
-                field("Style", template.equipment.style)
-                showFill(template.equipment.fill)
-                fieldLink("Material", call, state, template.equipment.material)
+                field("Style", template.data.style)
+                showFill(template.data.fill)
+                fieldLink("Material", call, state, template.data.material)
             }
 
             is Shirt -> {
                 field("Equipment", "Shirt")
-                field("Neckline Style", template.equipment.necklineStyle)
-                field("Sleeve Style", template.equipment.sleeveStyle)
-                showFill(template.equipment.fill)
-                fieldLink("Material", call, state, template.equipment.material)
+                field("Neckline Style", template.data.necklineStyle)
+                field("Sleeve Style", template.data.sleeveStyle)
+                showFill(template.data.fill)
+                fieldLink("Material", call, state, template.data.material)
             }
 
             is Skirt -> {
                 field("Equipment", "Skirt")
-                field("Style", template.equipment.style)
-                showFill(template.equipment.fill)
-                fieldLink("Material", call, state, template.equipment.material)
+                field("Style", template.data.style)
+                showFill(template.data.fill)
+                fieldLink("Material", call, state, template.data.material)
             }
         }
         showList("Equipped By", characters) { item ->
@@ -266,90 +266,90 @@ private fun BODY.showButtons(buttonColumn: ButtonColumn) {
 private fun HTML.showItemTemplateEditor(
     call: ApplicationCall,
     state: State,
-    template: Equipment,
+    equipment: Equipment,
 ) {
-    val backLink = href(call, template.id)
-    val previewLink = call.application.href(EquipmentRoutes.Preview(template.id))
-    val updateLink = call.application.href(EquipmentRoutes.Update(template.id))
+    val backLink = href(call, equipment.id)
+    val previewLink = call.application.href(EquipmentRoutes.Preview(equipment.id))
+    val updateLink = call.application.href(EquipmentRoutes.Update(equipment.id))
 
-    simpleHtml("Edit Item Template: ${template.name}") {
-        visualizeItem(template)
+    simpleHtml("Edit equipment: ${equipment.name}") {
+        visualizeItem(equipment)
         form {
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            selectName(template.name)
+            selectName(equipment.name)
             selectValue(
                 "Equipment",
                 combine(EQUIPMENT, TYPE),
                 EquipmentDataType.entries,
-                template.equipment.getType(),
+                equipment.data.getType(),
                 true
             )
 
-            when (val equipment = template.equipment) {
+            when (val data = equipment.data) {
                 NoEquipment -> doNothing()
                 is Coat -> {
-                    selectValue("Length", LENGTH, OuterwearLength.entries, equipment.length, true)
-                    selectNecklineStyle(NECKLINES_WITH_SLEEVES, equipment.necklineStyle)
-                    selectSleeveStyle(SleeveStyle.entries, equipment.sleeveStyle)
-                    selectOpeningStyle(equipment.openingStyle)
-                    selectFill(equipment.fill)
-                    selectMaterial(state, equipment.material)
+                    selectValue("Length", LENGTH, OuterwearLength.entries, data.length, true)
+                    selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
+                    selectSleeveStyle(SleeveStyle.entries, data.sleeveStyle)
+                    selectOpeningStyle(data.openingStyle)
+                    selectFill(data.fill)
+                    selectMaterial(state, data.material)
                 }
 
                 is Dress -> {
-                    selectNecklineStyle(NecklineStyle.entries, equipment.necklineStyle)
-                    selectValue("Skirt Style", SKIRT_STYLE, SkirtStyle.entries, equipment.skirtStyle, true)
+                    selectNecklineStyle(NecklineStyle.entries, data.necklineStyle)
+                    selectValue("Skirt Style", SKIRT_STYLE, SkirtStyle.entries, data.skirtStyle, true)
                     selectSleeveStyle(
-                        equipment.necklineStyle.getSupportsSleevesStyles(),
-                        equipment.sleeveStyle,
+                        data.necklineStyle.getSupportsSleevesStyles(),
+                        data.sleeveStyle,
                     )
-                    selectFill(equipment.fill)
-                    selectMaterial(state, equipment.material)
+                    selectFill(data.fill)
+                    selectMaterial(state, data.material)
                 }
 
                 is Footwear -> {
-                    selectValue("Style", FOOTWEAR, FootwearStyle.entries, equipment.style, true)
-                    selectColor(equipment.color)
-                    if (equipment.style.hasSole()) {
-                        selectColor(equipment.sole, "Sole Color", EQUIPMENT_COLOR_1)
+                    selectValue("Style", FOOTWEAR, FootwearStyle.entries, data.style, true)
+                    selectColor(data.color)
+                    if (data.style.hasSole()) {
+                        selectColor(data.sole, "Sole Color", EQUIPMENT_COLOR_1)
                     }
-                    selectMaterial(state, equipment.material)
+                    selectMaterial(state, data.material)
                 }
 
                 is Gloves -> {
-                    selectValue("Style", GLOVES, GloveStyle.entries, equipment.style, true)
-                    selectFill(equipment.fill)
-                    selectMaterial(state, equipment.material)
+                    selectValue("Style", GLOVES, GloveStyle.entries, data.style, true)
+                    selectFill(data.fill)
+                    selectMaterial(state, data.material)
                 }
 
                 is Hat -> {
-                    selectValue("Style", HAT, HatStyle.entries, equipment.style, true)
-                    selectColor(equipment.color)
-                    selectMaterial(state, equipment.material)
+                    selectValue("Style", HAT, HatStyle.entries, data.style, true)
+                    selectColor(data.color)
+                    selectMaterial(state, data.material)
                 }
 
                 is Pants -> {
-                    selectValue("Style", PANTS, PantsStyle.entries, equipment.style, true)
-                    selectFill(equipment.fill)
-                    selectMaterial(state, equipment.material)
+                    selectValue("Style", PANTS, PantsStyle.entries, data.style, true)
+                    selectFill(data.fill)
+                    selectMaterial(state, data.material)
                 }
 
                 is Shirt -> {
-                    selectNecklineStyle(NECKLINES_WITH_SLEEVES, equipment.necklineStyle)
+                    selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
                     selectSleeveStyle(
                         SleeveStyle.entries,
-                        equipment.sleeveStyle,
+                        data.sleeveStyle,
                     )
-                    selectFill(equipment.fill)
-                    selectMaterial(state, equipment.material)
+                    selectFill(data.fill)
+                    selectMaterial(state, data.material)
                 }
 
                 is Skirt -> {
-                    selectValue("Style", SKIRT_STYLE, SkirtStyle.entries, equipment.style, true)
-                    selectFill(equipment.fill)
-                    selectMaterial(state, equipment.material)
+                    selectValue("Style", SKIRT_STYLE, SkirtStyle.entries, data.style, true)
+                    selectFill(data.fill)
+                    selectMaterial(state, data.material)
                 }
             }
             button("Update", updateLink)
@@ -401,8 +401,8 @@ private fun FORM.selectMaterial(
 }
 
 private fun BODY.visualizeItem(template: Equipment) {
-    if (template.equipment.getType() != EquipmentDataType.None) {
-        val equipped = listOf(template.equipment)
+    if (template.data.getType() != EquipmentDataType.None) {
+        val equipped = listOf(template.data)
         val appearance = HumanoidBody(Body(), Head(), Distance.fromMeters(1.0f))
         val frontSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped)
         val backSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped, false)

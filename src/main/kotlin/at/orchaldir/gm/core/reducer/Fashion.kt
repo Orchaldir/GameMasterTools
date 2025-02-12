@@ -40,7 +40,7 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
     NOT_NONE.forEach { type ->
         fashion.getOptions(type).getValidValues().forEach { id ->
             val template = state.getEquipmentStorage().getOrThrow(id)
-            require(template.equipment.isType(type)) { "Type $type has item ${id.value} of wrong type!" }
+            require(template.data.isType(type)) { "Type $type has item ${id.value} of wrong type!" }
         }
     }
 

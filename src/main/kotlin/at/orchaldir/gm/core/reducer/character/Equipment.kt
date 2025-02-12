@@ -13,7 +13,7 @@ val UPDATE_EQUIPMENT: Reducer<UpdateEquipment, State> = { state, action ->
         val template = state.getEquipmentStorage().getOrThrow(id)
         val slots = template.slots()
 
-        require(type == template.equipment.getType()) { "Item template ${template.id.value} has wrong type!" }
+        require(type == template.data.getType()) { "Item template ${template.id.value} has wrong type!" }
 
         slots.forEach { slot -> require(!occupySlots.contains(slot)) { "An Equipment slot $slot is occupied multiple times" } }
 

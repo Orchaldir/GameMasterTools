@@ -13,13 +13,13 @@ fun State.canDelete(itemTemplate: EquipmentId) = getCharacterStorage().getAll()
 
 fun State.countEquipment(material: MaterialId) = getEquipmentStorage()
     .getAll()
-    .count { it.equipment.contains(material) }
+    .count { it.data.contains(material) }
 
 fun State.getEquipmentOf(type: EquipmentDataType) = getEquipmentStorage().getAll()
-    .filter { it.equipment.isType(type) }
+    .filter { it.data.isType(type) }
 
 fun State.getEquipmentMadeOf(material: MaterialId) = getEquipmentStorage().getAll()
-    .filter { it.equipment.contains(material) }
+    .filter { it.data.contains(material) }
 
 fun State.getEquipmentId(type: EquipmentDataType) = getEquipmentOf(type)
     .map { it.id() }
@@ -33,7 +33,7 @@ fun State.getEquipment(character: Character) = getEquipment(character.equipmentM
 fun State.getEquipment(equipmentMap: EquipmentMap) = equipmentMap
     .map
     .values
-    .map { getEquipmentStorage().getOrThrow(it).equipment }
+    .map { getEquipmentStorage().getOrThrow(it).data }
 
 fun State.getEquippedBy(equipment: EquipmentId) = getCharacterStorage().getAll()
     .filter { it.equipmentMap.contains(equipment) }
