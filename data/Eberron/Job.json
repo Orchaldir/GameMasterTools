@@ -12,6 +12,13 @@
     "0": "Common",
     "1": "Everyone"
    }
+  },
+   "2": {
+     "id": 2,
+     "name": "Stonespeaker",
+     "spells": {
+       "2": "Common"
+     }
   }
  }
 }

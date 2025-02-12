@@ -24,6 +24,30 @@
   "5": {
    "id": 5,
    "name": "The Sharn Inquisitive"
+  },
+   "6": {
+     "id": 6,
+     "name": "House Sivis"
+   },
+   "7": {
+     "id": 7,
+     "name": "The Mourner",
+     "date": {
+       "type": "Year",
+       "year": 995
+     }
+   },
+   "8": {
+     "id": 8,
+     "name": "The Grizzlies",
+     "date": {
+       "type": "Year",
+       "year": 995
+     }
+   },
+   "9": {
+     "id": 9,
+     "name": "The Khaar’paal"
   }
  }
 }
