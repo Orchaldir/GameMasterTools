@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.parse
 import at.orchaldir.gm.app.ACCESSORY_RARITY
 import at.orchaldir.gm.app.CLOTHING_SETS
 import at.orchaldir.gm.app.NAME
-import at.orchaldir.gm.app.parse.item.parseItemTemplateId
+import at.orchaldir.gm.app.parse.item.parseEquipmentId
 import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
@@ -32,4 +32,4 @@ fun parseFashion(id: FashionId, parameters: Parameters): Fashion {
 }
 
 private fun parseItemTemplates(parameters: Parameters, type: EquipmentDataType) =
-    parseOneOrNone(parameters, type.name, ::parseItemTemplateId)
+    parseOneOrNone(parameters, type.name, ::parseEquipmentId)

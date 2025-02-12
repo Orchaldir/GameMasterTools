@@ -133,8 +133,8 @@ private fun FORM.selectEquipment(
     selectOneOrNone(
         type.name, type.name, options, !isTypeEquipped, true
     ) { id ->
-        val itemTemplate = state.getEquipmentStorage().getOrThrow(id)
-        label = itemTemplate.name
+        val equipment = state.getEquipmentStorage().getOrThrow(id)
+        label = equipment.name
         value = id.value.toString()
         selected = equipmentMap.contains(id)
         disabled = !canSelect

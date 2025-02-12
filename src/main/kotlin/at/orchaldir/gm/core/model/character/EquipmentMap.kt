@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class EquipmentMap(val map: Map<EquipmentDataType, EquipmentId>) {
 
-    fun contains(itemTemplate: EquipmentId) = map.containsValue(itemTemplate)
+    fun contains(equipment: EquipmentId) = map.containsValue(equipment)
     fun contains(type: EquipmentDataType) = map.containsKey(type)
 
     fun getOccupiedSlots() = map.keys

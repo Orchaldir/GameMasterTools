@@ -9,17 +9,17 @@ import at.orchaldir.gm.core.model.util.Size
 import io.ktor.http.*
 import io.ktor.server.util.*
 
-fun parseItemTemplateId(value: String) = EquipmentId(value.toInt())
+fun parseEquipmentId(value: String) = EquipmentId(value.toInt())
 
-fun parseItemTemplateId(parameters: Parameters, param: String) = EquipmentId(parseInt(parameters, param))
+fun parseEquipmentId(parameters: Parameters, param: String) = EquipmentId(parseInt(parameters, param))
 
-fun parseItemTemplate(id: EquipmentId, parameters: Parameters): Equipment {
+fun parseEquipment(id: EquipmentId, parameters: Parameters): Equipment {
     val name = parameters.getOrFail(NAME)
 
-    return Equipment(id, name, parseEquipment(parameters))
+    return Equipment(id, name, parseEquipmentData(parameters))
 }
 
-fun parseEquipment(parameters: Parameters) =
+fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.None)) {
     EquipmentDataType.None -> NoEquipment
     EquipmentDataType.Coat -> Coat(

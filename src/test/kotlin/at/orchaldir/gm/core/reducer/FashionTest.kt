@@ -63,12 +63,15 @@ class FashionTest {
             val fashion = Fashion(
                 ID0,
                 clothingSets = OneOf(ClothingSet.Dress),
-                itemRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(ITEM0), EquipmentDataType.Hat to OneOrNone())
+                equipmentRarityMap = mapOf(
+                    EquipmentDataType.Dress to OneOrNone(ITEM0),
+                    EquipmentDataType.Hat to OneOrNone()
+                )
             )
             val result = Fashion(
                 ID0,
                 clothingSets = OneOf(ClothingSet.Dress),
-                itemRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(ITEM0))
+                equipmentRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(ITEM0))
             )
             val action = UpdateFashion(fashion)
 
@@ -85,7 +88,7 @@ class FashionTest {
         @Test
         fun `Cannot use unknown item templates`() {
             val state = State(Storage(Fashion(ID0)))
-            val fashion = Fashion(ID0, itemRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(ITEM0)))
+            val fashion = Fashion(ID0, equipmentRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(ITEM0)))
             val action = UpdateFashion(fashion)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -107,7 +110,7 @@ class FashionTest {
             val fashion = Fashion(
                 ID0,
                 clothingSets = OneOf(ClothingSet.Dress),
-                itemRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(ITEM0))
+                equipmentRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(ITEM0))
             )
             val action = UpdateFashion(fashion)
 
@@ -159,7 +162,7 @@ class FashionTest {
             val fashion = Fashion(
                 ID0,
                 clothingSets = OneOf(set),
-                itemRarityMap = mapOf(type to OneOrNone(ITEM0))
+                equipmentRarityMap = mapOf(type to OneOrNone(ITEM0))
             )
             val action = UpdateFashion(fashion)
 
@@ -186,7 +189,7 @@ class FashionTest {
             val fashion = Fashion(
                 ID0,
                 clothingSets = OneOf(ClothingSet.Suit),
-                itemRarityMap = mapOf(type0 to OneOrNone(ITEM0), type1 to OneOrNone(ITEM1))
+                equipmentRarityMap = mapOf(type0 to OneOrNone(ITEM0), type1 to OneOrNone(ITEM1))
             )
             val action = UpdateFashion(fashion)
 

@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.routes.item
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.item.parseItemTemplate
+import at.orchaldir.gm.app.parse.item.parseEquipment
 import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
@@ -113,7 +113,7 @@ fun Application.configureEquipmentRouting() {
         post<EquipmentRoutes.Preview> { preview ->
             logger.info { "Get preview for equipment ${preview.id.value}" }
 
-            val template = parseItemTemplate(preview.id, call.receiveParameters())
+            val template = parseEquipment(preview.id, call.receiveParameters())
 
             call.respondHtml(HttpStatusCode.OK) {
                 showItemTemplateEditor(call, STORE.getState(), template)
@@ -122,7 +122,7 @@ fun Application.configureEquipmentRouting() {
         post<EquipmentRoutes.Update> { update ->
             logger.info { "Update equipment ${update.id.value}" }
 
-            val template = parseItemTemplate(update.id, call.receiveParameters())
+            val template = parseEquipment(update.id, call.receiveParameters())
 
             STORE.dispatch(UpdateItemTemplate(template))
 

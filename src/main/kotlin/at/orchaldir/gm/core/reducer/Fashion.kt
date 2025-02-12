@@ -29,7 +29,7 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
     val fashion = action.fashion
 
     state.getFashionStorage().require(fashion.id)
-    fashion.getAllItemTemplates().forEach { state.getEquipmentStorage().require(it) }
+    fashion.getAllEquipment().forEach { state.getEquipmentStorage().require(it) }
 
     fashion.clothingSets.getValidValues().forEach { set ->
         set.getTypes().forEach { type ->
@@ -44,7 +44,7 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
         }
     }
 
-    val clean = fashion.copy(itemRarityMap = fashion.itemRarityMap.filter { it.value.isNotEmpty() })
+    val clean = fashion.copy(equipmentRarityMap = fashion.equipmentRarityMap.filter { it.value.isNotEmpty() })
 
     noFollowUps(state.updateStorage(state.getFashionStorage().update(clean)))
 }

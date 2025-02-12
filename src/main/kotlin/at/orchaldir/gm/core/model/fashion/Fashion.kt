@@ -28,17 +28,16 @@ data class Fashion(
     val name: String = "Fashion ${id.value}",
     val clothingSets: OneOf<ClothingSet> = OneOf(ClothingSet.entries),
     val accessories: SomeOf<EquipmentDataType> = SomeOf(emptySet()),
-    val itemRarityMap: Map<EquipmentDataType, OneOrNone<EquipmentId>> = emptyMap(),
+    val equipmentRarityMap: Map<EquipmentDataType, OneOrNone<EquipmentId>> = emptyMap(),
 ) : ElementWithSimpleName<FashionId> {
 
     override fun id() = id
     override fun name() = name
 
-    fun getAllItemTemplates() = itemRarityMap
+    fun getAllEquipment() = equipmentRarityMap
         .values
         .flatMap { it.getValidValues() }
 
-
-    fun getOptions(type: EquipmentDataType) = itemRarityMap[type] ?: EMPTY
+    fun getOptions(type: EquipmentDataType) = equipmentRarityMap[type] ?: EMPTY
 
 }
