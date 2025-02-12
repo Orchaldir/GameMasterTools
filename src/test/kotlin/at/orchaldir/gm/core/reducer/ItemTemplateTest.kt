@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer
 
-import at.orchaldir.gm.core.action.DeleteItemTemplate
-import at.orchaldir.gm.core.action.UpdateItemTemplate
+import at.orchaldir.gm.core.action.DeleteEquipment
+import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
@@ -34,21 +34,21 @@ class ItemTemplateTest {
 
         @Test
         fun `Can delete an existing id`() {
-            val action = DeleteItemTemplate(ID0)
+            val action = DeleteEquipment(ID0)
 
             assertEquals(0, REDUCER.invoke(STATE, action).first.getEquipmentStorage().getSize())
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            val action = DeleteItemTemplate(ID0)
+            val action = DeleteEquipment(ID0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot delete, if an instanced item exist`() {
-            val action = DeleteItemTemplate(ID0)
+            val action = DeleteEquipment(ID0)
             val state =
                 STATE.updateStorage(Storage(Character(CHARACTER0, equipmentMap = EQUIPMENT_MAP)))
 
@@ -61,7 +61,7 @@ class ItemTemplateTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateItemTemplate(ITEM)
+            val action = UpdateEquipment(ITEM)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
@@ -77,7 +77,7 @@ class ItemTemplateTest {
                     Storage(Material(MATERIAL0)),
                 )
             )
-            val action = UpdateItemTemplate(newItem)
+            val action = UpdateEquipment(newItem)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
@@ -93,7 +93,7 @@ class ItemTemplateTest {
                     Storage(listOf(Material(MATERIAL0), Material(MATERIAL1))),
                 )
             )
-            val action = UpdateItemTemplate(newItem)
+            val action = UpdateEquipment(newItem)
 
             assertEquals(newItem, REDUCER.invoke(state, action).first.getEquipmentStorage().get(ID0))
         }
@@ -101,14 +101,14 @@ class ItemTemplateTest {
         @Test
         fun `Material must exist`() {
             val item = Equipment(ID0, data = Shirt(material = MATERIAL0))
-            val action = UpdateItemTemplate(item)
+            val action = UpdateEquipment(item)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Update template`() {
-            val action = UpdateItemTemplate(ITEM)
+            val action = UpdateEquipment(ITEM)
 
             assertEquals(ITEM, REDUCER.invoke(STATE, action).first.getEquipmentStorage().get(ID0))
         }
@@ -122,7 +122,7 @@ class ItemTemplateTest {
                     Storage(Material(MATERIAL0)),
                 )
             )
-            val action = UpdateItemTemplate(item)
+            val action = UpdateEquipment(item)
 
             assertEquals(item, REDUCER.invoke(state, action).first.getEquipmentStorage().get(ID0))
         }

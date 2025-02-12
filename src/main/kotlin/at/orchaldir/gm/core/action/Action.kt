@@ -69,7 +69,7 @@ data class UpdateAppearance(
     val appearance: Appearance,
 ) : Action()
 
-data class UpdateEquipment(
+data class UpdateEquipmentOfCharacter(
     val id: CharacterId,
     val map: EquipmentMap,
 ) : Action()
@@ -156,15 +156,15 @@ data class UpdateTime(val time: Time) : Action()
 
 sealed class ItemAction : Action()
 
+// equipment
+data object CreateEquipment : ItemAction()
+data class DeleteEquipment(val id: EquipmentId) : ItemAction()
+data class UpdateEquipment(val equipment: Equipment) : ItemAction()
+
 // text
 data object CreateText : ItemAction()
 data class DeleteText(val id: TextId) : ItemAction()
 data class UpdateText(val text: Text) : ItemAction()
-
-// item template
-data object CreateItemTemplate : ItemAction()
-data class DeleteItemTemplate(val id: EquipmentId) : ItemAction()
-data class UpdateItemTemplate(val equipment: Equipment) : ItemAction()
 
 //-- economy --
 

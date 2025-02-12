@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.routes.character
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseEquipmentMap
-import at.orchaldir.gm.core.action.UpdateEquipment
+import at.orchaldir.gm.core.action.UpdateEquipmentOfCharacter
 import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -59,7 +59,7 @@ fun Application.configureEquipmentRouting() {
             val formParameters = call.receiveParameters()
             val equipmentMap = parseEquipmentMap(formParameters)
 
-            STORE.dispatch(UpdateEquipment(update.id, equipmentMap))
+            STORE.dispatch(UpdateEquipmentOfCharacter(update.id, equipmentMap))
 
             call.respondRedirect(href(call, update.id))
 

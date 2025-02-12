@@ -4,9 +4,9 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.item.parseEquipment
-import at.orchaldir.gm.core.action.CreateItemTemplate
-import at.orchaldir.gm.core.action.DeleteItemTemplate
-import at.orchaldir.gm.core.action.UpdateItemTemplate
+import at.orchaldir.gm.core.action.CreateEquipment
+import at.orchaldir.gm.core.action.DeleteEquipment
+import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
@@ -79,7 +79,7 @@ fun Application.configureEquipmentRouting() {
         get<EquipmentRoutes.New> {
             logger.info { "Add new equipment" }
 
-            STORE.dispatch(CreateItemTemplate)
+            STORE.dispatch(CreateEquipment)
 
             call.respondRedirect(
                 call.application.href(
@@ -94,7 +94,7 @@ fun Application.configureEquipmentRouting() {
         get<EquipmentRoutes.Delete> { delete ->
             logger.info { "Delete equipment ${delete.id.value}" }
 
-            STORE.dispatch(DeleteItemTemplate(delete.id))
+            STORE.dispatch(DeleteEquipment(delete.id))
 
             call.respondRedirect(call.application.href(EquipmentRoutes()))
 
@@ -124,7 +124,7 @@ fun Application.configureEquipmentRouting() {
 
             val template = parseEquipment(update.id, call.receiveParameters())
 
-            STORE.dispatch(UpdateItemTemplate(template))
+            STORE.dispatch(UpdateEquipment(template))
 
             call.respondRedirect(href(call, update.id))
 

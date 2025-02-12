@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.reducer.character
 
-import at.orchaldir.gm.core.action.UpdateEquipment
+import at.orchaldir.gm.core.action.UpdateEquipmentOfCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
@@ -19,7 +19,7 @@ private val ITEM1 = EquipmentId(1)
 class EquipmentTest {
 
     private val equipmentMap = EquipmentMap(mapOf(EquipmentDataType.Hat to ITEM0))
-    private val action = UpdateEquipment(ID0, equipmentMap)
+    private val action = UpdateEquipmentOfCharacter(ID0, equipmentMap)
 
     @Test
     fun `Update equipment`() {
@@ -75,7 +75,7 @@ class EquipmentTest {
             )
         )
         val equipmentMap = EquipmentMap(mapOf(EquipmentDataType.Dress to ITEM0, EquipmentDataType.Shirt to ITEM1))
-        val action = UpdateEquipment(ID0, equipmentMap)
+        val action = UpdateEquipmentOfCharacter(ID0, equipmentMap)
 
         assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
     }
