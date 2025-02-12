@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment
 
+import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
@@ -7,6 +8,33 @@ import at.orchaldir.gm.core.model.util.Fill
 import at.orchaldir.gm.core.model.util.Solid
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+val ACCESSORIES = setOf(EquipmentType.Footwear, EquipmentType.Gloves, EquipmentType.Hat)
+val NOT_NONE = EquipmentType.entries.toSet() - EquipmentType.None
+
+enum class EquipmentType {
+    None,
+    Coat,
+    Dress,
+    Footwear,
+    Gloves,
+    Hat,
+    Pants,
+    Shirt,
+    Skirt;
+
+    fun slots(): Set<EquipmentSlot> = when (this) {
+        None -> emptySet()
+        Coat -> setOf(Outerwear)
+        Dress -> setOf(Bottom, Top)
+        Footwear -> setOf(Foot)
+        Gloves -> setOf(Handwear)
+        Hat -> setOf(Headwear)
+        Pants -> setOf(Bottom)
+        Shirt -> setOf(Top)
+        Skirt -> setOf(Bottom)
+    }
+}
 
 @Serializable
 sealed class Equipment {
