@@ -1,15 +1,11 @@
 package at.orchaldir.gm.core.selector.economy
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.util.OwnedByCharacter
-import at.orchaldir.gm.core.model.util.OwnedByTown
-import at.orchaldir.gm.core.model.util.contains
-import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.model.util.wasOwnedBy
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.util.isCreator
@@ -43,17 +39,13 @@ fun State.getOpenBusinesses(date: Date?) = getExistingElements(getBusinessStorag
 
 // owner
 
-fun State.getOwnedBusinesses(character: CharacterId) = getBusinessStorage().getAll()
-    .filter { it.ownership.current is OwnedByCharacter && it.ownership.current.character == character }
+fun <ID : Id<ID>> State.getOwnedBusinesses(id: ID) = getBusinessStorage()
+    .getAll()
+    .filter { it.ownership.current.isOwnedBy(id) }
 
-fun State.getPreviouslyOwnedBusinesses(character: CharacterId) = getBusinessStorage().getAll()
-    .filter { it.ownership.contains(character) }
-
-fun State.getOwnedBusinesses(town: TownId) = getBusinessStorage().getAll()
-    .filter { it.ownership.current is OwnedByTown && it.ownership.current.town == town }
-
-fun State.getPreviouslyOwnedBusinesses(town: TownId) = getBusinessStorage().getAll()
-    .filter { it.ownership.contains(town) }
+fun <ID : Id<ID>> State.getPreviouslyOwnedBusinesses(id: ID) = getBusinessStorage()
+    .getAll()
+    .filter { it.ownership.wasOwnedBy(id) }
 
 // founder
 

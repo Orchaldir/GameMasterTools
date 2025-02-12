@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.character
 
-import at.orchaldir.gm.core.model.item.Equipment
-import at.orchaldir.gm.core.model.item.EquipmentSlot
+import at.orchaldir.gm.core.model.item.equipment.EquipmentData
+import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
@@ -12,7 +12,7 @@ data class CharacterRenderState(
     val config: CharacterRenderConfig,
     val renderer: MultiLayerRenderer,
     val renderFront: Boolean,
-    val equipped: List<Equipment>,
+    val equipped: List<EquipmentData>,
 ) {
 
     fun getBeardLayer() = if (renderFront) {

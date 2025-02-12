@@ -16,8 +16,8 @@ import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
-import at.orchaldir.gm.core.model.item.ItemTemplate
-import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
@@ -69,7 +69,7 @@ data class UpdateAppearance(
     val appearance: Appearance,
 ) : Action()
 
-data class UpdateEquipment(
+data class UpdateEquipmentOfCharacter(
     val id: CharacterId,
     val map: EquipmentMap,
 ) : Action()
@@ -156,15 +156,15 @@ data class UpdateTime(val time: Time) : Action()
 
 sealed class ItemAction : Action()
 
+// equipment
+data object CreateEquipment : ItemAction()
+data class DeleteEquipment(val id: EquipmentId) : ItemAction()
+data class UpdateEquipment(val equipment: Equipment) : ItemAction()
+
 // text
 data object CreateText : ItemAction()
 data class DeleteText(val id: TextId) : ItemAction()
 data class UpdateText(val text: Text) : ItemAction()
-
-// item template
-data object CreateItemTemplate : ItemAction()
-data class DeleteItemTemplate(val id: ItemTemplateId) : ItemAction()
-data class UpdateItemTemplate(val itemTemplate: ItemTemplate) : ItemAction()
 
 //-- economy --
 

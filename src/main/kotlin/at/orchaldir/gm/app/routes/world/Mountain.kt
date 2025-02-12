@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.routes.world
 
+import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseMountain
@@ -21,8 +22,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
-import kotlinx.html.form
+import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -51,7 +51,7 @@ fun Application.configureMountainRouting() {
             logger.info { "Get all mountains" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllMountains(call)
+                showAllMountains(call, STORE.getState())
             }
         }
         get<MountainRoutes.Details> { details ->
@@ -95,7 +95,7 @@ fun Application.configureMountainRouting() {
             val mountain = state.getMountainStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showMountainEditor(call, mountain)
+                showMountainEditor(call, state, mountain)
             }
         }
         post<MountainRoutes.Update> { update ->
@@ -112,15 +112,33 @@ fun Application.configureMountainRouting() {
     }
 }
 
-private fun HTML.showAllMountains(call: ApplicationCall) {
-    val mountains = STORE.getState().getMountainStorage().getAll().sortedBy { it.name }
+private fun HTML.showAllMountains(
+    call: ApplicationCall,
+    state: State,
+) {
+    val mountains = state.getMountainStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(MountainRoutes.New())
 
     simpleHtml("Mountains") {
         field("Count", mountains.size)
-        showList(mountains) { nameList ->
-            link(call, nameList)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Resources" }
+            }
+            mountains.forEach { mountain ->
+                tr {
+                    td { link(call, mountain) }
+                    td {
+                        state.getMaterialStorage().get(mountain.resources)
+                            .sortedBy { it.name }
+                            .map { link(call, state, it) }
+                    }
+                }
+            }
         }
+
         action(createLink, "Add")
         back("/")
     }
@@ -137,27 +155,36 @@ private fun HTML.showMountainDetails(
 
     simpleHtml("Mountain: ${mountain.name}") {
         field("Name", mountain.name)
+        showList("Resources", mountain.resources) { resource ->
+            link(call, state, resource)
+        }
         showList("Towns", state.getTowns(mountain.id)) { town ->
             link(call, state, town)
         }
+
         action(editLink, "Edit")
+
         if (state.canDelete(mountain.id)) {
             action(deleteLink, "Delete")
         }
+
         back(backLink)
     }
 }
 
 private fun HTML.showMountainEditor(
     call: ApplicationCall,
+    state: State,
     mountain: Mountain,
 ) {
+    val materials = state.getMaterialStorage().getAll().sortedBy { it.name }
     val backLink = href(call, mountain.id)
     val updateLink = call.application.href(MountainRoutes.Update(mountain.id))
 
     simpleHtml("Edit Mountain: ${mountain.name}") {
         form {
             selectName(mountain.name)
+            selectElements(state, "Resources", MATERIAL, materials, mountain.resources)
             button("Update", updateLink)
         }
         back(backLink)

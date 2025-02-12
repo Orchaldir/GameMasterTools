@@ -1,14 +1,14 @@
 package at.orchaldir.gm.core.model.character
 
-import at.orchaldir.gm.core.model.item.EquipmentType
-import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class EquipmentMap(val map: Map<EquipmentType, ItemTemplateId>) {
+data class EquipmentMap(val map: Map<EquipmentDataType, EquipmentId>) {
 
-    fun contains(itemTemplate: ItemTemplateId) = map.containsValue(itemTemplate)
-    fun contains(type: EquipmentType) = map.containsKey(type)
+    fun contains(equipment: EquipmentId) = map.containsValue(equipment)
+    fun contains(type: EquipmentDataType) = map.containsKey(type)
 
     fun getOccupiedSlots() = map.keys
         .flatMap { it.slots() }

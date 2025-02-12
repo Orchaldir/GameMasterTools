@@ -14,6 +14,12 @@ class RaceRoutes {
         val parent: RaceRoutes = RaceRoutes(),
     )
 
+    @Resource("gallery")
+    class Gallery(
+        val sort: SortRace = SortRace.Name,
+        val parent: RaceRoutes = RaceRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: RaceId, val parent: RaceRoutes = RaceRoutes())
 

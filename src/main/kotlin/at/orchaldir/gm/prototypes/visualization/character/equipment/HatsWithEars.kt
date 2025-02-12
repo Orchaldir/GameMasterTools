@@ -3,8 +3,8 @@ package at.orchaldir.gm.prototypes.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.hair.MiddlePart
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
-import at.orchaldir.gm.core.model.item.Hat
-import at.orchaldir.gm.core.model.item.style.HatStyle
+import at.orchaldir.gm.core.model.item.equipment.Hat
+import at.orchaldir.gm.core.model.item.equipment.style.HatStyle
 import at.orchaldir.gm.core.model.util.Color.SaddleBrown
 import at.orchaldir.gm.core.model.util.Color.Yellow
 import at.orchaldir.gm.prototypes.visualization.addNames

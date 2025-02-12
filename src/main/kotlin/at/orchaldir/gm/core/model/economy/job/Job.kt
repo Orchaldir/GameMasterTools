@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.economy.job
 
+import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -20,6 +22,7 @@ value class JobId(val value: Int) : Id<JobId> {
 data class Job(
     val id: JobId,
     val name: String = "Job ${id.value}",
+    val spells: SomeOf<SpellId> = SomeOf(),
 ) : ElementWithSimpleName<JobId> {
 
     override fun id() = id

@@ -336,15 +336,15 @@
    },
    "height": {
     "center": {
-     "millimeters": 900
+     "millimeters": 1050
     },
     "offset": {
-     "millimeters": 200
+     "millimeters": 100
     }
    },
    "lifeStages": {
     "type": "Simple",
-    "appearance": 2,
+    "appearance": 9,
     "lifeStages": [
      {
       "name": "Baby",
@@ -402,10 +402,10 @@
    },
    "height": {
     "center": {
-     "millimeters": 800
+     "millimeters": 1150
     },
     "offset": {
-     "millimeters": 200
+     "millimeters": 100
     }
    },
    "lifeStages": {
@@ -784,6 +784,204 @@
       "relativeSize": 0.9,
       "hasBeard": true,
       "hairColor": "White"
+     }
+    ]
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "Gargoyle",
+   "genders": {
+    "Genderless": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 1600
+    },
+    "offset": {
+     "millimeters": 500
+    }
+   },
+   "lifeStages": {
+    "type": "Immutable",
+    "appearance": 7
+   }
+  },
+  "14": {
+   "id": 14,
+   "name": "Gnoll",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 2100
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 8,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 1,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 2,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 4,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 6,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 10
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 25
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 30,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 35,
+      "relativeSize": 0.9,
+      "hairColor": "Silver"
+     }
+    ]
+   }
+  },
+  "15": {
+   "id": 15,
+   "name": "Harpy",
+   "genders": {
+    "Female": "Common",
+    "Male": "Uncommon"
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 2,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 5,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 12,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 18,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 45,
+      "hasBeard": true
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 60,
+      "hasBeard": true
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 90,
+      "relativeSize": 0.95,
+      "hasBeard": true,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 120,
+      "relativeSize": 0.9,
+      "hasBeard": true,
+      "hairColor": "White"
+     }
+    ]
+   }
+  },
+  "16": {
+   "id": 16,
+   "name": "Medusa",
+   "genders": {
+    "Female": "Common",
+    "Male": "Uncommon"
+   },
+   "height": {
+    "center": {
+     "millimeters": 1700
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 10,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
+     },
+     {
+      "name": "Young Child",
+      "maxAge": 5,
+      "relativeSize": 0.4
+     },
+     {
+      "name": "Child",
+      "maxAge": 10,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 15,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 100
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 150
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 200,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 250,
+      "relativeSize": 0.9
      }
     ]
    }

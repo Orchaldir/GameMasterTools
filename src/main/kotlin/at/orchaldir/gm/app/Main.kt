@@ -1,10 +1,13 @@
 package at.orchaldir.gm.app
 
 import at.orchaldir.gm.app.routes.*
-import at.orchaldir.gm.app.routes.character.*
+import at.orchaldir.gm.app.routes.character.configureAppearanceRouting
+import at.orchaldir.gm.app.routes.character.configureCharacterLanguageRouting
+import at.orchaldir.gm.app.routes.character.configureCharacterRelationshipRouting
+import at.orchaldir.gm.app.routes.character.configureCharacterRouting
 import at.orchaldir.gm.app.routes.economy.configureBusinessRouting
 import at.orchaldir.gm.app.routes.economy.configureJobRouting
-import at.orchaldir.gm.app.routes.item.configureItemTemplateRouting
+import at.orchaldir.gm.app.routes.item.configureEquipmentRouting
 import at.orchaldir.gm.app.routes.item.configureTextRouting
 import at.orchaldir.gm.app.routes.magic.configureSpellRouting
 import at.orchaldir.gm.app.routes.organization.configureOrganizationRouting
@@ -59,7 +62,7 @@ fun Application.module() {
     configureFashionRouting()
     configureFontRouting()
     configureHolidayRouting()
-    configureItemTemplateRouting()
+    configureEquipmentRouting()
     configureJobRouting()
     configureLanguageRouting()
     configureMaterialRouting()

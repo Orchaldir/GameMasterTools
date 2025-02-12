@@ -21,6 +21,7 @@ fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppea
         name,
         parseOneOf(parameters, APPEARANCE, AppearanceType::valueOf),
         parseOneOf(parameters, SKIN_TYPE, SkinType::valueOf),
+        parseOneOf(parameters, FUR_COLOR, Color::valueOf, Color.entries),
         parseOneOf(parameters, SCALE_COLOR, Color::valueOf, Color.entries),
         parseOneOf(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf, SkinColor.entries),
         parseOneOf(parameters, EXOTIC_SKIN_COLOR, Color::valueOf, Color.entries),

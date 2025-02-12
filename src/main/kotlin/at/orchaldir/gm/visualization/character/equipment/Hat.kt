@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.character.equipment
 
-import at.orchaldir.gm.core.model.item.Hat
-import at.orchaldir.gm.core.model.item.style.HatStyle
+import at.orchaldir.gm.core.model.item.equipment.Hat
+import at.orchaldir.gm.core.model.item.equipment.style.HatStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState

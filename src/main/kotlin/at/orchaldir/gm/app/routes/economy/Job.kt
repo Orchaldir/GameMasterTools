@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.routes.economy
 
+import at.orchaldir.gm.app.SPELLS
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.economy.parseJob
@@ -24,8 +25,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
-import kotlinx.html.form
+import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -98,7 +98,7 @@ fun Application.configureJobRouting() {
             val job = state.getJobStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showJobEditor(call, job)
+                showJobEditor(call, state, job)
             }
         }
         post<JobRoutes.Update> { update ->
@@ -121,9 +121,20 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State) {
 
     simpleHtml("Jobs") {
         field("Count", jobs.size)
-        showList(jobs) { nameList ->
-            link(call, nameList)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Spells" }
+            }
+            jobs.forEach { job ->
+                tr {
+                    td { link(call, job) }
+                    tdSkipZero(job.spells.getRarityMap().size)
+                }
+            }
         }
+
         showJobCount(call, state, state.getCharacterStorage().getAll(), "Distribution")
         action(createLink, "Add")
         back("/")
@@ -142,6 +153,9 @@ private fun HTML.showJobDetails(
     val previousCharacters = state.getPreviousEmployees(job.id).toSet() - characters
 
     simpleHtml("Job: ${job.name}") {
+        showRarityMap("Spells", job.spells) { spell ->
+            link(call, state, spell)
+        }
         showList("Businesses", state.getBusinesses(job.id)) { business ->
             link(call, state, business)
         }
@@ -161,6 +175,7 @@ private fun HTML.showJobDetails(
 
 private fun HTML.showJobEditor(
     call: ApplicationCall,
+    state: State,
     job: Job,
 ) {
     val backLink = href(call, job.id)
@@ -169,6 +184,7 @@ private fun HTML.showJobEditor(
     simpleHtml("Edit Job: ${job.name}") {
         form {
             selectName(job.name)
+            selectRarityMap("Spells", SPELLS, state.getSpellStorage(), job.spells, false) { it.name }
             button("Update", updateLink)
         }
         back(backLink)

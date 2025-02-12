@@ -14,7 +14,18 @@ enum class HairStyleType {
 }
 
 @Serializable
-sealed class HairStyle
+sealed class HairStyle {
+
+    fun getType() = when (this) {
+        BuzzCut -> HairStyleType.BuzzCut
+        FlatTop -> HairStyleType.FlatTop
+        MiddlePart -> HairStyleType.MiddlePart
+        ShavedHair -> HairStyleType.Shaved
+        is SidePart -> HairStyleType.SidePart
+        Spiked -> HairStyleType.Spiked
+    }
+
+}
 
 @Serializable
 @SerialName("BuzzCut")

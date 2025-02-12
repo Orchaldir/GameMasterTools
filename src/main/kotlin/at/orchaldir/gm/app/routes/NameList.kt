@@ -50,7 +50,7 @@ fun Application.configureNameListRouting() {
             logger.info { "Get all name lists" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllNameLists(call)
+                showAllNameLists(call, STORE.getState())
             }
         }
         get<NameListRoutes.Details> { details ->
@@ -111,15 +111,29 @@ fun Application.configureNameListRouting() {
     }
 }
 
-private fun HTML.showAllNameLists(call: ApplicationCall) {
-    val nameLists = STORE.getState().getNameListStorage().getAll().sortedBy { it.name }
+private fun HTML.showAllNameLists(
+    call: ApplicationCall,
+    state: State,
+) {
+    val nameLists = state.getNameListStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(NameListRoutes.New())
 
     simpleHtml("Name Lists") {
         field("Count", nameLists.size)
-        showList(nameLists) { nameList ->
-            link(call, nameList)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Count" }
+            }
+            nameLists.forEach { nameList ->
+                tr {
+                    td { link(call, state, nameList) }
+                    tdSkipZero(nameList.names.size)
+                }
+            }
         }
+
         action(createLink, "Add")
         back("/")
     }

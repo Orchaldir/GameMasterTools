@@ -12,7 +12,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
-import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.character.appearance.hair.Hair
+import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
+import at.orchaldir.gm.core.model.character.appearance.hair.SidePart
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
@@ -116,13 +119,15 @@ private fun HTML.showAppearanceEditor(
             action = previewLink
             method = FormMethod.post
             button("Random", generateLink)
-            selectOneOf("Appearance Type", APPEARANCE, raceAppearance.appearanceTypes, true) { type ->
+            selectOneOf(
+                "Appearance Type",
+                APPEARANCE,
+                raceAppearance.appearanceTypes,
+                appearance.getType(),
+                true
+            ) { type ->
                 label = type.name
                 value = type.toString()
-                selected = when (type) {
-                    AppearanceType.Body -> appearance is HumanoidBody
-                    AppearanceType.HeadOnly -> appearance is HeadOnly
-                }
             }
             when (appearance) {
                 is HeadOnly -> {
@@ -178,20 +183,15 @@ private fun FORM.editHead(
 
 private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
     h2 { +"Ears" }
-    selectOneOf("Type", EAR_TYPE, raceAppearance.earsLayout, true) { type ->
+    selectOneOf("Type", EAR_TYPE, raceAppearance.earsLayout, ears.getType(), true) { type ->
         label = type.name
         value = type.toString()
-        selected = when (type) {
-            EarsLayout.NoEars -> ears is NoEars
-            EarsLayout.NormalEars -> ears is NormalEars
-        }
     }
     when (ears) {
         is NormalEars -> {
-            selectOneOf("Ear Shape", EAR_SHAPE, raceAppearance.earShapes, true) { shape ->
+            selectOneOf("Ear Shape", EAR_SHAPE, raceAppearance.earShapes, ears.shape, true) { shape ->
                 label = shape.name
                 value = shape.toString()
-                selected = ears.shape == shape
             }
             selectValue("Ear Size", EAR_SIZE, Size.entries, ears.size, true)
         }
@@ -205,23 +205,18 @@ private fun FORM.editSkin(
     skin: Skin,
 ) {
     h2 { +"Skin" }
-    selectOneOf("Type", SKIN_TYPE, raceAppearance.skinTypes, true) { type ->
+    selectOneOf("Type", SKIN_TYPE, raceAppearance.skinTypes, skin.getType(), true) { type ->
         label = type.name
         value = type.toString()
-        selected = when (type) {
-            SkinType.Scales -> skin is Scales
-            SkinType.Normal -> skin is NormalSkin
-            SkinType.Exotic -> skin is ExoticSkin
-        }
     }
     when (skin) {
+        is Fur -> selectColor("Color", SKIN_EXOTIC_COLOR, raceAppearance.furColors, skin.color)
         is Scales -> selectColor("Color", SKIN_EXOTIC_COLOR, raceAppearance.scalesColors, skin.color)
         is ExoticSkin -> selectColor("Color", SKIN_EXOTIC_COLOR, raceAppearance.exoticSkinColors, skin.color)
         is NormalSkin -> {
-            selectOneOf("Color", SKIN_COLOR, raceAppearance.normalSkinColors, true) { skinColor ->
+            selectOneOf("Color", SKIN_COLOR, raceAppearance.normalSkinColors, skin.color, true) { skinColor ->
                 label = skinColor.name
                 value = skinColor.toString()
-                selected = skin.color == skinColor
                 val bgColor = CHARACTER_CONFIG.getSkinColor(skinColor).toCode()
                 style = "background-color:${bgColor}"
             }
@@ -235,13 +230,9 @@ private fun FORM.editBeard(
     beard: Beard,
 ) {
     h2 { +"Beard" }
-    selectOneOf("Type", BEARD, raceAppearance.hairOptions.beardTypes, true) { option ->
+    selectOneOf("Type", BEARD, raceAppearance.hairOptions.beardTypes, beard.getType(), true) { option ->
         label = option.name
         value = option.toString()
-        selected = when (option) {
-            BeardType.None -> beard is NoBeard
-            BeardType.Normal -> beard is NormalBeard
-        }
     }
     when (beard) {
         NoBeard -> doNothing()
@@ -254,15 +245,15 @@ private fun FORM.editNormalBeard(
     culture: Culture,
     beard: NormalBeard,
 ) {
-    selectOneOf("Style", combine(BEARD, STYLE), culture.appearanceStyle.beardStyles, true) { style ->
+    selectOneOf(
+        "Style",
+        combine(BEARD, STYLE),
+        culture.appearanceStyle.beardStyles,
+        beard.style.getType(),
+        true
+    ) { style ->
         label = style.name
         value = style.toString()
-        selected = when (style) {
-            BeardStyleType.Goatee -> beard.style is Goatee
-            BeardStyleType.GoateeAndMoustache -> beard.style is GoateeAndMoustache
-            BeardStyleType.Moustache -> beard.style is Moustache
-            BeardStyleType.Shaved -> beard.style is ShavedBeard
-        }
     }
     selectColor("Color", combine(BEARD, COLOR), raceAppearance.hairOptions.colors, beard.color)
 
@@ -280,23 +271,21 @@ private fun FORM.editNormalBeard(
 
 private fun HtmlBlockTag.selectGoateeStyle(
     culture: Culture,
-    goateeStyle: GoateeStyle,
+    current: GoateeStyle,
 ) {
-    selectOneOf("Goatee", GOATEE_STYLE, culture.appearanceStyle.goateeStyles, true) { style ->
+    selectOneOf("Goatee", GOATEE_STYLE, culture.appearanceStyle.goateeStyles, current, true) { style ->
         label = style.name
         value = style.toString()
-        selected = style == goateeStyle
     }
 }
 
 private fun HtmlBlockTag.selectMoustacheStyle(
     culture: Culture,
-    moustacheStyle: MoustacheStyle,
+    current: MoustacheStyle,
 ) {
-    selectOneOf("Moustache", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyles, true) { style ->
+    selectOneOf("Moustache", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyles, current, true) { style ->
         label = style.name
         value = style.toString()
-        selected = style == moustacheStyle
     }
 }
 
@@ -305,14 +294,9 @@ private fun FORM.editEyes(
     eyes: Eyes,
 ) {
     h2 { +"Eyes" }
-    selectOneOf("Layout", combine(EYES, LAYOUT), raceAppearance.eyesLayout, true) { option ->
+    selectOneOf("Layout", combine(EYES, LAYOUT), raceAppearance.eyesLayout, eyes.getType(), true) { option ->
         label = option.name
         value = option.toString()
-        selected = when (option) {
-            EyesLayout.NoEyes -> eyes is NoEyes
-            EyesLayout.OneEye -> eyes is OneEye
-            EyesLayout.TwoEyes -> eyes is TwoEyes
-        }
     }
     when (eyes) {
         is OneEye -> {
@@ -332,15 +316,13 @@ private fun FORM.editEye(
     eyeOptions: EyeOptions,
     eye: Eye,
 ) {
-    selectOneOf("Eye Shape", EYE_SHAPE, eyeOptions.eyeShapes, true) { shape ->
+    selectOneOf("Eye Shape", EYE_SHAPE, eyeOptions.eyeShapes, eye.eyeShape, true) { shape ->
         label = shape.name
         value = shape.toString()
-        selected = eye.eyeShape == shape
     }
-    selectOneOf("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, true) { shape ->
+    selectOneOf("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, eye.pupilShape, true) { shape ->
         label = shape.name
         value = shape.toString()
-        selected = eye.pupilShape == shape
     }
     selectColor("Pupil Color", PUPIL_COLOR, eyeOptions.pupilColors, eye.pupilColor)
     selectColor("Sclera Color", SCLERA_COLOR, eyeOptions.scleraColors, eye.scleraColor)
@@ -352,13 +334,9 @@ private fun FORM.editHair(
     hair: Hair,
 ) {
     h2 { +"Hair" }
-    selectOneOf("Type", HAIR_TYPE, raceAppearance.hairOptions.hairTypes, true) { option ->
+    selectOneOf("Type", HAIR_TYPE, raceAppearance.hairOptions.hairTypes, hair.getType(), true) { option ->
         label = option.name
         value = option.toString()
-        selected = when (option) {
-            HairType.None -> hair is NoHair
-            HairType.Normal -> hair is NormalHair
-        }
     }
     when (hair) {
         NoHair -> doNothing()
@@ -371,17 +349,9 @@ private fun FORM.editNormalHair(
     culture: Culture,
     hair: NormalHair,
 ) {
-    selectOneOf("Style", HAIR_STYLE, culture.appearanceStyle.hairStyles, true) { style ->
+    selectOneOf("Style", HAIR_STYLE, culture.appearanceStyle.hairStyles, hair.style.getType(), true) { style ->
         label = style.name
         value = style.toString()
-        selected = when (style) {
-            HairStyleType.BuzzCut -> hair.style is BuzzCut
-            HairStyleType.FlatTop -> hair.style is FlatTop
-            HairStyleType.MiddlePart -> hair.style is MiddlePart
-            HairStyleType.Shaved -> hair.style is ShavedHair
-            HairStyleType.SidePart -> hair.style is SidePart
-            HairStyleType.Spiked -> hair.style is Spiked
-        }
     }
     selectColor("Color", HAIR_COLOR, raceAppearance.hairOptions.colors, hair.color)
 
@@ -400,13 +370,9 @@ private fun FORM.editMouth(
     mouth: Mouth,
 ) {
     h2 { +"Mouth" }
-    selectOneOf("Type", MOUTH_TYPE, raceAppearance.mouthTypes, true) { option ->
+    selectOneOf("Type", MOUTH_TYPE, raceAppearance.mouthTypes, mouth.getType(), true) { option ->
         label = option.name
         value = option.toString()
-        selected = when (option) {
-            MouthType.NoMouth -> mouth is NoMouth
-            MouthType.NormalMouth -> mouth is NormalMouth || mouth is FemaleMouth
-        }
     }
     when (mouth) {
         is NormalMouth -> {

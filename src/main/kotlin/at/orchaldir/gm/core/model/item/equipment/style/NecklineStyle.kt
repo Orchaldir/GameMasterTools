@@ -1,6 +1,6 @@
-package at.orchaldir.gm.core.model.item.style
+package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.item.style.NecklineStyle.*
+import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle.*
 
 val NECKLINES_WITH_SLEEVES = setOf(Crew, None, V, DeepV, VeryDeepV)
 

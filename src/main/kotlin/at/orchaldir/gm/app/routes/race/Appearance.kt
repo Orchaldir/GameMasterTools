@@ -181,7 +181,13 @@ private fun HtmlBlockTag.showRandomExamples(
     n: Int,
     width: Int,
 ) {
-    val generator = createGeneratorConfig(state, appearance, AppearanceStyle(), Gender.Male)
+    val generator = createGeneratorConfig(
+        state,
+        appearance,
+        AppearanceStyle(),
+        Gender.Male,
+        Distribution.fromMeters(1.0f, 0.0f),
+    )
 
     repeat(n) {
         val svg = visualizeCharacter(CHARACTER_CONFIG, generator.generate())
@@ -194,17 +200,27 @@ private fun HtmlBlockTag.showAppearanceOptions(
     eyeOptions: EyeOptions,
 ) {
     showRarityMap("Type", appearance.appearanceTypes)
+
     h3 { +"Skin" }
+
     showRarityMap("Type", appearance.skinTypes)
+
+    if (appearance.skinTypes.isAvailable(SkinType.Fur)) {
+        showRarityMap("Fur Colors", appearance.furColors)
+    }
+
     if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
         showRarityMap("Scale Colors", appearance.scalesColors)
     }
+
     if (appearance.skinTypes.isAvailable(SkinType.Normal)) {
         showRarityMap("Normal Skin Colors", appearance.normalSkinColors)
     }
+
     if (appearance.skinTypes.isAvailable(SkinType.Exotic)) {
         showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
     }
+
     h3 { +"Ears" }
     showRarityMap("Layout", appearance.earsLayout)
     if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
@@ -265,11 +281,19 @@ private fun FORM.editAppearanceOptions(
     eyeOptions: EyeOptions,
 ) {
     selectRarityMap("Type", APPEARANCE, appearance.appearanceTypes, true)
+
     h3 { +"Skin" }
+
     selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes, true)
+
+    if (appearance.skinTypes.isAvailable(SkinType.Fur)) {
+        selectRarityMap("Fur Colors", FUR_COLOR, appearance.furColors, true)
+    }
+
     if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
         selectRarityMap("Scale Colors", SCALE_COLOR, appearance.scalesColors, true)
     }
+
     if (appearance.skinTypes.isAvailable(SkinType.Normal)) {
         selectRarityMap(
             "Normal Skin Colors",
@@ -278,6 +302,7 @@ private fun FORM.editAppearanceOptions(
             true,
         )
     }
+
     if (appearance.skinTypes.isAvailable(SkinType.Exotic)) {
         selectRarityMap(
             "Exotic Skin Colors",
@@ -286,6 +311,7 @@ private fun FORM.editAppearanceOptions(
             true,
         )
     }
+
     h3 { +"Ears" }
     selectRarityMap("Layout", combine(EARS, LAYOUT), appearance.earsLayout, true)
     if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
@@ -318,11 +344,12 @@ fun createGeneratorConfig(
     appearance: RaceAppearance,
     appearanceStyle: AppearanceStyle,
     gender: Gender,
+    height: Distribution,
 ) = AppearanceGeneratorConfig(
     RandomNumberGenerator(Random),
     state.rarityGenerator,
     gender,
-    Distribution.fromMeters(1.0f, 0.0f),
+    height,
     appearance,
     appearanceStyle,
 )

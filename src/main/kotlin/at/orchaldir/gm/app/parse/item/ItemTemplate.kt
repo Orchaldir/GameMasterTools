@@ -1,73 +1,71 @@
 package at.orchaldir.gm.app.parse.item
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseFill
-import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.app.parse.parseMaterialId
-import at.orchaldir.gm.core.model.item.*
-import at.orchaldir.gm.core.model.item.style.*
+import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import io.ktor.http.*
 import io.ktor.server.util.*
 
-fun parseItemTemplateId(value: String) = ItemTemplateId(value.toInt())
+fun parseEquipmentId(value: String) = EquipmentId(value.toInt())
 
-fun parseItemTemplateId(parameters: Parameters, param: String) = ItemTemplateId(parseInt(parameters, param))
+fun parseEquipmentId(parameters: Parameters, param: String) = EquipmentId(parseInt(parameters, param))
 
-fun parseItemTemplate(id: ItemTemplateId, parameters: Parameters): ItemTemplate {
+fun parseEquipment(id: EquipmentId, parameters: Parameters): Equipment {
     val name = parameters.getOrFail(NAME)
 
-    return ItemTemplate(id, name, parseEquipment(parameters))
+    return Equipment(id, name, parseEquipmentData(parameters))
 }
 
-fun parseEquipment(parameters: Parameters) = when (parse(parameters, EQUIPMENT_TYPE, EquipmentType.None)) {
-    EquipmentType.None -> NoEquipment
-    EquipmentType.Coat -> Coat(
-        parse(parameters, LENGTH, OuterwearLength.Hip),
-        parse(parameters, NECKLINE_STYLE, NecklineStyle.DeepV),
-        parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
-        parseOpeningStyle(parameters),
-        parseFill(parameters),
-        parseMaterialId(parameters, MATERIAL),
-    )
+fun parseEquipmentData(parameters: Parameters) =
+    when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.None)) {
+        EquipmentDataType.None -> NoEquipment
+        EquipmentDataType.Coat -> Coat(
+            parse(parameters, LENGTH, OuterwearLength.Hip),
+            parse(parameters, NECKLINE_STYLE, NecklineStyle.DeepV),
+            parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
+            parseOpeningStyle(parameters),
+            parseFill(parameters),
+            parseMaterialId(parameters, MATERIAL),
+        )
 
-    EquipmentType.Dress -> parseDress(parameters)
+        EquipmentDataType.Dress -> parseDress(parameters)
 
-    EquipmentType.Footwear -> Footwear(
-        parse(parameters, FOOTWEAR, FootwearStyle.Shoes),
-        parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
-        parse(parameters, EQUIPMENT_COLOR_1, Color.SaddleBrown),
-        parseMaterialId(parameters, MATERIAL),
-    )
+        EquipmentDataType.Footwear -> Footwear(
+            parse(parameters, FOOTWEAR, FootwearStyle.Shoes),
+            parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
+            parse(parameters, EQUIPMENT_COLOR_1, Color.SaddleBrown),
+            parseMaterialId(parameters, MATERIAL),
+        )
 
-    EquipmentType.Gloves -> Gloves(
-        parse(parameters, GLOVES, GloveStyle.Hand),
-        parseFill(parameters),
-        parseMaterialId(parameters, MATERIAL),
-    )
+        EquipmentDataType.Gloves -> Gloves(
+            parse(parameters, GLOVES, GloveStyle.Hand),
+            parseFill(parameters),
+            parseMaterialId(parameters, MATERIAL),
+        )
 
-    EquipmentType.Hat -> Hat(
-        parse(parameters, HAT, HatStyle.TopHat),
-        parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
-        parseMaterialId(parameters, MATERIAL),
-    )
+        EquipmentDataType.Hat -> Hat(
+            parse(parameters, HAT, HatStyle.TopHat),
+            parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
+            parseMaterialId(parameters, MATERIAL),
+        )
 
-    EquipmentType.Pants -> Pants(
-        parse(parameters, PANTS, PantsStyle.Regular),
-        parseFill(parameters),
-        parseMaterialId(parameters, MATERIAL),
-    )
+        EquipmentDataType.Pants -> Pants(
+            parse(parameters, PANTS, PantsStyle.Regular),
+            parseFill(parameters),
+            parseMaterialId(parameters, MATERIAL),
+        )
 
-    EquipmentType.Shirt -> parseShirt(parameters)
+        EquipmentDataType.Shirt -> parseShirt(parameters)
 
-    EquipmentType.Skirt -> Skirt(
-        parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
-        parseFill(parameters),
-        parseMaterialId(parameters, MATERIAL),
-    )
-}
+        EquipmentDataType.Skirt -> Skirt(
+            parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
+            parseFill(parameters),
+            parseMaterialId(parameters, MATERIAL),
+        )
+    }
 
 private fun parseDress(parameters: Parameters): Dress {
     val neckline = parse(parameters, NECKLINE_STYLE, NecklineStyle.None)

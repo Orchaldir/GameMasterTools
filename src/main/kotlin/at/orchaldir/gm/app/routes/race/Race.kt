@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.Race
@@ -27,6 +28,7 @@ import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import at.orchaldir.gm.visualization.character.appearance.visualizeGroup
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -48,6 +50,13 @@ fun Application.configureRaceRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllRaces(call, STORE.getState(), all.sort)
+            }
+        }
+        get<RaceRoutes.Gallery> { gallery ->
+            logger.info { "Show gallery" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showGallery(call, STORE.getState(), gallery.sort)
             }
         }
         get<RaceRoutes.Details> { details ->
@@ -127,26 +136,19 @@ private fun HTML.showAllRaces(
 ) {
     val races = state.sortRaces(sort)
     val createLink = call.application.href(RaceRoutes.New())
-    val sortNameLink = call.application.href(RaceRoutes.All(SortRace.Name))
-    val sortMaxAgeLink = call.application.href(RaceRoutes.All(SortRace.MaxAge))
-    val sortHeightLink = call.application.href(RaceRoutes.All(SortRace.Height))
+    val galleryLink = call.application.href(RaceRoutes.Gallery())
 
     simpleHtml("Races") {
+        action(galleryLink, "Gallery")
         field("Count", races.size)
-        field("Sort") {
-            link(sortNameLink, "Name")
-            +" "
-            link(sortMaxAgeLink, "Max Age")
-            +" "
-            link(sortHeightLink, "Height")
-        }
+        showSortLinks(call) { sort -> RaceRoutes.All(sort) }
 
         table {
             tr {
                 th { +"Name" }
                 th { +"Gender" }
                 th { +"Max Age" }
-                th { +"Height" }
+                th { +"Max Height" }
                 th { +"Life Stages" }
                 th { +"Appearance" }
             }
@@ -155,7 +157,7 @@ private fun HTML.showAllRaces(
                     td { link(call, state, race) }
                     td { +race.genders.getValidValues().joinToString() }
                     tdSkipZero(race.lifeStages.getMaxAge())
-                    td { +race.height.center.toString() }
+                    td { +race.height.getMax().toString() }
                     tdSkipZero(race.lifeStages.countLifeStages())
                     td { link(call, state, race.lifeStages.getRaceAppearance()) }
                 }
@@ -164,6 +166,54 @@ private fun HTML.showAllRaces(
 
         action(createLink, "Add")
         back("/")
+    }
+}
+
+private inline fun <reified T : Any> BODY.showSortLinks(call: ApplicationCall, createLink: (SortRace) -> T) {
+    val sortNameLink = call.application.href(createLink(SortRace.Name))
+    val sortMaxAgeLink = call.application.href(createLink(SortRace.MaxAge))
+    val sortMaxHeightLink = call.application.href(createLink(SortRace.MaxHeight))
+    field("Sort") {
+        link(sortNameLink, "Name")
+        +" "
+        link(sortMaxAgeLink, "Max Age")
+        +" "
+        link(sortMaxHeightLink, "Max Height")
+    }
+}
+
+private fun HTML.showGallery(
+    call: ApplicationCall,
+    state: State,
+    sort: SortRace,
+) {
+    val races = state.sortRaces(sort)
+    val maxHeight = races.map { it.height.getMax() }.maxBy { it.millimeters }
+    val maxSize = CHARACTER_CONFIG.calculateSize(maxHeight)
+    val backLink = call.application.href(RaceRoutes.All())
+
+    simpleHtml("Races") {
+        showSortLinks(call) { sort -> RaceRoutes.Gallery(sort) }
+
+        div("grid-container") {
+            races.forEach { race ->
+                val lifeStage = race.lifeStages.getAllLifeStages().maxBy { it.relativeSize.value }
+                val appearance = generateAppearance(state, race, race.genders.getValidValues().first())
+                val appearanceForAge = getAppearanceForAge(race, appearance, lifeStage.maxAge)
+                val svg = visualizeAppearance(CHARACTER_CONFIG, maxSize, appearanceForAge)
+
+                div("grid-item") {
+                    a(href(call, race.id)) {
+                        div {
+                            +race.name
+                        }
+                        svg(svg, 100)
+                    }
+                }
+            }
+        }
+
+        back(backLink)
     }
 }
 
@@ -213,10 +263,7 @@ private fun HtmlBlockTag.visualizeLifeStages(
     gender: Gender,
     width: Int,
 ) {
-    val raceAppearanceId = race.lifeStages.getRaceAppearance()
-    val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(raceAppearanceId)
-    val generator = createGeneratorConfig(state, raceAppearance, AppearanceStyle(), gender)
-    val appearance = generator.generate()
+    val appearance = generateAppearance(state, race, gender)
 
     val svg = visualizeGroup(CHARACTER_CONFIG, race.lifeStages.getAllLifeStages().map {
         getAppearanceForAge(race, appearance, it.maxAge)
@@ -225,6 +272,24 @@ private fun HtmlBlockTag.visualizeLifeStages(
     p {
         svg(svg, width)
     }
+}
+
+private fun generateAppearance(
+    state: State,
+    race: Race,
+    gender: Gender,
+): Appearance {
+    val raceAppearanceId = race.lifeStages.getRaceAppearance()
+    val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(raceAppearanceId)
+    val generator = createGeneratorConfig(
+        state,
+        raceAppearance,
+        AppearanceStyle(),
+        gender,
+        race.height,
+    )
+
+    return generator.generate()
 }
 
 private fun HtmlBlockTag.showLifeStages(
@@ -416,7 +481,7 @@ private fun HtmlBlockTag.selectAppearance(
         state,
         "Appearance",
         combine(RACE, APPEARANCE, index),
-        state.getRaceAppearanceStorage().getAll(),
+        state.getRaceAppearanceStorage().getAll().sortedBy { it.name },
         raceAppearanceId,
         true,
     )

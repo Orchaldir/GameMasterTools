@@ -17,7 +17,14 @@ enum class EarsLayout {
 }
 
 @Serializable
-sealed class Ears
+sealed class Ears {
+
+    fun getType() = when (this) {
+        NoEars -> EarsLayout.NoEars
+        is NormalEars -> EarsLayout.NormalEars
+    }
+
+}
 
 @Serializable
 @SerialName("None")

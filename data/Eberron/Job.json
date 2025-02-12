@@ -1,5 +1,28 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Miner"
+  },
+  "1": {
+   "id": 1,
+   "name": "Stone Chanter",
+   "spells": {
+    "0": "Common",
+    "1": "Everyone"
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Stonespeaker",
+   "spells": {
+    "2": "Common"
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Teacher"
+  }
  }
 }

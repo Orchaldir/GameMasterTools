@@ -410,6 +410,237 @@
    "mouthTypes": {
     "NormalMouth": "Common"
    }
+  },
+  "7": {
+   "id": 7,
+   "name": "Gargoyle",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Exotic": "Common"
+   },
+   "exoticSkinColors": {
+    "Gray": "Common"
+   },
+   "earsLayout": {
+    "NormalEars": "Common"
+   },
+   "earShapes": {
+    "PointedSideways": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeShapes": {
+     "Circle": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "pupilColors": {
+     "Silver": "Common"
+    },
+    "scleraColors": {
+     "Silver": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "hairTypes": {
+     "None": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Gnoll",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Fur": "Common"
+   },
+   "furColors": {
+    "Chocolate": "Uncommon",
+    "Gray": "Uncommon",
+    "Maroon": "Uncommon",
+    "SaddleBrown": "Common"
+   },
+   "earsLayout": {
+    "NormalEars": "Common"
+   },
+   "earShapes": {
+    "Round": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeShapes": {
+     "Circle": "Common"
+    },
+    "pupilShapes": {
+     "VerticalSlit": "Common"
+    },
+    "pupilColors": {
+     "Black": "Common"
+    },
+    "scleraColors": {
+     "Crimson": "Rare",
+     "Gold": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "hairTypes": {
+     "None": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Gnome",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Normal": "Common"
+   },
+   "normalSkinColors": {
+    "Fair": "Uncommon",
+    "Light": "Common",
+    "Medium": "Uncommon"
+   },
+   "earsLayout": {
+    "NormalEars": "Common"
+   },
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeShapes": {
+     "Circle": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "pupilColors": {
+     "Aqua": "Common",
+     "Blue": "Common",
+     "Gray": "Rare",
+     "Green": "Common",
+     "Navy": "Common",
+     "Olive": "Common",
+     "Purple": "VeryRare",
+     "Red": "VeryRare",
+     "SaddleBrown": "Common",
+     "Silver": "Common",
+     "Teal": "Common"
+    },
+    "scleraColors": {
+     "White": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "Normal": "Common"
+    },
+    "hairTypes": {
+     "Normal": "Common"
+    },
+    "colors": {
+     "Black": "Common",
+     "Blue": "Common",
+     "Crimson": "Common",
+     "Green": "Common",
+     "Maroon": "Rare",
+     "Orange": "Common",
+     "Pink": "Common",
+     "Purple": "Common",
+     "Red": "Rare",
+     "SaddleBrown": "Common",
+     "Yellow": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": "Medusa",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Scales": "Uncommon",
+    "Normal": "Common"
+   },
+   "scalesColors": {
+    "Blue": "Common",
+    "Gold": "Common",
+    "Green": "Common",
+    "Maroon": "Common",
+    "Navy": "Common",
+    "Orange": "Common",
+    "OrangeRed": "Common",
+    "Red": "Common",
+    "SaddleBrown": "Common"
+   },
+   "normalSkinColors": {
+    "Fair": "Uncommon",
+    "Light": "Common",
+    "Medium": "Common",
+    "Tan": "Common",
+    "Dark": "Common",
+    "VeryDark": "Common"
+   },
+   "earsLayout": {
+    "NoEars": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeShapes": {
+     "Circle": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "pupilColors": {
+     "Crimson": "Common"
+    },
+    "scleraColors": {
+     "Crimson": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "hairTypes": {
+     "None": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
   }
  }
 }

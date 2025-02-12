@@ -3,14 +3,14 @@ package at.orchaldir.gm.app.routes.character
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseEquipmentMap
-import at.orchaldir.gm.core.action.UpdateEquipment
+import at.orchaldir.gm.core.action.UpdateEquipmentOfCharacter
 import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.fashion.Fashion
-import at.orchaldir.gm.core.model.item.EquipmentSlot
-import at.orchaldir.gm.core.model.item.EquipmentType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
@@ -59,7 +59,7 @@ fun Application.configureEquipmentRouting() {
             val formParameters = call.receiveParameters()
             val equipmentMap = parseEquipmentMap(formParameters)
 
-            STORE.dispatch(UpdateEquipment(update.id, equipmentMap))
+            STORE.dispatch(UpdateEquipmentOfCharacter(update.id, equipmentMap))
 
             call.respondRedirect(href(call, update.id))
 
@@ -106,7 +106,7 @@ private fun HTML.showEquipmentEditor(
             method = FormMethod.post
             button("Random", generateLink)
 
-            EquipmentType.entries.forEach { selectEquipment(state, equipmentMap, occupiedSlots, fashion, it) }
+            EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, occupiedSlots, fashion, it) }
 
             button("Update", updateLink)
         }
@@ -119,7 +119,7 @@ private fun FORM.selectEquipment(
     equipmentMap: EquipmentMap,
     occupiedSlots: Set<EquipmentSlot>,
     fashion: Fashion,
-    type: EquipmentType,
+    type: EquipmentDataType,
 ) {
     val options = fashion.getOptions(type)
 
@@ -133,8 +133,8 @@ private fun FORM.selectEquipment(
     selectOneOrNone(
         type.name, type.name, options, !isTypeEquipped, true
     ) { id ->
-        val itemTemplate = state.getItemTemplateStorage().getOrThrow(id)
-        label = itemTemplate.name
+        val equipment = state.getEquipmentStorage().getOrThrow(id)
+        label = equipment.name
         value = id.value.toString()
         selected = equipmentMap.contains(id)
         disabled = !canSelect

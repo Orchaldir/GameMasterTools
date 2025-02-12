@@ -1,5 +1,20 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Shape Quickstone",
+   "language": 2
+  },
+  "1": {
+   "id": 1,
+   "name": "Harden Quickstone",
+   "language": 2
+  },
+  "2": {
+   "id": 2,
+   "name": "Sending",
+   "language": 2
+  }
  }
 }

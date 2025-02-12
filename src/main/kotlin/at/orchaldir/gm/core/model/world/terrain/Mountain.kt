@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world.terrain
 
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -21,6 +22,7 @@ value class MountainId(val value: Int) : Id<MountainId> {
 data class Mountain(
     val id: MountainId,
     val name: String = "Mountain ${id.value}",
+    val resources: Set<MaterialId> = emptySet(),
 ) : ElementWithSimpleName<MountainId> {
 
     override fun id() = id

@@ -93,6 +93,7 @@ value class OneOrNone<T>(private val map: Map<T, Rarity>) : RarityMap<T> {
 @JvmInline
 @Serializable
 value class SomeOf<T>(private val map: Map<T, Rarity>) : RarityMap<T> {
+    constructor() : this(setOf())
     constructor(value: T) : this(setOf(value))
     constructor(values: Collection<T>) : this(values.associateWith { Rarity.Common })
 

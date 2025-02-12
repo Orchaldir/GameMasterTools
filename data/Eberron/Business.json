@@ -1,5 +1,225 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": {
+    "type": "Simple",
+    "name": "The Crown"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 991
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": {
+    "type": "Simple",
+    "name": "Tuuva Mercantile"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 991
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": {
+    "type": "Simple",
+    "name": "The Anvil"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 995
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": {
+    "type": "Simple",
+    "name": "The Livery"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 995
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": {
+    "type": "Simple",
+    "name": "Sivis Stone 182"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 995
+   },
+   "founder": {
+    "type": "Organization",
+    "organization": 6
+   },
+   "ownership": {
+    "current": {
+     "type": "Organization",
+     "organization": 6
+    }
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": {
+    "type": "Simple",
+    "name": "Orien Station"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 996
+   },
+   "founder": {
+    "type": "Organization",
+    "organization": 1
+   },
+   "ownership": {
+    "current": {
+     "type": "Organization",
+     "organization": 1
+    }
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": {
+    "type": "Simple",
+    "name": "The Gold Dragon Inn"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 996
+   },
+   "founder": {
+    "type": "Organization",
+    "organization": 2
+   },
+   "ownership": {
+    "current": {
+     "type": "Organization",
+     "organization": 2
+    }
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": {
+    "type": "Simple",
+    "name": "The Rose Theater"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 992
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": {
+    "type": "Simple",
+    "name": "Littlehand Haberdashers"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 992
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": {
+    "type": "Simple",
+    "name": "The Patchery"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 991
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": {
+    "type": "Simple",
+    "name": "Town Hall"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 995
+   },
+   "founder": {
+    "type": "Town",
+    "town": 0
+   },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": {
+    "type": "Simple",
+    "name": "The Sharn Inquisitive"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 995
+   },
+   "founder": {
+    "type": "Organization",
+    "organization": 5
+   },
+   "ownership": {
+    "current": {
+     "type": "Organization",
+     "organization": 5
+    }
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": {
+    "type": "Simple",
+    "name": "The Kundarak Enclave"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 996
+   },
+   "founder": {
+    "type": "Organization",
+    "organization": 3
+   },
+   "ownership": {
+    "current": {
+     "type": "Organization",
+     "organization": 3
+    }
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": {
+    "type": "Simple",
+    "name": "Schoolhouse"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 995
+   },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   }
+  }
  }
 }

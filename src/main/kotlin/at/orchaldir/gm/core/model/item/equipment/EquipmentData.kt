@@ -1,6 +1,7 @@
-package at.orchaldir.gm.core.model.item
+package at.orchaldir.gm.core.model.item.equipment
 
-import at.orchaldir.gm.core.model.item.style.*
+import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Fill
@@ -8,31 +9,58 @@ import at.orchaldir.gm.core.model.util.Solid
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val ACCESSORIES = setOf(EquipmentDataType.Footwear, EquipmentDataType.Gloves, EquipmentDataType.Hat)
+val NOT_NONE = EquipmentDataType.entries.toSet() - EquipmentDataType.None
+
+enum class EquipmentDataType {
+    None,
+    Coat,
+    Dress,
+    Footwear,
+    Gloves,
+    Hat,
+    Pants,
+    Shirt,
+    Skirt;
+
+    fun slots(): Set<EquipmentSlot> = when (this) {
+        None -> emptySet()
+        Coat -> setOf(Outerwear)
+        Dress -> setOf(Bottom, Top)
+        Footwear -> setOf(Foot)
+        Gloves -> setOf(Handwear)
+        Hat -> setOf(Headwear)
+        Pants -> setOf(Bottom)
+        Shirt -> setOf(Top)
+        Skirt -> setOf(Bottom)
+    }
+}
+
 @Serializable
-sealed class Equipment {
+sealed class EquipmentData {
     open fun contains(id: MaterialId) = false
     abstract fun getMaterials(): Set<MaterialId>
 
     fun getType() = when (this) {
-        NoEquipment -> EquipmentType.None
-        is Coat -> EquipmentType.Coat
-        is Dress -> EquipmentType.Dress
-        is Footwear -> EquipmentType.Footwear
-        is Gloves -> EquipmentType.Gloves
-        is Hat -> EquipmentType.Hat
-        is Pants -> EquipmentType.Pants
-        is Shirt -> EquipmentType.Shirt
-        is Skirt -> EquipmentType.Skirt
+        NoEquipment -> EquipmentDataType.None
+        is Coat -> EquipmentDataType.Coat
+        is Dress -> EquipmentDataType.Dress
+        is Footwear -> EquipmentDataType.Footwear
+        is Gloves -> EquipmentDataType.Gloves
+        is Hat -> EquipmentDataType.Hat
+        is Pants -> EquipmentDataType.Pants
+        is Shirt -> EquipmentDataType.Shirt
+        is Skirt -> EquipmentDataType.Skirt
     }
 
-    fun isType(equipmentType: EquipmentType) = getType() == equipmentType
+    fun isType(equipmentType: EquipmentDataType) = getType() == equipmentType
 
     fun slots() = getType().slots()
 }
 
 @Serializable
 @SerialName("None")
-data object NoEquipment : Equipment() {
+data object NoEquipment : EquipmentData() {
     override fun getMaterials() = emptySet<MaterialId>()
 }
 
@@ -45,7 +73,7 @@ data class Coat(
     val openingStyle: OpeningStyle = SingleBreasted(),
     val fill: Fill = Solid(Color.Black),
     val material: MaterialId = MaterialId(0),
-) : Equipment() {
+) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
@@ -59,7 +87,7 @@ data class Dress(
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val fill: Fill = Solid(Color.SaddleBrown),
     val material: MaterialId = MaterialId(0),
-) : Equipment() {
+) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
@@ -72,7 +100,7 @@ data class Footwear(
     val color: Color = Color.SaddleBrown,
     val sole: Color = Color.SaddleBrown,
     val material: MaterialId = MaterialId(0),
-) : Equipment() {
+) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
@@ -84,7 +112,7 @@ data class Gloves(
     val style: GloveStyle = GloveStyle.Hand,
     val fill: Fill = Solid(Color.Red),
     val material: MaterialId = MaterialId(0),
-) : Equipment() {
+) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
@@ -96,7 +124,7 @@ data class Hat(
     val style: HatStyle = HatStyle.TopHat,
     val color: Color = Color.SaddleBrown,
     val material: MaterialId = MaterialId(0),
-) : Equipment() {
+) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
@@ -108,7 +136,7 @@ data class Pants(
     val style: PantsStyle = PantsStyle.Regular,
     val fill: Fill = Solid(Color.SaddleBrown),
     val material: MaterialId = MaterialId(0),
-) : Equipment() {
+) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
@@ -121,7 +149,7 @@ data class Shirt(
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val fill: Fill = Solid(Color.SaddleBrown),
     val material: MaterialId = MaterialId(0),
-) : Equipment() {
+) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
@@ -133,7 +161,7 @@ data class Skirt(
     val style: SkirtStyle = SkirtStyle.Sheath,
     val fill: Fill = Solid(Color.SaddleBrown),
     val material: MaterialId = MaterialId(0),
-) : Equipment() {
+) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)

@@ -1,11 +1,11 @@
 package at.orchaldir.gm.core.reducer.character
 
-import at.orchaldir.gm.core.action.UpdateEquipment
+import at.orchaldir.gm.core.action.UpdateEquipmentOfCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.item.*
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Test
@@ -13,20 +13,20 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 private val ID0 = CharacterId(0)
-private val ITEM0 = ItemTemplateId(0)
-private val ITEM1 = ItemTemplateId(1)
+private val ITEM0 = EquipmentId(0)
+private val ITEM1 = EquipmentId(1)
 
 class EquipmentTest {
 
-    private val equipmentMap = EquipmentMap(mapOf(EquipmentType.Hat to ITEM0))
-    private val action = UpdateEquipment(ID0, equipmentMap)
+    private val equipmentMap = EquipmentMap(mapOf(EquipmentDataType.Hat to ITEM0))
+    private val action = UpdateEquipmentOfCharacter(ID0, equipmentMap)
 
     @Test
     fun `Update equipment`() {
         val state = State(
             listOf(
                 Storage(listOf(Character(ID0))),
-                Storage(listOf(ItemTemplate(ITEM0, equipment = Hat()))),
+                Storage(listOf(Equipment(ITEM0, data = Hat()))),
             )
         )
 
@@ -54,7 +54,7 @@ class EquipmentTest {
         val state = State(
             listOf(
                 Storage(listOf(Character(ID0))),
-                Storage(listOf(ItemTemplate(ITEM0, equipment = Dress()))),
+                Storage(listOf(Equipment(ITEM0, data = Dress()))),
             )
         )
 
@@ -68,14 +68,14 @@ class EquipmentTest {
                 Storage(listOf(Character(ID0))),
                 Storage(
                     listOf(
-                        ItemTemplate(ITEM0, equipment = Dress()),
-                        ItemTemplate(ITEM1, equipment = Shirt())
+                        Equipment(ITEM0, data = Dress()),
+                        Equipment(ITEM1, data = Shirt())
                     )
                 ),
             )
         )
-        val equipmentMap = EquipmentMap(mapOf(EquipmentType.Dress to ITEM0, EquipmentType.Shirt to ITEM1))
-        val action = UpdateEquipment(ID0, equipmentMap)
+        val equipmentMap = EquipmentMap(mapOf(EquipmentDataType.Dress to ITEM0, EquipmentDataType.Shirt to ITEM1))
+        val action = UpdateEquipmentOfCharacter(ID0, equipmentMap)
 
         assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
     }

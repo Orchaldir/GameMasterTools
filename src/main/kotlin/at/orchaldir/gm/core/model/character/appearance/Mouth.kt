@@ -20,7 +20,14 @@ enum class TeethColor {
 }
 
 @Serializable
-sealed class Mouth
+sealed class Mouth {
+
+    fun getType() = when (this) {
+        NoMouth -> MouthType.NoMouth
+        is NormalMouth, is FemaleMouth -> MouthType.NormalMouth
+    }
+
+}
 
 @Serializable
 @SerialName("None")

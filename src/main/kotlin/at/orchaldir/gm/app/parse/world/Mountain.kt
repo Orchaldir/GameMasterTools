@@ -1,7 +1,9 @@
 package at.orchaldir.gm.app.parse.world
 
+import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.world.terrain.Mountain
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import io.ktor.http.*
@@ -12,4 +14,5 @@ fun parseMountainId(parameters: Parameters, param: String) = MountainId(parseInt
 fun parseMountain(id: MountainId, parameters: Parameters) = Mountain(
     id,
     parameters.getOrFail(NAME),
+    parameters.getAll(MATERIAL)?.map { MaterialId(it.toInt()) }?.toSet() ?: emptySet(),
 )

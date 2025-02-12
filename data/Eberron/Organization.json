@@ -1,5 +1,105 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Three Faces of Coin"
+  },
+  "1": {
+   "id": 1,
+   "name": "House Orien"
+  },
+  "2": {
+   "id": 2,
+   "name": "House Ghallanda"
+  },
+  "3": {
+   "id": 3,
+   "name": "House Kundarak"
+  },
+  "4": {
+   "id": 4,
+   "name": "House Tharashk"
+  },
+  "5": {
+   "id": 5,
+   "name": "The Sharn Inquisitive"
+  },
+  "6": {
+   "id": 6,
+   "name": "House Sivis"
+  },
+  "7": {
+   "id": 7,
+   "name": "The Mourner",
+   "date": {
+    "type": "Year",
+    "year": 995
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "The Grizzlies",
+   "date": {
+    "type": "Year",
+    "year": 995
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "The Khaar’paal"
+  },
+  "10": {
+   "id": 10,
+   "name": "Hause Jorasco"
+  },
+  "11": {
+   "id": 11,
+   "name": "The Soldiers’ Choir",
+   "date": {
+    "type": "Year",
+    "year": 995
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "The Dancer’s Circle",
+   "date": {
+    "type": "Year",
+    "year": 995
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "The Tago"
+  },
+  "14": {
+   "id": 14,
+   "name": "The Rockhounds",
+   "date": {
+    "type": "Year",
+    "year": 991
+   }
+  },
+  "15": {
+   "id": 15,
+   "name": "The Wizard’s Circle",
+   "date": {
+    "type": "Year",
+    "year": 995
+   }
+  },
+  "16": {
+   "id": 16,
+   "name": "Hause Cannith"
+  },
+  "17": {
+   "id": 17,
+   "name": "The Sand Fruit Society",
+   "date": {
+    "type": "Year",
+    "year": 993
+   }
+  }
  }
 }

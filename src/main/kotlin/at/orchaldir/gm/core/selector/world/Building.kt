@@ -1,11 +1,8 @@
 package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
-import at.orchaldir.gm.core.model.util.OwnedByCharacter
-import at.orchaldir.gm.core.model.util.OwnedByTown
-import at.orchaldir.gm.core.model.util.contains
+import at.orchaldir.gm.core.model.util.wasOwnedBy
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.Building
@@ -57,14 +54,10 @@ fun <ID : Id<ID>> State.getBuildingsBuildBy(id: ID) = getBuildingStorage().getAl
 
 // owner
 
-fun State.getOwnedBuildings(character: CharacterId) = getBuildingStorage().getAll()
-    .filter { it.ownership.current is OwnedByCharacter && it.ownership.current.character == character }
+fun <ID : Id<ID>> State.getOwnedBuildings(id: ID) = getBuildingStorage()
+    .getAll()
+    .filter { it.ownership.current.isOwnedBy(id) }
 
-fun State.getPreviouslyOwnedBuildings(character: CharacterId) = getBuildingStorage().getAll()
-    .filter { it.ownership.contains(character) }
-
-fun State.getOwnedBuildings(town: TownId) = getBuildingStorage().getAll()
-    .filter { it.ownership.current is OwnedByTown && it.ownership.current.town == town }
-
-fun State.getPreviouslyOwnedBuildings(town: TownId) = getBuildingStorage().getAll()
-    .filter { it.ownership.contains(town) }
+fun <ID : Id<ID>> State.getPreviouslyOwnedBuildings(id: ID) = getBuildingStorage()
+    .getAll()
+    .filter { it.ownership.wasOwnedBy(id) }

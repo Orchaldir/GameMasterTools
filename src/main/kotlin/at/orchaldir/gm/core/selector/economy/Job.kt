@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.economy
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.getPreviousEmployees
 
@@ -13,6 +14,14 @@ fun countEachJob(characters: Collection<Character>) = characters
     .map { it.employmentStatus.current.getJob() }
     .groupingBy { it }
     .eachCount()
+
+fun State.countJobs(spell: SpellId) = getJobStorage()
+    .getAll()
+    .count { b -> b.spells.getRarityMap().containsKey(spell) }
+
+fun State.getJobsContaining(spell: SpellId) = getJobStorage()
+    .getAll()
+    .filter { b -> b.spells.getRarityMap().containsKey(spell) }
 
 
 

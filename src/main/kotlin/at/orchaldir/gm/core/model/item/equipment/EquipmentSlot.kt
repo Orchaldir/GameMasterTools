@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.item
+package at.orchaldir.gm.core.model.item.equipment
 
 enum class EquipmentSlot {
     Bottom,

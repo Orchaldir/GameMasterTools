@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.fashion
 
-import at.orchaldir.gm.core.model.item.EquipmentType
-import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.OneOrNone
@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-private val EMPTY = OneOrNone<ItemTemplateId>()
+private val EMPTY = OneOrNone<EquipmentId>()
 const val FASHION_TYPE = "Fashion"
 
 @JvmInline
@@ -27,18 +27,17 @@ data class Fashion(
     val id: FashionId,
     val name: String = "Fashion ${id.value}",
     val clothingSets: OneOf<ClothingSet> = OneOf(ClothingSet.entries),
-    val accessories: SomeOf<EquipmentType> = SomeOf(emptySet()),
-    val itemRarityMap: Map<EquipmentType, OneOrNone<ItemTemplateId>> = emptyMap(),
+    val accessories: SomeOf<EquipmentDataType> = SomeOf(emptySet()),
+    val equipmentRarityMap: Map<EquipmentDataType, OneOrNone<EquipmentId>> = emptyMap(),
 ) : ElementWithSimpleName<FashionId> {
 
     override fun id() = id
     override fun name() = name
 
-    fun getAllItemTemplates() = itemRarityMap
+    fun getAllEquipment() = equipmentRarityMap
         .values
         .flatMap { it.getValidValues() }
 
-
-    fun getOptions(type: EquipmentType) = itemRarityMap[type] ?: EMPTY
+    fun getOptions(type: EquipmentDataType) = equipmentRarityMap[type] ?: EMPTY
 
 }

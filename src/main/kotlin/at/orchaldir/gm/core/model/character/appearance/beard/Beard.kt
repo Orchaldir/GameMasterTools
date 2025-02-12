@@ -10,7 +10,14 @@ enum class BeardType {
 }
 
 @Serializable
-sealed class Beard
+sealed class Beard {
+
+    fun getType() = when (this) {
+        NoBeard -> BeardType.None
+        is NormalBeard -> BeardType.Normal
+    }
+
+}
 
 @Serializable
 @SerialName("None")

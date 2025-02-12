@@ -110,6 +110,45 @@
    "origin": {
     "type": "Cosmic"
    }
+  },
+  "18": {
+   "id": 18,
+   "name": "Serpentine"
+  },
+  "19": {
+   "id": 19,
+   "name": "Stonegrind"
+  },
+  "20": {
+   "id": 20,
+   "name": "Tauric"
+  },
+  "21": {
+   "id": 21,
+   "name": "High Kaluu",
+   "origin": {
+    "type": "Combined",
+    "parents": [
+     2,
+     15,
+     5
+    ]
+   }
+  },
+  "22": {
+   "id": 22,
+   "name": "Gnoll"
+  },
+  "23": {
+   "id": 23,
+   "name": "Druidic",
+   "origin": {
+    "type": "Cosmic"
+   }
+  },
+  "24": {
+   "id": 24,
+   "name": "Wuura’gaa"
   }
  }
 }

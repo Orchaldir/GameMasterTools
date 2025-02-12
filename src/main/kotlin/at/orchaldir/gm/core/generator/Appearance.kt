@@ -173,6 +173,7 @@ fun generateSkin(config: AppearanceGeneratorConfig): Skin {
     val options = config.appearanceOptions
 
     return when (config.generate(options.skinTypes)) {
+        SkinType.Fur -> Fur(config.generate(options.furColors))
         SkinType.Scales -> Scales(config.generate(options.scalesColors))
         SkinType.Normal -> NormalSkin(config.generate(options.normalSkinColors))
         SkinType.Exotic -> ExoticSkin(config.generate(options.exoticSkinColors))

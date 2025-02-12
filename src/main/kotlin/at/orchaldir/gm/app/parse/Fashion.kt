@@ -3,12 +3,12 @@ package at.orchaldir.gm.app.parse
 import at.orchaldir.gm.app.ACCESSORY_RARITY
 import at.orchaldir.gm.app.CLOTHING_SETS
 import at.orchaldir.gm.app.NAME
-import at.orchaldir.gm.app.parse.item.parseItemTemplateId
+import at.orchaldir.gm.app.parse.item.parseEquipmentId
 import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
-import at.orchaldir.gm.core.model.item.EquipmentType
-import at.orchaldir.gm.core.model.item.NOT_NONE
+import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
+import at.orchaldir.gm.core.model.item.equipment.NOT_NONE
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -20,16 +20,16 @@ fun parseFashionId(
 fun parseFashion(id: FashionId, parameters: Parameters): Fashion {
     val name = parameters.getOrFail(NAME)
     val itemRarityMap = NOT_NONE
-        .associateWith { parseItemTemplates(parameters, it) }
+        .associateWith { parseEquipmentMap(parameters, it) }
 
     return Fashion(
         id,
         name,
         parseOneOf(parameters, CLOTHING_SETS, ClothingSet::valueOf),
-        parseSomeOf(parameters, ACCESSORY_RARITY, EquipmentType::valueOf),
+        parseSomeOf(parameters, ACCESSORY_RARITY, EquipmentDataType::valueOf),
         itemRarityMap,
     )
 }
 
-private fun parseItemTemplates(parameters: Parameters, type: EquipmentType) =
-    parseOneOrNone(parameters, type.name, ::parseItemTemplateId)
+private fun parseEquipmentMap(parameters: Parameters, type: EquipmentDataType) =
+    parseOneOrNone(parameters, type.name, ::parseEquipmentId)

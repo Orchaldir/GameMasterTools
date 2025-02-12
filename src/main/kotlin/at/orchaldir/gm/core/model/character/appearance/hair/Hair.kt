@@ -10,7 +10,14 @@ enum class HairType {
 }
 
 @Serializable
-sealed class Hair
+sealed class Hair {
+
+    fun getType() = when (this) {
+        NoHair -> HairType.None
+        is NormalHair -> HairType.Normal
+    }
+
+}
 
 @Serializable
 @SerialName("None")
