@@ -347,20 +347,4 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> FORM.selectRarityMap(
     }
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElements(
-    state: State,
-    param: String,
-    elements: Collection<ELEMENT>,
-    selectedIds: Set<ID>,
-) {
-    elements.forEach { element ->
-        p {
-            checkBoxInput {
-                name = param
-                value = element.id().value().toString()
-                checked = selectedIds.contains(element.id())
-                +element.name(state)
-            }
-        }
-    }
-}
+

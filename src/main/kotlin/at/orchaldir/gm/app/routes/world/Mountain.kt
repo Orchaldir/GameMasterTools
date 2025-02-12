@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.routes.world
 
+import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.world.parseMountain
@@ -95,7 +96,7 @@ fun Application.configureMountainRouting() {
             val mountain = state.getMountainStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showMountainEditor(call, mountain)
+                showMountainEditor(call, state, mountain)
             }
         }
         post<MountainRoutes.Update> { update ->
@@ -137,27 +138,36 @@ private fun HTML.showMountainDetails(
 
     simpleHtml("Mountain: ${mountain.name}") {
         field("Name", mountain.name)
+        showList("Resources", mountain.resources) { resource ->
+            link(call, state, resource)
+        }
         showList("Towns", state.getTowns(mountain.id)) { town ->
             link(call, state, town)
         }
+
         action(editLink, "Edit")
+
         if (state.canDelete(mountain.id)) {
             action(deleteLink, "Delete")
         }
+
         back(backLink)
     }
 }
 
 private fun HTML.showMountainEditor(
     call: ApplicationCall,
+    state: State,
     mountain: Mountain,
 ) {
+    val materials = state.getMaterialStorage().getAll().sortedBy { it.name }
     val backLink = href(call, mountain.id)
     val updateLink = call.application.href(MountainRoutes.Update(mountain.id))
 
     simpleHtml("Edit Mountain: ${mountain.name}") {
         form {
             selectName(mountain.name)
+            selectElements(state, "Resources", MATERIAL, materials, mountain.resources)
             button("Update", updateLink)
         }
         back(backLink)

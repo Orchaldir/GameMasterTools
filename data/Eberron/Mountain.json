@@ -1,9 +1,12 @@
 {
  "version": 1,
  "elements": {
-   "0": {
-     "id": 0,
-     "name": "Graywall Mountains"
-   }
+  "0": {
+   "id": 0,
+   "name": "Graywall Mountains",
+   "resources": [
+    26
+   ]
+  }
  }
 }

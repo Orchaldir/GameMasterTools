@@ -5,6 +5,47 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.html.*
 
+// multiple elements
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElements(
+    state: State,
+    labelText: String,
+    param: String,
+    elements: Collection<ELEMENT>,
+    selectedIds: Set<ID>,
+) {
+    field(labelText) {
+        elements.forEach { element ->
+            p {
+                checkBoxInput {
+                    name = param
+                    value = element.id().value().toString()
+                    checked = selectedIds.contains(element.id())
+                    +element.name(state)
+                }
+            }
+        }
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElements(
+    state: State,
+    param: String,
+    elements: Collection<ELEMENT>,
+    selectedIds: Set<ID>,
+) {
+    elements.forEach { element ->
+        p {
+            checkBoxInput {
+                name = param
+                value = element.id().value().toString()
+                checked = selectedIds.contains(element.id())
+                +element.name(state)
+            }
+        }
+    }
+}
+
 // elements
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectOptionalElement(

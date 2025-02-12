@@ -101,15 +101,13 @@ private fun HTML.showLanguageEditor(
                 }
             }
             selectValue("Comprehension Level", "level", ComprehensionLevel.entries, ComprehensionLevel.Native)
-            showList("Languages to Remove", state.getLanguageStorage().get(character.languages.keys)) { language ->
-                p {
-                    checkBoxInput {
-                        name = REMOVE
-                        value = language.id.value.toString()
-                        +language.name
-                    }
-                }
-            }
+            selectElements(
+                state,
+                "Languages to Remove",
+                REMOVE,
+                state.getLanguageStorage().get(character.languages.keys),
+                emptySet()
+            )
             button("Update", updateLink)
         }
         back(backLink)
