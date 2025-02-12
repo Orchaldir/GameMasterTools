@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
-import at.orchaldir.gm.core.model.item.equipment.EquipmentType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.NOT_NONE
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
@@ -49,6 +49,6 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
     noFollowUps(state.updateStorage(state.getFashionStorage().update(clean)))
 }
 
-private fun check(fashion: Fashion, set: ClothingSet, type: EquipmentType) {
+private fun check(fashion: Fashion, set: ClothingSet, type: EquipmentDataType) {
     require(fashion.getOptions(type).isNotEmpty()) { "Clothing set $set requires at least one $type!" }
 }

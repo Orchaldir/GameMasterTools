@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.fashion
 
-import at.orchaldir.gm.core.model.item.equipment.EquipmentType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 
 enum class ClothingSet {
     Dress,
@@ -9,9 +9,9 @@ enum class ClothingSet {
     Suit;
 
     fun getTypes() = when (this) {
-        Dress -> setOf(EquipmentType.Dress)
-        PantsAndShirt -> setOf(EquipmentType.Pants, EquipmentType.Shirt)
-        ShirtAndSkirt -> setOf(EquipmentType.Skirt, EquipmentType.Shirt)
-        Suit -> setOf(EquipmentType.Coat, EquipmentType.Pants, EquipmentType.Shirt)
+        Dress -> setOf(EquipmentDataType.Dress)
+        PantsAndShirt -> setOf(EquipmentDataType.Pants, EquipmentDataType.Shirt)
+        ShirtAndSkirt -> setOf(EquipmentDataType.Skirt, EquipmentDataType.Shirt)
+        Suit -> setOf(EquipmentDataType.Coat, EquipmentDataType.Pants, EquipmentDataType.Shirt)
     }
 }

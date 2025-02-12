@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.getFashions
@@ -279,7 +278,7 @@ private fun HTML.showItemTemplateEditor(
             action = previewLink
             method = FormMethod.post
             selectName(template.name)
-            selectValue("Equipment", EQUIPMENT_TYPE, EquipmentType.entries, template.equipment.getType(), true)
+            selectValue("Equipment", EQUIPMENT_TYPE, EquipmentDataType.entries, template.equipment.getType(), true)
 
             when (val equipment = template.equipment) {
                 NoEquipment -> doNothing()
@@ -395,7 +394,7 @@ private fun FORM.selectMaterial(
 }
 
 private fun BODY.visualizeItem(template: ItemTemplate) {
-    if (template.equipment.getType() != EquipmentType.None) {
+    if (template.equipment.getType() != EquipmentDataType.None) {
         val equipped = listOf(template.equipment)
         val appearance = HumanoidBody(Body(), Head(), Distance.fromMeters(1.0f))
         val frontSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped)

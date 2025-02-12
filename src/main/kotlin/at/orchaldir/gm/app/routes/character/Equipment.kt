@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
-import at.orchaldir.gm.core.model.item.equipment.EquipmentType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
@@ -106,7 +106,7 @@ private fun HTML.showEquipmentEditor(
             method = FormMethod.post
             button("Random", generateLink)
 
-            EquipmentType.entries.forEach { selectEquipment(state, equipmentMap, occupiedSlots, fashion, it) }
+            EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, occupiedSlots, fashion, it) }
 
             button("Update", updateLink)
         }
@@ -119,7 +119,7 @@ private fun FORM.selectEquipment(
     equipmentMap: EquipmentMap,
     occupiedSlots: Set<EquipmentSlot>,
     fashion: Fashion,
-    type: EquipmentType,
+    type: EquipmentDataType,
 ) {
     val options = fashion.getOptions(type)
 

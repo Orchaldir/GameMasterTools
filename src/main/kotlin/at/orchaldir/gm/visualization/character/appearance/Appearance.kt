@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
-import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.core.model.util.Color.Black
 import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.utils.math.*
@@ -22,7 +22,7 @@ fun visualizeCharacter(
     config: CharacterRenderConfig,
     state: State,
     character: Character,
-    equipped: List<Equipment> = emptyList(),
+    equipped: List<EquipmentData> = emptyList(),
     renderFront: Boolean = true,
 ): Svg {
     val appearance = state.getAppearanceForAge(character)
@@ -33,7 +33,7 @@ fun visualizeCharacter(
 fun visualizeCharacter(
     config: CharacterRenderConfig,
     appearance: Appearance,
-    equipped: List<Equipment> = emptyList(),
+    equipped: List<EquipmentData> = emptyList(),
     renderFront: Boolean = true,
 ) = visualizeAppearance(config, calculateSize(config, appearance), appearance, equipped, renderFront)
 
@@ -41,7 +41,7 @@ fun visualizeAppearance(
     config: CharacterRenderConfig,
     size: Size2d,
     appearance: Appearance,
-    equipped: List<Equipment> = emptyList(),
+    equipped: List<EquipmentData> = emptyList(),
     renderFront: Boolean = true,
 ): Svg {
     val aabb = AABB(size)

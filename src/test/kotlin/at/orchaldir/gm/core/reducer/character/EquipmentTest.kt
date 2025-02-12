@@ -18,7 +18,7 @@ private val ITEM1 = ItemTemplateId(1)
 
 class EquipmentTest {
 
-    private val equipmentMap = EquipmentMap(mapOf(EquipmentType.Hat to ITEM0))
+    private val equipmentMap = EquipmentMap(mapOf(EquipmentDataType.Hat to ITEM0))
     private val action = UpdateEquipment(ID0, equipmentMap)
 
     @Test
@@ -74,7 +74,7 @@ class EquipmentTest {
                 ),
             )
         )
-        val equipmentMap = EquipmentMap(mapOf(EquipmentType.Dress to ITEM0, EquipmentType.Shirt to ITEM1))
+        val equipmentMap = EquipmentMap(mapOf(EquipmentDataType.Dress to ITEM0, EquipmentDataType.Shirt to ITEM1))
         val action = UpdateEquipment(ID0, equipmentMap)
 
         assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }

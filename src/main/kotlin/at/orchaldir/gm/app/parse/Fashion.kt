@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.parse.item.parseItemTemplateId
 import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
-import at.orchaldir.gm.core.model.item.equipment.EquipmentType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.NOT_NONE
 import io.ktor.http.*
 import io.ktor.server.util.*
@@ -26,10 +26,10 @@ fun parseFashion(id: FashionId, parameters: Parameters): Fashion {
         id,
         name,
         parseOneOf(parameters, CLOTHING_SETS, ClothingSet::valueOf),
-        parseSomeOf(parameters, ACCESSORY_RARITY, EquipmentType::valueOf),
+        parseSomeOf(parameters, ACCESSORY_RARITY, EquipmentDataType::valueOf),
         itemRarityMap,
     )
 }
 
-private fun parseItemTemplates(parameters: Parameters, type: EquipmentType) =
+private fun parseItemTemplates(parameters: Parameters, type: EquipmentDataType) =
     parseOneOrNone(parameters, type.name, ::parseItemTemplateId)

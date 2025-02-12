@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.fashion.FASHION_TYPE
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.item.equipment.ACCESSORIES
-import at.orchaldir.gm.core.model.item.equipment.EquipmentType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCultures
 import at.orchaldir.gm.core.selector.item.getItemTemplatesId
@@ -139,7 +139,7 @@ private fun HTML.showFashionDetails(
         field("Name", fashion.name)
         showRarityMap("Clothing Sets", fashion.clothingSets)
         showRarityMap("Accessories", fashion.accessories, ACCESSORIES)
-        EquipmentType.entries.forEach {
+        EquipmentDataType.entries.forEach {
             val options = fashion.getOptions(it)
 
             if (options.isNotEmpty()) {
@@ -172,7 +172,7 @@ private fun HTML.showFashionEditor(
             selectName(fashion.name)
             selectRarityMap("Clothing Sets", CLOTHING_SETS, fashion.clothingSets)
             selectRarityMap("Accessories", ACCESSORY_RARITY, fashion.accessories, false, ACCESSORIES)
-            EquipmentType.entries.forEach {
+            EquipmentDataType.entries.forEach {
                 selectEquipmentType(state, fashion, it)
             }
             button("Update", updateLink)
@@ -184,7 +184,7 @@ private fun HTML.showFashionEditor(
 private fun FORM.selectEquipmentType(
     state: State,
     fashion: Fashion,
-    type: EquipmentType,
+    type: EquipmentDataType,
 ) {
     val items = state.getItemTemplatesId(type)
 

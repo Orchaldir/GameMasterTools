@@ -20,7 +20,7 @@ value class ItemTemplateId(val value: Int) : Id<ItemTemplateId> {
 data class ItemTemplate(
     val id: ItemTemplateId,
     val name: String = "Item Template ${id.value}",
-    val equipment: Equipment = NoEquipment,
+    val equipment: EquipmentData = NoEquipment,
 ) : ElementWithSimpleName<ItemTemplateId> {
 
     override fun id() = id

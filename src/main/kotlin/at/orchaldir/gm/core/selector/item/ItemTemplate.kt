@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.item.equipment.EquipmentType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.ItemTemplateId
 import at.orchaldir.gm.core.model.material.MaterialId
 
@@ -15,13 +15,13 @@ fun State.countItemTemplates(material: MaterialId) = getItemTemplateStorage()
     .getAll()
     .count { it.equipment.contains(material) }
 
-fun State.getItemTemplatesOf(type: EquipmentType) = getItemTemplateStorage().getAll()
+fun State.getItemTemplatesOf(type: EquipmentDataType) = getItemTemplateStorage().getAll()
     .filter { it.equipment.isType(type) }
 
 fun State.getItemTemplatesMadeOf(material: MaterialId) = getItemTemplateStorage().getAll()
     .filter { it.equipment.contains(material) }
 
-fun State.getItemTemplatesId(type: EquipmentType) = getItemTemplatesOf(type)
+fun State.getItemTemplatesId(type: EquipmentDataType) = getItemTemplatesOf(type)
     .map { it.id() }
     .toSet()
 

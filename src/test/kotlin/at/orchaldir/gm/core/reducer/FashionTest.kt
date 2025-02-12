@@ -63,12 +63,12 @@ class FashionTest {
             val fashion = Fashion(
                 ID0,
                 clothingSets = OneOf(ClothingSet.Dress),
-                itemRarityMap = mapOf(EquipmentType.Dress to OneOrNone(ITEM0), EquipmentType.Hat to OneOrNone())
+                itemRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(ITEM0), EquipmentDataType.Hat to OneOrNone())
             )
             val result = Fashion(
                 ID0,
                 clothingSets = OneOf(ClothingSet.Dress),
-                itemRarityMap = mapOf(EquipmentType.Dress to OneOrNone(ITEM0))
+                itemRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(ITEM0))
             )
             val action = UpdateFashion(fashion)
 
@@ -85,7 +85,7 @@ class FashionTest {
         @Test
         fun `Cannot use unknown item templates`() {
             val state = State(Storage(Fashion(ID0)))
-            val fashion = Fashion(ID0, itemRarityMap = mapOf(EquipmentType.Dress to OneOrNone(ITEM0)))
+            val fashion = Fashion(ID0, itemRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(ITEM0)))
             val action = UpdateFashion(fashion)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -107,7 +107,7 @@ class FashionTest {
             val fashion = Fashion(
                 ID0,
                 clothingSets = OneOf(ClothingSet.Dress),
-                itemRarityMap = mapOf(EquipmentType.Dress to OneOrNone(ITEM0))
+                itemRarityMap = mapOf(EquipmentDataType.Dress to OneOrNone(ITEM0))
             )
             val action = UpdateFashion(fashion)
 
@@ -116,40 +116,40 @@ class FashionTest {
 
         @Test
         fun `Clothing set PantsAndShirt requires at least 1 pants`() {
-            testSetWith2Items(ClothingSet.PantsAndShirt, EquipmentType.Shirt, Shirt())
+            testSetWith2Items(ClothingSet.PantsAndShirt, EquipmentDataType.Shirt, Shirt())
         }
 
         @Test
         fun `Clothing set PantsAndShirt requires at least 1 shirt`() {
-            testSetWith2Items(ClothingSet.PantsAndShirt, EquipmentType.Pants, Pants())
+            testSetWith2Items(ClothingSet.PantsAndShirt, EquipmentDataType.Pants, Pants())
         }
 
         @Test
         fun `Clothing set ShirtAndSkirt requires at least 1 shirt`() {
-            testSetWith2Items(ClothingSet.ShirtAndSkirt, EquipmentType.Skirt, Skirt())
+            testSetWith2Items(ClothingSet.ShirtAndSkirt, EquipmentDataType.Skirt, Skirt())
         }
 
         @Test
         fun `Clothing set ShirtAndSkirt requires at least 1 skirt`() {
-            testSetWith2Items(ClothingSet.ShirtAndSkirt, EquipmentType.Shirt, Shirt())
+            testSetWith2Items(ClothingSet.ShirtAndSkirt, EquipmentDataType.Shirt, Shirt())
         }
 
         @Test
         fun `Clothing set Suit requires at least 1 Coat`() {
-            testSuit(EquipmentType.Pants, EquipmentType.Shirt, Pants(), Shirt())
+            testSuit(EquipmentDataType.Pants, EquipmentDataType.Shirt, Pants(), Shirt())
         }
 
         @Test
         fun `Clothing set Suit requires at least 1 Pants`() {
-            testSuit(EquipmentType.Coat, EquipmentType.Shirt, Coat(), Shirt())
+            testSuit(EquipmentDataType.Coat, EquipmentDataType.Shirt, Coat(), Shirt())
         }
 
         @Test
         fun `Clothing set Suit requires at least 1 Shirt`() {
-            testSuit(EquipmentType.Coat, EquipmentType.Pants, Coat(), Pants())
+            testSuit(EquipmentDataType.Coat, EquipmentDataType.Pants, Coat(), Pants())
         }
 
-        private fun testSetWith2Items(set: ClothingSet, type: EquipmentType, equipment: Equipment) {
+        private fun testSetWith2Items(set: ClothingSet, type: EquipmentDataType, equipment: EquipmentData) {
             val state = State(
                 listOf(
                     Storage(Fashion(ID0)),
@@ -166,7 +166,12 @@ class FashionTest {
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
 
-        private fun testSuit(type0: EquipmentType, type1: EquipmentType, equipment0: Equipment, equipment1: Equipment) {
+        private fun testSuit(
+            type0: EquipmentDataType,
+            type1: EquipmentDataType,
+            equipment0: EquipmentData,
+            equipment1: EquipmentData,
+        ) {
             val state = State(
                 listOf(
                     Storage(Fashion(ID0)),

@@ -2,7 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
-import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
@@ -29,7 +29,7 @@ fun <C, R> renderCharacterTable(
     rows: List<Pair<String, R>>,
     columns: List<Pair<String, C>>,
     backToo: Boolean = false,
-    create: (Distance, C, R) -> Pair<Appearance, List<Equipment>>,
+    create: (Distance, C, R) -> Pair<Appearance, List<EquipmentData>>,
 ) {
     val height = Distance(200)
     val size = config.calculateSize(height)

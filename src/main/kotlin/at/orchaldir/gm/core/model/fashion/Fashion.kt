@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.fashion
 
-import at.orchaldir.gm.core.model.item.equipment.EquipmentType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.ItemTemplateId
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.OneOf
@@ -27,8 +27,8 @@ data class Fashion(
     val id: FashionId,
     val name: String = "Fashion ${id.value}",
     val clothingSets: OneOf<ClothingSet> = OneOf(ClothingSet.entries),
-    val accessories: SomeOf<EquipmentType> = SomeOf(emptySet()),
-    val itemRarityMap: Map<EquipmentType, OneOrNone<ItemTemplateId>> = emptyMap(),
+    val accessories: SomeOf<EquipmentDataType> = SomeOf(emptySet()),
+    val itemRarityMap: Map<EquipmentDataType, OneOrNone<ItemTemplateId>> = emptyMap(),
 ) : ElementWithSimpleName<FashionId> {
 
     override fun id() = id
@@ -39,6 +39,6 @@ data class Fashion(
         .flatMap { it.getValidValues() }
 
 
-    fun getOptions(type: EquipmentType) = itemRarityMap[type] ?: EMPTY
+    fun getOptions(type: EquipmentDataType) = itemRarityMap[type] ?: EMPTY
 
 }
