@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.magic.SPELL_TYPE
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.util.SortSpell
+import at.orchaldir.gm.core.selector.economy.getJobsContaining
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getTextsContaining
 import at.orchaldir.gm.core.selector.magic.canDeleteSpell
@@ -189,8 +190,12 @@ private fun HTML.showSpellDetails(
     val editLink = call.application.href(SpellRoutes.Edit(spell.id))
 
     simpleHtml("Spell: ${spell.name(state)}") {
-
         showSpell(call, state, spell)
+
+        showList("Jobs using it", state.getJobsContaining(spell.id)) { job ->
+            link(call, job)
+        }
+
         showList("Texts containing it", state.getTextsContaining(spell.id)) { text ->
             link(call, text.id, text.getNameWithDate(state))
         }
