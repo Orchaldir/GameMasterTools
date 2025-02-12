@@ -120,15 +120,15 @@
    "name": "Silk",
    "category": "Fabric"
   },
-   "26": {
-     "id": 26,
-     "name": "Soft Quickstone",
-     "category": "Stone"
-   },
-   "27": {
-     "id": 27,
-     "name": "Quickstone",
-     "category": "Stone"
+  "26": {
+   "id": 26,
+   "name": "Soft Quickstone",
+   "category": "Stone"
+  },
+  "27": {
+   "id": 27,
+   "name": "Quickstone",
+   "category": "Stone"
   }
  }
 }

@@ -11,6 +11,17 @@
        "type": "Year",
        "year": 991
      }
+   },
+   "1": {
+     "id": 1,
+     "name": {
+       "type": "Simple",
+       "name": "Graystone"
+     },
+     "foundingDate": {
+       "type": "Year",
+       "year": 969
+     }
    }
  }
 }
