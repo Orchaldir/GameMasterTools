@@ -8,8 +8,8 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.material.MaterialId
 
-fun State.canDelete(itemTemplate: EquipmentId) = getCharacterStorage().getAll()
-    .none { it.equipmentMap.contains(itemTemplate) }
+fun State.canDelete(equipment: EquipmentId) = getCharacterStorage().getAll()
+    .none { it.equipmentMap.contains(equipment) }
 
 fun State.countEquipment(material: MaterialId) = getEquipmentStorage()
     .getAll()

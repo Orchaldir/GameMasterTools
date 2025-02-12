@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
@@ -6,13 +6,14 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType.Hat
 import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType.Hat
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.Pants
 import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.reducer.*
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -27,7 +28,7 @@ private val MATERIAL0 = MaterialId(0)
 private val MATERIAL1 = MaterialId(1)
 private val EQUIPMENT_MAP = EquipmentMap(mapOf(Hat to ID0))
 
-class ItemTemplateTest {
+class EquipmentTest {
 
     @Nested
     inner class DeleteTest {
@@ -36,7 +37,10 @@ class ItemTemplateTest {
         fun `Can delete an existing id`() {
             val action = DeleteEquipment(ID0)
 
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getEquipmentStorage().getSize())
+            assertEquals(
+                0,
+                REDUCER.invoke(STATE, action).first.getEquipmentStorage().getSize()
+            )
         }
 
         @Test
@@ -50,7 +54,14 @@ class ItemTemplateTest {
         fun `Cannot delete, if an instanced item exist`() {
             val action = DeleteEquipment(ID0)
             val state =
-                STATE.updateStorage(Storage(Character(CHARACTER0, equipmentMap = EQUIPMENT_MAP)))
+                STATE.updateStorage(
+                    Storage(
+                        Character(
+                            CHARACTER0,
+                            equipmentMap = EQUIPMENT_MAP
+                        )
+                    )
+                )
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
@@ -110,7 +121,10 @@ class ItemTemplateTest {
         fun `Update template`() {
             val action = UpdateEquipment(ITEM)
 
-            assertEquals(ITEM, REDUCER.invoke(STATE, action).first.getEquipmentStorage().get(ID0))
+            assertEquals(
+                ITEM,
+                REDUCER.invoke(STATE, action).first.getEquipmentStorage().get(ID0)
+            )
         }
 
         @Test

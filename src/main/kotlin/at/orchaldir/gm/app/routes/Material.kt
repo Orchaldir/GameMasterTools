@@ -156,7 +156,7 @@ private fun HTML.showMaterialDetails(
     state: State,
     material: Material,
 ) {
-    val itemTemplates = state.getEquipmentMadeOf(material.id)
+    val equipment = state.getEquipmentMadeOf(material.id)
     val streetTemplates = state.getStreetTemplatesMadeOf(material.id)
     val texts = state.getTextsMadeOf(material.id)
     val backLink = call.application.href(MaterialRoutes())
@@ -166,7 +166,7 @@ private fun HTML.showMaterialDetails(
     simpleHtml("Material: ${material.name}") {
         field("Name", material.name)
         field("Category", material.category)
-        showList("Item Templates", itemTemplates) { template ->
+        showList("Equipment", equipment) { template ->
             link(call, template)
         }
         showList("Street Templates", streetTemplates) { template ->

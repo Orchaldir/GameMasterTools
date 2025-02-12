@@ -20,7 +20,7 @@ fun parseFashionId(
 fun parseFashion(id: FashionId, parameters: Parameters): Fashion {
     val name = parameters.getOrFail(NAME)
     val itemRarityMap = NOT_NONE
-        .associateWith { parseItemTemplates(parameters, it) }
+        .associateWith { parseEquipmentMap(parameters, it) }
 
     return Fashion(
         id,
@@ -31,5 +31,5 @@ fun parseFashion(id: FashionId, parameters: Parameters): Fashion {
     )
 }
 
-private fun parseItemTemplates(parameters: Parameters, type: EquipmentDataType) =
+private fun parseEquipmentMap(parameters: Parameters, type: EquipmentDataType) =
     parseOneOrNone(parameters, type.name, ::parseEquipmentId)

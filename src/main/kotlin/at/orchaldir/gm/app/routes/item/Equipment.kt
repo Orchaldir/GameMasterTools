@@ -63,17 +63,17 @@ fun Application.configureEquipmentRouting() {
             logger.info { "Get all equipments" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllItemTemplates(call)
+                showAllEquipment(call)
             }
         }
         get<EquipmentRoutes.Details> { details ->
             logger.info { "Get details of equipment ${details.id.value}" }
 
             val state = STORE.getState()
-            val itemTemplate = state.getEquipmentStorage().getOrThrow(details.id)
+            val equipment = state.getEquipmentStorage().getOrThrow(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showItemTemplateDetails(call, state, itemTemplate)
+                showEquipmentDetails(call, state, equipment)
             }
         }
         get<EquipmentRoutes.New> {
@@ -107,24 +107,24 @@ fun Application.configureEquipmentRouting() {
             val template = state.getEquipmentStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showItemTemplateEditor(call, state, template)
+                showEquipmentEditor(call, state, template)
             }
         }
         post<EquipmentRoutes.Preview> { preview ->
             logger.info { "Get preview for equipment ${preview.id.value}" }
 
-            val template = parseEquipment(preview.id, call.receiveParameters())
+            val equipment = parseEquipment(preview.id, call.receiveParameters())
 
             call.respondHtml(HttpStatusCode.OK) {
-                showItemTemplateEditor(call, STORE.getState(), template)
+                showEquipmentEditor(call, STORE.getState(), equipment)
             }
         }
         post<EquipmentRoutes.Update> { update ->
             logger.info { "Update equipment ${update.id.value}" }
 
-            val template = parseEquipment(update.id, call.receiveParameters())
+            val equipment = parseEquipment(update.id, call.receiveParameters())
 
-            STORE.dispatch(UpdateEquipment(template))
+            STORE.dispatch(UpdateEquipment(equipment))
 
             call.respondRedirect(href(call, update.id))
 
@@ -133,7 +133,7 @@ fun Application.configureEquipmentRouting() {
     }
 }
 
-private fun HTML.showAllItemTemplates(call: ApplicationCall) {
+private fun HTML.showAllEquipment(call: ApplicationCall) {
     val templates = STORE.getState().getEquipmentStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(EquipmentRoutes.New())
 
@@ -147,7 +147,7 @@ private fun HTML.showAllItemTemplates(call: ApplicationCall) {
     }
 }
 
-private fun HTML.showItemTemplateDetails(
+private fun HTML.showEquipmentDetails(
     call: ApplicationCall,
     state: State,
     template: Equipment,
@@ -263,7 +263,7 @@ private fun BODY.showButtons(buttonColumn: ButtonColumn) {
     field("Button Size", buttonColumn.button.size)
 }
 
-private fun HTML.showItemTemplateEditor(
+private fun HTML.showEquipmentEditor(
     call: ApplicationCall,
     state: State,
     equipment: Equipment,
