@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.magic.SPELL_TYPE
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.util.SortSpell
+import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.economy.getJobsContaining
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getTextsContaining
@@ -159,6 +160,7 @@ private fun HTML.showAllSpells(
                 th { +"Date" }
                 th { +"Language" }
                 th { +"Origin" }
+                th { +"Jobs" }
                 th { +"Texts" }
             }
             spells.forEach { spell ->
@@ -167,6 +169,7 @@ private fun HTML.showAllSpells(
                     td { showOptionalDate(call, state, spell.date) }
                     td { optionalLink(call, state, spell.language) }
                     td { showOrigin(call, state, spell.origin) }
+                    tdSkipZero(state.countJobs(spell.id))
                     tdSkipZero(state.countTexts(spell.id))
                 }
             }

@@ -15,6 +15,10 @@ fun countEachJob(characters: Collection<Character>) = characters
     .groupingBy { it }
     .eachCount()
 
+fun State.countJobs(spell: SpellId) = getJobStorage()
+    .getAll()
+    .count { b -> b.spells.getRarityMap().containsKey(spell) }
+
 fun State.getJobsContaining(spell: SpellId) = getJobStorage()
     .getAll()
     .filter { b -> b.spells.getRarityMap().containsKey(spell) }
