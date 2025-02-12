@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.action.CreateItemTemplate
 import at.orchaldir.gm.core.action.DeleteItemTemplate
 import at.orchaldir.gm.core.action.UpdateItemTemplate
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.ItemTemplate
+import at.orchaldir.gm.core.model.item.equipment.ItemTemplate
 import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.utils.redux.Reducer

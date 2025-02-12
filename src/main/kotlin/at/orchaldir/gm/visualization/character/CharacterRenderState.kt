@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.character
 
-import at.orchaldir.gm.core.model.item.Equipment
-import at.orchaldir.gm.core.model.item.EquipmentSlot
+import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer

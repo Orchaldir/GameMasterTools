@@ -1,9 +1,9 @@
-package at.orchaldir.gm.core.model.item
+package at.orchaldir.gm.core.model.item.equipment
 
-import at.orchaldir.gm.core.model.item.EquipmentSlot.*
-import at.orchaldir.gm.core.model.item.EquipmentType.Footwear
-import at.orchaldir.gm.core.model.item.EquipmentType.Gloves
-import at.orchaldir.gm.core.model.item.EquipmentType.Hat
+import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
+import at.orchaldir.gm.core.model.item.equipment.EquipmentType.Footwear
+import at.orchaldir.gm.core.model.item.equipment.EquipmentType.Gloves
+import at.orchaldir.gm.core.model.item.equipment.EquipmentType.Hat
 
 val ACCESSORIES = setOf(Footwear, Gloves, Hat)
 val NOT_NONE = EquipmentType.entries.toSet() - EquipmentType.None

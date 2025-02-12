@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.item.Skirt
+import at.orchaldir.gm.core.model.item.equipment.Skirt
 import at.orchaldir.gm.core.model.item.style.SkirtStyle
 import at.orchaldir.gm.core.model.item.style.SkirtStyle.*
 import at.orchaldir.gm.utils.math.CENTER

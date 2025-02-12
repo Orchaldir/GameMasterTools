@@ -25,9 +25,9 @@ import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.HOLIDAY_TYPE
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
-import at.orchaldir.gm.core.model.item.ITEM_TEMPLATE_TYPE
-import at.orchaldir.gm.core.model.item.ItemTemplate
-import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.item.equipment.ITEM_TEMPLATE_TYPE
+import at.orchaldir.gm.core.model.item.equipment.ItemTemplate
+import at.orchaldir.gm.core.model.item.equipment.ItemTemplateId
 import at.orchaldir.gm.core.model.item.text.TEXT_TYPE
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId

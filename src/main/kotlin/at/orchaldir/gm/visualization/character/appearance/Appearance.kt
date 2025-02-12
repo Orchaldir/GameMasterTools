@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
-import at.orchaldir.gm.core.model.item.Equipment
+import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.util.Color.Black
 import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.utils.math.*

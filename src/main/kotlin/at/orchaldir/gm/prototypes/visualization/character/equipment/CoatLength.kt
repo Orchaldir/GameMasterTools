@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
-import at.orchaldir.gm.core.model.item.Coat
+import at.orchaldir.gm.core.model.item.equipment.Coat
 import at.orchaldir.gm.core.model.item.style.Button
 import at.orchaldir.gm.core.model.item.style.ButtonColumn
 import at.orchaldir.gm.core.model.item.style.DoubleBreasted

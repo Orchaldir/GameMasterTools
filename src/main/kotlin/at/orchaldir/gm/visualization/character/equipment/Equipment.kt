@@ -2,7 +2,7 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.item.*
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig

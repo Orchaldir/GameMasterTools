@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.Rectangle
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
-import at.orchaldir.gm.core.model.item.Coat
+import at.orchaldir.gm.core.model.item.equipment.Coat
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.item.style.OuterwearLength.Hip
 import at.orchaldir.gm.core.model.util.Color.Blue

@@ -6,8 +6,8 @@ import at.orchaldir.gm.core.action.UpdateFashion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
-import at.orchaldir.gm.core.model.item.EquipmentType
-import at.orchaldir.gm.core.model.item.NOT_NONE
+import at.orchaldir.gm.core.model.item.equipment.EquipmentType
+import at.orchaldir.gm.core.model.item.equipment.NOT_NONE
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps

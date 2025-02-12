@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Appearance
-import at.orchaldir.gm.core.model.item.Equipment
+import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d

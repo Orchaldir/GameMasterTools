@@ -6,11 +6,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.item.EquipmentType.Hat
-import at.orchaldir.gm.core.model.item.ItemTemplate
-import at.orchaldir.gm.core.model.item.ItemTemplateId
-import at.orchaldir.gm.core.model.item.Pants
-import at.orchaldir.gm.core.model.item.Shirt
+import at.orchaldir.gm.core.model.item.equipment.EquipmentType.Hat
+import at.orchaldir.gm.core.model.item.equipment.ItemTemplate
+import at.orchaldir.gm.core.model.item.equipment.ItemTemplateId
+import at.orchaldir.gm.core.model.item.equipment.Pants
+import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.utils.Storage

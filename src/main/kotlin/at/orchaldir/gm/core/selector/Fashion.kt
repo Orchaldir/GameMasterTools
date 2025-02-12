@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
-import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.item.equipment.ItemTemplateId
 
 fun State.canDelete(fashion: FashionId) = getCultures(fashion).isEmpty()
 

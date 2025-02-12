@@ -4,8 +4,8 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.ItemTemplate
-import at.orchaldir.gm.core.model.item.Shirt
+import at.orchaldir.gm.core.model.item.equipment.ItemTemplate
+import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.book.Hardcover

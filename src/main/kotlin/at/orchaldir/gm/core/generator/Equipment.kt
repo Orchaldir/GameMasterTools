@@ -5,9 +5,9 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
-import at.orchaldir.gm.core.model.item.EquipmentType
-import at.orchaldir.gm.core.model.item.EquipmentType.*
-import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentType.*
+import at.orchaldir.gm.core.model.item.equipment.ItemTemplateId
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.RarityMap

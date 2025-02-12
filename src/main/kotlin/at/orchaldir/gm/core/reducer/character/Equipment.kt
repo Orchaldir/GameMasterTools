@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.EquipmentSlot
+import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.item
+package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.item.style.*
 import at.orchaldir.gm.core.model.material.MaterialId

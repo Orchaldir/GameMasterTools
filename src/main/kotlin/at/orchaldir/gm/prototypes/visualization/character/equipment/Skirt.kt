@@ -4,8 +4,8 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
-import at.orchaldir.gm.core.model.item.Shirt
-import at.orchaldir.gm.core.model.item.Skirt
+import at.orchaldir.gm.core.model.item.equipment.Shirt
+import at.orchaldir.gm.core.model.item.equipment.Skirt
 import at.orchaldir.gm.core.model.item.style.SkirtStyle
 import at.orchaldir.gm.core.model.util.Color.White
 import at.orchaldir.gm.core.model.util.Size

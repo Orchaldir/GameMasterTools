@@ -2,7 +2,7 @@ package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.hair.*
-import at.orchaldir.gm.core.model.item.EquipmentSlot
+import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*

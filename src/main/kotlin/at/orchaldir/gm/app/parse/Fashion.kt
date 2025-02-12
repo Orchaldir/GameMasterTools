@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.parse.item.parseItemTemplateId
 import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
-import at.orchaldir.gm.core.model.item.EquipmentType
-import at.orchaldir.gm.core.model.item.NOT_NONE
+import at.orchaldir.gm.core.model.item.equipment.EquipmentType
+import at.orchaldir.gm.core.model.item.equipment.NOT_NONE
 import io.ktor.http.*
 import io.ktor.server.util.*
 

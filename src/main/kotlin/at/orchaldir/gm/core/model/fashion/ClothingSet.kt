@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.fashion
 
-import at.orchaldir.gm.core.model.item.EquipmentType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentType
 
 enum class ClothingSet {
     Dress,

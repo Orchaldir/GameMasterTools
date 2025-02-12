@@ -1,8 +1,8 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.item.EquipmentType
-import at.orchaldir.gm.core.model.item.ItemTemplateId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentType
+import at.orchaldir.gm.core.model.item.equipment.ItemTemplateId
 import io.ktor.http.*
 
 fun parseEquipmentMap(

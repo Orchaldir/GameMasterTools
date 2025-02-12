@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.character.appearance.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
-import at.orchaldir.gm.core.model.item.Hat
+import at.orchaldir.gm.core.model.item.equipment.Hat
 import at.orchaldir.gm.core.model.item.style.HatStyle
 import at.orchaldir.gm.core.model.util.Color.SaddleBrown
 import at.orchaldir.gm.core.model.util.Color.Yellow
