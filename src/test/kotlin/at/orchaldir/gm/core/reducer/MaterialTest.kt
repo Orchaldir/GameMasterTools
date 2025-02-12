@@ -39,7 +39,7 @@ class MaterialTest {
 
         @Test
         fun `Cannot delete a material used by an item template`() {
-            val template = Equipment(ITEM_TEMPLATE_ID_0, data = Shirt(material = MATERIAL_ID_0))
+            val template = Equipment(EQUIPMENT_ID_0, data = Shirt(material = MATERIAL_ID_0))
             val state = State(
                 listOf(
                     Storage(template),
