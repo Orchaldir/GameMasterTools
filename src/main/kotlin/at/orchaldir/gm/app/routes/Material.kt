@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
 import at.orchaldir.gm.core.selector.world.countStreetTemplates
+import at.orchaldir.gm.core.selector.world.getMountainsContaining
 import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -157,6 +158,7 @@ private fun HTML.showMaterialDetails(
     material: Material,
 ) {
     val equipmentList = state.getEquipmentMadeOf(material.id)
+    val mountains = state.getMountainsContaining(material.id)
     val streetTemplates = state.getStreetTemplatesMadeOf(material.id)
     val texts = state.getTextsMadeOf(material.id)
     val backLink = call.application.href(MaterialRoutes())
@@ -168,6 +170,9 @@ private fun HTML.showMaterialDetails(
         field("Category", material.category)
         showList("Equipment", equipmentList) { equipment ->
             link(call, equipment)
+        }
+        showList("Mountains", mountains) { mountain ->
+            link(call, mountain)
         }
         showList("Street Templates", streetTemplates) { template ->
             link(call, template)
