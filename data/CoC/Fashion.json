@@ -11,7 +11,7 @@
     "Footwear": "Everyone",
     "Hat": "Common"
    },
-   "itemRarityMap": {
+   "equipmentRarityMap": {
     "Coat": {
      "31": "Common",
      "32": "Common",
@@ -54,7 +54,7 @@
     "Gloves": "Uncommon",
     "Hat": "Common"
    },
-   "itemRarityMap": {
+   "equipmentRarityMap": {
     "Dress": {
      "13": "Common",
      "14": "Common",
