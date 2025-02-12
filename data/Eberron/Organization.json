@@ -1,5 +1,21 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": " Three Faces of Coin"
+  },
+  "1": {
+   "id": 1,
+   "name": "House Orien"
+  },
+  "2": {
+   "id": 2,
+   "name": "House Ghallanda"
+  },
+  "3": {
+   "id": 3,
+   "name": "House Kundarak"
+  }
  }
 }

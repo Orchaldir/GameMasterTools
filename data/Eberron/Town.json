@@ -1,27 +1,27 @@
 {
  "version": 1,
  "elements": {
-   "0": {
-     "id": 0,
-     "name": {
-       "type": "Simple",
-       "name": "Quickstone"
-     },
-     "foundingDate": {
-       "type": "Year",
-       "year": 991
-     }
+  "0": {
+   "id": 0,
+   "name": {
+    "type": "Simple",
+    "name": "Quickstone"
    },
-   "1": {
-     "id": 1,
-     "name": {
-       "type": "Simple",
-       "name": "Graystone"
-     },
-     "foundingDate": {
-       "type": "Year",
-       "year": 969
-     }
+   "foundingDate": {
+    "type": "Year",
+    "year": 991
    }
+  },
+  "1": {
+   "id": 1,
+   "name": {
+    "type": "Simple",
+    "name": "Graystone"
+   },
+   "foundingDate": {
+    "type": "Year",
+    "year": 969
+   }
+  }
  }
 }
