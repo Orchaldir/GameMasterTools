@@ -13,12 +13,16 @@
     "1": "Everyone"
    }
   },
-   "2": {
-     "id": 2,
-     "name": "Stonespeaker",
-     "spells": {
-       "2": "Common"
-     }
+  "2": {
+   "id": 2,
+   "name": "Stonespeaker",
+   "spells": {
+    "2": "Common"
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Teacher"
   }
  }
 }

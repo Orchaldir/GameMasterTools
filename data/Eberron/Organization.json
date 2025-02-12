@@ -25,29 +25,73 @@
    "id": 5,
    "name": "The Sharn Inquisitive"
   },
-   "6": {
-     "id": 6,
-     "name": "House Sivis"
-   },
-   "7": {
-     "id": 7,
-     "name": "The Mourner",
-     "date": {
-       "type": "Year",
-       "year": 995
-     }
-   },
-   "8": {
-     "id": 8,
-     "name": "The Grizzlies",
-     "date": {
-       "type": "Year",
-       "year": 995
-     }
-   },
-   "9": {
-     "id": 9,
-     "name": "The Khaar’paal"
+  "6": {
+   "id": 6,
+   "name": "House Sivis"
+  },
+  "7": {
+   "id": 7,
+   "name": "The Mourner",
+   "date": {
+    "type": "Year",
+    "year": 995
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "The Grizzlies",
+   "date": {
+    "type": "Year",
+    "year": 995
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "The Khaar’paal"
+  },
+  "10": {
+   "id": 10,
+   "name": "Hause Jorasco"
+  },
+  "11": {
+   "id": 11,
+   "name": "The Soldiers’ Choir",
+   "date": {
+    "type": "Year",
+    "year": 995
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "The Dancer’s Circle",
+   "date": {
+    "type": "Year",
+    "year": 995
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "The Tago"
+  },
+  "14": {
+   "id": 14,
+   "name": "The Rockhounds",
+   "date": {
+    "type": "Year",
+    "year": 991
+   }
+  },
+  "15": {
+   "id": 15,
+   "name": "The Wizard’s Circle",
+   "date": {
+    "type": "Year",
+    "year": 995
+   }
+  },
+  "16": {
+   "id": 16,
+   "name": "Hause Cannith"
   }
  }
 }

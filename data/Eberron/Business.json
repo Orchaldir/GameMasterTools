@@ -55,15 +55,15 @@
     "type": "Year",
     "year": 995
    },
-    "founder": {
-      "type": "Organization",
-      "organization": 6
-    },
-    "ownership": {
-      "current": {
-        "type": "Organization",
-        "organization": 6
-      }
+   "founder": {
+    "type": "Organization",
+    "organization": 6
+   },
+   "ownership": {
+    "current": {
+     "type": "Organization",
+     "organization": 6
+    }
    }
   },
   "5": {
@@ -76,15 +76,15 @@
     "type": "Year",
     "year": 996
    },
-    "founder": {
-      "type": "Organization",
-      "organization": 1
-    },
-    "ownership": {
-      "current": {
-        "type": "Organization",
-        "organization": 1
-      }
+   "founder": {
+    "type": "Organization",
+    "organization": 1
+   },
+   "ownership": {
+    "current": {
+     "type": "Organization",
+     "organization": 1
+    }
    }
   },
   "6": {
@@ -97,15 +97,15 @@
     "type": "Year",
     "year": 996
    },
-    "founder": {
-      "type": "Organization",
-      "organization": 2
-    },
-    "ownership": {
-      "current": {
-        "type": "Organization",
-        "organization": 2
-      }
+   "founder": {
+    "type": "Organization",
+    "organization": 2
+   },
+   "ownership": {
+    "current": {
+     "type": "Organization",
+     "organization": 2
+    }
    }
   },
   "7": {
@@ -183,26 +183,43 @@
     }
    }
   },
-   "12": {
-     "id": 12,
-     "name": {
-       "type": "Simple",
-       "name": "The Kundarak Enclave"
-     },
-     "startDate": {
-       "type": "Year",
-       "year": 996
-     },
-     "founder": {
-       "type": "Organization",
-       "organization": 3
-     },
-     "ownership": {
-       "current": {
-         "type": "Organization",
-         "organization": 3
-       }
-     }
+  "12": {
+   "id": 12,
+   "name": {
+    "type": "Simple",
+    "name": "The Kundarak Enclave"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 996
+   },
+   "founder": {
+    "type": "Organization",
+    "organization": 3
+   },
+   "ownership": {
+    "current": {
+     "type": "Organization",
+     "organization": 3
+    }
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": {
+    "type": "Simple",
+    "name": "Schoolhouse"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 995
+   },
+   "ownership": {
+    "current": {
+     "type": "Town",
+     "town": 0
+    }
+   }
   }
  }
 }
