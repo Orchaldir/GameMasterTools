@@ -1,5 +1,119 @@
 {
  "version": 1,
  "elements": {
+   "0": {
+     "id": 0,
+     "name": "Cloth",
+     "category": "Fabric"
+   },
+   "1": {
+     "id": 1,
+     "name": "Leather",
+     "category": "Skin"
+   },
+   "2": {
+     "id": 2,
+     "name": "Shiftweave ",
+     "category": "Fabric"
+   },
+   "3": {
+     "id": 3,
+     "name": "Glamerweave ",
+     "category": "Fabric"
+   },
+   "4": {
+     "id": 4,
+     "name": "Darkweave",
+     "category": "Fabric"
+   },
+   "5": {
+     "id": 5,
+     "name": "Chameleoweave",
+     "category": "Fabric"
+   },
+   "6": {
+     "id": 6,
+     "name": "Dolweave",
+     "category": "Fabric"
+   },
+   "7": {
+     "id": 7,
+     "name": "Adamantine"
+   },
+   "8": {
+     "id": 8,
+     "name": "Darkwood",
+     "category": "Wood"
+   },
+   "9": {
+     "id": 9,
+     "name": "Dragonhide",
+     "category": "Skin"
+   },
+   "10": {
+     "id": 10,
+     "name": "Mithral"
+   },
+   "11": {
+     "id": 11,
+     "name": "Bronzewood",
+     "category": "Wood"
+   },
+   "12": {
+     "id": 12,
+     "name": "Byeshk"
+   },
+   "13": {
+     "id": 13,
+     "name": "Densewood",
+     "category": "Wood"
+   },
+   "14": {
+     "id": 14,
+     "name": "Livewood",
+     "category": "Wood"
+   },
+   "15": {
+     "id": 15,
+     "name": "Crysteel"
+   },
+   "16": {
+     "id": 16,
+     "name": "Soarwood",
+     "category": "Wood"
+   },
+   "17": {
+     "id": 17,
+     "name": "Livewood",
+     "category": "Wood"
+   },
+   "18": {
+     "id": 18,
+     "name": "Iron"
+   },
+   "19": {
+     "id": 19,
+     "name": "Steel"
+   },
+   "20": {
+     "id": 20,
+     "name": "Gold"
+   },
+   "21": {
+     "id": 21,
+     "name": "Copper"
+   },
+   "22": {
+     "id": 22,
+     "name": "Bronze"
+   },
+   "23": {
+     "id": 23,
+     "name": "Brass"
+   },
+   "24": {
+     "id": 24,
+     "name": "Silver"
+   }
  }
 }
