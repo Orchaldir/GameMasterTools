@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.routes.economy
 
+import at.orchaldir.gm.app.SPELLS
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.economy.parseJob
@@ -98,7 +99,7 @@ fun Application.configureJobRouting() {
             val job = state.getJobStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showJobEditor(call, job)
+                showJobEditor(call, state, job)
             }
         }
         post<JobRoutes.Update> { update ->
@@ -142,6 +143,9 @@ private fun HTML.showJobDetails(
     val previousCharacters = state.getPreviousEmployees(job.id).toSet() - characters
 
     simpleHtml("Job: ${job.name}") {
+        showRarityMap("Spells", job.spells) { spell ->
+            link(call, state, spell)
+        }
         showList("Businesses", state.getBusinesses(job.id)) { business ->
             link(call, state, business)
         }
@@ -161,6 +165,7 @@ private fun HTML.showJobDetails(
 
 private fun HTML.showJobEditor(
     call: ApplicationCall,
+    state: State,
     job: Job,
 ) {
     val backLink = href(call, job.id)
@@ -169,6 +174,7 @@ private fun HTML.showJobEditor(
     simpleHtml("Edit Job: ${job.name}") {
         form {
             selectName(job.name)
+            selectRarityMap("Spells", SPELLS, state.getSpellStorage(), job.spells, false) { it.name }
             button("Update", updateLink)
         }
         back(backLink)
