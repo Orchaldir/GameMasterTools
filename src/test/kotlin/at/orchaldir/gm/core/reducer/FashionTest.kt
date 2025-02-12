@@ -20,8 +20,8 @@ import kotlin.test.assertFailsWith
 
 private val ID0 = FashionId(0)
 private val CULTURE0 = CultureId(0)
-private val ITEM0 = ItemTemplateId(0)
-private val ITEM1 = ItemTemplateId(1)
+private val ITEM0 = EquipmentId(0)
+private val ITEM1 = EquipmentId(1)
 
 class FashionTest {
 

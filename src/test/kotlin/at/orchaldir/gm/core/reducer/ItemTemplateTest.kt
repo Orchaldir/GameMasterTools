@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType.Hat
 import at.orchaldir.gm.core.model.item.equipment.ItemTemplate
-import at.orchaldir.gm.core.model.item.equipment.ItemTemplateId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.Pants
 import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.material.Material
@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-private val ID0 = ItemTemplateId(0)
+private val ID0 = EquipmentId(0)
 private val ITEM = ItemTemplate(ID0, "Test")
 private val CHARACTER0 = CharacterId(0)
 private val STATE = State(Storage(ItemTemplate(ID0)))

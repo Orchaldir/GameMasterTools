@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.fashion
 
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
-import at.orchaldir.gm.core.model.item.equipment.ItemTemplateId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.OneOrNone
@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-private val EMPTY = OneOrNone<ItemTemplateId>()
+private val EMPTY = OneOrNone<EquipmentId>()
 const val FASHION_TYPE = "Fashion"
 
 @JvmInline
@@ -28,7 +28,7 @@ data class Fashion(
     val name: String = "Fashion ${id.value}",
     val clothingSets: OneOf<ClothingSet> = OneOf(ClothingSet.entries),
     val accessories: SomeOf<EquipmentDataType> = SomeOf(emptySet()),
-    val itemRarityMap: Map<EquipmentDataType, OneOrNone<ItemTemplateId>> = emptyMap(),
+    val itemRarityMap: Map<EquipmentDataType, OneOrNone<EquipmentId>> = emptyMap(),
 ) : ElementWithSimpleName<FashionId> {
 
     override fun id() = id

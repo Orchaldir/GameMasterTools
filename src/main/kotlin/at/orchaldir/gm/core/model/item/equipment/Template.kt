@@ -8,9 +8,9 @@ const val ITEM_TEMPLATE_TYPE = "Item Template"
 
 @JvmInline
 @Serializable
-value class ItemTemplateId(val value: Int) : Id<ItemTemplateId> {
+value class EquipmentId(val value: Int) : Id<EquipmentId> {
 
-    override fun next() = ItemTemplateId(value + 1)
+    override fun next() = EquipmentId(value + 1)
     override fun type() = ITEM_TEMPLATE_TYPE
     override fun value() = value
 
@@ -18,10 +18,10 @@ value class ItemTemplateId(val value: Int) : Id<ItemTemplateId> {
 
 @Serializable
 data class ItemTemplate(
-    val id: ItemTemplateId,
+    val id: EquipmentId,
     val name: String = "Item Template ${id.value}",
     val equipment: EquipmentData = NoEquipment,
-) : ElementWithSimpleName<ItemTemplateId> {
+) : ElementWithSimpleName<EquipmentId> {
 
     override fun id() = id
     override fun name() = name

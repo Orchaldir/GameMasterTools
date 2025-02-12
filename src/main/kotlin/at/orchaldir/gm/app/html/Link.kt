@@ -23,7 +23,7 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.HolidayId
-import at.orchaldir.gm.core.model.item.equipment.ItemTemplateId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.SpellId
@@ -180,7 +180,7 @@ fun <ID : Id<ID>> href(
     is FashionId -> call.application.href(FashionRoutes.Details(id))
     is FontId -> call.application.href(FontRoutes.Details(id))
     is HolidayId -> call.application.href(HolidayRoutes.Details(id))
-    is ItemTemplateId -> call.application.href(ItemTemplateRoutes.Details(id))
+    is EquipmentId -> call.application.href(ItemTemplateRoutes.Details(id))
     is JobId -> call.application.href(JobRoutes.Details(id))
     is LanguageId -> call.application.href(LanguageRoutes.Details(id))
     is MaterialId -> call.application.href(MaterialRoutes.Details(id))

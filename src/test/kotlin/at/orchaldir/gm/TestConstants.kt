@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
-import at.orchaldir.gm.core.model.item.equipment.ItemTemplateId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.SpellId
@@ -31,7 +31,7 @@ val CHARACTER_ID_0 = CharacterId(0)
 val CHARACTER_ID_1 = CharacterId(1)
 val CHARACTER_ID_2 = CharacterId(2)
 val CULTURE_ID_0 = CultureId(0)
-val ITEM_TEMPLATE_ID_0 = ItemTemplateId(0)
+val ITEM_TEMPLATE_ID_0 = EquipmentId(0)
 val JOB_ID_0 = JobId(0)
 val LANGUAGE_ID_0 = LanguageId(0)
 val LANGUAGE_ID_1 = LanguageId(1)

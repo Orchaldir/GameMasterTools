@@ -5,10 +5,10 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
-import at.orchaldir.gm.core.model.item.equipment.ItemTemplateId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.material.MaterialId
 
-fun State.canDelete(itemTemplate: ItemTemplateId) = getCharacterStorage().getAll()
+fun State.canDelete(itemTemplate: EquipmentId) = getCharacterStorage().getAll()
     .none { it.equipmentMap.contains(itemTemplate) }
 
 fun State.countItemTemplates(material: MaterialId) = getItemTemplateStorage()
@@ -35,6 +35,6 @@ fun State.getEquipment(equipmentMap: EquipmentMap) = equipmentMap
     .values
     .map { getItemTemplateStorage().getOrThrow(it).equipment }
 
-fun State.getEquippedBy(itemTemplate: ItemTemplateId) = getCharacterStorage().getAll()
+fun State.getEquippedBy(itemTemplate: EquipmentId) = getCharacterStorage().getAll()
     .filter { it.equipmentMap.contains(itemTemplate) }
 

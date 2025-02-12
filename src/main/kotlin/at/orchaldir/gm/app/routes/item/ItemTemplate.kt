@@ -38,22 +38,22 @@ private val logger = KotlinLogging.logger {}
 @Resource("/$ITEM_TEMPLATE_TYPE")
 class ItemTemplateRoutes {
     @Resource("details")
-    class Details(val id: ItemTemplateId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
+    class Details(val id: EquipmentId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
 
     @Resource("new")
     class New(val parent: ItemTemplateRoutes = ItemTemplateRoutes())
 
     @Resource("delete")
-    class Delete(val id: ItemTemplateId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
+    class Delete(val id: EquipmentId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
 
     @Resource("edit")
-    class Edit(val id: ItemTemplateId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
+    class Edit(val id: EquipmentId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
 
     @Resource("preview")
-    class Preview(val id: ItemTemplateId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
+    class Preview(val id: EquipmentId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
 
     @Resource("update")
-    class Update(val id: ItemTemplateId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
+    class Update(val id: EquipmentId, val parent: ItemTemplateRoutes = ItemTemplateRoutes())
 }
 
 fun Application.configureItemTemplateRouting() {

@@ -12,11 +12,11 @@ import at.orchaldir.gm.core.model.util.Size
 import io.ktor.http.*
 import io.ktor.server.util.*
 
-fun parseItemTemplateId(value: String) = ItemTemplateId(value.toInt())
+fun parseItemTemplateId(value: String) = EquipmentId(value.toInt())
 
-fun parseItemTemplateId(parameters: Parameters, param: String) = ItemTemplateId(parseInt(parameters, param))
+fun parseItemTemplateId(parameters: Parameters, param: String) = EquipmentId(parseInt(parameters, param))
 
-fun parseItemTemplate(id: ItemTemplateId, parameters: Parameters): ItemTemplate {
+fun parseItemTemplate(id: EquipmentId, parameters: Parameters): ItemTemplate {
     val name = parameters.getOrFail(NAME)
 
     return ItemTemplate(id, name, parseEquipment(parameters))

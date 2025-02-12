@@ -2,13 +2,13 @@ package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
-import at.orchaldir.gm.core.model.item.equipment.ItemTemplateId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import io.ktor.http.*
 
 fun parseEquipmentMap(
     parameters: Parameters,
 ): EquipmentMap {
-    val map = mutableMapOf<EquipmentDataType, ItemTemplateId>()
+    val map = mutableMapOf<EquipmentDataType, EquipmentId>()
 
     EquipmentDataType.entries.forEach { tryParse(parameters, map, it) }
 
@@ -17,12 +17,12 @@ fun parseEquipmentMap(
 
 private fun tryParse(
     parameters: Parameters,
-    map: MutableMap<EquipmentDataType, ItemTemplateId>,
+    map: MutableMap<EquipmentDataType, EquipmentId>,
     type: EquipmentDataType,
 ) {
     val value = parameters[type.name]
 
     if (!value.isNullOrBlank()) {
-        map[type] = ItemTemplateId(value.toInt())
+        map[type] = EquipmentId(value.toInt())
     }
 }

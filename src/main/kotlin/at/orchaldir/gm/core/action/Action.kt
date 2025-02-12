@@ -17,7 +17,7 @@ import at.orchaldir.gm.core.model.font.FontId
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.equipment.ItemTemplate
-import at.orchaldir.gm.core.model.item.equipment.ItemTemplateId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
@@ -163,7 +163,7 @@ data class UpdateText(val text: Text) : ItemAction()
 
 // item template
 data object CreateItemTemplate : ItemAction()
-data class DeleteItemTemplate(val id: ItemTemplateId) : ItemAction()
+data class DeleteItemTemplate(val id: EquipmentId) : ItemAction()
 data class UpdateItemTemplate(val itemTemplate: ItemTemplate) : ItemAction()
 
 //-- economy --
