@@ -150,81 +150,75 @@ private fun HTML.showAllEquipment(call: ApplicationCall) {
 private fun HTML.showEquipmentDetails(
     call: ApplicationCall,
     state: State,
-    template: Equipment,
+    equipment: Equipment,
 ) {
-    val characters = state.getEquippedBy(template.id)
-    val fashions = state.getFashions(template.id)
+    val characters = state.getEquippedBy(equipment.id)
+    val fashions = state.getFashions(equipment.id)
     val backLink = call.application.href(EquipmentRoutes())
-    val deleteLink = call.application.href(EquipmentRoutes.Delete(template.id))
-    val editLink = call.application.href(EquipmentRoutes.Edit(template.id))
+    val deleteLink = call.application.href(EquipmentRoutes.Delete(equipment.id))
+    val editLink = call.application.href(EquipmentRoutes.Edit(equipment.id))
 
-    simpleHtml("Equipment: ${template.name}") {
-        visualizeItem(template)
-        when (template.data) {
+    simpleHtml("Equipment: ${equipment.name}") {
+        visualizeItem(equipment)
+        field("Type", equipment.data.getType())
+
+        when (equipment.data) {
             NoEquipment -> doubleArrayOf()
             is Coat -> {
-                field("Type", "Coat")
-                field("Length", template.data.length)
-                field("Neckline Style", template.data.necklineStyle)
-                field("Sleeve Style", template.data.sleeveStyle)
-                showOpeningStyle(template.data.openingStyle)
-                showFill(template.data.fill)
-                fieldLink("Material", call, state, template.data.material)
+                field("Length", equipment.data.length)
+                field("Neckline Style", equipment.data.necklineStyle)
+                field("Sleeve Style", equipment.data.sleeveStyle)
+                showOpeningStyle(equipment.data.openingStyle)
+                showFill(equipment.data.fill)
+                fieldLink("Material", call, state, equipment.data.material)
             }
 
             is Dress -> {
-                field("Equipment", "Dress")
-                field("Neckline Style", template.data.necklineStyle)
-                field("Skirt Style", template.data.skirtStyle)
-                field("Sleeve Style", template.data.sleeveStyle)
-                showFill(template.data.fill)
-                fieldLink("Material", call, state, template.data.material)
+                field("Neckline Style", equipment.data.necklineStyle)
+                field("Skirt Style", equipment.data.skirtStyle)
+                field("Sleeve Style", equipment.data.sleeveStyle)
+                showFill(equipment.data.fill)
+                fieldLink("Material", call, state, equipment.data.material)
             }
 
             is Footwear -> {
-                field("Equipment", "Footwear")
-                field("Style", template.data.style)
-                field("Color", template.data.color)
-                if (template.data.style.hasSole()) {
-                    field("Sole Color", template.data.sole)
+                field("Style", equipment.data.style)
+                field("Color", equipment.data.color)
+                if (equipment.data.style.hasSole()) {
+                    field("Sole Color", equipment.data.sole)
                 }
-                fieldLink("Material", call, state, template.data.material)
+                fieldLink("Material", call, state, equipment.data.material)
             }
 
             is Gloves -> {
-                field("Equipment", "Gloves")
-                field("Style", template.data.style)
-                showFill(template.data.fill)
-                fieldLink("Material", call, state, template.data.material)
+                field("Style", equipment.data.style)
+                showFill(equipment.data.fill)
+                fieldLink("Material", call, state, equipment.data.material)
             }
 
             is Hat -> {
-                field("Equipment", "Hat")
-                field("Style", template.data.style)
-                field("Color", template.data.color)
-                fieldLink("Material", call, state, template.data.material)
+                field("Style", equipment.data.style)
+                field("Color", equipment.data.color)
+                fieldLink("Material", call, state, equipment.data.material)
             }
 
             is Pants -> {
-                field("Equipment", "Pants")
-                field("Style", template.data.style)
-                showFill(template.data.fill)
-                fieldLink("Material", call, state, template.data.material)
+                field("Style", equipment.data.style)
+                showFill(equipment.data.fill)
+                fieldLink("Material", call, state, equipment.data.material)
             }
 
             is Shirt -> {
-                field("Equipment", "Shirt")
-                field("Neckline Style", template.data.necklineStyle)
-                field("Sleeve Style", template.data.sleeveStyle)
-                showFill(template.data.fill)
-                fieldLink("Material", call, state, template.data.material)
+                field("Neckline Style", equipment.data.necklineStyle)
+                field("Sleeve Style", equipment.data.sleeveStyle)
+                showFill(equipment.data.fill)
+                fieldLink("Material", call, state, equipment.data.material)
             }
 
             is Skirt -> {
-                field("Equipment", "Skirt")
-                field("Style", template.data.style)
-                showFill(template.data.fill)
-                fieldLink("Material", call, state, template.data.material)
+                field("Style", equipment.data.style)
+                showFill(equipment.data.fill)
+                fieldLink("Material", call, state, equipment.data.material)
             }
         }
         showList("Equipped By", characters) { item ->
@@ -234,7 +228,7 @@ private fun HTML.showEquipmentDetails(
             link(call, item)
         }
         action(editLink, "Edit")
-        if (state.canDelete(template.id)) {
+        if (state.canDelete(equipment.id)) {
             action(deleteLink, "Delete")
         }
         back(backLink)
