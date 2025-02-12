@@ -15,7 +15,6 @@ import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getLiving
@@ -27,10 +26,8 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.DIV
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 
@@ -143,6 +140,7 @@ private fun parseOwner(parameters: Parameters, state: State, param: String): Own
             combine(param, ORGANIZATION)
         )
     )
+
     OwnerType.Town.toString() -> OwnedByTown(parseTownId(parameters, combine(param, TOWN)))
     else -> UndefinedOwner
 }

@@ -21,51 +21,51 @@ fun parseEquipment(id: EquipmentId, parameters: Parameters): Equipment {
 
 fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.None)) {
-    EquipmentDataType.None -> NoEquipment
-    EquipmentDataType.Coat -> Coat(
-        parse(parameters, LENGTH, OuterwearLength.Hip),
-        parse(parameters, NECKLINE_STYLE, NecklineStyle.DeepV),
-        parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
-        parseOpeningStyle(parameters),
-        parseFill(parameters),
-        parseMaterialId(parameters, MATERIAL),
-    )
+        EquipmentDataType.None -> NoEquipment
+        EquipmentDataType.Coat -> Coat(
+            parse(parameters, LENGTH, OuterwearLength.Hip),
+            parse(parameters, NECKLINE_STYLE, NecklineStyle.DeepV),
+            parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
+            parseOpeningStyle(parameters),
+            parseFill(parameters),
+            parseMaterialId(parameters, MATERIAL),
+        )
 
-    EquipmentDataType.Dress -> parseDress(parameters)
+        EquipmentDataType.Dress -> parseDress(parameters)
 
-    EquipmentDataType.Footwear -> Footwear(
-        parse(parameters, FOOTWEAR, FootwearStyle.Shoes),
-        parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
-        parse(parameters, EQUIPMENT_COLOR_1, Color.SaddleBrown),
-        parseMaterialId(parameters, MATERIAL),
-    )
+        EquipmentDataType.Footwear -> Footwear(
+            parse(parameters, FOOTWEAR, FootwearStyle.Shoes),
+            parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
+            parse(parameters, EQUIPMENT_COLOR_1, Color.SaddleBrown),
+            parseMaterialId(parameters, MATERIAL),
+        )
 
-    EquipmentDataType.Gloves -> Gloves(
-        parse(parameters, GLOVES, GloveStyle.Hand),
-        parseFill(parameters),
-        parseMaterialId(parameters, MATERIAL),
-    )
+        EquipmentDataType.Gloves -> Gloves(
+            parse(parameters, GLOVES, GloveStyle.Hand),
+            parseFill(parameters),
+            parseMaterialId(parameters, MATERIAL),
+        )
 
-    EquipmentDataType.Hat -> Hat(
-        parse(parameters, HAT, HatStyle.TopHat),
-        parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
-        parseMaterialId(parameters, MATERIAL),
-    )
+        EquipmentDataType.Hat -> Hat(
+            parse(parameters, HAT, HatStyle.TopHat),
+            parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
+            parseMaterialId(parameters, MATERIAL),
+        )
 
-    EquipmentDataType.Pants -> Pants(
-        parse(parameters, PANTS, PantsStyle.Regular),
-        parseFill(parameters),
-        parseMaterialId(parameters, MATERIAL),
-    )
+        EquipmentDataType.Pants -> Pants(
+            parse(parameters, PANTS, PantsStyle.Regular),
+            parseFill(parameters),
+            parseMaterialId(parameters, MATERIAL),
+        )
 
-    EquipmentDataType.Shirt -> parseShirt(parameters)
+        EquipmentDataType.Shirt -> parseShirt(parameters)
 
-    EquipmentDataType.Skirt -> Skirt(
-        parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
-        parseFill(parameters),
-        parseMaterialId(parameters, MATERIAL),
-    )
-}
+        EquipmentDataType.Skirt -> Skirt(
+            parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
+            parseFill(parameters),
+            parseMaterialId(parameters, MATERIAL),
+        )
+    }
 
 private fun parseDress(parameters: Parameters): Dress {
     val neckline = parse(parameters, NECKLINE_STYLE, NecklineStyle.None)

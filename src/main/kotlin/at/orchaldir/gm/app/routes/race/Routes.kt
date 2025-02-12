@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.routes.race
 
-import at.orchaldir.gm.app.routes.item.TextRoutes
 import at.orchaldir.gm.core.model.race.RACE_TYPE
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId

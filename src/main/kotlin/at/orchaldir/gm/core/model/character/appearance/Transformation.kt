@@ -32,6 +32,7 @@ fun updateHairColor(appearance: Appearance, color: Color): Appearance {
             updateSkinColor(appearance.body, color),
             updateHairColor(appearance.head, color),
         )
+
         UndefinedAppearance -> appearance
     }
 }

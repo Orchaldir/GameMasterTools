@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.routes.economy
 import at.orchaldir.gm.app.SPELLS
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.parse.economy.parseJob
 import at.orchaldir.gm.core.action.CreateJob
 import at.orchaldir.gm.core.action.DeleteJob

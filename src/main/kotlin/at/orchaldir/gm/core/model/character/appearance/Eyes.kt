@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.character.appearance
 
-import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
