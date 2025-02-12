@@ -160,78 +160,91 @@ private fun HTML.showEquipmentDetails(
 
     simpleHtml("Equipment: ${equipment.name}") {
         visualizeItem(equipment)
-        field("Type", equipment.data.getType())
 
-        when (equipment.data) {
-            NoEquipment -> doubleArrayOf()
-            is Coat -> {
-                field("Length", equipment.data.length)
-                field("Neckline Style", equipment.data.necklineStyle)
-                field("Sleeve Style", equipment.data.sleeveStyle)
-                showOpeningStyle(equipment.data.openingStyle)
-                showFill(equipment.data.fill)
-                fieldLink("Material", call, state, equipment.data.material)
-            }
+        showEquipmentData(call, state, equipment)
 
-            is Dress -> {
-                field("Neckline Style", equipment.data.necklineStyle)
-                field("Skirt Style", equipment.data.skirtStyle)
-                field("Sleeve Style", equipment.data.sleeveStyle)
-                showFill(equipment.data.fill)
-                fieldLink("Material", call, state, equipment.data.material)
-            }
-
-            is Footwear -> {
-                field("Style", equipment.data.style)
-                field("Color", equipment.data.color)
-                if (equipment.data.style.hasSole()) {
-                    field("Sole Color", equipment.data.sole)
-                }
-                fieldLink("Material", call, state, equipment.data.material)
-            }
-
-            is Gloves -> {
-                field("Style", equipment.data.style)
-                showFill(equipment.data.fill)
-                fieldLink("Material", call, state, equipment.data.material)
-            }
-
-            is Hat -> {
-                field("Style", equipment.data.style)
-                field("Color", equipment.data.color)
-                fieldLink("Material", call, state, equipment.data.material)
-            }
-
-            is Pants -> {
-                field("Style", equipment.data.style)
-                showFill(equipment.data.fill)
-                fieldLink("Material", call, state, equipment.data.material)
-            }
-
-            is Shirt -> {
-                field("Neckline Style", equipment.data.necklineStyle)
-                field("Sleeve Style", equipment.data.sleeveStyle)
-                showFill(equipment.data.fill)
-                fieldLink("Material", call, state, equipment.data.material)
-            }
-
-            is Skirt -> {
-                field("Style", equipment.data.style)
-                showFill(equipment.data.fill)
-                fieldLink("Material", call, state, equipment.data.material)
-            }
-        }
         showList("Equipped By", characters) { item ->
             link(call, state, item)
         }
         showList("Part of Fashion", fashions) { item ->
             link(call, item)
         }
+
         action(editLink, "Edit")
+
         if (state.canDelete(equipment.id)) {
             action(deleteLink, "Delete")
         }
+
         back(backLink)
+    }
+}
+
+private fun BODY.showEquipmentData(
+    call: ApplicationCall,
+    state: State,
+    equipment: Equipment,
+) {
+    field("Type", equipment.data.getType())
+
+    when (val data = equipment.data) {
+        NoEquipment -> doubleArrayOf()
+        is Coat -> {
+            field("Length", data.length)
+            field("Neckline Style", data.necklineStyle)
+            field("Sleeve Style", data.sleeveStyle)
+            showOpeningStyle(data.openingStyle)
+            showFill(data.fill)
+            fieldLink("Material", call, state, data.material)
+        }
+
+        is Dress -> {
+            field("Neckline Style", data.necklineStyle)
+            field("Skirt Style", data.skirtStyle)
+            field("Sleeve Style", data.sleeveStyle)
+            showFill(data.fill)
+            fieldLink("Material", call, state, data.material)
+        }
+
+        is Footwear -> {
+            field("Style", data.style)
+            field("Color", data.color)
+            if (data.style.hasSole()) {
+                field("Sole Color", data.sole)
+            }
+            fieldLink("Material", call, state, data.material)
+        }
+
+        is Gloves -> {
+            field("Style", data.style)
+            showFill(data.fill)
+            fieldLink("Material", call, state, data.material)
+        }
+
+        is Hat -> {
+            field("Style", data.style)
+            field("Color", data.color)
+            fieldLink("Material", call, state, data.material)
+        }
+
+        is Pants -> {
+            field("Style", data.style)
+            showFill(data.fill)
+            fieldLink("Material", call, state, data.material)
+        }
+
+        is Shirt -> {
+            field("Neckline Style", data.necklineStyle)
+            field("Sleeve Style", data.sleeveStyle)
+            showFill(data.fill)
+            fieldLink("Material", call, state, data.material)
+        }
+
+        is Skirt -> {
+            field("Style", data.style)
+            showFill(data.fill)
+            fieldLink("Material", call, state, data.material)
+        }
     }
 }
 
