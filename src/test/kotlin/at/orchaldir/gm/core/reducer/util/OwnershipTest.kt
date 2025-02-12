@@ -2,10 +2,6 @@ package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.CalendarId
-import at.orchaldir.gm.core.model.calendar.ComplexMonths
-import at.orchaldir.gm.core.model.calendar.Month
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.street.StreetTemplate

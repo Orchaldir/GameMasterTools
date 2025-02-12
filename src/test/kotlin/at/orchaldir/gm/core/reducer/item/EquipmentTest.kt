@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.item.equipment.Pants
 import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.reducer.*
+import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
