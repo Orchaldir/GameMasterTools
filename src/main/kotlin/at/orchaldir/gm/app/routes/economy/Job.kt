@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.economy
 import at.orchaldir.gm.app.SPELLS
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.parse.economy.parseJob
 import at.orchaldir.gm.core.action.CreateJob
 import at.orchaldir.gm.core.action.DeleteJob
@@ -25,8 +26,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
-import kotlinx.html.form
+import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -122,9 +122,20 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State) {
 
     simpleHtml("Jobs") {
         field("Count", jobs.size)
-        showList(jobs) { nameList ->
-            link(call, nameList)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Spells" }
+            }
+            jobs.forEach { job ->
+                tr {
+                    td { link(call, job) }
+                    tdSkipZero(job.spells.getRarityMap().size)
+                }
+            }
         }
+
         showJobCount(call, state, state.getCharacterStorage().getAll(), "Distribution")
         action(createLink, "Add")
         back("/")
