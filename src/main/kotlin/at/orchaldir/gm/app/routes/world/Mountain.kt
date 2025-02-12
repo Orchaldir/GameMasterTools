@@ -22,8 +22,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
-import kotlinx.html.form
+import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -52,7 +51,7 @@ fun Application.configureMountainRouting() {
             logger.info { "Get all mountains" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllMountains(call)
+                showAllMountains(call, STORE.getState())
             }
         }
         get<MountainRoutes.Details> { details ->
@@ -113,15 +112,33 @@ fun Application.configureMountainRouting() {
     }
 }
 
-private fun HTML.showAllMountains(call: ApplicationCall) {
-    val mountains = STORE.getState().getMountainStorage().getAll().sortedBy { it.name }
+private fun HTML.showAllMountains(
+    call: ApplicationCall,
+    state: State,
+) {
+    val mountains = state.getMountainStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(MountainRoutes.New())
 
     simpleHtml("Mountains") {
         field("Count", mountains.size)
-        showList(mountains) { nameList ->
-            link(call, nameList)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Resources" }
+            }
+            mountains.forEach { mountain ->
+                tr {
+                    td { link(call, mountain) }
+                    td {
+                        state.getMaterialStorage().get(mountain.resources)
+                            .sortedBy { it.name }
+                            .map { link(call, state, it) }
+                    }
+                }
+            }
         }
+
         action(createLink, "Add")
         back("/")
     }

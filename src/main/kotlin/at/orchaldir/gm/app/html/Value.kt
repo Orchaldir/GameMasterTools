@@ -14,7 +14,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElements(
     elements: Collection<ELEMENT>,
     selectedIds: Set<ID>,
 ) {
-    field(labelText) {
+    details(labelText) {
         elements.forEach { element ->
             p {
                 checkBoxInput {
