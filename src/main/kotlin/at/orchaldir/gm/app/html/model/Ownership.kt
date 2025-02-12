@@ -1,18 +1,21 @@
 package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.CHARACTER
+import at.orchaldir.gm.app.ORGANIZATION
 import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.TOWN
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.organization.parseOrganizationId
 import at.orchaldir.gm.app.parse.parseCharacterId
 import at.orchaldir.gm.app.parse.world.parseTownId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.getLiving
+import at.orchaldir.gm.core.selector.organization.getExistingOrganization
 import at.orchaldir.gm.core.selector.world.getExistingTowns
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -36,9 +39,11 @@ fun HtmlBlockTag.showOwner(
         NoOwner -> +"None"
         is OwnedByCharacter -> link(call, state, owner.character)
         is OwnedByTown -> link(call, state, owner.town)
+        is OwnedByOrganization -> link(call, state, owner.organization)
         UndefinedOwner -> if (showUndefined) {
             +"Undefined"
         }
+
     }
 }
 
@@ -66,6 +71,15 @@ fun HtmlBlockTag.selectOwner(
             false
         )
 
+        is OwnedByOrganization -> selectElement(
+            state,
+            "Owner",
+            combine(param, CHARACTER),
+            state.getExistingOrganization(start),
+            owner.organization,
+            false
+        )
+
         is OwnedByTown -> selectElement(
             state,
             "Owner",
@@ -75,7 +89,7 @@ fun HtmlBlockTag.selectOwner(
             false
         )
 
-        else -> doNothing()
+        NoOwner, UndefinedOwner -> doNothing()
     }
 }
 
@@ -85,6 +99,12 @@ fun parseOwnership(parameters: Parameters, state: State, startDate: Date?) =
 private fun parseOwner(parameters: Parameters, state: State, param: String): Owner = when (parameters[param]) {
     OwnerType.None.toString() -> NoOwner
     OwnerType.Character.toString() -> OwnedByCharacter(parseCharacterId(parameters, combine(param, CHARACTER)))
+    OwnerType.Organization.toString() -> OwnedByOrganization(
+        parseOrganizationId(
+            parameters,
+            combine(param, ORGANIZATION)
+        )
+    )
     OwnerType.Town.toString() -> OwnedByTown(parseTownId(parameters, combine(param, TOWN)))
     else -> UndefinedOwner
 }
