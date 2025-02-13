@@ -66,14 +66,30 @@
    "gender": "Female",
    "birthDate": {
     "type": "Day",
-    "day": 334992
+    "day": 324576
    },
+   "culture": 1,
+   "personality": [
+    2,
+    50
+   ],
    "employmentStatus": {
     "current": {
      "type": "Employed",
      "business": 2,
      "job": 7
-    }
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 995
+      }
+     }
+    ]
    }
   }
  }

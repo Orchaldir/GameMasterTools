@@ -1,8 +1,6 @@
 package at.orchaldir.gm.core.reducer
 
-import at.orchaldir.gm.core.action.CreateCulture
-import at.orchaldir.gm.core.action.DeleteCulture
-import at.orchaldir.gm.core.action.UpdateCulture
+import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.FamilyName
@@ -25,6 +23,14 @@ val CREATE_CULTURE: Reducer<CreateCulture, State> = { state, _ ->
     val culture = Culture(state.getCultureStorage().nextId)
 
     noFollowUps(state.updateStorage(state.getCultureStorage().add(culture)))
+}
+
+val CLONE_CULTURE: Reducer<CloneCulture, State> = { state, action ->
+    val original = state.getCultureStorage().getOrThrow(action.id)
+    val cloneId = state.getCultureStorage().nextId
+    val clone = original.copy(id = cloneId, name = "Clone ${cloneId.value}")
+
+    noFollowUps(state.updateStorage(state.getCultureStorage().add(clone)))
 }
 
 val DELETE_CULTURE: Reducer<DeleteCulture, State> = { state, action ->

@@ -250,6 +250,11 @@
    "id": 49,
    "name": "Stern",
    "group": 13
+  },
+  "50": {
+   "id": 50,
+   "name": "Hard-working",
+   "group": 3
   }
  }
 }

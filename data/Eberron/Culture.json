@@ -49,6 +49,55 @@
      "SidePart": "Common"
     }
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Cyran",
+   "languages": {
+    "1": "Everyone",
+    "7": "Common",
+    "9": "Uncommon",
+    "11": "Common",
+    "13": "Common",
+    "14": "Uncommon"
+   },
+   "namingConvention": {
+    "type": "Family",
+    "givenNames": {
+     "female": 7,
+     "genderless": 6,
+     "male": 6
+    },
+    "familyNames": 8
+   },
+   "appearanceStyle": {
+    "beardStyles": {
+     "Goatee": "Common",
+     "GoateeAndMoustache": "Common",
+     "Moustache": "Common",
+     "Shaved": "Common"
+    },
+    "goateeStyles": {
+     "ChinPuff": "Common",
+     "Goatee": "Common",
+     "LandingStrip": "Common",
+     "SoulPatch": "Common",
+     "VanDyke": "Common"
+    },
+    "moustacheStyles": {
+     "Handlebar": "Common",
+     "Pencil": "Common",
+     "Pyramid": "Common",
+     "Toothbrush": "Common",
+     "Walrus": "Common"
+    },
+    "hairStyles": {
+     "BuzzCut": "Common",
+     "MiddlePart": "Common",
+     "Shaved": "Common",
+     "SidePart": "Common"
+    }
+   }
   }
  }
 }

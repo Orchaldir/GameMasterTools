@@ -99,6 +99,7 @@ data class UpdateCalendar(val calendar: Calendar) : Action()
 
 // culture
 data object CreateCulture : Action()
+data class CloneCulture(val id: CultureId) : Action()
 data class DeleteCulture(val id: CultureId) : Action()
 data class UpdateCulture(val culture: Culture) : Action()
 

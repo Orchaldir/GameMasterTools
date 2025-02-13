@@ -30,6 +30,7 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateCalendar -> UPDATE_CALENDAR(state, action)
         // culture
         is CreateCulture -> CREATE_CULTURE(state, action)
+        is CloneCulture -> CLONE_CULTURE(state, action)
         is DeleteCulture -> DELETE_CULTURE(state, action)
         is UpdateCulture -> UPDATE_CULTURE(state, action)
         // fashion
