@@ -17,7 +17,6 @@
    "appearance": {
     "type": "Humanoid",
     "body": {
-     "width": "Small"
     },
     "head": {
      "ears": {
@@ -82,7 +81,7 @@
    "appearance": {
     "type": "Humanoid",
     "body": {
-     "bodyShape": "Fat",
+     "bodyShape": "Muscular",
      "skin": {
       "type": "Normal",
       "color": "Light"
@@ -294,7 +293,6 @@
     "type": "Humanoid",
     "body": {
      "bodyShape": "Muscular",
-     "width": "Large",
      "skin": {
       "type": "Normal",
       "color": "Fair"
