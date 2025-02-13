@@ -33,8 +33,7 @@
      "hair": {
       "type": "Normal",
       "style": {
-       "type": "SidePart",
-       "side": "Left"
+       "type": "BuzzCut"
       },
       "color": "Black"
      },
@@ -43,9 +42,7 @@
       "beard": {
        "type": "Normal",
        "style": {
-        "type": "GoateeAndMoustache",
-        "moustacheStyle": "Handlebar",
-        "goateeStyle": "Goatee"
+        "type": "Shaved"
        },
        "color": "Black"
       },

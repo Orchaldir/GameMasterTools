@@ -20,6 +20,34 @@
      "male": 6
     },
     "familyNames": 8
+   },
+   "appearanceStyle": {
+    "beardStyles": {
+     "Goatee": "Common",
+     "GoateeAndMoustache": "Common",
+     "Moustache": "Common",
+     "Shaved": "Common"
+    },
+    "goateeStyles": {
+     "ChinPuff": "Common",
+     "Goatee": "Common",
+     "LandingStrip": "Common",
+     "SoulPatch": "Common",
+     "VanDyke": "Common"
+    },
+    "moustacheStyles": {
+     "Handlebar": "Common",
+     "Pencil": "Common",
+     "Pyramid": "Common",
+     "Toothbrush": "Common",
+     "Walrus": "Common"
+    },
+    "hairStyles": {
+     "BuzzCut": "Common",
+     "MiddlePart": "Common",
+     "Shaved": "Common",
+     "SidePart": "Common"
+    }
    }
   }
  }
