@@ -74,6 +74,11 @@
     50,
     39
    ],
+   "relationships": {
+    "2": [
+     "Lover"
+    ]
+   },
    "appearance": {
     "type": "Humanoid",
     "body": {
@@ -152,6 +157,11 @@
     39,
     45
    ],
+   "relationships": {
+    "1": [
+     "Lover"
+    ]
+   },
    "appearance": {
     "type": "Humanoid",
     "body": {
@@ -206,6 +216,44 @@
       "until": {
        "type": "Year",
        "year": 995
+      }
+     }
+    ]
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": {
+    "type": "Mononym",
+    "name": "Vesper"
+   },
+   "race": 5,
+   "gender": "Female",
+   "birthDate": {
+    "type": "Day",
+    "day": 310961
+   },
+   "personality": [
+    0,
+    41
+   ],
+   "languages": {
+    "11": "Native"
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 15,
+     "job": 11
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 991
       }
      }
     ]

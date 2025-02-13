@@ -241,6 +241,16 @@
    "startDate": {
     "type": "Year",
     "year": 991
+   },
+   "founder": {
+    "type": "Character",
+    "character": 3
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 3
+    }
    }
   }
  }

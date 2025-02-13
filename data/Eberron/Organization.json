@@ -96,6 +96,10 @@
   "17": {
    "id": 17,
    "name": "The Sand Fruit Society",
+   "founder": {
+    "type": "Character",
+    "character": 3
+   },
    "date": {
     "type": "Year",
     "year": 993
