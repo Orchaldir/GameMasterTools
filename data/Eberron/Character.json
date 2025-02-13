@@ -542,6 +542,46 @@
      }
     ]
    }
+  },
+  "8": {
+   "id": 8,
+   "name": {
+    "type": "Family",
+    "given": "Hazel",
+    "middle": null,
+    "family": "d’Ghallanda"
+   },
+   "race": 7,
+   "gender": "Female",
+   "birthDate": {
+    "type": "Day",
+    "day": 314411
+   },
+   "personality": [
+    5,
+    50
+   ],
+   "languages": {
+    "14": "Native"
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 6,
+     "job": 6
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 996
+      }
+     }
+    ]
+   }
   }
  }
 }
