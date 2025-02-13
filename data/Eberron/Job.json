@@ -27,6 +27,26 @@
   "4": {
    "id": 4,
    "name": "Mine Foreman"
+  },
+  "5": {
+   "id": 5,
+   "name": "Barkeep"
+  },
+  "6": {
+   "id": 6,
+   "name": "Innkeeper"
+  },
+  "7": {
+   "id": 7,
+   "name": "Blacksmith"
+  },
+  "8": {
+   "id": 8,
+   "name": "Accountant"
+  },
+  "9": {
+   "id": 9,
+   "name": "Baker"
   }
  }
 }
