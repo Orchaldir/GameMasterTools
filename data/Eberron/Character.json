@@ -11,8 +11,8 @@
    },
    "gender": "Male",
    "birthDate": {
-    "type": "Year",
-    "year": 961
+    "type": "Day",
+    "day": 322954
    },
    "appearance": {
     "type": "Humanoid",
@@ -66,18 +66,137 @@
    "gender": "Female",
    "birthDate": {
     "type": "Day",
-    "day": 324576
+    "day": 324816
    },
    "culture": 1,
    "personality": [
     2,
-    50
+    50,
+    39
    ],
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "bodyShape": "Fat",
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal",
+      "shape": "PointedUpwards"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "pupilShape": "VerticalSlit"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "MiddlePart"
+      },
+      "color": "SaddleBrown"
+     },
+     "mouth": {
+      "type": "Female",
+      "width": "Large",
+      "color": "Black"
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "height": {
+     "millimeters": 1700
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "Employed",
      "business": 2,
      "job": 7
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 995
+      }
+     }
+    ]
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": {
+    "type": "Family",
+    "given": "Jury",
+    "middle": null,
+    "family": "d’Cannith"
+   },
+   "gender": "Female",
+   "birthDate": {
+    "type": "Day",
+    "day": 323904
+   },
+   "culture": 1,
+   "personality": [
+    39,
+    45
+   ],
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "bodyShape": "Hourglass",
+     "width": "Small",
+     "skin": {
+      "type": "Normal",
+      "color": "Fair"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "pupilColor": "Blue"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "MiddlePart"
+      },
+      "color": "Red"
+     },
+     "mouth": {
+      "type": "Female",
+      "color": "Black"
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Fair"
+     }
+    },
+    "height": {
+     "millimeters": 1610
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 2,
+     "job": 10
     },
     "previousEntries": [
      {
