@@ -152,8 +152,8 @@
     "year": 995
    },
    "founder": {
-    "type": "Town",
-    "town": 0
+    "type": "Character",
+    "character": 0
    },
    "ownership": {
     "current": {
