@@ -355,6 +355,119 @@
      }
     ]
    }
+  },
+  "5": {
+   "id": 5,
+   "name": {
+    "type": "Mononym",
+    "name": "Fylas"
+   },
+   "race": 6,
+   "gender": "Male",
+   "birthDate": {
+    "type": "Day",
+    "day": 307454
+   },
+   "languages": {
+    "13": "Native",
+    "9": "Accented"
+   },
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal",
+      "shape": "PointedUpwards"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "pupilColor": "SaddleBrown"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "SidePart",
+       "side": "Right"
+      },
+      "color": "Green"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "Shaved"
+       },
+       "color": "Green"
+      },
+      "width": "Small"
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "height": {
+     "millimeters": 1050
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 0,
+     "job": 12
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 991
+      }
+     }
+    ]
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": {
+    "type": "Mononym",
+    "name": "Tyraen"
+   },
+   "race": 1,
+   "gender": "Female",
+   "birthDate": {
+    "type": "Year",
+    "year": 830
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 0,
+     "job": 13
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 993
+      }
+     }
+    ]
+   }
   }
  }
 }
