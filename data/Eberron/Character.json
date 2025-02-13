@@ -278,6 +278,10 @@
     "type": "Day",
     "day": 319236
    },
+   "personality": [
+    5,
+    41
+   ],
    "relationships": {
     "3": [
      "Spouse"
@@ -285,6 +289,55 @@
    },
    "languages": {
     "9": "Accented"
+   },
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "bodyShape": "Muscular",
+     "width": "Large",
+     "skin": {
+      "type": "Normal",
+      "color": "Fair"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal",
+      "size": "Large"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "pupilColor": "SaddleBrown"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "Shaved"
+      },
+      "color": "Black"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "GoateeAndMoustache",
+        "moustacheStyle": "Handlebar",
+        "goateeStyle": "Goatee"
+       },
+       "color": "Black"
+      }
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Fair"
+     }
+    },
+    "height": {
+     "millimeters": 1860
+    }
    },
    "employmentStatus": {
     "current": {
