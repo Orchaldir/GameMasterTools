@@ -25,6 +25,7 @@ import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -231,6 +232,8 @@ private fun HTML.showGallery(
         .getCharacterStorage()
         .getAll()
         .filter { it.appearance !is UndefinedAppearance }
+    val maxHeight = characters.map { it.appearance.getSize() }.maxBy { it.millimeters }
+    val maxSize = CHARACTER_CONFIG.calculateSize(maxHeight)
     val sortedCharacters = state.sortCharacters(characters, SortCharacter.Name)
     val backLink = call.application.href(CharacterRoutes.All())
 
@@ -239,7 +242,7 @@ private fun HTML.showGallery(
         div("grid-container") {
             sortedCharacters.forEach { (character, name) ->
                 val equipment = state.getEquipment(character)
-                val svg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment)
+                val svg = visualizeAppearance(CHARACTER_CONFIG, maxSize, character.appearance, equipment)
 
                 div("grid-item") {
                     a(href(call, character.id)) {
