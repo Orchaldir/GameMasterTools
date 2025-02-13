@@ -170,7 +170,7 @@ private fun HTML.showAllBusinesses(
                     td { showOptionalDate(call, state, business.startDate()) }
                     td { showCreator(call, state, business.founder, false) }
                     td { showOwner(call, state, business.ownership.current, false) }
-                    td { +state.getEmployees(business.id).size.toString() }
+                    tdSkipZero(state.getEmployees(business.id).size)
                 }
             }
         }
