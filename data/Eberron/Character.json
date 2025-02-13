@@ -447,8 +447,8 @@
    "race": 1,
    "gender": "Female",
    "birthDate": {
-    "type": "Year",
-    "year": 830
+    "type": "Day",
+    "day": 279101
    },
    "employmentStatus": {
     "current": {
@@ -569,6 +569,46 @@
      "type": "Employed",
      "business": 6,
      "job": 6
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 996
+      }
+     }
+    ]
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": {
+    "type": "Family",
+    "given": "Ivy",
+    "middle": null,
+    "family": "d’Ghallanda"
+   },
+   "race": 7,
+   "gender": "Female",
+   "birthDate": {
+    "type": "Day",
+    "day": 326876
+   },
+   "personality": [
+    33,
+    37
+   ],
+   "languages": {
+    "14": "Native"
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 6,
+     "job": 5
     },
     "previousEntries": [
      {

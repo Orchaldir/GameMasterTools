@@ -986,67 +986,67 @@
     ]
    }
   },
-   "17": {
-     "id": 17,
-     "name": "War Troll",
-     "genders": {
-       "Female": "Common",
-       "Male": "Common"
+  "17": {
+   "id": 17,
+   "name": "War Troll",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 2700
+    },
+    "offset": {
+     "millimeters": 400
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 11,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 2,
+      "relativeSize": 0.2
      },
-     "height": {
-       "center": {
-         "millimeters": 2700
-       },
-       "offset": {
-         "millimeters": 400
-       }
+     {
+      "name": "Young Child",
+      "maxAge": 4,
+      "relativeSize": 0.4
      },
-     "lifeStages": {
-       "type": "Simple",
-       "appearance": 11,
-       "lifeStages": [
-         {
-           "name": "Baby",
-           "maxAge": 2,
-           "relativeSize": 0.2
-         },
-         {
-           "name": "Young Child",
-           "maxAge": 4,
-           "relativeSize": 0.4
-         },
-         {
-           "name": "Child",
-           "maxAge": 10,
-           "relativeSize": 0.6
-         },
-         {
-           "name": "Teen",
-           "maxAge": 16,
-           "relativeSize": 0.95
-         },
-         {
-           "name": "Adult",
-           "maxAge": 30
-         },
-         {
-           "name": "Middle Age",
-           "maxAge": 40
-         },
-         {
-           "name": "Old Age",
-           "maxAge": 60,
-           "relativeSize": 0.95,
-           "hairColor": "Gray"
-         },
-         {
-           "name": "Venerable",
-           "maxAge": 80,
-           "relativeSize": 0.9,
-           "hairColor": "White"
-         }
-       ]
+     {
+      "name": "Child",
+      "maxAge": 10,
+      "relativeSize": 0.6
+     },
+     {
+      "name": "Teen",
+      "maxAge": 16,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 30
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 40
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 60,
+      "relativeSize": 0.95,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 80,
+      "relativeSize": 0.9,
+      "hairColor": "White"
      }
+    ]
+   }
   }
  }
 }
