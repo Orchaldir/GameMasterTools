@@ -641,6 +641,67 @@
    "mouthTypes": {
     "NormalMouth": "Common"
    }
+  },
+  "11": {
+   "id": 11,
+   "name": "War Troll",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Exotic": "Common"
+   },
+   "exoticSkinColors": {
+    "Olive": "Common"
+   },
+   "earsLayout": {
+    "NormalEars": "Common"
+   },
+   "earShapes": {
+    "Round": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeShapes": {
+     "Ellipse": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "pupilColors": {
+     "Aqua": "Common",
+     "Blue": "Common",
+     "Gray": "Rare",
+     "Green": "Common",
+     "Navy": "Common",
+     "Olive": "Common",
+     "Purple": "VeryRare",
+     "Red": "VeryRare",
+     "SaddleBrown": "Common",
+     "Silver": "Common",
+     "Teal": "Common"
+    },
+    "scleraColors": {
+     "Gold": "Common",
+     "White": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "hairTypes": {
+     "Normal": "Common"
+    },
+    "colors": {
+     "Green": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   }
   }
  }
 }

@@ -468,6 +468,80 @@
      }
     ]
    }
+  },
+  "7": {
+   "id": 7,
+   "name": {
+    "type": "Mononym",
+    "name": "Grim"
+   },
+   "race": 17,
+   "gender": "Female",
+   "birthDate": {
+    "type": "Year",
+    "year": 974
+   },
+   "culture": 2,
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "skin": {
+      "type": "Exotic",
+      "color": "Olive"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal",
+      "size": "Large"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "eyeShape": "Ellipse",
+       "pupilColor": "Aqua",
+       "scleraColor": "Gold"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "BuzzCut"
+      },
+      "color": "Green"
+     },
+     "mouth": {
+      "type": "Female",
+      "width": "Small",
+      "color": "Black"
+     },
+     "skin": {
+      "type": "Exotic",
+      "color": "Olive"
+     }
+    },
+    "height": {
+     "millimeters": 2700
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 0,
+     "job": 14
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 993
+      }
+     }
+    ]
+   }
   }
  }
 }

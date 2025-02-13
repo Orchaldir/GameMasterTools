@@ -56,16 +56,20 @@
    "id": 11,
    "name": "Priest"
   },
-   "12": {
-     "id": 12,
-     "name": "Cook"
-   },
-   "13": {
-     "id": 13,
-     "name": "Entertainer",
-     "spells": {
-       "3": "Everyone"
-     }
+  "12": {
+   "id": 12,
+   "name": "Cook"
+  },
+  "13": {
+   "id": 13,
+   "name": "Entertainer",
+   "spells": {
+    "3": "Everyone"
+   }
+  },
+  "14": {
+   "id": 14,
+   "name": "Bouncer"
   }
  }
 }
