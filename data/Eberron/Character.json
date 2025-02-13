@@ -622,6 +622,87 @@
      }
     ]
    }
+  },
+  "10": {
+   "id": 10,
+   "name": {
+    "type": "Family",
+    "given": "Dolis",
+    "middle": null,
+    "family": "d’Deneith"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Day",
+    "day": 324046
+   },
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "bodyShape": "Muscular",
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal",
+      "size": "Large"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "pupilColor": "Olive"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "SidePart",
+       "side": "Right"
+      },
+      "color": "Maroon"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "Goatee",
+        "goateeStyle": "Goatee"
+       },
+       "color": "Maroon"
+      },
+      "width": "Small"
+     },
+     "skin": {
+      "type": "Normal",
+      "color": "Light"
+     }
+    },
+    "height": {
+     "millimeters": 1800
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 6,
+     "job": 15
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 996
+      }
+     }
+    ]
+   }
   }
  }
 }
