@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.selector.countCharactersLivingInHouse
 import at.orchaldir.gm.core.selector.util.getExistingElements
+import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
 import at.orchaldir.gm.core.selector.world.getHomes
 import at.orchaldir.gm.utils.doNothing
@@ -80,8 +81,8 @@ fun HtmlBlockTag.selectHousingStatus(
     housingStatus: HousingStatus,
     start: Date?,
 ) {
-    val apartments = state.getExistingElements(state.getApartmentHouses(), start)
-    val homes = state.getExistingElements(state.getHomes(), start)
+    val apartments = state.sortBuildings(state.getExistingElements(state.getApartmentHouses(), start))
+    val homes = state.sortBuildings(state.getExistingElements(state.getHomes(), start))
 
     selectValue("Housing Status", param, HousingStatusType.entries, housingStatus.getType(), true) { type ->
         when (type) {
@@ -95,7 +96,7 @@ fun HtmlBlockTag.selectHousingStatus(
         UndefinedHousingStatus -> doNothing()
         Homeless -> doNothing()
         is InApartment -> {
-            selectElement(state, "Apartment House", combine(param, BUILDING), apartments, housingStatus.building, true)
+            selectElement("Apartment House", combine(param, BUILDING), apartments, housingStatus.building, true)
 
             val apartmentHouse = state.getBuildingStorage().getOrThrow(housingStatus.building)
 
@@ -111,7 +112,7 @@ fun HtmlBlockTag.selectHousingStatus(
             }
         }
 
-        is InHouse -> selectElement(state, "Home", combine(param, BUILDING), homes, housingStatus.building)
+        is InHouse -> selectElement("Home", combine(param, BUILDING), homes, housingStatus.building)
     }
 }
 

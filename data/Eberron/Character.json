@@ -237,14 +237,60 @@
     0,
     41
    ],
+   "relationships": {
+    "4": [
+     "Spouse"
+    ]
+   },
    "languages": {
-    "11": "Native"
+    "11": "Native",
+    "9": "Accented"
    },
    "employmentStatus": {
     "current": {
      "type": "Employed",
      "business": 15,
      "job": 11
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 991
+      }
+     }
+    ]
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": {
+    "type": "Family",
+    "given": "Brogan",
+    "middle": null,
+    "family": "Hul"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Day",
+    "day": 319236
+   },
+   "relationships": {
+    "3": [
+     "Spouse"
+    ]
+   },
+   "languages": {
+    "9": "Accented"
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 0,
+     "job": 6
     },
     "previousEntries": [
      {

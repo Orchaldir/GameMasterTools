@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.util.sortCharacters
+import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
@@ -480,7 +481,7 @@ private fun HTML.showCharacterEditor(
             action = previewLink
             method = FormMethod.post
             selectName(state, character)
-            selectElement(state, "Race", RACE, state.getRaceStorage().getAll(), character.race, true)
+            selectElement(state, "Race", RACE, state.sortRaces(), character.race, true)
             selectOneOf("Gender", GENDER, race.genders, character.gender) { gender ->
                 label = gender.toString()
                 value = gender.toString()
