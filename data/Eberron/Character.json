@@ -1,5 +1,61 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": {
+    "type": "Family",
+    "given": "Thavius",
+    "middle": null,
+    "family": "ir’Blis"
+   },
+   "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 961
+   },
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "width": "Small"
+    },
+    "head": {
+     "ears": {
+      "type": "Normal"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "eyeShape": "Ellipse",
+       "pupilColor": "SaddleBrown"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "SidePart",
+       "side": "Left"
+      },
+      "color": "Black"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "GoateeAndMoustache",
+        "moustacheStyle": "Handlebar",
+        "goateeStyle": "Goatee"
+       },
+       "color": "Black"
+      },
+      "width": "Large"
+     }
+    },
+    "height": {
+     "millimeters": 1800
+    }
+   }
+  }
  }
 }
