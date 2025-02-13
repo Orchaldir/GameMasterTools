@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.CreateArchitecturalStyle
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.BuildingId
@@ -28,27 +29,27 @@ val DELETE_ARCHITECTURAL_STYLE: Reducer<DeleteArchitecturalStyle, State> = { sta
 }
 
 val UPDATE_ARCHITECTURAL_STYLE: Reducer<UpdateArchitecturalStyle, State> = { state, action ->
-    state.getArchitecturalStyleStorage().require(action.style.id)
+    val style = action.style
+    state.getArchitecturalStyleStorage().require(style.id)
+    val calendar = state.getDefaultCalendar()
 
-    state.getBuildings(action.style.id).forEach { checkStartDate(state, action.style, it.id, it.constructionDate) }
+    state.getBuildings(style.id).forEach { checkStartDate(calendar, style, it.id, it.constructionDate) }
 
-    action.style.revival?.let {
+    style.revival?.let {
         state.getArchitecturalStyleStorage()
             .require(it) { "Cannot revive unknown architectural style ${it.value}!" }
     }
 
-    action.style.end?.let { end ->
-        require(action.style.start < end) { "Architectural style must end after it started!" }
-    }
+    require(calendar.isAfterOptional(style.end, style.start)) { "Architectural style must end after it started!" }
 
-    noFollowUps(state.updateStorage(state.getArchitecturalStyleStorage().update(action.style)))
+    noFollowUps(state.updateStorage(state.getArchitecturalStyleStorage().update(style)))
 }
 
-fun checkStartDate(state: State, style: ArchitecturalStyle, building: BuildingId, constructionDate: Date?) {
-    if (constructionDate != null) {
-        val calendar = state.getDefaultCalendar()
-        val compareTo = calendar.compareTo(style.start, constructionDate)
+fun checkStartDate(state: State, style: ArchitecturalStyle, building: BuildingId, constructionDate: Date?) =
+    checkStartDate(state.getDefaultCalendar(), style, building, constructionDate)
 
-        require(compareTo <= 0) { "Architectural Style ${style.id.value} didn't exist yet, when building ${building.value} was build!" }
+fun checkStartDate(calendar: Calendar, style: ArchitecturalStyle, building: BuildingId, constructionDate: Date?) {
+    require(calendar.isAfterOrEqualOptional(constructionDate, style.start)) {
+        "Architectural Style ${style.id.value} didn't exist yet, when building ${building.value} was build!"
     }
 }

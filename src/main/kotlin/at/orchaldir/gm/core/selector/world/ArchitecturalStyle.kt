@@ -20,16 +20,16 @@ fun State.getRevivedBy(style: ArchitecturalStyleId) = getArchitecturalStyleStora
 
 fun State.getPossibleStylesForRevival(style: ArchitecturalStyle) = getArchitecturalStyleStorage()
     .getAll()
-    .filter { it.id != style.id && it.start < style.start }
+    .filter { it.id != style.id && getDefaultCalendar().isAfterOrEqualOptional(style.start, it.start) }
 
 fun State.getPossibleStyles(building: Building): Collection<ArchitecturalStyle> {
     if (building.constructionDate == null) {
         return getArchitecturalStyleStorage().getAll()
     }
 
-    val year = getDefaultCalendar().getYear(building.constructionDate)
+    val calendar = getDefaultCalendar()
 
     return getArchitecturalStyleStorage()
         .getAll()
-        .filter { it.start < year }
+        .filter { calendar.isAfterOrEqualOptional(it.start, building.constructionDate) }
 }

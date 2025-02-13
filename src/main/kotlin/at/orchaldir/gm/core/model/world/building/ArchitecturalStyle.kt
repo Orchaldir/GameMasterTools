@@ -22,7 +22,7 @@ value class ArchitecturalStyleId(val value: Int) : Id<ArchitecturalStyleId> {
 data class ArchitecturalStyle(
     val id: ArchitecturalStyleId,
     val name: String = "Architectural Style ${id.value}",
-    val start: Year = Year(0),
+    val start: Year? = null,
     val end: Year? = null,
     val revival: ArchitecturalStyleId? = null,
 ) : ElementWithSimpleName<ArchitecturalStyleId>, HasStartDate {

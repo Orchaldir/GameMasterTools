@@ -88,8 +88,9 @@ fun HtmlBlockTag.selectOptionalYear(
     year: Year?,
     param: String,
     minDate: Date? = null,
+    maxDate: Date? = null,
 ) {
-    selectOptionalYear(state.getDefaultCalendar(), fieldLabel, year, param, minDate)
+    selectOptionalYear(state.getDefaultCalendar(), fieldLabel, year, param, minDate, maxDate)
 }
 
 fun HtmlBlockTag.selectOptionalYear(
@@ -98,12 +99,13 @@ fun HtmlBlockTag.selectOptionalYear(
     year: Year?,
     param: String,
     minDate: Date? = null,
+    maxDate: Date? = null,
 ) {
     field(fieldLabel) {
         selectBool(year != null, combine(param, AVAILABLE), isDisabled = false, update = true)
         if (year != null) {
             val displayYear = calendar.resolve(year)
-            selectYear(param, calendar, displayYear, minDate)
+            selectYear(param, calendar, displayYear, minDate, maxDate)
         }
     }
 }
