@@ -127,7 +127,7 @@ private fun parseWord(
 
 fun parseClothingStyles(
     parameters: Parameters,
-): GenderMap<FashionId> {
+): GenderMap<FashionId?> {
     val female = parseFashionId(parameters, Gender.Female)
     val genderless = parseFashionId(parameters, Gender.Genderless)
     val male = parseFashionId(parameters, Gender.Male)
@@ -138,4 +138,4 @@ fun parseClothingStyles(
 private fun parseFashionId(
     parameters: Parameters,
     gender: Gender,
-) = parseFashionId(parameters, "$FASHION-$gender")
+) = parseOptionalInt(parameters, "$FASHION-$gender")?.let { FashionId(it) }

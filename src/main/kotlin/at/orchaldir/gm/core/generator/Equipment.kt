@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.generator
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
@@ -23,14 +24,16 @@ data class EquipmentGenerator(
 ) {
 
     companion object {
-        fun create(state: State, character: Character): EquipmentGenerator {
-            val culture = state.getCultureStorage().getOrThrow(character.culture)
+        fun create(state: State, characterId: CharacterId): EquipmentGenerator? {
+            val character = state.getCharacterStorage().getOptional(characterId) ?: return null
+            val culture = state.getCultureStorage().getOptional(character.culture) ?: return null
+            val fashion = state.getFashionStorage().getOptional(culture.getFashion(character)) ?: return null
 
             return EquipmentGenerator(
                 RandomNumberGenerator(Random),
                 state.rarityGenerator,
                 character,
-                state.getFashionStorage().getOrThrow(culture.getFashion(character)),
+                fashion,
             )
         }
     }

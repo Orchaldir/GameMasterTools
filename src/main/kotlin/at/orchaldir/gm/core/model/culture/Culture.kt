@@ -34,7 +34,7 @@ data class Culture(
     val languages: SomeOf<LanguageId> = SomeOf(emptyMap()),
     val namingConvention: NamingConvention = NoNamingConvention,
     val appearanceStyle: AppearanceStyle = AppearanceStyle(),
-    val clothingStyles: GenderMap<FashionId> = GenderMap(FashionId(0)),
+    val clothingStyles: GenderMap<FashionId?> = GenderMap(null),
     val holidays: Set<HolidayId> = emptySet(),
 ) : ElementWithSimpleName<CultureId> {
 

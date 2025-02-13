@@ -1,5 +1,26 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Brelish",
+   "languages": {
+    "1": "Everyone",
+    "7": "Common",
+    "9": "Uncommon",
+    "11": "Common",
+    "13": "Common",
+    "14": "Uncommon"
+   },
+   "namingConvention": {
+    "type": "Family",
+    "givenNames": {
+     "female": 7,
+     "genderless": 6,
+     "male": 6
+    },
+    "familyNames": 8
+   }
+  }
  }
 }

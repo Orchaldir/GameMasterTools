@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.CALENDAR_TYPE
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -248,9 +249,7 @@ private fun BODY.showNamesByGender(
 ) {
     showDetails(label) {
         showGenderMap(namesByGender) { gender, id ->
-            field(gender.toString()) {
-                link(call, state, id)
-            }
+            fieldLink(gender.toString(), call, state, id)
         }
     }
 }
@@ -284,9 +283,7 @@ private fun BODY.showClothingOptions(
 ) {
     h2 { +"Fashion" }
     showGenderMap(culture.clothingStyles) { gender, id ->
-        field(gender.toString()) {
-            link(call, state, id)
-        }
+        optionalFieldLink(gender.toString(), call, state, id)
     }
 }
 
@@ -447,6 +444,11 @@ private fun FORM.editClothingOptions(
             select {
                 id = selectId
                 name = selectId
+                option {
+                    label = "None"
+                    value = ""
+                    selected = fashionId == null
+                }
                 state.getFashionStorage().getAll().forEach { fashion ->
                     option {
                         label = fashion.name
