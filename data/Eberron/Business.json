@@ -138,6 +138,16 @@
    "startDate": {
     "type": "Year",
     "year": 992
+   },
+   "founder": {
+    "type": "Character",
+    "character": 13
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 13
+    }
    }
   },
   "9": {

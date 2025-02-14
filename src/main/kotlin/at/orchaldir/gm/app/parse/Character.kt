@@ -68,9 +68,10 @@ private fun parseBirthday(
     state: State,
     raceId: RaceId,
 ): Date {
-    if (parameters.contains(LIFE_STAGE)) {
+    val index = parameters[LIFE_STAGE]?.toIntOrNull()
+
+    if (index != null) {
         val race = state.getRaceStorage().getOrThrow(raceId)
-        val index = parameters.getOrFail(LIFE_STAGE).toInt()
         val minAge = if (index > 0) {
             race.lifeStages.getAllLifeStages()[index - 1].maxAge
         } else {

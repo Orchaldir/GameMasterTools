@@ -154,7 +154,7 @@
    "culture": 1,
    "personality": [
     39,
-    45
+    52
    ],
    "relationships": {
     "1": [
@@ -734,6 +734,172 @@
       "until": {
        "type": "Year",
        "year": 995
+      }
+     }
+    ]
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": {
+    "type": "Family",
+    "given": "Toln",
+    "middle": null,
+    "family": "d’Kundarak"
+   },
+   "race": 2,
+   "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 840
+   },
+   "personality": [
+    5,
+    51
+   ],
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 12,
+     "job": 16
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 996
+      }
+     }
+    ]
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": {
+    "type": "Family",
+    "given": "Deven",
+    "middle": null,
+    "family": "Sarkaas"
+   },
+   "race": 10,
+   "gender": "Male",
+   "birthDate": {
+    "type": "Year",
+    "year": 969
+   },
+   "personality": [
+    52
+   ],
+   "relationships": {
+    "14": [
+     "Spouse"
+    ]
+   },
+   "appearance": {
+    "type": "Humanoid",
+    "body": {
+     "skin": {
+      "type": "Exotic",
+      "color": "Olive"
+     }
+    },
+    "head": {
+     "ears": {
+      "type": "Normal",
+      "shape": "PointedSideways",
+      "size": "Large"
+     },
+     "eyes": {
+      "type": "Two",
+      "eye": {
+       "eyeShape": "Ellipse",
+       "pupilColor": "Teal"
+      }
+     },
+     "hair": {
+      "type": "Normal",
+      "style": {
+       "type": "MiddlePart"
+      },
+      "color": "Black"
+     },
+     "mouth": {
+      "type": "Normal",
+      "beard": {
+       "type": "Normal",
+       "style": {
+        "type": "GoateeAndMoustache",
+        "moustacheStyle": "Handlebar",
+        "goateeStyle": "Goatee"
+       },
+       "color": "Black"
+      },
+      "width": "Large"
+     },
+     "skin": {
+      "type": "Exotic",
+      "color": "Olive"
+     }
+    },
+    "height": {
+     "millimeters": 1100
+    }
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 8,
+     "job": 17
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 992
+      }
+     }
+    ]
+   }
+  },
+  "14": {
+   "id": 14,
+   "name": {
+    "type": "Family",
+    "given": "Meera",
+    "middle": null,
+    "family": "Sarkaas"
+   },
+   "race": 10,
+   "gender": "Female",
+   "birthDate": {
+    "type": "Year",
+    "year": 971
+   },
+   "relationships": {
+    "13": [
+     "Spouse"
+    ]
+   },
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 8,
+     "job": 8
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 992
       }
      }
     ]
