@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.util.SortDomain
 import at.orchaldir.gm.core.selector.religion.canDeleteDomain
+import at.orchaldir.gm.core.selector.religion.getGodsWith
 import at.orchaldir.gm.core.selector.util.sortDomains
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -149,11 +150,13 @@ private fun HTML.showAllDomains(
             tr {
                 th { +"Name" }
                 th { +"Spells" }
+                th { +"Gods" }
             }
             domains.forEach { domain ->
                 tr {
                     td { link(call, state, domain) }
                     tdSkipZero(domain.spells.getSize())
+                    tdSkipZero(state.getGodsWith(domain.id).size)
                 }
             }
         }
@@ -174,6 +177,10 @@ private fun HTML.showDomainDetails(
 
     simpleHtml("Domain: ${domain.name(state)}") {
         showDomain(call, state, domain)
+
+        showList("Gods", state.getGodsWith(domain.id)) {
+            link(call, state, it)
+        }
 
         action(editLink, "Edit")
 
