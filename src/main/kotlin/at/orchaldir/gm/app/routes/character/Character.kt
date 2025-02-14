@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.item.getEquipment
@@ -489,7 +490,7 @@ private fun HTML.showCharacterEditor(
                 label = gender.toString()
                 value = gender.toString()
             }
-            selectOrigin(state, character)
+            selectOrigin(state, character, race)
             selectVitalStatus(state, character)
             showAge(state, character, race)
             selectHousingStatusHistory(state, character.housingStatus, character.birthDate)
@@ -573,6 +574,7 @@ private fun FORM.selectVitalStatus(
 private fun FORM.selectOrigin(
     state: State,
     character: Character,
+    race: Race,
 ) {
     selectValue("Origin", ORIGIN, CharacterOriginType.entries, true) { type ->
         label = type.name
@@ -606,6 +608,20 @@ private fun FORM.selectOrigin(
 
         else -> doNothing()
     }
+
+    if (race.lifeStages is SimpleAging) {
+        selectOptionalValue(
+            "Random Age Within Life Stage",
+            LIFE_STAGE,
+            null,
+            race.lifeStages.lifeStages.withIndex().toList(),
+            true,
+        ) { stage ->
+            label = stage.value.name
+            value = stage.index.toString()
+        }
+    }
+
     selectDate(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
 }
 

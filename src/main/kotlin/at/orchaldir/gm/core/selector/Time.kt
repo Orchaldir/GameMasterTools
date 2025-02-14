@@ -6,3 +6,6 @@ import at.orchaldir.gm.core.model.time.Date
 fun State.getAgeInYears(date: Date) = getDefaultCalendar()
     .getDurationInYears(date, time.currentDate)
 
+fun State.getCurrentYear() = getDefaultCalendar()
+    .getYear(time.currentDate)
+

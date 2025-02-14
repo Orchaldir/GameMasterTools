@@ -9,9 +9,13 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.CharacterOriginType.Undefined
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.selector.getCurrentYear
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import io.ktor.http.*
 import io.ktor.server.util.*
+import kotlin.random.Random
 
 fun parseCharacterId(parameters: Parameters, param: String) = CharacterId(parseInt(parameters, param))
 
@@ -43,7 +47,7 @@ fun parseCharacter(
 
         Undefined -> UndefinedCharacterOrigin
     }
-    val birthDate = parseDate(parameters, state.getDefaultCalendar(), combine(ORIGIN, DATE))
+    val birthDate = parseBirthday(parameters, state, race)
 
     return character.copy(
         name = name,
@@ -57,6 +61,28 @@ fun parseCharacter(
         housingStatus = parseHousingStatusHistory(parameters, state, birthDate),
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),
     )
+}
+
+private fun parseBirthday(
+    parameters: Parameters,
+    state: State,
+    raceId: RaceId,
+): Date {
+    if (parameters.contains(LIFE_STAGE)) {
+        val race = state.getRaceStorage().getOrThrow(raceId)
+        val index = parameters.getOrFail(LIFE_STAGE).toInt()
+        val minAge = if (index > 0) {
+            race.lifeStages.getAllLifeStages()[index - 1].maxAge
+        } else {
+            0
+        }
+        val maxAge = race.lifeStages.getAllLifeStages()[index].maxAge
+        val age = Random.nextInt(minAge, maxAge)
+
+        return Year(state.getCurrentYear().year - age)
+    }
+
+    return parseDate(parameters, state.getDefaultCalendar(), combine(ORIGIN, DATE))
 }
 
 private fun parseVitalStatus(
