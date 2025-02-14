@@ -703,6 +703,41 @@
      }
     ]
    }
+  },
+  "11": {
+   "id": 11,
+   "name": {
+    "type": "Family",
+    "given": "Ilia",
+    "middle": null,
+    "family": "Kemble"
+   },
+   "gender": "Female",
+   "birthDate": {
+    "type": "Day",
+    "day": 326870
+   },
+   "personality": [
+    5
+   ],
+   "employmentStatus": {
+    "current": {
+     "type": "Employed",
+     "business": 16,
+     "job": 16
+    },
+    "previousEntries": [
+     {
+      "entry": {
+       "type": "Undefined"
+      },
+      "until": {
+       "type": "Year",
+       "year": 995
+      }
+     }
+    ]
+   }
   }
  }
 }

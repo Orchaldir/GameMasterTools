@@ -262,6 +262,32 @@
      "character": 3
     }
    }
+  },
+  "16": {
+   "id": 16,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "FamilyName",
+     "id": 11
+    },
+    "prefix": null,
+    "postfix": "Bank"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 995
+   },
+   "founder": {
+    "type": "Character",
+    "character": 11
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 11
+    }
+   }
   }
  }
 }
