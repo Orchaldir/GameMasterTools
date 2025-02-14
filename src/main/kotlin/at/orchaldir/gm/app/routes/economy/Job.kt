@@ -15,8 +15,10 @@ import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.economy.getBusinesses
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.getPreviousEmployees
+import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
 import at.orchaldir.gm.core.selector.religion.getGodsAssociatedWith
 import at.orchaldir.gm.core.selector.util.sortCharacters
+import at.orchaldir.gm.core.selector.util.sortDomains
 import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -154,6 +156,7 @@ private fun HTML.showJobDetails(
     val editLink = call.application.href(JobRoutes.Edit(job.id))
     val characters = state.getEmployees(job.id).toSet()
     val previousCharacters = state.getPreviousEmployees(job.id).toSet() - characters
+    val domains = state.getDomainsAssociatedWith(job.id)
     val gods = state.getGodsAssociatedWith(job.id)
 
     simpleHtml("Job: ${job.name}") {
@@ -168,6 +171,9 @@ private fun HTML.showJobDetails(
         }
         showList("Previous Characters", state.sortCharacters(previousCharacters)) { (character, name) ->
             link(call, character.id, name)
+        }
+        showList("Associated Domains", state.sortDomains(domains)) { domain ->
+            link(call, domain)
         }
         showList("Associated Gods", state.sortGods(gods)) { god ->
             link(call, god)

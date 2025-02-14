@@ -90,6 +90,26 @@
   "19": {
    "id": 19,
    "name": "Sailor"
+  },
+  "20": {
+   "id": 20,
+   "name": "Librarian"
+  },
+  "21": {
+   "id": 21,
+   "name": "Scribe"
+  },
+  "22": {
+   "id": 22,
+   "name": "Sage"
+  },
+  "23": {
+   "id": 23,
+   "name": "Hunter"
+  },
+  "24": {
+   "id": 24,
+   "name": "Merchant"
   }
  }
 }

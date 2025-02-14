@@ -15,6 +15,112 @@
    "jobs": [
     18
    ]
+  },
+  "2": {
+   "id": 2,
+   "name": "Knowledge",
+   "jobs": [
+    20,
+    22,
+    3
+   ]
+  },
+  "3": {
+   "id": 3,
+   "name": "Law",
+   "jobs": [
+    21
+   ]
+  },
+  "4": {
+   "id": 4,
+   "name": "Magic",
+   "jobs": [
+    10
+   ]
+  },
+  "5": {
+   "id": 5,
+   "name": "Hunt",
+   "jobs": [
+    23
+   ]
+  },
+  "6": {
+   "id": 6,
+   "name": "Animals"
+  },
+  "7": {
+   "id": 7,
+   "name": "Plants"
+  },
+  "8": {
+   "id": 8,
+   "name": "Community"
+  },
+  "9": {
+   "id": 9,
+   "name": "Family"
+  },
+  "10": {
+   "id": 10,
+   "name": "Protection"
+  },
+  "11": {
+   "id": 11,
+   "name": "Honor"
+  },
+  "12": {
+   "id": 12,
+   "name": "War"
+  },
+  "13": {
+   "id": 13,
+   "name": "Sun"
+  },
+  "14": {
+   "id": 14,
+   "name": "Duty"
+  },
+  "15": {
+   "id": 15,
+   "name": "Trade",
+   "jobs": [
+    24
+   ]
+  },
+  "16": {
+   "id": 16,
+   "name": "Travel"
+  },
+  "17": {
+   "id": 17,
+   "name": "Wealth"
+  },
+  "18": {
+   "id": 18,
+   "name": "Luck"
+  },
+  "19": {
+   "id": 19,
+   "name": "Healing"
+  },
+  "20": {
+   "id": 20,
+   "name": "Industry"
+  },
+  "21": {
+   "id": 21,
+   "name": "Crafting",
+   "jobs": [
+    10,
+    7,
+    17
+   ]
+  },
+  "22": {
+   "id": 22,
+   "name": "Fire"
   }
  }
 }

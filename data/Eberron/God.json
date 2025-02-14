@@ -7,7 +7,102 @@
    "gender": "Female",
    "domains": [
     1,
+    7,
     0
+   ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Aureon",
+   "gender": "Male",
+   "personality": [
+    16
+   ],
+   "domains": [
+    2,
+    3,
+    4
+   ]
+  },
+  "2": {
+   "id": 2,
+   "name": "Balinor",
+   "gender": "Male",
+   "domains": [
+    6,
+    5
+   ]
+  },
+  "3": {
+   "id": 3,
+   "name": "Boldrei",
+   "gender": "Female",
+   "domains": [
+    8,
+    9,
+    10
+   ]
+  },
+  "4": {
+   "id": 4,
+   "name": "Dol Arrah",
+   "gender": "Female",
+   "personality": [
+    0,
+    2,
+    16
+   ],
+   "domains": [
+    11,
+    13,
+    12
+   ]
+  },
+  "5": {
+   "id": 5,
+   "name": "Dol Dorn",
+   "gender": "Male",
+   "personality": [
+    2,
+    28,
+    39
+   ],
+   "domains": [
+    14,
+    12
+   ]
+  },
+  "6": {
+   "id": 6,
+   "name": "Kol Korran",
+   "gender": "Male",
+   "domains": [
+    15,
+    16,
+    17
+   ]
+  },
+  "7": {
+   "id": 7,
+   "name": "Olladra",
+   "gender": "Female",
+   "domains": [
+    19,
+    18
+   ]
+  },
+  "8": {
+   "id": 8,
+   "name": "Onatar",
+   "gender": "Male",
+   "personality": [
+    50,
+    52
+   ],
+   "domains": [
+    21,
+    22,
+    20
    ]
   }
  }
