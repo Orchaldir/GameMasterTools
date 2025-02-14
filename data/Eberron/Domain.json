@@ -91,7 +91,10 @@
   },
   "16": {
    "id": 16,
-   "name": "Travel"
+   "name": "Travel",
+   "jobs": [
+    19
+   ]
   },
   "17": {
    "id": 17,
@@ -121,6 +124,53 @@
   "22": {
    "id": 22,
    "name": "Fire"
+  },
+  "23": {
+   "id": 23,
+   "name": "Ocean",
+   "jobs": [
+    19
+   ]
+  },
+  "24": {
+   "id": 24,
+   "name": "Destruction"
+  },
+  "25": {
+   "id": 25,
+   "name": "Revenge"
+  },
+  "26": {
+   "id": 26,
+   "name": "Passion"
+  },
+  "27": {
+   "id": 27,
+   "name": "Madness"
+  },
+  "28": {
+   "id": 28,
+   "name": "Death"
+  },
+  "29": {
+   "id": 29,
+   "name": "Disease"
+  },
+  "30": {
+   "id": 30,
+   "name": "Fear"
+  },
+  "31": {
+   "id": 31,
+   "name": "Trickery"
+  },
+  "32": {
+   "id": 32,
+   "name": "Darkness"
+  },
+  "33": {
+   "id": 33,
+   "name": "Secrets"
   }
  }
 }
