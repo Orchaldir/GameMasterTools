@@ -54,10 +54,10 @@ fun parseGodId(parameters: Parameters, param: String) = GodId(parseInt(parameter
 
 fun parseGodId(value: String) = GodId(value.toInt())
 
-fun parseGod(parameters: Parameters, state: State, id: GodId) = God(
+fun parseGod(parameters: Parameters, id: GodId) = God(
     id,
     parameters.getOrFail(NAME),
     parseGender(parameters),
     parsePersonality(parameters),
-    parseElements(parameters, DOMAIN) { parseDomainId(it) },
+    parseElements(parameters, DOMAIN, ::parseDomainId),
 )

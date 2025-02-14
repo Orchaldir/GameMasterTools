@@ -108,7 +108,7 @@ fun Application.configureGodRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val god = parseGod(formParameters, state, preview.id)
+            val god = parseGod(formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showGodEditor(call, state, god)
@@ -119,7 +119,7 @@ fun Application.configureGodRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val god = parseGod(formParameters, state, update.id)
+            val god = parseGod(formParameters, update.id)
 
             STORE.dispatch(UpdateGod(god))
 

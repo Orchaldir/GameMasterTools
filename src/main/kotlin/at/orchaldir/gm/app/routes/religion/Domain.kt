@@ -109,7 +109,7 @@ fun Application.configureDomainRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val domain = parseDomain(formParameters, state, preview.id)
+            val domain = parseDomain(formParameters, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showDomainEditor(call, state, domain)
@@ -120,7 +120,7 @@ fun Application.configureDomainRouting() {
 
             val formParameters = call.receiveParameters()
             val state = STORE.getState()
-            val domain = parseDomain(formParameters, state, update.id)
+            val domain = parseDomain(formParameters, update.id)
 
             STORE.dispatch(UpdateDomain(domain))
 
@@ -150,12 +150,14 @@ private fun HTML.showAllDomains(
             tr {
                 th { +"Name" }
                 th { +"Spells" }
+                th { +"Jobs" }
                 th { +"Gods" }
             }
             domains.forEach { domain ->
                 tr {
                     td { link(call, state, domain) }
                     tdSkipZero(domain.spells.getSize())
+                    tdSkipZero(domain.jobs.size)
                     tdSkipZero(state.getGodsWith(domain.id).size)
                 }
             }

@@ -3,11 +3,18 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Weather"
+   "name": "Weather",
+   "jobs": [
+    18,
+    19
+   ]
   },
   "1": {
    "id": 1,
-   "name": "Fertility"
+   "name": "Fertility",
+   "jobs": [
+    18
+   ]
   }
  }
 }

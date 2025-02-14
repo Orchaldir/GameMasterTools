@@ -30,9 +30,9 @@ fun State.sortArchitecturalStyles(sort: SortArchitecturalStyle = SortArchitectur
     sortArchitecturalStyles(getArchitecturalStyleStorage().getAll(), sort)
 
 fun State.sortArchitecturalStyles(
-    buildings: Collection<ArchitecturalStyle>,
+    styles: Collection<ArchitecturalStyle>,
     sort: SortArchitecturalStyle = SortArchitecturalStyle.Name,
-) = buildings
+) = styles
     .sortedWith(
         when (sort) {
             SortArchitecturalStyle.Name -> compareBy { it.name }
@@ -55,7 +55,10 @@ fun State.getBuildingAgePairComparator(): Comparator<Pair<Building, String>> {
 fun State.sortBuildings(sort: SortBuilding = SortBuilding.Name) =
     sortBuildings(getBuildingStorage().getAll(), sort)
 
-fun State.sortBuildings(buildings: Collection<Building>, sort: SortBuilding = SortBuilding.Name) = buildings
+fun State.sortBuildings(
+    buildings: Collection<Building>,
+    sort: SortBuilding = SortBuilding.Name,
+) = buildings
     .map { Pair(it, it.name(this)) }
     .sortedWith(
         when (sort) {
@@ -68,7 +71,10 @@ fun State.sortBuildings(buildings: Collection<Building>, sort: SortBuilding = So
 fun State.sortBusinesses(sort: SortBusiness = SortBusiness.Name) =
     sortBusinesses(getBusinessStorage().getAll(), sort)
 
-fun State.sortBusinesses(businesses: Collection<Business>, sort: SortBusiness = SortBusiness.Name) = businesses
+fun State.sortBusinesses(
+    businesses: Collection<Business>,
+    sort: SortBusiness = SortBusiness.Name,
+) = businesses
     .sortedWith(
         when (sort) {
             SortBusiness.Name -> compareBy { it.name(this) }
@@ -87,7 +93,10 @@ fun State.getCharacterAgePairComparator(): Comparator<Pair<Character, String>> {
 fun State.sortCharacters(sort: SortCharacter = SortCharacter.Name) =
     sortCharacters(getCharacterStorage().getAll(), sort)
 
-fun State.sortCharacters(characters: Collection<Character>, sort: SortCharacter = SortCharacter.Name) = characters
+fun State.sortCharacters(
+    characters: Collection<Character>,
+    sort: SortCharacter = SortCharacter.Name,
+) = characters
     .map { Pair(it, it.name(this)) }
     .sortedWith(
         when (sort) {
@@ -101,9 +110,9 @@ fun State.sortDomains(sort: SortDomain = SortDomain.Name) =
     sortDomains(getDomainStorage().getAll(), sort)
 
 fun State.sortDomains(
-    buildings: Collection<Domain>,
+    domains: Collection<Domain>,
     sort: SortDomain = SortDomain.Name,
-) = buildings
+) = domains
     .sortedWith(
         when (sort) {
             SortDomain.Name -> compareBy { it.name(this) }
@@ -115,9 +124,9 @@ fun State.sortFonts(sort: SortFont = SortFont.Name) =
     sortFonts(getFontStorage().getAll(), sort)
 
 fun State.sortFonts(
-    buildings: Collection<Font>,
+    fonts: Collection<Font>,
     sort: SortFont = SortFont.Name,
-) = buildings
+) = fonts
     .sortedWith(
         when (sort) {
             SortFont.Name -> compareBy { it.name(this) }
@@ -130,9 +139,9 @@ fun State.sortGods(sort: SortGod = SortGod.Name) =
     sortGods(getGodStorage().getAll(), sort)
 
 fun State.sortGods(
-    buildings: Collection<God>,
+    gods: Collection<God>,
     sort: SortGod = SortGod.Name,
-) = buildings
+) = gods
     .sortedWith(
         when (sort) {
             SortGod.Name -> compareBy { it.name(this) }
@@ -144,9 +153,9 @@ fun State.sortJobs(sort: SortJob = SortJob.Name) =
     sortJobs(getJobStorage().getAll(), sort)
 
 fun State.sortJobs(
-    races: Collection<Job>,
+    jobs: Collection<Job>,
     sort: SortJob = SortJob.Name,
-) = races
+) = jobs
     .sortedWith(
         when (sort) {
             SortJob.Name -> compareBy { it.name(this) }
@@ -158,9 +167,9 @@ fun State.sortOrganizations(sort: SortOrganization = SortOrganization.Name) =
     sortOrganizations(getOrganizationStorage().getAll(), sort)
 
 fun State.sortOrganizations(
-    buildings: Collection<Organization>,
+    organizations: Collection<Organization>,
     sort: SortOrganization = SortOrganization.Name,
-) = buildings
+) = organizations
     .sortedWith(
         when (sort) {
             SortOrganization.Name -> compareBy { it.name }
@@ -204,9 +213,9 @@ fun State.sortTexts(sort: SortText = SortText.Name) =
     sortTexts(getTextStorage().getAll(), sort)
 
 fun State.sortTexts(
-    buildings: Collection<Text>,
+    texts: Collection<Text>,
     sort: SortText = SortText.Name,
-) = buildings
+) = texts
     .sortedWith(
         when (sort) {
             SortText.Name -> compareBy { it.name(this) }

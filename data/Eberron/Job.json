@@ -82,6 +82,14 @@
   "17": {
    "id": 17,
    "name": "Tailor"
+  },
+  "18": {
+   "id": 18,
+   "name": "Farmer"
+  },
+  "19": {
+   "id": 19,
+   "name": "Sailor"
   }
  }
 }

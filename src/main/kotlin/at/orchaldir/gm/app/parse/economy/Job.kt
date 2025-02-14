@@ -12,6 +12,8 @@ import io.ktor.server.util.*
 
 fun parseJobId(parameters: Parameters, param: String) = JobId(parseInt(parameters, param))
 
+fun parseJobId(value: String) = JobId(value.toInt())
+
 fun parseJob(id: JobId, parameters: Parameters) = Job(
     id,
     parameters.getOrFail(NAME),
