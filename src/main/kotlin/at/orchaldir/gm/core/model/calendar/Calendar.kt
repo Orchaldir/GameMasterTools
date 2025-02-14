@@ -162,6 +162,12 @@ data class Calendar(
     fun compareTo(a: Date, b: Date) = getDay(a).compareTo(getDay(b))
 
     fun isAfter(a: Date, b: Date) = compareTo(a, b) > 0
+    fun isAfterOptional(a: Date?, b: Date?) = if (a != null && b != null) {
+        compareTo(a, b) > 0
+    } else {
+        true
+    }
+
     fun isAfterOrEqual(a: Date, b: Date) = compareTo(a, b) >= 0
     fun isAfterOrEqualOptional(a: Date?, b: Date?) = if (a != null && b != null) {
         compareTo(a, b) >= 0

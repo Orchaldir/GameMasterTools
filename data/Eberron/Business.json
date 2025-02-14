@@ -10,6 +10,16 @@
    "startDate": {
     "type": "Year",
     "year": 991
+   },
+   "founder": {
+    "type": "Character",
+    "character": 4
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 4
+    }
    }
   },
   "1": {
@@ -128,6 +138,16 @@
    "startDate": {
     "type": "Year",
     "year": 992
+   },
+   "founder": {
+    "type": "Character",
+    "character": 13
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 13
+    }
    }
   },
   "9": {
@@ -152,8 +172,8 @@
     "year": 995
    },
    "founder": {
-    "type": "Town",
-    "town": 0
+    "type": "Character",
+    "character": 0
    },
    "ownership": {
     "current": {
@@ -218,6 +238,64 @@
     "current": {
      "type": "Town",
      "town": 0
+    }
+   }
+  },
+  "14": {
+   "id": 14,
+   "name": {
+    "type": "Simple",
+    "name": "Stone Soup"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 991
+   }
+  },
+  "15": {
+   "id": 15,
+   "name": {
+    "type": "Simple",
+    "name": "The Church"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 991
+   },
+   "founder": {
+    "type": "Character",
+    "character": 3
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 3
+    }
+   }
+  },
+  "16": {
+   "id": 16,
+   "name": {
+    "type": "Reference",
+    "reference": {
+     "type": "FamilyName",
+     "id": 11
+    },
+    "prefix": null,
+    "postfix": "Bank"
+   },
+   "startDate": {
+    "type": "Year",
+    "year": 995
+   },
+   "founder": {
+    "type": "Character",
+    "character": 11
+   },
+   "ownership": {
+    "current": {
+     "type": "Character",
+     "character": 11
     }
    }
   }

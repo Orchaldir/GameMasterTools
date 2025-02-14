@@ -151,6 +151,7 @@ private fun HTML.showAllRaces(
                 th { +"Max Height" }
                 th { +"Life Stages" }
                 th { +"Appearance" }
+                th { +"Characters" }
             }
             races.forEach { race ->
                 tr {
@@ -160,6 +161,7 @@ private fun HTML.showAllRaces(
                     td { +race.height.getMax().toString() }
                     tdSkipZero(race.lifeStages.countLifeStages())
                     td { link(call, state, race.lifeStages.getRaceAppearance()) }
+                    tdSkipZero(state.getCharacters(race.id).size)
                 }
             }
         }

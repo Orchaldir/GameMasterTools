@@ -22,7 +22,7 @@ fun parseOptionalArchitecturalStyleId(parameters: Parameters, param: String) =
 fun parseArchitecturalStyle(parameters: Parameters, state: State, id: ArchitecturalStyleId) = ArchitecturalStyle(
     id,
     parameters.getOrFail(NAME),
-    parseYear(parameters, state, START),
+    parseOptionalYear(parameters, state, START),
     parseOptionalYear(parameters, state, END),
     parseOptionalArchitecturalStyleId(parameters, REVIVAL),
 )

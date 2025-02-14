@@ -250,6 +250,26 @@
    "id": 49,
    "name": "Stern",
    "group": 13
+  },
+  "50": {
+   "id": 50,
+   "name": "Hard-working",
+   "group": 3
+  },
+  "51": {
+   "id": 51,
+   "name": "Proud",
+   "group": 7
+  },
+  "52": {
+   "id": 52,
+   "name": "Innovative",
+   "group": 107
+  },
+  "53": {
+   "id": 53,
+   "name": "Unimaginative",
+   "group": 107
   }
  }
 }

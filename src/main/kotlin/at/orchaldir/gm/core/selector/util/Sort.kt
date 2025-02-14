@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.util
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
@@ -105,6 +106,20 @@ fun State.sortFonts(
         when (sort) {
             SortFont.Name -> compareBy { it.name(this) }
             SortFont.Age -> getAgeComparator()
+        })
+
+// job
+
+fun State.sortJobs(sort: SortJob = SortJob.Name) =
+    sortJobs(getJobStorage().getAll(), sort)
+
+fun State.sortJobs(
+    races: Collection<Job>,
+    sort: SortJob = SortJob.Name,
+) = races
+    .sortedWith(
+        when (sort) {
+            SortJob.Name -> compareBy { it.name(this) }
         })
 
 // organization

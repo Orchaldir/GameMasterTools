@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.organization.ORGANIZATION_TYPE
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.util.SortOrganization
+import at.orchaldir.gm.core.selector.getAgeInYears
 import at.orchaldir.gm.core.selector.organization.canDeleteOrganization
 import at.orchaldir.gm.core.selector.util.sortOrganizations
 import io.ktor.http.*
@@ -156,12 +157,14 @@ private fun HTML.showAllOrganizations(
             tr {
                 th { +"Name" }
                 th { +"Date" }
+                th { +"Age" }
                 th { +"Founder" }
             }
             organizations.forEach { organization ->
                 tr {
                     td { link(call, state, organization) }
                     td { showOptionalDate(call, state, organization.date) }
+                    tdSkipZero(organization.date?.let { state.getAgeInYears(it) })
                     td { showCreator(call, state, organization.founder, false) }
                 }
             }

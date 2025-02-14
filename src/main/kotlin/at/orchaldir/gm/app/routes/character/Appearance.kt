@@ -111,43 +111,46 @@ private fun HTML.showAppearanceEditor(
     val frontSvg = visualizeCharacter(CHARACTER_CONFIG, state, character)
     val backSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, renderFront = false)
 
-    simpleHtml("Edit Appearance: ${character.name(state)}") {
-        svg(frontSvg, 20)
-        svg(backSvg, 20)
-        form {
-            id = "editor"
-            action = previewLink
-            method = FormMethod.post
-            button("Random", generateLink)
-            selectOneOf(
-                "Appearance Type",
-                APPEARANCE,
-                raceAppearance.appearanceTypes,
-                appearance.getType(),
-                true
-            ) { type ->
-                label = type.name
-                value = type.toString()
-            }
-            when (appearance) {
-                is HeadOnly -> {
-                    editHeight(state, character, appearance.height)
-                    editHead(raceAppearance, culture, appearance.head)
-                    editSkin(raceAppearance, appearance.head.skin)
+    simpleHtml("Edit Appearance: ${character.name(state)}", true) {
+        split({
+            form {
+                id = "editor"
+                action = previewLink
+                method = FormMethod.post
+                button("Random", generateLink)
+                selectOneOf(
+                    "Appearance Type",
+                    APPEARANCE,
+                    raceAppearance.appearanceTypes,
+                    appearance.getType(),
+                    true
+                ) { type ->
+                    label = type.name
+                    value = type.toString()
                 }
+                when (appearance) {
+                    is HeadOnly -> {
+                        editHeight(state, character, appearance.height)
+                        editHead(raceAppearance, culture, appearance.head)
+                        editSkin(raceAppearance, appearance.head.skin)
+                    }
 
-                is HumanoidBody -> {
-                    editHeight(state, character, appearance.height)
-                    editBody(character, appearance.body)
-                    editHead(raceAppearance, culture, appearance.head)
-                    editSkin(raceAppearance, appearance.head.skin)
+                    is HumanoidBody -> {
+                        editHeight(state, character, appearance.height)
+                        editBody(character, appearance.body)
+                        editHead(raceAppearance, culture, appearance.head)
+                        editSkin(raceAppearance, appearance.head.skin)
+                    }
+
+                    UndefinedAppearance -> doNothing()
                 }
-
-                UndefinedAppearance -> doNothing()
+                button("Update", updateLink)
             }
-            button("Update", updateLink)
-        }
-        back(backLink)
+            back(backLink)
+        }, {
+            svg(frontSvg, 80)
+            svg(backSvg, 80)
+        })
     }
 }
 

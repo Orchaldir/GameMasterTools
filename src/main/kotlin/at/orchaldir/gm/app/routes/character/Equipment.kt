@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
+import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
@@ -69,12 +70,16 @@ fun Application.configureEquipmentRouting() {
             logger.info { "Generate character ${update.id.value}'s equipment" }
 
             val state = STORE.getState()
-            val character = state.getCharacterStorage().getOrThrow(update.id)
-            val generator = EquipmentGenerator.create(state, character)
-            val equipment = generator.generate()
+            val generator = EquipmentGenerator.create(state, update.id)
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showEquipmentEditor(call, state, character, equipment)
+            if (generator != null) {
+                val equipment = generator.generate()
+
+                call.respondHtml(HttpStatusCode.OK) {
+                    showEquipmentEditor(call, state, generator.character, equipment)
+                }
+            } else {
+                call.respondRedirect(href(call, update.id))
             }
         }
     }
@@ -89,7 +94,7 @@ private fun HTML.showEquipmentEditor(
     val equipped = state.getEquipment(equipmentMap)
     val occupiedSlots = equipmentMap.getOccupiedSlots()
     val culture = state.getCultureStorage().getOrThrow(character.culture)
-    val fashion = state.getFashionStorage().getOrThrow(culture.getFashion(character))
+    val fashion = state.getFashionStorage().getOptional(culture.getFashion(character))
     val backLink = href(call, character.id)
     val previewLink = call.application.href(CharacterRoutes.Equipment.Preview(character.id))
     val updateLink = call.application.href(CharacterRoutes.Equipment.Update(character.id))
@@ -118,10 +123,10 @@ private fun FORM.selectEquipment(
     state: State,
     equipmentMap: EquipmentMap,
     occupiedSlots: Set<EquipmentSlot>,
-    fashion: Fashion,
+    fashion: Fashion?,
     type: EquipmentDataType,
 ) {
-    val options = fashion.getOptions(type)
+    val options = fashion?.getOptions(type) ?: OneOrNone()
 
     if (options.isEmpty()) {
         return

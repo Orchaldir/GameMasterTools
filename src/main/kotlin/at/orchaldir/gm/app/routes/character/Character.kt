@@ -16,14 +16,17 @@ import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.util.sortCharacters
+import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -230,6 +233,8 @@ private fun HTML.showGallery(
         .getCharacterStorage()
         .getAll()
         .filter { it.appearance !is UndefinedAppearance }
+    val maxHeight = characters.map { it.appearance.getSize() }.maxBy { it.millimeters }
+    val maxSize = CHARACTER_CONFIG.calculateSize(maxHeight)
     val sortedCharacters = state.sortCharacters(characters, SortCharacter.Name)
     val backLink = call.application.href(CharacterRoutes.All())
 
@@ -238,7 +243,7 @@ private fun HTML.showGallery(
         div("grid-container") {
             sortedCharacters.forEach { (character, name) ->
                 val equipment = state.getEquipment(character)
-                val svg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment)
+                val svg = visualizeAppearance(CHARACTER_CONFIG, maxSize, character.appearance, equipment)
 
                 div("grid-item") {
                     a(href(call, character.id)) {
@@ -480,12 +485,12 @@ private fun HTML.showCharacterEditor(
             action = previewLink
             method = FormMethod.post
             selectName(state, character)
-            selectElement(state, "Race", RACE, state.getRaceStorage().getAll(), character.race, true)
+            selectElement(state, "Race", RACE, state.sortRaces(), character.race, true)
             selectOneOf("Gender", GENDER, race.genders, character.gender) { gender ->
                 label = gender.toString()
                 value = gender.toString()
             }
-            selectOrigin(state, character)
+            selectOrigin(state, character, race)
             selectVitalStatus(state, character)
             showAge(state, character, race)
             selectHousingStatusHistory(state, character.housingStatus, character.birthDate)
@@ -569,6 +574,7 @@ private fun FORM.selectVitalStatus(
 private fun FORM.selectOrigin(
     state: State,
     character: Character,
+    race: Race,
 ) {
     selectValue("Origin", ORIGIN, CharacterOriginType.entries, true) { type ->
         label = type.name
@@ -602,6 +608,20 @@ private fun FORM.selectOrigin(
 
         else -> doNothing()
     }
+
+    if (race.lifeStages is SimpleAging) {
+        selectOptionalValue(
+            "Random Age Within Life Stage",
+            LIFE_STAGE,
+            null,
+            race.lifeStages.lifeStages.withIndex().toList(),
+            true,
+        ) { stage ->
+            label = stage.value.name
+            value = stage.index.toString()
+        }
+    }
+
     selectDate(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
 }
 

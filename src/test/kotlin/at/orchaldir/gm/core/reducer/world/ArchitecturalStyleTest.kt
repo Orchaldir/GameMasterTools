@@ -79,6 +79,13 @@ class ArchitecturalStyleTest {
     @Nested
     inner class UpdateTest {
 
+        val state = State(
+            listOf(
+                Storage(ArchitecturalStyle(ID0)),
+                Storage(CALENDAR0),
+            )
+        )
+
         @Test
         fun `Cannot update unknown id`() {
             val action = UpdateArchitecturalStyle(ArchitecturalStyle(ID0))
@@ -88,7 +95,6 @@ class ArchitecturalStyleTest {
 
         @Test
         fun `Cannot revive an unknown style`() {
-            val state = State(Storage(ArchitecturalStyle(ID0)))
             val action = UpdateArchitecturalStyle(ArchitecturalStyle(ID0, revival = ID1))
 
             assertIllegalArgument("Cannot revive unknown architectural style 1!") { REDUCER.invoke(state, action) }
@@ -96,7 +102,6 @@ class ArchitecturalStyleTest {
 
         @Test
         fun `Cannot start and end in the same year`() {
-            val state = State(Storage(ArchitecturalStyle(ID0)))
             val action = UpdateArchitecturalStyle(ArchitecturalStyle(ID0, start = Year(0), end = Year(0)))
 
             assertIllegalArgument("Architectural style must end after it started!") { REDUCER.invoke(state, action) }
@@ -104,7 +109,6 @@ class ArchitecturalStyleTest {
 
         @Test
         fun `Cannot end before it started`() {
-            val state = State(Storage(ArchitecturalStyle(ID0)))
             val action = UpdateArchitecturalStyle(ArchitecturalStyle(ID0, start = Year(1), end = Year(0)))
 
             assertIllegalArgument("Architectural style must end after it started!") { REDUCER.invoke(state, action) }
@@ -112,7 +116,6 @@ class ArchitecturalStyleTest {
 
         @Test
         fun `Style ends after it started`() {
-            val state = State(Storage(ArchitecturalStyle(ID0)))
             val style = ArchitecturalStyle(ID0, start = Year(2), end = Year(3))
             val action = UpdateArchitecturalStyle(style)
 
@@ -137,7 +140,6 @@ class ArchitecturalStyleTest {
 
         @Test
         fun `Update is valid`() {
-            val state = State(Storage(ArchitecturalStyle(ID0)))
             val style = ArchitecturalStyle(ID0, "Test")
             val action = UpdateArchitecturalStyle(style)
 

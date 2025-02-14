@@ -164,7 +164,7 @@ private fun HTML.showAllArchitecturalStyles(call: ApplicationCall, state: State,
             styles.forEach { style ->
                 tr {
                     td { link(call, style) }
-                    td { showDate(call, state, style.start) }
+                    td { showOptionalDate(call, state, style.start) }
                     td { showOptionalDate(call, state, style.end) }
                     td { style.revival?.let { link(call, state, it) } }
                     td { countBuildings(state, style) }
@@ -196,7 +196,7 @@ private fun HTML.showArchitecturalStyleDetails(
 
     simpleHtml("Architectural Style: ${style.name}") {
         field("Name", style.name)
-        field(call, state, "Start", style.start)
+        optionalField(call, state, "Start", style.start)
         optionalField(call, state, "End", style.end)
         if (style.revival != null) {
             fieldLink("Revival of", call, state, style.revival)
@@ -231,8 +231,8 @@ private fun HTML.showArchitecturalStyleEditor(
             action = previewLink
             method = FormMethod.post
             selectName(style.name)
-            selectYear(state, "Start", style.start, START, null, minDate)
-            selectOptionalYear(state, "End", style.end, END, style.start.nextYear())
+            selectOptionalYear(state, "Start", style.start, START, null, minDate)
+            selectOptionalYear(state, "End", style.end, END, style.start?.nextYear())
             selectOptionalElement(
                 state,
                 "Revival Of",

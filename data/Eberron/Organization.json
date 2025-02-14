@@ -7,19 +7,35 @@
   },
   "1": {
    "id": 1,
-   "name": "House Orien"
+   "name": "House Orien",
+   "date": {
+    "type": "Year",
+    "year": -1900
+   }
   },
   "2": {
    "id": 2,
-   "name": "House Ghallanda"
+   "name": "House Ghallanda",
+   "date": {
+    "type": "Year",
+    "year": -1000
+   }
   },
   "3": {
    "id": 3,
-   "name": "House Kundarak"
+   "name": "House Kundarak",
+   "date": {
+    "type": "Year",
+    "year": 105
+   }
   },
   "4": {
    "id": 4,
-   "name": "House Tharashk"
+   "name": "House Tharashk",
+   "date": {
+    "type": "Year",
+    "year": 497
+   }
   },
   "5": {
    "id": 5,
@@ -27,7 +43,11 @@
   },
   "6": {
    "id": 6,
-   "name": "House Sivis"
+   "name": "House Sivis",
+   "date": {
+    "type": "Year",
+    "year": -3200
+   }
   },
   "7": {
    "id": 7,
@@ -51,7 +71,11 @@
   },
   "10": {
    "id": 10,
-   "name": "Hause Jorasco"
+   "name": "Hause Jorasco",
+   "date": {
+    "type": "Year",
+    "year": -1000
+   }
   },
   "11": {
    "id": 11,
@@ -91,14 +115,94 @@
   },
   "16": {
    "id": 16,
-   "name": "Hause Cannith"
+   "name": "Hause Cannith",
+   "date": {
+    "type": "Year",
+    "year": -2500
+   }
   },
   "17": {
    "id": 17,
    "name": "The Sand Fruit Society",
+   "founder": {
+    "type": "Character",
+    "character": 3
+   },
    "date": {
     "type": "Year",
     "year": 993
+   }
+  },
+  "18": {
+   "id": 18,
+   "name": "The Chanters",
+   "date": {
+    "type": "Year",
+    "year": 991
+   }
+  },
+  "19": {
+   "id": 19,
+   "name": "House Deneith",
+   "date": {
+    "type": "Year",
+    "year": -2600
+   }
+  },
+  "20": {
+   "id": 20,
+   "name": "House Lyrandar",
+   "date": {
+    "type": "Year",
+    "year": -2000
+   }
+  },
+  "21": {
+   "id": 21,
+   "name": "House Medani",
+   "date": {
+    "type": "Year",
+    "year": -1500
+   }
+  },
+  "22": {
+   "id": 22,
+   "name": "House Phiarlan",
+   "date": {
+    "type": "Year",
+    "year": -3200
+   }
+  },
+  "23": {
+   "id": 23,
+   "name": "House Tarkana",
+   "date": {
+    "type": "Year",
+    "year": -493
+   }
+  },
+  "24": {
+   "id": 24,
+   "name": "House Thuranni",
+   "date": {
+    "type": "Year",
+    "year": 971
+   }
+  },
+  "25": {
+   "id": 25,
+   "name": "House Vadalis",
+   "date": {
+    "type": "Year",
+    "year": -1800
+   }
+  },
+  "26": {
+   "id": 26,
+   "name": "House Vol",
+   "date": {
+    "type": "Year",
+    "year": -3200
    }
   }
  }

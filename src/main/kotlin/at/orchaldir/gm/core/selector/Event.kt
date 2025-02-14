@@ -19,7 +19,9 @@ fun State.getEvents(): List<Event> {
     val events = mutableListOf<Event>()
 
     getArchitecturalStyleStorage().getAll().forEach { style ->
-        events.add(ArchitecturalStyleStartEvent(style.start, style.id))
+        if (style.start != null) {
+            events.add(ArchitecturalStyleStartEvent(style.start, style.id))
+        }
 
         if (style.end != null) {
             events.add(ArchitecturalStyleEndEvent(style.end, style.id))

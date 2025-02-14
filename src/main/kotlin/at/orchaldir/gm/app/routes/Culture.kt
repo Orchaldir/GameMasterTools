@@ -4,9 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseCulture
-import at.orchaldir.gm.core.action.CreateCulture
-import at.orchaldir.gm.core.action.DeleteCulture
-import at.orchaldir.gm.core.action.UpdateCulture
+import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
@@ -39,6 +37,9 @@ class CultureRoutes {
 
     @Resource("new")
     class New(val parent: CultureRoutes = CultureRoutes())
+
+    @Resource("clone")
+    class Clone(val id: CultureId, val parent: CultureRoutes = CultureRoutes())
 
     @Resource("delete")
     class Delete(val id: CultureId, val parent: CultureRoutes = CultureRoutes())
@@ -76,6 +77,15 @@ fun Application.configureCultureRouting() {
             logger.info { "Add new culture" }
 
             STORE.dispatch(CreateCulture)
+
+            call.respondRedirect(call.application.href(CultureRoutes.Edit(STORE.getState().getCultureStorage().lastId)))
+
+            STORE.getState().save()
+        }
+        get<CultureRoutes.Clone> { clone ->
+            logger.info { "Clone culture ${clone.id.value}" }
+
+            STORE.dispatch(CloneCulture(clone.id))
 
             call.respondRedirect(call.application.href(CultureRoutes.Edit(STORE.getState().getCultureStorage().lastId)))
 
@@ -147,6 +157,7 @@ private fun HTML.showCultureDetails(
 ) {
     val namingConvention = culture.namingConvention
     val backLink = call.application.href(CultureRoutes())
+    val cloneLink = call.application.href(CultureRoutes.Clone(culture.id))
     val deleteLink = call.application.href(CultureRoutes.Delete(culture.id))
     val editLink = call.application.href(CultureRoutes.Edit(culture.id))
 
@@ -168,7 +179,9 @@ private fun HTML.showCultureDetails(
         showList("Characters", state.getCharacters(culture.id)) { character ->
             link(call, state, character)
         }
+
         action(editLink, "Edit")
+        action(cloneLink, "Clone")
 
         if (state.canDelete(culture.id)) {
             action(deleteLink, "Delete")
@@ -248,9 +261,7 @@ private fun BODY.showNamesByGender(
 ) {
     showDetails(label) {
         showGenderMap(namesByGender) { gender, id ->
-            field(gender.toString()) {
-                link(call, state, id)
-            }
+            fieldLink(gender.toString(), call, state, id)
         }
     }
 }
@@ -284,9 +295,7 @@ private fun BODY.showClothingOptions(
 ) {
     h2 { +"Fashion" }
     showGenderMap(culture.clothingStyles) { gender, id ->
-        field(gender.toString()) {
-            link(call, state, id)
-        }
+        optionalFieldLink(gender.toString(), call, state, id)
     }
 }
 
@@ -447,6 +456,11 @@ private fun FORM.editClothingOptions(
             select {
                 id = selectId
                 name = selectId
+                option {
+                    label = "None"
+                    value = ""
+                    selected = fashionId == null
+                }
                 state.getFashionStorage().getAll().forEach { fashion ->
                     option {
                         label = fashion.name

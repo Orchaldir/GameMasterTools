@@ -23,6 +23,65 @@
   "3": {
    "id": 3,
    "name": "Teacher"
+  },
+  "4": {
+   "id": 4,
+   "name": "Mine Foreman"
+  },
+  "5": {
+   "id": 5,
+   "name": "Barkeeper"
+  },
+  "6": {
+   "id": 6,
+   "name": "Innkeeper"
+  },
+  "7": {
+   "id": 7,
+   "name": "Blacksmith"
+  },
+  "8": {
+   "id": 8,
+   "name": "Accountant"
+  },
+  "9": {
+   "id": 9,
+   "name": "Baker"
+  },
+  "10": {
+   "id": 10,
+   "name": "Arcane Artisan"
+  },
+  "11": {
+   "id": 11,
+   "name": "Priest"
+  },
+  "12": {
+   "id": 12,
+   "name": "Cook"
+  },
+  "13": {
+   "id": 13,
+   "name": "Entertainer",
+   "spells": {
+    "3": "Everyone"
+   }
+  },
+  "14": {
+   "id": 14,
+   "name": "Bouncer"
+  },
+  "15": {
+   "id": 15,
+   "name": "Guard"
+  },
+  "16": {
+   "id": 16,
+   "name": "Banker"
+  },
+   "17": {
+     "id": 17,
+     "name": "Tailor"
   }
  }
 }

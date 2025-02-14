@@ -125,17 +125,18 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State) {
         table {
             tr {
                 th { +"Name" }
+                th { +"Characters" }
                 th { +"Spells" }
             }
             jobs.forEach { job ->
                 tr {
                     td { link(call, job) }
+                    tdSkipZero(state.getEmployees(job.id).size)
                     tdSkipZero(job.spells.getRarityMap().size)
                 }
             }
         }
 
-        showJobCount(call, state, state.getCharacterStorage().getAll(), "Distribution")
         action(createLink, "Add")
         back("/")
     }
