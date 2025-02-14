@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
@@ -92,6 +93,20 @@ fun State.sortCharacters(characters: Collection<Character>, sort: SortCharacter 
         when (sort) {
             SortCharacter.Name -> compareBy { it.second }
             SortCharacter.Age -> getCharacterAgePairComparator()
+        })
+
+// domain
+
+fun State.sortDomains(sort: SortDomain = SortDomain.Name) =
+    sortDomains(getDomainStorage().getAll(), sort)
+
+fun State.sortDomains(
+    buildings: Collection<Domain>,
+    sort: SortDomain = SortDomain.Name,
+) = buildings
+    .sortedWith(
+        when (sort) {
+            SortDomain.Name -> compareBy { it.name(this) }
         })
 
 // font

@@ -22,6 +22,10 @@ enum class SortCharacter {
     Age,
 }
 
+enum class SortDomain {
+    Name,
+}
+
 enum class SortFont {
     Name,
     Age,
