@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.religion.GOD_TYPE
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.util.SortGod
-import at.orchaldir.gm.core.selector.magic.canDeleteGod
+import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
 import io.ktor.resources.*

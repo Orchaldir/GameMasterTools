@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.action.DeleteGod
 import at.orchaldir.gm.core.action.UpdateGod
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.God
-import at.orchaldir.gm.core.selector.magic.canDeleteGod
+import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
