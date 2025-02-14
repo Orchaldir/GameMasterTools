@@ -150,16 +150,27 @@ private fun HTML.showAllGods(
                 th { +"Name" }
                 th { +"Gender" }
                 th { +"Personality" }
+                th { +"Domain" }
             }
             gods.forEach { god ->
                 tr {
                     td { link(call, state, god) }
                     td { +god.gender.name }
                     td {
-                        state.getPersonalityTraitStorage()
+                        showList(
+                            state.getPersonalityTraitStorage()
                             .get(god.personality)
-                            .sortedBy { it.name }
-                            .map { link(call, it) }
+                                .sortedBy { it.name }) {
+                            link(call, it)
+                        }
+                    }
+                    td {
+                        showList(
+                            state.getDomainStorage()
+                                .get(god.domains)
+                                .sortedBy { it.name }) {
+                            link(call, it)
+                        }
                     }
                 }
             }

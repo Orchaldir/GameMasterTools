@@ -24,6 +24,7 @@ data class God(
     val name: String = "God ${id.value}",
     val gender: Gender = Gender.Genderless,
     val personality: Set<PersonalityTraitId> = emptySet(),
+    val domains: Set<DomainId> = emptySet(),
 ) : ElementWithSimpleName<GodId> {
 
     override fun id() = id
