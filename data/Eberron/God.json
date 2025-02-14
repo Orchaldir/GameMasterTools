@@ -5,6 +5,10 @@
    "id": 0,
    "name": "Arawai",
    "gender": "Female",
+   "personality": [
+    28,
+    39
+   ],
    "domains": [
     1,
     35,
@@ -93,6 +97,9 @@
    "id": 7,
    "name": "Olladra",
    "gender": "Female",
+   "personality": [
+    12
+   ],
    "domains": [
     35,
     19,
