@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.model.parseDate
 import at.orchaldir.gm.app.html.model.parseEmploymentStatusHistory
 import at.orchaldir.gm.app.html.model.parseHousingStatusHistory
+import at.orchaldir.gm.app.html.model.parsePersonality
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.CharacterOriginType.Undefined
@@ -28,16 +29,7 @@ fun parseCharacter(
 
     val name = parseCharacterName(parameters)
     val race = RaceId(parameters.getOrFail(RACE).toInt())
-    val gender = Gender.valueOf(parameters.getOrFail(GENDER))
     val culture = CultureId(parameters.getOrFail(CULTURE).toInt())
-    val personality = parameters.entries()
-        .asSequence()
-        .filter { e -> e.key.startsWith(PERSONALITY_PREFIX) }
-        .map { e -> e.value.first() }
-        .filter { it != NONE }
-        .map { PersonalityTraitId(it.toInt()) }
-        .toSet()
-
     val origin = when (parse(parameters, ORIGIN, Undefined)) {
         CharacterOriginType.Born -> {
             val father = parseCharacterId(parameters, FATHER)
@@ -52,16 +44,18 @@ fun parseCharacter(
     return character.copy(
         name = name,
         race = race,
-        gender = gender,
+        gender = parseGender(parameters),
         origin = origin,
         birthDate = birthDate,
         vitalStatus = parseVitalStatus(parameters, state),
         culture = culture,
-        personality = personality,
+        personality = parsePersonality(parameters),
         housingStatus = parseHousingStatusHistory(parameters, state, birthDate),
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),
     )
 }
+
+fun parseGender(parameters: Parameters) = Gender.valueOf(parameters.getOrFail(GENDER))
 
 private fun parseBirthday(
     parameters: Parameters,
