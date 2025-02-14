@@ -52,6 +52,9 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE_TYPE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.religion.GOD_TYPE
+import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.moon.MOON_TYPE
@@ -79,6 +82,7 @@ val ELEMENTS =
         EQUIPMENT_TYPE,
         FASHION_TYPE,
         FONT_TYPE,
+        GOD_TYPE,
         HOLIDAY_TYPE,
         JOB_TYPE,
         LANGUAGE_TYPE,
@@ -128,6 +132,7 @@ data class State(
     fun getEquipmentStorage() = getStorage<EquipmentId, Equipment>(EQUIPMENT_TYPE)
     fun getFashionStorage() = getStorage<FashionId, Fashion>(FASHION_TYPE)
     fun getFontStorage() = getStorage<FontId, Font>(FONT_TYPE)
+    fun getGodStorage() = getStorage<GodId, God>(GOD_TYPE)
     fun getHolidayStorage() = getStorage<HolidayId, Holiday>(HOLIDAY_TYPE)
     fun getJobStorage() = getStorage<JobId, Job>(JOB_TYPE)
     fun getLanguageStorage() = getStorage<LanguageId, Language>(LANGUAGE_TYPE)
@@ -220,6 +225,7 @@ data class State(
         saveStorage(path, getEquipmentStorage())
         saveStorage(path, getFashionStorage())
         saveStorage(path, getFontStorage())
+        saveStorage(path, getGodStorage())
         saveStorage(path, getHolidayStorage())
         saveStorage(path, getJobStorage())
         saveStorage(path, getLanguageStorage())
@@ -251,6 +257,7 @@ fun createStorage(type: String) = when (type) {
     EQUIPMENT_TYPE -> Storage(EquipmentId(0))
     FASHION_TYPE -> Storage(FashionId(0))
     FONT_TYPE -> Storage(FontId(0))
+    GOD_TYPE -> Storage(GodId(0))
     HOLIDAY_TYPE -> Storage(HolidayId(0))
     JOB_TYPE -> Storage(JobId(0))
     LANGUAGE_TYPE -> Storage(LanguageId(0))
@@ -281,6 +288,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     EQUIPMENT_TYPE -> loadStorage<EquipmentId, Equipment>(path, EquipmentId(0))
     FASHION_TYPE -> loadStorage<FashionId, Fashion>(path, FashionId(0))
     FONT_TYPE -> loadStorage<FontId, Font>(path, FontId(0))
+    GOD_TYPE -> loadStorage<GodId, God>(path, GodId(0))
     HOLIDAY_TYPE -> loadStorage<HolidayId, Holiday>(path, HolidayId(0))
     JOB_TYPE -> loadStorage<JobId, Job>(path, JobId(0))
     LANGUAGE_TYPE -> loadStorage<LanguageId, Language>(path, LanguageId(0))
