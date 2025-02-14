@@ -7,6 +7,8 @@ private val SOME_OF_RARITIES = Rarity.entries.toSet()
 
 interface RarityMap<T> {
 
+    fun getSize() = getRarityMap().keys.size
+
     fun getAvailableRarities(): Set<Rarity>
 
     fun getRarityMap(): Map<T, Rarity>

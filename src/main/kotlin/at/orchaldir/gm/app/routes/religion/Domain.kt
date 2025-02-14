@@ -148,10 +148,12 @@ private fun HTML.showAllDomains(
         table {
             tr {
                 th { +"Name" }
+                th { +"Spells" }
             }
             domains.forEach { domain ->
                 tr {
                     td { link(call, state, domain) }
+                    tdSkipZero(domain.spells.getSize())
                 }
             }
         }
