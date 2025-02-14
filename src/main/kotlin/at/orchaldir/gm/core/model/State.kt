@@ -52,9 +52,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE_TYPE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
-import at.orchaldir.gm.core.model.religion.GOD_TYPE
-import at.orchaldir.gm.core.model.religion.God
-import at.orchaldir.gm.core.model.religion.GodId
+import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.moon.MOON_TYPE
@@ -79,6 +77,7 @@ val ELEMENTS =
         CALENDAR_TYPE,
         CHARACTER_TYPE,
         CULTURE_TYPE,
+        DOMAIN_TYPE,
         EQUIPMENT_TYPE,
         FASHION_TYPE,
         FONT_TYPE,
@@ -129,6 +128,7 @@ data class State(
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR_TYPE)
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER_TYPE)
     fun getCultureStorage() = getStorage<CultureId, Culture>(CULTURE_TYPE)
+    fun getDomainStorage() = getStorage<DomainId, Domain>(DOMAIN_TYPE)
     fun getEquipmentStorage() = getStorage<EquipmentId, Equipment>(EQUIPMENT_TYPE)
     fun getFashionStorage() = getStorage<FashionId, Fashion>(FASHION_TYPE)
     fun getFontStorage() = getStorage<FontId, Font>(FONT_TYPE)
@@ -222,6 +222,7 @@ data class State(
         saveStorage(path, getCalendarStorage())
         saveStorage(path, getCharacterStorage())
         saveStorage(path, getCultureStorage())
+        saveStorage(path, getDomainStorage())
         saveStorage(path, getEquipmentStorage())
         saveStorage(path, getFashionStorage())
         saveStorage(path, getFontStorage())
@@ -254,6 +255,7 @@ fun createStorage(type: String) = when (type) {
     CALENDAR_TYPE -> Storage(CalendarId(0))
     CHARACTER_TYPE -> Storage(CharacterId(0))
     CULTURE_TYPE -> Storage(CultureId(0))
+    DOMAIN_TYPE -> Storage(DomainId(0))
     EQUIPMENT_TYPE -> Storage(EquipmentId(0))
     FASHION_TYPE -> Storage(FashionId(0))
     FONT_TYPE -> Storage(FontId(0))
@@ -285,6 +287,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     CALENDAR_TYPE -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))
     CHARACTER_TYPE -> loadStorage<CharacterId, Character>(path, CharacterId(0))
     CULTURE_TYPE -> loadStorage<CultureId, Culture>(path, CultureId(0))
+    DOMAIN_TYPE -> loadStorage<DomainId, Domain>(path, DomainId(0))
     EQUIPMENT_TYPE -> loadStorage<EquipmentId, Equipment>(path, EquipmentId(0))
     FASHION_TYPE -> loadStorage<FashionId, Fashion>(path, FashionId(0))
     FONT_TYPE -> loadStorage<FontId, Font>(path, FontId(0))
