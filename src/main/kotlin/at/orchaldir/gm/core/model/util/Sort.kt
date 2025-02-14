@@ -27,6 +27,10 @@ enum class SortFont {
     Age,
 }
 
+enum class SortGod {
+    Name,
+}
+
 enum class SortJob {
     Name,
 }

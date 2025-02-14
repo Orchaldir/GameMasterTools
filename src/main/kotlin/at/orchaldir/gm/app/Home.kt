@@ -13,6 +13,7 @@ import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
+import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.TownRoutes
 import io.ktor.http.*
@@ -64,6 +65,8 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getJobStorage(), JobRoutes())
                     h3 { +"Magic" }
                     fieldStorageLink(call, state.getSpellStorage(), SpellRoutes.All())
+                    h3 { +"Religion" }
+                    fieldStorageLink(call, state.getGodStorage(), GodRoutes.All())
                     h3 { +"Time" }
                     fieldStorageLink(call, state.getCalendarStorage(), CalendarRoutes())
                     fieldStorageLink(call, state.getHolidayStorage(), HolidayRoutes())

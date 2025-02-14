@@ -13,6 +13,7 @@ import at.orchaldir.gm.app.routes.magic.configureSpellRouting
 import at.orchaldir.gm.app.routes.organization.configureOrganizationRouting
 import at.orchaldir.gm.app.routes.race.configureRaceAppearanceRouting
 import at.orchaldir.gm.app.routes.race.configureRaceRouting
+import at.orchaldir.gm.app.routes.religion.configureGodRouting
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.configureBuildingEditorRouting
 import at.orchaldir.gm.app.routes.world.town.configureStreetEditorRouting
@@ -61,6 +62,7 @@ fun Application.module() {
     configureEquipmentRouting()
     configureFashionRouting()
     configureFontRouting()
+    configureGodRouting()
     configureHolidayRouting()
     configureEquipmentRouting()
     configureJobRouting()

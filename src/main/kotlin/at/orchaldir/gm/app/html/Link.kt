@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.routes.item.TextRoutes
 import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
+import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.TownRoutes
 import at.orchaldir.gm.core.model.State
@@ -32,6 +33,7 @@ import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Decade
@@ -180,6 +182,7 @@ fun <ID : Id<ID>> href(
     is EquipmentId -> call.application.href(EquipmentRoutes.Details(id))
     is FashionId -> call.application.href(FashionRoutes.Details(id))
     is FontId -> call.application.href(FontRoutes.Details(id))
+    is GodId -> call.application.href(GodRoutes.Details(id))
     is HolidayId -> call.application.href(HolidayRoutes.Details(id))
     is JobId -> call.application.href(JobRoutes.Details(id))
     is LanguageId -> call.application.href(LanguageRoutes.Details(id))

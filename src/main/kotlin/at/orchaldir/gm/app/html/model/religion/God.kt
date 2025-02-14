@@ -17,12 +17,12 @@ import at.orchaldir.gm.core.model.religion.GodId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
-import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showGod(
+fun HtmlBlockTag.showGod(
     call: ApplicationCall,
     state: State,
     god: God,
