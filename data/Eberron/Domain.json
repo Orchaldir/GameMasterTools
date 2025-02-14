@@ -171,6 +171,22 @@
   "33": {
    "id": 33,
    "name": "Secrets"
+  },
+  "34": {
+   "id": 34,
+   "name": "Chaos"
+  },
+  "35": {
+   "id": 35,
+   "name": "Good"
+  },
+  "36": {
+   "id": 36,
+   "name": "Evil"
+  },
+  "37": {
+   "id": 37,
+   "name": "Change"
   }
  }
 }
