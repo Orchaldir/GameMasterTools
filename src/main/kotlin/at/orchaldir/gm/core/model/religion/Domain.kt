@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.religion
 
+import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -20,6 +22,7 @@ value class DomainId(val value: Int) : Id<DomainId> {
 data class Domain(
     val id: DomainId,
     val name: String = "Domain ${id.value}",
+    val spells: SomeOf<SpellId> = SomeOf(),
 ) : ElementWithSimpleName<DomainId> {
 
     override fun id() = id
