@@ -36,6 +36,8 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.util.Creator
@@ -198,6 +200,15 @@ sealed class OrganizationAction : Action()
 data object CreateOrganization : OrganizationAction()
 data class DeleteOrganization(val id: OrganizationId) : OrganizationAction()
 data class UpdateOrganization(val organization: Organization) : OrganizationAction()
+
+//-- religion --
+
+sealed class ReligionAction : Action()
+
+// god
+data object CreateGod : ReligionAction()
+data class DeleteGod(val id: GodId) : ReligionAction()
+data class UpdateGod(val god: God) : ReligionAction()
 
 //-- world --
 

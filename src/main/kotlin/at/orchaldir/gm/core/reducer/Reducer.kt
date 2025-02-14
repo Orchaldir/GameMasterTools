@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.reducer.character.*
 import at.orchaldir.gm.core.reducer.economy.ECONOMY_REDUCER
 import at.orchaldir.gm.core.reducer.item.ITEM_REDUCER
 import at.orchaldir.gm.core.reducer.magic.MAGIC_REDUCER
+import at.orchaldir.gm.core.reducer.religion.RELIGION_REDUCER
 import at.orchaldir.gm.core.reducer.organization.ORGANIZATION_REDUCER
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
 import at.orchaldir.gm.utils.redux.Reducer
@@ -73,15 +74,12 @@ val REDUCER: Reducer<Action, State> = { state, action ->
         is UpdateRaceAppearance -> UPDATE_RACE_APPEARANCE(state, action)
         // time
         is UpdateTime -> UPDATE_TIME(state, action)
-        // item
+        // sub reducers
         is ItemAction -> ITEM_REDUCER(state, action)
-        // economy
         is EconomyAction -> ECONOMY_REDUCER(state, action)
-        // magic
         is MagicAction -> MAGIC_REDUCER(state, action)
-        // organization
         is OrganizationAction -> ORGANIZATION_REDUCER(state, action)
-        // world
+        is ReligionAction -> RELIGION_REDUCER(state, action)
         is WorldAction -> WORLD_REDUCER(state, action)
     }
 }
