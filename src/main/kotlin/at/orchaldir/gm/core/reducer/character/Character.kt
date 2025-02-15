@@ -75,7 +75,7 @@ private fun checkOrigin(
     state: State,
     character: Character,
 ) {
-    checkDate(state, character.birthDate, "Character is born in the future!")
+    checkDate(state, character.birthDate, "Birthday")
 
     when (val origin = character.origin) {
         is Born -> {

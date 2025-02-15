@@ -37,7 +37,7 @@ val UPDATE_BUSINESS: Reducer<UpdateBusiness, State> = { state, action ->
     val newBusiness = action.business
 
     checkComplexName(state, newBusiness.name)
-    checkDate(state, newBusiness.startDate())
+    checkDate(state, newBusiness.startDate(), "Business Founding")
     validateCreator(state, newBusiness.founder, newBusiness.id, newBusiness.startDate(), "Founder")
     checkOwnershipWithOptionalDate(state, newBusiness.ownership, newBusiness.startDate())
 

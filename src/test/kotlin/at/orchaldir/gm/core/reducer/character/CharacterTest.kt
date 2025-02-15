@@ -313,7 +313,7 @@ class CharacterTest {
             fun `Cannot be born in the future`() {
                 val action = UpdateCharacter(Character(CHARACTER_ID_0, birthDate = Day(1)))
 
-                assertIllegalArgument("Character is born in the future!") { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Date (Birthday) is in the future!") { REDUCER.invoke(state, action) }
             }
 
             @Test

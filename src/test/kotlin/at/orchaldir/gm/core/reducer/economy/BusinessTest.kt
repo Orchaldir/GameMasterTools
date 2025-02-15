@@ -187,7 +187,7 @@ class BusinessTest {
         fun `Date is in the future`() {
             val action = UpdateBusiness(Business(BUSINESS_ID_0, startDate = DAY1))
 
-            assertIllegalArgument("Date is in the future!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Date (Business Founding) is in the future!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

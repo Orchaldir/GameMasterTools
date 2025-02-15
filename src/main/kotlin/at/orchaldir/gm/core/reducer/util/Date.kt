@@ -7,8 +7,8 @@ import at.orchaldir.gm.core.selector.getDefaultCalendar
 fun checkDate(
     state: State,
     date: Date?,
-    message: String = "Date is in the future!",
+    noun: String,
 ) {
     val calendar = state.getDefaultCalendar()
-    require(calendar.isAfterOrEqualOptional(state.time.currentDate, date)) { message }
+    require(calendar.isAfterOrEqualOptional(state.time.currentDate, date)) { "Date ($noun) is in the future!" }
 }
