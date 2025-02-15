@@ -174,13 +174,16 @@ private fun HTML.showAllRaces(
 }
 
 private inline fun <reified T : Any> BODY.showSortLinks(call: ApplicationCall, createLink: (SortRace) -> T) {
+    val sortAgeLink = call.application.href(createLink(SortRace.Age))
     val sortNameLink = call.application.href(createLink(SortRace.Name))
-    val sortMaxAgeLink = call.application.href(createLink(SortRace.MaxAge))
     val sortMaxHeightLink = call.application.href(createLink(SortRace.MaxHeight))
+    val sortMaxLifeSpanLink = call.application.href(createLink(SortRace.MaxLifeSpan))
     field("Sort") {
+        link(sortAgeLink, "Age")
+        +" "
         link(sortNameLink, "Name")
         +" "
-        link(sortMaxAgeLink, "Max Age")
+        link(sortMaxLifeSpanLink, "Max Age")
         +" "
         link(sortMaxHeightLink, "Max Height")
     }
