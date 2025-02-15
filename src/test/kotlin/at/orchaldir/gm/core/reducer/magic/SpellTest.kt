@@ -2,8 +2,10 @@ package at.orchaldir.gm.core.reducer.magic
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteSpell
+import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.magic.InventedSpell
 import at.orchaldir.gm.core.model.magic.ModifiedSpell
 import at.orchaldir.gm.core.model.magic.Spell
@@ -110,6 +112,13 @@ class SpellTest {
             assertIllegalArgument("Cannot use an unknown character 0 as Inventor!") {
                 REDUCER.invoke(STATE, action)
             }
+        }
+
+        @Test
+        fun `Date is in the future`() {
+            val action = UpdateSpell(Spell(SPELL_ID_0, date = FUTURE_DAY_0))
+
+            assertIllegalArgument("Date (Spell) is in the future!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.organization.Organization
+import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.utils.redux.Reducer
@@ -27,6 +28,7 @@ val DELETE_ORGANIZATION: Reducer<DeleteOrganization, State> = { state, action ->
 val UPDATE_ORGANIZATION: Reducer<UpdateOrganization, State> = { state, action ->
     val organization = action.organization
     state.getOrganizationStorage().require(organization.id)
+    checkDate(state, organization.startDate(), "Organization")
 
     validateCreator(state, organization.founder, organization.id, organization.date, "founder")
 
