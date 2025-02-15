@@ -36,27 +36,27 @@ class ArchitecturalStyleEndEvent(
 
 class BuildingConstructedEvent(
     date: Date,
-    val buildingId: BuildingId,
+    val building: BuildingId,
 ) : Event(date)
 
 // business
 
 class BusinessStartedEvent(
     date: Date,
-    val businessId: BusinessId,
+    val business: BusinessId,
 ) : Event(date)
 
 // character
 
 class CharacterOriginEvent(
     date: Date,
-    val characterId: CharacterId,
+    val character: CharacterId,
     val origin: CharacterOrigin,
 ) : Event(date)
 
 class CharacterDeathEvent(
     date: Date,
-    val characterId: CharacterId,
+    val character: CharacterId,
     val causeOfDeath: CauseOfDeath,
 ) : Event(date)
 
@@ -64,14 +64,14 @@ class CharacterDeathEvent(
 
 class FontCreatedEvent(
     date: Date,
-    val fontId: FontId,
+    val font: FontId,
 ) : Event(date)
 
 // organization
 
 class OrganizationFoundingEvent(
     date: Date,
-    val organizationId: OrganizationId,
+    val organization: OrganizationId,
 ) : Event(date)
 
 // ownership
@@ -108,19 +108,19 @@ class RaceCreatedEvent(
 
 class SpellCreatedEvent(
     date: Date,
-    val spellId: SpellId,
+    val spell: SpellId,
 ) : Event(date)
 
 // text
 
 class TextPublishedEvent(
     date: Date,
-    val textId: TextId,
+    val text: TextId,
 ) : Event(date)
 
 // town
 
 class TownFoundingEvent(
     date: Date,
-    val townId: TownId,
+    val town: TownId,
 ) : Event(date)
