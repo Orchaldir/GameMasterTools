@@ -154,7 +154,7 @@ private fun HTML.showAllRaces(
                     td { +race.genders.getValidValues().joinToString() }
                     tdSkipZero(race.lifeStages.getMaxAge())
                     td { +race.height.getMax().toString() }
-                    td { displayRaceOrigin(call, state, race.origin) }
+                    td { displayRaceOrigin(call, state, race.origin, false) }
                     tdSkipZero(race.lifeStages.countLifeStages())
                     td { link(call, state, race.lifeStages.getRaceAppearance()) }
                     tdSkipZero(state.getCharacters(race.id).size)

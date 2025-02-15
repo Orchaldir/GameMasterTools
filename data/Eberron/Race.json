@@ -336,6 +336,11 @@
       "hairColor": "White"
      }
     ]
+   },
+   "origin": {
+    "type": "Hybrid",
+    "first": 1,
+    "second": 0
    }
   },
   "6": {

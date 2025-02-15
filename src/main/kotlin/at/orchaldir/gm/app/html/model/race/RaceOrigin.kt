@@ -31,6 +31,7 @@ fun HtmlBlockTag.displayRaceOrigin(
     call: ApplicationCall,
     state: State,
     origin: RaceOrigin,
+    displayOriginal: Boolean = true,
 ) {
     when (origin) {
         is HybridRace -> {
@@ -52,7 +53,9 @@ fun HtmlBlockTag.displayRaceOrigin(
             link(call, state, origin.parent)
         }
 
-        OriginalRace -> +"Original"
+        OriginalRace -> if (displayOriginal) {
+            +"Original"
+        }
     }
 }
 
