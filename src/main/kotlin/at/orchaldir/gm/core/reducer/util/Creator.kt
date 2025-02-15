@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.economy.getBusinessesFoundedBy
 import at.orchaldir.gm.core.selector.getLanguagesInventedBy
 import at.orchaldir.gm.core.selector.getRacesCreatedBy
-import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.item.getTextsTranslatedBy
 import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
 import at.orchaldir.gm.core.selector.util.exists
@@ -26,16 +25,14 @@ fun <ID : Id<ID>> validateCreator(
     when (creator) {
         is CreatedByBusiness -> checkCreatorElement(state, creator.business, created, noun, "business", date)
 
-        is CreatedByCharacter -> {
-            state.getCharacterStorage()
-                .require(creator.character) { "Cannot use an unknown character ${creator.character.value} as $noun!" }
-
-            if (date != null) {
-                require(state.isAlive(creator.character, date)) {
-                    "$noun (character ${creator.character.value}) is not alive!"
-                }
-            }
-        }
+        is CreatedByCharacter -> checkCreatorElement(
+            state,
+            creator.character,
+            created,
+            noun,
+            "character",
+            date
+        )
 
         is CreatedByOrganization -> checkCreatorElement(
             state,

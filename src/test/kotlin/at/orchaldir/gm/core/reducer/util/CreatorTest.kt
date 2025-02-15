@@ -77,7 +77,7 @@ class CreatorTest {
 
         @Test
         fun `Creator doesn't exist yet`() {
-            assertIllegalArgument("Builder (character 0) is not alive!") {
+            assertIllegalArgument("Builder (character 0) does not exist!") {
                 validateCreator(STATE, BUILD_BY_CHARACTER, BUILDING_ID_0, DAY0, "Builder")
             }
         }
