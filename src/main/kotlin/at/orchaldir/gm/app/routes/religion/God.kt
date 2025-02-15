@@ -159,7 +159,7 @@ private fun HTML.showAllGods(
                     td {
                         showList(
                             state.getPersonalityTraitStorage()
-                            .get(god.personality)
+                                .get(god.personality)
                                 .sortedBy { it.name }) {
                             link(call, it)
                         }
