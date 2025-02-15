@@ -64,6 +64,12 @@ fun State.getEvents(): List<Event> {
         }
     }
 
+    getRaceStorage().getAll().forEach { race ->
+        race.startDate()?.let {
+            events.add(RaceCreatedEvent(it, race.id))
+        }
+    }
+
     getSpellStorage().getAll().forEach { spell ->
         if (spell.date != null) {
             events.add(SpellCreatedEvent(spell.date, spell.id))

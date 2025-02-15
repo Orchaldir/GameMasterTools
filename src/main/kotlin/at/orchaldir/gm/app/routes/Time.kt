@@ -395,6 +395,12 @@ private fun HtmlBlockTag.showEvents(
                 +" was founded."
             }
 
+            is RaceCreatedEvent -> {
+                +"The race "
+                link(call, state, event.race)
+                +" was created."
+            }
+
             is SpellCreatedEvent -> {
                 link(call, state, event.spellId)
                 +" was created."
