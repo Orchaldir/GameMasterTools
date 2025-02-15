@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.race
 
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.Creator
+import at.orchaldir.gm.core.model.util.HasStartDate
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -14,7 +15,7 @@ enum class RaceOriginType {
 }
 
 @Serializable
-sealed class RaceOrigin {
+sealed class RaceOrigin : HasStartDate {
 
     fun getType() = when (this) {
         is CosmicRace -> RaceOriginType.Cosmic
@@ -28,6 +29,11 @@ sealed class RaceOrigin {
         is HybridRace -> first == race || second == race
         is EvolvedRace -> parent == race
         else -> false
+    }
+
+    override fun startDate() = when (this) {
+        is CreatedRace -> date
+        else -> null
     }
 
 }

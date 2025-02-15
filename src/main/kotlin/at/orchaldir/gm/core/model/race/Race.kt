@@ -3,7 +3,9 @@ package at.orchaldir.gm.core.model.race
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
+import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Distribution
@@ -29,9 +31,10 @@ data class Race(
     val height: Distribution = Distribution.fromMeters(1.8f, 0.2f),
     val lifeStages: LifeStages = ImmutableLifeStage(),
     val origin: RaceOrigin = OriginalRace,
-) : ElementWithSimpleName<RaceId> {
+) : ElementWithSimpleName<RaceId>, HasStartDate {
 
     override fun id() = id
     override fun name() = name
+    override fun startDate() = origin.startDate()
 
 }

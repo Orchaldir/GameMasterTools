@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.model.race.displayRaceOrigin
 import at.orchaldir.gm.app.html.model.race.editRace
 import at.orchaldir.gm.app.html.model.race.parseRace
 import at.orchaldir.gm.app.html.model.race.showRace
+import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.core.action.CloneRace
 import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
@@ -17,6 +18,7 @@ import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.util.SortRace
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.getAgeInYears
 import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.util.sortRaces
@@ -144,6 +146,8 @@ private fun HTML.showAllRaces(
                 th { +"Max Age" }
                 th { +"Max Height" }
                 th { +"Origin" }
+                th { +"Date" }
+                th { +"Age" }
                 th { +"Life Stages" }
                 th { +"Appearance" }
                 th { +"Characters" }
@@ -155,6 +159,8 @@ private fun HTML.showAllRaces(
                     tdSkipZero(race.lifeStages.getMaxAge())
                     td { +race.height.getMax().toString() }
                     td { displayRaceOrigin(call, state, race.origin, false) }
+                    td { showOptionalDate(call, state, race.startDate()) }
+                    tdSkipZero(state.getAgeInYears(race.startDate()))
                     tdSkipZero(race.lifeStages.countLifeStages())
                     td { link(call, state, race.lifeStages.getRaceAppearance()) }
                     tdSkipZero(state.getCharacters(race.id).size)
