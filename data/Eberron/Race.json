@@ -206,6 +206,17 @@
    "lifeStages": {
     "type": "Immutable",
     "appearance": 3
+   },
+    "origin": {
+      "type": "Created",
+      "inventor": {
+        "type": "Organization",
+        "organization": 16
+      },
+      "date": {
+        "type": "Year",
+        "year": 964
+      }
    }
   },
   "4": {
