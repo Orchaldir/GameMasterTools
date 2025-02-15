@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.economy.getBusinessesFoundedBy
 import at.orchaldir.gm.core.selector.getLanguagesInventedBy
+import at.orchaldir.gm.core.selector.getRacesCreatedBy
 import at.orchaldir.gm.core.selector.isAlive
 import at.orchaldir.gm.core.selector.item.getTextsTranslatedBy
 import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
@@ -15,7 +16,7 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 
-fun <ID : Id<ID>> checkCreator(
+fun <ID : Id<ID>> validateCreator(
     state: State,
     creator: Creator,
     created: ID,
@@ -60,14 +61,14 @@ private fun <ID0, ID1, ELEMENT> checkCreatorElement(
     date: Date?,
 ) where ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT : Element<ID0>, ELEMENT : HasStartDate {
     require(creator != created) { "The $typeNoun cannot create itself!" }
-    val organization = state
+    val element = state
         .getStorage<ID0, ELEMENT>(creator)
         .getOrThrow(creator) { "Cannot use an unknown $typeNoun ${creator.value()} as $noun!" }
 
-    require(state.exists(organization, date)) { "$noun ($typeNoun ${creator.value()}) does not exist!" }
+    require(state.exists(element, date)) { "$noun ($typeNoun ${creator.value()}) does not exist!" }
 }
 
-fun <ID : Id<ID>> checkCreated(
+fun <ID : Id<ID>> checkIfCreatorCanBeDeleted(
     state: State,
     id: ID,
     noun: String,
@@ -78,6 +79,8 @@ fun <ID : Id<ID>> checkCreated(
     require(businesses.isEmpty()) { "Cannot delete $noun ${id.value()}, because of founded businesses!" }
     val languages = state.getLanguagesInventedBy(id)
     require(languages.isEmpty()) { "Cannot delete $noun ${id.value()}, because of invented languages!" }
+    val races = state.getRacesCreatedBy(id)
+    require(races.isEmpty()) { "Cannot delete $noun ${id.value()}, because of created race!" }
     val towns = state.getTownsFoundedBy(id)
     require(towns.isEmpty()) { "Cannot delete $noun ${id.value()}, because of founded towns!" }
     val writtenTexts = state.getTextsWrittenBy(id)

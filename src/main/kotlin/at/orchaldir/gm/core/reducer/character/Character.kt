@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.reducer.util.checkCreated
+import at.orchaldir.gm.core.reducer.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.reducer.util.checkEmploymentStatusHistory
 import at.orchaldir.gm.core.reducer.util.checkHousingStatusHistory
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
@@ -35,7 +35,7 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
 
     checkBuildingOwnership(state, action.id)
     checkBusinessOwnership(state, action.id)
-    checkCreated(state, action.id, "character")
+    checkIfCreatorCanBeDeleted(state, action.id, "character")
 
     noFollowUps(state.updateStorage(state.getCharacterStorage().remove(action.id)))
 }

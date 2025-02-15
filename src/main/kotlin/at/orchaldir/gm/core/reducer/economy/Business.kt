@@ -6,8 +6,8 @@ import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.reducer.util.checkComplexName
-import at.orchaldir.gm.core.reducer.util.checkCreated
-import at.orchaldir.gm.core.reducer.util.checkCreator
+import at.orchaldir.gm.core.reducer.util.checkIfCreatorCanBeDeleted
+import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.getPreviousEmployees
@@ -24,7 +24,7 @@ val CREATE_BUSINESS: Reducer<CreateBusiness, State> = { state, _ ->
 val DELETE_BUSINESS: Reducer<DeleteBusiness, State> = { state, action ->
     state.getBusinessStorage().require(action.id)
     require(state.getBuilding(action.id) == null) { "Cannot delete business ${action.id.value}, because it has a building!" }
-    checkCreated(state, action.id, "business")
+    checkIfCreatorCanBeDeleted(state, action.id, "business")
     require(state.getEmployees(action.id).isEmpty()) {
         "Cannot delete business ${action.id.value}, because it has employees!"
     }
@@ -40,7 +40,7 @@ val UPDATE_BUSINESS: Reducer<UpdateBusiness, State> = { state, action ->
     val newBusiness = action.business
 
     checkComplexName(state, newBusiness.name)
-    checkCreator(state, newBusiness.founder, newBusiness.id, newBusiness.startDate(), "Founder")
+    validateCreator(state, newBusiness.founder, newBusiness.id, newBusiness.startDate(), "Founder")
     checkOwnershipWithOptionalDate(state, newBusiness.ownership, newBusiness.startDate())
 
     noFollowUps(state.updateStorage(state.getBusinessStorage().update(action.business)))

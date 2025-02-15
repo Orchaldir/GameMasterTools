@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.util.Creator
-import at.orchaldir.gm.core.reducer.util.checkCreator
+import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.magic.canDeleteSpell
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -58,5 +58,5 @@ private fun checkInventor(
     spell: Spell,
     creator: Creator,
 ) {
-    checkCreator(state, creator, spell.id, spell.date, "Inventor")
+    validateCreator(state, creator, spell.id, spell.date, "Inventor")
 }

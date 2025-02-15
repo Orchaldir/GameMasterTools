@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.item.text.scroll.*
-import at.orchaldir.gm.core.reducer.util.checkCreator
+import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.exists
 import at.orchaldir.gm.utils.doNothing
@@ -41,14 +41,14 @@ private fun checkOrigin(
     text: Text,
 ) {
     when (val origin = text.origin) {
-        is OriginalText -> checkCreator(state, origin.author, text.id, text.date, "Author")
+        is OriginalText -> validateCreator(state, origin.author, text.id, text.date, "Author")
         is TranslatedText -> {
             val original = state.getTextStorage().getOrThrow(origin.text)
             require(text.id != origin.text) { "The text cannot translate itself!" }
             require(state.exists(original, text.date)) {
                 "The translation must happen after the original was written!"
             }
-            checkCreator(state, origin.translator, text.id, text.date, "Translator")
+            validateCreator(state, origin.translator, text.id, text.date, "Translator")
         }
     }
 }
