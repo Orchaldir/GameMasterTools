@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.religion.DomainId
+import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
@@ -34,6 +35,7 @@ val CHARACTER_ID_2 = CharacterId(2)
 val CULTURE_ID_0 = CultureId(0)
 val DOMAIN_ID_0 = DomainId(0)
 val EQUIPMENT_ID_0 = EquipmentId(0)
+val GOD_ID_0 = GodId(0)
 val JOB_ID_0 = JobId(0)
 val LANGUAGE_ID_0 = LanguageId(0)
 val LANGUAGE_ID_1 = LanguageId(1)
