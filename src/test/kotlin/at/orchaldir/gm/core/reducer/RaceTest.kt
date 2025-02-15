@@ -2,10 +2,12 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteRace
+import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.race.CreatedRace
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.LifeStage
@@ -21,12 +23,18 @@ import kotlin.test.assertFailsWith
 
 class RaceTest {
 
+    private val state = State(
+        listOf(
+            Storage(CALENDAR0),
+            Storage(listOf(Race(RACE_ID_0), Race(RACE_ID_1))),
+        )
+    )
+
     @Nested
     inner class DeleteTest {
 
         @Test
         fun `Can delete an existing race`() {
-            val state = State(Storage(listOf(Race(RACE_ID_0), Race(RACE_ID_1))))
             val action = DeleteRace(RACE_ID_0)
 
             assertEquals(1, REDUCER.invoke(state, action).first.getRaceStorage().getSize())
@@ -37,28 +45,23 @@ class RaceTest {
             val state = State(Storage(Race(RACE_ID_0)))
             val action = DeleteRace(RACE_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot delete the last race") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            val action = DeleteRace(RACE_ID_0)
+            val action = DeleteRace(RACE_ID_2)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Race 2!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot delete a race used by a character`() {
             val character = Character(CharacterId(0), race = RACE_ID_0)
-            val state = State(
-                listOf(
-                    Storage(character),
-                    Storage(Race(RACE_ID_0)),
-                )
-            )
+            val newState = state.updateStorage(Storage(character))
             val action = DeleteRace(RACE_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Race 0 is used by characters") { REDUCER.invoke(newState, action) }
         }
     }
 
@@ -69,7 +72,7 @@ class RaceTest {
         fun `Cannot update unknown id`() {
             val action = UpdateRace(Race(RACE_ID_0))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Race 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -101,11 +104,19 @@ class RaceTest {
 
         @Test
         fun `Creator must exist`() {
-            val update = Race(RACE_ID_0, origin = CreatedRace(CreatedByCharacter(CHARACTER_ID_0), DAY0))
-            val action = UpdateRace(update)
-            val state = State(Storage(Race(RACE_ID_0)))
+            val origin = CreatedRace(CreatedByCharacter(CHARACTER_ID_0), DAY0)
+            val action = UpdateRace(Race(RACE_ID_0, origin = origin))
 
             assertIllegalArgument("Cannot use an unknown character 0 as Creator!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Date is in the future`() {
+            val origin = CreatedRace(CreatedByCharacter(CHARACTER_ID_0), FUTURE_DAY_0)
+            val action = UpdateRace(Race(RACE_ID_0, origin = origin))
+            val newState = state.updateStorage(Storage(Character(CHARACTER_ID_0)))
+
+            assertIllegalArgument("Date (Race) is in the future!") { REDUCER.invoke(newState, action) }
         }
 
         private fun createSimpleLifeStage(name: String, maxAge: Int) = LifeStage(name, maxAge)

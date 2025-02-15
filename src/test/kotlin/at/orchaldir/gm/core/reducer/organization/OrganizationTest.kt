@@ -36,7 +36,7 @@ class OrganizationTest {
 
         @Test
         fun `Cannot delete unknown id`() {
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Organization 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -68,7 +68,7 @@ class OrganizationTest {
         fun `Cannot update unknown organization`() {
             val action = UpdateOrganization(Organization(ORGANIZATION_ID_0))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Organization 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test

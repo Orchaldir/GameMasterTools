@@ -57,17 +57,7 @@ class DomainTest {
             val action = UpdateDomain(Domain(DOMAIN_ID_0))
             val state = STATE.removeStorage(DOMAIN_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Cannot modify an unknown domain`() {
-            val domain = Domain(DOMAIN_ID_0)
-            val action = UpdateDomain(domain)
-
-            assertIllegalArgument("Requires unknown Domain 0!") {
-                REDUCER.invoke(State(), action)
-            }
+            assertIllegalArgument("Requires unknown Domain 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test

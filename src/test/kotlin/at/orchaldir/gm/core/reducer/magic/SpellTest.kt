@@ -81,7 +81,7 @@ class SpellTest {
             val action = UpdateSpell(Spell(SPELL_ID_0))
             val state = STATE.removeStorage(SPELL_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Spell 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test

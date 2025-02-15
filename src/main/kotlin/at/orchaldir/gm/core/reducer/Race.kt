@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
+import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.utils.doNothing
@@ -31,6 +32,7 @@ val CLONE_RACE: Reducer<CloneRace, State> = { state, action ->
 }
 
 val DELETE_RACE: Reducer<DeleteRace, State> = { state, action ->
+    state.getRaceStorage().require(action.id)
     require(state.getRaceStorage().getSize() > 1) { "Cannot delete the last race" }
     require(state.getCharacters(action.id).isEmpty()) { "Race ${action.id.value} is used by characters" }
 
@@ -38,11 +40,13 @@ val DELETE_RACE: Reducer<DeleteRace, State> = { state, action ->
 }
 
 val UPDATE_RACE: Reducer<UpdateRace, State> = { state, action ->
-    state.getRaceStorage().require(action.race.id)
-    checkLifeStages(action.race.lifeStages)
-    checkOrigin(state, action.race)
+    val race = action.race
+    state.getRaceStorage().require(race.id)
+    checkDate(state, race.startDate(), "Race")
+    checkLifeStages(race.lifeStages)
+    checkOrigin(state, race)
 
-    noFollowUps(state.updateStorage(state.getRaceStorage().update(action.race)))
+    noFollowUps(state.updateStorage(state.getRaceStorage().update(race)))
 }
 
 fun checkLifeStages(lifeStages: LifeStages) {

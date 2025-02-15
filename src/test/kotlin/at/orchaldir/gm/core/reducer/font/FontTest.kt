@@ -47,7 +47,7 @@ class FontTest {
             val action = UpdateFont(Font(FONT_ID_0))
             val state = STATE.removeStorage(FONT_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Font 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
