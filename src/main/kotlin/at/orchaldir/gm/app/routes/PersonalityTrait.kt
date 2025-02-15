@@ -1,7 +1,5 @@
 package at.orchaldir.gm.app.routes
 
-import at.orchaldir.gm.app.NONE
-import at.orchaldir.gm.app.PERSONALITY_PREFIX
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parsePersonalityTrait
@@ -119,8 +117,19 @@ private fun HTML.showAllPersonalityTraits(call: ApplicationCall, state: State) {
     simpleHtml("Personality Traits") {
         field("Count", personalityTraits.size)
 
-        showList("By Name", personalityTraits) { personalityTrait ->
-            link(call, personalityTrait)
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Characters" }
+                th { +"Group" }
+            }
+            personalityTraits.forEach { trait ->
+                tr {
+                    td { link(call, state, trait) }
+                    tdSkipZero(state.getCharacters(trait.id).size)
+                    tdSkipZero(state.getGodsWith(trait.id).size)
+                }
+            }
         }
 
         showList("By Group", state.getPersonalityTraitGroups()) { group ->
@@ -136,9 +145,6 @@ private fun HTML.showAllPersonalityTraits(call: ApplicationCall, state: State) {
 
         action(createLink, "Add")
         back("/")
-
-        showPersonalityCountForCharacters(call, state, state.getCharacterStorage().getAll(), "Characters")
-        showPersonalityCountForGods(call, state, state.getGodStorage().getAll(), "Gods")
     }
 }
 
