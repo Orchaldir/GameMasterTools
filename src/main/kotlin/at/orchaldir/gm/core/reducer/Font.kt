@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteFont
 import at.orchaldir.gm.core.action.UpdateFont
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.font.Font
+import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -25,6 +26,7 @@ val DELETE_FONT: Reducer<DeleteFont, State> = { state, action ->
 val UPDATE_FONT: Reducer<UpdateFont, State> = { state, action ->
     val font = action.font
     state.getFontStorage().require(font.id)
+    checkDate(state, font.startDate(), "Font")
 
     noFollowUps(state.updateStorage(state.getFontStorage().update(font)))
 }
