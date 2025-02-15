@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector.religion
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.God
@@ -21,5 +22,9 @@ fun State.getGodsAssociatedWith(id: JobId): List<God> {
 fun State.getGodsWith(id: DomainId) = getGodStorage()
     .getAll()
     .filter { it.domains.contains(id) }
+
+fun State.getGodsWith(id: PersonalityTraitId) = getGodStorage()
+    .getAll()
+    .filter { it.personality.contains(id) }
 
 

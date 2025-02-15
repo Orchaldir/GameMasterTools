@@ -15,6 +15,9 @@ import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.getPersonalityTraits
+import at.orchaldir.gm.core.selector.religion.getGodsWith
+import at.orchaldir.gm.core.selector.util.sortCharacters
+import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -144,13 +147,15 @@ private fun HTML.showPersonalityTraitDetails(
     state: State,
     trait: PersonalityTrait,
 ) {
-    val characters = state.getCharacters(trait.id)
+    val characters = state.sortCharacters(state.getCharacters(trait.id))
+    val gods = state.sortGods(state.getGodsWith(trait.id))
     val backLink = call.application.href(PersonalityTraitRoutes())
     val deleteLink = call.application.href(PersonalityTraitRoutes.Delete(trait.id))
     val editLink = call.application.href(PersonalityTraitRoutes.Edit(trait.id))
 
     simpleHtml("Personality Trait: ${trait.name}") {
         field("Name", trait.name)
+
         if (trait.group != null) {
             val traits = state.getPersonalityTraits(trait.group)
                 .filter { it != trait }
@@ -160,9 +165,14 @@ private fun HTML.showPersonalityTraitDetails(
                 link(call, t)
             }
         }
-        showList("Characters", characters) { character ->
-            link(call, state, character)
+
+        showList("Characters", characters) { (character, name) ->
+            link(call, character.id, name)
         }
+        showList("Gods", gods) { god ->
+            link(call, state, god)
+        }
+
         action(editLink, "Edit")
         action(deleteLink, "Delete")
         back(backLink)
