@@ -577,7 +577,7 @@ private fun FORM.selectOrigin(
         }
     }
 
-    selectDate(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
+    selectDate(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE), race.startDate())
 }
 
 private fun FORM.selectName(

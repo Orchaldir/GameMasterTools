@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.reducer.util.checkEmploymentStatusHistory
 import at.orchaldir.gm.core.reducer.util.checkHousingStatusHistory
@@ -74,8 +75,7 @@ private fun checkOrigin(
     state: State,
     character: Character,
 ) {
-    val calendar = state.getDefaultCalendar()
-    require(calendar.isAfterOrEqual(state.time.currentDate, character.birthDate)) { "Character is born in the future!" }
+    checkDate(state, character.birthDate, "Character is born in the future!")
 
     when (val origin = character.origin) {
         is Born -> {

@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.economy
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteBusiness
 import at.orchaldir.gm.core.action.UpdateBusiness
+import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.Employed
@@ -16,6 +17,7 @@ import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.name.NameWithReference
 import at.orchaldir.gm.core.model.name.ReferencedFullName
 import at.orchaldir.gm.core.model.name.SimpleName
+import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.SingleBusiness
@@ -179,6 +181,13 @@ class BusinessTest {
             val state = STATE.removeStorage(CHARACTER_ID_0)
 
             assertIllegalArgument("Cannot use an unknown character 0 as Founder!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Date is in the future`() {
+            val action = UpdateBusiness(Business(BUSINESS_ID_0, startDate = DAY1))
+
+            assertIllegalArgument("Date is in the future!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
