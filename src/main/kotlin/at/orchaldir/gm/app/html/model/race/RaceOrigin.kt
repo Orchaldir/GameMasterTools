@@ -25,6 +25,7 @@ fun HtmlBlockTag.showRaceOrigin(
     field("Origin") {
         displayRaceOrigin(call, state, origin)
     }
+    optionalField(call, state, "Date", origin.startDate())
 }
 
 fun HtmlBlockTag.displayRaceOrigin(
