@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.race
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.race.displayRaceOrigin
 import at.orchaldir.gm.app.html.model.race.editRace
 import at.orchaldir.gm.app.html.model.race.parseRace
 import at.orchaldir.gm.app.html.model.race.showRace
@@ -142,6 +143,7 @@ private fun HTML.showAllRaces(
                 th { +"Gender" }
                 th { +"Max Age" }
                 th { +"Max Height" }
+                th { +"Origin" }
                 th { +"Life Stages" }
                 th { +"Appearance" }
                 th { +"Characters" }
@@ -152,6 +154,7 @@ private fun HTML.showAllRaces(
                     td { +race.genders.getValidValues().joinToString() }
                     tdSkipZero(race.lifeStages.getMaxAge())
                     td { +race.height.getMax().toString() }
+                    td { displayRaceOrigin(call, state, race.origin) }
                     tdSkipZero(race.lifeStages.countLifeStages())
                     td { link(call, state, race.lifeStages.getRaceAppearance()) }
                     tdSkipZero(state.getCharacters(race.id).size)

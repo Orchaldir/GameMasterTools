@@ -27,10 +27,9 @@ fun HtmlBlockTag.showRace(
 ) {
     showRarityMap("Gender", race.genders)
     showDistribution("Height", race.height)
-    showLifeStages(call, state, race)
     showRaceOrigin(call, state, race.origin)
+    showLifeStages(call, state, race)
 }
-
 
 private fun HtmlBlockTag.showLifeStages(
     call: ApplicationCall,
@@ -112,8 +111,8 @@ fun FORM.editRace(
         Distance(10),
         true
     )
-    editLifeStages(state, race)
     editRaceOrigin(state, race)
+    editLifeStages(state, race)
 }
 
 
