@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.selector.economy.getBusinessesFoundedBy
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.core.selector.getLanguagesInventedBy
 import at.orchaldir.gm.core.selector.getLiving
+import at.orchaldir.gm.core.selector.getRacesCreatedBy
 import at.orchaldir.gm.core.selector.item.getTextsTranslatedBy
 import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
 import at.orchaldir.gm.core.selector.magic.getSpellsCreatedBy
@@ -86,6 +87,10 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
 
     showList("Organizations", state.getOrganizationsFoundedBy(id)) { organization ->
         link(call, state, organization)
+    }
+
+    showList("Races", state.getRacesCreatedBy(id)) { race ->
+        link(call, state, race)
     }
 
     showList("Spells", state.getSpellsCreatedBy(id)) { spell ->
