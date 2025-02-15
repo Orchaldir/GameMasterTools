@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.character.EmploymentStatus
 import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
+import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -61,6 +62,18 @@ class JobTest {
 
             assertIllegalArgument("Cannot delete job 0, because it is the former job of a character!") {
                 REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a job associated with a domain`() {
+            val state = STATE.updateStorage(Storage(Domain(DOMAIN_ID_0, jobs = setOf(JOB_ID_0))))
+
+            assertIllegalArgument("Cannot delete job 0, because it is associated with a domain!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
             }
         }
     }

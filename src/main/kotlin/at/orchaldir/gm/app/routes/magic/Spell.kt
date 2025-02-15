@@ -20,6 +20,8 @@ import at.orchaldir.gm.core.selector.economy.getJobsContaining
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getTextsContaining
 import at.orchaldir.gm.core.selector.magic.canDeleteSpell
+import at.orchaldir.gm.core.selector.religion.countDomains
+import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
 import at.orchaldir.gm.core.selector.util.sortSpells
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -160,6 +162,7 @@ private fun HTML.showAllSpells(
                 th { +"Date" }
                 th { +"Language" }
                 th { +"Origin" }
+                th { +"Domains" }
                 th { +"Jobs" }
                 th { +"Texts" }
             }
@@ -169,6 +172,7 @@ private fun HTML.showAllSpells(
                     td { showOptionalDate(call, state, spell.date) }
                     td { optionalLink(call, state, spell.language) }
                     td { showOrigin(call, state, spell.origin) }
+                    tdSkipZero(state.countDomains(spell.id))
                     tdSkipZero(state.countJobs(spell.id))
                     tdSkipZero(state.countTexts(spell.id))
                 }
@@ -194,6 +198,10 @@ private fun HTML.showSpellDetails(
 
     simpleHtml("Spell: ${spell.name(state)}") {
         showSpell(call, state, spell)
+
+        showList("Domains containing it", state.getDomainsAssociatedWith(spell.id)) { domain ->
+            link(call, domain)
+        }
 
         showList("Jobs using it", state.getJobsContaining(spell.id)) { job ->
             link(call, job)

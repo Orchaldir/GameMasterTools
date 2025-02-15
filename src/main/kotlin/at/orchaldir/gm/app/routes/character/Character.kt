@@ -220,7 +220,7 @@ private fun HTML.showAllCharacters(
         showHousingStatusCount(characters)
         showJobCount(call, state, characters)
         showLanguageCountForCharacters(call, state, characters)
-        showPersonalityCount(call, state, characters)
+        showPersonalityCountForCharacters(call, state, characters)
         showRaceCount(call, state, characters)
     }
 }
@@ -404,9 +404,7 @@ private fun BODY.showSocial(
 
     showFamily(call, state, character)
 
-    showList("Personality", character.personality) { t ->
-        link(call, state, t)
-    }
+    showPersonality(call, state, character.personality)
 
     showMap("Relationships", character.relationships) { other, relationships ->
         link(call, state, other)
@@ -497,54 +495,10 @@ private fun HTML.showCharacterEditor(
             selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
             h2 { +"Social" }
             selectElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
-            editPersonality(call, state, character)
+            editPersonality(call, state, character.personality)
             button("Update", updateLink)
         }
         back(backLink)
-    }
-}
-
-private fun FORM.editPersonality(
-    call: ApplicationCall,
-    state: State,
-    character: Character,
-) {
-    field("Personality") {
-        details {
-            state.getPersonalityTraitGroups().forEach { group ->
-                val textId = "$PERSONALITY_PREFIX${group.value}"
-                var isAnyCheck = false
-
-                p {
-                    state.getPersonalityTraits(group).forEach { trait ->
-                        val isChecked = character.personality.contains(trait.id)
-                        isAnyCheck = isAnyCheck || isChecked
-
-                        radioInput {
-                            id = textId
-                            name = textId
-                            value = trait.id.value.toString()
-                            checked = isChecked
-                        }
-                        label {
-                            htmlFor = textId
-                            link(call, trait)
-                        }
-                    }
-
-                    radioInput {
-                        id = textId
-                        name = textId
-                        value = NONE
-                        checked = !isAnyCheck
-                    }
-                    label {
-                        htmlFor = textId
-                        +NONE
-                    }
-                }
-            }
-        }
     }
 }
 

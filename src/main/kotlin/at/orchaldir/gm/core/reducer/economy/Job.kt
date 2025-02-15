@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.getPreviousEmployees
+import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -23,6 +24,9 @@ val DELETE_JOB: Reducer<DeleteJob, State> = { state, action ->
     }
     require(state.getPreviousEmployees(action.id).isEmpty()) {
         "Cannot delete job ${action.id.value}, because it is the former job of a character!"
+    }
+    require(state.countDomains(action.id) == 0) {
+        "Cannot delete job ${action.id.value}, because it is associated with a domain!"
     }
 
     noFollowUps(state.updateStorage(state.getJobStorage().remove(action.id)))

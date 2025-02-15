@@ -175,7 +175,7 @@ private fun HTML.showTownDetails(
             showGenderCount(characters)
             showJobCount(call, state, characters)
             showHousingStatusCount(characters)
-            showPersonalityCount(call, state, characters)
+            showPersonalityCountForCharacters(call, state, characters)
             showRaceCount(call, state, characters)
             h2 { +"Terrain" }
             showList("Mountains", state.getMountains(town.id).sortedBy { it.name }) { mountain ->

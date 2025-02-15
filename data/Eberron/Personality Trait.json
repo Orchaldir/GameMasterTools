@@ -270,6 +270,21 @@
    "id": 53,
    "name": "Unimaginative",
    "group": 107
+  },
+  "54": {
+   "id": 54,
+   "name": "Reckless",
+   "group": 1
+  },
+  "55": {
+   "id": 55,
+   "name": "Loyal",
+   "group": 108
+  },
+  "56": {
+   "id": 56,
+   "name": "Disloyal",
+   "group": 108
   }
  }
 }

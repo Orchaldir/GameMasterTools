@@ -52,6 +52,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE_TYPE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.moon.MOON_TYPE
@@ -76,9 +77,11 @@ val ELEMENTS =
         CALENDAR_TYPE,
         CHARACTER_TYPE,
         CULTURE_TYPE,
+        DOMAIN_TYPE,
         EQUIPMENT_TYPE,
         FASHION_TYPE,
         FONT_TYPE,
+        GOD_TYPE,
         HOLIDAY_TYPE,
         JOB_TYPE,
         LANGUAGE_TYPE,
@@ -125,9 +128,11 @@ data class State(
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR_TYPE)
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER_TYPE)
     fun getCultureStorage() = getStorage<CultureId, Culture>(CULTURE_TYPE)
+    fun getDomainStorage() = getStorage<DomainId, Domain>(DOMAIN_TYPE)
     fun getEquipmentStorage() = getStorage<EquipmentId, Equipment>(EQUIPMENT_TYPE)
     fun getFashionStorage() = getStorage<FashionId, Fashion>(FASHION_TYPE)
     fun getFontStorage() = getStorage<FontId, Font>(FONT_TYPE)
+    fun getGodStorage() = getStorage<GodId, God>(GOD_TYPE)
     fun getHolidayStorage() = getStorage<HolidayId, Holiday>(HOLIDAY_TYPE)
     fun getJobStorage() = getStorage<JobId, Job>(JOB_TYPE)
     fun getLanguageStorage() = getStorage<LanguageId, Language>(LANGUAGE_TYPE)
@@ -217,9 +222,11 @@ data class State(
         saveStorage(path, getCalendarStorage())
         saveStorage(path, getCharacterStorage())
         saveStorage(path, getCultureStorage())
+        saveStorage(path, getDomainStorage())
         saveStorage(path, getEquipmentStorage())
         saveStorage(path, getFashionStorage())
         saveStorage(path, getFontStorage())
+        saveStorage(path, getGodStorage())
         saveStorage(path, getHolidayStorage())
         saveStorage(path, getJobStorage())
         saveStorage(path, getLanguageStorage())
@@ -248,9 +255,11 @@ fun createStorage(type: String) = when (type) {
     CALENDAR_TYPE -> Storage(CalendarId(0))
     CHARACTER_TYPE -> Storage(CharacterId(0))
     CULTURE_TYPE -> Storage(CultureId(0))
+    DOMAIN_TYPE -> Storage(DomainId(0))
     EQUIPMENT_TYPE -> Storage(EquipmentId(0))
     FASHION_TYPE -> Storage(FashionId(0))
     FONT_TYPE -> Storage(FontId(0))
+    GOD_TYPE -> Storage(GodId(0))
     HOLIDAY_TYPE -> Storage(HolidayId(0))
     JOB_TYPE -> Storage(JobId(0))
     LANGUAGE_TYPE -> Storage(LanguageId(0))
@@ -278,9 +287,11 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     CALENDAR_TYPE -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))
     CHARACTER_TYPE -> loadStorage<CharacterId, Character>(path, CharacterId(0))
     CULTURE_TYPE -> loadStorage<CultureId, Culture>(path, CultureId(0))
+    DOMAIN_TYPE -> loadStorage<DomainId, Domain>(path, DomainId(0))
     EQUIPMENT_TYPE -> loadStorage<EquipmentId, Equipment>(path, EquipmentId(0))
     FASHION_TYPE -> loadStorage<FashionId, Fashion>(path, FashionId(0))
     FONT_TYPE -> loadStorage<FontId, Font>(path, FontId(0))
+    GOD_TYPE -> loadStorage<GodId, God>(path, GodId(0))
     HOLIDAY_TYPE -> loadStorage<HolidayId, Holiday>(path, HolidayId(0))
     JOB_TYPE -> loadStorage<JobId, Job>(path, JobId(0))
     LANGUAGE_TYPE -> loadStorage<LanguageId, Language>(path, LanguageId(0))

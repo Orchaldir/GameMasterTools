@@ -22,9 +22,17 @@ enum class SortCharacter {
     Age,
 }
 
+enum class SortDomain {
+    Name,
+}
+
 enum class SortFont {
     Name,
     Age,
+}
+
+enum class SortGod {
+    Name,
 }
 
 enum class SortJob {
