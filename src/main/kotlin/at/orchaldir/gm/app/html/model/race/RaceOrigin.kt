@@ -34,13 +34,6 @@ fun HtmlBlockTag.displayRaceOrigin(
     displayOriginal: Boolean = true,
 ) {
     when (origin) {
-        is HybridRace -> {
-            +"Hybrid of "
-            link(call, state, origin.first)
-            +" & "
-            link(call, state, origin.second)
-        }
-
         CosmicRace -> +"Cosmic"
 
         is CreatedRace -> {
@@ -50,6 +43,19 @@ fun HtmlBlockTag.displayRaceOrigin(
 
         is EvolvedRace -> {
             +"Evolved from "
+            link(call, state, origin.parent)
+        }
+
+        is HybridRace -> {
+            +"Hybrid of "
+            link(call, state, origin.first)
+            +" & "
+            link(call, state, origin.second)
+        }
+
+        is ModifiedRace -> {
+            showCreator(call, state, origin.inventor)
+            +" modified "
             link(call, state, origin.parent)
         }
 
@@ -65,45 +71,46 @@ fun FORM.editRaceOrigin(
     state: State,
     race: Race,
 ) {
-    val possibleInventors = state.getCharacterStorage().getAll()
     val possibleParents = state.sortRaces(state.getPossibleParents(race.id))
 
-    selectValue("Origin", ORIGIN, RaceOriginType.entries, race.origin.getType(), true) {
-        when (it) {
-            Hybrid -> possibleParents.size < 2
-            Created -> possibleInventors.isEmpty()
-            Evolved -> possibleParents.isEmpty()
-            else -> false
+    showDetails("Origin") {
+        selectValue("Type", ORIGIN, RaceOriginType.entries, race.origin.getType(), true) {
+            when (it) {
+                Evolved, Modified -> possibleParents.isEmpty()
+                Hybrid -> possibleParents.size < 2
+                else -> false
+            }
         }
-    }
-    when (val origin = race.origin) {
-        is CreatedRace -> {
-            selectCreator(state, origin.inventor, race.id, origin.date, "Creator")
-            selectDate(state, "Date", origin.date, DATE)
+        when (val origin = race.origin) {
+            is CreatedRace -> {
+                selectCreator(state, origin.inventor, race.id, origin.date, "Creator")
+                selectDate(state, "Date", origin.date, DATE)
+            }
+
+            is EvolvedRace -> selectElement(state, "Parent", combine(ORIGIN, RACE), possibleParents, origin.parent)
+
+            is HybridRace -> {
+                val withoutFirst = possibleParents.filter { it.id != origin.first }
+                val withoutSecond = possibleParents.filter { it.id != origin.second }
+
+                selectElement(state, "First", combine(ORIGIN, 0), withoutSecond, origin.first, true)
+                selectElement(state, "Second", combine(ORIGIN, 1), withoutFirst, origin.second, true)
+            }
+
+            is ModifiedRace -> {
+                selectElement(state, "Parent", combine(ORIGIN, RACE), possibleParents, origin.parent)
+                selectCreator(state, origin.inventor, race.id, origin.date, "Creator")
+                selectDate(state, "Date", origin.date, DATE)
+            }
+
+            else -> doNothing()
         }
-
-        is EvolvedRace -> selectElement(state, "Parent", combine(ORIGIN, RACE), possibleParents, origin.parent)
-
-        is HybridRace -> {
-            val withoutFirst = possibleParents.filter { it.id != origin.first }
-            val withoutSecond = possibleParents.filter { it.id != origin.second }
-
-            selectElement(state, "First", combine(ORIGIN, 0), withoutSecond, origin.first, true)
-            selectElement(state, "Second", combine(ORIGIN, 1), withoutFirst, origin.second, true)
-        }
-
-        else -> doNothing()
     }
 }
 
 // parse
 
 fun parseRaceOrigin(parameters: Parameters, state: State) = when (parse(parameters, ORIGIN, RaceOriginType.Original)) {
-    Hybrid -> HybridRace(
-        parseRaceId(parameters, combine(ORIGIN, 0)),
-        parseRaceId(parameters, combine(ORIGIN, 1)),
-    )
-
     Cosmic -> CosmicRace
 
     Created -> CreatedRace(
@@ -112,6 +119,17 @@ fun parseRaceOrigin(parameters: Parameters, state: State) = when (parse(paramete
     )
 
     Evolved -> EvolvedRace(parseRaceId(parameters, combine(ORIGIN, RACE)))
+
+    Hybrid -> HybridRace(
+        parseRaceId(parameters, combine(ORIGIN, 0)),
+        parseRaceId(parameters, combine(ORIGIN, 1)),
+    )
+
+    Modified -> ModifiedRace(
+        parseRaceId(parameters, combine(ORIGIN, RACE)),
+        parseCreator(parameters),
+        parseDate(parameters, state, DATE),
+    )
 
     Original -> OriginalRace
 }

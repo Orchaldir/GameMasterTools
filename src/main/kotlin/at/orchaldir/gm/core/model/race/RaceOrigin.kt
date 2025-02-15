@@ -11,6 +11,7 @@ enum class RaceOriginType {
     Created,
     Evolved,
     Hybrid,
+    Modified,
     Original,
 }
 
@@ -22,28 +23,24 @@ sealed class RaceOrigin : HasStartDate {
         is CreatedRace -> RaceOriginType.Created
         is EvolvedRace -> RaceOriginType.Evolved
         is HybridRace -> RaceOriginType.Hybrid
+        is ModifiedRace -> RaceOriginType.Modified
         OriginalRace -> RaceOriginType.Original
     }
 
     fun isChildOf(race: RaceId) = when (this) {
         is HybridRace -> first == race || second == race
         is EvolvedRace -> parent == race
+        is ModifiedRace -> parent == race
         else -> false
     }
 
     override fun startDate() = when (this) {
         is CreatedRace -> date
+        is ModifiedRace -> date
         else -> null
     }
 
 }
-
-/**
- * The natural hybrid of 2 parent races. e.g. a half-elf
- */
-@Serializable
-@SerialName("Hybrid")
-data class HybridRace(val first: RaceId, val second: RaceId) : RaceOrigin()
 
 /**
  * A race that is an integral part of creation. e.g. the different outsiders in Eberron
@@ -68,6 +65,24 @@ data class CreatedRace(
 @Serializable
 @SerialName("Evolved")
 data class EvolvedRace(val parent: RaceId) : RaceOrigin()
+
+/**
+ * The natural hybrid of 2 parent races. e.g. a half-elf
+ */
+@Serializable
+@SerialName("Hybrid")
+data class HybridRace(val first: RaceId, val second: RaceId) : RaceOrigin()
+
+/**
+ * A race modified by someone. e.g. the dolgrim in Eberron
+ */
+@Serializable
+@SerialName("Modified")
+data class ModifiedRace(
+    val parent: RaceId,
+    val inventor: Creator,
+    val date: Date,
+) : RaceOrigin()
 
 /**
  * A race without predecessor or creator.
