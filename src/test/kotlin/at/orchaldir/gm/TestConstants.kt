@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.Day
@@ -45,6 +46,8 @@ val MOON_ID_0 = MoonId(0)
 val MOUNTAIN_ID_0 = MountainId(0)
 val MOUNTAIN_ID_1 = MountainId(1)
 val ORGANIZATION_ID_0 = OrganizationId(0)
+val RACE_ID_0 = RaceId(0)
+val RACE_ID_1 = RaceId(1)
 val RIVER_ID_0 = RiverId(0)
 val SPELL_ID_0 = SpellId(0)
 val SPELL_ID_1 = SpellId(1)

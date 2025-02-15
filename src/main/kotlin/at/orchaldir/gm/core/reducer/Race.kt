@@ -5,11 +5,12 @@ import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
+import at.orchaldir.gm.core.reducer.util.checkCreator
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -39,6 +40,7 @@ val DELETE_RACE: Reducer<DeleteRace, State> = { state, action ->
 val UPDATE_RACE: Reducer<UpdateRace, State> = { state, action ->
     state.getRaceStorage().require(action.race.id)
     checkLifeStages(action.race.lifeStages)
+    checkOrigin(state, action.race)
 
     noFollowUps(state.updateStorage(state.getRaceStorage().update(action.race)))
 }
@@ -57,5 +59,13 @@ private fun checkMaxAge(lifeStages: List<LifeStage>) {
     lifeStages.withIndex().forEach {
         require(it.value.maxAge > lastMaxAge) { "Life Stage ${it.index}'s max age most be greater than the previous stage!" }
         lastMaxAge = it.value.maxAge
+    }
+}
+
+fun checkOrigin(state: State, race: Race) {
+    when (race.origin) {
+        is CreatedRace -> checkCreator(state, race.origin.creator, race.id, race.origin.date, "Creator")
+        is ModifiedRace -> checkCreator(state, race.origin.modifier, race.id, race.origin.date, "Modifier")
+        else -> doNothing()
     }
 }

@@ -39,7 +39,7 @@ fun HtmlBlockTag.displayRaceOrigin(
 
         is CreatedRace -> {
             +"Created by "
-            showCreator(call, state, origin.inventor)
+            showCreator(call, state, origin.creator)
         }
 
         is EvolvedRace -> {
@@ -55,7 +55,7 @@ fun HtmlBlockTag.displayRaceOrigin(
         }
 
         is ModifiedRace -> {
-            showCreator(call, state, origin.inventor)
+            showCreator(call, state, origin.modifier)
             +" modified "
             link(call, state, origin.parent)
         }
@@ -84,7 +84,7 @@ fun FORM.editRaceOrigin(
         }
         when (val origin = race.origin) {
             is CreatedRace -> {
-                selectCreator(state, origin.inventor, race.id, origin.date, "Creator")
+                selectCreator(state, origin.creator, race.id, origin.date, "Creator")
                 selectDate(state, "Date", origin.date, DATE)
             }
 
@@ -100,7 +100,7 @@ fun FORM.editRaceOrigin(
 
             is ModifiedRace -> {
                 selectElement(state, "Parent", combine(ORIGIN, RACE), possibleParents, origin.parent)
-                selectCreator(state, origin.inventor, race.id, origin.date, "Creator")
+                selectCreator(state, origin.modifier, race.id, origin.date, "Creator")
                 selectDate(state, "Date", origin.date, DATE)
             }
 

@@ -55,7 +55,7 @@ data object CosmicRace : RaceOrigin()
 @Serializable
 @SerialName("Created")
 data class CreatedRace(
-    val inventor: Creator,
+    val creator: Creator,
     val date: Date,
 ) : RaceOrigin()
 
@@ -80,7 +80,7 @@ data class HybridRace(val first: RaceId, val second: RaceId) : RaceOrigin()
 @SerialName("Modified")
 data class ModifiedRace(
     val parent: RaceId,
-    val inventor: Creator,
+    val modifier: Creator,
     val date: Date,
 ) : RaceOrigin()
 

@@ -2,8 +2,6 @@ package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.language.InventedLanguage
-import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.CreatedRace
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
@@ -24,7 +22,7 @@ fun State.getPossibleParents(race: RaceId) = getRaceStorage()
 fun <ID : Id<ID>> State.getRacesCreatedBy(id: ID) = getRaceStorage()
     .getAll().filter { l ->
         when (l.origin) {
-            is CreatedRace -> l.origin.inventor.isId(id)
+            is CreatedRace -> l.origin.creator.isId(id)
             else -> false
         }
     }

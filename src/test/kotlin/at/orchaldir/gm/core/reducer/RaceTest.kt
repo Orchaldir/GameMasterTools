@@ -1,23 +1,23 @@
 package at.orchaldir.gm.core.reducer
 
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.race.CreatedRace
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.LifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
+import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-private val ID0 = RaceId(0)
-private val ID1 = RaceId(1)
 
 class RaceTest {
 
@@ -26,37 +26,37 @@ class RaceTest {
 
         @Test
         fun `Can delete an existing race`() {
-            val state = State(Storage(listOf(Race(ID0), Race(ID1))))
-            val action = DeleteRace(ID0)
+            val state = State(Storage(listOf(Race(RACE_ID_0), Race(RACE_ID_1))))
+            val action = DeleteRace(RACE_ID_0)
 
             assertEquals(1, REDUCER.invoke(state, action).first.getRaceStorage().getSize())
         }
 
         @Test
         fun `Cannot delete the last race`() {
-            val state = State(Storage(Race(ID0)))
-            val action = DeleteRace(ID0)
+            val state = State(Storage(Race(RACE_ID_0)))
+            val action = DeleteRace(RACE_ID_0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            val action = DeleteRace(ID0)
+            val action = DeleteRace(RACE_ID_0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot delete a race used by a character`() {
-            val character = Character(CharacterId(0), race = ID0)
+            val character = Character(CharacterId(0), race = RACE_ID_0)
             val state = State(
                 listOf(
                     Storage(character),
-                    Storage(Race(ID0)),
+                    Storage(Race(RACE_ID_0)),
                 )
             )
-            val action = DeleteRace(ID0)
+            val action = DeleteRace(RACE_ID_0)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }
@@ -67,7 +67,7 @@ class RaceTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateRace(Race(ID0))
+            val action = UpdateRace(Race(RACE_ID_0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
@@ -79,9 +79,9 @@ class RaceTest {
 
         private fun <T> testMinAgeTooLow(createStage: (String, Int) -> T, createAging: (List<T>) -> LifeStages) {
             (0..5).forEach { maxAge ->
-                val state = State(Storage(Race(ID0)))
+                val state = State(Storage(Race(RACE_ID_0)))
                 val race = Race(
-                    ID0, "Test", lifeStages = createAging(
+                    RACE_ID_0, "Test", lifeStages = createAging(
                         listOf(
                             createStage("A", 5),
                             createStage("B", maxAge),
@@ -99,13 +99,22 @@ class RaceTest {
             testIsValid(::createSimpleLifeStage, ::createSimpleAging)
         }
 
+        @Test
+        fun `Creator must exist`() {
+            val update = Race(RACE_ID_0, origin = CreatedRace(CreatedByCharacter(CHARACTER_ID_0), DAY0))
+            val action = UpdateRace(update)
+            val state = State(Storage(Race(RACE_ID_0)))
+
+            assertIllegalArgument("Cannot use an unknown character 0 as Creator!") { REDUCER.invoke(state, action) }
+        }
+
         private fun createSimpleLifeStage(name: String, maxAge: Int) = LifeStage(name, maxAge)
         private fun createSimpleAging(stages: List<LifeStage>) = SimpleAging(lifeStages = stages)
 
         private fun <T> testIsValid(createStage: (String, Int) -> T, createAging: (List<T>) -> LifeStages) {
-            val state = State(Storage(Race(ID0)))
+            val state = State(Storage(Race(RACE_ID_0)))
             val race = Race(
-                ID0, "Test", lifeStages = createAging(
+                RACE_ID_0, "Test", lifeStages = createAging(
                     listOf(
                         createStage("A", 6),
                         createStage("B", 7),
@@ -114,7 +123,7 @@ class RaceTest {
             )
             val action = UpdateRace(race)
 
-            assertEquals(race, REDUCER.invoke(state, action).first.getRaceStorage().get(ID0))
+            assertEquals(race, REDUCER.invoke(state, action).first.getRaceStorage().get(RACE_ID_0))
         }
     }
 
