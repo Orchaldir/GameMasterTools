@@ -13,4 +13,4 @@ fun <ID : Id<ID>> State.getOrganizationsFoundedBy(id: ID) = getOrganizationStora
     .getAll()
     .filter { it.founder.isId(id) }
 
-fun State.getExistingOrganization(date: Date?) = getExistingElements(getOrganizationStorage().getAll(), date)
+fun State.getExistingOrganizations(date: Date?) = getExistingElements(getOrganizationStorage().getAll(), date)

@@ -18,7 +18,7 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getLiving
-import at.orchaldir.gm.core.selector.organization.getExistingOrganization
+import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
 import at.orchaldir.gm.core.selector.world.getExistingTowns
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
@@ -108,7 +108,7 @@ fun HtmlBlockTag.selectOwner(
             state,
             "Owner",
             combine(param, ORGANIZATION),
-            state.getExistingOrganization(start),
+            state.getExistingOrganizations(start),
             owner.organization,
             false
         )

@@ -209,7 +209,7 @@
    },
    "origin": {
     "type": "Created",
-    "inventor": {
+    "creator": {
      "type": "Organization",
      "organization": 16
     },
@@ -1132,7 +1132,7 @@
    "origin": {
     "type": "Modified",
     "parent": 10,
-    "inventor": {
+    "modifier": {
      "type": "Undefined"
     },
     "date": {

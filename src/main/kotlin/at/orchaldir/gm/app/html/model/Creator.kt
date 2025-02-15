@@ -19,7 +19,7 @@ import at.orchaldir.gm.core.selector.getRacesCreatedBy
 import at.orchaldir.gm.core.selector.item.getTextsTranslatedBy
 import at.orchaldir.gm.core.selector.item.getTextsWrittenBy
 import at.orchaldir.gm.core.selector.magic.getSpellsCreatedBy
-import at.orchaldir.gm.core.selector.organization.getExistingOrganization
+import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
 import at.orchaldir.gm.core.selector.organization.getOrganizationsFoundedBy
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
@@ -124,7 +124,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
     val characters = state.getLiving(date)
     val towns = state.getExistingTowns(date)
         .filter { it.id != created }
-    val organizations = state.getExistingOrganization(date)
+    val organizations = state.getExistingOrganizations(date)
         .filter { it.id != created }
 
     selectValue("$noun Type", CREATOR, CreatorType.entries, creator.getType(), true) { type ->
