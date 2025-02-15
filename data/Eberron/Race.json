@@ -1064,82 +1064,82 @@
     ]
    }
   },
-   "18": {
-     "id": 18,
-     "name": "Dolgrim",
-     "genders": {
-       "Female": "Common",
-       "Male": "Common"
+  "18": {
+   "id": 18,
+   "name": "Dolgrim",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 1100
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Simple",
+    "appearance": 6,
+    "lifeStages": [
+     {
+      "name": "Baby",
+      "maxAge": 1,
+      "relativeSize": 0.2
      },
-     "height": {
-       "center": {
-         "millimeters": 1100
-       },
-       "offset": {
-         "millimeters": 200
-       }
+     {
+      "name": "Young Child",
+      "maxAge": 3,
+      "relativeSize": 0.4
      },
-     "lifeStages": {
-       "type": "Simple",
-       "appearance": 6,
-       "lifeStages": [
-         {
-           "name": "Baby",
-           "maxAge": 1,
-           "relativeSize": 0.2
-         },
-         {
-           "name": "Young Child",
-           "maxAge": 3,
-           "relativeSize": 0.4
-         },
-         {
-           "name": "Child",
-           "maxAge": 6,
-           "relativeSize": 0.6
-         },
-         {
-           "name": "Teen",
-           "maxAge": 8,
-           "relativeSize": 0.95
-         },
-         {
-           "name": "Adult",
-           "maxAge": 20,
-           "hasBeard": true
-         },
-         {
-           "name": "Middle Age",
-           "maxAge": 30,
-           "hasBeard": true
-         },
-         {
-           "name": "Old Age",
-           "maxAge": 40,
-           "relativeSize": 0.95,
-           "hasBeard": true,
-           "hairColor": "Gray"
-         },
-         {
-           "name": "Venerable",
-           "maxAge": 60,
-           "relativeSize": 0.9,
-           "hasBeard": true,
-           "hairColor": "White"
-         }
-       ]
+     {
+      "name": "Child",
+      "maxAge": 6,
+      "relativeSize": 0.6
      },
-     "origin": {
-       "type": "Modified",
-       "parent": 10,
-       "inventor": {
-         "type": "Undefined"
-       },
-       "date": {
-         "type": "Decade",
-         "decade": 900
-       }
+     {
+      "name": "Teen",
+      "maxAge": 8,
+      "relativeSize": 0.95
+     },
+     {
+      "name": "Adult",
+      "maxAge": 20,
+      "hasBeard": true
+     },
+     {
+      "name": "Middle Age",
+      "maxAge": 30,
+      "hasBeard": true
+     },
+     {
+      "name": "Old Age",
+      "maxAge": 40,
+      "relativeSize": 0.95,
+      "hasBeard": true,
+      "hairColor": "Gray"
+     },
+     {
+      "name": "Venerable",
+      "maxAge": 60,
+      "relativeSize": 0.9,
+      "hasBeard": true,
+      "hairColor": "White"
      }
+    ]
+   },
+   "origin": {
+    "type": "Modified",
+    "parent": 10,
+    "inventor": {
+     "type": "Undefined"
+    },
+    "date": {
+     "type": "Decade",
+     "decade": -901
+    }
+   }
   }
  }
 }

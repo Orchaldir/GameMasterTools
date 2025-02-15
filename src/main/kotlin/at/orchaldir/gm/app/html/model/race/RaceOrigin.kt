@@ -73,7 +73,7 @@ fun FORM.editRaceOrigin(
 ) {
     val possibleParents = state.sortRaces(state.getPossibleParents(race.id))
 
-    showDetails("Origin") {
+    showDetails("Origin", true) {
         selectValue("Type", ORIGIN, RaceOriginType.entries, race.origin.getType(), true) {
             when (it) {
                 Evolved, Modified -> possibleParents.isEmpty()
