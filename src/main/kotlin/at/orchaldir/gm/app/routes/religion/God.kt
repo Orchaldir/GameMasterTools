@@ -179,6 +179,7 @@ private fun HTML.showAllGods(
         action(createLink, "Add")
         back("/")
 
+        showDomainCount(call, state, state.getGodStorage().getAll())
         showPersonalityCountForGods(call, state, state.getGodStorage().getAll())
     }
 }

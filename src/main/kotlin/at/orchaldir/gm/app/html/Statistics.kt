@@ -21,6 +21,7 @@ import at.orchaldir.gm.core.selector.item.countEachTextFormat
 import at.orchaldir.gm.core.selector.item.countEachTextOrigin
 import at.orchaldir.gm.core.selector.magic.countEachLanguage
 import at.orchaldir.gm.core.selector.magic.countSpellOrigin
+import at.orchaldir.gm.core.selector.religion.countEachDomain
 import at.orchaldir.gm.core.selector.util.countEachCreator
 import at.orchaldir.gm.core.selector.world.countEachArchitecturalStyle
 import at.orchaldir.gm.core.selector.world.countEachPurpose
@@ -67,6 +68,12 @@ fun HtmlBlockTag.showCultureCount(
     state: State,
     characters: Collection<Character>,
 ) = showCount(call, state, "Cultures", countEachCulture(characters))
+
+fun HtmlBlockTag.showDomainCount(
+    call: ApplicationCall,
+    state: State,
+    gods: Collection<God>,
+) = showCount(call, state, "Domains", countEachDomain(gods))
 
 fun HtmlBlockTag.showGenderCount(characters: Collection<Character>) =
     showCount("Genders", countEachGender(characters))
@@ -142,9 +149,9 @@ fun HtmlBlockTag.showPersonalityCountForCharacters(
 fun HtmlBlockTag.showPersonalityCountForGods(
     call: ApplicationCall,
     state: State,
-    characters: Collection<God>,
+    gods: Collection<God>,
     label: String = "Personality",
-) = showCount(call, state, label, countEachPersonalityForGods(characters))
+) = showCount(call, state, label, countEachPersonalityForGods(gods))
 
 fun HtmlBlockTag.showRaceCount(
     call: ApplicationCall,

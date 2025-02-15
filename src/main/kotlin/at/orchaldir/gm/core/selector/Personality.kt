@@ -10,7 +10,7 @@ fun countEachPersonalityForCharacters(characters: Collection<Character>) = chara
     .groupingBy { it }
     .eachCount()
 
-fun countEachPersonalityForGods(characters: Collection<God>) = characters
+fun countEachPersonalityForGods(gods: Collection<God>) = gods
     .flatMap { it.personality }
     .groupingBy { it }
     .eachCount()
