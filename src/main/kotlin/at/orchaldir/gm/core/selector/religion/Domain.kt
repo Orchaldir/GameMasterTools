@@ -8,7 +8,11 @@ import at.orchaldir.gm.core.model.religion.God
 
 fun State.canDeleteDomain(domain: DomainId) = getGodsWith(domain).isEmpty()
 
-fun State.countDomain(spell: SpellId) = getDomainStorage()
+fun State.countDomains(job: JobId) = getDomainStorage()
+    .getAll()
+    .count { domain -> domain.jobs.contains(job) }
+
+fun State.countDomains(spell: SpellId) = getDomainStorage()
     .getAll()
     .count { domain -> domain.spells.contains(spell) }
 

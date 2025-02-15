@@ -20,7 +20,7 @@ import at.orchaldir.gm.core.selector.economy.getJobsContaining
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getTextsContaining
 import at.orchaldir.gm.core.selector.magic.canDeleteSpell
-import at.orchaldir.gm.core.selector.religion.countDomain
+import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
 import at.orchaldir.gm.core.selector.util.sortSpells
 import io.ktor.http.*
@@ -172,7 +172,7 @@ private fun HTML.showAllSpells(
                     td { showOptionalDate(call, state, spell.date) }
                     td { optionalLink(call, state, spell.language) }
                     td { showOrigin(call, state, spell.origin) }
-                    tdSkipZero(state.countDomain(spell.id))
+                    tdSkipZero(state.countDomains(spell.id))
                     tdSkipZero(state.countJobs(spell.id))
                     tdSkipZero(state.countTexts(spell.id))
                 }

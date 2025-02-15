@@ -5,12 +5,12 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.selector.religion.countDomain
+import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteSpell(spell: SpellId) = getSpellsBasedOn(spell).isEmpty()
-        && countDomain(spell) == 0
+        && countDomains(spell) == 0
 
 fun countEachLanguage(spells: Collection<Spell>) = spells
     .filter { it.language != null }

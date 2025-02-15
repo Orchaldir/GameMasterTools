@@ -6,9 +6,11 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.getPreviousEmployees
+import at.orchaldir.gm.core.selector.religion.countDomains
 
 fun State.canDelete(job: JobId) = getEmployees(job).isEmpty()
         && getPreviousEmployees(job).isEmpty()
+        && countDomains(job) == 0
 
 fun countEachJob(characters: Collection<Character>) = characters
     .map { it.employmentStatus.current.getJob() }

@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.selector.economy.canDelete
 import at.orchaldir.gm.core.selector.economy.getBusinesses
 import at.orchaldir.gm.core.selector.getEmployees
 import at.orchaldir.gm.core.selector.getPreviousEmployees
+import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
 import at.orchaldir.gm.core.selector.religion.getGodsAssociatedWith
 import at.orchaldir.gm.core.selector.util.sortCharacters
@@ -129,12 +130,14 @@ private fun HTML.showAllJobs(call: ApplicationCall, state: State) {
         table {
             tr {
                 th { +"Name" }
+                th { +"Domains" }
                 th { +"Characters" }
                 th { +"Spells" }
             }
             jobs.forEach { job ->
                 tr {
                     td { link(call, job) }
+                    tdSkipZero(state.countDomains(job.id))
                     tdSkipZero(state.getEmployees(job.id).size)
                     tdSkipZero(job.spells.getRarityMap().size)
                 }
