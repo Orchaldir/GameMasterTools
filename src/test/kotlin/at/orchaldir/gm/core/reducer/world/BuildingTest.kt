@@ -238,7 +238,7 @@ class BuildingTest {
         private val UNKNOWN_STYLE = ArchitecturalStyleId(1)
         private val STATE = State(
             listOf(
-                Storage(listOf(ArchitecturalStyle(STYLE, start = Year(0)))),
+                Storage(listOf(ArchitecturalStyle(STYLE, start = YEAR0))),
                 Storage(listOf(Building(BUILDING_ID_0, style = STYLE), Building(BUILDING_ID_1, style = STYLE))),
                 Storage(CALENDAR0),
                 Storage(Character(CHARACTER_ID_0)),

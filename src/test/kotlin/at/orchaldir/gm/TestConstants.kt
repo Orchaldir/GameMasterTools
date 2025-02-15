@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.street.StreetId
@@ -62,6 +63,8 @@ val TOWN_ID_0 = TownId(0)
 val TOWN_ID_1 = TownId(1)
 
 val CALENDAR0 = Calendar(CALENDAR_ID_0, months = ComplexMonths(listOf(Month("a"))))
-val DAY0 = Day(100)
-val DAY1 = Day(200)
-val DAY2 = Day(300)
+val YEAR0 = Year(-11)
+val DAY0 = Day(-300)
+val DAY1 = Day(-200)
+val DAY2 = Day(-100)
+val FUTURE_DAY_0 = Day(100)

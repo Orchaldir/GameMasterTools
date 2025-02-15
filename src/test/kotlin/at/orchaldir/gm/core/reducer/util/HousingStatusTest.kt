@@ -17,7 +17,7 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Test
 
 
-fun create(purpose: BuildingPurpose = SingleFamilyHouse, date: Date = Year(0)) =
+fun create(purpose: BuildingPurpose = SingleFamilyHouse, date: Date = DAY0) =
     Building(BUILDING_ID_0, constructionDate = date, purpose = purpose)
 
 private val IN_APARTMENT = InApartment(BUILDING_ID_0, 0)

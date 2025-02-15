@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.item.text.scroll.*
+import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.exists
@@ -29,6 +30,7 @@ val DELETE_TEXT: Reducer<DeleteText, State> = { state, action ->
 
 val UPDATE_TEXT: Reducer<UpdateText, State> = { state, action ->
     state.getTextStorage().require(action.text.id)
+    checkDate(state, action.text.date, "Text")
     checkOrigin(state, action.text)
     checkTextFormat(action.text.format)
     checkTextContent(state, action.text.content)
