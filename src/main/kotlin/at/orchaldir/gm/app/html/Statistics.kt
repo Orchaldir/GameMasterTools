@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.material.Material
+import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.Owner
@@ -131,12 +132,19 @@ fun countEachOwner(ownershipCollection: Collection<History<Owner>>) = ownershipC
     .groupingBy { it.current }
     .eachCount()
 
-fun HtmlBlockTag.showPersonalityCount(
+fun HtmlBlockTag.showPersonalityCountForCharacters(
     call: ApplicationCall,
     state: State,
     characters: Collection<Character>,
     label: String = "Personality",
-) = showCount(call, state, label, countEachPersonality(characters))
+) = showCount(call, state, label, countEachPersonalityForCharacters(characters))
+
+fun HtmlBlockTag.showPersonalityCountForGods(
+    call: ApplicationCall,
+    state: State,
+    characters: Collection<God>,
+    label: String = "Personality",
+) = showCount(call, state, label, countEachPersonalityForGods(characters))
 
 fun HtmlBlockTag.showRaceCount(
     call: ApplicationCall,

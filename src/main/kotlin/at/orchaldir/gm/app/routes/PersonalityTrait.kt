@@ -131,9 +131,11 @@ private fun HTML.showAllPersonalityTraits(call: ApplicationCall, state: State) {
             link(call, personalityTrait)
         }
 
-        showPersonalityCount(call, state, state.getCharacterStorage().getAll(), "Characters")
         action(createLink, "Add")
         back("/")
+
+        showPersonalityCountForCharacters(call, state, state.getCharacterStorage().getAll(), "Characters")
+        showPersonalityCountForGods(call, state, state.getGodStorage().getAll(), "Gods")
     }
 }
 

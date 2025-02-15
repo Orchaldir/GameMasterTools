@@ -220,7 +220,7 @@ private fun HTML.showAllCharacters(
         showHousingStatusCount(characters)
         showJobCount(call, state, characters)
         showLanguageCountForCharacters(call, state, characters)
-        showPersonalityCount(call, state, characters)
+        showPersonalityCountForCharacters(call, state, characters)
         showRaceCount(call, state, characters)
     }
 }
