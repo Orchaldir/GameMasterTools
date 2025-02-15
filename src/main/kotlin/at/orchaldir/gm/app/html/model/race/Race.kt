@@ -28,6 +28,7 @@ fun HtmlBlockTag.showRace(
     showRarityMap("Gender", race.genders)
     showDistribution("Height", race.height)
     showLifeStages(call, state, race)
+    showRaceOrigin(call, state, race.origin)
 }
 
 
@@ -112,6 +113,7 @@ fun FORM.editRace(
         true
     )
     editLifeStages(state, race)
+    editRaceOrigin(state, race)
 }
 
 
@@ -212,13 +214,16 @@ private fun HtmlBlockTag.selectAppearance(
 
 // parse
 
-fun parseRace(id: RaceId, parameters: Parameters): Race {
+fun parseRaceId(parameters: Parameters, param: String) = RaceId(parseInt(parameters, param))
+
+fun parseRace(state: State, parameters: Parameters, id: RaceId): Race {
     val name = parameters.getOrFail("name")
     return Race(
         id, name,
         parseOneOf(parameters, GENDER, Gender::valueOf),
         parseDistribution(parameters, HEIGHT),
         parseLifeStages(parameters),
+        parseRaceOrigin(parameters, state),
     )
 }
 

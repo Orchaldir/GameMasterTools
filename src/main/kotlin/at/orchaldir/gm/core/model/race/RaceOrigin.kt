@@ -50,7 +50,7 @@ data object CosmicRace : RaceOrigin()
  * A race created by someone. e.g. the warforged in Eberron
  */
 @Serializable
-@SerialName("Invented")
+@SerialName("Created")
 data class CreatedRace(
     val inventor: Creator,
     val date: Date,

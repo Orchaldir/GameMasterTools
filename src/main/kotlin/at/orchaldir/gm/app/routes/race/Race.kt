@@ -101,16 +101,17 @@ fun Application.configureRaceRouting() {
         post<RaceRoutes.Preview> { preview ->
             logger.info { "Get preview for race ${preview.id.value}" }
 
-            val race = parseRace(preview.id, call.receiveParameters())
+            val state = STORE.getState()
+            val race = parseRace(state, call.receiveParameters(), preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showRaceEditor(call, STORE.getState(), race)
+                showRaceEditor(call, state, race)
             }
         }
         post<RaceRoutes.Update> { update ->
             logger.info { "Update race ${update.id.value}" }
 
-            val race = parseRace(update.id, call.receiveParameters())
+            val race = parseRace(STORE.getState(), call.receiveParameters(), update.id)
 
             STORE.dispatch(UpdateRace(race))
 
