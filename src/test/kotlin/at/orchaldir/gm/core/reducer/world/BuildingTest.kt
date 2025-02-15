@@ -241,7 +241,7 @@ class BuildingTest {
                 Storage(listOf(ArchitecturalStyle(STYLE, start = YEAR0))),
                 Storage(listOf(Building(BUILDING_ID_0, style = STYLE), Building(BUILDING_ID_1, style = STYLE))),
                 Storage(CALENDAR0),
-                Storage(Character(CHARACTER_ID_0)),
+                Storage(Character(CHARACTER_ID_0, birthDate = DAY0)),
                 Storage(listOf(Street(STREET_ID_0), Street(STREET_ID_1), Street(STREET_NOT_IN_TOWN))),
                 Storage(Town(TOWN_ID_0, map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1)))),
             )
@@ -476,6 +476,7 @@ class BuildingTest {
                     Storage(
                         Character(
                             CHARACTER_ID_0,
+                            birthDate = DAY0,
                             housingStatus = History(InHouse(BUILDING_ID_0))
                         )
                     )
@@ -493,6 +494,7 @@ class BuildingTest {
                     Storage(
                         Character(
                             CHARACTER_ID_0,
+                            birthDate = DAY0,
                             housingStatus = History(InHouse(BUILDING_ID_0))
                         )
                     )
@@ -513,6 +515,7 @@ class BuildingTest {
                             Storage(
                                 Character(
                                     CHARACTER_ID_0,
+                                    birthDate = DAY0,
                                     housingStatus = History(InApartment(BUILDING_ID_0, 4))
                                 )
                             )

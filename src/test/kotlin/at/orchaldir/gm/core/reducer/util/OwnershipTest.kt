@@ -19,9 +19,15 @@ private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_TYPE_ID_1)
 private val STATE = State(
     listOf(
         Storage(CALENDAR0),
-        Storage(Character(CHARACTER_ID_2)),
+        Storage(Character(CHARACTER_ID_2, birthDate = DAY0)),
         Storage(listOf(StreetTemplate(STREET_TYPE_ID_0), StreetTemplate(STREET_TYPE_ID_0))),
-        Storage(Town(TOWN_ID_0, map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1)))),
+        Storage(
+            Town(
+                TOWN_ID_0,
+                foundingDate = DAY0,
+                map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1))
+            )
+        ),
     )
 )
 private val OWNED_BY_CHARACTER = History<Owner>(OwnedByCharacter(CHARACTER_ID_2))
