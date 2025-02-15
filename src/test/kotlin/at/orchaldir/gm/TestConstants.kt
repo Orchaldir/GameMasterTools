@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.street.StreetId
@@ -28,6 +29,8 @@ import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownId
 
+val ARCHITECTURAL_ID0 = ArchitecturalStyleId(0)
+val ARCHITECTURAL_ID1 = ArchitecturalStyleId(1)
 val BUILDING_ID_0 = BuildingId(0)
 val BUILDING_ID_1 = BuildingId(1)
 val BUSINESS_ID_0 = BusinessId(0)
@@ -67,7 +70,9 @@ val TOWN_ID_1 = TownId(1)
 
 val CALENDAR0 = Calendar(CALENDAR_ID_0, months = ComplexMonths(listOf(Month("a"))))
 val YEAR0 = Year(-11)
+val YEAR1 = Year(-10)
 val DAY0 = Day(-300)
 val DAY1 = Day(-200)
 val DAY2 = Day(-100)
 val FUTURE_DAY_0 = Day(100)
+val FUTURE_YEAR_0 = Year(10)

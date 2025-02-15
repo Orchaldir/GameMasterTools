@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.calendar.Calendar
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.BuildingId
+import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getBuildings
@@ -33,6 +34,8 @@ val UPDATE_ARCHITECTURAL_STYLE: Reducer<UpdateArchitecturalStyle, State> = { sta
     state.getArchitecturalStyleStorage().require(style.id)
     val calendar = state.getDefaultCalendar()
 
+    checkDate(state, style.start, "Architectural Style's Start")
+    checkDate(state, style.end, "Architectural Style's End")
     state.getBuildings(style.id).forEach { checkStartDate(calendar, style, it.id, it.constructionDate) }
 
     style.revival?.let {
