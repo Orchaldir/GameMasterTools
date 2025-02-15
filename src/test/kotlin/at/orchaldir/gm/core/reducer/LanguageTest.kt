@@ -82,42 +82,55 @@ class LanguageTest {
     @Nested
     inner class UpdateTest {
 
+        val STATE = State(
+            listOf(
+                Storage(CALENDAR0),
+                Storage(Character(CHARACTER_ID_0)),
+                Storage(Language(LANGUAGE_ID_0)),
+            )
+        )
+
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateLanguage(Language(LANGUAGE_ID_0))
+            val action = UpdateLanguage(Language(LANGUAGE_ID_1))
 
-            assertIllegalArgument("Requires unknown Language 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Language 1!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Inventor must exist`() {
-            val state = State(Storage(Language(LANGUAGE_ID_0)))
-            val origin = InventedLanguage(CreatedByCharacter(CHARACTER_ID_0), DAY0)
+            val origin = InventedLanguage(CreatedByCharacter(CHARACTER_ID_1), DAY0)
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = origin))
 
-            assertIllegalArgument("Cannot use an unknown character 0 as Inventor!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown character 1 as Inventor!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Parent language must exist`() {
-            val state = State(Storage(Language(LANGUAGE_ID_0)))
             val origin = EvolvedLanguage(LANGUAGE_ID_1)
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = origin))
 
-            assertIllegalArgument("Cannot use an unknown parent language 1!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown parent language 1!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `A language cannot be its own parent`() {
-            val state = State(Storage(Language(LANGUAGE_ID_0)))
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = EvolvedLanguage(LANGUAGE_ID_0)))
 
-            assertIllegalArgument("A language cannot be its own parent!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("A language cannot be its own parent!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Date is in the future`() {
+            val origin = InventedLanguage(CreatedByCharacter(CHARACTER_ID_0), FUTURE_DAY_0)
+            val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = origin))
+
+            assertIllegalArgument("Date (Language) is in the future!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Parent language exist`() {
-            val state = State(Storage(listOf(Language(LANGUAGE_ID_0), Language(LANGUAGE_ID_1))))
+            val state = STATE.updateStorage(Storage(listOf(Language(LANGUAGE_ID_0), Language(LANGUAGE_ID_1))))
             val language = Language(LANGUAGE_ID_0, origin = EvolvedLanguage(LANGUAGE_ID_1))
             val action = UpdateLanguage(language)
 

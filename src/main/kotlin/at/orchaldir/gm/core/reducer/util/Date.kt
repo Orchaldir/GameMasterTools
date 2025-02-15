@@ -9,6 +9,8 @@ fun checkDate(
     date: Date?,
     noun: String,
 ) {
-    val calendar = state.getDefaultCalendar()
-    require(calendar.isAfterOrEqualOptional(state.time.currentDate, date)) { "Date ($noun) is in the future!" }
+    if (date != null) {
+        val calendar = state.getDefaultCalendar()
+        require(calendar.isAfterOrEqual(state.time.currentDate, date)) { "Date ($noun) is in the future!" }
+    }
 }
