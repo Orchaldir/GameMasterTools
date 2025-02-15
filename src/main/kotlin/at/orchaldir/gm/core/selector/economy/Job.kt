@@ -17,11 +17,11 @@ fun countEachJob(characters: Collection<Character>) = characters
 
 fun State.countJobs(spell: SpellId) = getJobStorage()
     .getAll()
-    .count { b -> b.spells.getRarityMap().containsKey(spell) }
+    .count { b -> b.spells.contains(spell) }
 
 fun State.getJobsContaining(spell: SpellId) = getJobStorage()
     .getAll()
-    .filter { b -> b.spells.getRarityMap().containsKey(spell) }
+    .filter { b -> b.spells.contains(spell) }
 
 
 

@@ -4,6 +4,9 @@
   "0": {
    "id": 0,
    "name": "Weather",
+   "spells": {
+    "4": "Everyone"
+   },
    "jobs": [
     18,
     19

@@ -8,7 +8,10 @@ import at.orchaldir.gm.core.model.magic.InventedSpell
 import at.orchaldir.gm.core.model.magic.ModifiedSpell
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.TranslatedSpell
+import at.orchaldir.gm.core.model.religion.Domain
+import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
+import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.model.util.UndefinedCreator
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -59,6 +62,13 @@ class SpellTest {
             assertIllegalArgument("The spell 0 is used!") {
                 REDUCER.invoke(state, action)
             }
+        }
+
+        @Test
+        fun `Cannot delete a spell known by a domain`() {
+            val state = STATE.updateStorage(Storage(Domain(DOMAIN_ID_0, spells = SomeOf(SPELL_ID_0))))
+
+            assertIllegalArgument("The spell 0 is used!") { REDUCER.invoke(state, action) }
         }
     }
 

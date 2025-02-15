@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeleteDomain
 import at.orchaldir.gm.core.action.UpdateDomain
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Domain
+import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -16,6 +17,7 @@ private val domain0 = Domain(DOMAIN_ID_0)
 private val STATE = State(
     listOf(
         Storage(CALENDAR0),
+        Storage(domain0),
         Storage(domain0),
     )
 )
@@ -34,6 +36,13 @@ class DomainTest {
         @Test
         fun `Cannot delete unknown id`() {
             assertIllegalArgument("Requires unknown Domain 0!") { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Cannot delete a domain used by a god`() {
+            val state = STATE.updateStorage(Storage(God(GOD_ID_0, domains = setOf(DOMAIN_ID_0))))
+
+            assertIllegalArgument("The domain 0 is used!") { REDUCER.invoke(state, action) }
         }
     }
 
