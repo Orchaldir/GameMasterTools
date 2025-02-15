@@ -1,5 +1,7 @@
 package at.orchaldir.gm.app.routes
 
+import at.orchaldir.gm.app.NONE
+import at.orchaldir.gm.app.PERSONALITY_PREFIX
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parsePersonalityTrait
@@ -113,10 +115,23 @@ private fun HTML.showAllPersonalityTraits(call: ApplicationCall, state: State) {
 
     simpleHtml("Personality Traits") {
         field("Count", personalityTraits.size)
-        showList(personalityTraits) { personalityTrait ->
+
+        showList("By Name", personalityTraits) { personalityTrait ->
             link(call, personalityTrait)
         }
-        showPersonalityCount(call, state, state.getCharacterStorage().getAll(), "Distribution")
+
+        showList("By Group", state.getPersonalityTraitGroups()) { group ->
+            state.getPersonalityTraits(group).forEach { trait ->
+                +" "
+                link(call, state, trait)
+            }
+        }
+
+        showList("Without Group", personalityTraits.filter { it.group == null }) { personalityTrait ->
+            link(call, personalityTrait)
+        }
+
+        showPersonalityCount(call, state, state.getCharacterStorage().getAll(), "Characters")
         action(createLink, "Add")
         back("/")
     }
