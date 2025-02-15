@@ -28,6 +28,7 @@ data class Race(
     val genders: OneOf<Gender> = OneOf(Gender.entries),
     val height: Distribution = Distribution.fromMeters(1.8f, 0.2f),
     val lifeStages: LifeStages = ImmutableLifeStage(),
+    val origin: RaceOrigin = OriginalRace,
 ) : ElementWithSimpleName<RaceId> {
 
     override fun id() = id
