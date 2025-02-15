@@ -340,7 +340,7 @@ private fun HtmlBlockTag.showEvents(
     val events = unsortedEvents.sort(calendar)
 
     showList("Events", events) { event ->
-        val date = event.date()
+        val date = event.date
 
         if (date is Day && date == state.time.currentDate) {
             link(call, date, "Today")
