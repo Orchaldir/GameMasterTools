@@ -42,7 +42,7 @@ class AppearanceTest {
     }
 
     @Test
-    fun `Character has too high height`() {
+    fun `Character's height is invalid!`() {
         val appearance = HeadOnly(Head(skin = NormalSkin()), Distance(1101))
         val action = UpdateAppearance(CHARACTER_ID_0, appearance)
 

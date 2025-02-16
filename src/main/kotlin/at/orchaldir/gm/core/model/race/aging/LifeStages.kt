@@ -1,13 +1,19 @@
 package at.orchaldir.gm.core.model.race.aging
 
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+private val immutable = LifeStage("Immutable", Int.MAX_VALUE)
+private val defaultRelativeSizes = listOf(0.2f, 0.4f, 0.6f, 0.95f, 1.0f, 1.0f, 0.95f, 0.9f)
+private val defaultLifeStagesMap = mutableMapOf<DefaultAging, List<LifeStage>>()
+
 enum class LifeStagesType {
     ImmutableLifeStage,
+    DefaultAging,
     SimpleAging,
 }
 
@@ -16,6 +22,7 @@ sealed class LifeStages {
 
     fun getType() = when (this) {
         is ImmutableLifeStage -> LifeStagesType.ImmutableLifeStage
+        is DefaultAging -> LifeStagesType.DefaultAging
         is SimpleAging -> LifeStagesType.SimpleAging
     }
 
@@ -23,16 +30,19 @@ sealed class LifeStages {
 
     fun getRaceAppearance() = when (this) {
         is ImmutableLifeStage -> this.appearance
+        is DefaultAging -> this.appearance
         is SimpleAging -> this.appearance
     }
 
     fun getMaxAge() = when (this) {
         is ImmutableLifeStage -> null
+        is DefaultAging -> maxAges.last()
         is SimpleAging -> lifeStages.last().maxAge
     }
 
     fun countLifeStages() = when (this) {
         is ImmutableLifeStage -> 1
+        is DefaultAging -> DefaultLifeStages.entries.size
         is SimpleAging -> lifeStages.size
     }
 
@@ -41,6 +51,49 @@ sealed class LifeStages {
     abstract fun getLifeStageStartAge(age: Int): Int
     abstract fun getRelativeSize(age: Int): Factor
 
+}
+
+@Serializable
+@SerialName("Default")
+data class DefaultAging(
+    val appearance: RaceAppearanceId = RaceAppearanceId(0),
+    val maxAges: List<Int>,
+    val oldAgeHairColor: Color? = null,
+    val venerableAgeHairColor: Color? = null,
+) : LifeStages() {
+
+    override fun contains(id: RaceAppearanceId) = id == appearance
+
+    override fun getAllLifeStages() = defaultLifeStagesMap.computeIfAbsent(this) { createLifeStages() }
+
+    override fun getLifeStage(age: Int) = getLifeStage(age, getAllLifeStages())
+
+    override fun getLifeStageStartAge(age: Int) = getLifeStageStartAge(age, getAllLifeStages())
+
+    override fun getRelativeSize(age: Int) = getRelativeSize(age, getAllLifeStages())
+
+    private fun createLifeStages() = listOf(
+        createLifeStage(0),
+        createLifeStage(1),
+        createLifeStage(2),
+        createLifeStage(3),
+        createLifeStage(4, true),
+        createLifeStage(6, true),
+        createLifeStage(7, true, oldAgeHairColor),
+        createLifeStage(8, true),
+    )
+
+    private fun createLifeStage(
+        index: Int,
+        hasBeard: Boolean = false,
+        hairColor: Color? = null,
+    ) = LifeStage(
+        DefaultLifeStages.entries[index].name,
+        maxAges[index],
+        Factor(defaultRelativeSizes[index]),
+        hasBeard,
+        hairColor,
+    )
 }
 
 @Serializable
@@ -70,7 +123,7 @@ data class ImmutableLifeStage(
 
     override fun contains(id: RaceAppearanceId) = id == appearance
 
-    override fun getAllLifeStages() = listOf(LifeStage("Immutable", Int.MAX_VALUE))
+    override fun getAllLifeStages() = listOf(immutable)
 
     override fun getLifeStage(age: Int) = null
 
