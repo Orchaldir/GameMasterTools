@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.character.HousingStatus
 import at.orchaldir.gm.core.model.character.InApartment
 import at.orchaldir.gm.core.model.character.InHouse
 import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse

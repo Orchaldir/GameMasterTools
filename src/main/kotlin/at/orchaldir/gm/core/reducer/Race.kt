@@ -5,7 +5,9 @@ import at.orchaldir.gm.core.action.CreateRace
 import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.race.*
+import at.orchaldir.gm.core.model.race.CreatedRace
+import at.orchaldir.gm.core.model.race.ModifiedRace
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator

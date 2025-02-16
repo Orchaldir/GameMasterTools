@@ -6,9 +6,9 @@ import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.reducer.util.checkDate
-import at.orchaldir.gm.core.reducer.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.reducer.util.checkEmploymentStatusHistory
 import at.orchaldir.gm.core.reducer.util.checkHousingStatusHistory
+import at.orchaldir.gm.core.reducer.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getChildren

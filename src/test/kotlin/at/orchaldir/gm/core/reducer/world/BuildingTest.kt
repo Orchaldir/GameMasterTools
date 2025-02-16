@@ -1,10 +1,12 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.*
+import at.orchaldir.gm.core.action.AddBuilding
+import at.orchaldir.gm.core.action.DeleteBuilding
+import at.orchaldir.gm.core.action.UpdateBuilding
+import at.orchaldir.gm.core.action.UpdateBuildingLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.name.NameWithReference
 import at.orchaldir.gm.core.model.name.ReferencedFullName
 import at.orchaldir.gm.core.model.name.SimpleName

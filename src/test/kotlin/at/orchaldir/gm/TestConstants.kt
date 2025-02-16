@@ -16,7 +16,6 @@ import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId

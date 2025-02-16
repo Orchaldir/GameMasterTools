@@ -1,6 +1,9 @@
 package at.orchaldir.gm.core.reducer.character
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.CALENDAR0
+import at.orchaldir.gm.CHARACTER_ID_0
+import at.orchaldir.gm.RACE_ID_0
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character

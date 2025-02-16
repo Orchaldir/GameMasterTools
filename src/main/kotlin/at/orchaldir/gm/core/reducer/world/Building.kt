@@ -11,8 +11,8 @@ import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.reducer.util.checkComplexName
 import at.orchaldir.gm.core.reducer.util.checkDate
-import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
+import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.world.getMinNumberOfApartment

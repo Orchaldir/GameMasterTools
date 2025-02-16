@@ -1,18 +1,18 @@
 package at.orchaldir.gm.core.reducer.font
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.CALENDAR0
+import at.orchaldir.gm.FONT_ID_0
+import at.orchaldir.gm.FUTURE_DAY_0
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteFont
-import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.action.UpdateFont
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 private val font0 = Font(FONT_ID_0)
 private val STATE = State(

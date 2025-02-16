@@ -2,10 +2,8 @@ package at.orchaldir.gm.core.reducer.magic
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteSpell
-import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.magic.InventedSpell
 import at.orchaldir.gm.core.model.magic.ModifiedSpell
 import at.orchaldir.gm.core.model.magic.Spell
@@ -19,7 +17,6 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 private val spell0 = Spell(SPELL_ID_0)
 private val STATE = State(
