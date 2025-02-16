@@ -82,6 +82,15 @@ fun HtmlBlockTag.field(name: String, value: String) {
     }
 }
 
+fun HtmlBlockTag.optionalField(name: String, value: String?) {
+    if (value != null) {
+        p {
+            b { +"$name: " }
+            +value
+        }
+    }
+}
+
 fun HtmlBlockTag.fieldAge(name: String, state: State, date: Date?) {
     if (date != null) {
         fieldAge(name, state.getAgeInYears(date))
