@@ -2,17 +2,16 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteRace
-import at.orchaldir.gm.core.action.UpdateBusiness
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.race.CreatedRace
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.LifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -27,6 +26,7 @@ class RaceTest {
         listOf(
             Storage(CALENDAR0),
             Storage(listOf(Race(RACE_ID_0), Race(RACE_ID_1))),
+            Storage(RaceAppearance(RACE_APPEARANCE_ID_0)),
         )
     )
 
@@ -67,12 +67,19 @@ class RaceTest {
 
     @Nested
     inner class UpdateTest {
+        val action = UpdateRace(Race(RACE_ID_0))
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateRace(Race(RACE_ID_0))
 
             assertIllegalArgument("Requires unknown Race 0!") { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Race appearance must exist`() {
+            val newState = state.removeStorage(RACE_APPEARANCE_ID_0)
+
+            assertIllegalArgument("Requires unknown Race Appearance 0!") { REDUCER.invoke(newState, action) }
         }
 
         @Test
@@ -123,7 +130,6 @@ class RaceTest {
         private fun createSimpleAging(stages: List<LifeStage>) = SimpleAging(lifeStages = stages)
 
         private fun <T> testIsValid(createStage: (String, Int) -> T, createAging: (List<T>) -> LifeStages) {
-            val state = State(Storage(Race(RACE_ID_0)))
             val race = Race(
                 RACE_ID_0, "Test", lifeStages = createAging(
                     listOf(
