@@ -21,8 +21,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
-import kotlinx.html.form
+import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -112,9 +111,24 @@ private fun HTML.showAllMoons(call: ApplicationCall) {
 
     simpleHtml("Moons") {
         field("Count", moons.size)
-        showList(moons) { nameList ->
-            link(call, nameList)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Title" }
+                th { +"Duration" }
+                th { +"Color" }
+            }
+            moons.forEach { moon ->
+                tr {
+                    td { link(call, moon) }
+                    td { moon.title?.let { +it } }
+                    td { +"${moon.getCycle()} days" }
+                    td { +moon.color.name }
+                }
+            }
         }
+
         action(createLink, "Add")
         back("/")
     }
