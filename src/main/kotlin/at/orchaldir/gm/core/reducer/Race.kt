@@ -6,10 +6,7 @@ import at.orchaldir.gm.core.action.DeleteRace
 import at.orchaldir.gm.core.action.UpdateRace
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.*
-import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
-import at.orchaldir.gm.core.model.race.aging.LifeStage
-import at.orchaldir.gm.core.model.race.aging.LifeStages
-import at.orchaldir.gm.core.model.race.aging.SimpleAging
+import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.getCharacters
@@ -43,14 +40,21 @@ val UPDATE_RACE: Reducer<UpdateRace, State> = { state, action ->
     val race = action.race
     state.getRaceStorage().require(race.id)
     checkDate(state, race.startDate(), "Race")
-    checkLifeStages(race.lifeStages)
+    checkLifeStages(state, race.lifeStages)
     checkOrigin(state, race)
 
     noFollowUps(state.updateStorage(state.getRaceStorage().update(race)))
 }
 
-fun checkLifeStages(lifeStages: LifeStages) {
+fun checkLifeStages(state: State, lifeStages: LifeStages) {
+    state.getRaceAppearanceStorage().require(lifeStages.getRaceAppearance())
+
     when (lifeStages) {
+        is DefaultAging -> {
+            require(lifeStages.maxAges.size == DefaultLifeStages.entries.size) { "Invalid number of max ages!" }
+            checkMaxAge(lifeStages.getAllLifeStages())
+        }
+
         is SimpleAging -> checkMaxAge(lifeStages.lifeStages)
 
         is ImmutableLifeStage -> doNothing()

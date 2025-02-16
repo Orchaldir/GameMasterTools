@@ -43,6 +43,13 @@ private fun HtmlBlockTag.showLifeStages(
     when (lifeStages) {
         is ImmutableLifeStage -> showAppearance(call, state, lifeStages.appearance)
 
+        is DefaultAging -> {
+            showAppearance(call, state, lifeStages.appearance)
+            details {
+                showList(lifeStages.getAllLifeStages(), HtmlBlockTag::showLifeStage)
+            }
+        }
+
         is SimpleAging -> {
             showAppearance(call, state, lifeStages.appearance)
             details {
@@ -133,6 +140,17 @@ private fun FORM.editLifeStages(
             selectAppearance(state, lifeStages.appearance, 0)
         }
 
+        is DefaultAging -> {
+            selectAppearance(state, lifeStages.appearance, 0)
+            var minMaxAge = 1
+            showListWithIndex(lifeStages.getAllLifeStages()) { index, stage ->
+                selectMaxAge(stage.name, minMaxAge, index, stage.maxAge)
+                minMaxAge = stage.maxAge + 1
+            }
+            selectHairColor("Old Age", 0, lifeStages.oldAgeHairColor)
+            selectHairColor("Venerable", 1, lifeStages.venerableAgeHairColor)
+        }
+
         is SimpleAging -> {
             selectAppearance(state, lifeStages.appearance, 0)
             selectNumberOfLifeStages(lifeStages.lifeStages.size)
@@ -141,7 +159,7 @@ private fun FORM.editLifeStages(
                 selectStageName(index, stage.name)
                 ul {
                     li {
-                        selectMaxAge(minMaxAge, index, stage.maxAge)
+                        selectMaxAge("Max Age", minMaxAge, index, stage.maxAge)
                     }
                     li {
                         selectRelativeSize(stage.relativeSize, index)
@@ -155,19 +173,23 @@ private fun FORM.editLifeStages(
                         )
                     }
                     li {
-                        selectOptionalColor(
-                            "Hair Color",
-                            combine(LIFE_STAGE, HAIR_COLOR, index),
-                            stage.hairColor,
-                            Color.entries,
-                            true
-                        )
+                        selectHairColor("Hair Color", index, stage.hairColor)
                     }
                 }
                 minMaxAge = stage.maxAge + 1
             }
         }
     }
+}
+
+private fun HtmlBlockTag.selectHairColor(label: String, index: Int, color: Color?) {
+    selectOptionalColor(
+        label,
+        combine(LIFE_STAGE, HAIR_COLOR, index),
+        color,
+        Color.entries,
+        true
+    )
 }
 
 private fun FORM.selectNumberOfLifeStages(number: Int) {
@@ -182,11 +204,12 @@ private fun LI.selectStageName(
 }
 
 private fun LI.selectMaxAge(
+    label: String,
     minMaxAge: Int,
     index: Int,
     maxAge: Int?,
 ) {
-    selectInt("Max Age", maxAge ?: 0, minMaxAge, 10000, 1, combine(LIFE_STAGE, AGE, index), true)
+    selectInt(label, maxAge ?: 0, minMaxAge, 10000, 1, combine(LIFE_STAGE, AGE, index), true)
 }
 
 private fun LI.selectRelativeSize(
@@ -232,6 +255,14 @@ private fun parseLifeStages(parameters: Parameters): LifeStages {
             parseAppearanceId(parameters, 0),
         )
 
+        LifeStagesType.DefaultAging.name -> DefaultAging(
+            parseAppearanceId(parameters, 0),
+            (0..<DefaultLifeStages.entries.size)
+                .map { parseMaxAge(parameters, it) },
+            parseHairColor(parameters, 0),
+            parseHairColor(parameters, 1),
+        )
+
         LifeStagesType.SimpleAging.name -> SimpleAging(
             parseAppearanceId(parameters, 0),
             parseSimpleLifeStages(parameters),
@@ -251,11 +282,17 @@ private fun parseSimpleLifeStages(parameters: Parameters): List<LifeStage> {
 
 private fun parseSimpleLifeStage(parameters: Parameters, index: Int) = LifeStage(
     parseOptionalString(parameters, combine(LIFE_STAGE, NAME, index)) ?: "${index + 1}.Life Stage",
-    parseInt(parameters, combine(LIFE_STAGE, AGE, index), 2),
+    parseMaxAge(parameters, index),
     parseFactor(parameters, combine(LIFE_STAGE, SIZE, index)),
     parseBool(parameters, combine(LIFE_STAGE, BEARD, index)),
-    parse<Color>(parameters, combine(LIFE_STAGE, HAIR_COLOR, index)),
+    parseHairColor(parameters, index),
 )
+
+private fun parseMaxAge(parameters: Parameters, index: Int) =
+    parseInt(parameters, combine(LIFE_STAGE, AGE, index), 2)
+
+private fun parseHairColor(parameters: Parameters, index: Int) =
+    parse<Color>(parameters, combine(LIFE_STAGE, HAIR_COLOR, index))
 
 private fun parseAppearanceId(parameters: Parameters, index: Int) =
     parseRaceAppearanceId(parameters, combine(RACE, APPEARANCE, index))
