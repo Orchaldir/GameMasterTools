@@ -58,6 +58,9 @@ import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.moon.MOON_TYPE
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.plane.PLANE_TYPE
+import at.orchaldir.gm.core.model.world.plane.Plane
+import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.model.world.street.*
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.town.TOWN_TYPE
@@ -91,6 +94,7 @@ val ELEMENTS =
         NAME_LIST_TYPE,
         ORGANIZATION_TYPE,
         PERSONALITY_TRAIT_TYPE,
+        PLANE_TYPE,
         RACE_TYPE,
         RACE_APPEARANCE_TYPE,
         RIVER_TYPE,
@@ -142,6 +146,7 @@ data class State(
     fun getNameListStorage() = getStorage<NameListId, NameList>(NAME_LIST_TYPE)
     fun getOrganizationStorage() = getStorage<OrganizationId, Organization>(ORGANIZATION_TYPE)
     fun getPersonalityTraitStorage() = getStorage<PersonalityTraitId, PersonalityTrait>(PERSONALITY_TRAIT_TYPE)
+    fun getPlaneStorage() = getStorage<PlaneId, Plane>(PLANE_TYPE)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE_TYPE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE_TYPE)
     fun getRiverStorage() = getStorage<RiverId, River>(RIVER_TYPE)
@@ -236,6 +241,7 @@ data class State(
         saveStorage(path, getNameListStorage())
         saveStorage(path, getOrganizationStorage())
         saveStorage(path, getPersonalityTraitStorage())
+        saveStorage(path, getPlaneStorage())
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
         saveStorage(path, getRiverStorage())
@@ -269,6 +275,7 @@ fun createStorage(type: String) = when (type) {
     NAME_LIST_TYPE -> Storage(NameListId(0))
     ORGANIZATION_TYPE -> Storage(OrganizationId(0))
     PERSONALITY_TRAIT_TYPE -> Storage(PersonalityTraitId(0))
+    PLANE_TYPE -> Storage(PlaneId(0))
     RACE_TYPE -> Storage(RaceId(0))
     RACE_APPEARANCE_TYPE -> Storage(RaceAppearanceId(0))
     RIVER_TYPE -> Storage(RiverId(0))
@@ -305,6 +312,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
         PersonalityTraitId(0)
     )
 
+    PLANE_TYPE -> loadStorage<PlaneId, Plane>(path, PlaneId(0))
     RACE_TYPE -> loadStorage<RaceId, Race>(path, RaceId(0))
     RACE_APPEARANCE_TYPE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))
     RIVER_TYPE -> loadStorage<RiverId, River>(path, RiverId(0))
