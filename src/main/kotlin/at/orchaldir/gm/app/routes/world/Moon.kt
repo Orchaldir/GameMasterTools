@@ -50,7 +50,7 @@ fun Application.configureMoonRouting() {
             logger.info { "Get all moons" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllMoons(call)
+                showAllMoons(call, STORE.getState())
             }
         }
         get<MoonRoutes.Details> { details ->
@@ -88,7 +88,7 @@ fun Application.configureMoonRouting() {
             val moon = state.getMoonStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showMoonEditor(call, moon)
+                showMoonEditor(call, state, moon)
             }
         }
         post<MoonRoutes.Update> { update ->
@@ -105,7 +105,10 @@ fun Application.configureMoonRouting() {
     }
 }
 
-private fun HTML.showAllMoons(call: ApplicationCall) {
+private fun HTML.showAllMoons(
+    call: ApplicationCall,
+    state: State,
+) {
     val moons = STORE.getState().getMoonStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(MoonRoutes.New())
 
@@ -118,6 +121,7 @@ private fun HTML.showAllMoons(call: ApplicationCall) {
                 th { +"Title" }
                 th { +"Duration" }
                 th { +"Color" }
+                th { +"Plane" }
             }
             moons.forEach { moon ->
                 tr {
@@ -125,6 +129,7 @@ private fun HTML.showAllMoons(call: ApplicationCall) {
                     td { moon.title?.let { +it } }
                     td { +"${moon.getCycle()} days" }
                     td { +moon.color.name }
+                    td { optionalLink(call, state, moon.plane) }
                 }
             }
         }
@@ -154,6 +159,7 @@ private fun HTML.showMoonDetails(
 
 private fun HTML.showMoonEditor(
     call: ApplicationCall,
+    state: State,
     moon: Moon,
 ) {
     val backLink = href(call, moon.id)
@@ -161,7 +167,7 @@ private fun HTML.showMoonEditor(
 
     simpleHtml("Edit Moon: ${moon.name}") {
         form {
-            editMoon(moon)
+            editMoon(state, moon)
 
             button("Update", updateLink)
         }

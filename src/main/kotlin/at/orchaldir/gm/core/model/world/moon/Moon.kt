@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.world.moon
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
@@ -26,6 +27,7 @@ data class Moon(
     val title: String? = null,
     val daysPerQuarter: Int = 1,
     val color: Color = Color.White,
+    val plane: PlaneId? = null,
 ) : ElementWithSimpleName<MoonId> {
 
     override fun id() = id

@@ -1,11 +1,93 @@
 {
  "version": 1,
  "elements": {
-   "0": {
-     "id": 0,
-     "name": "Nymm",
-     "title": "The Crown ",
-     "color": "Gold"
-   }
+  "0": {
+   "id": 0,
+   "name": "Nymm",
+   "title": "The Crown ",
+   "color": "Gold",
+   "plane": 0
+  },
+  "1": {
+   "id": 1,
+   "name": "Crya",
+   "color": "Black",
+   "plane": 1
+  },
+  "2": {
+   "id": 2,
+   "name": "Aryth",
+   "title": "The Gateway",
+   "color": "OrangeRed",
+   "plane": 2
+  },
+  "3": {
+   "id": 3,
+   "name": "Eyre",
+   "title": "The Anvil",
+   "color": "Silver",
+   "plane": 3
+  },
+  "4": {
+   "id": 4,
+   "name": "Barrakas",
+   "title": "The Lantern ",
+   "color": "Gray",
+   "plane": 4
+  },
+  "5": {
+   "id": 5,
+   "name": "Zarantyr",
+   "title": "The Storm",
+   "plane": 5
+  },
+  "6": {
+   "id": 6,
+   "name": "Olarune",
+   "title": "The Sentinel",
+   "color": "Orange",
+   "plane": 6
+  },
+  "7": {
+   "id": 7,
+   "name": "Sypheros",
+   "title": "The Shadow",
+   "color": "Gray",
+   "plane": 7
+  },
+  "8": {
+   "id": 8,
+   "name": "Dravago",
+   "title": "The Herder",
+   "color": "Lavender",
+   "plane": 8
+  },
+  "9": {
+   "id": 9,
+   "name": "Vult",
+   "title": "The Warder",
+   "color": "Gray",
+   "plane": 9
+  },
+  "10": {
+   "id": 10,
+   "name": "Therendor",
+   "title": "The Healer",
+   "color": "SkyBlue",
+   "plane": 10
+  },
+  "11": {
+   "id": 11,
+   "name": "Rhaan",
+   "title": "The Book",
+   "color": "SkyBlue",
+   "plane": 11
+  },
+  "12": {
+   "id": 12,
+   "name": "Lharvion",
+   "title": "The Eye",
+   "plane": 12
+  }
  }
 }
