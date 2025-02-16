@@ -41,4 +41,12 @@ class AppearanceTest {
         assertIllegalArgument("Requires unknown Character 0!") { REDUCER.invoke(state, action) }
     }
 
+    @Test
+    fun `Character has too high height`() {
+        val appearance = HeadOnly(Head(skin = NormalSkin()), Distance(1101))
+        val action = UpdateAppearance(CHARACTER_ID_0, appearance)
+
+        assertIllegalArgument("Character's height is invalid!") { REDUCER.invoke(state, action) }
+    }
+
 }

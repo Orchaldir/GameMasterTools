@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.math
 
 import kotlinx.serialization.Serializable
+import kotlin.math.absoluteValue
 
 @Serializable
 data class Distribution(
@@ -16,4 +17,6 @@ data class Distribution(
     fun getMax() = center + offset
 
     fun display() = String.format("%s +- %s", center, offset)
+
+    fun isInside(distance: Distance) = (distance.millimeters - center.millimeters).absoluteValue < offset.millimeters
 }
