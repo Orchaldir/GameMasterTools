@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.html.model.race
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.optionalField
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -210,11 +209,11 @@ private fun LI.selectStageName(
 
 private fun LI.selectMaxAge(
     label: String,
-    minMaxAge: Int,
+    minAge: Int,
     index: Int,
-    maxAge: Int?,
+    age: Int,
 ) {
-    selectInt(label, maxAge ?: 0, minMaxAge, 10000, 1, combine(LIFE_STAGE, AGE, index), true)
+    selectInt(label, age, minAge, 10000, 1, combine(LIFE_STAGE, AGE, index), true)
 }
 
 private fun LI.selectRelativeSize(
