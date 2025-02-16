@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getEmployees
 
@@ -174,6 +175,20 @@ fun State.sortOrganizations(
         when (sort) {
             SortOrganization.Name -> compareBy { it.name }
             SortOrganization.Age -> getAgeComparator()
+        })
+
+// plane
+
+fun State.sortPlanes(sort: SortPlane = SortPlane.Name) =
+    sortPlanes(getPlaneStorage().getAll(), sort)
+
+fun State.sortPlanes(
+    planes: Collection<Plane>,
+    sort: SortPlane = SortPlane.Name,
+) = planes
+    .sortedWith(
+        when (sort) {
+            SortPlane.Name -> compareBy { it.name }
         })
 
 // race

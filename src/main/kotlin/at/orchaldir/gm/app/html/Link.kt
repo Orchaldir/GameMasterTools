@@ -44,6 +44,7 @@ import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
@@ -195,6 +196,7 @@ fun <ID : Id<ID>> href(
     is NameListId -> call.application.href(NameListRoutes.Details(id))
     is OrganizationId -> call.application.href(OrganizationRoutes.Details(id))
     is PersonalityTraitId -> call.application.href(PersonalityTraitRoutes.Details(id))
+    is PlaneId -> call.application.href(PlaneRoutes.Details(id))
     is RaceId -> call.application.href(RaceRoutes.Details(id))
     is RaceAppearanceId -> call.application.href(RaceRoutes.AppearanceRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))

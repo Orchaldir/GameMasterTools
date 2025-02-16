@@ -134,7 +134,7 @@ fun <T> FORM.selectGenderMap(
     }
 }
 
-fun FORM.selectName(name: String) {
+fun HtmlBlockTag.selectName(name: String) {
     selectText("Name", name, NAME, 1)
 }
 

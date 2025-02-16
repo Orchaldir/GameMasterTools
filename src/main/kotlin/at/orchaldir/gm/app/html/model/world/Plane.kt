@@ -6,11 +6,9 @@ import at.orchaldir.gm.app.html.optionalField
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.html.selectText
 import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import io.ktor.http.*
-import io.ktor.server.application.*
 import io.ktor.server.util.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
@@ -18,18 +16,14 @@ import kotlinx.html.HtmlBlockTag
 // show
 
 fun HtmlBlockTag.showPlane(
-    call: ApplicationCall,
-    state: State,
-    domain: Plane,
+    plane: Plane,
 ) {
-    optionalField("Title", domain.title)
+    optionalField("Title", plane.title)
 }
 
 // edit
 
-fun FORM.editPlane(
-    call: ApplicationCall,
-    state: State,
+fun HtmlBlockTag.editPlane(
     domain: Plane,
 ) {
     selectName(domain.name)

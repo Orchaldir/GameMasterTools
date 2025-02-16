@@ -75,6 +75,7 @@ fun Application.module() {
     configureNameListRouting()
     configureOrganizationRouting()
     configurePersonalityRouting()
+    configurePlaneRouting()
     configureRaceRouting()
     configureRaceAppearanceRouting()
     configureRiverRouting()

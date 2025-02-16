@@ -44,6 +44,10 @@ enum class SortOrganization {
     Age,
 }
 
+enum class SortPlane {
+    Name,
+}
+
 enum class SortRace {
     Age,
     MaxHeight,
