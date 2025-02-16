@@ -63,5 +63,7 @@ fun parseMoon(id: MoonId, parameters: Parameters) = Moon(
     parameters[TILE]?.ifEmpty { null },
     parseInt(parameters, LENGTH, 1),
     parse(parameters, COLOR, Color.White),
-    parameters[PLANE]?.let { parsePlaneId(it) },
+    parameters[PLANE]
+        ?.ifEmpty { null }
+        ?.let { parsePlaneId(it) },
 )
