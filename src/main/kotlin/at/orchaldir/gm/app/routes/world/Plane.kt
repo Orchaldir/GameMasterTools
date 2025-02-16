@@ -172,7 +172,7 @@ private fun HTML.showPlaneDetails(
     val editLink = call.application.href(PlaneRoutes.Edit(plane.id))
 
     simpleHtml("Plane: ${plane.name(state)}") {
-        showPlane(plane)
+        showPlane(call, state, plane)
 
         action(editLink, "Edit")
 
