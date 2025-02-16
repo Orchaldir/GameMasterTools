@@ -32,7 +32,7 @@
    "id": 4,
    "name": "Barrakas",
    "title": "The Lantern ",
-   "color": "Gray",
+   "color": "LightGray",
    "plane": 4
   },
   "5": {
@@ -52,7 +52,7 @@
    "id": 7,
    "name": "Sypheros",
    "title": "The Shadow",
-   "color": "Gray",
+   "color": "DimGray",
    "plane": 7
   },
   "8": {
@@ -73,7 +73,7 @@
    "id": 10,
    "name": "Therendor",
    "title": "The Healer",
-   "color": "SkyBlue",
+   "color": "SteelBlue",
    "plane": 10
   },
   "11": {

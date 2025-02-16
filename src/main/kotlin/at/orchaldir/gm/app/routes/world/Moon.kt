@@ -128,7 +128,10 @@ private fun HTML.showAllMoons(
                     td { link(call, moon) }
                     td { moon.title?.let { +it } }
                     td { +"${moon.getCycle()} days" }
-                    td { +moon.color.name }
+                    td {
+                        style = "background-color:${moon.color}"
+                        +moon.color.name
+                    }
                     td { optionalLink(call, state, moon.plane) }
                 }
             }
