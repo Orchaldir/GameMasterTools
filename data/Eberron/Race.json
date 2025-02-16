@@ -122,7 +122,6 @@
    "name": "Changeling",
    "genders": {
     "Female": "Common",
-    "Genderless": "Uncommon",
     "Male": "Common"
    },
    "lifeStages": {
@@ -454,8 +453,7 @@
    "id": 15,
    "name": "Harpy",
    "genders": {
-    "Female": "Common",
-    "Male": "Uncommon"
+    "Female": "Common"
    },
    "lifeStages": {
     "type": "Default",
