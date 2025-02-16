@@ -1,5 +1,70 @@
 {
-  "version": 1,
-  "elements": {
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Daanvi",
+   "title": "The Perfect Order"
+  },
+  "1": {
+   "id": 1,
+   "name": "Dal Quor",
+   "title": "The Region of Dreams"
+  },
+  "2": {
+   "id": 2,
+   "name": "Dolurrh",
+   "title": "The Realm of the Dead"
+  },
+  "3": {
+   "id": 3,
+   "name": "Fernia",
+   "title": "The Sea of Fire"
+  },
+  "4": {
+   "id": 4,
+   "name": "Irian",
+   "title": "The Eternal Day"
+  },
+  "5": {
+   "id": 5,
+   "name": "Kythri",
+   "title": "The Churning Chaos"
+  },
+  "6": {
+   "id": 6,
+   "name": "Lamannia",
+   "title": "The Twilight Forest"
+  },
+  "7": {
+   "id": 7,
+   "name": "Mabar",
+   "title": "The Endless Night"
+  },
+  "8": {
+   "id": 8,
+   "name": "Risia",
+   "title": "The Plain of Ice"
+  },
+  "9": {
+   "id": 9,
+   "name": "Shavarath",
+   "title": "The Battleground"
+  },
+  "10": {
+   "id": 10,
+   "name": "Syrania",
+   "title": "The Azure Sky"
+  },
+  "11": {
+   "id": 11,
+   "name": "Thelanis",
+   "title": "The Faerie Court"
+  },
+  "12": {
+   "id": 12,
+   "name": "Xoriat",
+   "title": "The Realm of Madness"
   }
+ }
 }
