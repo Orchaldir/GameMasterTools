@@ -80,7 +80,7 @@ data class DefaultAging(
         createLifeStage(4, true),
         createLifeStage(5, true),
         createLifeStage(6, true, oldAgeHairColor),
-        createLifeStage(7, true),
+        createLifeStage(7, true, venerableAgeHairColor),
     )
 
     private fun createLifeStage(
