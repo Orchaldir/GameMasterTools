@@ -147,8 +147,8 @@ private fun FORM.editLifeStages(
                 selectMaxAge(stage.name, minMaxAge, index, stage.maxAge)
                 minMaxAge = stage.maxAge + 1
             }
-            selectHairColor("Old Age", 0, lifeStages.oldAgeHairColor)
-            selectHairColor("Venerable", 1, lifeStages.venerableAgeHairColor)
+            selectHairColor("Old Age", 6, lifeStages.oldAgeHairColor)
+            selectHairColor("Venerable", 7, lifeStages.venerableAgeHairColor)
         }
 
         is SimpleAging -> {
@@ -259,8 +259,8 @@ private fun parseLifeStages(parameters: Parameters): LifeStages {
             parseAppearanceId(parameters, 0),
             (0..<DefaultLifeStages.entries.size)
                 .map { parseMaxAge(parameters, it) },
-            parseHairColor(parameters, 0),
-            parseHairColor(parameters, 1),
+            parseHairColor(parameters, 6),
+            parseHairColor(parameters, 7),
         )
 
         LifeStagesType.SimpleAging.name -> SimpleAging(
