@@ -340,7 +340,7 @@ private fun HtmlBlockTag.showEvents(
     val events = unsortedEvents.sort(calendar)
 
     showList("Events", events) { event ->
-        val date = event.date()
+        val date = event.date
 
         if (date is Day && date == state.time.currentDate) {
             link(call, date, "Today")
@@ -360,12 +360,12 @@ private fun HtmlBlockTag.showEvents(
             }
 
             is BuildingConstructedEvent -> {
-                link(call, state, event.buildingId)
+                link(call, state, event.building)
                 +" was constructed."
             }
 
             is BusinessStartedEvent -> {
-                link(call, state, event.businessId)
+                link(call, state, event.business)
                 +" was started."
             }
 
@@ -376,37 +376,43 @@ private fun HtmlBlockTag.showEvents(
             is OwnershipChangedEvent<*> -> doNothing()
 
             is CharacterDeathEvent -> {
-                link(call, state, event.characterId)
+                link(call, state, event.character)
                 +" died."
             }
 
             is CharacterOriginEvent -> {
-                link(call, state, event.characterId)
+                link(call, state, event.character)
                 +" was born."
             }
 
             is FontCreatedEvent -> {
-                link(call, state, event.fontId)
+                link(call, state, event.font)
                 +" was created."
             }
 
             is OrganizationFoundingEvent -> {
-                link(call, state, event.organizationId)
+                link(call, state, event.organization)
                 +" was founded."
             }
 
+            is RaceCreatedEvent -> {
+                +"The race "
+                link(call, state, event.race)
+                +" was created."
+            }
+
             is SpellCreatedEvent -> {
-                link(call, state, event.spellId)
+                link(call, state, event.spell)
                 +" was created."
             }
 
             is TextPublishedEvent -> {
-                link(call, state, event.textId)
+                link(call, state, event.text)
                 +" was published."
             }
 
             is TownFoundingEvent -> {
-                link(call, state, event.townId)
+                link(call, state, event.town)
                 +" was founded."
             }
         }

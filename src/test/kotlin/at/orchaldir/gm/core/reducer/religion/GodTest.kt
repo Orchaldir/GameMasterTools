@@ -12,7 +12,6 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 private val god0 = God(GOD_ID_0)
 private val STATE = State(
@@ -47,17 +46,7 @@ class GodTest {
             val action = UpdateGod(God(GOD_ID_0))
             val state = STATE.removeStorage(GOD_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Cannot modify an unknown god`() {
-            val god = God(GOD_ID_0)
-            val action = UpdateGod(god)
-
-            assertIllegalArgument("Requires unknown God 0!") {
-                REDUCER.invoke(State(), action)
-            }
+            assertIllegalArgument("Requires unknown God 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test

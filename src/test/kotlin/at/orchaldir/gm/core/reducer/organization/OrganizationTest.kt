@@ -13,9 +13,16 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 class OrganizationTest {
+
+    private val organization0 = Organization(ORGANIZATION_ID_0)
+    private val STATE = State(
+        listOf(
+            Storage(CALENDAR0),
+            Storage(organization0),
+        )
+    )
 
     @Nested
     inner class DeleteTest {
@@ -23,24 +30,18 @@ class OrganizationTest {
 
         @Test
         fun `Can delete an existing organization`() {
-            val state = State(Storage(Organization(ORGANIZATION_ID_0)))
-
-            assertEquals(0, REDUCER.invoke(state, action).first.getOrganizationStorage().getSize())
+            assertEquals(0, REDUCER.invoke(STATE, action).first.getOrganizationStorage().getSize())
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Organization 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot delete a organization that build a building`() {
-            val state = State(
-                listOf(
-                    Storage(Organization(ORGANIZATION_ID_0)),
-                    Storage(Building(BUILDING_ID_0, builder = CreatedByOrganization(ORGANIZATION_ID_0))),
-                )
-            )
+            val building = Building(BUILDING_ID_0, builder = CreatedByOrganization(ORGANIZATION_ID_0))
+            val state = STATE.updateStorage(Storage(building))
 
             assertIllegalArgument("Cannot delete organization 0, because of built buildings!") {
                 REDUCER.invoke(state, action)
@@ -53,13 +54,12 @@ class OrganizationTest {
 
         @Test
         fun `Successfully update a organization`() {
-            val state = State(listOf(Storage(Organization(ORGANIZATION_ID_0))))
             val organization = Organization(ORGANIZATION_ID_0, date = DAY0)
             val action = UpdateOrganization(organization)
 
             assertEquals(
                 organization,
-                REDUCER.invoke(state, action).first.getOrganizationStorage().get(ORGANIZATION_ID_0)
+                REDUCER.invoke(STATE, action).first.getOrganizationStorage().get(ORGANIZATION_ID_0)
             )
         }
 
@@ -67,7 +67,14 @@ class OrganizationTest {
         fun `Cannot update unknown organization`() {
             val action = UpdateOrganization(Organization(ORGANIZATION_ID_0))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Organization 0!") { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Date is in the future`() {
+            val action = UpdateOrganization(Organization(ORGANIZATION_ID_0, date = FUTURE_DAY_0))
+
+            assertIllegalArgument("Date (Organization) is in the future!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

@@ -9,53 +9,19 @@
     "Male": "Common"
    },
    "lifeStages": {
-    "type": "Simple",
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 2,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 5,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 12,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 18,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 45,
-      "hasBeard": true
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 60,
-      "hasBeard": true
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 90,
-      "relativeSize": 0.95,
-      "hasBeard": true,
-      "hairColor": "Gray"
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 120,
-      "relativeSize": 0.9,
-      "hasBeard": true,
-      "hairColor": "White"
-     }
-    ]
+    "type": "Default",
+    "maxAges": [
+     2,
+     5,
+     12,
+     18,
+     45,
+     60,
+     90,
+     120
+    ],
+    "oldAgeHairColor": "Gray",
+    "venerableAgeHairColor": "White"
    }
   },
   "1": {
@@ -74,54 +40,20 @@
     }
    },
    "lifeStages": {
-    "type": "Simple",
+    "type": "Default",
     "appearance": 2,
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 2,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 20,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 60,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 110,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 170,
-      "hasBeard": true
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 260,
-      "hasBeard": true
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 350,
-      "relativeSize": 0.95,
-      "hasBeard": true,
-      "hairColor": "Gray"
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 500,
-      "relativeSize": 0.9,
-      "hasBeard": true,
-      "hairColor": "White"
-     }
-    ]
+    "maxAges": [
+     2,
+     20,
+     60,
+     110,
+     170,
+     260,
+     350,
+     500
+    ],
+    "oldAgeHairColor": "Gray",
+    "venerableAgeHairColor": "White"
    }
   },
   "2": {
@@ -140,53 +72,19 @@
     }
    },
    "lifeStages": {
-    "type": "Simple",
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 2,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 10,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 20,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 40,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 120,
-      "hasBeard": true
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 180,
-      "hasBeard": true
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 250,
-      "relativeSize": 0.95,
-      "hasBeard": true,
-      "hairColor": "Gray"
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 400,
-      "relativeSize": 0.9,
-      "hasBeard": true,
-      "hairColor": "White"
-     }
-    ]
+    "type": "Default",
+    "maxAges": [
+     2,
+     10,
+     20,
+     40,
+     120,
+     180,
+     250,
+     400
+    ],
+    "oldAgeHairColor": "Gray",
+    "venerableAgeHairColor": "White"
    }
   },
   "3": {
@@ -206,6 +104,17 @@
    "lifeStages": {
     "type": "Immutable",
     "appearance": 3
+   },
+   "origin": {
+    "type": "Created",
+    "creator": {
+     "type": "Organization",
+     "organization": 16
+    },
+    "date": {
+     "type": "Year",
+     "year": 964
+    }
    }
   },
   "4": {
@@ -213,51 +122,20 @@
    "name": "Changeling",
    "genders": {
     "Female": "Common",
-    "Genderless": "Uncommon",
     "Male": "Common"
    },
    "lifeStages": {
-    "type": "Simple",
+    "type": "Default",
     "appearance": 1,
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 2,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 5,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 12,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 18,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 45
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 60
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 90,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 120,
-      "relativeSize": 0.9
-     }
+    "maxAges": [
+     2,
+     5,
+     12,
+     18,
+     45,
+     60,
+     90,
+     120
     ]
    }
   },
@@ -277,54 +155,25 @@
     }
    },
    "lifeStages": {
-    "type": "Simple",
+    "type": "Default",
     "appearance": 2,
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 2,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 5,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 12,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 20,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 60,
-      "hasBeard": true
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 90,
-      "hasBeard": true
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 120,
-      "relativeSize": 0.95,
-      "hasBeard": true,
-      "hairColor": "Gray"
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 180,
-      "relativeSize": 0.9,
-      "hasBeard": true,
-      "hairColor": "White"
-     }
-    ]
+    "maxAges": [
+     2,
+     5,
+     12,
+     20,
+     60,
+     90,
+     120,
+     180
+    ],
+    "oldAgeHairColor": "Gray",
+    "venerableAgeHairColor": "White"
+   },
+   "origin": {
+    "type": "Hybrid",
+    "first": 1,
+    "second": 0
    }
   },
   "6": {
@@ -343,54 +192,20 @@
     }
    },
    "lifeStages": {
-    "type": "Simple",
+    "type": "Default",
     "appearance": 9,
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 2,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 10,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 20,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 40,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 100,
-      "hasBeard": true
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 150,
-      "hasBeard": true
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 200,
-      "relativeSize": 0.95,
-      "hasBeard": true,
-      "hairColor": "Gray"
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 300,
-      "relativeSize": 0.9,
-      "hasBeard": true,
-      "hairColor": "White"
-     }
-    ]
+    "maxAges": [
+     2,
+     10,
+     20,
+     40,
+     100,
+     150,
+     200,
+     300
+    ],
+    "oldAgeHairColor": "Gray",
+    "venerableAgeHairColor": "White"
    }
   },
   "7": {
@@ -409,53 +224,19 @@
     }
    },
    "lifeStages": {
-    "type": "Simple",
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 2,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 5,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 12,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 20,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 50,
-      "hasBeard": true
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 75,
-      "hasBeard": true
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 100,
-      "relativeSize": 0.95,
-      "hasBeard": true,
-      "hairColor": "Gray"
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 200,
-      "relativeSize": 0.9,
-      "hasBeard": true,
-      "hairColor": "White"
-     }
-    ]
+    "type": "Default",
+    "maxAges": [
+     2,
+     5,
+     12,
+     20,
+     50,
+     75,
+     100,
+     200
+    ],
+    "oldAgeHairColor": "Gray",
+    "venerableAgeHairColor": "White"
    }
   },
   "8": {
@@ -474,54 +255,20 @@
     }
    },
    "lifeStages": {
-    "type": "Simple",
+    "type": "Default",
     "appearance": 4,
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 2,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 4,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 8,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 14,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 30,
-      "hasBeard": true
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 45,
-      "hasBeard": true
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 60,
-      "relativeSize": 0.95,
-      "hasBeard": true,
-      "hairColor": "Gray"
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 80,
-      "relativeSize": 0.9,
-      "hasBeard": true,
-      "hairColor": "White"
-     }
-    ]
+    "maxAges": [
+     2,
+     4,
+     8,
+     14,
+     30,
+     45,
+     60,
+     80
+    ],
+    "oldAgeHairColor": "Gray",
+    "venerableAgeHairColor": "White"
    }
   },
   "9": {
@@ -540,54 +287,20 @@
     }
    },
    "lifeStages": {
-    "type": "Simple",
+    "type": "Default",
     "appearance": 5,
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 2,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 5,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 12,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 18,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 45,
-      "hasBeard": true
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 60,
-      "hasBeard": true
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 90,
-      "relativeSize": 0.95,
-      "hasBeard": true,
-      "hairColor": "Gray"
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 120,
-      "relativeSize": 0.9,
-      "hasBeard": true,
-      "hairColor": "White"
-     }
-    ]
+    "maxAges": [
+     2,
+     5,
+     12,
+     18,
+     45,
+     60,
+     90,
+     120
+    ],
+    "oldAgeHairColor": "Gray",
+    "venerableAgeHairColor": "White"
    }
   },
   "10": {
@@ -606,54 +319,20 @@
     }
    },
    "lifeStages": {
-    "type": "Simple",
+    "type": "Default",
     "appearance": 6,
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 1,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 3,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 6,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 8,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 20,
-      "hasBeard": true
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 30,
-      "hasBeard": true
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 40,
-      "relativeSize": 0.95,
-      "hasBeard": true,
-      "hairColor": "Gray"
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 60,
-      "relativeSize": 0.9,
-      "hasBeard": true,
-      "hairColor": "White"
-     }
-    ]
+    "maxAges": [
+     1,
+     3,
+     6,
+     8,
+     20,
+     30,
+     40,
+     60
+    ],
+    "oldAgeHairColor": "Gray",
+    "venerableAgeHairColor": "White"
    }
   },
   "11": {
@@ -672,54 +351,20 @@
     }
    },
    "lifeStages": {
-    "type": "Simple",
+    "type": "Default",
     "appearance": 6,
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 2,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 5,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 12,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 18,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 45,
-      "hasBeard": true
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 60,
-      "hasBeard": true
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 90,
-      "relativeSize": 0.95,
-      "hasBeard": true,
-      "hairColor": "Gray"
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 120,
-      "relativeSize": 0.9,
-      "hasBeard": true,
-      "hairColor": "White"
-     }
-    ]
+    "maxAges": [
+     2,
+     5,
+     12,
+     18,
+     45,
+     60,
+     90,
+     120
+    ],
+    "oldAgeHairColor": "Gray",
+    "venerableAgeHairColor": "White"
    }
   },
   "12": {
@@ -738,54 +383,20 @@
     }
    },
    "lifeStages": {
-    "type": "Simple",
+    "type": "Default",
     "appearance": 6,
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 2,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 4,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 10,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 16,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 30,
-      "hasBeard": true
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 40,
-      "hasBeard": true
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 60,
-      "relativeSize": 0.95,
-      "hasBeard": true,
-      "hairColor": "Gray"
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 80,
-      "relativeSize": 0.9,
-      "hasBeard": true,
-      "hairColor": "White"
-     }
-    ]
+    "maxAges": [
+     2,
+     4,
+     10,
+     16,
+     30,
+     40,
+     60,
+     80
+    ],
+    "oldAgeHairColor": "Gray",
+    "venerableAgeHairColor": "White"
    }
   },
   "13": {
@@ -823,107 +434,42 @@
     }
    },
    "lifeStages": {
-    "type": "Simple",
+    "type": "Default",
     "appearance": 8,
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 1,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 2,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 4,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 6,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 10
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 25
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 30,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 35,
-      "relativeSize": 0.9,
-      "hairColor": "Silver"
-     }
-    ]
+    "maxAges": [
+     1,
+     2,
+     4,
+     6,
+     10,
+     25,
+     30,
+     35
+    ],
+    "venerableAgeHairColor": "Silver"
    }
   },
   "15": {
    "id": 15,
    "name": "Harpy",
    "genders": {
-    "Female": "Common",
-    "Male": "Uncommon"
+    "Female": "Common"
    },
    "lifeStages": {
-    "type": "Simple",
+    "type": "Default",
     "appearance": 2,
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 2,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 5,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 12,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 18,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 45,
-      "hasBeard": true
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 60,
-      "hasBeard": true
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 90,
-      "relativeSize": 0.95,
-      "hasBeard": true,
-      "hairColor": "Gray"
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 120,
-      "relativeSize": 0.9,
-      "hasBeard": true,
-      "hairColor": "White"
-     }
-    ]
+    "maxAges": [
+     2,
+     5,
+     12,
+     18,
+     45,
+     60,
+     90,
+     120
+    ],
+    "oldAgeHairColor": "Gray",
+    "venerableAgeHairColor": "White"
    }
   },
   "16": {
@@ -942,47 +488,17 @@
     }
    },
    "lifeStages": {
-    "type": "Simple",
+    "type": "Default",
     "appearance": 10,
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 2,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 5,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 10,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 15,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 100
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 150
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 200,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 250,
-      "relativeSize": 0.9
-     }
+    "maxAges": [
+     2,
+     5,
+     10,
+     15,
+     100,
+     150,
+     200,
+     250
     ]
    }
   },
@@ -1002,50 +518,63 @@
     }
    },
    "lifeStages": {
-    "type": "Simple",
+    "type": "Default",
     "appearance": 11,
-    "lifeStages": [
-     {
-      "name": "Baby",
-      "maxAge": 2,
-      "relativeSize": 0.2
-     },
-     {
-      "name": "Young Child",
-      "maxAge": 4,
-      "relativeSize": 0.4
-     },
-     {
-      "name": "Child",
-      "maxAge": 10,
-      "relativeSize": 0.6
-     },
-     {
-      "name": "Teen",
-      "maxAge": 16,
-      "relativeSize": 0.95
-     },
-     {
-      "name": "Adult",
-      "maxAge": 30
-     },
-     {
-      "name": "Middle Age",
-      "maxAge": 40
-     },
-     {
-      "name": "Old Age",
-      "maxAge": 60,
-      "relativeSize": 0.95,
-      "hairColor": "Gray"
-     },
-     {
-      "name": "Venerable",
-      "maxAge": 80,
-      "relativeSize": 0.9,
-      "hairColor": "White"
-     }
-    ]
+    "maxAges": [
+     2,
+     4,
+     10,
+     16,
+     30,
+     40,
+     60,
+     80
+    ],
+    "oldAgeHairColor": "Gray",
+    "venerableAgeHairColor": "White"
+   }
+  },
+  "18": {
+   "id": 18,
+   "name": "Dolgrim",
+   "genders": {
+    "Female": "Common",
+    "Male": "Common"
+   },
+   "height": {
+    "center": {
+     "millimeters": 1100
+    },
+    "offset": {
+     "millimeters": 200
+    }
+   },
+   "lifeStages": {
+    "type": "Default",
+    "appearance": 6,
+    "maxAges": [
+     1,
+     3,
+     6,
+     8,
+     20,
+     30,
+     40,
+     60
+    ],
+    "oldAgeHairColor": "Gray",
+    "venerableAgeHairColor": "White"
+   },
+   "origin": {
+    "type": "Modified",
+    "parent": 10,
+    "modifier": {
+     "type": "Undefined"
+    },
+    "date": {
+     "type": "Decade",
+     "decade": -901
+    }
    }
   }
  }

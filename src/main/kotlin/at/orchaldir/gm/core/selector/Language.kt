@@ -31,8 +31,7 @@ fun State.getDefaultLanguages(character: Character) = getCultureStorage()
     .associateWith { ComprehensionLevel.Native }
 
 fun State.getPossibleParents(language: LanguageId) = getLanguageStorage()
-    .getAll()
-    .filter { l -> l.id != language }
+    .getAllExcept(language)
 
 fun <ID : Id<ID>> State.getLanguagesInventedBy(id: ID) = getLanguageStorage().getAll().filter { l ->
     when (l.origin) {

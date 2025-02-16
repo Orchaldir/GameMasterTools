@@ -39,27 +39,27 @@ class CreatorTest {
             val state = STATE.removeStorage(BUSINESS_ID_0)
 
             assertIllegalArgument("Cannot use an unknown business 0 as Builder!") {
-                checkCreator(state, BUILD_BY_BUSINESS, BUILDING_ID_0, DAY0, "Builder")
+                validateCreator(state, BUILD_BY_BUSINESS, BUILDING_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `A business cannot create itself`() {
             assertIllegalArgument("The business cannot create itself!") {
-                checkCreator(STATE, BUILD_BY_BUSINESS, BUSINESS_ID_0, DAY0, "Builder")
+                validateCreator(STATE, BUILD_BY_BUSINESS, BUSINESS_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Creator doesn't exist yet`() {
             assertIllegalArgument("Builder (business 0) does not exist!") {
-                checkCreator(STATE, BUILD_BY_BUSINESS, BUILDING_ID_0, DAY0, "Builder")
+                validateCreator(STATE, BUILD_BY_BUSINESS, BUILDING_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Creator is valid`() {
-            checkCreator(STATE, BUILD_BY_BUSINESS, BUILDING_ID_0, DAY2, "Builder")
+            validateCreator(STATE, BUILD_BY_BUSINESS, BUILDING_ID_0, DAY2, "Builder")
         }
     }
 
@@ -71,20 +71,20 @@ class CreatorTest {
             val state = STATE.removeStorage(CHARACTER_ID_0)
 
             assertIllegalArgument("Cannot use an unknown character 0 as Builder!") {
-                checkCreator(state, BUILD_BY_CHARACTER, BUILDING_ID_0, DAY0, "Builder")
+                validateCreator(state, BUILD_BY_CHARACTER, BUILDING_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Creator doesn't exist yet`() {
-            assertIllegalArgument("Builder (character 0) is not alive!") {
-                checkCreator(STATE, BUILD_BY_CHARACTER, BUILDING_ID_0, DAY0, "Builder")
+            assertIllegalArgument("Builder (character 0) does not exist!") {
+                validateCreator(STATE, BUILD_BY_CHARACTER, BUILDING_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Creator is valid`() {
-            checkCreator(STATE, BUILD_BY_CHARACTER, BUILDING_ID_0, DAY2, "Builder")
+            validateCreator(STATE, BUILD_BY_CHARACTER, BUILDING_ID_0, DAY2, "Builder")
         }
     }
 
@@ -96,27 +96,27 @@ class CreatorTest {
             val state = STATE.removeStorage(ORGANIZATION_ID_0)
 
             assertIllegalArgument("Cannot use an unknown organization 0 as Builder!") {
-                checkCreator(state, BUILD_BY_ORGANIZATION, BUILDING_ID_0, DAY0, "Builder")
+                validateCreator(state, BUILD_BY_ORGANIZATION, BUILDING_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `An organization cannot create itself`() {
             assertIllegalArgument("The organization cannot create itself!") {
-                checkCreator(STATE, BUILD_BY_ORGANIZATION, ORGANIZATION_ID_0, DAY0, "Builder")
+                validateCreator(STATE, BUILD_BY_ORGANIZATION, ORGANIZATION_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Creator doesn't exist yet`() {
             assertIllegalArgument("Builder (organization 0) does not exist!") {
-                checkCreator(STATE, BUILD_BY_ORGANIZATION, BUILDING_ID_0, DAY0, "Builder")
+                validateCreator(STATE, BUILD_BY_ORGANIZATION, BUILDING_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Creator is valid`() {
-            checkCreator(STATE, BUILD_BY_ORGANIZATION, BUILDING_ID_0, DAY2, "Builder")
+            validateCreator(STATE, BUILD_BY_ORGANIZATION, BUILDING_ID_0, DAY2, "Builder")
         }
     }
 
@@ -128,27 +128,27 @@ class CreatorTest {
             val state = STATE.removeStorage(TOWN_ID_0)
 
             assertIllegalArgument("Cannot use an unknown town 0 as Builder!") {
-                checkCreator(state, BUILD_BY_TOWN, BUILDING_ID_0, DAY0, "Builder")
+                validateCreator(state, BUILD_BY_TOWN, BUILDING_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `A town cannot create itself`() {
             assertIllegalArgument("The town cannot create itself!") {
-                checkCreator(STATE, BUILD_BY_TOWN, TOWN_ID_0, DAY0, "Builder")
+                validateCreator(STATE, BUILD_BY_TOWN, TOWN_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Creator doesn't exist yet`() {
             assertIllegalArgument("Builder (town 0) does not exist!") {
-                checkCreator(STATE, BUILD_BY_TOWN, BUILDING_ID_0, DAY0, "Builder")
+                validateCreator(STATE, BUILD_BY_TOWN, BUILDING_ID_0, DAY0, "Builder")
             }
         }
 
         @Test
         fun `Creator is valid`() {
-            checkCreator(STATE, BUILD_BY_TOWN, BUILDING_ID_0, DAY2, "Builder")
+            validateCreator(STATE, BUILD_BY_TOWN, BUILDING_ID_0, DAY2, "Builder")
         }
     }
 }

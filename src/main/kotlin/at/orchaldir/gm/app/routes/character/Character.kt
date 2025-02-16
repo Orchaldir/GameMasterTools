@@ -471,6 +471,7 @@ private fun HTML.showCharacterEditor(
     state: State,
     character: Character,
 ) {
+    val races = state.getExistingRaces(character.birthDate)
     val characterName = character.name(state)
     val race = state.getRaceStorage().getOrThrow(character.race)
     val backLink = href(call, character.id)
@@ -483,7 +484,7 @@ private fun HTML.showCharacterEditor(
             action = previewLink
             method = FormMethod.post
             selectName(state, character)
-            selectElement(state, "Race", RACE, state.sortRaces(), character.race, true)
+            selectElement(state, "Race", RACE, state.sortRaces(races), character.race, true)
             selectOneOf("Gender", GENDER, race.genders, character.gender) { gender ->
                 label = gender.toString()
                 value = gender.toString()
@@ -576,7 +577,7 @@ private fun FORM.selectOrigin(
         }
     }
 
-    selectDate(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE))
+    selectDate(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE), race.startDate())
 }
 
 private fun FORM.selectName(

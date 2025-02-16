@@ -1,13 +1,11 @@
 package at.orchaldir.gm.core.reducer.world
 
-import at.orchaldir.gm.CALENDAR0
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
-import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -16,61 +14,54 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-private val ID0 = ArchitecturalStyleId(0)
-private val ID1 = ArchitecturalStyleId(1)
-private val STYLE0 = ArchitecturalStyle(ID0)
-
 class ArchitecturalStyleTest {
 
+    private val style0 = ArchitecturalStyle(ARCHITECTURAL_ID0)
+    private val state = State(
+        listOf(
+            Storage(style0),
+            Storage(CALENDAR0),
+        )
+    )
 
     @Nested
     inner class DeleteTest {
 
-        private val revivalState = State(
-            listOf(Storage(listOf(STYLE0, ArchitecturalStyle(ID1, revival = ID0))))
-        )
+        private val revivalStyle = ArchitecturalStyle(ARCHITECTURAL_ID1, revival = ARCHITECTURAL_ID0)
+        private val revivalState = state.updateStorage(Storage(listOf(style0, revivalStyle)))
+        private val action = DeleteArchitecturalStyle(ARCHITECTURAL_ID0)
 
         @Test
         fun `Can delete an unused style`() {
-            val state = State(Storage(STYLE0))
-            val action = DeleteArchitecturalStyle(ID0)
 
             assertEquals(0, REDUCER.invoke(state, action).first.getArchitecturalStyleStorage().getSize())
         }
 
         @Test
         fun `Cannot delete unknown style`() {
-            val action = DeleteArchitecturalStyle(ID0)
+            val action = DeleteArchitecturalStyle(ARCHITECTURAL_ID0)
 
             assertIllegalArgument("Requires unknown Architectural Style 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot delete a style used by building`() {
-            val state = State(
-                listOf(
-                    Storage(STYLE0),
-                    Storage(Building(BuildingId(0), style = ID0))
-                )
-            )
-            val action = DeleteArchitecturalStyle(ID0)
+            val newState = state.updateStorage(Storage(Building(BuildingId(0), style = ARCHITECTURAL_ID0)))
 
-            assertIllegalArgument("Architectural Style 0 is used!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Architectural Style 0 is used!") { REDUCER.invoke(newState, action) }
         }
 
         @Test
         fun `Cannot delete a revived style`() {
-            val action = DeleteArchitecturalStyle(ID0)
-
             assertIllegalArgument("Architectural Style 0 is used!") { REDUCER.invoke(revivalState, action) }
         }
 
         @Test
         fun `Can delete a revival style`() {
-            val action = DeleteArchitecturalStyle(ID1)
+            val action = DeleteArchitecturalStyle(ARCHITECTURAL_ID1)
 
             assertEquals(
-                listOf(STYLE0),
+                listOf(style0),
                 REDUCER.invoke(revivalState, action).first.getArchitecturalStyleStorage().getAll().toList()
             )
         }
@@ -79,71 +70,89 @@ class ArchitecturalStyleTest {
     @Nested
     inner class UpdateTest {
 
-        val state = State(
-            listOf(
-                Storage(ArchitecturalStyle(ID0)),
-                Storage(CALENDAR0),
-            )
-        )
-
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ID0))
+            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ARCHITECTURAL_ID0))
 
             assertIllegalArgument("Requires unknown Architectural Style 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot revive an unknown style`() {
-            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ID0, revival = ID1))
+            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ARCHITECTURAL_ID0, revival = ARCHITECTURAL_ID1))
 
             assertIllegalArgument("Cannot revive unknown architectural style 1!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot start and end in the same year`() {
-            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ID0, start = Year(0), end = Year(0)))
+            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ARCHITECTURAL_ID0, start = Year(0), end = Year(0)))
 
             assertIllegalArgument("Architectural style must end after it started!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot end before it started`() {
-            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ID0, start = Year(1), end = Year(0)))
+            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ARCHITECTURAL_ID0, start = YEAR1, end = YEAR0))
 
             assertIllegalArgument("Architectural style must end after it started!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Style ends after it started`() {
-            val style = ArchitecturalStyle(ID0, start = Year(2), end = Year(3))
+            val style = ArchitecturalStyle(ARCHITECTURAL_ID0, start = YEAR0, end = YEAR1)
             val action = UpdateArchitecturalStyle(style)
 
-            assertEquals(style, REDUCER.invoke(state, action).first.getArchitecturalStyleStorage().get(ID0))
+            assertEquals(
+                style,
+                REDUCER.invoke(state, action).first.getArchitecturalStyleStorage().get(ARCHITECTURAL_ID0)
+            )
         }
 
         @Test
         fun `Style cannot start after a building using it was build`() {
-            val state = State(
-                listOf(
-                    Storage(ArchitecturalStyle(ID0)),
-                    Storage(Building(BuildingId(0), constructionDate = Year(0), style = ID0)),
-                    Storage(CALENDAR0),
-                )
-            )
-            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ID0, start = Year(1)))
+            val building = Building(BuildingId(0), constructionDate = YEAR0, style = ARCHITECTURAL_ID0)
+            val newState = state.updateStorage(Storage(building))
+            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ARCHITECTURAL_ID0, start = YEAR1))
 
             assertIllegalArgument("Architectural Style 0 didn't exist yet, when building 0 was build!") {
-                REDUCER.invoke(state, action)
+                REDUCER.invoke(newState, action)
+            }
+        }
+
+        @Test
+        fun `Start date is in the future`() {
+            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ARCHITECTURAL_ID0, start = FUTURE_YEAR_0))
+
+            assertIllegalArgument("Date (Architectural Style's Start) is in the future!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
+        @Test
+        fun `End date is in the future`() {
+            val action = UpdateArchitecturalStyle(ArchitecturalStyle(ARCHITECTURAL_ID0, end = FUTURE_YEAR_0))
+
+            assertIllegalArgument("Date (Architectural Style's End) is in the future!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
             }
         }
 
         @Test
         fun `Update is valid`() {
-            val style = ArchitecturalStyle(ID0, "Test")
+            val style = ArchitecturalStyle(ARCHITECTURAL_ID0, "Test")
             val action = UpdateArchitecturalStyle(style)
 
-            assertEquals(style, REDUCER.invoke(state, action).first.getArchitecturalStyleStorage().get(ID0))
+            assertEquals(
+                style,
+                REDUCER.invoke(state, action).first.getArchitecturalStyleStorage().get(ARCHITECTURAL_ID0)
+            )
         }
     }
 

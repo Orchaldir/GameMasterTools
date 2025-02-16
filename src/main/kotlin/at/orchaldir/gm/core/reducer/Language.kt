@@ -7,7 +7,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
-import at.orchaldir.gm.core.reducer.util.checkCreator
+import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.item.getTexts
@@ -38,6 +39,7 @@ val UPDATE_LANGUAGE: Reducer<UpdateLanguage, State> = { state, action ->
     val language = action.language
 
     state.getLanguageStorage().require(language.id)
+    checkDate(state, language.startDate(), "Language")
     checkOrigin(state, language)
 
     // no duplicate name?
@@ -51,7 +53,7 @@ private fun checkOrigin(
 ) {
     when (val origin = language.origin) {
         is InventedLanguage -> {
-            checkCreator(state, origin.inventor, language.id, origin.date, "Inventor")
+            validateCreator(state, origin.inventor, language.id, origin.date, "Inventor")
         }
 
         is EvolvedLanguage -> {

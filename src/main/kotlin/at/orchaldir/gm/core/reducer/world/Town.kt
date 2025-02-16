@@ -8,8 +8,9 @@ import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.core.reducer.util.checkComplexName
-import at.orchaldir.gm.core.reducer.util.checkCreated
-import at.orchaldir.gm.core.reducer.util.checkCreator
+import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.checkIfCreatorCanBeDeleted
+import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.world.getBuildings
@@ -29,7 +30,7 @@ val DELETE_TOWN: Reducer<DeleteTown, State> = { state, action ->
 
     checkBuildingOwnership(state, action.id)
     checkBusinessOwnership(state, action.id)
-    checkCreated(state, action.id, "town")
+    checkIfCreatorCanBeDeleted(state, action.id, "town")
 
     noFollowUps(state.updateStorage(state.getTownStorage().remove(action.id)))
 }
@@ -49,12 +50,14 @@ private fun checkBusinessOwnership(state: State, id: TownId) {
 }
 
 val UPDATE_TOWN: Reducer<UpdateTown, State> = { state, action ->
-    state.getTownStorage().require(action.town.id)
+    val town = action.town
+    state.getTownStorage().require(town.id)
 
-    checkComplexName(state, action.town.name)
-    checkCreator(state, action.town.founder, action.town.id, action.town.foundingDate, "founder")
+    checkComplexName(state, town.name)
+    checkDate(state, town.foundingDate, "Town")
+    validateCreator(state, town.founder, town.id, town.foundingDate, "founder")
 
-    noFollowUps(state.updateStorage(state.getTownStorage().update(action.town)))
+    noFollowUps(state.updateStorage(state.getTownStorage().update(town)))
 }
 
 // town's streets
@@ -63,7 +66,6 @@ val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
     state.getStreetTemplateStorage().require(action.type)
 
     action.street?.let { state.getStreetStorage().require(it) }
-
 
     val oldTown = state.getTownStorage().getOrThrow(action.town)
     val town = oldTown.build(action.tileIndex, StreetTile(action.type, action.street))

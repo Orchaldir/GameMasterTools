@@ -164,7 +164,7 @@ private fun HTML.showAllOrganizations(
                 tr {
                     td { link(call, state, organization) }
                     td { showOptionalDate(call, state, organization.date) }
-                    tdSkipZero(organization.date?.let { state.getAgeInYears(it) })
+                    tdSkipZero(state.getAgeInYears(organization.date))
                     td { showCreator(call, state, organization.founder, false) }
                 }
             }

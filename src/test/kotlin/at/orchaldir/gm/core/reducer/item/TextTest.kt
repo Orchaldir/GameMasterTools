@@ -72,6 +72,13 @@ class TextTest {
         }
 
         @Test
+        fun `Date is in the future`() {
+            val action = UpdateText(Text(TEXT_ID_0, date = FUTURE_DAY_0))
+
+            assertIllegalArgument("Date (Text) is in the future!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Author must exist`() {
             val origin = OriginalText(CreatedByCharacter(CHARACTER_ID_1))
             val action = UpdateText(Text(TEXT_ID_0, origin = origin))

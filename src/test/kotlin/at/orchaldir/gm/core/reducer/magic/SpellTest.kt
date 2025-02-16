@@ -17,7 +17,6 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 private val spell0 = Spell(SPELL_ID_0)
 private val STATE = State(
@@ -79,7 +78,7 @@ class SpellTest {
             val action = UpdateSpell(Spell(SPELL_ID_0))
             val state = STATE.removeStorage(SPELL_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Spell 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -110,6 +109,13 @@ class SpellTest {
             assertIllegalArgument("Cannot use an unknown character 0 as Inventor!") {
                 REDUCER.invoke(STATE, action)
             }
+        }
+
+        @Test
+        fun `Date is in the future`() {
+            val action = UpdateSpell(Spell(SPELL_ID_0, date = FUTURE_DAY_0))
+
+            assertIllegalArgument("Date (Spell) is in the future!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

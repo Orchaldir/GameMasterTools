@@ -5,8 +5,9 @@ import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.organization.Organization
-import at.orchaldir.gm.core.reducer.util.checkCreated
-import at.orchaldir.gm.core.reducer.util.checkCreator
+import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.checkIfCreatorCanBeDeleted
+import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -19,7 +20,7 @@ val CREATE_ORGANIZATION: Reducer<CreateOrganization, State> = { state, _ ->
 val DELETE_ORGANIZATION: Reducer<DeleteOrganization, State> = { state, action ->
     state.getOrganizationStorage().require(action.id)
 
-    checkCreated(state, action.id, "organization")
+    checkIfCreatorCanBeDeleted(state, action.id, "organization")
 
     noFollowUps(state.updateStorage(state.getOrganizationStorage().remove(action.id)))
 }
@@ -27,8 +28,9 @@ val DELETE_ORGANIZATION: Reducer<DeleteOrganization, State> = { state, action ->
 val UPDATE_ORGANIZATION: Reducer<UpdateOrganization, State> = { state, action ->
     val organization = action.organization
     state.getOrganizationStorage().require(organization.id)
+    checkDate(state, organization.startDate(), "Organization")
 
-    checkCreator(state, organization.founder, organization.id, organization.date, "founder")
+    validateCreator(state, organization.founder, organization.id, organization.date, "founder")
 
     noFollowUps(state.updateStorage(state.getOrganizationStorage().update(organization)))
 }

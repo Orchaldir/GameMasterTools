@@ -30,22 +30,22 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-
-private val BUILDING_TILE = TownTile(construction = BuildingTile(BUILDING_ID_0))
-private val RIVER_TILE = TownTile(RiverTerrain(RIVER_ID_0))
-private val STREET_TILE = TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0))
-private val EMPTY = TownTile()
-private val OWNER = History<Owner>(OwnedByTown(TOWN_ID_0))
-private val PREVIOUS_OWNER = History(UndefinedOwner, listOf(HistoryEntry(OwnedByTown(TOWN_ID_0), Day(0))))
-private val STATE = State(
-    listOf(
-        Storage(Street(STREET_ID_0)),
-        Storage(StreetTemplate(STREET_TYPE_ID_0)),
-        Storage(Town(TOWN_ID_0)),
-    )
-)
-
 class TownTest {
+
+    private val BUILDING_TILE = TownTile(construction = BuildingTile(BUILDING_ID_0))
+    private val RIVER_TILE = TownTile(RiverTerrain(RIVER_ID_0))
+    private val STREET_TILE = TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0))
+    private val EMPTY = TownTile()
+    private val OWNER = History<Owner>(OwnedByTown(TOWN_ID_0))
+    private val PREVIOUS_OWNER = History(UndefinedOwner, listOf(HistoryEntry(OwnedByTown(TOWN_ID_0), Day(0))))
+    private val STATE = State(
+        listOf(
+            Storage(CALENDAR0),
+            Storage(Street(STREET_ID_0)),
+            Storage(StreetTemplate(STREET_TYPE_ID_0)),
+            Storage(Town(TOWN_ID_0)),
+        )
+    )
 
     @Nested
     inner class DeleteTest {
@@ -154,6 +154,13 @@ class TownTest {
             val action = UpdateTown(Town(TOWN_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
 
             assertIllegalArgument("Cannot use an unknown character 0 as founder!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Date is in the future`() {
+            val action = UpdateTown(Town(TOWN_ID_0, foundingDate = FUTURE_DAY_0))
+
+            assertIllegalArgument("Date (Town) is in the future!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

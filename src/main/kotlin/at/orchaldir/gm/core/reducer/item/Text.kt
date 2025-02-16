@@ -7,7 +7,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.item.text.scroll.*
-import at.orchaldir.gm.core.reducer.util.checkCreator
+import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.util.exists
 import at.orchaldir.gm.utils.doNothing
@@ -29,6 +30,7 @@ val DELETE_TEXT: Reducer<DeleteText, State> = { state, action ->
 
 val UPDATE_TEXT: Reducer<UpdateText, State> = { state, action ->
     state.getTextStorage().require(action.text.id)
+    checkDate(state, action.text.date, "Text")
     checkOrigin(state, action.text)
     checkTextFormat(action.text.format)
     checkTextContent(state, action.text.content)
@@ -41,14 +43,14 @@ private fun checkOrigin(
     text: Text,
 ) {
     when (val origin = text.origin) {
-        is OriginalText -> checkCreator(state, origin.author, text.id, text.date, "Author")
+        is OriginalText -> validateCreator(state, origin.author, text.id, text.date, "Author")
         is TranslatedText -> {
             val original = state.getTextStorage().getOrThrow(origin.text)
             require(text.id != origin.text) { "The text cannot translate itself!" }
             require(state.exists(original, text.date)) {
                 "The translation must happen after the original was written!"
             }
-            checkCreator(state, origin.translator, text.id, text.date, "Translator")
+            validateCreator(state, origin.translator, text.id, text.date, "Translator")
         }
     }
 }

@@ -29,16 +29,15 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 
-
-private val BUILDING_TILE_0 = TownTile(construction = BuildingTile(BUILDING_ID_0))
-private val BUILDING_TILE_1 = TownTile(construction = BuildingTile(BUILDING_ID_1))
-private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0))
-private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_TYPE_ID_1, STREET_ID_1))
-private val BIG_SIZE = MapSize2d(2, 1)
-private val BIG_SQUARE = square(2)
-private val OWNERSHIP = History<Owner>(UndefinedOwner)
-
 class BuildingTest {
+
+    private val BUILDING_TILE_0 = TownTile(construction = BuildingTile(BUILDING_ID_0))
+    private val BUILDING_TILE_1 = TownTile(construction = BuildingTile(BUILDING_ID_1))
+    private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0))
+    private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_TYPE_ID_1, STREET_ID_1))
+    private val BIG_SIZE = MapSize2d(2, 1)
+    private val BIG_SQUARE = square(2)
+    private val OWNERSHIP = History<Owner>(UndefinedOwner)
 
     @Nested
     inner class AddBuildingTest {
@@ -238,10 +237,10 @@ class BuildingTest {
         private val UNKNOWN_STYLE = ArchitecturalStyleId(1)
         private val STATE = State(
             listOf(
-                Storage(listOf(ArchitecturalStyle(STYLE, start = Year(0)))),
+                Storage(listOf(ArchitecturalStyle(STYLE, start = YEAR0))),
                 Storage(listOf(Building(BUILDING_ID_0, style = STYLE), Building(BUILDING_ID_1, style = STYLE))),
                 Storage(CALENDAR0),
-                Storage(Character(CHARACTER_ID_0)),
+                Storage(Character(CHARACTER_ID_0, birthDate = DAY0)),
                 Storage(listOf(Street(STREET_ID_0), Street(STREET_ID_1), Street(STREET_NOT_IN_TOWN))),
                 Storage(Town(TOWN_ID_0, map = TileMap2d(MapSize2d(2, 1), listOf(STREET_TILE_0, STREET_TILE_1)))),
             )
@@ -297,6 +296,13 @@ class BuildingTest {
             val state = STATE.removeStorage(CHARACTER_TYPE)
 
             assertIllegalArgument("Cannot use an unknown character 0 as Builder!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Date is in the future`() {
+            val action = ACTION.copy(constructionDate = FUTURE_DAY_0)
+
+            assertIllegalArgument("Date (Building) is in the future!") { REDUCER.invoke(STATE, action) }
         }
 
         @Nested
@@ -476,6 +482,7 @@ class BuildingTest {
                     Storage(
                         Character(
                             CHARACTER_ID_0,
+                            birthDate = DAY0,
                             housingStatus = History(InHouse(BUILDING_ID_0))
                         )
                     )
@@ -493,6 +500,7 @@ class BuildingTest {
                     Storage(
                         Character(
                             CHARACTER_ID_0,
+                            birthDate = DAY0,
                             housingStatus = History(InHouse(BUILDING_ID_0))
                         )
                     )
@@ -513,6 +521,7 @@ class BuildingTest {
                             Storage(
                                 Character(
                                     CHARACTER_ID_0,
+                                    birthDate = DAY0,
                                     housingStatus = History(InApartment(BUILDING_ID_0, 4))
                                 )
                             )

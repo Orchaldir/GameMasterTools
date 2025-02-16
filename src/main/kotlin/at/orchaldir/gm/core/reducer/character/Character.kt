@@ -5,9 +5,10 @@ import at.orchaldir.gm.core.action.DeleteCharacter
 import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.reducer.util.checkCreated
+import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkEmploymentStatusHistory
 import at.orchaldir.gm.core.reducer.util.checkHousingStatusHistory
+import at.orchaldir.gm.core.reducer.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.selector.economy.getOwnedBusinesses
 import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getChildren
@@ -35,7 +36,7 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
 
     checkBuildingOwnership(state, action.id)
     checkBusinessOwnership(state, action.id)
-    checkCreated(state, action.id, "character")
+    checkIfCreatorCanBeDeleted(state, action.id, "character")
 
     noFollowUps(state.updateStorage(state.getCharacterStorage().remove(action.id)))
 }
@@ -74,8 +75,7 @@ private fun checkOrigin(
     state: State,
     character: Character,
 ) {
-    val calendar = state.getDefaultCalendar()
-    require(calendar.isAfterOrEqual(state.time.currentDate, character.birthDate)) { "Character is born in the future!" }
+    checkDate(state, character.birthDate, "Birthday")
 
     when (val origin = character.origin) {
         is Born -> {

@@ -14,7 +14,6 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 private val domain0 = Domain(DOMAIN_ID_0)
 private val STATE = State(
@@ -57,17 +56,7 @@ class DomainTest {
             val action = UpdateDomain(Domain(DOMAIN_ID_0))
             val state = STATE.removeStorage(DOMAIN_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Cannot modify an unknown domain`() {
-            val domain = Domain(DOMAIN_ID_0)
-            val action = UpdateDomain(domain)
-
-            assertIllegalArgument("Requires unknown Domain 0!") {
-                REDUCER.invoke(State(), action)
-            }
+            assertIllegalArgument("Requires unknown Domain 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test

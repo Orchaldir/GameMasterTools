@@ -6,7 +6,8 @@ import at.orchaldir.gm.core.action.UpdateSpell
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.util.Creator
-import at.orchaldir.gm.core.reducer.util.checkCreator
+import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.magic.canDeleteSpell
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
@@ -28,7 +29,7 @@ val DELETE_SPELL: Reducer<DeleteSpell, State> = { state, action ->
 val UPDATE_SPELL: Reducer<UpdateSpell, State> = { state, action ->
     val spell = action.spell
     state.getSpellStorage().require(spell.id)
-
+    checkDate(state, spell.startDate(), "Spell")
     checkOrigin(state, spell)
 
     noFollowUps(state.updateStorage(state.getSpellStorage().update(spell)))
@@ -58,5 +59,5 @@ private fun checkInventor(
     spell: Spell,
     creator: Creator,
 ) {
-    checkCreator(state, creator, spell.id, spell.date, "Inventor")
+    validateCreator(state, creator, spell.id, spell.date, "Inventor")
 }

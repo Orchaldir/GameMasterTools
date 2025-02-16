@@ -45,8 +45,9 @@ enum class SortOrganization {
 }
 
 enum class SortRace {
+    Age,
     MaxHeight,
-    MaxAge,
+    MaxLifeSpan,
     Name,
 }
 
