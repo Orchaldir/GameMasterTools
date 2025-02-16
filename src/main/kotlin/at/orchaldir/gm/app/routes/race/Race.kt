@@ -147,8 +147,6 @@ private fun HTML.showAllRaces(
                 th { +"Max Height" }
                 th { +"Origin" }
                 th { +"Date" }
-                th { +"Age" }
-                th { +"Life Stages" }
                 th { +"Appearance" }
                 th { +"Characters" }
             }
@@ -159,9 +157,10 @@ private fun HTML.showAllRaces(
                     tdSkipZero(race.lifeStages.getMaxAge())
                     td { +race.height.getMax().toString() }
                     td { displayRaceOrigin(call, state, race.origin, false) }
-                    td { showOptionalDate(call, state, race.startDate()) }
-                    tdSkipZero(state.getAgeInYears(race.startDate()))
-                    tdSkipZero(race.lifeStages.countLifeStages())
+                    td {
+                        title = state.getAgeInYears(race.startDate())?.let { "$it years ago" } ?: ""
+                        showOptionalDate(call, state, race.startDate())
+                    }
                     td { link(call, state, race.lifeStages.getRaceAppearance()) }
                     tdSkipZero(state.getCharacters(race.id).size)
                 }
