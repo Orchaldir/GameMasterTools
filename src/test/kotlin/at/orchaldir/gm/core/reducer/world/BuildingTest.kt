@@ -1,12 +1,10 @@
 package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.AddBuilding
-import at.orchaldir.gm.core.action.DeleteBuilding
-import at.orchaldir.gm.core.action.UpdateBuilding
-import at.orchaldir.gm.core.action.UpdateBuildingLot
+import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.name.NameWithReference
 import at.orchaldir.gm.core.model.name.ReferencedFullName
 import at.orchaldir.gm.core.model.name.SimpleName
@@ -29,16 +27,15 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 
-
-private val BUILDING_TILE_0 = TownTile(construction = BuildingTile(BUILDING_ID_0))
-private val BUILDING_TILE_1 = TownTile(construction = BuildingTile(BUILDING_ID_1))
-private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0))
-private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_TYPE_ID_1, STREET_ID_1))
-private val BIG_SIZE = MapSize2d(2, 1)
-private val BIG_SQUARE = square(2)
-private val OWNERSHIP = History<Owner>(UndefinedOwner)
-
 class BuildingTest {
+
+    private val BUILDING_TILE_0 = TownTile(construction = BuildingTile(BUILDING_ID_0))
+    private val BUILDING_TILE_1 = TownTile(construction = BuildingTile(BUILDING_ID_1))
+    private val STREET_TILE_0 = TownTile(construction = StreetTile(STREET_TYPE_ID_0, STREET_ID_0))
+    private val STREET_TILE_1 = TownTile(construction = StreetTile(STREET_TYPE_ID_1, STREET_ID_1))
+    private val BIG_SIZE = MapSize2d(2, 1)
+    private val BIG_SQUARE = square(2)
+    private val OWNERSHIP = History<Owner>(UndefinedOwner)
 
     @Nested
     inner class AddBuildingTest {
@@ -297,6 +294,13 @@ class BuildingTest {
             val state = STATE.removeStorage(CHARACTER_TYPE)
 
             assertIllegalArgument("Cannot use an unknown character 0 as Builder!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Date is in the future`() {
+            val action = ACTION.copy(constructionDate = FUTURE_DAY_0)
+
+            assertIllegalArgument("Date (Building) is in the future!") { REDUCER.invoke(STATE, action) }
         }
 
         @Nested

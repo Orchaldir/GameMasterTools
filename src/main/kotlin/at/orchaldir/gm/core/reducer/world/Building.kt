@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.town.BuildingTile
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.core.reducer.util.checkComplexName
+import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.reducer.util.checkOwnershipWithOptionalDate
 import at.orchaldir.gm.core.selector.getCharactersLivingIn
@@ -68,6 +69,7 @@ val UPDATE_BUILDING: Reducer<UpdateBuilding, State> = { state, action ->
         checkComplexName(state, action.name)
     }
     checkAddress(state, oldBuilding.lot.town, oldBuilding.address, action.address)
+    checkDate(state, action.constructionDate, "Building")
     checkArchitecturalStyle(state, action)
     validateCreator(state, action.builder, action.id, action.constructionDate, "Builder")
     checkOwnershipWithOptionalDate(state, action.ownership, action.constructionDate)
