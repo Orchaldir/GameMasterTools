@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import io.ktor.http.*
 import io.ktor.server.util.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -24,10 +23,10 @@ fun HtmlBlockTag.showPlane(
 // edit
 
 fun HtmlBlockTag.editPlane(
-    domain: Plane,
+    plane: Plane,
 ) {
-    selectName(domain.name)
-    selectText("Optional Name", domain.title ?: "", TILE, 0)
+    selectName(plane.name)
+    selectText("Optional Name", plane.title ?: "", TILE, 0)
 }
 
 // parse

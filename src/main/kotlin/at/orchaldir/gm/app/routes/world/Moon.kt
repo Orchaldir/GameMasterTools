@@ -1,17 +1,14 @@
 package at.orchaldir.gm.app.routes.world
 
-import at.orchaldir.gm.app.COLOR
-import at.orchaldir.gm.app.LENGTH
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.field
-import at.orchaldir.gm.app.parse.world.parseMoon
+import at.orchaldir.gm.app.html.model.world.editMoon
+import at.orchaldir.gm.app.html.model.world.parseMoon
+import at.orchaldir.gm.app.html.model.world.showMoon
 import at.orchaldir.gm.core.action.CreateMoon
 import at.orchaldir.gm.core.action.DeleteMoon
 import at.orchaldir.gm.core.action.UpdateMoon
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.world.moon.MOON_TYPE
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
@@ -128,23 +125,12 @@ private fun HTML.showMoonDetails(
     state: State,
     moon: Moon,
 ) {
-    val nextNewMoon = moon.getNextNewMoon(state.time.currentDate)
-    val nextFullMoon = moon.getNextFullMoon(state.time.currentDate)
     val backLink = call.application.href(MoonRoutes())
     val deleteLink = call.application.href(MoonRoutes.Delete(moon.id))
     val editLink = call.application.href(MoonRoutes.Edit(moon.id))
 
     simpleHtml("Moon: ${moon.name}") {
-        field("Name", moon.name)
-        field("Cycle", moon.getCycle().toString() + " days")
-        field("Color", moon.color)
-        if (nextNewMoon > nextFullMoon) {
-            field(call, state, "Next Full Moon", nextFullMoon)
-            field(call, state, "Next New Moon", nextNewMoon)
-        } else {
-            field(call, state, "Next New Moon", nextNewMoon)
-            field(call, state, "Next Full Moon", nextFullMoon)
-        }
+        showMoon(call, state, moon)
 
         action(editLink, "Edit")
         action(deleteLink, "Delete")
@@ -161,9 +147,8 @@ private fun HTML.showMoonEditor(
 
     simpleHtml("Edit Moon: ${moon.name}") {
         form {
-            selectName(moon.name)
-            selectInt("Days per Quarter", moon.daysPerQuarter, 1, 100, 1, LENGTH, false)
-            selectColor("Color", COLOR, OneOf(Color.entries), moon.color)
+            editMoon(moon)
+
             button("Update", updateLink)
         }
         back(backLink)

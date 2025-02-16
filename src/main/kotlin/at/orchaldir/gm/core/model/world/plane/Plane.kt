@@ -1,10 +1,7 @@
 package at.orchaldir.gm.core.model.world.plane
 
-import at.orchaldir.gm.core.model.time.Day
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
 
 const val PLANE_TYPE = "Plane"

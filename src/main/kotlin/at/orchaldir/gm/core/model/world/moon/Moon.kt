@@ -23,6 +23,7 @@ value class MoonId(val value: Int) : Id<MoonId> {
 data class Moon(
     val id: MoonId,
     val name: String = "Moon ${id.value}",
+    val title: String? = null,
     val daysPerQuarter: Int = 1,
     val color: Color = Color.White,
 ) : ElementWithSimpleName<MoonId> {
