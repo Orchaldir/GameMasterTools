@@ -7,7 +7,9 @@ import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
+import at.orchaldir.gm.core.selector.world.getDemiplanes
 import at.orchaldir.gm.core.selector.world.getMoons
+import at.orchaldir.gm.core.selector.world.getReflections
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
@@ -22,6 +24,15 @@ fun HtmlBlockTag.showPlane(
 ) {
     optionalField("Title", plane.title)
     showPlanePurpose(call, state, plane.purpose)
+
+    showList("Demiplanes", state.getDemiplanes(plane.id)) { demiplane ->
+        link(call, demiplane)
+    }
+
+    showList("Reflection", state.getReflections(plane.id)) { reflection ->
+        link(call, reflection)
+    }
+
     showList("Associated Moons", state.getMoons(plane.id)) { moon ->
         link(call, moon)
     }

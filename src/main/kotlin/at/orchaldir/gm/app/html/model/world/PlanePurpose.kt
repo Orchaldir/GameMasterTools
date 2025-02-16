@@ -14,7 +14,6 @@ import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -24,7 +23,7 @@ fun HtmlBlockTag.showPlanePurpose(
     state: State,
     purpose: PlanePurpose,
 ) {
-    field("Origin") {
+    field("Purpose") {
         displayPlanePurpose(call, state, purpose)
     }
 }

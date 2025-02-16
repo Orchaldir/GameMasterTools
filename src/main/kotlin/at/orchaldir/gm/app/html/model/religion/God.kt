@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.selector.util.sortDomains
+import at.orchaldir.gm.core.selector.world.getHeartPlane
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
@@ -30,9 +31,12 @@ fun HtmlBlockTag.showGod(
 ) {
     field("Gender", god.gender)
     showPersonality(call, state, god.personality)
+
     showList("Domains", god.domains) { domain ->
         link(call, state, domain)
     }
+
+    optionalFieldLink("Heart Plane", call, state, state.getHeartPlane(god.id)?.id)
 }
 
 // edit
