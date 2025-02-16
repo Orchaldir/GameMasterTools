@@ -37,12 +37,12 @@ fun HtmlBlockTag.displayPlanePurpose(
 ) {
     when (purpose) {
         is Demiplane -> {
-            +"Demiplane connect to "
+            +"Demiplane of "
             link(call, state, purpose.plane)
         }
 
         is HeartPlane -> {
-            +"Home of "
+            +"Heart of "
             link(call, state, purpose.god)
         }
 

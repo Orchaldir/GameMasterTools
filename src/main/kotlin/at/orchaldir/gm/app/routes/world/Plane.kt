@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.world.displayPlanePurpose
 import at.orchaldir.gm.app.html.model.world.editPlane
 import at.orchaldir.gm.app.html.model.world.parsePlane
 import at.orchaldir.gm.app.html.model.world.showPlane
@@ -148,11 +149,13 @@ private fun HTML.showAllPlanes(
             tr {
                 th { +"Name" }
                 th { +"Title" }
+                th { +"Purpose" }
             }
             planes.forEach { plane ->
                 tr {
                     td { link(call, state, plane) }
                     td { plane.title?.let { +it } }
+                    td { displayPlanePurpose(call, state, plane.purpose, false) }
                 }
             }
         }
