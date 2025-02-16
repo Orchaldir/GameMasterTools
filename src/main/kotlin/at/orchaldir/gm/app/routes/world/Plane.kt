@@ -200,7 +200,7 @@ private fun HTML.showPlaneEditor(
             action = previewLink
             method = FormMethod.post
 
-            editPlane(plane)
+            editPlane(state, plane)
 
             button("Update", updateLink)
         }

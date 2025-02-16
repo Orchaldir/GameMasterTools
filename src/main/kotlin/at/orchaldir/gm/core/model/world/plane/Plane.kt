@@ -21,6 +21,7 @@ data class Plane(
     val id: PlaneId,
     val name: String = "Plane ${id.value}",
     val title: String? = null,
+    val purpose: PlanePurpose = IndependentPlane,
 ) : ElementWithSimpleName<PlaneId> {
 
     override fun id() = id

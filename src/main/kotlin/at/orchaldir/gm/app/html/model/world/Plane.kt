@@ -21,6 +21,7 @@ fun HtmlBlockTag.showPlane(
     plane: Plane,
 ) {
     optionalField("Title", plane.title)
+    showPlanePurpose(call, state, plane.purpose)
     showList("Associated Moons", state.getMoons(plane.id)) { moon ->
         link(call, moon)
     }
@@ -29,10 +30,12 @@ fun HtmlBlockTag.showPlane(
 // edit
 
 fun HtmlBlockTag.editPlane(
+    state: State,
     plane: Plane,
 ) {
     selectName(plane.name)
     selectText("Optional Name", plane.title ?: "", TILE, 0)
+    editPlanePurpose(state, plane)
 }
 
 // parse
@@ -45,4 +48,5 @@ fun parsePlane(parameters: Parameters, id: PlaneId) = Plane(
     id,
     parameters.getOrFail(NAME),
     parameters[TILE]?.ifEmpty { null },
+    parsePlanePurpose(parameters),
 )
