@@ -148,7 +148,8 @@ private fun FORM.editLifeStages(
             selectAppearance(state, lifeStages.appearance, 0)
             var minMaxAge = 1
             showListWithIndex(lifeStages.getAllLifeStages()) { index, stage ->
-                selectMaxAge(stage.name, minMaxAge, index, stage.maxAge)
+                val nextMaxAge = lifeStages.maxAges.getOrNull(index + 1) ?: 10001
+                selectMaxAge(stage.name, index, stage.maxAge, minMaxAge, nextMaxAge - 1)
                 minMaxAge = stage.maxAge + 1
             }
             selectHairColor("Old Age Hair Color", 6, lifeStages.oldAgeHairColor)
@@ -163,7 +164,8 @@ private fun FORM.editLifeStages(
                 selectStageName(index, stage.name)
                 ul {
                     li {
-                        selectMaxAge("Max Age", minMaxAge, index, stage.maxAge)
+                        val nextMaxAge = lifeStages.lifeStages.getOrNull(index + 1)?.maxAge ?: 10001
+                        selectMaxAge("Max Age", index, stage.maxAge, minMaxAge, nextMaxAge - 1)
                     }
                     li {
                         selectRelativeSize(stage.relativeSize, index)
@@ -209,11 +211,12 @@ private fun LI.selectStageName(
 
 private fun LI.selectMaxAge(
     label: String,
-    minAge: Int,
     index: Int,
     age: Int,
+    minAge: Int,
+    maxAge: Int,
 ) {
-    selectInt(label, age, minAge, 10000, 1, combine(LIFE_STAGE, AGE, index), true)
+    selectInt(label, age, minAge, maxAge, 1, combine(LIFE_STAGE, AGE, index), true)
 }
 
 private fun LI.selectRelativeSize(
