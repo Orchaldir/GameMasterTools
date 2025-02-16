@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model.race
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.optionalField
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -45,9 +46,13 @@ private fun HtmlBlockTag.showLifeStages(
 
         is DefaultAging -> {
             showAppearance(call, state, lifeStages.appearance)
-            details {
-                showList(lifeStages.getAllLifeStages(), HtmlBlockTag::showLifeStage)
+            showList("Max Ages", lifeStages.maxAges.withIndex().toList()) { indexed ->
+                val maxAge = indexed.value
+                val stage = DefaultLifeStages.entries[indexed.index].name
+                field(stage, "$maxAge years")
             }
+            optionalField("Old Age Hair Color", lifeStages.oldAgeHairColor)
+            optionalField("Venerable Hair Color", lifeStages.venerableAgeHairColor)
         }
 
         is SimpleAging -> {
@@ -147,8 +152,8 @@ private fun FORM.editLifeStages(
                 selectMaxAge(stage.name, minMaxAge, index, stage.maxAge)
                 minMaxAge = stage.maxAge + 1
             }
-            selectHairColor("Old Age", 6, lifeStages.oldAgeHairColor)
-            selectHairColor("Venerable", 7, lifeStages.venerableAgeHairColor)
+            selectHairColor("Old Age Hair Color", 6, lifeStages.oldAgeHairColor)
+            selectHairColor("Venerable Hair Color", 7, lifeStages.venerableAgeHairColor)
         }
 
         is SimpleAging -> {
