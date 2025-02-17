@@ -70,45 +70,57 @@
    "id": 13,
    "name": "The Material Plane"
   },
-   "14": {
-     "id": 14,
-     "name": "The Bitter Shield",
-     "purpose": {
-       "type": "Heart",
-       "god": 16
-     }
-   },
-   "15": {
-     "id": 15,
-     "name": "The Tower of Shadows",
-     "purpose": {
-       "type": "Heart",
-       "god": 17
-     }
-   },
-   "16": {
-     "id": 16,
-     "name": "The Abyssal Forest of Khaar",
-     "purpose": {
-       "type": "Demiplane",
-       "plane": 13
-     }
-   },
-   "17": {
-     "id": 17,
-     "name": "The Ironlands",
-     "purpose": {
-       "type": "Demiplane",
-       "plane": 13
-     }
-   },
-   "18": {
-     "id": 18,
-     "name": "The Vale of the Inner Sun",
-     "purpose": {
-       "type": "Demiplane",
-       "plane": 13
-     }
+  "14": {
+   "id": 14,
+   "name": "The Bitter Shield",
+   "purpose": {
+    "type": "Heart",
+    "god": 16
+   }
+  },
+  "15": {
+   "id": 15,
+   "name": "The Tower of Shadows",
+   "purpose": {
+    "type": "Heart",
+    "god": 17
+   }
+  },
+  "16": {
+   "id": 16,
+   "name": "The Abyssal Forest of Khaar",
+   "purpose": {
+    "type": "Demiplane",
+    "plane": 13
+   }
+  },
+  "17": {
+   "id": 17,
+   "name": "The Ironlands",
+   "purpose": {
+    "type": "Demiplane",
+    "plane": 13
+   }
+  },
+  "18": {
+   "id": 18,
+   "name": "The Vale of the Inner Sun",
+   "purpose": {
+    "type": "Demiplane",
+    "plane": 13
+   }
+  },
+  "19": {
+   "id": 19,
+   "name": "The Astral Plane"
+  },
+  "20": {
+   "id": 20,
+   "name": "The Ethereal Veil",
+   "purpose": {
+    "type": "Reflective",
+    "plane": 13
+   }
   }
  }
 }
