@@ -8,6 +8,7 @@ enum class PlanePurposeType {
     Demi,
     Heart,
     Independent,
+    Material,
     Reflective;
 }
 
@@ -18,6 +19,7 @@ sealed class PlanePurpose {
         is Demiplane -> PlanePurposeType.Demi
         is HeartPlane -> PlanePurposeType.Heart
         is IndependentPlane -> PlanePurposeType.Independent
+        MaterialPlane -> PlanePurposeType.Material
         is ReflectivePlane -> PlanePurposeType.Reflective
     }
 }
@@ -33,7 +35,13 @@ data class HeartPlane(val god: GodId) : PlanePurpose()
 
 @Serializable
 @SerialName("Independent")
-data object IndependentPlane : PlanePurpose()
+data class IndependentPlane(
+    val pattern: PlaneAlignmentPattern = RandomAlignment,
+) : PlanePurpose()
+
+@Serializable
+@SerialName("Material")
+data object MaterialPlane : PlanePurpose()
 
 @Serializable
 @SerialName("Reflective")
