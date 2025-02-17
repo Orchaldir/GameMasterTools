@@ -2,15 +2,13 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.world.displayPlanePurpose
-import at.orchaldir.gm.app.html.model.world.editPlane
-import at.orchaldir.gm.app.html.model.world.parsePlane
-import at.orchaldir.gm.app.html.model.world.showPlane
+import at.orchaldir.gm.app.html.model.world.*
 import at.orchaldir.gm.core.action.CreatePlane
 import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortPlane
+import at.orchaldir.gm.core.model.world.plane.IndependentPlane
 import at.orchaldir.gm.core.model.world.plane.PLANE_TYPE
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
@@ -150,12 +148,18 @@ private fun HTML.showAllPlanes(
                 th { +"Name" }
                 th { +"Title" }
                 th { +"Purpose" }
+                th { +"Alignment" }
             }
             planes.forEach { plane ->
                 tr {
                     td { link(call, state, plane) }
                     td { plane.title?.let { +it } }
                     td { displayPlanePurpose(call, state, plane.purpose, false) }
+                    td {
+                        if (plane.purpose is IndependentPlane) {
+                            displayPlaneAlignmentPattern(plane.purpose.pattern)
+                        }
+                    }
                 }
             }
         }
