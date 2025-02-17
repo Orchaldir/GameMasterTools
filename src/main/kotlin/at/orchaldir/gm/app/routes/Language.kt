@@ -251,7 +251,10 @@ private fun HtmlBlockTag.displayOrigin(
         }
 
         OriginalLanguage -> +"Original"
-        is PlanarLanguage -> link(call, state, origin.plane)
+        is PlanarLanguage -> {
+            +"Part of "
+            link(call, state, origin.plane)
+        }
     }
 }
 

@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
+import at.orchaldir.gm.core.selector.getPlanarLanguages
 import at.orchaldir.gm.core.selector.world.getDemiplanes
 import at.orchaldir.gm.core.selector.world.getMoons
 import at.orchaldir.gm.core.selector.world.getReflections
@@ -35,6 +36,10 @@ fun HtmlBlockTag.showPlane(
 
     showList("Associated Moons", state.getMoons(plane.id)) { moon ->
         link(call, moon)
+    }
+
+    showList("Associated Languages", state.getPlanarLanguages(plane.id)) { language ->
+        link(call, language)
     }
 }
 
