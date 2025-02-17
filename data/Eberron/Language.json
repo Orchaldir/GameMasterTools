@@ -32,7 +32,8 @@
    "id": 4,
    "name": "Quori",
    "origin": {
-    "type": "Cosmic"
+    "type": "Planar",
+    "plane": 1
    }
   },
   "5": {
@@ -74,7 +75,8 @@
    "id": 10,
    "name": "Daelkyr",
    "origin": {
-    "type": "Cosmic"
+    "type": "Planar",
+    "plane": 12
    }
   },
   "11": {
@@ -143,7 +145,8 @@
    "id": 23,
    "name": "Druidic",
    "origin": {
-    "type": "Cosmic"
+    "type": "Planar",
+    "plane": 13
    }
   },
   "24": {

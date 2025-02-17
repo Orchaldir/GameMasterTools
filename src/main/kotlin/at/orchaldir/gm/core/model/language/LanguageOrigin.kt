@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.language
 
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.Creator
+import at.orchaldir.gm.core.model.world.plane.PlaneId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,6 +12,7 @@ enum class LanguageOriginType {
     Evolved,
     Invented,
     Original,
+    Planar,
 }
 
 @Serializable
@@ -22,6 +24,7 @@ sealed class LanguageOrigin {
         is EvolvedLanguage -> LanguageOriginType.Evolved
         is InventedLanguage -> LanguageOriginType.Invented
         OriginalLanguage -> LanguageOriginType.Original
+        is PlanarLanguage -> LanguageOriginType.Planar
     }
 
     fun isChildOf(language: LanguageId) = when (this) {
@@ -54,3 +57,7 @@ data class EvolvedLanguage(val parent: LanguageId) : LanguageOrigin()
 @Serializable
 @SerialName("Original")
 data object OriginalLanguage : LanguageOrigin()
+
+@Serializable
+@SerialName("Planar")
+data class PlanarLanguage(val plane: PlaneId) : LanguageOrigin()

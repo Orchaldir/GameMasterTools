@@ -1,11 +1,9 @@
 package at.orchaldir.gm.app.parse
 
-import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.LANGUAGES
-import at.orchaldir.gm.app.NAME
-import at.orchaldir.gm.app.ORIGIN
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.model.parseCreator
 import at.orchaldir.gm.app.html.model.parseDate
+import at.orchaldir.gm.app.html.model.world.parsePlaneId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.model.language.LanguageOriginType.*
@@ -33,11 +31,7 @@ private fun parseOrigin(parameters: Parameters, state: State) = when (parse(para
     }
 
     Cosmic -> CosmicLanguage
-
-    Evolved -> {
-        val parent = parseLanguageId(parameters, LANGUAGES)
-        EvolvedLanguage(parent)
-    }
+    Evolved -> EvolvedLanguage(parseLanguageId(parameters, LANGUAGES))
 
     Invented -> InventedLanguage(
         parseCreator(parameters),
@@ -45,4 +39,5 @@ private fun parseOrigin(parameters: Parameters, state: State) = when (parse(para
     )
 
     Original -> OriginalLanguage
+    Planar -> PlanarLanguage(parsePlaneId(parameters, PLANE))
 }

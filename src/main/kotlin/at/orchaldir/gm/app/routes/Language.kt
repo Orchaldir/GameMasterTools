@@ -1,9 +1,6 @@
 package at.orchaldir.gm.app.routes
 
-import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.LANGUAGES
-import at.orchaldir.gm.app.ORIGIN
-import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.selectCreator
 import at.orchaldir.gm.app.html.model.selectDate
@@ -19,6 +16,7 @@ import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.magic.countSpells
 import at.orchaldir.gm.core.selector.magic.getSpells
+import at.orchaldir.gm.core.selector.util.sortPlanes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -253,6 +251,7 @@ private fun HtmlBlockTag.displayOrigin(
         }
 
         OriginalLanguage -> +"Original"
+        is PlanarLanguage -> link(call, state, origin.plane)
     }
 }
 
@@ -264,6 +263,7 @@ private fun HTML.showLanguageEditor(
     val possibleInventors = state.getCharacterStorage().getAll()
     val possibleParents = state.getPossibleParents(language.id)
         .sortedBy { it.name }
+    val planes = state.sortPlanes()
     val backLink = href(call, language.id)
     val previewLink = call.application.href(LanguageRoutes.Preview(language.id))
     val updateLink = call.application.href(LanguageRoutes.Update(language.id))
@@ -293,6 +293,8 @@ private fun HTML.showLanguageEditor(
                     selectCreator(state, origin.inventor, language.id, origin.date, "Inventor")
                     selectDate(state, "Date", origin.date, DATE)
                 }
+
+                is PlanarLanguage -> selectElement(state, "Plane", PLANE, planes, origin.plane)
 
                 else -> doNothing()
             }
