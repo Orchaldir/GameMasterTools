@@ -26,6 +26,9 @@ fun HtmlBlockTag.showPlanePurpose(
     field("Purpose") {
         displayPlanePurpose(call, state, purpose)
     }
+    if (purpose is IndependentPlane) {
+        showPlaneAlignmentPattern(purpose.pattern)
+    }
 }
 
 fun HtmlBlockTag.displayPlanePurpose(
@@ -79,7 +82,7 @@ fun HtmlBlockTag.editPlanePurpose(
         when (val purpose = plane.purpose) {
             is Demiplane -> selectOtherPlane(state, otherPlanes, purpose.plane)
             is HeartPlane -> selectElement(state, "God", combine(PURPOSE, GOD), gods, purpose.god)
-            is IndependentPlane -> doNothing()
+            is IndependentPlane -> editPlaneAlignmentPattern(purpose.pattern)
             MaterialPlane -> doNothing()
             is ReflectivePlane -> selectOtherPlane(state, otherPlanes, purpose.plane)
         }
@@ -97,7 +100,7 @@ private fun DETAILS.selectOtherPlane(
 // parse
 
 fun parsePlanePurpose(parameters: Parameters) = when (parse(parameters, PURPOSE, Independent)) {
-    Independent -> IndependentPlane()
+    Independent -> IndependentPlane(parsePlaneAlignmentPattern(parameters))
     Demi -> Demiplane(parsePlaneId(parameters, combine(PURPOSE, PLANE)))
     Heart -> HeartPlane(parseGodId(parameters, combine(PURPOSE, GOD)))
     Material -> MaterialPlane

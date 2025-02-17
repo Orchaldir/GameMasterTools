@@ -26,7 +26,16 @@ data class PlanarCycle(
     val coterminous: Int,
     val waning: Int,
     val remote: Int,
-) : PlaneAlignmentPattern()
+) : PlaneAlignmentPattern() {
+
+    fun getValue(alignment: PlanarAlignment) = when (alignment) {
+        PlanarAlignment.Waxing -> waxing
+        PlanarAlignment.Coterminous -> coterminous
+        PlanarAlignment.Waning -> waning
+        PlanarAlignment.Remote -> remote
+    }
+
+}
 
 @Serializable
 @SerialName("Fixed")
