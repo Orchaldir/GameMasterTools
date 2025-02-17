@@ -7,7 +7,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class RaceOriginType {
-    Cosmic,
     Created,
     Evolved,
     Hybrid,
@@ -19,7 +18,6 @@ enum class RaceOriginType {
 sealed class RaceOrigin : HasStartDate {
 
     fun getType() = when (this) {
-        is CosmicRace -> RaceOriginType.Cosmic
         is CreatedRace -> RaceOriginType.Created
         is EvolvedRace -> RaceOriginType.Evolved
         is HybridRace -> RaceOriginType.Hybrid
@@ -41,13 +39,6 @@ sealed class RaceOrigin : HasStartDate {
     }
 
 }
-
-/**
- * A race that is an integral part of creation. e.g. the different outsiders in Eberron
- */
-@Serializable
-@SerialName("Cosmic")
-data object CosmicRace : RaceOrigin()
 
 /**
  * A race created by someone. e.g. the warforged in Eberron
