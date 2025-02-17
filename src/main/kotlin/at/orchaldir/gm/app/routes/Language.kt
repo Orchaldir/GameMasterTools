@@ -238,8 +238,6 @@ private fun HtmlBlockTag.displayOrigin(
             }
         }
 
-        CosmicLanguage -> +"Cosmic"
-
         is EvolvedLanguage -> {
             +"Evolved from "
             link(call, state, origin.parent)

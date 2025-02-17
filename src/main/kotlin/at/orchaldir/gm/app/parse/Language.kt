@@ -30,7 +30,6 @@ private fun parseOrigin(parameters: Parameters, state: State) = when (parse(para
         CombinedLanguage(parents)
     }
 
-    Cosmic -> CosmicLanguage
     Evolved -> EvolvedLanguage(parseLanguageId(parameters, LANGUAGES))
 
     Invented -> InventedLanguage(
