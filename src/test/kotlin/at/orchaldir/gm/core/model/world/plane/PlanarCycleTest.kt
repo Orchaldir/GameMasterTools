@@ -28,8 +28,13 @@ class PlanarCycleTest {
         }
 
         @Test
-        fun `Negative Cycle`() {
+        fun `First Negative Cycle`() {
             assertCycle(-10)
+        }
+
+        @Test
+        fun `Second Negative Cycle`() {
+            assertCycle(-20)
         }
 
         private fun assertCycle(start: Int) {

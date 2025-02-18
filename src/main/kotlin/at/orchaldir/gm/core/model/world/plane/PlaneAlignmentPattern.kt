@@ -39,7 +39,12 @@ data class PlanarCycle(
     }
 
     fun getAlignment(year: Int): PlanarAlignment {
-        var relativeYear = year % getLength()
+        val length = getLength()
+        var relativeYear = year % length
+
+        if (relativeYear < 0) {
+            relativeYear += length
+        }
 
         if (relativeYear < waxing) {
             return Waxing
