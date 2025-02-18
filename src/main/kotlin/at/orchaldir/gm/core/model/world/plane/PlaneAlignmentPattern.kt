@@ -29,6 +29,12 @@ data class PlanarCycle(
     val remote: Int,
 ) : PlaneAlignmentPattern() {
 
+    init {
+        PlanarAlignment.entries
+            .forEach { require(getValue(it) > 0) { "$it must be greater than 0!" } }
+
+    }
+
     fun getLength() = waxing + coterminous + waning + remote
 
     fun getValue(alignment: PlanarAlignment) = when (alignment) {
