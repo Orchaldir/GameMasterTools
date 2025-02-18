@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
+import at.orchaldir.gm.core.model.world.plane.ReflectivePlane
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -28,13 +29,12 @@ class PlaneTest {
 
         @Test
         fun `Can delete an existing plane`() {
-
             assertEquals(1, REDUCER.invoke(state, action).first.getPlaneStorage().getSize())
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            val action = DeletePlane(PlaneId(99))
+            val action = DeletePlane(UNKNOWN_PLANE_ID)
 
             assertIllegalArgument("Requires unknown Plane 99!") { REDUCER.invoke(state, action) }
         }
@@ -47,6 +47,14 @@ class PlaneTest {
         @Test
         fun `Cannot update unknown id`() {
             assertIllegalArgument("Requires unknown Plane 0!") { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `Reflected plane must exist`() {
+            val plane = Plane(PLANE_ID_0, purpose = ReflectivePlane(UNKNOWN_PLANE_ID))
+            val action = UpdatePlane(plane)
+
+            assertIllegalArgument("Requires unknown Plane 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
