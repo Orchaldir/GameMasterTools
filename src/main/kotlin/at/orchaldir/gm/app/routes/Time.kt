@@ -279,6 +279,10 @@ private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Y
 
     simpleHtml("Year: " + calendar.display(displayYear)) {
         fieldLink("Calendar", call, state, calendar)
+        showMap("Planar Alignments", state.getPlanarAlignments(year)) { plane, alignment ->
+            link(call, plane)
+            +" ($alignment)"
+        }
         action(nextLink, "Next Year")
         action(previousLink, "Previous Year")
         action(decadeLink, "Show Decade")

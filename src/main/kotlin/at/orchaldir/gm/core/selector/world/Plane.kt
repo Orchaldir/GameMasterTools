@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.resolve
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.utils.doNothing
@@ -37,6 +38,24 @@ fun State.getPlanarAlignments(day: Day): Map<Plane, PlanarAlignment> {
                         results[plane] = pattern.getAlignment(year.year)
                     }
 
+                    RandomAlignment -> doNothing()
+                }
+            }
+        }
+
+    return results
+}
+
+fun State.getPlanarAlignments(year: Year): Map<Plane, PlanarAlignment> {
+    val results = mutableMapOf<Plane, PlanarAlignment>()
+
+    getPlaneStorage()
+        .getAll()
+        .forEach { plane ->
+            if (plane.purpose is IndependentPlane) {
+                when (val pattern = plane.purpose.pattern) {
+                    is FixedAlignment -> results[plane] = pattern.alignment
+                    is PlanarCycle -> results[plane] = pattern.getAlignment(year.year)
                     RandomAlignment -> doNothing()
                 }
             }
