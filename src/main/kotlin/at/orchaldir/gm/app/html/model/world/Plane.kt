@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.getPlanarLanguages
 import at.orchaldir.gm.core.selector.world.getDemiplanes
 import at.orchaldir.gm.core.selector.world.getMoons
+import at.orchaldir.gm.core.selector.world.getPlanarAlignment
 import at.orchaldir.gm.core.selector.world.getReflections
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -25,6 +26,7 @@ fun HtmlBlockTag.showPlane(
 ) {
     optionalField("Title", plane.title)
     showPlanePurpose(call, state, plane.purpose)
+    optionalField("Current Alignment", state.getPlanarAlignment(plane, state.time.currentDate))
 
     showList("Demiplanes", state.getDemiplanes(plane.id)) { demiplane ->
         link(call, demiplane)

@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.util.sortPlanes
 import at.orchaldir.gm.core.selector.world.canDeletePlane
+import at.orchaldir.gm.core.selector.world.getPlanarAlignment
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -133,6 +134,7 @@ private fun HTML.showAllPlanes(
     state: State,
     sort: SortPlane,
 ) {
+    val day = state.time.currentDate
     val planes = state.sortPlanes(sort)
     val createLink = call.application.href(PlaneRoutes.New())
     val sortNameLink = call.application.href(PlaneRoutes.All(SortPlane.Name))
@@ -149,6 +151,7 @@ private fun HTML.showAllPlanes(
                 th { +"Title" }
                 th { +"Purpose" }
                 th { +"Alignment" }
+                th { +"Current" }
             }
             planes.forEach { plane ->
                 tr {
@@ -160,6 +163,7 @@ private fun HTML.showAllPlanes(
                             displayPlaneAlignmentPattern(plane.purpose.pattern)
                         }
                     }
+                    td { state.getPlanarAlignment(plane, day)?.let { +it.name } }
                 }
             }
         }

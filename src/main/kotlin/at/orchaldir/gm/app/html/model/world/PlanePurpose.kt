@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.model.world.plane.PlanePurposeType.*
 import at.orchaldir.gm.core.selector.util.sortGods
 import at.orchaldir.gm.core.selector.util.sortPlanes
+import at.orchaldir.gm.core.selector.world.getPlanarAlignments
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*

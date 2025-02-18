@@ -28,22 +28,23 @@ fun State.getPlanarAlignments(day: Day): Map<Plane, PlanarAlignment> {
 
     getPlaneStorage()
         .getAll()
-        .forEach { plane ->
-            if (plane.purpose is IndependentPlane) {
-                when (val pattern = plane.purpose.pattern) {
-                    is FixedAlignment -> results[plane] = pattern.alignment
-                    is PlanarCycle -> {
-                        val calendar = getDefaultCalendar()
-                        val year = calendar.getYear(day)
-                        results[plane] = pattern.getAlignment(year.year)
-                    }
-
-                    RandomAlignment -> doNothing()
-                }
-            }
-        }
+        .forEach { plane -> getPlanarAlignment(plane, day)?.let { results[plane] = it } }
 
     return results
+}
+
+fun State.getPlanarAlignment(plane: Plane, day: Day) = if (plane.purpose is IndependentPlane) {
+    when (val pattern = plane.purpose.pattern) {
+        is FixedAlignment -> pattern.alignment
+        RandomAlignment -> null
+        is PlanarCycle -> {
+            val calendar = getDefaultCalendar()
+            val year = calendar.getYear(day)
+            pattern.getAlignment(year.year)
+        }
+    }
+} else {
+    null
 }
 
 fun State.getPlanarAlignments(year: Year): Map<Plane, PlanarAlignment> {
