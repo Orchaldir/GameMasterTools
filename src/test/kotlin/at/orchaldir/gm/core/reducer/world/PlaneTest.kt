@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.world.plane.Demiplane
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.model.world.plane.ReflectivePlane
@@ -52,6 +53,14 @@ class PlaneTest {
         @Test
         fun `Reflected plane must exist`() {
             val plane = Plane(PLANE_ID_0, purpose = ReflectivePlane(UNKNOWN_PLANE_ID))
+            val action = UpdatePlane(plane)
+
+            assertIllegalArgument("Requires unknown Plane 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `A demiplane requires another plane`() {
+            val plane = Plane(PLANE_ID_0, purpose = Demiplane(UNKNOWN_PLANE_ID))
             val action = UpdatePlane(plane)
 
             assertIllegalArgument("Requires unknown Plane 99!") { REDUCER.invoke(state, action) }

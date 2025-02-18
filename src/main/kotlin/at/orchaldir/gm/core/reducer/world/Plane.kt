@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.CreatePlane
 import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.world.plane.Demiplane
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlanePurpose
 import at.orchaldir.gm.core.model.world.plane.ReflectivePlane
@@ -34,6 +35,7 @@ val UPDATE_PLANE: Reducer<UpdatePlane, State> = { state, action ->
 
 fun checkPurpose(state: State, purpose: PlanePurpose) {
     when (purpose) {
+        is Demiplane -> state.getPlaneStorage().require(purpose.plane)
         is ReflectivePlane -> state.getPlaneStorage().require(purpose.plane)
         else -> doNothing()
     }
