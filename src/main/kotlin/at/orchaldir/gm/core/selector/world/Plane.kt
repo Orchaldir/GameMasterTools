@@ -1,11 +1,12 @@
 package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.calendar.resolve
 import at.orchaldir.gm.core.model.religion.GodId
-import at.orchaldir.gm.core.model.world.plane.Demiplane
-import at.orchaldir.gm.core.model.world.plane.HeartPlane
-import at.orchaldir.gm.core.model.world.plane.PlaneId
-import at.orchaldir.gm.core.model.world.plane.ReflectivePlane
+import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.world.plane.*
+import at.orchaldir.gm.core.selector.getDefaultCalendar
+import at.orchaldir.gm.utils.doNothing
 
 fun State.canDeletePlane(plane: PlaneId) = true
 
@@ -21,4 +22,26 @@ fun State.getReflections(plane: PlaneId) = getPlaneStorage()
     .getAll()
     .filter { it.purpose is ReflectivePlane && it.purpose.plane == plane }
 
+fun State.getPlanarAlignments(day: Day): Map<Plane, PlanarAlignment> {
+    val results = mutableMapOf<Plane, PlanarAlignment>()
+
+    getPlaneStorage()
+        .getAll()
+        .forEach { plane ->
+            if (plane.purpose is IndependentPlane) {
+                when (val pattern = plane.purpose.pattern) {
+                    is FixedAlignment -> results[plane] = pattern.alignment
+                    is PlanarCycle -> {
+                        val calendar = getDefaultCalendar()
+                        val year = calendar.getYear(day)
+                        results[plane] = pattern.getAlignment(year.year)
+                    }
+
+                    RandomAlignment -> doNothing()
+                }
+            }
+        }
+
+    return results
+}
 

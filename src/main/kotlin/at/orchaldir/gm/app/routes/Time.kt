@@ -207,7 +207,7 @@ private fun BODY.showMonthWithWeekDays(
 
                             +(dayIndex + 1).toString()
 
-                            showMoons(moons, day, call)
+                            showMoons(call, moons, day)
 
                             showList(state.getForHolidays(day)) { holiday ->
                                 link(call, holiday)
@@ -222,9 +222,9 @@ private fun BODY.showMonthWithWeekDays(
 }
 
 private fun TD.showMoons(
+    call: ApplicationCall,
     moons: Collection<Moon>,
     day: Day,
-    call: ApplicationCall,
 ) {
     moons.forEach {
         when (it.getPhase(day)) {

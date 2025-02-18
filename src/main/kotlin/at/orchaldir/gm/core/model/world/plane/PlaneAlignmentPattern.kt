@@ -28,11 +28,35 @@ data class PlanarCycle(
     val remote: Int,
 ) : PlaneAlignmentPattern() {
 
+    fun getLength() = waxing + coterminous + waning + remote
+
     fun getValue(alignment: PlanarAlignment) = when (alignment) {
         PlanarAlignment.Waxing -> waxing
         PlanarAlignment.Coterminous -> coterminous
         PlanarAlignment.Waning -> waning
         PlanarAlignment.Remote -> remote
+    }
+
+    fun getAlignment(year: Int): PlanarAlignment {
+        var relativeYear = year % getLength()
+
+        if (relativeYear < waxing) {
+            return PlanarAlignment.Waxing
+        }
+
+        relativeYear -= waxing
+
+        if (relativeYear < coterminous) {
+            return PlanarAlignment.Coterminous
+        }
+
+        relativeYear -= coterminous
+
+        if (relativeYear < waning) {
+            return PlanarAlignment.Waning
+        }
+
+        return PlanarAlignment.Remote
     }
 
 }
