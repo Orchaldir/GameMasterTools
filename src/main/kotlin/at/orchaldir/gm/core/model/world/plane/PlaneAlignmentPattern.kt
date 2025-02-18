@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.world.plane
 
+import at.orchaldir.gm.core.model.world.plane.PlanarAlignment.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -31,32 +32,32 @@ data class PlanarCycle(
     fun getLength() = waxing + coterminous + waning + remote
 
     fun getValue(alignment: PlanarAlignment) = when (alignment) {
-        PlanarAlignment.Waxing -> waxing
-        PlanarAlignment.Coterminous -> coterminous
-        PlanarAlignment.Waning -> waning
-        PlanarAlignment.Remote -> remote
+        Waxing -> waxing
+        Coterminous -> coterminous
+        Waning -> waning
+        Remote -> remote
     }
 
     fun getAlignment(year: Int): PlanarAlignment {
         var relativeYear = year % getLength()
 
         if (relativeYear < waxing) {
-            return PlanarAlignment.Waxing
+            return Waxing
         }
 
         relativeYear -= waxing
 
         if (relativeYear < coterminous) {
-            return PlanarAlignment.Coterminous
+            return Coterminous
         }
 
         relativeYear -= coterminous
 
         if (relativeYear < waning) {
-            return PlanarAlignment.Waning
+            return Waning
         }
 
-        return PlanarAlignment.Remote
+        return Remote
     }
 
 }
