@@ -24,6 +24,7 @@ import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
@@ -53,6 +54,8 @@ val MOON_ID_0 = MoonId(0)
 val MOUNTAIN_ID_0 = MountainId(0)
 val MOUNTAIN_ID_1 = MountainId(1)
 val ORGANIZATION_ID_0 = OrganizationId(0)
+val PLANE_ID_0 = PlaneId(0)
+val PLANE_ID_1 = PlaneId(1)
 val RACE_ID_0 = RaceId(0)
 val RACE_ID_1 = RaceId(1)
 val RACE_ID_2 = RaceId(2)
