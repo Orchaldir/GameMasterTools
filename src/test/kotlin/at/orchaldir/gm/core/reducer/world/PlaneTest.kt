@@ -4,10 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.plane.Demiplane
-import at.orchaldir.gm.core.model.world.plane.Plane
-import at.orchaldir.gm.core.model.world.plane.PlaneId
-import at.orchaldir.gm.core.model.world.plane.ReflectivePlane
+import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -64,6 +61,14 @@ class PlaneTest {
             val action = UpdatePlane(plane)
 
             assertIllegalArgument("Requires unknown Plane 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `A heart plane requires a god`() {
+            val plane = Plane(PLANE_ID_0, purpose = HeartPlane(UNKNOWN_GOD_ID))
+            val action = UpdatePlane(plane)
+
+            assertIllegalArgument("Requires unknown God 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
