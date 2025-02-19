@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.EvolvedLanguage
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.language.PlanarLanguage
 import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.selector.getCharacters
@@ -52,10 +53,8 @@ private fun checkOrigin(
     language: Language,
 ) {
     when (val origin = language.origin) {
-        is InventedLanguage -> {
-            validateCreator(state, origin.inventor, language.id, origin.date, "Inventor")
-        }
-
+        is InventedLanguage -> validateCreator(state, origin.inventor, language.id, origin.date, "Inventor")
+        is PlanarLanguage -> state.getPlaneStorage().require(origin.plane)
         is EvolvedLanguage -> {
             require(origin.parent != language.id) { "A language cannot be its own parent!" }
             require(
