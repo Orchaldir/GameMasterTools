@@ -4,6 +4,8 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.language.PlanarLanguage
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -44,6 +46,13 @@ class PlaneTest {
         fun `Cannot delete a reflected plane`() {
             val plane = Plane(PLANE_ID_1, purpose = ReflectivePlane(PLANE_ID_0))
             val newState = state.updateStorage(Storage(listOf(Plane(PLANE_ID_0), plane)))
+
+            assertIllegalArgument("Plane 0 is used!") { REDUCER.invoke(newState, action) }
+        }
+
+        @Test
+        fun `Cannot delete the origin of a language`() {
+            val newState = state.updateStorage(Storage(Language(LANGUAGE_ID_0, origin = PlanarLanguage(PLANE_ID_0))))
 
             assertIllegalArgument("Plane 0 is used!") { REDUCER.invoke(newState, action) }
         }
