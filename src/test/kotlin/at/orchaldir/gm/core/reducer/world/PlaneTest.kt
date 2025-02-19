@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.PlanarLanguage
 import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.Demiplane
 import at.orchaldir.gm.core.model.world.plane.HeartPlane
 import at.orchaldir.gm.core.model.world.plane.Plane
@@ -35,6 +36,13 @@ class PlaneTest {
         @Test
         fun `Can delete an existing plane`() {
             assertEquals(1, REDUCER.invoke(state, action).first.getPlaneStorage().getSize())
+        }
+
+        @Test
+        fun `Cannot delete the plane linked to a moon`() {
+            val newState = state.updateStorage(Storage(Moon(MOON_ID_0, plane = PLANE_ID_0)))
+
+            assertIllegalArgument("Plane 0 is used!") { REDUCER.invoke(newState, action) }
         }
 
         @Test

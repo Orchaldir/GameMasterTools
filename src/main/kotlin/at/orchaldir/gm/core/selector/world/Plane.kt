@@ -12,6 +12,7 @@ import at.orchaldir.gm.utils.doNothing
 fun State.canDeletePlane(plane: PlaneId) = getDemiplanes(plane).isEmpty()
         && getReflections(plane).isEmpty()
         && getPlanarLanguages(plane).isEmpty()
+        && getMoons(plane).isEmpty()
 
 fun State.getDemiplanes(plane: PlaneId) = getPlaneStorage()
     .getAll()
