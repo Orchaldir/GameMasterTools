@@ -5,7 +5,9 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.LanguageId
+import at.orchaldir.gm.core.model.language.PlanarLanguage
 import at.orchaldir.gm.core.model.util.Rarity
+import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.utils.Id
 
@@ -39,3 +41,7 @@ fun <ID : Id<ID>> State.getLanguagesInventedBy(id: ID) = getLanguageStorage().ge
         else -> false
     }
 }
+
+fun State.getPlanarLanguages(plane: PlaneId) = getLanguageStorage()
+    .getAll()
+    .filter { it.origin is PlanarLanguage && it.origin.plane == plane }

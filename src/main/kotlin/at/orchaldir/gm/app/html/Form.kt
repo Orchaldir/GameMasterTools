@@ -134,12 +134,8 @@ fun <T> FORM.selectGenderMap(
     }
 }
 
-fun FORM.selectName(name: String) {
+fun HtmlBlockTag.selectName(name: String) {
     selectText("Name", name, NAME, 1)
-}
-
-fun FORM.selectOptionalName(name: String?) {
-    selectText("Optional Name", name ?: "", NAME, 0)
 }
 
 fun HtmlBlockTag.selectFloat(

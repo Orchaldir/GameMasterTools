@@ -7,10 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.item.text.Text
-import at.orchaldir.gm.core.model.language.ComprehensionLevel
-import at.orchaldir.gm.core.model.language.EvolvedLanguage
-import at.orchaldir.gm.core.model.language.InventedLanguage
-import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.language.*
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -126,6 +123,13 @@ class LanguageTest {
             val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = origin))
 
             assertIllegalArgument("Date (Language) is in the future!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `The plane of a planar language must exist`() {
+            val action = UpdateLanguage(Language(LANGUAGE_ID_0, origin = PlanarLanguage(UNKNOWN_PLANE_ID)))
+
+            assertIllegalArgument("Requires unknown Plane 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

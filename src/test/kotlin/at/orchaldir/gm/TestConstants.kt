@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.calendar.ComplexMonths
 import at.orchaldir.gm.core.model.calendar.Month
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
@@ -24,6 +25,7 @@ import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
@@ -41,9 +43,11 @@ val CHARACTER_ID_1 = CharacterId(1)
 val CHARACTER_ID_2 = CharacterId(2)
 val CULTURE_ID_0 = CultureId(0)
 val DOMAIN_ID_0 = DomainId(0)
+val UNKNOWN_DOMAIN_ID = DomainId(99)
 val EQUIPMENT_ID_0 = EquipmentId(0)
 val FONT_ID_0 = FontId(0)
 val GOD_ID_0 = GodId(0)
+val UNKNOWN_GOD_ID = GodId(99)
 val JOB_ID_0 = JobId(0)
 val LANGUAGE_ID_0 = LanguageId(0)
 val LANGUAGE_ID_1 = LanguageId(1)
@@ -53,6 +57,11 @@ val MOON_ID_0 = MoonId(0)
 val MOUNTAIN_ID_0 = MountainId(0)
 val MOUNTAIN_ID_1 = MountainId(1)
 val ORGANIZATION_ID_0 = OrganizationId(0)
+val PERSONALITY_ID_0 = PersonalityTraitId(0)
+val UNKNOWN_PERSONALITY_ID = PersonalityTraitId(99)
+val PLANE_ID_0 = PlaneId(0)
+val PLANE_ID_1 = PlaneId(1)
+val UNKNOWN_PLANE_ID = PlaneId(99)
 val RACE_ID_0 = RaceId(0)
 val RACE_ID_1 = RaceId(1)
 val RACE_ID_2 = RaceId(2)

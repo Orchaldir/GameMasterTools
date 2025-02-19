@@ -38,8 +38,6 @@ fun HtmlBlockTag.displayRaceOrigin(
     displayOriginal: Boolean = true,
 ) {
     when (origin) {
-        CosmicRace -> +"Cosmic"
-
         is CreatedRace -> {
             +"Created by "
             showCreator(call, state, origin.creator)
@@ -114,9 +112,7 @@ fun FORM.editRaceOrigin(
 
 // parse
 
-fun parseRaceOrigin(parameters: Parameters, state: State) = when (parse(parameters, ORIGIN, RaceOriginType.Original)) {
-    Cosmic -> CosmicRace
-
+fun parseRaceOrigin(parameters: Parameters, state: State) = when (parse(parameters, ORIGIN, Original)) {
     Created -> CreatedRace(
         parseCreator(parameters),
         parseDate(parameters, state, DATE),

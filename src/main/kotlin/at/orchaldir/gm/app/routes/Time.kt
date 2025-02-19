@@ -19,7 +19,9 @@ import at.orchaldir.gm.core.model.time.DisplayDay
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonPhase
+import at.orchaldir.gm.core.model.world.plane.PlanarAlignment.Coterminous
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.selector.world.getPlanarAlignments
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.ceilDiv
@@ -145,6 +147,10 @@ private fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day
 
     simpleHtml("Day: " + calendar.display(displayDay)) {
         fieldLink("Calendar", call, state, calendar)
+        showMap("Planar Alignments", state.getPlanarAlignments(day)) { plane, alignment ->
+            link(call, plane)
+            +" ($alignment)"
+        }
         action(nextLink, "Next Month")
         action(previousLink, "Previous Month")
         action(yearLink, "Show Year")
@@ -207,10 +213,18 @@ private fun BODY.showMonthWithWeekDays(
 
                             +(dayIndex + 1).toString()
 
-                            showMoons(moons, day, call)
+                            showMoons(call, moons, day)
 
                             showList(state.getForHolidays(day)) { holiday ->
                                 link(call, holiday)
+                            }
+
+                            val planes = state.getPlanarAlignments(day)
+                                .filterValues { alignment -> alignment == Coterminous }
+
+                            showMap(planes) { plane, alignment ->
+                                link(call, plane)
+                                +" ($alignment)"
                             }
                         }
                         dayIndex++
@@ -222,9 +236,9 @@ private fun BODY.showMonthWithWeekDays(
 }
 
 private fun TD.showMoons(
+    call: ApplicationCall,
     moons: Collection<Moon>,
     day: Day,
-    call: ApplicationCall,
 ) {
     moons.forEach {
         when (it.getPhase(day)) {
@@ -265,6 +279,10 @@ private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Y
 
     simpleHtml("Year: " + calendar.display(displayYear)) {
         fieldLink("Calendar", call, state, calendar)
+        showMap("Planar Alignments", state.getPlanarAlignments(year)) { plane, alignment ->
+            link(call, plane)
+            +" ($alignment)"
+        }
         action(nextLink, "Next Year")
         action(previousLink, "Previous Year")
         action(decadeLink, "Show Decade")

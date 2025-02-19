@@ -32,7 +32,8 @@
    "id": 4,
    "name": "Quori",
    "origin": {
-    "type": "Cosmic"
+    "type": "Planar",
+    "plane": 1
    }
   },
   "5": {
@@ -74,7 +75,8 @@
    "id": 10,
    "name": "Daelkyr",
    "origin": {
-    "type": "Cosmic"
+    "type": "Planar",
+    "plane": 12
    }
   },
   "11": {
@@ -97,7 +99,8 @@
    "id": 15,
    "name": "Infernal",
    "origin": {
-    "type": "Cosmic"
+    "type": "Planar",
+    "plane": 9
    }
   },
   "16": {
@@ -108,7 +111,8 @@
    "id": 17,
    "name": "Celestial",
    "origin": {
-    "type": "Cosmic"
+    "type": "Planar",
+    "plane": 9
    }
   },
   "18": {
@@ -143,15 +147,13 @@
    "id": 23,
    "name": "Druidic",
    "origin": {
-    "type": "Cosmic"
+    "type": "Planar",
+    "plane": 13
    }
   },
   "24": {
    "id": 24,
    "name": "Wuura’gaa"
-  },
-  "25": {
-   "id": 25
   }
  }
 }

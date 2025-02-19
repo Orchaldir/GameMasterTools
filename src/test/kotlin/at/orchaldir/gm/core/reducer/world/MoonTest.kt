@@ -1,10 +1,14 @@
 package at.orchaldir.gm.core.reducer.world
 
+import at.orchaldir.gm.MOON_ID_0
+import at.orchaldir.gm.PLANE_ID_0
+import at.orchaldir.gm.UNKNOWN_PLANE_ID
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteMoon
 import at.orchaldir.gm.core.action.UpdateMoon
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.moon.Moon
-import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -12,26 +16,27 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-private val ID0 = MoonId(0)
-
 class MoonTest {
+
+    val state = State(
+        listOf(
+            Storage(Moon(MOON_ID_0)),
+            Storage(Plane(PLANE_ID_0)),
+        )
+    )
 
     @Nested
     inner class DeleteTest {
+        val action = DeleteMoon(MOON_ID_0)
 
         @Test
         fun `Can delete an existing moon`() {
-            val state = State(Storage(Moon(ID0)))
-            val action = DeleteMoon(ID0)
-
             assertEquals(0, REDUCER.invoke(state, action).first.getMoonStorage().getSize())
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            val action = DeleteMoon(ID0)
-
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Moon 0!") { REDUCER.invoke(State(), action) }
         }
     }
 
@@ -40,27 +45,32 @@ class MoonTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateMoon(Moon(ID0))
+            val action = UpdateMoon(Moon(MOON_ID_0))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Moon 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Update is valid`() {
-            val state = State(Storage(Moon(ID0)))
-            val moon = Moon(ID0, "Test")
+            val moon = Moon(MOON_ID_0, "Test", plane = PLANE_ID_0)
             val action = UpdateMoon(moon)
 
-            assertEquals(moon, REDUCER.invoke(state, action).first.getMoonStorage().get(ID0))
+            assertEquals(moon, REDUCER.invoke(state, action).first.getMoonStorage().get(MOON_ID_0))
         }
 
         @Test
         fun `Days per quarter is too small`() {
-            val state = State(Storage(Moon(ID0)))
-            val moon = Moon(ID0, "Test", daysPerQuarter = 0)
+            val moon = Moon(MOON_ID_0, "Test", daysPerQuarter = 0)
             val action = UpdateMoon(moon)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Days per quarter most be greater than 0!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use unknown plane`() {
+            val action = UpdateMoon(Moon(MOON_ID_0, plane = UNKNOWN_PLANE_ID))
+
+            assertIllegalArgument("Requires unknown Plane 99!") { REDUCER.invoke(state, action) }
         }
     }
 
