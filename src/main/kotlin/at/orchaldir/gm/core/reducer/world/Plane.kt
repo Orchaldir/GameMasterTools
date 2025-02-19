@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.*
+import at.orchaldir.gm.core.selector.world.canDeletePlane
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -18,6 +19,8 @@ val CREATE_PLANE: Reducer<CreatePlane, State> = { state, _ ->
 val DELETE_PLANE: Reducer<DeletePlane, State> = { state, action ->
     state.getPlaneStorage().require(action.id)
 
+    require(state.canDeletePlane(action.id)) { "Plane ${action.id.value} is used!" }
+
     noFollowUps(state.updateStorage(state.getPlaneStorage().remove(action.id)))
 }
 
@@ -30,7 +33,7 @@ val UPDATE_PLANE: Reducer<UpdatePlane, State> = { state, action ->
     noFollowUps(state.updateStorage(state.getPlaneStorage().update(plane)))
 }
 
-fun checkPurpose(state: State, purpose: PlanePurpose) {
+private fun checkPurpose(state: State, purpose: PlanePurpose) {
     when (purpose) {
         is Demiplane -> state.getPlaneStorage().require(purpose.plane)
         is HeartPlane -> state.getGodStorage().require(purpose.god)
