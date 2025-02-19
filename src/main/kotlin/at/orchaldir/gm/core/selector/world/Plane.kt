@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.resolve
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year

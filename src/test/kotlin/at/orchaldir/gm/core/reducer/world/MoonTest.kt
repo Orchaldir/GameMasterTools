@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.action.DeleteMoon
 import at.orchaldir.gm.core.action.UpdateMoon
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.moon.Moon
-import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

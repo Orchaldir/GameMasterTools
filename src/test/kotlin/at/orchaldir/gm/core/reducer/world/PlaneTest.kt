@@ -7,7 +7,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.Language
 import at.orchaldir.gm.core.model.language.PlanarLanguage
 import at.orchaldir.gm.core.model.religion.God
-import at.orchaldir.gm.core.model.world.plane.*
+import at.orchaldir.gm.core.model.world.plane.Demiplane
+import at.orchaldir.gm.core.model.world.plane.HeartPlane
+import at.orchaldir.gm.core.model.world.plane.Plane
+import at.orchaldir.gm.core.model.world.plane.ReflectivePlane
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

@@ -1,6 +1,8 @@
 package at.orchaldir.gm.app.html.model.world
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.GOD
+import at.orchaldir.gm.app.PLANE
+import at.orchaldir.gm.app.PURPOSE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.religion.parseGodId
 import at.orchaldir.gm.app.parse.combine
@@ -10,7 +12,6 @@ import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.model.world.plane.PlanePurposeType.*
 import at.orchaldir.gm.core.selector.util.sortGods
 import at.orchaldir.gm.core.selector.util.sortPlanes
-import at.orchaldir.gm.core.selector.world.getPlanarAlignments
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*

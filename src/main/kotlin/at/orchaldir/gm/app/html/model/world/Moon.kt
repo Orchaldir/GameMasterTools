@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.selector.util.sortPlanes

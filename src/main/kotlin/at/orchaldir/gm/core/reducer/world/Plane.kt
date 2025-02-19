@@ -4,7 +4,10 @@ import at.orchaldir.gm.core.action.CreatePlane
 import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.plane.*
+import at.orchaldir.gm.core.model.world.plane.Demiplane
+import at.orchaldir.gm.core.model.world.plane.HeartPlane
+import at.orchaldir.gm.core.model.world.plane.Plane
+import at.orchaldir.gm.core.model.world.plane.ReflectivePlane
 import at.orchaldir.gm.core.selector.world.canDeletePlane
 import at.orchaldir.gm.core.selector.world.getHeartPlane
 import at.orchaldir.gm.utils.doNothing
@@ -42,6 +45,7 @@ private fun checkPurpose(state: State, plane: Plane) {
             val heartPlane = state.getHeartPlane(purpose.god)
             require(heartPlane == null || heartPlane.id == plane.id) { "God ${purpose.god.value} already has a heart plane!" }
         }
+
         is ReflectivePlane -> state.getPlaneStorage().require(purpose.plane)
         else -> doNothing()
     }
