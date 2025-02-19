@@ -25,6 +25,7 @@ val DELETE_GOD: Reducer<DeleteGod, State> = { state, action ->
 val UPDATE_GOD: Reducer<UpdateGod, State> = { state, action ->
     val god = action.god
     state.getGodStorage().require(god.id)
+    god.personality.forEach { state.getPersonalityTraitStorage().require(it) }
 
     noFollowUps(state.updateStorage(state.getGodStorage().update(god)))
 }

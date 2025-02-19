@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.calendar.ComplexMonths
 import at.orchaldir.gm.core.model.calendar.Month
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
@@ -55,6 +56,8 @@ val MOON_ID_0 = MoonId(0)
 val MOUNTAIN_ID_0 = MountainId(0)
 val MOUNTAIN_ID_1 = MountainId(1)
 val ORGANIZATION_ID_0 = OrganizationId(0)
+val PERSONALITY_ID_0 = PersonalityTraitId(0)
+val UNKNOWN_PERSONALITY_ID = PersonalityTraitId(99)
 val PLANE_ID_0 = PlaneId(0)
 val PLANE_ID_1 = PlaneId(1)
 val UNKNOWN_PLANE_ID = PlaneId(99)

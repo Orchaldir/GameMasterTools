@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteGod
 import at.orchaldir.gm.core.action.UpdateGod
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.world.plane.HeartPlane
 import at.orchaldir.gm.core.model.world.plane.Plane
@@ -20,6 +21,7 @@ class GodTest {
         listOf(
             Storage(CALENDAR0),
             Storage(god0),
+            Storage(PersonalityTrait(PERSONALITY_ID_0)),
         )
     )
 
@@ -57,8 +59,15 @@ class GodTest {
         }
 
         @Test
+        fun `Cannot use an unknown personality trait`() {
+            val action = UpdateGod(God(GOD_ID_0, personality = setOf(UNKNOWN_PERSONALITY_ID)))
+
+            assertIllegalArgument("Requires unknown Personality Trait 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
         fun `Update a god`() {
-            val god = God(GOD_ID_0, "Test")
+            val god = God(GOD_ID_0, "Test", personality = setOf(PERSONALITY_ID_0))
             val action = UpdateGod(god)
 
             assertEquals(god, REDUCER.invoke(state, action).first.getGodStorage().get(GOD_ID_0))
