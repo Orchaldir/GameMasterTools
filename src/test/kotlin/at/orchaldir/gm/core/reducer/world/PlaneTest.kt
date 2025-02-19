@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeletePlane
 import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -17,6 +18,7 @@ class PlaneTest {
     private val state = State(
         listOf(
             Storage(CALENDAR0),
+            Storage(God(GOD_ID_0)),
             Storage(listOf(Plane(PLANE_ID_0), Plane(PLANE_ID_1))),
         )
     )
@@ -85,6 +87,26 @@ class PlaneTest {
             val action = UpdatePlane(plane)
 
             assertIllegalArgument("Requires unknown God 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `A god can only have 1 heart plane`() {
+            val plane0 = Plane(PLANE_ID_0, purpose = HeartPlane(GOD_ID_0))
+            val plane1 = Plane(PLANE_ID_1, purpose = HeartPlane(GOD_ID_0))
+            val newState = state.updateStorage(Storage(listOf(plane0, Plane(PLANE_ID_1))))
+            val action = UpdatePlane(plane1)
+
+            assertIllegalArgument("God 0 already has a heart plane!") { REDUCER.invoke(newState, action) }
+        }
+
+        @Test
+        fun `Update a heart plane`() {
+            val plane0 = Plane(PLANE_ID_0, purpose = HeartPlane(GOD_ID_0))
+            val plane1 = Plane(PLANE_ID_0, "Test", purpose = HeartPlane(GOD_ID_0))
+            val newState = state.updateStorage(Storage(listOf(plane0, Plane(PLANE_ID_1))))
+            val action = UpdatePlane(plane1)
+
+            assertEquals(plane1, REDUCER.invoke(newState, action).first.getPlaneStorage().get(PLANE_ID_0))
         }
 
         @Test

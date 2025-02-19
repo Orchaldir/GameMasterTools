@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdatePlane
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.selector.world.canDeletePlane
+import at.orchaldir.gm.core.selector.world.getHeartPlane
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -28,15 +29,19 @@ val UPDATE_PLANE: Reducer<UpdatePlane, State> = { state, action ->
     val plane = action.plane
 
     state.getPlaneStorage().require(plane.id)
-    checkPurpose(state, plane.purpose)
+    checkPurpose(state, plane)
 
     noFollowUps(state.updateStorage(state.getPlaneStorage().update(plane)))
 }
 
-private fun checkPurpose(state: State, purpose: PlanePurpose) {
-    when (purpose) {
+private fun checkPurpose(state: State, plane: Plane) {
+    when (val purpose = plane.purpose) {
         is Demiplane -> state.getPlaneStorage().require(purpose.plane)
-        is HeartPlane -> state.getGodStorage().require(purpose.god)
+        is HeartPlane -> {
+            state.getGodStorage().require(purpose.god)
+            val heartPlane = state.getHeartPlane(purpose.god)
+            require(heartPlane == null || heartPlane.id == plane.id) { "God ${purpose.god.value} already has a heart plane!" }
+        }
         is ReflectivePlane -> state.getPlaneStorage().require(purpose.plane)
         else -> doNothing()
     }
