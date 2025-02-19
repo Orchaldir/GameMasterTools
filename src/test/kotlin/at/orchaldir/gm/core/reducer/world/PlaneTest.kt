@@ -31,6 +31,14 @@ class PlaneTest {
         }
 
         @Test
+        fun `Cannot delete the plane linked to a demiplane`() {
+            val plane = Plane(PLANE_ID_1, purpose = Demiplane(PLANE_ID_0))
+            val newState = state.updateStorage(Storage(listOf(Plane(PLANE_ID_0), plane)))
+
+            assertIllegalArgument("Plane 0 is used!") { REDUCER.invoke(newState, action) }
+        }
+
+        @Test
         fun `Cannot delete a reflected plane`() {
             val plane = Plane(PLANE_ID_1, purpose = ReflectivePlane(PLANE_ID_0))
             val newState = state.updateStorage(Storage(listOf(Plane(PLANE_ID_0), plane)))
