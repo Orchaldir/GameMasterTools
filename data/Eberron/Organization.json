@@ -204,6 +204,29 @@
     "type": "Year",
     "year": -3200
    }
+  },
+   "27": {
+     "id": 27,
+     "name": "The Coins",
+     "founder": {
+       "type": "Character",
+       "character": 3
+     },
+     "date": {
+       "type": "Year",
+       "year": 991
+     },
+     "memberRanks": [
+       {
+       },
+       {
+         "name": "Important Members",
+         "members": [
+           3,
+           4
+         ]
+       }
+     ]
   }
  }
 }
