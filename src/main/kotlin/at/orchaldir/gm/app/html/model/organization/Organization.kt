@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.organization.MemberRank
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.selector.organization.getPotentialMembers
+import at.orchaldir.gm.core.selector.util.sortCharacters
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
@@ -76,7 +77,9 @@ private fun FORM.editMembers(
 
 
     showListWithIndex(organization.memberRanks) { index, rank ->
-        val characters = state.getPotentialMembers(organization, index)
+        val characters = state
+            .sortCharacters(state.getPotentialMembers(organization, index))
+            .map { it.first }
 
         selectText("Name", rank.name, combine(RANK, NAME, index), 1)
         selectElements(state, "Members", combine(RANK, CHARACTER, index), characters, rank.members)
@@ -97,7 +100,7 @@ fun parseOrganization(parameters: Parameters, state: State, id: OrganizationId) 
     )
 
 fun parseMembers(parameters: Parameters): List<MemberRank> {
-    val count = parseInt(parameters, LIFE_STAGE, 2)
+    val count = parseInt(parameters, RANK, 1)
 
     return (0..<count)
         .map { parseMemberRank(parameters, it) }
