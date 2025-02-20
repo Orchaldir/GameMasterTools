@@ -1,10 +1,9 @@
 package at.orchaldir.gm.app.html.model.organization
 
-import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.html.selectName
-import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.organization.MemberRank
 import at.orchaldir.gm.core.model.organization.Organization
@@ -12,9 +11,7 @@ import at.orchaldir.gm.core.model.organization.OrganizationId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
-import kotlinx.html.FORM
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
+import kotlinx.html.*
 
 // show
 
@@ -26,6 +23,7 @@ fun HtmlBlockTag.showOrganization(
     optionalField(call, state, "Date", organization.date)
     fieldCreator(call, state, organization.founder, "Founder")
     showCreated(call, state, organization.id)
+    showMembers(call, state, organization)
     showPossession(call, state, organization)
 }
 
@@ -39,16 +37,49 @@ private fun HtmlBlockTag.showPossession(
     showOwnedElements(call, state, organization.id)
 }
 
+private fun HtmlBlockTag.showMembers(
+    call: ApplicationCall,
+    state: State,
+    organization: Organization,
+) {
+    h2 { +"Members" }
+
+    showList(organization.memberRanks) { rank ->
+        field("Rank", rank.name)
+        showList("Members", rank.members) { character ->
+            link(call, state, character)
+        }
+    }
+}
+
 // edit
 
 fun FORM.editOrganization(
-    call: ApplicationCall,
     state: State,
     organization: Organization,
 ) {
     selectName(organization.name)
     selectOptionalDate(state, "Date", organization.date, DATE)
     selectCreator(state, organization.founder, organization.id, organization.date, "Founder")
+    editMembers(state, organization)
+}
+
+private fun FORM.editMembers(
+    state: State,
+    organization: Organization,
+) {
+
+    h2 { +"Members" }
+
+    selectInt("Ranks", organization.memberRanks.size, 1, 20, 1, RANK, true)
+
+    val characters = state.getCharacterStorage().getAll()
+
+    showListWithIndex(organization.memberRanks) { index, rank ->
+        selectText("Name", rank.name, combine(RANK, NAME, index), 1)
+
+        selectElements(state, "Members", combine(RANK, CHARACTER, index), characters, rank.members)
+    }
 }
 
 // parse
@@ -61,7 +92,17 @@ fun parseOrganization(parameters: Parameters, state: State, id: OrganizationId) 
         parameters.getOrFail(NAME),
         parseCreator(parameters),
         parseOptionalDate(parameters, state, DATE),
-        parseMemberRanks(parameters),
+        parseMembers(parameters),
     )
 
-fun parseMemberRanks(parameters: Parameters): List<MemberRank> = emptyList()
+fun parseMembers(parameters: Parameters): List<MemberRank> {
+    val count = parseInt(parameters, LIFE_STAGE, 2)
+
+    return (0..<count)
+        .map { parseMemberRank(parameters, it) }
+}
+
+private fun parseMemberRank(parameters: Parameters, index: Int) = MemberRank(
+    parseOptionalString(parameters, combine(RANK, NAME, index)) ?: "${index + 1}.Rank",
+    parseElements(parameters, combine(RANK, CHARACTER, index), ::parseCharacterId),
+)

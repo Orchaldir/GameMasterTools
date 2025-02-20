@@ -217,7 +217,7 @@ private fun HTML.showOrganizationEditor(
             action = previewLink
             method = FormMethod.post
 
-            editOrganization(call, state, organization)
+            editOrganization(state, organization)
 
             button("Update", updateLink)
         }
