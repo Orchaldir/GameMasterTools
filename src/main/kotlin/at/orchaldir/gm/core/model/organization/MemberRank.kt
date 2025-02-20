@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MemberRank(
-    val name: String,
+    val name: String = "Member",
     val members: Set<CharacterId> = emptySet(),
 )

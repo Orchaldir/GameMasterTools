@@ -23,7 +23,7 @@ data class Organization(
     val name: String = "Organization ${id.value}",
     val founder: Creator = UndefinedCreator,
     val date: Date? = null,
-    val memberRanks: List<MemberRank> = emptyList(),
+    val memberRanks: List<MemberRank> = listOf(MemberRank()),
 ) : ElementWithSimpleName<OrganizationId>, Created, HasStartDate {
 
     override fun id() = id
