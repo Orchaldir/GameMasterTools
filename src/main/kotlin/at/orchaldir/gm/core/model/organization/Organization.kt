@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.organization
 
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
@@ -31,4 +32,12 @@ data class Organization(
 
     override fun creator() = founder
     override fun startDate() = date
+
+    fun countAllMembers() = memberRanks.fold(0) { all, rank ->
+        all + rank.members.size
+    }
+
+    fun getAllMembers() = memberRanks.fold(setOf<CharacterId>()) { all, rank ->
+        all + rank.members
+    }
 }
