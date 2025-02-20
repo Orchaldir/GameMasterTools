@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.organization.MemberRank
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.selector.organization.getPotentialMembers
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
@@ -73,11 +74,11 @@ private fun FORM.editMembers(
 
     selectInt("Ranks", organization.memberRanks.size, 1, 20, 1, RANK, true)
 
-    val characters = state.getCharacterStorage().getAll()
 
     showListWithIndex(organization.memberRanks) { index, rank ->
-        selectText("Name", rank.name, combine(RANK, NAME, index), 1)
+        val characters = state.getPotentialMembers(organization, index)
 
+        selectText("Name", rank.name, combine(RANK, NAME, index), 1)
         selectElements(state, "Members", combine(RANK, CHARACTER, index), characters, rank.members)
     }
 }
