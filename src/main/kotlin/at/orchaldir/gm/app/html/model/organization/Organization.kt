@@ -82,7 +82,7 @@ private fun FORM.editMembers(
             .map { it.first }
 
         selectText("Name", rank.name, combine(RANK, NAME, index), 1)
-        selectElements(state, "Members", combine(RANK, CHARACTER, index), characters, rank.members)
+        selectElements(state, "Members", combine(RANK, CHARACTER, index), characters, rank.members, true)
     }
 }
 

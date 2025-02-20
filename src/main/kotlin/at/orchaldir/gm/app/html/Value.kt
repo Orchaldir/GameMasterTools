@@ -15,7 +15,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElements(
     selectedIds: Set<ID>,
     update: Boolean = false,
 ) {
-    showDetails(labelText) {
+    showDetails(labelText, true) {
         elements.forEach { element ->
             p {
                 checkBoxInput {
