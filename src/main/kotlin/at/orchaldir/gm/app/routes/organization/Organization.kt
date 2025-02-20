@@ -1,10 +1,11 @@
 package at.orchaldir.gm.app.routes.organization
 
-import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.parse.organization.parseOrganization
+import at.orchaldir.gm.app.html.model.organization.editOrganization
+import at.orchaldir.gm.app.html.model.organization.parseOrganization
+import at.orchaldir.gm.app.html.model.organization.showOrganization
 import at.orchaldir.gm.core.action.CreateOrganization
 import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization
@@ -114,10 +115,11 @@ fun Application.configureOrganizationRouting() {
             logger.info { "Get preview for organization ${preview.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val organization = parseOrganization(formParameters, STORE.getState(), preview.id)
+            val state = STORE.getState()
+            val organization = parseOrganization(formParameters, state, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showOrganizationEditor(call, STORE.getState(), organization)
+                showOrganizationEditor(call, state, organization)
             }
         }
         post<OrganizationRoutes.Update> { update ->
@@ -187,10 +189,7 @@ private fun HTML.showOrganizationDetails(
     val editLink = call.application.href(OrganizationRoutes.Edit(organization.id))
 
     simpleHtml("Organization: ${organization.name(state)}") {
-        optionalField(call, state, "Date", organization.date)
-        fieldCreator(call, state, organization.founder, "Founder")
-        showCreated(call, state, organization.id)
-        showPossession(call, state, organization)
+        showOrganization(call, state, organization)
 
         action(editLink, "Edit")
 
@@ -200,16 +199,6 @@ private fun HTML.showOrganizationDetails(
 
         back(backLink)
     }
-}
-
-private fun HtmlBlockTag.showPossession(
-    call: ApplicationCall,
-    state: State,
-    organization: Organization,
-) {
-    h2 { +"Possession" }
-
-    showOwnedElements(call, state, organization.id)
 }
 
 private fun HTML.showOrganizationEditor(
@@ -227,9 +216,9 @@ private fun HTML.showOrganizationEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            selectName(organization.name)
-            selectOptionalDate(state, "Date", organization.date, DATE)
-            selectCreator(state, organization.founder, organization.id, organization.date, "Founder")
+
+            editOrganization(call, state, organization)
+
             button("Update", updateLink)
         }
         back(backLink)
