@@ -43,6 +43,10 @@ data class Organization(
     fun getMembers(rank: Int) = members
         .filter { it.value.current == rank }
         .keys
+
+    fun getRank(characterId: CharacterId) = members[characterId]
+        ?.current
+        ?.let { memberRanks[it] }
 }
 
 fun History<Int?>.isMemberCurrently() = current != null

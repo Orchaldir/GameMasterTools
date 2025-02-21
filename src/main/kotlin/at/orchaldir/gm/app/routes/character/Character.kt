@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.item.getEquipment
+import at.orchaldir.gm.core.selector.organization.getOrganization
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -412,6 +413,7 @@ private fun BODY.showSocial(
     }
 
     showLanguages(call, state, character)
+    showMemberships(call, state, character)
 
     action(editLanguagesLink, "Edit Languages")
     action(editRelationshipsLink, "Edit Relationships")
@@ -445,6 +447,18 @@ fun BODY.showLanguages(
     showMap("Known Languages", state.getKnownLanguages(character)) { id, level ->
         link(call, state, id)
         +": $level"
+    }
+}
+
+fun BODY.showMemberships(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    showList("Organizations", state.getOrganization(character.id)) { organization ->
+        val rank = organization.getRank(character.id)?.name ?: "Unknown"
+        link(call, organization)
+        +": $rank"
     }
 }
 

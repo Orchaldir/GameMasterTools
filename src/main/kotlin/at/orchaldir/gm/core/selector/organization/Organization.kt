@@ -17,6 +17,10 @@ fun <ID : Id<ID>> State.getOrganizationsFoundedBy(id: ID) = getOrganizationStora
 
 fun State.getExistingOrganizations(date: Date?) = getExistingElements(getOrganizationStorage().getAll(), date)
 
+fun State.getOrganization(member: CharacterId) = getOrganizationStorage()
+    .getAll()
+    .filter { it.members.containsKey(member) }
+
 fun State.getNotMembers(organization: OrganizationId) = getNotMembers(getOrganizationStorage().getOrThrow(organization))
 
 fun State.getNotMembers(organization: Organization): Set<CharacterId> {
