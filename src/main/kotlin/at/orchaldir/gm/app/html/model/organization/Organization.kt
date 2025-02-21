@@ -73,6 +73,7 @@ private fun FORM.editMembers(
     organization: Organization,
 ) {
     val notMembers = state.getNotMembers(organization)
+    val maxMembers = organization.members.size + notMembers.size
     val rankIds = (0..<organization.memberRanks.size).toSet()
 
     h2 { +"Members" }
@@ -81,7 +82,7 @@ private fun FORM.editMembers(
     showListWithIndex(organization.memberRanks) { index, rank ->
         selectText("Name", rank.name, combine(RANK, NAME, index), 1)
     }
-    selectInt("Members", organization.members.size, 0, 1000, 1, MEMBER, true)
+    selectInt("Members", organization.members.size, 0, maxMembers, 1, MEMBER, true)
     showListWithIndex(organization.members.entries) { memberIndex, (characterId, history) ->
         val character = state.getCharacterStorage().getOrThrow(characterId)
         val potentialCharacters = state.sortCharacters(state.getCharacterStorage().get(notMembers + characterId))
@@ -93,7 +94,7 @@ private fun FORM.editMembers(
             combine(memberParam, RANK),
             history,
             character.birthDate,
-            "Employment Status"
+            "Rank"
         ) { _, param, currentRank, _ ->
             selectOptionalValue("Rank", param, currentRank, rankIds) { rank ->
                 label = organization.memberRanks[rank].name

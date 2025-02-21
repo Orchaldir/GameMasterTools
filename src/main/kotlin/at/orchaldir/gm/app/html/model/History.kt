@@ -43,7 +43,7 @@ fun <T> HtmlBlockTag.selectHistory(
     selectEntry: HtmlBlockTag.(State, String, T, Date?) -> Unit,
 ) {
     val previousOwnersParam = combine(param, HISTORY)
-    selectInt("Previous $label", ownership.previousEntries.size, 0, 100, 1, previousOwnersParam, true)
+    selectInt("Previous $label Entries", ownership.previousEntries.size, 0, 100, 1, previousOwnersParam, true)
     var minDate = startDate?.next()
 
     showListWithIndex(ownership.previousEntries) { index, previous ->

@@ -84,7 +84,7 @@ fun FORM.selectOwnership(
     state: State,
     ownership: History<Owner>,
     startDate: Date?,
-) = selectHistory(state, OWNER, ownership, startDate, "Owners", HtmlBlockTag::selectOwner)
+) = selectHistory(state, OWNER, ownership, startDate, "Owner", HtmlBlockTag::selectOwner)
 
 fun HtmlBlockTag.selectOwner(
     state: State,
