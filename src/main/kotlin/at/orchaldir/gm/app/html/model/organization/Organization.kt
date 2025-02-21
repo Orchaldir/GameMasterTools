@@ -73,7 +73,7 @@ private fun FORM.editMembers(
     organization: Organization,
 ) {
     val notMembers = state.getNotMembers(organization)
-    val rankIds = (0..<organization.members.size).toSet()
+    val rankIds = (0..<organization.memberRanks.size).toSet()
 
     h2 { +"Members" }
 
@@ -146,7 +146,7 @@ private fun parseMembers(
         val history =
             parseHistory(parameters, combine(memberParam, RANK), state, character.birthDate, ::parseMemberRank)
 
-        members.put(characterId, history)
+        members[characterId] = history
     }
 
     return members
