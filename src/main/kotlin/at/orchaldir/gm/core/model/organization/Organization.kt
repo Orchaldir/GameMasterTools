@@ -25,6 +25,7 @@ data class Organization(
     val founder: Creator = UndefinedCreator,
     val date: Date? = null,
     val memberRanks: List<MemberRank> = listOf(MemberRank()),
+    val members: Map<CharacterId, History<Int?>> = emptyMap(),
 ) : ElementWithSimpleName<OrganizationId>, Created, HasStartDate {
 
     override fun id() = id
@@ -33,11 +34,15 @@ data class Organization(
     override fun creator() = founder
     override fun startDate() = date
 
-    fun countAllMembers() = memberRanks.fold(0) { all, rank ->
-        all + rank.members.size
-    }
+    fun countAllMembers() = members.count { it.value.isMemberCurrently() }
 
-    fun getAllMembers() = memberRanks.fold(setOf<CharacterId>()) { all, rank ->
-        all + rank.members
-    }
+    fun getAllMembers() = members
+        .filter { it.value.isMemberCurrently() }
+        .keys
+
+    fun getMembers(rank: Int) = members
+        .filter { it.value.current == rank }
+        .keys
 }
+
+fun History<Int?>.isMemberCurrently() = current != null

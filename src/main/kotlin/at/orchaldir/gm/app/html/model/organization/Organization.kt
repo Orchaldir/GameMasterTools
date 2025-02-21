@@ -5,10 +5,12 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.organization.MemberRank
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
-import at.orchaldir.gm.core.selector.organization.getPotentialMembers
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.selector.organization.getNotMembers
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -46,9 +48,9 @@ private fun HtmlBlockTag.showMembers(
 ) {
     h2 { +"Members" }
 
-    showList(organization.memberRanks) { rank ->
+    showListWithIndex(organization.memberRanks) { index, rank ->
         field("Rank", rank.name)
-        showList("Members", rank.members) { character ->
+        showList("Members", organization.getMembers(index)) { character ->
             link(call, state, character)
         }
     }
@@ -70,19 +72,34 @@ private fun FORM.editMembers(
     state: State,
     organization: Organization,
 ) {
+    val notMembers = state.getNotMembers(organization)
+    val rankIds = (0..<organization.members.size).toSet()
 
     h2 { +"Members" }
 
     selectInt("Ranks", organization.memberRanks.size, 1, 20, 1, RANK, true)
-
-
     showListWithIndex(organization.memberRanks) { index, rank ->
-        val characters = state
-            .sortCharacters(state.getPotentialMembers(organization, index))
-            .map { it.first }
-
         selectText("Name", rank.name, combine(RANK, NAME, index), 1)
-        selectElements(state, "Members", combine(RANK, CHARACTER, index), characters, rank.members, true)
+    }
+    selectInt("Members", organization.members.size, 0, 1000, 1, MEMBER, true)
+    showListWithIndex(organization.members.entries) { memberIndex, (characterId, history) ->
+        val character = state.getCharacterStorage().getOrThrow(characterId)
+        val potentialCharacters = state.sortCharacters(state.getCharacterStorage().get(notMembers + characterId))
+        val memberParam = combine(MEMBER, memberIndex)
+
+        selectElement("Character", combine(memberParam, CHARACTER), potentialCharacters, characterId, true)
+        selectHistory(
+            state,
+            combine(memberParam, RANK),
+            history,
+            character.birthDate,
+            "Employment Status"
+        ) { _, param, currentRank, _ ->
+            selectOptionalValue("Rank", param, currentRank, rankIds) { rank ->
+                label = organization.memberRanks[rank].name
+                value = rank.toString()
+            }
+        }
     }
 }
 
@@ -96,17 +113,43 @@ fun parseOrganization(parameters: Parameters, state: State, id: OrganizationId) 
         parameters.getOrFail(NAME),
         parseCreator(parameters),
         parseOptionalDate(parameters, state, DATE),
-        parseMembers(parameters),
+        parseRanks(parameters),
+        parseMembers(state, parameters, id),
     )
 
-fun parseMembers(parameters: Parameters): List<MemberRank> {
+private fun parseRanks(parameters: Parameters): List<MemberRank> {
     val count = parseInt(parameters, RANK, 1)
 
     return (0..<count)
-        .map { parseMemberRank(parameters, it) }
+        .map { parseRank(parameters, it) }
 }
 
-private fun parseMemberRank(parameters: Parameters, index: Int) = MemberRank(
+private fun parseRank(parameters: Parameters, index: Int) = MemberRank(
     parseOptionalString(parameters, combine(RANK, NAME, index)) ?: "${index + 1}.Rank",
-    parseElements(parameters, combine(RANK, CHARACTER, index), ::parseCharacterId),
 )
+
+private fun parseMembers(
+    state: State,
+    parameters: Parameters,
+    id: OrganizationId,
+): Map<CharacterId, History<Int?>> {
+    val count = parseInt(parameters, MEMBER, 0)
+    val members = mutableMapOf<CharacterId, History<Int?>>()
+    val notMembers = state.getNotMembers(id).toList()
+    var notMemberIndex = 0
+
+    for (memberIndex in 0..<count) {
+        val memberParam = combine(MEMBER, memberIndex)
+        val characterId =
+            parseOptionalCharacterId(parameters, combine(memberParam, CHARACTER)) ?: notMembers[notMemberIndex++]
+        val character = state.getCharacterStorage().getOrThrow(characterId)
+        val history =
+            parseHistory(parameters, combine(memberParam, RANK), state, character.birthDate, ::parseMemberRank)
+
+        members.put(characterId, history)
+    }
+
+    return members
+}
+
+fun parseMemberRank(parameters: Parameters, state: State, param: String) = parseOptionalInt(parameters, param)

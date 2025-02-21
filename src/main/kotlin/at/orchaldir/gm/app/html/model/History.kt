@@ -35,7 +35,7 @@ fun <T> HtmlBlockTag.showHistory(
     }
 }
 
-fun <T> FORM.selectHistory(
+fun <T> HtmlBlockTag.selectHistory(
     state: State,
     param: String,
     ownership: History<T>,
