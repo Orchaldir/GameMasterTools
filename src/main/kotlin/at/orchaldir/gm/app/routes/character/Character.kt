@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
+import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.item.getEquipment
@@ -456,9 +457,19 @@ fun BODY.showMemberships(
     character: Character,
 ) {
     showList("Organizations", state.getOrganization(character.id)) { organization ->
-        val rank = organization.getRank(character.id)?.name ?: "Unknown"
         link(call, organization)
-        +": $rank"
+        showHistory(
+            call,
+            state,
+            organization.members[character.id] ?: History(null),
+            "Rank",
+        ) { _, _, rankIndex ->
+            if (rankIndex != null) {
+                +organization.memberRanks[rankIndex].name
+            } else {
+                +"Unknown"
+            }
+        }
     }
 }
 
