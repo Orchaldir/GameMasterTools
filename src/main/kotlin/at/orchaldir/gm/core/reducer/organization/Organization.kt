@@ -40,5 +40,9 @@ fun validateMembers(state: State, organization: Organization) {
     organization.members.forEach { (characterId, history) ->
         state.getCharacterStorage()
             .require(characterId) { "Cannot use an unknown character ${characterId.value} as member!" }
+
+        if (history.current != null) {
+            require(history.current < organization.memberRanks.size) { "Cannot use an unknown rank ${history.current}!" }
+        }
     }
 }

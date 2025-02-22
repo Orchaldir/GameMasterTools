@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.CreatedByOrganization
@@ -21,6 +22,7 @@ class OrganizationTest {
     private val state = State(
         listOf(
             Storage(CALENDAR0),
+            Storage(Character(CHARACTER_ID_0)),
             Storage(organization0),
         )
     )
@@ -92,6 +94,14 @@ class OrganizationTest {
             val action = UpdateOrganization(organization)
 
             assertIllegalArgument("Cannot use an unknown character 99 as member!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Rank must exist`() {
+            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to History(42)))
+            val action = UpdateOrganization(organization)
+
+            assertIllegalArgument("Cannot use an unknown rank 42!") { REDUCER.invoke(state, action) }
         }
 
     }
