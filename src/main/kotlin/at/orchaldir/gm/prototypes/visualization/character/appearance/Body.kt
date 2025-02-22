@@ -1,9 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance
 
-import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.character.appearance.BodyShape
-import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
+import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -23,7 +20,7 @@ fun main() {
 
 private fun createAppearance(distance: Distance, shape: BodyShape, width: Size) =
     HumanoidBody(
-        Body(shape, width),
+        Body(shape, NormalFoot, width),
         Head(),
         distance,
     )

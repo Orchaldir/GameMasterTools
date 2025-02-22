@@ -8,11 +8,9 @@ import at.orchaldir.gm.core.model.character.appearance.eye.EyeType
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
 import at.orchaldir.gm.core.model.character.appearance.eye.PupilShape
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
-import at.orchaldir.gm.core.model.race.appearance.EyeOptions
-import at.orchaldir.gm.core.model.race.appearance.HairOptions
-import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
-import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.Size
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -33,6 +31,7 @@ fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppea
         parseOneOf(parameters, EAR_SHAPE, EarShape::valueOf, EarShape.entries),
         parseOneOf(parameters, combine(EYES, LAYOUT), EyesLayout::valueOf),
         parseEyeOptions(parameters),
+        parseFootOptions(parameters),
         parseHairOptions(parameters),
         parseOneOf(parameters, MOUTH_TYPE, MouthType::valueOf),
     )
@@ -47,6 +46,13 @@ private fun parseEyeOptions(parameters: Parameters): EyeOptions {
 
     return EyeOptions(eyeTypes, eyeShapes, eyeColors, pupilShapes, scleraColors)
 }
+
+private fun parseFootOptions(parameters: Parameters) = FootOptions(
+    parseOneOf(parameters, FOOT, FootType::valueOf),
+    parseInt(parameters, combine(FOOT, CLAWS, NUMBER), 3),
+    parseOneOf(parameters, combine(FOOT, CLAWS, COLOR), Color::valueOf, Color.entries),
+    parseOneOf(parameters, combine(FOOT, CLAWS, SIZE), Size::valueOf),
+)
 
 private fun parseHairOptions(parameters: Parameters) = HairOptions(
     parseOneOf(parameters, BEARD, BeardType::valueOf),

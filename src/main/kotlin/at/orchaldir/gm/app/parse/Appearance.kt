@@ -75,12 +75,27 @@ private fun parseBody(
     if (parameters.contains(BODY_SHAPE)) {
         return Body(
             parse(parameters, BODY_SHAPE, BodyShape.Rectangle),
+            parseFoot(parameters, config),
             parse(parameters, BODY_WIDTH, Size.Medium),
             skin,
         )
     }
 
     return generateBody(config, skin)
+}
+
+private fun parseFoot(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+) = when (parameters[FOOT]) {
+    FootType.Normal.toString() -> NormalFoot
+    FootType.Clawed.toString() -> ClawedFoot(
+        parseInt(parameters, combine(FOOT, CLAWS, NUMBER), 3),
+        parse(parameters, combine(FOOT, CLAWS, SIZE), Size.Medium),
+        parse(parameters, combine(FOOT, CLAWS, COLOR), Color.Black),
+    )
+
+    else -> generateFoot(config)
 }
 
 private fun parseHead(

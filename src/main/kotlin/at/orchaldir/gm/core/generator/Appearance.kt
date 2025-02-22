@@ -46,9 +46,23 @@ data class AppearanceGeneratorConfig(
 
 fun generateBody(config: AppearanceGeneratorConfig, skin: Skin) = Body(
     config.select(getAvailableBodyShapes(config.gender)),
+    generateFoot(config),
     config.select(Size.entries),
     skin,
 )
+
+fun generateFoot(config: AppearanceGeneratorConfig): Foot {
+    val options = config.appearanceOptions.footOptions
+
+    return when (config.generate(options.footTypes)) {
+        FootType.Normal -> NormalFoot
+        FootType.Clawed -> ClawedFoot(
+            options.clawNumber,
+            config.generate(options.clawSizes),
+            config.generate(options.clawColors),
+        )
+    }
+}
 
 fun generateHead(config: AppearanceGeneratorConfig, skin: Skin): Head {
     val hair = generateHair(config)
