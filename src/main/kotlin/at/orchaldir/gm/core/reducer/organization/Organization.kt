@@ -47,15 +47,23 @@ private fun validateMembers(state: State, organization: Organization) {
             .require(characterId) { "Cannot use an unknown character ${characterId.value} as member!" }
 
         if (history.current != null) {
-            require(history.current < organization.memberRanks.size) { "Cannot use an unknown rank ${history.current}!" }
+            validateRank(organization, "rank", history.current)
         } else {
             require(history.previousEntries.isNotEmpty()) { "Member ${characterId.value} was never a member!" }
         }
 
         history.previousEntries.forEach { previous ->
             if (previous.entry != null) {
-                require(previous.entry < organization.memberRanks.size) { "Cannot use an unknown previous rank ${previous.entry}!" }
+                validateRank(organization, "previous rank", previous.entry)
             }
         }
     }
+}
+
+private fun validateRank(
+    organization: Organization,
+    noun: String,
+    rank: Int,
+) {
+    require(rank < organization.memberRanks.size) { "Cannot use an unknown $noun $rank!" }
 }
