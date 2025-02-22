@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.action.UpdateOrganization
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.checkHistory
 import at.orchaldir.gm.core.reducer.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.utils.redux.Reducer
@@ -43,8 +44,8 @@ private fun validateRanks(state: State, organization: Organization) {
 
 private fun validateMembers(state: State, organization: Organization) {
     organization.members.forEach { (characterId, history) ->
-        state.getCharacterStorage()
-            .require(characterId) { "Cannot use an unknown character ${characterId.value} as member!" }
+        val character = state.getCharacterStorage()
+            .getOrThrow(characterId) { "Cannot use an unknown character ${characterId.value} as member!" }
 
         if (history.current != null) {
             validateRank(organization, "rank", history.current)
@@ -52,9 +53,11 @@ private fun validateMembers(state: State, organization: Organization) {
             require(history.previousEntries.isNotEmpty()) { "Member ${characterId.value} was never a member!" }
         }
 
-        history.previousEntries.forEach { previous ->
-            if (previous.entry != null) {
-                validateRank(organization, "previous rank", previous.entry)
+        val startDate = character.birthDate
+
+        checkHistory(state, history, startDate, "rank") { _, rank, noun, _ ->
+            if (rank != null) {
+                validateRank(organization, noun, rank)
             }
         }
     }

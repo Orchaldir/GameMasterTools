@@ -121,7 +121,7 @@ class OrganizationTest {
             val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to history))
             val action = UpdateOrganization(organization)
 
-            assertIllegalArgument("Cannot use an unknown previous rank 42!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown 1.previous rank 42!") { REDUCER.invoke(state, action) }
         }
 
         @Test
