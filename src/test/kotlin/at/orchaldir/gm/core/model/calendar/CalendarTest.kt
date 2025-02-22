@@ -514,6 +514,29 @@ class CalendarTest {
         }
 
         @Nested
+        inner class MaxTest {
+            @Test
+            fun `Test a greater than b`() {
+                assertEquals(year2, CALENDAR0.max(year2, year1))
+            }
+
+            @Test
+            fun `Test a equal to b`() {
+                assertEquals(year1, CALENDAR0.max(year1, year1))
+            }
+
+            @Test
+            fun `Test a less than b`() {
+                assertEquals(year2, CALENDAR0.max(year1, year2))
+            }
+
+            @Test
+            fun `Test b is null`() {
+                assertEquals(year1, CALENDAR0.max(year1, null))
+            }
+        }
+
+        @Nested
         inner class MaxOptionalTest {
             @Test
             fun `Test a greater than b`() {

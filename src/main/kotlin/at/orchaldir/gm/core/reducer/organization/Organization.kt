@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.reducer.util.checkDate
 import at.orchaldir.gm.core.reducer.util.checkHistory
 import at.orchaldir.gm.core.reducer.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.reducer.util.validateCreator
+import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -53,7 +54,7 @@ private fun validateMembers(state: State, organization: Organization) {
             require(history.previousEntries.isNotEmpty()) { "Member ${characterId.value} was never a member!" }
         }
 
-        val startDate = character.birthDate
+        val startDate = state.getDefaultCalendar().max(character.birthDate, organization.date)
 
         checkHistory(state, history, startDate, "rank") { _, rank, noun, _ ->
             if (rank != null) {
