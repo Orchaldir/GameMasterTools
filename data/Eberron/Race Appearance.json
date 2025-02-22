@@ -25,9 +25,6 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
-    "pupilShapes": {
-     "Circle": "Common"
-    },
     "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
@@ -40,6 +37,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "White": "Common"
@@ -85,16 +85,13 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
+    "eyeTypes": {
+     "Simple": "Common"
+    },
     "eyeShapes": {
      "Circle": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
     "eyeColors": {
-     "White": "Common"
-    },
-    "scleraColors": {
      "White": "Common"
     }
    },
@@ -140,9 +137,6 @@
     "eyeShapes": {
      "Circle": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
     "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
@@ -155,6 +149,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "White": "Common"
@@ -202,11 +199,11 @@
     "eyeShapes": {
      "Circle": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
     "eyeColors": {
      "Aqua": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "Aqua": "Common"
@@ -247,9 +244,6 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
-    "pupilShapes": {
-     "Circle": "Common"
-    },
     "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
@@ -262,6 +256,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "White": "Common"
@@ -311,9 +308,6 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
-    "pupilShapes": {
-     "VerticalSlit": "Common"
-    },
     "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
@@ -326,6 +320,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
+    },
+    "pupilShapes": {
+     "VerticalSlit": "Common"
     },
     "scleraColors": {
      "White": "Common"
@@ -379,9 +376,6 @@
     "eyeShapes": {
      "Ellipse": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
     "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
@@ -394,6 +388,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "Gold": "Common",
@@ -436,11 +433,11 @@
     "eyeShapes": {
      "Circle": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
     "eyeColors": {
      "Silver": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "Silver": "Common"
@@ -486,11 +483,11 @@
     "eyeShapes": {
      "Circle": "Common"
     },
-    "pupilShapes": {
-     "VerticalSlit": "Common"
-    },
     "eyeColors": {
      "Black": "Common"
+    },
+    "pupilShapes": {
+     "VerticalSlit": "Common"
     },
     "scleraColors": {
      "Crimson": "Rare",
@@ -536,9 +533,6 @@
     "eyeShapes": {
      "Circle": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
     "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
@@ -551,6 +545,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "White": "Common"
@@ -620,11 +617,11 @@
     "eyeShapes": {
      "Circle": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
     "eyeColors": {
      "Crimson": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "Crimson": "Common"
@@ -667,9 +664,6 @@
     "eyeShapes": {
      "Ellipse": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
     "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
@@ -682,6 +676,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "Gold": "Common",
