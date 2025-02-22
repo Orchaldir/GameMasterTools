@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.CreatedByOrganization
 import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -16,8 +17,10 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
+
 class OrganizationTest {
 
+    private val unknownRank = 42
     private val organization0 = Organization(ORGANIZATION_ID_0)
     private val state = State(
         listOf(
@@ -106,10 +109,19 @@ class OrganizationTest {
 
         @Test
         fun `Rank must exist`() {
-            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to History(42)))
+            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to History(unknownRank)))
             val action = UpdateOrganization(organization)
 
             assertIllegalArgument("Cannot use an unknown rank 42!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Previous rank must exist`() {
+            val history: History<Int?> = History(0, HistoryEntry(unknownRank, DAY1))
+            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to history))
+            val action = UpdateOrganization(organization)
+
+            assertIllegalArgument("Cannot use an unknown previous rank 42!") { REDUCER.invoke(state, action) }
         }
 
         @Test

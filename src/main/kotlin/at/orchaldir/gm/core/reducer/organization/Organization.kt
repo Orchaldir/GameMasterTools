@@ -51,5 +51,11 @@ private fun validateMembers(state: State, organization: Organization) {
         } else {
             require(history.previousEntries.isNotEmpty()) { "Member ${characterId.value} was never a member!" }
         }
+
+        history.previousEntries.forEach { previous ->
+            if (previous.entry != null) {
+                require(previous.entry < organization.memberRanks.size) { "Cannot use an unknown previous rank ${previous.entry}!" }
+            }
+        }
     }
 }

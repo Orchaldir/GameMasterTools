@@ -9,6 +9,6 @@ data class History<T>(
 ) {
     constructor(current: T) : this(current, emptyList())
 
-    constructor(current: T, previousEntries: HistoryEntry<T>) : this(current, listOf(previousEntries))
+    constructor(current: T, previousEntry: HistoryEntry<T>) : this(current, listOf(previousEntry))
 
 }
