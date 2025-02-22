@@ -146,13 +146,13 @@ private fun parseEyes(parameters: Parameters, config: AppearanceGeneratorConfig)
         EyesLayout.NoEyes.toString() -> NoEyes
 
         EyesLayout.OneEye.toString() -> {
-            val eye = parseEye(parameters)
+            val eye = parseEye(parameters, config)
             val size = parse(parameters, EYE_SIZE, Size.Medium)
             return OneEye(eye, size)
         }
 
         EyesLayout.TwoEyes.toString() -> {
-            val eye = parseEye(parameters)
+            val eye = parseEye(parameters, config)
             return TwoEyes(eye)
         }
 
@@ -160,12 +160,22 @@ private fun parseEyes(parameters: Parameters, config: AppearanceGeneratorConfig)
     }
 }
 
-private fun parseEye(parameters: Parameters) = Eye(
-    parse(parameters, EYE_SHAPE, EyeShape.Ellipse),
-    parse(parameters, PUPIL_SHAPE, PupilShape.Circle),
-    parse(parameters, PUPIL_COLOR, Color.Green),
-    parse(parameters, SCLERA_COLOR, Color.White),
-)
+private fun parseEye(parameters: Parameters, config: AppearanceGeneratorConfig) =
+    when (parameters[combine(EYES, TYPE)]) {
+        EyeType.Simple.toString() -> SimpleEye(
+            parse(parameters, EYE_SHAPE, EyeShape.Ellipse),
+            parse(parameters, PUPIL_COLOR, Color.Green),
+        )
+
+        EyeType.Normal.toString() -> NormalEye(
+            parse(parameters, EYE_SHAPE, EyeShape.Ellipse),
+            parse(parameters, PUPIL_SHAPE, PupilShape.Circle),
+            parse(parameters, PUPIL_COLOR, Color.Green),
+            parse(parameters, SCLERA_COLOR, Color.White),
+        )
+
+        else -> generateEye(config)
+    }
 
 private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig): Hair {
     return when (parameters[HAIR_TYPE]) {

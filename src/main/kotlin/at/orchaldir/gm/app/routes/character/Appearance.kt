@@ -12,10 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
-import at.orchaldir.gm.core.model.character.appearance.eye.Eye
-import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
-import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
-import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
+import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
@@ -323,16 +320,32 @@ private fun FORM.editEye(
     eyeOptions: EyeOptions,
     eye: Eye,
 ) {
-    selectOneOf("Eye Shape", EYE_SHAPE, eyeOptions.eyeShapes, eye.eyeShape, true) { shape ->
-        label = shape.name
-        value = shape.toString()
+    selectOneOf("Eye Type", combine(EYES, TYPE), eyeOptions.eyeTypes, eye.getType(), true) { option ->
+        label = option.name
+        value = option.toString()
     }
-    selectOneOf("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, eye.pupilShape, true) { shape ->
-        label = shape.name
-        value = shape.toString()
+    when (eye) {
+        is NormalEye -> {
+            selectOneOf("Eye Shape", EYE_SHAPE, eyeOptions.eyeShapes, eye.eyeShape, true) { shape ->
+                label = shape.name
+                value = shape.toString()
+            }
+            selectOneOf("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, eye.pupilShape, true) { shape ->
+                label = shape.name
+                value = shape.toString()
+            }
+            selectColor("Pupil Color", PUPIL_COLOR, eyeOptions.pupilColors, eye.pupilColor)
+            selectColor("Sclera Color", SCLERA_COLOR, eyeOptions.scleraColors, eye.scleraColor)
+        }
+
+        is SimpleEye -> {
+            selectOneOf("Eye Shape", EYE_SHAPE, eyeOptions.eyeShapes, eye.eyeShape, true) { shape ->
+                label = shape.name
+                value = shape.toString()
+            }
+            selectColor("Pupil Color", PUPIL_COLOR, eyeOptions.pupilColors, eye.color)
+        }
     }
-    selectColor("Pupil Color", PUPIL_COLOR, eyeOptions.pupilColors, eye.pupilColor)
-    selectColor("Sclera Color", SCLERA_COLOR, eyeOptions.scleraColors, eye.scleraColor)
 }
 
 private fun FORM.editHair(

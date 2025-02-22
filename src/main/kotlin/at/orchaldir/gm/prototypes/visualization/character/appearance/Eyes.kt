@@ -12,7 +12,7 @@ fun main() {
 
     PupilShape.entries.forEach { pupilShape ->
         EyeShape.entries.forEach { eyeShape ->
-            appearances.add(createRow(Eye(eyeShape, pupilShape)))
+            appearances.add(createRow(NormalEye(eyeShape, pupilShape)))
         }
     }
 

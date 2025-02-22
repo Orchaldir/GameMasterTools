@@ -28,11 +28,11 @@ data object NoEyes : Eyes()
 @Serializable
 @SerialName("One")
 data class OneEye(
-    val eye: Eye = Eye(),
+    val eye: Eye = NormalEye(),
     val size: Size = Size.Medium,
 ) : Eyes()
 
 @Serializable
 @SerialName("Two")
-data class TwoEyes(val eye: Eye = Eye()) : Eyes()
+data class TwoEyes(val eye: Eye = NormalEye()) : Eyes()
 

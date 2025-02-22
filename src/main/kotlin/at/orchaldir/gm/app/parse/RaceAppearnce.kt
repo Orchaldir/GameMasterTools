@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.character.appearance.eye.EyeShape
+import at.orchaldir.gm.core.model.character.appearance.eye.EyeType
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
 import at.orchaldir.gm.core.model.character.appearance.eye.PupilShape
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
@@ -38,12 +39,13 @@ fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppea
 }
 
 private fun parseEyeOptions(parameters: Parameters): EyeOptions {
+    val eyeTypes = parseOneOf(parameters, combine(EYES, TYPE), EyeType::valueOf, EyeType.entries)
     val eyeShapes = parseOneOf(parameters, EYE_SHAPE, EyeShape::valueOf, EyeShape.entries)
     val pupilShapes = parseOneOf(parameters, PUPIL_SHAPE, PupilShape::valueOf, PupilShape.entries)
     val pupilColors = parseOneOf(parameters, PUPIL_COLOR, Color::valueOf, Color.entries)
     val scleraColors = parseOneOf(parameters, SCLERA_COLOR, Color::valueOf, Color.entries)
 
-    return EyeOptions(eyeShapes, pupilShapes, pupilColors, scleraColors)
+    return EyeOptions(eyeTypes, eyeShapes, pupilShapes, pupilColors, scleraColors)
 }
 
 private fun parseHairOptions(parameters: Parameters) = HairOptions(

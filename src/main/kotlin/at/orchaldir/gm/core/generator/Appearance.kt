@@ -116,12 +116,19 @@ fun generateEyes(config: AppearanceGeneratorConfig): Eyes {
 fun generateEye(config: AppearanceGeneratorConfig): Eye {
     val options = config.appearanceOptions.eyeOptions
 
-    return Eye(
-        config.generate(options.eyeShapes),
-        config.generate(options.pupilShapes),
-        config.generate(options.pupilColors),
-        config.generate(options.scleraColors),
-    )
+    return when (config.generate(options.eyeTypes)) {
+        EyeType.Simple -> NormalEye(
+            config.generate(options.eyeShapes),
+            config.generate(options.pupilShapes),
+        )
+
+        EyeType.Normal -> NormalEye(
+            config.generate(options.eyeShapes),
+            config.generate(options.pupilShapes),
+            config.generate(options.pupilColors),
+            config.generate(options.scleraColors),
+        )
+    }
 }
 
 fun generateHair(config: AppearanceGeneratorConfig): Hair {
