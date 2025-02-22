@@ -243,7 +243,7 @@ fun visualizeFeet(
     } else {
         BEHIND_LAYER
     }
-    visualizeFeet(state, body, options, layer)
+    visualizeFeet(state, body, options, layer, true)
 }
 
 fun visualizeFeet(
@@ -251,6 +251,7 @@ fun visualizeFeet(
     body: Body,
     options: RenderOptions,
     layerIndex: Int,
+    renderClaws: Boolean = false,
 ) {
     val (left, right) = state.config.body.getMirroredLegPoint(state.aabb, body, END)
     val radius = state.aabb.convertHeight(state.config.body.getFootRadius(body))
@@ -261,9 +262,15 @@ fun visualizeFeet(
     layer.renderCircleArc(left, radius, offset, angle, options)
     layer.renderCircleArc(right, radius, offset, angle, options)
 
-    if (body.foot is ClawedFoot) {
-        visualizeClaws(state, body.foot, layerIndex, left, radius)
-        visualizeClaws(state, body.foot, layerIndex, right, radius)
+    if (renderClaws && body.foot is ClawedFoot) {
+        val clawsLayer = layerIndex - if (state.renderFront) {
+            0
+        } else {
+            1
+        }
+
+        visualizeClaws(state, body.foot, clawsLayer, left, radius)
+        visualizeClaws(state, body.foot, clawsLayer, right, radius)
     }
 }
 
