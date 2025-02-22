@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.character.appearance.EarsLayout
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
 import at.orchaldir.gm.core.model.character.appearance.SkinType
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
+import at.orchaldir.gm.core.model.character.appearance.eye.EyeType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
@@ -222,25 +223,39 @@ private fun HtmlBlockTag.showAppearanceOptions(
     }
 
     h3 { +"Ears" }
+
     showRarityMap("Layout", appearance.earsLayout)
+
     if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
         showRarityMap("Ear Shapes", appearance.earShapes)
     }
+
     h3 { +"Eyes" }
+
     showRarityMap("Layout", appearance.eyesLayout)
+
     if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
+        showRarityMap("Eye Types", eyeOptions.eyeTypes)
         showRarityMap("Eye Shapes", eyeOptions.eyeShapes)
         showRarityMap("Pupil Shape", eyeOptions.pupilShapes)
-        showRarityMap("Pupil Colors", eyeOptions.pupilColors)
-        showRarityMap("Sclera Colors", eyeOptions.scleraColors)
+
+        if (eyeOptions.eyeTypes.isAvailable(EyeType.Normal)) {
+            showRarityMap("Pupil Colors", eyeOptions.pupilColors)
+            showRarityMap("Sclera Colors", eyeOptions.scleraColors)
+        }
     }
+
     h3 { +"Hair" }
+
     showRarityMap("Beard", appearance.hairOptions.beardTypes)
     showRarityMap("Hair", appearance.hairOptions.hairTypes)
+
     if (requiresHairColor(appearance)) {
         showRarityMap("Colors", appearance.hairOptions.colors)
     }
+
     h3 { +"Mouth" }
+
     showRarityMap("Types", appearance.mouthTypes)
 }
 
