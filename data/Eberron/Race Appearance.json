@@ -337,6 +337,15 @@
      "White": "Common"
     }
    },
+   "footOptions": {
+    "footTypes": {
+     "Clawed": "Common"
+    },
+    "clawNumber": 4,
+    "clawSizes": {
+     "Small": "Common"
+    }
+   },
    "hairOptions": {
     "beardTypes": {
      "Normal": "Common"
