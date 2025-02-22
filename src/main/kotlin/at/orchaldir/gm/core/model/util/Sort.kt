@@ -40,8 +40,9 @@ enum class SortJob {
 }
 
 enum class SortOrganization {
-    Name,
     Age,
+    Name,
+    Members,
 }
 
 enum class SortPlane {

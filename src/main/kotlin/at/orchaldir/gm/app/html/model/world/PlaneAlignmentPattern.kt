@@ -77,7 +77,7 @@ fun parsePlaneAlignmentPattern(parameters: Parameters) = when (parse(parameters,
         parseCycleValue(parameters, Remote),
     )
 
-    Fixed -> FixedAlignment(parse(parameters, combine(PATTERN, ALIGNMENT), PlanarAlignment.Coterminous))
+    Fixed -> FixedAlignment(parse(parameters, combine(PATTERN, ALIGNMENT), Coterminous))
     Random -> RandomAlignment
 }
 

@@ -175,6 +175,7 @@ fun State.sortOrganizations(
         when (sort) {
             SortOrganization.Name -> compareBy { it.name }
             SortOrganization.Age -> getAgeComparator()
+            SortOrganization.Members -> compareBy { it.countAllMembers() }
         })
 
 // plane

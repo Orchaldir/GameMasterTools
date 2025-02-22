@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.selector.economy.getPreviouslyOwnedBusinesses
 import at.orchaldir.gm.core.selector.getChildren
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getParents
+import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
 import at.orchaldir.gm.utils.doNothing
@@ -33,6 +34,8 @@ val DELETE_CHARACTER: Reducer<DeleteCharacter, State> = { state, action ->
     require(parents.isEmpty()) { "Cannot delete character ${action.id.value}, because he has parents!" }
     val children = state.getChildren(action.id)
     require(children.isEmpty()) { "Cannot delete character ${action.id.value}, because he has children!" }
+    val organizations = state.getOrganizations(action.id)
+    require(organizations.isEmpty()) { "Cannot delete character ${action.id.value}, because he is a member of an organization!" }
 
     checkBuildingOwnership(state, action.id)
     checkBusinessOwnership(state, action.id)

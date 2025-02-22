@@ -17,9 +17,11 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
+import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.item.getEquipment
+import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -186,6 +188,7 @@ private fun HTML.showAllCharacters(
                 th { +"Age" }
                 th { +"Housing Status" }
                 th { +"Employment Status" }
+                th { +"Organizations" }
             }
             charactersWithNames.forEach { (character, name) ->
                 tr {
@@ -205,6 +208,7 @@ private fun HTML.showAllCharacters(
                     td { +state.getAgeInYears(character).toString() }
                     td { showHousingStatus(call, state, character.housingStatus.current, false) }
                     td { showEmploymentStatus(call, state, character.employmentStatus.current, false) }
+                    tdSkipZero(state.getOrganizations(character.id).size)
                 }
             }
         }
@@ -412,6 +416,7 @@ private fun BODY.showSocial(
     }
 
     showLanguages(call, state, character)
+    showMemberships(call, state, character)
 
     action(editLanguagesLink, "Edit Languages")
     action(editRelationshipsLink, "Edit Relationships")
@@ -445,6 +450,28 @@ fun BODY.showLanguages(
     showMap("Known Languages", state.getKnownLanguages(character)) { id, level ->
         link(call, state, id)
         +": $level"
+    }
+}
+
+fun BODY.showMemberships(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    showList("Organizations", state.getOrganizations(character.id)) { organization ->
+        link(call, organization)
+        showHistory(
+            call,
+            state,
+            organization.members[character.id] ?: History(null),
+            "Rank",
+        ) { _, _, rankIndex ->
+            if (rankIndex != null) {
+                +organization.memberRanks[rankIndex].name
+            } else {
+                +"Unknown"
+            }
+        }
     }
 }
 

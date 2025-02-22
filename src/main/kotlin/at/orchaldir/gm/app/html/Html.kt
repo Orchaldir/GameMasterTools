@@ -235,7 +235,7 @@ fun <T> HtmlBlockTag.showList(
 
 fun <T> HtmlBlockTag.showListWithIndex(
     elements: Collection<T>,
-    content: LI.(Int, T) -> Unit,
+    content: HtmlBlockTag.(Int, T) -> Unit,
 ) {
     ul {
         elements.withIndex().forEach {

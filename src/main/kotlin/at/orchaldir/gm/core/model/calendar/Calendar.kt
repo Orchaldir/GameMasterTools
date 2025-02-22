@@ -175,6 +175,20 @@ data class Calendar(
         true
     }
 
+    fun max(a: Date, b: Date?) = if (b != null) {
+        when (compareTo(a, b)) {
+            1 -> a
+            else -> b
+        }
+    } else a
+
+    fun maxOptional(a: Date?, b: Date?) = if (a != null && b != null) {
+        when (compareTo(a, b)) {
+            1 -> a
+            else -> b
+        }
+    } else a ?: b
+
     // duration
 
     fun getDurationInYears(from: Date, to: Day) = getYears(getDuration(from, to))

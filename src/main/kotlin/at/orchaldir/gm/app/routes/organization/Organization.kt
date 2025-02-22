@@ -1,10 +1,12 @@
 package at.orchaldir.gm.app.routes.organization
 
-import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.parse.organization.parseOrganization
+import at.orchaldir.gm.app.html.model.organization.editOrganization
+import at.orchaldir.gm.app.html.model.organization.parseOrganization
+import at.orchaldir.gm.app.html.model.organization.showOrganization
+import at.orchaldir.gm.app.html.model.showCreator
+import at.orchaldir.gm.app.html.model.showOptionalDate
 import at.orchaldir.gm.core.action.CreateOrganization
 import at.orchaldir.gm.core.action.DeleteOrganization
 import at.orchaldir.gm.core.action.UpdateOrganization
@@ -114,10 +116,11 @@ fun Application.configureOrganizationRouting() {
             logger.info { "Get preview for organization ${preview.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val organization = parseOrganization(formParameters, STORE.getState(), preview.id)
+            val state = STORE.getState()
+            val organization = parseOrganization(formParameters, state, preview.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showOrganizationEditor(call, STORE.getState(), organization)
+                showOrganizationEditor(call, state, organization)
             }
         }
         post<OrganizationRoutes.Update> { update ->
@@ -142,8 +145,9 @@ private fun HTML.showAllOrganizations(
 ) {
     val organizations = state.sortOrganizations(sort)
     val createLink = call.application.href(OrganizationRoutes.New())
-    val sortNameLink = call.application.href(OrganizationRoutes.All(SortOrganization.Name))
     val sortAgeLink = call.application.href(OrganizationRoutes.All(SortOrganization.Age))
+    val sortNameLink = call.application.href(OrganizationRoutes.All(SortOrganization.Name))
+    val sortMembersLink = call.application.href(OrganizationRoutes.All(SortOrganization.Members))
 
     simpleHtml("Organizations") {
         field("Count", organizations.size)
@@ -151,6 +155,8 @@ private fun HTML.showAllOrganizations(
             link(sortNameLink, "Name")
             +" "
             link(sortAgeLink, "Age")
+            +" "
+            link(sortMembersLink, "Members")
         }
 
         table {
@@ -159,6 +165,8 @@ private fun HTML.showAllOrganizations(
                 th { +"Date" }
                 th { +"Age" }
                 th { +"Founder" }
+                th { +"Ranks" }
+                th { +"Members" }
             }
             organizations.forEach { organization ->
                 tr {
@@ -166,6 +174,8 @@ private fun HTML.showAllOrganizations(
                     td { showOptionalDate(call, state, organization.date) }
                     tdSkipZero(state.getAgeInYears(organization.date))
                     td { showCreator(call, state, organization.founder, false) }
+                    tdSkipZero(organization.memberRanks.size)
+                    tdSkipZero(organization.countAllMembers())
                 }
             }
         }
@@ -187,10 +197,7 @@ private fun HTML.showOrganizationDetails(
     val editLink = call.application.href(OrganizationRoutes.Edit(organization.id))
 
     simpleHtml("Organization: ${organization.name(state)}") {
-        optionalField(call, state, "Date", organization.date)
-        fieldCreator(call, state, organization.founder, "Founder")
-        showCreated(call, state, organization.id)
-        showPossession(call, state, organization)
+        showOrganization(call, state, organization)
 
         action(editLink, "Edit")
 
@@ -200,16 +207,6 @@ private fun HTML.showOrganizationDetails(
 
         back(backLink)
     }
-}
-
-private fun HtmlBlockTag.showPossession(
-    call: ApplicationCall,
-    state: State,
-    organization: Organization,
-) {
-    h2 { +"Possession" }
-
-    showOwnedElements(call, state, organization.id)
 }
 
 private fun HTML.showOrganizationEditor(
@@ -227,9 +224,9 @@ private fun HTML.showOrganizationEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            selectName(organization.name)
-            selectOptionalDate(state, "Date", organization.date, DATE)
-            selectCreator(state, organization.founder, organization.id, organization.date, "Founder")
+
+            editOrganization(state, organization)
+
             button("Update", updateLink)
         }
         back(backLink)

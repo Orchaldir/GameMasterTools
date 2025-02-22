@@ -6,8 +6,10 @@ import at.orchaldir.gm.core.action.UpdateOrganization
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.reducer.util.checkDate
+import at.orchaldir.gm.core.reducer.util.checkHistory
 import at.orchaldir.gm.core.reducer.util.checkIfCreatorCanBeDeleted
 import at.orchaldir.gm.core.reducer.util.validateCreator
+import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -31,6 +33,42 @@ val UPDATE_ORGANIZATION: Reducer<UpdateOrganization, State> = { state, action ->
     checkDate(state, organization.startDate(), "Organization")
 
     validateCreator(state, organization.founder, organization.id, organization.date, "founder")
+    validateRanks(state, organization)
+    validateMembers(state, organization)
 
     noFollowUps(state.updateStorage(state.getOrganizationStorage().update(organization)))
+}
+
+private fun validateRanks(state: State, organization: Organization) {
+    require(organization.memberRanks.isNotEmpty()) { "Organization must have at least 1 rank!" }
+}
+
+private fun validateMembers(state: State, organization: Organization) {
+    organization.members.forEach { (characterId, history) ->
+        val character = state.getCharacterStorage()
+            .getOrThrow(characterId) { "Cannot use an unknown character ${characterId.value} as member!" }
+
+        if (history.current == null) {
+            require(history.previousEntries.isNotEmpty()) { "Member ${characterId.value} was never a member!" }
+        }
+
+        val startDate = state.getDefaultCalendar().max(character.birthDate, organization.date)
+        var lastRank: Int? = -1
+
+        checkHistory(state, history, startDate, "rank") { _, rank, noun, _ ->
+            if (rank != null) {
+                validateRank(organization, noun, rank)
+            }
+            require(rank != lastRank) { "The $noun is the same as the previous one for member ${characterId.value}!" }
+            lastRank = rank
+        }
+    }
+}
+
+private fun validateRank(
+    organization: Organization,
+    noun: String,
+    rank: Int,
+) {
+    require(rank < organization.memberRanks.size) { "Cannot use an unknown $noun $rank!" }
 }

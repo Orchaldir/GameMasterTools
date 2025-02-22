@@ -19,6 +19,9 @@ import io.ktor.server.util.*
 import kotlin.random.Random
 
 fun parseCharacterId(parameters: Parameters, param: String) = CharacterId(parseInt(parameters, param))
+fun parseCharacterId(value: String) = CharacterId(value.toInt())
+fun parseOptionalCharacterId(parameters: Parameters, param: String) =
+    parseOptionalInt(parameters, param)?.let { CharacterId(it) }
 
 fun parseCharacter(
     state: State,

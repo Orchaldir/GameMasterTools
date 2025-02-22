@@ -13,14 +13,18 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElements(
     param: String,
     elements: Collection<ELEMENT>,
     selectedIds: Set<ID>,
+    update: Boolean = false,
 ) {
-    showDetails(labelText) {
+    showDetails(labelText, true) {
         elements.forEach { element ->
             p {
                 checkBoxInput {
                     name = param
                     value = element.id().value().toString()
                     checked = selectedIds.contains(element.id())
+                    if (update) {
+                        onChange = ON_CHANGE_SCRIPT
+                    }
                     +element.name(state)
                 }
             }

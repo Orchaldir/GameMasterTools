@@ -202,14 +202,14 @@ private fun FORM.selectNumberOfLifeStages(number: Int) {
     selectInt("Life Stages", number, 2, 100, 1, LIFE_STAGE, true)
 }
 
-private fun LI.selectStageName(
+private fun HtmlBlockTag.selectStageName(
     index: Int,
     name: String,
 ) {
     selectText("Name", name, combine(LIFE_STAGE, NAME, index), 1)
 }
 
-private fun LI.selectMaxAge(
+private fun HtmlBlockTag.selectMaxAge(
     label: String,
     index: Int,
     age: Int,

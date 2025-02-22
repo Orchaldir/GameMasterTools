@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 fun <T> HtmlBlockTag.showHistory(
@@ -35,7 +34,7 @@ fun <T> HtmlBlockTag.showHistory(
     }
 }
 
-fun <T> FORM.selectHistory(
+fun <T> HtmlBlockTag.selectHistory(
     state: State,
     param: String,
     ownership: History<T>,
@@ -44,7 +43,7 @@ fun <T> FORM.selectHistory(
     selectEntry: HtmlBlockTag.(State, String, T, Date?) -> Unit,
 ) {
     val previousOwnersParam = combine(param, HISTORY)
-    selectInt("Previous $label", ownership.previousEntries.size, 0, 100, 1, previousOwnersParam, true)
+    selectInt("Previous $label Entries", ownership.previousEntries.size, 0, 100, 1, previousOwnersParam, true)
     var minDate = startDate?.next()
 
     showListWithIndex(ownership.previousEntries) { index, previous ->

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.organization
 
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
@@ -23,6 +24,8 @@ data class Organization(
     val name: String = "Organization ${id.value}",
     val founder: Creator = UndefinedCreator,
     val date: Date? = null,
+    val memberRanks: List<MemberRank> = listOf(MemberRank()),
+    val members: Map<CharacterId, History<Int?>> = emptyMap(),
 ) : ElementWithSimpleName<OrganizationId>, Created, HasStartDate {
 
     override fun id() = id
@@ -30,4 +33,20 @@ data class Organization(
 
     override fun creator() = founder
     override fun startDate() = date
+
+    fun countAllMembers() = members.count { it.value.isMemberCurrently() }
+
+    fun getAllMembers() = members
+        .filter { it.value.isMemberCurrently() }
+        .keys
+
+    fun getMembers(rank: Int) = members
+        .filter { it.value.current == rank }
+        .keys
+
+    fun getRank(characterId: CharacterId) = members[characterId]
+        ?.current
+        ?.let { memberRanks[it] }
 }
+
+fun History<Int?>.isMemberCurrently() = current != null
