@@ -25,7 +25,7 @@ class OrganizationTest {
     private val state = State(
         listOf(
             Storage(CALENDAR0),
-            Storage(Character(CHARACTER_ID_0)),
+            Storage(Character(CHARACTER_ID_0, birthDate = DAY1)),
             Storage(organization0),
         )
     )
@@ -130,6 +130,15 @@ class OrganizationTest {
             val action = UpdateOrganization(organization)
 
             assertIllegalArgument("Member 0 was never a member!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `A member history entry cannot be before the organization or character existed`() {
+            val history: History<Int?> = History(0, HistoryEntry(null, DAY0))
+            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to history))
+            val action = UpdateOrganization(organization)
+
+            assertIllegalArgument("1.previous rank's until is too early!") { REDUCER.invoke(state, action) }
         }
 
     }
