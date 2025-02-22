@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.character.appearance
 
+import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
+import at.orchaldir.gm.core.model.character.appearance.eye.NoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import kotlinx.serialization.Serializable

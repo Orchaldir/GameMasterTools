@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.character.appearance
+package at.orchaldir.gm.core.model.character.appearance.eye
 
 import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.Serializable

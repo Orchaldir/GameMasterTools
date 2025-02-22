@@ -12,6 +12,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
+import at.orchaldir.gm.core.model.character.appearance.eye.Eye
+import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
+import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
+import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
