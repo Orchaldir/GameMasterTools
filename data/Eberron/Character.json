@@ -25,6 +25,7 @@
      "eyes": {
       "type": "Two",
       "eye": {
+       "type": "Normal",
        "eyeShape": "Ellipse",
        "pupilColor": "SaddleBrown"
       }
@@ -95,6 +96,7 @@
      "eyes": {
       "type": "Two",
       "eye": {
+       "type": "Normal",
        "pupilShape": "VerticalSlit"
       }
      },
@@ -178,6 +180,7 @@
      "eyes": {
       "type": "Two",
       "eye": {
+       "type": "Normal",
        "pupilColor": "Blue"
       }
      },
@@ -306,6 +309,7 @@
      "eyes": {
       "type": "Two",
       "eye": {
+       "type": "Normal",
        "pupilColor": "SaddleBrown"
       }
      },
@@ -388,6 +392,7 @@
      "eyes": {
       "type": "Two",
       "eye": {
+       "type": "Normal",
        "pupilColor": "SaddleBrown"
       }
      },
@@ -498,6 +503,7 @@
      "eyes": {
       "type": "Two",
       "eye": {
+       "type": "Normal",
        "eyeShape": "Ellipse",
        "pupilColor": "Aqua",
        "scleraColor": "Gold"
@@ -653,6 +659,7 @@
      "eyes": {
       "type": "Two",
       "eye": {
+       "type": "Normal",
        "pupilColor": "Olive"
       }
      },
@@ -815,6 +822,7 @@
      "eyes": {
       "type": "Two",
       "eye": {
+       "type": "Normal",
        "eyeShape": "Ellipse",
        "pupilColor": "Teal"
       }
