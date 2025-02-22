@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.action.UpdateCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.item.text.OriginalText
@@ -16,9 +15,7 @@ import at.orchaldir.gm.core.model.item.text.TranslatedText
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
-import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.util.*
@@ -33,16 +30,11 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-private val CULTURE0 = CultureId(0)
-private val LANGUAGE0 = LanguageId(0)
-private val LANGUAGES = mapOf(LANGUAGE0 to ComprehensionLevel.Native)
-private val PERSONALITY0 = PersonalityTraitId(0)
-private val RACE0 = RaceId(0)
-private val RACE1 = RaceId(1)
-private val OWNER = History<Owner>(OwnedByCharacter(CHARACTER_ID_0))
-private val PREVIOUS_OWNER = History(UndefinedOwner, listOf(HistoryEntry(OwnedByCharacter(CHARACTER_ID_0), Day(0))))
-
 class CharacterTest {
+
+    private val LANGUAGES = mapOf(LANGUAGE_ID_0 to ComprehensionLevel.Native)
+    private val OWNER = History<Owner>(OwnedByCharacter(CHARACTER_ID_0))
+    private val PREVIOUS_OWNER = History(UndefinedOwner, listOf(HistoryEntry(OwnedByCharacter(CHARACTER_ID_0), Day(0))))
 
     @Nested
     inner class CreateTest {
@@ -89,7 +81,7 @@ class CharacterTest {
             val state = State(
                 listOf(
                     Storage(listOf(Character(CHARACTER_ID_0))),
-                    Storage(listOf(Language(LANGUAGE0, origin = origin)))
+                    Storage(listOf(Language(LANGUAGE_ID_0, origin = origin)))
                 )
             )
 
@@ -139,6 +131,15 @@ class CharacterTest {
 
         @Test
         fun `Cannot delete a town founder`() {
+            val state = createState(Town(TOWN_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
+
+            assertIllegalArgument("Cannot delete character 0, because of founded towns!") {
+                REDUCER.invoke(state, action)
+            }
+        }
+
+        @Test
+        fun `Cannot delete a member of an organization`() {
             val state = createState(Town(TOWN_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
 
             assertIllegalArgument("Cannot delete character 0, because of founded towns!") {
@@ -246,11 +247,11 @@ class CharacterTest {
                 Storage(CALENDAR0),
                 Storage(Character(CHARACTER_ID_0)),
                 Storage(Business(BUSINESS_ID_0)),
-                Storage(Culture(CULTURE0)),
-                Storage(Language(LANGUAGE0)),
+                Storage(Culture(CULTURE_ID_0)),
+                Storage(Language(LANGUAGE_ID_0)),
                 Storage(Job(JOB_ID_0)),
-                Storage(PersonalityTrait(PERSONALITY0)),
-                Storage(listOf(Race(RACE0), Race(RACE1)))
+                Storage(PersonalityTrait(PERSONALITY_ID_0)),
+                Storage(listOf(Race(RACE_ID_0), Race(RACE_ID_1)))
             )
         )
 
@@ -262,9 +263,9 @@ class CharacterTest {
                     Character(
                         CHARACTER_ID_0,
                         Mononym("Test"),
-                        RACE1,
+                        RACE_ID_1,
                         Gender.Male,
-                        personality = setOf(PERSONALITY0)
+                        personality = setOf(PERSONALITY_ID_0)
                     )
                 )
 
@@ -274,9 +275,9 @@ class CharacterTest {
                 Character(
                     CHARACTER_ID_0,
                     Mononym("Test"),
-                    RACE1,
+                    RACE_ID_1,
                     Gender.Male,
-                    personality = setOf(PERSONALITY0),
+                    personality = setOf(PERSONALITY_ID_0),
                     languages = LANGUAGES,
                 ),
                 result.getCharacterStorage().getOrThrow(CHARACTER_ID_0)
@@ -357,8 +358,8 @@ class CharacterTest {
                             Character(CHARACTER_ID_1),
                         )
                     ),
-                    Storage(listOf(Culture(CULTURE0))),
-                    Storage(listOf(Race(RACE0))),
+                    Storage(listOf(Culture(CULTURE_ID_0))),
+                    Storage(listOf(Race(RACE_ID_0))),
                 )
             ).copy(time = Time(currentDate = Day(10)))
 
@@ -452,24 +453,24 @@ class CharacterTest {
 
         @Test
         fun `Cannot use unknown culture`() {
-            val state = STATE.removeStorage(CULTURE0)
-            val action = UpdateCharacter(Character(CHARACTER_ID_0, culture = CULTURE0))
+            val state = STATE.removeStorage(CULTURE_ID_0)
+            val action = UpdateCharacter(Character(CHARACTER_ID_0, culture = CULTURE_ID_0))
 
             assertIllegalArgument("Requires unknown Culture 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot use unknown personality trait`() {
-            val state = STATE.removeStorage(PERSONALITY0)
-            val action = UpdateCharacter(Character(CHARACTER_ID_0, personality = setOf(PERSONALITY0)))
+            val state = STATE.removeStorage(PERSONALITY_ID_0)
+            val action = UpdateCharacter(Character(CHARACTER_ID_0, personality = setOf(PERSONALITY_ID_0)))
 
             assertIllegalArgument("Requires unknown Personality Trait 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot use unknown race`() {
-            val state = STATE.removeStorage(RACE0)
-            val action = UpdateCharacter(Character(CHARACTER_ID_0, race = RACE0))
+            val state = STATE.removeStorage(RACE_ID_0)
+            val action = UpdateCharacter(Character(CHARACTER_ID_0, race = RACE_ID_0))
 
             assertIllegalArgument("Requires unknown Race 0!") { REDUCER.invoke(state, action) }
         }
