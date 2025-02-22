@@ -21,7 +21,7 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.item.getEquipment
-import at.orchaldir.gm.core.selector.organization.getOrganization
+import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -208,7 +208,7 @@ private fun HTML.showAllCharacters(
                     td { +state.getAgeInYears(character).toString() }
                     td { showHousingStatus(call, state, character.housingStatus.current, false) }
                     td { showEmploymentStatus(call, state, character.employmentStatus.current, false) }
-                    tdSkipZero(state.getOrganization(character.id).size)
+                    tdSkipZero(state.getOrganizations(character.id).size)
                 }
             }
         }
@@ -458,7 +458,7 @@ fun BODY.showMemberships(
     state: State,
     character: Character,
 ) {
-    showList("Organizations", state.getOrganization(character.id)) { organization ->
+    showList("Organizations", state.getOrganizations(character.id)) { organization ->
         link(call, organization)
         showHistory(
             call,

@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.item.text.TranslatedText
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.InventedLanguage
 import at.orchaldir.gm.core.model.language.Language
+import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Time
@@ -35,6 +36,12 @@ class CharacterTest {
     private val LANGUAGES = mapOf(LANGUAGE_ID_0 to ComprehensionLevel.Native)
     private val OWNER = History<Owner>(OwnedByCharacter(CHARACTER_ID_0))
     private val PREVIOUS_OWNER = History(UndefinedOwner, listOf(HistoryEntry(OwnedByCharacter(CHARACTER_ID_0), Day(0))))
+    val state = State(
+        listOf(
+            Storage(listOf(Character(CHARACTER_ID_0))),
+            Storage(listOf(Language(LANGUAGE_ID_0)))
+        )
+    )
 
     @Nested
     inner class CreateTest {
@@ -70,80 +77,66 @@ class CharacterTest {
 
         @Test
         fun `Can delete an existing character`() {
-            val state = State(Storage(listOf(Character(CHARACTER_ID_0))))
-
             assertEquals(0, REDUCER.invoke(state, action).first.getCharacterStorage().getSize())
         }
 
         @Test
         fun `Cannot delete an inventor`() {
             val origin = InventedLanguage(CreatedByCharacter(CHARACTER_ID_0), DAY0)
-            val state = State(
-                listOf(
-                    Storage(listOf(Character(CHARACTER_ID_0))),
-                    Storage(listOf(Language(LANGUAGE_ID_0, origin = origin)))
-                )
-            )
+            val newState = state.updateStorage(Storage(Language(LANGUAGE_ID_0, origin = origin)))
 
             assertIllegalArgument("Cannot delete character 0, because of invented languages!") {
-                REDUCER.invoke(state, action)
+                REDUCER.invoke(newState, action)
             }
         }
 
         @Test
         fun `Cannot delete an author`() {
             val origin = OriginalText(CreatedByCharacter(CHARACTER_ID_0))
-            val state = State(
-                listOf(
-                    Storage(listOf(Character(CHARACTER_ID_0))),
-                    Storage(listOf(Text(TEXT_ID_0, origin = origin)))
-                )
-            )
+            val newState = state.updateStorage(Storage(Text(TEXT_ID_0, origin = origin)))
 
             assertIllegalArgument("Cannot delete character 0, who is an author!") {
-                REDUCER.invoke(state, action)
+                REDUCER.invoke(newState, action)
             }
         }
 
         @Test
         fun `Cannot delete a translator`() {
             val origin = TranslatedText(TEXT_ID_1, CreatedByCharacter(CHARACTER_ID_0))
-            val state = State(
-                listOf(
-                    Storage(listOf(Character(CHARACTER_ID_0))),
-                    Storage(listOf(Text(TEXT_ID_0, origin = origin), Text(TEXT_ID_1)))
-                )
-            )
+            val newState = state.updateStorage(Storage(Text(TEXT_ID_0, origin = origin)))
 
             assertIllegalArgument("Cannot delete character 0, who is a translator!") {
-                REDUCER.invoke(state, action)
+                REDUCER.invoke(newState, action)
             }
         }
 
         @Test
         fun `Cannot delete a builder`() {
-            val state = createState(Building(BUILDING_ID_0, builder = CreatedByCharacter(CHARACTER_ID_0)))
+            val building = Building(BUILDING_ID_0, builder = CreatedByCharacter(CHARACTER_ID_0))
+            val newState = state.updateStorage(Storage(building))
 
             assertIllegalArgument("Cannot delete character 0, because of built buildings!") {
-                REDUCER.invoke(state, action)
+                REDUCER.invoke(newState, action)
             }
         }
 
         @Test
         fun `Cannot delete a town founder`() {
-            val state = createState(Town(TOWN_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
+            val town = Town(TOWN_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0))
+            val newState = state.updateStorage(Storage(town))
 
             assertIllegalArgument("Cannot delete character 0, because of founded towns!") {
-                REDUCER.invoke(state, action)
+                REDUCER.invoke(newState, action)
             }
         }
 
         @Test
         fun `Cannot delete a member of an organization`() {
-            val state = createState(Town(TOWN_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
+            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to History(0)))
+            val newState = state.updateStorage(Storage(organization))
 
-            assertIllegalArgument("Cannot delete character 0, because of founded towns!") {
-                REDUCER.invoke(state, action)
+            assertIllegalArgument("Cannot delete character 0, because he is a member of an organization!") {
+                REDUCER.invoke(newState, action)
             }
         }
 
