@@ -3,6 +3,7 @@ package at.orchaldir.gm.prototypes.visualization.character.appearance
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.Muscular
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.Size.Medium
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
@@ -21,7 +22,7 @@ fun main() {
 
 private fun createAppearance(distance: Distance, count: Int, size: Size) =
     HumanoidBody(
-        Body(Muscular, ClawedFoot(count, size), size),
+        Body(Muscular, ClawedFoot(count, size), Medium),
         Head(),
         distance,
     )
