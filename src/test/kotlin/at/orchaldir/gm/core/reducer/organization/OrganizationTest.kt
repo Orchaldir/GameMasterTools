@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.util.CreatedByCharacter
 import at.orchaldir.gm.core.model.util.CreatedByOrganization
+import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -17,7 +18,7 @@ import kotlin.test.assertEquals
 class OrganizationTest {
 
     private val organization0 = Organization(ORGANIZATION_ID_0)
-    private val STATE = State(
+    private val state = State(
         listOf(
             Storage(CALENDAR0),
             Storage(organization0),
@@ -30,7 +31,7 @@ class OrganizationTest {
 
         @Test
         fun `Can delete an existing organization`() {
-            assertEquals(0, REDUCER.invoke(STATE, action).first.getOrganizationStorage().getSize())
+            assertEquals(0, REDUCER.invoke(state, action).first.getOrganizationStorage().getSize())
         }
 
         @Test
@@ -41,10 +42,10 @@ class OrganizationTest {
         @Test
         fun `Cannot delete a organization that build a building`() {
             val building = Building(BUILDING_ID_0, builder = CreatedByOrganization(ORGANIZATION_ID_0))
-            val state = STATE.updateStorage(Storage(building))
+            val newState = state.updateStorage(Storage(building))
 
             assertIllegalArgument("Cannot delete organization 0, because of built buildings!") {
-                REDUCER.invoke(state, action)
+                REDUCER.invoke(newState, action)
             }
         }
     }
@@ -59,7 +60,7 @@ class OrganizationTest {
 
             assertEquals(
                 organization,
-                REDUCER.invoke(STATE, action).first.getOrganizationStorage().get(ORGANIZATION_ID_0)
+                REDUCER.invoke(state, action).first.getOrganizationStorage().get(ORGANIZATION_ID_0)
             )
         }
 
@@ -74,16 +75,23 @@ class OrganizationTest {
         fun `Date is in the future`() {
             val action = UpdateOrganization(Organization(ORGANIZATION_ID_0, date = FUTURE_DAY_0))
 
-            assertIllegalArgument("Date (Organization) is in the future!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Date (Organization) is in the future!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Founder must exist`() {
-            val state = State(listOf(Storage(Organization(ORGANIZATION_ID_0))))
-            val action =
-                UpdateOrganization(Organization(ORGANIZATION_ID_0, founder = CreatedByCharacter(CHARACTER_ID_0)))
+            val organization = Organization(ORGANIZATION_ID_0, founder = CreatedByCharacter(UNKNOWN_CHARACTER_ID))
+            val action = UpdateOrganization(organization)
 
-            assertIllegalArgument("Cannot use an unknown character 0 as founder!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot use an unknown character 99 as founder!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Member must exist`() {
+            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(UNKNOWN_CHARACTER_ID to History(0)))
+            val action = UpdateOrganization(organization)
+
+            assertIllegalArgument("Cannot use an unknown character 99 as member!") { REDUCER.invoke(state, action) }
         }
 
     }

@@ -31,6 +31,14 @@ val UPDATE_ORGANIZATION: Reducer<UpdateOrganization, State> = { state, action ->
     checkDate(state, organization.startDate(), "Organization")
 
     validateCreator(state, organization.founder, organization.id, organization.date, "founder")
+    validateMembers(state, organization)
 
     noFollowUps(state.updateStorage(state.getOrganizationStorage().update(organization)))
+}
+
+fun validateMembers(state: State, organization: Organization) {
+    organization.members.forEach { (characterId, history) ->
+        state.getCharacterStorage()
+            .require(characterId) { "Cannot use an unknown character ${characterId.value} as member!" }
+    }
 }
