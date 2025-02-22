@@ -8,8 +8,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FootOptions(
-    val footTypes: OneOf<FootType> = OneOf(FootType.entries),
+    val footTypes: OneOf<FootType> = OneOf(FootType.Normal),
     val clawNumber: Int = 3,
-    val clawColors: OneOf<Color> = OneOf(Color.entries),
-    val clawSizes: OneOf<Size> = OneOf(Size.entries),
+    val clawColors: OneOf<Color> = OneOf(Color.Black),
+    val clawSizes: OneOf<Size> = OneOf(Size.Medium),
 )

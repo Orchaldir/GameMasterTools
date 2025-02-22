@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.EarsLayout
+import at.orchaldir.gm.core.model.character.appearance.FootType
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
 import at.orchaldir.gm.core.model.character.appearance.SkinType
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
@@ -222,6 +223,16 @@ private fun HtmlBlockTag.showAppearanceOptions(
         showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
     }
 
+    h3 { +"Feet" }
+
+    showRarityMap("Type", appearance.footOptions.footTypes)
+
+    if (appearance.footOptions.footTypes.isAvailable(FootType.Clawed)) {
+        field("Number of Claws", appearance.footOptions.clawNumber)
+        showRarityMap("Claw Color", appearance.footOptions.clawColors)
+        showRarityMap("Claw Size", appearance.footOptions.clawSizes)
+    }
+
     h3 { +"Ears" }
 
     showRarityMap("Layout", appearance.earsLayout)
@@ -327,11 +338,32 @@ private fun FORM.editAppearanceOptions(
         )
     }
 
+    h3 { +"Feet" }
+
+    selectRarityMap("Type", FOOT, appearance.footOptions.footTypes, true)
+
+    if (appearance.footOptions.footTypes.isAvailable(FootType.Clawed)) {
+        selectInt(
+            "Number of Claws",
+            appearance.footOptions.clawNumber,
+            1,
+            5,
+            1,
+            combine(FOOT, CLAWS, NUMBER),
+            true,
+        )
+        selectRarityMap("Claw Size", combine(FOOT, CLAWS, SIZE), appearance.footOptions.clawSizes, true)
+        selectRarityMap("Claw Color", combine(FOOT, CLAWS, COLOR), appearance.footOptions.clawColors, true)
+    }
+
     h3 { +"Ears" }
+
     selectRarityMap("Layout", combine(EARS, LAYOUT), appearance.earsLayout, true)
+
     if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
         selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes, true)
     }
+
     h3 { +"Eyes" }
 
     selectRarityMap("Layout", combine(EYES, LAYOUT), appearance.eyesLayout, true)

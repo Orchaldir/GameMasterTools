@@ -14,7 +14,7 @@ fun main() {
         "claws.svg",
         CHARACTER_CONFIG,
         addNames(Size.entries),
-        addNames(listOf(1, 2, 3, 4, 5, 6))
+        addNames(listOf(1, 2, 3, 4, 5))
     ) { distance, shape, width ->
         Pair(createAppearance(distance, shape, width), emptyList())
     }
