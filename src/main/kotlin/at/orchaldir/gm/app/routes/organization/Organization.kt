@@ -164,6 +164,7 @@ private fun HTML.showAllOrganizations(
                 th { +"Date" }
                 th { +"Age" }
                 th { +"Founder" }
+                th { +"Ranks" }
                 th { +"Members" }
             }
             organizations.forEach { organization ->
@@ -172,6 +173,7 @@ private fun HTML.showAllOrganizations(
                     td { showOptionalDate(call, state, organization.date) }
                     tdSkipZero(state.getAgeInYears(organization.date))
                     td { showCreator(call, state, organization.founder, false) }
+                    tdSkipZero(organization.memberRanks.size)
                     tdSkipZero(organization.countAllMembers())
                 }
             }

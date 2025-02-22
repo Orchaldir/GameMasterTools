@@ -188,6 +188,7 @@ private fun HTML.showAllCharacters(
                 th { +"Age" }
                 th { +"Housing Status" }
                 th { +"Employment Status" }
+                th { +"Organizations" }
             }
             charactersWithNames.forEach { (character, name) ->
                 tr {
@@ -207,6 +208,7 @@ private fun HTML.showAllCharacters(
                     td { +state.getAgeInYears(character).toString() }
                     td { showHousingStatus(call, state, character.housingStatus.current, false) }
                     td { showEmploymentStatus(call, state, character.employmentStatus.current, false) }
+                    tdSkipZero(state.getOrganization(character.id).size)
                 }
             }
         }
