@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.SidePart
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
+import at.orchaldir.gm.core.model.race.appearance.FootOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
@@ -138,7 +139,7 @@ private fun HTML.showAppearanceEditor(
 
                     is HumanoidBody -> {
                         editHeight(state, character, appearance.height)
-                        editBody(character, appearance.body)
+                        editBody(raceAppearance, character, appearance.body)
                         editHead(raceAppearance, culture, appearance.head)
                         editSkin(raceAppearance, appearance.head.skin)
                     }
@@ -166,12 +167,38 @@ private fun FORM.editHeight(
 }
 
 private fun FORM.editBody(
+    raceAppearance: RaceAppearance,
     character: Character,
     body: Body,
 ) {
     h2 { +"Body" }
     selectValue("Shape", BODY_SHAPE, getAvailableBodyShapes(character.gender), body.bodyShape, true)
     selectValue("Width", BODY_WIDTH, Size.entries, body.width, true)
+    editFoot(raceAppearance.footOptions, body.foot)
+}
+
+private fun FORM.editFoot(footOptions: FootOptions, foot: Foot) {
+    h2 { +"Feet" }
+
+    selectOneOf("Type", FOOT, footOptions.footTypes, foot.getType(), true) { type ->
+        label = type.name
+        value = type.toString()
+    }
+
+    when (foot) {
+        is ClawedFoot -> {
+            selectOneOf("Claw Size", combine(FOOT, CLAWS, SIZE), footOptions.clawSizes, foot.size, true) { size ->
+                label = size.name
+                value = size.toString()
+            }
+            selectOneOf("Claw Color", combine(FOOT, CLAWS, COLOR), footOptions.clawColors, foot.color, true) { color ->
+                label = color.name
+                value = color.toString()
+            }
+        }
+
+        else -> doNothing()
+    }
 }
 
 private fun FORM.editHead(
