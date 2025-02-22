@@ -31,12 +31,17 @@ val UPDATE_ORGANIZATION: Reducer<UpdateOrganization, State> = { state, action ->
     checkDate(state, organization.startDate(), "Organization")
 
     validateCreator(state, organization.founder, organization.id, organization.date, "founder")
+    validateRanks(state, organization)
     validateMembers(state, organization)
 
     noFollowUps(state.updateStorage(state.getOrganizationStorage().update(organization)))
 }
 
-fun validateMembers(state: State, organization: Organization) {
+private fun validateRanks(state: State, organization: Organization) {
+    require(organization.memberRanks.isNotEmpty()) { "Organization must have at least 1 rank!" }
+}
+
+private fun validateMembers(state: State, organization: Organization) {
     organization.members.forEach { (characterId, history) ->
         state.getCharacterStorage()
             .require(characterId) { "Cannot use an unknown character ${characterId.value} as member!" }

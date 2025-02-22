@@ -89,6 +89,14 @@ class OrganizationTest {
         }
 
         @Test
+        fun `Organization must have at least 1 rank`() {
+            val organization = Organization(ORGANIZATION_ID_0, memberRanks = emptyList())
+            val action = UpdateOrganization(organization)
+
+            assertIllegalArgument("Organization must have at least 1 rank!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
         fun `Member must exist`() {
             val organization = Organization(ORGANIZATION_ID_0, members = mapOf(UNKNOWN_CHARACTER_ID to History(0)))
             val action = UpdateOrganization(organization)
