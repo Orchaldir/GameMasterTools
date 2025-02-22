@@ -48,18 +48,19 @@ private fun validateMembers(state: State, organization: Organization) {
         val character = state.getCharacterStorage()
             .getOrThrow(characterId) { "Cannot use an unknown character ${characterId.value} as member!" }
 
-        if (history.current != null) {
-            validateRank(organization, "rank", history.current)
-        } else {
+        if (history.current == null) {
             require(history.previousEntries.isNotEmpty()) { "Member ${characterId.value} was never a member!" }
         }
 
         val startDate = state.getDefaultCalendar().max(character.birthDate, organization.date)
+        var lastRank: Int? = -1
 
         checkHistory(state, history, startDate, "rank") { _, rank, noun, _ ->
             if (rank != null) {
                 validateRank(organization, noun, rank)
             }
+            require(rank != lastRank) { "The $noun is the same as the previous one for member ${characterId.value}!" }
+            lastRank = rank
         }
     }
 }

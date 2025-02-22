@@ -141,6 +141,20 @@ class OrganizationTest {
             assertIllegalArgument("1.previous rank's until is too early!") { REDUCER.invoke(state, action) }
         }
 
+        @Test
+        fun `A member cannot have the same rank twice after each other`() {
+            val history: History<Int?> = History(0, HistoryEntry(0, DAY2))
+            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to history))
+            val action = UpdateOrganization(organization)
+
+            assertIllegalArgument("The rank is the same as the previous one for member 0!") {
+                REDUCER.invoke(
+                    state,
+                    action
+                )
+            }
+        }
+
     }
 
 }
