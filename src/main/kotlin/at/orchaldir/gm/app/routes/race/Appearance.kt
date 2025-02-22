@@ -237,10 +237,10 @@ private fun HtmlBlockTag.showAppearanceOptions(
     if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
         showRarityMap("Eye Types", eyeOptions.eyeTypes)
         showRarityMap("Eye Shapes", eyeOptions.eyeShapes)
-        showRarityMap("Pupil Shape", eyeOptions.pupilShapes)
+        showRarityMap("Eye Colors", eyeOptions.eyeColors)
 
         if (eyeOptions.eyeTypes.isAvailable(EyeType.Normal)) {
-            showRarityMap("Pupil Colors", eyeOptions.pupilColors)
+            showRarityMap("Pupil Shape", eyeOptions.pupilShapes)
             showRarityMap("Sclera Colors", eyeOptions.scleraColors)
         }
     }
@@ -333,12 +333,18 @@ private fun FORM.editAppearanceOptions(
         selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes, true)
     }
     h3 { +"Eyes" }
+
     selectRarityMap("Layout", combine(EYES, LAYOUT), appearance.eyesLayout, true)
+
     if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
+        selectRarityMap("Eye Types", combine(EYES, TYPE), eyeOptions.eyeTypes, true)
         selectRarityMap("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes, true)
-        selectRarityMap("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, true)
-        selectRarityMap("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors, true)
-        selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors, true)
+        selectRarityMap("Eye Colors", PUPIL_COLOR, eyeOptions.eyeColors, true)
+
+        if (eyeOptions.eyeTypes.isAvailable(EyeType.Normal)) {
+            selectRarityMap("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, true)
+            selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors, true)
+        }
     }
     h3 { +"Hair" }
     selectRarityMap("Beard", BEARD, appearance.hairOptions.beardTypes, true)

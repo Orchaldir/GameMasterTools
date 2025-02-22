@@ -334,7 +334,7 @@ private fun FORM.editEye(
                 label = shape.name
                 value = shape.toString()
             }
-            selectColor("Pupil Color", PUPIL_COLOR, eyeOptions.pupilColors, eye.pupilColor)
+            selectColor("Eye Color", PUPIL_COLOR, eyeOptions.eyeColors, eye.pupilColor)
             selectColor("Sclera Color", SCLERA_COLOR, eyeOptions.scleraColors, eye.scleraColor)
         }
 
@@ -343,7 +343,7 @@ private fun FORM.editEye(
                 label = shape.name
                 value = shape.toString()
             }
-            selectColor("Pupil Color", PUPIL_COLOR, eyeOptions.pupilColors, eye.color)
+            selectColor("Eye Color", PUPIL_COLOR, eyeOptions.eyeColors, eye.color)
         }
     }
 }

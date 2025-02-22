@@ -117,15 +117,15 @@ fun generateEye(config: AppearanceGeneratorConfig): Eye {
     val options = config.appearanceOptions.eyeOptions
 
     return when (config.generate(options.eyeTypes)) {
-        EyeType.Simple -> NormalEye(
+        EyeType.Simple -> SimpleEye(
             config.generate(options.eyeShapes),
-            config.generate(options.pupilShapes),
+            config.generate(options.eyeColors),
         )
 
         EyeType.Normal -> NormalEye(
             config.generate(options.eyeShapes),
             config.generate(options.pupilShapes),
-            config.generate(options.pupilColors),
+            config.generate(options.eyeColors),
             config.generate(options.scleraColors),
         )
     }

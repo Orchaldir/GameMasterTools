@@ -28,7 +28,7 @@
     "pupilShapes": {
      "Circle": "Common"
     },
-    "pupilColors": {
+    "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
      "Gray": "Rare",
@@ -91,7 +91,7 @@
     "pupilShapes": {
      "Circle": "Common"
     },
-    "pupilColors": {
+    "eyeColors": {
      "White": "Common"
     },
     "scleraColors": {
@@ -143,7 +143,7 @@
     "pupilShapes": {
      "Circle": "Common"
     },
-    "pupilColors": {
+    "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
      "Gray": "Rare",
@@ -205,7 +205,7 @@
     "pupilShapes": {
      "Circle": "Common"
     },
-    "pupilColors": {
+    "eyeColors": {
      "Aqua": "Common"
     },
     "scleraColors": {
@@ -250,7 +250,7 @@
     "pupilShapes": {
      "Circle": "Common"
     },
-    "pupilColors": {
+    "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
      "Gray": "Rare",
@@ -314,7 +314,7 @@
     "pupilShapes": {
      "VerticalSlit": "Common"
     },
-    "pupilColors": {
+    "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
      "Gray": "Rare",
@@ -382,7 +382,7 @@
     "pupilShapes": {
      "Circle": "Common"
     },
-    "pupilColors": {
+    "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
      "Gray": "Rare",
@@ -439,7 +439,7 @@
     "pupilShapes": {
      "Circle": "Common"
     },
-    "pupilColors": {
+    "eyeColors": {
      "Silver": "Common"
     },
     "scleraColors": {
@@ -489,7 +489,7 @@
     "pupilShapes": {
      "VerticalSlit": "Common"
     },
-    "pupilColors": {
+    "eyeColors": {
      "Black": "Common"
     },
     "scleraColors": {
@@ -539,7 +539,7 @@
     "pupilShapes": {
      "Circle": "Common"
     },
-    "pupilColors": {
+    "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
      "Gray": "Rare",
@@ -623,7 +623,7 @@
     "pupilShapes": {
      "Circle": "Common"
     },
-    "pupilColors": {
+    "eyeColors": {
      "Crimson": "Common"
     },
     "scleraColors": {
@@ -670,7 +670,7 @@
     "pupilShapes": {
      "Circle": "Common"
     },
-    "pupilColors": {
+    "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
      "Gray": "Rare",
