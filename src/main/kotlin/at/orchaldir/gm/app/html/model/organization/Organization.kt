@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.organization.MemberRank
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
@@ -15,7 +15,9 @@ import at.orchaldir.gm.core.selector.util.sortCharacters
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
-import kotlinx.html.*
+import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
