@@ -104,6 +104,14 @@ class OrganizationTest {
             assertIllegalArgument("Cannot use an unknown rank 42!") { REDUCER.invoke(state, action) }
         }
 
+        @Test
+        fun `A member without history must have a rank now`() {
+            val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to History(null)))
+            val action = UpdateOrganization(organization)
+
+            assertIllegalArgument("Member 0 was never a member!") { REDUCER.invoke(state, action) }
+        }
+
     }
 
 }

@@ -43,6 +43,8 @@ fun validateMembers(state: State, organization: Organization) {
 
         if (history.current != null) {
             require(history.current < organization.memberRanks.size) { "Cannot use an unknown rank ${history.current}!" }
+        } else {
+            require(history.previousEntries.isNotEmpty()) { "Member ${characterId.value} was never a member!" }
         }
     }
 }
