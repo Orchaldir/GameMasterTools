@@ -13,12 +13,16 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-private val MONTH0 = Month("a", 2)
-private val MONTH1 = Month("b", 3)
-private val CALENDAR0 = Calendar(CalendarId(0), months = ComplexMonths(listOf(MONTH0, MONTH1)))
-private val CALENDAR1 = Calendar(CalendarId(1), days = Weekdays(listOf(WeekDay("D0"), WeekDay("D1"), WeekDay("D2"))))
-
 class CalendarTest {
+
+    private val MONTH0 = Month("a", 2)
+    private val MONTH1 = Month("b", 3)
+    private val CALENDAR0 = Calendar(CalendarId(0), months = ComplexMonths(listOf(MONTH0, MONTH1)))
+    private val CALENDAR1 =
+        Calendar(CalendarId(1), days = Weekdays(listOf(WeekDay("D0"), WeekDay("D1"), WeekDay("D2"))))
+    private val year0 = Year(0)
+    private val year1 = Year(1)
+    private val year2 = Year(2)
 
     @Nested
     inner class DisplayTest {
@@ -287,7 +291,7 @@ class CalendarTest {
 
             @Test
             fun `Get the year of a year`() {
-                assertGetYear(Year(2), 2)
+                assertGetYear(year2, 2)
             }
 
             @Test
@@ -317,9 +321,9 @@ class CalendarTest {
         @Test
         fun `Get the end of a year`() {
             assertEquals(Day(-1), CALENDAR0.getEndOfYear(Year(-1)))
-            assertEquals(Day(4), CALENDAR0.getEndOfYear(Year(0)))
-            assertEquals(Day(9), CALENDAR0.getEndOfYear(Year(1)))
-            assertEquals(Day(14), CALENDAR0.getEndOfYear(Year(2)))
+            assertEquals(Day(4), CALENDAR0.getEndOfYear(year0))
+            assertEquals(Day(9), CALENDAR0.getEndOfYear(year1))
+            assertEquals(Day(14), CALENDAR0.getEndOfYear(year2))
         }
     }
 
@@ -416,27 +420,27 @@ class CalendarTest {
         inner class CompareToOptionalTest {
             @Test
             fun `Test a greater than b`() {
-                assertEquals(1, CALENDAR0.compareToOptional(Year(2), Year(1)))
+                assertEquals(1, CALENDAR0.compareToOptional(year2, year1))
             }
 
             @Test
             fun `Test a equal to b`() {
-                assertEquals(0, CALENDAR0.compareToOptional(Year(1), Year(1)))
+                assertEquals(0, CALENDAR0.compareToOptional(year1, year1))
             }
 
             @Test
             fun `Test a less than b`() {
-                assertEquals(-1, CALENDAR0.compareToOptional(Year(1), Year(2)))
+                assertEquals(-1, CALENDAR0.compareToOptional(year1, year2))
             }
 
             @Test
             fun `Given a is null, then return 0`() {
-                assertEquals(-1, CALENDAR0.compareToOptional(null, Year(1)))
+                assertEquals(-1, CALENDAR0.compareToOptional(null, year1))
             }
 
             @Test
             fun `Given b is null, then return 0`() {
-                assertEquals(1, CALENDAR0.compareToOptional(Year(1), null))
+                assertEquals(1, CALENDAR0.compareToOptional(year1, null))
             }
 
             @Test
@@ -449,17 +453,17 @@ class CalendarTest {
         inner class IsAfterTest {
             @Test
             fun `Test a greater than b`() {
-                assertTrue(CALENDAR0.isAfter(Year(2), Year(1)))
+                assertTrue(CALENDAR0.isAfter(year2, year1))
             }
 
             @Test
             fun `Test a equal to b`() {
-                assertFalse(CALENDAR0.isAfter(Year(1), Year(1)))
+                assertFalse(CALENDAR0.isAfter(year1, year1))
             }
 
             @Test
             fun `Test a less than b`() {
-                assertFalse(CALENDAR0.isAfter(Year(1), Year(2)))
+                assertFalse(CALENDAR0.isAfter(year1, year2))
             }
         }
 
@@ -467,17 +471,17 @@ class CalendarTest {
         inner class IsAfterOrEqualTest {
             @Test
             fun `Test a greater than b`() {
-                assertTrue(CALENDAR0.isAfterOrEqual(Year(2), Year(1)))
+                assertTrue(CALENDAR0.isAfterOrEqual(year2, year1))
             }
 
             @Test
             fun `Test a equal to b`() {
-                assertTrue(CALENDAR0.isAfterOrEqual(Year(1), Year(1)))
+                assertTrue(CALENDAR0.isAfterOrEqual(year1, year1))
             }
 
             @Test
             fun `Test a less than b`() {
-                assertFalse(CALENDAR0.isAfterOrEqual(Year(1), Year(2)))
+                assertFalse(CALENDAR0.isAfterOrEqual(year1, year2))
             }
         }
 
@@ -485,27 +489,55 @@ class CalendarTest {
         inner class IsAfterOrEqualOptionalTest {
             @Test
             fun `Test a greater than b`() {
-                assertTrue(CALENDAR0.isAfterOrEqualOptional(Year(2), Year(1)))
+                assertTrue(CALENDAR0.isAfterOrEqualOptional(year2, year1))
             }
 
             @Test
             fun `Test a equal to b`() {
-                assertTrue(CALENDAR0.isAfterOrEqualOptional(Year(1), Year(1)))
+                assertTrue(CALENDAR0.isAfterOrEqualOptional(year1, year1))
             }
 
             @Test
             fun `Test a less than b`() {
-                assertFalse(CALENDAR0.isAfterOrEqualOptional(Year(1), Year(2)))
+                assertFalse(CALENDAR0.isAfterOrEqualOptional(year1, year2))
             }
 
             @Test
             fun `Test a is null`() {
-                assertTrue(CALENDAR0.isAfterOrEqualOptional(null, Year(1)))
+                assertTrue(CALENDAR0.isAfterOrEqualOptional(null, year1))
             }
 
             @Test
             fun `Test b is null`() {
-                assertTrue(CALENDAR0.isAfterOrEqualOptional(Year(1), null))
+                assertTrue(CALENDAR0.isAfterOrEqualOptional(year1, null))
+            }
+        }
+
+        @Nested
+        inner class MaxOptionalTest {
+            @Test
+            fun `Test a greater than b`() {
+                assertEquals(year2, CALENDAR0.maxOptional(year2, year1))
+            }
+
+            @Test
+            fun `Test a equal to b`() {
+                assertEquals(year1, CALENDAR0.maxOptional(year1, year1))
+            }
+
+            @Test
+            fun `Test a less than b`() {
+                assertEquals(year2, CALENDAR0.maxOptional(year1, year2))
+            }
+
+            @Test
+            fun `Test a is null`() {
+                assertEquals(year1, CALENDAR0.maxOptional(null, year1))
+            }
+
+            @Test
+            fun `Test b is null`() {
+                assertEquals(year1, CALENDAR0.maxOptional(year1, null))
             }
         }
     }
@@ -518,7 +550,7 @@ class CalendarTest {
 
             @Test
             fun `From a year to the same year`() {
-                assertWholeYear(Year(1), 5, 0)
+                assertWholeYear(year1, 5, 0)
             }
 
             @Test
@@ -528,7 +560,7 @@ class CalendarTest {
 
             @Test
             fun `From a year to the next year`() {
-                assertWholeYear(Year(1), 10, 1)
+                assertWholeYear(year1, 10, 1)
             }
 
             @Test
@@ -619,7 +651,7 @@ class CalendarTest {
 
         @Test
         fun `Test with positive offset`() {
-            val calendar = createCalendar(Year(1))
+            val calendar = createCalendar(year1)
 
             assertResolve(calendar, -2, 0, 2)
             assertResolve(calendar, -1, 0, 1)
