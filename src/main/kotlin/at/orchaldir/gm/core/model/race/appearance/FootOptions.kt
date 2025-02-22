@@ -6,10 +6,14 @@ import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.Serializable
 
+const val DEFAULT_CLAW_NUMBER = 3
+val DEFAULT_CLAW_COLOR = Color.Black
+val DEFAULT_CLAW_SIZE = Size.Medium
+
 @Serializable
 data class FootOptions(
     val footTypes: OneOf<FootType> = OneOf(FootType.Normal),
-    val clawNumber: Int = 3,
-    val clawColors: OneOf<Color> = OneOf(Color.Black),
-    val clawSizes: OneOf<Size> = OneOf(Size.Medium),
+    val clawNumber: Int = DEFAULT_CLAW_NUMBER,
+    val clawColors: OneOf<Color> = OneOf(DEFAULT_CLAW_COLOR),
+    val clawSizes: OneOf<Size> = OneOf(DEFAULT_CLAW_SIZE),
 )

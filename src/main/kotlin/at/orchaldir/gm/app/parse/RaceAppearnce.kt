@@ -47,12 +47,19 @@ private fun parseEyeOptions(parameters: Parameters): EyeOptions {
     return EyeOptions(eyeTypes, eyeShapes, eyeColors, pupilShapes, scleraColors)
 }
 
-private fun parseFootOptions(parameters: Parameters) = FootOptions(
-    parseOneOf(parameters, FOOT, FootType::valueOf),
-    parseInt(parameters, combine(FOOT, CLAWS, NUMBER), 3),
-    parseOneOf(parameters, combine(FOOT, CLAWS, COLOR), Color::valueOf, Color.entries),
-    parseOneOf(parameters, combine(FOOT, CLAWS, SIZE), Size::valueOf),
-)
+private fun parseFootOptions(parameters: Parameters): FootOptions {
+    val footTypes = parseOneOf(parameters, FOOT, FootType::valueOf)
+    val clawNumber = parseInt(parameters, combine(FOOT, CLAWS, NUMBER), DEFAULT_CLAW_NUMBER)
+    val clawColors = parseOneOf(parameters, combine(FOOT, CLAWS, COLOR), Color::valueOf, setOf(DEFAULT_CLAW_COLOR))
+    val clawSizes = parseOneOf(parameters, combine(FOOT, CLAWS, SIZE), Size::valueOf, setOf(DEFAULT_CLAW_SIZE))
+
+    return FootOptions(
+        footTypes,
+        clawNumber,
+        clawColors,
+        clawSizes,
+    )
+}
 
 private fun parseHairOptions(parameters: Parameters) = HairOptions(
     parseOneOf(parameters, BEARD, BeardType::valueOf),
