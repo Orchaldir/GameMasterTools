@@ -90,7 +90,7 @@ private fun parseFoot(
 ) = when (parameters[FOOT]) {
     FootType.Normal.toString() -> NormalFoot
     FootType.Clawed.toString() -> ClawedFoot(
-        parseInt(parameters, combine(FOOT, CLAWS, NUMBER), 3),
+        config.appearanceOptions.footOptions.clawNumber,
         parse(parameters, combine(FOOT, CLAWS, SIZE), Size.Medium),
         parse(parameters, combine(FOOT, CLAWS, COLOR), Color.Black),
     )

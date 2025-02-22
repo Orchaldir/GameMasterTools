@@ -85,7 +85,6 @@
      "bodyShape": "Muscular",
      "foot": {
       "type": "Clawed",
-      "count": 3,
       "size": "Small"
      },
      "skin": {
@@ -123,7 +122,7 @@
      }
     },
     "height": {
-     "millimeters": 1680
+     "millimeters": 1690
     }
    },
    "employmentStatus": {
