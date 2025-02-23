@@ -144,11 +144,11 @@ fun FORM.editRaceAppearance(
     if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
         selectRarityMap("Eye Types", combine(EYE, TYPE), eyeOptions.eyeTypes, true)
         selectRarityMap("Eye Shapes", combine(EYE, SHAPE), eyeOptions.eyeShapes, true)
-        selectRarityMap("Eye Colors", PUPIL_COLOR, eyeOptions.eyeColors, true)
+        selectRarityMap("Eye Colors", combine(PUPIL, COLOR), eyeOptions.eyeColors, true)
 
         if (eyeOptions.eyeTypes.isAvailable(EyeType.Normal)) {
-            selectRarityMap("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, true)
-            selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors, true)
+            selectRarityMap("Pupil Shape", combine(PUPIL, SHAPE), eyeOptions.pupilShapes, true)
+            selectRarityMap("Sclera Colors", combine(SCLERA, COLOR), eyeOptions.scleraColors, true)
         }
     }
 
@@ -256,9 +256,9 @@ fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppea
 private fun parseEyeOptions(parameters: Parameters): EyeOptions {
     val eyeTypes = parseOneOf(parameters, combine(EYE, TYPE), EyeType::valueOf, EyeType.entries)
     val eyeShapes = parseOneOf(parameters, combine(EYE, SHAPE), EyeShape::valueOf, EyeShape.entries)
-    val pupilShapes = parseOneOf(parameters, PUPIL_SHAPE, PupilShape::valueOf, PupilShape.entries)
-    val eyeColors = parseOneOf(parameters, PUPIL_COLOR, Color::valueOf, Color.entries)
-    val scleraColors = parseOneOf(parameters, SCLERA_COLOR, Color::valueOf, Color.entries)
+    val pupilShapes = parseOneOf(parameters, combine(PUPIL, SHAPE), PupilShape::valueOf, PupilShape.entries)
+    val eyeColors = parseOneOf(parameters, combine(PUPIL, COLOR), Color::valueOf, Color.entries)
+    val scleraColors = parseOneOf(parameters, combine(SCLERA, COLOR), Color::valueOf, Color.entries)
 
     return EyeOptions(eyeTypes, eyeShapes, eyeColors, pupilShapes, scleraColors)
 }

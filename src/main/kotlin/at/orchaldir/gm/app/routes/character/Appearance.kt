@@ -360,12 +360,12 @@ private fun FORM.editEye(
                 label = shape.name
                 value = shape.toString()
             }
-            selectOneOf("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, eye.pupilShape, true) { shape ->
+            selectOneOf("Pupil Shape", combine(PUPIL, SHAPE), eyeOptions.pupilShapes, eye.pupilShape, true) { shape ->
                 label = shape.name
                 value = shape.toString()
             }
-            selectColor("Eye Color", PUPIL_COLOR, eyeOptions.eyeColors, eye.pupilColor)
-            selectColor("Sclera Color", SCLERA_COLOR, eyeOptions.scleraColors, eye.scleraColor)
+            selectColor("Eye Color", combine(PUPIL, COLOR), eyeOptions.eyeColors, eye.pupilColor)
+            selectColor("Sclera Color", combine(PUPIL, SCLERA), eyeOptions.scleraColors, eye.scleraColor)
         }
 
         is SimpleEye -> {
@@ -373,7 +373,7 @@ private fun FORM.editEye(
                 label = shape.name
                 value = shape.toString()
             }
-            selectColor("Eye Color", PUPIL_COLOR, eyeOptions.eyeColors, eye.color)
+            selectColor("Eye Color", combine(PUPIL, COLOR), eyeOptions.eyeColors, eye.color)
         }
     }
 }

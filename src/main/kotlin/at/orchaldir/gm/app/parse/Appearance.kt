@@ -181,14 +181,14 @@ private fun parseEye(parameters: Parameters, config: AppearanceGeneratorConfig) 
     when (parameters[combine(EYE, TYPE)]) {
         EyeType.Simple.toString() -> SimpleEye(
             parse(parameters, combine(EYE, SHAPE), EyeShape.Ellipse),
-            parse(parameters, PUPIL_COLOR, Color.Green),
+            parse(parameters, combine(PUPIL, COLOR), Color.Green),
         )
 
         EyeType.Normal.toString() -> NormalEye(
             parse(parameters, combine(EYE, SHAPE), EyeShape.Ellipse),
-            parse(parameters, PUPIL_SHAPE, PupilShape.Circle),
-            parse(parameters, PUPIL_COLOR, Color.Green),
-            parse(parameters, SCLERA_COLOR, Color.White),
+            parse(parameters, combine(PUPIL, SHAPE), PupilShape.Circle),
+            parse(parameters, combine(PUPIL, COLOR), Color.Green),
+            parse(parameters, combine(SCLERA, COLOR), Color.White),
         )
 
         else -> generateEye(config)
