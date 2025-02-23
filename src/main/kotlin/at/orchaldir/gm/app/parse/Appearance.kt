@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
@@ -56,6 +57,7 @@ fun parseAppearance(
             parseBody(parameters, config, skin),
             parseHead(parameters, config, character, skin),
             height,
+            parseWings(parameters, config),
         )
 
         else -> UndefinedAppearance
@@ -268,3 +270,37 @@ private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig)
 
 private fun parseExoticColor(parameters: Parameters) =
     parse(parameters, SKIN_EXOTIC_COLOR, Color.Red)
+
+private fun parseWings(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+) = when (parameters[combine(WING, LAYOUT)]) {
+    WingsLayout.None.toString() -> NoWings
+    WingsLayout.One.toString() -> OneWing(
+        parseWing(parameters, config, WING),
+        parse(parameters, combine(WING, SIDE), Side.Right),
+    )
+
+    WingsLayout.Two.toString() -> TwoWings(
+        parseWing(parameters, config, WING),
+    )
+
+    WingsLayout.Different.toString() -> DifferentWings(
+        parseWing(parameters, config, combine(LEFT, WING)),
+        parseWing(parameters, config, combine(RIGHT, WING)),
+    )
+
+    else -> generateWings(config)
+}
+
+private fun parseWing(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+    param: String,
+) = when (parameters[combine(param, TYPE)]) {
+    WingType.Bat.toString() -> BatWing(parse(parameters, combine(param, COLOR), DEFAULT_BAT_COLOR))
+    WingType.Bird.toString() -> BirdWing(parse(parameters, combine(param, COLOR), DEFAULT_BIRD_COLOR))
+    WingType.Butterfly.toString() -> ButterflyWing(parse(parameters, combine(param, COLOR), DEFAULT_BUTTERFLY_COLOR))
+
+    else -> generateWing(config)
+}
