@@ -1,14 +1,11 @@
 package at.orchaldir.gm.visualization.character.appearance
 
-import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
@@ -36,16 +33,16 @@ fun visualizeWings(state: CharacterRenderState, wings: Wings) = when (wings) {
 }
 
 private fun visualizeWing(state: CharacterRenderState, wing: Wing, side: Side) = when (wing) {
-    is BatWing -> visualizeWing(state, side, wing.color, ::createRightBatWing)
-    is BirdWing -> visualizeWing(state, side, wing.color, ::createRightBirdWing)
-    is ButterflyWing -> visualizeWing(state, side, wing.color, ::createRightButterflyWing)
+    is BatWing -> visualizeWing(state, side, wing.color, ::createLeftBatWing)
+    is BirdWing -> visualizeWing(state, side, wing.color, ::createLeftBirdWing)
+    is ButterflyWing -> visualizeWing(state, side, wing.color, ::createLeftButterflyWing)
 }
 
 private fun visualizeWing(
     state: CharacterRenderState,
     side: Side,
     color: Color,
-    createPolygon: (CharacterRenderState) -> Polygon2d,
+    createLeftWing: (CharacterRenderState) -> Polygon2d,
 ) {
     val options = FillAndBorder(color.toRender(), state.config.line)
     val layer = if (state.renderFront) {
@@ -54,16 +51,16 @@ private fun visualizeWing(
         -WING_LAYER
     }
 
-    var polygon = createPolygon(state)
+    var polygon = createLeftWing(state)
 
-    if (side == Side.Left) {
+    if (side == Side.Right) {
         polygon = state.aabb.mirrorVertically(polygon)
     }
 
     state.renderer.getLayer(layer).renderRoundedPolygon(polygon, options)
 }
 
-private fun createRightBatWing(state: CharacterRenderState): Polygon2d {
+private fun createLeftBatWing(state: CharacterRenderState): Polygon2d {
     val builder = Polygon2dBuilder()
     val startX = Factor(0.55f)
 
@@ -81,7 +78,7 @@ private fun createRightBatWing(state: CharacterRenderState): Polygon2d {
     return polygon
 }
 
-private fun createRightBirdWing(state: CharacterRenderState): Polygon2d {
+private fun createLeftBirdWing(state: CharacterRenderState): Polygon2d {
     val builder = Polygon2dBuilder()
     val startX = Factor(0.55f)
 
@@ -96,7 +93,7 @@ private fun createRightBirdWing(state: CharacterRenderState): Polygon2d {
     return polygon
 }
 
-private fun createRightButterflyWing(state: CharacterRenderState): Polygon2d {
+private fun createLeftButterflyWing(state: CharacterRenderState): Polygon2d {
     val builder = Polygon2dBuilder()
     val startX = Factor(0.55f)
     val centerX = Factor(0.7f)
