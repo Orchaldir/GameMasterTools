@@ -195,11 +195,11 @@ private fun parseEye(parameters: Parameters, config: AppearanceGeneratorConfig) 
     }
 
 private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig): Hair {
-    return when (parameters[HAIR_TYPE]) {
+    return when (parameters[HAIR]) {
         HairType.None.toString() -> NoHair
         HairType.Normal.toString() -> {
             return NormalHair(
-                when (parameters[HAIR_STYLE]) {
+                when (parameters[combine(HAIR, STYLE)]) {
                     HairStyleType.BuzzCut.toString() -> BuzzCut
                     HairStyleType.FlatTop.toString() -> FlatTop
                     HairStyleType.MiddlePart.toString() -> MiddlePart
@@ -210,7 +210,7 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
                     HairStyleType.Spiked.toString() -> Spiked
                     else -> ShavedHair
                 },
-                parse(parameters, HAIR_COLOR, Color.Red),
+                parse(parameters, combine(HAIR, COLOR), Color.Red),
             )
         }
 

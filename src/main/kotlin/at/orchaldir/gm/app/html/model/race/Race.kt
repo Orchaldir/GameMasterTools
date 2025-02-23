@@ -191,7 +191,7 @@ private fun FORM.editLifeStages(
 private fun HtmlBlockTag.selectHairColor(label: String, index: Int, color: Color?) {
     selectOptionalColor(
         label,
-        combine(LIFE_STAGE, HAIR_COLOR, index),
+        combine(LIFE_STAGE, combine(HAIR, COLOR), index),
         color,
         Color.entries,
         true
@@ -299,7 +299,7 @@ private fun parseMaxAge(parameters: Parameters, index: Int) =
     parseInt(parameters, combine(LIFE_STAGE, AGE, index), 2)
 
 private fun parseHairColor(parameters: Parameters, index: Int) =
-    parse<Color>(parameters, combine(LIFE_STAGE, HAIR_COLOR, index))
+    parse<Color>(parameters, combine(LIFE_STAGE, combine(HAIR, COLOR), index))
 
 private fun parseAppearanceId(parameters: Parameters, index: Int) =
     parseRaceAppearanceId(parameters, combine(RACE, APPEARANCE, index))

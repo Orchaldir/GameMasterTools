@@ -173,10 +173,10 @@ fun FORM.editRaceAppearance(
     h3 { +"Hair" }
 
     selectRarityMap("Beard", BEARD, appearance.hairOptions.beardTypes, true)
-    selectRarityMap("Hair", HAIR_TYPE, appearance.hairOptions.hairTypes, true)
+    selectRarityMap("Hair", HAIR, appearance.hairOptions.hairTypes, true)
 
     if (requiresHairColor(appearance)) {
-        selectRarityMap("Colors", HAIR_COLOR, appearance.hairOptions.colors, true)
+        selectRarityMap("Colors", combine(HAIR, COLOR), appearance.hairOptions.colors, true)
     }
 
     h3 { +"Mouth" }
@@ -279,8 +279,8 @@ private fun parseFootOptions(parameters: Parameters): FootOptions {
 
 private fun parseHairOptions(parameters: Parameters) = HairOptions(
     parseOneOf(parameters, BEARD, BeardType::valueOf),
-    parseOneOf(parameters, HAIR_TYPE, HairType::valueOf),
-    parseOneOf(parameters, HAIR_COLOR, Color::valueOf, Color.entries),
+    parseOneOf(parameters, HAIR, HairType::valueOf),
+    parseOneOf(parameters, combine(HAIR, COLOR), Color::valueOf, Color.entries),
 )
 
 private fun parseWingOptions(parameters: Parameters) = WingOptions(

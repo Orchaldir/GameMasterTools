@@ -36,7 +36,7 @@ fun parseCulture(
             parseOneOf(parameters, combine(BEARD, STYLE), BeardStyleType::valueOf),
             parseOneOf(parameters, GOATEE_STYLE, GoateeStyle::valueOf),
             parseOneOf(parameters, MOUSTACHE_STYLE, MoustacheStyle::valueOf),
-            parseOneOf(parameters, HAIR_STYLE, HairStyleType::valueOf),
+            parseOneOf(parameters, combine(HAIR, STYLE), HairStyleType::valueOf),
             parseOneOf(parameters, LIP_COLORS, Color::valueOf),
         ),
         parseClothingStyles(parameters),

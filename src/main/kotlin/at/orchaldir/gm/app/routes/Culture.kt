@@ -443,7 +443,7 @@ private fun FORM.editAppearanceOptions(culture: Culture) {
     selectRarityMap("Beard Styles", combine(BEARD, STYLE), culture.appearanceStyle.beardStyles)
     selectRarityMap("Goatee Styles", GOATEE_STYLE, culture.appearanceStyle.goateeStyles)
     selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyles)
-    selectRarityMap("Hair Styles", HAIR_STYLE, culture.appearanceStyle.hairStyles)
+    selectRarityMap("Hair Styles", combine(HAIR, STYLE), culture.appearanceStyle.hairStyles)
     selectRarityMap("Lip Colors", LIP_COLORS, culture.appearanceStyle.lipColors)
 }
 

@@ -384,7 +384,7 @@ private fun FORM.editHair(
     hair: Hair,
 ) {
     h2 { +"Hair" }
-    selectOneOf("Type", HAIR_TYPE, raceAppearance.hairOptions.hairTypes, hair.getType(), true) { option ->
+    selectOneOf("Type", HAIR, raceAppearance.hairOptions.hairTypes, hair.getType(), true) { option ->
         label = option.name
         value = option.toString()
     }
@@ -399,11 +399,17 @@ private fun FORM.editNormalHair(
     culture: Culture,
     hair: NormalHair,
 ) {
-    selectOneOf("Style", HAIR_STYLE, culture.appearanceStyle.hairStyles, hair.style.getType(), true) { style ->
+    selectOneOf(
+        "Style",
+        combine(HAIR, STYLE),
+        culture.appearanceStyle.hairStyles,
+        hair.style.getType(),
+        true
+    ) { style ->
         label = style.name
         value = style.toString()
     }
-    selectColor("Color", HAIR_COLOR, raceAppearance.hairOptions.colors, hair.color)
+    selectColor("Color", combine(HAIR, COLOR), raceAppearance.hairOptions.colors, hair.color)
 
     when (hair.style) {
         is SidePart -> {
