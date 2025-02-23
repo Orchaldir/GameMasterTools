@@ -308,6 +308,60 @@ private fun FORM.editAppearanceOptions(
 ) {
     selectRarityMap("Type", APPEARANCE, appearance.appearanceTypes, true)
 
+    h3 { +"Ears" }
+
+    selectRarityMap("Layout", combine(EARS, LAYOUT), appearance.earsLayout, true)
+
+    if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
+        selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes, true)
+    }
+
+    h3 { +"Eyes" }
+
+    selectRarityMap("Layout", combine(EYES, LAYOUT), appearance.eyesLayout, true)
+
+    if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
+        selectRarityMap("Eye Types", combine(EYES, TYPE), eyeOptions.eyeTypes, true)
+        selectRarityMap("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes, true)
+        selectRarityMap("Eye Colors", PUPIL_COLOR, eyeOptions.eyeColors, true)
+
+        if (eyeOptions.eyeTypes.isAvailable(EyeType.Normal)) {
+            selectRarityMap("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, true)
+            selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors, true)
+        }
+    }
+
+    h3 { +"Feet" }
+
+    selectRarityMap("Type", FOOT, appearance.footOptions.footTypes, true)
+
+    if (appearance.footOptions.footTypes.isAvailable(FootType.Clawed)) {
+        selectInt(
+            "Number of Claws",
+            appearance.footOptions.clawNumber,
+            1,
+            5,
+            1,
+            combine(FOOT, CLAWS, NUMBER),
+            true,
+        )
+        selectRarityMap("Claw Size", combine(FOOT, CLAWS, SIZE), appearance.footOptions.clawSizes, true)
+        selectRarityMap("Claw Color", combine(FOOT, CLAWS, COLOR), appearance.footOptions.clawColors, true)
+    }
+
+    h3 { +"Hair" }
+
+    selectRarityMap("Beard", BEARD, appearance.hairOptions.beardTypes, true)
+    selectRarityMap("Hair", HAIR_TYPE, appearance.hairOptions.hairTypes, true)
+
+    if (requiresHairColor(appearance)) {
+        selectRarityMap("Colors", HAIR_COLOR, appearance.hairOptions.colors, true)
+    }
+
+    h3 { +"Mouth" }
+
+    selectRarityMap("Types", MOUTH_TYPE, appearance.mouthTypes, true)
+
     h3 { +"Skin" }
 
     selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes, true)
@@ -338,54 +392,18 @@ private fun FORM.editAppearanceOptions(
         )
     }
 
-    h3 { +"Feet" }
+    h3 { +"Wings" }
 
-    selectRarityMap("Type", FOOT, appearance.footOptions.footTypes, true)
-
-    if (appearance.footOptions.footTypes.isAvailable(FootType.Clawed)) {
-        selectInt(
-            "Number of Claws",
-            appearance.footOptions.clawNumber,
-            1,
-            5,
-            1,
-            combine(FOOT, CLAWS, NUMBER),
-            true,
-        )
-        selectRarityMap("Claw Size", combine(FOOT, CLAWS, SIZE), appearance.footOptions.clawSizes, true)
-        selectRarityMap("Claw Color", combine(FOOT, CLAWS, COLOR), appearance.footOptions.clawColors, true)
-    }
-
-    h3 { +"Ears" }
-
-    selectRarityMap("Layout", combine(EARS, LAYOUT), appearance.earsLayout, true)
-
-    if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
-        selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes, true)
-    }
-
-    h3 { +"Eyes" }
-
-    selectRarityMap("Layout", combine(EYES, LAYOUT), appearance.eyesLayout, true)
-
-    if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
-        selectRarityMap("Eye Types", combine(EYES, TYPE), eyeOptions.eyeTypes, true)
-        selectRarityMap("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes, true)
-        selectRarityMap("Eye Colors", PUPIL_COLOR, eyeOptions.eyeColors, true)
-
-        if (eyeOptions.eyeTypes.isAvailable(EyeType.Normal)) {
-            selectRarityMap("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, true)
-            selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors, true)
-        }
-    }
-    h3 { +"Hair" }
-    selectRarityMap("Beard", BEARD, appearance.hairOptions.beardTypes, true)
-    selectRarityMap("Hair", HAIR_TYPE, appearance.hairOptions.hairTypes, true)
-    if (requiresHairColor(appearance)) {
-        selectRarityMap("Colors", HAIR_COLOR, appearance.hairOptions.colors, true)
-    }
-    h3 { +"Mouth" }
-    selectRarityMap("Types", MOUTH_TYPE, appearance.mouthTypes, true)
+    selectRarityMap("Layout", combine(WING, LAYOUT), appearance.wingOptions.layouts, true)
+    selectRarityMap("Types", combine(WING, TYPE), appearance.wingOptions.types, true)
+    selectRarityMap("Bat Wing Colors", combine(WING, BAT, COLOR), appearance.wingOptions.batColors, true)
+    selectRarityMap("Bird Wing Colors", combine(WING, BIRD, COLOR), appearance.wingOptions.birdColors, true)
+    selectRarityMap(
+        "Butterfly Wing Colors",
+        combine(WING, BUTTERFLY, COLOR),
+        appearance.wingOptions.butterflyColors,
+        true
+    )
 }
 
 private fun requiresHairColor(appearance: RaceAppearance) =

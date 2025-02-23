@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.EyeType
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
 import at.orchaldir.gm.core.model.character.appearance.eye.PupilShape
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
+import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
@@ -34,6 +35,7 @@ fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppea
         parseFootOptions(parameters),
         parseHairOptions(parameters),
         parseOneOf(parameters, MOUTH_TYPE, MouthType::valueOf),
+        parseWingOptions(parameters),
     )
 }
 
@@ -65,4 +67,12 @@ private fun parseHairOptions(parameters: Parameters) = HairOptions(
     parseOneOf(parameters, BEARD, BeardType::valueOf),
     parseOneOf(parameters, HAIR_TYPE, HairType::valueOf),
     parseOneOf(parameters, HAIR_COLOR, Color::valueOf, Color.entries),
+)
+
+private fun parseWingOptions(parameters: Parameters) = WingOptions(
+    parseOneOf(parameters, combine(WING, LAYOUT), WingsLayout::valueOf),
+    parseOneOf(parameters, combine(WING, TYPE), WingType::valueOf),
+    parseOneOf(parameters, combine(WING, BAT, COLOR), Color::valueOf, setOf(DEFAULT_BAT_COLOR)),
+    parseOneOf(parameters, combine(WING, BIRD, COLOR), Color::valueOf, setOf(DEFAULT_BIRD_COLOR)),
+    parseOneOf(parameters, combine(WING, BUTTERFLY, COLOR), Color::valueOf, setOf(DEFAULT_BUTTERFLY_COLOR)),
 )

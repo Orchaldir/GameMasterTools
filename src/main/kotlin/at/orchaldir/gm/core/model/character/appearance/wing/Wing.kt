@@ -4,9 +4,9 @@ import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-val BAT_COLOR = Color.DimGray
-val BIRD_COLOR = Color.LightGray
-val BUTTERFLY_COLOR = Color.SkyBlue
+val DEFAULT_BAT_COLOR = Color.DimGray
+val DEFAULT_BIRD_COLOR = Color.LightGray
+val DEFAULT_BUTTERFLY_COLOR = Color.SkyBlue
 
 enum class WingType {
     Bat,
@@ -28,17 +28,17 @@ sealed class Wing {
 @Serializable
 @SerialName("Bat")
 data class BatWing(
-    val color: Color = BAT_COLOR,
+    val color: Color = DEFAULT_BAT_COLOR,
 ) : Wing()
 
 @Serializable
 @SerialName("Bird")
 data class BirdWing(
-    val color: Color = BIRD_COLOR,
+    val color: Color = DEFAULT_BIRD_COLOR,
 ) : Wing()
 
 @Serializable
 @SerialName("Butterfly")
 data class ButterflyWing(
-    val color: Color = BUTTERFLY_COLOR,
+    val color: Color = DEFAULT_BUTTERFLY_COLOR,
 ) : Wing()
