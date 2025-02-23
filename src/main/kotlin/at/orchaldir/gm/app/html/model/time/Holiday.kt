@@ -24,6 +24,7 @@ fun BODY.showHoliday(
 
     fieldLink("Calendar", call, state, holiday.calendar)
     showRelativeDate("Relative Date", calendar, holiday.relativeDate)
+    fieldHolidayPurpose(call, state, holiday.purpose)
 
     showList("Cultures", state.getCultures(holiday.id)) { culture ->
         link(call, culture)
@@ -41,6 +42,7 @@ fun FORM.editHoliday(
     selectName(holiday.name)
     selectElement(state, "Calendar", CALENDAR, state.getCalendarStorage().getAll(), holiday.calendar, true)
     selectRelativeDate(DATE, holiday.relativeDate, calendar)
+    editHolidayPurpose(state, holiday.purpose)
 }
 
 // parse
@@ -60,5 +62,6 @@ fun parseHoliday(id: HolidayId, parameters: Parameters): Holiday {
         name,
         parseCalendarId(parameters, CALENDAR_TYPE),
         parseRelativeDate(parameters, DATE),
+        parseHolidayPurpose(parameters),
     )
 }
