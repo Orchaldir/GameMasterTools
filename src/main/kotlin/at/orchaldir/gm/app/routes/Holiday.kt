@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.time.displayHolidayPurpose
 import at.orchaldir.gm.app.html.model.time.editHoliday
 import at.orchaldir.gm.app.html.model.time.parseHoliday
 import at.orchaldir.gm.app.html.model.time.showHoliday
@@ -133,12 +134,14 @@ private fun HTML.showAllHolidays(
                 th { +"Name" }
                 th { +"Calendar" }
                 th { +"Date" }
+                th { +"Purpose" }
             }
             holidays.forEach { holiday ->
                 tr {
                     td { link(call, holiday) }
                     td { link(call, state, holiday.calendar) }
                     td { +holiday.relativeDate.display(calendar) }
+                    td { displayHolidayPurpose(call, state, holiday.purpose) }
                 }
             }
         }

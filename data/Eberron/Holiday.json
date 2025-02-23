@@ -8,6 +8,10 @@
     "type": "DayInYear",
     "dayIndex": 6,
     "monthIndex": 0
+   },
+   "purpose": {
+    "type": "God",
+    "god": 8
    }
   },
   "1": {
@@ -17,6 +21,10 @@
     "type": "DayInYear",
     "dayIndex": 13,
     "monthIndex": 1
+   },
+   "purpose": {
+    "type": "God",
+    "god": 11
    }
   },
   "2": {
@@ -26,6 +34,10 @@
     "type": "DayInYear",
     "dayIndex": 27,
     "monthIndex": 1
+   },
+   "purpose": {
+    "type": "God",
+    "god": 7
    }
   },
   "3": {
@@ -35,6 +47,10 @@
     "type": "DayInYear",
     "dayIndex": 14,
     "monthIndex": 2
+   },
+   "purpose": {
+    "type": "God",
+    "god": 4
    }
   },
   "4": {
@@ -44,6 +60,10 @@
     "type": "DayInYear",
     "dayIndex": 12,
     "monthIndex": 3
+   },
+   "purpose": {
+    "type": "God",
+    "god": 9
    }
   },
   "5": {
@@ -53,6 +73,10 @@
     "type": "DayInYear",
     "dayIndex": 25,
     "monthIndex": 4
+   },
+   "purpose": {
+    "type": "God",
+    "god": 1
    }
   },
   "6": {
@@ -62,6 +86,10 @@
     "type": "DayInYear",
     "dayIndex": 10,
     "monthIndex": 5
+   },
+   "purpose": {
+    "type": "God",
+    "god": 12
    }
   },
   "7": {
@@ -71,6 +99,10 @@
     "type": "DayInYear",
     "dayIndex": 11,
     "monthIndex": 5
+   },
+   "purpose": {
+    "type": "God",
+    "god": 5
    }
   },
   "8": {
@@ -80,6 +112,10 @@
     "type": "DayInYear",
     "dayIndex": 13,
     "monthIndex": 6
+   },
+   "purpose": {
+    "type": "God",
+    "god": 0
    }
   },
   "9": {
@@ -89,6 +125,10 @@
     "type": "DayInYear",
     "dayIndex": 3,
     "monthIndex": 7
+   },
+   "purpose": {
+    "type": "God",
+    "god": 2
    }
   },
   "10": {
@@ -98,6 +138,10 @@
     "type": "DayInYear",
     "dayIndex": 8,
     "monthIndex": 8
+   },
+   "purpose": {
+    "type": "God",
+    "god": 3
    }
   },
   "11": {
@@ -116,6 +160,10 @@
     "type": "DayInYear",
     "dayIndex": 19,
     "monthIndex": 10
+   },
+   "purpose": {
+    "type": "God",
+    "god": 6
    }
   },
   "13": {
