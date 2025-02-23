@@ -2,21 +2,15 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.selectDayIndex
-import at.orchaldir.gm.app.html.model.selectMonthIndex
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parseHoliday
+import at.orchaldir.gm.app.html.model.time.editHoliday
+import at.orchaldir.gm.app.html.model.time.parseHoliday
+import at.orchaldir.gm.app.html.model.time.showHoliday
 import at.orchaldir.gm.core.action.CreateHoliday
 import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.DayOfTheMonth
-import at.orchaldir.gm.core.model.calendar.DaysType
-import at.orchaldir.gm.core.model.calendar.Weekdays
 import at.orchaldir.gm.core.model.holiday.*
 import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getCultures
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -159,17 +153,14 @@ private fun HTML.showHolidayDetails(
     state: State,
     holiday: Holiday,
 ) {
-    val calendar = state.getCalendarStorage().getOrThrow(holiday.calendar)
     val backLink = call.application.href(HolidayRoutes())
     val deleteLink = call.application.href(HolidayRoutes.Delete(holiday.id))
     val editLink = call.application.href(HolidayRoutes.Edit(holiday.id))
 
     simpleHtml("Holiday: ${holiday.name}") {
-        fieldLink("Calendar", call, state, holiday.calendar)
-        field("Relative Date", holiday.relativeDate.display(calendar))
-        showList("Cultures", state.getCultures(holiday.id)) { culture ->
-            link(call, culture)
-        }
+
+        showHoliday(call, state, holiday)
+
         action(editLink, "Edit")
         if (state.canDelete(holiday.id)) {
             action(deleteLink, "Delete")
@@ -183,7 +174,6 @@ private fun HTML.showHolidayEditor(
     state: State,
     holiday: Holiday,
 ) {
-    val calendar = state.getCalendarStorage().getOrThrow(holiday.calendar)
     val backLink = href(call, holiday.id)
     val previewLink = call.application.href(HolidayRoutes.Preview(holiday.id))
     val updateLink = call.application.href(HolidayRoutes.Update(holiday.id))
@@ -193,57 +183,12 @@ private fun HTML.showHolidayEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            selectName(holiday.name)
-            selectElement(state, "Calendar", CALENDAR, state.getCalendarStorage().getAll(), holiday.calendar, true)
-            selectRelativeDate(DATE, holiday.relativeDate, calendar)
+
+            editHoliday(state, holiday)
+
             button("Update", updateLink)
         }
         back(backLink)
     }
 }
 
-private fun FORM.selectRelativeDate(param: String, relativeDate: RelativeDate, calendar: Calendar) {
-    selectValue("Relative Date", combine(param, TYPE), RelativeDateType.entries, relativeDate.getType(), true) { type ->
-        when (type) {
-            RelativeDateType.DayInMonth, RelativeDateType.DayInYear -> false
-            RelativeDateType.WeekdayInMonth -> calendar.days.getType() == DaysType.DayOfTheMonth
-        }
-    }
-    when (relativeDate) {
-        is DayInMonth -> selectDayIndex(
-            "Day",
-            param,
-            relativeDate.dayIndex,
-            0,
-            calendar.getMinDaysPerMonth() - 1,
-        )
-
-        is DayInYear -> {
-            selectMonthIndex("Month", param, calendar, relativeDate.monthIndex)
-            selectDayIndex(
-                "Day",
-                param,
-                calendar,
-                relativeDate.monthIndex,
-                relativeDate.dayIndex,
-            )
-        }
-
-        is WeekdayInMonth -> {
-            selectMonthIndex("Month", param, calendar, relativeDate.monthIndex)
-            when (calendar.days) {
-                DayOfTheMonth -> error("WeekdayInMonth doesn't support DayOfTheMonth!")
-                is Weekdays -> selectWithIndex(
-                    "Weekday",
-                    combine(param, DAY),
-                    calendar.days.weekDays
-                ) { index, weekday ->
-                    label = weekday.name
-                    value = index.toString()
-                    selected = relativeDate.weekdayIndex == index
-                }
-            }
-            selectInt("Week", relativeDate.weekInMonthIndex, 0, 2, 1, combine(param, WEEK))
-        }
-    }
-}
