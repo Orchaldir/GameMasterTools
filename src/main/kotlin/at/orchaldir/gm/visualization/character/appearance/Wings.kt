@@ -42,6 +42,11 @@ private fun visualizeWing(state: CharacterRenderState, wing: Wing, side: Side) =
 
 private fun visualizeButterflyWing(state: CharacterRenderState, wing: ButterflyWing, side: Side) {
     val options = FillAndBorder(wing.color.toRender(), state.config.line)
+    val layer = if (state.renderFront) {
+        WING_LAYER
+    } else {
+        -WING_LAYER
+    }
 
     val polygon = if (side == Side.Right) {
         createRightButterflyWing(state)
@@ -49,12 +54,12 @@ private fun visualizeButterflyWing(state: CharacterRenderState, wing: ButterflyW
         state.aabb.mirrorVertically(createRightButterflyWing(state))
     }
 
-    state.renderer.getLayer(WING_LAYER).renderRoundedPolygon(polygon, options)
+    state.renderer.getLayer(layer).renderRoundedPolygon(polygon, options)
 }
 
 private fun createRightButterflyWing(state: CharacterRenderState): Polygon2d {
     val builder = Polygon2dBuilder()
-    val startX = Factor(0.6f)
+    val startX = Factor(0.55f)
     val centerX = Factor(0.7f)
 
     builder.addPoint(state.aabb, startX, CENTER)
