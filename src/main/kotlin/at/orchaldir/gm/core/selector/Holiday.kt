@@ -4,12 +4,17 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.CalendarId
 import at.orchaldir.gm.core.model.calendar.resolve
 import at.orchaldir.gm.core.model.holiday.HolidayId
+import at.orchaldir.gm.core.model.holiday.HolidayOfGod
+import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.time.Day
 
 fun State.canDelete(holiday: HolidayId) = getCultures(holiday).isEmpty()
 
 fun State.getHolidays(calendar: CalendarId) = getHolidayStorage().getAll()
     .filter { it.calendar == calendar }
+
+fun State.getHolidays(god: GodId) = getHolidayStorage().getAll()
+    .filter { it.purpose is HolidayOfGod && it.purpose.god == god }
 
 fun State.getForHolidays(day: Day) = getHolidayStorage().getAll().filter { holiday ->
     val calendar = getCalendarStorage().getOrThrow(holiday.calendar)

@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
+import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.core.selector.util.sortDomains
 import at.orchaldir.gm.core.selector.world.getHeartPlane
 import io.ktor.http.*
@@ -37,6 +38,10 @@ fun HtmlBlockTag.showGod(
     }
 
     optionalFieldLink("Heart Plane", call, state, state.getHeartPlane(god.id)?.id)
+
+    showList("Holidays", state.getHolidays(god.id)) { holiday ->
+        link(call, state, holiday)
+    }
 }
 
 // edit
