@@ -134,7 +134,7 @@ fun FORM.editRaceAppearance(
     selectRarityMap("Layout", combine(EARS, LAYOUT), appearance.earsLayout, true)
 
     if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
-        selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes, true)
+        selectRarityMap("Ear Shapes", combine(EAR, SHAPE), appearance.earShapes, true)
     }
 
     h3 { +"Eyes" }
@@ -243,7 +243,7 @@ fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppea
         parseOneOf(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf, SkinColor.entries),
         parseOneOf(parameters, EXOTIC_SKIN_COLOR, Color::valueOf, Color.entries),
         parseOneOf(parameters, combine(EARS, LAYOUT), EarsLayout::valueOf),
-        parseOneOf(parameters, EAR_SHAPE, EarShape::valueOf, EarShape.entries),
+        parseOneOf(parameters, combine(EAR, SHAPE), EarShape::valueOf, EarShape.entries),
         parseOneOf(parameters, combine(EYES, LAYOUT), EyesLayout::valueOf),
         parseEyeOptions(parameters),
         parseFootOptions(parameters),

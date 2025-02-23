@@ -217,17 +217,17 @@ private fun FORM.editHead(
 
 private fun FORM.editEars(raceAppearance: RaceAppearance, ears: Ears) {
     h2 { +"Ears" }
-    selectOneOf("Type", EAR_TYPE, raceAppearance.earsLayout, ears.getType(), true) { type ->
+    selectOneOf("Type", combine(EAR, TYPE), raceAppearance.earsLayout, ears.getType(), true) { type ->
         label = type.name
         value = type.toString()
     }
     when (ears) {
         is NormalEars -> {
-            selectOneOf("Ear Shape", EAR_SHAPE, raceAppearance.earShapes, ears.shape, true) { shape ->
+            selectOneOf("Ear Shape", combine(EAR, SHAPE), raceAppearance.earShapes, ears.shape, true) { shape ->
                 label = shape.name
                 value = shape.toString()
             }
-            selectValue("Ear Size", EAR_SIZE, Size.entries, ears.size, true)
+            selectValue("Ear Size", combine(EAR, SIZE), Size.entries, ears.size, true)
         }
 
         else -> doNothing()

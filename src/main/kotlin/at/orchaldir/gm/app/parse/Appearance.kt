@@ -146,11 +146,11 @@ private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig
 }
 
 private fun parseEars(parameters: Parameters, config: AppearanceGeneratorConfig): Ears {
-    return when (parameters[EAR_TYPE]) {
+    return when (parameters[combine(EAR, TYPE)]) {
         EarsLayout.NoEars.toString() -> NoEars
         EarsLayout.NormalEars.toString() -> {
-            val shape = parse(parameters, EAR_SHAPE, EarShape.Round)
-            val size = parse(parameters, EAR_SIZE, Size.Medium)
+            val shape = parse(parameters, combine(EAR, SHAPE), EarShape.Round)
+            val size = parse(parameters, combine(EAR, SIZE), Size.Medium)
             return NormalEars(shape, size)
         }
 
