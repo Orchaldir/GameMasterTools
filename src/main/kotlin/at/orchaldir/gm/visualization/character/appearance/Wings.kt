@@ -41,23 +41,31 @@ private fun visualizeWing(state: CharacterRenderState, wing: Wing, side: Side) =
 }
 
 private fun visualizeButterflyWing(state: CharacterRenderState, wing: ButterflyWing, side: Side) {
-    if (side == Side.Right) {
-        val builder = Polygon2dBuilder()
-        val startX = Factor(0.6f)
-        val centerX = Factor(0.7f)
+    val options = FillAndBorder(wing.color.toRender(), state.config.line)
 
-        builder.addPoint(state.aabb, startX, CENTER)
-        builder.addPoint(state.aabb, startX, START)
-        builder.addPoint(state.aabb, END, START)
-        builder.addPoint(state.aabb, END, CENTER)
-        builder.addPoint(state.aabb, centerX, CENTER)
-        builder.addPoint(state.aabb, END, CENTER)
-        builder.addPoint(state.aabb, END, END)
-        builder.addPoint(state.aabb, startX, END)
-
-        val polygon = builder.build()
-
-        val options = FillAndBorder(wing.color.toRender(), state.config.line)
-        state.renderer.getLayer(WING_LAYER).renderRoundedPolygon(polygon, options)
+    val polygon = if (side == Side.Right) {
+        createRightButterflyWing(state)
+    } else {
+        state.aabb.mirrorVertically(createRightButterflyWing(state))
     }
+
+    state.renderer.getLayer(WING_LAYER).renderRoundedPolygon(polygon, options)
+}
+
+private fun createRightButterflyWing(state: CharacterRenderState): Polygon2d {
+    val builder = Polygon2dBuilder()
+    val startX = Factor(0.6f)
+    val centerX = Factor(0.7f)
+
+    builder.addPoint(state.aabb, startX, CENTER)
+    builder.addPoint(state.aabb, startX, START)
+    builder.addPoint(state.aabb, END, START)
+    builder.addPoint(state.aabb, END, CENTER)
+    builder.addPoint(state.aabb, centerX, CENTER)
+    builder.addPoint(state.aabb, END, CENTER)
+    builder.addPoint(state.aabb, END, END)
+    builder.addPoint(state.aabb, startX, END)
+
+    val polygon = builder.build()
+    return polygon
 }
