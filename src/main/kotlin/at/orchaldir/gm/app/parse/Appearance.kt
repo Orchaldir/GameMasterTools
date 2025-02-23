@@ -246,7 +246,7 @@ private fun parseMouth(
 }
 
 private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig): Skin {
-    return when (parameters[SKIN_TYPE]) {
+    return when (parameters[combine(SKIN, TYPE)]) {
         SkinType.Fur.toString() -> {
             return Fur(parseExoticColor(parameters))
         }
@@ -260,7 +260,7 @@ private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig)
         }
 
         SkinType.Normal.toString() -> {
-            val color = parse(parameters, SKIN_COLOR, SkinColor.Medium)
+            val color = parse(parameters, combine(SKIN, COLOR), SkinColor.Medium)
             return NormalSkin(color)
         }
 
@@ -269,7 +269,7 @@ private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig)
 }
 
 private fun parseExoticColor(parameters: Parameters) =
-    parse(parameters, SKIN_EXOTIC_COLOR, Color.Red)
+    parse(parameters, combine(SKIN, EXOTIC, COLOR), Color.Red)
 
 private fun parseWings(
     parameters: Parameters,

@@ -185,20 +185,20 @@ fun FORM.editRaceAppearance(
 
     h3 { +"Skin" }
 
-    selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes, true)
+    selectRarityMap("Type", combine(SKIN, TYPE), appearance.skinTypes, true)
 
     if (appearance.skinTypes.isAvailable(SkinType.Fur)) {
-        selectRarityMap("Fur Colors", FUR_COLOR, appearance.furColors, true)
+        selectRarityMap("Fur Colors", combine(FUR, COLOR), appearance.furColors, true)
     }
 
     if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
-        selectRarityMap("Scale Colors", SCALE_COLOR, appearance.scalesColors, true)
+        selectRarityMap("Scale Colors", combine(SCALE, COLOR), appearance.scalesColors, true)
     }
 
     if (appearance.skinTypes.isAvailable(SkinType.Normal)) {
         selectRarityMap(
             "Normal Skin Colors",
-            NORMAL_SKIN_COLOR,
+            combine(NORMAL, SKIN, COLOR),
             appearance.normalSkinColors,
             true,
         )
@@ -207,7 +207,7 @@ fun FORM.editRaceAppearance(
     if (appearance.skinTypes.isAvailable(SkinType.Exotic)) {
         selectRarityMap(
             "Exotic Skin Colors",
-            EXOTIC_SKIN_COLOR,
+            combine(EXOTIC, SKIN, COLOR),
             appearance.exoticSkinColors,
             true,
         )
@@ -237,11 +237,11 @@ fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppea
         id,
         name,
         parseOneOf(parameters, APPEARANCE, AppearanceType::valueOf),
-        parseOneOf(parameters, SKIN_TYPE, SkinType::valueOf),
-        parseOneOf(parameters, FUR_COLOR, Color::valueOf, Color.entries),
-        parseOneOf(parameters, SCALE_COLOR, Color::valueOf, Color.entries),
-        parseOneOf(parameters, NORMAL_SKIN_COLOR, SkinColor::valueOf, SkinColor.entries),
-        parseOneOf(parameters, EXOTIC_SKIN_COLOR, Color::valueOf, Color.entries),
+        parseOneOf(parameters, combine(SKIN, TYPE), SkinType::valueOf),
+        parseOneOf(parameters, combine(FUR, COLOR), Color::valueOf, Color.entries),
+        parseOneOf(parameters, combine(SCALE, COLOR), Color::valueOf, Color.entries),
+        parseOneOf(parameters, combine(NORMAL, SKIN, COLOR), SkinColor::valueOf, SkinColor.entries),
+        parseOneOf(parameters, combine(EXOTIC, SKIN, COLOR), Color::valueOf, Color.entries),
         parseOneOf(parameters, combine(EARS, LAYOUT), EarsLayout::valueOf),
         parseOneOf(parameters, combine(EAR, SHAPE), EarShape::valueOf, EarShape.entries),
         parseOneOf(parameters, combine(EYE, LAYOUT), EyesLayout::valueOf),

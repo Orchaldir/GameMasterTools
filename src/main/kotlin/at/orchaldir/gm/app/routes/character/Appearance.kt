@@ -239,16 +239,16 @@ private fun FORM.editSkin(
     skin: Skin,
 ) {
     h2 { +"Skin" }
-    selectOneOf("Type", SKIN_TYPE, raceAppearance.skinTypes, skin.getType(), true) { type ->
+    selectOneOf("Type", combine(SKIN, TYPE), raceAppearance.skinTypes, skin.getType(), true) { type ->
         label = type.name
         value = type.toString()
     }
     when (skin) {
-        is Fur -> selectColor("Color", SKIN_EXOTIC_COLOR, raceAppearance.furColors, skin.color)
-        is Scales -> selectColor("Color", SKIN_EXOTIC_COLOR, raceAppearance.scalesColors, skin.color)
-        is ExoticSkin -> selectColor("Color", SKIN_EXOTIC_COLOR, raceAppearance.exoticSkinColors, skin.color)
+        is Fur -> selectColor("Color", combine(SKIN, EXOTIC, COLOR), raceAppearance.furColors, skin.color)
+        is Scales -> selectColor("Color", combine(SKIN, EXOTIC, COLOR), raceAppearance.scalesColors, skin.color)
+        is ExoticSkin -> selectColor("Color", combine(SKIN, EXOTIC, COLOR), raceAppearance.exoticSkinColors, skin.color)
         is NormalSkin -> {
-            selectOneOf("Color", SKIN_COLOR, raceAppearance.normalSkinColors, skin.color, true) { skinColor ->
+            selectOneOf("Color", combine(SKIN, COLOR), raceAppearance.normalSkinColors, skin.color, true) { skinColor ->
                 label = skinColor.name
                 value = skinColor.toString()
                 val bgColor = CHARACTER_CONFIG.getSkinColor(skinColor).toCode()
