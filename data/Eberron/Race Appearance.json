@@ -25,10 +25,10 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
-    "pupilShapes": {
-     "Circle": "Common"
+    "eyeTypes": {
+     "Normal": "Common"
     },
-    "pupilColors": {
+    "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
      "Gray": "Rare",
@@ -40,6 +40,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "White": "Common"
@@ -85,16 +88,13 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
+    "eyeTypes": {
+     "Simple": "Common"
+    },
     "eyeShapes": {
      "Circle": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
-    "pupilColors": {
-     "White": "Common"
-    },
-    "scleraColors": {
+    "eyeColors": {
      "White": "Common"
     }
    },
@@ -137,13 +137,13 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
+    "eyeTypes": {
+     "Normal": "Common"
+    },
     "eyeShapes": {
      "Circle": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
-    "pupilColors": {
+    "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
      "Gray": "Rare",
@@ -155,6 +155,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "White": "Common"
@@ -199,16 +202,13 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
+    "eyeTypes": {
+     "Simple": "Common"
+    },
     "eyeShapes": {
      "Circle": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
-    "pupilColors": {
-     "Aqua": "Common"
-    },
-    "scleraColors": {
+    "eyeColors": {
      "Aqua": "Common"
     }
    },
@@ -247,10 +247,10 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
-    "pupilShapes": {
-     "Circle": "Common"
+    "eyeTypes": {
+     "Normal": "Common"
     },
-    "pupilColors": {
+    "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
      "Gray": "Rare",
@@ -262,6 +262,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "White": "Common"
@@ -311,10 +314,10 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
-    "pupilShapes": {
-     "VerticalSlit": "Common"
+    "eyeTypes": {
+     "Normal": "Common"
     },
-    "pupilColors": {
+    "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
      "Gray": "Rare",
@@ -327,8 +330,20 @@
      "Silver": "Common",
      "Teal": "Common"
     },
+    "pupilShapes": {
+     "VerticalSlit": "Common"
+    },
     "scleraColors": {
      "White": "Common"
+    }
+   },
+   "footOptions": {
+    "footTypes": {
+     "Clawed": "Common"
+    },
+    "clawNumber": 4,
+    "clawSizes": {
+     "Small": "Common"
     }
    },
    "hairOptions": {
@@ -376,13 +391,13 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
+    "eyeTypes": {
+     "Normal": "Common"
+    },
     "eyeShapes": {
      "Ellipse": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
-    "pupilColors": {
+    "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
      "Gray": "Rare",
@@ -394,6 +409,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "Gold": "Common",
@@ -433,16 +451,13 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
+    "eyeTypes": {
+     "Simple": "Common"
+    },
     "eyeShapes": {
      "Circle": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
-    "pupilColors": {
-     "Silver": "Common"
-    },
-    "scleraColors": {
+    "eyeColors": {
      "Silver": "Common"
     }
    },
@@ -483,18 +498,26 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
+    "eyeTypes": {
+     "Normal": "Common"
+    },
     "eyeShapes": {
      "Circle": "Common"
+    },
+    "eyeColors": {
+     "Black": "Common"
     },
     "pupilShapes": {
      "VerticalSlit": "Common"
     },
-    "pupilColors": {
-     "Black": "Common"
-    },
     "scleraColors": {
      "Crimson": "Rare",
      "Gold": "Common"
+    }
+   },
+   "footOptions": {
+    "footTypes": {
+     "Clawed": "Common"
     }
    },
    "hairOptions": {
@@ -533,13 +556,13 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
+    "eyeTypes": {
+     "Normal": "Common"
+    },
     "eyeShapes": {
      "Circle": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
-    "pupilColors": {
+    "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
      "Gray": "Rare",
@@ -551,6 +574,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "White": "Common"
@@ -617,16 +643,13 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
+    "eyeTypes": {
+     "Simple": "Common"
+    },
     "eyeShapes": {
      "Circle": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
-    "pupilColors": {
-     "Crimson": "Common"
-    },
-    "scleraColors": {
+    "eyeColors": {
      "Crimson": "Common"
     }
    },
@@ -664,13 +687,13 @@
     "TwoEyes": "Common"
    },
    "eyeOptions": {
+    "eyeTypes": {
+     "Normal": "Common"
+    },
     "eyeShapes": {
      "Ellipse": "Common"
     },
-    "pupilShapes": {
-     "Circle": "Common"
-    },
-    "pupilColors": {
+    "eyeColors": {
      "Aqua": "Common",
      "Blue": "Common",
      "Gray": "Rare",
@@ -682,6 +705,9 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
     },
     "scleraColors": {
      "Gold": "Common",
@@ -701,6 +727,98 @@
    },
    "mouthTypes": {
     "NormalMouth": "Common"
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Harpy",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Normal": "Common"
+   },
+   "normalSkinColors": {
+    "Fair": "Uncommon",
+    "Light": "Common",
+    "Medium": "Uncommon"
+   },
+   "earsLayout": {
+    "NormalEars": "Common"
+   },
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeTypes": {
+     "Normal": "Common"
+    },
+    "eyeShapes": {
+     "Circle": "Common"
+    },
+    "eyeColors": {
+     "Aqua": "Common",
+     "Blue": "Common",
+     "Gray": "Rare",
+     "Green": "Common",
+     "Navy": "Common",
+     "Olive": "Common",
+     "Purple": "VeryRare",
+     "Red": "VeryRare",
+     "SaddleBrown": "Common",
+     "Silver": "Common",
+     "Teal": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "scleraColors": {
+     "White": "Common"
+    }
+   },
+   "footOptions": {
+    "footTypes": {
+     "Clawed": "Common"
+    },
+    "clawColors": {
+     "Black": "Common",
+     "Gold": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "Normal": "Common"
+    },
+    "hairTypes": {
+     "Normal": "Common"
+    },
+    "colors": {
+     "Black": "Common",
+     "Maroon": "Rare",
+     "Orange": "Rare",
+     "Red": "Rare",
+     "SaddleBrown": "Common",
+     "Yellow": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   },
+   "wingOptions": {
+    "layouts": {
+     "Two": "Common"
+    },
+    "birdColors": {
+     "DimGray": "Common",
+     "Gold": "Rare",
+     "Gray": "Common",
+     "LightGray": "Common",
+     "Maroon": "Common",
+     "SaddleBrown": "Common"
+    }
    }
   }
  }

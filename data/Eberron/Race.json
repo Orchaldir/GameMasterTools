@@ -457,7 +457,7 @@
    },
    "lifeStages": {
     "type": "Default",
-    "appearance": 2,
+    "appearance": 12,
     "maxAges": [
      2,
      5,

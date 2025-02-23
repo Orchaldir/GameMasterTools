@@ -1,6 +1,10 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance
 
-import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.Appearance
+import at.orchaldir.gm.core.model.character.appearance.ExoticSkin
+import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.character.appearance.HeadOnly
+import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
@@ -11,7 +15,7 @@ fun main() {
 
     PupilShape.entries.forEach { pupilShape ->
         EyeShape.entries.forEach { eyeShape ->
-            appearances.add(createRow(Eye(eyeShape, pupilShape)))
+            appearances.add(createRow(NormalEye(eyeShape, pupilShape)))
         }
     }
 

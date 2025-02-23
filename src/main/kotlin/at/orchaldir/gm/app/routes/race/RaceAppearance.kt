@@ -1,9 +1,10 @@
 package at.orchaldir.gm.app.routes.race
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parseRaceAppearance
+import at.orchaldir.gm.app.html.model.race.editRaceAppearance
+import at.orchaldir.gm.app.html.model.race.parseRaceAppearance
+import at.orchaldir.gm.app.html.model.race.showRaceAppearance
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.core.action.CloneRaceAppearance
 import at.orchaldir.gm.core.action.CreateRaceAppearance
@@ -12,13 +13,7 @@ import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.character.appearance.EarsLayout
-import at.orchaldir.gm.core.model.character.appearance.EyesLayout
-import at.orchaldir.gm.core.model.character.appearance.SkinType
-import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
-import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
-import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getRaces
@@ -155,7 +150,9 @@ private fun HTML.showDetails(
         split({
             field("Name", appearance.name)
             h2 { +"Options" }
-            showAppearanceOptions(appearance, eyeOptions)
+
+            showRaceAppearance(appearance, eyeOptions)
+
             h2 { +"Races" }
             showList(state.getRaces(appearance.id)) { race ->
                 link(call, race)
@@ -195,55 +192,6 @@ private fun HtmlBlockTag.showRandomExamples(
     }
 }
 
-private fun HtmlBlockTag.showAppearanceOptions(
-    appearance: RaceAppearance,
-    eyeOptions: EyeOptions,
-) {
-    showRarityMap("Type", appearance.appearanceTypes)
-
-    h3 { +"Skin" }
-
-    showRarityMap("Type", appearance.skinTypes)
-
-    if (appearance.skinTypes.isAvailable(SkinType.Fur)) {
-        showRarityMap("Fur Colors", appearance.furColors)
-    }
-
-    if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
-        showRarityMap("Scale Colors", appearance.scalesColors)
-    }
-
-    if (appearance.skinTypes.isAvailable(SkinType.Normal)) {
-        showRarityMap("Normal Skin Colors", appearance.normalSkinColors)
-    }
-
-    if (appearance.skinTypes.isAvailable(SkinType.Exotic)) {
-        showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
-    }
-
-    h3 { +"Ears" }
-    showRarityMap("Layout", appearance.earsLayout)
-    if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
-        showRarityMap("Ear Shapes", appearance.earShapes)
-    }
-    h3 { +"Eyes" }
-    showRarityMap("Layout", appearance.eyesLayout)
-    if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
-        showRarityMap("Eye Shapes", eyeOptions.eyeShapes)
-        showRarityMap("Pupil Shape", eyeOptions.pupilShapes)
-        showRarityMap("Pupil Colors", eyeOptions.pupilColors)
-        showRarityMap("Sclera Colors", eyeOptions.scleraColors)
-    }
-    h3 { +"Hair" }
-    showRarityMap("Beard", appearance.hairOptions.beardTypes)
-    showRarityMap("Hair", appearance.hairOptions.hairTypes)
-    if (requiresHairColor(appearance)) {
-        showRarityMap("Colors", appearance.hairOptions.colors)
-    }
-    h3 { +"Mouth" }
-    showRarityMap("Types", appearance.mouthTypes)
-}
-
 private fun HTML.showEditor(
     call: ApplicationCall,
     state: State,
@@ -265,7 +213,7 @@ private fun HTML.showEditor(
 
                 h2 { +"Options" }
 
-                editAppearanceOptions(appearance, eyeOptions)
+                editRaceAppearance(appearance, eyeOptions)
 
                 button("Update", updateLink)
             }
@@ -275,69 +223,6 @@ private fun HTML.showEditor(
         })
     }
 }
-
-private fun FORM.editAppearanceOptions(
-    appearance: RaceAppearance,
-    eyeOptions: EyeOptions,
-) {
-    selectRarityMap("Type", APPEARANCE, appearance.appearanceTypes, true)
-
-    h3 { +"Skin" }
-
-    selectRarityMap("Type", SKIN_TYPE, appearance.skinTypes, true)
-
-    if (appearance.skinTypes.isAvailable(SkinType.Fur)) {
-        selectRarityMap("Fur Colors", FUR_COLOR, appearance.furColors, true)
-    }
-
-    if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
-        selectRarityMap("Scale Colors", SCALE_COLOR, appearance.scalesColors, true)
-    }
-
-    if (appearance.skinTypes.isAvailable(SkinType.Normal)) {
-        selectRarityMap(
-            "Normal Skin Colors",
-            NORMAL_SKIN_COLOR,
-            appearance.normalSkinColors,
-            true,
-        )
-    }
-
-    if (appearance.skinTypes.isAvailable(SkinType.Exotic)) {
-        selectRarityMap(
-            "Exotic Skin Colors",
-            EXOTIC_SKIN_COLOR,
-            appearance.exoticSkinColors,
-            true,
-        )
-    }
-
-    h3 { +"Ears" }
-    selectRarityMap("Layout", combine(EARS, LAYOUT), appearance.earsLayout, true)
-    if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
-        selectRarityMap("Ear Shapes", EAR_SHAPE, appearance.earShapes, true)
-    }
-    h3 { +"Eyes" }
-    selectRarityMap("Layout", combine(EYES, LAYOUT), appearance.eyesLayout, true)
-    if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
-        selectRarityMap("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes, true)
-        selectRarityMap("Pupil Shape", PUPIL_SHAPE, eyeOptions.pupilShapes, true)
-        selectRarityMap("Pupil Colors", PUPIL_COLOR, eyeOptions.pupilColors, true)
-        selectRarityMap("Sclera Colors", SCLERA_COLOR, eyeOptions.scleraColors, true)
-    }
-    h3 { +"Hair" }
-    selectRarityMap("Beard", BEARD, appearance.hairOptions.beardTypes, true)
-    selectRarityMap("Hair", HAIR_TYPE, appearance.hairOptions.hairTypes, true)
-    if (requiresHairColor(appearance)) {
-        selectRarityMap("Colors", HAIR_COLOR, appearance.hairOptions.colors, true)
-    }
-    h3 { +"Mouth" }
-    selectRarityMap("Types", MOUTH_TYPE, appearance.mouthTypes, true)
-}
-
-private fun requiresHairColor(appearance: RaceAppearance) =
-    appearance.hairOptions.beardTypes.isAvailable(BeardType.Normal) ||
-            appearance.hairOptions.hairTypes.isAvailable(HairType.Normal)
 
 fun createGeneratorConfig(
     state: State,

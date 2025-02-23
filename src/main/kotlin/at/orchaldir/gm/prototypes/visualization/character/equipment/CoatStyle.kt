@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.Rectangle
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
+import at.orchaldir.gm.core.model.character.appearance.NormalFoot
 import at.orchaldir.gm.core.model.item.equipment.Coat
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength.Hip
@@ -51,7 +52,7 @@ private fun createCoat(
 
 private fun createAppearance(distance: Distance) =
     HumanoidBody(
-        Body(Rectangle, Size.Medium),
+        Body(Rectangle, NormalFoot, Size.Medium),
         Head(),
         distance,
     )

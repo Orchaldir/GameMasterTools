@@ -3,7 +3,9 @@ package at.orchaldir.gm.core.generator
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
+import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.util.RarityMap
@@ -28,6 +30,7 @@ data class AppearanceGeneratorConfig(
                 generateBody(this, skin),
                 generateHead(this, skin),
                 heightDistribution.center,
+                generateWings(this),
             )
 
             AppearanceType.HeadOnly -> HeadOnly(
@@ -45,9 +48,23 @@ data class AppearanceGeneratorConfig(
 
 fun generateBody(config: AppearanceGeneratorConfig, skin: Skin) = Body(
     config.select(getAvailableBodyShapes(config.gender)),
+    generateFoot(config),
     config.select(Size.entries),
     skin,
 )
+
+fun generateFoot(config: AppearanceGeneratorConfig): Foot {
+    val options = config.appearanceOptions.footOptions
+
+    return when (config.generate(options.footTypes)) {
+        FootType.Normal -> NormalFoot
+        FootType.Clawed -> ClawedFoot(
+            options.clawNumber,
+            config.generate(options.clawSizes),
+            config.generate(options.clawColors),
+        )
+    }
+}
 
 fun generateHead(config: AppearanceGeneratorConfig, skin: Skin): Head {
     val hair = generateHair(config)
@@ -115,12 +132,19 @@ fun generateEyes(config: AppearanceGeneratorConfig): Eyes {
 fun generateEye(config: AppearanceGeneratorConfig): Eye {
     val options = config.appearanceOptions.eyeOptions
 
-    return Eye(
-        config.generate(options.eyeShapes),
-        config.generate(options.pupilShapes),
-        config.generate(options.pupilColors),
-        config.generate(options.scleraColors),
-    )
+    return when (config.generate(options.eyeTypes)) {
+        EyeType.Simple -> SimpleEye(
+            config.generate(options.eyeShapes),
+            config.generate(options.eyeColors),
+        )
+
+        EyeType.Normal -> NormalEye(
+            config.generate(options.eyeShapes),
+            config.generate(options.pupilShapes),
+            config.generate(options.eyeColors),
+            config.generate(options.scleraColors),
+        )
+    }
 }
 
 fun generateHair(config: AppearanceGeneratorConfig): Hair {
@@ -177,5 +201,33 @@ fun generateSkin(config: AppearanceGeneratorConfig): Skin {
         SkinType.Scales -> Scales(config.generate(options.scalesColors))
         SkinType.Normal -> NormalSkin(config.generate(options.normalSkinColors))
         SkinType.Exotic -> ExoticSkin(config.generate(options.exoticSkinColors))
+    }
+}
+
+fun generateWings(config: AppearanceGeneratorConfig): Wings {
+    val options = config.appearanceOptions.wingOptions
+
+    return when (config.generate(options.layouts)) {
+        WingsLayout.None -> NoWings
+        WingsLayout.One -> OneWing(
+            generateWing(config),
+            Side.Right,
+        )
+
+        WingsLayout.Two -> TwoWings(generateWing(config))
+        WingsLayout.Different -> DifferentWings(
+            generateWing(config),
+            generateWing(config),
+        )
+    }
+}
+
+fun generateWing(config: AppearanceGeneratorConfig): Wing {
+    val options = config.appearanceOptions.wingOptions
+
+    return when (config.generate(options.types)) {
+        WingType.Bat -> BatWing(config.generate(options.batColors))
+        WingType.Bird -> BirdWing(config.generate(options.birdColors))
+        WingType.Butterfly -> ButterflyWing(config.generate(options.butterflyColors))
     }
 }

@@ -117,7 +117,14 @@
    "date": {
     "type": "Year",
     "year": -1000
-   }
+   },
+   "memberRanks": [
+    {
+    },
+    {
+     "name": "Ranked Member"
+    }
+   ]
   },
   "11": {
    "id": 11,

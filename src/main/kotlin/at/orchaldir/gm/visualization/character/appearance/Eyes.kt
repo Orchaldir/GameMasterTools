@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.character.appearance
 
-import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
@@ -44,13 +45,13 @@ fun visualizeEyes(state: CharacterRenderState, head: Head) {
         NoEyes -> doNothing()
         is OneEye -> {
             val center = aabb.getPoint(CENTER, config.head.eyeY)
-            val size = config.head.eyes.getEyeSize(aabb, head.eyes.eye.eyeShape, head.eyes.size)
+            val size = config.head.eyes.getEyeSize(aabb, head.eyes.eye.getShape(), head.eyes.size)
 
             visualizeEye(state, center, size, head.eyes.eye)
         }
 
         is TwoEyes -> {
-            val size = config.head.eyes.getEyeSize(aabb, head.eyes.eye.eyeShape, Size.Small)
+            val size = config.head.eyes.getEyeSize(aabb, head.eyes.eye.getShape(), Size.Small)
             val distance = config.head.eyes.getDistanceBetweenEyes()
             val (left, right) = aabb.getMirroredPoints(distance, config.head.eyeY)
 
@@ -67,8 +68,14 @@ private fun visualizeEye(state: CharacterRenderState, center: Point2d, size: Siz
 }
 
 private fun visualizeEye(state: CharacterRenderState, eye: Eye) {
-    visualizeEyeShape(state, eye.eyeShape, eye.scleraColor)
-    visualizePupil(state, eye.pupilShape, eye.pupilColor)
+    when (eye) {
+        is NormalEye -> {
+            visualizeEyeShape(state, eye.eyeShape, eye.scleraColor)
+            visualizePupil(state, eye.pupilShape, eye.pupilColor)
+        }
+
+        is SimpleEye -> visualizeEyeShape(state, eye.eyeShape, eye.color)
+    }
 }
 
 private fun visualizeEyeShape(state: CharacterRenderState, eyeShape: EyeShape, color: Color) {

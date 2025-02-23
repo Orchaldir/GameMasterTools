@@ -12,7 +12,7 @@ import at.orchaldir.gm.visualization.character.equipment.visualizeBodyEquipment
 
 data class BodyConfig(
     val armWidth: Factor,
-    val footRadius: Factor,
+    val foot: FootConfig,
     val handRadius: Factor,
     val headHeight: Factor,
     val hipY: Factor,
@@ -51,7 +51,7 @@ data class BodyConfig(
 
     fun getArmSize(aabb: AABB, body: Body) = aabb.size.scale(getArmWidth(body), getArmHeight())
 
-    fun getFootRadius(body: Body) = getBodyWidth(body) * footRadius
+    fun getFootRadius(body: Body) = getBodyWidth(body) * foot.radius
 
     fun getFootY(body: Body) = END - getFootRadius(body)
 
@@ -229,33 +229,3 @@ fun visualizeLegs(state: CharacterRenderState, body: Body, options: RenderOption
         .renderRectangle(leftAabb, options)
         .renderRectangle(rightAabb, options)
 }
-
-fun visualizeFeet(
-    state: CharacterRenderState,
-    body: Body,
-    options: RenderOptions,
-) {
-    val layer = if (state.renderFront) {
-        MAIN_LAYER
-    } else {
-        BEHIND_LAYER
-    }
-    visualizeFeet(state, body, options, layer)
-}
-
-fun visualizeFeet(
-    state: CharacterRenderState,
-    body: Body,
-    options: RenderOptions,
-    layerIndex: Int,
-) {
-    val (left, right) = state.config.body.getMirroredLegPoint(state.aabb, body, END)
-    val radius = state.aabb.convertHeight(state.config.body.getFootRadius(body))
-    val offset = Orientation.fromDegree(0.0f)
-    val angle = Orientation.fromDegree(180.0f)
-    val layer = state.renderer.getLayer(layerIndex)
-
-    layer.renderCircleArc(left, radius, offset, angle, options)
-    layer.renderCircleArc(right, radius, offset, angle, options)
-}
-

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.race.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.OneOf
@@ -33,8 +34,10 @@ data class RaceAppearance(
     val earShapes: OneOf<EarShape> = OneOf(EarShape.entries),
     val eyesLayout: OneOf<EyesLayout> = OneOf(EyesLayout.entries),
     val eyeOptions: EyeOptions = EyeOptions(),
+    val footOptions: FootOptions = FootOptions(),
     val hairOptions: HairOptions = HairOptions(),
     val mouthTypes: OneOf<MouthType> = OneOf(MouthType.entries),
+    val wingOptions: WingOptions = WingOptions(),
 ) : ElementWithSimpleName<RaceAppearanceId> {
 
     override fun id() = id

@@ -1,9 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
-import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.character.appearance.BodyShape
-import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
+import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.Pants
 import at.orchaldir.gm.core.model.item.equipment.style.PantsStyle
 import at.orchaldir.gm.core.model.util.Color.Blue
@@ -27,7 +24,7 @@ fun main() {
 
 private fun createAppearance(distance: Distance, shape: BodyShape) =
     HumanoidBody(
-        Body(shape, Size.Medium),
+        Body(shape, NormalFoot, Size.Medium),
         Head(),
         distance,
     )

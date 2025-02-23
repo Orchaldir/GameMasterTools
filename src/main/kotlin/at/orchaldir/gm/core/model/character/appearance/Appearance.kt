@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.character.appearance
 
+import at.orchaldir.gm.core.model.character.appearance.wing.NoWings
+import at.orchaldir.gm.core.model.character.appearance.wing.Wings
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Size2d
 import kotlinx.serialization.SerialName
@@ -50,4 +52,5 @@ data class HumanoidBody(
     val body: Body,
     val head: Head,
     val height: Distance,
+    val wings: Wings = NoWings,
 ) : Appearance()
