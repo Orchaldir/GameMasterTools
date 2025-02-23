@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class WingOptions(
-    val layouts: OneOf<WingsLayout> = OneOf(WingsLayout.NoWings),
+    val layouts: OneOf<WingsLayout> = OneOf(WingsLayout.None),
     val types: OneOf<WingType> = OneOf(WingType.Bird),
     val batColors: OneOf<Color> = OneOf(DEFAULT_BAT_COLOR),
     val birdColors: OneOf<Color> = OneOf(DEFAULT_BIRD_COLOR),

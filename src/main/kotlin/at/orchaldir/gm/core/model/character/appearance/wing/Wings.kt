@@ -5,20 +5,20 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class WingsLayout {
-    NoWings,
-    OneWing,
-    TwoWings,
-    DifferentWings,
+    None,
+    One,
+    Two,
+    Different,
 }
 
 @Serializable
 sealed class Wings {
 
     fun getType() = when (this) {
-        NoWings -> WingsLayout.NoWings
-        is OneWing -> WingsLayout.OneWing
-        is TwoWings -> WingsLayout.TwoWings
-        is DifferentWings -> WingsLayout.DifferentWings
+        NoWings -> WingsLayout.None
+        is OneWing -> WingsLayout.One
+        is TwoWings -> WingsLayout.Two
+        is DifferentWings -> WingsLayout.Different
     }
 
 }
