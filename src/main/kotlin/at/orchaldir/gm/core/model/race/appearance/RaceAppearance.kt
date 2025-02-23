@@ -37,6 +37,7 @@ data class RaceAppearance(
     val footOptions: FootOptions = FootOptions(),
     val hairOptions: HairOptions = HairOptions(),
     val mouthTypes: OneOf<MouthType> = OneOf(MouthType.entries),
+    val wingOptions: WingOptions = WingOptions(),
 ) : ElementWithSimpleName<RaceAppearanceId> {
 
     override fun id() = id
