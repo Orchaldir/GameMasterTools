@@ -53,7 +53,9 @@ private fun visualizeWing(
 
     var polygon = createLeftWing(state)
 
-    if (side == Side.Right) {
+    if ((side == Side.Right && state.renderFront) ||
+        (side == Side.Left && !state.renderFront)
+    ) {
         polygon = state.aabb.mirrorVertically(polygon)
     }
 
