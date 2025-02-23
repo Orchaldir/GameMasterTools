@@ -30,8 +30,8 @@ data object NoWings : Wings()
 @Serializable
 @SerialName("One")
 data class OneWing(
-    val eye: Wing = BirdWing(),
-    val size: Side = Side.Left,
+    val wing: Wing = BirdWing(),
+    val side: Side = Side.Left,
 ) : Wings()
 
 @Serializable
