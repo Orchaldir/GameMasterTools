@@ -1,6 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance
 
-import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size

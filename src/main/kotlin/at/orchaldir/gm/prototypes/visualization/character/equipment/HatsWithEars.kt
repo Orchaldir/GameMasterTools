@@ -1,6 +1,9 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
-import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.EarShape
+import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.character.appearance.HeadOnly
+import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.MiddlePart
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair

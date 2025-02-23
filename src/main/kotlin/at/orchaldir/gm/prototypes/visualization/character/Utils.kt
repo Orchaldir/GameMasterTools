@@ -1,6 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character
 
-import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
 import at.orchaldir.gm.core.model.character.appearance.eye.NoEyes
