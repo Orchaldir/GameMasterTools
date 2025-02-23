@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.character.appearance.SkinType
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.character.appearance.eye.EyeType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
+import at.orchaldir.gm.core.model.character.appearance.wing.WingType
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
@@ -203,36 +204,6 @@ private fun HtmlBlockTag.showAppearanceOptions(
 ) {
     showRarityMap("Type", appearance.appearanceTypes)
 
-    h3 { +"Skin" }
-
-    showRarityMap("Type", appearance.skinTypes)
-
-    if (appearance.skinTypes.isAvailable(SkinType.Fur)) {
-        showRarityMap("Fur Colors", appearance.furColors)
-    }
-
-    if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
-        showRarityMap("Scale Colors", appearance.scalesColors)
-    }
-
-    if (appearance.skinTypes.isAvailable(SkinType.Normal)) {
-        showRarityMap("Normal Skin Colors", appearance.normalSkinColors)
-    }
-
-    if (appearance.skinTypes.isAvailable(SkinType.Exotic)) {
-        showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
-    }
-
-    h3 { +"Feet" }
-
-    showRarityMap("Type", appearance.footOptions.footTypes)
-
-    if (appearance.footOptions.footTypes.isAvailable(FootType.Clawed)) {
-        field("Number of Claws", appearance.footOptions.clawNumber)
-        showRarityMap("Claw Color", appearance.footOptions.clawColors)
-        showRarityMap("Claw Size", appearance.footOptions.clawSizes)
-    }
-
     h3 { +"Ears" }
 
     showRarityMap("Layout", appearance.earsLayout)
@@ -256,6 +227,16 @@ private fun HtmlBlockTag.showAppearanceOptions(
         }
     }
 
+    h3 { +"Feet" }
+
+    showRarityMap("Type", appearance.footOptions.footTypes)
+
+    if (appearance.footOptions.footTypes.isAvailable(FootType.Clawed)) {
+        field("Number of Claws", appearance.footOptions.clawNumber)
+        showRarityMap("Claw Color", appearance.footOptions.clawColors)
+        showRarityMap("Claw Size", appearance.footOptions.clawSizes)
+    }
+
     h3 { +"Hair" }
 
     showRarityMap("Beard", appearance.hairOptions.beardTypes)
@@ -268,6 +249,43 @@ private fun HtmlBlockTag.showAppearanceOptions(
     h3 { +"Mouth" }
 
     showRarityMap("Types", appearance.mouthTypes)
+
+    h3 { +"Skin" }
+
+    showRarityMap("Type", appearance.skinTypes)
+
+    if (appearance.skinTypes.isAvailable(SkinType.Fur)) {
+        showRarityMap("Fur Colors", appearance.furColors)
+    }
+
+    if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
+        showRarityMap("Scale Colors", appearance.scalesColors)
+    }
+
+    if (appearance.skinTypes.isAvailable(SkinType.Normal)) {
+        showRarityMap("Normal Skin Colors", appearance.normalSkinColors)
+    }
+
+    if (appearance.skinTypes.isAvailable(SkinType.Exotic)) {
+        showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
+    }
+
+    h3 { +"Wings" }
+
+    showRarityMap("Layout", appearance.wingOptions.layouts)
+    showRarityMap("Type", appearance.wingOptions.types)
+
+    if (appearance.wingOptions.types.isAvailable(WingType.Bat)) {
+        showRarityMap("Bat Wing Color", appearance.wingOptions.batColors)
+    }
+
+    if (appearance.wingOptions.types.isAvailable(WingType.Bird)) {
+        showRarityMap("Bird Wing Color", appearance.wingOptions.birdColors)
+    }
+
+    if (appearance.wingOptions.types.isAvailable(WingType.Butterfly)) {
+        showRarityMap("Butterfly Wing Color", appearance.wingOptions.butterflyColors)
+    }
 }
 
 private fun HTML.showEditor(

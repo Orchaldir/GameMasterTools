@@ -801,6 +801,14 @@
    "wingOptions": {
     "layouts": {
      "Two": "Common"
+    },
+    "birdColors": {
+     "DimGray": "Common",
+     "Gold": "Rare",
+     "Gray": "Common",
+     "LightGray": "Common",
+     "Maroon": "Common",
+     "SaddleBrown": "Common"
     }
    }
   }
