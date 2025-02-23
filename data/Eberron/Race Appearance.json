@@ -728,6 +728,81 @@
    "mouthTypes": {
     "NormalMouth": "Common"
    }
+  },
+  "12": {
+   "id": 12,
+   "name": "Harpy",
+   "appearanceTypes": {
+    "Body": "Common"
+   },
+   "skinTypes": {
+    "Normal": "Common"
+   },
+   "normalSkinColors": {
+    "Fair": "Uncommon",
+    "Light": "Common",
+    "Medium": "Uncommon"
+   },
+   "earsLayout": {
+    "NormalEars": "Common"
+   },
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "eyesLayout": {
+    "TwoEyes": "Common"
+   },
+   "eyeOptions": {
+    "eyeTypes": {
+     "Normal": "Common"
+    },
+    "eyeShapes": {
+     "Circle": "Common"
+    },
+    "eyeColors": {
+     "Aqua": "Common",
+     "Blue": "Common",
+     "Gray": "Rare",
+     "Green": "Common",
+     "Navy": "Common",
+     "Olive": "Common",
+     "Purple": "VeryRare",
+     "Red": "VeryRare",
+     "SaddleBrown": "Common",
+     "Silver": "Common",
+     "Teal": "Common"
+    },
+    "pupilShapes": {
+     "Circle": "Common"
+    },
+    "scleraColors": {
+     "White": "Common"
+    }
+   },
+   "hairOptions": {
+    "beardTypes": {
+     "Normal": "Common"
+    },
+    "hairTypes": {
+     "Normal": "Common"
+    },
+    "colors": {
+     "Black": "Common",
+     "Maroon": "Rare",
+     "Orange": "Rare",
+     "Red": "Rare",
+     "SaddleBrown": "Common",
+     "Yellow": "Common"
+    }
+   },
+   "mouthTypes": {
+    "NormalMouth": "Common"
+   },
+   "wingOptions": {
+    "layouts": {
+     "TwoWings": "Common"
+    }
+   }
   }
  }
 }
