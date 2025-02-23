@@ -328,14 +328,14 @@ private fun FORM.editEyes(
     eyes: Eyes,
 ) {
     h2 { +"Eyes" }
-    selectOneOf("Layout", combine(EYES, LAYOUT), raceAppearance.eyesLayout, eyes.getType(), true) { option ->
+    selectOneOf("Layout", combine(EYE, LAYOUT), raceAppearance.eyesLayout, eyes.getType(), true) { option ->
         label = option.name
         value = option.toString()
     }
     when (eyes) {
         is OneEye -> {
             editEye(raceAppearance.eyeOptions, eyes.eye)
-            selectValue("Eye Size", EYE_SIZE, Size.entries, eyes.size, true)
+            selectValue("Eye Size", combine(EYE, SIZE), Size.entries, eyes.size, true)
         }
 
         is TwoEyes -> {
@@ -350,13 +350,13 @@ private fun FORM.editEye(
     eyeOptions: EyeOptions,
     eye: Eye,
 ) {
-    selectOneOf("Eye Type", combine(EYES, TYPE), eyeOptions.eyeTypes, eye.getType(), true) { option ->
+    selectOneOf("Eye Type", combine(EYE, TYPE), eyeOptions.eyeTypes, eye.getType(), true) { option ->
         label = option.name
         value = option.toString()
     }
     when (eye) {
         is NormalEye -> {
-            selectOneOf("Eye Shape", EYE_SHAPE, eyeOptions.eyeShapes, eye.eyeShape, true) { shape ->
+            selectOneOf("Eye Shape", combine(EYE, SHAPE), eyeOptions.eyeShapes, eye.eyeShape, true) { shape ->
                 label = shape.name
                 value = shape.toString()
             }
@@ -369,7 +369,7 @@ private fun FORM.editEye(
         }
 
         is SimpleEye -> {
-            selectOneOf("Eye Shape", EYE_SHAPE, eyeOptions.eyeShapes, eye.eyeShape, true) { shape ->
+            selectOneOf("Eye Shape", combine(EYE, SHAPE), eyeOptions.eyeShapes, eye.eyeShape, true) { shape ->
                 label = shape.name
                 value = shape.toString()
             }

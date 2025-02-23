@@ -139,11 +139,11 @@ fun FORM.editRaceAppearance(
 
     h3 { +"Eyes" }
 
-    selectRarityMap("Layout", combine(EYES, LAYOUT), appearance.eyesLayout, true)
+    selectRarityMap("Layout", combine(EYE, LAYOUT), appearance.eyesLayout, true)
 
     if (!appearance.eyesLayout.isAvailable(EyesLayout.NoEyes)) {
-        selectRarityMap("Eye Types", combine(EYES, TYPE), eyeOptions.eyeTypes, true)
-        selectRarityMap("Eye Shapes", EYE_SHAPE, eyeOptions.eyeShapes, true)
+        selectRarityMap("Eye Types", combine(EYE, TYPE), eyeOptions.eyeTypes, true)
+        selectRarityMap("Eye Shapes", combine(EYE, SHAPE), eyeOptions.eyeShapes, true)
         selectRarityMap("Eye Colors", PUPIL_COLOR, eyeOptions.eyeColors, true)
 
         if (eyeOptions.eyeTypes.isAvailable(EyeType.Normal)) {
@@ -244,7 +244,7 @@ fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppea
         parseOneOf(parameters, EXOTIC_SKIN_COLOR, Color::valueOf, Color.entries),
         parseOneOf(parameters, combine(EARS, LAYOUT), EarsLayout::valueOf),
         parseOneOf(parameters, combine(EAR, SHAPE), EarShape::valueOf, EarShape.entries),
-        parseOneOf(parameters, combine(EYES, LAYOUT), EyesLayout::valueOf),
+        parseOneOf(parameters, combine(EYE, LAYOUT), EyesLayout::valueOf),
         parseEyeOptions(parameters),
         parseFootOptions(parameters),
         parseHairOptions(parameters),
@@ -254,8 +254,8 @@ fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppea
 }
 
 private fun parseEyeOptions(parameters: Parameters): EyeOptions {
-    val eyeTypes = parseOneOf(parameters, combine(EYES, TYPE), EyeType::valueOf, EyeType.entries)
-    val eyeShapes = parseOneOf(parameters, EYE_SHAPE, EyeShape::valueOf, EyeShape.entries)
+    val eyeTypes = parseOneOf(parameters, combine(EYE, TYPE), EyeType::valueOf, EyeType.entries)
+    val eyeShapes = parseOneOf(parameters, combine(EYE, SHAPE), EyeShape::valueOf, EyeShape.entries)
     val pupilShapes = parseOneOf(parameters, PUPIL_SHAPE, PupilShape::valueOf, PupilShape.entries)
     val eyeColors = parseOneOf(parameters, PUPIL_COLOR, Color::valueOf, Color.entries)
     val scleraColors = parseOneOf(parameters, SCLERA_COLOR, Color::valueOf, Color.entries)
