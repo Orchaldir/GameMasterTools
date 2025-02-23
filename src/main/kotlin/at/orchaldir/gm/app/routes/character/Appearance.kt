@@ -17,10 +17,12 @@ import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.SidePart
+import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.FootOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.model.race.appearance.WingOptions
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.getRaceAppearance
@@ -142,6 +144,7 @@ private fun HTML.showAppearanceEditor(
                         editBody(raceAppearance, character, appearance.body)
                         editHead(raceAppearance, culture, appearance.head)
                         editSkin(raceAppearance, appearance.head.skin)
+                        editWings(raceAppearance, appearance.wings)
                     }
 
                     UndefinedAppearance -> doNothing()
@@ -439,4 +442,57 @@ private fun FORM.editMouth(
 private fun FORM.editSimpleMouth(size: Size, teethColor: TeethColor) {
     selectValue("Width", MOUTH_WIDTH, Size.entries, size, true)
     selectValue("Teeth Color", TEETH_COLOR, TeethColor.entries, teethColor, true)
+}
+
+private fun FORM.editWings(
+    raceAppearance: RaceAppearance,
+    wings: Wings,
+) {
+    val wingOptions = raceAppearance.wingOptions
+
+    h2 { +"Wings" }
+
+    selectOneOf("Layout", combine(WING, LAYOUT), wingOptions.layouts, wings.getType(), true) { layout ->
+        label = layout.name
+        value = layout.toString()
+    }
+
+    when (wings) {
+        NoWings -> doNothing()
+        is OneWing -> {
+            editWing(wingOptions, wings.wing, WING)
+            selectValue("Wing Side", combine(WING, SIDE), Side.entries, wings.side, true)
+        }
+
+        is TwoWings -> editWing(wingOptions, wings.wing, WING)
+        is DifferentWings -> {
+            editWing(wingOptions, wings.left, combine(LEFT, WING))
+            editWing(wingOptions, wings.right, combine(RIGHT, WING))
+        }
+    }
+}
+
+private fun FORM.editWing(
+    wingOptions: WingOptions,
+    wing: Wing,
+    param: String,
+) {
+    selectWingType(wingOptions, wing.getType(), combine(param, TYPE))
+
+    when (wing) {
+        is BatWing -> selectColor("Wing Color", combine(param, COLOR), wingOptions.batColors, wing.color)
+        is BirdWing -> selectColor("Wing Color", combine(param, COLOR), wingOptions.birdColors, wing.color)
+        is ButterflyWing -> selectColor("Wing Color", combine(param, COLOR), wingOptions.butterflyColors, wing.color)
+    }
+}
+
+private fun FORM.selectWingType(
+    wingOptions: WingOptions,
+    currentType: WingType,
+    param: String,
+) {
+    selectOneOf("Type", param, wingOptions.types, currentType, true) { type ->
+        label = type.name
+        value = type.toString()
+    }
 }
