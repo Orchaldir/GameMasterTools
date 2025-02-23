@@ -30,11 +30,11 @@ data class BatWing(
 @Serializable
 @SerialName("Bird")
 data class BirdWing(
-    val color: Color = Color.White,
+    val color: Color = Color.LightGray,
 ) : Wing()
 
 @Serializable
 @SerialName("Butterfly")
 data class ButterflyWing(
-    val color: Color = Color.White,
+    val color: Color = Color.SkyBlue,
 ) : Wing()

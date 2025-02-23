@@ -8,6 +8,7 @@ const val EQUIPMENT_LAYER = 2
 const val LOWER_EQUIPMENT_LAYER = 1
 const val MAIN_LAYER = 0
 const val BEHIND_LAYER = -20
+const val WING_LAYER = -30
 
 fun getArmLayer(layer: Int, isFront: Boolean) = if (isFront) {
     layer
