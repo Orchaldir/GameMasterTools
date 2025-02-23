@@ -71,9 +71,9 @@ private fun createRightBatWing(state: CharacterRenderState): Polygon2d {
     builder.addPoint(state.aabb, Factor(0.8f), Factor(0.3f))
     builder.addPoint(state.aabb, Factor(0.7f), START, true)
     builder.addPoint(state.aabb, END, Factor(0.3f))
-    builder.addPoint(state.aabb, END, END, true)
+    builder.addPoint(state.aabb, Factor(0.9f), END, true)
     builder.addPoint(state.aabb, Factor(0.85f), Factor(0.6f))
-    builder.addPoint(state.aabb, Factor(0.8f), Factor(0.9f), true)
+    builder.addPoint(state.aabb, Factor(0.7f), Factor(0.9f), true)
     builder.addPoint(state.aabb, Factor(0.7f), Factor(0.6f))
     builder.addPoint(state.aabb, startX, Factor(0.4f), true)
 
