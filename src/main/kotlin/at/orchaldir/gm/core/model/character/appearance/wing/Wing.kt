@@ -24,7 +24,7 @@ sealed class Wing {
 @Serializable
 @SerialName("Bat")
 data class BatWing(
-    val color: Color = Color.Black,
+    val color: Color = Color.DimGray,
 ) : Wing()
 
 @Serializable

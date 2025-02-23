@@ -68,10 +68,11 @@ private fun createRightBatWing(state: CharacterRenderState): Polygon2d {
     val startX = Factor(0.55f)
 
     builder.addPoint(state.aabb, startX, Factor(0.3f))
-    builder.addPoint(state.aabb, Factor(0.7f), START)
+    builder.addPoint(state.aabb, Factor(0.8f), Factor(0.3f))
+    builder.addPoint(state.aabb, Factor(0.7f), START, true)
     builder.addPoint(state.aabb, END, Factor(0.3f))
-    builder.addPoint(state.aabb, END, END)
-    builder.addPoint(state.aabb, Factor(0.9f), END)
+    builder.addPoint(state.aabb, END, END, true)
+    builder.addPoint(state.aabb, Factor(0.7f), Factor(0.6f))
     builder.addPoint(state.aabb, startX, Factor(0.6f))
 
     val polygon = builder.build()
