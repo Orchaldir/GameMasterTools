@@ -181,7 +181,7 @@ fun FORM.editRaceAppearance(
 
     h3 { +"Mouth" }
 
-    selectRarityMap("Types", MOUTH_TYPE, appearance.mouthTypes, true)
+    selectRarityMap("Types", combine(MOUTH, TYPE), appearance.mouthTypes, true)
 
     h3 { +"Skin" }
 
@@ -248,7 +248,7 @@ fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppea
         parseEyeOptions(parameters),
         parseFootOptions(parameters),
         parseHairOptions(parameters),
-        parseOneOf(parameters, MOUTH_TYPE, MouthType::valueOf),
+        parseOneOf(parameters, combine(MOUTH, TYPE), MouthType::valueOf),
         parseWingOptions(parameters),
     )
 }

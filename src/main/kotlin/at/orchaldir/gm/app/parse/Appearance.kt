@@ -224,19 +224,19 @@ private fun parseMouth(
     character: Character,
     hair: Hair,
 ): Mouth {
-    return when (parameters[MOUTH_TYPE]) {
+    return when (parameters[combine(MOUTH, TYPE)]) {
         MouthType.NoMouth.toString() -> NoMouth
         MouthType.NormalMouth.toString() -> {
             if (character.gender == Gender.Female) {
                 return FemaleMouth(
-                    parse(parameters, MOUTH_WIDTH, Size.Medium),
+                    parse(parameters, combine(MOUTH, WIDTH), Size.Medium),
                     parse(parameters, LIP_COLOR, Color.Red),
                     parse(parameters, TEETH_COLOR, TeethColor.White),
                 )
             }
             return NormalMouth(
                 parseBeard(parameters, config, hair),
-                parse(parameters, MOUTH_WIDTH, Size.Medium),
+                parse(parameters, combine(MOUTH, WIDTH), Size.Medium),
                 parse(parameters, TEETH_COLOR, TeethColor.White),
             )
         }

@@ -420,7 +420,7 @@ private fun FORM.editMouth(
     mouth: Mouth,
 ) {
     h2 { +"Mouth" }
-    selectOneOf("Type", MOUTH_TYPE, raceAppearance.mouthTypes, mouth.getType(), true) { option ->
+    selectOneOf("Type", combine(MOUTH, TYPE), raceAppearance.mouthTypes, mouth.getType(), true) { option ->
         label = option.name
         value = option.toString()
     }
@@ -440,7 +440,7 @@ private fun FORM.editMouth(
 }
 
 private fun FORM.editSimpleMouth(size: Size, teethColor: TeethColor) {
-    selectValue("Width", MOUTH_WIDTH, Size.entries, size, true)
+    selectValue("Width", combine(MOUTH, WIDTH), Size.entries, size, true)
     selectValue("Teeth Color", TEETH_COLOR, TeethColor.entries, teethColor, true)
 }
 
