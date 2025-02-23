@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.appearance
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.character.appearance.wing.*
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
@@ -35,43 +36,46 @@ fun visualizeWings(state: CharacterRenderState, wings: Wings) = when (wings) {
 }
 
 private fun visualizeWing(state: CharacterRenderState, wing: Wing, side: Side) = when (wing) {
-    is BatWing -> doNothing()
-    is BirdWing -> visualizeBirdWing(state, wing, side)
-    is ButterflyWing -> visualizeButterflyWing(state, wing, side)
+    is BatWing -> visualizeWing(state, side, wing.color, ::createRightBatWing)
+    is BirdWing -> visualizeWing(state, side, wing.color, ::createRightBirdWing)
+    is ButterflyWing -> visualizeWing(state, side, wing.color, ::createRightButterflyWing)
 }
 
-private fun visualizeBirdWing(state: CharacterRenderState, wing: BirdWing, side: Side) {
-    val options = FillAndBorder(wing.color.toRender(), state.config.line)
+private fun visualizeWing(
+    state: CharacterRenderState,
+    side: Side,
+    color: Color,
+    createPolygon: (CharacterRenderState) -> Polygon2d,
+) {
+    val options = FillAndBorder(color.toRender(), state.config.line)
     val layer = if (state.renderFront) {
         WING_LAYER
     } else {
         -WING_LAYER
     }
 
-    val polygon = if (side == Side.Right) {
-        createRightBirdWing(state)
-    } else {
-        state.aabb.mirrorVertically(createRightBirdWing(state))
+    var polygon = createPolygon(state)
+
+    if (side == Side.Left) {
+        polygon = state.aabb.mirrorVertically(polygon)
     }
 
     state.renderer.getLayer(layer).renderRoundedPolygon(polygon, options)
 }
 
-private fun visualizeButterflyWing(state: CharacterRenderState, wing: ButterflyWing, side: Side) {
-    val options = FillAndBorder(wing.color.toRender(), state.config.line)
-    val layer = if (state.renderFront) {
-        WING_LAYER
-    } else {
-        -WING_LAYER
-    }
+private fun createRightBatWing(state: CharacterRenderState): Polygon2d {
+    val builder = Polygon2dBuilder()
+    val startX = Factor(0.55f)
 
-    val polygon = if (side == Side.Right) {
-        createRightButterflyWing(state)
-    } else {
-        state.aabb.mirrorVertically(createRightButterflyWing(state))
-    }
+    builder.addPoint(state.aabb, startX, Factor(0.3f))
+    builder.addPoint(state.aabb, Factor(0.7f), START)
+    builder.addPoint(state.aabb, END, Factor(0.3f))
+    builder.addPoint(state.aabb, END, END)
+    builder.addPoint(state.aabb, Factor(0.9f), END)
+    builder.addPoint(state.aabb, startX, Factor(0.6f))
 
-    state.renderer.getLayer(layer).renderRoundedPolygon(polygon, options)
+    val polygon = builder.build()
+    return polygon
 }
 
 private fun createRightBirdWing(state: CharacterRenderState): Polygon2d {
