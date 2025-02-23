@@ -22,7 +22,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         FootConfig(
             Factor(0.09f),
             Factor(0.5f),
-            withFactor(0.8f, 1.0f, 1.2f),
+            withFactor(0.375f, 0.5f, 0.625f),
         ),
         Factor(0.07f),
         Factor(0.25f),

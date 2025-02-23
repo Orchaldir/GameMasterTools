@@ -2,7 +2,6 @@ package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.ClawedFoot
-import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
@@ -68,16 +67,12 @@ fun visualizeClaws(
     val stepLength = length / foot.count
     val step = Point2d(stepLength, Distance(0))
     var position = center - step * ((foot.count - 1) / 2.0f)
-    val clawLength = radius.toMeters() * 0.5f * when (foot.size) {
-        Size.Small -> 0.75f
-        Size.Medium -> 1.0f
-        Size.Large -> 1.25f
-    }
+    val clawLength = (radius * state.config.body.foot.clawSize.convert(foot.size)).toMeters()
     val clawLengthHalf = clawLength / 2.0f
-    val clawWidth = clawLength / 2.0f
+    val clawWidth = clawLength * state.config.body.foot.clawLengthToWidth.value
     val clawWidthHalf = clawWidth / 2.0f
 
-    (0..<foot.count).forEach {
+    repeat(foot.count) {
         val points = listOf(
             position + Point2d(-clawWidthHalf, -clawLengthHalf),
             position + Point2d(0.0f, clawLengthHalf),
