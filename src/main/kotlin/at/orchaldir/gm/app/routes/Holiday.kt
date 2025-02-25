@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.holiday.*
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getDefaultCalendar
+import at.orchaldir.gm.core.selector.util.sortHolidays
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -123,7 +124,7 @@ private fun HTML.showAllHolidays(
     state: State,
 ) {
     val calendar = state.getDefaultCalendar()
-    val holidays = state.getHolidayStorage().getAll().sortedBy { it.name }
+    val holidays = state.sortHolidays()
     val createLink = call.application.href(HolidayRoutes.New())
 
     simpleHtml("Holidays") {

@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.core.selector.util.sortHolidays
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -171,7 +172,8 @@ private fun HTML.showCultureDetails(
             link(call, state, l)
         }
         showDetails("Holidays") {
-            showList(culture.holidays) { holiday ->
+            val cultures = state.sortHolidays(state.getHolidayStorage().get(culture.holidays))
+            showList(cultures) { holiday ->
                 link(call, state, holiday)
             }
         }
@@ -335,7 +337,8 @@ private fun FORM.editHolidays(
     culture: Culture,
 ) {
     showDetails("Holidays") {
-        selectElements(state, HOLIDAY, state.getHolidayStorage().getAll(), culture.holidays)
+        val cultures = state.sortHolidays()
+        selectElements(state, HOLIDAY, cultures, culture.holidays)
     }
 }
 
