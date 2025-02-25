@@ -31,10 +31,10 @@ fun HtmlBlockTag.showOrganization(
 ) {
     optionalField(call, state, "Date", organization.date)
     fieldCreator(call, state, organization.founder, "Founder")
+    showHolidays(call, state, organization.holidays)
     showCreated(call, state, organization.id)
     showMembers(call, state, organization)
     showPossession(call, state, organization)
-    showHolidays(call, state, organization.holidays)
 }
 
 private fun HtmlBlockTag.showPossession(

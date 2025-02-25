@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.organization
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.time.Date
@@ -20,6 +21,10 @@ fun State.getExistingOrganizations(date: Date?) = getExistingElements(getOrganiz
 fun State.getOrganizations(member: CharacterId) = getOrganizationStorage()
     .getAll()
     .filter { it.members.containsKey(member) }
+
+fun State.getOrganizations(holiday: HolidayId) = getOrganizationStorage()
+    .getAll()
+    .filter { it.holidays.contains(holiday) }
 
 fun State.getNotMembers(organization: OrganizationId) = getNotMembers(getOrganizationStorage().getOrThrow(organization))
 

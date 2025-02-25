@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.holiday.*
 import at.orchaldir.gm.core.selector.getCultures
+import at.orchaldir.gm.core.selector.organization.getOrganizations
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
@@ -27,6 +28,9 @@ fun BODY.showHoliday(
     fieldHolidayPurpose(call, state, holiday.purpose)
 
     showList("Cultures", state.getCultures(holiday.id)) { culture ->
+        link(call, culture)
+    }
+    showList("Organizations", state.getOrganizations(holiday.id)) { culture ->
         link(call, culture)
     }
 }
