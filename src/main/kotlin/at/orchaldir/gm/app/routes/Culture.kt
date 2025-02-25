@@ -16,12 +16,10 @@ import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
-import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
-import at.orchaldir.gm.core.selector.util.sortHolidays
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -320,7 +318,7 @@ private fun HTML.showCultureEditor(
             selectName(culture.name)
             selectElement(state, "Calendar", CALENDAR_TYPE, state.getCalendarStorage().getAll(), culture.calendar)
             selectRarityMap("Languages", LANGUAGES, state.getLanguageStorage(), culture.languages) { it.name }
-            editHolidays(state, culture)
+            editHolidays(state, culture.holidays)
             editNamingConvention(namingConvention, state)
             editAppearanceOptions(culture)
             editClothingOptions(state, culture)

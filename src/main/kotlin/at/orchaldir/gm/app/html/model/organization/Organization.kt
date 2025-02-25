@@ -3,6 +3,9 @@ package at.orchaldir.gm.app.html.model.organization
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.time.editHolidays
+import at.orchaldir.gm.app.html.model.time.parseHolidays
+import at.orchaldir.gm.app.html.model.time.showHolidays
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
@@ -31,6 +34,7 @@ fun HtmlBlockTag.showOrganization(
     showCreated(call, state, organization.id)
     showMembers(call, state, organization)
     showPossession(call, state, organization)
+    showHolidays(call, state, organization.holidays)
 }
 
 private fun HtmlBlockTag.showPossession(
@@ -68,6 +72,7 @@ fun FORM.editOrganization(
     selectOptionalDate(state, "Date", organization.date, DATE)
     selectCreator(state, organization.founder, organization.id, organization.date, "Founder")
     editMembers(state, organization)
+    editHolidays(state, organization.holidays)
 }
 
 private fun FORM.editMembers(
@@ -118,6 +123,7 @@ fun parseOrganization(parameters: Parameters, state: State, id: OrganizationId) 
         parseOptionalDate(parameters, state, DATE),
         parseRanks(parameters),
         parseMembers(state, parameters, id),
+        parseHolidays(parameters),
     )
 
 private fun parseRanks(parameters: Parameters): List<MemberRank> {

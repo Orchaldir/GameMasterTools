@@ -7,17 +7,15 @@ import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.showList
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.selector.util.sortHolidays
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.BODY
-import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showHolidays(
+fun HtmlBlockTag.showHolidays(
     call: ApplicationCall,
     state: State,
     holidayIds: Set<HolidayId>,
@@ -33,13 +31,13 @@ fun BODY.showHolidays(
 
 // edit
 
-fun FORM.editHolidays(
+fun HtmlBlockTag.editHolidays(
     state: State,
-    culture: Culture,
+    holidayIds: Set<HolidayId>,
 ) {
     showDetails("Holidays") {
-        val cultures = state.sortHolidays()
-        selectElements(state, HOLIDAY, cultures, culture.holidays)
+        val holidays = state.sortHolidays()
+        selectElements(state, HOLIDAY, holidays, holidayIds)
     }
 }
 
