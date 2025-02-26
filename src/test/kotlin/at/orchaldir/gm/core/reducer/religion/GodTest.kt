@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.action.UpdateGod
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.PersonalityTrait
+import at.orchaldir.gm.core.model.holiday.Holiday
+import at.orchaldir.gm.core.model.holiday.HolidayOfGod
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.world.plane.HeartPlane
@@ -40,6 +42,14 @@ class GodTest {
         @Test
         fun `Cannot delete the god of a heart plane`() {
             val plane = Plane(PLANE_ID_0, purpose = HeartPlane(GOD_ID_0))
+            val newState = state.updateStorage(Storage(plane))
+
+            assertIllegalArgument("The god 0 is used!") { REDUCER.invoke(newState, action) }
+        }
+
+        @Test
+        fun `Cannot delete the god worshipped on a holiday`() {
+            val plane = Holiday(HOLIDAY_ID_0, purpose = HolidayOfGod(GOD_ID_0))
             val newState = state.updateStorage(Storage(plane))
 
             assertIllegalArgument("The god 0 is used!") { REDUCER.invoke(newState, action) }
