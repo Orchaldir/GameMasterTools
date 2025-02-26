@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
+import at.orchaldir.gm.core.model.holiday.HolidayOfGod
 import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.utils.Storage
@@ -78,6 +79,14 @@ class HolidayTest {
             val action = UpdateHoliday(holiday)
 
             assertIllegalArgument("Requires unknown Calendar 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot update with unknown god`() {
+            val holiday = Holiday(HOLIDAY_ID_0, purpose = HolidayOfGod(UNKNOWN_GOD_ID))
+            val action = UpdateHoliday(holiday)
+
+            assertIllegalArgument("Requires unknown God 99!") { REDUCER.invoke(state, action) }
         }
 
         @Nested
