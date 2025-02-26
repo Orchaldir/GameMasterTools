@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer
 
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
@@ -8,7 +9,6 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
-import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -16,40 +16,41 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-private val ID0 = HolidayId(0)
-private val CALENDAR_ID0 = CalendarId(0)
-private val CALENDAR_ID1 = CalendarId(1)
-private val WEEKDAYS = Weekdays(listOf(WeekDay("d0"), WeekDay("d1")))
-private val MONTHS = ComplexMonths(listOf(Month("M0", 2), Month("M1", 3)))
-private val CALENDAR0 = Calendar(CALENDAR_ID0, "C0", WEEKDAYS, months = MONTHS)
-private val CALENDAR1 = Calendar(CALENDAR_ID1, months = MONTHS)
-
 class HolidayTest {
+
+    private val weekdays = Weekdays(listOf(WeekDay("d0"), WeekDay("d1")))
+    private val months = ComplexMonths(listOf(Month("M0", 2), Month("M1", 3)))
+    private val calendar0 = Calendar(CALENDAR_ID_0, "C0", weekdays, months = months)
+    private val calendar1 = Calendar(CALENDAR_ID_1, months = months)
+    private val state = State(
+        listOf(
+            Storage(listOf(calendar0, calendar1)),
+            Storage(Holiday(HOLIDAY_ID_0)),
+        )
+    )
 
     @Nested
     inner class DeleteTest {
+        val action = DeleteHoliday(HOLIDAY_ID_0)
 
         @Test
         fun `Can delete an existing holiday`() {
-            val state = State(Storage(Holiday(ID0)))
-            val action = DeleteHoliday(ID0)
-
             assertEquals(0, REDUCER.invoke(state, action).first.getHolidayStorage().getSize())
         }
 
         @Test
         fun `Cannot delete unknown id`() {
-            val action = DeleteHoliday(ID0)
+            val action = DeleteHoliday(UNKNOWN_HOLIDAY_ID)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot delete, if used by a culture`() {
-            val state = State(listOf(Storage(Holiday(ID0)), Storage(Culture(CultureId(0), holidays = setOf(ID0)))))
-            val action = DeleteHoliday(ID0)
+            val culture = Culture(CultureId(0), holidays = setOf(HOLIDAY_ID_0))
+            val newState = state.updateStorage(Storage(culture))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(newState, action) }
         }
     }
 
@@ -58,15 +59,14 @@ class HolidayTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateHoliday(Holiday(ID0))
+            val action = UpdateHoliday(Holiday(UNKNOWN_HOLIDAY_ID))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot update with unknown calendar`() {
-            val state = State(Storage(Holiday(ID0)))
-            val holiday = Holiday(ID0, "Test")
+            val holiday = Holiday(UNKNOWN_HOLIDAY_ID, "Test")
             val action = UpdateHoliday(holiday)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -77,8 +77,7 @@ class HolidayTest {
 
             @Test
             fun `In unknown month`() {
-                val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
-                val holiday = Holiday(ID0, relativeDate = DayInYear(0, 2))
+                val holiday = Holiday(HOLIDAY_ID_0, relativeDate = DayInYear(0, 2))
                 val action = UpdateHoliday(holiday)
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -86,8 +85,7 @@ class HolidayTest {
 
             @Test
             fun `Outside first month`() {
-                val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
-                val holiday = Holiday(ID0, relativeDate = DayInYear(2, 0))
+                val holiday = Holiday(HOLIDAY_ID_0, relativeDate = DayInYear(2, 0))
                 val action = UpdateHoliday(holiday)
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -95,8 +93,7 @@ class HolidayTest {
 
             @Test
             fun `Outside second month`() {
-                val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
-                val holiday = Holiday(ID0, relativeDate = DayInYear(3, 1))
+                val holiday = Holiday(HOLIDAY_ID_0, relativeDate = DayInYear(3, 1))
                 val action = UpdateHoliday(holiday)
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -104,13 +101,12 @@ class HolidayTest {
 
             @Test
             fun `Valid fixed days`() {
-                MONTHS.months.withIndex().forEach { month ->
+                months.months.withIndex().forEach { month ->
                     repeat(month.value.days) { day ->
-                        val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
-                        val holiday = Holiday(ID0, relativeDate = DayInYear(day, month.index))
+                        val holiday = Holiday(HOLIDAY_ID_0, relativeDate = DayInYear(day, month.index))
                         val action = UpdateHoliday(holiday)
 
-                        assertEquals(holiday, REDUCER.invoke(state, action).first.getHolidayStorage().get(ID0))
+                        assertEquals(holiday, REDUCER.invoke(state, action).first.getHolidayStorage().get(HOLIDAY_ID_0))
                     }
 
                 }
@@ -122,8 +118,7 @@ class HolidayTest {
 
             @Test
             fun `In unknown month`() {
-                val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
-                val holiday = Holiday(ID0, relativeDate = WeekdayInMonth(0, 0, 2))
+                val holiday = Holiday(HOLIDAY_ID_0, relativeDate = WeekdayInMonth(0, 0, 2))
                 val action = UpdateHoliday(holiday)
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -131,8 +126,7 @@ class HolidayTest {
 
             @Test
             fun `Calendar without weekdays is unsupported`() {
-                val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR1)))
-                val holiday = Holiday(ID0, calendar = CALENDAR_ID1, relativeDate = WeekdayInMonth(0, 0, 0))
+                val holiday = Holiday(HOLIDAY_ID_0, calendar = CALENDAR_ID_1, relativeDate = WeekdayInMonth(0, 0, 0))
                 val action = UpdateHoliday(holiday)
 
                 assertFailsWith<IllegalStateException> { REDUCER.invoke(state, action) }
@@ -140,8 +134,7 @@ class HolidayTest {
 
             @Test
             fun `Unknown weekday`() {
-                val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
-                val holiday = Holiday(ID0, relativeDate = WeekdayInMonth(3, 0, 0))
+                val holiday = Holiday(HOLIDAY_ID_0, relativeDate = WeekdayInMonth(3, 0, 0))
                 val action = UpdateHoliday(holiday)
 
                 assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
@@ -149,12 +142,11 @@ class HolidayTest {
 
             @Test
             fun `Valid weekday`() {
-                repeat(WEEKDAYS.weekDays.size) { day ->
-                    val state = State(listOf(Storage(Holiday(ID0)), Storage(CALENDAR0)))
-                    val holiday = Holiday(ID0, relativeDate = WeekdayInMonth(day, 0, 0))
+                repeat(weekdays.weekDays.size) { day ->
+                    val holiday = Holiday(HOLIDAY_ID_0, relativeDate = WeekdayInMonth(day, 0, 0))
                     val action = UpdateHoliday(holiday)
 
-                    assertEquals(holiday, REDUCER.invoke(state, action).first.getHolidayStorage().get(ID0))
+                    assertEquals(holiday, REDUCER.invoke(state, action).first.getHolidayStorage().get(HOLIDAY_ID_0))
                 }
             }
 

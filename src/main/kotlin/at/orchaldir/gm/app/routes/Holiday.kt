@@ -1,6 +1,6 @@
 package at.orchaldir.gm.app.routes
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.time.displayHolidayPurpose
 import at.orchaldir.gm.app.html.model.time.editHoliday
@@ -10,7 +10,9 @@ import at.orchaldir.gm.core.action.CreateHoliday
 import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.holiday.*
+import at.orchaldir.gm.core.model.holiday.HOLIDAY_TYPE
+import at.orchaldir.gm.core.model.holiday.Holiday
+import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortHolidays

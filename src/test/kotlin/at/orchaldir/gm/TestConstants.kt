@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.font.FontId
+import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.language.LanguageId
@@ -38,6 +39,7 @@ val BUILDING_ID_0 = BuildingId(0)
 val BUILDING_ID_1 = BuildingId(1)
 val BUSINESS_ID_0 = BusinessId(0)
 val CALENDAR_ID_0 = CalendarId(0)
+val CALENDAR_ID_1 = CalendarId(1)
 val CHARACTER_ID_0 = CharacterId(0)
 val CHARACTER_ID_1 = CharacterId(1)
 val CHARACTER_ID_2 = CharacterId(2)
@@ -49,6 +51,8 @@ val EQUIPMENT_ID_0 = EquipmentId(0)
 val FONT_ID_0 = FontId(0)
 val GOD_ID_0 = GodId(0)
 val UNKNOWN_GOD_ID = GodId(99)
+val HOLIDAY_ID_0 = HolidayId(0)
+val UNKNOWN_HOLIDAY_ID = HolidayId(99)
 val JOB_ID_0 = JobId(0)
 val LANGUAGE_ID_0 = LanguageId(0)
 val LANGUAGE_ID_1 = LanguageId(1)
