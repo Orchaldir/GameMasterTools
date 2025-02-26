@@ -42,7 +42,7 @@ class HolidayTest {
         fun `Cannot delete unknown id`() {
             val action = DeleteHoliday(UNKNOWN_HOLIDAY_ID)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Holiday 99!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -50,7 +50,7 @@ class HolidayTest {
             val culture = Culture(CULTURE_ID_0, holidays = setOf(HOLIDAY_ID_0))
             val newState = state.updateStorage(Storage(culture))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(newState, action) }
+            assertIllegalArgument("Holiday 0 is used!") { REDUCER.invoke(newState, action) }
         }
 
         @Test
@@ -58,7 +58,7 @@ class HolidayTest {
             val organization = Organization(ORGANIZATION_ID_0, holidays = setOf(HOLIDAY_ID_0))
             val newState = state.updateStorage(Storage(organization))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(newState, action) }
+            assertIllegalArgument("Holiday 0 is used!") { REDUCER.invoke(newState, action) }
         }
     }
 
@@ -69,15 +69,15 @@ class HolidayTest {
         fun `Cannot update unknown id`() {
             val action = UpdateHoliday(Holiday(UNKNOWN_HOLIDAY_ID))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Holiday 99!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot update with unknown calendar`() {
-            val holiday = Holiday(UNKNOWN_HOLIDAY_ID, "Test")
+            val holiday = Holiday(HOLIDAY_ID_0, "Test", UNKNOWN_CALENDAR_ID)
             val action = UpdateHoliday(holiday)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Calendar 99!") { REDUCER.invoke(state, action) }
         }
 
         @Nested
@@ -88,7 +88,7 @@ class HolidayTest {
                 val holiday = Holiday(HOLIDAY_ID_0, relativeDate = DayInYear(0, 2))
                 val action = UpdateHoliday(holiday)
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Holiday is in an unknown month!") { REDUCER.invoke(state, action) }
             }
 
             @Test
@@ -96,7 +96,7 @@ class HolidayTest {
                 val holiday = Holiday(HOLIDAY_ID_0, relativeDate = DayInYear(2, 0))
                 val action = UpdateHoliday(holiday)
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Holiday is outside the month M0!") { REDUCER.invoke(state, action) }
             }
 
             @Test
@@ -104,7 +104,7 @@ class HolidayTest {
                 val holiday = Holiday(HOLIDAY_ID_0, relativeDate = DayInYear(3, 1))
                 val action = UpdateHoliday(holiday)
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Holiday is outside the month M1!") { REDUCER.invoke(state, action) }
             }
 
             @Test
@@ -129,7 +129,7 @@ class HolidayTest {
                 val holiday = Holiday(HOLIDAY_ID_0, relativeDate = WeekdayInMonth(0, 0, 2))
                 val action = UpdateHoliday(holiday)
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Holiday is in an unknown month!") { REDUCER.invoke(state, action) }
             }
 
             @Test
@@ -145,7 +145,7 @@ class HolidayTest {
                 val holiday = Holiday(HOLIDAY_ID_0, relativeDate = WeekdayInMonth(3, 0, 0))
                 val action = UpdateHoliday(holiday)
 
-                assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+                assertIllegalArgument("Holiday is on an unknown weekday!") { REDUCER.invoke(state, action) }
             }
 
             @Test

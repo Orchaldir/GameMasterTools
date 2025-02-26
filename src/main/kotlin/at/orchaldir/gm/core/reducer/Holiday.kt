@@ -21,7 +21,7 @@ val CREATE_HOLIDAY: Reducer<CreateHoliday, State> = { state, _ ->
 
 val DELETE_HOLIDAY: Reducer<DeleteHoliday, State> = { state, action ->
     state.getHolidayStorage().require(action.id)
-    require(state.canDelete(action.id)) { "Holiday ${action.id.value} is used" }
+    require(state.canDelete(action.id)) { "Holiday ${action.id.value} is used!" }
 
     noFollowUps(state.updateStorage(state.getHolidayStorage().remove(action.id)))
 }
