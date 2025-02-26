@@ -6,10 +6,10 @@ import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
+import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -47,8 +47,16 @@ class HolidayTest {
 
         @Test
         fun `Cannot delete, if used by a culture`() {
-            val culture = Culture(CultureId(0), holidays = setOf(HOLIDAY_ID_0))
+            val culture = Culture(CULTURE_ID_0, holidays = setOf(HOLIDAY_ID_0))
             val newState = state.updateStorage(Storage(culture))
+
+            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(newState, action) }
+        }
+
+        @Test
+        fun `Cannot delete, if used by an organization`() {
+            val organization = Organization(ORGANIZATION_ID_0, holidays = setOf(HOLIDAY_ID_0))
+            val newState = state.updateStorage(Storage(organization))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(newState, action) }
         }
