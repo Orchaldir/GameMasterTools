@@ -199,6 +199,13 @@
     "type": "Reflective",
     "plane": 13
    }
+  },
+   "21": {
+     "id": 21,
+     "name": "The Dying Tree",
+     "purpose": {
+       "type": "Independent"
+     }
   }
  }
 }

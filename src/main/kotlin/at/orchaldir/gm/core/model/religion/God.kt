@@ -22,6 +22,7 @@ value class GodId(val value: Int) : Id<GodId> {
 data class God(
     val id: GodId,
     val name: String = "God ${id.value}",
+    val title: String? = null,
     val gender: Gender = Gender.Genderless,
     val personality: Set<PersonalityTraitId> = emptySet(),
     val domains: Set<DomainId> = emptySet(),

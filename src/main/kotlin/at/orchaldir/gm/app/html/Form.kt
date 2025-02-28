@@ -204,6 +204,14 @@ fun HtmlBlockTag.selectInt(
     }
 }
 
+fun HtmlBlockTag.selectOptionalText(
+    label: String,
+    text: String?,
+    param: String,
+) {
+    selectText(label, text ?: "", param, 0)
+}
+
 fun HtmlBlockTag.selectText(
     label: String,
     text: String,

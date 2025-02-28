@@ -118,7 +118,6 @@ fun Application.configureGodRouting() {
             logger.info { "Update god ${update.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val state = STORE.getState()
             val god = parseGod(formParameters, update.id)
 
             STORE.dispatch(UpdateGod(god))
@@ -148,6 +147,7 @@ private fun HTML.showAllGods(
         table {
             tr {
                 th { +"Name" }
+                th { +"Title" }
                 th { +"Gender" }
                 th { +"Personality" }
                 th { +"Domain" }
@@ -155,6 +155,7 @@ private fun HTML.showAllGods(
             gods.forEach { god ->
                 tr {
                     td { link(call, state, god) }
+                    tdString(god.title)
                     td { +god.gender.name }
                     td {
                         showList(
