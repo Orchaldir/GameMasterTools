@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.font.Font
+import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.organization.Organization
@@ -147,6 +148,14 @@ fun State.sortGods(
         when (sort) {
             SortGod.Name -> compareBy { it.name(this) }
         })
+
+// holiday
+
+fun State.sortHolidays() = sortHolidays(getHolidayStorage().getAll())
+
+fun State.sortHolidays(
+    holidays: Collection<Holiday>,
+) = holidays.sortedBy { it.name }
 
 // job
 

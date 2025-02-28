@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.organization
 
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
@@ -26,6 +27,7 @@ data class Organization(
     val date: Date? = null,
     val memberRanks: List<MemberRank> = listOf(MemberRank()),
     val members: Map<CharacterId, History<Int?>> = emptyMap(),
+    val holidays: Set<HolidayId> = emptySet(),
 ) : ElementWithSimpleName<OrganizationId>, Created, HasStartDate {
 
     override fun id() = id

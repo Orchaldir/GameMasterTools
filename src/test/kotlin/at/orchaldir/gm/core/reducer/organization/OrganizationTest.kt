@@ -92,6 +92,14 @@ class OrganizationTest {
         }
 
         @Test
+        fun `Holiday must exist`() {
+            val organization = Organization(ORGANIZATION_ID_0, holidays = setOf(UNKNOWN_HOLIDAY_ID))
+            val action = UpdateOrganization(organization)
+
+            assertIllegalArgument("Requires unknown Holiday 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
         fun `Organization must have at least 1 rank`() {
             val organization = Organization(ORGANIZATION_ID_0, memberRanks = emptyList())
             val action = UpdateOrganization(organization)

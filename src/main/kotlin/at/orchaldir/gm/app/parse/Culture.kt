@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.model.time.parseHolidays
 import at.orchaldir.gm.core.model.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
@@ -40,7 +41,7 @@ fun parseCulture(
             parseOneOf(parameters, LIP_COLORS, Color::valueOf),
         ),
         parseClothingStyles(parameters),
-        parseElements(parameters, HOLIDAY) { parseHolidayId(it) }
+        parseHolidays(parameters)
     )
 }
 

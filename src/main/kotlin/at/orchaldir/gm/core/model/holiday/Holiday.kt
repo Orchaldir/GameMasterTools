@@ -23,6 +23,7 @@ data class Holiday(
     val name: String = "Holiday ${id.value}",
     val calendar: CalendarId = CalendarId(0),
     val relativeDate: RelativeDate = DayInYear(0, 0),
+    val purpose: HolidayPurpose = Anniversary,
 ) : ElementWithSimpleName<HolidayId> {
 
     override fun id() = id

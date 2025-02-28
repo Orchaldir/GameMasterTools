@@ -2,6 +2,8 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.time.editHolidays
+import at.orchaldir.gm.app.html.model.time.showHolidays
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseCulture
 import at.orchaldir.gm.core.action.CloneCulture
@@ -170,11 +172,7 @@ private fun HTML.showCultureDetails(
         showRarityMap("Languages", culture.languages) { l ->
             link(call, state, l)
         }
-        showDetails("Holidays") {
-            showList(culture.holidays) { holiday ->
-                link(call, state, holiday)
-            }
-        }
+        showHolidays(call, state, culture.holidays)
         showNamingConvention(namingConvention, call, state)
         showAppearanceOptions(culture)
         showClothingOptions(call, state, culture)
@@ -320,22 +318,13 @@ private fun HTML.showCultureEditor(
             selectName(culture.name)
             selectElement(state, "Calendar", CALENDAR_TYPE, state.getCalendarStorage().getAll(), culture.calendar)
             selectRarityMap("Languages", LANGUAGES, state.getLanguageStorage(), culture.languages) { it.name }
-            editHolidays(state, culture)
+            editHolidays(state, culture.holidays)
             editNamingConvention(namingConvention, state)
             editAppearanceOptions(culture)
             editClothingOptions(state, culture)
             button("Update", updateLink)
         }
         back(backLink)
-    }
-}
-
-private fun FORM.editHolidays(
-    state: State,
-    culture: Culture,
-) {
-    showDetails("Holidays") {
-        selectElements(state, HOLIDAY, state.getHolidayStorage().getAll(), culture.holidays)
     }
 }
 

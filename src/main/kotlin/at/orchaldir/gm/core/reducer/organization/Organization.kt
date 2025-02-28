@@ -35,6 +35,7 @@ val UPDATE_ORGANIZATION: Reducer<UpdateOrganization, State> = { state, action ->
     validateCreator(state, organization.founder, organization.id, organization.date, "founder")
     validateRanks(state, organization)
     validateMembers(state, organization)
+    organization.holidays.forEach { state.getHolidayStorage().require(it) }
 
     noFollowUps(state.updateStorage(state.getOrganizationStorage().update(organization)))
 }

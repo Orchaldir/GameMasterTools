@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.calendar.Month
 import at.orchaldir.gm.core.model.calendar.Weekdays
 import at.orchaldir.gm.core.model.holiday.*
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -21,7 +22,7 @@ val CREATE_HOLIDAY: Reducer<CreateHoliday, State> = { state, _ ->
 
 val DELETE_HOLIDAY: Reducer<DeleteHoliday, State> = { state, action ->
     state.getHolidayStorage().require(action.id)
-    require(state.canDelete(action.id)) { "Holiday ${action.id.value} is used" }
+    require(state.canDelete(action.id)) { "Holiday ${action.id.value} is used!" }
 
     noFollowUps(state.updateStorage(state.getHolidayStorage().remove(action.id)))
 }
@@ -32,9 +33,17 @@ val UPDATE_HOLIDAY: Reducer<UpdateHoliday, State> = { state, action ->
     state.getHolidayStorage().require(holiday.id)
     val calendar = state.getCalendarStorage().getOrThrow(holiday.calendar)
 
+    checkPurpose(state, holiday.purpose)
     checkRelativeDate(calendar, holiday.relativeDate)
 
     noFollowUps(state.updateStorage(state.getHolidayStorage().update(holiday)))
+}
+
+fun checkPurpose(state: State, purpose: HolidayPurpose) {
+    when (purpose) {
+        Anniversary -> doNothing()
+        is HolidayOfGod -> state.getGodStorage().require(purpose.god)
+    }
 }
 
 fun checkRelativeDate(calendar: Calendar, relativeDate: RelativeDate) {
