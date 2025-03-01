@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.world.plane
 
 import at.orchaldir.gm.core.model.religion.GodId
+import at.orchaldir.gm.core.model.util.Creator
+import at.orchaldir.gm.core.model.util.UndefinedCreator
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -9,6 +11,7 @@ enum class PlanePurposeType {
     Heart,
     Independent,
     Material,
+    Prison,
     Reflective;
 }
 
@@ -20,6 +23,7 @@ sealed class PlanePurpose {
         is HeartPlane -> PlanePurposeType.Heart
         is IndependentPlane -> PlanePurposeType.Independent
         MaterialPlane -> PlanePurposeType.Material
+        is PrisonPlane -> PlanePurposeType.Prison
         is ReflectivePlane -> PlanePurposeType.Reflective
     }
 }
@@ -42,6 +46,13 @@ data class IndependentPlane(
 @Serializable
 @SerialName("Material")
 data object MaterialPlane : PlanePurpose()
+
+@Serializable
+@SerialName("Prison")
+data class PrisonPlane(
+    val gods: Set<GodId>,
+    val creator: Creator = UndefinedCreator,
+) : PlanePurpose()
 
 @Serializable
 @SerialName("Reflective")

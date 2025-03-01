@@ -204,7 +204,10 @@
      "id": 21,
      "name": "The Dying Tree",
      "purpose": {
-       "type": "Independent"
+       "type": "Prison",
+       "gods": [
+         18
+       ]
      }
   }
  }

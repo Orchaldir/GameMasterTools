@@ -4,9 +4,13 @@ import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.PLANE
 import at.orchaldir.gm.app.PURPOSE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldCreator
+import at.orchaldir.gm.app.html.model.parseCreator
 import at.orchaldir.gm.app.html.model.religion.parseGodId
+import at.orchaldir.gm.app.html.model.selectCreator
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.model.world.plane.PlanePurposeType.*
@@ -28,8 +32,16 @@ fun HtmlBlockTag.showPlanePurpose(
     field("Purpose") {
         displayPlanePurpose(call, state, purpose)
     }
-    if (purpose is IndependentPlane) {
-        showPlaneAlignmentPattern(purpose.pattern)
+    when (purpose) {
+        is IndependentPlane -> {
+            showPlaneAlignmentPattern(purpose.pattern)
+        }
+
+        is PrisonPlane -> {
+            fieldCreator(call, state, purpose.creator, "Creator")
+        }
+
+        else -> doNothing()
     }
 }
 
@@ -56,11 +68,24 @@ fun HtmlBlockTag.displayPlanePurpose(
 
         MaterialPlane -> +"Material Plane"
 
+        is PrisonPlane -> {
+            +"Prison of "
+            var first = true
+
+            purpose.gods.forEach { god ->
+                if (first) {
+                    first = false
+                } else {
+                    +", "
+                }
+                link(call, state, god)
+            }
+        }
+
         is ReflectivePlane -> {
             +"Refection of "
             link(call, state, purpose.plane)
         }
-
     }
 }
 
@@ -86,6 +111,10 @@ fun HtmlBlockTag.editPlanePurpose(
             is HeartPlane -> selectElement(state, "God", combine(PURPOSE, GOD), gods, purpose.god)
             is IndependentPlane -> editPlaneAlignmentPattern(purpose.pattern)
             MaterialPlane -> doNothing()
+            is PrisonPlane -> {
+                selectElements(state, "Gods", combine(PURPOSE, GOD), gods, purpose.gods)
+                selectCreator(state, purpose.creator, plane.id, null, "Creator")
+            }
             is ReflectivePlane -> selectOtherPlane(state, otherPlanes, purpose.plane)
         }
     }
@@ -106,5 +135,9 @@ fun parsePlanePurpose(parameters: Parameters) = when (parse(parameters, PURPOSE,
     Demi -> Demiplane(parsePlaneId(parameters, combine(PURPOSE, PLANE)))
     Heart -> HeartPlane(parseGodId(parameters, combine(PURPOSE, GOD)))
     Material -> MaterialPlane
+    Prison -> PrisonPlane(
+        parseElements(parameters, combine(PURPOSE, GOD), ::parseGodId),
+        parseCreator(parameters),
+    )
     Reflective -> ReflectivePlane(parsePlaneId(parameters, combine(PURPOSE, PLANE)))
 }
