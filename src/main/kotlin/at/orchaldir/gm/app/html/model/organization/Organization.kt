@@ -34,18 +34,9 @@ fun HtmlBlockTag.showOrganization(
     showHolidays(call, state, organization.holidays)
     showCreated(call, state, organization.id)
     showMembers(call, state, organization)
-    showPossession(call, state, organization)
-}
-
-private fun HtmlBlockTag.showPossession(
-    call: ApplicationCall,
-    state: State,
-    organization: Organization,
-) {
-    h2 { +"Possession" }
-
     showOwnedElements(call, state, organization.id)
 }
+
 
 private fun HtmlBlockTag.showMembers(
     call: ApplicationCall,

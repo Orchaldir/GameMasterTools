@@ -482,9 +482,7 @@ fun BODY.showPossession(
 ) {
     val editEquipmentLink = call.application.href(CharacterRoutes.Equipment.Edit(character.id))
 
-    h2 { +"Possession" }
-
-    showOwnedElements(call, state, character.id)
+    showOwnedElements(call, state, character.id, true)
 
     showList("Equipped", character.equipmentMap.map.values) { item ->
         link(call, state, item)
