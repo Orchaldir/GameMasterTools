@@ -22,6 +22,8 @@ import at.orchaldir.gm.core.selector.magic.getSpellsCreatedBy
 import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
 import at.orchaldir.gm.core.selector.organization.getOrganizationsFoundedBy
 import at.orchaldir.gm.core.selector.util.isCreator
+import at.orchaldir.gm.core.selector.util.sortBusinesses
+import at.orchaldir.gm.core.selector.util.sortOrganizations
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getExistingTowns
 import at.orchaldir.gm.core.selector.world.getPrisonPlanesCreatedBy
@@ -147,7 +149,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
             state,
             noun,
             combine(CREATOR, BUSINESS),
-            businesses,
+            state.sortBusinesses(businesses),
             creator.business,
             true
         )
@@ -165,7 +167,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
             state,
             noun,
             combine(CREATOR, ORGANIZATION),
-            organizations,
+            state.sortOrganizations(organizations),
             creator.organization,
             true
         )

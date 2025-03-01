@@ -236,6 +236,31 @@
    "id": 18,
    "name": "Avassh",
    "title": "The Twister of Roots"
+  },
+  "19": {
+   "id": 19,
+   "name": "Kyrzin",
+   "title": "The Prince of Slime"
+  },
+  "20": {
+   "id": 20,
+   "name": "Orlaask",
+   "title": "The Master of Stone"
+  },
+  "21": {
+   "id": 21,
+   "name": "Valaara",
+   "title": "The Crawling Queen"
+  },
+  "22": {
+   "id": 22,
+   "name": "Belashyrra",
+   "title": "The Lord of Eyes"
+  },
+  "23": {
+   "id": 23,
+   "name": "Dyrn",
+   "title": "The Corruptor"
   }
  }
 }
