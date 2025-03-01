@@ -200,15 +200,19 @@
     "plane": 13
    }
   },
-   "21": {
-     "id": 21,
-     "name": "The Dying Tree",
-     "purpose": {
-       "type": "Prison",
-       "gods": [
-         18
-       ]
-     }
+  "21": {
+   "id": 21,
+   "name": "The Dying Tree",
+   "purpose": {
+    "type": "Prison",
+    "gods": [
+     18
+    ],
+    "creator": {
+     "type": "Organization",
+     "organization": 29
+    }
+   }
   }
  }
 }

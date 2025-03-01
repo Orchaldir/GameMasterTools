@@ -22,6 +22,10 @@ fun State.getHeartPlane(god: GodId) = getPlaneStorage()
     .getAll()
     .firstOrNull { it.purpose is HeartPlane && it.purpose.god == god }
 
+fun State.getPrisonPlane(god: GodId) = getPlaneStorage()
+    .getAll()
+    .firstOrNull { it.purpose is PrisonPlane && it.purpose.gods.contains(god) }
+
 fun State.getReflections(plane: PlaneId) = getPlaneStorage()
     .getAll()
     .filter { it.purpose is ReflectivePlane && it.purpose.plane == plane }
