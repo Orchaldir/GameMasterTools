@@ -24,6 +24,7 @@ import at.orchaldir.gm.core.selector.organization.getOrganizationsFoundedBy
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getExistingTowns
+import at.orchaldir.gm.core.selector.world.getPrisonPlanesCreatedBy
 import at.orchaldir.gm.core.selector.world.getTownsFoundedBy
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
@@ -87,6 +88,10 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
 
     showList("Organizations", state.getOrganizationsFoundedBy(id)) { organization ->
         link(call, state, organization)
+    }
+
+    showList("Prison Planes", state.getPrisonPlanesCreatedBy(id)) { plane ->
+        link(call, state, plane)
     }
 
     showList("Races", state.getRacesCreatedBy(id)) { race ->

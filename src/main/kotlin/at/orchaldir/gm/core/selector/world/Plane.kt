@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.plane.*
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getPlanarLanguages
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 
 fun State.canDeletePlane(plane: PlaneId) = getDemiplanes(plane).isEmpty()
@@ -25,6 +26,10 @@ fun State.getHeartPlane(god: GodId) = getPlaneStorage()
 fun State.getPrisonPlane(god: GodId) = getPlaneStorage()
     .getAll()
     .firstOrNull { it.purpose is PrisonPlane && it.purpose.gods.contains(god) }
+
+fun <ID : Id<ID>> State.getPrisonPlanesCreatedBy(id: ID) = getPlaneStorage()
+    .getAll()
+    .filter { it.purpose is PrisonPlane && it.purpose.creator.isId(id) }
 
 fun State.getReflections(plane: PlaneId) = getPlaneStorage()
     .getAll()
