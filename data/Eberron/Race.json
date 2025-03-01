@@ -416,6 +416,17 @@
    "lifeStages": {
     "type": "Immutable",
     "appearance": 7
+   },
+   "origin": {
+    "type": "Created",
+    "creator": {
+     "type": "God",
+     "god": 20
+    },
+    "date": {
+     "type": "Decade",
+     "decade": -901
+    }
    }
   },
   "14": {
@@ -569,7 +580,8 @@
     "type": "Modified",
     "parent": 10,
     "modifier": {
-     "type": "Undefined"
+     "type": "God",
+     "god": 23
     },
     "date": {
      "type": "Decade",

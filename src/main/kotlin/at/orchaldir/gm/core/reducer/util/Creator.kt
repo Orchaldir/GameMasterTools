@@ -34,6 +34,15 @@ fun <ID : Id<ID>> validateCreator(
             date
         )
 
+        is CreatedByGod -> checkCreatorElement(
+            state,
+            creator.god,
+            created,
+            noun,
+            "god",
+            date
+        )
+
         is CreatedByOrganization -> checkCreatorElement(
             state,
             creator.organization,

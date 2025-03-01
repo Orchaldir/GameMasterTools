@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.organization.parseOrganizationId
+import at.orchaldir.gm.app.html.model.religion.parseGodId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.economy.parseBusinessId
 import at.orchaldir.gm.app.parse.parse
@@ -23,6 +24,7 @@ import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
 import at.orchaldir.gm.core.selector.organization.getOrganizationsFoundedBy
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.util.sortBusinesses
+import at.orchaldir.gm.core.selector.util.sortGods
 import at.orchaldir.gm.core.selector.util.sortOrganizations
 import at.orchaldir.gm.core.selector.world.getBuildingsBuildBy
 import at.orchaldir.gm.core.selector.world.getExistingTowns
@@ -57,6 +59,7 @@ fun HtmlBlockTag.showCreator(
     when (creator) {
         is CreatedByBusiness -> link(call, state, creator.business)
         is CreatedByCharacter -> link(call, state, creator.character)
+        is CreatedByGod -> link(call, state, creator.god)
         is CreatedByOrganization -> link(call, state, creator.organization)
         is CreatedByTown -> link(call, state, creator.town)
         UndefinedCreator -> if (showUndefined) {
@@ -129,6 +132,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
     val businesses = state.getOpenBusinesses(date)
         .filter { it.id != created }
     val characters = state.getLiving(date)
+    val gods = state.getGodStorage().getAll()
     val towns = state.getExistingTowns(date)
         .filter { it.id != created }
     val organizations = state.getExistingOrganizations(date)
@@ -139,6 +143,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
             CreatorType.Undefined -> false
             CreatorType.CreatedByBusiness -> businesses.isEmpty()
             CreatorType.CreatedByCharacter -> characters.isEmpty()
+            CreatorType.CreatedByGod -> gods.isEmpty()
             CreatorType.CreatedByOrganization -> organizations.isEmpty()
             CreatorType.CreatedByTown -> towns.isEmpty()
         }
@@ -160,6 +165,15 @@ fun <ID : Id<ID>> HtmlBlockTag.selectCreator(
             combine(CREATOR, CHARACTER),
             characters,
             creator.character,
+            true
+        )
+
+        is CreatedByGod -> selectElement(
+            state,
+            noun,
+            combine(CREATOR, GOD),
+            state.sortGods(gods),
+            creator.god,
             true
         )
 
@@ -192,6 +206,7 @@ fun parseCreator(parameters: Parameters): Creator {
         CreatorType.Undefined -> UndefinedCreator
         CreatorType.CreatedByBusiness -> CreatedByBusiness(parseBusinessId(parameters, combine(CREATOR, BUSINESS)))
         CreatorType.CreatedByCharacter -> CreatedByCharacter(parseCharacterId(parameters, combine(CREATOR, CHARACTER)))
+        CreatorType.CreatedByGod -> CreatedByGod(parseGodId(parameters, combine(CREATOR, GOD)))
         CreatorType.CreatedByOrganization -> CreatedByOrganization(
             parseOrganizationId(
                 parameters,

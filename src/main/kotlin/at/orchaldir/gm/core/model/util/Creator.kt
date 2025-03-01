@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.util
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.world.town.TownId
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
@@ -12,6 +13,7 @@ enum class CreatorType {
     Undefined,
     CreatedByBusiness,
     CreatedByCharacter,
+    CreatedByGod,
     CreatedByOrganization,
     CreatedByTown,
 }
@@ -23,6 +25,7 @@ sealed class Creator {
         is UndefinedCreator -> CreatorType.Undefined
         is CreatedByBusiness -> CreatorType.CreatedByBusiness
         is CreatedByCharacter -> CreatorType.CreatedByCharacter
+        is CreatedByGod -> CreatorType.CreatedByGod
         is CreatedByOrganization -> CreatorType.CreatedByOrganization
         is CreatedByTown -> CreatorType.CreatedByTown
     }
@@ -31,6 +34,7 @@ sealed class Creator {
         UndefinedCreator -> false
         is CreatedByBusiness -> business == id
         is CreatedByCharacter -> character == id
+        is CreatedByGod -> god == id
         is CreatedByOrganization -> organization == id
         is CreatedByTown -> town == id
     }
@@ -48,6 +52,10 @@ data class CreatedByBusiness(val business: BusinessId) : Creator()
 @Serializable
 @SerialName("Character")
 data class CreatedByCharacter(val character: CharacterId) : Creator()
+
+@Serializable
+@SerialName("God")
+data class CreatedByGod(val god: GodId) : Creator()
 
 @Serializable
 @SerialName("Organization")
