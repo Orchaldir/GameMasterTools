@@ -90,6 +90,7 @@ class GodTest {
             val god = God(
                 GOD_ID_0,
                 "Test",
+                null,
                 Gender.Genderless,
                 setOf(PERSONALITY_ID_0),
                 setOf(DOMAIN_ID_0),
