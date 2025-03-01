@@ -471,6 +471,14 @@
    },
    "mouthTypes": {
     "NormalMouth": "Common"
+   },
+   "wingOptions": {
+    "layouts": {
+     "Two": "Common"
+    },
+    "types": {
+     "Bat": "Common"
+    }
    }
   },
   "8": {

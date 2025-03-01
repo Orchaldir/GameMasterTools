@@ -241,6 +241,20 @@
      "organization": 29
     }
    }
+  },
+  "24": {
+   "id": 24,
+   "name": "The Heart of Stone",
+   "purpose": {
+    "type": "Prison",
+    "gods": [
+     20
+    ],
+    "creator": {
+     "type": "Organization",
+     "organization": 29
+    }
+   }
   }
  }
 }
