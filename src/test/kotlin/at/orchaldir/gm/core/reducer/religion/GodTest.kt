@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.world.plane.HeartPlane
 import at.orchaldir.gm.core.model.world.plane.Plane
+import at.orchaldir.gm.core.model.world.plane.PrisonPlane
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -42,6 +43,14 @@ class GodTest {
         @Test
         fun `Cannot delete the god of a heart plane`() {
             val plane = Plane(PLANE_ID_0, purpose = HeartPlane(GOD_ID_0))
+            val newState = state.updateStorage(Storage(plane))
+
+            assertIllegalArgument("The god 0 is used!") { REDUCER.invoke(newState, action) }
+        }
+
+        @Test
+        fun `Cannot delete a god imprisoned in a plane`() {
+            val plane = Plane(PLANE_ID_0, purpose = PrisonPlane(setOf(GOD_ID_0)))
             val newState = state.updateStorage(Storage(plane))
 
             assertIllegalArgument("The god 0 is used!") { REDUCER.invoke(newState, action) }
