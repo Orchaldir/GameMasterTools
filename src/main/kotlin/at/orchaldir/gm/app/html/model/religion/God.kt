@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.TILE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.editPersonality
 import at.orchaldir.gm.app.html.model.parsePersonality
+import at.orchaldir.gm.app.html.model.showCreated
 import at.orchaldir.gm.app.html.model.showPersonality
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.app.parse.parseGender
@@ -47,6 +48,8 @@ fun HtmlBlockTag.showGod(
     showList("Holidays", state.getHolidays(god.id)) { holiday ->
         link(call, state, holiday)
     }
+
+    showCreated(call, state, god.id)
 }
 
 // edit
