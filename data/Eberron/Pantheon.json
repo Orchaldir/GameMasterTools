@@ -51,7 +51,7 @@
   },
   "4": {
    "id": 4,
-   "name": "The Three Faces of War",
+   "name": "The 3 Faces of War",
    "title": "The Sovereigns of War",
    "gods": [
     4,
@@ -61,7 +61,7 @@
   },
   "5": {
    "id": 5,
-   "name": "The Three Faces of Coin",
+   "name": "The 3 Faces of Coin",
    "title": "The Sovereigns of Wealth",
    "gods": [
     6,
@@ -71,7 +71,7 @@
   },
   "6": {
    "id": 6,
-   "name": "The Three Faces of Love",
+   "name": "The 3 Faces of Love",
    "title": "The Sovereigns of Love",
    "gods": [
     0,
@@ -81,7 +81,7 @@
   },
   "7": {
    "id": 7,
-   "name": "The Three Faces of the Wild",
+   "name": "The 3 Faces of the Wild",
    "title": "The Sovereigns of Nature",
    "gods": [
     0,
@@ -112,7 +112,7 @@
   },
   "9": {
    "id": 9,
-   "name": "The Three Faces of Knowledge",
+   "name": "The 3 Faces of Knowledge",
    "title": "The Sovereigns of Knowledge",
    "gods": [
     1,
