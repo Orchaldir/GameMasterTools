@@ -25,6 +25,8 @@ import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
+// show
+
 fun HtmlBlockTag.showEmployees(
     call: ApplicationCall,
     state: State,
@@ -66,6 +68,8 @@ fun HtmlBlockTag.showEmploymentStatus(
     }
 }
 
+// select
+
 fun FORM.selectEmploymentStatusHistory(
     state: State,
     ownership: History<EmploymentStatus>,
@@ -95,6 +99,8 @@ fun HtmlBlockTag.selectEmploymentStatus(
         }
     }
 }
+
+// parse
 
 fun parseEmploymentStatusHistory(parameters: Parameters, state: State, startDate: Date) =
     parseHistory(parameters, EMPLOYMENT, state, startDate, ::parseEmploymentStatus)

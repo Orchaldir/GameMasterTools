@@ -269,6 +269,12 @@
       }
      }
     ]
+   },
+   "believeStatus": {
+    "current": {
+     "type": "Pantheon",
+     "pantheon": 5
+    }
    }
   },
   "4": {

@@ -405,6 +405,7 @@ private fun BODY.showSocial(
     h2 { +"Social" }
 
     fieldLink("Culture", call, state, character.culture)
+    showBelieveStatusHistory(call, state, character.believeStatus)
 
     showFamily(call, state, character)
 
@@ -521,6 +522,7 @@ private fun HTML.showCharacterEditor(
             selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
             h2 { +"Social" }
             selectElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
+            editBelieveStatusHistory(state, character.believeStatus, character.birthDate)
             editPersonality(call, state, character.personality)
             button("Update", updateLink)
         }

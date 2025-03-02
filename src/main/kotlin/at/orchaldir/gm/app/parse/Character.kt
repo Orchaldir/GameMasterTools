@@ -1,10 +1,7 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.model.parseDate
-import at.orchaldir.gm.app.html.model.parseEmploymentStatusHistory
-import at.orchaldir.gm.app.html.model.parseHousingStatusHistory
-import at.orchaldir.gm.app.html.model.parsePersonality
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.CharacterOriginType.Undefined
@@ -55,6 +52,7 @@ fun parseCharacter(
         personality = parsePersonality(parameters),
         housingStatus = parseHousingStatusHistory(parameters, state, birthDate),
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),
+        believeStatus = parseBelieveStatusHistory(parameters, state, birthDate),
     )
 }
 
