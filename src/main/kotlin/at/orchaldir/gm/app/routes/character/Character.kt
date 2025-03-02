@@ -182,8 +182,9 @@ private fun HTML.showAllCharacters(
             tr {
                 th { +"Name" }
                 th { +"Race" }
-                th { +"Culture" }
                 th { +"Gender" }
+                th { +"Culture" }
+                th { +"Believe" }
                 th { +"Birthdate" }
                 th { +"Age" }
                 th { +"Housing Status" }
@@ -202,10 +203,11 @@ private fun HTML.showAllCharacters(
                         }
                     }
                     td { link(call, state, character.race) }
-                    td { link(call, state, character.culture) }
                     td { +character.gender.toString() }
+                    td { link(call, state, character.culture) }
+                    td { showBelieveStatus(call, state, character.believeStatus.current, false) }
                     td { showDate(call, state, character.birthDate) }
-                    td { +state.getAgeInYears(character).toString() }
+                    tdSkipZero(state.getAgeInYears(character))
                     td { showHousingStatus(call, state, character.housingStatus.current, false) }
                     td { showEmploymentStatus(call, state, character.employmentStatus.current, false) }
                     tdSkipZero(state.getOrganizations(character.id).size)
