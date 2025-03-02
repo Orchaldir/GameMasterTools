@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.religion.PANTHEON_TYPE
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.util.SortPantheon
+import at.orchaldir.gm.core.selector.getBelievers
 import at.orchaldir.gm.core.selector.religion.canDeletePantheon
 import at.orchaldir.gm.core.selector.util.sortPantheons
 import io.ktor.http.*
@@ -143,27 +144,32 @@ private fun HTML.showAllPantheons(
     val pantheons = state.sortPantheons(sort)
     val createLink = call.application.href(PantheonRoutes.New())
     val sortNameLink = call.application.href(PantheonRoutes.All(SortPantheon.Name))
-    val sortMembersLink = call.application.href(PantheonRoutes.All(SortPantheon.Members))
+    val sortGodsLink = call.application.href(PantheonRoutes.All(SortPantheon.Gods))
+    val sortBelieversLink = call.application.href(PantheonRoutes.All(SortPantheon.Believers))
 
     simpleHtml("Pantheons") {
         field("Count", pantheons.size)
         field("Sort") {
             link(sortNameLink, "Name")
             +" "
-            link(sortMembersLink, "Members")
+            link(sortGodsLink, "Gods")
+            +" "
+            link(sortBelieversLink, "Believers")
         }
 
         table {
             tr {
                 th { +"Name" }
                 th { +"Title" }
-                th { +"Members" }
+                th { +"Gods" }
+                th { +"Believers" }
             }
             pantheons.forEach { pantheon ->
                 tr {
                     td { link(call, state, pantheon) }
                     tdString(pantheon.title)
                     tdSkipZero(pantheon.gods.size)
+                    tdSkipZero(state.getBelievers(pantheon.id).size)
                 }
             }
         }

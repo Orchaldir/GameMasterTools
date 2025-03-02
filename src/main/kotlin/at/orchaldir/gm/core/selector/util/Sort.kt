@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
+import at.orchaldir.gm.core.selector.getBelievers
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getEmployees
 
@@ -200,7 +201,8 @@ fun State.sortPantheons(
     .sortedWith(
         when (sort) {
             SortPantheon.Name -> compareBy { it.name(this) }
-            SortPantheon.Members -> compareBy { it.gods.size }
+            SortPantheon.Gods -> compareBy { it.gods.size }
+            SortPantheon.Believers -> compareBy { getBelievers(it.id).size }
         })
 
 // plane

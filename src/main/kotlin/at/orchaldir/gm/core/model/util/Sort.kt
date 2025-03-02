@@ -47,7 +47,8 @@ enum class SortOrganization {
 
 enum class SortPantheon {
     Name,
-    Members,
+    Gods,
+    Believers,
 }
 
 enum class SortPlane {
