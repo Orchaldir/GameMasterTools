@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
@@ -185,6 +186,21 @@ fun State.sortOrganizations(
             SortOrganization.Name -> compareBy { it.name }
             SortOrganization.Age -> getAgeComparator()
             SortOrganization.Members -> compareBy { it.countAllMembers() }
+        })
+
+// domain
+
+fun State.sortPantheons(sort: SortPantheon = SortPantheon.Name) =
+    sortPantheons(getPantheonStorage().getAll(), sort)
+
+fun State.sortPantheons(
+    domains: Collection<Pantheon>,
+    sort: SortPantheon = SortPantheon.Name,
+) = domains
+    .sortedWith(
+        when (sort) {
+            SortPantheon.Name -> compareBy { it.name(this) }
+            SortPantheon.Members -> compareBy { it.gods.size }
         })
 
 // plane

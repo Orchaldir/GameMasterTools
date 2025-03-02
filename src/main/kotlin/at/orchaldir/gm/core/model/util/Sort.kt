@@ -45,6 +45,11 @@ enum class SortOrganization {
     Members,
 }
 
+enum class SortPantheon {
+    Name,
+    Members,
+}
+
 enum class SortPlane {
     Name,
 }

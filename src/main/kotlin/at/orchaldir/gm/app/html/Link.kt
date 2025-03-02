@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
+import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.TownRoutes
 import at.orchaldir.gm.core.model.State
@@ -36,6 +37,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
+import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Decade
@@ -195,6 +197,7 @@ fun <ID : Id<ID>> href(
     is MountainId -> call.application.href(MountainRoutes.Details(id))
     is NameListId -> call.application.href(NameListRoutes.Details(id))
     is OrganizationId -> call.application.href(OrganizationRoutes.Details(id))
+    is PantheonId -> call.application.href(PantheonRoutes.Details(id))
     is PersonalityTraitId -> call.application.href(PersonalityTraitRoutes.Details(id))
     is PlaneId -> call.application.href(PlaneRoutes.Details(id))
     is RaceId -> call.application.href(RaceRoutes.Details(id))
