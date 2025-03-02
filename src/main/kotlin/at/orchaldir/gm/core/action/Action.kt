@@ -36,10 +36,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
-import at.orchaldir.gm.core.model.religion.Domain
-import at.orchaldir.gm.core.model.religion.DomainId
-import at.orchaldir.gm.core.model.religion.God
-import at.orchaldir.gm.core.model.religion.GodId
+import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.util.Creator
@@ -218,6 +215,11 @@ data class UpdateDomain(val domain: Domain) : ReligionAction()
 data object CreateGod : ReligionAction()
 data class DeleteGod(val id: GodId) : ReligionAction()
 data class UpdateGod(val god: God) : ReligionAction()
+
+// pantheon
+data object CreatePantheon : ReligionAction()
+data class DeletePantheon(val id: PantheonId) : ReligionAction()
+data class UpdatePantheon(val pantheon: Pantheon) : ReligionAction()
 
 //-- world --
 
