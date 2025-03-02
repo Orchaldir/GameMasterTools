@@ -6,11 +6,14 @@ import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.showList
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.PersonalityTrait
+import at.orchaldir.gm.core.model.character.PersonalityTraitGroup
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.selector.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.getPersonalityTraits
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.util.*
 import kotlinx.html.*
 
 // show
@@ -78,3 +81,12 @@ fun parsePersonality(parameters: Parameters) = parameters.entries()
     .filter { it != NONE }
     .map { PersonalityTraitId(it.toInt()) }
     .toSet()
+
+fun parsePersonalityTrait(id: PersonalityTraitId, parameters: Parameters): PersonalityTrait {
+    val name = parameters.getOrFail("name").trim()
+    val group = parameters["group"]
+        ?.toIntOrNull()
+        ?.let { PersonalityTraitGroup(it) }
+
+    return PersonalityTrait(id, name, group)
+}

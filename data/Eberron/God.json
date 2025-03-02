@@ -226,11 +226,18 @@
   },
   "16": {
    "id": 16,
-   "name": "Rak Tulkhesh"
+   "name": "Rak Tulkhesh",
+   "title": "The Rage of War",
+   "gender": "Male",
+   "domains": [
+    12
+   ]
   },
   "17": {
    "id": 17,
-   "name": "Sul Khatesh"
+   "name": "Sul Khatesh",
+   "title": "The Keeper of Secrets",
+   "gender": "Female"
   },
   "18": {
    "id": 18,
