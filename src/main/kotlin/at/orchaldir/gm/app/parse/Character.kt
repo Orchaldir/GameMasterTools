@@ -52,7 +52,7 @@ fun parseCharacter(
         personality = parsePersonality(parameters),
         housingStatus = parseHousingStatusHistory(parameters, state, birthDate),
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),
-        believeStatus = parseBelieveStatusHistory(parameters, state, birthDate),
+        beliefStatus = parseBeliefStatusHistory(parameters, state, birthDate),
     )
 }
 

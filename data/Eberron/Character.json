@@ -270,7 +270,7 @@
      }
     ]
    },
-   "believeStatus": {
+   "beliefStatus": {
     "current": {
      "type": "Pantheon",
      "pantheon": 5
@@ -369,7 +369,7 @@
      }
     ]
    },
-   "believeStatus": {
+   "beliefStatus": {
     "current": {
      "type": "Pantheon",
      "pantheon": 5
@@ -458,7 +458,7 @@
      }
     ]
    },
-   "believeStatus": {
+   "beliefStatus": {
     "current": {
      "type": "Pantheon",
      "pantheon": 5
@@ -896,7 +896,7 @@
      }
     ]
    },
-   "believeStatus": {
+   "beliefStatus": {
     "current": {
      "type": "Pantheon",
      "pantheon": 5
@@ -940,7 +940,7 @@
      }
     ]
    },
-   "believeStatus": {
+   "beliefStatus": {
     "current": {
      "type": "Pantheon",
      "pantheon": 5

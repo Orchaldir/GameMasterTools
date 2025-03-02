@@ -21,20 +21,20 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showBelieveStatusHistory(
+fun HtmlBlockTag.showBeliefStatusHistory(
     call: ApplicationCall,
     state: State,
-    history: History<BelieveStatus>,
-) = showHistory(call, state, history, "Believe Status", HtmlBlockTag::showBelieveStatus)
+    history: History<BeliefStatus>,
+) = showHistory(call, state, history, "Belief Status", HtmlBlockTag::showBeliefStatus)
 
-fun HtmlBlockTag.showBelieveStatus(
+fun HtmlBlockTag.showBeliefStatus(
     call: ApplicationCall,
     state: State,
-    status: BelieveStatus,
+    status: BeliefStatus,
     showUndefined: Boolean = true,
 ) {
     when (status) {
-        UndefinedBelieveStatus -> if (showUndefined) {
+        UndefinedBeliefStatus -> if (showUndefined) {
             +"Undefined"
         }
 
@@ -45,22 +45,22 @@ fun HtmlBlockTag.showBelieveStatus(
 
 // edit
 
-fun FORM.editBelieveStatusHistory(
+fun FORM.editBeliefStatusHistory(
     state: State,
-    history: History<BelieveStatus>,
+    history: History<BeliefStatus>,
     startDate: Date,
-) = selectHistory(state, BELIEVE, history, startDate, "Believe Status", HtmlBlockTag::editBelieveStatus)
+) = selectHistory(state, BELIEVE, history, startDate, "Belief Status", HtmlBlockTag::editBeliefStatus)
 
-fun HtmlBlockTag.editBelieveStatus(
+fun HtmlBlockTag.editBeliefStatus(
     state: State,
     param: String,
-    status: BelieveStatus,
+    status: BeliefStatus,
     start: Date?,
 ) {
-    selectValue("Believe Status", param, BelieveStatusType.entries, status.getType(), true)
+    selectValue("Belief Status", param, BeliefStatusType.entries, status.getType(), true)
 
     when (status) {
-        UndefinedBelieveStatus -> doNothing()
+        UndefinedBeliefStatus -> doNothing()
         is WorshipsGod -> selectElement(state, "God", combine(param, GOD), state.sortGods(), status.god)
         is WorshipsPantheon -> selectElement(
             state,
@@ -74,13 +74,13 @@ fun HtmlBlockTag.editBelieveStatus(
 
 // parse
 
-fun parseBelieveStatusHistory(parameters: Parameters, state: State, startDate: Date) =
-    parseHistory(parameters, BELIEVE, state, startDate, ::parseBelieveStatus)
+fun parseBeliefStatusHistory(parameters: Parameters, state: State, startDate: Date) =
+    parseHistory(parameters, BELIEVE, state, startDate, ::parseBeliefStatus)
 
-fun parseBelieveStatus(parameters: Parameters, state: State, param: String): BelieveStatus {
-    return when (parse(parameters, param, BelieveStatusType.Undefined)) {
-        BelieveStatusType.Undefined -> UndefinedBelieveStatus
-        BelieveStatusType.God -> WorshipsGod(parseGodId(parameters, combine(param, GOD)))
-        BelieveStatusType.Pantheon -> WorshipsPantheon(parsePantheonId(parameters, combine(param, PANTHEON)))
+fun parseBeliefStatus(parameters: Parameters, state: State, param: String): BeliefStatus {
+    return when (parse(parameters, param, BeliefStatusType.Undefined)) {
+        BeliefStatusType.Undefined -> UndefinedBeliefStatus
+        BeliefStatusType.God -> WorshipsGod(parseGodId(parameters, combine(param, GOD)))
+        BeliefStatusType.Pantheon -> WorshipsPantheon(parsePantheonId(parameters, combine(param, PANTHEON)))
     }
 }

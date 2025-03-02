@@ -5,35 +5,35 @@ import at.orchaldir.gm.core.model.religion.PantheonId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-enum class BelieveStatusType {
+enum class BeliefStatusType {
     Undefined,
     God,
     Pantheon,
 }
 
 @Serializable
-sealed class BelieveStatus {
+sealed class BeliefStatus {
 
     fun getType() = when (this) {
-        UndefinedBelieveStatus -> BelieveStatusType.Undefined
-        is WorshipsGod -> BelieveStatusType.God
-        is WorshipsPantheon -> BelieveStatusType.Pantheon
+        UndefinedBeliefStatus -> BeliefStatusType.Undefined
+        is WorshipsGod -> BeliefStatusType.God
+        is WorshipsPantheon -> BeliefStatusType.Pantheon
     }
 
 }
 
 @Serializable
 @SerialName("Undefined")
-data object UndefinedBelieveStatus : BelieveStatus()
+data object UndefinedBeliefStatus : BeliefStatus()
 
 @Serializable
 @SerialName("God")
 data class WorshipsGod(
     val god: GodId,
-) : BelieveStatus()
+) : BeliefStatus()
 
 @Serializable
 @SerialName("Pantheon")
 data class WorshipsPantheon(
     val pantheon: PantheonId,
-) : BelieveStatus()
+) : BeliefStatus()

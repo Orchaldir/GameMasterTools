@@ -184,7 +184,7 @@ private fun HTML.showAllCharacters(
                 th { +"Race" }
                 th { +"Gender" }
                 th { +"Culture" }
-                th { +"Believe" }
+                th { +"Belief" }
                 th { +"Birthdate" }
                 th { +"Age" }
                 th { +"Housing Status" }
@@ -205,7 +205,7 @@ private fun HTML.showAllCharacters(
                     td { link(call, state, character.race) }
                     td { +character.gender.toString() }
                     td { link(call, state, character.culture) }
-                    td { showBelieveStatus(call, state, character.believeStatus.current, false) }
+                    td { showBeliefStatus(call, state, character.beliefStatus.current, false) }
                     td { showDate(call, state, character.birthDate) }
                     tdSkipZero(state.getAgeInYears(character))
                     td { showHousingStatus(call, state, character.housingStatus.current, false) }
@@ -407,7 +407,7 @@ private fun BODY.showSocial(
     h2 { +"Social" }
 
     fieldLink("Culture", call, state, character.culture)
-    showBelieveStatusHistory(call, state, character.believeStatus)
+    showBeliefStatusHistory(call, state, character.beliefStatus)
 
     showFamily(call, state, character)
 
@@ -524,7 +524,7 @@ private fun HTML.showCharacterEditor(
             selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
             h2 { +"Social" }
             selectElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
-            editBelieveStatusHistory(state, character.believeStatus, character.birthDate)
+            editBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
             editPersonality(call, state, character.personality)
             button("Update", updateLink)
         }
