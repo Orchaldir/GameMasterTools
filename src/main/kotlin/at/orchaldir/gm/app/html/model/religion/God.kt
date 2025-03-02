@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
+import at.orchaldir.gm.core.selector.getBelievers
 import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.core.selector.religion.getPantheonsContaining
 import at.orchaldir.gm.core.selector.util.sortDomains
@@ -52,6 +53,10 @@ fun HtmlBlockTag.showGod(
 
     showList("Pantheons", state.getPantheonsContaining(god.id)) { pantheon ->
         link(call, state, pantheon)
+    }
+
+    showList("Believers", state.getBelievers(god.id)) { character ->
+        link(call, state, character)
     }
 
     showCreated(call, state, god.id)

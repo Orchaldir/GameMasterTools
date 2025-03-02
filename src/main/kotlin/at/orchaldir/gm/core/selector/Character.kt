@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.religion.GodId
+import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.world.building.BuildingId
@@ -78,6 +80,16 @@ fun State.getCharacters(trait: PersonalityTraitId) =
     getCharacterStorage().getAll().filter { c -> c.personality.contains(trait) }
 
 fun State.getCharacters(race: RaceId) = getCharacterStorage().getAll().filter { c -> c.race == race }
+
+// belief status
+
+fun State.getBelievers(god: GodId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.beliefStatus.current.believesIn(god) }
+
+fun State.getBelievers(pantheon: PantheonId) = getCharacterStorage()
+    .getAll()
+    .filter { c -> c.beliefStatus.current.believesIn(pantheon) }
 
 // housing status
 

@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.parse.parseOptionalString
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
+import at.orchaldir.gm.core.selector.getBelievers
 import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -28,6 +29,10 @@ fun HtmlBlockTag.showPantheon(
 
     showList("Member Gods", pantheon.gods) { god ->
         link(call, state, god)
+    }
+
+    showList("Believers", state.getBelievers(pantheon.id)) { character ->
+        link(call, state, character)
     }
 }
 

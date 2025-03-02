@@ -20,6 +20,10 @@ sealed class BeliefStatus {
         is WorshipsPantheon -> BeliefStatusType.Pantheon
     }
 
+    fun believesIn(id: GodId) = this is WorshipsGod && god == id
+
+    fun believesIn(id: PantheonId) = this is WorshipsPantheon && pantheon == id
+
 }
 
 @Serializable
