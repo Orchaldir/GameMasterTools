@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.selector.getHolidays
+import at.orchaldir.gm.core.selector.religion.getPantheonsContaining
 import at.orchaldir.gm.core.selector.util.sortDomains
 import at.orchaldir.gm.core.selector.world.getHeartPlane
 import at.orchaldir.gm.core.selector.world.getPrisonPlane
@@ -47,6 +48,10 @@ fun HtmlBlockTag.showGod(
 
     showList("Holidays", state.getHolidays(god.id)) { holiday ->
         link(call, state, holiday)
+    }
+
+    showList("Pantheons", state.getPantheonsContaining(god.id)) { pantheon ->
+        link(call, state, pantheon)
     }
 
     showCreated(call, state, god.id)
