@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.Serializable
 
 enum class HornSetShape {
+    Bull,
     Goat,
     Mouflon,
     Sheep,
@@ -12,7 +13,7 @@ enum class HornSetShape {
 
 @Serializable
 data class HornSet(
-    val color: Color = Color.Black,
     val shape: HornSetShape = HornSetShape.Goat,
     val size: Size = Size.Medium,
+    val color: Color = Color.White,
 )
