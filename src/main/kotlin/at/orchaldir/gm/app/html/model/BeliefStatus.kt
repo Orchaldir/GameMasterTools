@@ -38,6 +38,7 @@ fun HtmlBlockTag.showBeliefStatus(
             +"Undefined"
         }
 
+        Atheist -> +"Atheist"
         is WorshipsGod -> link(call, state, status.god)
         is WorshipsPantheon -> link(call, state, status.pantheon)
     }
@@ -60,7 +61,7 @@ fun HtmlBlockTag.editBeliefStatus(
     selectValue("Belief Status", param, BeliefStatusType.entries, status.getType(), true)
 
     when (status) {
-        UndefinedBeliefStatus -> doNothing()
+        Atheist, UndefinedBeliefStatus -> doNothing()
         is WorshipsGod -> selectElement(state, "God", combine(param, GOD), state.sortGods(), status.god)
         is WorshipsPantheon -> selectElement(
             state,
@@ -80,6 +81,7 @@ fun parseBeliefStatusHistory(parameters: Parameters, state: State, startDate: Da
 fun parseBeliefStatus(parameters: Parameters, state: State, param: String): BeliefStatus {
     return when (parse(parameters, param, BeliefStatusType.Undefined)) {
         BeliefStatusType.Undefined -> UndefinedBeliefStatus
+        BeliefStatusType.Atheist -> Atheist
         BeliefStatusType.God -> WorshipsGod(parseGodId(parameters, combine(param, GOD)))
         BeliefStatusType.Pantheon -> WorshipsPantheon(parsePantheonId(parameters, combine(param, PANTHEON)))
     }

@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 
 enum class BeliefStatusType {
     Undefined,
+    Atheist,
     God,
     Pantheon,
 }
@@ -16,6 +17,7 @@ sealed class BeliefStatus {
 
     fun getType() = when (this) {
         UndefinedBeliefStatus -> BeliefStatusType.Undefined
+        Atheist -> BeliefStatusType.Atheist
         is WorshipsGod -> BeliefStatusType.God
         is WorshipsPantheon -> BeliefStatusType.Pantheon
     }
@@ -29,6 +31,10 @@ sealed class BeliefStatus {
 @Serializable
 @SerialName("Undefined")
 data object UndefinedBeliefStatus : BeliefStatus()
+
+@Serializable
+@SerialName("Atheist")
+data object Atheist : BeliefStatus()
 
 @Serializable
 @SerialName("God")
