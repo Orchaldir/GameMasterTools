@@ -1,6 +1,8 @@
 package at.orchaldir.gm.app.html.model
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.BELIEVE
+import at.orchaldir.gm.app.GOD
+import at.orchaldir.gm.app.PANTHEON
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.model.religion.parseGodId
 import at.orchaldir.gm.app.html.model.religion.parsePantheonId
@@ -12,7 +14,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.selector.util.*
+import at.orchaldir.gm.core.selector.util.sortGods
+import at.orchaldir.gm.core.selector.util.sortPantheons
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*

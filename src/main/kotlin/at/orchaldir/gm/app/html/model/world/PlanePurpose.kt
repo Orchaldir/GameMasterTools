@@ -115,6 +115,7 @@ fun HtmlBlockTag.editPlanePurpose(
                 selectElements(state, "Gods", combine(PURPOSE, GOD), gods, purpose.gods)
                 selectCreator(state, purpose.creator, plane.id, null, "Creator")
             }
+
             is ReflectivePlane -> selectOtherPlane(state, otherPlanes, purpose.plane)
         }
     }
@@ -139,5 +140,6 @@ fun parsePlanePurpose(parameters: Parameters) = when (parse(parameters, PURPOSE,
         parseElements(parameters, combine(PURPOSE, GOD), ::parseGodId),
         parseCreator(parameters),
     )
+
     Reflective -> ReflectivePlane(parsePlaneId(parameters, combine(PURPOSE, PLANE)))
 }

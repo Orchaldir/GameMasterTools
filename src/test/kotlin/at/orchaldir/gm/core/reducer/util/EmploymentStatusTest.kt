@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.reducer.util
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Employed
-import at.orchaldir.gm.core.model.character.EmploymentStatus
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.util.History
