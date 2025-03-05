@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.character.appearance.horn.NoHorns
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
@@ -73,6 +74,7 @@ fun generateHead(config: AppearanceGeneratorConfig, skin: Skin): Head {
         generateEars(config),
         generateEyes(config),
         hair,
+        NoHorns,
         generateMouth(config, hair),
         skin,
     )

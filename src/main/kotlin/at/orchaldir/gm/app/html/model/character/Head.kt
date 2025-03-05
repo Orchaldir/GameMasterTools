@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.character.appearance.horn.NoHorns
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
@@ -262,7 +263,7 @@ fun parseHead(
     val hair = parseHair(parameters, config)
     val mouth = parseMouth(parameters, config, character, hair)
 
-    return Head(ears, eyes, hair, mouth, skin)
+    return Head(ears, eyes, hair, NoHorns, mouth, skin)
 }
 
 private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig, hair: Hair): Beard {

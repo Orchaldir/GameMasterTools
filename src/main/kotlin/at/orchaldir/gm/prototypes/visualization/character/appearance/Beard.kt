@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.SidePart
+import at.orchaldir.gm.core.model.character.appearance.horn.NoHorns
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
@@ -51,6 +52,7 @@ private fun createAppearance(distance: Distance, eyes: Eyes, style: BeardStyle) 
             NormalEars(),
             eyes,
             NormalHair(SidePart(Side.Left), Color.SaddleBrown),
+            NoHorns,
             NormalMouth(NormalBeard(style, Color.SaddleBrown))
         ),
         distance,
