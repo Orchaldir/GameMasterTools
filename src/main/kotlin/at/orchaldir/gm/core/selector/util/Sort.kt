@@ -149,6 +149,7 @@ fun State.sortGods(
     .sortedWith(
         when (sort) {
             SortGod.Name -> compareBy { it.name(this) }
+            SortGod.Believers -> compareBy { getBelievers(it.id).size }
         })
 
 // holiday

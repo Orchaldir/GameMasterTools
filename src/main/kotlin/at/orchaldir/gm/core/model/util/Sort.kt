@@ -33,6 +33,7 @@ enum class SortFont {
 
 enum class SortGod {
     Name,
+    Believers,
 }
 
 enum class SortJob {

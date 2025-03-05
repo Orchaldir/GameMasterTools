@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.religion.GOD_TYPE
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.util.SortGod
+import at.orchaldir.gm.core.selector.getBelievers
 import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
@@ -137,11 +138,14 @@ private fun HTML.showAllGods(
     val gods = state.sortGods(sort)
     val createLink = call.application.href(GodRoutes.New())
     val sortNameLink = call.application.href(GodRoutes.All(SortGod.Name))
+    val sortBelieversLink = call.application.href(GodRoutes.All(SortGod.Believers))
 
     simpleHtml("Gods") {
         field("Count", gods.size)
         field("Sort") {
             link(sortNameLink, "Name")
+            +" "
+            link(sortBelieversLink, "Believers")
         }
 
         table {
@@ -151,6 +155,7 @@ private fun HTML.showAllGods(
                 th { +"Gender" }
                 th { +"Personality" }
                 th { +"Domain" }
+                th { +"Believers" }
             }
             gods.forEach { god ->
                 tr {
@@ -173,6 +178,7 @@ private fun HTML.showAllGods(
                             link(call, it)
                         }
                     }
+                    tdSkipZero(state.getBelievers(god.id).size)
                 }
             }
         }

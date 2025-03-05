@@ -52,6 +52,12 @@
     "height": {
      "millimeters": 1800
     }
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "Pantheon",
+     "pantheon": 0
+    }
    }
   },
   "1": {
@@ -142,6 +148,12 @@
       }
      }
     ]
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "Pantheon",
+     "pantheon": 0
+    }
    }
   },
   "2": {
@@ -225,6 +237,12 @@
       }
      }
     ]
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "Pantheon",
+     "pantheon": 0
+    }
    }
   },
   "3": {
@@ -609,6 +627,12 @@
       }
      }
     ]
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "Pantheon",
+     "pantheon": 0
+    }
    }
   },
   "9": {
@@ -649,6 +673,12 @@
       }
      }
     ]
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "Pantheon",
+     "pantheon": 0
+    }
    }
   },
   "10": {
@@ -731,6 +761,12 @@
       }
      }
     ]
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "Pantheon",
+     "pantheon": 0
+    }
    }
   },
   "11": {
@@ -766,6 +802,12 @@
       }
      }
     ]
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "Pantheon",
+     "pantheon": 0
+    }
    }
   },
   "12": {
@@ -803,6 +845,12 @@
       }
      }
     ]
+   },
+   "beliefStatus": {
+    "current": {
+     "type": "Pantheon",
+     "pantheon": 0
+    }
    }
   },
   "13": {
