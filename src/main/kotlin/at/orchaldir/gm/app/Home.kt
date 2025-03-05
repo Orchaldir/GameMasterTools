@@ -15,6 +15,7 @@ import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes.AppearanceRoutes
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
+import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.TownRoutes
 import io.ktor.http.*
@@ -69,6 +70,7 @@ fun Application.configureRouting() {
                     h3 { +"Religion" }
                     fieldStorageLink(call, state.getDomainStorage(), DomainRoutes.All())
                     fieldStorageLink(call, state.getGodStorage(), GodRoutes.All())
+                    fieldStorageLink(call, state.getPantheonStorage(), PantheonRoutes.All())
                     h3 { +"Time" }
                     fieldStorageLink(call, state.getCalendarStorage(), CalendarRoutes())
                     fieldStorageLink(call, state.getHolidayStorage(), HolidayRoutes())

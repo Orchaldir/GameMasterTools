@@ -182,8 +182,9 @@ private fun HTML.showAllCharacters(
             tr {
                 th { +"Name" }
                 th { +"Race" }
-                th { +"Culture" }
                 th { +"Gender" }
+                th { +"Culture" }
+                th { +"Belief" }
                 th { +"Birthdate" }
                 th { +"Age" }
                 th { +"Housing Status" }
@@ -202,10 +203,11 @@ private fun HTML.showAllCharacters(
                         }
                     }
                     td { link(call, state, character.race) }
-                    td { link(call, state, character.culture) }
                     td { +character.gender.toString() }
+                    td { link(call, state, character.culture) }
+                    td { showBeliefStatus(call, state, character.beliefStatus.current, false) }
                     td { showDate(call, state, character.birthDate) }
-                    td { +state.getAgeInYears(character).toString() }
+                    tdSkipZero(state.getAgeInYears(character))
                     td { showHousingStatus(call, state, character.housingStatus.current, false) }
                     td { showEmploymentStatus(call, state, character.employmentStatus.current, false) }
                     tdSkipZero(state.getOrganizations(character.id).size)
@@ -405,6 +407,7 @@ private fun BODY.showSocial(
     h2 { +"Social" }
 
     fieldLink("Culture", call, state, character.culture)
+    showBeliefStatusHistory(call, state, character.beliefStatus)
 
     showFamily(call, state, character)
 
@@ -482,9 +485,7 @@ fun BODY.showPossession(
 ) {
     val editEquipmentLink = call.application.href(CharacterRoutes.Equipment.Edit(character.id))
 
-    h2 { +"Possession" }
-
-    showOwnedElements(call, state, character.id)
+    showOwnedElements(call, state, character.id, true)
 
     showList("Equipped", character.equipmentMap.map.values) { item ->
         link(call, state, item)
@@ -523,6 +524,7 @@ private fun HTML.showCharacterEditor(
             selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
             h2 { +"Social" }
             selectElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
+            editBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
             editPersonality(call, state, character.personality)
             button("Update", updateLink)
         }

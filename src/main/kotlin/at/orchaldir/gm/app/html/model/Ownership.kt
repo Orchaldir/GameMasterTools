@@ -28,6 +28,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -35,20 +36,32 @@ fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
     call: ApplicationCall,
     state: State,
     id: ID,
+    alwaysShowTitle: Boolean = false,
 ) {
-    showList("Owned Buildings", state.getOwnedBuildings(id)) { building ->
+    val buildings = state.getOwnedBuildings(id)
+    val previousBuildings = state.getPreviouslyOwnedBuildings(id)
+    val businesses = state.getOwnedBusinesses(id)
+    val previousBusinesses = state.getPreviouslyOwnedBusinesses(id)
+
+    if (!alwaysShowTitle && buildings.isEmpty() && previousBuildings.isEmpty() && businesses.isEmpty() && previousBusinesses.isEmpty()) {
+        return
+    }
+
+    h2 { +"Possession" }
+
+    showList("Owned Buildings", buildings) { building ->
         link(call, state, building)
     }
 
-    showList("Previously owned Buildings", state.getPreviouslyOwnedBuildings(id)) { building ->
+    showList("Previously owned Buildings", previousBuildings) { building ->
         link(call, state, building)
     }
 
-    showList("Owned Businesses", state.getOwnedBusinesses(id)) { business ->
+    showList("Owned Businesses", businesses) { business ->
         link(call, state, business)
     }
 
-    showList("Previously owned Businesses", state.getPreviouslyOwnedBusinesses(id)) { business ->
+    showList("Previously owned Businesses", previousBusinesses) { business ->
         link(call, state, business)
     }
 }

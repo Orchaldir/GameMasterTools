@@ -8,9 +8,11 @@ import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.core.selector.world.getHeartPlane
+import at.orchaldir.gm.core.selector.world.getPrisonPlane
 
 fun State.canDeleteGod(god: GodId) = getHeartPlane(god) == null
         && getHolidays(god).isEmpty()
+        && getPrisonPlane(god) == null
 
 fun State.getGodsAssociatedWith(id: JobId): List<God> {
     val domains = getDomainsAssociatedWith(id).map { it.id }

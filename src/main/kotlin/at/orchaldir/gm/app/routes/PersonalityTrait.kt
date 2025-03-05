@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parsePersonalityTrait
+import at.orchaldir.gm.app.html.model.parsePersonalityTrait
 import at.orchaldir.gm.core.action.CreatePersonalityTrait
 import at.orchaldir.gm.core.action.DeletePersonalityTrait
 import at.orchaldir.gm.core.action.UpdatePersonalityTrait
@@ -121,7 +121,7 @@ private fun HTML.showAllPersonalityTraits(call: ApplicationCall, state: State) {
             tr {
                 th { +"Name" }
                 th { +"Characters" }
-                th { +"Group" }
+                th { +"Gods" }
             }
             personalityTraits.forEach { trait ->
                 tr {

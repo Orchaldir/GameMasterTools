@@ -151,15 +151,7 @@ fun parseFloat(parameters: Parameters, param: String, default: Float = 0.0f) = p
 
 fun parseString(parameters: Parameters, param: String, default: String = "") = parameters[param]?.trim() ?: default
 
-fun parseOptionalString(parameters: Parameters, param: String): String? {
-    val name = parameters[param]?.trim() ?: return null
-
-    if (name.isEmpty()) {
-        return null
-    }
-
-    return name
-}
+fun parseOptionalString(parameters: Parameters, param: String) = parameters[param]?.ifEmpty { null }?.trim()
 
 fun <ID : Id<ID>> parseElements(parameters: Parameters, param: String, parseId: (String) -> ID) =
     parameters.getAll(param)

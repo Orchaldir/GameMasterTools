@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.religion.GOD_TYPE
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.util.SortGod
+import at.orchaldir.gm.core.selector.getBelievers
 import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.util.sortGods
 import io.ktor.http.*
@@ -118,7 +119,6 @@ fun Application.configureGodRouting() {
             logger.info { "Update god ${update.id.value}" }
 
             val formParameters = call.receiveParameters()
-            val state = STORE.getState()
             val god = parseGod(formParameters, update.id)
 
             STORE.dispatch(UpdateGod(god))
@@ -138,23 +138,29 @@ private fun HTML.showAllGods(
     val gods = state.sortGods(sort)
     val createLink = call.application.href(GodRoutes.New())
     val sortNameLink = call.application.href(GodRoutes.All(SortGod.Name))
+    val sortBelieversLink = call.application.href(GodRoutes.All(SortGod.Believers))
 
     simpleHtml("Gods") {
         field("Count", gods.size)
         field("Sort") {
             link(sortNameLink, "Name")
+            +" "
+            link(sortBelieversLink, "Believers")
         }
 
         table {
             tr {
                 th { +"Name" }
+                th { +"Title" }
                 th { +"Gender" }
                 th { +"Personality" }
                 th { +"Domain" }
+                th { +"Believers" }
             }
             gods.forEach { god ->
                 tr {
                     td { link(call, state, god) }
+                    tdString(god.title)
                     td { +god.gender.name }
                     td {
                         showList(
@@ -172,6 +178,7 @@ private fun HTML.showAllGods(
                             link(call, it)
                         }
                     }
+                    tdSkipZero(state.getBelievers(god.id).size)
                 }
             }
         }

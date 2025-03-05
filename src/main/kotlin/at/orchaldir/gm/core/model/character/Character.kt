@@ -49,6 +49,7 @@ data class Character(
     val equipmentMap: EquipmentMap = EquipmentMap(emptyMap()),
     val housingStatus: History<HousingStatus> = History(UndefinedHousingStatus),
     val employmentStatus: History<EmploymentStatus> = History(UndefinedEmploymentStatus),
+    val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
 ) : Element<CharacterId>, HasStartDate {
 
     override fun id() = id

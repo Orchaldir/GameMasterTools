@@ -33,6 +33,7 @@ enum class SortFont {
 
 enum class SortGod {
     Name,
+    Believers,
 }
 
 enum class SortJob {
@@ -43,6 +44,12 @@ enum class SortOrganization {
     Age,
     Name,
     Members,
+}
+
+enum class SortPantheon {
+    Name,
+    Gods,
+    Believers,
 }
 
 enum class SortPlane {

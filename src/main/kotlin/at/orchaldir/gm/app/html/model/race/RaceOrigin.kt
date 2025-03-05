@@ -56,9 +56,9 @@ fun HtmlBlockTag.displayRaceOrigin(
         }
 
         is ModifiedRace -> {
-            showCreator(call, state, origin.modifier)
-            +" modified "
             link(call, state, origin.parent)
+            +" modified by "
+            showCreator(call, state, origin.modifier)
         }
 
         OriginalRace -> if (displayOriginal) {

@@ -21,6 +21,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
+import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.time.Day
 import at.orchaldir.gm.core.model.time.Year
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
@@ -38,6 +39,7 @@ val ARCHITECTURAL_ID1 = ArchitecturalStyleId(1)
 val BUILDING_ID_0 = BuildingId(0)
 val BUILDING_ID_1 = BuildingId(1)
 val BUSINESS_ID_0 = BusinessId(0)
+val UNKNOWN_BUSINESS_ID = BusinessId(99)
 val CALENDAR_ID_0 = CalendarId(0)
 val CALENDAR_ID_1 = CalendarId(1)
 val UNKNOWN_CALENDAR_ID = CalendarId(99)
@@ -55,6 +57,7 @@ val UNKNOWN_GOD_ID = GodId(99)
 val HOLIDAY_ID_0 = HolidayId(0)
 val UNKNOWN_HOLIDAY_ID = HolidayId(99)
 val JOB_ID_0 = JobId(0)
+val UNKNOWN_JOB_ID = JobId(99)
 val LANGUAGE_ID_0 = LanguageId(0)
 val LANGUAGE_ID_1 = LanguageId(1)
 val MATERIAL_ID_0 = MaterialId(0)
@@ -63,6 +66,8 @@ val MOON_ID_0 = MoonId(0)
 val MOUNTAIN_ID_0 = MountainId(0)
 val MOUNTAIN_ID_1 = MountainId(1)
 val ORGANIZATION_ID_0 = OrganizationId(0)
+val PANTHEON_ID_0 = PantheonId(0)
+val UNKNOWN_PANTHEON_ID = PantheonId(99)
 val PERSONALITY_ID_0 = PersonalityTraitId(0)
 val UNKNOWN_PERSONALITY_ID = PersonalityTraitId(99)
 val PLANE_ID_0 = PlaneId(0)

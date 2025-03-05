@@ -426,6 +426,18 @@ class CharacterTest {
         }
 
         @Nested
+        inner class BeliefStatusTest {
+
+            @Test
+            fun `Cannot use unknown building as home`() {
+                val action =
+                    UpdateCharacter(Character(CHARACTER_ID_0, beliefStatus = History(WorshipsGod(UNKNOWN_GOD_ID))))
+
+                assertIllegalArgument("The belief's god 99 doesn't exist!") { REDUCER.invoke(STATE, action) }
+            }
+        }
+
+        @Nested
         inner class HousingStatusTest {
 
             @Test

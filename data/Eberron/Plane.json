@@ -199,6 +199,62 @@
     "type": "Reflective",
     "plane": 13
    }
+  },
+  "21": {
+   "id": 21,
+   "name": "The Dying Tree",
+   "purpose": {
+    "type": "Prison",
+    "gods": [
+     18
+    ],
+    "creator": {
+     "type": "Organization",
+     "organization": 29
+    }
+   }
+  },
+  "22": {
+   "id": 22,
+   "name": "The Palace of Sinew",
+   "purpose": {
+    "type": "Prison",
+    "gods": [
+     23
+    ],
+    "creator": {
+     "type": "Organization",
+     "organization": 29
+    }
+   }
+  },
+  "23": {
+   "id": 23,
+   "name": "The Citadel of Lidless Eyes",
+   "purpose": {
+    "type": "Prison",
+    "gods": [
+     22
+    ],
+    "creator": {
+     "type": "Organization",
+     "organization": 29
+    }
+   }
+  },
+  "24": {
+   "id": 24,
+   "name": "The Heart of Stone",
+   "purpose": {
+    "type": "Prison",
+    "gods": [
+     20
+    ],
+    "creator": {
+     "type": "Organization",
+     "organization": 29
+    }
+   }
   }
  }
 }

@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.religion
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -22,12 +23,15 @@ value class GodId(val value: Int) : Id<GodId> {
 data class God(
     val id: GodId,
     val name: String = "God ${id.value}",
+    val title: String? = null,
     val gender: Gender = Gender.Genderless,
     val personality: Set<PersonalityTraitId> = emptySet(),
     val domains: Set<DomainId> = emptySet(),
-) : ElementWithSimpleName<GodId> {
+) : ElementWithSimpleName<GodId>, HasStartDate {
 
     override fun id() = id
     override fun name() = name
+
+    override fun startDate() = null
 
 }

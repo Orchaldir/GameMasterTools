@@ -14,5 +14,9 @@ val RELIGION_REDUCER: Reducer<ReligionAction, State> = { state, action ->
         is CreateGod -> CREATE_GOD(state, action)
         is DeleteGod -> DELETE_GOD(state, action)
         is UpdateGod -> UPDATE_GOD(state, action)
+        // god
+        is CreatePantheon -> CREATE_PANTHEON(state, action)
+        is DeletePantheon -> DELETE_PANTHEON(state, action)
+        is UpdatePantheon -> UPDATE_PANTHEON(state, action)
     }
 }

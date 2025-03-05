@@ -12,10 +12,12 @@ import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
+import at.orchaldir.gm.core.selector.getBelievers
 import at.orchaldir.gm.core.selector.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getEmployees
 
@@ -147,6 +149,7 @@ fun State.sortGods(
     .sortedWith(
         when (sort) {
             SortGod.Name -> compareBy { it.name(this) }
+            SortGod.Believers -> compareBy { getBelievers(it.id).size }
         })
 
 // holiday
@@ -185,6 +188,22 @@ fun State.sortOrganizations(
             SortOrganization.Name -> compareBy { it.name }
             SortOrganization.Age -> getAgeComparator()
             SortOrganization.Members -> compareBy { it.countAllMembers() }
+        })
+
+// domain
+
+fun State.sortPantheons(sort: SortPantheon = SortPantheon.Name) =
+    sortPantheons(getPantheonStorage().getAll(), sort)
+
+fun State.sortPantheons(
+    domains: Collection<Pantheon>,
+    sort: SortPantheon = SortPantheon.Name,
+) = domains
+    .sortedWith(
+        when (sort) {
+            SortPantheon.Name -> compareBy { it.name(this) }
+            SortPantheon.Gods -> compareBy { it.gods.size }
+            SortPantheon.Believers -> compareBy { getBelievers(it.id).size }
         })
 
 // plane

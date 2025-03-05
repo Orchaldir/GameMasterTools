@@ -15,6 +15,7 @@ import at.orchaldir.gm.app.routes.race.configureRaceAppearanceRouting
 import at.orchaldir.gm.app.routes.race.configureRaceRouting
 import at.orchaldir.gm.app.routes.religion.configureDomainRouting
 import at.orchaldir.gm.app.routes.religion.configureGodRouting
+import at.orchaldir.gm.app.routes.religion.configurePantheonRouting
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.configureBuildingEditorRouting
 import at.orchaldir.gm.app.routes.world.town.configureStreetEditorRouting
@@ -74,6 +75,7 @@ fun Application.module() {
     configureMountainRouting()
     configureNameListRouting()
     configureOrganizationRouting()
+    configurePantheonRouting()
     configurePersonalityRouting()
     configurePlaneRouting()
     configureRaceRouting()
