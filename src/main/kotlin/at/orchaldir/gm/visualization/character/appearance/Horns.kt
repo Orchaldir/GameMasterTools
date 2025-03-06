@@ -67,7 +67,7 @@ private fun createLeftCurvedHornAtSide(
     builder: Polygon2dBuilder,
 ) {
 
-    val y = Factor(0.3f)
+    val y = Factor(0.2f)
     val halfWidth = horn.width / 2.0f
 
     builder.addPoint(state.aabb, FULL, y - halfWidth, true)

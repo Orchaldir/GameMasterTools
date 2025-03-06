@@ -3,6 +3,8 @@ package at.orchaldir.gm.prototypes.visualization.character.appearance
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
+import at.orchaldir.gm.core.model.character.appearance.NormalEars
+import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -43,6 +45,10 @@ private fun createHorn(position: HornPosition, curve: HornCurve) = CurvedHorn(
 
 private fun createAppearance(horns: Horns) =
     HeadOnly(
-        Head(horns = horns),
+        Head(
+            NormalEars(),
+            TwoEyes(),
+            horns = horns
+        ),
         Distance(200),
     )
