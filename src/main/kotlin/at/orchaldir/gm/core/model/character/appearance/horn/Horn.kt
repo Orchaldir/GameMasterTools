@@ -5,21 +5,21 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class HornType {
-    Complex,
+    Curved,
 }
 
 @Serializable
 sealed class Horn {
 
     fun getType() = when (this) {
-        is ComplexHorn -> HornType.Complex
+        is CurvedHorn -> HornType.Curved
     }
 
 }
 
 @Serializable
-@SerialName("Complex")
-data class ComplexHorn(
+@SerialName("Curved")
+data class CurvedHorn(
     val distance: Factor,
     val width: Factor,
     val position: HornPosition = HornPosition.Top,
