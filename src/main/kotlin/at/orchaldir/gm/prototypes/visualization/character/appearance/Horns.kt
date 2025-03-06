@@ -12,29 +12,25 @@ import at.orchaldir.gm.utils.math.Orientation
 
 fun main() {
     val appearances: MutableList<List<Appearance>> = mutableListOf()
+    val mouflon = ConstantCurvature(
+        Orientation.fromDegree(0.0f),
+        Orientation.fromDegree(270.0f),
+    )
 
-    HornPosition.entries.forEach { poistion ->
+    HornPosition.entries.forEach { position ->
         val horns = mutableListOf<Appearance>()
 
-        horns.add(createAppearance(TwoHorns(createHorn(poistion, StraightHorn(Orientation.fromDegree(0.0f))))))
-        horns.add(
-            createAppearance(
-                TwoHorns(
-                    createHorn(
-                        poistion, ConstantCurvature(
-                            Orientation.fromDegree(0.0f),
-                            Orientation.fromDegree(270.0f),
-                        )
-                    )
-                )
-            )
-        )
+        horns.add(createTwoHorns(position, StraightHorn(Orientation.fromDegree(0.0f))))
+        horns.add(createTwoHorns(position, mouflon))
 
         appearances.add(horns)
     }
 
     renderCharacterTable("horns.svg", CHARACTER_CONFIG, appearances)
 }
+
+private fun createTwoHorns(position: HornPosition, curve: HornCurve) =
+    createAppearance(TwoHorns(createHorn(position, curve)))
 
 private fun createHorn(position: HornPosition, curve: HornCurve) = CurvedHorn(
     Factor(1.0f),
