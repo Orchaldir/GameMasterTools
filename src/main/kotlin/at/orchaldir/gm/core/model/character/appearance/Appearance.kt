@@ -44,7 +44,10 @@ data object UndefinedAppearance : Appearance()
 data class HeadOnly(
     val head: Head,
     val height: Distance,
-) : Appearance()
+) : Appearance() {
+
+    fun calculateSize() = head.calculateSize(height)
+}
 
 @Serializable
 @SerialName("Humanoid")

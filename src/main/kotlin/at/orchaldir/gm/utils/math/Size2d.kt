@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.math
 
 import kotlinx.serialization.Serializable
+import kotlin.math.max
 
 @Serializable
 data class Size2d(val width: Float, val height: Float) {
@@ -26,4 +27,6 @@ data class Size2d(val width: Float, val height: Float) {
     operator fun div(factor: Factor) = Size2d(width / factor.value, height / factor.value)
 
     fun replaceWidth(width: Distance) = copy(width = width.toMeters())
+
+    fun max(other: Size2d) = Size2d(max(width, other.width), max(height, other.height))
 }

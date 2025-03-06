@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import at.orchaldir.gm.core.model.character.appearance.horn.Horns
 import at.orchaldir.gm.core.model.character.appearance.horn.NoHorns
+import at.orchaldir.gm.utils.math.Distance
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -16,4 +17,6 @@ data class Head(
     val horns: Horns = NoHorns,
     val mouth: Mouth = NoMouth,
     val skin: Skin = NormalSkin(),
-)
+) {
+    fun calculateSize(headHeight: Distance) = headHeight + horns.calculatePadding(headHeight)
+}
