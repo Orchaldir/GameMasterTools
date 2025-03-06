@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.horn.*
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.Distance
@@ -36,7 +37,8 @@ private fun createHorn(position: HornPosition, curve: HornCurve) = CurvedHorn(
     Factor(1.0f),
     Factor(0.2f),
     position,
-    curve
+    curve,
+    Color.Red,
 )
 
 private fun createAppearance(horns: Horns) =

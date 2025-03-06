@@ -39,6 +39,7 @@ fun visualizeHead(
     visualizeEyes(state, head)
     visualizeMouth(state, head)
     visualizeHair(state, head)
+    visualizeHorns(state, head.horns)
     visualizeHeadEquipment(state, head)
 }
 

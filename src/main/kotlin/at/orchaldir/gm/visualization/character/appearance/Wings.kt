@@ -9,15 +9,6 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
-data class WingsConfig(
-    private val diameter: SizeConfig<Factor>,
-    private val distanceBetweenWings: SizeConfig<Factor>,
-    private val almondHeight: Factor,
-    private val ellipseHeight: Factor,
-    val pupilFactor: Factor,
-    val slitFactor: Factor,
-)
-
 fun visualizeWings(state: CharacterRenderState, wings: Wings) = when (wings) {
     NoWings -> doNothing()
     is OneWing -> visualizeWing(state, wings.wing, wings.side)
