@@ -26,13 +26,13 @@ data object NoHorns : Horns()
 
 @Serializable
 @SerialName("Two")
-data class TwoHorns(val set: HornSet = HornSet()) : Horns()
+data class TwoHorns(val set: Horn) : Horns()
 
 @Serializable
 @SerialName("Different")
 data class DifferentHorns(
-    val left: HornSet = HornSet(),
-    val right: HornSet = HornSet(),
+    val left: Horn,
+    val right: Horn,
 ) : Horns()
 
 
