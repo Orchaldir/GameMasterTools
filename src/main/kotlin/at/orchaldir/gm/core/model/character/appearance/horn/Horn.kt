@@ -22,7 +22,8 @@ sealed class Horn {
 data class CurvedHorn(
     val distance: Factor,
     val width: Factor,
-    val position: HornPosition = HornPosition.Top,
+    val position: HornPosition,
+    val curve: HornCurve,
 ) : Horn()
 
 

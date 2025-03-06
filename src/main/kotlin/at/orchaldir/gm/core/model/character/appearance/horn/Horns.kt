@@ -26,7 +26,7 @@ data object NoHorns : Horns()
 
 @Serializable
 @SerialName("Two")
-data class TwoHorns(val set: Horn) : Horns()
+data class TwoHorns(val horn: Horn) : Horns()
 
 @Serializable
 @SerialName("Different")
