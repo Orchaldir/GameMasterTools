@@ -114,9 +114,9 @@ private fun createLeftCurvedHornAtSide(
             val stepWidth = halfWidth / steps
 
             repeat(steps - 1) {
+                orientation += stepOrientation
                 halfWidth -= stepWidth
                 center = center.createPolar(stepLength, orientation)
-                orientation += stepOrientation
 
                 val right = center.createPolar(halfWidth, orientation - QUARTER)
                 val left = center.createPolar(halfWidth, orientation + QUARTER)
