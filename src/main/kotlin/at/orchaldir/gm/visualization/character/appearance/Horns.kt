@@ -69,10 +69,10 @@ private fun createLeftCurvedHornAtBrow(
     val y = Factor(0.2f)
     val halfWidth = horn.width / 2.0f
 
-    createLeftCurvedHornAtSide(state, horn, builder)
-
-    builder.addLeftPoint(state.aabb, CENTER, y - halfWidth)
     builder.addLeftPoint(state.aabb, CENTER, y + halfWidth)
+    builder.addRightPoint(state.aabb, CENTER, y - halfWidth)
+
+    createLeftCurvedHornAtSide(state, horn, builder)
 }
 
 private fun createLeftCurvedHornInFront(
@@ -84,10 +84,10 @@ private fun createLeftCurvedHornInFront(
     val y = Factor(0.3f)
     val halfWidth = horn.width / 2.0f
 
-    createLeftCurvedHornAtTop(state, horn, builder)
-
     builder.addLeftPoint(state.aabb, x - halfWidth, y)
-    builder.addLeftPoint(state.aabb, x + halfWidth, y)
+    builder.addRightPoint(state.aabb, x + halfWidth, y)
+
+    createLeftCurvedHornAtTop(state, horn, builder)
 }
 
 private fun createLeftCurvedHornAtSide(
@@ -142,7 +142,7 @@ private fun createLeftCurvedHornAtTop(
     val x = Factor(0.8f)
     val halfWidth = horn.width / 2.0f
 
-    builder.addLeftPoint(state.aabb, x + halfWidth, START, true)
-    builder.addLeftPoint(state.aabb, x, START - horn.length, true)
     builder.addLeftPoint(state.aabb, x - halfWidth, START, true)
+    builder.addLeftPoint(state.aabb, x, START - horn.length, true)
+    builder.addRightPoint(state.aabb, x + halfWidth, START, true)
 }
