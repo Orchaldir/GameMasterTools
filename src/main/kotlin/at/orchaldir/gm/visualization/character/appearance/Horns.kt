@@ -53,7 +53,7 @@ private fun createLeftCurvedHorn(state: CharacterRenderState, horn: CurvedHorn):
     when (horn.position) {
         HornPosition.Brow -> createLeftCurvedHornAtSide(state, horn, builder)
         HornPosition.Side -> createLeftCurvedHornAtSide(state, horn, builder)
-        HornPosition.Top -> createLeftCurvedHornAtSide(state, horn, builder)
+        HornPosition.Top -> createLeftCurvedHornAtTop(state, horn, builder)
     }
 
 
@@ -66,11 +66,23 @@ private fun createLeftCurvedHornAtSide(
     horn: CurvedHorn,
     builder: Polygon2dBuilder,
 ) {
-
     val y = Factor(0.2f)
     val halfWidth = horn.width / 2.0f
 
-    builder.addPoint(state.aabb, FULL, y - halfWidth, true)
-    builder.addPoint(state.aabb, FULL, y + halfWidth, true)
-    builder.addPoint(state.aabb, FULL + horn.length, y, true)
+    builder.addPoint(state.aabb, END, y - halfWidth, true)
+    builder.addPoint(state.aabb, END, y + halfWidth, true)
+    builder.addPoint(state.aabb, END + horn.length, y, true)
+}
+
+private fun createLeftCurvedHornAtTop(
+    state: CharacterRenderState,
+    horn: CurvedHorn,
+    builder: Polygon2dBuilder,
+) {
+    val x = Factor(0.8f)
+    val halfWidth = horn.width / 2.0f
+
+    builder.addPoint(state.aabb, x - halfWidth, START, true)
+    builder.addPoint(state.aabb, x + halfWidth, START, true)
+    builder.addPoint(state.aabb, x, START - horn.length, true)
 }
