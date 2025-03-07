@@ -88,7 +88,7 @@ private fun visualizeCoolie(
     val builder = Polygon2dBuilder()
 
     builder.addMirroredPoints(state.aabb, state.config.equipment.hat.widthCoolie, y)
-    builder.addPoint(state.aabb, CENTER, y - state.config.equipment.hat.heightHigh)
+    builder.addLeftPoint(state.aabb, CENTER, y - state.config.equipment.hat.heightHigh)
 
     renderBuilder(state.renderer, builder, options, EQUIPMENT_LAYER)
 }
@@ -100,7 +100,7 @@ private fun visualizeCowboy(
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
 
     val crown = buildCrown(state)
-    crown.addPoint(state.aabb, CENTER, Factor(-0.1f))
+    crown.addLeftPoint(state.aabb, CENTER, Factor(-0.1f))
     crown.createSharpCorners(0)
 
     renderRoundedBuilder(state.renderer, crown, options, EQUIPMENT_LAYER)

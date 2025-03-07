@@ -63,7 +63,7 @@ fun createSkirt(
 
     if (skirtStyle == Asymmetrical) {
         val offset = state.getSideOffset(width * -0.5f)
-        builder.addPoint(state.aabb, CENTER + offset, bottomY)
+        builder.addLeftPoint(state.aabb, CENTER + offset, bottomY)
     } else {
         builder.addMirroredPoints(state.aabb, width, bottomY)
     }

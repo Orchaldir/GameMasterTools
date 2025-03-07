@@ -71,8 +71,8 @@ private fun createLeftCurvedHornAtBrow(
 
     createLeftCurvedHornAtSide(state, horn, builder)
 
-    builder.addPoint(state.aabb, CENTER, y - halfWidth)
-    builder.addPoint(state.aabb, CENTER, y + halfWidth)
+    builder.addLeftPoint(state.aabb, CENTER, y - halfWidth)
+    builder.addLeftPoint(state.aabb, CENTER, y + halfWidth)
 }
 
 private fun createLeftCurvedHornInFront(
@@ -86,8 +86,8 @@ private fun createLeftCurvedHornInFront(
 
     createLeftCurvedHornAtTop(state, horn, builder)
 
-    builder.addPoint(state.aabb, x - halfWidth, y)
-    builder.addPoint(state.aabb, x + halfWidth, y)
+    builder.addLeftPoint(state.aabb, x - halfWidth, y)
+    builder.addLeftPoint(state.aabb, x + halfWidth, y)
 }
 
 private fun createLeftCurvedHornAtSide(
@@ -100,7 +100,8 @@ private fun createLeftCurvedHornAtSide(
     val start = state.aabb.getPoint(END, y)
     val length = state.aabb.convertHeight(horn.length)
 
-    builder.addPoint(state.aabb, END, y + halfWidthFactor, true)
+    builder.addLeftPoint(state.aabb, END, y + halfWidthFactor, true)
+    builder.addRightPoint(state.aabb, END, y - halfWidthFactor, true)
 
     when (horn.curve) {
         is ConstantCurvature -> {
@@ -112,27 +113,25 @@ private fun createLeftCurvedHornAtSide(
             var halfWidth = state.aabb.convertHeight(halfWidthFactor)
             val stepWidth = halfWidth / steps
 
-            repeat(steps) {
-                val right = center.createPolar(halfWidth, orientation + QUARTER)
-                val left = center.createPolar(halfWidth, orientation - QUARTER)
-
-                builder.addPoints(left, right)
-
+            repeat(steps - 1) {
                 halfWidth -= stepWidth
                 center = center.createPolar(stepLength, orientation)
                 orientation += stepOrientation
+
+                val right = center.createPolar(halfWidth, orientation - QUARTER)
+                val left = center.createPolar(halfWidth, orientation + QUARTER)
+
+                builder.addPoints(left, right)
             }
 
-            builder.addPoint(center, true)
+            builder.addLeftPoint(center, true)
         }
 
         is StraightHorn -> {
             val end = start.createPolar(length, horn.curve.orientation)
-            builder.addPoint(end, true)
+            builder.addLeftPoint(end, true)
         }
     }
-
-    builder.addPoint(state.aabb, END, y - halfWidthFactor, true)
 }
 
 private fun createLeftCurvedHornAtTop(
@@ -143,7 +142,7 @@ private fun createLeftCurvedHornAtTop(
     val x = Factor(0.8f)
     val halfWidth = horn.width / 2.0f
 
-    builder.addPoint(state.aabb, x + halfWidth, START, true)
-    builder.addPoint(state.aabb, x, START - horn.length, true)
-    builder.addPoint(state.aabb, x - halfWidth, START, true)
+    builder.addLeftPoint(state.aabb, x + halfWidth, START, true)
+    builder.addLeftPoint(state.aabb, x, START - horn.length, true)
+    builder.addLeftPoint(state.aabb, x - halfWidth, START, true)
 }

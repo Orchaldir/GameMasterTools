@@ -32,15 +32,27 @@ data class Polygon2dBuilder(
         }
     }
 
-    fun addPoint(aabb: AABB, horizontal: Factor, vertical: Factor, isSharp: Boolean = false) {
-        addPoint(aabb.getPoint(horizontal, vertical), isSharp)
+    fun addLeftPoint(aabb: AABB, horizontal: Factor, vertical: Factor, isSharp: Boolean = false) {
+        addLeftPoint(aabb.getPoint(horizontal, vertical), isSharp)
     }
 
-    fun addPoint(point: Point2d, isSharp: Boolean = false) {
+    fun addLeftPoint(point: Point2d, isSharp: Boolean = false) {
         leftCorners.add(point)
 
         if (isSharp) {
             leftCorners.add(point)
+        }
+    }
+
+    fun addRightPoint(aabb: AABB, horizontal: Factor, vertical: Factor, isSharp: Boolean = false) {
+        addRightPoint(aabb.getPoint(horizontal, vertical), isSharp)
+    }
+
+    fun addRightPoint(point: Point2d, isSharp: Boolean = false) {
+        rightCorners.add(point)
+
+        if (isSharp) {
+            rightCorners.add(point)
         }
     }
 
