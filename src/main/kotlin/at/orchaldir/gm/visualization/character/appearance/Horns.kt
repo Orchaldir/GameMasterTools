@@ -96,24 +96,44 @@ private fun createLeftCurvedHornAtSide(
     builder: Polygon2dBuilder,
 ) {
     val y = Factor(0.2f)
-    val halfWidth = horn.width / 2.0f
+    val halfWidthFactor = horn.width / 2.0f
+    val start = state.aabb.getPoint(END, y)
+    val length = state.aabb.convertHeight(horn.length)
 
-    builder.addPoint(state.aabb, END, y + halfWidth, true)
+    builder.addPoint(state.aabb, END, y + halfWidthFactor, true)
 
     when (horn.curve) {
         is ConstantCurvature -> {
-            builder.addPoint(state.aabb, END + horn.length, y, true)
+            val steps = 10
+            val stepLength = length / steps
+            val stepOrientation = horn.curve.change / steps
+            var orientation = Orientation.zero()
+            var center = start
+            var halfWidth = state.aabb.convertHeight(halfWidthFactor)
+            val stepWidth = halfWidth / steps
+
+            repeat(steps) {
+                val right = center.createPolar(halfWidth, orientation + QUARTER)
+                builder.addPoint(right)
+
+                val left = center.createPolar(halfWidth, orientation - QUARTER)
+                builder.addPoint(left)
+
+                halfWidth -= stepWidth
+                center = center.createPolar(stepLength, orientation)
+                orientation += stepOrientation
+            }
+
+            builder.addPoint(center, true)
         }
 
         is StraightHorn -> {
-            val start = state.aabb.getPoint(END, y)
-            val length = state.aabb.convertHeight(horn.length)
             val end = start.createPolar(length, horn.curve.orientation)
             builder.addPoint(end, true)
         }
     }
 
-    builder.addPoint(state.aabb, END, y - halfWidth, true)
+    builder.addPoint(state.aabb, END, y - halfWidthFactor, true)
 }
 
 private fun createLeftCurvedHornAtTop(

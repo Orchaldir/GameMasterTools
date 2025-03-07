@@ -4,6 +4,8 @@ import kotlinx.serialization.Serializable
 import kotlin.math.cos
 import kotlin.math.sin
 
+val QUARTER = Orientation.fromDegree(45.0f)
+
 @JvmInline
 @Serializable
 value class Orientation private constructor(private val degree: Float) {
@@ -23,4 +25,6 @@ value class Orientation private constructor(private val degree: Float) {
     fun sin() = sin(toRadians())
 
     operator fun plus(other: Orientation) = fromDegree(degree + other.degree)
+    operator fun minus(other: Orientation) = fromDegree(degree - other.degree)
+    operator fun div(factor: Int) = fromDegree(degree / factor)
 }
