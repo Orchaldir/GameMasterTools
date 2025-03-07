@@ -24,6 +24,8 @@ fun main() {
         val horns = mutableListOf<Appearance>()
 
         horns.add(createTwoHorns(position, StraightHorn(Orientation.fromDegree(0.0f))))
+        horns.add(createTwoHorns(position, StraightHorn(Orientation.fromDegree(10.0f))))
+        horns.add(createTwoHorns(position, StraightHorn(Orientation.fromDegree(-10.0f))))
         horns.add(createTwoHorns(position, mouflon))
 
         appearances.add(horns)

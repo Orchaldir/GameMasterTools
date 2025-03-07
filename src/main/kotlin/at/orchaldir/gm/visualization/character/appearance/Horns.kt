@@ -99,7 +99,20 @@ private fun createLeftCurvedHornAtSide(
     val halfWidth = horn.width / 2.0f
 
     builder.addPoint(state.aabb, END, y + halfWidth, true)
-    builder.addPoint(state.aabb, END + horn.length, y, true)
+
+    when (horn.curve) {
+        is ConstantCurvature -> {
+            builder.addPoint(state.aabb, END + horn.length, y, true)
+        }
+
+        is StraightHorn -> {
+            val start = state.aabb.getPoint(END, y)
+            val length = state.aabb.convertHeight(horn.length)
+            val end = start.createPolar(length, horn.curve.orientation)
+            builder.addPoint(end, true)
+        }
+    }
+
     builder.addPoint(state.aabb, END, y - halfWidth, true)
 }
 

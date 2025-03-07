@@ -33,8 +33,10 @@ data class Polygon2dBuilder(
     }
 
     fun addPoint(aabb: AABB, horizontal: Factor, vertical: Factor, isSharp: Boolean = false) {
-        val point = aabb.getPoint(horizontal, vertical)
+        addPoint(aabb.getPoint(horizontal, vertical), isSharp)
+    }
 
+    fun addPoint(point: Point2d, isSharp: Boolean = false) {
         leftCorners.add(point)
 
         if (isSharp) {
