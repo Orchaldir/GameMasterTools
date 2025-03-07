@@ -31,9 +31,9 @@ private fun visualizeCurvedHorn(
 ) {
     val options = FillAndBorder(horn.color.toRender(), state.config.line)
     val layer = if (state.renderFront) {
-        WING_LAYER
-    } else {
         -WING_LAYER
+    } else {
+        WING_LAYER
     }
 
     var polygon = createLeftCurvedHorn(state, horn)
@@ -51,14 +51,28 @@ private fun createLeftCurvedHorn(state: CharacterRenderState, horn: CurvedHorn):
     val builder = Polygon2dBuilder()
 
     when (horn.position) {
-        HornPosition.Brow -> createLeftCurvedHornAtSide(state, horn, builder)
+        HornPosition.Brow -> createLeftCurvedHornAtBrow(state, horn, builder)
         HornPosition.Side -> createLeftCurvedHornAtSide(state, horn, builder)
         HornPosition.Top -> createLeftCurvedHornAtTop(state, horn, builder)
     }
 
-
     val polygon = builder.build()
     return polygon
+}
+
+private fun createLeftCurvedHornAtBrow(
+    state: CharacterRenderState,
+    horn: CurvedHorn,
+    builder: Polygon2dBuilder,
+) {
+    val y = Factor(0.2f)
+    val halfWidth = horn.width / 2.0f
+
+    builder.addPoint(state.aabb, END, y - halfWidth, true)
+    builder.addPoint(state.aabb, CENTER, y - halfWidth)
+    builder.addPoint(state.aabb, CENTER, y + halfWidth)
+    builder.addPoint(state.aabb, END, y + halfWidth, true)
+    builder.addPoint(state.aabb, END + horn.length, y, true)
 }
 
 private fun createLeftCurvedHornAtSide(
