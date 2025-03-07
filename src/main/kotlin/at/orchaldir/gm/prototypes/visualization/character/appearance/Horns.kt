@@ -16,8 +16,12 @@ import at.orchaldir.gm.utils.math.Orientation
 fun main() {
     val appearances: MutableList<List<Appearance>> = mutableListOf()
     val mouflon = ConstantCurvature(
+        Orientation.fromDegree(-40.0f),
+        Orientation.fromDegree(180.0f),
+    )
+    val waterBuffalo = ConstantCurvature(
         Orientation.fromDegree(0.0f),
-        Orientation.fromDegree(270.0f),
+        Orientation.fromDegree(-120.0f),
     )
 
     HornPosition.entries.forEach { position ->
@@ -27,6 +31,7 @@ fun main() {
         horns.add(createTwoHorns(position, StraightHorn(Orientation.fromDegree(10.0f))))
         horns.add(createTwoHorns(position, StraightHorn(Orientation.fromDegree(-10.0f))))
         horns.add(createTwoHorns(position, mouflon))
+        horns.add(createTwoHorns(position, waterBuffalo))
 
         appearances.add(horns)
     }

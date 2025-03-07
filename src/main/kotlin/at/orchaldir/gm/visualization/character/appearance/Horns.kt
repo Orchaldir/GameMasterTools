@@ -108,7 +108,7 @@ private fun createLeftCurvedHornAtSide(
             val steps = 10
             val stepLength = length / steps
             val stepOrientation = horn.curve.change / steps
-            var orientation = Orientation.zero()
+            var orientation = horn.curve.start
             var center = start
             var halfWidth = state.aabb.convertHeight(halfWidthFactor)
             val stepWidth = halfWidth / steps
