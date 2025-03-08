@@ -6,6 +6,7 @@ import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.beard.BeardConfig
+import at.orchaldir.gm.visualization.character.appearance.horn.visualizeHorns
 import at.orchaldir.gm.visualization.character.equipment.visualizeHeadEquipment
 
 data class HeadConfig(
