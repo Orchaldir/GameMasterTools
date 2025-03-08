@@ -124,6 +124,7 @@ private fun addCurve(
             var center = startPosition
             var halfWidth = state.aabb.convertHeight(halfWidthFactor)
             val stepWidth = halfWidth / steps
+            // todo: add option to use constant or linear decreasing
 
             repeat(steps - 1) {
                 orientation += stepOrientation
@@ -146,20 +147,19 @@ private fun addCurve(
             var center = startPosition
             var halfWidth = state.aabb.convertHeight(halfWidthFactor)
             val weightCalculator = LinearDecreasingWeight(horn.curve.cycles)
-            var halfOffset = length * horn.curve.amplitude
-            var side = 1.0f
+            var amplitude = length * horn.curve.amplitude
+            var sideOfAmplitude = 1.0f
             val constantStep = 1.0f - 1.0f / horn.curve.cycles
 
             repeat(horn.curve.cycles) {
-                val weight = weightCalculator.calculate(it)
-                val cycleDistance = length * weight
+                val cycleDistance = length * weightCalculator.calculate(it)
                 val halfOnCenterLine = center.createPolar(cycleDistance / 2, orientation)
-                val halfCenter = halfOnCenterLine.createPolar(halfOffset, orientation + QUARTER * side)
+                val halfCenter = halfOnCenterLine.createPolar(amplitude, orientation + QUARTER * sideOfAmplitude)
 
                 addLeftAndRight(builder, halfCenter, orientation, halfWidth)
 
-                side = -side
-                halfOffset *= constantStep
+                sideOfAmplitude = -sideOfAmplitude
+                amplitude *= constantStep
                 halfWidth *= constantStep
                 center = center.createPolar(cycleDistance, orientation)
             }
