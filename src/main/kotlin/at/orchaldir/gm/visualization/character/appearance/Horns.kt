@@ -18,6 +18,8 @@ fun visualizeHorns(state: CharacterRenderState, horns: Horns) = when (horns) {
         visualizeHorn(state, horns.left, Side.Left)
         visualizeHorn(state, horns.right, Side.Right)
     }
+
+    is CrownOfHorns -> doNothing()
 }
 
 private fun visualizeHorn(state: CharacterRenderState, horn: Horn, side: Side) = when (horn) {

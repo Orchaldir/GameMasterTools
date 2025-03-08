@@ -32,6 +32,19 @@ fun main() {
 
         appearances.add(horns)
     }
+    appearances.add(
+        listOf(
+            createAppearance(
+                CrownOfHorns(
+                    2,
+                    1,
+                    Factor(0.3f),
+                    Factor(0.15f),
+                    Color.Blue,
+                )
+            )
+        )
+    )
 
     renderCharacterTable("horns.svg", CHARACTER_CONFIG, appearances)
 }
