@@ -21,15 +21,11 @@ sealed class HornCurve {
 
 @Serializable
 @SerialName("Straight")
-data class StraightHorn(
-    val orientation: Orientation,
-) : HornCurve()
+data object StraightHorn : HornCurve()
 
 @Serializable
 @SerialName("Constant")
 data class ConstantCurvature(
-    val start: Orientation,
     val change: Orientation,
 ) : HornCurve()
-
 

@@ -12,26 +12,21 @@ import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation
+import at.orchaldir.gm.utils.math.Orientation.Companion.fromDegree
 
 fun main() {
     val appearances: MutableList<List<Appearance>> = mutableListOf()
-    val mouflon = ConstantCurvature(
-        Orientation.fromDegree(-40.0f),
-        Orientation.fromDegree(180.0f),
-    )
-    val waterBuffalo = ConstantCurvature(
-        Orientation.fromDegree(0.0f),
-        Orientation.fromDegree(-120.0f),
-    )
+    val mouflon = ConstantCurvature(fromDegree(180.0f))
+    val waterBuffalo = ConstantCurvature(fromDegree(-120.0f))
 
     HornPosition.entries.forEach { position ->
         val horns = mutableListOf<Appearance>()
 
-        horns.add(createTwoHorns(position, StraightHorn(Orientation.fromDegree(0.0f))))
-        horns.add(createTwoHorns(position, StraightHorn(Orientation.fromDegree(10.0f))))
-        horns.add(createTwoHorns(position, StraightHorn(Orientation.fromDegree(-10.0f))))
-        horns.add(createTwoHorns(position, mouflon))
-        horns.add(createTwoHorns(position, waterBuffalo))
+        horns.add(createTwoHorns(position, fromDegree(0.0f), StraightHorn))
+        horns.add(createTwoHorns(position, fromDegree(10.0f), StraightHorn))
+        horns.add(createTwoHorns(position, fromDegree(-10.0f), StraightHorn))
+        horns.add(createTwoHorns(position, fromDegree(-40.0f), mouflon))
+        horns.add(createTwoHorns(position, fromDegree(0.0f), waterBuffalo))
 
         appearances.add(horns)
     }
@@ -39,13 +34,14 @@ fun main() {
     renderCharacterTable("horns.svg", CHARACTER_CONFIG, appearances)
 }
 
-private fun createTwoHorns(position: HornPosition, curve: HornCurve) =
-    createAppearance(TwoHorns(createHorn(position, curve)))
+private fun createTwoHorns(position: HornPosition, orientation: Orientation, curve: HornCurve) =
+    createAppearance(TwoHorns(createHorn(position, orientation, curve)))
 
-private fun createHorn(position: HornPosition, curve: HornCurve) = CurvedHorn(
+private fun createHorn(position: HornPosition, orientation: Orientation, curve: HornCurve) = CurvedHorn(
     Factor(1.0f),
     Factor(0.2f),
     position,
+    orientation,
     curve,
     Color.Red,
 )
