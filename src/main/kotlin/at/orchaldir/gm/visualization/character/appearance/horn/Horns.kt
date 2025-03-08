@@ -17,5 +17,5 @@ fun visualizeHorns(state: CharacterRenderState, horns: Horns) = when (horns) {
         visualizeHorn(state, horns.right, Side.Right)
     }
 
-    is CrownOfHorns -> doNothing()
+    is CrownOfHorns -> visualizeCrownOfHorns(state, horns)
 }
