@@ -161,18 +161,19 @@ private fun addCurve(
             val totalWeight = (0..<horn.curve.cycles).sumOf { it + 2 }.toFloat()
             var halfOffset = length * horn.curve.amplitude
             var side = 1.0f
+            val step = 1.0f - 1.0f / horn.curve.cycles
 
             repeat(horn.curve.cycles) {
                 val weight = (it + 2) / totalWeight
                 val cycleDistance = length * weight
                 val halfOnCenterLine = center.createPolar(cycleDistance / 2, orientation)
-                val halfCenter = halfOnCenterLine.createPolar(halfOffset, QUARTER * side)
+                val halfCenter = halfOnCenterLine.createPolar(halfOffset, orientation + QUARTER * side)
 
                 addLeftAndRight(builder, halfCenter, halfWidth, orientation)
 
                 side = -side
-                halfOffset /= 2.0f
-                halfWidth /= 2.0f
+                halfOffset *= step
+                halfWidth *= step
                 center = center.createPolar(cycleDistance, orientation)
             }
 
