@@ -97,11 +97,34 @@ private fun createLeftCurvedHornAtSide(
 ) {
     val y = Factor(0.2f)
     val halfWidthFactor = horn.width / 2.0f
-    val start = state.aabb.getPoint(END, y)
-    val length = state.aabb.convertHeight(horn.length)
 
     builder.addLeftPoint(state.aabb, END, y + halfWidthFactor, true)
     builder.addRightPoint(state.aabb, END, y - halfWidthFactor, true)
+
+    addCurve(state, horn, builder, state.aabb.getPoint(END, y))
+}
+
+private fun createLeftCurvedHornAtTop(
+    state: CharacterRenderState,
+    horn: CurvedHorn,
+    builder: Polygon2dBuilder,
+) {
+    val x = Factor(0.8f)
+    val halfWidth = horn.width / 2.0f
+
+    builder.addLeftPoint(state.aabb, x - halfWidth, START, true)
+    builder.addLeftPoint(state.aabb, x, START - horn.length, true)
+    builder.addRightPoint(state.aabb, x + halfWidth, START, true)
+}
+
+private fun addCurve(
+    state: CharacterRenderState,
+    horn: CurvedHorn,
+    builder: Polygon2dBuilder,
+    start: Point2d,
+) {
+    val halfWidthFactor = horn.width / 2.0f
+    val length = state.aabb.convertHeight(horn.length)
 
     when (horn.curve) {
         is ConstantCurvature -> {
@@ -132,17 +155,4 @@ private fun createLeftCurvedHornAtSide(
             builder.addLeftPoint(end, true)
         }
     }
-}
-
-private fun createLeftCurvedHornAtTop(
-    state: CharacterRenderState,
-    horn: CurvedHorn,
-    builder: Polygon2dBuilder,
-) {
-    val x = Factor(0.8f)
-    val halfWidth = horn.width / 2.0f
-
-    builder.addLeftPoint(state.aabb, x - halfWidth, START, true)
-    builder.addLeftPoint(state.aabb, x, START - horn.length, true)
-    builder.addRightPoint(state.aabb, x + halfWidth, START, true)
 }
