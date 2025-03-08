@@ -130,7 +130,7 @@ private fun addCurve(
                 halfWidth -= stepWidth
                 center = center.createPolar(stepLength, orientation)
 
-                addLeftAndRight(builder, center, halfWidth, orientation)
+                addLeftAndRight(builder, center, orientation, halfWidth)
             }
 
             builder.addLeftPoint(center, true)
@@ -145,22 +145,22 @@ private fun addCurve(
             val orientation = startOrientation + horn.orientationOffset
             var center = startPosition
             var halfWidth = state.aabb.convertHeight(halfWidthFactor)
-            val totalWeight = (0..<horn.curve.cycles).sumOf { it + 2 }.toFloat()
+            val weightCalculator = LinearDecreasingWeight(horn.curve.cycles)
             var halfOffset = length * horn.curve.amplitude
             var side = 1.0f
-            val step = 1.0f - 1.0f / horn.curve.cycles
+            val constantStep = 1.0f - 1.0f / horn.curve.cycles
 
             repeat(horn.curve.cycles) {
-                val weight = (horn.curve.cycles - it + 1) / totalWeight
+                val weight = weightCalculator.calculate(it)
                 val cycleDistance = length * weight
                 val halfOnCenterLine = center.createPolar(cycleDistance / 2, orientation)
                 val halfCenter = halfOnCenterLine.createPolar(halfOffset, orientation + QUARTER * side)
 
-                addLeftAndRight(builder, halfCenter, halfWidth, orientation)
+                addLeftAndRight(builder, halfCenter, orientation, halfWidth)
 
                 side = -side
-                halfOffset *= step
-                halfWidth *= step
+                halfOffset *= constantStep
+                halfWidth *= constantStep
                 center = center.createPolar(cycleDistance, orientation)
             }
 
@@ -172,8 +172,8 @@ private fun addCurve(
 private fun addLeftAndRight(
     builder: Polygon2dBuilder,
     center: Point2d,
-    halfWidth: Distance,
     orientation: Orientation,
+    halfWidth: Distance,
 ) {
     val right = center.createPolar(halfWidth, orientation - QUARTER)
     val left = center.createPolar(halfWidth, orientation + QUARTER)
