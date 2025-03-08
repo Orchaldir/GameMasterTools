@@ -143,10 +143,7 @@ private fun addCurve(
                 halfWidth -= stepWidth
                 center = center.createPolar(stepLength, orientation)
 
-                val right = center.createPolar(halfWidth, orientation - QUARTER)
-                val left = center.createPolar(halfWidth, orientation + QUARTER)
-
-                builder.addPoints(left, right)
+                addLeftAndRight(builder, center, halfWidth, orientation)
             }
 
             builder.addLeftPoint(center, true)
@@ -156,5 +153,42 @@ private fun addCurve(
             val end = startPosition.createPolar(length, startOrientation + horn.orientationOffset)
             builder.addLeftPoint(end, true)
         }
+
+        is WaveCurve -> {
+            val orientation = startOrientation + horn.orientationOffset
+            var center = startPosition
+            var halfWidth = state.aabb.convertHeight(halfWidthFactor)
+            val totalWeight = (0..<horn.curve.cycles).sumOf { it + 2 }.toFloat()
+            var halfOffset = length * horn.curve.amplitude
+            var side = 1.0f
+
+            repeat(horn.curve.cycles) {
+                val weight = (it + 2) / totalWeight
+                val cycleDistance = length * weight
+                val halfOnCenterLine = center.createPolar(cycleDistance / 2, orientation)
+                val halfCenter = halfOnCenterLine.createPolar(halfOffset, QUARTER * side)
+
+                addLeftAndRight(builder, halfCenter, halfWidth, orientation)
+
+                side = -side
+                halfOffset /= 2.0f
+                halfWidth /= 2.0f
+                center = center.createPolar(cycleDistance, orientation)
+            }
+
+            builder.addLeftPoint(center, true)
+        }
     }
+}
+
+private fun addLeftAndRight(
+    builder: Polygon2dBuilder,
+    center: Point2d,
+    halfWidth: Distance,
+    orientation: Orientation,
+) {
+    val right = center.createPolar(halfWidth, orientation - QUARTER)
+    val left = center.createPolar(halfWidth, orientation + QUARTER)
+
+    builder.addPoints(left, right)
 }

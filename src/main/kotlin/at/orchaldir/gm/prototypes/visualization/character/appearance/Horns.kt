@@ -18,6 +18,7 @@ fun main() {
     val appearances: MutableList<List<Appearance>> = mutableListOf()
     val mouflon = ConstantCurvature(fromDegree(180.0f))
     val waterBuffalo = ConstantCurvature(fromDegree(-120.0f))
+    val wave = WaveCurve(4, Factor(0.1f))
 
     HornPosition.entries.forEach { position ->
         val horns = mutableListOf<Appearance>()
@@ -27,6 +28,7 @@ fun main() {
         horns.add(createTwoHorns(position, fromDegree(-10.0f), StraightHorn))
         horns.add(createTwoHorns(position, fromDegree(-40.0f), mouflon))
         horns.add(createTwoHorns(position, fromDegree(0.0f), waterBuffalo))
+        horns.add(createTwoHorns(position, fromDegree(0.0f), wave))
 
         appearances.add(horns)
     }
