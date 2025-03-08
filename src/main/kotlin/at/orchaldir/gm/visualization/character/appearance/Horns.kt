@@ -84,8 +84,8 @@ private fun createLeftCurvedHornInFront(
     val y = Factor(0.3f)
     val halfWidth = horn.width / 2.0f
 
-    builder.addLeftPoint(state.aabb, x - halfWidth, y)
-    builder.addRightPoint(state.aabb, x + halfWidth, y)
+    builder.addRightPoint(state.aabb, x - halfWidth, y)
+    builder.addLeftPoint(state.aabb, x + halfWidth, y)
 
     createLeftCurvedHornAtTop(state, horn, builder)
 }
@@ -101,7 +101,7 @@ private fun createLeftCurvedHornAtSide(
     builder.addLeftPoint(state.aabb, END, y + halfWidthFactor, true)
     builder.addRightPoint(state.aabb, END, y - halfWidthFactor, true)
 
-    addCurve(state, horn, builder, state.aabb.getPoint(END, y))
+    addCurve(state, horn, builder, state.aabb.getPoint(END, y), Orientation.zero())
 }
 
 private fun createLeftCurvedHornAtTop(
@@ -112,16 +112,18 @@ private fun createLeftCurvedHornAtTop(
     val x = Factor(0.8f)
     val halfWidth = horn.width / 2.0f
 
-    builder.addLeftPoint(state.aabb, x - halfWidth, START, true)
-    builder.addLeftPoint(state.aabb, x, START - horn.length, true)
-    builder.addRightPoint(state.aabb, x + halfWidth, START, true)
+    builder.addRightPoint(state.aabb, x - halfWidth, START, true)
+    builder.addLeftPoint(state.aabb, x + halfWidth, START, true)
+
+    addCurve(state, horn, builder, state.aabb.getPoint(x, START), -QUARTER)
 }
 
 private fun addCurve(
     state: CharacterRenderState,
     horn: CurvedHorn,
     builder: Polygon2dBuilder,
-    start: Point2d,
+    startPosition: Point2d,
+    startOrientation: Orientation,
 ) {
     val halfWidthFactor = horn.width / 2.0f
     val length = state.aabb.convertHeight(horn.length)
@@ -131,8 +133,8 @@ private fun addCurve(
             val steps = 10
             val stepLength = length / steps
             val stepOrientation = horn.curve.change / steps
-            var orientation = horn.curve.start
-            var center = start
+            var orientation = startOrientation + horn.curve.start
+            var center = startPosition
             var halfWidth = state.aabb.convertHeight(halfWidthFactor)
             val stepWidth = halfWidth / steps
 
@@ -151,7 +153,7 @@ private fun addCurve(
         }
 
         is StraightHorn -> {
-            val end = start.createPolar(length, horn.curve.orientation)
+            val end = startPosition.createPolar(length, startOrientation + horn.curve.orientation)
             builder.addLeftPoint(end, true)
         }
     }
