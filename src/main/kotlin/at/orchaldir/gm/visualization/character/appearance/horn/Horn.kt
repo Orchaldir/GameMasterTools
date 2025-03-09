@@ -44,8 +44,7 @@ private fun createLeftCurvedHorn(state: CharacterRenderState, horn: CurvedHorn):
         HornPosition.Top -> createLeftCurvedHornAtTop(state, horn, builder)
     }
 
-    val polygon = builder.build()
-    return polygon
+    return builder.build()
 }
 
 private fun createLeftCurvedHornAtBrow(
