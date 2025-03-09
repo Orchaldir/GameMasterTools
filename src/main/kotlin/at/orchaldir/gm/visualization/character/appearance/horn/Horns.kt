@@ -9,7 +9,7 @@ import at.orchaldir.gm.visualization.character.appearance.WING_LAYER
 
 data class HornConfig(
     val y: Factor,
-    val garna: ComplexHorn,
+    val gemsbok: ComplexHorn,
     val mouflon: ComplexHorn,
     val saiga: ComplexHorn,
     val waterBuffalo: ComplexHorn,

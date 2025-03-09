@@ -113,9 +113,9 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         Factor(0.25f),
         HornConfig(
             Factor(0.2f),
-            complexHorn(HornPosition.Top, 30.0f, SpiralHorn(5, Factor(0.1f)), 0.2f),
-            complexHorn(HornPosition.Top, 0.0f, CurvedHorn(fromDegree(270.0f)), 0.2f),
-            complexHorn(HornPosition.Top, 10.0f, SpiralHorn(4, Factor(0.1f)), 0.2f),
+            complexHorn(HornPosition.Top, 10.0f, StraightHorn, 0.2f),
+            complexHorn(HornPosition.Top, 0.0f, CurvedHorn(fromDegree(270.0f)), 0.15f),
+            complexHorn(HornPosition.Top, 20.0f, SpiralHorn(4, Factor(0.1f)), 0.2f),
             complexHorn(HornPosition.Side, 0.0f, CurvedHorn(fromDegree(-120.0f)), 0.2f),
         ),
         MouthConfig(

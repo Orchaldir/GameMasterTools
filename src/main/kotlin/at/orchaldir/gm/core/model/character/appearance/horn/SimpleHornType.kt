@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.character.appearance.horn
 
 enum class SimpleHornType {
-    Garna,
+    Gemsbok,
     Mouflon,
     Saiga,
     WaterBuffalo,
