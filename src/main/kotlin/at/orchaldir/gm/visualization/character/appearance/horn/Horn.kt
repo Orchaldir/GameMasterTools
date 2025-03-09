@@ -2,7 +2,6 @@ package at.orchaldir.gm.visualization.character.appearance.horn
 
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.util.Side
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -13,9 +12,25 @@ fun visualizeHorn(
     side: Side,
 ) {
     when (horn) {
-        is SimpleHorn -> doNothing()
+        is SimpleHorn -> visualizeSimpleHorn(state, horn, side)
         is ComplexHorn -> visualizeComplexHorn(state, horn, side)
     }
+}
+
+fun visualizeSimpleHorn(
+    state: CharacterRenderState,
+    horn: SimpleHorn,
+    side: Side,
+) {
+    val config = state.config.head.hornConfig
+    val complex = when (horn.type) {
+        SimpleHornType.Garna -> config.garna
+        SimpleHornType.Mouflon -> config.mouflon
+        SimpleHornType.Saiga -> config.saiga
+        SimpleHornType.WaterBuffalo -> config.waterBuffalo
+    }.copy(length = horn.length, color = horn.color)
+
+    visualizeComplexHorn(state, complex, side)
 }
 
 fun visualizeComplexHorn(

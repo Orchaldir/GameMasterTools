@@ -4,6 +4,5 @@ enum class SimpleHornType {
     Garna,
     Mouflon,
     Saiga,
-    Sheep,
     WaterBuffalo,
 }

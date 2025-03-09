@@ -1,9 +1,11 @@
 package at.orchaldir.gm.prototypes.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.SkinColor
+import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Orientation.Companion.fromDegree
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RGB
 import at.orchaldir.gm.visualization.SizeConfig.Companion.withFactor
@@ -111,6 +113,10 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         Factor(0.25f),
         HornConfig(
             Factor(0.2f),
+            complexHorn(HornPosition.Top, 30.0f, SpiralHorn(5, Factor(0.1f)), 0.2f),
+            complexHorn(HornPosition.Top, 0.0f, CurvedHorn(fromDegree(270.0f)), 0.2f),
+            complexHorn(HornPosition.Top, 10.0f, SpiralHorn(4, Factor(0.1f)), 0.2f),
+            complexHorn(HornPosition.Side, 0.0f, CurvedHorn(fromDegree(-120.0f)), 0.2f),
         ),
         MouthConfig(
             withFactor(0.3f, 0.35f, 0.4f),
@@ -127,4 +133,13 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         SkinColor.Dark to RGB(122, 68, 44),
         SkinColor.VeryDark to RGB(58, 26, 13),
     )
+)
+
+private fun complexHorn(position: HornPosition, degree: Float, shape: HornShape, width: Float) = ComplexHorn(
+    Factor(1.0f),
+    Factor(width),
+    position,
+    fromDegree(degree),
+    shape,
+    Color.Red,
 )
