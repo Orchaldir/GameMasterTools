@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.character.appearance.horn
 
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.util.Side
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -9,6 +10,17 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 fun visualizeHorn(
     state: CharacterRenderState,
     horn: Horn,
+    side: Side,
+) {
+    when (horn) {
+        is SimpleHorn -> doNothing()
+        is ComplexHorn -> visualizeComplexHorn(state, horn, side)
+    }
+}
+
+fun visualizeComplexHorn(
+    state: CharacterRenderState,
+    horn: ComplexHorn,
     side: Side,
 ) {
     val options = FillAndBorder(horn.color.toRender(), state.config.line)
@@ -25,7 +37,7 @@ fun visualizeHorn(
     state.renderer.getLayer(layer).renderRoundedPolygon(polygon, options)
 }
 
-private fun createLeftHorn(state: CharacterRenderState, horn: Horn): Polygon2d {
+private fun createLeftHorn(state: CharacterRenderState, horn: ComplexHorn): Polygon2d {
     val builder = Polygon2dBuilder()
 
     when (horn.position) {
@@ -40,7 +52,7 @@ private fun createLeftHorn(state: CharacterRenderState, horn: Horn): Polygon2d {
 
 private fun createLeftHornAtBrow(
     state: CharacterRenderState,
-    horn: Horn,
+    horn: ComplexHorn,
     builder: Polygon2dBuilder,
 ) {
     val y = state.config.head.hornConfig.y
@@ -54,7 +66,7 @@ private fun createLeftHornAtBrow(
 
 private fun createLeftHornInFront(
     state: CharacterRenderState,
-    horn: Horn,
+    horn: ComplexHorn,
     builder: Polygon2dBuilder,
 ) {
     val x = Factor(0.8f)
@@ -69,7 +81,7 @@ private fun createLeftHornInFront(
 
 private fun createLeftHornAtSide(
     state: CharacterRenderState,
-    horn: Horn,
+    horn: ComplexHorn,
     builder: Polygon2dBuilder,
 ) {
     val y = state.config.head.hornConfig.y
@@ -83,7 +95,7 @@ private fun createLeftHornAtSide(
 
 private fun createLeftHornAtTop(
     state: CharacterRenderState,
-    horn: Horn,
+    horn: ComplexHorn,
     builder: Polygon2dBuilder,
 ) {
     val x = Factor(0.8f)
@@ -97,7 +109,7 @@ private fun createLeftHornAtTop(
 
 private fun addShape(
     state: CharacterRenderState,
-    horn: Horn,
+    horn: ComplexHorn,
     builder: Polygon2dBuilder,
     startPosition: Point2d,
     startOrientation: Orientation,
