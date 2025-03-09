@@ -5,15 +5,18 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
-import at.orchaldir.gm.core.model.character.appearance.horn.NoHorns
+import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
+import at.orchaldir.gm.core.model.race.appearance.HornOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.math.Distribution
+import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Factor
 
 data class AppearanceGeneratorConfig(
     val numberGenerator: NumberGenerator,
@@ -74,7 +77,7 @@ fun generateHead(config: AppearanceGeneratorConfig, skin: Skin): Head {
         generateEars(config),
         generateEyes(config),
         hair,
-        NoHorns,
+        generateHorns(config),
         generateMouth(config, hair),
         skin,
     )
@@ -171,6 +174,35 @@ fun generateHairStyle(config: AppearanceGeneratorConfig): HairStyle {
         HairStyleType.Spiked -> Spiked
     }
 }
+
+fun generateHorns(config: AppearanceGeneratorConfig): Horns {
+    val options = config.appearanceOptions.hornOptions
+
+    return when (config.generate(options.layouts)) {
+
+        HornsLayout.None -> NoHorns
+        HornsLayout.Two -> TwoHorns(generateHorn(config, options))
+        HornsLayout.Different -> DifferentHorns(
+            generateHorn(config, options),
+            generateHorn(config, options),
+        )
+
+        HornsLayout.Crown -> CrownOfHorns(
+            config.generate(options.crownFront),
+            config.generate(options.crownBack),
+            true,
+            Factor(0.3f),
+            Factor(0.15f),
+            config.generate(options.colors),
+        )
+    }
+}
+
+fun generateHorn(config: AppearanceGeneratorConfig, options: HornOptions) = SimpleHorn(
+    FULL,
+    config.generate(options.simpleTypes),
+    config.generate(options.colors),
+)
 
 fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
     val options = config.appearanceOptions
