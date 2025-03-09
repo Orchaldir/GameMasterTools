@@ -86,17 +86,19 @@ private fun createLeftSideHorn(
     position: Point2d,
 ): Polygon2d {
     val builder = Polygon2dBuilder()
+    val width = half * 2
 
     val bottomInner = position.addHeight(half)
-    val bottomOuter = bottomInner.addWidth(half)
+    val bottomOuter = bottomInner.addWidth(width)
     val centerInner = position.minusHeight(half)
-    val centerOuter = centerInner.addWidth(half)
+    val centerOuter = centerInner.addWidth(width)
     val top = centerOuter.minusHeight(length)
 
+    builder.addLeftPoint(bottomInner, true)
     builder.addRightPoint(bottomOuter)
     builder.addLeftPoint(centerInner, true)
     builder.addRightPoint(centerOuter)
-    builder.addRightPoint(top, true)
+    builder.addLeftPoint(top, true)
 
     return builder.build()
 }
