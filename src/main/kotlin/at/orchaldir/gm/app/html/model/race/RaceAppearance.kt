@@ -39,6 +39,16 @@ fun HtmlBlockTag.showRaceAppearance(
 ) {
     showRarityMap("Type", appearance.appearanceTypes)
 
+    showEars(appearance)
+    showEyes(appearance, eyeOptions)
+    showFeet(appearance)
+    showHair(appearance)
+    showMouth(appearance)
+    showSkin(appearance)
+    showWings(appearance)
+}
+
+private fun HtmlBlockTag.showEars(appearance: RaceAppearance) {
     h3 { +"Ears" }
 
     showRarityMap("Layout", appearance.earsLayout)
@@ -46,7 +56,12 @@ fun HtmlBlockTag.showRaceAppearance(
     if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
         showRarityMap("Ear Shapes", appearance.earShapes)
     }
+}
 
+private fun HtmlBlockTag.showEyes(
+    appearance: RaceAppearance,
+    eyeOptions: EyeOptions,
+) {
     h3 { +"Eyes" }
 
     showRarityMap("Layout", appearance.eyesLayout)
@@ -61,7 +76,9 @@ fun HtmlBlockTag.showRaceAppearance(
             showRarityMap("Sclera Colors", eyeOptions.scleraColors)
         }
     }
+}
 
+private fun HtmlBlockTag.showFeet(appearance: RaceAppearance) {
     h3 { +"Feet" }
 
     showRarityMap("Type", appearance.footOptions.footTypes)
@@ -71,7 +88,9 @@ fun HtmlBlockTag.showRaceAppearance(
         showRarityMap("Claw Color", appearance.footOptions.clawColors)
         showRarityMap("Claw Size", appearance.footOptions.clawSizes)
     }
+}
 
+private fun HtmlBlockTag.showHair(appearance: RaceAppearance) {
     h3 { +"Hair" }
 
     showRarityMap("Beard", appearance.hairOptions.beardTypes)
@@ -80,11 +99,15 @@ fun HtmlBlockTag.showRaceAppearance(
     if (requiresHairColor(appearance)) {
         showRarityMap("Colors", appearance.hairOptions.colors)
     }
+}
 
+private fun HtmlBlockTag.showMouth(appearance: RaceAppearance) {
     h3 { +"Mouth" }
 
     showRarityMap("Types", appearance.mouthTypes)
+}
 
+private fun HtmlBlockTag.showSkin(appearance: RaceAppearance) {
     h3 { +"Skin" }
 
     showRarityMap("Type", appearance.skinTypes)
@@ -104,7 +127,9 @@ fun HtmlBlockTag.showRaceAppearance(
     if (appearance.skinTypes.isAvailable(SkinType.Exotic)) {
         showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
     }
+}
 
+private fun HtmlBlockTag.showWings(appearance: RaceAppearance) {
     h3 { +"Wings" }
 
     showRarityMap("Layout", appearance.wingOptions.layouts)
