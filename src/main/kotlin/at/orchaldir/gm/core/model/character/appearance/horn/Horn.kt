@@ -12,7 +12,7 @@ data class Horn(
     val width: Factor,
     val position: HornPosition,
     val orientationOffset: Orientation,
-    val curve: HornCurve,
+    val shape: HornShape,
     val color: Color,
 ) {
 

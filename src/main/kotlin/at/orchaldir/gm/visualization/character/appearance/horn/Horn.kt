@@ -78,7 +78,7 @@ private fun createLeftHornAtSide(
     builder.addLeftPoint(state.aabb, END, y + halfWidthFactor, true)
     builder.addRightPoint(state.aabb, END, y - halfWidthFactor, true)
 
-    addCurve(state, horn, builder, state.aabb.getPoint(END, y), Orientation.zero())
+    addShape(state, horn, builder, state.aabb.getPoint(END, y), Orientation.zero())
 }
 
 private fun createLeftHornAtTop(
@@ -92,10 +92,10 @@ private fun createLeftHornAtTop(
     builder.addRightPoint(state.aabb, x - halfWidth, START, true)
     builder.addLeftPoint(state.aabb, x + halfWidth, START, true)
 
-    addCurve(state, horn, builder, state.aabb.getPoint(x, START), -QUARTER)
+    addShape(state, horn, builder, state.aabb.getPoint(x, START), -QUARTER)
 }
 
-private fun addCurve(
+private fun addShape(
     state: CharacterRenderState,
     horn: Horn,
     builder: Polygon2dBuilder,
@@ -105,11 +105,11 @@ private fun addCurve(
     val halfWidthFactor = horn.width / 2.0f
     val length = state.aabb.convertHeight(horn.length)
 
-    when (horn.curve) {
-        is ConstantCurvature -> {
+    when (horn.shape) {
+        is CurvedHorn -> {
             val steps = 10
             val stepLength = length / steps
-            val stepOrientation = horn.curve.change / steps
+            val stepOrientation = horn.shape.change / steps
             var orientation = startOrientation + horn.orientationOffset
             var center = startPosition
             var halfWidth = state.aabb.convertHeight(halfWidthFactor)
@@ -132,16 +132,16 @@ private fun addCurve(
             builder.addLeftPoint(end, true)
         }
 
-        is WaveCurve -> {
+        is SpiralHorn -> {
             val orientation = startOrientation + horn.orientationOffset
             var center = startPosition
             var halfWidth = state.aabb.convertHeight(halfWidthFactor)
-            val weightCalculator = LinearDecreasingWeight(horn.curve.cycles)
-            var amplitude = length * horn.curve.amplitude
+            val weightCalculator = LinearDecreasingWeight(horn.shape.cycles)
+            var amplitude = length * horn.shape.amplitude
             var sideOfAmplitude = 1.0f
-            val constantStep = 1.0f - 1.0f / horn.curve.cycles
+            val constantStep = 1.0f - 1.0f / horn.shape.cycles
 
-            repeat(horn.curve.cycles) {
+            repeat(horn.shape.cycles) {
                 val cycleDistance = length * weightCalculator.calculate(it)
                 val halfOnCenterLine = center.createPolar(cycleDistance / 2, orientation)
                 val halfCenter = halfOnCenterLine.createPolar(amplitude, orientation + QUARTER * sideOfAmplitude)

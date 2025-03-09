@@ -16,9 +16,9 @@ import at.orchaldir.gm.utils.math.Orientation.Companion.fromDegree
 
 fun main() {
     val appearances: MutableList<List<Appearance>> = mutableListOf()
-    val mouflon = ConstantCurvature(fromDegree(180.0f))
-    val waterBuffalo = ConstantCurvature(fromDegree(-120.0f))
-    val wave = WaveCurve(4, Factor(0.1f))
+    val mouflon = CurvedHorn(fromDegree(180.0f))
+    val waterBuffalo = CurvedHorn(fromDegree(-120.0f))
+    val wave = SpiralHorn(4, Factor(0.1f))
 
     HornPosition.entries.forEach { position ->
         val horns = mutableListOf<Appearance>()
@@ -57,15 +57,15 @@ private fun createCrown(front: Int, back: Int, hasSideHorns: Boolean) = createAp
     )
 )
 
-private fun createTwoHorns(position: HornPosition, orientation: Orientation, curve: HornCurve) =
-    createAppearance(TwoHorns(createHorn(position, orientation, curve)))
+private fun createTwoHorns(position: HornPosition, orientation: Orientation, shape: HornShape) =
+    createAppearance(TwoHorns(createHorn(position, orientation, shape)))
 
-private fun createHorn(position: HornPosition, orientation: Orientation, curve: HornCurve) = Horn(
+private fun createHorn(position: HornPosition, orientation: Orientation, shape: HornShape) = Horn(
     Factor(1.0f),
     Factor(0.2f),
     position,
     orientation,
-    curve,
+    shape,
     Color.Red,
 )
 

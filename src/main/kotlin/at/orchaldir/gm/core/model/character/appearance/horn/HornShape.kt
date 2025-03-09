@@ -5,36 +5,36 @@ import at.orchaldir.gm.utils.math.Orientation
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-enum class HornCurveType {
+enum class HornShapeType {
     Straight,
-    ConstantCurvature,
-    Wave,
+    Curved,
+    Spiral,
 }
 
 @Serializable
-sealed class HornCurve {
+sealed class HornShape {
 
     fun getType() = when (this) {
-        is StraightHorn -> HornCurveType.Straight
-        is ConstantCurvature -> HornCurveType.ConstantCurvature
-        is WaveCurve -> HornCurveType.Wave
+        is StraightHorn -> HornShapeType.Straight
+        is CurvedHorn -> HornShapeType.Curved
+        is SpiralHorn -> HornShapeType.Spiral
     }
 
 }
 
 @Serializable
 @SerialName("Straight")
-data object StraightHorn : HornCurve()
+data object StraightHorn : HornShape()
 
 @Serializable
-@SerialName("Constant")
-data class ConstantCurvature(
+@SerialName("Curved")
+data class CurvedHorn(
     val change: Orientation,
-) : HornCurve()
+) : HornShape()
 
 @Serializable
-@SerialName("Wave")
-data class WaveCurve(
+@SerialName("Spiral")
+data class SpiralHorn(
     val cycles: Int,
     val amplitude: Factor,
-) : HornCurve()
+) : HornShape()
