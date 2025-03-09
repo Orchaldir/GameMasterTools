@@ -1,4 +1,4 @@
-package at.orchaldir.gm.prototypes.visualization.character.appearance
+package at.orchaldir.gm.prototypes.visualization.character.appearance.horn
 
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.Head
@@ -32,30 +32,9 @@ fun main() {
 
         appearances.add(horns)
     }
-    appearances.add(
-        listOf(
-            createCrown(1, 2, true),
-            createCrown(1, 2, false),
-            createCrown(2, 1, true),
-            createCrown(2, 1, false),
-            createCrown(3, 2, true),
-            createCrown(3, 2, false),
-        )
-    )
 
-    renderCharacterTable("horns.svg", CHARACTER_CONFIG, appearances)
+    renderCharacterTable("horns-complex.svg", CHARACTER_CONFIG, appearances)
 }
-
-private fun createCrown(front: Int, back: Int, hasSideHorns: Boolean) = createAppearance(
-    CrownOfHorns(
-        front,
-        back,
-        hasSideHorns,
-        Factor(0.3f),
-        Factor(0.15f),
-        Color.Blue,
-    )
-)
 
 private fun createTwoHorns(position: HornPosition, orientation: Orientation, shape: HornShape) =
     createAppearance(TwoHorns(createHorn(position, orientation, shape)))
@@ -69,7 +48,7 @@ private fun createHorn(position: HornPosition, orientation: Orientation, shape: 
     Color.Red,
 )
 
-private fun createAppearance(horns: Horns) =
+fun createAppearance(horns: Horns) =
     HeadOnly(
         Head(
             NormalEars(),
