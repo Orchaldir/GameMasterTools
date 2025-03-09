@@ -1,10 +1,7 @@
 package at.orchaldir.gm.app.html.model.race
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.selectRarityMap
-import at.orchaldir.gm.app.html.showRarityMap
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOneOf
@@ -15,8 +12,8 @@ import at.orchaldir.gm.core.model.character.appearance.eye.EyeType
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
 import at.orchaldir.gm.core.model.character.appearance.eye.PupilShape
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
-import at.orchaldir.gm.core.model.character.appearance.horn.HornShapeType
 import at.orchaldir.gm.core.model.character.appearance.horn.HornsLayout
+import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHornType
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
@@ -31,6 +28,10 @@ private fun requiresHairColor(appearance: RaceAppearance) =
     appearance.hairOptions.beardTypes.isAvailable(BeardType.Normal) ||
             appearance.hairOptions.hairTypes.isAvailable(HairType.Normal)
 
+private fun requiresNormalHorns(appearance: RaceAppearance) =
+    appearance.hornOptions.layouts.isAvailable(HornsLayout.Two) ||
+            appearance.hornOptions.layouts.isAvailable(HornsLayout.Different)
+
 // show
 
 fun HtmlBlockTag.showRaceAppearance(
@@ -43,6 +44,7 @@ fun HtmlBlockTag.showRaceAppearance(
     showEyes(appearance, eyeOptions)
     showFeet(appearance)
     showHair(appearance)
+    showHorns(appearance)
     showMouth(appearance)
     showSkin(appearance)
     showWings(appearance)
@@ -98,6 +100,35 @@ private fun HtmlBlockTag.showHair(appearance: RaceAppearance) {
 
     if (requiresHairColor(appearance)) {
         showRarityMap("Colors", appearance.hairOptions.colors)
+    }
+}
+
+private fun HtmlBlockTag.showHorns(appearance: RaceAppearance) {
+    h3 { +"Horns" }
+
+    showRarityMap("Layouts", appearance.hornOptions.layouts)
+
+    val requiresNormalHorns = requiresNormalHorns(appearance)
+    val requiresCrown = appearance.hornOptions.layouts.isAvailable(HornsLayout.Crown)
+
+    if (requiresNormalHorns) {
+        showRarityMap("Simple Horn Types", appearance.hornOptions.simpleTypes)
+        showMap("Simple Horn Length", appearance.hornOptions.simpleLengths) { type, length ->
+            field(type.name, length)
+        }
+    }
+
+    if (requiresCrown) {
+        showRarityMap("Horns in Crown (Front)", appearance.hornOptions.crownFront) {
+            +it.toString()
+        }
+        showRarityMap("Horns in Crown (Back)", appearance.hornOptions.crownFront) {
+            +it.toString()
+        }
+    }
+
+    if (requiresNormalHorns || requiresCrown) {
+        showRarityMap("Colors", appearance.hornOptions.colors)
     }
 }
 
@@ -160,6 +191,7 @@ fun FORM.editRaceAppearance(
     editEyes(appearance, eyeOptions)
     editFeet(appearance)
     editHair(appearance)
+    editHorns(appearance)
     editMouth(appearance)
     editSkin(appearance)
     editWings(appearance)
@@ -223,6 +255,30 @@ private fun FORM.editHair(appearance: RaceAppearance) {
 
     if (requiresHairColor(appearance)) {
         selectRarityMap("Colors", combine(HAIR, COLOR), appearance.hairOptions.colors, true)
+    }
+}
+
+private fun FORM.editHorns(appearance: RaceAppearance) {
+    h3 { +"Horns" }
+
+    val options = appearance.hornOptions
+    val requiresNormalHorns = requiresNormalHorns(appearance)
+    val requiresCrown = options.layouts.isAvailable(HornsLayout.Crown)
+
+    selectRarityMap("Layouts", HORN, options.layouts, true)
+
+    if (requiresNormalHorns) {
+        selectRarityMap("Simple Horn Types", combine(HORN, SHAPE), options.simpleTypes, true)
+    }
+
+    if (requiresCrown) {
+        val values = (1..5).toSet()
+        selectRarityMap("Horns in Crown (Front)", combine(HORN, FRONT), options.crownFront, values, true)
+        selectRarityMap("Horns in Crown (Back)", combine(HORN, BACK), options.crownFront, values, true)
+    }
+
+    if (requiresNormalHorns || requiresCrown) {
+        selectRarityMap("Colors", combine(HORN, COLOR), options.colors, true)
     }
 }
 
@@ -338,7 +394,8 @@ private fun parseHairOptions(parameters: Parameters) = HairOptions(
 
 private fun parseHornOptions(parameters: Parameters) = HornOptions(
     parseOneOf(parameters, HORN, HornsLayout::valueOf),
-    parseOneOf(parameters, combine(HORN, SHAPE), HornShapeType::valueOf),
+    parseOneOf(parameters, combine(HORN, SHAPE), SimpleHornType::valueOf, setOf(SimpleHornType.Mouflon)),
+    emptyMap(),
     parseOneOf(parameters, combine(HORN, COLOR), Color::valueOf, Color.entries),
     parseOneOf(parameters, combine(HORN, FRONT), String::toInt, setOf(2)),
     parseOneOf(parameters, combine(HORN, BACK), String::toInt, setOf(2)),

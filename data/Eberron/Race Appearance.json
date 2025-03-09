@@ -469,6 +469,43 @@
      "None": "Common"
     }
    },
+    "hornOptions": {
+      "layouts": {
+        "None": "Common",
+        "Two": "Common"
+      },
+      "colors": {
+        "Aqua": "Common",
+        "Black": "Common",
+        "Blue": "Common",
+        "Chocolate": "Common",
+        "Crimson": "Common",
+        "DimGray": "Common",
+        "Fuchsia": "Common",
+        "Gold": "Common",
+        "Gray": "Common",
+        "Green": "Common",
+        "Indigo": "Common",
+        "Lavender": "Common",
+        "LightGray": "Common",
+        "Lime": "Common",
+        "Maroon": "Common",
+        "Navy": "Common",
+        "Olive": "Common",
+        "Orange": "Common",
+        "OrangeRed": "Common",
+        "Pink": "Common",
+        "Purple": "Common",
+        "Red": "Common",
+        "SaddleBrown": "Common",
+        "Silver": "Common",
+        "SkyBlue": "Common",
+        "SteelBlue": "Common",
+        "Teal": "Common",
+        "White": "Common",
+        "Yellow": "Common"
+      }
+    },
    "mouthTypes": {
     "NormalMouth": "Common"
    },
