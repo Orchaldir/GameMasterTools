@@ -21,7 +21,11 @@ sealed class Horn {
     }
 
     fun calculatePadding(headHeight: Distance) = when (this) {
-        is SimpleHorn -> headHeight * length
+        is SimpleHorn -> headHeight * length * when (type) {
+            SimpleHornType.Mouflon -> 0.16f
+            SimpleHornType.WaterBuffalo -> 0.2f
+            else -> 1.0f
+        }
         is ComplexHorn -> headHeight * length
     }
 

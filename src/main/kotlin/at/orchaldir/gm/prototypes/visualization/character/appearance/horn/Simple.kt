@@ -16,7 +16,12 @@ fun main() {
         val horns = mutableListOf<Appearance>()
 
         SimpleHornType.entries.forEach { type ->
-            horns.add(createTwoHorns(length, type))
+            val scaled = if (type == SimpleHornType.Mouflon) {
+                length * 2.0f
+            } else {
+                length
+            }
+            horns.add(createTwoHorns(scaled, type))
         }
 
         appearances.add(horns)
