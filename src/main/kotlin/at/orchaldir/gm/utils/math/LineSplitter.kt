@@ -9,6 +9,12 @@ class LineSplitter private constructor(
     companion object {
         fun fromStartAndEnd(start: Point2d, end: Point2d, weightCalculator: SegmentWeightCalculator) =
             LineSplitter(start, end - start, weightCalculator)
+
+        fun fromStartAndEnd(pair: Pair<Point2d, Point2d>, weightCalculator: SegmentWeightCalculator) =
+            fromStartAndEnd(pair.first, pair.second, weightCalculator)
+
+        fun fromStartAndEnd(pair: Pair<Point2d, Point2d>, segments: Int) =
+            fromStartAndEnd(pair.first, pair.second, ConstantWeight(segments))
     }
 
     fun getCenter(index: Int): Point2d {
