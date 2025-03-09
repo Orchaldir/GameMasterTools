@@ -18,4 +18,20 @@ class LineSplitter private constructor(
 
         return start + diff * weightOfCenter
     }
+
+    fun getCenters(): List<Point2d> {
+        val points = mutableListOf<Point2d>()
+        var startOfSegment = start
+
+        repeat(weightCalculator.segments()) {
+            val step = diff * weightCalculator.calculate(it)
+            val center = startOfSegment + step / 2.0f
+
+            points.add(center)
+
+            startOfSegment += step
+        }
+
+        return points
+    }
 }

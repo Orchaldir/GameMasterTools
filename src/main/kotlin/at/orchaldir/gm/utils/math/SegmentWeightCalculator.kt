@@ -2,6 +2,7 @@ package at.orchaldir.gm.utils.math
 
 sealed class SegmentWeightCalculator {
 
+    abstract fun segments(): Int
     abstract fun calculate(index: Int): Float
     abstract fun sumUntil(index: Int): Float
 
@@ -13,6 +14,8 @@ class ConstantWeight private constructor(
 ) : SegmentWeightCalculator() {
 
     constructor(segments: Int) : this(segments, 1.0f / segments)
+
+    override fun segments() = segments
 
     override fun calculate(index: Int): Float {
         validateIndex(index, segments)
@@ -29,6 +32,8 @@ class LinearDecreasingWeight private constructor(
 ) : SegmentWeightCalculator() {
 
     constructor(segments: Int) : this(segments, (0..<segments).sumOf { it + 2 }.toFloat())
+
+    override fun segments() = segments
 
     override fun calculate(index: Int): Float {
         validateIndex(index, segments)

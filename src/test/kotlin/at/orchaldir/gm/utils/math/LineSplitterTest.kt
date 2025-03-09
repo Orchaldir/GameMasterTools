@@ -13,13 +13,16 @@ class LineSplitterTest {
         ConstantWeight(2),
     )
 
+    private val center0 = Point2d(20.0f, 20f)
+    private val center1 = Point2d(40.0f, 20f)
+
     @Nested
     inner class GetCenterTest {
 
         @Test
         fun `Test valid indices`() {
-            assertEquals(Point2d(20.0f, 20f), splitter.getCenter(0))
-            assertEquals(Point2d(40.0f, 20f), splitter.getCenter(1))
+            assertEquals(center0, splitter.getCenter(0))
+            assertEquals(center1, splitter.getCenter(1))
         }
 
         @Test
@@ -32,6 +35,11 @@ class LineSplitterTest {
             assertIllegalArgument("Index 2 is invalid!") { splitter.getCenter(2) }
         }
 
+    }
+
+    @Test
+    fun `Get all centers`() {
+        assertEquals(listOf(center0, center1), splitter.getCenters())
     }
 
 }
