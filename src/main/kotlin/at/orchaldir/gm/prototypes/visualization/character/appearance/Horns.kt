@@ -34,18 +34,20 @@ fun main() {
     }
     appearances.add(
         listOf(
-            createCrown(2, 1),
-            createCrown(3, 2),
+            createCrown(2, 1, true),
+            createCrown(2, 1, false),
+            createCrown(3, 2, true),
         )
     )
 
     renderCharacterTable("horns.svg", CHARACTER_CONFIG, appearances)
 }
 
-private fun createCrown(front: Int, back: Int) = createAppearance(
+private fun createCrown(front: Int, back: Int, hasSideHorns: Boolean) = createAppearance(
     CrownOfHorns(
         front,
         back,
+        hasSideHorns,
         Factor(0.3f),
         Factor(0.15f),
         Color.Blue,

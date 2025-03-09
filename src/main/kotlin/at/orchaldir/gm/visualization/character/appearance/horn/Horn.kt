@@ -17,11 +17,7 @@ private fun visualizeCurvedHorn(
     horn: CurvedHorn,
 ) {
     val options = FillAndBorder(horn.color.toRender(), state.config.line)
-    val layer = if (state.renderFront) {
-        -WING_LAYER
-    } else {
-        WING_LAYER
-    }
+    val layer = state.config.head.hornConfig.getLayer(state.renderFront)
 
     var polygon = createLeftCurvedHorn(state, horn)
 

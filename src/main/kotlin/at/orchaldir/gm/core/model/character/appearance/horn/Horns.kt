@@ -52,6 +52,7 @@ data class DifferentHorns(
 data class CrownOfHorns(
     val front: Int,
     val back: Int,
+    val hasSideHorns: Boolean,
     val length: Factor,
     val width: Factor,
     val color: Color,

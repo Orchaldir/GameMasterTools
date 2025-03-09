@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.character.appearance.horn
 
 import at.orchaldir.gm.core.model.character.appearance.horn.CrownOfHorns
+import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
@@ -15,6 +16,11 @@ fun visualizeCrownOfHorns(state: CharacterRenderState, crown: CrownOfHorns) {
 
     renderLineOfHorns(state, options, length, half, pair, crown.front, layer)
     renderLineOfHorns(state, options, length, half, pair, crown.back, -layer)
+
+    if (crown.hasSideHorns) {
+        renderSideHorn(state, options, length, half, pair.second, layer, Side.Left)
+        renderSideHorn(state, options, length, half, pair.second, layer, Side.Right)
+    }
 }
 
 private fun renderLineOfHorns(
@@ -29,12 +35,12 @@ private fun renderLineOfHorns(
     val frontSplitter = LineSplitter.fromStartAndEnd(pair, horns)
 
     frontSplitter.getCenters().forEach { position ->
-        val polygon = createHorn(length, half, position)
+        val polygon = createHornOfLine(length, half, position)
         state.renderer.getLayer(layer).renderRoundedPolygon(polygon, options)
     }
 }
 
-private fun createHorn(
+private fun createHornOfLine(
     length: Distance,
     half: Distance,
     position: Point2d,
@@ -50,6 +56,47 @@ private fun createHorn(
     builder.addPoints(bottomLeft, bottomRight)
     builder.addPoints(centerLeft, centerRight)
     builder.addLeftPoint(top, true)
+
+    return builder.build()
+}
+
+private fun renderSideHorn(
+    state: CharacterRenderState,
+    options: RenderOptions,
+    length: Distance,
+    half: Distance,
+    position: Point2d,
+    layer: Int,
+    side: Side,
+) {
+    var polygon = createLeftSideHorn(length, half, position)
+
+    if ((side == Side.Right && state.renderFront) ||
+        (side == Side.Left && !state.renderFront)
+    ) {
+        polygon = state.aabb.mirrorVertically(polygon)
+    }
+
+    state.renderer.getLayer(layer).renderRoundedPolygon(polygon, options)
+}
+
+private fun createLeftSideHorn(
+    length: Distance,
+    half: Distance,
+    position: Point2d,
+): Polygon2d {
+    val builder = Polygon2dBuilder()
+
+    val bottomInner = position.addHeight(half)
+    val bottomOuter = bottomInner.addWidth(half)
+    val centerInner = position.minusHeight(half)
+    val centerOuter = centerInner.addWidth(half)
+    val top = centerOuter.minusHeight(length)
+
+    builder.addRightPoint(bottomOuter)
+    builder.addLeftPoint(centerInner, true)
+    builder.addRightPoint(centerOuter)
+    builder.addRightPoint(top, true)
 
     return builder.build()
 }
