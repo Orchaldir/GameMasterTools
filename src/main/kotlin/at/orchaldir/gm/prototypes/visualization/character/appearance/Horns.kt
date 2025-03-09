@@ -60,7 +60,7 @@ private fun createCrown(front: Int, back: Int, hasSideHorns: Boolean) = createAp
 private fun createTwoHorns(position: HornPosition, orientation: Orientation, curve: HornCurve) =
     createAppearance(TwoHorns(createHorn(position, orientation, curve)))
 
-private fun createHorn(position: HornPosition, orientation: Orientation, curve: HornCurve) = CurvedHorn(
+private fun createHorn(position: HornPosition, orientation: Orientation, curve: HornCurve) = Horn(
     Factor(1.0f),
     Factor(0.2f),
     position,
