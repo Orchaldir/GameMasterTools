@@ -43,9 +43,13 @@ data class SimpleHorn(
 @SerialName("Complex")
 data class ComplexHorn(
     val length: Factor,
-    val width: Factor,
+    val relativeWidth: Factor,
     val position: HornPosition,
     val orientationOffset: Orientation,
     val shape: HornShape,
     val color: Color,
-) : Horn()
+) : Horn() {
+
+    fun getWidth() = length * relativeWidth
+
+}

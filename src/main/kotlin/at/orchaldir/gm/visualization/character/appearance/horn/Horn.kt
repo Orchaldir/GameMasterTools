@@ -71,7 +71,7 @@ private fun createLeftHornAtBrow(
     builder: Polygon2dBuilder,
 ) {
     val y = state.config.head.hornConfig.y
-    val halfWidth = horn.width / 2.0f
+    val halfWidth = horn.getWidth() / 2.0f
 
     builder.addLeftPoint(state.aabb, CENTER, y + halfWidth)
     builder.addRightPoint(state.aabb, CENTER, y - halfWidth)
@@ -85,7 +85,7 @@ private fun createLeftHornInFront(
     builder: Polygon2dBuilder,
 ) {
     val x = Factor(0.8f)
-    val halfWidth = horn.width / 2.0f
+    val halfWidth = horn.getWidth() / 2.0f
     val y = state.config.head.hornConfig.y + halfWidth
 
     builder.addRightPoint(state.aabb, x - halfWidth, y)
@@ -100,7 +100,7 @@ private fun createLeftHornAtSide(
     builder: Polygon2dBuilder,
 ) {
     val y = state.config.head.hornConfig.y
-    val halfWidthFactor = horn.width / 2.0f
+    val halfWidthFactor = horn.getWidth() / 2.0f
 
     builder.addLeftPoint(state.aabb, END, y + halfWidthFactor, true)
     builder.addRightPoint(state.aabb, END, y - halfWidthFactor, true)
@@ -114,7 +114,7 @@ private fun createLeftHornAtTop(
     builder: Polygon2dBuilder,
 ) {
     val x = Factor(0.8f)
-    val halfWidth = horn.width / 2.0f
+    val halfWidth = horn.getWidth() / 2.0f
 
     builder.addRightPoint(state.aabb, x - halfWidth, START, true)
     builder.addLeftPoint(state.aabb, x + halfWidth, START, true)
@@ -129,7 +129,7 @@ private fun addShape(
     startPosition: Point2d,
     startOrientation: Orientation,
 ) {
-    val halfWidthFactor = horn.width / 2.0f
+    val halfWidthFactor = horn.getWidth() / 2.0f
     val length = state.aabb.convertHeight(horn.length)
 
     when (horn.shape) {
