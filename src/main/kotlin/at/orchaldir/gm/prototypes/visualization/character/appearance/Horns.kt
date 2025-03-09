@@ -34,20 +34,23 @@ fun main() {
     }
     appearances.add(
         listOf(
-            createAppearance(
-                CrownOfHorns(
-                    2,
-                    1,
-                    Factor(0.3f),
-                    Factor(0.15f),
-                    Color.Blue,
-                )
-            )
+            createCrown(2, 1),
+            createCrown(3, 2),
         )
     )
 
     renderCharacterTable("horns.svg", CHARACTER_CONFIG, appearances)
 }
+
+private fun createCrown(front: Int, back: Int) = createAppearance(
+    CrownOfHorns(
+        front,
+        back,
+        Factor(0.3f),
+        Factor(0.15f),
+        Color.Blue,
+    )
+)
 
 private fun createTwoHorns(position: HornPosition, orientation: Orientation, curve: HornCurve) =
     createAppearance(TwoHorns(createHorn(position, orientation, curve)))
