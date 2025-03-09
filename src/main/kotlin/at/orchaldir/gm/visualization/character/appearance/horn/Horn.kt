@@ -53,7 +53,7 @@ private fun createLeftCurvedHornAtBrow(
     horn: CurvedHorn,
     builder: Polygon2dBuilder,
 ) {
-    val y = Factor(0.2f)
+    val y = state.config.head.hornConfig.y
     val halfWidth = horn.width / 2.0f
 
     builder.addLeftPoint(state.aabb, CENTER, y + halfWidth)
@@ -68,8 +68,8 @@ private fun createLeftCurvedHornInFront(
     builder: Polygon2dBuilder,
 ) {
     val x = Factor(0.8f)
-    val y = Factor(0.3f)
     val halfWidth = horn.width / 2.0f
+    val y = state.config.head.hornConfig.y + halfWidth
 
     builder.addRightPoint(state.aabb, x - halfWidth, y)
     builder.addLeftPoint(state.aabb, x + halfWidth, y)
@@ -82,7 +82,7 @@ private fun createLeftCurvedHornAtSide(
     horn: CurvedHorn,
     builder: Polygon2dBuilder,
 ) {
-    val y = Factor(0.2f)
+    val y = state.config.head.hornConfig.y
     val halfWidthFactor = horn.width / 2.0f
 
     builder.addLeftPoint(state.aabb, END, y + halfWidthFactor, true)

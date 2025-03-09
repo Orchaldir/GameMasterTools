@@ -10,6 +10,7 @@ import at.orchaldir.gm.visualization.SizeConfig.Companion.withFactor
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.appearance.*
 import at.orchaldir.gm.visualization.character.appearance.beard.BeardConfig
+import at.orchaldir.gm.visualization.character.appearance.horn.HornConfig
 import at.orchaldir.gm.visualization.character.equipment.*
 import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
@@ -108,6 +109,9 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         ),
         Factor(0.3f),
         Factor(0.25f),
+        HornConfig(
+            Factor(0.2f),
+        ),
         MouthConfig(
             withFactor(0.3f, 0.35f, 0.4f),
             Factor(0.04f),
