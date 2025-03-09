@@ -34,9 +34,12 @@ fun main() {
     }
     appearances.add(
         listOf(
+            createCrown(1, 2, true),
+            createCrown(1, 2, false),
             createCrown(2, 1, true),
             createCrown(2, 1, false),
             createCrown(3, 2, true),
+            createCrown(3, 2, false),
         )
     )
 

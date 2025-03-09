@@ -92,7 +92,7 @@ private fun createLeftSideHorn(
     val bottomOuter = bottomInner.addWidth(width)
     val centerInner = position.minusHeight(half)
     val centerOuter = centerInner.addWidth(width)
-    val top = centerOuter.minusHeight(length)
+    val top = position.addWidth(half).minusHeight(length + half)
 
     builder.addLeftPoint(bottomInner, true)
     builder.addRightPoint(bottomOuter)
