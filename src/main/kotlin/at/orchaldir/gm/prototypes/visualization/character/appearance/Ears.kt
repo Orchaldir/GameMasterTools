@@ -10,7 +10,6 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.appearance.calculateSizeFromHeight
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import java.io.File
 
@@ -19,7 +18,7 @@ fun main() {
     val columns: List<Size> = Size.entries
     val rows: List<EarShape> = EarShape.entries
     val height = Distance(200)
-    val size = calculateSizeFromHeight(config, height)
+    val size = config.calculateSize(height)
     val totalSize = Size2d(size.width * columns.size, size.height * rows.size)
     val builder = SvgBuilder(totalSize)
     val columnStep = Point2d(size.width, 0.0f)

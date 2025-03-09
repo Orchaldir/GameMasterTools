@@ -83,16 +83,12 @@ fun visualizeAppearance(
     }
 }
 
-fun calculateSize(config: CharacterRenderConfig, appearance: Appearance) = calculateSizeFromHeight(
-    config,
-    when (appearance) {
+fun calculateSize(config: CharacterRenderConfig, appearance: Appearance): Size2d {
+    val height = when (appearance) {
         is HeadOnly -> appearance.calculateSize()
         is HumanoidBody -> appearance.height
         UndefinedAppearance -> config.padding * 2.0f
     }
-)
 
-fun calculateSizeFromHeight(
-    config: CharacterRenderConfig,
-    height: Distance,
-) = square(height + config.padding * 2.0f)
+    return config.calculateSize(height)
+}
