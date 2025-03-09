@@ -156,6 +156,16 @@ fun FORM.editRaceAppearance(
 ) {
     selectRarityMap("Type", APPEARANCE, appearance.appearanceTypes, true)
 
+    editEars(appearance)
+    editEyes(appearance, eyeOptions)
+    editFeet(appearance)
+    editHair(appearance)
+    editMouth(appearance)
+    editSkin(appearance)
+    editWings(appearance)
+}
+
+private fun FORM.editEars(appearance: RaceAppearance) {
     h3 { +"Ears" }
 
     selectRarityMap("Layout", combine(EARS, LAYOUT), appearance.earsLayout, true)
@@ -163,7 +173,12 @@ fun FORM.editRaceAppearance(
     if (appearance.earsLayout.isAvailable(EarsLayout.NormalEars)) {
         selectRarityMap("Ear Shapes", combine(EAR, SHAPE), appearance.earShapes, true)
     }
+}
 
+private fun FORM.editEyes(
+    appearance: RaceAppearance,
+    eyeOptions: EyeOptions,
+) {
     h3 { +"Eyes" }
 
     selectRarityMap("Layout", combine(EYE, LAYOUT), appearance.eyesLayout, true)
@@ -178,7 +193,9 @@ fun FORM.editRaceAppearance(
             selectRarityMap("Sclera Colors", combine(SCLERA, COLOR), eyeOptions.scleraColors, true)
         }
     }
+}
 
+private fun FORM.editFeet(appearance: RaceAppearance) {
     h3 { +"Feet" }
 
     selectRarityMap("Type", FOOT, appearance.footOptions.footTypes, true)
@@ -196,7 +213,9 @@ fun FORM.editRaceAppearance(
         selectRarityMap("Claw Size", combine(FOOT, CLAWS, SIZE), appearance.footOptions.clawSizes, true)
         selectRarityMap("Claw Color", combine(FOOT, CLAWS, COLOR), appearance.footOptions.clawColors, true)
     }
+}
 
+private fun FORM.editHair(appearance: RaceAppearance) {
     h3 { +"Hair" }
 
     selectRarityMap("Beard", BEARD, appearance.hairOptions.beardTypes, true)
@@ -205,11 +224,15 @@ fun FORM.editRaceAppearance(
     if (requiresHairColor(appearance)) {
         selectRarityMap("Colors", combine(HAIR, COLOR), appearance.hairOptions.colors, true)
     }
+}
 
+private fun FORM.editMouth(appearance: RaceAppearance) {
     h3 { +"Mouth" }
 
     selectRarityMap("Types", combine(MOUTH, TYPE), appearance.mouthTypes, true)
+}
 
+private fun FORM.editSkin(appearance: RaceAppearance) {
     h3 { +"Skin" }
 
     selectRarityMap("Type", combine(SKIN, TYPE), appearance.skinTypes, true)
@@ -239,7 +262,9 @@ fun FORM.editRaceAppearance(
             true,
         )
     }
+}
 
+private fun FORM.editWings(appearance: RaceAppearance) {
     h3 { +"Wings" }
 
     selectRarityMap("Layout", combine(WING, LAYOUT), appearance.wingOptions.layouts, true)
