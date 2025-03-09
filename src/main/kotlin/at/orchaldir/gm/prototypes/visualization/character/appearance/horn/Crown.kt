@@ -10,18 +10,20 @@ import at.orchaldir.gm.utils.math.Factor
 fun main() {
     val appearances: MutableList<List<Appearance>> = mutableListOf()
 
-    appearances.add(
-        listOf(
-            createCrown(1, 2, true),
-            createCrown(1, 2, false),
-            createCrown(2, 1, true),
-            createCrown(2, 1, false),
-            createCrown(3, 2, true),
-            createCrown(3, 2, false),
-        )
-    )
+    addRow(appearances, true)
+    addRow(appearances, false)
 
     renderCharacterTable("horns-crown.svg", CHARACTER_CONFIG, appearances)
+}
+
+private fun addRow(appearances: MutableList<List<Appearance>>, hasSideHorns: Boolean) {
+    appearances.add(
+        listOf(
+            createCrown(1, 2, hasSideHorns),
+            createCrown(2, 1, hasSideHorns),
+            createCrown(3, 2, hasSideHorns),
+        )
+    )
 }
 
 private fun createCrown(front: Int, back: Int, hasSideHorns: Boolean) = createAppearance(
