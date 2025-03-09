@@ -15,6 +15,8 @@ import at.orchaldir.gm.core.model.character.appearance.eye.EyeType
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
 import at.orchaldir.gm.core.model.character.appearance.eye.PupilShape
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
+import at.orchaldir.gm.core.model.character.appearance.horn.HornShapeType
+import at.orchaldir.gm.core.model.character.appearance.horn.HornsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
@@ -248,6 +250,7 @@ fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppea
         parseEyeOptions(parameters),
         parseFootOptions(parameters),
         parseHairOptions(parameters),
+        parseHornOptions(parameters),
         parseOneOf(parameters, combine(MOUTH, TYPE), MouthType::valueOf),
         parseWingOptions(parameters),
     )
@@ -281,6 +284,14 @@ private fun parseHairOptions(parameters: Parameters) = HairOptions(
     parseOneOf(parameters, BEARD, BeardType::valueOf),
     parseOneOf(parameters, HAIR, HairType::valueOf),
     parseOneOf(parameters, combine(HAIR, COLOR), Color::valueOf, Color.entries),
+)
+
+private fun parseHornOptions(parameters: Parameters) = HornOptions(
+    parseOneOf(parameters, HORN, HornsLayout::valueOf),
+    parseOneOf(parameters, combine(HORN, SHAPE), HornShapeType::valueOf),
+    parseOneOf(parameters, combine(HORN, COLOR), Color::valueOf, Color.entries),
+    parseOneOf(parameters, combine(HORN, FRONT), String::toInt, setOf(2)),
+    parseOneOf(parameters, combine(HORN, BACK), String::toInt, setOf(2)),
 )
 
 private fun parseWingOptions(parameters: Parameters) = WingOptions(

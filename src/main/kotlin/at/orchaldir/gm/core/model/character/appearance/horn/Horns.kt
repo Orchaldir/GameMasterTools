@@ -6,6 +6,8 @@ import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val DEFAULT_HORN_COLOR = Color.Red
+
 enum class HornsLayout {
     None,
     Two,
