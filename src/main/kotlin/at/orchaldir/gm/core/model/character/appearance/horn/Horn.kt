@@ -21,7 +21,7 @@ sealed class Horn {
     }
 
     fun calculatePadding(headHeight: Distance) = when (this) {
-        is SimpleHorn -> headHeight * length * when (type) {
+        is SimpleHorn -> headHeight * length * when (simpleType) {
             SimpleHornType.Mouflon -> 0.16f
             SimpleHornType.WaterBuffalo -> 0.2f
             else -> 1.0f
@@ -35,7 +35,7 @@ sealed class Horn {
 @SerialName("Simple")
 data class SimpleHorn(
     val length: Factor,
-    val type: SimpleHornType,
+    val simpleType: SimpleHornType,
     val color: Color,
 ) : Horn()
 

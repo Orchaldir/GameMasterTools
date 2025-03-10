@@ -23,7 +23,7 @@ fun visualizeSimpleHorn(
     side: Side,
 ) {
     val config = state.config.head.hornConfig
-    val complex = when (horn.type) {
+    val complex = when (horn.simpleType) {
         SimpleHornType.Gemsbok -> config.gemsbok
         SimpleHornType.Mouflon -> config.mouflon
         SimpleHornType.Saiga -> config.saiga

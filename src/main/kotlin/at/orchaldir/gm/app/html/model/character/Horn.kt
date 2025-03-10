@@ -72,7 +72,7 @@ private fun FORM.editHorn(
         when (horn) {
             is SimpleHorn -> {
                 selectHornLength(param, horn.length)
-                selectOneOf("Simple Type", combine(param, SHAPE), options.simpleTypes, horn.type, true) { shape ->
+                selectOneOf("Simple Type", combine(param, SHAPE), options.simpleTypes, horn.simpleType, true) { shape ->
                     label = shape.name
                     value = shape.toString()
                 }
