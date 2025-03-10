@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.generator.generateHorn
 import at.orchaldir.gm.core.generator.generateHorns
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.race.appearance.*
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation
@@ -171,6 +170,7 @@ fun HtmlBlockTag.selectCrownLength(length: Factor) {
 // parse
 
 fun parseHorns(parameters: Parameters, config: AppearanceGeneratorConfig): Horns {
+    val options = config.appearanceOptions.hornOptions
 
     return when (parameters[combine(HORN, LAYOUT)]) {
         HornsLayout.None.toString() -> NoHorns
@@ -179,14 +179,16 @@ fun parseHorns(parameters: Parameters, config: AppearanceGeneratorConfig): Horns
             parseHorn(parameters, combine(HORN, LEFT), config),
             parseHorn(parameters, combine(HORN, RIGHT), config),
         )
-        HornsLayout.Crown.toString() -> CrownOfHorns(
-            parseInt(parameters, combine(CROWN, FRONT), DEFAULT_CROWN_HORNS),
-            parseInt(parameters, combine(CROWN, BACK), DEFAULT_CROWN_HORNS),
-            true,
-            parseFactor(parameters, combine(CROWN, LENGTH), DEFAULT_CROWN_LENGTH),
-            parseFactor(parameters, combine(CROWN, WIDTH), DEFAULT_CROWN_WIDTH),
-            parse(parameters, combine(CROWN, COLOR), Color.Red),
-        )
+        HornsLayout.Crown.toString() -> {
+            CrownOfHorns(
+                parseInt(parameters, combine(CROWN, FRONT), DEFAULT_CROWN_HORNS),
+                parseInt(parameters, combine(CROWN, BACK), DEFAULT_CROWN_HORNS),
+                true,
+                parseFactor(parameters, combine(CROWN, LENGTH), DEFAULT_CROWN_LENGTH),
+                parseFactor(parameters, combine(CROWN, WIDTH), DEFAULT_CROWN_WIDTH),
+                parseAppearanceColor(parameters, CROWN, config, options.colors),
+            )
+        }
 
         else -> generateHorns(config)
     }
@@ -194,11 +196,12 @@ fun parseHorns(parameters: Parameters, config: AppearanceGeneratorConfig): Horns
 
 private fun parseHorn(parameters: Parameters, param: String, config: AppearanceGeneratorConfig): Horn {
     val options = config.appearanceOptions.hornOptions
+
     return when (parameters[combine(param, TYPE)]) {
         HornType.Simple.toString() -> SimpleHorn(
             parseFactor(parameters, combine(param, LENGTH), DEFAULT_SIMPLE_LENGTH),
             parse(parameters, combine(param, SHAPE), SimpleHornType.Mouflon),
-            parse(parameters, combine(param, COLOR), Color.Red),
+            parseAppearanceColor(parameters, param, config, options.colors),
         )
         HornType.Complex.toString() -> ComplexHorn(
             parseFactor(parameters, combine(param, LENGTH), DEFAULT_SIMPLE_LENGTH),
@@ -206,7 +209,7 @@ private fun parseHorn(parameters: Parameters, param: String, config: AppearanceG
             parse(parameters, combine(param, POSITION), HornPosition.Top),
             parseOrientation(parameters, combine(param, ORIENTATION)),
             parseHornShape(parameters, param),
-            parse(parameters, combine(param, COLOR), Color.Red),
+            parseAppearanceColor(parameters, param, config, options.colors),
         )
 
         else -> generateHorn(config, options)

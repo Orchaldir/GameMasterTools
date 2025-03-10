@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.race.appearance.FootOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.WingOptions
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -307,3 +308,11 @@ private fun parseWing(
 
     else -> generateWing(config)
 }
+
+fun parseAppearanceColor(
+    parameters: Parameters,
+    param: String,
+    config: AppearanceGeneratorConfig,
+    colors: OneOf<Color>,
+) =
+    parse<Color>(parameters, combine(param, COLOR)) ?: config.generate(colors)
