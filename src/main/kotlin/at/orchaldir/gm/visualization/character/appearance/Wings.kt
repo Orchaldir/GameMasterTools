@@ -6,17 +6,7 @@ import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-
-data class WingsConfig(
-    private val diameter: SizeConfig<Factor>,
-    private val distanceBetweenWings: SizeConfig<Factor>,
-    private val almondHeight: Factor,
-    private val ellipseHeight: Factor,
-    val pupilFactor: Factor,
-    val slitFactor: Factor,
-)
 
 fun visualizeWings(state: CharacterRenderState, wings: Wings) = when (wings) {
     NoWings -> doNothing()
@@ -66,15 +56,15 @@ private fun createLeftBatWing(state: CharacterRenderState): Polygon2d {
     val builder = Polygon2dBuilder()
     val startX = Factor(0.55f)
 
-    builder.addPoint(state.aabb, startX, Factor(0.3f), true)
-    builder.addPoint(state.aabb, Factor(0.8f), Factor(0.3f))
-    builder.addPoint(state.aabb, Factor(0.7f), START, true)
-    builder.addPoint(state.aabb, END, Factor(0.3f))
-    builder.addPoint(state.aabb, Factor(0.9f), END, true)
-    builder.addPoint(state.aabb, Factor(0.85f), Factor(0.6f))
-    builder.addPoint(state.aabb, Factor(0.7f), Factor(0.9f), true)
-    builder.addPoint(state.aabb, Factor(0.7f), Factor(0.6f))
-    builder.addPoint(state.aabb, startX, Factor(0.4f), true)
+    builder.addLeftPoint(state.aabb, startX, Factor(0.3f), true)
+    builder.addLeftPoint(state.aabb, Factor(0.8f), Factor(0.3f))
+    builder.addLeftPoint(state.aabb, Factor(0.7f), START, true)
+    builder.addLeftPoint(state.aabb, END, Factor(0.3f))
+    builder.addLeftPoint(state.aabb, Factor(0.9f), END, true)
+    builder.addLeftPoint(state.aabb, Factor(0.85f), Factor(0.6f))
+    builder.addLeftPoint(state.aabb, Factor(0.7f), Factor(0.9f), true)
+    builder.addLeftPoint(state.aabb, Factor(0.7f), Factor(0.6f))
+    builder.addLeftPoint(state.aabb, startX, Factor(0.4f), true)
 
     val polygon = builder.build()
     return polygon
@@ -84,12 +74,12 @@ private fun createLeftBirdWing(state: CharacterRenderState): Polygon2d {
     val builder = Polygon2dBuilder()
     val startX = Factor(0.55f)
 
-    builder.addPoint(state.aabb, startX, Factor(0.3f))
-    builder.addPoint(state.aabb, Factor(0.7f), START)
-    builder.addPoint(state.aabb, END, Factor(0.3f))
-    builder.addPoint(state.aabb, END, END)
-    builder.addPoint(state.aabb, Factor(0.9f), END)
-    builder.addPoint(state.aabb, startX, Factor(0.6f))
+    builder.addLeftPoint(state.aabb, startX, Factor(0.3f))
+    builder.addLeftPoint(state.aabb, Factor(0.7f), START)
+    builder.addLeftPoint(state.aabb, END, Factor(0.3f))
+    builder.addLeftPoint(state.aabb, END, END)
+    builder.addLeftPoint(state.aabb, Factor(0.9f), END)
+    builder.addLeftPoint(state.aabb, startX, Factor(0.6f))
 
     val polygon = builder.build()
     return polygon
@@ -100,14 +90,14 @@ private fun createLeftButterflyWing(state: CharacterRenderState): Polygon2d {
     val startX = Factor(0.55f)
     val centerX = Factor(0.7f)
 
-    builder.addPoint(state.aabb, startX, CENTER)
-    builder.addPoint(state.aabb, startX, START)
-    builder.addPoint(state.aabb, END, START)
-    builder.addPoint(state.aabb, END, CENTER)
-    builder.addPoint(state.aabb, centerX, CENTER)
-    builder.addPoint(state.aabb, END, CENTER)
-    builder.addPoint(state.aabb, END, END)
-    builder.addPoint(state.aabb, startX, END)
+    builder.addLeftPoint(state.aabb, startX, CENTER)
+    builder.addLeftPoint(state.aabb, startX, START)
+    builder.addLeftPoint(state.aabb, END, START)
+    builder.addLeftPoint(state.aabb, END, CENTER)
+    builder.addLeftPoint(state.aabb, centerX, CENTER)
+    builder.addLeftPoint(state.aabb, END, CENTER)
+    builder.addLeftPoint(state.aabb, END, END)
+    builder.addLeftPoint(state.aabb, startX, END)
 
     val polygon = builder.build()
     return polygon

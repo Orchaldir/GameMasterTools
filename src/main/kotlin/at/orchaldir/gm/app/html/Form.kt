@@ -56,7 +56,7 @@ fun HtmlBlockTag.selectBool(
     }
 }
 
-fun FORM.selectColor(
+fun HtmlBlockTag.selectColor(
     labelText: String,
     selectId: String,
     rarityMap: OneOf<Color>,
@@ -300,7 +300,25 @@ fun <T> HtmlBlockTag.selectOneOrNone(
     }
 }
 
-inline fun <reified T : Enum<T>> FORM.selectRarityMap(
+fun <T> HtmlBlockTag.selectRarityMap(
+    enum: String,
+    selectId: String,
+    rarityMap: RarityMap<T>,
+    values: Set<T>,
+    update: Boolean = false,
+) {
+    showDetails(enum, true) {
+        showMap(rarityMap.getRarityFor(values)) { currentValue, currentRarity ->
+            selectValue(currentValue.toString(), selectId, rarityMap.getAvailableRarities(), update) { rarity ->
+                label = rarity.toString()
+                value = "$currentValue-$rarity"
+                selected = rarity == currentRarity
+            }
+        }
+    }
+}
+
+inline fun <reified T : Enum<T>> HtmlBlockTag.selectRarityMap(
     enum: String,
     selectId: String,
     rarityMap: RarityMap<T>,

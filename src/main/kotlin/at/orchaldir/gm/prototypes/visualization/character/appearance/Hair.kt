@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
 import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.character.appearance.horn.NoHorns
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
@@ -40,4 +41,4 @@ fun main() {
 }
 
 private fun createAppearance(style: HairStyle, eyes: Eyes) =
-    HeadOnly(Head(NormalEars(), eyes, NormalHair(style, Color.SaddleBrown), NormalMouth()), Distance(200))
+    HeadOnly(Head(NormalEars(), eyes, NormalHair(style, Color.SaddleBrown), NoHorns, NormalMouth()), Distance(200))

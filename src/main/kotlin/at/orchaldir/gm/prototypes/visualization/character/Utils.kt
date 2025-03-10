@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.calculateSize
@@ -19,7 +20,11 @@ fun renderCharacterTable(
     config: CharacterRenderConfig,
     appearances: List<List<Appearance>>,
 ) {
-    val size = calculateSize(config, appearances[0][0])
+    val size = appearances.fold(Size2d.square(0.001f)) { rowSize, list ->
+        list.fold(rowSize) { columnSize, appearance ->
+            columnSize.max(calculateSize(config, appearance))
+        }
+    }
     renderTable(filename, size, appearances) { aabb, renderer, appearance ->
         val state = CharacterRenderState(aabb, config, renderer, true, emptyList())
 

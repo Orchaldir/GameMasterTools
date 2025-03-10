@@ -57,7 +57,7 @@ private fun getPants(state: CharacterRenderState, body: Body, bottomY: Factor): 
     builder.addMirroredPoints(state.aabb, pantsWidth, midY)
     builder.addMirroredPoints(state.aabb, pantsWidth, bottomY)
     builder.addMirroredPoints(state.aabb, innerWidth, bottomY)
-    builder.addPoint(state.aabb, CENTER, centerY)
+    builder.addLeftPoint(state.aabb, CENTER, centerY)
 
     return builder.build()
 }

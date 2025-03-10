@@ -57,7 +57,7 @@ private fun addAsymmetrical(
 ) {
     val shoulderWidth = state.config.body.getShoulderWidth(body.bodyShape)
     val offset = state.getSideOffset(shoulderWidth * 0.5f)
-    builder.addPoint(aabb, CENTER + offset, START)
+    builder.addLeftPoint(aabb, CENTER + offset, START)
 }
 
 private fun addHalter(
@@ -68,7 +68,7 @@ private fun addHalter(
 ) {
     val shoulderWidth = state.config.body.getShoulderWidth(body.bodyShape)
     builder.addMirroredPoints(aabb, shoulderWidth * 0.5f, START)
-    builder.addPoint(aabb, CENTER, state.config.body.shoulderY)
+    builder.addLeftPoint(aabb, CENTER, state.config.body.shoulderY)
 }
 
 private fun addRound(
@@ -88,5 +88,5 @@ private fun addV(
     depth: Factor,
 ) {
     builder.addMirroredPoints(aabb, width, START)
-    builder.addPoint(aabb, CENTER, depth)
+    builder.addLeftPoint(aabb, CENTER, depth)
 }

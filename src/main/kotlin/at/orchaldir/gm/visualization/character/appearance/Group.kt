@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
@@ -18,9 +17,10 @@ fun visualizeGroup(
     renderFront: Boolean = true,
 ): Svg {
     val number = appearances.size
-    val sizes = appearances.map { it.getSize() }
-    val maxSize = sizes.maxBy { it.toMeters() }
-    val groupSize = Size2d(maxSize * number + config.padding * 2, maxSize + config.padding * 2)
+    val maxSize = appearances
+        .map { calculateSize(config, it) }
+        .maxBy { it.height }
+    val groupSize = maxSize.copy(width = maxSize.width * number)
     val builder = SvgBuilder(groupSize)
     var start = Point2d(config.padding, Distance.fromMeters(groupSize.height) - config.padding)
 

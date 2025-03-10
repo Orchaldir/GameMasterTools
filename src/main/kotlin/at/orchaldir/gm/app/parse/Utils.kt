@@ -7,6 +7,7 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Orientation
 import io.ktor.http.*
 
 fun combine(param0: String, param1: String) = "$param0-$param1"
@@ -146,6 +147,9 @@ fun parseUByte(parameters: Parameters, param: String, default: UByte = 0u) = par
 
 fun parseFactor(parameters: Parameters, param: String, default: Factor = FULL) =
     parameters[param]?.toFloat()?.let { Factor(it) } ?: default
+
+fun parseOrientation(parameters: Parameters, param: String, default: Orientation = Orientation.zero()) =
+    parameters[param]?.toFloat()?.let { Orientation.fromDegree(it) } ?: default
 
 fun parseFloat(parameters: Parameters, param: String, default: Float = 0.0f) = parameters[param]?.toFloat() ?: default
 

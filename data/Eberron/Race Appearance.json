@@ -469,6 +469,21 @@
      "None": "Common"
     }
    },
+   "hornOptions": {
+    "layouts": {
+     "None": "Common",
+     "Two": "Common"
+    },
+    "simpleTypes": {
+     "Mouflon": "Common",
+     "Saiga": "Uncommon",
+     "WaterBuffalo": "Common"
+    },
+    "simpleLength": 0.8,
+    "colors": {
+     "Gray": "Common"
+    }
+   },
    "mouthTypes": {
     "NormalMouth": "Common"
    },

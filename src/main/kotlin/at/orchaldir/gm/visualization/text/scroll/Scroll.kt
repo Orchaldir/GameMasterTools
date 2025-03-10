@@ -78,8 +78,8 @@ private fun visualizeRod(
                 builderTop.addMirroredPoints(aabbTop, FULL, END)
                 builderBottom.addMirroredPoints(aabbBottom, FULL, START)
 
-                builderTop.addPoint(aabbTop, CENTER, START)
-                builderBottom.addPoint(aabbBottom, CENTER, END)
+                builderTop.addLeftPoint(aabbTop, CENTER, START)
+                builderBottom.addLeftPoint(aabbBottom, CENTER, END)
 
                 renderer.renderPolygon(builderTop.build(), options)
                 renderer.renderPolygon(builderBottom.build(), options)

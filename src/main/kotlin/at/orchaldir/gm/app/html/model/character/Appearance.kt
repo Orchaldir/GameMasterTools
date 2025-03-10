@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.race.appearance.FootOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.WingOptions
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -239,31 +240,36 @@ private fun parseFoot(
     config: AppearanceGeneratorConfig,
 ) = when (parameters[FOOT]) {
     FootType.Normal.toString() -> NormalFoot
-    FootType.Clawed.toString() -> ClawedFoot(
-        config.appearanceOptions.footOptions.clawNumber,
-        parse(parameters, combine(FOOT, CLAWS, SIZE), Size.Medium),
-        parse(parameters, combine(FOOT, CLAWS, COLOR), Color.Black),
-    )
+    FootType.Clawed.toString() -> {
+        val options = config.appearanceOptions.footOptions
+        ClawedFoot(
+            options.clawNumber,
+            parseAppearanceOption(parameters, combine(FOOT, CLAWS, SIZE), config, options.clawSizes),
+            parseAppearanceColor(parameters, combine(FOOT, CLAWS), config, options.clawColors),
+        )
+    }
 
     else -> generateFoot(config)
 }
 
 private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig): Skin {
+    val options = config.appearanceOptions
+
     return when (parameters[combine(SKIN, TYPE)]) {
         SkinType.Fur.toString() -> {
-            return Fur(parseExoticColor(parameters))
+            return Fur(parseExoticColor(parameters, config, options.furColors))
         }
 
         SkinType.Scales.toString() -> {
-            return Scales(parseExoticColor(parameters))
+            return Scales(parseExoticColor(parameters, config, options.scalesColors))
         }
 
         SkinType.Exotic.toString() -> {
-            return ExoticSkin(parseExoticColor(parameters))
+            return ExoticSkin(parseExoticColor(parameters, config, options.exoticSkinColors))
         }
 
         SkinType.Normal.toString() -> {
-            val color = parse(parameters, combine(SKIN, COLOR), SkinColor.Medium)
+            val color = parseAppearanceOption(parameters, combine(SKIN, COLOR), config, options.normalSkinColors)
             return NormalSkin(color)
         }
 
@@ -271,8 +277,11 @@ private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig)
     }
 }
 
-private fun parseExoticColor(parameters: Parameters) =
-    parse(parameters, combine(SKIN, EXOTIC, COLOR), Color.Red)
+private fun parseExoticColor(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+    colors: OneOf<Color>,
+) = parseAppearanceColor(parameters, combine(SKIN, EXOTIC), config, colors)
 
 private fun parseWings(
     parameters: Parameters,
@@ -300,10 +309,36 @@ private fun parseWing(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     param: String,
-) = when (parameters[combine(param, TYPE)]) {
-    WingType.Bat.toString() -> BatWing(parse(parameters, combine(param, COLOR), DEFAULT_BAT_COLOR))
-    WingType.Bird.toString() -> BirdWing(parse(parameters, combine(param, COLOR), DEFAULT_BIRD_COLOR))
-    WingType.Butterfly.toString() -> ButterflyWing(parse(parameters, combine(param, COLOR), DEFAULT_BUTTERFLY_COLOR))
+): Wing {
+    val wingOptions = config.appearanceOptions.wingOptions
 
-    else -> generateWing(config)
+    return when (parameters[combine(param, TYPE)]) {
+        WingType.Bat.toString() -> BatWing(
+            parseAppearanceColor(parameters, param, config, wingOptions.batColors),
+        )
+
+        WingType.Bird.toString() -> BirdWing(
+            parseAppearanceColor(parameters, param, config, wingOptions.birdColors),
+        )
+
+        WingType.Butterfly.toString() -> ButterflyWing(
+            parseAppearanceColor(parameters, param, config, wingOptions.butterflyColors),
+        )
+
+        else -> generateWing(config)
+    }
 }
+
+fun parseAppearanceColor(
+    parameters: Parameters,
+    param: String,
+    config: AppearanceGeneratorConfig,
+    colors: OneOf<Color>,
+) = parseAppearanceOption(parameters, combine(param, COLOR), config, colors)
+
+inline fun <reified T : Enum<T>> parseAppearanceOption(
+    parameters: Parameters,
+    param: String,
+    config: AppearanceGeneratorConfig,
+    values: OneOf<T>,
+) = parse<T>(parameters, param) ?: config.generate(values)
