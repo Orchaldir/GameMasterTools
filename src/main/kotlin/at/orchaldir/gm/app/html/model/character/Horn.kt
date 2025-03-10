@@ -180,7 +180,7 @@ private fun parseHorn(parameters: Parameters, param: String, config: AppearanceG
             parseFactor(parameters, combine(param, LENGTH), DEFAULT_SIMPLE_LENGTH),
             parseFactor(parameters, combine(param, WIDTH), DEFAULT_SIMPLE_WIDTH),
             parse(parameters, combine(param, POSITION), HornPosition.Top),
-            parseOrientation(parameters, combine(param, WIDTH)),
+            parseOrientation(parameters, combine(param, ORIENTATION)),
             parseHornShape(parameters, param),
             parse(parameters, combine(param, COLOR), Color.Red),
         )
