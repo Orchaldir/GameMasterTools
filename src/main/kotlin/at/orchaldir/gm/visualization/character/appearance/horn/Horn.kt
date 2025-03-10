@@ -151,6 +151,9 @@ private fun addShape(
                 addLeftAndRight(builder, center, orientation, halfWidth)
             }
 
+            orientation += stepOrientation
+            center = center.createPolar(stepLength, orientation)
+
             builder.addLeftPoint(center, true)
         }
 
