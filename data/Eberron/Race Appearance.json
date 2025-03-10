@@ -475,6 +475,8 @@
      "Two": "Common"
     },
     "simpleTypes": {
+     "Mouflon": "Common",
+     "Saiga": "Uncommon",
      "WaterBuffalo": "Common"
     },
     "simpleLength": 0.8,

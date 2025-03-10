@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHorn
 import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHornType
 import at.orchaldir.gm.core.model.character.appearance.horn.TwoHorns
+import at.orchaldir.gm.core.model.race.appearance.scaleSimpleLength
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
@@ -16,12 +17,7 @@ fun main() {
         val horns = mutableListOf<Appearance>()
 
         SimpleHornType.entries.forEach { type ->
-            val scaled = if (type == SimpleHornType.Mouflon) {
-                length * 2.0f
-            } else {
-                length
-            }
-            horns.add(createTwoHorns(scaled, type))
+            horns.add(createTwoHorns(scaleSimpleLength(type, length), type))
         }
 
         appearances.add(horns)

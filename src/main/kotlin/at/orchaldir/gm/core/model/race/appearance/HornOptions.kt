@@ -9,7 +9,7 @@ import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
 
-val DEFAULT_CROWN_HORNS = 2
+const val DEFAULT_CROWN_HORNS = 2
 val DEFAULT_SIMPLE_LENGTH = FULL
 val DEFAULT_CROWN_LENGTH = Factor(0.2f)
 
@@ -22,4 +22,13 @@ data class HornOptions(
     val crownLength: Factor = DEFAULT_CROWN_LENGTH,
     val crownFront: OneOf<Int> = OneOf(DEFAULT_CROWN_HORNS),
     val crownBack: OneOf<Int> = OneOf(DEFAULT_CROWN_HORNS),
-)
+) {
+
+    fun getSimpleLength(type: SimpleHornType) = scaleSimpleLength(type, simpleLength)
+}
+
+fun scaleSimpleLength(type: SimpleHornType, length: Factor) = if (type == SimpleHornType.Mouflon) {
+    length * 1.5f
+} else {
+    length
+}

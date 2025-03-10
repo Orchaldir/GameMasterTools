@@ -198,11 +198,15 @@ fun generateHorns(config: AppearanceGeneratorConfig): Horns {
     }
 }
 
-fun generateHorn(config: AppearanceGeneratorConfig, options: HornOptions) = SimpleHorn(
-    options.simpleLength,
-    config.generate(options.simpleTypes),
-    config.generate(options.colors),
-)
+fun generateHorn(config: AppearanceGeneratorConfig, options: HornOptions): SimpleHorn {
+    val type = config.generate(options.simpleTypes)
+
+    return SimpleHorn(
+        options.getSimpleLength(type),
+        type,
+        config.generate(options.colors),
+    )
+}
 
 fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
     val options = config.appearanceOptions
