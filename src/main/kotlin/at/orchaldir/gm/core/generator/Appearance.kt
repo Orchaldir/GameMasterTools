@@ -191,7 +191,7 @@ fun generateHorns(config: AppearanceGeneratorConfig): Horns {
             config.generate(options.crownFront),
             config.generate(options.crownBack),
             true,
-            Factor(0.3f),
+            options.crownLength,
             Factor(0.15f),
             config.generate(options.colors),
         )
@@ -199,7 +199,7 @@ fun generateHorns(config: AppearanceGeneratorConfig): Horns {
 }
 
 fun generateHorn(config: AppearanceGeneratorConfig, options: HornOptions) = SimpleHorn(
-    FULL,
+    options.simpleLength,
     config.generate(options.simpleTypes),
     config.generate(options.colors),
 )

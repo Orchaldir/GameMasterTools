@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.model.race
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parseFactor
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.core.model.character.appearance.*
@@ -112,19 +113,23 @@ private fun HtmlBlockTag.showHorns(appearance: RaceAppearance) {
     val requiresCrown = appearance.hornOptions.layouts.isAvailable(HornsLayout.Crown)
 
     if (requiresNormalHorns) {
-        showRarityMap("Simple Horn Types", appearance.hornOptions.simpleTypes)
-        showMap("Simple Horn Length", appearance.hornOptions.simpleLengths) { type, length ->
-            field(type.name, length)
+        showDetails("Simple Horns") {
+            showRarityMap("Horn Types", appearance.hornOptions.simpleTypes)
+            field("Horn Length", appearance.hornOptions.simpleLength)
         }
     }
 
     if (requiresCrown) {
-        showRarityMap("Horns in Crown (Front)", appearance.hornOptions.crownFront) {
-            +it.toString()
+        showDetails("Crown") {
+            field("Horn Length", appearance.hornOptions.crownLength)
+            showRarityMap("Horns in Front", appearance.hornOptions.crownFront) {
+                +it.toString()
+            }
+            showRarityMap("Horns in Back", appearance.hornOptions.crownFront) {
+                +it.toString()
+            }
         }
-        showRarityMap("Horns in Crown (Back)", appearance.hornOptions.crownFront) {
-            +it.toString()
-        }
+
     }
 
     if (requiresNormalHorns || requiresCrown) {
@@ -268,13 +273,35 @@ private fun FORM.editHorns(appearance: RaceAppearance) {
     selectRarityMap("Layouts", HORN, options.layouts, true)
 
     if (requiresNormalHorns) {
-        selectRarityMap("Simple Horn Types", combine(HORN, SHAPE), options.simpleTypes, true)
+        showDetails("Simple Horns", true) {
+            selectRarityMap("Simple Horn Types", combine(HORN, SHAPE), options.simpleTypes, true)
+            selectFloat(
+                "Horn Length",
+                options.simpleLength.value,
+                0.1f,
+                2.0f,
+                0.05f,
+                combine(HORN, LENGTH),
+                true,
+            )
+        }
     }
 
     if (requiresCrown) {
         val values = (1..5).toSet()
-        selectRarityMap("Horns in Crown (Front)", combine(HORN, FRONT), options.crownFront, values, true)
-        selectRarityMap("Horns in Crown (Back)", combine(HORN, BACK), options.crownFront, values, true)
+        showDetails("Crown", true) {
+            selectFloat(
+                "Horn Length",
+                options.crownLength.value,
+                0.01f,
+                0.5f,
+                0.01f,
+                combine(CROWN, LENGTH),
+                true,
+            )
+            selectRarityMap("Horns in Crown (Front)", combine(HORN, FRONT), options.crownFront, values, true)
+            selectRarityMap("Horns in Crown (Back)", combine(HORN, BACK), options.crownFront, values, true)
+        }
     }
 
     if (requiresNormalHorns || requiresCrown) {
@@ -395,10 +422,11 @@ private fun parseHairOptions(parameters: Parameters) = HairOptions(
 private fun parseHornOptions(parameters: Parameters) = HornOptions(
     parseOneOf(parameters, HORN, HornsLayout::valueOf),
     parseOneOf(parameters, combine(HORN, SHAPE), SimpleHornType::valueOf, setOf(SimpleHornType.Mouflon)),
-    emptyMap(),
+    parseFactor(parameters, combine(HORN, LENGTH), DEFAULT_SIMPLE_LENGTH),
     parseOneOf(parameters, combine(HORN, COLOR), Color::valueOf, Color.entries),
-    parseOneOf(parameters, combine(HORN, FRONT), String::toInt, setOf(2)),
-    parseOneOf(parameters, combine(HORN, BACK), String::toInt, setOf(2)),
+    parseFactor(parameters, combine(CROWN, LENGTH), DEFAULT_CROWN_LENGTH),
+    parseOneOf(parameters, combine(CROWN, FRONT), String::toInt, setOf(DEFAULT_CROWN_HORNS)),
+    parseOneOf(parameters, combine(CROWN, BACK), String::toInt, setOf(DEFAULT_CROWN_HORNS)),
 )
 
 private fun parseWingOptions(parameters: Parameters) = WingOptions(

@@ -477,6 +477,7 @@
     "simpleTypes": {
      "WaterBuffalo": "Common"
     },
+    "simpleLength": 0.8,
     "colors": {
      "Gray": "Common"
     }

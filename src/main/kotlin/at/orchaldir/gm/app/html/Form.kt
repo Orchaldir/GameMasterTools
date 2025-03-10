@@ -300,7 +300,7 @@ fun <T> HtmlBlockTag.selectOneOrNone(
     }
 }
 
-fun <T> FORM.selectRarityMap(
+fun <T> HtmlBlockTag.selectRarityMap(
     enum: String,
     selectId: String,
     rarityMap: RarityMap<T>,
@@ -318,7 +318,7 @@ fun <T> FORM.selectRarityMap(
     }
 }
 
-inline fun <reified T : Enum<T>> FORM.selectRarityMap(
+inline fun <reified T : Enum<T>> HtmlBlockTag.selectRarityMap(
     enum: String,
     selectId: String,
     rarityMap: RarityMap<T>,
