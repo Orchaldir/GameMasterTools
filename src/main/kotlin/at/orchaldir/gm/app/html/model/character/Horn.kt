@@ -200,7 +200,7 @@ private fun parseHorn(parameters: Parameters, param: String, config: AppearanceG
     return when (parameters[combine(param, TYPE)]) {
         HornType.Simple.toString() -> SimpleHorn(
             parseFactor(parameters, combine(param, LENGTH), DEFAULT_SIMPLE_LENGTH),
-            parse(parameters, combine(param, SHAPE), SimpleHornType.Mouflon),
+            parseAppearanceOption(parameters, combine(param, SHAPE), config, options.simpleTypes),
             parseAppearanceColor(parameters, param, config, options.colors),
         )
         HornType.Complex.toString() -> ComplexHorn(
