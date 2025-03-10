@@ -19,8 +19,10 @@ import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 import io.ktor.server.util.*
+import kotlinx.html.DETAILS
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h3
@@ -275,30 +277,14 @@ private fun FORM.editHorns(appearance: RaceAppearance) {
     if (requiresNormalHorns) {
         showDetails("Simple Horns", true) {
             selectRarityMap("Simple Horn Types", combine(HORN, SHAPE), options.simpleTypes, true)
-            selectFloat(
-                "Horn Length",
-                options.simpleLength.value,
-                0.1f,
-                2.0f,
-                0.05f,
-                combine(HORN, LENGTH),
-                true,
-            )
+            selectHornLength(HORN, options.simpleLength)
         }
     }
 
     if (requiresCrown) {
         val values = (1..5).toSet()
         showDetails("Crown", true) {
-            selectFloat(
-                "Horn Length",
-                options.crownLength.value,
-                0.01f,
-                0.5f,
-                0.01f,
-                combine(CROWN, LENGTH),
-                true,
-            )
+            selectCrownLength(options.crownLength)
             selectRarityMap("Horns in Crown (Front)", combine(HORN, FRONT), options.crownFront, values, true)
             selectRarityMap("Horns in Crown (Back)", combine(HORN, BACK), options.crownFront, values, true)
         }
@@ -307,6 +293,30 @@ private fun FORM.editHorns(appearance: RaceAppearance) {
     if (requiresNormalHorns || requiresCrown) {
         selectRarityMap("Colors", combine(HORN, COLOR), options.colors, true)
     }
+}
+
+fun HtmlBlockTag.selectHornLength(param: String, length: Factor) {
+    selectFloat(
+        "Horn Length",
+        length.value,
+        0.1f,
+        2.0f,
+        0.05f,
+        combine(param, LENGTH),
+        true,
+    )
+}
+
+fun HtmlBlockTag.selectCrownLength(length: Factor) {
+    selectFloat(
+        "Horn Length",
+        length.value,
+        0.01f,
+        0.5f,
+        0.01f,
+        combine(CROWN, LENGTH),
+        true,
+    )
 }
 
 private fun FORM.editMouth(appearance: RaceAppearance) {

@@ -36,6 +36,7 @@ fun FORM.editHead(
     editEars(raceAppearance, head.ears)
     editEyes(raceAppearance, head.eyes)
     editHair(raceAppearance, culture, head.hair)
+    editHorns(raceAppearance, head.horns)
     editMouth(raceAppearance, culture, head.mouth)
 }
 
@@ -261,9 +262,10 @@ fun parseHead(
     val ears = parseEars(parameters, config)
     val eyes = parseEyes(parameters, config)
     val hair = parseHair(parameters, config)
+    val horns = parseHorns(parameters, config)
     val mouth = parseMouth(parameters, config, character, hair)
 
-    return Head(ears, eyes, hair, NoHorns, mouth, skin)
+    return Head(ears, eyes, hair, horns, mouth, skin)
 }
 
 private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig, hair: Hair): Beard {

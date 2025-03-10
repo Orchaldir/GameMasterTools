@@ -56,7 +56,7 @@ fun HtmlBlockTag.selectBool(
     }
 }
 
-fun FORM.selectColor(
+fun HtmlBlockTag.selectColor(
     labelText: String,
     selectId: String,
     rarityMap: OneOf<Color>,
