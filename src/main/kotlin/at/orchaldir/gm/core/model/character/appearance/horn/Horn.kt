@@ -37,7 +37,12 @@ data class SimpleHorn(
     val length: Factor,
     val simpleType: SimpleHornType,
     val color: Color,
-) : Horn()
+) : Horn() {
+
+    init {
+        require(length.value > 0.0f) { "Length must be positive!" }
+    }
+}
 
 @Serializable
 @SerialName("Complex")
@@ -49,6 +54,11 @@ data class ComplexHorn(
     val shape: HornShape,
     val color: Color,
 ) : Horn() {
+
+    init {
+        require(length.value > 0.0f) { "Length must be positive!" }
+        require(relativeWidth.value > 0.0f) { "Relative width must be positive!" }
+    }
 
     fun getWidth() = length * relativeWidth
 

@@ -58,6 +58,14 @@ data class CrownOfHorns(
     val length: Factor,
     val width: Factor,
     val color: Color,
-) : Horns()
+) : Horns() {
+
+    init {
+        require(front in 0..5) { "Invalid number of horns in the front!" }
+        require(back in 0..5) { "Invalid number of horns in the back!" }
+        require(length.value > 0.0f) { "Length must be positive!" }
+        require(width.value > 0.0f) { "Width must be positive!" }
+    }
+}
 
 

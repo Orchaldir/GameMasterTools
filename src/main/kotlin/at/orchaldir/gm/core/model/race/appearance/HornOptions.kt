@@ -10,9 +10,10 @@ import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
 
 const val DEFAULT_CROWN_HORNS = 2
+const val DEFAULT_SPIRAL_CYCLES = 2
+
 val DEFAULT_SIMPLE_LENGTH = FULL
 val DEFAULT_SIMPLE_WIDTH = Factor(0.2f)
-const val DEFAULT_SPIRAL_CYCLES = 2
 val DEFAULT_SPIRAL_AMPLITUDE = Factor(0.2f)
 val DEFAULT_CROWN_LENGTH = Factor(0.2f)
 val DEFAULT_CROWN_WIDTH = Factor(0.15f)

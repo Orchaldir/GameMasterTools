@@ -37,4 +37,11 @@ data class CurvedHorn(
 data class SpiralHorn(
     val cycles: Int,
     val amplitude: Factor,
-) : HornShape()
+) : HornShape() {
+
+    init {
+        require(cycles in 2..10) { "Invalid number of cycles!" }
+        require(amplitude.value > 0.0f) { "Amplitude must be positive!" }
+    }
+
+}
