@@ -1,29 +1,20 @@
 package at.orchaldir.gm.app.html.model.character
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.model.race.selectCrownLength
-import at.orchaldir.gm.app.html.model.race.selectHornLength
-import at.orchaldir.gm.app.html.selectColor
-import at.orchaldir.gm.app.html.selectOneOf
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseFactor
+import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
-import at.orchaldir.gm.core.generator.generateHair
 import at.orchaldir.gm.core.generator.generateHorn
 import at.orchaldir.gm.core.generator.generateHorns
-import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.character.appearance.horn.*
-import at.orchaldir.gm.core.model.race.appearance.DEFAULT_SIMPLE_LENGTH
-import at.orchaldir.gm.core.model.race.appearance.HornOptions
-import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Orientation
 import io.ktor.http.*
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
 // edit
@@ -73,9 +64,92 @@ private fun FORM.editHorn(
                 selectColor("Color", combine(param, COLOR), options.colors, horn.color)
             }
 
-            is ComplexHorn -> doNothing()
+            is ComplexHorn -> {
+                selectHornLength(param, horn.length)
+                selectHornWidth(param, horn.relativeWidth)
+                selectValue("Position", combine(param, POSITION), HornPosition.entries, horn.position, true)
+                selectOrientation(param, horn.orientationOffset, 90.0f)
+                editHornShape(horn.shape, param)
+                selectColor("Color", combine(param, COLOR), options.colors, horn.color)
+            }
         }
     }
+}
+
+private fun HtmlBlockTag.editHornShape(
+    shape: HornShape,
+    parentParam: String,
+) {
+    val param = combine(parentParam, SHAPE)
+
+    showDetails("Shape", true) {
+        selectValue("Type", combine(param, TYPE), HornShapeType.entries, shape.getType(), true)
+
+        when (shape) {
+            StraightHorn -> doNothing()
+            is CurvedHorn -> selectOrientation(param, shape.change, 360.0f)
+            is SpiralHorn -> {
+                selectInt("Cycles", shape.cycles, 2, 10, 1, combine(param, NUMBER), true)
+                selectFloat(
+                    "Amplitude",
+                    shape.amplitude.value,
+                    0.01f,
+                    1.0f,
+                    0.01f,
+                    combine(param, LENGTH),
+                    true,
+                )
+            }
+        }
+    }
+}
+
+private fun HtmlBlockTag.selectOrientation(param: String, offset: Orientation, maxValue: Float) {
+    selectFloat(
+        "Orientation",
+        offset.toDegree(),
+        -maxValue,
+        maxValue,
+        1.0f,
+        combine(param, ORIENTATION),
+        true,
+    )
+}
+
+fun HtmlBlockTag.selectHornLength(param: String, length: Factor) {
+    selectFloat(
+        "Horn Length",
+        length.value,
+        0.1f,
+        2.0f,
+        0.05f,
+        combine(param, LENGTH),
+        true,
+    )
+}
+
+fun HtmlBlockTag.selectHornWidth(param: String, width: Factor) {
+    selectFloat(
+        "Horn Width",
+        width.value,
+        0.01f,
+        0.5f,
+        0.01f,
+        combine(param, WIDTH),
+        true,
+    )
+}
+
+fun HtmlBlockTag.selectCrownLength(length: Factor) {
+    selectFloat(
+        "Horn Length",
+        length.value,
+        0.01f,
+        0.5f,
+        0.01f,
+        combine(CROWN, LENGTH),
+        true,
+    )
 }
 
 // parse
@@ -102,8 +176,30 @@ private fun parseHorn(parameters: Parameters, param: String, config: AppearanceG
             parse(parameters, combine(param, SHAPE), SimpleHornType.Mouflon),
             parse(parameters, combine(param, COLOR), Color.Red),
         )
+        HornType.Complex.toString() -> ComplexHorn(
+            parseFactor(parameters, combine(param, LENGTH), DEFAULT_SIMPLE_LENGTH),
+            parseFactor(parameters, combine(param, WIDTH), DEFAULT_SIMPLE_WIDTH),
+            parse(parameters, combine(param, POSITION), HornPosition.Top),
+            parseOrientation(parameters, combine(param, WIDTH)),
+            parseHornShape(parameters, param),
+            parse(parameters, combine(param, COLOR), Color.Red),
+        )
 
         else -> generateHorn(config, options)
+    }
+}
+
+private fun parseHornShape(parameters: Parameters, parentParam: String): HornShape {
+    val param = combine(parentParam, SHAPE)
+
+    return when (parameters[combine(param, TYPE)]) {
+        HornShapeType.Curved.toString() -> CurvedHorn(parseOrientation(parameters, combine(param, ORIENTATION)))
+        HornShapeType.Spiral.toString() -> SpiralHorn(
+            parseInt(parameters, combine(param, NUMBER), DEFAULT_SPIRAL_CYCLES),
+            parseFactor(parameters, combine(param, LENGTH), DEFAULT_SPIRAL_AMPLITUDE),
+        )
+
+        else -> StraightHorn
     }
 }
 
