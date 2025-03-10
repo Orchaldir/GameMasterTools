@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.PupilShape
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.character.appearance.horn.HornsLayout
 import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHornType
+import at.orchaldir.gm.core.model.character.appearance.horn.VALID_CROWN_HORNS
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
@@ -284,7 +285,7 @@ private fun FORM.editHorns(appearance: RaceAppearance) {
     }
 
     if (requiresCrown) {
-        val values = (1..5).toSet()
+        val values = VALID_CROWN_HORNS.toSet()
         showDetails("Crown", true) {
             selectCrownLength(options.crownLength)
             selectRarityMap("Horns in Crown (Front)", combine(CROWN, FRONT), options.crownFront, values, true)

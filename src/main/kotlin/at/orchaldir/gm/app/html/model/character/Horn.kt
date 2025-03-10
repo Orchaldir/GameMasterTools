@@ -104,7 +104,15 @@ private fun HtmlBlockTag.editHornShape(
             StraightHorn -> doNothing()
             is CurvedHorn -> selectOrientation(param, shape.change, 360.0f)
             is SpiralHorn -> {
-                selectInt("Cycles", shape.cycles, 2, 10, 1, combine(param, NUMBER), true)
+                selectInt(
+                    "Cycles",
+                    shape.cycles,
+                    MIN_SPIRAL_CYCLES,
+                    MAX_SPIRAL_CYCLES,
+                    1,
+                    combine(param, NUMBER),
+                    true,
+                )
                 selectFloat(
                     "Amplitude",
                     shape.amplitude.value,

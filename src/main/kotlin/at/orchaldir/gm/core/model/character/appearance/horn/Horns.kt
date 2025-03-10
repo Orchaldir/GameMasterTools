@@ -7,6 +7,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 val DEFAULT_HORN_COLOR = Color.Red
+val VALID_CROWN_HORNS = 1..5
 
 enum class HornsLayout {
     None,
@@ -61,8 +62,8 @@ data class CrownOfHorns(
 ) : Horns() {
 
     init {
-        require(front in 0..5) { "Invalid number of horns in the front!" }
-        require(back in 0..5) { "Invalid number of horns in the back!" }
+        require(front in VALID_CROWN_HORNS) { "Invalid number of horns in the front!" }
+        require(back in VALID_CROWN_HORNS) { "Invalid number of horns in the back!" }
         require(length.value > 0.0f) { "Length must be positive!" }
         require(width.value > 0.0f) { "Width must be positive!" }
     }

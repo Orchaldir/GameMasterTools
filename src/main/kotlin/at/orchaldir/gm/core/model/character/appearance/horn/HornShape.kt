@@ -5,6 +5,9 @@ import at.orchaldir.gm.utils.math.Orientation
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+const val MIN_SPIRAL_CYCLES = 2
+const val MAX_SPIRAL_CYCLES = 10
+
 enum class HornShapeType {
     Straight,
     Curved,
@@ -40,7 +43,7 @@ data class SpiralHorn(
 ) : HornShape() {
 
     init {
-        require(cycles in 2..10) { "Invalid number of cycles!" }
+        require(cycles in MIN_SPIRAL_CYCLES..MAX_SPIRAL_CYCLES) { "Invalid number of cycles!" }
         require(amplitude.value > 0.0f) { "Amplitude must be positive!" }
     }
 
