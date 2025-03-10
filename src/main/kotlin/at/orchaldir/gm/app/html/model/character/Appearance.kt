@@ -301,12 +301,24 @@ private fun parseWing(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     param: String,
-) = when (parameters[combine(param, TYPE)]) {
-    WingType.Bat.toString() -> BatWing(parse(parameters, combine(param, COLOR), DEFAULT_BAT_COLOR))
-    WingType.Bird.toString() -> BirdWing(parse(parameters, combine(param, COLOR), DEFAULT_BIRD_COLOR))
-    WingType.Butterfly.toString() -> ButterflyWing(parse(parameters, combine(param, COLOR), DEFAULT_BUTTERFLY_COLOR))
+): Wing {
+    val wingOptions = config.appearanceOptions.wingOptions
 
-    else -> generateWing(config)
+    return when (parameters[combine(param, TYPE)]) {
+        WingType.Bat.toString() -> BatWing(
+            parseAppearanceColor(parameters, param, config, wingOptions.batColors),
+        )
+
+        WingType.Bird.toString() -> BirdWing(
+            parseAppearanceColor(parameters, param, config, wingOptions.birdColors),
+        )
+
+        WingType.Butterfly.toString() -> ButterflyWing(
+            parseAppearanceColor(parameters, param, config, wingOptions.butterflyColors),
+        )
+
+        else -> generateWing(config)
+    }
 }
 
 fun parseAppearanceColor(
@@ -314,5 +326,4 @@ fun parseAppearanceColor(
     param: String,
     config: AppearanceGeneratorConfig,
     colors: OneOf<Color>,
-) =
-    parse<Color>(parameters, combine(param, COLOR)) ?: config.generate(colors)
+) = parse<Color>(parameters, combine(param, COLOR)) ?: config.generate(colors)

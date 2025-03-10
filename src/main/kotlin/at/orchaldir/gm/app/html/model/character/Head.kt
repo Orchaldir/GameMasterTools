@@ -239,7 +239,7 @@ private fun FORM.editMouth(
 
         is FemaleMouth -> {
             editSimpleMouth(mouth.width, mouth.teethColor)
-            selectColor("Lip Color", LIP_COLOR, culture.appearanceStyle.lipColors, mouth.color)
+            selectColor("Lip Color", combine(LIP, COLOR), culture.appearanceStyle.lipColors, mouth.color)
         }
 
         else -> doNothing()
@@ -291,7 +291,7 @@ private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig
 
                     else -> Goatee(GoateeStyle.Goatee)
                 },
-                parse(parameters, combine(BEARD, COLOR), Color.Red),
+                parseAppearanceColor(parameters, BEARD, config, config.appearanceOptions.hairOptions.colors),
             )
         }
 
@@ -331,22 +331,27 @@ private fun parseEyes(parameters: Parameters, config: AppearanceGeneratorConfig)
     }
 }
 
-private fun parseEye(parameters: Parameters, config: AppearanceGeneratorConfig) =
-    when (parameters[combine(EYE, TYPE)]) {
+private fun parseEye(parameters: Parameters, config: AppearanceGeneratorConfig): Eye {
+    val options = config.appearanceOptions.eyeOptions
+
+    return when (parameters[combine(EYE, TYPE)]) {
         EyeType.Simple.toString() -> SimpleEye(
             parse(parameters, combine(EYE, SHAPE), EyeShape.Ellipse),
-            parse(parameters, combine(PUPIL, COLOR), Color.Green),
+            parseAppearanceColor(parameters, PUPIL, config, options.eyeColors),
         )
 
-        EyeType.Normal.toString() -> NormalEye(
-            parse(parameters, combine(EYE, SHAPE), EyeShape.Ellipse),
-            parse(parameters, combine(PUPIL, SHAPE), PupilShape.Circle),
-            parse(parameters, combine(PUPIL, COLOR), Color.Green),
-            parse(parameters, combine(SCLERA, COLOR), Color.White),
-        )
+        EyeType.Normal.toString() -> {
+            NormalEye(
+                parse(parameters, combine(EYE, SHAPE), EyeShape.Ellipse),
+                parse(parameters, combine(PUPIL, SHAPE), PupilShape.Circle),
+                parseAppearanceColor(parameters, PUPIL, config, options.eyeColors),
+                parseAppearanceColor(parameters, SCLERA, config, options.scleraColors),
+            )
+        }
 
         else -> generateEye(config)
     }
+}
 
 private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig): Hair {
     return when (parameters[HAIR]) {
@@ -364,7 +369,7 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
                     HairStyleType.Spiked.toString() -> Spiked
                     else -> ShavedHair
                 },
-                parse(parameters, combine(HAIR, COLOR), Color.Red),
+                parseAppearanceColor(parameters, HAIR, config, config.appearanceOptions.hairOptions.colors),
             )
         }
 
@@ -384,7 +389,7 @@ private fun parseMouth(
             if (character.gender == Gender.Female) {
                 return FemaleMouth(
                     parse(parameters, combine(MOUTH, WIDTH), Size.Medium),
-                    parse(parameters, LIP_COLOR, Color.Red),
+                    parseAppearanceColor(parameters, LIP, config, config.appearanceStyle.lipColors),
                     parse(parameters, TEETH_COLOR, TeethColor.White),
                 )
             }
