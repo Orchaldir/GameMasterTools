@@ -9,8 +9,10 @@ import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.core.model.util.Color.Black
 import at.orchaldir.gm.core.selector.getAppearanceForAge
-import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.math.Size2d.Companion.square
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Orientation
+import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.svg.Svg

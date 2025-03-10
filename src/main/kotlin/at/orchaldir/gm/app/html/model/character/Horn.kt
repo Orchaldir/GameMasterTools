@@ -187,6 +187,7 @@ fun parseHorns(parameters: Parameters, config: AppearanceGeneratorConfig): Horns
             parseHorn(parameters, combine(HORN, LEFT), config),
             parseHorn(parameters, combine(HORN, RIGHT), config),
         )
+
         HornsLayout.Crown.toString() -> {
             CrownOfHorns(
                 parseInt(parameters, combine(CROWN, FRONT), DEFAULT_CROWN_HORNS),
@@ -211,6 +212,7 @@ private fun parseHorn(parameters: Parameters, param: String, config: AppearanceG
             parseAppearanceOption(parameters, combine(param, SHAPE), config, options.simpleTypes),
             parseAppearanceColor(parameters, param, config, options.colors),
         )
+
         HornType.Complex.toString() -> ComplexHorn(
             parseFactor(parameters, combine(param, LENGTH), DEFAULT_SIMPLE_LENGTH),
             parseFactor(parameters, combine(param, WIDTH), DEFAULT_SIMPLE_WIDTH),

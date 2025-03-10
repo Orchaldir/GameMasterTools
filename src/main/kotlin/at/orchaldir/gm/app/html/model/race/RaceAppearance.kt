@@ -22,10 +22,8 @@ import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 import io.ktor.server.util.*
-import kotlinx.html.DETAILS
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h3
@@ -297,7 +295,6 @@ private fun FORM.editHorns(appearance: RaceAppearance) {
         selectRarityMap("Colors", combine(HORN, COLOR), options.colors, true)
     }
 }
-
 
 
 private fun FORM.editMouth(appearance: RaceAppearance) {

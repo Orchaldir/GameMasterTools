@@ -26,6 +26,7 @@ sealed class Horn {
             SimpleHornType.WaterBuffalo -> 0.2f
             else -> 1.0f
         }
+
         is ComplexHorn -> headHeight * length
     }
 
