@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.calendar
 
 import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.time.DisplayCentury
 import at.orchaldir.gm.core.model.time.DisplayDecade
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -13,6 +14,8 @@ sealed class CalendarEra {
     fun display(year: Int) = display(year.toString())
 
     fun display(decade: DisplayDecade) = display(decade.display())
+
+    fun display(century: DisplayCentury) = display(century.display())
 
     fun display(date: String) = if (isPrefix) {
         "$text $date"

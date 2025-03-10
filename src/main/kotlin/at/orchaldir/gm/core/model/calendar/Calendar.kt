@@ -45,11 +45,14 @@ data class Calendar(
         is Day -> -eras.first.startDate.day
         is Year -> -eras.first.startDate.year * getDaysPerYear()
         is Decade -> -eras.first.startDate.decade * getDaysPerYear() * 10
+        is Century -> -eras.first.startDate.century * getDaysPerYear() * 100
     }
 
     fun getOffsetInYears() = getOffsetInDays() / getDaysPerYear()
 
     fun getOffsetInDecades() = getOffsetInYears() / 10
+
+    fun getOffsetInCenturies() = getOffsetInYears() / 100
 
     // day
 
@@ -57,12 +60,14 @@ data class Calendar(
         is Day -> date
         is Year -> getStartOfYear(date)
         is Decade -> getStartOfDecade(date)
+        is Century -> getStartOfCentury(date)
     }
 
     fun getDisplayDay(date: Date): DisplayDay = when (date) {
         is Day -> resolve(date)
         is Year -> getDisplayStartOfYear(date)
         is Decade -> getDisplayStartOfDecade(date)
+        is Century -> getDisplayStartOfCentury(date)
     }
 
     fun getWeekDay(date: Day) = when (days) {
@@ -110,12 +115,14 @@ data class Calendar(
         is Day -> resolve(resolve(date).year)
         is Year -> date
         is Decade -> resolve(resolve(date).year())
+        is Century -> resolve(resolve(date).year())
     }
 
     fun getDisplayYear(date: Date): DisplayYear = when (date) {
         is Day -> resolve(date).year
         is Year -> resolve(date)
         is Decade -> resolve(date).year()
+        is Century -> resolve(date).year()
     }
 
     fun getStartOfYear(year: Year) = resolve(getDisplayStartOfYear(year))
@@ -131,12 +138,14 @@ data class Calendar(
         is Day -> resolve(resolve(getYear(date)).decade())
         is Year -> resolve(resolve(date).decade())
         is Decade -> date
+        is Century -> resolve(resolve(date).year().decade())
     }
 
     fun getDisplayDecade(date: Date): DisplayDecade = when (date) {
         is Day -> resolve(getYear(date)).decade()
         is Year -> resolve(date).decade()
         is Decade -> resolve(date)
+        is Century -> resolve(date).year().decade()
     }
 
     fun getStartOfDecade(decade: Decade) = resolve(getDisplayStartOfDecade(decade))
@@ -146,6 +155,30 @@ data class Calendar(
     fun getStartOfDecade(decade: DisplayDecade) = DisplayDay(decade.year(), 0, 0, null)
 
     fun getEndOfDecade(decade: Decade) = getStartOfDecade(decade.nextDecade()).previousDay()
+
+    // century
+
+    fun getCentury(date: Date): Century = when (date) {
+        is Day -> resolve(resolve(getYear(date)).decade().century())
+        is Year -> resolve(resolve(date).decade().century())
+        is Decade -> resolve(resolve(date).century())
+        is Century -> date
+    }
+
+    fun getDisplayCentury(date: Date): DisplayCentury = when (date) {
+        is Day -> resolve(getYear(date)).decade().century()
+        is Year -> resolve(date).decade().century()
+        is Decade -> resolve(date).century()
+        is Century -> resolve(date)
+    }
+
+    fun getStartOfCentury(century: Century) = resolve(getDisplayStartOfCentury(century))
+
+    fun getDisplayStartOfCentury(century: Century) = getStartOfCentury(resolve(century))
+
+    fun getStartOfCentury(century: DisplayCentury) = DisplayDay(century.year(), 0, 0, null)
+
+    fun getEndOfCentury(century: Century) = getStartOfCentury(century.nextDecade()).previousDay()
 
     // compare dates
 

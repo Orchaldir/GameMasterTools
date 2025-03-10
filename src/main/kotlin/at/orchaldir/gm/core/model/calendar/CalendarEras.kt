@@ -29,6 +29,7 @@ data class CalendarEras(
         is DisplayDay -> display(date)
         is DisplayYear -> display(date)
         is DisplayDecade -> display(date)
+        is DisplayCentury -> display(date)
     }
 
     fun display(day: DisplayDay) = getEra(day.year.eraIndex)
@@ -41,4 +42,7 @@ data class CalendarEras(
 
     fun display(decade: DisplayDecade) = getEra(decade.eraIndex)
         .display(decade)
+
+    fun display(century: DisplayCentury) = getEra(century.eraIndex)
+        .display(century)
 }

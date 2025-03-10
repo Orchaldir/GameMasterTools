@@ -50,4 +50,29 @@ data class DisplayDecade(
     fun display() = (decadeIndex * 10).toString() + "s"
 
     fun year() = DisplayYear(eraIndex, startYearIndex())
+    fun century() = DisplayCentury(eraIndex, decadeIndex / 10)
+}
+
+data class DisplayCentury(
+    val eraIndex: Int,
+    val centuryIndex: Int,
+) : DisplayDate() {
+
+    fun startYearIndex() = if (eraIndex == 0) {
+        if (centuryIndex == 0) {
+            98
+        } else {
+            (centuryIndex + 1) * 100 - 2
+        }
+    } else {
+        if (centuryIndex == 0) {
+            0
+        } else {
+            centuryIndex * 100 - 1
+        }
+    }
+
+    fun display() = (centuryIndex * 100).toString() + "c"
+
+    fun year() = DisplayYear(eraIndex, startYearIndex())
 }

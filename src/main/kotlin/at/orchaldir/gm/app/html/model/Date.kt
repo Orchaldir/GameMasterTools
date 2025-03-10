@@ -157,7 +157,22 @@ private fun HtmlBlockTag.selectDate(
         is DisplayDay -> selectDay(param, calendar, displayDate, minDate)
         is DisplayYear -> selectYear(param, calendar, displayDate, minDate)
         is DisplayDecade -> selectDecade(param, calendar, displayDate, minDate)
+        is DisplayCentury -> selectCentury(param, calendar, displayDate, minDate)
     }
+}
+
+private fun HtmlBlockTag.selectCentury(
+    param: String,
+    calendar: Calendar,
+    century: DisplayCentury,
+    minDate: Date? = null,
+    maxDate: Date? = null,
+) {
+    val displayMinYear = minDate?.let { calendar.getDisplayYear(it) }
+    val displayMaxYear = maxDate?.let { calendar.getDisplayYear(it) }
+
+    selectEraIndex(param, calendar, century.eraIndex, displayMinYear, displayMaxYear)
+    selectCenturyIndex(param, calendar, century, minDate, maxDate)
 }
 
 private fun HtmlBlockTag.selectDecade(
@@ -276,6 +291,41 @@ private fun HtmlBlockTag.selectEraIndex(
     }
 }
 
+private fun HtmlBlockTag.selectCenturyIndex(
+    param: String,
+    calendar: Calendar,
+    century: DisplayCentury,
+    minDate: Date? = null,
+    maxDate: Date? = null,
+) {
+    val decadeParam = combine(param, CENTURY)
+    val minIndex = if (minDate != null) {
+        val minCentury = calendar.getDisplayCentury(minDate)
+
+        if (minCentury.eraIndex == century.eraIndex) {
+            minCentury.centuryIndex
+        } else {
+            0
+        }
+    } else {
+        0
+    }
+    val maxIndex = if (maxDate != null) {
+        val maxCentury = calendar.getDisplayCentury(maxDate)
+
+        if (maxCentury.eraIndex == century.eraIndex) {
+            maxCentury.centuryIndex
+        } else {
+            Int.MAX_VALUE
+        }
+    } else {
+        Int.MAX_VALUE
+    }
+
+    selectInt(century.centuryIndex, minIndex, maxIndex, 1, decadeParam, true)
+    +"xx"
+}
+
 private fun HtmlBlockTag.selectDecadeIndex(
     param: String,
     calendar: Calendar,
@@ -288,7 +338,7 @@ private fun HtmlBlockTag.selectDecadeIndex(
         val minDecade = calendar.getDisplayDecade(minDate)
 
         if (minDecade.eraIndex == decade.eraIndex) {
-            minDecade.eraIndex
+            minDecade.decadeIndex
         } else {
             0
         }
@@ -460,6 +510,7 @@ fun parseOptionalDate(
         DateType.Day -> parseDay(parameters, calendar, param)
         DateType.Year -> parseYear(parameters, calendar, param)
         DateType.Decade -> parseDecade(parameters, calendar, param)
+        DateType.Century -> parseCentury(parameters, calendar, param)
     }
 }
 
@@ -502,6 +553,7 @@ fun parseDate(
         DateType.Day -> parseDay(parameters, calendar, param)
         DateType.Year -> parseYear(parameters, calendar, param)
         DateType.Decade -> parseDecade(parameters, calendar, param)
+        DateType.Century -> parseCentury(parameters, calendar, param)
     }
 }
 
@@ -555,6 +607,18 @@ fun parseDecade(
     val eraIndex = parseInt(parameters, combine(param, ERA))
     val decadeIndex = parseInt(parameters, combine(param, DECADE))
     val calendarDate = DisplayDecade(eraIndex, decadeIndex)
+
+    return calendar.resolve(calendarDate)
+}
+
+fun parseCentury(
+    parameters: Parameters,
+    calendar: Calendar,
+    param: String,
+): Century {
+    val eraIndex = parseInt(parameters, combine(param, ERA))
+    val centuryIndex = parseInt(parameters, combine(param, CENTURY))
+    val calendarDate = DisplayCentury(eraIndex, centuryIndex)
 
     return calendar.resolve(calendarDate)
 }

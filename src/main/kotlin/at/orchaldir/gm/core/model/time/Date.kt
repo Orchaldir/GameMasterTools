@@ -9,6 +9,7 @@ enum class DateType {
     Day,
     Year,
     Decade,
+    Century,
 }
 
 @Serializable
@@ -18,6 +19,7 @@ sealed interface Date {
         is Day -> DateType.Day
         is Year -> DateType.Year
         is Decade -> DateType.Decade
+        is Century -> DateType.Century
     }
 
     fun isBetween(calendar: Calendar, start: Day, end: Day): Boolean
@@ -78,6 +80,25 @@ data class Decade(val decade: Int) : Date {
 
     operator fun compareTo(other: Decade): Int {
         return decade.compareTo(other.decade)
+    }
+
+}
+
+@Serializable
+@SerialName("Century")
+data class Century(val century: Int) : Date {
+
+    override fun isBetween(calendar: Calendar, start: Day, end: Day) = calendar
+        .getStartOfCentury(this)
+        .isBetween(calendar, start, end)
+
+    override fun next() = nextDecade()
+
+    fun nextDecade() = Century(century + 1)
+    fun previousDecade() = Century(century - 1)
+
+    operator fun compareTo(other: Century): Int {
+        return century.compareTo(other.century)
     }
 
 }

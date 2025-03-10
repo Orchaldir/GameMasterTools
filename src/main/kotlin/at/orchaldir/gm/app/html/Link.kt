@@ -38,10 +38,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
-import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.time.Day
-import at.orchaldir.gm.core.model.time.Decade
-import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
@@ -100,6 +97,10 @@ fun HtmlBlockTag.link(
         is Decade -> {
             link(call, date, calendar.display(calendarDate))
         }
+
+        is Century -> {
+            link(call, date, calendar.display(calendarDate))
+        }
     }
 }
 
@@ -125,6 +126,14 @@ fun HtmlBlockTag.link(
     text: String,
 ) {
     link(call.application.href(TimeRoutes.ShowDecade(decade)), text)
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    century: Century,
+    text: String,
+) {
+    link(call.application.href(TimeRoutes.ShowCentury(century)), text)
 }
 
 // element

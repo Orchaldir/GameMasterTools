@@ -31,6 +31,7 @@ class DateGenerator(
             }
 
             is Decade -> error("Cannot generate month & day for decade")
+            is Century -> error("Cannot generate month & day for century")
         }
 
         return calendar.resolve(generatedDisplayDate)
