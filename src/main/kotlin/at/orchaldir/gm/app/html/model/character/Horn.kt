@@ -40,7 +40,23 @@ fun FORM.editHorns(
         }
 
         is CrownOfHorns -> {
-            selectCrownLength(options.crownLength)
+            selectOneOf(
+                "Horns in Crown (Front)",
+                combine(CROWN, FRONT),
+                options.crownFront,
+                horns.front,
+                true
+            ) { number ->
+                label = number.toString()
+                value = number.toString()
+            }
+            selectOneOf("Horns in Crown (Back)", combine(CROWN, BACK), options.crownBack, horns.back, true) { number ->
+                label = number.toString()
+                value = number.toString()
+            }
+            selectCrownLength(horns.length)
+            selectHornWidth(CROWN, horns.width)
+            selectColor("Color", combine(CROWN, COLOR), options.colors, horns.color)
         }
     }
 }
@@ -162,6 +178,14 @@ fun parseHorns(parameters: Parameters, config: AppearanceGeneratorConfig): Horns
         HornsLayout.Different.toString() -> DifferentHorns(
             parseHorn(parameters, combine(HORN, LEFT), config),
             parseHorn(parameters, combine(HORN, RIGHT), config),
+        )
+        HornsLayout.Crown.toString() -> CrownOfHorns(
+            parseInt(parameters, combine(CROWN, FRONT), DEFAULT_CROWN_HORNS),
+            parseInt(parameters, combine(CROWN, BACK), DEFAULT_CROWN_HORNS),
+            true,
+            parseFactor(parameters, combine(CROWN, LENGTH), DEFAULT_CROWN_LENGTH),
+            parseFactor(parameters, combine(CROWN, WIDTH), DEFAULT_CROWN_WIDTH),
+            parse(parameters, combine(CROWN, COLOR), Color.Red),
         )
 
         else -> generateHorns(config)

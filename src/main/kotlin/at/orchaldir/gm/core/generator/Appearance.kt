@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
+import at.orchaldir.gm.core.model.race.appearance.DEFAULT_CROWN_WIDTH
 import at.orchaldir.gm.core.model.race.appearance.HornOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.util.RarityMap
@@ -192,7 +193,7 @@ fun generateHorns(config: AppearanceGeneratorConfig): Horns {
             config.generate(options.crownBack),
             true,
             options.crownLength,
-            Factor(0.15f),
+            DEFAULT_CROWN_WIDTH,
             config.generate(options.colors),
         )
     }

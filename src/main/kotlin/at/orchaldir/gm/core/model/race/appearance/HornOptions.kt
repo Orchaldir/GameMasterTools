@@ -15,6 +15,7 @@ val DEFAULT_SIMPLE_WIDTH = Factor(0.2f)
 const val DEFAULT_SPIRAL_CYCLES = 2
 val DEFAULT_SPIRAL_AMPLITUDE = Factor(0.2f)
 val DEFAULT_CROWN_LENGTH = Factor(0.2f)
+val DEFAULT_CROWN_WIDTH = Factor(0.15f)
 
 @Serializable
 data class HornOptions(

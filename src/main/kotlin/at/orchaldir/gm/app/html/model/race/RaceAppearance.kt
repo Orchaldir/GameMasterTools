@@ -287,8 +287,8 @@ private fun FORM.editHorns(appearance: RaceAppearance) {
         val values = (1..5).toSet()
         showDetails("Crown", true) {
             selectCrownLength(options.crownLength)
-            selectRarityMap("Horns in Crown (Front)", combine(HORN, FRONT), options.crownFront, values, true)
-            selectRarityMap("Horns in Crown (Back)", combine(HORN, BACK), options.crownFront, values, true)
+            selectRarityMap("Horns in Crown (Front)", combine(CROWN, FRONT), options.crownFront, values, true)
+            selectRarityMap("Horns in Crown (Back)", combine(CROWN, BACK), options.crownFront, values, true)
         }
     }
 
