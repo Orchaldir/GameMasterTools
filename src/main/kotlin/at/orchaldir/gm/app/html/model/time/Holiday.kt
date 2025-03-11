@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.CALENDAR
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parseCalendarId
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
