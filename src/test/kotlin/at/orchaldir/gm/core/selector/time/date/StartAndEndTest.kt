@@ -15,17 +15,45 @@ class StartAndEndTest {
     @Nested
     inner class MonthTest {
 
-        @Test
-        fun `Get start of month`() {
-            assertEquals(Day(2), calendar0.getStartOfMonth(Day(2)))
-            assertEquals(Day(2), calendar0.getStartOfMonth(Day(3)))
-            assertEquals(Day(2), calendar0.getStartOfMonth(Day(4)))
+        @Nested
+        inner class GetStartOfMonthTest {
+
+            @Test
+            fun `Get start of the second month in 1 AD`() {
+                assertEquals(Day(2), calendar0.getStartOfMonth(Day(2)))
+                assertEquals(Day(2), calendar0.getStartOfMonth(Day(3)))
+                assertEquals(Day(2), calendar0.getStartOfMonth(Day(4)))
+            }
+
+            @Test
+            fun `Get start of the second month in BC 1`() {
+                assertEquals(Day(-3), calendar0.getStartOfMonth(Day(-3)))
+                assertEquals(Day(-3), calendar0.getStartOfMonth(Day(-2)))
+                assertEquals(Day(-3), calendar0.getStartOfMonth(Day(-1)))
+            }
+
+            @Test
+            fun `Get start of the first month in the second year`() {
+                assertEquals(Day(5), calendar0.getStartOfMonth(Day(5)))
+                assertEquals(Day(5), calendar0.getStartOfMonth(Day(6)))
+            }
         }
 
-        @Test
-        fun `Get end of month`() {
-            assertEquals(Day(1), calendar0.getEndOfMonth(Day(0)))
-            assertEquals(Day(1), calendar0.getEndOfMonth(Day(1)))
+        @Nested
+        inner class GetEndOfMonthTest {
+
+            @Test
+            fun `Get end of the first month in 1 AD`() {
+                assertEquals(Day(1), calendar0.getEndOfMonth(Day(0)))
+                assertEquals(Day(1), calendar0.getEndOfMonth(Day(1)))
+            }
+
+            @Test
+            fun `Get end of the second month in BC 1`() {
+                assertEquals(Day(-1), calendar0.getEndOfMonth(Day(-3)))
+                assertEquals(Day(-1), calendar0.getEndOfMonth(Day(-2)))
+                assertEquals(Day(-1), calendar0.getEndOfMonth(Day(-1)))
+            }
         }
 
         @Nested
