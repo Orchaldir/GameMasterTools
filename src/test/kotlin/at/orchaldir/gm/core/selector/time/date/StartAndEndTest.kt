@@ -216,34 +216,46 @@ class StartAndEndTest {
 
         @Nested
         inner class GetStartDecadeTest {
-            private val decade = Decade(0)
-            private val display = DisplayDecade(1, 0)
 
             @Test
             fun `Get the start decade of a century`() {
-                assertGetDecade(Century(0))
+                assertStartDecade(Century(-1), -10)
+                assertStartDecade(Century(0), 0)
+                assertStartDecade(Century(1), 10)
             }
 
             @Test
             fun `Get the decade of a decade`() {
-                assertGetDecade(decade)
+                assertStartDecade(Decade(-1), -1)
+                assertStartDecade(Decade(0), 0)
+                assertStartDecade(Decade(1), 1)
             }
 
             @Test
             fun `Get the decade of a year`() {
-                assertGetDecade(Year(5))
+                assertStartDecade(Year(-1), -1)
+                assertStartDecade(Year(0), 0)
+                assertStartDecade(Year(5), 0)
+                assertStartDecade(Year(8), 0)
+                assertStartDecade(Year(9), 1)
             }
 
             @Test
             fun `Get the decade of a day`() {
-                assertGetDecade(Day(25))
+                assertStartDecade(Day(-1), -1)
+                assertStartDecade(Day(0), 0)
+                assertStartDecade(Day(25), 0)
+                assertStartDecade(Day(44), 0)
+                assertStartDecade(Day(45), 1)
             }
 
-            private fun assertGetDecade(date: Date) {
+            private fun assertStartDecade(date: Date, result: Int) {
+                val decade = Decade(result)
+                val display = calendar0.resolveDecade(decade)
+
                 assertEquals(decade, calendar0.getStartDecade(date))
                 assertEquals(display, calendar0.getStartDisplayDecade(date))
             }
-
         }
     }
 
@@ -284,6 +296,52 @@ class StartAndEndTest {
 
         private fun assertDisplay(day: Day, display: String) {
             assertEquals(display, display(calendar0, day))
+        }
+
+
+        @Nested
+        inner class GetCenturyTest {
+
+            @Test
+            fun `Get the century of a century`() {
+                assertStartCentury(Century(-1), -1)
+                assertStartCentury(Century(0), 0)
+                assertStartCentury(Century(1), 1)
+            }
+
+            @Test
+            fun `Get the century of a decade`() {
+                assertStartCentury(Decade(-1), -1)
+                assertStartCentury(Decade(0), 0)
+                assertStartCentury(Decade(9), 0)
+                assertStartCentury(Decade(10), 1)
+            }
+
+            @Test
+            fun `Get the century of a year`() {
+                assertStartCentury(Year(-1), -1)
+                assertStartCentury(Year(0), 0)
+                assertStartCentury(Year(5), 0)
+                assertStartCentury(Year(98), 0)
+                assertStartCentury(Year(99), 1)
+            }
+
+            @Test
+            fun `Get the century of a day`() {
+                assertStartCentury(Day(-1), -1)
+                assertStartCentury(Day(0), 0)
+                assertStartCentury(Day(25), 0)
+                assertStartCentury(Day(494), 0)
+                assertStartCentury(Day(495), 1)
+            }
+
+            private fun assertStartCentury(date: Date, result: Int) {
+                val century = Century(result)
+                val display = calendar0.resolveCentury(century)
+
+                assertEquals(century, calendar0.getCentury(date))
+                assertEquals(display, calendar0.getDisplayCentury(date))
+            }
         }
     }
 

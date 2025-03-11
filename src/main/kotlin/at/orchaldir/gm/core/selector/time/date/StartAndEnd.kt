@@ -101,3 +101,17 @@ fun Calendar.getStartDisplayDayOfCentury(century: Century) = getStartDisplayDayO
 fun Calendar.getStartDisplayDayOfCentury(century: DisplayCentury) = DisplayDay(century.startYear(), 0, 0, null)
 
 fun Calendar.getEndDayOfCentury(century: Century) = getStartDayOfCentury(century.nextDecade()).previousDay()
+
+fun Calendar.getCentury(date: Date): Century = when (date) {
+    is Day -> resolveCentury(resolveYear(getStartYear(date)).decade().century())
+    is Year -> resolveCentury(resolveYear(date).decade().century())
+    is Decade -> resolveCentury(resolveDecade(date).century())
+    is Century -> date
+}
+
+fun Calendar.getDisplayCentury(date: Date): DisplayCentury = when (date) {
+    is Day -> resolveYear(getStartYear(date)).decade().century()
+    is Year -> resolveYear(date).decade().century()
+    is Decade -> resolveDecade(date).century()
+    is Century -> resolveCentury(date)
+}
