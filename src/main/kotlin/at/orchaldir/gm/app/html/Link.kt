@@ -15,9 +15,6 @@ import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.town.TownRoutes
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.CalendarId
-import at.orchaldir.gm.core.model.calendar.resolve
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -38,10 +35,9 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
-import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.time.Day
-import at.orchaldir.gm.core.model.time.Decade
-import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.model.time.calendar.CalendarId
+import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
@@ -52,6 +48,8 @@ import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.selector.time.date.display
+import at.orchaldir.gm.core.selector.time.date.resolve
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
@@ -90,15 +88,19 @@ fun HtmlBlockTag.link(
     val calendarDate = calendar.resolve(date)
     when (date) {
         is Day -> {
-            link(call, date, calendar.display(calendarDate))
+            link(call, date, display(calendar, calendarDate))
         }
 
         is Year -> {
-            link(call, date, calendar.display(calendarDate))
+            link(call, date, display(calendar, calendarDate))
         }
 
         is Decade -> {
-            link(call, date, calendar.display(calendarDate))
+            link(call, date, display(calendar, calendarDate))
+        }
+
+        is Century -> {
+            link(call, date, display(calendar, calendarDate))
         }
     }
 }
@@ -125,6 +127,14 @@ fun HtmlBlockTag.link(
     text: String,
 ) {
     link(call.application.href(TimeRoutes.ShowDecade(decade)), text)
+}
+
+fun HtmlBlockTag.link(
+    call: ApplicationCall,
+    century: Century,
+    text: String,
+) {
+    link(call.application.href(TimeRoutes.ShowCentury(century)), text)
 }
 
 // element

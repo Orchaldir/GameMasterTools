@@ -4,7 +4,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.selector.getDefaultCalendar
+import at.orchaldir.gm.core.selector.util.exists
+import at.orchaldir.gm.core.selector.util.getExistingElements
 
 fun State.canDelete(style: ArchitecturalStyleId) = getRevivedBy(style).isEmpty() &&
         getBuildings(style).isEmpty()
@@ -20,16 +21,7 @@ fun State.getRevivedBy(style: ArchitecturalStyleId) = getArchitecturalStyleStora
 
 fun State.getPossibleStylesForRevival(style: ArchitecturalStyle) = getArchitecturalStyleStorage()
     .getAll()
-    .filter { it.id != style.id && getDefaultCalendar().isAfterOrEqualOptional(style.start, it.start) }
+    .filter { it.id != style.id && exists(style, it.start) }
 
-fun State.getPossibleStyles(building: Building): Collection<ArchitecturalStyle> {
-    if (building.constructionDate == null) {
-        return getArchitecturalStyleStorage().getAll()
-    }
-
-    val calendar = getDefaultCalendar()
-
-    return getArchitecturalStyleStorage()
-        .getAll()
-        .filter { calendar.isAfterOrEqualOptional(it.start, building.constructionDate) }
-}
+fun State.getPossibleStyles(building: Building) =
+    getExistingElements(getArchitecturalStyleStorage().getAll(), building.constructionDate)

@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.name.ComplexName
 import at.orchaldir.gm.core.model.name.SimpleName
-import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.UndefinedCreator

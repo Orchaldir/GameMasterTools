@@ -4,12 +4,12 @@ import at.orchaldir.gm.core.action.CreateArchitecturalStyle
 import at.orchaldir.gm.core.action.DeleteArchitecturalStyle
 import at.orchaldir.gm.core.action.UpdateArchitecturalStyle
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.reducer.util.checkDate
-import at.orchaldir.gm.core.selector.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.canDelete
 import at.orchaldir.gm.core.selector.world.getBuildings
 import at.orchaldir.gm.utils.redux.Reducer

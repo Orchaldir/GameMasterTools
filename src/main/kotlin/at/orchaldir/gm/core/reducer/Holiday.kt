@@ -4,11 +4,11 @@ import at.orchaldir.gm.core.action.CreateHoliday
 import at.orchaldir.gm.core.action.DeleteHoliday
 import at.orchaldir.gm.core.action.UpdateHoliday
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.DayOfTheMonth
-import at.orchaldir.gm.core.model.calendar.Month
-import at.orchaldir.gm.core.model.calendar.Weekdays
 import at.orchaldir.gm.core.model.holiday.*
+import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
+import at.orchaldir.gm.core.model.time.calendar.Month
+import at.orchaldir.gm.core.model.time.calendar.Weekdays
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.redux.Reducer

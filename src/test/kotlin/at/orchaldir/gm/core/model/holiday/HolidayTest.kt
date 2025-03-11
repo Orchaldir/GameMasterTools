@@ -1,7 +1,8 @@
 package at.orchaldir.gm.core.model.holiday
 
-import at.orchaldir.gm.core.model.calendar.*
-import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.calendar.*
+import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.selector.time.date.resolveDay
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -64,7 +65,7 @@ class HolidayTest {
         dayIndex: Int,
         result: Boolean,
     ) {
-        val displayDay = CALENDAR0.resolve(Day(dayIndex))
+        val displayDay = CALENDAR0.resolveDay(Day(dayIndex))
         assertEquals(result, relativeDate.isOn(CALENDAR0, displayDay))
     }
 

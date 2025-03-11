@@ -1,6 +1,10 @@
-package at.orchaldir.gm.core.model.time
+package at.orchaldir.gm.core.model.time.date
 
-sealed class DisplayDate
+sealed class DisplayDate {
+
+    abstract fun eraIndex(): Int
+
+}
 
 data class DisplayDay(
     val year: DisplayYear,
@@ -12,12 +16,16 @@ data class DisplayDay(
     constructor(eraIndex: Int, yearIndex: Int, monthIndex: Int, dayIndex: Int, weekdayIndex: Int? = null) :
             this(DisplayYear(eraIndex, yearIndex), monthIndex, dayIndex, weekdayIndex)
 
+    override fun eraIndex() = year.eraIndex
+
 }
 
 data class DisplayYear(
     val eraIndex: Int,
     val yearIndex: Int,
 ) : DisplayDate() {
+
+    override fun eraIndex() = eraIndex
 
     fun decadeIndex() = if (yearIndex <= 8) {
         0
@@ -33,6 +41,8 @@ data class DisplayDecade(
     val decadeIndex: Int,
 ) : DisplayDate() {
 
+    override fun eraIndex() = eraIndex
+
     fun startYearIndex() = if (eraIndex == 0) {
         if (decadeIndex == 0) {
             8
@@ -47,7 +57,30 @@ data class DisplayDecade(
         }
     }
 
-    fun display() = (decadeIndex * 10).toString() + "s"
+    fun startYear() = DisplayYear(eraIndex, startYearIndex())
+    fun century() = DisplayCentury(eraIndex, decadeIndex / 10)
+}
 
-    fun year() = DisplayYear(eraIndex, startYearIndex())
+data class DisplayCentury(
+    val eraIndex: Int,
+    val centuryIndex: Int,
+) : DisplayDate() {
+
+    override fun eraIndex() = eraIndex
+
+    fun startYearIndex() = if (eraIndex == 0) {
+        if (centuryIndex == 0) {
+            98
+        } else {
+            (centuryIndex + 1) * 100 - 2
+        }
+    } else {
+        if (centuryIndex == 0) {
+            0
+        } else {
+            centuryIndex * 100 - 1
+        }
+    }
+
+    fun startYear() = DisplayYear(eraIndex, startYearIndex())
 }

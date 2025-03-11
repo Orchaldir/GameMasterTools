@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.time
 
+import at.orchaldir.gm.core.model.time.date.Day
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

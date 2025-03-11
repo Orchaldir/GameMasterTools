@@ -3,8 +3,8 @@ package at.orchaldir.gm.core.model.world.town
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.name.ComplexName
 import at.orchaldir.gm.core.model.name.SimpleName
-import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.Created
 import at.orchaldir.gm.core.model.util.Creator
 import at.orchaldir.gm.core.model.util.HasStartDate

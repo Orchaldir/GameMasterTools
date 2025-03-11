@@ -11,16 +11,18 @@ import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.event.*
-import at.orchaldir.gm.core.model.time.Day
-import at.orchaldir.gm.core.model.time.Decade
-import at.orchaldir.gm.core.model.time.DisplayDay
-import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.model.time.calendar.CalendarId
+import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
+import at.orchaldir.gm.core.model.time.calendar.Weekdays
+import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonPhase
 import at.orchaldir.gm.core.model.world.plane.PlanarAlignment.Coterminous
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.date.*
 import at.orchaldir.gm.core.selector.world.getPlanarAlignments
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
@@ -50,6 +52,9 @@ class TimeRoutes {
 
     @Resource("decade")
     class ShowDecade(val decade: Decade, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
+
+    @Resource("century")
+    class ShowCentury(val century: Century, val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
 
     @Resource("events")
     class ShowEvents(val calendar: CalendarId? = null, val parent: TimeRoutes = TimeRoutes())
@@ -92,6 +97,14 @@ fun Application.configureTimeRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showDecade(call, calendarId, data.decade)
+            }
+        }
+        get<TimeRoutes.ShowCentury> { data ->
+            val calendarId = data.calendar ?: STORE.getState().time.defaultCalendar
+            logger.info { "Show the century ${data.century} for calendar ${calendarId.value}" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showCentury(call, calendarId, data.century)
             }
         }
         get<TimeRoutes.ShowEvents> { data ->
@@ -138,14 +151,14 @@ private fun HTML.showTimeData(call: ApplicationCall) {
 private fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val displayDay = calendar.resolve(day)
+    val displayDay = calendar.resolveDay(day)
     val events = state.getEventsOfMonth(calendarId, day)
     val backLink = call.application.href(TimeRoutes())
     val nextLink = call.application.href(TimeRoutes.ShowDay(calendar.getStartOfNextMonth(day)))
     val previousLink = call.application.href(TimeRoutes.ShowDay(calendar.getStartOfPreviousMonth(day)))
-    val yearLink = call.application.href(TimeRoutes.ShowYear(calendar.getYear(day)))
+    val yearLink = call.application.href(TimeRoutes.ShowYear(calendar.getStartYear(day)))
 
-    simpleHtml("Day: " + calendar.display(displayDay)) {
+    simpleHtml("Day: " + display(calendar, displayDay)) {
         fieldLink("Calendar", call, state, calendar)
         showMap("Planar Alignments", state.getPlanarAlignments(day)) { plane, alignment ->
             link(call, plane)
@@ -269,15 +282,15 @@ private fun TD.showIcon(
 private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Year) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val displayYear = calendar.resolve(year)
-    val decade = calendar.resolve(displayYear.decade())
+    val displayYear = calendar.resolveYear(year)
+    val decade = calendar.resolveDecade(displayYear.decade())
     val events = state.getEventsOfYear(calendarId, year)
     val backLink = call.application.href(TimeRoutes())
     val nextLink = call.application.href(TimeRoutes.ShowYear(year.nextYear()))
     val previousLink = call.application.href(TimeRoutes.ShowYear(year.previousYear()))
     val decadeLink = call.application.href(TimeRoutes.ShowDecade(decade))
 
-    simpleHtml("Year: " + calendar.display(displayYear)) {
+    simpleHtml("Year: " + display(calendar, displayYear)) {
         fieldLink("Calendar", call, state, calendar)
         showMap("Planar Alignments", state.getPlanarAlignments(year)) { plane, alignment ->
             link(call, plane)
@@ -295,18 +308,37 @@ private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Y
 private fun HTML.showDecade(call: ApplicationCall, calendarId: CalendarId, decade: Decade) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val displayDecade = calendar.resolve(decade)
+    val displayDecade = calendar.resolveDecade(decade)
     val events = state.getEventsOfDecade(calendarId, decade)
     val backLink = call.application.href(TimeRoutes())
     val nextLink = call.application.href(TimeRoutes.ShowDecade(decade.nextDecade()))
     val previousLink = call.application.href(TimeRoutes.ShowDecade(decade.previousDecade()))
 
-    simpleHtml("Decade: " + calendar.display(displayDecade)) {
+    simpleHtml("Decade: " + display(calendar, displayDecade)) {
         fieldLink("Calendar", call, state, calendar)
-        field(call, "Start", calendar, calendar.getStartOfDecade(decade))
-        field(call, "End", calendar, calendar.getEndOfDecade(decade))
+        field(call, "Start", calendar, calendar.getStartDayOfDecade(decade))
+        field(call, "End", calendar, calendar.getEndDayOfDecade(decade))
         action(nextLink, "Next Decade")
         action(previousLink, "Previous Decade")
+        showEvents(events, call, state, calendar)
+        back(backLink)
+    }
+}
+
+private fun HTML.showCentury(call: ApplicationCall, calendarId: CalendarId, century: Century) {
+    val state = STORE.getState()
+    val calendar = state.getCalendarStorage().getOrThrow(calendarId)
+    val events = state.getEventsOfCentury(calendarId, century)
+    val backLink = call.application.href(TimeRoutes())
+    val nextLink = call.application.href(TimeRoutes.ShowCentury(century.nextDecade()))
+    val previousLink = call.application.href(TimeRoutes.ShowCentury(century.previousDecade()))
+
+    simpleHtml("Century: " + display(calendar, century)) {
+        fieldLink("Calendar", call, state, calendar)
+        field(call, "Start", calendar, calendar.getStartDayOfCentury(century))
+        field(call, "End", calendar, calendar.getEndDayOfCentury(century))
+        action(nextLink, "Next Century")
+        action(previousLink, "Previous Century")
         showEvents(events, call, state, calendar)
         back(backLink)
     }

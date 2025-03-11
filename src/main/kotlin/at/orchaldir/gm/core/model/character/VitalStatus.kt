@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.character
 
-import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.time.date.Date
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

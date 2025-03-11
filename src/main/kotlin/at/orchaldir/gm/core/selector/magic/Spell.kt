@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellId
-import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.utils.Id

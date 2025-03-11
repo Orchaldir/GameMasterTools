@@ -1,8 +1,8 @@
-package at.orchaldir.gm.core.selector
+package at.orchaldir.gm.core.selector.time.calendar
 
+import at.orchaldir.gm.HOLIDAY_ID_0
 import at.orchaldir.gm.core.model.holiday.DayInYear
 import at.orchaldir.gm.core.model.holiday.Holiday
-import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.holiday.WeekdayInMonth
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -10,11 +10,10 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-private val ID0 = HolidayId(0)
-private val FIXED_DAY_HOLIDAY = Holiday(ID0, relativeDate = DayInYear(4, 2))
-private val WEEKDAY_HOLIDAY = Holiday(ID0, relativeDate = WeekdayInMonth(2, 0, 3))
-
 class CalendarTest {
+
+    private val FIXED_DAY_HOLIDAY = Holiday(HOLIDAY_ID_0, relativeDate = DayInYear(4, 2))
+    private val WEEKDAY_HOLIDAY = Holiday(HOLIDAY_ID_0, relativeDate = WeekdayInMonth(2, 0, 3))
 
     @Nested
     inner class GetMinNumberOfDaysTest {

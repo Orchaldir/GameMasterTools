@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.name.NameWithReference
 import at.orchaldir.gm.core.model.name.ReferencedFullName
 import at.orchaldir.gm.core.model.name.SimpleName
-import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingLot

@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.race.CreatedRace
 import at.orchaldir.gm.core.model.race.ModifiedRace
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
-import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.utils.Id
 

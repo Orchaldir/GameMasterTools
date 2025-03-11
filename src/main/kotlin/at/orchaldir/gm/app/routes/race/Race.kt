@@ -18,9 +18,9 @@ import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.util.SortRace
 import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getAgeInYears
 import at.orchaldir.gm.core.selector.getAppearanceForAge
 import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance

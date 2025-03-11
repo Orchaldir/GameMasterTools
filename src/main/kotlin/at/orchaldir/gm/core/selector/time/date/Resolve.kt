@@ -1,16 +1,18 @@
-package at.orchaldir.gm.core.model.calendar
+package at.orchaldir.gm.core.selector.time.date
 
-import at.orchaldir.gm.core.model.time.*
+import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.model.time.date.*
 import kotlin.math.absoluteValue
 
 
 fun Calendar.resolve(date: Date) = when (date) {
-    is Day -> resolve(date)
-    is Year -> resolve(date)
-    is Decade -> resolve(date)
+    is Day -> resolveDay(date)
+    is Year -> resolveYear(date)
+    is Decade -> resolveDecade(date)
+    is Century -> resolveCentury(date)
 }
 
-fun Calendar.resolve(date: Day): DisplayDay {
+fun Calendar.resolveDay(date: Day): DisplayDay {
     val daysPerYear = getDaysPerYear()
     val day = date.day + getOffsetInDays()
     val weekdayIndex = getWeekDay(date)
@@ -53,7 +55,7 @@ fun Calendar.resolveDayAndMonth(dayInYear: Int): Pair<Int, Int> {
     error("Unreachable")
 }
 
-fun Calendar.resolve(date: Year): DisplayYear {
+fun Calendar.resolveYear(date: Year): DisplayYear {
     val offsetInYears = getOffsetInYears()
     val year = date.year + offsetInYears
 
@@ -64,7 +66,7 @@ fun Calendar.resolve(date: Year): DisplayYear {
     return DisplayYear(0, -(year + 1))
 }
 
-fun Calendar.resolve(date: Decade): DisplayDecade {
+fun Calendar.resolveDecade(date: Decade): DisplayDecade {
     val offsetInDecades = getOffsetInDecades()
     val decade = date.decade + offsetInDecades
 
@@ -75,13 +77,27 @@ fun Calendar.resolve(date: Decade): DisplayDecade {
     return DisplayDecade(0, -decade - 1)
 }
 
-fun Calendar.resolve(date: DisplayDate) = when (date) {
-    is DisplayDay -> resolve(date)
-    is DisplayYear -> resolve(date)
-    is DisplayDecade -> resolve(date)
+fun Calendar.resolveCentury(date: Century): DisplayCentury {
+    val offsetInCenturies = getOffsetInCenturies()
+    val century = date.century + offsetInCenturies
+
+    if (century >= 0) {
+        return DisplayCentury(1, century)
+    }
+
+    return DisplayCentury(0, -century - 1)
 }
 
-fun Calendar.resolve(day: DisplayDay): Day {
+// display
+
+fun Calendar.resolve(date: DisplayDate) = when (date) {
+    is DisplayDay -> resolveDay(date)
+    is DisplayYear -> resolveYear(date)
+    is DisplayDecade -> resolveDecade(date)
+    is DisplayCentury -> resolveCentury(date)
+}
+
+fun Calendar.resolveDay(day: DisplayDay): Day {
     val daysPerYear = getDaysPerYear()
     val offsetInDays = getOffsetInDays()
 
@@ -104,7 +120,7 @@ fun Calendar.resolve(day: DisplayDay): Day {
     return Day(dayIndex)
 }
 
-fun Calendar.resolve(date: DisplayYear): Year {
+fun Calendar.resolveYear(date: DisplayYear): Year {
     val offsetInYears = getOffsetInYears()
 
     if (date.eraIndex == 1) {
@@ -118,7 +134,7 @@ fun Calendar.resolve(date: DisplayYear): Year {
     return Year(year)
 }
 
-fun Calendar.resolve(date: DisplayDecade): Decade {
+fun Calendar.resolveDecade(date: DisplayDecade): Decade {
     val offsetInDecades = getOffsetInDecades()
 
     if (date.eraIndex == 1) {
@@ -130,4 +146,18 @@ fun Calendar.resolve(date: DisplayDecade): Decade {
     val decade = -(date.decadeIndex + 1) - offsetInDecades
 
     return Decade(decade)
+}
+
+fun Calendar.resolveCentury(date: DisplayCentury): Century {
+    val offsetInDecades = getOffsetInCenturies()
+
+    if (date.eraIndex > 0) {
+        val century = date.centuryIndex - offsetInDecades
+
+        return Century(century)
+    }
+
+    val decade = -(date.centuryIndex + 1) - offsetInDecades
+
+    return Century(decade)
 }

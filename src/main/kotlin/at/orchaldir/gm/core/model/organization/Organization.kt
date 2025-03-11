@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.organization
 
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.holiday.HolidayId
-import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable

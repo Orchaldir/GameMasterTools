@@ -1,9 +1,5 @@
 package at.orchaldir.gm
 
-import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.CalendarId
-import at.orchaldir.gm.core.model.calendar.ComplexMonths
-import at.orchaldir.gm.core.model.calendar.Month
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -22,8 +18,12 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
-import at.orchaldir.gm.core.model.time.Day
-import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.model.time.calendar.CalendarId
+import at.orchaldir.gm.core.model.time.calendar.ComplexMonths
+import at.orchaldir.gm.core.model.time.calendar.Month
+import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId

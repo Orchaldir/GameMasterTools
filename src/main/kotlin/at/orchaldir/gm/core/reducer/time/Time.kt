@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.time
 
 import at.orchaldir.gm.core.action.UpdateTime
 import at.orchaldir.gm.core.model.State
