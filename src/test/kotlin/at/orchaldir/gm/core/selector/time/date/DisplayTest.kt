@@ -1,8 +1,7 @@
-package at.orchaldir.gm.core.selector.time.Date
+package at.orchaldir.gm.core.selector.time.date
 
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.date.*
-import at.orchaldir.gm.core.selector.time.date.display
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
