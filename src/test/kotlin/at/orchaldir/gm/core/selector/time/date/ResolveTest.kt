@@ -94,7 +94,7 @@ class ResolveTest {
             val year = Year(inputYear)
             val displayYear = DisplayYear(eraIndex, yearIndex)
 
-            assertEquals(displayYear, calendar.displayYear(year))
+            assertEquals(displayYear, calendar.resolveYear(year))
             assertEquals(year, calendar.resolveYear(displayYear))
         }
     }

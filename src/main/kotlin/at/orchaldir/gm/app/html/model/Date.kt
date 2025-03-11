@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.selector.time.date.resolveCentury
 import at.orchaldir.gm.core.selector.time.date.resolveDecade
 import at.orchaldir.gm.core.selector.time.date.resolveYear
 import at.orchaldir.gm.core.selector.time.date.resolveDay
-import at.orchaldir.gm.core.selector.time.date.displayYear
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
@@ -109,7 +108,7 @@ fun HtmlBlockTag.selectOptionalYear(
     field(fieldLabel) {
         selectBool(year != null, combine(param, AVAILABLE), isDisabled = false, update = true)
         if (year != null) {
-            val displayYear = calendar.displayYear(year)
+            val displayYear = calendar.resolveYear(year)
             selectYear(param, calendar, displayYear, minDate, maxDate)
         }
     }
@@ -213,7 +212,7 @@ fun FORM.selectYear(
     minDate: Date? = null,
     maxDate: Date? = null,
 ) {
-    val displayDate = calendar.displayYear(year)
+    val displayDate = calendar.resolveYear(year)
 
     field(fieldLabel) {
         selectYear(param, calendar, displayDate, minDate, maxDate)

@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.time.calendar
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.time.date.resolveDay
-import at.orchaldir.gm.core.selector.time.date.displayYear
+import at.orchaldir.gm.core.selector.time.date.resolveYear
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -247,7 +247,7 @@ class CalendarTest {
 
             private fun assertGetYear(input: Date, year: Int) {
                 val year = Year(year)
-                val display = CALENDAR0.displayYear(year)
+                val display = CALENDAR0.resolveYear(year)
 
                 assertEquals(year, CALENDAR0.getYear(input))
                 assertEquals(display, CALENDAR0.getDisplayYear(input))

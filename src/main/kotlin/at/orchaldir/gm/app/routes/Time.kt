@@ -21,7 +21,7 @@ import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.date.resolveDay
-import at.orchaldir.gm.core.selector.time.date.displayYear
+import at.orchaldir.gm.core.selector.time.date.resolveYear
 import at.orchaldir.gm.core.selector.time.date.resolveDecade
 import at.orchaldir.gm.core.selector.world.getPlanarAlignments
 import at.orchaldir.gm.utils.Id
@@ -282,7 +282,7 @@ private fun TD.showIcon(
 private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Year) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val displayYear = calendar.displayYear(year)
+    val displayYear = calendar.resolveYear(year)
     val decade = calendar.resolveDecade(displayYear.decade())
     val events = state.getEventsOfYear(calendarId, year)
     val backLink = call.application.href(TimeRoutes())

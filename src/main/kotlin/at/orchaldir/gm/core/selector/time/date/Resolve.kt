@@ -7,7 +7,7 @@ import kotlin.math.absoluteValue
 
 fun Calendar.resolve(date: Date) = when (date) {
     is Day -> resolveDay(date)
-    is Year -> displayYear(date)
+    is Year -> resolveYear(date)
     is Decade -> resolveDecade(date)
     is Century -> resolveCentury(date)
 }
@@ -55,7 +55,7 @@ fun Calendar.resolveDayAndMonth(dayInYear: Int): Pair<Int, Int> {
     error("Unreachable")
 }
 
-fun Calendar.displayYear(date: Year): DisplayYear {
+fun Calendar.resolveYear(date: Year): DisplayYear {
     val offsetInYears = getOffsetInYears()
     val year = date.year + offsetInYears
 

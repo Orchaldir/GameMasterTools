@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.selector.time.date.resolveYear
 import at.orchaldir.gm.core.selector.time.date.resolveDay
-import at.orchaldir.gm.core.selector.time.date.displayYear
 import at.orchaldir.gm.core.selector.time.date.resolveDecade
 import at.orchaldir.gm.core.selector.time.date.resolveCentury
 import at.orchaldir.gm.utils.Id
@@ -125,13 +124,13 @@ data class Calendar(
 
     fun getDisplayYear(date: Date): DisplayYear = when (date) {
         is Day -> resolveDay(date).year
-        is Year -> displayYear(date)
+        is Year -> resolveYear(date)
         is Decade -> resolveDecade(date).year()
         is Century -> resolveCentury(date).year()
     }
 
     fun getStartOfYear(year: Year) = resolveDay(getDisplayStartOfYear(year))
-    fun getDisplayStartOfYear(year: Year) = getStartOfYear(displayYear(year))
+    fun getDisplayStartOfYear(year: Year) = getStartOfYear(resolveYear(year))
 
     fun getStartOfYear(year: DisplayYear) = DisplayDay(year, 0, 0, null)
 
@@ -140,15 +139,15 @@ data class Calendar(
     // decade
 
     fun getDecade(date: Date): Decade = when (date) {
-        is Day -> resolveDecade(displayYear(getYear(date)).decade())
-        is Year -> resolveDecade(displayYear(date).decade())
+        is Day -> resolveDecade(resolveYear(getYear(date)).decade())
+        is Year -> resolveDecade(resolveYear(date).decade())
         is Decade -> date
         is Century -> resolveDecade(resolveCentury(date).year().decade())
     }
 
     fun getDisplayDecade(date: Date): DisplayDecade = when (date) {
-        is Day -> displayYear(getYear(date)).decade()
-        is Year -> displayYear(date).decade()
+        is Day -> resolveYear(getYear(date)).decade()
+        is Year -> resolveYear(date).decade()
         is Decade -> resolveDecade(date)
         is Century -> resolveCentury(date).year().decade()
     }
@@ -164,15 +163,15 @@ data class Calendar(
     // century
 
     fun getCentury(date: Date): Century = when (date) {
-        is Day -> resolveCentury(displayYear(getYear(date)).decade().century())
-        is Year -> resolveCentury(displayYear(date).decade().century())
+        is Day -> resolveCentury(resolveYear(getYear(date)).decade().century())
+        is Year -> resolveCentury(resolveYear(date).decade().century())
         is Decade -> resolveCentury(resolveDecade(date).century())
         is Century -> date
     }
 
     fun getDisplayCentury(date: Date): DisplayCentury = when (date) {
-        is Day -> displayYear(getYear(date)).decade().century()
-        is Year -> displayYear(date).decade().century()
+        is Day -> resolveYear(getYear(date)).decade().century()
+        is Year -> resolveYear(date).decade().century()
         is Decade -> resolveDecade(date).century()
         is Century -> resolveCentury(date)
     }

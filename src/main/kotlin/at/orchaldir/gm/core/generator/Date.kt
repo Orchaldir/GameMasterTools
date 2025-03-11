@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.selector.time.date.resolveDay
-import at.orchaldir.gm.core.selector.time.date.displayYear
+import at.orchaldir.gm.core.selector.time.date.resolveYear
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.utils.NumberGenerator
 
@@ -27,7 +27,7 @@ class DateGenerator(
             }
 
             is Year -> {
-                val displayYear = calendar.displayYear(date)
+                val displayYear = calendar.resolveYear(date)
                 DisplayDay(displayYear, monthIndex, dayIndex)
             }
 
