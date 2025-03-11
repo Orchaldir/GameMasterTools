@@ -1,9 +1,7 @@
 package at.orchaldir.gm.core.model.time.calendar
 
 import at.orchaldir.gm.core.model.time.date.*
-import at.orchaldir.gm.core.selector.time.date.getStartDisplayYear
-import at.orchaldir.gm.core.selector.time.date.getStartYear
-import at.orchaldir.gm.core.selector.time.date.resolveYear
+import at.orchaldir.gm.core.selector.time.date.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -115,37 +113,6 @@ class CalendarTest {
         @Test
         fun `Get last month index`() {
             assertEquals(1, CALENDAR0.getLastMonthIndex())
-        }
-    }
-
-    @Nested
-    inner class DecadeTest {
-
-        @Nested
-        inner class GetDecadeTest {
-            private val decade = Decade(0)
-            private val display = DisplayDecade(1, 0)
-
-            @Test
-            fun `Get the decade of a decade`() {
-                assertGetDecade(decade)
-            }
-
-            @Test
-            fun `Get the decade of a year`() {
-                assertGetDecade(Year(5))
-            }
-
-            @Test
-            fun `Get the decade of a day`() {
-                assertGetDecade(Day(25))
-            }
-
-            private fun assertGetDecade(date: Date) {
-                assertEquals(decade, CALENDAR0.getDecade(date))
-                assertEquals(display, CALENDAR0.getDisplayDecade(date))
-            }
-
         }
     }
 

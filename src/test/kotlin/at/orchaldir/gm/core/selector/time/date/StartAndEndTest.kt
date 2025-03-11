@@ -213,6 +213,38 @@ class StartAndEndTest {
         private fun assertDisplay(day: Day, display: String) {
             assertEquals(display, display(calendar0, day))
         }
+
+        @Nested
+        inner class GetStartDecadeTest {
+            private val decade = Decade(0)
+            private val display = DisplayDecade(1, 0)
+
+            @Test
+            fun `Get the start decade of a century`() {
+                assertGetDecade(Century(0))
+            }
+
+            @Test
+            fun `Get the decade of a decade`() {
+                assertGetDecade(decade)
+            }
+
+            @Test
+            fun `Get the decade of a year`() {
+                assertGetDecade(Year(5))
+            }
+
+            @Test
+            fun `Get the decade of a day`() {
+                assertGetDecade(Day(25))
+            }
+
+            private fun assertGetDecade(date: Date) {
+                assertEquals(decade, calendar0.getStartDecade(date))
+                assertEquals(display, calendar0.getStartDisplayDecade(date))
+            }
+
+        }
     }
 
     @Nested

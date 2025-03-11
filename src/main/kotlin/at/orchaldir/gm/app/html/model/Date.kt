@@ -334,7 +334,7 @@ private fun HtmlBlockTag.selectDecadeIndex(
 ) {
     val decadeParam = combine(param, DECADE)
     val minIndex = if (minDate != null) {
-        val minDecade = calendar.getDisplayDecade(minDate)
+        val minDecade = calendar.getStartDisplayDecade(minDate)
 
         if (minDecade.eraIndex == decade.eraIndex) {
             minDecade.decadeIndex
@@ -345,7 +345,7 @@ private fun HtmlBlockTag.selectDecadeIndex(
         0
     }
     val maxIndex = if (maxDate != null) {
-        val maxDecade = calendar.getDisplayDecade(maxDate)
+        val maxDecade = calendar.getStartDisplayDecade(maxDate)
 
         if (maxDecade.eraIndex == decade.eraIndex) {
             maxDecade.decadeIndex

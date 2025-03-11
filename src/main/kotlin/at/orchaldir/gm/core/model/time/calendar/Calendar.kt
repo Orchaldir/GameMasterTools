@@ -74,22 +74,6 @@ data class Calendar(
 
     fun getLastMonthIndex() = months.getSize() - 1
 
-    // decade
-
-    fun getDecade(date: Date): Decade = when (date) {
-        is Day -> resolveDecade(resolveYear(getStartYear(date)).decade())
-        is Year -> resolveDecade(resolveYear(date).decade())
-        is Decade -> date
-        is Century -> resolveDecade(resolveCentury(date).startYear().decade())
-    }
-
-    fun getDisplayDecade(date: Date): DisplayDecade = when (date) {
-        is Day -> resolveYear(getStartYear(date)).decade()
-        is Year -> resolveYear(date).decade()
-        is Decade -> resolveDecade(date)
-        is Century -> resolveCentury(date).startYear().decade()
-    }
-
     // century
 
     fun getCentury(date: Date): Century = when (date) {
