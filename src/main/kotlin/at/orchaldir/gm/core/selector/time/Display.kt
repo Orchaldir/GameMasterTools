@@ -8,8 +8,10 @@ import at.orchaldir.gm.core.model.time.calendar.resolve
 
 fun display(calendar: Calendar, date: Date) = display(calendar, calendar.defaultFormat, date)
 
-fun display(calendar: Calendar, format: DateFormat, date: Date): String {
-    val displayDate = calendar.resolve(date)
+fun display(calendar: Calendar, format: DateFormat, date: Date) =
+    display(calendar, format, calendar.resolve(date))
+
+fun display(calendar: Calendar, format: DateFormat, displayDate: DisplayDate): String {
     val textWithoutEra = displayWithoutEra(calendar, format, displayDate)
 
     return calendar.eras.getEra(displayDate.eraIndex())
