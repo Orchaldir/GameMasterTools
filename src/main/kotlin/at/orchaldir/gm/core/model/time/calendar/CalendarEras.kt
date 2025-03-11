@@ -24,25 +24,4 @@ data class CalendarEras(
     } else {
         before
     }
-
-    fun display(date: DisplayDate) = when (date) {
-        is DisplayDay -> display(date)
-        is DisplayYear -> display(date)
-        is DisplayDecade -> display(date)
-        is DisplayCentury -> display(date)
-    }
-
-    fun display(day: DisplayDay) = getEra(day.year.eraIndex)
-        .display(display(day.year.yearIndex + 1, day.monthIndex + 1, day.dayIndex + 1))
-
-    private fun display(year: Int, month: Int, day: Int) = "$day.$month.$year"
-
-    fun display(year: DisplayYear) = getEra(year.eraIndex)
-        .display(year.yearIndex + 1)
-
-    fun display(decade: DisplayDecade) = getEra(decade.eraIndex)
-        .display(decade)
-
-    fun display(century: DisplayCentury) = getEra(century.eraIndex)
-        .display(century)
 }

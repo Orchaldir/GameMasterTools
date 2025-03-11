@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.time.calendar
 
 import at.orchaldir.gm.core.model.time.*
+import at.orchaldir.gm.core.selector.time.display
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -23,67 +24,6 @@ class CalendarTest {
     private val year0 = Year(0)
     private val year1 = Year(1)
     private val year2 = Year(2)
-
-    @Nested
-    inner class DisplayTest {
-
-        @Test
-        fun `Test a day in AD`() {
-            assertEquals("14.12.2024 AD", CALENDAR0.display(DisplayDay(1, 2023, 11, 13)))
-        }
-
-        @Test
-        fun `Test a year in AD`() {
-            assertEquals("2024 AD", CALENDAR0.display(DisplayYear(1, 2023)))
-        }
-
-        @Test
-        fun `Test a decade in AD`() {
-            assertEquals("2020s AD", CALENDAR0.display(DisplayDecade(1, 202)))
-        }
-
-        @Test
-        fun `Test the first day in AD`() {
-            assertEquals("1.1.1 AD", CALENDAR0.display(DisplayDay(1, 0, 0, 0)))
-        }
-
-        @Test
-        fun `Test the first year in AD`() {
-            assertEquals("1 AD", CALENDAR0.display(DisplayYear(1, 0)))
-        }
-
-        @Test
-        fun `Test the first decade in AD`() {
-            // not sure about this
-            assertEquals("0s AD", CALENDAR0.display(DisplayDecade(1, 0)))
-        }
-
-        @Test
-        fun `Test a single digit decade in AD`() {
-            assertEquals("50s AD", CALENDAR0.display(DisplayDecade(1, 5)))
-        }
-
-        @Test
-        fun `Test a day in BC`() {
-            assertEquals("BC 14.12.102", CALENDAR0.display(DisplayDay(0, 101, 11, 13)))
-        }
-
-        @Test
-        fun `Test a year in BC`() {
-            assertEquals("BC 1235", CALENDAR0.display(DisplayYear(0, 1234)))
-        }
-
-        @Test
-        fun `Test a decade in BC`() {
-            assertEquals("BC 110s", CALENDAR0.display(DisplayDecade(0, 11)))
-        }
-
-        @Test
-        fun `Test the first decade in BC`() {
-            assertEquals("BC 0s", CALENDAR0.display(DisplayDecade(0, 0)))
-        }
-
-    }
 
     @Nested
     inner class DataTest {
@@ -390,7 +330,7 @@ class CalendarTest {
         }
 
         private fun assertDisplay(day: Day, display: String) {
-            assertEquals(display, CALENDAR0.display(CALENDAR0.resolve(day)))
+            assertEquals(display, display(CALENDAR0, day))
         }
 
         @ParameterizedTest

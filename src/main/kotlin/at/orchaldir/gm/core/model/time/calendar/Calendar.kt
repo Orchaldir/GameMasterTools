@@ -34,8 +34,6 @@ data class Calendar(
 
     // data
 
-    fun display(date: DisplayDate) = eras.display(date)
-
     fun getDaysPerYear() = months.getDaysPerYear()
 
     fun getMinDaysPerMonth() = months.getMinDaysPerMonth()

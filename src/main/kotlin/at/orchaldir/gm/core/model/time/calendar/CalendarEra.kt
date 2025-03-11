@@ -11,12 +11,6 @@ sealed class CalendarEra {
     abstract val text: String
     abstract val isPrefix: Boolean
 
-    fun display(year: Int) = display(year.toString())
-
-    fun display(decade: DisplayDecade) = display(decade.display())
-
-    fun display(century: DisplayCentury) = display(century.display())
-
     fun display(date: String) = if (isPrefix) {
         "$text $date"
     } else {

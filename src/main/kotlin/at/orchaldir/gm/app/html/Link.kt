@@ -49,6 +49,7 @@ import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.MountainId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownId
+import at.orchaldir.gm.core.selector.time.display
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import io.ktor.server.application.*
@@ -87,19 +88,19 @@ fun HtmlBlockTag.link(
     val calendarDate = calendar.resolve(date)
     when (date) {
         is Day -> {
-            link(call, date, calendar.display(calendarDate))
+            link(call, date, display(calendar, calendarDate))
         }
 
         is Year -> {
-            link(call, date, calendar.display(calendarDate))
+            link(call, date, display(calendar, calendarDate))
         }
 
         is Decade -> {
-            link(call, date, calendar.display(calendarDate))
+            link(call, date, display(calendar, calendarDate))
         }
 
         is Century -> {
-            link(call, date, calendar.display(calendarDate))
+            link(call, date, display(calendar, calendarDate))
         }
     }
 }

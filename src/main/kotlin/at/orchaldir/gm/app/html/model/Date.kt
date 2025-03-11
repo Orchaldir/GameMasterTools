@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.resolve
 import at.orchaldir.gm.core.model.time.*
+import at.orchaldir.gm.core.selector.time.display
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -50,9 +51,8 @@ fun HtmlBlockTag.showDate(call: ApplicationCall, state: State, date: Date) {
 
 fun displayDate(state: State, date: Date): String {
     val calendar = state.getDefaultCalendar()
-    val calendarDate = calendar.resolve(date)
 
-    return calendar.display(calendarDate)
+    return display(calendar, date)
 }
 
 // select

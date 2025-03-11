@@ -239,8 +239,8 @@ private fun BODY.showEras(
     calendar: Calendar,
 ) {
     field(call, state, "Start Date", calendar.getStartDate())
-    field("Before Era", calendar.eras.display(DisplayYear(0, 0)))
-    field("Current Era", calendar.eras.display(DisplayYear(1, 0)))
+    field("Before Era", display(calendar, DisplayYear(0, 0)))
+    field("Current Era", display(calendar, DisplayYear(1, 0)))
 }
 
 private fun HTML.showCalendarEditor(

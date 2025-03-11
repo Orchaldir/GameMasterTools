@@ -6,7 +6,11 @@ import at.orchaldir.gm.core.model.time.calendar.DateFormat
 import at.orchaldir.gm.core.model.time.calendar.DateOrder
 import at.orchaldir.gm.core.model.time.calendar.resolve
 
-fun display(calendar: Calendar, date: Date) = display(calendar, calendar.defaultFormat, date)
+fun display(calendar: Calendar, date: Date) =
+    display(calendar, calendar.defaultFormat, date)
+
+fun display(calendar: Calendar, displayDate: DisplayDate) =
+    display(calendar, calendar.defaultFormat, displayDate)
 
 fun display(calendar: Calendar, format: DateFormat, date: Date) =
     display(calendar, format, calendar.resolve(date))
