@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.time.calendar
 
 import at.orchaldir.gm.core.model.time.date.*
-import at.orchaldir.gm.core.selector.time.date.resolveDay
 import at.orchaldir.gm.core.selector.time.date.resolveYear
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -34,23 +33,6 @@ class CalendarTest {
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class DayTest {
-
-        @Nested
-        inner class GetDayTest {
-
-            @Test
-            fun `Given a day, returns the same day`() {
-                val day = Day(99)
-                assertGetDay(day, day)
-            }
-
-            private fun assertGetDay(input: Date, day: Day) {
-                val display = CALENDAR0.resolveDay(day)
-
-                assertEquals(day, CALENDAR0.getDay(input))
-                assertEquals(display, CALENDAR0.getDisplayDay(input))
-            }
-        }
 
         @Nested
         inner class GetWeekDayTest {

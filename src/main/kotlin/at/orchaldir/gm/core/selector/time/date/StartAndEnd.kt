@@ -3,6 +3,20 @@ package at.orchaldir.gm.core.selector.time.date
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.*
 
+fun Calendar.getStartDay(date: Date) = when (date) {
+    is Day -> date
+    is Year -> getStartOfYear(date)
+    is Decade -> getStartOfDecade(date)
+    is Century -> getStartOfCentury(date)
+}
+
+fun Calendar.getStartDisplayDay(date: Date): DisplayDay = when (date) {
+    is Day -> resolveDay(date)
+    is Year -> getDisplayStartOfYear(date)
+    is Decade -> getDisplayStartOfDecade(date)
+    is Century -> getDisplayStartOfCentury(date)
+}
+
 // month
 
 fun Calendar.getStartOfMonth(day: Day) = getStartOfMonth(resolveDay(day))

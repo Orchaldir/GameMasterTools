@@ -57,20 +57,6 @@ data class Calendar(
 
     // day
 
-    fun getDay(date: Date) = when (date) {
-        is Day -> date
-        is Year -> getStartOfYear(date)
-        is Decade -> getStartOfDecade(date)
-        is Century -> getStartOfCentury(date)
-    }
-
-    fun getDisplayDay(date: Date): DisplayDay = when (date) {
-        is Day -> resolveDay(date)
-        is Year -> getDisplayStartOfYear(date)
-        is Decade -> getDisplayStartOfDecade(date)
-        is Century -> getDisplayStartOfCentury(date)
-    }
-
     fun getWeekDay(date: Day) = when (days) {
         DayOfTheMonth -> null
         is Weekdays -> {
@@ -148,7 +134,7 @@ data class Calendar(
         0
     }
 
-    fun compareTo(a: Date, b: Date) = getDay(a).compareTo(getDay(b))
+    fun compareTo(a: Date, b: Date) = getStartDay(a).compareTo(getStartDay(b))
 
     fun isAfter(a: Date, b: Date) = compareTo(a, b) > 0
     fun isAfterOptional(a: Date?, b: Date?) = if (a != null && b != null) {
@@ -182,7 +168,7 @@ data class Calendar(
 
     fun getDurationInYears(from: Date, to: Day) = getYears(getDuration(from, to))
 
-    fun getDuration(from: Date, to: Day) = getDay(from).getDurationBetween(to)
+    fun getDuration(from: Date, to: Day) = getStartDay(from).getDurationBetween(to)
 
     fun getYears(duration: Duration) = duration.day / getDaysPerYear()
 

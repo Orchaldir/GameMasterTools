@@ -8,14 +8,9 @@ import at.orchaldir.gm.app.parse.parseBool
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.selector.time.date.resolve
-import at.orchaldir.gm.core.selector.time.date.resolveCentury
-import at.orchaldir.gm.core.selector.time.date.resolveDecade
-import at.orchaldir.gm.core.selector.time.date.resolveYear
-import at.orchaldir.gm.core.selector.time.date.resolveDay
 import at.orchaldir.gm.core.model.time.date.*
-import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.date.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
@@ -261,7 +256,7 @@ private fun HtmlBlockTag.selectDay(
     displayDate: DisplayDay,
     minDate: Date?,
 ) {
-    val displayMinDay = minDate?.let { calendar.getDisplayDay(it) }
+    val displayMinDay = minDate?.let { calendar.getStartDisplayDay(it) }
 
     selectEraIndex(param, calendar, displayDate.year.eraIndex, displayMinDay?.year)
     selectYearIndex(param, displayDate.year, displayMinDay?.year)

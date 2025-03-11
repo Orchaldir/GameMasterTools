@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getGenonymName
+import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -71,14 +72,14 @@ data class Character(
 
     fun getAge(state: State, currentDay: Day): Duration {
         val defaultCalendar = state.getDefaultCalendar()
-        val birthDate = defaultCalendar.getDay(birthDate)
+        val birthDate = defaultCalendar.getStartDay(birthDate)
 
         if (birthDate >= currentDay) {
             return Duration(0)
         }
 
         if (vitalStatus is Dead) {
-            val deathDate = defaultCalendar.getDay(vitalStatus.deathDay)
+            val deathDate = defaultCalendar.getStartDay(vitalStatus.deathDay)
 
             if (deathDate < currentDay) {
                 return deathDate.getDurationBetween(birthDate)
