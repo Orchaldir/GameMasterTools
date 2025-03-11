@@ -9,6 +9,11 @@ import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.selector.time.date.resolve
+import at.orchaldir.gm.core.selector.time.date.resolveCentury
+import at.orchaldir.gm.core.selector.time.date.resolveDecade
+import at.orchaldir.gm.core.selector.time.date.resolveYear
+import at.orchaldir.gm.core.selector.time.date.resolveDay
+import at.orchaldir.gm.core.selector.time.date.displayYear
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
@@ -104,7 +109,7 @@ fun HtmlBlockTag.selectOptionalYear(
     field(fieldLabel) {
         selectBool(year != null, combine(param, AVAILABLE), isDisabled = false, update = true)
         if (year != null) {
-            val displayYear = calendar.resolve(year)
+            val displayYear = calendar.displayYear(year)
             selectYear(param, calendar, displayYear, minDate, maxDate)
         }
     }
@@ -208,7 +213,7 @@ fun FORM.selectYear(
     minDate: Date? = null,
     maxDate: Date? = null,
 ) {
-    val displayDate = calendar.resolve(year)
+    val displayDate = calendar.displayYear(year)
 
     field(fieldLabel) {
         selectYear(param, calendar, displayDate, minDate, maxDate)
@@ -244,7 +249,7 @@ fun FORM.selectDay(
     day: Day,
     param: String,
 ) {
-    val displayDate = calendar.resolve(day)
+    val displayDate = calendar.resolveDay(day)
 
     field(fieldLabel) {
         selectDay(param, calendar, displayDate, null)
@@ -575,7 +580,7 @@ fun parseDay(
     val dayIndex = parseDayIndex(parameters, param)
     val calendarDate = DisplayDay(eraIndex, yearIndex, monthIndex, dayIndex)
 
-    return calendar.resolve(calendarDate)
+    return calendar.resolveDay(calendarDate)
 }
 
 fun parseDayIndex(parameters: Parameters, param: String) =
@@ -596,7 +601,7 @@ fun parseYear(
     val yearIndex = parseInt(parameters, combine(param, YEAR), 1) - 1
     val calendarDate = DisplayYear(eraIndex, yearIndex)
 
-    return calendar.resolve(calendarDate)
+    return calendar.resolveYear(calendarDate)
 }
 
 fun parseDecade(
@@ -608,7 +613,7 @@ fun parseDecade(
     val decadeIndex = parseInt(parameters, combine(param, DECADE))
     val calendarDate = DisplayDecade(eraIndex, decadeIndex)
 
-    return calendar.resolve(calendarDate)
+    return calendar.resolveDecade(calendarDate)
 }
 
 fun parseCentury(
@@ -620,5 +625,5 @@ fun parseCentury(
     val centuryIndex = parseInt(parameters, combine(param, CENTURY))
     val calendarDate = DisplayCentury(eraIndex, centuryIndex)
 
-    return calendar.resolve(calendarDate)
+    return calendar.resolveCentury(calendarDate)
 }

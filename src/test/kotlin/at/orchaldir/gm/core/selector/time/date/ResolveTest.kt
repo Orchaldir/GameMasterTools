@@ -51,8 +51,8 @@ class ResolveTest {
             val displayDay = DisplayDay(eraIndex, yearIndex, monthIndex, dayIndex)
             val day = Day(date)
 
-            assertEquals(displayDay, calendar.resolve(day))
-            assertEquals(day, calendar.resolve(displayDay))
+            assertEquals(displayDay, calendar.resolveDay(day))
+            assertEquals(day, calendar.resolveDay(displayDay))
         }
 
     }
@@ -94,8 +94,8 @@ class ResolveTest {
             val year = Year(inputYear)
             val displayYear = DisplayYear(eraIndex, yearIndex)
 
-            assertEquals(displayYear, calendar.resolve(year))
-            assertEquals(year, calendar.resolve(displayYear))
+            assertEquals(displayYear, calendar.displayYear(year))
+            assertEquals(year, calendar.resolveYear(displayYear))
         }
     }
 
@@ -124,8 +124,8 @@ class ResolveTest {
             val decade = Decade(inputDecade)
             val displayYDecade = DisplayDecade(eraIndex, decadeIndex)
 
-            assertEquals(displayYDecade, calendar.resolve(decade))
-            assertEquals(decade, calendar.resolve(displayYDecade))
+            assertEquals(displayYDecade, calendar.resolveDecade(decade))
+            assertEquals(decade, calendar.resolveDecade(displayYDecade))
         }
     }
 
@@ -154,8 +154,8 @@ class ResolveTest {
             val century = Century(inputCentury)
             val displayCentury = DisplayCentury(eraIndex, centuryIndex)
 
-            assertEquals(displayCentury, calendar.resolve(century))
-            assertEquals(century, calendar.resolve(displayCentury))
+            assertEquals(displayCentury, calendar.resolveCentury(century))
+            assertEquals(century, calendar.resolveCentury(displayCentury))
         }
     }
 

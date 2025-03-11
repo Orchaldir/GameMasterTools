@@ -3,7 +3,8 @@ package at.orchaldir.gm.core.generator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
-import at.orchaldir.gm.core.selector.time.date.resolve
+import at.orchaldir.gm.core.selector.time.date.resolveDay
+import at.orchaldir.gm.core.selector.time.date.displayYear
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.utils.NumberGenerator
 
@@ -21,12 +22,12 @@ class DateGenerator(
 
         val generatedDisplayDate = when (date) {
             is Day -> {
-                val displayDay = calendar.resolve(date)
+                val displayDay = calendar.resolveDay(date)
                 displayDay.copy(monthIndex = monthIndex, dayIndex = dayIndex)
             }
 
             is Year -> {
-                val displayYear = calendar.resolve(date)
+                val displayYear = calendar.displayYear(date)
                 DisplayDay(displayYear, monthIndex, dayIndex)
             }
 
@@ -34,7 +35,7 @@ class DateGenerator(
             is Century -> error("Cannot generate month & day for century")
         }
 
-        return calendar.resolve(generatedDisplayDate)
+        return calendar.resolveDay(generatedDisplayDate)
     }
 
 }

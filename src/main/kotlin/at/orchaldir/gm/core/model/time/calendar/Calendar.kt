@@ -3,7 +3,11 @@ package at.orchaldir.gm.core.model.time.calendar
 import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
-import at.orchaldir.gm.core.selector.time.date.resolve
+import at.orchaldir.gm.core.selector.time.date.resolveYear
+import at.orchaldir.gm.core.selector.time.date.resolveDay
+import at.orchaldir.gm.core.selector.time.date.displayYear
+import at.orchaldir.gm.core.selector.time.date.resolveDecade
+import at.orchaldir.gm.core.selector.time.date.resolveCentury
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
@@ -65,7 +69,7 @@ data class Calendar(
     }
 
     fun getDisplayDay(date: Date): DisplayDay = when (date) {
-        is Day -> resolve(date)
+        is Day -> resolveDay(date)
         is Year -> getDisplayStartOfYear(date)
         is Decade -> getDisplayStartOfDecade(date)
         is Century -> getDisplayStartOfCentury(date)
@@ -82,18 +86,18 @@ data class Calendar(
 
     // month
 
-    fun getMonth(day: Day) = getMonth(resolve(day))
+    fun getMonth(day: Day) = getMonth(resolveDay(day))
 
     fun getMonth(day: DisplayDay) = months.getMonth(day.monthIndex)
 
     fun getLastMonthIndex() = months.getSize() - 1
 
-    fun getStartOfMonth(day: Day) = getStartOfMonth(resolve(day))
+    fun getStartOfMonth(day: Day) = getStartOfMonth(resolveDay(day))
 
-    fun getStartOfMonth(day: DisplayDay) = resolve(day.copy(dayIndex = 0))
+    fun getStartOfMonth(day: DisplayDay) = resolveDay(day.copy(dayIndex = 0))
 
     fun getStartOfNextMonth(day: Day): Day {
-        val displayDay = resolve(day)
+        val displayDay = resolveDay(day)
         val startOfMonth = getStartOfMonth(displayDay)
         val month = getMonth(displayDay)
 
@@ -101,7 +105,7 @@ data class Calendar(
     }
 
     fun getStartOfPreviousMonth(day: Day): Day {
-        val displayDay = resolve(day)
+        val displayDay = resolveDay(day)
         val startOfMonth = getStartOfMonth(displayDay)
         val month = getMonth(startOfMonth - 1)
 
@@ -113,21 +117,21 @@ data class Calendar(
     // year
 
     fun getYear(date: Date): Year = when (date) {
-        is Day -> resolve(resolve(date).year)
+        is Day -> resolveYear(resolveDay(date).year)
         is Year -> date
-        is Decade -> resolve(resolve(date).year())
-        is Century -> resolve(resolve(date).year())
+        is Decade -> resolveYear(resolveDecade(date).year())
+        is Century -> resolveYear(resolveCentury(date).year())
     }
 
     fun getDisplayYear(date: Date): DisplayYear = when (date) {
-        is Day -> resolve(date).year
-        is Year -> resolve(date)
-        is Decade -> resolve(date).year()
-        is Century -> resolve(date).year()
+        is Day -> resolveDay(date).year
+        is Year -> displayYear(date)
+        is Decade -> resolveDecade(date).year()
+        is Century -> resolveCentury(date).year()
     }
 
-    fun getStartOfYear(year: Year) = resolve(getDisplayStartOfYear(year))
-    fun getDisplayStartOfYear(year: Year) = getStartOfYear(resolve(year))
+    fun getStartOfYear(year: Year) = resolveDay(getDisplayStartOfYear(year))
+    fun getDisplayStartOfYear(year: Year) = getStartOfYear(displayYear(year))
 
     fun getStartOfYear(year: DisplayYear) = DisplayDay(year, 0, 0, null)
 
@@ -136,22 +140,22 @@ data class Calendar(
     // decade
 
     fun getDecade(date: Date): Decade = when (date) {
-        is Day -> resolve(resolve(getYear(date)).decade())
-        is Year -> resolve(resolve(date).decade())
+        is Day -> resolveDecade(displayYear(getYear(date)).decade())
+        is Year -> resolveDecade(displayYear(date).decade())
         is Decade -> date
-        is Century -> resolve(resolve(date).year().decade())
+        is Century -> resolveDecade(resolveCentury(date).year().decade())
     }
 
     fun getDisplayDecade(date: Date): DisplayDecade = when (date) {
-        is Day -> resolve(getYear(date)).decade()
-        is Year -> resolve(date).decade()
-        is Decade -> resolve(date)
-        is Century -> resolve(date).year().decade()
+        is Day -> displayYear(getYear(date)).decade()
+        is Year -> displayYear(date).decade()
+        is Decade -> resolveDecade(date)
+        is Century -> resolveCentury(date).year().decade()
     }
 
-    fun getStartOfDecade(decade: Decade) = resolve(getDisplayStartOfDecade(decade))
+    fun getStartOfDecade(decade: Decade) = resolveDay(getDisplayStartOfDecade(decade))
 
-    fun getDisplayStartOfDecade(decade: Decade) = getStartOfDecade(resolve(decade))
+    fun getDisplayStartOfDecade(decade: Decade) = getStartOfDecade(resolveDecade(decade))
 
     fun getStartOfDecade(decade: DisplayDecade) = DisplayDay(decade.year(), 0, 0, null)
 
@@ -160,22 +164,22 @@ data class Calendar(
     // century
 
     fun getCentury(date: Date): Century = when (date) {
-        is Day -> resolve(resolve(getYear(date)).decade().century())
-        is Year -> resolve(resolve(date).decade().century())
-        is Decade -> resolve(resolve(date).century())
+        is Day -> resolveCentury(displayYear(getYear(date)).decade().century())
+        is Year -> resolveCentury(displayYear(date).decade().century())
+        is Decade -> resolveCentury(resolveDecade(date).century())
         is Century -> date
     }
 
     fun getDisplayCentury(date: Date): DisplayCentury = when (date) {
-        is Day -> resolve(getYear(date)).decade().century()
-        is Year -> resolve(date).decade().century()
-        is Decade -> resolve(date).century()
-        is Century -> resolve(date)
+        is Day -> displayYear(getYear(date)).decade().century()
+        is Year -> displayYear(date).decade().century()
+        is Decade -> resolveDecade(date).century()
+        is Century -> resolveCentury(date)
     }
 
-    fun getStartOfCentury(century: Century) = resolve(getDisplayStartOfCentury(century))
+    fun getStartOfCentury(century: Century) = resolveDay(getDisplayStartOfCentury(century))
 
-    fun getDisplayStartOfCentury(century: Century) = getStartOfCentury(resolve(century))
+    fun getDisplayStartOfCentury(century: Century) = getStartOfCentury(resolveCentury(century))
 
     fun getStartOfCentury(century: DisplayCentury) = DisplayDay(century.year(), 0, 0, null)
 

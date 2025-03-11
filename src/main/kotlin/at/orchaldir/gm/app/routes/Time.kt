@@ -20,7 +20,9 @@ import at.orchaldir.gm.core.model.world.plane.PlanarAlignment.Coterminous
 import at.orchaldir.gm.core.selector.*
 import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
-import at.orchaldir.gm.core.selector.time.date.resolve
+import at.orchaldir.gm.core.selector.time.date.resolveDay
+import at.orchaldir.gm.core.selector.time.date.displayYear
+import at.orchaldir.gm.core.selector.time.date.resolveDecade
 import at.orchaldir.gm.core.selector.world.getPlanarAlignments
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
@@ -149,7 +151,7 @@ private fun HTML.showTimeData(call: ApplicationCall) {
 private fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val displayDay = calendar.resolve(day)
+    val displayDay = calendar.resolveDay(day)
     val events = state.getEventsOfMonth(calendarId, day)
     val backLink = call.application.href(TimeRoutes())
     val nextLink = call.application.href(TimeRoutes.ShowDay(calendar.getStartOfNextMonth(day)))
@@ -280,8 +282,8 @@ private fun TD.showIcon(
 private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Year) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val displayYear = calendar.resolve(year)
-    val decade = calendar.resolve(displayYear.decade())
+    val displayYear = calendar.displayYear(year)
+    val decade = calendar.resolveDecade(displayYear.decade())
     val events = state.getEventsOfYear(calendarId, year)
     val backLink = call.application.href(TimeRoutes())
     val nextLink = call.application.href(TimeRoutes.ShowYear(year.nextYear()))
@@ -306,7 +308,7 @@ private fun HTML.showYear(call: ApplicationCall, calendarId: CalendarId, year: Y
 private fun HTML.showDecade(call: ApplicationCall, calendarId: CalendarId, decade: Decade) {
     val state = STORE.getState()
     val calendar = state.getCalendarStorage().getOrThrow(calendarId)
-    val displayDecade = calendar.resolve(decade)
+    val displayDecade = calendar.resolveDecade(decade)
     val events = state.getEventsOfDecade(calendarId, decade)
     val backLink = call.application.href(TimeRoutes())
     val nextLink = call.application.href(TimeRoutes.ShowDecade(decade.nextDecade()))

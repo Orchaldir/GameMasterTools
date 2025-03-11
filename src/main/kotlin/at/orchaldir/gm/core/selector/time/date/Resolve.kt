@@ -6,13 +6,13 @@ import kotlin.math.absoluteValue
 
 
 fun Calendar.resolve(date: Date) = when (date) {
-    is Day -> resolve(date)
-    is Year -> resolve(date)
-    is Decade -> resolve(date)
-    is Century -> resolve(date)
+    is Day -> resolveDay(date)
+    is Year -> displayYear(date)
+    is Decade -> resolveDecade(date)
+    is Century -> resolveCentury(date)
 }
 
-fun Calendar.resolve(date: Day): DisplayDay {
+fun Calendar.resolveDay(date: Day): DisplayDay {
     val daysPerYear = getDaysPerYear()
     val day = date.day + getOffsetInDays()
     val weekdayIndex = getWeekDay(date)
@@ -55,7 +55,7 @@ fun Calendar.resolveDayAndMonth(dayInYear: Int): Pair<Int, Int> {
     error("Unreachable")
 }
 
-fun Calendar.resolve(date: Year): DisplayYear {
+fun Calendar.displayYear(date: Year): DisplayYear {
     val offsetInYears = getOffsetInYears()
     val year = date.year + offsetInYears
 
@@ -66,7 +66,7 @@ fun Calendar.resolve(date: Year): DisplayYear {
     return DisplayYear(0, -(year + 1))
 }
 
-fun Calendar.resolve(date: Decade): DisplayDecade {
+fun Calendar.resolveDecade(date: Decade): DisplayDecade {
     val offsetInDecades = getOffsetInDecades()
     val decade = date.decade + offsetInDecades
 
@@ -77,7 +77,7 @@ fun Calendar.resolve(date: Decade): DisplayDecade {
     return DisplayDecade(0, -decade - 1)
 }
 
-fun Calendar.resolve(date: Century): DisplayCentury {
+fun Calendar.resolveCentury(date: Century): DisplayCentury {
     val offsetInCenturies = getOffsetInCenturies()
     val century = date.century + offsetInCenturies
 
@@ -88,14 +88,16 @@ fun Calendar.resolve(date: Century): DisplayCentury {
     return DisplayCentury(0, -century - 1)
 }
 
+// display
+
 fun Calendar.resolve(date: DisplayDate) = when (date) {
-    is DisplayDay -> resolve(date)
-    is DisplayYear -> resolve(date)
-    is DisplayDecade -> resolve(date)
-    is DisplayCentury -> resolve(date)
+    is DisplayDay -> resolveDay(date)
+    is DisplayYear -> resolveYear(date)
+    is DisplayDecade -> resolveDecade(date)
+    is DisplayCentury -> resolveCentury(date)
 }
 
-fun Calendar.resolve(day: DisplayDay): Day {
+fun Calendar.resolveDay(day: DisplayDay): Day {
     val daysPerYear = getDaysPerYear()
     val offsetInDays = getOffsetInDays()
 
@@ -118,7 +120,7 @@ fun Calendar.resolve(day: DisplayDay): Day {
     return Day(dayIndex)
 }
 
-fun Calendar.resolve(date: DisplayYear): Year {
+fun Calendar.resolveYear(date: DisplayYear): Year {
     val offsetInYears = getOffsetInYears()
 
     if (date.eraIndex == 1) {
@@ -132,7 +134,7 @@ fun Calendar.resolve(date: DisplayYear): Year {
     return Year(year)
 }
 
-fun Calendar.resolve(date: DisplayDecade): Decade {
+fun Calendar.resolveDecade(date: DisplayDecade): Decade {
     val offsetInDecades = getOffsetInDecades()
 
     if (date.eraIndex == 1) {
@@ -146,7 +148,7 @@ fun Calendar.resolve(date: DisplayDecade): Decade {
     return Decade(decade)
 }
 
-fun Calendar.resolve(date: DisplayCentury): Century {
+fun Calendar.resolveCentury(date: DisplayCentury): Century {
     val offsetInDecades = getOffsetInCenturies()
 
     if (date.eraIndex > 0) {

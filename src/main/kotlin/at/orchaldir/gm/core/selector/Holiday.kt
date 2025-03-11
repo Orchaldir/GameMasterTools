@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
-import at.orchaldir.gm.core.selector.time.date.resolve
+import at.orchaldir.gm.core.selector.time.date.resolveDay
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.holiday.HolidayOfGod
 import at.orchaldir.gm.core.model.religion.GodId
@@ -20,7 +20,7 @@ fun State.getHolidays(god: GodId) = getHolidayStorage().getAll()
 
 fun State.getForHolidays(day: Day) = getHolidayStorage().getAll().filter { holiday ->
     val calendar = getCalendarStorage().getOrThrow(holiday.calendar)
-    val displayDay = calendar.resolve(day)
+    val displayDay = calendar.resolveDay(day)
 
     holiday.relativeDate.isOn(calendar, displayDay)
 }
