@@ -8,20 +8,17 @@ import at.orchaldir.gm.app.html.model.selectDate
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.holiday.Holiday
-import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.calendar.CalendarOriginType.Improved
 import at.orchaldir.gm.core.model.time.calendar.CalendarOriginType.Original
 import at.orchaldir.gm.core.model.time.date.DisplayYear
 import at.orchaldir.gm.core.selector.getCultures
 import at.orchaldir.gm.core.selector.getHolidays
-import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.calendar.*
 import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.util.*
 import kotlinx.html.BODY
 import kotlinx.html.FORM
 import kotlinx.html.h2
@@ -58,6 +55,8 @@ fun BODY.showCalendar(
         +": "
         +holiday.relativeDate.display(calendar)
     }
+
+    showDateFormat(calendar.defaultFormat)
 }
 
 private fun BODY.showOrigin(
@@ -142,6 +141,8 @@ fun FORM.editCalendar(
     h2 { +"Eras" }
 
     editEras(calendar, state)
+
+    editDateFormat(calendar.defaultFormat)
 }
 
 private fun FORM.editDays(
@@ -254,6 +255,7 @@ fun parseCalendar(
         parseMonths(parameters),
         parseEras(parameters, default),
         origin,
+        parseDateFormat(parameters),
     )
 }
 

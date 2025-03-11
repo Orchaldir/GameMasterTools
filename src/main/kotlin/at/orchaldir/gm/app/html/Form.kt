@@ -217,9 +217,10 @@ fun HtmlBlockTag.selectText(
     text: String,
     param: String,
     min: Int = 1,
+    max: Int? = null,
 ) {
     field(label) {
-        selectText(text, param, min)
+        selectText(text, param, min, max)
     }
 }
 
@@ -227,9 +228,13 @@ fun HtmlBlockTag.selectText(
     text: String,
     param: String,
     min: Int = 1,
+    max: Int? = null,
 ) {
     textInput(name = param) {
         minLength = "$min"
+        if (max != null) {
+            maxLength = "$max"
+        }
         value = text
     }
 }
