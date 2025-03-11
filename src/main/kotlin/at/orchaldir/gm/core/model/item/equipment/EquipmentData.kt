@@ -17,6 +17,7 @@ enum class EquipmentDataType {
     Coat,
     Dress,
     Footwear,
+    Glasses,
     Gloves,
     Hat,
     Pants,
@@ -28,6 +29,7 @@ enum class EquipmentDataType {
         Coat -> setOf(Outerwear)
         Dress -> setOf(Bottom, Top)
         Footwear -> setOf(Foot)
+        Glasses -> setOf(Eyewear)
         Gloves -> setOf(Handwear)
         Hat -> setOf(Headwear)
         Pants -> setOf(Bottom)
@@ -46,6 +48,7 @@ sealed class EquipmentData {
         is Coat -> EquipmentDataType.Coat
         is Dress -> EquipmentDataType.Dress
         is Footwear -> EquipmentDataType.Footwear
+        is Glasses -> EquipmentDataType.Glasses
         is Gloves -> EquipmentDataType.Gloves
         is Hat -> EquipmentDataType.Hat
         is Pants -> EquipmentDataType.Pants
@@ -104,6 +107,20 @@ data class Footwear(
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
+}
+
+@Serializable
+@SerialName("Glasses")
+data class Glasses(
+    val style: GloveStyle = GloveStyle.Hand,
+    val frameFill: Fill = Solid(Color.Navy),
+    val lensFill: Fill = Solid(Color.SkyBlue),
+    val frameMaterial: MaterialId = MaterialId(0),
+    val lensMaterial: MaterialId = MaterialId(0),
+) : EquipmentData() {
+
+    override fun contains(id: MaterialId) = frameMaterial == id || lensMaterial == id
+    override fun getMaterials() = setOf(frameMaterial, lensMaterial)
 }
 
 @Serializable
