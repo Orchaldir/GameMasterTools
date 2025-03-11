@@ -8,5 +8,8 @@ import at.orchaldir.gm.core.selector.getDefaultCalendar
 fun <ELEMENT : HasStartDate> State.exists(element: ELEMENT, date: Date?) = getDefaultCalendar()
     .isAfterOrEqualOptional(date, element.startDate())
 
-fun <ELEMENT : HasStartDate> State.getExistingElements(elements: Collection<ELEMENT>, date: Date?) = elements
-    .filter { exists(it, date) }
+fun <ELEMENT : HasStartDate> State.getExistingElements(elements: Collection<ELEMENT>, date: Date?) = if (date == null) {
+    elements
+} else {
+    elements.filter { exists(it, date) }
+}
