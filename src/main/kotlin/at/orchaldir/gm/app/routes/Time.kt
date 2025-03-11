@@ -11,13 +11,14 @@ import at.orchaldir.gm.app.html.model.showOwner
 import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.event.*
 import at.orchaldir.gm.core.model.time.*
+import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonPhase
 import at.orchaldir.gm.core.model.world.plane.PlanarAlignment.Coterminous
 import at.orchaldir.gm.core.selector.*
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.getPlanarAlignments
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing

@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.time
 
-import at.orchaldir.gm.core.model.calendar.CalendarId
+import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import kotlinx.serialization.Serializable
 
 @Serializable

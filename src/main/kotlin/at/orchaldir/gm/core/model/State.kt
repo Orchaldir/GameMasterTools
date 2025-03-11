@@ -3,9 +3,9 @@ package at.orchaldir.gm.core.model
 import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.loadData
 import at.orchaldir.gm.core.loadStorage
-import at.orchaldir.gm.core.model.calendar.CALENDAR_TYPE
-import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.CalendarId
+import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
+import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture

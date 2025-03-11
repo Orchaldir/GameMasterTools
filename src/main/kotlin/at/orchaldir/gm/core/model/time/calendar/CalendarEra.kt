@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.calendar
+package at.orchaldir.gm.core.model.time.calendar
 
 import at.orchaldir.gm.core.model.time.Date
 import at.orchaldir.gm.core.model.time.DisplayCentury

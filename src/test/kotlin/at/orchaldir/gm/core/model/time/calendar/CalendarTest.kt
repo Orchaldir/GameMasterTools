@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.calendar
+package at.orchaldir.gm.core.model.time.calendar
 
 import at.orchaldir.gm.core.model.time.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -108,13 +108,13 @@ class CalendarTest {
             }
 
             @ParameterizedTest
-            @MethodSource("at.orchaldir.gm.core.model.calendar.CalendarTest#provideStartOfYear")
+            @MethodSource("at.orchaldir.gm.core.model.time.calendar.CalendarTest#provideStartOfYear")
             fun `Get the (start) day of a year`(year: Year, day: Day) {
                 assertGetDay(year, day)
             }
 
             @ParameterizedTest
-            @MethodSource("at.orchaldir.gm.core.model.calendar.CalendarTest#provideStartOfDecade")
+            @MethodSource("at.orchaldir.gm.core.model.time.calendar.CalendarTest#provideStartOfDecade")
             fun `Get the (start) day of a decade`(decade: Decade, day: Day) {
                 assertGetDay(decade, day)
             }
@@ -313,7 +313,7 @@ class CalendarTest {
         }
 
         @ParameterizedTest
-        @MethodSource("at.orchaldir.gm.core.model.calendar.CalendarTest#provideStartOfYear")
+        @MethodSource("at.orchaldir.gm.core.model.time.calendar.CalendarTest#provideStartOfYear")
         fun `Get the start of a year`(year: Year, day: Day) {
             assertEquals(day, CALENDAR0.getStartOfYear(year))
         }
@@ -394,7 +394,7 @@ class CalendarTest {
         }
 
         @ParameterizedTest
-        @MethodSource("at.orchaldir.gm.core.model.calendar.CalendarTest#provideStartOfDecade")
+        @MethodSource("at.orchaldir.gm.core.model.time.calendar.CalendarTest#provideStartOfDecade")
         fun `Get the start of a decade`(decade: Decade, day: Day) {
             assertEquals(day, CALENDAR0.getStartOfDecade(decade))
         }

@@ -1,5 +1,6 @@
-package at.orchaldir.gm.core.model.calendar
+package at.orchaldir.gm.core.model.time.calendar
 
+import at.orchaldir.gm.core.model.time.calendar.Month
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

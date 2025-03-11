@@ -14,10 +14,10 @@ import at.orchaldir.gm.app.html.selectWithIndex
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.core.model.calendar.Calendar
-import at.orchaldir.gm.core.model.calendar.DayOfTheMonth
-import at.orchaldir.gm.core.model.calendar.DaysType
-import at.orchaldir.gm.core.model.calendar.Weekdays
+import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
+import at.orchaldir.gm.core.model.time.calendar.DaysType
+import at.orchaldir.gm.core.model.time.calendar.Weekdays
 import at.orchaldir.gm.core.model.holiday.*
 import io.ktor.http.*
 import kotlinx.html.BODY

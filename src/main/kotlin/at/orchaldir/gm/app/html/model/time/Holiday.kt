@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parseCalendarId
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.calendar.CALENDAR_TYPE
+import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.selector.getCultures

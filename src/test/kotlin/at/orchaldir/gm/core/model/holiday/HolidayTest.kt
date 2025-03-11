@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.holiday
 
 import at.orchaldir.gm.core.model.calendar.*
 import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.calendar.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.time
 
-import at.orchaldir.gm.core.model.calendar.Calendar
+import at.orchaldir.gm.core.model.time.calendar.Calendar
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue

@@ -2,8 +2,8 @@ package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.app.CURRENT
 import at.orchaldir.gm.app.html.model.parseDay
-import at.orchaldir.gm.core.model.calendar.CALENDAR_TYPE
-import at.orchaldir.gm.core.model.calendar.Calendar
+import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
+import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.Time
 import io.ktor.http.*
 
