@@ -1,9 +1,6 @@
 package at.orchaldir.gm.core.selector.time
 
-import at.orchaldir.gm.core.model.time.DisplayDate
-import at.orchaldir.gm.core.model.time.DisplayDay
-import at.orchaldir.gm.core.model.time.DisplayDecade
-import at.orchaldir.gm.core.model.time.DisplayYear
+import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.model.time.calendar.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
@@ -46,6 +43,14 @@ class DisplayTest {
         }
 
         @Test
+        fun `Test a century in AD`() {
+            val date = DisplayCentury(1, 20)
+
+            assertDisplay(format0, date, "21.century AD")
+            assertDisplay(format1, date, "21.century AD")
+        }
+
+        @Test
         fun `Test the first day in AD`() {
             val date = DisplayDay(1, 0, 0, 0)
 
@@ -77,6 +82,14 @@ class DisplayTest {
             assertDisplay(format0, date, "50s AD")
             assertDisplay(format1, date, "50s AD")
         }
+
+        @Test
+        fun `Test the first century in AD`() {
+            val date = DisplayCentury(1, 0)
+
+            assertDisplay(format0, date, "1.century AD")
+            assertDisplay(format1, date, "1.century AD")
+        }
     }
 
     @Nested
@@ -107,11 +120,27 @@ class DisplayTest {
         }
 
         @Test
+        fun `Test a century in AD`() {
+            val date = DisplayCentury(0, 2)
+
+            assertDisplay(format0, date, "BC 3.century")
+            assertDisplay(format1, date, "BC 3.century")
+        }
+
+        @Test
         fun `Test the first decade in BC`() {
             val date = DisplayDecade(0, 0)
 
             assertDisplay(format0, date, "BC 0s")
             assertDisplay(format1, date, "BC 0s")
+        }
+
+        @Test
+        fun `Test the first century in AD`() {
+            val date = DisplayCentury(0, 0)
+
+            assertDisplay(format0, date, "BC 1.century")
+            assertDisplay(format1, date, "BC 1.century")
         }
     }
 
