@@ -584,8 +584,8 @@
      "god": 23
     },
     "date": {
-     "type": "Decade",
-     "decade": -901
+     "type": "Century",
+     "century": -91
     }
    }
   }
