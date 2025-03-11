@@ -57,8 +57,6 @@ data class DisplayDecade(
         }
     }
 
-    fun display() = (decadeIndex * 10).toString() + "s"
-
     fun year() = DisplayYear(eraIndex, startYearIndex())
     fun century() = DisplayCentury(eraIndex, decadeIndex / 10)
 }
@@ -83,8 +81,6 @@ data class DisplayCentury(
             centuryIndex * 100 - 1
         }
     }
-
-    fun display() = (centuryIndex * 100).toString() + "c"
 
     fun year() = DisplayYear(eraIndex, startYearIndex())
 }
