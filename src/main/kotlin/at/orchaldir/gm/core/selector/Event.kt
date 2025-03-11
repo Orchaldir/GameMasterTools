@@ -144,8 +144,8 @@ fun State.getEventsOfMonth(calendarId: CalendarId, day: Day): List<Event> {
 
 fun State.getEventsOfYear(calendarId: CalendarId, year: Year): List<Event> {
     val calendar = getCalendarStorage().getOrThrow(calendarId)
-    val start = calendar.getStartOfYear(year)
-    val end = calendar.getEndOfYear(year)
+    val start = calendar.getStartDayOfYear(year)
+    val end = calendar.getEndDayOfYear(year)
 
     return getEvents().filter {
         it.date.isBetween(calendar, start, end)
@@ -154,8 +154,8 @@ fun State.getEventsOfYear(calendarId: CalendarId, year: Year): List<Event> {
 
 fun State.getEventsOfDecade(calendarId: CalendarId, decade: Decade): List<Event> {
     val calendar = getCalendarStorage().getOrThrow(calendarId)
-    val start = calendar.getStartOfDecade(decade)
-    val end = calendar.getEndOfDecade(decade)
+    val start = calendar.getStartDayOfDecade(decade)
+    val end = calendar.getEndDayOfDecade(decade)
 
     return getEvents().filter {
         it.date.isBetween(calendar, start, end)
@@ -164,8 +164,8 @@ fun State.getEventsOfDecade(calendarId: CalendarId, decade: Decade): List<Event>
 
 fun State.getEventsOfCentury(calendarId: CalendarId, century: Century): List<Event> {
     val calendar = getCalendarStorage().getOrThrow(calendarId)
-    val start = calendar.getStartOfCentury(century)
-    val end = calendar.getEndOfCentury(century)
+    val start = calendar.getStartDayOfCentury(century)
+    val end = calendar.getEndDayOfCentury(century)
 
     return getEvents().filter {
         it.date.isBetween(calendar, start, end)

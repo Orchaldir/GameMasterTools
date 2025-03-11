@@ -313,8 +313,8 @@ private fun HTML.showDecade(call: ApplicationCall, calendarId: CalendarId, decad
 
     simpleHtml("Decade: " + display(calendar, displayDecade)) {
         fieldLink("Calendar", call, state, calendar)
-        field(call, "Start", calendar, calendar.getStartOfDecade(decade))
-        field(call, "End", calendar, calendar.getEndOfDecade(decade))
+        field(call, "Start", calendar, calendar.getStartDayOfDecade(decade))
+        field(call, "End", calendar, calendar.getEndDayOfDecade(decade))
         action(nextLink, "Next Decade")
         action(previousLink, "Previous Decade")
         showEvents(events, call, state, calendar)
@@ -332,8 +332,8 @@ private fun HTML.showCentury(call: ApplicationCall, calendarId: CalendarId, cent
 
     simpleHtml("Century: " + display(calendar, century)) {
         fieldLink("Calendar", call, state, calendar)
-        field(call, "Start", calendar, calendar.getStartOfCentury(century))
-        field(call, "End", calendar, calendar.getEndOfCentury(century))
+        field(call, "Start", calendar, calendar.getStartDayOfCentury(century))
+        field(call, "End", calendar, calendar.getEndDayOfCentury(century))
         action(nextLink, "Next Century")
         action(previousLink, "Previous Century")
         showEvents(events, call, state, calendar)

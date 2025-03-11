@@ -2,9 +2,9 @@ package at.orchaldir.gm.core.model.time.date
 
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.selector.time.date.getStartOfCentury
-import at.orchaldir.gm.core.selector.time.date.getStartOfDecade
-import at.orchaldir.gm.core.selector.time.date.getStartOfYear
+import at.orchaldir.gm.core.selector.time.date.getStartDayOfCentury
+import at.orchaldir.gm.core.selector.time.date.getStartDayOfDecade
+import at.orchaldir.gm.core.selector.time.date.getStartDayOfYear
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
@@ -56,7 +56,7 @@ data class Day(val day: Int) : Date {
 data class Year(val year: Int) : Date {
 
     override fun isBetween(calendar: Calendar, start: Day, end: Day) = calendar
-        .getStartOfYear(this)
+        .getStartDayOfYear(this)
         .isBetween(calendar, start, end)
 
     override fun next() = nextYear()
@@ -75,7 +75,7 @@ data class Year(val year: Int) : Date {
 data class Decade(val decade: Int) : Date {
 
     override fun isBetween(calendar: Calendar, start: Day, end: Day) = calendar
-        .getStartOfDecade(this)
+        .getStartDayOfDecade(this)
         .isBetween(calendar, start, end)
 
     override fun next() = nextDecade()
@@ -93,7 +93,7 @@ data class Decade(val decade: Int) : Date {
 data class Century(val century: Int) : Date {
 
     override fun isBetween(calendar: Calendar, start: Day, end: Day) = calendar
-        .getStartOfCentury(this)
+        .getStartDayOfCentury(this)
         .isBetween(calendar, start, end)
 
     override fun next() = nextDecade()

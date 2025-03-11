@@ -119,15 +119,15 @@ class StartAndEndTest {
         @ParameterizedTest
         @MethodSource("at.orchaldir.gm.core.selector.time.date.StartAndEndTest#provideStartOfYear")
         fun `Get the start of a year`(year: Year, day: Day) {
-            assertEquals(day, calendar0.getStartOfYear(year))
+            assertEquals(day, calendar0.getStartDayOfYear(year))
         }
 
         @Test
         fun `Get the end of a year`() {
-            assertEquals(Day(-1), calendar0.getEndOfYear(Year(-1)))
-            assertEquals(Day(4), calendar0.getEndOfYear(Year(0)))
-            assertEquals(Day(9), calendar0.getEndOfYear(Year(1)))
-            assertEquals(Day(14), calendar0.getEndOfYear(Year(2)))
+            assertEquals(Day(-1), calendar0.getEndDayOfYear(Year(-1)))
+            assertEquals(Day(4), calendar0.getEndDayOfYear(Year(0)))
+            assertEquals(Day(9), calendar0.getEndDayOfYear(Year(1)))
+            assertEquals(Day(14), calendar0.getEndDayOfYear(Year(2)))
         }
     }
 
@@ -138,32 +138,32 @@ class StartAndEndTest {
         fun `Display the start & end of a positive decade`() {
             val decade = Decade(186)
 
-            assertDisplay(calendar0.getStartOfDecade(decade), "1.1.1860 AD")
-            assertDisplay(calendar0.getEndOfDecade(decade), "3.2.1869 AD")
+            assertDisplay(calendar0.getStartDayOfDecade(decade), "1.1.1860 AD")
+            assertDisplay(calendar0.getEndDayOfDecade(decade), "3.2.1869 AD")
         }
 
         @Test
         fun `The AD 0s only have 9 years`() {
             val decade = Decade(0)
 
-            assertDisplay(calendar0.getStartOfDecade(decade), "1.1.1 AD")
-            assertDisplay(calendar0.getEndOfDecade(decade), "3.2.9 AD")
+            assertDisplay(calendar0.getStartDayOfDecade(decade), "1.1.1 AD")
+            assertDisplay(calendar0.getEndDayOfDecade(decade), "3.2.9 AD")
         }
 
         @Test
         fun `The 0s BC only have 9 years`() {
             val decade = Decade(-1)
 
-            assertDisplay(calendar0.getStartOfDecade(decade), "BC 1.1.9")
-            assertDisplay(calendar0.getEndOfDecade(decade), "BC 3.2.1")
+            assertDisplay(calendar0.getStartDayOfDecade(decade), "BC 1.1.9")
+            assertDisplay(calendar0.getEndDayOfDecade(decade), "BC 3.2.1")
         }
 
         @Test
         fun `Display the start & end of a negative decade`() {
             val decade = Decade(-6)
 
-            assertDisplay(calendar0.getStartOfDecade(decade), "BC 1.1.59")
-            assertDisplay(calendar0.getEndOfDecade(decade), "BC 3.2.50")
+            assertDisplay(calendar0.getStartDayOfDecade(decade), "BC 1.1.59")
+            assertDisplay(calendar0.getEndDayOfDecade(decade), "BC 3.2.50")
         }
 
         private fun assertDisplay(day: Day, display: String) {
@@ -178,32 +178,32 @@ class StartAndEndTest {
         fun `Display the start & end of a positive century`() {
             val century = Century(20)
 
-            assertDisplay(calendar0.getStartOfCentury(century), "1.1.2000 AD")
-            assertDisplay(calendar0.getEndOfCentury(century), "3.2.2099 AD")
+            assertDisplay(calendar0.getStartDayOfCentury(century), "1.1.2000 AD")
+            assertDisplay(calendar0.getEndDayOfCentury(century), "3.2.2099 AD")
         }
 
         @Test
         fun `The first century in AD only has 99 years`() {
             val century = Century(0)
 
-            assertDisplay(calendar0.getStartOfCentury(century), "1.1.1 AD")
-            assertDisplay(calendar0.getEndOfCentury(century), "3.2.99 AD")
+            assertDisplay(calendar0.getStartDayOfCentury(century), "1.1.1 AD")
+            assertDisplay(calendar0.getEndDayOfCentury(century), "3.2.99 AD")
         }
 
         @Test
         fun `The first century in BC only has 99 years`() {
             val century = Century(-1)
 
-            assertDisplay(calendar0.getStartOfCentury(century), "BC 1.1.99")
-            assertDisplay(calendar0.getEndOfCentury(century), "BC 3.2.1")
+            assertDisplay(calendar0.getStartDayOfCentury(century), "BC 1.1.99")
+            assertDisplay(calendar0.getEndDayOfCentury(century), "BC 3.2.1")
         }
 
         @Test
         fun `Display the start & end of a negative century`() {
             val century = Century(-6)
 
-            assertDisplay(calendar0.getStartOfCentury(century), "BC 1.1.599")
-            assertDisplay(calendar0.getEndOfCentury(century), "BC 3.2.500")
+            assertDisplay(calendar0.getStartDayOfCentury(century), "BC 1.1.599")
+            assertDisplay(calendar0.getEndDayOfCentury(century), "BC 3.2.500")
         }
 
         private fun assertDisplay(day: Day, display: String) {

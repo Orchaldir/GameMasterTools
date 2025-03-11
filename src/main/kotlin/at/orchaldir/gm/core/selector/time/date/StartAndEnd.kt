@@ -3,18 +3,20 @@ package at.orchaldir.gm.core.selector.time.date
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.*
 
+// day
+
 fun Calendar.getStartDay(date: Date) = when (date) {
     is Day -> date
-    is Year -> getStartOfYear(date)
-    is Decade -> getStartOfDecade(date)
-    is Century -> getStartOfCentury(date)
+    is Year -> getStartDayOfYear(date)
+    is Decade -> getStartDayOfDecade(date)
+    is Century -> getStartDayOfCentury(date)
 }
 
 fun Calendar.getStartDisplayDay(date: Date): DisplayDay = when (date) {
     is Day -> resolveDay(date)
-    is Year -> getDisplayStartOfYear(date)
-    is Decade -> getDisplayStartOfDecade(date)
-    is Century -> getDisplayStartOfCentury(date)
+    is Year -> getStartDisplayDayOfYear(date)
+    is Decade -> getStartDisplayDayOfDecade(date)
+    is Century -> getStartDisplayDayOfCentury(date)
 }
 
 // month
@@ -44,30 +46,30 @@ fun Calendar.getEndOfMonth(day: Day) = getStartOfNextMonth(day) - 1
 
 // year
 
-fun Calendar.getStartOfYear(year: Year) = resolveDay(getDisplayStartOfYear(year))
+fun Calendar.getStartDayOfYear(year: Year) = resolveDay(getStartDisplayDayOfYear(year))
 
-fun Calendar.getDisplayStartOfYear(year: Year) = getStartOfYear(resolveYear(year))
+fun Calendar.getStartDisplayDayOfYear(year: Year) = getStartDisplayDayOfYear(resolveYear(year))
 
-fun Calendar.getStartOfYear(year: DisplayYear) = DisplayDay(year, 0, 0, null)
+fun Calendar.getStartDisplayDayOfYear(year: DisplayYear) = DisplayDay(year, 0, 0, null)
 
-fun Calendar.getEndOfYear(year: Year) = getStartOfYear(year.nextYear()).previousDay()
+fun Calendar.getEndDayOfYear(year: Year) = getStartDayOfYear(year.nextYear()).previousDay()
 
 // decade
 
-fun Calendar.getStartOfDecade(decade: Decade) = resolveDay(getDisplayStartOfDecade(decade))
+fun Calendar.getStartDayOfDecade(decade: Decade) = resolveDay(getStartDisplayDayOfDecade(decade))
 
-fun Calendar.getDisplayStartOfDecade(decade: Decade) = getStartOfDecade(resolveDecade(decade))
+fun Calendar.getStartDisplayDayOfDecade(decade: Decade) = getStartDisplayDayOfDecade(resolveDecade(decade))
 
-fun Calendar.getStartOfDecade(decade: DisplayDecade) = DisplayDay(decade.year(), 0, 0, null)
+fun Calendar.getStartDisplayDayOfDecade(decade: DisplayDecade) = DisplayDay(decade.year(), 0, 0, null)
 
-fun Calendar.getEndOfDecade(decade: Decade) = getStartOfDecade(decade.nextDecade()).previousDay()
+fun Calendar.getEndDayOfDecade(decade: Decade) = getStartDayOfDecade(decade.nextDecade()).previousDay()
 
 // century
 
-fun Calendar.getStartOfCentury(century: Century) = resolveDay(getDisplayStartOfCentury(century))
+fun Calendar.getStartDayOfCentury(century: Century) = resolveDay(getStartDisplayDayOfCentury(century))
 
-fun Calendar.getDisplayStartOfCentury(century: Century) = getStartOfCentury(resolveCentury(century))
+fun Calendar.getStartDisplayDayOfCentury(century: Century) = getStartDisplayDayOfCentury(resolveCentury(century))
 
-fun Calendar.getStartOfCentury(century: DisplayCentury) = DisplayDay(century.year(), 0, 0, null)
+fun Calendar.getStartDisplayDayOfCentury(century: DisplayCentury) = DisplayDay(century.year(), 0, 0, null)
 
-fun Calendar.getEndOfCentury(century: Century) = getStartOfCentury(century.nextDecade()).previousDay()
+fun Calendar.getEndDayOfCentury(century: Century) = getStartDayOfCentury(century.nextDecade()).previousDay()
