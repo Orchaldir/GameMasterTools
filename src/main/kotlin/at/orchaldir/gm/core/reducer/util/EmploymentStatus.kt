@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.character.EmploymentStatus
 import at.orchaldir.gm.core.model.character.UndefinedEmploymentStatus
 import at.orchaldir.gm.core.model.character.Unemployed
-import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.util.exists
 import at.orchaldir.gm.utils.doNothing

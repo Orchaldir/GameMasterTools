@@ -7,10 +7,10 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.CharacterOriginType.Undefined
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.selector.time.getCurrentYear
-import at.orchaldir.gm.core.selector.time.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import io.ktor.http.*
 import io.ktor.server.util.*
 import kotlin.random.Random

@@ -8,13 +8,13 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.Duration
-import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.selector.time.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getGenonymName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id

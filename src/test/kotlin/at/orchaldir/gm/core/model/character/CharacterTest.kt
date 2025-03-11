@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.character
 import at.orchaldir.gm.CALENDAR_ID_0
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertEquals

@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.time.calendar
 
-import at.orchaldir.gm.core.model.time.*
-import at.orchaldir.gm.core.selector.time.display
-import at.orchaldir.gm.core.selector.time.resolve
+import at.orchaldir.gm.core.model.time.date.*
+import at.orchaldir.gm.core.selector.time.date.display
+import at.orchaldir.gm.core.selector.time.date.resolve
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

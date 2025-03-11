@@ -1,7 +1,8 @@
 package at.orchaldir.gm.core.selector.time
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.time.Date
+import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 
 fun State.getAgeInYears(date: Date?) = if (date != null) {
     getDefaultCalendar().getDurationInYears(date, time.currentDate)

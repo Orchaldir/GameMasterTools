@@ -2,11 +2,11 @@ package at.orchaldir.gm.core.selector
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
-import at.orchaldir.gm.core.selector.time.resolve
+import at.orchaldir.gm.core.selector.time.date.resolve
 import at.orchaldir.gm.core.model.holiday.HolidayId
 import at.orchaldir.gm.core.model.holiday.HolidayOfGod
 import at.orchaldir.gm.core.model.religion.GodId
-import at.orchaldir.gm.core.model.time.Day
+import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 
 fun State.canDelete(holiday: HolidayId) = getCultures(holiday).isEmpty()

@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.holiday
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.time.calendar.Weekdays
-import at.orchaldir.gm.core.model.time.DisplayDay
+import at.orchaldir.gm.core.model.time.date.DisplayDay
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

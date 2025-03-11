@@ -1,8 +1,6 @@
 package at.orchaldir.gm.core.model.time.calendar
 
-import at.orchaldir.gm.core.model.time.Date
-import at.orchaldir.gm.core.model.time.DisplayCentury
-import at.orchaldir.gm.core.model.time.DisplayDecade
+import at.orchaldir.gm.core.model.time.date.Date
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

@@ -3,8 +3,8 @@ package at.orchaldir.gm.core.generator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
-import at.orchaldir.gm.core.selector.time.resolve
-import at.orchaldir.gm.core.model.time.*
+import at.orchaldir.gm.core.selector.time.date.resolve
+import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.utils.NumberGenerator
 
 class DateGenerator(

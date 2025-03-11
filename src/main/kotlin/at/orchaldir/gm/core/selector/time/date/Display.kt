@@ -1,9 +1,9 @@
-package at.orchaldir.gm.core.selector.time
+package at.orchaldir.gm.core.selector.time.date
 
-import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.DateFormat
 import at.orchaldir.gm.core.model.time.calendar.DateOrder
+import at.orchaldir.gm.core.model.time.date.*
 
 fun display(calendar: Calendar, date: Date) =
     display(calendar, calendar.defaultFormat, date)

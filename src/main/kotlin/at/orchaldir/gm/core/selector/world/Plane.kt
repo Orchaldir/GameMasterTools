@@ -2,10 +2,10 @@ package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.GodId
-import at.orchaldir.gm.core.model.time.Day
-import at.orchaldir.gm.core.model.time.Year
+import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.world.plane.*
-import at.orchaldir.gm.core.selector.time.getDefaultCalendar
+import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getPlanarLanguages
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing

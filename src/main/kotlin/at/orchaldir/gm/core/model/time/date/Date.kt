@@ -1,5 +1,6 @@
-package at.orchaldir.gm.core.model.time
+package at.orchaldir.gm.core.model.time.date
 
+import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
