@@ -3,10 +3,7 @@ package at.orchaldir.gm.core.model.time.calendar
 import at.orchaldir.gm.core.model.time.*
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
-import at.orchaldir.gm.core.selector.time.date.resolveYear
-import at.orchaldir.gm.core.selector.time.date.resolveDay
-import at.orchaldir.gm.core.selector.time.date.resolveDecade
-import at.orchaldir.gm.core.selector.time.date.resolveCentury
+import at.orchaldir.gm.core.selector.time.date.*
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
@@ -106,13 +103,6 @@ data class Calendar(
         is Decade -> resolveDecade(date).year()
         is Century -> resolveCentury(date).year()
     }
-
-    fun getStartOfYear(year: Year) = resolveDay(getDisplayStartOfYear(year))
-    fun getDisplayStartOfYear(year: Year) = getStartOfYear(resolveYear(year))
-
-    fun getStartOfYear(year: DisplayYear) = DisplayDay(year, 0, 0, null)
-
-    fun getEndOfYear(year: Year) = getStartOfYear(year.nextYear()).previousDay()
 
     // decade
 

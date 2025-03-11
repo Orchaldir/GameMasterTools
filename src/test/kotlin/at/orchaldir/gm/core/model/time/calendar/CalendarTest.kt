@@ -50,12 +50,6 @@ class CalendarTest {
             }
 
             @ParameterizedTest
-            @MethodSource("at.orchaldir.gm.core.model.time.calendar.CalendarTest#provideStartOfYear")
-            fun `Get the (start) day of a year`(year: Year, day: Day) {
-                assertGetDay(year, day)
-            }
-
-            @ParameterizedTest
             @MethodSource("at.orchaldir.gm.core.model.time.calendar.CalendarTest#provideStartOfDecade")
             fun `Get the (start) day of a decade`(decade: Decade, day: Day) {
                 assertGetDay(decade, day)
@@ -187,20 +181,6 @@ class CalendarTest {
                 assertEquals(year, CALENDAR0.getYear(input))
                 assertEquals(display, CALENDAR0.getDisplayYear(input))
             }
-        }
-
-        @ParameterizedTest
-        @MethodSource("at.orchaldir.gm.core.model.time.calendar.CalendarTest#provideStartOfYear")
-        fun `Get the start of a year`(year: Year, day: Day) {
-            assertEquals(day, CALENDAR0.getStartOfYear(year))
-        }
-
-        @Test
-        fun `Get the end of a year`() {
-            assertEquals(Day(-1), CALENDAR0.getEndOfYear(Year(-1)))
-            assertEquals(Day(4), CALENDAR0.getEndOfYear(year0))
-            assertEquals(Day(9), CALENDAR0.getEndOfYear(year1))
-            assertEquals(Day(14), CALENDAR0.getEndOfYear(year2))
         }
     }
 
@@ -483,16 +463,6 @@ class CalendarTest {
     }
 
     companion object {
-        @JvmStatic
-        fun provideStartOfYear(): Stream<Arguments> {
-            return Stream.of(
-                Arguments.of(Year(-2), Day(-10)),
-                Arguments.of(Year(-1), Day(-5)),
-                Arguments.of(Year(0), Day(0)),
-                Arguments.of(Year(1), Day(5)),
-                Arguments.of(Year(2), Day(10)),
-            )
-        }
 
         @JvmStatic
         fun provideStartOfDecade(): Stream<Arguments> {

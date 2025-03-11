@@ -5,6 +5,10 @@ import at.orchaldir.gm.core.model.time.date.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
+import java.util.stream.Stream
 
 class StartAndEndTest {
 
@@ -106,6 +110,37 @@ class StartAndEndTest {
                 assertEquals(Day(0), calendar0.getStartOfPreviousMonth(Day(3)))
                 assertEquals(Day(0), calendar0.getStartOfPreviousMonth(Day(4)))
             }
+        }
+    }
+
+    @Nested
+    inner class YearTest {
+
+        @ParameterizedTest
+        @MethodSource("at.orchaldir.gm.core.selector.time.date.StartAndEndTest#provideStartOfYear")
+        fun `Get the start of a year`(year: Year, day: Day) {
+            assertEquals(day, calendar0.getStartOfYear(year))
+        }
+
+        @Test
+        fun `Get the end of a year`() {
+            assertEquals(Day(-1), calendar0.getEndOfYear(Year(-1)))
+            assertEquals(Day(4), calendar0.getEndOfYear(Year(0)))
+            assertEquals(Day(9), calendar0.getEndOfYear(Year(1)))
+            assertEquals(Day(14), calendar0.getEndOfYear(Year(2)))
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        fun provideStartOfYear(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(Year(-2), Day(-10)),
+                Arguments.of(Year(-1), Day(-5)),
+                Arguments.of(Year(0), Day(0)),
+                Arguments.of(Year(1), Day(5)),
+                Arguments.of(Year(2), Day(10)),
+            )
         }
     }
 }

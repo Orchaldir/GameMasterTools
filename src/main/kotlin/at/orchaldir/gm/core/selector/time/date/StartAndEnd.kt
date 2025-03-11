@@ -3,6 +3,8 @@ package at.orchaldir.gm.core.selector.time.date
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.DisplayDay
+import at.orchaldir.gm.core.model.time.date.DisplayYear
+import at.orchaldir.gm.core.model.time.date.Year
 
 // month
 
@@ -28,3 +30,13 @@ fun Calendar.getStartOfPreviousMonth(day: Day): Day {
 }
 
 fun Calendar.getEndOfMonth(day: Day) = getStartOfNextMonth(day) - 1
+
+// year
+
+fun Calendar.getStartOfYear(year: Year) = resolveDay(getDisplayStartOfYear(year))
+
+fun Calendar.getDisplayStartOfYear(year: Year) = getStartOfYear(resolveYear(year))
+
+fun Calendar.getStartOfYear(year: DisplayYear) = DisplayDay(year, 0, 0, null)
+
+fun Calendar.getEndOfYear(year: Year) = getStartOfYear(year.nextYear()).previousDay()
