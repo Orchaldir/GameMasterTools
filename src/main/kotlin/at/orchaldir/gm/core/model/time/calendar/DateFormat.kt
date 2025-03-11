@@ -6,4 +6,5 @@ import kotlinx.serialization.Serializable
 data class DateFormat(
     val order: DateOrder = DateOrder.DayMonthYear,
     val separator: Char = '.',
+    val displayMonthNames: Boolean = false,
 )
