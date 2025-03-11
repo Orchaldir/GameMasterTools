@@ -12,7 +12,10 @@ import at.orchaldir.gm.app.parse.parseTime
 import at.orchaldir.gm.core.action.UpdateTime
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.event.*
-import at.orchaldir.gm.core.model.time.calendar.*
+import at.orchaldir.gm.core.model.time.calendar.Calendar
+import at.orchaldir.gm.core.model.time.calendar.CalendarId
+import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
+import at.orchaldir.gm.core.model.time.calendar.Weekdays
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonPhase

@@ -209,8 +209,8 @@ private fun FORM.editOrigin(
 
     selectValue("Origin", ORIGIN, CalendarOriginType.entries, origin.getType(), true) {
         when (it) {
-            CalendarOriginType.Improved -> possibleParents.isEmpty()
-            CalendarOriginType.Original -> false
+            Improved -> possibleParents.isEmpty()
+            Original -> false
         }
     }
     when (origin) {

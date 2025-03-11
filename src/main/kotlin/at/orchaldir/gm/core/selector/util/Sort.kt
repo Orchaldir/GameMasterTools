@@ -18,8 +18,8 @@ import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.selector.getBelievers
-import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.getEmployees
+import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 
 // generic
 
