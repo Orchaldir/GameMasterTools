@@ -1,10 +1,7 @@
 package at.orchaldir.gm.core.selector.time.date
 
 import at.orchaldir.gm.core.model.time.calendar.Calendar
-import at.orchaldir.gm.core.model.time.date.Day
-import at.orchaldir.gm.core.model.time.date.DisplayDay
-import at.orchaldir.gm.core.model.time.date.DisplayYear
-import at.orchaldir.gm.core.model.time.date.Year
+import at.orchaldir.gm.core.model.time.date.*
 
 // month
 
@@ -40,3 +37,13 @@ fun Calendar.getDisplayStartOfYear(year: Year) = getStartOfYear(resolveYear(year
 fun Calendar.getStartOfYear(year: DisplayYear) = DisplayDay(year, 0, 0, null)
 
 fun Calendar.getEndOfYear(year: Year) = getStartOfYear(year.nextYear()).previousDay()
+
+// decade
+
+fun Calendar.getStartOfDecade(decade: Decade) = resolveDay(getDisplayStartOfDecade(decade))
+
+fun Calendar.getDisplayStartOfDecade(decade: Decade) = getStartOfDecade(resolveDecade(decade))
+
+fun Calendar.getStartOfDecade(decade: DisplayDecade) = DisplayDay(decade.year(), 0, 0, null)
+
+fun Calendar.getEndOfDecade(decade: Decade) = getStartOfDecade(decade.nextDecade()).previousDay()

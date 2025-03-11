@@ -131,6 +131,65 @@ class StartAndEndTest {
         }
     }
 
+    @Nested
+    inner class DecadeTest {
+
+        @Test
+        fun `Display the start & end of a positive decade`() {
+            val decade = Decade(186)
+
+            assertDisplay(calendar0.getStartOfDecade(decade), "1.1.1860 AD")
+            assertDisplay(calendar0.getEndOfDecade(decade), "3.2.1869 AD")
+        }
+
+        @Test
+        fun `The AD 0s only have 9 years`() {
+            val decade = Decade(0)
+
+            assertDisplay(calendar0.getStartOfDecade(decade), "1.1.1 AD")
+            assertDisplay(calendar0.getEndOfDecade(decade), "3.2.9 AD")
+        }
+
+        @Test
+        fun `The 0s BC only have 9 years`() {
+            val decade = Decade(-1)
+
+            assertDisplay(calendar0.getStartOfDecade(decade), "BC 1.1.9")
+            assertDisplay(calendar0.getEndOfDecade(decade), "BC 3.2.1")
+        }
+
+        @Test
+        fun `Display the start & end of a negative decade`() {
+            val decade = Decade(-6)
+
+            assertDisplay(calendar0.getStartOfDecade(decade), "BC 1.1.59")
+            assertDisplay(calendar0.getEndOfDecade(decade), "BC 3.2.50")
+        }
+
+        private fun assertDisplay(day: Day, display: String) {
+            assertEquals(display, display(calendar0, day))
+        }
+
+        @ParameterizedTest
+        @MethodSource("at.orchaldir.gm.core.selector.time.date.StartAndEndTest#provideStartOfDecade")
+        fun `Get the start of a decade`(decade: Decade, day: Day) {
+            assertEquals(day, calendar0.getStartOfDecade(decade))
+        }
+
+        @Test
+        fun `Get the end of a negative decade`() {
+            assertEquals(Day(-46), calendar0.getEndOfDecade(Decade(-2)))
+            assertEquals(Day(-1), calendar0.getEndOfDecade(Decade(-1)))
+        }
+
+        @Test
+        fun `Get the end of a decade`() {
+            assertEquals(Day(44), calendar0.getEndOfDecade(Decade(0)))
+            assertEquals(Day(94), calendar0.getEndOfDecade(Decade(1)))
+            assertEquals(Day(144), calendar0.getEndOfDecade(Decade(2)))
+        }
+    }
+
     companion object {
         @JvmStatic
         fun provideStartOfYear(): Stream<Arguments> {
@@ -140,6 +199,17 @@ class StartAndEndTest {
                 Arguments.of(Year(0), Day(0)),
                 Arguments.of(Year(1), Day(5)),
                 Arguments.of(Year(2), Day(10)),
+            )
+        }
+
+        @JvmStatic
+        fun provideStartOfDecade(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(Decade(-2), Day(-95)),
+                Arguments.of(Decade(-1), Day(-45)),
+                Arguments.of(Decade(0), Day(0)),
+                Arguments.of(Decade(1), Day(45)),
+                Arguments.of(Decade(2), Day(95)),
             )
         }
     }

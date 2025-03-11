@@ -14,10 +14,7 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
 import at.orchaldir.gm.core.model.util.Owner
 import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.selector.time.date.getEndOfMonth
-import at.orchaldir.gm.core.selector.time.date.getEndOfYear
-import at.orchaldir.gm.core.selector.time.date.getStartOfMonth
-import at.orchaldir.gm.core.selector.time.date.getStartOfYear
+import at.orchaldir.gm.core.selector.time.date.*
 import at.orchaldir.gm.utils.Id
 
 fun State.getEvents(): List<Event> {

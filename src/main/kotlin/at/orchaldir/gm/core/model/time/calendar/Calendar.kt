@@ -120,14 +120,6 @@ data class Calendar(
         is Century -> resolveCentury(date).year().decade()
     }
 
-    fun getStartOfDecade(decade: Decade) = resolveDay(getDisplayStartOfDecade(decade))
-
-    fun getDisplayStartOfDecade(decade: Decade) = getStartOfDecade(resolveDecade(decade))
-
-    fun getStartOfDecade(decade: DisplayDecade) = DisplayDay(decade.year(), 0, 0, null)
-
-    fun getEndOfDecade(decade: Decade) = getStartOfDecade(decade.nextDecade()).previousDay()
-
     // century
 
     fun getCentury(date: Date): Century = when (date) {

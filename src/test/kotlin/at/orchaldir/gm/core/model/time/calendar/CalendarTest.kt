@@ -1,17 +1,12 @@
 package at.orchaldir.gm.core.model.time.calendar
 
 import at.orchaldir.gm.core.model.time.date.*
-import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.time.date.resolveDay
 import at.orchaldir.gm.core.selector.time.date.resolveYear
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
-import java.util.stream.Stream
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -47,12 +42,6 @@ class CalendarTest {
             fun `Given a day, returns the same day`() {
                 val day = Day(99)
                 assertGetDay(day, day)
-            }
-
-            @ParameterizedTest
-            @MethodSource("at.orchaldir.gm.core.model.time.calendar.CalendarTest#provideStartOfDecade")
-            fun `Get the (start) day of a decade`(decade: Decade, day: Day) {
-                assertGetDay(decade, day)
             }
 
             private fun assertGetDay(input: Date, day: Day) {
@@ -212,61 +201,6 @@ class CalendarTest {
                 assertEquals(display, CALENDAR0.getDisplayDecade(date))
             }
 
-        }
-
-        @Test
-        fun `Display the start & end of a positive decade`() {
-            val decade = Decade(186)
-
-            assertDisplay(CALENDAR0.getStartOfDecade(decade), "1.1.1860 AD")
-            assertDisplay(CALENDAR0.getEndOfDecade(decade), "3.2.1869 AD")
-        }
-
-        @Test
-        fun `The AD 0s only have 9 years`() {
-            val decade = Decade(0)
-
-            assertDisplay(CALENDAR0.getStartOfDecade(decade), "1.1.1 AD")
-            assertDisplay(CALENDAR0.getEndOfDecade(decade), "3.2.9 AD")
-        }
-
-        @Test
-        fun `The 0s BC only have 9 years`() {
-            val decade = Decade(-1)
-
-            assertDisplay(CALENDAR0.getStartOfDecade(decade), "BC 1.1.9")
-            assertDisplay(CALENDAR0.getEndOfDecade(decade), "BC 3.2.1")
-        }
-
-        @Test
-        fun `Display the start & end of a negative decade`() {
-            val decade = Decade(-6)
-
-            assertDisplay(CALENDAR0.getStartOfDecade(decade), "BC 1.1.59")
-            assertDisplay(CALENDAR0.getEndOfDecade(decade), "BC 3.2.50")
-        }
-
-        private fun assertDisplay(day: Day, display: String) {
-            assertEquals(display, display(CALENDAR0, day))
-        }
-
-        @ParameterizedTest
-        @MethodSource("at.orchaldir.gm.core.model.time.calendar.CalendarTest#provideStartOfDecade")
-        fun `Get the start of a decade`(decade: Decade, day: Day) {
-            assertEquals(day, CALENDAR0.getStartOfDecade(decade))
-        }
-
-        @Test
-        fun `Get the end of a negative decade`() {
-            assertEquals(Day(-46), CALENDAR0.getEndOfDecade(Decade(-2)))
-            assertEquals(Day(-1), CALENDAR0.getEndOfDecade(Decade(-1)))
-        }
-
-        @Test
-        fun `Get the end of a decade`() {
-            assertEquals(Day(44), CALENDAR0.getEndOfDecade(Decade(0)))
-            assertEquals(Day(94), CALENDAR0.getEndOfDecade(Decade(1)))
-            assertEquals(Day(144), CALENDAR0.getEndOfDecade(Decade(2)))
         }
     }
 
@@ -459,20 +393,6 @@ class CalendarTest {
             private fun assertGetDuration(from: Date, to: Int, result: Int) {
                 assertEquals(result, CALENDAR0.getDurationInYears(from, Day(to)))
             }
-        }
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun provideStartOfDecade(): Stream<Arguments> {
-            return Stream.of(
-                Arguments.of(Decade(-2), Day(-95)),
-                Arguments.of(Decade(-1), Day(-45)),
-                Arguments.of(Decade(0), Day(0)),
-                Arguments.of(Decade(1), Day(45)),
-                Arguments.of(Decade(2), Day(95)),
-            )
         }
     }
 }
