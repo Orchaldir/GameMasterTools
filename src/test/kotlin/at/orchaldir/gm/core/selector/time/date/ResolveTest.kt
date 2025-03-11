@@ -129,6 +129,36 @@ class ResolveTest {
         }
     }
 
+    @Nested
+    inner class ResolveCenturyTest {
+        @Test
+        fun `Test without offset`() {
+            assertResolve(calendar0, -2, 0, 1)
+            assertResolve(calendar0, -1, 0, 0)
+            assertResolve(calendar0, 0, 1, 0) // 1 AD
+            assertResolve(calendar0, 1, 1, 1)
+        }
+
+        @Test
+        fun `Test with positive offset`() {
+            val calendar = createCalendar(Century(1))
+
+            assertResolve(calendar, -2, 0, 2)
+            assertResolve(calendar, -1, 0, 1)
+            assertResolve(calendar, 0, 0, 0)
+            assertResolve(calendar, 1, 1, 0) // 1 AD
+            assertResolve(calendar, 2, 1, 1)
+        }
+
+        private fun assertResolve(calendar: Calendar, inputCentury: Int, eraIndex: Int, centuryIndex: Int) {
+            val century = Century(inputCentury)
+            val displayCentury = DisplayCentury(eraIndex, centuryIndex)
+
+            assertEquals(displayCentury, calendar.resolve(century))
+            assertEquals(century, calendar.resolve(displayCentury))
+        }
+    }
+
     private fun createCalendar(date: Date) = calendar0
         .copy(eras = CalendarEras("BC", true, date, "AD", false))
 }
