@@ -129,6 +129,50 @@ class StartAndEndTest {
             assertEquals(Day(9), calendar0.getEndDayOfYear(Year(1)))
             assertEquals(Day(14), calendar0.getEndDayOfYear(Year(2)))
         }
+
+        @Nested
+        inner class GetStartYearTest {
+
+            @Test
+            fun `Get the year of a day`() {
+                assertStartYear(Day(-10), -2)
+                assertStartYear(Day(-5), -1)
+                assertStartYear(Day(0), 0)
+                assertStartYear(Day(5), 1)
+                assertStartYear(Day(10), 2)
+            }
+
+            @Test
+            fun `Get the year of a year`() {
+                assertStartYear(Year(2), 2)
+            }
+
+            @Test
+            fun `Get the start year of a decade`() {
+                assertStartYear(Decade(-2), -19)
+                assertStartYear(Decade(-1), -9)
+                assertStartYear(Decade(0), 0)
+                assertStartYear(Decade(1), 9)
+                assertStartYear(Decade(2), 19)
+            }
+
+            @Test
+            fun `Get the start year of a century`() {
+                assertStartYear(Century(-2), -199)
+                assertStartYear(Century(-1), -99)
+                assertStartYear(Century(0), 0)
+                assertStartYear(Century(1), 99)
+                assertStartYear(Century(2), 199)
+            }
+
+            private fun assertStartYear(input: Date, year: Int) {
+                val year = Year(year)
+                val display = calendar0.resolveYear(year)
+
+                assertEquals(year, calendar0.getStartYear(input))
+                assertEquals(display, calendar0.getStartDisplayYear(input))
+            }
+        }
     }
 
     @Nested

@@ -74,49 +74,33 @@ data class Calendar(
 
     fun getLastMonthIndex() = months.getSize() - 1
 
-    // year
-
-    fun getYear(date: Date): Year = when (date) {
-        is Day -> resolveYear(resolveDay(date).year)
-        is Year -> date
-        is Decade -> resolveYear(resolveDecade(date).year())
-        is Century -> resolveYear(resolveCentury(date).year())
-    }
-
-    fun getDisplayYear(date: Date): DisplayYear = when (date) {
-        is Day -> resolveDay(date).year
-        is Year -> resolveYear(date)
-        is Decade -> resolveDecade(date).year()
-        is Century -> resolveCentury(date).year()
-    }
-
     // decade
 
     fun getDecade(date: Date): Decade = when (date) {
-        is Day -> resolveDecade(resolveYear(getYear(date)).decade())
+        is Day -> resolveDecade(resolveYear(getStartYear(date)).decade())
         is Year -> resolveDecade(resolveYear(date).decade())
         is Decade -> date
-        is Century -> resolveDecade(resolveCentury(date).year().decade())
+        is Century -> resolveDecade(resolveCentury(date).startYear().decade())
     }
 
     fun getDisplayDecade(date: Date): DisplayDecade = when (date) {
-        is Day -> resolveYear(getYear(date)).decade()
+        is Day -> resolveYear(getStartYear(date)).decade()
         is Year -> resolveYear(date).decade()
         is Decade -> resolveDecade(date)
-        is Century -> resolveCentury(date).year().decade()
+        is Century -> resolveCentury(date).startYear().decade()
     }
 
     // century
 
     fun getCentury(date: Date): Century = when (date) {
-        is Day -> resolveCentury(resolveYear(getYear(date)).decade().century())
+        is Day -> resolveCentury(resolveYear(getStartYear(date)).decade().century())
         is Year -> resolveCentury(resolveYear(date).decade().century())
         is Decade -> resolveCentury(resolveDecade(date).century())
         is Century -> date
     }
 
     fun getDisplayCentury(date: Date): DisplayCentury = when (date) {
-        is Day -> resolveYear(getYear(date)).decade().century()
+        is Day -> resolveYear(getStartYear(date)).decade().century()
         is Year -> resolveYear(date).decade().century()
         is Decade -> resolveDecade(date).century()
         is Century -> resolveCentury(date)

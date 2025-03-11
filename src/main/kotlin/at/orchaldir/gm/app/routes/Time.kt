@@ -153,7 +153,7 @@ private fun HTML.showDay(call: ApplicationCall, calendarId: CalendarId, day: Day
     val backLink = call.application.href(TimeRoutes())
     val nextLink = call.application.href(TimeRoutes.ShowDay(calendar.getStartOfNextMonth(day)))
     val previousLink = call.application.href(TimeRoutes.ShowDay(calendar.getStartOfPreviousMonth(day)))
-    val yearLink = call.application.href(TimeRoutes.ShowYear(calendar.getYear(day)))
+    val yearLink = call.application.href(TimeRoutes.ShowYear(calendar.getStartYear(day)))
 
     simpleHtml("Day: " + display(calendar, displayDay)) {
         fieldLink("Calendar", call, state, calendar)
