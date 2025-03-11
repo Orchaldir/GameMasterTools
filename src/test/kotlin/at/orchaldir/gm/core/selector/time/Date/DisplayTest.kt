@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.selector.time
+package at.orchaldir.gm.core.selector.time.Date
 
 import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.date.*
