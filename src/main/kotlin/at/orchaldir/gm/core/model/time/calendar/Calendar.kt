@@ -26,6 +26,7 @@ data class Calendar(
     val months: Months = ComplexMonths(emptyList()),
     val eras: CalendarEras = CalendarEras("BC", true, Day(0), "AD", false),
     val origin: CalendarOrigin = OriginalCalendar,
+    val defaultFormat: DateFormat = DateFormat(),
 ) : ElementWithSimpleName<CalendarId> {
 
     override fun id() = id
