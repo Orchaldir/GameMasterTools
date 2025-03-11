@@ -1,10 +1,11 @@
-package at.orchaldir.gm.core.reducer
+package at.orchaldir.gm.core.reducer.time
 
 import at.orchaldir.gm.core.action.CreateCalendar
 import at.orchaldir.gm.core.action.DeleteCalendar
 import at.orchaldir.gm.core.action.UpdateCalendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.*
+import at.orchaldir.gm.core.reducer.checkRelativeDate
 import at.orchaldir.gm.core.selector.time.canDelete
 import at.orchaldir.gm.core.selector.getHolidays
 import at.orchaldir.gm.utils.doNothing

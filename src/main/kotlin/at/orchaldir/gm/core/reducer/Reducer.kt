@@ -8,6 +8,10 @@ import at.orchaldir.gm.core.reducer.item.ITEM_REDUCER
 import at.orchaldir.gm.core.reducer.magic.MAGIC_REDUCER
 import at.orchaldir.gm.core.reducer.organization.ORGANIZATION_REDUCER
 import at.orchaldir.gm.core.reducer.religion.RELIGION_REDUCER
+import at.orchaldir.gm.core.reducer.time.CREATE_CALENDAR
+import at.orchaldir.gm.core.reducer.time.DELETE_CALENDAR
+import at.orchaldir.gm.core.reducer.time.UPDATE_CALENDAR
+import at.orchaldir.gm.core.reducer.time.UPDATE_TIME
 import at.orchaldir.gm.core.reducer.world.WORLD_REDUCER
 import at.orchaldir.gm.utils.redux.Reducer
 
