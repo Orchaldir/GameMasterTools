@@ -1,6 +1,10 @@
 package at.orchaldir.gm.core.model.time
 
-sealed class DisplayDate
+sealed class DisplayDate {
+
+    abstract fun eraIndex(): Int
+
+}
 
 data class DisplayDay(
     val year: DisplayYear,
@@ -12,12 +16,16 @@ data class DisplayDay(
     constructor(eraIndex: Int, yearIndex: Int, monthIndex: Int, dayIndex: Int, weekdayIndex: Int? = null) :
             this(DisplayYear(eraIndex, yearIndex), monthIndex, dayIndex, weekdayIndex)
 
+    override fun eraIndex() = year.eraIndex
+
 }
 
 data class DisplayYear(
     val eraIndex: Int,
     val yearIndex: Int,
 ) : DisplayDate() {
+
+    override fun eraIndex() = eraIndex
 
     fun decadeIndex() = if (yearIndex <= 8) {
         0
@@ -32,6 +40,8 @@ data class DisplayDecade(
     val eraIndex: Int,
     val decadeIndex: Int,
 ) : DisplayDate() {
+
+    override fun eraIndex() = eraIndex
 
     fun startYearIndex() = if (eraIndex == 0) {
         if (decadeIndex == 0) {
@@ -57,6 +67,8 @@ data class DisplayCentury(
     val eraIndex: Int,
     val centuryIndex: Int,
 ) : DisplayDate() {
+
+    override fun eraIndex() = eraIndex
 
     fun startYearIndex() = if (eraIndex == 0) {
         if (centuryIndex == 0) {
