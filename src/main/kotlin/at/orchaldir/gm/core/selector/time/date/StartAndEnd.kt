@@ -47,3 +47,13 @@ fun Calendar.getDisplayStartOfDecade(decade: Decade) = getStartOfDecade(resolveD
 fun Calendar.getStartOfDecade(decade: DisplayDecade) = DisplayDay(decade.year(), 0, 0, null)
 
 fun Calendar.getEndOfDecade(decade: Decade) = getStartOfDecade(decade.nextDecade()).previousDay()
+
+// century
+
+fun Calendar.getStartOfCentury(century: Century) = resolveDay(getDisplayStartOfCentury(century))
+
+fun Calendar.getDisplayStartOfCentury(century: Century) = getStartOfCentury(resolveCentury(century))
+
+fun Calendar.getStartOfCentury(century: DisplayCentury) = DisplayDay(century.year(), 0, 0, null)
+
+fun Calendar.getEndOfCentury(century: Century) = getStartOfCentury(century.nextDecade()).previousDay()

@@ -136,14 +136,6 @@ data class Calendar(
         is Century -> resolveCentury(date)
     }
 
-    fun getStartOfCentury(century: Century) = resolveDay(getDisplayStartOfCentury(century))
-
-    fun getDisplayStartOfCentury(century: Century) = getStartOfCentury(resolveCentury(century))
-
-    fun getStartOfCentury(century: DisplayCentury) = DisplayDay(century.year(), 0, 0, null)
-
-    fun getEndOfCentury(century: Century) = getStartOfCentury(century.nextDecade()).previousDay()
-
     // compare dates
 
     fun compareToOptional(a: Date?, b: Date?): Int = if (a != null && b != null) {
