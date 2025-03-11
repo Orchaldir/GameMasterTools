@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.holiday
 
-import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.calendar.*
+import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.selector.time.date.resolveDay
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
