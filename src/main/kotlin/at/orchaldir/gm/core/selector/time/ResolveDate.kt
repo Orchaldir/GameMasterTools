@@ -1,6 +1,7 @@
-package at.orchaldir.gm.core.model.time.calendar
+package at.orchaldir.gm.core.selector.time
 
 import at.orchaldir.gm.core.model.time.*
+import at.orchaldir.gm.core.model.time.calendar.Calendar
 import kotlin.math.absoluteValue
 
 
