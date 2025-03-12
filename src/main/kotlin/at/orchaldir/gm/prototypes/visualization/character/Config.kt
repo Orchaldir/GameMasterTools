@@ -54,8 +54,8 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         GlassesConfig(
             SizeConfig(
                 Factor(0.1f),
+                Factor(0.15f),
                 Factor(0.2f),
-                Factor(0.3f),
             ),
             Factor(0.02f),
             Factor(0.01f),

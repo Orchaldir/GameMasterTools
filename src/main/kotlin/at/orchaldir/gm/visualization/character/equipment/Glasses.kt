@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.LensShape
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.model.*
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -50,16 +51,24 @@ fun visualizeLens(
     center: Point2d,
 ) {
     val glassesOptions = state.config.equipment.glasses
+    val renderer = state.renderer.getLayer()
 
     when (glasses.lensShape) {
         LensShape.Circle -> {
             val radius = state.aabb.convertHeight(glassesOptions.size.medium)
-            state.renderer.getLayer().renderCircle(center, radius, renderOptions)
+            renderer.renderCircle(center, radius, renderOptions)
         }
 
         LensShape.Rectangle -> doNothing()
         LensShape.RoundedRectangle -> doNothing()
         LensShape.RoundedSquare -> doNothing()
-        LensShape.Square -> doNothing()
+        LensShape.Square -> {
+            val half = state.aabb.convertHeight(glassesOptions.size.medium)
+            val builder = Polygon2dBuilder()
+            builder.addSquare(center, half)
+            val polygon = builder.build()
+
+            renderer.renderPolygon(polygon, renderOptions)
+        }
     }
 }
