@@ -36,9 +36,29 @@ fun visualizeGlasses(
         FillAndBorder(glasses.lensFill.toRender(), lineOptions)
     }
 
-    visualizeLens(state, glasses, options, left)
-    visualizeLens(state, glasses, options, right)
-    visualizeFrame(state, lineOptions)
+    if (glasses.lensShape == LensShape.WarpAround) {
+        visualizeWarpAround(state, options)
+    } else {
+        visualizeLens(state, glasses, options, left)
+        visualizeLens(state, glasses, options, right)
+        visualizeFrame(state, lineOptions)
+    }
+}
+
+fun visualizeWarpAround(
+    state: CharacterRenderState,
+    renderOptions: RenderOptions,
+) {
+    val glassesOptions = state.config.equipment.glasses
+    val renderer = state.renderer.getLayer()
+    val half = glassesOptions.size.small
+    val eyeY = state.config.head.eyes.eyeY
+    val polygon = Polygon2dBuilder()
+        .addMirroredPoints(state.aabb, FULL, eyeY + half)
+        .addMirroredPoints(state.aabb, FULL, eyeY - half)
+        .build()
+
+    renderer.renderPolygon(polygon, renderOptions)
 }
 
 fun visualizeLens(
@@ -77,6 +97,8 @@ fun visualizeLens(
 
             renderer.renderPolygon(polygon, renderOptions)
         }
+
+        LensShape.WarpAround -> error("WarpAround is not supported by this function!")
     }
 }
 

@@ -6,4 +6,5 @@ enum class LensShape {
     RoundedRectangle,
     RoundedSquare,
     Square,
+    WarpAround,
 }
