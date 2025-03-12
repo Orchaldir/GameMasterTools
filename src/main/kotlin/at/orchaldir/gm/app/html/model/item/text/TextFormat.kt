@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.model.text
+package at.orchaldir.gm.app.html.model.item.text
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
