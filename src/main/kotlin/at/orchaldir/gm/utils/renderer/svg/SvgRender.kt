@@ -244,6 +244,7 @@ class SvgRenderer(
             val color = toSvg(fill.color)
             "$color;fill-opacity:${fill.opacity.value}"
         }
+
         else -> {
             val name = patterns.computeIfAbsent(fill) { "pattern_${patterns.size}" }
             "url(#$name)"

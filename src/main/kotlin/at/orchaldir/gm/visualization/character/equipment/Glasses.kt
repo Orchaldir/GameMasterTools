@@ -87,11 +87,13 @@ fun visualizeLens(
 
             renderer.renderRoundedPolygon(polygon, renderOptions)
         }
+
         LensShape.RoundedSquare -> {
             val polygon = createSquareLens(state, glassesOptions, center)
 
             renderer.renderRoundedPolygon(polygon, renderOptions)
         }
+
         LensShape.Square -> {
             val polygon = createSquareLens(state, glassesOptions, center)
 

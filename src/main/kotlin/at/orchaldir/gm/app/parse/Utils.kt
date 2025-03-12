@@ -1,8 +1,12 @@
 package at.orchaldir.gm.app.parse
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.CENTER
+import at.orchaldir.gm.app.OFFSET
 import at.orchaldir.gm.app.html.model.parseDistance
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.model.util.OneOrNone
+import at.orchaldir.gm.core.model.util.Rarity
+import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.utils.math.FULL

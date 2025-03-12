@@ -5,7 +5,6 @@ import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -17,6 +16,7 @@ fun HtmlBlockTag.showFill(fill: Fill) {
             field("Solid Fill", fill.color)
             field("Opacity", fill.opacity)
         }
+
         is VerticalStripes -> field("Vertical Stripes", "${fill.color0} & ${fill.color1}")
         is HorizontalStripes -> field("Horizontal Stripes", "${fill.color0} & ${fill.color1}")
         is Tiles -> {
@@ -47,6 +47,7 @@ fun HtmlBlockTag.selectFill(fill: Fill) {
                 true,
             )
         }
+
         is VerticalStripes -> selectStripes(fill.color0, fill.color1, fill.width)
         is HorizontalStripes -> selectStripes(fill.color0, fill.color1, fill.width)
         is Tiles -> {
