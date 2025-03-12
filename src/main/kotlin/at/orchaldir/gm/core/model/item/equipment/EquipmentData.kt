@@ -112,7 +112,8 @@ data class Footwear(
 @Serializable
 @SerialName("Glasses")
 data class Glasses(
-    val style: GloveStyle = GloveStyle.Hand,
+    val lensShape: LensShape = LensShape.RoundedRectangle,
+    val frameType: FrameType = FrameType.FullRimmed,
     val frameFill: Fill = Solid(Color.Navy),
     val lensFill: Fill = Solid(Color.SkyBlue),
     val frameMaterial: MaterialId = MaterialId(0),
