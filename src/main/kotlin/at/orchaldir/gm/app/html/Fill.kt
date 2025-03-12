@@ -37,7 +37,15 @@ fun HtmlBlockTag.selectFill(fill: Fill) {
         is Solid -> selectColor(fill.color)
         is Transparent -> {
             selectColor(fill.color)
-            selectFloat("Opacity", fill.opacity.value, 0.0f, 1.0f, 0.01f, combine(FILL, OPACITY))
+            selectFloat(
+                "Opacity",
+                fill.opacity.value,
+                0.0f,
+                1.0f,
+                0.01f,
+                combine(FILL, OPACITY),
+                true,
+            )
         }
         is VerticalStripes -> selectStripes(fill.color0, fill.color1, fill.width)
         is HorizontalStripes -> selectStripes(fill.color0, fill.color1, fill.width)

@@ -179,12 +179,12 @@ private fun FORM.editEquipmentData(
         }
 
         is Glasses -> {
-            showDetails("Lenses") {
+            showDetails("Lenses", true) {
                 selectValue("Shape", SHAPE, LensShape.entries, data.lensShape, true)
                 selectFill(data.lensFill)
                 selectMaterial(state, data.lensMaterial, combine(SHAPE, MATERIAL))
             }
-            showDetails("Frame") {
+            showDetails("Frame", true) {
                 selectValue("Shape", FRAME, FrameType.entries, data.frameType, true)
                 selectColor(data.frameColor, selectId = combine(FRAME, COLOR))
                 selectMaterial(state, data.frameMaterial, combine(FRAME, MATERIAL))
