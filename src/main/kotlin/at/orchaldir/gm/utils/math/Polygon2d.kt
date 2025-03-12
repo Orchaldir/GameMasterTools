@@ -15,13 +15,15 @@ data class Polygon2dBuilder(
     private val rightCorners: MutableList<Point2d> = mutableListOf(),
 ) {
 
-    fun addMirroredPoints(aabb: AABB, width: Factor, vertical: Factor, isSharp: Boolean = false) {
+    fun addMirroredPoints(aabb: AABB, width: Factor, vertical: Factor, isSharp: Boolean = false): Polygon2dBuilder {
         val (left, right) = aabb.getMirroredPoints(width, vertical)
 
         addPoints(left, right, isSharp)
+
+        return this
     }
 
-    fun addPoints(left: Point2d, right: Point2d, isSharp: Boolean = false) {
+    fun addPoints(left: Point2d, right: Point2d, isSharp: Boolean = false): Polygon2dBuilder {
         leftCorners.add(left)
         rightCorners.add(right)
 
@@ -29,33 +31,43 @@ data class Polygon2dBuilder(
             leftCorners.add(left)
             rightCorners.add(right)
         }
+
+        return this
     }
 
-    fun addLeftPoint(aabb: AABB, horizontal: Factor, vertical: Factor, isSharp: Boolean = false) {
+    fun addLeftPoint(aabb: AABB, horizontal: Factor, vertical: Factor, isSharp: Boolean = false): Polygon2dBuilder {
         addLeftPoint(aabb.getPoint(horizontal, vertical), isSharp)
+
+        return this
     }
 
-    fun addLeftPoint(point: Point2d, isSharp: Boolean = false) {
+    fun addLeftPoint(point: Point2d, isSharp: Boolean = false): Polygon2dBuilder {
         leftCorners.add(point)
 
         if (isSharp) {
             leftCorners.add(point)
         }
+
+        return this
     }
 
-    fun addRightPoint(aabb: AABB, horizontal: Factor, vertical: Factor, isSharp: Boolean = false) {
+    fun addRightPoint(aabb: AABB, horizontal: Factor, vertical: Factor, isSharp: Boolean = false): Polygon2dBuilder {
         addRightPoint(aabb.getPoint(horizontal, vertical), isSharp)
+
+        return this
     }
 
-    fun addRightPoint(point: Point2d, isSharp: Boolean = false) {
+    fun addRightPoint(point: Point2d, isSharp: Boolean = false): Polygon2dBuilder {
         rightCorners.add(point)
 
         if (isSharp) {
             rightCorners.add(point)
         }
+
+        return this
     }
 
-    fun addSquare(center: Point2d, half: Distance) {
+    fun addSquare(center: Point2d, half: Distance): Polygon2dBuilder {
         val bottomLeft = center.minusWidth(half).addHeight(half)
         val bottomRight = center.plus(half)
         val centerLeft = center.minus(half)
@@ -63,6 +75,8 @@ data class Polygon2dBuilder(
 
         addPoints(bottomLeft, bottomRight)
         addPoints(centerLeft, centerRight)
+
+        return this
     }
 
     fun createSharpCorners(index: Int): Boolean {

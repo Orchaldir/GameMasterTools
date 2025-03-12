@@ -64,9 +64,9 @@ fun visualizeLens(
         LensShape.RoundedSquare -> doNothing()
         LensShape.Square -> {
             val half = state.aabb.convertHeight(glassesOptions.size.medium)
-            val builder = Polygon2dBuilder()
-            builder.addSquare(center, half)
-            val polygon = builder.build()
+            val polygon = Polygon2dBuilder()
+                .addSquare(center, half)
+                .build()
 
             renderer.renderPolygon(polygon, renderOptions)
         }
