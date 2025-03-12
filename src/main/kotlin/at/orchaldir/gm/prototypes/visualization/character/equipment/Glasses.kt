@@ -3,6 +3,7 @@ package at.orchaldir.gm.prototypes.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
+import at.orchaldir.gm.core.model.character.appearance.NormalMouth
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.item.equipment.Glasses
 import at.orchaldir.gm.core.model.item.equipment.style.FrameType
@@ -18,7 +19,6 @@ fun main() {
         CHARACTER_CONFIG,
         addNames(FrameType.entries),
         addNames(LensShape.entries),
-        true,
     ) { distance, lensShape, frameType ->
         Pair(createAppearance(distance), listOf(Glasses(lensShape, frameType)))
     }
@@ -29,6 +29,7 @@ private fun createAppearance(distance: Distance) =
         Head(
             NormalEars(),
             TwoEyes(),
+            mouth = NormalMouth(),
         ),
         distance,
     )
