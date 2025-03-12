@@ -116,10 +116,10 @@ data class Footwear(
 data class Glasses(
     val lensShape: LensShape = LensShape.RoundedRectangle,
     val frameType: FrameType = FrameType.FullRimmed,
-    val frameFill: Color = Color.Navy,
     val lensFill: Fill = Transparent(Color.SkyBlue, Factor(0.5f)),
-    val frameMaterial: MaterialId = MaterialId(0),
+    val frameColor: Color = Color.Navy,
     val lensMaterial: MaterialId = MaterialId(0),
+    val frameMaterial: MaterialId = MaterialId(0),
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = frameMaterial == id || lensMaterial == id

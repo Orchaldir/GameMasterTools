@@ -18,6 +18,7 @@ import io.ktor.server.application.*
 import io.ktor.server.util.*
 import kotlinx.html.BODY
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 // show
 
@@ -29,7 +30,7 @@ fun BODY.showEquipmentData(
     field("Type", equipment.data.getType())
 
     when (val data = equipment.data) {
-        NoEquipment, is Glasses -> doNothing()
+        NoEquipment -> doNothing()
         is Coat -> {
             field("Length", data.length)
             field("Neckline Style", data.necklineStyle)
@@ -54,6 +55,19 @@ fun BODY.showEquipmentData(
                 field("Sole Color", data.sole)
             }
             fieldLink("Material", call, state, data.material)
+        }
+
+        is Glasses -> {
+            showDetails("Lenses") {
+                field("Shape", data.lensShape)
+                showFill(data.lensFill)
+                fieldLink("Material", call, state, data.lensMaterial)
+            }
+            showDetails("Frame") {
+                field("Type", data.frameType)
+                field("Color", data.frameColor)
+                fieldLink("Material", call, state, data.frameMaterial)
+            }
         }
 
         is Gloves -> {
@@ -134,7 +148,7 @@ private fun FORM.editEquipmentData(
     equipment: Equipment,
 ) {
     when (val data = equipment.data) {
-        NoEquipment, is Glasses -> doNothing()
+        NoEquipment -> doNothing()
         is Coat -> {
             selectValue("Length", LENGTH, OuterwearLength.entries, data.length, true)
             selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
@@ -162,6 +176,19 @@ private fun FORM.editEquipmentData(
                 selectColor(data.sole, "Sole Color", EQUIPMENT_COLOR_1)
             }
             selectMaterial(state, data.material)
+        }
+
+        is Glasses -> {
+            showDetails("Lenses") {
+                selectValue("Shape", SHAPE, LensShape.entries, data.lensShape, true)
+                selectFill(data.lensFill)
+                selectMaterial(state, data.lensMaterial, combine(SHAPE, MATERIAL))
+            }
+            showDetails("Frame") {
+                selectValue("Shape", FRAME, FrameType.entries, data.frameType, true)
+                selectColor(data.frameColor, selectId = combine(FRAME, COLOR))
+                selectMaterial(state, data.frameMaterial, combine(FRAME, MATERIAL))
+            }
         }
 
         is Gloves -> {
@@ -235,11 +262,12 @@ private fun FORM.selectSleeveStyle(options: Collection<SleeveStyle>, current: Sl
     selectValue("Sleeve Style", SLEEVE_STYLE, options, current, true)
 }
 
-private fun FORM.selectMaterial(
+private fun HtmlBlockTag.selectMaterial(
     state: State,
     materialId: MaterialId,
+    param: String = MATERIAL,
 ) {
-    selectElement(state, "Material", MATERIAL, state.getMaterialStorage().getAll(), materialId)
+    selectElement(state, "Material", param, state.getMaterialStorage().getAll(), materialId)
 }
 
 // parse
@@ -256,7 +284,7 @@ fun parseEquipment(id: EquipmentId, parameters: Parameters): Equipment {
 
 fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.None)) {
-        EquipmentDataType.None, EquipmentDataType.Glasses -> NoEquipment
+        EquipmentDataType.None -> NoEquipment
         EquipmentDataType.Coat -> Coat(
             parse(parameters, LENGTH, OuterwearLength.Hip),
             parse(parameters, NECKLINE_STYLE, NecklineStyle.DeepV),
@@ -273,6 +301,15 @@ fun parseEquipmentData(parameters: Parameters) =
             parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
             parse(parameters, EQUIPMENT_COLOR_1, Color.SaddleBrown),
             parseMaterialId(parameters, MATERIAL),
+        )
+
+        EquipmentDataType.Glasses -> Glasses(
+            parse(parameters, SHAPE, LensShape.Rectangle),
+            parse(parameters, FRAME, FrameType.FullRimmed),
+            parseFill(parameters),
+            parse(parameters, combine(FRAME, COLOR), Color.Navy),
+            parseMaterialId(parameters, combine(SHAPE, MATERIAL)),
+            parseMaterialId(parameters, combine(FRAME, MATERIAL)),
         )
 
         EquipmentDataType.Gloves -> Gloves(

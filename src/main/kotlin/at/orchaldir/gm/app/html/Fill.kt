@@ -30,7 +30,7 @@ fun HtmlBlockTag.showFill(fill: Fill) {
 
 // edit
 
-fun FORM.selectFill(fill: Fill) {
+fun HtmlBlockTag.selectFill(fill: Fill) {
     selectValue("Fill Type", combine(FILL, TYPE), FillType.entries, fill.getType(), true)
 
     when (fill) {
@@ -69,13 +69,13 @@ fun FORM.selectFill(fill: Fill) {
     }
 }
 
-private fun FORM.selectStripes(color0: Color, color1: Color, width: UByte) {
+private fun HtmlBlockTag.selectStripes(color0: Color, color1: Color, width: UByte) {
     selectColor(color0, "1.Stripe Color", combine(FILL, COLOR, 0), Color.entries - color1)
     selectColor(color1, "2.Stripe Color", combine(FILL, COLOR, 1), Color.entries - color0)
     selectInt("Stripe Width", width.toInt(), 1, 10, 1, combine(PATTERN, WIDTH), true)
 }
 
-fun FORM.selectColor(
+fun HtmlBlockTag.selectColor(
     color: Color,
     label: String = "Color",
     selectId: String = combine(FILL, COLOR, 0),
