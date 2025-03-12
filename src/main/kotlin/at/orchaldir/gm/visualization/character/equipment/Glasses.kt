@@ -60,22 +60,44 @@ fun visualizeLens(
             renderer.renderCircle(center, radius, renderOptions)
         }
 
-        LensShape.Rectangle -> doNothing()
-        LensShape.RoundedRectangle -> doNothing()
+        LensShape.Rectangle -> {
+            val polygon = createRectangleLens(state, glassesOptions, center)
+
+            renderer.renderPolygon(polygon, renderOptions)
+        }
+
+        LensShape.RoundedRectangle -> {
+            val polygon = createRectangleLens(state, glassesOptions, center)
+
+            renderer.renderRoundedPolygon(polygon, renderOptions)
+        }
         LensShape.RoundedSquare -> {
-            val polygon = createSquare(state, glassesOptions, center)
+            val polygon = createSquareLens(state, glassesOptions, center)
 
             renderer.renderRoundedPolygon(polygon, renderOptions)
         }
         LensShape.Square -> {
-            val polygon = createSquare(state, glassesOptions, center)
+            val polygon = createSquareLens(state, glassesOptions, center)
 
             renderer.renderPolygon(polygon, renderOptions)
         }
     }
 }
 
-private fun createSquare(
+private fun createRectangleLens(
+    state: CharacterRenderState,
+    glassesOptions: GlassesConfig,
+    center: Point2d,
+): Polygon2d {
+    val halfSmall = state.aabb.convertHeight(glassesOptions.size.small)
+    val halfMedium = state.aabb.convertHeight(glassesOptions.size.medium)
+
+    return Polygon2dBuilder()
+        .addRectangle(center, halfMedium, halfSmall)
+        .build()
+}
+
+private fun createSquareLens(
     state: CharacterRenderState,
     glassesOptions: GlassesConfig,
     center: Point2d,

@@ -67,6 +67,18 @@ data class Polygon2dBuilder(
         return this
     }
 
+    fun addRectangle(center: Point2d, halfWidth: Distance, halfHeight: Distance): Polygon2dBuilder {
+        val bottomLeft = center.minusWidth(halfWidth).addHeight(halfHeight)
+        val bottomRight = center.addWidth(halfWidth).addHeight(halfHeight)
+        val centerLeft = center.minusWidth(halfWidth).minusHeight(halfHeight)
+        val centerRight = center.addWidth(halfWidth).minusHeight(halfHeight)
+
+        addPoints(bottomLeft, bottomRight)
+        addPoints(centerLeft, centerRight)
+
+        return this
+    }
+
     fun addSquare(center: Point2d, half: Distance): Polygon2dBuilder {
         val bottomLeft = center.minusWidth(half).addHeight(half)
         val bottomRight = center.plus(half)
