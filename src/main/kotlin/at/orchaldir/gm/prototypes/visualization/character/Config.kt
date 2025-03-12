@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation.Companion.fromDegree
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RGB
+import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.SizeConfig.Companion.withFactor
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.appearance.*
@@ -48,6 +49,15 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             Factor(0.7f),
             Factor(0.025f),
             Factor(0.02f),
+        ),
+        GlassesConfig(
+            SizeConfig(
+                Factor(0.125f),
+                Factor(0.175f),
+                Factor(0.2f),
+            ),
+            Factor(0.02f),
+            Factor(0.01f),
         ),
         HatConfig(
             Factor(0.1f),
@@ -94,6 +104,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         ),
         Factor(0.45f),
         EyesConfig(
+            Factor(0.45f),
             withFactor(0.2f, 0.3f, 0.4f),
             withFactor(0.3f, 0.45f, 0.5f),
             Factor(0.7f),
@@ -101,7 +112,6 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             Factor(0.5f),
             Factor(0.2f),
         ),
-        Factor(0.45f),
         HairConfig(
             Factor(1.3f),
             Factor(-0.2f),

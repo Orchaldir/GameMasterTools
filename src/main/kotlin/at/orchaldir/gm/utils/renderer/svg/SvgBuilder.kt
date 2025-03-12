@@ -102,6 +102,7 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
     private fun addPatternLines(renderer: SvgRenderer, fill: RenderFill, name: String) {
         when (fill) {
             is RenderSolid -> error("Solid is not a pattern!")
+            is RenderTransparent -> error("Transparent is not a pattern!")
             is RenderVerticalStripes -> addStripes(renderer, name, fill.color0, fill.color1, fill.width)
             is RenderHorizontalStripes -> addStripes(
                 renderer,

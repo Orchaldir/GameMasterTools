@@ -46,15 +46,9 @@ private fun createHornOfLine(
     position: Point2d,
 ): Polygon2d {
     val builder = Polygon2dBuilder()
-
-    val bottomLeft = position.minusWidth(half).addHeight(half)
-    val bottomRight = position.plus(half)
-    val centerLeft = position.minus(half)
-    val centerRight = position.addWidth(half).minusHeight(half)
     val top = position.minusHeight(half + length)
 
-    builder.addPoints(bottomLeft, bottomRight)
-    builder.addPoints(centerLeft, centerRight)
+    builder.addSquare(position, half)
     builder.addLeftPoint(top, true)
 
     return builder.build()

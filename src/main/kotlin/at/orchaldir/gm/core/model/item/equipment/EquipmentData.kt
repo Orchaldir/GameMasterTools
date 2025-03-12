@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Fill
 import at.orchaldir.gm.core.model.util.Solid
+import at.orchaldir.gm.core.model.util.Transparent
+import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -17,6 +19,7 @@ enum class EquipmentDataType {
     Coat,
     Dress,
     Footwear,
+    Glasses,
     Gloves,
     Hat,
     Pants,
@@ -28,6 +31,7 @@ enum class EquipmentDataType {
         Coat -> setOf(Outerwear)
         Dress -> setOf(Bottom, Top)
         Footwear -> setOf(Foot)
+        Glasses -> setOf(Eyewear)
         Gloves -> setOf(Handwear)
         Hat -> setOf(Headwear)
         Pants -> setOf(Bottom)
@@ -46,6 +50,7 @@ sealed class EquipmentData {
         is Coat -> EquipmentDataType.Coat
         is Dress -> EquipmentDataType.Dress
         is Footwear -> EquipmentDataType.Footwear
+        is Glasses -> EquipmentDataType.Glasses
         is Gloves -> EquipmentDataType.Gloves
         is Hat -> EquipmentDataType.Hat
         is Pants -> EquipmentDataType.Pants
@@ -104,6 +109,21 @@ data class Footwear(
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
+}
+
+@Serializable
+@SerialName("Glasses")
+data class Glasses(
+    val lensShape: LensShape = LensShape.RoundedRectangle,
+    val frameType: FrameType = FrameType.FullRimmed,
+    val lensFill: Fill = Transparent(Color.SkyBlue, Factor(0.5f)),
+    val frameColor: Color = Color.Navy,
+    val lensMaterial: MaterialId = MaterialId(0),
+    val frameMaterial: MaterialId = MaterialId(0),
+) : EquipmentData() {
+
+    override fun contains(id: MaterialId) = frameMaterial == id || lensMaterial == id
+    override fun getMaterials() = setOf(frameMaterial, lensMaterial)
 }
 
 @Serializable

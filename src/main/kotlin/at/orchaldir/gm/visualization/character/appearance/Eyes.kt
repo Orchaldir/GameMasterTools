@@ -12,6 +12,7 @@ import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 data class EyesConfig(
+    val eyeY: Factor,
     private val diameter: SizeConfig<Factor>,
     private val distanceBetweenEyes: SizeConfig<Factor>,
     private val almondHeight: Factor,
@@ -31,6 +32,10 @@ data class EyesConfig(
     }
 
     fun getDistanceBetweenEyes(size: Size = Size.Medium) = distanceBetweenEyes.convert(size)
+
+    fun getOneEyeCenter(aabb: AABB) = aabb.getPoint(CENTER, eyeY)
+    fun getTwoEyesCenter(aabb: AABB) = aabb
+        .getMirroredPoints(getDistanceBetweenEyes(), eyeY)
 }
 
 fun visualizeEyes(state: CharacterRenderState, head: Head) {
@@ -44,7 +49,7 @@ fun visualizeEyes(state: CharacterRenderState, head: Head) {
     when (head.eyes) {
         NoEyes -> doNothing()
         is OneEye -> {
-            val center = aabb.getPoint(CENTER, config.head.eyeY)
+            val center = config.head.eyes.getOneEyeCenter(aabb)
             val size = config.head.eyes.getEyeSize(aabb, head.eyes.eye.getShape(), head.eyes.size)
 
             visualizeEye(state, center, size, head.eyes.eye)
@@ -52,8 +57,7 @@ fun visualizeEyes(state: CharacterRenderState, head: Head) {
 
         is TwoEyes -> {
             val size = config.head.eyes.getEyeSize(aabb, head.eyes.eye.getShape(), Size.Small)
-            val distance = config.head.eyes.getDistanceBetweenEyes()
-            val (left, right) = aabb.getMirroredPoints(distance, config.head.eyeY)
+            val (left, right) = config.head.eyes.getTwoEyesCenter(aabb)
 
             visualizeEye(state, left, size, head.eyes.eye)
             visualizeEye(state, right, size, head.eyes.eye)

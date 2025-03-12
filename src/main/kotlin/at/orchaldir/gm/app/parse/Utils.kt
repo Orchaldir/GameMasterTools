@@ -1,8 +1,12 @@
 package at.orchaldir.gm.app.parse
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.CENTER
+import at.orchaldir.gm.app.OFFSET
 import at.orchaldir.gm.app.html.model.parseDistance
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.model.util.OneOrNone
+import at.orchaldir.gm.core.model.util.Rarity
+import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.utils.math.FULL
@@ -90,36 +94,6 @@ private fun <T> parseRarityMap(
         val rarity = Rarity.valueOf(parts[1])
         Pair(value, rarity)
     }
-
-//
-
-fun parseFill(parameters: Parameters): Fill {
-    val type = parse(parameters, combine(FILL, TYPE), FillType.Solid)
-
-    return when (type) {
-        FillType.Solid -> Solid(parse(parameters, combine(FILL, COLOR, 0), Color.SkyBlue))
-        FillType.VerticalStripes -> VerticalStripes(
-            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
-            parse(parameters, combine(FILL, COLOR, 1), Color.White),
-            parseWidth(parameters),
-        )
-
-        FillType.HorizontalStripes -> HorizontalStripes(
-            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
-            parse(parameters, combine(FILL, COLOR, 1), Color.White),
-            parseWidth(parameters),
-        )
-
-        FillType.Tiles -> Tiles(
-            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
-            parse<Color>(parameters, combine(FILL, COLOR, 1)),
-            parseFloat(parameters, combine(PATTERN, TILE), 1.0f),
-            parseFactor(parameters, combine(PATTERN, BORDER), Factor(0.1f))
-        )
-    }
-}
-
-private fun parseWidth(parameters: Parameters) = parseUByte(parameters, combine(PATTERN, WIDTH), 1u)
 
 //
 
