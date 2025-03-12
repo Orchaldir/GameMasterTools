@@ -21,7 +21,7 @@ fun parseEquipment(id: EquipmentId, parameters: Parameters): Equipment {
 
 fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.None)) {
-        EquipmentDataType.None -> NoEquipment
+        EquipmentDataType.None, EquipmentDataType.Glasses -> NoEquipment
         EquipmentDataType.Coat -> Coat(
             parse(parameters, LENGTH, OuterwearLength.Hip),
             parse(parameters, NECKLINE_STYLE, NecklineStyle.DeepV),

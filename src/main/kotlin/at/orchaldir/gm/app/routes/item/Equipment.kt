@@ -188,7 +188,7 @@ private fun BODY.showEquipmentData(
     field("Type", equipment.data.getType())
 
     when (val data = equipment.data) {
-        NoEquipment -> doubleArrayOf()
+        NoEquipment, is Glasses -> doNothing()
         is Coat -> {
             field("Length", data.length)
             field("Neckline Style", data.necklineStyle)
@@ -295,7 +295,7 @@ private fun HTML.showEquipmentEditor(
             )
 
             when (val data = equipment.data) {
-                NoEquipment -> doNothing()
+                NoEquipment, is Glasses -> doNothing()
                 is Coat -> {
                     selectValue("Length", LENGTH, OuterwearLength.entries, data.length, true)
                     selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
