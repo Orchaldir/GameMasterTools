@@ -4,11 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.Glasses
 import at.orchaldir.gm.core.model.item.equipment.style.FrameType
 import at.orchaldir.gm.core.model.item.equipment.style.LensShape
-import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Polygon2d
-import at.orchaldir.gm.utils.math.Polygon2dBuilder
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.*
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -21,8 +17,7 @@ data class GlassesConfig(
 
     fun getFrameWidth(type: FrameType) = when (type) {
         FrameType.FullRimmed -> fullRimmedWidth
-        FrameType.Wire -> wireWidth
-        else -> error("Frame type $type has no width!")
+        else -> wireWidth
     }
 }
 
@@ -32,17 +27,18 @@ fun visualizeGlasses(
     glasses: Glasses,
 ) {
     val (left, right) = state.config.head.eyes.getTwoEyesCenter(state.aabb)
+    val widthFactor = state.config.equipment.glasses.getFrameWidth(glasses.frameType)
+    val width = state.aabb.convertHeight(widthFactor)
+    val lineOptions = LineOptions(glasses.frameFill.toRender(), width)
     val options = if (glasses.frameType == FrameType.Rimless) {
         NoBorder(glasses.lensFill.toRender())
     } else {
-        val widthFactor = state.config.equipment.glasses.getFrameWidth(glasses.frameType)
-        val width = state.aabb.convertHeight(widthFactor)
-        val line = LineOptions(glasses.frameFill.toRender(), width)
-        FillAndBorder(glasses.lensFill.toRender(), line)
+        FillAndBorder(glasses.lensFill.toRender(), lineOptions)
     }
 
     visualizeLens(state, glasses, options, left)
     visualizeLens(state, glasses, options, right)
+    visualizeFrame(state, lineOptions)
 }
 
 fun visualizeLens(
@@ -107,4 +103,21 @@ private fun createSquareLens(
     return Polygon2dBuilder()
         .addSquare(center, half)
         .build()
+}
+
+fun visualizeFrame(
+    state: CharacterRenderState,
+    lineOptions: LineOptions,
+) {
+    val width = state.config.equipment.glasses.size.medium * 2.0f
+    val eyesConfig = state.config.head.eyes
+    val distanceBetweenEyes = eyesConfig.getDistanceBetweenEyes()
+    val (headLeft, headRight) = state.aabb.getMirroredPoints(FULL, eyesConfig.eyeY)
+    val (outerLeft, outerRight) = state.aabb.getMirroredPoints(distanceBetweenEyes + width, eyesConfig.eyeY)
+    val (innerLeft, innerRight) = state.aabb.getMirroredPoints(distanceBetweenEyes - width, eyesConfig.eyeY)
+    val renderer = state.renderer.getLayer()
+
+    renderer.renderLine(listOf(headLeft, outerLeft), lineOptions)
+    renderer.renderLine(listOf(innerLeft, innerRight), lineOptions)
+    renderer.renderLine(listOf(headRight, outerRight), lineOptions)
 }
