@@ -15,7 +15,6 @@ data class HeadConfig(
     val ears: EarConfig,
     val earY: Factor,
     val eyes: EyesConfig,
-    val eyeY: Factor,
     val hair: HairConfig,
     val hairlineY: Factor,
     val hatY: Factor,

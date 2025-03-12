@@ -2,6 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.SkinColor
 import at.orchaldir.gm.core.model.character.appearance.horn.*
+import at.orchaldir.gm.core.model.item.equipment.style.FrameType
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
@@ -55,7 +56,9 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
                 Factor(0.1f),
                 Factor(0.2f),
                 Factor(0.3f),
-            )
+            ),
+            Factor(0.02f),
+            Factor(0.01f),
         ),
         HatConfig(
             Factor(0.1f),
@@ -102,6 +105,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         ),
         Factor(0.45f),
         EyesConfig(
+            Factor(0.45f),
             withFactor(0.2f, 0.3f, 0.4f),
             withFactor(0.3f, 0.45f, 0.5f),
             Factor(0.7f),
@@ -109,7 +113,6 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             Factor(0.5f),
             Factor(0.2f),
         ),
-        Factor(0.45f),
         HairConfig(
             Factor(1.3f),
             Factor(-0.2f),
