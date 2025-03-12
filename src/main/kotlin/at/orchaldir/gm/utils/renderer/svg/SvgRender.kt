@@ -240,6 +240,10 @@ class SvgRenderer(
 
     private fun toSvg(fill: RenderFill) = when (fill) {
         is RenderSolid -> toSvg(fill.color)
+        is RenderTransparent -> {
+            val color = toSvg(fill.color)
+            "$color;fill-opacity:${fill.opacity.value}"
+        }
         else -> {
             val name = patterns.computeIfAbsent(fill) { "pattern_${patterns.size}" }
             "url(#$name)"

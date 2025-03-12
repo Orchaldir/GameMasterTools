@@ -93,36 +93,6 @@ private fun <T> parseRarityMap(
 
 //
 
-fun parseFill(parameters: Parameters): Fill {
-    val type = parse(parameters, combine(FILL, TYPE), FillType.Solid)
-
-    return when (type) {
-        FillType.Solid -> Solid(parse(parameters, combine(FILL, COLOR, 0), Color.SkyBlue))
-        FillType.VerticalStripes -> VerticalStripes(
-            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
-            parse(parameters, combine(FILL, COLOR, 1), Color.White),
-            parseWidth(parameters),
-        )
-
-        FillType.HorizontalStripes -> HorizontalStripes(
-            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
-            parse(parameters, combine(FILL, COLOR, 1), Color.White),
-            parseWidth(parameters),
-        )
-
-        FillType.Tiles -> Tiles(
-            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
-            parse<Color>(parameters, combine(FILL, COLOR, 1)),
-            parseFloat(parameters, combine(PATTERN, TILE), 1.0f),
-            parseFactor(parameters, combine(PATTERN, BORDER), Factor(0.1f))
-        )
-    }
-}
-
-private fun parseWidth(parameters: Parameters) = parseUByte(parameters, combine(PATTERN, WIDTH), 1u)
-
-//
-
 fun parseDistribution(parameters: Parameters, param: String) = Distribution(
     parseDistance(parameters, combine(param, CENTER)),
     parseDistance(parameters, combine(param, OFFSET)),

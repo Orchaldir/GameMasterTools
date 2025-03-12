@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Fill
 import at.orchaldir.gm.core.model.util.Solid
+import at.orchaldir.gm.core.model.util.Transparent
+import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -115,7 +117,7 @@ data class Glasses(
     val lensShape: LensShape = LensShape.RoundedRectangle,
     val frameType: FrameType = FrameType.FullRimmed,
     val frameFill: Color = Color.Navy,
-    val lensFill: Fill = Solid(Color.SkyBlue),
+    val lensFill: Fill = Transparent(Color.SkyBlue, Factor(0.5f)),
     val frameMaterial: MaterialId = MaterialId(0),
     val lensMaterial: MaterialId = MaterialId(0),
 ) : EquipmentData() {

@@ -9,6 +9,11 @@ data class RenderSolid(
     val color: RenderColor,
 ) : RenderFill()
 
+data class RenderTransparent(
+    val color: RenderColor,
+    val opacity: Factor,
+) : RenderFill()
+
 data class RenderVerticalStripes(
     val color0: RenderColor,
     val color1: RenderColor,
@@ -30,6 +35,7 @@ data class RenderTiles(
 
 fun Fill.toRender(): RenderFill = when (this) {
     is Solid -> RenderSolid(color.toRender())
+    is Transparent -> RenderTransparent(color.toRender(), opacity)
     is VerticalStripes -> RenderVerticalStripes(color0.toRender(), color1.toRender(), width)
     is HorizontalStripes -> RenderHorizontalStripes(color0.toRender(), color1.toRender(), width)
     is Tiles -> RenderTiles(fill.toRender(), background?.toRender(), width, borderPercentage)

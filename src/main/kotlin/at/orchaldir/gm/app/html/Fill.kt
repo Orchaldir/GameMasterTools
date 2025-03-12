@@ -1,16 +1,22 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.utils.math.Factor
+import io.ktor.http.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
-// fill
+// show
 
 fun HtmlBlockTag.showFill(fill: Fill) {
     when (fill) {
         is Solid -> field("Solid Fill", fill.color)
+        is Transparent -> {
+            field("Solid Fill", fill.color)
+            field("Opacity", fill.opacity)
+        }
         is VerticalStripes -> field("Vertical Stripes", "${fill.color0} & ${fill.color1}")
         is HorizontalStripes -> field("Horizontal Stripes", "${fill.color0} & ${fill.color1}")
         is Tiles -> {
@@ -22,11 +28,17 @@ fun HtmlBlockTag.showFill(fill: Fill) {
     }
 }
 
+// edit
+
 fun FORM.selectFill(fill: Fill) {
     selectValue("Fill Type", combine(FILL, TYPE), FillType.entries, fill.getType(), true)
 
     when (fill) {
         is Solid -> selectColor(fill.color)
+        is Transparent -> {
+            selectColor(fill.color)
+            selectFloat("Opacity", fill.opacity.value, 0.0f, 1.0f, 0.01f, combine(FILL, OPACITY))
+        }
         is VerticalStripes -> selectStripes(fill.color0, fill.color1, fill.width)
         is HorizontalStripes -> selectStripes(fill.color0, fill.color1, fill.width)
         is Tiles -> {
@@ -71,3 +83,38 @@ fun FORM.selectColor(
 ) {
     selectColor(label, selectId, OneOf(colors), color)
 }
+
+// parse
+
+fun parseFill(parameters: Parameters): Fill {
+    val type = parse(parameters, combine(FILL, TYPE), FillType.Solid)
+
+    return when (type) {
+        FillType.Solid -> Solid(parse(parameters, combine(FILL, COLOR, 0), Color.SkyBlue))
+        FillType.Transparent -> Transparent(
+            parse(parameters, combine(FILL, COLOR, 0), Color.SkyBlue),
+            parseFactor(parameters, combine(FILL, OPACITY)),
+        )
+
+        FillType.VerticalStripes -> VerticalStripes(
+            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
+            parse(parameters, combine(FILL, COLOR, 1), Color.White),
+            parseWidth(parameters),
+        )
+
+        FillType.HorizontalStripes -> HorizontalStripes(
+            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
+            parse(parameters, combine(FILL, COLOR, 1), Color.White),
+            parseWidth(parameters),
+        )
+
+        FillType.Tiles -> Tiles(
+            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
+            parse<Color>(parameters, combine(FILL, COLOR, 1)),
+            parseFloat(parameters, combine(PATTERN, TILE), 1.0f),
+            parseFactor(parameters, combine(PATTERN, BORDER), Factor(0.1f))
+        )
+    }
+}
+
+private fun parseWidth(parameters: Parameters) = parseUByte(parameters, combine(PATTERN, WIDTH), 1u)
