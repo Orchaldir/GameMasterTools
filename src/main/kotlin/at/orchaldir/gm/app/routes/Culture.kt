@@ -2,6 +2,10 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.showBeliefStatus
+import at.orchaldir.gm.app.html.model.showDate
+import at.orchaldir.gm.app.html.model.showEmploymentStatus
+import at.orchaldir.gm.app.html.model.showHousingStatus
 import at.orchaldir.gm.app.html.model.time.editHolidays
 import at.orchaldir.gm.app.html.model.time.showHolidays
 import at.orchaldir.gm.app.parse.combine
@@ -11,6 +15,7 @@ import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -19,7 +24,9 @@ import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.getAgeInYears
 import at.orchaldir.gm.core.selector.getCharacters
+import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -65,7 +72,7 @@ fun Application.configureCultureRouting() {
             logger.info { "Get all cultures" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllCultures(call)
+                showAllCultures(call, STORE.getState())
             }
         }
         get<CultureRoutes.Details> { details ->
@@ -140,16 +147,34 @@ fun Application.configureCultureRouting() {
     }
 }
 
-private fun HTML.showAllCultures(call: ApplicationCall) {
+private fun HTML.showAllCultures(
+    call: ApplicationCall,
+    state: State,
+) {
     val cultures = STORE.getState().getCultureStorage().getAll().sortedBy { it.name }
     val count = cultures.size
     val createLink = call.application.href(CultureRoutes.New())
 
     simpleHtml("Cultures") {
         field("Count", count)
-        showList(cultures) { culture ->
-            link(call, culture)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Calendar" }
+                th { +"Holidays" }
+                th { +"Characters" }
+            }
+            cultures.forEach { culture ->
+                tr {
+                    td { link(call, state, culture.id) }
+                    td { link(call, state, culture.calendar) }
+                    tdSkipZero(culture.holidays.size)
+                    tdSkipZero(state.getCharacters(culture.id).size)
+                }
+            }
         }
+
         action(createLink, "Add")
         back("/")
     }
