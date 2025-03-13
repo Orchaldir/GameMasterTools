@@ -221,13 +221,8 @@ private fun HTML.showAllCharacters(
         back("/")
 
         showCauseOfDeath(characters)
-        showCultureCount(call, state, characters)
         showGenderCount(characters)
         showHousingStatusCount(characters)
-        showJobCount(call, state, characters)
-        showLanguageCountForCharacters(call, state, characters)
-        showPersonalityCountForCharacters(call, state, characters)
-        showRaceCount(call, state, characters)
     }
 }
 
