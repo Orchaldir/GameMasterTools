@@ -172,7 +172,7 @@ private fun HTML.showAllCultures(
                     td { link(call, state, culture.id) }
                     td { link(call, state, culture.calendar) }
                     td {
-                        showList(culture.languages.getValuesFor(Rarity.Everyone)) { language ->
+                        showInlineList(culture.languages.getValuesFor(Rarity.Everyone)) { language ->
                             link(call, state, language)
                         }
                     }

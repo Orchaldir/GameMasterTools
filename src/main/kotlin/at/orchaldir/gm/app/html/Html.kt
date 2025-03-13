@@ -4,10 +4,7 @@ import at.orchaldir.gm.app.APP_TITLE
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.ElementWithSimpleName
-import at.orchaldir.gm.core.model.util.GenderMap
-import at.orchaldir.gm.core.model.util.RarityMap
-import at.orchaldir.gm.core.model.util.reverseAndSort
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -205,6 +202,22 @@ fun <T> HtmlBlockTag.showGenderMap(
                 content(key, value)
             }
         }
+    }
+}
+
+fun <T> HtmlBlockTag.showInlineList(
+    elements: Collection<T>,
+    content: (T) -> Unit,
+) {
+    var first = true
+
+    elements.forEach { element ->
+        if (first) {
+            first = false
+        } else {
+            +", "
+        }
+        content(element)
     }
 }
 
