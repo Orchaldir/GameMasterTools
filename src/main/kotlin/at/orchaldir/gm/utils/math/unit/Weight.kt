@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 private const val FACTOR = 1000
 
 @Serializable
-data class Weight(val grams: Int) {
+data class Weight(val grams: Int) : SiUnit<Weight> {
 
     init {
         require(grams >= 0) { "Weight must be greater 0!" }
@@ -16,14 +16,17 @@ data class Weight(val grams: Int) {
         fun fromKilogram(kg: Float) = Weight(kilogramsToGrams(kg))
     }
 
+    override fun value() = grams
+
     fun kilogramsOnly() = kilogramsOnly(grams)
     fun gramsOnly() = gramsOnly(grams)
 
     fun toKilograms() = gramsToKilograms(grams)
+
     override fun toString() = formatAsKilograms(grams)
 
-    operator fun plus(other: Weight) = Weight(grams + other.grams)
-    operator fun minus(other: Weight) = Weight(grams - other.grams)
+    override operator fun plus(other: Weight) = Weight(grams + other.grams)
+    override operator fun minus(other: Weight) = Weight(grams - other.grams)
     operator fun times(factor: Float) = Weight((grams * factor).toInt())
     operator fun times(factor: Factor) = times(factor.value)
     operator fun times(factor: Int) = Weight(grams * factor)

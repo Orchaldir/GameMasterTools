@@ -11,6 +11,9 @@ data class Distribution<T : SiUnit<T>>(
     companion object {
         fun fromMeters(center: Float, offset: Float) =
             Distribution(Distance.fromMeters(center), Distance.fromMeters(offset))
+
+        fun fromKilograms(center: Float, offset: Float) =
+            Distribution(Weight.fromKilogram(center), Weight.fromKilogram(offset))
     }
 
     fun getMin() = center - offset
