@@ -4,6 +4,7 @@ import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
 
 private const val FACTOR = 1000
+private const val LESS_DIGITS_THRESHOLD = FACTOR * 10
 
 @JvmInline
 @Serializable
@@ -48,5 +49,12 @@ fun gramsOnly(grams: Int) = grams % FACTOR
 fun kilogramsToGrams(kg: Float) = (kg * FACTOR).toInt()
 fun gramsToKilograms(milligrams: Int) = milligrams / FACTOR.toFloat()
 
-fun formatAsKilograms(grams: Int) =
-    String.format("%d.%03d kg", kilogramsOnly(grams), gramsOnly(grams))
+fun formatAsKilograms(grams: Int) = String.format(
+    if (grams > LESS_DIGITS_THRESHOLD) {
+        "%d.%01d kg"
+    } else {
+        "%d.%03d kg"
+    },
+    kilogramsOnly(grams),
+    gramsOnly(grams),
+)
