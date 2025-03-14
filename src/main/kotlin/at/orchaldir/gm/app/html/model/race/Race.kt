@@ -131,8 +131,8 @@ fun FORM.editRace(
         race.weight,
         Weight.fromKilogram(1.0f),
         Weight.fromKilogram(1000.0f),
-        Weight.fromKilogram(0.0f),
         Weight.fromKilogram(500.0f),
+        Weight.fromKilogram(1.0f),
         true
     )
     editRaceOrigin(state, race)
