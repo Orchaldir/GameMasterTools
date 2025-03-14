@@ -20,7 +20,7 @@ import at.orchaldir.gm.core.selector.getFashions
 import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
-import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.resources.*

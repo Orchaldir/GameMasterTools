@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.NumberGenerator
-import at.orchaldir.gm.utils.math.Distribution
+import at.orchaldir.gm.utils.math.unit.Distribution
 
 data class AppearanceGeneratorConfig(
     val numberGenerator: NumberGenerator,

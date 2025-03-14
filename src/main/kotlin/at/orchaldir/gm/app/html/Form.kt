@@ -10,8 +10,8 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.math.Distribution
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distribution
 import kotlinx.html.*
 
 const val ON_CHANGE_SCRIPT = "updateEditor();"

@@ -25,7 +25,7 @@ import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.core.selector.world.getOwnedBuildings
 import at.orchaldir.gm.core.selector.world.getPreviouslyOwnedBuildings
-import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.unit.Distance
 
 fun State.canCreateCharacter() = getCultureStorage().getSize() > 0
 

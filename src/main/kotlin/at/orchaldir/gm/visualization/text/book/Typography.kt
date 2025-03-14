@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.font.FontWithBorder
 import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Point2d

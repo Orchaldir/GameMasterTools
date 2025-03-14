@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.item.text.book.ProtectedCorners
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
-import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2i
 

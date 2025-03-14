@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils.math
 
+import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.Serializable
 import kotlin.math.hypot
 

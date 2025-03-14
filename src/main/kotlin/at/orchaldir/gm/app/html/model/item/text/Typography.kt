@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.font.*
 import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.unit.Distance
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 

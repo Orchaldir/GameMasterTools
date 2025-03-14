@@ -1,6 +1,6 @@
 package at.orchaldir.gm.visualization.text.book
 
-import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.START

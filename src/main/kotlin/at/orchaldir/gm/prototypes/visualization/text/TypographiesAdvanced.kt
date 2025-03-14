@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.font.FontOption
 import at.orchaldir.gm.core.model.font.FontWithBorder
 import at.orchaldir.gm.core.model.font.SolidFont
-import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Size2i
 import at.orchaldir.gm.visualization.text.ResolvedTextData

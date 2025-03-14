@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.appearance.horn
 import at.orchaldir.gm.core.model.character.appearance.horn.CrownOfHorns
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState

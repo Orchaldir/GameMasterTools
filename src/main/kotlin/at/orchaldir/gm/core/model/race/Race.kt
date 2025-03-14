@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.Distribution
+import at.orchaldir.gm.utils.math.unit.Distribution
 import kotlinx.serialization.Serializable
 
 const val RACE_TYPE = "Race"

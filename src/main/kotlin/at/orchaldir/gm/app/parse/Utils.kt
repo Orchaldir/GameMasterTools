@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.Distribution
+import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation

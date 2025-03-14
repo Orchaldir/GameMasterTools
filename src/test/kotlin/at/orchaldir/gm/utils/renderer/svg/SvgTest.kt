@@ -3,6 +3,7 @@ package at.orchaldir.gm.utils.renderer.svg
 import at.orchaldir.gm.core.model.util.Color.*
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested

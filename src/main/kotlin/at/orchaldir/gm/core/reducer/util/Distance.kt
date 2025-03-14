@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.util
 
-import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.math.Distribution
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distribution
 
 fun checkIsInside(
     distribution: Distribution,

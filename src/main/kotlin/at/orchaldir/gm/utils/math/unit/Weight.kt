@@ -1,5 +1,6 @@
-package at.orchaldir.gm.utils.math
+package at.orchaldir.gm.utils.math.unit
 
+import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
 
 private const val FACTOR = 1000

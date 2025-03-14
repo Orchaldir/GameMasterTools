@@ -1,6 +1,6 @@
 package at.orchaldir.gm.utils.renderer.model
 
-import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.unit.Distance
 
 data class LineOptions(val color: RenderColor, val width: Distance) {
     constructor(color: RenderColor, width: Float) : this(color, Distance.fromMeters(width))

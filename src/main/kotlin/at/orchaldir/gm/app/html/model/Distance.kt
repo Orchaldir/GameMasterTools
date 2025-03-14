@@ -4,8 +4,8 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parseInt
 
-import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.math.formatMillimetersAsMeters
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.formatMillimetersAsMeters
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 

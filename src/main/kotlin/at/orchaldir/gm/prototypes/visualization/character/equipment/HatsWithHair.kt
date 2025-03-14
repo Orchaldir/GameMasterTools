@@ -14,7 +14,7 @@ import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.appearance.HAIR_STYLES
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
-import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
     renderCharacterTable(
