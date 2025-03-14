@@ -5,8 +5,9 @@ import kotlinx.serialization.Serializable
 
 private const val FACTOR = 1000
 
+@JvmInline
 @Serializable
-data class Weight(val grams: Int) : SiUnit<Weight> {
+value class Weight private constructor(private val grams: Int) : SiUnit<Weight> {
 
     init {
         require(grams >= 0) { "Weight must be greater 0!" }
