@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 import kotlinx.serialization.Serializable
 
@@ -27,7 +28,7 @@ data class Race(
     val id: RaceId,
     val name: String = "Race ${id.value}",
     val genders: OneOf<Gender> = OneOf(Gender.entries),
-    val height: Distribution = Distribution.fromMeters(1.8f, 0.2f),
+    val height: Distribution<Distance> = Distribution.fromMeters(1.8f, 0.2f),
     val lifeStages: LifeStages = ImmutableLifeStage(),
     val origin: RaceOrigin = OriginalRace,
 ) : ElementWithSimpleName<RaceId>, HasStartDate {

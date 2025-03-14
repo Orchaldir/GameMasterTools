@@ -4,7 +4,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 
 fun checkIsInside(
-    distribution: Distribution,
+    distribution: Distribution<Distance>,
     distance: Distance,
     message: () -> String,
 ) {

@@ -106,7 +106,7 @@ fun HtmlBlockTag.selectOptionalColor(
 fun FORM.selectDistribution(
     label: String,
     param: String,
-    distribution: Distribution,
+    distribution: Distribution<Distance>,
     min: Distance,
     max: Distance,
     maxOffset: Distance,

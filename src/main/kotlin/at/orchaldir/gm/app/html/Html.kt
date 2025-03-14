@@ -11,6 +11,7 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.SiUnit
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -183,9 +184,9 @@ fun HtmlBlockTag.showDetails(
     }
 }
 
-fun HtmlBlockTag.showDistribution(
+fun <T : SiUnit<T>> HtmlBlockTag.showDistribution(
     label: String,
-    distribution: Distribution,
+    distribution: Distribution<T>,
 ) {
     field(label, distribution.display())
 }
