@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.math.unit.SiUnit
+import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
@@ -36,6 +37,23 @@ fun FORM.selectDistribution(
         selectDistance(combine(param, CENTER), distribution.center, min, max, step, update)
         +" +- "
         selectDistance(combine(param, OFFSET), distribution.offset, Distance(0), maxOffset, step, update)
+    }
+}
+
+fun FORM.selectDistribution(
+    label: String,
+    param: String,
+    distribution: Distribution<Weight>,
+    min: Weight,
+    max: Weight,
+    maxOffset: Weight,
+    step: Weight = Weight.fromGram(1),
+    update: Boolean = false,
+) {
+    field(label) {
+        selectWeight(combine(param, CENTER), distribution.center, min, max, step, update)
+        +" +- "
+        selectWeight(combine(param, OFFSET), distribution.offset, Weight.fromGram(0), maxOffset, step, update)
     }
 }
 

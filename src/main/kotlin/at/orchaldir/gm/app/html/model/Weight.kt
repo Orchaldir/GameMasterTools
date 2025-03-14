@@ -10,37 +10,37 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.fieldDistance(name: String, distance: Distance) {
-    field(name, distance.toString())
+fun HtmlBlockTag.fieldWeight(name: String, weight: Weight) {
+    field(name, weight.toString())
 }
 
 // edit
 
-fun HtmlBlockTag.selectDistance(
+fun HtmlBlockTag.selectWeight(
     label: String,
     param: String,
-    distance: Distance,
-    minValue: Distance,
-    maxValue: Distance,
-    step: Distance = Distance(1),
+    current: Weight,
+    minValue: Weight,
+    maxValue: Weight,
+    step: Weight = Weight.fromGram(1),
     update: Boolean = false,
 ) {
     field(label) {
-        selectDistance(param, distance, minValue, maxValue, step, update)
+        selectWeight(param, current, minValue, maxValue, step, update)
     }
 }
 
-fun HtmlBlockTag.selectDistance(
+fun HtmlBlockTag.selectWeight(
     param: String,
-    current: Distance,
-    minValue: Distance,
-    maxValue: Distance,
-    step: Distance = Distance(1),
+    current: Weight,
+    minValue: Weight,
+    maxValue: Weight,
+    step: Weight = Weight.fromGram(1),
     update: Boolean = false,
 ) {
     val values = (minValue.value()..maxValue.value() step step.value()).toList()
     selectValue(param, values, update) { v ->
-        label = formatMillimetersAsMeters(v)
+        label = formatAsKilograms(v)
         value = v.toString()
         selected = v == current.value()
     }
@@ -48,8 +48,8 @@ fun HtmlBlockTag.selectDistance(
 
 // parse
 
-fun parseDistance(
+fun parseWeight(
     parameters: Parameters,
     param: String,
     default: Int = 0,
-) = Distance(parseInt(parameters, param, default))
+) = Weight.fromGram(parseInt(parameters, param, default))

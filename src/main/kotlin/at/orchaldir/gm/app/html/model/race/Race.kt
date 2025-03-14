@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
@@ -28,6 +29,7 @@ fun HtmlBlockTag.showRace(
 ) {
     showRarityMap("Gender", race.genders)
     showDistribution("Height", race.height)
+    showDistribution("Weight", race.weight)
     showRaceOrigin(call, state, race.origin)
     showLifeStages(call, state, race)
 }
@@ -121,6 +123,16 @@ fun FORM.editRace(
         Distance(5000),
         Distance(1000),
         Distance(10),
+        true
+    )
+    selectDistribution(
+        "Weight",
+        WEIGHT,
+        race.weight,
+        Weight.fromKilogram(1.0f),
+        Weight.fromKilogram(1000.0f),
+        Weight.fromKilogram(0.0f),
+        Weight.fromKilogram(500.0f),
         true
     )
     editRaceOrigin(state, race)
