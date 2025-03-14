@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
+import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
 
 const val RACE_TYPE = "Race"
@@ -29,6 +30,7 @@ data class Race(
     val name: String = "Race ${id.value}",
     val genders: OneOf<Gender> = OneOf(Gender.entries),
     val height: Distribution<Distance> = Distribution.fromMeters(1.8f, 0.2f),
+    val weight: Distribution<Weight> = Distribution.fromKilograms(75.0f, 25.0f),
     val lifeStages: LifeStages = ImmutableLifeStage(),
     val origin: RaceOrigin = OriginalRace,
 ) : ElementWithSimpleName<RaceId>, HasStartDate {

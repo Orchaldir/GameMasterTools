@@ -2,9 +2,7 @@ package at.orchaldir.gm.app.html.model.race
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.parseDistribution
-import at.orchaldir.gm.app.html.model.selectDistribution
-import at.orchaldir.gm.app.html.model.showDistribution
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -253,7 +251,8 @@ fun parseRace(state: State, parameters: Parameters, id: RaceId): Race {
     return Race(
         id, name,
         parseOneOf(parameters, GENDER, Gender::valueOf),
-        parseDistribution(parameters, HEIGHT),
+        parseDistribution(parameters, HEIGHT, ::parseDistance),
+        parseDistribution(parameters, WEIGHT, ::parseWeight),
         parseLifeStages(parameters),
         parseRaceOrigin(parameters, state),
     )

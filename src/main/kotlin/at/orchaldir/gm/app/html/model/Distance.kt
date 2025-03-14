@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parseInt
 
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.math.unit.formatMillimetersAsMeters
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
@@ -55,4 +56,8 @@ fun parseDistance(
     default: Int = 0,
 ) = Distance(parseInt(parameters, param, default))
 
-
+fun parseWeight(
+    parameters: Parameters,
+    param: String,
+    default: Int = 0,
+) = Weight.fromGram(parseInt(parameters, param, default))

@@ -41,8 +41,12 @@ fun FORM.selectDistribution(
 
 // parse
 
-fun parseDistribution(parameters: Parameters, param: String) = Distribution(
-    parseDistance(parameters, combine(param, CENTER)),
-    parseDistance(parameters, combine(param, OFFSET)),
+fun <T : SiUnit<T>> parseDistribution(
+    parameters: Parameters,
+    param: String,
+    parseUnit: (Parameters, String) -> T,
+) = Distribution(
+    parseUnit(parameters, combine(param, CENTER)),
+    parseUnit(parameters, combine(param, OFFSET)),
 )
 

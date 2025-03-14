@@ -15,6 +15,7 @@ value class Weight private constructor(private val grams: Int) : SiUnit<Weight> 
 
     companion object {
         fun fromKilogram(kg: Float) = Weight(kilogramsToGrams(kg))
+        fun fromGram(gram: Int) = Weight(gram)
     }
 
     override fun value() = grams
