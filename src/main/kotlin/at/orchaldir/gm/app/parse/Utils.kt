@@ -97,11 +97,6 @@ private fun <T> parseRarityMap(
 
 //
 
-fun parseDistribution(parameters: Parameters, param: String) = Distribution(
-    parseDistance(parameters, combine(param, CENTER)),
-    parseDistance(parameters, combine(param, OFFSET)),
-)
-
 fun parseBool(parameters: Parameters, param: String, default: Boolean = false) =
     parameters[param]?.toBoolean() ?: default
 

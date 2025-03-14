@@ -2,6 +2,9 @@ package at.orchaldir.gm.app.html.model.race
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.parseDistribution
+import at.orchaldir.gm.app.html.model.selectDistribution
+import at.orchaldir.gm.app.html.model.showDistribution
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
