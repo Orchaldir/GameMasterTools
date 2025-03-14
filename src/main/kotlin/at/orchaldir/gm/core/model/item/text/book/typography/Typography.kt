@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.item.text.book.typography
 
 import at.orchaldir.gm.core.model.font.FontId
-import at.orchaldir.gm.core.model.util.FontOption
+import at.orchaldir.gm.core.model.font.FontOption
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

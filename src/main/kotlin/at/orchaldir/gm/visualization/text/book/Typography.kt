@@ -1,9 +1,9 @@
 package at.orchaldir.gm.visualization.text.book
 
 import at.orchaldir.gm.core.model.item.text.book.typography.*
-import at.orchaldir.gm.core.model.util.FontOption
-import at.orchaldir.gm.core.model.util.FontWithBorder
-import at.orchaldir.gm.core.model.util.SolidFont
+import at.orchaldir.gm.core.model.font.FontOption
+import at.orchaldir.gm.core.model.font.FontWithBorder
+import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Distance

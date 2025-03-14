@@ -9,9 +9,9 @@ import at.orchaldir.gm.core.model.item.text.book.typography.SimpleStringRenderOp
 import at.orchaldir.gm.core.model.item.text.book.typography.StringRenderOption
 import at.orchaldir.gm.core.model.item.text.book.typography.WrappedStringRenderOption
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.FontOption
-import at.orchaldir.gm.core.model.util.FontWithBorder
-import at.orchaldir.gm.core.model.util.SolidFont
+import at.orchaldir.gm.core.model.font.FontOption
+import at.orchaldir.gm.core.model.font.FontWithBorder
+import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Size2i
