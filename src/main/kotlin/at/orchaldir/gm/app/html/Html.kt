@@ -310,6 +310,12 @@ fun <T> HtmlBlockTag.showRarityMap(
 
 // table
 
+fun <T : Enum<T>> TR.tdEnum(value: T) {
+    td {
+        +value.name
+    }
+}
+
 fun TR.tdString(text: String?) {
     td {
         text?.let { +it }

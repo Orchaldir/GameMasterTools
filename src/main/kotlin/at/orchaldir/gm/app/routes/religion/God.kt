@@ -161,7 +161,7 @@ private fun HTML.showAllGods(
                 tr {
                     td { link(call, state, god) }
                     tdString(god.title)
-                    td { +god.gender.name }
+                    tdEnum(god.gender)
                     td {
                         showList(
                             state.getPersonalityTraitStorage()

@@ -203,7 +203,7 @@ private fun HTML.showAllCharacters(
                         }
                     }
                     td { link(call, state, character.race) }
-                    td { +character.gender.toString() }
+                    tdEnum(character.gender)
                     td { link(call, state, character.culture) }
                     td { showBeliefStatus(call, state, character.beliefStatus.current, false) }
                     td { showDate(call, state, character.birthDate) }

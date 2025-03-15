@@ -2,9 +2,11 @@ package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldWeight
 import at.orchaldir.gm.app.html.model.item.editEquipment
 import at.orchaldir.gm.app.html.model.item.parseEquipment
 import at.orchaldir.gm.app.html.model.item.showEquipment
+import at.orchaldir.gm.app.html.model.time.displayHolidayPurpose
 import at.orchaldir.gm.core.action.CreateEquipment
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
@@ -134,14 +136,27 @@ fun Application.configureEquipmentRouting() {
 }
 
 private fun HTML.showAllEquipment(call: ApplicationCall) {
-    val templates = STORE.getState().getEquipmentStorage().getAll().sortedBy { it.name }
+    val equipmentList = STORE.getState().getEquipmentStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(EquipmentRoutes.New())
 
-    simpleHtml("equipments") {
-        field("Count", templates.size)
-        showList(templates) { item ->
-            link(call, item)
+    simpleHtml("Equipment") {
+        field("Count", equipmentList.size)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Type" }
+                th { +"Weight" }
+            }
+            equipmentList.forEach { equipment ->
+                tr {
+                    td { link(call, equipment) }
+                    tdEnum(equipment.data.getType())
+                    td { +equipment.weight.toString() }
+                }
+            }
         }
+
         action(createLink, "Add")
         back("/")
     }
