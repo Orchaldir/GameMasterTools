@@ -8,8 +8,8 @@ import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.prototypes.visualization.renderTable
-import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.calculateSize

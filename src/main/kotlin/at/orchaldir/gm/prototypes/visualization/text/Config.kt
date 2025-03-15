@@ -2,8 +2,8 @@ package at.orchaldir.gm.prototypes.visualization.text
 
 import at.orchaldir.gm.core.model.item.text.book.LeatherBindingType
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.text.LeatherBindingConfig

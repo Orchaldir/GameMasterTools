@@ -2,10 +2,6 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.showBeliefStatus
-import at.orchaldir.gm.app.html.model.showDate
-import at.orchaldir.gm.app.html.model.showEmploymentStatus
-import at.orchaldir.gm.app.html.model.showHousingStatus
 import at.orchaldir.gm.app.html.model.time.editHolidays
 import at.orchaldir.gm.app.html.model.time.showHolidays
 import at.orchaldir.gm.app.parse.combine
@@ -15,7 +11,6 @@ import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
 import at.orchaldir.gm.core.action.UpdateCulture
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Dead
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -25,9 +20,7 @@ import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getAgeInYears
 import at.orchaldir.gm.core.selector.getCharacters
-import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*

@@ -5,9 +5,8 @@ import at.orchaldir.gm.app.WIDTH
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseInt
-
-import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.Size2i
+import at.orchaldir.gm.utils.math.unit.Distance
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 

@@ -3,8 +3,8 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.utils.math.unit.*
-
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.formatMillimetersAsMeters
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 

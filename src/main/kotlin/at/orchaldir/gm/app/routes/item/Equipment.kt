@@ -2,11 +2,9 @@ package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.fieldWeight
 import at.orchaldir.gm.app.html.model.item.editEquipment
 import at.orchaldir.gm.app.html.model.item.parseEquipment
 import at.orchaldir.gm.app.html.model.item.showEquipment
-import at.orchaldir.gm.app.html.model.time.displayHolidayPurpose
 import at.orchaldir.gm.core.action.CreateEquipment
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
