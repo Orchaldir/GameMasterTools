@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.item.editEquipment
 import at.orchaldir.gm.app.html.model.item.parseEquipment
-import at.orchaldir.gm.app.html.model.item.showEquipmentData
+import at.orchaldir.gm.app.html.model.item.showEquipment
 import at.orchaldir.gm.core.action.CreateEquipment
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
@@ -20,7 +20,7 @@ import at.orchaldir.gm.core.selector.getFashions
 import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
-import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -63,7 +63,7 @@ fun Application.configureEquipmentRouting() {
             logger.info { "Get all equipments" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllEquipment(call)
+                showAllEquipment(call, STORE.getState())
             }
         }
         get<EquipmentRoutes.Details> { details ->
@@ -133,15 +133,35 @@ fun Application.configureEquipmentRouting() {
     }
 }
 
-private fun HTML.showAllEquipment(call: ApplicationCall) {
-    val templates = STORE.getState().getEquipmentStorage().getAll().sortedBy { it.name }
+private fun HTML.showAllEquipment(
+    call: ApplicationCall,
+    state: State,
+) {
+    val equipmentList = state.getEquipmentStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(EquipmentRoutes.New())
 
-    simpleHtml("equipments") {
-        field("Count", templates.size)
-        showList(templates) { item ->
-            link(call, item)
+    simpleHtml("Equipment") {
+        field("Count", equipmentList.size)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Type" }
+                th { +"Weight" }
+                th { +"Characters" }
+                th { +"Fashion" }
+            }
+            equipmentList.forEach { equipment ->
+                tr {
+                    td { link(call, equipment) }
+                    tdEnum(equipment.data.getType())
+                    td { +equipment.weight.toString() }
+                    tdSkipZero(state.getEquippedBy(equipment.id).size)
+                    tdSkipZero(state.getFashions(equipment.id).size)
+                }
+            }
         }
+
         action(createLink, "Add")
         back("/")
     }
@@ -161,7 +181,7 @@ private fun HTML.showEquipmentDetails(
     simpleHtml("Equipment: ${equipment.name}") {
         visualizeItem(equipment)
 
-        showEquipmentData(call, state, equipment)
+        showEquipment(call, state, equipment)
 
         showList("Equipped By", characters) { item ->
             link(call, state, item)

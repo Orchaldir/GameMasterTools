@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.item.text.scroll
 
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

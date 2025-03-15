@@ -1,14 +1,10 @@
 package at.orchaldir.gm.app.parse
 
-import at.orchaldir.gm.app.CENTER
-import at.orchaldir.gm.app.OFFSET
-import at.orchaldir.gm.app.html.model.parseDistance
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation
@@ -96,11 +92,6 @@ private fun <T> parseRarityMap(
     }
 
 //
-
-fun parseDistribution(parameters: Parameters, param: String) = Distribution(
-    parseDistance(parameters, combine(param, CENTER)),
-    parseDistance(parameters, combine(param, OFFSET)),
-)
 
 fun parseBool(parameters: Parameters, param: String, default: Boolean = false) =
     parameters[param]?.toBoolean() ?: default

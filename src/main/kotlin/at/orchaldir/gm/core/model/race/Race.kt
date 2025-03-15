@@ -7,8 +7,11 @@ import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.Distribution
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distribution
+import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
+import kotlin.math.pow
 
 const val RACE_TYPE = "Race"
 
@@ -27,7 +30,8 @@ data class Race(
     val id: RaceId,
     val name: String = "Race ${id.value}",
     val genders: OneOf<Gender> = OneOf(Gender.entries),
-    val height: Distribution = Distribution.fromMeters(1.8f, 0.2f),
+    val height: Distribution<Distance> = Distribution.fromMeters(1.8f, 0.2f),
+    val weight: Weight = Weight.fromKilogram(75.0f),
     val lifeStages: LifeStages = ImmutableLifeStage(),
     val origin: RaceOrigin = OriginalRace,
 ) : ElementWithSimpleName<RaceId>, HasStartDate {
@@ -35,5 +39,7 @@ data class Race(
     override fun id() = id
     override fun name() = name
     override fun startDate() = origin.startDate()
+
+    fun calculateBodyMassIndex() = weight.toKilograms() / height.center.toMeters().pow(2)
 
 }

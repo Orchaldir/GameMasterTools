@@ -210,7 +210,7 @@ private fun HTML.showAllBuildings(
                     td { showOptionalDate(call, state, building.constructionDate) }
                     td { link(call, state, building.lot.town) }
                     td { showAddress(call, state, building, false) }
-                    td { +building.purpose.getType().toString() }
+                    tdEnum(building.purpose.getType())
                     td { showInhabitantCount(state, building.id) }
                     td { optionalLink(call, state, building.style) }
                     td { showOwner(call, state, building.ownership.current, false) }

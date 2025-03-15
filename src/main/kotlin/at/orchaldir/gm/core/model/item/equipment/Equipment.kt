@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
 
 const val EQUIPMENT_TYPE = "Equipment"
@@ -21,6 +22,7 @@ data class Equipment(
     val id: EquipmentId,
     val name: String = "Equipment ${id.value}",
     val data: EquipmentData = NoEquipment,
+    val weight: Weight = Weight.fromGram(1),
 ) : ElementWithSimpleName<EquipmentId> {
 
     override fun id() = id

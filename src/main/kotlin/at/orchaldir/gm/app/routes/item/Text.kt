@@ -180,10 +180,10 @@ private fun HTML.showAllTexts(
                 tr {
                     td { link(call, state, text) }
                     td { showOptionalDate(call, state, text.date) }
-                    td { +text.origin.getType().toString() }
+                    tdEnum(text.origin.getType())
                     td { showCreator(call, state, text.origin.creator()) }
                     td { link(call, state, text.language) }
-                    td { +text.format.getType().toString() }
+                    tdEnum(text.format.getType())
                     tdSkipZero(text.content.spells().size)
                 }
             }

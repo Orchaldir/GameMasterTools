@@ -139,7 +139,7 @@ private fun HTML.showAllMaterials(
             materials.forEach { material ->
                 tr {
                     td { link(call, state, material) }
-                    td { +material.category.toString() }
+                    tdEnum(material.category)
                     tdSkipZero(state.countEquipment(material.id))
                     tdSkipZero(state.countStreetTemplates(material.id))
                     tdSkipZero(state.countTexts(material.id))

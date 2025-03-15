@@ -15,13 +15,14 @@ import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.NumberGenerator
-import at.orchaldir.gm.utils.math.Distribution
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distribution
 
 data class AppearanceGeneratorConfig(
     val numberGenerator: NumberGenerator,
     val rarityGenerator: RarityGenerator,
     val gender: Gender,
-    val heightDistribution: Distribution,
+    val heightDistribution: Distribution<Distance>,
     val appearanceOptions: RaceAppearance,
     val appearanceStyle: AppearanceStyle,
 ) {

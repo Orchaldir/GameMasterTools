@@ -144,7 +144,8 @@ private fun HTML.showAllRaces(
                 th { +"Name" }
                 th { +"Gender" }
                 th { +"Max Age" }
-                th { +"Max Height" }
+                th { +"Avg Height" }
+                th { +"Avg Weight" }
                 th { +"Origin" }
                 th { +"Date" }
                 th { +"Appearance" }
@@ -155,7 +156,8 @@ private fun HTML.showAllRaces(
                     td { link(call, state, race) }
                     td { +race.genders.getValidValues().joinToString() }
                     tdSkipZero(race.lifeStages.getMaxAge())
-                    td { +race.height.getMax().toString() }
+                    td { +race.height.center.toString() }
+                    td { +race.weight.toString() }
                     td { displayRaceOrigin(call, state, race.origin, false) }
                     td {
                         title = state.getAgeInYears(race.startDate())?.let { "$it years ago" } ?: ""
@@ -175,7 +177,8 @@ private fun HTML.showAllRaces(
 private inline fun <reified T : Any> BODY.showSortLinks(call: ApplicationCall, createLink: (SortRace) -> T) {
     val sortAgeLink = call.application.href(createLink(SortRace.Age))
     val sortNameLink = call.application.href(createLink(SortRace.Name))
-    val sortMaxHeightLink = call.application.href(createLink(SortRace.MaxHeight))
+    val sortHeightLink = call.application.href(createLink(SortRace.Height))
+    val sortWeightLink = call.application.href(createLink(SortRace.Weight))
     val sortMaxLifeSpanLink = call.application.href(createLink(SortRace.MaxLifeSpan))
     field("Sort") {
         link(sortAgeLink, "Age")
@@ -184,7 +187,9 @@ private inline fun <reified T : Any> BODY.showSortLinks(call: ApplicationCall, c
         +" "
         link(sortMaxLifeSpanLink, "Max Age")
         +" "
-        link(sortMaxHeightLink, "Max Height")
+        link(sortHeightLink, "Height")
+        +" "
+        link(sortWeightLink, "Weight")
     }
 }
 

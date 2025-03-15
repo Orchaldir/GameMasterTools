@@ -1,4 +1,4 @@
-package at.orchaldir.gm.utils.math
+package at.orchaldir.gm.utils.math.unit
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

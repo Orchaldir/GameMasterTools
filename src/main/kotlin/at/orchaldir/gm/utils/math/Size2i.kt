@@ -1,5 +1,7 @@
 package at.orchaldir.gm.utils.math
 
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.millimeterToMeter
 import kotlinx.serialization.Serializable
 
 @Serializable

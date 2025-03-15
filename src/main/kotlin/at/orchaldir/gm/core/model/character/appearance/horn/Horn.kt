@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.model.character.appearance.horn
 
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation
+import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

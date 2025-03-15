@@ -58,7 +58,8 @@ enum class SortPlane {
 
 enum class SortRace {
     Age,
-    MaxHeight,
+    Height,
+    Weight,
     MaxLifeSpan,
     Name,
 }

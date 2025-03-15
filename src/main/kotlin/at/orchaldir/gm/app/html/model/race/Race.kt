@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model.race
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -11,8 +12,9 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
@@ -27,6 +29,8 @@ fun HtmlBlockTag.showRace(
 ) {
     showRarityMap("Gender", race.genders)
     showDistribution("Height", race.height)
+    fieldWeight("Weight", race.weight)
+    field("BMI", String.format("%.1f", race.calculateBodyMassIndex()))
     showRaceOrigin(call, state, race.origin)
     showLifeStages(call, state, race)
 }
@@ -122,6 +126,8 @@ fun FORM.editRace(
         Distance(10),
         true
     )
+    val kilo = Weight.fromKilogram(1.0f)
+    selectWeight("Weight", WEIGHT, race.weight, kilo, Weight.fromKilogram(1000.0f), kilo)
     editRaceOrigin(state, race)
     editLifeStages(state, race)
 }
@@ -250,7 +256,8 @@ fun parseRace(state: State, parameters: Parameters, id: RaceId): Race {
     return Race(
         id, name,
         parseOneOf(parameters, GENDER, Gender::valueOf),
-        parseDistribution(parameters, HEIGHT),
+        parseDistribution(parameters, HEIGHT, ::parseDistance),
+        parseWeight(parameters, WEIGHT),
         parseLifeStages(parameters),
         parseRaceOrigin(parameters, state),
     )

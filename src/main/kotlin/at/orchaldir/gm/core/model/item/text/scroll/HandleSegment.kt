@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.item.text.scroll
 
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.utils.math.Distance
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.Serializable
 
 @Serializable

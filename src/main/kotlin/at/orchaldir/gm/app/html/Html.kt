@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.Distribution
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.server.application.*
@@ -186,13 +185,6 @@ fun HtmlBlockTag.showDetails(
     }
 }
 
-fun HtmlBlockTag.showDistribution(
-    label: String,
-    distribution: Distribution,
-) {
-    field(label, distribution.display())
-}
-
 // lists
 
 fun <T> HtmlBlockTag.showGenderMap(
@@ -205,6 +197,22 @@ fun <T> HtmlBlockTag.showGenderMap(
                 content(key, value)
             }
         }
+    }
+}
+
+fun <T> HtmlBlockTag.showInlineList(
+    elements: Collection<T>,
+    content: (T) -> Unit,
+) {
+    var first = true
+
+    elements.forEach { element ->
+        if (first) {
+            first = false
+        } else {
+            +", "
+        }
+        content(element)
     }
 }
 
@@ -304,6 +312,12 @@ fun <T> HtmlBlockTag.showRarityMap(
 }
 
 // table
+
+fun <T : Enum<T>> TR.tdEnum(value: T) {
+    td {
+        +value.name
+    }
+}
 
 fun TR.tdString(text: String?) {
     td {

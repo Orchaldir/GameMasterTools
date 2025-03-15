@@ -81,32 +81,6 @@ private fun parseBirthday(
     return parseDate(parameters, state.getDefaultCalendar(), combine(ORIGIN, DATE))
 }
 
-private fun parseVitalStatus(
-    parameters: Parameters,
-    state: State,
-): VitalStatus {
-    return when (parse(parameters, VITAL, VitalStatusType.Alive)) {
-        VitalStatusType.Alive -> Alive
-        VitalStatusType.Dead -> Dead(
-            parseDeathDay(parameters, state),
-            when (parse(parameters, DEATH, CauseOfDeathType.OldAge)) {
-                CauseOfDeathType.Accident -> Accident
-                CauseOfDeathType.Illness -> DeathByIllness
-                CauseOfDeathType.Murder -> Murder(
-                    parseCharacterId(parameters, KILLER),
-                )
-
-                CauseOfDeathType.OldAge -> OldAge
-            },
-        )
-    }
-}
-
-private fun parseDeathDay(
-    parameters: Parameters,
-    state: State,
-) = parseDate(parameters, state.getDefaultCalendar(), combine(DEATH, DATE), state.time.currentDate)
-
 private fun parseCharacterName(parameters: Parameters): CharacterName {
     val given = parameters.getOrFail(GIVEN_NAME)
 

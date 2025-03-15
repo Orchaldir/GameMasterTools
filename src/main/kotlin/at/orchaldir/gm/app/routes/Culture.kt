@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.name.NameListId
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.util.GenderMap
+import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.utils.doNothing
@@ -65,7 +66,7 @@ fun Application.configureCultureRouting() {
             logger.info { "Get all cultures" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllCultures(call)
+                showAllCultures(call, STORE.getState())
             }
         }
         get<CultureRoutes.Details> { details ->
@@ -140,16 +141,40 @@ fun Application.configureCultureRouting() {
     }
 }
 
-private fun HTML.showAllCultures(call: ApplicationCall) {
+private fun HTML.showAllCultures(
+    call: ApplicationCall,
+    state: State,
+) {
     val cultures = STORE.getState().getCultureStorage().getAll().sortedBy { it.name }
     val count = cultures.size
     val createLink = call.application.href(CultureRoutes.New())
 
     simpleHtml("Cultures") {
         field("Count", count)
-        showList(cultures) { culture ->
-            link(call, culture)
+
+        table {
+            tr {
+                th { +"Name" }
+                th { +"Calendar" }
+                th { +"Languages" }
+                th { +"Holidays" }
+                th { +"Characters" }
+            }
+            cultures.forEach { culture ->
+                tr {
+                    td { link(call, state, culture.id) }
+                    td { link(call, state, culture.calendar) }
+                    td {
+                        showInlineList(culture.languages.getValuesFor(Rarity.Everyone)) { language ->
+                            link(call, state, language)
+                        }
+                    }
+                    tdSkipZero(culture.holidays.size)
+                    tdSkipZero(state.getCharacters(culture.id).size)
+                }
+            }
         }
+
         action(createLink, "Add")
         back("/")
     }

@@ -70,14 +70,8 @@ fun HtmlBlockTag.displayPlanePurpose(
 
         is PrisonPlane -> {
             +"Prison of "
-            var first = true
 
-            purpose.gods.forEach { god ->
-                if (first) {
-                    first = false
-                } else {
-                    +", "
-                }
+            showInlineList(purpose.gods) { god ->
                 link(call, state, god)
             }
         }

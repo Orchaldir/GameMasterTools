@@ -3,9 +3,8 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parseInt
-
-import at.orchaldir.gm.utils.math.Distance
-import at.orchaldir.gm.utils.math.formatMillimetersAsMeters
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.formatMillimetersAsMeters
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -22,28 +21,28 @@ fun HtmlBlockTag.selectDistance(
     param: String,
     distance: Distance,
     minValue: Distance,
-    maxVale: Distance,
-    stepValue: Distance = Distance(1),
+    maxValue: Distance,
+    step: Distance = Distance(1),
     update: Boolean = false,
 ) {
     field(label) {
-        selectDistance(param, distance, minValue, maxVale, stepValue, update)
+        selectDistance(param, distance, minValue, maxValue, step, update)
     }
 }
 
 fun HtmlBlockTag.selectDistance(
     param: String,
-    distance: Distance,
+    current: Distance,
     minValue: Distance,
-    maxVale: Distance,
-    stepValue: Distance = Distance(1),
+    maxValue: Distance,
+    step: Distance = Distance(1),
     update: Boolean = false,
 ) {
-    val values = (minValue.millimeters..maxVale.millimeters step stepValue.millimeters).toList()
-    selectValue(param, values, update) { height ->
-        label = formatMillimetersAsMeters(height)
-        value = height.toString()
-        selected = height == distance.millimeters
+    val values = (minValue.value()..maxValue.value() step step.value()).toList()
+    selectValue(param, values, update) { v ->
+        label = formatMillimetersAsMeters(v)
+        value = v.toString()
+        selected = v == current.value()
     }
 }
 
@@ -54,5 +53,3 @@ fun parseDistance(
     param: String,
     default: Int = 0,
 ) = Distance(parseInt(parameters, param, default))
-
-

@@ -1,16 +1,19 @@
-package at.orchaldir.gm.utils.math
+package at.orchaldir.gm.utils.math.unit
 
 import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
 
 @Serializable
-data class Distribution(
-    val center: Distance,
-    val offset: Distance,
+data class Distribution<T : SiUnit<T>>(
+    val center: T,
+    val offset: T,
 ) {
     companion object {
         fun fromMeters(center: Float, offset: Float) =
             Distribution(Distance.fromMeters(center), Distance.fromMeters(offset))
+
+        fun fromKilograms(center: Float, offset: Float) =
+            Distribution(Weight.fromKilogram(center), Weight.fromKilogram(offset))
     }
 
     fun getMin() = center - offset
@@ -18,5 +21,5 @@ data class Distribution(
 
     fun display() = String.format("%s +- %s", center, offset)
 
-    fun isInside(distance: Distance) = (distance.millimeters - center.millimeters).absoluteValue < offset.millimeters
+    fun isInside(distance: T) = (distance.value() - center.value()).absoluteValue < offset.value()
 }

@@ -27,7 +27,7 @@ import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
@@ -203,7 +203,7 @@ private fun HTML.showAllCharacters(
                         }
                     }
                     td { link(call, state, character.race) }
-                    td { +character.gender.toString() }
+                    tdEnum(character.gender)
                     td { link(call, state, character.culture) }
                     td { showBeliefStatus(call, state, character.beliefStatus.current, false) }
                     td { showDate(call, state, character.birthDate) }
@@ -221,13 +221,8 @@ private fun HTML.showAllCharacters(
         back("/")
 
         showCauseOfDeath(characters)
-        showCultureCount(call, state, characters)
         showGenderCount(characters)
         showHousingStatusCount(characters)
-        showJobCount(call, state, characters)
-        showLanguageCountForCharacters(call, state, characters)
-        showPersonalityCountForCharacters(call, state, characters)
-        showRaceCount(call, state, characters)
     }
 }
 
@@ -338,29 +333,6 @@ private fun BODY.showData(
     }
 }
 
-private fun BODY.showVitalStatus(
-    call: ApplicationCall,
-    state: State,
-    vitalStatus: VitalStatus,
-) {
-    if (vitalStatus is Dead) {
-        field(call, state, "Date of Death", vitalStatus.deathDay)
-
-        when (vitalStatus.cause) {
-            is Accident -> showCauseOfDeath("Accident")
-            is DeathByIllness -> showCauseOfDeath("Illness")
-            is Murder -> {
-                field("Cause of Death") {
-                    +"Killed by "
-                    link(call, state, vitalStatus.cause.killer)
-                }
-            }
-
-            is OldAge -> showCauseOfDeath("Old Age")
-        }
-    }
-}
-
 private fun BODY.showHeight(
     state: State,
     character: Character,
@@ -377,10 +349,6 @@ fun HtmlBlockTag.showCurrentHeight(
 ) {
     val currentHeight = state.scaleHeightByAge(character, maxHeight)
     fieldDistance("Current Height", currentHeight)
-}
-
-private fun BODY.showCauseOfDeath(cause: String) {
-    field("Cause of Death", cause)
 }
 
 private fun HtmlBlockTag.showAge(
@@ -529,29 +497,6 @@ private fun HTML.showCharacterEditor(
             button("Update", updateLink)
         }
         back(backLink)
-    }
-}
-
-private fun FORM.selectVitalStatus(
-    state: State,
-    character: Character,
-) {
-    val vitalStatus = character.vitalStatus
-    selectValue("Vital Status", VITAL, VitalStatusType.entries, vitalStatus.getType(), true)
-
-    if (vitalStatus is Dead) {
-        selectDate(state, "Date of Death", vitalStatus.deathDay, combine(DEATH, DATE))
-        selectValue("Cause of death", DEATH, CauseOfDeathType.entries, vitalStatus.cause.getType(), true)
-
-        if (vitalStatus.cause is Murder) {
-            selectElement(
-                state,
-                "Killer",
-                KILLER,
-                state.getCharacterStorage().getAllExcept(character.id),
-                vitalStatus.cause.killer,
-            )
-        }
     }
 }
 

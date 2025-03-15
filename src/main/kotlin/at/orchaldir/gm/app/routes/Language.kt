@@ -227,14 +227,9 @@ private fun HtmlBlockTag.displayOrigin(
     when (val origin = language.origin) {
         is CombinedLanguage -> {
             +"Combines "
-            var isFirst = true
-            origin.parents.forEach { language ->
-                if (isFirst) {
-                    isFirst = false
-                } else {
-                    +", "
-                }
-                link(call, state, language)
+
+            showInlineList(origin.parents) { parent ->
+                link(call, state, parent)
             }
         }
 

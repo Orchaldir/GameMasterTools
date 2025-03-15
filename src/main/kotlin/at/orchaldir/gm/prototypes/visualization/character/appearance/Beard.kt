@@ -20,7 +20,7 @@ import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.addNamesToBeardStyle
 import at.orchaldir.gm.prototypes.visualization.character.addNamesToEyes
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
-import at.orchaldir.gm.utils.math.Distance
+import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
     val beards = mutableListOf<BeardStyle>()

@@ -1,5 +1,18 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Glasses",
+   "data": {
+    "type": "Glasses",
+    "lensShape": "Rectangle",
+    "lensFill": {
+     "type": "Solid",
+     "color": "SkyBlue"
+    }
+   },
+   "weight": 40
+  }
  }
 }
