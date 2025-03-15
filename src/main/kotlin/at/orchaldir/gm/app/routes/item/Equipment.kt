@@ -65,7 +65,7 @@ fun Application.configureEquipmentRouting() {
             logger.info { "Get all equipments" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllEquipment(call)
+                showAllEquipment(call, STORE.getState())
             }
         }
         get<EquipmentRoutes.Details> { details ->
@@ -135,8 +135,11 @@ fun Application.configureEquipmentRouting() {
     }
 }
 
-private fun HTML.showAllEquipment(call: ApplicationCall) {
-    val equipmentList = STORE.getState().getEquipmentStorage().getAll().sortedBy { it.name }
+private fun HTML.showAllEquipment(
+    call: ApplicationCall,
+    state: State,
+) {
+    val equipmentList = state.getEquipmentStorage().getAll().sortedBy { it.name }
     val createLink = call.application.href(EquipmentRoutes.New())
 
     simpleHtml("Equipment") {
@@ -147,12 +150,16 @@ private fun HTML.showAllEquipment(call: ApplicationCall) {
                 th { +"Name" }
                 th { +"Type" }
                 th { +"Weight" }
+                th { +"Characters" }
+                th { +"Fashion" }
             }
             equipmentList.forEach { equipment ->
                 tr {
                     td { link(call, equipment) }
                     tdEnum(equipment.data.getType())
                     td { +equipment.weight.toString() }
+                    tdSkipZero(state.getEquippedBy(equipment.id).size)
+                    tdSkipZero(state.getFashions(equipment.id).size)
                 }
             }
         }
