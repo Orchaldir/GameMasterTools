@@ -233,7 +233,7 @@ fun State.sortRaces(
         when (sort) {
             SortRace.Age -> getAgeComparator()
             SortRace.Height -> compareBy { it.height.center.value() }
-            SortRace.Weight -> compareBy { it.weight.center.value() }
+            SortRace.Weight -> compareBy { it.weight.value() }
             SortRace.MaxLifeSpan -> compareBy { it.lifeStages.getMaxAge() }
             SortRace.Name -> compareBy { it.name(this) }
         })

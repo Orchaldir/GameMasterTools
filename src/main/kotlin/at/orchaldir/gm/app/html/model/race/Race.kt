@@ -29,7 +29,7 @@ fun HtmlBlockTag.showRace(
 ) {
     showRarityMap("Gender", race.genders)
     showDistribution("Height", race.height)
-    showDistribution("Weight", race.weight)
+    fieldWeight("Weight", race.weight)
     showRaceOrigin(call, state, race.origin)
     showLifeStages(call, state, race)
 }
@@ -125,16 +125,8 @@ fun FORM.editRace(
         Distance(10),
         true
     )
-    selectDistribution(
-        "Weight",
-        WEIGHT,
-        race.weight,
-        Weight.fromKilogram(1.0f),
-        Weight.fromKilogram(1000.0f),
-        Weight.fromKilogram(500.0f),
-        Weight.fromKilogram(1.0f),
-        true
-    )
+    val kilo = Weight.fromKilogram(1.0f)
+    selectWeight("Weight", WEIGHT, race.weight, kilo, Weight.fromKilogram(1000.0f), kilo)
     editRaceOrigin(state, race)
     editLifeStages(state, race)
 }
@@ -264,7 +256,7 @@ fun parseRace(state: State, parameters: Parameters, id: RaceId): Race {
         id, name,
         parseOneOf(parameters, GENDER, Gender::valueOf),
         parseDistribution(parameters, HEIGHT, ::parseDistance),
-        parseDistribution(parameters, WEIGHT, ::parseWeight),
+        parseWeight(parameters, WEIGHT),
         parseLifeStages(parameters),
         parseRaceOrigin(parameters, state),
     )

@@ -157,7 +157,7 @@ private fun HTML.showAllRaces(
                     td { +race.genders.getValidValues().joinToString() }
                     tdSkipZero(race.lifeStages.getMaxAge())
                     td { +race.height.center.toString() }
-                    td { +race.weight.center.toString() }
+                    td { +race.weight.toString() }
                     td { displayRaceOrigin(call, state, race.origin, false) }
                     td {
                         title = state.getAgeInYears(race.startDate())?.let { "$it years ago" } ?: ""
