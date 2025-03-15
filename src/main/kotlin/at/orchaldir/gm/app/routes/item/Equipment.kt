@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.item.editEquipment
 import at.orchaldir.gm.app.html.model.item.parseEquipment
-import at.orchaldir.gm.app.html.model.item.showEquipmentData
+import at.orchaldir.gm.app.html.model.item.showEquipment
 import at.orchaldir.gm.core.action.CreateEquipment
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
@@ -161,7 +161,7 @@ private fun HTML.showEquipmentDetails(
     simpleHtml("Equipment: ${equipment.name}") {
         visualizeItem(equipment)
 
-        showEquipmentData(call, state, equipment)
+        showEquipment(call, state, equipment)
 
         showList("Equipped By", characters) { item ->
             link(call, state, item)

@@ -2,6 +2,9 @@ package at.orchaldir.gm.app.html.model.item
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.fieldWeight
+import at.orchaldir.gm.app.html.model.parseWeight
+import at.orchaldir.gm.app.html.model.selectWeight
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
@@ -13,6 +16,7 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
@@ -22,7 +26,16 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showEquipmentData(
+fun BODY.showEquipment(
+    call: ApplicationCall,
+    state: State,
+    equipment: Equipment,
+) {
+    fieldWeight("Weight", equipment.weight)
+    showEquipmentData(call, state, equipment)
+}
+
+private fun BODY.showEquipmentData(
     call: ApplicationCall,
     state: State,
     equipment: Equipment,
@@ -132,6 +145,8 @@ fun FORM.editEquipment(
     equipment: Equipment,
 ) {
     selectName(equipment.name)
+    val gram = Weight.fromGram(10)
+    selectWeight("Weight", WEIGHT, equipment.weight, gram, Weight.fromKilogram(10.0f), gram)
     selectValue(
         "Equipment",
         combine(EQUIPMENT, TYPE),
@@ -279,7 +294,12 @@ fun parseEquipmentId(parameters: Parameters, param: String) = EquipmentId(parseI
 fun parseEquipment(id: EquipmentId, parameters: Parameters): Equipment {
     val name = parameters.getOrFail(NAME)
 
-    return Equipment(id, name, parseEquipmentData(parameters))
+    return Equipment(
+        id,
+        name,
+        parseEquipmentData(parameters),
+        parseWeight(parameters, WEIGHT),
+    )
 }
 
 fun parseEquipmentData(parameters: Parameters) =
