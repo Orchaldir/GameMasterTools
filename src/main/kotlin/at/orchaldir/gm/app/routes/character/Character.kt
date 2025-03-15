@@ -333,29 +333,6 @@ private fun BODY.showData(
     }
 }
 
-private fun BODY.showVitalStatus(
-    call: ApplicationCall,
-    state: State,
-    vitalStatus: VitalStatus,
-) {
-    if (vitalStatus is Dead) {
-        field(call, state, "Date of Death", vitalStatus.deathDay)
-
-        when (vitalStatus.cause) {
-            is Accident -> showCauseOfDeath("Accident")
-            is DeathByIllness -> showCauseOfDeath("Illness")
-            is Murder -> {
-                field("Cause of Death") {
-                    +"Killed by "
-                    link(call, state, vitalStatus.cause.killer)
-                }
-            }
-
-            is OldAge -> showCauseOfDeath("Old Age")
-        }
-    }
-}
-
 private fun BODY.showHeight(
     state: State,
     character: Character,
@@ -372,10 +349,6 @@ fun HtmlBlockTag.showCurrentHeight(
 ) {
     val currentHeight = state.scaleHeightByAge(character, maxHeight)
     fieldDistance("Current Height", currentHeight)
-}
-
-private fun BODY.showCauseOfDeath(cause: String) {
-    field("Cause of Death", cause)
 }
 
 private fun HtmlBlockTag.showAge(
@@ -524,29 +497,6 @@ private fun HTML.showCharacterEditor(
             button("Update", updateLink)
         }
         back(backLink)
-    }
-}
-
-private fun FORM.selectVitalStatus(
-    state: State,
-    character: Character,
-) {
-    val vitalStatus = character.vitalStatus
-    selectValue("Vital Status", VITAL, VitalStatusType.entries, vitalStatus.getType(), true)
-
-    if (vitalStatus is Dead) {
-        selectDate(state, "Date of Death", vitalStatus.deathDay, combine(DEATH, DATE))
-        selectValue("Cause of death", DEATH, CauseOfDeathType.entries, vitalStatus.cause.getType(), true)
-
-        if (vitalStatus.cause is Murder) {
-            selectElement(
-                state,
-                "Killer",
-                KILLER,
-                state.getCharacterStorage().getAllExcept(character.id),
-                vitalStatus.cause.killer,
-            )
-        }
     }
 }
 
