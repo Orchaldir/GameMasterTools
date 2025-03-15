@@ -30,6 +30,7 @@ fun HtmlBlockTag.showRace(
     showRarityMap("Gender", race.genders)
     showDistribution("Height", race.height)
     fieldWeight("Weight", race.weight)
+    field("BMI", String.format("%.1f", race.calculateBodyMassIndex()))
     showRaceOrigin(call, state, race.origin)
     showLifeStages(call, state, race)
 }

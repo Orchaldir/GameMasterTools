@@ -11,6 +11,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
+import kotlin.math.pow
 
 const val RACE_TYPE = "Race"
 
@@ -38,5 +39,7 @@ data class Race(
     override fun id() = id
     override fun name() = name
     override fun startDate() = origin.startDate()
+
+    fun calculateBodyMassIndex() = weight.toKilograms() / height.center.toMeters().pow(2)
 
 }
