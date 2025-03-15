@@ -124,10 +124,7 @@
     "Female": "Common",
     "Male": "Common"
    },
-   "weight": {
-    "center": 60000,
-    "offset": 20000
-   },
+   "weight": 60000,
    "lifeStages": {
     "type": "Default",
     "appearance": 1,
