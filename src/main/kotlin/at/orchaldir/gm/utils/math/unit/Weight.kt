@@ -56,5 +56,9 @@ fun formatAsKilograms(grams: Int) = String.format(
         "%d.%03d kg"
     },
     kilogramsOnly(grams),
-    gramsOnly(grams),
+    if (grams > LESS_DIGITS_THRESHOLD) {
+        gramsOnly(grams) / 100
+    } else {
+        gramsOnly(grams)
+    },
 )
