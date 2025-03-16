@@ -41,6 +41,10 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         withFactor(0.8f, 1.0f, 1.2f),
     ),
     EquipmentConfig(
+        BeltConfig(
+            Factor(0.1f),
+            Factor(0.85f),
+        ),
         CoatConfig(
             Factor(0.1f),
         ),
@@ -52,9 +56,9 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         ),
         GlassesConfig(
             SizeConfig(
-                Factor(0.125f),
-                Factor(0.175f),
-                Factor(0.2f),
+                Factor(0.25f),
+                Factor(0.35f),
+                Factor(0.4f),
             ),
             Factor(0.02f),
             Factor(0.01f),

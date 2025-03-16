@@ -51,7 +51,7 @@ fun visualizeWarpAround(
 ) {
     val glassesOptions = state.config.equipment.glasses
     val renderer = state.renderer.getLayer()
-    val half = glassesOptions.size.small
+    val half = glassesOptions.size.small / 2.0f
     val eyeY = state.config.head.eyes.eyeY
     val polygon = Polygon2dBuilder()
         .addMirroredPoints(state.aabb, FULL, eyeY + half)
@@ -72,7 +72,7 @@ fun visualizeLens(
 
     when (glasses.lensShape) {
         LensShape.Circle -> {
-            val radius = state.aabb.convertHeight(glassesOptions.size.medium)
+            val radius = state.aabb.convertHeight(glassesOptions.size.medium) / 2.0f
             renderer.renderCircle(center, radius, renderOptions)
         }
 
@@ -109,11 +109,11 @@ private fun createRectangleLens(
     glassesOptions: GlassesConfig,
     center: Point2d,
 ): Polygon2d {
-    val halfSmall = state.aabb.convertHeight(glassesOptions.size.small)
-    val halfMedium = state.aabb.convertHeight(glassesOptions.size.medium)
+    val small = state.aabb.convertHeight(glassesOptions.size.small)
+    val medium = state.aabb.convertHeight(glassesOptions.size.medium)
 
     return Polygon2dBuilder()
-        .addRectangle(center, halfMedium, halfSmall)
+        .addRectangle(center, medium, small)
         .build()
 }
 
@@ -122,10 +122,10 @@ private fun createSquareLens(
     glassesOptions: GlassesConfig,
     center: Point2d,
 ): Polygon2d {
-    val half = state.aabb.convertHeight(glassesOptions.size.medium)
+    val size = state.aabb.convertHeight(glassesOptions.size.medium)
 
     return Polygon2dBuilder()
-        .addSquare(center, half)
+        .addSquare(center, size)
         .build()
 }
 
@@ -133,7 +133,7 @@ fun visualizeFrame(
     state: CharacterRenderState,
     lineOptions: LineOptions,
 ) {
-    val width = state.config.equipment.glasses.size.medium * 2.0f
+    val width = state.config.equipment.glasses.size.medium / 2.0f
     val eyesConfig = state.config.head.eyes
     val distanceBetweenEyes = eyesConfig.getDistanceBetweenEyes()
     val (headLeft, headRight) = state.aabb.getMirroredPoints(FULL, eyesConfig.eyeY)
