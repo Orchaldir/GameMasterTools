@@ -43,7 +43,7 @@ private fun BODY.showEquipmentData(
     field("Type", equipment.data.getType())
 
     when (val data = equipment.data) {
-        NoEquipment -> doNothing()
+        NoEquipment, is Belt -> doNothing()
         is Coat -> {
             field("Length", data.length)
             field("Neckline Style", data.necklineStyle)
@@ -163,7 +163,7 @@ private fun FORM.editEquipmentData(
     equipment: Equipment,
 ) {
     when (val data = equipment.data) {
-        NoEquipment -> doNothing()
+        NoEquipment, is Belt -> doNothing()
         is Coat -> {
             selectValue("Length", LENGTH, OuterwearLength.entries, data.length, true)
             selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
@@ -304,7 +304,7 @@ fun parseEquipment(id: EquipmentId, parameters: Parameters): Equipment {
 
 fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.None)) {
-        EquipmentDataType.None -> NoEquipment
+        EquipmentDataType.None, EquipmentDataType.Belt -> NoEquipment
         EquipmentDataType.Coat -> Coat(
             parse(parameters, LENGTH, OuterwearLength.Hip),
             parse(parameters, NECKLINE_STYLE, NecklineStyle.DeepV),
