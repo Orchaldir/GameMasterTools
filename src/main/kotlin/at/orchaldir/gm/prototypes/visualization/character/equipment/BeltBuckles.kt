@@ -2,6 +2,8 @@ package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.Belt
+import at.orchaldir.gm.core.model.item.equipment.Pants
+import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.item.equipment.style.BuckleShape
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBuckle
 import at.orchaldir.gm.core.model.util.Size
@@ -17,9 +19,18 @@ fun main() {
         addNames(Size.entries),
         addNames(BuckleShape.entries)
     ) { distance, shape, size ->
-        Pair(createAppearance(distance), listOf(Belt(SimpleBuckle(shape, size))))
+        Pair(createAppearance(distance), createBelt(shape, size))
     }
 }
+
+private fun createBelt(
+    shape: BuckleShape,
+    size: Size,
+) = listOf(
+    Belt(SimpleBuckle(shape, size)),
+    Pants(),
+    Shirt(),
+)
 
 private fun createAppearance(distance: Distance) =
     HumanoidBody(
