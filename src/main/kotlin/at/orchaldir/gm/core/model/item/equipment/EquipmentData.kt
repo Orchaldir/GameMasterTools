@@ -76,7 +76,7 @@ data object NoEquipment : EquipmentData() {
 @SerialName("Belt")
 data class Belt(
     val buckle: Buckle = SimpleBuckle(),
-    val fill: Fill = Transparent(Color.SkyBlue, Factor(0.5f)),
+    val fill: Fill = Solid(Color.SaddleBrown),
     val material: MaterialId = MaterialId(0),
 ) : EquipmentData() {
 
