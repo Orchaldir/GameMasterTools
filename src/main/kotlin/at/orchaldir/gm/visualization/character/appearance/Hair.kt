@@ -32,7 +32,7 @@ fun visualizeHair(state: CharacterRenderState, head: Head) {
 private fun visualizeNormalHair(state: CharacterRenderState, hair: NormalHair) {
     val config = state.config
     val options = FillAndBorder(hair.color.toRender(), config.line)
-    val hasHeadwear = state.hasEquipped(EquipmentSlot.Headwear)
+    val hasHeadwear = state.hasEquipped(EquipmentSlot.HeadSlot)
 
     if (!state.renderFront) {
         when (hair.style) {
@@ -84,7 +84,7 @@ private fun visualizeFlatTop(
     options: FillAndBorder,
     config: CharacterRenderConfig,
 ) {
-    if (state.hasEquipped(EquipmentSlot.Headwear)) {
+    if (state.hasEquipped(EquipmentSlot.HeadSlot)) {
         return
     }
 

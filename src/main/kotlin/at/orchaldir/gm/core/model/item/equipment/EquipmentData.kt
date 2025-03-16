@@ -16,6 +16,7 @@ val NOT_NONE = EquipmentDataType.entries.toSet() - EquipmentDataType.None
 
 enum class EquipmentDataType {
     None,
+    Belt,
     Coat,
     Dress,
     Footwear,
@@ -28,15 +29,16 @@ enum class EquipmentDataType {
 
     fun slots(): Set<EquipmentSlot> = when (this) {
         None -> emptySet()
-        Coat -> setOf(Outerwear)
-        Dress -> setOf(Bottom, Top)
-        Footwear -> setOf(Foot)
-        Glasses -> setOf(Eyewear)
-        Gloves -> setOf(Handwear)
-        Hat -> setOf(Headwear)
-        Pants -> setOf(Bottom)
-        Shirt -> setOf(Top)
-        Skirt -> setOf(Bottom)
+        Belt -> setOf(BeltSlot)
+        Coat -> setOf(OuterSlot)
+        Dress -> setOf(BottomSlot, TopSlot)
+        Footwear -> setOf(FootSlot)
+        Glasses -> setOf(EyeSlot)
+        Gloves -> setOf(HandSlot)
+        Hat -> setOf(HeadSlot)
+        Pants -> setOf(BottomSlot)
+        Shirt -> setOf(TopSlot)
+        Skirt -> setOf(BottomSlot)
     }
 }
 
@@ -47,6 +49,7 @@ sealed class EquipmentData {
 
     fun getType() = when (this) {
         NoEquipment -> EquipmentDataType.None
+        is Belt -> EquipmentDataType.Belt
         is Coat -> EquipmentDataType.Coat
         is Dress -> EquipmentDataType.Dress
         is Footwear -> EquipmentDataType.Footwear
@@ -67,6 +70,18 @@ sealed class EquipmentData {
 @SerialName("None")
 data object NoEquipment : EquipmentData() {
     override fun getMaterials() = emptySet<MaterialId>()
+}
+
+@Serializable
+@SerialName("Belt")
+data class Belt(
+    val buckle: Buckle = SimpleBuckle(),
+    val fill: Fill = Transparent(Color.SkyBlue, Factor(0.5f)),
+    val material: MaterialId = MaterialId(0),
+) : EquipmentData() {
+
+    override fun contains(id: MaterialId) = material == id || buckle.contains(id)
+    override fun getMaterials() = setOf(material) + buckle.getMaterials()
 }
 
 @Serializable
