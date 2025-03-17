@@ -9,9 +9,19 @@ class PathBuilder(private val parts: MutableList<String> = mutableListOf()) {
 
     fun moveTo(x: Float, y: Float): PathBuilder {
         val part = String.format(LOCALE, "M %.3f %.3f", x, y)
-        parts.add(part)
+        return add(part)
+    }
 
-        return this
+    fun lineTo(point: Point2d) = lineTo(point.x, point.y)
+
+    fun lineTo(x: Float, y: Float): PathBuilder {
+        val part = String.format(LOCALE, "L %.3f %.3f", x, y)
+        return add(part)
+    }
+
+    fun curveTo(control: Point2d, end: Point2d): PathBuilder {
+        val part = String.format(LOCALE, "Q %.3f %.3f %.3f %.3f", control.x, control.y, end.x, end.y)
+        return add(part)
     }
 
     fun ellipticalArc(
@@ -34,13 +44,13 @@ class PathBuilder(private val parts: MutableList<String> = mutableListOf()) {
             endX,
             endY,
         )
-        parts.add(part)
-
-        return this
+        return add(part)
     }
 
-    fun close(): PathBuilder {
-        parts.add("Z")
+    fun close() = add("Z")
+
+    private fun add(part: String): PathBuilder {
+        parts.add(part)
 
         return this
     }

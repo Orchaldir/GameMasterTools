@@ -73,7 +73,7 @@ fun convertRingToPath(
 }
 
 fun convertRoundedPolygonToPath(polygon: Polygon2d): String {
-    val path = StringBuilder()
+    val path = PathBuilder()
     var previous = polygon.corners[0]
     var isStart = true
     var isSharp = false
@@ -87,7 +87,7 @@ fun convertRoundedPolygonToPath(polygon: Polygon2d): String {
             isSharp = true
 
             if (!isStart) {
-                lineTo(path, previous)
+                path.lineTo(previous)
             }
 
             continue
@@ -99,78 +99,45 @@ fun convertRoundedPolygonToPath(polygon: Polygon2d): String {
 
             if (isSharp) {
                 isSharp = false
-                moveTo(path, previous)
-                lineTo(path, middle)
+                path.moveTo(previous)
+                path.lineTo(middle)
             } else {
                 firstMiddle = middle
-                moveTo(path, middle)
+                path.moveTo(middle)
             }
         } else if (isSharp) {
             isSharp = false
             val middle = (previous + corner) / 2.0f
-            lineTo(path, middle)
+            path.lineTo(middle)
         } else {
             val middle = (previous + corner) / 2.0f
-            curveTo(path, previous, middle)
+            path.curveTo(previous, middle)
         }
 
         previous = corner
     }
 
     if (firstMiddle != null) {
-        curveTo(path, previous, firstMiddle)
+        path.curveTo(previous, firstMiddle)
     } else {
-        close(path)
+        path.close()
     }
 
-    return path.toString()
+    return path.build()
 }
 
-fun convertPolygonToPath(polygon: Polygon2d): String {
-    val path = convertCornersToPath(polygon.corners)
+fun convertPolygonToPath(polygon: Polygon2d) = convertCornersToPath(polygon.corners)
+    .close()
+    .build()
 
-    close(path)
-
-    return path.toString()
-}
-
-private fun convertCornersToPath(corners: List<Point2d>): StringBuilder {
-    val path = StringBuilder()
-
-    moveTo(path, corners[0])
+private fun convertCornersToPath(corners: List<Point2d>): PathBuilder {
+    val path = PathBuilder()
+        .moveTo(corners[0])
 
     corners.stream()
         .skip(1)
-        .forEach { lineTo(path, it) }
+        .forEach { path.lineTo(it) }
 
     return path
 }
 
-private fun moveTo(path: StringBuilder, point: Point2d) {
-    path.append("M ")
-        .append(point.x)
-        .append(" ")
-        .append(point.y)
-}
-
-private fun lineTo(path: StringBuilder, point: Point2d) {
-    path.append(" L ")
-        .append(point.x)
-        .append(" ")
-        .append(point.y)
-}
-
-private fun curveTo(path: StringBuilder, control: Point2d, end: Point2d) {
-    path.append(" Q ")
-        .append(control.x)
-        .append(" ")
-        .append(control.y)
-        .append(" ")
-        .append(end.x)
-        .append(" ")
-        .append(end.y)
-}
-
-fun close(path: StringBuilder) {
-    path.append(" Z")
-}
