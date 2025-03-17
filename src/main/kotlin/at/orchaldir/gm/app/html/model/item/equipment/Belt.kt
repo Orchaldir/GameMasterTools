@@ -89,7 +89,7 @@ private fun parseBuckle(parameters: Parameters): Buckle {
         BuckleType.Simple -> SimpleBuckle(
             parse(parameters, combine(BUCKLE, SHAPE), BuckleShape.Rectangle),
             parse(parameters, combine(BUCKLE, SIZE), Size.Small),
-            parseFill(parameters, combine(BUCKLE, SIZE)),
+            parseFill(parameters, combine(BUCKLE, FILL)),
             parseMaterialId(parameters, combine(BUCKLE, MATERIAL)),
         )
     }
