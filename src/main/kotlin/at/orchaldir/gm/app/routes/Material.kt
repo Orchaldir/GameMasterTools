@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
+import at.orchaldir.gm.core.selector.util.sortMaterial
 import at.orchaldir.gm.core.selector.world.countStreetTemplates
 import at.orchaldir.gm.core.selector.world.getMountainsContaining
 import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
@@ -123,7 +124,7 @@ private fun HTML.showAllMaterials(
     call: ApplicationCall,
     state: State,
 ) {
-    val materials = STORE.getState().getMaterialStorage().getAll().sortedBy { it.name }
+    val materials = state.sortMaterial()
     val createLink = call.application.href(MaterialRoutes.New())
 
     simpleHtml("Materials") {

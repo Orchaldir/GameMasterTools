@@ -40,6 +40,10 @@ enum class SortJob {
     Name,
 }
 
+enum class SortMaterial {
+    Name,
+}
+
 enum class SortOrganization {
     Age,
     Name,

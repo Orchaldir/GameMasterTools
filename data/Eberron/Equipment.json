@@ -13,6 +13,23 @@
     }
    },
    "weight": 40
+  },
+   "1": {
+     "id": 1,
+     "name": "Leather Belt",
+     "data": {
+       "type": "Belt",
+       "buckle": {
+         "type": "Simple",
+         "fill": {
+           "type": "Solid",
+           "color": "SkyBlue"
+         },
+         "material": 19
+       },
+       "material": 1
+     },
+     "weight": 10
   }
  }
 }

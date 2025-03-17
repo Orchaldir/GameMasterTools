@@ -15,6 +15,8 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.selector.util.sortMaterial
+import at.orchaldir.gm.core.selector.util.sortPantheons
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
@@ -284,7 +286,7 @@ fun HtmlBlockTag.selectMaterial(
     materialId: MaterialId,
     param: String = MATERIAL,
 ) {
-    selectElement(state, "Material", param, state.getMaterialStorage().getAll(), materialId)
+    selectElement(state, "Material", param, state.sortMaterial(), materialId)
 }
 
 // parse
