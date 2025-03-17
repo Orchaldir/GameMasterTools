@@ -65,16 +65,18 @@ private fun visualizeSimpleBuckle(
 ) {
     val options = FillAndBorder(buckle.fill.toRender(), state.config.line)
     val beltConfig = state.config.equipment.belt
-    val height = torsoAABB.convertHeight(beltConfig.buckleHeight.convert(buckle.size))
-    val half = height / 2.0f
+    val distance = torsoAABB.convertHeight(beltConfig.buckleHeight.convert(buckle.size))
+    val half = distance / 2.0f
+    val double = distance * 2.0f
     val center = torsoAABB.getPoint(CENTER, beltConfig.y)
     val renderer = state.renderer.getLayer(HIGHER_EQUIPMENT_LAYER)
 
     when (buckle.shape) {
-        BuckleShape.Box -> doNothing()
         BuckleShape.Circle -> renderer.renderCircle(center, half, options)
         BuckleShape.Frame -> doNothing()
-        BuckleShape.Plate -> renderer.renderEllipse(center, height, half, options)
+        BuckleShape.Plate -> renderer.renderEllipse(center, distance, half, options)
+        BuckleShape.Rectangle -> renderer.renderRectangle(AABB.fromWidthAndHeight(center, double, distance), options)
+        BuckleShape.Square -> renderer.renderRectangle(AABB.fromCenter(center, distance), options)
     }
 
 }

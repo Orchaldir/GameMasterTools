@@ -29,7 +29,7 @@ data object NoBuckle : Buckle()
 @Serializable
 @SerialName("Simple")
 data class SimpleBuckle(
-    val shape: BuckleShape = BuckleShape.Box,
+    val shape: BuckleShape = BuckleShape.Rectangle,
     val size: Size = Size.Small,
     val fill: Fill = Solid(Color.Gray),
     val material: MaterialId = MaterialId(0),
