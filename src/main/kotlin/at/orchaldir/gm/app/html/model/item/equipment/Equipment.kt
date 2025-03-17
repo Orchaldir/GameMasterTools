@@ -16,7 +16,6 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.util.sortMaterial
-import at.orchaldir.gm.core.selector.util.sortPantheons
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*

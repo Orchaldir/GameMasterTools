@@ -1,7 +1,10 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.Fill
+import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.Solid
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
