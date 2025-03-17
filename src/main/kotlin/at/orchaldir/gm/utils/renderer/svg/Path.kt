@@ -47,11 +47,8 @@ fun convertHollowRectangleToPath(
         .build()
 }
 
-fun convertLineToPath(line: List<Point2d>): String {
-    val path = convertCornersToPath(line)
-
-    return path.toString()
-}
+fun convertLineToPath(line: List<Point2d>) = convertCornersToPath(line)
+    .build()
 
 fun convertPointedOvalToPath(center: Point2d, radiusX: Distance, radiusY: Distance): String {
     val metersX = radiusX.toMeters()
