@@ -44,8 +44,8 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         BeltConfig(
             Factor(0.1f),
             SizeConfig(
-                Factor(0.1f),
-                Factor(0.15f),
+                Factor(0.12f),
+                Factor(0.16f),
                 Factor(0.2f),
             ),
             Factor(0.85f),
