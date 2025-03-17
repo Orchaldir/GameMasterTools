@@ -30,64 +30,64 @@ fun HtmlBlockTag.showFill(fill: Fill) {
 
 // edit
 
-fun HtmlBlockTag.selectFill(fill: Fill) {
-    selectValue("Fill Type", combine(FILL, TYPE), FillType.entries, fill.getType(), true)
+fun HtmlBlockTag.selectFill(fill: Fill, param: String = FILL) {
+    selectValue("Fill Type", combine(param, TYPE), FillType.entries, fill.getType(), true)
 
     when (fill) {
-        is Solid -> selectColor(fill.color)
+        is Solid -> selectColor(fill.color, selectId = combine(param, COLOR, 0))
         is Transparent -> {
-            selectColor(fill.color)
+            selectColor(fill.color, selectId = combine(param, COLOR, 0))
             selectFloat(
                 "Opacity",
                 fill.opacity.value,
                 0.0f,
                 1.0f,
                 0.01f,
-                combine(FILL, OPACITY),
+                combine(param, OPACITY),
                 true,
             )
         }
 
-        is VerticalStripes -> selectStripes(fill.color0, fill.color1, fill.width)
-        is HorizontalStripes -> selectStripes(fill.color0, fill.color1, fill.width)
+        is VerticalStripes -> selectStripes(fill.color0, fill.color1, fill.width, param)
+        is HorizontalStripes -> selectStripes(fill.color0, fill.color1, fill.width, param)
         is Tiles -> {
             val availableTileColors = if (fill.background != null) {
                 Color.entries - fill.background
             } else {
                 Color.entries
             }
-            selectColor(fill.fill, "Tile Color", combine(FILL, COLOR, 0), availableTileColors)
+            selectColor(fill.fill, combine(param, COLOR, 0), "Tile Color", availableTileColors)
             selectOptionalColor(
                 "Background Color",
-                combine(FILL, COLOR, 1),
+                combine(param, COLOR, 1),
                 fill.background,
                 Color.entries - fill.fill,
                 true
             )
-            selectFloat("Tile in Meter", fill.width, 0.001f, 100f, 0.01f, combine(PATTERN, TILE), true)
+            selectFloat("Tile in Meter", fill.width, 0.001f, 100f, 0.01f, combine(param, PATTERN, TILE), true)
             selectFloat(
                 "Border in Percentage",
                 fill.borderPercentage.value,
                 0.01f,
                 0.9f,
                 0.01f,
-                combine(PATTERN, BORDER),
+                combine(param, PATTERN, BORDER),
                 true
             )
         }
     }
 }
 
-private fun HtmlBlockTag.selectStripes(color0: Color, color1: Color, width: UByte) {
-    selectColor(color0, "1.Stripe Color", combine(FILL, COLOR, 0), Color.entries - color1)
-    selectColor(color1, "2.Stripe Color", combine(FILL, COLOR, 1), Color.entries - color0)
-    selectInt("Stripe Width", width.toInt(), 1, 10, 1, combine(PATTERN, WIDTH), true)
+private fun HtmlBlockTag.selectStripes(color0: Color, color1: Color, width: UByte, param: String) {
+    selectColor(color0, combine(param, COLOR, 0), "1.Stripe Color", Color.entries - color1)
+    selectColor(color1, combine(param, COLOR, 1), "2.Stripe Color", Color.entries - color0)
+    selectInt("Stripe Width", width.toInt(), 1, 10, 1, combine(param, PATTERN, WIDTH), true)
 }
 
 fun HtmlBlockTag.selectColor(
     color: Color,
+    selectId: String,
     label: String = "Color",
-    selectId: String = combine(FILL, COLOR, 0),
     colors: Collection<Color> = Color.entries,
 ) {
     selectColor(label, selectId, OneOf(colors), color)
@@ -95,35 +95,36 @@ fun HtmlBlockTag.selectColor(
 
 // parse
 
-fun parseFill(parameters: Parameters): Fill {
-    val type = parse(parameters, combine(FILL, TYPE), FillType.Solid)
+fun parseFill(parameters: Parameters, param: String = FILL): Fill {
+    val type = parse(parameters, combine(param, TYPE), FillType.Solid)
 
     return when (type) {
-        FillType.Solid -> Solid(parse(parameters, combine(FILL, COLOR, 0), Color.SkyBlue))
+        FillType.Solid -> Solid(parse(parameters, combine(param, COLOR, 0), Color.SkyBlue))
         FillType.Transparent -> Transparent(
-            parse(parameters, combine(FILL, COLOR, 0), Color.SkyBlue),
-            parseFactor(parameters, combine(FILL, OPACITY)),
+            parse(parameters, combine(param, COLOR, 0), Color.SkyBlue),
+            parseFactor(parameters, combine(param, OPACITY)),
         )
 
         FillType.VerticalStripes -> VerticalStripes(
-            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
-            parse(parameters, combine(FILL, COLOR, 1), Color.White),
-            parseWidth(parameters),
+            parse(parameters, combine(param, COLOR, 0), Color.Black),
+            parse(parameters, combine(param, COLOR, 1), Color.White),
+            parseWidth(parameters, param),
         )
 
         FillType.HorizontalStripes -> HorizontalStripes(
-            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
-            parse(parameters, combine(FILL, COLOR, 1), Color.White),
-            parseWidth(parameters),
+            parse(parameters, combine(param, COLOR, 0), Color.Black),
+            parse(parameters, combine(param, COLOR, 1), Color.White),
+            parseWidth(parameters, param),
         )
 
         FillType.Tiles -> Tiles(
-            parse(parameters, combine(FILL, COLOR, 0), Color.Black),
-            parse<Color>(parameters, combine(FILL, COLOR, 1)),
-            parseFloat(parameters, combine(PATTERN, TILE), 1.0f),
-            parseFactor(parameters, combine(PATTERN, BORDER), Factor(0.1f))
+            parse(parameters, combine(param, COLOR, 0), Color.Black),
+            parse<Color>(parameters, combine(param, COLOR, 1)),
+            parseFloat(parameters, combine(param, PATTERN, TILE), 1.0f),
+            parseFactor(parameters, combine(param, PATTERN, BORDER), Factor(0.1f))
         )
     }
 }
 
-private fun parseWidth(parameters: Parameters) = parseUByte(parameters, combine(PATTERN, WIDTH), 1u)
+private fun parseWidth(parameters: Parameters, param: String) =
+    parseUByte(parameters, combine(param, PATTERN, WIDTH), 1u)
