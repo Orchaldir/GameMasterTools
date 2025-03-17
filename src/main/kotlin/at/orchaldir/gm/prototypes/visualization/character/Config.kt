@@ -49,9 +49,9 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
                 Factor(0.2f),
             ),
             SizeConfig(
+                Factor(0.01f),
                 Factor(0.02f),
                 Factor(0.025f),
-                Factor(0.03f),
             ),
             Factor(0.85f),
         ),
