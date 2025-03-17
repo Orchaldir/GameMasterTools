@@ -5,5 +5,6 @@ enum class BuckleShape {
     Frame,
     Plate,
     Rectangle,
+    Ring,
     Square,
 }

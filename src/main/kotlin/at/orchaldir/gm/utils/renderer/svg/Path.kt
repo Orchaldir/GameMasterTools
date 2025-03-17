@@ -50,6 +50,24 @@ fun convertPointedOvalToPath(center: Point2d, radiusX: Distance, radiusY: Distan
     )
 }
 
+fun convertRingToPath(
+    center: Point2d,
+    outerRadius: Distance,
+    innerRadius: Distance,
+): String {
+    val outer = outerRadius.toMeters()
+    val inner = innerRadius.toMeters()
+
+    return PathBuilder()
+        .moveTo(center.x, center.y - outer)
+        .ellipticalArc(outer, outer, center.x, center.y + outer, largeArcFlag = true)
+        .ellipticalArc(outer, outer, center.x, center.y - outer, largeArcFlag = true)
+        .moveTo(center.x, center.y - inner)
+        .ellipticalArc(inner, inner, center.x, center.y + inner, largeArcFlag = true, sweepFlag = true)
+        .ellipticalArc(inner, inner, center.x, center.y - inner, largeArcFlag = true, sweepFlag = true)
+        .closeAndBuild()
+}
+
 fun convertRoundedPolygonToPath(polygon: Polygon2d): String {
     val path = StringBuilder()
     var previous = polygon.corners[0]

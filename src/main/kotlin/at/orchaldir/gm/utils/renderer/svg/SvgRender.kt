@@ -111,6 +111,17 @@ class SvgRenderer(
         return this
     }
 
+    override fun renderRing(
+        center: Point2d,
+        outerRadius: Distance,
+        innerRadius: Distance,
+        options: RenderOptions,
+    ): LayerRenderer {
+        renderPath(convertRingToPath(center, outerRadius, innerRadius), toSvg(options))
+
+        return this
+    }
+
     override fun renderString(
         text: String,
         position: Point2d,
