@@ -43,6 +43,11 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
     EquipmentConfig(
         BeltConfig(
             Factor(0.1f),
+            SizeConfig(
+                Factor(0.1f),
+                Factor(0.15f),
+                Factor(0.2f),
+            ),
             Factor(0.85f),
         ),
         CoatConfig(
