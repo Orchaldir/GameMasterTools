@@ -2,6 +2,8 @@ package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.Belt
+import at.orchaldir.gm.core.model.item.equipment.Pants
+import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
@@ -43,7 +45,9 @@ private fun createBelt(
             BeltHolesType.TwoRows -> TwoRowsOfBeltHoles(color)
             BeltHolesType.ThreeRows -> ThreeRowsOfBeltHoles(color)
         }
-    )
+    ),
+    Pants(),
+    Shirt(),
 )
 
 private fun createAppearance(distance: Distance) =
