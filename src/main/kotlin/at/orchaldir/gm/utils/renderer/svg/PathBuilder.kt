@@ -15,8 +15,8 @@ class PathBuilder(private val parts: MutableList<String> = mutableListOf()) {
     }
 
     fun ellipticalArc(
-        x: Float,
-        y: Float,
+        endX: Float,
+        endY: Float,
         radiusX: Float,
         radiusY: Float,
         xAxisRotation: Float = 0.0f,
@@ -31,8 +31,8 @@ class PathBuilder(private val parts: MutableList<String> = mutableListOf()) {
             xAxisRotation,
             largeArcFlag.toInt(),
             sweepFlag.toInt(),
-            x,
-            y,
+            endX,
+            endY,
         )
         parts.add(part)
 

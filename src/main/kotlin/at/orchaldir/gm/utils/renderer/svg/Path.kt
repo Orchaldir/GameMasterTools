@@ -13,12 +13,13 @@ fun convertCircleArcToPath(
 ): String {
     val start = center.createPolar(radius, offset)
     val end = center.createPolar(radius, offset + angle)
+    val radiusMeter = radius.toMeters()
 
-    return String.format(
-        LOCALE,
-        "M %.3f %.3f A %.3f %.3f 0 0 0 %.3f %.3f Z",
-        start.x, start.y, radius.toMeters(), radius.toMeters(), end.x, end.y
-    )
+    return PathBuilder()
+        .moveTo(start.x, start.y)
+        .ellipticalArc(end.x, end.y, radiusMeter, radiusMeter)
+        .close()
+        .build()
 }
 
 fun convertLineToPath(line: List<Point2d>): String {
@@ -43,11 +44,12 @@ fun convertPointedOvalToPath(center: Point2d, radiusX: Distance, radiusY: Distan
         aabb.getPoint(CENTER, END)
     }
 
-    return String.format(
-        LOCALE,
-        "M %.3f %.3f A %.3f %.3f, 0, 0, 0, %.3f %.3f A %.3f %.3f, 0, 0, 0, %.3f %.3f Z",
-        left.x, left.y, radius, radius, right.x, right.y, radius, radius, left.x, left.y,
-    )
+    return PathBuilder()
+        .moveTo(left.x, left.y)
+        .ellipticalArc(right.x, right.y, radius, radius)
+        .ellipticalArc(left.x, left.y, radius, radius)
+        .close()
+        .build()
 }
 
 fun convertRingToPath(
