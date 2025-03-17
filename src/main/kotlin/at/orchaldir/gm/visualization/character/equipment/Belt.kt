@@ -125,7 +125,7 @@ private fun visualizeSimpleBuckle(
 
     when (buckle.shape) {
         BuckleShape.Circle -> renderer.renderCircle(center, half, options)
-        BuckleShape.Frame -> doNothing()
+        BuckleShape.Frame -> renderer.renderHollowRectangle(center, double, distance, half / 2, options)
         BuckleShape.Plate -> renderer.renderEllipse(center, distance, half, options)
         BuckleShape.Rectangle -> renderer.renderRectangle(AABB.fromWidthAndHeight(center, double, distance), options)
         BuckleShape.Ring -> renderer.renderRing(center, half, half / 2.0f, options)

@@ -111,6 +111,18 @@ class SvgRenderer(
         return this
     }
 
+    override fun renderHollowRectangle(
+        center: Point2d,
+        width: Distance,
+        height: Distance,
+        thickness: Distance,
+        options: RenderOptions,
+    ): LayerRenderer {
+        renderPath(convertHollowRectangleToPath(center, width, height, thickness), toSvg(options))
+
+        return this
+    }
+
     override fun renderRing(
         center: Point2d,
         outerRadius: Distance,

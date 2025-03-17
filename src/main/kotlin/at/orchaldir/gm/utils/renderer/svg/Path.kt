@@ -22,6 +22,31 @@ fun convertCircleArcToPath(
         .build()
 }
 
+fun convertHollowRectangleToPath(
+    center: Point2d,
+    width: Distance,
+    height: Distance,
+    thickness: Distance,
+): String {
+    val halfWidth = width.toMeters() / 2.0f
+    val halfHeight = height.toMeters() / 2.0f
+    val halfInnerWidth = halfWidth - thickness.toMeters()
+    val halfInnerHeight = halfHeight - thickness.toMeters()
+
+    return PathBuilder()
+        .moveTo(center.x - halfWidth, center.y - halfHeight)
+        .lineTo(center.x - halfWidth, center.y + halfHeight)
+        .lineTo(center.x + halfWidth, center.y + halfHeight)
+        .lineTo(center.x + halfWidth, center.y - halfHeight)
+        .close()
+        .moveTo(center.x - halfInnerWidth, center.y - halfInnerHeight)
+        .lineTo(center.x + halfInnerWidth, center.y - halfInnerHeight)
+        .lineTo(center.x + halfInnerWidth, center.y + halfInnerHeight)
+        .lineTo(center.x - halfInnerWidth, center.y + halfInnerHeight)
+        .close()
+        .build()
+}
+
 fun convertLineToPath(line: List<Point2d>): String {
     val path = convertCornersToPath(line)
 

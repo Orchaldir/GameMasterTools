@@ -52,6 +52,14 @@ interface LayerRenderer {
 
     fun renderRectangle(aabb: AABB, options: RenderOptions): LayerRenderer
 
+    fun renderHollowRectangle(
+        center: Point2d,
+        width: Distance,
+        height: Distance,
+        thickness: Distance,
+        options: RenderOptions,
+    ): LayerRenderer
+
     fun renderRing(center: Point2d, outerRadius: Distance, innerRadius: Distance, options: RenderOptions): LayerRenderer
 
     fun renderString(
