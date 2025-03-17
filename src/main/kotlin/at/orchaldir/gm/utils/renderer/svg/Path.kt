@@ -62,10 +62,12 @@ fun convertRingToPath(
         .moveTo(center.x, center.y - outer)
         .ellipticalArc(outer, outer, center.x, center.y + outer, largeArcFlag = true)
         .ellipticalArc(outer, outer, center.x, center.y - outer, largeArcFlag = true)
+        .close()
         .moveTo(center.x, center.y - inner)
         .ellipticalArc(inner, inner, center.x, center.y + inner, largeArcFlag = true, sweepFlag = true)
         .ellipticalArc(inner, inner, center.x, center.y - inner, largeArcFlag = true, sweepFlag = true)
-        .closeAndBuild()
+        .close()
+        .build()
 }
 
 fun convertRoundedPolygonToPath(polygon: Polygon2d): String {

@@ -26,22 +26,23 @@ class PathBuilder(private val parts: MutableList<String> = mutableListOf()) {
         val part = String.format(
             LOCALE,
             "A %.3f %.3f %.3f %d %d %.3f %.3f",
-            radiusX,
-            radiusY,
+            x,
+            y,
             xAxisRotation,
             largeArcFlag.toInt(),
             sweepFlag.toInt(),
-            x,
-            y,
+            radiusX,
+            radiusY,
         )
         parts.add(part)
 
         return this
     }
 
-    fun closeAndBuild(): String {
+    fun close(): PathBuilder {
         parts.add("Z")
-        return build()
+
+        return this
     }
 
     fun build() = parts.joinToString(" ")
