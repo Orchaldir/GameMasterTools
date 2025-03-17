@@ -78,6 +78,7 @@ data class Belt(
     val buckle: Buckle = SimpleBuckle(),
     val fill: Fill = Solid(Color.SaddleBrown),
     val material: MaterialId = MaterialId(0),
+    val holes: BeltHoles = NoBeltHoles,
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id || buckle.contains(id)
