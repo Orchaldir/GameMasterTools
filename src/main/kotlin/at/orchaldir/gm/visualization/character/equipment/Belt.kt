@@ -62,8 +62,18 @@ private fun visualizeBeltHoles(
     when (holes) {
         NoBeltHoles -> doNothing()
         is OneRowOfBeltHoles -> visualizeRowOfBeltHoles(state, body, torsoAABB, beltConfig.y, holes.size, holes.border)
-        is ThreeRowsOfBeltHoles -> doNothing()
-        is TwoRowsOfBeltHoles -> doNothing()
+        is TwoRowsOfBeltHoles -> {
+            val diffY = beltConfig.bandHeight / 6.0f
+            visualizeRowOfBeltHoles(state, body, torsoAABB, beltConfig.y + diffY, Size.Small, holes.border)
+            visualizeRowOfBeltHoles(state, body, torsoAABB, beltConfig.y - diffY, Size.Small, holes.border)
+        }
+
+        is ThreeRowsOfBeltHoles -> {
+            val diffY = beltConfig.bandHeight / 4.0f
+            visualizeRowOfBeltHoles(state, body, torsoAABB, beltConfig.y + diffY, Size.Small, holes.border)
+            visualizeRowOfBeltHoles(state, body, torsoAABB, beltConfig.y, Size.Small, holes.border)
+            visualizeRowOfBeltHoles(state, body, torsoAABB, beltConfig.y - diffY, Size.Small, holes.border)
+        }
     }
 }
 
