@@ -60,12 +60,12 @@ fun convertRingToPath(
 
     return PathBuilder()
         .moveTo(center.x, center.y - outer)
-        .ellipticalArc(outer, outer, center.x, center.y + outer, largeArcFlag = true)
-        .ellipticalArc(outer, outer, center.x, center.y - outer, largeArcFlag = true)
+        .ellipticalArc(center.x, center.y + outer, outer, outer, largeArcFlag = true)
+        .ellipticalArc(center.x, center.y - outer, outer, outer, largeArcFlag = true)
         .close()
         .moveTo(center.x, center.y - inner)
-        .ellipticalArc(inner, inner, center.x, center.y + inner, largeArcFlag = true, sweepFlag = true)
-        .ellipticalArc(inner, inner, center.x, center.y - inner, largeArcFlag = true, sweepFlag = true)
+        .ellipticalArc(center.x, center.y + inner, inner, inner, largeArcFlag = true, sweepFlag = true)
+        .ellipticalArc(center.x, center.y - inner, inner, inner, largeArcFlag = true, sweepFlag = true)
         .close()
         .build()
 }
