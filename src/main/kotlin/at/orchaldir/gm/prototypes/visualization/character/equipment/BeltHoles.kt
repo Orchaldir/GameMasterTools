@@ -38,7 +38,9 @@ private fun createBelt(
     color: Color?,
 ) = listOf(
     Belt(
-        NoBuckle,
+        SimpleBuckle(
+            BuckleShape.Rectangle,
+        ),
         holes = when (type) {
             BeltHolesType.NoBeltHoles -> NoBeltHoles
             BeltHolesType.OneRow -> OneRowOfBeltHoles(size, color)
