@@ -34,13 +34,15 @@ fun BODY.showBuckle(
     state: State,
     buckle: Buckle,
 ) {
-    when (buckle) {
-        NoBuckle -> doNothing()
-        is SimpleBuckle -> {
-            field("Shape", buckle.shape)
-            field("Size", buckle.size)
-            showFill(buckle.fill)
-            fieldLink("Material", call, state, buckle.material)
+    showDetails("Buckle", true) {
+        when (buckle) {
+            NoBuckle -> doNothing()
+            is SimpleBuckle -> {
+                field("Shape", buckle.shape)
+                field("Size", buckle.size)
+                showFill(buckle.fill)
+                fieldLink("Material", call, state, buckle.material)
+            }
         }
     }
 }
@@ -60,15 +62,17 @@ fun FORM.editBuckle(
     state: State,
     buckle: Buckle,
 ) {
-    selectValue("Buckle Type", combine(BUCKLE, TYPE), BuckleType.entries, buckle.getType(), true)
+    showDetails("Buckle", true) {
+        selectValue("Buckle Type", combine(BUCKLE, TYPE), BuckleType.entries, buckle.getType(), true)
 
-    when (buckle) {
-        NoBuckle -> doNothing()
-        is SimpleBuckle -> {
-            selectValue("Shape", combine(BUCKLE, SHAPE), BuckleShape.entries, buckle.shape, true)
-            selectValue("Size", combine(BUCKLE, SIZE), Size.entries, buckle.size, true)
-            selectFill(buckle.fill, combine(BUCKLE, FILL))
-            selectMaterial(state, buckle.material, combine(BUCKLE, MATERIAL))
+        when (buckle) {
+            NoBuckle -> doNothing()
+            is SimpleBuckle -> {
+                selectValue("Shape", combine(BUCKLE, SHAPE), BuckleShape.entries, buckle.shape, true)
+                selectValue("Size", combine(BUCKLE, SIZE), Size.entries, buckle.size, true)
+                selectFill(buckle.fill, combine(BUCKLE, FILL))
+                selectMaterial(state, buckle.material, combine(BUCKLE, MATERIAL))
+            }
         }
     }
 }
