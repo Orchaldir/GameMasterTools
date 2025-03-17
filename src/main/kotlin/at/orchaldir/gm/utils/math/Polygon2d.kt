@@ -68,6 +68,12 @@ data class Polygon2dBuilder(
         return this
     }
 
+    fun addRectangle(aabb: AABB, horizontal: Factor, vertical: Factor, width: Factor, height: Factor) =
+        addRectangle(aabb.getPoint(horizontal, vertical), aabb.convertWidth(width), aabb.convertHeight(height))
+
+    fun addRectangle(aabb: AABB, horizontal: Factor, vertical: Factor, width: Distance, height: Distance) =
+        addRectangle(aabb.getPoint(horizontal, vertical), width, height)
+
     fun addRectangle(center: Point2d, width: Distance, height: Distance): Polygon2dBuilder {
         val halfWidth = width / 2.0f
         val halfHeight = height / 2.0f

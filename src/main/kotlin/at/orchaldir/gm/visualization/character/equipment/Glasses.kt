@@ -54,8 +54,7 @@ fun visualizeWarpAround(
     val half = glassesOptions.size.small / 2.0f
     val eyeY = state.config.head.eyes.eyeY
     val polygon = Polygon2dBuilder()
-        .addMirroredPoints(state.aabb, FULL, eyeY + half)
-        .addMirroredPoints(state.aabb, FULL, eyeY - half)
+        .addRectangle(state.aabb, HALF, eyeY, FULL, glassesOptions.size.small)
         .build()
 
     renderer.renderPolygon(polygon, renderOptions)
