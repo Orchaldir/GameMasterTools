@@ -40,7 +40,7 @@ fun <C, R> renderCharacterTable(
     backToo: Boolean = false,
     create: (Distance, C, R) -> Pair<Appearance, List<EquipmentData>>,
 ) {
-    val height = Distance(200)
+    val height = Distance(2000)
     val size = config.calculateSize(height)
 
     renderTable(filename, size, rows, columns, backToo) { aabb, renderer, renderFront, column, row ->

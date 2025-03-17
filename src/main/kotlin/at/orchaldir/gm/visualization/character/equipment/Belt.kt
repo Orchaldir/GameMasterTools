@@ -75,12 +75,13 @@ private fun visualizeRowOfBeltHoles(
     size: Size,
     border: Color?,
 ) {
+    val factor = state.config.equipment.belt.holeRadius.convert(size)
+    val radius = torsoAABB.convertHeight(factor)
     val options = if (border != null) {
-        FillAndBorder(Color.Black.toRender(), LineOptions(border.toRender(), 0.001f))
+        FillAndBorder(Color.Black.toRender(), LineOptions(border.toRender(), radius / 2.0f))
     } else {
         NoBorder(Color.Black.toRender())
     }
-    val radius = torsoAABB.convertHeight(state.config.equipment.belt.holeRadius.convert(size))
     val hipWidth = state.config.equipment.pants.getHipWidth(state.config.body, body)
     val splitter = LineSplitter.fromStartAndEnd(torsoAABB.getMirroredPoints(hipWidth, y), 10)
     val renderer = state.renderer.getLayer(HIGHER_EQUIPMENT_LAYER)
