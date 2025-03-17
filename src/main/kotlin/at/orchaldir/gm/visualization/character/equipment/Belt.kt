@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.BodyConfig
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.appearance.HIGHER_EQUIPMENT_LAYER
 
 data class BeltConfig(
     val bandHeight: Factor,
@@ -30,6 +31,13 @@ private fun visualizeBeltBand(
     torsoAABB: AABB,
     belt: Belt,
 ) {
+    val options = FillAndBorder(belt.fill.toRender(), state.config.line)
     val hipWidth = state.config.equipment.pants.getHipWidth(state.config.body, body)
+    val beltConfig = state.config.equipment.belt
     val polygon = Polygon2dBuilder()
+        .addRectangle(torsoAABB, HALF, beltConfig.y, hipWidth, beltConfig.bandHeight)
+        .build()
+
+    state.renderer.getLayer(HIGHER_EQUIPMENT_LAYER)
+        .renderPolygon(polygon, options)
 }
