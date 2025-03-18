@@ -1,6 +1,5 @@
 package at.orchaldir.gm.visualization.character.appearance.mouth
 
-import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.mouth.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
@@ -14,43 +13,47 @@ fun visualizeBeak(state: CharacterRenderState, beak: Beak) = when (beak.shape) {
     BeakShape.Parrot -> doNothing()
 }
 
-private fun visualizeCrow(state: CharacterRenderState, beak: Beak) {
+private fun visualizeCrow(state: CharacterRenderState, beak: Beak) = visualizeSharpBeak(
+    state,
+    beak,
+    Factor(0.3f),
+    Factor(0.18f),
+    Factor(0.15f),
+    Factor(0.45f),
+    false,
+)
+
+private fun visualizeHawk(state: CharacterRenderState, beak: Beak) =
+    visualizeSharpBeak(
+        state,
+        beak,
+        Factor(0.4f),
+        Factor(0.15f),
+        Factor(0.25f),
+        Factor(0.35f),
+        true,
+    )
+
+private fun visualizeSharpBeak(
+    state: CharacterRenderState,
+    beak: Beak,
+    upperHeight: Factor,
+    lowerHeight: Factor,
+    peakHeight: Factor,
+    width: Factor,
+    isSharp: Boolean,
+) {
     val y = state.config.head.mouth.y
-    val half = Factor(0.3f)
-    val width = Factor(0.45f)
     val options = state.config.getLineOptions(beak.color)
     val lowerPolygon = Polygon2dBuilder()
         .addMirroredPoints(state.aabb, width, y, true)
-        .addMirroredPoints(state.aabb, width / 3.0f, y + half * 0.6f)
-        .build()
-    val upperPolygon = Polygon2dBuilder()
-        .addLeftPoint(state.aabb, CENTER, y - half)
-        .addMirroredPoints(state.aabb, width, y, true)
-        .addMirroredPoints(state.aabb, width / 3.0f, y)
-        .addLeftPoint(state.aabb, CENTER, y + half * 0.5f)
-        .build()
-
-    state.renderer.getLayer()
-        .renderRoundedPolygon(lowerPolygon, options)
-    state.renderer.getLayer()
-        .renderRoundedPolygon(upperPolygon, options)
-}
-
-private fun visualizeHawk(state: CharacterRenderState, beak: Beak) {
-    val y = state.config.head.mouth.y
-    val upperHeight = Factor(0.4f)
-    val lowerHeight = Factor(0.25f)
-    val width = Factor(0.35f)
-    val options = state.config.getLineOptions(beak.color)
-    val lowerPolygon = Polygon2dBuilder()
-        .addMirroredPoints(state.aabb, width, y, true)
-        .addMirroredPoints(state.aabb, width / 3.0f, y + lowerHeight * 0.6f)
+        .addMirroredPoints(state.aabb, width / 3.0f, y + lowerHeight)
         .build()
     val upperPolygon = Polygon2dBuilder()
         .addLeftPoint(state.aabb, CENTER, y - upperHeight)
         .addMirroredPoints(state.aabb, width, y, true)
         .addMirroredPoints(state.aabb, width / 3.0f, y)
-        .addLeftPoint(state.aabb, CENTER, y + lowerHeight, true)
+        .addLeftPoint(state.aabb, CENTER, y + peakHeight, isSharp)
         .build()
 
     state.renderer.getLayer()
