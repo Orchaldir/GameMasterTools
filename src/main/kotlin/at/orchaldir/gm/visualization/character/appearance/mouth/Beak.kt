@@ -10,7 +10,7 @@ fun visualizeBeak(state: CharacterRenderState, beak: Beak) = when (beak.shape) {
     BeakShape.Duck -> doNothing()
     BeakShape.Hawk -> visualizeHawk(state, beak)
     BeakShape.Owl -> doNothing()
-    BeakShape.Parrot -> doNothing()
+    BeakShape.Parrot -> visualizeParrot(state, beak)
 }
 
 private fun visualizeCrow(state: CharacterRenderState, beak: Beak) = visualizeSharpBeak(
@@ -23,16 +23,31 @@ private fun visualizeCrow(state: CharacterRenderState, beak: Beak) = visualizeSh
     false,
 )
 
-private fun visualizeHawk(state: CharacterRenderState, beak: Beak) =
-    visualizeSharpBeak(
-        state,
-        beak,
-        Factor(0.4f),
-        Factor(0.15f),
-        Factor(0.25f),
-        Factor(0.35f),
-        true,
-    )
+private fun visualizeHawk(state: CharacterRenderState, beak: Beak) = visualizeSharpBeak(
+    state,
+    beak,
+    Factor(0.4f),
+    Factor(0.15f),
+    Factor(0.25f),
+    Factor(0.35f),
+    true,
+)
+
+private fun visualizeParrot(state: CharacterRenderState, beak: Beak) {
+    val width = Factor(0.4f)
+    val upperHeight = Factor(0.25f)
+    val peakHeight = Factor(0.35f)
+    val y = state.config.head.mouth.y
+    val options = state.config.getLineOptions(beak.color)
+    val upperPolygon = Polygon2dBuilder()
+        .addMirroredPoints(state.aabb, width * 0.5f, y - upperHeight)
+        .addMirroredPoints(state.aabb, width, y)
+        .addLeftPoint(state.aabb, CENTER, y + peakHeight, true)
+        .build()
+
+    state.renderer.getLayer()
+        .renderRoundedPolygon(upperPolygon, options)
+}
 
 private fun visualizeSharpBeak(
     state: CharacterRenderState,
