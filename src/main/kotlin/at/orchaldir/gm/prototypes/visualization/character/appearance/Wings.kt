@@ -37,6 +37,6 @@ private fun createAppearance(wings: Wings) =
     HumanoidBody(
         Body(),
         Head(),
-        Distance(200),
+        Distance(2000),
         wings,
     )
