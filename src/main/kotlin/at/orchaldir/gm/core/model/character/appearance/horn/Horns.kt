@@ -26,13 +26,6 @@ sealed class Horns {
         is CrownOfHorns -> HornsLayout.Crown
     }
 
-    fun calculatePadding(headHeight: Distance) = when (this) {
-        NoHorns -> Distance(0)
-        is TwoHorns -> horn.calculatePadding(headHeight)
-        is DifferentHorns -> left.calculatePadding(headHeight).max(right.calculatePadding(headHeight))
-        is CrownOfHorns -> headHeight * length
-    } * 2.0f
-
 }
 
 @Serializable

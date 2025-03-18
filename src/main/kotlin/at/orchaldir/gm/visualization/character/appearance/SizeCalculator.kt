@@ -31,7 +31,7 @@ class PaddedSize(
     }
 
     fun getFullSize() = baseSize + Size2d(left + right, top + bottom)
-    fun getInnerAABB() = AABB(right, top, baseSize)
+    fun getInnerAABB() = AABB(left, top, baseSize)
 }
 
 fun calculateSize(config: CharacterRenderConfig, appearance: Appearance): PaddedSize {

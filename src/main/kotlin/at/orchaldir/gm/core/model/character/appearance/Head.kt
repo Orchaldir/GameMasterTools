@@ -17,6 +17,4 @@ data class Head(
     val horns: Horns = NoHorns,
     val mouth: Mouth = NoMouth,
     val skin: Skin = NormalSkin(),
-) {
-    fun calculateSize(headHeight: Distance) = headHeight + horns.calculatePadding(headHeight)
-}
+)
