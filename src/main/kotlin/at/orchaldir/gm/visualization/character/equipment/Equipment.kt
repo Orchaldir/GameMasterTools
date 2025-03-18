@@ -9,6 +9,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
 data class EquipmentConfig(
+    val belt: BeltConfig,
     val coat: CoatConfig,
     val footwear: FootwearConfig,
     val glasses: GlassesConfig,
@@ -25,6 +26,7 @@ fun visualizeBodyEquipment(
 ) {
     state.equipped.forEach {
         when (it) {
+            is Belt -> visualizeBelt(state, body, it)
             is Coat -> visualizeCoat(state, body, it)
             is Dress -> visualizeDress(state, body, it)
             is Footwear -> visualizeFootwear(state, body, it)

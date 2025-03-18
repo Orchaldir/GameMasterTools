@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.model.item
+package at.orchaldir.gm.app.html.model.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.selector.util.sortMaterial
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
@@ -44,6 +45,7 @@ private fun BODY.showEquipmentData(
 
     when (val data = equipment.data) {
         NoEquipment -> doNothing()
+        is Belt -> showBelt(call, state, data)
         is Coat -> {
             field("Length", data.length)
             field("Neckline Style", data.necklineStyle)
@@ -164,6 +166,7 @@ private fun FORM.editEquipmentData(
 ) {
     when (val data = equipment.data) {
         NoEquipment -> doNothing()
+        is Belt -> editBelt(state, data)
         is Coat -> {
             selectValue("Length", LENGTH, OuterwearLength.entries, data.length, true)
             selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
@@ -186,9 +189,9 @@ private fun FORM.editEquipmentData(
 
         is Footwear -> {
             selectValue("Style", FOOTWEAR, FootwearStyle.entries, data.style, true)
-            selectColor(data.color)
+            selectColor(data.color, EQUIPMENT_COLOR_0)
             if (data.style.hasSole()) {
-                selectColor(data.sole, "Sole Color", EQUIPMENT_COLOR_1)
+                selectColor(data.sole, EQUIPMENT_COLOR_1, "Sole Color")
             }
             selectMaterial(state, data.material)
         }
@@ -214,7 +217,7 @@ private fun FORM.editEquipmentData(
 
         is Hat -> {
             selectValue("Style", HAT, HatStyle.entries, data.style, true)
-            selectColor(data.color)
+            selectColor(data.color, EQUIPMENT_COLOR_0)
             selectMaterial(state, data.material)
         }
 
@@ -263,13 +266,13 @@ private fun FORM.selectOpeningStyle(openingStyle: OpeningStyle) {
             )
         }
 
-        is Zipper -> selectColor(openingStyle.color, "Zipper Color", ZIPPER)
+        is Zipper -> selectColor(openingStyle.color, ZIPPER, "Zipper Color")
     }
 }
 
 private fun FORM.selectButtons(buttonColumn: ButtonColumn) {
     selectInt("Button Count", buttonColumn.count.toInt(), 1, 20, 1, BUTTON_COUNT, true)
-    selectColor(buttonColumn.button.color, "Button Color", BUTTON_COLOR)
+    selectColor(buttonColumn.button.color, BUTTON_COLOR, "Button Color")
     selectValue("Button Size", BUTTON_SIZE, Size.entries, buttonColumn.button.size, true)
 }
 
@@ -277,12 +280,12 @@ private fun FORM.selectSleeveStyle(options: Collection<SleeveStyle>, current: Sl
     selectValue("Sleeve Style", SLEEVE_STYLE, options, current, true)
 }
 
-private fun HtmlBlockTag.selectMaterial(
+fun HtmlBlockTag.selectMaterial(
     state: State,
     materialId: MaterialId,
     param: String = MATERIAL,
 ) {
-    selectElement(state, "Material", param, state.getMaterialStorage().getAll(), materialId)
+    selectElement(state, "Material", param, state.sortMaterial(), materialId)
 }
 
 // parse
@@ -305,6 +308,7 @@ fun parseEquipment(id: EquipmentId, parameters: Parameters): Equipment {
 fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.None)) {
         EquipmentDataType.None -> NoEquipment
+        EquipmentDataType.Belt -> parseBelt(parameters)
         EquipmentDataType.Coat -> Coat(
             parse(parameters, LENGTH, OuterwearLength.Hip),
             parse(parameters, NECKLINE_STYLE, NecklineStyle.DeepV),

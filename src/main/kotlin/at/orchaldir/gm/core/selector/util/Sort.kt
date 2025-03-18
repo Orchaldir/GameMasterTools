@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.holiday.Holiday
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
+import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.religion.Domain
@@ -204,6 +205,20 @@ fun State.sortPantheons(
             SortPantheon.Name -> compareBy { it.name(this) }
             SortPantheon.Gods -> compareBy { it.gods.size }
             SortPantheon.Believers -> compareBy { getBelievers(it.id).size }
+        })
+
+// material
+
+fun State.sortMaterial(sort: SortMaterial = SortMaterial.Name) =
+    sortMaterial(getMaterialStorage().getAll(), sort)
+
+fun State.sortMaterial(
+    planes: Collection<Material>,
+    sort: SortMaterial = SortMaterial.Name,
+) = planes
+    .sortedWith(
+        when (sort) {
+            SortMaterial.Name -> compareBy { it.name }
         })
 
 // plane

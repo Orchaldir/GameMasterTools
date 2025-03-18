@@ -27,7 +27,7 @@ class SvgRenderer(
     override fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions): LayerRenderer {
         selfClosingTag(
             "circle",
-            "cx=\"%.3f\" cy=\"%.3f\" r=\"%.3f\" style=\"%s\"",
+            "cx=\"%.3f\" cy=\"%.3f\" r=\"%.4f\" style=\"%s\"",
             center.x,
             center.y,
             radius.toMeters(),
@@ -57,7 +57,7 @@ class SvgRenderer(
     ): LayerRenderer {
         selfClosingTag(
             "ellipse",
-            "cx=\"%.3f\" cy=\"%.3f\" rx=\"%.3f\" ry=\"%.3f\" style=\"%s\"",
+            "cx=\"%.3f\" cy=\"%.3f\" rx=\"%.4f\" ry=\"%.4f\" style=\"%s\"",
             center.x,
             center.y,
             radiusX.toMeters(),
@@ -100,13 +100,36 @@ class SvgRenderer(
     override fun renderRectangle(aabb: AABB, options: RenderOptions): LayerRenderer {
         selfClosingTag(
             "rect",
-            "x=\"%.3f\" y=\"%.3f\" width=\"%.3f\" height=\"%.3f\" style=\"%s\"",
+            "x=\"%.3f\" y=\"%.3f\" width=\"%.4f\" height=\"%.4f\" style=\"%s\"",
             aabb.start.x,
             aabb.start.y,
             aabb.size.width,
             aabb.size.height,
             toSvg(options),
         )
+
+        return this
+    }
+
+    override fun renderHollowRectangle(
+        center: Point2d,
+        width: Distance,
+        height: Distance,
+        thickness: Distance,
+        options: RenderOptions,
+    ): LayerRenderer {
+        renderPath(convertHollowRectangleToPath(center, width, height, thickness), toSvg(options))
+
+        return this
+    }
+
+    override fun renderRing(
+        center: Point2d,
+        outerRadius: Distance,
+        innerRadius: Distance,
+        options: RenderOptions,
+    ): LayerRenderer {
+        renderPath(convertRingToPath(center, outerRadius, innerRadius), toSvg(options))
 
         return this
     }
@@ -238,7 +261,7 @@ class SvgRenderer(
 
     private fun toSvg(line: LineOptions): String {
         return String.format(
-            LOCALE, "stroke:%s;stroke-width:%.3f", toSvg(line.color), line.width.toMeters()
+            LOCALE, "stroke:%s;stroke-width:%.4f", toSvg(line.color), line.width.toMeters()
         )
     }
 

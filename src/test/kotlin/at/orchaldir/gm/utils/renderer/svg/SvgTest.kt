@@ -1,8 +1,11 @@
 package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.core.model.util.Color.*
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Orientation.Companion.zero
+import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Polygon2d
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -34,7 +37,7 @@ class SvgTest {
 
         assertEquals(
             """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
-  <rect x="100.000" y="200.000" width="20.000" height="40.000" style="fill:none;stroke:green;stroke-width:10.000"/>
+  <rect x="100.000" y="200.000" width="20.0000" height="40.0000" style="fill:none;stroke:green;stroke-width:10.0000"/>
 </svg>""",
             svg.export()
         )
@@ -66,7 +69,7 @@ class SvgTest {
 
             assertEquals(
                 """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="110.000" cy="220.000" r="10.000" style="fill:blue;stroke:red;stroke-width:5.000"/>
+  <circle cx="110.000" cy="220.000" r="10.0000" style="fill:blue;stroke:red;stroke-width:5.0000"/>
 </svg>""",
                 svg.export()
             )
@@ -83,7 +86,7 @@ class SvgTest {
 
         assertEquals(
             """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
-  <ellipse cx="110.000" cy="220.000" rx="10.000" ry="20.000" style="fill:green"/>
+  <ellipse cx="110.000" cy="220.000" rx="10.0000" ry="20.0000" style="fill:green"/>
 </svg>""",
             builder.finish().export()
         )
@@ -98,7 +101,7 @@ class SvgTest {
 
         assertEquals(
             """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
-  <path d="M 1.2 3.4 L 10.0 20.0" style="stroke:black;stroke-width:0.500"/>
+  <path d="M 1.200 3.400 L 10.000 20.000" style="stroke:black;stroke-width:0.5000"/>
 </svg>""",
             builder.finish().export()
         )
@@ -113,7 +116,7 @@ class SvgTest {
 
         assertEquals(
             """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
-  <path d="M 1.2 3.4 L 10.0 20.0 L 30.0 40.0 Z" style="fill:blue;stroke:red;stroke-width:5.000"/>
+  <path d="M 1.200 3.400 L 10.000 20.000 L 30.000 40.000 Z" style="fill:blue;stroke:red;stroke-width:5.0000"/>
 </svg>""",
             builder.finish().export()
         )

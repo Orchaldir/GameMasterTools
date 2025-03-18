@@ -13,19 +13,42 @@ fun convertCircleArcToPath(
 ): String {
     val start = center.createPolar(radius, offset)
     val end = center.createPolar(radius, offset + angle)
+    val radiusMeter = radius.toMeters()
 
-    return String.format(
-        LOCALE,
-        "M %.3f %.3f A %.3f %.3f 0 0 0 %.3f %.3f Z",
-        start.x, start.y, radius.toMeters(), radius.toMeters(), end.x, end.y
-    )
+    return PathBuilder()
+        .moveTo(start.x, start.y)
+        .ellipticalArc(end.x, end.y, radiusMeter, radiusMeter)
+        .close()
+        .build()
 }
 
-fun convertLineToPath(line: List<Point2d>): String {
-    val path = convertCornersToPath(line)
+fun convertHollowRectangleToPath(
+    center: Point2d,
+    width: Distance,
+    height: Distance,
+    thickness: Distance,
+): String {
+    val halfWidth = width.toMeters() / 2.0f
+    val halfHeight = height.toMeters() / 2.0f
+    val halfInnerWidth = halfWidth - thickness.toMeters()
+    val halfInnerHeight = halfHeight - thickness.toMeters()
 
-    return path.toString()
+    return PathBuilder()
+        .moveTo(center.x - halfWidth, center.y - halfHeight)
+        .lineTo(center.x - halfWidth, center.y + halfHeight)
+        .lineTo(center.x + halfWidth, center.y + halfHeight)
+        .lineTo(center.x + halfWidth, center.y - halfHeight)
+        .close()
+        .moveTo(center.x - halfInnerWidth, center.y - halfInnerHeight)
+        .lineTo(center.x + halfInnerWidth, center.y - halfInnerHeight)
+        .lineTo(center.x + halfInnerWidth, center.y + halfInnerHeight)
+        .lineTo(center.x - halfInnerWidth, center.y + halfInnerHeight)
+        .close()
+        .build()
 }
+
+fun convertLineToPath(line: List<Point2d>) = convertCornersToPath(line)
+    .build()
 
 fun convertPointedOvalToPath(center: Point2d, radiusX: Distance, radiusY: Distance): String {
     val metersX = radiusX.toMeters()
@@ -43,15 +66,36 @@ fun convertPointedOvalToPath(center: Point2d, radiusX: Distance, radiusY: Distan
         aabb.getPoint(CENTER, END)
     }
 
-    return String.format(
-        LOCALE,
-        "M %.3f %.3f A %.3f %.3f, 0, 0, 0, %.3f %.3f A %.3f %.3f, 0, 0, 0, %.3f %.3f Z",
-        left.x, left.y, radius, radius, right.x, right.y, radius, radius, left.x, left.y,
-    )
+    return PathBuilder()
+        .moveTo(left.x, left.y)
+        .ellipticalArc(right.x, right.y, radius, radius)
+        .ellipticalArc(left.x, left.y, radius, radius)
+        .close()
+        .build()
+}
+
+fun convertRingToPath(
+    center: Point2d,
+    outerRadius: Distance,
+    innerRadius: Distance,
+): String {
+    val outer = outerRadius.toMeters()
+    val inner = innerRadius.toMeters()
+
+    return PathBuilder()
+        .moveTo(center.x, center.y - outer)
+        .ellipticalArc(center.x, center.y + outer, outer, outer, largeArcFlag = true)
+        .ellipticalArc(center.x, center.y - outer, outer, outer, largeArcFlag = true)
+        .close()
+        .moveTo(center.x, center.y - inner)
+        .ellipticalArc(center.x, center.y + inner, inner, inner, largeArcFlag = true, sweepFlag = true)
+        .ellipticalArc(center.x, center.y - inner, inner, inner, largeArcFlag = true, sweepFlag = true)
+        .close()
+        .build()
 }
 
 fun convertRoundedPolygonToPath(polygon: Polygon2d): String {
-    val path = StringBuilder()
+    val path = PathBuilder()
     var previous = polygon.corners[0]
     var isStart = true
     var isSharp = false
@@ -65,7 +109,7 @@ fun convertRoundedPolygonToPath(polygon: Polygon2d): String {
             isSharp = true
 
             if (!isStart) {
-                lineTo(path, previous)
+                path.lineTo(previous)
             }
 
             continue
@@ -77,78 +121,45 @@ fun convertRoundedPolygonToPath(polygon: Polygon2d): String {
 
             if (isSharp) {
                 isSharp = false
-                moveTo(path, previous)
-                lineTo(path, middle)
+                path.moveTo(previous)
+                path.lineTo(middle)
             } else {
                 firstMiddle = middle
-                moveTo(path, middle)
+                path.moveTo(middle)
             }
         } else if (isSharp) {
             isSharp = false
             val middle = (previous + corner) / 2.0f
-            lineTo(path, middle)
+            path.lineTo(middle)
         } else {
             val middle = (previous + corner) / 2.0f
-            curveTo(path, previous, middle)
+            path.curveTo(previous, middle)
         }
 
         previous = corner
     }
 
     if (firstMiddle != null) {
-        curveTo(path, previous, firstMiddle)
+        path.curveTo(previous, firstMiddle)
     } else {
-        close(path)
+        path.close()
     }
 
-    return path.toString()
+    return path.build()
 }
 
-fun convertPolygonToPath(polygon: Polygon2d): String {
-    val path = convertCornersToPath(polygon.corners)
+fun convertPolygonToPath(polygon: Polygon2d) = convertCornersToPath(polygon.corners)
+    .close()
+    .build()
 
-    close(path)
-
-    return path.toString()
-}
-
-private fun convertCornersToPath(corners: List<Point2d>): StringBuilder {
-    val path = StringBuilder()
-
-    moveTo(path, corners[0])
+private fun convertCornersToPath(corners: List<Point2d>): PathBuilder {
+    val path = PathBuilder()
+        .moveTo(corners[0])
 
     corners.stream()
         .skip(1)
-        .forEach { lineTo(path, it) }
+        .forEach { path.lineTo(it) }
 
     return path
 }
 
-private fun moveTo(path: StringBuilder, point: Point2d) {
-    path.append("M ")
-        .append(point.x)
-        .append(" ")
-        .append(point.y)
-}
-
-private fun lineTo(path: StringBuilder, point: Point2d) {
-    path.append(" L ")
-        .append(point.x)
-        .append(" ")
-        .append(point.y)
-}
-
-private fun curveTo(path: StringBuilder, control: Point2d, end: Point2d) {
-    path.append(" Q ")
-        .append(control.x)
-        .append(" ")
-        .append(control.y)
-        .append(" ")
-        .append(end.x)
-        .append(" ")
-        .append(end.y)
-}
-
-fun close(path: StringBuilder) {
-    path.append(" Z")
-}
