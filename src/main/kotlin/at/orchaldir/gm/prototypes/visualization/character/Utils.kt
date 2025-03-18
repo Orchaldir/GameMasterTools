@@ -12,7 +12,6 @@ import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 import at.orchaldir.gm.visualization.character.appearance.calculateSize
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 

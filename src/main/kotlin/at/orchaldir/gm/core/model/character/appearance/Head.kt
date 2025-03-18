@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import at.orchaldir.gm.core.model.character.appearance.horn.Horns
 import at.orchaldir.gm.core.model.character.appearance.horn.NoHorns
-import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.Serializable
 
 @Serializable

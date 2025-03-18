@@ -23,8 +23,6 @@ import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
-import at.orchaldir.gm.visualization.character.appearance.PaddedSize
-import at.orchaldir.gm.visualization.character.appearance.calculateSize
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import at.orchaldir.gm.visualization.character.appearance.visualizeGroup
 import io.ktor.http.*
