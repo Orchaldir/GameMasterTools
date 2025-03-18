@@ -14,6 +14,7 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     constructor(size: Size2d) : this(Point2d(0.0f, 0.0f), size)
     constructor(x: Float, y: Float, width: Float, height: Float) : this(Point2d(x, y), Size2d(width, height))
+    constructor(x: Float, y: Float, size: Size2d) : this(Point2d(x, y), size)
 
     companion object {
         fun fromCenter(center: Point2d, size: Size2d) = AABB(

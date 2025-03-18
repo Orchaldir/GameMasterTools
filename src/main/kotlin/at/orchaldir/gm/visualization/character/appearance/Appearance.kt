@@ -41,6 +41,22 @@ fun visualizeCharacter(
 
 fun visualizeAppearance(
     config: CharacterRenderConfig,
+    paddedSize: PaddedSize,
+    appearance: Appearance,
+    equipped: List<EquipmentData> = emptyList(),
+    renderFront: Boolean = true,
+): Svg {
+    val aabb = paddedSize.getInnerAABB()
+    val builder = SvgBuilder(paddedSize.getFullSize())
+    val state = CharacterRenderState(aabb, config, builder, renderFront, equipped)
+
+    visualizeAppearance(state, appearance)
+
+    return builder.finish()
+}
+
+fun visualizeAppearance(
+    config: CharacterRenderConfig,
     size: Size2d,
     appearance: Appearance,
     equipped: List<EquipmentData> = emptyList(),
@@ -83,14 +99,4 @@ fun visualizeAppearance(
         }
 
     }
-}
-
-fun calculateSize(config: CharacterRenderConfig, appearance: Appearance): Size2d {
-    val height = when (appearance) {
-        is HeadOnly -> appearance.calculateSize()
-        is HumanoidBody -> appearance.height
-        UndefinedAppearance -> config.padding * 2.0f
-    }
-
-    return config.calculateSize(height)
 }

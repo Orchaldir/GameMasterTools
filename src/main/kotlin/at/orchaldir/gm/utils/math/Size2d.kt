@@ -23,6 +23,7 @@ data class Size2d(val width: Float, val height: Float) {
     fun scale(horizontal: Factor, vertical: Factor) = Size2d(width * horizontal.value, height * vertical.value)
 
     operator fun plus(distance: Distance) = Size2d(width + distance.toMeters(), height + distance.toMeters())
+    operator fun plus(size: Size2d) = Size2d(width + size.width, height + size.height)
     operator fun minus(distance: Distance) = Size2d(width - distance.toMeters(), height - distance.toMeters())
     operator fun times(factor: Factor) = Size2d(width * factor.value, height * factor.value)
     operator fun div(factor: Factor) = Size2d(width / factor.value, height / factor.value)

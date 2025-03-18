@@ -12,6 +12,7 @@ import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 import at.orchaldir.gm.visualization.character.appearance.calculateSize
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 
@@ -22,7 +23,7 @@ fun renderCharacterTable(
 ) {
     val size = appearances.fold(Size2d.square(0.001f)) { rowSize, list ->
         list.fold(rowSize) { columnSize, appearance ->
-            columnSize.max(calculateSize(config, appearance))
+            columnSize.max(calculateSize(config, appearance).getFullSize())
         }
     }
     renderTable(filename, size, appearances) { aabb, renderer, appearance ->
