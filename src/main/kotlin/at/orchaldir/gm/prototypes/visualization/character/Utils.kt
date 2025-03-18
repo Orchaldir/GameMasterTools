@@ -22,7 +22,7 @@ fun renderCharacterTable(
 ) {
     val size = appearances.fold(Size2d.square(0.001f)) { rowSize, list ->
         list.fold(rowSize) { columnSize, appearance ->
-            columnSize.max(calculateSize(config, appearance))
+            columnSize.max(calculateSize(config, appearance).getFullSize())
         }
     }
     renderTable(filename, size, appearances) { aabb, renderer, appearance ->

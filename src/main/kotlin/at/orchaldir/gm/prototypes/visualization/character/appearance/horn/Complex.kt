@@ -55,5 +55,5 @@ fun createAppearance(horns: Horns) =
             TwoEyes(),
             horns = horns
         ),
-        Distance(200),
+        Distance(500),
     )

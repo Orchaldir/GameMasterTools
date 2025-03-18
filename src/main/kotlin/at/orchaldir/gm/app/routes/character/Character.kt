@@ -28,6 +28,7 @@ import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.visualization.character.appearance.calculateSize
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
@@ -234,8 +235,10 @@ private fun HTML.showGallery(
         .getCharacterStorage()
         .getAll()
         .filter { it.appearance !is UndefinedAppearance }
-    val maxHeight = characters.map { it.appearance.getSize() }.maxBy { it.millimeters }
-    val maxSize = CHARACTER_CONFIG.calculateSize(maxHeight)
+    val maxSize = characters
+        .map { calculateSize(CHARACTER_CONFIG, it.appearance) }
+        .maxBy { it.baseSize.height }
+        .getFullSize()
     val sortedCharacters = state.sortCharacters(characters, SortCharacter.Name)
     val backLink = call.application.href(CharacterRoutes.All())
 

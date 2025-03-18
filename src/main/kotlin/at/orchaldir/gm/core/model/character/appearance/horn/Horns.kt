@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.model.character.appearance.horn
 
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -25,13 +24,6 @@ sealed class Horns {
         is DifferentHorns -> HornsLayout.Different
         is CrownOfHorns -> HornsLayout.Crown
     }
-
-    fun calculatePadding(headHeight: Distance) = when (this) {
-        NoHorns -> Distance(0)
-        is TwoHorns -> horn.calculatePadding(headHeight)
-        is DifferentHorns -> left.calculatePadding(headHeight).max(right.calculatePadding(headHeight))
-        is CrownOfHorns -> headHeight * length
-    } * 2.0f
 
 }
 
