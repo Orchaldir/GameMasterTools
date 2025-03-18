@@ -23,6 +23,7 @@ data class MouthConfig(
             is FemaleMouth -> mouth.width
             NoMouth -> Size.Medium
             is NormalMouth -> mouth.width
+            is Beak -> error("Beak is not supported!")
         }
 
         return getSimpleWidth(width)
@@ -32,6 +33,7 @@ data class MouthConfig(
         is FemaleMouth -> femaleHeight
         NoMouth -> Factor(0.0f)
         is NormalMouth -> simpleHeight
+        is Beak -> error("Beak is not supported!")
     }
 }
 
@@ -47,6 +49,7 @@ fun visualizeMouth(state: CharacterRenderState, head: Head) {
         }
 
         is FemaleMouth -> visualizeFemaleMouth(state, head.mouth)
+        is Beak -> doNothing()
     }
 }
 

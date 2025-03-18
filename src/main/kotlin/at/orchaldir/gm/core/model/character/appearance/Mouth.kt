@@ -10,6 +10,7 @@ import kotlinx.serialization.Serializable
 enum class MouthType {
     NoMouth,
     NormalMouth,
+    Beak,
 }
 
 @Serializable
@@ -25,6 +26,7 @@ sealed class Mouth {
     fun getType() = when (this) {
         NoMouth -> MouthType.NoMouth
         is NormalMouth, is FemaleMouth -> MouthType.NormalMouth
+        is Beak -> MouthType.Beak
     }
 
 }
@@ -47,5 +49,12 @@ data class FemaleMouth(
     val width: Size = Size.Medium,
     val color: Color = Color.Red,
     val teethColor: TeethColor = TeethColor.White,
+) : Mouth()
+
+@Serializable
+@SerialName("Beak")
+data class Beak(
+    val shape: BeakShape = BeakShape.Hawk,
+    val color: Color = Color.Yellow,
 ) : Mouth()
 
