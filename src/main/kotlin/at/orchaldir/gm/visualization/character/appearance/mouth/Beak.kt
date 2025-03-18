@@ -12,9 +12,14 @@ import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.beard.visualizeBeard
 
-fun visualizeBeak(state: CharacterRenderState, beak: Beak) {
-    val aabb = state.aabb
-    val config = state.config
+fun visualizeBeak(state: CharacterRenderState, beak: Beak) = when (beak.shape) {
+    BeakShape.Crow -> visualizeCrowBeak(state, beak)
+    BeakShape.Duck -> doNothing()
+    BeakShape.Hawk -> doNothing()
+    BeakShape.Owl -> doNothing()
+    BeakShape.Parrot -> doNothing()
+}
 
+private fun visualizeCrowBeak(state: CharacterRenderState, beak: Beak) {
 
 }

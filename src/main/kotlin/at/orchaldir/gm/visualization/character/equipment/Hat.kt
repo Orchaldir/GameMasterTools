@@ -48,7 +48,7 @@ private fun visualizeBeanie(
     val y = if (state.renderFront) {
         state.config.head.hatY
     } else {
-        state.config.head.mouthY
+        state.config.head.mouth.y
     }
 
     renderBuilder(state.renderer, buildCrown(state, y, ZERO, y), options, EQUIPMENT_LAYER)

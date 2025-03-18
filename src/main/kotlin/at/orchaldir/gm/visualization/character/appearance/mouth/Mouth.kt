@@ -15,6 +15,7 @@ data class MouthConfig(
     private val simpleWidth: SizeConfig<Factor>,
     val simpleHeight: Factor,
     val femaleHeight: Factor,
+    val y: Factor,
 ) {
     fun getSimpleWidth(size: Size) = simpleWidth.convert(size)
 
@@ -35,6 +36,11 @@ data class MouthConfig(
         is NormalMouth -> simpleHeight
         is Beak -> error("Beak is not supported!")
     }
+
+    fun getBottomY(mouth: Mouth) = y + getHeight(mouth) * 0.5f
+
+    fun getTopY(mouth: Mouth) = y - getHeight(mouth) * 0.5f
+
 }
 
 fun visualizeMouth(state: CharacterRenderState, head: Head) {
@@ -58,12 +64,11 @@ private fun visualizeMaleMouth(
         return
     }
 
-
     val aabb = state.aabb
     val config = state.config
-    val center = aabb.getPoint(CENTER, config.head.mouthY)
-    val width = aabb.convertWidth(config.head.mouthConfig.getSimpleWidth(mouth.width))
-    val height = aabb.convertHeight(config.head.mouthConfig.getHeight(mouth))
+    val center = aabb.getPoint(CENTER, config.head.mouth.y)
+    val width = aabb.convertWidth(config.head.mouth.getSimpleWidth(mouth.width))
+    val height = aabb.convertHeight(config.head.mouth.getHeight(mouth))
     val mouthAabb = AABB.fromCenter(center, Size2d(width, height))
     val option = NoBorder(Color.Black.toRender())
 
@@ -79,16 +84,16 @@ private fun visualizeFemaleMouth(
     }
 
     val aabb = state.aabb
-    val config = state.config
+    val config = state.config.head.mouth
     val options = NoBorder(mouth.color.toRender())
-    val width = config.head.mouthConfig.getSimpleWidth(mouth.width)
-    val halfHeight = config.head.mouthConfig.femaleHeight * 0.5f
-    val (left, right) = aabb.getMirroredPoints(width, config.head.mouthY)
+    val width = config.getSimpleWidth(mouth.width)
+    val halfHeight = config.femaleHeight * 0.5f
+    val (left, right) = aabb.getMirroredPoints(width, config.y)
     val (topLeft, topRight) =
-        aabb.getMirroredPoints(width * 0.5f, config.head.mouthY - halfHeight)
+        aabb.getMirroredPoints(width * 0.5f, config.y - halfHeight)
     val (bottomLeft, bottomRight) =
-        aabb.getMirroredPoints(width * 0.5f, config.head.mouthY + halfHeight)
-    val cupidsBow = aabb.getPoint(CENTER, config.head.mouthY - halfHeight * 0.5f)
+        aabb.getMirroredPoints(width * 0.5f, config.y + halfHeight)
+    val cupidsBow = aabb.getPoint(CENTER, config.y - halfHeight * 0.5f)
     val polygon = Polygon2d(listOf(left, bottomLeft, bottomRight, right, topRight, cupidsBow, topLeft))
 
     state.renderer.getLayer().renderPolygon(polygon, options)

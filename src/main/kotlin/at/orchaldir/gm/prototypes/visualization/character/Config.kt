@@ -147,8 +147,8 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             withFactor(0.3f, 0.35f, 0.4f),
             Factor(0.04f),
             Factor(0.1f),
+            Factor(0.75f),
         ),
-        Factor(0.75f),
     ),
     mapOf(
         SkinColor.Fair to RGB(254, 228, 208),

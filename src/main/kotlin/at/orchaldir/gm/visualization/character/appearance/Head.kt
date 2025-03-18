@@ -21,17 +21,11 @@ data class HeadConfig(
     val hairlineY: Factor,
     val hatY: Factor,
     val hornConfig: HornConfig,
-    val mouthConfig: MouthConfig,
-    val mouthY: Factor,
+    val mouth: MouthConfig,
 ) {
     fun getGoateeBottomY() = END + beard.mediumThickness
 
-    fun getGoateeWidth(mouth: Mouth) = mouthConfig.getWidth(mouth) * beard.goateeWidth
-
-    fun getMouthBottomY(mouth: Mouth) = mouthY + mouthConfig.getHeight(mouth) * 0.5f
-
-    fun getMouthTopY(mouth: Mouth) = mouthY - mouthConfig.getHeight(mouth) * 0.5f
-
+    fun getGoateeWidth(mouth: Mouth) = this.mouth.getWidth(mouth) * beard.goateeWidth
 }
 
 fun visualizeHead(
