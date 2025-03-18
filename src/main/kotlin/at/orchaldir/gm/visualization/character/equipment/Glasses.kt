@@ -132,7 +132,7 @@ fun visualizeFrame(
     state: CharacterRenderState,
     lineOptions: LineOptions,
 ) {
-    val width = state.config.equipment.glasses.size.medium / 2.0f
+    val width = state.config.equipment.glasses.size.medium
     val eyesConfig = state.config.head.eyes
     val distanceBetweenEyes = eyesConfig.getDistanceBetweenEyes()
     val (headLeft, headRight) = state.aabb.getMirroredPoints(FULL, eyesConfig.eyeY)
