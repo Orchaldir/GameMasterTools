@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.character.appearance.horn.HornsLayout
 import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHornType
 import at.orchaldir.gm.core.model.character.appearance.horn.VALID_CROWN_HORNS
+import at.orchaldir.gm.core.model.character.appearance.mouth.MouthType
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color

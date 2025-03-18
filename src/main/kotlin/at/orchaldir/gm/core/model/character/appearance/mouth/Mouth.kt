@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.character.appearance
+package at.orchaldir.gm.core.model.character.appearance.mouth
 
 import at.orchaldir.gm.core.model.character.appearance.beard.Beard
 import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard

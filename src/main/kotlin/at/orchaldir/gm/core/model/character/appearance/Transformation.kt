@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.character.appearance.beard.NormalBeard
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
+import at.orchaldir.gm.core.model.character.appearance.mouth.Mouth
+import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.util.Color
 
 fun updateBeard(appearance: Appearance, beard: Beard): Appearance {

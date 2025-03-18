@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.character.appearance.mouth.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions

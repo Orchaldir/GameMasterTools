@@ -3,7 +3,7 @@ package at.orchaldir.gm.prototypes.visualization.character.appearance
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
-import at.orchaldir.gm.core.model.character.appearance.NormalMouth
+import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle.VanDyke
 import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle.Handlebar
