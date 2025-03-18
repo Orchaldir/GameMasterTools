@@ -8,7 +8,6 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.SizeConfig
-import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.beard.visualizeBeard
 
@@ -39,35 +38,32 @@ data class MouthConfig(
 }
 
 fun visualizeMouth(state: CharacterRenderState, head: Head) {
-    val aabb = state.aabb
-    val config = state.config
-
     when (head.mouth) {
         NoMouth -> doNothing()
         is NormalMouth -> {
-            visualizeMaleMouth(aabb, config, head.mouth, head, state)
+            visualizeMaleMouth(state, head.mouth)
             visualizeBeard(state, head, head.mouth.beard)
         }
 
         is FemaleMouth -> visualizeFemaleMouth(state, head.mouth)
-        is Beak -> doNothing()
+        is Beak -> visualizeBeak(state, head.mouth)
     }
 }
 
 private fun visualizeMaleMouth(
-    aabb: AABB,
-    config: CharacterRenderConfig,
-    mouth: NormalMouth,
-    head: Head,
     state: CharacterRenderState,
+    mouth: NormalMouth,
 ) {
     if (!state.renderFront) {
         return
     }
 
+
+    val aabb = state.aabb
+    val config = state.config
     val center = aabb.getPoint(CENTER, config.head.mouthY)
     val width = aabb.convertWidth(config.head.mouthConfig.getSimpleWidth(mouth.width))
-    val height = aabb.convertHeight(config.head.mouthConfig.getHeight(head.mouth))
+    val height = aabb.convertHeight(config.head.mouthConfig.getHeight(mouth))
     val mouthAabb = AABB.fromCenter(center, Size2d(width, height))
     val option = NoBorder(Color.Black.toRender())
 
