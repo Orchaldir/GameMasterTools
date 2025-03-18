@@ -24,15 +24,16 @@ fun visualizeBeak(state: CharacterRenderState, beak: Beak) = when (beak.shape) {
 private fun visualizeCrowBeak(state: CharacterRenderState, beak: Beak) {
     val y = state.config.head.mouth.y
     val half = Factor(0.2f)
+    val width = Factor(0.3f)
     val options = state.config.getLineOptions(beak.color)
     val lowerPolygon = Polygon2dBuilder()
-        .addMirroredPoints(state.aabb, Factor(0.3f), y, true)
-        .addMirroredPoints(state.aabb, Factor(0.1f), y + half * 0.6f)
+        .addMirroredPoints(state.aabb, width, y, true)
+        .addMirroredPoints(state.aabb, width / 3.0f, y + half * 0.6f)
         .build()
     val upperPolygon = Polygon2dBuilder()
         .addLeftPoint(state.aabb, CENTER, y - half)
-        .addMirroredPoints(state.aabb, Factor(0.3f), y, true)
-        .addMirroredPoints(state.aabb, Factor(0.1f), y)
+        .addMirroredPoints(state.aabb, width, y, true)
+        .addMirroredPoints(state.aabb, width / 3.0f, y)
         .addLeftPoint(state.aabb, CENTER, y + half * 0.5f)
         .build()
 
