@@ -101,7 +101,7 @@ fun convertRoundedPolygonToPath(polygon: Polygon2d): String {
     var isSharp = false
     var firstMiddle: Point2d? = null
 
-    for (i in 0..polygon.corners.size) {
+    for (i in 0..<polygon.corners.size) {
         val index = (i + 1) % polygon.corners.size
         val corner = polygon.corners[index]
 
