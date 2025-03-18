@@ -39,12 +39,12 @@ private fun visualizeCrow(state: CharacterRenderState, beak: Beak) {
 private fun visualizeHawk(state: CharacterRenderState, beak: Beak) {
     val y = state.config.head.mouth.y
     val upperHeight = Factor(0.4f)
-    val lowerHeight = Factor(0.3f)
+    val lowerHeight = Factor(0.25f)
     val width = Factor(0.35f)
     val options = state.config.getLineOptions(beak.color)
     val lowerPolygon = Polygon2dBuilder()
         .addMirroredPoints(state.aabb, width, y, true)
-        .addMirroredPoints(state.aabb, width / 3.0f, y + lowerHeight * 0.5f)
+        .addMirroredPoints(state.aabb, width / 3.0f, y + lowerHeight * 0.6f)
         .build()
     val upperPolygon = Polygon2dBuilder()
         .addLeftPoint(state.aabb, CENTER, y - upperHeight)
