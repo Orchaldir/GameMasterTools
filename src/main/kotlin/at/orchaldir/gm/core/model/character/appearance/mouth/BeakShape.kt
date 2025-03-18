@@ -4,6 +4,5 @@ enum class BeakShape {
     Crow,
     Duck,
     Hawk,
-    Owl,
     Parrot,
 }

@@ -9,7 +9,6 @@ fun visualizeBeak(state: CharacterRenderState, beak: Beak) = when (beak.shape) {
     BeakShape.Crow -> visualizeCrow(state, beak)
     BeakShape.Duck -> doNothing()
     BeakShape.Hawk -> visualizeHawk(state, beak)
-    BeakShape.Owl -> doNothing()
     BeakShape.Parrot -> visualizeParrot(state, beak)
 }
 
