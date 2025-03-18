@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance.mouth
 
 import at.orchaldir.gm.core.model.character.appearance.Appearance
+import at.orchaldir.gm.core.model.character.appearance.ExoticSkin
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.eye.*
@@ -29,6 +30,10 @@ private fun createRow(beakShape: BeakShape) =
 
 private fun createAppearance(beakShape: BeakShape, eyes: Eyes) =
     HeadOnly(
-        Head(eyes = eyes, mouth = Beak(beakShape)),
+        Head(
+            eyes = eyes,
+            mouth = Beak(beakShape),
+            skin = ExoticSkin(),
+        ),
         Distance(1000),
     )
