@@ -431,7 +431,7 @@ private fun parseHornOptions(parameters: Parameters) = HornOptions(
 
 private fun parseMouthOptions(parameters: Parameters) = MouthOptions(
     parseOneOf(parameters, combine(BEAK, COLOR), Color::valueOf, setOf(Color.Yellow)),
-    parseOneOf(parameters, combine(BEAK, SHAPE), BeakShape::valueOf),
+    parseOneOf(parameters, combine(BEAK, SHAPE), BeakShape::valueOf, BeakShape.entries),
     parseOneOf(parameters, combine(MOUTH, TYPE), MouthType::valueOf),
 )
 
