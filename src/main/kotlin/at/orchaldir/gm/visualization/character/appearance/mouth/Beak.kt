@@ -7,7 +7,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun visualizeBeak(state: CharacterRenderState, beak: Beak) = when (beak.shape) {
     BeakShape.Crow -> visualizeCrow(state, beak)
-    BeakShape.Duck -> doNothing()
+    BeakShape.Duck -> visualizeDuckBeak(state, beak)
     BeakShape.Hawk -> visualizeHawk(state, beak)
     BeakShape.Parrot -> visualizeParrot(state, beak)
 }
@@ -72,6 +72,24 @@ private fun visualizeSharpBeak(
 
     state.renderer.getLayer()
         .renderRoundedPolygon(lowerPolygon, options)
+    state.renderer.getLayer()
+        .renderRoundedPolygon(upperPolygon, options)
+}
+
+private fun visualizeDuckBeak(state: CharacterRenderState, beak: Beak) {
+    val width = Factor(0.4f)
+    val upperHeight = Factor(0.25f)
+    val peakHeight = Factor(0.35f)
+    val y = state.config.head.mouth.y
+    val options = state.config.getLineOptions(beak.color)
+    val upperPolygon = Polygon2dBuilder()
+        .addMirroredPoints(state.aabb, Factor(0.1f), y - Factor(0.2f))
+        .addMirroredPoints(state.aabb, Factor(0.2f), y - Factor(0.1f))
+        .addMirroredPoints(state.aabb, Factor(0.4f), y - Factor(0.0f))
+        .addMirroredPoints(state.aabb, Factor(0.4f), y + Factor(0.1f))
+        .addLeftPoint(state.aabb, CENTER, y + Factor(0.05f))
+        .build()
+
     state.renderer.getLayer()
         .renderRoundedPolygon(upperPolygon, options)
 }
