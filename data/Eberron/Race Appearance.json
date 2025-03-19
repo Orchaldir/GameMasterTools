@@ -64,8 +64,10 @@
      "Yellow": "Common"
     }
    },
-   "mouthTypes": {
-    "NormalMouth": "Common"
+   "mouthOptions": {
+    "mouthTypes": {
+     "NormalMouth": "Common"
+    }
    }
   },
   "1": {
@@ -109,8 +111,10 @@
      "White": "Common"
     }
    },
-   "mouthTypes": {
-    "NormalMouth": "Common"
+   "mouthOptions": {
+    "mouthTypes": {
+     "NormalMouth": "Common"
+    }
    }
   },
   "2": {
@@ -179,8 +183,10 @@
      "Yellow": "Common"
     }
    },
-   "mouthTypes": {
-    "NormalMouth": "Common"
+   "mouthOptions": {
+    "mouthTypes": {
+     "NormalMouth": "Common"
+    }
    }
   },
   "3": {
@@ -220,8 +226,10 @@
      "None": "Common"
     }
    },
-   "mouthTypes": {
-    "NormalMouth": "Common"
+   "mouthOptions": {
+    "mouthTypes": {
+     "NormalMouth": "Common"
+    }
    }
   },
   "4": {
@@ -286,8 +294,10 @@
      "Yellow": "Common"
     }
    },
-   "mouthTypes": {
-    "NormalMouth": "Common"
+   "mouthOptions": {
+    "mouthTypes": {
+     "NormalMouth": "Common"
+    }
    }
   },
   "5": {
@@ -362,8 +372,10 @@
      "Yellow": "Common"
     }
    },
-   "mouthTypes": {
-    "NormalMouth": "Common"
+   "mouthOptions": {
+    "mouthTypes": {
+     "NormalMouth": "Common"
+    }
    }
   },
   "6": {
@@ -425,8 +437,10 @@
      "SaddleBrown": "Common"
     }
    },
-   "mouthTypes": {
-    "NormalMouth": "Common"
+   "mouthOptions": {
+    "mouthTypes": {
+     "NormalMouth": "Common"
+    }
    }
   },
   "7": {
@@ -484,8 +498,10 @@
      "Gray": "Common"
     }
    },
-   "mouthTypes": {
-    "NormalMouth": "Common"
+   "mouthOptions": {
+    "mouthTypes": {
+     "NormalMouth": "Common"
+    }
    },
    "wingOptions": {
     "layouts": {
@@ -551,8 +567,10 @@
      "None": "Common"
     }
    },
-   "mouthTypes": {
-    "NormalMouth": "Common"
+   "mouthOptions": {
+    "mouthTypes": {
+     "NormalMouth": "Common"
+    }
    }
   },
   "9": {
@@ -626,8 +644,10 @@
      "Yellow": "Common"
     }
    },
-   "mouthTypes": {
-    "NormalMouth": "Common"
+   "mouthOptions": {
+    "mouthTypes": {
+     "NormalMouth": "Common"
+    }
    }
   },
   "10": {
@@ -684,8 +704,10 @@
      "None": "Common"
     }
    },
-   "mouthTypes": {
-    "NormalMouth": "Common"
+   "mouthOptions": {
+    "mouthTypes": {
+     "NormalMouth": "Common"
+    }
    }
   },
   "11": {
@@ -748,8 +770,10 @@
      "Green": "Common"
     }
    },
-   "mouthTypes": {
-    "NormalMouth": "Common"
+   "mouthOptions": {
+    "mouthTypes": {
+     "NormalMouth": "Common"
+    }
    }
   },
   "12": {
@@ -827,8 +851,10 @@
      "Yellow": "Common"
     }
    },
-   "mouthTypes": {
-    "NormalMouth": "Common"
+   "mouthOptions": {
+    "mouthTypes": {
+     "NormalMouth": "Common"
+    }
    },
    "wingOptions": {
     "layouts": {
