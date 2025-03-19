@@ -1,7 +1,10 @@
 package at.orchaldir.gm.visualization.character.appearance.mouth
 
-import at.orchaldir.gm.core.model.character.appearance.mouth.*
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.core.model.character.appearance.mouth.Beak
+import at.orchaldir.gm.core.model.character.appearance.mouth.BeakShape
+import at.orchaldir.gm.utils.math.CENTER
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun visualizeBeak(state: CharacterRenderState, beak: Beak) = when (beak.shape) {
