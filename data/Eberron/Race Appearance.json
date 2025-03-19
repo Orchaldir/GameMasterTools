@@ -63,11 +63,6 @@
      "SaddleBrown": "Common",
      "Yellow": "Common"
     }
-   },
-   "mouthOptions": {
-    "mouthTypes": {
-     "NormalMouth": "Common"
-    }
    }
   },
   "1": {
@@ -109,11 +104,6 @@
     },
     "colors": {
      "White": "Common"
-    }
-   },
-   "mouthOptions": {
-    "mouthTypes": {
-     "NormalMouth": "Common"
     }
    }
   },
@@ -182,11 +172,6 @@
      "SaddleBrown": "Common",
      "Yellow": "Common"
     }
-   },
-   "mouthOptions": {
-    "mouthTypes": {
-     "NormalMouth": "Common"
-    }
    }
   },
   "3": {
@@ -224,11 +209,6 @@
     },
     "hairTypes": {
      "None": "Common"
-    }
-   },
-   "mouthOptions": {
-    "mouthTypes": {
-     "NormalMouth": "Common"
     }
    }
   },
@@ -292,11 +272,6 @@
      "Red": "Rare",
      "SaddleBrown": "Common",
      "Yellow": "Common"
-    }
-   },
-   "mouthOptions": {
-    "mouthTypes": {
-     "NormalMouth": "Common"
     }
    }
   },
@@ -370,11 +345,6 @@
      "Red": "Rare",
      "SaddleBrown": "Common",
      "Yellow": "Common"
-    }
-   },
-   "mouthOptions": {
-    "mouthTypes": {
-     "NormalMouth": "Common"
     }
    }
   },
@@ -498,11 +468,6 @@
      "Gray": "Common"
     }
    },
-   "mouthOptions": {
-    "mouthTypes": {
-     "NormalMouth": "Common"
-    }
-   },
    "wingOptions": {
     "layouts": {
      "Two": "Common"
@@ -565,11 +530,6 @@
     },
     "hairTypes": {
      "None": "Common"
-    }
-   },
-   "mouthOptions": {
-    "mouthTypes": {
-     "NormalMouth": "Common"
     }
    }
   },
@@ -643,11 +603,6 @@
      "SaddleBrown": "Common",
      "Yellow": "Common"
     }
-   },
-   "mouthOptions": {
-    "mouthTypes": {
-     "NormalMouth": "Common"
-    }
    }
   },
   "10": {
@@ -702,11 +657,6 @@
     },
     "hairTypes": {
      "None": "Common"
-    }
-   },
-   "mouthOptions": {
-    "mouthTypes": {
-     "NormalMouth": "Common"
     }
    }
   },
@@ -768,11 +718,6 @@
     },
     "colors": {
      "Green": "Common"
-    }
-   },
-   "mouthOptions": {
-    "mouthTypes": {
-     "NormalMouth": "Common"
     }
    }
   },
@@ -849,11 +794,6 @@
      "Red": "Rare",
      "SaddleBrown": "Common",
      "Yellow": "Common"
-    }
-   },
-   "mouthOptions": {
-    "mouthTypes": {
-     "NormalMouth": "Common"
     }
    },
    "wingOptions": {

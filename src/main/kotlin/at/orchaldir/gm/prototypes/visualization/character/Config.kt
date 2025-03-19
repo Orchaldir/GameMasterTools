@@ -20,7 +20,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
 val CHARACTER_CONFIG = CharacterRenderConfig(
-    Distance(500),
+    Distance(10),
     LineOptions(Color.Black.toRender(), Distance(1)),
     BodyConfig(
         Factor(0.1f),
