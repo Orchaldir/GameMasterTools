@@ -1,7 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance.mouth
 
 import at.orchaldir.gm.core.model.character.appearance.mouth.*
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
@@ -77,18 +76,23 @@ private fun visualizeSharpBeak(
 }
 
 private fun visualizeDuckBeak(state: CharacterRenderState, beak: Beak) {
+    val lowerHeight = Factor(0.125f)
+    val lowerWidth = Factor(0.35f)
+    val upperHeight0 = Factor(0.2f)
+    val upperHeight1 = Factor(0.1f)
+    val upperWidth = Factor(0.5f)
     val y = state.config.head.mouth.y
     val options = state.config.getLineOptions(beak.color)
     val lowerPolygon = Polygon2dBuilder()
-        .addMirroredPoints(state.aabb, Factor(0.35f), y, true)
-        .addMirroredPoints(state.aabb, Factor(0.35f), y + Factor(0.125f))
+        .addMirroredPoints(state.aabb, lowerWidth, y, true)
+        .addMirroredPoints(state.aabb, lowerWidth, y + lowerHeight)
         .build()
     val upperPolygon = Polygon2dBuilder()
-        .addMirroredPoints(state.aabb, Factor(0.1f), y - Factor(0.2f))
-        .addMirroredPoints(state.aabb, Factor(0.2f), y - Factor(0.1f))
-        .addMirroredPoints(state.aabb, Factor(0.5f), y - Factor(0.0f))
-        .addMirroredPoints(state.aabb, Factor(0.5f), y + Factor(0.1f))
-        .addLeftPoint(state.aabb, CENTER, y + Factor(0.05f))
+        .addMirroredPoints(state.aabb, Factor(0.1f), y - upperHeight0)
+        .addMirroredPoints(state.aabb, Factor(0.2f), y - upperHeight1)
+        .addMirroredPoints(state.aabb, upperWidth, y)
+        .addMirroredPoints(state.aabb, upperWidth, y + upperHeight1)
+        .addLeftPoint(state.aabb, CENTER, y + upperHeight1 / 2.0f)
         .build()
 
     state.renderer.getLayer()
