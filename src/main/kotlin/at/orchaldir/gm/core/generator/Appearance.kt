@@ -228,6 +228,7 @@ fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
                 TeethColor.White,
             )
         }
+
         MouthType.Beak -> Beak(
             config.generate(options.beakShapes),
             config.generate(options.beakColors),

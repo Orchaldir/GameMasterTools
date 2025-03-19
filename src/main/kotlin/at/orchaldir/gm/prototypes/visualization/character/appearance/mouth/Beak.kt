@@ -4,7 +4,9 @@ import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.ExoticSkin
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
-import at.orchaldir.gm.core.model.character.appearance.eye.*
+import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
+import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
+import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.Beak
 import at.orchaldir.gm.core.model.character.appearance.mouth.BeakShape
 import at.orchaldir.gm.core.model.util.Size

@@ -398,6 +398,7 @@ private fun parseMouth(
                 parse(parameters, TEETH_COLOR, TeethColor.White),
             )
         }
+
         MouthType.Beak.toString() -> {
             val mouthOptions = config.appearanceOptions.mouthOptions
             Beak(
