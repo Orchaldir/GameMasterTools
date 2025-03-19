@@ -18,6 +18,8 @@ import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.character.appearance.horn.HornsLayout
 import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHornType
 import at.orchaldir.gm.core.model.character.appearance.horn.VALID_CROWN_HORNS
+import at.orchaldir.gm.core.model.character.appearance.mouth.BeakShape
+import at.orchaldir.gm.core.model.character.appearance.mouth.MouthType
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
@@ -49,7 +51,7 @@ fun HtmlBlockTag.showRaceAppearance(
     showFeet(appearance)
     showHair(appearance)
     showHorns(appearance)
-    showMouth(appearance)
+    showMouth(appearance.mouthOptions)
     showSkin(appearance)
     showWings(appearance)
 }
@@ -140,10 +142,15 @@ private fun HtmlBlockTag.showHorns(appearance: RaceAppearance) {
     }
 }
 
-private fun HtmlBlockTag.showMouth(appearance: RaceAppearance) {
+private fun HtmlBlockTag.showMouth(mouthOptions: MouthOptions) {
     h3 { +"Mouth" }
 
-    showRarityMap("Types", appearance.mouthTypes)
+    showRarityMap("Types", mouthOptions.mouthTypes)
+
+    if (mouthOptions.mouthTypes.isAvailable(MouthType.Beak)) {
+        showRarityMap("Beak Shapes", mouthOptions.beakShapes)
+        showRarityMap("Beak Colors", mouthOptions.beakColors)
+    }
 }
 
 private fun HtmlBlockTag.showSkin(appearance: RaceAppearance) {
@@ -200,7 +207,7 @@ fun FORM.editRaceAppearance(
     editFeet(appearance)
     editHair(appearance)
     editHorns(appearance)
-    editMouth(appearance)
+    editMouth(appearance.mouthOptions)
     editSkin(appearance)
     editWings(appearance)
 }
@@ -297,10 +304,15 @@ private fun FORM.editHorns(appearance: RaceAppearance) {
 }
 
 
-private fun FORM.editMouth(appearance: RaceAppearance) {
+private fun FORM.editMouth(mouthOptions: MouthOptions) {
     h3 { +"Mouth" }
 
-    selectRarityMap("Types", combine(MOUTH, TYPE), appearance.mouthTypes, true)
+    selectRarityMap("Types", combine(MOUTH, TYPE), mouthOptions.mouthTypes, true)
+
+    if (mouthOptions.mouthTypes.isAvailable(MouthType.Beak)) {
+        selectRarityMap("Beak Shapes", combine(BEAK, SHAPE), mouthOptions.beakShapes, true)
+        selectRarityMap("Beak Colors", combine(BEAK, COLOR), mouthOptions.beakColors, true)
+    }
 }
 
 private fun FORM.editSkin(appearance: RaceAppearance) {
@@ -372,7 +384,7 @@ fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppea
         parseFootOptions(parameters),
         parseHairOptions(parameters),
         parseHornOptions(parameters),
-        parseOneOf(parameters, combine(MOUTH, TYPE), MouthType::valueOf),
+        parseMouthOptions(parameters),
         parseWingOptions(parameters),
     )
 }
@@ -415,6 +427,12 @@ private fun parseHornOptions(parameters: Parameters) = HornOptions(
     parseFactor(parameters, combine(CROWN, LENGTH), DEFAULT_CROWN_LENGTH),
     parseOneOf(parameters, combine(CROWN, FRONT), String::toInt, setOf(DEFAULT_CROWN_HORNS)),
     parseOneOf(parameters, combine(CROWN, BACK), String::toInt, setOf(DEFAULT_CROWN_HORNS)),
+)
+
+private fun parseMouthOptions(parameters: Parameters) = MouthOptions(
+    parseOneOf(parameters, combine(BEAK, COLOR), Color::valueOf, setOf(Color.Yellow)),
+    parseOneOf(parameters, combine(BEAK, SHAPE), BeakShape::valueOf, BeakShape.entries),
+    parseOneOf(parameters, combine(MOUTH, TYPE), MouthType::valueOf),
 )
 
 private fun parseWingOptions(parameters: Parameters) = WingOptions(

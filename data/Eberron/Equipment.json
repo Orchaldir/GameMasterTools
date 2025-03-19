@@ -14,25 +14,25 @@
    },
    "weight": 40
   },
-   "1": {
-     "id": 1,
-     "name": "Leather Belt",
-     "data": {
-       "type": "Belt",
-       "buckle": {
-         "type": "Simple",
-         "fill": {
-           "type": "Solid",
-           "color": "Silver"
-         },
-         "material": 19
-       },
-       "material": 1,
-       "holes": {
-         "type": "OneRow"
-       }
+  "1": {
+   "id": 1,
+   "name": "Leather Belt",
+   "data": {
+    "type": "Belt",
+    "buckle": {
+     "type": "Simple",
+     "fill": {
+      "type": "Solid",
+      "color": "Silver"
      },
-     "weight": 10
+     "material": 19
+    },
+    "material": 1,
+    "holes": {
+     "type": "OneRow"
+    }
+   },
+   "weight": 10
   }
  }
 }

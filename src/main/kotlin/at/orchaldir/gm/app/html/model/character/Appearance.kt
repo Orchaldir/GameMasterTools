@@ -45,10 +45,8 @@ fun FORM.editAppearance(
         raceAppearance.appearanceTypes,
         appearance.getType(),
         true
-    ) { type ->
-        label = type.name
-        value = type.toString()
-    }
+    )
+
     when (appearance) {
         is HeadOnly -> {
             editHeight(state, character, appearance.height)
@@ -92,21 +90,12 @@ private fun FORM.editBody(
 private fun FORM.editFoot(footOptions: FootOptions, foot: Foot) {
     h2 { +"Feet" }
 
-    selectOneOf("Type", FOOT, footOptions.footTypes, foot.getType(), true) { type ->
-        label = type.name
-        value = type.toString()
-    }
+    selectOneOf("Type", FOOT, footOptions.footTypes, foot.getType(), true)
 
     when (foot) {
         is ClawedFoot -> {
-            selectOneOf("Claw Size", combine(FOOT, CLAWS, SIZE), footOptions.clawSizes, foot.size, true) { size ->
-                label = size.name
-                value = size.toString()
-            }
-            selectOneOf("Claw Color", combine(FOOT, CLAWS, COLOR), footOptions.clawColors, foot.color, true) { color ->
-                label = color.name
-                value = color.toString()
-            }
+            selectOneOf("Claw Size", combine(FOOT, CLAWS, SIZE), footOptions.clawSizes, foot.size, true)
+            selectOneOf("Claw Color", combine(FOOT, CLAWS, COLOR), footOptions.clawColors, foot.color, true)
         }
 
         else -> doNothing()
@@ -118,10 +107,9 @@ private fun FORM.editSkin(
     skin: Skin,
 ) {
     h2 { +"Skin" }
-    selectOneOf("Type", combine(SKIN, TYPE), raceAppearance.skinTypes, skin.getType(), true) { type ->
-        label = type.name
-        value = type.toString()
-    }
+
+    selectOneOf("Type", combine(SKIN, TYPE), raceAppearance.skinTypes, skin.getType(), true)
+
     when (skin) {
         is Fur -> selectColor("Color", combine(SKIN, EXOTIC, COLOR), raceAppearance.furColors, skin.color)
         is Scales -> selectColor("Color", combine(SKIN, EXOTIC, COLOR), raceAppearance.scalesColors, skin.color)
@@ -145,10 +133,7 @@ private fun FORM.editWings(
 
     h2 { +"Wings" }
 
-    selectOneOf("Layout", combine(WING, LAYOUT), wingOptions.layouts, wings.getType(), true) { layout ->
-        label = layout.name
-        value = layout.toString()
-    }
+    selectOneOf("Layout", combine(WING, LAYOUT), wingOptions.layouts, wings.getType(), true)
 
     when (wings) {
         NoWings -> doNothing()
@@ -184,10 +169,7 @@ private fun FORM.selectWingType(
     currentType: WingType,
     param: String,
 ) {
-    selectOneOf("Type", param, wingOptions.types, currentType, true) { type ->
-        label = type.name
-        value = type.toString()
-    }
+    selectOneOf("Type", param, wingOptions.types, currentType, true)
 }
 
 // parse

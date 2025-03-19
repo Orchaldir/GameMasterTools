@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.character.appearance.beard
 
 import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.Mouth
+import at.orchaldir.gm.core.model.character.appearance.mouth.Mouth
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
@@ -24,7 +24,7 @@ fun getLandingStrip(state: CharacterRenderState, head: Head): Polygon2d {
 }
 
 fun getSoulPatch(state: CharacterRenderState, head: Head): Polygon2d {
-    val topY = state.config.head.getMouthBottomY(head.mouth)
+    val topY = state.config.head.mouth.getBottomY(head.mouth)
     val size = state.config.head.beard.mediumThickness
     return fromTopAndBottom(state.aabb, topY, topY + size, size, size).build()
 }
@@ -53,7 +53,7 @@ private fun fromMouthAndBottom(
     bottomY: Factor,
     topWidth: Factor,
     bottomWidth: Factor,
-) = fromTopAndBottom(state.aabb, state.config.head.getMouthBottomY(mouth), bottomY, topWidth, bottomWidth)
+) = fromTopAndBottom(state.aabb, state.config.head.mouth.getBottomY(mouth), bottomY, topWidth, bottomWidth)
 
 private fun fromTopAndBottom(
     aabb: AABB,

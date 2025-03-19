@@ -37,7 +37,7 @@ data class RaceAppearance(
     val footOptions: FootOptions = FootOptions(),
     val hairOptions: HairOptions = HairOptions(),
     val hornOptions: HornOptions = HornOptions(),
-    val mouthTypes: OneOf<MouthType> = OneOf(MouthType.entries),
+    val mouthOptions: MouthOptions = MouthOptions(),
     val wingOptions: WingOptions = WingOptions(),
 ) : ElementWithSimpleName<RaceAppearanceId> {
 

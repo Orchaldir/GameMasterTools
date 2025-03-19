@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.character.appearance.horn.*
+import at.orchaldir.gm.core.model.character.appearance.mouth.*
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.DEFAULT_CROWN_WIDTH
@@ -209,7 +210,7 @@ fun generateHorn(config: AppearanceGeneratorConfig, options: HornOptions): Simpl
 }
 
 fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
-    val options = config.appearanceOptions
+    val options = config.appearanceOptions.mouthOptions
 
     return when (config.generate(options.mouthTypes)) {
         MouthType.NoMouth -> NoMouth
@@ -227,6 +228,11 @@ fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
                 TeethColor.White,
             )
         }
+
+        MouthType.Beak -> Beak(
+            config.generate(options.beakShapes),
+            config.generate(options.beakColors),
+        )
     }
 }
 

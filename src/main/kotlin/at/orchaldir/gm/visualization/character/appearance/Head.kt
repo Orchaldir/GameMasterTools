@@ -1,13 +1,15 @@
 package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.Mouth
+import at.orchaldir.gm.core.model.character.appearance.mouth.Mouth
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.beard.BeardConfig
 import at.orchaldir.gm.visualization.character.appearance.horn.HornConfig
 import at.orchaldir.gm.visualization.character.appearance.horn.visualizeHorns
+import at.orchaldir.gm.visualization.character.appearance.mouth.MouthConfig
+import at.orchaldir.gm.visualization.character.appearance.mouth.visualizeMouth
 import at.orchaldir.gm.visualization.character.equipment.visualizeHeadEquipment
 
 data class HeadConfig(
@@ -19,17 +21,11 @@ data class HeadConfig(
     val hairlineY: Factor,
     val hatY: Factor,
     val hornConfig: HornConfig,
-    val mouthConfig: MouthConfig,
-    val mouthY: Factor,
+    val mouth: MouthConfig,
 ) {
     fun getGoateeBottomY() = END + beard.mediumThickness
 
-    fun getGoateeWidth(mouth: Mouth) = mouthConfig.getWidth(mouth) * beard.goateeWidth
-
-    fun getMouthBottomY(mouth: Mouth) = mouthY + mouthConfig.getHeight(mouth) * 0.5f
-
-    fun getMouthTopY(mouth: Mouth) = mouthY - mouthConfig.getHeight(mouth) * 0.5f
-
+    fun getGoateeWidth(mouth: Mouth) = this.mouth.getWidth(mouth) * beard.goateeWidth
 }
 
 fun visualizeHead(

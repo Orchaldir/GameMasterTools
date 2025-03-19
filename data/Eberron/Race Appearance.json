@@ -63,9 +63,6 @@
      "SaddleBrown": "Common",
      "Yellow": "Common"
     }
-   },
-   "mouthTypes": {
-    "NormalMouth": "Common"
    }
   },
   "1": {
@@ -108,9 +105,6 @@
     "colors": {
      "White": "Common"
     }
-   },
-   "mouthTypes": {
-    "NormalMouth": "Common"
    }
   },
   "2": {
@@ -178,9 +172,6 @@
      "SaddleBrown": "Common",
      "Yellow": "Common"
     }
-   },
-   "mouthTypes": {
-    "NormalMouth": "Common"
    }
   },
   "3": {
@@ -219,9 +210,6 @@
     "hairTypes": {
      "None": "Common"
     }
-   },
-   "mouthTypes": {
-    "NormalMouth": "Common"
    }
   },
   "4": {
@@ -285,9 +273,6 @@
      "SaddleBrown": "Common",
      "Yellow": "Common"
     }
-   },
-   "mouthTypes": {
-    "NormalMouth": "Common"
    }
   },
   "5": {
@@ -361,9 +346,6 @@
      "SaddleBrown": "Common",
      "Yellow": "Common"
     }
-   },
-   "mouthTypes": {
-    "NormalMouth": "Common"
    }
   },
   "6": {
@@ -425,8 +407,10 @@
      "SaddleBrown": "Common"
     }
    },
-   "mouthTypes": {
-    "NormalMouth": "Common"
+   "mouthOptions": {
+    "mouthTypes": {
+     "NormalMouth": "Common"
+    }
    }
   },
   "7": {
@@ -483,9 +467,6 @@
     "colors": {
      "Gray": "Common"
     }
-   },
-   "mouthTypes": {
-    "NormalMouth": "Common"
    },
    "wingOptions": {
     "layouts": {
@@ -550,9 +531,6 @@
     "hairTypes": {
      "None": "Common"
     }
-   },
-   "mouthTypes": {
-    "NormalMouth": "Common"
    }
   },
   "9": {
@@ -625,9 +603,6 @@
      "SaddleBrown": "Common",
      "Yellow": "Common"
     }
-   },
-   "mouthTypes": {
-    "NormalMouth": "Common"
    }
   },
   "10": {
@@ -683,9 +658,6 @@
     "hairTypes": {
      "None": "Common"
     }
-   },
-   "mouthTypes": {
-    "NormalMouth": "Common"
    }
   },
   "11": {
@@ -747,9 +719,6 @@
     "colors": {
      "Green": "Common"
     }
-   },
-   "mouthTypes": {
-    "NormalMouth": "Common"
    }
   },
   "12": {
@@ -826,9 +795,6 @@
      "SaddleBrown": "Common",
      "Yellow": "Common"
     }
-   },
-   "mouthTypes": {
-    "NormalMouth": "Common"
    },
    "wingOptions": {
     "layouts": {

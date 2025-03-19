@@ -14,12 +14,13 @@ import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.appearance.*
 import at.orchaldir.gm.visualization.character.appearance.beard.BeardConfig
 import at.orchaldir.gm.visualization.character.appearance.horn.HornConfig
+import at.orchaldir.gm.visualization.character.appearance.mouth.MouthConfig
 import at.orchaldir.gm.visualization.character.equipment.*
 import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
 val CHARACTER_CONFIG = CharacterRenderConfig(
-    Distance(500),
+    Distance(10),
     LineOptions(Color.Black.toRender(), Distance(1)),
     BodyConfig(
         Factor(0.1f),
@@ -146,8 +147,8 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             withFactor(0.3f, 0.35f, 0.4f),
             Factor(0.04f),
             Factor(0.1f),
+            Factor(0.75f),
         ),
-        Factor(0.75f),
     ),
     mapOf(
         SkinColor.Fair to RGB(254, 228, 208),
