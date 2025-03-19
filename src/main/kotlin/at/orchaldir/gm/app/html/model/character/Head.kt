@@ -227,7 +227,7 @@ private fun FORM.editMouth(
     mouth: Mouth,
 ) {
     h2 { +"Mouth" }
-    selectOneOf("Type", combine(MOUTH, TYPE), raceAppearance.mouthTypes, mouth.getType(), true) { option ->
+    selectOneOf("Type", combine(MOUTH, TYPE), raceAppearance.mouthOptions.mouthTypes, mouth.getType(), true) { option ->
         label = option.name
         value = option.toString()
     }

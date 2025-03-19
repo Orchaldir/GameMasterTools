@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.model.race.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
-import at.orchaldir.gm.core.model.character.appearance.mouth.MouthType
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.OneOf
@@ -38,7 +37,7 @@ data class RaceAppearance(
     val footOptions: FootOptions = FootOptions(),
     val hairOptions: HairOptions = HairOptions(),
     val hornOptions: HornOptions = HornOptions(),
-    val mouthTypes: OneOf<MouthType> = OneOf(MouthType.entries),
+    val mouthOptions: MouthOptions = MouthOptions(),
     val wingOptions: WingOptions = WingOptions(),
 ) : ElementWithSimpleName<RaceAppearanceId> {
 
