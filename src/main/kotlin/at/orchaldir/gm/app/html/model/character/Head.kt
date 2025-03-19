@@ -402,7 +402,7 @@ private fun parseMouth(
             val mouthOptions = config.appearanceOptions.mouthOptions
             Beak(
                 parseAppearanceOption(parameters, combine(BEAK, SHAPE), config, mouthOptions.beakShapes),
-                parseAppearanceColor(parameters, combine(BEAK, COLOR), config, mouthOptions.beakColors),
+                parseAppearanceColor(parameters, BEAK, config, mouthOptions.beakColors),
             )
         }
 
