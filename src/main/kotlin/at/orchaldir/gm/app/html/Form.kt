@@ -218,6 +218,19 @@ fun HtmlBlockTag.selectText(
 
 // rarity map
 
+inline fun <reified T : Enum<T>> HtmlBlockTag.selectOneOf(
+    text: String,
+    selectId: String,
+    values: OneOf<T>,
+    current: T,
+    update: Boolean = false,
+) {
+    selectOneOf(text, selectId, values, current, update) { v ->
+        label = v.name
+        value = v.toString()
+    }
+}
+
 fun <T> HtmlBlockTag.selectOneOf(
     label: String,
     selectId: String,

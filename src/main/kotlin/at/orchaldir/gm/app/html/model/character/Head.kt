@@ -227,10 +227,10 @@ private fun FORM.editMouth(
     mouth: Mouth,
 ) {
     h2 { +"Mouth" }
-    selectOneOf("Type", combine(MOUTH, TYPE), raceAppearance.mouthOptions.mouthTypes, mouth.getType(), true) { option ->
-        label = option.name
-        value = option.toString()
-    }
+    val mouthOptions = raceAppearance.mouthOptions
+
+    selectOneOf("Type", combine(MOUTH, TYPE), mouthOptions.mouthTypes, mouth.getType(), true)
+
     when (mouth) {
         is NormalMouth -> {
             editSimpleMouth(mouth.width, mouth.teethColor)
@@ -242,7 +242,12 @@ private fun FORM.editMouth(
             selectColor("Lip Color", combine(LIP, COLOR), culture.appearanceStyle.lipColors, mouth.color)
         }
 
-        else -> doNothing()
+        is Beak -> {
+            selectOneOf("Beak Shape", combine(BEAK, SHAPE), mouthOptions.beakShapes, mouth.shape, true)
+            selectOneOf("Beak Color", combine(BEAK, COLOR), mouthOptions.beakColors, mouth.color, true)
+        }
+
+        NoMouth -> doNothing()
     }
 }
 
@@ -418,6 +423,13 @@ private fun parseMouth(
                 parseBeard(parameters, config, hair),
                 parse(parameters, combine(MOUTH, WIDTH), Size.Medium),
                 parse(parameters, TEETH_COLOR, TeethColor.White),
+            )
+        }
+        MouthType.Beak.toString() -> {
+            val mouthOptions = config.appearanceOptions.mouthOptions
+            Beak(
+                parseAppearanceOption(parameters, combine(BEAK, SHAPE), config, mouthOptions.beakShapes),
+                parseAppearanceColor(parameters, combine(BEAK, COLOR), config, mouthOptions.beakColors),
             )
         }
 
