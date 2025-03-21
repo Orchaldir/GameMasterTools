@@ -54,17 +54,31 @@ private fun createTie(state: CharacterRenderState, torso: AABB, tie: Tie) = when
     TieStyle.KnitTie -> createKnitTie(state, torso, tie)
     TieStyle.RoundedBowTie -> Polygon2dBuilder()
     TieStyle.SlimBowTie -> Polygon2dBuilder()
-    TieStyle.Tie -> Polygon2dBuilder()
+    TieStyle.Tie -> createNormalTie(state, torso, tie)
 }
 
 private fun createKnitTie(state: CharacterRenderState, torso: AABB, tie: Tie): Polygon2dBuilder {
     val config = state.config.equipment.tie
+
+    return createBaseTie(config, torso, tie, config.tieEndY)
+}
+
+private fun createNormalTie(state: CharacterRenderState, torso: AABB, tie: Tie): Polygon2dBuilder {
+    val config = state.config.equipment.tie
+    val width = config.tieWidth.convert(tie.size)
+    val transitionHeight = width / 2.0f
+
+    return createBaseTie(config, torso, tie, config.tieEndY - transitionHeight)
+        .addLeftPoint(torso, CENTER, config.tieEndY)
+}
+
+private fun createBaseTie(config: TieConfig, torso: AABB, tie: Tie, endY: Factor): Polygon2dBuilder {
     val width = config.tieWidth.convert(tie.size)
     val transitionHeight = width / 2.0f
 
     return Polygon2dBuilder()
         .addMirroredPoints(torso, config.tieKnotBottom, config.tieKnotTop)
         .addMirroredPoints(torso, width, config.tieKnotTop + transitionHeight)
-        .addMirroredPoints(torso, width, config.tieEndY - transitionHeight)
+        .addMirroredPoints(torso, width, endY)
         .addLeftPoint(torso, CENTER, config.tieEndY)
 }
