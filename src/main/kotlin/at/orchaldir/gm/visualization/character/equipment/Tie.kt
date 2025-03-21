@@ -8,9 +8,12 @@ import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.TIE_LAYER
 import at.orchaldir.gm.visualization.renderBuilder
+import at.orchaldir.gm.visualization.renderRoundedBuilder
 
 data class TieConfig(
     val bowTieKnotSize: Factor,
+    val bowTieWidth: SizeConfig<Factor>,
+    val bowTieHeight: Factor,
     val tieKnotTop: Factor,
     val tieKnotBottom: Factor,
     val tieWidth: SizeConfig<Factor>,
@@ -30,9 +33,15 @@ fun visualizeTie(
 
     renderBuilder(state.renderer, knotBuilder, knotOptions, TIE_LAYER)
     if (tieBuilder.isValid()) {
-        renderBuilder(state.renderer, tieBuilder, tieOptions, TIE_LAYER)
+        if (isRounded(tie)) {
+            renderRoundedBuilder(state.renderer, tieBuilder, tieOptions, TIE_LAYER)
+        } else {
+            renderBuilder(state.renderer, tieBuilder, tieOptions, TIE_LAYER)
+        }
     }
 }
+
+private fun isRounded(tie: Tie) = tie.style == TieStyle.RoundedBowTie
 
 private fun createKnot(state: CharacterRenderState, torso: AABB, tie: Tie): Polygon2dBuilder {
     val config = state.config.equipment.tie
@@ -48,13 +57,17 @@ private fun createKnot(state: CharacterRenderState, torso: AABB, tie: Tie): Poly
     }
 }
 
-private fun createTie(state: CharacterRenderState, torso: AABB, tie: Tie) = when (tie.style) {
-    TieStyle.ButterflyBowTie -> Polygon2dBuilder()
-    TieStyle.DiamondBowTie -> Polygon2dBuilder()
-    TieStyle.KnitTie -> createKnitTie(state, torso, tie)
-    TieStyle.RoundedBowTie -> Polygon2dBuilder()
-    TieStyle.SlimBowTie -> Polygon2dBuilder()
-    TieStyle.Tie -> createNormalTie(state, torso, tie)
+private fun createTie(state: CharacterRenderState, torso: AABB, tie: Tie): Polygon2dBuilder {
+    val config = state.config.equipment.tie
+
+    return when (tie.style) {
+        TieStyle.ButterflyBowTie -> createBaseBowTie(config, torso, tie, config.bowTieHeight)
+        TieStyle.DiamondBowTie -> Polygon2dBuilder()
+        TieStyle.KnitTie -> createKnitTie(state, torso, tie)
+        TieStyle.RoundedBowTie -> createBaseBowTie(config, torso, tie, config.bowTieHeight)
+        TieStyle.SlimBowTie -> createBaseBowTie(config, torso, tie, config.bowTieHeight / 2.0f)
+        TieStyle.Tie -> createNormalTie(state, torso, tie)
+    }
 }
 
 private fun createKnitTie(state: CharacterRenderState, torso: AABB, tie: Tie): Polygon2dBuilder {
@@ -81,4 +94,17 @@ private fun createBaseTie(config: TieConfig, torso: AABB, tie: Tie, endY: Factor
         .addMirroredPoints(torso, width, config.tieKnotTop + transitionHeight)
         .addMirroredPoints(torso, width, endY)
         .addLeftPoint(torso, CENTER, config.tieEndY)
+}
+
+private fun createBaseBowTie(config: TieConfig, torso: AABB, tie: Tie, relativeHeight: Factor): Polygon2dBuilder {
+    val width = config.bowTieWidth.convert(tie.size)
+    val height = relativeHeight * width
+    val half = height / 2.0f
+    val centerY = config.bowTieKnotSize / 2.0f
+
+    return Polygon2dBuilder()
+        .addMirroredPoints(torso, config.bowTieKnotSize, START)
+        .addMirroredPoints(torso, width, centerY - half)
+        .addMirroredPoints(torso, width, centerY + half)
+        .addMirroredPoints(torso, config.bowTieKnotSize, config.bowTieKnotSize)
 }

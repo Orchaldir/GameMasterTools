@@ -112,6 +112,12 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         ),
         TieConfig(
             Factor(0.1f),
+            SizeConfig(
+                Factor(0.3f),
+                Factor(0.4f),
+                Factor(0.5f),
+            ),
+            Factor(0.25f),
             Factor(0.15f),
             Factor(0.1f),
             SizeConfig(
