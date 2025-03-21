@@ -63,7 +63,7 @@ private fun createTie(state: CharacterRenderState, torso: AABB, tie: Tie): Polyg
 
     return when (tie.style) {
         TieStyle.ButterflyBowTie -> createBaseBowTie(config, torso, tie, config.bowTieHeight)
-        TieStyle.DiamondBowTie -> Polygon2dBuilder()
+        TieStyle.DiamondBowTie -> createDiamondBowTie(config, torso, tie)
         TieStyle.KnitTie -> createKnitTie(state, torso, tie)
         TieStyle.RoundedBowTie -> createBaseBowTie(config, torso, tie, config.bowTieHeight)
         TieStyle.SlimBowTie -> createBaseBowTie(config, torso, tie, config.bowTieHeight * 0.7f)
@@ -95,6 +95,22 @@ private fun createBaseTie(config: TieConfig, torso: AABB, tie: Tie, endY: Factor
         .addMirroredPoints(torso, width, config.tieKnotTop + transitionHeight)
         .addMirroredPoints(torso, width, endY)
         .addLeftPoint(torso, CENTER, config.tieEndY)
+}
+
+private fun createDiamondBowTie(config: TieConfig, torso: AABB, tie: Tie): Polygon2dBuilder {
+    val width = config.bowTieWidth.convert(tie.size)
+    val rest = width - config.bowTieKnotSize
+    val middleWidth = config.bowTieKnotSize + rest / 2.0f
+    val height = config.bowTieHeight * width
+    val half = height / 2.0f
+    val centerY = config.bowTieKnotSize / 2.0f
+
+    return Polygon2dBuilder()
+        .addMirroredPoints(torso, config.bowTieKnotSize, START)
+        .addMirroredPoints(torso, middleWidth, centerY - half)
+        .addMirroredPoints(torso, width, centerY)
+        .addMirroredPoints(torso, middleWidth, centerY + half)
+        .addMirroredPoints(torso, config.bowTieKnotSize, config.bowTieKnotSize)
 }
 
 private fun createBaseBowTie(config: TieConfig, torso: AABB, tie: Tie, relativeHeight: Factor): Polygon2dBuilder {
