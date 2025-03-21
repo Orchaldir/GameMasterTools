@@ -18,6 +18,7 @@ data class EquipmentConfig(
     val opening: OpeningConfig,
     val pants: PantsConfig,
     val skirt: SkirtConfig,
+    val tie: TieConfig,
 )
 
 fun visualizeBodyEquipment(

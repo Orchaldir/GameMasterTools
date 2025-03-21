@@ -109,7 +109,18 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             Factor(1.4f),
             Factor(1.8f),
             Factor(0.05f),
-        )
+        ),
+        TieConfig(
+            Factor(0.1f),
+            Factor(0.15f),
+            Factor(0.1f),
+            SizeConfig(
+                Factor(0.2f),
+                Factor(0.25f),
+                Factor(0.3f),
+            ),
+            Factor(0.85f),
+        ),
     ),
     HeadConfig(
         BeardConfig(Factor(0.8f), Factor(0.05f), Factor(0.1f), Factor(0.01f)),
