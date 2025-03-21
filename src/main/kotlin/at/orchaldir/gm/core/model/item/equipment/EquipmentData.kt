@@ -211,6 +211,7 @@ data class Skirt(
 data class Tie(
     val style: TieStyle = TieStyle.Tie,
     val fill: Fill = Solid(Color.Navy),
+    val knotFill: Fill = Solid(Color.Navy),
     val material: MaterialId = MaterialId(0),
 ) : EquipmentData() {
 
