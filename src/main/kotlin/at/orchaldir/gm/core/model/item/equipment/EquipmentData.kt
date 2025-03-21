@@ -3,10 +3,7 @@ package at.orchaldir.gm.core.model.item.equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.Fill
-import at.orchaldir.gm.core.model.util.Solid
-import at.orchaldir.gm.core.model.util.Transparent
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -210,6 +207,7 @@ data class Skirt(
 @SerialName("Tie")
 data class Tie(
     val style: TieStyle = TieStyle.Tie,
+    val size: Size = Size.Medium,
     val fill: Fill = Solid(Color.Navy),
     val knotFill: Fill = Solid(Color.Navy),
     val material: MaterialId = MaterialId(0),
