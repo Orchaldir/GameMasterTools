@@ -31,7 +31,6 @@ fun visualizeTie(
     val tieBuilder = createTie(state, torso, tie)
     val knotBuilder = createKnot(state, torso, tie)
 
-    renderBuilder(state.renderer, knotBuilder, knotOptions, TIE_LAYER)
     if (tieBuilder.isValid()) {
         if (isRounded(tie)) {
             renderRoundedBuilder(state.renderer, tieBuilder, tieOptions, TIE_LAYER)
@@ -39,6 +38,8 @@ fun visualizeTie(
             renderBuilder(state.renderer, tieBuilder, tieOptions, TIE_LAYER)
         }
     }
+
+    renderBuilder(state.renderer, knotBuilder, knotOptions, TIE_LAYER)
 }
 
 private fun isRounded(tie: Tie) = tie.style == TieStyle.RoundedBowTie
@@ -65,7 +66,7 @@ private fun createTie(state: CharacterRenderState, torso: AABB, tie: Tie): Polyg
         TieStyle.DiamondBowTie -> Polygon2dBuilder()
         TieStyle.KnitTie -> createKnitTie(state, torso, tie)
         TieStyle.RoundedBowTie -> createBaseBowTie(config, torso, tie, config.bowTieHeight)
-        TieStyle.SlimBowTie -> createBaseBowTie(config, torso, tie, config.bowTieHeight / 2.0f)
+        TieStyle.SlimBowTie -> createBaseBowTie(config, torso, tie, config.bowTieHeight * 0.7f)
         TieStyle.Tie -> createNormalTie(state, torso, tie)
     }
 }
