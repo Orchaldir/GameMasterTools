@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle.None
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.core.model.item.equipment.style.TieStyle
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Color.Blue
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.Solid
@@ -24,7 +25,12 @@ fun main() {
         Pair(
             createAppearance(distance),
             listOf(
-                Tie(style, size),
+                Tie(
+                    style,
+                    size,
+                    Solid(Color.Yellow),
+                    Solid(Color.Red),
+                ),
                 Belt(),
                 Pants(),
                 Shirt(),

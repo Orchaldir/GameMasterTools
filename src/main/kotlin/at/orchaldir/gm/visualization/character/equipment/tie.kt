@@ -26,10 +26,10 @@ fun visualizeTie(
 fun createKnot(torso: AABB, tie: Tie) =
     if (tie.style.isBowTie()) {
         Polygon2dBuilder()
-            .addMirroredPoints(torso, Factor(0.05f), START)
-            .addMirroredPoints(torso, Factor(0.05f), Factor(0.05f))
+            .addMirroredPoints(torso, Factor(0.1f), START)
+            .addMirroredPoints(torso, Factor(0.1f), Factor(0.1f))
     } else {
         Polygon2dBuilder()
-            .addMirroredPoints(torso, Factor(0.1f), START)
-            .addMirroredPoints(torso, Factor(0.05f), Factor(0.1f))
+            .addMirroredPoints(torso, Factor(0.15f), START)
+            .addMirroredPoints(torso, Factor(0.1f), Factor(0.15f))
     }
