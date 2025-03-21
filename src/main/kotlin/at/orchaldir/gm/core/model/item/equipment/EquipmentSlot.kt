@@ -8,5 +8,6 @@ enum class EquipmentSlot {
     HandSlot,
     HeadSlot,
     OuterSlot,
+    TieSlot,
     TopSlot,
 }
