@@ -2,6 +2,7 @@ package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.app.PANTS
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle.None
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
@@ -42,6 +43,6 @@ fun main() {
 private fun createAppearance(distance: Distance) =
     HumanoidBody(
         Body(),
-        Head(),
+        Head(mouth = NormalMouth()),
         distance,
     )
