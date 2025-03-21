@@ -60,10 +60,11 @@ private fun createTie(state: CharacterRenderState, torso: AABB, tie: Tie) = when
 private fun createKnitTie(state: CharacterRenderState, torso: AABB, tie: Tie): Polygon2dBuilder {
     val config = state.config.equipment.tie
     val width = config.tieWidth.convert(tie.size)
+    val transitionHeight = width / 2.0f
 
     return Polygon2dBuilder()
         .addMirroredPoints(torso, config.tieKnotBottom, config.tieKnotTop)
-        .addMirroredPoints(torso, width, config.tieKnotTop + width)
-        .addMirroredPoints(torso, width, config.tieEndY - width)
+        .addMirroredPoints(torso, width, config.tieKnotTop + transitionHeight)
+        .addMirroredPoints(torso, width, config.tieEndY - transitionHeight)
         .addLeftPoint(torso, CENTER, config.tieEndY)
 }
