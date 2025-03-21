@@ -6,5 +6,7 @@ enum class TieStyle {
     KnitTie,
     RoundedBowTie,
     SlimBowTie,
-    Tie,
+    Tie;
+
+    fun isBowTie() = this == ButterflyBowTie || this == DiamondBowTie || this == RoundedBowTie || this == SlimBowTie
 }

@@ -34,6 +34,7 @@ fun visualizeBodyEquipment(
             is Pants -> visualizePants(state, body, it)
             is Shirt -> visualizeShirt(state, body, it)
             is Skirt -> visualizeSkirt(state, body, it)
+            is Tie -> visualizeTie(state, body, it)
             else -> doNothing()
         }
     }
