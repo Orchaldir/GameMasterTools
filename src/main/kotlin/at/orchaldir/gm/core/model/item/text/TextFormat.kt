@@ -49,7 +49,7 @@ sealed class TextFormat {
 data class Book(
     val pages: Int,
     val binding: BookBinding,
-    val size: Size2i = Size2i.square(100),
+    val size: Size2i = Size2i.square(fromMillimeters(100)),
 ) : TextFormat()
 
 @Serializable

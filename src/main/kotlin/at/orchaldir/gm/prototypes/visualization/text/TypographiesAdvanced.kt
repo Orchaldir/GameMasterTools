@@ -32,7 +32,7 @@ private val bottomAuthor = SimpleStringRenderOption(
 )
 
 fun main() {
-    val bookSize = Size2i(200, 300)
+    val bookSize = Size2i.fromMillimeters(200, 300)
     val texts = listOf(
         createRow(bookSize) { size -> SolidFont(size, Color.White) },
         createRow(bookSize) { size -> FontWithBorder(size, fromMillimeters(2), Color.Gold, Color.Black) },

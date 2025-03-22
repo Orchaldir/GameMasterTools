@@ -12,7 +12,7 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 private val ID = MaterialId(0)
 
 fun main() {
-    val size = Size2i(125, 190)
+    val size = Size2i.fromMillimeters(125, 190)
 
     renderTextTable(
         "book-bindings.svg",
