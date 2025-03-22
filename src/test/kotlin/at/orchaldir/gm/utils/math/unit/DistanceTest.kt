@@ -9,6 +9,12 @@ import org.junit.jupiter.api.Test
 
 class DistanceTest {
 
+    private val list = listOf(
+        fromMicrometers(5),
+        fromMicrometers(3),
+        fromMicrometers(1),
+    )
+
     @Test
     fun `Millimeters to string`() {
         assertEquals("123 μm", fromMicrometers(123).toString())
@@ -108,5 +114,15 @@ class DistanceTest {
                 assertEquals(1234, fromMicrometers(1234).toMicrometers())
             }
         }
+    }
+
+    @Test
+    fun `Calculate the sum of distances`() {
+        assertEquals(fromMicrometers(9), sumOf(list))
+    }
+
+    @Test
+    fun `Calculate the maximum of distances`() {
+        assertEquals(fromMicrometers(5), maxOf(list))
     }
 }
