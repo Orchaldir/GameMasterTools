@@ -4,7 +4,9 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.formatMillimetersAsMeters
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
+import at.orchaldir.gm.utils.math.unit.formatMicrometersAsMeters
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -22,7 +24,7 @@ fun HtmlBlockTag.selectDistance(
     distance: Distance,
     minValue: Distance,
     maxValue: Distance,
-    step: Distance = Distance(1),
+    step: Distance = fromMillimeters(1),
     update: Boolean = false,
 ) {
     field(label) {
@@ -35,12 +37,12 @@ fun HtmlBlockTag.selectDistance(
     current: Distance,
     minValue: Distance,
     maxValue: Distance,
-    step: Distance = Distance(1),
+    step: Distance = fromMillimeters(1),
     update: Boolean = false,
 ) {
     val values = (minValue.value()..maxValue.value() step step.value()).toList()
     selectValue(param, values, update) { v ->
-        label = formatMillimetersAsMeters(v)
+        label = formatMicrometersAsMeters(v)
         value = v.toString()
         selected = v == current.value()
     }
@@ -52,4 +54,4 @@ fun parseDistance(
     parameters: Parameters,
     param: String,
     default: Int = 0,
-) = Distance(parseInt(parameters, param, default))
+) = fromMicrometers(parseInt(parameters, param, default))

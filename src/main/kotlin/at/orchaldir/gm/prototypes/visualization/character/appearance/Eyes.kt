@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
-import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 fun main() {
     val appearances = mutableListOf<List<Appearance>>()
@@ -22,7 +22,7 @@ fun main() {
     renderCharacterTable("eyes.svg", CHARACTER_CONFIG, appearances)
 }
 
-private fun createAppearance(eyes: Eyes) = HeadOnly(Head(eyes = eyes, skin = ExoticSkin()), Distance(200))
+private fun createAppearance(eyes: Eyes) = HeadOnly(Head(eyes = eyes, skin = ExoticSkin()), fromMillimeters(200))
 
 private fun createRow(eye: Eye) =
     listOf(OneEye(eye, Size.Small), OneEye(eye, Size.Medium), OneEye(eye, Size.Large), TwoEyes(eye))

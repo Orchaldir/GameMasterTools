@@ -12,7 +12,7 @@ import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Orientation.Companion.fromDegree
-import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 fun main() {
     val appearances: MutableList<List<Appearance>> = mutableListOf()
@@ -55,5 +55,5 @@ fun createAppearance(horns: Horns) =
             TwoEyes(),
             horns = horns
         ),
-        Distance(500),
+        fromMillimeters(500),
     )

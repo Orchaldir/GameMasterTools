@@ -34,22 +34,22 @@
    },
    "weight": 10
   },
-   "2": {
-     "id": 2,
-     "name": "Silk Tie",
-     "data": {
-       "type": "Tie",
-       "fill": {
-         "type": "Solid",
-         "color": "Red"
-       },
-       "knotFill": {
-         "type": "Solid",
-         "color": "Red"
-       },
-       "material": 25
-     },
-     "weight": 10
+  "2": {
+   "id": 2,
+   "name": "Silk Tie",
+   "data": {
+    "type": "Tie",
+    "fill": {
+     "type": "Solid",
+     "color": "Red"
+    },
+    "knotFill": {
+     "type": "Solid",
+     "color": "Red"
+    },
+    "material": 25
+   },
+   "weight": 10
   }
  }
 }

@@ -24,7 +24,7 @@ fun main() {
     val book = Book(
         100,
         CopticBinding(cover, ComplexSewingPattern(stitches)),
-        Size2i(125, 190)
+        Size2i.fromMillimeters(125, 190)
     )
 
     val svg = visualizeTextFormat(TEXT_CONFIG, book)

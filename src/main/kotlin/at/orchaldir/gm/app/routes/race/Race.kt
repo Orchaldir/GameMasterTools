@@ -23,6 +23,7 @@ import at.orchaldir.gm.core.selector.getCharacters
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
+import at.orchaldir.gm.utils.math.unit.maxOf
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import at.orchaldir.gm.visualization.character.appearance.visualizeGroup
 import io.ktor.http.*
@@ -199,7 +200,7 @@ private fun HTML.showGallery(
     sort: SortRace,
 ) {
     val races = state.sortRaces(sort)
-    val maxHeight = races.map { it.height.getMax() }.maxBy { it.millimeters }
+    val maxHeight = maxOf(races.map { it.height.getMax() })
     val maxSize = CHARACTER_CONFIG.calculateSize(maxHeight)
     val backLink = call.application.href(RaceRoutes.All())
 

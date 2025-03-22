@@ -1,6 +1,6 @@
 package at.orchaldir.gm.utils.math
 
-import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -22,7 +22,7 @@ class AabbTest {
 
     @Test
     fun `Create with center & radii`() {
-        assertEquals(aabb, AABB.fromRadii(center, Distance(15000), Distance(30000)))
+        assertEquals(aabb, AABB.fromRadii(center, fromMillimeters(15000), fromMillimeters(30000)))
     }
 
     @Test
@@ -53,7 +53,7 @@ class AabbTest {
 
     @Test
     fun `Shrink by a distance`() {
-        assertEquals(AABB(3.0f, 4.0f, 28.0f, 58.0f), aabb.shrink(Distance(1000)))
+        assertEquals(AABB(3.0f, 4.0f, 28.0f, 58.0f), aabb.shrink(fromMillimeters(1000)))
     }
 
     @Test
@@ -88,7 +88,7 @@ class AabbTest {
     }
 
     private fun assertInnerRadius(width: Float, height: Float) {
-        assertEquals(Distance(3000), AABB(2.0f, 3.0f, width, height).getInnerRadius())
+        assertEquals(fromMillimeters(3000), AABB(2.0f, 3.0f, width, height).getInnerRadius())
     }
 
 }

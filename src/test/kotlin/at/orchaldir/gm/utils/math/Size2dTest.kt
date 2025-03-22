@@ -1,6 +1,6 @@
 package at.orchaldir.gm.utils.math
 
-import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -11,7 +11,7 @@ class Size2dTest {
         val result = Size2d(5.0f, 5.0f)
 
         assertEquals(result, Size2d.square(5.0f))
-        assertEquals(result, Size2d.square(Distance(5000)))
+        assertEquals(result, Size2d.square(fromMillimeters(5000)))
     }
 
     @Test

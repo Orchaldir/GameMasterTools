@@ -9,16 +9,16 @@ import at.orchaldir.gm.core.model.item.text.book.typography.TypographyLayout
 import at.orchaldir.gm.core.model.item.text.book.typography.TypographyOrder
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Size2i
-import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.visualization.text.ResolvedTextData
 
 fun main() {
-    val size = Size2i(125, 190)
+    val size = Size2i.fromMillimeters(125, 190)
 
     renderTextTable(
         "book-typographies-simple.svg",
         TEXT_CONFIG,
-        size.toSize2d() + Distance(50),
+        size.toSize2d() + fromMillimeters(50),
         addNames(TypographyLayout.entries),
         addNames(TypographyOrder.entries),
         ResolvedTextData("The Shadow over Innsmouth", "H. P. Lovecraft"),
@@ -28,8 +28,8 @@ fun main() {
             Hardcover(
                 BookCover(
                     typography = SimpleTypography(
-                        SolidFont(Distance(10)),
-                        SolidFont(Distance(15)),
+                        SolidFont(fromMillimeters(10)),
+                        SolidFont(fromMillimeters(15)),
                         order,
                         layout,
                     )

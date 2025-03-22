@@ -1,6 +1,6 @@
 package at.orchaldir.gm.utils.math
 
-import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -20,7 +20,7 @@ class Point2dTest {
     fun `Create with polar coordinates`() {
         val start = Point2d(2.0f, 4.0f)
 
-        val result = start.createPolar(Distance(5000), Orientation.fromDegree(180.0f))
+        val result = start.createPolar(fromMillimeters(5000), Orientation.fromDegree(180.0f))
 
         assertEquals(-3.0f, result.x, 0.0001f)
         assertEquals(4.0f, result.y, 0.0001f)

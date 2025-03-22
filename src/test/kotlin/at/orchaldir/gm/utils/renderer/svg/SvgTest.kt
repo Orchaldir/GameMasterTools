@@ -6,7 +6,7 @@ import at.orchaldir.gm.utils.math.Orientation.Companion.zero
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.renderer.model.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -50,7 +50,7 @@ class SvgTest {
         @Test
         fun `Render a circle`() {
             val builder = SvgBuilder(Size2d(100.0f, 150.0f))
-            builder.getLayer().renderCircle(Point2d(110.0f, 220.0f), Distance(10000), options)
+            builder.getLayer().renderCircle(Point2d(110.0f, 220.0f), fromMillimeters(10000), options)
 
             testCircle(builder)
         }

@@ -10,17 +10,17 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2i
-import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 private val ID = MaterialId(0)
 
 fun main() {
-    val bookSize = Size2i(125, 190)
+    val bookSize = Size2i.fromMillimeters(125, 190)
 
     renderTextTable(
         "book-protect-corners.svg",
         TEXT_CONFIG,
-        bookSize.toSize2d() + Distance(50),
+        bookSize.toSize2d() + fromMillimeters(50),
         addNames(listOf(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)),
         addNames(CornerShape.entries),
     ) { size, shape ->

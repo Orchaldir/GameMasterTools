@@ -10,17 +10,17 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.Size2i
-import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 private val ID = MaterialId(0)
 
 fun main() {
-    val size = Size2i(125, 190)
+    val size = Size2i.fromMillimeters(125, 190)
 
     renderTextTable(
         "book-sewing-patterns-simple.svg",
         TEXT_CONFIG,
-        size.toSize2d() + Distance(50),
+        size.toSize2d() + fromMillimeters(50),
         listOf(
             Pair("Small + Short", Pair(Size.Small, Size.Small)),
             Pair("Small + Medium", Pair(Size.Small, Size.Medium)),

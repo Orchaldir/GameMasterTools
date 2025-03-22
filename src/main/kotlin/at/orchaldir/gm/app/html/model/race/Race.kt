@@ -13,7 +13,8 @@ import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -120,10 +121,10 @@ fun FORM.editRace(
         "Height",
         HEIGHT,
         race.height,
-        Distance(100),
-        Distance(5000),
-        Distance(1000),
-        Distance(10),
+        fromMillimeters(100),
+        fromMeters(5),
+        fromMeters(1),
+        fromMillimeters(10),
         true
     )
     val kilo = Weight.fromKilogram(1.0f)

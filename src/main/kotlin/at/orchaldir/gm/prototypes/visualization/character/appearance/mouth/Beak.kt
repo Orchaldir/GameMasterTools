@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.character.appearance.mouth.BeakShape
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
-import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 fun main() {
     val appearances = mutableListOf<List<Appearance>>()
@@ -37,5 +37,5 @@ private fun createAppearance(beakShape: BeakShape, eyes: Eyes) =
             mouth = Beak(beakShape),
             skin = ExoticSkin(),
         ),
-        Distance(1000),
+        fromMillimeters(1000),
     )

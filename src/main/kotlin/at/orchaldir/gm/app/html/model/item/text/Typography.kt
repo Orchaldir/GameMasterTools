@@ -16,12 +16,13 @@ import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
+import at.orchaldir.gm.utils.math.unit.ZERO
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
-private val ZERO_MM = Distance(0)
-private val ONE_MM = Distance(1)
-private val THOUSAND_MM = Distance(1000)
+private val ONE_MM = fromMillimeters(1)
+private val THOUSAND_MM = fromMillimeters(1000)
 
 // edit
 
@@ -101,7 +102,7 @@ fun HtmlBlockTag.editStringRenderOption(
 
             is WrappedStringRenderOption -> {
                 editStringSharedOptions(state, param, option.x, option.y, option.font)
-                selectDistance("$text Width", combine(param, WIDTH), option.width, ZERO_MM, THOUSAND_MM, update = true)
+                selectDistance("$text Width", combine(param, WIDTH), option.width, ZERO, THOUSAND_MM, update = true)
             }
         }
     }
@@ -114,8 +115,8 @@ private fun HtmlBlockTag.editStringSharedOptions(
     y: Distance,
     fontOption: FontOption,
 ) {
-    selectDistance("X", combine(param, X), x, ZERO_MM, THOUSAND_MM, update = true)
-    selectDistance("Y", combine(param, Y), y, ZERO_MM, THOUSAND_MM, update = true)
+    selectDistance("X", combine(param, X), x, ZERO, THOUSAND_MM, update = true)
+    selectDistance("Y", combine(param, Y), y, ZERO, THOUSAND_MM, update = true)
     editFontOption(state, fontOption, combine(param, FONT))
 }
 
@@ -152,7 +153,7 @@ fun HtmlBlockTag.editFontOption(
                 combine(param, BORDER, SIZE),
                 option.thickness,
                 ONE_MM,
-                Distance(100),
+                fromMillimeters(100),
                 update = true,
             )
         }

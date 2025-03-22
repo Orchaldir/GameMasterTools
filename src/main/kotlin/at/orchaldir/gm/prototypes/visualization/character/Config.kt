@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation.Companion.fromDegree
-import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RGB
 import at.orchaldir.gm.visualization.SizeConfig
@@ -20,8 +20,8 @@ import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
 val CHARACTER_CONFIG = CharacterRenderConfig(
-    Distance(200),
-    LineOptions(Color.Black.toRender(), Distance(1)),
+    fromMillimeters(200),
+    LineOptions(Color.Black.toRender(), fromMillimeters(1)),
     BodyConfig(
         Factor(0.1f),
         FootConfig(
