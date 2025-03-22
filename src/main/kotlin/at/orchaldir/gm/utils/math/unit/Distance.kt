@@ -2,8 +2,10 @@ package at.orchaldir.gm.utils.math.unit
 
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
+import java.util.*
 
 private const val FACTOR = 1000
+private const val SQUARED = FACTOR * FACTOR
 val ZERO = Distance.fromMillimeters(0)
 
 @JvmInline
@@ -69,8 +71,14 @@ fun millimeterToMeter(millimeter: Int) = up(millimeter)
 fun micrometersToMeter(micrometers: Int) = up(up(micrometers))
 fun micrometersToMillimeter(micrometers: Int) = up(micrometers)
 
-fun formatMillimetersAsMeters(micrometers: Int) =
-    String.format("%d.%03d m", metersOnly(micrometers), millimetersOnly(micrometers))
+fun formatMillimetersAsMeters(micrometers: Int) = if (micrometers > SQUARED) {
+    String.format(Locale.US, "%.2f m", micrometersToMeter(micrometers))
+} else if (micrometers > FACTOR) {
+    String.format(Locale.US, "%.2f mm", micrometersToMillimeter(micrometers))
+} else {
+    String.format(Locale.US, "%d μm", micrometers)
+}
+
 
 fun maxOf(distances: Collection<Distance>) = distances.maxBy { it.value() }
 
