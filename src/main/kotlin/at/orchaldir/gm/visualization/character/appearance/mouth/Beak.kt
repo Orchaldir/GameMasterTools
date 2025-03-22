@@ -7,11 +7,17 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
-fun visualizeBeak(state: CharacterRenderState, beak: Beak) = when (beak.shape) {
-    BeakShape.Crow -> visualizeCrow(state, beak)
-    BeakShape.Duck -> visualizeDuckBeak(state, beak)
-    BeakShape.Hawk -> visualizeHawk(state, beak)
-    BeakShape.Parrot -> visualizeParrot(state, beak)
+fun visualizeBeak(state: CharacterRenderState, beak: Beak) {
+    if (!state.renderFront) {
+        return
+    }
+
+    when (beak.shape) {
+        BeakShape.Crow -> visualizeCrow(state, beak)
+        BeakShape.Duck -> visualizeDuckBeak(state, beak)
+        BeakShape.Hawk -> visualizeHawk(state, beak)
+        BeakShape.Parrot -> visualizeParrot(state, beak)
+    }
 }
 
 private fun visualizeCrow(state: CharacterRenderState, beak: Beak) = visualizeSharpBeak(

@@ -3,10 +3,7 @@ package at.orchaldir.gm.core.model.item.equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
-import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.Fill
-import at.orchaldir.gm.core.model.util.Solid
-import at.orchaldir.gm.core.model.util.Transparent
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -25,7 +22,8 @@ enum class EquipmentDataType {
     Hat,
     Pants,
     Shirt,
-    Skirt;
+    Skirt,
+    Tie;
 
     fun slots(): Set<EquipmentSlot> = when (this) {
         None -> emptySet()
@@ -39,6 +37,7 @@ enum class EquipmentDataType {
         Pants -> setOf(BottomSlot)
         Shirt -> setOf(TopSlot)
         Skirt -> setOf(BottomSlot)
+        Tie -> setOf(TieSlot)
     }
 }
 
@@ -59,6 +58,7 @@ sealed class EquipmentData {
         is Pants -> EquipmentDataType.Pants
         is Shirt -> EquipmentDataType.Shirt
         is Skirt -> EquipmentDataType.Skirt
+        is Tie -> EquipmentDataType.Tie
     }
 
     fun isType(equipmentType: EquipmentDataType) = getType() == equipmentType
@@ -202,4 +202,19 @@ data class Skirt(
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
 }
+
+@Serializable
+@SerialName("Tie")
+data class Tie(
+    val style: TieStyle = TieStyle.Tie,
+    val size: Size = Size.Medium,
+    val fill: Fill = Solid(Color.Navy),
+    val knotFill: Fill = Solid(Color.Navy),
+    val material: MaterialId = MaterialId(0),
+) : EquipmentData() {
+
+    override fun contains(id: MaterialId) = material == id
+    override fun getMaterials() = setOf(material)
+}
+
 

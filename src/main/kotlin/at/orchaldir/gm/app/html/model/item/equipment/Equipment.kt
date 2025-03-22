@@ -115,6 +115,14 @@ private fun BODY.showEquipmentData(
             showFill(data.fill)
             fieldLink("Material", call, state, data.material)
         }
+
+        is Tie -> {
+            field("Style", data.style)
+            field("Size", data.size)
+            showFill("Main", data.fill)
+            showFill("Knot", data.knotFill)
+            fieldLink("Material", call, state, data.material)
+        }
     }
 }
 
@@ -242,6 +250,14 @@ private fun FORM.editEquipmentData(
             selectFill(data.fill)
             selectMaterial(state, data.material)
         }
+
+        is Tie -> {
+            selectValue("Style", STYLE, TieStyle.entries, data.style, true)
+            selectValue("Size", SIZE, Size.entries, data.size, true)
+            selectFill("Main", data.fill)
+            selectFill("Knot", data.knotFill, KNOT)
+            selectMaterial(state, data.material)
+        }
     }
 }
 
@@ -361,6 +377,8 @@ fun parseEquipmentData(parameters: Parameters) =
             parseFill(parameters),
             parseMaterialId(parameters, MATERIAL),
         )
+
+        EquipmentDataType.Tie -> parseTie(parameters)
     }
 
 private fun parseDress(parameters: Parameters): Dress {
@@ -417,3 +435,11 @@ private fun parseSleeveStyle(
 } else {
     SleeveStyle.None
 }
+
+private fun parseTie(parameters: Parameters) = Tie(
+    parse(parameters, STYLE, TieStyle.Tie),
+    parse(parameters, SIZE, Size.Medium),
+    parseFill(parameters),
+    parseFill(parameters, KNOT),
+    parseMaterialId(parameters, MATERIAL),
+)

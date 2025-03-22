@@ -9,6 +9,12 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
+fun HtmlBlockTag.showFill(label: String, fill: Fill) {
+    showDetails(label, true) {
+        showFill(fill)
+    }
+}
+
 fun HtmlBlockTag.showFill(fill: Fill) {
     when (fill) {
         is Solid -> field("Solid Fill", fill.color)
@@ -29,6 +35,12 @@ fun HtmlBlockTag.showFill(fill: Fill) {
 }
 
 // edit
+
+fun HtmlBlockTag.selectFill(label: String, fill: Fill, param: String = FILL) {
+    showDetails(label, true) {
+        selectFill(fill, param)
+    }
+}
 
 fun HtmlBlockTag.selectFill(fill: Fill, param: String = FILL) {
     selectValue("Fill Type", combine(param, TYPE), FillType.entries, fill.getType(), true)

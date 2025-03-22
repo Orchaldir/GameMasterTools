@@ -26,6 +26,10 @@ fun visualizeGlasses(
     head: Head,
     glasses: Glasses,
 ) {
+    if (!state.renderFront) {
+        return
+    }
+
     val (left, right) = state.config.head.eyes.getTwoEyesCenter(state.aabb)
     val widthFactor = state.config.equipment.glasses.getFrameWidth(glasses.frameType)
     val width = state.aabb.convertHeight(widthFactor)

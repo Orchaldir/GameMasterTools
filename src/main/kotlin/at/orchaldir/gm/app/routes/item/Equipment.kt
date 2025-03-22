@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
+import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
+import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.item.equipment.EQUIPMENT_TYPE
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
@@ -148,6 +150,7 @@ private fun HTML.showAllEquipment(
                 th { +"Name" }
                 th { +"Type" }
                 th { +"Weight" }
+                th { +"Materials" }
                 th { +"Characters" }
                 th { +"Fashion" }
             }
@@ -156,6 +159,7 @@ private fun HTML.showAllEquipment(
                     td { link(call, equipment) }
                     tdEnum(equipment.data.getType())
                     td { +equipment.weight.toString() }
+                    tdInlineLinks(call, state, equipment.data.getMaterials())
                     tdSkipZero(state.getEquippedBy(equipment.id).size)
                     tdSkipZero(state.getFashions(equipment.id).size)
                 }
@@ -227,7 +231,8 @@ private fun HTML.showEquipmentEditor(
 private fun BODY.visualizeItem(template: Equipment) {
     if (template.data.getType() != EquipmentDataType.None) {
         val equipped = listOf(template.data)
-        val appearance = HumanoidBody(Body(), Head(), Distance.fromMeters(1.0f))
+        val head = Head(eyes = TwoEyes(), mouth = NormalMouth())
+        val appearance = HumanoidBody(Body(), head, Distance.fromMeters(1.0f))
         val frontSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped)
         val backSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped, false)
         svg(frontSvg, 20)

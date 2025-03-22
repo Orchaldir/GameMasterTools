@@ -20,7 +20,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
 val CHARACTER_CONFIG = CharacterRenderConfig(
-    Distance(10),
+    Distance(200),
     LineOptions(Color.Black.toRender(), Distance(1)),
     BodyConfig(
         Factor(0.1f),
@@ -109,7 +109,24 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             Factor(1.4f),
             Factor(1.8f),
             Factor(0.05f),
-        )
+        ),
+        TieConfig(
+            Factor(0.1f),
+            SizeConfig(
+                Factor(0.4f),
+                Factor(0.5f),
+                Factor(0.6f),
+            ),
+            Factor(0.4f),
+            Factor(0.15f),
+            Factor(0.1f),
+            SizeConfig(
+                Factor(0.2f),
+                Factor(0.25f),
+                Factor(0.3f),
+            ),
+            Factor(0.85f),
+        ),
     ),
     HeadConfig(
         BeardConfig(Factor(0.8f), Factor(0.05f), Factor(0.1f), Factor(0.01f)),

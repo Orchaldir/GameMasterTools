@@ -105,9 +105,15 @@ private fun visualizeBuckle(
     state: CharacterRenderState,
     torsoAABB: AABB,
     buckle: Buckle,
-) = when (buckle) {
-    NoBuckle -> doNothing()
-    is SimpleBuckle -> visualizeSimpleBuckle(state, torsoAABB, buckle)
+) {
+    if (!state.renderFront) {
+        return
+    }
+
+    when (buckle) {
+        NoBuckle -> doNothing()
+        is SimpleBuckle -> visualizeSimpleBuckle(state, torsoAABB, buckle)
+    }
 }
 
 private fun visualizeSimpleBuckle(

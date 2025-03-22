@@ -16,6 +16,8 @@ data class Polygon2dBuilder(
     private val rightCorners: MutableList<Point2d> = mutableListOf(),
 ) {
 
+    fun isValid() = leftCorners.size + rightCorners.size >= 3
+
     fun addMirroredPoints(aabb: AABB, width: Factor, vertical: Factor, isSharp: Boolean = false): Polygon2dBuilder {
         val (left, right) = aabb.getMirroredPoints(width, vertical)
 
