@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.math.unit
 
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -41,6 +42,16 @@ class DistanceTest {
             fun `Float meters to millimeters`() {
                 assertEquals(1500.0f, fromMeters(1.5f).toMillimeters())
             }
+
+            @Test
+            fun `Integer meters to micrometers`() {
+                assertEquals(2000000, fromMeters(2).toMicrometers())
+            }
+
+            @Test
+            fun `Float meters to micrometers`() {
+                assertEquals(1500000, fromMeters(1.5f).toMicrometers())
+            }
         }
 
         @Nested
@@ -64,6 +75,36 @@ class DistanceTest {
             @Test
             fun `Float millimeters to millimeters`() {
                 assertEquals(1234.5f, fromMillimeters(1234.5f).toMillimeters())
+            }
+
+            @Test
+            fun `Integer millimeters to micrometers`() {
+                assertEquals(1234000, fromMillimeters(1234).toMicrometers())
+            }
+
+            @Test
+            fun `Float millimeters to micrometers`() {
+                assertEquals(1234500, fromMillimeters(1234.5f).toMicrometers())
+            }
+        }
+
+
+        @Nested
+        inner class FromMicrometersTest {
+
+            @Test
+            fun `To meters`() {
+                assertEquals(0.001234f, fromMicrometers(1234).toMeters())
+            }
+
+            @Test
+            fun `To millimeters`() {
+                assertEquals(1.234f, fromMicrometers(1234).toMillimeters())
+            }
+
+            @Test
+            fun `Integer millimeters to micrometers`() {
+                assertEquals(1234, fromMicrometers(1234).toMicrometers())
             }
         }
     }
