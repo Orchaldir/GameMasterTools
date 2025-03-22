@@ -319,6 +319,18 @@ fun <T : Enum<T>> TR.tdEnum(value: T) {
     }
 }
 
+fun <ID : Id<ID>> TR.tdInlineLinks(
+    call: ApplicationCall,
+    state: State,
+    ids: Collection<ID>,
+) {
+    td {
+        showInlineList(ids) { id ->
+            link(call, state, id)
+        }
+    }
+}
+
 fun TR.tdString(text: String?) {
     td {
         text?.let { +it }

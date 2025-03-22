@@ -148,6 +148,7 @@ private fun HTML.showAllEquipment(
                 th { +"Name" }
                 th { +"Type" }
                 th { +"Weight" }
+                th { +"Materials" }
                 th { +"Characters" }
                 th { +"Fashion" }
             }
@@ -156,6 +157,7 @@ private fun HTML.showAllEquipment(
                     td { link(call, equipment) }
                     tdEnum(equipment.data.getType())
                     td { +equipment.weight.toString() }
+                    tdInlineLinks(call, state, equipment.data.getMaterials())
                     tdSkipZero(state.getEquippedBy(equipment.id).size)
                     tdSkipZero(state.getFashions(equipment.id).size)
                 }
