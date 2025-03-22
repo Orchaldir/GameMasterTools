@@ -7,7 +7,7 @@ private const val FACTOR = 1000
 val ZERO = Distance.fromMillimeters(0)
 
 @Serializable
-data class Distance private constructor(val millimeters: Int) : SiUnit<Distance> {
+data class Distance private constructor(private val millimeters: Int) : SiUnit<Distance> {
 
     init {
         require(millimeters >= 0) { "Distance must be greater 0!" }
@@ -25,6 +25,7 @@ data class Distance private constructor(val millimeters: Int) : SiUnit<Distance>
     fun millimetersOnly() = millimetersOnly(millimeters)
 
     fun toMeters() = millimeterToMeter(millimeters)
+    fun toMillimeters() = millimeters
 
     override fun toString() = formatMillimetersAsMeters(millimeters)
 
@@ -52,6 +53,8 @@ fun millimeterToMeter(millimeters: Int) = millimeters / FACTOR.toFloat()
 
 fun formatMillimetersAsMeters(millimeters: Int) =
     String.format("%d.%03d m", metersOnly(millimeters), millimetersOnly(millimeters))
+
+fun maxOf(distances: Collection<Distance>) = distances.maxBy { it.value() }
 
 fun sumOf(distances: Collection<Distance>) = distances.fold(ZERO) { sum, distance ->
     sum + distance
