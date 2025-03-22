@@ -19,36 +19,52 @@ class DistanceTest {
 
     @Nested
     inner class ConversionTest {
+        @Nested
+        inner class FromMeterTest {
 
-        @Test
-        fun `Integer meters to meter`() {
-            assertEquals(2.0f, fromMeters(2).toMeters())
+            @Test
+            fun `Integer meters to meter`() {
+                assertEquals(2.0f, fromMeters(2).toMeters())
+            }
+
+            @Test
+            fun `Float meters to meter`() {
+                assertEquals(1.5f, fromMeters(1.5f).toMeters())
+            }
+
+            @Test
+            fun `Integer meters to millimeters`() {
+                assertEquals(2000.0f, fromMeters(2).toMillimeters())
+            }
+
+            @Test
+            fun `Float meters to millimeters`() {
+                assertEquals(1500.0f, fromMeters(1.5f).toMillimeters())
+            }
         }
 
-        @Test
-        fun `Float meters to meter`() {
-            assertEquals(1.5f, fromMeters(1.5f).toMeters())
-        }
+        @Nested
+        inner class FromMillimetersTest {
 
-        @Test
-        fun `Integer meters to millimeters`() {
-            assertEquals(2000.0f, fromMeters(2).toMillimeters())
-        }
+            @Test
+            fun `Integer millimeters to meters`() {
+                assertEquals(1.234f, fromMillimeters(1234).toMeters())
+            }
 
-        @Test
-        fun `Float meters to millimeters`() {
-            assertEquals(1500.0f, fromMeters(1.5f).toMillimeters())
-        }
+            @Test
+            fun `Float millimeters to meters`() {
+                assertEquals(1.2345f, fromMillimeters(1234.5f).toMeters())
+            }
 
-        @Test
-        fun `Integer millimeters to meters`() {
-            assertEquals(1.234f, fromMillimeters(1234).toMeters())
-        }
+            @Test
+            fun `Integer millimeters to millimeters`() {
+                assertEquals(1234.0f, fromMillimeters(1234).toMillimeters())
+            }
 
-        @Test
-        fun `Integer millimeters to millimeters`() {
-            assertEquals(1234.0f, fromMillimeters(1234).toMillimeters())
+            @Test
+            fun `Float millimeters to millimeters`() {
+                assertEquals(1234.5f, fromMillimeters(1234.5f).toMillimeters())
+            }
         }
-
     }
 }
