@@ -30,7 +30,7 @@ value class Distance private constructor(private val micrometers: Int) : SiUnit<
     fun toMillimeters() = micrometersToMillimeter(micrometers)
     fun toMicrometers() = micrometers
 
-    override fun toString() = formatMillimetersAsMeters(micrometers)
+    override fun toString() = formatMicrometersAsMeters(micrometers)
 
     override operator fun plus(other: Distance) = Distance(micrometers + other.micrometers)
     override operator fun minus(other: Distance) = Distance(micrometers - other.micrometers)
@@ -71,7 +71,7 @@ fun millimeterToMeter(millimeter: Int) = up(millimeter)
 fun micrometersToMeter(micrometers: Int) = up(up(micrometers))
 fun micrometersToMillimeter(micrometers: Int) = up(micrometers)
 
-fun formatMillimetersAsMeters(micrometers: Int) = if (micrometers > SQUARED) {
+fun formatMicrometersAsMeters(micrometers: Int) = if (micrometers > SQUARED) {
     String.format(Locale.US, "%.2f m", micrometersToMeter(micrometers))
 } else if (micrometers > FACTOR) {
     String.format(Locale.US, "%.2f mm", micrometersToMillimeter(micrometers))
