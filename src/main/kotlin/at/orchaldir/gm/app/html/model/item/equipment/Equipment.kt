@@ -44,7 +44,7 @@ private fun BODY.showEquipmentData(
     field("Type", equipment.data.getType())
 
     when (val data = equipment.data) {
-        NoEquipment, is Tie -> doNothing()
+        NoEquipment -> doNothing()
         is Belt -> showBelt(call, state, data)
         is Coat -> {
             field("Length", data.length)
@@ -115,6 +115,14 @@ private fun BODY.showEquipmentData(
             showFill(data.fill)
             fieldLink("Material", call, state, data.material)
         }
+
+        is Tie -> {
+            field("Style", data.style)
+            field("Size", data.size)
+            showFill("Main", data.fill)
+            showFill("Knot", data.knotFill)
+            fieldLink("Material", call, state, data.material)
+        }
     }
 }
 
@@ -165,7 +173,7 @@ private fun FORM.editEquipmentData(
     equipment: Equipment,
 ) {
     when (val data = equipment.data) {
-        NoEquipment, is Tie -> doNothing()
+        NoEquipment -> doNothing()
         is Belt -> editBelt(state, data)
         is Coat -> {
             selectValue("Length", LENGTH, OuterwearLength.entries, data.length, true)
@@ -242,6 +250,14 @@ private fun FORM.editEquipmentData(
             selectFill(data.fill)
             selectMaterial(state, data.material)
         }
+
+        is Tie -> {
+            selectValue("Style", STYLE, TieStyle.entries, data.style, true)
+            selectValue("Size", SIZE, Size.entries, data.size, true)
+            selectFill("Main", data.fill)
+            selectFill("Knot", data.knotFill, KNOT)
+            selectMaterial(state, data.material)
+        }
     }
 }
 
@@ -307,7 +323,7 @@ fun parseEquipment(id: EquipmentId, parameters: Parameters): Equipment {
 
 fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.None)) {
-        EquipmentDataType.None, EquipmentDataType.Tie -> NoEquipment
+        EquipmentDataType.None -> NoEquipment
         EquipmentDataType.Belt -> parseBelt(parameters)
         EquipmentDataType.Coat -> Coat(
             parse(parameters, LENGTH, OuterwearLength.Hip),
@@ -361,6 +377,8 @@ fun parseEquipmentData(parameters: Parameters) =
             parseFill(parameters),
             parseMaterialId(parameters, MATERIAL),
         )
+
+        EquipmentDataType.Tie -> parseTie(parameters)
     }
 
 private fun parseDress(parameters: Parameters): Dress {
@@ -417,3 +435,11 @@ private fun parseSleeveStyle(
 } else {
     SleeveStyle.None
 }
+
+private fun parseTie(parameters: Parameters) = Tie(
+    parse(parameters, STYLE, TieStyle.Tie),
+    parse(parameters, SIZE, Size.Medium),
+    parseFill(parameters),
+    parseFill(parameters, KNOT),
+    parseMaterialId(parameters, MATERIAL),
+)
