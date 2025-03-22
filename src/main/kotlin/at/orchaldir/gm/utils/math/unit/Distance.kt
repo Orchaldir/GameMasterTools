@@ -6,8 +6,9 @@ import kotlinx.serialization.Serializable
 private const val FACTOR = 1000
 val ZERO = Distance.fromMillimeters(0)
 
+@JvmInline
 @Serializable
-data class Distance private constructor(private val millimeters: Int) : SiUnit<Distance> {
+value class Distance private constructor(private val millimeters: Int) : SiUnit<Distance> {
 
     init {
         require(millimeters >= 0) { "Distance must be greater 0!" }
