@@ -32,12 +32,12 @@ class DistanceTest {
 
         @Test
         fun `Integer meters to millimeters`() {
-            assertEquals(2000, fromMeters(2).toMillimeters())
+            assertEquals(2000.0f, fromMeters(2).toMillimeters())
         }
 
         @Test
         fun `Float meters to millimeters`() {
-            assertEquals(1500, fromMeters(1.5f).toMillimeters())
+            assertEquals(1500.0f, fromMeters(1.5f).toMillimeters())
         }
 
         @Test
@@ -47,7 +47,7 @@ class DistanceTest {
 
         @Test
         fun `Integer millimeters to millimeters`() {
-            assertEquals(1234, fromMillimeters(1234).toMillimeters())
+            assertEquals(1234.0f, fromMillimeters(1234).toMillimeters())
         }
 
     }

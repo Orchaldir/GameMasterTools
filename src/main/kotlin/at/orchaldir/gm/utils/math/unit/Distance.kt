@@ -8,49 +8,69 @@ val ZERO = Distance.fromMillimeters(0)
 
 @JvmInline
 @Serializable
-value class Distance private constructor(private val millimeters: Int) : SiUnit<Distance> {
+value class Distance private constructor(private val micrometers: Int) : SiUnit<Distance> {
 
     init {
-        require(millimeters >= 0) { "Distance must be greater 0!" }
+        require(micrometers >= 0) { "Distance must be >= 0 μm!" }
     }
 
     companion object {
-        fun fromMeters(meters: Int) = Distance(meterToMillimeter(meters))
-        fun fromMeters(meters: Float) = Distance(meterToMillimeter(meters))
-        fun fromMillimeters(millimeters: Int) = Distance(millimeters)
+        fun fromMeters(meters: Int) = Distance(meterToMicrometers(meters))
+        fun fromMeters(meters: Float) = Distance(meterToMicrometers(meters))
+        fun fromMillimeters(millimeter: Int) = Distance(millimeterToMicrometers(millimeter))
+        fun fromMillimeters(millimeter: Float) = Distance(millimeterToMicrometers(millimeter))
+        fun fromMicrometers(micrometers: Int) = Distance(micrometers)
     }
 
-    override fun value() = millimeters
+    override fun value() = micrometers
 
-    fun toMeters() = millimeterToMeter(millimeters)
-    fun toMillimeters() = millimeters
+    fun toMeters() = micrometersToMeter(micrometers)
+    fun toMillimeters() = micrometersToMillimeter(micrometers)
+    fun toMicrometers() = micrometers
 
-    override fun toString() = formatMillimetersAsMeters(millimeters)
+    override fun toString() = formatMillimetersAsMeters(micrometers)
 
-    override operator fun plus(other: Distance) = Distance(millimeters + other.millimeters)
-    override operator fun minus(other: Distance) = Distance(millimeters - other.millimeters)
-    operator fun times(factor: Float) = Distance((millimeters * factor).toInt())
+    override operator fun plus(other: Distance) = Distance(micrometers + other.micrometers)
+    override operator fun minus(other: Distance) = Distance(micrometers - other.micrometers)
+    operator fun times(factor: Float) = Distance((micrometers * factor).toInt())
     operator fun times(factor: Factor) = times(factor.value)
-    operator fun times(factor: Int) = Distance(millimeters * factor)
-    operator fun div(factor: Float) = Distance((millimeters / factor).toInt())
-    operator fun div(factor: Int) = Distance(millimeters / factor)
+    operator fun times(factor: Int) = Distance(micrometers * factor)
+    operator fun div(factor: Float) = Distance((micrometers / factor).toInt())
+    operator fun div(factor: Int) = Distance(micrometers / factor)
 
-    fun max(other: Distance) = if (millimeters >= other.millimeters) {
+    fun max(other: Distance) = if (micrometers >= other.micrometers) {
         this
     } else {
         other
     }
 }
 
-fun metersOnly(millimeters: Int) = millimeters / FACTOR
-fun millimetersOnly(millimeters: Int) = millimeters % FACTOR
+fun metersOnly(micrometers: Int) = micrometers / FACTOR
+fun millimetersOnly(micrometers: Int) = micrometers % FACTOR
 
-fun meterToMillimeter(meter: Int) = meter * FACTOR
-fun meterToMillimeter(meter: Float) = (meter * FACTOR).toInt()
-fun millimeterToMeter(millimeters: Int) = millimeters / FACTOR.toFloat()
+// to lower
+private fun down(value: Int) = value * FACTOR
+private fun down(value: Float) = (value * FACTOR).toInt()
 
-fun formatMillimetersAsMeters(millimeters: Int) =
-    String.format("%d.%03d m", metersOnly(millimeters), millimetersOnly(millimeters))
+fun meterToMillimeter(meter: Int) = down(meter)
+fun meterToMillimeter(meter: Float) = down(meter)
+
+fun meterToMicrometers(meter: Int) = down(down(meter))
+fun meterToMicrometers(meter: Float) = down(down(meter))
+
+fun millimeterToMicrometers(millimeter: Int) = down(millimeter)
+fun millimeterToMicrometers(millimeter: Float) = down(millimeter)
+
+// to higher
+private fun up(value: Int) = value / FACTOR.toFloat()
+private fun up(value: Float) = value / FACTOR.toFloat()
+
+fun millimeterToMeter(millimeter: Int) = up(millimeter)
+fun micrometersToMeter(micrometers: Int) = up(up(micrometers))
+fun micrometersToMillimeter(micrometers: Int) = up(micrometers)
+
+fun formatMillimetersAsMeters(micrometers: Int) =
+    String.format("%d.%03d m", metersOnly(micrometers), millimetersOnly(micrometers))
 
 fun maxOf(distances: Collection<Distance>) = distances.maxBy { it.value() }
 
