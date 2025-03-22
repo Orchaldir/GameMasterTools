@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.character.appearance.NormalSkin
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.math.unit.Distribution
 import org.junit.jupiter.api.Test
