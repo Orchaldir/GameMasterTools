@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.utils.math.Size2i
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -23,11 +24,11 @@ fun HtmlBlockTag.selectSize(
     size: Size2i,
     minValue: Distance,
     maxVale: Distance,
-    stepValue: Distance = Distance(1),
+    stepValue: Distance = fromMillimeters(1),
     update: Boolean = false,
 ) {
-    selectDistance("Width", combine(param, WIDTH), Distance(size.width), minValue, maxVale, stepValue, update)
-    selectDistance("Height", combine(param, HEIGHT), Distance(size.height), minValue, maxVale, stepValue, update)
+    selectDistance("Width", combine(param, WIDTH), fromMillimeters(size.width), minValue, maxVale, stepValue, update)
+    selectDistance("Height", combine(param, HEIGHT), fromMillimeters(size.height), minValue, maxVale, stepValue, update)
 }
 
 // parse

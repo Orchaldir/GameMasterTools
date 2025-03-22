@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.Size2i
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -54,8 +56,8 @@ data class Book(
 @SerialName("Scroll")
 data class Scroll(
     val format: ScrollFormat,
-    val rollLength: Distance = Distance(1000),
-    val rollDiameter: Distance = Distance(200),
+    val rollLength: Distance = fromMeters(1),
+    val rollDiameter: Distance = fromMillimeters(200),
     val color: Color = Color.Yellow,
     val material: MaterialId = MaterialId(0),
 ) : TextFormat() {

@@ -13,27 +13,29 @@ import at.orchaldir.gm.core.model.item.text.book.typography.StringRenderOption
 import at.orchaldir.gm.core.model.item.text.book.typography.WrappedStringRenderOption
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Orientation
+import at.orchaldir.gm.utils.math.Orientation.Companion.fromDegree
 import at.orchaldir.gm.utils.math.Size2i
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.visualization.text.ResolvedTextData
 
 private val topAuthor = SimpleStringRenderOption(
-    Distance(100),
-    Distance(50),
-    SolidFont(Distance(20), Color.Aqua),
+    fromMillimeters(100),
+    fromMillimeters(50),
+    SolidFont(fromMillimeters(20), Color.Aqua),
 )
 
 private val bottomAuthor = SimpleStringRenderOption(
-    Distance(100),
-    Distance(250),
-    SolidFont(Distance(20), Color.Red),
+    fromMillimeters(100),
+    fromMillimeters(250),
+    SolidFont(fromMillimeters(20), Color.Red),
 )
 
 fun main() {
     val bookSize = Size2i(200, 300)
     val texts = listOf(
         createRow(bookSize) { size -> SolidFont(size, Color.White) },
-        createRow(bookSize) { size -> FontWithBorder(size, Distance(2), Color.Gold, Color.Black) },
+        createRow(bookSize) { size -> FontWithBorder(size, fromMillimeters(2), Color.Gold, Color.Black) },
         listOf(
             createWrappedTitle(bookSize, ResolvedTextData("Long Title")),
             createWrappedTitle(bookSize, ResolvedTextData("Very Long Title"))
@@ -54,9 +56,9 @@ private fun createRow(
     createTypography(
         bookSize,
         SimpleStringRenderOption(
-            Distance(100),
-            Distance(150),
-            createFont(Distance(80)),
+            fromMillimeters(100),
+            fromMillimeters(150),
+            createFont(fromMillimeters(80)),
         ),
         topAuthor,
         ResolvedTextData("Title", "Max Musterman"),
@@ -64,9 +66,9 @@ private fun createRow(
     createTypography(
         bookSize,
         SimpleStringRenderOption(
-            Distance(100),
-            Distance(60),
-            createFont(Distance(40)),
+            fromMillimeters(100),
+            fromMillimeters(60),
+            createFont(fromMillimeters(40)),
         ),
         bottomAuthor,
         ResolvedTextData("Long Title", "Max Musterman"),
@@ -74,10 +76,10 @@ private fun createRow(
     createTypography(
         bookSize,
         SimpleStringRenderOption(
-            Distance(100),
-            Distance(150),
-            createFont(Distance(80)),
-            Orientation.fromDegree(20.0f)
+            fromMillimeters(100),
+            fromMillimeters(150),
+            createFont(fromMillimeters(80)),
+            fromDegree(20.0f)
         ),
         bottomAuthor,
         ResolvedTextData("Title"),
@@ -87,10 +89,10 @@ private fun createRow(
 private fun createWrappedTitle(bookSize: Size2i, data: ResolvedTextData) = createTypography(
     bookSize,
     WrappedStringRenderOption(
-        Distance(100),
-        Distance(150),
-        SolidFont(Distance(80), Color.Black),
-        Distance(180),
+        fromMillimeters(100),
+        fromMillimeters(150),
+        SolidFont(fromMillimeters(80), Color.Black),
+        fromMillimeters(180),
     ),
     topAuthor,
     data,

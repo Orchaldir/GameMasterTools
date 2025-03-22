@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 val HAIR_STYLES: List<HairStyle> = listOf(
     BuzzCut,
@@ -45,4 +46,7 @@ fun main() {
 }
 
 private fun createAppearance(style: HairStyle, eyes: Eyes) =
-    HeadOnly(Head(NormalEars(), eyes, NormalHair(style, Color.SaddleBrown), NoHorns, NormalMouth()), Distance(200))
+    HeadOnly(
+        Head(NormalEars(), eyes, NormalHair(style, Color.SaddleBrown), NoHorns, NormalMouth()),
+        fromMillimeters(200)
+    )

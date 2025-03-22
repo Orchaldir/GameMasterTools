@@ -10,6 +10,7 @@ import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Size2i
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 private val ID = MaterialId(0)
 
@@ -19,7 +20,7 @@ fun main() {
     renderTextTable(
         "book-protect-edges.svg",
         TEXT_CONFIG,
-        bookSize.toSize2d() + Distance(50),
+        bookSize.toSize2d() + fromMillimeters(50),
         addNames(listOf(0.05f, 0.1f, 0.15f, 0.2f)),
         addNames(listOf(Color.Gray, Color.Gold)),
     ) { size, color ->

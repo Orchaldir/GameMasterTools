@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.Size2i
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 private val ID = MaterialId(0)
 
@@ -19,7 +20,7 @@ fun main() {
     renderTextTable(
         "book-bosses-patterns.svg",
         TEXT_CONFIG,
-        bookSize.toSize2d() + Distance(50),
+        bookSize.toSize2d() + fromMillimeters(50),
         listOf(
             Pair("Circle + Short", Pair(BossesShape.Circle, Size.Small)),
             Pair("Circle + Medium", Pair(BossesShape.Circle, Size.Medium)),

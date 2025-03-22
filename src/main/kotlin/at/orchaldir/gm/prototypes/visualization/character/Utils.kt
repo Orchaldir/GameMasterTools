@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.calculateSize
@@ -40,7 +41,7 @@ fun <C, R> renderCharacterTable(
     backToo: Boolean = false,
     create: (Distance, C, R) -> Pair<Appearance, List<EquipmentData>>,
 ) {
-    val height = Distance(2000)
+    val height = fromMillimeters(2000)
     val size = config.calculateSize(height)
 
     renderTable(filename, size, rows, columns, backToo) { aabb, renderer, renderFront, column, row ->

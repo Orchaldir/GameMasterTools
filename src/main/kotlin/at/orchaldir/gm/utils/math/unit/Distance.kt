@@ -4,16 +4,19 @@ import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
 
 private const val FACTOR = 1000
+val ZERO = Distance.fromMillimeters(0)
 
 @Serializable
-data class Distance(val millimeters: Int) : SiUnit<Distance> {
+data class Distance private constructor(val millimeters: Int) : SiUnit<Distance> {
 
     init {
         require(millimeters >= 0) { "Distance must be greater 0!" }
     }
 
     companion object {
+        fun fromMeters(meters: Int) = Distance(meterToMillimeter(meters))
         fun fromMeters(meters: Float) = Distance(meterToMillimeter(meters))
+        fun fromMillimeters(millimeters: Int) = Distance(millimeters)
     }
 
     override fun value() = millimeters
@@ -43,8 +46,13 @@ data class Distance(val millimeters: Int) : SiUnit<Distance> {
 fun metersOnly(millimeters: Int) = millimeters / FACTOR
 fun millimetersOnly(millimeters: Int) = millimeters % FACTOR
 
+fun meterToMillimeter(meter: Int) = meter * FACTOR
 fun meterToMillimeter(meter: Float) = (meter * FACTOR).toInt()
 fun millimeterToMeter(millimeters: Int) = millimeters / FACTOR.toFloat()
 
 fun formatMillimetersAsMeters(millimeters: Int) =
     String.format("%d.%03d m", metersOnly(millimeters), millimetersOnly(millimeters))
+
+fun sumOf(distances: Collection<Distance>) = distances.fold(ZERO) { sum, distance ->
+    sum + distance
+}

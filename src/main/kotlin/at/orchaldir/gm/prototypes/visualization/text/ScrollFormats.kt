@@ -8,24 +8,25 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 private val ID = MaterialId(0)
 
 fun main() {
-    val rollLength = Distance(200)
-    val rollDiameter = Distance(50)
-    val handle0 = ScrollHandle(HandleSegment(Distance(40), Distance(15), Color.SaddleBrown))
+    val rollLength = fromMillimeters(200)
+    val rollDiameter = fromMillimeters(50)
+    val handle0 = ScrollHandle(HandleSegment(fromMillimeters(40), fromMillimeters(15), Color.SaddleBrown))
     val handle1 = ScrollHandle(
         listOf(
-            HandleSegment(Distance(40), Distance(15), Color.Gold),
-            HandleSegment(Distance(15), Distance(40), Color.Gold, RoundedCylinder),
+            HandleSegment(fromMillimeters(40), fromMillimeters(15), Color.Gold),
+            HandleSegment(fromMillimeters(15), fromMillimeters(40), Color.Gold, RoundedCylinder),
         )
     )
 
     renderTextTable(
         "scroll-formats.svg",
         TEXT_CONFIG,
-        Size2d(rollDiameter * 4, rollLength + Distance(200)),
+        Size2d(rollDiameter * 4, rollLength + fromMillimeters(200)),
         addNames(listOf(Color.Blue, Color.Red, Color.Black, Color.Green)),
         addNames(ScrollFormatType.entries),
     ) { color, type ->

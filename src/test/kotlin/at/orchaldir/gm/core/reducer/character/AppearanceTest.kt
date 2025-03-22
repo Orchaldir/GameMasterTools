@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.math.unit.Distribution
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -27,7 +28,7 @@ class AppearanceTest {
             Storage(Race(RACE_ID_0, height = Distribution.fromMeters(1.0f, 0.1f))),
         )
     )
-    private val appearance = HeadOnly(Head(skin = NormalSkin()), Distance(1000))
+    private val appearance = HeadOnly(Head(skin = NormalSkin()), fromMillimeters(1000))
     private val action = UpdateAppearance(CHARACTER_ID_0, appearance)
 
     @Test
@@ -46,7 +47,7 @@ class AppearanceTest {
 
     @Test
     fun `Character's height is invalid!`() {
-        val appearance = HeadOnly(Head(skin = NormalSkin()), Distance(1101))
+        val appearance = HeadOnly(Head(skin = NormalSkin()), fromMillimeters(1101))
         val action = UpdateAppearance(CHARACTER_ID_0, appearance)
 
         assertIllegalArgument("Character's height is invalid!") { REDUCER.invoke(state, action) }

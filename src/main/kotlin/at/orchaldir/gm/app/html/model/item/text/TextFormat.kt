@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
@@ -20,9 +21,9 @@ import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 
-private val step = Distance(10)
-private val min = Distance(10)
-private val max = Distance(2000)
+private val step = fromMillimeters(10)
+private val min = fromMillimeters(10)
+private val max = fromMillimeters(2000)
 
 // show
 

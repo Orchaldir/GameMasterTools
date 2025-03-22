@@ -25,6 +25,7 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import io.ktor.http.*
 import kotlinx.html.FORM
 import kotlinx.html.h2
@@ -72,7 +73,7 @@ private fun FORM.editHeight(
     maxHeight: Distance,
 ) {
     val race = state.getRaceStorage().getOrThrow(character.race)
-    selectDistance("Max Height", HEIGHT, maxHeight, race.height.getMin(), race.height.getMax(), Distance(10))
+    selectDistance("Max Height", HEIGHT, maxHeight, race.height.getMin(), race.height.getMax(), fromMillimeters(10))
     showCurrentHeight(state, character, maxHeight)
 }
 
