@@ -1,14 +1,15 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
-import at.orchaldir.gm.app.PANTS
-import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.Body
+import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
-import at.orchaldir.gm.core.model.item.equipment.*
-import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle.None
-import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
+import at.orchaldir.gm.core.model.item.equipment.Belt
+import at.orchaldir.gm.core.model.item.equipment.Pants
+import at.orchaldir.gm.core.model.item.equipment.Shirt
+import at.orchaldir.gm.core.model.item.equipment.Tie
 import at.orchaldir.gm.core.model.item.equipment.style.TieStyle
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.Color.Blue
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.Solid
 import at.orchaldir.gm.prototypes.visualization.addNames
