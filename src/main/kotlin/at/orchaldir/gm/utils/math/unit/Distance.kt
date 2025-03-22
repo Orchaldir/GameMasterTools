@@ -21,9 +21,6 @@ data class Distance private constructor(private val millimeters: Int) : SiUnit<D
 
     override fun value() = millimeters
 
-    fun metersOnly() = metersOnly(millimeters)
-    fun millimetersOnly() = millimetersOnly(millimeters)
-
     fun toMeters() = millimeterToMeter(millimeters)
     fun toMillimeters() = millimeters
 
