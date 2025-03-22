@@ -14,7 +14,7 @@ import kotlinx.html.HtmlBlockTag
 // show
 
 fun HtmlBlockTag.fieldSize(name: String, size: Size2i) {
-    field(name, "${size.width} mm x ${size.height} mm")
+    field(name, "${size.width} x ${size.height}")
 }
 
 // edit
@@ -27,8 +27,8 @@ fun HtmlBlockTag.selectSize(
     stepValue: Distance = fromMillimeters(1),
     update: Boolean = false,
 ) {
-    selectDistance("Width", combine(param, WIDTH), fromMillimeters(size.width), minValue, maxVale, stepValue, update)
-    selectDistance("Height", combine(param, HEIGHT), fromMillimeters(size.height), minValue, maxVale, stepValue, update)
+    selectDistance("Width", combine(param, WIDTH), size.width, minValue, maxVale, stepValue, update)
+    selectDistance("Height", combine(param, HEIGHT), size.height, minValue, maxVale, stepValue, update)
 }
 
 // parse
@@ -36,6 +36,6 @@ fun HtmlBlockTag.selectSize(
 fun parseSize(
     parameters: Parameters,
     param: String,
-) = Size2i(parseInt(parameters, combine(param, WIDTH), 1), parseInt(parameters, combine(param, HEIGHT), 1))
+) = Size2i(parseDistance(parameters, combine(param, WIDTH), 1), parseDistance(parameters, combine(param, HEIGHT), 1))
 
 

@@ -5,13 +5,11 @@ import at.orchaldir.gm.utils.math.unit.millimeterToMeter
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Size2i(val width: Int, val height: Int) {
-
-    constructor(width: Distance, height: Distance) : this(width.toMillimeters(), height.toMillimeters())
+data class Size2i(val width: Distance, val height: Distance) {
 
     init {
-        require(width > 0) { "Width muster be greater 0!" }
-        require(height > 0) { "Height muster be greater 0!" }
+        require(width.value() > 0) { "Width muster be greater 0!" }
+        require(height.value() > 0) { "Height muster be greater 0!" }
     }
 
     companion object {
@@ -20,11 +18,9 @@ data class Size2i(val width: Int, val height: Int) {
             Distance.fromMillimeters(height),
         )
 
-        fun square(millimeters: Int) = Size2i(millimeters, millimeters)
-
-        fun square(distance: Distance) = square(distance.value())
+        fun square(distance: Distance) = Size2i(distance, distance)
     }
 
-    fun toSize2d() = Size2d(millimeterToMeter(width), millimeterToMeter(height))
+    fun toSize2d() = Size2d(width.toMeters(), height.toMeters())
 
 }
