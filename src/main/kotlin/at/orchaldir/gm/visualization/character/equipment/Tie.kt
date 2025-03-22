@@ -25,6 +25,10 @@ fun visualizeTie(
     body: Body,
     tie: Tie,
 ) {
+    if (!state.renderFront) {
+        return
+    }
+
     val tieOptions = state.config.getLineOptions(tie.fill)
     val knotOptions = state.config.getLineOptions(tie.knotFill)
     val torso = state.config.body.getTorsoAabb(state.aabb, body)
