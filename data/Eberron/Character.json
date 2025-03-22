@@ -49,9 +49,7 @@
       "width": "Large"
      }
     },
-    "height": {
-     "millimeters": 1800
-    }
+    "height": 1800000
    },
    "beliefStatus": {
     "current": {
@@ -127,9 +125,7 @@
       "color": "Light"
      }
     },
-    "height": {
-     "millimeters": 1690
-    }
+    "height": 1690000
    },
    "employmentStatus": {
     "current": {
@@ -216,9 +212,7 @@
       "color": "Fair"
      }
     },
-    "height": {
-     "millimeters": 1610
-    }
+    "height": 1610000
    },
    "employmentStatus": {
     "current": {
@@ -365,9 +359,7 @@
       "color": "Fair"
      }
     },
-    "height": {
-     "millimeters": 1860
-    }
+    "height": 1860000
    },
    "employmentStatus": {
     "current": {
@@ -454,9 +446,7 @@
       "color": "Light"
      }
     },
-    "height": {
-     "millimeters": 1050
-    }
+    "height": 1050000
    },
    "employmentStatus": {
     "current": {
@@ -566,9 +556,7 @@
       "color": "Olive"
      }
     },
-    "height": {
-     "millimeters": 2700
-    }
+    "height": 2700000
    },
    "employmentStatus": {
     "current": {
@@ -740,9 +728,7 @@
       "color": "Light"
      }
     },
-    "height": {
-     "millimeters": 1800
-    }
+    "height": 1800000
    },
    "employmentStatus": {
     "current": {
@@ -922,9 +908,7 @@
       "color": "Olive"
      }
     },
-    "height": {
-     "millimeters": 1100
-    }
+    "height": 1100000
    },
    "employmentStatus": {
     "current": {
