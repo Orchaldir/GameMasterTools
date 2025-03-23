@@ -120,7 +120,7 @@ private fun createLeftHornAtTop(
     builder.addRightPoint(state.aabb, x - halfWidth, START, true)
     builder.addLeftPoint(state.aabb, x + halfWidth, START, true)
 
-    addShape(state, horn, builder, state.aabb.getPoint(x, START), -QUARTER)
+    addShape(state, horn, builder, state.aabb.getPoint(x, START), -QUARTER_CIRCLE)
 }
 
 private fun addShape(
@@ -175,7 +175,7 @@ private fun addShape(
             repeat(horn.shape.cycles) {
                 val cycleDistance = length * weightCalculator.calculate(it)
                 val halfOnCenterLine = center.createPolar(cycleDistance / 2, orientation)
-                val halfCenter = halfOnCenterLine.createPolar(amplitude, orientation + QUARTER * sideOfAmplitude)
+                val halfCenter = halfOnCenterLine.createPolar(amplitude, orientation + QUARTER_CIRCLE * sideOfAmplitude)
 
                 addLeftAndRight(builder, halfCenter, orientation, halfWidth)
 
@@ -196,8 +196,8 @@ private fun addLeftAndRight(
     orientation: Orientation,
     halfWidth: Distance,
 ) {
-    val right = center.createPolar(halfWidth, orientation - QUARTER)
-    val left = center.createPolar(halfWidth, orientation + QUARTER)
+    val right = center.createPolar(halfWidth, orientation - QUARTER_CIRCLE)
+    val left = center.createPolar(halfWidth, orientation + QUARTER_CIRCLE)
 
     builder.addPoints(left, right)
 }

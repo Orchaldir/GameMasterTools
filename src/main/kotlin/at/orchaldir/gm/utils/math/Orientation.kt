@@ -4,7 +4,8 @@ import kotlinx.serialization.Serializable
 import kotlin.math.cos
 import kotlin.math.sin
 
-val QUARTER = Orientation.fromDegree(90.0f)
+val QUARTER_CIRCLE = Orientation.fromDegree(90.0f)
+val HALF_CIRCLE = Orientation.fromDegree(180.0f)
 
 @JvmInline
 @Serializable

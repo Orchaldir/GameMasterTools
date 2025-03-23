@@ -1,31 +1,32 @@
 package at.orchaldir.gm.visualization.character.appearance.mouth
 
-import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.core.model.character.appearance.mouth.Snout
 import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.CENTER
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Polygon2dBuilder
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
-fun visualizeSnout(
-    state: CharacterRenderState,
-    skin: Skin,
-    snout: Snout,
-) {
+fun visualizeSnout(state: CharacterRenderState, snout: Snout) {
     if (!state.renderFront) {
         return
     }
 
     when (snout.shape) {
-        SnoutShape.Cat -> doNothing()
+        SnoutShape.Cat -> visualizeCat(state, snout)
         SnoutShape.Cow -> visualizeCow(state, snout)
-        SnoutShape.Dog -> visualizeDog(state, skin, snout)
+        SnoutShape.Dog -> visualizeDog(state, snout)
         SnoutShape.Pig -> visualizePig(state, snout)
     }
+}
+
+private fun visualizeCat(state: CharacterRenderState, snout: Snout) {
+    val options = state.config.getLineOptions(snout.color)
+    val center = state.aabb.getPoint(CENTER, Factor(0.6f))
+    val radius = state.aabb.convertHeight(Factor(0.1f))
+
+    state.renderer.getLayer()
+        .renderCircleArc(center, radius, Orientation.zero(), HALF_CIRCLE, options)
 }
 
 private fun visualizeCow(state: CharacterRenderState, snout: Snout) =
@@ -40,7 +41,7 @@ private fun visualizeCow(state: CharacterRenderState, snout: Snout) =
         Factor(0.1f),
     )
 
-private fun visualizeDog(state: CharacterRenderState, skin: Skin, snout: Snout) {
+private fun visualizeDog(state: CharacterRenderState, snout: Snout) {
     val options = state.config.getLineOptions(snout.color)
     val lineThickness = Factor(0.04f)
     val lineHalf = lineThickness / 2.0f

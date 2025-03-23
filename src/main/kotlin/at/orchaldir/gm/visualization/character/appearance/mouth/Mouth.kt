@@ -55,7 +55,7 @@ fun visualizeMouth(state: CharacterRenderState, head: Head) {
 
         is FemaleMouth -> visualizeFemaleMouth(state, head.mouth)
         is Beak -> visualizeBeak(state, head.mouth)
-        is Snout -> visualizeSnout(state, head.skin, head.mouth)
+        is Snout -> visualizeSnout(state, head.mouth)
     }
 }
 
