@@ -42,13 +42,17 @@ private fun visualizeCow(state: CharacterRenderState, snout: Snout) =
 
 private fun visualizeDog(state: CharacterRenderState, skin: Skin, snout: Snout) {
     val options = state.config.getLineOptions(snout.color)
+    val lineThickness = Factor(0.04f)
+    val lineHalf = lineThickness / 2.0f
+    val mouthY = Factor(0.85f)
+    val mouthWidth = Factor(0.3f)
     val polygon = Polygon2dBuilder()
         .addMirroredPoints(state.aabb, Factor(0.2f), Factor(0.6f))
         .addMirroredPoints(state.aabb, Factor(0.2f), Factor(0.7f))
-        .addMirroredPoints(state.aabb, Factor(0.05f), Factor(0.75f))
-        .addMirroredPoints(state.aabb, Factor(0.05f), Factor(0.85f), true)
-        .addMirroredPoints(state.aabb, Factor(0.3f), Factor(0.85f), true)
-        .addMirroredPoints(state.aabb, Factor(0.3f), Factor(0.9f), true)
+        .addMirroredPoints(state.aabb, lineThickness, Factor(0.75f))
+        .addMirroredPoints(state.aabb, lineThickness, mouthY - lineHalf, true)
+        .addMirroredPoints(state.aabb, mouthWidth, mouthY - lineHalf, true)
+        .addMirroredPoints(state.aabb, mouthWidth, mouthY + lineHalf, true)
         .build()
 
     state.renderer.getLayer()
