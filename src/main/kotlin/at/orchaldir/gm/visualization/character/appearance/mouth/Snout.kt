@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.mouth.Snout
 import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
@@ -21,12 +22,17 @@ fun visualizeSnout(state: CharacterRenderState, snout: Snout) {
 }
 
 private fun visualizeCat(state: CharacterRenderState, snout: Snout) {
+    val thickness = state.aabb.convertHeight(Factor(0.04f))
     val options = NoBorder(snout.color.toRender())
+    val lineOptions = LineOptions(snout.color.toRender(), thickness)
     val center = state.aabb.getPoint(CENTER, Factor(0.6f))
+    val lineCenter = state.aabb.getPoint(CENTER, Factor(0.8f))
     val radius = state.aabb.convertHeight(Factor(0.1f))
 
-    state.renderer.getLayer()
-        .renderCircleArc(center, radius, HALF_CIRCLE, HALF_CIRCLE, options)
+    state.renderer.getLayer().apply {
+        renderCircleArc(center, radius, HALF_CIRCLE, HALF_CIRCLE, options)
+        renderLine(listOf(center, lineCenter), lineOptions)
+    }
 }
 
 private fun visualizeCow(state: CharacterRenderState, snout: Snout) =
