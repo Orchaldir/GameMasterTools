@@ -220,7 +220,7 @@ private fun FORM.editMouth(
             selectOneOf("Beak Color", combine(BEAK, COLOR), mouthOptions.beakColors, mouth.color, true)
         }
 
-        NoMouth -> doNothing()
+        NoMouth, is Snout -> doNothing()
     }
 }
 

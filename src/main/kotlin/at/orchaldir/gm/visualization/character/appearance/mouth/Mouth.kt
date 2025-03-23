@@ -25,6 +25,7 @@ data class MouthConfig(
             NoMouth -> Size.Medium
             is NormalMouth -> mouth.width
             is Beak -> error("Beak is not supported!")
+            is Snout -> error("Snout is not supported!")
         }
 
         return getSimpleWidth(width)
@@ -35,6 +36,7 @@ data class MouthConfig(
         NoMouth -> Factor(0.0f)
         is NormalMouth -> simpleHeight
         is Beak -> error("Beak is not supported!")
+        is Snout -> error("Snout is not supported!")
     }
 
     fun getBottomY(mouth: Mouth) = y + getHeight(mouth) * 0.5f
@@ -45,7 +47,7 @@ data class MouthConfig(
 
 fun visualizeMouth(state: CharacterRenderState, head: Head) {
     when (head.mouth) {
-        NoMouth -> doNothing()
+        NoMouth, is Snout -> doNothing()
         is NormalMouth -> {
             visualizeMaleMouth(state, head.mouth)
             visualizeBeard(state, head, head.mouth.beard)
