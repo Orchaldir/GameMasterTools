@@ -22,7 +22,7 @@ fun visualizeSnout(state: CharacterRenderState, snout: Snout) {
 }
 
 private fun visualizeCat(state: CharacterRenderState, snout: Snout) {
-    val radius = state.aabb.convertHeight(Factor(0.1f))
+    val radius = state.aabb.convertHeight(Factor(0.08f))
     val thickness = state.aabb.convertHeight(Factor(0.04f))
     val options = NoBorder(snout.color.toRender())
     val lineOptions = LineOptions(snout.color.toRender(), thickness)
