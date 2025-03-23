@@ -42,6 +42,7 @@ private fun visualizeCow(state: CharacterRenderState, snout: Snout) =
 
 private fun visualizeDog(state: CharacterRenderState, skin: Skin, snout: Snout) {
     val skinOptions = state.config.getOptions(skin)
+    val polygon = Polygon2dBuilder()
 }
 
 private fun visualizePig(state: CharacterRenderState, snout: Snout) =

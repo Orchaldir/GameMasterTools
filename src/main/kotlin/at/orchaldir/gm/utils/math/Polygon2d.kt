@@ -70,22 +70,11 @@ data class Polygon2dBuilder(
         return this
     }
 
-    fun addRectangle(aabb: AABB, horizontal: Factor, vertical: Factor, width: Factor, height: Factor) =
-        addRectangle(aabb.getPoint(horizontal, vertical), aabb.convertWidth(width), aabb.convertHeight(height))
-
-    fun addRectangle(aabb: AABB, horizontal: Factor, vertical: Factor, width: Distance, height: Distance) =
-        addRectangle(aabb.getPoint(horizontal, vertical), width, height)
-
-    fun addRectangle(center: Point2d, width: Distance, height: Distance): Polygon2dBuilder {
-        val halfWidth = width / 2.0f
-        val halfHeight = height / 2.0f
-        val bottomLeft = center.minusWidth(halfWidth).addHeight(halfHeight)
-        val bottomRight = center.addWidth(halfWidth).addHeight(halfHeight)
-        val centerLeft = center.minusWidth(halfWidth).minusHeight(halfHeight)
-        val centerRight = center.addWidth(halfWidth).minusHeight(halfHeight)
+    fun addRectangle(aabb: AABB): Polygon2dBuilder {
+        val (topLeft, topRight, bottomRight, bottomLeft) = aabb.getCorners()
 
         addPoints(bottomLeft, bottomRight)
-        addPoints(centerLeft, centerRight)
+        addPoints(topLeft, topRight)
 
         return this
     }

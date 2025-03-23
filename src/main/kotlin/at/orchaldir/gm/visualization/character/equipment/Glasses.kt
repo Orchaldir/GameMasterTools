@@ -55,10 +55,10 @@ fun visualizeWarpAround(
 ) {
     val glassesOptions = state.config.equipment.glasses
     val renderer = state.renderer.getLayer()
-    val half = glassesOptions.size.small / 2.0f
     val eyeY = state.config.head.eyes.eyeY
+    val aabb = state.aabb.createSubAabb(HALF, eyeY, FULL, glassesOptions.size.small)
     val polygon = Polygon2dBuilder()
-        .addRectangle(state.aabb, HALF, eyeY, FULL, glassesOptions.size.small)
+        .addRectangle(aabb)
         .build()
 
     renderer.renderPolygon(polygon, renderOptions)
@@ -116,7 +116,7 @@ private fun createRectangleLens(
     val medium = state.aabb.convertHeight(glassesOptions.size.medium)
 
     return Polygon2dBuilder()
-        .addRectangle(center, medium, small)
+        .addRectangle(AABB.fromWidthAndHeight(center, medium, small))
         .build()
 }
 
