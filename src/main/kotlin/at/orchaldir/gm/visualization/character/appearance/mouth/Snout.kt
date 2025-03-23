@@ -19,16 +19,48 @@ fun visualizeSnout(state: CharacterRenderState, snout: Snout) {
         SnoutShape.Cat -> doNothing()
         SnoutShape.Cow -> doNothing()
         SnoutShape.Dog -> visualizeCow(state, snout)
-        SnoutShape.Pig -> doNothing()
+        SnoutShape.Pig -> visualizePig(state, snout)
     }
 }
 
 private fun visualizeCow(state: CharacterRenderState, snout: Snout) {
+    visualizeRoundedSnoutWithCircleNostrils(
+        state,
+        snout,
+        Factor(0.6f),
+        Factor(1.1f),
+        Factor(1.1f),
+        Factor(0.7f),
+        Factor(0.8f),
+        Factor(0.1f),
+    )
+}
+
+private fun visualizePig(state: CharacterRenderState, snout: Snout) {
+    visualizeRoundedSnoutWithCircleNostrils(
+        state,
+        snout,
+        Factor(0.6f),
+        Factor(0.9f),
+        Factor(0.3f),
+        Factor(0.15f),
+        Factor(0.75f),
+        Factor(0.05f),
+    )
+}
+
+private fun visualizeRoundedSnoutWithCircleNostrils(
+    state: CharacterRenderState,
+    snout: Snout,
+    upperY: Factor,
+    lowerY: Factor,
+    width: Factor,
+    distanceBetweenNostrils: Factor,
+    nostrilY: Factor,
+    nostrilRadius: Factor,
+) {
     val options = state.config.getLineOptions(snout.color)
     val nostrilOptions = NoBorder(Color.Black.toRender())
-    val upperY = Factor(0.6f)
-    val lowerY = Factor(1.1f)
-    val width = Factor(1.1f)
     val polygon = Polygon2dBuilder()
         .addLeftPoint(state.aabb, CENTER, upperY)
         .addMirroredPoints(state.aabb, width, upperY)
@@ -36,8 +68,8 @@ private fun visualizeCow(state: CharacterRenderState, snout: Snout) {
         .addMirroredPoints(state.aabb, width, lowerY)
         .addLeftPoint(state.aabb, CENTER, lowerY)
         .build()
-    val (left, right) = state.aabb.getMirroredPoints(Factor(0.7f), Factor(0.8f))
-    val nostrilRadius = state.aabb.convertHeight(Factor(0.1f))
+    val (left, right) = state.aabb.getMirroredPoints(distanceBetweenNostrils, nostrilY)
+    val nostrilRadius = state.aabb.convertHeight(nostrilRadius)
 
     state.renderer.getLayer()
         .renderRoundedPolygon(polygon, options)
