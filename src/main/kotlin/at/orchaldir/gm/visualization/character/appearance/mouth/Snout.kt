@@ -17,13 +17,13 @@ fun visualizeSnout(state: CharacterRenderState, snout: Snout) {
 
     when (snout.shape) {
         SnoutShape.Cat -> doNothing()
-        SnoutShape.Cow -> doNothing()
-        SnoutShape.Dog -> visualizeCow(state, snout)
+        SnoutShape.Cow -> visualizeCow(state, snout)
+        SnoutShape.Dog -> visualizeDog(state, snout)
         SnoutShape.Pig -> visualizePig(state, snout)
     }
 }
 
-private fun visualizeCow(state: CharacterRenderState, snout: Snout) {
+private fun visualizeCow(state: CharacterRenderState, snout: Snout) =
     visualizeRoundedSnoutWithCircleNostrils(
         state,
         snout,
@@ -34,9 +34,12 @@ private fun visualizeCow(state: CharacterRenderState, snout: Snout) {
         Factor(0.8f),
         Factor(0.1f),
     )
+
+private fun visualizeDog(state: CharacterRenderState, snout: Snout) {
+
 }
 
-private fun visualizePig(state: CharacterRenderState, snout: Snout) {
+private fun visualizePig(state: CharacterRenderState, snout: Snout) =
     visualizeRoundedSnoutWithCircleNostrils(
         state,
         snout,
@@ -47,7 +50,6 @@ private fun visualizePig(state: CharacterRenderState, snout: Snout) {
         Factor(0.75f),
         Factor(0.05f),
     )
-}
 
 private fun visualizeRoundedSnoutWithCircleNostrils(
     state: CharacterRenderState,
