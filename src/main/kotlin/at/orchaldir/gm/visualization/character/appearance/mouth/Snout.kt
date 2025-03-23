@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance.mouth
 
+import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.core.model.character.appearance.mouth.Snout
 import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
 import at.orchaldir.gm.core.model.util.Color
@@ -10,7 +11,11 @@ import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
-fun visualizeSnout(state: CharacterRenderState, snout: Snout) {
+fun visualizeSnout(
+    state: CharacterRenderState,
+    skin: Skin,
+    snout: Snout,
+) {
     if (!state.renderFront) {
         return
     }
@@ -18,7 +23,7 @@ fun visualizeSnout(state: CharacterRenderState, snout: Snout) {
     when (snout.shape) {
         SnoutShape.Cat -> doNothing()
         SnoutShape.Cow -> visualizeCow(state, snout)
-        SnoutShape.Dog -> visualizeDog(state, snout)
+        SnoutShape.Dog -> visualizeDog(state, skin, snout)
         SnoutShape.Pig -> visualizePig(state, snout)
     }
 }
@@ -35,8 +40,8 @@ private fun visualizeCow(state: CharacterRenderState, snout: Snout) =
         Factor(0.1f),
     )
 
-private fun visualizeDog(state: CharacterRenderState, snout: Snout) {
-
+private fun visualizeDog(state: CharacterRenderState, skin: Skin, snout: Snout) {
+    val skinOptions = state.config.getOptions(skin)
 }
 
 private fun visualizePig(state: CharacterRenderState, snout: Snout) =
