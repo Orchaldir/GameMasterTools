@@ -21,12 +21,12 @@ fun visualizeSnout(state: CharacterRenderState, snout: Snout) {
 }
 
 private fun visualizeCat(state: CharacterRenderState, snout: Snout) {
-    val options = state.config.getLineOptions(snout.color)
+    val options = NoBorder(snout.color.toRender())
     val center = state.aabb.getPoint(CENTER, Factor(0.6f))
     val radius = state.aabb.convertHeight(Factor(0.1f))
 
     state.renderer.getLayer()
-        .renderCircleArc(center, radius, Orientation.zero(), HALF_CIRCLE, options)
+        .renderCircleArc(center, radius, HALF_CIRCLE, HALF_CIRCLE, options)
 }
 
 private fun visualizeCow(state: CharacterRenderState, snout: Snout) =
