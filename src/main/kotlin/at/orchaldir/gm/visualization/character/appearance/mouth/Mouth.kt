@@ -47,7 +47,7 @@ data class MouthConfig(
 
 fun visualizeMouth(state: CharacterRenderState, head: Head) {
     when (head.mouth) {
-        NoMouth, is Snout -> doNothing()
+        NoMouth -> doNothing()
         is NormalMouth -> {
             visualizeMaleMouth(state, head.mouth)
             visualizeBeard(state, head, head.mouth.beard)
@@ -55,6 +55,7 @@ fun visualizeMouth(state: CharacterRenderState, head: Head) {
 
         is FemaleMouth -> visualizeFemaleMouth(state, head.mouth)
         is Beak -> visualizeBeak(state, head.mouth)
+        is Snout -> visualizeSnout(state, head.mouth)
     }
 }
 
