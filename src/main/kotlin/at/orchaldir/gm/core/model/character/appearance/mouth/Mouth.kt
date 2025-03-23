@@ -56,7 +56,7 @@ data class Beak(
 @Serializable
 @SerialName("Snout")
 data class Snout(
-    val shape: BeakShape = BeakShape.Hawk,
+    val shape: SnoutShape = SnoutShape.Cat,
     val color: Color = Color.Yellow,
 ) : Mouth()
 
