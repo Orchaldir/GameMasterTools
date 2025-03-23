@@ -22,16 +22,19 @@ fun visualizeSnout(state: CharacterRenderState, snout: Snout) {
 }
 
 private fun visualizeCat(state: CharacterRenderState, snout: Snout) {
+    val radius = state.aabb.convertHeight(Factor(0.1f))
     val thickness = state.aabb.convertHeight(Factor(0.04f))
     val options = NoBorder(snout.color.toRender())
     val lineOptions = LineOptions(snout.color.toRender(), thickness)
     val center = state.aabb.getPoint(CENTER, Factor(0.6f))
     val lineCenter = state.aabb.getPoint(CENTER, Factor(0.8f))
-    val radius = state.aabb.convertHeight(Factor(0.1f))
+    val (left, right) = state.aabb.getMirroredPoints(Factor(0.2f), Factor(0.85f))
 
     state.renderer.getLayer().apply {
         renderCircleArc(center, radius, HALF_CIRCLE, HALF_CIRCLE, options)
         renderLine(listOf(center, lineCenter), lineOptions)
+        renderLine(listOf(left, lineCenter), lineOptions)
+        renderLine(listOf(right, lineCenter), lineOptions)
     }
 }
 
