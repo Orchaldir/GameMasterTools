@@ -41,8 +41,18 @@ private fun visualizeCow(state: CharacterRenderState, snout: Snout) =
     )
 
 private fun visualizeDog(state: CharacterRenderState, skin: Skin, snout: Snout) {
-    val skinOptions = state.config.getOptions(skin)
+    val options = state.config.getLineOptions(snout.color)
     val polygon = Polygon2dBuilder()
+        .addMirroredPoints(state.aabb, Factor(0.2f), Factor(0.6f))
+        .addMirroredPoints(state.aabb, Factor(0.2f), Factor(0.7f))
+        .addMirroredPoints(state.aabb, Factor(0.05f), Factor(0.75f))
+        .addMirroredPoints(state.aabb, Factor(0.05f), Factor(0.85f), true)
+        .addMirroredPoints(state.aabb, Factor(0.3f), Factor(0.85f), true)
+        .addMirroredPoints(state.aabb, Factor(0.3f), Factor(0.9f), true)
+        .build()
+
+    state.renderer.getLayer()
+        .renderRoundedPolygon(polygon, options)
 }
 
 private fun visualizePig(state: CharacterRenderState, snout: Snout) =
@@ -79,10 +89,9 @@ private fun visualizeRoundedSnoutWithCircleNostrils(
     val (left, right) = state.aabb.getMirroredPoints(distanceBetweenNostrils, nostrilY)
     val nostrilRadius = state.aabb.convertHeight(nostrilRadius)
 
-    state.renderer.getLayer()
-        .renderRoundedPolygon(polygon, options)
-    state.renderer.getLayer()
-        .renderCircle(left, nostrilRadius, nostrilOptions)
-    state.renderer.getLayer()
-        .renderCircle(right, nostrilRadius, nostrilOptions)
+    state.renderer.getLayer().apply {
+        renderRoundedPolygon(polygon, options)
+        renderCircle(left, nostrilRadius, nostrilOptions)
+        renderCircle(right, nostrilRadius, nostrilOptions)
+    }
 }
