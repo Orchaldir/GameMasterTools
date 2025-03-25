@@ -32,10 +32,16 @@ private fun visualizeSocksShaft(
     socks: Socks,
     options: RenderOptions,
 ) {
+    val shoeHeight = state.config.body.getShoeHeight(body)
     val height = when (socks.style) {
         SocksStyle.TightHigh -> state.config.equipment.footwear.heightTight
         SocksStyle.KneeHigh -> state.config.equipment.footwear.heightKnee
         SocksStyle.Quarter -> state.config.equipment.footwear.heightAnkle
+        SocksStyle.Ankle -> if (state.renderFront) {
+            return
+        } else {
+            shoeHeight
+        }
         else -> return
     }
 

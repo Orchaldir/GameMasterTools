@@ -77,6 +77,8 @@ data class BodyConfig(
         return fullBottomY - fullHeight * (FULL - factor)
     }
 
+    fun getShoeHeight(body: Body) = getFootRadius(body) / getLegHeight()
+
     fun getMirroredArmPoint(aabb: AABB, body: Body, vertical: Factor): Pair<Point2d, Point2d> {
         val torso = getTorsoAabb(aabb, body)
         val size = getArmSize(aabb, body)
