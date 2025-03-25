@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHornType
 import at.orchaldir.gm.core.model.character.appearance.horn.VALID_CROWN_HORNS
 import at.orchaldir.gm.core.model.character.appearance.mouth.BeakShape
 import at.orchaldir.gm.core.model.character.appearance.mouth.MouthType
+import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
@@ -150,6 +151,11 @@ private fun HtmlBlockTag.showMouth(mouthOptions: MouthOptions) {
     if (mouthOptions.mouthTypes.isAvailable(MouthType.Beak)) {
         showRarityMap("Beak Shapes", mouthOptions.beakShapes)
         showRarityMap("Beak Colors", mouthOptions.beakColors)
+    }
+
+    if (mouthOptions.mouthTypes.isAvailable(MouthType.Snout)) {
+        showRarityMap("Snout Shapes", mouthOptions.snoutShapes)
+        showRarityMap("Snout Colors", mouthOptions.snoutColors)
     }
 }
 
@@ -313,6 +319,11 @@ private fun FORM.editMouth(mouthOptions: MouthOptions) {
         selectRarityMap("Beak Shapes", combine(BEAK, SHAPE), mouthOptions.beakShapes, true)
         selectRarityMap("Beak Colors", combine(BEAK, COLOR), mouthOptions.beakColors, true)
     }
+
+    if (mouthOptions.mouthTypes.isAvailable(MouthType.Snout)) {
+        selectRarityMap("Snout Shapes", combine(SNOUT, SHAPE), mouthOptions.snoutShapes, true)
+        selectRarityMap("Snout Colors", combine(SNOUT, COLOR), mouthOptions.snoutColors, true)
+    }
 }
 
 private fun FORM.editSkin(appearance: RaceAppearance) {
@@ -433,6 +444,8 @@ private fun parseMouthOptions(parameters: Parameters) = MouthOptions(
     parseOneOf(parameters, combine(BEAK, COLOR), Color::valueOf, setOf(Color.Yellow)),
     parseOneOf(parameters, combine(BEAK, SHAPE), BeakShape::valueOf, BeakShape.entries),
     parseOneOf(parameters, combine(MOUTH, TYPE), MouthType::valueOf),
+    parseOneOf(parameters, combine(SNOUT, COLOR), Color::valueOf, setOf(Color.Yellow)),
+    parseOneOf(parameters, combine(SNOUT, SHAPE), SnoutShape::valueOf, SnoutShape.entries),
 )
 
 private fun parseWingOptions(parameters: Parameters) = WingOptions(
