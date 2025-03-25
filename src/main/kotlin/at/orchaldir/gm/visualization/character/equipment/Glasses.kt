@@ -55,7 +55,7 @@ fun visualizeWarpAround(
 ) {
     val glassesOptions = state.config.equipment.glasses
     val renderer = state.renderer.getLayer()
-    val eyeY = state.config.head.eyes.eyeY
+    val eyeY = state.config.head.eyes.twoEyesY
     val aabb = state.aabb.createSubAabb(HALF, eyeY, FULL, glassesOptions.size.small)
     val polygon = Polygon2dBuilder()
         .addRectangle(aabb)
@@ -139,9 +139,9 @@ fun visualizeFrame(
     val width = state.config.equipment.glasses.size.medium
     val eyesConfig = state.config.head.eyes
     val distanceBetweenEyes = eyesConfig.getDistanceBetweenEyes()
-    val (headLeft, headRight) = state.aabb.getMirroredPoints(FULL, eyesConfig.eyeY)
-    val (outerLeft, outerRight) = state.aabb.getMirroredPoints(distanceBetweenEyes + width, eyesConfig.eyeY)
-    val (innerLeft, innerRight) = state.aabb.getMirroredPoints(distanceBetweenEyes - width, eyesConfig.eyeY)
+    val (headLeft, headRight) = state.aabb.getMirroredPoints(FULL, eyesConfig.twoEyesY)
+    val (outerLeft, outerRight) = state.aabb.getMirroredPoints(distanceBetweenEyes + width, eyesConfig.twoEyesY)
+    val (innerLeft, innerRight) = state.aabb.getMirroredPoints(distanceBetweenEyes - width, eyesConfig.twoEyesY)
     val renderer = state.renderer.getLayer()
 
     renderer.renderLine(listOf(headLeft, outerLeft), lineOptions)

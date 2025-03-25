@@ -12,7 +12,8 @@ import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 data class EyesConfig(
-    val eyeY: Factor,
+    val oneEyeY: Factor,
+    val twoEyesY: Factor,
     private val diameter: SizeConfig<Factor>,
     private val distanceBetweenEyes: SizeConfig<Factor>,
     private val almondHeight: Factor,
@@ -33,9 +34,9 @@ data class EyesConfig(
 
     fun getDistanceBetweenEyes(size: Size = Size.Medium) = distanceBetweenEyes.convert(size)
 
-    fun getOneEyeCenter(aabb: AABB) = aabb.getPoint(CENTER, eyeY)
+    fun getOneEyeCenter(aabb: AABB) = aabb.getPoint(CENTER, oneEyeY)
     fun getTwoEyesCenter(aabb: AABB) = aabb
-        .getMirroredPoints(getDistanceBetweenEyes(), eyeY)
+        .getMirroredPoints(getDistanceBetweenEyes(), twoEyesY)
 }
 
 fun visualizeEyes(state: CharacterRenderState, head: Head) {
