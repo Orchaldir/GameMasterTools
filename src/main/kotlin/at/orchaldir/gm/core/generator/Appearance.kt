@@ -213,7 +213,7 @@ fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
     val options = config.appearanceOptions.mouthOptions
 
     return when (config.generate(options.mouthTypes)) {
-        MouthType.NoMouth, MouthType.Snout -> NoMouth
+        MouthType.NoMouth -> NoMouth
         MouthType.NormalMouth -> {
             if (config.gender == Gender.Female) {
                 return FemaleMouth(
@@ -232,6 +232,11 @@ fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
         MouthType.Beak -> Beak(
             config.generate(options.beakShapes),
             config.generate(options.beakColors),
+        )
+
+        MouthType.Snout -> Snout(
+            config.generate(options.snoutShapes),
+            config.generate(options.snoutColors),
         )
     }
 }
