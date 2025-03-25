@@ -43,8 +43,9 @@ private fun visualizeBeltBand(
     val options = FillAndBorder(belt.fill.toRender(), state.config.line)
     val hipWidth = state.config.equipment.pants.getHipWidth(state.config.body, body)
     val beltConfig = state.config.equipment.belt
+    val bandAabb = torsoAABB.createSubAabb(CENTER, beltConfig.y, hipWidth, beltConfig.bandHeight)
     val polygon = Polygon2dBuilder()
-        .addRectangle(torsoAABB, CENTER, beltConfig.y, hipWidth, beltConfig.bandHeight)
+        .addRectangle(bandAabb)
         .build()
 
     state.renderer.getLayer(HIGHER_EQUIPMENT_LAYER)

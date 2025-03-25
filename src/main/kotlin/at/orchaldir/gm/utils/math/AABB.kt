@@ -108,6 +108,9 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
         return fromCorners(startPoint, endPoint)
     }
+
+    fun createSubAabb(horizontal: Factor, vertical: Factor, width: Factor, height: Factor) =
+        fromWidthAndHeight(getPoint(horizontal, vertical), convertWidth(width), convertHeight(height))
 }
 
 /**

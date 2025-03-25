@@ -233,6 +233,11 @@ fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
             config.generate(options.beakShapes),
             config.generate(options.beakColors),
         )
+
+        MouthType.Snout -> Snout(
+            config.generate(options.snoutShapes),
+            config.generate(options.snoutColors),
+        )
     }
 }
 

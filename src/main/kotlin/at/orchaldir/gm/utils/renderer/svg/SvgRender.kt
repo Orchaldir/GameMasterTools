@@ -51,17 +51,38 @@ class SvgRenderer(
 
     override fun renderEllipse(
         center: Point2d,
+        orientation: Orientation,
+        radiusX: Distance,
+        radiusY: Distance,
+        options: RenderOptions,
+    ) = renderOrientedEllipse(center, orientation, radiusX, radiusY, options)
+
+    override fun renderEllipse(
+        center: Point2d,
+        radiusX: Distance,
+        radiusY: Distance,
+        options: RenderOptions,
+    ) = renderOrientedEllipse(center, null, radiusX, radiusY, options)
+
+    private fun renderOrientedEllipse(
+        center: Point2d,
+        orientation: Orientation?,
         radiusX: Distance,
         radiusY: Distance,
         options: RenderOptions,
     ): LayerRenderer {
         selfClosingTag(
             "ellipse",
-            "cx=\"%.3f\" cy=\"%.3f\" rx=\"%.4f\" ry=\"%.4f\" style=\"%s\"",
+            "cx=\"%.3f\" cy=\"%.3f\" rx=\"%.4f\" ry=\"%.4f\"%s style=\"%s\"",
             center.x,
             center.y,
             radiusX.toMeters(),
             radiusY.toMeters(),
+            if (orientation != null) {
+                formatAttributes(" transform=\"%s\"", rotateAroundCenter(center, orientation))
+            } else {
+                ""
+            },
             toSvg(options),
         )
 
@@ -143,13 +164,11 @@ class SvgRenderer(
         inlineTag(
             "text",
             text,
-            "x=\"%.3f\" y=\"%.3f\" alignment-baseline=\"%s\" transform=\"rotate(%.3f,%.3f,%.3f)\" style=\"%s\" text-anchor=\"middle\"",
+            "x=\"%.3f\" y=\"%.3f\" alignment-baseline=\"%s\" transform=\"%s\" style=\"%s\" text-anchor=\"middle\"",
             position.x,
             position.y,
             toSvg(options.verticalAlignment),
-            orientation.toDegree(),
-            position.x,
-            position.y,
+            rotateAroundCenter(position, orientation),
             toSvg(options),
             text,
         )
@@ -222,6 +241,14 @@ class SvgRenderer(
     private fun renderPath(path: String, style: String) {
         selfClosingTag("path", "d=\"%s\" style=\"%s\"", path, style)
     }
+
+    private fun rotateAroundCenter(center: Point2d, orientation: Orientation) =
+        formatAttributes(
+            "rotate(%.3f,%.3f,%.3f)",
+            orientation.toDegree(),
+            center.x,
+            center.y,
+        )
 
     private fun toSvg(verticalAlignment: VerticalAlignment): String {
         return when (verticalAlignment) {

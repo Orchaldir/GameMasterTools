@@ -136,7 +136,8 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         ),
         Factor(0.45f),
         EyesConfig(
-            Factor(0.45f),
+            Factor(0.35f),
+            Factor(0.40f),
             withFactor(0.2f, 0.3f, 0.4f),
             withFactor(0.3f, 0.45f, 0.5f),
             Factor(0.7f),

@@ -205,6 +205,8 @@ private fun FORM.editMouth(
     selectOneOf("Type", combine(MOUTH, TYPE), mouthOptions.mouthTypes, mouth.getType(), true)
 
     when (mouth) {
+        NoMouth -> doNothing()
+
         is NormalMouth -> {
             editSimpleMouth(mouth.width, mouth.teethColor)
             editBeard(raceAppearance, culture, mouth.beard)
@@ -220,7 +222,10 @@ private fun FORM.editMouth(
             selectOneOf("Beak Color", combine(BEAK, COLOR), mouthOptions.beakColors, mouth.color, true)
         }
 
-        NoMouth -> doNothing()
+        is Snout -> {
+            selectOneOf("Snout Shape", combine(SNOUT, SHAPE), mouthOptions.snoutShapes, mouth.shape, true)
+            selectOneOf("Snout Color", combine(SNOUT, COLOR), mouthOptions.snoutColors, mouth.color, true)
+        }
     }
 }
 
@@ -382,6 +387,8 @@ private fun parseMouth(
     character: Character,
     hair: Hair,
 ): Mouth {
+    val mouthOptions = config.appearanceOptions.mouthOptions
+
     return when (parameters[combine(MOUTH, TYPE)]) {
         MouthType.NoMouth.toString() -> NoMouth
         MouthType.NormalMouth.toString() -> {
@@ -399,13 +406,15 @@ private fun parseMouth(
             )
         }
 
-        MouthType.Beak.toString() -> {
-            val mouthOptions = config.appearanceOptions.mouthOptions
-            Beak(
-                parseAppearanceOption(parameters, combine(BEAK, SHAPE), config, mouthOptions.beakShapes),
-                parseAppearanceColor(parameters, BEAK, config, mouthOptions.beakColors),
-            )
-        }
+        MouthType.Beak.toString() -> Beak(
+            parseAppearanceOption(parameters, combine(BEAK, SHAPE), config, mouthOptions.beakShapes),
+            parseAppearanceColor(parameters, BEAK, config, mouthOptions.beakColors),
+        )
+
+        MouthType.Snout.toString() -> Snout(
+            parseAppearanceOption(parameters, combine(SNOUT, SHAPE), config, mouthOptions.snoutShapes),
+            parseAppearanceColor(parameters, SNOUT, config, mouthOptions.snoutColors),
+        )
 
         else -> generateMouth(config, hair)
     }

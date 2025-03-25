@@ -25,6 +25,7 @@ data class MouthConfig(
             NoMouth -> Size.Medium
             is NormalMouth -> mouth.width
             is Beak -> error("Beak is not supported!")
+            is Snout -> error("Snout is not supported!")
         }
 
         return getSimpleWidth(width)
@@ -35,6 +36,7 @@ data class MouthConfig(
         NoMouth -> Factor(0.0f)
         is NormalMouth -> simpleHeight
         is Beak -> error("Beak is not supported!")
+        is Snout -> error("Snout is not supported!")
     }
 
     fun getBottomY(mouth: Mouth) = y + getHeight(mouth) * 0.5f
@@ -47,18 +49,19 @@ fun visualizeMouth(state: CharacterRenderState, head: Head) {
     when (head.mouth) {
         NoMouth -> doNothing()
         is NormalMouth -> {
-            visualizeMaleMouth(state, head.mouth)
+            visualizeMaleMouth(state, head.mouth.width)
             visualizeBeard(state, head, head.mouth.beard)
         }
 
         is FemaleMouth -> visualizeFemaleMouth(state, head.mouth)
         is Beak -> visualizeBeak(state, head.mouth)
+        is Snout -> visualizeSnout(state, head.mouth)
     }
 }
 
-private fun visualizeMaleMouth(
+fun visualizeMaleMouth(
     state: CharacterRenderState,
-    mouth: NormalMouth,
+    size: Size,
 ) {
     if (!state.renderFront) {
         return
@@ -67,8 +70,8 @@ private fun visualizeMaleMouth(
     val aabb = state.aabb
     val config = state.config
     val center = aabb.getPoint(CENTER, config.head.mouth.y)
-    val width = aabb.convertWidth(config.head.mouth.getSimpleWidth(mouth.width))
-    val height = aabb.convertHeight(config.head.mouth.getHeight(mouth))
+    val width = aabb.convertWidth(config.head.mouth.getSimpleWidth(size))
+    val height = aabb.convertHeight(config.head.mouth.simpleHeight)
     val mouthAabb = AABB.fromCenter(center, Size2d(width, height))
     val option = NoBorder(Color.Black.toRender())
 

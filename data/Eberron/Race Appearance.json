@@ -526,6 +526,17 @@
     "hairTypes": {
      "None": "Common"
     }
+   },
+   "mouthOptions": {
+    "mouthTypes": {
+     "Snout": "Common"
+    },
+    "snoutColors": {
+     "Black": "Common"
+    },
+    "snoutShapes": {
+     "Dog": "Common"
+    }
    }
   },
   "9": {

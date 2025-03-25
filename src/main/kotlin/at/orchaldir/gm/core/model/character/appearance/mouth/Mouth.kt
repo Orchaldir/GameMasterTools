@@ -11,13 +11,7 @@ enum class MouthType {
     NoMouth,
     NormalMouth,
     Beak,
-}
-
-@Serializable
-enum class TeethColor {
-    White,
-    Yellow,
-    Brown,
+    Snout,
 }
 
 @Serializable
@@ -27,6 +21,7 @@ sealed class Mouth {
         NoMouth -> MouthType.NoMouth
         is NormalMouth, is FemaleMouth -> MouthType.NormalMouth
         is Beak -> MouthType.Beak
+        is Snout -> MouthType.Snout
     }
 
 }
@@ -55,6 +50,13 @@ data class FemaleMouth(
 @SerialName("Beak")
 data class Beak(
     val shape: BeakShape = BeakShape.Hawk,
+    val color: Color = Color.Yellow,
+) : Mouth()
+
+@Serializable
+@SerialName("Snout")
+data class Snout(
+    val shape: SnoutShape = SnoutShape.Cat,
     val color: Color = Color.Yellow,
 ) : Mouth()
 

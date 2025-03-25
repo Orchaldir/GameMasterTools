@@ -46,7 +46,7 @@ fun visualizeAppearance(
     equipped: List<EquipmentData> = emptyList(),
     renderFront: Boolean = true,
 ): Svg {
-    val aabb = paddedSize.getInnerAABB()
+    val aabb = paddedSize.getFullAABB()
     val builder = SvgBuilder(paddedSize.getFullSize())
     val state = CharacterRenderState(aabb, config, builder, renderFront, equipped)
 
@@ -92,9 +92,9 @@ fun visualizeAppearance(
         }
 
         UndefinedAppearance -> {
-            val height = state.config.padding.toMeters() * 1.5f
+            val height = state.config.padding.toMeters()
             val options = RenderStringOptions(Black.toRender(), 2.0f * height)
-            val center = state.aabb.getCenter() + Point2d(0.0f, height * 0.5f)
+            val center = state.aabb.getCenter() + Point2d(0.0f, height * 0.25f)
             state.renderer.getLayer().renderString("?", center, Orientation.zero(), options)
         }
 
