@@ -79,7 +79,7 @@ class SvgRenderer(
             radiusX.toMeters(),
             radiusY.toMeters(),
             if (orientation != null) {
-                formatAttributes(" transform=\"rotate(%.1f)\"", orientation.toDegree())
+                formatAttributes(" transform=\"%s\"", rotateAroundCenter(center, orientation))
             } else {
                 ""
             },
@@ -164,13 +164,11 @@ class SvgRenderer(
         inlineTag(
             "text",
             text,
-            "x=\"%.3f\" y=\"%.3f\" alignment-baseline=\"%s\" transform=\"rotate(%.3f,%.3f,%.3f)\" style=\"%s\" text-anchor=\"middle\"",
+            "x=\"%.3f\" y=\"%.3f\" alignment-baseline=\"%s\" transform=\"%s\" style=\"%s\" text-anchor=\"middle\"",
             position.x,
             position.y,
             toSvg(options.verticalAlignment),
-            orientation.toDegree(),
-            position.x,
-            position.y,
+            rotateAroundCenter(position, orientation),
             toSvg(options),
             text,
         )
@@ -243,6 +241,14 @@ class SvgRenderer(
     private fun renderPath(path: String, style: String) {
         selfClosingTag("path", "d=\"%s\" style=\"%s\"", path, style)
     }
+
+    private fun rotateAroundCenter(center: Point2d, orientation: Orientation) =
+        formatAttributes(
+            "rotate(%.3f,%.3f,%.3f)",
+            orientation.toDegree(),
+            center.x,
+            center.y,
+        )
 
     private fun toSvg(verticalAlignment: VerticalAlignment): String {
         return when (verticalAlignment) {
