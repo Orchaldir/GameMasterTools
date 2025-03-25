@@ -37,11 +37,7 @@ private fun visualizeSocksShaft(
         SocksStyle.TightHigh -> state.config.equipment.footwear.heightTight
         SocksStyle.KneeHigh -> state.config.equipment.footwear.heightKnee
         SocksStyle.Quarter -> state.config.equipment.footwear.heightAnkle
-        SocksStyle.Ankle -> if (state.renderFront) {
-            return
-        } else {
-            shoeHeight
-        }
+        SocksStyle.Ankle -> shoeHeight
         else -> return
     }
 
