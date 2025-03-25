@@ -31,6 +31,7 @@ class PaddedSize(
     }
 
     fun getFullSize() = baseSize + Size2d(left + right, top + bottom)
+    fun getFullAABB() = AABB(getFullSize())
     fun getInnerAABB() = AABB(left, top, baseSize)
 }
 
