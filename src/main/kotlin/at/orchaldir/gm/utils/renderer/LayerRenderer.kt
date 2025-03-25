@@ -24,6 +24,14 @@ interface LayerRenderer {
         options: RenderOptions,
     ): LayerRenderer
 
+    fun renderEllipse(
+        center: Point2d,
+        orientation: Orientation,
+        radiusX: Distance,
+        radiusY: Distance,
+        options: RenderOptions,
+    ): LayerRenderer
+
     fun renderEllipse(center: Point2d, radiusX: Distance, radiusY: Distance, options: RenderOptions): LayerRenderer
 
     fun renderEllipse(aabb: AABB, options: RenderOptions): LayerRenderer =

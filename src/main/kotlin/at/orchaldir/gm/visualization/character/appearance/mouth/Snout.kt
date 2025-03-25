@@ -84,7 +84,17 @@ private fun visualizePig(state: CharacterRenderState, snout: Snout) =
     )
 
 private fun visualizeReptile(state: CharacterRenderState, snout: Snout) {
+    val options = NoBorder(Color.Black.toRender())
+    val noseWidth = state.aabb.convertHeight(Factor(0.1f))
+    val noseHeight = noseWidth / 2.0f
+    val (left, right) = state.aabb.getMirroredPoints(Factor(0.6f), Factor(0.5f))
+    val orientation = Orientation.fromDegree(45.0f)
+    val renderer = state.renderer.getLayer()
+
     visualizeMaleMouth(state, Size.Medium)
+
+    renderer.renderEllipse(left, orientation, noseWidth, noseHeight, options)
+    renderer.renderEllipse(right, -orientation, noseWidth, noseHeight, options)
 }
 
 private fun visualizeRoundedSnoutWithCircleNostrils(

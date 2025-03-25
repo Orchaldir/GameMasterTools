@@ -51,17 +51,38 @@ class SvgRenderer(
 
     override fun renderEllipse(
         center: Point2d,
+        orientation: Orientation,
+        radiusX: Distance,
+        radiusY: Distance,
+        options: RenderOptions,
+    ) = renderOrientedEllipse(center, orientation, radiusX, radiusY, options)
+
+    override fun renderEllipse(
+        center: Point2d,
+        radiusX: Distance,
+        radiusY: Distance,
+        options: RenderOptions,
+    ) = renderOrientedEllipse(center, null, radiusX, radiusY, options)
+
+    private fun renderOrientedEllipse(
+        center: Point2d,
+        orientation: Orientation?,
         radiusX: Distance,
         radiusY: Distance,
         options: RenderOptions,
     ): LayerRenderer {
         selfClosingTag(
             "ellipse",
-            "cx=\"%.3f\" cy=\"%.3f\" rx=\"%.4f\" ry=\"%.4f\" style=\"%s\"",
+            "cx=\"%.3f\" cy=\"%.3f\" rx=\"%.4f\" ry=\"%.4f\"%s style=\"%s\"",
             center.x,
             center.y,
             radiusX.toMeters(),
             radiusY.toMeters(),
+            if (orientation != null) {
+                formatAttributes(" transform=\"rotate(%.1f)\"", orientation.toDegree())
+            } else {
+                ""
+            },
             toSvg(options),
         )
 
