@@ -20,7 +20,7 @@ fun main() {
         addNames(SocksStyle.entries),
         true,
     ) { distance, style, shape ->
-        Pair(createAppearance(distance, shape), listOf(Socks(style, HorizontalStripes(Color.White, Color.Blue))))
+        Pair(createAppearance(distance, shape), listOf(Socks(style, HorizontalStripes(Color.White, Color.Blue, 1u))))
     }
 }
 

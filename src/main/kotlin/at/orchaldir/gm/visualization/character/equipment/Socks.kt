@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Socks
 import at.orchaldir.gm.core.model.item.equipment.style.SocksStyle
+import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.BEHIND_LAYER
@@ -41,5 +42,5 @@ private fun visualizeSocksShaft(
         else -> return
     }
 
-    visualizeBootShaft(state, body, options, height)
+    visualizeBootShaft(state, body, options, height, ZERO)
 }

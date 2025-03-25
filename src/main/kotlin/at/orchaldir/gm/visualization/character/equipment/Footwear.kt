@@ -62,7 +62,7 @@ private fun visualizeBootShaft(
         else -> return
     }
 
-    visualizeBootShaft(state, body, options, height)
+    visualizeBootShaft(state, body, options, height, state.config.equipment.footwear.paddingShaft)
 }
 
 fun visualizeBootShaft(
@@ -70,12 +70,13 @@ fun visualizeBootShaft(
     body: Body,
     options: RenderOptions,
     scale: Factor,
+    padding: Factor,
 ) {
-    val config = state.config
-    val width = config.body.getLegWidth(body) + config.equipment.footwear.paddingShaft
-    val height = config.body.getLegHeight() * scale
+    val config = state.config.body
+    val width = config.getLegWidth(body) + padding
+    val height = config.getLegHeight() * scale
     val size = state.aabb.size.scale(width, height)
-    val (left, right) = config.body.getMirroredLegPoint(state.aabb, body, FULL - scale * 0.5f)
+    val (left, right) = config.getMirroredLegPoint(state.aabb, body, FULL - scale * 0.5f)
     val leftAabb = AABB.fromCenter(left, size)
     val rightAabb = AABB.fromCenter(right, size)
     val layer = state.renderer.getLayer(EQUIPMENT_LAYER)
