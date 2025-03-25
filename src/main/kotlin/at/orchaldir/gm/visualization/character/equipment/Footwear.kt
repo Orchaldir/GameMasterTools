@@ -14,6 +14,7 @@ import at.orchaldir.gm.visualization.character.appearance.visualizeFeet
 data class FootwearConfig(
     val heightAnkle: Factor,
     val heightKnee: Factor,
+    val heightTight: Factor,
     val heightSole: Factor,
     val paddingShaft: Factor,
 )
