@@ -44,7 +44,7 @@ private fun BODY.showEquipmentData(
     field("Type", equipment.data.getType())
 
     when (val data = equipment.data) {
-        NoEquipment -> doNothing()
+        NoEquipment, is Socks -> doNothing()
         is Belt -> showBelt(call, state, data)
         is Coat -> {
             field("Length", data.length)
@@ -173,7 +173,7 @@ private fun FORM.editEquipmentData(
     equipment: Equipment,
 ) {
     when (val data = equipment.data) {
-        NoEquipment -> doNothing()
+        NoEquipment, is Socks -> doNothing()
         is Belt -> editBelt(state, data)
         is Coat -> {
             selectValue("Length", LENGTH, OuterwearLength.entries, data.length, true)
@@ -323,7 +323,7 @@ fun parseEquipment(id: EquipmentId, parameters: Parameters): Equipment {
 
 fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.None)) {
-        EquipmentDataType.None -> NoEquipment
+        EquipmentDataType.None, EquipmentDataType.Socks -> NoEquipment
         EquipmentDataType.Belt -> parseBelt(parameters)
         EquipmentDataType.Coat -> Coat(
             parse(parameters, LENGTH, OuterwearLength.Hip),
