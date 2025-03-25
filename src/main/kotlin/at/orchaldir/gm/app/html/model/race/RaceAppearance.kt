@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.EyeType
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
 import at.orchaldir.gm.core.model.character.appearance.eye.PupilShape
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
+import at.orchaldir.gm.core.model.character.appearance.horn.DEFAULT_HORN_COLOR
 import at.orchaldir.gm.core.model.character.appearance.horn.HornsLayout
 import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHornType
 import at.orchaldir.gm.core.model.character.appearance.horn.VALID_CROWN_HORNS
@@ -434,17 +435,17 @@ private fun parseHornOptions(parameters: Parameters) = HornOptions(
     parseOneOf(parameters, HORN, HornsLayout::valueOf),
     parseOneOf(parameters, combine(HORN, SHAPE), SimpleHornType::valueOf, setOf(SimpleHornType.Mouflon)),
     parseFactor(parameters, combine(HORN, LENGTH), DEFAULT_SIMPLE_LENGTH),
-    parseOneOf(parameters, combine(HORN, COLOR), Color::valueOf, Color.entries),
+    parseOneOf(parameters, combine(HORN, COLOR), Color::valueOf, setOf(DEFAULT_HORN_COLOR)),
     parseFactor(parameters, combine(CROWN, LENGTH), DEFAULT_CROWN_LENGTH),
     parseOneOf(parameters, combine(CROWN, FRONT), String::toInt, setOf(DEFAULT_CROWN_HORNS)),
     parseOneOf(parameters, combine(CROWN, BACK), String::toInt, setOf(DEFAULT_CROWN_HORNS)),
 )
 
 private fun parseMouthOptions(parameters: Parameters) = MouthOptions(
-    parseOneOf(parameters, combine(BEAK, COLOR), Color::valueOf, setOf(Color.Yellow)),
+    parseOneOf(parameters, combine(BEAK, COLOR), Color::valueOf, setOf(DEFAULT_BEAK_COLOR)),
     parseOneOf(parameters, combine(BEAK, SHAPE), BeakShape::valueOf, BeakShape.entries),
     parseOneOf(parameters, combine(MOUTH, TYPE), MouthType::valueOf),
-    parseOneOf(parameters, combine(SNOUT, COLOR), Color::valueOf, setOf(Color.Yellow)),
+    parseOneOf(parameters, combine(SNOUT, COLOR), Color::valueOf, setOf(DEFAULT_SNOUT_COLOR)),
     parseOneOf(parameters, combine(SNOUT, SHAPE), SnoutShape::valueOf, SnoutShape.entries),
 )
 

@@ -7,11 +7,14 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.OneOf
 import kotlinx.serialization.Serializable
 
+val DEFAULT_BEAK_COLOR = Color.Yellow
+val DEFAULT_SNOUT_COLOR = Color.Pink
+
 @Serializable
 data class MouthOptions(
-    val beakColors: OneOf<Color> = OneOf(Color.Yellow),
+    val beakColors: OneOf<Color> = OneOf(DEFAULT_BEAK_COLOR),
     val beakShapes: OneOf<BeakShape> = OneOf(BeakShape.entries),
     val mouthTypes: OneOf<MouthType> = OneOf(MouthType.NormalMouth),
-    val snoutColors: OneOf<Color> = OneOf(Color.Pink),
+    val snoutColors: OneOf<Color> = OneOf(DEFAULT_SNOUT_COLOR),
     val snoutShapes: OneOf<SnoutShape> = OneOf(SnoutShape.entries),
 )
