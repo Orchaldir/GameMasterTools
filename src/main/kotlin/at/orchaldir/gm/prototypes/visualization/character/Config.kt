@@ -21,7 +21,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
 val CHARACTER_CONFIG = CharacterRenderConfig(
     fromMillimeters(200),
-    LineOptions(Color.Black.toRender(), fromMillimeters(1)),
+    LineOptions(Color.Black.toRender(), fromMillimeters(5)),
     BodyConfig(
         Factor(0.1f),
         FootConfig(
