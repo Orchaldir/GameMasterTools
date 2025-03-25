@@ -69,7 +69,7 @@ private fun getShoeHeight(
     body: Body,
 ) = state.config.body.getFootRadius(body) / state.config.body.getLegHeight()
 
-private fun visualizeBootShaft(
+fun visualizeBootShaft(
     state: CharacterRenderState,
     body: Body,
     options: RenderOptions,
