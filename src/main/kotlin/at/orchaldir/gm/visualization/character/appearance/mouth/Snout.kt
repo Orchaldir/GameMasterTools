@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.appearance.mouth
 import at.orchaldir.gm.core.model.character.appearance.mouth.Snout
 import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
@@ -18,6 +19,7 @@ fun visualizeSnout(state: CharacterRenderState, snout: Snout) {
         SnoutShape.Cow -> visualizeCow(state, snout)
         SnoutShape.Dog -> visualizeDog(state, snout)
         SnoutShape.Pig -> visualizePig(state, snout)
+        SnoutShape.Reptile -> visualizeReptile(state, snout)
     }
 }
 
@@ -80,6 +82,10 @@ private fun visualizePig(state: CharacterRenderState, snout: Snout) =
         Factor(0.75f),
         Factor(0.05f),
     )
+
+private fun visualizeReptile(state: CharacterRenderState, snout: Snout) {
+    visualizeMaleMouth(state, Size.Medium)
+}
 
 private fun visualizeRoundedSnoutWithCircleNostrils(
     state: CharacterRenderState,

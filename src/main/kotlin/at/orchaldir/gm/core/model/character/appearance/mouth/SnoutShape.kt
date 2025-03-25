@@ -5,4 +5,5 @@ enum class SnoutShape {
     Cow,
     Dog,
     Pig,
+    Reptile,
 }

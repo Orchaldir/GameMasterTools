@@ -49,7 +49,7 @@ fun visualizeMouth(state: CharacterRenderState, head: Head) {
     when (head.mouth) {
         NoMouth -> doNothing()
         is NormalMouth -> {
-            visualizeMaleMouth(state, head.mouth)
+            visualizeMaleMouth(state, head.mouth.width)
             visualizeBeard(state, head, head.mouth.beard)
         }
 
@@ -59,9 +59,9 @@ fun visualizeMouth(state: CharacterRenderState, head: Head) {
     }
 }
 
-private fun visualizeMaleMouth(
+fun visualizeMaleMouth(
     state: CharacterRenderState,
-    mouth: NormalMouth,
+    size: Size,
 ) {
     if (!state.renderFront) {
         return
@@ -70,8 +70,8 @@ private fun visualizeMaleMouth(
     val aabb = state.aabb
     val config = state.config
     val center = aabb.getPoint(CENTER, config.head.mouth.y)
-    val width = aabb.convertWidth(config.head.mouth.getSimpleWidth(mouth.width))
-    val height = aabb.convertHeight(config.head.mouth.getHeight(mouth))
+    val width = aabb.convertWidth(config.head.mouth.getSimpleWidth(size))
+    val height = aabb.convertHeight(config.head.mouth.simpleHeight)
     val mouthAabb = AABB.fromCenter(center, Size2d(width, height))
     val option = NoBorder(Color.Black.toRender())
 

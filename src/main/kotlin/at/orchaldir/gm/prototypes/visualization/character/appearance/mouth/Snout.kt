@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.Snout
 import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
@@ -34,7 +35,7 @@ private fun createAppearance(shape: SnoutShape, eyes: Eyes) =
     HeadOnly(
         Head(
             eyes = eyes,
-            mouth = Snout(shape),
+            mouth = Snout(shape, Color.Pink),
             skin = ExoticSkin(),
         ),
         fromMillimeters(1000),
