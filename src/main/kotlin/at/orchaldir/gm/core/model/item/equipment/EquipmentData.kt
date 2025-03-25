@@ -23,6 +23,7 @@ enum class EquipmentDataType {
     Pants,
     Shirt,
     Skirt,
+    Socks,
     Tie;
 
     fun slots(): Set<EquipmentSlot> = when (this) {
@@ -37,6 +38,7 @@ enum class EquipmentDataType {
         Pants -> setOf(BottomSlot)
         Shirt -> setOf(TopSlot)
         Skirt -> setOf(BottomSlot)
+        Socks -> setOf(FootUnderwearSlot)
         Tie -> setOf(TieSlot)
     }
 }
@@ -58,6 +60,7 @@ sealed class EquipmentData {
         is Pants -> EquipmentDataType.Pants
         is Shirt -> EquipmentDataType.Shirt
         is Skirt -> EquipmentDataType.Skirt
+        is Socks -> EquipmentDataType.Socks
         is Tie -> EquipmentDataType.Tie
     }
 
@@ -196,6 +199,18 @@ data class Shirt(
 data class Skirt(
     val style: SkirtStyle = SkirtStyle.Sheath,
     val fill: Fill = Solid(Color.SaddleBrown),
+    val material: MaterialId = MaterialId(0),
+) : EquipmentData() {
+
+    override fun contains(id: MaterialId) = material == id
+    override fun getMaterials() = setOf(material)
+}
+
+@Serializable
+@SerialName("Socks")
+data class Socks(
+    val style: SocksStyle = SocksStyle.Quarter,
+    val fill: Fill = Solid(Color.White),
     val material: MaterialId = MaterialId(0),
 ) : EquipmentData() {
 
