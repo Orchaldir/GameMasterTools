@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.font.SolidFont
 import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Point2d

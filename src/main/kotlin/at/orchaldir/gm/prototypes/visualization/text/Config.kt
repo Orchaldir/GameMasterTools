@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.renderer.model.LineOptions
-import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.SizeConfig.Companion.fromPercentages
 import at.orchaldir.gm.visualization.SizeConfig.Companion.withFactor
 import at.orchaldir.gm.visualization.text.LeatherBindingConfig

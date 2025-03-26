@@ -4,7 +4,10 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.model.fieldFactor
 import at.orchaldir.gm.app.html.model.parseFactor
 import at.orchaldir.gm.app.html.model.selectPercentage
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseFloat
+import at.orchaldir.gm.app.parse.parseUByte
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import io.ktor.http.*

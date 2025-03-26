@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.server.application.*
 import io.ktor.server.resources.*

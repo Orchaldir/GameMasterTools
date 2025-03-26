@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.item.text.book.SewingPattern
 import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.StitchType
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromNumber
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder

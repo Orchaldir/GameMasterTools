@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.item.text.book.NoBosses
 import at.orchaldir.gm.core.model.item.text.book.SimpleBossesPattern
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromNumber
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Size2d
