@@ -116,6 +116,12 @@ private fun BODY.showEquipmentData(
             fieldLink("Material", call, state, data.material)
         }
 
+        is Socks -> {
+            field("Style", data.style)
+            showFill(data.fill)
+            fieldLink("Material", call, state, data.material)
+        }
+
         is Tie -> {
             field("Style", data.style)
             field("Size", data.size)
@@ -251,6 +257,12 @@ private fun FORM.editEquipmentData(
             selectMaterial(state, data.material)
         }
 
+        is Socks -> {
+            selectValue("Style", STYLE, SocksStyle.entries, data.style, true)
+            selectFill(data.fill)
+            selectMaterial(state, data.material)
+        }
+
         is Tie -> {
             selectValue("Style", STYLE, TieStyle.entries, data.style, true)
             selectValue("Size", SIZE, Size.entries, data.size, true)
@@ -374,6 +386,12 @@ fun parseEquipmentData(parameters: Parameters) =
 
         EquipmentDataType.Skirt -> Skirt(
             parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
+            parseFill(parameters),
+            parseMaterialId(parameters, MATERIAL),
+        )
+
+        EquipmentDataType.Socks -> Socks(
+            parse(parameters, STYLE, SocksStyle.Quarter),
             parseFill(parameters),
             parseMaterialId(parameters, MATERIAL),
         )

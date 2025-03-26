@@ -14,6 +14,7 @@ import at.orchaldir.gm.visualization.character.appearance.visualizeFeet
 data class FootwearConfig(
     val heightAnkle: Factor,
     val heightKnee: Factor,
+    val heightTight: Factor,
     val heightSole: Factor,
     val paddingShaft: Factor,
 )
@@ -47,7 +48,7 @@ private fun visualizeBootShaft(
     footwear: Footwear,
     options: RenderOptions,
 ) {
-    val shoeHeight = getShoeHeight(state, body)
+    val shoeHeight = state.config.body.getShoeHeight(body)
     val height = when (footwear.style) {
         FootwearStyle.Boots -> state.config.equipment.footwear.heightAnkle
         FootwearStyle.KneeHighBoots -> state.config.equipment.footwear.heightKnee
@@ -61,25 +62,21 @@ private fun visualizeBootShaft(
         else -> return
     }
 
-    visualizeBootShaft(state, body, options, height)
+    visualizeBootShaft(state, body, options, height, state.config.equipment.footwear.paddingShaft)
 }
 
-private fun getShoeHeight(
-    state: CharacterRenderState,
-    body: Body,
-) = state.config.body.getFootRadius(body) / state.config.body.getLegHeight()
-
-private fun visualizeBootShaft(
+fun visualizeBootShaft(
     state: CharacterRenderState,
     body: Body,
     options: RenderOptions,
     scale: Factor,
+    padding: Factor,
 ) {
-    val config = state.config
-    val width = config.body.getLegWidth(body) + config.equipment.footwear.paddingShaft
-    val height = config.body.getLegHeight() * scale
+    val config = state.config.body
+    val width = config.getLegWidth(body) + padding
+    val height = config.getLegHeight() * scale
     val size = state.aabb.size.scale(width, height)
-    val (left, right) = config.body.getMirroredLegPoint(state.aabb, body, FULL - scale * 0.5f)
+    val (left, right) = config.getMirroredLegPoint(state.aabb, body, FULL - scale * 0.5f)
     val leftAabb = AABB.fromCenter(left, size)
     val rightAabb = AABB.fromCenter(right, size)
     val layer = state.renderer.getLayer(EQUIPMENT_LAYER)
