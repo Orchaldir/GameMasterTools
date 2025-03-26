@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 
 fun main() {
     val appearances: MutableList<List<Appearance>> = mutableListOf()
@@ -31,8 +32,8 @@ private fun createCrown(front: Int, back: Int, hasSideHorns: Boolean) = createAp
         front,
         back,
         hasSideHorns,
-        Factor(0.3f),
-        Factor(0.15f),
+        fromPercentage(30),
+        fromPercentage(15),
         Color.Blue,
     )
 )

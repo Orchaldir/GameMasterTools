@@ -7,16 +7,17 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.Serializable
 
 const val DEFAULT_CROWN_HORNS = 2
 const val DEFAULT_SPIRAL_CYCLES = 2
 
 val DEFAULT_SIMPLE_LENGTH = FULL
-val DEFAULT_SIMPLE_WIDTH = Factor(0.2f)
-val DEFAULT_SPIRAL_AMPLITUDE = Factor(0.2f)
-val DEFAULT_CROWN_LENGTH = Factor(0.2f)
-val DEFAULT_CROWN_WIDTH = Factor(0.15f)
+val DEFAULT_SIMPLE_WIDTH = fromPercentage(20)
+val DEFAULT_SPIRAL_AMPLITUDE = fromPercentage(20)
+val DEFAULT_CROWN_LENGTH = fromPercentage(20)
+val DEFAULT_CROWN_WIDTH = fromPercentage(15)
 
 @Serializable
 data class HornOptions(

@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.*
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
@@ -121,7 +122,7 @@ data class BodyConfig(
 
     fun getShoulderWidth(bodyShape: BodyShape) = when (bodyShape) {
         Muscular -> widerWidth
-        Rectangle, Hourglass -> FULL.interpolate(widerWidth, Factor(0.33f))
+        Rectangle, Hourglass -> FULL.interpolate(widerWidth, fromPercentage(33))
         else -> FULL
     }
 

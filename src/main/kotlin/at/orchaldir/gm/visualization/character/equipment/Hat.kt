@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.item.equipment.Hat
 import at.orchaldir.gm.core.model.item.equipment.style.HatStyle
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
@@ -100,7 +101,7 @@ private fun visualizeCowboy(
     val options = FillAndBorder(hat.color.toRender(), state.config.line)
 
     val crown = buildCrown(state)
-    crown.addLeftPoint(state.aabb, CENTER, Factor(-0.1f))
+    crown.addLeftPoint(state.aabb, CENTER, fromPercentage(-10))
     crown.createSharpCorners(0)
 
     renderRoundedBuilder(state.renderer, crown, options, EQUIPMENT_LAYER)

@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -33,7 +34,7 @@ private fun visualizeSimpleTypography(
     state: TextRenderState,
     simple: SimpleTitleTypography,
 ) {
-    val width = state.aabb.convertWidth(Factor(0.8f))
+    val width = state.aabb.convertWidth(fromPercentage(80))
 
     when (simple.layout) {
         TypographyLayout.TopAndBottom, TypographyLayout.Top -> renderTop(state, state.data.title, width, simple.font)
@@ -54,7 +55,7 @@ private fun renderBottom(
     width: Distance,
     fontOption: FontOption,
 ) {
-    val bottom = state.aabb.getPoint(HALF, Factor(0.9f))
+    val bottom = state.aabb.getPoint(HALF, fromPercentage(90))
 
     renderString(state, text, bottom, width, fontOption, VerticalAlignment.Bottom)
 }
@@ -65,7 +66,7 @@ private fun renderTop(
     width: Distance,
     fontOption: FontOption,
 ) {
-    val top = state.aabb.getPoint(HALF, Factor(0.1f))
+    val top = state.aabb.getPoint(HALF, fromPercentage(10))
 
     renderString(state, text, top, width, fontOption, VerticalAlignment.Top)
 }
@@ -87,7 +88,7 @@ private fun visualizeSimpleTypography(
     simple: SimpleTypography,
     alignment: VerticalAlignment,
 ) {
-    val width = state.aabb.convertWidth(Factor(0.8f))
+    val width = state.aabb.convertWidth(fromPercentage(80))
     val entryAlignment = when (alignment) {
         VerticalAlignment.Top, VerticalAlignment.Bottom -> alignment
         VerticalAlignment.Center -> VerticalAlignment.Top
@@ -99,9 +100,9 @@ private fun visualizeSimpleTypography(
         TypographyOrder.TitleFirst -> listOf(titleEntry, authorEntry)
     }
     val position = when (alignment) {
-        VerticalAlignment.Top -> state.aabb.getPoint(HALF, Factor(0.1f))
+        VerticalAlignment.Top -> state.aabb.getPoint(HALF, fromPercentage(10))
         VerticalAlignment.Center -> state.aabb.getCenter()
-        VerticalAlignment.Bottom -> state.aabb.getPoint(HALF, Factor(0.9f))
+        VerticalAlignment.Bottom -> state.aabb.getPoint(HALF, fromPercentage(90))
     }
 
     renderWrappedStrings(state.renderer.getLayer(), entries, position, width, alignment)
@@ -111,7 +112,7 @@ private fun visualizeTopAndBottomLayout(
     state: TextRenderState,
     simple: SimpleTypography,
 ) {
-    val width = state.aabb.convertWidth(Factor(0.8f))
+    val width = state.aabb.convertWidth(fromPercentage(80))
 
     when (simple.order) {
         TypographyOrder.AuthorFirst -> {

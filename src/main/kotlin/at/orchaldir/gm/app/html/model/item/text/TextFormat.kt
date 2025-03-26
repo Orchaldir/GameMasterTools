@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -508,13 +509,13 @@ private fun parseEdgeProtection(parameters: Parameters) = when (parse(parameters
     EdgeProtectionType.None -> NoEdgeProtection
     EdgeProtectionType.Corners -> ProtectedCorners(
         parse(parameters, combine(EDGE, SHAPE), CornerShape.Triangle),
-        parseFactor(parameters, combine(EDGE, SIZE), Factor(0.2f)),
+        parseFactor(parameters, combine(EDGE, SIZE), DEFAULT_PROTECTED_CORNER_SIZE),
         parse(parameters, combine(EDGE, COLOR), Color.Crimson),
         parseMaterialId(parameters, combine(EDGE, MATERIAL)),
     )
 
     EdgeProtectionType.Edge -> ProtectedEdge(
-        parseFactor(parameters, combine(EDGE, SIZE), Factor(0.2f)),
+        parseFactor(parameters, combine(EDGE, SIZE), DEFAULT_PROTECTED_EDGE_WIDTH),
         parse(parameters, combine(EDGE, COLOR), Color.Crimson),
         parseMaterialId(parameters, combine(EDGE, MATERIAL)),
     )

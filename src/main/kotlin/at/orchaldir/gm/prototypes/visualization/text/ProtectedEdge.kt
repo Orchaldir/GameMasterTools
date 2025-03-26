@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Size2i
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
@@ -20,11 +21,11 @@ fun main() {
         "book-protect-edges.svg",
         TEXT_CONFIG,
         bookSize.toSize2d() + fromMillimeters(50),
-        addNames(listOf(0.05f, 0.1f, 0.15f, 0.2f)),
+        addNames(listOf(5, 10, 15, 20)),
         addNames(listOf(Color.Gray, Color.Gold)),
     ) { size, color ->
         val cover = BookCover(Color.Green, ID)
-        val protection = ProtectedEdge(Factor(size), color)
+        val protection = ProtectedEdge(fromPercentage(size), color)
 
         Book(
             100,

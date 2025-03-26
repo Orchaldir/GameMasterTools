@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -133,7 +134,7 @@ fun parseFill(parameters: Parameters, param: String = FILL): Fill {
             parse(parameters, combine(param, COLOR, 0), Color.Black),
             parse<Color>(parameters, combine(param, COLOR, 1)),
             parseFloat(parameters, combine(param, PATTERN, TILE), 1.0f),
-            parseFactor(parameters, combine(param, PATTERN, BORDER), Factor(0.1f))
+            parseFactor(parameters, combine(param, PATTERN, BORDER), fromPercentage(10))
         )
     }
 }

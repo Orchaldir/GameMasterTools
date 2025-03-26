@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -135,7 +136,7 @@ data class Footwear(
 data class Glasses(
     val lensShape: LensShape = LensShape.RoundedRectangle,
     val frameType: FrameType = FrameType.FullRimmed,
-    val lensFill: Fill = Transparent(Color.SkyBlue, Factor(0.5f)),
+    val lensFill: Fill = Transparent(Color.SkyBlue, fromPercentage(50)),
     val frameColor: Color = Color.Navy,
     val lensMaterial: MaterialId = MaterialId(0),
     val frameMaterial: MaterialId = MaterialId(0),

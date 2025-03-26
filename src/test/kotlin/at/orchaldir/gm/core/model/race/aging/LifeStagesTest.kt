@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.race.aging
 
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -11,8 +12,8 @@ class LifeStagesTest {
     @Nested
     inner class SimpleAgingTest {
         private val appearance = RaceAppearanceId(3)
-        val a = LifeStage("A", 2, Factor(10.0f))
-        val b = LifeStage("B", 4, Factor(20.0f))
+        val a = LifeStage("A", 2, fromPercentage(1000))
+        val b = LifeStage("B", 4, fromPercentage(2000))
         private val simpleAging = SimpleAging(appearance, listOf(a, b))
 
         @Test
@@ -48,25 +49,25 @@ class LifeStagesTest {
 
             @Test
             fun `Get relative size before being born`() {
-                assertRelativeSize(-1, 5.0f)
+                assertRelativeSize(-1, 500)
             }
 
             @Test
             fun `Get relative size`() {
-                assertRelativeSize(0, 5.0f)
-                assertRelativeSize(1, 7.5f)
-                assertRelativeSize(2, 10.0f)
-                assertRelativeSize(3, 15.0f)
-                assertRelativeSize(4, 20.0f)
+                assertRelativeSize(0, 500)
+                assertRelativeSize(1, 750)
+                assertRelativeSize(2, 1000)
+                assertRelativeSize(3, 1500)
+                assertRelativeSize(4, 2000)
             }
 
             @Test
             fun `Get relative size if too old`() {
-                assertRelativeSize(5, 20.0f)
+                assertRelativeSize(5, 2000)
             }
 
-            private fun assertRelativeSize(age: Int, relativeSize: Float) {
-                assertEquals(Factor(relativeSize), simpleAging.getRelativeSize(age))
+            private fun assertRelativeSize(age: Int, relativeSize: Int) {
+                assertEquals(fromPercentage(relativeSize), simpleAging.getRelativeSize(age))
             }
 
         }

@@ -1,10 +1,12 @@
 package at.orchaldir.gm.utils.math
 
+import at.orchaldir.gm.utils.math.Factor.Companion.fromNumber
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.Serializable
 import kotlin.math.min
 
-private val TWO = Factor(2.0f)
+private val TWO = fromPercentage(200)
 
 /**
  * An axis aligned bounding box.
@@ -116,9 +118,9 @@ data class AABB(val start: Point2d, val size: Size2d) {
 /**
  * Returns the start x coordinated, if the width is centered.
  */
-fun getStartX(width: Factor) = Factor(0.5f - width.value / 2.0f)
+fun getStartX(width: Factor) = fromNumber(0.5f - width.value / 2.0f)
 
 /**
  * Returns the start x coordinated, if the width is centered.
  */
-fun getEndX(width: Factor) = Factor(0.5f + width.value / 2.0f)
+fun getEndX(width: Factor) = fromNumber(0.5f + width.value / 2.0f)

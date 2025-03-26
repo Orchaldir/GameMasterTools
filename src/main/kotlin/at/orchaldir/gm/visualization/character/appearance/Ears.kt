@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
@@ -45,7 +46,7 @@ private fun visualizeRoundEars(
     size: Size,
     option: RenderOptions,
 ) {
-    val (left, right) = state.aabb.getMirroredPoints(Factor(1.0f), state.config.head.earY)
+    val (left, right) = state.aabb.getMirroredPoints(FULL, state.config.head.earY)
     val radius = state.config.head.ears.getRoundRadius(state.aabb, size)
 
     state.renderer.getLayer()
@@ -58,7 +59,7 @@ private fun visualizePointedSideways(
     size: Size,
     option: RenderOptions,
 ) {
-    val center = state.aabb.getPoint(Factor(1.0f), state.config.head.earY)
+    val center = state.aabb.getPoint(FULL, state.config.head.earY)
     val radius = state.config.head.ears.getRoundRadius(state.aabb, size)
     val offset = Point2d(0.0f, radius.toMeters())
     val top = center - offset
@@ -74,7 +75,7 @@ private fun visualizePointedUpwards(
     size: Size,
     option: RenderOptions,
 ) {
-    val center = state.aabb.getPoint(Factor(1.0f), state.config.head.earY)
+    val center = state.aabb.getPoint(FULL, state.config.head.earY)
     val radius = state.config.head.ears.getRoundRadius(state.aabb, size).toMeters()
     val offset = Point2d(0.0f, radius)
     val top = center - offset
