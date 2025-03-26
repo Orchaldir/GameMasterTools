@@ -62,7 +62,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         FootwearConfig(
             Factor(0.5f),
             Factor(0.7f),
-            Factor(0.8f),
+            Factor(0.9f),
             Factor(0.025f),
             Factor(0.02f),
         ),

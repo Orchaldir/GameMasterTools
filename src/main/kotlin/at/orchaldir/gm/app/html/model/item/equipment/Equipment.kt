@@ -173,7 +173,7 @@ private fun FORM.editEquipmentData(
     equipment: Equipment,
 ) {
     when (val data = equipment.data) {
-        NoEquipment, is Socks -> doNothing()
+        NoEquipment -> doNothing()
         is Belt -> editBelt(state, data)
         is Coat -> {
             selectValue("Length", LENGTH, OuterwearLength.entries, data.length, true)
@@ -251,6 +251,12 @@ private fun FORM.editEquipmentData(
             selectMaterial(state, data.material)
         }
 
+        is Socks -> {
+            selectValue("Style", STYLE, SocksStyle.entries, data.style, true)
+            selectFill(data.fill)
+            selectMaterial(state, data.material)
+        }
+
         is Tie -> {
             selectValue("Style", STYLE, TieStyle.entries, data.style, true)
             selectValue("Size", SIZE, Size.entries, data.size, true)
@@ -323,7 +329,7 @@ fun parseEquipment(id: EquipmentId, parameters: Parameters): Equipment {
 
 fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.None)) {
-        EquipmentDataType.None, EquipmentDataType.Socks -> NoEquipment
+        EquipmentDataType.None -> NoEquipment
         EquipmentDataType.Belt -> parseBelt(parameters)
         EquipmentDataType.Coat -> Coat(
             parse(parameters, LENGTH, OuterwearLength.Hip),
@@ -374,6 +380,12 @@ fun parseEquipmentData(parameters: Parameters) =
 
         EquipmentDataType.Skirt -> Skirt(
             parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
+            parseFill(parameters),
+            parseMaterialId(parameters, MATERIAL),
+        )
+
+        EquipmentDataType.Socks -> Socks(
+            parse(parameters, STYLE, SocksStyle.Quarter),
             parseFill(parameters),
             parseMaterialId(parameters, MATERIAL),
         )
