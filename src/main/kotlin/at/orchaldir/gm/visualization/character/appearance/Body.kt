@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.*
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
@@ -92,7 +93,7 @@ data class BodyConfig(
     fun getMirroredLegPoint(aabb: AABB, body: Body, vertical: Factor): Pair<Point2d, Point2d> {
         val torso = getTorsoAabb(aabb, body)
         val size = getLegSize(aabb, body)
-        val offset = Point2d(0.0f, size.height * vertical.value)
+        val offset = Point2d(0.0f, size.height * vertical.toNumber())
         val (left, right) = torso.getMirroredPoints(HALF, END)
 
         return Pair(left + offset, right + offset)
@@ -121,7 +122,7 @@ data class BodyConfig(
 
     fun getShoulderWidth(bodyShape: BodyShape) = when (bodyShape) {
         Muscular -> widerWidth
-        Rectangle, Hourglass -> FULL.interpolate(widerWidth, Factor(0.33f))
+        Rectangle, Hourglass -> FULL.interpolate(widerWidth, fromPercentage(33))
         else -> FULL
     }
 

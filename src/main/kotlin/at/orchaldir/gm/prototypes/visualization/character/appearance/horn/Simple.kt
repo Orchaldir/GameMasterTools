@@ -9,15 +9,16 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 
 fun main() {
     val appearances: MutableList<List<Appearance>> = mutableListOf()
 
-    listOf(Factor(0.6f), Factor(0.8f), Factor(1.0f)).forEach { length ->
+    listOf(60, 80, 10).forEach { length ->
         val horns = mutableListOf<Appearance>()
 
         SimpleHornType.entries.forEach { type ->
-            horns.add(createTwoHorns(scaleSimpleLength(type, length), type))
+            horns.add(createTwoHorns(scaleSimpleLength(type, fromPercentage(length)), type))
         }
 
         appearances.add(horns)

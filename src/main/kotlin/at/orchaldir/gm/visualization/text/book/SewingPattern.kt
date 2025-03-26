@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.item.text.book.SewingPattern
 import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.StitchType
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromNumber
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.renderRoundedPolygon
@@ -27,7 +27,7 @@ private fun visualizeSimpleSewingPattern(
 ) {
     val options = FillAndBorder(simple.color.toRender(), state.config.line)
     val parts = simple.stitches.size
-    val length = Factor(1.0f / parts.toFloat())
+    val length = fromNumber(1.0f / parts.toFloat())
     val half = length / 2.0f
     val radius = state.aabb.convertHeight(state.config.sewingRadius.convert(simple.size))
     val sewingLength = state.config.sewingLength.convert(simple.length)
@@ -61,7 +61,7 @@ private fun visualizeComplexSewingPattern(
     complex: ComplexSewingPattern,
 ) {
     val parts = complex.stitches.size
-    val length = Factor(1.0f / parts.toFloat())
+    val length = fromNumber(1.0f / parts.toFloat())
     val half = length / 2.0f
     var y = half
     val renderer = state.renderer.getLayer()

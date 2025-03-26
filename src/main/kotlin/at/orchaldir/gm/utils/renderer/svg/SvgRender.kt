@@ -296,7 +296,7 @@ class SvgRenderer(
         is RenderSolid -> toSvg(fill.color)
         is RenderTransparent -> {
             val color = toSvg(fill.color)
-            "$color;fill-opacity:${fill.opacity.value}"
+            "$color;fill-opacity:${fill.opacity.toNumber()}"
         }
 
         else -> {

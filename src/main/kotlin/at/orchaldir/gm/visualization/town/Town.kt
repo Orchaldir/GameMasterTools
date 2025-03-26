@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.world.town.StreetTile
 import at.orchaldir.gm.core.model.world.town.Town
 import at.orchaldir.gm.core.model.world.town.TownTile
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -111,7 +111,7 @@ data class TownRenderer(
     ) {
         val start = tileRenderer.calculateTilePosition(town.map, building.lot.tileIndex)
         val size = tileRenderer.calculateLotSize(building.lot.size)
-        val aabb = AABB(start, size).shrink(Factor(0.5f))
+        val aabb = AABB(start, size).shrink(HALF)
         val style = NoBorder(color.toRender())
 
         layer.renderRectangle(aabb, style)
@@ -123,7 +123,7 @@ data class TownRenderer(
 
 fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
     val style = NoBorder(color.toRender())
-    renderer.renderRectangle(tile.shrink(Factor(0.5f)), style)
+    renderer.renderRectangle(tile.shrink(HALF), style)
 }
 
 fun visualizeTown(

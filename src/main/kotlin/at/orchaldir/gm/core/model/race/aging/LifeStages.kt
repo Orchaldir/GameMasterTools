@@ -4,11 +4,13 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromNumber
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 private val immutable = LifeStage("Immutable", Int.MAX_VALUE)
-private val defaultRelativeSizes = listOf(0.2f, 0.4f, 0.6f, 0.95f, 1.0f, 1.0f, 0.95f, 0.9f)
+private val defaultRelativeSizes = listOf(20, 40, 60, 95, 100, 100, 95, 90)
 private val defaultLifeStagesMap = mutableMapOf<DefaultAging, List<LifeStage>>()
 
 enum class LifeStagesType {
@@ -90,7 +92,7 @@ data class DefaultAging(
     ) = LifeStage(
         DefaultLifeStages.entries[index].name,
         maxAges[index],
-        Factor(defaultRelativeSizes[index]),
+        fromPercentage(defaultRelativeSizes[index]),
         hasBeard,
         hairColor,
     )
@@ -150,7 +152,7 @@ private fun getRelativeSize(age: Int, lifeStages: List<LifeStage>): Factor {
         if (age <= stage.maxAge) {
             val ageDiff = age - previousAge
             val maxAgeDiff = stage.maxAge - previousAge
-            val factor = Factor(ageDiff / maxAgeDiff.toFloat())
+            val factor = fromNumber(ageDiff / maxAgeDiff.toFloat())
 
             return previousHeight.interpolate(stage.relativeSize, factor)
         }

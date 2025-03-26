@@ -1,9 +1,15 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.html.model.fieldFactor
+import at.orchaldir.gm.app.html.model.parseFactor
+import at.orchaldir.gm.app.html.model.selectPercentage
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseFloat
+import at.orchaldir.gm.app.parse.parseUByte
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -20,7 +26,7 @@ fun HtmlBlockTag.showFill(fill: Fill) {
         is Solid -> field("Solid Fill", fill.color)
         is Transparent -> {
             field("Solid Fill", fill.color)
-            field("Opacity", fill.opacity)
+            fieldFactor("Opacity", fill.opacity)
         }
 
         is VerticalStripes -> field("Vertical Stripes", "${fill.color0} & ${fill.color1}")
@@ -49,13 +55,13 @@ fun HtmlBlockTag.selectFill(fill: Fill, param: String = FILL) {
         is Solid -> selectColor(fill.color, selectId = combine(param, COLOR, 0))
         is Transparent -> {
             selectColor(fill.color, selectId = combine(param, COLOR, 0))
-            selectFloat(
+            selectPercentage(
                 "Opacity",
-                fill.opacity.value,
-                0.0f,
-                1.0f,
-                0.01f,
                 combine(param, OPACITY),
+                fill.opacity,
+                0,
+                100,
+                1,
                 true,
             )
         }
@@ -77,13 +83,13 @@ fun HtmlBlockTag.selectFill(fill: Fill, param: String = FILL) {
                 true
             )
             selectFloat("Tile in Meter", fill.width, 0.001f, 100f, 0.01f, combine(param, PATTERN, TILE), true)
-            selectFloat(
+            selectPercentage(
                 "Border in Percentage",
-                fill.borderPercentage.value,
-                0.01f,
-                0.9f,
-                0.01f,
                 combine(param, PATTERN, BORDER),
+                fill.borderPercentage,
+                1,
+                90,
+                1,
                 true
             )
         }
@@ -133,7 +139,7 @@ fun parseFill(parameters: Parameters, param: String = FILL): Fill {
             parse(parameters, combine(param, COLOR, 0), Color.Black),
             parse<Color>(parameters, combine(param, COLOR, 1)),
             parseFloat(parameters, combine(param, PATTERN, TILE), 1.0f),
-            parseFactor(parameters, combine(param, PATTERN, BORDER), Factor(0.1f))
+            parseFactor(parameters, combine(param, PATTERN, BORDER), fromPercentage(10))
         )
     }
 }

@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.appearance.beard
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.mouth.Mouth
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun getChinPuff(state: CharacterRenderState, head: Head): Polygon2d {
@@ -12,7 +13,7 @@ fun getChinPuff(state: CharacterRenderState, head: Head): Polygon2d {
 
 fun getGoatee(state: CharacterRenderState, head: Head): Polygon2d {
     val width = state.config.head.getGoateeWidth(head.mouth)
-    val (topLeft, topRight) = state.aabb.getMirroredPoints(width, Factor(0.95f))
+    val (topLeft, topRight) = state.aabb.getMirroredPoints(width, fromPercentage(95))
     val bottom = state.aabb.getPoint(CENTER, state.config.head.getGoateeBottomY())
 
     return Polygon2d(listOf(topLeft, topRight, bottom))

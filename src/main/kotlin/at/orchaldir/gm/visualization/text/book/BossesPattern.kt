@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.text.book.NoBosses
 import at.orchaldir.gm.core.model.item.text.book.SimpleBossesPattern
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromNumber
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
@@ -28,14 +28,14 @@ private fun visualizeSimpleBossesPattern(
 ) {
     val options = FillAndBorder(simple.color.toRender(), state.config.line)
     val parts = simple.pattern.size
-    val segmentHeight = Factor(1.0f / parts.toFloat())
+    val segmentHeight = fromNumber(1.0f / parts.toFloat())
     val radius = state.aabb.convertHeight(state.config.bossesRadius.convert(simple.size))
     val size = Size2d.square(radius * 2)
     var y = segmentHeight / 2.0f
     val renderer = state.renderer.getLayer()
 
     simple.pattern.forEach { count ->
-        val segmentWidth = Factor(1.0f / count.toFloat())
+        val segmentWidth = fromNumber(1.0f / count.toFloat())
         var x = segmentWidth / 2.0f
 
         repeat(count) {

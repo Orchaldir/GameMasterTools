@@ -33,7 +33,7 @@ data class MouthConfig(
 
     fun getHeight(mouth: Mouth) = when (mouth) {
         is FemaleMouth -> femaleHeight
-        NoMouth -> Factor(0.0f)
+        NoMouth -> ZERO
         is NormalMouth -> simpleHeight
         is Beak -> error("Beak is not supported!")
         is Snout -> error("Snout is not supported!")

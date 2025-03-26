@@ -4,6 +4,8 @@ import at.orchaldir.gm.core.model.character.appearance.mouth.Beak
 import at.orchaldir.gm.core.model.character.appearance.mouth.BeakShape
 import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
@@ -23,27 +25,27 @@ fun visualizeBeak(state: CharacterRenderState, beak: Beak) {
 private fun visualizeCrow(state: CharacterRenderState, beak: Beak) = visualizeSharpBeak(
     state,
     beak,
-    Factor(0.3f),
-    Factor(0.18f),
-    Factor(0.15f),
-    Factor(0.45f),
+    fromPercentage(30),
+    fromPercentage(18),
+    fromPercentage(15),
+    fromPercentage(45),
     false,
 )
 
 private fun visualizeHawk(state: CharacterRenderState, beak: Beak) = visualizeSharpBeak(
     state,
     beak,
-    Factor(0.4f),
-    Factor(0.15f),
-    Factor(0.25f),
-    Factor(0.35f),
+    fromPercentage(40),
+    fromPercentage(15),
+    fromPercentage(25),
+    fromPercentage(35),
     true,
 )
 
 private fun visualizeParrot(state: CharacterRenderState, beak: Beak) {
-    val width = Factor(0.4f)
-    val upperHeight = Factor(0.25f)
-    val peakHeight = Factor(0.35f)
+    val width = fromPercentage(40)
+    val upperHeight = fromPercentage(25)
+    val peakHeight = fromPercentage(35)
     val y = state.config.head.mouth.y
     val options = state.config.getLineOptions(beak.color)
     val upperPolygon = Polygon2dBuilder()
@@ -85,11 +87,11 @@ private fun visualizeSharpBeak(
 }
 
 private fun visualizeDuckBeak(state: CharacterRenderState, beak: Beak) {
-    val lowerHeight = Factor(0.125f)
-    val lowerWidth = Factor(0.35f)
-    val upperHeight0 = Factor(0.2f)
-    val upperHeight1 = Factor(0.1f)
-    val upperWidth = Factor(0.5f)
+    val lowerHeight = fromPermille(125)
+    val lowerWidth = fromPercentage(35)
+    val upperHeight0 = fromPercentage(20)
+    val upperHeight1 = fromPercentage(10)
+    val upperWidth = fromPercentage(50)
     val y = state.config.head.mouth.y
     val options = state.config.getLineOptions(beak.color)
     val lowerPolygon = Polygon2dBuilder()
@@ -97,8 +99,8 @@ private fun visualizeDuckBeak(state: CharacterRenderState, beak: Beak) {
         .addMirroredPoints(state.aabb, lowerWidth, y + lowerHeight)
         .build()
     val upperPolygon = Polygon2dBuilder()
-        .addMirroredPoints(state.aabb, Factor(0.1f), y - upperHeight0)
-        .addMirroredPoints(state.aabb, Factor(0.2f), y - upperHeight1)
+        .addMirroredPoints(state.aabb, fromPercentage(10), y - upperHeight0)
+        .addMirroredPoints(state.aabb, fromPercentage(20), y - upperHeight1)
         .addMirroredPoints(state.aabb, upperWidth, y)
         .addMirroredPoints(state.aabb, upperWidth, y + upperHeight1)
         .addLeftPoint(state.aabb, CENTER, y + upperHeight1 / 2.0f)

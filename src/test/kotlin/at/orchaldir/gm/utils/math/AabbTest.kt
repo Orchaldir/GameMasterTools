@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils.math
 
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -38,14 +39,14 @@ class AabbTest {
 
     @Test
     fun `Get point inside AABB`() {
-        val point = aabb.getPoint(Factor(0.5f), Factor(0.25f))
+        val point = aabb.getPoint(fromPercentage(50), fromPercentage(25))
 
         assertEquals(Point2d(17.0f, 18.0f), point)
     }
 
     @Test
     fun `Get mirrored points inside AABB`() {
-        val (left, right) = aabb.getMirroredPoints(Factor(0.5f), Factor(0.25f))
+        val (left, right) = aabb.getMirroredPoints(fromPercentage(50), fromPercentage(25))
 
         assertEquals(Point2d(9.5f, 18.0f), left)
         assertEquals(Point2d(24.5f, 18.0f), right)
@@ -58,12 +59,12 @@ class AabbTest {
 
     @Test
     fun `Shrink by a factor`() {
-        assertEquals(AABB(9.5f, 18.0f, 15.0f, 30.0f), aabb.shrink(Factor(0.5f)))
+        assertEquals(AABB(9.5f, 18.0f, 15.0f, 30.0f), aabb.shrink(fromPercentage(50)))
     }
 
     @Test
     fun `Shrink by another factor`() {
-        assertEquals(AABB(3.5f, 6.0f, 27.0f, 54.0f), aabb.shrink(Factor(0.1f)))
+        assertEquals(AABB(3.5f, 6.0f, 27.0f, 54.0f), aabb.shrink(fromPercentage(10)))
     }
 
     @Test

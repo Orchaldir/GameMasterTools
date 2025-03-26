@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
-import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Orientation.Companion.fromDegree
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
@@ -18,7 +18,7 @@ fun main() {
     val appearances: MutableList<List<Appearance>> = mutableListOf()
     val mouflon = CurvedHorn(fromDegree(180.0f))
     val waterBuffalo = CurvedHorn(fromDegree(-120.0f))
-    val wave = SpiralHorn(4, Factor(0.1f))
+    val wave = SpiralHorn(4, fromPercentage(10))
 
     HornPosition.entries.forEach { position ->
         val horns = mutableListOf<Appearance>()
@@ -40,8 +40,8 @@ private fun createTwoHorns(position: HornPosition, orientation: Orientation, sha
     createAppearance(TwoHorns(createHorn(position, orientation, shape)))
 
 private fun createHorn(position: HornPosition, orientation: Orientation, shape: HornShape) = ComplexHorn(
-    Factor(1.0f),
-    Factor(0.2f),
+    fromPercentage(100),
+    fromPercentage(20),
     position,
     orientation,
     shape,

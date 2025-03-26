@@ -1,31 +1,64 @@
 package at.orchaldir.gm.utils.math
 
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.Serializable
 
-val START = Factor(0.0f)
-val ZERO = Factor(0.0f)
-val CENTER = Factor(0.5f)
-val HALF = Factor(0.5f)
-val END = Factor(1.0f)
-val FULL = Factor(1.0f)
+val START = fromPercentage(0)
+val ZERO = fromPercentage(0)
+val CENTER = fromPercentage(50)
+val HALF = fromPercentage(50)
+val END = fromPercentage(100)
+val FULL = fromPercentage(100)
+
+private const val NUMBER_FACTOR = 10000
+private const val PERCENTAGE_FACTOR = 100
+private const val PERMILLE_FACTOR = 10
 
 /**
- * A distance relative to the parent AABB.
+ * A number stored as permyriad (1 in 10k), but mostly used ro represent percentage.
  */
 @JvmInline
 @Serializable
-value class Factor(val value: Float) {
+value class Factor private constructor(private val permyriad: Int) {
 
-    operator fun unaryMinus() = Factor(-value)
-    operator fun plus(other: Factor) = Factor(value + other.value)
-    operator fun minus(other: Factor) = Factor(value - other.value)
-    operator fun times(other: Factor) = Factor(value * other.value)
-    operator fun times(other: Float) = Factor(value * other)
-    operator fun div(other: Factor) = Factor(value / other.value)
-    operator fun div(other: Float) = Factor(value / other)
-    operator fun div(factor: Int) = Factor(value / factor)
+    companion object {
+        fun fromNumber(number: Float) = Factor((number * NUMBER_FACTOR).toInt())
+        fun fromPercentage(percentage: Int) = Factor(percentage * PERCENTAGE_FACTOR)
+        fun fromPermille(permille: Int) = Factor(permille * PERMILLE_FACTOR)
+        fun fromPermyriad(permyriad: Int) = Factor(permyriad)
+    }
 
-    fun interpolate(other: Factor, between: Factor) =
-        Factor(value * (1.0f - between.value) + other.value * between.value)
+    fun requireGreaterZero(text: String) = require(permyriad > 0) { text }
 
+    fun toNumber() = permyriad / NUMBER_FACTOR.toFloat()
+    fun toPercentage() = permyriad / PERCENTAGE_FACTOR.toFloat()
+    fun toPermyriad() = permyriad
+
+    override fun toString() = formatAsFactor(permyriad)
+
+    operator fun unaryMinus() = Factor(-permyriad)
+    operator fun plus(other: Factor) = Factor(permyriad + other.permyriad)
+    operator fun minus(other: Factor) = Factor(permyriad - other.permyriad)
+    operator fun times(other: Factor) = fromNumber(toNumber() * other.toNumber())
+    operator fun times(other: Float) = Factor((permyriad * other).toInt())
+    operator fun div(other: Factor) = fromNumber(toNumber() / other.toNumber())
+    operator fun div(other: Float) = Factor((permyriad / other).toInt())
+    operator fun div(factor: Int) = Factor(permyriad / factor)
+
+    fun interpolate(other: Factor, between: Factor) = this * (FULL - between) + other * between
+
+}
+
+fun percentageOnly(permyriad: Int) = permyriad / PERCENTAGE_FACTOR
+fun permilleOnly(permyriad: Int) = (permyriad % PERCENTAGE_FACTOR) / PERMILLE_FACTOR
+
+fun formatAsFactor(permyriad: Int): String {
+    val percentageOnly = percentageOnly(permyriad)
+    val permilleOnly = permilleOnly(permyriad)
+
+    return if (permilleOnly == 0) {
+        "$percentageOnly%"
+    } else {
+        String.format("%d.%01d%%", percentageOnly, permilleOnly)
+    }
 }

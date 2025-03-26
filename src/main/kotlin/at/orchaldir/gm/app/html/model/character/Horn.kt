@@ -2,7 +2,12 @@ package at.orchaldir.gm.app.html.model.character
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.*
+import at.orchaldir.gm.app.html.model.parseFactor
+import at.orchaldir.gm.app.html.model.selectPercentage
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.parseOrientation
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.generator.generateHorn
 import at.orchaldir.gm.core.generator.generateHorns
@@ -107,13 +112,13 @@ private fun HtmlBlockTag.editHornShape(
                     combine(param, NUMBER),
                     true,
                 )
-                selectFloat(
+                selectPercentage(
                     "Amplitude",
-                    shape.amplitude.value,
-                    0.01f,
-                    1.0f,
-                    0.01f,
                     combine(param, LENGTH),
+                    shape.amplitude,
+                    1,
+                    100,
+                    1,
                     true,
                 )
             }
@@ -134,37 +139,37 @@ private fun HtmlBlockTag.selectOrientation(param: String, offset: Orientation, m
 }
 
 fun HtmlBlockTag.selectHornLength(param: String, length: Factor) {
-    selectFloat(
+    selectPercentage(
         "Horn Length",
-        length.value,
-        0.1f,
-        2.0f,
-        0.05f,
         combine(param, LENGTH),
+        length,
+        10,
+        200,
+        5,
         true,
     )
 }
 
 fun HtmlBlockTag.selectHornWidth(param: String, width: Factor) {
-    selectFloat(
+    selectPercentage(
         "Horn Width",
-        width.value,
-        0.01f,
-        0.5f,
-        0.01f,
         combine(param, WIDTH),
+        width,
+        1,
+        50,
+        1,
         true,
     )
 }
 
 fun HtmlBlockTag.selectCrownLength(length: Factor) {
-    selectFloat(
+    selectPercentage(
         "Horn Length",
-        length.value,
-        0.01f,
-        0.5f,
-        0.01f,
         combine(CROWN, LENGTH),
+        length,
+        1,
+        50,
+        1,
         true,
     )
 }

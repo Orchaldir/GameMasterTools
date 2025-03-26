@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -58,10 +57,6 @@ fun HtmlBlockTag.split(left: DIV.() -> Unit, right: DIV.() -> Unit) {
 
 fun HtmlBlockTag.field(name: String, value: Int) {
     field(name, value.toString())
-}
-
-fun HtmlBlockTag.field(name: String, factor: Factor) {
-    field(name, "${factor.value * 100}%")
 }
 
 fun <T : Enum<T>> HtmlBlockTag.field(name: String, value: T) {

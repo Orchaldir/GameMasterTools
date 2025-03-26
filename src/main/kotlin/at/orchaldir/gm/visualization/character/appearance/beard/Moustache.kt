@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.appearance.beard
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -13,7 +14,7 @@ fun getFuManchu(state: CharacterRenderState, head: Head): Polygon2d {
     val mouthTopY = config.head.mouth.getTopY(head.mouth)
     val thickness = config.head.beard.mediumThickness
     val mouthWidth = config.head.mouth.getWidth(head.mouth)
-    val deltaY = Factor(0.02f)
+    val deltaY = fromPercentage(2)
     val outerWidth = mouthWidth + thickness * 2.0f
     val topY = mouthTopY - thickness - deltaY
     val bottomY = config.head.getGoateeBottomY()
@@ -46,7 +47,7 @@ fun getHandlebar(state: CharacterRenderState, head: Head): Polygon2d {
     val centerY = mouthTopY - thickness
     val bottomY = mouthTopY + thickness
     val innerY = bottomY - thickness
-    val topY = innerY - Factor(0.1f)
+    val topY = innerY - fromPercentage(10)
     val bottom = aabb.getPoint(CENTER, centerY)
     val top = aabb.getPoint(CENTER, centerY - thickness)
     val (topLeft, topRight) = aabb.getMirroredPoints(width, topY)

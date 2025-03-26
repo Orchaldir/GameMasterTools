@@ -6,13 +6,14 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.renderPolygon
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 
-private val HEAD_WIDTH = Factor(1.0f)
+private val HEAD_WIDTH = FULL
 
 data class HairConfig(
     val afroDiameter: Factor,
@@ -51,7 +52,7 @@ private fun visualizeNormalHair(state: CharacterRenderState, hair: NormalHair) {
 
     when (hair.style) {
         is BuzzCut ->
-            visualizeRectangleHair(state, options, HEAD_WIDTH, Factor(0.0f))
+            visualizeRectangleHair(state, options, HEAD_WIDTH, START)
 
         is FlatTop -> visualizeFlatTop(state, options, config)
 
@@ -88,7 +89,7 @@ private fun visualizeFlatTop(
         return
     }
 
-    visualizeRectangleHair(state, options, HEAD_WIDTH, config.head.hair.flatTopY, Factor(1.1f))
+    visualizeRectangleHair(state, options, HEAD_WIDTH, config.head.hair.flatTopY, fromPercentage(110))
 }
 
 private fun visualizeMiddlePart(
@@ -101,7 +102,7 @@ private fun visualizeMiddlePart(
     val (bottomLeft, bottomRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hairlineY)
     val (topLeft, topRight) = aabb.getMirroredPoints(HEAD_WIDTH, START)
     val bottomCenter = aabb.getPoint(x, config.head.hairlineY)
-    val topCenter = aabb.getPoint(x, Factor(0.0f))
+    val topCenter = aabb.getPoint(x, START)
 
     renderRoundedPolygon(
         state.renderer.getLayer(),

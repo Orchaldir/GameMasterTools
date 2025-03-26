@@ -75,7 +75,7 @@ private fun HtmlBlockTag.showLifeStage(stage: LifeStage) {
             showMaxAge(stage.maxAge)
         }
         li {
-            showRelativeSize(stage.relativeSize)
+            fieldFactor("Relative Size", stage.relativeSize)
         }
         if (stage.hasBeard) {
             li {
@@ -102,10 +102,6 @@ private fun HtmlBlockTag.showAppearance(
 
 private fun HtmlBlockTag.showMaxAge(maxAge: Int) {
     field("Max Age", maxAge)
-}
-
-private fun HtmlBlockTag.showRelativeSize(size: Factor) {
-    field("Relative Size", size.value.toString())
 }
 
 // edit
@@ -230,7 +226,7 @@ private fun LI.selectRelativeSize(
     size: Factor,
     index: Int,
 ) {
-    selectFloat("Relative Size", size.value, 0.01f, 1.0f, 0.01f, combine(LIFE_STAGE, SIZE, index), true)
+    selectPercentage("Relative Size", combine(LIFE_STAGE, SIZE, index), size, 1, 100, 1, true)
 }
 
 private fun HtmlBlockTag.selectAppearance(

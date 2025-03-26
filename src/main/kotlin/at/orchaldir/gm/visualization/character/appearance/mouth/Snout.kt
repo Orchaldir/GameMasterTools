@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -24,13 +25,13 @@ fun visualizeSnout(state: CharacterRenderState, snout: Snout) {
 }
 
 private fun visualizeCat(state: CharacterRenderState, snout: Snout) {
-    val radius = state.aabb.convertHeight(Factor(0.08f))
-    val thickness = state.aabb.convertHeight(Factor(0.04f))
+    val radius = state.aabb.convertHeight(fromPercentage(8))
+    val thickness = state.aabb.convertHeight(fromPercentage(4))
     val options = NoBorder(snout.color.toRender())
     val lineOptions = LineOptions(snout.color.toRender(), thickness)
-    val center = state.aabb.getPoint(CENTER, Factor(0.6f))
-    val lineCenter = state.aabb.getPoint(CENTER, Factor(0.8f))
-    val (left, right) = state.aabb.getMirroredPoints(Factor(0.2f), Factor(0.85f))
+    val center = state.aabb.getPoint(CENTER, fromPercentage(60))
+    val lineCenter = state.aabb.getPoint(CENTER, fromPercentage(80))
+    val (left, right) = state.aabb.getMirroredPoints(fromPercentage(20), fromPercentage(85))
 
     state.renderer.getLayer().apply {
         renderCircleArc(center, radius, HALF_CIRCLE, HALF_CIRCLE, options)
@@ -44,24 +45,24 @@ private fun visualizeCow(state: CharacterRenderState, snout: Snout) =
     visualizeRoundedSnoutWithCircleNostrils(
         state,
         snout,
-        Factor(0.6f),
-        Factor(1.1f),
-        Factor(1.1f),
-        Factor(0.7f),
-        Factor(0.8f),
-        Factor(0.1f),
+        fromPercentage(60),
+        fromPercentage(110),
+        fromPercentage(110),
+        fromPercentage(70),
+        fromPercentage(80),
+        fromPercentage(10),
     )
 
 private fun visualizeDog(state: CharacterRenderState, snout: Snout) {
     val options = state.config.getLineOptions(snout.color)
-    val lineThickness = Factor(0.04f)
+    val lineThickness = fromPercentage(4)
     val lineHalf = lineThickness / 2.0f
-    val mouthY = Factor(0.85f)
-    val mouthWidth = Factor(0.3f)
+    val mouthY = fromPercentage(85)
+    val mouthWidth = fromPercentage(30)
     val polygon = Polygon2dBuilder()
-        .addMirroredPoints(state.aabb, Factor(0.2f), Factor(0.6f))
-        .addMirroredPoints(state.aabb, Factor(0.2f), Factor(0.7f))
-        .addMirroredPoints(state.aabb, lineThickness, Factor(0.75f))
+        .addMirroredPoints(state.aabb, fromPercentage(20), fromPercentage(60))
+        .addMirroredPoints(state.aabb, fromPercentage(20), fromPercentage(70))
+        .addMirroredPoints(state.aabb, lineThickness, fromPercentage(75))
         .addMirroredPoints(state.aabb, lineThickness, mouthY - lineHalf, true)
         .addMirroredPoints(state.aabb, mouthWidth, mouthY - lineHalf, true)
         .addMirroredPoints(state.aabb, mouthWidth, mouthY + lineHalf, true)
@@ -75,19 +76,19 @@ private fun visualizePig(state: CharacterRenderState, snout: Snout) =
     visualizeRoundedSnoutWithCircleNostrils(
         state,
         snout,
-        Factor(0.6f),
-        Factor(0.9f),
-        Factor(0.3f),
-        Factor(0.15f),
-        Factor(0.75f),
-        Factor(0.05f),
+        fromPercentage(60),
+        fromPercentage(90),
+        fromPercentage(30),
+        fromPercentage(15),
+        fromPercentage(75),
+        fromPercentage(5),
     )
 
 private fun visualizeReptile(state: CharacterRenderState, snout: Snout) {
     val options = NoBorder(Color.Black.toRender())
-    val noseWidth = state.aabb.convertHeight(Factor(0.05f))
+    val noseWidth = state.aabb.convertHeight(fromPercentage(5))
     val noseHeight = noseWidth / 2.0f
-    val (left, right) = state.aabb.getMirroredPoints(Factor(0.2f), Factor(0.6f))
+    val (left, right) = state.aabb.getMirroredPoints(fromPercentage(20), fromPercentage(60))
     val orientation = Orientation.fromDegree(45.0f)
     val renderer = state.renderer.getLayer()
 

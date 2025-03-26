@@ -5,8 +5,6 @@ import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation
 import io.ktor.http.*
 
@@ -109,9 +107,6 @@ fun parseOptionalInt(parameters: Parameters, param: String): Int? {
 }
 
 fun parseUByte(parameters: Parameters, param: String, default: UByte = 0u) = parameters[param]?.toUByte() ?: default
-
-fun parseFactor(parameters: Parameters, param: String, default: Factor = FULL) =
-    parameters[param]?.toFloat()?.let { Factor(it) } ?: default
 
 fun parseOrientation(parameters: Parameters, param: String, default: Orientation = Orientation.zero()) =
     parameters[param]?.toFloat()?.let { Orientation.fromDegree(it) } ?: default

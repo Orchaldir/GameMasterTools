@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.appearance.horn
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -85,7 +86,7 @@ private fun createLeftHornInFront(
     horn: ComplexHorn,
     builder: Polygon2dBuilder,
 ) {
-    val x = Factor(0.8f)
+    val x = fromPercentage(80)
     val halfWidth = horn.getWidth() / 2.0f
     val y = state.config.head.hornConfig.y + halfWidth
 
@@ -114,7 +115,7 @@ private fun createLeftHornAtTop(
     horn: ComplexHorn,
     builder: Polygon2dBuilder,
 ) {
-    val x = Factor(0.8f)
+    val x = fromPercentage(80)
     val halfWidth = horn.getWidth() / 2.0f
 
     builder.addRightPoint(state.aabb, x - halfWidth, START, true)

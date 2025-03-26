@@ -44,7 +44,7 @@ data class SpiralHorn(
 
     init {
         require(cycles in MIN_SPIRAL_CYCLES..MAX_SPIRAL_CYCLES) { "Invalid number of cycles!" }
-        require(amplitude.value > 0.0f) { "Amplitude must be positive!" }
+        amplitude.requireGreaterZero("Amplitude must be positive!")
     }
 
 }

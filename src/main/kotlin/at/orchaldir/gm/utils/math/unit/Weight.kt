@@ -31,7 +31,7 @@ value class Weight private constructor(private val grams: Int) : SiUnit<Weight> 
     override operator fun plus(other: Weight) = Weight(grams + other.grams)
     override operator fun minus(other: Weight) = Weight(grams - other.grams)
     operator fun times(factor: Float) = Weight((grams * factor).toInt())
-    operator fun times(factor: Factor) = times(factor.value)
+    operator fun times(factor: Factor) = times(factor.toNumber())
     operator fun times(factor: Int) = Weight(grams * factor)
     operator fun div(factor: Float) = Weight((grams / factor).toInt())
     operator fun div(factor: Int) = Weight(grams / factor)
