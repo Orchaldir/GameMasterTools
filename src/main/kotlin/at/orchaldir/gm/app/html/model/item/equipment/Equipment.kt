@@ -44,7 +44,7 @@ private fun BODY.showEquipmentData(
     field("Type", equipment.data.getType())
 
     when (val data = equipment.data) {
-        NoEquipment, is Socks -> doNothing()
+        NoEquipment -> doNothing()
         is Belt -> showBelt(call, state, data)
         is Coat -> {
             field("Length", data.length)
@@ -111,6 +111,12 @@ private fun BODY.showEquipmentData(
         }
 
         is Skirt -> {
+            field("Style", data.style)
+            showFill(data.fill)
+            fieldLink("Material", call, state, data.material)
+        }
+
+        is Socks -> {
             field("Style", data.style)
             showFill(data.fill)
             fieldLink("Material", call, state, data.material)
