@@ -71,7 +71,7 @@ fun visualizeClaws(
     var position = center - step * ((foot.count - 1) / 2.0f)
     val clawLength = (radius * state.config.body.foot.clawSize.convert(foot.size)).toMeters()
     val clawLengthHalf = clawLength / 2.0f
-    val clawWidth = clawLength * state.config.body.foot.clawLengthToWidth.value
+    val clawWidth = clawLength * state.config.body.foot.clawLengthToWidth.toNumber()
     val clawWidthHalf = clawWidth / 2.0f
 
     repeat(foot.count) {

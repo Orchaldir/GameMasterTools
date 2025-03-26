@@ -41,7 +41,7 @@ data class SimpleHorn(
 ) : Horn() {
 
     init {
-        require(length.value > 0.0f) { "Length must be positive!" }
+        length.requireGreaterZero("Length must be positive!")
     }
 }
 
@@ -57,8 +57,8 @@ data class ComplexHorn(
 ) : Horn() {
 
     init {
-        require(length.value > 0.0f) { "Length must be positive!" }
-        require(relativeWidth.value > 0.0f) { "Relative width must be positive!" }
+        length.requireGreaterZero("Length must be positive!")
+        relativeWidth.requireGreaterZero("Relative width must be positive!")
     }
 
     fun getWidth() = length * relativeWidth

@@ -52,7 +52,7 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     fun convertMinSide(factor: Factor) = convertSide(min(size.width, size.height), factor)
 
-    private fun convertSide(side: Float, factor: Factor) = Distance.fromMeters(side * factor.value)
+    private fun convertSide(side: Float, factor: Factor) = Distance.fromMeters(side * factor.toNumber())
 
     fun getCorners(): List<Point2d> {
         return listOf(
@@ -64,8 +64,8 @@ data class AABB(val start: Point2d, val size: Size2d) {
     }
 
     fun getPoint(horizontal: Factor, vertical: Factor) = Point2d(
-        start.x + size.width * horizontal.value,
-        start.y + size.height * vertical.value,
+        start.x + size.width * horizontal.toNumber(),
+        start.y + size.height * vertical.toNumber(),
     )
 
     fun getMirroredPoints(width: Factor, vertical: Factor): Pair<Point2d, Point2d> {
@@ -118,9 +118,9 @@ data class AABB(val start: Point2d, val size: Size2d) {
 /**
  * Returns the start x coordinated, if the width is centered.
  */
-fun getStartX(width: Factor) = fromNumber(0.5f - width.value / 2.0f)
+fun getStartX(width: Factor) = fromNumber(0.5f - width.toNumber() / 2.0f)
 
 /**
  * Returns the start x coordinated, if the width is centered.
  */
-fun getEndX(width: Factor) = fromNumber(0.5f + width.value / 2.0f)
+fun getEndX(width: Factor) = fromNumber(0.5f + width.toNumber() / 2.0f)

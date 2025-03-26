@@ -15,13 +15,19 @@ val FULL = fromPercentage(100)
  */
 @JvmInline
 @Serializable
-value class Factor private constructor(val value: Float) {
+value class Factor private constructor(private val value: Float) {
 
     companion object {
         fun fromNumber(number: Float) = Factor(number)
         fun fromPercentage(percentage: Int) = Factor(percentage / 100.0f)
         fun fromPermille(permille: Int) = Factor(permille / 1000.0f)
     }
+
+    fun requireGreaterZero(text: String) = require(value > 0.0f) { text }
+
+    fun toNumber() = value
+    fun toPercentage() = value * 100
+    fun toInternalValue() = value
 
     operator fun unaryMinus() = Factor(-value)
     operator fun plus(other: Factor) = Factor(value + other.value)

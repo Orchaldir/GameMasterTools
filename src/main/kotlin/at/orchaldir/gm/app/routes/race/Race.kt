@@ -209,7 +209,7 @@ private fun HTML.showGallery(
 
         div("grid-container") {
             races.forEach { race ->
-                val lifeStage = race.lifeStages.getAllLifeStages().maxBy { it.relativeSize.value }
+                val lifeStage = race.lifeStages.getAllLifeStages().maxBy { it.relativeSize.toInternalValue() }
                 val appearance = generateAppearance(state, race, race.genders.getValidValues().first())
                 val appearanceForAge = getAppearanceForAge(race, appearance, lifeStage.maxAge)
                 val svg = visualizeAppearance(CHARACTER_CONFIG, maxSize, appearanceForAge)

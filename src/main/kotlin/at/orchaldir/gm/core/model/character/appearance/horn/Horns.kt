@@ -56,8 +56,8 @@ data class CrownOfHorns(
     init {
         require(front in VALID_CROWN_HORNS) { "Invalid number of horns in the front!" }
         require(back in VALID_CROWN_HORNS) { "Invalid number of horns in the back!" }
-        require(length.value > 0.0f) { "Length must be positive!" }
-        require(width.value > 0.0f) { "Width must be positive!" }
+        length.requireGreaterZero("Length must be positive!")
+        width.requireGreaterZero("Width must be positive!")
     }
 }
 

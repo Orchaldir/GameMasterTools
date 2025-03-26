@@ -61,7 +61,7 @@ fun HtmlBlockTag.field(name: String, value: Int) {
 }
 
 fun HtmlBlockTag.field(name: String, factor: Factor) {
-    field(name, "${factor.value * 100}%")
+    field(name, "${factor.toPercentage()}%")
 }
 
 fun <T : Enum<T>> HtmlBlockTag.field(name: String, value: T) {

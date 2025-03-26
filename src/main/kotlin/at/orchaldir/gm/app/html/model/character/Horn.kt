@@ -109,7 +109,7 @@ private fun HtmlBlockTag.editHornShape(
                 )
                 selectFloat(
                     "Amplitude",
-                    shape.amplitude.value,
+                    shape.amplitude.toNumber(),
                     0.01f,
                     1.0f,
                     0.01f,
@@ -136,7 +136,7 @@ private fun HtmlBlockTag.selectOrientation(param: String, offset: Orientation, m
 fun HtmlBlockTag.selectHornLength(param: String, length: Factor) {
     selectFloat(
         "Horn Length",
-        length.value,
+        length.toNumber(),
         0.1f,
         2.0f,
         0.05f,
@@ -148,7 +148,7 @@ fun HtmlBlockTag.selectHornLength(param: String, length: Factor) {
 fun HtmlBlockTag.selectHornWidth(param: String, width: Factor) {
     selectFloat(
         "Horn Width",
-        width.value,
+        width.toNumber(),
         0.01f,
         0.5f,
         0.01f,
@@ -160,7 +160,7 @@ fun HtmlBlockTag.selectHornWidth(param: String, width: Factor) {
 fun HtmlBlockTag.selectCrownLength(length: Factor) {
     selectFloat(
         "Horn Length",
-        length.value,
+        length.toNumber(),
         0.01f,
         0.5f,
         0.01f,

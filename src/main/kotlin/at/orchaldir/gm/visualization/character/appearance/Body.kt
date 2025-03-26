@@ -93,7 +93,7 @@ data class BodyConfig(
     fun getMirroredLegPoint(aabb: AABB, body: Body, vertical: Factor): Pair<Point2d, Point2d> {
         val torso = getTorsoAabb(aabb, body)
         val size = getLegSize(aabb, body)
-        val offset = Point2d(0.0f, size.height * vertical.value)
+        val offset = Point2d(0.0f, size.height * vertical.toNumber())
         val (left, right) = torso.getMirroredPoints(HALF, END)
 
         return Pair(left + offset, right + offset)
