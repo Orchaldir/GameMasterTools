@@ -1,6 +1,10 @@
 package at.orchaldir.gm.utils.math
 
+import at.orchaldir.gm.utils.math.Factor.Companion.fromNumber
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -45,6 +49,15 @@ class FactorTest {
     @Test
     fun `Test div with factor`() {
         assertEquals(fromPercentage(400), fromPercentage(200) / fromPercentage(50))
+    }
+
+    @Test
+    fun `Factor to string`() {
+        assertEquals("123%", fromPercentage(123).toString())
+        assertEquals("12%", fromPercentage(12).toString())
+        assertEquals("1%", fromPercentage(1).toString())
+        assertEquals("12.3%", fromPermille(123).toString())
+        assertEquals("12.3%", fromNumber(0.1234f).toString())
     }
 
     @Test

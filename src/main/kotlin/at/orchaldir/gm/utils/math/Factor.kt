@@ -33,6 +33,8 @@ value class Factor private constructor(private val permyriad: Int) {
     fun toPercentage() = permyriad / PERCENTAGE_FACTOR.toFloat()
     fun toInternalValue() = toNumber()//permyriad
 
+    override fun toString() = formatFactor(permyriad)
+
     operator fun unaryMinus() = Factor(-permyriad)
     operator fun plus(other: Factor) = Factor(permyriad + other.permyriad)
     operator fun minus(other: Factor) = Factor(permyriad - other.permyriad)
@@ -44,4 +46,18 @@ value class Factor private constructor(private val permyriad: Int) {
 
     fun interpolate(other: Factor, between: Factor) = this * (FULL - between) + other * between
 
+}
+
+fun percentageOnly(permyriad: Int) = permyriad / PERCENTAGE_FACTOR
+fun permilleOnly(permyriad: Int) = (permyriad % PERCENTAGE_FACTOR) / PERMILLE_FACTOR
+
+fun formatFactor(permyriad: Int): String {
+    val percentageOnly = percentageOnly(permyriad)
+    val permilleOnly = permilleOnly(permyriad)
+
+    return if (permilleOnly == 0) {
+        "$percentageOnly%"
+    } else {
+        String.format("%d.%01d%%", percentageOnly, permilleOnly)
+    }
 }
