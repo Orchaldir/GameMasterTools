@@ -4,8 +4,8 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.character.selectCrownLength
 import at.orchaldir.gm.app.html.model.character.selectHornLength
+import at.orchaldir.gm.app.html.model.parseFactor
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parseFactor
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.core.model.character.appearance.*

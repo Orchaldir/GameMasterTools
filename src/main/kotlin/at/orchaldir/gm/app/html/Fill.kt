@@ -1,6 +1,8 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.model.parseFactor
+import at.orchaldir.gm.app.html.model.selectPercentage
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -49,13 +51,13 @@ fun HtmlBlockTag.selectFill(fill: Fill, param: String = FILL) {
         is Solid -> selectColor(fill.color, selectId = combine(param, COLOR, 0))
         is Transparent -> {
             selectColor(fill.color, selectId = combine(param, COLOR, 0))
-            selectFloat(
+            selectPercentage(
                 "Opacity",
-                fill.opacity.toInternalValue(),
-                0.0f,
-                1.0f,
-                0.01f,
                 combine(param, OPACITY),
+                fill.opacity,
+                0,
+                100,
+                1,
                 true,
             )
         }
@@ -77,13 +79,13 @@ fun HtmlBlockTag.selectFill(fill: Fill, param: String = FILL) {
                 true
             )
             selectFloat("Tile in Meter", fill.width, 0.001f, 100f, 0.01f, combine(param, PATTERN, TILE), true)
-            selectFloat(
+            selectPercentage(
                 "Border in Percentage",
-                fill.borderPercentage.toInternalValue(),
-                0.01f,
-                0.9f,
-                0.01f,
                 combine(param, PATTERN, BORDER),
+                fill.borderPercentage,
+                1,
+                90,
+                1,
                 true
             )
         }

@@ -25,15 +25,16 @@ value class Factor private constructor(private val permyriad: Int) {
         fun fromNumber(number: Float) = Factor((number * NUMBER_FACTOR).toInt())
         fun fromPercentage(percentage: Int) = Factor(percentage * PERCENTAGE_FACTOR)
         fun fromPermille(permille: Int) = Factor(permille * PERMILLE_FACTOR)
+        fun fromPermyriad(permyriad: Int) = Factor(permyriad)
     }
 
     fun requireGreaterZero(text: String) = require(permyriad > 0) { text }
 
     fun toNumber() = permyriad / NUMBER_FACTOR.toFloat()
     fun toPercentage() = permyriad / PERCENTAGE_FACTOR.toFloat()
-    fun toInternalValue() = toNumber()//permyriad
+    fun toPermyriad() = permyriad
 
-    override fun toString() = formatFactor(permyriad)
+    override fun toString() = formatAsFactor(permyriad)
 
     operator fun unaryMinus() = Factor(-permyriad)
     operator fun plus(other: Factor) = Factor(permyriad + other.permyriad)
@@ -51,7 +52,7 @@ value class Factor private constructor(private val permyriad: Int) {
 fun percentageOnly(permyriad: Int) = permyriad / PERCENTAGE_FACTOR
 fun permilleOnly(permyriad: Int) = (permyriad % PERCENTAGE_FACTOR) / PERMILLE_FACTOR
 
-fun formatFactor(permyriad: Int): String {
+fun formatAsFactor(permyriad: Int): String {
     val percentageOnly = percentageOnly(permyriad)
     val permilleOnly = permilleOnly(permyriad)
 

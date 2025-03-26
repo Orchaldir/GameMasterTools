@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model.character
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.parseFactor
 import at.orchaldir.gm.app.parse.*
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.generator.generateHorn

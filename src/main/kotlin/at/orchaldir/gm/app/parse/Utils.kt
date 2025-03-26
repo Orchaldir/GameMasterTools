@@ -110,9 +110,6 @@ fun parseOptionalInt(parameters: Parameters, param: String): Int? {
 
 fun parseUByte(parameters: Parameters, param: String, default: UByte = 0u) = parameters[param]?.toUByte() ?: default
 
-fun parseFactor(parameters: Parameters, param: String, default: Factor = FULL) =
-    parameters[param]?.toFloat()?.let { Factor.fromNumber(it) } ?: default
-
 fun parseOrientation(parameters: Parameters, param: String, default: Orientation = Orientation.zero()) =
     parameters[param]?.toFloat()?.let { Orientation.fromDegree(it) } ?: default
 
