@@ -458,7 +458,7 @@
      "Saiga": "Uncommon",
      "WaterBuffalo": "Common"
     },
-    "simpleLength": 0.8,
+    "simpleLength": 8000,
     "colors": {
      "Gray": "Common"
     }
