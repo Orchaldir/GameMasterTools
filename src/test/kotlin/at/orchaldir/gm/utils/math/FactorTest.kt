@@ -55,6 +55,7 @@ class FactorTest {
     fun `Factor to string`() {
         assertEquals("123%", fromPercentage(123).toString())
         assertEquals("12%", fromPercentage(12).toString())
+        assertEquals("80%", fromPercentage(80).toString())
         assertEquals("1%", fromPercentage(1).toString())
         assertEquals("12.3%", fromPermille(123).toString())
         assertEquals("12.3%", fromNumber(0.1234f).toString())

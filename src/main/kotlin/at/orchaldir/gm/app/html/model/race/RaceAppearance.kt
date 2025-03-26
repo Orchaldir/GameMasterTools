@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.character.selectCrownLength
 import at.orchaldir.gm.app.html.model.character.selectHornLength
+import at.orchaldir.gm.app.html.model.fieldFactor
 import at.orchaldir.gm.app.html.model.parseFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseInt
@@ -122,13 +123,13 @@ private fun HtmlBlockTag.showHorns(appearance: RaceAppearance) {
     if (requiresNormalHorns) {
         showDetails("Simple Horns") {
             showRarityMap("Horn Types", appearance.hornOptions.simpleTypes)
-            field("Horn Length", appearance.hornOptions.simpleLength)
+            fieldFactor("Horn Length", appearance.hornOptions.simpleLength)
         }
     }
 
     if (requiresCrown) {
         showDetails("Crown") {
-            field("Horn Length", appearance.hornOptions.crownLength)
+            fieldFactor("Horn Length", appearance.hornOptions.crownLength)
             showRarityMap("Horns in Front", appearance.hornOptions.crownFront) {
                 +it.toString()
             }

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.model.fieldFactor
 import at.orchaldir.gm.app.html.model.parseFactor
 import at.orchaldir.gm.app.html.model.selectPercentage
 import at.orchaldir.gm.app.parse.*
@@ -22,7 +23,7 @@ fun HtmlBlockTag.showFill(fill: Fill) {
         is Solid -> field("Solid Fill", fill.color)
         is Transparent -> {
             field("Solid Fill", fill.color)
-            field("Opacity", fill.opacity)
+            fieldFactor("Opacity", fill.opacity)
         }
 
         is VerticalStripes -> field("Vertical Stripes", "${fill.color0} & ${fill.color1}")
