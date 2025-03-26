@@ -226,7 +226,7 @@ private fun LI.selectRelativeSize(
     size: Factor,
     index: Int,
 ) {
-    selectFloat("Relative Size", size.toNumber(), 0.01f, 1.0f, 0.01f, combine(LIFE_STAGE, SIZE, index), true)
+    selectPercentage("Relative Size", combine(LIFE_STAGE, SIZE, index), size, 1, 100, 1, true)
 }
 
 private fun HtmlBlockTag.selectAppearance(

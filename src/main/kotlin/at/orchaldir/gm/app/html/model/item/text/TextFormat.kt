@@ -334,7 +334,15 @@ private fun HtmlBlockTag.editEdgeProtection(
             NoEdgeProtection -> doNothing()
             is ProtectedCorners -> {
                 selectValue("Corner Shape", combine(EDGE, SHAPE), CornerShape.entries, protection.shape, true)
-                selectFloat("Corner Size", protection.size.toNumber(), 0.01f, 0.5f, 0.01f, combine(EDGE, SIZE), true)
+                selectPercentage(
+                    "Corner Size",
+                    combine(EDGE, SIZE),
+                    protection.size,
+                    1,
+                    50,
+                    1,
+                    true,
+                )
                 selectColor("Corner Color", combine(EDGE, COLOR), Color.entries, protection.color)
                 selectElement(
                     state,
@@ -346,7 +354,15 @@ private fun HtmlBlockTag.editEdgeProtection(
             }
 
             is ProtectedEdge -> {
-                selectFloat("Edge Width", protection.width.toNumber(), 0.01f, 0.2f, 0.01f, combine(EDGE, SIZE), true)
+                selectPercentage(
+                    "Edge Width",
+                    combine(EDGE, SIZE),
+                    protection.width,
+                    1,
+                    20,
+                    1,
+                    true,
+                )
                 selectColor("Edge Color", combine(EDGE, COLOR), Color.entries, protection.color)
                 selectElement(
                     state,
