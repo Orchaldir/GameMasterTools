@@ -10,35 +10,38 @@ val HALF = fromPercentage(50)
 val END = fromPercentage(100)
 val FULL = fromPercentage(100)
 
+private const val NUMBER_FACTOR = 10000
+private const val PERCENTAGE_FACTOR = 100
+private const val PERMILLE_FACTOR = 10
+
 /**
- * A distance relative to the parent AABB.
+ * A number stored as permyriad (1 in 10k), but mostly used ro represent percentage.
  */
 @JvmInline
 @Serializable
-value class Factor private constructor(private val value: Float) {
+value class Factor private constructor(private val permyriad: Int) {
 
     companion object {
-        fun fromNumber(number: Float) = Factor(number)
-        fun fromPercentage(percentage: Int) = Factor(percentage / 100.0f)
-        fun fromPermille(permille: Int) = Factor(permille / 1000.0f)
+        fun fromNumber(number: Float) = Factor((number * NUMBER_FACTOR).toInt())
+        fun fromPercentage(percentage: Int) = Factor(percentage * PERCENTAGE_FACTOR)
+        fun fromPermille(permille: Int) = Factor(permille * PERMILLE_FACTOR)
     }
 
-    fun requireGreaterZero(text: String) = require(value > 0.0f) { text }
+    fun requireGreaterZero(text: String) = require(permyriad > 0) { text }
 
-    fun toNumber() = value
-    fun toPercentage() = value * 100
-    fun toInternalValue() = value
+    fun toNumber() = permyriad / NUMBER_FACTOR.toFloat()
+    fun toPercentage() = permyriad / PERCENTAGE_FACTOR.toFloat()
+    fun toInternalValue() = toNumber()//permyriad
 
-    operator fun unaryMinus() = Factor(-value)
-    operator fun plus(other: Factor) = Factor(value + other.value)
-    operator fun minus(other: Factor) = Factor(value - other.value)
-    operator fun times(other: Factor) = Factor(value * other.value)
-    operator fun times(other: Float) = Factor(value * other)
-    operator fun div(other: Factor) = Factor(value / other.value)
-    operator fun div(other: Float) = Factor(value / other)
-    operator fun div(factor: Int) = Factor(value / factor)
+    operator fun unaryMinus() = Factor(-permyriad)
+    operator fun plus(other: Factor) = Factor(permyriad + other.permyriad)
+    operator fun minus(other: Factor) = Factor(permyriad - other.permyriad)
+    operator fun times(other: Factor) = fromNumber(toNumber() * other.toNumber())
+    operator fun times(other: Float) = Factor((permyriad * other).toInt())
+    operator fun div(other: Factor) = fromNumber(toNumber() / other.toNumber())
+    operator fun div(other: Float) = Factor((permyriad / other).toInt())
+    operator fun div(factor: Int) = Factor(permyriad / factor)
 
-    fun interpolate(other: Factor, between: Factor) =
-        Factor(value * (1.0f - between.value) + other.value * between.value)
+    fun interpolate(other: Factor, between: Factor) = this * (FULL - between) + other * between
 
 }
