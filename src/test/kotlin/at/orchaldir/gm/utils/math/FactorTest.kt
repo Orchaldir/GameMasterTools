@@ -5,6 +5,48 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class FactorTest {
+
+    @Test
+    fun `Test unary Minus`() {
+        assertEquals(fromPercentage(-10), -fromPercentage(10))
+        assertEquals(fromPercentage(10), -fromPercentage(-10))
+    }
+
+    @Test
+    fun `Test plus`() {
+        assertEquals(fromPercentage(15), fromPercentage(10) + fromPercentage(5))
+    }
+
+    @Test
+    fun `Test minus`() {
+        assertEquals(fromPercentage(73), fromPercentage(100) - fromPercentage(27))
+    }
+
+    @Test
+    fun `Test times with float`() {
+        assertEquals(fromPercentage(250), fromPercentage(100) * 2.5f)
+    }
+
+    @Test
+    fun `Test times with factor`() {
+        assertEquals(fromPercentage(100), fromPercentage(200) * fromPercentage(50))
+    }
+
+    @Test
+    fun `Test div with int`() {
+        assertEquals(fromPercentage(50), fromPercentage(100) / 2)
+    }
+
+    @Test
+    fun `Test div with float`() {
+        assertEquals(fromPercentage(50), fromPercentage(100) / 2.0f)
+    }
+
+    @Test
+    fun `Test div with factor`() {
+        assertEquals(fromPercentage(400), fromPercentage(200) / fromPercentage(50))
+    }
+
     @Test
     fun `Interpolate between 2 factors`() {
         val start = fromPercentage(1000)
