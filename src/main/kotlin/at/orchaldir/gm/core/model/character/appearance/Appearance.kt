@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.character.appearance
 
+import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
+import at.orchaldir.gm.core.model.character.appearance.tail.Tails
 import at.orchaldir.gm.core.model.character.appearance.wing.NoWings
 import at.orchaldir.gm.core.model.character.appearance.wing.Wings
 import at.orchaldir.gm.utils.math.Size2d
@@ -52,5 +54,6 @@ data class HumanoidBody(
     val body: Body,
     val head: Head,
     val height: Distance,
+    val tails: Tails = NoTails,
     val wings: Wings = NoWings,
 ) : Appearance()

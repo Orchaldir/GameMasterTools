@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.generator.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.race.appearance.FootOptions
@@ -189,6 +190,7 @@ fun parseAppearance(
             parseBody(parameters, config, skin),
             parseHead(parameters, config, character, skin),
             height,
+            NoTails,
             parseWings(parameters, config),
         )
 
