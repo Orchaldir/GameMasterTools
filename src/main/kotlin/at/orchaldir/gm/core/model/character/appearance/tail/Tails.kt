@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.character.appearance.tail
 
+import at.orchaldir.gm.core.model.util.Fill
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -26,4 +27,5 @@ data object NoTails : Tails()
 @SerialName("Simple")
 data class SimpleTail(
     val shape: SimpleTailShape,
+    val fill: Fill,
 ) : Tails()
