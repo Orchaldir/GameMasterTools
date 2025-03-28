@@ -34,7 +34,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         fromPercentage(7),
         fromPercentage(25),
         fromPercentage(75),
-        fromPercentage(8),
+        fromPercentage(80),
         fromPercentage(14),
         fromPercentage(25),
         fromPercentage(42),
