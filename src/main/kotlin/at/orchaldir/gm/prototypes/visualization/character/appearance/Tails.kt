@@ -13,15 +13,15 @@ import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 fun main() {
     renderCharacterTable(
         "tails.svg",
         CHARACTER_CONFIG,
+        addNames(listOf(BodyShape.Rectangle)),
         addNames(SimpleTailShape.entries),
-        addNames(BodyShape.entries)
-    ) { distance, body, tail ->
+        true,
+    ) { distance, tail, body ->
         Pair(createAppearance(distance, body, tail), emptyList())
     }
 }
