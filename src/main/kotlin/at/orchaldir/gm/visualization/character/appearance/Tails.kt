@@ -45,6 +45,7 @@ private fun visualizeHorse(state: CharacterRenderState, tail: SimpleTail) {
     val options = state.config.getLineOptions(tail.fill)
     val polygon = Polygon2dBuilder()
         .addMirroredPoints(state.aabb, width, config.startY)
+        .addMirroredPoints(state.aabb, width * 0.9f, config.startY + config.horseLength / 2.0f)
         .addMirroredPoints(state.aabb, width, config.startY + config.horseLength, true)
         .build()
 
