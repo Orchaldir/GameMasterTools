@@ -34,7 +34,7 @@ private fun visualizeBunny(state: CharacterRenderState, tail: SimpleTail) {
     val config = state.config.body.tail
     val center = state.aabb.getPoint(CENTER, config.startY)
     val radius = state.aabb.convertHeight(config.bunnySize.convert(tail.size))
-    val options = state.config.getLineOptions(tail.fill)
+    val options = state.config.getLineOptions(tail.color)
 
     state.getTailLayer().renderCircle(center, radius, options)
 }
@@ -42,7 +42,7 @@ private fun visualizeBunny(state: CharacterRenderState, tail: SimpleTail) {
 private fun visualizeHorse(state: CharacterRenderState, tail: SimpleTail) {
     val config = state.config.body.tail
     val width = config.bunnySize.convert(tail.size) * 2.0f
-    val options = state.config.getLineOptions(tail.fill)
+    val options = state.config.getLineOptions(tail.color)
     val polygon = Polygon2dBuilder()
         .addMirroredPoints(state.aabb, width, config.startY)
         .addMirroredPoints(state.aabb, width * 0.9f, config.startY + config.horseLength / 2.0f)

@@ -33,6 +33,6 @@ private fun createAppearance(distance: Distance, tailShape: SimpleTailShape, siz
         Body(),
         Head(eyes = TwoEyes()),
         distance,
-        SimpleTail(tailShape, size, Solid(Color.Blue)),
+        SimpleTail(tailShape, size, Color.Blue),
         NoWings,
     )
