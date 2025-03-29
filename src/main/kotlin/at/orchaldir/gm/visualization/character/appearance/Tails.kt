@@ -58,16 +58,16 @@ private fun visualizeSquirrel(state: CharacterRenderState, tail: SimpleTail) {
     val options = state.config.getLineOptions(tail.color)
     val polygon = Polygon2dBuilder()
         .addMirroredPoints(state.aabb, fromPercentage(50), fromPercentage(80))
-        .addMirroredPoints(state.aabb, fromPercentage(50), fromPercentage(10))
-        .addLeftPoint(state.aabb, CENTER, fromPercentage(10))
+        .addMirroredPoints(state.aabb, fromPercentage(45), fromPercentage(10), true)
+        //.addLeftPoint(state.aabb, CENTER, fromPercentage(10))
         .build()
 
     state.getTailLayer().renderRoundedPolygon(polygon, options)
 
     if (!state.renderFront) {
         val backPolygon = Polygon2dBuilder()
-            .addLeftPoint(state.aabb, CENTER, fromPercentage(10))
-            .addMirroredPoints(state.aabb, fromPercentage(40), fromPercentage(10))
+            .addMirroredPoints(state.aabb, fromPercentage(45), fromPercentage(10), true)
+            .addMirroredPoints(state.aabb, fromPercentage(45), fromPercentage(20))
             .addMirroredPoints(state.aabb, fromPercentage(20), fromPercentage(40))
             .build()
 
