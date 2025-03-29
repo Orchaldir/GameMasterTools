@@ -15,11 +15,16 @@ data class CharacterRenderState(
     val equipped: List<EquipmentData>,
 ) {
 
-    fun getBeardLayer() = if (renderFront) {
-        ABOVE_EQUIPMENT_LAYER
+    fun getBeardLayer() = getLayer(ABOVE_EQUIPMENT_LAYER)
+    fun getTailLayer() = getLayer(-ABOVE_EQUIPMENT_LAYER)
+
+    private fun getLayer(layer: Int) = renderer.getLayer(
+        if (renderFront) {
+            layer
     } else {
-        -ABOVE_EQUIPMENT_LAYER
-    }
+            -layer
+        }
+    )
 
     fun getSideOffset(offset: Factor) = if (renderFront) {
         offset

@@ -88,6 +88,7 @@ fun visualizeAppearance(
 
             visualizeBody(innerState, appearance.body)
             visualizeHead(headState, appearance.head)
+            visualizeTails(innerState, appearance.tails)
             visualizeWings(innerState, appearance.wings)
         }
 
