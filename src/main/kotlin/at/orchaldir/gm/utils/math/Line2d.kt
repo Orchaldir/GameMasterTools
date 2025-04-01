@@ -1,18 +1,32 @@
 package at.orchaldir.gm.utils.math
 
-fun splitLine(start: Point2d, end: Point2d, parts: Int): List<Point2d> {
-    require(parts > 0) { "Parts needs to be greater than 0!" }
-    val diff = end - start
-    val step = diff / parts.toFloat()
-    val points = mutableListOf(start)
-    var point = start
+import kotlinx.serialization.Serializable
 
-    for (i in 0..<parts) {
-        point += step
-        points.add(point)
+@Serializable
+data class Line2d(val points: List<Point2d>) {
+
+    init {
+        require(points.size > 2) { "The polygon has less than 3 corners!" }
+    }
+}
+
+data class Line2dBuilder(
+    private val points: MutableList<Point2d> = mutableListOf(),
+) {
+
+    fun isValid() = points.size >= 2
+
+    fun addPoint(aabb: AABB, horizontal: Factor, vertical: Factor): Line2dBuilder {
+        addPoint(aabb.getPoint(horizontal, vertical))
+
+        return this
     }
 
-    points.add(end)
+    fun addPoint(point: Point2d): Line2dBuilder {
+        points.add(point)
 
-    return points
+        return this
+    }
+
+    fun build() = Line2d(points)
 }
