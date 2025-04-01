@@ -40,4 +40,18 @@ class LineSplitter private constructor(
 
         return points
     }
+
+    fun getCorners(): List<Point2d> {
+        val points = mutableListOf(start)
+        var point = start
+
+        repeat(weightCalculator.segments()) {
+            val step = diff * weightCalculator.calculate(it)
+            point += step
+
+            points.add(point)
+        }
+
+        return points
+    }
 }
