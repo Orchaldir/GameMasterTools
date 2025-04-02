@@ -5,13 +5,11 @@ import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
 import at.orchaldir.gm.core.model.character.appearance.tail.Tails
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
-import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
@@ -58,19 +56,19 @@ private fun visualizeHorse(state: CharacterRenderState, tail: SimpleTail) {
 }
 
 private fun visualizeRat(state: CharacterRenderState, tail: SimpleTail) {
-    val options = state.config.getLineOptions(tail.color)
     val config = state.config.body.tail
     val line = Line2dBuilder()
         .addPoint(state.aabb, CENTER, config.startY)
         .addPoint(state.aabb, fromPercentage(30), config.startY + fromPercentage(5))
         .addPoint(state.aabb, fromPercentage(35), config.startY + fromPercentage(30))
-        .addPoint(state.aabb, fromPercentage(75), config.startY + fromPercentage(35))
+        .addPoint(state.aabb, fromPercentage(75), config.startY + fromPercentage(30))
         .addPoint(state.aabb, fromPercentage(70), config.startY - fromPercentage(20))
         .addPoint(state.aabb, fromPercentage(90), config.startY - fromPercentage(25))
         .build()
-    val polygon = buildTail(line, fromMillimeters(100))
+    val polygon = buildTailPolygon(line, fromMillimeters(100))
 
-    state.getTailLayer().renderRoundedPolygon(polygon, options)
+    renderTailPolygon(state, tail, polygon)
+    //state.getTailLayer().renderLine(line.points, LineOptions(Color.Red.toRender(), 0.02f))
 }
 
 private fun visualizeSquirrel(state: CharacterRenderState, tail: SimpleTail) {
@@ -96,7 +94,7 @@ private fun visualizeSquirrel(state: CharacterRenderState, tail: SimpleTail) {
     }
 }
 
-private fun buildTail(line: Line2d, width: Distance): Polygon2d {
+private fun buildTailPolygon(line: Line2d, width: Distance): Polygon2d {
     val half = width / 2.0f
     logger.info { "line=$line" }
     val subdivided = subdivideLine(line, 2)
@@ -112,4 +110,19 @@ private fun buildTail(line: Line2d, width: Distance): Polygon2d {
     return builder
         .addLeftPoint(subdivided.points.last())
         .build()
+}
+
+private fun renderTailPolygon(
+    state: CharacterRenderState,
+    tail: SimpleTail,
+    polygon: Polygon2d,
+) {
+    val options = state.config.getLineOptions(tail.color)
+    val mirrored = if (state.renderFront) {
+        polygon
+    } else {
+        state.aabb.mirrorVertically(polygon)
+    }
+
+    state.getTailLayer().renderRoundedPolygon(mirrored, options)
 }
