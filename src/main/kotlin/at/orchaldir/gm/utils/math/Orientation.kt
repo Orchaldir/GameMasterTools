@@ -22,6 +22,14 @@ value class Orientation private constructor(private val degree: Float) {
     fun toDegree() = degree
     fun toRadians() = Math.toRadians(degree.toDouble()).toFloat()
 
+    fun normalizeZeroToTwoPi() = Orientation(
+        if (degree < 0.0f) {
+            degree + 360.0f
+        } else {
+            degree
+        } % 360.0f
+    )
+
     fun cos() = cos(toRadians())
     fun sin() = sin(toRadians())
 

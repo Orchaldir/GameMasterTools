@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.math
 
 import kotlinx.serialization.Serializable
+import kotlin.math.atan2
 
 @Serializable
 data class Line2d(val points: List<Point2d>) {
@@ -14,7 +15,7 @@ data class Line2d(val points: List<Point2d>) {
     } else if (index == points.lastIndex) {
         points[index - 1].calculateOrientation(points[index])
     } else {
-        // TODO: average of 2 segments
+        // (points[index+1].calculateOrientation() - points[index].calculateOrientation()).no
         points[index].calculateOrientation(points[index + 1])
     }
 }
