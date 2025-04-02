@@ -7,11 +7,8 @@ import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
 import at.orchaldir.gm.core.model.character.appearance.tail.Tails
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.CENTER
-import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
-import at.orchaldir.gm.utils.math.Line2dBuilder
-import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
@@ -69,8 +66,9 @@ private fun visualizeRat(state: CharacterRenderState, tail: SimpleTail) {
         .addPoint(state.aabb, fromPercentage(70), config.startY - fromPercentage(20))
         .addPoint(state.aabb, fromPercentage(90), config.startY - fromPercentage(20))
         .build()
+    val subdivided = subdivideLine(line.points, 2)
 
-    state.getTailLayer().renderLine(line.points, LineOptions(Color.Red.toRender(), Distance.fromMillimeters(10)))
+    state.getTailLayer().renderLine(subdivided, LineOptions(Color.Red.toRender(), Distance.fromMillimeters(10)))
 }
 
 private fun visualizeSquirrel(state: CharacterRenderState, tail: SimpleTail) {
