@@ -27,8 +27,6 @@ data class Point2d(val x: Float = 0.0f, val y: Float = 0.0f) {
     fun calculateOrientation() = Orientation.fromRadians(atan2(y.toDouble(), x.toDouble()).toFloat())
     fun calculateOrientation(other: Point2d) = (other - this).calculateOrientation()
 
-    fun calculateSlope(other: Point2d) = (other.y - y) / (other.x - x)
-
     operator fun plus(distance: Distance) = Point2d(x + distance.toMeters(), y + distance.toMeters())
     operator fun plus(other: Point2d) = Point2d(x + other.x, y + other.y)
     operator fun plus(size: Size2d) = Point2d(x + size.width, y + size.height)

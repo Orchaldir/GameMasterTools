@@ -109,9 +109,7 @@ private fun createTailLine(
 
 private fun buildTailPolygon(line: Line2d, width: Distance, isSharp: Boolean): Polygon2d {
     val half = width / 2.0f
-    logger.info { "line=$line" }
     val subdivided = subdivideLine(line, 2)
-    logger.info { "subdivided=$subdivided" }
     val builder = Polygon2dBuilder()
     val size = subdivided.points.lastIndex
 
@@ -123,7 +121,6 @@ private fun buildTailPolygon(line: Line2d, width: Distance, isSharp: Boolean): P
         } else {
             half
         }
-        logger.info { "index={$index} $center orientation=$orientation" }
         builder.addLeftAndRightPoint(center, orientation, segmentHalf)
     }
 
