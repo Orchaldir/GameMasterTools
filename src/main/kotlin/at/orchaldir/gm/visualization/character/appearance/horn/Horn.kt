@@ -150,7 +150,7 @@ private fun addShape(
                 halfWidth -= stepWidth
                 center = center.createPolar(stepLength, orientation)
 
-                addLeftAndRight(builder, center, orientation, halfWidth)
+                builder.addLeftAndRightPoint(center, orientation, halfWidth)
             }
 
             orientation += stepOrientation
@@ -178,7 +178,7 @@ private fun addShape(
                 val halfOnCenterLine = center.createPolar(cycleDistance / 2, orientation)
                 val halfCenter = halfOnCenterLine.createPolar(amplitude, orientation + QUARTER_CIRCLE * sideOfAmplitude)
 
-                addLeftAndRight(builder, halfCenter, orientation, halfWidth)
+                builder.addLeftAndRightPoint(halfCenter, orientation, halfWidth)
 
                 sideOfAmplitude = -sideOfAmplitude
                 amplitude *= constantStep
@@ -189,16 +189,4 @@ private fun addShape(
             builder.addLeftPoint(center, true)
         }
     }
-}
-
-private fun addLeftAndRight(
-    builder: Polygon2dBuilder,
-    center: Point2d,
-    orientation: Orientation,
-    halfWidth: Distance,
-) {
-    val right = center.createPolar(halfWidth, orientation - QUARTER_CIRCLE)
-    val left = center.createPolar(halfWidth, orientation + QUARTER_CIRCLE)
-
-    builder.addPoints(left, right)
 }

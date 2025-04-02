@@ -93,3 +93,7 @@ private fun visualizeSquirrel(state: CharacterRenderState, tail: SimpleTail) {
         state.getTailLayer().renderRoundedPolygon(backPolygon, options)
     }
 }
+
+private fun buildTail(line: Line2d, width: Distance) {
+    val subdivided = subdivideLine(line.points, 2)
+}

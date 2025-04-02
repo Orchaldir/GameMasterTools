@@ -26,6 +26,17 @@ data class Polygon2dBuilder(
         return this
     }
 
+    fun addLeftAndRightPoint(
+        center: Point2d,
+        orientation: Orientation,
+        halfWidth: Distance,
+    ) {
+        val right = center.createPolar(halfWidth, orientation - QUARTER_CIRCLE)
+        val left = center.createPolar(halfWidth, orientation + QUARTER_CIRCLE)
+
+        addPoints(left, right)
+    }
+
     fun addPoints(left: Point2d, right: Point2d, isSharp: Boolean = false): Polygon2dBuilder {
         leftCorners.add(left)
         rightCorners.add(right)
