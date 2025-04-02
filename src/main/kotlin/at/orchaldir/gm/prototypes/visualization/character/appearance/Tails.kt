@@ -20,7 +20,7 @@ fun main() {
         "tails.svg",
         CHARACTER_CONFIG,
         addNames(listOf(Size.Medium)),
-        addNames(listOf(SimpleTailShape.Rat)),
+        addNames(SimpleTailShape.entries),
         true,
     ) { distance, tail, size ->
         Pair(createAppearance(distance, tail, size), emptyList())

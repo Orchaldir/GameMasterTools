@@ -26,7 +26,7 @@ fun visualizeTails(state: CharacterRenderState, tails: Tails) = when (tails) {
 
 private fun visualizeSimpleTail(state: CharacterRenderState, tail: SimpleTail) = when (tail.shape) {
     SimpleTailShape.Bunny -> visualizeBunny(state, tail)
-    SimpleTailShape.Cat -> doNothing()
+    SimpleTailShape.Cat -> visualizeCat(state, tail)
     SimpleTailShape.Horse -> visualizeHorse(state, tail)
     SimpleTailShape.Rat -> visualizeRat(state, tail)
     SimpleTailShape.Squirrel -> visualizeSquirrel(state, tail)
@@ -39,6 +39,14 @@ private fun visualizeBunny(state: CharacterRenderState, tail: SimpleTail) {
     val options = state.config.getLineOptions(tail.color)
 
     state.getTailLayer().renderCircle(center, radius, options)
+}
+
+private fun visualizeCat(state: CharacterRenderState, tail: SimpleTail) {
+    val config = state.config.body.tail
+    val line = createTailLine(state, config)
+    val polygon = buildTailPolygon(line, fromMillimeters(100))
+
+    renderTailPolygon(state, tail, polygon)
 }
 
 private fun visualizeHorse(state: CharacterRenderState, tail: SimpleTail) {
@@ -57,14 +65,7 @@ private fun visualizeHorse(state: CharacterRenderState, tail: SimpleTail) {
 
 private fun visualizeRat(state: CharacterRenderState, tail: SimpleTail) {
     val config = state.config.body.tail
-    val line = Line2dBuilder()
-        .addPoint(state.aabb, CENTER, config.startY)
-        .addPoint(state.aabb, fromPercentage(30), config.startY + fromPercentage(5))
-        .addPoint(state.aabb, fromPercentage(35), config.startY + fromPercentage(30))
-        .addPoint(state.aabb, fromPercentage(75), config.startY + fromPercentage(30))
-        .addPoint(state.aabb, fromPercentage(70), config.startY - fromPercentage(20))
-        .addPoint(state.aabb, fromPercentage(90), config.startY - fromPercentage(25))
-        .build()
+    val line = createTailLine(state, config)
     val polygon = buildTailPolygon(line, fromMillimeters(100))
 
     renderTailPolygon(state, tail, polygon)
@@ -93,6 +94,18 @@ private fun visualizeSquirrel(state: CharacterRenderState, tail: SimpleTail) {
         state.getTailLayer().renderRoundedPolygon(backPolygon, options)
     }
 }
+
+private fun createTailLine(
+    state: CharacterRenderState,
+    config: TailConfig,
+) = Line2dBuilder()
+    .addPoint(state.aabb, CENTER, config.startY)
+    .addPoint(state.aabb, fromPercentage(30), config.startY + fromPercentage(5))
+    .addPoint(state.aabb, fromPercentage(35), config.startY + fromPercentage(30))
+    .addPoint(state.aabb, fromPercentage(75), config.startY + fromPercentage(30))
+    .addPoint(state.aabb, fromPercentage(70), config.startY - fromPercentage(20))
+    .addPoint(state.aabb, fromPercentage(90), config.startY - fromPercentage(25))
+    .build()
 
 private fun buildTailPolygon(line: Line2d, width: Distance): Polygon2d {
     val half = width / 2.0f
