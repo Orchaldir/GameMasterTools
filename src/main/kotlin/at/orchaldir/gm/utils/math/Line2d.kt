@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.math
 
 import kotlinx.serialization.Serializable
+import kotlin.math.atan
 import kotlin.math.atan2
 
 @Serializable
@@ -16,6 +17,14 @@ data class Line2d(val points: List<Point2d>) {
         points[index - 1].calculateOrientation(points[index])
     } else {
         (points[index + 1].calculateOrientation() - points[index].calculateOrientation()).normalizeZeroToTwoPi()
+        /*
+        val point0 = points[index-1]
+        val point1 = points[index]
+        val point2 = points[index+1]
+        val slope01 = point0.calculateSlope(point1)
+        val slope12 = point1.calculateSlope(point2)
+        Orientation.fromRadians(atan((slope12-slope01)/(1.0f + slope12 * slope01)))
+         */
     }
 }
 

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance
 
+import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
@@ -101,7 +102,9 @@ private fun buildTail(line: Line2d, width: Distance): Polygon2d {
     val builder = Polygon2dBuilder()
 
     subdivided.points.dropLast(1).withIndex().forEach { (index, center) ->
-        builder.addLeftAndRightPoint(center, subdivided.calculateOrientation(index), half)
+        val orientation = subdivided.calculateOrientation(index)
+        logger.info { "index={$index} orientation=$orientation" }
+        builder.addLeftAndRightPoint(center, orientation, half)
     }
 
     return builder
