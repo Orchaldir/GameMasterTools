@@ -1,6 +1,5 @@
 package at.orchaldir.gm.visualization.character.appearance
 
-import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
@@ -135,7 +134,7 @@ private fun renderTailPolygon(
     polygon: Polygon2d,
 ) {
     val options = state.config.getLineOptions(tail.color)
-    val mirrored = if (state.renderFront) {
+    val mirrored = if (!state.renderFront) {
         polygon
     } else {
         state.aabb.mirrorVertically(polygon)
