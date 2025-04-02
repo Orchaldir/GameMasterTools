@@ -20,7 +20,7 @@ fun main() {
     renderCharacterTable(
         "tails.svg",
         CHARACTER_CONFIG,
-        addNames(listOf(Size.Medium)),
+        addNames(Size.entries),
         addNames(SimpleTailShape.entries),
         true,
     ) { distance, tail, size ->

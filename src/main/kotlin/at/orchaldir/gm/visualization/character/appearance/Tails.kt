@@ -56,7 +56,8 @@ private fun visualizeBunny(state: CharacterRenderState, options: RenderOptions, 
 private fun visualizeCat(state: CharacterRenderState, options: RenderOptions, tail: SimpleTail) {
     val config = state.config.body.tail
     val line = createTailLine(state, config)
-    val polygon = buildTailPolygon(line, fromMillimeters(100), false)
+    val radius = state.aabb.convertHeight(config.bunnySize.convert(tail.size))
+    val polygon = buildTailPolygon(line, radius, false)
 
     renderTailPolygon(state, options, polygon)
 }
@@ -77,7 +78,8 @@ private fun visualizeHorse(state: CharacterRenderState, options: RenderOptions, 
 private fun visualizeRat(state: CharacterRenderState, options: RenderOptions, tail: SimpleTail) {
     val config = state.config.body.tail
     val line = createTailLine(state, config)
-    val polygon = buildTailPolygon(line, fromMillimeters(150), true)
+    val radius = state.aabb.convertHeight(config.bunnySize.convert(tail.size)) * 1.5f
+    val polygon = buildTailPolygon(line, radius, true)
 
     renderTailPolygon(state, options, polygon)
     //state.getTailLayer().renderLine(line.points, LineOptions(Color.Red.toRender(), 0.02f))
