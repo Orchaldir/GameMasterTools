@@ -30,6 +30,7 @@ import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Size
 import io.ktor.http.*
 import io.ktor.server.util.*
@@ -522,7 +523,8 @@ private fun parseWingOptions(parameters: Parameters) = WingOptions(
 )
 
 private fun parseTailOptions(parameters: Parameters): TailOptions {
-    val simpleShapes = parseOneOf(parameters, combine(TAIL, SHAPE), SimpleTailShape::valueOf)
+    val simpleShapes =
+        parseOneOf(parameters, combine(TAIL, SHAPE), SimpleTailShape::valueOf, setOf(SimpleTailShape.Cat))
 
     return TailOptions(
         parseOneOf(parameters, combine(TAIL, LAYOUT), TailsLayout::valueOf),
@@ -532,11 +534,7 @@ private fun parseTailOptions(parameters: Parameters): TailOptions {
     )
 }
 
-private fun parseSimpleTailOptions(parameters: Parameters, shape: SimpleTailShape): SimpleTailOptions {
-    val simpleShapes = parseOneOf(parameters, combine(TAIL, SHAPE), SimpleTailShape::valueOf)
-
-    return SimpleTailOptions(
+private fun parseSimpleTailOptions(parameters: Parameters, shape: SimpleTailShape) = SimpleTailOptions(
         parse(parameters, combine(TAIL, shape.name, TYPE), TailColorType.Overwrite),
         parseOneOf(parameters, combine(TAIL, shape.name, COLOR), Color::valueOf, setOf(DEFAULT_SIMPLE_TAIL_COLOR)),
     )
-}
