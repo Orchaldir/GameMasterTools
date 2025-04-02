@@ -414,16 +414,27 @@ private fun FORM.editTails(appearance: RaceAppearance) {
 private fun FORM.editWings(appearance: RaceAppearance) {
     h3 { +"Wings" }
 
-    selectRarityMap("Layout", combine(WING, LAYOUT), appearance.wingOptions.layouts, true)
-    selectRarityMap("Types", combine(WING, TYPE), appearance.wingOptions.types, true)
-    selectRarityMap("Bat Wing Colors", combine(WING, BAT, COLOR), appearance.wingOptions.batColors, true)
-    selectRarityMap("Bird Wing Colors", combine(WING, BIRD, COLOR), appearance.wingOptions.birdColors, true)
-    selectRarityMap(
-        "Butterfly Wing Colors",
-        combine(WING, BUTTERFLY, COLOR),
-        appearance.wingOptions.butterflyColors,
-        true
-    )
+    val options = appearance.wingOptions
+
+    selectRarityMap("Layout", combine(WING, LAYOUT), options.layouts, true)
+    selectRarityMap("Types", combine(WING, TYPE), options.types, true)
+
+    if (options.types.isAvailable(WingType.Bat)) {
+        selectRarityMap("Bat Wing Colors", combine(WING, BAT, COLOR), options.batColors, true)
+    }
+
+    if (options.types.isAvailable(WingType.Bird)) {
+        selectRarityMap("Bird Wing Colors", combine(WING, BIRD, COLOR), options.birdColors, true)
+    }
+
+    if (options.types.isAvailable(WingType.Butterfly)) {
+        selectRarityMap(
+            "Butterfly Wing Colors",
+            combine(WING, BUTTERFLY, COLOR),
+            options.butterflyColors,
+            true
+        )
+    }
 }
 
 // parse
