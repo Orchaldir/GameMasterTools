@@ -42,4 +42,5 @@ value class Orientation private constructor(private val degree: Float) {
     operator fun minus(other: Orientation) = fromDegree(degree - other.degree)
     operator fun times(factor: Float) = fromDegree(degree * factor)
     operator fun div(factor: Int) = fromDegree(degree / factor)
+    operator fun div(factor: Float) = fromDegree(degree / factor)
 }

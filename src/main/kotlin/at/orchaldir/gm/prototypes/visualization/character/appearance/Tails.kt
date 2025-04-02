@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
 import at.orchaldir.gm.core.model.character.appearance.wing.NoWings
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.Solid
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
@@ -21,7 +20,7 @@ fun main() {
         "tails.svg",
         CHARACTER_CONFIG,
         addNames(listOf(Size.Medium)),
-        addNames(SimpleTailShape.entries),
+        addNames(listOf(SimpleTailShape.Rat)),
         true,
     ) { distance, tail, size ->
         Pair(createAppearance(distance, tail, size), emptyList())

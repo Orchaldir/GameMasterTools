@@ -98,12 +98,14 @@ private fun visualizeSquirrel(state: CharacterRenderState, tail: SimpleTail) {
 
 private fun buildTail(line: Line2d, width: Distance): Polygon2d {
     val half = width / 2.0f
+    logger.info { "line=$line" }
     val subdivided = subdivideLine(line, 2)
+    logger.info { "subdivided=$subdivided" }
     val builder = Polygon2dBuilder()
 
     subdivided.points.dropLast(1).withIndex().forEach { (index, center) ->
         val orientation = subdivided.calculateOrientation(index)
-        logger.info { "index={$index} orientation=$orientation" }
+        logger.info { "index={$index} $center orientation=$orientation" }
         builder.addLeftAndRightPoint(center, orientation, half)
     }
 
