@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.model.character.selectHornLength
 import at.orchaldir.gm.app.html.model.fieldFactor
 import at.orchaldir.gm.app.html.model.parseFactor
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.core.model.character.appearance.*
@@ -23,6 +24,9 @@ import at.orchaldir.gm.core.model.character.appearance.horn.VALID_CROWN_HORNS
 import at.orchaldir.gm.core.model.character.appearance.mouth.BeakShape
 import at.orchaldir.gm.core.model.character.appearance.mouth.MouthType
 import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
+import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
+import at.orchaldir.gm.core.model.character.appearance.tail.TailColorType
+import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Color
@@ -56,6 +60,7 @@ fun HtmlBlockTag.showRaceAppearance(
     showHorns(appearance)
     showMouth(appearance.mouthOptions)
     showSkin(appearance)
+    showTails(appearance)
     showWings(appearance)
 }
 
@@ -183,22 +188,42 @@ private fun HtmlBlockTag.showSkin(appearance: RaceAppearance) {
     }
 }
 
+private fun HtmlBlockTag.showTails(appearance: RaceAppearance) {
+    h3 { +"Tails" }
+
+    val options = appearance.tailOptions
+
+    showRarityMap("Layout", options.layouts)
+
+    if (options.layouts.isAvailable(TailsLayout.Simple)) {
+        showRarityMap("Simple Shape", options.simpleShapes)
+        options.simpleOptions.forEach { (shape, simpleOptions) ->
+            field("$shape Color Type", simpleOptions.colorType)
+            if (simpleOptions.colorType == TailColorType.Overwrite) {
+                showRarityMap("$shape Color", simpleOptions.colors)
+            }
+        }
+    }
+}
+
 private fun HtmlBlockTag.showWings(appearance: RaceAppearance) {
     h3 { +"Wings" }
 
-    showRarityMap("Layout", appearance.wingOptions.layouts)
-    showRarityMap("Type", appearance.wingOptions.types)
+    val options = appearance.wingOptions
 
-    if (appearance.wingOptions.types.isAvailable(WingType.Bat)) {
-        showRarityMap("Bat Wing Color", appearance.wingOptions.batColors)
+    showRarityMap("Layout", options.layouts)
+    showRarityMap("Type", options.types)
+
+    if (options.types.isAvailable(WingType.Bat)) {
+        showRarityMap("Bat Wing Color", options.batColors)
     }
 
-    if (appearance.wingOptions.types.isAvailable(WingType.Bird)) {
-        showRarityMap("Bird Wing Color", appearance.wingOptions.birdColors)
+    if (options.types.isAvailable(WingType.Bird)) {
+        showRarityMap("Bird Wing Color", options.birdColors)
     }
 
-    if (appearance.wingOptions.types.isAvailable(WingType.Butterfly)) {
-        showRarityMap("Butterfly Wing Color", appearance.wingOptions.butterflyColors)
+    if (options.types.isAvailable(WingType.Butterfly)) {
+        showRarityMap("Butterfly Wing Color", options.butterflyColors)
     }
 }
 
@@ -217,6 +242,7 @@ fun FORM.editRaceAppearance(
     editHorns(appearance)
     editMouth(appearance.mouthOptions)
     editSkin(appearance)
+    editTails(appearance)
     editWings(appearance)
 }
 
@@ -360,6 +386,31 @@ private fun FORM.editSkin(appearance: RaceAppearance) {
     }
 }
 
+private fun FORM.editTails(appearance: RaceAppearance) {
+    h3 { +"Tails" }
+
+    val options = appearance.tailOptions
+
+    selectRarityMap("Layout", combine(TAIL, LAYOUT), options.layouts, true)
+
+    if (options.layouts.isAvailable(TailsLayout.Simple)) {
+        selectRarityMap("Simple Shape", combine(TAIL, SHAPE), options.simpleShapes, true)
+        options.simpleOptions.forEach { (shape, simpleOptions) ->
+            selectValue(
+                "$shape Color Type",
+                combine(TAIL, shape.name, TYPE),
+                TailColorType.entries,
+                simpleOptions.colorType,
+                true,
+            )
+
+            if (simpleOptions.colorType == TailColorType.Overwrite) {
+                selectRarityMap("$shape Color", combine(TAIL, shape.name, COLOR), simpleOptions.colors, true)
+            }
+        }
+    }
+}
+
 private fun FORM.editWings(appearance: RaceAppearance) {
     h3 { +"Wings" }
 
@@ -398,6 +449,7 @@ fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppea
         parseHairOptions(parameters),
         parseHornOptions(parameters),
         parseMouthOptions(parameters),
+        parseTailOptions(parameters),
         parseWingOptions(parameters),
     )
 }
@@ -457,3 +509,23 @@ private fun parseWingOptions(parameters: Parameters) = WingOptions(
     parseOneOf(parameters, combine(WING, BIRD, COLOR), Color::valueOf, setOf(DEFAULT_BIRD_COLOR)),
     parseOneOf(parameters, combine(WING, BUTTERFLY, COLOR), Color::valueOf, setOf(DEFAULT_BUTTERFLY_COLOR)),
 )
+
+private fun parseTailOptions(parameters: Parameters): TailOptions {
+    val simpleShapes = parseOneOf(parameters, combine(TAIL, SHAPE), SimpleTailShape::valueOf)
+
+    return TailOptions(
+        parseOneOf(parameters, combine(TAIL, LAYOUT), TailsLayout::valueOf),
+        simpleShapes,
+        simpleShapes.getValidValues()
+            .associateWith { shape -> parseSimpleTailOptions(parameters, shape) },
+    )
+}
+
+private fun parseSimpleTailOptions(parameters: Parameters, shape: SimpleTailShape): SimpleTailOptions {
+    val simpleShapes = parseOneOf(parameters, combine(TAIL, SHAPE), SimpleTailShape::valueOf)
+
+    return SimpleTailOptions(
+        parse(parameters, combine(TAIL, shape.name, TYPE), TailColorType.Overwrite),
+        parseOneOf(parameters, combine(TAIL, shape.name, COLOR), Color::valueOf, setOf(DEFAULT_SIMPLE_TAIL_COLOR)),
+    )
+}
