@@ -1,6 +1,8 @@
 package at.orchaldir.gm.utils.math
 
 import kotlinx.serialization.Serializable
+import kotlin.math.absoluteValue
+import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -24,7 +26,8 @@ value class Orientation private constructor(private val degree: Float) {
 
     fun normalizeZeroToTwoPi() = Orientation(
         if (degree < 0.0f) {
-            degree + 360.0f
+            val n = ceil(degree.absoluteValue / 360.0f)
+            degree + 360.0f * n
         } else {
             degree
         } % 360.0f
