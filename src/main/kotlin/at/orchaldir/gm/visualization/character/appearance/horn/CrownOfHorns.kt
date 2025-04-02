@@ -33,7 +33,7 @@ private fun renderLineOfHorns(
     horns: Int,
     layer: Int,
 ) {
-    val frontSplitter = LineSplitter.fromStartAndEnd(pair, horns)
+    val frontSplitter = SegmentSplitter.fromStartAndEnd(pair, horns)
 
     frontSplitter.getCenters().forEach { position ->
         val polygon = createHornOfLine(length, half, position)

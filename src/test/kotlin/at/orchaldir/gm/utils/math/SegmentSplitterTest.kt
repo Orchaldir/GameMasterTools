@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class LineSplitterTest {
+class SegmentSplitterTest {
 
     private val start = Point2d(10.0f, 20f)
     private val end = Point2d(50.0f, 20f)
     private val center0 = Point2d(20.0f, 20f)
     private val center1 = Point2d(40.0f, 20f)
 
-    private val splitter = LineSplitter.fromStartAndEnd(
+    private val splitter = SegmentSplitter.fromStartAndEnd(
         start,
         end,
         ConstantWeight(2),
