@@ -8,6 +8,15 @@ data class Line2d(val points: List<Point2d>) {
     init {
         require(points.size > 2) { "The polygon has less than 3 corners!" }
     }
+
+    fun calculateOrientation(index: Int) = if (index == 0) {
+        points[0].calculateOrientation(points[1])
+    } else if (index == points.lastIndex) {
+        points[index - 1].calculateOrientation(points[index])
+    } else {
+        // TODO: average of 2 segments
+        points[index].calculateOrientation(points[index + 1])
+    }
 }
 
 data class Line2dBuilder(

@@ -1,6 +1,5 @@
 package at.orchaldir.gm.visualization.character.appearance
 
-import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
@@ -10,6 +9,7 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -57,6 +57,7 @@ private fun visualizeHorse(state: CharacterRenderState, tail: SimpleTail) {
 }
 
 private fun visualizeRat(state: CharacterRenderState, tail: SimpleTail) {
+    val options = state.config.getLineOptions(tail.color)
     val config = state.config.body.tail
     val line = Line2dBuilder()
         .addPoint(state.aabb, CENTER, config.startY)
@@ -66,9 +67,9 @@ private fun visualizeRat(state: CharacterRenderState, tail: SimpleTail) {
         .addPoint(state.aabb, fromPercentage(70), config.startY - fromPercentage(20))
         .addPoint(state.aabb, fromPercentage(90), config.startY - fromPercentage(20))
         .build()
-    val subdivided = subdivideLine(line.points, 2)
+    val polygon = buildTail(line, fromMillimeters(100))
 
-    state.getTailLayer().renderLine(subdivided, LineOptions(Color.Red.toRender(), Distance.fromMillimeters(10)))
+    state.getTailLayer().renderRoundedPolygon(polygon, options)
 }
 
 private fun visualizeSquirrel(state: CharacterRenderState, tail: SimpleTail) {
@@ -94,6 +95,16 @@ private fun visualizeSquirrel(state: CharacterRenderState, tail: SimpleTail) {
     }
 }
 
-private fun buildTail(line: Line2d, width: Distance) {
-    val subdivided = subdivideLine(line.points, 2)
+private fun buildTail(line: Line2d, width: Distance): Polygon2d {
+    val half = width / 2.0f
+    val subdivided = subdivideLine(line, 2)
+    val builder = Polygon2dBuilder()
+
+    subdivided.points.dropLast(1).withIndex().forEach { (index, center) ->
+        builder.addLeftAndRightPoint(center, subdivided.calculateOrientation(index), half)
+    }
+
+    return builder
+        .addLeftPoint(subdivided.points.last())
+        .build()
 }

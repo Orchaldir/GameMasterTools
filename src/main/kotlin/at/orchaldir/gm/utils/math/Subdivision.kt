@@ -1,5 +1,7 @@
 package at.orchaldir.gm.utils.math
 
+fun subdivideLine(line: Line2d, iterations: Int) = Line2d(subdivideLine(line.points, iterations))
+
 fun subdivideLine(points: List<Point2d>, iterations: Int): List<Point2d> {
     var result = points
 
