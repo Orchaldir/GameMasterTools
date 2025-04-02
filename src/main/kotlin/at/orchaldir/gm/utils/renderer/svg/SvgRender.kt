@@ -90,7 +90,7 @@ class SvgRenderer(
     }
 
     override fun renderLine(line: List<Point2d>, options: LineOptions): LayerRenderer {
-        renderPath(convertLineToPath(line), toSvg(options))
+        renderPath(convertLineToPath(line), toSvgWithoutFill(options))
 
         return this
     }
@@ -281,10 +281,12 @@ class SvgRenderer(
                 toSvg(options.border)
             )
 
-            is BorderOnly -> String.format("fill:none;%s", toSvg(options.border))
+            is BorderOnly -> toSvgWithoutFill(options.border)
             is NoBorder -> String.format("fill:%s", toSvg(options.fill))
         }
     }
+
+    private fun toSvgWithoutFill(line: LineOptions) = "fill:none;" + toSvg(line)
 
     private fun toSvg(line: LineOptions): String {
         return String.format(
