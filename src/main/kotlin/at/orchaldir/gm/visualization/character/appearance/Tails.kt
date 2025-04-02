@@ -62,11 +62,11 @@ private fun visualizeRat(state: CharacterRenderState, tail: SimpleTail) {
     val config = state.config.body.tail
     val line = Line2dBuilder()
         .addPoint(state.aabb, CENTER, config.startY)
-        .addPoint(state.aabb, fromPercentage(30), config.startY)
-        .addPoint(state.aabb, fromPercentage(30), config.startY + fromPercentage(30))
-        .addPoint(state.aabb, fromPercentage(70), config.startY + fromPercentage(30))
+        .addPoint(state.aabb, fromPercentage(30), config.startY + fromPercentage(5))
+        .addPoint(state.aabb, fromPercentage(35), config.startY + fromPercentage(30))
+        .addPoint(state.aabb, fromPercentage(75), config.startY + fromPercentage(35))
         .addPoint(state.aabb, fromPercentage(70), config.startY - fromPercentage(20))
-        .addPoint(state.aabb, fromPercentage(90), config.startY - fromPercentage(20))
+        .addPoint(state.aabb, fromPercentage(90), config.startY - fromPercentage(25))
         .build()
     val polygon = buildTail(line, fromMillimeters(100))
 
