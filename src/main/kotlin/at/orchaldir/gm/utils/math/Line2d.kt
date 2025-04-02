@@ -15,8 +15,7 @@ data class Line2d(val points: List<Point2d>) {
     } else if (index == points.lastIndex) {
         points[index - 1].calculateOrientation(points[index])
     } else {
-        // (points[index+1].calculateOrientation() - points[index].calculateOrientation()).no
-        points[index].calculateOrientation(points[index + 1])
+        (points[index + 1].calculateOrientation() - points[index].calculateOrientation()).normalizeZeroToTwoPi()
     }
 }
 
