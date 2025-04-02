@@ -44,7 +44,7 @@ private fun visualizeBunny(state: CharacterRenderState, tail: SimpleTail) {
 private fun visualizeCat(state: CharacterRenderState, tail: SimpleTail) {
     val config = state.config.body.tail
     val line = createTailLine(state, config)
-    val polygon = buildTailPolygon(line, fromMillimeters(100))
+    val polygon = buildTailPolygon(line, fromMillimeters(100), false)
 
     renderTailPolygon(state, tail, polygon)
 }
@@ -66,7 +66,7 @@ private fun visualizeHorse(state: CharacterRenderState, tail: SimpleTail) {
 private fun visualizeRat(state: CharacterRenderState, tail: SimpleTail) {
     val config = state.config.body.tail
     val line = createTailLine(state, config)
-    val polygon = buildTailPolygon(line, fromMillimeters(100))
+    val polygon = buildTailPolygon(line, fromMillimeters(150), true)
 
     renderTailPolygon(state, tail, polygon)
     //state.getTailLayer().renderLine(line.points, LineOptions(Color.Red.toRender(), 0.02f))
@@ -107,17 +107,24 @@ private fun createTailLine(
     .addPoint(state.aabb, fromPercentage(90), config.startY - fromPercentage(25))
     .build()
 
-private fun buildTailPolygon(line: Line2d, width: Distance): Polygon2d {
+private fun buildTailPolygon(line: Line2d, width: Distance, isSharp: Boolean): Polygon2d {
     val half = width / 2.0f
     logger.info { "line=$line" }
     val subdivided = subdivideLine(line, 2)
     logger.info { "subdivided=$subdivided" }
     val builder = Polygon2dBuilder()
+    val size = subdivided.points.lastIndex
 
     subdivided.points.dropLast(1).withIndex().forEach { (index, center) ->
         val orientation = subdivided.calculateOrientation(index)
+        val segmentHalf = if (isSharp) {
+            val widthFactor = Factor.fromNumber((size - index) / size.toFloat())
+            half * widthFactor
+        } else {
+            half
+        }
         logger.info { "index={$index} $center orientation=$orientation" }
-        builder.addLeftAndRightPoint(center, orientation, half)
+        builder.addLeftAndRightPoint(center, orientation, segmentHalf)
     }
 
     return builder
