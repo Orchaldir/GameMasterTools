@@ -4,13 +4,16 @@ import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteRaceAppearance
 import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.appearance.hair.HairType
+import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
+import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Cat
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Rat
+import at.orchaldir.gm.core.model.character.appearance.tail.TailColorType
+import at.orchaldir.gm.core.model.character.appearance.tail.TailColorType.Hair
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
-import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
-import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
-import at.orchaldir.gm.core.model.race.appearance.TailOptions
+import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -71,6 +74,21 @@ class RaceAppearanceTest {
             val action = UpdateRaceAppearance(RaceAppearance(ID0, tailOptions = tailOptions))
 
             assertIllegalArgument("No options for Rat tail!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Reuse hair color option requires hair`() {
+            val state = State(Storage(RaceAppearance(ID0)))
+            val tailOptions = TailOptions(simpleOptions = mapOf(Cat to SimpleTailOptions(Hair)))
+            val action = UpdateRaceAppearance(
+                RaceAppearance(
+                    ID0,
+                    hairOptions = HairOptions(hairTypes = OneOf(HairType.None)),
+                    tailOptions = tailOptions,
+                )
+            )
+
+            assertIllegalArgument("Tail options for Cat require hair!") { REDUCER.invoke(state, action) }
         }
 
         @Test
