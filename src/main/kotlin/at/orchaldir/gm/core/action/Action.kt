@@ -151,7 +151,7 @@ data class UpdateRace(val race: Race) : Action()
 data object CreateRaceAppearance : Action()
 data class CloneRaceAppearance(val id: RaceAppearanceId) : Action()
 data class DeleteRaceAppearance(val id: RaceAppearanceId) : Action()
-data class UpdateRaceAppearance(val race: RaceAppearance) : Action()
+data class UpdateRaceAppearance(val appearance: RaceAppearance) : Action()
 
 // time
 data class UpdateTime(val time: Time) : Action()

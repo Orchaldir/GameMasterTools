@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.race.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
+import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Cat
 import at.orchaldir.gm.core.model.character.appearance.tail.TailColorType
 import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.util.Color
@@ -18,8 +19,8 @@ data class SimpleTailOptions(
 @Serializable
 data class TailOptions(
     val layouts: OneOf<TailsLayout> = OneOf(TailsLayout.None),
-    val simpleShapes: OneOf<SimpleTailShape> = OneOf(SimpleTailShape.Cat),
-    val simpleOptions: Map<SimpleTailShape, SimpleTailOptions> = emptyMap(),
+    val simpleShapes: OneOf<SimpleTailShape> = OneOf(Cat),
+    val simpleOptions: Map<SimpleTailShape, SimpleTailOptions> = mapOf(Cat to SimpleTailOptions()),
 ) {
 
     fun getSimpleTailOptions(shape: SimpleTailShape) = simpleOptions[shape] ?: error("Unsupported shape $shape!")

@@ -1,13 +1,18 @@
 package at.orchaldir.gm.core.reducer
 
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteRaceAppearance
 import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
+import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Rat
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.race.appearance.TailOptions
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -59,6 +64,15 @@ class RaceAppearanceTest {
             val action = UpdateRaceAppearance(RaceAppearance(ID0))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+        }
+
+        @Test
+        fun `No tail options for for a simple tail shape`() {
+            val state = State(Storage(RaceAppearance(ID0)))
+            val tailOptions = TailOptions(simpleShapes = OneOf(Rat))
+            val action = UpdateRaceAppearance(RaceAppearance(ID0, tailOptions = tailOptions))
+
+            assertIllegalArgument("No options for Rat tail!") { REDUCER.invoke(state, action) }
         }
 
         @Test
