@@ -4,7 +4,6 @@ import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.DeleteRaceAppearance
 import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Rat
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
@@ -17,7 +16,6 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 private val ID0 = RaceAppearanceId(0)
 
@@ -38,7 +36,7 @@ class RaceAppearanceTest {
         fun `Cannot delete unknown id`() {
             val action = DeleteRaceAppearance(ID0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Race Appearance 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -52,7 +50,7 @@ class RaceAppearanceTest {
             )
             val action = DeleteRaceAppearance(ID0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Race Appearance 0 cannot be deleted") { REDUCER.invoke(state, action) }
         }
     }
 
@@ -63,7 +61,7 @@ class RaceAppearanceTest {
         fun `Cannot update unknown id`() {
             val action = UpdateRaceAppearance(RaceAppearance(ID0))
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Race Appearance 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
