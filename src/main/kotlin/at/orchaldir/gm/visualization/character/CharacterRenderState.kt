@@ -21,7 +21,7 @@ data class CharacterRenderState(
     private fun getLayer(layer: Int) = renderer.getLayer(
         if (renderFront) {
             layer
-    } else {
+        } else {
             -layer
         }
     )
