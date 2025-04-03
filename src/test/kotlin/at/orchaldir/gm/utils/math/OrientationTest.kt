@@ -14,7 +14,7 @@ class OrientationTest {
 
     @Test
     fun `Create degrees`() {
-        val orientation = Orientation.fromDegree(180.0f)
+        val orientation = fromDegree(180.0f)
 
         assertEquals(180.0f, orientation.toDegree())
         assertEquals(pi, orientation.toRadians())
@@ -81,11 +81,11 @@ class OrientationTest {
     }
 
     private fun testCos(degrees: Float, result: Float) {
-        assertEquals(result, Orientation.fromDegree(degrees).cos(), DELTA)
+        assertEquals(result, fromDegree(degrees).cos(), DELTA)
     }
 
     private fun testSin(degrees: Float, result: Float) {
-        assertEquals(result, Orientation.fromDegree(degrees).sin(), DELTA)
+        assertEquals(result, fromDegree(degrees).sin(), DELTA)
     }
 
 }
