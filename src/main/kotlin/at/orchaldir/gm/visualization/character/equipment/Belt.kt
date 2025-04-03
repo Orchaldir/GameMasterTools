@@ -94,7 +94,7 @@ private fun visualizeRowOfBeltHoles(
         NoBorder(Color.Black.toRender())
     }
     val hipWidth = state.config.equipment.pants.getHipWidth(state.config.body, body)
-    val splitter = LineSplitter.fromStartAndEnd(torsoAABB.getMirroredPoints(hipWidth, y), 10)
+    val splitter = SegmentSplitter.fromStartAndEnd(torsoAABB.getMirroredPoints(hipWidth, y), 10)
     val renderer = state.renderer.getLayer(HIGHER_EQUIPMENT_LAYER)
 
     splitter.getCenters().forEach { center ->

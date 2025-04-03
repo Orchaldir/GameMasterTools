@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.action.CreateRaceAppearance
 import at.orchaldir.gm.core.action.DeleteRaceAppearance
 import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.appearance.hair.HairType
+import at.orchaldir.gm.core.model.character.appearance.tail.TailColorType
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
@@ -32,7 +34,27 @@ val DELETE_RACE_APPEARANCE: Reducer<DeleteRaceAppearance, State> = { state, acti
 }
 
 val UPDATE_RACE_APPEARANCE: Reducer<UpdateRaceAppearance, State> = { state, action ->
-    state.getRaceAppearanceStorage().require(action.race.id)
+    val appearance = action.appearance
+    state.getRaceAppearanceStorage().require(appearance.id)
 
-    noFollowUps(state.updateStorage(state.getRaceAppearanceStorage().update(action.race)))
+    checkRaceAppearance(appearance)
+
+    noFollowUps(state.updateStorage(state.getRaceAppearanceStorage().update(appearance)))
+}
+
+private fun checkRaceAppearance(appearance: RaceAppearance) {
+    checkTails(appearance)
+}
+
+private fun checkTails(appearance: RaceAppearance) {
+    val options = appearance.tailOptions
+    options.simpleShapes.getValidValues().forEach {
+        require(options.simpleOptions.containsKey(it)) { "No options for $it tail!" }
+    }
+
+    if (!appearance.hairOptions.hairTypes.contains(HairType.Normal)) {
+        options.simpleOptions.forEach { (shape, shapeOptions) ->
+            require(shapeOptions.colorType != TailColorType.Hair) { "Tail options for $shape require hair!" }
+        }
+    }
 }

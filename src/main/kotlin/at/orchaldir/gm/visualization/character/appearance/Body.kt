@@ -20,6 +20,7 @@ data class BodyConfig(
     val hourglassWidth: Factor,
     val legWidth: Factor,
     val shoulderY: Factor,
+    val tail: TailConfig,
     val torsoHeight: Factor,
     val torsoWidth: Factor,
     val torsoY: Factor,

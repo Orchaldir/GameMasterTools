@@ -101,7 +101,7 @@ class SvgTest {
 
         assertEquals(
             """<svg viewBox="0 0 100.000 150.000" xmlns="http://www.w3.org/2000/svg">
-  <path d="M 1.200 3.400 L 10.000 20.000" style="stroke:black;stroke-width:0.5000"/>
+  <path d="M 1.200 3.400 L 10.000 20.000" style="fill:none;stroke:black;stroke-width:0.5000"/>
 </svg>""",
             builder.finish().export()
         )

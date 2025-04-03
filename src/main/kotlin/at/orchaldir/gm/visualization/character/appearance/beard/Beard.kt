@@ -41,7 +41,7 @@ private fun visualizeGoatee(
     goatee: GoateeStyle,
     color: Color,
 ) {
-    val layer = state.renderer.getLayer(state.getBeardLayer())
+    val layer = state.getBeardLayer()
     val options = NoBorder(color.toRender())
     val polygon = when (goatee) {
         GoateeStyle.ChinPuff -> getChinPuff(state, head)
@@ -78,5 +78,5 @@ private fun visualizeMoustache(
         MoustacheStyle.Walrus -> getWalrus(state, head)
     }
 
-    state.renderer.getLayer(state.getBeardLayer()).renderRoundedPolygon(polygon, options)
+    state.getBeardLayer().renderRoundedPolygon(polygon, options)
 }

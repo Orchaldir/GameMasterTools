@@ -7,11 +7,10 @@ import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.character.appearance.mouth.*
+import at.orchaldir.gm.core.model.character.appearance.tail.*
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
-import at.orchaldir.gm.core.model.race.appearance.DEFAULT_CROWN_WIDTH
-import at.orchaldir.gm.core.model.race.appearance.HornOptions
-import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
@@ -35,6 +34,7 @@ data class AppearanceGeneratorConfig(
                 generateBody(this, skin),
                 generateHead(this, skin),
                 heightDistribution.center,
+                generateTails(this),
                 generateWings(this),
             )
 
@@ -251,6 +251,33 @@ fun generateSkin(config: AppearanceGeneratorConfig): Skin {
         SkinType.Normal -> NormalSkin(config.generate(options.normalSkinColors))
         SkinType.Exotic -> ExoticSkin(config.generate(options.exoticSkinColors))
     }
+}
+
+fun generateTails(config: AppearanceGeneratorConfig): Tails {
+    val options = config.appearanceOptions.tailOptions
+
+    return when (config.generate(options.layouts)) {
+        TailsLayout.None -> NoTails
+        TailsLayout.Simple -> generateSimpleTail(config, options)
+    }
+}
+
+private fun generateSimpleTail(
+    config: AppearanceGeneratorConfig,
+    tailOptions: TailOptions,
+): SimpleTail {
+    val shape = config.generate(tailOptions.simpleShapes)
+    val options = tailOptions.simpleOptions[shape] ?: SimpleTailOptions()
+
+    return SimpleTail(
+        shape,
+        config.select(Size.entries),
+        when (options.colorType) {
+            TailColorType.Hair -> ReuseHairColor
+            TailColorType.Overwrite -> OverwriteTailColor(config.generate(options.colors))
+            TailColorType.Skin -> ReuseSkinColor
+        }
+    )
 }
 
 fun generateWings(config: AppearanceGeneratorConfig): Wings {

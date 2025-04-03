@@ -5,16 +5,19 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class LineSplitterTest {
+class SegmentSplitterTest {
 
-    private val splitter = LineSplitter.fromStartAndEnd(
-        Point2d(10.0f, 20f),
-        Point2d(50.0f, 20f),
+    private val start = Point2d(10.0f, 20f)
+    private val end = Point2d(50.0f, 20f)
+    private val center0 = Point2d(20.0f, 20f)
+    private val center1 = Point2d(40.0f, 20f)
+
+    private val splitter = SegmentSplitter.fromStartAndEnd(
+        start,
+        end,
         ConstantWeight(2),
     )
 
-    private val center0 = Point2d(20.0f, 20f)
-    private val center1 = Point2d(40.0f, 20f)
 
     @Nested
     inner class GetCenterTest {
@@ -40,6 +43,11 @@ class LineSplitterTest {
     @Test
     fun `Get all centers`() {
         assertEquals(listOf(center0, center1), splitter.getCenters())
+    }
+
+    @Test
+    fun `Get all corners`() {
+        assertEquals(listOf(start, Point2d(30.0f, 20f), end), splitter.getCorners())
     }
 
 }

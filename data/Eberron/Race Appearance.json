@@ -463,6 +463,19 @@
      "Gray": "Common"
     }
    },
+   "tailOptions": {
+    "layouts": {
+     "Simple": "Common"
+    },
+    "simpleShapes": {
+     "Rat": "Common"
+    },
+    "simpleOptions": {
+     "Rat": {
+      "colorType": "Skin"
+     }
+    }
+   },
    "wingOptions": {
     "layouts": {
      "Two": "Common"

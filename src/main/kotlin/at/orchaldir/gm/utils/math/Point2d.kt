@@ -2,6 +2,7 @@ package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.Serializable
+import kotlin.math.atan2
 import kotlin.math.hypot
 
 @Serializable
@@ -22,6 +23,9 @@ data class Point2d(val x: Float = 0.0f, val y: Float = 0.0f) {
 
     fun length() = hypot(x, y)
     fun calculateDistance(other: Point2d) = minus(other).length()
+
+    fun calculateOrientation() = Orientation.fromRadians(atan2(y.toDouble(), x.toDouble()).toFloat())
+    fun calculateOrientation(other: Point2d) = (other - this).calculateOrientation()
 
     operator fun plus(distance: Distance) = Point2d(x + distance.toMeters(), y + distance.toMeters())
     operator fun plus(other: Point2d) = Point2d(x + other.x, y + other.y)

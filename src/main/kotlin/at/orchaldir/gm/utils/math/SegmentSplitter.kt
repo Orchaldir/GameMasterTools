@@ -1,6 +1,6 @@
 package at.orchaldir.gm.utils.math
 
-class LineSplitter private constructor(
+class SegmentSplitter private constructor(
     private val start: Point2d,
     private val diff: Point2d,
     private val weightCalculator: SegmentWeightCalculator,
@@ -8,13 +8,16 @@ class LineSplitter private constructor(
 
     companion object {
         fun fromStartAndEnd(start: Point2d, end: Point2d, weightCalculator: SegmentWeightCalculator) =
-            LineSplitter(start, end - start, weightCalculator)
+            SegmentSplitter(start, end - start, weightCalculator)
+
+        fun fromStartAndEnd(start: Point2d, end: Point2d, segments: Int) =
+            SegmentSplitter(start, end - start, ConstantWeight(segments))
 
         fun fromStartAndEnd(pair: Pair<Point2d, Point2d>, weightCalculator: SegmentWeightCalculator) =
             fromStartAndEnd(pair.first, pair.second, weightCalculator)
 
         fun fromStartAndEnd(pair: Pair<Point2d, Point2d>, segments: Int) =
-            fromStartAndEnd(pair.first, pair.second, ConstantWeight(segments))
+            fromStartAndEnd(pair.first, pair.second, segments)
     }
 
     fun getCenter(index: Int): Point2d {
@@ -36,6 +39,20 @@ class LineSplitter private constructor(
             points.add(center)
 
             startOfSegment += step
+        }
+
+        return points
+    }
+
+    fun getCorners(): List<Point2d> {
+        val points = mutableListOf(start)
+        var point = start
+
+        repeat(weightCalculator.segments()) {
+            val step = diff * weightCalculator.calculate(it)
+            point += step
+
+            points.add(point)
         }
 
         return points
