@@ -400,7 +400,11 @@ private fun FORM.editTails(appearance: RaceAppearance) {
             selectValue(
                 "$shape Color Type",
                 combine(TAIL, shape.name, TYPE),
-                TailColorType.entries,
+                if (appearance.hairOptions.hairTypes.contains(HairType.Normal)) {
+                    TailColorType.entries
+                } else {
+                    setOf(TailColorType.Overwrite, TailColorType.Skin)
+                },
                 simpleOptions.colorType,
                 true,
             )
