@@ -20,4 +20,7 @@ data class TailOptions(
     val layouts: OneOf<TailsLayout> = OneOf(TailsLayout.None),
     val simpleShapes: OneOf<SimpleTailShape> = OneOf(SimpleTailShape.Cat),
     val simpleOptions: Map<SimpleTailShape, SimpleTailOptions> = emptyMap(),
-)
+) {
+
+    fun getSimpleTailOptions(shape: SimpleTailShape) = simpleOptions[shape] ?: error("Unsupported shape $shape!")
+}
