@@ -14,6 +14,7 @@ import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HeadConfig
@@ -70,16 +71,22 @@ private fun visualizeDangleEarring(
     position: Point2d,
     earRadius: Distance,
 ) {
-    var current = position.addHeight(earRadius)
+    var lastStep = earRadius
+    var lastPosition = position
+    val wireLength = state.config.equipment.earring.calculateStudSize(earRadius, Size.Small)
+    val wireOptions = LineOptions(dangle.wireColor.toRender(), wireLength / 3.0f)
 
     dangle.sizes.forEach { size ->
         val radius = state.config.equipment.earring.calculateStudSize(earRadius, size)
+        val top = lastPosition.addHeight(lastStep)
+        val center = top.addHeight(radius)
 
-        current = current.addHeight(radius)
+        state.renderer.getLayer().renderLine(listOf(lastPosition, top), wireOptions)
 
-        visualizeOrnament(state, dangle.ornament, current, radius)
+        visualizeOrnament(state, dangle.ornament, center, radius)
 
-        current = current.addHeight(radius)
+        lastStep = wireLength
+        lastPosition = center.addHeight(radius)
     }
 }
 

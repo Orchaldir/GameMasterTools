@@ -7,12 +7,15 @@ import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.item.equipment.Earring
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size.*
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 
 fun main() {
+    val dangle = SimpleOrnament(color = Color.Red)
+
     val equipmentTable: MutableList<List<EquipmentData>> = mutableListOf(
         OrnamentShape.entries.map {
             Earring(StudEarring(SimpleOrnament(it)))
@@ -21,9 +24,9 @@ fun main() {
             Earring(StudEarring(OrnamentWithBorder(it)))
         },
         listOf(
-            Earring(DangleEarring(SimpleOrnament(), listOf(Medium))),
-            Earring(DangleEarring(SimpleOrnament(), listOf(Medium, Large))),
-            Earring(DangleEarring(SimpleOrnament(), listOf(Small, Medium, Large))),
+            Earring(DangleEarring(dangle, listOf(Medium))),
+            Earring(DangleEarring(dangle, listOf(Medium, Large))),
+            Earring(DangleEarring(dangle, listOf(Small, Medium, Large))),
         )
     )
 
