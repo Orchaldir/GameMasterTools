@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size.*
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 
 fun main() {
@@ -25,8 +26,13 @@ fun main() {
         },
         listOf(
             Earring(DangleEarring(dangle, listOf(Medium))),
-            Earring(DangleEarring(dangle, listOf(Medium, Large))),
             Earring(DangleEarring(dangle, listOf(Small, Medium, Large))),
+            Earring(DangleEarring(dangle, listOf(Small, Small, Small))),
+        ),
+        listOf(
+            Earring(HoopEarring(Factor.fromPercentage(20), Small)),
+            Earring(HoopEarring(Factor.fromPercentage(40), Medium)),
+            Earring(HoopEarring(Factor.fromPercentage(50), Large)),
         )
     )
 
