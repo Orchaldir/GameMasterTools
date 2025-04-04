@@ -59,14 +59,32 @@ private fun visualizeEarring(
     earRadius: Distance,
 ) {
     when (earring.style) {
-        is DangleEarring -> doNothing()
-        is StudEarring -> visualizeStudEarring(state, earring, earring.style, position, earRadius)
+        is DangleEarring -> visualizeDangleEarring(state, earring.style, position, earRadius)
+        is StudEarring -> visualizeStudEarring(state, earring.style, position, earRadius)
+    }
+}
+
+private fun visualizeDangleEarring(
+    state: CharacterRenderState,
+    dangle: DangleEarring,
+    position: Point2d,
+    earRadius: Distance,
+) {
+    var current = position.addHeight(earRadius)
+
+    dangle.sizes.forEach { size ->
+        val radius = state.config.equipment.earring.calculateStudSize(earRadius, size)
+
+        current = current.addHeight(radius)
+
+        visualizeOrnament(state, dangle.ornament, current, radius)
+
+        current = current.addHeight(radius)
     }
 }
 
 private fun visualizeStudEarring(
     state: CharacterRenderState,
-    earring: Earring,
     stud: StudEarring,
     position: Point2d,
     earRadius: Distance,
