@@ -13,6 +13,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.HeadConfig
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 
@@ -149,5 +150,5 @@ private fun visualizeWire(
     val config = state.config.equipment.earring
     val wireOptions = LineOptions(color.toRender(), config.calculateWireThickness(earRadius, thickness))
 
-    state.renderer.getLayer(-1).renderLine(listOf(top, bottom), wireOptions)
+    state.renderer.getLayer(EQUIPMENT_LAYER - 1).renderLine(listOf(top, bottom), wireOptions)
 }

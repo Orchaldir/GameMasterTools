@@ -12,6 +12,7 @@ import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 
 fun visualizeOrnament(
     state: CharacterRenderState,
@@ -52,7 +53,7 @@ private fun visualizeOrnament(
     shape: OrnamentShape,
     options: RenderOptions,
 ) {
-    val renderer = state.renderer.getLayer()
+    val renderer = state.renderer.getLayer(EQUIPMENT_LAYER)
 
     when (shape) {
         OrnamentShape.Circle -> renderer.renderCircle(position, radius, options)
