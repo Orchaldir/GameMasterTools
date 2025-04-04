@@ -17,7 +17,7 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 
 fun main() {
-    val dangle = SimpleOrnament(color = Red)
+    val red = SimpleOrnament(color = Red)
 
     val equipmentTable: List<List<EquipmentData>> = mutableListOf(
         OrnamentShape.entries.map {
@@ -27,13 +27,13 @@ fun main() {
             StudEarring(OrnamentWithBorder(it))
         },
         listOf(
-            DangleEarring(dangle, listOf(Medium)),
-            DangleEarring(dangle, listOf(Small, Medium, Large)),
-            DangleEarring(dangle, listOf(Small, Small, Small)),
+            DangleEarring(red, listOf(Medium)),
+            DangleEarring(red, listOf(Small, Medium, Large)),
+            DangleEarring(red, listOf(Small, Small, Small)),
         ),
         listOf(
             DropEarring(fromPercentage(20), size = Small),
-            DropEarring(fromPercentage(30), bottom = SimpleOrnament(color = Blue), size = Medium),
+            DropEarring(fromPercentage(30), red, red, size = Medium),
             DropEarring(fromPercentage(40), bottom = OrnamentWithBorder(Square, Blue), size = Large),
         ),
         listOf(
