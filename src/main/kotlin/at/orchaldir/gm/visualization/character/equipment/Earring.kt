@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.DangleEarring
 import at.orchaldir.gm.core.model.item.equipment.style.DropEarring
 import at.orchaldir.gm.core.model.item.equipment.style.HoopEarring
 import at.orchaldir.gm.core.model.item.equipment.style.StudEarring
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -122,12 +123,10 @@ private fun visualizeHoopEarring(
     position: Point2d,
     earRadius: Distance,
 ) {
-    val config = state.config.equipment.earring
-    val thickness = config.calculateWireThickness(earRadius, hoop.thickness)
-    val wireOptions = LineOptions(hoop.color.toRender(), thickness)
-    val end = config.calculateWireEnd(state.aabb, position, earRadius, hoop.length)
+    val end = state.config.equipment.earring
+        .calculateWireEnd(state.aabb, position, earRadius, hoop.length)
 
-    state.renderer.getLayer().renderLine(listOf(position, end), wireOptions)
+    visualizeWire(state, earRadius, position, end, hoop.thickness, hoop.color)
 }
 
 private fun visualizeStudEarring(
@@ -139,4 +138,18 @@ private fun visualizeStudEarring(
     val radius = state.config.equipment.earring.calculateStudSize(earRadius, stud.size)
 
     visualizeOrnament(state, stud.ornament, position, radius)
+}
+
+private fun visualizeWire(
+    state: CharacterRenderState,
+    earRadius: Distance,
+    top: Point2d,
+    bottom: Point2d,
+    thickness: Size,
+    color: Color,
+) {
+    val config = state.config.equipment.earring
+    val wireOptions = LineOptions(color.toRender(), config.calculateWireThickness(earRadius, thickness))
+
+    state.renderer.getLayer().renderLine(listOf(top, bottom), wireOptions)
 }
