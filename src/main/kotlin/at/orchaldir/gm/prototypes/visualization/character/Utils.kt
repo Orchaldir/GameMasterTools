@@ -42,10 +42,21 @@ fun <C, R> renderCharacterTable(
     create: (Distance, C, R) -> Pair<Appearance, List<EquipmentData>>,
 ) {
     val height = fromMillimeters(2000)
-    val size = config.calculateSize(height)
+    val dataMap = mutableMapOf<Pair<R, C>, Pair<Appearance, List<EquipmentData>>>()
+    var maxSize = Size2d.square(0.001f)
 
-    renderTable(filename, size, rows, columns, backToo) { aabb, renderer, renderFront, column, row ->
-        val (appearance, equipment) = create(height, column, row)
+    rows.forEach { (_, row) ->
+        columns.forEach { (_, column) ->
+            val data = create(height, column, row)
+            val size = calculateSize(config, data.first).getFullSize()
+
+            dataMap[Pair(row, column)] = data
+            maxSize = maxSize.max(size)
+        }
+    }
+
+    renderTable(filename, maxSize, rows, columns, backToo) { aabb, renderer, renderFront, column, row ->
+        val (appearance, equipment) = dataMap.getValue(Pair(row, column))
         val state = CharacterRenderState(aabb, config, renderer, renderFront, equipment)
 
         visualizeAppearance(state, appearance)
