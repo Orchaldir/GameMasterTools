@@ -57,7 +57,7 @@ private fun visualizeOrnament(
 
     when (shape) {
         OrnamentShape.Circle -> renderer.renderCircle(position, radius, options)
-        OrnamentShape.Diamond -> doNothing()
+        OrnamentShape.Diamond -> renderer.renderDiamond(AABB.fromCenter(position, radius * 2.0f), options)
         OrnamentShape.Square -> renderer.renderRectangle(AABB.fromCenter(position, radius * 2.0f), options)
     }
 }

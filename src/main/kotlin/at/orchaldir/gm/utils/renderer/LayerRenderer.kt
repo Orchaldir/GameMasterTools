@@ -24,6 +24,8 @@ interface LayerRenderer {
         options: RenderOptions,
     ): LayerRenderer
 
+    fun renderDiamond(aabb: AABB, options: RenderOptions): LayerRenderer
+
     fun renderEllipse(
         center: Point2d,
         orientation: Orientation,

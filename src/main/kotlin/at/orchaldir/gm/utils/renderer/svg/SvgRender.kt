@@ -49,6 +49,12 @@ class SvgRenderer(
         return this
     }
 
+    override fun renderDiamond(aabb: AABB, options: RenderOptions): LayerRenderer {
+        renderPath(convertDiamondToPath(aabb), toSvg(options))
+
+        return this
+    }
+
     override fun renderEllipse(
         center: Point2d,
         orientation: Orientation,
