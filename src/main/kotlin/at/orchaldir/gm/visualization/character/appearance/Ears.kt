@@ -20,6 +20,7 @@ data class EarConfig(
     fun getRoundRadius(aabb: AABB, size: Size) = aabb.convertHeight(roundRadius.convert(size))
     fun getRoundRadius(headHeight: Distance, size: Size) = headHeight * roundRadius.convert(size)
     fun getSidewaysLength(headHeight: Distance, size: Size) = getRoundRadius(headHeight, size) * pointedLength
+    fun getUpwardsLength(headHeight: Distance, size: Size) = getRoundRadius(headHeight, size) * (pointedLength + FULL)
 }
 
 fun visualizeEars(state: CharacterRenderState, head: Head) {

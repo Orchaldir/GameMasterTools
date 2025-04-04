@@ -29,6 +29,11 @@ class PaddedSize(
         right += meters
     }
 
+    fun addToTop(padding: Distance) {
+        val meters = padding.toMeters()
+        top += meters
+    }
+
     fun addToTopAndSide(padding: Distance) {
         val meters = padding.toMeters()
         top += meters
@@ -85,10 +90,19 @@ private fun handleEars(
         NoEars -> doNothing()
         is NormalEars -> when (ears.shape) {
             EarShape.PointedSideways -> {
-                val earRadius = config.head.ears.getSidewaysLength(headHeight, ears.size)
-                paddedSize.addToSide(earRadius)
+                val earLength = config.head.ears.getSidewaysLength(headHeight, ears.size)
+                paddedSize.addToSide(earLength)
             }
-            EarShape.PointedUpwards -> doNothing()
+
+            EarShape.PointedUpwards -> {
+                val earLength = config.head.ears.getUpwardsLength(headHeight, ears.size)
+                val earPosition = headHeight * config.head.earY
+
+                if (earLength > earPosition) {
+                    val heightAboveHead = earLength - earPosition
+                    paddedSize.addToTop(heightAboveHead)
+                }
+            }
             EarShape.Round -> {
                 val earRadius = config.head.ears.getRoundRadius(headHeight, ears.size)
                 paddedSize.addToSide(earRadius)
