@@ -84,7 +84,10 @@ private fun handleEars(
     when (ears) {
         NoEars -> doNothing()
         is NormalEars -> when (ears.shape) {
-            EarShape.PointedSideways -> doNothing()
+            EarShape.PointedSideways -> {
+                val earRadius = config.head.ears.getSidewaysLength(headHeight, ears.size)
+                paddedSize.addToSide(earRadius)
+            }
             EarShape.PointedUpwards -> doNothing()
             EarShape.Round -> {
                 val earRadius = config.head.ears.getRoundRadius(headHeight, ears.size)
