@@ -5,14 +5,15 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.NoEars
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.item.equipment.Earring
+import at.orchaldir.gm.core.model.item.equipment.style.DangleEarring
 import at.orchaldir.gm.core.model.item.equipment.style.StudEarring
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HeadConfig
@@ -58,6 +59,7 @@ private fun visualizeEarring(
     earRadius: Distance,
 ) {
     when (earring.style) {
+        is DangleEarring -> doNothing()
         is StudEarring -> visualizeStudEarring(state, earring, earring.style, position, earRadius)
     }
 }

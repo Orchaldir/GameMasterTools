@@ -1,18 +1,15 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
-import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.character.appearance.HeadOnly
+import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.item.equipment.Earring
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
-import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape
-import at.orchaldir.gm.core.model.item.equipment.style.OrnamentWithBorder
-import at.orchaldir.gm.core.model.item.equipment.style.SimpleOrnament
-import at.orchaldir.gm.core.model.item.equipment.style.StudEarring
-import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.prototypes.visualization.addNames
+import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.Size.*
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
-import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 
 fun main() {
@@ -22,7 +19,12 @@ fun main() {
         },
         OrnamentShape.entries.map {
             Earring(StudEarring(OrnamentWithBorder(it)))
-        }
+        },
+        listOf(
+            Earring(DangleEarring(SimpleOrnament(), listOf(Medium))),
+            Earring(DangleEarring(SimpleOrnament(), listOf(Medium, Large))),
+            Earring(DangleEarring(SimpleOrnament(), listOf(Small, Medium, Large))),
+        )
     )
 
     renderCharacterTable(
