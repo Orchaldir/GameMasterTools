@@ -30,8 +30,8 @@ fun main() {
             Earring(DangleEarring(dangle, listOf(Small, Small, Small))),
         ),
         listOf(
-            Earring(HoopEarring(Factor.fromPercentage(20), Small)),
-            Earring(HoopEarring(Factor.fromPercentage(40), Medium)),
+            Earring(HoopEarring(Factor.fromPercentage(40), Small)),
+            Earring(HoopEarring(Factor.fromPercentage(60), Medium)),
             Earring(HoopEarring(Factor.fromPercentage(80), Large)),
         )
     )

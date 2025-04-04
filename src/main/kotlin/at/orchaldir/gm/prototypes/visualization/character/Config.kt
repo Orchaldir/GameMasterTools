@@ -65,7 +65,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         ),
         EarringConfig(
             fromPercentages(20, 25, 30),
-            fromPercentages(8, 10, 12),
+            fromPercentages(10, 15, 20),
         ),
         FootwearConfig(
             fromPercentage(50),

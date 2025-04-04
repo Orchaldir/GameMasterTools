@@ -100,9 +100,10 @@ private fun visualizeHoopEarring(
 ) {
     val thickness = state.config.equipment.earring.calculateWireThickness(earRadius, hoop.thickness)
     val wireOptions = LineOptions(hoop.color.toRender(), thickness)
-    val maxLength = state.aabb.getEnd().y - position.y
+    val start = position.addHeight(earRadius)
+    val maxLength = state.aabb.getEnd().y - start.y
     val length = Distance.fromMeters(maxLength * hoop.length.toNumber())
-    val end = position.addHeight(length)
+    val end = start.addHeight(length)
 
     state.renderer.getLayer().renderLine(listOf(position, end), wireOptions)
 }
