@@ -48,6 +48,7 @@ fun visualizeHeadEquipment(
 ) {
     state.equipped.forEach {
         when (it) {
+            is Earring -> visualizeEarring(state, head, it)
             is Glasses -> visualizeGlasses(state, head, it)
             is Hat -> visualizeHat(state, it)
             else -> doNothing()
