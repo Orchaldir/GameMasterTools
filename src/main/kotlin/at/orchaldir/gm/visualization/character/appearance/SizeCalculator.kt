@@ -23,6 +23,12 @@ class PaddedSize(
         right += meters
     }
 
+    fun addToSide(padding: Distance) {
+        val meters = padding.toMeters()
+        left += meters
+        right += meters
+    }
+
     fun addToTopAndSide(padding: Distance) {
         val meters = padding.toMeters()
         top += meters
@@ -39,13 +45,14 @@ fun calculateSize(config: CharacterRenderConfig, appearance: Appearance): Padded
     val padded = when (appearance) {
         is HeadOnly -> {
             val padded = PaddedSize(Size2d.square(appearance.height))
-            handleHead(config, appearance.head, padded)
+            handleHead(config, appearance.head, padded, appearance.height)
             padded
         }
 
         is HumanoidBody -> {
             val padded = PaddedSize(Size2d.square(appearance.height))
-            handleHead(config, appearance.head, padded)
+            val headHeight = appearance.height * config.body.headHeight
+            handleHead(config, appearance.head, padded, headHeight)
             padded
         }
 
@@ -57,12 +64,42 @@ fun calculateSize(config: CharacterRenderConfig, appearance: Appearance): Padded
     return padded
 }
 
-private fun handleHead(config: CharacterRenderConfig, head: Head, paddedSize: PaddedSize) {
-    handleHorn(config, head.horns, paddedSize)
+private fun handleHead(
+    config: CharacterRenderConfig,
+    head: Head,
+    paddedSize: PaddedSize,
+    headHeight: Distance,
+) {
+    handleEars(config, head.ears, paddedSize, headHeight)
+    handleHorns(config, head.horns, paddedSize, headHeight)
 }
 
-private fun handleHorn(config: CharacterRenderConfig, horns: Horns, paddedSize: PaddedSize) {
-    val headHeight = Distance.fromMeters(paddedSize.baseSize.height) * config.body.headHeight
+private fun handleEars(
+    config: CharacterRenderConfig,
+    ears: Ears,
+    paddedSize: PaddedSize,
+    headHeight: Distance,
+) {
+
+    when (ears) {
+        NoEars -> doNothing()
+        is NormalEars -> when (ears.shape) {
+            EarShape.PointedSideways -> doNothing()
+            EarShape.PointedUpwards -> doNothing()
+            EarShape.Round -> {
+                val earRadius = config.head.ears.getRoundRadius(headHeight, ears.size)
+                paddedSize.addToSide(earRadius)
+            }
+        }
+    }
+}
+
+private fun handleHorns(
+    config: CharacterRenderConfig,
+    horns: Horns,
+    paddedSize: PaddedSize,
+    headHeight: Distance,
+) {
 
     when (horns) {
         NoHorns -> doNothing()
