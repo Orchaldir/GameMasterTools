@@ -31,11 +31,13 @@ data class EarringConfig(
 
     fun calculatePosition(aabb: AABB, head: HeadConfig, earRadius: Distance): Pair<Point2d, Point2d> {
         val (left, right) = aabb.getMirroredPoints(FULL, head.earY)
-        val offset = earRadius * 0.3f
-        val leftOffset = Point2d(-offset.toMeters(), offset.toMeters())
-        val rightOffset = Point2d(offset.toMeters(), offset.toMeters())
+        val offset = earRadius * 0.7f
+        val orientation = Orientation.fromDegree(30.0f)
 
-        return Pair(left + leftOffset, right + rightOffset)
+        return Pair(
+            left.createPolar(offset, HALF_CIRCLE - orientation),
+            right.createPolar(offset, orientation),
+        )
     }
 
     fun calculateStudSize(earRadius: Distance, size: Size) = earRadius * studSize.convert(size)
