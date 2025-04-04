@@ -38,6 +38,21 @@ fun renderCharacterTable(
     }
 }
 
+fun renderCharacterTable(
+    filename: String,
+    config: CharacterRenderConfig,
+    appearance: Appearance,
+    equipmentTable: List<List<EquipmentData>>,
+) {
+    val paddedSize = calculateSize(config, appearance)
+
+    renderTable(filename, paddedSize.getFullSize(), equipmentTable) { aabb, renderer, equipment ->
+        val state = CharacterRenderState(aabb, config, renderer, true, listOf(equipment))
+
+        visualizeAppearance(state, appearance, paddedSize)
+    }
+}
+
 fun <C, R> renderCharacterTable(
     filename: String,
     config: CharacterRenderConfig,

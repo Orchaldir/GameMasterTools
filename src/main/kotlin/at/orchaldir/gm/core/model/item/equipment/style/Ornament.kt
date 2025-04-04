@@ -41,7 +41,7 @@ data class SimpleOrnament(
 @SerialName("Border")
 data class OrnamentWithBorder(
     val shape: OrnamentShape = OrnamentShape.Circle,
-    val color: Color = Color.White,
+    val color: Color = Color.Red,
     val material: MaterialId = MaterialId(0),
     val borderColor: Color = Color.Gold,
     val borderMaterial: MaterialId = MaterialId(0),

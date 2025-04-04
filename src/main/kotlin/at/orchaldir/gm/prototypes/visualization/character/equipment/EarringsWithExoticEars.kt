@@ -24,8 +24,8 @@ fun main() {
         CHARACTER_CONFIG,
         addNames(sizes),
         addNames(EarShape.entries),
-    ) { distance, tail, (earSize, earringSize) ->
-        Pair(createAppearance(distance, tail, earSize), listOf(Earring(StudEarring(size = earringSize))))
+    ) { distance, earShape, (earSize, earringSize) ->
+        Pair(createAppearance(distance, earShape, earSize), listOf(Earring(StudEarring(size = earringSize))))
     }
 }
 
