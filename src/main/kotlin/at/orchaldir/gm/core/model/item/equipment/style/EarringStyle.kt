@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 
 enum class EarringStyleType {
     Dangle,
+    Drop,
     Hoop,
     Stud,
 }
@@ -18,18 +19,21 @@ sealed class EarringStyle {
 
     fun getType() = when (this) {
         is DangleEarring -> EarringStyleType.Dangle
+        is DropEarring -> EarringStyleType.Drop
         is HoopEarring -> EarringStyleType.Hoop
         is StudEarring -> EarringStyleType.Stud
     }
 
     fun contains(id: MaterialId) = when (this) {
         is DangleEarring -> ornament.contains(id)
+        is DropEarring -> top.contains(id) || bottom.contains(id) || wireMaterial == id
         is HoopEarring -> material == id
         is StudEarring -> ornament.contains(id)
     }
 
     fun getMaterials() = when (this) {
         is DangleEarring -> ornament.getMaterials()
+        is DropEarring -> top.getMaterials() + bottom.getMaterials() + wireMaterial
         is HoopEarring -> setOf(material)
         is StudEarring -> ornament.getMaterials()
     }
@@ -40,6 +44,17 @@ sealed class EarringStyle {
 data class DangleEarring(
     val ornament: Ornament = SimpleOrnament(),
     val sizes: List<Size> = listOf(Size.Medium, Size.Large),
+    val wireColor: Color = Color.Gold,
+    val wireMaterial: MaterialId = MaterialId(0),
+) : EarringStyle()
+
+@Serializable
+@SerialName("Drop")
+data class DropEarring(
+    val length: Factor,
+    val top: Ornament = SimpleOrnament(),
+    val bottom: Ornament = SimpleOrnament(),
+    val size: Size = Size.Medium,
     val wireColor: Color = Color.Gold,
     val wireMaterial: MaterialId = MaterialId(0),
 ) : EarringStyle()

@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.NoEars
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.item.equipment.Earring
 import at.orchaldir.gm.core.model.item.equipment.style.DangleEarring
+import at.orchaldir.gm.core.model.item.equipment.style.DropEarring
 import at.orchaldir.gm.core.model.item.equipment.style.HoopEarring
 import at.orchaldir.gm.core.model.item.equipment.style.StudEarring
 import at.orchaldir.gm.core.model.util.Size
@@ -61,6 +62,7 @@ private fun visualizeEarring(
 ) {
     when (earring.style) {
         is DangleEarring -> visualizeDangleEarring(state, earring.style, position, earRadius)
+        is DropEarring -> doNothing()
         is HoopEarring -> visualizeHoopEarring(state, earring.style, position, earRadius)
         is StudEarring -> visualizeStudEarring(state, earring.style, position, earRadius)
     }
