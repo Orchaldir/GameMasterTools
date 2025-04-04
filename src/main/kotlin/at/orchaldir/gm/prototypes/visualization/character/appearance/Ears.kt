@@ -3,46 +3,20 @@ package at.orchaldir.gm.prototypes.visualization.character.appearance
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
-import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
-import java.io.File
 
 fun main() {
-    val config = CHARACTER_CONFIG
-    val columns: List<Size> = Size.entries
-    val rows: List<EarShape> = EarShape.entries
-    val height = fromMillimeters(200)
-    val size = config.calculateSize(height)
-    val totalSize = Size2d(size.width * columns.size, size.height * rows.size)
-    val builder = SvgBuilder(totalSize)
-    val columnStep = Point2d(size.width, 0.0f)
-    val rowStep = Point2d(0.0f, size.height)
-    var startOfRow = Point2d()
-
-    rows.forEach { row ->
-        var start = startOfRow.copy()
-
-        columns.forEach { column ->
-            val aabb = AABB(start, size)
-            val state = CharacterRenderState(aabb, config, builder, true, emptyList())
-            val appearance = createAppearance(height, row, column)
-
-            visualizeAppearance(state, appearance)
-
-            start += columnStep
-        }
-
-        startOfRow += rowStep
+    renderCharacterTable(
+        "ears.svg",
+        CHARACTER_CONFIG,
+        addNames(Size.entries),
+        addNames(EarShape.entries),
+    ) { distance, tail, size ->
+        Pair(createAppearance(distance, tail, size), emptyList())
     }
-
-    File("ears.svg").writeText(builder.finish().export())
 }
 
 private fun createAppearance(height: Distance, earShape: EarShape, size: Size) =
