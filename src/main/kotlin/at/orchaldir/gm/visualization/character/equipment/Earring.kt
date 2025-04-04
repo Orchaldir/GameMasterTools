@@ -24,7 +24,7 @@ data class EarringConfig(
         is NormalEars -> {
             val (left, right) = aabb.getMirroredPoints(FULL, head.earY)
             val radius = head.ears.getRoundRadius(aabb, ears.size)
-            val leftOffset = Point2d(radius.toMeters(), -radius.toMeters())
+            val leftOffset = Point2d(-radius.toMeters(), radius.toMeters())
             val rightOffset = Point2d(radius.toMeters(), radius.toMeters())
 
             Pair(left + leftOffset, right + rightOffset)
