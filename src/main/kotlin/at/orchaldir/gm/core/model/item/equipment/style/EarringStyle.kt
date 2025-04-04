@@ -25,14 +25,14 @@ sealed class EarringStyle {
     }
 
     fun contains(id: MaterialId) = when (this) {
-        is DangleEarring -> ornament.contains(id)
+        is DangleEarring -> top.contains(id) || bottom.contains(id) || wireMaterial == id
         is DropEarring -> top.contains(id) || bottom.contains(id) || wireMaterial == id
         is HoopEarring -> material == id
         is StudEarring -> ornament.contains(id)
     }
 
     fun getMaterials() = when (this) {
-        is DangleEarring -> ornament.getMaterials()
+        is DangleEarring -> top.getMaterials() + bottom.getMaterials() + wireMaterial
         is DropEarring -> top.getMaterials() + bottom.getMaterials() + wireMaterial
         is HoopEarring -> setOf(material)
         is StudEarring -> ornament.getMaterials()
@@ -42,7 +42,8 @@ sealed class EarringStyle {
 @Serializable
 @SerialName("Dangle")
 data class DangleEarring(
-    val ornament: Ornament = SimpleOrnament(),
+    val top: Ornament = SimpleOrnament(),
+    val bottom: Ornament = SimpleOrnament(),
     val sizes: List<Size> = listOf(Size.Medium, Size.Large),
     val wireColor: Color = Color.Gold,
     val wireMaterial: MaterialId = MaterialId(0),
