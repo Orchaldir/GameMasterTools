@@ -107,8 +107,8 @@ private fun visualizeDropEarring(
 ) {
     val config = state.config.equipment.earring
     val topRadius = config.calculateStudSize(earRadius, Size.Small)
-    val bottomRadius = config.calculateStudSize(earRadius, drop.size)
-    val end = config.calculateWireEnd(state.aabb, start, earRadius, drop.length)
+    val bottomRadius = earRadius * drop.size
+    val end = config.calculateWireEnd(state.aabb, start, earRadius, drop.wireLength)
 
     visualizeWire(state, earRadius, start, end, Size.Small, drop.wireColor)
     visualizeOrnament(state, drop.top, start, topRadius)

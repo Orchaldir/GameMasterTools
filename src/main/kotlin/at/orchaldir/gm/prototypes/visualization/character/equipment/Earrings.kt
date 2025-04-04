@@ -34,10 +34,10 @@ fun main() {
             DangleEarring(SimpleOrnament(Teardrop, Blue), listOf(Small, Small, Small)),
         ),
         listOf(
-            DropEarring(fromPercentage(20), size = Small),
-            DropEarring(fromPercentage(30), red, red, size = Medium),
-            DropEarring(fromPercentage(40), bottom = OrnamentWithBorder(Square, Blue), size = Large),
-            DropEarring(fromPercentage(20), bottom = SimpleOrnament(Teardrop, Blue), size = Large),
+            DropEarring(fromPercentage(20), fromPercentage(20)),
+            DropEarring(fromPercentage(30), fromPercentage(30), red, red),
+            DropEarring(fromPercentage(40), fromPercentage(40), bottom = OrnamentWithBorder(Square, Blue)),
+            DropEarring(fromPercentage(60), fromPercentage(40), bottom = SimpleOrnament(Teardrop, Blue)),
         ),
         listOf(
             HoopEarring(fromPercentage(40), Small),
