@@ -160,14 +160,6 @@ fun convertPolygonToPath(polygon: Polygon2d) = convertCornersToPath(polygon.corn
     .close()
     .build()
 
-fun convertTeardropToPath(aabb: AABB) = PathBuilder()
-    .moveTo(aabb.getPoint(CENTER, START))
-    .lineTo(aabb.getPoint(END, CENTER))
-    .curveTo(aabb.getPoint(END, END), aabb.getPoint(CENTER, END))
-    .curveTo(aabb.getPoint(START, END), aabb.getPoint(START, CENTER))
-    .close()
-    .build()
-
 private fun convertCornersToPath(corners: List<Point2d>): PathBuilder {
     val path = PathBuilder()
         .moveTo(corners[0])

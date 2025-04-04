@@ -2,10 +2,7 @@ package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.util.VerticalAlignment
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Orientation
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Polygon2d
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.*
@@ -183,9 +180,13 @@ class SvgRenderer(
     }
 
     override fun renderTeardrop(aabb: AABB, options: RenderOptions): LayerRenderer {
-        renderPath(convertTeardropToPath(aabb), toSvg(options))
+        val polygon = Polygon2dBuilder()
+            .addLeftPoint(aabb, CENTER, START, true)
+            .addMirroredPoints(aabb, FULL, HALF)
+            .addMirroredPoints(aabb, FULL, END)
+            .build()
 
-        return this
+        return renderRoundedPolygon(polygon, options)
     }
 
     //

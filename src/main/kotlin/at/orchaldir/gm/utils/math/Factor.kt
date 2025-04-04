@@ -5,8 +5,10 @@ import kotlinx.serialization.Serializable
 
 val START = fromPercentage(0)
 val ZERO = fromPercentage(0)
+val QUARTER = fromPercentage(25)
 val CENTER = fromPercentage(50)
 val HALF = fromPercentage(50)
+val THREE_QUARTER = fromPercentage(75)
 val END = fromPercentage(100)
 val FULL = fromPercentage(100)
 

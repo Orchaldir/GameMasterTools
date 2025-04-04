@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.item.equipment.Earring
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape.Square
+import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape.Teardrop
 import at.orchaldir.gm.core.model.util.Color.Blue
 import at.orchaldir.gm.core.model.util.Color.Red
 import at.orchaldir.gm.core.model.util.Size.*
@@ -30,11 +31,13 @@ fun main() {
             DangleEarring(red, listOf(Medium)),
             DangleEarring(red, listOf(Small, Medium, Large)),
             DangleEarring(red, listOf(Small, Small, Small)),
+            DangleEarring(SimpleOrnament(Teardrop, Blue), listOf(Small, Small, Small)),
         ),
         listOf(
             DropEarring(fromPercentage(20), size = Small),
             DropEarring(fromPercentage(30), red, red, size = Medium),
             DropEarring(fromPercentage(40), bottom = OrnamentWithBorder(Square, Blue), size = Large),
+            DropEarring(fromPercentage(20), bottom = SimpleOrnament(Teardrop, Blue), size = Large),
         ),
         listOf(
             HoopEarring(fromPercentage(40), Small),
