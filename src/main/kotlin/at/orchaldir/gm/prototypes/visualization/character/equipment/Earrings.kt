@@ -19,29 +19,29 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 fun main() {
     val dangle = SimpleOrnament(color = Red)
 
-    val equipmentTable: MutableList<List<EquipmentData>> = mutableListOf(
+    val equipmentTable: List<List<EquipmentData>> = mutableListOf(
         OrnamentShape.entries.map {
-            Earring(StudEarring(SimpleOrnament(it)))
+            StudEarring(SimpleOrnament(it))
         },
         OrnamentShape.entries.map {
-            Earring(StudEarring(OrnamentWithBorder(it)))
+            StudEarring(OrnamentWithBorder(it))
         },
         listOf(
-            Earring(DangleEarring(dangle, listOf(Medium))),
-            Earring(DangleEarring(dangle, listOf(Small, Medium, Large))),
-            Earring(DangleEarring(dangle, listOf(Small, Small, Small))),
+            DangleEarring(dangle, listOf(Medium)),
+            DangleEarring(dangle, listOf(Small, Medium, Large)),
+            DangleEarring(dangle, listOf(Small, Small, Small)),
         ),
         listOf(
-            Earring(DropEarring(fromPercentage(20), size = Small)),
-            Earring(DropEarring(fromPercentage(40), bottom = SimpleOrnament(color = Blue), size = Medium)),
-            Earring(DropEarring(fromPercentage(60), bottom = SimpleOrnament(Square, Blue), size = Large)),
+            DropEarring(fromPercentage(20), size = Small),
+            DropEarring(fromPercentage(40), bottom = SimpleOrnament(color = Blue), size = Medium),
+            DropEarring(fromPercentage(60), bottom = SimpleOrnament(Square, Blue), size = Large),
         ),
         listOf(
-            Earring(HoopEarring(fromPercentage(40), Small)),
-            Earring(HoopEarring(fromPercentage(60), Medium)),
-            Earring(HoopEarring(fromPercentage(80), Large)),
+            HoopEarring(fromPercentage(40), Small),
+            HoopEarring(fromPercentage(60), Medium),
+            HoopEarring(fromPercentage(80), Large),
         ),
-    )
+    ).map { row -> row.map { Earring(it) } }
 
     renderCharacterTable(
         "earrings.svg",
