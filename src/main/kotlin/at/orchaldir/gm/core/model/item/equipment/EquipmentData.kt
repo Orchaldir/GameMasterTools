@@ -123,6 +123,7 @@ data class Dress(
 @Serializable
 @SerialName("Earring")
 data class Earring(
+    val style: EarringStyle = StudEarring(),
     val color: Color = Color.Gold,
     val material: MaterialId = MaterialId(0),
 ) : EquipmentData() {
