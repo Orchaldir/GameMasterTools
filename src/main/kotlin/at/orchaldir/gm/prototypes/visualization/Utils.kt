@@ -13,22 +13,22 @@ import java.io.File
 
 fun <T> renderTable(
     filename: String,
-    size: Size2d,
+    renderSize: Size2d,
     rows: List<List<T>>,
     render: (AABB, MultiLayerRenderer, T) -> Unit,
 ) {
     val maxColumns = rows.maxOf { it.size }
-    val totalSize = Size2d(size.width * maxColumns, size.height * rows.size)
+    val totalSize = Size2d(renderSize.width * maxColumns, renderSize.height * rows.size)
     val builder = SvgBuilder(totalSize)
-    val columnStep = Point2d(size.width, 0.0f)
-    val rowStep = Point2d(0.0f, size.height)
+    val columnStep = Point2d(renderSize.width, 0.0f)
+    val rowStep = Point2d(0.0f, renderSize.height)
     var startOfRow = Point2d()
 
     rows.forEach { row ->
         var start = startOfRow.copy()
 
         row.forEach { element ->
-            val aabb = AABB(start, size)
+            val aabb = AABB(start, renderSize)
 
             render(aabb, builder, element)
 
@@ -43,7 +43,7 @@ fun <T> renderTable(
 
 fun <C, R> renderTable(
     filename: String,
-    size: Size2d,
+    renderSize: Size2d,
     rows: List<Pair<String, R>>,
     columns: List<Pair<String, C>>,
     backToo: Boolean,
@@ -54,14 +54,14 @@ fun <C, R> renderTable(
     } else {
         1
     }
-    val totalSize = Size2d(size.width * columns.size, size.height * rows.size * rowSize)
+    val totalSize = Size2d(renderSize.width * columns.size, renderSize.height * rows.size * rowSize)
     val builder = SvgBuilder(totalSize)
-    val columnStep = Point2d(size.width, 0.0f)
-    val rowStep = Point2d(0.0f, size.height)
+    val columnStep = Point2d(renderSize.width, 0.0f)
+    val rowStep = Point2d(0.0f, renderSize.height)
     var startOfRow = Point2d()
-    val textSize = size.width / 10.0f
+    val textSize = renderSize.width / 10.0f
     val textOptions = RenderStringOptions(Color.Black.toRender(), textSize)
-    val columnTextOffset = Point2d(size.width / 2.0f, textSize)
+    val columnTextOffset = Point2d(renderSize.width / 2.0f, textSize)
     val columnOrientation = Orientation.zero()
     val rowOrientation = Orientation.fromDegree(270.0f)
     val layer = builder.getLayer(TEXT_LAYER)
@@ -70,13 +70,13 @@ fun <C, R> renderTable(
         var start = startOfRow.copy()
 
         columns.forEach { (columnName, column) ->
-            val aabb = AABB(start, size)
+            val aabb = AABB(start, renderSize)
 
             render(aabb, builder, true, column, row)
 
             if (backToo) {
                 val startBack = start + rowStep
-                val aabbBack = AABB(startBack, size)
+                val aabbBack = AABB(startBack, renderSize)
 
                 render(aabbBack, builder, false, column, row)
             }
@@ -87,7 +87,7 @@ fun <C, R> renderTable(
             start += columnStep
         }
 
-        val textCenter = Point2d(textSize, start.y + size.height / 2.0f)
+        val textCenter = Point2d(textSize, start.y + renderSize.height / 2.0f)
         layer.renderString(rowName, textCenter, rowOrientation, textOptions)
 
         if (backToo) {
