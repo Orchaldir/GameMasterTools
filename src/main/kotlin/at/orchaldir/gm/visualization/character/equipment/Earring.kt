@@ -5,10 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.NoEars
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.item.equipment.Earring
-import at.orchaldir.gm.core.model.item.equipment.style.DangleEarring
-import at.orchaldir.gm.core.model.item.equipment.style.DropEarring
-import at.orchaldir.gm.core.model.item.equipment.style.HoopEarring
-import at.orchaldir.gm.core.model.item.equipment.style.StudEarring
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.*
@@ -89,6 +86,15 @@ private fun visualizeDangleEarring(
     val wireLength = state.config.equipment.earring.calculateStudSize(earRadius, Size.Small)
     val wireOptions = LineOptions(dangle.wireColor.toRender(), wireLength / 3.0f)
     val renderer = state.renderer.getLayer()
+    val stepFactor = if (when (dangle.ornament) {
+            is OrnamentWithBorder -> dangle.ornament.shape
+            is SimpleOrnament -> dangle.ornament.shape
+        } == OrnamentShape.Teardrop
+    ) {
+        3.0f
+    } else {
+        1.0f
+    }
 
     dangle.sizes.forEach { size ->
         val radius = state.config.equipment.earring.calculateStudSize(earRadius, size)
@@ -100,7 +106,7 @@ private fun visualizeDangleEarring(
         visualizeOrnament(state, dangle.ornament, center, radius)
 
         lastStep = wireLength
-        lastPosition = center.addHeight(radius)
+        lastPosition = center.addHeight(radius * stepFactor)
     }
 }
 
