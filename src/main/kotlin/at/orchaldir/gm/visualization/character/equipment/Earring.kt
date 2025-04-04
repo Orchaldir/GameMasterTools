@@ -16,6 +16,7 @@ import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HeadConfig
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 
 data class EarringConfig(
     val studSize: SizeConfig<Factor>,
@@ -68,9 +69,7 @@ private fun visualizeStudEarring(
     position: Point2d,
     earRadius: Distance,
 ) {
-    val options = NoBorder(earring.color.toRender())
     val radius = state.config.equipment.earring.calculateStudSize(earRadius, stud.size)
 
-    state.renderer.getLayer()
-        .renderCircle(position, radius, options)
+    visualizeOrnament(state, stud.ornament, position, radius)
 }
