@@ -33,8 +33,8 @@ fun main() {
         ),
         listOf(
             DropEarring(fromPercentage(20), size = Small),
-            DropEarring(fromPercentage(40), bottom = SimpleOrnament(color = Blue), size = Medium),
-            DropEarring(fromPercentage(60), bottom = SimpleOrnament(Square, Blue), size = Large),
+            DropEarring(fromPercentage(30), bottom = SimpleOrnament(color = Blue), size = Medium),
+            DropEarring(fromPercentage(40), bottom = SimpleOrnament(Square, Blue), size = Large),
         ),
         listOf(
             HoopEarring(fromPercentage(40), Small),
