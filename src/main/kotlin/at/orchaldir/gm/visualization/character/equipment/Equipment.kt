@@ -11,6 +11,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 data class EquipmentConfig(
     val belt: BeltConfig,
     val coat: CoatConfig,
+    val earring: EarringConfig,
     val footwear: FootwearConfig,
     val glasses: GlassesConfig,
     val hat: HatConfig,

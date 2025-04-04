@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.Factor.Companion.fromNumber
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 
 data class SizeConfig<T>(val small: T, val medium: T, val large: T) {
 
@@ -13,6 +14,9 @@ data class SizeConfig<T>(val small: T, val medium: T, val large: T) {
 
         fun fromPercentages(small: Int, medium: Int, large: Int) =
             SizeConfig(fromPercentage(small), fromPercentage(medium), fromPercentage(large))
+
+        fun fromPermilles(small: Int, medium: Int, large: Int) =
+            SizeConfig(fromPermille(small), fromPermille(medium), fromPermille(large))
 
     }
 
