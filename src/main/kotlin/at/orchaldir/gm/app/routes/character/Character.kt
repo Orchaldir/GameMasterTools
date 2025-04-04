@@ -235,19 +235,21 @@ private fun HTML.showGallery(
         .getCharacterStorage()
         .getAll()
         .filter { it.appearance !is UndefinedAppearance }
-    val maxSize = characters
-        .map { calculateSize(CHARACTER_CONFIG, it.appearance) }
-        .maxBy { it.baseSize.height }
-        .getFullSize()
     val sortedCharacters = state.sortCharacters(characters, SortCharacter.Name)
+    val charactersWithSize =
+        sortedCharacters.map { Triple(it.first, it.second, calculateSize(CHARACTER_CONFIG, it.first.appearance)) }
+    val maxSize = charactersWithSize
+        .maxBy { it.third.baseSize.height }
+        .third
+        .getFullSize()
     val backLink = call.application.href(CharacterRoutes.All())
 
     simpleHtml("Characters") {
 
         div("grid-container") {
-            sortedCharacters.forEach { (character, name) ->
+            charactersWithSize.forEach { (character, name, paddedSize) ->
                 val equipment = state.getEquipment(character)
-                val svg = visualizeAppearance(CHARACTER_CONFIG, maxSize, character.appearance, equipment)
+                val svg = visualizeAppearance(CHARACTER_CONFIG, maxSize, character.appearance, paddedSize, equipment)
 
                 div("grid-item") {
                     a(href(call, character.id)) {

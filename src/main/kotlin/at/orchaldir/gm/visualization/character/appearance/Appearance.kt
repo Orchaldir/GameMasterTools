@@ -50,23 +50,24 @@ fun visualizeAppearance(
     val builder = SvgBuilder(paddedSize.getFullSize())
     val state = CharacterRenderState(aabb, config, builder, renderFront, equipped)
 
-    visualizeAppearance(state, appearance)
+    visualizeAppearance(state, appearance, paddedSize)
 
     return builder.finish()
 }
 
 fun visualizeAppearance(
     config: CharacterRenderConfig,
-    size: Size2d,
+    renderSize: Size2d,
     appearance: Appearance,
+    paddedSize: PaddedSize,
     equipped: List<EquipmentData> = emptyList(),
     renderFront: Boolean = true,
 ): Svg {
-    val aabb = AABB(size)
-    val builder = SvgBuilder(size)
+    val aabb = AABB(renderSize)
+    val builder = SvgBuilder(renderSize)
     val state = CharacterRenderState(aabb, config, builder, renderFront, equipped)
 
-    visualizeAppearance(state, appearance)
+    visualizeAppearance(state, appearance, paddedSize)
 
     return builder.finish()
 }
@@ -74,8 +75,10 @@ fun visualizeAppearance(
 fun visualizeAppearance(
     state: CharacterRenderState,
     appearance: Appearance,
+    paddedSize: PaddedSize,
 ) {
-    val inner = AABB.fromCenter(state.aabb.getCenter(), appearance.getSize2d())
+    val offset = Point2d(paddedSize.left - paddedSize.right, paddedSize.top - paddedSize.bottom)
+    val inner = AABB.fromCenter(state.aabb.getCenter() + offset, appearance.getSize2d())
     val innerState = state.copy(aabb = inner)
 
     state.renderer.getLayer().renderRectangle(state.aabb, BorderOnly(state.config.line))

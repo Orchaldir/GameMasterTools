@@ -24,6 +24,7 @@ import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.unit.maxOf
+import at.orchaldir.gm.visualization.character.appearance.calculateSize
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import at.orchaldir.gm.visualization.character.appearance.visualizeGroup
 import io.ktor.http.*
@@ -212,7 +213,8 @@ private fun HTML.showGallery(
                 val lifeStage = race.lifeStages.getAllLifeStages().maxBy { it.relativeSize.toPermyriad() }
                 val appearance = generateAppearance(state, race, race.genders.getValidValues().first())
                 val appearanceForAge = getAppearanceForAge(race, appearance, lifeStage.maxAge)
-                val svg = visualizeAppearance(CHARACTER_CONFIG, maxSize, appearanceForAge)
+                val paddedSize = calculateSize(CHARACTER_CONFIG, appearanceForAge)
+                val svg = visualizeAppearance(CHARACTER_CONFIG, maxSize, appearanceForAge, paddedSize)
 
                 div("grid-item") {
                     a(href(call, race.id)) {

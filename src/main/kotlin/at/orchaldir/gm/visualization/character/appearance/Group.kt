@@ -17,8 +17,10 @@ fun visualizeGroup(
     renderFront: Boolean = true,
 ): Svg {
     val number = appearances.size
-    val maxSize = appearances
-        .map { calculateSize(config, it) }
+    val paddedSizeMap = appearances
+        .associateWith { calculateSize(config, it) }
+    val maxSize = paddedSizeMap
+        .values
         .maxBy { it.baseSize.height }
         .getFullSize()
     val groupSize = maxSize.copy(width = maxSize.width * number)
@@ -30,7 +32,7 @@ fun visualizeGroup(
         val aabb = AABB(start - Point2d(0.0f, size.height), size)
         val state = CharacterRenderState(aabb, config, builder, renderFront, equipped)
 
-        visualizeAppearance(state, appearance)
+        visualizeAppearance(state, appearance, paddedSizeMap.getValue(appearance))
 
         start += Point2d(size.width, 0.0f)
     }
