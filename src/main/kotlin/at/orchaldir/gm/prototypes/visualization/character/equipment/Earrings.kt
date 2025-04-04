@@ -32,7 +32,7 @@ fun main() {
         listOf(
             Earring(HoopEarring(Factor.fromPercentage(20), Small)),
             Earring(HoopEarring(Factor.fromPercentage(40), Medium)),
-            Earring(HoopEarring(Factor.fromPercentage(50), Large)),
+            Earring(HoopEarring(Factor.fromPercentage(80), Large)),
         )
     )
 

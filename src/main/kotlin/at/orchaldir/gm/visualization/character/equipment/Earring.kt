@@ -10,10 +10,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.HoopEarring
 import at.orchaldir.gm.core.model.item.equipment.style.StudEarring
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
@@ -23,6 +20,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 
 data class EarringConfig(
     val studSize: SizeConfig<Factor>,
+    val wireThickness: SizeConfig<Factor>,
 ) {
 
     fun calculateEarRadius(aabb: AABB, head: HeadConfig, ears: Ears) = when (ears) {
@@ -40,6 +38,7 @@ data class EarringConfig(
     }
 
     fun calculateStudSize(earRadius: Distance, size: Size) = earRadius * studSize.convert(size)
+    fun calculateWireThickness(earRadius: Distance, size: Size) = earRadius * wireThickness.convert(size)
 }
 
 fun visualizeEarrings(
@@ -62,7 +61,7 @@ private fun visualizeEarring(
 ) {
     when (earring.style) {
         is DangleEarring -> visualizeDangleEarring(state, earring.style, position, earRadius)
-        is HoopEarring -> doNothing()
+        is HoopEarring -> visualizeHoopEarring(state, earring.style, position, earRadius)
         is StudEarring -> visualizeStudEarring(state, earring.style, position, earRadius)
     }
 }
@@ -77,19 +76,35 @@ private fun visualizeDangleEarring(
     var lastPosition = position
     val wireLength = state.config.equipment.earring.calculateStudSize(earRadius, Size.Small)
     val wireOptions = LineOptions(dangle.wireColor.toRender(), wireLength / 3.0f)
+    val renderer = state.renderer.getLayer()
 
     dangle.sizes.forEach { size ->
         val radius = state.config.equipment.earring.calculateStudSize(earRadius, size)
         val top = lastPosition.addHeight(lastStep)
         val center = top.addHeight(radius)
 
-        state.renderer.getLayer().renderLine(listOf(lastPosition, top), wireOptions)
+        renderer.renderLine(listOf(lastPosition, top), wireOptions)
 
         visualizeOrnament(state, dangle.ornament, center, radius)
 
         lastStep = wireLength
         lastPosition = center.addHeight(radius)
     }
+}
+
+private fun visualizeHoopEarring(
+    state: CharacterRenderState,
+    hoop: HoopEarring,
+    position: Point2d,
+    earRadius: Distance,
+) {
+    val thickness = state.config.equipment.earring.calculateWireThickness(earRadius, hoop.thickness)
+    val wireOptions = LineOptions(hoop.color.toRender(), thickness)
+    val maxLength = state.aabb.getEnd().y - position.y
+    val length = Distance.fromMeters(maxLength * hoop.length.toNumber())
+    val end = position.addHeight(length)
+
+    state.renderer.getLayer().renderLine(listOf(position, end), wireOptions)
 }
 
 private fun visualizeStudEarring(
