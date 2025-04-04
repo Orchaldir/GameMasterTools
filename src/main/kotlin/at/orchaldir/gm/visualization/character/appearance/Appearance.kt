@@ -77,8 +77,9 @@ fun visualizeAppearance(
     appearance: Appearance,
     paddedSize: PaddedSize,
 ) {
-    val offset = Point2d(paddedSize.left - paddedSize.right, paddedSize.top - paddedSize.bottom)
-    val inner = AABB.fromCenter(state.aabb.getCenter() + offset, appearance.getSize2d())
+    val offset = Point2d(paddedSize.left + paddedSize.universial, paddedSize.top + paddedSize.universial)
+    val full = AABB.fromCenter(state.aabb.getCenter(), paddedSize.getFullSize())
+    val inner = AABB(full.start + offset, appearance.getSize2d())
     val innerState = state.copy(aabb = inner)
 
     state.renderer.getLayer().renderRectangle(state.aabb, BorderOnly(state.config.line))

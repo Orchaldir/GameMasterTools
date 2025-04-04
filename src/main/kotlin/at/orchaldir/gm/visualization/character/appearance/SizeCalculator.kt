@@ -4,23 +4,22 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 
 class PaddedSize(
     val baseSize: Size2d,
+    var universial: Float = 0.0f,
     var top: Float = 0.0f,
     var bottom: Float = 0.0f,
     var left: Float = 0.0f,
     var right: Float = 0.0f,
 ) {
-    fun add(padding: Distance) {
+    fun addUniversial(padding: Distance) {
         val meters = padding.toMeters()
-        top += meters
-        bottom += meters
-        left += meters
-        right += meters
+        universial += meters
     }
 
     fun addToSide(padding: Distance) {
@@ -41,9 +40,10 @@ class PaddedSize(
         right += meters
     }
 
-    fun getFullSize() = baseSize + Size2d(left + right, top + bottom)
+    fun getInnerSize() = baseSize.addWidth(left + right).addHeight(top + bottom)
+    fun getInnerAABB() = AABB(Point2d.square(universial), getInnerSize())
+    fun getFullSize() = getInnerSize() + Distance.fromMeters(2.0f * universial)
     fun getFullAABB() = AABB(getFullSize())
-    fun getInnerAABB() = AABB(left, top, baseSize)
 }
 
 fun calculateSize(config: CharacterRenderConfig, appearance: Appearance): PaddedSize {
@@ -64,7 +64,7 @@ fun calculateSize(config: CharacterRenderConfig, appearance: Appearance): Padded
         UndefinedAppearance -> PaddedSize(Size2d.square(config.padding * 2.0f))
     }
 
-    padded.add(config.padding)
+    padded.addUniversial(config.padding)
 
     return padded
 }
