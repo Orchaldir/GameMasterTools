@@ -14,7 +14,7 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 fun main() {
     val appearances: MutableList<List<Appearance>> = mutableListOf()
 
-    listOf(60, 80, 10).forEach { length ->
+    listOf(60, 80, 100).forEach { length ->
         val horns = mutableListOf<Appearance>()
 
         SimpleHornType.entries.forEach { type ->
