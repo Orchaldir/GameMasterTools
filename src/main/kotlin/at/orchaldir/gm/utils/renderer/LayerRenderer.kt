@@ -79,4 +79,5 @@ interface LayerRenderer {
         options: RenderStringOptions,
     ): LayerRenderer
 
+    fun renderTeardrop(aabb: AABB, options: RenderOptions): LayerRenderer
 }

@@ -182,6 +182,12 @@ class SvgRenderer(
         return this
     }
 
+    override fun renderTeardrop(aabb: AABB, options: RenderOptions): LayerRenderer {
+        renderPath(convertTeardropToPath(aabb), toSvg(options))
+
+        return this
+    }
+
     //
 
     fun font(font: Font) {

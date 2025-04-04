@@ -4,4 +4,5 @@ enum class OrnamentShape {
     Circle,
     Diamond,
     Square,
+    Teardrop,
 }

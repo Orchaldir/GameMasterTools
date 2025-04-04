@@ -58,5 +58,9 @@ private fun visualizeOrnament(
         OrnamentShape.Circle -> renderer.renderCircle(position, radius, options)
         OrnamentShape.Diamond -> renderer.renderDiamond(AABB.fromCenter(position, radius * 2.0f), options)
         OrnamentShape.Square -> renderer.renderRectangle(AABB.fromCenter(position, radius * 2.0f), options)
+        OrnamentShape.Teardrop -> {
+            val center = position.addHeight(radius)
+            renderer.renderTeardrop(AABB.fromWidthAndHeight(center, radius * 2.0f, radius * 4.0f), options)
+        }
     }
 }
