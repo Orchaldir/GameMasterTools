@@ -84,15 +84,6 @@ private fun visualizeDangleEarring(
     var lastStep = earRadius
     var lastPosition = position
     val wireLength = state.config.equipment.earring.calculateStudSize(earRadius, Size.Small)
-    val stepFactor = if (when (dangle.ornament) {
-            is OrnamentWithBorder -> dangle.ornament.shape
-            is SimpleOrnament -> dangle.ornament.shape
-        } == OrnamentShape.Teardrop
-    ) {
-        3.0f
-    } else {
-        1.0f
-    }
 
     dangle.sizes.forEach { size ->
         val radius = state.config.equipment.earring.calculateStudSize(earRadius, size)
@@ -102,7 +93,7 @@ private fun visualizeDangleEarring(
         visualizeOrnament(state, dangle.ornament, center, radius)
 
         lastStep = wireLength
-        lastPosition = center.addHeight(radius * stepFactor)
+        lastPosition = center.addHeight(radius)
     }
 
     visualizeWire(state, earRadius, position, lastPosition, Size.Small, dangle.wireColor)
