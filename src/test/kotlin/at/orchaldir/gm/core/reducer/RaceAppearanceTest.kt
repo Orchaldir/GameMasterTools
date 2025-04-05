@@ -77,7 +77,7 @@ class RaceAppearanceTest {
         @Test
         fun `Reuse hair color option requires hair`() {
             val state = State(Storage(RaceAppearance(ID0)))
-            val tailOptions = TailOptions(simpleOptions = mapOf(Cat to SimpleTailOptions(Hair)))
+            val tailOptions = TailOptions(simpleOptions = mapOf(Cat to FeatureColorOptions(Hair)))
             val action = UpdateRaceAppearance(
                 RaceAppearance(
                     ID0,
