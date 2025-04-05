@@ -11,7 +11,6 @@ import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RGB
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.SizeConfig.Companion.fromPercentages
-import at.orchaldir.gm.visualization.SizeConfig.Companion.fromPermilles
 import at.orchaldir.gm.visualization.SizeConfig.Companion.withFactor
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.appearance.*

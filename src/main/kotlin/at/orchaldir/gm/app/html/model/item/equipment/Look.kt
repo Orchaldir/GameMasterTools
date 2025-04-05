@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import io.ktor.server.application.*
-import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show

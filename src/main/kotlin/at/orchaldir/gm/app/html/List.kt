@@ -1,11 +1,8 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.SEWING
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
-import at.orchaldir.gm.core.model.item.text.book.StitchType
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.LI

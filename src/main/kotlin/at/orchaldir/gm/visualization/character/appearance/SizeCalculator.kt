@@ -103,6 +103,7 @@ private fun handleEars(
                     paddedSize.addToTop(heightAboveHead)
                 }
             }
+
             EarShape.Round -> {
                 val earRadius = config.head.ears.getRoundRadius(headHeight, ears.size)
                 paddedSize.addToSide(earRadius)
