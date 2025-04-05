@@ -7,13 +7,15 @@
    "appearanceTypes": {
     "Body": "Common"
    },
-   "skinTypes": {
-    "Normal": "Common"
-   },
-   "normalSkinColors": {
-    "Fair": "Uncommon",
-    "Light": "Common",
-    "Medium": "Uncommon"
+   "skin": {
+    "skinTypes": {
+     "Normal": "Common"
+    },
+    "normalSkinColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Uncommon"
+    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -71,12 +73,14 @@
    "appearanceTypes": {
     "Body": "Common"
    },
-   "skinTypes": {
-    "Exotic": "Common"
-   },
-   "exoticSkinColors": {
-    "Lavender": "Common",
-    "Silver": "Common"
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticSkinColors": {
+     "Lavender": "Common",
+     "Silver": "Common"
+    }
    },
    "earsLayout": {
     "NoEars": "Common"
@@ -113,13 +117,15 @@
    "appearanceTypes": {
     "Body": "Common"
    },
-   "skinTypes": {
-    "Normal": "Common"
-   },
-   "normalSkinColors": {
-    "Fair": "Uncommon",
-    "Light": "Common",
-    "Medium": "Uncommon"
+   "skin": {
+    "skinTypes": {
+     "Normal": "Common"
+    },
+    "normalSkinColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Uncommon"
+    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -180,11 +186,13 @@
    "appearanceTypes": {
     "Body": "Common"
    },
-   "skinTypes": {
-    "Exotic": "Common"
-   },
-   "exoticSkinColors": {
-    "Gray": "Common"
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticSkinColors": {
+     "Gray": "Common"
+    }
    },
    "earsLayout": {
     "NoEars": "Common"
@@ -218,12 +226,14 @@
    "appearanceTypes": {
     "Body": "Common"
    },
-   "skinTypes": {
-    "Exotic": "Common"
-   },
-   "exoticSkinColors": {
-    "Green": "Common",
-    "Olive": "Common"
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticSkinColors": {
+     "Green": "Common",
+     "Olive": "Common"
+    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -281,13 +291,15 @@
    "appearanceTypes": {
     "Body": "Common"
    },
-   "skinTypes": {
-    "Normal": "Common"
-   },
-   "normalSkinColors": {
-    "Fair": "Uncommon",
-    "Light": "Common",
-    "Medium": "Uncommon"
+   "skin": {
+    "skinTypes": {
+     "Normal": "Common"
+    },
+    "normalSkinColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Uncommon"
+    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -354,14 +366,16 @@
    "appearanceTypes": {
     "Body": "Common"
    },
-   "skinTypes": {
-    "Exotic": "Common"
-   },
-   "exoticSkinColors": {
-    "Green": "Common",
-    "Maroon": "Common",
-    "Olive": "Common",
-    "Orange": "Common"
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticSkinColors": {
+     "Green": "Common",
+     "Maroon": "Common",
+     "Olive": "Common",
+     "Orange": "Common"
+    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -414,11 +428,13 @@
    "appearanceTypes": {
     "Body": "Common"
    },
-   "skinTypes": {
-    "Exotic": "Common"
-   },
-   "exoticSkinColors": {
-    "Gray": "Common"
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticSkinColors": {
+     "Gray": "Common"
+    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -491,14 +507,16 @@
    "appearanceTypes": {
     "Body": "Common"
    },
-   "skinTypes": {
-    "Fur": "Common"
-   },
-   "furColors": {
-    "Chocolate": "Uncommon",
-    "Gray": "Uncommon",
-    "Maroon": "Uncommon",
-    "SaddleBrown": "Common"
+   "skin": {
+    "skinTypes": {
+     "Fur": "Common"
+    },
+    "furColors": {
+     "Chocolate": "Uncommon",
+     "Gray": "Uncommon",
+     "Maroon": "Uncommon",
+     "SaddleBrown": "Common"
+    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -558,13 +576,15 @@
    "appearanceTypes": {
     "Body": "Common"
    },
-   "skinTypes": {
-    "Normal": "Common"
-   },
-   "normalSkinColors": {
-    "Fair": "Uncommon",
-    "Light": "Common",
-    "Medium": "Uncommon"
+   "skin": {
+    "skinTypes": {
+     "Normal": "Common"
+    },
+    "normalSkinColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Uncommon"
+    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -630,28 +650,30 @@
    "appearanceTypes": {
     "Body": "Common"
    },
-   "skinTypes": {
-    "Scales": "Uncommon",
-    "Normal": "Common"
-   },
-   "scalesColors": {
-    "Blue": "Common",
-    "Gold": "Common",
-    "Green": "Common",
-    "Maroon": "Common",
-    "Navy": "Common",
-    "Orange": "Common",
-    "OrangeRed": "Common",
-    "Red": "Common",
-    "SaddleBrown": "Common"
-   },
-   "normalSkinColors": {
-    "Fair": "Uncommon",
-    "Light": "Common",
-    "Medium": "Common",
-    "Tan": "Common",
-    "Dark": "Common",
-    "VeryDark": "Common"
+   "skin": {
+    "skinTypes": {
+     "Scales": "Uncommon",
+     "Normal": "Common"
+    },
+    "scalesColors": {
+     "Blue": "Common",
+     "Gold": "Common",
+     "Green": "Common",
+     "Maroon": "Common",
+     "Navy": "Common",
+     "Orange": "Common",
+     "OrangeRed": "Common",
+     "Red": "Common",
+     "SaddleBrown": "Common"
+    },
+    "normalSkinColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Common",
+     "Tan": "Common",
+     "Dark": "Common",
+     "VeryDark": "Common"
+    }
    },
    "earsLayout": {
     "NoEars": "Common"
@@ -685,11 +707,13 @@
    "appearanceTypes": {
     "Body": "Common"
    },
-   "skinTypes": {
-    "Exotic": "Common"
-   },
-   "exoticSkinColors": {
-    "Olive": "Common"
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticSkinColors": {
+     "Olive": "Common"
+    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -746,13 +770,15 @@
    "appearanceTypes": {
     "Body": "Common"
    },
-   "skinTypes": {
-    "Normal": "Common"
-   },
-   "normalSkinColors": {
-    "Fair": "Uncommon",
-    "Light": "Common",
-    "Medium": "Uncommon"
+   "skin": {
+    "skinTypes": {
+     "Normal": "Common"
+    },
+    "normalSkinColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Uncommon"
+    }
    },
    "earsLayout": {
     "NormalEars": "Common"
