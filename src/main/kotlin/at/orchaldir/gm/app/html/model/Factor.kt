@@ -70,6 +70,5 @@ fun HtmlBlockTag.selectFactor(
 fun parseFactor(
     parameters: Parameters,
     param: String,
-    default:
-    Factor = FULL,
+    default: Factor = FULL,
 ) = parameters[param]?.toInt()?.let { Factor.fromPermyriad(it) } ?: default

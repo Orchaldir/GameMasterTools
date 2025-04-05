@@ -44,7 +44,7 @@ private fun BODY.showEquipmentData(
     field("Type", equipment.data.getType())
 
     when (val data = equipment.data) {
-        NoEquipment, is Earring -> doNothing()
+        NoEquipment -> doNothing()
         is Belt -> showBelt(call, state, data)
         is Coat -> {
             field("Length", data.length)
@@ -62,6 +62,8 @@ private fun BODY.showEquipmentData(
             showFill(data.fill)
             fieldLink("Material", call, state, data.material)
         }
+
+        is Earring -> showEarring(call, state, data)
 
         is Footwear -> {
             field("Style", data.style)
@@ -179,7 +181,7 @@ private fun FORM.editEquipmentData(
     equipment: Equipment,
 ) {
     when (val data = equipment.data) {
-        NoEquipment, is Earring -> doNothing()
+        NoEquipment -> doNothing()
         is Belt -> editBelt(state, data)
         is Coat -> {
             selectValue("Length", LENGTH, OuterwearLength.entries, data.length, true)
@@ -200,6 +202,8 @@ private fun FORM.editEquipmentData(
             selectFill(data.fill)
             selectMaterial(state, data.material)
         }
+
+        is Earring -> editEarring(state, data)
 
         is Footwear -> {
             selectValue("Style", FOOTWEAR, FootwearStyle.entries, data.style, true)
@@ -336,7 +340,7 @@ fun parseEquipment(id: EquipmentId, parameters: Parameters): Equipment {
 
 fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.None)) {
-        EquipmentDataType.None, EquipmentDataType.Earring -> NoEquipment
+        EquipmentDataType.None -> NoEquipment
         EquipmentDataType.Belt -> parseBelt(parameters)
         EquipmentDataType.Coat -> Coat(
             parse(parameters, LENGTH, OuterwearLength.Hip),
@@ -348,7 +352,7 @@ fun parseEquipmentData(parameters: Parameters) =
         )
 
         EquipmentDataType.Dress -> parseDress(parameters)
-
+        EquipmentDataType.Earring -> parseEarring(parameters)
         EquipmentDataType.Footwear -> Footwear(
             parse(parameters, FOOTWEAR, FootwearStyle.Shoes),
             parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),

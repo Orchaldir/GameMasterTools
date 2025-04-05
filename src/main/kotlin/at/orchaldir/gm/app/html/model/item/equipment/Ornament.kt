@@ -7,10 +7,12 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseMaterialId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
+import kotlinx.html.DETAILS
 import kotlinx.html.FORM
 
 // show
@@ -27,16 +29,13 @@ fun BODY.showOrnament(
         when (ornament) {
             is SimpleOrnament -> {
                 field("Shape", ornament.shape)
-                field("Color", ornament.color)
-                fieldLink("Material", call, state, ornament.material)
+                showLook(call, state, ornament.color, ornament.material)
             }
 
             is OrnamentWithBorder -> {
                 field("Shape", ornament.shape)
-                field("Color", ornament.color)
-                fieldLink("Material", call, state, ornament.material)
-                field("Border Color", ornament.borderColor)
-                fieldLink("Border Material", call, state, ornament.borderMaterial)
+                showLook(call, state, ornament.color, ornament.material, "Center")
+                showLook(call, state, ornament.borderColor, ornament.borderMaterial, "Border")
             }
         }
     }
@@ -56,16 +55,13 @@ fun FORM.editOrnament(
         when (ornament) {
             is SimpleOrnament -> {
                 selectValue("Shape", combine(param, SHAPE), OrnamentShape.entries, ornament.shape, true)
-                selectColor(ornament.color, combine(param, COLOR))
-                selectMaterial(state, ornament.material, combine(param, MATERIAL))
+                editLook(state, ornament.color, ornament.material, param)
             }
 
             is OrnamentWithBorder -> {
                 selectValue("Shape", combine(param, SHAPE), OrnamentShape.entries, ornament.shape, true)
-                selectColor(ornament.color, combine(param, COLOR))
-                selectMaterial(state, ornament.material, combine(param, MATERIAL))
-                selectColor(ornament.color, combine(param, BORDER, COLOR), "Border Color")
-                selectMaterial(state, ornament.material, combine(param, BORDER, MATERIAL), "Border Material")
+                editLook(state, ornament.color, ornament.material, param)
+                editLook(state, ornament.borderColor, ornament.borderMaterial, combine(param, BORDER), "Border")
             }
         }
     }
