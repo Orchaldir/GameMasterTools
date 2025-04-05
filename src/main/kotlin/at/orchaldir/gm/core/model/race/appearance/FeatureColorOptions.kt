@@ -10,5 +10,5 @@ val DEFAULT_SIMPLE_TAIL_COLOR = Color.SaddleBrown
 @Serializable
 data class FeatureColorOptions(
     val types: FeatureColorType = FeatureColorType.Overwrite,
-    val colors: OneOf<Color> = OneOf(DEFAULT_SIMPLE_TAIL_COLOR),
+    val skin: SkinOptions = SkinOptions(),
 )

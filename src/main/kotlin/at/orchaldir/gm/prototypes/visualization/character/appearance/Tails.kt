@@ -30,6 +30,6 @@ private fun createAppearance(distance: Distance, tailShape: SimpleTailShape, siz
         Head(eyes = TwoEyes()),
         distance,
         NormalSkin(),
-        SimpleTail(tailShape, size, OverwriteFeatureColor(Color.Blue)),
+        SimpleTail(tailShape, size, OverwriteFeatureColor(ExoticSkin(Color.Blue))),
         NoWings,
     )

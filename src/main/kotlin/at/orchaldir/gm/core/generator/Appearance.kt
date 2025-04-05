@@ -241,16 +241,13 @@ fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
     }
 }
 
+fun generateSkin(config: AppearanceGeneratorConfig) = generateSkin(config, config.appearanceOptions.skin)
 
-fun generateSkin(config: AppearanceGeneratorConfig): Skin {
-    val options = config.appearanceOptions.skin
-
-    return when (config.generate(options.skinTypes)) {
-        SkinType.Fur -> Fur(config.generate(options.furColors))
-        SkinType.Scales -> Scales(config.generate(options.scalesColors))
-        SkinType.Normal -> NormalSkin(config.generate(options.normalSkinColors))
-        SkinType.Exotic -> ExoticSkin(config.generate(options.exoticSkinColors))
-    }
+fun generateSkin(config: AppearanceGeneratorConfig, options: SkinOptions) = when (config.generate(options.skinTypes)) {
+    SkinType.Fur -> Fur(config.generate(options.furColors))
+    SkinType.Scales -> Scales(config.generate(options.scalesColors))
+    SkinType.Normal -> NormalSkin(config.generate(options.normalSkinColors))
+    SkinType.Exotic -> ExoticSkin(config.generate(options.exoticSkinColors))
 }
 
 fun generateTails(config: AppearanceGeneratorConfig): Tails {
@@ -274,7 +271,7 @@ private fun generateSimpleTail(
         config.select(Size.entries),
         when (options.types) {
             FeatureColorType.Hair -> ReuseHairColor
-            FeatureColorType.Overwrite -> OverwriteFeatureColor(config.generate(options.colors))
+            FeatureColorType.Overwrite -> OverwriteFeatureColor(generateSkin(config, options.skin))
             FeatureColorType.Skin -> ReuseSkinColor
         }
     )

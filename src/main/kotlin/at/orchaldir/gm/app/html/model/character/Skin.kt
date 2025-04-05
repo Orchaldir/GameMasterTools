@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.SKIN
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectOneOf
+import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.generator.generateSkin
@@ -15,19 +16,34 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import io.ktor.http.*
-import kotlinx.html.FORM
-import kotlinx.html.h2
-import kotlinx.html.style
+import kotlinx.html.*
 
 // edit
 
 fun FORM.editSkin(
     options: SkinOptions,
     skin: Skin,
-    param: String = SKIN,
 ) {
     h2 { +"Skin" }
 
+    editSkinInternal(options, skin, SKIN)
+}
+
+fun FORM.editSkin(
+    options: SkinOptions,
+    skin: Skin,
+    param: String,
+) {
+    showDetails("Skin") {
+        editSkinInternal(options, skin, param)
+    }
+}
+
+private fun HtmlBlockTag.editSkinInternal(
+    options: SkinOptions,
+    skin: Skin,
+    param: String,
+) {
     selectOneOf("Type", combine(param, TYPE), options.skinTypes, skin.getType(), true)
 
     when (skin) {
@@ -39,6 +55,7 @@ fun FORM.editSkin(
             options.exoticSkinColors,
             skin.color
         )
+
         is NormalSkin -> {
             selectOneOf(
                 "Color",
@@ -62,8 +79,14 @@ fun parseSkin(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     param: String = SKIN,
+) = parseSkin(parameters, config, config.appearanceOptions.skin, param)
+
+fun parseSkin(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+    options: SkinOptions,
+    param: String = SKIN,
 ): Skin {
-    val options = config.appearanceOptions.skin
 
     return when (parameters[combine(param, TYPE)]) {
         SkinType.Fur.toString() -> {

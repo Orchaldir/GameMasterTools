@@ -1,8 +1,5 @@
 package at.orchaldir.gm.app.html.model.character
 
-import at.orchaldir.gm.app.COLOR
-import at.orchaldir.gm.app.html.selectColor
-import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.race.appearance.FeatureColorOptions
@@ -17,7 +14,7 @@ fun FORM.selectFeatureColor(
     param: String,
 ) {
     if (options.types == FeatureColorType.Overwrite && color is OverwriteFeatureColor) {
-        selectColor("Color", combine(param, COLOR), options.colors, color.color)
+        editSkin(options.skin, color.skin, param)
     }
 }
 
@@ -31,12 +28,7 @@ fun parseFeatureColor(
 ) = when (options.types) {
     FeatureColorType.Hair -> ReuseHairColor
     FeatureColorType.Overwrite -> OverwriteFeatureColor(
-        parseAppearanceColor(
-            parameters,
-            param,
-            config,
-            options.colors
-        )
+        parseSkin(parameters, config, options.skin, param)
     )
 
     FeatureColorType.Skin -> ReuseSkinColor

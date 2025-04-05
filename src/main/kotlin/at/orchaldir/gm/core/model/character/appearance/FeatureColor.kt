@@ -28,7 +28,7 @@ data object ReuseHairColor : FeatureColor()
 @Serializable
 @SerialName("Overwrite")
 data class OverwriteFeatureColor(
-    val color: Color,
+    val skin: Skin,
 ) : FeatureColor()
 
 @Serializable

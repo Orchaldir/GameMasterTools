@@ -29,7 +29,7 @@ fun visualizeTails(state: CharacterRenderState, tails: Tails, skin: Skin, hair: 
 
 private fun visualizeSimpleTail(state: CharacterRenderState, tail: SimpleTail, skin: Skin, hair: Hair) {
     val options = when (tail.color) {
-        is OverwriteFeatureColor -> state.config.getLineOptions(tail.color.color)
+        is OverwriteFeatureColor -> state.config.getOptions(tail.color.skin)
         ReuseHairColor -> when (hair) {
             NoHair -> error("Cannot reuse hair color without hair!")
             is NormalHair -> state.config.getLineOptions(hair.color)
