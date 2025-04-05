@@ -74,8 +74,8 @@ fun FORM.editEarring(
         is DangleEarring -> {
             editOrnament(state, style.top, TOP, "Top Ornament")
             editOrnament(state, style.bottom, BOTTOM, "Bottom Ornament")
-            showList("Sizes", style.sizes) {
-                +it.name
+            editList("Sizes", SIZE, style.sizes, 1, 10, 1) { index, param, size ->
+                selectValue("$index.Size", param, Size.entries, size, true)
             }
             editLook(state, style.wireColor, style.wireMaterial, WIRE, "Wire")
         }
@@ -112,7 +112,9 @@ fun parseEarring(parameters: Parameters): Earring {
             EarringStyleType.Dangle -> DangleEarring(
                 parseOrnament(parameters, TOP),
                 parseOrnament(parameters, BOTTOM),
-                emptyList(),
+                parseList(parameters, SIZE, 1) { param ->
+                    parse(parameters, param, Size.Medium)
+                },
                 parse(parameters, combine(WIRE, COLOR), Color.Gold),
                 parseMaterialId(parameters, combine(WIRE, MATERIAL)),
             )
