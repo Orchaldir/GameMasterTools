@@ -1,7 +1,12 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.NUMBER
+import at.orchaldir.gm.app.SEWING
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.core.model.item.text.book.StitchType
+import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.LI
 import kotlinx.html.li
@@ -74,7 +79,7 @@ fun <T> HtmlBlockTag.editList(
     step: Int,
     editElement: HtmlBlockTag.(Int, String, T) -> Unit,
 ) {
-    selectInt("$label Size", elements.size, minSize, maxSize, step, combine(param, NUMBER), true)
+    selectInt("$label Number", elements.size, minSize, maxSize, step, combine(param, NUMBER), true)
 
     showListWithIndex(elements) { index, element ->
         val elementParam = combine(param, index)
@@ -83,4 +88,18 @@ fun <T> HtmlBlockTag.editList(
 }
 
 // parse
+
+fun <T> parseList(
+    parameters: Parameters,
+    param: String,
+    defaultSize: Int,
+    parseElement: (String) -> T,
+): List<T> {
+    val count = parseInt(parameters, combine(param, NUMBER), defaultSize)
+
+    return (0..<count)
+        .map { index ->
+            parseElement(combine(param, index))
+        }
+}
 

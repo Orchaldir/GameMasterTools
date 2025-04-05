@@ -414,7 +414,7 @@ private fun <T> DETAILS.editSewingPattern(
     elements: Collection<T>,
     editElement: HtmlBlockTag.(String, T) -> Unit,
 ) {
-    editList("Pattern", SEWING, elements, MIN_STITCHES, 20, 1) { _, param, element ->
+    editList("Stitch", SEWING, elements, MIN_STITCHES, 20, 1) { _, param, element ->
         editElement(param, element)
     }
 }
@@ -443,10 +443,7 @@ private fun HtmlBlockTag.editScrollHandle(
         state.getMaterialStorage().getAll(),
         handle.material,
     )
-    selectInt("Handle Segment Number", handle.segments.size, 1, 20, 1, combine(HANDLE, NUMBER), true)
-    showListWithIndex(handle.segments) { index, segment ->
-        val segmentParam = combine(HANDLE, index)
-
+    editList("Pattern", HANDLE, handle.segments, 1, 20, 1) { _, segmentParam, segment ->
         selectDistance("Length", combine(segmentParam, LENGTH), segment.length, min, max, step, true)
         selectDistance("Diameter", combine(segmentParam, DIAMETER), segment.diameter, min, max, step, true)
         selectColor("Color", combine(segmentParam, COLOR), Color.entries, segment.color)
@@ -548,29 +545,17 @@ private fun parseSewing(parameters: Parameters) = when (parse(parameters, SEWING
     SewingPatternType.Complex -> ComplexSewingPattern(parseComplexPattern(parameters))
 }
 
-private fun parseSimplePattern(parameters: Parameters): List<StitchType> {
-    val count = parseInt(parameters, combine(SEWING, NUMBER), 2)
-
-    return (0..<count)
-        .map { index ->
-            parse(parameters, combine(SEWING, index), StitchType.Kettle)
-        }
+private fun parseSimplePattern(parameters: Parameters) = parseList(parameters, SEWING, 2) { param ->
+    parse(parameters, param, StitchType.Kettle)
 }
 
-private fun parseComplexPattern(parameters: Parameters): List<ComplexStitch> {
-    val count = parseInt(parameters, combine(SEWING, NUMBER), 2)
-
-    return (0..<count)
-        .map { index ->
-            val stitchParam = combine(SEWING, index)
-
-            ComplexStitch(
-                parse(parameters, combine(stitchParam, COLOR), Color.Crimson),
-                parse(parameters, combine(stitchParam, SIZE), Size.Medium),
-                parse(parameters, combine(stitchParam, LENGTH), Size.Medium),
-                parse(parameters, stitchParam, StitchType.Kettle),
-            )
-        }
+private fun parseComplexPattern(parameters: Parameters) = parseList(parameters, SEWING, 2) { param ->
+    ComplexStitch(
+        parse(parameters, combine(param, COLOR), Color.Crimson),
+        parse(parameters, combine(param, SIZE), Size.Medium),
+        parse(parameters, combine(param, LENGTH), Size.Medium),
+        parse(parameters, param, StitchType.Kettle),
+    )
 }
 
 private fun parseScrollFormat(parameters: Parameters) = when (parse(parameters, SCROLL, ScrollFormatType.NoRod)) {
@@ -584,18 +569,11 @@ private fun parseScrollHandle(parameters: Parameters) = ScrollHandle(
     parseMaterialId(parameters, combine(HANDLE, MATERIAL)),
 )
 
-private fun parseHandleSegments(parameters: Parameters): List<HandleSegment> {
-    val count = parseInt(parameters, combine(HANDLE, NUMBER), 1)
-
-    return (0..<count)
-        .map { index ->
-            val segmentParam = combine(HANDLE, index)
-
-            HandleSegment(
-                parseDistance(parameters, combine(segmentParam, LENGTH), 40),
-                parseDistance(parameters, combine(segmentParam, DIAMETER), 15),
-                parse(parameters, combine(segmentParam, COLOR), Color.Black),
-                parse(parameters, combine(segmentParam, SHAPE), HandleSegmentShape.Cylinder),
-            )
-        }
+private fun parseHandleSegments(parameters: Parameters) = parseList(parameters, HANDLE, 1) { param ->
+    HandleSegment(
+        parseDistance(parameters, combine(param, LENGTH), 40),
+        parseDistance(parameters, combine(param, DIAMETER), 15),
+        parse(parameters, combine(param, COLOR), Color.Black),
+        parse(parameters, combine(param, SHAPE), HandleSegmentShape.Cylinder),
+    )
 }
