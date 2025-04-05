@@ -27,7 +27,7 @@ fun FORM.editHorns(
     raceAppearance: RaceAppearance,
     horns: Horns,
 ) {
-    val options = raceAppearance.hornOptions
+    val options = raceAppearance.horn
 
     h2 { +"Horns" }
 
@@ -177,7 +177,7 @@ fun HtmlBlockTag.selectCrownLength(length: Factor) {
 // parse
 
 fun parseHorns(parameters: Parameters, config: AppearanceGeneratorConfig): Horns {
-    val options = config.appearanceOptions.hornOptions
+    val options = config.appearanceOptions.horn
 
     return when (parameters[combine(HORN, LAYOUT)]) {
         HornsLayout.None.toString() -> NoHorns
@@ -203,7 +203,7 @@ fun parseHorns(parameters: Parameters, config: AppearanceGeneratorConfig): Horns
 }
 
 private fun parseHorn(parameters: Parameters, param: String, config: AppearanceGeneratorConfig): Horn {
-    val options = config.appearanceOptions.hornOptions
+    val options = config.appearanceOptions.horn
 
     return when (parameters[combine(param, TYPE)]) {
         HornType.Simple.toString() -> SimpleHorn(

@@ -27,14 +27,14 @@ data class RaceAppearance(
     val earsLayout: OneOf<EarsLayout> = OneOf(EarsLayout.entries),
     val earShapes: OneOf<EarShape> = OneOf(EarShape.entries),
     val eyesLayout: OneOf<EyesLayout> = OneOf(EyesLayout.entries),
-    val eyeOptions: EyeOptions = EyeOptions(),
-    val footOptions: FootOptions = FootOptions(),
-    val hairOptions: HairOptions = HairOptions(),
-    val hornOptions: HornOptions = HornOptions(),
-    val mouthOptions: MouthOptions = MouthOptions(),
+    val eye: EyeOptions = EyeOptions(),
+    val foot: FootOptions = FootOptions(),
+    val hair: HairOptions = HairOptions(),
+    val horn: HornOptions = HornOptions(),
+    val mouth: MouthOptions = MouthOptions(),
     val skin: SkinOptions = SkinOptions(),
-    val tailOptions: TailOptions = TailOptions(),
-    val wingOptions: WingOptions = WingOptions(),
+    val tail: TailOptions = TailOptions(),
+    val wing: WingOptions = WingOptions(),
 ) : ElementWithSimpleName<RaceAppearanceId> {
 
     override fun id() = id

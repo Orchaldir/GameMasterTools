@@ -47,12 +47,12 @@ private fun checkRaceAppearance(appearance: RaceAppearance) {
 }
 
 private fun checkTails(appearance: RaceAppearance) {
-    val options = appearance.tailOptions
+    val options = appearance.tail
     options.simpleShapes.getValidValues().forEach {
         require(options.simpleOptions.containsKey(it)) { "No options for $it tail!" }
     }
 
-    if (!appearance.hairOptions.hairTypes.contains(HairType.Normal)) {
+    if (!appearance.hair.hairTypes.contains(HairType.Normal)) {
         options.simpleOptions.forEach { (shape, shapeOptions) ->
             require(shapeOptions.colorType != FeatureColorType.Hair) { "Tail options for $shape require hair!" }
         }

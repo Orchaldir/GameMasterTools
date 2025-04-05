@@ -88,7 +88,7 @@ private fun FORM.editBody(
     h2 { +"Body" }
     selectValue("Shape", BODY_SHAPE, getAvailableBodyShapes(character.gender), body.bodyShape, true)
     selectValue("Width", BODY_WIDTH, Size.entries, body.width, true)
-    editFoot(raceAppearance.footOptions, body.foot)
+    editFoot(raceAppearance.foot, body.foot)
 }
 
 private fun FORM.editFoot(footOptions: FootOptions, foot: Foot) {
@@ -110,7 +110,7 @@ private fun FORM.editTails(
     raceAppearance: RaceAppearance,
     tails: Tails,
 ) {
-    val options = raceAppearance.tailOptions
+    val options = raceAppearance.tail
 
     h2 { +"Tails" }
 
@@ -132,7 +132,7 @@ private fun FORM.editWings(
     raceAppearance: RaceAppearance,
     wings: Wings,
 ) {
-    val wingOptions = raceAppearance.wingOptions
+    val wingOptions = raceAppearance.wing
 
     h2 { +"Wings" }
 
@@ -226,7 +226,7 @@ private fun parseFoot(
 ) = when (parameters[FOOT]) {
     FootType.Normal.toString() -> NormalFoot
     FootType.Clawed.toString() -> {
-        val options = config.appearanceOptions.footOptions
+        val options = config.appearanceOptions.foot
         ClawedFoot(
             options.clawNumber,
             parseAppearanceOption(parameters, combine(FOOT, CLAWS, SIZE), config, options.clawSizes),
@@ -243,7 +243,7 @@ private fun parseTails(
 ) = when (parameters[combine(TAIL, LAYOUT)]) {
     TailsLayout.None.toString() -> NoTails
     TailsLayout.Simple.toString() -> {
-        val options = config.appearanceOptions.tailOptions
+        val options = config.appearanceOptions.tail
         val shape = parseAppearanceOption(parameters, combine(TAIL, SHAPE), config, options.simpleShapes)
         val shapeOptions = options.getFeatureColorOptions(shape)
         val featureColor = parseFeatureColor(parameters, config, shapeOptions, TAIL)
@@ -285,7 +285,7 @@ private fun parseWing(
     config: AppearanceGeneratorConfig,
     param: String,
 ): Wing {
-    val wingOptions = config.appearanceOptions.wingOptions
+    val wingOptions = config.appearanceOptions.wing
 
     return when (parameters[combine(param, TYPE)]) {
         WingType.Bat.toString() -> BatWing(

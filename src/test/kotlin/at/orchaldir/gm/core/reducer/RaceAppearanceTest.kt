@@ -69,7 +69,7 @@ class RaceAppearanceTest {
         fun `No tail options for for a simple tail shape`() {
             val state = State(Storage(RaceAppearance(ID0)))
             val tailOptions = TailOptions(simpleShapes = OneOf(Rat))
-            val action = UpdateRaceAppearance(RaceAppearance(ID0, tailOptions = tailOptions))
+            val action = UpdateRaceAppearance(RaceAppearance(ID0, tail = tailOptions))
 
             assertIllegalArgument("No options for Rat tail!") { REDUCER.invoke(state, action) }
         }
@@ -81,8 +81,8 @@ class RaceAppearanceTest {
             val action = UpdateRaceAppearance(
                 RaceAppearance(
                     ID0,
-                    hairOptions = HairOptions(hairTypes = OneOf(HairType.None)),
-                    tailOptions = tailOptions,
+                    hair = HairOptions(hairTypes = OneOf(HairType.None)),
+                    tail = tailOptions,
                 )
             )
 

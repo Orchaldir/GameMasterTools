@@ -62,7 +62,7 @@ private fun FORM.editBeard(
 ) {
     h2 { +"Beard" }
 
-    selectOneOf("Type", BEARD, raceAppearance.hairOptions.beardTypes, beard.getType(), true)
+    selectOneOf("Type", BEARD, raceAppearance.hair.beardTypes, beard.getType(), true)
 
     when (beard) {
         NoBeard -> doNothing()
@@ -82,7 +82,7 @@ private fun FORM.editNormalBeard(
         beard.style.getType(),
         true
     )
-    selectColor("Color", combine(BEARD, COLOR), raceAppearance.hairOptions.colors, beard.color)
+    selectColor("Color", combine(BEARD, COLOR), raceAppearance.hair.colors, beard.color)
 
     when (beard.style) {
         is Goatee -> selectGoateeStyle(culture, beard.style.goateeStyle)
@@ -120,12 +120,12 @@ private fun FORM.editEyes(
 
     when (eyes) {
         is OneEye -> {
-            editEye(raceAppearance.eyeOptions, eyes.eye)
+            editEye(raceAppearance.eye, eyes.eye)
             selectValue("Eye Size", combine(EYE, SIZE), Size.entries, eyes.size, true)
         }
 
         is TwoEyes -> {
-            editEye(raceAppearance.eyeOptions, eyes.eye)
+            editEye(raceAppearance.eye, eyes.eye)
         }
 
         else -> doNothing()
@@ -163,7 +163,7 @@ private fun FORM.editHair(
 ) {
     h2 { +"Hair" }
 
-    selectOneOf("Type", HAIR, raceAppearance.hairOptions.hairTypes, hair.getType(), true)
+    selectOneOf("Type", HAIR, raceAppearance.hair.hairTypes, hair.getType(), true)
 
     when (hair) {
         NoHair -> doNothing()
@@ -183,7 +183,7 @@ private fun FORM.editNormalHair(
         hair.style.getType(),
         true
     )
-    selectColor("Color", combine(HAIR, COLOR), raceAppearance.hairOptions.colors, hair.color)
+    selectColor("Color", combine(HAIR, COLOR), raceAppearance.hair.colors, hair.color)
 
     when (hair.style) {
         is SidePart -> {
@@ -200,7 +200,7 @@ private fun FORM.editMouth(
     mouth: Mouth,
 ) {
     h2 { +"Mouth" }
-    val mouthOptions = raceAppearance.mouthOptions
+    val mouthOptions = raceAppearance.mouth
 
     selectOneOf("Type", combine(MOUTH, TYPE), mouthOptions.mouthTypes, mouth.getType(), true)
 
@@ -275,7 +275,7 @@ private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig
 
                     else -> Goatee(GoateeStyle.Goatee)
                 },
-                parseAppearanceColor(parameters, BEARD, config, config.appearanceOptions.hairOptions.colors),
+                parseAppearanceColor(parameters, BEARD, config, config.appearanceOptions.hair.colors),
             )
         }
 
@@ -329,7 +329,7 @@ private fun parseEyes(parameters: Parameters, config: AppearanceGeneratorConfig)
 }
 
 private fun parseEye(parameters: Parameters, config: AppearanceGeneratorConfig): Eye {
-    val options = config.appearanceOptions.eyeOptions
+    val options = config.appearanceOptions.eye
 
     return when (parameters[combine(EYE, TYPE)]) {
         EyeType.Simple.toString() -> SimpleEye(
@@ -372,7 +372,7 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
                     HairStyleType.Spiked.toString() -> Spiked
                     else -> ShavedHair
                 },
-                parseAppearanceColor(parameters, HAIR, config, config.appearanceOptions.hairOptions.colors),
+                parseAppearanceColor(parameters, HAIR, config, config.appearanceOptions.hair.colors),
             )
         }
 
@@ -386,7 +386,7 @@ private fun parseMouth(
     character: Character,
     hair: Hair,
 ): Mouth {
-    val mouthOptions = config.appearanceOptions.mouthOptions
+    val mouthOptions = config.appearanceOptions.mouth
 
     return when (parameters[combine(MOUTH, TYPE)]) {
         MouthType.NoMouth.toString() -> NoMouth
