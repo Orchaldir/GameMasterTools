@@ -27,7 +27,7 @@ class AppearanceTest {
             Storage(Race(RACE_ID_0, height = Distribution.fromMeters(1.0f, 0.1f))),
         )
     )
-    private val appearance = HeadOnly(Head(skin = NormalSkin()), fromMillimeters(1000))
+    private val appearance = HeadOnly(Head(), fromMillimeters(1000))
     private val action = UpdateAppearance(CHARACTER_ID_0, appearance)
 
     @Test
@@ -46,7 +46,7 @@ class AppearanceTest {
 
     @Test
     fun `Character's height is invalid!`() {
-        val appearance = HeadOnly(Head(skin = NormalSkin()), fromMillimeters(1101))
+        val appearance = HeadOnly(Head(), fromMillimeters(1101))
         val action = UpdateAppearance(CHARACTER_ID_0, appearance)
 
         assertIllegalArgument("Character's height is invalid!") { REDUCER.invoke(state, action) }

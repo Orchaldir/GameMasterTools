@@ -2,9 +2,10 @@ package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
-import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
-import at.orchaldir.gm.core.model.character.appearance.tail.*
+import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
+import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
+import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
+import at.orchaldir.gm.core.model.character.appearance.tail.Tails
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -25,15 +26,7 @@ fun visualizeTails(state: CharacterRenderState, tails: Tails, skin: Skin, hair: 
 }
 
 private fun visualizeSimpleTail(state: CharacterRenderState, tail: SimpleTail, skin: Skin, hair: Hair) {
-    val options = when (tail.color) {
-        is OverwriteTailColor -> state.config.getLineOptions(tail.color.color)
-        ReuseHairColor -> when (hair) {
-            NoHair -> error("Cannot reuse hair color without hair!")
-            is NormalHair -> state.config.getLineOptions(hair.color)
-        }
-
-        ReuseSkinColor -> state.config.getOptions(skin)
-    }
+    val options = state.config.getFeatureOptions(tail.color, hair, skin)
 
     when (tail.shape) {
         SimpleTailShape.Bunny -> visualizeBunny(state, options, tail)
@@ -81,11 +74,9 @@ private fun visualizeRat(state: CharacterRenderState, options: RenderOptions, ta
     val polygon = buildTailPolygon(line, radius, true)
 
     renderTailPolygon(state, options, polygon)
-    //state.getTailLayer().renderLine(line.points, LineOptions(Color.Red.toRender(), 0.02f))
 }
 
 private fun visualizeSquirrel(state: CharacterRenderState, options: RenderOptions) {
-    val config = state.config.body.tail
     val polygon = Polygon2dBuilder()
         .addMirroredPoints(state.aabb, fromPercentage(50), fromPercentage(80))
         .addMirroredPoints(state.aabb, fromPercentage(50), fromPercentage(10))

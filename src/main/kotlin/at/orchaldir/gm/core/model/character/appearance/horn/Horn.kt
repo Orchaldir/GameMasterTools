@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.character.appearance.horn
 
-import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.character.appearance.FeatureColor
+import at.orchaldir.gm.core.model.character.appearance.ReuseSkinColor
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -37,7 +38,7 @@ sealed class Horn {
 data class SimpleHorn(
     val length: Factor,
     val simpleType: SimpleHornType,
-    val color: Color,
+    val color: FeatureColor = ReuseSkinColor,
 ) : Horn() {
 
     init {
@@ -53,7 +54,7 @@ data class ComplexHorn(
     val position: HornPosition,
     val orientationOffset: Orientation,
     val shape: HornShape,
-    val color: Color,
+    val color: FeatureColor = ReuseSkinColor,
 ) : Horn() {
 
     init {

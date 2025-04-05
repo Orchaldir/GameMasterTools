@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance.horn
 
 import at.orchaldir.gm.core.model.character.appearance.Appearance
+import at.orchaldir.gm.core.model.character.appearance.OverwriteFeatureColor
 import at.orchaldir.gm.core.model.character.appearance.horn.CrownOfHorns
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -33,6 +34,6 @@ private fun createCrown(front: Int, back: Int, hasSideHorns: Boolean) = createAp
         hasSideHorns,
         fromPercentage(30),
         fromPercentage(15),
-        Color.Blue,
+        OverwriteFeatureColor(Color.Blue),
     )
 )

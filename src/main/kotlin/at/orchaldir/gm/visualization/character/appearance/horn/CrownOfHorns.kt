@@ -1,15 +1,21 @@
 package at.orchaldir.gm.visualization.character.appearance.horn
 
+import at.orchaldir.gm.core.model.character.appearance.Skin
+import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.horn.CrownOfHorns
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
-fun visualizeCrownOfHorns(state: CharacterRenderState, crown: CrownOfHorns) {
-    val options = FillAndBorder(crown.color.toRender(), state.config.line)
+fun visualizeCrownOfHorns(
+    state: CharacterRenderState,
+    crown: CrownOfHorns,
+    skin: Skin,
+    hair: Hair,
+) {
+    val options = state.config.getFeatureOptions(crown.color, hair, skin)
     val length = state.aabb.convertHeight(crown.length)
     val half = state.aabb.convertHeight(crown.width) / 2.0f
     val pair = state.aabb.getMirroredPoints(FULL, state.config.head.hornConfig.y)

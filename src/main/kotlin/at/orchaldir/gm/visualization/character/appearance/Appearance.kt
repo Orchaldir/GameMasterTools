@@ -85,14 +85,14 @@ fun visualizeAppearance(
     state.renderer.getLayer().renderRectangle(state.aabb, BorderOnly(state.config.line))
 
     when (appearance) {
-        is HeadOnly -> visualizeHead(innerState, appearance.head)
+        is HeadOnly -> visualizeHead(innerState, appearance.head, appearance.skin)
         is HumanoidBody -> {
             val headAabb = state.config.body.getHeadAabb(inner)
             val headState = state.copy(aabb = headAabb)
 
-            visualizeBody(innerState, appearance.body)
-            visualizeHead(headState, appearance.head)
-            visualizeTails(innerState, appearance.tails, appearance.body.skin, appearance.head.hair)
+            visualizeBody(innerState, appearance.body, appearance.skin)
+            visualizeHead(headState, appearance.head, appearance.skin)
+            visualizeTails(innerState, appearance.tails, appearance.skin, appearance.head.hair)
             visualizeWings(innerState, appearance.wings)
         }
 

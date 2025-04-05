@@ -36,7 +36,7 @@ private fun createAppearance(shape: SnoutShape, eyes: Eyes) =
         Head(
             eyes = eyes,
             mouth = Snout(shape, Color.Pink),
-            skin = ExoticSkin(),
         ),
         fromMillimeters(1000),
+        ExoticSkin(),
     )

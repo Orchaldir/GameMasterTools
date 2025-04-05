@@ -5,8 +5,8 @@ import at.orchaldir.gm.core.action.CreateRaceAppearance
 import at.orchaldir.gm.core.action.DeleteRaceAppearance
 import at.orchaldir.gm.core.action.UpdateRaceAppearance
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.appearance.FeatureColorType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
-import at.orchaldir.gm.core.model.character.appearance.tail.TailColorType
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
@@ -47,14 +47,14 @@ private fun checkRaceAppearance(appearance: RaceAppearance) {
 }
 
 private fun checkTails(appearance: RaceAppearance) {
-    val options = appearance.tailOptions
+    val options = appearance.tail
     options.simpleShapes.getValidValues().forEach {
         require(options.simpleOptions.containsKey(it)) { "No options for $it tail!" }
     }
 
-    if (!appearance.hairOptions.hairTypes.contains(HairType.Normal)) {
+    if (!appearance.hair.hairTypes.contains(HairType.Normal)) {
         options.simpleOptions.forEach { (shape, shapeOptions) ->
-            require(shapeOptions.colorType != TailColorType.Hair) { "Tail options for $shape require hair!" }
+            require(shapeOptions.types != FeatureColorType.Hair) { "Tail options for $shape require hair!" }
         }
     }
 }

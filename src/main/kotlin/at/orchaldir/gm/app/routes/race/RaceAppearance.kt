@@ -141,7 +141,7 @@ private fun HTML.showDetails(
     state: State,
     appearance: RaceAppearance,
 ) {
-    val eyeOptions = appearance.eyeOptions
+    val eyeOptions = appearance.eye
     val backLink = call.application.href(AppearanceRoutes())
     val cloneLink = call.application.href(AppearanceRoutes.Clone(appearance.id))
     val deleteLink = call.application.href(AppearanceRoutes.Delete(appearance.id))
@@ -198,7 +198,7 @@ private fun HTML.showEditor(
     state: State,
     appearance: RaceAppearance,
 ) {
-    val eyeOptions = appearance.eyeOptions
+    val eyeOptions = appearance.eye
     val backLink = call.application.href(AppearanceRoutes.Details(appearance.id))
     val previewLink = call.application.href(AppearanceRoutes.Preview(appearance.id))
     val updateLink = call.application.href(AppearanceRoutes.Update(appearance.id))

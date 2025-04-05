@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.character.appearance.tail
 
+import at.orchaldir.gm.core.model.character.appearance.FeatureColor
+import at.orchaldir.gm.core.model.character.appearance.ReuseHairColor
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -28,5 +30,5 @@ data object NoTails : Tails()
 data class SimpleTail(
     val shape: SimpleTailShape,
     val size: Size,
-    val color: TailColor = ReuseHairColor,
+    val color: FeatureColor = ReuseHairColor,
 ) : Tails()

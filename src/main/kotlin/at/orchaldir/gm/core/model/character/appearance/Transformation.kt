@@ -29,10 +29,14 @@ fun updateBeard(mouth: Mouth, beard: Beard): Mouth {
 
 fun updateHairColor(appearance: Appearance, color: Color): Appearance {
     return when (appearance) {
-        is HeadOnly -> appearance.copy(updateHairColor(appearance.head, color))
+        is HeadOnly -> appearance.copy(
+            head = updateHairColor(appearance.head, color),
+            skin = updateFurColor(appearance.skin, color),
+        )
+
         is HumanoidBody -> appearance.copy(
-            updateSkinColor(appearance.body, color),
-            updateHairColor(appearance.head, color),
+            head = updateHairColor(appearance.head, color),
+            skin = updateFurColor(appearance.skin, color),
         )
 
         UndefinedAppearance -> appearance
@@ -42,7 +46,6 @@ fun updateHairColor(appearance: Appearance, color: Color): Appearance {
 fun updateHairColor(head: Head, color: Color) = head.copy(
     hair = updateHairColor(head.hair, color),
     mouth = updateHairColor(head.mouth, color),
-    skin = updateSkinColor(head.skin, color),
 )
 
 fun updateHairColor(hair: Hair, color: Color) = when (hair) {
@@ -60,11 +63,7 @@ fun updateHairColor(beard: Beard, color: Color) = when (beard) {
     is NormalBeard -> beard.copy(color = color)
 }
 
-fun updateSkinColor(body: Body, color: Color) = body.copy(
-    skin = updateSkinColor(body.skin, color),
-)
-
-fun updateSkinColor(skin: Skin, color: Color) = when (skin) {
+fun updateFurColor(skin: Skin, color: Color) = when (skin) {
     is Fur -> Fur(color)
     else -> skin
 }

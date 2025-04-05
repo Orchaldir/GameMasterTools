@@ -90,10 +90,6 @@
      "foot": {
       "type": "Clawed",
       "size": "Small"
-     },
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
      }
     },
     "head": {
@@ -119,13 +115,13 @@
       "type": "Female",
       "width": "Large",
       "color": "Black"
-     },
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
      }
     },
-    "height": 1690000
+    "height": 1690000,
+    "skin": {
+     "type": "Normal",
+     "color": "Light"
+    }
    },
    "employmentStatus": {
     "current": {
@@ -179,11 +175,7 @@
     "type": "Humanoid",
     "body": {
      "bodyShape": "Hourglass",
-     "width": "Small",
-     "skin": {
-      "type": "Normal",
-      "color": "Fair"
-     }
+     "width": "Small"
     },
     "head": {
      "ears": {
@@ -206,13 +198,13 @@
      "mouth": {
       "type": "Female",
       "color": "Black"
-     },
-     "skin": {
-      "type": "Normal",
-      "color": "Fair"
      }
     },
-    "height": 1610000
+    "height": 1610000,
+    "skin": {
+     "type": "Normal",
+     "color": "Fair"
+    }
    },
    "employmentStatus": {
     "current": {
@@ -317,11 +309,7 @@
    "appearance": {
     "type": "Humanoid",
     "body": {
-     "bodyShape": "Muscular",
-     "skin": {
-      "type": "Normal",
-      "color": "Fair"
-     }
+     "bodyShape": "Muscular"
     },
     "head": {
      "ears": {
@@ -353,13 +341,13 @@
        },
        "color": "Black"
       }
-     },
-     "skin": {
-      "type": "Normal",
-      "color": "Fair"
      }
     },
-    "height": 1860000
+    "height": 1860000,
+    "skin": {
+     "type": "Normal",
+     "color": "Fair"
+    }
    },
    "employmentStatus": {
     "current": {
@@ -405,10 +393,6 @@
    "appearance": {
     "type": "Humanoid",
     "body": {
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
-     }
     },
     "head": {
      "ears": {
@@ -440,13 +424,13 @@
        "color": "Green"
       },
       "width": "Small"
-     },
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
      }
     },
-    "height": 1050000
+    "height": 1050000,
+    "skin": {
+     "type": "Normal",
+     "color": "Light"
+    }
    },
    "employmentStatus": {
     "current": {
@@ -520,10 +504,6 @@
    "appearance": {
     "type": "Humanoid",
     "body": {
-     "skin": {
-      "type": "Exotic",
-      "color": "Olive"
-     }
     },
     "head": {
      "ears": {
@@ -550,13 +530,13 @@
       "type": "Female",
       "width": "Small",
       "color": "Black"
-     },
-     "skin": {
-      "type": "Exotic",
-      "color": "Olive"
      }
     },
-    "height": 2700000
+    "height": 2700000,
+    "skin": {
+     "type": "Exotic",
+     "color": "Olive"
+    }
    },
    "employmentStatus": {
     "current": {
@@ -685,11 +665,7 @@
    "appearance": {
     "type": "Humanoid",
     "body": {
-     "bodyShape": "Muscular",
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
-     }
+     "bodyShape": "Muscular"
     },
     "head": {
      "ears": {
@@ -722,13 +698,13 @@
        "color": "Maroon"
       },
       "width": "Small"
-     },
-     "skin": {
-      "type": "Normal",
-      "color": "Light"
      }
     },
-    "height": 1800000
+    "height": 1800000,
+    "skin": {
+     "type": "Normal",
+     "color": "Light"
+    }
    },
    "employmentStatus": {
     "current": {
@@ -864,10 +840,6 @@
    "appearance": {
     "type": "Humanoid",
     "body": {
-     "skin": {
-      "type": "Exotic",
-      "color": "Olive"
-     }
     },
     "head": {
      "ears": {
@@ -902,13 +874,13 @@
        "color": "Black"
       },
       "width": "Large"
-     },
-     "skin": {
-      "type": "Exotic",
-      "color": "Olive"
      }
     },
-    "height": 1100000
+    "height": 1100000,
+    "skin": {
+     "type": "Exotic",
+     "color": "Olive"
+    }
    },
    "employmentStatus": {
     "current": {

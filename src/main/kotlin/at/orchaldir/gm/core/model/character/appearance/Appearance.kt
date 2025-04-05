@@ -46,6 +46,7 @@ data object UndefinedAppearance : Appearance()
 data class HeadOnly(
     val head: Head,
     val height: Distance,
+    val skin: Skin = NormalSkin(),
 ) : Appearance()
 
 @Serializable
@@ -54,6 +55,7 @@ data class HumanoidBody(
     val body: Body,
     val head: Head,
     val height: Distance,
+    val skin: Skin = NormalSkin(),
     val tails: Tails = NoTails,
     val wings: Wings = NoWings,
 ) : Appearance()

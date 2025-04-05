@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.core.model.character.appearance.mouth.Mouth
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.Factor
@@ -31,18 +32,19 @@ data class HeadConfig(
 fun visualizeHead(
     state: CharacterRenderState,
     head: Head,
+    skin: Skin,
 ) {
-    visualizeEars(state, head)
-    visualizeHeadShape(state, head)
+    visualizeEars(state, head, skin)
+    visualizeHeadShape(state, head, skin)
     visualizeEyes(state, head)
     visualizeMouth(state, head)
     visualizeHair(state, head)
-    visualizeHorns(state, head.horns)
+    visualizeHorns(state, head.horns, skin, head.hair)
     visualizeHeadEquipment(state, head)
 }
 
-fun visualizeHeadShape(state: CharacterRenderState, head: Head) {
-    val options = state.config.getOptions(head.skin)
+fun visualizeHeadShape(state: CharacterRenderState, head: Head, skin: Skin) {
+    val options = state.config.getOptions(skin)
 
     state.renderer.getLayer().renderRectangle(state.aabb, options)
 }

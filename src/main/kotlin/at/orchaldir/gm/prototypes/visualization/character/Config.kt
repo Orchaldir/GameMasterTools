@@ -185,5 +185,4 @@ private fun complexHorn(position: HornPosition, degree: Float, shape: HornShape,
     position,
     fromDegree(degree),
     shape,
-    Color.Red,
 )

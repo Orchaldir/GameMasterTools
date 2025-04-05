@@ -22,7 +22,7 @@ fun main() {
     renderCharacterTable("eyes.svg", CHARACTER_CONFIG, appearances)
 }
 
-private fun createAppearance(eyes: Eyes) = HeadOnly(Head(eyes = eyes, skin = ExoticSkin()), fromMillimeters(1000))
+private fun createAppearance(eyes: Eyes) = HeadOnly(Head(eyes = eyes), fromMillimeters(1000), ExoticSkin())
 
 private fun createRow(eye: Eye) =
     listOf(OneEye(eye, Size.Small), OneEye(eye, Size.Medium), OneEye(eye, Size.Large), TwoEyes(eye))

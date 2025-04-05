@@ -7,7 +7,10 @@ import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.character.appearance.mouth.*
-import at.orchaldir.gm.core.model.character.appearance.tail.*
+import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
+import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
+import at.orchaldir.gm.core.model.character.appearance.tail.Tails
+import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.*
@@ -31,16 +34,18 @@ data class AppearanceGeneratorConfig(
 
         return when (generate(appearanceOptions.appearanceTypes)) {
             AppearanceType.Body -> HumanoidBody(
-                generateBody(this, skin),
-                generateHead(this, skin),
+                generateBody(this),
+                generateHead(this),
                 heightDistribution.center,
+                skin,
                 generateTails(this),
                 generateWings(this),
             )
 
             AppearanceType.HeadOnly -> HeadOnly(
-                generateHead(this, skin),
+                generateHead(this),
                 heightDistribution.center,
+                skin
             )
         }
     }
@@ -51,15 +56,14 @@ data class AppearanceGeneratorConfig(
 
 }
 
-fun generateBody(config: AppearanceGeneratorConfig, skin: Skin) = Body(
+fun generateBody(config: AppearanceGeneratorConfig) = Body(
     config.select(getAvailableBodyShapes(config.gender)),
     generateFoot(config),
     config.select(Size.entries),
-    skin,
 )
 
 fun generateFoot(config: AppearanceGeneratorConfig): Foot {
-    val options = config.appearanceOptions.footOptions
+    val options = config.appearanceOptions.foot
 
     return when (config.generate(options.footTypes)) {
         FootType.Normal -> NormalFoot
@@ -71,7 +75,7 @@ fun generateFoot(config: AppearanceGeneratorConfig): Foot {
     }
 }
 
-fun generateHead(config: AppearanceGeneratorConfig, skin: Skin): Head {
+fun generateHead(config: AppearanceGeneratorConfig): Head {
     val hair = generateHair(config)
 
     return Head(
@@ -80,7 +84,6 @@ fun generateHead(config: AppearanceGeneratorConfig, skin: Skin): Head {
         hair,
         generateHorns(config),
         generateMouth(config, hair),
-        skin,
     )
 }
 
@@ -88,7 +91,7 @@ fun generateBeard(config: AppearanceGeneratorConfig, hair: Hair): Beard {
     val options = config.appearanceOptions
     val styleOptions = config.appearanceStyle
 
-    return when (config.generate(options.hairOptions.beardTypes)) {
+    return when (config.generate(options.hair.beardTypes)) {
         BeardType.None -> NoBeard
         BeardType.Normal -> NormalBeard(
             when (config.generate(styleOptions.beardStyles)) {
@@ -102,7 +105,7 @@ fun generateBeard(config: AppearanceGeneratorConfig, hair: Hair): Beard {
                 BeardStyleType.Shaved -> ShavedBeard
             },
             when (hair) {
-                NoHair -> config.generate(options.hairOptions.colors)
+                NoHair -> config.generate(options.hair.colors)
                 is NormalHair -> hair.color
             }
         )
@@ -136,7 +139,7 @@ fun generateEyes(config: AppearanceGeneratorConfig): Eyes {
 }
 
 fun generateEye(config: AppearanceGeneratorConfig): Eye {
-    val options = config.appearanceOptions.eyeOptions
+    val options = config.appearanceOptions.eye
 
     return when (config.generate(options.eyeTypes)) {
         EyeType.Simple -> SimpleEye(
@@ -156,11 +159,11 @@ fun generateEye(config: AppearanceGeneratorConfig): Eye {
 fun generateHair(config: AppearanceGeneratorConfig): Hair {
     val options = config.appearanceOptions
 
-    return when (config.generate(options.hairOptions.hairTypes)) {
+    return when (config.generate(options.hair.hairTypes)) {
         HairType.None -> NoHair
         HairType.Normal -> NormalHair(
             generateHairStyle(config),
-            config.generate(options.hairOptions.colors),
+            config.generate(options.hair.colors),
         )
     }
 }
@@ -177,7 +180,7 @@ fun generateHairStyle(config: AppearanceGeneratorConfig): HairStyle {
 }
 
 fun generateHorns(config: AppearanceGeneratorConfig): Horns {
-    val options = config.appearanceOptions.hornOptions
+    val options = config.appearanceOptions.horn
 
     return when (config.generate(options.layouts)) {
 
@@ -194,7 +197,7 @@ fun generateHorns(config: AppearanceGeneratorConfig): Horns {
             true,
             options.crownLength,
             DEFAULT_CROWN_WIDTH,
-            config.generate(options.colors),
+            generateFeatureColor(config, options.colors),
         )
     }
 }
@@ -205,12 +208,12 @@ fun generateHorn(config: AppearanceGeneratorConfig, options: HornOptions): Simpl
     return SimpleHorn(
         options.getSimpleLength(type),
         type,
-        config.generate(options.colors),
+        generateFeatureColor(config, options.colors),
     )
 }
 
 fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
-    val options = config.appearanceOptions.mouthOptions
+    val options = config.appearanceOptions.mouth
 
     return when (config.generate(options.mouthTypes)) {
         MouthType.NoMouth -> NoMouth
@@ -241,20 +244,17 @@ fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
     }
 }
 
+fun generateSkin(config: AppearanceGeneratorConfig) = generateSkin(config, config.appearanceOptions.skin)
 
-fun generateSkin(config: AppearanceGeneratorConfig): Skin {
-    val options = config.appearanceOptions
-
-    return when (config.generate(options.skinTypes)) {
-        SkinType.Fur -> Fur(config.generate(options.furColors))
-        SkinType.Scales -> Scales(config.generate(options.scalesColors))
-        SkinType.Normal -> NormalSkin(config.generate(options.normalSkinColors))
-        SkinType.Exotic -> ExoticSkin(config.generate(options.exoticSkinColors))
-    }
+fun generateSkin(config: AppearanceGeneratorConfig, options: SkinOptions) = when (config.generate(options.skinTypes)) {
+    SkinType.Fur -> Fur(config.generate(options.furColors))
+    SkinType.Scales -> Scales(config.generate(options.scalesColors))
+    SkinType.Normal -> NormalSkin(config.generate(options.normalSkinColors))
+    SkinType.Exotic -> ExoticSkin(config.generate(options.exoticSkinColors))
 }
 
 fun generateTails(config: AppearanceGeneratorConfig): Tails {
-    val options = config.appearanceOptions.tailOptions
+    val options = config.appearanceOptions.tail
 
     return when (config.generate(options.layouts)) {
         TailsLayout.None -> NoTails
@@ -267,21 +267,26 @@ private fun generateSimpleTail(
     tailOptions: TailOptions,
 ): SimpleTail {
     val shape = config.generate(tailOptions.simpleShapes)
-    val options = tailOptions.simpleOptions[shape] ?: SimpleTailOptions()
+    val options = tailOptions.getFeatureColorOptions(shape)
 
     return SimpleTail(
         shape,
         config.select(Size.entries),
-        when (options.colorType) {
-            TailColorType.Hair -> ReuseHairColor
-            TailColorType.Overwrite -> OverwriteTailColor(config.generate(options.colors))
-            TailColorType.Skin -> ReuseSkinColor
-        }
+        generateFeatureColor(config, options),
     )
 }
 
+private fun generateFeatureColor(
+    config: AppearanceGeneratorConfig,
+    options: FeatureColorOptions,
+) = when (options.types) {
+    FeatureColorType.Hair -> ReuseHairColor
+    FeatureColorType.Overwrite -> OverwriteFeatureColor(generateSkin(config, options.skin))
+    FeatureColorType.Skin -> ReuseSkinColor
+}
+
 fun generateWings(config: AppearanceGeneratorConfig): Wings {
-    val options = config.appearanceOptions.wingOptions
+    val options = config.appearanceOptions.wing
 
     return when (config.generate(options.layouts)) {
         WingsLayout.None -> NoWings
@@ -299,7 +304,7 @@ fun generateWings(config: AppearanceGeneratorConfig): Wings {
 }
 
 fun generateWing(config: AppearanceGeneratorConfig): Wing {
-    val options = config.appearanceOptions.wingOptions
+    val options = config.appearanceOptions.wing
 
     return when (config.generate(options.types)) {
         WingType.Bat -> BatWing(config.generate(options.batColors))

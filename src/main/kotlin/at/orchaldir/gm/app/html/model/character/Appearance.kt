@@ -13,25 +13,25 @@ import at.orchaldir.gm.core.generator.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.character.appearance.tail.*
+import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
+import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
+import at.orchaldir.gm.core.model.character.appearance.tail.Tails
+import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.race.appearance.FootOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
-import at.orchaldir.gm.core.model.race.appearance.SimpleTailOptions
 import at.orchaldir.gm.core.model.race.appearance.WingOptions
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import io.ktor.http.*
 import kotlinx.html.FORM
 import kotlinx.html.h2
-import kotlinx.html.style
 
 // edit
 
@@ -54,14 +54,14 @@ fun FORM.editAppearance(
         is HeadOnly -> {
             editHeight(state, character, appearance.height)
             editHead(raceAppearance, culture, appearance.head)
-            editSkin(raceAppearance, appearance.head.skin)
+            editSkin(raceAppearance.skin, appearance.skin)
         }
 
         is HumanoidBody -> {
             editHeight(state, character, appearance.height)
             editBody(raceAppearance, character, appearance.body)
             editHead(raceAppearance, culture, appearance.head)
-            editSkin(raceAppearance, appearance.head.skin)
+            editSkin(raceAppearance.skin, appearance.skin)
             editTails(raceAppearance, appearance.tails)
             editWings(raceAppearance, appearance.wings)
         }
@@ -88,7 +88,7 @@ private fun FORM.editBody(
     h2 { +"Body" }
     selectValue("Shape", BODY_SHAPE, getAvailableBodyShapes(character.gender), body.bodyShape, true)
     selectValue("Width", BODY_WIDTH, Size.entries, body.width, true)
-    editFoot(raceAppearance.footOptions, body.foot)
+    editFoot(raceAppearance.foot, body.foot)
 }
 
 private fun FORM.editFoot(footOptions: FootOptions, foot: Foot) {
@@ -106,34 +106,11 @@ private fun FORM.editFoot(footOptions: FootOptions, foot: Foot) {
     }
 }
 
-private fun FORM.editSkin(
-    raceAppearance: RaceAppearance,
-    skin: Skin,
-) {
-    h2 { +"Skin" }
-
-    selectOneOf("Type", combine(SKIN, TYPE), raceAppearance.skinTypes, skin.getType(), true)
-
-    when (skin) {
-        is Fur -> selectColor("Color", combine(SKIN, EXOTIC, COLOR), raceAppearance.furColors, skin.color)
-        is Scales -> selectColor("Color", combine(SKIN, EXOTIC, COLOR), raceAppearance.scalesColors, skin.color)
-        is ExoticSkin -> selectColor("Color", combine(SKIN, EXOTIC, COLOR), raceAppearance.exoticSkinColors, skin.color)
-        is NormalSkin -> {
-            selectOneOf("Color", combine(SKIN, COLOR), raceAppearance.normalSkinColors, skin.color, true) { skinColor ->
-                label = skinColor.name
-                value = skinColor.toString()
-                val bgColor = CHARACTER_CONFIG.getSkinColor(skinColor).toCode()
-                style = "background-color:${bgColor}"
-            }
-        }
-    }
-}
-
 private fun FORM.editTails(
     raceAppearance: RaceAppearance,
     tails: Tails,
 ) {
-    val options = raceAppearance.tailOptions
+    val options = raceAppearance.tail
 
     h2 { +"Tails" }
 
@@ -142,14 +119,11 @@ private fun FORM.editTails(
     when (tails) {
         NoTails -> doNothing()
         is SimpleTail -> {
-            val simpleOptions = options.simpleOptions[tails.shape] ?: SimpleTailOptions()
+            val colorOptions = options.getFeatureColorOptions(tails.shape)
 
             selectOneOf("Shape", combine(TAIL, SHAPE), options.simpleShapes, tails.shape, true)
             selectValue("Size", combine(TAIL, SIZE), Size.entries, tails.size, true)
-
-            if (simpleOptions.colorType == TailColorType.Overwrite && tails.color is OverwriteTailColor) {
-                selectColor("Color", combine(TAIL, COLOR), simpleOptions.colors, tails.color.color)
-            }
+            selectFeatureColor(colorOptions, tails.color, TAIL)
         }
     }
 }
@@ -158,7 +132,7 @@ private fun FORM.editWings(
     raceAppearance: RaceAppearance,
     wings: Wings,
 ) {
-    val wingOptions = raceAppearance.wingOptions
+    val wingOptions = raceAppearance.wing
 
     h2 { +"Wings" }
 
@@ -212,11 +186,12 @@ fun parseAppearance(
     val skin = parseSkin(parameters, config)
 
     return when (parameters[APPEARANCE]) {
-        AppearanceType.HeadOnly.toString() -> HeadOnly(parseHead(parameters, config, character, skin), height)
+        AppearanceType.HeadOnly.toString() -> HeadOnly(parseHead(parameters, config, character), height, skin)
         AppearanceType.Body.toString() -> HumanoidBody(
-            parseBody(parameters, config, skin),
-            parseHead(parameters, config, character, skin),
+            parseBody(parameters, config),
+            parseHead(parameters, config, character),
             height,
+            skin,
             parseTails(parameters, config),
             parseWings(parameters, config),
         )
@@ -233,18 +208,16 @@ private fun parseHeight(
 private fun parseBody(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
-    skin: Skin,
 ): Body {
     if (parameters.contains(BODY_SHAPE)) {
         return Body(
             parse(parameters, BODY_SHAPE, BodyShape.Rectangle),
             parseFoot(parameters, config),
             parse(parameters, BODY_WIDTH, Size.Medium),
-            skin,
         )
     }
 
-    return generateBody(config, skin)
+    return generateBody(config)
 }
 
 private fun parseFoot(
@@ -253,7 +226,7 @@ private fun parseFoot(
 ) = when (parameters[FOOT]) {
     FootType.Normal.toString() -> NormalFoot
     FootType.Clawed.toString() -> {
-        val options = config.appearanceOptions.footOptions
+        val options = config.appearanceOptions.foot
         ClawedFoot(
             options.clawNumber,
             parseAppearanceOption(parameters, combine(FOOT, CLAWS, SIZE), config, options.clawSizes),
@@ -264,64 +237,21 @@ private fun parseFoot(
     else -> generateFoot(config)
 }
 
-private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig): Skin {
-    val options = config.appearanceOptions
-
-    return when (parameters[combine(SKIN, TYPE)]) {
-        SkinType.Fur.toString() -> {
-            return Fur(parseExoticColor(parameters, config, options.furColors))
-        }
-
-        SkinType.Scales.toString() -> {
-            return Scales(parseExoticColor(parameters, config, options.scalesColors))
-        }
-
-        SkinType.Exotic.toString() -> {
-            return ExoticSkin(parseExoticColor(parameters, config, options.exoticSkinColors))
-        }
-
-        SkinType.Normal.toString() -> {
-            val color = parseAppearanceOption(parameters, combine(SKIN, COLOR), config, options.normalSkinColors)
-            return NormalSkin(color)
-        }
-
-        else -> generateSkin(config)
-    }
-}
-
-private fun parseExoticColor(
-    parameters: Parameters,
-    config: AppearanceGeneratorConfig,
-    colors: OneOf<Color>,
-) = parseAppearanceColor(parameters, combine(SKIN, EXOTIC), config, colors)
-
 private fun parseTails(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
 ) = when (parameters[combine(TAIL, LAYOUT)]) {
     TailsLayout.None.toString() -> NoTails
     TailsLayout.Simple.toString() -> {
-        val options = config.appearanceOptions.tailOptions
+        val options = config.appearanceOptions.tail
         val shape = parseAppearanceOption(parameters, combine(TAIL, SHAPE), config, options.simpleShapes)
-        val shapeOptions = options.getSimpleTailOptions(shape)
-        val colorType = when (shapeOptions.colorType) {
-            TailColorType.Hair -> ReuseHairColor
-            TailColorType.Overwrite -> OverwriteTailColor(
-                parseAppearanceColor(
-                    parameters,
-                    TAIL,
-                    config,
-                    shapeOptions.colors
-                )
-            )
-
-            TailColorType.Skin -> ReuseSkinColor
-        }
+        val shapeOptions = options.getFeatureColorOptions(shape)
+        val featureColor = parseFeatureColor(parameters, config, shapeOptions, TAIL)
 
         SimpleTail(
             shape,
             parse(parameters, combine(TAIL, SIZE), Size.Medium),
-            colorType,
+            featureColor,
         )
     }
 
@@ -355,7 +285,7 @@ private fun parseWing(
     config: AppearanceGeneratorConfig,
     param: String,
 ): Wing {
-    val wingOptions = config.appearanceOptions.wingOptions
+    val wingOptions = config.appearanceOptions.wing
 
     return when (parameters[combine(param, TYPE)]) {
         WingType.Bat.toString() -> BatWing(

@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Cat
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Rat
-import at.orchaldir.gm.core.model.character.appearance.tail.TailColorType.Hair
+import at.orchaldir.gm.core.model.character.appearance.FeatureColorType.Hair
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
@@ -69,7 +69,7 @@ class RaceAppearanceTest {
         fun `No tail options for for a simple tail shape`() {
             val state = State(Storage(RaceAppearance(ID0)))
             val tailOptions = TailOptions(simpleShapes = OneOf(Rat))
-            val action = UpdateRaceAppearance(RaceAppearance(ID0, tailOptions = tailOptions))
+            val action = UpdateRaceAppearance(RaceAppearance(ID0, tail = tailOptions))
 
             assertIllegalArgument("No options for Rat tail!") { REDUCER.invoke(state, action) }
         }
@@ -77,12 +77,12 @@ class RaceAppearanceTest {
         @Test
         fun `Reuse hair color option requires hair`() {
             val state = State(Storage(RaceAppearance(ID0)))
-            val tailOptions = TailOptions(simpleOptions = mapOf(Cat to SimpleTailOptions(Hair)))
+            val tailOptions = TailOptions(simpleOptions = mapOf(Cat to FeatureColorOptions(Hair)))
             val action = UpdateRaceAppearance(
                 RaceAppearance(
                     ID0,
-                    hairOptions = HairOptions(hairTypes = OneOf(HairType.None)),
-                    tailOptions = tailOptions,
+                    hair = HairOptions(hairTypes = OneOf(HairType.None)),
+                    tail = tailOptions,
                 )
             )
 

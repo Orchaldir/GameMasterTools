@@ -1,6 +1,9 @@
 package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.hair.Hair
+import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Fill
 import at.orchaldir.gm.utils.math.Size2d
@@ -29,6 +32,20 @@ data class CharacterRenderConfig(
             is Scales -> skin.color.toRender()
         }, line
     )
+
+    fun getFeatureOptions(
+        featureColor: FeatureColor,
+        hair: Hair,
+        skin: Skin,
+    ) = when (featureColor) {
+        is OverwriteFeatureColor -> getOptions(featureColor.skin)
+        ReuseHairColor -> when (hair) {
+            NoHair -> error("Cannot reuse hair color without hair!")
+            is NormalHair -> getLineOptions(hair.color)
+        }
+
+        ReuseSkinColor -> getOptions(skin)
+    }
 
     fun getLineOptions(color: Color) = FillAndBorder(color.toRender(), line)
     fun getLineOptions(fill: Fill) = FillAndBorder(fill.toRender(), line)

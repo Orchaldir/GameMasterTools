@@ -17,5 +17,4 @@ data class Head(
     val hair: Hair = NoHair,
     val horns: Horns = NoHorns,
     val mouth: Mouth = NoMouth,
-    val skin: Skin = NormalSkin(),
 )

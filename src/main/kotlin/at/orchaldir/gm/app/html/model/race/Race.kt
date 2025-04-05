@@ -135,7 +135,7 @@ private fun FORM.editLifeStages(
     race: Race,
 ) {
     val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(race.lifeStages.getRaceAppearance())
-    val canHaveBeard = raceAppearance.hairOptions.beardTypes.isAvailable(BeardType.Normal)
+    val canHaveBeard = raceAppearance.hair.beardTypes.isAvailable(BeardType.Normal)
     val lifeStages = race.lifeStages
 
     h2 { +"Life Stages" }
