@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.character.appearance.tail
+package at.orchaldir.gm.core.model.character.appearance
 
 import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName

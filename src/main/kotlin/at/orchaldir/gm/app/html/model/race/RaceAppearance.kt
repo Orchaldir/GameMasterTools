@@ -25,7 +25,7 @@ import at.orchaldir.gm.core.model.character.appearance.mouth.BeakShape
 import at.orchaldir.gm.core.model.character.appearance.mouth.MouthType
 import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
-import at.orchaldir.gm.core.model.character.appearance.tail.FeatureColorType
+import at.orchaldir.gm.core.model.character.appearance.FeatureColorType
 import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.race.appearance.*

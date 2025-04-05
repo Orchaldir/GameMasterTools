@@ -1,5 +1,8 @@
 package at.orchaldir.gm.visualization.character.appearance
 
+import at.orchaldir.gm.core.model.character.appearance.OverwriteFeatureColor
+import at.orchaldir.gm.core.model.character.appearance.ReuseHairColor
+import at.orchaldir.gm.core.model.character.appearance.ReuseSkinColor
 import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
