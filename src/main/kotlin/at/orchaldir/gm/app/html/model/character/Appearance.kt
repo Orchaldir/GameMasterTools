@@ -13,10 +13,12 @@ import at.orchaldir.gm.core.generator.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.character.appearance.tail.*
+import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
+import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
+import at.orchaldir.gm.core.model.character.appearance.tail.Tails
+import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.race.appearance.FeatureColorOptions
 import at.orchaldir.gm.core.model.race.appearance.FootOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.WingOptions
@@ -24,14 +26,12 @@ import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import io.ktor.http.*
 import kotlinx.html.FORM
 import kotlinx.html.h2
-import kotlinx.html.style
 
 // edit
 
@@ -103,29 +103,6 @@ private fun FORM.editFoot(footOptions: FootOptions, foot: Foot) {
         }
 
         else -> doNothing()
-    }
-}
-
-private fun FORM.editSkin(
-    raceAppearance: RaceAppearance,
-    skin: Skin,
-) {
-    h2 { +"Skin" }
-
-    selectOneOf("Type", combine(SKIN, TYPE), raceAppearance.skinTypes, skin.getType(), true)
-
-    when (skin) {
-        is Fur -> selectColor("Color", combine(SKIN, EXOTIC, COLOR), raceAppearance.furColors, skin.color)
-        is Scales -> selectColor("Color", combine(SKIN, EXOTIC, COLOR), raceAppearance.scalesColors, skin.color)
-        is ExoticSkin -> selectColor("Color", combine(SKIN, EXOTIC, COLOR), raceAppearance.exoticSkinColors, skin.color)
-        is NormalSkin -> {
-            selectOneOf("Color", combine(SKIN, COLOR), raceAppearance.normalSkinColors, skin.color, true) { skinColor ->
-                label = skinColor.name
-                value = skinColor.toString()
-                val bgColor = CHARACTER_CONFIG.getSkinColor(skinColor).toCode()
-                style = "background-color:${bgColor}"
-            }
-        }
     }
 }
 
@@ -259,37 +236,6 @@ private fun parseFoot(
 
     else -> generateFoot(config)
 }
-
-private fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig): Skin {
-    val options = config.appearanceOptions
-
-    return when (parameters[combine(SKIN, TYPE)]) {
-        SkinType.Fur.toString() -> {
-            return Fur(parseExoticColor(parameters, config, options.furColors))
-        }
-
-        SkinType.Scales.toString() -> {
-            return Scales(parseExoticColor(parameters, config, options.scalesColors))
-        }
-
-        SkinType.Exotic.toString() -> {
-            return ExoticSkin(parseExoticColor(parameters, config, options.exoticSkinColors))
-        }
-
-        SkinType.Normal.toString() -> {
-            val color = parseAppearanceOption(parameters, combine(SKIN, COLOR), config, options.normalSkinColors)
-            return NormalSkin(color)
-        }
-
-        else -> generateSkin(config)
-    }
-}
-
-private fun parseExoticColor(
-    parameters: Parameters,
-    config: AppearanceGeneratorConfig,
-    colors: OneOf<Color>,
-) = parseAppearanceColor(parameters, combine(SKIN, EXOTIC), config, colors)
 
 private fun parseTails(
     parameters: Parameters,
