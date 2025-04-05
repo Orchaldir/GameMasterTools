@@ -18,6 +18,7 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
+import kotlinx.html.DETAILS
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
@@ -386,13 +387,13 @@ private fun HtmlBlockTag.editSewingPattern(pattern: SewingPattern) {
                 selectColor("Color", combine(SEWING, COLOR), Color.entries, pattern.color)
                 selectValue("Size", combine(SEWING, SIZE), Size.entries, pattern.size, true)
                 selectValue("Distance Between Edge & Hole", combine(SEWING, LENGTH), Size.entries, pattern.length, true)
-                editList("Pattern", SEWING, pattern.stitches, MIN_STITCHES, 20, 1) { _, stitchParam, element ->
-                    selectValue("Stitch", stitchParam, StitchType.entries, element, true)
+                editSewingPattern(pattern.stitches) { elementParam, element ->
+                    selectValue("Stitch", elementParam, StitchType.entries, element, true)
                 }
             }
 
             is ComplexSewingPattern -> {
-                editList("Pattern", SEWING, pattern.stitches, MIN_STITCHES, 20, 1) { _, elementParam, element ->
+                editSewingPattern(pattern.stitches) { elementParam, element ->
                     selectColor("Color", combine(elementParam, COLOR), Color.entries, element.color)
                     selectValue("Size", combine(elementParam, SIZE), Size.entries, element.size, true)
                     selectValue(
@@ -406,6 +407,15 @@ private fun HtmlBlockTag.editSewingPattern(pattern: SewingPattern) {
                 }
             }
         }
+    }
+}
+
+private fun <T> DETAILS.editSewingPattern(
+    elements: Collection<T>,
+    editElement: HtmlBlockTag.(String, T) -> Unit,
+) {
+    editList("Pattern", SEWING, elements, MIN_STITCHES, 20, 1) { _, param, element ->
+        editElement(param, element)
     }
 }
 
