@@ -267,7 +267,7 @@ private fun generateSimpleTail(
     tailOptions: TailOptions,
 ): SimpleTail {
     val shape = config.generate(tailOptions.simpleShapes)
-    val options = tailOptions.simpleOptions[shape] ?: SimpleTailOptions()
+    val options = tailOptions.getFeatureColorOptions(shape)
 
     return SimpleTail(
         shape,

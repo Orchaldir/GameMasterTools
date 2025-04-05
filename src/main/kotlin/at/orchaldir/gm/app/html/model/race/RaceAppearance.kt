@@ -537,7 +537,7 @@ private fun parseTailOptions(parameters: Parameters): TailOptions {
     )
 }
 
-private fun parseSimpleTailOptions(parameters: Parameters, shape: SimpleTailShape) = SimpleTailOptions(
+private fun parseSimpleTailOptions(parameters: Parameters, shape: SimpleTailShape) = FeatureColorOptions(
     parse(parameters, combine(TAIL, shape.name, TYPE), FeatureColorType.Overwrite),
     parseOneOf(parameters, combine(TAIL, shape.name, COLOR), Color::valueOf, setOf(DEFAULT_SIMPLE_TAIL_COLOR)),
 )

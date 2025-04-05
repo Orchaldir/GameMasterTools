@@ -16,9 +16,9 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.tail.*
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.race.appearance.FeatureColorOptions
 import at.orchaldir.gm.core.model.race.appearance.FootOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
-import at.orchaldir.gm.core.model.race.appearance.SimpleTailOptions
 import at.orchaldir.gm.core.model.race.appearance.WingOptions
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.OneOf
@@ -142,14 +142,11 @@ private fun FORM.editTails(
     when (tails) {
         NoTails -> doNothing()
         is SimpleTail -> {
-            val simpleOptions = options.simpleOptions[tails.shape] ?: SimpleTailOptions()
+            val colorOptions = options.getFeatureColorOptions(tails.shape)
 
             selectOneOf("Shape", combine(TAIL, SHAPE), options.simpleShapes, tails.shape, true)
             selectValue("Size", combine(TAIL, SIZE), Size.entries, tails.size, true)
-
-            if (simpleOptions.colorType == FeatureColorType.Overwrite && tails.color is OverwriteFeatureColor) {
-                selectColor("Color", combine(TAIL, COLOR), simpleOptions.colors, tails.color.color)
-            }
+            selectFeatureColor(colorOptions, tails.color, TAIL)
         }
     }
 }
@@ -302,25 +299,13 @@ private fun parseTails(
     TailsLayout.Simple.toString() -> {
         val options = config.appearanceOptions.tailOptions
         val shape = parseAppearanceOption(parameters, combine(TAIL, SHAPE), config, options.simpleShapes)
-        val shapeOptions = options.getSimpleTailOptions(shape)
-        val colorType = when (shapeOptions.colorType) {
-            FeatureColorType.Hair -> ReuseHairColor
-            FeatureColorType.Overwrite -> OverwriteFeatureColor(
-                parseAppearanceColor(
-                    parameters,
-                    TAIL,
-                    config,
-                    shapeOptions.colors
-                )
-            )
-
-            FeatureColorType.Skin -> ReuseSkinColor
-        }
+        val shapeOptions = options.getFeatureColorOptions(shape)
+        val featureColor = parseFeatureColor(parameters, config, shapeOptions, TAIL)
 
         SimpleTail(
             shape,
             parse(parameters, combine(TAIL, SIZE), Size.Medium),
-            colorType,
+            featureColor,
         )
     }
 
