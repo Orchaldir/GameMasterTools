@@ -54,14 +54,14 @@ fun FORM.editAppearance(
         is HeadOnly -> {
             editHeight(state, character, appearance.height)
             editHead(raceAppearance, culture, appearance.head)
-            editSkin(raceAppearance, appearance.skin)
+            editSkin(raceAppearance.skin, appearance.skin)
         }
 
         is HumanoidBody -> {
             editHeight(state, character, appearance.height)
             editBody(raceAppearance, character, appearance.body)
             editHead(raceAppearance, culture, appearance.head)
-            editSkin(raceAppearance, appearance.skin)
+            editSkin(raceAppearance.skin, appearance.skin)
             editTails(raceAppearance, appearance.tails)
             editWings(raceAppearance, appearance.wings)
         }

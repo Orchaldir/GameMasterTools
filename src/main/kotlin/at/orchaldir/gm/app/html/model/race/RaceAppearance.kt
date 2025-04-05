@@ -169,22 +169,24 @@ private fun HtmlBlockTag.showMouth(mouthOptions: MouthOptions) {
 private fun HtmlBlockTag.showSkin(appearance: RaceAppearance) {
     h3 { +"Skin" }
 
-    showRarityMap("Type", appearance.skinTypes)
+    val options = appearance.skin
 
-    if (appearance.skinTypes.isAvailable(SkinType.Fur)) {
-        showRarityMap("Fur Colors", appearance.furColors)
+    showRarityMap("Type", options.skinTypes)
+
+    if (options.skinTypes.isAvailable(SkinType.Fur)) {
+        showRarityMap("Fur Colors", options.furColors)
     }
 
-    if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
-        showRarityMap("Scale Colors", appearance.scalesColors)
+    if (options.skinTypes.isAvailable(SkinType.Scales)) {
+        showRarityMap("Scale Colors", options.scalesColors)
     }
 
-    if (appearance.skinTypes.isAvailable(SkinType.Normal)) {
-        showRarityMap("Normal Skin Colors", appearance.normalSkinColors)
+    if (options.skinTypes.isAvailable(SkinType.Normal)) {
+        showRarityMap("Normal Skin Colors", options.normalSkinColors)
     }
 
-    if (appearance.skinTypes.isAvailable(SkinType.Exotic)) {
-        showRarityMap("Exotic Skin Colors", appearance.exoticSkinColors)
+    if (options.skinTypes.isAvailable(SkinType.Exotic)) {
+        showRarityMap("Exotic Skin Colors", options.exoticSkinColors)
     }
 }
 
@@ -357,30 +359,32 @@ private fun FORM.editMouth(mouthOptions: MouthOptions) {
 private fun FORM.editSkin(appearance: RaceAppearance) {
     h3 { +"Skin" }
 
-    selectRarityMap("Type", combine(SKIN, TYPE), appearance.skinTypes, true)
+    val options = appearance.skin
 
-    if (appearance.skinTypes.isAvailable(SkinType.Fur)) {
-        selectRarityMap("Fur Colors", combine(FUR, COLOR), appearance.furColors, true)
+    selectRarityMap("Type", combine(SKIN, TYPE), options.skinTypes, true)
+
+    if (options.skinTypes.isAvailable(SkinType.Fur)) {
+        selectRarityMap("Fur Colors", combine(FUR, COLOR), options.furColors, true)
     }
 
-    if (appearance.skinTypes.isAvailable(SkinType.Scales)) {
-        selectRarityMap("Scale Colors", combine(SCALE, COLOR), appearance.scalesColors, true)
+    if (options.skinTypes.isAvailable(SkinType.Scales)) {
+        selectRarityMap("Scale Colors", combine(SCALE, COLOR), options.scalesColors, true)
     }
 
-    if (appearance.skinTypes.isAvailable(SkinType.Normal)) {
+    if (options.skinTypes.isAvailable(SkinType.Normal)) {
         selectRarityMap(
             "Normal Skin Colors",
             combine(NORMAL, SKIN, COLOR),
-            appearance.normalSkinColors,
+            options.normalSkinColors,
             true,
         )
     }
 
-    if (appearance.skinTypes.isAvailable(SkinType.Exotic)) {
+    if (options.skinTypes.isAvailable(SkinType.Exotic)) {
         selectRarityMap(
             "Exotic Skin Colors",
             combine(EXOTIC, SKIN, COLOR),
-            appearance.exoticSkinColors,
+            options.exoticSkinColors,
             true,
         )
     }
@@ -451,11 +455,6 @@ fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppea
         id,
         name,
         parseOneOf(parameters, APPEARANCE, AppearanceType::valueOf),
-        parseOneOf(parameters, combine(SKIN, TYPE), SkinType::valueOf),
-        parseOneOf(parameters, combine(FUR, COLOR), Color::valueOf, Color.entries),
-        parseOneOf(parameters, combine(SCALE, COLOR), Color::valueOf, Color.entries),
-        parseOneOf(parameters, combine(NORMAL, SKIN, COLOR), SkinColor::valueOf, SkinColor.entries),
-        parseOneOf(parameters, combine(EXOTIC, SKIN, COLOR), Color::valueOf, Color.entries),
         parseOneOf(parameters, combine(EARS, LAYOUT), EarsLayout::valueOf),
         parseOneOf(parameters, combine(EAR, SHAPE), EarShape::valueOf, EarShape.entries),
         parseOneOf(parameters, combine(EYE, LAYOUT), EyesLayout::valueOf),
@@ -464,6 +463,7 @@ fun parseRaceAppearance(id: RaceAppearanceId, parameters: Parameters): RaceAppea
         parseHairOptions(parameters),
         parseHornOptions(parameters),
         parseMouthOptions(parameters),
+        parseSkinOptions(parameters),
         parseTailOptions(parameters),
         parseWingOptions(parameters),
     )
@@ -517,12 +517,12 @@ private fun parseMouthOptions(parameters: Parameters) = MouthOptions(
     parseOneOf(parameters, combine(SNOUT, SHAPE), SnoutShape::valueOf, SnoutShape.entries),
 )
 
-private fun parseWingOptions(parameters: Parameters) = WingOptions(
-    parseOneOf(parameters, combine(WING, LAYOUT), WingsLayout::valueOf),
-    parseOneOf(parameters, combine(WING, TYPE), WingType::valueOf),
-    parseOneOf(parameters, combine(WING, BAT, COLOR), Color::valueOf, setOf(DEFAULT_BAT_COLOR)),
-    parseOneOf(parameters, combine(WING, BIRD, COLOR), Color::valueOf, setOf(DEFAULT_BIRD_COLOR)),
-    parseOneOf(parameters, combine(WING, BUTTERFLY, COLOR), Color::valueOf, setOf(DEFAULT_BUTTERFLY_COLOR)),
+private fun parseSkinOptions(parameters: Parameters) = SkinOptions(
+    parseOneOf(parameters, combine(SKIN, TYPE), SkinType::valueOf),
+    parseOneOf(parameters, combine(FUR, COLOR), Color::valueOf, Color.entries),
+    parseOneOf(parameters, combine(SCALE, COLOR), Color::valueOf, Color.entries),
+    parseOneOf(parameters, combine(NORMAL, SKIN, COLOR), SkinColor::valueOf, SkinColor.entries),
+    parseOneOf(parameters, combine(EXOTIC, SKIN, COLOR), Color::valueOf, Color.entries),
 )
 
 private fun parseTailOptions(parameters: Parameters): TailOptions {
@@ -533,11 +533,19 @@ private fun parseTailOptions(parameters: Parameters): TailOptions {
         parseOneOf(parameters, combine(TAIL, LAYOUT), TailsLayout::valueOf),
         simpleShapes,
         simpleShapes.getValidValues()
-            .associateWith { shape -> parseSimpleTailOptions(parameters, shape) },
+            .associateWith { shape -> parseFeatureColorOptions(parameters, shape) },
     )
 }
 
-private fun parseSimpleTailOptions(parameters: Parameters, shape: SimpleTailShape) = FeatureColorOptions(
+private fun parseFeatureColorOptions(parameters: Parameters, shape: SimpleTailShape) = FeatureColorOptions(
     parse(parameters, combine(TAIL, shape.name, TYPE), FeatureColorType.Overwrite),
     parseOneOf(parameters, combine(TAIL, shape.name, COLOR), Color::valueOf, setOf(DEFAULT_SIMPLE_TAIL_COLOR)),
+)
+
+private fun parseWingOptions(parameters: Parameters) = WingOptions(
+    parseOneOf(parameters, combine(WING, LAYOUT), WingsLayout::valueOf),
+    parseOneOf(parameters, combine(WING, TYPE), WingType::valueOf),
+    parseOneOf(parameters, combine(WING, BAT, COLOR), Color::valueOf, setOf(DEFAULT_BAT_COLOR)),
+    parseOneOf(parameters, combine(WING, BIRD, COLOR), Color::valueOf, setOf(DEFAULT_BIRD_COLOR)),
+    parseOneOf(parameters, combine(WING, BUTTERFLY, COLOR), Color::valueOf, setOf(DEFAULT_BUTTERFLY_COLOR)),
 )

@@ -243,7 +243,7 @@ fun generateMouth(config: AppearanceGeneratorConfig, hair: Hair): Mouth {
 
 
 fun generateSkin(config: AppearanceGeneratorConfig): Skin {
-    val options = config.appearanceOptions
+    val options = config.appearanceOptions.skin
 
     return when (config.generate(options.skinTypes)) {
         SkinType.Fur -> Fur(config.generate(options.furColors))
