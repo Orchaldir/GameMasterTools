@@ -24,17 +24,29 @@ import kotlinx.html.style
 fun FORM.editSkin(
     raceAppearance: RaceAppearance,
     skin: Skin,
+    param: String = SKIN,
 ) {
     h2 { +"Skin" }
 
-    selectOneOf("Type", combine(SKIN, TYPE), raceAppearance.skinTypes, skin.getType(), true)
+    selectOneOf("Type", combine(param, TYPE), raceAppearance.skinTypes, skin.getType(), true)
 
     when (skin) {
-        is Fur -> selectColor("Color", combine(SKIN, EXOTIC, COLOR), raceAppearance.furColors, skin.color)
-        is Scales -> selectColor("Color", combine(SKIN, EXOTIC, COLOR), raceAppearance.scalesColors, skin.color)
-        is ExoticSkin -> selectColor("Color", combine(SKIN, EXOTIC, COLOR), raceAppearance.exoticSkinColors, skin.color)
+        is Fur -> selectColor("Color", combine(param, EXOTIC, COLOR), raceAppearance.furColors, skin.color)
+        is Scales -> selectColor("Color", combine(param, EXOTIC, COLOR), raceAppearance.scalesColors, skin.color)
+        is ExoticSkin -> selectColor(
+            "Color",
+            combine(param, EXOTIC, COLOR),
+            raceAppearance.exoticSkinColors,
+            skin.color
+        )
         is NormalSkin -> {
-            selectOneOf("Color", combine(SKIN, COLOR), raceAppearance.normalSkinColors, skin.color, true) { skinColor ->
+            selectOneOf(
+                "Color",
+                combine(param, COLOR),
+                raceAppearance.normalSkinColors,
+                skin.color,
+                true
+            ) { skinColor ->
                 label = skinColor.name
                 value = skinColor.toString()
                 val bgColor = CHARACTER_CONFIG.getSkinColor(skinColor).toCode()
@@ -46,24 +58,28 @@ fun FORM.editSkin(
 
 // parse
 
-fun parseSkin(parameters: Parameters, config: AppearanceGeneratorConfig): Skin {
+fun parseSkin(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+    param: String = SKIN,
+): Skin {
     val options = config.appearanceOptions
 
-    return when (parameters[combine(SKIN, TYPE)]) {
+    return when (parameters[combine(param, TYPE)]) {
         SkinType.Fur.toString() -> {
-            return Fur(parseExoticColor(parameters, config, options.furColors))
+            return Fur(parseExoticColor(parameters, config, options.furColors, param))
         }
 
         SkinType.Scales.toString() -> {
-            return Scales(parseExoticColor(parameters, config, options.scalesColors))
+            return Scales(parseExoticColor(parameters, config, options.scalesColors, param))
         }
 
         SkinType.Exotic.toString() -> {
-            return ExoticSkin(parseExoticColor(parameters, config, options.exoticSkinColors))
+            return ExoticSkin(parseExoticColor(parameters, config, options.exoticSkinColors, param))
         }
 
         SkinType.Normal.toString() -> {
-            val color = parseAppearanceOption(parameters, combine(SKIN, COLOR), config, options.normalSkinColors)
+            val color = parseAppearanceOption(parameters, combine(param, COLOR), config, options.normalSkinColors)
             return NormalSkin(color)
         }
 
@@ -75,4 +91,5 @@ private fun parseExoticColor(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     colors: OneOf<Color>,
-) = parseAppearanceColor(parameters, combine(SKIN, EXOTIC), config, colors)
+    param: String,
+) = parseAppearanceColor(parameters, combine(param, EXOTIC), config, colors)
