@@ -407,10 +407,11 @@ private fun FORM.editTails(appearance: RaceAppearance) {
 
     if (options.layouts.isAvailable(TailsLayout.Simple)) {
         selectRarityMap("Simple Shape", combine(TAIL, SHAPE), options.simpleShapes, true)
+
         options.simpleOptions.forEach { (shape, simpleOptions) ->
             selectValue(
                 "$shape Color Type",
-                combine(TAIL, shape.name, TYPE),
+                combine(TAIL, shape.name, COLOR),
                 if (appearance.hair.hairTypes.contains(HairType.Normal)) {
                     FeatureColorType.entries
                 } else {
@@ -548,8 +549,8 @@ private fun parseTailOptions(parameters: Parameters): TailOptions {
 }
 
 private fun parseFeatureColorOptions(parameters: Parameters, shape: SimpleTailShape) = FeatureColorOptions(
-    parse(parameters, combine(TAIL, shape.name, TYPE), FeatureColorType.Overwrite),
-    parseSkinOptions(parameters, TAIL),
+    parse(parameters, combine(TAIL, shape.name, COLOR), FeatureColorType.Overwrite),
+    parseSkinOptions(parameters, combine(TAIL, shape.name)),
 )
 
 private fun parseWingOptions(parameters: Parameters) = WingOptions(
