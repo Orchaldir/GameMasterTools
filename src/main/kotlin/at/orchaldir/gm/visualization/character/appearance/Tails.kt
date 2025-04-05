@@ -1,9 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance
 
-import at.orchaldir.gm.core.model.character.appearance.OverwriteFeatureColor
-import at.orchaldir.gm.core.model.character.appearance.ReuseHairColor
-import at.orchaldir.gm.core.model.character.appearance.ReuseSkinColor
-import at.orchaldir.gm.core.model.character.appearance.Skin
+import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
@@ -28,15 +25,7 @@ fun visualizeTails(state: CharacterRenderState, tails: Tails, skin: Skin, hair: 
 }
 
 private fun visualizeSimpleTail(state: CharacterRenderState, tail: SimpleTail, skin: Skin, hair: Hair) {
-    val options = when (tail.color) {
-        is OverwriteFeatureColor -> state.config.getOptions(tail.color.skin)
-        ReuseHairColor -> when (hair) {
-            NoHair -> error("Cannot reuse hair color without hair!")
-            is NormalHair -> state.config.getLineOptions(hair.color)
-        }
-
-        ReuseSkinColor -> state.config.getOptions(skin)
-    }
+    val options = state.config.getFeatureOptions(tail.color, hair, skin)
 
     when (tail.shape) {
         SimpleTailShape.Bunny -> visualizeBunny(state, options, tail)

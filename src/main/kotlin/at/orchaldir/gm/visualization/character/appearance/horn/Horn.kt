@@ -1,20 +1,23 @@
 package at.orchaldir.gm.visualization.character.appearance.horn
 
+import at.orchaldir.gm.core.model.character.appearance.Skin
+import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun visualizeHorn(
     state: CharacterRenderState,
     horn: Horn,
     side: Side,
+    skin: Skin,
+    hair: Hair,
 ) {
     when (horn) {
-        is SimpleHorn -> visualizeSimpleHorn(state, horn, side)
-        is ComplexHorn -> visualizeComplexHorn(state, horn, side)
+        is SimpleHorn -> visualizeSimpleHorn(state, horn, side, skin, hair)
+        is ComplexHorn -> visualizeComplexHorn(state, horn, side, skin, hair)
     }
 }
 
@@ -22,6 +25,8 @@ fun visualizeSimpleHorn(
     state: CharacterRenderState,
     horn: SimpleHorn,
     side: Side,
+    skin: Skin,
+    hair: Hair,
 ) {
     val config = state.config.head.hornConfig
     val complex = when (horn.simpleType) {
@@ -31,15 +36,17 @@ fun visualizeSimpleHorn(
         SimpleHornType.WaterBuffalo -> config.waterBuffalo
     }.copy(length = horn.length, color = horn.color)
 
-    visualizeComplexHorn(state, complex, side)
+    visualizeComplexHorn(state, complex, side, skin, hair)
 }
 
 fun visualizeComplexHorn(
     state: CharacterRenderState,
     horn: ComplexHorn,
     side: Side,
+    skin: Skin,
+    hair: Hair,
 ) {
-    val options = FillAndBorder(horn.color.toRender(), state.config.line)
+    val options = state.config.getFeatureOptions(horn.color, hair, skin)
     val layer = state.config.head.hornConfig.getLayer(state.renderFront)
 
     var polygon = createLeftHorn(state, horn)

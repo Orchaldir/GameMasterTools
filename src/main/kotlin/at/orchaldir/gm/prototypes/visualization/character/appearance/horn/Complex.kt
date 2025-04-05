@@ -1,9 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance.horn
 
-import at.orchaldir.gm.core.model.character.appearance.Appearance
-import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.HeadOnly
-import at.orchaldir.gm.core.model.character.appearance.NormalEars
+import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.util.Color
@@ -45,7 +42,7 @@ private fun createHorn(position: HornPosition, orientation: Orientation, shape: 
     position,
     orientation,
     shape,
-    Color.Red,
+    OverwriteFeatureColor(Color.Red),
 )
 
 fun createAppearance(horns: Horns) =

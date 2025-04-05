@@ -57,7 +57,7 @@ fun FORM.editHorns(
             }
             selectCrownLength(horns.length)
             selectHornWidth(CROWN, horns.width)
-            selectColor("Color", combine(CROWN, COLOR), options.colors, horns.color)
+            selectFeatureColor(options.colors, horns.color, combine(CROWN, COLOR))
         }
     }
 }
@@ -75,7 +75,7 @@ private fun FORM.editHorn(
             is SimpleHorn -> {
                 selectHornLength(param, horn.length)
                 selectOneOf("Simple Type", combine(param, SHAPE), options.simpleTypes, horn.simpleType, true)
-                selectColor("Color", combine(param, COLOR), options.colors, horn.color)
+                selectFeatureColor(options.colors, horn.color, combine(param, COLOR))
             }
 
             is ComplexHorn -> {
@@ -84,7 +84,7 @@ private fun FORM.editHorn(
                 selectValue("Position", combine(param, POSITION), HornPosition.entries, horn.position, true)
                 selectOrientation(param, horn.orientationOffset, 90.0f)
                 editHornShape(horn.shape, param)
-                selectColor("Color", combine(param, COLOR), options.colors, horn.color)
+                selectFeatureColor(options.colors, horn.color, combine(param, COLOR))
             }
         }
     }
@@ -194,7 +194,7 @@ fun parseHorns(parameters: Parameters, config: AppearanceGeneratorConfig): Horns
                 true,
                 parseFactor(parameters, combine(CROWN, LENGTH), DEFAULT_CROWN_LENGTH),
                 parseFactor(parameters, combine(CROWN, WIDTH), DEFAULT_CROWN_WIDTH),
-                parseAppearanceColor(parameters, CROWN, config, options.colors),
+                parseFeatureColor(parameters, config, options.colors, combine(CROWN, COLOR)),
             )
         }
 
@@ -209,7 +209,7 @@ private fun parseHorn(parameters: Parameters, param: String, config: AppearanceG
         HornType.Simple.toString() -> SimpleHorn(
             parseFactor(parameters, combine(param, LENGTH), DEFAULT_SIMPLE_LENGTH),
             parseAppearanceOption(parameters, combine(param, SHAPE), config, options.simpleTypes),
-            parseAppearanceColor(parameters, param, config, options.colors),
+            parseFeatureColor(parameters, config, options.colors, combine(param, COLOR)),
         )
 
         HornType.Complex.toString() -> ComplexHorn(
@@ -218,7 +218,7 @@ private fun parseHorn(parameters: Parameters, param: String, config: AppearanceG
             parse(parameters, combine(param, POSITION), HornPosition.Top),
             parseOrientation(parameters, combine(param, ORIENTATION)),
             parseHornShape(parameters, param),
-            parseAppearanceColor(parameters, param, config, options.colors),
+            parseFeatureColor(parameters, config, options.colors, combine(param, COLOR)),
         )
 
         else -> generateHorn(config, options)

@@ -1,6 +1,8 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance.horn
 
 import at.orchaldir.gm.core.model.character.appearance.Appearance
+import at.orchaldir.gm.core.model.character.appearance.ExoticSkin
+import at.orchaldir.gm.core.model.character.appearance.OverwriteFeatureColor
 import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHorn
 import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHornType
 import at.orchaldir.gm.core.model.character.appearance.horn.TwoHorns
@@ -28,6 +30,6 @@ fun main() {
 }
 
 private fun createTwoHorns(length: Factor, type: SimpleHornType) =
-    createAppearance(TwoHorns(SimpleHorn(length, type, Color.Red)))
+    createAppearance(TwoHorns(SimpleHorn(length, type, OverwriteFeatureColor(Color.Red))))
 
 

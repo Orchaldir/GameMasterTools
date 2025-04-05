@@ -20,7 +20,7 @@ import kotlinx.html.*
 
 // edit
 
-fun FORM.editSkin(
+fun HtmlBlockTag.editSkin(
     options: SkinOptions,
     skin: Skin,
 ) {
@@ -29,7 +29,7 @@ fun FORM.editSkin(
     editSkinInternal(options, skin, SKIN)
 }
 
-fun FORM.editSkin(
+fun HtmlBlockTag.editSkin(
     options: SkinOptions,
     skin: Skin,
     param: String,

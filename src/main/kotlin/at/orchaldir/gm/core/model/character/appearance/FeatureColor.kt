@@ -29,7 +29,11 @@ data object ReuseHairColor : FeatureColor()
 @SerialName("Overwrite")
 data class OverwriteFeatureColor(
     val skin: Skin,
-) : FeatureColor()
+) : FeatureColor() {
+
+    constructor(color: Color) : this(ExoticSkin(color))
+
+}
 
 @Serializable
 @SerialName("Skin")

@@ -194,7 +194,7 @@ fun generateHorns(config: AppearanceGeneratorConfig): Horns {
             true,
             options.crownLength,
             DEFAULT_CROWN_WIDTH,
-            config.generate(options.colors),
+            generateFeatureColor(config, options.colors),
         )
     }
 }
@@ -205,7 +205,7 @@ fun generateHorn(config: AppearanceGeneratorConfig, options: HornOptions): Simpl
     return SimpleHorn(
         options.getSimpleLength(type),
         type,
-        config.generate(options.colors),
+        generateFeatureColor(config, options.colors),
     )
 }
 
@@ -269,12 +269,17 @@ private fun generateSimpleTail(
     return SimpleTail(
         shape,
         config.select(Size.entries),
-        when (options.types) {
-            FeatureColorType.Hair -> ReuseHairColor
-            FeatureColorType.Overwrite -> OverwriteFeatureColor(generateSkin(config, options.skin))
-            FeatureColorType.Skin -> ReuseSkinColor
-        }
+        generateFeatureColor(config, options),
     )
+}
+
+private fun generateFeatureColor(
+    config: AppearanceGeneratorConfig,
+    options: FeatureColorOptions,
+) = when (options.types) {
+    FeatureColorType.Hair -> ReuseHairColor
+    FeatureColorType.Overwrite -> OverwriteFeatureColor(generateSkin(config, options.skin))
+    FeatureColorType.Skin -> ReuseSkinColor
 }
 
 fun generateWings(config: AppearanceGeneratorConfig): Wings {

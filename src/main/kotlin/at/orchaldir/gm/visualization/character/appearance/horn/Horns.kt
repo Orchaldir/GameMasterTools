@@ -1,5 +1,7 @@
 package at.orchaldir.gm.visualization.character.appearance.horn
 
+import at.orchaldir.gm.core.model.character.appearance.Skin
+import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.doNothing
@@ -21,17 +23,22 @@ data class HornConfig(
     }
 }
 
-fun visualizeHorns(state: CharacterRenderState, horns: Horns) = when (horns) {
+fun visualizeHorns(
+    state: CharacterRenderState,
+    horns: Horns,
+    skin: Skin,
+    hair: Hair,
+) = when (horns) {
     NoHorns -> doNothing()
     is TwoHorns -> {
-        visualizeHorn(state, horns.horn, Side.Left)
-        visualizeHorn(state, horns.horn, Side.Right)
+        visualizeHorn(state, horns.horn, Side.Left, skin, hair)
+        visualizeHorn(state, horns.horn, Side.Right, skin, hair)
     }
 
     is DifferentHorns -> {
-        visualizeHorn(state, horns.left, Side.Left)
-        visualizeHorn(state, horns.right, Side.Right)
+        visualizeHorn(state, horns.left, Side.Left, skin, hair)
+        visualizeHorn(state, horns.right, Side.Right, skin, hair)
     }
 
-    is CrownOfHorns -> visualizeCrownOfHorns(state, horns)
+    is CrownOfHorns -> visualizeCrownOfHorns(state, horns, skin, hair)
 }

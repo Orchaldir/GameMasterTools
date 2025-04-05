@@ -146,7 +146,7 @@ private fun HtmlBlockTag.showHorns(appearance: RaceAppearance) {
     }
 
     if (requiresNormalHorns || requiresCrown) {
-        showRarityMap("Colors", appearance.horn.colors)
+        showFeatureColor(appearance.horn.colors)
     }
 }
 
@@ -204,12 +204,19 @@ private fun HtmlBlockTag.showTails(appearance: RaceAppearance) {
     if (options.layouts.isAvailable(TailsLayout.Simple)) {
         showRarityMap("Simple Shape", options.simpleShapes)
         options.simpleOptions.forEach { (shape, simpleOptions) ->
-            field("$shape Color Type", simpleOptions.types)
-            if (simpleOptions.types == FeatureColorType.Overwrite) {
-                showDetails("Skin") {
-                    showSkinInternal(simpleOptions.skin)
-                }
+            showDetails("$shape Tail") {
+                showFeatureColor(simpleOptions)
             }
+        }
+    }
+}
+
+private fun HtmlBlockTag.showFeatureColor(options: FeatureColorOptions) {
+    field("Color Type", options.types)
+
+    if (options.types == FeatureColorType.Overwrite) {
+        showDetails("Skin") {
+            showSkinInternal(options.skin)
         }
     }
 }
@@ -341,7 +348,7 @@ private fun FORM.editHorns(appearance: RaceAppearance) {
     }
 
     if (requiresNormalHorns || requiresCrown) {
-        selectRarityMap("Colors", combine(HORN, COLOR), options.colors, true)
+        editFeatureColor(options.colors, appearance.hair, combine(HORN, COLOR))
     }
 }
 
@@ -409,23 +416,33 @@ private fun FORM.editTails(appearance: RaceAppearance) {
         selectRarityMap("Simple Shape", combine(TAIL, SHAPE), options.simpleShapes, true)
 
         options.simpleOptions.forEach { (shape, simpleOptions) ->
-            selectValue(
-                "$shape Color Type",
-                combine(TAIL, shape.name, COLOR),
-                if (appearance.hair.hairTypes.contains(HairType.Normal)) {
-                    FeatureColorType.entries
-                } else {
-                    setOf(FeatureColorType.Overwrite, FeatureColorType.Skin)
-                },
-                simpleOptions.types,
-                true,
-            )
-
-            if (simpleOptions.types == FeatureColorType.Overwrite) {
-                showDetails("Skin", true) {
-                    editSkinInternal(simpleOptions.skin, combine(TAIL, shape.name))
-                }
+            showDetails("$shape Tail") {
+                editFeatureColor(simpleOptions, appearance.hair, combine(TAIL, shape.name))
             }
+        }
+    }
+}
+
+private fun HtmlBlockTag.editFeatureColor(
+    options: FeatureColorOptions,
+    hairOptions: HairOptions,
+    param: String,
+) {
+    selectValue(
+        "Color Type",
+        combine(param, COLOR),
+        if (hairOptions.hairTypes.contains(HairType.Normal)) {
+            FeatureColorType.entries
+        } else {
+            setOf(FeatureColorType.Overwrite, FeatureColorType.Skin)
+        },
+        options.types,
+        true,
+    )
+
+    if (options.types == FeatureColorType.Overwrite) {
+        showDetails("Skin", true) {
+            editSkinInternal(options.skin, param)
         }
     }
 }
@@ -514,7 +531,7 @@ private fun parseHornOptions(parameters: Parameters) = HornOptions(
     parseOneOf(parameters, HORN, HornsLayout::valueOf),
     parseOneOf(parameters, combine(HORN, SHAPE), SimpleHornType::valueOf, setOf(SimpleHornType.Mouflon)),
     parseFactor(parameters, combine(HORN, LENGTH), DEFAULT_SIMPLE_LENGTH),
-    parseOneOf(parameters, combine(HORN, COLOR), Color::valueOf, setOf(DEFAULT_HORN_COLOR)),
+    parseFeatureColor(parameters, combine(HORN, COLOR)),
     parseFactor(parameters, combine(CROWN, LENGTH), DEFAULT_CROWN_LENGTH),
     parseOneOf(parameters, combine(CROWN, FRONT), String::toInt, setOf(DEFAULT_CROWN_HORNS)),
     parseOneOf(parameters, combine(CROWN, BACK), String::toInt, setOf(DEFAULT_CROWN_HORNS)),
@@ -544,13 +561,13 @@ private fun parseTailOptions(parameters: Parameters): TailOptions {
         parseOneOf(parameters, combine(TAIL, LAYOUT), TailsLayout::valueOf),
         simpleShapes,
         simpleShapes.getValidValues()
-            .associateWith { shape -> parseFeatureColorOptions(parameters, shape) },
+            .associateWith { shape -> parseFeatureColor(parameters, combine(TAIL, shape.name)) },
     )
 }
 
-private fun parseFeatureColorOptions(parameters: Parameters, shape: SimpleTailShape) = FeatureColorOptions(
-    parse(parameters, combine(TAIL, shape.name, COLOR), FeatureColorType.Overwrite),
-    parseSkinOptions(parameters, combine(TAIL, shape.name)),
+private fun parseFeatureColor(parameters: Parameters, param: String) = FeatureColorOptions(
+    parse(parameters, combine(param, COLOR), FeatureColorType.Overwrite),
+    parseSkinOptions(parameters, param),
 )
 
 private fun parseWingOptions(parameters: Parameters) = WingOptions(
