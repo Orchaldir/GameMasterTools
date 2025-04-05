@@ -547,10 +547,10 @@ private fun parseMouthOptions(parameters: Parameters) = MouthOptions(
 
 private fun parseSkinOptions(parameters: Parameters, param: String) = SkinOptions(
     parseOneOf(parameters, combine(param, TYPE), SkinType::valueOf, setOf(SkinType.Normal)),
-    parseOneOf(parameters, combine(param, FUR, COLOR), Color::valueOf, Color.entries),
-    parseOneOf(parameters, combine(param, SCALE, COLOR), Color::valueOf, Color.entries),
+    parseOneOf(parameters, combine(param, FUR, COLOR), Color::valueOf, setOf(DEFAULT_FUR_COLOR)),
+    parseOneOf(parameters, combine(param, SCALE, COLOR), Color::valueOf, setOf(DEFAULT_SCALE_COLOR)),
     parseOneOf(parameters, combine(param, NORMAL, COLOR), SkinColor::valueOf, SkinColor.entries),
-    parseOneOf(parameters, combine(param, EXOTIC, COLOR), Color::valueOf, Color.entries),
+    parseOneOf(parameters, combine(param, EXOTIC, COLOR), Color::valueOf, setOf(DEFAULT_EXOTIC_COLOR)),
 )
 
 private fun parseTailOptions(parameters: Parameters): TailOptions {

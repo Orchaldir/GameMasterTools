@@ -57,9 +57,6 @@
     }
    },
    "skin": {
-    "skinTypes": {
-     "Normal": "Common"
-    },
     "normalSkinColors": {
      "Fair": "Uncommon",
      "Light": "Common",
@@ -170,9 +167,6 @@
     }
    },
    "skin": {
-    "skinTypes": {
-     "Normal": "Common"
-    },
     "normalSkinColors": {
      "Fair": "Uncommon",
      "Light": "Common",
@@ -350,9 +344,6 @@
     }
    },
    "skin": {
-    "skinTypes": {
-     "Normal": "Common"
-    },
     "normalSkinColors": {
      "Fair": "Uncommon",
      "Light": "Common",
@@ -634,9 +625,6 @@
     }
    },
    "skin": {
-    "skinTypes": {
-     "Normal": "Common"
-    },
     "normalSkinColors": {
      "Fair": "Uncommon",
      "Light": "Common",
@@ -832,9 +820,6 @@
     }
    },
    "skin": {
-    "skinTypes": {
-     "Normal": "Common"
-    },
     "normalSkinColors": {
      "Fair": "Uncommon",
      "Light": "Common",
