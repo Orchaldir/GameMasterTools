@@ -7,6 +7,7 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -17,6 +18,9 @@ data class EarConfig(
     val pointedLength: Factor,
 ) {
     fun getRoundRadius(aabb: AABB, size: Size) = aabb.convertHeight(roundRadius.convert(size))
+    fun getRoundRadius(headHeight: Distance, size: Size) = headHeight * roundRadius.convert(size)
+    fun getSidewaysLength(headHeight: Distance, size: Size) = getRoundRadius(headHeight, size) * pointedLength
+    fun getUpwardsLength(headHeight: Distance, size: Size) = getRoundRadius(headHeight, size) * (pointedLength + FULL)
 }
 
 fun visualizeEars(state: CharacterRenderState, head: Head) {

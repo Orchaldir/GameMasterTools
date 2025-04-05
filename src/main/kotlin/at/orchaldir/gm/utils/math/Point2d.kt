@@ -10,6 +10,12 @@ data class Point2d(val x: Float = 0.0f, val y: Float = 0.0f) {
 
     constructor(x: Distance, y: Distance) : this(x.toMeters(), y.toMeters())
 
+    companion object {
+        fun square(size: Float) = Point2d(size, size)
+
+        fun square(distance: Distance) = square(distance.toMeters())
+    }
+
     fun addWidth(distance: Distance) = Point2d(x + distance.toMeters(), y)
     fun addHeight(distance: Distance) = Point2d(x, y + distance.toMeters())
 

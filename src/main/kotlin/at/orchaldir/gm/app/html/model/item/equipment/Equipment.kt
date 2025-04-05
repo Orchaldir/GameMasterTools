@@ -63,6 +63,8 @@ private fun BODY.showEquipmentData(
             fieldLink("Material", call, state, data.material)
         }
 
+        is Earring -> showEarring(call, state, data)
+
         is Footwear -> {
             field("Style", data.style)
             field("Color", data.color)
@@ -201,6 +203,8 @@ private fun FORM.editEquipmentData(
             selectMaterial(state, data.material)
         }
 
+        is Earring -> editEarring(state, data)
+
         is Footwear -> {
             selectValue("Style", FOOTWEAR, FootwearStyle.entries, data.style, true)
             selectColor(data.color, EQUIPMENT_COLOR_0)
@@ -312,8 +316,9 @@ fun HtmlBlockTag.selectMaterial(
     state: State,
     materialId: MaterialId,
     param: String = MATERIAL,
+    label: String = "Material",
 ) {
-    selectElement(state, "Material", param, state.sortMaterial(), materialId)
+    selectElement(state, label, param, state.sortMaterial(), materialId)
 }
 
 // parse
@@ -347,7 +352,7 @@ fun parseEquipmentData(parameters: Parameters) =
         )
 
         EquipmentDataType.Dress -> parseDress(parameters)
-
+        EquipmentDataType.Earring -> parseEarring(parameters)
         EquipmentDataType.Footwear -> Footwear(
             parse(parameters, FOOTWEAR, FootwearStyle.Shoes),
             parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),

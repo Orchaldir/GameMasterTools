@@ -22,6 +22,14 @@ fun convertCircleArcToPath(
         .build()
 }
 
+fun convertDiamondToPath(aabb: AABB) = PathBuilder()
+    .moveTo(aabb.getPoint(CENTER, START))
+    .lineTo(aabb.getPoint(END, CENTER))
+    .lineTo(aabb.getPoint(CENTER, END))
+    .lineTo(aabb.getPoint(START, CENTER))
+    .close()
+    .build()
+
 fun convertHollowRectangleToPath(
     center: Point2d,
     width: Distance,
