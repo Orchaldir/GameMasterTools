@@ -273,9 +273,9 @@ private fun generateSimpleTail(
         shape,
         config.select(Size.entries),
         when (options.colorType) {
-            TailColorType.Hair -> ReuseHairColor
-            TailColorType.Overwrite -> OverwriteTailColor(config.generate(options.colors))
-            TailColorType.Skin -> ReuseSkinColor
+            FeatureColorType.Hair -> ReuseHairColor
+            FeatureColorType.Overwrite -> OverwriteFeatureColor(config.generate(options.colors))
+            FeatureColorType.Skin -> ReuseSkinColor
         }
     )
 }

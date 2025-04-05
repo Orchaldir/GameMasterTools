@@ -28,5 +28,5 @@ data object NoTails : Tails()
 data class SimpleTail(
     val shape: SimpleTailShape,
     val size: Size,
-    val color: TailColor = ReuseHairColor,
+    val color: FeatureColor = ReuseHairColor,
 ) : Tails()

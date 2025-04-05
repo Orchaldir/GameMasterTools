@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Cat
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Rat
-import at.orchaldir.gm.core.model.character.appearance.tail.TailColorType.Hair
+import at.orchaldir.gm.core.model.character.appearance.tail.FeatureColorType.Hair
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage

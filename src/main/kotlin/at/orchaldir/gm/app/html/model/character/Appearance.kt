@@ -147,7 +147,7 @@ private fun FORM.editTails(
             selectOneOf("Shape", combine(TAIL, SHAPE), options.simpleShapes, tails.shape, true)
             selectValue("Size", combine(TAIL, SIZE), Size.entries, tails.size, true)
 
-            if (simpleOptions.colorType == TailColorType.Overwrite && tails.color is OverwriteTailColor) {
+            if (simpleOptions.colorType == FeatureColorType.Overwrite && tails.color is OverwriteFeatureColor) {
                 selectColor("Color", combine(TAIL, COLOR), simpleOptions.colors, tails.color.color)
             }
         }
@@ -305,8 +305,8 @@ private fun parseTails(
         val shape = parseAppearanceOption(parameters, combine(TAIL, SHAPE), config, options.simpleShapes)
         val shapeOptions = options.getSimpleTailOptions(shape)
         val colorType = when (shapeOptions.colorType) {
-            TailColorType.Hair -> ReuseHairColor
-            TailColorType.Overwrite -> OverwriteTailColor(
+            FeatureColorType.Hair -> ReuseHairColor
+            FeatureColorType.Overwrite -> OverwriteFeatureColor(
                 parseAppearanceColor(
                     parameters,
                     TAIL,
@@ -315,7 +315,7 @@ private fun parseTails(
                 )
             )
 
-            TailColorType.Skin -> ReuseSkinColor
+            FeatureColorType.Skin -> ReuseSkinColor
         }
 
         SimpleTail(

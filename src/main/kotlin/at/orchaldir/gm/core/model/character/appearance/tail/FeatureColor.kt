@@ -4,33 +4,33 @@ import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-enum class TailColorType {
+enum class FeatureColorType {
     Hair,
     Overwrite,
     Skin,
 }
 
 @Serializable
-sealed class TailColor {
+sealed class FeatureColor {
 
     fun getType() = when (this) {
-        ReuseHairColor -> TailColorType.Hair
-        is OverwriteTailColor -> TailColorType.Overwrite
-        ReuseSkinColor -> TailColorType.Skin
+        ReuseHairColor -> FeatureColorType.Hair
+        is OverwriteFeatureColor -> FeatureColorType.Overwrite
+        ReuseSkinColor -> FeatureColorType.Skin
     }
 
 }
 
 @Serializable
 @SerialName("Hair")
-data object ReuseHairColor : TailColor()
+data object ReuseHairColor : FeatureColor()
 
 @Serializable
 @SerialName("Overwrite")
-data class OverwriteTailColor(
+data class OverwriteFeatureColor(
     val color: Color,
-) : TailColor()
+) : FeatureColor()
 
 @Serializable
 @SerialName("Skin")
-data object ReuseSkinColor : TailColor()
+data object ReuseSkinColor : FeatureColor()

@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
-import at.orchaldir.gm.core.model.character.appearance.tail.OverwriteTailColor
+import at.orchaldir.gm.core.model.character.appearance.tail.OverwriteFeatureColor
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
 import at.orchaldir.gm.core.model.character.appearance.wing.NoWings
@@ -32,6 +32,6 @@ private fun createAppearance(distance: Distance, tailShape: SimpleTailShape, siz
         Body(),
         Head(eyes = TwoEyes()),
         distance,
-        SimpleTail(tailShape, size, OverwriteTailColor(Color.Blue)),
+        SimpleTail(tailShape, size, OverwriteFeatureColor(Color.Blue)),
         NoWings,
     )

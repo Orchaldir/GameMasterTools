@@ -25,7 +25,7 @@ import at.orchaldir.gm.core.model.character.appearance.mouth.BeakShape
 import at.orchaldir.gm.core.model.character.appearance.mouth.MouthType
 import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
-import at.orchaldir.gm.core.model.character.appearance.tail.TailColorType
+import at.orchaldir.gm.core.model.character.appearance.tail.FeatureColorType
 import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.race.appearance.*
@@ -199,7 +199,7 @@ private fun HtmlBlockTag.showTails(appearance: RaceAppearance) {
         showRarityMap("Simple Shape", options.simpleShapes)
         options.simpleOptions.forEach { (shape, simpleOptions) ->
             field("$shape Color Type", simpleOptions.colorType)
-            if (simpleOptions.colorType == TailColorType.Overwrite) {
+            if (simpleOptions.colorType == FeatureColorType.Overwrite) {
                 showRarityMap("$shape Color", simpleOptions.colors)
             }
         }
@@ -400,15 +400,15 @@ private fun FORM.editTails(appearance: RaceAppearance) {
                 "$shape Color Type",
                 combine(TAIL, shape.name, TYPE),
                 if (appearance.hairOptions.hairTypes.contains(HairType.Normal)) {
-                    TailColorType.entries
+                    FeatureColorType.entries
                 } else {
-                    setOf(TailColorType.Overwrite, TailColorType.Skin)
+                    setOf(FeatureColorType.Overwrite, FeatureColorType.Skin)
                 },
                 simpleOptions.colorType,
                 true,
             )
 
-            if (simpleOptions.colorType == TailColorType.Overwrite) {
+            if (simpleOptions.colorType == FeatureColorType.Overwrite) {
                 selectRarityMap("$shape Color", combine(TAIL, shape.name, COLOR), simpleOptions.colors, true)
             }
         }
@@ -538,6 +538,6 @@ private fun parseTailOptions(parameters: Parameters): TailOptions {
 }
 
 private fun parseSimpleTailOptions(parameters: Parameters, shape: SimpleTailShape) = SimpleTailOptions(
-    parse(parameters, combine(TAIL, shape.name, TYPE), TailColorType.Overwrite),
+    parse(parameters, combine(TAIL, shape.name, TYPE), FeatureColorType.Overwrite),
     parseOneOf(parameters, combine(TAIL, shape.name, COLOR), Color::valueOf, setOf(DEFAULT_SIMPLE_TAIL_COLOR)),
 )

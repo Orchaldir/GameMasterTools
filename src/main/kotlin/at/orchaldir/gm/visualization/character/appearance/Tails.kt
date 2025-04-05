@@ -26,7 +26,7 @@ fun visualizeTails(state: CharacterRenderState, tails: Tails, skin: Skin, hair: 
 
 private fun visualizeSimpleTail(state: CharacterRenderState, tail: SimpleTail, skin: Skin, hair: Hair) {
     val options = when (tail.color) {
-        is OverwriteTailColor -> state.config.getLineOptions(tail.color.color)
+        is OverwriteFeatureColor -> state.config.getLineOptions(tail.color.color)
         ReuseHairColor -> when (hair) {
             NoHair -> error("Cannot reuse hair color without hair!")
             is NormalHair -> state.config.getLineOptions(hair.color)
@@ -81,11 +81,9 @@ private fun visualizeRat(state: CharacterRenderState, options: RenderOptions, ta
     val polygon = buildTailPolygon(line, radius, true)
 
     renderTailPolygon(state, options, polygon)
-    //state.getTailLayer().renderLine(line.points, LineOptions(Color.Red.toRender(), 0.02f))
 }
 
 private fun visualizeSquirrel(state: CharacterRenderState, options: RenderOptions) {
-    val config = state.config.body.tail
     val polygon = Polygon2dBuilder()
         .addMirroredPoints(state.aabb, fromPercentage(50), fromPercentage(80))
         .addMirroredPoints(state.aabb, fromPercentage(50), fromPercentage(10))
