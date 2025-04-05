@@ -67,7 +67,6 @@ fun FORM.editEarring(
     state: State,
     earring: Earring,
 ) {
-    field("Style", earring.style.getType())
     selectValue("Style", STYLE, EarringStyleType.entries, earring.style.getType(), true)
 
     when (val style = earring.style) {
@@ -105,7 +104,7 @@ fun FORM.editEarring(
 // parse
 
 fun parseEarring(parameters: Parameters): Earring {
-    val type = parse(parameters, TYPE, EarringStyleType.Stud)
+    val type = parse(parameters, STYLE, EarringStyleType.Stud)
 
     return Earring(
         when (type) {
