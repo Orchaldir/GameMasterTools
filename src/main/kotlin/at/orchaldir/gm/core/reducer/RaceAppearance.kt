@@ -54,7 +54,7 @@ private fun checkTails(appearance: RaceAppearance) {
 
     if (!appearance.hair.hairTypes.contains(HairType.Normal)) {
         options.simpleOptions.forEach { (shape, shapeOptions) ->
-            require(shapeOptions.colorType != FeatureColorType.Hair) { "Tail options for $shape require hair!" }
+            require(shapeOptions.types != FeatureColorType.Hair) { "Tail options for $shape require hair!" }
         }
     }
 }

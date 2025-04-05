@@ -200,8 +200,8 @@ private fun HtmlBlockTag.showTails(appearance: RaceAppearance) {
     if (options.layouts.isAvailable(TailsLayout.Simple)) {
         showRarityMap("Simple Shape", options.simpleShapes)
         options.simpleOptions.forEach { (shape, simpleOptions) ->
-            field("$shape Color Type", simpleOptions.colorType)
-            if (simpleOptions.colorType == FeatureColorType.Overwrite) {
+            field("$shape Color Type", simpleOptions.types)
+            if (simpleOptions.types == FeatureColorType.Overwrite) {
                 showRarityMap("$shape Color", simpleOptions.colors)
             }
         }
@@ -408,11 +408,11 @@ private fun FORM.editTails(appearance: RaceAppearance) {
                 } else {
                     setOf(FeatureColorType.Overwrite, FeatureColorType.Skin)
                 },
-                simpleOptions.colorType,
+                simpleOptions.types,
                 true,
             )
 
-            if (simpleOptions.colorType == FeatureColorType.Overwrite) {
+            if (simpleOptions.types == FeatureColorType.Overwrite) {
                 selectRarityMap("$shape Color", combine(TAIL, shape.name, COLOR), simpleOptions.colors, true)
             }
         }

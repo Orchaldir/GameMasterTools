@@ -488,7 +488,7 @@
     },
     "simpleOptions": {
      "Rat": {
-      "colorType": "Skin"
+      "types": "Skin"
      }
     }
    },

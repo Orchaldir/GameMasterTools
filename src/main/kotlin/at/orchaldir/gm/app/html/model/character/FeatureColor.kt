@@ -16,7 +16,7 @@ fun FORM.selectFeatureColor(
     color: FeatureColor,
     param: String,
 ) {
-    if (options.colorType == FeatureColorType.Overwrite && color is OverwriteFeatureColor) {
+    if (options.types == FeatureColorType.Overwrite && color is OverwriteFeatureColor) {
         selectColor("Color", combine(param, COLOR), options.colors, color.color)
     }
 }
@@ -28,7 +28,7 @@ fun parseFeatureColor(
     config: AppearanceGeneratorConfig,
     options: FeatureColorOptions,
     param: String,
-) = when (options.colorType) {
+) = when (options.types) {
     FeatureColorType.Hair -> ReuseHairColor
     FeatureColorType.Overwrite -> OverwriteFeatureColor(
         parseAppearanceColor(
