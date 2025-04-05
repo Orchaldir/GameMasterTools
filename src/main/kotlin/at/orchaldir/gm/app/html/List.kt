@@ -1,5 +1,7 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.NUMBER
+import at.orchaldir.gm.app.parse.combine
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.LI
 import kotlinx.html.li
@@ -63,6 +65,22 @@ fun <T> HtmlBlockTag.showListWithIndex(
 
 // edit
 
+fun <T> HtmlBlockTag.editList(
+    label: String,
+    param: String,
+    elements: Collection<T>,
+    minSize: Int,
+    maxSize: Int,
+    step: Int,
+    editElement: HtmlBlockTag.(Int, String, T) -> Unit,
+) {
+    selectInt("$label Size", elements.size, minSize, maxSize, step, combine(param, NUMBER), true)
+
+    showListWithIndex(elements) { index, element ->
+        val elementParam = combine(param, index)
+        editElement(index, elementParam, element)
+    }
+}
 
 // parse
 
