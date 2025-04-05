@@ -154,5 +154,5 @@ private fun visualizeWire(
     val config = state.config.equipment.earring
     val wireOptions = LineOptions(color.toRender(), config.calculateWireThickness(earRadius, thickness))
 
-    state.renderer.getLayer(EQUIPMENT_LAYER - 1).renderLine(listOf(top, bottom), wireOptions)
+    state.getLayer(EQUIPMENT_LAYER - 1).renderLine(listOf(top, bottom), wireOptions)
 }
