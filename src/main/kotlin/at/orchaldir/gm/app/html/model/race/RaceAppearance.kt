@@ -529,7 +529,7 @@ private fun parseMouthOptions(parameters: Parameters) = MouthOptions(
 )
 
 private fun parseSkinOptions(parameters: Parameters, param: String) = SkinOptions(
-    parseOneOf(parameters, combine(param, TYPE), SkinType::valueOf),
+    parseOneOf(parameters, combine(param, TYPE), SkinType::valueOf, SkinType.entries),
     parseOneOf(parameters, combine(param, FUR, COLOR), Color::valueOf, Color.entries),
     parseOneOf(parameters, combine(param, SCALE, COLOR), Color::valueOf, Color.entries),
     parseOneOf(parameters, combine(param, NORMAL, COLOR), SkinColor::valueOf, SkinColor.entries),
