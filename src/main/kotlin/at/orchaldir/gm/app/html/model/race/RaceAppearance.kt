@@ -423,7 +423,7 @@ private fun FORM.editTails(appearance: RaceAppearance) {
 
             if (simpleOptions.types == FeatureColorType.Overwrite) {
                 showDetails("Skin", true) {
-                    editSkinInternal(appearance.skin, combine(TAIL, shape.name))
+                    editSkinInternal(simpleOptions.skin, combine(TAIL, shape.name))
                 }
             }
         }
