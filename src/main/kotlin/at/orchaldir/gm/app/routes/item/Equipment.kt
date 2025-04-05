@@ -9,10 +9,7 @@ import at.orchaldir.gm.core.action.CreateEquipment
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
-import at.orchaldir.gm.core.model.character.appearance.NormalEars
+import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.item.equipment.EQUIPMENT_TYPE
@@ -233,10 +230,22 @@ private fun BODY.visualizeItem(template: Equipment) {
     if (template.data.getType() != EquipmentDataType.None) {
         val equipped = listOf(template.data)
         val head = Head(NormalEars(), TwoEyes(), mouth = NormalMouth())
-        val appearance = HumanoidBody(Body(), head, Distance.fromMeters(1.0f))
+        val height = Distance.fromMeters(1.0f)
+        val appearance = if (requiresBody(template)) {
+            HumanoidBody(Body(), head, height)
+        } else {
+            HeadOnly(head, height)
+        }
         val frontSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped)
         val backSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped, false)
         svg(frontSvg, 20)
         svg(backSvg, 20)
     }
+}
+
+private fun requiresBody(template: Equipment) = when (template.data.getType()) {
+    EquipmentDataType.Earring -> false
+    EquipmentDataType.Glasses -> false
+    EquipmentDataType.Hat -> false
+    else -> true
 }
