@@ -35,7 +35,7 @@ private fun createAppearance(beakShape: BeakShape, eyes: Eyes) =
         Head(
             eyes = eyes,
             mouth = Beak(beakShape),
-            skin = ExoticSkin(),
         ),
         fromMillimeters(1000),
+        ExoticSkin(),
     )

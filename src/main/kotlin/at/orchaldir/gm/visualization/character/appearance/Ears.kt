@@ -23,10 +23,10 @@ data class EarConfig(
     fun getUpwardsLength(headHeight: Distance, size: Size) = getRoundRadius(headHeight, size) * (pointedLength + FULL)
 }
 
-fun visualizeEars(state: CharacterRenderState, head: Head) {
+fun visualizeEars(state: CharacterRenderState, head: Head, skin: Skin) {
     when (head.ears) {
         NoEars -> doNothing()
-        is NormalEars -> visualizeNormalEars(state, head.ears.shape, head.ears.size, head.skin)
+        is NormalEars -> visualizeNormalEars(state, head.ears.shape, head.ears.size, skin)
     }
 }
 

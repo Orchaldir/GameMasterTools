@@ -1,9 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance
 
-import at.orchaldir.gm.core.model.character.appearance.Appearance
-import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
+import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.util.Side
@@ -39,6 +36,7 @@ private fun createAppearance(wings: Wings) =
         Body(),
         Head(),
         fromMillimeters(2000),
+        NormalSkin(),
         NoTails,
         wings,
     )

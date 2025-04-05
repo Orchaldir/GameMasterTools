@@ -31,16 +31,18 @@ data class AppearanceGeneratorConfig(
 
         return when (generate(appearanceOptions.appearanceTypes)) {
             AppearanceType.Body -> HumanoidBody(
-                generateBody(this, skin),
-                generateHead(this, skin),
+                generateBody(this),
+                generateHead(this),
                 heightDistribution.center,
+                skin,
                 generateTails(this),
                 generateWings(this),
             )
 
             AppearanceType.HeadOnly -> HeadOnly(
-                generateHead(this, skin),
+                generateHead(this),
                 heightDistribution.center,
+                skin
             )
         }
     }
@@ -51,11 +53,10 @@ data class AppearanceGeneratorConfig(
 
 }
 
-fun generateBody(config: AppearanceGeneratorConfig, skin: Skin) = Body(
+fun generateBody(config: AppearanceGeneratorConfig) = Body(
     config.select(getAvailableBodyShapes(config.gender)),
     generateFoot(config),
     config.select(Size.entries),
-    skin,
 )
 
 fun generateFoot(config: AppearanceGeneratorConfig): Foot {
@@ -71,7 +72,7 @@ fun generateFoot(config: AppearanceGeneratorConfig): Foot {
     }
 }
 
-fun generateHead(config: AppearanceGeneratorConfig, skin: Skin): Head {
+fun generateHead(config: AppearanceGeneratorConfig): Head {
     val hair = generateHair(config)
 
     return Head(
@@ -80,7 +81,6 @@ fun generateHead(config: AppearanceGeneratorConfig, skin: Skin): Head {
         hair,
         generateHorns(config),
         generateMouth(config, hair),
-        skin,
     )
 }
 

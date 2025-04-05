@@ -30,4 +30,4 @@ fun main() {
 }
 
 private fun createAppearance(height: Distance, earShape: EarShape, size: Size) =
-    HeadOnly(Head(ears = NormalEars(earShape, size), eyes = TwoEyes(), skin = ExoticSkin()), height)
+    HeadOnly(Head(ears = NormalEars(earShape, size), eyes = TwoEyes()), height, ExoticSkin())

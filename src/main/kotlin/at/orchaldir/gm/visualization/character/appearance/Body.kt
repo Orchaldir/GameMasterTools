@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.appearance
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.*
+import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
@@ -132,8 +133,10 @@ data class BodyConfig(
 fun visualizeBody(
     state: CharacterRenderState,
     body: Body,
+    skin: Skin,
 ) {
-    val options = state.config.getOptions(body.skin)
+    val options = state.config.getOptions(skin)
+
     visualizeArms(state, body, options)
     visualizeHands(state, body, options)
     visualizeLegs(state, body, options)

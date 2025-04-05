@@ -240,7 +240,6 @@ fun parseHead(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     character: Character,
-    skin: Skin,
 ): Head {
     val ears = parseEars(parameters, config)
     val eyes = parseEyes(parameters, config)
@@ -248,7 +247,7 @@ fun parseHead(
     val horns = parseHorns(parameters, config)
     val mouth = parseMouth(parameters, config, character, hair)
 
-    return Head(ears, eyes, hair, horns, mouth, skin)
+    return Head(ears, eyes, hair, horns, mouth)
 }
 
 private fun parseBeard(parameters: Parameters, config: AppearanceGeneratorConfig, hair: Hair): Beard {

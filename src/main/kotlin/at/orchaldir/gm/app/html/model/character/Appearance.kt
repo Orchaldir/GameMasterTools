@@ -54,14 +54,14 @@ fun FORM.editAppearance(
         is HeadOnly -> {
             editHeight(state, character, appearance.height)
             editHead(raceAppearance, culture, appearance.head)
-            editSkin(raceAppearance, appearance.head.skin)
+            editSkin(raceAppearance, appearance.skin)
         }
 
         is HumanoidBody -> {
             editHeight(state, character, appearance.height)
             editBody(raceAppearance, character, appearance.body)
             editHead(raceAppearance, culture, appearance.head)
-            editSkin(raceAppearance, appearance.head.skin)
+            editSkin(raceAppearance, appearance.skin)
             editTails(raceAppearance, appearance.tails)
             editWings(raceAppearance, appearance.wings)
         }
@@ -212,11 +212,12 @@ fun parseAppearance(
     val skin = parseSkin(parameters, config)
 
     return when (parameters[APPEARANCE]) {
-        AppearanceType.HeadOnly.toString() -> HeadOnly(parseHead(parameters, config, character, skin), height)
+        AppearanceType.HeadOnly.toString() -> HeadOnly(parseHead(parameters, config, character), height, skin)
         AppearanceType.Body.toString() -> HumanoidBody(
-            parseBody(parameters, config, skin),
-            parseHead(parameters, config, character, skin),
+            parseBody(parameters, config),
+            parseHead(parameters, config, character),
             height,
+            skin,
             parseTails(parameters, config),
             parseWings(parameters, config),
         )
@@ -233,18 +234,16 @@ private fun parseHeight(
 private fun parseBody(
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
-    skin: Skin,
 ): Body {
     if (parameters.contains(BODY_SHAPE)) {
         return Body(
             parse(parameters, BODY_SHAPE, BodyShape.Rectangle),
             parseFoot(parameters, config),
             parse(parameters, BODY_WIDTH, Size.Medium),
-            skin,
         )
     }
 
-    return generateBody(config, skin)
+    return generateBody(config)
 }
 
 private fun parseFoot(
