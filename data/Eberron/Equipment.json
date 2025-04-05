@@ -50,6 +50,26 @@
     "material": 25
    },
    "weight": 10
+  },
+  "3": {
+   "id": 3,
+   "name": "Earrings",
+   "data": {
+    "type": "Earring",
+    "style": {
+     "type": "Dangle",
+     "top": {
+      "type": "Border",
+      "color": "Crimson"
+     },
+     "sizes": [
+      "Medium",
+      "Medium",
+      "Medium"
+     ]
+    }
+   },
+   "weight": 10
   }
  }
 }
