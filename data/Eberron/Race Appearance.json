@@ -7,16 +7,6 @@
    "appearanceTypes": {
     "Body": "Common"
    },
-   "skin": {
-    "skinTypes": {
-     "Normal": "Common"
-    },
-    "normalSkinColors": {
-     "Fair": "Uncommon",
-     "Light": "Common",
-     "Medium": "Uncommon"
-    }
-   },
    "earsLayout": {
     "NormalEars": "Common"
    },
@@ -65,6 +55,16 @@
      "SaddleBrown": "Common",
      "Yellow": "Common"
     }
+   },
+   "skin": {
+    "skinTypes": {
+     "Normal": "Common"
+    },
+    "normalSkinColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Uncommon"
+    }
    }
   },
   "1": {
@@ -72,15 +72,6 @@
    "name": "Changeling",
    "appearanceTypes": {
     "Body": "Common"
-   },
-   "skin": {
-    "skinTypes": {
-     "Exotic": "Common"
-    },
-    "exoticSkinColors": {
-     "Lavender": "Common",
-     "Silver": "Common"
-    }
    },
    "earsLayout": {
     "NoEars": "Common"
@@ -109,6 +100,15 @@
     "colors": {
      "White": "Common"
     }
+   },
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticSkinColors": {
+     "Lavender": "Common",
+     "Silver": "Common"
+    }
    }
   },
   "2": {
@@ -116,16 +116,6 @@
    "name": "Elf",
    "appearanceTypes": {
     "Body": "Common"
-   },
-   "skin": {
-    "skinTypes": {
-     "Normal": "Common"
-    },
-    "normalSkinColors": {
-     "Fair": "Uncommon",
-     "Light": "Common",
-     "Medium": "Uncommon"
-    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -178,6 +168,16 @@
      "SaddleBrown": "Common",
      "Yellow": "Common"
     }
+   },
+   "skin": {
+    "skinTypes": {
+     "Normal": "Common"
+    },
+    "normalSkinColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Uncommon"
+    }
    }
   },
   "3": {
@@ -185,14 +185,6 @@
    "name": "Warforged",
    "appearanceTypes": {
     "Body": "Common"
-   },
-   "skin": {
-    "skinTypes": {
-     "Exotic": "Common"
-    },
-    "exoticSkinColors": {
-     "Gray": "Common"
-    }
    },
    "earsLayout": {
     "NoEars": "Common"
@@ -218,6 +210,14 @@
     "hairTypes": {
      "None": "Common"
     }
+   },
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticSkinColors": {
+     "Gray": "Common"
+    }
    }
   },
   "4": {
@@ -225,15 +225,6 @@
    "name": "Orc",
    "appearanceTypes": {
     "Body": "Common"
-   },
-   "skin": {
-    "skinTypes": {
-     "Exotic": "Common"
-    },
-    "exoticSkinColors": {
-     "Green": "Common",
-     "Olive": "Common"
-    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -283,6 +274,15 @@
      "SaddleBrown": "Common",
      "Yellow": "Common"
     }
+   },
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticSkinColors": {
+     "Green": "Common",
+     "Olive": "Common"
+    }
    }
   },
   "5": {
@@ -290,16 +290,6 @@
    "name": "Shifter",
    "appearanceTypes": {
     "Body": "Common"
-   },
-   "skin": {
-    "skinTypes": {
-     "Normal": "Common"
-    },
-    "normalSkinColors": {
-     "Fair": "Uncommon",
-     "Light": "Common",
-     "Medium": "Uncommon"
-    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -358,6 +348,16 @@
      "SaddleBrown": "Common",
      "Yellow": "Common"
     }
+   },
+   "skin": {
+    "skinTypes": {
+     "Normal": "Common"
+    },
+    "normalSkinColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Uncommon"
+    }
    }
   },
   "6": {
@@ -365,17 +365,6 @@
    "name": "Goblinoid",
    "appearanceTypes": {
     "Body": "Common"
-   },
-   "skin": {
-    "skinTypes": {
-     "Exotic": "Common"
-    },
-    "exoticSkinColors": {
-     "Green": "Common",
-     "Maroon": "Common",
-     "Olive": "Common",
-     "Orange": "Common"
-    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -420,6 +409,17 @@
      "Maroon": "Rare",
      "SaddleBrown": "Common"
     }
+   },
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticSkinColors": {
+     "Green": "Common",
+     "Maroon": "Common",
+     "Olive": "Common",
+     "Orange": "Common"
+    }
    }
   },
   "7": {
@@ -427,14 +427,6 @@
    "name": "Gargoyle",
    "appearanceTypes": {
     "Body": "Common"
-   },
-   "skin": {
-    "skinTypes": {
-     "Exotic": "Common"
-    },
-    "exoticSkinColors": {
-     "Gray": "Common"
-    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -479,6 +471,14 @@
      "Gray": "Common"
     }
    },
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticSkinColors": {
+     "Gray": "Common"
+    }
+   },
    "tailOptions": {
     "layouts": {
      "Simple": "Common"
@@ -506,17 +506,6 @@
    "name": "Gnoll",
    "appearanceTypes": {
     "Body": "Common"
-   },
-   "skin": {
-    "skinTypes": {
-     "Fur": "Common"
-    },
-    "furColors": {
-     "Chocolate": "Uncommon",
-     "Gray": "Uncommon",
-     "Maroon": "Uncommon",
-     "SaddleBrown": "Common"
-    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -568,6 +557,17 @@
     "snoutShapes": {
      "Dog": "Common"
     }
+   },
+   "skin": {
+    "skinTypes": {
+     "Fur": "Common"
+    },
+    "furColors": {
+     "Chocolate": "Uncommon",
+     "Gray": "Uncommon",
+     "Maroon": "Uncommon",
+     "SaddleBrown": "Common"
+    }
    }
   },
   "9": {
@@ -575,16 +575,6 @@
    "name": "Gnome",
    "appearanceTypes": {
     "Body": "Common"
-   },
-   "skin": {
-    "skinTypes": {
-     "Normal": "Common"
-    },
-    "normalSkinColors": {
-     "Fair": "Uncommon",
-     "Light": "Common",
-     "Medium": "Uncommon"
-    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -642,6 +632,16 @@
      "SaddleBrown": "Common",
      "Yellow": "Common"
     }
+   },
+   "skin": {
+    "skinTypes": {
+     "Normal": "Common"
+    },
+    "normalSkinColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Uncommon"
+    }
    }
   },
   "10": {
@@ -649,31 +649,6 @@
    "name": "Medusa",
    "appearanceTypes": {
     "Body": "Common"
-   },
-   "skin": {
-    "skinTypes": {
-     "Scales": "Uncommon",
-     "Normal": "Common"
-    },
-    "scalesColors": {
-     "Blue": "Common",
-     "Gold": "Common",
-     "Green": "Common",
-     "Maroon": "Common",
-     "Navy": "Common",
-     "Orange": "Common",
-     "OrangeRed": "Common",
-     "Red": "Common",
-     "SaddleBrown": "Common"
-    },
-    "normalSkinColors": {
-     "Fair": "Uncommon",
-     "Light": "Common",
-     "Medium": "Common",
-     "Tan": "Common",
-     "Dark": "Common",
-     "VeryDark": "Common"
-    }
    },
    "earsLayout": {
     "NoEars": "Common"
@@ -699,6 +674,31 @@
     "hairTypes": {
      "None": "Common"
     }
+   },
+   "skin": {
+    "skinTypes": {
+     "Scales": "Uncommon",
+     "Normal": "Common"
+    },
+    "scalesColors": {
+     "Blue": "Common",
+     "Gold": "Common",
+     "Green": "Common",
+     "Maroon": "Common",
+     "Navy": "Common",
+     "Orange": "Common",
+     "OrangeRed": "Common",
+     "Red": "Common",
+     "SaddleBrown": "Common"
+    },
+    "normalSkinColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Common",
+     "Tan": "Common",
+     "Dark": "Common",
+     "VeryDark": "Common"
+    }
    }
   },
   "11": {
@@ -706,14 +706,6 @@
    "name": "War Troll",
    "appearanceTypes": {
     "Body": "Common"
-   },
-   "skin": {
-    "skinTypes": {
-     "Exotic": "Common"
-    },
-    "exoticSkinColors": {
-     "Olive": "Common"
-    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -762,6 +754,14 @@
     "colors": {
      "Green": "Common"
     }
+   },
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticSkinColors": {
+     "Olive": "Common"
+    }
    }
   },
   "12": {
@@ -769,16 +769,6 @@
    "name": "Harpy",
    "appearanceTypes": {
     "Body": "Common"
-   },
-   "skin": {
-    "skinTypes": {
-     "Normal": "Common"
-    },
-    "normalSkinColors": {
-     "Fair": "Uncommon",
-     "Light": "Common",
-     "Medium": "Uncommon"
-    }
    },
    "earsLayout": {
     "NormalEars": "Common"
@@ -839,6 +829,16 @@
      "Red": "Rare",
      "SaddleBrown": "Common",
      "Yellow": "Common"
+    }
+   },
+   "skin": {
+    "skinTypes": {
+     "Normal": "Common"
+    },
+    "normalSkinColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Uncommon"
     }
    },
    "wingOptions": {
