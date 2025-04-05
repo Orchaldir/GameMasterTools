@@ -17,7 +17,6 @@ import at.orchaldir.gm.core.model.character.appearance.eye.EyeType
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
 import at.orchaldir.gm.core.model.character.appearance.eye.PupilShape
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
-import at.orchaldir.gm.core.model.character.appearance.horn.DEFAULT_HORN_COLOR
 import at.orchaldir.gm.core.model.character.appearance.horn.HornsLayout
 import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHornType
 import at.orchaldir.gm.core.model.character.appearance.horn.VALID_CROWN_HORNS
@@ -25,7 +24,6 @@ import at.orchaldir.gm.core.model.character.appearance.mouth.BeakShape
 import at.orchaldir.gm.core.model.character.appearance.mouth.MouthType
 import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
-import at.orchaldir.gm.core.model.character.appearance.FeatureColorType
 import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.race.appearance.*

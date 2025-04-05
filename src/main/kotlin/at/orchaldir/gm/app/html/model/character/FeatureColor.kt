@@ -1,16 +1,12 @@
 package at.orchaldir.gm.app.html.model.character
 
-import at.orchaldir.gm.app.SKIN
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.race.appearance.FeatureColorOptions
-import at.orchaldir.gm.core.model.race.appearance.SkinOptions
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
-
 
 
 // edit

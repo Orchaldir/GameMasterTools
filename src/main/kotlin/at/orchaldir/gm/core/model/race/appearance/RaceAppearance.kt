@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.race.appearance
 
-import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.AppearanceType
+import at.orchaldir.gm.core.model.character.appearance.EarShape
+import at.orchaldir.gm.core.model.character.appearance.EarsLayout
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.OneOf

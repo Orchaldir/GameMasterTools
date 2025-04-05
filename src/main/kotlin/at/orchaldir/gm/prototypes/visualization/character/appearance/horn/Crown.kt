@@ -1,7 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance.horn
 
 import at.orchaldir.gm.core.model.character.appearance.Appearance
-import at.orchaldir.gm.core.model.character.appearance.ExoticSkin
 import at.orchaldir.gm.core.model.character.appearance.OverwriteFeatureColor
 import at.orchaldir.gm.core.model.character.appearance.horn.CrownOfHorns
 import at.orchaldir.gm.core.model.util.Color

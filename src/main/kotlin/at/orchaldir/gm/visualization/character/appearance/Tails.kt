@@ -1,10 +1,11 @@
 package at.orchaldir.gm.visualization.character.appearance
 
-import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
-import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
-import at.orchaldir.gm.core.model.character.appearance.tail.*
+import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
+import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
+import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
+import at.orchaldir.gm.core.model.character.appearance.tail.Tails
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage

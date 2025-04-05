@@ -7,7 +7,10 @@ import at.orchaldir.gm.core.model.character.appearance.eye.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.character.appearance.mouth.*
-import at.orchaldir.gm.core.model.character.appearance.tail.*
+import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
+import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
+import at.orchaldir.gm.core.model.character.appearance.tail.Tails
+import at.orchaldir.gm.core.model.character.appearance.tail.TailsLayout
 import at.orchaldir.gm.core.model.character.appearance.wing.*
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.*

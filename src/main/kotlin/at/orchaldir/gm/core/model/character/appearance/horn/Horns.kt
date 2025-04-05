@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.character.appearance.horn
 
 import at.orchaldir.gm.core.model.character.appearance.FeatureColor
-import at.orchaldir.gm.core.model.character.appearance.ReuseHairColor
 import at.orchaldir.gm.core.model.character.appearance.ReuseSkinColor
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Factor

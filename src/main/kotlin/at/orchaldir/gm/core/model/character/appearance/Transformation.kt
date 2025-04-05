@@ -33,6 +33,7 @@ fun updateHairColor(appearance: Appearance, color: Color): Appearance {
             head = updateHairColor(appearance.head, color),
             skin = updateFurColor(appearance.skin, color),
         )
+
         is HumanoidBody -> appearance.copy(
             head = updateHairColor(appearance.head, color),
             skin = updateFurColor(appearance.skin, color),
