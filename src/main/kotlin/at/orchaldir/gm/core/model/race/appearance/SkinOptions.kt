@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SkinOptions(
-    val skinTypes: OneOf<SkinType> = OneOf(SkinType.entries),
+    val skinTypes: OneOf<SkinType> = OneOf(SkinType.Normal),
     val furColors: OneOf<Color> = OneOf(Color.entries),
     val scalesColors: OneOf<Color> = OneOf(Color.entries),
     val normalSkinColors: OneOf<SkinColor> = OneOf(SkinColor.entries),
