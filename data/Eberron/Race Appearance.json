@@ -16,7 +16,7 @@
    "eyesLayout": {
     "TwoEyes": "Common"
    },
-   "eyeOptions": {
+   "eye": {
     "eyeTypes": {
      "Normal": "Common"
     },
@@ -40,7 +40,7 @@
      "White": "Common"
     }
    },
-   "hairOptions": {
+   "hair": {
     "beardTypes": {
      "Normal": "Common"
     },
@@ -79,7 +79,7 @@
    "eyesLayout": {
     "TwoEyes": "Common"
    },
-   "eyeOptions": {
+   "eye": {
     "eyeTypes": {
      "Simple": "Common"
     },
@@ -90,7 +90,7 @@
      "White": "Common"
     }
    },
-   "hairOptions": {
+   "hair": {
     "beardTypes": {
      "None": "Common"
     },
@@ -126,7 +126,7 @@
    "eyesLayout": {
     "TwoEyes": "Common"
    },
-   "eyeOptions": {
+   "eye": {
     "eyeTypes": {
      "Normal": "Common"
     },
@@ -153,7 +153,7 @@
      "White": "Common"
     }
    },
-   "hairOptions": {
+   "hair": {
     "beardTypes": {
      "Normal": "Common"
     },
@@ -192,7 +192,7 @@
    "eyesLayout": {
     "TwoEyes": "Common"
    },
-   "eyeOptions": {
+   "eye": {
     "eyeTypes": {
      "Simple": "Common"
     },
@@ -203,7 +203,7 @@
      "Aqua": "Common"
     }
    },
-   "hairOptions": {
+   "hair": {
     "beardTypes": {
      "None": "Common"
     },
@@ -235,7 +235,7 @@
    "eyesLayout": {
     "TwoEyes": "Common"
    },
-   "eyeOptions": {
+   "eye": {
     "eyeTypes": {
      "Normal": "Common"
     },
@@ -259,7 +259,7 @@
      "White": "Common"
     }
    },
-   "hairOptions": {
+   "hair": {
     "beardTypes": {
      "Normal": "Common"
     },
@@ -300,7 +300,7 @@
    "eyesLayout": {
     "TwoEyes": "Common"
    },
-   "eyeOptions": {
+   "eye": {
     "eyeTypes": {
      "Normal": "Common"
     },
@@ -324,7 +324,7 @@
      "White": "Common"
     }
    },
-   "footOptions": {
+   "foot": {
     "footTypes": {
      "Clawed": "Common"
     },
@@ -333,7 +333,7 @@
      "Small": "Common"
     }
    },
-   "hairOptions": {
+   "hair": {
     "beardTypes": {
      "Normal": "Common"
     },
@@ -375,7 +375,7 @@
    "eyesLayout": {
     "TwoEyes": "Common"
    },
-   "eyeOptions": {
+   "eye": {
     "eyeTypes": {
      "Normal": "Common"
     },
@@ -403,7 +403,7 @@
      "White": "Common"
     }
    },
-   "hairOptions": {
+   "hair": {
     "colors": {
      "Black": "Common",
      "Maroon": "Rare",
@@ -437,7 +437,7 @@
    "eyesLayout": {
     "TwoEyes": "Common"
    },
-   "eyeOptions": {
+   "eye": {
     "eyeTypes": {
      "Simple": "Common"
     },
@@ -448,7 +448,7 @@
      "Silver": "Common"
     }
    },
-   "hairOptions": {
+   "hair": {
     "beardTypes": {
      "None": "Common"
     },
@@ -456,7 +456,7 @@
      "None": "Common"
     }
    },
-   "hornOptions": {
+   "horn": {
     "layouts": {
      "None": "Common",
      "Two": "Common"
@@ -479,7 +479,7 @@
      "Gray": "Common"
     }
    },
-   "tailOptions": {
+   "tail": {
     "layouts": {
      "Simple": "Common"
     },
@@ -492,7 +492,7 @@
      }
     }
    },
-   "wingOptions": {
+   "wing": {
     "layouts": {
      "Two": "Common"
     },
@@ -516,7 +516,7 @@
    "eyesLayout": {
     "TwoEyes": "Common"
    },
-   "eyeOptions": {
+   "eye": {
     "eyeTypes": {
      "Normal": "Common"
     },
@@ -534,12 +534,12 @@
      "Gold": "Common"
     }
    },
-   "footOptions": {
+   "foot": {
     "footTypes": {
      "Clawed": "Common"
     }
    },
-   "hairOptions": {
+   "hair": {
     "beardTypes": {
      "None": "Common"
     },
@@ -547,7 +547,7 @@
      "None": "Common"
     }
    },
-   "mouthOptions": {
+   "mouth": {
     "mouthTypes": {
      "Snout": "Common"
     },
@@ -585,7 +585,7 @@
    "eyesLayout": {
     "TwoEyes": "Common"
    },
-   "eyeOptions": {
+   "eye": {
     "eyeTypes": {
      "Normal": "Common"
     },
@@ -612,7 +612,7 @@
      "White": "Common"
     }
    },
-   "hairOptions": {
+   "hair": {
     "beardTypes": {
      "Normal": "Common"
     },
@@ -656,7 +656,7 @@
    "eyesLayout": {
     "TwoEyes": "Common"
    },
-   "eyeOptions": {
+   "eye": {
     "eyeTypes": {
      "Simple": "Common"
     },
@@ -667,7 +667,7 @@
      "Crimson": "Common"
     }
    },
-   "hairOptions": {
+   "hair": {
     "beardTypes": {
      "None": "Common"
     },
@@ -716,7 +716,7 @@
    "eyesLayout": {
     "TwoEyes": "Common"
    },
-   "eyeOptions": {
+   "eye": {
     "eyeTypes": {
      "Normal": "Common"
     },
@@ -744,7 +744,7 @@
      "White": "Common"
     }
    },
-   "hairOptions": {
+   "hair": {
     "beardTypes": {
      "None": "Common"
     },
@@ -779,7 +779,7 @@
    "eyesLayout": {
     "TwoEyes": "Common"
    },
-   "eyeOptions": {
+   "eye": {
     "eyeTypes": {
      "Normal": "Common"
     },
@@ -806,7 +806,7 @@
      "White": "Common"
     }
    },
-   "footOptions": {
+   "foot": {
     "footTypes": {
      "Clawed": "Common"
     },
@@ -815,7 +815,7 @@
      "Gold": "Common"
     }
    },
-   "hairOptions": {
+   "hair": {
     "beardTypes": {
      "Normal": "Common"
     },
@@ -841,7 +841,7 @@
      "Medium": "Uncommon"
     }
    },
-   "wingOptions": {
+   "wing": {
     "layouts": {
      "Two": "Common"
     },
