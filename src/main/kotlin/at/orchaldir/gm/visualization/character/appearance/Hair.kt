@@ -6,12 +6,9 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.renderBuilder
-import at.orchaldir.gm.visualization.renderPolygon
 import at.orchaldir.gm.visualization.renderRoundedBuilder
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 

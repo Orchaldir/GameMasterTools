@@ -1,4 +1,4 @@
-package at.orchaldir.gm.prototypes.visualization.character.appearance
+package at.orchaldir.gm.prototypes.visualization.character.appearance.hair
 
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.Head
@@ -42,7 +42,7 @@ fun main() {
         appearances.add(row)
     }
 
-    renderCharacterTable("hair.svg", CHARACTER_CONFIG, appearances)
+    renderCharacterTable("hair-short.svg", CHARACTER_CONFIG, appearances)
 }
 
 private fun createAppearance(style: HairStyle, eyes: Eyes) =
