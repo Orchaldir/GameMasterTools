@@ -10,7 +10,9 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.renderBuilder
 import at.orchaldir.gm.visualization.renderPolygon
+import at.orchaldir.gm.visualization.renderRoundedBuilder
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 
 data class HairConfig(
@@ -144,11 +146,12 @@ private fun visualizeSpikedHair(
     val (bottomLeft, bottomRight) = state.aabb.getMirroredPoints(config.width, bottomY)
     val (topLeft, topRight) = state.aabb.getMirroredPoints(config.width, config.spikedY)
     val points = mutableListOf<Point2d>()
-    val spikes = 8
+    val spikes = 6
     val topPoints = SegmentSplitter
         .fromStartAndEnd(topLeft, topRight, spikes)
         .getCorners()
     val down = Point2d(0.0f, state.aabb.convertHeight(config.spikedHeight).toMeters())
+    val builder = Polygon2dBuilder()
 
     for (i in 0..<spikes) {
         val spike = topPoints[i]
@@ -156,13 +159,16 @@ private fun visualizeSpikedHair(
         val middle = (spike + nextSpike) / 2.0f
         val bottomBetweenSpikes = middle + down
 
-        points.add(spike)
-        points.add(bottomBetweenSpikes)
+        builder
+            .addRightPoint(spike, true)
+            .addRightPoint(bottomBetweenSpikes, true)
     }
 
-    points.add(topRight)
-    points.add(bottomRight)
-    points.add(bottomLeft)
+    builder
+        .addRightPoint(topRight, true)
+        .addRightPoint(bottomRight, true)
+        .addRightPoint(state.aabb, CENTER, state.config.head.hairlineY - Factor.fromNumber(0.05f))
+        .addLeftPoint(bottomLeft, true)
 
-    renderPolygon(state.renderer.getLayer(), options, points)
+    renderRoundedBuilder(state.renderer, builder, options, 0)
 }
