@@ -47,5 +47,5 @@ fun main() {
 private fun createAppearance(style: HairStyle, eyes: Eyes) =
     HeadOnly(
         Head(NormalEars(), eyes, NormalHair(style, Color.SaddleBrown), NoHorns, NormalMouth()),
-        fromMillimeters(200)
+        fromMillimeters(1000)
     )
