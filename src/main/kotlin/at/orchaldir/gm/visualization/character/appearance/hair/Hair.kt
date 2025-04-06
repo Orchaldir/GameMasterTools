@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.character.appearance
+package at.orchaldir.gm.visualization.character.appearance.hair
 
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.hair.*

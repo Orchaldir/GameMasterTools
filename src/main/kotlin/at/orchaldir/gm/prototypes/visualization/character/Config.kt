@@ -15,6 +15,7 @@ import at.orchaldir.gm.visualization.SizeConfig.Companion.withFactor
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.appearance.*
 import at.orchaldir.gm.visualization.character.appearance.beard.BeardConfig
+import at.orchaldir.gm.visualization.character.appearance.hair.HairConfig
 import at.orchaldir.gm.visualization.character.appearance.horn.HornConfig
 import at.orchaldir.gm.visualization.character.appearance.mouth.MouthConfig
 import at.orchaldir.gm.visualization.character.equipment.*
