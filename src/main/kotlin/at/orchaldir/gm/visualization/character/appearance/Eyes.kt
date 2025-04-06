@@ -34,7 +34,15 @@ data class EyesConfig(
 
     fun getDistanceBetweenEyes(size: Size = Size.Medium) = distanceBetweenEyes.convert(size)
 
-    fun getOneEyeCenter(aabb: AABB) = aabb.getPoint(CENTER, oneEyeY)
+    fun getOneEyeCenter(aabb: AABB, size: Size) = aabb.getPoint(
+        CENTER,
+        if (size == Size.Small) {
+            twoEyesY
+        } else {
+            oneEyeY
+        }
+    )
+
     fun getTwoEyesCenter(aabb: AABB) = aabb
         .getMirroredPoints(getDistanceBetweenEyes(), twoEyesY)
 }
@@ -50,7 +58,7 @@ fun visualizeEyes(state: CharacterRenderState, head: Head) {
     when (head.eyes) {
         NoEyes -> doNothing()
         is OneEye -> {
-            val center = config.head.eyes.getOneEyeCenter(aabb)
+            val center = config.head.eyes.getOneEyeCenter(aabb, head.eyes.size)
             val size = config.head.eyes.getEyeSize(aabb, head.eyes.eye.getShape(), head.eyes.size)
 
             visualizeEye(state, center, size, head.eyes.eye)
