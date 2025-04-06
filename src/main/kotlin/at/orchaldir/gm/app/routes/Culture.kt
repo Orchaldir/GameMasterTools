@@ -1,11 +1,10 @@
 package at.orchaldir.gm.app.routes
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.time.editHolidays
-import at.orchaldir.gm.app.html.model.time.showHolidays
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parseCulture
+import at.orchaldir.gm.app.html.model.culture.editCulture
+import at.orchaldir.gm.app.html.model.culture.parseCulture
+import at.orchaldir.gm.app.html.model.culture.showCulture
 import at.orchaldir.gm.core.action.CloneCulture
 import at.orchaldir.gm.core.action.CreateCulture
 import at.orchaldir.gm.core.action.DeleteCulture
@@ -14,14 +13,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.culture.name.*
-import at.orchaldir.gm.core.model.name.NameListId
-import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
-import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
-import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -181,26 +175,13 @@ private fun HTML.showCultureDetails(
     state: State,
     culture: Culture,
 ) {
-    val namingConvention = culture.namingConvention
     val backLink = call.application.href(CultureRoutes())
     val cloneLink = call.application.href(CultureRoutes.Clone(culture.id))
     val deleteLink = call.application.href(CultureRoutes.Delete(culture.id))
     val editLink = call.application.href(CultureRoutes.Edit(culture.id))
 
     simpleHtml("Culture: ${culture.name}") {
-        field("Name", culture.name)
-        fieldLink("Calendar", call, state, culture.calendar)
-        showRarityMap("Languages", culture.languages) { l ->
-            link(call, state, l)
-        }
-        showHolidays(call, state, culture.holidays)
-        showNamingConvention(namingConvention, call, state)
-        showAppearanceOptions(culture)
-        showClothingOptions(call, state, culture)
-        h2 { +"Usage" }
-        showList("Characters", state.getCharacters(culture.id)) { character ->
-            link(call, state, character)
-        }
+        showCulture(call, state, culture)
 
         action(editLink, "Edit")
         action(cloneLink, "Clone")
@@ -213,123 +194,11 @@ private fun HTML.showCultureDetails(
     }
 }
 
-private fun BODY.showNamingConvention(
-    namingConvention: NamingConvention,
-    call: ApplicationCall,
-    state: State,
-) {
-    h2 { +"Naming Convention" }
-    field("Type", namingConvention.javaClass.simpleName)
-    when (namingConvention) {
-        is FamilyConvention -> {
-            field("Name Order", namingConvention.nameOrder)
-            showRarityMap("Middle Name Options", namingConvention.middleNameOptions)
-            showNamesByGender(call, state, "Given Names", namingConvention.givenNames)
-            fieldLink("Family Names", call, state, namingConvention.familyNames)
-        }
-
-        is GenonymConvention -> showGenonymConvention(
-            call,
-            state,
-            namingConvention.lookupDistance,
-            namingConvention.style,
-            namingConvention.names
-        )
-
-        is MatronymConvention -> showGenonymConvention(
-            call,
-            state,
-            namingConvention.lookupDistance,
-            namingConvention.style,
-            namingConvention.names
-        )
-
-        is MononymConvention -> showNamesByGender(call, state, "Names", namingConvention.names)
-
-        NoNamingConvention -> doNothing()
-        is PatronymConvention -> showGenonymConvention(
-            call,
-            state,
-            namingConvention.lookupDistance,
-            namingConvention.style,
-            namingConvention.names
-        )
-    }
-}
-
-private fun BODY.showGenonymConvention(
-    call: ApplicationCall,
-    state: State,
-    lookupDistance: GenonymicLookupDistance,
-    style: GenonymicStyle,
-    names: GenderMap<NameListId>,
-) {
-    field("Lookup Distance", lookupDistance)
-    field("Genonymic Style", style.javaClass.simpleName)
-    when (style) {
-        is ChildOfStyle -> showStyleByGender("Words", style.words)
-        NamesOnlyStyle -> doNothing()
-        is PrefixStyle -> showStyleByGender("Prefix", style.prefix)
-        is SuffixStyle -> showStyleByGender("Suffix", style.suffix)
-    }
-    showNamesByGender(call, state, "Names", names)
-}
-
-private fun BODY.showNamesByGender(
-    call: ApplicationCall,
-    state: State,
-    label: String,
-    namesByGender: GenderMap<NameListId>,
-) {
-    showDetails(label) {
-        showGenderMap(namesByGender) { gender, id ->
-            fieldLink(gender.toString(), call, state, id)
-        }
-    }
-}
-
-private fun BODY.showStyleByGender(
-    label: String,
-    namesByGender: GenderMap<String>,
-) {
-    showDetails(label) {
-        showGenderMap(namesByGender) { gender, text ->
-            field(gender.toString(), text)
-        }
-    }
-}
-
-private fun BODY.showAppearanceOptions(culture: Culture) {
-    val appearanceStyle = culture.appearanceStyle
-
-    h2 { +"Appearance Options" }
-    showRarityMap("Beard Styles", appearanceStyle.beardStyles)
-    showRarityMap("Goatee Styles", appearanceStyle.goateeStyles)
-    showRarityMap("Moustache Styles", appearanceStyle.moustacheStyles)
-    showRarityMap("Hair Styles", appearanceStyle.hairStyles)
-    showRarityMap("Short Hair Styles", appearanceStyle.shortHairStyles)
-    showRarityMap("Long Hair Styles", appearanceStyle.longHairStyles)
-    showRarityMap("Hair Lengths", appearanceStyle.hairLengths)
-    showRarityMap("Lip Colors", appearanceStyle.lipColors)
-}
-
-private fun BODY.showClothingOptions(
-    call: ApplicationCall,
-    state: State,
-    culture: Culture,
-) {
-    h2 { +"Fashion" }
-    showGenderMap(culture.clothingStyles) { gender, id ->
-        optionalFieldLink(gender.toString(), call, state, id)
-    }
-}
-
 private fun HTML.showCultureEditor(
     call: ApplicationCall,
     state: State,
     culture: Culture,
 ) {
-    val namingConvention = culture.namingConvention
     val backLink = href(call, culture.id)
     val previewLink = call.application.href(CultureRoutes.Preview(culture.id))
     val updateLink = call.application.href(CultureRoutes.Update(culture.id))
@@ -339,159 +208,11 @@ private fun HTML.showCultureEditor(
             id = "editor"
             action = previewLink
             method = FormMethod.post
-            selectName(culture.name)
-            selectElement(state, "Calendar", CALENDAR_TYPE, state.getCalendarStorage().getAll(), culture.calendar)
-            selectRarityMap("Languages", LANGUAGES, state.getLanguageStorage(), culture.languages) { it.name }
-            editHolidays(state, culture.holidays)
-            editNamingConvention(namingConvention, state)
-            editAppearanceOptions(culture)
-            editClothingOptions(state, culture)
+
+            editCulture(state, culture)
+
             button("Update", updateLink)
         }
         back(backLink)
     }
 }
-
-private fun FORM.editNamingConvention(
-    namingConvention: NamingConvention,
-    state: State,
-) {
-    h2 { +"Naming Convention" }
-    selectValue("Type", NAMING_CONVENTION, NamingConventionType.entries, namingConvention.getType(), true)
-
-    when (namingConvention) {
-        is FamilyConvention -> {
-            selectValue("Name Order", combine(NAME, ORDER), NameOrder.entries, namingConvention.nameOrder, true)
-            selectRarityMap("Middle Name Options", MIDDLE_NAME, namingConvention.middleNameOptions)
-            selectNamesByGender(state, "Given Names", namingConvention.givenNames, NAMES)
-            field("Family Names") {
-                selectNameList(FAMILY_NAMES, state, namingConvention.familyNames)
-            }
-        }
-
-        is GenonymConvention -> selectGenonymConvention(
-            state,
-            namingConvention.lookupDistance,
-            namingConvention.style,
-            namingConvention.names
-        )
-
-        is MatronymConvention -> selectGenonymConvention(
-            state,
-            namingConvention.lookupDistance,
-            namingConvention.style,
-            namingConvention.names
-        )
-
-        is MononymConvention -> selectNamesByGender(state, "Names", namingConvention.names, NAMES)
-
-        NoNamingConvention -> doNothing()
-        is PatronymConvention -> selectGenonymConvention(
-            state,
-            namingConvention.lookupDistance,
-            namingConvention.style,
-            namingConvention.names
-        )
-    }
-}
-
-private fun FORM.selectGenonymConvention(
-    state: State,
-    lookupDistance: GenonymicLookupDistance,
-    style: GenonymicStyle,
-    names: GenderMap<NameListId>,
-) {
-    selectValue("Lookup Distance", LOOKUP_DISTANCE, GenonymicLookupDistance.entries, lookupDistance)
-    selectValue("Genonymic Style", GENONYMIC_STYLE, GenonymicStyleType.entries, style.getType(), true)
-
-    when (style) {
-        is ChildOfStyle -> selectWordsByGender("Words", style.words, WORD)
-        NamesOnlyStyle -> doNothing()
-        is PrefixStyle -> selectWordsByGender("Prefix", style.prefix, WORD)
-        is SuffixStyle -> selectWordsByGender("Suffix", style.suffix, WORD)
-    }
-    selectNamesByGender(state, "Names", names, NAMES)
-}
-
-private fun FORM.selectNamesByGender(
-    state: State,
-    fieldLabel: String,
-    namesByGender: GenderMap<NameListId>,
-    param: String,
-) {
-    selectGenderMap(fieldLabel, namesByGender) { gender, nameListId ->
-        val selectId = "$param-$gender"
-        selectNameList(selectId, state, nameListId)
-    }
-}
-
-private fun HtmlBlockTag.selectNameList(
-    selectId: String,
-    state: State,
-    nameListId: NameListId,
-) {
-    select {
-        id = selectId
-        name = selectId
-        state.getNameListStorage().getAll().forEach { nameList ->
-            option {
-                label = nameList.name
-                value = nameList.id.value.toString()
-                selected = nameList.id == nameListId
-            }
-        }
-    }
-}
-
-private fun FORM.selectWordsByGender(label: String, genderMap: GenderMap<String>, param: String) {
-    selectGenderMap(label, genderMap) { gender, word ->
-        textInput(name = "$param-$gender") {
-            value = word
-        }
-    }
-}
-
-private fun FORM.editAppearanceOptions(culture: Culture) {
-    h2 { +"Appearance Options" }
-
-    val appearanceStyle = culture.appearanceStyle
-
-    selectRarityMap("Beard Styles", combine(BEARD, STYLE), appearanceStyle.beardStyles)
-    selectRarityMap("Goatee Styles", GOATEE_STYLE, appearanceStyle.goateeStyles)
-    selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, appearanceStyle.moustacheStyles)
-    selectRarityMap("Hair Styles", combine(HAIR, STYLE), appearanceStyle.hairStyles)
-    selectRarityMap("Short Hair Styles", combine(SHORT, HAIR, STYLE), appearanceStyle.shortHairStyles)
-    selectRarityMap("Long Hair Styles", combine(LONG, HAIR, STYLE), appearanceStyle.longHairStyles)
-    selectRarityMap("Hair Lengths", combine(HAIR, LENGTH), appearanceStyle.hairLengths)
-    selectRarityMap("Lip Colors", LIP_COLORS, appearanceStyle.lipColors)
-}
-
-private fun FORM.editClothingOptions(
-    state: State,
-    culture: Culture,
-) {
-    h2 { +"Fashion" }
-
-    showMap(culture.clothingStyles.getMap()) { gender, fashionId ->
-        field(gender.toString()) {
-            val selectId = "$FASHION-$gender"
-            select {
-                id = selectId
-                name = selectId
-                option {
-                    label = "None"
-                    value = ""
-                    selected = fashionId == null
-                }
-                state.getFashionStorage().getAll().forEach { fashion ->
-                    option {
-                        label = fashion.name
-                        value = fashion.id.value.toString()
-                        selected = fashion.id == fashionId
-                    }
-                }
-            }
-        }
-    }
-}
-
