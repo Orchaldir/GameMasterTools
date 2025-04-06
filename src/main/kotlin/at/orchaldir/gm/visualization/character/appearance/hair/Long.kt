@@ -69,7 +69,7 @@ private fun visualizeWavy(
 
     splitter.getCenters().forEach { center ->
         if (isPositive) {
-            builder.addPoints(center + step, center - step + width)
+            builder.addPoints(center, center + width)
         } else {
             builder.addPoints(center - step, center + step + width)
         }
