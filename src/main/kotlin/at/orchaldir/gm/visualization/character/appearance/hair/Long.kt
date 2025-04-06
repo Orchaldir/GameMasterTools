@@ -75,6 +75,7 @@ private fun visualizeWavy(
     val splitter = SegmentSplitter.fromStartAndEnd(topCenter, bottomCenter, segments)
     val orientation = Orientation.fromDegree(-90.0f)
     val builder = Polygon2dBuilder()
+        .addLeftPoint(state.aabb, CENTER, -padding)
         .addLeftAndRightPoint(topCenter, orientation, width)
 
     splitter.getCenters().forEach { center ->
