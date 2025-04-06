@@ -308,6 +308,8 @@ private fun BODY.showAppearanceOptions(culture: Culture) {
     showRarityMap("Moustache Styles", appearanceStyle.moustacheStyles)
     showRarityMap("Hair Styles", appearanceStyle.hairStyles)
     showRarityMap("Short Hair Styles", appearanceStyle.shortHairStyles)
+    showRarityMap("Long Hair Styles", appearanceStyle.longHairStyles)
+    showRarityMap("Hair Lengths", appearanceStyle.hairLengths)
     showRarityMap("Lip Colors", appearanceStyle.lipColors)
 }
 
@@ -451,12 +453,17 @@ private fun FORM.selectWordsByGender(label: String, genderMap: GenderMap<String>
 
 private fun FORM.editAppearanceOptions(culture: Culture) {
     h2 { +"Appearance Options" }
-    selectRarityMap("Beard Styles", combine(BEARD, STYLE), culture.appearanceStyle.beardStyles)
-    selectRarityMap("Goatee Styles", GOATEE_STYLE, culture.appearanceStyle.goateeStyles)
-    selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyles)
-    selectRarityMap("Hair Styles", combine(HAIR, STYLE), culture.appearanceStyle.hairStyles)
-    selectRarityMap("Short Hair Styles", combine(SHORT, HAIR, STYLE), culture.appearanceStyle.shortHairStyles)
-    selectRarityMap("Lip Colors", LIP_COLORS, culture.appearanceStyle.lipColors)
+
+    val appearanceStyle = culture.appearanceStyle
+
+    selectRarityMap("Beard Styles", combine(BEARD, STYLE), appearanceStyle.beardStyles)
+    selectRarityMap("Goatee Styles", GOATEE_STYLE, appearanceStyle.goateeStyles)
+    selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, appearanceStyle.moustacheStyles)
+    selectRarityMap("Hair Styles", combine(HAIR, STYLE), appearanceStyle.hairStyles)
+    selectRarityMap("Short Hair Styles", combine(SHORT, HAIR, STYLE), appearanceStyle.shortHairStyles)
+    selectRarityMap("Long Hair Styles", combine(LONG, HAIR, STYLE), appearanceStyle.longHairStyles)
+    selectRarityMap("Hair Lengths", combine(HAIR, LENGTH), appearanceStyle.hairLengths)
+    selectRarityMap("Lip Colors", LIP_COLORS, appearanceStyle.lipColors)
 }
 
 private fun FORM.editClothingOptions(
