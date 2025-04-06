@@ -5,6 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class HairStyleType {
+    BowlCut,
     BuzzCut,
     FlatTop,
     MiddlePart,
@@ -17,6 +18,7 @@ enum class HairStyleType {
 sealed class HairStyle {
 
     fun getType() = when (this) {
+        BowlCut -> HairStyleType.BowlCut
         BuzzCut -> HairStyleType.BuzzCut
         FlatTop -> HairStyleType.FlatTop
         MiddlePart -> HairStyleType.MiddlePart
@@ -26,6 +28,10 @@ sealed class HairStyle {
     }
 
 }
+
+@Serializable
+@SerialName("BowlCut")
+data object BowlCut : HairStyle()
 
 @Serializable
 @SerialName("BuzzCut")

@@ -50,6 +50,7 @@ private fun visualizeNormalHair(state: CharacterRenderState, hair: NormalHair) {
     }
 
     when (hair.style) {
+        is BowlCut -> visualizeRectangleHair(state, options, config.head.hair.width, START)
         is BuzzCut -> visualizeRectangleHair(state, options, FULL, START)
         is FlatTop -> visualizeFlatTop(state, options, config)
         is MiddlePart -> visualizeMiddlePart(state, options, CENTER)

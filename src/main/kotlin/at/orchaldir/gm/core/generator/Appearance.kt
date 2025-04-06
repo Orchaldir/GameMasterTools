@@ -170,6 +170,7 @@ fun generateHair(config: AppearanceGeneratorConfig): Hair {
 
 fun generateHairStyle(config: AppearanceGeneratorConfig): HairStyle {
     return when (config.generate(config.appearanceStyle.hairStyles)) {
+        HairStyleType.BowlCut -> BowlCut
         HairStyleType.BuzzCut -> BuzzCut
         HairStyleType.FlatTop -> FlatTop
         HairStyleType.MiddlePart -> MiddlePart

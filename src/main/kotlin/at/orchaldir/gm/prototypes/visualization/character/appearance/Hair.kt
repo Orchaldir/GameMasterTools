@@ -18,6 +18,7 @@ import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 val HAIR_STYLES: List<HairStyle> = listOf(
+    BowlCut,
     BuzzCut,
     FlatTop,
     MiddlePart,
