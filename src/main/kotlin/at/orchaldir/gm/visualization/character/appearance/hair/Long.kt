@@ -1,7 +1,8 @@
 package at.orchaldir.gm.visualization.character.appearance.hair
 
-import at.orchaldir.gm.core.model.character.appearance.hair.*
-import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.core.model.character.appearance.hair.LongHairCut
+import at.orchaldir.gm.core.model.character.appearance.hair.LongHairStyle
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
@@ -64,7 +65,7 @@ private fun visualizeWavy(
     var isPositive = false
     val topCenter = state.aabb.getPoint(CENTER, -padding)
     val width = state.aabb.convertWidth(FULL + padding * 2.0f) / 2.0f
-    val step = width / 3.0f
+    val waveAmplitude = width / 3.0f
     val bottomCenter = state.aabb.getPoint(CENTER, END).addHeight(height)
     val segments = 2 * (height.toMeters() / state.aabb.size.height + 1.0f).roundToInt()
     val splitter = SegmentSplitter.fromStartAndEnd(topCenter, bottomCenter, segments)
@@ -74,10 +75,12 @@ private fun visualizeWavy(
 
     splitter.getCenters().forEach { center ->
         builder.addLeftAndRightPoint(
-            center, orientation, if (isPositive) {
+            center,
+            orientation,
+            if (isPositive) {
                 width
-        } else {
-                width + step
+            } else {
+                width + waveAmplitude
             }
         )
 
