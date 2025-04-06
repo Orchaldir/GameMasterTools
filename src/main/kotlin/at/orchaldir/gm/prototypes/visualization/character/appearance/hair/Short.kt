@@ -27,11 +27,13 @@ val HAIR_STYLES: List<ShortHairStyle> = listOf(
 )
 
 val EYES: List<Pair<String, Eyes>> = listOf(
-    Pair("One Small", OneEye(size = Size.Small)),
-    Pair("One Medium", OneEye(size = Size.Small)),
-    Pair("One Large", OneEye(size = Size.Small)),
+    createOneEye(Size.Small),
+    createOneEye(Size.Medium),
+    createOneEye(Size.Large),
     Pair("Two", TwoEyes()),
 )
+
+private fun createOneEye(size: Size) = Pair("One $size", OneEye(size = size))
 
 fun main() {
     renderCharacterTable(
