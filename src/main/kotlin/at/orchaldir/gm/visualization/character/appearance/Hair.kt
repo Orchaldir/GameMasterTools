@@ -13,14 +13,13 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.renderPolygon
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 
-private val HEAD_WIDTH = fromPercentage(105)
-
 data class HairConfig(
     val afroDiameter: Factor,
     val flatTopY: Factor,
     val sidePartX: Factor,
     val spikedY: Factor,
     val spikedHeight: Factor,
+    val width: Factor,
 )
 
 fun visualizeHair(state: CharacterRenderState, head: Head) {
@@ -95,8 +94,8 @@ private fun visualizeMiddlePart(
 ) {
     val aabb = state.aabb
     val config = state.config
-    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(HEAD_WIDTH, config.head.hairlineY)
-    val (topLeft, topRight) = aabb.getMirroredPoints(HEAD_WIDTH, START)
+    val (bottomLeft, bottomRight) = aabb.getMirroredPoints(config.head.hair.width, config.head.hairlineY)
+    val (topLeft, topRight) = aabb.getMirroredPoints(config.head.hair.width, START)
     val bottomCenter = aabb.getPoint(x, config.head.hairlineY)
     val topCenter = aabb.getPoint(x, START)
 
@@ -140,14 +139,15 @@ private fun visualizeSpikedHair(
     options: FillAndBorder,
     bottomY: Factor,
 ) {
-    val (bottomLeft, bottomRight) = state.aabb.getMirroredPoints(HEAD_WIDTH, bottomY)
-    val (topLeft, topRight) = state.aabb.getMirroredPoints(HEAD_WIDTH, state.config.head.hair.spikedY)
+    val config = state.config.head.hair
+    val (bottomLeft, bottomRight) = state.aabb.getMirroredPoints(config.width, bottomY)
+    val (topLeft, topRight) = state.aabb.getMirroredPoints(config.width, config.spikedY)
     val points = mutableListOf<Point2d>()
     val spikes = 8
     val topPoints = SegmentSplitter
         .fromStartAndEnd(topLeft, topRight, spikes)
         .getCorners()
-    val down = Point2d(0.0f, state.aabb.convertHeight(state.config.head.hair.spikedHeight).toMeters())
+    val down = Point2d(0.0f, state.aabb.convertHeight(config.spikedHeight).toMeters())
 
     for (i in 0..<spikes) {
         val spike = topPoints[i]

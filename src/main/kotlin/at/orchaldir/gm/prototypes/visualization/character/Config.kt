@@ -152,9 +152,10 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(30),
             fromPercentage(-20),
             fromPercentage(15),
+            fromPercentage(105),
         ),
-        fromPercentage(30),
         fromPercentage(25),
+        fromPercentage(20),
         HornConfig(
             fromPercentage(20),
             complexHorn(HornPosition.Top, 10.0f, StraightHorn, 20),
