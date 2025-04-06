@@ -193,8 +193,8 @@
      "hair": {
       "type": "Normal",
       "cut": {
-       "type": "Short",
-       "style": "MiddlePart"
+       "type": "Long",
+       "style": "Wavy"
       },
       "color": "Red"
      },
