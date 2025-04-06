@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.BodyShape.*
 import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
@@ -37,6 +38,9 @@ data class BodyConfig(
 
         return AABB(start, size)
     }
+
+    fun getDistanceFromNeckToBottom(head: AABB) =
+        Distance.fromMeters(head.size.height * (1.0f - headHeight.toNumber()) / headHeight.toNumber())
 
     fun getArmStarts(aabb: AABB, body: Body): Pair<Point2d, Point2d> {
         val armWidth = aabb.convertWidth(getArmWidth(body))
