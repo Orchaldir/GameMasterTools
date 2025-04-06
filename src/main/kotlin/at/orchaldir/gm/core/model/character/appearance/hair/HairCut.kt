@@ -4,6 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class HairStyle {
+    Long,
     Short,
 }
 
@@ -11,6 +12,7 @@ enum class HairStyle {
 sealed class HairCut {
 
     fun getType() = when (this) {
+        is LongHairCut -> HairStyle.Long
         is ShortHairCut -> HairStyle.Short
     }
 
@@ -19,3 +21,10 @@ sealed class HairCut {
 @Serializable
 @SerialName("Short")
 data class ShortHairCut(val style: ShortHairStyle) : HairCut()
+
+@Serializable
+@SerialName("Long")
+data class LongHairCut(
+    val style: ShortHairStyle,
+    val length: HairLength = HairLength.Classic,
+) : HairCut()
