@@ -37,7 +37,7 @@ fun visualizeCharacter(
     appearance: Appearance,
     equipped: List<EquipmentData> = emptyList(),
     renderFront: Boolean = true,
-) = visualizeAppearance(config, calculateSize(config, appearance), appearance, equipped, renderFront)
+) = visualizeAppearance(config, calculatePaddedSize(config, appearance), appearance, equipped, renderFront)
 
 fun visualizeAppearance(
     config: CharacterRenderConfig,

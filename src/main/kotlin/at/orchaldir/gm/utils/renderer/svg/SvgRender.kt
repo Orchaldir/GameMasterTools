@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.core.model.font.Font
+import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -167,13 +168,13 @@ class SvgRenderer(
         inlineTag(
             "text",
             text,
-            "x=\"%.3f\" y=\"%.3f\" alignment-baseline=\"%s\" transform=\"%s\" style=\"%s\" text-anchor=\"middle\"",
+            "x=\"%.3f\" y=\"%.3f\" alignment-baseline=\"%s\" transform=\"%s\" style=\"%s\" text-anchor=\"%s\"",
             position.x,
             position.y,
             toSvg(options.verticalAlignment),
             rotateAroundCenter(position, orientation),
             toSvg(options),
-            text,
+            toSvg(options.horizontalAlignment),
         )
 
         return this
@@ -268,6 +269,14 @@ class SvgRenderer(
             VerticalAlignment.Top -> "hanging"
             VerticalAlignment.Center -> "middle"
             VerticalAlignment.Bottom -> "baseline"
+        }
+    }
+
+    private fun toSvg(alignment: HorizontalAlignment): String {
+        return when (alignment) {
+            HorizontalAlignment.Start -> "start"
+            HorizontalAlignment.Center -> "middle"
+            HorizontalAlignment.End -> "end"
         }
     }
 

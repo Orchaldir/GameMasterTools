@@ -12,7 +12,7 @@ fun renderBuilder(
     renderer: MultiLayerRenderer,
     builder: Polygon2dBuilder,
     options: RenderOptions,
-    layer: Int,
+    layer: Int = 0,
 ) {
     val polygon = builder.build()
 
@@ -23,7 +23,7 @@ fun renderRoundedBuilder(
     renderer: MultiLayerRenderer,
     builder: Polygon2dBuilder,
     options: RenderOptions,
-    layer: Int,
+    layer: Int = 0,
 ) {
     val polygon = builder.build()
 
@@ -31,14 +31,22 @@ fun renderRoundedBuilder(
 }
 
 fun renderPolygon(
-    renderer: LayerRenderer,
+    renderer: MultiLayerRenderer,
     options: RenderOptions,
     corners: List<Point2d>,
+    layer: Int = 0,
 ) {
     val polygon = Polygon2d(corners)
 
-    renderer.renderPolygon(polygon, options)
+    renderer.getLayer(layer).renderPolygon(polygon, options)
 }
+
+fun renderRoundedPolygon(
+    renderer: MultiLayerRenderer,
+    options: RenderOptions,
+    corners: List<Point2d>,
+    layer: Int = 0,
+) = renderRoundedPolygon(renderer.getLayer(layer), options, corners)
 
 fun renderRoundedPolygon(
     renderer: LayerRenderer,
@@ -49,6 +57,14 @@ fun renderRoundedPolygon(
 
     renderer.renderRoundedPolygon(polygon, options)
 }
+
+fun renderMirroredPolygons(
+    renderer: MultiLayerRenderer,
+    options: RenderOptions,
+    aabb: AABB,
+    corners: List<Point2d>,
+    layer: Int = 0,
+) = renderMirroredPolygons(renderer.getLayer(layer), options, aabb, corners)
 
 fun renderMirroredPolygons(
     renderer: LayerRenderer,

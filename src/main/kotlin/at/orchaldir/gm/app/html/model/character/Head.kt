@@ -18,7 +18,6 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.style.AppearanceStyle
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
-import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -177,20 +176,39 @@ private fun FORM.editNormalHair(
     hair: NormalHair,
 ) {
     selectOneOf(
-        "Style",
+        "Haircut",
         combine(HAIR, STYLE),
         culture.appearanceStyle.hairStyles,
-        hair.style.getType(),
-        true
+        hair.cut.getType(),
+        true,
     )
     selectColor("Color", combine(HAIR, COLOR), raceAppearance.hair.colors, hair.color)
 
-    when (hair.style) {
-        is SidePart -> {
-            selectValue("Side", SIDE_PART, Side.entries, hair.style.side, true)
-        }
+    when (hair.cut) {
+        is ShortHairCut -> selectOneOf(
+            "Short Hair Style",
+            combine(SHORT, STYLE),
+            culture.appearanceStyle.shortHairStyles,
+            hair.cut.style,
+            true,
+        )
 
-        else -> doNothing()
+        is LongHairCut -> {
+            selectOneOf(
+                "Long Hair Style",
+                combine(LONG, STYLE),
+                culture.appearanceStyle.longHairStyles,
+                hair.cut.style,
+                true,
+            )
+            selectOneOf(
+                "Length",
+                combine(HAIR, LENGTH),
+                culture.appearanceStyle.hairLengths,
+                hair.cut.length,
+                true,
+            )
+        }
     }
 }
 
@@ -362,15 +380,29 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
         HairType.Normal.toString() -> {
             return NormalHair(
                 when (parameters[combine(HAIR, STYLE)]) {
-                    HairStyleType.BuzzCut.toString() -> BuzzCut
-                    HairStyleType.FlatTop.toString() -> FlatTop
-                    HairStyleType.MiddlePart.toString() -> MiddlePart
-                    HairStyleType.SidePart.toString() -> SidePart(
-                        parse(parameters, SIDE_PART, Side.Left),
+                    HairStyle.Short.toString() -> ShortHairCut(
+                        parseAppearanceOption(
+                            parameters,
+                            combine(SHORT, STYLE),
+                            config,
+                            config.appearanceStyle.shortHairStyles,
+                        ),
                     )
 
-                    HairStyleType.Spiked.toString() -> Spiked
-                    else -> ShavedHair
+                    else -> LongHairCut(
+                        parseAppearanceOption(
+                            parameters,
+                            combine(LONG, STYLE),
+                            config,
+                            config.appearanceStyle.longHairStyles,
+                        ),
+                        parseAppearanceOption(
+                            parameters,
+                            combine(HAIR, LENGTH),
+                            config,
+                            config.appearanceStyle.hairLengths,
+                        ),
+                    )
                 },
                 parseAppearanceColor(parameters, HAIR, config, config.appearanceOptions.hair.colors),
             )

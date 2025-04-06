@@ -18,7 +18,7 @@ fun visualizeGroup(
 ): Svg {
     val number = appearances.size
     val paddedSizeMap = appearances
-        .associateWith { calculateSize(config, it) }
+        .associateWith { calculatePaddedSize(config, it) }
     val maxSize = paddedSizeMap
         .values
         .maxBy { it.baseSize.height }

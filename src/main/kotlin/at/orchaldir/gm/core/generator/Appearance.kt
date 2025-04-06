@@ -162,20 +162,19 @@ fun generateHair(config: AppearanceGeneratorConfig): Hair {
     return when (config.generate(options.hair.hairTypes)) {
         HairType.None -> NoHair
         HairType.Normal -> NormalHair(
-            generateHairStyle(config),
+            generateHairCut(config),
             config.generate(options.hair.colors),
         )
     }
 }
 
-fun generateHairStyle(config: AppearanceGeneratorConfig): HairStyle {
+fun generateHairCut(config: AppearanceGeneratorConfig): HairCut {
     return when (config.generate(config.appearanceStyle.hairStyles)) {
-        HairStyleType.BuzzCut -> BuzzCut
-        HairStyleType.FlatTop -> FlatTop
-        HairStyleType.MiddlePart -> MiddlePart
-        HairStyleType.Shaved -> ShavedHair
-        HairStyleType.SidePart -> SidePart(config.select(Side.entries))
-        HairStyleType.Spiked -> Spiked
+        HairStyle.Short -> ShortHairCut(config.generate(config.appearanceStyle.shortHairStyles))
+        HairStyle.Long -> LongHairCut(
+            config.generate(config.appearanceStyle.longHairStyles),
+            config.generate(config.appearanceStyle.hairLengths),
+        )
     }
 }
 

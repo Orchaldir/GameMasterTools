@@ -26,7 +26,7 @@ data object NoHair : Hair()
 @Serializable
 @SerialName("Normal")
 data class NormalHair(
-    val style: HairStyle,
+    val cut: HairCut,
     val color: Color,
 ) : Hair()
 

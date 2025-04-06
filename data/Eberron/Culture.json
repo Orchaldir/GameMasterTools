@@ -41,12 +41,6 @@
      "Pyramid": "Common",
      "Toothbrush": "Common",
      "Walrus": "Common"
-    },
-    "hairStyles": {
-     "BuzzCut": "Common",
-     "MiddlePart": "Common",
-     "Shaved": "Common",
-     "SidePart": "Common"
     }
    },
    "holidays": [
@@ -101,11 +95,12 @@
      "Toothbrush": "Common",
      "Walrus": "Common"
     },
-    "hairStyles": {
+    "shortHairStyles": {
      "BuzzCut": "Common",
      "MiddlePart": "Common",
      "Shaved": "Common",
-     "SidePart": "Common"
+     "SidePartLeft": "Common",
+     "SidePartRight": "Common"
     }
    }
   },
@@ -142,11 +137,12 @@
      "Toothbrush": "Common",
      "Walrus": "Common"
     },
-    "hairStyles": {
+    "shortHairStyles": {
      "BuzzCut": "Common",
      "MiddlePart": "Common",
      "Shaved": "Common",
-     "SidePart": "Common"
+     "SidePartLeft": "Common",
+     "SidePartRight": "Common"
     }
    }
   }

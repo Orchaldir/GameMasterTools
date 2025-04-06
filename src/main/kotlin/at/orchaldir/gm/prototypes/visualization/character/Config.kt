@@ -1,8 +1,13 @@
 package at.orchaldir.gm.prototypes.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.SkinColor
+import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
+import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
+import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
+import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import at.orchaldir.gm.utils.math.Orientation.Companion.fromDegree
@@ -15,6 +20,7 @@ import at.orchaldir.gm.visualization.SizeConfig.Companion.withFactor
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.appearance.*
 import at.orchaldir.gm.visualization.character.appearance.beard.BeardConfig
+import at.orchaldir.gm.visualization.character.appearance.hair.HairConfig
 import at.orchaldir.gm.visualization.character.appearance.horn.HornConfig
 import at.orchaldir.gm.visualization.character.appearance.mouth.MouthConfig
 import at.orchaldir.gm.visualization.character.equipment.*
@@ -22,7 +28,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
 val CHARACTER_CONFIG = CharacterRenderConfig(
-    fromMillimeters(200),
+    fromMillimeters(500),
     LineOptions(Color.Black.toRender(), fromMillimeters(5)),
     BodyConfig(
         fromPercentage(10),
@@ -152,9 +158,18 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(30),
             fromPercentage(-20),
             fromPercentage(15),
+            fromPercentage(105),
+            fromPercentage(10),
+            mapOf(
+                HairLength.Ankle to fromPercentage(95),
+                HairLength.Knee to fromPercentage(80),
+                HairLength.Classic to fromPercentage(60),
+                HairLength.Waist to fromPercentage(40),
+                HairLength.MidBack to fromPercentage(20),
+            ),
         ),
-        fromPercentage(30),
         fromPercentage(25),
+        fromPercentage(20),
         HornConfig(
             fromPercentage(20),
             complexHorn(HornPosition.Top, 10.0f, StraightHorn, 20),
@@ -178,6 +193,15 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         SkinColor.VeryDark to RGB(58, 26, 13),
     )
 )
+
+val EYES: List<Pair<String, Eyes>> = listOf(
+    createOneEye(Size.Small),
+    createOneEye(Size.Medium),
+    createOneEye(Size.Large),
+    Pair("Two", TwoEyes()),
+)
+
+private fun createOneEye(size: Size) = Pair("One $size", OneEye(size = size))
 
 private fun complexHorn(position: HornPosition, degree: Float, shape: HornShape, width: Int) = ComplexHorn(
     fromPercentage(100),

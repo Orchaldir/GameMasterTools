@@ -71,7 +71,7 @@ private fun visualizePointedSideways(
     val length = radius.toMeters() * state.config.head.ears.pointedLength.toNumber()
     val tip = top + Point2d(length, 0.0f)
 
-    renderMirroredPolygons(state.renderer.getLayer(), option, state.aabb, listOf(top, bottom, tip))
+    renderMirroredPolygons(state.renderer, option, state.aabb, listOf(top, bottom, tip))
 }
 
 private fun visualizePointedUpwards(
@@ -88,5 +88,5 @@ private fun visualizePointedUpwards(
     val outerTop = top + Point2d(radius, -length)
     val outerBottom = bottom + Point2d(radius, -radius)
 
-    renderMirroredPolygons(state.renderer.getLayer(), option, state.aabb, listOf(top, bottom, outerBottom, outerTop))
+    renderMirroredPolygons(state.renderer, option, state.aabb, listOf(top, bottom, outerBottom, outerTop))
 }
