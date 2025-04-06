@@ -15,32 +15,24 @@ import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
-    val styles = mutableListOf<Pair<LongHairShape, LongHairStyle>>()
-
-    LongHairShape.entries.forEach { shape ->
-        LongHairStyle.entries.forEach { style ->
-            styles.add(Pair(shape, style))
-        }
-    }
-
     renderCharacterTable(
         "hair-long.svg",
         CHARACTER_CONFIG,
         addNames(LongHairStyle.entries),
-        addNames(LongHairShape.entries),
+        addNames(HairLength.entries),
         true,
-    ) { distance, shape, style ->
-        Pair(createAppearance(distance, shape, style), emptyList())
+    ) { distance, length, style ->
+        Pair(createAppearance(distance, length, style), emptyList())
     }
 }
 
-private fun createAppearance(height: Distance, shape: LongHairShape, style: LongHairStyle) =
+private fun createAppearance(height: Distance, length: HairLength, style: LongHairStyle) =
     HumanoidBody(
         Body(),
         Head(
             NormalEars(),
             TwoEyes(),
-            NormalHair(LongHairCut(style, shape, HairLength.Classic), Color.SaddleBrown),
+            NormalHair(LongHairCut(style, length), Color.SaddleBrown),
             NoHorns,
             NormalMouth()
         ),

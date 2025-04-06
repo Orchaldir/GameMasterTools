@@ -26,6 +26,5 @@ data class ShortHairCut(val style: ShortHairStyle) : HairCut()
 @SerialName("Long")
 data class LongHairCut(
     val style: LongHairStyle,
-    val shape: LongHairShape,
     val length: HairLength = HairLength.Classic,
 ) : HairCut()

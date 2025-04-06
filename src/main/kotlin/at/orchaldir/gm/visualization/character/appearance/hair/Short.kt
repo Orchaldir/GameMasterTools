@@ -13,7 +13,7 @@ import at.orchaldir.gm.visualization.renderRoundedPolygon
 
 fun visualizeShortHair(state: CharacterRenderState, hair: NormalHair, shortHair: ShortHairCut) {
     val config = state.config
-    val options = FillAndBorder(hair.color.toRender(), config.line)
+    val options = config.getLineOptions(hair.color)
 
     if (!state.renderFront) {
         when (shortHair.style) {
