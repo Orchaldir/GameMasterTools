@@ -28,7 +28,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
 val CHARACTER_CONFIG = CharacterRenderConfig(
-    fromMillimeters(200),
+    fromMillimeters(500),
     LineOptions(Color.Black.toRender(), fromMillimeters(5)),
     BodyConfig(
         fromPercentage(10),
