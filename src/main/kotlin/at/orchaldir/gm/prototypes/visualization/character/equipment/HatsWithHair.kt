@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
-import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairCut
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle
@@ -14,7 +13,6 @@ import at.orchaldir.gm.core.model.util.Color.SaddleBrown
 import at.orchaldir.gm.core.model.util.Color.Yellow
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
-import at.orchaldir.gm.prototypes.visualization.character.appearance.hair.HAIR_STYLES
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.unit.Distance
 
@@ -22,7 +20,7 @@ fun main() {
     renderCharacterTable(
         "hats-with-hair.svg",
         CHARACTER_CONFIG,
-        addNames(HAIR_STYLES),
+        addNames(ShortHairStyle.entries),
         addNames(HatStyle.entries),
         true,
     ) { distance, style, shape ->

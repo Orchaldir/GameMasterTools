@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
 import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.*
-import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle.*
 import at.orchaldir.gm.core.model.character.appearance.horn.NoHorns
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.util.Color
@@ -14,17 +13,6 @@ import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.unit.Distance
-
-val HAIR_STYLES: List<ShortHairStyle> = listOf(
-    BowlCut,
-    BuzzCut,
-    FlatTop,
-    MiddlePart,
-    Shaved,
-    SidePartLeft,
-    SidePartRight,
-    Spiked,
-)
 
 val EYES: List<Pair<String, Eyes>> = listOf(
     createOneEye(Size.Small),
@@ -39,7 +27,7 @@ fun main() {
     renderCharacterTable(
         "hair-short.svg",
         CHARACTER_CONFIG,
-        addNames(HAIR_STYLES),
+        addNames(ShortHairStyle.entries),
         EYES,
         false,
     ) { distance, eyes, style ->

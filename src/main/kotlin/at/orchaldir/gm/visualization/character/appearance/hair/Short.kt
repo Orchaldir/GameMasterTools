@@ -9,20 +9,15 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.renderRoundedBuilder
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 
 fun visualizeShortHair(state: CharacterRenderState, hair: NormalHair, shortHair: ShortHairCut) {
     val config = state.config
     val options = FillAndBorder(hair.color.toRender(), config.line)
-    val hasHeadwear = state.hasEquipped(EquipmentSlot.HeadSlot)
 
     if (!state.renderFront) {
         when (shortHair.style) {
             Shaved -> return
-            Spiked -> if (!hasHeadwear) {
-                visualizeSpikedHair(state, options, FULL)
-            }
 
             else -> doNothing()
         }
@@ -49,10 +44,6 @@ fun visualizeShortHair(state: CharacterRenderState, hair: NormalHair, shortHair:
             options,
             config.head.hair.sidePartX
         )
-
-        Spiked -> if (!hasHeadwear) {
-            visualizeSpikedHair(state, options, state.config.head.hairlineY)
-        }
     }
 }
 
@@ -113,40 +104,4 @@ private fun visualizeRectangleHair(
         .build()
 
     renderRoundedPolygon(state.renderer.getLayer(), options, polygon.corners)
-}
-
-private fun visualizeSpikedHair(
-    state: CharacterRenderState,
-    options: FillAndBorder,
-    bottomY: Factor,
-) {
-    val config = state.config.head.hair
-    val (bottomLeft, bottomRight) = state.aabb.getMirroredPoints(config.width, bottomY)
-    val (topLeft, topRight) = state.aabb.getMirroredPoints(config.width, config.spikedY)
-    val points = mutableListOf<Point2d>()
-    val spikes = 6
-    val topPoints = SegmentSplitter
-        .fromStartAndEnd(topLeft, topRight, spikes)
-        .getCorners()
-    val down = Point2d(0.0f, state.aabb.convertHeight(config.spikedHeight).toMeters())
-    val builder = Polygon2dBuilder()
-
-    for (i in 0..<spikes) {
-        val spike = topPoints[i]
-        val nextSpike = topPoints[i + 1]
-        val middle = (spike + nextSpike) / 2.0f
-        val bottomBetweenSpikes = middle + down
-
-        builder
-            .addRightPoint(spike, true)
-            .addRightPoint(bottomBetweenSpikes, true)
-    }
-
-    builder
-        .addRightPoint(topRight, true)
-        .addRightPoint(bottomRight, true)
-        .addRightPoint(state.aabb, CENTER, state.config.head.hairlineY - Factor.fromNumber(0.05f))
-        .addLeftPoint(bottomLeft, true)
-
-    renderRoundedBuilder(state.renderer, builder, options, 0)
 }

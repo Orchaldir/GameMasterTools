@@ -8,5 +8,4 @@ enum class ShortHairStyle {
     Shaved,
     SidePartLeft,
     SidePartRight,
-    Spiked,
 }
