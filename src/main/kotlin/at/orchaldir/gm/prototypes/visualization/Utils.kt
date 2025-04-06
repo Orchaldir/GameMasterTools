@@ -1,6 +1,8 @@
 package at.orchaldir.gm.prototypes.visualization
 
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.HorizontalAlignment
+import at.orchaldir.gm.core.model.util.HorizontalAlignment.End
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Orientation
 import at.orchaldir.gm.utils.math.Point2d
@@ -60,8 +62,10 @@ fun <C, R> renderTable(
     val rowStep = Point2d(0.0f, renderSize.height)
     var startOfRow = Point2d()
     val textSize = renderSize.width / 10.0f
+    val halfTextSize = textSize / 2.0f
     val textOptions = RenderStringOptions(Color.Black.toRender(), textSize)
-    val columnTextOffset = Point2d(renderSize.width / 2.0f, textSize)
+    val verticalOptions = RenderStringOptions(Color.Black.toRender(), textSize, horizontalAlignment = End)
+    val columnTextOffset = Point2d(renderSize.width, halfTextSize)
     val columnOrientation = Orientation.zero()
     val rowOrientation = Orientation.fromDegree(270.0f)
     val layer = builder.getLayer(TEXT_LAYER)
@@ -82,12 +86,12 @@ fun <C, R> renderTable(
             }
 
             val textCenter = start + columnTextOffset
-            layer.renderString(columnName, textCenter, columnOrientation, textOptions)
+            layer.renderString(columnName, textCenter, columnOrientation, verticalOptions)
 
             start += columnStep
         }
 
-        val textCenter = Point2d(textSize, start.y + renderSize.height / 2.0f)
+        val textCenter = Point2d(halfTextSize, start.y + renderSize.height / 2.0f)
         layer.renderString(rowName, textCenter, rowOrientation, textOptions)
 
         if (backToo) {
