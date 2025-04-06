@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.character.appearance.horn.NoHorns
-import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
+import at.orchaldir.gm.core.model.character.appearance.mouth.FemaleMouth
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -31,7 +31,7 @@ private fun createAppearance(height: Distance, length: HairLength, style: LongHa
             TwoEyes(),
             NormalHair(LongHairCut(style, length), Color.SaddleBrown),
             NoHorns,
-            NormalMouth()
+            FemaleMouth()
         ),
         height,
     )

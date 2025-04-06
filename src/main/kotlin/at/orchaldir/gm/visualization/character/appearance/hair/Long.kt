@@ -28,9 +28,11 @@ private fun visualizeStraightHair(
     options: RenderOptions,
     height: Distance,
 ) {
-    val (left, right) = state.aabb.getMirroredPoints(state.config.head.hair.width, FULL)
+    val padding = state.config.head.hair.longPadding
+    val width = FULL + padding * 2.0f
+    val (left, right) = state.aabb.getMirroredPoints(width, FULL)
     val builder = Polygon2dBuilder()
-        .addMirroredPoints(state.aabb, state.config.head.hair.width, ZERO)
+        .addMirroredPoints(state.aabb, width, -padding)
         .addPoints(left.addHeight(height), right.addHeight(height))
 
     renderBuilder(state.renderer, builder, options, state.getLayerIndex(BEHIND_LAYER))
@@ -41,10 +43,12 @@ private fun visualizeU(
     options: RenderOptions,
     height: Distance,
 ) {
+    val padding = state.config.head.hair.longPadding
+    val width = FULL + padding * 2.0f
     val half = height / 2.0f
-    val (left, right) = state.aabb.getMirroredPoints(FULL, FULL)
+    val (left, right) = state.aabb.getMirroredPoints(width, FULL)
     val builder = Polygon2dBuilder()
-        .addMirroredPoints(state.aabb, state.config.head.hair.width, ZERO, true)
+        .addMirroredPoints(state.aabb, width, -padding, true)
         .addPoints(left.addHeight(half), right.addHeight(half))
         .addPoints(left.addHeight(height), right.addHeight(height))
 
