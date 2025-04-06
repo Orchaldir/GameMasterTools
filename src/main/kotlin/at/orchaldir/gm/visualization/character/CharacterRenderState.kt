@@ -18,13 +18,13 @@ data class CharacterRenderState(
     fun getBeardLayer() = getLayer(ABOVE_EQUIPMENT_LAYER)
     fun getTailLayer() = getLayer(-ABOVE_EQUIPMENT_LAYER)
 
-    fun getLayer(layer: Int) = renderer.getLayer(
-        if (renderFront) {
-            layer
-        } else {
-            -layer
-        }
-    )
+    fun getLayer(layer: Int) = renderer.getLayer(getLayerIndex(layer))
+
+    fun getLayerIndex(layer: Int) = if (renderFront) {
+        layer
+    } else {
+        -layer
+    }
 
     fun getSideOffset(offset: Factor) = if (renderFront) {
         offset

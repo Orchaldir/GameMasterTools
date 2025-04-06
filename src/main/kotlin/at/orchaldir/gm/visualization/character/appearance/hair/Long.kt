@@ -2,16 +2,14 @@ package at.orchaldir.gm.visualization.character.appearance.hair
 
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle.*
-import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.appearance.BEHIND_LAYER
+import at.orchaldir.gm.visualization.renderBuilder
 import at.orchaldir.gm.visualization.renderPolygon
-import at.orchaldir.gm.visualization.renderRoundedPolygon
 
 fun visualizeLongHair(state: CharacterRenderState, hair: NormalHair, longHair: LongHairCut) {
     val config = state.config
@@ -30,10 +28,9 @@ private fun visualizeStraightHair(
     height: Distance,
 ) {
     val (left, right) = state.aabb.getMirroredPoints(state.config.head.hair.width, FULL)
-    val polygon = Polygon2dBuilder()
+    val builder = Polygon2dBuilder()
         .addMirroredPoints(state.aabb, state.config.head.hair.width, ZERO)
         .addPoints(left.addHeight(height), right.addHeight(height))
-        .build()
 
-    renderPolygon(state.renderer, options, polygon.corners)
+    renderBuilder(state.renderer, builder, options, state.getLayerIndex(BEHIND_LAYER))
 }
