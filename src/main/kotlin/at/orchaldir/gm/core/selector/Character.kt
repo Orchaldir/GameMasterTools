@@ -246,13 +246,13 @@ fun scaleHeightByAge(race: Race, height: Distance, age: Int): Distance {
 fun State.getAppearanceForAge(character: Character): Appearance {
     val age = getAgeInYears(character)
     val race = getRaceStorage().getOrThrow(character.race)
-    val height = scaleHeightByAge(race, character.appearance.getSize(), age)
+    val height = scaleHeightByAge(race, character.appearance.getHeight(), age)
 
     return getAppearanceForAge(race, character.appearance, age, height)
 }
 
 fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int): Appearance {
-    val height = scaleHeightByAge(race, appearance.getSize(), age)
+    val height = scaleHeightByAge(race, appearance.getHeight(), age)
 
     return getAppearanceForAge(race, appearance, age, height)
 }

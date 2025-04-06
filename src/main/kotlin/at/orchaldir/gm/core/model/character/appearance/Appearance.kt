@@ -22,13 +22,13 @@ sealed class Appearance {
         else -> AppearanceType.Body
     }
 
-    fun getSize() = when (this) {
+    fun getHeight() = when (this) {
         is HeadOnly -> this.height
         is HumanoidBody -> this.height
         UndefinedAppearance -> Distance.fromMillimeters(1)
     }
 
-    fun getSize2d() = Size2d.square(getSize())
+    fun getSize2d() = Size2d.square(getHeight())
 
     fun with(size: Distance): Appearance = when (this) {
         is HeadOnly -> this.copy(height = size)

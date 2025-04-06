@@ -14,7 +14,7 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.PaddedSize
-import at.orchaldir.gm.visualization.character.appearance.calculateSize
+import at.orchaldir.gm.visualization.character.appearance.calculatePaddedSize
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 
 fun renderCharacterTable(
@@ -25,7 +25,7 @@ fun renderCharacterTable(
     val paddedSizeMap = mutableMapOf<Appearance, PaddedSize>()
     val size = appearances.fold(Size2d.square(0.001f)) { rowSize, list ->
         list.fold(rowSize) { columnSize, appearance ->
-            val paddedSize = calculateSize(config, appearance)
+            val paddedSize = calculatePaddedSize(config, appearance)
             paddedSizeMap[appearance] = paddedSize
             columnSize.max(paddedSize.getFullSize())
         }
@@ -44,7 +44,7 @@ fun renderCharacterTable(
     appearance: Appearance,
     equipmentTable: List<List<EquipmentData>>,
 ) {
-    val paddedSize = calculateSize(config, appearance)
+    val paddedSize = calculatePaddedSize(config, appearance)
 
     renderTable(filename, paddedSize.getFullSize(), equipmentTable) { aabb, renderer, equipment ->
         val state = CharacterRenderState(aabb, config, renderer, true, listOf(equipment))
@@ -68,7 +68,7 @@ fun <C, R> renderCharacterTable(
     rows.forEach { (_, row) ->
         columns.forEach { (_, column) ->
             val data = create(height, column, row)
-            val paddedSize = calculateSize(config, data.first)
+            val paddedSize = calculatePaddedSize(config, data.first)
             val size = paddedSize.getFullSize()
 
             dataMap[Pair(row, column)] = Triple(data.first, data.second, paddedSize)

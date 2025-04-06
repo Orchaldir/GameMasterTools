@@ -46,7 +46,7 @@ class PaddedSize(
     fun getFullAABB() = AABB(getFullSize())
 }
 
-fun calculateSize(config: CharacterRenderConfig, appearance: Appearance): PaddedSize {
+fun calculatePaddedSize(config: CharacterRenderConfig, appearance: Appearance): PaddedSize {
     val padded = when (appearance) {
         is HeadOnly -> {
             val padded = PaddedSize(Size2d.square(appearance.height))
