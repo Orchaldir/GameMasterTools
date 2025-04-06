@@ -1,9 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance.hair
 
-import at.orchaldir.gm.core.model.character.appearance.hair.LongHairCut
-import at.orchaldir.gm.core.model.character.appearance.hair.LongHairStyle
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
-import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairCut
+import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
 import at.orchaldir.gm.utils.doNothing
@@ -19,7 +16,7 @@ import at.orchaldir.gm.visualization.renderRoundedPolygon
 fun visualizeLongHair(state: CharacterRenderState, hair: NormalHair, longHair: LongHairCut) {
     val config = state.config
     val options = config.getLineOptions(hair.color)
-    val height = config.body.getDistanceFromNeckToBottom(state.aabb)
+    val height = config.body.getDistanceFromNeckToBottom(state.aabb) * config.head.hair.getLength(longHair.length)
 
     if (state.renderFront) {
         return

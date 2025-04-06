@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.SkinColor
+import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -154,6 +155,13 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(-20),
             fromPercentage(15),
             fromPercentage(105),
+            mapOf(
+                HairLength.Ankle to fromPercentage(95),
+                HairLength.Knee to fromPercentage(80),
+                HairLength.Classic to fromPercentage(60),
+                HairLength.Waist to fromPercentage(40),
+                HairLength.MidBack to fromPercentage(20),
+            ),
         ),
         fromPercentage(25),
         fromPercentage(20),

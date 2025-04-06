@@ -1,9 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance.hair
 
-import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
-import at.orchaldir.gm.core.model.character.appearance.NormalEars
+import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.character.appearance.horn.NoHorns
@@ -28,7 +25,7 @@ fun main() {
 
 private fun createAppearance(height: Distance, length: HairLength, style: LongHairStyle) =
     HumanoidBody(
-        Body(),
+        Body(BodyShape.Hourglass),
         Head(
             NormalEars(),
             TwoEyes(),
