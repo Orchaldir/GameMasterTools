@@ -62,27 +62,29 @@ private fun visualizeWavy(
 ) {
     val padding = state.config.head.hair.longPadding
     var isPositive = false
-    val (topLeft, topRight) = state.aabb.getMirroredPoints(FULL + padding * 2.0f, -padding)
-    val width = topRight - topLeft
-    val step = width / 5.0f
-    val bottomLeft = state.aabb.getPoint(-padding, END).addHeight(height)
-    val bottomRight = bottomLeft + width
+    val topCenter = state.aabb.getPoint(CENTER, -padding)
+    val width = state.aabb.convertWidth(FULL + padding * 2.0f) / 2.0f
+    val step = width / 3.0f
+    val bottomCenter = state.aabb.getPoint(CENTER, END).addHeight(height)
     val segments = 2 * (height.toMeters() / state.aabb.size.height + 1.0f).roundToInt()
-    val splitter = SegmentSplitter.fromStartAndEnd(topLeft, bottomLeft, segments)
+    val splitter = SegmentSplitter.fromStartAndEnd(topCenter, bottomCenter, segments)
+    val orientation = Orientation.fromDegree(-90.0f)
     val builder = Polygon2dBuilder()
-        .addPoints(topLeft, topRight)
+        .addLeftAndRightPoint(topCenter, orientation, width)
 
     splitter.getCenters().forEach { center ->
-        if (isPositive) {
-            builder.addPoints(center, center + width)
+        builder.addLeftAndRightPoint(
+            center, orientation, if (isPositive) {
+                width
         } else {
-            builder.addPoints(center - step, center + step + width)
-        }
+                width + step
+            }
+        )
 
         isPositive = !isPositive
     }
 
-    builder.addPoints(bottomLeft, bottomRight, true)
+    builder.addLeftAndRightPoint(bottomCenter, orientation, width)
 
     renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(BEHIND_LAYER))
 }

@@ -30,11 +30,13 @@ data class Polygon2dBuilder(
         center: Point2d,
         orientation: Orientation,
         halfWidth: Distance,
-    ) {
+    ): Polygon2dBuilder {
         val right = center.createPolar(halfWidth, orientation - QUARTER_CIRCLE)
         val left = center.createPolar(halfWidth, orientation + QUARTER_CIRCLE)
 
         addPoints(left, right)
+
+        return this
     }
 
     fun addPoints(left: Point2d, right: Point2d, isSharp: Boolean = false): Polygon2dBuilder {
