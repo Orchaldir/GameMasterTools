@@ -130,10 +130,13 @@ private fun visualizeRectangleHair(
     topY: Factor,
     topWidth: Factor = FULL,
 ) {
-    val (bottomLeft, bottomRight) = state.aabb.getMirroredPoints(width, state.config.head.hairlineY)
-    val (topLeft, topRight) = state.aabb.getMirroredPoints(width * topWidth, topY)
+    val polygon = Polygon2dBuilder()
+        .addMirroredPoints(state.aabb, width * topWidth, topY, true)
+        .addMirroredPoints(state.aabb, width, state.config.head.hairlineY, true)
+        .addLeftPoint(state.aabb, CENTER, state.config.head.hairlineY - Factor.fromNumber(0.05f))
+        .build()
 
-    renderPolygon(state.renderer.getLayer(), options, listOf(bottomLeft, bottomRight, topRight, topLeft))
+    renderRoundedPolygon(state.renderer.getLayer(), options, polygon.corners)
 }
 
 private fun visualizeSpikedHair(
