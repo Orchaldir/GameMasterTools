@@ -8,7 +8,6 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.BEHIND_LAYER
-import at.orchaldir.gm.visualization.renderBuilder
 import at.orchaldir.gm.visualization.renderRoundedBuilder
 import kotlin.math.roundToInt
 

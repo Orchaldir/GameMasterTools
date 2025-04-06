@@ -30,7 +30,6 @@ fun visualizeShortHair(state: CharacterRenderState, hair: NormalHair, shortHair:
     when (shortHair.style) {
         BowlCut -> visualizeRectangleHair(state, options, config.head.hair.width, START)
         BuzzCut -> visualizeRectangleHair(state, options, FULL, START)
-        FlatTop -> visualizeFlatTop(state, options, config)
         MiddlePart -> visualizeMiddlePart(state, options, CENTER)
         Shaved -> doNothing()
         SidePartLeft -> visualizeMiddlePart(
@@ -45,18 +44,6 @@ fun visualizeShortHair(state: CharacterRenderState, hair: NormalHair, shortHair:
             config.head.hair.sidePartX
         )
     }
-}
-
-private fun visualizeFlatTop(
-    state: CharacterRenderState,
-    options: FillAndBorder,
-    config: CharacterRenderConfig,
-) {
-    if (state.hasEquipped(EquipmentSlot.HeadSlot)) {
-        return
-    }
-
-    visualizeRectangleHair(state, options, FULL, config.head.hair.flatTopY)
 }
 
 private fun visualizeMiddlePart(
