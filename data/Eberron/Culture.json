@@ -41,13 +41,6 @@
      "Pyramid": "Common",
      "Toothbrush": "Common",
      "Walrus": "Common"
-    },
-    "shortHairStyles": {
-     "BuzzCut": "Common",
-     "MiddlePart": "Common",
-     "Shaved": "Common",
-     "SidePartLeft": "Common",
-     "SidePartRight": "Common"
     }
    },
    "holidays": [
