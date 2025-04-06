@@ -185,16 +185,30 @@ private fun FORM.editNormalHair(
     selectColor("Color", combine(HAIR, COLOR), raceAppearance.hair.colors, hair.color)
 
     when (hair.cut) {
-        is ShortHairCut -> {
-            selectOneOf(
+        is ShortHairCut -> selectOneOf(
                 "Short Hair Style",
                 combine(SHORT, STYLE),
                 culture.appearanceStyle.shortHairStyles,
                 hair.cut.style,
                 true,
             )
+
+        is LongHairCut -> {
+            selectOneOf(
+                "Long Hair Style",
+                combine(LONG, STYLE),
+                culture.appearanceStyle.longHairStyles,
+                hair.cut.style,
+                true,
+            )
+            selectOneOf(
+                "Length",
+                combine(HAIR, LENGTH),
+                culture.appearanceStyle.hairLengths,
+                hair.cut.length,
+                true,
+            )
         }
-        is LongHairCut -> doNothing()
     }
 }
 
@@ -372,10 +386,23 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
                             combine(SHORT, STYLE),
                             config,
                             config.appearanceStyle.shortHairStyles,
-                        )
+                        ),
                     )
 
-                    else -> generateHairCut(config)
+                    else -> LongHairCut(
+                        parseAppearanceOption(
+                            parameters,
+                            combine(LONG, STYLE),
+                            config,
+                            config.appearanceStyle.longHairStyles,
+                        ),
+                        parseAppearanceOption(
+                            parameters,
+                            combine(HAIR, LENGTH),
+                            config,
+                            config.appearanceStyle.hairLengths,
+                        ),
+                    )
                 },
                 parseAppearanceColor(parameters, HAIR, config, config.appearanceOptions.hair.colors),
             )
