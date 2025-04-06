@@ -32,8 +32,9 @@
      },
      "hair": {
       "type": "Normal",
-      "style": {
-       "type": "BuzzCut"
+      "cut": {
+       "type": "Short",
+       "style": "BuzzCut"
       },
       "color": "Black"
      },
@@ -106,8 +107,9 @@
      },
      "hair": {
       "type": "Normal",
-      "style": {
-       "type": "MiddlePart"
+      "cut": {
+       "type": "Short",
+       "style": "MiddlePart"
       },
       "color": "SaddleBrown"
      },
@@ -190,8 +192,9 @@
      },
      "hair": {
       "type": "Normal",
-      "style": {
-       "type": "MiddlePart"
+      "cut": {
+       "type": "Short",
+       "style": "MiddlePart"
       },
       "color": "Red"
      },
@@ -325,8 +328,9 @@
      },
      "hair": {
       "type": "Normal",
-      "style": {
-       "type": "Shaved"
+      "cut": {
+       "type": "Short",
+       "style": "Shaved"
       },
       "color": "Black"
      },
@@ -408,9 +412,9 @@
      },
      "hair": {
       "type": "Normal",
-      "style": {
-       "type": "SidePart",
-       "side": "Right"
+      "cut": {
+       "type": "Short",
+       "style": "SidePartRight"
       },
       "color": "Green"
      },
@@ -521,8 +525,9 @@
      },
      "hair": {
       "type": "Normal",
-      "style": {
-       "type": "BuzzCut"
+      "cut": {
+       "type": "Short",
+       "style": "BuzzCut"
       },
       "color": "Green"
      },
@@ -681,9 +686,9 @@
      },
      "hair": {
       "type": "Normal",
-      "style": {
-       "type": "SidePart",
-       "side": "Right"
+      "cut": {
+       "type": "Short",
+       "style": "SidePartRight"
       },
       "color": "Maroon"
      },
@@ -857,8 +862,9 @@
      },
      "hair": {
       "type": "Normal",
-      "style": {
-       "type": "MiddlePart"
+      "cut": {
+       "type": "Short",
+       "style": "MiddlePart"
       },
       "color": "Black"
      },
