@@ -150,7 +150,7 @@ private fun visualizeSpikedHair(
         .getCorners()
     val down = Point2d(0.0f, state.aabb.convertHeight(state.config.head.hair.spikedHeight).toMeters())
 
-    for (i in 0..spikes) {
+    for (i in 0..<spikes) {
         val spike = topPoints[i]
         val nextSpike = topPoints[i + 1]
         val middle = (spike + nextSpike) / 2.0f
