@@ -13,7 +13,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.renderPolygon
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 
-private val HEAD_WIDTH = FULL
+private val HEAD_WIDTH = fromPercentage(105)
 
 data class HairConfig(
     val afroDiameter: Factor,
@@ -51,13 +51,9 @@ private fun visualizeNormalHair(state: CharacterRenderState, hair: NormalHair) {
     }
 
     when (hair.style) {
-        is BuzzCut ->
-            visualizeRectangleHair(state, options, HEAD_WIDTH, START)
-
+        is BuzzCut -> visualizeRectangleHair(state, options, FULL, START)
         is FlatTop -> visualizeFlatTop(state, options, config)
-
         is MiddlePart -> visualizeMiddlePart(state, options, CENTER)
-
         ShavedHair -> doNothing()
 
         is SidePart -> when (hair.style.side) {
@@ -89,7 +85,7 @@ private fun visualizeFlatTop(
         return
     }
 
-    visualizeRectangleHair(state, options, HEAD_WIDTH, config.head.hair.flatTopY, fromPercentage(110))
+    visualizeRectangleHair(state, options, FULL, config.head.hair.flatTopY)
 }
 
 private fun visualizeMiddlePart(
