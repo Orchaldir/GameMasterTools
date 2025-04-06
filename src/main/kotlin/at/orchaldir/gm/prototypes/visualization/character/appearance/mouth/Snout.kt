@@ -1,42 +1,36 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance.mouth
 
-import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.ExoticSkin
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
-import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
-import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.Snout
 import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.character.EYES
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
+import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
-    val appearances = mutableListOf<List<Appearance>>()
-
-    SnoutShape.entries.forEach { shape ->
-        appearances.add(createRow(shape))
+    renderCharacterTable(
+        "snouts.svg",
+        CHARACTER_CONFIG,
+        addNames(SnoutShape.entries),
+        EYES,
+        false,
+    ) { distance, eyes, shape ->
+        Pair(createAppearance(distance, eyes, shape), emptyList())
     }
-
-    renderCharacterTable("snouts.svg", CHARACTER_CONFIG, appearances)
 }
 
-
-private fun createRow(shape: SnoutShape) =
-    listOf(OneEye(size = Size.Small), OneEye(size = Size.Medium), OneEye(size = Size.Large), TwoEyes())
-        .map { createAppearance(shape, it) }
-
-
-private fun createAppearance(shape: SnoutShape, eyes: Eyes) =
+private fun createAppearance(height: Distance, eyes: Eyes, shape: SnoutShape) =
     HeadOnly(
         Head(
             eyes = eyes,
             mouth = Snout(shape, Color.Pink),
         ),
-        fromMillimeters(1000),
+        height,
         ExoticSkin(),
     )

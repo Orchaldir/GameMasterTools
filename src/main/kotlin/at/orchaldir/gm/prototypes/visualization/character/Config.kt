@@ -1,9 +1,13 @@
 package at.orchaldir.gm.prototypes.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.SkinColor
+import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
+import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
+import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import at.orchaldir.gm.utils.math.Orientation.Companion.fromDegree
@@ -189,6 +193,15 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         SkinColor.VeryDark to RGB(58, 26, 13),
     )
 )
+
+val EYES: List<Pair<String, Eyes>> = listOf(
+    createOneEye(Size.Small),
+    createOneEye(Size.Medium),
+    createOneEye(Size.Large),
+    Pair("Two", TwoEyes()),
+)
+
+private fun createOneEye(size: Size) = Pair("One $size", OneEye(size = size))
 
 private fun complexHorn(position: HornPosition, degree: Float, shape: HornShape, width: Int) = ComplexHorn(
     fromPercentage(100),
