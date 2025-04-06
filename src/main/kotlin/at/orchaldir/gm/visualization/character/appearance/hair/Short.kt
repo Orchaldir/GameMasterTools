@@ -72,7 +72,7 @@ private fun visualizeMiddlePart(
     val topCenter = aabb.getPoint(x, START)
 
     renderRoundedPolygon(
-        state.renderer.getLayer(),
+        state.renderer,
         options,
         listOf(
             topLeft,
@@ -103,5 +103,5 @@ private fun visualizeRectangleHair(
         .addLeftPoint(state.aabb, CENTER, state.config.head.hairlineY - Factor.fromNumber(0.05f))
         .build()
 
-    renderRoundedPolygon(state.renderer.getLayer(), options, polygon.corners)
+    renderRoundedPolygon(state.renderer, options, polygon.corners)
 }

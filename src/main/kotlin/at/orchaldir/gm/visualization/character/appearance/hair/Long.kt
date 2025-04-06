@@ -18,10 +18,6 @@ fun visualizeLongHair(state: CharacterRenderState, hair: NormalHair, longHair: L
     val options = config.getLineOptions(hair.color)
     val height = config.body.getDistanceFromNeckToBottom(state.aabb) * config.head.hair.getLength(longHair.length)
 
-    if (state.renderFront) {
-        return
-    }
-
     when (longHair.style) {
         LongHairStyle.Straight -> visualizeStraightHair(state, options, height)
         LongHairStyle.Wavy -> doNothing()
@@ -39,5 +35,5 @@ private fun visualizeStraightHair(
         .addPoints(left.addHeight(height), right.addHeight(height))
         .build()
 
-    renderPolygon(state.renderer.getLayer(), options, polygon.corners)
+    renderPolygon(state.renderer, options, polygon.corners)
 }

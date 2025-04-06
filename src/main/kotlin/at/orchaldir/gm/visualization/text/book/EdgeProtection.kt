@@ -63,7 +63,7 @@ private fun visualizeProtectedEdge(
     val innerBottomRight = bottomRight.minusHeight(width).minusWidth(width)
 
     renderPolygon(
-        state.renderer.getLayer(),
+        state.renderer,
         options,
         listOf(
             topLeft,
