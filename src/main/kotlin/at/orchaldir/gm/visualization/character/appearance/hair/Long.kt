@@ -65,13 +65,13 @@ private fun visualizeWavy(
     val segments = 2 * (height.toMeters() / state.aabb.size.height + 1.0f).roundToInt()
     val splitter = SegmentSplitter.fromStartAndEnd(topLeft, bottomLeft, segments)
     val builder = Polygon2dBuilder()
-        .addPoints(topLeft, topRight, true)
+        .addPoints(topLeft, topRight)
 
     splitter.getCenters().forEach { center ->
         if (isPositive) {
-            builder.addLeftPoint(center + step)
+            builder.addPoints(center + step, center - step + width)
         } else {
-            builder.addLeftPoint(center - step)
+            builder.addPoints(center - step, center + step + width)
         }
 
         isPositive = !isPositive
