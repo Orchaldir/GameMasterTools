@@ -186,12 +186,12 @@ private fun FORM.editNormalHair(
 
     when (hair.cut) {
         is ShortHairCut -> selectOneOf(
-                "Short Hair Style",
-                combine(SHORT, STYLE),
-                culture.appearanceStyle.shortHairStyles,
-                hair.cut.style,
-                true,
-            )
+            "Short Hair Style",
+            combine(SHORT, STYLE),
+            culture.appearanceStyle.shortHairStyles,
+            hair.cut.style,
+            true,
+        )
 
         is LongHairCut -> {
             selectOneOf(

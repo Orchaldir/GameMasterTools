@@ -190,10 +190,10 @@ fun <T> HtmlBlockTag.showGenderMap(
         map.getMap()
             .filterValues { it != null }
             .forEach { (key, value) ->
-            li {
-                content(key, value)
+                li {
+                    content(key, value)
+                }
             }
-        }
     }
 }
 
