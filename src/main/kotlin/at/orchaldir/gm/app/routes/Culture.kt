@@ -307,6 +307,7 @@ private fun BODY.showAppearanceOptions(culture: Culture) {
     showRarityMap("Goatee Styles", appearanceStyle.goateeStyles)
     showRarityMap("Moustache Styles", appearanceStyle.moustacheStyles)
     showRarityMap("Hair Styles", appearanceStyle.hairStyles)
+    showRarityMap("Short Hair Styles", appearanceStyle.shortHairStyles)
     showRarityMap("Lip Colors", appearanceStyle.lipColors)
 }
 
@@ -454,6 +455,7 @@ private fun FORM.editAppearanceOptions(culture: Culture) {
     selectRarityMap("Goatee Styles", GOATEE_STYLE, culture.appearanceStyle.goateeStyles)
     selectRarityMap("Moustache Styles", MOUSTACHE_STYLE, culture.appearanceStyle.moustacheStyles)
     selectRarityMap("Hair Styles", combine(HAIR, STYLE), culture.appearanceStyle.hairStyles)
+    selectRarityMap("Short Hair Styles", combine(SHORT, HAIR, STYLE), culture.appearanceStyle.shortHairStyles)
     selectRarityMap("Lip Colors", LIP_COLORS, culture.appearanceStyle.lipColors)
 }
 

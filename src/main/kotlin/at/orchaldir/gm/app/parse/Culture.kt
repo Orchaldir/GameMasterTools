@@ -7,7 +7,8 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle
-import at.orchaldir.gm.core.model.character.appearance.hair.HairStyleType
+import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
+import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
@@ -38,7 +39,8 @@ fun parseCulture(
             parseOneOf(parameters, combine(BEARD, STYLE), BeardStyleType::valueOf),
             parseOneOf(parameters, GOATEE_STYLE, GoateeStyle::valueOf),
             parseOneOf(parameters, MOUSTACHE_STYLE, MoustacheStyle::valueOf),
-            parseOneOf(parameters, combine(HAIR, STYLE), HairStyleType::valueOf),
+            parseOneOf(parameters, combine(HAIR, STYLE), HairStyle::valueOf),
+            parseOneOf(parameters, combine(SHORT, HAIR, STYLE), ShortHairStyle::valueOf),
             parseOneOf(parameters, LIP_COLORS, Color::valueOf),
         ),
         parseClothingStyles(parameters),

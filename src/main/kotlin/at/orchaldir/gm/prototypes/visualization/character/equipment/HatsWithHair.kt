@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
+import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairCut
+import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle
 import at.orchaldir.gm.core.model.item.equipment.Hat
 import at.orchaldir.gm.core.model.item.equipment.style.HatStyle
 import at.orchaldir.gm.core.model.util.Color.SaddleBrown
@@ -28,8 +30,8 @@ fun main() {
     }
 }
 
-private fun createAppearance(distance: Distance, style: HairStyle) =
+private fun createAppearance(distance: Distance, style: ShortHairStyle) =
     HeadOnly(
-        Head(ears = NormalEars(), eyes = TwoEyes(), hair = NormalHair(style, Yellow)),
+        Head(ears = NormalEars(), eyes = TwoEyes(), hair = NormalHair(ShortHairCut(style), Yellow)),
         distance,
     )

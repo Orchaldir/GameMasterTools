@@ -5,24 +5,24 @@ import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
 import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle.*
 import at.orchaldir.gm.core.model.character.appearance.horn.NoHorns
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.util.Color
-import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.unit.Distance
 
-val HAIR_STYLES: List<HairStyle> = listOf(
+val HAIR_STYLES: List<ShortHairStyle> = listOf(
     BowlCut,
     BuzzCut,
     FlatTop,
     MiddlePart,
-    ShavedHair,
-    SidePart(Side.Left),
-    SidePart(Side.Right),
+    Shaved,
+    SidePartLeft,
+    SidePartRight,
     Spiked,
 )
 
@@ -45,8 +45,8 @@ fun main() {
     }
 }
 
-private fun createAppearance(height: Distance, eyes: Eyes, style: HairStyle) =
+private fun createAppearance(height: Distance, eyes: Eyes, style: ShortHairStyle) =
     HeadOnly(
-        Head(NormalEars(), eyes, NormalHair(style, Color.SaddleBrown), NoHorns, NormalMouth()),
+        Head(NormalEars(), eyes, NormalHair(ShortHairCut(style), Color.SaddleBrown), NoHorns, NormalMouth()),
         height,
     )

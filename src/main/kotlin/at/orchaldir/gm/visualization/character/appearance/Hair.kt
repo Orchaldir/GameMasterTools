@@ -2,8 +2,8 @@ package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
-import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
@@ -29,13 +29,19 @@ fun visualizeHair(state: CharacterRenderState, head: Head) {
 }
 
 private fun visualizeNormalHair(state: CharacterRenderState, hair: NormalHair) {
+    when (hair.cut) {
+        is ShortHairCut -> visualizeShortHair(state, hair, hair.cut)
+    }
+}
+
+private fun visualizeShortHair(state: CharacterRenderState, hair: NormalHair, shortHair: ShortHairCut) {
     val config = state.config
     val options = FillAndBorder(hair.color.toRender(), config.line)
     val hasHeadwear = state.hasEquipped(EquipmentSlot.HeadSlot)
 
     if (!state.renderFront) {
-        when (hair.style) {
-            ShavedHair -> return
+        when (shortHair.style) {
+            Shaved -> return
             Spiked -> if (!hasHeadwear) {
                 visualizeSpikedHair(state, options, FULL)
             }
@@ -48,28 +54,25 @@ private fun visualizeNormalHair(state: CharacterRenderState, hair: NormalHair) {
         return
     }
 
-    when (hair.style) {
-        is BowlCut -> visualizeRectangleHair(state, options, config.head.hair.width, START)
-        is BuzzCut -> visualizeRectangleHair(state, options, FULL, START)
-        is FlatTop -> visualizeFlatTop(state, options, config)
-        is MiddlePart -> visualizeMiddlePart(state, options, CENTER)
-        ShavedHair -> doNothing()
+    when (shortHair.style) {
+        BowlCut -> visualizeRectangleHair(state, options, config.head.hair.width, START)
+        BuzzCut -> visualizeRectangleHair(state, options, FULL, START)
+        FlatTop -> visualizeFlatTop(state, options, config)
+        MiddlePart -> visualizeMiddlePart(state, options, CENTER)
+        Shaved -> doNothing()
+        SidePartLeft -> visualizeMiddlePart(
+            state,
+            options,
+            END - config.head.hair.sidePartX
+        )
 
-        is SidePart -> when (hair.style.side) {
-            Side.Left -> visualizeMiddlePart(
-                state,
-                options,
-                END - config.head.hair.sidePartX
-            )
+        SidePartRight -> visualizeMiddlePart(
+            state,
+            options,
+            config.head.hair.sidePartX
+        )
 
-            Side.Right -> visualizeMiddlePart(
-                state,
-                options,
-                config.head.hair.sidePartX
-            )
-        }
-
-        is Spiked -> if (!hasHeadwear) {
+        Spiked -> if (!hasHeadwear) {
             visualizeSpikedHair(state, options, state.config.head.hairlineY)
         }
     }
