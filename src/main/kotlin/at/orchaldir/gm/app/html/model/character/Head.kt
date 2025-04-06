@@ -194,6 +194,7 @@ private fun FORM.editNormalHair(
                 true,
             )
         }
+        is LongHairCut -> doNothing()
     }
 }
 
