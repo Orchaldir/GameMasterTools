@@ -14,6 +14,7 @@ data class HairConfig(
     val spikedY: Factor,
     val spikedHeight: Factor,
     val width: Factor,
+    val longPadding: Factor,
     private val lengthMap: Map<HairLength, Factor>,
 ) {
     fun getLength(length: HairLength) = lengthMap.getOrDefault(length, FULL)

@@ -155,6 +155,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(-20),
             fromPercentage(15),
             fromPercentage(105),
+            fromPercentage(10),
             mapOf(
                 HairLength.Ankle to fromPercentage(95),
                 HairLength.Knee to fromPercentage(80),

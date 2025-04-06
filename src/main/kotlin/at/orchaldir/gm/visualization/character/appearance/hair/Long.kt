@@ -56,11 +56,12 @@ private fun visualizeWavy(
     options: RenderOptions,
     height: Distance,
 ) {
-    val width = Point2d(state.aabb.size.width, 0.0f)
-    val step = width / 5.0f
+    val padding = state.config.head.hair.longPadding
     var isPositive = false
-    val (topLeft, topRight) = state.aabb.getMirroredPoints(FULL, START)
-    val bottomLeft = state.aabb.getPoint(START, END).addHeight(height)
+    val (topLeft, topRight) = state.aabb.getMirroredPoints(FULL + padding * 2.0f, -padding)
+    val width = topRight - topLeft
+    val step = width / 5.0f
+    val bottomLeft = state.aabb.getPoint(-padding, END).addHeight(height)
     val bottomRight = bottomLeft + width
     val segments = 2 * (height.toMeters() / state.aabb.size.height + 1.0f).roundToInt()
     val splitter = SegmentSplitter.fromStartAndEnd(topLeft, bottomLeft, segments)
