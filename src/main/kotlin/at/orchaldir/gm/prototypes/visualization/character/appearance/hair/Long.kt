@@ -26,21 +26,21 @@ fun main() {
     renderCharacterTable(
         "hair-long.svg",
         CHARACTER_CONFIG,
-        addNames(HairLength.entries),
-        addNames(styles),
+        addNames(LongHairStyle.entries),
+        addNames(LongHairShape.entries),
         true,
-    ) { distance, (shape, style), length ->
-        Pair(createAppearance(distance, length, shape, style), emptyList())
+    ) { distance, shape, style ->
+        Pair(createAppearance(distance, shape, style), emptyList())
     }
 }
 
-private fun createAppearance(height: Distance, length: HairLength, shape: LongHairShape, style: LongHairStyle) =
+private fun createAppearance(height: Distance, shape: LongHairShape, style: LongHairStyle) =
     HumanoidBody(
         Body(),
         Head(
             NormalEars(),
             TwoEyes(),
-            NormalHair(LongHairCut(style, shape, length), Color.SaddleBrown),
+            NormalHair(LongHairCut(style, shape, HairLength.Classic), Color.SaddleBrown),
             NoHorns,
             NormalMouth()
         ),
