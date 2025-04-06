@@ -171,7 +171,10 @@ fun generateHair(config: AppearanceGeneratorConfig): Hair {
 fun generateHairCut(config: AppearanceGeneratorConfig): HairCut {
     return when (config.generate(config.appearanceStyle.hairStyles)) {
         HairStyle.Short -> ShortHairCut(config.generate(config.appearanceStyle.shortHairStyles))
-        HairStyle.Long -> LongHairCut(LongHairStyle.Straight)
+        HairStyle.Long -> LongHairCut(
+            config.generate(config.appearanceStyle.longHairStyles),
+            config.generate(config.appearanceStyle.hairLengths),
+        )
     }
 }
 
