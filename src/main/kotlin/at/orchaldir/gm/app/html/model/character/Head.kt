@@ -138,12 +138,7 @@ private fun FORM.editEye(
     selectOneOf("Eye Type", combine(EYE, TYPE), eyeOptions.eyeTypes, eye.getType(), true)
 
     when (eye) {
-        is NormalEye -> {
-            selectOneOf("Eye Shape", combine(EYE, SHAPE), eyeOptions.eyeShapes, eye.eyeShape, true)
-            selectOneOf("Pupil Shape", combine(PUPIL, SHAPE), eyeOptions.pupilShapes, eye.pupilShape, true)
-            selectColor("Eye Color", combine(PUPIL, COLOR), eyeOptions.eyeColors, eye.pupilColor)
-            selectColor("Sclera Color", combine(PUPIL, SCLERA), eyeOptions.scleraColors, eye.scleraColor)
-        }
+        is NormalEye -> editNormalEye(eyeOptions, eye)
 
         is SimpleEye -> {
             selectOneOf("Eye Shape", combine(EYE, SHAPE), eyeOptions.eyeShapes, eye.eyeShape, true) { shape ->
@@ -153,6 +148,16 @@ private fun FORM.editEye(
             selectColor("Eye Color", combine(PUPIL, COLOR), eyeOptions.eyeColors, eye.color)
         }
     }
+}
+
+fun HtmlBlockTag.editNormalEye(
+    eyeOptions: EyeOptions,
+    eye: NormalEye,
+) {
+    selectOneOf("Eye Shape", combine(EYE, SHAPE), eyeOptions.eyeShapes, eye.eyeShape, true)
+    selectOneOf("Pupil Shape", combine(PUPIL, SHAPE), eyeOptions.pupilShapes, eye.pupilShape, true)
+    selectColor("Eye Color", combine(PUPIL, COLOR), eyeOptions.eyeColors, eye.pupilColor)
+    selectColor("Sclera Color", combine(PUPIL, SCLERA), eyeOptions.scleraColors, eye.scleraColor)
 }
 
 private fun FORM.editHair(
