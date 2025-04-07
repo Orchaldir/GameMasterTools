@@ -74,50 +74,57 @@ fun visualizeEyes(state: CharacterRenderState, head: Head) {
     }
 }
 
-private fun visualizeEye(state: CharacterRenderState, center: Point2d, size: Size2d, eye: Eye) {
+fun visualizeEye(state: CharacterRenderState, center: Point2d, eye: Eye, layer: Int) {
+    val size = state.config.head.eyes.getEyeSize(state.aabb, eye.getShape(), Size.Small)
     val eyeAabb = AABB.fromCenter(center, size)
 
-    visualizeEye(state.copy(aabb = eyeAabb), eye)
+    visualizeEye(state.copy(aabb = eyeAabb), eye, layer)
 }
 
-private fun visualizeEye(state: CharacterRenderState, eye: Eye) {
+private fun visualizeEye(state: CharacterRenderState, center: Point2d, size: Size2d, eye: Eye, layer: Int = 0) {
+    val eyeAabb = AABB.fromCenter(center, size)
+
+    visualizeEye(state.copy(aabb = eyeAabb), eye, layer)
+}
+
+private fun visualizeEye(state: CharacterRenderState, eye: Eye, layer: Int) {
     when (eye) {
         is NormalEye -> {
-            visualizeEyeShape(state, eye.eyeShape, eye.scleraColor)
-            visualizePupil(state, eye.pupilShape, eye.pupilColor)
+            visualizeEyeShape(state, eye.eyeShape, eye.scleraColor, layer)
+            visualizePupil(state, eye.pupilShape, eye.pupilColor, layer)
         }
 
-        is SimpleEye -> visualizeEyeShape(state, eye.eyeShape, eye.color)
+        is SimpleEye -> visualizeEyeShape(state, eye.eyeShape, eye.color, layer)
     }
 }
 
-private fun visualizeEyeShape(state: CharacterRenderState, eyeShape: EyeShape, color: Color) {
+private fun visualizeEyeShape(state: CharacterRenderState, eyeShape: EyeShape, color: Color, layer: Int) {
     val options = NoBorder(color.toRender())
-    val layer = state.renderer.getLayer()
+    val renderer = state.renderer.getLayer(layer)
 
     when (eyeShape) {
-        EyeShape.Almond -> layer.renderPointedOval(state.aabb, options)
-        EyeShape.Circle -> layer.renderCircle(state.aabb, options)
-        EyeShape.Ellipse -> layer.renderEllipse(state.aabb, options)
+        EyeShape.Almond -> renderer.renderPointedOval(state.aabb, options)
+        EyeShape.Circle -> renderer.renderCircle(state.aabb, options)
+        EyeShape.Ellipse -> renderer.renderEllipse(state.aabb, options)
     }
 }
 
-private fun visualizePupil(state: CharacterRenderState, pupilShape: PupilShape, color: Color) {
+private fun visualizePupil(state: CharacterRenderState, pupilShape: PupilShape, color: Color, layer: Int) {
     val options = NoBorder(color.toRender())
     val aabb = state.aabb
     val slitWidth = aabb.size.width * state.config.head.eyes.slitFactor.toNumber()
-    val layer = state.renderer.getLayer()
+    val renderer = state.renderer.getLayer(layer)
 
     when (pupilShape) {
-        PupilShape.Circle -> layer.renderCircle(aabb.shrink(state.config.head.eyes.pupilFactor), options)
+        PupilShape.Circle -> renderer.renderCircle(aabb.shrink(state.config.head.eyes.pupilFactor), options)
         PupilShape.HorizontalSlit -> {
             val slitAABB = AABB.fromCenter(aabb.getCenter(), Size2d(aabb.size.width, slitWidth))
-            layer.renderPointedOval(slitAABB, options)
+            renderer.renderPointedOval(slitAABB, options)
         }
 
         PupilShape.VerticalSlit -> {
             val slitAABB = AABB.fromCenter(aabb.getCenter(), Size2d(slitWidth, aabb.size.height))
-            layer.renderPointedOval(slitAABB, options)
+            renderer.renderPointedOval(slitAABB, options)
         }
     }
 }

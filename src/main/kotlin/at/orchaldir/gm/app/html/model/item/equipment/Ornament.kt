@@ -12,18 +12,17 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Color
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.BODY
-import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun BODY.showOrnament(
+fun HtmlBlockTag.showOrnament(
     call: ApplicationCall,
     state: State,
     ornament: Ornament,
     label: String = "Ornament",
 ) {
-    showDetails(label, true) {
+    showDetails(label) {
         field("Type", ornament.getType())
 
         when (ornament) {
@@ -43,7 +42,7 @@ fun BODY.showOrnament(
 
 // edit
 
-fun FORM.editOrnament(
+fun HtmlBlockTag.editOrnament(
     state: State,
     ornament: Ornament,
     param: String = ORNAMENT,

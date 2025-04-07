@@ -245,6 +245,7 @@ private fun BODY.visualizeItem(template: Equipment) {
 
 private fun requiresBody(template: Equipment) = when (template.data.getType()) {
     EquipmentDataType.Earring -> false
+    EquipmentDataType.EyePatch -> false
     EquipmentDataType.Glasses -> false
     EquipmentDataType.Hat -> false
     else -> true

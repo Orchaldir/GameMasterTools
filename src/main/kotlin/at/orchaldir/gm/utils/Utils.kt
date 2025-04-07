@@ -16,3 +16,15 @@ fun <T> List<T>.update(items: Map<Int, T>): List<T> {
 
     return newList
 }
+
+fun <T, U> List<T>.combine(other: List<U>): List<Pair<T, U>> {
+    val newList: MutableList<Pair<T, U>> = mutableListOf()
+
+    this.forEach { a ->
+        other.forEach { b ->
+            newList.add(Pair(a, b))
+        }
+    }
+
+    return newList
+}

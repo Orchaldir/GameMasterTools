@@ -28,7 +28,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-fun Application.configureEquipmentRouting() {
+fun Application.configureCharacterEquipmentRouting() {
     routing {
         get<CharacterRoutes.Equipment.Edit> { edit ->
             logger.info { "Get editor for character ${edit.id.value}'s equipment" }

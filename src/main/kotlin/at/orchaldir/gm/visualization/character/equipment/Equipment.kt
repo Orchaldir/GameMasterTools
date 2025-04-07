@@ -12,6 +12,7 @@ data class EquipmentConfig(
     val belt: BeltConfig,
     val coat: CoatConfig,
     val earring: EarringConfig,
+    val eyePatch: EyePatchConfig,
     val footwear: FootwearConfig,
     val glasses: GlassesConfig,
     val hat: HatConfig,
@@ -50,6 +51,7 @@ fun visualizeHeadEquipment(
     state.equipped.forEach {
         when (it) {
             is Earring -> visualizeEarrings(state, head, it)
+            is EyePatch -> visualizeEyePatch(state, head, it)
             is Glasses -> visualizeGlasses(state, head, it)
             is Hat -> visualizeHat(state, it)
             else -> doNothing()

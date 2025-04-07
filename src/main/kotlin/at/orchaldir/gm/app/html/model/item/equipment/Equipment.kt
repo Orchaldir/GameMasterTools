@@ -64,6 +64,7 @@ private fun BODY.showEquipmentData(
         }
 
         is Earring -> showEarring(call, state, data)
+        is EyePatch -> showEyePatch(call, state, data)
 
         is Footwear -> {
             field("Style", data.style)
@@ -204,6 +205,7 @@ private fun FORM.editEquipmentData(
         }
 
         is Earring -> editEarring(state, data)
+        is EyePatch -> editEyePatch(state, data)
 
         is Footwear -> {
             selectValue("Style", FOOTWEAR, FootwearStyle.entries, data.style, true)
@@ -353,6 +355,7 @@ fun parseEquipmentData(parameters: Parameters) =
 
         EquipmentDataType.Dress -> parseDress(parameters)
         EquipmentDataType.Earring -> parseEarring(parameters)
+        EquipmentDataType.EyePatch -> parseEyePatch(parameters)
         EquipmentDataType.Footwear -> Footwear(
             parse(parameters, FOOTWEAR, FootwearStyle.Shoes),
             parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),

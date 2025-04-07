@@ -70,6 +70,27 @@
     }
    },
    "weight": 10
+  },
+  "4": {
+   "id": 4,
+   "name": "Eyepatch",
+   "data": {
+    "type": "EyePatch",
+    "style": {
+     "type": "Eye",
+     "eye": {
+      "eyeShape": "Almond",
+      "pupilShape": "VerticalSlit",
+      "pupilColor": "Yellow",
+      "scleraColor": "OrangeRed"
+     },
+     "shape": "Circle"
+    },
+    "fixation": {
+     "type": "OneBand"
+    }
+   },
+   "weight": 10
   }
  }
 }

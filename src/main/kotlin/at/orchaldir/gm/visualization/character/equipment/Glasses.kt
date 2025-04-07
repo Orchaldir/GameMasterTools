@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.*
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 
 data class GlassesConfig(
     val size: SizeConfig<Factor>,
@@ -43,8 +44,8 @@ fun visualizeGlasses(
     if (glasses.lensShape == LensShape.WarpAround) {
         visualizeWarpAround(state, options)
     } else {
-        visualizeLens(state, glasses, options, left)
-        visualizeLens(state, glasses, options, right)
+        visualizeLens(state, options, left, glasses.lensShape)
+        visualizeLens(state, options, right, glasses.lensShape)
         visualizeFrame(state, lineOptions)
     }
 }
@@ -66,39 +67,39 @@ fun visualizeWarpAround(
 
 fun visualizeLens(
     state: CharacterRenderState,
-    glasses: Glasses,
     renderOptions: RenderOptions,
     center: Point2d,
+    lensShape: LensShape,
 ) {
-    val glassesOptions = state.config.equipment.glasses
-    val renderer = state.renderer.getLayer()
+    val config = state.config.equipment.glasses
+    val renderer = state.renderer.getLayer(EQUIPMENT_LAYER)
 
-    when (glasses.lensShape) {
+    when (lensShape) {
         LensShape.Circle -> {
-            val radius = state.aabb.convertHeight(glassesOptions.size.medium) / 2.0f
+            val radius = state.aabb.convertHeight(config.size.medium) / 2.0f
             renderer.renderCircle(center, radius, renderOptions)
         }
 
         LensShape.Rectangle -> {
-            val polygon = createRectangleLens(state, glassesOptions, center)
+            val polygon = createRectangleLens(state, config, center)
 
             renderer.renderPolygon(polygon, renderOptions)
         }
 
         LensShape.RoundedRectangle -> {
-            val polygon = createRectangleLens(state, glassesOptions, center)
+            val polygon = createRectangleLens(state, config, center)
 
             renderer.renderRoundedPolygon(polygon, renderOptions)
         }
 
         LensShape.RoundedSquare -> {
-            val polygon = createSquareLens(state, glassesOptions, center)
+            val polygon = createSquareLens(state, config, center)
 
             renderer.renderRoundedPolygon(polygon, renderOptions)
         }
 
         LensShape.Square -> {
-            val polygon = createSquareLens(state, glassesOptions, center)
+            val polygon = createSquareLens(state, config, center)
 
             renderer.renderPolygon(polygon, renderOptions)
         }

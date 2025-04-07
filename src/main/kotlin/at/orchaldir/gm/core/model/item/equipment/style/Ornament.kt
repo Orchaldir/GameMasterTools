@@ -18,6 +18,11 @@ sealed class Ornament {
         is OrnamentWithBorder -> OrnamentType.Border
     }
 
+    fun getShapeFromSub() = when (this) {
+        is SimpleOrnament -> shape
+        is OrnamentWithBorder -> shape
+    }
+
     fun contains(id: MaterialId) = when (this) {
         is SimpleOrnament -> material == id
         is OrnamentWithBorder -> material == id || borderMaterial == id
