@@ -89,7 +89,6 @@ private fun visualizeFixationForTwoEyes(
     val renderer = state.renderer.getLayer(EQUIPMENT_LAYER)
     val offsetY = state.aabb.convertHeight(eyePatchConfig.fixationDeltaY) / 2.0f
 
-
     when (fixation) {
         NoFixation -> doNothing()
         is OneBand -> {
@@ -127,7 +126,6 @@ private fun visualizeFixationForTwoEyesAndBehind(
     val eyesConfig = state.config.head.eyes
     val eyePatchConfig = state.config.equipment.eyePatch
     val renderer = state.renderer.getLayer(EQUIPMENT_LAYER)
-    val xPair = Pair(START, END)
 
     when (fixation) {
         NoFixation, is TwoBands -> doNothing()

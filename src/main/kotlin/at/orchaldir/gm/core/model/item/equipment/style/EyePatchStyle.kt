@@ -41,7 +41,7 @@ data class SimpleEyePatch(
 ) : EyePatchStyle() {
 
     init {
-        require(shape != LensShape.WarpAround) { "EyePatch doesn't support WarpAround!" }
+        require(VALID_LENSES.contains(shape)) { "SimpleEyePatch has an invalid shape $shape!" }
     }
 }
 
