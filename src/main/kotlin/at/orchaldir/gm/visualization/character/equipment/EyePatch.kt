@@ -57,10 +57,11 @@ fun visualizeEyePatchForTwoEyes(
                 .getMirroredPoints(FULL, eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)
             val (bottomLeft, bottomRight) = state.aabb
                 .getMirroredPoints(FULL, eyesConfig.twoEyesY + eyePatchConfig.fixationDeltaY)
+            val offset = state.aabb.convertHeight(eyePatchConfig.fixationDeltaY) / 2.0f
             val options = eyePatchConfig.getFixationOptions(state.aabb, eyePatch.fixation.color, Size.Small)
 
-            renderer.renderLine(listOf(topLeft, center, topRight), options)
-            renderer.renderLine(listOf(bottomLeft, center, bottomRight), options)
+            renderer.renderLine(listOf(topLeft, center.minusHeight(offset), topRight), options)
+            renderer.renderLine(listOf(bottomLeft, center.addHeight(offset), bottomRight), options)
         }
     }
 
