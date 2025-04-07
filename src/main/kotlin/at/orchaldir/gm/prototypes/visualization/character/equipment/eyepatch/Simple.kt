@@ -32,7 +32,7 @@ fun main() {
         CHARACTER_CONFIG,
         addNames(VALID_LENSES),
         fixations,
-        false,
+        true,
     ) { distance, fixation, shape ->
         Pair(createAppearance(distance), listOf(EyePatch(SimpleEyePatch(shape, Color.Red), fixation)))
     }

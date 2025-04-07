@@ -26,11 +26,14 @@ fun visualizeEyePatch(
     head: Head,
     eyePatch: EyePatch,
 ) {
-    if (!state.renderFront) {
-        return
+    val side = Side.Right
+
+    if (state.renderFront) {
+        visualizeEyePatchForTwoEyes(state, side, eyePatch)
+    } else {
+        visualizeEyePatchForTwoEyesAndBehind(state, side, eyePatch)
     }
 
-    visualizeEyePatchForTwoEyes(state, Side.Right, eyePatch)
 }
 
 fun visualizeEyePatchForTwoEyes(
@@ -42,7 +45,7 @@ fun visualizeEyePatchForTwoEyes(
         .flip()
         .get(state.config.head.eyes.getTwoEyesCenter(state.aabb))
 
-    visualizeFixation(state, center, side, eyePatch.fixation)
+    visualizeFixationForTwoEyes(state, center, side, eyePatch.fixation)
 
     when (eyePatch.style) {
         is SimpleEyePatch -> {
@@ -54,7 +57,19 @@ fun visualizeEyePatchForTwoEyes(
     }
 }
 
-private fun visualizeFixation(
+fun visualizeEyePatchForTwoEyesAndBehind(
+    state: CharacterRenderState,
+    side: Side,
+    eyePatch: EyePatch,
+) {
+    val center = side
+        .flip()
+        .get(state.config.head.eyes.getTwoEyesCenter(state.aabb))
+
+    visualizeFixationForTwoEyes(state, center, side.flip(), eyePatch.fixation)
+}
+
+private fun visualizeFixationForTwoEyes(
     state: CharacterRenderState,
     center: Point2d,
     side: Side,
@@ -62,7 +77,7 @@ private fun visualizeFixation(
 ) {
     val eyesConfig = state.config.head.eyes
     val eyePatchConfig = state.config.equipment.eyePatch
-    val renderer = state.getLayer(EQUIPMENT_LAYER)
+    val renderer = state.renderer.getLayer(EQUIPMENT_LAYER)
     val offsetY = state.aabb.convertHeight(eyePatchConfig.fixationDeltaY) / 2.0f
     val xPair = Pair(START, END)
 
