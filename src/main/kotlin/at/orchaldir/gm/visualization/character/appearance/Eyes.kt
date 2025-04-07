@@ -74,6 +74,13 @@ fun visualizeEyes(state: CharacterRenderState, head: Head) {
     }
 }
 
+fun visualizeEye(state: CharacterRenderState, center: Point2d, eye: Eye) {
+    val size = state.config.head.eyes.getEyeSize(state.aabb, eye.getShape(), Size.Small)
+    val eyeAabb = AABB.fromCenter(center, size)
+
+    visualizeEye(state.copy(aabb = eyeAabb), eye)
+}
+
 private fun visualizeEye(state: CharacterRenderState, center: Point2d, size: Size2d, eye: Eye) {
     val eyeAabb = AABB.fromCenter(center, size)
 

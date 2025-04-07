@@ -14,6 +14,7 @@ import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.EyesConfig
+import at.orchaldir.gm.visualization.character.appearance.visualizeEye
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 
 private val xPair = Pair(START, END)
@@ -83,6 +84,7 @@ fun visualizeEyePatchForTwoEyes(
         is EyePatchWithEye -> {
             val options = state.config.getLineOptions(eyePatch.style.color)
             visualizeLens(state, options, center, eyePatch.style.shape)
+            visualizeEye(state, center, eyePatch.style.eye)
         }
     }
 }
