@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.SkinColor
+import at.orchaldir.gm.core.model.character.appearance.eye.Eye
 import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
 import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
@@ -71,6 +72,10 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         EarringConfig(
             fromPercentages(20, 25, 30),
             fromPercentages(10, 15, 20),
+        ),
+        EyePatchConfig(
+            fromPercentages(2, 4, 6),
+            fromPercentage(10),
         ),
         FootwearConfig(
             fromPercentage(50),

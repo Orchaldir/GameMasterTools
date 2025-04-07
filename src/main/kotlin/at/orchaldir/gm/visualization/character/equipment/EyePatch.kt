@@ -1,18 +1,28 @@
 package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.item.equipment.EQUIPMENT_TYPE
 import at.orchaldir.gm.core.model.item.equipment.EyePatch
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Side
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.renderer.model.NoBorder
+import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 
 data class EyePatchConfig(
     val fixationSize: SizeConfig<Factor>,
-)
+    val fixationDeltaY: Factor,
+) {
+    fun getFixationOptions(aabb: AABB, color: Color, size: Size) =
+        LineOptions(color.toRender(), aabb.convertHeight(fixationSize.convert(size)))
+}
 
 fun visualizeEyePatch(
     state: CharacterRenderState,
@@ -31,19 +41,25 @@ fun visualizeEyePatchForTwoEyes(
     side: Side,
     eyePatch: EyePatch,
 ) {
-    if (!state.renderFront) {
-        return
-    }
-
+    val eyesConfig = state.config.head.eyes
+    val eyePatchConfig = state.config.equipment.eyePatch
     val center = side
         .flip()
-        .get(state.config.head.eyes.getTwoEyesCenter(state.aabb))
+        .get(eyesConfig.getTwoEyesCenter(state.aabb))
 
     when (eyePatch.fixation) {
         NoFixation -> doNothing()
         is OneBand -> doNothing()
         is DiagonalBand -> doNothing()
-        is TwoBands -> doNothing()
+        is TwoBands -> {
+            val (topLeft, topRight) = state.aabb
+                .getMirroredPoints(FULL, eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)
+            val (bottomLeft, bottomRight) = state.aabb
+                .getMirroredPoints(FULL, eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)
+            val options = eyePatchConfig.getFixationOptions(state.aabb, eyePatch.fixation.color, Size.Small)
+
+            state.getLayer(EQUIPMENT_LAYER).renderLine(listOf(topLeft, center, topRight), options)
+        }
     }
 
     when (eyePatch.style) {

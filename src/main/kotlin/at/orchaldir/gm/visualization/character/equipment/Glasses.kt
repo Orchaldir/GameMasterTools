@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.item.equipment.EQUIPMENT_TYPE
 import at.orchaldir.gm.core.model.item.equipment.Glasses
 import at.orchaldir.gm.core.model.item.equipment.style.FrameType
 import at.orchaldir.gm.core.model.item.equipment.style.LensShape
@@ -8,6 +9,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.*
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 
 data class GlassesConfig(
     val size: SizeConfig<Factor>,
@@ -71,7 +73,7 @@ fun visualizeLens(
     lensShape: LensShape,
 ) {
     val glassesOptions = state.config.equipment.glasses
-    val renderer = state.renderer.getLayer()
+    val renderer = state.renderer.getLayer(EQUIPMENT_LAYER)
 
     when (lensShape) {
         LensShape.Circle -> {

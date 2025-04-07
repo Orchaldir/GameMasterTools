@@ -12,6 +12,7 @@ data class EquipmentConfig(
     val belt: BeltConfig,
     val coat: CoatConfig,
     val earring: EarringConfig,
+    val eyePatch: EyePatchConfig,
     val footwear: FootwearConfig,
     val glasses: GlassesConfig,
     val hat: HatConfig,
