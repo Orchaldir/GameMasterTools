@@ -2,8 +2,7 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.EyePatch
-import at.orchaldir.gm.core.model.item.equipment.style.OrnamentAsEyePatch
-import at.orchaldir.gm.core.model.item.equipment.style.SimpleEyePatch
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
@@ -39,6 +38,13 @@ fun visualizeEyePatchForTwoEyes(
     val center = side
         .flip()
         .get(state.config.head.eyes.getTwoEyesCenter(state.aabb))
+
+    when (eyePatch.fixation) {
+        NoFixation -> doNothing()
+        is OneBand -> doNothing()
+        is DiagonalBand -> doNothing()
+        is TwoBands -> doNothing()
+    }
 
     when (eyePatch.style) {
         is SimpleEyePatch -> {
