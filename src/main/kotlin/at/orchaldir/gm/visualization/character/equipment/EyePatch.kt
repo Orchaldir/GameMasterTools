@@ -12,6 +12,9 @@ import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.appearance.EyesConfig
+
+private val xPair = Pair(START, END)
 
 data class EyePatchConfig(
     val fixationSize: SizeConfig<Factor>,
@@ -19,6 +22,11 @@ data class EyePatchConfig(
 ) {
     fun getFixationOptions(aabb: AABB, color: Color, size: Size) =
         LineOptions(color.toRender(), aabb.convertHeight(fixationSize.convert(size)))
+
+    fun getOneBandPoints(eyesConfig: EyesConfig, aabb: AABB, side: Side) = Pair(
+        aabb.getPoint(side.flip().get(xPair), eyesConfig.twoEyesY),
+        aabb.getPoint(side.get(xPair), eyesConfig.twoEyesY - fixationDeltaY)
+    )
 }
 
 fun visualizeEyePatch(
@@ -75,13 +83,12 @@ private fun visualizeFixationForTwoEyes(
     val eyePatchConfig = state.config.equipment.eyePatch
     val renderer = state.renderer.getLayer(EQUIPMENT_LAYER)
     val offsetY = state.aabb.convertHeight(eyePatchConfig.fixationDeltaY) / 2.0f
-    val xPair = Pair(START, END)
+
 
     when (fixation) {
         NoFixation -> doNothing()
         is OneBand -> {
-            val closeEnd = state.aabb.getPoint(side.flip().get(xPair), eyesConfig.twoEyesY)
-            val distantEnd = state.aabb.getPoint(side.get(xPair), eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)
+            val (closeEnd, distantEnd) = eyePatchConfig.getOneBandPoints(eyesConfig, state.aabb, side)
             val options = eyePatchConfig.getFixationOptions(state.aabb, fixation.color, fixation.size)
 
             renderer.renderLine(listOf(closeEnd, center, distantEnd), options)
@@ -122,8 +129,7 @@ private fun visualizeFixationForTwoEyesAndBehind(
     when (fixation) {
         NoFixation, is TwoBands -> doNothing()
         is OneBand -> {
-            val closeEnd = state.aabb.getPoint(side.flip().get(xPair), eyesConfig.twoEyesY)
-            val distantEnd = state.aabb.getPoint(side.get(xPair), eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)
+            val (closeEnd, distantEnd) = eyePatchConfig.getOneBandPoints(eyesConfig, state.aabb, side)
             val options = eyePatchConfig.getFixationOptions(state.aabb, fixation.color, fixation.size)
 
             renderer.renderLine(listOf(closeEnd, distantEnd), options)
