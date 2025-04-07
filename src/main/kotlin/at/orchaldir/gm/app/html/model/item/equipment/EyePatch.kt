@@ -165,13 +165,13 @@ private fun parseStyle(parameters: Parameters) =
 private fun parseFixation(parameters: Parameters) = when (parse(parameters, FIXATION, EyePatchFixationType.None)) {
     EyePatchFixationType.None -> NoFixation
     EyePatchFixationType.OneBand -> OneBand(
-        parse(parameters, FIXATION, Size.Small),
+        parse(parameters, combine(FIXATION, SIZE), Size.Small),
         parse(parameters, combine(FIXATION, COLOR), Color.Black),
         parseMaterialId(parameters, combine(FIXATION, MATERIAL)),
     )
 
     EyePatchFixationType.DiagonalBand -> DiagonalBand(
-        parse(parameters, FIXATION, Size.Small),
+        parse(parameters, combine(FIXATION, SIZE), Size.Small),
         parse(parameters, combine(FIXATION, COLOR), Color.Black),
         parseMaterialId(parameters, combine(FIXATION, MATERIAL)),
     )

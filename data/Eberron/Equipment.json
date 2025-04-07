@@ -70,6 +70,21 @@
     }
    },
    "weight": 10
+  },
+  "4": {
+   "id": 4,
+   "name": "Eyepatch",
+   "data": {
+    "type": "EyePatch",
+    "style": {
+     "type": "Simple",
+     "shape": "Circle"
+    },
+    "fixation": {
+     "type": "OneBand"
+    }
+   },
+   "weight": 10
   }
  }
 }
