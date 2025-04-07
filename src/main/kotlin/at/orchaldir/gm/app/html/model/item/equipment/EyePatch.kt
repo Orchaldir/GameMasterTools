@@ -27,9 +27,17 @@ fun BODY.showEyePatch(
     state: State,
     eyePatch: EyePatch,
 ) {
-    field("Style", eyePatch.style.getType())
+    showStyle(call, state, eyePatch.style)
+}
 
-    when (val style = eyePatch.style) {
+private fun BODY.showStyle(
+    call: ApplicationCall,
+    state: State,
+    style: EyePatchStyle,
+) {
+    field("Style", style.getType())
+
+    when (style) {
         is SimpleEyePatch -> {
             field("Shape", style.shape)
             showLook(call, state, style.color, style.material)
@@ -49,9 +57,16 @@ fun FORM.editEyePatch(
     state: State,
     eyePatch: EyePatch,
 ) {
-    selectValue("Style", STYLE, EyePatchStyleType.entries, eyePatch.style.getType(), true)
+    editStyle(state, eyePatch.style)
+}
 
-    when (val style = eyePatch.style) {
+private fun FORM.editStyle(
+    state: State,
+    style: EyePatchStyle,
+) {
+    selectValue("Style", STYLE, EyePatchStyleType.entries, style.getType(), true)
+
+    when (style) {
         is SimpleEyePatch -> {
             selectValue("Shape", SHAPE, VALID_LENSES, style.shape, true)
             editLook(state, style.color, style.material, APPEARANCE)
@@ -70,6 +85,10 @@ fun FORM.editEyePatch(
 // parse
 
 fun parseEyePatch(parameters: Parameters) = EyePatch(
+    parseStyle(parameters),
+)
+
+private fun parseStyle(parameters: Parameters) =
     when (parse(parameters, STYLE, EyePatchStyleType.Simple)) {
         EyePatchStyleType.Simple -> SimpleEyePatch(
             parse(parameters, SHAPE, LensShape.Circle),
@@ -93,5 +112,4 @@ fun parseEyePatch(parameters: Parameters) = EyePatch(
             parseMaterialId(parameters, combine(APPEARANCE, MATERIAL)),
         )
     }
-)
 
