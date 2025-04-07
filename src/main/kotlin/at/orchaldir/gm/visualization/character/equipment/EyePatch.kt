@@ -123,6 +123,7 @@ private fun visualizeFixationForTwoEyes(
 
             renderer.renderLine(listOf(closeEnd, center, distantEnd), options)
         }
+
         is TwoBands -> {
             val (topLeft, topRight) = state.aabb
                 .getMirroredPoints(FULL, eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)

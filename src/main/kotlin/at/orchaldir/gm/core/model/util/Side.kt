@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.util
 
-import at.orchaldir.gm.app.LEFT
 import kotlinx.serialization.Serializable
 
 @Serializable

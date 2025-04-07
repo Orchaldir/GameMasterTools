@@ -1,7 +1,5 @@
 package at.orchaldir.gm.utils
 
-import at.orchaldir.gm.core.model.character.appearance.Appearance
-
 fun doNothing() {
     // do nothing
 }
