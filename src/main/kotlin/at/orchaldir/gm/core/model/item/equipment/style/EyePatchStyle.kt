@@ -5,6 +5,9 @@ import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val VALID_LENSES = LensShape.entries
+    .filter { it != LensShape.WarpAround }
+
 enum class EyePatchStyleType {
     Simple,
     Ornament,
@@ -32,10 +35,15 @@ sealed class EyePatchStyle {
 @Serializable
 @SerialName("Simple")
 data class SimpleEyePatch(
-    val shape: EyePatchShape = EyePatchShape.Ellipse,
+    val shape: LensShape = LensShape.Rectangle,
     val color: Color = Color.Black,
     val material: MaterialId = MaterialId(0),
-) : EyePatchStyle()
+) : EyePatchStyle() {
+
+    init {
+        require(shape != LensShape.WarpAround) { "EyePatch doesn't support WarpAround!" }
+    }
+}
 
 @Serializable
 @SerialName("Ornament")

@@ -22,7 +22,7 @@ fun main() {
     renderCharacterTable(
         "eyepatch-simple.svg",
         CHARACTER_CONFIG,
-        addNames(EyePatchShape.entries),
+        addNames(VALID_LENSES),
         fixations,
         false,
     ) { distance, fixation, shape ->
