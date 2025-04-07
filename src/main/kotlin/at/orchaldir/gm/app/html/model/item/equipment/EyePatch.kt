@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.model.character.editNormalEye
 import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseMaterialId
@@ -38,18 +39,20 @@ private fun BODY.showStyle(
     state: State,
     style: EyePatchStyle,
 ) {
-    field("Style", style.getType())
+    showDetails("Style") {
+        field("Type", style.getType())
 
-    when (style) {
-        is SimpleEyePatch -> {
-            field("Shape", style.shape)
-            showLook(call, state, style.color, style.material)
-        }
+        when (style) {
+            is SimpleEyePatch -> {
+                field("Shape", style.shape)
+                showLook(call, state, style.color, style.material)
+            }
 
-        is OrnamentAsEyePatch -> showOrnament(call, state, style.ornament)
-        is EyePatchWithEye -> {
-            field("Shape", style.shape)
-            showLook(call, state, style.color, style.material)
+            is OrnamentAsEyePatch -> showOrnament(call, state, style.ornament)
+            is EyePatchWithEye -> {
+                field("Shape", style.shape)
+                showLook(call, state, style.color, style.material)
+            }
         }
     }
 }
@@ -59,21 +62,23 @@ private fun BODY.showFixation(
     state: State,
     fixation: EyePatchFixation,
 ) {
-    field("Fixation", fixation.getType())
+    showDetails("Fixation") {
+        field("Type", fixation.getType())
 
-    when (fixation) {
-        NoFixation -> doNothing()
-        is OneBand -> {
-            field("Size", fixation.size)
-            showLook(call, state, fixation.color, fixation.material)
+        when (fixation) {
+            NoFixation -> doNothing()
+            is OneBand -> {
+                field("Size", fixation.size)
+                showLook(call, state, fixation.color, fixation.material)
+            }
+
+            is DiagonalBand -> {
+                field("Size", fixation.size)
+                showLook(call, state, fixation.color, fixation.material)
+            }
+
+            is TwoBands -> showLook(call, state, fixation.color, fixation.material)
         }
-
-        is DiagonalBand -> {
-            field("Size", fixation.size)
-            showLook(call, state, fixation.color, fixation.material)
-        }
-
-        is TwoBands -> showLook(call, state, fixation.color, fixation.material)
     }
 }
 
@@ -91,19 +96,21 @@ private fun FORM.editStyle(
     state: State,
     style: EyePatchStyle,
 ) {
-    selectValue("Style", STYLE, EyePatchStyleType.entries, style.getType(), true)
+    showDetails("Style", true) {
+        selectValue("Type", STYLE, EyePatchStyleType.entries, style.getType(), true)
 
-    when (style) {
-        is SimpleEyePatch -> {
-            selectValue("Shape", SHAPE, VALID_LENSES, style.shape, true)
-            editLook(state, style.color, style.material, APPEARANCE)
-        }
+        when (style) {
+            is SimpleEyePatch -> {
+                selectValue("Shape", SHAPE, VALID_LENSES, style.shape, true)
+                editLook(state, style.color, style.material, APPEARANCE)
+            }
 
-        is OrnamentAsEyePatch -> editOrnament(state, style.ornament)
-        is EyePatchWithEye -> {
-            editNormalEye(EyeOptions(), style.eye)
-            selectValue("Shape", SHAPE, VALID_LENSES, style.shape, true)
-            editLook(state, style.color, style.material, APPEARANCE)
+            is OrnamentAsEyePatch -> editOrnament(state, style.ornament)
+            is EyePatchWithEye -> {
+                editNormalEye(EyeOptions(), style.eye)
+                selectValue("Shape", SHAPE, VALID_LENSES, style.shape, true)
+                editLook(state, style.color, style.material, APPEARANCE)
+            }
         }
     }
 }
@@ -112,21 +119,23 @@ private fun FORM.editFixation(
     state: State,
     fixation: EyePatchFixation,
 ) {
-    selectValue("Fixation", FIXATION, EyePatchFixationType.entries, fixation.getType(), true)
+    showDetails("Fixation", true) {
+        selectValue("Type", FIXATION, EyePatchFixationType.entries, fixation.getType(), true)
 
-    when (fixation) {
-        NoFixation -> doNothing()
-        is OneBand -> {
-            selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size, true)
-            editLook(state, fixation.color, fixation.material, FIXATION)
+        when (fixation) {
+            NoFixation -> doNothing()
+            is OneBand -> {
+                selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size, true)
+                editLook(state, fixation.color, fixation.material, FIXATION)
+            }
+
+            is DiagonalBand -> {
+                selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size, true)
+                editLook(state, fixation.color, fixation.material, FIXATION)
+            }
+
+            is TwoBands -> editLook(state, fixation.color, fixation.material, FIXATION)
         }
-
-        is DiagonalBand -> {
-            selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size, true)
-            editLook(state, fixation.color, fixation.material, FIXATION)
-        }
-
-        is TwoBands -> editLook(state, fixation.color, fixation.material, FIXATION)
     }
 }
 
