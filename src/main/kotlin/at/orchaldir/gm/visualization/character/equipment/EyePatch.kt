@@ -84,7 +84,7 @@ fun visualizeEyePatchForTwoEyes(
         is EyePatchWithEye -> {
             val options = state.config.getLineOptions(eyePatch.style.color)
             visualizeLens(state, options, center, eyePatch.style.shape)
-            visualizeEye(state, center, eyePatch.style.eye)
+            visualizeEye(state, center, eyePatch.style.eye, EQUIPMENT_LAYER)
         }
     }
 }
