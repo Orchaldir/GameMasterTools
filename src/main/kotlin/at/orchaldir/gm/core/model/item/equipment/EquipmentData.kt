@@ -136,7 +136,7 @@ data class Earring(
 @Serializable
 @SerialName("EyePatch")
 data class EyePatch(
-    val style: EyePatchStyle = SimpleEyePatchStyle(),
+    val style: EyePatchStyle = SimpleEyePatch(),
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = style.contains(id)

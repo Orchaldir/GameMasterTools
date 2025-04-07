@@ -7,29 +7,39 @@ import kotlinx.serialization.Serializable
 
 enum class EyePatchStyleType {
     Simple,
+    Ornament,
 }
 
 @Serializable
 sealed class EyePatchStyle {
 
     fun getType() = when (this) {
-        is SimpleEyePatchStyle -> EyePatchStyleType.Simple
+        is SimpleEyePatch -> EyePatchStyleType.Simple
+        is OrnamentAsEyePatch -> EyePatchStyleType.Ornament
     }
 
     fun contains(id: MaterialId) = when (this) {
-        is SimpleEyePatchStyle -> material == id
+        is SimpleEyePatch -> material == id
+        is OrnamentAsEyePatch -> ornament.contains(id)
     }
 
     fun getMaterials() = when (this) {
-        is SimpleEyePatchStyle -> setOf(material)
+        is SimpleEyePatch -> setOf(material)
+        is OrnamentAsEyePatch -> ornament.getMaterials()
     }
 }
 
 @Serializable
 @SerialName("Simple")
-data class SimpleEyePatchStyle(
+data class SimpleEyePatch(
     val shape: EyePatchShape = EyePatchShape.Ellipse,
     val color: Color = Color.Black,
     val material: MaterialId = MaterialId(0),
+) : EyePatchStyle()
+
+@Serializable
+@SerialName("Ornament")
+data class OrnamentAsEyePatch(
+    val ornament: Ornament,
 ) : EyePatchStyle()
 
