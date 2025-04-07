@@ -73,8 +73,7 @@ private fun visualizeFixation(
             val distantEnd = state.aabb.getPoint(side.get(xPair), eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)
             val options = eyePatchConfig.getFixationOptions(state.aabb, fixation.color, fixation.size)
 
-            renderer.renderLine(listOf(closeEnd, center), options)
-            renderer.renderLine(listOf(distantEnd, center), options)
+            renderer.renderLine(listOf(closeEnd, center, distantEnd), options)
         }
 
         is DiagonalBand -> {
@@ -83,8 +82,7 @@ private fun visualizeFixation(
             val distantEnd = state.aabb.getPoint(side.get(xPair), eyesConfig.twoEyesY + eyePatchConfig.fixationDeltaY)
             val options = eyePatchConfig.getFixationOptions(state.aabb, fixation.color, fixation.size)
 
-            renderer.renderLine(listOf(closeEnd, center), options)
-            renderer.renderLine(listOf(distantEnd, center), options)
+            renderer.renderLine(listOf(closeEnd, center, distantEnd), options)
         }
         is TwoBands -> {
             val (topLeft, topRight) = state.aabb
