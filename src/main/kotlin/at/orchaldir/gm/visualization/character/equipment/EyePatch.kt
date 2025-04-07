@@ -79,6 +79,11 @@ fun visualizeEyePatchForTwoEyes(
             val radius = state.aabb.convertHeight(factor)
             visualizeOrnament(state, eyePatch.style.ornament, center, radius)
         }
+
+        is EyePatchWithEye -> {
+            val options = state.config.getLineOptions(eyePatch.style.color)
+            visualizeLens(state, options, center, eyePatch.style.shape)
+        }
     }
 }
 
