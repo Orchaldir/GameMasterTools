@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectOneOf
 import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.generator.*
@@ -154,10 +155,12 @@ fun HtmlBlockTag.editNormalEye(
     eyeOptions: EyeOptions,
     eye: NormalEye,
 ) {
-    selectOneOf("Eye Shape", combine(EYE, SHAPE), eyeOptions.eyeShapes, eye.eyeShape, true)
-    selectOneOf("Pupil Shape", combine(PUPIL, SHAPE), eyeOptions.pupilShapes, eye.pupilShape, true)
-    selectColor("Eye Color", combine(PUPIL, COLOR), eyeOptions.eyeColors, eye.pupilColor)
-    selectColor("Sclera Color", combine(PUPIL, SCLERA), eyeOptions.scleraColors, eye.scleraColor)
+    showDetails("Eye", true) {
+        selectOneOf("Eye Shape", combine(EYE, SHAPE), eyeOptions.eyeShapes, eye.eyeShape, true)
+        selectOneOf("Pupil Shape", combine(PUPIL, SHAPE), eyeOptions.pupilShapes, eye.pupilShape, true)
+        selectColor("Eye Color", combine(PUPIL, COLOR), eyeOptions.eyeColors, eye.pupilColor)
+        selectColor("Sclera Color", combine(PUPIL, SCLERA), eyeOptions.scleraColors, eye.scleraColor)
+    }
 }
 
 private fun FORM.editHair(

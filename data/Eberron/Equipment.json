@@ -77,7 +77,13 @@
    "data": {
     "type": "EyePatch",
     "style": {
-     "type": "Simple",
+     "type": "Eye",
+     "eye": {
+      "eyeShape": "Almond",
+      "pupilShape": "VerticalSlit",
+      "pupilColor": "Yellow",
+      "scleraColor": "OrangeRed"
+     },
      "shape": "Circle"
     },
     "fixation": {
