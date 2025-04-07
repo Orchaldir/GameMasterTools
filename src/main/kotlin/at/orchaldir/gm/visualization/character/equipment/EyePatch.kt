@@ -46,6 +46,7 @@ fun visualizeEyePatchForTwoEyes(
     val center = side
         .flip()
         .get(eyesConfig.getTwoEyesCenter(state.aabb))
+    val renderer = state.getLayer(EQUIPMENT_LAYER)
 
     when (eyePatch.fixation) {
         NoFixation -> doNothing()
@@ -55,10 +56,11 @@ fun visualizeEyePatchForTwoEyes(
             val (topLeft, topRight) = state.aabb
                 .getMirroredPoints(FULL, eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)
             val (bottomLeft, bottomRight) = state.aabb
-                .getMirroredPoints(FULL, eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)
+                .getMirroredPoints(FULL, eyesConfig.twoEyesY + eyePatchConfig.fixationDeltaY)
             val options = eyePatchConfig.getFixationOptions(state.aabb, eyePatch.fixation.color, Size.Small)
 
-            state.getLayer(EQUIPMENT_LAYER).renderLine(listOf(topLeft, center, topRight), options)
+            renderer.renderLine(listOf(topLeft, center, topRight), options)
+            renderer.renderLine(listOf(bottomLeft, center, bottomRight), options)
         }
     }
 
