@@ -7,6 +7,9 @@ import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.item.equipment.EyePatch
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.Color.SaddleBrown
+import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.Size.*
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
@@ -15,8 +18,12 @@ import at.orchaldir.gm.utils.math.unit.Distance
 fun main() {
     val fixations: List<Pair<String, EyePatchFixation>> = listOf(
         Pair("None", NoFixation),
-        Pair("OneBand", OneBand()),
-        Pair("DiagonalBand", DiagonalBand()),
+        Pair("OneBand + Small", OneBand(Small)),
+        Pair("OneBand + Medium", OneBand(Medium)),
+        Pair("OneBand + Large", OneBand(Large, SaddleBrown)),
+        Pair("DiagonalBand + Small", DiagonalBand(Small)),
+        Pair("DiagonalBand + Medium", DiagonalBand(Medium)),
+        Pair("DiagonalBand + Large", DiagonalBand(Large, SaddleBrown)),
         Pair("TwoBands", TwoBands()),
     )
 
