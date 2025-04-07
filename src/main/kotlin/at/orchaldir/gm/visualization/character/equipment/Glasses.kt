@@ -43,8 +43,8 @@ fun visualizeGlasses(
     if (glasses.lensShape == LensShape.WarpAround) {
         visualizeWarpAround(state, options)
     } else {
-        visualizeLens(state, glasses, options, left)
-        visualizeLens(state, glasses, options, right)
+        visualizeLens(state, options, left, glasses.lensShape)
+        visualizeLens(state, options, right, glasses.lensShape)
         visualizeFrame(state, lineOptions)
     }
 }
@@ -66,14 +66,14 @@ fun visualizeWarpAround(
 
 fun visualizeLens(
     state: CharacterRenderState,
-    glasses: Glasses,
     renderOptions: RenderOptions,
     center: Point2d,
+    lensShape: LensShape,
 ) {
     val glassesOptions = state.config.equipment.glasses
     val renderer = state.renderer.getLayer()
 
-    when (glasses.lensShape) {
+    when (lensShape) {
         LensShape.Circle -> {
             val radius = state.aabb.convertHeight(glassesOptions.size.medium) / 2.0f
             renderer.renderCircle(center, radius, renderOptions)
