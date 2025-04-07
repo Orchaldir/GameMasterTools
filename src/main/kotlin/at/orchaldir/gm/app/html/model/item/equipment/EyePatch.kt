@@ -15,6 +15,8 @@ import at.orchaldir.gm.core.model.item.equipment.EyePatch
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
@@ -28,6 +30,7 @@ fun BODY.showEyePatch(
     eyePatch: EyePatch,
 ) {
     showStyle(call, state, eyePatch.style)
+    showFixation(call, state, eyePatch.fixation)
 }
 
 private fun BODY.showStyle(
@@ -51,6 +54,29 @@ private fun BODY.showStyle(
     }
 }
 
+private fun BODY.showFixation(
+    call: ApplicationCall,
+    state: State,
+    fixation: EyePatchFixation,
+) {
+    field("Fixation", fixation.getType())
+
+    when (fixation) {
+        NoFixation -> doNothing()
+        is OneBand -> {
+            field("Size", fixation.size)
+            showLook(call, state, fixation.color, fixation.material)
+        }
+
+        is DiagonalBand -> {
+            field("Size", fixation.size)
+            showLook(call, state, fixation.color, fixation.material)
+        }
+
+        is TwoBands -> showLook(call, state, fixation.color, fixation.material)
+    }
+}
+
 // edit
 
 fun FORM.editEyePatch(
@@ -58,6 +84,7 @@ fun FORM.editEyePatch(
     eyePatch: EyePatch,
 ) {
     editStyle(state, eyePatch.style)
+    editFixation(state, eyePatch.fixation)
 }
 
 private fun FORM.editStyle(
@@ -81,11 +108,33 @@ private fun FORM.editStyle(
     }
 }
 
+private fun FORM.editFixation(
+    state: State,
+    fixation: EyePatchFixation,
+) {
+    selectValue("Fixation", FIXATION, EyePatchFixationType.entries, fixation.getType(), true)
+
+    when (fixation) {
+        NoFixation -> doNothing()
+        is OneBand -> {
+            selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size, true)
+            editLook(state, fixation.color, fixation.material, FIXATION)
+        }
+
+        is DiagonalBand -> {
+            selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size, true)
+            editLook(state, fixation.color, fixation.material, FIXATION)
+        }
+
+        is TwoBands -> editLook(state, fixation.color, fixation.material, FIXATION)
+    }
+}
 
 // parse
 
 fun parseEyePatch(parameters: Parameters) = EyePatch(
     parseStyle(parameters),
+    parseFixation(parameters),
 )
 
 private fun parseStyle(parameters: Parameters) =
@@ -112,4 +161,24 @@ private fun parseStyle(parameters: Parameters) =
             parseMaterialId(parameters, combine(APPEARANCE, MATERIAL)),
         )
     }
+
+private fun parseFixation(parameters: Parameters) = when (parse(parameters, FIXATION, EyePatchFixationType.None)) {
+    EyePatchFixationType.None -> NoFixation
+    EyePatchFixationType.OneBand -> OneBand(
+        parse(parameters, FIXATION, Size.Small),
+        parse(parameters, combine(FIXATION, COLOR), Color.Black),
+        parseMaterialId(parameters, combine(FIXATION, MATERIAL)),
+    )
+
+    EyePatchFixationType.DiagonalBand -> DiagonalBand(
+        parse(parameters, FIXATION, Size.Small),
+        parse(parameters, combine(FIXATION, COLOR), Color.Black),
+        parseMaterialId(parameters, combine(FIXATION, MATERIAL)),
+    )
+
+    EyePatchFixationType.TwoBands -> TwoBands(
+        parse(parameters, combine(FIXATION, COLOR), Color.Black),
+        parseMaterialId(parameters, combine(FIXATION, MATERIAL)),
+    )
+}
 
