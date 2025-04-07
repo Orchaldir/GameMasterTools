@@ -63,12 +63,12 @@ private fun visualizeFixation(
     val eyesConfig = state.config.head.eyes
     val eyePatchConfig = state.config.equipment.eyePatch
     val renderer = state.getLayer(EQUIPMENT_LAYER)
-    val offset = state.aabb.convertHeight(eyePatchConfig.fixationDeltaY) / 2.0f
+    val offsetY = state.aabb.convertHeight(eyePatchConfig.fixationDeltaY) / 2.0f
+    val xPair = Pair(START, END)
 
     when (fixation) {
         NoFixation -> doNothing()
         is OneBand -> {
-            val xPair = Pair(START, END)
             val closeEnd = state.aabb.getPoint(side.flip().get(xPair), eyesConfig.twoEyesY)
             val distantEnd = state.aabb.getPoint(side.get(xPair), eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)
             val options = eyePatchConfig.getFixationOptions(state.aabb, fixation.color, fixation.size)
@@ -77,7 +77,15 @@ private fun visualizeFixation(
             renderer.renderLine(listOf(distantEnd, center), options)
         }
 
-        is DiagonalBand -> doNothing()
+        is DiagonalBand -> {
+            val closeEnd =
+                state.aabb.getPoint(side.flip().get(xPair), eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)
+            val distantEnd = state.aabb.getPoint(side.get(xPair), eyesConfig.twoEyesY + eyePatchConfig.fixationDeltaY)
+            val options = eyePatchConfig.getFixationOptions(state.aabb, fixation.color, fixation.size)
+
+            renderer.renderLine(listOf(closeEnd, center), options)
+            renderer.renderLine(listOf(distantEnd, center), options)
+        }
         is TwoBands -> {
             val (topLeft, topRight) = state.aabb
                 .getMirroredPoints(FULL, eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)
@@ -86,8 +94,8 @@ private fun visualizeFixation(
 
             val options = eyePatchConfig.getFixationOptions(state.aabb, fixation.color, Size.Small)
 
-            renderer.renderLine(listOf(topLeft, center.minusHeight(offset), topRight), options)
-            renderer.renderLine(listOf(bottomLeft, center.addHeight(offset), bottomRight), options)
+            renderer.renderLine(listOf(topLeft, center.minusHeight(offsetY), topRight), options)
+            renderer.renderLine(listOf(bottomLeft, center.addHeight(offsetY), bottomRight), options)
         }
     }
 }
