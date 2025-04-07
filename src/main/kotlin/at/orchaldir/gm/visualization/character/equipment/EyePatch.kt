@@ -27,6 +27,11 @@ data class EyePatchConfig(
         aabb.getPoint(side.flip().get(xPair), eyesConfig.twoEyesY),
         aabb.getPoint(side.get(xPair), eyesConfig.twoEyesY - fixationDeltaY)
     )
+
+    fun getDiagonalBandPoints(eyesConfig: EyesConfig, aabb: AABB, side: Side) = Pair(
+        aabb.getPoint(side.flip().get(xPair), eyesConfig.twoEyesY - fixationDeltaY),
+        aabb.getPoint(side.get(xPair), eyesConfig.twoEyesY + fixationDeltaY)
+    )
 }
 
 fun visualizeEyePatch(
@@ -95,9 +100,7 @@ private fun visualizeFixationForTwoEyes(
         }
 
         is DiagonalBand -> {
-            val closeEnd =
-                state.aabb.getPoint(side.flip().get(xPair), eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)
-            val distantEnd = state.aabb.getPoint(side.get(xPair), eyesConfig.twoEyesY + eyePatchConfig.fixationDeltaY)
+            val (closeEnd, distantEnd) = eyePatchConfig.getDiagonalBandPoints(eyesConfig, state.aabb, side)
             val options = eyePatchConfig.getFixationOptions(state.aabb, fixation.color, fixation.size)
 
             renderer.renderLine(listOf(closeEnd, center, distantEnd), options)
@@ -136,9 +139,7 @@ private fun visualizeFixationForTwoEyesAndBehind(
         }
 
         is DiagonalBand -> {
-            val closeEnd =
-                state.aabb.getPoint(side.flip().get(xPair), eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)
-            val distantEnd = state.aabb.getPoint(side.get(xPair), eyesConfig.twoEyesY + eyePatchConfig.fixationDeltaY)
+            val (closeEnd, distantEnd) = eyePatchConfig.getDiagonalBandPoints(eyesConfig, state.aabb, side)
             val options = eyePatchConfig.getFixationOptions(state.aabb, fixation.color, fixation.size)
 
             renderer.renderLine(listOf(closeEnd, distantEnd), options)
