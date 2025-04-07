@@ -20,7 +20,8 @@ private val xPair = Pair(START, END)
 data class EyePatchConfig(
     val fixationSize: SizeConfig<Factor>,
     val fixationDeltaY: Factor,
-    val ornamentRadius: SizeConfig<Factor>,
+    val ornamentRadius: Factor,
+    val teardropRadius: Factor,
 ) {
     fun getFixationOptions(aabb: AABB, color: Color, size: Size) =
         LineOptions(color.toRender(), aabb.convertHeight(fixationSize.convert(size)))
@@ -69,7 +70,7 @@ fun visualizeEyePatchForTwoEyes(
 
         is OrnamentAsEyePatch -> {
             val config = state.config.equipment.eyePatch
-            val radius = state.aabb.convertHeight(config.ornamentRadius.convert(eyePatch.style.size))
+            val radius = state.aabb.convertHeight(config.ornamentRadius)
             visualizeOrnament(state, eyePatch.style.ornament, center, radius)
         }
     }

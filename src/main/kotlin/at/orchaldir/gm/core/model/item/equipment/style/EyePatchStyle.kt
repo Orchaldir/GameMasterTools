@@ -50,6 +50,5 @@ data class SimpleEyePatch(
 @SerialName("Ornament")
 data class OrnamentAsEyePatch(
     val ornament: Ornament,
-    val size: Size = Size.Medium,
 ) : EyePatchStyle()
 

@@ -20,12 +20,12 @@ fun main() {
     renderCharacterTable(
         "eyepatch-ornament.svg",
         CHARACTER_CONFIG,
+        addNames(OrnamentShape.entries),
         FIXATIONS,
-        addNames(OrnamentShape.entries.combine(Size.entries)),
-    ) { distance, (shape, size), fixation ->
+    ) { distance, fixation, shape ->
         Pair(
             createAppearance(distance),
-            listOf(EyePatch(OrnamentAsEyePatch(OrnamentWithBorder(shape), size), fixation))
+            listOf(EyePatch(OrnamentAsEyePatch(OrnamentWithBorder(shape)), fixation))
         )
     }
 }
