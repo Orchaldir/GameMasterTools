@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -49,5 +50,6 @@ data class SimpleEyePatch(
 @SerialName("Ornament")
 data class OrnamentAsEyePatch(
     val ornament: Ornament,
+    val size: Size = Size.Medium,
 ) : EyePatchStyle()
 

@@ -76,6 +76,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         EyePatchConfig(
             fromPercentages(2, 4, 6),
             fromPercentage(20),
+            fromPercentages(25, 35, 40),
         ),
         FootwearConfig(
             fromPercentage(50),

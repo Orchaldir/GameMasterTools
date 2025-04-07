@@ -13,12 +13,14 @@ import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.EyesConfig
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 
 private val xPair = Pair(START, END)
 
 data class EyePatchConfig(
     val fixationSize: SizeConfig<Factor>,
     val fixationDeltaY: Factor,
+    val ornamentRadius: SizeConfig<Factor>,
 ) {
     fun getFixationOptions(aabb: AABB, color: Color, size: Size) =
         LineOptions(color.toRender(), aabb.convertHeight(fixationSize.convert(size)))
@@ -46,7 +48,6 @@ fun visualizeEyePatch(
     } else {
         visualizeEyePatchForTwoEyesAndBehind(state, side, eyePatch)
     }
-
 }
 
 fun visualizeEyePatchForTwoEyes(
@@ -66,7 +67,11 @@ fun visualizeEyePatchForTwoEyes(
             visualizeLens(state, options, center, eyePatch.style.shape)
         }
 
-        is OrnamentAsEyePatch -> doNothing()
+        is OrnamentAsEyePatch -> {
+            val radius =
+                state.aabb.convertHeight(state.config.equipment.eyePatch.ornamentRadius.convert(eyePatch.style.size))
+            visualizeOrnament(state, eyePatch.style.ornament, center, radius)
+        }
     }
 }
 
