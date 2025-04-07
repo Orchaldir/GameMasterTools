@@ -36,7 +36,9 @@ fun visualizeEyePatchForTwoEyes(
         return
     }
 
-    val center = side.get(state.config.head.eyes.getTwoEyesCenter(state.aabb))
+    val center = side
+        .flip()
+        .get(state.config.head.eyes.getTwoEyesCenter(state.aabb))
 
     when (eyePatch.style) {
         is SimpleEyePatch -> {
