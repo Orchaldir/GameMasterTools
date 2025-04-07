@@ -42,7 +42,7 @@ fun visualizeEyePatchForTwoEyes(
 
     when (eyePatch.style) {
         is SimpleEyePatch -> {
-            val options = NoBorder(eyePatch.style.color.toRender())
+            val options = state.config.getLineOptions(eyePatch.style.color)
             visualizeLens(state, options, center, eyePatch.style.shape)
         }
 

@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.item.equipment.EyePatch
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
@@ -26,7 +27,7 @@ fun main() {
         fixations,
         false,
     ) { distance, fixation, shape ->
-        Pair(createAppearance(distance), listOf(EyePatch(SimpleEyePatch(shape), fixation)))
+        Pair(createAppearance(distance), listOf(EyePatch(SimpleEyePatch(shape, Color.Red), fixation)))
     }
 }
 
