@@ -68,8 +68,8 @@ fun visualizeEyePatchForTwoEyes(
         }
 
         is OrnamentAsEyePatch -> {
-            val radius =
-                state.aabb.convertHeight(state.config.equipment.eyePatch.ornamentRadius.convert(eyePatch.style.size))
+            val config = state.config.equipment.eyePatch
+            val radius = state.aabb.convertHeight(config.ornamentRadius.convert(eyePatch.style.size))
             visualizeOrnament(state, eyePatch.style.ornament, center, radius)
         }
     }

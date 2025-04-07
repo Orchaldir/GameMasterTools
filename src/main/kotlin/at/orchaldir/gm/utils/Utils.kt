@@ -1,5 +1,7 @@
 package at.orchaldir.gm.utils
 
+import at.orchaldir.gm.core.model.character.appearance.Appearance
+
 fun doNothing() {
     // do nothing
 }
@@ -13,6 +15,18 @@ fun <T> List<T>.update(items: Map<Int, T>): List<T> {
     val newList = toMutableList()
 
     items.forEach { (index, item) -> newList[index] = item }
+
+    return newList
+}
+
+fun <T, U> List<T>.combine(other: List<U>): List<Pair<T, U>> {
+    val newList: MutableList<Pair<T, U>> = mutableListOf()
+
+    this.forEach { a ->
+        other.forEach { b ->
+            newList.add(Pair(a, b))
+        }
+    }
 
     return newList
 }

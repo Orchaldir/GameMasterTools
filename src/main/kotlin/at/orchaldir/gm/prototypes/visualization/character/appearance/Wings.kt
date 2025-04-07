@@ -9,7 +9,7 @@ import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 
 fun main() {
-    val appearances: MutableList<List<Appearance>> = mutableListOf<List<Appearance>>()
+    val appearances: MutableList<List<Appearance>> = mutableListOf()
 
     appearances.add(WingType.entries.map { createAppearance(OneWing(createWing(it), Side.Left)) })
     appearances.add(WingType.entries.map { createAppearance(OneWing(createWing(it), Side.Right)) })

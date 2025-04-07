@@ -8,21 +8,25 @@ import at.orchaldir.gm.core.model.item.equipment.EyePatch
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Color.SaddleBrown
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.Size.*
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
+import at.orchaldir.gm.utils.combine
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
     renderCharacterTable(
         "eyepatch-ornament.svg",
         CHARACTER_CONFIG,
-        addNames(OrnamentShape.entries),
         FIXATIONS,
-        true,
-    ) { distance, fixation, shape ->
-        Pair(createAppearance(distance), listOf(EyePatch(OrnamentAsEyePatch(OrnamentWithBorder(shape)), fixation)))
+        addNames(OrnamentShape.entries.combine(Size.entries)),
+    ) { distance, (shape, size), fixation ->
+        Pair(
+            createAppearance(distance),
+            listOf(EyePatch(OrnamentAsEyePatch(OrnamentWithBorder(shape), size), fixation))
+        )
     }
 }
 
