@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.EyePatch
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape.Teardrop
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
@@ -70,7 +71,12 @@ fun visualizeEyePatchForTwoEyes(
 
         is OrnamentAsEyePatch -> {
             val config = state.config.equipment.eyePatch
-            val radius = state.aabb.convertHeight(config.ornamentRadius)
+            val factor = config.ornamentRadius * if (eyePatch.style.ornament.getShapeFromSub() == Teardrop) {
+                1.5f
+            } else {
+                1.0f
+            }
+            val radius = state.aabb.convertHeight(factor)
             visualizeOrnament(state, eyePatch.style.ornament, center, radius)
         }
     }
