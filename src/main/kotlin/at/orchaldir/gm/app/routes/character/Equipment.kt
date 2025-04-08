@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.fashion.Fashion
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
 import at.orchaldir.gm.core.model.util.OneOrNone
@@ -93,7 +94,6 @@ private fun HTML.showCharacterEquipmentEditor(
     equipmentMap: EquipmentMap,
 ) {
     val equipped = state.getEquipment(equipmentMap)
-    val occupiedSlots = equipmentMap.getOccupiedSlots()
     val culture = state.getCultureStorage().getOrThrow(character.culture)
     val fashion = state.getFashionStorage().getOptional(culture.getFashion(character))
     val backLink = href(call, character.id)
@@ -112,7 +112,7 @@ private fun HTML.showCharacterEquipmentEditor(
             method = FormMethod.post
             button("Random", generateLink)
 
-            EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, occupiedSlots, fashion, it) }
+            EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, fashion, it) }
 
             button("Update", updateLink)
         }
@@ -123,7 +123,6 @@ private fun HTML.showCharacterEquipmentEditor(
 private fun FORM.selectEquipment(
     state: State,
     equipmentMap: EquipmentMap,
-    occupiedSlots: Set<EquipmentSlot>,
     fashion: Fashion?,
     type: EquipmentDataType,
 ) {
@@ -134,8 +133,22 @@ private fun FORM.selectEquipment(
         return
     }
 
-    val isTypeEquipped = equipmentMap.contains(type)
-    val canSelect = isTypeEquipped || type.slots().none { occupiedSlots.contains(it) }
+    val slotCombinations: MutableSet<MutableSet<BodySlot>> = mutableSetOf()
+
+    type.slots().forEach { equipmentSlot ->
+        val isFirst = slotCombinations.isEmpty()
+
+        equipmentSlot.toBodySlots().forEach { bodySlots ->
+            if (isFirst) {
+                slotCombinations.add(bodySlots.toMutableSet())
+            } else {
+                slotCombinations.forEach { set -> set.addAll(bodySlots) }
+            }
+        }
+    }
+
+    val isTypeEquipped = true//equipmentMap.contains(type)
+    val canSelect = isTypeEquipped //|| type.slots().none { occupiedSlots.contains(it) }
 
     selectOneOrNone(
         type.name, type.name, options, !isTypeEquipped, true
