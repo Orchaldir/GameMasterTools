@@ -214,6 +214,14 @@
      "3": [
       [
        "EarSlotLeft"
+      ],
+      [
+       "EarSlotRight"
+      ]
+     ],
+     "4": [
+      [
+       "EyeSlotRight"
       ]
      ]
     }

@@ -22,8 +22,9 @@ private fun tryParse(
     slotStrings: String,
     ids: List<String>,
 ) {
-    require(ids.size <= 1) { "Slots $slotStrings has too many items!" }
-    val id = EquipmentId(ids.firstOrNull()?.toInt() ?: return)
+    val filteredIds = ids.filter { it.isNotEmpty() }
+    require(filteredIds.size <= 1) { "Slots $slotStrings has too many items!" }
+    val id = EquipmentId(filteredIds.firstOrNull()?.toInt() ?: return)
 
     val slots = slotStrings.split("_")
         .map { BodySlot.valueOf(it) }
