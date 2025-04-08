@@ -6,11 +6,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType.Hat
-import at.orchaldir.gm.core.model.item.equipment.EquipmentId
-import at.orchaldir.gm.core.model.item.equipment.Pants
-import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -26,7 +23,7 @@ private val CHARACTER0 = CharacterId(0)
 private val STATE = State(Storage(Equipment(ID0)))
 private val MATERIAL0 = MaterialId(0)
 private val MATERIAL1 = MaterialId(1)
-private val EQUIPMENT_MAP = EquipmentMap(mapOf(Hat to ID0))
+private val EQUIPMENT_MAP = EquipmentMap(mapOf(BodySlot.HeadSlot to ID0))
 
 class EquipmentTest {
 

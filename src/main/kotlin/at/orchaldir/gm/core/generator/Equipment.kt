@@ -52,7 +52,8 @@ data class EquipmentGenerator(
         generateAccessory(result, Gloves)
         generateAccessory(result, Hat)
 
-        return EquipmentMap(result)
+        // TODO
+        return EquipmentMap(emptyMap())
     }
 
     private fun generatePantsAndShirt(result: MutableMap<EquipmentDataType, EquipmentId>) {

@@ -29,3 +29,21 @@ enum class EquipmentSlot {
         TopSlot -> setOf(setOf(BodySlot.TopSlot))
     }
 }
+
+fun Set<EquipmentSlot>.getAllBodySlotCombinations(): Set<Set<BodySlot>> {
+    val slotCombinations: MutableSet<MutableSet<BodySlot>> = mutableSetOf()
+
+    this.forEach { equipmentSlot ->
+        val isFirst = slotCombinations.isEmpty()
+
+        equipmentSlot.toBodySlots().forEach { bodySlots ->
+            if (isFirst) {
+                slotCombinations.add(bodySlots.toMutableSet())
+            } else {
+                slotCombinations.forEach { set -> set.addAll(bodySlots) }
+            }
+        }
+    }
+
+    return slotCombinations
+}

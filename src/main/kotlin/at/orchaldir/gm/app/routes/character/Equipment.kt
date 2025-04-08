@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
+import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.item.getEquipmentOf
@@ -133,19 +134,7 @@ private fun FORM.selectEquipment(
         return
     }
 
-    val slotCombinations: MutableSet<MutableSet<BodySlot>> = mutableSetOf()
-
-    type.slots().forEach { equipmentSlot ->
-        val isFirst = slotCombinations.isEmpty()
-
-        equipmentSlot.toBodySlots().forEach { bodySlots ->
-            if (isFirst) {
-                slotCombinations.add(bodySlots.toMutableSet())
-            } else {
-                slotCombinations.forEach { set -> set.addAll(bodySlots) }
-            }
-        }
-    }
+    val slotCombinations = type.slots().getAllBodySlotCombinations()
 
     val isTypeEquipped = true//equipmentMap.contains(type)
     val canSelect = isTypeEquipped //|| type.slots().none { occupiedSlots.contains(it) }

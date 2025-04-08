@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class EquipmentMap(private val map: Map<BodySlot, EquipmentId>) {
+data class EquipmentMap(val map: Map<BodySlot, EquipmentId>) {
 
     fun contains(equipment: EquipmentId) = map.containsValue(equipment)
     fun contains(slot: BodySlot) = map.containsKey(slot)
