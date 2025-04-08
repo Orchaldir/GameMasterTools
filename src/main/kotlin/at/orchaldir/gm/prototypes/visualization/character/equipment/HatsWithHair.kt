@@ -26,7 +26,7 @@ fun main() {
         addNames(HatStyle.entries),
         true,
     ) { distance, style, shape ->
-        Pair(createAppearance(distance, shape), EquipmentMap(mapOf(BodySlot.HeadSlot to Hat(style, SaddleBrown))))
+        Pair(createAppearance(distance, shape), EquipmentMap(Hat(style, SaddleBrown), BodySlot.HeadSlot))
     }
 }
 

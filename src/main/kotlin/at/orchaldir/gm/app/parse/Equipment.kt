@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.core.model.character.EquipmentMap
+import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.fromSlotAsKeyMap
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import io.ktor.http.*
@@ -12,7 +13,7 @@ fun parseEquipmentMap(
 
     BodySlot.entries.forEach { tryParse(parameters, map, it) }
 
-    return EquipmentMap(map)
+    return fromSlotAsKeyMap(map)
 }
 
 private fun tryParse(

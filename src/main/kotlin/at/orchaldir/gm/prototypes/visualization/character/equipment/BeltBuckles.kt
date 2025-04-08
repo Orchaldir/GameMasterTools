@@ -28,7 +28,7 @@ fun main() {
 private fun createBelt(
     shape: BuckleShape,
     size: Size,
-) = EquipmentMap(
+) = EquipmentMap.fromSlotAsKeyMap(
     mapOf(
         BodySlot.BeltSlot to Belt(SimpleBuckle(shape, size)),
         BodySlot.BottomSlot to Pants(),

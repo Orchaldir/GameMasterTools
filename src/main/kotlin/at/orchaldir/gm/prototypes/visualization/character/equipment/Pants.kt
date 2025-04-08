@@ -20,7 +20,7 @@ fun main() {
         addNames(PantsStyle.entries),
         addNames(BodyShape.entries)
     ) { distance, shape, style ->
-        Pair(createAppearance(distance, shape), EquipmentMap(mapOf(BodySlot.BottomSlot to Pants(style, Solid(Blue)))))
+        Pair(createAppearance(distance, shape), EquipmentMap(Pants(style, Solid(Blue)), BodySlot.BottomSlot))
     }
 }
 

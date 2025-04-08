@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.EquipmentMap
+import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.fromSlotAsKeyMap
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
@@ -48,7 +49,7 @@ private fun createBelt(
         }
     )
 
-    return EquipmentMap(
+    return fromSlotAsKeyMap(
         mapOf(
             BodySlot.BeltSlot to belt,
             BodySlot.BottomSlot to Pants(),

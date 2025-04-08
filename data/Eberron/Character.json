@@ -211,7 +211,11 @@
    },
    "equipmentMap": {
     "map": {
-     "EarSlotLeft": 3
+     "3": [
+      [
+       "EarSlotLeft"
+      ]
+     ]
     }
    },
    "employmentStatus": {

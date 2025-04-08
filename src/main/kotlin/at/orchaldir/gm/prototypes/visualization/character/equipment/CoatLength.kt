@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.EquipmentMap
+import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.fromSlotAsKeyMap
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Coat
@@ -24,17 +25,14 @@ fun main() {
         addNames(OuterwearLength.entries),
         addNames(BodyShape.entries)
     ) { distance, shape, length ->
+        val coat = Coat(
+            length,
+            openingStyle = DoubleBreasted(ButtonColumn(Button(Size.Medium, Color.Gold), 5u)),
+            fill = Solid(Blue)
+        )
         Pair(
             createAppearance(distance, shape),
-            EquipmentMap(
-                mapOf(
-                    BodySlot.OuterSlot to Coat(
-                    length,
-                    openingStyle = DoubleBreasted(ButtonColumn(Button(Size.Medium, Color.Gold), 5u)),
-                    fill = Solid(Blue)
-                    )
-                )
-            )
+            EquipmentMap(coat, BodySlot.OuterSlot)
         )
     }
 }

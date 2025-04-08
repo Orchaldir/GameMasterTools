@@ -21,7 +21,7 @@ fun main() {
         addNames(GloveStyle.entries),
         true,
     ) { distance, style, shape ->
-        Pair(createAppearance(distance, shape), EquipmentMap(mapOf(BodySlot.HandSlot to Gloves(style, Solid(Blue)))))
+        Pair(createAppearance(distance, shape), EquipmentMap(Gloves(style, Solid(Blue)), BodySlot.HandSlot))
     }
 }
 

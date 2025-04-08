@@ -226,7 +226,7 @@ private fun HTML.showEquipmentEditor(
 
 private fun BODY.visualizeItem(equipment: Equipment) {
     if (equipment.data.getType() != EquipmentDataType.None) {
-        val equipped = EquipmentMap(
+        val equipped = EquipmentMap.fromSlotAsKeyMap(
             equipment.data.slots()
                 .getAllBodySlotCombinations()
                 .first()

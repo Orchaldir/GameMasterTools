@@ -26,7 +26,7 @@ fun main() {
 
         Pair(
             createAppearance(distance),
-            EquipmentMap(mapOf(BodySlot.EyeSlotLeft to glasses, BodySlot.EyeSlotRight to glasses))
+            EquipmentMap(glasses, setOf(BodySlot.EyeSlotLeft, BodySlot.EyeSlotRight))
         )
     }
 }

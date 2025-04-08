@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.EquipmentMap
+import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.fromSlotAsKeyMap
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Dress
@@ -23,7 +24,7 @@ fun main() {
     ) { distance, shape, style ->
         Pair(
             createAppearance(distance, shape),
-            EquipmentMap(mapOf(BodySlot.TopSlot to Dress(Strapless, style, SleeveStyle.None)))
+            EquipmentMap(Dress(Strapless, style, SleeveStyle.None), BodySlot.TopSlot)
         )
     }
 }

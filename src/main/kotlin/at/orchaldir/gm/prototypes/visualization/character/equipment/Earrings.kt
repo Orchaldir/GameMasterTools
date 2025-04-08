@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.EquipmentMap
+import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.fromSlotAsKeyMap
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
@@ -50,7 +51,7 @@ fun main() {
     ).map { row ->
         row.map {
             val earring = Earring(it)
-            EquipmentMap(mapOf(BodySlot.EarSlotLeft to earring, BodySlot.EarSlotRight to earring))
+            EquipmentMap(earring to setOf(setOf(BodySlot.EarSlotLeft), setOf(BodySlot.EarSlotRight)))
         }
     }
 

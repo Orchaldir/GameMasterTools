@@ -36,7 +36,7 @@ fun main() {
         true,
     ) { distance, fixation, shape ->
         val eyePatch = EyePatch(SimpleEyePatch(shape, Color.Red), fixation)
-        Pair(createAppearance(distance), EquipmentMap(mapOf(BodySlot.EyeSlotLeft to eyePatch)))
+        Pair(createAppearance(distance), EquipmentMap(eyePatch, BodySlot.EyeSlotLeft))
     }
 }
 

@@ -31,7 +31,7 @@ fun main() {
 
         Pair(
             createAppearance(distance, earShape, earSize),
-            EquipmentMap(mapOf(BodySlot.EarSlotLeft to earring, BodySlot.EarSlotRight to earring))
+            EquipmentMap(earring to setOf(setOf(BodySlot.EarSlotLeft), setOf(BodySlot.EarSlotRight)))
         )
     }
 }

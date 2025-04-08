@@ -23,7 +23,7 @@ fun main() {
     ) { distance, shape, style ->
         Pair(
             createAppearance(distance, shape),
-            EquipmentMap(mapOf(BodySlot.TopSlot to Shirt(style, None, Solid(Blue))))
+            EquipmentMap(Shirt(style, None, Solid(Blue)), BodySlot.TopSlot)
         )
     }
 }

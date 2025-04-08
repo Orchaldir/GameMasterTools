@@ -25,7 +25,7 @@ fun main() {
 
         Pair(
             createAppearance(distance, shape),
-            EquipmentMap(mapOf(BodySlot.BottomSlot to socks))
+            EquipmentMap(socks, BodySlot.BottomSlot)
         )
     }
 }
