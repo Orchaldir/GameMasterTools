@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.character
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.character.showEquipmentMap
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseCharacter
 import at.orchaldir.gm.core.action.CreateCharacter
@@ -15,6 +16,7 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.SimpleAging
 import at.orchaldir.gm.core.model.util.History
@@ -460,15 +462,7 @@ fun BODY.showPossession(
 
     showOwnedElements(call, state, character.id, true)
 
-    showMap("Equipped", character.equipmentMap.getEquipmentWithSlotSets()) { item, slotSets ->
-        link(call, state, item)
-
-        if (slotSets.size > 1) {
-            showList(slotSets) { slots ->
-                +slots.joinToString()
-            }
-        }
-    }
+    showEquipmentMap(call, state, character.equipmentMap)
 
     action(editEquipmentLink, "Edit Equipment")
 }

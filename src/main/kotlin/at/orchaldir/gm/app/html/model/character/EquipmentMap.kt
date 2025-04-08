@@ -1,9 +1,85 @@
 package at.orchaldir.gm.app.html.model.character
 
+import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap
+import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
+import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
+import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
+import at.orchaldir.gm.core.model.util.OneOrNone
+import at.orchaldir.gm.core.selector.item.getEquipmentOf
 import io.ktor.http.*
+import io.ktor.server.application.*
+import kotlinx.html.BODY
+import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
+
+// show
+
+fun HtmlBlockTag.showEquipmentMap(
+    call: ApplicationCall,
+    state: State,
+    equipmentMap: EquipmentMap<EquipmentId>,
+) {
+    showMap("Equipped", equipmentMap.getEquipmentWithSlotSets()) { item, slotSets ->
+        link(call, state, item)
+
+        if (slotSets.size > 1) {
+            showList(slotSets) { slots ->
+                +slots.joinToString()
+            }
+        }
+    }
+}
+
+// edit
+
+fun FORM.editEquipmentMap(
+    state: State,
+    equipmentMap: EquipmentMap<EquipmentId>,
+    fashion: Fashion?,
+) {
+    EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, fashion, it) }
+}
+
+private fun FORM.selectEquipment(
+    state: State,
+    equipmentMap: EquipmentMap<EquipmentId>,
+    fashion: Fashion?,
+    type: EquipmentDataType,
+) {
+    // ignore fashion for testing
+    val options = OneOrNone(state.getEquipmentOf(type).map { it.id })
+
+    if (options.isEmpty()) {
+        return
+    }
+
+    showDetails(type.name, true) {
+        type.slots().getAllBodySlotCombinations().forEach { bodySlots ->
+            val isFree = equipmentMap.isFree(bodySlots)
+            val currentId = equipmentMap.getEquipment(bodySlots)
+            val isFreeOrType = isFree || state.getEquipmentStorage().getOptional(currentId)?.data?.isType(type) ?: false
+
+            if (isFreeOrType) {
+                selectOneOrNone(
+                    bodySlots.joinToString(" & "),
+                    bodySlots.joinToString("_"),
+                    options,
+                    false,
+                    true,
+                ) { id ->
+                    val equipment = state.getEquipmentStorage().getOrThrow(id)
+                    label = equipment.name
+                    value = id.value.toString()
+                    selected = id == currentId
+                }
+            }
+        }
+    }
+}
 
 // parse
 

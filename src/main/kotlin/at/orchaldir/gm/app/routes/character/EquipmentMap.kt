@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.model.character.editEquipmentMap
 import at.orchaldir.gm.app.html.model.character.parseEquipmentMap
 import at.orchaldir.gm.core.action.UpdateEquipmentOfCharacter
 import at.orchaldir.gm.core.generator.EquipmentGenerator
@@ -110,47 +111,10 @@ private fun HTML.showEquipmentMapEditor(
             method = FormMethod.post
             button("Random", generateLink)
 
-            EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, fashion, it) }
+            editEquipmentMap(state, equipmentMap, fashion)
 
             button("Update", updateLink)
         }
         back(backLink)
-    }
-}
-
-private fun FORM.selectEquipment(
-    state: State,
-    equipmentMap: EquipmentMap<EquipmentId>,
-    fashion: Fashion?,
-    type: EquipmentDataType,
-) {
-    // ignore fashion for testing
-    val options = OneOrNone(state.getEquipmentOf(type).map { it.id })
-
-    if (options.isEmpty()) {
-        return
-    }
-
-    showDetails(type.name, true) {
-        type.slots().getAllBodySlotCombinations().forEach { bodySlots ->
-            val isFree = equipmentMap.isFree(bodySlots)
-            val currentId = equipmentMap.getEquipment(bodySlots)
-            val isFreeOrType = isFree || state.getEquipmentStorage().getOptional(currentId)?.data?.isType(type) ?: false
-
-            if (isFreeOrType) {
-                selectOneOrNone(
-                    bodySlots.joinToString(" & "),
-                    bodySlots.joinToString("_"),
-                    options,
-                    false,
-                    true,
-                ) { id ->
-                    val equipment = state.getEquipmentStorage().getOrThrow(id)
-                    label = equipment.name
-                    value = id.value.toString()
-                    selected = id == currentId
-                }
-            }
-        }
     }
 }
