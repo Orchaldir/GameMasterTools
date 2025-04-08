@@ -134,18 +134,22 @@ private fun FORM.selectEquipment(
         return
     }
 
-    val slotCombinations = type.slots().getAllBodySlotCombinations()
+    showDetails(type.name, true) {
+        type.slots().getAllBodySlotCombinations().forEach { bodySlots ->
+            val isFree = equipmentMap.isFree(bodySlots)
+            val currentId = equipmentMap.getEquipment(bodySlots)
+            val isFreeOrType = isFree || state.getEquipmentStorage().getOptional(currentId)?.data?.isType(type) ?: false
 
-    val isTypeEquipped = true//equipmentMap.contains(type)
-    val canSelect = isTypeEquipped //|| type.slots().none { occupiedSlots.contains(it) }
-
-    selectOneOrNone(
-        type.name, type.name, options, !isTypeEquipped, true
-    ) { id ->
-        val equipment = state.getEquipmentStorage().getOrThrow(id)
-        label = equipment.name
-        value = id.value.toString()
-        selected = equipmentMap.contains(id)
-        disabled = !canSelect
+            if (isFreeOrType) {
+                selectOneOrNone(
+                    bodySlots.joinToString(" & "), bodySlots.joinToString("_"), options, false, true
+                ) { id ->
+                    val equipment = state.getEquipmentStorage().getOrThrow(id)
+                    label = equipment.name
+                    value = id.value.toString()
+                    selected = equipmentMap.contains(id)
+                }
+            }
+        }
     }
 }
