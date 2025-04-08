@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.parse
 
 import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.fromSlotAsKeyMap
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import io.ktor.http.*
@@ -9,21 +8,27 @@ import io.ktor.http.*
 fun parseEquipmentMap(
     parameters: Parameters,
 ): EquipmentMap<EquipmentId> {
-    val map = mutableMapOf<BodySlot, EquipmentId>()
+    val map = mutableMapOf<EquipmentId, MutableSet<Set<BodySlot>>>()
 
-    BodySlot.entries.forEach { tryParse(parameters, map, it) }
+    parameters.forEach { slotStrings, ids ->
+        tryParse(map, slotStrings, ids)
+    }
 
-    return fromSlotAsKeyMap(map)
+    return EquipmentMap(map)
 }
 
 private fun tryParse(
-    parameters: Parameters,
-    map: MutableMap<BodySlot, EquipmentId>,
-    slot: BodySlot,
+    map: MutableMap<EquipmentId, MutableSet<Set<BodySlot>>>,
+    slotStrings: String,
+    ids: List<String>,
 ) {
-    val value = parameters[slot.name]
+    require(ids.size <= 1) { "Slots $slotStrings has too many items!" }
+    val id = EquipmentId(ids.firstOrNull()?.toInt() ?: return)
 
-    if (!value.isNullOrBlank()) {
-        map[slot] = EquipmentId(value.toInt())
-    }
+    val slots = slotStrings.split("_")
+        .map { BodySlot.valueOf(it) }
+        .toSet()
+
+    map.computeIfAbsent(id) { mutableSetOf() }
+        .add(slots)
 }
