@@ -1,17 +1,18 @@
 package at.orchaldir.gm.core.model.character
 
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
-import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class EquipmentMap(val map: Map<BodySlot, EquipmentId>) {
+data class EquipmentMap<T>(val map: Map<BodySlot, T>) {
 
-    fun contains(equipment: EquipmentId) = map.containsValue(equipment)
+    constructor() : this(emptyMap())
+
+    fun contains(equipment: T) = map.containsValue(equipment)
 
     fun isFree(slots: Set<BodySlot>) = slots.none { map.containsKey(it) }
 
-    fun getEquipment(slots: Set<BodySlot>): EquipmentId? {
+    fun getEquipment(slots: Set<BodySlot>): T? {
         val items = slots
             .mapNotNull { map[it] }
             .toSet()

@@ -9,10 +9,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.fashion.Fashion
-import at.orchaldir.gm.core.model.item.equipment.BodySlot
-import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
-import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
-import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.item.getEquipmentOf
@@ -92,7 +89,7 @@ private fun HTML.showCharacterEquipmentEditor(
     call: ApplicationCall,
     state: State,
     character: Character,
-    equipmentMap: EquipmentMap,
+    equipmentMap: EquipmentMap<EquipmentId>,
 ) {
     val equipped = state.getEquipment(equipmentMap)
     val culture = state.getCultureStorage().getOrThrow(character.culture)
@@ -123,7 +120,7 @@ private fun HTML.showCharacterEquipmentEditor(
 
 private fun FORM.selectEquipment(
     state: State,
-    equipmentMap: EquipmentMap,
+    equipmentMap: EquipmentMap<EquipmentId>,
     fashion: Fashion?,
     type: EquipmentDataType,
 ) {

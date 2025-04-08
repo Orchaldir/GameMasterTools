@@ -7,7 +7,7 @@ import io.ktor.http.*
 
 fun parseEquipmentMap(
     parameters: Parameters,
-): EquipmentMap {
+): EquipmentMap<EquipmentId> {
     val map = mutableMapOf<BodySlot, EquipmentId>()
 
     BodySlot.entries.forEach { tryParse(parameters, map, it) }

@@ -30,7 +30,7 @@ fun State.getEquipment(character: CharacterId) =
 
 fun State.getEquipment(character: Character) = getEquipment(character.equipmentMap)
 
-fun State.getEquipment(equipmentMap: EquipmentMap) = equipmentMap
+fun State.getEquipment(equipmentMap: EquipmentMap<EquipmentId>) = equipmentMap
     .map
     .values
     .map { getEquipmentStorage().getOrThrow(it).data }
