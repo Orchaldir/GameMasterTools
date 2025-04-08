@@ -142,7 +142,11 @@ private fun FORM.selectEquipment(
 
             if (isFreeOrType) {
                 selectOneOrNone(
-                    bodySlots.joinToString(" & "), bodySlots.joinToString("_"), options, false, true
+                    bodySlots.joinToString(" & "),
+                    bodySlots.joinToString("_"),
+                    options,
+                    false,
+                    true,
                 ) { id ->
                     val equipment = state.getEquipmentStorage().getOrThrow(id)
                     label = equipment.name
