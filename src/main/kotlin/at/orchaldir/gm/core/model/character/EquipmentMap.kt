@@ -14,9 +14,6 @@ data class EquipmentMap<T>(private val map: Map<T, Set<Set<BodySlot>>>) {
     companion object {
         fun <T> fromSlotAsKeyMap(map: Map<BodySlot, T>) =
             EquipmentMap(map.entries.associate { Pair(it.value, setOf(setOf(it.key))) })
-
-        fun <T> fromSlotAsValueMap(map: Map<T, BodySlot>) =
-            EquipmentMap(map.entries.associate { Pair(it.key, setOf(setOf(it.value))) })
     }
 
     fun contains(equipment: T) = map.containsKey(equipment)
