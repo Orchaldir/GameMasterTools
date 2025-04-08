@@ -62,10 +62,11 @@ private fun FORM.selectEquipment(
             val isFree = equipmentMap.isFree(bodySlots)
             val currentId = equipmentMap.getEquipment(bodySlots)
             val isFreeOrType = isFree || state.getEquipmentStorage().getOptional(currentId)?.data?.isType(type) ?: false
+            val text = bodySlots.joinToString(" & ")
 
             if (isFreeOrType) {
                 selectOneOrNone(
-                    bodySlots.joinToString(" & "),
+                    text,
                     bodySlots.joinToString("_"),
                     options,
                     false,
@@ -76,6 +77,8 @@ private fun FORM.selectEquipment(
                     value = id.value.toString()
                     selected = id == currentId
                 }
+            } else {
+                field(text, "Slot(s) are occupied")
             }
         }
     }

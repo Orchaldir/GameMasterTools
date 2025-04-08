@@ -80,15 +80,15 @@ fun FORM.editEarring(
         }
 
         is DropEarring -> {
-            selectFactor("Size", SIZE, style.size, ZERO, ONE, ONE_PERCENT)
-            selectFactor("Wire Length", LENGTH, style.wireLength, ZERO, ONE, ONE_PERCENT)
+            selectFactor("Size", SIZE, style.size, ZERO, ONE, ONE_PERCENT, true)
+            selectFactor("Wire Length", LENGTH, style.wireLength, ZERO, ONE, ONE_PERCENT, true)
             editOrnament(state, style.top, TOP, "Top Ornament")
             editOrnament(state, style.bottom, BOTTOM, "Bottom Ornament")
             editLook(state, style.wireColor, style.wireMaterial, WIRE, "Wire")
         }
 
         is HoopEarring -> {
-            selectFactor("Diameter", LENGTH, style.length, ZERO, ONE, ONE_PERCENT)
+            selectFactor("Diameter", LENGTH, style.length, ZERO, ONE, ONE_PERCENT, true)
             selectValue("Thickness", SIZE, Size.entries, style.thickness, true)
             editLook(state, style.color, style.material, WIRE)
         }

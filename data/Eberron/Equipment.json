@@ -91,6 +91,24 @@
     }
    },
    "weight": 10
+  },
+  "5": {
+   "id": 5,
+   "name": "Earring 2",
+   "data": {
+    "type": "Earring",
+    "style": {
+     "type": "Drop",
+     "size": 4000,
+     "wireLength": 2500,
+     "bottom": {
+      "type": "Simple",
+      "shape": "Teardrop",
+      "color": "Blue"
+     }
+    }
+   },
+   "weight": 10
   }
  }
 }
