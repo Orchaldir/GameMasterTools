@@ -54,7 +54,7 @@ data class EarringConfig(
     }
 }
 
-fun visualizeEarrings(
+fun visualizeEarring(
     state: CharacterRenderState,
     head: Head,
     earring: Earring,

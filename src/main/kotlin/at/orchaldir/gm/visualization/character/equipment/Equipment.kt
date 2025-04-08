@@ -51,7 +51,7 @@ fun visualizeHeadEquipment(
     state.equipped.getEquipmentWithSlotSets().forEach { (data, sets) ->
         sets.forEach { set ->
             when (data) {
-                is Earring -> visualizeEarrings(state, head, data, set)
+                is Earring -> visualizeEarring(state, head, data, set)
                 is EyePatch -> visualizeEyePatch(state, head, data, set)
                 is Glasses -> visualizeGlasses(state, head, data)
                 is Hat -> visualizeHat(state, data)
