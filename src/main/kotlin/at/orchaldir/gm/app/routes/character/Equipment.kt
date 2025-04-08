@@ -151,7 +151,7 @@ private fun FORM.selectEquipment(
                     val equipment = state.getEquipmentStorage().getOrThrow(id)
                     label = equipment.name
                     value = id.value.toString()
-                    selected = equipmentMap.contains(id)
+                    selected = id == currentId
                 }
             }
         }

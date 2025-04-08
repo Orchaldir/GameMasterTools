@@ -209,6 +209,11 @@
      "color": "Fair"
     }
    },
+   "equipmentMap": {
+    "map": {
+     "EarSlotLeft": 3
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "Employed",
