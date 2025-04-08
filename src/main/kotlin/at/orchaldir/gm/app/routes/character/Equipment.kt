@@ -38,7 +38,7 @@ fun Application.configureCharacterEquipmentRouting() {
             val character = state.getCharacterStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showEquipmentEditor(call, state, character, character.equipmentMap)
+                showCharacterEquipmentEditor(call, state, character, character.equipmentMap)
             }
         }
         post<CharacterRoutes.Equipment.Preview> { preview ->
@@ -52,7 +52,7 @@ fun Application.configureCharacterEquipmentRouting() {
             logger.info { "equipment: $equipmentMap" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showEquipmentEditor(call, state, character, equipmentMap)
+                showCharacterEquipmentEditor(call, state, character, equipmentMap)
             }
         }
         post<CharacterRoutes.Equipment.Update> { update ->
@@ -77,7 +77,7 @@ fun Application.configureCharacterEquipmentRouting() {
                 val equipment = generator.generate()
 
                 call.respondHtml(HttpStatusCode.OK) {
-                    showEquipmentEditor(call, state, generator.character, equipment)
+                    showCharacterEquipmentEditor(call, state, generator.character, equipment)
                 }
             } else {
                 call.respondRedirect(href(call, update.id))
@@ -86,7 +86,7 @@ fun Application.configureCharacterEquipmentRouting() {
     }
 }
 
-private fun HTML.showEquipmentEditor(
+private fun HTML.showCharacterEquipmentEditor(
     call: ApplicationCall,
     state: State,
     character: Character,
@@ -103,7 +103,7 @@ private fun HTML.showEquipmentEditor(
     val frontSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipped)
     val backSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipped, false)
 
-    simpleHtml("Edit Equipment: ${character.name(state)}") {
+    simpleHtml("Edit Equipment of ${character.name(state)}") {
         svg(frontSvg, 20)
         svg(backSvg, 20)
         form {
