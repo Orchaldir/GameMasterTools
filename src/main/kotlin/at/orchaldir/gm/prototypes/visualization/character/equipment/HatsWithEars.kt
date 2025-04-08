@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.EquipmentMap
+import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.character.appearance.EarShape
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
@@ -27,7 +28,7 @@ fun main() {
         addNames(HatStyle.entries),
         true,
     ) { distance, style, shape ->
-        Pair(createAppearance(distance, shape), EquipmentMap(Hat(style, SaddleBrown), BodySlot.HeadSlot))
+        Pair(createAppearance(distance, shape), from(Hat(style, SaddleBrown)))
     }
 }
 

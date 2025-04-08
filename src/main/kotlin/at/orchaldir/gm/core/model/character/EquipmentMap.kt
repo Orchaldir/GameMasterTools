@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.character
 
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
+import at.orchaldir.gm.core.model.item.equipment.EquipmentData
+import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -12,6 +14,9 @@ data class EquipmentMap<T>(private val map: Map<T, Set<Set<BodySlot>>>) {
     constructor(value: T, slots: Set<BodySlot>) : this(mapOf(value to setOf(slots)))
 
     companion object {
+        fun from(data: EquipmentData) =
+            EquipmentMap(data, data.slots().getAllBodySlotCombinations().first())
+
         fun <T> fromSlotAsKeyMap(map: Map<BodySlot, T>) =
             EquipmentMap(map.entries.associate { Pair(it.value, setOf(setOf(it.key))) })
     }

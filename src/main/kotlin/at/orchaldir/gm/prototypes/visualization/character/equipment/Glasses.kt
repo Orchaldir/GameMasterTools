@@ -1,6 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.EquipmentMap
+import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
@@ -24,10 +25,7 @@ fun main() {
     ) { distance, lensShape, frameType ->
         val glasses = Glasses(lensShape, frameType)
 
-        Pair(
-            createAppearance(distance),
-            EquipmentMap(glasses, setOf(BodySlot.EyeSlotLeft, BodySlot.EyeSlotRight))
-        )
+        Pair(createAppearance(distance), from(glasses))
     }
 }
 
