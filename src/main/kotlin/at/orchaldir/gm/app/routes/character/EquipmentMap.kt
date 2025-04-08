@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parseEquipmentMap
+import at.orchaldir.gm.app.html.model.character.parseEquipmentMap
 import at.orchaldir.gm.core.action.UpdateEquipmentOfCharacter
 import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State
@@ -28,7 +28,7 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-fun Application.configureCharacterEquipmentRouting() {
+fun Application.configureEquipmentMapRouting() {
     routing {
         get<CharacterRoutes.Equipment.Edit> { edit ->
             logger.info { "Get editor for character ${edit.id.value}'s equipment" }
@@ -37,7 +37,7 @@ fun Application.configureCharacterEquipmentRouting() {
             val character = state.getCharacterStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showCharacterEquipmentEditor(call, state, character, character.equipmentMap)
+                showEquipmentMapEditor(call, state, character, character.equipmentMap)
             }
         }
         post<CharacterRoutes.Equipment.Preview> { preview ->
@@ -51,7 +51,7 @@ fun Application.configureCharacterEquipmentRouting() {
             logger.info { "equipment: $equipmentMap" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showCharacterEquipmentEditor(call, state, character, equipmentMap)
+                showEquipmentMapEditor(call, state, character, equipmentMap)
             }
         }
         post<CharacterRoutes.Equipment.Update> { update ->
@@ -76,7 +76,7 @@ fun Application.configureCharacterEquipmentRouting() {
                 val equipment = generator.generate()
 
                 call.respondHtml(HttpStatusCode.OK) {
-                    showCharacterEquipmentEditor(call, state, generator.character, equipment)
+                    showEquipmentMapEditor(call, state, generator.character, equipment)
                 }
             } else {
                 call.respondRedirect(href(call, update.id))
@@ -85,7 +85,7 @@ fun Application.configureCharacterEquipmentRouting() {
     }
 }
 
-private fun HTML.showCharacterEquipmentEditor(
+private fun HTML.showEquipmentMapEditor(
     call: ApplicationCall,
     state: State,
     character: Character,

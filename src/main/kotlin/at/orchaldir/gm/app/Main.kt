@@ -53,7 +53,7 @@ fun Application.module() {
     configureBuildingEditorRouting()
     configureBusinessRouting()
     configureCharacterRouting()
-    configureCharacterEquipmentRouting()
+    configureEquipmentMapRouting()
     configureCharacterLanguageRouting()
     configureCharacterRelationshipRouting()
     configureAppearanceRouting()

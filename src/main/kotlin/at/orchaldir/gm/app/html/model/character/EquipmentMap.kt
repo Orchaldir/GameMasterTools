@@ -1,9 +1,11 @@
-package at.orchaldir.gm.app.parse
+package at.orchaldir.gm.app.html.model.character
 
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import io.ktor.http.*
+
+// parse
 
 fun parseEquipmentMap(
     parameters: Parameters,
