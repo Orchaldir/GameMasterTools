@@ -460,8 +460,14 @@ fun BODY.showPossession(
 
     showOwnedElements(call, state, character.id, true)
 
-    showList("Equipped", character.equipmentMap.getAllEquipment()) { item ->
+    showMap("Equipped", character.equipmentMap.getEquipmentWithSlotSets()) { item, slotSets ->
         link(call, state, item)
+
+        if (slotSets.size > 1) {
+            showList(slotSets) { slots ->
+                +slots.joinToString()
+            }
+        }
     }
 
     action(editEquipmentLink, "Edit Equipment")
