@@ -12,6 +12,8 @@ data class EquipmentMap<T>(val map: Map<BodySlot, T>) {
 
     fun isFree(slots: Set<BodySlot>) = slots.none { map.containsKey(it) }
 
+    fun getAllEquipment() = map.values.toSet()
+
     fun getEquipment(slots: Set<BodySlot>): T? {
         val items = slots
             .mapNotNull { map[it] }

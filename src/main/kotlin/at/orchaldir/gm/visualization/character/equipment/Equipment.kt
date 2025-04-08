@@ -27,7 +27,7 @@ fun visualizeBodyEquipment(
     state: CharacterRenderState,
     body: Body,
 ) {
-    state.equipped.forEach {
+    state.equipped.getAllEquipment().forEach {
         when (it) {
             is Belt -> visualizeBelt(state, body, it)
             is Coat -> visualizeCoat(state, body, it)
@@ -48,7 +48,7 @@ fun visualizeHeadEquipment(
     state: CharacterRenderState,
     head: Head,
 ) {
-    state.equipped.forEach {
+    state.equipped.getAllEquipment().forEach {
         when (it) {
             is Earring -> visualizeEarrings(state, head, it)
             is EyePatch -> visualizeEyePatch(state, head, it)
