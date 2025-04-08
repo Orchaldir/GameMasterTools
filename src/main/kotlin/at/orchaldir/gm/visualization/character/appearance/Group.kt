@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.utils.math.AABB
@@ -13,7 +14,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 fun visualizeGroup(
     config: CharacterRenderConfig,
     appearances: List<Appearance>,
-    equipped: List<EquipmentData> = emptyList(),
+    equipped: EquipmentMap<EquipmentData> = EquipmentMap(),
     renderFront: Boolean = true,
 ): Svg {
     val number = appearances.size

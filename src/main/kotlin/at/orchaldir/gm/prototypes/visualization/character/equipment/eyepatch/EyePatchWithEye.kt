@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment.eyepatch
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.eye.EyeShape
@@ -7,6 +8,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.NormalEye
 import at.orchaldir.gm.core.model.character.appearance.eye.PupilShape.VerticalSlit
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EyePatch
 import at.orchaldir.gm.core.model.item.equipment.style.EyePatchWithEye
 import at.orchaldir.gm.core.model.item.equipment.style.OneBand
@@ -26,7 +28,8 @@ fun main() {
         addNames(VALID_LENSES),
     ) { distance, shape, eyeShape ->
         val eye = NormalEye(eyeShape, VerticalSlit, Red, Yellow)
-        Pair(createAppearance(distance), listOf(EyePatch(EyePatchWithEye(eye, shape), OneBand())))
+        val eyePatch = EyePatch(EyePatchWithEye(eye, shape), OneBand())
+        Pair(createAppearance(distance), EquipmentMap(mapOf(BodySlot.EyeSlotLeft to eyePatch)))
     }
 }
 

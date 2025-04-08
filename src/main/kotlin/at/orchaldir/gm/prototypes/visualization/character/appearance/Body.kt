@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.addNames
@@ -14,7 +15,7 @@ fun main() {
         addNames(Size.entries),
         addNames(BodyShape.entries)
     ) { distance, shape, width ->
-        Pair(createAppearance(distance, shape, width), emptyList())
+        Pair(createAppearance(distance, shape, width), EquipmentMap())
     }
 }
 

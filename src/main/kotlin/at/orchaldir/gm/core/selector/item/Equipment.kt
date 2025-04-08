@@ -30,10 +30,10 @@ fun State.getEquipment(character: CharacterId) =
 
 fun State.getEquipment(character: Character) = getEquipment(character.equipmentMap)
 
-fun State.getEquipment(equipmentMap: EquipmentMap<EquipmentId>) = equipmentMap
+fun State.getEquipment(equipmentMap: EquipmentMap<EquipmentId>) = EquipmentMap(
+    equipmentMap
     .map
-    .values
-    .map { getEquipmentStorage().getOrThrow(it).data }
+        .mapValues { getEquipmentStorage().getOrThrow(it.value).data })
 
 fun State.getEquippedBy(equipment: EquipmentId) = getCharacterStorage().getAll()
     .filter { it.equipmentMap.contains(equipment) }

@@ -1,9 +1,11 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment.eyepatch
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EyePatch
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Color
@@ -33,7 +35,8 @@ fun main() {
         FIXATIONS,
         true,
     ) { distance, fixation, shape ->
-        Pair(createAppearance(distance), listOf(EyePatch(SimpleEyePatch(shape, Color.Red), fixation)))
+        val eyePatch = EyePatch(SimpleEyePatch(shape, Color.Red), fixation)
+        Pair(createAppearance(distance), EquipmentMap(mapOf(BodySlot.EyeSlotLeft to eyePatch)))
     }
 }
 

@@ -1,6 +1,8 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Socks
 import at.orchaldir.gm.core.model.item.equipment.style.SocksStyle
 import at.orchaldir.gm.core.model.util.Color
@@ -19,7 +21,12 @@ fun main() {
         addNames(SocksStyle.entries),
         true,
     ) { distance, style, shape ->
-        Pair(createAppearance(distance, shape), listOf(Socks(style, HorizontalStripes(Color.White, Color.Blue, 1u))))
+        val socks = Socks(style, HorizontalStripes(Color.White, Color.Blue, 1u))
+
+        Pair(
+            createAppearance(distance, shape),
+            EquipmentMap(mapOf(BodySlot.BottomSlot to socks))
+        )
     }
 }
 

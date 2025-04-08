@@ -1,7 +1,9 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.Belt
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Pants
 import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.item.equipment.style.BuckleShape
@@ -26,10 +28,12 @@ fun main() {
 private fun createBelt(
     shape: BuckleShape,
     size: Size,
-) = listOf(
-    Belt(SimpleBuckle(shape, size)),
-    Pants(),
-    Shirt(),
+) = EquipmentMap(
+    mapOf(
+        BodySlot.BeltSlot to Belt(SimpleBuckle(shape, size)),
+        BodySlot.BottomSlot to Pants(),
+        BodySlot.TopSlot to Shirt(),
+    )
 )
 
 private fun createAppearance(distance: Distance) =

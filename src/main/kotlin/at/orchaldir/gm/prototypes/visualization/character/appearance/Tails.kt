@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
@@ -20,7 +21,7 @@ fun main() {
         addNames(SimpleTailShape.entries),
         true,
     ) { distance, tail, size ->
-        Pair(createAppearance(distance, tail, size), emptyList())
+        Pair(createAppearance(distance, tail, size), EquipmentMap())
     }
 }
 

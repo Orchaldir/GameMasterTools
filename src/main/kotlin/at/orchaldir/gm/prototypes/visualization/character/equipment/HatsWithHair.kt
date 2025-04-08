@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
@@ -7,6 +8,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairCut
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Hat
 import at.orchaldir.gm.core.model.item.equipment.style.HatStyle
 import at.orchaldir.gm.core.model.util.Color.SaddleBrown
@@ -24,7 +26,7 @@ fun main() {
         addNames(HatStyle.entries),
         true,
     ) { distance, style, shape ->
-        Pair(createAppearance(distance, shape), listOf(Hat(style, SaddleBrown)))
+        Pair(createAppearance(distance, shape), EquipmentMap(mapOf(BodySlot.HeadSlot to Hat(style, SaddleBrown))))
     }
 }
 

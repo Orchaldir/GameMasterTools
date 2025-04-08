@@ -1,9 +1,8 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.item.equipment.Belt
-import at.orchaldir.gm.core.model.item.equipment.Pants
-import at.orchaldir.gm.core.model.item.equipment.Shirt
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
@@ -36,8 +35,8 @@ private fun createBelt(
     type: BeltHolesType,
     size: Size,
     color: Color?,
-) = listOf(
-    Belt(
+): EquipmentMap<EquipmentData> {
+    val belt = Belt(
         SimpleBuckle(
             BuckleShape.Rectangle,
         ),
@@ -47,10 +46,16 @@ private fun createBelt(
             BeltHolesType.TwoRows -> TwoRowsOfBeltHoles(color)
             BeltHolesType.ThreeRows -> ThreeRowsOfBeltHoles(color)
         }
-    ),
-    Pants(),
-    Shirt(),
-)
+    )
+
+    return EquipmentMap(
+        mapOf(
+            BodySlot.BeltSlot to belt,
+            BodySlot.BottomSlot to Pants(),
+            BodySlot.TopSlot to Shirt(),
+        )
+    )
+}
 
 private fun createAppearance(distance: Distance) =
     HumanoidBody(

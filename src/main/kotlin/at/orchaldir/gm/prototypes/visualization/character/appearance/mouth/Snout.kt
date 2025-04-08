@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance.mouth
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.ExoticSkin
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
@@ -21,7 +22,7 @@ fun main() {
         EYES,
         false,
     ) { distance, eyes, shape ->
-        Pair(createAppearance(distance, eyes, shape), emptyList())
+        Pair(createAppearance(distance, eyes, shape), EquipmentMap())
     }
 }
 

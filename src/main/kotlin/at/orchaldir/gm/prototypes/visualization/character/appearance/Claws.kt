@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.Muscular
 import at.orchaldir.gm.core.model.character.appearance.ClawedFoot
@@ -19,7 +20,7 @@ fun main() {
         addNames(Size.entries),
         addNames(listOf(1, 2, 3, 4, 5))
     ) { distance, shape, width ->
-        Pair(createAppearance(distance, shape, width), emptyList())
+        Pair(createAppearance(distance, shape, width), EquipmentMap())
     }
 }
 

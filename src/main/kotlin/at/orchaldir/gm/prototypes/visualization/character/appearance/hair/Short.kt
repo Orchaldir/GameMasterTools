@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance.hair
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
@@ -24,7 +25,7 @@ fun main() {
         EYES,
         false,
     ) { distance, eyes, style ->
-        Pair(createAppearance(distance, eyes, style), emptyList())
+        Pair(createAppearance(distance, eyes, style), EquipmentMap())
     }
 }
 

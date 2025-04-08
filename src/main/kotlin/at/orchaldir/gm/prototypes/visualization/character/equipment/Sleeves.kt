@@ -1,6 +1,8 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle.None
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
@@ -19,7 +21,10 @@ fun main() {
         addNames(SleeveStyle.entries),
         addNames(BodyShape.entries)
     ) { distance, shape, style ->
-        Pair(createAppearance(distance, shape), listOf(Shirt(None, style, Solid(Blue))))
+        Pair(
+            createAppearance(distance, shape),
+            EquipmentMap(mapOf(BodySlot.BottomSlot to Shirt(None, style, Solid(Blue))))
+        )
     }
 }
 
