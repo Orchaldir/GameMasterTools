@@ -1,10 +1,12 @@
 package at.orchaldir.gm.core.model.character
 
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class EquipmentMap<T>(val map: Map<BodySlot, T>) {
+data class EquipmentMap<T>(private val map: Map<BodySlot, T>) {
 
     constructor() : this(emptyMap())
 
@@ -25,4 +27,8 @@ data class EquipmentMap<T>(val map: Map<BodySlot, T>) {
             null
         }
     }
+
+    fun <U> convert(function: (T) -> U): EquipmentMap<U> = EquipmentMap(
+        map.mapValues { function(it.value) }
+    )
 }

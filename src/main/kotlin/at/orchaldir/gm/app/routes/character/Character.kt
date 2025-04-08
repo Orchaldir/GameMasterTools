@@ -460,7 +460,7 @@ fun BODY.showPossession(
 
     showOwnedElements(call, state, character.id, true)
 
-    showList("Equipped", character.equipmentMap.map.values) { item ->
+    showList("Equipped", character.equipmentMap.getAllEquipment()) { item ->
         link(call, state, item)
     }
 
