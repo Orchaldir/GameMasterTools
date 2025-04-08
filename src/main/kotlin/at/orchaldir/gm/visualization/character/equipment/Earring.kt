@@ -60,8 +60,9 @@ fun visualizeEarring(
     earring: Earring,
     set: Set<BodySlot>,
 ) {
-    val earRadius = state.config.equipment.earring.calculateEarRadius(state.aabb, state.config.head, head.ears)
-    val (left, right) = state.config.equipment.earring.calculatePosition(state.aabb, state.config.head, earRadius)
+    val config = state.config.equipment.earring
+    val earRadius = config.calculateEarRadius(state.aabb, state.config.head, head.ears)
+    val (left, right) = config.calculatePosition(state.aabb, state.config.head, earRadius)
 
     if (set.contains(BodySlot.EarSlotLeft)) {
         visualizeEarring(state, earring, right, earRadius)
