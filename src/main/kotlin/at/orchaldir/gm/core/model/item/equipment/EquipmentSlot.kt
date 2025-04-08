@@ -5,6 +5,7 @@ enum class EquipmentSlot {
     BottomSlot,
     EarSlot,
     EyeSlot,
+    EyesSlot,
     FootSlot,
     FootUnderwearSlot,
     HandSlot,

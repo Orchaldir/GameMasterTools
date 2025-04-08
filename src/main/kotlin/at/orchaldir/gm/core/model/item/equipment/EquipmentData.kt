@@ -36,7 +36,7 @@ enum class EquipmentDataType {
         Earring -> setOf(EarSlot)
         EyePatch -> setOf(EyeSlot)
         Footwear -> setOf(FootSlot)
-        Glasses -> setOf(EyeSlot)
+        Glasses -> setOf(EyesSlot)
         Gloves -> setOf(HandSlot)
         Hat -> setOf(HeadSlot)
         Pants -> setOf(BottomSlot)
