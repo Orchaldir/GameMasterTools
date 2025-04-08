@@ -48,13 +48,15 @@ fun visualizeHeadEquipment(
     state: CharacterRenderState,
     head: Head,
 ) {
-    state.equipped.getAllEquipment().forEach {
-        when (it) {
-            is Earring -> visualizeEarrings(state, head, it)
-            is EyePatch -> visualizeEyePatch(state, head, it)
-            is Glasses -> visualizeGlasses(state, head, it)
-            is Hat -> visualizeHat(state, it)
-            else -> doNothing()
+    state.equipped.getEquipmentWithSlotSets().forEach { (data, sets) ->
+        sets.forEach { set ->
+            when (data) {
+                is Earring -> visualizeEarrings(state, head, data, set)
+                is EyePatch -> visualizeEyePatch(state, head, data)
+                is Glasses -> visualizeGlasses(state, head, data)
+                is Hat -> visualizeHat(state, data)
+                else -> doNothing()
+            }
         }
     }
 }

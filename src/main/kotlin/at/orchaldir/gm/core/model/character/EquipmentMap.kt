@@ -28,6 +28,7 @@ data class EquipmentMap<T>(private val map: Map<T, Set<Set<BodySlot>>>) {
     fun isFree(slots: Set<BodySlot>) = slots.all { isFree(it) }
 
     fun getAllEquipment() = map.keys
+    fun getEquipmentWithSlotSets() = map
 
     fun getEquipment(slots: Set<BodySlot>): T? = map.filter { (_, slotSets) ->
         slotSets.contains(slots)
