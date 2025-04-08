@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.selector.item.getEquipment
+import at.orchaldir.gm.core.selector.item.getEquipmentOf
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
@@ -126,7 +127,8 @@ private fun FORM.selectEquipment(
     fashion: Fashion?,
     type: EquipmentDataType,
 ) {
-    val options = fashion?.getOptions(type) ?: OneOrNone()
+    // ignore fashion for testing
+    val options = OneOrNone(state.getEquipmentOf(type).map { it.id })
 
     if (options.isEmpty()) {
         return
