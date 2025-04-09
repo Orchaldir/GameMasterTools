@@ -30,7 +30,7 @@ private fun createAppearance(height: Distance, position: PonytailPosition, style
         Head(
             NormalEars(),
             TwoEyes(),
-            NormalHair(Ponytail(style, HairLength.Classic, position), Color.Gold),
+            NormalHair(Ponytail(style, HairLength.Knee, position), Color.Gold),
             NoHorns,
             FemaleMouth()
         ),
