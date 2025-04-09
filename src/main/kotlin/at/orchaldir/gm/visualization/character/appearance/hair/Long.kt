@@ -15,7 +15,7 @@ import kotlin.math.roundToInt
 fun visualizeLongHair(state: CharacterRenderState, hair: NormalHair, longHair: LongHairCut) {
     val config = state.config
     val options = config.getLineOptions(hair.color)
-    val height = config.body.getDistanceFromNeckToBottom(state.aabb) * config.head.hair.getLength(longHair.length)
+    val height = config.getHairLength(state.aabb, longHair.length)
 
     when (longHair.style) {
         LongHairStyle.Straight -> visualizeStraightHair(state, options, height)
