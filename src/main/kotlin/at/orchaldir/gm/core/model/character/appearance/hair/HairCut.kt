@@ -31,8 +31,8 @@ data class LongHairCut(
 @SerialName("Ponytail")
 data class Ponytail(
     val style: PonytailStyle = PonytailStyle.Straight,
-    val length: HairLength = HairLength.Classic,
     val position: PonytailPosition = PonytailPosition.Low,
+    val length: HairLength = HairLength.Classic,
 ) : HairCut()
 
 @Serializable
