@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.item.equipment.ACCESSORIES
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
+import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.RarityMap
@@ -40,7 +41,7 @@ data class EquipmentGenerator(
     }
 
     fun generate(): EquipmentMap<EquipmentId> {
-        val result = mutableMapOf<EquipmentDataType, EquipmentId>()
+        val result = mutableMapOf<EquipmentId, EquipmentDataType>()
 
         when (generate(fashion.clothingSets)) {
             ClothingSet.Dress -> generate(result, Dress)
@@ -53,27 +54,26 @@ data class EquipmentGenerator(
             generateAccessory(result, accessory)
         }
 
-        // TODO
-        return EquipmentMap(emptyMap())
+        return EquipmentMap(result.mapValues { setOf(it.value.slots().getAllBodySlotCombinations().first()) })
     }
 
-    private fun generatePantsAndShirt(result: MutableMap<EquipmentDataType, EquipmentId>) {
+    private fun generatePantsAndShirt(result: MutableMap<EquipmentId, EquipmentDataType>) {
         generate(result, Pants)
         generate(result, Shirt)
     }
 
-    private fun generateShirtAndSkirt(result: MutableMap<EquipmentDataType, EquipmentId>) {
+    private fun generateShirtAndSkirt(result: MutableMap<EquipmentId, EquipmentDataType>) {
         generate(result, Shirt)
         generate(result, Skirt)
     }
 
-    private fun generateSuit(result: MutableMap<EquipmentDataType, EquipmentId>) {
+    private fun generateSuit(result: MutableMap<EquipmentId, EquipmentDataType>) {
         generate(result, Coat)
         generate(result, Pants)
         generate(result, Shirt)
     }
 
-    private fun generateAccessory(result: MutableMap<EquipmentDataType, EquipmentId>, type: EquipmentDataType) {
+    private fun generateAccessory(result: MutableMap<EquipmentId, EquipmentDataType>, type: EquipmentDataType) {
         if (requiresAccessory(type)) {
             generate(result, type)
         }
@@ -91,9 +91,9 @@ data class EquipmentGenerator(
         return generate(rarityMap)
     }
 
-    private fun generate(result: MutableMap<EquipmentDataType, EquipmentId>, type: EquipmentDataType) {
+    private fun generate(result: MutableMap<EquipmentId, EquipmentDataType>, type: EquipmentDataType) {
         val options = fashion.getOptions(type)
-        result[type] = generate(options)
+        result[generate(options)] = type
     }
 
     private fun <T> generate(map: RarityMap<T>) = rarityGenerator.generate(map, numberGenerator)
