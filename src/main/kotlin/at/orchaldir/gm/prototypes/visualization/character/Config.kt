@@ -173,6 +173,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
                 HairLength.Waist to fromPercentage(40),
                 HairLength.MidBack to fromPercentage(20),
             ),
+            fromPercentage(20),
         ),
         fromPercentage(25),
         fromPercentage(20),
