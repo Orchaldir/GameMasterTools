@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
+import at.orchaldir.gm.core.model.item.equipment.ACCESSORIES
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
@@ -48,9 +49,9 @@ data class EquipmentGenerator(
             ClothingSet.Suit -> generateSuit(result)
         }
 
-        generateAccessory(result, Footwear)
-        generateAccessory(result, Gloves)
-        generateAccessory(result, Hat)
+        ACCESSORIES.forEach { accessory ->
+            generateAccessory(result, accessory)
+        }
 
         // TODO
         return EquipmentMap(emptyMap())
