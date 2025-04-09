@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Fill
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.*

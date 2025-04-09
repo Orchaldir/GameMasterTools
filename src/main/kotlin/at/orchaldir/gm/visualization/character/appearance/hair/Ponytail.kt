@@ -1,6 +1,5 @@
 package at.orchaldir.gm.visualization.character.appearance.hair
 
-import at.orchaldir.gm.app.EMPLOYMENT
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.Ponytail
 import at.orchaldir.gm.core.model.character.appearance.hair.PonytailPosition
@@ -34,6 +33,7 @@ fun visualizePonytail(state: CharacterRenderState, hair: NormalHair, ponytail: P
             length,
             START - y - config.head.hair.longPadding
         )
+
         else -> getLeftPonytail(state, ponytail.style, length, y)
     }
 
@@ -98,6 +98,7 @@ private fun getLeftPonytail(
         val braidWidth = state.config.head.hair.braidWidth
         getBraid(state, length, FULL + braidWidth / 2.0f, y, braidWidth)
     }
+
     Straight, Wide -> getLeftStraightPonytail(state, style, length, y)
 }
 
