@@ -6,4 +6,5 @@ enum class PonytailPosition {
     Left,
     Low,
     Right,
+    Top,
 }

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance.hair
 
+import at.orchaldir.gm.app.EMPLOYMENT
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.Ponytail
 import at.orchaldir.gm.core.model.character.appearance.hair.PonytailPosition
@@ -27,6 +28,12 @@ fun visualizePonytail(state: CharacterRenderState, hair: NormalHair, ponytail: P
     val polygon = when (ponytail.position) {
         PonytailPosition.High -> getCenterPonytail(state, ponytail.style, length, y)
         PonytailPosition.Low -> getCenterPonytail(state, ponytail.style, length, FULL - y)
+        PonytailPosition.Top -> getCenterPonytail(
+            state,
+            ponytail.style,
+            length,
+            START - y - config.head.hair.longPadding
+        )
         else -> getLeftPonytail(state, ponytail.style, length, y)
     }
 
@@ -52,7 +59,7 @@ private fun visualizeHead(
         .addMirroredPoints(state.aabb, width, FULL + padding)
         .addLeftPoint(state.aabb, CENTER, FULL + padding)
 
-    renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(WING_LAYER))
+    renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(WING_LAYER + 1))
 }
 
 private fun getCenterPonytail(
@@ -75,6 +82,7 @@ private fun getCenterStraightPonytail(
     val (left, right) = state.aabb.getMirroredPoints(config.getBottomWidth(style), FULL)
 
     return Polygon2dBuilder()
+        .addLeftPoint(state.aabb, CENTER, y)
         .addMirroredPoints(state.aabb, config.ponytailWidth, y)
         .addPoints(left.addHeight(length), right.addHeight(length))
         .build()
