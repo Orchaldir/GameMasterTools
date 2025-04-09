@@ -61,7 +61,7 @@ private fun getCenterPonytail(
     y: Factor,
 ): Polygon2d {
     val config = state.config.head.hair
-    val (left, right) = state.aabb.getMirroredPoints(config.ponytailWidth, FULL)
+    val (left, right) = state.aabb.getMirroredPoints(config.getBottomWidth(style), FULL)
 
     return Polygon2dBuilder()
         .addMirroredPoints(state.aabb, config.ponytailWidth, y)
@@ -75,10 +75,12 @@ private fun getLeftPonytail(
     length: Distance,
     y: Factor,
 ): Polygon2d {
-    val width = state.config.head.hair.ponytailWidth
+    val config = state.config.head.hair
+    val width = config.ponytailWidth
+    val bottomWidth = config.getBottomWidth(style)
     val half = width / 2.0f
     val left = state.aabb.getPoint(FULL + half, FULL)
-    val right = state.aabb.getPoint(FULL + half + width, FULL)
+    val right = state.aabb.getPoint(FULL + half + bottomWidth, FULL)
 
     return Polygon2dBuilder()
         .addLeftPoint(state.aabb, FULL, y - half)

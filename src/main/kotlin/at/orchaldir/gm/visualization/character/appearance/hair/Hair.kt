@@ -17,8 +17,14 @@ data class HairConfig(
     val longPadding: Factor,
     private val lengthMap: Map<HairLength, Factor>,
     val ponytailWidth: Factor,
+    val ponytailWideWidth: Factor,
 ) {
     fun getLength(length: HairLength) = lengthMap.getOrDefault(length, FULL)
+
+    fun getBottomWidth(style: PonytailStyle) = when (style) {
+        PonytailStyle.Wide -> ponytailWideWidth
+        else -> ponytailWidth
+    }
 }
 
 fun visualizeHair(state: CharacterRenderState, head: Head) {
