@@ -1,9 +1,6 @@
 package at.orchaldir.gm.core.reducer.item
 
-import at.orchaldir.gm.CHARACTER_ID_0
-import at.orchaldir.gm.EQUIPMENT_ID_0
-import at.orchaldir.gm.MATERIAL_ID_0
-import at.orchaldir.gm.MATERIAL_ID_1
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
@@ -43,7 +40,7 @@ class EquipmentTest {
         fun `Cannot delete unknown id`() {
             val action = DeleteEquipment(EQUIPMENT_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Equipment 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -59,7 +56,7 @@ class EquipmentTest {
                     )
                 )
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Equipment 0 is used") { REDUCER.invoke(state, action) }
         }
     }
 
@@ -70,7 +67,7 @@ class EquipmentTest {
         fun `Cannot update unknown id`() {
             val action = UpdateEquipment(ITEM)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Equipment 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -86,7 +83,7 @@ class EquipmentTest {
             )
             val action = UpdateEquipment(newItem)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot change equipment 0 while it is equipped") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -110,7 +107,7 @@ class EquipmentTest {
             val item = Equipment(EQUIPMENT_ID_0, data = Shirt(material = MATERIAL_ID_1))
             val action = UpdateEquipment(item)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Material 1!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
