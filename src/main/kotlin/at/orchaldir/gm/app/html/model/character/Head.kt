@@ -201,13 +201,7 @@ private fun FORM.editNormalHair(
                 hair.cut.style,
                 true,
             )
-            selectOneOf(
-                "Length",
-                combine(HAIR, LENGTH),
-                culture.appearanceStyle.hairLengths,
-                hair.cut.length,
-                true,
-            )
+            selectHairLength(culture, hair.cut.length)
         }
 
         is Ponytail -> doNothing()
@@ -220,6 +214,19 @@ private fun FORM.editNormalHair(
             true,
         )
     }
+}
+
+private fun FORM.selectHairLength(
+    culture: Culture,
+    length: HairLength,
+) {
+    selectOneOf(
+        "Length",
+        combine(HAIR, LENGTH),
+        culture.appearanceStyle.hairLengths,
+        length,
+        true,
+    )
 }
 
 private fun FORM.editMouth(
