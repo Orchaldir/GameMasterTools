@@ -46,7 +46,7 @@ fun visualizeEyePatch(
     eyePatch: EyePatch,
     set: Set<BodySlot>,
 ) {
-    val side = if (set.contains(BodySlot.EyeSlotLeft)) {
+    val side = if (set.contains(BodySlot.LeftEye)) {
         Side.Left
     } else {
         Side.Right

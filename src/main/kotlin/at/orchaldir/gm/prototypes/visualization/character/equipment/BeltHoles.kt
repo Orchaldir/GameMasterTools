@@ -51,9 +51,9 @@ private fun createBelt(
 
     return fromSlotAsKeyMap(
         mapOf(
-            BodySlot.BeltSlot to belt,
-            BodySlot.BottomSlot to Pants(),
-            BodySlot.TopSlot to Shirt(),
+            BodySlot.Belt to belt,
+            BodySlot.Bottom to Pants(),
+            BodySlot.Top to Shirt(),
         )
     )
 }

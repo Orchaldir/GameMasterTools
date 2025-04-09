@@ -30,9 +30,9 @@ private fun createBelt(
     size: Size,
 ) = EquipmentMap.fromSlotAsKeyMap(
     mapOf(
-        BodySlot.BeltSlot to Belt(SimpleBuckle(shape, size)),
-        BodySlot.BottomSlot to Pants(),
-        BodySlot.TopSlot to Shirt(),
+        BodySlot.Belt to Belt(SimpleBuckle(shape, size)),
+        BodySlot.Bottom to Pants(),
+        BodySlot.Top to Shirt(),
     )
 )
 

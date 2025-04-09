@@ -213,17 +213,17 @@
     "map": {
      "3": [
       [
-       "EarSlotLeft"
+       "LeftEar"
       ]
      ],
      "5": [
       [
-       "EarSlotRight"
+       "RightEar"
       ]
      ],
      "4": [
       [
-       "EyeSlotRight"
+       "RightEye"
       ]
      ]
     }

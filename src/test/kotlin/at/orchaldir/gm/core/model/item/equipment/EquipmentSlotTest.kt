@@ -20,7 +20,7 @@ class EquipmentSlotTest {
         @Test
         fun `A single equipment slot that is a single body slot`() {
             assertEquals(
-                setOf(setOf(BodySlot.BeltSlot)),
+                setOf(setOf(BodySlot.Belt)),
                 setOf(EquipmentSlot.BeltSlot).getAllBodySlotCombinations()
             )
         }
@@ -28,7 +28,7 @@ class EquipmentSlotTest {
         @Test
         fun `A single equipment slot that is a set of two body slots`() {
             assertEquals(
-                setOf(setOf(BodySlot.EyeSlotLeft, BodySlot.EyeSlotRight)),
+                setOf(setOf(BodySlot.LeftEye, BodySlot.RightEye)),
                 setOf(EquipmentSlot.EyesSlot).getAllBodySlotCombinations()
             )
         }
@@ -36,7 +36,7 @@ class EquipmentSlotTest {
         @Test
         fun `A single equipment slot that is two sets of 1 body slot`() {
             assertEquals(
-                setOf(setOf(BodySlot.EarSlotLeft), setOf(BodySlot.EarSlotRight)),
+                setOf(setOf(BodySlot.LeftEar), setOf(BodySlot.RightEar)),
                 setOf(EquipmentSlot.EarSlot).getAllBodySlotCombinations()
             )
         }
@@ -44,7 +44,7 @@ class EquipmentSlotTest {
         @Test
         fun `Two equipment slots that are a set of two body slots`() {
             assertEquals(
-                setOf(setOf(BodySlot.TopSlot, BodySlot.BottomSlot)),
+                setOf(setOf(BodySlot.Top, BodySlot.Bottom)),
                 setOf(EquipmentSlot.TopSlot, EquipmentSlot.BottomSlot).getAllBodySlotCombinations()
             )
         }

@@ -25,8 +25,8 @@ fun main() {
             createAppearance(distance, shape),
             fromSlotAsKeyMap(
                 mapOf(
-                    BodySlot.TopSlot to Shirt(fill = Solid(White)),
-                    BodySlot.BottomSlot to Skirt(style),
+                    BodySlot.Top to Shirt(fill = Solid(White)),
+                    BodySlot.Bottom to Skirt(style),
                 )
             )
         )

@@ -15,18 +15,18 @@ enum class EquipmentSlot {
     TopSlot;
 
     fun toBodySlots() = when (this) {
-        BeltSlot -> setOf(setOf(BodySlot.BeltSlot))
-        BottomSlot -> setOf(setOf(BodySlot.BottomSlot))
-        EarSlot -> setOf(setOf(BodySlot.EarSlotLeft), setOf(BodySlot.EarSlotRight))
-        EyeSlot -> setOf(setOf(BodySlot.EyeSlotLeft), setOf(BodySlot.EyeSlotRight))
-        EyesSlot -> setOf(setOf(BodySlot.EyeSlotLeft, BodySlot.EyeSlotRight))
-        FootSlot -> setOf(setOf(BodySlot.FootSlot))
-        FootUnderwearSlot -> setOf(setOf(BodySlot.FootUnderwearSlot))
-        HandSlot -> setOf(setOf(BodySlot.HandSlot))
-        HeadSlot -> setOf(setOf(BodySlot.HeadSlot))
-        OuterSlot -> setOf(setOf(BodySlot.OuterSlot))
-        TieSlot -> setOf(setOf(BodySlot.TieSlot))
-        TopSlot -> setOf(setOf(BodySlot.TopSlot))
+        BeltSlot -> setOf(setOf(BodySlot.Belt))
+        BottomSlot -> setOf(setOf(BodySlot.Bottom))
+        EarSlot -> setOf(setOf(BodySlot.LeftEar), setOf(BodySlot.RightEar))
+        EyeSlot -> setOf(setOf(BodySlot.LeftEye), setOf(BodySlot.RightEye))
+        EyesSlot -> setOf(setOf(BodySlot.LeftEye, BodySlot.RightEye))
+        FootSlot -> setOf(setOf(BodySlot.Foot))
+        FootUnderwearSlot -> setOf(setOf(BodySlot.FootUnderwear))
+        HandSlot -> setOf(setOf(BodySlot.Hand))
+        HeadSlot -> setOf(setOf(BodySlot.Head))
+        OuterSlot -> setOf(setOf(BodySlot.Outer))
+        TieSlot -> setOf(setOf(BodySlot.Tie))
+        TopSlot -> setOf(setOf(BodySlot.Top))
     }
 }
 
