@@ -6,13 +6,12 @@ import at.orchaldir.gm.core.model.character.appearance.hair.PonytailPosition
 import at.orchaldir.gm.core.model.character.appearance.hair.PonytailPosition.BothSides
 import at.orchaldir.gm.core.model.character.appearance.hair.PonytailPosition.Right
 import at.orchaldir.gm.core.model.character.appearance.hair.PonytailStyle
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Polygon2d
-import at.orchaldir.gm.utils.math.Polygon2dBuilder
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.WING_LAYER
+import at.orchaldir.gm.visualization.renderRoundedBuilder
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 
 fun visualizePonytail(state: CharacterRenderState, hair: NormalHair, ponytail: Ponytail) {
@@ -21,6 +20,8 @@ fun visualizePonytail(state: CharacterRenderState, hair: NormalHair, ponytail: P
     val layer = state.getLayerIndex(WING_LAYER)
     val y = Factor.fromPercentage(20)
     val length = state.config.getHairLength(state.aabb, ponytail.length)
+
+    visualizeHead(state, options)
 
     val polygon = when (ponytail.position) {
         PonytailPosition.High -> getCenterPonytail(state, ponytail.style, length, y)
@@ -36,6 +37,21 @@ fun visualizePonytail(state: CharacterRenderState, hair: NormalHair, ponytail: P
         val right = state.aabb.mirrorVertically(polygon)
         renderRoundedPolygon(state.renderer, options, right, layer)
     }
+}
+
+private fun visualizeHead(
+    state: CharacterRenderState,
+    options: RenderOptions,
+) {
+    val padding = state.config.head.hair.longPadding
+    val width = FULL + padding * 2.0f
+    val builder = Polygon2dBuilder()
+        .addLeftPoint(state.aabb, CENTER, -padding)
+        .addMirroredPoints(state.aabb, width, -padding)
+        .addMirroredPoints(state.aabb, width, FULL + padding)
+        .addLeftPoint(state.aabb, CENTER, FULL + padding)
+
+    renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(WING_LAYER))
 }
 
 private fun getCenterPonytail(
