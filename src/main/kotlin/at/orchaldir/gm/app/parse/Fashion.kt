@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.fashion.FashionId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
-import at.orchaldir.gm.core.model.item.equipment.NOT_NONE
 import io.ktor.http.*
 import io.ktor.server.util.*
 
@@ -19,7 +18,7 @@ fun parseFashionId(
 
 fun parseFashion(id: FashionId, parameters: Parameters): Fashion {
     val name = parameters.getOrFail(NAME)
-    val itemRarityMap = NOT_NONE
+    val itemRarityMap = EquipmentDataType.entries
         .associateWith { parseEquipmentMap(parameters, it) }
 
     return Fashion(

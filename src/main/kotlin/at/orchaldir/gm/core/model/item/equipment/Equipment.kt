@@ -21,7 +21,7 @@ value class EquipmentId(val value: Int) : Id<EquipmentId> {
 data class Equipment(
     val id: EquipmentId,
     val name: String = "Equipment ${id.value}",
-    val data: EquipmentData = NoEquipment,
+    val data: EquipmentData = Belt(),
     val weight: Weight = Weight.fromGram(1),
 ) : ElementWithSimpleName<EquipmentId> {
 

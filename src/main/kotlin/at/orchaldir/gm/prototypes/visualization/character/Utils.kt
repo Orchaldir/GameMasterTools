@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.beard.*
 import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
@@ -32,7 +33,7 @@ fun renderCharacterTable(
     }
 
     renderTable(filename, size, appearances) { aabb, renderer, appearance ->
-        val state = CharacterRenderState(aabb, config, renderer, true, emptyList())
+        val state = CharacterRenderState(aabb, config, renderer, true, EquipmentMap())
 
         visualizeAppearance(state, appearance, paddedSizeMap.getValue(appearance))
     }
@@ -42,12 +43,12 @@ fun renderCharacterTable(
     filename: String,
     config: CharacterRenderConfig,
     appearance: Appearance,
-    equipmentTable: List<List<EquipmentData>>,
+    equipmentTable: List<List<EquipmentMap<EquipmentData>>>,
 ) {
     val paddedSize = calculatePaddedSize(config, appearance)
 
-    renderTable(filename, paddedSize.getFullSize(), equipmentTable) { aabb, renderer, equipment ->
-        val state = CharacterRenderState(aabb, config, renderer, true, listOf(equipment))
+    renderTable(filename, paddedSize.getFullSize(), equipmentTable) { aabb, renderer, equipmentMap ->
+        val state = CharacterRenderState(aabb, config, renderer, true, equipmentMap)
 
         visualizeAppearance(state, appearance, paddedSize)
     }
@@ -59,10 +60,10 @@ fun <C, R> renderCharacterTable(
     rows: List<Pair<String, R>>,
     columns: List<Pair<String, C>>,
     backToo: Boolean = false,
-    create: (Distance, C, R) -> Pair<Appearance, List<EquipmentData>>,
+    create: (Distance, C, R) -> Pair<Appearance, EquipmentMap<EquipmentData>>,
 ) {
     val height = fromMillimeters(2000)
-    val dataMap = mutableMapOf<Pair<R, C>, Triple<Appearance, List<EquipmentData>, PaddedSize>>()
+    val dataMap = mutableMapOf<Pair<R, C>, Triple<Appearance, EquipmentMap<EquipmentData>, PaddedSize>>()
     var maxSize = Size2d.square(0.001f)
 
     rows.forEach { (_, row) ->

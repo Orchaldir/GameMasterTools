@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.Pants
 import at.orchaldir.gm.core.model.item.equipment.style.PantsStyle
@@ -18,7 +19,7 @@ fun main() {
         addNames(PantsStyle.entries),
         addNames(BodyShape.entries)
     ) { distance, shape, style ->
-        Pair(createAppearance(distance, shape), listOf(Pants(style, Solid(Blue))))
+        Pair(createAppearance(distance, shape), from(Pants(style, Solid(Blue))))
     }
 }
 

@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.fashion.ClothingSet
 import at.orchaldir.gm.core.model.fashion.Fashion
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
-import at.orchaldir.gm.core.model.item.equipment.NOT_NONE
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -37,10 +36,10 @@ val UPDATE_FASHION: Reducer<UpdateFashion, State> = { state, action ->
         }
     }
 
-    NOT_NONE.forEach { type ->
+    EquipmentDataType.entries.forEach { type ->
         fashion.getOptions(type).getValidValues().forEach { id ->
-            val template = state.getEquipmentStorage().getOrThrow(id)
-            require(template.data.isType(type)) { "Type $type has item ${id.value} of wrong type!" }
+            val equipment = state.getEquipmentStorage().getOrThrow(id)
+            require(equipment.data.isType(type)) { "Type $type has item ${id.value} of wrong type!" }
         }
     }
 

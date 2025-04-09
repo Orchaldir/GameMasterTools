@@ -209,6 +209,25 @@
      "color": "Fair"
     }
    },
+   "equipmentMap": {
+    "map": {
+     "3": [
+      [
+       "LeftEar"
+      ]
+     ],
+     "5": [
+      [
+       "RightEar"
+      ]
+     ],
+     "4": [
+      [
+       "RightEye"
+      ]
+     ]
+    }
+   },
    "employmentStatus": {
     "current": {
      "type": "Employed",

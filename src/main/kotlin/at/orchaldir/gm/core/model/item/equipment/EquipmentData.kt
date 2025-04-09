@@ -8,11 +8,17 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-val ACCESSORIES = setOf(EquipmentDataType.Footwear, EquipmentDataType.Gloves, EquipmentDataType.Hat)
-val NOT_NONE = EquipmentDataType.entries.toSet() - EquipmentDataType.None
+val ACCESSORIES = setOf(
+    EquipmentDataType.Belt,
+    EquipmentDataType.Footwear,
+    EquipmentDataType.Glasses,
+    EquipmentDataType.Gloves,
+    EquipmentDataType.Hat,
+    EquipmentDataType.Socks,
+    EquipmentDataType.Tie,
+)
 
 enum class EquipmentDataType {
-    None,
     Belt,
     Coat,
     Dress,
@@ -29,14 +35,13 @@ enum class EquipmentDataType {
     Tie;
 
     fun slots(): Set<EquipmentSlot> = when (this) {
-        None -> emptySet()
         Belt -> setOf(BeltSlot)
         Coat -> setOf(OuterSlot)
         Dress -> setOf(BottomSlot, TopSlot)
         Earring -> setOf(EarSlot)
         EyePatch -> setOf(EyeSlot)
         Footwear -> setOf(FootSlot)
-        Glasses -> setOf(EyeSlot)
+        Glasses -> setOf(EyesSlot)
         Gloves -> setOf(HandSlot)
         Hat -> setOf(HeadSlot)
         Pants -> setOf(BottomSlot)
@@ -53,7 +58,6 @@ sealed class EquipmentData {
     abstract fun getMaterials(): Set<MaterialId>
 
     fun getType() = when (this) {
-        NoEquipment -> EquipmentDataType.None
         is Belt -> EquipmentDataType.Belt
         is Coat -> EquipmentDataType.Coat
         is Dress -> EquipmentDataType.Dress
@@ -73,12 +77,6 @@ sealed class EquipmentData {
     fun isType(equipmentType: EquipmentDataType) = getType() == equipmentType
 
     fun slots() = getType().slots()
-}
-
-@Serializable
-@SerialName("None")
-data object NoEquipment : EquipmentData() {
-    override fun getMaterials() = emptySet<MaterialId>()
 }
 
 @Serializable

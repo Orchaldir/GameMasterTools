@@ -1,16 +1,42 @@
 package at.orchaldir.gm.core.model.character
 
-import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
-import at.orchaldir.gm.core.model.item.equipment.EquipmentId
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
+import at.orchaldir.gm.core.model.item.equipment.EquipmentData
+import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class EquipmentMap(val map: Map<EquipmentDataType, EquipmentId>) {
+data class EquipmentMap<T>(private val map: Map<T, Set<Set<BodySlot>>>) {
 
-    fun contains(equipment: EquipmentId) = map.containsValue(equipment)
-    fun contains(type: EquipmentDataType) = map.containsKey(type)
+    constructor() : this(emptyMap<T, Set<Set<BodySlot>>>())
+    constructor(pair: Pair<T, Set<Set<BodySlot>>>) : this(mapOf(pair))
+    constructor(value: T, slot: BodySlot) : this(mapOf(value to setOf(setOf(slot))))
+    constructor(value: T, slots: Set<BodySlot>) : this(mapOf(value to setOf(slots)))
 
-    fun getOccupiedSlots() = map.keys
-        .flatMap { it.slots() }
-        .toSet()
+    companion object {
+        fun from(data: EquipmentData) =
+            EquipmentMap(data, data.slots().getAllBodySlotCombinations().first())
+
+        fun <T> fromSlotAsKeyMap(map: Map<BodySlot, T>) =
+            EquipmentMap(map.entries.associate { Pair(it.value, setOf(setOf(it.key))) })
+    }
+
+    fun contains(equipment: T) = map.containsKey(equipment)
+
+    fun isFree(slot: BodySlot) = map.values.all { sets ->
+        sets.all { set -> !set.contains(slot) }
+    }
+
+    fun isFree(slots: Set<BodySlot>) = slots.all { isFree(it) }
+
+    fun getAllEquipment() = map.keys
+    fun getEquipmentWithSlotSets() = map
+
+    fun getEquipment(slots: Set<BodySlot>): T? = map.filter { (_, slotSets) ->
+        slotSets.contains(slots)
+    }.firstNotNullOfOrNull { it.key }
+
+    fun <U> convert(function: (T) -> U): EquipmentMap<U> = EquipmentMap<U>(
+        map.mapKeys { function(it.key) }
+    )
 }

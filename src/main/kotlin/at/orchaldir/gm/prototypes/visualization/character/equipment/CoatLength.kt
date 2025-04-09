@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.Coat
 import at.orchaldir.gm.core.model.item.equipment.style.Button
@@ -22,16 +23,12 @@ fun main() {
         addNames(OuterwearLength.entries),
         addNames(BodyShape.entries)
     ) { distance, shape, length ->
-        Pair(
-            createAppearance(distance, shape),
-            listOf(
-                Coat(
-                    length,
-                    openingStyle = DoubleBreasted(ButtonColumn(Button(Size.Medium, Color.Gold), 5u)),
-                    fill = Solid(Blue)
-                )
-            )
+        val coat = Coat(
+            length,
+            openingStyle = DoubleBreasted(ButtonColumn(Button(Size.Medium, Color.Gold), 5u)),
+            fill = Solid(Blue)
         )
+        Pair(createAppearance(distance, shape), from(coat))
     }
 }
 

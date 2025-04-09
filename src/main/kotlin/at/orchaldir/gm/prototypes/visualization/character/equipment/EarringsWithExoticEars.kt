@@ -1,7 +1,9 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Earring
 import at.orchaldir.gm.core.model.item.equipment.style.StudEarring
 import at.orchaldir.gm.core.model.util.Size
@@ -25,7 +27,12 @@ fun main() {
         addNames(sizes),
         addNames(EarShape.entries),
     ) { distance, earShape, (earSize, earringSize) ->
-        Pair(createAppearance(distance, earShape, earSize), listOf(Earring(StudEarring(size = earringSize))))
+        val earring = Earring(StudEarring(size = earringSize))
+
+        Pair(
+            createAppearance(distance, earShape, earSize),
+            EquipmentMap(earring to setOf(setOf(BodySlot.LeftEar), setOf(BodySlot.RightEar)))
+        )
     }
 }
 

@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.character
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.html.model.character.showEquipmentMap
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseCharacter
 import at.orchaldir.gm.core.action.CreateCharacter
@@ -460,9 +461,7 @@ fun BODY.showPossession(
 
     showOwnedElements(call, state, character.id, true)
 
-    showList("Equipped", character.equipmentMap.map.values) { item ->
-        link(call, state, item)
-    }
+    showEquipmentMap(call, state, character.equipmentMap)
 
     action(editEquipmentLink, "Edit Equipment")
 }

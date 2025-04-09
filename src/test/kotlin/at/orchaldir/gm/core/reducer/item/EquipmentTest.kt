@@ -1,32 +1,25 @@
 package at.orchaldir.gm.core.reducer.item
 
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteEquipment
 import at.orchaldir.gm.core.action.UpdateEquipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EquipmentMap
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType.Hat
-import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.Pants
 import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.material.Material
-import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
-private val ID0 = EquipmentId(0)
-private val ITEM = Equipment(ID0, "Test")
-private val CHARACTER0 = CharacterId(0)
-private val STATE = State(Storage(Equipment(ID0)))
-private val MATERIAL0 = MaterialId(0)
-private val MATERIAL1 = MaterialId(1)
-private val EQUIPMENT_MAP = EquipmentMap(mapOf(Hat to ID0))
+private val ITEM = Equipment(EQUIPMENT_ID_0, "Test")
+private val STATE = State(listOf(Storage(Equipment(EQUIPMENT_ID_0)), Storage(Material(MATERIAL_ID_0))))
+private val EQUIPMENT_MAP = EquipmentMap(EQUIPMENT_ID_0, BodySlot.Head)
 
 class EquipmentTest {
 
@@ -35,7 +28,7 @@ class EquipmentTest {
 
         @Test
         fun `Can delete an existing id`() {
-            val action = DeleteEquipment(ID0)
+            val action = DeleteEquipment(EQUIPMENT_ID_0)
 
             assertEquals(
                 0,
@@ -45,25 +38,25 @@ class EquipmentTest {
 
         @Test
         fun `Cannot delete unknown id`() {
-            val action = DeleteEquipment(ID0)
+            val action = DeleteEquipment(EQUIPMENT_ID_0)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Equipment 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot delete, if an instanced item exist`() {
-            val action = DeleteEquipment(ID0)
+            val action = DeleteEquipment(EQUIPMENT_ID_0)
             val state =
                 STATE.updateStorage(
                     Storage(
                         Character(
-                            CHARACTER0,
+                            CHARACTER_ID_0,
                             equipmentMap = EQUIPMENT_MAP
                         )
                     )
                 )
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Equipment 0 is used") { REDUCER.invoke(state, action) }
         }
     }
 
@@ -74,47 +67,47 @@ class EquipmentTest {
         fun `Cannot update unknown id`() {
             val action = UpdateEquipment(ITEM)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Equipment 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Cannot change equipment type while equipped`() {
-            val oldItem = Equipment(ID0, data = Pants(material = MATERIAL0))
-            val newItem = Equipment(ID0, data = Shirt(material = MATERIAL0))
+            val oldItem = Equipment(EQUIPMENT_ID_0, data = Pants(material = MATERIAL_ID_0))
+            val newItem = Equipment(EQUIPMENT_ID_0, data = Shirt(material = MATERIAL_ID_0))
             val state = State(
                 listOf(
                     Storage(oldItem),
-                    Storage(Character(CHARACTER0, equipmentMap = EQUIPMENT_MAP)),
-                    Storage(Material(MATERIAL0)),
+                    Storage(Character(CHARACTER_ID_0, equipmentMap = EQUIPMENT_MAP)),
+                    Storage(Material(MATERIAL_ID_0)),
                 )
             )
             val action = UpdateEquipment(newItem)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Cannot change equipment 0 while it is equipped") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Can change equipment details while equipped`() {
-            val oldItem = Equipment(ID0, data = Shirt(material = MATERIAL0))
-            val newItem = Equipment(ID0, data = Shirt(material = MATERIAL1))
+            val oldItem = Equipment(EQUIPMENT_ID_0, data = Shirt(material = MATERIAL_ID_0))
+            val newItem = Equipment(EQUIPMENT_ID_0, data = Shirt(material = MATERIAL_ID_1))
             val state = State(
                 listOf(
                     Storage(oldItem),
-                    Storage(Character(CHARACTER0, equipmentMap = EQUIPMENT_MAP)),
-                    Storage(listOf(Material(MATERIAL0), Material(MATERIAL1))),
+                    Storage(Character(CHARACTER_ID_0, equipmentMap = EQUIPMENT_MAP)),
+                    Storage(listOf(Material(MATERIAL_ID_0), Material(MATERIAL_ID_1))),
                 )
             )
             val action = UpdateEquipment(newItem)
 
-            assertEquals(newItem, REDUCER.invoke(state, action).first.getEquipmentStorage().get(ID0))
+            assertEquals(newItem, REDUCER.invoke(state, action).first.getEquipmentStorage().get(EQUIPMENT_ID_0))
         }
 
         @Test
         fun `Material must exist`() {
-            val item = Equipment(ID0, data = Shirt(material = MATERIAL0))
+            val item = Equipment(EQUIPMENT_ID_0, data = Shirt(material = MATERIAL_ID_1))
             val action = UpdateEquipment(item)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Material 1!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
@@ -123,22 +116,22 @@ class EquipmentTest {
 
             assertEquals(
                 ITEM,
-                REDUCER.invoke(STATE, action).first.getEquipmentStorage().get(ID0)
+                REDUCER.invoke(STATE, action).first.getEquipmentStorage().get(EQUIPMENT_ID_0)
             )
         }
 
         @Test
         fun `Update template with material`() {
-            val item = Equipment(ID0, data = Shirt(material = MATERIAL0))
+            val item = Equipment(EQUIPMENT_ID_0, data = Shirt(material = MATERIAL_ID_0))
             val state = State(
                 listOf(
                     Storage(ITEM),
-                    Storage(Material(MATERIAL0)),
+                    Storage(Material(MATERIAL_ID_0)),
                 )
             )
             val action = UpdateEquipment(item)
 
-            assertEquals(item, REDUCER.invoke(state, action).first.getEquipmentStorage().get(ID0))
+            assertEquals(item, REDUCER.invoke(state, action).first.getEquipmentStorage().get(EQUIPMENT_ID_0))
         }
     }
 

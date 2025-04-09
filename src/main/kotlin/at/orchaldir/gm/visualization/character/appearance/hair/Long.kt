@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.BEHIND_LAYER
+import at.orchaldir.gm.visualization.character.appearance.WING_LAYER
 import at.orchaldir.gm.visualization.renderRoundedBuilder
 import kotlin.math.roundToInt
 
@@ -37,7 +38,7 @@ private fun visualizeStraightHair(
         .addMirroredPoints(state.aabb, width, HALF)
         .addPoints(left.addHeight(height), right.addHeight(height), true)
 
-    renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(BEHIND_LAYER))
+    renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(WING_LAYER))
 }
 
 private fun visualizeU(
@@ -93,5 +94,5 @@ private fun visualizeWavy(
 
     builder.addLeftAndRightPoint(bottomCenter, orientation, width)
 
-    renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(BEHIND_LAYER))
+    renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(WING_LAYER))
 }

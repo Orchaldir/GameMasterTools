@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.Gloves
 import at.orchaldir.gm.core.model.item.equipment.style.GloveStyle
@@ -19,7 +20,7 @@ fun main() {
         addNames(GloveStyle.entries),
         true,
     ) { distance, style, shape ->
-        Pair(createAppearance(distance, shape), listOf(Gloves(style, Solid(Blue))))
+        Pair(createAppearance(distance, shape), from(Gloves(style, Solid(Blue))))
     }
 }
 

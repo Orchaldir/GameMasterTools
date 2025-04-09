@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance.hair
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
@@ -22,7 +23,7 @@ fun main() {
         addNames(HairLength.entries),
         true,
     ) { distance, length, style ->
-        Pair(createAppearance(distance, length, style), emptyList())
+        Pair(createAppearance(distance, length, style), EquipmentMap())
     }
 }
 

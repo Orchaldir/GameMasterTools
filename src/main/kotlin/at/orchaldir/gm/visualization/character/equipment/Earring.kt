@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Ears
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.NoEars
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Earring
 import at.orchaldir.gm.core.model.item.equipment.style.DangleEarring
 import at.orchaldir.gm.core.model.item.equipment.style.DropEarring
@@ -53,16 +54,22 @@ data class EarringConfig(
     }
 }
 
-fun visualizeEarrings(
+fun visualizeEarring(
     state: CharacterRenderState,
     head: Head,
     earring: Earring,
+    set: Set<BodySlot>,
 ) {
-    val earRadius = state.config.equipment.earring.calculateEarRadius(state.aabb, state.config.head, head.ears)
-    val (left, right) = state.config.equipment.earring.calculatePosition(state.aabb, state.config.head, earRadius)
+    val config = state.config.equipment.earring
+    val earRadius = config.calculateEarRadius(state.aabb, state.config.head, head.ears)
+    val (left, right) = config.calculatePosition(state.aabb, state.config.head, earRadius)
 
-    visualizeEarring(state, earring, left, earRadius)
-    visualizeEarring(state, earring, right, earRadius)
+    if (set.contains(BodySlot.LeftEar)) {
+        visualizeEarring(state, earring, right, earRadius)
+    }
+    if (set.contains(BodySlot.RightEar)) {
+        visualizeEarring(state, earring, left, earRadius)
+    }
 }
 
 private fun visualizeEarring(

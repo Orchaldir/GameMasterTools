@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.Dress
 import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle.Strapless
@@ -19,7 +20,7 @@ fun main() {
         addNames(BodyShape.entries),
         true,
     ) { distance, shape, style ->
-        Pair(createAppearance(distance, shape), listOf(Dress(Strapless, style, SleeveStyle.None)))
+        Pair(createAppearance(distance, shape), from(Dress(Strapless, style, SleeveStyle.None)))
     }
 }
 

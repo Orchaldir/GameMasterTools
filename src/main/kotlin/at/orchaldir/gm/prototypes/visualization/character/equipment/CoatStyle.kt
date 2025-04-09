@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.Rectangle
 import at.orchaldir.gm.core.model.character.appearance.Head
@@ -32,7 +33,7 @@ fun main() {
         ),
         addNames(NECKLINES_WITH_SLEEVES)
     ) { distance, neckline, opening ->
-        Pair(createAppearance(distance), listOf(createCoat(neckline, opening)))
+        Pair(createAppearance(distance), from(createCoat(neckline, opening)))
     }
 }
 

@@ -1,9 +1,11 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Earring
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.core.model.item.equipment.style.*
@@ -21,7 +23,7 @@ fun main() {
     val default = SimpleOrnament()
     val red = SimpleOrnament(color = Red)
 
-    val equipmentTable: List<List<EquipmentData>> = mutableListOf(
+    val equipmentTable: List<List<EquipmentMap<EquipmentData>>> = mutableListOf(
         OrnamentShape.entries.map {
             StudEarring(SimpleOrnament(it))
         },
@@ -45,7 +47,12 @@ fun main() {
             HoopEarring(fromPercentage(60), Medium),
             HoopEarring(fromPercentage(80), Large),
         ),
-    ).map { row -> row.map { Earring(it) } }
+    ).map { row ->
+        row.map {
+            val earring = Earring(it)
+            EquipmentMap(earring to setOf(setOf(BodySlot.LeftEar), setOf(BodySlot.RightEar)))
+        }
+    }
 
     renderCharacterTable(
         "earrings.svg",

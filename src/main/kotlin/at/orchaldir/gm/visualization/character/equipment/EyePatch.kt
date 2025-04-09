@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EyePatch
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape.Teardrop
@@ -43,8 +44,13 @@ fun visualizeEyePatch(
     state: CharacterRenderState,
     head: Head,
     eyePatch: EyePatch,
+    set: Set<BodySlot>,
 ) {
-    val side = Side.Right
+    val side = if (set.contains(BodySlot.LeftEye)) {
+        Side.Left
+    } else {
+        Side.Right
+    }
 
     if (state.renderFront) {
         visualizeEyePatchForTwoEyes(state, side, eyePatch)

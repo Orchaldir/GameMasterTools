@@ -2,16 +2,14 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parseEquipmentMap
+import at.orchaldir.gm.app.html.model.character.editEquipmentMap
+import at.orchaldir.gm.app.html.model.character.parseEquipmentMap
 import at.orchaldir.gm.core.action.UpdateEquipmentOfCharacter
 import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.fashion.Fashion
-import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
-import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot
-import at.orchaldir.gm.core.model.util.OneOrNone
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
@@ -23,12 +21,15 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.FormMethod
+import kotlinx.html.HTML
+import kotlinx.html.form
+import kotlinx.html.id
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-fun Application.configureCharacterEquipmentRouting() {
+fun Application.configureEquipmentMapRouting() {
     routing {
         get<CharacterRoutes.Equipment.Edit> { edit ->
             logger.info { "Get editor for character ${edit.id.value}'s equipment" }
@@ -37,7 +38,7 @@ fun Application.configureCharacterEquipmentRouting() {
             val character = state.getCharacterStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showEquipmentEditor(call, state, character, character.equipmentMap)
+                showEquipmentMapEditor(call, state, character, character.equipmentMap)
             }
         }
         post<CharacterRoutes.Equipment.Preview> { preview ->
@@ -51,7 +52,7 @@ fun Application.configureCharacterEquipmentRouting() {
             logger.info { "equipment: $equipmentMap" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showEquipmentEditor(call, state, character, equipmentMap)
+                showEquipmentMapEditor(call, state, character, equipmentMap)
             }
         }
         post<CharacterRoutes.Equipment.Update> { update ->
@@ -76,7 +77,7 @@ fun Application.configureCharacterEquipmentRouting() {
                 val equipment = generator.generate()
 
                 call.respondHtml(HttpStatusCode.OK) {
-                    showEquipmentEditor(call, state, generator.character, equipment)
+                    showEquipmentMapEditor(call, state, generator.character, equipment)
                 }
             } else {
                 call.respondRedirect(href(call, update.id))
@@ -85,14 +86,13 @@ fun Application.configureCharacterEquipmentRouting() {
     }
 }
 
-private fun HTML.showEquipmentEditor(
+private fun HTML.showEquipmentMapEditor(
     call: ApplicationCall,
     state: State,
     character: Character,
-    equipmentMap: EquipmentMap,
+    equipmentMap: EquipmentMap<EquipmentId>,
 ) {
     val equipped = state.getEquipment(equipmentMap)
-    val occupiedSlots = equipmentMap.getOccupiedSlots()
     val culture = state.getCultureStorage().getOrThrow(character.culture)
     val fashion = state.getFashionStorage().getOptional(culture.getFashion(character))
     val backLink = href(call, character.id)
@@ -102,7 +102,7 @@ private fun HTML.showEquipmentEditor(
     val frontSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipped)
     val backSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipped, false)
 
-    simpleHtml("Edit Equipment: ${character.name(state)}") {
+    simpleHtml("Edit Equipment of ${character.name(state)}") {
         svg(frontSvg, 20)
         svg(backSvg, 20)
         form {
@@ -111,37 +111,10 @@ private fun HTML.showEquipmentEditor(
             method = FormMethod.post
             button("Random", generateLink)
 
-            EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, occupiedSlots, fashion, it) }
+            editEquipmentMap(state, equipmentMap, fashion)
 
             button("Update", updateLink)
         }
         back(backLink)
-    }
-}
-
-private fun FORM.selectEquipment(
-    state: State,
-    equipmentMap: EquipmentMap,
-    occupiedSlots: Set<EquipmentSlot>,
-    fashion: Fashion?,
-    type: EquipmentDataType,
-) {
-    val options = fashion?.getOptions(type) ?: OneOrNone()
-
-    if (options.isEmpty()) {
-        return
-    }
-
-    val isTypeEquipped = equipmentMap.contains(type)
-    val canSelect = isTypeEquipped || type.slots().none { occupiedSlots.contains(it) }
-
-    selectOneOrNone(
-        type.name, type.name, options, !isTypeEquipped, true
-    ) { id ->
-        val equipment = state.getEquipmentStorage().getOrThrow(id)
-        label = equipment.name
-        value = id.value.toString()
-        selected = equipmentMap.contains(id)
-        disabled = !canSelect
     }
 }

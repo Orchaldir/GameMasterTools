@@ -1,13 +1,11 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.fromSlotAsKeyMap
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
-import at.orchaldir.gm.core.model.item.equipment.Belt
-import at.orchaldir.gm.core.model.item.equipment.Pants
-import at.orchaldir.gm.core.model.item.equipment.Shirt
-import at.orchaldir.gm.core.model.item.equipment.Tie
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.TieStyle
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
@@ -24,19 +22,22 @@ fun main() {
         addNames(Size.entries),
         addNames(TieStyle.entries)
     ) { distance, style, size ->
+        val tie = Tie(
+            style,
+            size,
+            Solid(Color.Yellow),
+            Solid(Color.Red),
+        )
         Pair(
             createAppearance(distance),
-            listOf(
-                Tie(
-                    style,
-                    size,
-                    Solid(Color.Yellow),
-                    Solid(Color.Red),
+            fromSlotAsKeyMap(
+                mapOf(
+                    BodySlot.Tie to tie,
+                    BodySlot.Belt to Belt(),
+                    BodySlot.Bottom to Pants(),
+                    BodySlot.Top to Shirt(),
                 ),
-                Belt(),
-                Pants(),
-                Shirt(),
-            ),
+            )
         )
     }
 }
