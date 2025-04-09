@@ -21,9 +21,21 @@ data class Polygon2dBuilder(
     fun addMirroredPoints(aabb: AABB, width: Factor, vertical: Factor, isSharp: Boolean = false): Polygon2dBuilder {
         val (left, right) = aabb.getMirroredPoints(width, vertical)
 
-        addPoints(left, right, isSharp)
+        return addPoints(left, right, isSharp)
+    }
 
-        return this
+    fun addHorizontalPoints(
+        aabb: AABB,
+        width: Factor,
+        horizontal: Factor,
+        vertical: Factor,
+        isSharp: Boolean = false,
+    ): Polygon2dBuilder {
+        val half = width / 2.0f
+        val left = aabb.getPoint(horizontal - half, vertical)
+        val right = aabb.getPoint(horizontal + half, vertical)
+
+        return addPoints(left, right, isSharp)
     }
 
     fun addLeftAndRightPoint(
@@ -34,9 +46,7 @@ data class Polygon2dBuilder(
         val right = center.createPolar(halfWidth, orientation - QUARTER_CIRCLE)
         val left = center.createPolar(halfWidth, orientation + QUARTER_CIRCLE)
 
-        addPoints(left, right)
-
-        return this
+        return addPoints(left, right)
     }
 
     fun addPoints(left: Point2d, right: Point2d, isSharp: Boolean = false): Polygon2dBuilder {
@@ -51,11 +61,8 @@ data class Polygon2dBuilder(
         return this
     }
 
-    fun addLeftPoint(aabb: AABB, horizontal: Factor, vertical: Factor, isSharp: Boolean = false): Polygon2dBuilder {
+    fun addLeftPoint(aabb: AABB, horizontal: Factor, vertical: Factor, isSharp: Boolean = false) =
         addLeftPoint(aabb.getPoint(horizontal, vertical), isSharp)
-
-        return this
-    }
 
     fun addLeftPoint(point: Point2d, isSharp: Boolean = false): Polygon2dBuilder {
         leftCorners.add(point)
@@ -67,11 +74,8 @@ data class Polygon2dBuilder(
         return this
     }
 
-    fun addRightPoint(aabb: AABB, horizontal: Factor, vertical: Factor, isSharp: Boolean = false): Polygon2dBuilder {
+    fun addRightPoint(aabb: AABB, horizontal: Factor, vertical: Factor, isSharp: Boolean = false) =
         addRightPoint(aabb.getPoint(horizontal, vertical), isSharp)
-
-        return this
-    }
 
     fun addRightPoint(point: Point2d, isSharp: Boolean = false): Polygon2dBuilder {
         rightCorners.add(point)

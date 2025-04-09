@@ -60,6 +60,16 @@ private fun getCenterPonytail(
     style: PonytailStyle,
     length: Distance,
     y: Factor,
+) = when (style) {
+    Braid -> getBraid(state, length, CENTER, y, ZERO)
+    Straight, Wide -> getCenterStraightPonytail(state, style, length, y)
+}
+
+private fun getCenterStraightPonytail(
+    state: CharacterRenderState,
+    style: PonytailStyle,
+    length: Distance,
+    y: Factor,
 ): Polygon2d {
     val config = state.config.head.hair
     val (left, right) = state.aabb.getMirroredPoints(config.getBottomWidth(style), FULL)
@@ -76,8 +86,50 @@ private fun getLeftPonytail(
     length: Distance,
     y: Factor,
 ) = when (style) {
-    Braid -> TODO()
+    Braid -> {
+        val braidWidth = state.config.head.hair.braidWidth
+        getBraid(state, length, FULL + braidWidth / 2.0f, y, braidWidth)
+    }
     Straight, Wide -> getLeftStraightPonytail(state, style, length, y)
+}
+
+private fun getBraid(
+    state: CharacterRenderState,
+    lengthDistance: Distance,
+    startX: Factor,
+    startY: Factor,
+    offset: Factor,
+): Polygon2d {
+    val braid = state.config.head.hair.braidWidth
+    val half = braid / 2.0f
+    val aabb = state.aabb
+    val length = lengthDistance.toMeters() / aabb.size.height + 1.0 - startY.toNumber()
+    val n = Math.max((length / braid.toNumber()).toInt(), 1)
+    var x = startX
+    var y = startY
+    var step = offset
+    val builder = Polygon2dBuilder()
+        .addHorizontalPoints(aabb, braid, x, y)
+
+    repeat(n) {
+        y += half
+        x += step / 4.0f
+        builder.addLeftPoint(aabb, x - half, y)
+        builder.addLeftPoint(aabb, x, y)
+        builder.addLeftPoint(aabb, x - half, y)
+        y += half
+        x += step / 4.0f
+        builder.addRightPoint(aabb, x + half, y)
+        builder.addRightPoint(aabb, x, y)
+        builder.addRightPoint(aabb, x + half, y)
+        step /= 2.0f
+    }
+
+    y += braid
+
+    return builder
+        .addLeftPoint(aabb, x, y)
+        .build()
 }
 
 private fun getLeftStraightPonytail(

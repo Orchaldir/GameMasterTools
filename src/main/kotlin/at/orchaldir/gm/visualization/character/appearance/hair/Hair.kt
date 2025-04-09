@@ -16,6 +16,7 @@ data class HairConfig(
     val width: Factor,
     val longPadding: Factor,
     private val lengthMap: Map<HairLength, Factor>,
+    val braidWidth: Factor,
     val ponytailWidth: Factor,
     val ponytailWideWidth: Factor,
 ) {
