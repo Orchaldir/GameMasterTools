@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.PonytailPosition
 import at.orchaldir.gm.core.model.character.appearance.hair.PonytailPosition.BothSides
 import at.orchaldir.gm.core.model.character.appearance.hair.PonytailPosition.Right
 import at.orchaldir.gm.core.model.character.appearance.hair.PonytailStyle
+import at.orchaldir.gm.core.model.character.appearance.hair.PonytailStyle.*
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
@@ -70,6 +71,16 @@ private fun getCenterPonytail(
 }
 
 private fun getLeftPonytail(
+    state: CharacterRenderState,
+    style: PonytailStyle,
+    length: Distance,
+    y: Factor,
+) = when (style) {
+    Braid -> TODO()
+    Straight, Wide -> getLeftStraightPonytail(state, style, length, y)
+}
+
+private fun getLeftStraightPonytail(
     state: CharacterRenderState,
     style: PonytailStyle,
     length: Distance,
