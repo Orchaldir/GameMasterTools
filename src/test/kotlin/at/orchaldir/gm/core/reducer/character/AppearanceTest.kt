@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
-import at.orchaldir.gm.core.model.character.appearance.NormalSkin
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage

@@ -1,7 +1,8 @@
 package at.orchaldir.gm.core.model.util
 
-import at.orchaldir.gm.core.model.util.Side.*
-import org.junit.jupiter.api.Assertions.*
+import at.orchaldir.gm.core.model.util.Side.Left
+import at.orchaldir.gm.core.model.util.Side.Right
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class SideTest {
