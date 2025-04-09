@@ -14,15 +14,11 @@ sealed class HairCut {
 
     fun getType() = when (this) {
         is LongHairCut -> HairStyle.Long
-        is ShortHairCut -> HairStyle.Short
         is Ponytail -> HairStyle.Ponytail
+        is ShortHairCut -> HairStyle.Short
     }
 
 }
-
-@Serializable
-@SerialName("Short")
-data class ShortHairCut(val style: ShortHairStyle) : HairCut()
 
 @Serializable
 @SerialName("Long")
@@ -38,3 +34,7 @@ data class Ponytail(
     val length: HairLength = HairLength.Classic,
     val position: PonytailPosition = PonytailPosition.Low,
 ) : HairCut()
+
+@Serializable
+@SerialName("Short")
+data class ShortHairCut(val style: ShortHairStyle) : HairCut()
