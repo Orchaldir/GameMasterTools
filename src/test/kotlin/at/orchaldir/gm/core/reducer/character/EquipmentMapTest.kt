@@ -79,6 +79,6 @@ class EquipmentMapTest {
         )
         val action = UpdateEquipmentOfCharacter(CHARACTER_ID_0, equipmentMap)
 
-        assertIllegalArgument("") { REDUCER.invoke(state, action) }
+        assertIllegalArgument("Body slot Top is occupied multiple times!") { REDUCER.invoke(state, action) }
     }
 }
