@@ -12,14 +12,14 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.appearance.WING_LAYER
+import at.orchaldir.gm.visualization.character.appearance.HAIR_LAYER
 import at.orchaldir.gm.visualization.renderRoundedBuilder
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 
 fun visualizePonytail(state: CharacterRenderState, hair: NormalHair, ponytail: Ponytail) {
     val config = state.config
     val options = config.getLineOptions(hair.color)
-    val layer = state.getLayerIndex(WING_LAYER)
+    val layer = state.getLayerIndex(HAIR_LAYER)
     val y = Factor.fromPercentage(20)
     val length = state.config.getHairLength(state.aabb, ponytail.length)
 
@@ -59,7 +59,7 @@ private fun visualizeHead(
         .addMirroredPoints(state.aabb, width, FULL + padding)
         .addLeftPoint(state.aabb, CENTER, FULL + padding)
 
-    renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(WING_LAYER + 1))
+    renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(HAIR_LAYER + 1))
 }
 
 private fun getCenterPonytail(
