@@ -8,7 +8,15 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-val ACCESSORIES = setOf(EquipmentDataType.Footwear, EquipmentDataType.Gloves, EquipmentDataType.Hat)
+val ACCESSORIES = setOf(
+    EquipmentDataType.Belt,
+    EquipmentDataType.Footwear,
+    EquipmentDataType.Glasses,
+    EquipmentDataType.Gloves,
+    EquipmentDataType.Hat,
+    EquipmentDataType.Socks,
+    EquipmentDataType.Tie,
+)
 
 enum class EquipmentDataType {
     Belt,
