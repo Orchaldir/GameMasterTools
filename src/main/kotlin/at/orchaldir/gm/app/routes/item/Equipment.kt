@@ -225,25 +225,23 @@ private fun HTML.showEquipmentEditor(
 }
 
 private fun BODY.visualizeItem(equipment: Equipment) {
-    if (equipment.data.getType() != EquipmentDataType.None) {
-        val equipped = EquipmentMap.fromSlotAsKeyMap(
-            equipment.data.slots()
-                .getAllBodySlotCombinations()
-                .first()
-                .associateWith { equipment.data })
-        val head = Head(NormalEars(), TwoEyes(), mouth = NormalMouth())
-        val height = Distance.fromMeters(1.0f)
-        val appearance = if (requiresBody(equipment)) {
-            HumanoidBody(Body(), head, height)
-        } else {
-            HeadOnly(head, height)
-        }
-        val frontSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped)
-        val backSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped, false)
-
-        svg(frontSvg, 20)
-        svg(backSvg, 20)
+    val equipped = EquipmentMap.fromSlotAsKeyMap(
+        equipment.data.slots()
+            .getAllBodySlotCombinations()
+            .first()
+            .associateWith { equipment.data })
+    val head = Head(NormalEars(), TwoEyes(), mouth = NormalMouth())
+    val height = Distance.fromMeters(1.0f)
+    val appearance = if (requiresBody(equipment)) {
+        HumanoidBody(Body(), head, height)
+    } else {
+        HeadOnly(head, height)
     }
+    val frontSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped)
+    val backSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped, false)
+
+    svg(frontSvg, 20)
+    svg(backSvg, 20)
 }
 
 private fun requiresBody(template: Equipment) = when (template.data.getType()) {
