@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
-val UPDATE_EQUIPMENT: Reducer<UpdateEquipmentOfCharacter, State> = { state, action ->
+val UPDATE_EQUIPMENT_MAP: Reducer<UpdateEquipmentOfCharacter, State> = { state, action ->
     val character = state.getCharacterStorage().getOrThrow(action.id)
 
     action.map.getEquipmentWithSlotSets().forEach { (id, slotSets) ->
