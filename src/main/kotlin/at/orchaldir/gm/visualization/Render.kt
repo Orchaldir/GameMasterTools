@@ -44,6 +44,13 @@ fun renderPolygon(
 fun renderRoundedPolygon(
     renderer: MultiLayerRenderer,
     options: RenderOptions,
+    polygon: Polygon2d,
+    layer: Int = 0,
+) = renderRoundedPolygon(renderer, options, polygon.corners, layer)
+
+fun renderRoundedPolygon(
+    renderer: MultiLayerRenderer,
+    options: RenderOptions,
     corners: List<Point2d>,
     layer: Int = 0,
 ) = renderRoundedPolygon(renderer.getLayer(layer), options, corners)

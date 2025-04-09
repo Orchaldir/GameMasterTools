@@ -12,10 +12,7 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.MoustacheStyle
-import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
-import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
-import at.orchaldir.gm.core.model.character.appearance.hair.LongHairStyle
-import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle
+import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.name.*
@@ -153,6 +150,8 @@ private fun BODY.showAppearanceOptions(culture: Culture) {
     showRarityMap("Hair Styles", appearanceStyle.hairStyles)
     showRarityMap("Short Hair Styles", appearanceStyle.shortHairStyles)
     showRarityMap("Long Hair Styles", appearanceStyle.longHairStyles)
+    showRarityMap("Ponytail Styles", appearanceStyle.ponytailStyles)
+    showRarityMap("Ponytail Positions", appearanceStyle.ponytailPositions)
     showRarityMap("Hair Lengths", appearanceStyle.hairLengths)
     showRarityMap("Lip Colors", appearanceStyle.lipColors)
 }
@@ -293,6 +292,8 @@ private fun FORM.editAppearanceOptions(culture: Culture) {
     selectRarityMap("Hair Styles", combine(HAIR, STYLE), appearanceStyle.hairStyles)
     selectRarityMap("Short Hair Styles", combine(SHORT, HAIR, STYLE), appearanceStyle.shortHairStyles)
     selectRarityMap("Long Hair Styles", combine(LONG, HAIR, STYLE), appearanceStyle.longHairStyles)
+    selectRarityMap("Ponytail Styles", combine(PONYTAIL, STYLE), appearanceStyle.ponytailStyles)
+    selectRarityMap("Ponytail Positions", combine(PONYTAIL, POSITION), appearanceStyle.ponytailPositions)
     selectRarityMap("Hair Lengths", combine(HAIR, LENGTH), appearanceStyle.hairLengths)
     selectRarityMap("Lip Colors", LIP_COLORS, appearanceStyle.lipColors)
 }
@@ -347,6 +348,8 @@ fun parseCulture(
             parseOneOf(parameters, combine(HAIR, STYLE), HairStyle::valueOf),
             parseOneOf(parameters, combine(SHORT, HAIR, STYLE), ShortHairStyle::valueOf),
             parseOneOf(parameters, combine(LONG, HAIR, STYLE), LongHairStyle::valueOf),
+            parseOneOf(parameters, combine(PONYTAIL, STYLE), PonytailStyle::valueOf),
+            parseOneOf(parameters, combine(PONYTAIL, POSITION), PonytailPosition::valueOf),
             parseOneOf(parameters, combine(HAIR, LENGTH), HairLength::valueOf),
             parseOneOf(parameters, LIP_COLORS, Color::valueOf),
         ),

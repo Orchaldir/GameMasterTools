@@ -2,10 +2,12 @@ package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
+import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Fill
+import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.*
@@ -23,6 +25,9 @@ data class CharacterRenderConfig(
 ) {
 
     fun calculateSize(height: Distance) = Size2d.square(height + padding * 2.0f)
+
+    fun getHairLength(aabb: AABB, length: HairLength) = body.getDistanceFromNeckToBottom(aabb) *
+            head.hair.getLength(length)
 
     fun getOptions(skin: Skin): RenderOptions = FillAndBorder(
         when (skin) {

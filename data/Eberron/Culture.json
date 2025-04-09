@@ -41,6 +41,21 @@
      "Pyramid": "Common",
      "Toothbrush": "Common",
      "Walrus": "Common"
+    },
+    "ponytailPositions": {
+     "BothSides": "Rare",
+     "High": "Common",
+     "Left": "VeryRare",
+     "Low": "Common",
+     "Right": "VeryRare",
+     "Top": "Uncommon"
+    },
+    "hairLengths": {
+     "MidBack": "Uncommon",
+     "Waist": "Common",
+     "Classic": "Common",
+     "Knee": "Rare",
+     "Ankle": "VeryRare"
     }
    },
    "holidays": [
