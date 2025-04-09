@@ -204,7 +204,23 @@ private fun FORM.editNormalHair(
             selectHairLength(culture, hair.cut.length)
         }
 
-        is Ponytail -> doNothing()
+        is Ponytail -> {
+            selectOneOf(
+                "Ponytail Style",
+                combine(PONYTAIL, STYLE),
+                culture.appearanceStyle.ponytailStyles,
+                hair.cut.style,
+                true,
+            )
+            selectOneOf(
+                "Ponytail Position",
+                combine(PONYTAIL, POSITION),
+                culture.appearanceStyle.ponytailPositions,
+                hair.cut.position,
+                true,
+            )
+            selectHairLength(culture, hair.cut.length)
+        }
 
         is ShortHairCut -> selectOneOf(
             "Short Hair Style",
@@ -406,20 +422,33 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
                         ),
                     )
 
-                    else -> LongHairCut(
+                    HairStyle.Long.toString() -> LongHairCut(
                         parseAppearanceOption(
                             parameters,
                             combine(LONG, STYLE),
                             config,
                             config.appearanceStyle.longHairStyles,
                         ),
+                        parseHairLength(parameters, config),
+                    )
+
+                    HairStyle.Ponytail.toString() -> Ponytail(
                         parseAppearanceOption(
                             parameters,
-                            combine(HAIR, LENGTH),
+                            combine(PONYTAIL, STYLE),
                             config,
-                            config.appearanceStyle.hairLengths,
+                            config.appearanceStyle.ponytailStyles,
                         ),
+                        parseAppearanceOption(
+                            parameters,
+                            combine(PONYTAIL, POSITION),
+                            config,
+                            config.appearanceStyle.ponytailPositions,
+                        ),
+                        parseHairLength(parameters, config),
                     )
+
+                    else -> generateHairCut(config)
                 },
                 parseAppearanceColor(parameters, HAIR, config, config.appearanceOptions.hair.colors),
             )
@@ -428,6 +457,16 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
         else -> generateHair(config)
     }
 }
+
+private fun parseHairLength(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+) = parseAppearanceOption(
+    parameters,
+    combine(HAIR, LENGTH),
+    config,
+    config.appearanceStyle.hairLengths,
+)
 
 private fun parseMouth(
     parameters: Parameters,
