@@ -9,11 +9,8 @@ import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.EquipmentMap
-import at.orchaldir.gm.core.model.fashion.Fashion
-import at.orchaldir.gm.core.model.item.equipment.*
-import at.orchaldir.gm.core.model.util.OneOrNone
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.selector.item.getEquipment
-import at.orchaldir.gm.core.selector.item.getEquipmentOf
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
@@ -24,7 +21,10 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.*
+import kotlinx.html.FormMethod
+import kotlinx.html.HTML
+import kotlinx.html.form
+import kotlinx.html.id
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}

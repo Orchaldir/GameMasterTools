@@ -1,17 +1,14 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
-import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.Rectangle
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.NormalFoot
-import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Coat
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength.Hip
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Color.Blue
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.Solid

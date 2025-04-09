@@ -1,9 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
-import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Coat
 import at.orchaldir.gm.core.model.item.equipment.style.Button
 import at.orchaldir.gm.core.model.item.equipment.style.ButtonColumn

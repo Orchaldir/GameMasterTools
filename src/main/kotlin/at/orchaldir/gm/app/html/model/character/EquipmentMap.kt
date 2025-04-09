@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.selector.item.getEquipmentOf
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.BODY
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
