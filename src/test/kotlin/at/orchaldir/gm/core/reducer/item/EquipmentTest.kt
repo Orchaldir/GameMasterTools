@@ -22,7 +22,7 @@ private val CHARACTER0 = CharacterId(0)
 private val STATE = State(Storage(Equipment(ID0)))
 private val MATERIAL0 = MaterialId(0)
 private val MATERIAL1 = MaterialId(1)
-private val EQUIPMENT_MAP = EquipmentMap(mapOf(BodySlot.Head to ID0))
+private val EQUIPMENT_MAP = EquipmentMap(ID0, BodySlot.Head)
 
 class EquipmentTest {
 

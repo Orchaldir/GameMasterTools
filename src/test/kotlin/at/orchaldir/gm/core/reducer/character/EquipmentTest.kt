@@ -1,5 +1,9 @@
 package at.orchaldir.gm.core.reducer.character
 
+import at.orchaldir.gm.CHARACTER_ID_0
+import at.orchaldir.gm.EQUIPMENT_ID_0
+import at.orchaldir.gm.EQUIPMENT_ID_1
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.UpdateEquipmentOfCharacter
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -12,73 +16,71 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-private val ID0 = CharacterId(0)
-private val ITEM0 = EquipmentId(0)
-private val ITEM1 = EquipmentId(1)
-
 class EquipmentTest {
-    /* TODO
 
-        private val equipmentMap = EquipmentMap(mapOf(EquipmentDataType.Hat to ITEM0))
-        private val action = UpdateEquipmentOfCharacter(ID0, equipmentMap)
+    private val equipmentMap = EquipmentMap(EQUIPMENT_ID_0, BodySlot.Head)
+    private val action = UpdateEquipmentOfCharacter(CHARACTER_ID_0, equipmentMap)
 
-        @Test
-        fun `Update equipment`() {
-            val state = State(
-                listOf(
-                    Storage(listOf(Character(ID0))),
-                    Storage(listOf(Equipment(ITEM0, data = Hat()))),
-                )
+    @Test
+    fun `Update equipment`() {
+        val state = State(
+            listOf(
+                Storage(listOf(Character(CHARACTER_ID_0))),
+                Storage(listOf(Equipment(EQUIPMENT_ID_0, data = Hat()))),
             )
+        )
+        val result = REDUCER.invoke(state, action).first
 
-            val result = REDUCER.invoke(state, action).first
+        assertEquals(equipmentMap, result.getCharacterStorage().getOrThrow(CHARACTER_ID_0).equipmentMap)
+    }
 
-            assertEquals(equipmentMap, result.getCharacterStorage().getOrThrow(ID0).equipmentMap)
-        }
+    @Test
+    fun `Cannot update unknown character`() {
+        val state = State(Storage(Equipment(EQUIPMENT_ID_0)))
 
-        @Test
-        fun `Cannot update unknown character`() {
-            val state = State()
+        assertIllegalArgument("Requires unknown Character 0!") { REDUCER.invoke(state, action) }
+    }
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
-        }
+    @Test
+    fun `Cannot use unknown equipment`() {
+        val state = State(Storage(listOf(Character(CHARACTER_ID_0))))
 
-        @Test
-        fun `Cannot use unknown item template`() {
-            val state = State(Storage(listOf(Character(ID0))))
+        assertIllegalArgument("Requires unknown Equipment 0!") { REDUCER.invoke(state, action) }
+    }
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
-        }
-
-        @Test
-        fun `Cannot use item template of wrong type`() {
-            val state = State(
-                listOf(
-                    Storage(listOf(Character(ID0))),
-                    Storage(listOf(Equipment(ITEM0, data = Dress()))),
-                )
+    @Test
+    fun `Cannot use equipment with wrong slots`() {
+        val state = State(
+            listOf(
+                Storage(listOf(Character(CHARACTER_ID_0))),
+                Storage(listOf(Equipment(EQUIPMENT_ID_0, data = Dress()))),
             )
+        )
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
-        }
+        assertIllegalArgument("Equipment 0 uses wrong slots!") { REDUCER.invoke(state, action) }
+    }
 
-        @Test
-        fun `Cannot occupy equipment slot twice`() {
-            val state = State(
-                listOf(
-                    Storage(listOf(Character(ID0))),
-                    Storage(
-                        listOf(
-                            Equipment(ITEM0, data = Dress()),
-                            Equipment(ITEM1, data = Shirt())
-                        )
-                    ),
-                )
+    @Test
+    fun `Cannot occupy equipment slot twice`() {
+        val state = State(
+            listOf(
+                Storage(listOf(Character(CHARACTER_ID_0))),
+                Storage(
+                    listOf(
+                        Equipment(EQUIPMENT_ID_0, data = Dress()),
+                        Equipment(EQUIPMENT_ID_1, data = Shirt())
+                    )
+                ),
             )
-            val equipmentMap = EquipmentMap(mapOf(EquipmentDataType.Dress to ITEM0, EquipmentDataType.Shirt to ITEM1))
-            val action = UpdateEquipmentOfCharacter(ID0, equipmentMap)
+        )
+        val equipmentMap = EquipmentMap(
+            mapOf(
+                EQUIPMENT_ID_0 to setOf(setOf(BodySlot.Bottom, BodySlot.Top)),
+                EQUIPMENT_ID_1 to setOf(setOf(BodySlot.Top)),
+            )
+        )
+        val action = UpdateEquipmentOfCharacter(CHARACTER_ID_0, equipmentMap)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
-        }
-    */
+        assertIllegalArgument("") { REDUCER.invoke(state, action) }
+    }
 }
