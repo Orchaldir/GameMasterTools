@@ -99,8 +99,9 @@
     "type": "Earring",
     "style": {
      "type": "Drop",
-     "size": 4000,
-     "wireLength": 2500,
+     "topSize": 2000,
+     "bottomSize": 5000,
+     "wireLength": 5000,
      "bottom": {
       "type": "Simple",
       "shape": "Teardrop",
