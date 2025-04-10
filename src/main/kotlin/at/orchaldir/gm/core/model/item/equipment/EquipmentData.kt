@@ -201,7 +201,7 @@ data class Hat(
 @Serializable
 @SerialName("Necklace")
 data class Necklace(
-    val style: HatStyle = HatStyle.TopHat,
+    val length: NecklaceLength = NecklaceLength.Princess,
     val color: Color = Color.SaddleBrown,
     val material: MaterialId = MaterialId(0),
 ) : EquipmentData() {
