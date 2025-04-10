@@ -3,7 +3,6 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Necklace
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
@@ -43,14 +42,12 @@ private fun visualizeStrandNecklace(
     length: NecklaceLength,
 ) {
     val bottomY = state.config.equipment.necklace.getLength(length)
-    val wireThickness = state.config.equipment.necklace.getWireThickness(torso, Size.Medium)
-    val wireOptions = LineOptions(Color.Red.toRender(), wireThickness)
-    val renderer = state.getLayer(ABOVE_EQUIPMENT_LAYER)
 
     repeat(necklace.strands) { index ->
         val line = createNecklaceLine(torso, length, bottomY, Factor.fromPercentage(8) * index.toFloat())
+        val roundedLine = subdivideLine(line, 2)
 
-        visualizeStrand(state, torso, necklace.strand, line)
+        visualizeStrand(state, torso, necklace.strand, roundedLine)
     }
 }
 
@@ -61,7 +58,6 @@ private fun visualizeStrand(
     line: Line2d,
 ) {
     val renderer = state.getLayer(ABOVE_EQUIPMENT_LAYER)
-
 
     when (strand) {
         is Chain -> TODO()
