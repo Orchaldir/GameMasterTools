@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.item.equipment.Necklace
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -49,7 +50,7 @@ private fun visualizeDropNecklace(
     val bottomY = state.config.equipment.necklace.getLength(length)
     val start = torso.getPoint(CENTER, bottomY)
     val earRadius = torso.convertWidth(HALF)
-    val maxLength = calculateMaxDrop(state.aabb, start, earRadius)
+    val maxLength = Distance.fromMeters(torso.getEnd().y - start.y)
 
     visualizeStrand(state, torso, style.strand, length)
     visualizeDropEarring(state, style.drop, start, earRadius, maxLength)

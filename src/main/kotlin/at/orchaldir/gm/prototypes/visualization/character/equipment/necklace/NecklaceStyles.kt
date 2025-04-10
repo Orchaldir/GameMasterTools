@@ -20,28 +20,26 @@ import at.orchaldir.gm.utils.math.unit.Distance
 fun main() {
     val pearl = SimpleOrnament(OrnamentShape.Circle, White)
     val styles: MutableList<Pair<String, NecklaceStyle>> = mutableListOf(
-        Pair("Pearl", StrandNecklace(1, OrnamentChain(pearl))),
+        // Pair("Pearl", StrandNecklace(1, OrnamentChain(pearl))),
         Pair(
             "Drop", DropNecklace(
                 DropEarring(
                     Factor.fromPercentage(10),
                     Factor.fromPercentage(10),
-                    Factor.fromPercentage(10),
+                    Factor.fromPercentage(30),
                 ),
                 Wire(Size.Small, Color.Silver)
             )
         ),
     )
 
-    Size.entries.forEach { size ->
-        styles.add(Pair("$size Pendant", PendantNecklace(OrnamentWithBorder(), Wire(size), size)))
-    }
+
 
     renderCharacterTable(
         "necklaces-styles.svg",
         CHARACTER_CONFIG,
         styles,
-        addNames(NecklaceLength.entries),
+        addNames(NecklaceLength.Matinee),
     ) { distance, length, style ->
         val necklace = Necklace(style, length)
         Pair(createAppearance(distance), from(necklace))
