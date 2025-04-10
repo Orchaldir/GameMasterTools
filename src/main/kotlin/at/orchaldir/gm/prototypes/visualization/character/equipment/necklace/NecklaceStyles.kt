@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.Necklace
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Color.White
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
@@ -15,11 +16,13 @@ import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
     val pearl = SimpleOrnament(OrnamentShape.Circle, White)
-    val wire = Wire()
     val styles: MutableList<Pair<String, NecklaceStyle>> = mutableListOf(
         Pair("Pearl", StrandNecklace(1, OrnamentChain(pearl))),
-        Pair("Pendant", PendantNecklace(OrnamentWithBorder(), wire)),
     )
+
+    Size.entries.forEach { size ->
+        styles.add(Pair("$size Pendant", PendantNecklace(OrnamentWithBorder(), Wire(size), size)))
+    }
 
     renderCharacterTable(
         "necklaces-styles.svg",
