@@ -90,7 +90,7 @@ fun visualizeDangleEarring(
     val config = state.config.equipment.earring
     val topRadius = config.calculateStudSize(earRadius, Size.Small)
     val wireLength = config.calculateStudSize(earRadius, Size.Small)
-    val renderer = state.getLayer(EQUIPMENT_LAYER)
+    val renderer = state.renderer.getLayer(EQUIPMENT_LAYER)
 
     visualizeOrnament(renderer, dangle.top, position, topRadius)
 
@@ -129,7 +129,7 @@ fun visualizeDropEarring(
     val topRadius = earRadius * drop.topSize
     val bottomRadius = earRadius * drop.bottomSize
     val end = start.addHeight(maxLength * drop.wireLength)
-    val renderer = state.getLayer(layer)
+    val renderer = state.renderer.getLayer(layer)
 
     visualizeEarringWire(state, earRadius, start, end, Size.Small, drop.wireColor)
     visualizeOrnament(renderer, drop.top, start, topRadius)
@@ -156,7 +156,7 @@ private fun visualizeStudEarring(
 ) {
     val radius = state.config.equipment.earring.calculateStudSize(earRadius, stud.size)
 
-    visualizeOrnament(state.getLayer(EQUIPMENT_LAYER), stud.ornament, position, radius)
+    visualizeOrnament(state.renderer.getLayer(EQUIPMENT_LAYER), stud.ornament, position, radius)
 }
 
 private fun visualizeEarringWire(
