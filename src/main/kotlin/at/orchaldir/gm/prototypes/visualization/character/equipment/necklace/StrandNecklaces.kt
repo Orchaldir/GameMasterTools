@@ -7,18 +7,27 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.Necklace
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.Color.White
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
+    val pearl = SimpleOrnament(OrnamentShape.Circle, White)
     val strand = Wire()
-    val strandStyles: List<Pair<String, StrandNecklace>> = listOf(
+    val strandStyles: MutableList<Pair<String, StrandNecklace>> = mutableListOf(
         Pair("1", StrandNecklace(1, strand)),
-        Pair("2", StrandNecklace(2, strand)),
-        Pair("3", StrandNecklace(3, strand)),
     )
+
+    Size.entries.forEach { padding ->
+        Size.entries.forEach { size ->
+            strandStyles.add(Pair("2 $padding $size", StrandNecklace(2, OrnamentChain(pearl, size), padding)))
+        }
+    }
+
+    strandStyles.add(Pair("3", StrandNecklace(3, strand)))
 
     renderCharacterTable(
         "necklaces-strands.svg",
