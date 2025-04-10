@@ -55,8 +55,8 @@ data class DropNecklace(
 @SerialName("Pendant")
 data class PendantNecklace(
     val ornament: Ornament = SimpleOrnament(),
-    val size: Size = Size.Medium,
     val strand: Strand,
+    val size: Size = Size.Medium,
 ) : NecklaceStyle()
 
 @Serializable
