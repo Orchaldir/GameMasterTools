@@ -131,8 +131,8 @@ fun visualizeDropEarring(
     maxLength: Distance,
 ) {
     val config = state.config.equipment.earring
-    val topRadius = config.calculateStudSize(earRadius, Size.Small)
-    val bottomRadius = earRadius * drop.size
+    val topRadius = earRadius * drop.topSize
+    val bottomRadius = earRadius * drop.bottomSize
     val end = config.calculateWireEnd(maxLength, start, earRadius, drop.wireLength)
 
     visualizeWire(state, earRadius, start, end, Size.Small, drop.wireColor)

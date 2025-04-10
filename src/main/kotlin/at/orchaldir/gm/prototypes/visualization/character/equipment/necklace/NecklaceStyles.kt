@@ -26,6 +26,7 @@ fun main() {
                 DropEarring(
                     Factor.fromPercentage(10),
                     Factor.fromPercentage(10),
+                    Factor.fromPercentage(10),
                 ),
                 Wire(Size.Small, Color.Silver)
             )

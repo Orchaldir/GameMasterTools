@@ -22,6 +22,7 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 fun main() {
     val default = SimpleOrnament()
     val red = SimpleOrnament(color = Red)
+    val topSize = fromPercentage(20)
 
     val equipmentTable: List<List<EquipmentMap<EquipmentData>>> = mutableListOf(
         OrnamentShape.entries.map {
@@ -37,10 +38,10 @@ fun main() {
             DangleEarring(default, SimpleOrnament(Teardrop, Blue), listOf(Small, Small, Small)),
         ),
         listOf(
-            DropEarring(fromPercentage(20), fromPercentage(20)),
-            DropEarring(fromPercentage(30), fromPercentage(30), red, red),
-            DropEarring(fromPercentage(40), fromPercentage(40), bottom = OrnamentWithBorder(Square, Blue)),
-            DropEarring(fromPercentage(60), fromPercentage(40), bottom = SimpleOrnament(Teardrop, Blue)),
+            DropEarring(topSize, fromPercentage(20), fromPercentage(20)),
+            DropEarring(topSize, fromPercentage(30), fromPercentage(30), red, red),
+            DropEarring(topSize, fromPercentage(40), fromPercentage(40), bottom = OrnamentWithBorder(Square, Blue)),
+            DropEarring(topSize, fromPercentage(60), fromPercentage(40), bottom = SimpleOrnament(Teardrop, Blue)),
         ),
         listOf(
             HoopEarring(fromPercentage(40), Small),

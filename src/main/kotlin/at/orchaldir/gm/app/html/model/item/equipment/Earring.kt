@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.item.equipment.Earring
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ONE
 import at.orchaldir.gm.utils.math.ONE_PERCENT
 import at.orchaldir.gm.utils.math.ZERO
@@ -41,7 +42,8 @@ fun BODY.showEarring(
         }
 
         is DropEarring -> {
-            fieldFactor("Size", style.size)
+            fieldFactor("Top Size", style.topSize)
+            fieldFactor("Bottom Size", style.bottomSize)
             fieldFactor("Wire Length", style.wireLength)
             showOrnament(call, state, style.top, "Top Ornament")
             showOrnament(call, state, style.bottom, "Bottom Ornament")
@@ -80,7 +82,8 @@ fun FORM.editEarring(
         }
 
         is DropEarring -> {
-            selectFactor("Size", SIZE, style.size, ZERO, ONE, ONE_PERCENT, true)
+            selectDropSize("Top Size", style.topSize, TOP)
+            selectDropSize("Bottom Size", style.bottomSize, BOTTOM)
             selectFactor("Wire Length", LENGTH, style.wireLength, ZERO, ONE, ONE_PERCENT, true)
             editOrnament(state, style.top, TOP, "Top Ornament")
             editOrnament(state, style.bottom, BOTTOM, "Bottom Ornament")
@@ -98,6 +101,10 @@ fun FORM.editEarring(
             selectValue("Size", SIZE, Size.entries, style.size, true)
         }
     }
+}
+
+private fun FORM.selectDropSize(label: String, size: Factor, param: String) {
+    selectFactor(label, combine(param, SIZE), size, ZERO, ONE, ONE_PERCENT, true)
 }
 
 
@@ -119,7 +126,8 @@ fun parseEarring(parameters: Parameters): Earring {
             )
 
             EarringStyleType.Drop -> DropEarring(
-                parseFactor(parameters, SIZE),
+                parseFactor(parameters, combine(TOP, SIZE)),
+                parseFactor(parameters, combine(BOTTOM, SIZE)),
                 parseFactor(parameters, LENGTH),
                 parseOrnament(parameters, TOP),
                 parseOrnament(parameters, BOTTOM),
