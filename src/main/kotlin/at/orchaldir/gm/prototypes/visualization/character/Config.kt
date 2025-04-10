@@ -106,11 +106,12 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             mapOf(
                 Collar to fromPercentage(0),
                 Choker to fromPercentage(5),
-                Princess to fromPercentage(10),
-                Matinee to fromPercentage(20),
-                Opera to fromPercentage(40),
-                Rope to fromPercentage(50),
-            )
+                Princess to fromPercentage(20),
+                Matinee to fromPercentage(30),
+                Opera to fromPercentage(50),
+                Rope to fromPercentage(60),
+            ),
+            fromPercentages(2, 4, 6),
         ),
         NecklineConfig(
             fromPercentage(10),
