@@ -50,7 +50,27 @@ private fun visualizeStrandNecklace(
     repeat(necklace.strands) { index ->
         val line = createNecklaceLine(torso, length, bottomY, Factor.fromPercentage(8) * index.toFloat())
 
-        renderer.renderLine(line, wireOptions)
+        visualizeStrand(state, torso, necklace.strand, line)
+    }
+}
+
+private fun visualizeStrand(
+    state: CharacterRenderState,
+    torso: AABB,
+    strand: Strand,
+    line: Line2d,
+) {
+    val renderer = state.getLayer(ABOVE_EQUIPMENT_LAYER)
+
+
+    when (strand) {
+        is Chain -> TODO()
+        is OrnamentChain -> TODO()
+        is Wire -> {
+            val wireThickness = state.config.equipment.necklace.getWireThickness(torso, strand.thickness)
+            val wireOptions = LineOptions(strand.color.toRender(), wireThickness)
+            renderer.renderLine(line, wireOptions)
+        }
     }
 }
 
