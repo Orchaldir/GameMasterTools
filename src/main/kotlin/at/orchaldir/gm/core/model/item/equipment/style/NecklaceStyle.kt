@@ -23,17 +23,17 @@ sealed class NecklaceStyle {
     }
 
     fun contains(id: MaterialId) = when (this) {
-        is DangleNecklace -> dangle.contains(id)
-        is DropNecklace -> drop.contains(id)
-        is PendantNecklace -> ornament.contains(id)
-        is StrandNecklace -> false
+        is DangleNecklace -> dangle.contains(id) || strand.contains(id)
+        is DropNecklace -> drop.contains(id) || strand.contains(id)
+        is PendantNecklace -> ornament.contains(id) || strand.contains(id)
+        is StrandNecklace -> strand.contains(id)
     }
 
     fun getMaterials() = when (this) {
-        is DangleNecklace -> dangle.getMaterials()
-        is DropNecklace -> drop.getMaterials()
-        is PendantNecklace -> ornament.getMaterials()
-        is StrandNecklace -> emptySet()
+        is DangleNecklace -> dangle.getMaterials() + strand.getMaterials()
+        is DropNecklace -> drop.getMaterials() + strand.getMaterials()
+        is PendantNecklace -> ornament.getMaterials() + strand.getMaterials()
+        is StrandNecklace -> strand.getMaterials()
     }
 }
 
@@ -41,12 +41,14 @@ sealed class NecklaceStyle {
 @SerialName("Dangle")
 data class DangleNecklace(
     val dangle: DangleEarring,
+    val strand: Strand,
 ) : NecklaceStyle()
 
 @Serializable
 @SerialName("Drop")
 data class DropNecklace(
     val drop: DropEarring,
+    val strand: Strand,
 ) : NecklaceStyle()
 
 @Serializable
@@ -54,12 +56,14 @@ data class DropNecklace(
 data class PendantNecklace(
     val ornament: Ornament = SimpleOrnament(),
     val size: Size = Size.Medium,
+    val strand: Strand,
 ) : NecklaceStyle()
 
 @Serializable
 @SerialName("Strand")
 data class StrandNecklace(
-    val stands: Int = 3,
+    val strands: Int = 3,
+    val strand: Strand,
     val padding: Size = Size.Medium,
 ) : NecklaceStyle()
 
