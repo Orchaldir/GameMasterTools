@@ -43,6 +43,19 @@ private fun visualizeStrandNecklace(
     length: NecklaceLength,
 ) {
     val bottomY = state.config.equipment.necklace.getLength(length)
+    val line = createNecklaceLine(torso, length, bottomY)
+    val wireThickness = state.config.equipment.necklace.getWireThickness(torso, Size.Medium)
+    val wireOptions = LineOptions(Color.Red.toRender(), wireThickness)
+
+    state.getLayer(ABOVE_EQUIPMENT_LAYER)
+        .renderLine(line, wireOptions)
+}
+
+private fun createNecklaceLine(
+    torso: AABB,
+    length: NecklaceLength,
+    bottomY: Factor,
+): Line2d {
     val width = HALF
     val (left, right) = torso.getMirroredPoints(width, START)
     val builder = Line2dBuilder()
@@ -54,12 +67,7 @@ private fun visualizeStrandNecklace(
         else -> builder.addMirroredPoints(torso, width, bottomY)
     }
 
-    val line = builder
+    return builder
         .addPoint(right)
         .build()
-    val wireThickness = state.config.equipment.necklace.getWireThickness(torso, Size.Medium)
-    val wireOptions = LineOptions(Color.Red.toRender(), wireThickness)
-
-    state.getLayer(ABOVE_EQUIPMENT_LAYER)
-        .renderLine(line, wireOptions)
 }
