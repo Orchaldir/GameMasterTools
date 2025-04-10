@@ -8,7 +8,7 @@ fun calculatePointsOnLine(line: Line2d, step: Distance): List<Point2d> {
     var remaining = Distance.fromMeters(0)
 
     line.points.drop(1).forEach { next ->
-        val diff = last.minus(next)
+        val diff = next.minus(last)
         val distance = diff.length()
         val normalizedDiff = diff.normalize()
         var current = remaining

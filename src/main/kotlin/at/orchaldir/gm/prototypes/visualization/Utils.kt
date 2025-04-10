@@ -103,6 +103,8 @@ fun <C, R> renderTable(
     File(filename).writeText(builder.finish().export())
 }
 
+fun <T> addNames(value: T) = addNames(setOf(value))
+
 fun <T> addNames(values: Collection<T>) = values.map {
     Pair(it.toString(), it)
 }
