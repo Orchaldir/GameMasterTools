@@ -48,7 +48,7 @@ private fun visualizeStrandNecklace(
     val renderer = state.getLayer(ABOVE_EQUIPMENT_LAYER)
 
     repeat(necklace.strands) { index ->
-        val line = createNecklaceLine(torso, length, bottomY, Factor.fromPercentage(10) * index.toFloat())
+        val line = createNecklaceLine(torso, length, bottomY, Factor.fromPercentage(8) * index.toFloat())
 
         renderer.renderLine(line, wireOptions)
     }
@@ -67,17 +67,19 @@ private fun createNecklaceLine(
         .addPoint(left)
 
     when (length) {
-        NecklaceLength.Collar -> doNothing()
-        NecklaceLength.Choker -> {
+        NecklaceLength.Collar, NecklaceLength.Choker -> {
             val point = torso
                 .getPoint(CENTER, bottomY)
                 .addHeight(paddingDistance)
             builder.addPoint(point)
         }
 
-        else -> builder
-            .addPoint(left.addHeight(paddingDistance))
-            .addPoint(right.addHeight(paddingDistance))
+        else -> {
+            val (bottomLeft, bottomRight) = torso.getMirroredPoints(width, bottomY)
+            builder
+                .addPoint(bottomLeft.addHeight(paddingDistance))
+                .addPoint(bottomRight.addHeight(paddingDistance))
+        }
     }
 
     return builder
