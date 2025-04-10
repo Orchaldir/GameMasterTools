@@ -60,8 +60,13 @@ private fun visualizeStrand(
     val renderer = state.getLayer(ABOVE_EQUIPMENT_LAYER)
 
     when (strand) {
-        is Chain -> TODO()
-        is OrnamentChain -> TODO()
+        is Chain -> {
+            val wireThickness = state.config.equipment.necklace.getWireThickness(torso, strand.thickness)
+            val wireOptions = LineOptions(strand.color.toRender(), wireThickness)
+            renderer.renderLine(line, wireOptions)
+        }
+
+        is OrnamentChain -> doNothing()
         is Wire -> {
             val wireThickness = state.config.equipment.necklace.getWireThickness(torso, strand.thickness)
             val wireOptions = LineOptions(strand.color.toRender(), wireThickness)
