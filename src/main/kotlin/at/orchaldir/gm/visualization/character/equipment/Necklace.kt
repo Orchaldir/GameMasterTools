@@ -11,6 +11,7 @@ import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeWire
 
 data class NecklaceConfig(
     private val lengthMap: Map<NecklaceLength, Factor>,
@@ -49,11 +50,10 @@ private fun visualizeDropNecklace(
 ) {
     val bottomY = state.config.equipment.necklace.getLength(length)
     val start = torso.getPoint(CENTER, bottomY)
-    val earRadius = torso.convertWidth(HALF)
-    val maxLength = Distance.fromMeters(torso.getEnd().y - start.y)
+    val maxSize = torso.convertWidth(Factor.fromPercentage(20))
 
     visualizeStrand(state, torso, style.strand, length)
-    visualizeDropEarring(state, style.drop, start, earRadius, maxLength)
+    visualizeDropEarring(state, style.drop, start, maxSize / 2.0f, maxSize)
 }
 
 private fun visualizePendantNecklace(

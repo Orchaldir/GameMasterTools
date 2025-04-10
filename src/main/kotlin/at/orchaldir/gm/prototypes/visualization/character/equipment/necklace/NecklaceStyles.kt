@@ -24,16 +24,19 @@ fun main() {
         Pair(
             "Drop", DropNecklace(
                 DropEarring(
-                    Factor.fromPercentage(10),
-                    Factor.fromPercentage(10),
-                    Factor.fromPercentage(30),
+                    Factor.fromPercentage(20),
+                    Factor.fromPercentage(20),
+                    Factor.fromPercentage(100),
                 ),
                 Wire(Size.Small, Color.Silver)
             )
         ),
     )
-
-
+    /*
+    Size.entries.forEach { size ->
+        styles.add(Pair("$size Pendant", PendantNecklace(OrnamentWithBorder(), Wire(size), size)))
+    }
+    */
 
     renderCharacterTable(
         "necklaces-styles.svg",
