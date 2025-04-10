@@ -43,28 +43,41 @@ private fun visualizeStrandNecklace(
     length: NecklaceLength,
 ) {
     val bottomY = state.config.equipment.necklace.getLength(length)
-    val line = createNecklaceLine(torso, length, bottomY)
     val wireThickness = state.config.equipment.necklace.getWireThickness(torso, Size.Medium)
     val wireOptions = LineOptions(Color.Red.toRender(), wireThickness)
+    val renderer = state.getLayer(ABOVE_EQUIPMENT_LAYER)
 
-    state.getLayer(ABOVE_EQUIPMENT_LAYER)
-        .renderLine(line, wireOptions)
+    repeat(necklace.strands) { index ->
+        val line = createNecklaceLine(torso, length, bottomY, Factor.fromPercentage(10) * index.toFloat())
+
+        renderer.renderLine(line, wireOptions)
+    }
 }
 
 private fun createNecklaceLine(
     torso: AABB,
     length: NecklaceLength,
     bottomY: Factor,
+    padding: Factor,
 ): Line2d {
-    val width = HALF
+    val width = HALF + padding * 2.0f
+    val paddingDistance = torso.convertWidth(padding)
     val (left, right) = torso.getMirroredPoints(width, START)
     val builder = Line2dBuilder()
         .addPoint(left)
 
     when (length) {
         NecklaceLength.Collar -> doNothing()
-        NecklaceLength.Choker -> builder.addPoint(torso, CENTER, bottomY)
-        else -> builder.addMirroredPoints(torso, width, bottomY)
+        NecklaceLength.Choker -> {
+            val point = torso
+                .getPoint(CENTER, bottomY)
+                .addHeight(paddingDistance)
+            builder.addPoint(point)
+        }
+
+        else -> builder
+            .addPoint(left.addHeight(paddingDistance))
+            .addPoint(right.addHeight(paddingDistance))
     }
 
     return builder
