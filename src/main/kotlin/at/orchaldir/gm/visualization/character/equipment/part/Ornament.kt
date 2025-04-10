@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.Ornament
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentWithBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleOrnament
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -62,16 +61,4 @@ private fun visualizeOrnament(
             options
         )
     }
-}
-
-fun visualizeWire(
-    renderer: LayerRenderer,
-    top: Point2d,
-    bottom: Point2d,
-    thickness: Distance,
-    color: Color,
-) {
-    val wireOptions = LineOptions(color.toRender(), thickness)
-
-    renderer.renderLine(listOf(top, bottom), wireOptions)
 }

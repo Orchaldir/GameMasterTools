@@ -5,12 +5,11 @@ import at.orchaldir.gm.core.model.item.equipment.Necklace
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeStrand
 
 data class NecklaceConfig(
     private val lengthMap: Map<NecklaceLength, Factor>,
@@ -32,7 +31,7 @@ fun visualizeNecklace(
 
     when (necklace.style) {
         is DangleNecklace -> {
-            visualizeStrand(state, torso, necklace.style.strand, necklace.length)
+            visualizeNecklaceStrand(state, torso, necklace.style.strand, necklace.length)
         }
 
         is DropNecklace -> visualizeDropNecklace(state, torso, necklace.style, necklace.length)
@@ -51,7 +50,7 @@ private fun visualizeDropNecklace(
     val start = torso.getPoint(CENTER, bottomY)
     val maxSize = torso.convertWidth(Factor.fromPercentage(20))
 
-    visualizeStrand(state, torso, style.strand, length)
+    visualizeNecklaceStrand(state, torso, style.strand, length)
     visualizeDropEarring(state, style.drop, start, maxSize / 2.0f, maxSize, ABOVE_EQUIPMENT_LAYER)
 }
 
@@ -66,7 +65,7 @@ private fun visualizePendantNecklace(
     val radius = size / 2.0f
     val center = torso.getPoint(CENTER, bottomY + radius)
 
-    visualizeStrand(state, torso, style.strand, length)
+    visualizeNecklaceStrand(state, torso, style.strand, length)
     visualizeOrnament(state.getLayer(ABOVE_EQUIPMENT_LAYER), style.ornament, center, torso.convertHeight(radius))
 }
 
@@ -90,7 +89,7 @@ private fun visualizeStrandNecklace(
     }
 }
 
-private fun visualizeStrand(
+private fun visualizeNecklaceStrand(
     state: CharacterRenderState,
     torso: AABB,
     strand: Strand,
@@ -102,37 +101,6 @@ private fun visualizeStrand(
     val roundedLine = subdivideLine(line, 2)
 
     visualizeStrand(state, torso, strand, roundedLine)
-}
-
-private fun visualizeStrand(
-    state: CharacterRenderState,
-    torso: AABB,
-    strand: Strand,
-    line: Line2d,
-) {
-    val renderer = state.getLayer(ABOVE_EQUIPMENT_LAYER)
-
-    when (strand) {
-        is Chain -> {
-            val wireThickness = state.config.equipment.necklace.getWireThickness(torso, strand.thickness)
-            val wireOptions = LineOptions(strand.color.toRender(), wireThickness)
-            renderer.renderLine(line, wireOptions)
-        }
-
-        is OrnamentChain -> {
-            val size = state.config.equipment.necklace.getWireThickness(torso, strand.size)
-            val radius = size / 2.0f
-
-            calculatePointsOnLine(line, size).forEach { center ->
-                visualizeOrnament(renderer, strand.ornament, center, radius)
-            }
-        }
-        is Wire -> {
-            val wireThickness = state.config.equipment.necklace.getWireThickness(torso, strand.thickness)
-            val wireOptions = LineOptions(strand.color.toRender(), wireThickness)
-            renderer.renderLine(line, wireOptions)
-        }
-    }
 }
 
 private fun createNecklaceLine(
