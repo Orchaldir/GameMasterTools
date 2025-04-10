@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Necklace
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
@@ -14,6 +13,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 
 data class NecklaceConfig(
     private val lengthMap: Map<NecklaceLength, Factor>,
+    val pendantSize: SizeConfig<Factor>,
     val strandPadding: SizeConfig<Factor>,
     val wireThickness: SizeConfig<Factor>,
 ) {
@@ -38,11 +38,24 @@ fun visualizeNecklace(
             visualizeStrand(state, torso, necklace.style.strand, necklace.length)
         }
 
-        is PendantNecklace -> {
-            visualizeStrand(state, torso, necklace.style.strand, necklace.length)
-        }
+        is PendantNecklace -> visualizePendantNecklace(state, torso, necklace.style, necklace.length)
         is StrandNecklace -> visualizeStrandNecklace(state, torso, necklace.style, necklace.length)
     }
+}
+
+private fun visualizePendantNecklace(
+    state: CharacterRenderState,
+    torso: AABB,
+    style: PendantNecklace,
+    length: NecklaceLength,
+) {
+    val bottomY = state.config.equipment.necklace.getLength(length)
+    val size = state.config.equipment.necklace.pendantSize.convert(style.size)
+    val radius = size / 2.0f
+    val center = torso.getPoint(CENTER, bottomY + radius)
+
+    visualizeStrand(state, torso, style.strand, length)
+    visualizeOrnament(state, style.ornament, center, torso.convertHeight(radius))
 }
 
 private fun visualizeStrandNecklace(

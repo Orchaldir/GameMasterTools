@@ -18,7 +18,7 @@ fun main() {
     val wire = Wire()
     val styles: MutableList<Pair<String, NecklaceStyle>> = mutableListOf(
         Pair("Pearl", StrandNecklace(1, OrnamentChain(pearl))),
-        Pair("Pearl", PendantNecklace(OrnamentWithBorder(), wire)),
+        Pair("Pendant", PendantNecklace(OrnamentWithBorder(), wire)),
     )
 
     renderCharacterTable(
