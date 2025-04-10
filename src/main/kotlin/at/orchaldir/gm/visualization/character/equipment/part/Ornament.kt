@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.OrnamentWithBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleOrnament
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.createCross
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
@@ -54,6 +55,10 @@ private fun visualizeOrnament(
 ) {
     when (shape) {
         OrnamentShape.Circle -> renderer.renderCircle(position, radius, options)
+        OrnamentShape.Cross -> {
+            val polygon = createCross(position, radius * 2.0f)
+            renderer.renderPolygon(polygon, options)
+        }
         OrnamentShape.Diamond -> renderer.renderDiamond(AABB.fromCenter(position, radius * 2.0f), options)
         OrnamentShape.Square -> renderer.renderRectangle(AABB.fromCenter(position, radius * 2.0f), options)
         OrnamentShape.Teardrop -> renderer.renderTeardrop(
