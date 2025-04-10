@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
 import at.orchaldir.gm.core.model.character.appearance.horn.*
+import at.orchaldir.gm.core.model.item.equipment.style.NecklaceLength.*
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -100,6 +101,16 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(130),
             fromPercentage(160),
             fromPercentage(170),
+        ),
+        NecklaceConfig(
+            mapOf(
+                Collar to fromPercentage(0),
+                Choker to fromPercentage(5),
+                Princess to fromPercentage(10),
+                Matinee to fromPercentage(20),
+                Opera to fromPercentage(40),
+                Rope to fromPercentage(50),
+            )
         ),
         NecklineConfig(
             fromPercentage(10),
