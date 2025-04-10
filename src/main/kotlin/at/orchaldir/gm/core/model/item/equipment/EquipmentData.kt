@@ -201,7 +201,7 @@ data class Hat(
 @Serializable
 @SerialName("Necklace")
 data class Necklace(
-    val style: NecklaceStyle = PendantNecklace(),
+    val style: NecklaceStyle,
     val length: NecklaceLength = NecklaceLength.Princess,
 ) : EquipmentData() {
 
