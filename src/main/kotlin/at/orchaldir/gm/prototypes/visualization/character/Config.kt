@@ -113,8 +113,9 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
                 Rope to fromPercentage(60),
             ),
             fromPercentages(5, 10, 15),
-            fromPercentages(120, 180, 240),
+            fromPercentages(150, 200, 250),
             fromPercentages(2, 3, 4),
+            fromPercentages(1, 2, 3),
         ),
         NecklineConfig(
             fromPercentage(10),

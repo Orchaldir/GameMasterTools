@@ -16,11 +16,17 @@ data class NecklaceConfig(
     private val lengthMap: Map<NecklaceLength, Factor>,
     val pendantSize: SizeConfig<Factor>,
     val strandPadding: SizeConfig<Factor>,
-    val wireThickness: SizeConfig<Factor>,
+    private val ornamentThickness: SizeConfig<Factor>,
+    private val wireThickness: SizeConfig<Factor>,
 ) {
     fun getLength(length: NecklaceLength) = lengthMap.getValue(length)
 
-    fun getWireThickness(aabb: AABB, thickness: Size) = aabb.convertHeight(wireThickness.convert(thickness))
+    fun getThicknessFactor(line: JewelryLine) = when (line) {
+        is OrnamentLine -> ornamentThickness
+        else -> wireThickness
+    }.convert(line.getSizeOfSub())
+
+    fun getWireThickness(aabb: AABB, line: JewelryLine) = aabb.convertHeight(getThicknessFactor(line))
 }
 
 fun visualizeNecklace(
@@ -93,8 +99,7 @@ private fun visualizeStrandNecklace(
     val bottomY = config.getLength(length)
 
     repeat(necklace.strands) { index ->
-        val size = necklace.line.getSizeOfSub()
-        val thicknessFactor = config.wireThickness.convert(size)
+        val thicknessFactor = config.getThicknessFactor(necklace.line)
         val thickness = torso.convertHeight(thicknessFactor)
         val padding = thicknessFactor * config.strandPadding.convert(necklace.padding)
         val line = createNecklaceLine(torso, length, bottomY, padding * index.toFloat())
@@ -114,7 +119,7 @@ private fun visualizeJewelryLineOfNecklace(
     val bottomY = config.getLength(length)
     val line = createNecklaceLine(torso, length, bottomY)
     val roundedLine = subdivideLine(line, 2)
-    val thickness = config.getWireThickness(torso, jewelryLine.getSizeOfSub())
+    val thickness = config.getWireThickness(torso, jewelryLine)
 
     visualizeJewelryLine(state.getLayer(ABOVE_EQUIPMENT_LAYER), jewelryLine, roundedLine, thickness)
 }
