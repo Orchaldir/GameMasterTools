@@ -1,9 +1,6 @@
 package at.orchaldir.gm.app.html.model.item.equipment
 
-import at.orchaldir.gm.app.LINE
-import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.SIZE
-import at.orchaldir.gm.app.STYLE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectValue
@@ -26,6 +23,7 @@ fun BODY.showNecklace(
     necklace: Necklace,
 ) {
     field("Style", necklace.style.getType())
+    field("Length", necklace.length)
 
     when (val style = necklace.style) {
         is DangleNecklace -> {
@@ -59,6 +57,7 @@ fun FORM.editNecklace(
     necklace: Necklace,
 ) {
     selectValue("Style", STYLE, NecklaceStyleType.entries, necklace.style.getType(), true)
+    selectValue("Length", LENGTH, NecklaceLength.entries, necklace.length, true)
 
     when (val style = necklace.style) {
         is DangleNecklace -> {
@@ -113,7 +112,8 @@ fun parseNecklace(parameters: Parameters): Necklace {
                 parseJewelryLine(parameters, LINE),
                 parse(parameters, SIZE, Size.Medium),
             )
-        }
+        },
+        parse(parameters, LENGTH, NecklaceLength.Matinee),
     )
 }
 
