@@ -43,10 +43,13 @@ private fun visualizeStrandNecklace(
     necklace: StrandNecklace,
     length: NecklaceLength,
 ) {
-    val bottomY = state.config.equipment.necklace.getLength(length)
+    val config = state.config.equipment.necklace
+    val bottomY = config.getLength(length)
 
     repeat(necklace.strands) { index ->
-        val padding = state.config.equipment.necklace.wireThickness.convert(necklace.padding)
+        val size = necklace.strand.getSizeOfSub()
+        val strandThickness = config.wireThickness.convert(size)
+        val padding = strandThickness * config.strandPadding.convert(necklace.padding)
         val line = createNecklaceLine(torso, length, bottomY, padding * index.toFloat())
         val roundedLine = subdivideLine(line, 2)
 

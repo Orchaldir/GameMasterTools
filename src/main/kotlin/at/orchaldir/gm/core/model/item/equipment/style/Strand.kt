@@ -21,6 +21,12 @@ sealed class Strand {
         is Wire -> StrandType.Wire
     }
 
+    fun getSizeOfSub() = when (this) {
+        is Chain -> thickness
+        is OrnamentChain -> size
+        is Wire -> thickness
+    }
+
     fun contains(id: MaterialId) = when (this) {
         is Chain -> material == id
         is OrnamentChain -> ornament.contains(id)

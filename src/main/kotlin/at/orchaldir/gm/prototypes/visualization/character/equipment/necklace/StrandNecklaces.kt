@@ -21,9 +21,9 @@ fun main() {
         Pair("1", StrandNecklace(1, strand)),
     )
 
-    Size.entries.forEach { padding ->
-        Size.entries.forEach { size ->
-            strandStyles.add(Pair("2 $padding $size", StrandNecklace(2, OrnamentChain(pearl, size), padding)))
+    Size.entries.forEach { size ->
+        Size.entries.forEach { padding ->
+            strandStyles.add(Pair("2 $size $padding", StrandNecklace(2, OrnamentChain(pearl, size), padding)))
         }
     }
 

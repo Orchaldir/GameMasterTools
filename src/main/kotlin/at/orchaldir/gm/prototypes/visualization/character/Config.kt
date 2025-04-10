@@ -111,7 +111,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
                 Opera to fromPercentage(50),
                 Rope to fromPercentage(60),
             ),
-            fromPercentages(5, 10, 15),
+            fromPercentages(120, 200, 300),
             fromPercentages(2, 4, 6),
         ),
         NecklineConfig(
