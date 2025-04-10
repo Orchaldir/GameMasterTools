@@ -99,6 +99,8 @@ private fun BODY.showEquipmentData(
             fieldLink("Material", call, state, data.material)
         }
 
+        is  Necklace -> TODO()
+
         is Pants -> {
             field("Style", data.style)
             showFill(data.fill)
@@ -238,6 +240,8 @@ private fun FORM.editEquipmentData(
             selectColor(data.color, EQUIPMENT_COLOR_0)
             selectMaterial(state, data.material)
         }
+
+        is  Necklace -> TODO()
 
         is Pants -> {
             selectValue("Style", PANTS, PantsStyle.entries, data.style, true)
@@ -380,6 +384,8 @@ fun parseEquipmentData(parameters: Parameters) =
             parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
             parseMaterialId(parameters, MATERIAL),
         )
+
+        EquipmentDataType.Necklace -> TODO()
 
         EquipmentDataType.Pants -> Pants(
             parse(parameters, PANTS, PantsStyle.Regular),
