@@ -110,6 +110,20 @@
     }
    },
    "weight": 10
+  },
+  "6": {
+   "id": 6,
+   "name": "Necklace",
+   "data": {
+    "type": "Necklace",
+    "style": {
+     "type": "Pendant",
+     "line": {
+      "type": "Drop"
+     }
+    }
+   },
+   "weight": 10
   }
  }
 }
