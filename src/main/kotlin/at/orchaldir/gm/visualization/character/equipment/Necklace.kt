@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 
 data class NecklaceConfig(
     private val lengthMap: Map<NecklaceLength, Factor>,
@@ -66,7 +67,14 @@ private fun visualizeStrand(
             renderer.renderLine(line, wireOptions)
         }
 
-        is OrnamentChain -> doNothing()
+        is OrnamentChain -> {
+            val size = state.config.equipment.necklace.getWireThickness(torso, strand.size)
+            val radius = size / 2.0f
+
+            calculatePointsOnLine(line, size).forEach { center ->
+                visualizeOrnament(state, strand.ornament, center, radius)
+            }
+        }
         is Wire -> {
             val wireThickness = state.config.equipment.necklace.getWireThickness(torso, strand.thickness)
             val wireOptions = LineOptions(strand.color.toRender(), wireThickness)
