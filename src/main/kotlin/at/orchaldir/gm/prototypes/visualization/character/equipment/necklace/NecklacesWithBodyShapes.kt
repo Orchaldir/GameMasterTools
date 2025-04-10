@@ -21,8 +21,8 @@ fun main() {
         CHARACTER_CONFIG,
         addNames(BodyShape.entries),
         addNames(NecklaceLength.entries),
-    ) { distance, style, bodyShape ->
-        val necklace = Necklace(StrandNecklace(1, Wire()))
+    ) { distance, length, bodyShape ->
+        val necklace = Necklace(StrandNecklace(1, Wire()), length)
         Pair(createAppearance(distance, bodyShape), from(necklace))
     }
 }
