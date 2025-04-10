@@ -14,6 +14,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 
 data class NecklaceConfig(
     private val lengthMap: Map<NecklaceLength, Factor>,
+    val strandPadding: SizeConfig<Factor>,
     val wireThickness: SizeConfig<Factor>,
 ) {
     fun getLength(length: NecklaceLength) = lengthMap.getValue(length)
@@ -45,7 +46,8 @@ private fun visualizeStrandNecklace(
     val bottomY = state.config.equipment.necklace.getLength(length)
 
     repeat(necklace.strands) { index ->
-        val line = createNecklaceLine(torso, length, bottomY, Factor.fromPercentage(8) * index.toFloat())
+        val padding = state.config.equipment.necklace.wireThickness.convert(necklace.padding)
+        val line = createNecklaceLine(torso, length, bottomY, padding * index.toFloat())
         val roundedLine = subdivideLine(line, 2)
 
         visualizeStrand(state, torso, necklace.strand, roundedLine)
