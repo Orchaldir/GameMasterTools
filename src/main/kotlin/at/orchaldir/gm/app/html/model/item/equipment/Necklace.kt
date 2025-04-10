@@ -109,7 +109,7 @@ fun parseNecklace(parameters: Parameters): Necklace {
             )
 
             NecklaceStyleType.Strand -> StrandNecklace(
-                parseInt(parameters, NUMBER),
+                parseInt(parameters, NUMBER, 1),
                 parseJewelryLine(parameters, LINE),
                 parse(parameters, SIZE, Size.Medium),
             )

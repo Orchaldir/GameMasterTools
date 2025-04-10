@@ -65,5 +65,10 @@ data class StrandNecklace(
     val strands: Int = 3,
     val line: JewelryLine,
     val padding: Size = Size.Medium,
-) : NecklaceStyle()
+) : NecklaceStyle() {
+
+    init {
+        require(strands > 0) { "The number of strands must be greater than 0!" }
+    }
+}
 
