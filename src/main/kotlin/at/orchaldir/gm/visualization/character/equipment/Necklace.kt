@@ -34,13 +34,25 @@ fun visualizeNecklace(
             visualizeStrand(state, torso, necklace.style.strand, necklace.length)
         }
 
-        is DropNecklace -> {
-            visualizeStrand(state, torso, necklace.style.strand, necklace.length)
-        }
-
+        is DropNecklace -> visualizeDropNecklace(state, torso, necklace.style, necklace.length)
         is PendantNecklace -> visualizePendantNecklace(state, torso, necklace.style, necklace.length)
         is StrandNecklace -> visualizeStrandNecklace(state, torso, necklace.style, necklace.length)
     }
+}
+
+private fun visualizeDropNecklace(
+    state: CharacterRenderState,
+    torso: AABB,
+    style: DropNecklace,
+    length: NecklaceLength,
+) {
+    val bottomY = state.config.equipment.necklace.getLength(length)
+    val start = torso.getPoint(CENTER, bottomY)
+    val earRadius = torso.convertWidth(HALF)
+    val maxLength = calculateMaxDrop(state.aabb, start, earRadius)
+
+    visualizeStrand(state, torso, style.strand, length)
+    visualizeDropEarring(state, style.drop, start, earRadius, maxLength)
 }
 
 private fun visualizePendantNecklace(
