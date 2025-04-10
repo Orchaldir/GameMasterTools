@@ -6,36 +6,36 @@ import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-enum class StrandType {
+enum class JewelryLineType {
     Chain,
     Ornament,
     Wire,
 }
 
 @Serializable
-sealed class Strand {
+sealed class JewelryLine {
 
     fun getType() = when (this) {
-        is Chain -> StrandType.Chain
-        is OrnamentChain -> StrandType.Ornament
-        is Wire -> StrandType.Wire
+        is Chain -> JewelryLineType.Chain
+        is OrnamentLine -> JewelryLineType.Ornament
+        is Wire -> JewelryLineType.Wire
     }
 
     fun getSizeOfSub() = when (this) {
         is Chain -> thickness
-        is OrnamentChain -> size
+        is OrnamentLine -> size
         is Wire -> thickness
     }
 
     fun contains(id: MaterialId) = when (this) {
         is Chain -> material == id
-        is OrnamentChain -> ornament.contains(id)
+        is OrnamentLine -> ornament.contains(id)
         is Wire -> material == id
     }
 
     fun getMaterials() = when (this) {
         is Chain -> setOf(material)
-        is OrnamentChain -> ornament.getMaterials()
+        is OrnamentLine -> ornament.getMaterials()
         is Wire -> setOf(material)
     }
 }
@@ -46,14 +46,14 @@ data class Chain(
     val thickness: Size = Size.Medium,
     val color: Color = Color.Gold,
     val material: MaterialId = MaterialId(0),
-) : Strand()
+) : JewelryLine()
 
 @Serializable
 @SerialName("Ornament")
-data class OrnamentChain(
+data class OrnamentLine(
     val ornament: Ornament,
     val size: Size = Size.Medium,
-) : Strand()
+) : JewelryLine()
 
 @Serializable
 @SerialName("Drop")
@@ -61,5 +61,5 @@ data class Wire(
     val thickness: Size = Size.Medium,
     val color: Color = Color.Gold,
     val material: MaterialId = MaterialId(0),
-) : Strand()
+) : JewelryLine()
 

@@ -23,17 +23,17 @@ sealed class NecklaceStyle {
     }
 
     fun contains(id: MaterialId) = when (this) {
-        is DangleNecklace -> dangle.contains(id) || strand.contains(id)
-        is DropNecklace -> drop.contains(id) || strand.contains(id)
-        is PendantNecklace -> ornament.contains(id) || strand.contains(id)
-        is StrandNecklace -> strand.contains(id)
+        is DangleNecklace -> dangle.contains(id) || line.contains(id)
+        is DropNecklace -> drop.contains(id) || line.contains(id)
+        is PendantNecklace -> ornament.contains(id) || line.contains(id)
+        is StrandNecklace -> line.contains(id)
     }
 
     fun getMaterials() = when (this) {
-        is DangleNecklace -> dangle.getMaterials() + strand.getMaterials()
-        is DropNecklace -> drop.getMaterials() + strand.getMaterials()
-        is PendantNecklace -> ornament.getMaterials() + strand.getMaterials()
-        is StrandNecklace -> strand.getMaterials()
+        is DangleNecklace -> dangle.getMaterials() + line.getMaterials()
+        is DropNecklace -> drop.getMaterials() + line.getMaterials()
+        is PendantNecklace -> ornament.getMaterials() + line.getMaterials()
+        is StrandNecklace -> line.getMaterials()
     }
 }
 
@@ -41,21 +41,21 @@ sealed class NecklaceStyle {
 @SerialName("Dangle")
 data class DangleNecklace(
     val dangle: DangleEarring,
-    val strand: Strand,
+    val line: JewelryLine,
 ) : NecklaceStyle()
 
 @Serializable
 @SerialName("Drop")
 data class DropNecklace(
     val drop: DropEarring,
-    val strand: Strand,
+    val line: JewelryLine,
 ) : NecklaceStyle()
 
 @Serializable
 @SerialName("Pendant")
 data class PendantNecklace(
     val ornament: Ornament = SimpleOrnament(),
-    val strand: Strand,
+    val line: JewelryLine,
     val size: Size = Size.Medium,
 ) : NecklaceStyle()
 
@@ -63,7 +63,7 @@ data class PendantNecklace(
 @SerialName("Strand")
 data class StrandNecklace(
     val strands: Int = 3,
-    val strand: Strand,
+    val line: JewelryLine,
     val padding: Size = Size.Medium,
 ) : NecklaceStyle()
 

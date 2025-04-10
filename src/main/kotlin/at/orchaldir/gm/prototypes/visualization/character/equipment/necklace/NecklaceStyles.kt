@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.Necklace
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Color.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.prototypes.visualization.addNames
@@ -30,7 +29,7 @@ fun main() {
         Wire(Size.Small, Silver),
     )
     val styles: MutableList<Pair<String, NecklaceStyle>> = mutableListOf(
-        Pair("Pearl", StrandNecklace(1, OrnamentChain(pearl))),
+        Pair("Pearl", StrandNecklace(1, OrnamentLine(pearl))),
         Pair("Drop", dropNecklace),
     )
     Size.entries.forEach { size ->

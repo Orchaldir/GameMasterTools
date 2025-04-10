@@ -23,7 +23,7 @@ fun main() {
 
     Size.entries.forEach { size ->
         Size.entries.forEach { padding ->
-            strandStyles.add(Pair("2 $size $padding", StrandNecklace(2, OrnamentChain(pearl, size), padding)))
+            strandStyles.add(Pair("2 $size $padding", StrandNecklace(2, OrnamentLine(pearl, size), padding)))
         }
     }
 

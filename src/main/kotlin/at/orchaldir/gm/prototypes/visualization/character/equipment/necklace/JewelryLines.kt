@@ -18,17 +18,17 @@ fun main() {
     val pearl = SimpleOrnament(OrnamentShape.Circle, White)
 
     renderCharacterTable(
-        "strands.svg",
+        "jewelry-lines.svg",
         CHARACTER_CONFIG,
         addNames(Size.entries),
-        addNames(StrandType.entries),
+        addNames(JewelryLineType.entries),
     ) { distance, type, size ->
-        val strand = when (type) {
-            StrandType.Chain -> Chain(size)
-            StrandType.Ornament -> OrnamentChain(pearl, size)
-            StrandType.Wire -> Wire(size)
+        val jewelryLine = when (type) {
+            JewelryLineType.Chain -> Chain(size)
+            JewelryLineType.Ornament -> OrnamentLine(pearl, size)
+            JewelryLineType.Wire -> Wire(size)
         }
-        val style = StrandNecklace(1, strand)
+        val style = StrandNecklace(1, jewelryLine)
         Pair(createAppearance(distance), from(Necklace(style)))
     }
 }
