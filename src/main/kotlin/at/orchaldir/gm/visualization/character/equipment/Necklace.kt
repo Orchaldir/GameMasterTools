@@ -27,13 +27,12 @@ fun visualizeNecklace(
     necklace: Necklace,
 ) {
     val torso = state.config.body.getTorsoAabb(state.aabb, body)
-    val length = state.config.equipment.necklace.getLength(necklace.length)
 
     when (necklace.style) {
         is DangleNecklace -> doNothing()
         is DropNecklace -> doNothing()
         is PendantNecklace -> doNothing()
-        is StrandNecklace -> visualizeStrandNecklace(state, torso, necklace.style, length)
+        is StrandNecklace -> visualizeStrandNecklace(state, torso, necklace.style, necklace.length)
     }
 }
 
@@ -41,13 +40,21 @@ private fun visualizeStrandNecklace(
     state: CharacterRenderState,
     torso: AABB,
     necklace: StrandNecklace,
-    length: Factor,
+    length: NecklaceLength,
 ) {
+    val bottomY = state.config.equipment.necklace.getLength(length)
     val width = HALF
     val (left, right) = torso.getMirroredPoints(width, START)
-    val line = Line2dBuilder()
+    val builder = Line2dBuilder()
         .addPoint(left)
-        .addMirroredPoints(torso, width, length)
+
+    when (length) {
+        NecklaceLength.Collar -> doNothing()
+        NecklaceLength.Choker -> builder.addPoint(torso, CENTER, bottomY)
+        else -> builder.addMirroredPoints(torso, width, bottomY)
+    }
+
+    val line = builder
         .addPoint(right)
         .build()
     val wireThickness = state.config.equipment.necklace.getWireThickness(torso, Size.Medium)

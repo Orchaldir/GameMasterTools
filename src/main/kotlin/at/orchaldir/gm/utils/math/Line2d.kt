@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 data class Line2d(val points: List<Point2d>) {
 
     init {
-        require(points.size > 2) { "The polygon has less than 3 corners!" }
+        require(points.size >= 2) { "The polygon has less than 2 corners!" }
     }
 
     fun calculateOrientation(index: Int) = if (index == 0) {
