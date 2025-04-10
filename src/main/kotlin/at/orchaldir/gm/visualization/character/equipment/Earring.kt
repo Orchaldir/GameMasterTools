@@ -79,7 +79,7 @@ private fun visualizeEarring(
     }
 }
 
-private fun visualizeDangleEarring(
+fun visualizeDangleEarring(
     state: CharacterRenderState,
     dangle: DangleEarring,
     position: Point2d,

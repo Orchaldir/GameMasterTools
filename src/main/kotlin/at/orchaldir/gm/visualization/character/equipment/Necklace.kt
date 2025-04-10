@@ -30,14 +30,25 @@ fun visualizeNecklace(
     val torso = state.config.body.getTorsoAabb(state.aabb, body)
 
     when (necklace.style) {
-        is DangleNecklace -> {
-            visualizeJewelryLineOfNecklace(state, torso, necklace.style.line, necklace.length)
-        }
-
+        is DangleNecklace -> visualizeDangleNecklace(state, torso, necklace.style, necklace.length)
         is DropNecklace -> visualizeDropNecklace(state, torso, necklace.style, necklace.length)
         is PendantNecklace -> visualizePendantNecklace(state, torso, necklace.style, necklace.length)
         is StrandNecklace -> visualizeStrandNecklace(state, torso, necklace.style, necklace.length)
     }
+}
+
+private fun visualizeDangleNecklace(
+    state: CharacterRenderState,
+    torso: AABB,
+    style: DangleNecklace,
+    length: NecklaceLength,
+) {
+    val bottomY = state.config.equipment.necklace.getLength(length)
+    val start = torso.getPoint(CENTER, bottomY)
+    val maxSize = torso.convertWidth(Factor.fromPercentage(20))
+
+    visualizeJewelryLineOfNecklace(state, torso, style.line, length)
+    visualizeDangleEarring(state, style.dangle, start, maxSize / 2.0f)
 }
 
 private fun visualizeDropNecklace(
