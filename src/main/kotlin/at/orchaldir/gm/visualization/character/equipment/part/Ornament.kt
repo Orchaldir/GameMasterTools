@@ -59,6 +59,7 @@ private fun visualizeOrnament(
             val polygon = createCross(position, radius * 2.0f)
             renderer.renderPolygon(polygon, options)
         }
+
         OrnamentShape.Diamond -> renderer.renderDiamond(AABB.fromCenter(position, radius * 2.0f), options)
         OrnamentShape.Square -> renderer.renderRectangle(AABB.fromCenter(position, radius * 2.0f), options)
         OrnamentShape.Teardrop -> renderer.renderTeardrop(

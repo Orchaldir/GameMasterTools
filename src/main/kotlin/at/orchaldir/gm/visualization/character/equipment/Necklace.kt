@@ -7,8 +7,8 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeJewelryLine
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 
 data class NecklaceConfig(
     val maxLength: Factor,
