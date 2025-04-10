@@ -201,13 +201,12 @@ data class Hat(
 @Serializable
 @SerialName("Necklace")
 data class Necklace(
+    val style: NecklaceStyle = PendantNecklace(),
     val length: NecklaceLength = NecklaceLength.Princess,
-    val color: Color = Color.SaddleBrown,
-    val material: MaterialId = MaterialId(0),
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = material == id
-    override fun getMaterials() = setOf(material)
+    override fun contains(id: MaterialId) = style.contains(id)
+    override fun getMaterials() = style.getMaterials()
 }
 
 @Serializable
