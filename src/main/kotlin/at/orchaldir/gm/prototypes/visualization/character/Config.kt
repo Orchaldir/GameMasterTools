@@ -103,6 +103,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(170),
         ),
         NecklaceConfig(
+            fromPercentage(20),
             mapOf(
                 Collar to fromPercentage(0),
                 Choker to fromPercentage(5),

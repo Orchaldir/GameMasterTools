@@ -12,6 +12,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeJewelryLine
 
 data class NecklaceConfig(
+    val maxLength: Factor,
     private val lengthMap: Map<NecklaceLength, Factor>,
     val pendantSize: SizeConfig<Factor>,
     val strandPadding: SizeConfig<Factor>,
@@ -43,12 +44,13 @@ private fun visualizeDangleNecklace(
     style: DangleNecklace,
     length: NecklaceLength,
 ) {
-    val bottomY = state.config.equipment.necklace.getLength(length)
+    val config = state.config.equipment.necklace
+    val bottomY = config.getLength(length)
     val start = torso.getPoint(CENTER, bottomY)
-    val maxSize = torso.convertWidth(Factor.fromPercentage(20))
+    val maxLength = torso.convertWidth(config.maxLength)
 
     visualizeJewelryLineOfNecklace(state, torso, style.line, length)
-    visualizeDangleEarring(state, style.dangle, start, maxSize / 2.0f)
+    visualizeDangleEarring(state, style.dangle, start, maxLength / 2.0f)
 }
 
 private fun visualizeDropNecklace(
@@ -57,12 +59,13 @@ private fun visualizeDropNecklace(
     style: DropNecklace,
     length: NecklaceLength,
 ) {
-    val bottomY = state.config.equipment.necklace.getLength(length)
+    val config = state.config.equipment.necklace
+    val bottomY = config.getLength(length)
     val start = torso.getPoint(CENTER, bottomY)
-    val maxSize = torso.convertWidth(Factor.fromPercentage(20))
+    val maxLength = torso.convertWidth(config.maxLength)
 
     visualizeJewelryLineOfNecklace(state, torso, style.line, length)
-    visualizeDropEarring(state, style.drop, start, maxSize / 2.0f, maxSize, ABOVE_EQUIPMENT_LAYER)
+    visualizeDropEarring(state, style.drop, start, maxLength / 2.0f, maxLength, ABOVE_EQUIPMENT_LAYER)
 }
 
 private fun visualizePendantNecklace(
