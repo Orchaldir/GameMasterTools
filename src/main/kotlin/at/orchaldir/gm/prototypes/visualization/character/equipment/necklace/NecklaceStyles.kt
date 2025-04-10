@@ -37,10 +37,15 @@ fun main() {
         ),
         Wire(Small, Silver),
     )
+    val crossNecklace = PendantNecklace(
+        SimpleOrnament(OrnamentShape.Cross, Silver),
+        Wire(Small, Black),
+    )
     val styles: MutableList<Pair<String, NecklaceStyle>> = mutableListOf(
         Pair("Pearl", StrandNecklace(1, OrnamentLine(pearl))),
         Pair("Dangle", dangleNecklace),
         Pair("Drop", dropNecklace),
+        Pair("Cross", crossNecklace),
     )
     Size.entries.forEach { size ->
         styles.add(Pair("$size Pendant", PendantNecklace(OrnamentWithBorder(), Wire(size), size)))

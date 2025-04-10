@@ -4,7 +4,7 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun createCross(center: Point2d, height: Distance): Polygon2d {
-    val aabb = AABB.fromRadii(center, height / 2.0f, height)
+    val aabb = AABB.fromRadii(center, height / 4.0f, height / 2.0f)
     val size = fromPercentage(10)
     val halfSize = size / 2.0f
     val y = fromPercentage(33)
