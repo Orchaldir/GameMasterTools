@@ -30,9 +30,17 @@ fun visualizeNecklace(
     val torso = state.config.body.getTorsoAabb(state.aabb, body)
 
     when (necklace.style) {
-        is DangleNecklace -> doNothing()
-        is DropNecklace -> doNothing()
-        is PendantNecklace -> doNothing()
+        is DangleNecklace -> {
+            visualizeStrand(state, torso, necklace.style.strand, necklace.length)
+        }
+
+        is DropNecklace -> {
+            visualizeStrand(state, torso, necklace.style.strand, necklace.length)
+        }
+
+        is PendantNecklace -> {
+            visualizeStrand(state, torso, necklace.style.strand, necklace.length)
+        }
         is StrandNecklace -> visualizeStrandNecklace(state, torso, necklace.style, necklace.length)
     }
 }
@@ -55,6 +63,20 @@ private fun visualizeStrandNecklace(
 
         visualizeStrand(state, torso, necklace.strand, roundedLine)
     }
+}
+
+private fun visualizeStrand(
+    state: CharacterRenderState,
+    torso: AABB,
+    strand: Strand,
+    length: NecklaceLength,
+) {
+    val config = state.config.equipment.necklace
+    val bottomY = config.getLength(length)
+    val line = createNecklaceLine(torso, length, bottomY)
+    val roundedLine = subdivideLine(line, 2)
+
+    visualizeStrand(state, torso, strand, roundedLine)
 }
 
 private fun visualizeStrand(
@@ -92,7 +114,7 @@ private fun createNecklaceLine(
     torso: AABB,
     length: NecklaceLength,
     bottomY: Factor,
-    padding: Factor,
+    padding: Factor = ZERO,
 ): Line2d {
     val width = HALF + padding * 2.0f
     val paddingDistance = torso.convertWidth(padding)
