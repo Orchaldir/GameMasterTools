@@ -14,6 +14,7 @@ val ACCESSORIES = setOf(
     EquipmentDataType.Glasses,
     EquipmentDataType.Gloves,
     EquipmentDataType.Hat,
+    EquipmentDataType.Necklace,
     EquipmentDataType.Socks,
     EquipmentDataType.Tie,
 )
@@ -28,6 +29,7 @@ enum class EquipmentDataType {
     Glasses,
     Gloves,
     Hat,
+    Necklace,
     Pants,
     Shirt,
     Skirt,
@@ -44,11 +46,12 @@ enum class EquipmentDataType {
         Glasses -> setOf(EyesSlot)
         Gloves -> setOf(HandSlot)
         Hat -> setOf(HeadSlot)
+        Necklace -> setOf(NeckSlot)
         Pants -> setOf(BottomSlot)
         Shirt -> setOf(TopSlot)
         Skirt -> setOf(BottomSlot)
         Socks -> setOf(FootUnderwearSlot)
-        Tie -> setOf(TieSlot)
+        Tie -> setOf(NeckSlot)
     }
 }
 
@@ -67,6 +70,7 @@ sealed class EquipmentData {
         is Glasses -> EquipmentDataType.Glasses
         is Gloves -> EquipmentDataType.Gloves
         is Hat -> EquipmentDataType.Hat
+        is Necklace -> EquipmentDataType.Necklace
         is Pants -> EquipmentDataType.Pants
         is Shirt -> EquipmentDataType.Shirt
         is Skirt -> EquipmentDataType.Skirt
@@ -192,6 +196,17 @@ data class Hat(
 
     override fun contains(id: MaterialId) = material == id
     override fun getMaterials() = setOf(material)
+}
+
+@Serializable
+@SerialName("Necklace")
+data class Necklace(
+    val style: NecklaceStyle,
+    val length: NecklaceLength = NecklaceLength.Princess,
+) : EquipmentData() {
+
+    override fun contains(id: MaterialId) = style.contains(id)
+    override fun getMaterials() = style.getMaterials()
 }
 
 @Serializable

@@ -32,7 +32,7 @@ fun main() {
             createAppearance(distance),
             fromSlotAsKeyMap(
                 mapOf(
-                    BodySlot.Tie to tie,
+                    BodySlot.Neck to tie,
                     BodySlot.Belt to Belt(),
                     BodySlot.Bottom to Pants(),
                     BodySlot.Top to Shirt(),

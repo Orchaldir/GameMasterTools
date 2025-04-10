@@ -81,8 +81,8 @@ fun parseOrnament(parameters: Parameters, param: String = ORNAMENT): Ornament {
         OrnamentType.Border -> OrnamentWithBorder(
             parse(parameters, combine(param, SHAPE), OrnamentShape.Circle),
             parse(parameters, combine(param, COLOR), Color.Red),
-            parseMaterialId(parameters, combine(param, MATERIAL)),
             parse(parameters, combine(param, BORDER, COLOR), Color.Gold),
+            parseMaterialId(parameters, combine(param, MATERIAL)),
             parseMaterialId(parameters, combine(param, BORDER, MATERIAL)),
         )
     }

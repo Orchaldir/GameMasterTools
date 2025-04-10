@@ -27,8 +27,18 @@ data class Point2d(val x: Float = 0.0f, val y: Float = 0.0f) {
         y + distance.toMeters() * orientation.sin(),
     )
 
-    fun length() = hypot(x, y)
+    fun length() = Distance.fromMeters(hypot(x, y))
     fun calculateDistance(other: Point2d) = minus(other).length()
+
+    fun normalize(): Point2d {
+        val length = length()
+
+        if (length.value() > 0) {
+            return this / length.toMeters()
+        }
+
+        return square(0.0f)
+    }
 
     fun calculateOrientation() = Orientation.fromRadians(atan2(y.toDouble(), x.toDouble()).toFloat())
     fun calculateOrientation(other: Point2d) = (other - this).calculateOrientation()
@@ -43,5 +53,6 @@ data class Point2d(val x: Float = 0.0f, val y: Float = 0.0f) {
 
     operator fun times(factor: Int) = Point2d(x * factor, y * factor)
     operator fun times(factor: Float) = Point2d(x * factor, y * factor)
+    operator fun times(distance: Distance) = times(distance.toMeters())
     operator fun div(factor: Float) = Point2d(x / factor, y / factor)
 }

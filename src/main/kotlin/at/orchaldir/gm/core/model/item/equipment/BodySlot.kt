@@ -9,9 +9,9 @@ enum class BodySlot {
     FootUnderwear,
     Hand,
     Head,
+    Neck,
     Outer,
     RightEar,
     RightEye,
-    Tie,
     Top,
 }

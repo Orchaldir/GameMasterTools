@@ -6,57 +6,60 @@ import at.orchaldir.gm.core.model.item.equipment.style.OrnamentWithBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleOrnament
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.createCross
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 
 fun visualizeOrnament(
-    state: CharacterRenderState,
+    renderer: LayerRenderer,
     ornament: Ornament,
     position: Point2d,
     radius: Distance,
 ) = when (ornament) {
-    is SimpleOrnament -> visualizeSimpleOrnament(state, ornament, position, radius)
-    is OrnamentWithBorder -> visualizeBorderOrnament(state, ornament, position, radius)
+    is SimpleOrnament -> visualizeSimpleOrnament(renderer, ornament, position, radius)
+    is OrnamentWithBorder -> visualizeBorderOrnament(renderer, ornament, position, radius)
 }
 
 private fun visualizeSimpleOrnament(
-    state: CharacterRenderState,
+    renderer: LayerRenderer,
     ornament: SimpleOrnament,
     position: Point2d,
     radius: Distance,
 ) {
     val options = NoBorder(ornament.color.toRender())
 
-    visualizeOrnament(state, position, radius, ornament.shape, options)
+    visualizeOrnament(renderer, position, radius, ornament.shape, options)
 }
 
 private fun visualizeBorderOrnament(
-    state: CharacterRenderState,
+    renderer: LayerRenderer,
     ornament: OrnamentWithBorder,
     position: Point2d,
     radius: Distance,
 ) {
     val options = FillAndBorder(ornament.color.toRender(), LineOptions(ornament.borderColor.toRender(), radius / 3.0f))
 
-    visualizeOrnament(state, position, radius, ornament.shape, options)
+    visualizeOrnament(renderer, position, radius, ornament.shape, options)
 }
 
 private fun visualizeOrnament(
-    state: CharacterRenderState,
+    renderer: LayerRenderer,
     position: Point2d,
     radius: Distance,
     shape: OrnamentShape,
     options: RenderOptions,
 ) {
-    val renderer = state.renderer.getLayer(EQUIPMENT_LAYER)
-
     when (shape) {
         OrnamentShape.Circle -> renderer.renderCircle(position, radius, options)
+        OrnamentShape.Cross -> {
+            val polygon = createCross(position, radius * 2.0f)
+            renderer.renderPolygon(polygon, options)
+        }
+
         OrnamentShape.Diamond -> renderer.renderDiamond(AABB.fromCenter(position, radius * 2.0f), options)
         OrnamentShape.Square -> renderer.renderRectangle(AABB.fromCenter(position, radius * 2.0f), options)
         OrnamentShape.Teardrop -> renderer.renderTeardrop(

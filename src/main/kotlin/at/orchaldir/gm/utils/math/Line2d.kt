@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 data class Line2d(val points: List<Point2d>) {
 
     init {
-        require(points.size > 2) { "The polygon has less than 3 corners!" }
+        require(points.size >= 2) { "The polygon has less than 2 corners!" }
     }
 
     fun calculateOrientation(index: Int) = if (index == 0) {
@@ -29,11 +29,15 @@ data class Line2dBuilder(
 
     fun isValid() = points.size >= 2
 
-    fun addPoint(aabb: AABB, horizontal: Factor, vertical: Factor): Line2dBuilder {
-        addPoint(aabb.getPoint(horizontal, vertical))
+    fun addMirroredPoints(aabb: AABB, width: Factor, vertical: Factor): Line2dBuilder {
+        val (left, right) = aabb.getMirroredPoints(width, vertical)
+        points.add(left)
+        points.add(right)
 
         return this
     }
+
+    fun addPoint(aabb: AABB, horizontal: Factor, vertical: Factor) = addPoint(aabb.getPoint(horizontal, vertical))
 
     fun addPoint(point: Point2d): Line2dBuilder {
         points.add(point)

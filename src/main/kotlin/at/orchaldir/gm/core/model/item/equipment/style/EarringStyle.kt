@@ -52,7 +52,8 @@ data class DangleEarring(
 @Serializable
 @SerialName("Drop")
 data class DropEarring(
-    val size: Factor,
+    val topSize: Factor,
+    val bottomSize: Factor,
     val wireLength: Factor,
     val top: Ornament = SimpleOrnament(),
     val bottom: Ornament = SimpleOrnament(),

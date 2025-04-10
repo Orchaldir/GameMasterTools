@@ -1,9 +1,6 @@
 package at.orchaldir.gm.utils.renderer
 
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Orientation
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Polygon2d
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
@@ -43,6 +40,8 @@ interface LayerRenderer {
             Distance.fromMeters(aabb.size.height / 2.0f),
             options,
         )
+
+    fun renderLine(line: Line2d, options: LineOptions) = renderLine(line.points, options)
 
     fun renderLine(line: List<Point2d>, options: LineOptions): LayerRenderer
 

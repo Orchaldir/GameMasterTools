@@ -10,8 +10,8 @@ enum class EquipmentSlot {
     FootUnderwearSlot,
     HandSlot,
     HeadSlot,
+    NeckSlot,
     OuterSlot,
-    TieSlot,
     TopSlot;
 
     fun toBodySlots() = when (this) {
@@ -24,8 +24,8 @@ enum class EquipmentSlot {
         FootUnderwearSlot -> setOf(setOf(BodySlot.FootUnderwear))
         HandSlot -> setOf(setOf(BodySlot.Hand))
         HeadSlot -> setOf(setOf(BodySlot.Head))
+        NeckSlot -> setOf(setOf(BodySlot.Neck))
         OuterSlot -> setOf(setOf(BodySlot.Outer))
-        TieSlot -> setOf(setOf(BodySlot.Tie))
         TopSlot -> setOf(setOf(BodySlot.Top))
     }
 }
