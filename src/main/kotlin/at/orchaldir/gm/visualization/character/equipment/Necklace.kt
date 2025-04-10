@@ -18,6 +18,7 @@ data class NecklaceConfig(
     val strandPadding: SizeConfig<Factor>,
     private val ornamentThickness: SizeConfig<Factor>,
     private val wireThickness: SizeConfig<Factor>,
+    val subdivisions: Int,
 ) {
     fun getLength(length: NecklaceLength) = lengthMap.getValue(length)
 
@@ -103,7 +104,7 @@ private fun visualizeStrandNecklace(
         val thickness = torso.convertHeight(thicknessFactor)
         val padding = thicknessFactor * config.strandPadding.convert(necklace.padding)
         val line = createNecklaceLine(torso, length, bottomY, padding * index.toFloat())
-        val roundedLine = subdivideLine(line, 2)
+        val roundedLine = subdivideLine(line, config.subdivisions)
 
         visualizeJewelryLine(state.getLayer(ABOVE_EQUIPMENT_LAYER), necklace.line, roundedLine, thickness)
     }
@@ -118,7 +119,7 @@ private fun visualizeJewelryLineOfNecklace(
     val config = state.config.equipment.necklace
     val bottomY = config.getLength(length)
     val line = createNecklaceLine(torso, length, bottomY)
-    val roundedLine = subdivideLine(line, 2)
+    val roundedLine = subdivideLine(line, config.subdivisions)
     val thickness = config.getWireThickness(torso, jewelryLine)
 
     visualizeJewelryLine(state.getLayer(ABOVE_EQUIPMENT_LAYER), jewelryLine, roundedLine, thickness)
