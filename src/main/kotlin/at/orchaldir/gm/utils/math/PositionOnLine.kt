@@ -25,5 +25,8 @@ fun calculatePointsOnLine(line: Line2d, step: Distance): List<Point2d> {
         remaining = current - distance
     }
 
+    points.removeLast()
+    points.add(line.points.last())
+
     return points
 }
