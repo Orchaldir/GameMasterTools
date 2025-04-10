@@ -80,12 +80,13 @@ private fun visualizeStrandNecklace(
 
     repeat(necklace.strands) { index ->
         val size = necklace.strand.getSizeOfSub()
-        val strandThickness = config.wireThickness.convert(size)
-        val padding = strandThickness * config.strandPadding.convert(necklace.padding)
+        val thicknessFactor = config.wireThickness.convert(size)
+        val thickness = torso.convertHeight(thicknessFactor)
+        val padding = thicknessFactor * config.strandPadding.convert(necklace.padding)
         val line = createNecklaceLine(torso, length, bottomY, padding * index.toFloat())
         val roundedLine = subdivideLine(line, 2)
 
-        visualizeStrand(state, torso, necklace.strand, roundedLine)
+        visualizeStrand(state.getLayer(ABOVE_EQUIPMENT_LAYER), necklace.strand, roundedLine, thickness)
     }
 }
 
@@ -99,8 +100,9 @@ private fun visualizeNecklaceStrand(
     val bottomY = config.getLength(length)
     val line = createNecklaceLine(torso, length, bottomY)
     val roundedLine = subdivideLine(line, 2)
+    val thickness = config.getWireThickness(torso, strand.getSizeOfSub())
 
-    visualizeStrand(state, torso, strand, roundedLine)
+    visualizeStrand(state.getLayer(ABOVE_EQUIPMENT_LAYER), strand, roundedLine, thickness)
 }
 
 private fun createNecklaceLine(
