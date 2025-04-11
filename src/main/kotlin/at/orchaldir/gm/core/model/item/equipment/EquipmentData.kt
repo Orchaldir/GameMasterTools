@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment
 
+import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
@@ -142,13 +143,14 @@ data class EyePatch(
 @SerialName("Footwear")
 data class Footwear(
     val style: FootwearStyle = FootwearStyle.Shoes,
-    val color: Color = Color.SaddleBrown,
-    val sole: Color = Color.SaddleBrown,
-    val material: MaterialId = MaterialId(0),
+    val shaft: FillItemPart = FillItemPart(Color.SaddleBrown),
+    val sole: ColorItemPart = ColorItemPart(Color.Black),
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
+    constructor(style: FootwearStyle, shaft: Color, sole: Color) :
+            this(style, FillItemPart(shaft), ColorItemPart(sole))
+
+    override fun parts() = listOf(shaft, sole)
 }
 
 @Serializable

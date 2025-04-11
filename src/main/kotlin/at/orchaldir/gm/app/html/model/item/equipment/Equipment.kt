@@ -17,7 +17,6 @@ import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.util.sortMaterial
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -50,15 +49,7 @@ private fun BODY.showEquipmentData(
         is Dress -> showDress(call, state, data)
         is Earring -> showEarring(call, state, data)
         is EyePatch -> showEyePatch(call, state, data)
-
-        is Footwear -> {
-            field("Style", data.style)
-            field("Color", data.color)
-            if (data.style.hasSole()) {
-                field("Sole Color", data.sole)
-            }
-            fieldLink("Material", call, state, data.material)
-        }
+        is Footwear -> showFootwear(call, state, data)
 
         is Glasses -> {
             showDetails("Lenses") {
@@ -152,15 +143,7 @@ private fun FORM.editEquipmentData(
         is Dress -> editDress(state, data)
         is Earring -> editEarring(state, data)
         is EyePatch -> editEyePatch(state, data)
-
-        is Footwear -> {
-            selectValue("Style", FOOTWEAR, FootwearStyle.entries, data.style, true)
-            selectColor(data.color, EQUIPMENT_COLOR_0)
-            if (data.style.hasSole()) {
-                selectColor(data.sole, EQUIPMENT_COLOR_1, "Sole Color")
-            }
-            selectMaterial(state, data.material)
-        }
+        is Footwear -> editFootwear(state, data)
 
         is Glasses -> {
             showDetails("Lenses", true) {
@@ -268,12 +251,7 @@ fun parseEquipmentData(parameters: Parameters) =
         EquipmentDataType.Dress -> parseDress(parameters)
         EquipmentDataType.Earring -> parseEarring(parameters)
         EquipmentDataType.EyePatch -> parseEyePatch(parameters)
-        EquipmentDataType.Footwear -> Footwear(
-            parse(parameters, FOOTWEAR, FootwearStyle.Shoes),
-            parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
-            parse(parameters, EQUIPMENT_COLOR_1, Color.SaddleBrown),
-            parseMaterialId(parameters, MATERIAL),
-        )
+        EquipmentDataType.Footwear -> parseFootwear(parameters)
 
         EquipmentDataType.Glasses -> Glasses(
             parse(parameters, SHAPE, LensShape.Rectangle),

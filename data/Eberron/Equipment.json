@@ -99,6 +99,22 @@
     }
    },
    "weight": 10
+  },
+  "5": {
+   "id": 5,
+   "name": "Boots",
+   "data": {
+    "type": "Footwear",
+    "style": "Boots",
+    "shaft": {
+     "material": 1
+    },
+    "sole": {
+     "color": "Black",
+     "material": 1
+    }
+   },
+   "weight": 10
   }
  }
 }

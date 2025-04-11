@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.FootwearStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
+import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.BEHIND_LAYER
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
@@ -24,7 +25,8 @@ fun visualizeFootwear(
     body: Body,
     footwear: Footwear,
 ) {
-    val options = FillAndBorder(footwear.color.toRender(), state.config.line)
+    val fill = footwear.shaft.getFill(state.state)
+    val options = FillAndBorder(fill.toRender(), state.config.line)
 
     visualizeBootShaft(state, body, footwear, options)
 
@@ -91,7 +93,8 @@ fun visualizeSoles(
     footwear: Footwear,
 ) {
     val config = state.config
-    val options = FillAndBorder(footwear.sole.toRender(), config.line)
+    val color = footwear.sole.getColor(state.state)
+    val options = FillAndBorder(color.toRender(), config.line)
     val (left, right) = config.body.getMirroredLegPoint(state.aabb, body, END)
     val width = state.aabb.convertHeight(config.body.getFootRadius(body) * 2.0f)
     val height = state.aabb.convertHeight(config.equipment.footwear.heightSole)
