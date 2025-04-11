@@ -8,6 +8,12 @@ import kotlinx.html.style
 
 // show
 
+fun HtmlBlockTag.fieldOptionalColor(color: Color?, label: String = "Color") {
+    if (color != null) {
+        fieldColor(color, label)
+    }
+}
+
 fun HtmlBlockTag.fieldColor(color: Color, label: String = "Color") {
     field(label) {
         showColor(color)

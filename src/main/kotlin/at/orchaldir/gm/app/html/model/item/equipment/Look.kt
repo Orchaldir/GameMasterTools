@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.model.item.equipment
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.fieldColor
 import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.parse.combine
@@ -22,10 +23,10 @@ fun HtmlBlockTag.showLook(
     label: String? = null,
 ) {
     if (label != null) {
-        field("$label Color", color)
+        fieldColor(color, "$label Color")
         fieldLink("$label Material", call, state, material)
     } else {
-        field("Color", color)
+        fieldColor(color)
         fieldLink("Material", call, state, material)
     }
 }

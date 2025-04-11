@@ -25,17 +25,15 @@ fun HtmlBlockTag.showFill(fill: Fill) {
     when (fill) {
         is Solid -> field("Solid Fill", fill.color)
         is Transparent -> {
-            field("Solid Fill", fill.color)
+            fieldColor(fill.color, "Solid Fill")
             fieldFactor("Opacity", fill.opacity)
         }
 
         is VerticalStripes -> field("Vertical Stripes", "${fill.color0} & ${fill.color1}")
         is HorizontalStripes -> field("Horizontal Stripes", "${fill.color0} & ${fill.color1}")
         is Tiles -> {
-            field("Tile Color", fill.fill)
-            if (fill.background != null) {
-                field("Background Color", fill.background)
-            }
+            fieldColor(fill.fill, "Tile Color")
+            fieldOptionalColor(fill.background, "Background Color")
         }
     }
 }

@@ -165,7 +165,7 @@ private fun HTML.showStreetTemplateDetails(
     simpleHtml("Street Template: ${type.name}") {
         split({
             field("Name", type.name)
-            field("Color", type.color)
+            fieldColor(type.color)
             showMaterialCost(call, state, type.materialCost)
             showList("Towns", state.getTowns(type.id)) { town ->
                 link(call, state, town)

@@ -27,7 +27,7 @@ fun HtmlBlockTag.showMoon(
 
     optionalField("Title", moon.title)
     field("Cycle", moon.getCycle().toString() + " days")
-    field("Color", moon.color)
+    fieldColor(moon.color)
     optionalFieldLink("Plane", call, state, moon.plane)
 
     if (nextNewMoon > nextFullMoon) {
