@@ -7,10 +7,8 @@ import at.orchaldir.gm.MATERIAL_ID_1
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.material.Material
-import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertFalse
