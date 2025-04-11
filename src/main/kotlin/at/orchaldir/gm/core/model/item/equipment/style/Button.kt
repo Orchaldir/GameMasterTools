@@ -8,5 +8,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Button(
     val size: Size = Size.Medium,
-    val part: ItemPart = ItemPart(),
+    val part: ItemPart = ItemPart(Color.Silver),
 )

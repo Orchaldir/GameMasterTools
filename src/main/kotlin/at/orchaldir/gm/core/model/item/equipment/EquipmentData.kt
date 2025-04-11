@@ -89,7 +89,7 @@ sealed class EquipmentData : MadeFromParts {
 @SerialName("Belt")
 data class Belt(
     val buckle: Buckle = SimpleBuckle(),
-    val strap: ItemPart = ItemPart(),
+    val strap: ItemPart = ItemPart(Color.SaddleBrown),
     val holes: BeltHoles = NoBeltHoles,
 ) : EquipmentData() {
 
@@ -103,7 +103,7 @@ data class Coat(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val openingStyle: OpeningStyle = SingleBreasted(),
-    val cloth: ItemPart = ItemPart(),
+    val cloth: ItemPart = ItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
     override fun parts() = openingStyle.parts() + cloth

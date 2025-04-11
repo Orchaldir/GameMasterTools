@@ -52,5 +52,5 @@ data class DoubleBreasted(
 @Serializable
 @SerialName("Zipper")
 data class Zipper(
-    val part: ItemPart = ItemPart(),
+    val part: ItemPart = ItemPart(Color.Silver),
 ) : OpeningStyle()
