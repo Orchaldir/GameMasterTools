@@ -132,6 +132,7 @@ private fun HTML.showAllMaterials(
             tr {
                 th { +"Name" }
                 th { +"Category" }
+                th { +"Color" }
                 th { +"Items" }
                 th { +"Streets" }
                 th { +"Texts" }
@@ -140,6 +141,7 @@ private fun HTML.showAllMaterials(
                 tr {
                     td { link(call, state, material) }
                     tdEnum(material.category)
+                    td { showColor(material.color) }
                     tdSkipZero(state.countEquipment(material.id))
                     tdSkipZero(state.countStreetTemplates(material.id))
                     tdSkipZero(state.countTexts(material.id))

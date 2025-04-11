@@ -21,12 +21,11 @@ fun HtmlBlockTag.fieldColor(color: Color, label: String = "Color") {
 }
 
 fun HtmlBlockTag.showColor(color: Color) {
-    +color.name
-    +" "
     span {
         style = "color:$color"
         +"█"
     }
+    +" $color"
 }
 
 // edit
