@@ -71,11 +71,11 @@ fun HtmlBlockTag.editFillItemPart(
 // parse
 
 fun parseColorItemPart(parameters: Parameters, param: String) = ColorItemPart(
-    parse<Color>(parameters, combine(param, COLOR)),
-    parseMaterialId(parameters, combine(param, MATERIAL))
+    parseMaterialId(parameters, combine(param, MATERIAL)),
+    parse<Color>(parameters, combine(param, COLOR))
 )
 
 fun parseFillItemPart(parameters: Parameters, param: String) = FillItemPart(
-    parseOptionalFill(parameters, combine(param, FILL)),
-    parseMaterialId(parameters, combine(param, MATERIAL))
+    parseMaterialId(parameters, combine(param, MATERIAL)),
+    parseOptionalFill(parameters, combine(param, FILL))
 )

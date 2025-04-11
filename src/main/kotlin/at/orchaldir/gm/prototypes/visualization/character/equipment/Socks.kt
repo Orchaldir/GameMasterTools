@@ -23,7 +23,7 @@ fun main() {
         addNames(SocksStyle.entries),
         true,
     ) { distance, style, shape ->
-        val itemPart = FillItemPart(HorizontalStripes(Color.White, Color.Blue, 1u))
+        val itemPart = FillItemPart(fill = HorizontalStripes(Color.White, Color.Blue, 1u))
         val socks = Socks(style, itemPart)
 
         Pair(createAppearance(distance, shape), from(socks))

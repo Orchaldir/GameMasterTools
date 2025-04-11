@@ -9,9 +9,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ColorItemPart(
-    val color: Color? = null,
     val material: MaterialId = MaterialId(0),
+    val color: Color? = null,
 ) : MadeFromParts {
+
+    constructor(color: Color) : this(MaterialId(0), color)
 
     fun getColor(state: State): Color {
         if (color != null) {
@@ -28,11 +30,11 @@ data class ColorItemPart(
 
 @Serializable
 data class FillItemPart(
-    val fill: Fill? = null,
     val material: MaterialId = MaterialId(0),
+    val fill: Fill? = null,
 ) : MadeFromParts {
 
-    constructor(color: Color) : this(Solid(color))
+    constructor(color: Color) : this(fill = Solid(color))
 
     fun getFill(state: State): Fill {
         if (fill != null) {

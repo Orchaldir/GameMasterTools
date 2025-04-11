@@ -158,7 +158,7 @@ data class Footwear(
 data class Glasses(
     val lensShape: LensShape = LensShape.RoundedRectangle,
     val frameType: FrameType = FrameType.FullRimmed,
-    val lens: FillItemPart = FillItemPart(Transparent(Color.SkyBlue, fromPercentage(50))),
+    val lens: FillItemPart = FillItemPart(Color.SkyBlue),
     val frame: ColorItemPart = ColorItemPart(Color.Navy),
 ) : EquipmentData() {
 
