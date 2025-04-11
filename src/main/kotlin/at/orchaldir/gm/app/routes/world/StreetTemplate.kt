@@ -197,7 +197,7 @@ private fun HTML.showStreetTemplateEditor(
                 action = previewLink
                 method = FormMethod.post
                 selectName(type.name)
-                selectColor("Color", COLOR, Color.entries, type.color)
+                selectColor("Color", COLOR, type.color, Color.entries)
                 selectMaterialCost(call, state, type.materialCost)
                 button("Update", updateLink)
             }
