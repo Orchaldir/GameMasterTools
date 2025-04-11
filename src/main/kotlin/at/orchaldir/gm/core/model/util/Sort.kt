@@ -26,6 +26,10 @@ enum class SortDomain {
     Name,
 }
 
+enum class SortEquipment {
+    Name,
+}
+
 enum class SortFont {
     Name,
     Age,

@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.holiday.Holiday
+import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.material.Material
@@ -121,6 +122,20 @@ fun State.sortDomains(
     .sortedWith(
         when (sort) {
             SortDomain.Name -> compareBy { it.name(this) }
+        })
+
+// equipment
+
+fun State.sortEquipmentList(sort: SortEquipment = SortEquipment.Name) =
+    sortEquipmentList(getEquipmentStorage().getAll(), sort)
+
+fun State.sortEquipmentList(
+    equipmentList: Collection<Equipment>,
+    sort: SortEquipment = SortEquipment.Name,
+) = equipmentList
+    .sortedWith(
+        when (sort) {
+            SortEquipment.Name -> compareBy { it.name(this) }
         })
 
 // font
