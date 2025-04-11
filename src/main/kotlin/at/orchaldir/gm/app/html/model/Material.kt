@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.CATEGORY
 import at.orchaldir.gm.app.COLOR
-import at.orchaldir.gm.app.EQUIPMENT_COLOR_0
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectColor
@@ -32,7 +31,7 @@ fun HtmlBlockTag.showMaterial(material: Material) {
 fun HtmlBlockTag.editMaterial(material: Material) {
     selectName(material.name)
     selectValue("Category", CATEGORY, MaterialCategory.entries, material.category)
-    selectColor(material.color, COLOR)
+    selectColor(material.color)
 }
 
 // parse

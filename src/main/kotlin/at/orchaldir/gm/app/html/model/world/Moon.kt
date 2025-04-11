@@ -48,7 +48,7 @@ fun HtmlBlockTag.editMoon(
     selectName(moon.name)
     selectText("Optional Name", moon.title ?: "", TILE, 0)
     selectInt("Days per Quarter", moon.daysPerQuarter, 1, 100, 1, LENGTH, false)
-    selectColor(COLOR, moon.color)
+    selectColor(moon.color)
     selectOptionalElement(state, "Plane", PLANE, state.sortPlanes(), moon.plane)
 }
 

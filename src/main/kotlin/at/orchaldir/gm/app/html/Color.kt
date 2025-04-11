@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html
 
+import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.core.model.util.*
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.style
@@ -15,15 +16,6 @@ fun HtmlBlockTag.showColor(color: Color) {
 // edit
 
 fun HtmlBlockTag.selectColor(
-    color: Color,
-    selectId: String,
-    label: String = "Color",
-    colors: Collection<Color> = Color.entries,
-) {
-    selectColor(label, selectId, OneOf(colors), color)
-}
-
-fun HtmlBlockTag.selectColor(
     labelText: String,
     selectId: String,
     rarityMap: OneOf<Color>,
@@ -37,8 +29,8 @@ fun HtmlBlockTag.selectColor(
 }
 
 fun HtmlBlockTag.selectColor(
-    selectId: String,
     current: Color,
+    selectId: String = COLOR,
     labelText: String = "Color",
     values: Collection<Color> = Color.entries,
 ) {

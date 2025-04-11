@@ -219,7 +219,7 @@ fun FORM.editTextFormat(
             is Scroll -> {
                 selectDistance("Roll Length", LENGTH, format.rollLength, min, max, step, true)
                 selectDistance("Roll Diameter", LENGTH, format.rollDiameter, min, max, step, true)
-                selectColor(COLOR, format.color, "Scroll Color")
+                selectColor(format.color, COLOR, "Scroll Color")
                 selectElement(
                     state,
                     "Scroll Material",
@@ -255,7 +255,7 @@ private fun HtmlBlockTag.editBinding(
 
             is LeatherBinding -> {
                 editCover(state, binding.cover, hasAuthor)
-                selectColor(combine(LEATHER, BINDING, COLOR), binding.leatherColor, "Leather Color")
+                selectColor(binding.leatherColor, combine(LEATHER, BINDING, COLOR), "Leather Color")
                 selectElement(
                     state,
                     "Leather Material",
@@ -282,7 +282,7 @@ private fun HtmlBlockTag.editCover(
     hasAuthor: Boolean,
 ) {
     showDetails("Cover", true) {
-        selectColor(combine(COVER, BINDING, COLOR), cover.color, "Cover Color")
+        selectColor(cover.color, combine(COVER, BINDING, COLOR), "Cover Color")
         selectElement(
             state,
             "Cover Material",
@@ -306,7 +306,7 @@ private fun HtmlBlockTag.editBossesPattern(
             is SimpleBossesPattern -> {
                 selectValue("Bosses Shape", combine(BOSSES, SHAPE), BossesShape.entries, bosses.shape, true)
                 selectValue("Bosses Size", combine(BOSSES, SIZE), Size.entries, bosses.size, true)
-                selectColor(combine(BOSSES, COLOR), bosses.color, "Bosses Color")
+                selectColor(bosses.color, combine(BOSSES, COLOR), "Bosses Color")
                 selectElement(
                     state,
                     "Bosses Material",
@@ -345,7 +345,7 @@ private fun HtmlBlockTag.editEdgeProtection(
                     1,
                     true,
                 )
-                selectColor(combine(EDGE, COLOR), protection.color, "Corner Color")
+                selectColor(protection.color, combine(EDGE, COLOR), "Corner Color")
                 selectElement(
                     state,
                     "Corner Material",
@@ -365,7 +365,7 @@ private fun HtmlBlockTag.editEdgeProtection(
                     1,
                     true,
                 )
-                selectColor(combine(EDGE, COLOR), protection.color, "Edge Color")
+                selectColor(protection.color, combine(EDGE, COLOR), "Edge Color")
                 selectElement(
                     state,
                     "Edge Material",
@@ -384,7 +384,7 @@ private fun HtmlBlockTag.editSewingPattern(pattern: SewingPattern) {
 
         when (pattern) {
             is SimpleSewingPattern -> {
-                selectColor(combine(SEWING, COLOR), pattern.color)
+                selectColor(pattern.color, combine(SEWING, COLOR))
                 selectValue("Size", combine(SEWING, SIZE), Size.entries, pattern.size, true)
                 selectValue("Distance Between Edge & Hole", combine(SEWING, LENGTH), Size.entries, pattern.length, true)
                 editSewingPattern(pattern.stitches) { elementParam, element ->
@@ -394,7 +394,7 @@ private fun HtmlBlockTag.editSewingPattern(pattern: SewingPattern) {
 
             is ComplexSewingPattern -> {
                 editSewingPattern(pattern.stitches) { elementParam, element ->
-                    selectColor(combine(elementParam, COLOR), element.color)
+                    selectColor(element.color, combine(elementParam, COLOR))
                     selectValue("Size", combine(elementParam, SIZE), Size.entries, element.size, true)
                     selectValue(
                         "Distance Between Edge & Hole",
@@ -446,7 +446,7 @@ private fun HtmlBlockTag.editScrollHandle(
     editList("Pattern", HANDLE, handle.segments, 1, 20, 1) { _, segmentParam, segment ->
         selectDistance("Length", combine(segmentParam, LENGTH), segment.length, min, max, step, true)
         selectDistance("Diameter", combine(segmentParam, DIAMETER), segment.diameter, min, max, step, true)
-        selectColor(combine(segmentParam, COLOR), segment.color)
+        selectColor(segment.color, combine(segmentParam, COLOR))
         selectValue("Shape", combine(segmentParam, SHAPE), HandleSegmentShape.entries, segment.shape, true)
     }
 }

@@ -52,9 +52,9 @@ fun HtmlBlockTag.selectFill(fill: Fill, param: String = FILL) {
     selectValue("Fill Type", combine(param, TYPE), FillType.entries, fill.getType(), true)
 
     when (fill) {
-        is Solid -> selectColor(fill.color, selectId = combine(param, COLOR, 0))
+        is Solid -> selectColor(fill.color, combine(param, COLOR, 0))
         is Transparent -> {
-            selectColor(fill.color, selectId = combine(param, COLOR, 0))
+            selectColor(fill.color, combine(param, COLOR, 0))
             selectPercentage(
                 "Opacity",
                 combine(param, OPACITY),
