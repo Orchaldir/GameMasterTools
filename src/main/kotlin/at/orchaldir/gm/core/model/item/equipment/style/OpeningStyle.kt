@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.item.ItemPart
+import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
@@ -52,5 +53,5 @@ data class DoubleBreasted(
 @Serializable
 @SerialName("Zipper")
 data class Zipper(
-    val part: ItemPart = ItemPart(Color.Silver),
+    val part: ColorItemPart = ColorItemPart(Color.Silver),
 ) : OpeningStyle()

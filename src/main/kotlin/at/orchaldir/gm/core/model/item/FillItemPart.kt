@@ -8,7 +8,26 @@ import at.orchaldir.gm.core.model.util.Solid
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ItemPart(
+data class ColorItemPart(
+    val color: Color? = null,
+    val material: MaterialId = MaterialId(0),
+) : MadeFromParts {
+
+    fun getColor(state: State): Color {
+        if (color != null) {
+            return color
+        }
+
+        return state.getMaterialStorage().get(material)?.color ?: Color.Pink
+    }
+
+    override fun contains(id: MaterialId) = material == id
+    override fun materials() = setOf(material)
+
+}
+
+@Serializable
+data class FillItemPart(
     val fill: Fill? = null,
     val material: MaterialId = MaterialId(0),
 ) : MadeFromParts {

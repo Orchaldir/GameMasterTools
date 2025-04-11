@@ -8,7 +8,6 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
-import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.SizeConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
@@ -51,8 +50,8 @@ fun visualizeButtons(
     bottomY: Factor,
     buttons: ButtonColumn,
 ) {
-    val fill = buttons.button.part.getFill(state.state)
-    val options = NoBorder(fill.toRender())
+    val color = buttons.button.part.getColor(state.state)
+    val options = NoBorder(color.toRender())
     val distance = bottomY - topY
     val step = distance / buttons.count.toFloat()
     var y = topY + step * HALF
@@ -75,8 +74,8 @@ fun visualizeZipper(
     zipper: Zipper,
 ) {
     val width = aabb.convertHeight(state.config.equipment.opening.zipperWidth)
-    val fill = zipper.part.getFill(state.state) // TODO
-    val options = LineOptions(Color.Pink.toRender(), width)
+    val color = zipper.part.getColor(state.state)
+    val options = LineOptions(color.toRender(), width)
     val top = aabb.getPoint(x, topY)
     val bottom = aabb.getPoint(x, bottomY)
 
