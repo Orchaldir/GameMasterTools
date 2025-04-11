@@ -1,9 +1,8 @@
 package at.orchaldir.gm.app.routes
 
-import at.orchaldir.gm.app.CATEGORY
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.parseMaterial
+import at.orchaldir.gm.app.html.model.*
 import at.orchaldir.gm.core.action.CreateMaterial
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
@@ -167,8 +166,7 @@ private fun HTML.showMaterialDetails(
     val editLink = call.application.href(MaterialRoutes.Edit(material.id))
 
     simpleHtml("Material: ${material.name}") {
-        field("Name", material.name)
-        field("Category", material.category)
+        showMaterial(material)
         showList("Equipment", equipmentList) { equipment ->
             link(call, equipment)
         }
@@ -198,8 +196,7 @@ private fun HTML.showMaterialEditor(
 
     simpleHtml("Edit Material: ${material.name}") {
         form {
-            selectName(material.name)
-            selectValue("Category", CATEGORY, MaterialCategory.entries, material.category)
+            editMaterial(material)
             button("Update", updateLink)
         }
         back(backLink)
