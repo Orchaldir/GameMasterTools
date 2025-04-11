@@ -19,10 +19,10 @@ fun HtmlBlockTag.showItemPart(
     label: String? = null,
 ) {
     if (label != null) {
-        fieldOptionalColor(part.color, "$label Color")
+        showOptionalFill("$label Fill", part.fill)
         fieldLink("$label Material", call, state, part.material)
     } else {
-        fieldOptionalColor(part.color)
+        showOptionalFill("Fill", part.fill)
         fieldLink("Material", call, state, part.material)
     }
 }
@@ -36,10 +36,10 @@ fun HtmlBlockTag.editItemPart(
     label: String? = null,
 ) {
     if (label != null) {
-        selectOptionalColor(part.color, combine(param, COLOR), "$label Color")
+        selectOptionalFill("$label Fill", part.fill, combine(param, COLOR))
         selectMaterial(state, part.material, combine(param, MATERIAL), "$label Material")
     } else {
-        selectOptionalColor(part.color, combine(param, COLOR))
+        selectOptionalFill("Fill", part.fill, combine(param, COLOR))
         selectMaterial(state, part.material, combine(param, MATERIAL))
     }
 }

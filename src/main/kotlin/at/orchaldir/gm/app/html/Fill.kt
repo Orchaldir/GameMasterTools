@@ -15,6 +15,14 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
+fun HtmlBlockTag.showOptionalFill(label: String, fill: Fill?) {
+    if (fill != null) {
+        showDetails(label, true) {
+            showFill(fill)
+        }
+    }
+}
+
 fun HtmlBlockTag.showFill(label: String, fill: Fill) {
     showDetails(label, true) {
         showFill(fill)
@@ -40,15 +48,35 @@ fun HtmlBlockTag.showFill(fill: Fill) {
 
 // edit
 
+fun HtmlBlockTag.selectOptionalFill(label: String, fill: Fill?, param: String = FILL) {
+    showDetails(label, true) {
+        selectOptionalFill(fill, param)
+    }
+}
+
 fun HtmlBlockTag.selectFill(label: String, fill: Fill, param: String = FILL) {
     showDetails(label, true) {
         selectFill(fill, param)
     }
 }
 
+fun HtmlBlockTag.selectOptionalFill(fill: Fill?, param: String = FILL) {
+    selectOptionalValue("Fill Type", combine(param, TYPE), fill?.getType(), FillType.entries, true)
+
+    if (fill != null) {
+        selectFillData(fill, param)
+    }
+}
+
 fun HtmlBlockTag.selectFill(fill: Fill, param: String = FILL) {
     selectValue("Fill Type", combine(param, TYPE), FillType.entries, fill.getType(), true)
+    selectFillData(fill, param)
+}
 
+private fun HtmlBlockTag.selectFillData(
+    fill: Fill,
+    param: String,
+) {
     when (fill) {
         is Solid -> selectColor(fill.color, combine(param, COLOR, 0))
         is Transparent -> {
