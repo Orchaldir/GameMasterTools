@@ -20,7 +20,7 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showMaterial(material: Material) {
     field("Name", material.name)
     field("Category", material.category)
-    showColor(material.color)
+    fieldColor(material.color)
 }
 
 // edit
