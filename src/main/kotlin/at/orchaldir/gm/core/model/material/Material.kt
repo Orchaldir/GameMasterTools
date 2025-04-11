@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.material
 
+import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.ElementWithSimpleName
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -21,6 +22,7 @@ data class Material(
     val id: MaterialId,
     val name: String = "Material ${id.value}",
     val category: MaterialCategory = MaterialCategory.Metal,
+    val color: Color = Color.Pink,
 ) : ElementWithSimpleName<MaterialId> {
 
     override fun id() = id
