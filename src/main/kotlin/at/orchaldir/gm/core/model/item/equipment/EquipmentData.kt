@@ -60,8 +60,6 @@ enum class EquipmentDataType {
 @Serializable
 sealed class EquipmentData : MadeFromParts {
 
-    open fun getMaterials(): Set<MaterialId> = emptySet()
-
     fun getType() = when (this) {
         is Belt -> EquipmentDataType.Belt
         is Coat -> EquipmentDataType.Coat
@@ -120,7 +118,7 @@ data class Dress(
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
-    override fun getMaterials() = setOf(material)
+    override fun materials() = setOf(material)
 }
 
 @Serializable
@@ -130,7 +128,7 @@ data class Earring(
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = style.contains(id)
-    override fun getMaterials() = style.getMaterials()
+    override fun materials() = style.getMaterials()
 }
 
 @Serializable
@@ -141,7 +139,7 @@ data class EyePatch(
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = style.contains(id) || fixation.contains(id)
-    override fun getMaterials() = style.getMaterials() + fixation.getMaterials()
+    override fun materials() = style.getMaterials() + fixation.getMaterials()
 }
 
 @Serializable
@@ -154,7 +152,7 @@ data class Footwear(
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
-    override fun getMaterials() = setOf(material)
+    override fun materials() = setOf(material)
 }
 
 @Serializable
@@ -169,7 +167,7 @@ data class Glasses(
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = frameMaterial == id || lensMaterial == id
-    override fun getMaterials() = setOf(frameMaterial, lensMaterial)
+    override fun materials() = setOf(frameMaterial, lensMaterial)
 }
 
 @Serializable
@@ -181,7 +179,7 @@ data class Gloves(
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
-    override fun getMaterials() = setOf(material)
+    override fun materials() = setOf(material)
 }
 
 @Serializable
@@ -193,7 +191,7 @@ data class Hat(
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
-    override fun getMaterials() = setOf(material)
+    override fun materials() = setOf(material)
 }
 
 @Serializable
@@ -204,7 +202,7 @@ data class Necklace(
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = style.contains(id)
-    override fun getMaterials() = style.getMaterials()
+    override fun materials() = style.getMaterials()
 }
 
 @Serializable
@@ -216,7 +214,7 @@ data class Pants(
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
-    override fun getMaterials() = setOf(material)
+    override fun materials() = setOf(material)
 }
 
 @Serializable
@@ -229,7 +227,7 @@ data class Shirt(
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
-    override fun getMaterials() = setOf(material)
+    override fun materials() = setOf(material)
 }
 
 @Serializable
@@ -241,7 +239,7 @@ data class Skirt(
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
-    override fun getMaterials() = setOf(material)
+    override fun materials() = setOf(material)
 }
 
 @Serializable
@@ -253,7 +251,7 @@ data class Socks(
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
-    override fun getMaterials() = setOf(material)
+    override fun materials() = setOf(material)
 }
 
 @Serializable
@@ -267,7 +265,7 @@ data class Tie(
 ) : EquipmentData() {
 
     override fun contains(id: MaterialId) = material == id
-    override fun getMaterials() = setOf(material)
+    override fun materials() = setOf(material)
 }
 
 
