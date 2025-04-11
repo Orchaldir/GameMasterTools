@@ -1,7 +1,8 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.COLOR
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.Color
+import at.orchaldir.gm.core.model.util.OneOf
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.span
 import kotlinx.html.style

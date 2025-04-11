@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.html.model.item.equipment
 
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.MATERIAL
-import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.fieldColor
 import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.selectColor

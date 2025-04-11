@@ -236,7 +236,8 @@ fun State.sortMaterial(
         when (sort) {
             SortMaterial.Name -> compareBy { it.name }
             SortMaterial.Equipment -> compareBy<Material> { getEquipmentMadeOf(it.id).size }.reversed()
-        })
+        }
+    )
 
 // plane
 

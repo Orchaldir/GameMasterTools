@@ -1,13 +1,17 @@
 package at.orchaldir.gm.app.html.model.item.equipment
 
-import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.FRAME
+import at.orchaldir.gm.app.LENS
+import at.orchaldir.gm.app.SHAPE
+import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.model.item.*
+import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.Footwear
 import at.orchaldir.gm.core.model.item.equipment.Glasses
-import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.item.equipment.style.FrameType
+import at.orchaldir.gm.core.model.item.equipment.style.LensShape
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY

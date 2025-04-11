@@ -2,18 +2,17 @@ package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.model.*
-import at.orchaldir.gm.app.routes.item.TextRoutes
+import at.orchaldir.gm.app.html.model.editMaterial
+import at.orchaldir.gm.app.html.model.parseMaterial
+import at.orchaldir.gm.app.html.model.showMaterial
 import at.orchaldir.gm.core.action.CreateMaterial
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.material.Material
-import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
-import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.countTexts
@@ -35,7 +34,6 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
-import java.awt.font.TextMeasurer
 
 private val logger = KotlinLogging.logger {}
 

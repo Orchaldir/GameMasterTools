@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.routes.world
 
-import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.selectMaterialCost

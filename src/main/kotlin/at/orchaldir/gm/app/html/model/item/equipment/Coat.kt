@@ -1,8 +1,11 @@
 package at.orchaldir.gm.app.html.model.item.equipment
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.model.item.*
+import at.orchaldir.gm.app.html.selectInt
+import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
