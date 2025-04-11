@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.routes
 import at.orchaldir.gm.app.CATEGORY
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parseMaterial
+import at.orchaldir.gm.app.html.model.parseMaterial
 import at.orchaldir.gm.core.action.CreateMaterial
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial

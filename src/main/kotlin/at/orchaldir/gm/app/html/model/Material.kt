@@ -1,7 +1,10 @@
-package at.orchaldir.gm.app.parse
+package at.orchaldir.gm.app.html.model
 
 import at.orchaldir.gm.app.CATEGORY
 import at.orchaldir.gm.app.NAME
+import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseInt
+import at.orchaldir.gm.app.parse.parseOptionalInt
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId
