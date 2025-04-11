@@ -25,11 +25,11 @@ fun HtmlBlockTag.showColorItemPart(
     label: String? = null,
 ) {
     if (label != null) {
-        fieldOptionalColor(part.color, "$label Color")
         fieldLink("$label Material", call, state, part.material)
+        fieldOptionalColor(part.color, "$label Color")
     } else {
-        fieldOptionalColor(part.color)
         fieldLink("Material", call, state, part.material)
+        fieldOptionalColor(part.color)
     }
 }
 
@@ -40,11 +40,11 @@ fun HtmlBlockTag.showFillItemPart(
     label: String? = null,
 ) {
     if (label != null) {
-        showOptionalFill("$label Fill", part.fill)
         fieldLink("$label Material", call, state, part.material)
+        showOptionalFill("$label Fill", part.fill)
     } else {
-        showOptionalFill("Fill", part.fill)
         fieldLink("Material", call, state, part.material)
+        showOptionalFill("Fill", part.fill)
     }
 }
 
@@ -57,11 +57,11 @@ fun HtmlBlockTag.editColorItemPart(
     label: String? = null,
 ) {
     if (label != null) {
-        selectOptionalColor(part.color, combine(param, COLOR), "$label Color")
         selectMaterial(state, part.material, combine(param, MATERIAL), "$label Material")
+        selectOptionalColor(part.color, combine(param, COLOR), "$label Color")
     } else {
-        selectOptionalColor(part.color, combine(param, COLOR))
         selectMaterial(state, part.material, combine(param, MATERIAL))
+        selectOptionalColor(part.color, combine(param, COLOR))
     }
 }
 
@@ -72,11 +72,11 @@ fun HtmlBlockTag.editFillItemPart(
     label: String? = null,
 ) {
     if (label != null) {
-        selectOptionalFill("$label Fill", part.fill, combine(param, FILL))
         selectMaterial(state, part.material, combine(param, MATERIAL), "$label Material")
+        selectOptionalFill("$label Fill", part.fill, combine(param, FILL))
     } else {
-        selectOptionalFill("Fill", part.fill, combine(param, FILL))
         selectMaterial(state, part.material, combine(param, MATERIAL))
+        selectOptionalFill("Fill", part.fill, combine(param, FILL))
     }
 }
 
