@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment
 
+import at.orchaldir.gm.core.model.item.ItemPart
+import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.material.MaterialId
@@ -56,9 +58,9 @@ enum class EquipmentDataType {
 }
 
 @Serializable
-sealed class EquipmentData {
-    open fun contains(id: MaterialId) = false
-    abstract fun getMaterials(): Set<MaterialId>
+sealed class EquipmentData : MadeFromParts {
+
+    open fun getMaterials(): Set<MaterialId> = emptySet()
 
     fun getType() = when (this) {
         is Belt -> EquipmentDataType.Belt
@@ -87,13 +89,11 @@ sealed class EquipmentData {
 @SerialName("Belt")
 data class Belt(
     val buckle: Buckle = SimpleBuckle(),
-    val fill: Fill = Solid(Color.SaddleBrown),
-    val material: MaterialId = MaterialId(0),
+    val strap: ItemPart = ItemPart(),
     val holes: BeltHoles = NoBeltHoles,
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = material == id || buckle.contains(id)
-    override fun getMaterials() = setOf(material) + buckle.getMaterials()
+    override fun parts() = buckle.parts() + strap
 }
 
 @Serializable
@@ -103,12 +103,10 @@ data class Coat(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val openingStyle: OpeningStyle = SingleBreasted(),
-    val fill: Fill = Solid(Color.Black),
-    val material: MaterialId = MaterialId(0),
+    val cloth: ItemPart = ItemPart(),
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = material == id
-    override fun getMaterials() = setOf(material)
+    override fun parts() = openingStyle.parts() + cloth
 }
 
 @Serializable

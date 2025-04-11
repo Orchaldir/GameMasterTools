@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
@@ -22,6 +23,7 @@ fun main() {
     }
 
     renderCharacterTable(
+        State(),
         "earrings-with-exotic-ears.svg",
         CHARACTER_CONFIG,
         addNames(sizes),

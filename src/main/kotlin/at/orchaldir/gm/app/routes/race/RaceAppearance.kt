@@ -188,7 +188,7 @@ private fun HtmlBlockTag.showRandomExamples(
     )
 
     repeat(n) {
-        val svg = visualizeCharacter(CHARACTER_CONFIG, generator.generate())
+        val svg = visualizeCharacter(state, CHARACTER_CONFIG, generator.generate())
         svg(svg, width)
     }
 }

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.beard.*
@@ -19,6 +20,7 @@ import at.orchaldir.gm.visualization.character.appearance.calculatePaddedSize
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 
 fun renderCharacterTable(
+    state: State,
     filename: String,
     config: CharacterRenderConfig,
     appearances: List<List<Appearance>>,
@@ -33,13 +35,14 @@ fun renderCharacterTable(
     }
 
     renderTable(filename, size, appearances) { aabb, renderer, appearance ->
-        val state = CharacterRenderState(aabb, config, renderer, true, EquipmentMap())
+        val renderState = CharacterRenderState(state, aabb, config, renderer, true, EquipmentMap())
 
-        visualizeAppearance(state, appearance, paddedSizeMap.getValue(appearance))
+        visualizeAppearance(renderState, appearance, paddedSizeMap.getValue(appearance))
     }
 }
 
 fun renderCharacterTable(
+    state: State,
     filename: String,
     config: CharacterRenderConfig,
     appearance: Appearance,
@@ -48,13 +51,14 @@ fun renderCharacterTable(
     val paddedSize = calculatePaddedSize(config, appearance)
 
     renderTable(filename, paddedSize.getFullSize(), equipmentTable) { aabb, renderer, equipmentMap ->
-        val state = CharacterRenderState(aabb, config, renderer, true, equipmentMap)
+        val renderState = CharacterRenderState(state, aabb, config, renderer, true, equipmentMap)
 
-        visualizeAppearance(state, appearance, paddedSize)
+        visualizeAppearance(renderState, appearance, paddedSize)
     }
 }
 
 fun <C, R> renderCharacterTable(
+    state: State,
     filename: String,
     config: CharacterRenderConfig,
     rows: List<Pair<String, R>>,
@@ -79,9 +83,9 @@ fun <C, R> renderCharacterTable(
 
     renderTable(filename, maxSize, rows, columns, backToo) { aabb, renderer, renderFront, column, row ->
         val (appearance, equipment, paddedSize) = dataMap.getValue(Pair(row, column))
-        val state = CharacterRenderState(aabb, config, renderer, renderFront, equipment)
+        val renderState = CharacterRenderState(state, aabb, config, renderer, renderFront, equipment)
 
-        visualizeAppearance(state, appearance, paddedSize)
+        visualizeAppearance(renderState, appearance, paddedSize)
     }
 }
 

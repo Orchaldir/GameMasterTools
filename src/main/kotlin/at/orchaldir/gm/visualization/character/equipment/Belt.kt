@@ -40,7 +40,8 @@ private fun visualizeBeltBand(
     torsoAABB: AABB,
     belt: Belt,
 ) {
-    val options = FillAndBorder(belt.fill.toRender(), state.config.line)
+    val fill = belt.strap.getFill(state.state)
+    val options = FillAndBorder(fill.toRender(), state.config.line)
     val hipWidth = state.config.equipment.pants.getHipWidth(state.config.body, body)
     val beltConfig = state.config.equipment.belt
     val bandAabb = torsoAABB.createSubAabb(CENTER, beltConfig.y, hipWidth, beltConfig.bandHeight)
@@ -122,7 +123,8 @@ private fun visualizeSimpleBuckle(
     torsoAABB: AABB,
     buckle: SimpleBuckle,
 ) {
-    val options = FillAndBorder(buckle.fill.toRender(), state.config.line)
+    val fill = buckle.part.getFill(state.state)
+    val options = FillAndBorder(fill.toRender(), state.config.line)
     val beltConfig = state.config.equipment.belt
     val distance = torsoAABB.convertHeight(beltConfig.buckleHeight.convert(buckle.size))
     val half = distance / 2.0f

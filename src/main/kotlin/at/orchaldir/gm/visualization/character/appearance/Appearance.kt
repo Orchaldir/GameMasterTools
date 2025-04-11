@@ -30,17 +30,19 @@ fun visualizeCharacter(
 ): Svg {
     val appearance = state.getAppearanceForAge(character)
 
-    return visualizeCharacter(config, appearance, equipped, renderFront)
+    return visualizeCharacter(state, config, appearance, equipped, renderFront)
 }
 
 fun visualizeCharacter(
+    state: State,
     config: CharacterRenderConfig,
     appearance: Appearance,
     equipped: EquipmentMap<EquipmentData> = EquipmentMap(),
     renderFront: Boolean = true,
-) = visualizeAppearance(config, calculatePaddedSize(config, appearance), appearance, equipped, renderFront)
+) = visualizeAppearance(state, config, calculatePaddedSize(config, appearance), appearance, equipped, renderFront)
 
 fun visualizeAppearance(
+    state: State,
     config: CharacterRenderConfig,
     paddedSize: PaddedSize,
     appearance: Appearance,
@@ -49,14 +51,15 @@ fun visualizeAppearance(
 ): Svg {
     val aabb = paddedSize.getFullAABB()
     val builder = SvgBuilder(paddedSize.getFullSize())
-    val state = CharacterRenderState(aabb, config, builder, renderFront, equipped)
+    val renderState = CharacterRenderState(state, aabb, config, builder, renderFront, equipped)
 
-    visualizeAppearance(state, appearance, paddedSize)
+    visualizeAppearance(renderState, appearance, paddedSize)
 
     return builder.finish()
 }
 
 fun visualizeAppearance(
+    state: State,
     config: CharacterRenderConfig,
     renderSize: Size2d,
     appearance: Appearance,
@@ -66,7 +69,7 @@ fun visualizeAppearance(
 ): Svg {
     val aabb = AABB(renderSize)
     val builder = SvgBuilder(renderSize)
-    val state = CharacterRenderState(aabb, config, builder, renderFront, equipped)
+    val state = CharacterRenderState(state, aabb, config, builder, renderFront, equipped)
 
     visualizeAppearance(state, appearance, paddedSize)
 

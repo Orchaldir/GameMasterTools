@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.fromSlotAsKeyMap
 import at.orchaldir.gm.core.model.character.appearance.*
@@ -14,6 +15,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
     renderCharacterTable(
+        State(),
         "belts-holes.svg",
         CHARACTER_CONFIG,
         addNames(listOf(null, Color.Silver, Color.Gold)),

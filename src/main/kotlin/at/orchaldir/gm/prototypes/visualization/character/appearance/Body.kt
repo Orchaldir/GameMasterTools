@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.util.Size
@@ -10,6 +11,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
     renderCharacterTable(
+        State(),
         "body.svg",
         CHARACTER_CONFIG,
         addNames(Size.entries),

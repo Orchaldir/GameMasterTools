@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance.hair
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
@@ -19,6 +20,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
     renderCharacterTable(
+        State(),
         "hair-short.svg",
         CHARACTER_CONFIG,
         addNames(ShortHairStyle.entries),

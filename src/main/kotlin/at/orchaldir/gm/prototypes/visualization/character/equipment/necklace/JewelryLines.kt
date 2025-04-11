@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment.necklace
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.Hourglass
@@ -18,6 +19,7 @@ fun main() {
     val pearl = SimpleOrnament(OrnamentShape.Circle, White)
 
     renderCharacterTable(
+        State(),
         "jewelry-lines.svg",
         CHARACTER_CONFIG,
         addNames(Size.entries),

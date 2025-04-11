@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance.horn
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.horn.*
@@ -30,7 +31,7 @@ fun main() {
         appearances.add(horns)
     }
 
-    renderCharacterTable("horns-complex.svg", CHARACTER_CONFIG, appearances)
+    renderCharacterTable(State(), "horns-complex.svg", CHARACTER_CONFIG, appearances)
 }
 
 private fun createTwoHorns(position: HornPosition, orientation: Orientation, shape: HornShape) =

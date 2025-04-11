@@ -3,6 +3,9 @@ package at.orchaldir.gm.app.html.model.item.equipment
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.fieldWeight
+import at.orchaldir.gm.app.html.model.item.editItemPart
+import at.orchaldir.gm.app.html.model.item.parseItemPart
+import at.orchaldir.gm.app.html.model.item.showItemPart
 import at.orchaldir.gm.app.html.model.parseWeight
 import at.orchaldir.gm.app.html.model.selectWeight
 import at.orchaldir.gm.app.parse.combine
@@ -49,9 +52,8 @@ private fun BODY.showEquipmentData(
             field("Length", data.length)
             field("Neckline Style", data.necklineStyle)
             field("Sleeve Style", data.sleeveStyle)
-            showOpeningStyle(data.openingStyle)
-            showFill(data.fill)
-            fieldLink("Material", call, state, data.material)
+            showOpeningStyle(call, state, data.openingStyle)
+            showItemPart(call, state, data.cloth, "Cloth")
         }
 
         is Dress -> {
@@ -136,25 +138,31 @@ private fun BODY.showEquipmentData(
     }
 }
 
-private fun BODY.showOpeningStyle(openingStyle: OpeningStyle) {
+private fun BODY.showOpeningStyle(
+    call: ApplicationCall,
+    state: State,
+    openingStyle: OpeningStyle,
+) {
     field("Opening Style", openingStyle.javaClass.simpleName)
     when (openingStyle) {
         NoOpening -> doNothing()
-        is SingleBreasted -> showButtons(openingStyle.buttons)
+        is SingleBreasted -> showButtons(call, state, openingStyle.buttons)
         is DoubleBreasted -> {
-            showButtons(openingStyle.buttons)
+            showButtons(call, state, openingStyle.buttons)
             field("Space between Columns", openingStyle.spaceBetweenColumns)
         }
 
-        is Zipper -> {
-            field("Zipper Color", openingStyle.color)
-        }
+        is Zipper -> showItemPart(call, state, openingStyle.part, "Zipper")
     }
 }
 
-private fun BODY.showButtons(buttonColumn: ButtonColumn) {
+private fun BODY.showButtons(
+    call: ApplicationCall,
+    state: State,
+    buttonColumn: ButtonColumn,
+) {
     field("Button Count", buttonColumn.count.toString())
-    field("Button Color", buttonColumn.button.color)
+    showItemPart(call, state, buttonColumn.button.part, "Button")
     field("Button Size", buttonColumn.button.size)
 }
 
@@ -188,9 +196,8 @@ private fun FORM.editEquipmentData(
             selectValue("Length", LENGTH, OuterwearLength.entries, data.length, true)
             selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
             selectSleeveStyle(SleeveStyle.entries, data.sleeveStyle)
-            selectOpeningStyle(data.openingStyle)
-            selectFill(data.fill)
-            selectMaterial(state, data.material)
+            selectOpeningStyle(state, data.openingStyle)
+            editItemPart(state, data.cloth, CLOTH)
         }
 
         is Dress -> {
@@ -285,14 +292,14 @@ private fun FORM.selectNecklineStyle(options: Collection<NecklineStyle>, current
     selectValue("Neckline Style", NECKLINE_STYLE, options, current, true)
 }
 
-private fun FORM.selectOpeningStyle(openingStyle: OpeningStyle) {
+private fun FORM.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
     selectValue("Opening Style", OPENING_STYLE, OpeningType.entries, openingStyle.getType(), true)
 
     when (openingStyle) {
         NoOpening -> doNothing()
-        is SingleBreasted -> selectButtons(openingStyle.buttons)
+        is SingleBreasted -> selectButtons(state, openingStyle.buttons)
         is DoubleBreasted -> {
-            selectButtons(openingStyle.buttons)
+            selectButtons(state, openingStyle.buttons)
             selectValue(
                 "Space between Columns",
                 SPACE_BETWEEN_COLUMNS,
@@ -302,14 +309,14 @@ private fun FORM.selectOpeningStyle(openingStyle: OpeningStyle) {
             )
         }
 
-        is Zipper -> selectColor(openingStyle.color, ZIPPER, "Zipper Color")
+        is Zipper -> editItemPart(state, openingStyle.part, ZIPPER, "Zipper")
     }
 }
 
-private fun FORM.selectButtons(buttonColumn: ButtonColumn) {
-    selectInt("Button Count", buttonColumn.count.toInt(), 1, 20, 1, BUTTON_COUNT, true)
-    selectColor(buttonColumn.button.color, BUTTON_COLOR, "Button Color")
-    selectValue("Button Size", BUTTON_SIZE, Size.entries, buttonColumn.button.size, true)
+private fun FORM.selectButtons(state: State, buttonColumn: ButtonColumn) {
+    selectInt("Button Count", buttonColumn.count.toInt(), 1, 20, 1, combine(BUTTON, NUMBER), true)
+    editItemPart(state, buttonColumn.button.part, BUTTON, "Button")
+    selectValue("Button Size", combine(BUTTON, SIZE), Size.entries, buttonColumn.button.size, true)
 }
 
 private fun FORM.selectSleeveStyle(options: Collection<SleeveStyle>, current: SleeveStyle) {
@@ -350,8 +357,7 @@ fun parseEquipmentData(parameters: Parameters) =
             parse(parameters, NECKLINE_STYLE, NecklineStyle.DeepV),
             parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
             parseOpeningStyle(parameters),
-            parseFill(parameters),
-            parseMaterialId(parameters, MATERIAL),
+            parseItemPart(parameters, CLOTH),
         )
 
         EquipmentDataType.Dress -> parseDress(parameters)
@@ -444,16 +450,17 @@ private fun parseOpeningStyle(parameters: Parameters): OpeningStyle {
             parse(parameters, SPACE_BETWEEN_COLUMNS, Size.Medium)
         )
 
-        OpeningType.Zipper -> Zipper(parse(parameters, ZIPPER, Color.Silver))
+        // TODO: Silver
+        OpeningType.Zipper -> Zipper(parseItemPart(parameters, ZIPPER))
     }
 }
 
 private fun parseButtonColumn(parameters: Parameters) = ButtonColumn(
     Button(
-        parse(parameters, BUTTON_SIZE, Size.Medium),
-        parse(parameters, BUTTON_COLOR, Color.Silver)
+        parse(parameters, combine(BUTTON, SIZE), Size.Medium),
+        parseItemPart(parameters, BUTTON),
     ),
-    parameters[BUTTON_COUNT]?.toUByte() ?: 1u,
+    parameters[combine(BUTTON, NUMBER)]?.toUByte() ?: 1u,
 )
 
 private fun parseSleeveStyle(

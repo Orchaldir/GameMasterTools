@@ -130,35 +130,51 @@ private fun HtmlBlockTag.selectStripes(color0: Color, color1: Color, width: UByt
 
 // parse
 
+fun parseOptionalFill(parameters: Parameters, param: String = FILL): Fill? {
+    val type = parse<FillType>(parameters, combine(param, TYPE))
+
+    return if (type != null) {
+        parseFillOfType(parameters, param, type)
+    } else {
+        null
+    }
+}
+
 fun parseFill(parameters: Parameters, param: String = FILL): Fill {
     val type = parse(parameters, combine(param, TYPE), FillType.Solid)
 
-    return when (type) {
-        FillType.Solid -> Solid(parse(parameters, combine(param, COLOR, 0), Color.SkyBlue))
-        FillType.Transparent -> Transparent(
-            parse(parameters, combine(param, COLOR, 0), Color.SkyBlue),
-            parseFactor(parameters, combine(param, OPACITY)),
-        )
+    return parseFillOfType(parameters, param, type)
+}
 
-        FillType.VerticalStripes -> VerticalStripes(
-            parse(parameters, combine(param, COLOR, 0), Color.Black),
-            parse(parameters, combine(param, COLOR, 1), Color.White),
-            parseWidth(parameters, param),
-        )
+private fun parseFillOfType(
+    parameters: Parameters,
+    param: String,
+    type: FillType,
+) = when (type) {
+    FillType.Solid -> Solid(parse(parameters, combine(param, COLOR, 0), Color.SkyBlue))
+    FillType.Transparent -> Transparent(
+        parse(parameters, combine(param, COLOR, 0), Color.SkyBlue),
+        parseFactor(parameters, combine(param, OPACITY)),
+    )
 
-        FillType.HorizontalStripes -> HorizontalStripes(
-            parse(parameters, combine(param, COLOR, 0), Color.Black),
-            parse(parameters, combine(param, COLOR, 1), Color.White),
-            parseWidth(parameters, param),
-        )
+    FillType.VerticalStripes -> VerticalStripes(
+        parse(parameters, combine(param, COLOR, 0), Color.Black),
+        parse(parameters, combine(param, COLOR, 1), Color.White),
+        parseWidth(parameters, param),
+    )
 
-        FillType.Tiles -> Tiles(
-            parse(parameters, combine(param, COLOR, 0), Color.Black),
-            parse<Color>(parameters, combine(param, COLOR, 1)),
-            parseFloat(parameters, combine(param, PATTERN, TILE), 1.0f),
-            parseFactor(parameters, combine(param, PATTERN, BORDER), fromPercentage(10))
-        )
-    }
+    FillType.HorizontalStripes -> HorizontalStripes(
+        parse(parameters, combine(param, COLOR, 0), Color.Black),
+        parse(parameters, combine(param, COLOR, 1), Color.White),
+        parseWidth(parameters, param),
+    )
+
+    FillType.Tiles -> Tiles(
+        parse(parameters, combine(param, COLOR, 0), Color.Black),
+        parse<Color>(parameters, combine(param, COLOR, 1)),
+        parseFloat(parameters, combine(param, PATTERN, TILE), 1.0f),
+        parseFactor(parameters, combine(param, PATTERN, BORDER), fromPercentage(10))
+    )
 }
 
 private fun parseWidth(parameters: Parameters, param: String) =

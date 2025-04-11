@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.ExoticSkin
 import at.orchaldir.gm.core.model.character.appearance.Head
@@ -19,7 +20,7 @@ fun main() {
         }
     }
 
-    renderCharacterTable("eyes.svg", CHARACTER_CONFIG, appearances)
+    renderCharacterTable(State(), "eyes.svg", CHARACTER_CONFIG, appearances)
 }
 
 private fun createAppearance(eyes: Eyes) = HeadOnly(Head(eyes = eyes), fromMillimeters(1000), ExoticSkin())

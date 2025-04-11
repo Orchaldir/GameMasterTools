@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
@@ -56,6 +57,7 @@ fun main() {
     }
 
     renderCharacterTable(
+        State(),
         "earrings.svg",
         CHARACTER_CONFIG,
         HeadOnly(Head(ears = NormalEars(), eyes = TwoEyes()), fromMeters(1)),

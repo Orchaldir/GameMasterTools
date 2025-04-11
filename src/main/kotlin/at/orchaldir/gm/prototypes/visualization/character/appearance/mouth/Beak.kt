@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance.mouth
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.ExoticSkin
 import at.orchaldir.gm.core.model.character.appearance.Head
@@ -15,6 +16,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
     renderCharacterTable(
+        State(),
         "beaks.svg",
         CHARACTER_CONFIG,
         addNames(BeakShape.entries),

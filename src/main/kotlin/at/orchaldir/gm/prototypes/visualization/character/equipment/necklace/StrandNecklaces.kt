@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment.necklace
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.Hourglass
@@ -30,6 +31,7 @@ fun main() {
     strandStyles.add(Pair("3", StrandNecklace(3, strand)))
 
     renderCharacterTable(
+        State(),
         "necklaces-strands.svg",
         CHARACTER_CONFIG,
         strandStyles,

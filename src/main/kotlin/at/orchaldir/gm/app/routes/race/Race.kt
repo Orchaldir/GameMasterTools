@@ -214,7 +214,7 @@ private fun HTML.showGallery(
                 val appearance = generateAppearance(state, race, race.genders.getValidValues().first())
                 val appearanceForAge = getAppearanceForAge(race, appearance, lifeStage.maxAge)
                 val paddedSize = calculatePaddedSize(CHARACTER_CONFIG, appearanceForAge)
-                val svg = visualizeAppearance(CHARACTER_CONFIG, maxSize, appearanceForAge, paddedSize)
+                val svg = visualizeAppearance(state, CHARACTER_CONFIG, maxSize, appearanceForAge, paddedSize)
 
                 div("grid-item") {
                     a(href(call, race.id)) {
@@ -277,7 +277,7 @@ private fun HtmlBlockTag.visualizeLifeStages(
 ) {
     val appearance = generateAppearance(state, race, gender)
 
-    val svg = visualizeGroup(CHARACTER_CONFIG, race.lifeStages.getAllLifeStages().map {
+    val svg = visualizeGroup(state, CHARACTER_CONFIG, race.lifeStages.getAllLifeStages().map {
         getAppearanceForAge(race, appearance, it.maxAge)
     })
 

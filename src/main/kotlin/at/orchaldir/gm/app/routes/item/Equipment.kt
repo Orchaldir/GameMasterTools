@@ -179,7 +179,7 @@ private fun HTML.showEquipmentDetails(
     val editLink = call.application.href(EquipmentRoutes.Edit(equipment.id))
 
     simpleHtml("Equipment: ${equipment.name}") {
-        visualizeItem(equipment)
+        visualizeItem(state, equipment)
 
         showEquipment(call, state, equipment)
 
@@ -210,7 +210,7 @@ private fun HTML.showEquipmentEditor(
     val updateLink = call.application.href(EquipmentRoutes.Update(equipment.id))
 
     simpleHtml("Edit equipment: ${equipment.name}") {
-        visualizeItem(equipment)
+        visualizeItem(state, equipment)
         form {
             id = "editor"
             action = previewLink
@@ -224,7 +224,7 @@ private fun HTML.showEquipmentEditor(
     }
 }
 
-private fun BODY.visualizeItem(equipment: Equipment) {
+private fun BODY.visualizeItem(state: State, equipment: Equipment) {
     val equipped = EquipmentMap.fromSlotAsKeyMap(
         equipment.data.slots()
             .getAllBodySlotCombinations()
@@ -237,8 +237,8 @@ private fun BODY.visualizeItem(equipment: Equipment) {
     } else {
         HeadOnly(head, height)
     }
-    val frontSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped)
-    val backSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped, false)
+    val frontSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
+    val backSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped, false)
 
     svg(frontSvg, 20)
     svg(backSvg, 20)

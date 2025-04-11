@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
 import at.orchaldir.gm.core.model.character.appearance.wing.*
@@ -22,7 +23,7 @@ fun main() {
         )
     )
 
-    renderCharacterTable("wings.svg", CHARACTER_CONFIG, appearances)
+    renderCharacterTable(State(), "wings.svg", CHARACTER_CONFIG, appearances)
 }
 
 private fun createWing(type: WingType) = when (type) {
