@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.*
+import at.orchaldir.gm.app.routes.item.TextRoutes
 import at.orchaldir.gm.core.action.CreateMaterial
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
@@ -11,6 +12,8 @@ import at.orchaldir.gm.core.model.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.util.SortMaterial
+import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.countTexts
@@ -32,11 +35,18 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
 import mu.KotlinLogging
+import java.awt.font.TextMeasurer
 
 private val logger = KotlinLogging.logger {}
 
 @Resource("/$MATERIAL_TYPE")
 class MaterialRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortMaterial = SortMaterial.Name,
+        val parent: MaterialRoutes = MaterialRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: MaterialId, val parent: MaterialRoutes = MaterialRoutes())
 
@@ -55,11 +65,11 @@ class MaterialRoutes {
 
 fun Application.configureMaterialRouting() {
     routing {
-        get<MaterialRoutes> {
-            logger.info { "Get all materials" }
+        get<MaterialRoutes.All> { all ->
+            logger.info { "Get all texts" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllMaterials(call, STORE.getState())
+                showAllMaterials(call, STORE.getState(), all.sort)
             }
         }
         get<MaterialRoutes.Details> { details ->
@@ -123,18 +133,27 @@ fun Application.configureMaterialRouting() {
 private fun HTML.showAllMaterials(
     call: ApplicationCall,
     state: State,
+    sort: SortMaterial,
 ) {
-    val materials = state.sortMaterial()
+    val materials = state.sortMaterial(sort)
     val createLink = call.application.href(MaterialRoutes.New())
+    val sortNameLink = call.application.href(MaterialRoutes.All(SortMaterial.Name))
+    val sortEquipmentLink = call.application.href(MaterialRoutes.All(SortMaterial.Equipment))
 
     simpleHtml("Materials") {
         field("Count", materials.size)
+        field("Sort") {
+            link(sortNameLink, "Name")
+            +" "
+            link(sortEquipmentLink, "Equipment")
+        }
+
         table {
             tr {
                 th { +"Name" }
                 th { +"Category" }
                 th { +"Color" }
-                th { +"Items" }
+                th { +"Equipment" }
                 th { +"Streets" }
                 th { +"Texts" }
             }

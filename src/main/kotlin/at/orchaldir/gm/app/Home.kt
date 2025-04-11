@@ -60,7 +60,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getNameListStorage(), NameListRoutes())
                     h3 { +"Items" }
                     fieldStorageLink(call, state.getEquipmentStorage(), EquipmentRoutes())
-                    fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes())
+                    fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes.All())
                     fieldStorageLink(call, state.getTextStorage(), TextRoutes.All())
                     h3 { +"Economy" }
                     fieldStorageLink(call, state.getBusinessStorage(), BusinessRoutes.All())

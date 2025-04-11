@@ -21,6 +21,7 @@ import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.selector.getBelievers
 import at.orchaldir.gm.core.selector.getEmployees
+import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 
 // generic
@@ -234,6 +235,7 @@ fun State.sortMaterial(
     .sortedWith(
         when (sort) {
             SortMaterial.Name -> compareBy { it.name }
+            SortMaterial.Equipment -> compareBy<Material> { getEquipmentMadeOf(it.id).size }.reversed()
         })
 
 // plane

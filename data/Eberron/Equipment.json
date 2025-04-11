@@ -222,6 +222,28 @@
     "length": "Matinee"
    },
    "weight": 10
+  },
+  "14": {
+   "id": 14,
+   "name": "Tie",
+   "data": {
+    "type": "Tie",
+    "main": {
+     "fill": {
+      "type": "Solid",
+      "color": "Navy"
+     },
+     "material": 25
+    },
+    "knot": {
+     "fill": {
+      "type": "Solid",
+      "color": "Navy"
+     },
+     "material": 25
+    }
+   },
+   "weight": 10
   }
  }
 }
