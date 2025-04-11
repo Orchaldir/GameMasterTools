@@ -3,15 +3,16 @@ package at.orchaldir.gm.app.html.model.item.equipment
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.fieldFactor
+import at.orchaldir.gm.app.html.model.item.editColorItemPart
+import at.orchaldir.gm.app.html.model.item.parseColorItemPart
+import at.orchaldir.gm.app.html.model.item.showColorItemPart
 import at.orchaldir.gm.app.html.model.parseFactor
 import at.orchaldir.gm.app.html.model.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseMaterialId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Earring
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ONE
@@ -37,7 +38,7 @@ fun BODY.showEarring(
         is HoopEarring -> {
             fieldFactor("Diameter", style.length)
             field("Thickness", style.thickness)
-            showLook(call, state, style.color, style.material)
+            showColorItemPart(call, state, style.wire, "Wire")
         }
 
         is StudEarring -> {
@@ -57,7 +58,7 @@ fun BODY.showDangleEarring(
     showList("Sizes", style.sizes) {
         +it.name
     }
-    showLook(call, state, style.wireColor, style.wireMaterial, "Wire")
+    showColorItemPart(call, state, style.wire, "Wire")
 }
 
 fun BODY.showDropEarring(
@@ -70,7 +71,7 @@ fun BODY.showDropEarring(
     fieldFactor("Wire Length", style.wireLength)
     showOrnament(call, state, style.top, "Top Ornament")
     showOrnament(call, state, style.bottom, "Bottom Ornament")
-    showLook(call, state, style.wireColor, style.wireMaterial, "Wire")
+    showColorItemPart(call, state, style.wire, "Wire")
 }
 
 // edit
@@ -87,7 +88,7 @@ fun FORM.editEarring(
         is HoopEarring -> {
             selectFactor("Diameter", LENGTH, style.length, ZERO, ONE, ONE_PERCENT, true)
             selectValue("Thickness", SIZE, Size.entries, style.thickness, true)
-            editLook(state, style.color, style.material, WIRE)
+            editColorItemPart(state, style.wire, WIRE, "Wire")
         }
 
         is StudEarring -> {
@@ -106,7 +107,7 @@ fun FORM.editDangleEarring(
     editList("Sizes", SIZE, style.sizes, 1, 10, 1) { index, param, size ->
         selectValue("$index.Size", param, Size.entries, size, true)
     }
-    editLook(state, style.wireColor, style.wireMaterial, WIRE, "Wire")
+    editColorItemPart(state, style.wire, WIRE, "Wire")
 }
 
 fun FORM.editDropEarring(
@@ -118,7 +119,7 @@ fun FORM.editDropEarring(
     selectFactor("Wire Length", LENGTH, style.wireLength, ZERO, ONE, ONE_PERCENT, true)
     editOrnament(state, style.top, TOP, "Top Ornament")
     editOrnament(state, style.bottom, BOTTOM, "Bottom Ornament")
-    editLook(state, style.wireColor, style.wireMaterial, WIRE, "Wire")
+    editColorItemPart(state, style.wire, WIRE, "Wire")
 }
 
 private fun FORM.selectDropSize(label: String, size: Factor, param: String) {
@@ -138,8 +139,7 @@ fun parseEarring(parameters: Parameters): Earring {
             EarringStyleType.Hoop -> HoopEarring(
                 parseFactor(parameters, LENGTH),
                 parse(parameters, SIZE, Size.Medium),
-                parse(parameters, combine(WIRE, COLOR), Color.Gold),
-                parseMaterialId(parameters, combine(WIRE, MATERIAL)),
+                parseColorItemPart(parameters, WIRE),
             )
 
             EarringStyleType.Stud -> StudEarring(
@@ -156,8 +156,7 @@ fun parseDangleEarring(parameters: Parameters) = DangleEarring(
     parseList(parameters, SIZE, 1) { param ->
         parse(parameters, param, Size.Medium)
     },
-    parse(parameters, combine(WIRE, COLOR), Color.Gold),
-    parseMaterialId(parameters, combine(WIRE, MATERIAL)),
+    parseColorItemPart(parameters, WIRE),
 )
 
 fun parseDropEarring(parameters: Parameters) = DropEarring(
@@ -166,7 +165,6 @@ fun parseDropEarring(parameters: Parameters) = DropEarring(
     parseFactor(parameters, LENGTH),
     parseOrnament(parameters, TOP),
     parseOrnament(parameters, BOTTOM),
-    parse(parameters, combine(WIRE, COLOR), Color.Gold),
-    parseMaterialId(parameters, combine(WIRE, MATERIAL)),
+    parseColorItemPart(parameters, WIRE),
 )
 

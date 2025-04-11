@@ -1,16 +1,18 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.equipment.Coat
 import at.orchaldir.gm.core.model.item.equipment.style.Button
 import at.orchaldir.gm.core.model.item.equipment.style.ButtonColumn
 import at.orchaldir.gm.core.model.item.equipment.style.DoubleBreasted
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Color.Blue
+import at.orchaldir.gm.core.model.util.Color.Gold
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.Solid
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTable
@@ -18,6 +20,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
     renderCharacterTable(
+        State(),
         "coat-length.svg",
         CHARACTER_CONFIG,
         addNames(OuterwearLength.entries),
@@ -25,8 +28,8 @@ fun main() {
     ) { distance, shape, length ->
         val coat = Coat(
             length,
-            openingStyle = DoubleBreasted(ButtonColumn(Button(Size.Medium, Color.Gold), 5u)),
-            fill = Solid(Blue)
+            openingStyle = DoubleBreasted(ButtonColumn(Button(Size.Medium, ColorItemPart(Gold)), 5u)),
+            main = FillItemPart(Blue),
         )
         Pair(createAppearance(distance, shape), from(coat))
     }

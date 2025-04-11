@@ -10,30 +10,30 @@ import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
-val CREATE_ITEM_TEMPLATE: Reducer<CreateEquipment, State> = { state, _ ->
+val CREATE_EQUIPMENT: Reducer<CreateEquipment, State> = { state, _ ->
     val equipment = Equipment(state.getEquipmentStorage().nextId)
 
     noFollowUps(state.updateStorage(state.getEquipmentStorage().add(equipment)))
 }
 
-val DELETE_ITEM_TEMPLATE: Reducer<DeleteEquipment, State> = { state, action ->
+val DELETE_EQUIPMENT: Reducer<DeleteEquipment, State> = { state, action ->
     state.getEquipmentStorage().require(action.id)
     require(state.canDelete(action.id)) { "Equipment ${action.id.value} is used" }
 
     noFollowUps(state.updateStorage(state.getEquipmentStorage().remove(action.id)))
 }
 
-val UPDATE_ITEM_TEMPLATE: Reducer<UpdateEquipment, State> = { state, action ->
-    val template = action.equipment
+val UPDATE_EQUIPMENT: Reducer<UpdateEquipment, State> = { state, action ->
+    val equipment = action.equipment
+    val oldEquipment = state.getEquipmentStorage().getOrThrow(equipment.id)
 
-    val oldTemplate = state.getEquipmentStorage().getOrThrow(template.id)
-    template.data.getMaterials().forEach { state.getMaterialStorage().require(it) }
+    equipment.data.materials().forEach { state.getMaterialStorage().require(it) }
 
-    if (template.data.javaClass != oldTemplate.data.javaClass) {
+    if (equipment.data.javaClass != oldEquipment.data.javaClass) {
         require(
-            state.getEquippedBy(template.id).isEmpty()
-        ) { "Cannot change equipment ${template.id.value} while it is equipped" }
+            state.getEquippedBy(equipment.id).isEmpty()
+        ) { "Cannot change equipment ${equipment.id.value} while it is equipped" }
     }
 
-    noFollowUps(state.updateStorage(state.getEquipmentStorage().update(template)))
+    noFollowUps(state.updateStorage(state.getEquipmentStorage().update(equipment)))
 }

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.Ornament
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentWithBorder
@@ -9,39 +10,42 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.createCross
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.LineOptions
-import at.orchaldir.gm.utils.renderer.model.NoBorder
-import at.orchaldir.gm.utils.renderer.model.RenderOptions
+import at.orchaldir.gm.utils.renderer.model.*
 
 fun visualizeOrnament(
+    state: State,
     renderer: LayerRenderer,
     ornament: Ornament,
     position: Point2d,
     radius: Distance,
 ) = when (ornament) {
-    is SimpleOrnament -> visualizeSimpleOrnament(renderer, ornament, position, radius)
-    is OrnamentWithBorder -> visualizeBorderOrnament(renderer, ornament, position, radius)
+    is SimpleOrnament -> visualizeSimpleOrnament(state, renderer, ornament, position, radius)
+    is OrnamentWithBorder -> visualizeBorderOrnament(state, renderer, ornament, position, radius)
 }
 
 private fun visualizeSimpleOrnament(
+    state: State,
     renderer: LayerRenderer,
     ornament: SimpleOrnament,
     position: Point2d,
     radius: Distance,
 ) {
-    val options = NoBorder(ornament.color.toRender())
+    val fill = ornament.part.getFill(state)
+    val options = NoBorder(fill.toRender())
 
     visualizeOrnament(renderer, position, radius, ornament.shape, options)
 }
 
 private fun visualizeBorderOrnament(
+    state: State,
     renderer: LayerRenderer,
     ornament: OrnamentWithBorder,
     position: Point2d,
     radius: Distance,
 ) {
-    val options = FillAndBorder(ornament.color.toRender(), LineOptions(ornament.borderColor.toRender(), radius / 3.0f))
+    val centerFill = ornament.center.getFill(state)
+    val borderColor = ornament.border.getColor(state)
+    val options = FillAndBorder(centerFill.toRender(), LineOptions(borderColor.toRender(), radius / 3.0f))
 
     visualizeOrnament(renderer, position, radius, ornament.shape, options)
 }

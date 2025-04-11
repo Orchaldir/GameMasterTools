@@ -91,21 +91,22 @@ fun visualizeDangleEarring(
     val topRadius = config.calculateStudSize(earRadius, Size.Small)
     val wireLength = config.calculateStudSize(earRadius, Size.Small)
     val renderer = state.renderer.getLayer(EQUIPMENT_LAYER)
+    val color = dangle.wire.getColor(state.state)
 
-    visualizeOrnament(renderer, dangle.top, position, topRadius)
+    visualizeOrnament(state.state, renderer, dangle.top, position, topRadius)
 
     dangle.sizes.forEach { size ->
         val radius = config.calculateStudSize(earRadius, size)
         val top = lastPosition.addHeight(lastStep)
         val center = top.addHeight(radius)
 
-        visualizeOrnament(renderer, dangle.bottom, center, radius)
+        visualizeOrnament(state.state, renderer, dangle.bottom, center, radius)
 
         lastStep = wireLength
         lastPosition = center.addHeight(radius)
     }
 
-    visualizeEarringWire(state, earRadius, position, lastPosition, Size.Small, dangle.wireColor)
+    visualizeEarringWire(state, earRadius, position, lastPosition, Size.Small, color)
 }
 
 private fun visualizeDropEarring(
@@ -130,10 +131,11 @@ fun visualizeDropEarring(
     val bottomRadius = earRadius * drop.bottomSize
     val end = start.addHeight(maxLength * drop.wireLength)
     val renderer = state.renderer.getLayer(layer)
+    val color = drop.wire.getColor(state.state)
 
-    visualizeEarringWire(state, earRadius, start, end, Size.Small, drop.wireColor)
-    visualizeOrnament(renderer, drop.top, start, topRadius)
-    visualizeOrnament(renderer, drop.bottom, end, bottomRadius)
+    visualizeEarringWire(state, earRadius, start, end, Size.Small, color)
+    visualizeOrnament(state.state, renderer, drop.top, start, topRadius)
+    visualizeOrnament(state.state, renderer, drop.bottom, end, bottomRadius)
 }
 
 private fun visualizeHoopEarring(
@@ -144,8 +146,9 @@ private fun visualizeHoopEarring(
 ) {
     val maxLength = calculateMaxDrop(state.aabb, position, earRadius)
     val end = position.addHeight(maxLength * hoop.length)
+    val color = hoop.wire.getColor(state.state)
 
-    visualizeEarringWire(state, earRadius, position, end, hoop.thickness, hoop.color)
+    visualizeEarringWire(state, earRadius, position, end, hoop.thickness, color)
 }
 
 private fun visualizeStudEarring(
@@ -155,8 +158,9 @@ private fun visualizeStudEarring(
     earRadius: Distance,
 ) {
     val radius = state.config.equipment.earring.calculateStudSize(earRadius, stud.size)
+    val renderer = state.renderer.getLayer(EQUIPMENT_LAYER)
 
-    visualizeOrnament(state.renderer.getLayer(EQUIPMENT_LAYER), stud.ornament, position, radius)
+    visualizeOrnament(state.state, renderer, stud.ornament, position, radius)
 }
 
 private fun visualizeEarringWire(

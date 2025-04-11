@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
@@ -14,7 +15,7 @@ enum class EyePatchFixationType {
 }
 
 @Serializable
-sealed class EyePatchFixation {
+sealed class EyePatchFixation : MadeFromParts {
 
     fun getType() = when (this) {
         NoFixation -> EyePatchFixationType.None
@@ -23,18 +24,11 @@ sealed class EyePatchFixation {
         is TwoBands -> EyePatchFixationType.TwoBands
     }
 
-    fun contains(id: MaterialId) = when (this) {
-        NoFixation -> false
-        is OneBand -> material == id
-        is DiagonalBand -> material == id
-        is TwoBands -> material == id
-    }
-
-    fun getMaterials() = when (this) {
-        NoFixation -> emptySet()
-        is OneBand -> setOf(material)
-        is DiagonalBand -> setOf(material)
-        is TwoBands -> setOf(material)
+    override fun parts() = when (this) {
+        is DiagonalBand -> listOf(band)
+        NoFixation -> emptyList()
+        is OneBand -> listOf(band)
+        is TwoBands -> listOf(band)
     }
 }
 
@@ -46,23 +40,32 @@ data object NoFixation : EyePatchFixation()
 @SerialName("OneBand")
 data class OneBand(
     val size: Size = Size.Small,
-    val color: Color = Color.Black,
-    val material: MaterialId = MaterialId(0),
-) : EyePatchFixation()
+    val band: ColorItemPart = ColorItemPart(Color.Black),
+) : EyePatchFixation() {
+
+    constructor(size: Size, color: Color) : this(size, ColorItemPart(color))
+
+}
 
 @Serializable
 @SerialName("DiagonalBand")
 data class DiagonalBand(
     val size: Size = Size.Small,
-    val color: Color = Color.Black,
-    val material: MaterialId = MaterialId(0),
-) : EyePatchFixation()
+    val band: ColorItemPart = ColorItemPart(Color.Black),
+) : EyePatchFixation() {
+
+    constructor(size: Size, color: Color) : this(size, ColorItemPart(color))
+
+}
 
 @Serializable
 @SerialName("TwoBands")
 data class TwoBands(
-    val color: Color = Color.Black,
-    val material: MaterialId = MaterialId(0),
-) : EyePatchFixation()
+    val band: ColorItemPart = ColorItemPart(Color.Black),
+) : EyePatchFixation() {
+
+    constructor(color: Color) : this(ColorItemPart(color))
+
+}
 
 

@@ -13,12 +13,17 @@ import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
-import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.item.equipment.EQUIPMENT_TYPE
+import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.selector.getFashions
 import at.orchaldir.gm.core.selector.item.canDelete
 import at.orchaldir.gm.core.selector.item.getEquippedBy
+import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -33,9 +38,13 @@ import kotlinx.html.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
+private val height = fromMeters(1.0f)
 
 @Resource("/$EQUIPMENT_TYPE")
 class EquipmentRoutes {
+    @Resource("gallery")
+    class Gallery(val parent: EquipmentRoutes = EquipmentRoutes())
+
     @Resource("details")
     class Details(val id: EquipmentId, val parent: EquipmentRoutes = EquipmentRoutes())
 
@@ -62,6 +71,13 @@ fun Application.configureEquipmentRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAllEquipment(call, STORE.getState())
+            }
+        }
+        get<EquipmentRoutes.Gallery> {
+            logger.info { "Show gallery" }
+
+            call.respondHtml(HttpStatusCode.OK) {
+                showGallery(call, STORE.getState())
             }
         }
         get<EquipmentRoutes.Details> { details ->
@@ -135,10 +151,12 @@ private fun HTML.showAllEquipment(
     call: ApplicationCall,
     state: State,
 ) {
-    val equipmentList = state.getEquipmentStorage().getAll().sortedBy { it.name }
+    val equipmentList = state.sortEquipmentList()
+    val galleryLink = call.application.href(EquipmentRoutes.Gallery())
     val createLink = call.application.href(EquipmentRoutes.New())
 
     simpleHtml("Equipment") {
+        action(galleryLink, "Gallery")
         field("Count", equipmentList.size)
 
         table {
@@ -155,7 +173,7 @@ private fun HTML.showAllEquipment(
                     td { link(call, equipment) }
                     tdEnum(equipment.data.getType())
                     td { +equipment.weight.toString() }
-                    tdInlineLinks(call, state, equipment.data.getMaterials())
+                    tdInlineLinks(call, state, equipment.data.materials())
                     tdSkipZero(state.getEquippedBy(equipment.id).size)
                     tdSkipZero(state.getFashions(equipment.id).size)
                 }
@@ -164,6 +182,36 @@ private fun HTML.showAllEquipment(
 
         action(createLink, "Add")
         back("/")
+    }
+}
+
+private fun HTML.showGallery(
+    call: ApplicationCall,
+    state: State,
+) {
+    val equipmentList = state.sortEquipmentList()
+    val backLink = call.application.href(EquipmentRoutes())
+
+    simpleHtml("Equipment") {
+
+        div("grid-container") {
+            equipmentList.forEach { equipment ->
+                val equipped = EquipmentMap.from(equipment.data)
+                val appearance = createAppearance(equipment, height)
+                val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
+
+                div("grid-item") {
+                    a(href(call, equipment.id)) {
+                        div {
+                            +equipment.name
+                        }
+                        svg(svg, 100)
+                    }
+                }
+            }
+        }
+
+        back(backLink)
     }
 }
 
@@ -179,7 +227,7 @@ private fun HTML.showEquipmentDetails(
     val editLink = call.application.href(EquipmentRoutes.Edit(equipment.id))
 
     simpleHtml("Equipment: ${equipment.name}") {
-        visualizeItem(equipment)
+        visualizeItem(state, equipment)
 
         showEquipment(call, state, equipment)
 
@@ -210,7 +258,7 @@ private fun HTML.showEquipmentEditor(
     val updateLink = call.application.href(EquipmentRoutes.Update(equipment.id))
 
     simpleHtml("Edit equipment: ${equipment.name}") {
-        visualizeItem(equipment)
+        visualizeItem(state, equipment)
         form {
             id = "editor"
             action = previewLink
@@ -224,24 +272,24 @@ private fun HTML.showEquipmentEditor(
     }
 }
 
-private fun BODY.visualizeItem(equipment: Equipment) {
-    val equipped = EquipmentMap.fromSlotAsKeyMap(
-        equipment.data.slots()
-            .getAllBodySlotCombinations()
-            .first()
-            .associateWith { equipment.data })
+private fun BODY.visualizeItem(state: State, equipment: Equipment) {
+    val equipped = EquipmentMap.from(equipment.data)
+    val appearance = createAppearance(equipment, height)
+    val frontSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
+    val backSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped, false)
+
+    svg(frontSvg, 20)
+    svg(backSvg, 20)
+}
+
+private fun createAppearance(equipment: Equipment, height: Distance): Appearance {
     val head = Head(NormalEars(), TwoEyes(), mouth = NormalMouth())
-    val height = Distance.fromMeters(1.0f)
     val appearance = if (requiresBody(equipment)) {
         HumanoidBody(Body(), head, height)
     } else {
         HeadOnly(head, height)
     }
-    val frontSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped)
-    val backSvg = visualizeCharacter(CHARACTER_CONFIG, appearance, equipped, false)
-
-    svg(frontSvg, 20)
-    svg(backSvg, 20)
+    return appearance
 }
 
 private fun requiresBody(template: Equipment) = when (template.data.getType()) {

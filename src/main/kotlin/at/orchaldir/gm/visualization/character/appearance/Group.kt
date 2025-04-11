@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
@@ -12,6 +13,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun visualizeGroup(
+    state: State,
     config: CharacterRenderConfig,
     appearances: List<Appearance>,
     equipped: EquipmentMap<EquipmentData> = EquipmentMap(),
@@ -31,9 +33,9 @@ fun visualizeGroup(
     appearances.forEach { appearance ->
         val size = appearance.getSize2d()
         val aabb = AABB(start - Point2d(0.0f, size.height), size)
-        val state = CharacterRenderState(aabb, config, builder, renderFront, equipped)
+        val renderState = CharacterRenderState(state, aabb, config, builder, renderFront, equipped)
 
-        visualizeAppearance(state, appearance, paddedSizeMap.getValue(appearance))
+        visualizeAppearance(renderState, appearance, paddedSizeMap.getValue(appearance))
 
         start += Point2d(size.width, 0.0f)
     }

@@ -4,12 +4,14 @@
   "0": {
    "id": 0,
    "name": "Cloth",
-   "category": "Fabric"
+   "category": "Fabric",
+   "color": "White"
   },
   "1": {
    "id": 1,
    "name": "Leather",
-   "category": "Skin"
+   "category": "Skin",
+   "color": "SaddleBrown"
   },
   "2": {
    "id": 2,
@@ -52,7 +54,8 @@
   },
   "10": {
    "id": 10,
-   "name": "Mithral"
+   "name": "Mithral",
+   "color": "LightGray"
   },
   "11": {
    "id": 11,
@@ -89,19 +92,23 @@
   },
   "18": {
    "id": 18,
-   "name": "Iron"
+   "name": "Iron",
+   "color": "DimGray"
   },
   "19": {
    "id": 19,
-   "name": "Steel"
+   "name": "Steel",
+   "color": "Gray"
   },
   "20": {
    "id": 20,
-   "name": "Gold"
+   "name": "Gold",
+   "color": "Gold"
   },
   "21": {
    "id": 21,
-   "name": "Copper"
+   "name": "Copper",
+   "color": "Orange"
   },
   "22": {
    "id": 22,
@@ -113,12 +120,14 @@
   },
   "24": {
    "id": 24,
-   "name": "Silver"
+   "name": "Silver",
+   "color": "Silver"
   },
   "25": {
    "id": 25,
    "name": "Silk",
-   "category": "Fabric"
+   "category": "Fabric",
+   "color": "White"
   },
   "26": {
    "id": 26,
@@ -129,6 +138,17 @@
    "id": 27,
    "name": "Quickstone",
    "category": "Stone"
+  },
+  "28": {
+   "id": 28,
+   "name": "Pearl",
+   "category": "Stone",
+   "color": "Lavender"
+  },
+  "29": {
+   "id": 29,
+   "name": "Glass",
+   "color": "SkyBlue"
   }
  }
 }

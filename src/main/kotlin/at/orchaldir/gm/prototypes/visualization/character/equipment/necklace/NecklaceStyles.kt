@@ -1,12 +1,15 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment.necklace
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.Hourglass
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
+import at.orchaldir.gm.core.model.item.ColorItemPart
 import at.orchaldir.gm.core.model.item.equipment.Necklace
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape.Circle
 import at.orchaldir.gm.core.model.util.Color.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.Size.*
@@ -17,7 +20,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
-    val pearl = SimpleOrnament(OrnamentShape.Circle, White)
+    val pearl = SimpleOrnament(Circle, White)
     val dangleNecklace = DangleNecklace(
         DangleEarring(
             pearl,
@@ -31,9 +34,9 @@ fun main() {
             Factor.fromPercentage(20),
             Factor.fromPercentage(40),
             Factor.fromPercentage(100),
-            SimpleOrnament(color = Silver),
+            SimpleOrnament(Circle, color = Silver),
             OrnamentWithBorder(OrnamentShape.Teardrop, Blue, Silver),
-            Silver,
+            ColorItemPart(Silver),
         ),
         Wire(Small, Silver),
     )
@@ -52,6 +55,7 @@ fun main() {
     }
 
     renderCharacterTable(
+        State(),
         "necklaces-styles.svg",
         CHARACTER_CONFIG,
         styles,

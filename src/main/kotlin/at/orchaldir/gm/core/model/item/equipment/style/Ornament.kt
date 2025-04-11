@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.FillItemPart
+import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -11,7 +13,7 @@ enum class OrnamentType {
 }
 
 @Serializable
-sealed class Ornament {
+sealed class Ornament : MadeFromParts {
 
     fun getType() = when (this) {
         is SimpleOrnament -> OrnamentType.Simple
@@ -23,14 +25,9 @@ sealed class Ornament {
         is OrnamentWithBorder -> shape
     }
 
-    fun contains(id: MaterialId) = when (this) {
-        is SimpleOrnament -> material == id
-        is OrnamentWithBorder -> material == id || borderMaterial == id
-    }
-
-    fun getMaterials() = when (this) {
-        is SimpleOrnament -> setOf(material)
-        is OrnamentWithBorder -> setOf(material, borderMaterial)
+    override fun parts() = when (this) {
+        is SimpleOrnament -> listOf(part)
+        is OrnamentWithBorder -> listOf(center, border)
     }
 }
 
@@ -38,16 +35,22 @@ sealed class Ornament {
 @SerialName("Simple")
 data class SimpleOrnament(
     val shape: OrnamentShape = OrnamentShape.Circle,
-    val color: Color = Color.Gold,
-    val material: MaterialId = MaterialId(0),
-) : Ornament()
+    val part: FillItemPart = FillItemPart(Color.Gold),
+) : Ornament() {
+
+    constructor(shape: OrnamentShape, color: Color) : this(shape, FillItemPart(color))
+
+}
 
 @Serializable
 @SerialName("Border")
 data class OrnamentWithBorder(
     val shape: OrnamentShape = OrnamentShape.Circle,
-    val color: Color = Color.Red,
-    val borderColor: Color = Color.Gold,
-    val material: MaterialId = MaterialId(0),
-    val borderMaterial: MaterialId = MaterialId(0),
-) : Ornament()
+    val center: FillItemPart = FillItemPart(Color.Red),
+    val border: ColorItemPart = ColorItemPart(Color.Gold),
+) : Ornament() {
+
+    constructor(shape: OrnamentShape, center: Color, border: Color = Color.Gold) :
+            this(shape, FillItemPart(center), ColorItemPart(border))
+
+}

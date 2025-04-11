@@ -18,7 +18,8 @@ fun visualizeGloves(
     body: Body,
     gloves: Gloves,
 ) {
-    val options = FillAndBorder(gloves.fill.toRender(), state.config.line)
+    val fill = gloves.main.getFill(state.state)
+    val options = FillAndBorder(fill.toRender(), state.config.line)
 
     when (gloves.style) {
         GloveStyle.Hand -> doNothing()

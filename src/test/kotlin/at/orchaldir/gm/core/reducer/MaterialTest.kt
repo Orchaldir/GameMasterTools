@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.item.text.Book
@@ -39,7 +40,7 @@ class MaterialTest {
 
         @Test
         fun `Cannot delete a material used by an item template`() {
-            val template = Equipment(EQUIPMENT_ID_0, data = Shirt(material = MATERIAL_ID_0))
+            val template = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillItemPart(MATERIAL_ID_0)))
             val state = State(
                 listOf(
                     Storage(template),

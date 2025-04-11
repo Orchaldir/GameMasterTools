@@ -27,7 +27,7 @@ fun HtmlBlockTag.showMoon(
 
     optionalField("Title", moon.title)
     field("Cycle", moon.getCycle().toString() + " days")
-    field("Color", moon.color)
+    fieldColor(moon.color)
     optionalFieldLink("Plane", call, state, moon.plane)
 
     if (nextNewMoon > nextFullMoon) {
@@ -48,7 +48,7 @@ fun HtmlBlockTag.editMoon(
     selectName(moon.name)
     selectText("Optional Name", moon.title ?: "", TILE, 0)
     selectInt("Days per Quarter", moon.daysPerQuarter, 1, 100, 1, LENGTH, false)
-    selectColor("Color", COLOR, Color.entries, moon.color)
+    selectColor(moon.color)
     selectOptionalElement(state, "Plane", PLANE, state.sortPlanes(), moon.plane)
 }
 

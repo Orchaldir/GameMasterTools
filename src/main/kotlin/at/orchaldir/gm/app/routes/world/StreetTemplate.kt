@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.routes.world
 
-import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.selectMaterialCost
@@ -165,7 +164,7 @@ private fun HTML.showStreetTemplateDetails(
     simpleHtml("Street Template: ${type.name}") {
         split({
             field("Name", type.name)
-            field("Color", type.color)
+            fieldColor(type.color)
             showMaterialCost(call, state, type.materialCost)
             showList("Towns", state.getTowns(type.id)) { town ->
                 link(call, state, town)
@@ -197,7 +196,7 @@ private fun HTML.showStreetTemplateEditor(
                 action = previewLink
                 method = FormMethod.post
                 selectName(type.name)
-                selectColor("Color", COLOR, Color.entries, type.color)
+                selectColor(type.color)
                 selectMaterialCost(call, state, type.materialCost)
                 button("Update", updateLink)
             }

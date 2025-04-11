@@ -1,7 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.character.appearance.eye.NormalEye
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.item.FillItemPart
+import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.util.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -16,24 +17,18 @@ enum class EyePatchStyleType {
 }
 
 @Serializable
-sealed class EyePatchStyle {
+sealed class EyePatchStyle : MadeFromParts {
 
     fun getType() = when (this) {
-        is SimpleEyePatch -> EyePatchStyleType.Simple
-        is OrnamentAsEyePatch -> EyePatchStyleType.Ornament
         is EyePatchWithEye -> EyePatchStyleType.Eye
+        is OrnamentAsEyePatch -> EyePatchStyleType.Ornament
+        is SimpleEyePatch -> EyePatchStyleType.Simple
     }
 
-    fun contains(id: MaterialId) = when (this) {
-        is SimpleEyePatch -> material == id
-        is OrnamentAsEyePatch -> ornament.contains(id)
-        is EyePatchWithEye -> material == id
-    }
-
-    fun getMaterials() = when (this) {
-        is SimpleEyePatch -> setOf(material)
-        is OrnamentAsEyePatch -> ornament.getMaterials()
-        is EyePatchWithEye -> setOf(material)
+    override fun parts() = when (this) {
+        is EyePatchWithEye -> listOf(main)
+        is OrnamentAsEyePatch -> listOf(ornament)
+        is SimpleEyePatch -> listOf(main)
     }
 }
 
@@ -41,9 +36,10 @@ sealed class EyePatchStyle {
 @SerialName("Simple")
 data class SimpleEyePatch(
     val shape: LensShape = LensShape.Rectangle,
-    val color: Color = Color.Black,
-    val material: MaterialId = MaterialId(0),
+    val main: FillItemPart = FillItemPart(Color.Black),
 ) : EyePatchStyle() {
+
+    constructor(shape: LensShape, color: Color) : this(shape, FillItemPart(color))
 
     init {
         require(VALID_LENSES.contains(shape)) { "SimpleEyePatch has an invalid shape $shape!" }
@@ -61,8 +57,7 @@ data class OrnamentAsEyePatch(
 data class EyePatchWithEye(
     val eye: NormalEye,
     val shape: LensShape = LensShape.Rectangle,
-    val color: Color = Color.Black,
-    val material: MaterialId = MaterialId(0),
+    val main: FillItemPart = FillItemPart(Color.Black),
 ) : EyePatchStyle() {
 
     init {

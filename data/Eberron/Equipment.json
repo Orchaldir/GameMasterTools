@@ -3,51 +3,56 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Glasses",
-   "data": {
-    "type": "Glasses",
-    "lensShape": "Rectangle",
-    "lensFill": {
-     "type": "Solid",
-     "color": "SkyBlue"
-    }
-   },
-   "weight": 40
-  },
-  "1": {
-   "id": 1,
-   "name": "Leather Belt",
+   "name": "Belt",
    "data": {
     "type": "Belt",
     "buckle": {
      "type": "Simple",
-     "fill": {
-      "type": "Solid",
-      "color": "Silver"
-     },
-     "material": 19
+     "part": {
+      "material": 18
+     }
     },
-    "material": 1,
-    "holes": {
-     "type": "OneRow"
+    "strap": {
+     "material": 1
+    }
+   },
+   "weight": 10
+  },
+  "1": {
+   "id": 1,
+   "name": "Coat",
+   "data": {
+    "type": "Coat",
+    "openingStyle": {
+     "type": "SingleBreasted",
+     "buttons": {
+      "button": {
+       "part": {
+        "material": 18
+       }
+      },
+      "count": 5
+     }
+    },
+    "main": {
+     "material": 1
     }
    },
    "weight": 10
   },
   "2": {
    "id": 2,
-   "name": "Silk Tie",
+   "name": "Dress",
    "data": {
-    "type": "Tie",
-    "fill": {
-     "type": "Solid",
-     "color": "Red"
-    },
-    "knotFill": {
-     "type": "Solid",
-     "color": "Red"
-    },
-    "material": 25
+    "type": "Dress",
+    "necklineStyle": "VeryDeepV",
+    "main": {
+     "fill": {
+      "type": "Solid",
+      "color": "Red"
+     },
+     "material": 25
+    }
    },
    "weight": 10
   },
@@ -57,16 +62,25 @@
    "data": {
     "type": "Earring",
     "style": {
-     "type": "Dangle",
+     "type": "Drop",
+     "topSize": 3000,
+     "bottomSize": 3000,
+     "wireLength": 5000,
      "top": {
-      "type": "Border",
-      "color": "Crimson"
+      "type": "Simple",
+      "part": {
+       "material": 20
+      }
      },
-     "sizes": [
-      "Medium",
-      "Medium",
-      "Medium"
-     ]
+     "bottom": {
+      "type": "Simple",
+      "part": {
+       "material": 28
+      }
+     },
+     "wire": {
+      "material": 20
+     }
     }
    },
    "weight": 10
@@ -77,14 +91,8 @@
    "data": {
     "type": "EyePatch",
     "style": {
-     "type": "Eye",
-     "eye": {
-      "eyeShape": "Almond",
-      "pupilShape": "VerticalSlit",
-      "pupilColor": "Yellow",
-      "scleraColor": "OrangeRed"
-     },
-     "shape": "Circle"
+     "type": "Simple",
+     "shape": "RoundedRectangle"
     },
     "fixation": {
      "type": "OneBand"
@@ -94,33 +102,145 @@
   },
   "5": {
    "id": 5,
-   "name": "Earring 2",
+   "name": "Boots",
    "data": {
-    "type": "Earring",
-    "style": {
-     "type": "Drop",
-     "topSize": 2000,
-     "bottomSize": 5000,
-     "wireLength": 5000,
-     "bottom": {
-      "type": "Simple",
-      "shape": "Teardrop",
-      "color": "Blue"
-     }
+    "type": "Footwear",
+    "style": "Boots",
+    "shaft": {
+     "material": 1
+    },
+    "sole": {
+     "color": "Black",
+     "material": 1
     }
    },
    "weight": 10
   },
   "6": {
    "id": 6,
-   "name": "Necklace",
+   "name": "Glasses",
+   "data": {
+    "type": "Glasses",
+    "lensShape": "Rectangle",
+    "lens": {
+     "fill": {
+      "type": "Transparent",
+      "color": "SkyBlue",
+      "opacity": 5000
+     },
+     "material": 29
+    },
+    "frame": {
+     "color": "Black",
+     "material": 18
+    }
+   },
+   "weight": 10
+  },
+  "7": {
+   "id": 7,
+   "name": "Gloves",
+   "data": {
+    "type": "Gloves",
+    "style": "Half",
+    "main": {
+    }
+   },
+   "weight": 10
+  },
+  "8": {
+   "id": 8,
+   "name": "Top Hat",
+   "data": {
+    "type": "Hat",
+    "main": {
+     "fill": {
+      "type": "Solid",
+      "color": "Black"
+     },
+     "material": 1
+    }
+   },
+   "weight": 10
+  },
+  "9": {
+   "id": 9,
+   "name": "Pants",
+   "data": {
+    "type": "Pants",
+    "main": {
+     "fill": {
+      "type": "Solid",
+      "color": "Gray"
+     }
+    }
+   },
+   "weight": 10
+  },
+  "10": {
+   "id": 10,
+   "name": "Shirt",
+   "data": {
+    "type": "Shirt",
+    "main": {
+     "fill": {
+      "type": "Solid",
+      "color": "SkyBlue"
+     }
+    }
+   },
+   "weight": 10
+  },
+  "11": {
+   "id": 11,
+   "name": "Socks",
+   "data": {
+    "type": "Socks",
+    "main": {
+    }
+   },
+   "weight": 10
+  },
+  "13": {
+   "id": 13,
+   "name": "Pearl Necklace",
    "data": {
     "type": "Necklace",
     "style": {
-     "type": "Pendant",
+     "type": "Strand",
+     "strands": 1,
      "line": {
-      "type": "Drop"
+      "type": "Ornament",
+      "ornament": {
+       "type": "Simple",
+       "part": {
+        "material": 28
+       }
+      }
      }
+    },
+    "length": "Matinee"
+   },
+   "weight": 10
+  },
+  "14": {
+   "id": 14,
+   "name": "Tie",
+   "data": {
+    "type": "Tie",
+    "main": {
+     "fill": {
+      "type": "Solid",
+      "color": "Navy"
+     },
+     "material": 25
+    },
+    "knot": {
+     "fill": {
+      "type": "Solid",
+      "color": "Navy"
+     },
+     "material": 25
     }
    },
    "weight": 10

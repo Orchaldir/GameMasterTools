@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment.eyepatch
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
@@ -29,6 +30,7 @@ val FIXATIONS: List<Pair<String, EyePatchFixation>> = listOf(
 
 fun main() {
     renderCharacterTable(
+        State(),
         "eyepatch-simple.svg",
         CHARACTER_CONFIG,
         addNames(VALID_LENSES),

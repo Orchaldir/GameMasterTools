@@ -250,7 +250,8 @@ private fun HTML.showGallery(
         div("grid-container") {
             charactersWithSize.forEach { (character, name, paddedSize) ->
                 val equipment = state.getEquipment(character)
-                val svg = visualizeAppearance(CHARACTER_CONFIG, maxSize, character.appearance, paddedSize, equipment)
+                val svg =
+                    visualizeAppearance(state, CHARACTER_CONFIG, maxSize, character.appearance, paddedSize, equipment)
 
                 div("grid-item") {
                     a(href(call, character.id)) {

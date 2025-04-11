@@ -49,7 +49,8 @@ fun visualizeButtons(
     bottomY: Factor,
     buttons: ButtonColumn,
 ) {
-    val options = NoBorder(buttons.button.color.toRender())
+    val color = buttons.button.part.getColor(state.state)
+    val options = NoBorder(color.toRender())
     val distance = bottomY - topY
     val step = distance / buttons.count.toFloat()
     var y = topY + step * HALF
@@ -72,7 +73,8 @@ fun visualizeZipper(
     zipper: Zipper,
 ) {
     val width = aabb.convertHeight(state.config.equipment.opening.zipperWidth)
-    val options = LineOptions(zipper.color.toRender(), width)
+    val color = zipper.part.getColor(state.state)
+    val options = LineOptions(color.toRender(), width)
     val top = aabb.getPoint(x, topY)
     val bottom = aabb.getPoint(x, bottomY)
 

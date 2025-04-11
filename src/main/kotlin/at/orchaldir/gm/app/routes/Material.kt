@@ -1,22 +1,24 @@
 package at.orchaldir.gm.app.routes
 
-import at.orchaldir.gm.app.CATEGORY
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parseMaterial
+import at.orchaldir.gm.app.html.model.editMaterial
+import at.orchaldir.gm.app.html.model.parseMaterial
+import at.orchaldir.gm.app.html.model.showMaterial
 import at.orchaldir.gm.core.action.CreateMaterial
 import at.orchaldir.gm.core.action.DeleteMaterial
 import at.orchaldir.gm.core.action.UpdateMaterial
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.material.Material
-import at.orchaldir.gm.core.model.material.MaterialCategory
 import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.canDelete
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
+import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.core.selector.util.sortMaterial
 import at.orchaldir.gm.core.selector.world.countStreetTemplates
 import at.orchaldir.gm.core.selector.world.getMountainsContaining
@@ -37,6 +39,12 @@ private val logger = KotlinLogging.logger {}
 
 @Resource("/$MATERIAL_TYPE")
 class MaterialRoutes {
+    @Resource("all")
+    class All(
+        val sort: SortMaterial = SortMaterial.Name,
+        val parent: MaterialRoutes = MaterialRoutes(),
+    )
+
     @Resource("details")
     class Details(val id: MaterialId, val parent: MaterialRoutes = MaterialRoutes())
 
@@ -55,11 +63,11 @@ class MaterialRoutes {
 
 fun Application.configureMaterialRouting() {
     routing {
-        get<MaterialRoutes> {
-            logger.info { "Get all materials" }
+        get<MaterialRoutes.All> { all ->
+            logger.info { "Get all texts" }
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAllMaterials(call, STORE.getState())
+                showAllMaterials(call, STORE.getState(), all.sort)
             }
         }
         get<MaterialRoutes.Details> { details ->
@@ -123,17 +131,27 @@ fun Application.configureMaterialRouting() {
 private fun HTML.showAllMaterials(
     call: ApplicationCall,
     state: State,
+    sort: SortMaterial,
 ) {
-    val materials = state.sortMaterial()
+    val materials = state.sortMaterial(sort)
     val createLink = call.application.href(MaterialRoutes.New())
+    val sortNameLink = call.application.href(MaterialRoutes.All(SortMaterial.Name))
+    val sortEquipmentLink = call.application.href(MaterialRoutes.All(SortMaterial.Equipment))
 
     simpleHtml("Materials") {
         field("Count", materials.size)
+        field("Sort") {
+            link(sortNameLink, "Name")
+            +" "
+            link(sortEquipmentLink, "Equipment")
+        }
+
         table {
             tr {
                 th { +"Name" }
                 th { +"Category" }
-                th { +"Items" }
+                th { +"Color" }
+                th { +"Equipment" }
                 th { +"Streets" }
                 th { +"Texts" }
             }
@@ -141,6 +159,7 @@ private fun HTML.showAllMaterials(
                 tr {
                     td { link(call, state, material) }
                     tdEnum(material.category)
+                    td { showColor(material.color) }
                     tdSkipZero(state.countEquipment(material.id))
                     tdSkipZero(state.countStreetTemplates(material.id))
                     tdSkipZero(state.countTexts(material.id))
@@ -158,7 +177,7 @@ private fun HTML.showMaterialDetails(
     state: State,
     material: Material,
 ) {
-    val equipmentList = state.getEquipmentMadeOf(material.id)
+    val equipmentList = state.sortEquipmentList(state.getEquipmentMadeOf(material.id))
     val mountains = state.getMountainsContaining(material.id)
     val streetTemplates = state.getStreetTemplatesMadeOf(material.id)
     val texts = state.getTextsMadeOf(material.id)
@@ -167,8 +186,7 @@ private fun HTML.showMaterialDetails(
     val editLink = call.application.href(MaterialRoutes.Edit(material.id))
 
     simpleHtml("Material: ${material.name}") {
-        field("Name", material.name)
-        field("Category", material.category)
+        showMaterial(material)
         showList("Equipment", equipmentList) { equipment ->
             link(call, equipment)
         }
@@ -198,8 +216,7 @@ private fun HTML.showMaterialEditor(
 
     simpleHtml("Edit Material: ${material.name}") {
         form {
-            selectName(material.name)
-            selectValue("Category", CATEGORY, MaterialCategory.entries, material.category)
+            editMaterial(material)
             button("Update", updateLink)
         }
         back(backLink)

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance.horn
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.OverwriteFeatureColor
 import at.orchaldir.gm.core.model.character.appearance.horn.CrownOfHorns
@@ -14,7 +15,7 @@ fun main() {
     addRow(appearances, true)
     addRow(appearances, false)
 
-    renderCharacterTable("horns-crown.svg", CHARACTER_CONFIG, appearances)
+    renderCharacterTable(State(), "horns-crown.svg", CHARACTER_CONFIG, appearances)
 }
 
 private fun addRow(appearances: MutableList<List<Appearance>>, hasSideHorns: Boolean) {

@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.font.Font
 import at.orchaldir.gm.core.model.holiday.Holiday
+import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.material.Material
@@ -20,6 +21,7 @@ import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.selector.getBelievers
 import at.orchaldir.gm.core.selector.getEmployees
+import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.time.calendar.getDefaultCalendar
 
 // generic
@@ -123,6 +125,20 @@ fun State.sortDomains(
             SortDomain.Name -> compareBy { it.name(this) }
         })
 
+// equipment
+
+fun State.sortEquipmentList(sort: SortEquipment = SortEquipment.Name) =
+    sortEquipmentList(getEquipmentStorage().getAll(), sort)
+
+fun State.sortEquipmentList(
+    equipmentList: Collection<Equipment>,
+    sort: SortEquipment = SortEquipment.Name,
+) = equipmentList
+    .sortedWith(
+        when (sort) {
+            SortEquipment.Name -> compareBy { it.name(this) }
+        })
+
 // font
 
 fun State.sortFonts(sort: SortFont = SortFont.Name) =
@@ -219,7 +235,9 @@ fun State.sortMaterial(
     .sortedWith(
         when (sort) {
             SortMaterial.Name -> compareBy { it.name }
-        })
+            SortMaterial.Equipment -> compareBy<Material> { getEquipmentMadeOf(it.id).size }.reversed()
+        }
+    )
 
 // plane
 

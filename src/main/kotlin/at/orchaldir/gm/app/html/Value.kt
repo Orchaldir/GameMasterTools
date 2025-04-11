@@ -119,6 +119,19 @@ fun <T : Enum<T>> HtmlBlockTag.selectValue(
     }
 }
 
+fun <T : Enum<T>> HtmlBlockTag.selectOptionalValue(
+    fieldLabel: String,
+    selectId: String,
+    selectedValue: T?,
+    values: Collection<T>,
+    update: Boolean = false,
+) {
+    selectOptionalValue(fieldLabel, selectId, selectedValue, values, update) { type ->
+        label = type.name
+        value = type.name
+    }
+}
+
 fun <T : Enum<T>> HtmlBlockTag.selectValue(
     labelText: String,
     selectId: String,

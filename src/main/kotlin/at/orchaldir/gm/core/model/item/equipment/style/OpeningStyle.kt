@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
+import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
@@ -13,13 +15,20 @@ enum class OpeningType {
 }
 
 @Serializable
-sealed class OpeningStyle {
+sealed class OpeningStyle : MadeFromParts {
 
     fun getType() = when (this) {
         NoOpening -> OpeningType.NoOpening
         is SingleBreasted -> OpeningType.SingleBreasted
         is DoubleBreasted -> OpeningType.DoubleBreasted
         is Zipper -> OpeningType.Zipper
+    }
+
+    override fun parts() = when (this) {
+        NoOpening -> emptyList()
+        is SingleBreasted -> buttons.parts()
+        is DoubleBreasted -> buttons.parts()
+        is Zipper -> listOf(part)
     }
 }
 
@@ -43,5 +52,5 @@ data class DoubleBreasted(
 @Serializable
 @SerialName("Zipper")
 data class Zipper(
-    val color: Color = Color.Silver,
+    val part: ColorItemPart = ColorItemPart(Color.Silver),
 ) : OpeningStyle()

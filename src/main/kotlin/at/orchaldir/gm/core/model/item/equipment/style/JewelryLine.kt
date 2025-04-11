@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.material.MaterialId
+import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
@@ -13,7 +14,7 @@ enum class JewelryLineType {
 }
 
 @Serializable
-sealed class JewelryLine {
+sealed class JewelryLine : MadeFromParts {
 
     fun getType() = when (this) {
         is Chain -> JewelryLineType.Chain
@@ -27,16 +28,10 @@ sealed class JewelryLine {
         is Wire -> thickness
     }
 
-    fun contains(id: MaterialId) = when (this) {
-        is Chain -> material == id
-        is OrnamentLine -> ornament.contains(id)
-        is Wire -> material == id
-    }
-
-    fun getMaterials() = when (this) {
-        is Chain -> setOf(material)
-        is OrnamentLine -> ornament.getMaterials()
-        is Wire -> setOf(material)
+    override fun parts() = when (this) {
+        is Chain -> listOf(main)
+        is OrnamentLine -> ornament.parts()
+        is Wire -> listOf(main)
     }
 }
 
@@ -44,8 +39,7 @@ sealed class JewelryLine {
 @SerialName("Chain")
 data class Chain(
     val thickness: Size = Size.Medium,
-    val color: Color = Color.Gold,
-    val material: MaterialId = MaterialId(0),
+    val main: ColorItemPart = ColorItemPart(Color.Gold),
 ) : JewelryLine()
 
 @Serializable
@@ -56,10 +50,13 @@ data class OrnamentLine(
 ) : JewelryLine()
 
 @Serializable
-@SerialName("Drop")
+@SerialName("Wire")
 data class Wire(
     val thickness: Size = Size.Medium,
-    val color: Color = Color.Gold,
-    val material: MaterialId = MaterialId(0),
-) : JewelryLine()
+    val main: ColorItemPart = ColorItemPart(Color.Gold),
+) : JewelryLine() {
+
+    constructor(thickness: Size, color: Color) : this(thickness, ColorItemPart(color))
+
+}
 

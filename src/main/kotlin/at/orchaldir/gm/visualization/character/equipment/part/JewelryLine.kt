@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.Chain
 import at.orchaldir.gm.core.model.item.equipment.style.JewelryLine
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentLine
@@ -13,6 +14,7 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 
 fun visualizeJewelryLine(
+    state: State,
     renderer: LayerRenderer,
     jewelryLine: JewelryLine,
     line: Line2d,
@@ -20,7 +22,8 @@ fun visualizeJewelryLine(
 ) {
     when (jewelryLine) {
         is Chain -> {
-            val wireOptions = LineOptions(jewelryLine.color.toRender(), thickness)
+            val color = jewelryLine.main.getColor(state)
+            val wireOptions = LineOptions(color.toRender(), thickness)
             renderer.renderLine(line, wireOptions)
         }
 
@@ -28,12 +31,13 @@ fun visualizeJewelryLine(
             val radius = thickness / 2.0f
 
             calculatePointsOnLine(line, thickness).forEach { center ->
-                visualizeOrnament(renderer, jewelryLine.ornament, center, radius)
+                visualizeOrnament(state, renderer, jewelryLine.ornament, center, radius)
             }
         }
 
         is Wire -> {
-            val wireOptions = LineOptions(jewelryLine.color.toRender(), thickness)
+            val color = jewelryLine.main.getColor(state)
+            val wireOptions = LineOptions(color.toRender(), thickness)
             renderer.renderLine(line, wireOptions)
         }
     }

@@ -55,31 +55,22 @@ fun HtmlBlockTag.split(left: DIV.() -> Unit, right: DIV.() -> Unit) {
     }
 }
 
-fun HtmlBlockTag.field(name: String, value: Int) {
+fun HtmlBlockTag.field(name: String, value: Int) =
     field(name, value.toString())
-}
 
-fun <T : Enum<T>> HtmlBlockTag.field(name: String, value: T) {
+fun <T : Enum<T>> HtmlBlockTag.field(name: String, value: T) =
     field(name, value.name)
-}
 
-fun <T : Enum<T>> HtmlBlockTag.optionalField(name: String, value: T?) {
-    if (value != null) {
-        field(name, value.name)
-    }
-}
+fun <T : Enum<T>> HtmlBlockTag.optionalField(name: String, value: T?) =
+    optionalField(name, value?.name)
 
-fun HtmlBlockTag.field(name: String, value: String) {
-    p {
-        b { +"$name: " }
-        +value
-    }
+fun HtmlBlockTag.field(name: String, value: String) = field(name) {
+    +value
 }
 
 fun HtmlBlockTag.optionalField(name: String, value: String?) {
     if (value != null) {
-        p {
-            b { +"$name: " }
+        field(name) {
             +value
         }
     }
@@ -91,11 +82,8 @@ fun HtmlBlockTag.fieldAge(name: String, state: State, date: Date?) {
     }
 }
 
-fun HtmlBlockTag.fieldAge(name: String, age: Int) {
-    p {
-        b { +"$name: " }
-        +"$age years"
-    }
+fun HtmlBlockTag.fieldAge(name: String, age: Int) = field(name) {
+    +"$age years"
 }
 
 fun HtmlBlockTag.field(label: String, content: P.() -> Unit) {
@@ -169,16 +157,18 @@ fun HtmlBlockTag.svg(svg: Svg, width: Int) {
 }
 
 fun HtmlBlockTag.showDetails(
-    label: String,
+    label: String?,
     isOpen: Boolean = false,
     content: DETAILS.() -> Unit,
 ) {
     details {
         open = isOpen
-        summary { +label }
+        summary { +(label ?: "") }
+
         content()
     }
 }
+
 
 // lists
 
