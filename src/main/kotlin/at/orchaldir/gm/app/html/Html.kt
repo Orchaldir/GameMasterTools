@@ -163,9 +163,8 @@ fun HtmlBlockTag.showDetails(
 ) {
     details {
         open = isOpen
-        if (label != null) {
-            summary { +label }
-        }
+        summary { +(label ?: "") }
+
         content()
     }
 }
