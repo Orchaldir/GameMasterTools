@@ -193,9 +193,9 @@ private fun FORM.editLifeStages(
 
 private fun HtmlBlockTag.selectHairColor(label: String, index: Int, color: Color?) {
     selectOptionalColor(
-        label,
-        combine(LIFE_STAGE, combine(HAIR, COLOR), index),
         color,
+        combine(LIFE_STAGE, combine(HAIR, COLOR), index),
+        label,
         Color.entries,
         true
     )

@@ -74,9 +74,9 @@ fun HtmlBlockTag.selectFill(fill: Fill, param: String = FILL) {
             }
             selectColor(fill.fill, combine(param, COLOR, 0), "Tile Color", availableTileColors)
             selectOptionalColor(
-                "Background Color",
-                combine(param, COLOR, 1),
                 fill.background,
+                combine(param, COLOR, 1),
+                "Background Color",
                 Color.entries - fill.fill,
                 true
             )

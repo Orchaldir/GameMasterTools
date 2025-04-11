@@ -58,11 +58,11 @@ fun HtmlBlockTag.selectColor(
 }
 
 fun HtmlBlockTag.selectOptionalColor(
-    fieldLabel: String,
-    selectId: String,
     selectedValue: Color?,
-    values: Collection<Color>,
-    update: Boolean = false,
+    selectId: String = COLOR,
+    fieldLabel: String = "Color",
+    values: Collection<Color> = Color.entries,
+    update: Boolean = true,
 ) {
     selectOptionalValue(
         fieldLabel,

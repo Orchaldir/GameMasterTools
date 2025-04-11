@@ -118,7 +118,7 @@ private fun FORM.editBeltHoles(
 }
 
 private fun DETAILS.selectBorderColor(color: Color?) {
-    selectOptionalColor("Border Color", combine(HOLE, COLOR), color, Color.entries, true)
+    selectOptionalColor(color, combine(HOLE, COLOR), "Border Color")
 }
 
 // parse
