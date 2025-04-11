@@ -40,21 +40,50 @@
    },
    "weight": 10
   },
-   "2": {
-     "id": 2,
-     "name": "Dress",
-     "data": {
-       "type": "Dress",
-       "necklineStyle": "VeryDeepV",
-       "cloth": {
-         "fill": {
-           "type": "Solid",
-           "color": "Red"
-         },
-         "material": 25
-       }
+  "2": {
+   "id": 2,
+   "name": "Dress",
+   "data": {
+    "type": "Dress",
+    "necklineStyle": "VeryDeepV",
+    "cloth": {
+     "fill": {
+      "type": "Solid",
+      "color": "Red"
      },
-     "weight": 10
+     "material": 25
+    }
+   },
+   "weight": 10
+  },
+  "3": {
+   "id": 3,
+   "name": "Earring",
+   "data": {
+    "type": "Earring",
+    "style": {
+     "type": "Drop",
+     "topSize": 3000,
+     "bottomSize": 3000,
+     "wireLength": 5000,
+     "top": {
+      "type": "Simple",
+      "part": {
+       "material": 20
+      }
+     },
+     "bottom": {
+      "type": "Simple",
+      "part": {
+       "material": 28
+      }
+     },
+     "wire": {
+      "material": 20
+     }
+    }
+   },
+   "weight": 10
   }
  }
 }
