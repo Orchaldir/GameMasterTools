@@ -3,10 +3,7 @@ package at.orchaldir.gm.app.html.model
 import at.orchaldir.gm.app.CATEGORY
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.NAME
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.selectColor
-import at.orchaldir.gm.app.html.selectName
-import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseInt
 import at.orchaldir.gm.app.parse.parseOptionalInt
@@ -23,7 +20,7 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showMaterial(material: Material) {
     field("Name", material.name)
     field("Category", material.category)
-    field("Color", material.color)
+    showColor(material.color)
 }
 
 // edit

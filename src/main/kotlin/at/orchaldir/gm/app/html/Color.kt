@@ -7,8 +7,8 @@ import kotlinx.html.style
 
 // show
 
-fun HtmlBlockTag.showColor(color: Color) {
-    field("Solid Fill") {
+fun HtmlBlockTag.showColor(color: Color, label: String = "Color") {
+    field(label) {
         +color.name
     }
 }
