@@ -158,14 +158,11 @@ data class Footwear(
 data class Glasses(
     val lensShape: LensShape = LensShape.RoundedRectangle,
     val frameType: FrameType = FrameType.FullRimmed,
-    val lensFill: Fill = Transparent(Color.SkyBlue, fromPercentage(50)),
-    val frameColor: Color = Color.Navy,
-    val lensMaterial: MaterialId = MaterialId(0),
-    val frameMaterial: MaterialId = MaterialId(0),
+    val lens: FillItemPart = FillItemPart(Transparent(Color.SkyBlue, fromPercentage(50))),
+    val frame: ColorItemPart = ColorItemPart(Color.Navy),
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = frameMaterial == id || lensMaterial == id
-    override fun materials() = setOf(frameMaterial, lensMaterial)
+    override fun parts() = listOf(lens, frame)
 }
 
 @Serializable

@@ -50,19 +50,7 @@ private fun BODY.showEquipmentData(
         is Earring -> showEarring(call, state, data)
         is EyePatch -> showEyePatch(call, state, data)
         is Footwear -> showFootwear(call, state, data)
-
-        is Glasses -> {
-            showDetails("Lenses") {
-                field("Shape", data.lensShape)
-                showFill(data.lensFill)
-                fieldLink("Material", call, state, data.lensMaterial)
-            }
-            showDetails("Frame") {
-                field("Type", data.frameType)
-                field("Color", data.frameColor)
-                fieldLink("Material", call, state, data.frameMaterial)
-            }
-        }
+        is Glasses -> showGlasses(call, state, data)
 
         is Gloves -> {
             field("Style", data.style)
@@ -144,19 +132,7 @@ private fun FORM.editEquipmentData(
         is Earring -> editEarring(state, data)
         is EyePatch -> editEyePatch(state, data)
         is Footwear -> editFootwear(state, data)
-
-        is Glasses -> {
-            showDetails("Lenses", true) {
-                selectValue("Shape", SHAPE, LensShape.entries, data.lensShape, true)
-                selectFill(data.lensFill)
-                selectMaterial(state, data.lensMaterial, combine(SHAPE, MATERIAL))
-            }
-            showDetails("Frame", true) {
-                selectValue("Shape", FRAME, FrameType.entries, data.frameType, true)
-                selectColor(data.frameColor, selectId = combine(FRAME, COLOR))
-                selectMaterial(state, data.frameMaterial, combine(FRAME, MATERIAL))
-            }
-        }
+        is Glasses -> editGlasses(state, data)
 
         is Gloves -> {
             selectValue("Style", GLOVES, GloveStyle.entries, data.style, true)
@@ -252,15 +228,7 @@ fun parseEquipmentData(parameters: Parameters) =
         EquipmentDataType.Earring -> parseEarring(parameters)
         EquipmentDataType.EyePatch -> parseEyePatch(parameters)
         EquipmentDataType.Footwear -> parseFootwear(parameters)
-
-        EquipmentDataType.Glasses -> Glasses(
-            parse(parameters, SHAPE, LensShape.Rectangle),
-            parse(parameters, FRAME, FrameType.FullRimmed),
-            parseFill(parameters),
-            parse(parameters, combine(FRAME, COLOR), Color.Navy),
-            parseMaterialId(parameters, combine(SHAPE, MATERIAL)),
-            parseMaterialId(parameters, combine(FRAME, MATERIAL)),
-        )
+        EquipmentDataType.Glasses -> parseGlasses(parameters)
 
         EquipmentDataType.Gloves -> Gloves(
             parse(parameters, GLOVES, GloveStyle.Hand),

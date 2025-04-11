@@ -115,6 +115,26 @@
     }
    },
    "weight": 10
+  },
+  "6": {
+   "id": 6,
+   "data": {
+    "type": "Glasses",
+    "lensShape": "Rectangle",
+    "lens": {
+     "fill": {
+      "type": "Transparent",
+      "color": "SkyBlue",
+      "opacity": 5000
+     },
+     "material": 29
+    },
+    "frame": {
+     "color": "Black",
+     "material": 18
+    }
+   },
+   "weight": 10
   }
  }
 }
