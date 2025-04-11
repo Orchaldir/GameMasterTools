@@ -327,7 +327,7 @@ fun HtmlBlockTag.selectMaterial(
     param: String = MATERIAL,
     label: String = "Material",
 ) {
-    selectElement(state, label, param, state.sortMaterial(), materialId)
+    selectElement(state, label, param, state.sortMaterial(), materialId, true)
 }
 
 // parse

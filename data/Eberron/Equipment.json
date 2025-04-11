@@ -20,6 +20,7 @@
   },
   "1": {
    "id": 1,
+   "name": "Coat",
    "data": {
     "type": "Coat",
     "openingStyle": {
