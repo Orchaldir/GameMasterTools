@@ -47,14 +47,7 @@ private fun BODY.showEquipmentData(
     when (val data = equipment.data) {
         is Belt -> showBelt(call, state, data)
         is Coat -> showCoat(call, state, data)
-        is Dress -> {
-            field("Neckline Style", data.necklineStyle)
-            field("Skirt Style", data.skirtStyle)
-            field("Sleeve Style", data.sleeveStyle)
-            showFill(data.fill)
-            fieldLink("Material", call, state, data.material)
-        }
-
+        is Dress -> showDress(call, state, data)
         is Earring -> showEarring(call, state, data)
         is EyePatch -> showEyePatch(call, state, data)
 
@@ -156,17 +149,7 @@ private fun FORM.editEquipmentData(
     when (val data = equipment.data) {
         is Belt -> editBelt(state, data)
         is Coat -> editCoat(state, data)
-        is Dress -> {
-            selectNecklineStyle(NecklineStyle.entries, data.necklineStyle)
-            selectValue("Skirt Style", SKIRT_STYLE, SkirtStyle.entries, data.skirtStyle, true)
-            selectSleeveStyle(
-                data.necklineStyle.getSupportsSleevesStyles(),
-                data.sleeveStyle,
-            )
-            selectFill(data.fill)
-            selectMaterial(state, data.material)
-        }
-
+        is Dress -> editDress(state, data)
         is Earring -> editEarring(state, data)
         is EyePatch -> editEyePatch(state, data)
 
@@ -338,19 +321,6 @@ fun parseEquipmentData(parameters: Parameters) =
         EquipmentDataType.Tie -> parseTie(parameters)
     }
 
-
-private fun parseDress(parameters: Parameters): Dress {
-    val neckline = parse(parameters, NECKLINE_STYLE, NecklineStyle.None)
-
-    return Dress(
-        neckline,
-        parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
-        parseSleeveStyle(parameters, neckline),
-        parseFill(parameters),
-        parseMaterialId(parameters, MATERIAL),
-    )
-}
-
 private fun parseShirt(parameters: Parameters): Shirt {
     val neckline = parse(parameters, NECKLINE_STYLE, NecklineStyle.None)
 
@@ -362,7 +332,7 @@ private fun parseShirt(parameters: Parameters): Shirt {
     )
 }
 
-private fun parseSleeveStyle(
+fun parseSleeveStyle(
     parameters: Parameters,
     neckline: NecklineStyle,
 ) = if (neckline.supportsSleeves()) {

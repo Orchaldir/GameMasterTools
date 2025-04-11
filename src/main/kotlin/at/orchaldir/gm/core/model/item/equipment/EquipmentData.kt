@@ -113,12 +113,10 @@ data class Dress(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val skirtStyle: SkirtStyle = SkirtStyle.Sheath,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val fill: Fill = Solid(Color.SaddleBrown),
-    val material: MaterialId = MaterialId(0),
+    val cloth: FillItemPart = FillItemPart(Color.Red),
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
+    override fun parts() = listOf(cloth)
 }
 
 @Serializable
