@@ -102,15 +102,6 @@ private fun HtmlBlockTag.selectStripes(color0: Color, color1: Color, width: UByt
     selectInt("Stripe Width", width.toInt(), 1, 10, 1, combine(param, PATTERN, WIDTH), true)
 }
 
-fun HtmlBlockTag.selectColor(
-    color: Color,
-    selectId: String,
-    label: String = "Color",
-    colors: Collection<Color> = Color.entries,
-) {
-    selectColor(label, selectId, OneOf(colors), color)
-}
-
 // parse
 
 fun parseFill(parameters: Parameters, param: String = FILL): Fill {

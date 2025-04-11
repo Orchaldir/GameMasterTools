@@ -97,7 +97,8 @@
   },
   "20": {
    "id": 20,
-   "name": "Gold"
+    "name": "Gold",
+    "color": "Gold"
   },
   "21": {
    "id": 21,
