@@ -37,10 +37,10 @@ fun HtmlBlockTag.selectColor(
 }
 
 fun HtmlBlockTag.selectColor(
-    labelText: String,
     selectId: String,
     current: Color,
-    values: Collection<Color>,
+    labelText: String = "Color",
+    values: Collection<Color> = Color.entries,
 ) {
     selectValue(labelText, selectId, values, true) { c ->
         label = c.name

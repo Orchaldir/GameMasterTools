@@ -140,13 +140,13 @@ fun HtmlBlockTag.editFontOption(
 
     when (option) {
         is SolidFont -> {
-            selectColor("Font Color", combine(param, COLOR), option.color, Color.entries)
+            selectColor(combine(param, COLOR), option.color, "Font Color")
             editSharedFontOptions(state, param, option.font, option.size)
         }
 
         is FontWithBorder -> {
-            selectColor("Fill Color", combine(param, COLOR), option.fill, Color.entries)
-            selectColor("Border Color", combine(param, BORDER, COLOR), option.border, Color.entries)
+            selectColor(combine(param, COLOR), option.fill, "Fill Color")
+            selectColor(combine(param, BORDER, COLOR), option.border, "Border Color")
             editSharedFontOptions(state, param, option.font, option.size)
             selectDistance(
                 "Border Thickness",
