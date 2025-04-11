@@ -135,8 +135,7 @@ data class EyePatch(
     val fixation: EyePatchFixation = NoFixation,
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = style.contains(id) || fixation.contains(id)
-    override fun materials() = style.getMaterials() + fixation.getMaterials()
+    override fun parts() = style.parts()
 }
 
 @Serializable
