@@ -6,16 +6,16 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.model.item.equipment.selectMaterial
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.Part
+import at.orchaldir.gm.core.model.item.ItemPart
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showPart(
+fun HtmlBlockTag.showItemPart(
     call: ApplicationCall,
     state: State,
-    part: Part,
+    part: ItemPart,
     label: String? = null,
 ) {
     if (label != null) {
@@ -29,9 +29,9 @@ fun HtmlBlockTag.showPart(
 
 // edit
 
-fun HtmlBlockTag.editPart(
+fun HtmlBlockTag.editItemPart(
     state: State,
-    part: Part,
+    part: ItemPart,
     param: String,
     label: String? = null,
 ) {

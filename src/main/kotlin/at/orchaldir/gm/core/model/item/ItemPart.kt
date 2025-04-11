@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 
-data class Part(
+data class ItemPart(
     val color: Color?,
     val material: MaterialId,
 ) {
