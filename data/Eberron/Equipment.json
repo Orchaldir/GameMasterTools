@@ -1,5 +1,22 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Belt",
+   "data": {
+    "type": "Belt",
+    "buckle": {
+     "type": "Simple",
+     "part": {
+      "material": 18
+     }
+    },
+    "strap": {
+     "material": 1
+    }
+   },
+   "weight": 10
+  }
  }
 }
