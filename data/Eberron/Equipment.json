@@ -118,6 +118,7 @@
   },
   "6": {
    "id": 6,
+   "name": "Glasses",
    "data": {
     "type": "Glasses",
     "lensShape": "Rectangle",
@@ -132,6 +133,17 @@
     "frame": {
      "color": "Black",
      "material": 18
+    }
+   },
+   "weight": 10
+  },
+  "7": {
+   "id": 7,
+   "name": "Gloves",
+   "data": {
+    "type": "Gloves",
+    "style": "Half",
+    "cloth": {
     }
    },
    "weight": 10

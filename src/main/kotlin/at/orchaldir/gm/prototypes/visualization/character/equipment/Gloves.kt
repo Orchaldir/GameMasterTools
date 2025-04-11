@@ -22,7 +22,7 @@ fun main() {
         addNames(GloveStyle.entries),
         true,
     ) { distance, style, shape ->
-        Pair(createAppearance(distance, shape), from(Gloves(style, Solid(Blue))))
+        Pair(createAppearance(distance, shape), from(Gloves(style, Blue)))
     }
 }
 

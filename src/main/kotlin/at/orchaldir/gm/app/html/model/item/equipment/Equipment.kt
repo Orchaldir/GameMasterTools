@@ -54,8 +54,7 @@ private fun BODY.showEquipmentData(
 
         is Gloves -> {
             field("Style", data.style)
-            showFill(data.fill)
-            fieldLink("Material", call, state, data.material)
+            showFillItemPart(call, state, data.cloth, "Cloth")
         }
 
         is Hat -> {
@@ -136,8 +135,7 @@ private fun FORM.editEquipmentData(
 
         is Gloves -> {
             selectValue("Style", GLOVES, GloveStyle.entries, data.style, true)
-            selectFill(data.fill)
-            selectMaterial(state, data.material)
+            editFillItemPart(state, data.cloth, CLOTH, "Cloth")
         }
 
         is Hat -> {
@@ -232,8 +230,7 @@ fun parseEquipmentData(parameters: Parameters) =
 
         EquipmentDataType.Gloves -> Gloves(
             parse(parameters, GLOVES, GloveStyle.Hand),
-            parseFill(parameters),
-            parseMaterialId(parameters, MATERIAL),
+            parseFillItemPart(parameters, CLOTH),
         )
 
         EquipmentDataType.Hat -> Hat(

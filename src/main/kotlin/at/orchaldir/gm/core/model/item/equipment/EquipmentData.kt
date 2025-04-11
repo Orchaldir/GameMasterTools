@@ -169,12 +169,12 @@ data class Glasses(
 @SerialName("Gloves")
 data class Gloves(
     val style: GloveStyle = GloveStyle.Hand,
-    val fill: Fill = Solid(Color.Red),
-    val material: MaterialId = MaterialId(0),
+    val cloth: FillItemPart = FillItemPart(Color.Red),
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
+    constructor(style: GloveStyle, color: Color) : this(style, FillItemPart(color))
+
+    override fun parts() = listOf(cloth)
 }
 
 @Serializable
