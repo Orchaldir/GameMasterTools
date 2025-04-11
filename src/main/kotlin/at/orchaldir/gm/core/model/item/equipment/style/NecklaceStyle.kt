@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
+import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
@@ -13,7 +14,7 @@ enum class NecklaceStyleType {
 }
 
 @Serializable
-sealed class NecklaceStyle {
+sealed class NecklaceStyle : MadeFromParts {
 
     fun getType() = when (this) {
         is DangleNecklace -> NecklaceStyleType.Dangle
@@ -22,18 +23,11 @@ sealed class NecklaceStyle {
         is StrandNecklace -> NecklaceStyleType.Strand
     }
 
-    fun contains(id: MaterialId) = when (this) {
-        is DangleNecklace -> dangle.contains(id) || line.contains(id)
-        is DropNecklace -> drop.contains(id) || line.contains(id)
-        is PendantNecklace -> ornament.contains(id) || line.contains(id)
-        is StrandNecklace -> line.contains(id)
-    }
-
-    fun getMaterials() = when (this) {
-        is DangleNecklace -> dangle.materials() + line.getMaterials()
-        is DropNecklace -> drop.materials() + line.getMaterials()
-        is PendantNecklace -> ornament.materials() + line.getMaterials()
-        is StrandNecklace -> line.getMaterials()
+    override fun parts() = when (this) {
+        is DangleNecklace -> line.parts() + dangle.parts()
+        is DropNecklace -> line.parts() + drop.parts()
+        is PendantNecklace -> line.parts() + ornament.parts()
+        is StrandNecklace -> line.parts()
     }
 }
 

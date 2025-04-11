@@ -2,6 +2,9 @@ package at.orchaldir.gm.app.html.model.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.model.item.editColorItemPart
+import at.orchaldir.gm.app.html.model.item.parseColorItemPart
+import at.orchaldir.gm.app.html.model.item.showColorItemPart
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
@@ -30,7 +33,7 @@ fun BODY.showJewelryLine(
         when (line) {
             is Chain -> {
                 field("Thickness", line.thickness)
-                showLook(call, state, line.color, line.material)
+                showColorItemPart(call, state, line.main, "Main")
             }
 
             is OrnamentLine -> {
@@ -40,7 +43,7 @@ fun BODY.showJewelryLine(
 
             is Wire -> {
                 field("Thickness", line.thickness)
-                showLook(call, state, line.color, line.material)
+                showColorItemPart(call, state, line.main, "Main")
             }
         }
     }
@@ -60,7 +63,7 @@ fun FORM.editJewelryLine(
         when (line) {
             is Chain -> {
                 selectValue("Thickness", combine(param, SIZE), Size.entries, line.thickness, true)
-                editLook(state, line.color, line.material, param, "Wire")
+                editColorItemPart(state, line.main, combine(param, MAIN), "Main")
             }
 
             is OrnamentLine -> {
@@ -70,7 +73,7 @@ fun FORM.editJewelryLine(
 
             is Wire -> {
                 selectValue("Thickness", combine(param, SIZE), Size.entries, line.thickness, true)
-                editLook(state, line.color, line.material, param, "Wire")
+                editColorItemPart(state, line.main, combine(param, MAIN), "Main")
             }
         }
     }
@@ -84,8 +87,7 @@ fun parseJewelryLine(parameters: Parameters, param: String): JewelryLine {
     return when (type) {
         JewelryLineType.Chain -> Chain(
             parse(parameters, combine(param, SIZE), Size.Medium),
-            parse(parameters, combine(param, COLOR), Color.Gold),
-            parseMaterialId(parameters, combine(param, MATERIAL)),
+            parseColorItemPart(parameters, combine(param, MAIN)),
         )
 
         JewelryLineType.Ornament -> OrnamentLine(
@@ -95,8 +97,7 @@ fun parseJewelryLine(parameters: Parameters, param: String): JewelryLine {
 
         JewelryLineType.Wire -> Wire(
             parse(parameters, combine(param, SIZE), Size.Medium),
-            parse(parameters, combine(param, COLOR), Color.Gold),
-            parseMaterialId(parameters, combine(param, MATERIAL)),
+            parseColorItemPart(parameters, combine(param, MAIN)),
         )
     }
 }

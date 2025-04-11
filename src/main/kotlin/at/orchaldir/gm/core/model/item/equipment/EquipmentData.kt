@@ -196,8 +196,7 @@ data class Necklace(
     val length: NecklaceLength = NecklaceLength.Princess,
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = style.contains(id)
-    override fun materials() = style.getMaterials()
+    override fun parts() = style.parts()
 }
 
 @Serializable

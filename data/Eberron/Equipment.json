@@ -200,6 +200,28 @@
     }
    },
    "weight": 10
+  },
+  "13": {
+   "id": 13,
+   "name": "Pearl Necklace",
+   "data": {
+    "type": "Necklace",
+    "style": {
+     "type": "Strand",
+     "strands": 1,
+     "line": {
+      "type": "Ornament",
+      "ornament": {
+       "type": "Simple",
+       "part": {
+        "material": 28
+       }
+      }
+     }
+    },
+    "length": "Matinee"
+   },
+   "weight": 10
   }
  }
 }

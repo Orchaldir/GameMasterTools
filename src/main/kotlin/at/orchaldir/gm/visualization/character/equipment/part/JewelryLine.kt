@@ -22,7 +22,8 @@ fun visualizeJewelryLine(
 ) {
     when (jewelryLine) {
         is Chain -> {
-            val wireOptions = LineOptions(jewelryLine.color.toRender(), thickness)
+            val color = jewelryLine.main.getColor(state)
+            val wireOptions = LineOptions(color.toRender(), thickness)
             renderer.renderLine(line, wireOptions)
         }
 
@@ -35,7 +36,8 @@ fun visualizeJewelryLine(
         }
 
         is Wire -> {
-            val wireOptions = LineOptions(jewelryLine.color.toRender(), thickness)
+            val color = jewelryLine.main.getColor(state)
+            val wireOptions = LineOptions(color.toRender(), thickness)
             renderer.renderLine(line, wireOptions)
         }
     }
