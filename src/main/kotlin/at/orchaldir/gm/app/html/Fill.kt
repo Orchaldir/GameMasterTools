@@ -23,6 +23,12 @@ fun HtmlBlockTag.showOptionalFill(label: String, fill: Fill?) {
     }
 }
 
+fun HtmlBlockTag.showOptionalFill(fill: Fill?) {
+    if (fill != null) {
+        showFill(fill)
+    }
+}
+
 fun HtmlBlockTag.showFill(label: String, fill: Fill) {
     showDetails(label, true) {
         showFill(fill)

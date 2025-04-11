@@ -157,16 +157,19 @@ fun HtmlBlockTag.svg(svg: Svg, width: Int) {
 }
 
 fun HtmlBlockTag.showDetails(
-    label: String,
+    label: String?,
     isOpen: Boolean = false,
     content: DETAILS.() -> Unit,
 ) {
     details {
         open = isOpen
-        summary { +label }
+        if (label != null) {
+            summary { +label }
+        }
         content()
     }
 }
+
 
 // lists
 

@@ -17,6 +17,27 @@
     }
    },
    "weight": 10
+  },
+  "1": {
+   "id": 1,
+   "data": {
+    "type": "Coat",
+    "openingStyle": {
+     "type": "SingleBreasted",
+     "buttons": {
+      "button": {
+       "part": {
+        "material": 18
+       }
+      },
+      "count": 5
+     }
+    },
+    "cloth": {
+     "material": 1
+    }
+   },
+   "weight": 10
   }
  }
 }

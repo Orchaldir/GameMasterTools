@@ -24,10 +24,7 @@ fun HtmlBlockTag.showColorItemPart(
     part: ColorItemPart,
     label: String? = null,
 ) {
-    if (label != null) {
-        fieldLink("$label Material", call, state, part.material)
-        fieldOptionalColor(part.color, "$label Color")
-    } else {
+    showDetails(label, true) {
         fieldLink("Material", call, state, part.material)
         fieldOptionalColor(part.color)
     }
@@ -39,12 +36,9 @@ fun HtmlBlockTag.showFillItemPart(
     part: FillItemPart,
     label: String? = null,
 ) {
-    if (label != null) {
-        fieldLink("$label Material", call, state, part.material)
-        showOptionalFill("$label Fill", part.fill)
-    } else {
+    showDetails(label, true) {
         fieldLink("Material", call, state, part.material)
-        showOptionalFill("Fill", part.fill)
+        showOptionalFill(part.fill)
     }
 }
 
@@ -56,10 +50,7 @@ fun HtmlBlockTag.editColorItemPart(
     param: String,
     label: String? = null,
 ) {
-    if (label != null) {
-        selectMaterial(state, part.material, combine(param, MATERIAL), "$label Material")
-        selectOptionalColor(part.color, combine(param, COLOR), "$label Color")
-    } else {
+    showDetails(label, true) {
         selectMaterial(state, part.material, combine(param, MATERIAL))
         selectOptionalColor(part.color, combine(param, COLOR))
     }
@@ -71,12 +62,9 @@ fun HtmlBlockTag.editFillItemPart(
     param: String,
     label: String? = null,
 ) {
-    if (label != null) {
-        selectMaterial(state, part.material, combine(param, MATERIAL), "$label Material")
-        selectOptionalFill("$label Fill", part.fill, combine(param, FILL))
-    } else {
+    showDetails(label, true) {
         selectMaterial(state, part.material, combine(param, MATERIAL))
-        selectOptionalFill("Fill", part.fill, combine(param, FILL))
+        selectOptionalFill(part.fill, combine(param, FILL))
     }
 }
 
