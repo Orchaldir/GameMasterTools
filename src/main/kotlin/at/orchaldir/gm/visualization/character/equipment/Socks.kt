@@ -15,7 +15,8 @@ fun visualizeSocks(
     body: Body,
     socks: Socks,
 ) {
-    val options = state.config.getLineOptions(socks.fill)
+    val fill = socks.main.getFill(state.state)
+    val options = state.config.getLineOptions(fill)
 
     visualizeSocksShaft(state, body, socks, options)
 

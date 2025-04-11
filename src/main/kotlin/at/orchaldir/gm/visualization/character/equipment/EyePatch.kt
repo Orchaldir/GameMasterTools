@@ -72,7 +72,7 @@ fun visualizeEyePatchForTwoEyes(
 
     when (eyePatch.style) {
         is SimpleEyePatch -> {
-            val fill = eyePatch.style.cloth.getFill(state.state)
+            val fill = eyePatch.style.main.getFill(state.state)
             val options = state.config.getLineOptions(fill)
             visualizeLens(state, options, center, eyePatch.style.shape)
         }
@@ -89,7 +89,7 @@ fun visualizeEyePatchForTwoEyes(
         }
 
         is EyePatchWithEye -> {
-            val fill = eyePatch.style.cloth.getFill(state.state)
+            val fill = eyePatch.style.main.getFill(state.state)
             val options = state.config.getLineOptions(fill)
             visualizeLens(state, options, center, eyePatch.style.shape)
             visualizeEye(state, center, eyePatch.style.eye, EQUIPMENT_LAYER)

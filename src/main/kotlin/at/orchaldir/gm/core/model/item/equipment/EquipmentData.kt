@@ -102,10 +102,10 @@ data class Coat(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val openingStyle: OpeningStyle = SingleBreasted(),
-    val cloth: FillItemPart = FillItemPart(Color.SaddleBrown),
+    val main: FillItemPart = FillItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
-    override fun parts() = openingStyle.parts() + cloth
+    override fun parts() = openingStyle.parts() + main
 }
 
 @Serializable
@@ -114,10 +114,10 @@ data class Dress(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val skirtStyle: SkirtStyle = SkirtStyle.Sheath,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val cloth: FillItemPart = FillItemPart(Color.Red),
+    val main: FillItemPart = FillItemPart(Color.Red),
 ) : EquipmentData() {
 
-    override fun parts() = listOf(cloth)
+    override fun parts() = listOf(main)
 }
 
 @Serializable
@@ -169,24 +169,24 @@ data class Glasses(
 @SerialName("Gloves")
 data class Gloves(
     val style: GloveStyle = GloveStyle.Hand,
-    val cloth: FillItemPart = FillItemPart(Color.Red),
+    val main: FillItemPart = FillItemPart(Color.Red),
 ) : EquipmentData() {
 
     constructor(style: GloveStyle, color: Color) : this(style, FillItemPart(color))
 
-    override fun parts() = listOf(cloth)
+    override fun parts() = listOf(main)
 }
 
 @Serializable
 @SerialName("Hat")
 data class Hat(
     val style: HatStyle = HatStyle.TopHat,
-    val color: Color = Color.SaddleBrown,
-    val material: MaterialId = MaterialId(0),
+    val main: FillItemPart = FillItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
+    constructor(style: HatStyle, color: Color) : this(style, FillItemPart(color))
+
+    override fun parts() = listOf(main)
 }
 
 @Serializable
@@ -204,12 +204,12 @@ data class Necklace(
 @SerialName("Pants")
 data class Pants(
     val style: PantsStyle = PantsStyle.Regular,
-    val fill: Fill = Solid(Color.Navy),
-    val material: MaterialId = MaterialId(0),
+    val main: FillItemPart = FillItemPart(Color.Navy),
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
+    constructor(style: PantsStyle, color: Color) : this(style, FillItemPart(color))
+
+    override fun parts() = listOf(main)
 }
 
 @Serializable
@@ -217,36 +217,37 @@ data class Pants(
 data class Shirt(
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val fill: Fill = Solid(Color.White),
-    val material: MaterialId = MaterialId(0),
+    val main: FillItemPart = FillItemPart(Color.White),
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
+    constructor(neckline: NecklineStyle, sleeve: SleeveStyle, color: Color) :
+            this(neckline, sleeve, FillItemPart(color))
+
+    override fun parts() = listOf(main)
 }
 
 @Serializable
 @SerialName("Skirt")
 data class Skirt(
     val style: SkirtStyle = SkirtStyle.Sheath,
-    val fill: Fill = Solid(Color.SaddleBrown),
-    val material: MaterialId = MaterialId(0),
+    val main: FillItemPart = FillItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
+    constructor(style: SkirtStyle, color: Color) : this(style, FillItemPart(color))
+
+    override fun parts() = listOf(main)
 }
 
 @Serializable
 @SerialName("Socks")
 data class Socks(
     val style: SocksStyle = SocksStyle.Quarter,
-    val fill: Fill = Solid(Color.White),
-    val material: MaterialId = MaterialId(0),
+    val main: FillItemPart = FillItemPart(Color.White),
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
+    constructor(style: SocksStyle, color: Color) : this(style, FillItemPart(color))
+
+    override fun parts() = listOf(main)
 }
 
 @Serializable
@@ -254,13 +255,14 @@ data class Socks(
 data class Tie(
     val style: TieStyle = TieStyle.Tie,
     val size: Size = Size.Medium,
-    val fill: Fill = Solid(Color.Navy),
-    val knotFill: Fill = Solid(Color.Navy),
-    val material: MaterialId = MaterialId(0),
+    val main: FillItemPart = FillItemPart(Color.Navy),
+    val knot: FillItemPart = FillItemPart(Color.Navy),
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
+    constructor(style: TieStyle, size: Size, tie: Color, knot: Color) :
+            this(style, size, FillItemPart(tie), FillItemPart(knot))
+
+    override fun parts() = listOf(main, knot)
 }
 
 

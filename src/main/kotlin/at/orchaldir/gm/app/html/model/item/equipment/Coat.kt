@@ -6,16 +6,13 @@ import at.orchaldir.gm.app.html.model.item.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.Belt
 import at.orchaldir.gm.core.model.item.equipment.Coat
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.BODY
-import kotlinx.html.DETAILS
 import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
@@ -30,7 +27,7 @@ fun BODY.showCoat(
     field("Neckline Style", data.necklineStyle)
     field("Sleeve Style", data.sleeveStyle)
     showOpeningStyle(call, state, data.openingStyle)
-    showFillItemPart(call, state, data.cloth, "Cloth")
+    showFillItemPart(call, state, data.main, "Main")
 }
 
 private fun BODY.showOpeningStyle(
@@ -74,7 +71,7 @@ fun FORM.editCoat(
     selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
     selectSleeveStyle(SleeveStyle.entries, data.sleeveStyle)
     selectOpeningStyle(state, data.openingStyle)
-    editFillItemPart(state, data.cloth, CLOTH)
+    editFillItemPart(state, data.main, MAIN)
 }
 
 private fun FORM.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
@@ -113,7 +110,7 @@ fun parseCoat(parameters: Parameters) = Coat(
     parse(parameters, NECKLINE_STYLE, NecklineStyle.DeepV),
     parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
     parseOpeningStyle(parameters),
-    parseFillItemPart(parameters, CLOTH),
+    parseFillItemPart(parameters, MAIN),
 )
 
 private fun parseOpeningStyle(parameters: Parameters): OpeningStyle {

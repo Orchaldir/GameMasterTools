@@ -46,13 +46,13 @@ private fun BODY.showStyle(
         when (style) {
             is SimpleEyePatch -> {
                 field("Shape", style.shape)
-                showFillItemPart(call, state, style.cloth, "Cloth")
+                showFillItemPart(call, state, style.main, "Main")
             }
 
             is OrnamentAsEyePatch -> showOrnament(call, state, style.ornament)
             is EyePatchWithEye -> {
                 field("Shape", style.shape)
-                showFillItemPart(call, state, style.cloth, "Cloth")
+                showFillItemPart(call, state, style.main, "Main")
             }
         }
     }
@@ -103,14 +103,14 @@ private fun FORM.editStyle(
         when (style) {
             is SimpleEyePatch -> {
                 selectValue("Shape", SHAPE, VALID_LENSES, style.shape, true)
-                editFillItemPart(state, style.cloth, APPEARANCE, "Cloth")
+                editFillItemPart(state, style.main, MAIN, "Main")
             }
 
             is OrnamentAsEyePatch -> editOrnament(state, style.ornament)
             is EyePatchWithEye -> {
                 editNormalEye(EyeOptions(), style.eye)
                 selectValue("Shape", SHAPE, VALID_LENSES, style.shape, true)
-                editFillItemPart(state, style.cloth, APPEARANCE, "Cloth")
+                editFillItemPart(state, style.main, MAIN, "Main")
             }
         }
     }
@@ -151,7 +151,7 @@ private fun parseStyle(parameters: Parameters) =
     when (parse(parameters, STYLE, EyePatchStyleType.Simple)) {
         EyePatchStyleType.Simple -> SimpleEyePatch(
             parse(parameters, SHAPE, LensShape.Circle),
-            parseFillItemPart(parameters, APPEARANCE),
+            parseFillItemPart(parameters, MAIN),
         )
 
         EyePatchStyleType.Ornament -> OrnamentAsEyePatch(
@@ -166,7 +166,7 @@ private fun parseStyle(parameters: Parameters) =
                 parse(parameters, combine(PUPIL, SCLERA), Color.White),
             ),
             parse(parameters, SHAPE, LensShape.Circle),
-            parseFillItemPart(parameters, APPEARANCE),
+            parseFillItemPart(parameters, MAIN),
         )
     }
 

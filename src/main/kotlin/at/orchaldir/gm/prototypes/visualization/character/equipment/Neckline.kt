@@ -22,7 +22,7 @@ fun main() {
         addNames(NecklineStyle.entries),
         addNames(BodyShape.entries)
     ) { distance, shape, style ->
-        Pair(createAppearance(distance, shape), from(Shirt(style, None, Solid(Blue))))
+        Pair(createAppearance(distance, shape), from(Shirt(style, None, Blue)))
     }
 }
 

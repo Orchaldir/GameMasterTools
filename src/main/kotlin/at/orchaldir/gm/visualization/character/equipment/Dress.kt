@@ -16,7 +16,7 @@ fun visualizeDress(
     body: Body,
     dress: Dress,
 ) {
-    val fill = dress.cloth.getFill(state.state)
+    val fill = dress.main.getFill(state.state)
     val options = FillAndBorder(fill.toRender(), state.config.line)
 
     visualizeSleeves(state, options, body, dress.sleeveStyle)

@@ -3,6 +3,7 @@ package at.orchaldir.gm.prototypes.visualization.character.equipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.equipment.Socks
 import at.orchaldir.gm.core.model.item.equipment.style.SocksStyle
 import at.orchaldir.gm.core.model.util.Color
@@ -22,7 +23,8 @@ fun main() {
         addNames(SocksStyle.entries),
         true,
     ) { distance, style, shape ->
-        val socks = Socks(style, HorizontalStripes(Color.White, Color.Blue, 1u))
+        val itemPart = FillItemPart(HorizontalStripes(Color.White, Color.Blue, 1u))
+        val socks = Socks(style, itemPart)
 
         Pair(createAppearance(distance, shape), from(socks))
     }

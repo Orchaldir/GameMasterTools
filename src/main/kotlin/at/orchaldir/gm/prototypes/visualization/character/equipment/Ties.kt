@@ -27,8 +27,8 @@ fun main() {
         val tie = Tie(
             style,
             size,
-            Solid(Color.Yellow),
-            Solid(Color.Red),
+            Color.Yellow,
+            Color.Red,
         )
         Pair(
             createAppearance(distance),

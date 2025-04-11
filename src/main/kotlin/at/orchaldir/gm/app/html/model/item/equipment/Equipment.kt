@@ -54,48 +54,42 @@ private fun BODY.showEquipmentData(
 
         is Gloves -> {
             field("Style", data.style)
-            showFillItemPart(call, state, data.cloth, "Cloth")
+            showFillItemPart(call, state, data.main, "Main")
         }
 
         is Hat -> {
             field("Style", data.style)
-            field("Color", data.color)
-            fieldLink("Material", call, state, data.material)
+            showFillItemPart(call, state, data.main, "Main")
         }
 
         is Necklace -> showNecklace(call, state, data)
 
         is Pants -> {
             field("Style", data.style)
-            showFill(data.fill)
-            fieldLink("Material", call, state, data.material)
+            showFillItemPart(call, state, data.main, "Main")
         }
 
         is Shirt -> {
             field("Neckline Style", data.necklineStyle)
             field("Sleeve Style", data.sleeveStyle)
-            showFill(data.fill)
-            fieldLink("Material", call, state, data.material)
+            showFillItemPart(call, state, data.main, "Main")
         }
 
         is Skirt -> {
             field("Style", data.style)
-            showFill(data.fill)
-            fieldLink("Material", call, state, data.material)
+            showFillItemPart(call, state, data.main, "Main")
         }
 
         is Socks -> {
             field("Style", data.style)
-            showFill(data.fill)
-            fieldLink("Material", call, state, data.material)
+            showFillItemPart(call, state, data.main, "Main")
         }
 
         is Tie -> {
             field("Style", data.style)
             field("Size", data.size)
-            showFill("Main", data.fill)
-            showFill("Knot", data.knotFill)
-            fieldLink("Material", call, state, data.material)
+            showFillItemPart(call, state, data.main, "Main")
+            showFillItemPart(call, state, data.knot, "Knot")
         }
     }
 }
@@ -135,21 +129,19 @@ private fun FORM.editEquipmentData(
 
         is Gloves -> {
             selectValue("Style", GLOVES, GloveStyle.entries, data.style, true)
-            editFillItemPart(state, data.cloth, CLOTH, "Cloth")
+            editFillItemPart(state, data.main, MAIN, "Main")
         }
 
         is Hat -> {
             selectValue("Style", HAT, HatStyle.entries, data.style, true)
-            selectColor(data.color, EQUIPMENT_COLOR_0)
-            selectMaterial(state, data.material)
+            editFillItemPart(state, data.main, MAIN, "Main")
         }
 
         is Necklace -> editNecklace(state, data)
 
         is Pants -> {
             selectValue("Style", PANTS, PantsStyle.entries, data.style, true)
-            selectFill(data.fill)
-            selectMaterial(state, data.material)
+            editFillItemPart(state, data.main, MAIN, "Main")
         }
 
         is Shirt -> {
@@ -158,28 +150,24 @@ private fun FORM.editEquipmentData(
                 SleeveStyle.entries,
                 data.sleeveStyle,
             )
-            selectFill(data.fill)
-            selectMaterial(state, data.material)
+            editFillItemPart(state, data.main, MAIN, "Main")
         }
 
         is Skirt -> {
             selectValue("Style", SKIRT_STYLE, SkirtStyle.entries, data.style, true)
-            selectFill(data.fill)
-            selectMaterial(state, data.material)
+            editFillItemPart(state, data.main, MAIN, "Main")
         }
 
         is Socks -> {
             selectValue("Style", STYLE, SocksStyle.entries, data.style, true)
-            selectFill(data.fill)
-            selectMaterial(state, data.material)
+            editFillItemPart(state, data.main, MAIN, "Main")
         }
 
         is Tie -> {
             selectValue("Style", STYLE, TieStyle.entries, data.style, true)
             selectValue("Size", SIZE, Size.entries, data.size, true)
-            selectFill("Main", data.fill)
-            selectFill("Knot", data.knotFill, KNOT)
-            selectMaterial(state, data.material)
+            editFillItemPart(state, data.main, MAIN, "Main")
+            editFillItemPart(state, data.knot, KNOT, "Knot")
         }
     }
 }
@@ -230,35 +218,31 @@ fun parseEquipmentData(parameters: Parameters) =
 
         EquipmentDataType.Gloves -> Gloves(
             parse(parameters, GLOVES, GloveStyle.Hand),
-            parseFillItemPart(parameters, CLOTH),
+            parseFillItemPart(parameters, MAIN),
         )
 
         EquipmentDataType.Hat -> Hat(
             parse(parameters, HAT, HatStyle.TopHat),
-            parse(parameters, EQUIPMENT_COLOR_0, Color.SaddleBrown),
-            parseMaterialId(parameters, MATERIAL),
+            parseFillItemPart(parameters, MAIN),
         )
 
         EquipmentDataType.Necklace -> parseNecklace(parameters)
 
         EquipmentDataType.Pants -> Pants(
             parse(parameters, PANTS, PantsStyle.Regular),
-            parseFill(parameters),
-            parseMaterialId(parameters, MATERIAL),
+            parseFillItemPart(parameters, MAIN),
         )
 
         EquipmentDataType.Shirt -> parseShirt(parameters)
 
         EquipmentDataType.Skirt -> Skirt(
             parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
-            parseFill(parameters),
-            parseMaterialId(parameters, MATERIAL),
+            parseFillItemPart(parameters, MAIN),
         )
 
         EquipmentDataType.Socks -> Socks(
             parse(parameters, STYLE, SocksStyle.Quarter),
-            parseFill(parameters),
-            parseMaterialId(parameters, MATERIAL),
+            parseFillItemPart(parameters, MAIN),
         )
 
         EquipmentDataType.Tie -> parseTie(parameters)
@@ -270,8 +254,7 @@ private fun parseShirt(parameters: Parameters): Shirt {
     return Shirt(
         neckline,
         parseSleeveStyle(parameters, neckline),
-        parseFill(parameters),
-        parseMaterialId(parameters, MATERIAL),
+        parseFillItemPart(parameters, MAIN),
     )
 }
 
@@ -287,7 +270,6 @@ fun parseSleeveStyle(
 private fun parseTie(parameters: Parameters) = Tie(
     parse(parameters, STYLE, TieStyle.Tie),
     parse(parameters, SIZE, Size.Medium),
-    parseFill(parameters),
-    parseFill(parameters, KNOT),
-    parseMaterialId(parameters, MATERIAL),
+    parseFillItemPart(parameters, MAIN),
+    parseFillItemPart(parameters, KNOT),
 )

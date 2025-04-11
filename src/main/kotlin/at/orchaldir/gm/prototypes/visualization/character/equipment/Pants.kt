@@ -21,7 +21,7 @@ fun main() {
         addNames(PantsStyle.entries),
         addNames(BodyShape.entries)
     ) { distance, shape, style ->
-        Pair(createAppearance(distance, shape), from(Pants(style, Solid(Blue))))
+        Pair(createAppearance(distance, shape), from(Pants(style, Blue)))
     }
 }
 

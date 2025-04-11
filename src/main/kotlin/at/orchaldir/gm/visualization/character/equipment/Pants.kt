@@ -23,7 +23,8 @@ fun visualizePants(
     body: Body,
     pants: Pants,
 ) {
-    val options = FillAndBorder(pants.fill.toRender(), state.config.line)
+    val fill = pants.main.getFill(state.state)
+    val options = FillAndBorder(fill.toRender(), state.config.line)
     val polygon = when (pants.style) {
         PantsStyle.Bermuda -> getPantsWithHeight(state, body, state.config.equipment.pants.heightBermuda)
         PantsStyle.HotPants -> getBase(state, body).build()

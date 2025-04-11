@@ -29,7 +29,7 @@ fun main() {
         val coat = Coat(
             length,
             openingStyle = DoubleBreasted(ButtonColumn(Button(Size.Medium, ColorItemPart(Gold)), 5u)),
-            cloth = FillItemPart(Blue),
+            main = FillItemPart(Blue),
         )
         Pair(createAppearance(distance, shape), from(coat))
     }

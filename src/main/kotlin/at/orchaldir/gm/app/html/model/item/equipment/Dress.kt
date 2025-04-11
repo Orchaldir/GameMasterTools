@@ -27,7 +27,7 @@ fun BODY.showDress(
     field("Neckline Style", dress.necklineStyle)
     field("Skirt Style", dress.skirtStyle)
     field("Sleeve Style", dress.sleeveStyle)
-    showFillItemPart(call, state, dress.cloth, "Cloth")
+    showFillItemPart(call, state, dress.main, "Main")
 }
 
 // edit
@@ -42,7 +42,7 @@ fun FORM.editDress(
         dress.necklineStyle.getSupportsSleevesStyles(),
         dress.sleeveStyle,
     )
-    editFillItemPart(state, dress.cloth, CLOTH)
+    editFillItemPart(state, dress.main, MAIN)
 }
 
 // parse
@@ -54,6 +54,6 @@ fun parseDress(parameters: Parameters): Dress {
         neckline,
         parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
         parseSleeveStyle(parameters, neckline),
-        parseFillItemPart(parameters, CLOTH),
+        parseFillItemPart(parameters, MAIN),
     )
 }

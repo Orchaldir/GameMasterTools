@@ -27,9 +27,9 @@ sealed class EyePatchStyle : MadeFromParts {
     }
 
     override fun parts() = when (this) {
-        is EyePatchWithEye -> listOf(cloth)
+        is EyePatchWithEye -> listOf(main)
         is OrnamentAsEyePatch -> listOf(ornament)
-        is SimpleEyePatch -> listOf(cloth)
+        is SimpleEyePatch -> listOf(main)
     }
 }
 
@@ -37,7 +37,7 @@ sealed class EyePatchStyle : MadeFromParts {
 @SerialName("Simple")
 data class SimpleEyePatch(
     val shape: LensShape = LensShape.Rectangle,
-    val cloth: FillItemPart = FillItemPart(Color.Black),
+    val main: FillItemPart = FillItemPart(Color.Black),
 ) : EyePatchStyle() {
 
     constructor(shape: LensShape, color: Color) : this(shape, FillItemPart(color))
@@ -58,7 +58,7 @@ data class OrnamentAsEyePatch(
 data class EyePatchWithEye(
     val eye: NormalEye,
     val shape: LensShape = LensShape.Rectangle,
-    val cloth: FillItemPart = FillItemPart(Color.Black),
+    val main: FillItemPart = FillItemPart(Color.Black),
 ) : EyePatchStyle() {
 
     init {

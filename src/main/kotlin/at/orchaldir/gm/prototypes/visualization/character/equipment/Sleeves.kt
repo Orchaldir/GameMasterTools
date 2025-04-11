@@ -24,7 +24,7 @@ fun main() {
     ) { distance, shape, style ->
         Pair(
             createAppearance(distance, shape),
-            from(Shirt(None, style, Solid(Blue)))
+            from(Shirt(None, style, Blue))
         )
     }
 }
