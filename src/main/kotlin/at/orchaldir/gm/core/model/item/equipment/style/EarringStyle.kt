@@ -1,5 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
+import at.orchaldir.gm.core.model.item.ColorItemPart
+import at.orchaldir.gm.core.model.item.FillItemPart
+import at.orchaldir.gm.core.model.item.MadeFromParts
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.Color
 import at.orchaldir.gm.core.model.util.Size
@@ -15,7 +18,7 @@ enum class EarringStyleType {
 }
 
 @Serializable
-sealed class EarringStyle {
+sealed class EarringStyle : MadeFromParts {
 
     fun getType() = when (this) {
         is DangleEarring -> EarringStyleType.Dangle
@@ -24,18 +27,11 @@ sealed class EarringStyle {
         is StudEarring -> EarringStyleType.Stud
     }
 
-    fun contains(id: MaterialId) = when (this) {
-        is DangleEarring -> top.contains(id) || bottom.contains(id) || wireMaterial == id
-        is DropEarring -> top.contains(id) || bottom.contains(id) || wireMaterial == id
-        is HoopEarring -> material == id
-        is StudEarring -> ornament.contains(id)
-    }
-
-    fun getMaterials() = when (this) {
-        is DangleEarring -> top.getMaterials() + bottom.getMaterials() + wireMaterial
-        is DropEarring -> top.getMaterials() + bottom.getMaterials() + wireMaterial
-        is HoopEarring -> setOf(material)
-        is StudEarring -> ornament.getMaterials()
+    override fun parts() = when (this) {
+        is DangleEarring -> wire.parts() + top.parts() + bottom.parts()
+        is DropEarring -> wire.parts() + top.parts() + bottom.parts()
+        is HoopEarring -> wire.parts()
+        is StudEarring -> ornament.parts()
     }
 }
 
@@ -45,8 +41,7 @@ data class DangleEarring(
     val top: Ornament = SimpleOrnament(),
     val bottom: Ornament = SimpleOrnament(),
     val sizes: List<Size> = listOf(Size.Medium, Size.Large),
-    val wireColor: Color = Color.Gold,
-    val wireMaterial: MaterialId = MaterialId(0),
+    val wire: ColorItemPart = ColorItemPart(Color.Gold),
 ) : EarringStyle()
 
 @Serializable
@@ -57,8 +52,7 @@ data class DropEarring(
     val wireLength: Factor,
     val top: Ornament = SimpleOrnament(),
     val bottom: Ornament = SimpleOrnament(),
-    val wireColor: Color = Color.Gold,
-    val wireMaterial: MaterialId = MaterialId(0),
+    val wire: ColorItemPart = ColorItemPart(Color.Gold),
 ) : EarringStyle()
 
 @Serializable
@@ -66,8 +60,7 @@ data class DropEarring(
 data class HoopEarring(
     val length: Factor,
     val thickness: Size = Size.Medium,
-    val color: Color = Color.Gold,
-    val material: MaterialId = MaterialId(0),
+    val wire: ColorItemPart = ColorItemPart(Color.Gold),
 ) : EarringStyle()
 
 @Serializable

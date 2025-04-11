@@ -30,9 +30,9 @@ sealed class NecklaceStyle {
     }
 
     fun getMaterials() = when (this) {
-        is DangleNecklace -> dangle.getMaterials() + line.getMaterials()
-        is DropNecklace -> drop.getMaterials() + line.getMaterials()
-        is PendantNecklace -> ornament.getMaterials() + line.getMaterials()
+        is DangleNecklace -> dangle.materials() + line.getMaterials()
+        is DropNecklace -> drop.materials() + line.getMaterials()
+        is PendantNecklace -> ornament.materials() + line.getMaterials()
         is StrandNecklace -> line.getMaterials()
     }
 }

@@ -125,8 +125,7 @@ data class Earring(
     val style: EarringStyle = StudEarring(),
 ) : EquipmentData() {
 
-    override fun contains(id: MaterialId) = style.contains(id)
-    override fun materials() = style.getMaterials()
+    override fun parts() = style.parts()
 }
 
 @Serializable

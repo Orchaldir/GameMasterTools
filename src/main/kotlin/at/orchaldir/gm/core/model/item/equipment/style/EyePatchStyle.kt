@@ -32,7 +32,7 @@ sealed class EyePatchStyle {
 
     fun getMaterials() = when (this) {
         is SimpleEyePatch -> setOf(material)
-        is OrnamentAsEyePatch -> ornament.getMaterials()
+        is OrnamentAsEyePatch -> ornament.materials()
         is EyePatchWithEye -> setOf(material)
     }
 }

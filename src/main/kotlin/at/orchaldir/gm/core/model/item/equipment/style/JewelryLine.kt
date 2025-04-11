@@ -35,7 +35,7 @@ sealed class JewelryLine {
 
     fun getMaterials() = when (this) {
         is Chain -> setOf(material)
-        is OrnamentLine -> ornament.getMaterials()
+        is OrnamentLine -> ornament.materials()
         is Wire -> setOf(material)
     }
 }

@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.model.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.model.item.*
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
@@ -28,13 +29,13 @@ fun HtmlBlockTag.showOrnament(
         when (ornament) {
             is SimpleOrnament -> {
                 field("Shape", ornament.shape)
-                showLook(call, state, ornament.color, ornament.material)
+                showFillItemPart(call, state, ornament.part)
             }
 
             is OrnamentWithBorder -> {
                 field("Shape", ornament.shape)
-                showLook(call, state, ornament.color, ornament.material, "Center")
-                showLook(call, state, ornament.borderColor, ornament.borderMaterial, "Border")
+                showFillItemPart(call, state, ornament.center, "Center")
+                showColorItemPart(call, state, ornament.border, "Border")
             }
         }
     }
@@ -54,13 +55,13 @@ fun HtmlBlockTag.editOrnament(
         when (ornament) {
             is SimpleOrnament -> {
                 selectValue("Shape", combine(param, SHAPE), OrnamentShape.entries, ornament.shape, true)
-                editLook(state, ornament.color, ornament.material, param)
+                editFillItemPart(state, ornament.part, param)
             }
 
             is OrnamentWithBorder -> {
                 selectValue("Shape", combine(param, SHAPE), OrnamentShape.entries, ornament.shape, true)
-                editLook(state, ornament.color, ornament.material, param)
-                editLook(state, ornament.borderColor, ornament.borderMaterial, combine(param, BORDER), "Border")
+                editFillItemPart(state, ornament.center, param)
+                editColorItemPart(state, ornament.border, combine(param, BORDER))
             }
         }
     }
@@ -74,16 +75,13 @@ fun parseOrnament(parameters: Parameters, param: String = ORNAMENT): Ornament {
     return when (type) {
         OrnamentType.Simple -> SimpleOrnament(
             parse(parameters, combine(param, SHAPE), OrnamentShape.Circle),
-            parse(parameters, combine(param, COLOR), Color.Gold),
-            parseMaterialId(parameters, combine(param, MATERIAL)),
+            parseFillItemPart(parameters, param),
         )
 
         OrnamentType.Border -> OrnamentWithBorder(
             parse(parameters, combine(param, SHAPE), OrnamentShape.Circle),
-            parse(parameters, combine(param, COLOR), Color.Red),
-            parse(parameters, combine(param, BORDER, COLOR), Color.Gold),
-            parseMaterialId(parameters, combine(param, MATERIAL)),
-            parseMaterialId(parameters, combine(param, BORDER, MATERIAL)),
+            parseFillItemPart(parameters, param),
+            parseColorItemPart(parameters, combine(param, BORDER)),
         )
     }
 }

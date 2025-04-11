@@ -6,12 +6,12 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
+import at.orchaldir.gm.core.model.item.FillItemPart
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Earring
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape.Square
-import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape.Teardrop
+import at.orchaldir.gm.core.model.item.equipment.style.OrnamentShape.*
 import at.orchaldir.gm.core.model.util.Color.Blue
 import at.orchaldir.gm.core.model.util.Color.Red
 import at.orchaldir.gm.core.model.util.Size.*
@@ -22,7 +22,7 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 
 fun main() {
     val default = SimpleOrnament()
-    val red = SimpleOrnament(color = Red)
+    val red = SimpleOrnament(Circle, color = Red)
     val topSize = fromPercentage(20)
 
     val equipmentTable: List<List<EquipmentMap<EquipmentData>>> = mutableListOf(

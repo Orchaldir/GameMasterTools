@@ -39,6 +39,22 @@
     }
    },
    "weight": 10
+  },
+   "2": {
+     "id": 2,
+     "name": "Dress",
+     "data": {
+       "type": "Dress",
+       "necklineStyle": "VeryDeepV",
+       "cloth": {
+         "fill": {
+           "type": "Solid",
+           "color": "Red"
+         },
+         "material": 25
+       }
+     },
+     "weight": 10
   }
  }
 }
