@@ -46,14 +46,7 @@ private fun BODY.showEquipmentData(
 
     when (val data = equipment.data) {
         is Belt -> showBelt(call, state, data)
-        is Coat -> {
-            field("Length", data.length)
-            field("Neckline Style", data.necklineStyle)
-            field("Sleeve Style", data.sleeveStyle)
-            showOpeningStyle(call, state, data.openingStyle)
-            showFillItemPart(call, state, data.cloth, "Cloth")
-        }
-
+        is Coat -> showCoat(call, state, data)
         is Dress -> {
             field("Neckline Style", data.necklineStyle)
             field("Skirt Style", data.skirtStyle)
@@ -136,34 +129,6 @@ private fun BODY.showEquipmentData(
     }
 }
 
-private fun BODY.showOpeningStyle(
-    call: ApplicationCall,
-    state: State,
-    openingStyle: OpeningStyle,
-) {
-    field("Opening Style", openingStyle.javaClass.simpleName)
-    when (openingStyle) {
-        NoOpening -> doNothing()
-        is SingleBreasted -> showButtons(call, state, openingStyle.buttons)
-        is DoubleBreasted -> {
-            showButtons(call, state, openingStyle.buttons)
-            field("Space between Columns", openingStyle.spaceBetweenColumns)
-        }
-
-        is Zipper -> showColorItemPart(call, state, openingStyle.part, "Zipper")
-    }
-}
-
-private fun BODY.showButtons(
-    call: ApplicationCall,
-    state: State,
-    buttonColumn: ButtonColumn,
-) {
-    field("Button Count", buttonColumn.count.toString())
-    showColorItemPart(call, state, buttonColumn.button.part, "Button")
-    field("Button Size", buttonColumn.button.size)
-}
-
 // edit
 
 fun FORM.editEquipment(
@@ -190,14 +155,7 @@ private fun FORM.editEquipmentData(
 ) {
     when (val data = equipment.data) {
         is Belt -> editBelt(state, data)
-        is Coat -> {
-            selectValue("Length", LENGTH, OuterwearLength.entries, data.length, true)
-            selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
-            selectSleeveStyle(SleeveStyle.entries, data.sleeveStyle)
-            selectOpeningStyle(state, data.openingStyle)
-            editFillItemPart(state, data.cloth, CLOTH)
-        }
-
+        is Coat -> editCoat(state, data)
         is Dress -> {
             selectNecklineStyle(NecklineStyle.entries, data.necklineStyle)
             selectValue("Skirt Style", SKIRT_STYLE, SkirtStyle.entries, data.skirtStyle, true)
@@ -286,38 +244,11 @@ private fun FORM.editEquipmentData(
     }
 }
 
-private fun FORM.selectNecklineStyle(options: Collection<NecklineStyle>, current: NecklineStyle) {
+fun FORM.selectNecklineStyle(options: Collection<NecklineStyle>, current: NecklineStyle) {
     selectValue("Neckline Style", NECKLINE_STYLE, options, current, true)
 }
 
-private fun FORM.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
-    selectValue("Opening Style", OPENING_STYLE, OpeningType.entries, openingStyle.getType(), true)
-
-    when (openingStyle) {
-        NoOpening -> doNothing()
-        is SingleBreasted -> selectButtons(state, openingStyle.buttons)
-        is DoubleBreasted -> {
-            selectButtons(state, openingStyle.buttons)
-            selectValue(
-                "Space between Columns",
-                SPACE_BETWEEN_COLUMNS,
-                Size.entries,
-                openingStyle.spaceBetweenColumns,
-                true
-            )
-        }
-
-        is Zipper -> editColorItemPart(state, openingStyle.part, ZIPPER, "Zipper")
-    }
-}
-
-private fun FORM.selectButtons(state: State, buttonColumn: ButtonColumn) {
-    selectInt("Button Count", buttonColumn.count.toInt(), 1, 20, 1, combine(BUTTON, NUMBER), true)
-    editColorItemPart(state, buttonColumn.button.part, BUTTON, "Button")
-    selectValue("Button Size", combine(BUTTON, SIZE), Size.entries, buttonColumn.button.size, true)
-}
-
-private fun FORM.selectSleeveStyle(options: Collection<SleeveStyle>, current: SleeveStyle) {
+fun FORM.selectSleeveStyle(options: Collection<SleeveStyle>, current: SleeveStyle) {
     selectValue("Sleeve Style", SLEEVE_STYLE, options, current, true)
 }
 
@@ -350,14 +281,7 @@ fun parseEquipment(id: EquipmentId, parameters: Parameters): Equipment {
 fun parseEquipmentData(parameters: Parameters) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.Belt)) {
         EquipmentDataType.Belt -> parseBelt(parameters)
-        EquipmentDataType.Coat -> Coat(
-            parse(parameters, LENGTH, OuterwearLength.Hip),
-            parse(parameters, NECKLINE_STYLE, NecklineStyle.DeepV),
-            parse(parameters, SLEEVE_STYLE, SleeveStyle.Long),
-            parseOpeningStyle(parameters),
-            parseFillItemPart(parameters, CLOTH),
-        )
-
+        EquipmentDataType.Coat -> parseCoat(parameters)
         EquipmentDataType.Dress -> parseDress(parameters)
         EquipmentDataType.Earring -> parseEarring(parameters)
         EquipmentDataType.EyePatch -> parseEyePatch(parameters)
@@ -414,6 +338,7 @@ fun parseEquipmentData(parameters: Parameters) =
         EquipmentDataType.Tie -> parseTie(parameters)
     }
 
+
 private fun parseDress(parameters: Parameters): Dress {
     val neckline = parse(parameters, NECKLINE_STYLE, NecklineStyle.None)
 
@@ -436,29 +361,6 @@ private fun parseShirt(parameters: Parameters): Shirt {
         parseMaterialId(parameters, MATERIAL),
     )
 }
-
-private fun parseOpeningStyle(parameters: Parameters): OpeningStyle {
-    val type = parse(parameters, OPENING_STYLE, OpeningType.NoOpening)
-
-    return when (type) {
-        OpeningType.NoOpening -> NoOpening
-        OpeningType.SingleBreasted -> SingleBreasted(parseButtonColumn(parameters))
-        OpeningType.DoubleBreasted -> DoubleBreasted(
-            parseButtonColumn(parameters),
-            parse(parameters, SPACE_BETWEEN_COLUMNS, Size.Medium)
-        )
-
-        OpeningType.Zipper -> Zipper(parseColorItemPart(parameters, ZIPPER))
-    }
-}
-
-private fun parseButtonColumn(parameters: Parameters) = ButtonColumn(
-    Button(
-        parse(parameters, combine(BUTTON, SIZE), Size.Medium),
-        parseColorItemPart(parameters, BUTTON),
-    ),
-    parameters[combine(BUTTON, NUMBER)]?.toUByte() ?: 1u,
-)
 
 private fun parseSleeveStyle(
     parameters: Parameters,
