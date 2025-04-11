@@ -17,6 +17,7 @@ import io.ktor.server.application.*
 import kotlinx.html.BODY
 import kotlinx.html.DETAILS
 import kotlinx.html.FORM
+import kotlinx.html.HtmlBlockTag
 
 // show
 
@@ -37,27 +38,30 @@ private fun BODY.showOpeningStyle(
     state: State,
     openingStyle: OpeningStyle,
 ) {
-    field("Opening Style", openingStyle.javaClass.simpleName)
-    when (openingStyle) {
-        NoOpening -> doNothing()
-        is SingleBreasted -> showButtons(call, state, openingStyle.buttons)
-        is DoubleBreasted -> {
-            showButtons(call, state, openingStyle.buttons)
-            field("Space between Columns", openingStyle.spaceBetweenColumns)
-        }
+    showDetails("Opening Style") {
+        field("Type", openingStyle.javaClass.simpleName)
 
-        is Zipper -> showColorItemPart(call, state, openingStyle.part, "Zipper")
+        when (openingStyle) {
+            NoOpening -> doNothing()
+            is SingleBreasted -> showButtons(call, state, openingStyle.buttons)
+            is DoubleBreasted -> {
+                showButtons(call, state, openingStyle.buttons)
+                field("Space between Columns", openingStyle.spaceBetweenColumns)
+            }
+
+            is Zipper -> showColorItemPart(call, state, openingStyle.part, "Zipper")
+        }
     }
 }
 
-private fun BODY.showButtons(
+private fun HtmlBlockTag.showButtons(
     call: ApplicationCall,
     state: State,
     buttonColumn: ButtonColumn,
 ) {
     field("Button Count", buttonColumn.count.toString())
-    showColorItemPart(call, state, buttonColumn.button.part, "Button")
     field("Button Size", buttonColumn.button.size)
+    showColorItemPart(call, state, buttonColumn.button.part, "Button")
 }
 
 // edit
@@ -74,30 +78,32 @@ fun FORM.editCoat(
 }
 
 private fun FORM.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
-    selectValue("Opening Style", OPENING_STYLE, OpeningType.entries, openingStyle.getType(), true)
+    showDetails("Opening Style", true) {
+        selectValue("Type", OPENING_STYLE, OpeningType.entries, openingStyle.getType(), true)
 
-    when (openingStyle) {
-        NoOpening -> doNothing()
-        is SingleBreasted -> selectButtons(state, openingStyle.buttons)
-        is DoubleBreasted -> {
-            selectButtons(state, openingStyle.buttons)
-            selectValue(
-                "Space between Columns",
-                SPACE_BETWEEN_COLUMNS,
-                Size.entries,
-                openingStyle.spaceBetweenColumns,
-                true
-            )
+        when (openingStyle) {
+            NoOpening -> doNothing()
+            is SingleBreasted -> selectButtons(state, openingStyle.buttons)
+            is DoubleBreasted -> {
+                selectButtons(state, openingStyle.buttons)
+                selectValue(
+                    "Space between Columns",
+                    SPACE_BETWEEN_COLUMNS,
+                    Size.entries,
+                    openingStyle.spaceBetweenColumns,
+                    true
+                )
+            }
+
+            is Zipper -> editColorItemPart(state, openingStyle.part, ZIPPER, "Zipper")
         }
-
-        is Zipper -> editColorItemPart(state, openingStyle.part, ZIPPER, "Zipper")
     }
 }
 
-private fun FORM.selectButtons(state: State, buttonColumn: ButtonColumn) {
+private fun HtmlBlockTag.selectButtons(state: State, buttonColumn: ButtonColumn) {
     selectInt("Button Count", buttonColumn.count.toInt(), 1, 20, 1, combine(BUTTON, NUMBER), true)
-    editColorItemPart(state, buttonColumn.button.part, BUTTON, "Button")
     selectValue("Button Size", combine(BUTTON, SIZE), Size.entries, buttonColumn.button.size, true)
+    editColorItemPart(state, buttonColumn.button.part, BUTTON, "Button")
 }
 
 // parse
