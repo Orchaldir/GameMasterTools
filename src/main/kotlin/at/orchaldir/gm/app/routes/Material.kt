@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.material.Material
 import at.orchaldir.gm.core.model.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.culture.canDelete
 import at.orchaldir.gm.core.selector.countRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.getRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.item.countEquipment

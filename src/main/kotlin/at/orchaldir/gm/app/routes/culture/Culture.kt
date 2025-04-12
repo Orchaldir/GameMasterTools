@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.util.Rarity
-import at.orchaldir.gm.core.selector.canDelete
+import at.orchaldir.gm.core.selector.culture.canDelete
 import at.orchaldir.gm.core.selector.getCharacters
 import io.ktor.http.*
 import io.ktor.resources.*

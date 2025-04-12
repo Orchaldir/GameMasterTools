@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.language.LanguageId
 import at.orchaldir.gm.core.model.language.PlanarLanguage
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.world.plane.PlaneId
+import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.utils.Id
 

@@ -10,8 +10,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.FASHION_TYPE
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
-import at.orchaldir.gm.core.selector.canDelete
-import at.orchaldir.gm.core.selector.getCultures
+import at.orchaldir.gm.core.selector.culture.canDelete
+import at.orchaldir.gm.core.selector.culture.getCultures
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
