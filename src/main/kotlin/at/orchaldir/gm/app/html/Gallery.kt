@@ -4,10 +4,23 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.renderer.svg.Svg
+import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.a
 import kotlinx.html.div
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showGallery(
+    call: ApplicationCall,
+    elements: List<Triple<ELEMENT, String, PaddedSize>>,
+    getSvg: (Triple<ELEMENT, String, PaddedSize>) -> Svg,
+) = showGallery(
+    call,
+    elements,
+    { entry -> entry.first.id() },
+    { entry -> entry.second },
+    getSvg,
+)
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showGallery(
     call: ApplicationCall,

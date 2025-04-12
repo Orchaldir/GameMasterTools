@@ -246,20 +246,10 @@ private fun HTML.showGallery(
     val backLink = call.application.href(CharacterRoutes.All())
 
     simpleHtml("Characters") {
+        showGallery(call, charactersWithSize) { (character, name, paddedSize) ->
+            val equipment = state.getEquipment(character)
 
-        div("grid-container") {
-            charactersWithSize.forEach { (character, name, paddedSize) ->
-                val equipment = state.getEquipment(character)
-                val svg =
-                    visualizeAppearance(state, CHARACTER_CONFIG, maxSize, character.appearance, paddedSize, equipment)
-
-                div("grid-item") {
-                    a(href(call, character.id)) {
-                        div { +name }
-                        svg(svg, 100)
-                    }
-                }
-            }
+            visualizeAppearance(state, CHARACTER_CONFIG, maxSize, character.appearance, paddedSize, equipment)
         }
 
         back(backLink)
