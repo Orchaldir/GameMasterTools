@@ -47,11 +47,11 @@
     "type": "Dress",
     "necklineStyle": "VeryDeepV",
     "main": {
+     "material": 25,
      "fill": {
       "type": "Solid",
       "color": "Red"
-     },
-     "material": 25
+     }
     }
    },
    "weight": 10
@@ -110,8 +110,8 @@
      "material": 1
     },
     "sole": {
-     "color": "Black",
-     "material": 1
+     "material": 1,
+     "color": "Black"
     }
    },
    "weight": 10
@@ -123,16 +123,16 @@
     "type": "Glasses",
     "lensShape": "Rectangle",
     "lens": {
+     "material": 29,
      "fill": {
       "type": "Transparent",
       "color": "SkyBlue",
       "opacity": 5000
-     },
-     "material": 29
+     }
     },
     "frame": {
-     "color": "Black",
-     "material": 18
+     "material": 18,
+     "color": "Black"
     }
    },
    "weight": 10
@@ -154,11 +154,11 @@
    "data": {
     "type": "Hat",
     "main": {
+     "material": 1,
      "fill": {
       "type": "Solid",
       "color": "Black"
-     },
-     "material": 1
+     }
     }
    },
    "weight": 10
@@ -229,18 +229,18 @@
    "data": {
     "type": "Tie",
     "main": {
+     "material": 25,
      "fill": {
       "type": "Solid",
       "color": "Navy"
-     },
-     "material": 25
+     }
     },
     "knot": {
+     "material": 25,
      "fill": {
       "type": "Solid",
       "color": "Navy"
-     },
-     "material": 25
+     }
     }
    },
    "weight": 10

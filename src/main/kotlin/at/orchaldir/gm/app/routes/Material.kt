@@ -100,7 +100,7 @@ fun Application.configureMaterialRouting() {
 
             STORE.dispatch(DeleteMaterial(delete.id))
 
-            call.respondRedirect(call.application.href(MaterialRoutes()))
+            call.respondRedirect(call.application.href(MaterialRoutes.All()))
 
             STORE.getState().save()
         }
@@ -181,7 +181,7 @@ private fun HTML.showMaterialDetails(
     val mountains = state.getMountainsContaining(material.id)
     val streetTemplates = state.getStreetTemplatesMadeOf(material.id)
     val texts = state.getTextsMadeOf(material.id)
-    val backLink = call.application.href(MaterialRoutes())
+    val backLink = call.application.href(MaterialRoutes.All())
     val deleteLink = call.application.href(MaterialRoutes.Delete(material.id))
     val editLink = call.application.href(MaterialRoutes.Edit(material.id))
 

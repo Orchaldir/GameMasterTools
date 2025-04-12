@@ -464,10 +464,11 @@
    },
    "skin": {
     "skinTypes": {
-     "Exotic": "Common"
+     "Material": "Common"
     },
-    "exoticColors": {
-     "Gray": "Common"
+    "materials": {
+     "30": "Uncommon",
+     "31": "Common"
     }
    },
    "tail": {
@@ -668,6 +669,14 @@
      "Scales": "Uncommon",
      "Normal": "Common"
     },
+    "normalColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Common",
+     "Tan": "Common",
+     "Dark": "Common",
+     "VeryDark": "Common"
+    },
     "scalesColors": {
      "Blue": "Common",
      "Gold": "Common",
@@ -678,14 +687,6 @@
      "OrangeRed": "Common",
      "Red": "Common",
      "SaddleBrown": "Common"
-    },
-    "normalColors": {
-     "Fair": "Uncommon",
-     "Light": "Common",
-     "Medium": "Common",
-     "Tan": "Common",
-     "Dark": "Common",
-     "VeryDark": "Common"
     }
    }
   },
